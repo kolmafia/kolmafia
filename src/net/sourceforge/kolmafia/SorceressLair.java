@@ -1027,6 +1027,28 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !checkPrerequisites( 4, 6 ) )
 			return 0;
 
+		// Make sure that auto-attack is deactivated for the
+		// shadow fight, otherwise it will fail.
+
+		String previousAutoAttack = "0";
+
+		KoLRequest request = new KoLRequest( getClient(), "account.php" );
+		request.run();
+
+		Matcher selectMatcher = AUTOATTACK_PATTERN.matcher( request.responseText );
+		if ( selectMatcher.find() )
+		{
+			Matcher optionMatcher = SELECTED_PATTERN.matcher( selectMatcher.group() );
+			if ( optionMatcher.find() )
+				previousAutoAttack = optionMatcher.group(1);
+		}
+
+		if ( !previousAutoAttack.equals( "0" ) )
+		{
+			request = new KoLRequest( getClient(), "account.php?action=autoattack&whichattack=0" );
+			request.run();
+		}
+
 		// To avoid wasting turns, buy a can of hair spray before
 		// climbing the tower.  Also, if the person has an NG,
 		// make sure to construct it first.  If there are any
@@ -1047,7 +1069,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		KoLmafia.updateDisplay( "Climbing the tower..." );
 
-		KoLRequest request = new KoLRequest( getClient(), "lair4.php" );
+		request = new KoLRequest( getClient(), "lair4.php" );
 		request.run();
 
 		int currentLevel = 0;
@@ -1072,7 +1094,7 @@ public abstract class SorceressLair extends StaticEntity
 			currentLevel += 4;
 
 		int requiredItemID = -1;
-		for ( int towerLevel = currentLevel; towerLevel <= 6; ++towerLevel )
+		for ( int towerLevel = currentLevel; KoLCharacter.getAdventuresLeft() > 0 && KoLmafia.permitsContinue() && towerLevel <= 6; ++towerLevel )
 		{
 			requiredItemID = fightGuardian( towerLevel );
 			CharpaneRequest.getInstance().run();
@@ -1080,7 +1102,10 @@ public abstract class SorceressLair extends StaticEntity
 			getClient().runBetweenBattleChecks( false );
 
 			if ( requiredItemID != -1 )
+			{
+				resetAutoAttack( previousAutoAttack );
 				return requiredItemID;
+			}
 		}
 
 		// You must have at least 70 in all stats before you can enter
@@ -1089,6 +1114,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( KoLCharacter.getBaseMuscle() < 70 || KoLCharacter.getBaseMysticality() < 70 || KoLCharacter.getBaseMoxie() < 70 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You can't enter the chamber unless all base stats are 70 or higher." );
+			resetAutoAttack( previousAutoAttack );
 			return -1;
 		}
 
@@ -1112,6 +1138,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( n < 0 )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
+			resetAutoAttack( previousAutoAttack );
 			return -1;
 		}
 
@@ -1144,6 +1171,7 @@ public abstract class SorceressLair extends StaticEntity
 					if ( !fightFamiliarGuardians )
 					{
 						KoLmafia.updateDisplay( "Path to familiars cleared." );
+						resetAutoAttack( previousAutoAttack );
 						return -1;
 					}
 
@@ -1155,6 +1183,7 @@ public abstract class SorceressLair extends StaticEntity
 					if ( !fightFamiliarGuardians )
 					{
 						KoLmafia.updateDisplay( "Path to familiars cleared." );
+						resetAutoAttack( previousAutoAttack );
 						return -1;
 					}
 
@@ -1163,12 +1192,23 @@ public abstract class SorceressLair extends StaticEntity
 			}
 
 			if ( !KoLmafia.permitsContinue() )
+			{
+				resetAutoAttack( previousAutoAttack );
 				return -1;
+			}
 		}
 
 		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
 		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
+		resetAutoAttack( previousAutoAttack );
+
 		return -1;
+	}
+
+	private static void resetAutoAttack( String previousAutoAttack )
+	{
+		if ( !previousAutoAttack.equals( "0" ) )
+			(new KoLRequest( getClient(), "account.php?action=autoattack&whichattack=" + previousAutoAttack )).run();
 	}
 
 	private static int fightGuardian( int towerLevel )
@@ -1372,28 +1412,6 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static void fightShadow()
 	{
-		// Make sure that auto-attack is deactivated for the
-		// shadow fight, otherwise it will fail.
-
-		String previousAutoAttack = "0";
-
-		KoLRequest request = new KoLRequest( getClient(), "account.php" );
-		request.run();
-
-		Matcher selectMatcher = AUTOATTACK_PATTERN.matcher( request.responseText );
-		if ( selectMatcher.find() )
-		{
-			Matcher optionMatcher = SELECTED_PATTERN.matcher( selectMatcher.group() );
-			if ( optionMatcher.find() )
-				previousAutoAttack = optionMatcher.group(1);
-		}
-
-		if ( !previousAutoAttack.equals( "0" ) )
-		{
-			request = new KoLRequest( getClient(), "account.php?action=autoattack&whichattack=0" );
-			request.run();
-		}
-
 		// You need at least 33 health for the shadow fight.
 		// Make this test now.
 
@@ -1508,7 +1526,7 @@ public abstract class SorceressLair extends StaticEntity
 		String oldAction = getProperty( "battleAction" );
 		setProperty( "battleAction", "item " + option.getName().toLowerCase() );
 
-		request = new KoLRequest( getClient(), "lair6.php" );
+		KoLRequest request = new KoLRequest( getClient(), "lair6.php" );
 		request.addFormField( "place", "2" );
 		request.run();
 
@@ -1519,12 +1537,6 @@ public abstract class SorceressLair extends StaticEntity
 		// the original KoL-side auto-attack.
 
 		setProperty( "battleAction", oldAction );
-
-		if ( !previousAutoAttack.equals( "0" ) )
-		{
-			request = new KoLRequest( getClient(), "account.php?action=autoattack&whichattack=" + previousAutoAttack );
-			request.run();
-		}
 	}
 
 	private static void familiarBattle( int n )
@@ -1568,7 +1580,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		for ( int i = 0; i < FAMILIAR_DATA.length; ++i )
 			if ( originalFamiliar.getRace().equals( FAMILIAR_DATA[i][1] ) )
-				isPotentialFamiliar = false;
+				isPotentialFamiliar = true;
 
 		boolean shouldFaceFamiliar = !isPotentialFamiliar || FamiliarTrainingFrame.buffFamiliar( 20 );
 

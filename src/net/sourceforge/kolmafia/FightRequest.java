@@ -484,7 +484,7 @@ public class FightRequest extends KoLRequest
 		if ( skillMatcher.find() )
 		{
 			String skill = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
-			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of " + skill + "!" );
+			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of " + skill.toUpperCase() + "!" );
 			return true;
 		}
 
@@ -504,7 +504,11 @@ public class FightRequest extends KoLRequest
 			return true;
 		}
 
-		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).equals( EquipmentRequest.UNEQUIP ) )
+		if ( urlString.indexOf( "runaway" ) != -1 )
+		{
+			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the spell of RETURN!" );
+		}
+		else if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).equals( EquipmentRequest.UNEQUIP ) )
 		{
 			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " attacks with " +
 				"fear-inducing body language!" );

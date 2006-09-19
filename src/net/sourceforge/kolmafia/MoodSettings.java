@@ -581,7 +581,11 @@ public abstract class MoodSettings implements KoLConstants
 				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY, false ) || KoLCharacter.canInteract() )
 					return "uneffect beaten up";
 
-				return "use unguent; adventure 3 unlucky sewer";
+				int beatenUpTurns = KoLAdventure.BEATEN_UP.getCount( KoLConstants.activeEffects );
+				if ( beatenUpTurns == 0 )
+					beatenUpTurns = 3;
+
+				return "use unguent; adventure " + beatenUpTurns + " unlucky sewer";
 			}
 
 		}

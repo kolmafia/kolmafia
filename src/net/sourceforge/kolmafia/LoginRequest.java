@@ -49,7 +49,6 @@ import java.security.MessageDigest;
 
 public class LoginRequest extends KoLRequest
 {
-	private static final Pattern REDIRECT_PATTERN = Pattern.compile( "http://(.*?)/login\\.php", Pattern.DOTALL );
 	private static final Pattern CHALLENGE_PATTERN = Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
 
 	private static String lastUsername;
@@ -308,7 +307,6 @@ public class LoginRequest extends KoLRequest
 			Matcher matcher = REDIRECT_PATTERN.matcher( redirectLocation );
 			if ( matcher.find() )
 			{
-				redirectLocation = matcher.group();
 				setLoginServer( matcher.group(1) );
 				return true;
 			}
@@ -347,7 +345,6 @@ public class LoginRequest extends KoLRequest
 			Matcher matcher = REDIRECT_PATTERN.matcher( responseText );
 			if ( matcher.find() )
 			{
-				redirectLocation = matcher.group();
 				setLoginServer( matcher.group(1) );
 				return true;
 			}
