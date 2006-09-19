@@ -117,7 +117,8 @@ public class LoginFrame extends KoLFrame
 	public void requestFocus()
 	{
 		super.requestFocus();
-		usernameField.requestFocus();
+		if ( usernameField != null )
+			usernameField.requestFocus();
 	}
 
 	public void dispose()
