@@ -396,7 +396,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length > 2 )
+			if ( data.length > 1 )
 			{
 				if ( !validateAdventureArea( data[0], adventures ) )
 				{
