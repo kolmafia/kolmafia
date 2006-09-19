@@ -1527,7 +1527,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// the fly, and it's a valid URL (ie: not a
 		// send or search URL), go right ahead.
 
-		if ( command.equals( "location" ) )
+		if ( command.equals( "location" ) && KoLRequest.KOL_ROOT.indexOf( "dev" ) != -1 )
 		{
 			int spaceIndex = parameters.indexOf( " " );
 
