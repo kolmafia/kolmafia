@@ -1361,7 +1361,6 @@ public abstract class KoLmafia implements KoLConstants
 			if ( refusesContinue() )
 				return;
 
-			updateDisplay( currentIterationString );
 			request.run();
 
 			// Decrement the counter to null out the increment
@@ -2353,10 +2352,11 @@ public abstract class KoLmafia implements KoLConstants
 		// any loose ends.
 
 		if ( isFullCheck )
+		{
 			MoodSettings.execute();
-
-		recoverHP();
-		recoverMP();
+			recoverHP();
+			recoverMP();
+		}
 
 		SpecialOutfit.restoreCheckpoint( true );
 		recoveryActive = false;
