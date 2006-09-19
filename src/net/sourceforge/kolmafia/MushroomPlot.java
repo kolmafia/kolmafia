@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
 
 public abstract class MushroomPlot extends StaticEntity
 {
-	public static final File PLOT_DIRECTORY = new File( DATA_DIRECTORY + "planting" );
+	public static final File PLOT_DIRECTORY = new File( "planting" );
 	private static final Pattern PLOT_PATTERN = Pattern.compile( "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>" );
 	private static final Pattern SQUARE_PATTERN = Pattern.compile( "<td>(.*?)</td>" );
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( ".*/((.*)\\.gif)" );

@@ -61,6 +61,7 @@ import java.io.FilenameFilter;
 import java.lang.reflect.Method;
 import java.lang.ref.WeakReference;
 
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -82,7 +83,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	protected BookmarkMenu bookmarkMenu;
 
 	protected JMenuItem debugMenuItem = new ToggleDebugMenuItem();
-	protected JMenuItem macroMenuItem = new ToggleMacroMenuItem();
 	protected static final SortedListModel bookmarks = new SortedListModel( String.class );
 
 	private static final String [] LICENSE_FILENAME = {
@@ -257,6 +257,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		add( helperMenu );
 
 		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", "LicenseDisplay" ) );
+		helperMenu.add( debugMenuItem );
 		helperMenu.add( new DisplayPageMenuItem( "Check for Updates", "https://sourceforge.net/project/showfiles.php?group_id=126572" ) );
 		helperMenu.add( new DisplayPageMenuItem( "Donate to KoLmafia", "http://kolmafia.sourceforge.net/credits.html" ) );
 
@@ -577,7 +578,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		public ToggleDebugMenuItem()
 		{
 			addActionListener( this );
-			setText( KoLmafia.getDebugStream() instanceof NullStream ? "Begin recording debug" : "Stop recording debug" );
+			setText( KoLmafia.getDebugStream() instanceof NullStream ? "Start Debug Log" : "Stop Debug Log" );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -585,45 +586,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			if ( KoLmafia.getDebugStream() instanceof NullStream )
 			{
 				KoLmafia.openDebugStream();
-				debugMenuItem.setText( "Stop recording debug" );
+				debugMenuItem.setText( "Stop Debug Log" );
 			}
 			else
 			{
 				KoLmafia.closeDebugStream();
-				debugMenuItem.setText( "Begin recording debug" );
-			}
-		}
-	}
-
-	private class ToggleMacroMenuItem extends JMenuItem implements ActionListener
-	{
-		public ToggleMacroMenuItem()
-		{
-			addActionListener( this );
-			setText( KoLmafia.getMacroStream() instanceof NullStream ? "Record script" : "Stop record" );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			if ( KoLmafia.getMacroStream() instanceof NullStream )
-			{
-				JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
-				int returnVal = chooser.showSaveDialog( null );
-
-				if ( chooser.getSelectedFile() == null )
-					return;
-
-				String filename = chooser.getSelectedFile().getAbsolutePath();
-
-				if ( returnVal == JFileChooser.APPROVE_OPTION )
-					KoLmafia.openMacroStream( filename );
-
-				macroMenuItem.setText( "Stop record" );
-			}
-			else
-			{
-				KoLmafia.closeMacroStream();
-				macroMenuItem.setText( "Record script" );
+				debugMenuItem.setText( "Start Debug Log" );
 			}
 		}
 	}
@@ -720,7 +688,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				parameters[2] = LICENSE_FILENAME;
 				parameters[3] = LICENSE_NAME;
 
-				(new CreateFrameRunnable( LicenseDisplay.class, parameters )).run();
+				SwingUtilities.invokeLater( new CreateFrameRunnable( LicenseDisplay.class, parameters ) );
 			}
 			else
 			{
@@ -828,7 +796,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 
 		public void executeTask()
-		{	creator.run();
+		{	SwingUtilities.invokeLater( creator );
 		}
 	}
 
@@ -957,12 +925,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[4];
+			JComponent [] headers = new JComponent[2];
 
 			headers[0] = new LoadScriptMenuItem();
-			headers[1] = debugMenuItem;
-			headers[2] = macroMenuItem;
-			headers[3] = new InvocationMenuItem( "Refresh menu", KoLMenuBar.this, "compileScripts" );
+			headers[1] = new InvocationMenuItem( "Refresh menu", KoLMenuBar.this, "compileScripts" );
 
 			return headers;
 		}

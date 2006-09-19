@@ -42,6 +42,7 @@ import java.awt.event.MouseListener;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
@@ -91,7 +92,7 @@ public class ShowDescriptionList extends JList
 					if ( playerMatcher.find() )
 					{
 						Object [] parameters = new Object [] { "#" + playerMatcher.group(1) };
-						(new CreateFrameRunnable( ProfileFrame.class, parameters )).run();
+						SwingUtilities.invokeLater( new CreateFrameRunnable( ProfileFrame.class, parameters ) );
 					}
 				}
 			}

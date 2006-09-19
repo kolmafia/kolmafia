@@ -53,6 +53,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -139,7 +140,7 @@ public class ContactListFrame extends KoLFrame
 		Object [] parameters = new Object[1];
 		parameters[0] = convertToCDL();
 
-		(new RequestThread( new CreateFrameRunnable( SkillBuffFrame.class, parameters ) )).start();
+		createDisplay( SkillBuffFrame.class, parameters );
 	}
 
 	public void mailSelected()
@@ -153,7 +154,7 @@ public class ContactListFrame extends KoLFrame
 		Object [] parameters = new Object[1];
 		parameters[0] = convertToCDL();
 
-		(new RequestThread( new CreateFrameRunnable( GreenMessageFrame.class, parameters ) )).start();
+		createDisplay( GreenMessageFrame.class, parameters );
 	}
 
 	private class ContactListPanel extends JPanel

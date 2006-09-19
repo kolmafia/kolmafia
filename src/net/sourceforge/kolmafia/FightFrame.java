@@ -37,7 +37,6 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -74,7 +73,7 @@ public class FightFrame extends RequestFrame
 			request.run();
 
 		if ( INSTANCE == null )
-			(new CreateFrameRunnable( FightFrame.class, new Object [] { request } )).run();
+			createDisplay( FightFrame.class, new Object [] { request } );
 		else
 			INSTANCE.refresh( request );
 	}

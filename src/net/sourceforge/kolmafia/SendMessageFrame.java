@@ -289,7 +289,7 @@ public abstract class SendMessageFrame extends KoLFrame
 		parameters[1] = this instanceof GiftMessageFrame ? storage : null;
 		parameters[2] = attachments;
 
-		(new CreateFrameRunnable( AttachmentFrame.class, parameters )).run();
+		createDisplay( AttachmentFrame.class, parameters );
 	}
 
 	/**

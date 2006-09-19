@@ -64,6 +64,7 @@ import com.sun.java.forums.TableSorter;
 import java.util.Vector;
 import java.util.ArrayList;
 
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -588,11 +589,9 @@ public class ClanManageFrame extends KoLFrame
 
 		public void mouseReleased( MouseEvent e )
 		{
-			Object [] parameters = new Object[2];
-			parameters[0] = StaticEntity.getClient();
-			parameters[1] = profile;
-
-			(new RequestThread( new CreateFrameRunnable( ProfileFrame.class, parameters ) )).start();
+			Object [] parameters = new Object[1];
+			parameters[0] = profile;
+			createDisplay( ProfileFrame.class, parameters );
 		}
 	}
 

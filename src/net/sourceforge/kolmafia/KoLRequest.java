@@ -57,6 +57,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Map;
 import java.util.Iterator;
+import javax.swing.SwingUtilities;
 
 /**
  * Most aspects of Kingdom of Loathing are accomplished by submitting
@@ -1703,7 +1704,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				KoLDesktop.getInstance().isVisible();
 
 			if ( shouldLoadEventFrame )
-				(new CreateFrameRunnable( EventsFrame.class )).run();
+				SwingUtilities.invokeLater( new CreateFrameRunnable( EventsFrame.class ) );
 
 			return;
 		}

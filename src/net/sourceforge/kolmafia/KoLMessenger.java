@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
@@ -856,7 +857,7 @@ public abstract class KoLMessenger extends StaticEntity
 			if ( useTabbedChat )
 				tabbedFrame.addTab( channel );
 			else
-				(new CreateFrameRunnable( ChatFrame.class, new String [] { channel } )).run();
+				SwingUtilities.invokeLater( new CreateFrameRunnable( ChatFrame.class, new String [] { channel } ) );
 
 			if ( CHATLOG_BASENAME != null && !CHATLOG_BASENAME.equals( "" ) )
 			{
@@ -887,7 +888,7 @@ public abstract class KoLMessenger extends StaticEntity
 	public static void initializeChatLogs()
 	{
 		Date currentTime = new Date();
-		CHATLOG_BASENAME = DATA_DIRECTORY + "chatlogs/" + DATED_FILENAME_FORMAT.format( currentTime ) + "_";
+		CHATLOG_BASENAME = "chats/" + DATED_FILENAME_FORMAT.format( currentTime ) + "_";
 
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		String filename, currentKey;

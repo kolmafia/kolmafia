@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.SwingUtilities;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -52,7 +53,7 @@ public class PendingTradesFrame extends RequestFrame
 	public boolean hasSideBar()
 	{	return false;
 	}
-	
+
 	private class TradeLinkListener extends KoLHyperlinkAdapter
 	{
 		protected void handleInternalLink( String location )
@@ -77,7 +78,7 @@ public class PendingTradesFrame extends RequestFrame
 			parameters[0] = "Offer ID # " + offerID;
 			parameters[1] = offerID;
 
-			(new CreateFrameRunnable( ProposeTradeFrame.class, parameters )).run();
+			createDisplay( ProposeTradeFrame.class, parameters );
 			dispose();
 		}
 	}

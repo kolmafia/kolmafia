@@ -307,11 +307,6 @@ public class RequestFrame extends KoLFrame
 		if ( parent == null || location.startsWith( "search" ) || location.startsWith( "desc" ) )
 		{
 			setCurrentRequest( request );
-
-			// Only record raw mini-browser requests
-			if ( request.getClass() == KoLRequest.class )
-				KoLmafia.getMacroStream().println( location );
-
 			DisplayRequestThread thread = new DisplayRequestThread( request );
 			thread.start();
 		}
@@ -499,7 +494,6 @@ public class RequestFrame extends KoLFrame
 		{
 			KoLAdventure adventure = AdventureDatabase.getAdventure( locationField.getText() );
 			KoLRequest request = RequestEditorKit.extractRequest( adventure == null ? locationField.getText() : adventure.getRequest().getURLString() );
-			KoLmafia.getMacroStream().println( request.getURLString() );
 			refresh( request );
 		}
 
