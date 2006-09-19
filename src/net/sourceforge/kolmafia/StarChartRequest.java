@@ -97,7 +97,6 @@ public class StarChartRequest extends ItemCreationRequest
 		client.processResult( new AdventureResult( STAR, 0 - stars ) );
 		client.processResult( new AdventureResult( LINE, 0 - lines ) );
 		client.processResult( CHART );
-		client.processResult( new AdventureResult( getItemID(), 1 ) );
 	}
 
 	public static boolean processRequest( String urlString )
