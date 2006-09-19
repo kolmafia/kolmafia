@@ -2090,13 +2090,22 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void makePurchases( List results, Object [] purchases, int maxPurchases )
 	{
-		if ( purchases.length > 0 && purchases[0] instanceof MallPurchaseRequest )
-			macroStream.print( "buy " + maxPurchases + " " + ((MallPurchaseRequest)purchases[0]).getItemName() );
+		if ( purchases.length == 0 )
+			return;
 
-		MallPurchaseRequest currentRequest;
-		int purchaseCount = 0;
+		for ( int i = 0; i < purchases.length; ++i )
+			if ( !(purchases[i] instanceof MallPurchaseRequest) )
+				return;
 
-		for ( int i = 0; i < purchases.length && purchaseCount != maxPurchases && permitsContinue(); ++i )
+		macroStream.print( "buy " + maxPurchases + " " + ((MallPurchaseRequest)purchases[0]).getItemName() );
+
+		MallPurchaseRequest currentRequest = (MallPurchaseRequest) purchases[0];
+		AdventureResult itemToBuy = new AdventureResult( currentRequest.getItemID(), 0 );
+
+		int initialCount = itemToBuy.getCount( inventory );
+		int purchaseCount = 0, previousLimit = 0;
+
+		for ( int i = 0; i < purchases.length && purchaseCount < maxPurchases && permitsContinue(); ++i )
 		{
 			if ( purchases[i] instanceof MallPurchaseRequest )
 			{
@@ -2108,22 +2117,17 @@ public abstract class KoLmafia implements KoLConstants
 					return;
 				}
 
-				AdventureResult result = new AdventureResult( currentRequest.getItemName(), 0, false );
-
 				// Keep track of how many of the item you had before
 				// you run the purchase request
 
-				int oldResultCount = result.getCount( inventory );
-				int previousLimit = currentRequest.getLimit();
-
+				previousLimit = currentRequest.getLimit();
 				currentRequest.setLimit( Math.min( previousLimit, maxPurchases - purchaseCount ) );
 				currentRequest.run();
 
 				// Calculate how many of the item you have now after
 				// you run the purchase request
 
-				int newResultCount = result.getCount( inventory );
-				purchaseCount += newResultCount - oldResultCount;
+				purchaseCount = itemToBuy.getCount( inventory ) - initialCount;
 
 				// Remove the purchase from the list!  Because you
 				// have already made a purchase from the store
@@ -2151,10 +2155,10 @@ public abstract class KoLmafia implements KoLConstants
 		// With all that information parsed out, we should
 		// refresh the lists at the very end.
 
-		if ( purchaseCount == maxPurchases || maxPurchases == Integer.MAX_VALUE )
+		if ( purchaseCount >= maxPurchases || maxPurchases == Integer.MAX_VALUE )
 			updateDisplay( "Purchases complete." );
 		else
-			updateDisplay( "Desired purchase quantity not reached." );
+			updateDisplay( "Desired purchase quantity not reached (wanted " + maxPurchases + ", got " + purchaseCount + ")." );
 	}
 
 	/**

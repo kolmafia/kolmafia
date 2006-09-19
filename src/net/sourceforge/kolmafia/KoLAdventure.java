@@ -115,7 +115,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		else
 		{
 			shouldRunCheck = true;
-			shouldRunFullCheck = true;
+			shouldRunFullCheck = formSource.indexOf( "lair6.php" ) == -1;
 			this.request = new AdventureRequest( client, adventureName, formSource, adventureID );
 		}
 

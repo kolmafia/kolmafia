@@ -1243,7 +1243,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
 				lastAppendIndex = startingIndex;
 
-				responseBuffer.append( "[<a style=\"color:red\" title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]<br><br>" );
+				responseBuffer.append( "[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]<br><br>" );
 
 				if ( activeEffects.isEmpty() )
 					responseBuffer.append( "<hr width=50%>" );
@@ -1269,7 +1269,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( effectIndex == -1 )
 				responseBuffer.append( "<center><p><b><font size=2>Effects:</font></b>" );
 
-			responseBuffer.append( "<br><font size=2>[<a style=\"color:red\" title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood execute</a>]</font>" );
+			responseBuffer.append( "<br><font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood execute</a>]</font>" );
 
 			if ( effectIndex == -1 )
 				responseBuffer.append( "<br></p></center>" );
