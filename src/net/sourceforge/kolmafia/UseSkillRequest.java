@@ -438,10 +438,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// If it's a buff count greater than one,
 			// try to scale down the request.
 
-			if ( buffCount > 1 )
+			int buffAttempt = StaticEntity.parseInt( getFormField( countFieldID ) );
+			if ( buffAttempt > 1 )
 			{
-				--this.buffCount;
-				this.run();
+				KoLmafia.updateDisplay( "Summon limit exceeded. Shrinking request..." );
+				UseSkillRequest attempt = new UseSkillRequest( client, skillName, "", 1 );
+				while ( buffAttempt++ < buffCount && KoLmafia.permitsContinue() )
+					attempt.run();
+
+				KoLmafia.forceContinue();
 				return;
 			}
 

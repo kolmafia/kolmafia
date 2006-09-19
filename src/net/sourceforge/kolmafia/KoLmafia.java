@@ -1363,6 +1363,9 @@ public abstract class KoLmafia implements KoLConstants
 
 			request.run();
 
+			if ( request instanceof KoLAdventure )
+				DEFAULT_SHELL.printBlankLine();
+
 			// Decrement the counter to null out the increment
 			// effect on the next iteration of the loop.
 
@@ -2365,7 +2368,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( haltTolerance >= 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
 			KoLmafia.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
 
-		if ( permitsContinue() )
+		if ( permitsContinue() && currentIterationString.length() > 0 )
 		{
 			updateDisplay( currentIterationString );
 			currentIterationString = "";
