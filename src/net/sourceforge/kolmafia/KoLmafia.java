@@ -562,7 +562,6 @@ public abstract class KoLmafia implements KoLConstants
 		tally.add( new AdventureResult( AdventureResult.MEAT ) );
 		tally.add( new AdventureResult( AdventureResult.SUBSTATS ) );
 		tally.add( new AdventureResult( AdventureResult.FULLSTATS ) );
-		tally.add( new AdventureResult( AdventureResult.DIVIDER ) );
 
 		updateDisplay( "Session tallies reset." );
 	}

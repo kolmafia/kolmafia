@@ -100,4 +100,8 @@ public class ProposeTradeRequest extends SendMessageRequest
 	protected void processResults()
 	{	responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "[Mm]eat:", "Please respond with " );
 	}
+
+	protected String getStatusMessage()
+	{	return "Placing items in KoL escrow";
+	}
 }

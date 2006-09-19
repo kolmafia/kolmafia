@@ -151,6 +151,7 @@ public abstract class SendMessageRequest extends KoLRequest
 	protected abstract int getCapacity();
 	protected abstract SendMessageRequest getSubInstance( Object [] attachments );
 	protected abstract String getSuccessMessage();
+	protected abstract String getStatusMessage();
 
 	private void runSubInstances()
 	{
@@ -205,10 +206,17 @@ public abstract class SendMessageRequest extends KoLRequest
 		SendMessageRequest [] requests = new SendMessageRequest[ subinstances.size() ];
 		subinstances.toArray( requests );
 
-		for ( int i = 0; i < requests.length; ++i )
+		if ( requests.length > 1 )
 		{
-			KoLmafia.updateDisplay( "Executing sub-request " + (i+1) + " of " + requests.length + "..." );
-			requests[i].run();
+			for ( int i = 0; i < requests.length; ++i )
+			{
+				KoLmafia.updateDisplay( getStatusMessage() + " (request " + (i+1) + " of " + requests.length + ")..." );
+				requests[i].run();
+			}
+		}
+		else if ( requests.length == 1 )
+		{
+			KoLmafia.updateDisplay( getStatusMessage() + "..." );
 		}
 	}
 

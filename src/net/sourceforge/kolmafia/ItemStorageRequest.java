@@ -50,8 +50,7 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	private int moveType;
 
-	public static final int EMPTY_STORAGE = -2;
-	public static final int CLOSET_YOUR_CLOVERS = -1;
+	public static final int EMPTY_STORAGE = -1;
 	public static final int RETRIEVE_STORAGE = 0;
 	public static final int INVENTORY_TO_CLOSET = 1;
 	public static final int CLOSET_TO_INVENTORY = 2;
@@ -368,5 +367,38 @@ public class ItemStorageRequest extends SendMessageRequest
 			StaticEntity.getClient().processResult( (AdventureResult) itemList.get(i) );
 
 		return true;
+	}
+
+	protected String getStatusMessage()
+	{
+		switch ( moveType )
+		{
+			case EMPTY_STORAGE:
+				return "Emptying storage";
+
+			case STORAGE_TO_INVENTORY:
+				return "Pulling items from storage";
+
+			case RETRIEVE_STORAGE:
+				return "Retrieving storage list";
+
+			case INVENTORY_TO_CLOSET:
+				return "Placing items into closet";
+
+			case CLOSET_TO_INVENTORY:
+				return "Removing items from closet";
+
+			case MEAT_TO_CLOSET:
+				return "Placing meat into closet";
+
+			case MEAT_TO_INVENTORY:
+				return "Removing meat from closet";
+
+			case PULL_MEAT_FROM_STORAGE:
+				return "Pulling meat from storage";
+
+			default:
+				return "Unknown request type";
+		}
 	}
 }

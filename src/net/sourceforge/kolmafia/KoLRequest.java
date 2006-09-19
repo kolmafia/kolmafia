@@ -132,8 +132,9 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected int responseCode;
 	protected String responseText;
 	protected String fullResponse;
-	protected String redirectLocation;
 	protected HttpURLConnection formConnection;
+
+	protected String redirectLocation;
 
 	/**
 	 * Static method called when <code>KoLRequest</code> is first
@@ -237,11 +238,13 @@ public class KoLRequest implements Runnable, KoLConstants
 			return;
 
 		for ( int i = 0; i < SERVERS.length; ++i )
-			if ( server.indexOf( SERVERS[i][0] ) != -1 || server.indexOf( SERVERS[i][1] ) != -1 )
+		{
+			if ( SERVERS[i][0].indexOf( "server" ) != -1 || server.indexOf( SERVERS[i][0] ) != -1 || SERVERS[i][1].indexOf( server ) != -1 || server.indexOf( SERVERS[i][1] ) != -1 )
 			{
 				KOL_HOST = SERVERS[i][0];
 				KOL_ROOT = "http://" + SERVERS[i][1] + "/";
 			}
+		}
 	}
 
 	private static void chooseNewLoginServer()
