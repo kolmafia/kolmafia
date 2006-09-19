@@ -138,6 +138,11 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		addFormField( "whichstore", String.valueOf( shopID ) );
 		addFormField( "buying", "Yep." );
 
+		addFormField( "whichitem", getStoreString( itemID, price ) );
+	}
+
+	public static String getStoreString( int itemID, int price )
+	{
 		// With the basic fields out of the way, you need to construct
 		// the string representing the item you want to buy at the price
 		// you wish to buy at.
@@ -148,15 +153,13 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// First append the item ID.  Until the item database is done,
 		// there's no way to look up the item.
 
-		while ( whichItem.length() < 4 )
-			whichItem.insert( 0, '0' );
-
+		int originalLength = whichItem.length();
 		whichItem.append( price );
 
-		while ( whichItem.length() < 13 )
-			whichItem.insert( 4, '0' );
+		while ( whichItem.length() < originalLength + 9 )
+			whichItem.insert( originalLength, '0' );
 
-		addFormField( "whichitem", whichItem.toString() );
+		return whichItem.toString();
 	}
 
 	public int getItemID()

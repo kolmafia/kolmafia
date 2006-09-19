@@ -224,6 +224,8 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
 			{ "relayAddsPlinking", "Add plinking-friendly button to attack screen" },
 			{ "relayAddsShrugOffLinks", "Add shrug off links to effect duration in side pane" },
+			{ "relayRemovesExpensiveItems", "Remove unaffordable items from stores in browser" },
+			{ "relayRemovesMinpricedItems", "Remove items priced at minimum from stores in browser" },
 			{ "makeBrowserDecisions", "Browser modules automatically make decisions" },
 			{ "trackLocationChanges", "Adventuring in browser changes selected adventure location" }
 		};

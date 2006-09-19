@@ -258,6 +258,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "relayAddsShrugOffLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsUseLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAlwaysRunsChecks", "false" );
+		CLIENT_SETTINGS.put( "relayRemovesExpensiveItems", "true" );
+		CLIENT_SETTINGS.put( "relayRemovesMinpricedItems", "true" );
 		CLIENT_SETTINGS.put( "saveState", "" );
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
 		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );

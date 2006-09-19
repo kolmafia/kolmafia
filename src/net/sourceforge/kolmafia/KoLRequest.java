@@ -557,7 +557,13 @@ public class KoLRequest implements Runnable, KoLConstants
 	public void run()
 	{
 		if ( formURLString.indexOf( "sewer.php" ) != -1 )
-			AdventureDatabase.retrieveItem( SewerRequest.GUM.getNegation() );
+			AdventureDatabase.retrieveItem( "chewing gum on a string" );
+
+		if ( formURLString.indexOf( "casino.php" ) != -1 )
+			AdventureDatabase.retrieveItem( "casino pass" );
+
+		if ( KoLmafia.refusesContinue() )
+			return;
 
 		if ( !usingValidConnection )
 		{
