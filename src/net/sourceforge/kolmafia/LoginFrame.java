@@ -723,7 +723,7 @@ public class LoginFrame extends KoLFrame
 				for ( int i = 0; i < options.length; ++i )
 					optionBoxes[i] = new JCheckBox();
 
-				proxySet = optionBoxes[2];
+				proxySet = optionBoxes[ optionBoxes.length - 1 ];
 				proxyHost = new JTextField();
 				proxyPort = new JTextField();
 				proxyLogin = new JTextField();
