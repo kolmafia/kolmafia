@@ -83,7 +83,7 @@ public abstract class MoodSettings implements KoLConstants
 	static { MoodSettings.reset(); }
 
 	public static final String settingsFileName()
-	{	return DATA_DIRECTORY + "settings/moods_" + KoLCharacter.baseUserName() + ".txt";
+	{	return "settings/moods_" + KoLCharacter.baseUserName() + ".txt";
 	}
 
 	public static final void reset()

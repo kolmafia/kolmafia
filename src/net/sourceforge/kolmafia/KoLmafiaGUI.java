@@ -41,6 +41,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.SwingUtilities;
 
 /**
  * The main class for the <code>KoLmafia</code> package.  This
@@ -123,7 +124,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
-		(new CreateFrameRunnable( LoginFrame.class )).run();
+		SwingUtilities.invokeLater( new CreateFrameRunnable( LoginFrame.class ) );
 	}
 
 	/**
@@ -209,6 +210,12 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public static void constructFrame( String frameName )
 	{
+		displayFrame( frameName );
+		enableDisplay();
+	}
+
+	private static void displayFrame( String frameName )
+	{
 		// Now, test to see if any requests need to be run before
 		// you fall into the event dispatch thread.
 
@@ -224,7 +231,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 			KoLMessenger.initialize();
 			(new ChatRequest( StaticEntity.getClient(), null, "/listen" )).run();
-
 			return;
 		}
 		else if ( frameName.equals( "MailboxFrame" ) )
@@ -244,7 +250,6 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( !BuffBotDatabase.hasOfferings() )
 			{
 				updateDisplay( "No buffs found to purchase." );
-				enableDisplay();
 				return;
 			}
 		}
@@ -308,7 +313,6 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( !KoLCharacter.hasStore() )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a store." );
-				KoLmafia.enableDisplay();
 				return;
 			}
 
@@ -332,8 +336,7 @@ public class KoLmafiaGUI extends KoLmafia
 		try
 		{
 			Class associatedClass = Class.forName( "net.sourceforge.kolmafia." + frameName );
-			(new CreateFrameRunnable( associatedClass )).run();
-			enableDisplay();
+			SwingUtilities.invokeLater( new CreateFrameRunnable( associatedClass ) );
 		}
 		catch ( ClassNotFoundException e )
 		{

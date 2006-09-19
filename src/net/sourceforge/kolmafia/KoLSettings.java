@@ -84,7 +84,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	public KoLSettings( String characterName )
 	{
 		this.noExtensionName = KoLCharacter.baseUserName( characterName );
-		this.settingsFile = new File( DATA_DIRECTORY + "settings/prefs_" + noExtensionName + ".txt" );
+		this.settingsFile = new File( "settings/prefs_" + noExtensionName + ".txt" );
 		loadSettings( this.settingsFile );
 		ensureDefaults();
 	}

@@ -95,7 +95,7 @@ public class ProposeTradeFrame extends SendMessageFrame
 		parameters[0] = offerID != null ? new ProposeTradeRequest( StaticEntity.getClient() ) :
 			new ProposeTradeRequest( StaticEntity.getClient(), recipient, messages[0], getAttachedItems(), getAttachedMeat() );
 
-		(new CreateFrameRunnable( PendingTradesFrame.class, parameters )).run();
+		createDisplay( PendingTradesFrame.class, parameters );
 		return true;
 	}
 }

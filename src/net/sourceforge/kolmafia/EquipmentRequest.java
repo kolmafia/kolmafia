@@ -441,7 +441,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		switch ( requestType )
 		{
 			case MISCELLANEOUS:
-				KoLmafia.updateDisplay( "Updating quest items..." );
+				KoLmafia.updateDisplay( "Updating miscellaneous items..." );
 				break;
 
 			case CLOSET:
@@ -461,7 +461,8 @@ public class EquipmentRequest extends PasswordHashRequest
 				break;
 
 			case CHANGE_ITEM:
-				KoLmafia.updateDisplay( ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON ? "Wielding " : "Putting on " ) + TradeableItemDatabase.getItemName( itemID ) + "..." );
+				KoLmafia.updateDisplay( ( equipmentSlot == KoLCharacter.WEAPON ? "Wielding " :
+					equipmentSlot == KoLCharacter.OFFHAND ? "Holding " : "Putting on " ) + TradeableItemDatabase.getItemName( itemID ) + "..." );
 				break;
 
 			case REMOVE_ITEM:
@@ -498,7 +499,6 @@ public class EquipmentRequest extends PasswordHashRequest
 			// meat paste, then do so and then parse the combines
 			// page.  Otherwise, go to the equipment pages.
 
-			(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
 			boolean hasMeatPaste = KoLCharacter.inMuscleSign() || KoLCharacter.hasItem( PASTE, false );
 			if ( !hasMeatPaste )
 			{
@@ -521,10 +521,11 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 			else
 			{
-				(new EquipmentRequest( client, EquipmentRequest.MISCELLANEOUS )).run();
 				(new EquipmentRequest( client, EquipmentRequest.CONSUMABLES )).run();
+				(new EquipmentRequest( client, EquipmentRequest.MISCELLANEOUS )).run();
 			}
 
+			(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
 			KoLCharacter.setAvailableSkills( availableSkills );
 			return;
 		}
@@ -555,13 +556,6 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 
 		parseEquipment( this.responseText );
-
-		if ( requestType == EQUIPMENT )
-			KoLmafia.updateDisplay( "Equipment updated." );
-		else if ( requestType == SAVE_OUTFIT )
-			KoLmafia.updateDisplay( "Outfit saved." );
-		else
-			KoLmafia.updateDisplay( "Gear changed." );
 	}
 
 	private static void switchItem( AdventureResult oldItem, AdventureResult newItem )

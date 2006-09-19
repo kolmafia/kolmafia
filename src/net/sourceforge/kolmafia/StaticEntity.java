@@ -41,6 +41,7 @@ import java.io.OutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import edu.stanford.ejalbert.BrowserLauncher;
 
@@ -103,7 +104,7 @@ public abstract class StaticEntity implements KoLConstants
 				if ( location.endsWith( oldExtension ) )
 				{
 					location = location.length() == 5 ? "GLOBAL" : location.substring( 1, location.length() - 4 );
-					destination = new File( DATA_DIRECTORY + "settings/" + newPrefix + "_" + location + ".txt" );
+					destination = new File( "settings/" + newPrefix + "_" + location + ".txt" );
 
 					if ( !destination.getParentFile().exists() )
 						destination.getParentFile().mkdirs();
@@ -211,7 +212,7 @@ public abstract class StaticEntity implements KoLConstants
 			parameters[0] = request;
 		}
 
-		(new Thread( new CreateFrameRunnable( RequestFrame.class, parameters ) )).start();
+		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
 	}
 
 	public static void externalUpdate( String location, String responseText )

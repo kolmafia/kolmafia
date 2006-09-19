@@ -118,11 +118,10 @@ public class MushroomFrame extends KoLFrame
 
 	public void loadLayout()
 	{
-		File directory = new File( "plots/" );
-		if ( !directory.exists() )
+		if ( !MushroomPlot.PLOT_DIRECTORY.exists() )
 			return;
 
-		File [] layouts = directory.listFiles();
+		File [] layouts = MushroomPlot.PLOT_DIRECTORY.listFiles();
 		ArrayList names = new ArrayList();
 
 		for ( int i = 0; i < layouts.length; ++i )

@@ -57,6 +57,7 @@ import java.util.regex.Matcher;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 
+import javax.swing.SwingUtilities;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 
@@ -90,7 +91,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	protected static PrintStream sessionStream = NullStream.INSTANCE;
-	protected static PrintStream macroStream = NullStream.INSTANCE;
 	protected static PrintStream debugStream = NullStream.INSTANCE;
 	protected static PrintStream outputStream = NullStream.INSTANCE;
 	protected static PrintStream mirrorStream = NullStream.INSTANCE;
@@ -290,38 +290,50 @@ public abstract class KoLmafia implements KoLConstants
 		commandBuffer.append( colorBuffer.toString() );
 
 		if ( !existingFrames.isEmpty() && message.indexOf( LINE_BREAK ) == -1 )
-			updateDisplayState( state != ERROR_STATE ? CONTINUE_STATE : ERROR_STATE, message );
+			SwingUtilities.invokeLater( new DisplayStateUpdater( state != ERROR_STATE ? CONTINUE_STATE : ERROR_STATE, message ) );
 	}
 
-	private static final void updateDisplayState( int state, String message )
+	private static class DisplayStateUpdater implements Runnable
 	{
-		// Next, update all of the panels with the
-		// desired update message.
+		private int state;
+		private String message;
 
-		WeakReference [] references = new WeakReference[ existingPanels.size() ];
-		existingPanels.toArray( references );
-
-		for ( int i = 0; i < references.length; ++i )
+		public DisplayStateUpdater( int state, String message )
 		{
-			if ( references[i].get() != null )
-			{
-				if ( references[i].get() instanceof KoLPanel && message != null )
-					((KoLPanel) references[i].get()).setStatusMessage( state, message );
-
-				((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
-			}
+			this.state = state;
+			this.message = message;
 		}
 
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
+		public void run()
+		{
+			// Next, update all of the panels with the
+			// desired update message.
 
-		for ( int i = 0; i < frames.length; ++i )
-			frames[i].updateDisplayState( state );
+			WeakReference [] references = new WeakReference[ existingPanels.size() ];
+			existingPanels.toArray( references );
 
-		if ( KoLDesktop.instanceExists() )
-			KoLDesktop.getInstance().updateDisplayState( state );
+			for ( int i = 0; i < references.length; ++i )
+			{
+				if ( references[i].get() != null )
+				{
+					if ( references[i].get() instanceof KoLPanel && message != null )
+						((KoLPanel) references[i].get()).setStatusMessage( state, message );
 
-		isEnabled = (state == ERROR_STATE || state == ENABLE_STATE);
+					((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
+				}
+			}
+
+			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+			existingFrames.toArray( frames );
+
+			for ( int i = 0; i < frames.length; ++i )
+				frames[i].updateDisplayState( state );
+
+			if ( KoLDesktop.instanceExists() )
+				KoLDesktop.getInstance().updateDisplayState( state );
+
+			isEnabled = (state == ERROR_STATE || state == ENABLE_STATE);
+		}
 	}
 
 	public static void enableDisplay()
@@ -329,8 +341,8 @@ public abstract class KoLmafia implements KoLConstants
 		if ( isEnabled )
 			return;
 
-		updateDisplayState(
-			continuationState == ABORT_STATE || continuationState == ERROR_STATE ? ABORT_STATE : ENABLE_STATE, null );
+		SwingUtilities.invokeLater( new DisplayStateUpdater(
+			continuationState == ABORT_STATE || continuationState == ERROR_STATE ? ERROR_STATE : ENABLE_STATE, "" ) );
 	}
 
 	/**
@@ -522,9 +534,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		sessionStream.close();
 		sessionStream = NullStream.INSTANCE;
-
-		macroStream.close();
-		macroStream = NullStream.INSTANCE;
 
 		debugStream.close();
 		debugStream = NullStream.INSTANCE;
@@ -1241,7 +1250,6 @@ public abstract class KoLmafia implements KoLConstants
 			if ( request instanceof KoLAdventure )
 			{
 				KoLAdventure adventure = (KoLAdventure) request;
-				macroStream.print( "adventure " + iterations + " " + adventure.getAdventureName() );
 
 				if ( adventure.getRequest() instanceof ClanGymRequest )
 				{
@@ -1807,7 +1815,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static final void openSessionStream()
 	{
-		sessionStream = openStream( DATA_DIRECTORY + "sessions/" + KoLCharacter.getUsername() + "_" +
+		sessionStream = openStream( "sessions/" + KoLCharacter.getUsername() + "_" +
 			DATED_FILENAME_FORMAT.format( new Date() ) + ".txt", sessionStream, false );
 	}
 
@@ -1842,34 +1850,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		debugStream.close();
 		debugStream = NullStream.INSTANCE;
-	}
-
-	/**
-	 * Initializes the macro recording stream.
-	 * @param	filename	The name of the file to be created
-	 */
-
-	public static final void openMacroStream( String filename )
-	{	macroStream = openStream( filename, macroStream, false );
-	}
-
-	/**
-	 * Retrieves the macro stream.
-	 * @return	The macro stream associated with this client
-	 */
-
-	public static final PrintStream getMacroStream()
-	{	return macroStream;
-	}
-
-	/**
-	 * Deinitializes the macro stream.
-	 */
-
-	public static final void closeMacroStream()
-	{
-		macroStream.close();
-		macroStream = NullStream.INSTANCE;
 	}
 
 	/**
@@ -2096,8 +2076,6 @@ public abstract class KoLmafia implements KoLConstants
 		for ( int i = 0; i < purchases.length; ++i )
 			if ( !(purchases[i] instanceof MallPurchaseRequest) )
 				return;
-
-		macroStream.print( "buy " + maxPurchases + " " + ((MallPurchaseRequest)purchases[0]).getItemName() );
 
 		MallPurchaseRequest currentRequest = (MallPurchaseRequest) purchases[0];
 		AdventureResult itemToBuy = new AdventureResult( currentRequest.getItemID(), 0 );
@@ -2551,6 +2529,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( StaticEntity.getBooleanProperty( "defaultToRelayBrowser" ) )
 			startRelayServer();
 		else
-			(new CreateFrameRunnable( RequestFrame.class )).run();
+			SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class ) );
 	}
 }

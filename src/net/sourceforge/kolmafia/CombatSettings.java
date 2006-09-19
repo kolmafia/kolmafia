@@ -78,7 +78,7 @@ public abstract class CombatSettings implements UtilityConstants
 	}
 
 	public static final String settingsFileName()
-	{	return DATA_DIRECTORY + "settings/combat_" + KoLCharacter.baseUserName() + ".txt";
+	{	return "settings/combat_" + KoLCharacter.baseUserName() + ".txt";
 	}
 
 	public static final TreeNode getRoot()

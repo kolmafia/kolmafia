@@ -249,7 +249,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			KoLmafia.forceContinue();
 			(new LogoutRequest( StaticEntity.getClient() )).run();
-			(new CreateFrameRunnable( LoginFrame.class )).run();
+			createDisplay( LoginFrame.class );
 		}
 	}
 
@@ -887,7 +887,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void executeTask()
-		{	(new CreateFrameRunnable( KoLPanelFrame.class, parameters )).run();
+		{	createDisplay( KoLPanelFrame.class, parameters );
 		}
 	}
 
@@ -910,7 +910,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void executeTask()
 		{
-			request.run();
+			StaticEntity.getClient().makeRequest( request );
 			KoLmafia.enableDisplay();
 		}
 
@@ -1446,5 +1446,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		public void windowIconified( WindowEvent e )
 		{	setVisible( false );
 		}
+	}
+
+	protected static void createDisplay( Class frameClass )
+	{	createDisplay( frameClass, NOPARAMS );
+	}
+
+	protected static void createDisplay( Class frameClass, Object [] parameters )
+	{	SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );
 	}
 }

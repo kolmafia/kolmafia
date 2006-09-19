@@ -363,7 +363,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			for ( int i = 0; i < selection.length; ++i )
 			{
 				parameters[0] = selection[i];
-				(new CreateFrameRunnable( ProfileFrame.class, parameters )).run();
+				createDisplay( ProfileFrame.class, parameters );
 			}
 		}
 

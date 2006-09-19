@@ -55,6 +55,7 @@ import javax.swing.JComboBox;
 // other imports
 import java.util.List;
 import java.util.ArrayList;
+import javax.swing.SwingUtilities;
 
 /**
  * An extension of <code>KoLFrame</code> used to display the current
@@ -116,7 +117,6 @@ public class ChatFrame extends KoLFrame
 		nameClickSelect.addItem( "Name click opens green message" );
 		nameClickSelect.addItem( "Name click opens gift message" );
 		nameClickSelect.addItem( "Name click opens trade message" );
-		nameClickSelect.addItem( "Name click searches mall store" );
 		nameClickSelect.addItem( "Name click shows display case" );
 		nameClickSelect.addItem( "Name click shows ascension history" );
 		nameClickSelect.addItem( "Name click performs /whois" );
@@ -379,7 +379,7 @@ public class ChatFrame extends KoLFrame
 		{
 			if ( location.startsWith( "makeoffer.php" ) )
 			{
-				(new RequestThread( new CreateFrameRunnable( PendingTradesFrame.class ) )).start();
+				createDisplay( PendingTradesFrame.class );
 				return;
 			}
 
@@ -427,39 +427,19 @@ public class ChatFrame extends KoLFrame
 					break;
 
 				case 5:
-
-					MallSearchFrame mall = null;
-					KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-					existingFrames.toArray( frames );
-
-					for ( int i = 0; i < frames.length; ++i )
-						if ( frames[i] instanceof MallSearchFrame )
-							mall = (MallSearchFrame) frames[i];
-
-					if ( mall == null )
-					{
-						CreateFrameRunnable creator = new CreateFrameRunnable( MallSearchFrame.class );
-						creator.run();
-						mall = (MallSearchFrame) creator.getCreation();
-					}
-
-					mall.searchMall( new SearchMallRequest( StaticEntity.getClient(), StaticEntity.parseInt( KoLmafia.getPlayerID( (String) parameters[0] ) ) ) );
-					return;
-
-				case 6:
 					StaticEntity.openRequestFrame( "displaycollection.php?who=" + KoLmafia.getPlayerID( (String) parameters[0] ) );
 					return;
 
-				case 7:
+				case 6:
 					StaticEntity.openRequestFrame( "ascensionhistory.php?who=" + KoLmafia.getPlayerID( (String) parameters[0] ) );
 					return;
 
-				case 8:
-					(new RequestThread( new ChatRequest( StaticEntity.getClient(), "/whois", (String) parameters[0] ) )).start();
+				case 7:
+					(new Thread( new ChatRequest( StaticEntity.getClient(), "/whois", (String) parameters[0] ) )).start();
 					return;
 
-				case 9:
-					(new RequestThread( new ChatRequest( StaticEntity.getClient(), "/baleet", (String) parameters[0] ) )).start();
+				case 8:
+					(new Thread( new ChatRequest( StaticEntity.getClient(), "/baleet", (String) parameters[0] ) )).start();
 					return;
 
 				default:
@@ -470,7 +450,7 @@ public class ChatFrame extends KoLFrame
 			// Now, determine what needs to be done based
 			// on the link option.
 
-			(new RequestThread( new CreateFrameRunnable( frameClass, parameters ) )).start();
+			createDisplay( frameClass, parameters );
 		}
 	}
 

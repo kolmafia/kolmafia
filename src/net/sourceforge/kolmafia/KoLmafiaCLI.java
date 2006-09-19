@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.SwingUtilities;
 
 import jline.ConsoleReader;
 
@@ -846,7 +847,7 @@ public class KoLmafiaCLI extends KoLmafia
 			request.run();
 
 			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-				(new CreateFrameRunnable( RequestFrame.class, new Object[] { request } )).run();
+				SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, new Object[] { request } ) );
 			else
 				showHTML( request.responseText, "Item Description" );
 
