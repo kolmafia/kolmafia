@@ -159,6 +159,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		addFormField( "whichitem", whichItem.toString() );
 	}
 
+	public int getItemID()
+	{	return itemID;
+	}
+
 	/**
 	 * Retrieves the name of the item being purchased.
 	 * @return	The name of the item being purchased
