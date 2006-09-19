@@ -217,6 +217,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		else if ( requests.length == 1 )
 		{
 			KoLmafia.updateDisplay( getStatusMessage() + "..." );
+			requests[0].run();
 		}
 	}
 
