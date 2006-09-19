@@ -73,9 +73,8 @@ public class AdventureResult implements Comparable, KoLConstants
 	private static final int MEAT_PRIORITY = 4;
 	private static final int SUBSTAT_PRIORITY = 5;
 	private static final int FULLSTAT_PRIORITY = 6;
-	private static final int DIVIDER_PRIORITY = 7;
-	private static final int ITEM_PRIORITY = 8;
-	private static final int EFFECT_PRIORITY = 9;
+	private static final int ITEM_PRIORITY = 7;
+	private static final int EFFECT_PRIORITY = 8;
 
 	public static final String HP = "HP";
 	public static final String MP = "MP";
@@ -85,7 +84,6 @@ public class AdventureResult implements Comparable, KoLConstants
 	public static final String MEAT = "Meat";
 	public static final String SUBSTATS = "Substats";
 	public static final String FULLSTATS = "Fullstats";
-	public static final String DIVIDER = "";
 
 	private static List MUS_SUBSTAT = new ArrayList();
 	private static List MYS_SUBSTAT = new ArrayList();
@@ -153,7 +151,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			name.equals(ADV) ? ADV_PRIORITY : name.equals(CHOICE) ? ADV_PRIORITY :
 			name.equals(DRUNK) ? DRUNK_PRIORITY : name.equals(MEAT) ? MEAT_PRIORITY :
 			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY : name.equals(FULLSTATS) ? FULLSTAT_PRIORITY :
-			name.equals(DIVIDER) ? DIVIDER_PRIORITY : StatusEffectDatabase.contains( name ) ? EFFECT_PRIORITY : ITEM_PRIORITY );
+			StatusEffectDatabase.contains( name ) ? EFFECT_PRIORITY : ITEM_PRIORITY );
 	}
 
 	/**
@@ -390,9 +388,6 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		if ( name.equals(SUBSTATS) || name.equals(FULLSTATS) )
 			return " " + name + ": " + COMMA_FORMAT.format(count[0]) + " / " + COMMA_FORMAT.format(count[1]) + " / " + COMMA_FORMAT.format(count[2]);
-
-		if ( name.equals(DIVIDER) )
-			return DIVIDER;
 
 		if ( priority == ITEM_PRIORITY && count[0] == 1 )
 			return name;

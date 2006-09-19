@@ -100,4 +100,8 @@ public class MuseumRequest extends SendMessageRequest
 		if ( !isManagement )
 			MuseumManager.update( responseText );
 	}
+
+	protected String getStatusMessage()
+	{	return isDeposit ? "Placing items in display case" : "Removing items from display case";
+	}
 }

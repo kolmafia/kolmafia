@@ -106,4 +106,8 @@ public class GreenMessageRequest extends SendMessageRequest
 	protected final boolean allowUntradeableTransfer()
 	{	return false;
 	}
+
+	protected String getStatusMessage()
+	{	return "Sending kmail to " + recipient;
+	}
 }

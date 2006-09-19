@@ -360,4 +360,8 @@ public class AutoSellRequest extends SendMessageRequest
 	protected boolean tallyItemTransfer()
 	{	return sellType == AUTOMALL;
 	}
+
+	protected String getStatusMessage()
+	{	return sellType == AUTOMALL ? "Transfering items to store" : "Autoselling items to NPCs";
+	}
 }

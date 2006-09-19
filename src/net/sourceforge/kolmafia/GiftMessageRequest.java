@@ -161,4 +161,8 @@ public class GiftMessageRequest extends SendMessageRequest
 		if ( responseText.indexOf( getSuccessMessage() ) != -1 && materialCost > 0 )
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - materialCost ) );
 	}
+
+	protected String getStatusMessage()
+	{	return "Sending package to " + getFormField( "towho" );
+	}
 }
