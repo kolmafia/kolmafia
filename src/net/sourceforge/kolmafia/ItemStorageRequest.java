@@ -172,6 +172,8 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	protected void processResults()
 	{
+		super.processResults();
+
 		switch ( moveType )
 		{
 			case EMPTY_STORAGE:
