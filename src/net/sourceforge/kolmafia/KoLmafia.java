@@ -587,15 +587,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		String trimResult = result.trim();
 
-		// Because of the simplified parsing, there's a chance that
-		// the "gain" acquired wasn't a subpoint (in other words, it
-		// includes the word "a" or "some"), which causes a NFE or
-		// possibly a ParseException to be thrown.  catch them and
-		// do nothing (eventhough it's technically bad style).
-
-		if ( trimResult.startsWith( "You gain a" ) || trimResult.startsWith( "You gain some" ) )
-			return false;
-
 		try
 		{
 			debugStream.println( "Parsing result: " + trimResult );
@@ -1208,10 +1199,22 @@ public abstract class KoLmafia implements KoLConstants
 				if ( parenIndex != -1 )
 					lastToken = lastToken.substring( 0, parenIndex );
 
-				KoLmafiaCLI.printLine( lastToken );
-				sessionStream.println( lastToken );
+				lastToken = lastToken.trim();
 
-				requiresRefresh |= parseResult( lastToken.trim() );
+				if ( lastToken.indexOf( "level" ) == -1 )
+				{
+					KoLmafiaCLI.printLine( lastToken );
+					sessionStream.println( lastToken );
+				}
+
+				// Because of the simplified parsing, there's a chance that
+				// the "gain" acquired wasn't a subpoint (in other words, it
+				// includes the word "a" or "some"), which causes a NFE or
+				// possibly a ParseException to be thrown.  catch them and
+				// do nothing (eventhough it's technically bad style).
+
+				if ( !lastToken.startsWith( "You gain a" ) && !lastToken.startsWith( "You gain some" ) )
+					requiresRefresh |= parseResult( lastToken );
 			}
 		}
 
@@ -1364,7 +1367,7 @@ public abstract class KoLmafia implements KoLConstants
 			request.run();
 
 			if ( request instanceof KoLAdventure )
-				DEFAULT_SHELL.printBlankLine();
+				KoLmafiaCLI.printBlankLine();
 
 			// Decrement the counter to null out the increment
 			// effect on the next iteration of the loop.
