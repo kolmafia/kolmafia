@@ -85,7 +85,8 @@ public class CommandDisplayFrame extends KoLFrame
 	public void requestFocus()
 	{
 		super.requestFocus();
-		entryField.requestFocus();
+		if ( entryField != null )
+			entryField.requestFocus();
 	}
 
 	private class CommandDisplayPanel extends JPanel

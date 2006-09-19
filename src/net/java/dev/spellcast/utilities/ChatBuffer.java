@@ -116,11 +116,9 @@ public class ChatBuffer
 
 	public ChatBuffer( String title )
 	{
-		displayBuffer = new StringBuffer();
+		this.displayBuffer = new StringBuffer();
 		this.title = title;
-
 		this.header = "<html><head>" + NEW_LINE + "<title>" + title + "</title>" + NEW_LINE;
-		clearBuffer();
 	}
 
 	/**
@@ -140,8 +138,7 @@ public class ChatBuffer
 	 */
 
 	public String getBuffer()
-	{
-		return displayBuffer.toString();
+	{	return displayBuffer.toString();
 	}
 
 	/**
@@ -190,6 +187,7 @@ public class ChatBuffer
 			updateLogFile( "<style>" );
 			updateLogFile( BUFFER_STYLE );
 			updateLogFile( "</style>" );
+
 			fireBufferChanged( LOGFILE_CHANGE, null );
 		}
 		catch ( java.io.FileNotFoundException e )
@@ -262,19 +260,9 @@ public class ChatBuffer
 
 			if ( displayPane != null && !updater.setToRun )
 			{
-				try
-				{
-					updater.setToRun = true;
-					if ( SwingUtilities.isEventDispatchThread() )
-						updater.run();
-					else
-						SwingUtilities.invokeLater( updater );
-				}
-				catch ( Exception e )
-				{
-					e.printStackTrace();
-				}
-
+				updater.setToRun = true;
+				updater.scrollToTop = newContents == null;
+				SwingUtilities.invokeLater( updater );
 			}
 		}
 
@@ -313,11 +301,11 @@ public class ChatBuffer
 
 	private class DisplayPaneUpdater implements Runnable
 	{
+		private boolean scrollToTop = false;
 		private boolean setToRun = false;
 
 		public void run()
 		{
-			boolean scrollToTop = displayBuffer.length() == 0;
 			displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
 			if ( scrollToTop )
 				displayPane.setCaretPosition( 0 );
