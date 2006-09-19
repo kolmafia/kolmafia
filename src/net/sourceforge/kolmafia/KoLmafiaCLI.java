@@ -496,7 +496,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.indexOf( ".php" ) != -1 )
 		{
 			String url = command.indexOf( "?" ) != -1 ? command.substring( 0, command.indexOf( "?" ) ) : command;
-			if ( url.indexOf( "send" ) != -1 || url.indexOf( "chat" ) != -1 )
+			if ( KoLRequest.shouldIgnore( url ) )
 				return;
 
 			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), previousLine, true );

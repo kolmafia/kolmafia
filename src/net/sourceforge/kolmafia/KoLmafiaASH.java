@@ -4569,7 +4569,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue visit_url( ScriptVariable string )
 		{
 			String location = string.toStringValue().toString();
-			if ( location.indexOf( "send" ) != -1 || location.indexOf( "chat" ) != -1 || location.indexOf( "search" ) != -1 )
+			if ( KoLRequest.shouldIgnore( location ) )
 				return STRING_INIT;
 
 			boolean wasChoice = location.indexOf( "choice.php" ) != -1;
