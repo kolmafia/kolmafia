@@ -1227,7 +1227,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			responseBuffer.append( "</a>" );
 		}
 
-		// Next, add in a mood-execute link, in the event that the person
+		// First, add in a mood-execute link, in the event that the person
 		// has a non-empty list of triggers.
 
 		if ( !MoodSettings.willExecute() )
@@ -1235,19 +1235,21 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 		else if ( KoLRequest.isCompactMode )
 		{
-			int effectIndex = text.indexOf( "<hr", text.indexOf( "<hr", text.indexOf( "<hr" ) + 1 ) + 1 );
-			if ( effectIndex != -1 )
-			{
-				effectIndex = text.indexOf( "<table", effectIndex );
-				startingIndex = effectIndex != -1 ? effectIndex : startingIndex;
-				responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
-				lastAppendIndex = startingIndex;
+			int effectIndex = text.indexOf( "eff(", startingIndex );
+			boolean shouldAddDivider = effectIndex == -1;
 
-				responseBuffer.append( "[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]<br><br>" );
+			if ( shouldAddDivider )
+				startingIndex = text.lastIndexOf( "</table>" ) + 8;
+			else
+				startingIndex = text.lastIndexOf( "<table", effectIndex );
 
-				if ( activeEffects.isEmpty() )
-					responseBuffer.append( "<hr width=50%>" );
-			}
+			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			lastAppendIndex = startingIndex;
+
+			if ( shouldAddDivider )
+				responseBuffer.append( "<hr width=50%>" );
+
+			responseBuffer.append( "<font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]</font><br><br>" );
 		}
 		else
 		{
@@ -1292,6 +1294,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					text.substring( startingIndex + 14, text.indexOf( "\"", startingIndex + 15 ) ) );
 
 				String effectName = StatusEffectDatabase.getEffectName( effectID );
+
+				if ( effectName == null )
+					continue;
 
 				String upkeepAction = MoodSettings.getDefaultAction( "lose_effect", effectName );
 				String removeAction = MoodSettings.getDefaultAction( "gain_effect", effectName );
