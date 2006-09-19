@@ -58,6 +58,9 @@ public class LocalRelayRequest extends KoLRequest
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<img src=\"([^\"]*?)\"" );
 	private static final Pattern WHITESPACE_PATTERN = Pattern.compile( "['\\s-]" );
 
+	private static final Pattern SEARCHITEM_PATTERN = Pattern.compile( "searchitem=(\\d+)&searchprice=(\\d+)" );
+	private static final Pattern STORE_PATTERN = Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
+
 	private static boolean isRunningCommand = false;
 
 	protected List headers = new ArrayList();
@@ -71,12 +74,69 @@ public class LocalRelayRequest extends KoLRequest
 	{	return fullResponse;
 	}
 
+	private static final boolean isJunkItem( int itemID, int price, boolean ignoreExpensiveItems, boolean ignoreMinpricedItems )
+	{
+		boolean shouldIgnore = false;
+
+		shouldIgnore |= ignoreExpensiveItems && price > KoLCharacter.getAvailableMeat();
+		shouldIgnore |= ignoreMinpricedItems && NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemID ) );
+		shouldIgnore |= ignoreMinpricedItems && price <= TradeableItemDatabase.getPriceByID( itemID ) * 2 + 1;
+		shouldIgnore |= ignoreMinpricedItems && price == 100;
+
+		return shouldIgnore;
+	}
+
 	protected void processRawResponse( String rawResponse )
 	{
 		super.processRawResponse( rawResponse );
 
 		if ( formURLString.startsWith( "http" ) )
 			return;
+
+		// If this is a store, you can opt to remove all the min-priced items from view
+		// along with all the items which are priced above affordable levels.
+
+		if ( KoLCharacter.canInteract() && formURLString.indexOf( "mallstore.php" ) != -1 )
+		{
+			int searchItemID = -1;
+			int searchPrice = -1;
+
+			Matcher itemMatcher = SEARCHITEM_PATTERN.matcher( getURLString() );
+			if ( itemMatcher.find() )
+			{
+				searchItemID = StaticEntity.parseInt( itemMatcher.group(1) );
+				searchPrice = StaticEntity.parseInt( itemMatcher.group(2) );
+			}
+
+			itemMatcher = STORE_PATTERN.matcher( fullResponse );
+
+			boolean ignoreExpensiveItems = StaticEntity.getBooleanProperty( "relayRemovesExpensiveItems" );
+			boolean ignoreMinpricedItems = StaticEntity.getBooleanProperty( "relayRemovesMinpricedItems" );
+
+			StringBuffer cleanBuffer = new StringBuffer( fullResponse );
+
+			while ( itemMatcher.find() )
+			{
+				String itemData = itemMatcher.group(1);
+
+				int itemID = StaticEntity.parseInt( itemData.substring( 0, itemData.length() - 9 ) );
+				int price = StaticEntity.parseInt( itemData.substring( itemData.length() - 9 ) );
+
+				if ( itemID != searchItemID && isJunkItem( itemID, price, ignoreExpensiveItems, ignoreMinpricedItems ) )
+					replaceTag( cleanBuffer, itemMatcher.group(), "" );
+			}
+
+			// Also make sure the item that the person selected when coming into the
+			// store is pre-selected.
+
+			if ( searchItemID != -1 )
+			{
+				String searchString = MallPurchaseRequest.getStoreString( searchItemID, searchPrice );
+				replaceTag( cleanBuffer, "value=" + searchString, "checked value=" + searchString );
+			}
+
+			fullResponse = cleanBuffer.toString();
+		}
 
 		if ( formURLString.indexOf( "compactmenu.php" ) != -1 )
 		{
