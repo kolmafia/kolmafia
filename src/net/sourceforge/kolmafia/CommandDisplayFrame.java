@@ -183,7 +183,9 @@ public class CommandDisplayFrame extends KoLFrame
 
 				if ( commandQueue.size() > 1 )
 				{
-					KoLmafia.commandBuffer.append( "<br><font color=olive>&nbsp;&gt;&nbsp; <b>Queued command</b>: " + command + "</font><br><br>" );
+					KoLmafiaCLI.printBlankLine();
+					KoLmafiaCLI.printLine( " > QUEUED: " + command );
+					KoLmafiaCLI.printBlankLine();
 					return;
 				}
 
@@ -206,7 +208,9 @@ public class CommandDisplayFrame extends KoLFrame
 				try
 				{
 					String command = (String) commandQueue.get(0);
-					KoLmafia.commandBuffer.append( "<br><font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br><br>" );
+					KoLmafiaCLI.printBlankLine();
+					KoLmafiaCLI.printLine( " > " + command );
+					KoLmafiaCLI.printBlankLine();
 					DEFAULT_SHELL.executeLine( command );
 				}
 				catch ( Exception e )
