@@ -1334,14 +1334,18 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					if ( skillType == ClassSkillsDatabase.BUFF )
 						responseBuffer.append( "Shrug off the " );
-					else
+					else if ( removeAction.startsWith( "uneffect" ) )
 						responseBuffer.append( "Use a remedy to remove the " );
+					else
+						responseBuffer.append( Character.toUpperCase( removeAction.charAt(0) ) + removeAction.substring(1) + " to remove the " );
 
 					responseBuffer.append( effectName );
 					responseBuffer.append( " effect\">" );
 				}
 
 				nextAppendIndex = text.indexOf( ")", lastAppendIndex ) + 1;
+				int duration = StaticEntity.parseInt( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
+
 				responseBuffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
 				lastAppendIndex = nextAppendIndex;
 
@@ -1371,7 +1375,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					responseBuffer.append( "\" title=\"Increase rounds of " );
 					responseBuffer.append( effectName );
-					responseBuffer.append( "\"><img src=\"/images/up.gif\" border=0></a>" );
+					responseBuffer.append( "\"><img src=\"/images/" );
+
+					if ( duration <= 5 )
+						responseBuffer.append( "red" );
+
+					responseBuffer.append( "up.gif\" border=0></a>" );
 				}
 			}
 		}
