@@ -247,8 +247,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			add( scriptMenu );
 		}
 
-		if ( StaticEntity.getBooleanProperty( "showWindowMenu" ) )
-			add( new WindowMenu() );
+		add( new WindowMenu() );
 
 		// Add help information for KoLmafia.  This includes
 		// the additional help-oriented stuffs.
@@ -536,6 +535,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		// up top, followed by non-directories.
 
 		boolean hasDirectories = false;
+		boolean hasNormalFiles = false;
 
 		for ( int i = 0; i < scriptList.length; ++i )
 		{
@@ -544,14 +544,19 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				scripts.add( scriptList[i] );
 				hasDirectories = true;
 			}
+			else
+				hasNormalFiles = true;
 		}
 
-		if ( hasDirectories )
-			scripts.add( new JSeparator() );
+		if ( hasNormalFiles )
+		{
+			if ( hasDirectories )
+				scripts.add( new JSeparator() );
 
-		for ( int i = 0; i < scriptList.length; ++i )
-			if ( !scriptList[i].isDirectory() )
-				scripts.add( scriptList[i] );
+			for ( int i = 0; i < scriptList.length; ++i )
+				if ( !scriptList[i].isDirectory() )
+					scripts.add( scriptList[i] );
+		}
 	}
 
 	/**
