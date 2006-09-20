@@ -140,6 +140,8 @@ public class ClanStashRequest extends SendMessageRequest
 
 	protected void processResults()
 	{
+		super.processResults();
+
 		switch ( moveType )
 		{
 			case REFRESH_ONLY:
@@ -224,6 +226,17 @@ public class ClanStashRequest extends SendMessageRequest
 				stashContents.add( intermediateArray[i] );
 			}
 		}
+	}
+
+	public static boolean processRequest( String urlString )
+	{
+		if ( urlString.indexOf( "clan_stash.php" ) == -1 || urlString.indexOf( "pwd" ) == -1 || urlString.indexOf( "contribute" ) != -1 )
+			return false;
+
+		boolean isWithdrawal = urlString.indexOf( "take" ) != -1;
+
+		return processRequest( "stash " + (isWithdrawal ? "take" : "put"), urlString, ITEMID_PATTERN, QUANTITY_PATTERN,
+			isWithdrawal ? ClanManager.getStash() : inventory, 0 );
 	}
 
 	public String getCommandForm()

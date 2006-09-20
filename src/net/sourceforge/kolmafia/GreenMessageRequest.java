@@ -110,4 +110,12 @@ public class GreenMessageRequest extends SendMessageRequest
 	protected String getStatusMessage()
 	{	return "Sending kmail to " + recipient;
 	}
+
+	public static boolean processRequest( String urlString )
+	{
+		if ( urlString.indexOf( "sendmessage.php" ) == -1 )
+			return false;
+
+		return processRequest( "send", urlString, storage, 0 );
+	}
 }

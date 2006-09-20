@@ -758,9 +758,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		isEquipResult = urlString.indexOf( "which=2" ) != -1 && urlString.indexOf( "action=message" ) != -1;
 
-		// If you need to run a between battle script before this request,
-		// this is where you would do it.  Note that fights should not have
-		// scripts invoked before them.
+		// First, try to match everything to an adventure, and print
+		// the appropriate turn count information.
 
 		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( urlString );
 
@@ -778,28 +777,16 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( FamiliarRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
+
+		// Now for the more standard requests, like item consumption
+		// or item creation or skill casting.
+
 		else if ( ConsumeItemRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			isConsumeRequest = true;
 		}
-		else if ( EquipmentRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
 		else if ( ItemCreationRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( ItemStorageRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( this instanceof AutoSellRequest || AutoSellRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 		}
@@ -807,6 +794,50 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			wasLastRequestSimple = false;
 		}
+
+		// Otherwise, see if it matches one of the standard "changeup"
+		// requests, like a familiar request or an equipment request.
+
+		else if ( FamiliarRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+		else if ( EquipmentRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+
+		// Now, all the instances where items are transferred between
+		// different locations.
+
+		else if ( this instanceof SendMessageRequest )
+		{
+			wasLastRequestSimple = false;
+		}
+		else if ( ItemStorageRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+		else if ( AutoSellRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+		else if ( ClanStashRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+		else if ( GreenMessageRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+		else if ( GiftMessageRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+
+		// For all other requests, log the URL of the location which
+		// was visited.
+
 		else if ( urlString.indexOf( "inventory" ) == -1 )
 		{
 			if ( !wasLastRequestSimple )
@@ -824,8 +855,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	public static boolean shouldIgnore( String formURLString )
 	{
 		return formURLString.startsWith( "mall.php" ) || formURLString.startsWith( "searchmall.php" ) ||
-			formURLString.startsWith( "clan" ) || formURLString.startsWith( "manage" ) || formURLString.startsWith( "sell" ) ||
-			formURLString.indexOf( "chat" ) != -1;
+			formURLString.startsWith( "clan" ) || formURLString.startsWith( "manage" ) || formURLString.indexOf( "chat" ) != -1;
 	}
 
 	/**

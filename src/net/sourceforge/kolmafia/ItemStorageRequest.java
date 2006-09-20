@@ -45,8 +45,6 @@ public class ItemStorageRequest extends SendMessageRequest
 	private static final Pattern PULLS_PATTERN = Pattern.compile( "(\\d+) more" );
 	private static final Pattern STORAGE_PATTERN = Pattern.compile( "name=\"whichitem1\".*?</select>", Pattern.DOTALL );
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option[^>]* value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" );
-	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem\\d*=(\\d*)" );
-	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany\\d*=(\\d*)" );
 
 	private int moveType;
 
@@ -336,37 +334,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		if ( urlString.indexOf( "storage.php" ) == -1 || urlString.indexOf( "action=takeall" ) != -1 || urlString.indexOf( "action=takemeat" ) != -1 )
 			return false;
 
-		ArrayList itemList = new ArrayList();
-		StringBuffer itemListBuffer = new StringBuffer();
-
-		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
-		Matcher quantityMatcher = HOWMANY_PATTERN.matcher( urlString );
-
-		while ( itemMatcher.find() && quantityMatcher.find() )
-		{
-			int itemID = StaticEntity.parseInt( itemMatcher.group(1) );
-			int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
-			AdventureResult item = new AdventureResult( itemID, quantity );
-
-			itemList.add (item);
-
-			if ( quantity == 0 )
-				quantity = item.getCount( storage );
-
-			if ( itemListBuffer.length() > 0 )
-				itemListBuffer.append( ", " );
-
-			itemListBuffer.append( quantity );
-			itemListBuffer.append( " " );
-			itemListBuffer.append( TradeableItemDatabase.getItemName( itemID ) );
-		}
-
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( "pull " + itemListBuffer.toString() );
-		for ( int i = 0; i < itemList.size(); ++i )
-			StaticEntity.getClient().processResult( (AdventureResult) itemList.get(i) );
-
-		return true;
+		return processRequest( "pull", urlString, storage, 0 );
 	}
 
 	protected String getStatusMessage()

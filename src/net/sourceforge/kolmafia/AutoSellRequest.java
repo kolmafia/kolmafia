@@ -40,8 +40,7 @@ public class AutoSellRequest extends SendMessageRequest
 {
 	public static final Pattern AUTOSELL_PATTERN = Pattern.compile( "for ([\\d,]+) [Mm]eat" );
 	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=([\\d,]+)" );
-	private static final Pattern WHICHITEM_PATTERN = Pattern.compile( "whichitem%5B%5D=(\\d+)" );
-	private static final Pattern ITEMID_PATTERN = Pattern.compile( "item(\\d+)" );
+	private static final Pattern EMBEDDED_ID_PATTERN = Pattern.compile( "item(\\d+)" );
 
 	private int sellType;
 
@@ -264,6 +263,8 @@ public class AutoSellRequest extends SendMessageRequest
 
 	protected void processResults()
 	{
+		super.processResults();
+
 		if ( sellType == AUTOMALL )
 		{
 			// We placed stuff in the mall.
@@ -286,7 +287,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 	public static boolean processRequest( String urlString )
 	{
-		Matcher itemMatcher = null;
+		Pattern itemPattern = null;
 		int quantity = 1;
 
 		if ( urlString.startsWith( "sellstuff.php" ) )
@@ -300,7 +301,7 @@ public class AutoSellRequest extends SendMessageRequest
 			else if ( urlString.indexOf( "type=all" ) != -1 )
 				quantity = 0;
 
-			itemMatcher = WHICHITEM_PATTERN.matcher( urlString );
+			itemPattern = ITEMID_PATTERN;
 		}
 		else if ( urlString.startsWith( "sellstuff_ugly.php" ) )
 		{
@@ -313,40 +314,13 @@ public class AutoSellRequest extends SendMessageRequest
 			else if ( urlString.indexOf( "mode=2" ) != -1 )
 				quantity = -1;
 
-			itemMatcher = ITEMID_PATTERN.matcher( urlString );
+			itemPattern = EMBEDDED_ID_PATTERN;
 		}
 
-		if ( itemMatcher == null )
+		if ( itemPattern == null )
 			return false;
 
-		StringBuffer buffer = new StringBuffer();
-		while ( itemMatcher.find() )
-		{
-			buffer.append( buffer.length() == 0 ? "autosell " : ", " );
-			buffer.append( quantity == 0 ? "*" : String.valueOf( quantity ) );
-			buffer.append( " " );
-
-			AdventureResult item = new AdventureResult( StaticEntity.parseInt( itemMatcher.group(1) ), 1 );
-			int inventoryAmount = item.getCount( inventory );
-
-			int sellQuantity = quantity;
-
-			if ( sellQuantity < 1 )
-				sellQuantity += inventoryAmount;
-			else
-				sellQuantity = Math.min( quantity, inventoryAmount );
-
-			StaticEntity.getClient().processResult( item.getInstance( 0 - sellQuantity ) );
-			buffer.append( item.getName() );
-		}
-
-		if ( buffer.length() != 0 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( buffer.toString() );
-		}
-
-		return true;
+		return processRequest( "autosell", urlString, itemPattern, null, inventory, quantity );
 	}
 
 	protected String getSuccessMessage()
@@ -355,10 +329,6 @@ public class AutoSellRequest extends SendMessageRequest
 
 	protected boolean allowUntradeableTransfer()
 	{	return sellType == AUTOSELL;
-	}
-
-	protected boolean tallyItemTransfer()
-	{	return sellType == AUTOMALL;
 	}
 
 	public String getCommandForm()

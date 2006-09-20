@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * An extension of a <code>KoLRequest</code> which specifically handles
@@ -44,6 +46,11 @@ import java.util.ArrayList;
 
 public abstract class SendMessageRequest extends KoLRequest
 {
+	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item[^=]*\\d*=(\\d*)" );
+	protected static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany\\d*=(\\d*)" );
+	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity\\d*=([\\d,]+)" );
+	protected static final Pattern RECIPIENT_PATTERN = Pattern.compile( "towho=([^=&]*)" );
+
 	protected int meatAttachment;
 	protected Object [] attachments;
 	protected List source = inventory;
@@ -318,5 +325,55 @@ public abstract class SendMessageRequest extends KoLRequest
 
 	protected boolean tallyItemTransfer()
 	{	return true;
+	}
+
+	public static boolean processRequest( String command, String urlString, List source, int defaultQuantity )
+	{	return processRequest( command, urlString, ITEMID_PATTERN, HOWMANY_PATTERN, source, defaultQuantity );
+	}
+
+	public static boolean processRequest( String command, String urlString, Pattern itemPattern, Pattern quantityPattern, List source, int defaultQuantity )
+	{
+		ArrayList itemList = new ArrayList();
+		StringBuffer itemListBuffer = new StringBuffer();
+
+		Matcher itemMatcher = itemPattern.matcher( urlString );
+		Matcher quantityMatcher = quantityPattern == null ? null : quantityPattern.matcher( urlString );
+
+		while ( itemMatcher.find() && (quantityMatcher == null || quantityMatcher.find()) )
+		{
+			int itemID = StaticEntity.parseInt( itemMatcher.group(1) );
+			int quantity = quantityPattern == null ? defaultQuantity : StaticEntity.parseInt( quantityMatcher.group(1) );
+			AdventureResult item = new AdventureResult( itemID, quantity );
+
+			if ( quantity < 1 )
+				quantity = quantity + item.getCount( source );
+
+			if ( itemListBuffer.length() > 0 )
+				itemListBuffer.append( ", " );
+
+			itemList.add( item.getInstance( source == inventory ? 0 - quantity : quantity ) );
+
+			itemListBuffer.append( quantity );
+			itemListBuffer.append( " " );
+			itemListBuffer.append( TradeableItemDatabase.getItemName( itemID ) );
+		}
+
+		Matcher recipientMatcher = RECIPIENT_PATTERN.matcher( urlString );
+		if ( recipientMatcher.find() )
+		{
+			itemListBuffer.append( " to " );
+			itemListBuffer.append( recipientMatcher.group(1) );
+		}
+
+		if ( itemList.isEmpty() )
+			return true;
+
+		KoLmafia.getSessionStream().println();
+		KoLmafia.getSessionStream().println( command + " " + itemListBuffer.toString() );
+
+		for ( int i = 0; i < itemList.size(); ++i )
+			StaticEntity.getClient().processResult( (AdventureResult) itemList.get(i) );
+
+		return true;
 	}
 }

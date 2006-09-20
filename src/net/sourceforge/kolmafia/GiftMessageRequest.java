@@ -162,6 +162,14 @@ public class GiftMessageRequest extends SendMessageRequest
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - materialCost ) );
 	}
 
+	public static boolean processRequest( String urlString )
+	{
+		if ( urlString.indexOf( "town_sendgift.php" ) == -1 )
+			return false;
+
+		return processRequest( "send", urlString, storage, 0 );
+	}
+
 	protected String getStatusMessage()
 	{	return "Sending package to " + getFormField( "towho" );
 	}
