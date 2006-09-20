@@ -108,7 +108,7 @@ public class GalaktikRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Cure purchased." );
 	}
 
-	public String getCommandForm( int iterations )
+	public String getCommandForm()
 	{	return "galaktik " + (type == HP ? "hp" : "mp");
 	}
 }

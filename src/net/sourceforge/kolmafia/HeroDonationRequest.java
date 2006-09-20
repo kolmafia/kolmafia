@@ -110,7 +110,7 @@ public class HeroDonationRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Donation complete." );
 	}
 
-	public String getCommandForm( int iterations )
+	public String getCommandForm()
 	{	return "donate " + amount + " " + statue;
 	}
 }

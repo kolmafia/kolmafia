@@ -686,13 +686,13 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( !isDelayExempt() && formURLString.indexOf( "search" ) == -1 )
 				showInBrowser( false );
 
-			if ( !(this instanceof FightRequest) )
-				AdventureRequest.registerEncounter( this );
-
 			if ( !shouldIgnoreResults() )
 				parseResults();
 
 			processResults();
+
+			if ( getClass() == KoLRequest.class )
+				AdventureRequest.registerEncounter( this );
 
 			if ( responseText.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
 			{
@@ -742,6 +742,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php" ) == -1 )
 			return;
 
+		String equivalentCommand = getCommandForm();
+		if ( !equivalentCommand.equals( "" ) )
+		{
+			KoLmafia.getSessionStream().println();
+			KoLmafia.getSessionStream().println( equivalentCommand );
+			return;
+		}
+
 		// In the event that this is an adventure, assume "snarfblat"
 		// instead of "adv" in order to determine the location.
 
@@ -774,12 +782,12 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( this instanceof ConsumeItemRequest || ConsumeItemRequest.processRequest( urlString ) )
+		else if ( ConsumeItemRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			isConsumeRequest = true;
 		}
-		else if ( this instanceof EquipmentRequest || EquipmentRequest.processRequest( urlString ) )
+		else if ( EquipmentRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 		}
@@ -791,7 +799,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( AutoSellRequest.processRequest( urlString ) )
+		else if ( this instanceof AutoSellRequest || AutoSellRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 		}
@@ -1621,7 +1629,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		FightFrame.showRequest( this );
 	}
 
-	public String getCommandForm( int iterations )
+	public String getCommandForm()
 	{	return "";
 	}
 

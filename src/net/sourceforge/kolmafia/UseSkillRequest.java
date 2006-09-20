@@ -522,7 +522,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	{	return o != null && o instanceof UseSkillRequest && getSkillName().equals( ((UseSkillRequest)o).getSkillName() );
 	}
 
-	public String getCommandForm( int iterations )
+	public String getCommandForm()
 	{	return "cast " + buffCount + " " + skillName;
 	}
 

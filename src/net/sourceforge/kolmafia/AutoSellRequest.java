@@ -361,6 +361,53 @@ public class AutoSellRequest extends SendMessageRequest
 	{	return sellType == AUTOMALL;
 	}
 
+	public String getCommandForm()
+	{
+		if ( sellType == AUTOMALL || isSubInstance )
+			return "";
+
+		int quantity = StaticEntity.parseInt( getFormField( "howmany" ) );
+
+		if ( formURLString.startsWith( "sellstuff.php" ) )
+		{
+			String mode = getFormField( "type" );
+			if ( mode.equals( "allbutone" ) )
+				quantity = -1;
+			else if ( mode.equals( "all" ) )
+				quantity = 0;
+		}
+		else
+		{
+			String mode = getFormField( "mode" );
+			if ( mode.equals( "1" ) )
+				quantity = 0;
+			else if ( mode.equals( "2" ) )
+				quantity = -1;
+		}
+
+		StringBuffer buffer = new StringBuffer();
+		for ( int i = 0; i < attachments.length; ++i )
+		{
+			buffer.append( buffer.length() == 0 ? "autosell " : ", " );
+			buffer.append( quantity == 0 ? "*" : String.valueOf( quantity ) );
+			buffer.append( " " );
+
+			AdventureResult item = (AdventureResult) attachments[i];
+			int inventoryAmount = item.getCount( inventory );
+
+			int sellQuantity = quantity;
+
+			if ( sellQuantity < 1 )
+				sellQuantity += inventoryAmount;
+			else
+				sellQuantity = Math.min( quantity, inventoryAmount );
+
+			buffer.append( item.getName() );
+		}
+
+		return buffer.toString();
+	}
+
 	protected String getStatusMessage()
 	{	return sellType == AUTOMALL ? "Transfering items to store" : "Autoselling items to NPCs";
 	}
