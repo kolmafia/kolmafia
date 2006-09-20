@@ -92,7 +92,6 @@ public class ChatBuffer
 	protected static final int DISPLAY_CHANGE = 1;
 	protected static final int LOGFILE_CHANGE = 2;
 
-	private DisplayPaneUpdater updater = new DisplayPaneUpdater();
 	private static final Pattern TRIPLE_LINE_PATTERN = Pattern.compile( "<br>\\s*<br>\\s*(<br>\\s*)+" );
 
 	private String title;
@@ -245,20 +244,23 @@ public class ChatBuffer
 	{
 		if ( changeType != LOGFILE_CHANGE )
 		{
-			updater.scrollToTop = displayBuffer.length() == 0;
-			updater.scrollToTop |= newContents == null;
+			boolean shouldScroll = displayBuffer.length() != 0;
 
 			if ( newContents != null )
 				displayBuffer.append( newContents );
 
 			if ( displayPane != null )
-				SwingUtilities.invokeLater( updater );
+			{
+				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+				displayPane.setCaretPosition( shouldScroll ? displayPane.getDocument().getLength() - 1 : 0 );
+			}
+
+			if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
+				updateLogFile( newContents );
+
 		}
 
-		if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
-			updateLogFile( newContents );
-
-		if ( changeType == LOGFILE_CHANGE && activeLogWriter != null )
+		else if ( activeLogWriter != null )
 			updateLogFile( displayBuffer.toString() );
 	}
 
@@ -277,29 +279,6 @@ public class ChatBuffer
 		{
 			activeLogWriter.print( chatContent );
 			activeLogWriter.flush();
-		}
-	}
-
-	/**
-	 * An internal runnable which attempts to update the text in
-	 * the HTML document and appropriately scroll the scrollbar.
-	 * This occurs inside of the Swing thread in order to prevent
-	 * the user interface from locking and to help avoid Swing
-	 * thread errors.
-	 */
-
-	private class DisplayPaneUpdater implements Runnable
-	{
-		private boolean scrollToTop = false;
-		private boolean setToRun = false;
-
-		public void run()
-		{
-			displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
-			if ( scrollToTop )
-				displayPane.setCaretPosition( 0 );
-
-			setToRun = false;
 		}
 	}
 }

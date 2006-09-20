@@ -291,9 +291,10 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		PLAYER_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "cannelloni cocoon;medicinal herb's medicinal herbs;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment;doc galaktik's pungent unguent" );
 		PLAYER_SETTINGS.put( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
-		PLAYER_SETTINGS.put( "lastBreakfast", "19691231" );
 		PLAYER_SETTINGS.put( "lastAdventure", "" );
+		PLAYER_SETTINGS.put( "lastBreakfast", "19691231" );
 		PLAYER_SETTINGS.put( "lastMessageID", "" );
+		PLAYER_SETTINGS.put( "lastPlantingDate", "" );
 		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0f" );
 		PLAYER_SETTINGS.put( "mpAutoRecoveryTarget", "0.0f" );
 		PLAYER_SETTINGS.put( "mpAutoRecoveryItems", "phonics down;knob goblin superseltzer;blatantly canadian;dyspepsi-cola;cloaca-cola;mountain stream soda;magical mystery juice;knob goblin seltzer;soda water" );

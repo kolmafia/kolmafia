@@ -263,50 +263,38 @@ public abstract class KoLmafia implements KoLConstants
 		KoLmafiaCLI.printLine( state, message );
 
 		if ( !existingFrames.isEmpty() && message.indexOf( LINE_BREAK ) == -1 )
-			SwingUtilities.invokeLater( new DisplayStateUpdater( state != ERROR_STATE ? CONTINUE_STATE : ERROR_STATE, message ) );
+			updateDisplayState( state, message );
 	}
 
-	private static class DisplayStateUpdater implements Runnable
+	private static final void updateDisplayState( int state, String message )
 	{
-		private int state;
-		private String message;
+		// Next, update all of the panels with the
+		// desired update message.
 
-		public DisplayStateUpdater( int state, String message )
+		WeakReference [] references = new WeakReference[ existingPanels.size() ];
+		existingPanels.toArray( references );
+
+		for ( int i = 0; i < references.length; ++i )
 		{
-			this.state = state;
-			this.message = message;
-		}
-
-		public void run()
-		{
-			// Next, update all of the panels with the
-			// desired update message.
-
-			WeakReference [] references = new WeakReference[ existingPanels.size() ];
-			existingPanels.toArray( references );
-
-			for ( int i = 0; i < references.length; ++i )
+			if ( references[i].get() != null )
 			{
-				if ( references[i].get() != null )
-				{
-					if ( references[i].get() instanceof KoLPanel && message != null )
-						((KoLPanel) references[i].get()).setStatusMessage( state, message );
+				if ( references[i].get() instanceof KoLPanel && message != null )
+					((KoLPanel) references[i].get()).setStatusMessage( state, message );
 
-					((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
-				}
+				((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
 			}
-
-			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-			existingFrames.toArray( frames );
-
-			for ( int i = 0; i < frames.length; ++i )
-				frames[i].updateDisplayState( state );
-
-			if ( KoLDesktop.instanceExists() )
-				KoLDesktop.getInstance().updateDisplayState( state );
-
-			isEnabled = (state == ERROR_STATE || state == ENABLE_STATE);
 		}
+
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		for ( int i = 0; i < frames.length; ++i )
+			frames[i].updateDisplayState( state );
+
+		if ( KoLDesktop.instanceExists() )
+			KoLDesktop.getInstance().updateDisplayState( state );
+
+		isEnabled = (state == ERROR_STATE || state == ENABLE_STATE);
 	}
 
 	public static void enableDisplay()
@@ -314,8 +302,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( isEnabled )
 			return;
 
-		SwingUtilities.invokeLater( new DisplayStateUpdater(
-			continuationState == ABORT_STATE || continuationState == ERROR_STATE ? ERROR_STATE : ENABLE_STATE, "" ) );
+		updateDisplayState( continuationState == ABORT_STATE || continuationState == ERROR_STATE ? ERROR_STATE : ENABLE_STATE, "" );
 	}
 
 	/**

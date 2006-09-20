@@ -1467,7 +1467,6 @@ public class KoLmafiaCLI extends KoLmafia
 			else if ( !parameters.equals( "" ) && !parameters.startsWith( "exec" ) )
 				MoodSettings.setMood( parameters );
 
-			printList( MoodSettings.getTriggers() );
 			MoodSettings.execute();
 			printLine( "Mood swing complete." );
 			return;
@@ -3940,8 +3939,6 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( message.indexOf( "<" ) != -1 && message.indexOf( "\n" ) != -1 )
 				message = StaticEntity.simpleStringReplace( message, "<", "&lt;" );
-			else if ( message.indexOf( LINE_BREAK ) != -1 )
-				colorBuffer.append( "<pre>" );
 
 			if ( state == ERROR_STATE || state == ABORT_STATE )
 				colorBuffer.append( "<font color=red>" );
@@ -3952,7 +3949,7 @@ public class KoLmafiaCLI extends KoLmafia
 			else
 				colorBuffer.append( "<font color=black>" );
 
-			colorBuffer.append( wordWrappedLine.toString().replaceAll( "\n", "<br>" ) );
+			colorBuffer.append( wordWrappedLine.toString().replaceAll( "[" + LINE_BREAK + "]+", "<br>" ) );
 			if ( message.startsWith( " > QUEUED" ) )
 				colorBuffer.append( "</b>" );
 

@@ -922,6 +922,14 @@ public abstract class MushroomPlot extends StaticEntity
 		{
 			plotScript.println( "void main()" );
 			plotScript.println( "{" );
+			plotScript.println();
+			plotScript.println( "    if ( get_property( \"lastPlantingScript\" ) == \"" + filename + "\" )" );
+			plotScript.println( "    {" );
+			plotScript.println( "        set_property( \"lastPlantingDay\", \"-1\" );" );
+			plotScript.println( "        set_property( \"lastPlantingDate\", \"\" );" );
+			plotScript.println( "        set_property( \"lastPlantingScript\", \"" + filename + "\" );" );
+			plotScript.println( "    }" );
+			plotScript.println();
 			plotScript.println( "    if ( get_property( \"lastPlantingDate\" ) == today_to_string() )" );
 			plotScript.println( "        return;" );
 			plotScript.println();
