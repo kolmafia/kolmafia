@@ -67,6 +67,22 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 		initializeMaps();
 		StaticEntity.renameDataFiles( "kcs", "prefs" );
+
+		// Delete any temporary files that were created in the process
+		// of a bad exit.
+
+		File parent = new File( "settings" );
+		if ( !parent.exists() )
+		{
+			parent.mkdirs();
+		}
+		else
+		{
+			File [] files = parent.listFiles();
+			for ( int i = 0; i < files.length; ++i )
+				if ( files[i].getPath().endsWith( ".tmp" ) )
+					files[i].delete();
+		}
 	}
 
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );
@@ -156,10 +172,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			// the appropriate Properties data.
 
 			if ( !source.exists() )
-			{
-				(new File( "settings" )).mkdirs();
 				storeSettings( source );
-			}
 
 			// Now that it is guaranteed that an XML file exists
 			// with the appropriate properties, load the file.
@@ -385,10 +398,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			// Determine the contents of the file by
 			// actually printing them.
 
-			if ( destination.exists() )
-				destination.delete();
-
-			destination.createNewFile();
+			File temporary = new File( "settings/" + System.currentTimeMillis() + ".tmp" );
+			temporary.createNewFile();
 
 			FileOutputStream ostream = new FileOutputStream( destination );
 			store( ostream, VERSION_NAME );
@@ -407,7 +418,10 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			reader.close();
 			Collections.sort( contents );
 
-			PrintStream writer = new LogStream( destination );
+			temporary.delete();
+			temporary.createNewFile();
+
+			PrintStream writer = new LogStream( temporary );
 			for ( int i = 0; i < contents.size(); ++i )
 			{
 				line = (String) contents.get(i);
@@ -416,6 +430,11 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			}
 
 			writer.close();
+
+			if ( destination.exists() )
+				destination.delete();
+
+			temporary.renameTo( destination );
 			ostream = null;
 		}
 		catch ( IOException e )
