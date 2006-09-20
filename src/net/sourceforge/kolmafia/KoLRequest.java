@@ -818,14 +818,14 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	private boolean shouldIgnoreResults()
-	{	return shouldIgnore( formURLString );
+	{	return shouldIgnore( formURLString ) || formURLString.startsWith( "messages.php" );
 	}
 
 	public static boolean shouldIgnore( String formURLString )
 	{
-		return formURLString.startsWith( "messages.php" ) || formURLString.startsWith( "mall.php" ) ||
-			formURLString.startsWith( "searchmall.php" ) || formURLString.startsWith( "clan" ) ||
-			formURLString.startsWith( "manage" ) || formURLString.startsWith( "sell" ) || formURLString.indexOf( "chat" ) != -1;
+		return formURLString.startsWith( "mall.php" ) || formURLString.startsWith( "searchmall.php" ) ||
+			formURLString.startsWith( "clan" ) || formURLString.startsWith( "manage" ) || formURLString.startsWith( "sell" ) ||
+			formURLString.indexOf( "chat" ) != -1;
 	}
 
 	/**
