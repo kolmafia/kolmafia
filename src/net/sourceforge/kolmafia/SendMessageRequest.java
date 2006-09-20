@@ -44,12 +44,12 @@ import java.util.ArrayList;
 
 public abstract class SendMessageRequest extends KoLRequest
 {
-	private boolean isSubInstance = false;
 	protected int meatAttachment;
 	protected Object [] attachments;
 	protected List source = inventory;
 	protected List destination = new ArrayList();
 	protected String whichField, quantityField;
+	protected boolean isSubInstance = false;
 
 	protected SendMessageRequest( KoLmafia client, String formSource )
 	{

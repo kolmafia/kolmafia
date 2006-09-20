@@ -97,7 +97,7 @@ public class FamiliarRequest extends KoLRequest
 			KoLmafia.updateDisplay( "Familiar data retrieved." );
 	}
 
-	public String getCommandForm( int iterations )
+	public String getCommandForm()
 	{
 		String familiarName = getFamiliarChange();
 		return familiarName == null ? "" : "familiar " + familiarName;

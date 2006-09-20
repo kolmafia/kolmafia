@@ -265,7 +265,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		}
 	}
 
-	public String getCommandForm( int iterations )
+	public String getCommandForm()
 	{
 		StringBuffer commandString = new StringBuffer();
 

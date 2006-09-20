@@ -711,7 +711,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		return index == -1 ? 0 : ((ItemCreationRequest)list.get( index )).getQuantityNeeded();
 	}
 
-	public String getCommandForm( int iterations )
+	public String getCommandForm()
 	{	return "create " + getQuantityNeeded() + " \"" + getName() + "\"";
 	}
 

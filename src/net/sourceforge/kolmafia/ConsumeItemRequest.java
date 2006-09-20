@@ -331,6 +331,7 @@ public class ConsumeItemRequest extends KoLRequest
 			{
 				lastUpdate = "You already have that familiar.";
 				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
 				return;
 			}
 
@@ -802,7 +803,7 @@ public class ConsumeItemRequest extends KoLRequest
 		return text;
 	}
 
-	public String getCommandForm( int iterations )
+	public String getCommandForm()
 	{
 		if ( isResultPage )
 			return "";

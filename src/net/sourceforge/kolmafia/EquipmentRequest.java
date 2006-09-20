@@ -827,7 +827,7 @@ public class EquipmentRequest extends PasswordHashRequest
 	}
 
 
-	public String getCommandForm( int iterations )
+	public String getCommandForm()
 	{
 		if ( !isChangeRequest() || requestType == UNEQUIP_ALL )
 			return "";

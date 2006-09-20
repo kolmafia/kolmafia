@@ -383,6 +383,11 @@ public class AdventureRequest extends KoLRequest
 			KoLmafia.updateDisplay( ERROR_STATE, "You must wear a costume." );
 			return;
 		}
+
+		// Mark the location as visited inside of
+		// the adventure requesting module.
+
+		registerEncounter( this );
 	}
 
 	public static String registerEncounter( KoLRequest request )
