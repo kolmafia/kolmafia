@@ -1005,7 +1005,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			String dataString = getDataString( true );
 
 			if ( passwordHash != null && !isChatRequest )
-				KoLmafia.getDebugStream().println( dataString.replaceAll( passwordHash, "" ) );
+				KoLmafia.getDebugStream().println( "Submitting data string: " + getDataString( false ) );
 
 			formConnection.setRequestMethod( "POST" );
 			BufferedWriter ostream = new BufferedWriter( new OutputStreamWriter( formConnection.getOutputStream() ) );
