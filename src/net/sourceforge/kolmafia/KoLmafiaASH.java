@@ -3009,11 +3009,20 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE, INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "index_of", INT_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "last_index_of", INT_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE, INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "last_index_of", INT_TYPE, params ) );
+
 		params = new ScriptType[] { STRING_TYPE, INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "substring", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE, INT_TYPE, INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "substring", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "replace_string", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
@@ -4554,6 +4563,21 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptValue( string.indexOf( substring, begin ) );
 		}
 
+		public ScriptValue last_index_of( ScriptVariable source, ScriptVariable search )
+		{
+			String string = source.toStringValue().toString();
+			String substring = search.toStringValue().toString();
+			return new ScriptValue( string.lastIndexOf( substring ) );
+		}
+
+		public ScriptValue last_index_of( ScriptVariable source, ScriptVariable search, ScriptVariable start )
+		{
+			String string = source.toStringValue().toString();
+			String substring = search.toStringValue().toString();
+			int begin = start.intValue();
+			return new ScriptValue( string.lastIndexOf( substring, begin ) );
+		}
+
 		public ScriptValue substring( ScriptVariable source, ScriptVariable start )
 		{
 			String string = source.toStringValue().toString();
@@ -4567,6 +4591,12 @@ public class KoLmafiaASH extends StaticEntity
 			int begin = start.intValue();
 			int end = finish.intValue();
 			return new ScriptValue( string.substring( begin, end ) );
+		}
+
+		public ScriptValue replace_string( ScriptVariable string, ScriptVariable search, ScriptVariable replace )
+		{
+			return parseStringValue( StaticEntity.simpleStringReplace( string.toStringValue().toString(),
+				search.toStringValue().toString(), replace.toStringValue().toString() ) );
 		}
 
 		public ScriptValue split_string( ScriptVariable string, ScriptVariable regex )
