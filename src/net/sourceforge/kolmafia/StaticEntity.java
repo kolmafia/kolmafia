@@ -51,7 +51,7 @@ public abstract class StaticEntity implements KoLConstants
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
 	private static final Pattern NEWSKILL_PATTERN = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" );
 
-	private static KoLSettings settings = null;
+	private static KoLSettings settings = KoLSettings.GLOBAL_SETTINGS;
 	private static final String [] EMPTY_STRING_ARRAY = new String[0];
 
 	private static KoLmafia client;
@@ -120,28 +120,17 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static final void setProperty( String name, String value )
-	{
-		if ( settings == null )
-			return;
-
-		settings.setProperty( name, value );
+	{	settings.setProperty( name, value );
 	}
 
 	public static final void removeProperty( String name )
 	{
-		if ( settings == null )
-			return;
-
 		settings.remove( name );
 		settings.saveSettings();
 	}
 
 	public static final String getProperty( String name )
-	{
-		if ( settings == null )
-			return "";
-
-		return settings.getProperty( name );
+	{	return settings.getProperty( name );
 	}
 
 	public static final boolean getBooleanProperty( String name )

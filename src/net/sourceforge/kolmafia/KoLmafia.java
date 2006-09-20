@@ -85,7 +85,6 @@ public abstract class KoLmafia implements KoLConstants
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
 
-		KoLSettings.reset();
 		CombatSettings.reset();
 		MoodSettings.reset();
 	}
@@ -261,33 +260,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 
 		continuationState = state;
-		debugStream.println( message );
-		outputStream.println( message );
-		mirrorStream.println( message );
-
-		StringBuffer colorBuffer = new StringBuffer();
-
-		if ( message.indexOf( "<" ) != -1 && message.indexOf( "\n" ) != -1 )
-			message = message.replaceAll( "<", "&lt;" );
-		else if ( message.indexOf( LINE_BREAK ) != -1 )
-			colorBuffer.append( "<pre>" );
-
-		if ( state == ERROR_STATE || state == ABORT_STATE )
-			colorBuffer.append( "<font color=red>" );
-		else
-			colorBuffer.append( "<font color=black>" );
-
-		colorBuffer.append( message );
-		colorBuffer.append( "</font>" );
-
-		if ( message.indexOf( "<" ) == -1 && message.indexOf( LINE_BREAK ) != -1 )
-			colorBuffer.append( "</pre>" );
-
-		colorBuffer.append( LINE_BREAK );
-		colorBuffer.append( "<br>" );
-
-		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
-		commandBuffer.append( colorBuffer.toString() );
+		KoLmafiaCLI.printLine( state, message );
 
 		if ( !existingFrames.isEmpty() && message.indexOf( LINE_BREAK ) == -1 )
 			SwingUtilities.invokeLater( new DisplayStateUpdater( state != ERROR_STATE ? CONTINUE_STATE : ERROR_STATE, message ) );

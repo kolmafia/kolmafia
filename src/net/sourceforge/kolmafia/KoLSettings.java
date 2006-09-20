@@ -57,17 +57,19 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class KoLSettings extends Properties implements UtilityConstants, KoLConstants
 {
+	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
+	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
+
 	static
 	{
 		// Renaming data files to make then easier to find for most
 		// people (so they aren't afraid to open them).
 
+		initializeMaps();
 		StaticEntity.renameDataFiles( "kcs", "prefs" );
 	}
 
-	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
-	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
-	private static KoLSettings GLOBAL_SETTINGS = null;
+	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );
 
 	private File settingsFile;
 	private String noExtensionName;
@@ -89,16 +91,9 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		ensureDefaults();
 	}
 
-	public static void reset()
-	{
-		initializeMaps();
-		GLOBAL_SETTINGS = new KoLSettings( "" );
-		GLOBAL_SETTINGS.ensureDefaults();
-	}
-
 	public static boolean isGlobalProperty( String name )
 	{
-		return CLIENT_SETTINGS.containsKey( name ) || GLOBAL_SETTINGS == null ||
+		return CLIENT_SETTINGS.containsKey( name ) ||
 			name.startsWith( "saveState" ) || name.startsWith( "loginScript" ) || name.startsWith( "getBreakfast" );
 	}
 
@@ -162,14 +157,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 			if ( !source.exists() )
 			{
-				source.getParentFile().mkdirs();
-				source.createNewFile();
-
-				// Then, store the results into the designated
-				// file by calling the appropriate subroutine.
-
-				if ( source != settingsFile )
-					storeSettings( source );
+				(new File( "settings" )).mkdirs();
+				storeSettings( source );
 			}
 
 			// Now that it is guaranteed that an XML file exists
@@ -395,6 +384,11 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		{
 			// Determine the contents of the file by
 			// actually printing them.
+
+			if ( destination.exists() )
+				destination.delete();
+
+			destination.createNewFile();
 
 			FileOutputStream ostream = new FileOutputStream( destination );
 			store( ostream, VERSION_NAME );

@@ -80,6 +80,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private BufferedReader commandStream;
 
 	private KoLmafiaCLI lastScript;
+	private static String previousUpdateString = "";
 
 	private static boolean isExecutingCheckOnlyCommand = false;
 	private static KoLmafiaASH advancedHandler = new KoLmafiaASH();
@@ -3879,16 +3880,25 @@ public class KoLmafiaCLI extends KoLmafia
 		return false;
 	}
 
+	private static final int MAXIMUM_LINE_LENGTH = 96;
+
 	public static void printBlankLine()
-	{	printLine( " " );
+	{	printLine( CONTINUE_STATE, " " );
 	}
 
-	private static final int MAXIMUM_LINE_LENGTH = 72;
+	public static void printLine( String message )
+	{	printLine( CONTINUE_STATE, message );
+	}
 
-	public static void printLine( String line )
+	public static void printLine( int state, String message )
 	{
+		if ( message.length() == 0 || (message.trim().length() == 0 && previousUpdateString.length() == 0) )
+			return;
+
+		previousUpdateString = message.trim();
+
 		StringBuffer wordWrappedLine = new StringBuffer();
-		StringTokenizer lineTokens = new StringTokenizer( line, LINE_BREAK, true );
+		StringTokenizer lineTokens = new StringTokenizer( message, LINE_BREAK, true );
 
 		while ( lineTokens.hasMoreTokens() )
 		{
@@ -3922,19 +3932,37 @@ public class KoLmafiaCLI extends KoLmafia
 
 		StringBuffer colorBuffer = new StringBuffer();
 
-		if ( line.trim().equals( "" ) )
+		if ( message.trim().equals( "" ) )
 		{
 			colorBuffer.append( "<br>" );
 		}
 		else
 		{
-			colorBuffer.append( "<font color=black>" );
+			if ( message.indexOf( "<" ) != -1 && message.indexOf( "\n" ) != -1 )
+				message = StaticEntity.simpleStringReplace( message, "<", "&lt;" );
+			else if ( message.indexOf( LINE_BREAK ) != -1 )
+				colorBuffer.append( "<pre>" );
+
+			if ( state == ERROR_STATE || state == ABORT_STATE )
+				colorBuffer.append( "<font color=red>" );
+			else if ( message.startsWith( " > QUEUED" ) )
+				colorBuffer.append( "<font color=olive><b>" );
+			else if ( message.startsWith( " > " ) )
+				colorBuffer.append( "<font color=olive>" );
+			else
+				colorBuffer.append( "<font color=black>" );
+
 			colorBuffer.append( wordWrappedLine.toString().replaceAll( "\n", "<br>" ) );
+			if ( message.startsWith( " > QUEUED" ) )
+				colorBuffer.append( "</b>" );
+
 			colorBuffer.append( "</font><br>" );
+
+			if ( message.indexOf( "<" ) == -1 && message.indexOf( LINE_BREAK ) != -1 )
+				colorBuffer.append( "</pre>" );
 		}
 
 		colorBuffer.append( LINE_BREAK );
-
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 		commandBuffer.append( colorBuffer.toString() );
 	}

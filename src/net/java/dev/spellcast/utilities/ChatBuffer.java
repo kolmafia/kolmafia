@@ -234,13 +234,6 @@ public class ChatBuffer
 		fireBufferChanged( CONTENT_CHANGE, message );
 	}
 
-	private void normalizeBuffer()
-	{
-		Matcher tripleMatcher = TRIPLE_LINE_PATTERN.matcher( displayBuffer.toString() );
-		if ( tripleMatcher.find() )
-			displayBuffer = new StringBuffer( tripleMatcher.replaceAll( "<br><br>" ) );
-	}
-
 	/**
 	 * An internal function used to indicate that something has changed with
 	 * regards to the <code>ChatBuffer</code>.  This includes any addition
@@ -252,18 +245,14 @@ public class ChatBuffer
 	{
 		if ( changeType != LOGFILE_CHANGE )
 		{
-			if ( newContents != null )
-			{
-				displayBuffer.append( newContents );
-				normalizeBuffer();
-			}
+			updater.scrollToTop = displayBuffer.length() == 0;
+			updater.scrollToTop |= newContents == null;
 
-			if ( displayPane != null && !updater.setToRun )
-			{
-				updater.setToRun = true;
-				updater.scrollToTop = newContents == null;
+			if ( newContents != null )
+				displayBuffer.append( newContents );
+
+			if ( displayPane != null )
 				SwingUtilities.invokeLater( updater );
-			}
 		}
 
 		if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
