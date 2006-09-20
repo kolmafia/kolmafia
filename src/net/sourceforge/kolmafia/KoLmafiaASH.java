@@ -6920,14 +6920,14 @@ public class KoLmafiaASH extends StaticEntity
 
 			ScriptValue it = (ScriptValue) o;
 
-			if ( contentString != null )
-				return contentString.compareTo( it.contentString );
-
 			if ( type == BOOLEAN_TYPE || type == INT_TYPE )
 				return contentInt < it.contentInt ? -1 : contentInt == it.contentInt ? 0 : 1;
 
 			if ( type == FLOAT_TYPE )
 				return contentFloat < it.contentFloat ? -1 : contentFloat == it.contentFloat ? 0 : 1;
+
+			if ( contentString != null )
+				return contentString.compareTo( it.contentString );
 
 			return -1;
 		}
