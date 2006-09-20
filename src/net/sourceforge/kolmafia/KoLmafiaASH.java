@@ -58,6 +58,8 @@ import java.util.Vector;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -126,6 +128,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptType ELEMENT_TYPE = new ScriptType( "element", TYPE_ELEMENT );
 
 	private static final ScriptType AGGREGATE_TYPE = new ScriptType( "aggregate", TYPE_AGGREGATE );
+	private static final ScriptAggregateType REGEX_GROUP_TYPE = new ScriptAggregateType( new ScriptAggregateType( STRING_TYPE, INT_TYPE ), INT_TYPE );
 
 	// Common values
 
@@ -3012,6 +3015,12 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE, INT_TYPE, INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "substring", STRING_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
+
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "group_string", REGEX_GROUP_TYPE, params ) );
+
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "bounty_hunter_wants", BOOLEAN_TYPE, params ) );
 
@@ -4558,6 +4567,62 @@ public class KoLmafiaASH extends StaticEntity
 			int begin = start.intValue();
 			int end = finish.intValue();
 			return new ScriptValue( string.substring( begin, end ) );
+		}
+
+		public ScriptValue split_string( ScriptVariable string, ScriptVariable regex )
+		{
+			String [] pieces = string.toStringValue().toString().split( regex.toStringValue().toString() );
+
+			ScriptAggregateType type = new ScriptAggregateType( STRING_TYPE, pieces.length );
+			ScriptArray value = new ScriptArray( type );
+
+			for ( int i = 0; i < pieces.length; ++i )
+				value.aset( new ScriptValue( i ), parseStringValue( pieces[i] ) );
+
+			return value;
+		}
+
+		public ScriptValue group_string( ScriptVariable string, ScriptVariable regex )
+		{
+			Matcher userPatternMatcher = Pattern.compile( regex.toStringValue().toString() ).matcher( string.toStringValue().toString() );
+			ScriptMap value = new ScriptMap( REGEX_GROUP_TYPE );
+
+			int matchCount = 0;
+			int groupCount = userPatternMatcher.groupCount();
+
+			ScriptValue [] groupIndexes = new ScriptValue[ groupCount + 1 ];
+			for ( int i = 0; i <= groupCount; ++i )
+				groupIndexes[i] = new ScriptValue( i );
+
+			String [] keyParts = new String[3];
+
+			ScriptValue matchIndex;
+			ScriptCompositeValue slice;
+
+			try
+			{
+				while ( userPatternMatcher.find() )
+				{
+					matchIndex = new ScriptValue( matchCount );
+					slice = (ScriptCompositeValue) value.initialValue( matchIndex );
+
+					value.aset( matchIndex, slice );
+					for ( int i = 0; i <= groupCount; ++i )
+						slice.aset( groupIndexes[i], parseStringValue( userPatternMatcher.group(i) ) );
+
+					++matchCount;
+				}
+			}
+			catch ( Exception e )
+			{
+				// Because we're doing everything ourselves, this
+				// error shouldn't get generated.  Print a stack
+				// trace, just in case.
+
+				StaticEntity.printStackTrace( e );
+			}
+
+			return value;
 		}
 
 		public ScriptValue cli_execute( ScriptVariable string )
@@ -6241,7 +6306,7 @@ public class KoLmafiaASH extends StaticEntity
 			this.rhs = rhs;
 
 			if ( !validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
-				throw new AdvancedScriptException( "Cannot store " + rhs.getType() + " in " + lhs + " " + getLineAndFile() );
+				throw new AdvancedScriptException( "Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType() + " " + getLineAndFile() );
 		}
 
 		public ScriptVariableReference getLeftHandSide()
@@ -6494,7 +6559,6 @@ public class KoLmafiaASH extends StaticEntity
 		public boolean equals( ScriptType o )
 		{
 			return ( o instanceof ScriptAggregateType &&
-				 size == ((ScriptAggregateType)o).size &&
 				 dataType.equals( ((ScriptAggregateType)o).dataType ) &&
 				 indexType.equals( ((ScriptAggregateType)o).indexType ) );
 		}
