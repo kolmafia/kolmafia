@@ -71,6 +71,9 @@ package net.java.dev.spellcast.utilities;
 import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
+import javax.swing.text.Element;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.html.HTMLDocument;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -249,10 +252,43 @@ public class ChatBuffer
 			if ( newContents != null )
 				displayBuffer.append( newContents );
 
+			boolean shouldReset = displayBuffer.length() == 0 || newContents == null;
+
 			if ( displayPane != null )
 			{
-				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
-				displayPane.setCaretPosition( shouldScroll ? displayPane.getDocument().getLength() - 1 : 0 );
+				HTMLDocument currentHTML = null;
+				if ( shouldReset )
+				{
+					displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body></body></html>" );
+					currentHTML = (HTMLDocument) displayPane.getDocument();
+				}
+				else if ( newContents != null )
+				{
+					// This is really the only way to ensure that the
+					// screen does not flicker in later versions of Java.
+
+					currentHTML = (HTMLDocument) displayPane.getDocument();
+					Element parentElement = currentHTML.getDefaultRootElement();
+
+					while ( !parentElement.isLeaf() )
+						parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
+
+					try
+					{
+						currentHTML.insertAfterEnd( parentElement, newContents.trim() );
+					}
+					catch ( Exception e )
+					{
+						// If there's an exception, continue onward so that you
+						// still have an updated display.  But, print the stack
+						// trace so you know what's going on.
+
+						e.printStackTrace();
+					}
+				}
+
+				if ( currentHTML != null )
+					displayPane.setCaretPosition( shouldScroll ? currentHTML.getLength() - 1 : 0 );
 			}
 
 			if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
@@ -279,6 +315,15 @@ public class ChatBuffer
 		{
 			activeLogWriter.print( chatContent );
 			activeLogWriter.flush();
+		}
+	}
+
+	private class DisplayPaneUpdater implements Runnable
+	{
+		private boolean shouldScroll;
+
+		public void run()
+		{
 		}
 	}
 }
