@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -53,10 +54,12 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public abstract class MenuItemList extends JMenu implements ListDataListener
 {
 	private int headerCount;
+	private ArrayList dataValues;
 
 	public MenuItemList( String title, LockableListModel model )
 	{
 		super( title );
+		dataValues = new ArrayList();
 
 		// Add the headers to the list of items which
 		// need to be added.
@@ -77,7 +80,10 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 		// the current list.
 
 		for ( int i = 0; i < model.size(); ++i )
+		{
+			dataValues.add( model.get(i) );
 			this.add( constructMenuItem( model.get(i) ) );
+		}
 
 		// Add this as a listener to the list so that the menu gets
 		// updated whenever the list updates.
@@ -104,7 +110,14 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 			return;
 
 		for ( int i = index0; i <= index1; ++i )
-			add( constructMenuItem( source.get(i) ), i + headerCount );
+		{
+			Object item = source.get(i);
+			if ( !dataValues.contains( item ) )
+			{
+				dataValues.add( i, item );
+				add( constructMenuItem( item ), i + headerCount );
+			}
+		}
 
 		validate();
 	}
@@ -125,7 +138,15 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 			return;
 
 		for ( int i = index1; i >= index0; --i )
-			remove( i + headerCount );
+		{
+			Object item = source.get(i);
+			int itemIndex = dataValues.indexOf( item );
+			if ( itemIndex != -1 )
+			{
+				dataValues.remove( itemIndex );
+				remove( itemIndex + headerCount );
+			}
+		}
 
 		validate();
 	}
@@ -139,18 +160,5 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 
 	public void contentsChanged( ListDataEvent e )
 	{
-		LockableListModel source = (LockableListModel) e.getSource();
-		int index0 = e.getIndex0();  int index1 = e.getIndex1();
-
-		if ( index1 + headerCount >= getMenuComponentCount() )
-			return;
-
-		for ( int i = index1; i >= index0; --i )
-		{
-			remove( i + headerCount );
-			add( constructMenuItem( source.get(i) ), i + headerCount );
-		}
-
-		validate();
 	}
 }

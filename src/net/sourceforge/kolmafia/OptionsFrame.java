@@ -271,7 +271,6 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "showWindowMenu", "Add a menu listing all open windows" },
 			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
 
