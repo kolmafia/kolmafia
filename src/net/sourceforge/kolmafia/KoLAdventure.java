@@ -792,18 +792,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	public int compareTo( KoLAdventure ka )
 	{
 		// Put things with no evade rating at bottom of list.
-		int evade1 = Integer.MAX_VALUE;
-		int evade2 = Integer.MAX_VALUE;
-		
-		if ( areaSummary == null )
-			System.out.println( "No area summary for " + adventureName );
-		else
-			evade1 = areaSummary.minEvade();
-		
-		if ( ka.areaSummary == null )
-			System.out.println( "No area summary for " + ka.adventureName );
-		else
-			evade2 = ka.areaSummary.minEvade();
+		int evade1 = areaSummary == null ? Integer.MAX_VALUE : areaSummary.minEvade();
+		int evade2 = ka.areaSummary == null ? Integer.MAX_VALUE : ka.areaSummary.minEvade();
 
 		if ( evade1 == evade2 )
 			return adventureName.compareTo( ka.adventureName );
