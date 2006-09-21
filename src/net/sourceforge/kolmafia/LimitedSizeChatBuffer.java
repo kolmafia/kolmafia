@@ -149,9 +149,9 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		{
 			int lineIndex = displayBuffer.lastIndexOf( "<br>", RESIZE_SIZE );
 			if ( lineIndex == -1 )
-				lineIndex = displayBuffer.lastIndexOf( ">" ) + 1;
+				lineIndex = displayBuffer.lastIndexOf( ">", RESIZE_SIZE ) + 1;
 			if ( lineIndex == -1 )
-				lineIndex = displayBuffer.lastIndexOf( " " );
+				lineIndex = displayBuffer.lastIndexOf( " ", RESIZE_SIZE );
 			if ( lineIndex == -1 )
 				lineIndex = MAXIMUM_SIZE - RESIZE_SIZE;
 
