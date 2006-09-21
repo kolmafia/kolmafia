@@ -47,6 +47,7 @@ import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 
 import java.io.File;
+import java.util.Date;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,11 +55,16 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MushroomFrame extends KoLFrame
 {
+	private String currentLayout = "";
 	public static final int MAX_FORECAST = 11;
+
+	private static final Color TODAY_COLOR = new Color( 192, 255, 192 );
+	private static final Color OTHER_COLOR = new Color( 240, 240, 240 );
 
 	private final JLabel [] headers;
 	private final String [][] planningData;
 	private final String [][] originalData;
+	private final InvocationButton doLayoutButton = new InvocationButton( "Run Layout", this, "runLayout" );
 
 	private final MushroomButton [][][] planningButtons;
 
@@ -101,10 +107,11 @@ public class MushroomFrame extends KoLFrame
 		// viewing purposes.  To be replaced with real functionality
 		// at a later date.
 
-		JPanel buttonPanel = new JPanel( new GridLayout( 2, 1, 12, 12 ) );
+		JPanel buttonPanel = new JPanel( new GridLayout( 3, 1, 12, 12 ) );
 
 		// Now add the various action buttons.
 
+		buttonPanel.add( doLayoutButton );
 		buttonPanel.add( new InvocationButton( "Load Layout", this, "loadLayout" ) );
 		buttonPanel.add( new InvocationButton( "Save Layout", this, "saveLayout" ) );
 		centerPanel.add( buttonPanel );
@@ -114,6 +121,54 @@ public class MushroomFrame extends KoLFrame
 
 		updateForecasts( 1 );
 		setResizable( false );
+
+		currentLayout = StaticEntity.getProperty( "plantingScript" );
+		initializeLayout();
+	}
+
+	public void initializeLayout()
+	{
+		if ( currentLayout.equals( "" ) )
+		{
+			StaticEntity.setProperty( "plantingDay", "-1" );
+			StaticEntity.setProperty( "plantingDate", "" );
+			StaticEntity.setProperty( "plantingLength", "0" );
+		}
+		else
+		{
+			MushroomPlot.loadLayout( currentLayout, originalData, planningData );
+			updateImages();
+		}
+
+		int plantingLength = StaticEntity.getIntegerProperty( "plantingLength" );
+		int indexToHighlight = StaticEntity.getIntegerProperty( "plantingDay" );
+
+		String today = DATED_FILENAME_FORMAT.format( new Date() );
+
+		if ( StaticEntity.getProperty( "plantingDate" ).equals( today ) )
+		{
+			doLayoutButton.setEnabled( false );
+		}
+		else
+		{
+			doLayoutButton.setEnabled( true );
+			++indexToHighlight;
+		}
+
+		for ( int i = 0; i < headers.length; ++i )
+			headers[i].setBackground( i == indexToHighlight ? TODAY_COLOR : OTHER_COLOR );
+	}
+
+	public void runLayout()
+	{
+		if ( currentLayout.equals( "" ) )
+			saveLayout();
+
+		if ( !currentLayout.equals( "" ) )
+		{
+			DEFAULT_SHELL.executeLine( "call " + MushroomPlot.PLOT_DIRECTORY.getPath() + "/" + currentLayout + ".ash" );
+			doLayoutButton.setEnabled( false );
+		}
 	}
 
 	public void loadLayout()
@@ -138,14 +193,21 @@ public class MushroomFrame extends KoLFrame
 		if ( names.isEmpty() )
 			return;
 
-		String location = (String) JOptionPane.showInputDialog( null,
-			"Which mushroom plot?", "", JOptionPane.OK_OPTION, null, names.toArray(), null );
+		loadLayout( (String) JOptionPane.showInputDialog( null,
+			"Which mushroom plot?", "", JOptionPane.OK_OPTION, null, names.toArray(), null ) );
+	}
 
-		if ( location == null )
+	public void loadLayout( String layout )
+	{
+		if ( layout == null || layout.equals( "" ) || currentLayout.equals( layout ) )
 			return;
 
-		MushroomPlot.loadLayout( location, originalData, planningData );
-		updateImages();
+		StaticEntity.setProperty( "plantingDay", "-1" );
+		StaticEntity.setProperty( "plantingDate", "" );
+		StaticEntity.setProperty( "plantingScript", currentLayout );
+
+		currentLayout = layout;
+		initializeLayout();
 	}
 
 	public void saveLayout()
@@ -154,6 +216,7 @@ public class MushroomFrame extends KoLFrame
 		if ( location == null )
 			return;
 
+		currentLayout = location;
 		MushroomPlot.saveLayout( location, originalData, planningData );
 	}
 
@@ -191,6 +254,7 @@ public class MushroomFrame extends KoLFrame
 		panel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
 
 		headers[dayIndex] = new JLabel( "Day " + (dayIndex + 1), JLabel.CENTER );
+		headers[dayIndex].setOpaque( true );
 
 		panel.add( headers[dayIndex], BorderLayout.NORTH );
 		panel.add( c, BorderLayout.CENTER );
