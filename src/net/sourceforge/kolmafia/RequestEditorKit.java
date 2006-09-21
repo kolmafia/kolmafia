@@ -727,7 +727,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// This is to replace all the rows with a black background
 		// because they are not properly rendered.
 
-		displayHTML = displayHTML.replaceAll( "<tr><td([^>]*?) bgcolor=black([^>]*?)>((</td>)?)</tr>", "<tr><td$1$2></td></tr>" );
+		displayHTML = displayHTML.replaceAll( "<td valign=center><table[^>]*?><tr><td([^>]*?) bgcolor=black([^>]*?)>.*?</table></td>", "" );
+		displayHTML = displayHTML.replaceAll( "<tr[^>]*?><td[^>]*bgcolor=\'?\"?black(.*?)</tr>", "" );
+		displayHTML = displayHTML.replaceAll( "<table[^>]*title=.*?</table>", "" );
 
 		// The default browser doesn't understand the table directive
 		// style="border: 1px solid black"; turn it into a simple "border=1"
