@@ -55,8 +55,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class KoLCharacter extends StaticEntity
 {
-	private static final Pattern STILLS_PATTERN = Pattern.compile( "lack readout with (\\d+) bright green light" );
-
 	private static List SEAL_CLUBBER = new ArrayList();
 	static
 	{
@@ -1869,7 +1867,7 @@ public abstract class KoLCharacter extends StaticEntity
 		KoLCharacter.battleSkillIDs.add( "attack" );
 		KoLCharacter.battleSkillNames.add( "Normal: Attack with Weapon" );
 
-		if ( KoLCharacter.getClassType().startsWith( "Di" ) || KoLCharacter.getClassType().startsWith( "Ac" ) )
+		if ( KoLCharacter.isMoxieClass() )
 			addAvailableSkill( new UseSkillRequest( getClient(), "Moxious Maneuver", "", 1 ) );
 
 		// If the player has a dictionary, add it
@@ -2237,32 +2235,17 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static int getStillsAvailable()
 	{
+		if ( !hasSkill( "Superhuman Cocktailcrafting" ) || !isMoxieClass() )
+			return 0;
+
 		if ( stillsAvailable == -1 )
-		{
-			boolean canStill = hasSkill( "Superhuman Cocktailcrafting" ) && isMoxieClass();
-			if ( !canStill )
-			{
-				stillsAvailable = 0;
-				return 0;
-			}
-
-			KoLRequest request = new KoLRequest( getClient(), "guild.php?place=still" );
-			request.run();
-
-			setStillsAvailable( request.responseText );
-		}
+			stillsAvailable = 10;
 
 		return stillsAvailable;
 	}
 
-	public static void setStillsAvailable( String responseText )
-	{
-		Matcher stillMatcher = STILLS_PATTERN.matcher( responseText );
-
-		if ( stillMatcher.find() )
-			stillsAvailable = parseInt( stillMatcher.group(1) );
-		else
-			stillsAvailable = 0;
+	public static void reduceStillCount( int reductionAmount )
+	{	stillsAvailable -= reductionAmount;
 	}
 
 	public static boolean canUseWok()

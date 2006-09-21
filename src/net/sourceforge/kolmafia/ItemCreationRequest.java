@@ -419,9 +419,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	protected void processResults()
 	{
-		if ( mixingMethod == STILL_BOOZE || mixingMethod == STILL_MIXER )
-			KoLCharacter.setStillsAvailable( responseText );
-
 		// Check to make sure that the item creation did not fail.
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
@@ -440,6 +437,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		AdventureResult createdItem = new AdventureResult( itemID, 0 );
 		int createdQuantity = createdItem.getCount( inventory ) - beforeQuantity;
+
+		KoLCharacter.reduceStillCount( createdQuantity );
 
 		if ( createdQuantity > 0 )
 		{
