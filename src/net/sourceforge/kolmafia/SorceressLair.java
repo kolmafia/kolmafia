@@ -1435,9 +1435,9 @@ public abstract class SorceressLair extends StaticEntity
 		// damage, which may happen).
 
 		int shadowHealth = 96 + KoLCharacter.getMonsterLevelAdjustment();
-		int maximumDamage = 22 + (int) Math.floor( KoLCharacter.getMaximumHP() / 5 ) + 6;
+		int maximumDamage = 22 + (int) Math.floor( KoLCharacter.getMaximumHP() / 5 ) + 3;
 
-		int combatRounds = (int) Math.ceil( shadowHealth / 25 );
+		int combatRounds = (int) Math.ceil( shadowHealth / 25 ) + 1;
 		AdventureResult option = new AdventureResult( "red pixel potion", combatRounds );
 		int neededHealth = (maximumDamage * combatRounds) - (25 * (combatRounds - 1));
 
@@ -1446,7 +1446,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( neededHealth > KoLCharacter.getMaximumHP() )
 		{
-			combatRounds = (int) Math.ceil( shadowHealth / 35 );
+			combatRounds = (int) Math.ceil( shadowHealth / 35 ) + 1;
 			option = new AdventureResult( "red plastic oyster egg", combatRounds );
 			neededHealth = (maximumDamage * combatRounds) - (35 * (combatRounds - 1));
 		}
@@ -1460,7 +1460,7 @@ public abstract class SorceressLair extends StaticEntity
 			// First, we find out if restorative balm is an option for
 			// the shadow fight.
 
-			combatRounds = (int) Math.ceil( shadowHealth / 26 );
+			combatRounds = (int) Math.ceil( shadowHealth / 26 ) + 1;
 			option = new AdventureResult( "Doc Galaktik's Restorative Balm", 2 * combatRounds );
 			neededHealth = (maximumDamage * combatRounds) - (26 * (combatRounds - 1));
 
@@ -1469,7 +1469,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( neededHealth > KoLCharacter.getMaximumHP() )
 			{
-				combatRounds = (int) Math.ceil( shadowHealth / 36 );
+				combatRounds = (int) Math.ceil( shadowHealth / 36 ) + 1;
 				option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 2 * combatRounds );
 				neededHealth = (maximumDamage * combatRounds) - (36 * (combatRounds - 1));
 			}
@@ -1479,7 +1479,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( neededHealth > KoLCharacter.getMaximumHP() )
 			{
-				combatRounds = (int) Math.ceil( shadowHealth / 50 );
+				combatRounds = (int) Math.ceil( shadowHealth / 50 ) + 1;
 				option = new AdventureResult( "red pixel potion", 2 * combatRounds );
 				neededHealth = (maximumDamage * combatRounds) - (50 * (combatRounds - 1));
 			}
@@ -1489,7 +1489,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( neededHealth > KoLCharacter.getMaximumHP() )
 			{
-				combatRounds = (int) Math.ceil( shadowHealth / 70 );
+				combatRounds = (int) Math.ceil( shadowHealth / 70 ) + 1;
 				option = new AdventureResult( "red plastic oyster egg", combatRounds );
 				neededHealth = (maximumDamage * combatRounds) - (70 * (combatRounds - 1));
 			}
