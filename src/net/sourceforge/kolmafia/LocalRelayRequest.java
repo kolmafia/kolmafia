@@ -65,6 +65,7 @@ public class LocalRelayRequest extends KoLRequest
 
 	protected List headers = new ArrayList();
 	protected byte [] rawByteBuffer = null;
+	protected String contentType = null;
 
 	public LocalRelayRequest( KoLmafia client, String formURLString )
 	{	super( client, formURLString );
@@ -358,24 +359,24 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			headers.add( "Content-Length: " + (this.rawByteBuffer == null ? this.fullResponse.length() : this.rawByteBuffer.length) );
 
-			String contentType = null;
+			this.contentType = null;
 
 			if ( formURLString.endsWith( ".css" ) )
-				contentType = "text/css; charset=UTF-8";
+				this.contentType = "text/css; charset=UTF-8";
 			else if ( formURLString.endsWith( ".js" ) )
-				contentType = "text/javascript; charset=UTF-8";
+				this.contentType = "text/javascript; charset=UTF-8";
 			else if ( formURLString.endsWith( ".php" ) || formURLString.endsWith( ".htm" ) || formURLString.endsWith( ".html" ) )
-				contentType = "text/html; charset=UTF-8";
+				this.contentType = "text/html; charset=UTF-8";
 			else if ( formURLString.endsWith( ".txt" ) )
-				contentType = "text/plain; charset=UTF-8";
+				this.contentType = "text/plain; charset=UTF-8";
 			else if ( formURLString.endsWith( ".gif" ) )
-				contentType = "image/gif";
+				this.contentType = "image/gif";
 			else if ( formURLString.endsWith( ".png" ) )
-				contentType = "image/png";
+				this.contentType = "image/png";
 			else if ( formURLString.endsWith( ".jpg" ) || formURLString.endsWith( ".jpeg" ) )
-				contentType = "image/jpeg";
+				this.contentType = "image/jpeg";
 			else if ( formURLString.endsWith( ".ico" ) )
-				contentType = "image/x-icon";
+				this.contentType = "image/x-icon";
 
 			if ( contentType != null )
 				headers.add( "Content-Type: " + contentType );

@@ -235,45 +235,28 @@ public class LocalRelayServer implements Runnable
 
 		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request ) throws IOException
 		{
-			String header = null;
-			boolean hasPragmaHeader = request.rawByteBuffer != null;
-			boolean hasCacheHeader = request.rawByteBuffer != null;
-			boolean hasConnectionHeader = false;
-
-			for ( int i = 0; null != ( header = request.getHeader( i ) ); ++i )
+			for ( int i = 0; (header = request.getHeader( i )) != null; ++i )
 			{
 				if ( header.startsWith( "Cache-Control" ) )
-				{
-					header = hasCacheHeader ? "" : "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0";
-					hasCacheHeader = true;
-				}
+					continue;
 
-				if ( header.startsWith( "Pragma:" ) )
-				{
-					if ( request.rawByteBuffer != null )
-						header = hasPragmaHeader ? "" : "Pragma: no-cache";
+				if ( header.startsWith( "Pragma" ) )
+					continue;
 
-					hasPragmaHeader = true;
-				}
-
-				if ( header.startsWith( "Connection:" ) )
-				{
-					header = "Connection: close";
-					hasConnectionHeader = true;
-				}
+				if ( header.startsWith( "Connection" ) )
+					continue;
 
 				if ( !header.equals( "" ) )
 					printStream.println( header );
 			}
 
-			if ( !hasCacheHeader )
-				printStream.println( "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0" );
-
-			if ( !hasPragmaHeader )
+			if ( request.contentType != null && request.contentType.equals( "text/html" ) )
+			{
+				printStream.println( "Cache-Control: no-cache, must-revalidate" );
 				printStream.println( "Pragma: no-cache" );
+			}
 
-			if ( !hasConnectionHeader )
-				printStream.println( "Connection: close" );
+			printStream.println( "Connection: close" );
 		}
 
 		protected void performRelay()
