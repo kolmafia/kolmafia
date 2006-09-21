@@ -219,6 +219,12 @@ public class LocalRelayRequest extends KoLRequest
 			int onLoadIndex = responseBuffer.indexOf( "onLoad='" );
 			if ( onLoadIndex != -1 )
 				responseBuffer.insert( onLoadIndex + 8, "setInterval( getNewMessages, 8000 ); " );
+
+			// This is a hack to fix KoL chat, as it is handled
+			// in Opera.  No guarantees it works, though.
+
+			StaticEntity.globalStringReplace( responseBuffer, "http.onreadystatechange", "executed = false; http.onreadystatechange" );
+			StaticEntity.globalStringReplace( responseBuffer, "readyState==4) {", "readyState==4 && !executed) { executed = true;" );
 		}
 
 		// Fix KoLmafia getting outdated by events happening
@@ -726,6 +732,7 @@ public class LocalRelayRequest extends KoLRequest
 		}
 
 		String graf = getFormField( "graf" );
+
 		if ( graf != null && graf.startsWith( "/run" ) )
 		{
 			pseudoResponse( "HTTP/1.1 200 OK", "<br/><font color=olive> &gt; " + graf.substring( 5 ) + "</font><br/><br/>" );
