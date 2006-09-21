@@ -57,6 +57,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class KoLSettings extends Properties implements UtilityConstants, KoLConstants
 {
+	private boolean settingsChanged = false;
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
 
@@ -141,6 +142,11 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		// All tests passed.  Now, go ahead and execute the
 		// set property and return the old value.
 
+		String oldValue = getProperty( name );
+		if ( oldValue != null && oldValue.equals( value ) )
+			return oldValue;
+
+		settingsChanged = true;
 		return super.setProperty( name, value );
 	}
 
@@ -368,7 +374,10 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			Object [] keys = CLIENT_SETTINGS.keySet().toArray();
 			for ( int i = 0; i < keys.length; ++i )
 				if ( !containsKey( keys[i] ) )
+				{
+					settingsChanged = true;
 					super.setProperty( (String) keys[i], (String) CLIENT_SETTINGS.get( keys[i] ) );
+				}
 
 			return;
 		}
@@ -379,7 +388,10 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		Object [] keys = PLAYER_SETTINGS.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 			if ( !containsKey( keys[i] ) )
+			{
+				settingsChanged = true;
 				super.setProperty( (String) keys[i], (String) PLAYER_SETTINGS.get( keys[i] ) );
+			}
 	}
 
 	/**
@@ -392,12 +404,15 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 	private void storeSettings( File destination )
 	{
+		if ( !settingsChanged )
+			return;
+
 		try
 		{
 			// Determine the contents of the file by
 			// actually printing them.
 
-			File temporary = new File( "settings/" + System.currentTimeMillis() + ".tmp" );
+			File temporary = new File( "settings/" + System.currentTimeMillis() + "_" + RNG.nextInt(10) + ".tmp" );
 			temporary.createNewFile();
 
 			FileOutputStream ostream = new FileOutputStream( destination );
