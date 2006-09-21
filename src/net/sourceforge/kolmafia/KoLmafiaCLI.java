@@ -3934,7 +3934,9 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		outputStream.println( wordWrappedLine.toString() );
+		if ( !isPrompting )
+			outputStream.println( wordWrappedLine.toString() );
+
 		mirrorStream.println( wordWrappedLine.toString() );
 		debugStream.println( wordWrappedLine.toString() );
 
@@ -3971,8 +3973,5 @@ public class KoLmafiaCLI extends KoLmafia
 		colorBuffer.append( LINE_BREAK );
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 		commandBuffer.append( colorBuffer.toString() );
-
-		if ( StaticEntity.getClient() == DEFAULT_SHELL && isPrompting )
-			outputStream.print( " > " );
 	}
 }
