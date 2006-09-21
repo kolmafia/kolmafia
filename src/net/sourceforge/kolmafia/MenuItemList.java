@@ -139,12 +139,11 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 
 		for ( int i = index1; i >= index0; --i )
 		{
-			Object item = source.get(i);
-			int itemIndex = dataValues.indexOf( item );
-			if ( itemIndex != -1 )
+			Object item = dataValues.get(i);
+			if ( !source.contains( item ) )
 			{
-				dataValues.remove( itemIndex );
-				remove( itemIndex + headerCount );
+				dataValues.remove(i);
+				remove( i + headerCount );
 			}
 		}
 

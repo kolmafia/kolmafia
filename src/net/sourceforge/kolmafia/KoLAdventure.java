@@ -777,6 +777,18 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Level 6" );
 			return true;
 		}
+		else if ( urlString.indexOf( "lair6.php" ) != -1 && urlString.indexOf( "place=0" ) != -1 )
+		{
+			KoLmafia.getSessionStream().println();
+			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Door Puzzles" );
+			return true;
+		}
+		else if ( urlString.indexOf( "lair6.php" ) != -1 && urlString.indexOf( "place=2" ) != -1 )
+		{
+			KoLmafia.getSessionStream().println();
+			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Shadow Battle" );
+			return true;
+		}
 
 		return false;
 	}
