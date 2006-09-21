@@ -179,10 +179,10 @@ public class LocalRelayServer implements Runnable
 
 	public static String getNewStatusMessages()
 	{
-		lastStatusMessage = System.currentTimeMillis();
-
 		String newMessages = statusMessages.toString();
 		statusMessages.setLength(0);
+
+		lastStatusMessage = System.currentTimeMillis();
 		return newMessages;
 	}
 
@@ -236,22 +236,34 @@ public class LocalRelayServer implements Runnable
 		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request ) throws IOException
 		{
 			String header = null;
+			String lowercase = null;
+
+			if ( request.contentType == null )
+				request.contentType = "text/html";
+
 			for ( int i = 0; (header = request.getHeader( i )) != null; ++i )
 			{
-				if ( header.startsWith( "Cache-Control" ) )
+				lowercase = header.toLowerCase();
+
+				if ( lowercase.startsWith( "content-type" ) )
 					continue;
 
-				if ( header.startsWith( "Pragma" ) )
+				if ( lowercase.startsWith( "cache-control" ) )
 					continue;
 
-				if ( header.startsWith( "Connection" ) )
+				if ( lowercase.startsWith( "pragma" ) )
 					continue;
 
-				if ( !header.equals( "" ) )
+				if ( lowercase.startsWith( "connection" ) )
+					continue;
+
+				if ( !lowercase.equals( "" ) )
 					printStream.println( header );
 			}
 
-			if ( request.contentType != null && request.contentType.equals( "text/html" ) )
+			printStream.println( "Content-Type: " + request.contentType );
+
+			if ( request.contentType.equals( "text/html" ) )
 			{
 				printStream.println( "Cache-Control: no-cache, must-revalidate" );
 				printStream.println( "Pragma: no-cache" );

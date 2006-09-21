@@ -377,9 +377,6 @@ public class LocalRelayRequest extends KoLRequest
 				this.contentType = "image/jpeg";
 			else if ( formURLString.endsWith( ".ico" ) )
 				this.contentType = "image/x-icon";
-
-			if ( contentType != null )
-				headers.add( "Content-Type: " + contentType );
 		}
 	}
 
