@@ -640,6 +640,21 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 
 				value = CombatSettings.getLongCombatOptionName( value );
+
+				// Special handling of the battle action property,
+				// such that auto-recovery gets reset as needed.
+
+				if ( name.equals( "battleAction" ) && value != null )
+				{
+					int index = KoLCharacter.getBattleSkillIDs().indexOf( value );
+					if ( index == -1 )
+						return;
+
+					KoLCharacter.getBattleSkillIDs().setSelectedIndex( index );
+					KoLCharacter.getBattleSkillNames().setSelectedIndex( index );
+
+					resetRestoreSettings( false );
+				}
 			}
 
 			printLine( name + " => " + value );
