@@ -140,13 +140,13 @@ public class NPCStoreDatabase extends KoLDatabase
 		String classType = KoLCharacter.getClassType();
 
 		if ( storeID.equals( "1" ) )
-			return classType.startsWith( "Di" ) || classType.startsWith( "Ac" );
+			return KoLCharacter.isMoxieClass();
 
 		else if ( storeID.equals( "2" ) )
-			return classType.startsWith( "Pa" ) || classType.startsWith( "Sa" ) || (classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9);
+			return KoLCharacter.isMysticalityClass() || (classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9);
 
 		else if ( storeID.equals( "3" ) )
-			return classType.startsWith( "Se" ) || classType.startsWith( "Tu" ) || (classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9);
+			return KoLCharacter.isMuscleClass() || (classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9);
 
 		// If the person is trying to get one of the items from the bugbear
 		// store, then the item is not available if they don't have the
