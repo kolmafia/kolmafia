@@ -96,15 +96,15 @@ public class ClanStashRequest extends SendMessageRequest
 			this.whichField = "item";
 			this.quantityField = "qty";
 			source = inventory;
-			destination = new ArrayList();
+			destination = ClanManager.getStash();
 		}
 		else
 		{
 			addFormField( "action", "takegoodies" );
 			this.whichField = "whichitem";
 			this.quantityField = "quantity";
-			source = new ArrayList();
-			destination = new ArrayList();
+			source = ClanManager.getStash();
+			destination = inventory;
 		}
 
 	}

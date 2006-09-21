@@ -268,9 +268,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 	// Travel information
 
-	private static boolean hasStore = false;
-	private static boolean hasDisplayCase = false;
-	private static boolean hasClan = false;
+	private static boolean hasStore = true;
+	private static boolean hasDisplayCase = true;
+	private static boolean hasClan = true;
 
 	// Campground information
 
@@ -297,7 +297,7 @@ public abstract class KoLCharacter extends StaticEntity
 	// Ascension-related variables
 
 	private static boolean isHardcore = false;
-	private static boolean canInteract = false;
+	private static boolean canInteract = true;
 
 	private static int ascensions = 0;
 	private static String ascensionSign = "None";

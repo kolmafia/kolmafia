@@ -86,7 +86,7 @@ public class LoginRequest extends KoLRequest
 	{
 		super( client, "login.php" );
 
-		this.username = username.replaceFirst( "/[qQ]", "" );
+		this.username = username == null ? "" : username.replaceFirst( "/[qQ]", "" );
 		this.password = password;
 		this.savePassword = savePassword;
 		this.getBreakfast = getBreakfast;
