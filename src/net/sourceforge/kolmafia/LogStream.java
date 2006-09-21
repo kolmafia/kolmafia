@@ -58,7 +58,7 @@ public class LogStream extends PrintStream implements KoLConstants
 	 */
 
 	public LogStream( String fileName ) throws IOException
-	{	this( new File( fileName ) );
+	{	this( new File( fileName ), fileName.indexOf( "sessions" ) != -1 );
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class LogStream extends PrintStream implements KoLConstants
 	 */
 
 	public LogStream( File file ) throws IOException
-	{	this( file, false );
+	{	this( file, file.getAbsolutePath().indexOf( "sessions" ) != -1 );
 	}
 
 
