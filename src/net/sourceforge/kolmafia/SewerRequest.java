@@ -88,11 +88,9 @@ public class SewerRequest extends KoLRequest
 
 	private void runLuckySewer()
 	{
-		if ( !client.isLuckyCharacter() )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Ran out of ten-leaf clovers." );
+		AdventureDatabase.retrieveItem( CLOVER.getInstance(1) );
+		if ( !KoLmafia.permitsContinue() )
 			return;
-		}
 
 		if ( !(client.getCurrentRequest() instanceof SewerRequest) )
 		{

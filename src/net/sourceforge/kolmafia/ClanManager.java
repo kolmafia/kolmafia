@@ -410,11 +410,6 @@ public class ClanManager extends StaticEntity
 
 		String header = getProperty( "clanRosterHeader" ).toString();
 
-		boolean generateSnapshot = !header.equals( "" ) && !header.equals( "<td>Ascensions</td>" );
-
-		if ( mostAscensionsBoardSize == 0 && mainBoardSize == 0 && classBoardSize == 0 && maxAge == 0 && playerMoreThanOnce == false )
-			generateSnapshot = false;
-
 		KoLRequest.delay( 1000 );
 		standardFile.getParentFile().mkdirs();
 
@@ -425,15 +420,10 @@ public class ClanManager extends StaticEntity
 		if ( hardcoreFile != null && hardcoreFile.exists() )
 			hardcoreFile.delete();
 
-		boolean retrieveProfileData = header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Path</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 ||
-			header.indexOf( "<td>Meat</td>" ) != -1 || header.indexOf( "<td>Food</td>" ) != -1 || header.indexOf( "<td>Last Login</td>" ) != -1;
-
-		boolean retrieveAscensionData = header.indexOf( "<td>Ascensions</td>" ) != -1;
-
 		// If initialization was unsuccessful, then there isn't
 		// enough data to create a clan ClanSnapshotTable.
 
-		if ( !retrieveMemberData( retrieveProfileData, retrieveAscensionData ) )
+		if ( !retrieveMemberData( true, true ) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Initialization failed." );
 			return;
@@ -446,36 +436,30 @@ public class ClanManager extends StaticEntity
 		{
 			PrintStream ostream;
 
-			if ( generateSnapshot )
-			{
-				KoLmafia.updateDisplay( "Storing clan snapshot..." );
+			KoLmafia.updateDisplay( "Storing clan snapshot..." );
 
-				ostream = new LogStream( standardFile );
-				ostream.println( ClanSnapshotTable.getStandardData() );
-				ostream.close();
+			ostream = new LogStream( standardFile );
+			ostream.println( ClanSnapshotTable.getStandardData() );
+			ostream.close();
 
-				String line;
-				BufferedReader script = DataUtilities.getReader( "html", "sorttable.js" );
-				ostream = new LogStream( sortingScript );
+			String line;
+			BufferedReader script = DataUtilities.getReader( "html", "sorttable.js" );
+			ostream = new LogStream( sortingScript );
 
-				while ( (line = script.readLine()) != null )
-					ostream.println( line );
+			while ( (line = script.readLine()) != null )
+				ostream.println( line );
 
-				ostream.close();
-			}
+			ostream.close();
 
-			if ( retrieveAscensionData )
-			{
-				KoLmafia.updateDisplay( "Storing ascension snapshot..." );
+			KoLmafia.updateDisplay( "Storing ascension snapshot..." );
 
-				ostream = new LogStream( softcoreFile );
-				ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
-				ostream.close();
+			ostream = new LogStream( softcoreFile );
+			ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
+			ostream.close();
 
-				ostream = new LogStream( hardcoreFile );
-				ostream.println( AscensionSnapshotTable.getAscensionData( false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
-				ostream.close();
-			}
+			ostream = new LogStream( hardcoreFile );
+			ostream.println( AscensionSnapshotTable.getAscensionData( false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
+			ostream.close();
 		}
 		catch ( Exception e )
 		{
@@ -493,14 +477,9 @@ public class ClanManager extends StaticEntity
 			// To make things less confusing, load the summary
 			// file inside of the default browser after completion.
 
-			if ( generateSnapshot )
-				BrowserLauncher.openURL( standardFile.getAbsolutePath() );
-
-			if ( retrieveAscensionData )
-			{
-				BrowserLauncher.openURL( softcoreFile.getAbsolutePath() );
-				BrowserLauncher.openURL( hardcoreFile.getAbsolutePath() );
-			}
+			BrowserLauncher.openURL( standardFile.getAbsolutePath() );
+			BrowserLauncher.openURL( softcoreFile.getAbsolutePath() );
+			BrowserLauncher.openURL( hardcoreFile.getAbsolutePath() );
 		}
 		catch ( Exception e )
 		{

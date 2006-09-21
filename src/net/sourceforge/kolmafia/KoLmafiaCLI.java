@@ -82,6 +82,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private KoLmafiaCLI lastScript;
 	private static String previousUpdateString = "";
 
+	private static boolean isPrompting = false;
 	private static boolean isExecutingCheckOnlyCommand = false;
 	private static KoLmafiaASH advancedHandler = new KoLmafiaASH();
 	private static ConsoleReader CONSOLE = null;
@@ -256,14 +257,20 @@ public class KoLmafiaCLI extends KoLmafia
 	public void listenForCommands()
 	{
 		if ( StaticEntity.getClient() == this )
+		{
+			isPrompting = true;
 			outputStream.print( " > " );
+		}
 
 		String line = null;
 
 		while ( (permitsContinue() || StaticEntity.getClient() == this) && (line = getNextLine()) != null )
 		{
+			isPrompting = false;
+
 			if ( StaticEntity.getClient() == this )
 			{
+				previousUpdateString = " > " + line;
 				enableDisplay();
 				printBlankLine();
 			}
@@ -275,6 +282,8 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				printBlankLine();
 				enableDisplay();
+
+				isPrompting = true;
 				outputStream.print( " > " );
 			}
 		}
@@ -3962,5 +3971,8 @@ public class KoLmafiaCLI extends KoLmafia
 		colorBuffer.append( LINE_BREAK );
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 		commandBuffer.append( colorBuffer.toString() );
+
+		if ( StaticEntity.getClient() == DEFAULT_SHELL && isPrompting )
+			outputStream.print( " > " );
 	}
 }
