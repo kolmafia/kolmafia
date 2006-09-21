@@ -369,7 +369,7 @@ public class RequestFrame extends KoLFrame
 			if ( request == null )
 				return;
 
-			if ( request.responseCode != 302 && (request.responseText == null || request.responseText.length() == 0) )
+			if ( request.responseText == null || request.responseText.length() == 0 )
 			{
 				// New prevention mechanism: tell the requests that there
 				// will be no synchronization.
