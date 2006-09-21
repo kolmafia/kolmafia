@@ -1228,9 +1228,13 @@ public abstract class KoLmafia implements KoLConstants
 			}
 
 			// Execute the request as initially intended by calling
-			// a subroutine.
+			// a subroutine.  In doing so, make sure your HP/MP restore
+			// settings are scaled back down to current levels, if they've
+			// been manipulated internally by KoLmafia.
 
+			resetRestoreSettings( false );
 			executeRequest( request, iterations );
+			resetRestoreSettings( true );
 		}
 		catch ( Exception e )
 		{
@@ -1238,6 +1242,46 @@ public abstract class KoLmafia implements KoLConstants
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	public static void resetRestoreSettings( boolean resetToZero )
+	{
+		String action = StaticEntity.getProperty( "battleAction" );
+
+		float trigger = StaticEntity.getFloatProperty( "mpAutoRecovery" );
+		float target = StaticEntity.getFloatProperty( "mpAutoRecoveryTarget" );
+
+		// Only muck with the settings if the trigger and
+		// the target are the same, which logically only
+		// happens if KoLmafia is changing it internally.
+
+		if ( trigger == target )
+		{
+			if ( !action.startsWith( "skill" ) || resetToZero )
+			{
+				StaticEntity.setProperty( "mpAutoRecovery", "0.0" );
+				StaticEntity.setProperty( "mpAutoRecoveryTarget", "0.0" );
+			}
+			else
+			{
+				int skillID = ClassSkillsDatabase.getSkillID( action.substring( 6 ) );
+				int mpCost = ClassSkillsDatabase.getMPConsumptionByID( skillID );
+
+				if ( trigger == 0.0f )
+				{
+					float required = Math.min( (float) mpCost / (float) KoLCharacter.getMaximumMP(), 1.0f );
+
+					if ( required != 1.0 )
+						required = ((float) Math.ceil( required * 10.0f )) / 10.0f;
+
+					if ( trigger <= required )
+					{
+						StaticEntity.setProperty( "mpAutoRecovery", String.valueOf( required ) );
+						StaticEntity.setProperty( "mpAutoRecoveryTarget", String.valueOf( required ) );
+					}
+				}
+			}
 		}
 	}
 

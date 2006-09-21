@@ -168,6 +168,16 @@ public class AdventureRequest extends KoLRequest
 		if ( responseText == null || responseText.trim().length() == 0 )
 			return;
 
+		// The hedge maze should always result in you getting
+		// a fight redirect.  If this is not the case, then
+		// abort the request.
+
+		if ( formSource.equals( "lair3.php" ) )
+		{
+			KoLmafia.updateDisplay( PENDING_STATE, "Hedge maze already completed." );
+			return;
+		}
+
 		// If you haven't unlocked the orc chasm yet,
 		// try doing so now.
 
