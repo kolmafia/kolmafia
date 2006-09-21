@@ -100,7 +100,7 @@ public class LoginRequest extends KoLRequest
 
 	public void detectChallenge()
 	{
-		KoLmafia.updateDisplay( "Detecting challenge..." );
+		KoLmafia.updateDisplay( "Validating login server..." );
 
 		// Setup the login server in order to ensure that
 		// the initial try is randomized.  Or, in the case
