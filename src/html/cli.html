@@ -144,11 +144,14 @@
 
 		isRefreshing = true;
 		httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/charpane.php" );
+
+		executed = false;
 		httpObject.onreadystatechange = function()
 		{
-			if ( httpObject.readyState != 4 )
+			if ( httpObject.readyState != 4 || executed )
 				return;
 
+			executed = true;
             top.charpane.document.getElementsByTagName( "body" )[0].innerHTML =
                 httpObject.responseText.replace( new RegExp( "<html>.*<body[^>]*>", "g" ), "" ).replace( new RegExp( "</body>.*</html>", "g" ), "" );
 
@@ -167,11 +170,14 @@
 			return true;
 
 		httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/getNewMessages" );
+
+		executed = false;
 		httpObject.onreadystatechange = function()
 		{
-			if ( httpObject.readyState != 4 )
+			if ( httpObject.readyState != 4 || executed )
 				return;
 
+			executed = true;
 			if ( httpObject.responseText == null )
 				parent.location.href = "http://www.kingdomofloathing.com/login.php?results=Session timed out.";
 
@@ -223,11 +229,14 @@
 			return true;
 
 		httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/submitCommand?cmd=" + URLEncode( command ) );
+
+		executed = false;
 		httpObject.onreadystatechange = function ()
 		{
-			if ( httpObject.readyState != 4 )
+			if ( httpObject.readyState != 4 || executed )
 				return;
 
+			executed = true;
 			if ( httpObject.responseText == null )
 				parent.location.href = "http://forums.kingdomofloathing.com/";
 
