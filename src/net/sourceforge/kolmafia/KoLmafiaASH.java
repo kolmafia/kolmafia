@@ -2516,69 +2516,53 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		switch ( type.getType() )
 		{
-		case TYPE_BOOLEAN:
-			return ( String ) JOptionPane.showInputDialog
-				(
-					null,
-					"Please input a value for " + type + " " + name,
-					"Input Variable",
-					JOptionPane.INFORMATION_MESSAGE,
-					null,
-					BOOLEANS,
-					BOOLEANS[0]
-					);
+			case TYPE_BOOLEAN:
+				return (String) JOptionPane.showInputDialog( null, "Please input a value for " + type + " " + name, "Input Variable",
+					JOptionPane.INFORMATION_MESSAGE, null, BOOLEANS, BOOLEANS[0] );
 
-		case TYPE_INT:
-		case TYPE_FLOAT:
-		case TYPE_STRING:
-		case TYPE_ITEM:
-		case TYPE_LOCATION:
-		case TYPE_SKILL:
-		case TYPE_EFFECT:
-		case TYPE_FAMILIAR:
-		case TYPE_SLOT:
-		case TYPE_MONSTER:
-		case TYPE_ELEMENT:
-			return JOptionPane.showInputDialog( "Please input a value for " + type + " " + name );
+			case TYPE_LOCATION:
+				return ((KoLAdventure) JOptionPane.showInputDialog( null, "Please select a value for " + type + " " + name, "Input Variable",
+					JOptionPane.INFORMATION_MESSAGE, null, AdventureDatabase.getAsLockableListModel().toArray(),
+					AdventureDatabase.getAdventure( getProperty( "lastAdventure" ) ) )).getAdventureName();
 
-		case TYPE_ZODIAC:
-			return ( String ) JOptionPane.showInputDialog
-				(
-					null,
-					"Please input a value for " + type + " " + name,
-					"Input Variable",
-					JOptionPane.INFORMATION_MESSAGE,
-					null,
-					ZODIACS,
-					ZODIACS[0]
-					);
+			case TYPE_SKILL:
+				return ((UseSkillRequest) JOptionPane.showInputDialog( null, "Please select a value for " + type + " " + name, "Input Variable",
+					JOptionPane.INFORMATION_MESSAGE, null, availableSkills.toArray(), availableSkills.get(0) )).getSkillName();
 
-		case TYPE_CLASS:
-			return ( String ) JOptionPane.showInputDialog
-				(
-					null,
-					"Please input a value for " + type + " " + name,
-					"Input Variable",
-					JOptionPane.INFORMATION_MESSAGE,
-					null,
-					CLASSES,
-					CLASSES[0]
-					);
+			case TYPE_FAMILIAR:
+				return ((FamiliarData) JOptionPane.showInputDialog( null, "Please select a value for " + type + " " + name, "Input Variable",
+					JOptionPane.INFORMATION_MESSAGE, null, KoLCharacter.getFamiliarList().toArray(), KoLCharacter.getFamiliar() )).getRace();
 
-		case TYPE_STAT:
-			return ( String ) JOptionPane.showInputDialog
-				(
-					null,
-					"Please input a value for " + type + " " + name,
-					"Input Variable",
-					JOptionPane.INFORMATION_MESSAGE,
-					null,
-					STATS,
-					STATS[0]
-					);
+			case TYPE_SLOT:
+				return (String) JOptionPane.showInputDialog( null, "Please input a value for " + type + " " + name, "Input Variable",
+					JOptionPane.INFORMATION_MESSAGE, null, EquipmentRequest.slotNames, EquipmentRequest.slotNames[0] );
 
-		default:
-			throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
+			case TYPE_ELEMENT:
+				return (String) JOptionPane.showInputDialog( null, "Please input a value for " + type + " " + name, "Input Variable",
+					JOptionPane.INFORMATION_MESSAGE, null, MonsterDatabase.elementNames, MonsterDatabase.elementNames[0] );
+
+			case TYPE_ZODIAC:
+				return (String) JOptionPane.showInputDialog( null, "Please input a value for " + type + " " + name, "Input Variable",
+					JOptionPane.INFORMATION_MESSAGE, null, ZODIACS, ZODIACS[0] );
+
+			case TYPE_CLASS:
+				return (String) JOptionPane.showInputDialog( null, "Please input a value for " + type + " " + name, "Input Variable",
+						JOptionPane.INFORMATION_MESSAGE, null, CLASSES, CLASSES[0] );
+
+			case TYPE_STAT:
+				return (String) JOptionPane.showInputDialog( null, "Please input a value for " + type + " " + name, "Input Variable",
+						JOptionPane.INFORMATION_MESSAGE, null, STATS, STATS[0] );
+
+			case TYPE_INT:
+			case TYPE_FLOAT:
+			case TYPE_STRING:
+			case TYPE_ITEM:
+			case TYPE_EFFECT:
+			case TYPE_MONSTER:
+				return JOptionPane.showInputDialog( "Please input a value for " + type + " " + name );
+
+			default:
+				throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
 		}
 	}
 
