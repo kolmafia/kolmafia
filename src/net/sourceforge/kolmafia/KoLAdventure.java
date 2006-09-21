@@ -602,8 +602,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		FightRequest.setAutoRecovery( StaticEntity.getProperty( "battleAction" ) );
-
 		String action = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
 
 		if ( ( action.equals( "item536" ) && FightRequest.DICTIONARY1.getCount( inventory ) < 1 ) ||

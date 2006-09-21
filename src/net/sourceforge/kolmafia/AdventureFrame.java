@@ -285,7 +285,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				String battleAction = (String) KoLCharacter.getBattleSkillIDs().get( actionSelect.getSelectedIndex() );
 				if ( actionSelect.getSelectedIndex() != -1 )
-					StaticEntity.setProperty( "battleAction", battleAction );
+					DEFAULT_SHELL.executeLine( "set battleAction=" + battleAction );
 			}
 		}
 
