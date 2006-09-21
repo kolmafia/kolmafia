@@ -4579,7 +4579,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue replace_string( ScriptVariable string, ScriptVariable search, ScriptVariable replace )
 		{
-			return parseStringValue( StaticEntity.simpleStringReplace( string.toStringValue().toString(),
+			return parseStringValue( StaticEntity.globalStringReplace( string.toStringValue().toString(),
 				search.toStringValue().toString(), replace.toStringValue().toString() ) );
 		}
 

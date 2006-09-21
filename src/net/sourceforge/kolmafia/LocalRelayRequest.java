@@ -98,6 +98,8 @@ public class LocalRelayRequest extends KoLRequest
 		if ( formURLString.startsWith( "http" ) )
 			return;
 
+		StringBuffer responseBuffer = new StringBuffer( fullResponse );
+
 		// If this is a store, you can opt to remove all the min-priced items from view
 		// along with all the items which are priced above affordable levels.
 
@@ -118,8 +120,6 @@ public class LocalRelayRequest extends KoLRequest
 			boolean ignoreExpensiveItems = StaticEntity.getBooleanProperty( "relayRemovesExpensiveItems" );
 			boolean ignoreMinpricedItems = StaticEntity.getBooleanProperty( "relayRemovesMinpricedItems" );
 
-			StringBuffer cleanBuffer = new StringBuffer( fullResponse );
-
 			while ( itemMatcher.find() )
 			{
 				String itemData = itemMatcher.group(1);
@@ -128,7 +128,7 @@ public class LocalRelayRequest extends KoLRequest
 				int price = StaticEntity.parseInt( itemData.substring( itemData.length() - 9 ) );
 
 				if ( itemID != searchItemID && isJunkItem( itemID, price, ignoreExpensiveItems, ignoreMinpricedItems ) )
-					replaceTag( cleanBuffer, itemMatcher.group(), "" );
+					StaticEntity.singleStringDelete( responseBuffer, itemMatcher.group() );
 			}
 
 			// Also make sure the item that the person selected when coming into the
@@ -137,10 +137,8 @@ public class LocalRelayRequest extends KoLRequest
 			if ( searchItemID != -1 )
 			{
 				String searchString = MallPurchaseRequest.getStoreString( searchItemID, searchPrice );
-				replaceTag( cleanBuffer, "value=" + searchString, "checked value=" + searchString );
+				StaticEntity.singleStringReplace( responseBuffer, "value=" + searchString, "checked value=" + searchString );
 			}
-
-			fullResponse = cleanBuffer.toString();
 		}
 
 		if ( formURLString.indexOf( "compactmenu.php" ) != -1 )
@@ -165,7 +163,9 @@ public class LocalRelayRequest extends KoLRequest
 			functionMenu.append( "\">Donate</option>" );
 			functionMenu.append( "</select>" );
 
-			fullResponse = MENU1_PATTERN.matcher( fullResponse ).replaceFirst( functionMenu.toString() );
+			Matcher menuMatcher = MENU1_PATTERN.matcher( fullResponse );
+			if ( menuMatcher.find() )
+				StaticEntity.singleStringReplace( responseBuffer, menuMatcher.group(), functionMenu.toString() );
 
 			// Mafiatize the goto menu
 
@@ -199,25 +199,26 @@ public class LocalRelayRequest extends KoLRequest
 			}
 
 			gotoMenu.append( "</select>" );
-			fullResponse = MENU2_PATTERN.matcher( fullResponse ).replaceFirst( gotoMenu.toString() );
+
+			menuMatcher = MENU2_PATTERN.matcher( fullResponse );
+			if ( menuMatcher.find() )
+				StaticEntity.singleStringReplace( responseBuffer, menuMatcher.group(), gotoMenu.toString() );
 		}
 
 		// Fix chat javascript problems with relay system
 
 		if ( formURLString.indexOf( "lchat.php" ) != -1 )
 		{
-			fullResponse = StaticEntity.simpleStringReplace( fullResponse, "cycles++", "cycles = 0" );
-			fullResponse = StaticEntity.simpleStringReplace( fullResponse, "window.location.hostname", "\"127.0.0.1:" + LocalRelayServer.getPort() + "\"" );
+			StaticEntity.globalStringReplace( responseBuffer, "cycles++", "cycles = 0" );
+			StaticEntity.globalStringReplace( responseBuffer, "window.location.hostname", "\"127.0.0.1:" + LocalRelayServer.getPort() + "\"" );
 
-			int headIndex = fullResponse.indexOf( "</head>" );
-			int onLoadIndex = fullResponse.indexOf( "onLoad='" ) + 8;
+			int headIndex = responseBuffer.indexOf( "</head>" );
+			if ( headIndex != -1 )
+				responseBuffer.insert( headIndex, "<script language=\"Javascript\">base = \"http://127.0.0.1:" +  LocalRelayServer.getPort() + "\";</script>" );
 
-			if ( headIndex != -1 && onLoadIndex != 7 )
-			{
-				fullResponse = fullResponse.substring( 0, headIndex ) +
-					"<script language=\"Javascript\">base = \"http://127.0.0.1:" +  LocalRelayServer.getPort() + "\";</script>" +
-					fullResponse.substring( headIndex, onLoadIndex ) + "setInterval( getNewMessages, 8000 ); " + fullResponse.substring( onLoadIndex );
-			}
+			int onLoadIndex = responseBuffer.indexOf( "onLoad='" );
+			if ( onLoadIndex != -1 )
+				responseBuffer.insert( onLoadIndex + 8, "setInterval( getNewMessages, 8000 ); " );
 		}
 
 		// Fix KoLmafia getting outdated by events happening
@@ -240,13 +241,9 @@ public class LocalRelayRequest extends KoLRequest
 
 		if ( formURLString.indexOf( "chatlaunch" ) != -1 )
 		{
-			int linkTagIndex = fullResponse.indexOf( "<a href" );
-			if ( linkTagIndex != -1 )
-			{
-				fullResponse = fullResponse.substring( 0, linkTagIndex ) +
-					"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" +
-					fullResponse.substring( linkTagIndex );
-			}
+			int linkIndex = responseBuffer.indexOf( "<a href" );
+			if ( linkIndex != -1 )
+				responseBuffer.insert( linkIndex, "<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" );
 		}
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsQuickScripts" ) && formURLString.indexOf( "menu" ) != -1 )
@@ -275,10 +272,7 @@ public class LocalRelayRequest extends KoLRequest
 
 				int lastRowIndex = fullResponse.lastIndexOf( "</tr>" );
 				if ( lastRowIndex != -1 )
-				{
-					fullResponse = fullResponse.substring( 0, lastRowIndex ) + "<td>&nbsp;&nbsp;</td><td align=right><font size=2>" +
-						selectBuffer.toString() + "</font></td>";
-				}
+					responseBuffer.insert( lastRowIndex, "<td>&nbsp;&nbsp;</td><td align=right><font size=2>" + selectBuffer.toString() + "</font></td>" );
 			}
 			catch ( Exception e )
 			{
@@ -287,35 +281,32 @@ public class LocalRelayRequest extends KoLRequest
 			}
 		}
 
-		fullResponse = RequestEditorKit.getFeatureRichHTML( formURLString.toString(), fullResponse );
+		RequestEditorKit.getFeatureRichHTML( formURLString.toString(), responseBuffer );
 
 		// Download and link to any Players of Loathing
 		// picture pages locally.
 
-		int playerPicsIndex = fullResponse.indexOf( "http://pics.communityofloathing.com" );
-		if ( playerPicsIndex != -1 )
-		{
-			int albumIndex = fullResponse.indexOf( "albums", playerPicsIndex ) + 6;
-			fullResponse = fullResponse.substring( 0, playerPicsIndex ) + "/images" + fullResponse.substring( albumIndex );
-		}
+		StaticEntity.singleStringReplace( responseBuffer, "http://pics.communityofloathing.com/albums", "/images" );
 
 		// Remove the default frame busting script so that
 		// we can detach user interface elements.
 
-		fullResponse = StaticEntity.simpleStringReplace( fullResponse, "frames.length == 0", "frames.length == -1" );
+		StaticEntity.singleStringReplace( responseBuffer, "frames.length == 0", "frames.length == -1" );
 
 		// If the person is currently caching relay images,
 		// then it would be most beneficial to use local
 		// file access.
 
 		if ( StaticEntity.getBooleanProperty( "cacheRelayImages" ) )
-			fullResponse = StaticEntity.simpleStringReplace( fullResponse, "http://images.kingdomofloathing.com", "/images" );
+			StaticEntity.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
 
 		// Otherwise, use the standard image server address
 		// just in case there is a DNS problem.
 
 		else
-			fullResponse = StaticEntity.simpleStringReplace( fullResponse, "images.kingdomofloathing.com", IMAGE_SERVER );
+			StaticEntity.globalStringReplace( responseBuffer, "images.kingdomofloathing.com", IMAGE_SERVER );
+
+		fullResponse = responseBuffer.toString();
 	}
 
 	public String getHeader( int index )
@@ -341,7 +332,7 @@ public class LocalRelayRequest extends KoLRequest
 
 	protected void pseudoResponse( String status, String fullResponse )
 	{
-		this.fullResponse = StaticEntity.simpleStringReplace( fullResponse, "<!--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
+		this.fullResponse = StaticEntity.globalStringReplace( fullResponse, "<!--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
 		if ( fullResponse.length() == 0 )
 			this.fullResponse = " ";
 
@@ -546,27 +537,6 @@ public class LocalRelayRequest extends KoLRequest
 		}
 	}
 
-	private void replaceTag( StringBuffer buffer, String tag, int replaceWith )
-	{	replaceTag( buffer, tag, String.valueOf( replaceWith ) );
-	}
-
-	private void replaceTag( StringBuffer buffer, String tag, String replaceWith )
-	{
-		if ( replaceWith == null )
-			replaceWith = "";
-
-		// Using a regular expression, while faster, results
-		// in a lot of String allocation overhead.  So, use
-		// a statically-allocated StringBuffers.
-
-		int lastIndex = buffer.indexOf( tag );
-		while ( lastIndex != -1 )
-		{
-			buffer.replace( lastIndex, lastIndex + tag.length(), replaceWith );
-			lastIndex = buffer.indexOf( tag, lastIndex + replaceWith.length() );
-		}
-	}
-
 	private void handleSimulatorIndex( StringBuffer replyBuffer, StringBuffer scriptBuffer ) throws IOException
 	{
 		// This is the simple Javascript which can be added
@@ -580,38 +550,38 @@ public class LocalRelayRequest extends KoLRequest
 
 		// Basic additions of player state info
 
-		replaceTag( scriptBuffer, "/*classIndex*/", classIndex );
-		replaceTag( scriptBuffer, "/*baseMuscle*/", KoLCharacter.getBaseMuscle() );
-		replaceTag( scriptBuffer, "/*baseMysticality*/", KoLCharacter.getBaseMysticality() );
-		replaceTag( scriptBuffer, "/*baseMoxie*/", KoLCharacter.getBaseMoxie() );
-		replaceTag( scriptBuffer, "/*mindControl*/", KoLCharacter.getMindControlLevel() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*classIndex*/", classIndex );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*baseMuscle*/", KoLCharacter.getBaseMuscle() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*baseMysticality*/", KoLCharacter.getBaseMysticality() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*baseMoxie*/", KoLCharacter.getBaseMoxie() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*mindControl*/", KoLCharacter.getMindControlLevel() );
 
 		// Change the player's familiar to the current
 		// familiar.  Input the weight and change the
 		// familiar equipment.
 
-		replaceTag( scriptBuffer, "/*familiar*/",  KoLCharacter.getFamiliar().getRace() );
-		replaceTag( scriptBuffer, "/*familiarWeight*/", KoLCharacter.getFamiliar().getWeight() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*familiar*/",  KoLCharacter.getFamiliar().getRace() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*familiarWeight*/", KoLCharacter.getFamiliar().getWeight() );
 
 		String familiarEquipment = KoLCharacter.getEquipment( KoLCharacter.FAMILIAR ).getName();
 		if ( FamiliarData.itemWeightModifier( TradeableItemDatabase.getItemID( familiarEquipment ) ) == 5 )
-			replaceTag( scriptBuffer, "/*familiarEquip*/", "familiar-specific +5 lbs." );
+			StaticEntity.globalStringReplace( scriptBuffer, "/*familiarEquip*/", "familiar-specific +5 lbs." );
 		else
-			replaceTag( scriptBuffer, "/*familiarEquip*/", familiarEquipment );
+			StaticEntity.globalStringReplace( scriptBuffer, "/*familiarEquip*/", familiarEquipment );
 
 		// Change the player's equipment
 
-		replaceTag( scriptBuffer, "/*hat*/", KoLCharacter.getEquipment( KoLCharacter.HAT ).getName() );
-		replaceTag( scriptBuffer, "/*weapon*/", KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
-		replaceTag( scriptBuffer, "/*offhand*/", KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).getName() );
-		replaceTag( scriptBuffer, "/*shirt*/", KoLCharacter.getEquipment( KoLCharacter.SHIRT ).getName() );
-		replaceTag( scriptBuffer, "/*pants*/", KoLCharacter.getEquipment( KoLCharacter.PANTS ).getName() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*hat*/", KoLCharacter.getEquipment( KoLCharacter.HAT ).getName() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*weapon*/", KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*offhand*/", KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).getName() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*shirt*/", KoLCharacter.getEquipment( KoLCharacter.SHIRT ).getName() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*pants*/", KoLCharacter.getEquipment( KoLCharacter.PANTS ).getName() );
 
 		// Change the player's accessories
 
-		replaceTag( scriptBuffer, "/*accessory1*/", KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ).getName() );
-		replaceTag( scriptBuffer, "/*accessory2*/", KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ).getName() );
-		replaceTag( scriptBuffer, "/*accessory3*/", KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ).getName() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*accessory1*/", KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ).getName() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*accessory2*/", KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ).getName() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*accessory3*/", KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ).getName() );
 
 		// Load up the player's current skillset to figure
 		// out what passive skills are available.
@@ -631,7 +601,7 @@ public class LocalRelayRequest extends KoLRequest
 			passiveSkills.append( "\t" );
 		}
 
-		replaceTag( scriptBuffer, "/*passiveSkills*/", passiveSkills.toString() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*passiveSkills*/", passiveSkills.toString() );
 
 		// Also load up the player's current active effects
 		// and fill them into the buffs area.
@@ -643,14 +613,14 @@ public class LocalRelayRequest extends KoLRequest
 		for ( int i = 0; i < effects.length; ++i )
 			activeEffects += "\t" + WHITESPACE_PATTERN.matcher( UneffectRequest.effectToSkill( effects[i].getName() ) ).replaceAll( "" ).toLowerCase() + "\t";
 
-		replaceTag( scriptBuffer, "/*activeEffects*/", activeEffects );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*activeEffects*/", activeEffects );
 
 		if ( inventory.contains( UseSkillRequest.ROCKNROLL_LEGEND ) )
-			replaceTag( scriptBuffer, "/*rockAndRoll*/", "true" );
+			StaticEntity.globalStringReplace( scriptBuffer, "/*rockAndRoll*/", "true" );
 		else
-			replaceTag( scriptBuffer, "/*rockAndRoll*/", "false" );
+			StaticEntity.globalStringReplace( scriptBuffer, "/*rockAndRoll*/", "false" );
 
-		replaceTag( scriptBuffer, "/*moonPhase*/", (int) ((MoonPhaseDatabase.getGrimacePhase()-1) * 2
+		StaticEntity.globalStringReplace( scriptBuffer, "/*moonPhase*/", (int) ((MoonPhaseDatabase.getGrimacePhase()-1) * 2
 			+ Math.round( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f - Math.floor( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f ) )) );
 
 		replyBuffer.insert( replyBuffer.indexOf( ";GoCalc()" ), ";loadKoLmafiaData()" );
@@ -809,7 +779,7 @@ public class LocalRelayRequest extends KoLRequest
 		File directory = new File( "html/simulator/" );
 		directory.mkdirs();
 
-		request.fullResponse = StaticEntity.simpleStringReplace( request.fullResponse, "images/", "\"http://sol.kolmafia.us/images/" );
+		request.fullResponse = StaticEntity.globalStringReplace( request.fullResponse, "images/", "\"http://sol.kolmafia.us/images/" );
 
 		try
 		{

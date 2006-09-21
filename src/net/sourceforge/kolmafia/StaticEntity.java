@@ -467,11 +467,43 @@ public abstract class StaticEntity implements KoLConstants
 		}
 	}
 
-	public static final String simpleStringDelete( String originalString, String searchString )
-	{	return simpleStringReplace( originalString, searchString, "" );
+	public static final String singleStringDelete( String originalString, String searchString )
+	{	return singleStringReplace( originalString, searchString, "" );
 	}
 
-	public static final String simpleStringReplace( String originalString, String searchString, String replaceString )
+	public static final String singleStringReplace( String originalString, String searchString, String replaceString )
+	{
+		// Using a regular expression, while faster, results
+		// in a lot of String allocation overhead.  So, use
+		// a statically-allocated StringBuffers.
+
+		int lastIndex = originalString.indexOf( searchString );
+		if ( lastIndex == -1 )
+			return originalString;
+
+		StringBuffer buffer = new StringBuffer();
+		buffer.append( originalString.substring( 0, lastIndex ) );
+		buffer.append( replaceString );
+		buffer.append( originalString.substring( lastIndex + searchString.length() ) );
+		return buffer.toString();
+	}
+
+	public static final void singleStringDelete( StringBuffer buffer, String searchString )
+	{	singleStringReplace( buffer, searchString, "" );
+	}
+
+	public static final void singleStringReplace( StringBuffer buffer, String searchString, String replaceString )
+	{
+		int index = buffer.indexOf( searchString );
+		if ( index != -1 )
+			buffer.replace( index, index + searchString.length(), replaceString );
+	}
+
+	public static final String globalStringDelete( String originalString, String searchString )
+	{	return globalStringReplace( originalString, searchString, "" );
+	}
+
+	public static final String globalStringReplace( String originalString, String searchString, String replaceString )
 	{
 		// Using a regular expression, while faster, results
 		// in a lot of String allocation overhead.  So, use
@@ -490,6 +522,32 @@ public abstract class StaticEntity implements KoLConstants
 
 		return buffer.toString();
 	}
+
+	public static final void globalStringReplace( StringBuffer buffer, String tag, int replaceWith )
+	{	globalStringReplace( buffer, tag, String.valueOf( replaceWith ) );
+	}
+
+	public static final void globalStringDelete( StringBuffer buffer, String tag )
+	{	globalStringReplace( buffer, tag, "" );
+	}
+
+	public static final void globalStringReplace( StringBuffer buffer, String tag, String replaceWith )
+	{
+		if ( replaceWith == null )
+			replaceWith = "";
+
+		// Using a regular expression, while faster, results
+		// in a lot of String allocation overhead.  So, use
+		// a statically-allocated StringBuffers.
+
+		int lastIndex = buffer.indexOf( tag );
+		while ( lastIndex != -1 )
+		{
+			buffer.replace( lastIndex, lastIndex + tag.length(), replaceWith );
+			lastIndex = buffer.indexOf( tag, lastIndex + replaceWith.length() );
+		}
+	}
+
 
 	public static final void saveSettings()
 	{

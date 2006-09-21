@@ -3961,7 +3961,7 @@ public class KoLmafiaCLI extends KoLmafia
 		else
 		{
 			if ( message.indexOf( "<" ) != -1 && message.indexOf( "\n" ) != -1 )
-				message = StaticEntity.simpleStringReplace( message, "<", "&lt;" );
+				message = StaticEntity.globalStringReplace( message, "<", "&lt;" );
 
 			if ( state == ERROR_STATE || state == ABORT_STATE )
 				colorBuffer.append( "<font color=red>" );
