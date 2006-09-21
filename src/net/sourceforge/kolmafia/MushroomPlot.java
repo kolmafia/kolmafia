@@ -923,19 +923,20 @@ public abstract class MushroomPlot extends StaticEntity
 			plotScript.println( "void main()" );
 			plotScript.println( "{" );
 			plotScript.println();
-			plotScript.println( "    if ( get_property( \"lastPlantingScript\" ) == \"" + filename + "\" )" );
+			plotScript.println( "    if ( get_property( \"plantingScript\" ) == \"" + filename + "\" )" );
 			plotScript.println( "    {" );
-			plotScript.println( "        set_property( \"lastPlantingDay\", \"-1\" );" );
-			plotScript.println( "        set_property( \"lastPlantingDate\", \"\" );" );
-			plotScript.println( "        set_property( \"lastPlantingScript\", \"" + filename + "\" );" );
+			plotScript.println( "        set_property( \"plantingDay\", \"-1\" );" );
+			plotScript.println( "        set_property( \"plantingDate\", \"\" );" );
+			plotScript.println( "        set_property( \"plantingLength\", \"" + days.size() + "\" );" );
+			plotScript.println( "        set_property( \"plantingScript\", \"" + filename + "\" );" );
 			plotScript.println( "    }" );
 			plotScript.println();
-			plotScript.println( "    if ( get_property( \"lastPlantingDate\" ) == today_to_string() )" );
+			plotScript.println( "    if ( get_property( \"plantingDate\" ) == today_to_string() )" );
 			plotScript.println( "        return;" );
 			plotScript.println();
-			plotScript.println( "    set_property( \"lastPlantingDate\", today_to_string() );" );
-			plotScript.println( "    int index = (string_to_int( get_property( \"lastPlantingDay\" ) ) + 1) % " + days.size() + ";" );
-			plotScript.println( "    set_property( \"lastPlantingDay\", index );" );
+			plotScript.println( "    set_property( \"plantingDate\", today_to_string() );" );
+			plotScript.println( "    int index = (string_to_int( get_property( \"plantingDay\" ) ) + 1) % " + days.size() + ";" );
+			plotScript.println( "    set_property( \"plantingDay\", index );" );
 
 			for ( int i = 0; i < days.size(); ++i )
 			{
