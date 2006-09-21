@@ -147,7 +147,9 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	{
 		if ( requiresTruncation && displayBuffer.length() > MAXIMUM_SIZE )
 		{
-			int lineIndex = displayBuffer.indexOf( "<br>", MAXIMUM_SIZE - RESIZE_SIZE );
+			int lineIndex = displayBuffer.indexOf( "<br>", RESIZE_SIZE );
+			System.out.println( "Truncating at: " + lineIndex );
+
 			if ( lineIndex == -1 )
 				displayBuffer.setLength( 0 );
 			else
