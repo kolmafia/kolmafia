@@ -41,10 +41,11 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.io.InputStreamReader;
+import java.io.ByteArrayOutputStream;
 
 import java.util.TreeMap;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Properties;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
@@ -178,7 +179,10 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			// the appropriate Properties data.
 
 			if ( !source.exists() )
+			{
+				settingsChanged = true;
 				storeSettings( source );
+			}
 
 			// Now that it is guaranteed that an XML file exists
 			// with the appropriate properties, load the file.
@@ -416,35 +420,20 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			// Determine the contents of the file by
 			// actually printing them.
 
+			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+			store( ostream, VERSION_NAME );
+
+			String [] lines = ostream.toString().split( LINE_BREAK );
+			Arrays.sort( lines );
+
 			File temporary = new File( "settings/" + System.currentTimeMillis() + ".tmp" );
 			temporary.createNewFile();
 
-			FileOutputStream ostream = new FileOutputStream( destination );
-			store( ostream, VERSION_NAME );
-			ostream.close();
-
-			// Make sure that all of the settings are
-			// in a sorted order.
-
-			ArrayList contents = new ArrayList();
-			BufferedReader reader = KoLDatabase.getReader( destination );
-
-			String line;
-			while ( (line = reader.readLine()) != null )
-				contents.add( line );
-
-			reader.close();
-			Collections.sort( contents );
-
-			temporary.delete();
-			temporary.createNewFile();
-
 			PrintStream writer = new LogStream( temporary );
-			for ( int i = 0; i < contents.size(); ++i )
+			for ( int i = 0; i < lines.length; ++i )
 			{
-				line = (String) contents.get(i);
-				if ( !line.startsWith( "saveState" ) || noExtensionName.equals( "GLOBAL" ) )
-					writer.println( line );
+				if ( !lines[i].startsWith( "saveState" ) || noExtensionName.equals( "GLOBAL" ) )
+					writer.println( lines[i] );
 			}
 
 			writer.close();
@@ -462,5 +451,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 			StaticEntity.printStackTrace( e );
 		}
+
+		settingsChanged = false;
 	}
 }

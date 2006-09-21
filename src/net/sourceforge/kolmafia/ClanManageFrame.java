@@ -80,54 +80,38 @@ public class ClanManageFrame extends KoLFrame
 	private static final int MOVE_MULTIPLE = 4;
 
 	private JTable members;
+	private SnapshotPanel snapshot;
 	private ClanBuffPanel clanBuff;
 	private StoragePanel storing;
 	private WithdrawPanel withdrawal;
 	private DonationPanel donation;
 	private AttackPanel attacks;
-	private WarfarePanel warfare;
-	private SnapshotPanel snapshot;
-	private AscensionPanel ascension;
 	private MemberSearchPanel search;
 
 	public ClanManageFrame()
 	{
 		super( "Clan Management" );
 
+		this.snapshot = new SnapshotPanel();
+		this.attacks = new AttackPanel();
 		this.storing = new StoragePanel();
 		this.clanBuff = new ClanBuffPanel();
 		this.donation = new DonationPanel();
 		this.withdrawal = new WithdrawPanel();
-		this.attacks = new AttackPanel();
-		this.warfare = new WarfarePanel();
-		this.snapshot = new SnapshotPanel();
-		this.ascension = new AscensionPanel();
 		this.search = new MemberSearchPanel();
 		this.tabs = new JTabbedPane();
 
+		tabs.addTab( "Snapshot", snapshot );
+
+		JPanel adminPanel = new JPanel();
+		adminPanel.setLayout( new BoxLayout( adminPanel, BoxLayout.Y_AXIS ) );
+		adminPanel.add( attacks );
+		adminPanel.add( donation );
+		adminPanel.add( clanBuff );
+
+		tabs.addTab( "Admin", adminPanel );
 		tabs.addTab( "Deposit", storing );
 		tabs.addTab( "Withdraw", withdrawal );
-
-		JPanel snapPanel = new JPanel();
-		snapPanel.setLayout( new BoxLayout( snapPanel, BoxLayout.Y_AXIS ) );
-		snapPanel.add( snapshot );
-		snapPanel.add( ascension );
-
-		tabs.addTab( "Snapshot", snapPanel );
-
-		JPanel warfarePanel = new JPanel();
-		warfarePanel.setLayout( new BoxLayout( warfarePanel, BoxLayout.Y_AXIS ) );
-		warfarePanel.add( attacks );
-		warfarePanel.add( warfare );
-
-		tabs.addTab( "Warfare", warfarePanel );
-
-		JPanel purchasePanel = new JPanel();
-		purchasePanel.setLayout( new BoxLayout( purchasePanel, BoxLayout.Y_AXIS ) );
-		purchasePanel.add( donation );
-		purchasePanel.add( clanBuff );
-
-		tabs.addTab( "Buffs", purchasePanel );
 
 		members = new TransparentTable( new MemberTableModel() );
 		members.setModel( new TableSorter( members.getModel(), members.getTableHeader() ) );
@@ -235,74 +219,6 @@ public class ClanManageFrame extends KoLFrame
 
 		public void actionCancelled()
 		{	(new RequestThread( new ClanListRequest( StaticEntity.getClient() ) )).start();
-		}
-	}
-
-	private class WarfarePanel extends LabeledKoLPanel
-	{
-		private JTextField goodies;
-		private JTextField oatmeal, recliners;
-		private JTextField ground, airborne, archers;
-
-		public WarfarePanel()
-		{
-			super( "Prepare for WAR!!!", "purchase", "calculate", new Dimension( 120, 20 ), new Dimension( 200, 20 ) );
-
-			goodies = new JTextField();
-			oatmeal = new JTextField();
-			recliners = new JTextField();
-			ground = new JTextField();
-			airborne = new JTextField();
-			archers = new JTextField();
-
-			VerifiableElement [] elements = new VerifiableElement[6];
-			elements[0] = new VerifiableElement( "Goodies: ", goodies );
-			elements[1] = new VerifiableElement( "Oatmeal: ", oatmeal );
-			elements[2] = new VerifiableElement( "Recliners: ", recliners );
-			elements[3] = new VerifiableElement( "Ground Troops: ", ground );
-			elements[4] = new VerifiableElement( "Airborne Troops: ", airborne );
-			elements[5] = new VerifiableElement( "La-Z-Archers: ", archers );
-
-			setContent( elements );
-		}
-
-		public void actionConfirmed()
-		{	(new RequestThread( new ClanMaterialsRequest() )).start();
-		}
-
-		public void actionCancelled()
-		{
-			int totalValue = getValue( goodies ) * 1000 + getValue( oatmeal ) * 3 + getValue( recliners ) * 1500 +
-				getValue( ground ) * 300 + getValue( airborne ) * 500 + getValue( archers ) * 500;
-
-			JOptionPane.showMessageDialog( null, "This purchase will cost " + totalValue + " meat" );
-		}
-
-		private class ClanMaterialsRequest extends KoLRequest
-		{
-			public ClanMaterialsRequest()
-			{
-				super( StaticEntity.getClient(), "clan_war.php" );
-				addFormField( "action", "Yep." );
-				addFormField( "goodies", String.valueOf( getValue( goodies ) ) );
-				addFormField( "oatmeal", String.valueOf( getValue( oatmeal ) ) );
-				addFormField( "recliners", String.valueOf( getValue( recliners ) ) );
-				addFormField( "grunts", String.valueOf( getValue( ground ) ) );
-				addFormField( "flyers", String.valueOf( getValue( airborne ) ) );
-				addFormField( "archers", String.valueOf( getValue( archers ) ) );
-			}
-
-			public void run()
-			{
-				KoLmafia.updateDisplay( "Purchasing clan materials..." );
-
-				super.run();
-
-				// Theoretically, there should be a test for error state,
-				// but because I'm lazy, that's not happening.
-
-				KoLmafia.updateDisplay( "Purchase request processed." );
-			}
 		}
 	}
 
@@ -450,7 +366,7 @@ public class ClanManageFrame extends KoLFrame
 				{
 					int quantity = 0;
 
-					if (moveType == MOVE_ALL_BUT)
+					if ( moveType == MOVE_ALL_BUT )
 						quantity = getQuantity( "Maximum number of each item allowed in the stash?", 100 );
 
 					for ( int i = 0; i < items.length; ++i )
@@ -461,15 +377,17 @@ public class ClanManageFrame extends KoLFrame
 							quantity = getQuantity( "Withdrawing multiple " + currentItem.getName() + "...", currentItem.getCount(), currentItem.getCount() );
 							if ( quantity == 0 )
 								return;
+
 							items[i] = currentItem.getInstance( quantity );
 						}
 						else
+						{
 							items[i] = currentItem.getInstance( Math.max( 0, currentItem.getCount() - quantity ) );
+						}
 					}
 				}
 
-				(new RequestThread( new ClanStashRequest( StaticEntity.getClient(),
-					items, ClanStashRequest.STASH_TO_ITEMS ) )).start();
+				(new RequestThread( new ClanStashRequest( StaticEntity.getClient(), items, ClanStashRequest.STASH_TO_ITEMS ) )).start();
 			}
 		}
 	}
@@ -597,30 +515,48 @@ public class ClanManageFrame extends KoLFrame
 
 	private class SnapshotPanel extends LabeledKoLPanel
 	{
+		private JTextField mostAscensionsBoardSizeField;
+		private JTextField mainBoardSizeField;
+		private JTextField classBoardSizeField;
+		private JTextField maxAgeField;
+		private JCheckBox playerMoreThanOnceOption;
+
 		private JCheckBox [] optionBoxes;
 		private final String [][] options =
 		{
-			{ "<td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>", "Progression statistics (level, power, class)" },
-			{ "<td>Title</td><td>Rank</td><td>Karma</td>", "Internal clan statistics (title, karma)" },
-			{ "<td>Class</td><td>Path</td><td>Turns</td><td>Meat</td>", "Leaderboard (class, path, turns, wealth)" },
-			{ "<td>PVP</td><td>Food</td><td>Drink</td>", "Miscellaneous statistics (pvp, food, booze)" },
-			{ "<td>Created</td><td>Last Login</td>", "Creation and last login dates" },
+			{ "<td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>", "Progression statistics (level, power, class):  " },
+			{ "<td>Title</td><td>Rank</td><td>Karma</td>", "Internal clan statistics (title, karma):  " },
+			{ "<td>Class</td><td>Path</td><td>Turns</td><td>Meat</td>", "Leaderboard (class, path, turns, wealth):  " },
+			{ "<td>PVP</td><td>Food</td><td>Drink</td>", "Miscellaneous statistics (pvp, food, booze):  " },
+			{ "<td>Created</td><td>Last Login</td>", "Creation and last login dates:  " },
 		};
 
 		public SnapshotPanel()
 		{
-			super( "Clan Snapshot", "snapshot", "logshot", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
+			super( "Clan Snapshot", "snapshot", "logshot", new Dimension( 300, 16 ), new Dimension( 50, 16 ) );
 
-			VerifiableElement [] elements = new VerifiableElement[ options.length ];
+			VerifiableElement [] elements = new VerifiableElement[ options.length + 5 ];
+
+			mostAscensionsBoardSizeField = new JTextField( "20" );
+			mainBoardSizeField = new JTextField( "10" );
+			classBoardSizeField = new JTextField( "5" );
+			maxAgeField = new JTextField( "0" );
+			playerMoreThanOnceOption = new JCheckBox();
+
+			elements[0] = new VerifiableElement( "Most Ascensions Board Size:  ", mostAscensionsBoardSizeField );
+			elements[1] = new VerifiableElement( "Fastest Ascensions Board Size:  ", mainBoardSizeField );
+			elements[2] = new VerifiableElement( "Class Breakdown Board Size:  ", classBoardSizeField );
+			elements[3] = new VerifiableElement( "Maximum Ascension Age (in days):  ", maxAgeField );
+			elements[4] = new VerifiableElement( "Allow Multiple Appearances:  ", playerMoreThanOnceOption );
 
 			optionBoxes = new JCheckBox[ options.length ];
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i] = new JCheckBox();
 
 			for ( int i = 0; i < options.length; ++i )
-				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+				elements[i + 5] = new VerifiableElement( options[i][1], optionBoxes[i] );
 
-			setContent( elements, false );
+			setContent( elements );
 			String tableHeaderSetting = StaticEntity.getProperty( "clanRosterHeader" );
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i].setSelected( tableHeaderSetting.indexOf( options[i][0] ) != -1 );
@@ -642,59 +578,16 @@ public class ClanManageFrame extends KoLFrame
 			// Now that you've got everything, go ahead and
 			// generate the snapshot.
 
-			ClanManager.takeSnapshot( 0, 0, 0, 0, false );
-		}
-
-		public void actionCancelled()
-		{
-			ClanManager.saveStashLog();
-		}
-	}
-
-	private class AscensionPanel extends LabeledKoLPanel
-	{
-		private JTextField mostAscensionsBoardSizeField;
-		private JTextField mainBoardSizeField;
-		private JTextField classBoardSizeField;
-		private JTextField maxAgeField;
-		private JCheckBox playerMoreThanOnceOption;
-
-		public AscensionPanel()
-		{
-			super( "Clan Leaderboards", "snapshot", new Dimension( 240, 20 ), new Dimension( 80, 20 ) );
-
-			mostAscensionsBoardSizeField = new JTextField( "20" );
-			mainBoardSizeField = new JTextField( "10" );
-			classBoardSizeField = new JTextField( "5" );
-			maxAgeField = new JTextField( "0" );
-			playerMoreThanOnceOption = new JCheckBox();
-
-			VerifiableElement [] elements = new VerifiableElement[5];
-			elements[0] = new VerifiableElement( "Most Ascensions Board Size:  ", mostAscensionsBoardSizeField );
-			elements[1] = new VerifiableElement( "Fastest Ascensions Board Size:  ", mainBoardSizeField );
-			elements[2] = new VerifiableElement( "Class Breakdown Board Size:  ", classBoardSizeField );
-			elements[3] = new VerifiableElement( "Maximum Ascension Age (in days):  ", maxAgeField );
-			elements[4] = new VerifiableElement( "Allow Multiple Appearances:  ", playerMoreThanOnceOption );
-
-			setContent( elements );
-		}
-
-		public void actionConfirmed()
-		{
-			int mostAscensionsBoardSize = mostAscensionsBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : StaticEntity.parseInt( mostAscensionsBoardSizeField.getText() );
-			int mainBoardSize = mainBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : StaticEntity.parseInt( mainBoardSizeField.getText() );
-			int classBoardSize = classBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : StaticEntity.parseInt( classBoardSizeField.getText() );
-			int maxAge = maxAgeField.getText().equals( "" ) ? Integer.MAX_VALUE : StaticEntity.parseInt( maxAgeField.getText() );
+			int mostAscensionsBoardSize = getValue( mostAscensionsBoardSizeField, Integer.MAX_VALUE );
+			int mainBoardSize = getValue( mainBoardSizeField, Integer.MAX_VALUE );
+			int classBoardSize = getValue( classBoardSizeField, Integer.MAX_VALUE );
+			int maxAge = getValue( maxAgeField, Integer.MAX_VALUE );
 			boolean playerMoreThanOnce = playerMoreThanOnceOption.isSelected();
-
-			String oldSetting = StaticEntity.getProperty( "clanRosterHeader" );
-			StaticEntity.setProperty( "clanRosterHeader", "<td>Ascensions</td>" );
 
 			// Now that you've got everything, go ahead and
 			// generate the snapshot.
 
 			ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce );
-			StaticEntity.setProperty( "clanRosterHeader", oldSetting );
 		}
 
 		public void actionCancelled()
