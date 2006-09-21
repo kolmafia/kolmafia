@@ -871,14 +871,23 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static String getFeatureRichHTML( String location, String text )
 	{
+		StringBuffer buffer = new StringBuffer( text );
+		getFeatureRichHTML( location, buffer );
+		return buffer.toString();
+	}
+
+
+	public static void getFeatureRichHTML( String location, StringBuffer buffer )
+	{
 		// If you found a marmot clover, it would have
 		// automatically been disassembled.  Update
 		// the HTML to reflect this.
 
-		if ( text.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
+		int cloverIndex = buffer.indexOf( "you look down and notice a ten-leaf clover" );
+		if ( cloverIndex != -1 )
 		{
-			text = text.replaceFirst( "ten-leaf clover</b>",
-				"ten-leaf clover</b></td></tr></table></center><p>You carefully pull the leaves off of your ten-leaf clover. It seems much less lucky now.<center><table><tr><td>" +
+			buffer.insert( cloverIndex,
+				"</td></tr></table></center><p>You carefully pull the leaves off of your ten-leaf clover. It seems much less lucky now.<center><table><tr><td>" +
 				"<img src=\"http://images.kingdomofloathing.com/itemimages/disclover.gif\" class=hand onClick='descitem(328909735)'>" +
 				"</td><td valign=center class=effect>You acquire an item: <b>disassembled clover</b>" );
 		}
@@ -888,45 +897,41 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// it so that you get a use link.
 
 		if ( location.indexOf( "charpane.php" ) != -1 && StaticEntity.getBooleanProperty( "relayAddsShrugOffLinks" ) )
-			text = addShrugOffLinks( text );
+			addShrugOffLinks( buffer );
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
-			text = addUseLinks( text );
+			addUseLinks( buffer );
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsPlinking" ) )
-			text = addPlinking( text );
+			addPlinking( buffer );
 
-		text = addChoiceSpoilers( text );
+		addChoiceSpoilers( buffer );
 
 		// Now, if you find out that this is the tavern
 		// quest, make sure to make all adjustments which
 		// show previously seen locations.
 
-		text = addTavernSpoilers( text );
-
-		return text;
+		addTavernSpoilers( buffer );
 	}
 
-	private static String addPlinking( String text )
+	private static void addPlinking( StringBuffer buffer )
 	{
-		if ( text.indexOf( "fight.php" ) == -1 )
-			return text;
+		if ( buffer.indexOf( "fight.php" ) == -1 )
+			return;
 
-		StringBuffer fightText = new StringBuffer( text );
-		int firstFormIndex = text.indexOf( "</form>" ) + 7;
-
-		fightText.insert( firstFormIndex,
+		int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
+		buffer.insert( firstFormIndex,
 			"<tr><td align=center><form action=fight.php method=post><input type=hidden name=\"action\" value=\"plink\"><input class=\"button\" type=\"submit\" value=\"Repeatedly\"></form></td></tr>" );
-
-		return fightText.toString();
 	}
 
-	private static String addUseLinks( String text )
+	private static void addUseLinks( StringBuffer buffer )
 	{
-		if ( text.indexOf( "You acquire" ) == -1 )
-			return text;
+		if ( buffer.indexOf( "You acquire" ) == -1 )
+			return;
 
-		StringBuffer linkedResponse = new StringBuffer();
+		String text = buffer.toString();
+		buffer.setLength( 0 );
+
 		Matcher useLinkMatcher = ACQUIRE_PATTERN.matcher( text );
 
 		while ( useLinkMatcher.find() )
@@ -1004,26 +1009,25 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			if ( useType != null && useLocation != null )
 			{
-				useLinkMatcher.appendReplacement( linkedResponse,
+				useLinkMatcher.appendReplacement( buffer,
 					"You acquire$1 <font size=1>[<a href=\"" + useLocation.toString() +
 					(useLocation.endsWith( "=" ) ? String.valueOf( itemID ) : "") +
 					"\">" + useType + "</a>]</font></td>" );
 			}
 			else
 			{
-				useLinkMatcher.appendReplacement( linkedResponse, "$0" );
+				useLinkMatcher.appendReplacement( buffer, "$0" );
 			}
 		}
 
-		useLinkMatcher.appendTail( linkedResponse );
-		return linkedResponse.toString();
+		useLinkMatcher.appendTail( buffer );
 	}
 
-	private static String addChoiceSpoilers( String text )
+	private static void addChoiceSpoilers( StringBuffer buffer )
 	{
-		Matcher choiceMatcher = CHOICE_PATTERN.matcher( text );
+		Matcher choiceMatcher = CHOICE_PATTERN.matcher( buffer.toString() );
 		if ( !choiceMatcher.find() )
-			return text;
+			return;
 
 		String choice = choiceMatcher.group(1);
 		String option = "choiceAdventure" + choice;
@@ -1040,10 +1044,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 
 		if ( possibleDecisions == null )
-			return text;
+			return;
 
 		int index1 = 0, index2 = 0;
-		StringBuffer newText = new StringBuffer();
+
+		String text = buffer.toString();
+		buffer.setLength(0);
 
 		for ( int i = 0; i < possibleDecisions[2].length; ++i )
 		{
@@ -1054,12 +1060,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				break;
 
 			// Start spoiler text
-			newText.append( text.substring( index1, index2 ) );
-			newText.append( "<br><font size=-1>(" );
+			buffer.append( text.substring( index1, index2 ) );
+			buffer.append( "<br><font size=-1>(" );
 
 			// Say what the choice will give you
 			String item = possibleDecisions[2][i];
-			newText.append( item );
+			buffer.append( item );
 
 			// If this choice helps complete an outfit...
 			if ( possibleDecisions.length > 3 )
@@ -1070,30 +1076,32 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( itemID != null )
 				{
 					// List # in inventory
-					newText.append( " - " );
+					buffer.append( " - " );
 					AdventureResult result = new AdventureResult( StaticEntity.parseInt( itemID ), 1 );
 
 					int available = KoLCharacter.hasEquipped( result ) ? 1 : 0;
 					available += result.getCount( inventory );
 
-					newText.append( available );
-					newText.append( " in inventory" );
+					buffer.append( available );
+					buffer.append( " in inventory" );
 				}
 			}
 
 			// Finish spoiler text
-			newText.append( ")</font></form>" );
+			buffer.append( ")</font></form>" );
 			index1 = index2 + 7;
 		}
 
-		newText.append( text.substring( index1 ) );
-		return newText.toString();
+		buffer.append( text.substring( index1 ) );
 	}
 
-	private static String addTavernSpoilers( String text )
+	private static void addTavernSpoilers( StringBuffer buffer )
 	{
-		if ( text.indexOf( "rats.php" ) == -1 )
-			return text;
+		if ( buffer.indexOf( "rats.php" ) == -1 )
+			return;
+
+		String text = buffer.toString();
+		buffer.setLength(0);
 
 		for ( int i = 1; i <= 25; ++i )
 		{
@@ -1126,12 +1134,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			}
 		}
 
-		return text;
+		buffer.append( text );
 	}
 
-	private static String addShrugOffLinks( String text )
+	private static void addShrugOffLinks( StringBuffer buffer )
 	{
-		StringBuffer responseBuffer = new StringBuffer();
+		String text = buffer.toString();
+		buffer.setLength( 0 );
+
 		String fontTag = "";
 
 		int startingIndex = 0;
@@ -1164,7 +1174,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					fontTag = "<span class=red>";
 			}
 
-			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
 			startingIndex = text.indexOf( ">", startingIndex ) + 1;
@@ -1173,24 +1183,24 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			startingIndex = text.indexOf( KoLRequest.isCompactMode ? "/" : "&", startingIndex );
 
 			if ( !KoLRequest.isCompactMode )
-				responseBuffer.append( fontTag );
+				buffer.append( fontTag );
 
-			responseBuffer.append( "<a title=\"Restore your HP\" href=\"/KoLmafia/sideCommand?cmd=restore+hp\" style=\"color:" );
+			buffer.append( "<a title=\"Restore your HP\" href=\"/KoLmafia/sideCommand?cmd=restore+hp\" style=\"color:" );
 
 			Matcher colorMatcher = COLOR_PATTERN.matcher( fontTag );
 			if ( colorMatcher.find() )
-				responseBuffer.append( colorMatcher.group(2) + "\">" );
+				buffer.append( colorMatcher.group(2) + "\">" );
 			else
-				responseBuffer.append( "black\"><b>" );
+				buffer.append( "black\"><b>" );
 
-			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
-			responseBuffer.append( "</a>" );
+			buffer.append( "</a>" );
 			if ( !KoLRequest.isCompactMode )
-				responseBuffer.append( "</span>" );
+				buffer.append( "</span>" );
 
-			responseBuffer.append( fontTag );
+			buffer.append( fontTag );
 		}
 
 		// Next, locate your MP information inside of the response
@@ -1214,17 +1224,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				startingIndex = text.indexOf( ">", startingIndex ) + 1;
 			}
 
-			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
-			responseBuffer.append( "<a style=\"color:" );
-			responseBuffer.append( KoLCharacter.getCurrentMP() < dangerous ? "red" : "black" );
-			responseBuffer.append( "\" title=\"Restore your MP\" href=\"/KoLmafia/sideCommand?cmd=restore+mp\">" );
+			buffer.append( "<a style=\"color:" );
+			buffer.append( KoLCharacter.getCurrentMP() < dangerous ? "red" : "black" );
+			buffer.append( "\" title=\"Restore your MP\" href=\"/KoLmafia/sideCommand?cmd=restore+mp\">" );
 			startingIndex = KoLRequest.isCompactMode ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
-			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
-			responseBuffer.append( "</a>" );
+			buffer.append( "</a>" );
 		}
 
 		// First, add in a mood-execute link, in the event that the person
@@ -1243,13 +1253,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			else
 				startingIndex = text.lastIndexOf( "<table", effectIndex );
 
-			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
 			if ( shouldAddDivider )
-				responseBuffer.append( "<hr width=50%>" );
+				buffer.append( "<hr width=50%>" );
 
-			responseBuffer.append( "<font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]</font><br><br>" );
+			buffer.append( "<font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]</font><br><br>" );
 		}
 		else
 		{
@@ -1265,16 +1275,16 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					startingIndex = text.lastIndexOf( "</center>" );
 			}
 
-			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
 			if ( effectIndex == -1 )
-				responseBuffer.append( "<center><p><b><font size=2>Effects:</font></b>" );
+				buffer.append( "<center><p><b><font size=2>Effects:</font></b>" );
 
-			responseBuffer.append( "<br><font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood execute</a>]</font>" );
+			buffer.append( "<br><font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood execute</a>]</font>" );
 
 			if ( effectIndex == -1 )
-				responseBuffer.append( "<br></p></center>" );
+				buffer.append( "<br></p></center>" );
 		}
 
 
@@ -1287,7 +1297,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( startingIndex != -1 )
 			{
 				int nextAppendIndex = text.indexOf( "(", startingIndex + 14 ) + 1;
-				responseBuffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+				buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
 				lastAppendIndex = nextAppendIndex;
 
 				int effectID = StaticEntity.parseInt(
@@ -1316,77 +1326,76 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				if ( !removeAction.equals( "" ) )
 				{
-					responseBuffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=" );
+					buffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=" );
 
 					try
 					{
-						responseBuffer.append( URLEncoder.encode( removeAction, "UTF-8" ) );
+						buffer.append( URLEncoder.encode( removeAction, "UTF-8" ) );
 					}
 					catch ( Exception e )
 					{
 						// Hm, something bad happened.  Instead of giving a real link,
 						// give a fake link instead.
 
-						responseBuffer.append( "win+game" );
+						buffer.append( "win+game" );
 					}
 
-					responseBuffer.append( "\" title=\"" );
+					buffer.append( "\" title=\"" );
 
 					if ( skillType == ClassSkillsDatabase.BUFF )
-						responseBuffer.append( "Shrug off the " );
+						buffer.append( "Shrug off the " );
 					else if ( removeAction.startsWith( "uneffect" ) )
-						responseBuffer.append( "Use a remedy to remove the " );
+						buffer.append( "Use a remedy to remove the " );
 					else
-						responseBuffer.append( Character.toUpperCase( removeAction.charAt(0) ) + removeAction.substring(1) + " to remove the " );
+						buffer.append( Character.toUpperCase( removeAction.charAt(0) ) + removeAction.substring(1) + " to remove the " );
 
-					responseBuffer.append( effectName );
-					responseBuffer.append( " effect\">" );
+					buffer.append( effectName );
+					buffer.append( " effect\">" );
 				}
 
 				nextAppendIndex = text.indexOf( ")", lastAppendIndex ) + 1;
 				int duration = StaticEntity.parseInt( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
 
-				responseBuffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
+				buffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
 				lastAppendIndex = nextAppendIndex;
 
 				if ( skillType == ClassSkillsDatabase.BUFF || !removeAction.equals( "" ) )
-					responseBuffer.append( "</a>" );
+					buffer.append( "</a>" );
 
-				responseBuffer.append( ")" );
+				buffer.append( ")" );
 
 				// Add the up-arrow icon for buffs which can be maintained, based
 				// on information known to the mood maintenance module.
 
 				if ( !upkeepAction.equals( "" ) )
 				{
-					responseBuffer.append( "&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
+					buffer.append( "&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
 
 					try
 					{
-						responseBuffer.append( URLEncoder.encode( upkeepAction, "UTF-8" ) );
+						buffer.append( URLEncoder.encode( upkeepAction, "UTF-8" ) );
 					}
 					catch ( Exception e )
 					{
 						// Hm, something bad happened.  Instead of giving a real link,
 						// give a fake link instead.
 
-						responseBuffer.append( "win+game" );
+						buffer.append( "win+game" );
 					}
 
-					responseBuffer.append( "\" title=\"Increase rounds of " );
-					responseBuffer.append( effectName );
-					responseBuffer.append( "\"><img src=\"/images/" );
+					buffer.append( "\" title=\"Increase rounds of " );
+					buffer.append( effectName );
+					buffer.append( "\"><img src=\"/images/" );
 
 					if ( duration <= 5 )
-						responseBuffer.append( "red" );
+						buffer.append( "red" );
 
-					responseBuffer.append( "up.gif\" border=0></a>" );
+					buffer.append( "up.gif\" border=0></a>" );
 				}
 			}
 		}
 
-		responseBuffer.append( text.substring( lastAppendIndex ) );
-		return responseBuffer.toString();
+		buffer.append( text.substring( lastAppendIndex ) );
 	}
 
 	private static String sortItemList( String select, String displayHTML )

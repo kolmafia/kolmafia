@@ -52,6 +52,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public abstract class KoLMessenger extends StaticEntity
 {
+	private static final Pattern CHANNEL_PATTERN = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" );
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<img.*?>" );
 	private static final Pattern EXPAND_PATTERN = Pattern.compile( "(</?p>)+" );
@@ -382,9 +383,9 @@ public abstract class KoLMessenger extends StaticEntity
 		String noItalicsContent = ITALICS_PATTERN.matcher( noColorContent ).replaceAll( "" );
 
 		String normalBreaksContent = LINEBREAK_PATTERN.matcher( noItalicsContent ).replaceAll( "<br>" );
-		String normalBoldsContent = StaticEntity.simpleStringReplace( normalBreaksContent, "<br></b>", "</b><br>" );
-		String colonOrderedContent = StaticEntity.simpleStringReplace( normalBoldsContent, ":</b></a>", "</b></a>:" );
-		colonOrderedContent = StaticEntity.simpleStringReplace( colonOrderedContent, "</a>:</b>", "</a></b>:" );
+		String normalBoldsContent = StaticEntity.globalStringReplace( normalBreaksContent, "<br></b>", "</b><br>" );
+		String colonOrderedContent = StaticEntity.globalStringReplace( normalBoldsContent, ":</b></a>", "</b></a>:" );
+		colonOrderedContent = StaticEntity.globalStringReplace( colonOrderedContent, "</a>:</b>", "</a></b>:" );
 		String noCommentsContent = COMMENT_PATTERN.matcher( colonOrderedContent ).replaceAll( "" );
 
 		return TABLE_PATTERN.matcher( noCommentsContent ).replaceAll( "" );
@@ -444,7 +445,7 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( content.startsWith( "<font color=green>Currently listening to channels:" ) )
 		{
 			String channel, channelKey;
-			Matcher channelMatcher = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" ).matcher( content );
+			Matcher channelMatcher = CHANNEL_PATTERN.matcher( content );
 
 			ArrayList channelList = new ArrayList();
 			while ( channelMatcher.find() )
@@ -566,7 +567,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		if ( message.startsWith( "Invalid password submitted." ) )
 		{
-			message = message.replaceFirst( "Invalid password submitted\\.", "" ).trim();
+			message = StaticEntity.globalStringDelete( message, "Invalid password submitted." ).trim();
 			if ( message.length() == 0 )
 				return;
 		}
@@ -654,7 +655,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static void processChatMessage( String channel, String message, String bufferKey )
 	{
-		String displayHTML = "";
+		StringBuffer displayHTML = new StringBuffer( message );
 
 		try
 		{
@@ -668,42 +669,64 @@ public abstract class KoLMessenger extends StaticEntity
 			// formatted in green.  These are all handled first.
 
 			if ( message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "<a class=nounder" ) )
-				displayHTML = "<font color=green>" + message + "</font>";
-
+			{
+				displayHTML.insert( 0, "<font color=green>" );
+				displayHTML.append( "</font>" );
+			}
 			else if ( message.startsWith( "<a target=mainpane href=\'" ) )
-				displayHTML = "<font color=green>" + message + "</font>";
-
+			{
+				displayHTML.insert( 0, "<font color=green>" );
+				displayHTML.append( "</font>" );
+			}
 			else if ( message.startsWith( "<a target=mainpane href=\"messages.php\">" ) )
-				displayHTML = "<font color=green>" + message + "</font>";
-
+			{
+				displayHTML.insert( 0, "<font color=green>" );
+				displayHTML.append( "</font>" );
+			}
 			else if ( message.indexOf( "has proposed a trade" ) != -1 )
-				displayHTML = "<font color=green>" + message + "</font>";
-
+			{
+				displayHTML.insert( 0, "<font color=green>" );
+				displayHTML.append( "</font>" );
+			}
 			else if ( message.indexOf( "has cancelled a trade" ) != -1 )
-				displayHTML = "<font color=green>" + message + "</font>";
-
+			{
+				displayHTML.insert( 0, "<font color=green>" );
+				displayHTML.append( "</font>" );
+			}
 			else if ( message.indexOf( "has responded to a trade" ) != -1 )
-				displayHTML = "<font color=green>" + message + "</font>";
-
+			{
+				displayHTML.insert( 0, "<font color=green>" );
+				displayHTML.append( "</font>" );
+			}
 			else if ( message.indexOf( "has declined a trade" ) != -1 )
-				displayHTML = "<font color=green>" + message + "</font>";
-
+			{
+				displayHTML.insert( 0, "<font color=green>" );
+				displayHTML.append( "</font>" );
+			}
 			else if ( message.indexOf( "has accepted a trade" ) != -1 )
-				displayHTML = "<font color=green>" + message + "</font>";
+			{
+				displayHTML.insert( 0, "<font color=green>" );
+				displayHTML.append( "</font>" );
+			}
 
 			// Then, private messages resulting from a /last command
 			// show up in blue.  These are handled next.
 
 			else if ( message.startsWith( "<b>from " ) || message.startsWith( "<b>to " ) )
-				displayHTML = "<font color=blue>" + message + "</font>";
+			{
+				displayHTML.insert( 0, "<font color=blue>" );
+				displayHTML.append( "</font>" );
+			}
 
 			// Mod warnings and system messages turn up in red.  There
 			// are kick messages which show up in red as well, but those
 			// should also have mod warning attached.
 
 			else if ( message.indexOf( ">Mod Warning<" ) != -1 || message.indexOf( ">System Message<" ) != -1 )
-				displayHTML = "<font color=red>" + message + "</font>";
-
+			{
+				displayHTML.insert( 0, "<font color=red>" );
+				displayHTML.append( "</font>" );
+			}
 			else
 			{
 				// Finally, all other messages are treated normally, with
@@ -713,16 +736,19 @@ public abstract class KoLMessenger extends StaticEntity
 				String contactName = nameMatcher.find() ? ANYTAG_PATTERN.matcher( nameMatcher.group(1) ).replaceAll( "" ) : message;
 
 				if ( contactName.indexOf( "*" ) == -1 )
-					displayHTML = message.replaceFirst( contactName, "<font color=\"" + getColor( contactName ) + "\">" + contactName + "</font>" );
+					StaticEntity.globalStringReplace( displayHTML, contactName, "<font color=\"" + getColor( contactName ) + "\">" + contactName + "</font>" );
 
 				// All messages which don't have a colon following the name
 				// are italicized messages from actions.
 
 				if ( message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 )
-					displayHTML = "<i>" + displayHTML + "</i>";
+				{
+					displayHTML.insert( 0, "<i>" );
+					displayHTML.append( "</i>" );
+				}
 			}
 
-			if ( displayHTML.startsWith( "<font color=green>" ) && displayHTML.indexOf( " has " ) != -1 )
+			if ( displayHTML.indexOf( "<font color=green>" ) != -1 && displayHTML.indexOf( " has " ) != -1 )
 				CharpaneRequest.getInstance().run();
 
 			// Add the appropriate eSolu scriptlet additions to the
@@ -738,7 +764,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 					StringBuffer linkBuffer = new StringBuffer();
 
-					linkBuffer.append( "</b> " );
+					linkBuffer.append( " " );
 
 					linkBuffer.append( "<a href=\"" + link + "_1\" alt=\"send blue message\">" );
 					linkBuffer.append( useColors ? "<font color=blue>" : "<font color=gray>" );
@@ -756,7 +782,9 @@ public abstract class KoLMessenger extends StaticEntity
 					linkBuffer.append( useColors ? "<font color=red>" : "<font color=gray>" );
 					linkBuffer.append( "[x]</font></a>" );
 
-					displayHTML = displayHTML.replaceFirst( "</b>", linkBuffer.toString() );
+					int boldIndex = displayHTML.indexOf( "</b>" );
+					if ( boldIndex != -1 )
+						displayHTML.insert( boldIndex + 4, linkBuffer.toString() );
 				}
 			}
 
@@ -765,7 +793,7 @@ public abstract class KoLMessenger extends StaticEntity
 			// channel with the appropriate color.
 
 			if ( bufferKey.startsWith( "[" ) && channel.startsWith( "/" ) )
-				displayHTML = "<font color=\"" + getColor( channel.substring(1) ) + "\">[" + channel.substring(1) + "]</font> " + displayHTML;
+				displayHTML.insert( 0, "<font color=\"" + getColor( channel.substring(1) ) + "\">[" + channel.substring(1) + "]</font> " );
 
 			// Now that everything has been properly formatted,
 			// show the display HTML.
@@ -777,9 +805,10 @@ public abstract class KoLMessenger extends StaticEntity
 			timestamp.append( MESSAGE_TIMESTAMP.format( new Date() ) );
 			timestamp.append( "</font>" );
 
-			buffer.append( timestamp.toString() + "&nbsp;" + displayHTML + "<br>" );
-			if ( displayHTML.startsWith( "<font color=green>" ) )
-				eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML ).replaceAll( "" ) );
+			buffer.append( timestamp.toString() + "&nbsp;" + displayHTML.toString() + "<br>" );
+
+			if ( displayHTML.indexOf( "<font color=green>" ) != -1 )
+				eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( message ).replaceAll( "" ) );
 
 			// Check to make sure that in the time it took for
 			// everything to be processed, chat didn't get closed.
@@ -794,7 +823,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 			printStackTrace( e, "Error in channel " + channel,
 				new String [] { "Channel: " + channel, "Buffer key: " + bufferKey,
-					"Message: " + message, "Rendered: " + displayHTML, "" } );
+					"Message: " + message, "Rendered: " + displayHTML.toString(), "" } );
 		}
 	}
 
