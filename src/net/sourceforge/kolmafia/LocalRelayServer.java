@@ -235,6 +235,7 @@ public class LocalRelayServer implements Runnable
 
 		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request ) throws IOException
 		{
+			String header = null;
 			for ( int i = 0; (header = request.getHeader( i )) != null; ++i )
 			{
 				if ( header.startsWith( "Cache-Control" ) )
