@@ -754,7 +754,7 @@ public abstract class MoodSettings implements KoLConstants
 			else if ( triggerType.equals( "lose_effect" ) )
 			{
 				shouldExecute = action.indexOf( "cupcake" ) != -1 || action.indexOf( "snowcone" ) != -1 ?
-					!activeEffects.contains( effect ) : effect.getCount( activeEffects ) < 2;
+					!activeEffects.contains( effect ) : effect.getCount( activeEffects ) <= 5;
 
 				shouldExecute &= !triggerName.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
 			}

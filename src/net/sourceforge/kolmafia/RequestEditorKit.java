@@ -1261,7 +1261,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( shouldAddDivider )
 				buffer.append( "<hr width=50%>" );
 
-			buffer.append( "<font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]</font><br><br>" );
+			buffer.append( "<font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood " +
+				StaticEntity.getProperty( "currentMood" ) + "</a>]</font><br><br>" );
 		}
 		else
 		{
@@ -1283,7 +1284,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( effectIndex == -1 )
 				buffer.append( "<center><p><b><font size=2>Effects:</font></b>" );
 
-			buffer.append( "<br><font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood execute</a>]</font>" );
+			buffer.append( "<br><font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood " +
+				StaticEntity.getProperty( "currentMood" ) + "</a>]</font>" );
 
 			if ( effectIndex == -1 )
 				buffer.append( "<br></p></center>" );
