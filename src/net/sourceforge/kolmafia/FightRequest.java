@@ -434,33 +434,6 @@ public class FightRequest extends KoLRequest
 			client.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
 	}
 
-	public static void setAutoRecovery( String action )
-	{
-		if ( action == null )
-			return;
-
-		if ( !action.startsWith( "skill" ) )
-			return;
-
-		int skillID = ClassSkillsDatabase.getSkillID( action.substring( 6 ) );
-		int mpCost = ClassSkillsDatabase.getMPConsumptionByID( skillID );
-
-		float threshold = StaticEntity.getFloatProperty( "mpAutoRecovery" );
-		if ( threshold == 0.0f )
-		{
-			float required = Math.min( (float) mpCost / (float) KoLCharacter.getMaximumMP(), 1.0f );
-
-			if ( required != 1.0 )
-				required = ((float) Math.ceil( required * 10.0f )) / 10.0f;
-
-			if ( threshold <= required )
-			{
-				StaticEntity.setProperty( "mpAutoRecovery", String.valueOf( required ) );
-				StaticEntity.setProperty( "mpAutoRecoveryTarget", String.valueOf( required ) );
-			}
-		}
-	}
-
 	/**
 	 * An alternative method to doing adventure calculation is determining
 	 * how many adventures are used by the given request, and subtract

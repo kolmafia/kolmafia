@@ -72,9 +72,7 @@ public abstract class CombatSettings implements UtilityConstants
 		settingsFile = new File( settingsFileName() );
 		root.removeAllChildren();
 		reference.clear();
-
 		loadSettings();
-		saveSettings();
 	}
 
 	public static final String settingsFileName()
@@ -93,14 +91,8 @@ public abstract class CombatSettings implements UtilityConstants
 		if ( settingsFile.getAbsolutePath().equals( source.getAbsolutePath() ) )
 			return;
 
-		File oldfile = settingsFile;
-		oldfile.delete();
-
 		settingsFile = source;
 		loadSettings();
-
-		settingsFile = oldfile;
-		saveSettings();
 	}
 
 	/**

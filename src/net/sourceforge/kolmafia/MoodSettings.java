@@ -163,8 +163,6 @@ public abstract class MoodSettings implements KoLConstants
 		triggers.add( node );
 		if ( node.isThiefTrigger() )
 			thiefTriggers.add( node );
-
-		saveSettings();
 	}
 
 	/**
@@ -179,8 +177,6 @@ public abstract class MoodSettings implements KoLConstants
 			if ( thiefTriggers.contains( triggers[i] ) )
 				thiefTriggers.remove( triggers[i] );
 		}
-
-		saveSettings();
 	}
 
 	/**
@@ -308,7 +304,6 @@ public abstract class MoodSettings implements KoLConstants
 		if ( currentMood.equals( "default" ) )
 		{
 			triggers.clear();
-			saveSettings();
 			return;
 		}
 
@@ -317,8 +312,6 @@ public abstract class MoodSettings implements KoLConstants
 
 		reference.remove( currentMood );
 		availableMoods.remove( currentMood );
-
-		saveSettings();
 	}
 
 	/**
@@ -344,9 +337,8 @@ public abstract class MoodSettings implements KoLConstants
 
 		triggers.clear();
 		triggers.addAll( oldTriggers );
-
-		saveSettings();
 	}
+
 	/**
 	 * Executes all the mood triggers for the current mood.
 	 */
@@ -662,12 +654,9 @@ public abstract class MoodSettings implements KoLConstants
 		if ( !reference.containsKey( key ) )
 		{
 			SortedListModel defaultList = new SortedListModel();
-
 			reference.put( key, defaultList );
 			availableMoods.add( key );
-
 			availableMoods.setSelectedItem( key );
-			saveSettings();
 		}
 	}
 

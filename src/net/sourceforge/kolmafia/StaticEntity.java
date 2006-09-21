@@ -124,9 +124,7 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static final void removeProperty( String name )
-	{
-		settings.remove( name );
-		settings.saveSettings();
+	{	settings.remove( name );
 	}
 
 	public static final String getProperty( String name )
@@ -494,6 +492,9 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static final void saveSettings()
-	{	settings.saveSettings();
+	{
+		settings.saveSettings();
+		MoodSettings.saveSettings();
+		CombatSettings.saveSettings();
 	}
 }

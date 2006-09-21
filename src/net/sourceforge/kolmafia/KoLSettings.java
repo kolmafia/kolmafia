@@ -138,14 +138,58 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
 			return "";
 
-		String oldValue = super.getProperty( name );
-		if ( oldValue != null && oldValue.equals( value ) )
-			return value;
+		// Special handling of the battle action property,
+		// such that auto-recovery gets reset as needed.
 
-		super.setProperty( name, value );
-		saveSettings();
+		if ( name.equals( "battleAction" ) && value != null )
+		{
+			int index = KoLCharacter.getBattleSkillIDs().indexOf( value );
+			if ( index == -1 )
+				return "";
 
-		return oldValue;
+			KoLCharacter.getBattleSkillIDs().setSelectedIndex( index );
+			KoLCharacter.getBattleSkillNames().setSelectedIndex( index );
+
+			float trigger = StaticEntity.getFloatProperty( "mpAutoRecovery" );
+			float target = StaticEntity.getFloatProperty( "mpAutoRecoveryTarget" );
+
+			// Only muck with the settings if the trigger and
+			// the target are the same, which logically only
+			// happens if KoLmafia is changing it internally.
+
+			if ( trigger == target )
+			{
+				if ( value.startsWith( "skill" ) )
+				{
+					int skillID = ClassSkillsDatabase.getSkillID( value.substring( 6 ) );
+					int mpCost = ClassSkillsDatabase.getMPConsumptionByID( skillID );
+
+					if ( trigger == 0.0f )
+					{
+						float required = Math.min( (float) mpCost / (float) KoLCharacter.getMaximumMP(), 1.0f );
+
+						if ( required != 1.0 )
+							required = ((float) Math.ceil( required * 10.0f )) / 10.0f;
+
+						if ( trigger <= required )
+						{
+							StaticEntity.setProperty( "mpAutoRecovery", String.valueOf( required ) );
+							StaticEntity.setProperty( "mpAutoRecoveryTarget", String.valueOf( required ) );
+						}
+					}
+				}
+				else
+				{
+					setProperty( "mpAutoRecovery", "0.0" );
+					setProperty( "mpAutoRecoveryTarget", "0.0" );
+				}
+			}
+		}
+
+		// All tests passed.  Now, go ahead and execute the
+		// set property and return the old value.
+
+		return super.setProperty( name, value );
 	}
 
 	public void saveSettings()

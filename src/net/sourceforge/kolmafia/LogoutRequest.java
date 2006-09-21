@@ -55,13 +55,9 @@ public class LogoutRequest extends KoLRequest
 
 	public void run()
 	{
-		// Remove all of the frames which may have been loaded;
-		// this ensures a forced reload of the frame which will
-		// keep the parameters fresh.
-
 		KoLMessenger.dispose();
-		ConcoctionsDatabase.getConcoctions().clear();
 		BuffBotHome.setBuffBotActive( false );
+		StaticEntity.saveSettings();
 
 		StaticEntity.getClient().deinitialize();
 

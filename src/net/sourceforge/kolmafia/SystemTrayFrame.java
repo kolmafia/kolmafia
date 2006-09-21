@@ -63,6 +63,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 		if ( icon != null )
 			WindowsTrayIcon.cleanUp();
 
+		StaticEntity.saveSettings();
 		System.exit(0);
 	}
 

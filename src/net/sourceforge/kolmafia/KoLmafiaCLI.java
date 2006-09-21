@@ -640,15 +640,6 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 
 				value = CombatSettings.getLongCombatOptionName( value );
-				int index = KoLCharacter.getBattleSkillIDs().indexOf( value );
-				if ( index == -1 )
-				{
-					printLine( "Invalid value for combat option." );
-					return;
-				}
-
-				KoLCharacter.getBattleSkillIDs().setSelectedIndex( index );
-				KoLCharacter.getBattleSkillNames().setSelectedIndex( index );
 			}
 
 			printLine( name + " => " + value );
@@ -697,10 +688,13 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "login" ) )
 		{
 			forceContinue();
+
+			(new LogoutRequest( StaticEntity.getClient() )).run();
 			String password = StaticEntity.getClient().getSaveState( parameters );
 
 			if ( password != null )
 				(new LoginRequest( StaticEntity.getClient(), parameters, password )).run();
+
 			else
 				updateDisplay( ERROR_STATE, "No password saved for that username." );
 
@@ -713,7 +707,10 @@ public class KoLmafiaCLI extends KoLmafia
 		// character has already logged in.
 
 		if ( command.equals( "exit" ) || command.equals( "quit" ) || command.equals( "logout" ) )
+		{
+			StaticEntity.saveSettings();
 			System.exit(0);
+		}
 
 		// Next, handle any requests for script execution;
 		// these can be done at any time (including before
