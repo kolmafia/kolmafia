@@ -338,7 +338,6 @@ public class ConsumeItemRequest extends KoLRequest
 			// Pop up a window showing the result
 			KoLCharacter.addFamiliar( FamiliarsDatabase.growFamiliarLarva( lastItemUsed.getItemID() ) );
 			StaticEntity.getClient().showHTML( trimInventoryText( responseText ), "Your new familiar" );
-			StaticEntity.getClient().processResult( lastItemUsed );
 			return;
 		}
 
