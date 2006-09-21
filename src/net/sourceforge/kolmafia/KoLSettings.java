@@ -153,8 +153,12 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	public void saveSettings()
 	{
 		storeSettings( settingsFile );
+
 		if ( GLOBAL_SETTINGS != null && this != GLOBAL_SETTINGS )
+		{
+			KoLRequest.delay( 100 );
 			GLOBAL_SETTINGS.saveSettings();
+		}
 	}
 
 	/**
@@ -412,7 +416,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			// Determine the contents of the file by
 			// actually printing them.
 
-			File temporary = new File( "settings/" + System.currentTimeMillis() + "_" + RNG.nextInt(10) + ".tmp" );
+			File temporary = new File( "settings/" + System.currentTimeMillis() + ".tmp" );
 			temporary.createNewFile();
 
 			FileOutputStream ostream = new FileOutputStream( destination );
