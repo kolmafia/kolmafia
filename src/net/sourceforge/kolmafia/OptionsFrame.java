@@ -109,7 +109,6 @@ public class OptionsFrame extends KoLFrame
 
 	private JList moodList;
 	private JComboBox battleStopSelect;
-	private JTextField betweenBattleScriptField;
 
 	private JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect;
 	private JCheckBox [] hpRestoreCheckbox;
@@ -810,8 +809,7 @@ public class OptionsFrame extends KoLFrame
 
 	private void saveRestoreSettings()
 	{
-		StaticEntity.setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
-		StaticEntity.setProperty( "battleStop", String.valueOf( ((float)(battleStopSelect.getSelectedIndex() - 1) / 10.0f) ) );
+		StaticEntity.setProperty( "battleStop", String.valueOf( ((float)(battleStopSelect.getSelectedIndex()) / 10.0f) ) );
 
 		StaticEntity.setProperty( "hpAutoRecovery", String.valueOf( ((float)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "hpAutoRecoveryTarget", String.valueOf( ((float)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0f) ) );
@@ -838,34 +836,29 @@ public class OptionsFrame extends KoLFrame
 			super( new Dimension( 160, 20 ), new Dimension( 300, 20 ) );
 
 			battleStopSelect = new JComboBox();
-			battleStopSelect.addItem( "Never stop combat" );
 			for ( int i = 0; i <= 9; ++i )
-				battleStopSelect.addItem( "Autostop at " + (i*10) + "% HP" );
-
-			betweenBattleScriptField = new JTextField();
+				battleStopSelect.addItem( "Restorer fails to bring health above " + (i*10) + "%" );
 
 			hpAutoRecoverSelect = new JComboBox();
-			hpAutoRecoverSelect.addItem( "Do not autorecover HP" );
+			hpAutoRecoverSelect.addItem( "Do not autorecover health" );
 			for ( int i = 0; i <= 10; ++i )
-				hpAutoRecoverSelect.addItem( "Autorecover HP at " + (i * 10) + "%" );
+				hpAutoRecoverSelect.addItem( "Auto-recover health at " + (i*10) + "%" );
 
 			hpAutoRecoverTargetSelect = new JComboBox();
-			hpAutoRecoverTargetSelect.addItem( "Do not autorecover HP" );
+			hpAutoRecoverTargetSelect.addItem( "Do not automatically recover health" );
 			for ( int i = 0; i <= 10; ++i )
-				hpAutoRecoverTargetSelect.addItem( "Autorecover HP to " + (i * 10) + "%" );
+				hpAutoRecoverTargetSelect.addItem( "Try to recover up to " + (i*10) + "% health" );
 
 			// Add the elements to the panel
 
 			int currentElementCount = 0;
-			VerifiableElement [] elements = new VerifiableElement[6];
+			VerifiableElement [] elements = new VerifiableElement[5];
 
-			elements[ currentElementCount++ ] = new VerifiableElement( "Script Command: ", betweenBattleScriptField );
-			elements[ currentElementCount++ ] = new VerifiableElement( "Combat Abort: ", battleStopSelect );
-
+			elements[ currentElementCount++ ] = new VerifiableElement( "Abort condition: ", battleStopSelect );
 			elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
 
-			elements[ currentElementCount++ ] = new VerifiableElement( "HP Recovery Trigger: ", hpAutoRecoverSelect );
-			elements[ currentElementCount++ ] = new VerifiableElement( "HP Recovery Target: ", hpAutoRecoverTargetSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "Restore your health: ", hpAutoRecoverSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "", hpAutoRecoverTargetSelect );
 			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", constructScroller( hpRestoreCheckbox = HPRestoreItemList.getCheckboxes() ) );
 
 			setContent( elements );
@@ -878,8 +871,7 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			betweenBattleScriptField.setText( StaticEntity.getProperty( "betweenBattleScript" ) );
-			battleStopSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "battleStop" ) * 10) + 1 );
+			battleStopSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "battleStop" ) * 10) );
 			hpAutoRecoverSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "hpAutoRecovery" ) * 10) + 1 );
 			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "hpAutoRecoveryTarget" ) * 10) + 1 );
 		}
@@ -900,22 +892,22 @@ public class OptionsFrame extends KoLFrame
 			super( new Dimension( 160, 20 ), new Dimension( 300, 20 ) );
 
 			mpAutoRecoverSelect = new JComboBox();
-			mpAutoRecoverSelect.addItem( "Do not autorecover MP" );
+			mpAutoRecoverSelect.addItem( "Do not automatically recover mana" );
 			for ( int i = 0; i <= 10; ++i )
-				mpAutoRecoverSelect.addItem( "Autorecover MP at " + (i * 10) + "%" );
+				mpAutoRecoverSelect.addItem( "Auto-recover mana at " + (i*10) + "%" );
 
 			mpAutoRecoverTargetSelect = new JComboBox();
-			mpAutoRecoverTargetSelect.addItem( "Do not autorecover MP" );
+			mpAutoRecoverTargetSelect.addItem( "Do not automatically recover mana" );
 			for ( int i = 0; i <= 10; ++i )
-				mpAutoRecoverTargetSelect.addItem( "Autorecover MP to " + (i * 10) + "%" );
+				mpAutoRecoverTargetSelect.addItem( "Try to recover up to " + (i*10) + "% mana" );
 
 			// Add the elements to the panel
 
 			int currentElementCount = 0;
 			VerifiableElement [] elements = new VerifiableElement[3];
 
-			elements[ currentElementCount++ ] = new VerifiableElement( "MP Recovery Trigger: ", mpAutoRecoverSelect );
-			elements[ currentElementCount++ ] = new VerifiableElement( "MP Recovery Target: ", mpAutoRecoverTargetSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "Restore your mana: ", mpAutoRecoverSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "", mpAutoRecoverTargetSelect );
 			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) );
 
 			setContent( elements );
