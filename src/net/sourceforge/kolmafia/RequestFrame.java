@@ -101,8 +101,6 @@ public class RequestFrame extends KoLFrame
 		super( title );
 		this.parent = parent;
 
-		StaticEntity.setProperty( "cacheRelayImages", "true" );
-
 		setCurrentRequest( request );
 		this.mainDisplay = new JEditorPane();
 

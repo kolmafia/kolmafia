@@ -93,7 +93,7 @@ public class CharsheetRequest extends KoLRequest
 
 		if ( avatarMatcher.find() )
 		{
-			RequestEditorKit.downloadImage( avatarMatcher.group() );
+			RequestEditorKit.downloadImage( avatarMatcher.group(1) );
 			KoLCharacter.setAvatar( avatarMatcher.group(1) );
 		}
 
