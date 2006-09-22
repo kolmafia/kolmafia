@@ -108,10 +108,7 @@ public class LoginRequest extends KoLRequest
 
 		KoLRequest.applySettings();
 		if ( username.toLowerCase().startsWith( "devster" ) )
-		{
-			this.savePassword = false;
 			setLoginServer( "dev.kingdomofloathing.com" );
-		}
 
 		super.run();
 
@@ -287,8 +284,6 @@ public class LoginRequest extends KoLRequest
 
 			if ( this.savePassword )
 				KoLmafia.addSaveState( username, password );
-			else
-				KoLmafia.removeSaveState( username );
 
 			KoLmafia.forceContinue();
 			sessionID = formConnection.getHeaderField( "Set-Cookie" );
