@@ -130,6 +130,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected static int [] initialStats = new int[3];
 	protected static int [] fullStatGain = new int[3];
 
+	protected static boolean executedLogin = false;
 	protected static boolean useDisjunction = false;
 
 	private static final Pattern FUMBLE_PATTERN = Pattern.compile( "You drop .*? ([\\d,]+) damage" );
@@ -305,6 +306,10 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplayState( continuationState == ABORT_STATE || continuationState == ERROR_STATE ? ERROR_STATE : ENABLE_STATE, "" );
 	}
 
+	public static boolean executedLogin()
+	{	return executedLogin;
+	}
+
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
 	 * the login has been confirmed to notify the client that the
@@ -318,6 +323,7 @@ public abstract class KoLmafia implements KoLConstants
 		// states to avoid null pointers getting thrown
 		// all over the place
 
+		executedLogin = true;
 		KoLmafia.forceContinue();
 
 		if ( isQuickLogin )
