@@ -3110,6 +3110,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_location", LOCATION_TYPE, params ) );
 
+		params = new ScriptType[] { LOCATION_TYPE };
+		result.addElement( new ScriptExistingFunction( "get_monsters", new ScriptAggregateType( MONSTER_TYPE, 0 ), params ) );
+
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "have_mushroom_plot", BOOLEAN_TYPE, params ) );
 
@@ -4958,6 +4961,23 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			String location = getProperty( "lastAdventure" );
 			return location.equals( "" ) ? parseLocationValue( "Rest" ) : parseLocationValue( location );
+		}
+
+		public ScriptValue get_monsters( ScriptVariable location )
+		{
+			KoLAdventure adventure = (KoLAdventure) location.rawValue();
+			AreaCombatData data = adventure.getAreaSummary();
+
+			int monsterCount = data == null ? 0 : data.getMonsterCount();
+
+			ScriptAggregateType type = new ScriptAggregateType( MONSTER_TYPE, monsterCount );
+			ScriptArray value = new ScriptArray( type );
+
+			for ( int i = 0; i < monsterCount; ++i )
+				value.aset( new ScriptValue( i ), parseMonsterValue( data.getMonster(i).getName() ) );
+
+			return value;
+
 		}
 
 		public ScriptValue have_mushroom_plot()
