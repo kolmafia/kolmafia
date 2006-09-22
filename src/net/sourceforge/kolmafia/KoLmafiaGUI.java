@@ -216,6 +216,9 @@ public class KoLmafiaGUI extends KoLmafia
 
 	private static void displayFrame( String frameName )
 	{
+		if ( frameName.equals( "" ) )
+			return;
+
 		// Now, test to see if any requests need to be run before
 		// you fall into the event dispatch thread.
 
