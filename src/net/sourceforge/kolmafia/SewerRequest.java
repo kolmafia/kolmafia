@@ -165,8 +165,6 @@ public class SewerRequest extends KoLRequest
 		{
 			if ( client.isLuckyCharacter() )
 				client.processResult( CLOVER );
-
-			client.processResult( GUM );
 		}
 	}
 
