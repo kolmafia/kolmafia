@@ -1242,7 +1242,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// First, add in a mood-execute link, in the event that the person
 		// has a non-empty list of triggers.
 
-		if ( !MoodSettings.willExecute() )
+		String fontColor = MoodSettings.willExecute() ? "black" : "gray";
+
+		if ( MoodSettings.getTriggers().isEmpty() )
 		{
 		}
 		else if ( KoLRequest.isCompactMode )
@@ -1261,7 +1263,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( shouldAddDivider )
 				buffer.append( "<hr width=50%>" );
 
-			buffer.append( "<font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood " +
+			buffer.append( "<font size=2 color=" );
+			buffer.append( fontColor );
+			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\" style=\"color:" );
+			buffer.append( fontColor );
+			buffer.append( "\">mood " +
 				StaticEntity.getProperty( "currentMood" ) + "</a>]</font><br><br>" );
 		}
 		else
@@ -1284,7 +1290,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( effectIndex == -1 )
 				buffer.append( "<center><p><b><font size=2>Effects:</font></b>" );
 
-			buffer.append( "<br><font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood " +
+			buffer.append( "<br><font size=2 color=" );
+			buffer.append( fontColor );
+			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\" style=\"color:" );
+			buffer.append( fontColor );
+			buffer.append( "\">mood " +
 				StaticEntity.getProperty( "currentMood" ) + "</a>]</font>" );
 
 			if ( effectIndex == -1 )

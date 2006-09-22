@@ -32,7 +32,6 @@ function refreshSidebar()
         return true;
 
     isRefreshing = true;
-    httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/charpane.php" );
     httpObject.onreadystatechange = function()
     {
         if ( httpObject.readyState != 4 )
@@ -44,6 +43,7 @@ function refreshSidebar()
         isRefreshing = false;
     }
 
+    httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/charpane.php" );
     httpObject.send( null );
 }
 
@@ -53,7 +53,6 @@ function getNewMessages()
     if ( !httpObject )
         return true;
 
-    httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/getNewMessages" );
     httpObject.onreadystatechange = function()
     {
         if ( httpObject.readyState != 4 )
@@ -66,5 +65,6 @@ function getNewMessages()
             refreshSidebar();
     }
 
+    httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/getNewMessages" );
     httpObject.send( null );
 };

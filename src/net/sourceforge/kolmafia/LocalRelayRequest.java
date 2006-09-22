@@ -223,8 +223,8 @@ public class LocalRelayRequest extends KoLRequest
 			// This is a hack to fix KoL chat, as it is handled
 			// in Opera.  No guarantees it works, though.
 
-			StaticEntity.globalStringReplace( responseBuffer, "http.onreadystatechange", "executed = false; http.onreadystatechange" );
-			StaticEntity.globalStringReplace( responseBuffer, "readyState==4) {", "readyState==4 && !executed) { executed = true;" );
+			StaticEntity.singleStringReplace( responseBuffer, "http.onreadystatechange", "executed = false; http.onreadystatechange" );
+			StaticEntity.singleStringReplace( responseBuffer, "readyState==4) {", "readyState==4 && !executed) { executed = true;" );
 		}
 
 		// Fix KoLmafia getting outdated by events happening
