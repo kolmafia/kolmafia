@@ -108,6 +108,10 @@ public class AreaCombatData implements KoLConstants
 		return true;
 	}
 
+	public int getMonsterCount()
+	{	return monsters.size();
+	}
+
 	public MonsterDatabase.Monster getMonster( int i )
 	{	return (MonsterDatabase.Monster) monsters.get(i);
 	}

@@ -155,6 +155,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	{	return adventureID;
 	}
 
+	public AreaCombatData getAreaSummary()
+	{	return areaSummary;
+	}
+
 	/**
 	 * Returns the request associated with this adventure.
 	 * @return	The request for this adventure
