@@ -595,6 +595,9 @@ public class BrowserLauncher {
 					}
 				}
 
+				// Wrap the URL inside of quotes.
+				url = "\"" + url + "\"";
+
 				if ( jvm == WINDOWS_9x )
 				{
 					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
