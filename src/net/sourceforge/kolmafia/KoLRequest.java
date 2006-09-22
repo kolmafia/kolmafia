@@ -1424,6 +1424,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( !isConsumeRequest && responseText.indexOf( "our ten-leaf clover" ) != -1 && responseText.indexOf( "puff of smoke" ) != -1 )
 			client.processResult( SewerRequest.CLOVER );
 
+		if ( formURLString.indexOf( "sewer.php" ) != -1 && responseText.indexOf( "You acquire" ) != -1 )
+			client.processResult( SewerRequest.GUM );
+
 		int previousHP = KoLCharacter.getCurrentHP();
 
 		needsRefresh |= client.processResults( responseText );
