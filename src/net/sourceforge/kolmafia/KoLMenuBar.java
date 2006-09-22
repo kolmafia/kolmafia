@@ -342,7 +342,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 					KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 					existingFrames.toArray( frames );
 
-					String interfaceSetting = StaticEntity.getProperty( "initialDesktop" );
+					String interfaceSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
 
 					for ( int i = 0; i < frames.length; ++i )
 						if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
@@ -357,7 +357,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				KoLFrame frame = (KoLFrame) frameReference.get();
 				if ( frame != null )
 				{
-					boolean appearsInTab = StaticEntity.getProperty( "initialDesktop" ).indexOf(
+					boolean appearsInTab = StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf(
 						frame instanceof ChatFrame ? "KoLMessenger" : frame.getFrameName() ) != -1;
 
 					if ( !appearsInTab )

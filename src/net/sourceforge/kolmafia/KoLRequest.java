@@ -1744,8 +1744,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			// that the restore options are properly reset before
 			// the frame reloads.
 
-			boolean shouldLoadEventFrame = StaticEntity.getProperty( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
-			shouldLoadEventFrame |= StaticEntity.getProperty( "initialDesktop" ).indexOf( "EventsFrame" ) != -1 &&
+			boolean shouldLoadEventFrame = StaticEntity.getGlobalProperty( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
+			shouldLoadEventFrame |= StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( "EventsFrame" ) != -1 &&
 				KoLDesktop.getInstance().isVisible();
 
 			if ( shouldLoadEventFrame )

@@ -149,7 +149,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 		isInitializing = true;
 
-		String interfaceSetting = StaticEntity.getProperty( "initialDesktop" );
+		String interfaceSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
 		String [] interfaceArray = interfaceSetting.split( "," );
 
 		if ( !interfaceSetting.equals( "" ) )
@@ -323,7 +323,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		if ( INSTANCE == null )
 			return;
 
-		String setting = StaticEntity.getProperty( "initialDesktop" );
+		String setting = StaticEntity.getGlobalProperty( "initialDesktop" );
 		for ( int i = 0; i < INSTANCE.tabListing.size(); ++i )
 		{
 			KoLFrame frame = (KoLFrame) INSTANCE.tabListing.get( i );

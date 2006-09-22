@@ -117,7 +117,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 			existingFrames.toArray( frames );
 
-			String interfaceSetting = StaticEntity.getProperty( "initialDesktop" );
+			String interfaceSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
 
 			for ( int i = 0; i < frames.length; ++i )
 			{

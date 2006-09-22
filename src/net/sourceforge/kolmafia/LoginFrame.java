@@ -60,6 +60,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JScrollPane;
 
 // other imports
+import java.util.ArrayList;
 import com.sun.java.forums.SpringUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -256,8 +257,8 @@ public class LoginFrame extends KoLFrame
 			else
 				StaticEntity.setProperty( "autoLogin", "" );
 
-			StaticEntity.setProperty( "loginScript." + username.toLowerCase(), scriptField.getText() );
-			StaticEntity.setProperty( "getBreakfast." + username.toLowerCase(), String.valueOf( getBreakfastCheckBox.isSelected() ) );
+			StaticEntity.setGlobalProperty( username, "loginScript", scriptField.getText() );
+			StaticEntity.setGlobalProperty( username, "getBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
 			KoLmafia.forceContinue();
 			(new Thread( new LoginRequest( StaticEntity.getClient(), username, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected(), false ) )).start();
@@ -336,8 +337,8 @@ public class LoginFrame extends KoLFrame
 				passwordField.setText( password );
 				savePasswordCheckBox.setSelected( true );
 
-				String loginScript = StaticEntity.getProperty( "loginScript." + currentMatch.toLowerCase() );
-				boolean breakfastSetting = StaticEntity.getBooleanProperty( "getBreakfast." + currentMatch.toLowerCase() );
+				String loginScript = StaticEntity.getGlobalProperty( currentMatch, "loginScript" );
+				boolean breakfastSetting = StaticEntity.getGlobalProperty( currentMatch, "getBreakfast" ).equals( "true" );
 
 				scriptField.setText( loginScript == null ? "" : loginScript );
 				getBreakfastCheckBox.setSelected( breakfastSetting );
@@ -399,6 +400,7 @@ public class LoginFrame extends KoLFrame
 	{
 		private final String [][] FRAME_OPTIONS =
 		{
+			{ "Adventure", "AdventureFrame" },
 			{ "Mini-Browser", "RequestFrame" },
 			{ "Relay Server", "LocalRelayServer" },
 
@@ -435,13 +437,14 @@ public class LoginFrame extends KoLFrame
 			{ "Preferences", "OptionsFrame" }
 		};
 
+		private JComboBox usernameComboBox;
 		private InterfaceRadioButton [] nullOptions;
 		private InterfaceRadioButton [] startupOptions;
 		private InterfaceRadioButton [] interfaceOptions;
 
 		public StartupFramesPanel()
 		{
-			super( "Startup Windows", new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
+			super( "Startup Windows", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			nullOptions = new InterfaceRadioButton[ FRAME_OPTIONS.length ];
 			startupOptions = new InterfaceRadioButton[ FRAME_OPTIONS.length ];
@@ -470,17 +473,22 @@ public class LoginFrame extends KoLFrame
 				contentPanel.add( interfaceOptions[i] );
 			}
 
-			setContent( new VerifiableElement[0], false );
+			usernameComboBox = new JComboBox( StaticEntity.getPastUserList() );
+			usernameComboBox.addActionListener( new SettingsReloader() );
 
+			VerifiableElement [] elements = new VerifiableElement[1];
+			elements[0] = new VerifiableElement( "Settings For:  ", usernameComboBox );
+
+			setContent( elements );
 			SpringUtilities.makeCompactGrid( contentPanel, FRAME_OPTIONS.length, 4, 5, 5, 5, 5 );
-			container.add( contentPanel, BorderLayout.CENTER );
+			container.add( contentPanel, BorderLayout.SOUTH );
 			actionCancelled();
 		}
 
 		public void actionConfirmed()
 		{
 			StringBuffer frameString = new StringBuffer();
-			StringBuffer desktopString = new StringBuffer( "AdventureFrame" );
+			StringBuffer desktopString = new StringBuffer();
 
 			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
 			{
@@ -498,14 +506,30 @@ public class LoginFrame extends KoLFrame
 				}
 			}
 
-			StaticEntity.setProperty( "initialFrames", frameString.toString() );
-			StaticEntity.setProperty( "initialDesktop", desktopString.toString() );
+			if ( usernameComboBox.getSelectedIndex() == 0 )
+			{
+				StaticEntity.setGlobalProperty( "initialFrames", frameString.toString() );
+				StaticEntity.setGlobalProperty( "initialDesktop", desktopString.toString() );
+			}
+			else
+			{
+				String username = (String) usernameComboBox.getSelectedItem();
+				username = username.substring( username.indexOf( "for" ) + 4 ).trim();
+				StaticEntity.setGlobalProperty( username, "initialFrames", frameString.toString() );
+				StaticEntity.setGlobalProperty( username, "initialDesktop", desktopString.toString() );
+			}
 		}
 
 		public void actionCancelled()
 		{
-			String frameString = StaticEntity.getProperty( "initialFrames" );
-			String desktopString = StaticEntity.getProperty( "initialDesktop" );
+			String username = (String) usernameComboBox.getSelectedItem();
+			username = username.substring( username.indexOf( "for" ) + 4 ).trim();
+
+			if ( usernameComboBox.getSelectedIndex() == 0 )
+				username = "";
+
+			String frameString = StaticEntity.getGlobalProperty( username, "initialFrames" );
+			String desktopString = StaticEntity.getGlobalProperty( username, "initialDesktop" );
 
 			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
 			{
@@ -527,12 +551,19 @@ public class LoginFrame extends KoLFrame
 		{
 			public InterfaceRadioButton( String text )
 			{
-				super( text );
+				super( text, text.equals( "manual" ) );
 				addActionListener( this );
 			}
 
 			public void actionPerformed( ActionEvent e )
 			{	actionConfirmed();
+			}
+		}
+
+		private class SettingsReloader implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{	actionCancelled();
 			}
 		}
 	}

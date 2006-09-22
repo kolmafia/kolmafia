@@ -38,6 +38,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,6 +52,7 @@ public abstract class StaticEntity implements KoLConstants
 	private static final Pattern NONDIGIT_PATTERN = Pattern.compile( "[^\\-0-9]" );
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
 	private static final Pattern NEWSKILL_PATTERN = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" );
+	private static final Pattern SETTINGS_PATTERN = Pattern.compile( "prefs_(.*?).txt" );
 
 	private static KoLSettings settings = KoLSettings.GLOBAL_SETTINGS;
 	private static final String [] EMPTY_STRING_ARRAY = new String[0];
@@ -548,6 +551,58 @@ public abstract class StaticEntity implements KoLConstants
 		}
 	}
 
+	private static String getPropertyName( String player, String name )
+	{	return player.equals( "" ) ? name : name + "." + KoLCharacter.baseUserName( player );
+	}
+
+	public static String getGlobalProperty( String name )
+	{	return getGlobalProperty( KoLCharacter.getUsername(), name );
+	}
+
+	public static String getGlobalProperty( String player, String name )
+	{
+		String property = getPropertyName( player, name );
+
+		if ( settings.getProperty( property ).equals( "" ) )
+			setGlobalProperty( player, name, settings.getProperty( name ) );
+
+		return settings.getProperty( property );
+	}
+
+	public static void setGlobalProperty( String name, String value )
+	{
+		String [] users = getPastUserList();
+
+		settings.setProperty( name, value );
+		for ( int i = 1; i < users.length; ++i )
+			setGlobalProperty( users[i], name, value );
+	}
+
+	public static void setGlobalProperty( String player, String name, String value )
+	{	settings.setProperty( getPropertyName( player, name ), value );
+	}
+
+	public static String [] getPastUserList()
+	{
+		Matcher pathMatcher = null;
+		ArrayList pastUserList = new ArrayList();
+
+		File [] files = (new File( "settings" )).listFiles();
+
+		for ( int i = 0; i < files.length; ++i )
+		{
+			pathMatcher = SETTINGS_PATTERN.matcher( files[i].getPath() );
+			if ( pathMatcher.find() && !pathMatcher.group(1).equals( "GLOBAL" ) )
+				pastUserList.add( pathMatcher.group(1) );
+		}
+
+		String [] pastUsers = new String[ pastUserList.size() + 1 ];
+		pastUsers[0] = "all characters";
+		for ( int i = 1; i < pastUsers.length; ++i )
+			pastUsers[i] = globalStringReplace( (String) pastUserList.get(i-1), "_", " " );
+
+		return pastUsers;
+	}
 
 	public static final void saveSettings()
 	{
