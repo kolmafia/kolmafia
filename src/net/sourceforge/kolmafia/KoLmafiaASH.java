@@ -2513,44 +2513,48 @@ public class KoLmafiaASH extends StaticEntity
 	}
 
 	private String promptForValue( ScriptType type, String name )
+	{	return promptForValue( type, "Please input a value for " + type + " " + name, name );
+	}
+
+	private String promptForValue( ScriptType type, String message, String name )
 	{
 		switch ( type.getType() )
 		{
 			case TYPE_BOOLEAN:
-				return (String) JOptionPane.showInputDialog( null, "Please input a value for " + type + " " + name, "Input Variable",
+				return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
 					JOptionPane.INFORMATION_MESSAGE, null, BOOLEANS, BOOLEANS[0] );
 
 			case TYPE_LOCATION:
-				return ((KoLAdventure) JOptionPane.showInputDialog( null, "Please select a value for " + type + " " + name, "Input Variable",
+				return ((KoLAdventure) JOptionPane.showInputDialog( null, message, "Input Variable",
 					JOptionPane.INFORMATION_MESSAGE, null, AdventureDatabase.getAsLockableListModel().toArray(),
 					AdventureDatabase.getAdventure( getProperty( "lastAdventure" ) ) )).getAdventureName();
 
 			case TYPE_SKILL:
-				return ((UseSkillRequest) JOptionPane.showInputDialog( null, "Please select a value for " + type + " " + name, "Input Variable",
+				return ((UseSkillRequest) JOptionPane.showInputDialog( null, message, "Input Variable",
 					JOptionPane.INFORMATION_MESSAGE, null, availableSkills.toArray(), availableSkills.get(0) )).getSkillName();
 
 			case TYPE_FAMILIAR:
-				return ((FamiliarData) JOptionPane.showInputDialog( null, "Please select a value for " + type + " " + name, "Input Variable",
+				return ((FamiliarData) JOptionPane.showInputDialog( null, message, "Input Variable",
 					JOptionPane.INFORMATION_MESSAGE, null, KoLCharacter.getFamiliarList().toArray(), KoLCharacter.getFamiliar() )).getRace();
 
 			case TYPE_SLOT:
-				return (String) JOptionPane.showInputDialog( null, "Please input a value for " + type + " " + name, "Input Variable",
+				return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
 					JOptionPane.INFORMATION_MESSAGE, null, EquipmentRequest.slotNames, EquipmentRequest.slotNames[0] );
 
 			case TYPE_ELEMENT:
-				return (String) JOptionPane.showInputDialog( null, "Please input a value for " + type + " " + name, "Input Variable",
+				return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
 					JOptionPane.INFORMATION_MESSAGE, null, MonsterDatabase.elementNames, MonsterDatabase.elementNames[0] );
 
 			case TYPE_ZODIAC:
-				return (String) JOptionPane.showInputDialog( null, "Please input a value for " + type + " " + name, "Input Variable",
+				return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
 					JOptionPane.INFORMATION_MESSAGE, null, ZODIACS, ZODIACS[0] );
 
 			case TYPE_CLASS:
-				return (String) JOptionPane.showInputDialog( null, "Please input a value for " + type + " " + name, "Input Variable",
+				return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
 						JOptionPane.INFORMATION_MESSAGE, null, CLASSES, CLASSES[0] );
 
 			case TYPE_STAT:
-				return (String) JOptionPane.showInputDialog( null, "Please input a value for " + type + " " + name, "Input Variable",
+				return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
 						JOptionPane.INFORMATION_MESSAGE, null, STATS, STATS[0] );
 
 			case TYPE_INT:
@@ -2559,7 +2563,7 @@ public class KoLmafiaASH extends StaticEntity
 			case TYPE_ITEM:
 			case TYPE_EFFECT:
 			case TYPE_MONSTER:
-				return JOptionPane.showInputDialog( "Please input a value for " + type + " " + name );
+				return JOptionPane.showInputDialog( message );
 
 			default:
 				throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
@@ -2713,6 +2717,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { ELEMENT_TYPE };
 		result.addElement( new ScriptExistingFunction( "element_to_int", INT_TYPE, params ) );
+
+		params = new ScriptType[] { FLOAT_TYPE };
+		result.addElement( new ScriptExistingFunction( "square_root", FLOAT_TYPE, params ) );
 
 		// Begin the functions which are documented in the KoLmafia
 		// Advanced Script Handling manual.
@@ -3943,6 +3950,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue element_to_int( ScriptVariable val )
 		{	return new ScriptValue( val.intValue() );
+		}
+
+		public ScriptValue square_root( ScriptVariable val )
+		{	return new ScriptValue( (float) Math.sqrt( val.floatValue() ) );
 		}
 
 		public ScriptValue int_to_element( ScriptVariable val )
