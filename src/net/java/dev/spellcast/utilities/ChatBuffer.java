@@ -259,7 +259,7 @@ public class ChatBuffer
 				HTMLDocument currentHTML = null;
 				if ( shouldReset )
 				{
-					displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body></body></html>" );
+					displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
 					currentHTML = (HTMLDocument) displayPane.getDocument();
 				}
 				else if ( newContents != null )

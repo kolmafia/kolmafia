@@ -47,6 +47,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 {
 	private static final int RESIZE_SIZE = 16000;
 	private static final int MAXIMUM_SIZE = 20000;
+	private static final int DELETE_AMOUNT = MAXIMUM_SIZE - RESIZE_SIZE;
 
 	protected static List colors;
 	protected static List highlights;
@@ -147,16 +148,19 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	{
 		if ( requiresTruncation && displayBuffer.length() > MAXIMUM_SIZE )
 		{
-			int lineIndex = displayBuffer.lastIndexOf( "<br>", RESIZE_SIZE );
+			int lineIndex = displayBuffer.indexOf( "<br>", DELETE_AMOUNT );
 			if ( lineIndex == -1 )
-				lineIndex = displayBuffer.lastIndexOf( ">", RESIZE_SIZE ) + 1;
-			if ( lineIndex == -1 )
-				lineIndex = displayBuffer.lastIndexOf( " ", RESIZE_SIZE );
-			if ( lineIndex == -1 )
-				lineIndex = MAXIMUM_SIZE - RESIZE_SIZE;
+			{
+				lineIndex = displayBuffer.lastIndexOf( "<br>", DELETE_AMOUNT );
+				if ( lineIndex != -1 )
+					lineIndex += 4;
+			}
 
-			displayBuffer.delete( 0, lineIndex );
-			fireBufferChanged( DISPLAY_CHANGE, null );
+			if ( lineIndex != -1 )
+			{
+				displayBuffer.delete( 0, lineIndex );
+				fireBufferChanged( DISPLAY_CHANGE, null );
+			}
 		}
 
 		// Download all the images outside of the Swing thread
