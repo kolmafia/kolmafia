@@ -212,7 +212,7 @@ public class AdventureFrame extends KoLFrame
 			if ( request == null )
 				return;
 
-			AreaCombatData combat = AdventureDatabase.getAreaCombatData( request.getAdventureName() );
+			AreaCombatData combat = request.getAreaSummary();
 			String text = ( combat == null ) ? " " : combat.toString();
 
 			// Avoid rendering and screen flicker if no change.
