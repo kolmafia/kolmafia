@@ -118,7 +118,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		if ( loadPreviousFrame() )
 		{
-			String tabSetting = "," + StaticEntity.getProperty( "initialDesktop" ) + ",";
+			String tabSetting = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
 			String searchString = ChatFrame.class.isAssignableFrom( creationType ) ? "KoLMessenger" :
 				KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
 
@@ -185,7 +185,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		{
 			// After that, add the frame to the list of frames
 
-			String tabSetting = "," + StaticEntity.getProperty( "initialDesktop" ) + ",";
+			String tabSetting = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
 			String searchString = ChatFrame.class.isAssignableFrom( creationType ) ? "KoLMessenger" :
 				KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
 

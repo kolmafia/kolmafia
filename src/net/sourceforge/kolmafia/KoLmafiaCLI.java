@@ -245,7 +245,7 @@ public class KoLmafiaCLI extends KoLmafia
 		executeCommand( "moons", "" );
 		printBlankLine();
 
-		if ( StaticEntity.getProperty( "initialFrames" ).indexOf( "LocalRelayServer" ) != -1 )
+		if ( StaticEntity.getGlobalProperty( "initialFrames" ).indexOf( "LocalRelayServer" ) != -1 )
 			KoLmafiaGUI.constructFrame( "LocalRelayServer" );
 	}
 

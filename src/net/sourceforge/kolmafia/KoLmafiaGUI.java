@@ -157,8 +157,8 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( frames[i] instanceof LoginFrame )
 				login = (LoginFrame) frames[i];
 
-		String frameSetting = StaticEntity.getProperty( "initialFrames" );
-		String desktopSetting = StaticEntity.getProperty( "initialDesktop" );
+		String frameSetting = StaticEntity.getGlobalProperty( "initialFrames" );
+		String desktopSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
 
 		// Reset all the titles on all existing frames.
 
@@ -191,7 +191,7 @@ public class KoLmafiaGUI extends KoLmafia
 					constructFrame( initialFrames[i] );
 		}
 
-		if ( !StaticEntity.getProperty( "initialDesktop" ).equals( "" ) )
+		if ( !StaticEntity.getGlobalProperty( "initialDesktop" ).equals( "" ) )
 		{
 			KoLDesktop.getInstance().initializeTabs();
 			KoLDesktop.getInstance().pack();

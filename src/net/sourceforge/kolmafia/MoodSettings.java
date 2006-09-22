@@ -411,8 +411,10 @@ public abstract class MoodSettings implements KoLConstants
 				current.execute();
 		}
 
-		if ( !hasChangedOutfit )
-			UseSkillRequest.restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
+		if ( hasChangedOutfit )
+			SpecialOutfit.restoreCheckpoint( true );
+
+		UseSkillRequest.restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
 	}
 
 	public static boolean willExecute()

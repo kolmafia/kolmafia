@@ -364,7 +364,7 @@ public abstract class KoLmafia implements KoLConstants
 		// A breakfast script might include loading an adventure
 		// area, so now go ahead and load the adventure table.
 
-		String scriptSetting = StaticEntity.getProperty( "loginScript." + username.toLowerCase() );
+		String scriptSetting = StaticEntity.getGlobalProperty( "loginScript" );
 		if ( !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
 	}
@@ -2372,9 +2372,9 @@ public abstract class KoLmafia implements KoLConstants
 			MoodSettings.execute();
 			recoverHP();
 			recoverMP();
+			SpecialOutfit.restoreCheckpoint( true );
 		}
 
-		SpecialOutfit.restoreCheckpoint( true );
 		recoveryActive = false;
 
 		int haltTolerance = (int)( StaticEntity.getFloatProperty( "battleStop" ) * (float) KoLCharacter.getMaximumHP() );

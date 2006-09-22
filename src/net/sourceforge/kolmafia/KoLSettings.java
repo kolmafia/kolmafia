@@ -111,8 +111,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 	public static boolean isGlobalProperty( String name )
 	{
-		return CLIENT_SETTINGS.containsKey( name ) ||
-			name.startsWith( "saveState" ) || name.startsWith( "loginScript" ) || name.startsWith( "getBreakfast" );
+		return CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "getBreakfast" ) ||
+			name.startsWith( "loginScript" ) || name.startsWith( "initialFrames" ) || name.startsWith( "initialDesktop" );
 	}
 
 	public String getProperty( String name )
@@ -256,7 +256,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "http.proxyPort", "" );
 		CLIENT_SETTINGS.put( "http.proxyUser", "" );
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
-		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame" );
+		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame,OptionsFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
 		CLIENT_SETTINGS.put( "lastOperatingSystem", System.getProperty( "os.name" ) );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
