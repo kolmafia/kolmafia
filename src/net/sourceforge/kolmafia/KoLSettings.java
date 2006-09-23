@@ -144,6 +144,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		// set property and return the old value.
 
 		String oldValue = getProperty( name );
+
 		if ( oldValue != null && oldValue.equals( value ) )
 			return oldValue;
 

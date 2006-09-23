@@ -119,7 +119,7 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static void reloadSettings( String username )
-	{	settings = new KoLSettings( username );
+	{	settings = username.equals( "" ) ? KoLSettings.GLOBAL_SETTINGS : new KoLSettings( username );
 	}
 
 	public static final void setProperty( String name, String value )
@@ -570,12 +570,7 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static void setGlobalProperty( String name, String value )
-	{
-		String [] users = getPastUserList();
-
-		settings.setProperty( name, value );
-		for ( int i = 1; i < users.length; ++i )
-			setGlobalProperty( users[i], name, value );
+	{	setGlobalProperty( KoLCharacter.getUsername(), name, value );
 	}
 
 	public static void setGlobalProperty( String player, String name, String value )
@@ -596,10 +591,9 @@ public abstract class StaticEntity implements KoLConstants
 				pastUserList.add( pathMatcher.group(1) );
 		}
 
-		String [] pastUsers = new String[ pastUserList.size() + 1 ];
-		pastUsers[0] = "all characters";
-		for ( int i = 1; i < pastUsers.length; ++i )
-			pastUsers[i] = globalStringReplace( (String) pastUserList.get(i-1), "_", " " );
+		String [] pastUsers = new String[ pastUserList.size() ];
+		for ( int i = 0; i < pastUsers.length; ++i )
+			pastUsers[i] = globalStringReplace( (String) pastUserList.get(i), "_", " " );
 
 		return pastUsers;
 	}

@@ -440,7 +440,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static String baseUserName( String name )
 	{
 		return name == null || name.equals( "" ) ? "GLOBAL" :
-			globalStringReplace( globalStringDelete( name, "/q" ), "_", " " ).trim().toLowerCase();
+			globalStringReplace( globalStringDelete( name, "/q" ), " ", "_" ).trim().toLowerCase();
 	}
 
 	/**
