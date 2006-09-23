@@ -457,7 +457,11 @@ public class FightRequest extends KoLRequest
 		if ( skillMatcher.find() )
 		{
 			String skill = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
-			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of " + skill.toUpperCase() + "!" );
+			if ( skill == null )
+				KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of CHANCE!" );
+			else
+				KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of " + skill.toUpperCase() + "!" );
+
 			return true;
 		}
 
@@ -465,15 +469,24 @@ public class FightRequest extends KoLRequest
 		if ( itemMatcher.find() )
 		{
 			String item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
-			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " uses the " + item + "!" );
+			if ( item == null )
+				KoLmafia.getSessionStream().print( KoLCharacter.getUsername() + " plays Garin's Harp" );
+			else
+				KoLmafia.getSessionStream().print( KoLCharacter.getUsername() + " uses the " + item );
 
 			itemMatcher = ITEM2_PATTERN.matcher( urlString );
 			if ( itemMatcher.find() )
 			{
+				KoLmafia.getSessionStream().print( " and " );
+
 				item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
-				KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " uses the " + item + "!" );
+				if ( item == null )
+					KoLmafia.getSessionStream().print( "plays the Fairy Flute" );
+				else
+					KoLmafia.getSessionStream().print( "uses the " + item );
 			}
 
+			KoLmafia.getSessionStream().println( "!" );
 			return true;
 		}
 
