@@ -73,7 +73,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class LoginFrame extends KoLFrame
 {
-	private LockableListModel availableNames;
 	private JComponent usernameField;
 	private JTextField proxyHost;
 	private JTextField proxyPort;
@@ -83,9 +82,6 @@ public class LoginFrame extends KoLFrame
 	public LoginFrame()
 	{
 		super( VERSION_NAME + ": Login" );
-
-		availableNames = new LockableListModel();
-		availableNames.addAll( saveStateNames );
 		tabs = new JTabbedPane();
 
 		tabs.addTab( "KoL Login", constructLoginPanel() );
@@ -303,7 +299,7 @@ public class LoginFrame extends KoLFrame
 		private class LoginNameComboBox extends MutableComboBox
 		{
 			public LoginNameComboBox()
-			{	super( availableNames );
+			{	super( saveStateNames );
 			}
 
 			public void setSelectedItem( Object anObject )
