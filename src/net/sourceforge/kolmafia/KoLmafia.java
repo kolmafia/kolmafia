@@ -493,10 +493,9 @@ public abstract class KoLmafia implements KoLConstants
 	 * the user has logged out.
 	 */
 
-	public void deinitialize()
+	public static final void endSession()
 	{
-		KoLRequest.sessionID = null;
-		KoLRequest.passwordHash = null;
+		StaticEntity.saveSettings();
 
 		sessionStream.close();
 		sessionStream = NullStream.INSTANCE;
@@ -509,6 +508,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		echoStream.close();
 		echoStream = NullStream.INSTANCE;
+
+		System.exit(0);
 	}
 
 	/**
