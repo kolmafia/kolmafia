@@ -846,8 +846,8 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else
 			{
-				mirrorStream = openStream( parameters, mirrorStream, false );
-				echoStream = openStream( parameters + ".echo", echoStream, false );
+				mirrorStream = openStream( parameters, mirrorStream, true );
+				echoStream = openStream( parameters + ".echo", echoStream, true );
 			}
 
 			return;
