@@ -42,31 +42,24 @@ import javax.swing.JCheckBox;
 
 public abstract class HPRestoreItemList extends StaticEntity
 {
-	// Full restore tactics (skills and items which recover all health)
+	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
 
 	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", Integer.MAX_VALUE );
-	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
 	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
 	private static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
-
-	// Skills which recover partial health
-
-	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
-	private static final HPRestoreItem BANDAGES = new HPRestoreItem( "Lasagna Bandages", 24 );
-	private static final HPRestoreItem POWER_NAP = new HPRestoreItem( "Disco Power Nap", 40 );
-	private static final HPRestoreItem DISCO_NAP = new HPRestoreItem( "Disco Nap", 20 );
-
-
-	// Finally, if HP restore is active and nothing is available,
-	// give people the option to rest.
-
 	private static final HPRestoreItem CAMPING = new HPRestoreItem( "rest at campground", Integer.MAX_VALUE );
-	private static final HPRestoreItem PHONICS = new HPRestoreItem( "phonics down", 48 );
 	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 );
-	private static final HPRestoreItem UNGUENT = new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3 );
 
 	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] {
-		GALAKTIK, CAMPING, HERBS, SCROLL, COCOON, PHONICS, WALRUS, BANDAGES, POWER_NAP, DISCO_NAP, OINTMENT, UNGUENT };
+		GALAKTIK, CAMPING, HERBS, SCROLL, new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE ),
+		new HPRestoreItem( "phonics down", 48 ), new HPRestoreItem( "Disco Power Nap", 40 ), WALRUS,
+		new HPRestoreItem( "red paisley oyster egg", 33 ), new HPRestoreItem( "red polka-dot oyster egg", 33 ),
+		new HPRestoreItem( "red striped oyster egg", 33 ), new HPRestoreItem( "red pixel potion", 27 ),
+		new HPRestoreItem( "maple syrup", 25 ), new HPRestoreItem( "tiny house", 22 ), new HPRestoreItem( "Disco Nap", 20 ),
+		new HPRestoreItem( "Lasagna Bandages", 24 ), new HPRestoreItem( "green pixel potion", 19 ),
+		new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19 ), new HPRestoreItem( "cast", 17 ),
+		new HPRestoreItem( "Tongue of the Otter", 15 ), new HPRestoreItem( "Doc Galaktik's Restorative Balm", 14 ),
+		OINTMENT, new HPRestoreItem( "forest tears", 7 ), new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3 ) };
 
 	public static JCheckBox [] getCheckboxes()
 	{
@@ -138,8 +131,6 @@ public abstract class HPRestoreItemList extends StaticEntity
 					numberAvailable = 1;
 				else if ( this == OINTMENT )
 					numberAvailable = numberToUse;
-				else if ( this == UNGUENT )
-					numberAvailable = 1;
 
 				numberToUse = Math.min( numberToUse, numberAvailable );
 			}
