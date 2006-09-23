@@ -227,6 +227,20 @@ public class KoLmafiaGUI extends KoLmafia
 			StaticEntity.getClient().startRelayServer();
 			return;
 		}
+		else if ( frameName.equals( "MoneyMakingGameFrame" ) )
+		{
+			updateDisplay( "Retrieving MMG bet history..." );
+			(new MoneyMakingGameRequest( StaticEntity.getClient() )).run();
+
+			if ( MoneyMakingGameRequest.getBetSummary().isEmpty() )
+			{
+				updateDisplay( "You have no bet history to summarize." );
+				enableDisplay();
+				return;
+			}
+
+			updateDisplay( "MMG bet history retrieved." );
+		}
 		else if ( frameName.equals( "KoLMessenger" ) )
 		{
 			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )

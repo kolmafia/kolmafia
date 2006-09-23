@@ -59,7 +59,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 	private static final Pattern AMOUNT_PATTERN = Pattern.compile( ">([\\d,]+) " );
 	private static final Pattern PLAYER_PATTERN = Pattern.compile( "who=(\\d+).*?<b>(.*?)</b>" );
 
-	private SortedListModel betSummary = new SortedListModel();
+	private static SortedListModel betSummary = new SortedListModel();
 	private static final SimpleDateFormat RESULT_FORMAT = new SimpleDateFormat( "MM/dd/yy hh:mma", Locale.US );
 
 	public MoneyMakingGameRequest( KoLmafia client )
@@ -125,7 +125,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 			betSummary.add( new MoneyMakingGameSummary( (String) keys[i], (Integer) playerMap.get( keys[i] ) ) );
 	}
 
-	public SortedListModel getBetSummary()
+	public static SortedListModel getBetSummary()
 	{	return betSummary;
 	}
 
