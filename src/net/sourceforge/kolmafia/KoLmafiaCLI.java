@@ -213,7 +213,6 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			outputStream.println();
-			StaticEntity.getClient().deinitialize();
 			(new LoginRequest( StaticEntity.getClient(), username, password )).run();
 		}
 		catch ( IOException e )
@@ -722,10 +721,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// character has already logged in.
 
 		if ( command.equals( "exit" ) || command.equals( "quit" ) || command.equals( "logout" ) )
-		{
-			StaticEntity.saveSettings();
-			System.exit(0);
-		}
+			endSession();
 
 		// Next, handle any requests for script execution;
 		// these can be done at any time (including before
