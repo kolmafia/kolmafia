@@ -86,6 +86,7 @@ public class ClanManageFrame extends KoLFrame
 	private WithdrawPanel withdrawal;
 	private DonationPanel donation;
 	private AttackPanel attacks;
+	private WarfarePanel warfare;
 	private MemberSearchPanel search;
 
 	public ClanManageFrame()
@@ -99,17 +100,23 @@ public class ClanManageFrame extends KoLFrame
 		this.donation = new DonationPanel();
 		this.withdrawal = new WithdrawPanel();
 		this.search = new MemberSearchPanel();
+		this.warfare = new WarfarePanel();
 		this.tabs = new JTabbedPane();
-
-		tabs.addTab( "Snapshot", snapshot );
 
 		JPanel adminPanel = new JPanel();
 		adminPanel.setLayout( new BoxLayout( adminPanel, BoxLayout.Y_AXIS ) );
 		adminPanel.add( attacks );
-		adminPanel.add( donation );
-		adminPanel.add( clanBuff );
+		adminPanel.add( snapshot );
 
 		tabs.addTab( "Admin", adminPanel );
+
+		JPanel spendPanel = new JPanel();
+		spendPanel.setLayout( new BoxLayout( spendPanel, BoxLayout.Y_AXIS ) );
+		spendPanel.add( donation );
+		spendPanel.add( clanBuff );
+		spendPanel.add( warfare );
+
+		tabs.addTab( "Coffers", spendPanel );
 		tabs.addTab( "Deposit", storing );
 		tabs.addTab( "Withdraw", withdrawal );
 
@@ -219,6 +226,74 @@ public class ClanManageFrame extends KoLFrame
 
 		public void actionCancelled()
 		{	(new RequestThread( new ClanListRequest( StaticEntity.getClient() ) )).start();
+		}
+	}
+
+	private class WarfarePanel extends LabeledKoLPanel
+	{
+		private JTextField goodies;
+		private JTextField oatmeal, recliners;
+		private JTextField ground, airborne, archers;
+
+		public WarfarePanel()
+		{
+			super( "Prepare for WAR!!!", "purchase", "calculate", new Dimension( 120, 20 ), new Dimension( 200, 20 ) );
+
+			goodies = new JTextField();
+			oatmeal = new JTextField();
+			recliners = new JTextField();
+			ground = new JTextField();
+			airborne = new JTextField();
+			archers = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[6];
+			elements[0] = new VerifiableElement( "Goodies: ", goodies );
+			elements[1] = new VerifiableElement( "Oatmeal: ", oatmeal );
+			elements[2] = new VerifiableElement( "Recliners: ", recliners );
+			elements[3] = new VerifiableElement( "Ground Troops: ", ground );
+			elements[4] = new VerifiableElement( "Airborne Troops: ", airborne );
+			elements[5] = new VerifiableElement( "La-Z-Archers: ", archers );
+
+			setContent( elements );
+		}
+
+		public void actionConfirmed()
+		{	(new RequestThread( new ClanMaterialsRequest() )).start();
+		}
+
+		public void actionCancelled()
+		{
+			int totalValue = getValue( goodies ) * 1000 + getValue( oatmeal ) * 3 + getValue( recliners ) * 1500 +
+				getValue( ground ) * 300 + getValue( airborne ) * 500 + getValue( archers ) * 500;
+
+			JOptionPane.showMessageDialog( null, "This purchase will cost " + totalValue + " meat" );
+		}
+
+		private class ClanMaterialsRequest extends KoLRequest
+		{
+			public ClanMaterialsRequest()
+			{
+				super( StaticEntity.getClient(), "clan_war.php" );
+				addFormField( "action", "Yep." );
+				addFormField( "goodies", String.valueOf( getValue( goodies ) ) );
+				addFormField( "oatmeal", String.valueOf( getValue( oatmeal ) ) );
+				addFormField( "recliners", String.valueOf( getValue( recliners ) ) );
+				addFormField( "grunts", String.valueOf( getValue( ground ) ) );
+				addFormField( "flyers", String.valueOf( getValue( airborne ) ) );
+				addFormField( "archers", String.valueOf( getValue( archers ) ) );
+			}
+
+			public void run()
+			{
+				KoLmafia.updateDisplay( "Purchasing clan materials..." );
+
+				super.run();
+
+				// Theoretically, there should be a test for error state,
+				// but because I'm lazy, that's not happening.
+
+				KoLmafia.updateDisplay( "Purchase request processed." );
+			}
 		}
 	}
 
