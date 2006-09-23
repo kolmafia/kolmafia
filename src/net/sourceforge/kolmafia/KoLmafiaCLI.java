@@ -4008,6 +4008,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( message.indexOf( "<" ) == -1 && message.indexOf( LINE_BREAK ) != -1 )
 				colorBuffer.append( "</pre>" );
+
+			StaticEntity.globalStringDelete( colorBuffer, "<html>" );
+			StaticEntity.globalStringDelete( colorBuffer, "</html>" );
 		}
 
 		colorBuffer.append( LINE_BREAK );
