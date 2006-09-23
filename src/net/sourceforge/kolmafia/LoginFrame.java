@@ -479,6 +479,12 @@ public class LoginFrame extends KoLFrame
 			}
 
 			usernameComboBox = new JComboBox( StaticEntity.getPastUserList() );
+
+			String autoLoginSetting = StaticEntity.getProperty( "autoLogin" );
+			if ( autoLoginSetting.equals( "" ) )
+				autoLoginSetting = StaticEntity.getProperty( "lastUsername" );
+
+			usernameComboBox.setSelectedItem( autoLoginSetting.toLowerCase() );
 			usernameComboBox.addActionListener( new SettingsReloader() );
 
 			VerifiableElement [] elements = new VerifiableElement[1];
@@ -492,60 +498,26 @@ public class LoginFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StringBuffer frameString = new StringBuffer();
-			StringBuffer desktopString = new StringBuffer();
-
-			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
-			{
-				if ( startupOptions[i].isSelected() )
-				{
-					if ( frameString.length() != 0 )
-						frameString.append( "," );
-					frameString.append( FRAME_OPTIONS[i][1] );
-				}
-
-				if ( interfaceOptions[i].isSelected() )
-				{
-					desktopString.append( "," );
-					desktopString.append( FRAME_OPTIONS[i][1] );
-				}
-			}
-
-			if ( usernameComboBox.getSelectedIndex() == 0 )
-			{
-				StaticEntity.setGlobalProperty( "initialFrames", frameString.toString() );
-				StaticEntity.setGlobalProperty( "initialDesktop", desktopString.toString() );
-			}
-			else
-			{
-				String username = (String) usernameComboBox.getSelectedItem();
-				username = username.substring( username.indexOf( "for" ) + 4 ).trim();
-				StaticEntity.setGlobalProperty( username, "initialFrames", frameString.toString() );
-				StaticEntity.setGlobalProperty( username, "initialDesktop", desktopString.toString() );
-			}
 		}
 
 		public void actionCancelled()
 		{
 			String username = (String) usernameComboBox.getSelectedItem();
-			username = username.substring( username.indexOf( "for" ) + 4 ).trim();
-
-			if ( usernameComboBox.getSelectedIndex() == 0 )
-				username = "";
+			if ( username == null )
+				return;
 
 			String frameString = StaticEntity.getGlobalProperty( username, "initialFrames" );
 			String desktopString = StaticEntity.getGlobalProperty( username, "initialDesktop" );
 
 			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
 			{
-				startupOptions[i].setSelected( frameString.indexOf( FRAME_OPTIONS[i][1] ) != -1 );
-				interfaceOptions[i].setSelected( desktopString.indexOf( FRAME_OPTIONS[i][1] ) != -1 );
-
-				if ( !startupOptions[i].isSelected() && !interfaceOptions[i].isSelected() )
+				if ( frameString.indexOf( FRAME_OPTIONS[i][1] ) != -1 )
+					startupOptions[i].setSelected( true );
+				else if ( desktopString.indexOf( FRAME_OPTIONS[i][1] ) != -1 )
+					interfaceOptions[i].setSelected( true );
+				else
 					nullOptions[i].setSelected( true );
 			}
-
-			actionConfirmed();
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
@@ -556,12 +528,41 @@ public class LoginFrame extends KoLFrame
 		{
 			public InterfaceRadioButton( String text )
 			{
-				super( text, text.equals( "manual" ) );
+				super( text );
 				addActionListener( this );
 			}
 
 			public void actionPerformed( ActionEvent e )
-			{	actionConfirmed();
+			{
+				StringBuffer frameString = new StringBuffer();
+				StringBuffer desktopString = new StringBuffer();
+
+				for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
+				{
+					if ( startupOptions[i].isSelected() )
+					{
+						if ( frameString.length() != 0 )
+							frameString.append( "," );
+						frameString.append( FRAME_OPTIONS[i][1] );
+					}
+
+					if ( interfaceOptions[i].isSelected() )
+					{
+						if ( desktopString.length() != 0 )
+							desktopString.append( "," );
+						desktopString.append( FRAME_OPTIONS[i][1] );
+					}
+				}
+
+				StaticEntity.setGlobalProperty( "", "initialFrames", frameString.toString() );
+				StaticEntity.setGlobalProperty( "", "initialDesktop", desktopString.toString() );
+
+				if ( usernameComboBox.getItemCount() != 0 )
+				{
+					String username = (String) usernameComboBox.getSelectedItem();
+					StaticEntity.setGlobalProperty( username, "initialFrames", frameString.toString() );
+					StaticEntity.setGlobalProperty( username, "initialDesktop", desktopString.toString() );
+				}
 			}
 		}
 
