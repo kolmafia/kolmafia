@@ -1242,6 +1242,15 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
+			if ( HermitRequest.neededPermits() )
+			{
+				int neededPermits = StaticEntity.parseInt( parameters );
+				if ( neededPermits <= 0 )
+					neededPermits += KoLCharacter.getAdventuresLeft();
+
+				AdventureDatabase.retrieveItem( HermitRequest.PERMIT.getInstance( neededPermits ) );
+			}
+
 			StaticEntity.setProperty( "luckySewerAdventure", "stolen accordion" );
 
 			String previousScript = StaticEntity.getProperty( "betweenBattleScript" );

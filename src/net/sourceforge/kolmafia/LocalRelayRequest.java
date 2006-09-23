@@ -276,7 +276,7 @@ public class LocalRelayRequest extends KoLRequest
 					selectBuffer.append( "</a>" );
 				}
 
-				int lastRowIndex = fullResponse.lastIndexOf( "</tr>" );
+				int lastRowIndex = responseBuffer.lastIndexOf( "</tr>" );
 				if ( lastRowIndex != -1 )
 					responseBuffer.insert( lastRowIndex, "<td>&nbsp;&nbsp;</td><td align=right><font size=2>" + selectBuffer.toString() + "</font></td>" );
 			}

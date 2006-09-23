@@ -46,12 +46,13 @@ public class HermitRequest extends KoLRequest
 {
 	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<tr><td.*?><input.*?value=(\\d*)>.*?<b>(.*?)</b></td></tr>" );
 
-	private static final AdventureResult PERMIT =  new AdventureResult( 42, 0 );
+	public static final AdventureResult PERMIT =  new AdventureResult( 42, 0 );
 	public static final AdventureResult TRINKET = new AdventureResult( 43, 0 );
 	public static final AdventureResult GEWGAW = new AdventureResult( 44, 0 );
 	public static final AdventureResult KNICK_KNACK =  new AdventureResult( 45, 0 );
 
 	private int itemID, quantity;
+	private static boolean neededPermits = false;
 
 	/**
 	 * Constructs a new <code>HermitRequest</code>.  Note that in order
@@ -116,6 +117,7 @@ public class HermitRequest extends KoLRequest
 
 			if ( responseText.indexOf( "you're not allowed to visit" ) != -1 )
 			{
+				neededPermits = true;
 				AdventureDatabase.retrieveItem( PERMIT.getInstance( 1 ) );
 				if ( KoLmafia.permitsContinue() )
 					this.run();
@@ -231,6 +233,10 @@ public class HermitRequest extends KoLRequest
 	{
 		return TRINKET.getCount( inventory ) +
 				GEWGAW.getCount( inventory ) + KNICK_KNACK.getCount( inventory );
+	}
+
+	public static boolean neededPermits()
+	{	return neededPermits;
 	}
 
 	public static final boolean isCloverDay()
