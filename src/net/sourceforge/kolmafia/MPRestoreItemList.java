@@ -50,11 +50,15 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
-		GALAKTIK, BEANBAG, CAMPING, new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tonic water", 40 ),
-		new MPRestoreItem( "Knob Goblin superseltzer", 27 ), new MPRestoreItem( "Blatantly Canadian", 22 ),
-		new MPRestoreItem( "Dyspepsi-Cola", 12 ), new MPRestoreItem( "Cloaca-Cola", 12 ),
-		new MPRestoreItem( "Mountain Stream soda", 8 ), MYSTERY_JUICE, SELTZER,
-		new MPRestoreItem( "Cherry Cloaca Cola", 8 ), new MPRestoreItem( "soda water", 4 )
+		GALAKTIK, BEANBAG, CAMPING, new MPRestoreItem( "unrefined mountain stream syrup", 55 ),
+		new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tonic water", 40 ),
+		new MPRestoreItem( "blue paisley oyster egg", 33 ), new MPRestoreItem( "blue polka-dot oyster egg", 33 ),
+		new MPRestoreItem( "blue striped oyster egg", 33 ), new MPRestoreItem( "blue pixel potion", 28 ),
+		new MPRestoreItem( "Knob Goblin superseltzer", 27 ), new MPRestoreItem( "maple syrup", 25 ),
+		new MPRestoreItem( "Blatantly Canadian", 23 ), new MPRestoreItem( "tiny house", 22 ),
+		new MPRestoreItem( "green pixel potion", 19 ), new MPRestoreItem( "Dyspepsi-Cola", 12 ),
+		new MPRestoreItem( "Cloaca-Cola", 12 ), new MPRestoreItem( "Mountain Stream soda", 8 ), MYSTERY_JUICE,
+		SELTZER, new MPRestoreItem( "Cherry Cloaca Cola", 8 ), new MPRestoreItem( "soda water", 4 )
 	};
 
 	public static JCheckBox [] getCheckboxes()
