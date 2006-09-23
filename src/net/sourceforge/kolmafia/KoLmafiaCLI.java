@@ -1232,6 +1232,29 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// To make it easier to run the spice loop in
+		// an optimal fashion, make it a command.
+
+		if ( command.equals( "spiceloop" ) )
+		{
+			executeLine( "acquire worthless item" );
+			(new HermitRequest( StaticEntity.getClient() )).run();
+
+			if ( !HermitRequest.isCloverDay() )
+			{
+				updateDisplay( ERROR_STATE, "Today is not a clover day." );
+				return;
+			}
+
+			StaticEntity.setProperty( "luckySewerAdventure", "stolen accordion" );
+
+			String previousScript = StaticEntity.getProperty( "betweenBattleScript" );
+			StaticEntity.setProperty( "betweenBattleScript", "acquire ten-leaf clover" );
+			executeAdventureRequest( parameters + " sewer with clovers" );
+			StaticEntity.setProperty( "betweenBattleScript", previousScript );
+			return;
+		}
+
 		// Donations get their own command and module,
 		// too, which handles hero donations and basic
 		// clan donations.

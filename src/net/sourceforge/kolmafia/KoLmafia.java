@@ -1228,7 +1228,7 @@ public abstract class KoLmafia implements KoLConstants
 				}
 				else if ( adventure.getRequest() instanceof SewerRequest )
 				{
-					if ( iterations < KoLCharacter.getAdventuresLeft() )
+					if ( conditions.isEmpty() )
 						AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) );
 				}
 			}

@@ -405,12 +405,13 @@ public class AdventureDatabase extends KoLDatabase
 				}
 
 				int combats = parseInt( data[1] );
-				AreaCombatData combat = new AreaCombatData( combats );
-
-				for ( int i = 2; i < data.length; ++i )
-					combat.addMonster( data[i] );
-
-				areaCombatData.put( data[0], combat );
+				if ( combats != 0 )
+				{
+					AreaCombatData combat = new AreaCombatData( combats );
+					for ( int i = 2; i < data.length; ++i )
+						combat.addMonster( data[i] );
+					areaCombatData.put( data[0], combat );
+				}
 			}
 		}
 
