@@ -87,7 +87,7 @@ public class AreaCombatData implements KoLConstants
 		if ( weighting < 0 )
 			return true;
 
-		// Don't let one-time monsters skew combat percentage numbers
+		// Don't let special monsters skew combat percentage numbers
 		// or things derived from them, like area-wide item and meat
 		// drops. Do include them in hit and evade ("safety") numbers.
 		if ( weighting > 0 )
@@ -199,7 +199,7 @@ public class AreaCombatData implements KoLConstants
 		{
 			int weighting = getWeighting( i );
 
-			// Omit ultra-rare (-1) and one-time (0) monsters
+			// Omit ultra-rare (-1) and special (0) monsters
 			if ( weighting < 1 )
 				continue;
 
@@ -322,7 +322,7 @@ public class AreaCombatData implements KoLConstants
 		if ( weighting < 0 )
 			buffer.append( "ultra-rare" );
 		else if ( weighting == 0 )
-			buffer.append( "one-time" );
+			buffer.append( "special" );
 		else
 			buffer.append( format( 100.0f * combatFactor * (float)weighting / (float)weights ) + "%" );
                 buffer.append( ")<br> - Hit: <font color=" + elementColor( ed ) + ">" );
