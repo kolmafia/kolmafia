@@ -67,6 +67,10 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		setFontSize( fontSize );
 	}
 
+	public LimitedSizeChatBuffer( boolean requiresTruncation )
+	{	this( "", requiresTruncation, false );
+	}
+
 	public LimitedSizeChatBuffer( String title, boolean requiresTruncation, boolean affectsHighlightBuffer )
 	{
 		super( title );

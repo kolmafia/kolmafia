@@ -53,6 +53,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JComboBox;
 
 // other imports
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
@@ -103,8 +104,6 @@ public class ChatFrame extends KoLFrame
 			toolbarPanel.add( new MessengerButton( "Remove Highlighting", "highlight2.gif", "removeHighlighting" ) );
 			toolbarPanel.add( new JToolBar.Separator() );
 			toolbarPanel.add( new MessengerButton( "/who", "who2.gif", "checkChannel" ) );
-			toolbarPanel.add( new JToolBar.Separator() );
-			toolbarPanel.add( new KoLPanelFrameButton( "Preferences", "preferences.gif", new ChatOptionsPanel() ) );
 			toolbarPanel.add( new JToolBar.Separator() );
 		}
 
@@ -259,7 +258,7 @@ public class ChatFrame extends KoLFrame
 
 				if ( message.equals( "/m" ) || message.startsWith( "/mark" ) )
 				{
-					buffer.append( "<br><hr width=\"60%\"><br>" );
+					buffer.append( "<br><hr><b>" + (new Date()).toString() + "</b><br><br>" );
 					return;
 				}
 
@@ -453,86 +452,6 @@ public class ChatFrame extends KoLFrame
 			createDisplay( frameClass, parameters );
 		}
 	}
-
-	/**
-	 * Panel used for handling chat-related options and preferences,
-	 * including font size, window management and maybe, eventually,
-	 * coloring options for contacts.
-	 */
-
-	private class ChatOptionsPanel extends OptionsPanel
-	{
-		private JComboBox fontSizeSelect;
-		private JComboBox chatStyleSelect;
-		private JComboBox useTabSelect;
-		private JComboBox popupSelect;
-		private JComboBox eSoluSelect;
-
-		public ChatOptionsPanel()
-		{
-			super( "" );
-
-			fontSizeSelect = new JComboBox();
-			for ( int i = 1; i <= 7; ++i )
-				fontSizeSelect.addItem( String.valueOf( i ) );
-
-			chatStyleSelect = new JComboBox();
-			chatStyleSelect.addItem( "Channels separate, blues separate" );
-			chatStyleSelect.addItem( "Channels separate, blues combined" );
-			chatStyleSelect.addItem( "Channels combined, blues separate" );
-			chatStyleSelect.addItem( "Channels combined, blues combined" );
-			chatStyleSelect.addItem( "Monitoring style, blues separate" );
-			chatStyleSelect.addItem( "Monitoring style, blues combined" );
-
-			useTabSelect = new JComboBox();
-			useTabSelect.addItem( "Use windowed chat interface" );
-			useTabSelect.addItem( "Use tabbed chat interface" );
-
-			popupSelect = new JComboBox();
-			popupSelect.addItem( "Display /friends and /who in chat display" );
-			popupSelect.addItem( "Popup a window for /friends and /who" );
-
-			eSoluSelect = new JComboBox();
-			eSoluSelect.addItem( "Nameclick select bar only" );
-			eSoluSelect.addItem( "eSolu scriptlet chat links (color)" );
-			eSoluSelect.addItem( "eSolu scriptlet chat links (gray)" );
-
-			VerifiableElement [] elements = new VerifiableElement[5];
-			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
-			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
-			elements[2] = new VerifiableElement( "Tabbed Chat: ", useTabSelect );
-			elements[3] = new VerifiableElement( "Contact List: ", popupSelect );
-			elements[4] = new VerifiableElement( "eSolu Script: ", eSoluSelect );
-
-			setContent( elements );
-			actionCancelled();
-		}
-
-		public void actionConfirmed()
-		{
-			StaticEntity.setProperty( "fontSize", (String) fontSizeSelect.getSelectedItem() );
-			LimitedSizeChatBuffer.setFontSize( StaticEntity.parseInt( (String) fontSizeSelect.getSelectedItem() ) );
-
-			StaticEntity.setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
-			StaticEntity.setProperty( "useTabbedChat", String.valueOf( useTabSelect.getSelectedIndex() ) );
-			StaticEntity.setProperty( "usePopupContacts", String.valueOf( popupSelect.getSelectedIndex() ) );
-			StaticEntity.setProperty( "eSoluScriptType", String.valueOf( eSoluSelect.getSelectedIndex() ) );
-
-			super.actionConfirmed();
-		}
-
-		public void actionCancelled()
-		{
-			fontSizeSelect.setSelectedItem( StaticEntity.getProperty( "fontSize" ) );
-			LimitedSizeChatBuffer.setFontSize( StaticEntity.getIntegerProperty( "fontSize" ) );
-
-			chatStyleSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "chatStyle" ) );
-			useTabSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "useTabbedChat" ) );
-			popupSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "usePopupContacts" ) );
-			eSoluSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "eSoluScriptType" ) );
-		}
-	}
-
 
 	private class MessengerButton extends InvocationButton
 	{

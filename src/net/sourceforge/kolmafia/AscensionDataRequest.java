@@ -445,11 +445,8 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 		public int getAge()
 		{
-			Date today = new Date();
-
-			long todayDate = today.getTime();
 			long ascensionDate = timestamp.getTime();
-			float difference = todayDate - ascensionDate;
+			float difference = System.currentTimeMillis() - ascensionDate;
 			int days = (int)(Math.round((difference/(1000*60*60*24))));
 			return days;
 		}

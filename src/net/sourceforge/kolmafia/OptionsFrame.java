@@ -118,31 +118,6 @@ public class OptionsFrame extends KoLFrame
 	private ActionPanel general, items, relay, areas, health, mana, choices;
 
 	/**
-	 * Utility method which refreshes all the options, in the event
-	 * that any data is reset via scripts.
-	 */
-
-	public static void refreshDisplay()
-	{
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
-		for ( int i = 0; i < frames.length; ++i )
-		{
-			if ( frames[i] instanceof OptionsFrame )
-			{
-				((OptionsFrame) frames[i]).general.actionCancelled();
-				((OptionsFrame) frames[i]).items.actionCancelled();
-				((OptionsFrame) frames[i]).relay.actionCancelled();
-				((OptionsFrame) frames[i]).areas.actionCancelled();
-				((OptionsFrame) frames[i]).health.actionCancelled();
-				((OptionsFrame) frames[i]).mana.actionCancelled();
-				((OptionsFrame) frames[i]).choices.actionCancelled();
-			}
-		}
-	}
-
-	/**
 	 * Constructs a new <code>OptionsFrame</code> that will be
 	 * associated with the given client.  When this frame is
 	 * closed, it will attempt to return focus to the currently
@@ -201,6 +176,7 @@ public class OptionsFrame extends KoLFrame
 		addTab( "Restores", restorePanel );
 		tabs.addTab( "Combats", combatPanel );
 		tabs.addTab( "Moods", moodPanel );
+		tabs.addTab( "Mafia Chat", new ChatOptionsPanel() );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -1425,6 +1401,87 @@ public class OptionsFrame extends KoLFrame
 				MoodSettings.copyTriggers( moodName );
 				moodList.setModel( MoodSettings.setMood( moodName ) );
 			}
+		}
+	}
+
+
+	/**
+	 * Panel used for handling chat-related options and preferences,
+	 * including font size, window management and maybe, eventually,
+	 * coloring options for contacts.
+	 */
+
+	private class ChatOptionsPanel extends OptionsPanel
+	{
+		private JComboBox fontSizeSelect;
+		private JComboBox chatStyleSelect;
+		private JComboBox useTabSelect;
+		private JComboBox popupSelect;
+		private JComboBox eSoluSelect;
+
+		public ChatOptionsPanel()
+		{
+			super( "" );
+
+			fontSizeSelect = new JComboBox();
+			for ( int i = 1; i <= 7; ++i )
+				fontSizeSelect.addItem( String.valueOf( i ) );
+
+			chatStyleSelect = new JComboBox();
+			chatStyleSelect.addItem( "No monitor, individual channels, individual blues" );
+			chatStyleSelect.addItem( "No monitor, individual channels, combined blues" );
+			chatStyleSelect.addItem( "No monitor, combined channels, individual blues" );
+			chatStyleSelect.addItem( "No monitor, combined channels, combined blues" );
+			chatStyleSelect.addItem( "Global monitor, individual channels, individual blues" );
+			chatStyleSelect.addItem( "Global monitor, individual channels, combined blues" );
+			chatStyleSelect.addItem( "Standard KoL style (no monitor, everything combined)" );
+
+			useTabSelect = new JComboBox();
+			useTabSelect.addItem( "Use windowed chat interface" );
+			useTabSelect.addItem( "Use tabbed chat interface" );
+
+			popupSelect = new JComboBox();
+			popupSelect.addItem( "Display /friends and /who in chat display" );
+			popupSelect.addItem( "Popup a window for /friends and /who" );
+
+			eSoluSelect = new JComboBox();
+			eSoluSelect.addItem( "Nameclick select bar only" );
+			eSoluSelect.addItem( "eSolu scriptlet chat links (color)" );
+			eSoluSelect.addItem( "eSolu scriptlet chat links (gray)" );
+
+			VerifiableElement [] elements = new VerifiableElement[5];
+			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
+			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
+			elements[2] = new VerifiableElement( "Tabbed Chat: ", useTabSelect );
+			elements[3] = new VerifiableElement( "Contact List: ", popupSelect );
+			elements[4] = new VerifiableElement( "eSolu Script: ", eSoluSelect );
+
+			setContent( elements );
+			actionCancelled();
+		}
+
+		public void actionConfirmed()
+		{
+			StaticEntity.setProperty( "fontSize", (String) fontSizeSelect.getSelectedItem() );
+			LimitedSizeChatBuffer.setFontSize( StaticEntity.parseInt( (String) fontSizeSelect.getSelectedItem() ) );
+
+			StaticEntity.setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
+			StaticEntity.setProperty( "useTabbedChat", String.valueOf( useTabSelect.getSelectedIndex() ) );
+			StaticEntity.setProperty( "usePopupContacts", String.valueOf( popupSelect.getSelectedIndex() ) );
+			StaticEntity.setProperty( "eSoluScriptType", String.valueOf( eSoluSelect.getSelectedIndex() ) );
+
+			super.actionConfirmed();
+		}
+
+		public void actionCancelled()
+		{
+			fontSizeSelect.setSelectedItem( StaticEntity.getProperty( "fontSize" ) );
+			LimitedSizeChatBuffer.setFontSize( StaticEntity.getIntegerProperty( "fontSize" ) );
+
+			chatStyleSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "chatStyle" ) );
+			useTabSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "useTabbedChat" ) );
+			popupSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "usePopupContacts" ) );
+			eSoluSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "eSoluScriptType" ) );
 		}
 	}
 }

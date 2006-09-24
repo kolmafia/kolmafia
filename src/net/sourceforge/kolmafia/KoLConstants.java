@@ -43,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.text.DecimalFormatSymbols;
 
 import java.io.File;
+import java.util.Date;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
 
@@ -244,5 +245,5 @@ public interface KoLConstants extends UtilityConstants
 	// Include just the event history buffer and the command line buffer.
 
 	public static final LockableListModel eventHistory = new LockableListModel();
-	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", true, false );
+	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( true );
 }
