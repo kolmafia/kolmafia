@@ -835,6 +835,9 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else
 			{
+				if ( !parameters.endsWith( ".txt" ) )
+					parameters += ".txt";
+
 				mirrorStream = openStream( parameters, mirrorStream, true );
 				echoStream = openStream( parameters + ".echo", echoStream, true );
 			}
