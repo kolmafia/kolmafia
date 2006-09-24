@@ -231,8 +231,131 @@ public class AdventureDatabase extends KoLDatabase
 		// Rapido!
 		{ { "choiceAdventure75" }, { "Whitey's Grove 3" },
 		  { "Mysticality", "white lightning", "white collar" },
-		  { null, "266", "1655" } }
+		  { null, "266", "1655" } },
+
+		// Junction in the Trunction
+		{ { "choiceAdventure76" }, { "Knob Shaft" },
+		  { "Cardboard Ore", "Styrofoam Ore", "Bubblewrap Ore" } },
+
+		// Choice 77 is Minnesota Incorporeals
+		// Choice 78 is Broken
+		// Choice 79 is A Hustle Here, a Hustle There
+		// Choice 80 is Take a Look, it's in a Book!
+
+		// One NightStand (simple white)
+		{ { "choiceAdventure82" }, { "Haunted Bedroom 1" },
+		  { "Wallet", "Muscle", "Fight" } },
+
+		// One NightStand (mahogany)
+		{ { "choiceAdventure83" }, { "Haunted Bedroom 2" },
+		  { "Coin Purse", "Fight", "Quest Item" } },
+
+		// One NightStand (ornate)
+		{ { "choiceAdventure84" }, { "Haunted Bedroom 3" },
+		  { "Meat", "Mysticality", "Spectacles" } },
+
+		// One NightStand (simple wooden)
+		{ { "choiceAdventure85" }, { "Haunted Bedroom 4" },
+		  { "Moxie", "Taped Key", "Fight" } },
+
+		// Choice 86 is History is Fun!
+		// Choice 87 is History is Fun!
+		// Choice 88 is Naughty, Naughty
+
+		// Tuesdays with Abhorrent Fiends -> Mysticality
+		// The Nether Planes on 350 Meat a Day -> Moxie
+		// Twisted, Curdled, Corrupt Energy and You -> Damage
+
+		// Out in the Garden
+		{ { "choiceAdventure89" }, { "Haunted Gallery 1" },
+		  { "Wolf Knight", "Snake Knight", "Dreams and Lights" } },
+
+		// Curtains
+		{ { "choiceAdventure90" }, { "Haunted Ballroom" },
+		  { "Investigate Organ", "Watch Dancers", "Hide" } },
+
+		// Louvre It or Leave It
+		{ { "choiceAdventure91" }, { "Haunted Gallery 2" },
+		  { "Enter the Drawing", "Pass on By" } },
+
+		// Choices 92 - 102 are Escher print adventures
 	};
+
+	// We choose to not make some choice adventures configurable, but we
+	// want to provide spoilers in the browser for them.
+
+	public static final String [][][] CHOICE_ADV_SPOLIERS =
+	{
+		// The Oracle Will See You Now -> Self Explanatory
+		// How Depressing -> Self Explanatory
+		// On the Verge of a Dirge -> Self Explanatory
+
+		// Wheel In the Sky Keep on Turning: Muscle Position
+		{ { "choiceAdventure9" },
+		  { "Turn to Mysticality", "Turn to Moxie", "Ignore" } },
+
+		// Wheel In the Sky Keep on Turning: Mysticality Position
+		{ { "choiceAdventure10" },
+		  { "Turn to Map Quest", "Turn to Muscle", "Ignore" } },
+
+		// Wheel In the Sky Keep on Turning: Map Quest Position
+		{ { "choiceAdventure11" },
+		  { "Turn to Moxie", "Turn to Mysticality", "Ignore" } },
+
+		// Wheel In the Sky Keep on Turning: Moxie Position
+		{ { "choiceAdventure12" },
+		  { "Turn to Muscle", "Turn to Map Quest", "Ignore" } },
+
+		// A Three-Tined Fork
+		{ { "choiceAdventure26" },
+		  { "Muscle Classes", "Mysticality Classes", "Moxie Classes" } },
+
+		// Footprints
+		{ { "choiceAdventure27" },
+		  { "Seal Clubber", "Turtle Tamer" } },
+
+		// A Pair of Craters
+		{ { "choiceAdventure28" },
+		  { "Sauceror", "Pastamancer" } },
+
+		// The Road Less Visible
+		{ { "choiceAdventure29" },
+		  { "Disco Bandit", "Accordion Thief" } },
+
+		// A Journey to the Center of Your Mind -> Self Explanatory
+
+		// Minnesota Incorporeals
+		{ { "choiceAdventure77" },
+		  { "Moxie", "Other options", "Ignore" } },
+
+		// Broken
+		{ { "choiceAdventure78" },
+		  { "Other options", "Muscle", "Ignore" } },
+
+		// A Hustle Here, a Hustle There
+		{ { "choiceAdventure79" },
+		  { "Library Key", "Mysticality", "Ignore" } },
+
+		// Take a Look, it's in a Book!
+		{ { "choiceAdventure80" },
+		  { "History", "Cooking Recipe", "Other options", "Go Away" } },
+
+		// Take a Look, it's in a Book!
+		{ { "choiceAdventure81" },
+		  { "Quest", "Cocktailcrafting recipe", "Muscle", "Go Away" } },
+
+		// History is Fun!
+		{ { "choiceAdventure86" },
+		  { "Chapter 1", "Chapter 2", "Chapter 3" } },
+
+		// History is Fun!
+		{ { "choiceAdventure87" }, { "Haunted Library 2" },
+		  { "Chapter 1", "Gallery Key Quest", "Chapter 3" } },
+
+		// Naughty, Naughty
+		{ { "choiceAdventure88" }, { "Library 2" },
+		  { "Mysticality", "Moxie", "Mysticality Class Skill" } },
+        };
 
 	// Some choice adventures have a choice that behaves as an "ignore"
 	// setting: if you select it, no adventure is consumed.
@@ -274,6 +397,12 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Lording Over The Flies
 		{ "choiceAdventure72", "2" },
+
+		// Curtains
+		{ "choiceAdventure90", "3" },
+
+		// Louvre It or Leave It
+		{ "choiceAdventure91", "2" },
 	};
 
 	// Some choice adventures have options that cost meat

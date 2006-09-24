@@ -1,3 +1,4 @@
+antique helmet	Spooky: +30 Init: -10.0
 asbestos helmet turtle	Hot: +10
 asshat	Stench: +10
 balaclava	Cold: +10
@@ -27,6 +28,8 @@ stainless steel skullcap	DA: +60
 yellow traffic cone	Sleaze: +20
 
 acoustic guitarrr	Meat: +2.0
+antique spear	Init: -30.0
+broken sword	Spooky: +10
 bubble bauble bow	Item: +5.0
 can cannon	ML: +3
 can of maces	Sleaze: +10
@@ -42,12 +45,16 @@ meatspout staff	Meat: +15.0
 muculent machete	Meat: +5.0
 pixel sword	Init: +15.0
 rusty grave robbing shovel	Init: -10.0
+serpentine sword	ML: +10
 squeaky staff	ML: +6
 styrofoam crossbow	ML: +3
 styrofoam staff	ML: +3
 styrofoam sword	ML: +3
 titanium assault umbrella	Sleaze: +10, Spooky: +10
 
+1-ball		Init: +5.0
+7-ball		Meat: +5.0
+antique shield	Init: -10.0 DR: 15
 box	Meat: +1.0
 box-in-the-box	Meat: +2.0
 box-in-the-box-in-the-box	Meat: +3.0
@@ -62,6 +69,8 @@ ice baby	Exp: +1.0
 penguin skin buckler	DR: 5
 pixel shield	DR: 3
 ricebowl	Item: +20.0
+snake shield	DR: 7
+snarling wolf shield	DR: 7
 star buckler	DR: 10
 White satin shield	DR: 5
 yakskin buckler	DR: 5
@@ -69,6 +78,7 @@ yakskin buckler	DR: 5
 clockwork trenchcoat	DA: +15
 goth kid t-shirt	ML: +5
 
+antique greaves	Init: -10.0
 clockwork pants	Init: +10.0
 Crimbo pants	Init: +30.0
 demonskin trousers	Hot: +20
@@ -117,6 +127,7 @@ ring of fire resistance	Hot: +20
 sk8board	Init: +15.0
 stainless steel scarf	ML: +20
 stainless steel suspenders	DA: +60
+tap shoes	Init: -20.0
 tiny plastic angry goat	Weight: +1
 tiny plastic baby gravy fairy	Weight: +1
 tiny plastic barrrnacle	Weight: +1

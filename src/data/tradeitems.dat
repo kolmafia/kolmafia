@@ -1699,7 +1699,7 @@
 1699	catgut taco	1	84
 1700	goat cheese taco	1	84
 1701	pr0n taco	1	84
-1702
+1702	alphabet gum	3	15
 1703	Comma Chameleon egg	5	-1
 1704	roofie	4	35
 1705	flaregun	0	45
@@ -1761,22 +1761,22 @@
 1761	foon of foulness	13	150
 1762	foon of fearfulness	13	150
 1763	foon of fleshiness	13	150
-1764	
-1765	
-1766	
+1764	Spookyraven library key	0	0
+1765	Spookyraven gallery key	0	0
+1766	Spookyraven ballroom key	0	0
 1767	pack of chewing gum	4	80
 1768	Gnomish toolbox	4	150
-1769	
-1770	
+1769	fricasseed brains	1	20
+1770	brains casserole	1	35
 1771	
-1772	
-1773	
-1774	
-1775	
-1776	
-1777	
-1778	
-1779	
+1772	corn holder	12	25
+1773	eggbeater	12	30
+1774	bottle of popskull	2	35
+1775	dishrag	12	25
+1776	stale baguette	1	25
+1777	leftovers of indeterminate origin	0	35
+1778	ancient frozen dinner	1	30
+1779	cardboard katana	12	35
 1780	ram stick	12	120
 1781	enchantlers	9	120
 1782	ram-battering staff	12	140
@@ -1790,122 +1790,122 @@
 1790	Ram's Face Lager	2	55
 1791	ram horns	0	55
 1792	Travoltan trousers	10	-1
-1793	
-1794	
+1793	pool cue	12	45
+1794	handful of hand chalk	4	30
 1795	
 1796	bone collar	7	75
-1797	
-1798	
-1799	
-1800	
-1801	
-1802	
-1803	
-1804	
-1805	
-1806	
-1807	
-1808	
-1809	
-1810	
-1811	
-1812	
-1813	
-1814	
-1815	
-1816	
-1817	
-1818	
-1819	
-1820	
-1821	
-1822	
-1823	
-1824	
-1825	
-1826	
-1827	
-1828	
-1829	
-1830	
-1831	
-1832	
-1833	
-1834	
-1835	
-1836	
-1837	
-1838	
-1839	
-1840	
-1841	
-1842	
-1843	
-1844	
-1845	
-1846	
-1847	
-1848	
-1849	
-1850	
-1851	
-1852	
-1853	
-1854	
-1855	
-1856	
-1857	
-1858	
-1859	
-1860	
-1861	
-1862	
-1863	
-1864	
-1865	
-1866	
-1867	
-1868	
-1869	
-1870	
-1871	
-1872	
-1873	
-1874	
-1875	
-1876	
-1877	
-1878	
-1879	
-1880	
-1881	
-1882	
-1883	
-1884	
-1885	
-1886	
-1887	
-1888	
-1889	
-1890	
-1891	
-1892	
-1893	
-1894	
-1895	
-1896	
-1897	
-1898	
-1899	
-1900	
-1901	
-1902	
-1903	
-1904	
-1905	
-1906	
-1907	
-1908	
+1797	misshapen animal skeleton	5	0
+1798	pile of dusty animal bones	4	32
+1799	dusty animal skull	3	30
+1800	dusty animal cranium	0	10
+1801	dusty animal jawbone	0	10
+1802	dusty first cervical vertebra	0	10
+1803	dusty second cervical vertebra	0	10
+1804	dusty third cervical vertebra	0	10
+1805	dusty fourth cervical vertebra	0	10
+1806	dusty fifth cervical vertebra	0	10
+1807	dusty sixth cervical vertebra	0	10
+1808	dusty seventh cervical vertebra	0	10
+1809	dusty first thoracic vertebra	0	10
+1810	dusty second thoracic vertebra	0	10
+1811	dusty third thoracic vertebra	0	10
+1812	dusty fourth thoracic vertebra	0	10
+1813	dusty fifth thoracic vertebra	0	10
+1814	dusty sixth thoracic vertebra	0	10
+1815	dusty seventh thoracic vertebra	0	10
+1816	dusty eighth thoracic vertebra	0	10
+1817	dusty ninth thoracic vertebra	0	10
+1818	dusty tenth thoracic vertebra	0	10
+1819	dusty eleventh thoracic vertebra	0	10
+1820	dusty twelfth thoracic vertebra	0	10
+1821	dusty first lumbar vertebra	0	10
+1822	dusty second lumbar vertebra	0	10
+1823	dusty third lumbar vertebra	0	10
+1824	dusty fourth lumbar vertebra	0	10
+1825	dusty fifth lumbar vertebra	0	10
+1826	dusty sixth lumbar vertebra	0	10
+1827	dusty seventh lumbar vertebra	0	10
+1828	dusty sacral vertebrae	0	10
+1829	dusty first caudal vertebra	0	10
+1830	dusty second caudal vertebra	0	10
+1831	dusty third caudal vertebra	0	10
+1832	dusty fourth caudal vertebra	0	10
+1833	dusty fifth caudal vertebra	0	10
+1834	dusty sixth caudal vertebra	0	10
+1835	dusty seventh caudal vertebra	0	10
+1836	dusty eighth caudal vertebra	0	10
+1837	dusty ninth caudal vertebra	0	10
+1838	dusty tenth caudal vertebra	0	10
+1839	dusty left first rib	0	10
+1840	dusty left second rib	0	10
+1841	dusty left third rib	0	10
+1842	dusty left fourth rib	0	10
+1843	dusty left fifth rib	0	10
+1844	dusty left sixth rib	0	10
+1845	dusty left seventh rib	0	10
+1846	dusty left eighth rib	0	10
+1847	dusty left ninth rib	0	10
+1848	dusty left tenth rib	0	10
+1849	dusty left eleventh rib	0	10
+1850	dusty left twelfth rib	0	10
+1851	dusty right first rib	0	10
+1852	dusty right second rib	0	10
+1853	dusty right third rib	0	10
+1854	dusty right fourth rib	0	10
+1855	dusty right fifth rib	0	10
+1856	dusty right sixth rib	0	10
+1857	dusty right seventh rib	0	10
+1858	dusty right eighth rib	0	10
+1859	dusty right ninth rib	0	10
+1860	dusty right tenth rib	0	10
+1861	dusty right eleventh rib	0	10
+1862	dusty right twelfth rib	0	10
+1863	dusty animal pelvis	0	10
+1864	dusty left scapula	0	10
+1865	dusty right scapula	0	10
+1866	dusty left clavicle	0	10
+1867	dusty right clavicle	0	10
+1868	dusty left humerus	0	10
+1869	dusty right humerus	0	10
+1870	dusty left radius	0	10
+1871	dusty right radius	0	10
+1872	dusty left ulna	0	10
+1873	dusty right ulna	0	10
+1874	dusty left femur	0	10
+1875	dusty right femur	0	10
+1876	dusty left tibia	0	10
+1877	dusty right tibia	0	10
+1878	dusty left fibula	0	10
+1879	dusty right fibula	0	10
+1880	dusty left kneecap	0	10
+1881	dusty right kneecap	0	10
+1882	dusty left first front claw	0	10
+1883	dusty left second front claw	0	10
+1884	dusty left third front claw	0	10
+1885	dusty left fourth front claw	0	10
+1886	dusty right first front claw	0	10
+1887	dusty right second front claw	0	10
+1888	dusty right third front claw	0	10
+1889	dusty right fourth front claw	0	10
+1890	dusty left thumb	0	10
+1891	dusty right thumb	0	10
+1892	dusty left first rear claw	0	10
+1893	dusty left second rear claw	0	10
+1894	dusty left third rear claw	0	10
+1895	dusty left fourth rear claw	0	10
+1896	dusty right first rear claw	0	10
+1897	dusty right second rear claw	0	10
+1898	dusty right third rear claw	0	10
+1899	dusty right fourth rear claw	0	10
+1900	1-ball	13	35
+1901	2-ball	13	35
+1902	3-ball	13	35
+1903	4-ball	13	35
+1904	5-ball	13	35
+1905	6-ball	13	35
+1906	7-ball	13	35
+1907	8-ball	0	35
+1908
 1909	
 1910	clockwork sword	12	200
 1911	clockwork staff	12	200
@@ -1913,49 +1913,53 @@
 1913	clockwork handle	0	50
 1914	clockwork rod	0	50
 1915	clockwork shank	0	50
-1916	
-1917	
-1918	
-1919	
-1920	
-1921	
-1922	
-1923	
-1924	
-1925	
+1916	Lord Spookyraven's spectacles	8	0
+1917	old leather wallet	4	15
+1918	old coin purse	4	15
+1919	English to A. F. U. E. Dictionary	0	0
+1920	bizarre illegible sheet music	0	0
+1921	cardboard wakizashi	12	35
+1922	gob of wet hair	0	45
+1923	roll of toilet paper	0	0
+1924	tattered wolf standard	0	0
+1925	tattered snake standard	0	0
 1926	KoL Con 3-D Glasses	9	0
-1927	
-1928	
-1929	
-1930	
-1931	
-1932	
-1933	
-1934	
-1935	
-1936	
-1937	
-1938	
-1939	
-1940	
-1941	
-1942	
-1943	
-1944	
-1945	
-1946	
-1947	
-1948	
-1949	
-1950	
-1951	
-1952	
-1953	
-1954	
-1955	
-1956	
-1957	
-1958	
-1959	
-1960	
+1927	scary death orb	5	148
+1928	tuning fork	7	75
+1929	antique greaves	10	160
+1930	antique helmet	9	160
+1931	antique spear	12	160
+1932	antique shield	13	160
+1933	pitchfork	12	130
+1934	broken sword	12	240
+1935	snarling wolf shield	13	120
+1936	lupine sword	12	120
+1937	snake shield	13	120
+1938	serpentine sword	12	120
+1939	grouchy restless spirit	0	55
+1940	9-ball	13	55
+1941	chintzy seal pendant	8	200
+1942	chintzy turtle brooch	8	200
+1943	chintzy noodle ring	8	200
+1944	chintzy saucepan earring	8	200
+1945	chintzy disco ball pendant	8	200
+1946	chintzy accordion pin	8	200
+1947	worn tophat	0	0
+1948	tap shoes	8	130
+1949	Manetwich	1	120
+1950	bottle of Vangoghbitussin	3	115
+1951	bottle of Pinot Renoir	2	125
+1952	desiccated apricot	1	48
+1953	flute of flat champagne	2	86
+1954	dehydrated caviar	1	150
+1955	styrofoam peanuts	0	0
+1956	snifter of thoroughly aged brandy	2	34
+1957	disintegrating quill pen	3	45
+1958	inkwell	0	45
+1959	tattered scrap of paper	0	35
+1960	scroll of ancient forbidden unspeakable evil	0	65
 1961	can of Binarrrca	4	50
+1962	Bit O' Ectoplasm	4	35
+1963	dance card	3	55
+1964	opera mask	9	37
+1965	bottle of Monsieur Bubble	4	50

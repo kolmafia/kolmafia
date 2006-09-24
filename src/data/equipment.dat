@@ -1,7 +1,8 @@
 # Helmet section.  This section includes all the items
 # which go in the "hat" slot of the equipment menu.
 
-Ancient Saucehelm	50	Mys: 10
+Ancient Saucehelm	50	Mox: 10
+antique helmet	200	Mox: 85
 asbestos helmet turtle	80	Mox: 25
 asshat	30	none
 balaclava	50	Mox: 10
@@ -68,6 +69,7 @@ mesh cap	130	Mox: 50
 miner's helmet	80	Mox: 25
 Mohawk wig	140	Mox: 55
 mullet wig	40	Mox: 5
+opera mask	10	none
 orange traffic cone	60	Mox: 15
 Orcish baseball cap	60	Mox: 15
 oriole-feather headdress	15	none
@@ -103,6 +105,7 @@ yellow traffic cone	60	Mox: 15
 
 1337 7r0uZ0RZ	110	Mox: 40
 alpha-mail pants	140	Mox: 55
+antique greaves	200	Mox: 85
 basic meat kilt	40	Mox: 5
 basic meat pants	40	Mox: 5
 basic meat skirt	40	Mox: 5
@@ -201,6 +204,7 @@ supportive bra	50	Mox: 10
 5-Alarm Saucepan	50	Mus: 10	1-handed suacepan
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe
 acoustic guitarrr	100	Mox: 35	2-handed guitar
+antique spear	200	Mus: 85	1-handed spear
 arse-shooting crossbow	160	Mox: 65	2-handed crossbow
 asbestos crossbow	110	Mox: 40	2-handed crossbow
 asbestos staff	110	Mus: 40	2-handed staff
@@ -219,6 +223,7 @@ Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
 bill bec-de-bardiche glaive-guisarme	150	Mus: 60	2-handed polearm?
 Bjorn's Hammer	50	Mus: 10	1-handed club
 bow staff	100	Mus: 35	2-handed staff
+broken sword	135	Mus: 52	1-handed sword
 bubble bauble bow	80	Mox: 20	2-handed bow
 bubblewrap crossbow	60	Mox: 15	2-handed crossbow
 bubblewrap staff	60	Mus: 15	2-handed staff
@@ -230,8 +235,10 @@ can cannon	75	Mox: 20	2-handed crossbow
 can of fake snow	100	Mox: 35	1-handed can
 can of maces	50	Mox: 10	1-handed club
 cardboard crossbow	60	Mox: 15	2-handed crossbow
+cardboard katana	30	none	1-handed sword
 cardboard staff	60	Mus: 15	2-handed staff
 cardboard sword	60	Mus: 15	1-handed sword
+cardboard wakizashi	30	none	1-handed sword
 carob cannon	135	Mox: 45	2-handed crossbow
 Cerebral Crossbow	90	Mox: 30	1-handed crossbow
 cheap plastic bottle opener	30	none	1-handed utensil
@@ -245,6 +252,7 @@ clockwork staff	80	Mus: 25	2-handed staff
 clockwork sword	80	Mus: 25	2-handed sword
 clown hammer	10	none	1-handed club
 cool whip	10	none	1-handed whip
+cornholder	20	none	1-handed utensil
 crazy bastard sword	75	Mus: 22	1-handed sword
 Crimbo sword	100	Mus: 35	2-handed sword
 crowbarrr	80	Mus: 25	2-handed staff
@@ -254,6 +262,7 @@ dense meat sword	60	Mus: 15	2-handed sword
 dense meat staff	60	Mus: 15	2-handed staff
 dense meat crossbow	60	Mox: 15	2-handed crossbow
 diamond-studded cane	60	Mus: 15	1-handed club
+dishrag	20	none	1-handed whip
 disco ball	10	Mox: 0	1-handed disco ball
 Disco Banjo	50	Mox: 10	2-handed banjo
 Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
@@ -262,6 +271,7 @@ dripping meat staff	50	Mus: 10	2-handed staff
 dripping meat sword	50	Mus: 10	2-handed sword
 duck-on-a-string	100	Mus: 35	1-handed flail
 drywall axe	150	Mus: 60	2-handed axe
+eggbeater	25	none	1-handed utensil
 especially homoerotic frat-paddle	150	Mus: 60	1-handed club
 eXtreme meat crossbow	60	Mox: 15	2-handed crossbow
 eXtreme meat staff	60	Mus: 15	2-handed staff
@@ -318,6 +328,7 @@ linoleum staff	100	Mus: 35	2-handed staff
 linoleum sword	100	Mus: 35	2-handed sword
 little paper umbrella	30	none	1-handed umbrella
 lucky ball-and-chain	130	Mox: 50	2-handed flail
+lupine sword	115	Mus: 42	1-handed sword
 Mafia violin case	100	Mus: 35	1-handed club
 meatspout staff	125	Mus: 45	2-handed staff
 Mjolnir Jr.	200	Mus: 85	1-handed club
@@ -328,8 +339,10 @@ Pasta of Peril	50	Mus: 10	1-handed utensil
 pasta spoon	10	none	1-handed utensil
 penguin whip	20	none	1-handed whip
 pestoblade	50	Mus: 10	1-handed sword
+pitchfork	125	Mus: 47	1-handed spear
 pixel sword	50	Mus: 10	1-handed sword
 plexiglass pike pike	180	Mus: 75	2-handed spear
+pool cue	40	none	2-handed staff
 portable corkscrew	30	none	1-handed tool
 potato pistol	120	Mox: 45	1-handed pistol
 poutine pole	55	Mus: 10	2-handed staff
@@ -351,6 +364,7 @@ savory sword	80	Mus: 25	1-handed sword
 savory staff	80	Mus: 25	2-handed staff
 savory crossbow	80	Mox: 25	2-handed crossbow
 seal-clubbing club	10	none	1-handed utensil
+serpentine sword	115	Mus: 42	1-handed sword
 shuddersword	125	Mus: 45	2-handed sword
 skeleton bone	30	none	1-handed club
 slightly peevedbow	60	Mox: 15	2-handed bow
@@ -404,7 +418,14 @@ yak whip	20	none	1-handed whip
 # Off-hand section.  This section includes all the items
 # which go in the "off-hand" slot of the equipment menu.
 
+1-ball	0	none
+2-ball	0	none
+3-ball	0	none
+4-ball	0	none
+5-ball	0	none
+6-ball	0	none
 anniversary balloon	0	none
+antique shield	0	Mus: 85
 arrow'd heart balloon	0	none
 basic meat foon	0	Mus: 10
 box	0	none
@@ -457,6 +478,8 @@ rag doll	0	Mys: 40
 Raggedy Hippy doll	0	none
 red balloon	0	none
 rice bowl	0	none
+snake shield	0	Mus: 42
+snarling wolf shield	0	Mus: 42
 sock monkey	0	Mys: 40
 Spanish fly trap	0	none
 star buckler	0	Mys: 67
@@ -503,6 +526,12 @@ Cape of the Goblin King	0	Mys: 20
 Cat-Herding Prod	0	none
 cement shoes	0	Mys: 35
 charrrm bracelet	0	Mys: 20
+chintzy seal pendant	0	none
+chintzy turtle brooch	0	none
+chintzy noodle ring	0	none
+chintzy saucepan earring	0	none
+chintzy disco ball pendant	0	none
+chintzy accordion pin	0	none
 clown shoes	0	Mys: 10
 colored-light "necklace"	0	Mys: 35
 consolation ribbon	0	none
@@ -539,6 +568,7 @@ Item #13	0	none
 Jarlsberg's earring	0	Mys: 25
 Jekyllin hide belt	0	none
 Junior LAAAAME merit badge	0	none
+Lord Spookyraven's spectacles	0	none
 lucky rabbit's foot	0	none
 Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
@@ -593,6 +623,7 @@ support cummerbund	0	Mys: 35
 Talisman o' Nam	0	Mys: 25
 Talisman of Baio	0	none
 Talisman of Bakula	0	none
+tap shoes	0	none
 tiny plastic accordion thief	0	none
 tiny plastic angry goat	0	none
 tiny plastic baby gravy fairy	0	none

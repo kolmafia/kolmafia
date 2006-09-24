@@ -173,6 +173,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1537:	// weegee sqouija
 		case 1539:	// lucky Tam O'Shatner
 		case 1623:	// badger badge
+		case 1928:	// tuning fork
 			return 0;
 
 		case 865:	// lead necklace

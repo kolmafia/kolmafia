@@ -40,6 +40,7 @@
 1017	0	0	Double-Fisted Skull Smashing
 1018	0	0	Northern Exposure
 1019	1	10	Musk of the Moose
+1020	1	10	Snarl of the Timberwolf
 
 # Skills available to Turtle Tamers
 
@@ -59,6 +60,8 @@
 2016	0	0	Cold-Blooded Fearlessness
 2020	0	0	Hero of the Half-Shell
 2021	0	0	Tao of the Terrapin
+2022	3	20	Spectral Snapper
+
 2103	3	8	Head + Knee Combo
 2105	3	9	Head + Shield Combo
 2106	3	10	Knee + Shield Combo
@@ -83,6 +86,8 @@
 # The following is the skill which appears on the character sheet
 3017	0	0	Flavour of Magic
 3018	0	0	Transcendental Noodlecraft
+3019	3	35	Fearful Fettucini
+
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
 3101	1	10	Spirit of Cayenne
 3102	1	10	Spirit of Peppermint
@@ -108,6 +113,7 @@
 4016	0	0	Diminished Gag Reflex
 4017	0	0	Immaculate Seasoning
 4018	0	0	The Way of Sauce
+4019	2	10	Scarysauce
 
 # Skills available to Bandits
 
@@ -127,6 +133,7 @@
 5016	0	0	Heart of Polyester
 5017	1	10	Smooth Movement
 5018	0	0	Superhuman Cocktailcrafting
+5019	3	8	Tango of Terror
 
 # Skills available to Thieves
 
@@ -146,3 +153,4 @@
 6015	2	20	The Sonata of Sneakiness
 6016	2	20	Carlweather's Cantata of Confrontation
 6017	2	30	Ur-Kel's Aria of Annoyance
+6018	2	9	Dirge of Dreadfulness
