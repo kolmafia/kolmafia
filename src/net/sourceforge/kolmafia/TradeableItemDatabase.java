@@ -172,7 +172,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		KoLmafia.getDebugStream().println( "New item: <" + itemName + "> (#" + itemID + " )" );
 
 		useTypeByID.set( itemID, 0 );
-		priceByID.set( itemID, 0 );
+		priceByID.set( itemID, -1 );
 		descByID.set( itemID, "" );
 
 		Integer id = new Integer( itemID );

@@ -78,6 +78,7 @@ import javax.swing.text.html.HTMLDocument;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.FileOutputStream;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -91,6 +92,8 @@ import java.util.regex.Matcher;
 
 public class ChatBuffer
 {
+	private static TreeMap activeLogFiles = new TreeMap();
+
 	protected static final int CONTENT_CHANGE = 0;
 	protected static final int DISPLAY_CHANGE = 1;
 	protected static final int LOGFILE_CHANGE = 2;
@@ -99,6 +102,7 @@ public class ChatBuffer
 
 	private String title;
 	private String header;
+	private String filename;
 
 	protected JEditorPane displayPane;
 	protected Runnable scrollBarResizer;
@@ -168,34 +172,48 @@ public class ChatBuffer
 	 * the buffer, the file will also be modified to reflect these changes.
 	 */
 
-	public void setActiveLogFile( String filename, String title )
-	{	setActiveLogFile( filename, title, false );
-	}
-
-	public void setActiveLogFile( String filename, String title, boolean toAppend )
+	public void setActiveLogFile( String filename )
 	{
 		if ( filename == null || title == null )
 			return;
 
+		if ( this.filename != null && this.filename.equals( filename ) )
+			return;
+
 		try
 		{
-			File file = new File( filename );
-			if ( file.getParentFile() != null )
-				file.getParentFile().mkdirs();
+			if ( activeLogFiles.containsKey( filename ) )
+			{
+				this.filename = filename;
+				activeLogWriter = (PrintWriter) activeLogFiles.get( filename );
+			}
+			else
+			{
+				File file = new File( filename );
+				if ( file.getParentFile() != null )
+					file.getParentFile().mkdirs();
 
-			activeLogWriter = new PrintWriter( new FileOutputStream( file, toAppend ), true );
+				boolean shouldAppend = file.exists();
+				if ( !shouldAppend )
+					file.createNewFile();
 
-			updateLogFile( header );
-			updateLogFile( "<style>" );
-			updateLogFile( BUFFER_STYLE );
-			updateLogFile( "</style>" );
+				activeLogWriter = new PrintWriter( new FileOutputStream( file, shouldAppend ), true );
+
+				this.filename = filename;
+				activeLogFiles.put( filename, activeLogWriter );
+
+				if ( !shouldAppend )
+				{
+					updateLogFile( header );
+					updateLogFile( "<style>" );
+					updateLogFile( BUFFER_STYLE );
+					updateLogFile( "</style>" );
+				}
+			}
 
 			fireBufferChanged( LOGFILE_CHANGE, null );
 		}
-		catch ( java.io.FileNotFoundException e )
-		{	throw new RuntimeException( "The file <" + filename + "> could not be opened for writing" );
-		}
-		catch ( SecurityException e )
+		catch ( Exception e )
 		{	throw new RuntimeException( "The file <" + filename + "> could not be opened for writing" );
 		}
 	}
@@ -254,15 +272,14 @@ public class ChatBuffer
 
 			boolean shouldReset = displayBuffer.length() == 0 || newContents == null;
 
-			if ( displayPane != null )
+			if ( displayPane != null && displayPane.getDocument() instanceof HTMLDocument )
 			{
 				HTMLDocument currentHTML = null;
 				if ( shouldReset )
 				{
 					displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
-					currentHTML = (HTMLDocument) displayPane.getDocument();
 				}
-				else if ( newContents != null )
+				else if ( newContents != null && displayPane.getDocument() instanceof HTMLDocument )
 				{
 					// This is really the only way to ensure that the
 					// screen does not flicker in later versions of Java.
@@ -287,8 +304,7 @@ public class ChatBuffer
 					}
 				}
 
-				if ( currentHTML != null )
-					displayPane.setCaretPosition( shouldScroll ? currentHTML.getLength() - 1 : 0 );
+				displayPane.setCaretPosition( shouldScroll ? displayPane.getDocument().getLength() - 1 : 0 );
 			}
 
 			if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
@@ -313,7 +329,7 @@ public class ChatBuffer
 	{
 		if ( activeLogWriter != null )
 		{
-			activeLogWriter.print( chatContent );
+			activeLogWriter.println( chatContent );
 			activeLogWriter.flush();
 		}
 	}

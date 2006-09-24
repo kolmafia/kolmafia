@@ -63,6 +63,9 @@ public class LocalRelayRequest extends KoLRequest
 
 	private static boolean isRunningCommand = false;
 
+	private static String lastUsername = "";
+	private static LimitedSizeChatBuffer chatLogger = new LimitedSizeChatBuffer( true );
+
 	protected List headers = new ArrayList();
 	protected byte [] rawByteBuffer = null;
 	protected String contentType = null;
@@ -764,9 +767,21 @@ public class LocalRelayRequest extends KoLRequest
 				sendLocalImage( formURLString );
 			}
 			else if ( formURLString.indexOf( "images/" ) != -1 )
+			{
 				sendLocalImage( formURLString );
+			}
 			else
+			{
 				sendSharedFile( formURLString );
+
+				if ( formURLString.indexOf( "submitnewchat.php" ) != -1 || formURLString.indexOf( "newchatmessages.php" ) != -1 )
+				{
+					if ( !KoLCharacter.getUsername().equals( lastUsername ) )
+						chatLogger.setActiveLogFile( KoLMessenger.getChatLogName() );
+
+					chatLogger.append( fullResponse );
+				}
+			}
 		}
 		catch ( Exception e )
 		{

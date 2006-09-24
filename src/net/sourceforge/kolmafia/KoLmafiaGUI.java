@@ -243,11 +243,17 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "KoLMessenger" ) )
 		{
-			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
+			if ( !KoLMessenger.hasColors() && StaticEntity.getClient().shouldMakeConflictingRequest() )
+			{
+				updateDisplay( "Retrieving chat color preferences..." );
 				(new ChannelColorsRequest()).run();
+			}
 
 			KoLMessenger.initialize();
 			(new ChatRequest( StaticEntity.getClient(), null, "/listen" )).run();
+
+			updateDisplay( "Color preferences retrieved.  Chat started." );
+			enableDisplay();
 			return;
 		}
 		else if ( frameName.equals( "MailboxFrame" ) )

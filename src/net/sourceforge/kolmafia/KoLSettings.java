@@ -231,7 +231,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "autoSatisfyWithNPCs", "true" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithStash", "false" );
 		CLIENT_SETTINGS.put( "autoSaveChatLogs", "true" );
-		CLIENT_SETTINGS.put( "autoSetConditions", "true" );
+		CLIENT_SETTINGS.put( "autoSetConditions", "false" );
 		CLIENT_SETTINGS.put( "battleStop", "0.0f" );
 		CLIENT_SETTINGS.put( "breakfastSoftcore", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "breakfastHardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
@@ -257,7 +257,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "http.proxyPort", "" );
 		CLIENT_SETTINGS.put( "http.proxyUser", "" );
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
-		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame,OptionsFrame" );
+		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
 		CLIENT_SETTINGS.put( "lastOperatingSystem", System.getProperty( "os.name" ) );
 		CLIENT_SETTINGS.put( "lastUsername", "" );

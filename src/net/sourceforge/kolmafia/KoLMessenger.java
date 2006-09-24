@@ -72,7 +72,6 @@ public abstract class KoLMessenger extends StaticEntity
 	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
 
 	private static TreeMap colors = new TreeMap();
-	private static String CHATLOG_BASENAME = "";
 
 	private static final String [] AVAILABLE_COLORS =
 	{
@@ -109,6 +108,9 @@ public abstract class KoLMessenger extends StaticEntity
 	private static TreeMap instantMessageBuffers = new TreeMap();
 	private static SortedListModel onlineContacts = new SortedListModel();
 
+	private static final int KOL_STYLE = 6;
+
+	private static int chattingStyle = 0;
 	private static boolean enableMonitor = false;
 	private static boolean channelsSeparate = false;
 	private static boolean privateSeparate = false;
@@ -122,8 +124,7 @@ public abstract class KoLMessenger extends StaticEntity
 		onlineContacts.clear();
 		instantMessageBuffers.clear();
 
-		int chattingStyle = parseInt( getProperty( "chatStyle" ) );
-
+		chattingStyle = parseInt( getProperty( "chatStyle" ) );
 		enableMonitor = chattingStyle == 4 || chattingStyle == 5;
 		channelsSeparate = chattingStyle == 0 || chattingStyle == 1 || chattingStyle == 4 || chattingStyle == 5;
 		privateSeparate = chattingStyle == 0 || chattingStyle == 2 || chattingStyle == 4;
@@ -138,16 +139,30 @@ public abstract class KoLMessenger extends StaticEntity
 			tabbedFrame = (TabbedChatFrame) creator.getCreation();
 		}
 
-		initializeChatLogs();
+		String chatLogName = getChatLogName();
+		Object [] keys = instantMessageBuffers.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+			getChatBuffer( (String) keys[i] ).setActiveLogFile( chatLogName );
 	}
 
+	public static String getChatLogName()
+	{	return "chats/" + DATED_FILENAME_FORMAT.format( new Date() ) + "_" + KoLCharacter.baseUserName() + ".html";
+	}
 
 	protected static final boolean usingTabbedChat()
 	{	return useTabbedChat;
 	}
 
+	protected static boolean hasColors()
+	{	return !colors.isEmpty();
+	}
+
 	protected static void setColor( String channel, int colorIndex )
-	{	colors.put( channel, AVAILABLE_COLORS[ colorIndex ] );
+	{
+		if ( colorIndex == 0 && !channel.equalsIgnoreCase( "chatcolorothers" ) )
+			colors.put( channel, DataUtilities.toHexString( getRandomColor() ) );
+		else
+			colors.put( channel, AVAILABLE_COLORS[ colorIndex ] );
 	}
 
 	public static void setUpdateChannel( String channel )
@@ -247,7 +262,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static String getBufferKey( String contact )
 	{
-		return contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
+		return chattingStyle == KOL_STYLE ? "[chat]" : contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
 			!privateSeparate && !contact.startsWith( "/" ) ? "[blues]" : !channelsSeparate && contact.startsWith( "/" ) ? "[chat]" : contact;
 	}
 
@@ -398,8 +413,6 @@ public abstract class KoLMessenger extends StaticEntity
 		while ( tableMatcher.find() )
 		{
 			String result = tableMatcher.group();
-
-
 			String [] contactList = ANYTAG_PATTERN.matcher( result.substring( result.indexOf( ":" ) ) ).replaceAll( "" ).split( "\\s*,\\s*" );
 
 			for ( int i = 0; i < contactList.length; ++i )
@@ -414,7 +427,8 @@ public abstract class KoLMessenger extends StaticEntity
 			if ( !getProperty( "usePopupContacts" ).equals( "1" ) )
 			{
 				LimitedSizeChatBuffer currentChatBuffer = getChatBuffer( updateChannel );
-				currentChatBuffer.append( TABLECELL_PATTERN.matcher( content ).replaceAll( "" ) );
+				currentChatBuffer.append( StaticEntity.singleStringReplace(
+					TABLECELL_PATTERN.matcher( content ).replaceAll( "" ), "</b>", "</b>&nbsp;" ) );
 			}
 		}
 	}
@@ -655,158 +669,12 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static void processChatMessage( String channel, String message, String bufferKey )
 	{
-		StringBuffer displayHTML = new StringBuffer( message );
-
 		try
 		{
 			LimitedSizeChatBuffer buffer = getChatBuffer( bufferKey );
+			String displayHTML = formatChatMessage( channel, message, bufferKey );
 
-			// Figure out what the properly formatted HTML looks like
-			// first, based on who sent the message and whether or not
-			// there are supposed to be italics.
-
-			// There are a bunch of messages that are supposed to be
-			// formatted in green.  These are all handled first.
-
-			if ( message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "<a class=nounder" ) )
-			{
-				displayHTML.insert( 0, "<font color=green>" );
-				displayHTML.append( "</font>" );
-			}
-			else if ( message.startsWith( "<a target=mainpane href=\'" ) )
-			{
-				displayHTML.insert( 0, "<font color=green>" );
-				displayHTML.append( "</font>" );
-			}
-			else if ( message.startsWith( "<a target=mainpane href=\"messages.php\">" ) )
-			{
-				displayHTML.insert( 0, "<font color=green>" );
-				displayHTML.append( "</font>" );
-			}
-			else if ( message.indexOf( "has proposed a trade" ) != -1 )
-			{
-				displayHTML.insert( 0, "<font color=green>" );
-				displayHTML.append( "</font>" );
-			}
-			else if ( message.indexOf( "has cancelled a trade" ) != -1 )
-			{
-				displayHTML.insert( 0, "<font color=green>" );
-				displayHTML.append( "</font>" );
-			}
-			else if ( message.indexOf( "has responded to a trade" ) != -1 )
-			{
-				displayHTML.insert( 0, "<font color=green>" );
-				displayHTML.append( "</font>" );
-			}
-			else if ( message.indexOf( "has declined a trade" ) != -1 )
-			{
-				displayHTML.insert( 0, "<font color=green>" );
-				displayHTML.append( "</font>" );
-			}
-			else if ( message.indexOf( "has accepted a trade" ) != -1 )
-			{
-				displayHTML.insert( 0, "<font color=green>" );
-				displayHTML.append( "</font>" );
-			}
-
-			// Then, private messages resulting from a /last command
-			// show up in blue.  These are handled next.
-
-			else if ( message.startsWith( "<b>from " ) || message.startsWith( "<b>to " ) )
-			{
-				displayHTML.insert( 0, "<font color=blue>" );
-				displayHTML.append( "</font>" );
-			}
-
-			// Mod warnings and system messages turn up in red.  There
-			// are kick messages which show up in red as well, but those
-			// should also have mod warning attached.
-
-			else if ( message.indexOf( ">Mod Warning<" ) != -1 || message.indexOf( ">System Message<" ) != -1 )
-			{
-				displayHTML.insert( 0, "<font color=red>" );
-				displayHTML.append( "</font>" );
-			}
-			else
-			{
-				// Finally, all other messages are treated normally, with
-				// no special formatting needed.
-
-				Matcher nameMatcher = Pattern.compile( "<a.*?>(.*?)</a>" ).matcher( message );
-				String contactName = nameMatcher.find() ? ANYTAG_PATTERN.matcher( nameMatcher.group(1) ).replaceAll( "" ) : message;
-
-				if ( contactName.indexOf( "*" ) == -1 )
-					StaticEntity.globalStringReplace( displayHTML, contactName, "<font color=\"" + getColor( contactName ) + "\">" + contactName + "</font>" );
-
-				// All messages which don't have a colon following the name
-				// are italicized messages from actions.
-
-				if ( message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 )
-				{
-					displayHTML.insert( 0, "<i>" );
-					displayHTML.append( "</i>" );
-				}
-			}
-
-			if ( displayHTML.indexOf( "<font color=green>" ) != -1 && displayHTML.indexOf( " has " ) != -1 )
-				CharpaneRequest.getInstance().run();
-
-			// Add the appropriate eSolu scriptlet additions to the
-			// processed chat message.
-
-			if ( !getProperty( "eSoluScriptType" ).equals( "0" ) )
-			{
-				Matcher whoMatcher = Pattern.compile( "showplayer\\.php\\?who=[\\d]+" ).matcher( message );
-				if ( whoMatcher.find() )
-				{
-					String link = whoMatcher.group();
-					boolean useColors = getProperty( "eSoluScriptType" ).equals( "1" );
-
-					StringBuffer linkBuffer = new StringBuffer();
-
-					linkBuffer.append( " " );
-
-					linkBuffer.append( "<a href=\"" + link + "_1\" alt=\"send blue message\">" );
-					linkBuffer.append( useColors ? "<font color=blue>" : "<font color=gray>" );
-					linkBuffer.append( "[p]</font></a>" );
-
-					linkBuffer.append( "<a href=\"" + link + "_4\" alt=\"send trade request\">" );
-					linkBuffer.append( useColors ? "<font color=green>" : "<font color=gray>" );
-					linkBuffer.append( "[t]</font></a>" );
-
-					linkBuffer.append( "<a href=\"" + link + "_5\" alt=\"search mall store\">" );
-					linkBuffer.append( useColors ? "<font color=maroon>" : "<font color=gray>" );
-					linkBuffer.append( "[m]</font></a>" );
-
-					linkBuffer.append( "<a href=\"" + link + "_9\" alt=\"put on ignore list\">" );
-					linkBuffer.append( useColors ? "<font color=red>" : "<font color=gray>" );
-					linkBuffer.append( "[x]</font></a>" );
-
-					int boldIndex = displayHTML.indexOf( "</b>" );
-					if ( boldIndex != -1 )
-						displayHTML.insert( boldIndex + 4, linkBuffer.toString() );
-				}
-			}
-
-			// Now, if the person is using LoathingChat style for
-			// doing their chatting, then make sure to append the
-			// channel with the appropriate color.
-
-			if ( bufferKey.startsWith( "[" ) && channel.startsWith( "/" ) )
-				displayHTML.insert( 0, "<font color=\"" + getColor( channel.substring(1) ) + "\">[" + channel.substring(1) + "]</font> " );
-
-			// Now that everything has been properly formatted,
-			// show the display HTML.
-
-			StringBuffer timestamp = new StringBuffer();
-			timestamp.append( "<font color=\"" );
-			timestamp.append( DEFAULT_TIMESTAMP_COLOR );
-			timestamp.append( "\">" );
-			timestamp.append( MESSAGE_TIMESTAMP.format( new Date() ) );
-			timestamp.append( "</font>" );
-
-			buffer.append( timestamp.toString() + "&nbsp;" + displayHTML.toString() + "<br>" );
-
+			buffer.append( displayHTML );
 			if ( displayHTML.indexOf( "<font color=green>" ) != -1 )
 				eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( message ).replaceAll( "" ) );
 
@@ -822,9 +690,162 @@ public abstract class KoLMessenger extends StaticEntity
 			// a stack trace for debug purposes.
 
 			printStackTrace( e, "Error in channel " + channel,
-				new String [] { "Channel: " + channel, "Buffer key: " + bufferKey,
-					"Message: " + message, "Rendered: " + displayHTML.toString(), "" } );
+				new String [] { "Channel: " + channel, "Buffer key: " + bufferKey, "Message: " + message, "" } );
 		}
+	}
+
+	public static String formatChatMessage( String channel, String message, String bufferKey )
+	{
+		StringBuffer displayHTML = new StringBuffer( message );
+
+		// Figure out what the properly formatted HTML looks like
+		// first, based on who sent the message and whether or not
+		// there are supposed to be italics.
+
+		// There are a bunch of messages that are supposed to be
+		// formatted in green.  These are all handled first.
+
+		if ( message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "<a class=nounder" ) )
+		{
+			displayHTML.insert( 0, "<font color=green>" );
+			displayHTML.append( "</font>" );
+		}
+		else if ( message.startsWith( "<a target=mainpane href=\'" ) )
+		{
+			displayHTML.insert( 0, "<font color=green>" );
+			displayHTML.append( "</font>" );
+		}
+		else if ( message.startsWith( "<a target=mainpane href=\"messages.php\">" ) )
+		{
+			displayHTML.insert( 0, "<font color=green>" );
+			displayHTML.append( "</font>" );
+		}
+		else if ( message.indexOf( "has proposed a trade" ) != -1 )
+		{
+			displayHTML.insert( 0, "<font color=green>" );
+			displayHTML.append( "</font>" );
+		}
+		else if ( message.indexOf( "has cancelled a trade" ) != -1 )
+		{
+			displayHTML.insert( 0, "<font color=green>" );
+			displayHTML.append( "</font>" );
+		}
+		else if ( message.indexOf( "has responded to a trade" ) != -1 )
+		{
+			displayHTML.insert( 0, "<font color=green>" );
+			displayHTML.append( "</font>" );
+		}
+		else if ( message.indexOf( "has declined a trade" ) != -1 )
+		{
+			displayHTML.insert( 0, "<font color=green>" );
+			displayHTML.append( "</font>" );
+		}
+		else if ( message.indexOf( "has accepted a trade" ) != -1 )
+		{
+			displayHTML.insert( 0, "<font color=green>" );
+			displayHTML.append( "</font>" );
+		}
+
+		// Then, private messages resulting from a /last command
+		// show up in blue.  These are handled next.
+
+		else if ( message.startsWith( "<b>from " ) || message.startsWith( "<b>to " ) )
+		{
+			displayHTML.insert( 0, "<font color=blue>" );
+			displayHTML.append( "</font>" );
+		}
+
+		// Mod warnings and system messages turn up in red.  There
+		// are kick messages which show up in red as well, but those
+		// should also have mod warning attached.
+
+		else if ( message.indexOf( ">Mod Warning<" ) != -1 || message.indexOf( ">System Message<" ) != -1 )
+		{
+			displayHTML.insert( 0, "<font color=red>" );
+			displayHTML.append( "</font>" );
+		}
+		else
+		{
+			// Finally, all other messages are treated normally, with
+			// no special formatting needed.
+
+			Matcher nameMatcher = Pattern.compile( "<a.*?>(.*?)</a>" ).matcher( message );
+			String contactName = nameMatcher.find() ? ANYTAG_PATTERN.matcher( nameMatcher.group(1) ).replaceAll( "" ) : message;
+
+			if ( contactName.indexOf( "*" ) == -1 )
+				StaticEntity.globalStringReplace( displayHTML, contactName, "<font color=\"" + getColor( contactName ) + "\">" + contactName + "</font>" );
+
+			// All messages which don't have a colon following the name
+			// are italicized messages from actions.
+
+			if ( message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 )
+			{
+				displayHTML.insert( 0, "<i>" );
+				displayHTML.append( "</i>" );
+			}
+		}
+
+		if ( displayHTML.indexOf( "<font color=green>" ) != -1 && displayHTML.indexOf( " has " ) != -1 )
+			CharpaneRequest.getInstance().run();
+
+		// Add the appropriate eSolu scriptlet additions to the
+		// processed chat message.
+
+		if ( !getProperty( "eSoluScriptType" ).equals( "0" ) )
+		{
+			Matcher whoMatcher = Pattern.compile( "showplayer\\.php\\?who=[\\d]+" ).matcher( message );
+			if ( whoMatcher.find() )
+			{
+				String link = whoMatcher.group();
+				boolean useColors = getProperty( "eSoluScriptType" ).equals( "1" );
+
+				StringBuffer linkBuffer = new StringBuffer();
+
+				linkBuffer.append( " " );
+
+				linkBuffer.append( "<a href=\"" + link + "_1\" alt=\"send blue message\">" );
+				linkBuffer.append( useColors ? "<font color=blue>" : "<font color=gray>" );
+				linkBuffer.append( "[p]</font></a>" );
+
+				linkBuffer.append( "<a href=\"" + link + "_4\" alt=\"send trade request\">" );
+				linkBuffer.append( useColors ? "<font color=green>" : "<font color=gray>" );
+				linkBuffer.append( "[t]</font></a>" );
+
+				linkBuffer.append( "<a href=\"" + link + "_5\" alt=\"search mall store\">" );
+				linkBuffer.append( useColors ? "<font color=maroon>" : "<font color=gray>" );
+				linkBuffer.append( "[m]</font></a>" );
+
+				linkBuffer.append( "<a href=\"" + link + "_9\" alt=\"put on ignore list\">" );
+				linkBuffer.append( useColors ? "<font color=red>" : "<font color=gray>" );
+				linkBuffer.append( "[x]</font></a>" );
+
+				int boldIndex = displayHTML.indexOf( "</b>" );
+				if ( boldIndex != -1 )
+					displayHTML.insert( boldIndex + 4, linkBuffer.toString() );
+			}
+		}
+
+		// Now, if the person is using LoathingChat style for
+		// doing their chatting, then make sure to append the
+		// channel with the appropriate color.
+
+		if ( bufferKey.startsWith( "[" ) && channel.startsWith( "/" ) )
+			displayHTML.insert( 0, "<font color=\"" + getColor( channel.substring(1) ) + "\">[" + channel.substring(1) + "]</font> " );
+
+		// Now that everything has been properly formatted,
+		// show the display HTML.
+
+		StringBuffer timestamp = new StringBuffer();
+		timestamp.append( "<font color=\"" );
+		timestamp.append( DEFAULT_TIMESTAMP_COLOR );
+		timestamp.append( "\">" );
+		timestamp.append( MESSAGE_TIMESTAMP.format( new Date() ) );
+		timestamp.append( "</font>" );
+
+		displayHTML.insert( 0, timestamp.toString() + "&nbsp;" );
+		displayHTML.append( "<br>" );
+
+		return displayHTML.toString();
 	}
 
 	/**
@@ -888,13 +909,7 @@ public abstract class KoLMessenger extends StaticEntity
 			else
 				SwingUtilities.invokeLater( new CreateFrameRunnable( ChatFrame.class, new String [] { channel } ) );
 
-			if ( CHATLOG_BASENAME != null && !CHATLOG_BASENAME.equals( "" ) )
-			{
-				String filename = CHATLOG_BASENAME + (channel.startsWith( "/" ) ? channel.substring( 1 ) :
-					KoLmafia.getPlayerID( channel )) + ".html";
-				buffer.setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() +
-					" (" + Calendar.getInstance().getTime().toString() + ")" );
-			}
+			buffer.setActiveLogFile( getChatLogName() );
 
 			if ( highlighting && !channel.equals( "[highs]" ) )
 				buffer.applyHighlights();
@@ -905,28 +920,6 @@ public abstract class KoLMessenger extends StaticEntity
 			// a stack trace for debug purposes.
 
 			printStackTrace( e );
-		}
-	}
-
-	/**
-	 * Utility method used to initialize all chat logs for all windows.  This
-	 * method will prompt the user for the base file name, and the appropriate
-	 * channel name will be appended to the end of the chat log name.
-	 */
-
-	public static void initializeChatLogs()
-	{
-		Date currentTime = new Date();
-		CHATLOG_BASENAME = "chats/" + DATED_FILENAME_FORMAT.format( currentTime ) + "_";
-
-		Object [] keys = instantMessageBuffers.keySet().toArray();
-		String filename, currentKey;
-
-		for ( int i = 0; i < keys.length; ++i )
-		{
-			currentKey = (String) keys[i];
-			filename = CHATLOG_BASENAME + (currentKey.startsWith( "/" ) ? currentKey.substring( 1 ) : KoLmafia.getPlayerID( currentKey )) + ".html";
-			getChatBuffer( currentKey ).setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() + " (" + currentTime + ")", true );
 		}
 	}
 
@@ -950,9 +943,9 @@ public abstract class KoLMessenger extends StaticEntity
 		do
 		{
 			for ( int i = 0; i < 3; ++i )
-				colors[i] = 48 + RNG.nextInt( 144 );
+				colors[i] = 40 + RNG.nextInt( 160 );
 		}
-		while ( colors[0] > 80 && colors[1] > 80 && colors[2] > 80 );
+		while ( colors[0] > 128 && colors[1] > 128 && colors[2] > 128 );
 
 		return new Color( colors[0], colors[1], colors[2] );
 	}
