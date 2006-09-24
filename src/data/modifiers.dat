@@ -170,7 +170,6 @@ Cletus's Canticle of Celerity	Init: +30.0
 Cold Blooded	Cold: +20
 Contemptible Emanations	ML: +20
 Cupcake of Choice	Item: +30.0
-Cupcake of Wrath	ML: +5
 Egg-stortionary Tactics	Meat: +50.0
 Eggs-tra Sensory Perception	Item: +30.0
 Elemental Saucesphere	Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20,
@@ -205,6 +204,7 @@ Spooky Demeanor	Spooky: +20
 Spookypants	Spooky: +20
 Stenchtastic	Stench: +20
 Supafly	Sleaze: +20
+The Cupcake of Wrath	ML: +10
 The Sonata of Sneakiness	Combat: -5.0
 Ticking Clock	Init: +20.0
 Wasabi Sinuses	Exp: -1.0, Item: -10.0, Meat: +30.0
