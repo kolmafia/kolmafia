@@ -500,7 +500,7 @@ public class LoginFrame extends KoLFrame
 		{
 			String username = (String) usernameComboBox.getSelectedItem();
 			if ( username == null )
-				return;
+				username = "";
 
 			String frameString = StaticEntity.getGlobalProperty( username, "initialFrames" );
 			String desktopString = StaticEntity.getGlobalProperty( username, "initialDesktop" );
