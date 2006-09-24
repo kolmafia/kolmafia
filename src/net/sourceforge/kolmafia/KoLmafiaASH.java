@@ -4781,7 +4781,9 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue get_property( ScriptVariable name )
-		{	return new ScriptValue( getProperty( name.toStringValue().toString() ) );
+		{
+			String property = name.toStringValue().toString();
+			return property.startsWith( "saveState" ) ? STRING_INIT : new ScriptValue( getProperty( property ) );
 		}
 
 		public ScriptValue set_property( ScriptVariable name, ScriptVariable value )

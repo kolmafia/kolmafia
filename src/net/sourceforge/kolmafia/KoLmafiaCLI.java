@@ -618,6 +618,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "set" ) )
 		{
+			if ( name.startsWith( "saveState" ) )
+				return;
+
 			int splitIndex = parameters.indexOf( "=" );
 
 			String name = parameters.substring( 0, splitIndex ).trim();
