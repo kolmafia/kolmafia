@@ -339,6 +339,10 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 	}
 
+	public void executeLine( String line )
+	{	executeLine( line, !line.startsWith( "set" ) );
+	}
+
 	/**
 	 * A utility method which executes a line input by the user.
 	 * This method actually parses the command for the desired
@@ -346,7 +350,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * yet another method.
 	 */
 
-	public void executeLine( String line )
+	public void executeLine( String line, boolean splitCommands )
 	{
 		if ( refusesContinue() || line.trim().length() == 0 )
 			return;
@@ -354,7 +358,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// If it gets this far, that means the continue
 		// state can be reset.
 
-		if ( line.indexOf( ";" ) != -1 && !line.startsWith( "set" ) )
+		if ( line.indexOf( ";" ) != -1 && splitCommands )
 		{
 			String [] separateLines = line.split( ";" );
 			for ( int i = 0; i < separateLines.length && permitsContinue(); ++i )
