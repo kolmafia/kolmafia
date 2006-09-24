@@ -186,6 +186,7 @@ wad of dough	11	flat dough
 
 bat haggis	2	batgut	spices
 bat wing kabob	2	bat wing	skewer
+brains casserole	2	fricasseed brains	Gnollish casserole dish
 carob brownies	2	carob chunks	Uncle Jick's Brownie Mix
 carob chunk cookies	2	carob chunks	wad of dough
 catgut taco	2	catgut	taco shell
@@ -726,7 +727,8 @@ porquoise ring	8	porquoise	ring setting
 maple leaf	1	leaf	maple syrup
 unwound clockwork grapefruit	2	clockwork endoskeleton	grapefruit
 deactivated MicroMechaMech	12	clockwork spine	clockwork claws	clockwork key
-
+dusty animal skull	1	dusty animal cranium	dusty animal jawbone
+scary death orb	1	clockwork sphere	grouchy restless spirit
 
 # These are item-combinations which are only available post-ascension,
 # and does not fall into any other categories.

@@ -100,6 +100,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int BLACK = 1417;
 	private static final int HILARIOUS_TOME = 1498;
 	private static final int ASTRAL_MUSHROOM = 1622;
+	private static final int DUSTY_ANIMAL_SKULL = 1799;
+	private static final int QUILL_PEN = 1957;
 
 	private static final int GIFT1 = 1167;
 	private static final int GIFT2 = 1168;
@@ -125,6 +127,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final AdventureResult PLAN = new AdventureResult( 502, -1 );
 	private static final AdventureResult FOUNTAIN = new AdventureResult( 211, -1 );
 	private static final AdventureResult WINDCHIMES = new AdventureResult( 212, -1 );
+	private static final AdventureResult INKWELL = new AdventureResult( 1958, -1 );
+	private static final AdventureResult SCRAP_OF_PAPER = new AdventureResult( 1959, -1 );
 
 	private int consumptionType;
 	private AdventureResult itemUsed;
@@ -783,6 +787,63 @@ public class ConsumeItemRequest extends KoLRequest
 				if ( responseText.indexOf( "whirling maelstrom" ) == -1 )
 					StaticEntity.getClient().processResult( lastItemUsed );
 
+				return;
+
+		case DUSTY_ANIMAL_SKULL:
+				// You pick up the animal skull, and start
+				// hooking other bones to it. It would be
+				// easier if there were instructions, Tab A
+				// into Slot B, or something... eventually,
+				// though, you manage to produce a
+				// fully-assembled animal skeleton. If you can
+				// call something made out of random cat,
+				// monkey, and hamster bones
+				// "fully-assembled". The magic that had
+				// previously animated the animals kicks back
+				// in, and it stands up shakily and looks at
+				// you. "Graaangh?"
+
+				if ( responseText.indexOf( "Graaangh?" ) == -1 )
+				{
+					lastUpdate = "You're missing some parts.";
+					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+					StaticEntity.getClient().processResult( lastItemUsed );
+					return;
+				}
+
+				// Remove the other 98 bones
+				for ( int i = 1802; i < 1900; ++i )
+				{
+					AdventureResult bone = new AdventureResult( i, -1 );
+					StaticEntity.getClient().processResult( bone );
+				}
+
+				return;
+
+		case QUILL_PEN:
+				// You pick up the pen, and it immediately dips
+				// itself into your inkwell, completely
+				// draining it. Filled to capacity, it
+				// immediately floats toward a tattered scrap
+				// of paper in your sack, and begins scrawling
+				// arcane symbols on it.
+				//
+				// Exhausted, the pen falls to the floor, where
+				// it disintegrates into dust. Well, dust
+				// covered with ink. More like mud than dust, I
+				// guess.
+
+				if ( responseText.indexOf( "disintegrates into dust?" ) == -1 )
+				{
+					lastUpdate = "You're missing some parts.";
+					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+					StaticEntity.getClient().processResult( lastItemUsed );
+					return;
+				}
+
+				// It worked. Also remove the ink and paper.
+				StaticEntity.getClient().processResult( INKWELL );
+				StaticEntity.getClient().processResult( SCRAP_OF_PAPER );
 				return;
 		}
 	}

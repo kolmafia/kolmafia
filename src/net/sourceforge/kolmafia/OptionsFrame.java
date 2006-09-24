@@ -535,6 +535,9 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox spookyForestSelect;
 		private JComboBox tripTypeSelect;
 		private JComboBox violetFogSelect;
+		private JComboBox billiardRoomSelect;
+		private JComboBox library1Select;
+		private JComboBox library2Select;
 
 		/**
 		 * Constructs a new <code>ChoiceOptionsPanel</code>.
@@ -583,16 +586,37 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < VioletFog.FogGoals.length; ++i )
 				violetFogSelect.addItem( VioletFog.FogGoals[i] );
 
-			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 5 ];
+			billiardRoomSelect = new JComboBox();
+			billiardRoomSelect.addItem( "Ignore this adventure" );
+			billiardRoomSelect.addItem( "Muscle" );
+			billiardRoomSelect.addItem( "Mysticality" );
+			billiardRoomSelect.addItem( "Moxie" );
+			billiardRoomSelect.addItem( "Library Key" );
+
+			library1Select = new JComboBox();
+			library1Select.addItem( "Ignore this adventure" );
+			library1Select.addItem( "Mysticality" );
+			library1Select.addItem( "Moxie" );
+			library1Select.addItem( "Mysticality Class Skill" );
+
+			library2Select = new JComboBox();
+			library2Select.addItem( "Ignore this adventure" );
+			library2Select.addItem( "Muscle" );
+			library2Select.addItem( "Gallery Key" );
+
+			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 8 ];
 			elements[0] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
 			elements[1] = new VerifiableElement( "Forest Corpses", spookyForestSelect );
 			elements[2] = new VerifiableElement( "Violet Fog 1", tripTypeSelect );
 			elements[3] = new VerifiableElement( "Violet Fog 2", violetFogSelect );
-			elements[4] = new VerifiableElement( "Lucky Sewer", optionSelects[0] );
+			elements[4] = new VerifiableElement( "Haunted Billiard Room", billiardRoomSelect );
+			elements[5] = new VerifiableElement( "Haunted Library 1", library1Select );
+			elements[6] = new VerifiableElement( "Haunted Library 2", library2Select );
+			elements[7] = new VerifiableElement( "Lucky Sewer", optionSelects[0] );
 
-			elements[5] = new VerifiableElement( "", new JLabel() );
+			elements[8] = new VerifiableElement( "", new JLabel() );
 			for ( int i = 1; i < optionSelects.length; ++i )
-				elements[i+5] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i][1][0], optionSelects[i] );
+				elements[i+8] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i][1][0], optionSelects[i] );
 
 			setContent( elements );
 			actionCancelled();
@@ -719,6 +743,80 @@ public class OptionsFrame extends KoLFrame
 					StaticEntity.setProperty( "choiceAdventure29", "2" );
 					break;
 			}
+
+			switch ( billiardRoomSelect.getSelectedIndex() )
+			{
+				case 0: // Ignore this adventure
+					StaticEntity.setProperty( "choiceAdventure77", "3" );
+					StaticEntity.setProperty( "choiceAdventure78", "3" );
+					StaticEntity.setProperty( "choiceAdventure79", "3" );
+					break;
+
+				case 1: // Muscle
+					StaticEntity.setProperty( "choiceAdventure77", "2" );
+					StaticEntity.setProperty( "choiceAdventure78", "2" );
+					StaticEntity.setProperty( "choiceAdventure79", "3" );
+					break;
+
+				case 2: // Mysticality
+					StaticEntity.setProperty( "choiceAdventure77", "2" );
+					StaticEntity.setProperty( "choiceAdventure78", "1" );
+					StaticEntity.setProperty( "choiceAdventure79", "2" );
+					break;
+
+				case 3: // Moxie
+					StaticEntity.setProperty( "choiceAdventure77", "1" );
+					StaticEntity.setProperty( "choiceAdventure78", "3" );
+					StaticEntity.setProperty( "choiceAdventure79", "3" );
+					break;
+
+				case 4: // Library Key
+					StaticEntity.setProperty( "choiceAdventure77", "2" );
+					StaticEntity.setProperty( "choiceAdventure78", "1" );
+					StaticEntity.setProperty( "choiceAdventure79", "1" );
+					break;
+                        }
+
+			switch ( library1Select.getSelectedIndex() )
+			{
+				case 0: // Ignore this adventure
+					StaticEntity.setProperty( "choiceAdventure80", "4" );
+					StaticEntity.setProperty( "choiceAdventure88", "1" );
+					break;
+
+				case 1: // Mysticality
+					StaticEntity.setProperty( "choiceAdventure80", "3" );
+					StaticEntity.setProperty( "choiceAdventure88", "1" );
+					break;
+
+				case 2: // Moxie
+					StaticEntity.setProperty( "choiceAdventure80", "3" );
+					StaticEntity.setProperty( "choiceAdventure88", "2" );
+					break;
+
+				case 3: // Mysticality Class Skill
+					StaticEntity.setProperty( "choiceAdventure80", "3" );
+					StaticEntity.setProperty( "choiceAdventure88", "3" );
+					break;
+                        }
+
+			switch ( library2Select.getSelectedIndex() )
+			{
+				case 0: // Ignore this adventure
+					StaticEntity.setProperty( "choiceAdventure81", "4" );
+					StaticEntity.setProperty( "choiceAdventure87", "1" );
+					break;
+
+				case 1: // Muscle
+					StaticEntity.setProperty( "choiceAdventure81", "3" );
+					StaticEntity.setProperty( "choiceAdventure87", "2" );
+					break;
+
+				case 2: // Gallery Key
+					StaticEntity.setProperty( "choiceAdventure81", "1" );
+					StaticEntity.setProperty( "choiceAdventure87", "2" );
+					break;
+                        }
 		}
 
 		public void actionCancelled()
@@ -798,6 +896,90 @@ public class OptionsFrame extends KoLFrame
 			index = index * 2 + StaticEntity.getIntegerProperty( "choiceAdventure" + (26 + index) ) - 3;
 
 			spookyForestSelect.setSelectedIndex( index < 0 ? 5 : index );
+
+			// Figure out what to do in the billiard room
+			index = StaticEntity.getIntegerProperty( "choiceAdventure77" );
+			switch ( index )
+			{
+			case 1:
+				// Moxie
+				index = 3;
+				break;
+			case 2:
+				index = StaticEntity.getIntegerProperty( "choiceAdventure78" );
+				switch ( index )
+				{
+				case 1:
+					index = StaticEntity.getIntegerProperty( "choiceAdventure79" );
+					switch (index )
+					{
+					case 1:
+						// Library Key
+						index = 4;
+						break;
+					case 2:
+						// Mysticality
+						index = 2;
+						break;
+					default:
+					case 3:
+						// Ignore this adventure
+						index = 0;
+						break;
+					}
+					break;
+				case 2:
+					// Muscle
+					index = 1;
+					break;
+				default:
+				case 3:
+					// Ignore this adventure
+					index = 0;
+					break;
+				}
+				break;
+			default:
+			case 3:
+				// Ignore this adventure
+				index = 0;
+				break;
+			}
+			billiardRoomSelect.setSelectedIndex( index );
+
+			// Figure out what to do at the first bookcase
+			index = StaticEntity.getIntegerProperty( "choiceAdventure80" );
+			if ( index == 3)
+			{
+				index = StaticEntity.getIntegerProperty( "choiceAdventure88" );
+				index = ( index < 1 || index > 3 ) ? 0 : index;
+			}
+			else
+			{
+				// None of the above. Ignore
+				index = 0;
+			}
+			library1Select.setSelectedIndex( index );
+
+			// Figure out what to do at the second bookcase
+			index = StaticEntity.getIntegerProperty( "choiceAdventure81" );
+			switch ( index )
+			{
+			case 1:
+				// Check for Gallery Key
+				index = StaticEntity.getIntegerProperty( "choiceAdventure87" );
+				index = ( index == 2 ) ? 2 : 0;
+				break;
+			case 3:
+				// Muscle
+				index = 1;
+				break;
+			default:
+				// Ignore
+				index = 0;
+				break;
+			}
+			library2Select.setSelectedIndex( index );
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )

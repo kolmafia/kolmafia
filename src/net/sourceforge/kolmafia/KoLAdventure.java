@@ -54,6 +54,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	private static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
 	private static final AdventureResult BEAN = new AdventureResult( 186, 1 );
 	private static final AdventureResult TRANSFUNCTIONER = new AdventureResult( 458, 1 );
+	private static final AdventureResult LIBRARY_KEY = new AdventureResult( 1764, 1 );
+	private static final AdventureResult GALLERY_KEY = new AdventureResult( 1765, 1 );
+	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
 
 	private static final AdventureResult ASTRAL = new AdventureResult( "Half-Astral", 0 );
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1, true );
@@ -415,6 +418,49 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			KoLCharacter.armBeanstalk();
 			isValidAdventure = true;
 			return;
+		}
+
+		else if ( zone.equals( "Spookyraven" ) )
+		{
+			// It takes RNG luck at the Haunted Pantry to unlock
+			// the rest of Spookyraven Manor. Assume it is
+			// unlocked. However, we can verify that the zones that
+			// require keys are accessible.
+
+			if ( adventureID.equals( "104" ) )
+			{
+				// Haunted Library
+				AdventureDatabase.retrieveItem( LIBRARY_KEY );
+				isValidAdventure = KoLmafia.permitsContinue();
+				return;
+			}
+
+			if ( adventureID.equals( "106" ) )
+			{
+				// Haunted Gallery
+				AdventureDatabase.retrieveItem( GALLERY_KEY );
+				isValidAdventure = KoLmafia.permitsContinue();
+				return;
+			}
+
+			// It takes a special action to make the upstairs areas
+			// available. Assume they are accessible if the player
+			// can get into the library
+			if ( adventureID.equals( "107" ) || adventureID.equals( "108" ) )
+			{
+				// Haunted Bathroom & Bedroom
+				AdventureDatabase.retrieveItem( LIBRARY_KEY );
+				isValidAdventure = KoLmafia.permitsContinue();
+				return;
+			}
+
+			if ( adventureID.equals( "109" ) )
+			{
+				// Haunted Ballroom
+				AdventureDatabase.retrieveItem( BALLROOM_KEY );
+				isValidAdventure = KoLmafia.permitsContinue();
+				return;
+			}
 		}
 
 		else if ( adventureID.equals( "11" ) )
