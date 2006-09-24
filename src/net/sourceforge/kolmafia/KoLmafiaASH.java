@@ -4664,7 +4664,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue visit_url( ScriptVariable string )
 		{
 			String location = string.toStringValue().toString();
-			if ( KoLRequest.shouldIgnore( location ) )
+			if ( KoLRequest.shouldIgnore( location ) || location.startsWith( "http" ) )
 				return STRING_INIT;
 
 			boolean wasChoice = location.indexOf( "choice.php" ) != -1;
@@ -4831,6 +4831,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue readMap( String filename, ScriptCompositeValue result, boolean compact )
 		{
+			if ( filename.startsWith( "http" ) )
+				return FALSE_VALUE;
+
 			BufferedReader reader = null;
 
 			if ( filename.startsWith( "http" ) )
@@ -4917,6 +4920,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue printMap( ScriptCompositeValue map_variable, String filename, boolean compact )
 		{
+			if ( filename.startsWith( "http" ) )
+				return FALSE_VALUE;
+
 			PrintStream writer = null;
 
 			try

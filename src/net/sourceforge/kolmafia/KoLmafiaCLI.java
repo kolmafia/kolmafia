@@ -618,12 +618,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "set" ) )
 		{
-			if ( name.startsWith( "saveState" ) )
-				return;
-
 			int splitIndex = parameters.indexOf( "=" );
 
 			String name = parameters.substring( 0, splitIndex ).trim();
+			if ( name.startsWith( "saveState" ) )
+				return;
+
 			String value = parameters.substring( splitIndex + 1 ).trim();
 
 			if ( name.equals( "battleAction" ) )
