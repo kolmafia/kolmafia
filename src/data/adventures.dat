@@ -132,10 +132,10 @@
 # Spookyraven Manor
 
 25	0	0	adventure.php	102	Haunted Kitchen
-25	0	0	adventure.php	103	Haunted Conservatory
-25	0	0	adventure.php	104	Haunted Library
-25	0	0	adventure.php	105	Haunted Billiards Room
-25	0	0	adventure.php	106	Haunted Gallery
-25	0	0	adventure.php	107	Haunted Bathroom
-25	0	0	adventure.php	108	Haunted Bedroom
-25	0	0	adventure.php	109	Haunted Ballroom
+25	6	0	adventure.php	103	Haunted Conservatory
+25	40	0	adventure.php	104	Haunted Library
+25	10	0	adventure.php	105	Haunted Billiards Room
+25	68	0	adventure.php	106	Haunted Gallery
+25	68	0	adventure.php	107	Haunted Bathroom
+25	85	0	adventure.php	108	Haunted Bedroom
+25	68	0	adventure.php	109	Haunted Ballroom
