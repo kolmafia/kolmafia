@@ -4196,12 +4196,14 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue echo( ScriptVariable string )
 		{
 			KoLmafia.updateDisplay( string.toStringValue().toString() );
+			KoLmafia.echoStream.println( string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
 		public ScriptValue print( ScriptVariable string )
 		{
 			KoLmafia.updateDisplay( string.toStringValue().toString() );
+			KoLmafia.echoStream.println( string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
