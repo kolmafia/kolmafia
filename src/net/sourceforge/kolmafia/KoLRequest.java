@@ -563,14 +563,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( formURLString.indexOf( "casino.php" ) != -1 )
 			AdventureDatabase.retrieveItem( "casino pass" );
 
-		if ( KoLmafia.refusesContinue() )
-			return;
-
 		if ( !usingValidConnection )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Unable to establish connection with proxy server." );
 			return;
 		}
+
+		if ( KoLmafia.refusesContinue() && !isDelayExempt() )
+			return;
 
 		isServerFriendly = StaticEntity.getBooleanProperty( "serverFriendly" ) ||
 			StaticEntity.getBooleanProperty( "showAllRequests" );
@@ -849,7 +849,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	private boolean shouldIgnoreResults()
-	{	return shouldIgnore( formURLString );
+	{	return shouldIgnore( formURLString ) || formURLString.indexOf( "message" ) != -1;
 	}
 
 	public static boolean shouldIgnore( String formURLString )
