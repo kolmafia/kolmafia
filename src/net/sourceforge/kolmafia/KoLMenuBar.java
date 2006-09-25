@@ -262,7 +262,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		helperMenu.add( new JSeparator() );
 
-		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Alamanac", "CalendarFrame" ) );
+		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Almanac", "CalendarFrame" ) );
 		helperMenu.add( new DisplayFrameMenuItem( "Internal Database", "ExamineItemsFrame" ) );
 
 		helperMenu.add( new JSeparator() );
