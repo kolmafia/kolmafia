@@ -222,10 +222,9 @@ public abstract class KoLCharacter extends StaticEntity
 			equipment.add( EquipmentRequest.UNEQUIP );
 	}
 
-	private static LockableListModel battleSkillIDs = new LockableListModel();
-	private static LockableListModel battleSkillNames = new LockableListModel();
-
+	private static SortedListModel battleSkillNames = new SortedListModel();
 	private static SortedListModel [] equipmentLists = new SortedListModel[9];
+
 	static
 	{
 		for ( int i = 0; i < 9; ++i )
@@ -1860,14 +1859,12 @@ public abstract class KoLCharacter extends StaticEntity
 		KoLCharacter.availableSkills.clear();
 		KoLCharacter.usableSkills.clear();
 		KoLCharacter.combatSkills.clear();
-		KoLCharacter.battleSkillIDs.clear();
 		KoLCharacter.battleSkillNames.clear();
 
 		// All characters get the option to
 		// attack something.
 
-		KoLCharacter.battleSkillIDs.add( "attack" );
-		KoLCharacter.battleSkillNames.add( "Normal: Attack with Weapon" );
+		KoLCharacter.battleSkillNames.add( "attack with weapon" );
 
 		if ( KoLCharacter.isMoxieClass() )
 			addAvailableSkill( new UseSkillRequest( getClient(), "Moxious Maneuver", "", 1 ) );
@@ -1880,14 +1877,9 @@ public abstract class KoLCharacter extends StaticEntity
 		// Add the three permanent starting items
 		// which can be used to attack.
 
-		KoLCharacter.battleSkillIDs.add( "item seal tooth" );
-		KoLCharacter.battleSkillNames.add( "Item: Use a Seal Tooth" );
-
-		KoLCharacter.battleSkillIDs.add( "item scroll of turtle summoning" );
-		KoLCharacter.battleSkillNames.add( "Item: Use a Scroll of Turtle Summoning" );
-
-		KoLCharacter.battleSkillIDs.add( "item spices" );
-		KoLCharacter.battleSkillNames.add( "Item: Use Spices" );
+		KoLCharacter.battleSkillNames.add( "item seal tooth" );
+		KoLCharacter.battleSkillNames.add( "item scroll of turtle summoning" );
+		KoLCharacter.battleSkillNames.add( "item spices" );
 
 		// Check all available skills to see if they
 		// qualify to be added as combat or usables.
@@ -1921,12 +1913,11 @@ public abstract class KoLCharacter extends StaticEntity
 		// Set the selected combat skill based on
 		// the user's current setting.
 
-		KoLCharacter.battleSkillIDs.add( "custom" );
-		KoLCharacter.battleSkillNames.add( "Custom: Use Combat Script" );
+		KoLCharacter.battleSkillNames.add( "custom combat script" );
+		battleSkillNames.setSelectedItem( getProperty( "battleAction" ) );
 
-		battleSkillIDs.setSelectedItem( getProperty( "battleAction" ) );
-		if ( battleSkillIDs.getSelectedIndex() != -1 )
-			battleSkillNames.setSelectedIndex( battleSkillIDs.getSelectedIndex() );
+		if ( battleSkillNames.getSelectedIndex() == -1 )
+			battleSkillNames.setSelectedIndex(0);
 	}
 
 	public static void addJoybuzzer()
@@ -1935,26 +1926,18 @@ public abstract class KoLCharacter extends StaticEntity
 
 		if ( getEquipment( OFFHAND ) != null && getEquipment( OFFHAND ).getItemID() == JOYBUZZER.getItemID() )
 		{
-			if ( !KoLCharacter.battleSkillIDs.contains( "skill shake hands" ) )
+			if ( !KoLCharacter.battleSkillNames.contains( "skill shake hands" ) )
 			{
-				KoLCharacter.battleSkillIDs.add( "skill shake hands" );
-				KoLCharacter.battleSkillNames.add( "Skill: Shake Hands" );
-
+				KoLCharacter.battleSkillNames.add( "skill shake hands" );
 				availableSkills.add( handshake );
 				combatSkills.add( handshake );
 			}
 		}
 		else
 		{
-			int index = KoLCharacter.battleSkillIDs.indexOf( "skill shake hands" );
-			if ( index != -1 )
-			{
-				KoLCharacter.battleSkillIDs.remove( index );
-				KoLCharacter.battleSkillNames.remove( index );
-
-				availableSkills.remove( handshake );
-				combatSkills.remove( handshake );
-			}
+			KoLCharacter.battleSkillNames.remove( "skill shake hands" );
+			availableSkills.remove( handshake );
+			combatSkills.remove( handshake );
 		}
 	}
 
@@ -1974,18 +1957,12 @@ public abstract class KoLCharacter extends StaticEntity
 			{
 				// We have the first dictionary.
 
-				int index = battleSkillIDs.indexOf( "item dictionary" );
+				int index = battleSkillNames.indexOf( "item dictionary" );
 
-				if ( dictionary.getCount() > 0 && index == -1 )
-				{
-					battleSkillIDs.add( 1, "item dictionary" );
-					battleSkillNames.add( 1, "Item: Use a Dictionary" );
-				}
-				else if ( dictionary.getCount() == -1 && index != -1 )
-				{
-					battleSkillIDs.remove( index );
+				if ( dictionary.getCount( inventory ) > 0 && index == -1 )
+					battleSkillNames.add( "item dictionary" );
+				else if ( dictionary.getCount( inventory ) == 0 && index != -1 )
 					battleSkillNames.remove( index );
-				}
 
 				break;
 			}
@@ -1993,18 +1970,12 @@ public abstract class KoLCharacter extends StaticEntity
 			{
 				// We have the second dictionary.
 
-				int index = battleSkillIDs.indexOf( "item facsimile dictionary" );
+				int index = battleSkillNames.indexOf( "item facsimile dictionary" );
 
-				if ( dictionary.getCount() > 0 && index == -1 )
-				{
-					battleSkillIDs.add( 1, "item facsimile dictionary" );
-					battleSkillNames.add( 1, "Item: Use a Facsimile Dictionary" );
-				}
-				else if ( dictionary.getCount() == -1 && index != -1 )
-				{
-					battleSkillIDs.remove( index );
+				if ( dictionary.getCount( inventory ) > 0 && index == -1 )
+					battleSkillNames.add( 1, "item facsimile dictionary" );
+				else if ( dictionary.getCount( inventory ) == 0 && index != -1 )
 					battleSkillNames.remove( index );
-				}
 
 				break;
 			}
@@ -2044,8 +2015,7 @@ public abstract class KoLCharacter extends StaticEntity
 			case ClassSkillsDatabase.COMBAT:
 
 				combatSkills.add( skill );
-				battleSkillIDs.add( "skill " + skill.getSkillName().toLowerCase() );
-				battleSkillNames.add( "Skill: " + skill.getSkillName() );
+				battleSkillNames.add( "skill " + skill.getSkillName().toLowerCase() );
 				break;
 		}
 
@@ -2083,20 +2053,12 @@ public abstract class KoLCharacter extends StaticEntity
 
 		// Add to lists
 		UseSkillRequest skill = new UseSkillRequest( getClient(), name, "", 1 );
+		if ( !combatSkills.contains( skill ) )
+			combatSkills.add( skill );
 
-		combatSkills.add( skill );
-		battleSkillIDs.add( "skill " + name.toLowerCase() );
-		battleSkillNames.add( "Skill: " + name );
-	}
-
-	/**
-	 * Returns a list of the identifiers of all available combat
-	 * skills.  The selected index in this list should match
-	 * the selected index in the battle skill names list.
-	 */
-
-	public static LockableListModel getBattleSkillIDs()
-	{	return battleSkillIDs;
+		String skillname = "skill " + name.toLowerCase();
+		if ( !battleSkillNames.contains( skillname ) )
+			battleSkillNames.add( skillname );
 	}
 
 	/**

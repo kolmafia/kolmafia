@@ -641,13 +641,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 				if ( name.equals( "battleAction" ) && value != null )
 				{
-					int index = KoLCharacter.getBattleSkillIDs().indexOf( value );
-					if ( index == -1 )
-						return;
-
-					KoLCharacter.getBattleSkillIDs().setSelectedIndex( index );
-					KoLCharacter.getBattleSkillNames().setSelectedIndex( index );
-
+					KoLCharacter.getBattleSkillNames().setSelectedItem( value );
 					resetRestoreSettings( false );
 				}
 			}

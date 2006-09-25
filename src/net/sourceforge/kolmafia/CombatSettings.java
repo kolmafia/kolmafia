@@ -453,10 +453,13 @@ public abstract class CombatSettings implements UtilityConstants
 	public static String getLongCombatOptionName( String action )
 	{
 		if ( action == null || action.length() == 0 )
-			return "default";
+			return "attack";
 
-		if ( action.equals( "custom" ) || action.equals( "delevel" ) || action.equals( "default" ) || action.startsWith( "abort" ) || action.startsWith( "attack" ) || action.startsWith( "run" ) )
+		if ( action.startsWith( "delevel" ) || action.startsWith( "default" ) || action.startsWith( "abort" ) || action.startsWith( "attack" ) || action.startsWith( "run" ) )
 			return action;
+
+		else if ( action.startsWith( "custom" ) )
+			return "custom combat script";
 
 		else if ( action.startsWith( "item" ) )
 			return "item " + ((String) TradeableItemDatabase.getMatchingNames( action.substring(4).trim() ).get(0)).toLowerCase();
@@ -510,8 +513,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 		if ( action.startsWith( "skill" ) )
 		{
-			String verify = getLongCombatOptionName( action );
-			String name = KoLmafiaCLI.getCombatSkillName( verify.substring(5).trim() );
+			String name = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
 			return name == null ? "attack" : String.valueOf( ClassSkillsDatabase.getSkillID( name ) );
 		}
 

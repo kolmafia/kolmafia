@@ -652,10 +652,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		String action = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
+		String action = StaticEntity.getProperty( "battleAction" );
 
-		if ( ( action.equals( "item536" ) && FightRequest.DICTIONARY1.getCount( inventory ) < 1 ) ||
-			 ( action.equals( "item1316" ) && FightRequest.DICTIONARY2.getCount( inventory ) < 1 ) )
+		if ( ( action.indexOf( "dictionary" ) != -1 && (FightRequest.DICTIONARY1.getCount( inventory ) < 1 ) || FightRequest.DICTIONARY2.getCount( inventory ) < 1) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
 			return;
@@ -681,9 +680,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Check for dictionaries as a battle strategy, if the
 		// person is not adventuring at the chasm.
 
-		if ( !adventureID.equals( "80" ) && request instanceof AdventureRequest &&
-			request.getAdventuresUsed() == 1 && (action.equals( "item536" ) || action.equals( "item1316" )) &&
-			KoLCharacter.getFamiliar().getID() != 16 && KoLCharacter.getFamiliar().getID() != 17 && KoLCharacter.getFamiliar().getID() != 48 )
+		if ( !adventureID.equals( "80" ) && request instanceof AdventureRequest && request.getAdventuresUsed() == 1 && action.indexOf( "dictionary" ) != -1 )
 		{
 			// Only allow damage-dealing familiars when using
 			// stasis techniques.

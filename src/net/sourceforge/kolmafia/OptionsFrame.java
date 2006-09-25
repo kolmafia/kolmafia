@@ -1116,10 +1116,7 @@ public class OptionsFrame extends KoLFrame
 				writer.close();
 				writer = null;
 
-				int customIndex = KoLCharacter.getBattleSkillIDs().indexOf( "custom" );
-				KoLCharacter.getBattleSkillIDs().setSelectedIndex( customIndex );
-				KoLCharacter.getBattleSkillNames().setSelectedIndex( customIndex );
-				StaticEntity.setProperty( "battleAction", "custom" );
+				StaticEntity.setProperty( "battleAction", "custom combat script" );
 			}
 			catch ( Exception e )
 			{
