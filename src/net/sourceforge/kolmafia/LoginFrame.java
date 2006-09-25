@@ -172,7 +172,6 @@ public class LoginFrame extends KoLFrame
 			scriptField = new ScriptSelectPanel( new JTextField() );
 
 			savePasswordCheckBox = new JCheckBox();
-			savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
 
 			autoLoginCheckBox = new JCheckBox();
 			getBreakfastCheckBox = new JCheckBox();
@@ -218,6 +217,7 @@ public class LoginFrame extends KoLFrame
 
 			getBreakfastCheckBox.setSelected( StaticEntity.getBooleanProperty( "alwaysGetBreakfast" ) );
 			setDefaultButton( confirmedButton );
+			savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
 		}
 
 		public void setEnabled( boolean isEnabled )
