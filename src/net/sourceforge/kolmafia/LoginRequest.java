@@ -212,17 +212,13 @@ public class LoginRequest extends KoLRequest
 		try
 		{
 			detectChallenge();
-
 			KoLmafia.forceContinue();
-			if ( KoLmafia.permitsContinue() && executeLogin() )
+
+			while ( !KoLmafia.refusesContinue() && executeLogin() )
 			{
 				KoLmafia.forceContinue();
-				while ( KoLmafia.permitsContinue() && executeLogin() )
-				{
-					KoLmafia.forceContinue();
-					StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
-					waitTime = STANDARD_WAIT;
-				}
+				StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
+				waitTime = STANDARD_WAIT;
 			}
 		}
 		catch ( Exception e )

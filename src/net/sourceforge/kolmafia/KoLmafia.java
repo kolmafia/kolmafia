@@ -1904,7 +1904,8 @@ public abstract class KoLmafia implements KoLConstants
 				}
 			}
 
-			StaticEntity.setProperty( "saveState." + username.toLowerCase(), (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
+			StaticEntity.setGlobalProperty( username, "saveState", (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
+System.out.println( "Set password for: " + username );
 			saveStateNames.add( username );
 			storeSaveStates();
 		}
@@ -1923,7 +1924,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 
 		saveStateNames.remove( loginname );
-		StaticEntity.removeProperty( "saveState." + loginname.toLowerCase() );
+		StaticEntity.removeGlobalProperty( loginname, "saveState" );
 	}
 
 	private static final void storeSaveStates()
@@ -1971,7 +1972,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			String password = StaticEntity.getProperty( "saveState." + loginname.toLowerCase() );
+			String password = StaticEntity.getGlobalProperty( loginname, "saveState" );
 			if ( password == null || password.length() == 0 )
 				return null;
 

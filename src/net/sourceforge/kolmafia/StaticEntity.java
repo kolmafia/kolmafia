@@ -555,6 +555,10 @@ public abstract class StaticEntity implements KoLConstants
 	{	return player.equals( "" ) ? name : name + "." + KoLCharacter.baseUserName( player );
 	}
 
+	public static final void removeGlobalProperty( String player, String name )
+	{	settings.remove( getPropertyName( player, name ) );
+	}
+
 	public static String getGlobalProperty( String name )
 	{	return getGlobalProperty( KoLCharacter.getUsername(), name );
 	}
