@@ -305,8 +305,7 @@ public class RequestFrame extends KoLFrame
 		if ( parent == null || location.startsWith( "search" ) || location.startsWith( "desc" ) )
 		{
 			setCurrentRequest( request );
-			DisplayRequestThread thread = new DisplayRequestThread( request );
-			thread.start();
+			(new DisplayRequestThread( request )).start();
 		}
 		else
 			parent.refresh( request );
@@ -341,8 +340,8 @@ public class RequestFrame extends KoLFrame
 				return;
 
 			currentLocation = request.getURLString();
-
 			mainBuffer.clearBuffer();
+
 			setupRequest();
 
 			if ( request != null && request.responseText != null && request.responseText.length() != 0 )
@@ -376,7 +375,8 @@ public class RequestFrame extends KoLFrame
 
 				String original = StaticEntity.getProperty( "showAllRequests" );
 				StaticEntity.setProperty( "showAllRequests", "false" );
-				super.run();
+
+				request.run();
 				StaticEntity.setProperty( "showAllRequests", original );
 			}
 		}

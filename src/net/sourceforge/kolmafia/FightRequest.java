@@ -451,7 +451,7 @@ public class FightRequest extends KoLRequest
 	public static boolean processRequest( String urlString )
 	{
 		if ( urlString.indexOf( "fight.php?" ) == -1 )
-			return false;
+			return urlString.indexOf( "fight.php" ) != -1;
 
 		Matcher skillMatcher = SKILL_PATTERN.matcher( urlString );
 		if ( skillMatcher.find() )
@@ -494,15 +494,10 @@ public class FightRequest extends KoLRequest
 		{
 			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the spell of RETURN!" );
 		}
-		else if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).equals( EquipmentRequest.UNEQUIP ) )
+		else
 		{
 			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " attacks with " +
 				"fear-inducing body language!" );
-		}
-		else
-		{
-			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " attacks with a " +
-				KoLCharacter.getEquipment( KoLCharacter.WEAPON ) + "!" );
 		}
 
 		return true;

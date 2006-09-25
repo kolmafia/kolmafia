@@ -257,11 +257,6 @@ public class AdventureFrame extends KoLFrame
 			elements[3] = new VerifiableElement( "Objective(s): ", conditionField );
 
 			setContent( elements );
-			int actionIndex = KoLCharacter.getBattleSkillIDs().indexOf( StaticEntity.getProperty( "battleAction" ) );
-
-			if ( KoLCharacter.getBattleSkillIDs().size() > 0 )
-				actionSelect.setSelectedIndex( actionIndex );
-
 			actionSelect.addActionListener( new BattleActionListener() );
 			locationSelect.addActionListener( new ConditionChangeListener() );
 			locationSelect.setSelectedItem( AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) ) );
@@ -283,9 +278,8 @@ public class AdventureFrame extends KoLFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				String battleAction = (String) KoLCharacter.getBattleSkillIDs().get( actionSelect.getSelectedIndex() );
 				if ( actionSelect.getSelectedIndex() != -1 )
-					DEFAULT_SHELL.executeLine( "set battleAction=" + battleAction );
+					DEFAULT_SHELL.executeLine( "set battleAction=" + actionSelect.getSelectedItem() );
 			}
 		}
 
