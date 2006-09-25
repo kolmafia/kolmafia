@@ -779,7 +779,8 @@ public class LocalRelayRequest extends KoLRequest
 					if ( !KoLCharacter.getUsername().equals( lastUsername ) )
 						chatLogger.setActiveLogFile( KoLMessenger.getChatLogName() );
 
-					chatLogger.append( fullResponse );
+					if ( responseText.length() > 0 && responseText.indexOf( "<img" ) == -1 )
+						chatLogger.append( responseText );
 				}
 			}
 		}
