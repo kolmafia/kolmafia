@@ -269,7 +269,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "proxySet", "false" );
 		CLIENT_SETTINGS.put( "relayAddsPlinking", "false" );
 		CLIENT_SETTINGS.put( "relayAddsQuickScripts", "false" );
-		CLIENT_SETTINGS.put( "relayAddsShrugOffLinks", "true" );
+		CLIENT_SETTINGS.put( "relayAddsRestoreLinks", "false" );
+		CLIENT_SETTINGS.put( "relayAddsUpArrowLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsUseLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAlwaysRunsChecks", "false" );
 		CLIENT_SETTINGS.put( "relayRemovesExpensiveItems", "true" );

@@ -260,33 +260,37 @@ public class LocalRelayRequest extends KoLRequest
 			try
 			{
 				StringBuffer selectBuffer = new StringBuffer();
+				selectBuffer.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><form name=\"gcli\">" );
+				selectBuffer.append( "<select id=\"scriptbar\">" );
 
 				String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
 				for ( int i = 0; i < scriptList.length; ++i )
 				{
-					if ( scriptList[i].startsWith( "restore" ) || scriptList[i].equals( "mood execute" ) )
-						continue;
-
-					if ( selectBuffer.length() > 0 )
-						selectBuffer.append( "&nbsp;|&nbsp;" );
-
-					selectBuffer.append( "<a style=\"text-decoration:none\" target=\"charpane\" href=\"/KoLmafia/sideCommand?cmd=" );
+					selectBuffer.append( "<option value=\"" );
 					selectBuffer.append( URLEncoder.encode( scriptList[i], "UTF-8" ) );
-					selectBuffer.append( "\" title=\"" );
-					selectBuffer.append( scriptList[i] );
 					selectBuffer.append( "\">" );
 					selectBuffer.append( i + 1 );
-					selectBuffer.append( "</a>" );
+					selectBuffer.append( ": " );
+					selectBuffer.append( scriptList[i] );
+					selectBuffer.append( "</option>" );
 				}
+
+				selectBuffer.append( "</select></td><td>&nbsp;</td><td>" );
+				selectBuffer.append( "<input type=\"button\" class=\"button\" value=\"exec\" onClick=\"" );
+
+				selectBuffer.append( "var script = document.getElementById( 'scriptbar' ).value; " );
+				selectBuffer.append( "parent.charpane.location = '/KoLmafia/sideCommand?cmd=' + script; void(0);" );
+				selectBuffer.append( "\">" );
+				selectBuffer.append( "</form></td>" );
 
 				int lastRowIndex = responseBuffer.lastIndexOf( "</tr>" );
 				if ( lastRowIndex != -1 )
-					responseBuffer.insert( lastRowIndex, "<td>&nbsp;&nbsp;</td><td align=right><font size=2>" + selectBuffer.toString() + "</font></td>" );
+					responseBuffer.insert( lastRowIndex, selectBuffer.toString() );
 			}
 			catch ( Exception e )
 			{
-				// Well, this is an odd error.  For now, ignore it
-				// since it means the system can't handle UTF-8.
+				// Something bad happened, let's ignore it for now, because
+				// no script bar isn't the end of the world.
 			}
 		}
 
