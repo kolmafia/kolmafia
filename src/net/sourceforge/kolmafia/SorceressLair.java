@@ -117,7 +117,7 @@ public abstract class SorceressLair extends StaticEntity
 
 	// Guardians and the items that defeat them
 
-	private static final String [][] GUARDIAN_DATA =
+	public static final String [][] GUARDIAN_DATA =
 	{
 		{ "Beer Batter", "baseball" }, { "Vicious Easel", "disease" }, { "Enraged Cow", "barbed-wire fence" },
 		{ "Fickle Finger of F8", "razor-sharp can lid" }, { "Big Meat Golem", "meat vortex" }, { "Flaming Samurai", "frigid ninja stars" },
@@ -1047,22 +1047,6 @@ public abstract class SorceressLair extends StaticEntity
 		{
 			request = new KoLRequest( getClient(), "account.php?action=autoattack&whichattack=0" );
 			request.run();
-		}
-
-		// To avoid wasting turns, buy a can of hair spray before
-		// climbing the tower.  Also, if the person has an NG,
-		// make sure to construct it first.  If there are any
-		// tower items sitting in the closet or that have not
-		// been constructed, pull them out.
-
-		for ( int i = 0; i < GUARDIAN_DATA.length; ++i )
-		{
-			AdventureResult item = new AdventureResult( GUARDIAN_DATA[i][1], 1, false );
-			if ( !inventory.contains( item ) )
-			{
-				if ( hasItem( item ) || NPCStoreDatabase.contains( GUARDIAN_DATA[i][1] ) )
-					AdventureDatabase.retrieveItem( item );
-			}
 		}
 
 		// Determine which level you actually need to start from.
