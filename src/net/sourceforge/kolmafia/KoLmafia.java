@@ -1905,7 +1905,6 @@ public abstract class KoLmafia implements KoLConstants
 			}
 
 			StaticEntity.setGlobalProperty( username, "saveState", (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
-System.out.println( "Set password for: " + username );
 			saveStateNames.add( username );
 			storeSaveStates();
 		}
