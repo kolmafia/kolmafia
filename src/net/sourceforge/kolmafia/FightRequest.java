@@ -192,7 +192,7 @@ public class FightRequest extends KoLRequest
 		}
 
 		// Skills use MP. Make sure the character has enough
-		else if ( KoLCharacter.getCurrentMP() < getActionCost() )
+		else if ( KoLCharacter.getCurrentMP() < getActionCost() && passwordHash != null )
 		{
 			action1 = "attack";
 			addFormField( "action", action1 );
