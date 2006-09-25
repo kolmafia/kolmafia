@@ -564,13 +564,7 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static String getGlobalProperty( String player, String name )
-	{
-		String property = getPropertyName( player, name );
-
-		if ( settings.getProperty( property ).equals( "" ) )
-			setGlobalProperty( player, name, settings.getProperty( name ) );
-
-		return settings.getProperty( property );
+	{	return settings.getProperty( getPropertyName( player, name ) );
 	}
 
 	public static void setGlobalProperty( String name, String value )
