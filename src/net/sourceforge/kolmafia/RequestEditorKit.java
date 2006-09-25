@@ -888,6 +888,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		int cloverIndex = buffer.indexOf( "you look down and notice a ten-leaf clover" );
 		if ( cloverIndex != -1 )
 		{
+			cloverIndex = buffer.indexOf( "</td>" ) + 5;
 			buffer.insert( cloverIndex,
 				"</td></tr></table></center><p>You carefully pull the leaves off of your ten-leaf clover. It seems much less lucky now.<center><table><tr><td>" +
 				"<img src=\"http://images.kingdomofloathing.com/itemimages/disclover.gif\" class=hand onClick='descitem(328909735)'>" +
@@ -898,8 +899,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// if there's an item present, and if so, modify
 		// it so that you get a use link.
 
-		if ( location.indexOf( "charpane.php" ) != -1 && StaticEntity.getBooleanProperty( "relayAddsShrugOffLinks" ) )
-			addShrugOffLinks( buffer );
+		if ( location.indexOf( "charpane.php" ) != -1 && StaticEntity.getBooleanProperty( "relayAddsRestoreLinks" ) )
+			addRestoreLinks( buffer );
+
+		if ( location.indexOf( "charpane.php" ) != -1 && StaticEntity.getBooleanProperty( "relayAddsUpArrowLinks" ) )
+			addUpArrowLinks( buffer );
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
 			addUseLinks( buffer );
@@ -1139,7 +1143,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( text );
 	}
 
-	private static void addShrugOffLinks( StringBuffer buffer )
+	private static void addRestoreLinks( StringBuffer buffer )
 	{
 		String text = buffer.toString();
 		buffer.setLength( 0 );
@@ -1238,6 +1242,20 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			buffer.append( "</a>" );
 		}
+
+		buffer.append( text.substring( lastAppendIndex ) );
+	}
+
+
+	private static void addUpArrowLinks( StringBuffer buffer )
+	{
+		String text = buffer.toString();
+		buffer.setLength( 0 );
+
+		String fontTag = "";
+
+		int startingIndex = 0;
+		int lastAppendIndex = 0;
 
 		// First, add in a mood-execute link, in the event that the person
 		// has a non-empty list of triggers.
