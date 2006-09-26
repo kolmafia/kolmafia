@@ -59,6 +59,7 @@ public class LogoutRequest extends KoLRequest
 		BuffBotHome.setBuffBotActive( false );
 		StaticEntity.saveSettings();
 
+		KoLRequest.sessionID = null;
 		if ( KoLDesktop.instanceExists() )
 			KoLDesktop.getInstance().dispose();
 	}

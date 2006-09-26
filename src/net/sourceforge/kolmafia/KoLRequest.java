@@ -77,7 +77,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	private static final Pattern CHOICE_DECISION_PATTERN = Pattern.compile( "whichchoice=(\\d+).*?option=(\\d+)" );
 	private static final Pattern EVENT_PATTERN = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
 
-	protected static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)/login\\.php", Pattern.DOTALL );
+	protected static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
 
 	protected static String sessionID = null;
 	protected static String passwordHash = null;
@@ -721,9 +721,6 @@ public class KoLRequest implements Runnable, KoLConstants
 				parseResults();
 
 			processResults();
-
-			if ( getClass() == KoLRequest.class )
-				AdventureRequest.registerEncounter( this );
 
 			// Let the mappers do their work
 			if ( urlString.indexOf( "choice.php" ) != -1 )
