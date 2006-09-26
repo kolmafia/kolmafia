@@ -416,6 +416,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// else that changes on the player.
 
 		VioletFog.reset();
+		Louvre.reset();
 		CombatSettings.reset();
 		MoodSettings.reset();
 		KoLMailManager.reset();

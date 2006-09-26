@@ -695,6 +695,11 @@ public class AdventureDatabase extends KoLDatabase
 		if ( spoilers != null )
 			return spoilers;
 
+		// Nope. See if it's in the Louvre
+		spoilers = Louvre.choiceSpoilers( choice );
+		if ( spoilers != null )
+			return spoilers;
+
 		// Unknown choice
 		return null;
 	}
@@ -711,6 +716,10 @@ public class AdventureDatabase extends KoLDatabase
 	{
 		// See if it's a free movement in the violet fog
 		if ( VioletFog.freeAdventure( choice, decision ) )
+			return false;
+
+		// See if it's a free movement in the Louvre
+		if ( Louvre.freeAdventure( choice, decision ) )
 			return false;
 
 		for ( int i = 0; i < IGNORABLE_CHOICES.length; ++i )
