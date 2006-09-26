@@ -74,6 +74,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	private static final Pattern STYLE_PATTERN = Pattern.compile( "<style.*?</style>", Pattern.DOTALL );
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
+	private static final Pattern CHOICE_DECISION_PATTERN = Pattern.compile( "whichchoice=(\\d+).*?option=(\\d+)" );
 	private static final Pattern EVENT_PATTERN = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
 
 	protected static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)/login\\.php", Pattern.DOTALL );
@@ -84,6 +85,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected static boolean usingValidConnection = true;
 	protected static boolean isRatQuest = false;
+	protected static int lastChoice = 0;
+	protected static int lastDecision = 0;
 	protected String encounter = "";
 
 	private static final AdventureResult [] WOODS_ITEMS = new AdventureResult[12];
@@ -679,6 +682,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		registerRequest();
 		String urlString = getURLString();
 
+		if ( urlString.indexOf( "choice.php" ) != -1 )
+			saveLastChoice( urlString );
+
 		if ( !isDelayExempt )
 			client.setCurrentRequest( this );
 
@@ -719,6 +725,10 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( getClass() == KoLRequest.class )
 				AdventureRequest.registerEncounter( this );
 
+			// Let the mappers do their work
+			if ( urlString.indexOf( "choice.php" ) != -1 )
+				mapCurrentChoice( responseText );
+
 			if ( responseText.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
 			{
 				DEFAULT_SHELL.executeLine( "use 1 ten-leaf clover" );
@@ -744,6 +754,38 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 
 		client.setCurrentRequest( null );
+	}
+
+	private void saveLastChoice( String url )
+	{
+		Matcher choiceMatcher = CHOICE_DECISION_PATTERN.matcher( url );
+		if ( choiceMatcher.find() )
+		{
+                        lastChoice = StaticEntity.parseInt( choiceMatcher.group(1) );
+                        lastDecision = StaticEntity.parseInt( choiceMatcher.group(2) );
+                }
+	}
+
+	private void mapCurrentChoice( String text )
+	{
+		Matcher choiceMatcher = CHOICE_PATTERN.matcher( text );
+		if ( choiceMatcher.find() )
+		{
+			int choice = StaticEntity.parseInt( choiceMatcher.group(1) );
+			// Let the Violet Fog handle this
+			if ( VioletFog.mapChoice( choice ) )
+				return;
+
+			// Let the Escher Drawing handle this
+		}
+	}
+
+	public static int getLastChoice()
+	{	return lastChoice;
+	}
+
+	public static int getLastDecision()
+	{	return lastDecision;
 	}
 
 	protected void registerRequest()

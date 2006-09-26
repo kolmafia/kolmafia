@@ -654,7 +654,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		String action = StaticEntity.getProperty( "battleAction" );
 
-		if ( ( action.indexOf( "dictionary" ) != -1 && (FightRequest.DICTIONARY1.getCount( inventory ) < 1 ) || FightRequest.DICTIONARY2.getCount( inventory ) < 1) )
+		if ( action.indexOf( "dictionary" ) != -1 && ( FightRequest.DICTIONARY1.getCount( inventory ) < 1 || FightRequest.DICTIONARY2.getCount( inventory ) < 1) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
 			return;
