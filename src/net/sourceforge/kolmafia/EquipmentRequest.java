@@ -526,7 +526,6 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 
 			(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
-			KoLCharacter.setAvailableSkills( availableSkills );
 			return;
 		}
 
@@ -802,11 +801,6 @@ public class EquipmentRequest extends PasswordHashRequest
 		// Skip past equipped gear
 
 		parseQuestItems( responseText.substring( responseText.indexOf( "Save as Custom Outfit" ) ) );
-
-		// Refresh all the calculated lists based on what you
-		// now know about your equipment.
-
-		KoLCharacter.setAvailableSkills( availableSkills );
 	}
 
 	public static int slotNumber( String name )

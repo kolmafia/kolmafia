@@ -307,7 +307,7 @@ public class CharsheetRequest extends KoLRequest
 		skipTokens( cleanContent, 1 );
 		token = cleanContent.nextToken();
 
-		List availableSkills = new ArrayList();
+		List newSkillSet = new ArrayList();
 		// Loop until we get to Current Familiar
 		while ( !token.startsWith( "Current" ) )
 		{
@@ -317,7 +317,7 @@ public class CharsheetRequest extends KoLRequest
 					skipTokens( cleanContent, 2 );
 			}
 			else if ( ClassSkillsDatabase.contains( token ) )
-				availableSkills.add( new UseSkillRequest( StaticEntity.getClient(), token, "", 1 ) );
+				newSkillSet.add( new UseSkillRequest( StaticEntity.getClient(), token, "", 1 ) );
 
 			// No more tokens if no familiar equipped
 			if ( !cleanContent.hasMoreTokens() )
@@ -326,7 +326,7 @@ public class CharsheetRequest extends KoLRequest
 			token = cleanContent.nextToken();
 		}
 
-		KoLCharacter.setAvailableSkills( availableSkills );
+		KoLCharacter.setAvailableSkills( newSkillSet );
 		KoLCharacter.updateStatus();
 	}
 
