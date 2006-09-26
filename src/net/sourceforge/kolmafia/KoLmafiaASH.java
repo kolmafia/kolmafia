@@ -3687,32 +3687,38 @@ public class KoLmafiaASH extends StaticEntity
 
 		public void restoreBindings()
 		{
-			// Restore  parameter value bindings
+			// Restore parameter value bindings
 			for ( int i = 0; i < values.length; ++i )
 				((ScriptVariableReference)variableReferences.get(i)).forceValue( values[i] );
 		}
 
 		protected void printDisabledMessage()
 		{
-			StringBuffer message = new StringBuffer( "Called disabled function: " );
-			message.append( getName() );
-
-			message.append( '(' );
-
-			for ( int i = 0; i < values.length; ++i )
+			try
 			{
-				if ( i != 0 )
-					message.append( ',' );
+				StringBuffer message = new StringBuffer( "Called disabled function: " );
+				message.append( getName() );
 
-				message.append( ' ' );
-				message.append( values[i].toStringValue().toString() );
+				message.append( "(" );
+				ScriptVariableReference current = variableReferences.getFirstVariableReference();
+
+				for ( int i = 0; current != null; ++i, current = variableReferences.getNextVariableReference() )
+				{
+					if ( i != 0 )
+						message.append( ',' );
+
+					message.append( ' ' );
+					message.append( current.getValue().toStringValue().toString() );
+				}
+
+				message.append( " )" );
+				DEFAULT_SHELL.printLine( message.toString() );
 			}
-
-			if ( values.length > 0 )
-				message.append( ' ' );
-
-			message.append( ')' );
-			DEFAULT_SHELL.printLine( message.toString() );
+			catch ( Exception e )
+			{
+				// If it fails, don't print the disabled message.
+				// Which means, exiting here is okay.
+			}
 		}
 
 		public abstract ScriptValue execute() throws AdvancedScriptException;
@@ -3738,7 +3744,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			if ( disabledScripts.contains( getName() ) )
+			if ( StaticEntity.isDisabled( getName() ) )
 			{
 				printDisabledMessage();
 				return getType().initialValue();
@@ -3796,7 +3802,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute()
 		{
-			if ( disabledScripts.contains( getName() ) )
+			if ( StaticEntity.isDisabled( getName() ) )
 			{
 				printDisabledMessage();
 				return getType().initialValue();
@@ -3826,7 +3832,13 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue enable( ScriptVariable name )
 		{
-			disabledScripts.remove( name.toStringValue().toString().toLowerCase() );
+			String functionName = name.toStringValue().toString().toLowerCase();
+
+			if ( name.equals( "all" ) )
+				disabledScripts.clear();
+			else
+				disabledScripts.remove( functionName );
+
 			return VOID_VALUE;
 		}
 

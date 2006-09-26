@@ -413,9 +413,29 @@ public class KoLmafiaCLI extends KoLmafia
 		// If the command has already been disabled, then return
 		// from this function.
 
-		if ( disabledScripts.contains( command ) )
+		if ( StaticEntity.isDisabled( command ) )
 		{
 			printLine( "Called disabled command: " + command + " " + parameters );
+			return;
+		}
+
+		if ( command.equals( "enable" ) )
+		{
+			String name = parameters.toLowerCase();
+			if ( name.equals( "all" ) )
+				disabledScripts.clear();
+			else
+				disabledScripts.remove( name );
+
+			return;
+		}
+
+		if ( command.equals( "disable" ) )
+		{
+			String name = parameters.toLowerCase();
+			if ( !disabledScripts.contains( name ) )
+				disabledScripts.add( name );
+
 			return;
 		}
 
