@@ -84,6 +84,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected static boolean usingValidConnection = true;
 	protected static boolean isRatQuest = false;
+	protected String encounter = "";
 
 	private static final AdventureResult [] WOODS_ITEMS = new AdventureResult[12];
 	static
@@ -704,6 +705,11 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			if ( !isDelayExempt() && formURLString.indexOf( "search" ) == -1 )
 				showInBrowser( false );
+
+			// Mark the location as visited inside of
+			// the adventure requesting module.
+
+			encounter = AdventureRequest.registerEncounter( this );
 
 			if ( !shouldIgnoreResults() )
 				parseResults();

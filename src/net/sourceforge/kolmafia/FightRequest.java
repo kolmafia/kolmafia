@@ -324,7 +324,6 @@ public class FightRequest extends KoLRequest
 
 		if ( roundCount == 1 )
 		{
-			encounter = AdventureRequest.registerEncounter( this );
 			encounterLookup = CombatSettings.encounterKey( encounter );
 			monsterData = MonsterDatabase.findMonster( encounter );
 		}

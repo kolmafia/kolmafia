@@ -90,10 +90,6 @@ public class LocalRelayRequest extends KoLRequest
 		return shouldIgnore;
 	}
 
-	protected void processResults()
-	{	AdventureRequest.registerEncounter( this );
-	}
-
 	protected void processRawResponse( String rawResponse )
 	{
 		super.processRawResponse( rawResponse );
