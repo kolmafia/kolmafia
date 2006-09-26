@@ -761,23 +761,20 @@ public class KoLRequest implements Runnable, KoLConstants
 		Matcher choiceMatcher = CHOICE_DECISION_PATTERN.matcher( url );
 		if ( choiceMatcher.find() )
 		{
-                        lastChoice = StaticEntity.parseInt( choiceMatcher.group(1) );
-                        lastDecision = StaticEntity.parseInt( choiceMatcher.group(2) );
-                }
+			lastChoice = StaticEntity.parseInt( choiceMatcher.group(1) );
+			lastDecision = StaticEntity.parseInt( choiceMatcher.group(2) );
+		}
 	}
 
 	private void mapCurrentChoice( String text )
 	{
-		Matcher choiceMatcher = CHOICE_PATTERN.matcher( text );
-		if ( choiceMatcher.find() )
-		{
-			int choice = StaticEntity.parseInt( choiceMatcher.group(1) );
-			// Let the Violet Fog handle this
-			if ( VioletFog.mapChoice( choice ) )
-				return;
+		// Let the Violet Fog handle this
+		if ( VioletFog.mapChoice( text ) )
+			return;
 
-			// Let the Escher Drawing handle this
-		}
+		// Let the Louvre handle this
+		if ( Louvre.mapChoice( text ) )
+			return;
 	}
 
 	public static int getLastChoice()
@@ -1579,6 +1576,12 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( decision.equals( "" ) )
 			decision = VioletFog.handleChoice( choice );
+
+		// If there is no setting which determines the
+		// decision, see if it's in the Louvre
+
+		if ( decision.equals( "" ) )
+			decision = Louvre.handleChoice( choice );
 
 		// If there is currently no setting which determines the
 		// decision, give an error and bail.

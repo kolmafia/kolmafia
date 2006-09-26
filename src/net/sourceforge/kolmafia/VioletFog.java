@@ -37,11 +37,15 @@ package net.sourceforge.kolmafia;
 // utilities
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class VioletFog implements UtilityConstants
 {
+	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
+
 	// The various locations within the violet fog
 
 	// Range of choice numbers within the fog
@@ -296,12 +300,16 @@ public class VioletFog implements UtilityConstants
 		}
 	}
 
+	public static boolean fogChoice( int choice )
+	{	return ( choice >= FIRST_CHOICE && choice <= LAST_CHOICE );
+	}
+
 	public static String handleChoice( String choice )
 	{
 		int source = StaticEntity.parseInt( choice );
 
 		// We only handle Violet Fog choices
-		if ( source < FIRST_CHOICE || source > LAST_CHOICE )
+		if ( !fogChoice( source ) )
 			return "";
 
 		// Get the user specified goal
@@ -315,7 +323,7 @@ public class VioletFog implements UtilityConstants
 
 		// Find the location we must get to to achieve the goal
 		int destination = FIRST_GOAL_LOCATION + goal - 1;
-		if ( destination < FIRST_CHOICE || destination > LAST_CHOICE )
+		if ( !fogChoice( destination ) )
 			return "";
 
 		// Are we there yet?
@@ -346,14 +354,20 @@ public class VioletFog implements UtilityConstants
 		return "";
 	}
 
-	public static boolean mapChoice( int source )
+	public static boolean mapChoice( String text )
 	{
+		Matcher choiceMatcher = CHOICE_PATTERN.matcher( text );
+		if ( !choiceMatcher.find() )
+			return false;
+
+		int source = StaticEntity.parseInt( choiceMatcher.group(1) );
+
 		// We only handle Violet Fog choices
-		if ( source < FIRST_CHOICE || source > LAST_CHOICE )
+		if ( !fogChoice( source ) )
 			return false;
 
 		int lastChoice = KoLRequest.getLastChoice();
-		if ( lastChoice >= FIRST_CHOICE && lastChoice <= LAST_CHOICE )
+		if ( fogChoice( lastChoice ) )
 		{
 			// Update the path table
 			int lastDecision = KoLRequest.getLastDecision() - 1;
@@ -366,7 +380,7 @@ public class VioletFog implements UtilityConstants
 	public static String [][] choiceSpoilers( int choice )
 	{
 		// We only handle Violet Fog choices
-		if ( choice < FIRST_CHOICE || choice > LAST_CHOICE )
+		if ( !fogChoice( choice ) )
 			return null;
 
 		// Return an array with the same structure as used by built-in
@@ -430,7 +444,7 @@ public class VioletFog implements UtilityConstants
 		}
 
 		// Make sure it's a fog adventure
-		if ( source < FIRST_CHOICE || source > LAST_CHOICE )
+		if ( !fogChoice( source ) )
 			return false;
 
 		// It is. If it's a "goal" location, decision "1" takes an adventure.
