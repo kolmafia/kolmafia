@@ -337,7 +337,7 @@ public class LoginRequest extends KoLRequest
 			if ( matcher.find() )
 			{
 				setLoginServer( matcher.group(1) );
-				return true;
+				return executeLogin();
 			}
 		}
 
