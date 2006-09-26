@@ -50,14 +50,14 @@ public class TrapperRequest extends KoLRequest
 	/**
 	 * Constructs a new <code>TrapperRequest</code>.
 	 *
-	 * @param	client	The client to which this request will report errors/results
+	 * @param	client	Theto which this request will report errors/results
 	 * @param	itemID	The item which will be traded at the trapper
 	 * @param	quantity	How many items to trade
 	 */
 
-	public TrapperRequest( KoLmafia client, int itemID, int quantity )
+	public TrapperRequest( int itemID, int quantity )
 	{
-		super( client, "trapper.php" );
+		super( "trapper.php" );
 
 		this.quantity = quantity;
 		addFormField( "action", "Yep." );
@@ -66,15 +66,15 @@ public class TrapperRequest extends KoLRequest
 		addFormField( "qty", String.valueOf( quantity ) );
 	}
 
-	public TrapperRequest( KoLmafia client, int itemID )
-	{	this( client, itemID, YETI_FUR.getCount( inventory ) );
+	public TrapperRequest( int itemID )
+	{	this( itemID, YETI_FUR.getCount( inventory ) );
 	}
 
 	/**
 	 * Executes the <code>TrapperRequest</code>.  This will trade the item
 	 * specified in the character's <code>KoLSettings</code> for their yeti
 	 * furs; if the character has no yeti furs, this method will report an
-	 * error to the client.
+	 * error to the StaticEntity.getClient().
 	 */
 
 	public void run()
@@ -91,7 +91,7 @@ public class TrapperRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		client.processResult( YETI_FUR.getInstance( 0 - quantity ) );
+		StaticEntity.getClient().processResult( YETI_FUR.getInstance( 0 - quantity ) );
 		KoLmafia.updateDisplay( "Trapper has been looted." );
 	}
 }

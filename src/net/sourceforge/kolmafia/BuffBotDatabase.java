@@ -352,7 +352,7 @@ public class BuffBotDatabase extends KoLDatabase
 
 		public GreenMessageRequest toRequest()
 		{
-			return new GreenMessageRequest( getClient(), botName, VERSION_NAME,
+			return new GreenMessageRequest( botName, VERSION_NAME,
 				new AdventureResult( AdventureResult.MEAT, price ), false );
 		}
 

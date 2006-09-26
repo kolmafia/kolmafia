@@ -47,9 +47,9 @@ public class CombineMeatRequest extends ItemCreationRequest
 	private int meatType;
 	private int costToMake;
 
-	public CombineMeatRequest( KoLmafia client, int meatType, int quantityNeeded )
+	public CombineMeatRequest( int meatType, int quantityNeeded )
 	{
-		super( client, "inventory.php", meatType, quantityNeeded );
+		super( "inventory.php", meatType, quantityNeeded );
 		addFormField( "action", "makestuff" );
 
 		addFormField( "whichitem", String.valueOf( meatType ) );
@@ -66,7 +66,7 @@ public class CombineMeatRequest extends ItemCreationRequest
 	}
 
 	protected void processResults()
-	{	client.processResult( new AdventureResult( AdventureResult.MEAT, costToMake * getQuantityNeeded() ) );
+	{	StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, costToMake * getQuantityNeeded() ) );
 	}
 
 	public static boolean processRequest( String urlString )

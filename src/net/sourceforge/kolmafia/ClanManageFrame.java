@@ -180,7 +180,7 @@ public class ClanManageFrame extends KoLFrame
 			super( "Buy Clan Buffs", "purchase", "take break", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 			this.isBuffing = false;
 
-			buffField = new JComboBox( ClanBuffRequest.getRequestList( StaticEntity.getClient() ) );
+			buffField = new JComboBox( ClanBuffRequest.getRequestList() );
 			countField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[2];
@@ -225,7 +225,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	(new RequestThread( new ClanListRequest( StaticEntity.getClient() ) )).start();
+		{	(new RequestThread( new ClanListRequest() )).start();
 		}
 	}
 
@@ -273,7 +273,7 @@ public class ClanManageFrame extends KoLFrame
 		{
 			public ClanMaterialsRequest()
 			{
-				super( StaticEntity.getClient(), "clan_war.php" );
+				super( "clan_war.php" );
 				addFormField( "action", "Yep." );
 				addFormField( "goodies", String.valueOf( getValue( goodies ) ) );
 				addFormField( "oatmeal", String.valueOf( getValue( oatmeal ) ) );
@@ -317,7 +317,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new ClanStashRequest( StaticEntity.getClient(), getValue( amountField ) ) )).start();
+		{	(new RequestThread( new ClanStashRequest( getValue( amountField ) ) )).start();
 		}
 
 		public void actionCancelled()
@@ -335,7 +335,7 @@ public class ClanManageFrame extends KoLFrame
 
 			setButtons( new String [] { "stash one", "stash all", "stash all but one", "refresh" },
 				new ActionListener [] { new StorageListener( MOVE_ONE ), new StorageListener( MOVE_ALL ), new StorageListener( MOVE_ALL_BUT ),
-				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
+				new RequestButton( "Refresh Items", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
 
 			filters = new JCheckBox[5];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", true );
@@ -380,8 +380,7 @@ public class ClanManageFrame extends KoLFrame
 					}
 				}
 
-				(new RequestThread( new ClanStashRequest( StaticEntity.getClient(),
-					items, ClanStashRequest.ITEMS_TO_STASH ) )).start();
+				(new RequestThread( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) )).start();
 			}
 		}
 	}
@@ -401,7 +400,7 @@ public class ClanManageFrame extends KoLFrame
 
 			setButtons( new String [] { "take all", "take all but #", "take multiple", "refresh" },
 				new ActionListener [] { new WithdrawListener( MOVE_ALL ), new WithdrawListener( MOVE_ALL_BUT ), new WithdrawListener( MOVE_MULTIPLE ),
-				new RequestButton( "Refresh Items", new ClanStashRequest( StaticEntity.getClient() ) ) } );
+				new RequestButton( "Refresh Items", new ClanStashRequest() ) } );
 
 			filters = new JCheckBox[5];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", true );
@@ -462,7 +461,7 @@ public class ClanManageFrame extends KoLFrame
 					}
 				}
 
-				(new RequestThread( new ClanStashRequest( StaticEntity.getClient(), items, ClanStashRequest.STASH_TO_ITEMS ) )).start();
+				(new RequestThread( new ClanStashRequest( items, ClanStashRequest.STASH_TO_ITEMS ) )).start();
 			}
 		}
 	}
@@ -536,7 +535,7 @@ public class ClanManageFrame extends KoLFrame
 				}
 
 				KoLmafia.updateDisplay( "Applying changes..." );
-				(new ClanMembersRequest( StaticEntity.getClient(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
+				(new ClanMembersRequest( titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
 				KoLmafia.updateDisplay( "Changes have been applied." );
 			}
 		}

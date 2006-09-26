@@ -48,7 +48,7 @@ public class KoLPanelFrame extends KoLFrame
 {
 	/**
 	 * Constructs an empty <code>KoLPanelFrame</code> which
-	 * uses the given StaticEntity.getClient() and has the given title.
+	 * uses the givenand has the given title.
 	 */
 
 	public KoLPanelFrame( String title )
@@ -57,7 +57,7 @@ public class KoLPanelFrame extends KoLFrame
 
 	/**
 	 * Constructs a <code>KoLPanelFrame</code> which contains
-	 * the given StaticEntity.getClient() and has the given title.  The content
+	 * the givenand has the given title.  The content
 	 * panel for this frame will be initialized to the panel
 	 * that is provided.
 	 */

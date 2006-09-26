@@ -74,7 +74,7 @@ public class CakeArenaManager extends StaticEntity
 		{
 			if ( opponent.equals( opponentList.get(i).toString() ) )
 			{
-				(new ArenaThread( new CakeArenaRequest( getClient(), ((ArenaOpponent)opponentList.get(i)).getID(), eventID ), repeatCount )).start();
+				(new ArenaThread( new CakeArenaRequest( ((ArenaOpponent)opponentList.get(i)).getID(), eventID ), repeatCount )).start();
 				return;
 			}
 		}
@@ -125,7 +125,7 @@ public class CakeArenaManager extends StaticEntity
 	public static LockableListModel getOpponentList()
 	{
 		if ( opponentList.isEmpty() )
-			(new CakeArenaRequest( getClient() )).run();
+			(new CakeArenaRequest()).run();
 
 		return opponentList;
 	}

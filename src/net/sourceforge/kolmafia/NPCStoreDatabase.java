@@ -92,7 +92,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		if ( storeID == null )
 			return null;
 
-		MallPurchaseRequest itemRequest = new MallPurchaseRequest( getClient(), (String) storeTable[1].get(itemIndex), storeID,
+		MallPurchaseRequest itemRequest = new MallPurchaseRequest( (String) storeTable[1].get(itemIndex), storeID,
 			TradeableItemDatabase.getItemID( (String) canonicalName ), parseInt( (String) storeTable[3].get(itemIndex) ) );
 
 		itemRequest.setCanPurchase( canPurchase( storeID ) );

@@ -39,7 +39,7 @@ import java.util.regex.Matcher;
 /**
  * Responsible for handling all requests related to the Kingdom of Loathing
  * chat.  Note that once this thread is started, it will only stop if the
- * chat buffer on the client is set to null.
+ * chat buffer on theis set to null.
  */
 
 public class ChatRequest extends KoLRequest
@@ -52,24 +52,24 @@ public class ChatRequest extends KoLRequest
 
 	/**
 	 * Constructs a new <code>ChatRequest</code>.
-	 * @param	client	The client to be updated
+	 * @param	client	Theto be updated
 	 */
 
-	public ChatRequest( KoLmafia client )
-	{	this( client, "1" );
+	public ChatRequest()
+	{	this( "1" );
 	}
 
 	/**
 	 * Constructs a new <code>ChatRequest</code> that will send the given
 	 * string to the server.
 	 *
-	 * @param	client	The client to be updated
+	 * @param	client	Theto be updated
 	 * @param	message	The message to be sent
 	 */
 
-	public ChatRequest( KoLmafia client, String contact, String message )
+	public ChatRequest( String contact, String message )
 	{
-		super( client, "submitnewchat.php" );
+		super( "submitnewchat.php" );
 		addFormField( "playerid", String.valueOf( KoLCharacter.getUserID() ) );
 		addFormField( "pwd" );
 
@@ -118,9 +118,9 @@ public class ChatRequest extends KoLRequest
 	 * appropriate value should be.
 	 */
 
-	private ChatRequest( KoLmafia client, String lastSeen )
+	private ChatRequest( String lastSeen )
 	{
-		super( client, "newchatmessages.php" );
+		super( "newchatmessages.php" );
 		addFormField( "lasttime", lastSeen );
 		ChatRequest.lastSeen = lastSeen;
 	}
@@ -173,7 +173,7 @@ public class ChatRequest extends KoLRequest
 		public void run()
 		{
 			lastSeen = "";
-			ChatRequest request = new ChatRequest( client, lastSeen );
+			ChatRequest request = new ChatRequest( lastSeen );
 
 			while ( delay( CHAT_DELAY ) && KoLMessenger.isRunning() )
 			{

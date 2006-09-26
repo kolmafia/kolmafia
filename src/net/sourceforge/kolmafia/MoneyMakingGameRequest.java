@@ -62,8 +62,8 @@ public class MoneyMakingGameRequest extends KoLRequest
 	private static SortedListModel betSummary = new SortedListModel();
 	private static final SimpleDateFormat RESULT_FORMAT = new SimpleDateFormat( "MM/dd/yy hh:mma", Locale.US );
 
-	public MoneyMakingGameRequest( KoLmafia client )
-	{	super( client, "betarchive.php" );
+	public MoneyMakingGameRequest()
+	{	super( "betarchive.php" );
 	}
 
 	public void run()
@@ -147,7 +147,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 		public String toString()
 		{
 			return "<html><font color=" + (winAmount.intValue() > 0 ? "green" : "red") +
-				">" + client.getPlayerName( playerID ) + ": " + (winAmount.intValue() > 0 ? "+" : "") +
+				">" + StaticEntity.getClient().getPlayerName( playerID ) + ": " + (winAmount.intValue() > 0 ? "+" : "") +
 				COMMA_FORMAT.format( winAmount.intValue() ) + "</font></html>";
 		}
 	}
@@ -206,7 +206,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 				if ( playerMatcher.find() )
 				{
 					playerID = playerMatcher.group(1);
-					client.registerPlayer( playerMatcher.group(2), playerID );
+					StaticEntity.getClient().registerPlayer( playerMatcher.group(2), playerID );
 				}
 			}
 		}

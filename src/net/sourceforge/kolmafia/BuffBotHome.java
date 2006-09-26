@@ -108,7 +108,7 @@ public class BuffBotHome extends StaticEntity
 	private static final File getFile( String extension )
 	{
 		String dayOfYear = DATED_FILENAME_FORMAT.format( new Date() );
-		String characterName = getClient() == null ? "" : KoLCharacter.getUsername();
+		String characterName = KoLCharacter.getUsername();
 		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
 
 		return new File( "buffs/" + noExtensionName + "_" + dayOfYear + extension );

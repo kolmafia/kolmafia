@@ -132,7 +132,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			if ( numberToUse <= 0 )
 				return;
 
-			getClient().makeRequest( new ConsumeItemRequest( getClient(), itemUsed.getInstance( numberToUse ) ) );
+			getClient().makeRequest( new ConsumeItemRequest( itemUsed.getInstance( numberToUse ) ) );
 		}
 
 		public String toString()

@@ -42,8 +42,8 @@ public class AccountRequest extends PasswordHashRequest
 	private static final Pattern TIMEZONE_PATTERN = Pattern.compile( "<select name=timezone>.*?</select>", Pattern.DOTALL );
 	private static final Pattern SELECTED_PATTERN = Pattern.compile( "selected>(-?\\d*?)</option>" );
 
-	public AccountRequest( KoLmafia client )
-	{	super( client, "account.php" );
+	public AccountRequest()
+	{	super( "account.php" );
 	}
 
 	protected void processResults()

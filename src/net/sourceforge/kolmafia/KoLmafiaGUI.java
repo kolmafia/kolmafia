@@ -56,7 +56,7 @@ public class KoLmafiaGUI extends KoLmafia
 {
 	/**
 	 * The main method.  Currently, it instantiates a single instance
-	 * of the <code>KoLmafia</code> client after setting the default
+	 * of the <code>KoLmafia</code>after setting the default
 	 * look and feel of all <code>JFrame</code> objects to decorated.
 	 */
 
@@ -107,7 +107,7 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 			catch ( Exception e )
 			{
-				// This should not happen, as we checked to see if
+				//should not happen, as we checked to see if
 				// the look and feel was installed first.
 
 				javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
@@ -129,7 +129,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
-	 * the login has been confirmed to notify the client that the
+	 * the login has been confirmed to notify thethat the
 	 * login was successful, the user-specific settings should be
 	 * loaded, and the user can begin adventuring.
 	 */
@@ -145,7 +145,7 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			if ( StaticEntity.getBooleanProperty( "retrieveContacts" ) )
 			{
-				(new ContactListRequest( this )).run();
+				(new ContactListRequest()).run();
 				StaticEntity.setProperty( "retrieveContacts", String.valueOf( !contactList.isEmpty() ) );
 			}
 		}
@@ -236,7 +236,7 @@ public class KoLmafiaGUI extends KoLmafia
 		else if ( frameName.equals( "MoneyMakingGameFrame" ) )
 		{
 			updateDisplay( "Retrieving MMG bet history..." );
-			(new MoneyMakingGameRequest( StaticEntity.getClient() )).run();
+			(new MoneyMakingGameRequest()).run();
 
 			if ( MoneyMakingGameRequest.getBetSummary().isEmpty() )
 			{
@@ -256,7 +256,7 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 
 			KoLMessenger.initialize();
-			(new ChatRequest( StaticEntity.getClient(), null, "/listen" )).run();
+			(new ChatRequest( null, "/listen" )).run();
 
 			updateDisplay( "Color preferences retrieved.  Chat started." );
 			enableDisplay();
@@ -270,7 +270,7 @@ public class KoLmafiaGUI extends KoLmafia
 				return;
 			}
 
-			(new MailboxRequest( StaticEntity.getClient(), "Inbox" )).run();
+			(new MailboxRequest( "Inbox" )).run();
 			if ( LoginRequest.isInstanceRunning() && !KoLMailManager.hasNewMessages() )
 				return;
 		}
@@ -304,7 +304,7 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 
 			if ( !ClanManager.isStashRetrieved() )
-				(new ClanStashRequest( StaticEntity.getClient() )).run();
+				(new ClanStashRequest()).run();
 		}
 		else if ( frameName.equals( "MushroomFrame" ) )
 		{
@@ -320,7 +320,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 				if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
 					if ( restaurantItems.isEmpty() )
-						(new RestaurantRequest( StaticEntity.getClient() )).run();
+						(new RestaurantRequest()).run();
 
 				// If the person is in a moxie sign and they have completed
 				// the beach quest, then retrieve information from the
@@ -328,12 +328,12 @@ public class KoLmafiaGUI extends KoLmafia
 
 				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() )
 					if ( microbreweryItems.isEmpty() )
-						(new MicrobreweryRequest( StaticEntity.getClient() )).run();
+						(new MicrobreweryRequest()).run();
 
 				if ( StaticEntity.getBooleanProperty( "showStashIngredients" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 				{
 					if ( !ClanManager.isStashRetrieved() )
-						(new ClanStashRequest( StaticEntity.getClient() )).run();
+						(new ClanStashRequest()).run();
 				}
 			}
 		}
@@ -347,14 +347,14 @@ public class KoLmafiaGUI extends KoLmafia
 
 			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
 			{
-				(new StoreManageRequest( StaticEntity.getClient() )).run();
-				(new StoreManageRequest( StaticEntity.getClient(), true )).run();
+				(new StoreManageRequest()).run();
+				(new StoreManageRequest( true )).run();
 			}
 		}
 		else if ( frameName.equals( "HagnkStorageFrame" ) )
 		{
 			if ( storage.isEmpty() && StaticEntity.getClient().shouldMakeConflictingRequest() )
-				(new ItemStorageRequest( StaticEntity.getClient() )).run();
+				(new ItemStorageRequest()).run();
 		}
 
 		else if ( frameName.equals( "RestoreOptionsFrame" ) )
@@ -369,7 +369,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		catch ( ClassNotFoundException e )
 		{
-			// This should not happen.  Therefore, print
+			//should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
@@ -378,27 +378,27 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void showHTML( String text, String title )
 	{
-		KoLRequest request = new KoLRequest( this, "" );
+		KoLRequest request = new KoLRequest( "" );
 		request.responseText = text;
 		FightFrame.showRequest( request );
 	}
 
 	/**
 	 * Makes a request which attempts to remove the given effect.
-	 * This method should prompt the user to determine which effect
+	 *method should prompt the user to determine which effect
 	 * the player would like to remove.
 	 */
 
 	public void makeUneffectRequest()
 	{
 		Object selectedValue = JOptionPane.showInputDialog(
-			null, "I want to remove this effect...", "It's Soft Green Martian Time!", JOptionPane.INFORMATION_MESSAGE, null,
+			null, "I want to removeeffect...", "It's Soft Green Martian Time!", JOptionPane.INFORMATION_MESSAGE, null,
 			activeEffects.toArray(), activeEffects.get(0) );
 
 		if ( selectedValue == null )
 			return;
 
-		(new RequestThread( new UneffectRequest( this, (AdventureResult) selectedValue ) )).run();
+		(new RequestThread( new UneffectRequest( (AdventureResult) selectedValue ) )).run();
 	}
 
 	/**
@@ -413,32 +413,32 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		Object selectedValue = JOptionPane.showInputDialog(
-			null, "I want to zap this item...", "Zzzzzzzzzap!", JOptionPane.INFORMATION_MESSAGE, null,
+			null, "I want to zapitem...", "Zzzzzzzzzap!", JOptionPane.INFORMATION_MESSAGE, null,
 			inventory.toArray(), inventory.get(0) );
 
 		if ( selectedValue == null )
 			return;
 
-		(new RequestThread( new ZapRequest( this, wand, (AdventureResult) selectedValue ) )).run();
+		(new RequestThread( new ZapRequest( wand, (AdventureResult) selectedValue ) )).run();
 	}
 
 	/**
 	 * Makes a request to the hermit, looking for the given number of
-	 * items.  This method should prompt the user to determine which
+	 * items. method should prompt the user to determine which
 	 * item to retrieve the hermit.
 	 */
 
 	public void makeHermitRequest()
 	{
 		if ( !hermitItems.contains( "ten-leaf clover" ) )
-			(new HermitRequest( this )).run();
+			(new HermitRequest()).run();
 
 		if ( !permitsContinue() )
 			return;
 
 		Object [] hermitItemArray = hermitItems.toArray();
 		Object selectedValue = JOptionPane.showInputDialog(
-			null, "I want this from the hermit...", "Mugging Hermit for...", JOptionPane.INFORMATION_MESSAGE, null,
+			null, "I wantfrom the hermit...", "Mugging Hermit for...", JOptionPane.INFORMATION_MESSAGE, null,
 			hermitItemArray, null );
 
 		if ( selectedValue == null )
@@ -450,12 +450,12 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( tradeCount == 0 )
 			return;
 
-		(new RequestThread( new HermitRequest( this, selected, tradeCount ) )).run();
+		(new RequestThread( new HermitRequest( selected, tradeCount ) )).run();
 	}
 
 	/**
 	 * Makes a request to the trapper, looking for the given number of
-	 * items.  This method should prompt the user to determine which
+	 * items. method should prompt the user to determine which
 	 * item to retrieve from the trapper.
 	 */
 
@@ -470,7 +470,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 
 		Object selectedValue = JOptionPane.showInputDialog(
-			null, "I want this from the trapper...", "1337ing Trapper for...", JOptionPane.INFORMATION_MESSAGE, null,
+			null, "I wantfrom the trapper...", "1337ing Trapper for...", JOptionPane.INFORMATION_MESSAGE, null,
 			trapperItemNames, trapperItemNames[0] );
 
 		if ( selectedValue == null )
@@ -492,24 +492,24 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( tradeCount == 0 )
 			return;
 
-		(new RequestThread( new TrapperRequest( this, selected, tradeCount ) )).run();
+		(new RequestThread( new TrapperRequest( selected, tradeCount ) )).run();
 	}
 
 	/**
 	 * Makes a request to the hunter, looking to sell a given type of
-	 * item.  This method should prompt the user to determine which
+	 * item. method should prompt the user to determine which
 	 * item to sell to the hunter.
 	 */
 
 	public void makeHunterRequest()
 	{
 		if ( hunterItems.isEmpty() )
-			(new BountyHunterRequest( this )).run();
+			(new BountyHunterRequest()).run();
 
 		Object [] hunterItemArray = hunterItems.toArray();
 
 		String selectedValue = (String) JOptionPane.showInputDialog(
-			null, "I want to sell this to the hunter...", "The Quilted Thicker Picker Upper!", JOptionPane.INFORMATION_MESSAGE, null,
+			null, "I want to sellto the hunter...", "The Quilted Thicker Picker Upper!", JOptionPane.INFORMATION_MESSAGE, null,
 			hunterItemArray, hunterItemArray[0] );
 
 		if ( selectedValue == null )
@@ -535,14 +535,14 @@ public class KoLmafiaGUI extends KoLmafia
 			items[0] = selected.getInstance( available - tradeCount );
 
 			Runnable [] sequence = new Runnable[3];
-			sequence[0] = new ItemStorageRequest( this, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
-			sequence[1] = new BountyHunterRequest( this, selected.getItemID() );
-			sequence[2] = new ItemStorageRequest( this, ItemStorageRequest.CLOSET_TO_INVENTORY, items );
+			sequence[0] = new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items );
+			sequence[1] = new BountyHunterRequest( selected.getItemID() );
+			sequence[2] = new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items );
 
 			(new RequestThread( sequence )).run();
 		}
 		else
-			(new RequestThread( new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) ) )).run();
+			(new RequestThread( new BountyHunterRequest( TradeableItemDatabase.getItemID( selectedValue ) ) )).run();
 	}
 
 	/**
@@ -551,7 +551,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void makeGalaktikRequest()
 	{
-		Object [] cureArray = GalaktikRequest.retrieveCures( this ).toArray();
+		Object [] cureArray = GalaktikRequest.retrieveCures().toArray();
 
 		if ( cureArray.length == 0 )
 		{
@@ -574,12 +574,12 @@ public class KoLmafiaGUI extends KoLmafia
 		else
 			return;
 
-		(new RequestThread( new GalaktikRequest( this, type ) )).run();
+		(new RequestThread( new GalaktikRequest( type ) )).run();
 	}
 
 	/**
 	 * Makes a request to the hunter, looking for the given number of
-	 * items.  This method should prompt the user to determine which
+	 * items. method should prompt the user to determine which
 	 * item to retrieve the hunter.
 	 */
 
@@ -611,13 +611,13 @@ public class KoLmafiaGUI extends KoLmafia
 		Arrays.sort( untinkerItemArray );
 
 		AdventureResult selectedValue = (AdventureResult) JOptionPane.showInputDialog(
-			null, "I want to untinker this item...", "You can unscrew meat paste?", JOptionPane.INFORMATION_MESSAGE, null,
+			null, "I want to untinkeritem...", "You can unscrew meat paste?", JOptionPane.INFORMATION_MESSAGE, null,
 			untinkerItemArray, untinkerItemArray[0] );
 
 		if ( selectedValue == null )
 			return;
 
-		(new RequestThread( new UntinkerRequest( this, selectedValue.getItemID() ) )).run();
+		(new RequestThread( new UntinkerRequest( selectedValue.getItemID() ) )).run();
 	}
 
 	/**
@@ -637,7 +637,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selectedLevel == null )
 			return;
 
-		(new RequestThread( new MindControlRequest( this, StaticEntity.parseInt( selectedLevel.split( " " )[1] ) ) )).run();
+		(new RequestThread( new MindControlRequest( StaticEntity.parseInt( selectedLevel.split( " " )[1] ) ) )).run();
 	}
 
 	private static final Pattern GENERAL_PATTERN = Pattern.compile( "<td>(.*?)&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<option value=(\\d+) selected>" );
@@ -648,7 +648,7 @@ public class KoLmafiaGUI extends KoLmafia
 	private static class ChannelColorsRequest extends KoLRequest
 	{
 		public ChannelColorsRequest()
-		{	super( StaticEntity.getClient(), "account_chatcolors.php", true );
+		{	super( "account_chatcolors.php", true );
 		}
 
 		public void run()

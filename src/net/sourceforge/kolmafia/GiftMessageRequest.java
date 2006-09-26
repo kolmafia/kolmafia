@@ -88,16 +88,16 @@ public class GiftMessageRequest extends SendMessageRequest
 		}
 	}
 
-	public GiftMessageRequest( KoLmafia client, String recipient, String outsideMessage, String insideMessage,
+	public GiftMessageRequest( String recipient, String outsideMessage, String insideMessage,
 		Object wrappingType, Object [] attachments, int meatAttachment )
 	{
-		this( client, recipient, outsideMessage, insideMessage, wrappingType, attachments, meatAttachment, false );
+		this( recipient, outsideMessage, insideMessage, wrappingType, attachments, meatAttachment, false );
 	}
 
-	public GiftMessageRequest( KoLmafia client, String recipient, String outsideMessage, String insideMessage,
+	public GiftMessageRequest( String recipient, String outsideMessage, String insideMessage,
 		Object wrappingType, Object [] attachments, int meatAttachment, boolean isFromStorage )
 	{
-		super( client, "town_sendgift.php", attachments, meatAttachment );
+		super( "town_sendgift.php", attachments, meatAttachment );
 		addFormField( "pwd" );
 		addFormField( "action", "Yep." );
 		addFormField( "towho", recipient );
@@ -135,7 +135,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 	protected SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new GiftMessageRequest( client, recipient, outsideMessage, insideMessage, wrappingType, attachments, 0, this.source == storage );
+	{	return new GiftMessageRequest( recipient, outsideMessage, insideMessage, wrappingType, attachments, 0, this.source == storage );
 	}
 
 	protected String getSuccessMessage()
@@ -159,7 +159,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	{
 		super.processResults();
 		if ( responseText.indexOf( getSuccessMessage() ) != -1 && materialCost > 0 )
-			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - materialCost ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - materialCost ) );
 	}
 
 	public static boolean processRequest( String urlString )

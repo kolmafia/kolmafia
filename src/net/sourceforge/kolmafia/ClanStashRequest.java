@@ -53,22 +53,22 @@ public class ClanStashRequest extends SendMessageRequest
 	public static final int MEAT_TO_STASH = 2;
 	public static final int STASH_TO_ITEMS = 3;
 
-	public ClanStashRequest( KoLmafia client )
+	public ClanStashRequest()
 	{
-		super( client, "clan_stash.php" );
+		super( "clan_stash.php" );
 		this.moveType = REFRESH_ONLY;
 		destination = new ArrayList();
 	}
 
 	/**
 	 * Constructs a new <code>ClanStashRequest</code>.
-	 * @param	client	The client to be notified of the results
+	 * @param	client	Theto be notified of the results
 	 * @param	amount	The amount of meat involved in this transaction
 	 */
 
-	public ClanStashRequest( KoLmafia client, int amount )
+	public ClanStashRequest( int amount )
 	{
-		super( client, "clan_stash.php", new Object[0], amount );
+		super( "clan_stash.php", new Object[0], amount );
 		addFormField( "pwd" );
 		addFormField( "action", "contribute" );
 		addFormField( "howmuch", String.valueOf( amount ) );
@@ -79,13 +79,13 @@ public class ClanStashRequest extends SendMessageRequest
 
 	/**
 	 * Constructs a new <code>ClanStashRequest</code>.
-	 * @param	client	The client to be notified of the results
+	 * @param	client	Theto be notified of the results
 	 * @param	attachments	The list of attachments involved in the request
 	 */
 
-	public ClanStashRequest( KoLmafia client, Object [] attachments, int moveType )
+	public ClanStashRequest( Object [] attachments, int moveType )
 	{
-		super( client, "clan_stash.php", attachments, 0 );
+		super( "clan_stash.php", attachments, 0 );
 
 		addFormField( "pwd" );
 
@@ -131,7 +131,7 @@ public class ClanStashRequest extends SendMessageRequest
 	}
 
 	protected SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new ClanStashRequest( client, attachments, moveType );
+	{	return new ClanStashRequest( attachments, moveType );
 	}
 
 	protected String getSuccessMessage()

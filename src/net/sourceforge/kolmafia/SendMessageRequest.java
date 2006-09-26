@@ -58,9 +58,9 @@ public abstract class SendMessageRequest extends KoLRequest
 	protected String whichField, quantityField;
 	protected boolean isSubInstance = false;
 
-	protected SendMessageRequest( KoLmafia client, String formSource )
+	protected SendMessageRequest( String formSource )
 	{
-		super( client, formSource );
+		super( formSource );
 
 		this.meatAttachment = 0;
 		this.attachments = new Object[0];
@@ -69,9 +69,9 @@ public abstract class SendMessageRequest extends KoLRequest
 		this.quantityField = "howmany";
 	}
 
-	protected SendMessageRequest( KoLmafia client, String formSource, AdventureResult attachment )
+	protected SendMessageRequest( String formSource, AdventureResult attachment )
 	{
-		super( client, formSource );
+		super( formSource );
 
 		if ( attachment.getName().equals( AdventureResult.MEAT ) )
 		{
@@ -89,9 +89,9 @@ public abstract class SendMessageRequest extends KoLRequest
 		this.quantityField = "howmany";
 	}
 
-	protected SendMessageRequest( KoLmafia client, String formSource, Object [] attachments, int meatAttachment )
+	protected SendMessageRequest( String formSource, Object [] attachments, int meatAttachment )
 	{
-		super( client, formSource );
+		super( formSource );
 
 		this.meatAttachment = meatAttachment;
 
@@ -276,7 +276,7 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		if ( tallyItemTransfer() && (getSuccessMessage().equals( "" ) || responseText.indexOf( getSuccessMessage() ) != -1) )
 		{
-			// With that done, the client needs to be updated
+			// With that done, theneeds to be updated
 			// to note that the items were sent.
 
 			for ( int i = 0; i < attachments.length; ++i )
@@ -285,14 +285,14 @@ public abstract class SendMessageRequest extends KoLRequest
 					continue;
 
 				if ( source == inventory )
-					client.processResult( ((AdventureResult)attachments[i]).getNegation() );
+					StaticEntity.getClient().processResult( ((AdventureResult)attachments[i]).getNegation() );
 				else
 					AdventureResult.addResultToList( source, ((AdventureResult)attachments[i]).getNegation() );
 
 				if ( source == storage && destination == inventory && KoLCharacter.canInteract() )
 					KoLCharacter.processResult( (AdventureResult) attachments[i] );
 				else if ( destination == inventory )
-					client.processResult( (AdventureResult) attachments[i] );
+					StaticEntity.getClient().processResult( (AdventureResult) attachments[i] );
 				else
 					AdventureResult.addResultToList( destination, (AdventureResult) attachments[i] );
 			}

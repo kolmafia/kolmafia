@@ -63,17 +63,17 @@ public class AdventureRequest extends KoLRequest
 	/**
 	 * Constructs a new <code>AdventureRequest</code> which executes the
 	 * adventure designated by the given ID by posting to the provided form,
-	 * notifying the given client of results (or errors).
+	 * notifying the givenof results (or errors).
 	 *
-	 * @param	client	The client to which results will be reported
+	 * @param	client	Theto which results will be reported
 	 * @param	adventureName	The name of the adventure location
 	 * @param	formSource	The form to which the data will be posted
 	 * @param	adventureID	The identifer for the adventure to be executed
 	 */
 
-	public AdventureRequest( KoLmafia client, String adventureName, String formSource, String adventureID )
+	public AdventureRequest( String adventureName, String formSource, String adventureID )
 	{
-		super( client, formSource );
+		super( formSource );
 		this.adventureName = adventureName;
 		this.formSource = formSource;
 		this.adventureID = adventureID;
@@ -131,7 +131,7 @@ public class AdventureRequest extends KoLRequest
 
 	/**
 	 * Executes the <code>AdventureRequest</code>.  All items and stats gained
-	 * or lost will be reported to the client, as well as any errors encountered
+	 * or lost will be reported to the as well as any errors encountered
 	 * through adventuring.  Meat lost due to an adventure (such as those to
 	 * the casino, the shore, or the tavern) will also be reported.  Note that
 	 * adventure costs are not yet being reported.
@@ -139,7 +139,7 @@ public class AdventureRequest extends KoLRequest
 
 	public void run()
 	{
-		// Prevent the request from happening if the client attempted
+		// Prevent the request from happening if theattempted
 		// to cancel in the delay period.
 
 		if ( !KoLmafia.permitsContinue() )
@@ -147,7 +147,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( formSource.equals( "mountains.php" ) )
 		{
-			KoLRequest check = new KoLRequest( client, "mountains.php" );
+			KoLRequest check = new KoLRequest( "mountains.php" );
 			check.run();
 
 			if ( check.responseText.indexOf( "value=80" ) != -1 )
@@ -315,7 +315,7 @@ public class AdventureRequest extends KoLRequest
 				if ( KoLCharacter.hasItem( ABRIDGED, false ) )
 				{
 					AdventureDatabase.retrieveItem( ABRIDGED.getNegation() );
-					(new UntinkerRequest( client, ABRIDGED.getItemID() )).run();
+					(new UntinkerRequest( ABRIDGED.getItemID() )).run();
 
 					this.run();
 					return;
@@ -331,7 +331,7 @@ public class AdventureRequest extends KoLRequest
 			if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
 			{
 				KoLmafia.updateDisplay( PENDING_STATE, "You have bridged the Orc Chasm." );
-				client.processResult( BRIDGE );
+				StaticEntity.getClient().processResult( BRIDGE );
 			}
 
 			return;
@@ -347,13 +347,13 @@ public class AdventureRequest extends KoLRequest
 
 			if ( responseText.indexOf( "hooting and shrieking" ) != -1 )
 			{
-				client.processResult( DODECAGRAM );
-				client.processResult( CANDLES );
-				client.processResult( BUTTERKNIFE );
+				StaticEntity.getClient().processResult( DODECAGRAM );
+				StaticEntity.getClient().processResult( CANDLES );
+				StaticEntity.getClient().processResult( BUTTERKNIFE );
 
 				Matcher learnedMatcher = STEEL_PATTERN.matcher( responseText );
 				if ( learnedMatcher.find() )
-					KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1) + " of Steel", "", 1 ) );
+					KoLCharacter.addAvailableSkill( new UseSkillRequest( learnedMatcher.group(1) + " of Steel", "", 1 ) );
 
 				KoLmafia.updateDisplay( PENDING_STATE, "Taint cleansed." );
 				return;
@@ -373,23 +373,23 @@ public class AdventureRequest extends KoLRequest
 		if ( formSource.equals( "casino.php" ) )
 		{
 			if ( adventureID.equals( "1" ) )
-				client.processResult( new AdventureResult( AdventureResult.MEAT, -5 ) );
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -5 ) );
 			else if ( adventureID.equals( "2" ) )
-				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 			else if ( adventureID.equals( "11" ) )
-				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 		}
 
 		if ( adventureID.equals( "70" ) )
-			client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 		else if ( adventureID.equals( "71" ) )
-			client.processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
 
 		// Shore Trips cost 500 meat each; handle
 		// the processing here.
 
 		if ( formSource.equals( "shore.php" ) )
-			client.processResult( new AdventureResult( AdventureResult.MEAT, -500 ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -500 ) );
 
 		// Trick-or-treating requires a costume;
 		// notify the user of this error.

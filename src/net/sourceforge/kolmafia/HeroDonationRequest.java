@@ -61,14 +61,14 @@ public class HeroDonationRequest extends KoLRequest
 	/**
 	 * Constructs a new <code>HeroDonationRequest</code>.
 	 *
-	 * @param	client	The client to be notified in the event of error
+	 * @param	client	Theto be notified in the event of error
 	 * @param	heroID	The identifier for the hero to whom you are donating
 	 * @param	amount	The amount you're donating to the given hero
 	 */
 
-	public HeroDonationRequest( KoLmafia client, int heroID, int amount )
+	public HeroDonationRequest( int heroID, int amount )
 	{
-		super( client, "shrines.php" );
+		super( "shrines.php" );
 
 		addFormField( "pwd" );
 		addFormField( "action", heroID == BORIS ? "boris" : heroID == JARLSBERG ? "jarlsberg" : "sneakypete" );
@@ -106,7 +106,7 @@ public class HeroDonationRequest extends KoLRequest
 			return;
 		}
 
-		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
+		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
 		KoLmafia.updateDisplay( "Donation complete." );
 	}
 

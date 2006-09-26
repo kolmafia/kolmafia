@@ -41,16 +41,18 @@ public class ZapRequest extends KoLRequest
 
 	/**
 	 * Constructs a new <code>ZapRequest</code>.
-	 * @param	client	The client to be notified of completion
+	 * @param	client	Theto be notified of completion
 	 * @param	item	The item to be zapped
 	 */
 
-	public ZapRequest( KoLmafia client, AdventureResult wand, AdventureResult item )
+	public ZapRequest( AdventureResult wand, AdventureResult item )
 	{
-		super( client, "wand.php" );
+		super( "wand.php" );
 		addFormField( "action", "zap" );
+
 		this.wand = wand;
 		addFormField( "whichwand", String.valueOf( wand.getItemID() ) );
+
 		this.item = item;
 		addFormField( "whichitem", String.valueOf( item.getItemID() ) );
 	}
@@ -86,10 +88,10 @@ public class ZapRequest extends KoLRequest
 
 		// If it blew up, remove wand
 		if ( responseText.indexOf( "abruptly explodes" ) != -1 )
-		     client.processResult( wand.getNegation() );
+		     StaticEntity.getClient().processResult( wand.getNegation() );
 
 		// Remove old item and notify the user of success.
-		client.processResult( item.getInstance( -1 ) );
+		StaticEntity.getClient().processResult( item.getInstance( -1 ) );
 		KoLmafia.updateDisplay( item.getName() + " has been transformed." );
 	}
 }

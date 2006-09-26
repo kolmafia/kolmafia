@@ -42,18 +42,19 @@ public class MicrobreweryRequest extends KoLRequest
 	private static final Pattern COST_PATTERN = Pattern.compile( "(.*?) \\((\\d*) Meat\\)" );
 	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<td>([\\w -]*?\\(.*? Meat\\))</td>" );
 
-	private boolean isPurchase;
 	private int price;
+	private int itemID;
+	private boolean isPurchase;
 
-	public MicrobreweryRequest( KoLmafia client )
+	public MicrobreweryRequest()
 	{
-		super( client, "brewery.php" );
+		super( "brewery.php" );
 		this.isPurchase = false;
 	}
 
-	public MicrobreweryRequest( KoLmafia client, String name )
+	public MicrobreweryRequest( String name )
 	{
-		super( client, "brewery.php" );
+		super( "brewery.php" );
 		addFormField( "action", "Yep." );
 
 		this.isPurchase = true;
@@ -70,7 +71,7 @@ public class MicrobreweryRequest extends KoLRequest
 
 			// Get the menu the microbrewery offers today
 			if ( microbreweryItems.isEmpty() )
-				(new MicrobreweryRequest( client )).run();
+				(new MicrobreweryRequest()).run();
 
 			// Find the item in the menu
 			for ( int i = 0; i < 3; i++ )
@@ -83,8 +84,6 @@ public class MicrobreweryRequest extends KoLRequest
 			if ( itemID == 0 )
 				itemID = TradeableItemDatabase.getItemID( itemName );
 		}
-
-		addFormField( "whichitem", String.valueOf( itemID ) );
 	}
 
 	public void run()
@@ -136,7 +135,7 @@ public class MicrobreweryRequest extends KoLRequest
 				return;
 			}
 
-			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
 			KoLmafia.updateDisplay( "Drink purchased." );
 			return;
 		}

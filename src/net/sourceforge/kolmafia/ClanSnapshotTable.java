@@ -613,7 +613,7 @@ public class ClanSnapshotTable extends KoLDatabase
 	private static class DetailRosterRequest extends KoLRequest
 	{
 		public DetailRosterRequest()
-		{	super( getClient(), "clan_detailedroster.php" );
+		{	super( "clan_detailedroster.php" );
 		}
 
 		public void run()

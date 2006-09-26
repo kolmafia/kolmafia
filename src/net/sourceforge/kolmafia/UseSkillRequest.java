@@ -70,15 +70,16 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	/**
 	 * Constructs a new <code>UseSkillRequest</code>.
-	 * @param	client	The client to be notified of completion
+	 * @param	client	Theto be notified of completion
 	 * @param	skillName	The name of the skill to be used
 	 * @param	target	The name of the target of the skill
 	 * @param	buffCount	The number of times the target is affected by this skill
 	 */
 
-	public UseSkillRequest( KoLmafia client, String skillName, String target, int buffCount )
+	public UseSkillRequest( String skillName, String target, int buffCount )
 	{
-		super( client, "skills.php" );
+		super( "skills.php" );
+
 		addFormField( "action", "Skillz." );
 		addFormField( "pwd" );
 
@@ -254,7 +255,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				currentCast = Math.min( castsRemaining, maximumCast );
 
 				currentMP = KoLCharacter.getCurrentMP();
-				client.recoverMP( mpPerCast * currentCast );
+				StaticEntity.getClient().recoverMP( mpPerCast * currentCast );
 
 				// If no change occurred, that means the person was
 				// unable to recover MP; abort the process.
@@ -373,7 +374,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// If he mentions Degrassi Knoll, you haven't given him
 		// his screwdriver yet.
 
-		KoLRequest questCompleter = new UntinkerRequest( StaticEntity.getClient() );
+		KoLRequest questCompleter = new UntinkerRequest();
 		questCompleter.run();
 		return questCompleter.responseText.indexOf( "Degrassi Knoll" ) == -1;
 	}
@@ -442,7 +443,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( buffAttempt > 1 )
 			{
 				KoLmafia.updateDisplay( "Summon limit exceeded. Shrinking request..." );
-				UseSkillRequest attempt = new UseSkillRequest( client, skillName, "", 1 );
+				UseSkillRequest attempt = new UseSkillRequest( skillName, "", 1 );
 				while ( buffAttempt++ < buffCount && KoLmafia.permitsContinue() )
 					attempt.run();
 
@@ -507,8 +508,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// Tongue of the Walrus (1010) automatically
 			// removes any beaten up.
 
-			client.processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount) ) );
-			client.applyEffects();
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount) ) );
+			StaticEntity.getClient().applyEffects();
 
 			if ( skillID == OTTER_TONGUE || skillID == WALRUS_TONGUE )
 			{

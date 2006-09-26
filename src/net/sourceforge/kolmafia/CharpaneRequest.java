@@ -49,23 +49,19 @@ public class CharpaneRequest extends KoLRequest
 {
 	private static boolean isRunning = false;
 	private static boolean isProcessing = false;
-	private static CharpaneRequest instance = null;
+	private static final CharpaneRequest instance = new CharpaneRequest();
 
-	private CharpaneRequest( KoLmafia client )
+	private CharpaneRequest()
 	{
 		// The only thing to do is to retrieve the page from
-		// the client - all variable initialization comes from
+		// the- all variable initialization comes from
 		// when the request is actually run.
 
-		super( client, "charpane.php" );
+		super( "charpane.php" );
 	}
 
 	public static CharpaneRequest getInstance()
-	{
-		if ( instance == null || instance.client != StaticEntity.getClient() )
-			instance = new CharpaneRequest( StaticEntity.getClient() );
-
-		return instance;
+	{	return instance;
 	}
 
 	public void run()

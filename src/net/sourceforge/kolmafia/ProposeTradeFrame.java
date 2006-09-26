@@ -89,11 +89,11 @@ public class ProposeTradeFrame extends SendMessageFrame
 		// Send the offer / response
 
 		if ( offerID != null )
-			(new ProposeTradeRequest( StaticEntity.getClient(), StaticEntity.parseInt( offerID ), messages[0], getAttachedItems(), getAttachedMeat() )).run();
+			(new ProposeTradeRequest( StaticEntity.parseInt( offerID ), messages[0], getAttachedItems(), getAttachedMeat() )).run();
 
 		Object [] parameters = new Object[1];
-		parameters[0] = offerID != null ? new ProposeTradeRequest( StaticEntity.getClient() ) :
-			new ProposeTradeRequest( StaticEntity.getClient(), recipient, messages[0], getAttachedItems(), getAttachedMeat() );
+		parameters[0] = offerID != null ? new ProposeTradeRequest() :
+			new ProposeTradeRequest( recipient, messages[0], getAttachedItems(), getAttachedMeat() );
 
 		createDisplay( PendingTradesFrame.class, parameters );
 		return true;

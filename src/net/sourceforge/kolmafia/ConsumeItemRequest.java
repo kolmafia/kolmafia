@@ -132,52 +132,44 @@ public class ConsumeItemRequest extends KoLRequest
 
 	private int consumptionType;
 	private AdventureResult itemUsed;
-	private boolean isResultPage = false;
 
-	public ConsumeItemRequest( KoLmafia client, AdventureResult item )
-	{	this( client, TradeableItemDatabase.getConsumptionType( item.getName() ), item );
+	public ConsumeItemRequest( AdventureResult item )
+	{	this( TradeableItemDatabase.getConsumptionType( item.getName() ), item );
 	}
 
-	public ConsumeItemRequest( KoLmafia client, int consumptionType, AdventureResult item )
+	public ConsumeItemRequest( int consumptionType, AdventureResult item )
 	{
-		this( client, consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
+		this( consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
 			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" :
 			consumptionType == CONSUME_RESTORE ? "skills.php" : consumptionType == CONSUME_HOBO ? "inventory.php" :
-			"inv_use.php", consumptionType, item, false );
+			"inv_use.php", consumptionType, item );
 	}
 
-	private ConsumeItemRequest( KoLmafia client, String location, int consumptionType, AdventureResult item, boolean isResultPage )
+	private ConsumeItemRequest( String location, int consumptionType, AdventureResult item )
 	{
-		super( client, location );
-		this.isResultPage = isResultPage;
+		super( location, true );
 
-		if ( !isResultPage )
+		switch ( consumptionType )
 		{
-			switch ( consumptionType )
-			{
-				case CONSUME_MULTIPLE:
-					addFormField( "action", "useitem" );
-					addFormField( "quantity", String.valueOf( item.getCount() ) );
-					break;
-				case CONSUME_RESTORE:
-					addFormField( "action", "useitem" );
-					addFormField( "itemquantity", String.valueOf( item.getCount() ) );
-					break;
-				case CONSUME_HOBO:
-					addFormField( "action", "hobo" );
-					addFormField( "which", "1" );
-					break;
-				case CONSUME_EAT:
-				case CONSUME_DRINK:
-					addFormField( "which", "1" );
-					break;
-				default:
-					addFormField( "which", "3" );
-					break;
-			}
-
-			addFormField( "whichitem", String.valueOf( item.getItemID() ) );
-			addFormField( "pwd" );
+			case CONSUME_MULTIPLE:
+				addFormField( "action", "useitem" );
+				addFormField( "quantity", String.valueOf( item.getCount() ) );
+				break;
+			case CONSUME_RESTORE:
+				addFormField( "action", "useitem" );
+				addFormField( "itemquantity", String.valueOf( item.getCount() ) );
+				break;
+			case CONSUME_HOBO:
+				addFormField( "action", "hobo" );
+				addFormField( "which", "1" );
+				break;
+			case CONSUME_EAT:
+			case CONSUME_DRINK:
+				addFormField( "which", "1" );
+				break;
+			default:
+				addFormField( "which", "3" );
+				break;
 		}
 
 		this.consumptionType = consumptionType;
@@ -240,36 +232,6 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
-		// Note that requests for bartenders and chefs should
-		// not be run if the character already has one
-
-		boolean alreadyInstalled = false;
-
-		switch ( itemUsed.getItemID() )
-		{
-			case CHEF:
-			case CLOCKWORK_CHEF:
-				alreadyInstalled = KoLCharacter.hasChef();
-				return;
-			case BARTENDER:
-			case CLOCKWORK_BARTENDER:
-				alreadyInstalled = KoLCharacter.hasBartender();
-				return;
-			case TOASTER:
-				alreadyInstalled = KoLCharacter.hasToaster();
-				return;
-			case ARCHES:
-				alreadyInstalled = KoLCharacter.hasArches();
-				return;
-		}
-
-		if ( alreadyInstalled )
-		{
-			lastUpdate = "You already have one installed.";
-			KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
-			return;
-		}
-
 		// Check to make sure the character has the item in their
 		// inventory first - if not, report the error message and
 		// return from the method.
@@ -291,16 +253,6 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 
 		super.run();
-
-		// Follow the redirection and get the message;
-		// instantiate a new consume item request so
-		// that it processes the right result.
-
-		if ( redirectLocation != null )
-		{
-			ConsumeItemRequest message = new ConsumeItemRequest( client, redirectLocation, consumptionType, itemUsed, true );
-			message.run();
-		}
 	}
 
 	protected void processResults()
@@ -754,7 +706,7 @@ public class ConsumeItemRequest extends KoLRequest
 				if ( responseText.indexOf( "You read the incantation" ) == -1 )
 					StaticEntity.getClient().processResult( lastItemUsed );
 				else
-					KoLCharacter.addAvailableSkill( new UseSkillRequest( StaticEntity.getClient(), "Summon Snowcone", "", 1 ) );
+					KoLCharacter.addAvailableSkill( new UseSkillRequest( "Summon Snowcone", "", 1 ) );
 
 				return;
 
@@ -768,7 +720,7 @@ public class ConsumeItemRequest extends KoLRequest
 				if ( responseText.indexOf( "You pore over the tome" ) == -1 )
 					StaticEntity.getClient().processResult( lastItemUsed );
 				else
-					KoLCharacter.addAvailableSkill( new UseSkillRequest( StaticEntity.getClient(), "Summon Hilarious Objects", "", 1 ) );
+					KoLCharacter.addAvailableSkill( new UseSkillRequest( "Summon Hilarious Objects", "", 1 ) );
 
 				return;
 
@@ -865,9 +817,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public String getCommandForm()
 	{
-		if ( isResultPage )
-			return "";
-
 		StringBuffer commandString = new StringBuffer();
 
 		switch ( getConsumptionType() )

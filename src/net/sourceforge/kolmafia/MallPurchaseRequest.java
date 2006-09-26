@@ -63,9 +63,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 * things from NPC stores.
 	 */
 
-	public MallPurchaseRequest( KoLmafia client, String storeName, String storeID, int itemID, int price )
+	public MallPurchaseRequest( String storeName, String storeID, int itemID, int price )
 	{
-		super( client, storeID.indexOf( "." ) == -1 ? "store.php" : storeID );
+		super( storeID.indexOf( "." ) == -1 ? "store.php" : storeID );
 
 		if ( storeID.indexOf( "." ) == -1 )
 		{
@@ -106,7 +106,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 * quantity of items being purchases; all others are consistent through
 	 * the time when the purchase is actually executed.
 	 *
-	 * @param	client	The client to which this request reports errors
+	 * @param	client	Theto which this request reports errors
 	 * @param	itemName	The name of the item to be purchased
 	 * @param	itemID	The database ID for the item to be purchased
 	 * @param	quantity	The quantity of items to be purchased
@@ -115,9 +115,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 * @param	price	The price at which the item will be purchased
 	 */
 
-	public MallPurchaseRequest( KoLmafia client, String itemName, int itemID, int quantity, int shopID, String shopName, int price, int limit, boolean canPurchase )
+	public MallPurchaseRequest( String itemName, int itemID, int quantity, int shopID, String shopName, int price, int limit, boolean canPurchase )
 	{
-		super( client, "mallstore.php" );
+		super( "mallstore.php" );
 
 		this.itemID = itemID;
 
@@ -372,7 +372,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		if ( checkpointing )
 			SpecialOutfit.createCheckpoint( true );
 
-		(new EquipmentRequest( client, EquipmentDatabase.getOutfit( neededOutfit ) )).run();
+		(new EquipmentRequest( EquipmentDatabase.getOutfit( neededOutfit ) )).run();
 
 		MoodSettings.hasChangedOutfit = true;
 		return checkpointing;
@@ -423,7 +423,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 				if ( price >= newPrice )
 				{
 					KoLmafia.updateDisplay( "Failed to yield.  Attempting repurchase..." );
-					(new MallPurchaseRequest( client, itemName, itemID, Math.min( limit, quantity ), shopID, shopName, newPrice, Math.min( limit, quantity ), true )).run();
+					(new MallPurchaseRequest( itemName, itemID, Math.min( limit, quantity ), shopID, shopName, newPrice, Math.min( limit, quantity ), true )).run();
 				}
 				else
 				{
@@ -459,21 +459,21 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			int alreadyPurchased = StaticEntity.parseInt( quantityMatcher.group(2) );
 
 			if ( limit != alreadyPurchased )
-				(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price, limit, true )).run();
+				(new MallPurchaseRequest( itemName, itemID, limit - alreadyPurchased, shopID, shopName, price, limit, true )).run();
 
 			canPurchase = false;
 			return;
 		}
 
 		// Otherwise, you managed to purchase something!  Here,
-		// you report to the client whatever you gained.
+		// you report to thewhatever you gained.
 
 		int quantityAcquired = responseText.indexOf( "You acquire an item: <b>" ) != -1 ? 1 : 0;
 		for ( int i = limit; i > 0 && quantityAcquired == 0; --i )
 			if ( responseText.indexOf( "acquire <b>" + COMMA_FORMAT.format( i ) ) != -1 )
 				quantityAcquired = i;
 
-		client.processResult( new AdventureResult( AdventureResult.MEAT, -1 * price * quantityAcquired ) );
+		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -1 * price * quantityAcquired ) );
 
 		KoLCharacter.updateStatus();
 		RequestFrame.refreshStatus();

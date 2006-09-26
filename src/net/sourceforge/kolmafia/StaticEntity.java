@@ -215,14 +215,14 @@ public abstract class StaticEntity implements KoLConstants
 		if ( location.indexOf( "action=unpath" ) != -1 && location.indexOf( "confirm=on" ) != -1 )
 			KoLCharacter.setConsumptionRestriction( AscensionSnapshotTable.NOPATH );
 
-		// Keep the client updated of your current equipment and
+		// Keep theupdated of your current equipment and
 		// familiars, if you visit the appropriate pages.
 
 		if ( location.startsWith( "inventory.php" ) && location.indexOf( "which=2" ) != -1 )
 			EquipmentRequest.parseEquipment( responseText );
 
 		if ( location.indexOf( "familiar.php" ) != -1 )
-			FamiliarData.registerFamiliarData( client, responseText );
+			FamiliarData.registerFamiliarData( responseText );
 
 		if ( location.indexOf( "charsheet.php" ) != -1 )
 			CharsheetRequest.parseStatus( responseText );
@@ -250,14 +250,14 @@ public abstract class StaticEntity implements KoLConstants
 		Matcher learnedMatcher = NEWSKILL_PATTERN.matcher( responseText );
 		if ( learnedMatcher.find() )
 		{
-			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1), "", 1 ) );
+			KoLCharacter.addAvailableSkill( new UseSkillRequest( learnedMatcher.group(1), "", 1 ) );
 			KoLCharacter.addDerivedSkills();
 			KoLCharacter.refreshCalculatedLists();
 		}
 
 		learnedMatcher = AdventureRequest.STEEL_PATTERN.matcher( responseText );
 		if ( learnedMatcher.find() )
-			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1) + " of Steel", "", 1 ) );
+			KoLCharacter.addAvailableSkill( new UseSkillRequest( learnedMatcher.group(1) + " of Steel", "", 1 ) );
 
 		// Unfortunately, if you learn a new skill from Frank
 		// the Regnaissance Gnome at the Gnomish Gnomads
@@ -265,7 +265,7 @@ public abstract class StaticEntity implements KoLConstants
 		// It simply says: "You leargn a new skill. Whee!"
 
 		if ( responseText.indexOf( "You leargn a new skill." ) != -1 )
-			(new CharsheetRequest( client )).run();
+			(new CharsheetRequest()).run();
 	}
 
 	public static final boolean executeCountdown( String message, int seconds )

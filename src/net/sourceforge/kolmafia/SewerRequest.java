@@ -54,13 +54,13 @@ public class SewerRequest extends KoLRequest
 	 * whether or not the character is currently lucky, and whether
 	 * or not the desired location is the lucky sewer adventure.
 	 *
-	 * @param	client	The client associated with this <code>KoLRequest</code>
+	 * @param	client	Theassociated with this <code>KoLRequest</code>
 	 * @param	isLuckySewer	Whether or not the user intends to go the lucky sewer
 	 */
 
-	public SewerRequest( KoLmafia client, boolean isLuckySewer )
+	public SewerRequest( boolean isLuckySewer )
 	{
-		super( client, "sewer.php" );
+		super( "sewer.php" );
 		this.isLuckySewer = isLuckySewer;
 	}
 
@@ -92,7 +92,7 @@ public class SewerRequest extends KoLRequest
 		if ( !KoLmafia.permitsContinue() )
 			return;
 
-		if ( !(client.getCurrentRequest() instanceof SewerRequest) )
+		if ( !(StaticEntity.getClient().getCurrentRequest() instanceof SewerRequest) )
 		{
 			// First time here.
 
@@ -144,7 +144,7 @@ public class SewerRequest extends KoLRequest
 
 	private void runUnluckySewer()
 	{
-		if ( client.isLuckyCharacter() )
+		if ( StaticEntity.getClient().isLuckyCharacter() )
 			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 
 		super.run();
@@ -163,8 +163,8 @@ public class SewerRequest extends KoLRequest
 	{
 		if ( hasCost )
 		{
-			if ( client.isLuckyCharacter() )
-				client.processResult( CLOVER );
+			if ( StaticEntity.getClient().isLuckyCharacter() )
+				StaticEntity.getClient().processResult( CLOVER );
 		}
 	}
 

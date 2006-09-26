@@ -213,7 +213,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			outputStream.println();
-			(new LoginRequest( StaticEntity.getClient(), username, password )).run();
+			(new LoginRequest( username, password )).run();
 		}
 		catch ( IOException e )
 		{
@@ -226,7 +226,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
-	 * the login has been confirmed to notify the StaticEntity.getClient() that the
+	 * the login has been confirmed to notify thethat the
 	 * login was successful, the user-specific settings should be
 	 * loaded, and the user can begin adventuring.
 	 */
@@ -501,7 +501,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( KoLRequest.shouldIgnore( url ) )
 				return;
 
-			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), previousLine, true );
+			KoLRequest desired = new KoLRequest( previousLine, true );
 			StaticEntity.getClient().makeRequest( desired );
 			StaticEntity.externalUpdate( desired.getURLString(), desired.responseText );
 			return;
@@ -515,7 +515,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.indexOf( "send" ) != -1 || parameters.indexOf( "chat" ) != -1 )
 				return;
 
-			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), previousLine, true );
+			KoLRequest desired = new KoLRequest( previousLine, true );
 			StaticEntity.getClient().makeRequest( desired );
 			StaticEntity.externalUpdate( desired.getURLString(), desired.responseText );
 
@@ -692,11 +692,11 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			forceContinue();
 
-			(new LogoutRequest( StaticEntity.getClient() )).run();
+			(new LogoutRequest()).run();
 			String password = StaticEntity.getClient().getSaveState( parameters );
 
 			if ( password != null )
-				(new LoginRequest( StaticEntity.getClient(), parameters, password )).run();
+				(new LoginRequest( parameters, password )).run();
 
 			else
 				updateDisplay( ERROR_STATE, "No password saved for that username." );
@@ -851,7 +851,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( result == null )
 				return;
 
-			KoLRequest request = new KoLRequest( StaticEntity.getClient(),
+			KoLRequest request = new KoLRequest(
 				"desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( result.getItemID() ) );
 
 			request.run();
@@ -892,13 +892,13 @@ public class KoLmafiaCLI extends KoLmafia
 			else if ( parameters.equals( "status" ) || parameters.equals( "effects" ) )
 				CharpaneRequest.getInstance().run();
 			else if ( parameters.equals( "gear" ) || parameters.equals( "equipment" ) || parameters.equals( "outfit" ) )
-				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.EQUIPMENT )).run();
+				(new EquipmentRequest( EquipmentRequest.EQUIPMENT )).run();
 			else if ( parameters.startsWith( "inv" ) )
-				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET )).run();
+				(new EquipmentRequest( EquipmentRequest.CLOSET )).run();
 			else if ( parameters.equals( "storage" ) )
-				(new ItemStorageRequest( StaticEntity.getClient() )).run();
+				(new ItemStorageRequest()).run();
 			else if ( parameters.equals( "familiar" ) || parameters.equals( "terrarium" ) )
-				(new FamiliarRequest( StaticEntity.getClient() )).run();
+				(new FamiliarRequest()).run();
 
 			executePrintCommand( parameters );
 			return;
@@ -984,7 +984,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "council" ) )
 		{
-			KoLRequest request = new KoLRequest( StaticEntity.getClient(), "council.php", true );
+			KoLRequest request = new KoLRequest( "council.php", true );
 			request.run();
 
 			showHTML( request.responseText.replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" ), "Available Quests" );
@@ -1095,7 +1095,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// One command available after login is a request
 		// to print the current state of the client.  This
 		// should be handled in a separate method, since
-		// there are many things the client may want to print
+		// there are many things themay want to print
 
 		if ( command.equals( "print" ) || command.equals( "list" ) || command.equals( "show" ) )
 		{
@@ -1226,7 +1226,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "spiceloop" ) )
 		{
 			executeLine( "acquire worthless item" );
-			(new HermitRequest( StaticEntity.getClient() )).run();
+			(new HermitRequest()).run();
 
 			if ( !HermitRequest.isCloverDay() )
 			{
@@ -1300,7 +1300,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( KoLCharacter.getFamiliar() == null || KoLCharacter.getFamiliar().equals( FamiliarData.NO_FAMILIAR ) )
 					return;
 
-				StaticEntity.getClient().makeRequest( new FamiliarRequest( StaticEntity.getClient(), FamiliarData.NO_FAMILIAR ) );
+				StaticEntity.getClient().makeRequest( new FamiliarRequest( FamiliarData.NO_FAMILIAR ) );
 				return;
 			}
 			else if ( parameters.indexOf( "(no change)" ) != -1 )
@@ -1317,7 +1317,7 @@ public class KoLmafiaCLI extends KoLmafia
 					if ( KoLCharacter.getFamiliar() != null && KoLCharacter.getFamiliar().equals( newFamiliar ) )
 						return;
 
-					StaticEntity.getClient().makeRequest( new FamiliarRequest( StaticEntity.getClient(), newFamiliar ) );
+					StaticEntity.getClient().makeRequest( new FamiliarRequest( newFamiliar ) );
 					return;
 				}
 			}
@@ -1572,7 +1572,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			int spaceIndex = parameters.indexOf( " " );
 
-			KoLAdventure adventure = new KoLAdventure( StaticEntity.getClient(), "Holiday", "0", "0",
+			KoLAdventure adventure = new KoLAdventure( "Holiday", "0", "0",
 				"adventure.php", parameters.substring( 0, spaceIndex ), parameters.substring( spaceIndex ).trim() );
 
 			AdventureDatabase.addAdventure( adventure );
@@ -1630,7 +1630,7 @@ public class KoLmafiaCLI extends KoLmafia
 		for ( int i = 0; i < attachments.length; ++i )
 			hasMeatAttachment |= ((AdventureResult)attachments[i]).getName().equals( AdventureResult.MEAT );
 
-		(new GreenMessageRequest( StaticEntity.getClient(), splitParameters[1],
+		(new GreenMessageRequest( splitParameters[1],
 			hasMeatAttachment ? "Buff please!" : "For your collection.", attachments, 0, false )).run();
 
 		if ( permitsContinue() )
@@ -1646,7 +1646,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( !refusesContinue() )
 				forceContinue();
 
-			(new GiftMessageRequest( StaticEntity.getClient(), splitParameters[1], "You were in Ronin, so I'm sending you a package!",
+			(new GiftMessageRequest( splitParameters[1], "You were in Ronin, so I'm sending you a package!",
 				"For your collection.", availablePackages.get( desiredPackageIndex ), attachments, 0 )).run();
 
 			if ( permitsContinue() )
@@ -1926,7 +1926,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( parameters.startsWith( "bounty hunter wants " ) )
 		{
 			if ( hunterItems.isEmpty() )
-				(new BountyHunterRequest( StaticEntity.getClient() )).run();
+				(new BountyHunterRequest()).run();
 
 			String item = parameters.substring(20).trim().toLowerCase();
 			for ( int i = 0; i < hunterItems.size(); ++i )
@@ -2354,7 +2354,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executeCampgroundRequest( String parameters )
 	{
 		String [] parameterList = parameters.split( " " );
-		StaticEntity.getClient().makeRequest( new CampgroundRequest( StaticEntity.getClient(), parameterList[0] ),
+		StaticEntity.getClient().makeRequest( new CampgroundRequest( parameterList[0] ),
 			parameterList.length == 1 ? 1 : StaticEntity.parseInt( parameterList[1] ) );
 	}
 
@@ -2395,7 +2395,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( buffCount > 0 )
-			StaticEntity.getClient().makeRequest( new UseSkillRequest( StaticEntity.getClient(), skillName, splitParameters[1], buffCount ) );
+			StaticEntity.getClient().makeRequest( new UseSkillRequest( skillName, splitParameters[1], buffCount ) );
 	}
 
 	private String [] splitCountAndName( String parameters )
@@ -2510,7 +2510,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		amount = StaticEntity.parseInt( parameterList[1] );
 		updateDisplay( "Donating " + amount + " to the shrine..." );
-		StaticEntity.getClient().makeRequest( new HeroDonationRequest( StaticEntity.getClient(), heroID, amount ) );
+		StaticEntity.getClient().makeRequest( new HeroDonationRequest( heroID, amount ) );
 	}
 
 	/**
@@ -2619,7 +2619,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		StaticEntity.getClient().makeRequest(
-			new EquipmentRequest( StaticEntity.getClient(), match, slot ) );
+			new EquipmentRequest( match, slot ) );
 	}
 
 	/**
@@ -2634,7 +2634,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( slot != -1 )
 		{
-			StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, slot ) );
+			StaticEntity.getClient().makeRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, slot ) );
 			return;
 		}
 
@@ -2646,7 +2646,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( KoLCharacter.getFakeHands() == 0 )
 				updateDisplay( ERROR_STATE, "You're not wearing any fake hands" );
 			else
-				StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, KoLCharacter.FAKEHAND ) );
+				StaticEntity.getClient().makeRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.FAKEHAND ) );
 
 			return;
 		}
@@ -2658,7 +2658,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			AdventureResult item = KoLCharacter.getEquipment( i );
 			if ( item != null && item.getName().toLowerCase().indexOf( parameters ) != -1 )
-				StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, i ) );
+				StaticEntity.getClient().makeRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
 		}
 	}
 
@@ -3005,7 +3005,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( isCreationMatch )
 		{
-			ItemCreationRequest request = ItemCreationRequest.getInstance( StaticEntity.getClient(), firstMatch );
+			ItemCreationRequest request = ItemCreationRequest.getInstance( firstMatch );
 			matchCount = request == null ? 0 : request.getCount( ConcoctionsDatabase.getConcoctions() );
 		}
 		else
@@ -3055,7 +3055,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( items.length == 0 )
 			return;
 
-		StaticEntity.getClient().makeRequest( new ClanStashRequest( StaticEntity.getClient(), items, isWithdraw ?
+		StaticEntity.getClient().makeRequest( new ClanStashRequest( items, isWithdraw ?
 			ClanStashRequest.STASH_TO_ITEMS : ClanStashRequest.ITEMS_TO_STASH ) );
 	}
 
@@ -3069,7 +3069,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		if ( previousLine.indexOf( " " ) == -1 )
 		{
-			StaticEntity.getClient().makeRequest( new UntinkerRequest( StaticEntity.getClient() ) );
+			StaticEntity.getClient().makeRequest( new UntinkerRequest() );
 			return;
 		}
 
@@ -3078,7 +3078,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( firstMatch == null )
 			return;
 
-		StaticEntity.getClient().makeRequest( new UntinkerRequest( StaticEntity.getClient(), firstMatch.getItemID() ) );
+		StaticEntity.getClient().makeRequest( new UntinkerRequest( firstMatch.getItemID() ) );
 	}
 
 	/**
@@ -3094,7 +3094,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 
 		int setting = StaticEntity.parseInt( previousLine.split( " " )[1] );
-		StaticEntity.getClient().makeRequest( new MindControlRequest( StaticEntity.getClient(), setting ) );
+		StaticEntity.getClient().makeRequest( new MindControlRequest( setting ) );
 	}
 
 	/**
@@ -3240,7 +3240,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( ((AdventureResult)items[i]).getName().equals( AdventureResult.MEAT ) )
 			{
-				StaticEntity.getClient().makeRequest( new ItemStorageRequest( StaticEntity.getClient(),
+				StaticEntity.getClient().makeRequest( new ItemStorageRequest(
 					((AdventureResult)items[i]).getCount(), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) );
 
 				items[i] = null;
@@ -3251,7 +3251,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( meatAttachmentCount == items.length )
 			return;
 
-		StaticEntity.getClient().makeRequest( new ItemStorageRequest( StaticEntity.getClient(),
+		StaticEntity.getClient().makeRequest( new ItemStorageRequest(
 			ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
 	}
 
@@ -3278,7 +3278,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( ((AdventureResult)items[i]).getName().equals( AdventureResult.MEAT ) )
 			{
-				StaticEntity.getClient().makeRequest( new ItemStorageRequest( StaticEntity.getClient(), ((AdventureResult)items[i]).getCount(),
+				StaticEntity.getClient().makeRequest( new ItemStorageRequest( ((AdventureResult)items[i]).getCount(),
 					parameters.startsWith( "take" ) ? ItemStorageRequest.MEAT_TO_INVENTORY : ItemStorageRequest.MEAT_TO_CLOSET ) );
 
 				items[i] = null;
@@ -3289,7 +3289,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( meatAttachmentCount == items.length )
 			return;
 
-		StaticEntity.getClient().makeRequest( new ItemStorageRequest( StaticEntity.getClient(),
+		StaticEntity.getClient().makeRequest( new ItemStorageRequest(
 			parameters.startsWith( "take" ) ? ItemStorageRequest.CLOSET_TO_INVENTORY : ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
 	}
 
@@ -3314,7 +3314,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( firstMatch == null )
 			return;
 
-		StaticEntity.getClient().makeRequest( new AutoSellRequest( StaticEntity.getClient(), firstMatch,
+		StaticEntity.getClient().makeRequest( new AutoSellRequest( firstMatch,
 			StaticEntity.parseInt( tokens[ tokens.length - 2 ] ), StaticEntity.parseInt( tokens[ tokens.length - 1 ] ) ) );
 	}
 
@@ -3329,7 +3329,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( items.length == 0 )
 			return;
 
-		StaticEntity.getClient().makeRequest( new AutoSellRequest( StaticEntity.getClient(), items, AutoSellRequest.AUTOSELL ) );
+		StaticEntity.getClient().makeRequest( new AutoSellRequest( items, AutoSellRequest.AUTOSELL ) );
 	}
 
 	/**
@@ -3385,7 +3385,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( firstMatch == null )
 			return;
 
-		ItemCreationRequest irequest = ItemCreationRequest.getInstance( StaticEntity.getClient(), firstMatch );
+		ItemCreationRequest irequest = ItemCreationRequest.getInstance( firstMatch );
 		if ( irequest == null )
 		{
 			boolean needServant = !StaticEntity.getBooleanProperty( "createWithoutBoxServants" );
@@ -3480,8 +3480,8 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		ConsumeItemRequest request = !previousLine.startsWith( "hobodrink" ) ? new ConsumeItemRequest( StaticEntity.getClient(), firstMatch ) :
-			new ConsumeItemRequest( StaticEntity.getClient(), ConsumeItemRequest.CONSUME_HOBO, firstMatch );
+		ConsumeItemRequest request = !previousLine.startsWith( "hobodrink" ) ? new ConsumeItemRequest( firstMatch ) :
+			new ConsumeItemRequest( ConsumeItemRequest.CONSUME_HOBO, firstMatch );
 
 		StaticEntity.getClient().makeRequest( request );
 	}
@@ -3498,7 +3498,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 
 		StaticEntity.getClient().makeRequest(
-			new MuseumRequest( StaticEntity.getClient(), items, !parameters.startsWith( "take" ) ) );
+			new MuseumRequest( items, !parameters.startsWith( "take" ) ) );
 	}
 
 	/**
@@ -3557,7 +3557,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		(new EquipmentRequest( StaticEntity.getClient(), intendedOutfit )).run();
+		(new EquipmentRequest( intendedOutfit )).run();
 	}
 
 	public static SpecialOutfit getMatchingOutfit( String name )
@@ -3625,7 +3625,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		for ( int i = 0; i < effects.length; ++i )
 			if ( effects[i].getName().toLowerCase().indexOf( effectToUneffect ) != -1 )
-				StaticEntity.getClient().makeRequest( new UneffectRequest( StaticEntity.getClient(), effects[i] ) );
+				StaticEntity.getClient().makeRequest( new UneffectRequest( effects[i] ) );
 	}
 
 	/**
@@ -3660,7 +3660,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( item == null )
 			return;
 
-		(new ZapRequest( StaticEntity.getClient(), wand, item )).run();
+		(new ZapRequest( wand, item )).run();
 	}
 
 	/**
@@ -3680,7 +3680,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		(new PulverizeRequest( StaticEntity.getClient(), item )).run();
+		(new PulverizeRequest( item )).run();
 	}
 
 	/**
@@ -3742,7 +3742,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		(new HermitRequest( StaticEntity.getClient(), itemID, tradeCount )).run();
+		(new HermitRequest( itemID, tradeCount )).run();
 	}
 
 	/**
@@ -3774,7 +3774,7 @@ public class KoLmafiaCLI extends KoLmafia
 		for ( int i = 0; i < trapperItemNumbers.length; ++i )
 			if ( trapperItemNumbers[i] == itemID )
 			{
-				(new TrapperRequest( StaticEntity.getClient(), itemID, tradeCount ) ).run();
+				(new TrapperRequest( itemID, tradeCount ) ).run();
 				return;
 			}
 	}
@@ -3794,7 +3794,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 
 		if ( hunterItems.isEmpty() )
-			(new BountyHunterRequest( StaticEntity.getClient() )).run();
+			(new BountyHunterRequest()).run();
 
 		if ( previousLine.indexOf( " " ) == -1 )
 		{
@@ -3805,7 +3805,7 @@ public class KoLmafiaCLI extends KoLmafia
 		String item = previousLine.substring( previousLine.indexOf( " " ) ).trim();
 		for ( int i = 0; i < hunterItems.size(); ++i )
 			if ( ((String)hunterItems.get(i)).indexOf( item ) != -1 )
-				(new BountyHunterRequest( StaticEntity.getClient(), TradeableItemDatabase.getItemID( (String) hunterItems.get(i) ) )).run();
+				(new BountyHunterRequest( TradeableItemDatabase.getItemID( (String) hunterItems.get(i) ) )).run();
 	}
 
 	/**
@@ -3816,7 +3816,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public boolean makeRestaurantRequest( String parameters )
 	{
 		if ( restaurantItems.isEmpty() && KoLCharacter.inMysticalitySign() )
-			(new RestaurantRequest( StaticEntity.getClient() )).run();
+			(new RestaurantRequest()).run();
 
 		if ( parameters.equals( "" ) )
 		{
@@ -3837,7 +3837,7 @@ public class KoLmafiaCLI extends KoLmafia
 					StaticEntity.parseInt( countString );
 
 				for ( int j = 0; j < count; ++j )
-					(new RestaurantRequest( StaticEntity.getClient(), name )).run();
+					(new RestaurantRequest( name )).run();
 				return true;
 			}
 		}
@@ -3860,7 +3860,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( previousLine.indexOf( " " ) == -1 )
 		{
-			List cures = GalaktikRequest.retrieveCures( StaticEntity.getClient() );
+			List cures = GalaktikRequest.retrieveCures();
 			printList( cures );
 			return;
 		}
@@ -3880,7 +3880,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		(new GalaktikRequest( StaticEntity.getClient(), type )).run();
+		(new GalaktikRequest( type )).run();
 	}
 
 	/**
@@ -3891,7 +3891,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public boolean makeMicrobreweryRequest( String parameters )
 	{
 		if ( microbreweryItems.isEmpty() && KoLCharacter.inMoxieSign() )
-			(new MicrobreweryRequest( StaticEntity.getClient() )).run();
+			(new MicrobreweryRequest()).run();
 
 		if ( parameters.equals( "" ) )
 		{
@@ -3912,7 +3912,7 @@ public class KoLmafiaCLI extends KoLmafia
 					StaticEntity.parseInt( countString );
 
 				for ( int j = 0; j < count; ++j )
-					(new MicrobreweryRequest( StaticEntity.getClient(), name )).run();
+					(new MicrobreweryRequest( name )).run();
 				return true;
 			}
 		}

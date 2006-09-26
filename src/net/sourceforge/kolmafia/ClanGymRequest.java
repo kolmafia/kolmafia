@@ -51,18 +51,18 @@ public class ClanGymRequest extends KoLRequest
 	/**
 	 * Constructs a new <code>ClanGymRequest</code>.
 	 *
-	 * @param	client	The client to be notified in the event of error
+	 * @param	client	Theto be notified in the event of error
 	 * @param	equipmentID	The identifier for the equipment you're using
 	 * @param	turnCount	The number of turns you're spending on the equipment
 	 */
 
-	public ClanGymRequest( KoLmafia client, int equipmentID )
+	public ClanGymRequest( int equipmentID )
 	{
-		super( client, "clan_gym.php" );
+		super( "clan_gym.php" );
 		this.equipmentID = equipmentID;
 	}
 
-	private static String chooseGym( KoLmafia client, int equipmentID )
+	private static String chooseGym( int equipmentID )
 	{
 		switch ( equipmentID )
 		{
@@ -95,7 +95,7 @@ public class ClanGymRequest extends KoLRequest
 		return "clan_gym.php";
 	}
 
-	private static String chooseAction( KoLmafia client, int equipmentID )
+	private static String chooseAction( int equipmentID )
 	{
 		switch ( equipmentID )
 		{
@@ -126,8 +126,8 @@ public class ClanGymRequest extends KoLRequest
 
 	public void run()
 	{
-		constructURLString( chooseGym( client, equipmentID ) );
-		addFormField( "action", chooseAction( client, equipmentID ) );
+		constructURLString( chooseGym( equipmentID ) );
+		addFormField( "action", chooseAction( equipmentID ) );
 		addFormField( "numturns", String.valueOf( turnCount ) );
 
 		if ( KoLCharacter.getAdventuresLeft() < turnCount )

@@ -503,13 +503,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 							AdventureResult item = new AdventureResult( itemName, 1, false );
 							if ( KoLCharacter.hasItem( item, false ) )
 							{
-								(new FamiliarRequest( StaticEntity.getClient(), familiars[i] )).run();
-								(new EquipmentRequest( StaticEntity.getClient(), item, KoLCharacter.FAMILIAR )).run();
+								(new FamiliarRequest( familiars[i] )).run();
+								(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
 							}
 						}
 					}
 
-					(new FamiliarRequest( StaticEntity.getClient(), current )).run();
+					(new FamiliarRequest( current )).run();
 				}
 			}
 
@@ -517,7 +517,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			private class DebugListener implements ActionListener
 			{
 				public void actionPerformed( ActionEvent e )
-				{	debug( StaticEntity.getClient() );
+				{	debug();
 				}
 			}
 			*/
@@ -583,7 +583,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			public void run()
 			{
 				FamiliarData selection = (FamiliarData)getSelectedItem();
-				(new FamiliarRequest( StaticEntity.getClient(), selection )).run();
+				(new FamiliarRequest( selection )).run();
 				KoLmafia.updateDisplay( "Familiar changed." );
 				familiar = KoLCharacter.getFamiliar();
 				isChanging = false;
@@ -1192,7 +1192,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		printMatch( status, opponent, tool, match );
 
 		// Run the match
-		KoLRequest request = new CakeArenaRequest( StaticEntity.getClient(), opponent.getID(), match );
+		KoLRequest request = new CakeArenaRequest( opponent.getID(), match );
 		request.run();
 
 		// Pass the response text to the FamiliarStatus to
@@ -1347,7 +1347,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				       AdventureResult acc3,
 				       LockableListModel inventory )
 		{
-			// Save StaticEntity.getClient() for later use
+			// Savefor later use
 			this.StaticEntity.getClient() = StaticEntity.getClient();
 
 			// Find out which familiar we are working with
@@ -1786,7 +1786,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( current != null )
 			{
 				results.append( "Taking off " + current.getName() + "<br>" );
-				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, slot)).run();
+				(new EquipmentRequest( EquipmentRequest.UNEQUIP, slot)).run();
 				setItem( slot, null );
 			}
 
@@ -1794,7 +1794,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next == leadNecklace && leadNecklaceOwner != null && leadNecklaceOwner != familiar )
 			{
 				results.append( "Stealing lead necklace from " + leadNecklaceOwner.getName() + " the " + leadNecklaceOwner.getRace() + "<br>" );
-				(new EquipmentRequest( StaticEntity.getClient(), LEAD_NECKLACE, KoLCharacter.FAMILIAR )).run();
+				(new EquipmentRequest( LEAD_NECKLACE, KoLCharacter.FAMILIAR )).run();
 				leadNecklaceOwner = familiar;
 			}
 
@@ -1802,7 +1802,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next == ratHeadBalloon && ratHeadBalloonOwner != null && ratHeadBalloonOwner != familiar )
 			{
 				results.append( "Stealing rat head balloon from " + ratHeadBalloonOwner.getName() + " the " + ratHeadBalloonOwner.getRace() + "<br>" );
-				(new EquipmentRequest( StaticEntity.getClient(), RAT_HEAD_BALLOON, KoLCharacter.FAMILIAR )).run();
+				(new EquipmentRequest( RAT_HEAD_BALLOON, KoLCharacter.FAMILIAR )).run();
 				ratHeadBalloonOwner = familiar;
 			}
 
@@ -1810,7 +1810,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next != null )
 			{
 				results.append( "Putting on " + next.getName() + "...<br>" );
-				(new EquipmentRequest( StaticEntity.getClient(), next, slot)).run();
+				(new EquipmentRequest( next, slot)).run();
 				setItem( slot, next );
 			}
 		}
@@ -2341,7 +2341,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	private static FamiliarData debugFamiliar = new FamiliarData( 19, "Creepy", 2, "skewer-mounted razor blade" );
 
-	private static void debug( KoLmafia StaticEntity.getClient() )
+	private static void debug( KoLmafia)
 	{
 		inventory.add( new AdventureResult( "lead necklace", 1 ) );
 		inventory.add( new AdventureResult( "tiny plastic angry goat", 1 ) );

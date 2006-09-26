@@ -114,9 +114,9 @@ public class EquipmentRequest extends PasswordHashRequest
 	private SpecialOutfit outfit;
 	private String error;
 
-	public EquipmentRequest( KoLmafia client, int requestType )
+	public EquipmentRequest( int requestType )
 	{
-		super( client, requestType == CLOSET ? "closet.php" :
+		super( requestType == CLOSET ? "closet.php" :
 			requestType == UNEQUIP_ALL ? "inv_equip.php" : "inventory.php" );
 
 		this.requestType = requestType;
@@ -140,9 +140,9 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
-	public EquipmentRequest( KoLmafia client, String changeName )
+	public EquipmentRequest( String changeName )
 	{
-		super( client, "inv_equip.php" );
+		super( "inv_equip.php" );
 
 		if ( TradeableItemDatabase.contains( changeName ) )
 		{
@@ -158,13 +158,13 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
-	public EquipmentRequest( KoLmafia client, AdventureResult change, int equipmentSlot )
-	{	this( client, change, equipmentSlot, false );
+	public EquipmentRequest( AdventureResult change, int equipmentSlot )
+	{	this( change, equipmentSlot, false );
 	}
 
-	public EquipmentRequest( KoLmafia client, AdventureResult change, int equipmentSlot, boolean force )
+	public EquipmentRequest( AdventureResult change, int equipmentSlot, boolean force )
 	{
-		super( client, "inv_equip.php" );
+		super( "inv_equip.php" );
 		initializeChangeData( change, equipmentSlot, force );
 	}
 
@@ -206,9 +206,9 @@ public class EquipmentRequest extends PasswordHashRequest
 		addFormField( "pwd" );
 	}
 
-	public EquipmentRequest( KoLmafia client, SpecialOutfit change )
+	public EquipmentRequest( SpecialOutfit change )
 	{
-		super( client, "inv_equip.php" );
+		super( "inv_equip.php" );
 
 		addFormField( "action", "outfit" );
 		addFormField( "which", "2" );
@@ -362,10 +362,10 @@ public class EquipmentRequest extends PasswordHashRequest
 			// If this is a birthday suit outfit, then remove everything.
 			if ( outfit == SpecialOutfit.BIRTHDAY_SUIT )
 			{
-				(new EquipmentRequest( client, UNEQUIP_ALL )).run();
+				(new EquipmentRequest( UNEQUIP_ALL )).run();
 
 				if ( !KoLCharacter.getEquipment( KoLCharacter.FAMILIAR ).equals( UNEQUIP ) )
-					(new EquipmentRequest( client, UNEQUIP, KoLCharacter.FAMILIAR )).run();
+					(new EquipmentRequest( UNEQUIP, KoLCharacter.FAMILIAR )).run();
 
 				return;
 			}
@@ -415,11 +415,11 @@ public class EquipmentRequest extends PasswordHashRequest
 						if ( familiars[i].getItem() != null && familiars[i].getItem().indexOf( changeItemName ) != -1 )
 						{
 							KoLmafia.updateDisplay( "Stealing " + result.getName() + " from " + familiars[i].getRace() + "..." );
-							KoLRequest unequip = new KoLRequest( client, "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getID(), true );
+							KoLRequest unequip = new KoLRequest( "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getID(), true );
 							unequip.run();
 
 							familiars[i].setItem( UNEQUIP.toString() );
-							client.processResult( result, false );
+							StaticEntity.getClient().processResult( result, false );
 
 							break;
 						}
@@ -435,7 +435,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			// remove the old one in the slot.
 
 			if ( equipmentSlot == KoLCharacter.FAMILIAR && !KoLCharacter.getEquipment( equipmentSlot ).equals( UNEQUIP ) )
-				(new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
+				(new EquipmentRequest( UNEQUIP, equipmentSlot )).run();
 		}
 
 		switch ( requestType )
@@ -509,7 +509,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( hasMeatPaste )
 			{
 				AdventureDatabase.retrieveItem( PASTE );
-				KoLRequest combines = new KoLRequest( client, KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
+				KoLRequest combines = new KoLRequest( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
 				combines.run();
 
 				Matcher selectMatcher = SELECT_PATTERN.matcher( combines.responseText );
@@ -521,11 +521,11 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 			else
 			{
-				(new EquipmentRequest( client, EquipmentRequest.CONSUMABLES )).run();
-				(new EquipmentRequest( client, EquipmentRequest.MISCELLANEOUS )).run();
+				(new EquipmentRequest( EquipmentRequest.CONSUMABLES )).run();
+				(new EquipmentRequest( EquipmentRequest.MISCELLANEOUS )).run();
 			}
 
-			(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
+			(new EquipmentRequest( EquipmentRequest.EQUIPMENT )).run();
 			return;
 		}
 

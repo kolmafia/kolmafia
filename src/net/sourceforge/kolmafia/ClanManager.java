@@ -143,7 +143,7 @@ public class ClanManager extends StaticEntity
 	private static class RankListRequest extends KoLRequest
 	{
 		public RankListRequest()
-		{	super( getClient(), "clan_members.php" );
+		{	super( "clan_members.php" );
 		}
 
 		public void run()
@@ -170,7 +170,7 @@ public class ClanManager extends StaticEntity
 	{
 		if ( profileMap.isEmpty() )
 		{
-			ClanMembersRequest cmr = new ClanMembersRequest( getClient() );
+			ClanMembersRequest cmr = new ClanMembersRequest();
 			cmr.run();
 
 			clanID = cmr.getClanID();
@@ -290,7 +290,7 @@ public class ClanManager extends StaticEntity
 			// Otherwise, run the request and pull the data from the
 			// web server.
 
-			ProfileRequest request = new ProfileRequest( getClient(), name );
+			ProfileRequest request = new ProfileRequest( name );
 			request.initialize();
 			profileMap.put( name, request.responseText );
 
@@ -353,7 +353,7 @@ public class ClanManager extends StaticEntity
 			// Otherwise, run the request and pull the data from the
 			// web server.
 
-			AscensionDataRequest request = new AscensionDataRequest( getClient(), name, KoLmafia.getPlayerID( name ) );
+			AscensionDataRequest request = new AscensionDataRequest( name, KoLmafia.getPlayerID( name ) );
 			request.initialize();
 			ascensionMap.put( name, request.responseText );
 
@@ -666,7 +666,7 @@ public class ClanManager extends StaticEntity
 	private static class StashLogRequest extends KoLRequest
 	{
 		public StashLogRequest()
-		{	super( getClient(), "clan_log.php" );
+		{	super( "clan_log.php" );
 		}
 
 		public void run()

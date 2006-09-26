@@ -44,15 +44,15 @@ public class CakeArenaRequest extends KoLRequest
 
 	private boolean isCompetition;
 
-	public CakeArenaRequest( KoLmafia client )
+	public CakeArenaRequest()
 	{
-		super( client, "arena.php" );
+		super( "arena.php" );
 		this.isCompetition = false;
 	}
 
-	public CakeArenaRequest( KoLmafia client, int opponentID, int eventID )
+	public CakeArenaRequest( int opponentID, int eventID )
 	{
-		super( client, "arena.php" );
+		super( "arena.php" );
 		addFormField( "action", "go" );
 		addFormField( "whichopp", String.valueOf( opponentID ) );
 		addFormField( "event", String.valueOf( eventID ) );
@@ -76,7 +76,7 @@ public class CakeArenaRequest extends KoLRequest
 		     responseText.indexOf( "You're way too beaten" ) != -1 ||
 		     responseText.indexOf( "You're too drunk" ) != -1 )
 		{
-			// Notify the client of failure by telling it that
+			// Notify theof failure by telling it that
 			// the adventure did not take place and the client
 			// should not continue with the next iteration.
 			// Friendly error messages to come later.
@@ -87,7 +87,7 @@ public class CakeArenaRequest extends KoLRequest
 
 		if ( isCompetition )
 		{
-			client.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
 
 			// If the familiar won, increment win count
 

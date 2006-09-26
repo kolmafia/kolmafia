@@ -43,7 +43,7 @@ import java.io.BufferedReader;
 
 /**
  * A static class which retrieves all the tradeable items available in
- * the Kingdom of Loathing and allows the getClient() to do item look-ups.
+ * the Kingdom of Loathing and allows theto do item look-ups.
  * The item list being used is a parsed and resorted list found on
  * Ohayou's Kingdom of Loathing website.  In order to decrease server
  * load, this item list is stored within the JAR archive.
@@ -236,7 +236,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		Object [] keys = skillTypeByID.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 			if ( isType( ((Integer)keys[i]).intValue(), type ) )
-				list.add( new UseSkillRequest( getClient(), getSkillName( ((Integer)keys[i]).intValue() ), "", 1 ) );
+				list.add( new UseSkillRequest( getSkillName( ((Integer)keys[i]).intValue() ), "", 1 ) );
 
 		return list;
 	}

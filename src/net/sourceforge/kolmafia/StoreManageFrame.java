@@ -121,7 +121,7 @@ public class StoreManageFrame extends KoLPanelFrame
 				limits[i] = ((Boolean)manageTable.getValueAt( i, 4 )).booleanValue() ? 1 : 0;
 			}
 
-			(new RequestThread( new StoreManageRequest( StaticEntity.getClient(), itemID, prices, limits ) )).start();
+			(new RequestThread( new StoreManageRequest( itemID, prices, limits ) )).start();
 		}
 
 		public void actionCancelled()
@@ -227,7 +227,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			}
 
 			public void mouseReleased( MouseEvent e )
-			{	(new RequestThread( new StoreManageRequest( StaticEntity.getClient(), itemID ) )).start();
+			{	(new RequestThread( new StoreManageRequest( itemID ) )).start();
 			}
 		}
 	}
@@ -247,8 +247,8 @@ public class StoreManageFrame extends KoLPanelFrame
 				return;
 
 			Runnable [] requests = new Runnable[2];
-			requests[0] = new AutoSellRequest( StaticEntity.getClient(), items, AutoSellRequest.AUTOMALL );
-			requests[1] = new StoreManageRequest( StaticEntity.getClient() );
+			requests[0] = new AutoSellRequest( items, AutoSellRequest.AUTOMALL );
+			requests[1] = new StoreManageRequest();
 
 			(new RequestThread( requests )).start();
 		}
@@ -289,9 +289,9 @@ public class StoreManageFrame extends KoLPanelFrame
 			Runnable [] requests = new Runnable[ autoSellAfter ? items.length + 2 : items.length + 1 ];
 
 			for ( int i = 0; i < items.length; ++i )
-			 	requests[i] = new StoreManageRequest( StaticEntity.getClient(), ((StoreManager.SoldItem)items[i]).getItemID() );
+			 	requests[i] = new StoreManageRequest( ((StoreManager.SoldItem)items[i]).getItemID() );
 
-			requests[ items.length ] = new StoreManageRequest( StaticEntity.getClient() );
+			requests[ items.length ] = new StoreManageRequest();
 
 			if ( autoSellAfter )
 			{
@@ -299,7 +299,7 @@ public class StoreManageFrame extends KoLPanelFrame
 				for ( int i = 0; i < items.length; ++i )
 					itemsToSell[i] = new AdventureResult( ((StoreManager.SoldItem)items[i]).getItemID(), ((StoreManager.SoldItem)items[i]).getQuantity() );
 
-				requests[ items.length + 1 ] = new AutoSellRequest( StaticEntity.getClient(), itemsToSell, AutoSellRequest.AUTOSELL );
+				requests[ items.length + 1 ] = new AutoSellRequest( itemsToSell, AutoSellRequest.AUTOSELL );
 			}
 
 			(new RequestThread( requests )).start();
@@ -347,7 +347,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new StoreManageRequest( StaticEntity.getClient(), true ) )).start();
+		{	(new RequestThread( new StoreManageRequest( true ) )).start();
 		}
 
 		public void actionCancelled()

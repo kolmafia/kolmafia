@@ -44,13 +44,13 @@ public class ProposeTradeRequest extends SendMessageRequest
 	private boolean isCounterOffer;
 	private String recipient, message;
 
-	public ProposeTradeRequest( KoLmafia client )
-	{	super( client, "makeoffer.php", new Object[0], 0 );
+	public ProposeTradeRequest()
+	{	super( "makeoffer.php", new Object[0], 0 );
 	}
 
-	public ProposeTradeRequest( KoLmafia client, int offerID, String message, Object [] attachments, int meatAttachment )
+	public ProposeTradeRequest( int offerID, String message, Object [] attachments, int meatAttachment )
 	{
-		super( client, "counteroffer.php", attachments, meatAttachment );
+		super( "counteroffer.php", attachments, meatAttachment );
 		addFormField( "action", "counter" );
 		addFormField( "whichoffer", String.valueOf( offerID ) );
 		addFormField( "pwd" );
@@ -62,9 +62,9 @@ public class ProposeTradeRequest extends SendMessageRequest
 		this.recipient = KoLmafia.getPlayerID( recipient );
 	}
 
-	public ProposeTradeRequest( KoLmafia client, String recipient, String message, Object [] attachments, int meatAttachment )
+	public ProposeTradeRequest( String recipient, String message, Object [] attachments, int meatAttachment )
 	{
-		super( client, "makeoffer.php", attachments, meatAttachment );
+		super( "makeoffer.php", attachments, meatAttachment );
 		addFormField( "action", "proposeoffer" );
 		addFormField( "pwd" );
 		addFormField( "towho", recipient );

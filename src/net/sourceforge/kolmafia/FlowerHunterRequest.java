@@ -56,9 +56,9 @@ public class FlowerHunterRequest extends KoLRequest
 	private int hunterType;
 	private List searchResults = new ArrayList();
 
-	public FlowerHunterRequest( KoLmafia client, String level, String rank )
+	public FlowerHunterRequest( String level, String rank )
 	{
-		super( client, "searchplayer.php" );
+		super( "searchplayer.php" );
 		this.hunterType = PLAYER_SEARCH;
 
 		addFormField( "searching", "Yep." );
@@ -71,9 +71,9 @@ public class FlowerHunterRequest extends KoLRequest
 			addFormField( "hardcoreonly", "on" );
 	}
 
-	public FlowerHunterRequest( KoLmafia client, String opponent, int stance, String mission, String message )
+	public FlowerHunterRequest( String opponent, int stance, String mission, String message )
 	{
-		super( client, "pvp.php" );
+		super( "pvp.php" );
 		this.hunterType = ATTACK;
 
 		addFormField( "action", "Yep." );
@@ -85,9 +85,9 @@ public class FlowerHunterRequest extends KoLRequest
 		addFormField( "losemessage", message );
 	}
 
-	public FlowerHunterRequest( KoLmafia client, String clanID )
+	public FlowerHunterRequest( String clanID )
 	{
-		super( client, "showclan.php" );
+		super( "showclan.php" );
 		this.hunterType = CLAN_PROFILER;
 
 		addFormField( "whichclan", clanID );
@@ -127,7 +127,7 @@ public class FlowerHunterRequest extends KoLRequest
 		while ( playerMatcher.find() )
 		{
 			KoLmafia.registerPlayer( playerMatcher.group(2), playerMatcher.group(1) );
-			searchResults.add( new ProfileRequest( client, playerMatcher.group(2) ) );
+			searchResults.add( new ProfileRequest( playerMatcher.group(2) ) );
 		}
 	}
 

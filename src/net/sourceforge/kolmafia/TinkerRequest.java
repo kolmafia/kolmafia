@@ -38,9 +38,9 @@ public class TinkerRequest extends ItemCreationRequest
 {
 	private AdventureResult [] ingredients;
 
-	public TinkerRequest( KoLmafia client, int itemID, int quantityNeeded )
+	public TinkerRequest( int itemID, int quantityNeeded )
 	{
-		super( client, "gnomes.php", itemID, quantityNeeded );
+		super( "gnomes.php", itemID, quantityNeeded );
 
 		addFormField( "place", "tinker" );
 		addFormField( "action", "tinksomething" );

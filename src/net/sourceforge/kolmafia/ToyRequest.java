@@ -36,9 +36,9 @@ package net.sourceforge.kolmafia;
 
 public class ToyRequest extends ItemCreationRequest
 {
-	public ToyRequest( KoLmafia client, int itemID, int quantityNeeded )
+	public ToyRequest( int itemID, int quantityNeeded )
 	{
-		super( client, "crimbo_uncle.php", itemID, quantityNeeded );
+		super( "crimbo_uncle.php", itemID, quantityNeeded );
 
 		addFormField( "action", "1" );
 		addFormField( "whichitem", String.valueOf( itemID ) );

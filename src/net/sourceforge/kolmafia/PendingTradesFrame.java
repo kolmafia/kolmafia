@@ -41,7 +41,7 @@ import java.util.regex.Matcher;
 public class PendingTradesFrame extends RequestFrame
 {
 	public PendingTradesFrame()
-	{	this( new ProposeTradeRequest( StaticEntity.getClient() ) );
+	{	this( new ProposeTradeRequest() );
 	}
 
 	public PendingTradesFrame( ProposeTradeRequest ptr )

@@ -61,7 +61,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	private static final AdventureResult ASTRAL = new AdventureResult( "Half-Astral", 0 );
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1, true );
 
-	private KoLmafia client;
 	private boolean isValidAdventure = false;
 	private int baseRequirement, buffedRequirement;
 	private String zone, adventureID, formSource, adventureName;
@@ -75,15 +74,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	 * Constructs a new <code>KoLAdventure</code> with the given
 	 * specifications.
 	 *
-	 * @param	client	The client to which the results of the adventure are reported
+	 * @param	client	Theto which the results of the adventure are reported
 	 * @param	formSource	The form associated with the given adventure
 	 * @param	adventureID	The identifier for this adventure, relative to its form
 	 * @param	adventureName	The string form, or name of this adventure
 	 */
 
-	public KoLAdventure( KoLmafia client, String zone, String baseRequirement, String buffedRequirement, String formSource, String adventureID, String adventureName )
+	public KoLAdventure( String zone, String baseRequirement, String buffedRequirement, String formSource, String adventureID, String adventureName )
 	{
-		this.client = client;
 		this.zone = zone;
 		this.baseRequirement = StaticEntity.parseInt( baseRequirement );
 		this.buffedRequirement = StaticEntity.parseInt( buffedRequirement );
@@ -95,31 +93,31 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			shouldRunCheck = true;
 			shouldRunFullCheck = false;
-			this.request = new SewerRequest( client, false );
+			this.request = new SewerRequest( false );
 		}
 		else if ( formSource.equals( "luckysewer.php" ) )
 		{
 			shouldRunCheck = true;
 			shouldRunFullCheck = false;
-			this.request = new SewerRequest( client, true );
+			this.request = new SewerRequest( true );
 		}
 		else if ( formSource.equals( "campground.php" ) )
 		{
 			shouldRunCheck = false;
 			shouldRunFullCheck = false;
-			this.request = new CampgroundRequest( client, adventureID );
+			this.request = new CampgroundRequest( adventureID );
 		}
 		else if ( formSource.equals( "clan_gym.php" ) )
 		{
 			shouldRunCheck = false;
 			shouldRunFullCheck = false;
-			this.request = new ClanGymRequest( client, StaticEntity.parseInt( adventureID ) );
+			this.request = new ClanGymRequest( StaticEntity.parseInt( adventureID ) );
 		}
 		else
 		{
 			shouldRunCheck = true;
 			shouldRunFullCheck = formSource.indexOf( "lair6.php" ) == -1;
-			this.request = new AdventureRequest( client, adventureName, formSource, adventureID );
+			this.request = new AdventureRequest( adventureName, formSource, adventureID );
 		}
 
 		this.areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
@@ -239,7 +237,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				if ( !KoLmafia.permitsContinue() )
 					return;
 
-				(new EquipmentRequest( client, EquipmentDatabase.getOutfit( outfitID ) )).run();
+				(new EquipmentRequest( EquipmentDatabase.getOutfit( outfitID ) )).run();
 			}
 
 			// If it's the pirate quest in disguise, make sure
@@ -285,7 +283,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				// to get the "Journey to the Center of
 				// your Mind" choice.
 				isValidAdventure = true;
-				client.makeRequest( this, 1 );
+				StaticEntity.getClient().makeRequest( this, 1 );
 				return;
 			}
 
@@ -375,7 +373,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// questlog.php?which=3
 			// "You have planted a Beanstalk in the Nearby Plains."
 
-			request = new KoLRequest( client, "plains.php" );
+			request = new KoLRequest( "plains.php" );
 			request.run();
 
 			if ( request.responseText.indexOf( "beanstalk.php" ) == -1 )
@@ -412,7 +410,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				DEFAULT_SHELL.executeLine( "use enchanted bean" );
 			}
 
-			request = new KoLRequest( client, "beanstalk.php" );
+			request = new KoLRequest( "beanstalk.php" );
 			request.run();
 
 			KoLCharacter.armBeanstalk();
@@ -487,11 +485,11 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER, false ) )
 			{
-				request = new KoLRequest( client, "town_wrong.php?place=crackpot" );
+				request = new KoLRequest( "town_wrong.php?place=crackpot" );
 				request.run();
-				request = new KoLRequest( client, "town_wrong.php?action=crackyes1" );
+				request = new KoLRequest( "town_wrong.php?action=crackyes1" );
 				request.run();
-				request = new KoLRequest( client, "town_wrong.php?action=crackyes2" );
+				request = new KoLRequest( "town_wrong.php?action=crackyes2" );
 				request.run();
 			}
 
@@ -513,7 +511,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( adventureID.equals( "10" ) || adventureID.equals( "100" ) )
 		{
-			client.unlockGuildStore( true );
+			StaticEntity.getClient().unlockGuildStore( true );
 			if ( KoLmafia.permitsContinue() )
 				validate( true );
 
@@ -533,7 +531,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 			if ( KoLmafia.permitsContinue() )
 			{
-				client.unlockGuildStore( true );
+				StaticEntity.getClient().unlockGuildStore( true );
 				isValidAdventure = KoLmafia.permitsContinue();
 				return;
 			}
@@ -563,7 +561,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// See if the trapper will give it to us
 
 			DEFAULT_SHELL.executeLine( "council" );
-			request = new KoLRequest( client, "trapper.php" );
+			request = new KoLRequest( "trapper.php" );
 			request.run();
 
 			validate( true );
@@ -661,7 +659,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		}
 
 		if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() )
-			client.runBetweenBattleChecks( shouldRunFullCheck );
+			StaticEntity.getClient().runBetweenBattleChecks( shouldRunFullCheck );
 
 		if ( !KoLmafia.permitsContinue() )
 			return;
@@ -723,7 +721,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// this is where you would do it.  Note that fights should not have
 			// scripts invoked after them unless the fight is concluded.
 
-			client.runBetweenBattleChecks( shouldRunFullCheck );
+			StaticEntity.getClient().runBetweenBattleChecks( shouldRunFullCheck );
 		}
 
 		if ( previousAdventures == KoLCharacter.getAdventuresLeft() )
@@ -750,10 +748,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		}
 
 		KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] " + getAdventureName() );
-		client.registerAdventure( this );
+		StaticEntity.getClient().registerAdventure( this );
 
 		if ( request instanceof CampgroundRequest || request instanceof SewerRequest )
-			client.registerEncounter( getAdventureName() );
+			StaticEntity.getClient().registerEncounter( getAdventureName() );
 	}
 
 	public static boolean recordToSession( String urlString )

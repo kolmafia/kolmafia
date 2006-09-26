@@ -38,9 +38,9 @@ public class MindControlRequest extends KoLRequest
 {
 	int level;
 
-	public MindControlRequest( KoLmafia client, int level )
+	public MindControlRequest( int level )
 	{
-		super( client, "canadia.php" );
+		super( "canadia.php" );
 
 		addFormField( "action", "changedial" );
 		addFormField( "whichlevel", String.valueOf( level ) );

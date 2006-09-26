@@ -46,9 +46,9 @@ public class GalaktikRequest extends KoLRequest
 	private int restoreAmount;
 	private int type;
 
-	public GalaktikRequest( KoLmafia client, int type )
+	public GalaktikRequest( int type )
 	{
-		super( client, "galaktik.php" );
+		super( "galaktik.php" );
 
 		this.type = type;
 		switch ( type )
@@ -83,7 +83,7 @@ public class GalaktikRequest extends KoLRequest
 		super.run();
 	}
 
-	public static LockableListModel retrieveCures( KoLmafia client )
+	public static LockableListModel retrieveCures()
 	{
 		LockableListModel cures = new LockableListModel();
 

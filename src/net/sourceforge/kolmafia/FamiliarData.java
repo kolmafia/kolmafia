@@ -69,7 +69,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		this.item = item;
 	}
 
-	private FamiliarData( KoLmafia client, Matcher dataMatcher )
+	private FamiliarData( Matcher dataMatcher )
 	{
 		this.id = StaticEntity.parseInt( dataMatcher.group(2) );
 		this.race = dataMatcher.group(4);
@@ -95,7 +95,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			FamiliarsDatabase.getFamiliarItem( this.id );
 	}
 
-	public static final void registerFamiliarData( KoLmafia client, String searchText )
+	public static final void registerFamiliarData( String searchText )
 	{
 		// Assume he has no familiar
 		FamiliarData firstFamiliar = null;
@@ -103,7 +103,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		Matcher familiarMatcher = REGISTER_PATTERN.matcher( searchText );
 		while ( familiarMatcher.find() )
 		{
-			FamiliarData examinedFamiliar = KoLCharacter.addFamiliar( new FamiliarData( client, familiarMatcher ) );
+			FamiliarData examinedFamiliar = KoLCharacter.addFamiliar( new FamiliarData( familiarMatcher ) );
 
 			// First in the list might be equipped
 			if ( firstFamiliar == null )

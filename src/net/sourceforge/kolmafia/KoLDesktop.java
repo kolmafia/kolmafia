@@ -289,7 +289,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		if ( toolbarPanel != null )
 		{
 			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", "CouncilFrame" ) );
-			toolbarPanel.add( new InvocationButton( "Load in Browser", "browser.gif", StaticEntity.getClient(), "loadPreferredBrowser" ) );
+			toolbarPanel.add( new InvocationButton( "Load in Browser", "browser.gif", "loadPreferredBrowser" ) );
 			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", "CommandDisplayFrame" ) );
 			toolbarPanel.add( new JToolBar.Separator() );
 

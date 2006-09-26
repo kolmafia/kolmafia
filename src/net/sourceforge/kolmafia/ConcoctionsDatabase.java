@@ -400,14 +400,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 			{
 				if ( concoctions.get(i).wasPossible() )
 				{
-					concoctionsList.remove( ItemCreationRequest.getInstance( getClient(), i, 0, false ) );
+					concoctionsList.remove( ItemCreationRequest.getInstance( i, 0, false ) );
 					concoctions.get(i).setPossible( false );
 				}
 			}
 			else
 			{
 				// We can make the concoction now
-				ItemCreationRequest currentCreation = ItemCreationRequest.getInstance( getClient(), i, concoctions.get(i).creatable );
+				ItemCreationRequest currentCreation = ItemCreationRequest.getInstance( i, concoctions.get(i).creatable );
 
 				if ( concoctions.get(i).wasPossible() )
 				{

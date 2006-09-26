@@ -40,13 +40,13 @@ public class PulverizeRequest extends KoLRequest
 
 	/**
 	 * Constructs a new <code>PulverizeRequest</code>.
-	 * @param	client	The client to be notified of completion
+	 * @param	client	Theto be notified of completion
 	 * @param	item	The item to be pulverized
 	 */
 
-	public PulverizeRequest( KoLmafia client, AdventureResult item )
+	public PulverizeRequest( AdventureResult item )
 	{
-		super( client, "smith.php" );
+		super( "smith.php" );
 		addFormField( "action", "pulverize" );
 		addFormField( "pwd" );
 		this.item = item;
@@ -110,7 +110,7 @@ public class PulverizeRequest extends KoLRequest
 		}
 
 		// Remove old item and notify the user of success.
-		client.processResult( item.getNegation() );
+		StaticEntity.getClient().processResult( item.getNegation() );
 		KoLmafia.updateDisplay( item + " smashed." );
 	}
 }

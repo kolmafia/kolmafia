@@ -45,8 +45,8 @@ public class ClanListRequest extends KoLRequest
 
 	private static SortedListModel enemyClans = new SortedListModel();
 
-	public ClanListRequest( KoLmafia client )
-	{	super( client, "clan_attack.php" );
+	public ClanListRequest()
+	{	super( "clan_attack.php" );
 	}
 
 	public static SortedListModel getEnemyClans()
@@ -58,11 +58,11 @@ public class ClanListRequest extends KoLRequest
 		Matcher clanMatcher = CLANID_PATTERN.matcher( responseText );
 
 		while ( clanMatcher.find() )
-			enemyClans.add( new ClanAttackRequest( client, clanMatcher.group(1), clanMatcher.group(2), Integer.parseInt( clanMatcher.group(3) ) ) );
+			enemyClans.add( new ClanAttackRequest( clanMatcher.group(1), clanMatcher.group(2), Integer.parseInt( clanMatcher.group(3) ) ) );
 
 		if ( enemyClans.isEmpty() )
 		{
-			KoLRequest details = new KoLRequest( client, "clan_war.php" );
+			KoLRequest details = new KoLRequest( "clan_war.php" );
 			details.run();
 
 			Matcher nextMatcher = WAIT_PATTERN.matcher( details.responseText );

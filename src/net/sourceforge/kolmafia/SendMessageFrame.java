@@ -341,7 +341,7 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	public void refreshContactList()
 	{
-		(new ContactListRequest( StaticEntity.getClient() )).run();
+		(new ContactListRequest()).run();
 		recipientEntry.setModel( (SortedListModel) contactList.clone() );
 	}
 

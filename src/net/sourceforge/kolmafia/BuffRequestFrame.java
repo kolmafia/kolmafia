@@ -87,7 +87,7 @@ public class BuffRequestFrame extends KoLFrame
 
 	private void isBotOnline( String botName )
 	{
-		KoLRequest request = new KoLRequest( StaticEntity.getClient(), "submitnewchat.php" );
+		KoLRequest request = new KoLRequest( "submitnewchat.php" );
 
 		request.addFormField( "playerid", String.valueOf( KoLCharacter.getUserID() ) );
 		request.addFormField( "pwd" );

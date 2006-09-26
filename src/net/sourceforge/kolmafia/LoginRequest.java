@@ -43,7 +43,7 @@ import java.security.MessageDigest;
 /**
  * An extension of <code>KoLRequest</code> which handles logins.
  * A new instance is created and started for every login attempt,
- * and in the event that it is successful, the client provided
+ * and in the event that it is successful, theprovided
  * at construction time will be notified of the success.
  */
 
@@ -68,23 +68,23 @@ public class LoginRequest extends KoLRequest
 
 	/**
 	 * Constructs a new <code>LoginRequest</code>.  The given
-	 * client will be notified in the event of success.
+	 *will be notified in the event of success.
 	 *
-	 * @param	client	The client associated with this <code>LoginRequest</code>
+	 * @param	client	Theassociated with this <code>LoginRequest</code>
 	 * @param	loginname	The name of the player to be logged in
 	 * @param	password	The password to be used in the login attempt
-	 * @param	getBreakfast	Whether or not the client should retrieve breakfast after login
+	 * @param	getBreakfast	Whether or not theshould retrieve breakfast after login
 	 */
 
-	public LoginRequest( KoLmafia client, String username, String password )
+	public LoginRequest( String username, String password )
 	{
-		this( client, username, password, true,
+		this( username, password, true,
 			StaticEntity.getBooleanProperty( "getBreakfast." + username ), false );
 	}
 
-	public LoginRequest( KoLmafia client, String username, String password, boolean savePassword, boolean getBreakfast, boolean isQuickLogin )
+	public LoginRequest( String username, String password, boolean savePassword, boolean getBreakfast, boolean isQuickLogin )
 	{
-		super( client, "login.php" );
+		super( "login.php" );
 
 		this.username = username == null ? "" : username.replaceFirst( "/[qQ]", "" );
 		this.password = password;
@@ -197,7 +197,7 @@ public class LoginRequest extends KoLRequest
 	/**
 	 * Runs the <code>LoginRequest</code>.  This method determines
 	 * whether or not the login was successful, and updates the
-	 * display or notifies the client, as appropriate.
+	 * display or notifies the as appropriate.
 	 */
 
 	public void run()
@@ -242,7 +242,7 @@ public class LoginRequest extends KoLRequest
 		sessionID = null;
 		waitTime = isRollover ? ROLLOVER_WAIT : STANDARD_WAIT;
 
-		LoginRequest loginAttempt = new LoginRequest( StaticEntity.getClient(), lastUsername, lastPassword, false, false, true );
+		LoginRequest loginAttempt = new LoginRequest( lastUsername, lastPassword, false, false, true );
 		loginAttempt.run();
 
 		if ( sessionID != null )
@@ -285,7 +285,7 @@ public class LoginRequest extends KoLRequest
 			sessionID = formConnection.getHeaderField( "Set-Cookie" );
 
 			KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
-			client.initialize( username, this.getBreakfast, this.isQuickLogin );
+			StaticEntity.getClient().initialize( username, this.getBreakfast, this.isQuickLogin );
 
 			return false;
 		}

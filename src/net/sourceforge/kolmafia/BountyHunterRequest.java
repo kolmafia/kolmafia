@@ -44,16 +44,16 @@ public class BountyHunterRequest extends KoLRequest
 	private boolean isExchange;
 	private AdventureResult itemTraded;
 
-	public BountyHunterRequest( KoLmafia client )
+	public BountyHunterRequest()
 	{
-		super( client, "town_wrong.php" );
+		super( "town_wrong.php" );
 		addFormField( "place", "bountyhunter" );
 		this.isExchange = false;
 	}
 
-	public BountyHunterRequest( KoLmafia client, int itemID )
+	public BountyHunterRequest( int itemID )
 	{
-		super( client, "town_wrong.php" );
+		super( "town_wrong.php" );
 		addFormField( "place", "bountyhunter" );
 		addFormField( "action", "bsellall" );
 		addFormField( "what", String.valueOf( itemID ) );
@@ -82,7 +82,7 @@ public class BountyHunterRequest extends KoLRequest
 	{
 		if ( isExchange )
 		{
-			client.processResult( itemTraded.getNegation() );
+			StaticEntity.getClient().processResult( itemTraded.getNegation() );
 			KoLmafia.updateDisplay( "Items successfully sold to hunter." );
 			return;
 		}
