@@ -50,7 +50,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
 	private static final Pattern REGISTER_PATTERN =
-		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) kills?\\)(.*?)<(/tr|form)" );
+		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (exp|experience)?, .*? kills?\\)(.*?)<(/tr|form)" );
 
 	private int id, weight;
 	private String name, race, item;
@@ -82,7 +82,7 @@ public class FamiliarData implements KoLConstants, Comparable
 
 		this.name = dataMatcher.group(3);
 
-		String itemData = dataMatcher.group(6);
+		String itemData = dataMatcher.group(7);
 
 		this.item = itemData.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP.toString() :
 			itemData.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" :
