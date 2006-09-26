@@ -604,6 +604,10 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static final boolean isDisabled( String name )
-	{	return disabledScripts.contains( "all" ) || disabledScripts.contains( name );
+	{
+		if ( name.equals( "enable" ) || name.equals( "disable" ) )
+			return false;
+
+		return disabledScripts.contains( "all" ) || disabledScripts.contains( name );
 	}
 }
