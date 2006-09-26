@@ -355,7 +355,7 @@ public class LocalRelayRequest extends KoLRequest
 			headers.add( "Location: " + fullResponse );
 			this.fullResponse = "";
 		}
-		else
+		else if ( status.indexOf( "200" ) != -1 )
 		{
 			headers.add( "Content-Length: " + (this.rawByteBuffer == null ? this.fullResponse.length() : this.rawByteBuffer.length) );
 
@@ -444,7 +444,7 @@ public class LocalRelayRequest extends KoLRequest
 		outbytes.flush();
 
 		this.rawByteBuffer = outbytes.toByteArray();
-		pseudoResponse( "HTTP/1.1 200 OK", "" );
+		pseudoResponse( "HTTP/1.0 200 OK", "" );
 	}
 
 	private void sendSharedFile( String filename ) throws IOException
@@ -542,7 +542,7 @@ public class LocalRelayRequest extends KoLRequest
 			// Make sure to print the reply buffer to the
 			// response buffer for the local relay server.
 
-			pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
+			pseudoResponse( "HTTP/1.0 200 OK", replyBuffer.toString() );
 		}
 	}
 
@@ -638,13 +638,13 @@ public class LocalRelayRequest extends KoLRequest
 	protected void submitCommand()
 	{
 		runCommand( getFormField( "cmd" ) );
-		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
+		pseudoResponse( "HTTP/1.0 200 OK", LocalRelayServer.getNewStatusMessages() );
 	}
 
 	protected void executeCommand()
 	{
 		runCommand( getFormField( "cmd" ) );
-		pseudoResponse( "HTTP/1.1 200 OK", "" );
+		pseudoResponse( "HTTP/1.0 200 OK", "" );
 	}
 
 	protected void sideCommand()
@@ -662,7 +662,7 @@ public class LocalRelayRequest extends KoLRequest
 				delay( 1000 );
 		}
 
-		pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
+		pseudoResponse( "HTTP/1.0 302 Found", "/charpane.php" );
 	}
 
 	private void runCommand( String command )
@@ -682,7 +682,7 @@ public class LocalRelayRequest extends KoLRequest
 	}
 
 	protected void sendNotFound()
-	{	pseudoResponse( "HTTP/1.1 404 Not Found", "" );
+	{	pseudoResponse( "HTTP/1.0 404 Not Found", "" );
 	}
 
 	private class CommandRunnable implements Runnable
@@ -738,7 +738,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		if ( graf != null && graf.startsWith( "/run" ) )
 		{
-			pseudoResponse( "HTTP/1.1 200 OK", "<br/><font color=olive> &gt; " + graf.substring( 5 ) + "</font><br/><br/>" );
+			pseudoResponse( "HTTP/1.0 200 OK", "<br/><font color=olive> &gt; " + graf.substring( 5 ) + "</font><br/><br/>" );
 			runCommand( graf.substring( 5 ) );
 
 			return;
@@ -758,7 +758,7 @@ public class LocalRelayRequest extends KoLRequest
 			else if ( formURLString.endsWith( "sideCommand" ) )
 				sideCommand();
 			else if ( formURLString.endsWith( "getNewMessages" ) )
-				pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
+				pseudoResponse( "HTTP/1.0 200 OK", LocalRelayServer.getNewStatusMessages() );
 			else if ( formURLString.indexOf( "images/playerpics/" ) != -1 )
 			{
 				RequestEditorKit.downloadImage( "http://pics.communityofloathing.com/albums/" +
