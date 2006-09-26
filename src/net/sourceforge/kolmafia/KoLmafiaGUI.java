@@ -160,6 +160,12 @@ public class KoLmafiaGUI extends KoLmafia
 		String frameSetting = StaticEntity.getGlobalProperty( "initialFrames" );
 		String desktopSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
 
+		if ( frameSetting.equals( "" ) && desktopSetting.equals( "" ) )
+		{
+			StaticEntity.setGlobalProperty( "initialFrames", StaticEntity.getGlobalProperty( "", "initialFrames" ) );
+			StaticEntity.setGlobalProperty( "initialDesktop", StaticEntity.getGlobalProperty( "", "initialDesktop" ) );
+		}
+
 		// Reset all the titles on all existing frames.
 
 		SystemTrayFrame.updateToolTip();
