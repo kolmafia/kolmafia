@@ -414,7 +414,10 @@ public class KoLmafiaCLI extends KoLmafia
 		// from this function.
 
 		if ( disabledScripts.contains( command ) )
+		{
+			printLine( "Called disabled command: " + command + " " + parameters );
 			return;
+		}
 
 		// Insert random video game reference command to
 		// start things off.

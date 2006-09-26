@@ -3692,6 +3692,29 @@ public class KoLmafiaASH extends StaticEntity
 				((ScriptVariableReference)variableReferences.get(i)).forceValue( values[i] );
 		}
 
+		protected void printDisabledMessage()
+		{
+			StringBuffer message = new StringBuffer( "Called disabled function: " );
+			message.append( getName() );
+
+			message.append( '(' );
+
+			for ( int i = 0; i < values.length; ++i )
+			{
+				if ( i != 0 )
+					message.append( ',' );
+
+				message.append( ' ' );
+				message.append( values[i].toStringValue().toString() );
+			}
+
+			if ( values.length > 0 )
+				message.append( ' ' );
+
+			message.append( ')' );
+			DEFAULT_SHELL.printLine( message.toString() );
+		}
+
 		public abstract ScriptValue execute() throws AdvancedScriptException;
 	}
 
@@ -3716,7 +3739,10 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			if ( disabledScripts.contains( getName() ) )
+			{
+				printDisabledMessage();
 				return getType().initialValue();
+			}
 
 			if ( scope == null )
 				throw new RuntimeException( "Calling undefined user function: " + getName() );
@@ -3771,7 +3797,10 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue execute()
 		{
 			if ( disabledScripts.contains( getName() ) )
+			{
+				printDisabledMessage();
 				return getType().initialValue();
+			}
 
 			if ( method == null )
 				throw new RuntimeException( "Internal error: no method for " + getName() );
