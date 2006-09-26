@@ -312,15 +312,15 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Footprints
 		{ { "choiceAdventure27" }, { "Spooky Forest" },
-		  { "Seal Clubber", "Turtle Tamer" } },
+		  { KoLCharacter.SEAL_CLUBBER, KoLCharacter.TURTLE_TAMER } },
 
 		// A Pair of Craters
 		{ { "choiceAdventure28" }, { "Spooky Forest" },
-		  { "Pastamancer", "Sauceror" } },
+		  { KoLCharacter.PASTAMANCER, KoLCharacter.SAUCEROR } },
 
 		// The Road Less Visible
 		{ { "choiceAdventure29" }, { "Spooky Forest" },
-		  { "Disco Bandit", "Accordion Thief" } },
+		  { KoLCharacter.DISCO_BANDIT, KoLCharacter.ACCORDION_THIEF } },
 
 		// A Journey to the Center of Your Mind -> Self Explanatory
 

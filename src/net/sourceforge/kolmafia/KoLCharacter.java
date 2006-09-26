@@ -55,124 +55,130 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class KoLCharacter extends StaticEntity
 {
-	private static List SEAL_CLUBBER = new ArrayList();
+	public static final String SEAL_CLUBBER = "Seal Clubber";
+	private static final List SEAL_CLUBBER_RANKS = new ArrayList();
 	static
 	{
-		SEAL_CLUBBER.add( "Lemming Trampler" );
-		SEAL_CLUBBER.add( "Tern Slapper" );
-		SEAL_CLUBBER.add( "Puffin Intimidator" );
-		SEAL_CLUBBER.add( "Ermine Thumper" );
-		SEAL_CLUBBER.add( "Penguin Frightener" );
-		SEAL_CLUBBER.add( "Malamute Basher" );
-		SEAL_CLUBBER.add( "Narwhal Pummeler" );
-		SEAL_CLUBBER.add( "Otter Crusher" );
-		SEAL_CLUBBER.add( "Caribou Smacker" );
-		SEAL_CLUBBER.add( "Moose Harasser" );
-		SEAL_CLUBBER.add( "Reindeer Threatener" );
-		SEAL_CLUBBER.add( "Ox Wrestler" );
-		SEAL_CLUBBER.add( "Walrus Bludgeoner" );
-		SEAL_CLUBBER.add( "Whale Boxer" );
-		SEAL_CLUBBER.add( "Seal Clubber" );
+		SEAL_CLUBBER_RANKS.add( "Lemming Trampler" );
+		SEAL_CLUBBER_RANKS.add( "Tern Slapper" );
+		SEAL_CLUBBER_RANKS.add( "Puffin Intimidator" );
+		SEAL_CLUBBER_RANKS.add( "Ermine Thumper" );
+		SEAL_CLUBBER_RANKS.add( "Penguin Frightener" );
+		SEAL_CLUBBER_RANKS.add( "Malamute Basher" );
+		SEAL_CLUBBER_RANKS.add( "Narwhal Pummeler" );
+		SEAL_CLUBBER_RANKS.add( "Otter Crusher" );
+		SEAL_CLUBBER_RANKS.add( "Caribou Smacker" );
+		SEAL_CLUBBER_RANKS.add( "Moose Harasser" );
+		SEAL_CLUBBER_RANKS.add( "Reindeer Threatener" );
+		SEAL_CLUBBER_RANKS.add( "Ox Wrestler" );
+		SEAL_CLUBBER_RANKS.add( "Walrus Bludgeoner" );
+		SEAL_CLUBBER_RANKS.add( "Whale Boxer" );
+		SEAL_CLUBBER_RANKS.add( "Seal Clubber" );
 	}
 
-	private static List TURTLE_TAMER = new ArrayList();
+	public static final String TURTLE_TAMER = "Turtle Tamer";
+	private static final List TURTLE_TAMER_RANKS = new ArrayList();
 	static
 	{
-		TURTLE_TAMER.add( "Toad Coach" );
-		TURTLE_TAMER.add( "Skink Trainer" );
-		TURTLE_TAMER.add( "Frog Director" );
-		TURTLE_TAMER.add( "Gecko Supervisor" );
-		TURTLE_TAMER.add( "Newt Herder" );
-		TURTLE_TAMER.add( "Frog Boss" );
-		TURTLE_TAMER.add( "Iguana Driver" );
-		TURTLE_TAMER.add( "Salamander Subduer" );
-		TURTLE_TAMER.add( "Bullfrog Overseer" );
-		TURTLE_TAMER.add( "Rattlesnake Chief" );
-		TURTLE_TAMER.add( "Crocodile Lord" );
-		TURTLE_TAMER.add( "Cobra Commander" );
-		TURTLE_TAMER.add( "Alligator Subjugator" );
-		TURTLE_TAMER.add( "Asp Master" );
-		TURTLE_TAMER.add( "Turtle Tamer" );
+		TURTLE_TAMER_RANKS.add( "Toad Coach" );
+		TURTLE_TAMER_RANKS.add( "Skink Trainer" );
+		TURTLE_TAMER_RANKS.add( "Frog Director" );
+		TURTLE_TAMER_RANKS.add( "Gecko Supervisor" );
+		TURTLE_TAMER_RANKS.add( "Newt Herder" );
+		TURTLE_TAMER_RANKS.add( "Frog Boss" );
+		TURTLE_TAMER_RANKS.add( "Iguana Driver" );
+		TURTLE_TAMER_RANKS.add( "Salamander Subduer" );
+		TURTLE_TAMER_RANKS.add( "Bullfrog Overseer" );
+		TURTLE_TAMER_RANKS.add( "Rattlesnake Chief" );
+		TURTLE_TAMER_RANKS.add( "Crocodile Lord" );
+		TURTLE_TAMER_RANKS.add( "Cobra Commander" );
+		TURTLE_TAMER_RANKS.add( "Alligator Subjugator" );
+		TURTLE_TAMER_RANKS.add( "Asp Master" );
+		TURTLE_TAMER_RANKS.add( "Turtle Tamer" );
 	}
 
-	private static List PASTAMANCER = new ArrayList();
+	public static final String PASTAMANCER = "Pastamancer";
+	private static final List PASTAMANCER_RANKS = new ArrayList();
 	static
 	{
-		PASTAMANCER.add( "Dough Acolyte" );
-		PASTAMANCER.add( "Yeast Scholar" );
-		PASTAMANCER.add( "Noodle Neophyte" );
-		PASTAMANCER.add( "Starch Savant" );
-		PASTAMANCER.add( "Carbohydrate Cognoscenti" );
-		PASTAMANCER.add( "Spaghetti Sage" );
-		PASTAMANCER.add( "Macaroni Magician" );
-		PASTAMANCER.add( "Vermicelli Enchanter" );
-		PASTAMANCER.add( "Linguini Thaumaturge" );
-		PASTAMANCER.add( "Ravioli Sorcerer" );
-		PASTAMANCER.add( "Manicotti Magus" );
-		PASTAMANCER.add( "Spaghetti Spellbinder" );
-		PASTAMANCER.add( "Canneloni Conjurer" );
-		PASTAMANCER.add( "Angel-Hair Archmage" );
-		PASTAMANCER.add( "Pastamancer" );
+		PASTAMANCER_RANKS.add( "Dough Acolyte" );
+		PASTAMANCER_RANKS.add( "Yeast Scholar" );
+		PASTAMANCER_RANKS.add( "Noodle Neophyte" );
+		PASTAMANCER_RANKS.add( "Starch Savant" );
+		PASTAMANCER_RANKS.add( "Carbohydrate Cognoscenti" );
+		PASTAMANCER_RANKS.add( "Spaghetti Sage" );
+		PASTAMANCER_RANKS.add( "Macaroni Magician" );
+		PASTAMANCER_RANKS.add( "Vermicelli Enchanter" );
+		PASTAMANCER_RANKS.add( "Linguini Thaumaturge" );
+		PASTAMANCER_RANKS.add( "Ravioli Sorcerer" );
+		PASTAMANCER_RANKS.add( "Manicotti Magus" );
+		PASTAMANCER_RANKS.add( "Spaghetti Spellbinder" );
+		PASTAMANCER_RANKS.add( "Canneloni Conjurer" );
+		PASTAMANCER_RANKS.add( "Angel-Hair Archmage" );
+		PASTAMANCER_RANKS.add( "PASTAMANCER_RANKS" );
 	}
 
-	private static List SAUCEROR = new ArrayList();
+	public static final String SAUCEROR = "Sauceror";
+	private static final List SAUCEROR_RANKS = new ArrayList();
 	static
 	{
-		SAUCEROR.add( "Allspice Acolyte" );
-		SAUCEROR.add( "Cilantro Seer" );
-		SAUCEROR.add( "Parsley Enchanter" );
-		SAUCEROR.add( "Sage Sage" );
-		SAUCEROR.add( "Rosemary Diviner" );
-		SAUCEROR.add( "Thyme Wizard" );
-		SAUCEROR.add( "Tarragon Thaumaturge" );
-		SAUCEROR.add( "Oreganoccultist" );
-		SAUCEROR.add( "Basillusionist" );
-		SAUCEROR.add( "Coriander Conjurer" );
-		SAUCEROR.add( "Bay Leaf Brujo" );
-		SAUCEROR.add( "Sesame Soothsayer" );
-		SAUCEROR.add( "Marinara Mage" );
-		SAUCEROR.add( "Alfredo Archmage" );
-		SAUCEROR.add( "Sauceror" );
+		SAUCEROR_RANKS.add( "Allspice Acolyte" );
+		SAUCEROR_RANKS.add( "Cilantro Seer" );
+		SAUCEROR_RANKS.add( "Parsley Enchanter" );
+		SAUCEROR_RANKS.add( "Sage Sage" );
+		SAUCEROR_RANKS.add( "Rosemary Diviner" );
+		SAUCEROR_RANKS.add( "Thyme Wizard" );
+		SAUCEROR_RANKS.add( "Tarragon Thaumaturge" );
+		SAUCEROR_RANKS.add( "Oreganoccultist" );
+		SAUCEROR_RANKS.add( "Basillusionist" );
+		SAUCEROR_RANKS.add( "Coriander Conjurer" );
+		SAUCEROR_RANKS.add( "Bay Leaf Brujo" );
+		SAUCEROR_RANKS.add( "Sesame Soothsayer" );
+		SAUCEROR_RANKS.add( "Marinara Mage" );
+		SAUCEROR_RANKS.add( "Alfredo Archmage" );
+		SAUCEROR_RANKS.add( "SAUCEROR_RANKS" );
 	}
 
-	private static List DISCO_BANDIT = new ArrayList();
+	public static final String DISCO_BANDIT = "Disco Bandit";
+	private static final List DISCO_BANDIT_RANKS = new ArrayList();
 	static
 	{
-		DISCO_BANDIT.add( "Funk Footpad" );
-		DISCO_BANDIT.add( "Rhythm Rogue" );
-		DISCO_BANDIT.add( "Chill Crook" );
-		DISCO_BANDIT.add( "Jiggy Grifter" );
-		DISCO_BANDIT.add( "Beat Snatcher" );
-		DISCO_BANDIT.add( "Sample Swindler" );
-		DISCO_BANDIT.add( "Move Buster" );
-		DISCO_BANDIT.add( "Jam Horker" );
-		DISCO_BANDIT.add( "Groove Filcher" );
-		DISCO_BANDIT.add( "Vibe Robber" );
-		DISCO_BANDIT.add( "Boogie Brigand" );
-		DISCO_BANDIT.add( "Flow Purloiner" );
-		DISCO_BANDIT.add( "Jive Pillager" );
-		DISCO_BANDIT.add( "Rhymer and Stealer" );
-		DISCO_BANDIT.add( "Disco Bandit" );
+		DISCO_BANDIT_RANKS.add( "Funk Footpad" );
+		DISCO_BANDIT_RANKS.add( "Rhythm Rogue" );
+		DISCO_BANDIT_RANKS.add( "Chill Crook" );
+		DISCO_BANDIT_RANKS.add( "Jiggy Grifter" );
+		DISCO_BANDIT_RANKS.add( "Beat Snatcher" );
+		DISCO_BANDIT_RANKS.add( "Sample Swindler" );
+		DISCO_BANDIT_RANKS.add( "Move Buster" );
+		DISCO_BANDIT_RANKS.add( "Jam Horker" );
+		DISCO_BANDIT_RANKS.add( "Groove Filcher" );
+		DISCO_BANDIT_RANKS.add( "Vibe Robber" );
+		DISCO_BANDIT_RANKS.add( "Boogie Brigand" );
+		DISCO_BANDIT_RANKS.add( "Flow Purloiner" );
+		DISCO_BANDIT_RANKS.add( "Jive Pillager" );
+		DISCO_BANDIT_RANKS.add( "Rhymer and Stealer" );
+		DISCO_BANDIT_RANKS.add( "Disco Bandit" );
 	}
 
-	private static List ACCORDION_THIEF = new ArrayList();
+	public static final String ACCORDION_THIEF = "Accordion Thief";
+	private static final List ACCORDION_THIEF_RANKS = new ArrayList();
 	static
 	{
-		ACCORDION_THIEF.add( "Polka Criminal" );
-		ACCORDION_THIEF.add( "Mariachi Larcenist" );
-		ACCORDION_THIEF.add( "Zydeco Rogue" );
-		ACCORDION_THIEF.add( "Chord Horker" );
-		ACCORDION_THIEF.add( "Chromatic Crook" );
-		ACCORDION_THIEF.add( "Squeezebox Scoundrel" );
-		ACCORDION_THIEF.add( "Concertina Con Artist" );
-		ACCORDION_THIEF.add( "Button Box Burglar" );
-		ACCORDION_THIEF.add( "Hurdy-Gurdy Hooligan" );
-		ACCORDION_THIEF.add( "Sub-Sub-Apprentice Accordion Thief" );
-		ACCORDION_THIEF.add( "Sub-Apprentice Accordion Thief" );
-		ACCORDION_THIEF.add( "Pseudo-Apprentice Accordion Thief" );
-		ACCORDION_THIEF.add( "Hemi-Apprentice Accordion Thief" );
-		ACCORDION_THIEF.add( "Apprentice Accordion Thief" );
-		ACCORDION_THIEF.add( "Accordion Thief" );
+		ACCORDION_THIEF_RANKS.add( "Polka Criminal" );
+		ACCORDION_THIEF_RANKS.add( "Mariachi Larcenist" );
+		ACCORDION_THIEF_RANKS.add( "Zydeco Rogue" );
+		ACCORDION_THIEF_RANKS.add( "Chord Horker" );
+		ACCORDION_THIEF_RANKS.add( "Chromatic Crook" );
+		ACCORDION_THIEF_RANKS.add( "Squeezebox Scoundrel" );
+		ACCORDION_THIEF_RANKS.add( "Concertina Con Artist" );
+		ACCORDION_THIEF_RANKS.add( "Button Box Burglar" );
+		ACCORDION_THIEF_RANKS.add( "Hurdy-Gurdy Hooligan" );
+		ACCORDION_THIEF_RANKS.add( "Sub-Sub-Apprentice Accordion Thief" );
+		ACCORDION_THIEF_RANKS.add( "Sub-Apprentice Accordion Thief" );
+		ACCORDION_THIEF_RANKS.add( "Pseudo-Apprentice Accordion Thief" );
+		ACCORDION_THIEF_RANKS.add( "Hemi-Apprentice Accordion Thief" );
+		ACCORDION_THIEF_RANKS.add( "Apprentice Accordion Thief" );
+		ACCORDION_THIEF_RANKS.add( "Accordion Thief" );
 	}
 
 	private static final AdventureResult JOYBUZZER = new AdventureResult( 1525, 1 );
@@ -310,12 +316,12 @@ public abstract class KoLCharacter extends StaticEntity
 	 * and it is the responsibility of other methods to initialize
 	 * the fields with their real values.
 	 *
-	 * @param	username	The name of the character this <code>KoLCharacter</code> represents
+	 * @param	newUsername	The name of the character this <code>KoLCharacter</code> represents
 	 */
 
-	public static final void reset( String username )
+	public static final void reset( String newUsername )
 	{
-		KoLCharacter.username = username;
+		username = newUsername;
 
 		classname = "";
 		classtype = "";
@@ -514,6 +520,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setClassName( String classname )
 	{
 		KoLCharacter.classname = classname;
+		KoLCharacter.classtype = null;
 		KoLCharacter.classtype = getClassType();
 	}
 
@@ -533,12 +540,14 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static String getClassType()
 	{
-		return SEAL_CLUBBER.contains( classname ) ? "Seal Clubber" :
-			TURTLE_TAMER.contains( classname ) ? "Turtle Tamer" :
-			PASTAMANCER.contains( classname ) ? "Pastamancer" :
-			SAUCEROR.contains( classname ) ? "Sauceror" :
-			DISCO_BANDIT.contains( classname ) ? "Disco Bandit" :
-			ACCORDION_THIEF.contains( classname ) ? "Accordion Thief" : "Sauceror";
+		if ( classtype == null )
+		{
+			classtype = SEAL_CLUBBER_RANKS.contains( classname ) ? SEAL_CLUBBER : TURTLE_TAMER_RANKS.contains( classname ) ? TURTLE_TAMER :
+				PASTAMANCER_RANKS.contains( classname ) ? PASTAMANCER : SAUCEROR_RANKS.contains( classname ) ? SAUCEROR :
+				DISCO_BANDIT_RANKS.contains( classname ) ? DISCO_BANDIT : ACCORDION_THIEF_RANKS.contains( classname ) ? ACCORDION_THIEF : SAUCEROR;
+		}
+
+		return classtype;
 	}
 
 	/**
@@ -548,24 +557,21 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static String getClassType( String classname )
 	{
-		return SEAL_CLUBBER.contains( classname ) ? "Seal Clubber" :
-			TURTLE_TAMER.contains( classname ) ? "Turtle Tamer" :
-			PASTAMANCER.contains( classname ) ? "Pastamancer" :
-			SAUCEROR.contains( classname ) ? "Sauceror" :
-			DISCO_BANDIT.contains( classname ) ? "Disco Bandit" :
-			ACCORDION_THIEF.contains( classname ) ? "Accordion Thief" : "Sauceror";
+		return SEAL_CLUBBER_RANKS.contains( classname ) ? SEAL_CLUBBER : TURTLE_TAMER_RANKS.contains( classname ) ? TURTLE_TAMER :
+			PASTAMANCER_RANKS.contains( classname ) ? PASTAMANCER : SAUCEROR_RANKS.contains( classname ) ? SAUCEROR :
+			DISCO_BANDIT_RANKS.contains( classname ) ? DISCO_BANDIT : ACCORDION_THIEF_RANKS.contains( classname ) ? ACCORDION_THIEF : SAUCEROR;
 	}
 
 	public static boolean isMuscleClass()
-	{	return SEAL_CLUBBER.contains( classname ) || TURTLE_TAMER.contains( classname );
+	{	return classtype.equals( SEAL_CLUBBER ) || classtype.equals( TURTLE_TAMER );
 	}
 
 	public static boolean isMysticalityClass()
-	{	return PASTAMANCER.contains( classname ) || SAUCEROR.contains( classname );
+	{	return classtype.equals( PASTAMANCER ) || classtype.equals( SAUCEROR );
 	}
 
 	public static boolean isMoxieClass()
-	{	return DISCO_BANDIT.contains( classname ) || ACCORDION_THIEF.contains( classname );
+	{	return classtype.equals( DISCO_BANDIT ) || classtype.equals( ACCORDION_THIEF );
 	}
 
 	/**
@@ -1089,8 +1095,6 @@ public abstract class KoLCharacter extends StaticEntity
 				equipmentLists[i].setSelectedItem( equipment[i] );
 			}
 		}
-
-		addJoybuzzer();
 
 		if ( equipment.length > FAMILIAR && currentFamiliar != FamiliarData.NO_FAMILIAR )
 			currentFamiliar.setItem( equipment[FAMILIAR].getName() );
@@ -1848,38 +1852,29 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	availableSkills	The list of the names of available skills
 	 */
 
-	public static void setAvailableSkills( List availableSkills )
+	public static void setAvailableSkills( List newSkillSet )
 	{
-		if ( availableSkills == KoLCharacter.availableSkills )
-		{
-			addDictionary();
+		if ( availableSkills == newSkillSet )
 			return;
-		}
 
-		KoLCharacter.availableSkills.clear();
-		KoLCharacter.usableSkills.clear();
-		KoLCharacter.combatSkills.clear();
-		KoLCharacter.battleSkillNames.clear();
+		availableSkills.clear();
+		usableSkills.clear();
+		battleSkillNames.clear();
 
 		// All characters get the option to
 		// attack something.
 
-		KoLCharacter.battleSkillNames.add( "attack with weapon" );
+		battleSkillNames.add( "attack with weapon" );
+
+		battleSkillNames.add( "item facsimile dictionary" );
+		battleSkillNames.add( "item dictionary" );
+
+		battleSkillNames.add( "item seal tooth" );
+		battleSkillNames.add( "item scroll of turtle summoning" );
+		battleSkillNames.add( "item spices" );
 
 		if ( KoLCharacter.isMoxieClass() )
 			addAvailableSkill( new UseSkillRequest( getClient(), "Moxious Maneuver", "", 1 ) );
-
-		// If the player has a dictionary, add it
-		// to the available skills list.
-
-		addDictionary();
-
-		// Add the three permanent starting items
-		// which can be used to attack.
-
-		KoLCharacter.battleSkillNames.add( "item seal tooth" );
-		KoLCharacter.battleSkillNames.add( "item scroll of turtle summoning" );
-		KoLCharacter.battleSkillNames.add( "item spices" );
 
 		// Check all available skills to see if they
 		// qualify to be added as combat or usables.
@@ -1889,8 +1884,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		for ( int i = 0; i < skillArray.length; ++i )
 			addAvailableSkill( skillArray[i] );
-
-		addJoybuzzer();
 
 		// Superhuman Cocktailcrafting affects # of summons for
 		// Advanced Cocktailcrafting
@@ -1913,73 +1906,8 @@ public abstract class KoLCharacter extends StaticEntity
 		// Set the selected combat skill based on
 		// the user's current setting.
 
-		KoLCharacter.battleSkillNames.add( "custom combat script" );
-		battleSkillNames.setSelectedItem( getProperty( "battleAction" ) );
-
-		if ( battleSkillNames.getSelectedIndex() == -1 )
-			battleSkillNames.setSelectedIndex(0);
-	}
-
-	public static void addJoybuzzer()
-	{
-		UseSkillRequest handshake = new UseSkillRequest( getClient(), "Shake Hands", "", 1 );
-
-		if ( getEquipment( OFFHAND ) != null && getEquipment( OFFHAND ).getItemID() == JOYBUZZER.getItemID() )
-		{
-			if ( !KoLCharacter.battleSkillNames.contains( "skill shake hands" ) )
-			{
-				KoLCharacter.battleSkillNames.add( "skill shake hands" );
-				availableSkills.add( handshake );
-				combatSkills.add( handshake );
-			}
-		}
-		else
-		{
-			KoLCharacter.battleSkillNames.remove( "skill shake hands" );
-			availableSkills.remove( handshake );
-			combatSkills.remove( handshake );
-		}
-	}
-
-	public static void addDictionary()
-	{
-		if ( FightRequest.DICTIONARY1.getCount( inventory ) >= 1 )
-			addDictionary( FightRequest.DICTIONARY1 );
-		else if ( FightRequest.DICTIONARY2.getCount( inventory ) >= 1 )
-			addDictionary( FightRequest.DICTIONARY2 );
-	}
-
-	public static void addDictionary( AdventureResult dictionary )
-	{
-		switch ( dictionary.getItemID() )
-		{
-			case 536:
-			{
-				// We have the first dictionary.
-
-				int index = battleSkillNames.indexOf( "item dictionary" );
-
-				if ( dictionary.getCount( inventory ) > 0 && index == -1 )
-					battleSkillNames.add( "item dictionary" );
-				else if ( dictionary.getCount( inventory ) == 0 && index != -1 )
-					battleSkillNames.remove( index );
-
-				break;
-			}
-			case 1316:
-			{
-				// We have the second dictionary.
-
-				int index = battleSkillNames.indexOf( "item facsimile dictionary" );
-
-				if ( dictionary.getCount( inventory ) > 0 && index == -1 )
-					battleSkillNames.add( 1, "item facsimile dictionary" );
-				else if ( dictionary.getCount( inventory ) == 0 && index != -1 )
-					battleSkillNames.remove( index );
-
-				break;
-			}
-		}
+		battleSkillNames.add( "custom combat script" );
+		battleSkillNames.setSelectedIndex(0);
 	}
 
 	/**
@@ -1989,6 +1917,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void addAvailableSkill( UseSkillRequest skill )
 	{
+		if ( availableSkills.contains( skill ) )
+			return;
+
 		availableSkills.add( skill );
 
 		switch ( ClassSkillsDatabase.getSkillType( skill.getSkillID() ) )
@@ -2014,8 +1945,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 			case ClassSkillsDatabase.COMBAT:
 
-				combatSkills.add( skill );
-				battleSkillNames.add( "skill " + skill.getSkillName().toLowerCase() );
+				addCombatSkill( skill.getSkillName() );
 				break;
 		}
 
@@ -2028,7 +1958,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void addDerivedSkills()
 	{
-		if ( KoLCharacter.getClassType().startsWith( "Tu" ) )
+		if ( classtype.startsWith( "Tu" ) )
 		{
 			boolean head = hasSkill( "Headbutt" );
 			boolean knee = hasSkill( "Kneebutt" );
@@ -2043,19 +1973,14 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( head && knee && shield )
 				addCombatSkill( "Head + Knee + Shield Combo" );
 		}
+
+		UseSkillRequest handshake = new UseSkillRequest( getClient(), "Shake Hands", "", 1 );
+		if ( KoLCharacter.hasItem( JOYBUZZER, false ) )
+			addAvailableSkill( handshake );
 	}
 
 	private static void addCombatSkill( String name )
 	{
-		// Only add the skill once
-		if ( hasSkill( name, combatSkills ) )
-			return;
-
-		// Add to lists
-		UseSkillRequest skill = new UseSkillRequest( getClient(), name, "", 1 );
-		if ( !combatSkills.contains( skill ) )
-			combatSkills.add( skill );
-
 		String skillname = "skill " + name.toLowerCase();
 		if ( !battleSkillNames.contains( skillname ) )
 			battleSkillNames.add( skillname );
@@ -2363,9 +2288,9 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( username.equals( "" ) )
 			return;
 
-		KoLCharacter.updateEquipmentLists();
+		updateEquipmentLists();
 		ConcoctionsDatabase.refreshConcoctions();
-		KoLCharacter.recalculateAdjustments( false );
+		recalculateAdjustments( false );
 
 		sellables.retainAll( inventory );
 		usables.retainAll( inventory );
@@ -2393,7 +2318,7 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 		}
 
-		KoLCharacter.updateStatus();
+		updateStatus();
 	}
 
 	/**
@@ -2404,10 +2329,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void processResult( AdventureResult result )
 	{
-		// If this is a dictionary, adjust battle tactics.
-
-		addDictionary( result );
-
 		// Treat the result as normal from this point forward.
 		// Figure out which list the skill should be added to
 		// and add it to that list.
@@ -2440,7 +2361,7 @@ public abstract class KoLCharacter extends StaticEntity
 				}
 
 				setTotalTurnsUsed( getTotalTurnsUsed() - result.getCount() );
-				if ( getTotalTurnsUsed() >= 600 && !KoLCharacter.isHardcore() )
+				if ( getTotalTurnsUsed() >= 600 && !isHardcore() )
 					setInteraction( true );
 			}
 		}

@@ -600,12 +600,12 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( urlString.indexOf( "fight.php?action=plink" ) != -1 )
 		{
 			String oldAction = StaticEntity.getProperty( "battleAction" );
-			StaticEntity.setProperty( "battleAction", "attack" );
+			DEFAULT_SHELL.executeLine( "set battleAction=attack with weapon" );
 
 			FightRequest request = new FightRequest( client, false );
 			request.run();
 
-			StaticEntity.setProperty( "battleAction", oldAction );
+			DEFAULT_SHELL.executeLine( "set battleAction=" + oldAction );
 
 			this.responseText = request.responseText;
 			this.fullResponse = request.fullResponse;

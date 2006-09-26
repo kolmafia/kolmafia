@@ -631,7 +631,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( value.indexOf( ";" ) != -1 )
 				{
 					CombatSettings.setDefaultAction( value );
-					value = "custom";
+					value = "custom combat script";
 				}
 
 				value = CombatSettings.getLongCombatOptionName( value );
@@ -649,7 +649,7 @@ public class KoLmafiaCLI extends KoLmafia
 			printLine( name + " => " + value );
 			StaticEntity.setProperty( name, value );
 
-			if ( name.equals( "battleAction" ) && value.equals( "custom" ) )
+			if ( name.equals( "battleAction" ) && value.equals( "custom combat script" ) )
 				printList( CombatSettings.getDefaultAction() );
 
 			if ( name.equals( "buffBotCasting" ) )
