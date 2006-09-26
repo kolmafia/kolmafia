@@ -47,17 +47,17 @@ public class ClanMembersRequest extends KoLRequest
 	private String clanName;
 	private boolean isLookup;
 
-	public ClanMembersRequest( KoLmafia client )
+	public ClanMembersRequest()
 	{
-		super( client, "showclan.php" );
+		super( "showclan.php" );
 		this.clanID = "";
 		this.clanName = "";
 		this.isLookup = true;
 	}
 
-	public ClanMembersRequest( KoLmafia client, Object [] titleChange, Object [] newTitles, Object [] boots )
+	public ClanMembersRequest( Object [] titleChange, Object [] newTitles, Object [] boots )
 	{
-		super( client, "clan_members.php" );
+		super( "clan_members.php" );
 		this.isLookup = false;
 
 		addFormField( "pwd" );
@@ -101,7 +101,7 @@ public class ClanMembersRequest extends KoLRequest
 			// profile lookup on yourself.
 
 			KoLmafia.updateDisplay( "Determining clan ID..." );
-			ProfileRequest clanIDLookup = new ProfileRequest( client, KoLCharacter.getUsername() );
+			ProfileRequest clanIDLookup = new ProfileRequest( KoLCharacter.getUsername() );
 			clanIDLookup.run();
 
 			Matcher clanIDMatcher = CLANID_PATTERN.matcher( clanIDLookup.responseText );

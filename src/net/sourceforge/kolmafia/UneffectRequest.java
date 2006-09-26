@@ -46,13 +46,13 @@ public class UneffectRequest extends KoLRequest
 
 	/**
 	 * Constructs a new <code>UneffectRequest</code>.
-	 * @param	client	The client to be notified of completion
+	 * @param	client	Theto be notified of completion
 	 * @param	effect	The effect to be removed
 	 */
 
-	public UneffectRequest( KoLmafia client, AdventureResult effect )
+	public UneffectRequest( AdventureResult effect )
 	{
-		super( client, isShruggable( effect.getName() ) ? "charsheet.php" : "uneffect.php" );
+		super( isShruggable( effect.getName() ) ? "charsheet.php" : "uneffect.php" );
 
 		this.effect = effect;
 		this.effectID = StatusEffectDatabase.getEffectID( effect.getName() );
@@ -176,7 +176,7 @@ public class UneffectRequest extends KoLRequest
 			if ( isShruggable )
 				CharsheetRequest.parseStatus( responseText );
 			else
-				client.processResult( REMEDY.getNegation() );
+				StaticEntity.getClient().processResult( REMEDY.getNegation() );
 
 			KoLmafia.updateDisplay( "Effect removed." );
 

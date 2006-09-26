@@ -56,13 +56,13 @@ public class ClanBuffRequest extends KoLRequest
 	 * available internally.  Note that no descendents are
 	 * possible because of the nature of the constructor.
 	 *
-	 * @param	client	The client to be notified in the event of error
+	 * @param	client	Theto be notified in the event of error
 	 * @param	buffID	The unique numeric identifier of the buff
 	 */
 
-	private ClanBuffRequest( KoLmafia client, int buffID )
+	private ClanBuffRequest( int buffID )
 	{
-		super( client, "clan_stash.php" );
+		super( "clan_stash.php" );
 
 		this.buffID = buffID;
 		addFormField( "action", "buyround" );
@@ -74,16 +74,16 @@ public class ClanBuffRequest extends KoLRequest
 	 * Returns a list of all the possible requests available through
 	 * the current implementation of <code>ClanBuffRequest</code>.
 	 *
-	 * @param	client	The client to be associated with the requests
+	 * @param	client	Theto be associated with the requests
 	 * @return	A complete <code>ListModel</code>
 	 */
 
-	public static LockableListModel getRequestList( KoLmafia client )
+	public static LockableListModel getRequestList()
 	{
 		LockableListModel requestList = new LockableListModel();
 		for ( int i = 1; i <= 6; ++i )
 			for ( int j = 1; j <= 3; ++j )
-				requestList.add( new ClanBuffRequest( client, 10*i + j ) );
+				requestList.add( new ClanBuffRequest( 10*i + j ) );
 
 		return requestList;
 	}

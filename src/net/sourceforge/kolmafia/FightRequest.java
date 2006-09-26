@@ -73,20 +73,20 @@ public class FightRequest extends KoLRequest
 	};
 
 	/**
-	 * Constructs a new <code>FightRequest</code>.  The client provided will
+	 * Constructs a new <code>FightRequest</code>.  Theprovided will
 	 * be used to determine whether or not the fight should be started and/or
 	 * continued, and the user settings will be used to determine the kind
 	 * of action1 to be taken during the battle.
 	 */
 
-	public FightRequest( KoLmafia client )
+	public FightRequest()
 	{
-		this( client, true );
+		this( true );
 	}
 
-	public FightRequest( KoLmafia client, boolean isFirstRound )
+	public FightRequest( boolean isFirstRound )
 	{
-		super( client, "fight.php" );
+		super( "fight.php" );
 		this.roundCount = isFirstRound ? 0 : -100;
 
 		this.encounter = "";
@@ -218,8 +218,8 @@ public class FightRequest extends KoLRequest
 
 	/**
 	 * Executes the single round of the fight.  If the user wins or loses,
-	 * the client will be notified; otherwise, the next battle will be run
-	 * automatically.  All fighting terminates if the client cancels their
+	 * thewill be notified; otherwise, the next battle will be run
+	 * automatically.  All fighting terminates if thecancels their
 	 * request; note that battles are not automatically completed.  However,
 	 * the battle's execution will be reported in the statistics for the
 	 * requests, and will count against any outstanding requests.
@@ -381,7 +381,7 @@ public class FightRequest extends KoLRequest
 			int id1 = StaticEntity.parseInt( action1.substring( 4 ) );
 
 			if ( hasActionCost( id1 ) )
-				client.processResult( new AdventureResult( id1, -1 ) );
+				StaticEntity.getClient().processResult( new AdventureResult( id1, -1 ) );
 
 			if ( action2 == null || action2.equals( "" ) )
 				return;
@@ -389,7 +389,7 @@ public class FightRequest extends KoLRequest
 			int id2 = StaticEntity.parseInt( action2.substring( 4 ) );
 
 			if ( hasActionCost( id2 ) )
-				client.processResult( new AdventureResult( id2, -1 ) );
+				StaticEntity.getClient().processResult( new AdventureResult( id2, -1 ) );
 
 			return;
 		}
@@ -430,7 +430,7 @@ public class FightRequest extends KoLRequest
 		}
 
 		if ( mpCost > 0 )
-			client.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
 	}
 
 	/**

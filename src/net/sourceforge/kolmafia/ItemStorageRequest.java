@@ -57,22 +57,22 @@ public class ItemStorageRequest extends SendMessageRequest
 	public static final int STORAGE_TO_INVENTORY = 6;
 	public static final int PULL_MEAT_FROM_STORAGE = 7;
 
-	public ItemStorageRequest( KoLmafia client )
+	public ItemStorageRequest()
 	{
-		super( client, "storage.php" );
+		super( "storage.php" );
 		this.moveType = RETRIEVE_STORAGE;
 	}
 
 	/**
 	 * Constructs a new <code>ItemStorageRequest</code>.
-	 * @param	client	The client to be notified of the results
+	 * @param	client	Theto be notified of the results
 	 * @param	amount	The amount of meat involved in this transaction
 	 * @param	moveType	Whether or not this is a deposit or withdrawal, or if it's to the clan stash
 	 */
 
-	public ItemStorageRequest( KoLmafia client, int amount, int moveType )
+	public ItemStorageRequest( int amount, int moveType )
 	{
-		super( client, moveType == PULL_MEAT_FROM_STORAGE ? "storage.php" : "closet.php",
+		super( moveType == PULL_MEAT_FROM_STORAGE ? "storage.php" : "closet.php",
 			new AdventureResult( AdventureResult.MEAT, moveType == PULL_MEAT_FROM_STORAGE ? amount : 0 ) );
 
 		addFormField( "pwd" );
@@ -88,22 +88,22 @@ public class ItemStorageRequest extends SendMessageRequest
 		}
 	}
 
-	public ItemStorageRequest( KoLmafia client, int moveType )
+	public ItemStorageRequest( int moveType )
 	{
-		this( client, moveType, new Object[0] );
+		this( moveType, new Object[0] );
 		this.moveType = moveType;
 	}
 
 	/**
 	 * Constructs a new <code>ItemStorageRequest</code>.
-	 * @param	client	The client to be notified of the results
+	 * @param	client	Theto be notified of the results
 	 * @param	moveType	The identifier for the kind of action taking place
 	 * @param	attachments	The list of attachments involved in the request
 	 */
 
-	public ItemStorageRequest( KoLmafia client, int moveType, Object [] attachments )
+	public ItemStorageRequest( int moveType, Object [] attachments )
 	{
-		super( client, moveType == STORAGE_TO_INVENTORY || moveType == EMPTY_STORAGE ? "storage.php" : "closet.php", attachments, 0 );
+		super( moveType == STORAGE_TO_INVENTORY || moveType == EMPTY_STORAGE ? "storage.php" : "closet.php", attachments, 0 );
 
 		addFormField( "pwd" );
 		addFormField( "action", moveType == EMPTY_STORAGE ? "takeall" : moveType == INVENTORY_TO_CLOSET ? "put" : "take" );
@@ -149,7 +149,7 @@ public class ItemStorageRequest extends SendMessageRequest
 	}
 
 	protected SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new ItemStorageRequest( client, moveType, attachments );
+	{	return new ItemStorageRequest( moveType, attachments );
 	}
 
 	protected String getSuccessMessage()
@@ -175,7 +175,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		{
 			case EMPTY_STORAGE:
 				while ( !storage.isEmpty() )
-					client.processResult( (AdventureResult) storage.remove(0) );
+					StaticEntity.getClient().processResult( (AdventureResult) storage.remove(0) );
 
 				break;
 
@@ -214,7 +214,7 @@ public class ItemStorageRequest extends SendMessageRequest
 			afterMeatInCloset = StaticEntity.parseInt( meatInClosetMatcher.group(1) );
 
 		KoLCharacter.setClosetMeat( afterMeatInCloset );
-		client.processResult( new AdventureResult( AdventureResult.MEAT, beforeMeatInCloset - afterMeatInCloset ) );
+		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, beforeMeatInCloset - afterMeatInCloset ) );
 	}
 
 	private void parseStorage()

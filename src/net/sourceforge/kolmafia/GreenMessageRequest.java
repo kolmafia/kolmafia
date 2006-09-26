@@ -43,13 +43,13 @@ public class GreenMessageRequest extends SendMessageRequest
 {
 	private String recipient, message;
 
-	public GreenMessageRequest( KoLmafia client, String recipient, String message, AdventureResult attachment )
-	{	this( client, recipient, message, attachment, false );
+	public GreenMessageRequest( String recipient, String message, AdventureResult attachment )
+	{	this( recipient, message, attachment, false );
 	}
 
-	public GreenMessageRequest( KoLmafia client, String recipient, String message, AdventureResult attachment, boolean saveMessage )
+	public GreenMessageRequest( String recipient, String message, AdventureResult attachment, boolean saveMessage )
 	{
-		super( client, "sendmessage.php", attachment );
+		super( "sendmessage.php", attachment );
 		addFormField( "action", "send" );
 		addFormField( "pwd" );
 		addFormField( "towho", recipient );
@@ -65,13 +65,13 @@ public class GreenMessageRequest extends SendMessageRequest
 		addFormField( "sendmeat", String.valueOf( this.meatAttachment ) );
 	}
 
-	public GreenMessageRequest( KoLmafia client, String recipient, String message, Object [] attachments, int meatAttachment )
-	{	this( client, recipient, message, attachments, meatAttachment, !BuffBotHome.isBuffBotActive() );
+	public GreenMessageRequest( String recipient, String message, Object [] attachments, int meatAttachment )
+	{	this( recipient, message, attachments, meatAttachment, !BuffBotHome.isBuffBotActive() );
 	}
 
-	public GreenMessageRequest( KoLmafia client, String recipient, String message, Object [] attachments, int meatAttachment, boolean saveMessage )
+	public GreenMessageRequest( String recipient, String message, Object [] attachments, int meatAttachment, boolean saveMessage )
 	{
-		super( client, "sendmessage.php", attachments, meatAttachment );
+		super( "sendmessage.php", attachments, meatAttachment );
 		addFormField( "action", "send" );
 		addFormField( "pwd" );
 		addFormField( "towho", recipient );
@@ -96,7 +96,7 @@ public class GreenMessageRequest extends SendMessageRequest
 	}
 
 	protected SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new GreenMessageRequest( client, recipient, message, attachments, 0 );
+	{	return new GreenMessageRequest( recipient, message, attachments, 0 );
 	}
 
 	protected String getSuccessMessage()

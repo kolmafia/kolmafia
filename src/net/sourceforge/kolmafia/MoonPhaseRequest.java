@@ -54,12 +54,12 @@ public class MoonPhaseRequest extends KoLRequest
 	 * compact mode.
 	 */
 
-	public MoonPhaseRequest( KoLmafia client )
-	{	super( client, isCompactMode ? "compactmenu.php" : "topmenu.php" );
+	public MoonPhaseRequest()
+	{	super( isCompactMode ? "compactmenu.php" : "topmenu.php" );
 	}
 
 	/**
-	 * Runs the moon phase request, updating the client as appropriate.
+	 * Runs the moon phase request, updating theas appropriate.
 	 */
 
 	public void run()

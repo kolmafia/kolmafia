@@ -41,8 +41,8 @@ public class ContactListRequest extends KoLRequest
 	private static final Pattern LIST_PATTERN = Pattern.compile( "<b>Contact List</b>.*?</table>" );
 	private static final Pattern ENTRY_PATTERN = Pattern.compile( "<a href=\"showplayer.php\\?who=(\\d+)\".*?<b>(.*?)</b>" );
 
-	public ContactListRequest( KoLmafia client )
-	{	super( client, "account_contactlist.php" );
+	public ContactListRequest()
+	{	super( "account_contactlist.php" );
 	}
 
 	protected void processResults()
@@ -53,7 +53,7 @@ public class ContactListRequest extends KoLRequest
 		{
 			Matcher entryMatcher = ENTRY_PATTERN.matcher( listMatcher.group() );
 			while ( entryMatcher.find() )
-				client.registerContact( entryMatcher.group(2), entryMatcher.group(1) );
+				StaticEntity.getClient().registerContact( entryMatcher.group(2), entryMatcher.group(1) );
 		}
 	}
 }

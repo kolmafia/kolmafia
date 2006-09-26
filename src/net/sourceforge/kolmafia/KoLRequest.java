@@ -127,7 +127,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private List data;
 
-	protected KoLmafia client;
 	protected boolean needsRefresh;
 	protected boolean statusChanged;
 
@@ -280,12 +279,12 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * Constructs a new KoLRequest which will notify the given client
 	 * of any changes and will use the given URL for data submission.
 	 *
-	 * @param	client	The client associated with this <code>KoLRequest</code>
+	 * @param	client	Theassociated with this <code>KoLRequest</code>
 	 * @param	formURLString	The form to be used in posting data
 	 */
 
-	protected KoLRequest( KoLmafia client, String formURLString )
-	{	this( client, formURLString, false );
+	protected KoLRequest( String formURLString )
+	{	this( formURLString, false );
 	}
 
 	/**
@@ -293,14 +292,13 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * of any changes and will use the given URL for data submission,
 	 * possibly following redirects if the parameter so specifies.
 	 *
-	 * @param	client	The client associated with this <code>KoLRequest</code>
+	 * @param	client	Theassociated with this <code>KoLRequest</code>
 	 * @param	formURLString	The form to be used in posting data
 	 * @param	followRedirects	<code>true</code> if redirects are to be followed
 	 */
 
-	protected KoLRequest( KoLmafia client, String formURLString, boolean followRedirects )
+	protected KoLRequest( String formURLString, boolean followRedirects )
 	{
-		this.client = client;
 		this.data = new ArrayList();
 		this.followRedirects = followRedirects;
 
@@ -606,7 +604,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			String oldAction = StaticEntity.getProperty( "battleAction" );
 			DEFAULT_SHELL.executeLine( "set battleAction=attack with weapon" );
 
-			FightRequest request = new FightRequest( client, false );
+			FightRequest request = new FightRequest( false );
 			request.run();
 
 			DEFAULT_SHELL.executeLine( "set battleAction=" + oldAction );
@@ -630,15 +628,15 @@ public class KoLRequest implements Runnable, KoLConstants
 				if ( responseText.indexOf( "crossbow" ) != -1 || responseText.indexOf( "staff" ) != -1 || responseText.indexOf( "sword" ) != -1 )
 				{
 					if ( responseText.indexOf( "asbestos" ) != -1 )
-						client.processResult( new AdventureResult( "asbestos ore", -3, false ) );
+						StaticEntity.getClient().processResult( new AdventureResult( "asbestos ore", -3, false ) );
 					else if ( responseText.indexOf( "linoleum" ) != -1 )
-						client.processResult( new AdventureResult( "linoleum ore", -3, false ) );
+						StaticEntity.getClient().processResult( new AdventureResult( "linoleum ore", -3, false ) );
 					else
-						client.processResult( new AdventureResult( "chrome ore", -3, false ) );
+						StaticEntity.getClient().processResult( new AdventureResult( "chrome ore", -3, false ) );
 				}
 				else if ( responseText.indexOf( "goat cheese pizza" ) != -1 )
 				{
-					client.processResult( new AdventureResult( "goat cheese", -6, false ) );
+					StaticEntity.getClient().processResult( new AdventureResult( "goat cheese", -6, false ) );
 				}
 			}
 		}
@@ -649,7 +647,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( urlString.indexOf( "council.php" ) != -1 )
 		{
 			if ( responseText.indexOf( "batskin belt" ) != -1 )
-				client.processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
+				StaticEntity.getClient().processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
 		}
 
 		// If this is an equipment request, then reprint the
@@ -659,7 +657,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			DEFAULT_SHELL.executeLine( "equip" );
 
 		if ( urlString.equals( "main.php?refreshtop=true&noobmessage=true" ) )
-			client.handleAscension();
+			StaticEntity.getClient().handleAscension();
 	}
 
 	public void execute()
@@ -686,7 +684,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			saveLastChoice( urlString );
 
 		if ( !isDelayExempt )
-			client.setCurrentRequest( this );
+			StaticEntity.getClient().setCurrentRequest( this );
 
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
@@ -716,8 +714,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			// the adventure requesting module.
 
 			encounter = AdventureRequest.registerEncounter( this );
+			boolean shouldIgnoreResults = shouldIgnoreResults();
 
-			if ( !shouldIgnoreResults() )
+			if ( !shouldIgnoreResults )
 				parseResults();
 
 			processResults();
@@ -734,6 +733,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			needsRefresh &= !(this instanceof LocalRelayRequest);
+			needsRefresh &= !shouldIgnoreResults;
 
 			if ( statusChanged && RequestFrame.willRefreshStatus() )
 			{
@@ -746,11 +746,13 @@ public class KoLRequest implements Runnable, KoLConstants
 				KoLCharacter.recalculateAdjustments( false );
 			}
 
-			client.applyEffects();
-			KoLCharacter.refreshCalculatedLists();
+			StaticEntity.getClient().applyEffects();
+
+			if ( needsRefresh || (!shouldIgnoreResults && responseText.indexOf( "You acquire" ) != -1) )
+				KoLCharacter.refreshCalculatedLists();
 		}
 
-		client.setCurrentRequest( null );
+		StaticEntity.getClient().setCurrentRequest( null );
 	}
 
 	private void saveLastChoice( String url )
@@ -1243,7 +1245,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				// You have been redirected to a fight!  Here, you need
 				// to complete the fight before you can continue.
 
-				FightRequest battle = new FightRequest( client );
+				FightRequest battle = new FightRequest();
 				battle.run();
 
 				return this instanceof AdventureRequest || getClass() == KoLRequest.class ||
@@ -1288,7 +1290,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			catch ( Exception e )
 			{
 				// An Exception is clearly an error; here it will be reported
-				// to the client, but another attempt will be made
+				// to the but another attempt will be made
 
 				if ( !isChatRequest )
 					KoLmafia.getDebugStream().println( "Error reading server reply.  Retrying..." );
@@ -1481,14 +1483,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		// for substring matching)
 
 		if ( !isConsumeRequest && responseText.indexOf( "our ten-leaf clover" ) != -1 && responseText.indexOf( "puff of smoke" ) != -1 )
-			client.processResult( SewerRequest.CLOVER );
+			StaticEntity.getClient().processResult( SewerRequest.CLOVER );
 
 		if ( formURLString.indexOf( "sewer.php" ) != -1 && responseText.indexOf( "You acquire" ) != -1 )
-			client.processResult( SewerRequest.GUM );
+			StaticEntity.getClient().processResult( SewerRequest.GUM );
 
 		int previousHP = KoLCharacter.getCurrentHP();
 
-		needsRefresh |= client.processResults( responseText );
+		needsRefresh |= StaticEntity.getClient().processResults( responseText );
 		needsRefresh |= getAdventuresUsed() > 0;
 
 		// If the character's health drops below zero, make sure
@@ -1500,9 +1502,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			// are beaten up in the middle of a battle.
 
 			if ( !formURLString.equals( "fight.php" ) || responseText.indexOf( "lair6.php" ) != -1 )
-				needsRefresh |= client.processResult( KoLAdventure.BEATEN_UP.getInstance( 4 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
+				needsRefresh |= StaticEntity.getClient().processResult( KoLAdventure.BEATEN_UP.getInstance( 4 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
 			else if ( KoLCharacter.getFamiliar().getID() != 50 )
-				needsRefresh |= client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
+				needsRefresh |= StaticEntity.getClient().processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
 		}
 	}
 
@@ -1511,7 +1513,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	/**
-	 * Utility method which notifies the client that it needs to process
+	 * Utility method which notifies thethat it needs to process
 	 * the given choice adventure.
 	 */
 
@@ -1521,7 +1523,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
 
-		KoLRequest request = new KoLRequest( client, "choice.php" );
+		KoLRequest request = new KoLRequest( "choice.php" );
 		request.run();
 
 		if ( getClass() != KoLRequest.class || StaticEntity.getBooleanProperty( "makeBrowserDecisions" ) )
@@ -1539,7 +1541,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void handleChoiceResponse( KoLRequest request )
 	{
-		client.processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
+		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
 		String text = request.responseText;
 
 		Matcher choiceMatcher = CHOICE_PATTERN.matcher( text );
@@ -1621,7 +1623,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		int meat = AdventureDatabase.consumesMeat( option, decision );
 		if ( meat > 0 )
-			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - meat ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - meat ) );
 
 		// Manually process any adventure usage for choice adventures,
 		// since they necessarily consume an adventure.

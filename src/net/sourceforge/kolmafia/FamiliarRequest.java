@@ -41,15 +41,15 @@ public class FamiliarRequest extends KoLRequest
 	private static final Pattern EQUIP_PATTERN = Pattern.compile( "newfam=(\\d+)" );
 	private FamiliarData changeTo;
 
-	public FamiliarRequest( KoLmafia client )
+	public FamiliarRequest()
 	{
-		super( client, "familiar.php" );
+		super( "familiar.php" );
 		this.changeTo = null;
 	}
 
-	public FamiliarRequest( KoLmafia client, FamiliarData changeTo )
+	public FamiliarRequest( FamiliarData changeTo )
 	{
-		super( client, "familiar.php" );
+		super( "familiar.php" );
 
 		if ( changeTo == FamiliarData.NO_FAMILIAR )
 		{
@@ -90,7 +90,7 @@ public class FamiliarRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		FamiliarData.registerFamiliarData( client, responseText );
+		FamiliarData.registerFamiliarData( responseText );
 		KoLCharacter.updateEquipmentList( KoLCharacter.FAMILIAR );
 
 		if ( changeTo == null )

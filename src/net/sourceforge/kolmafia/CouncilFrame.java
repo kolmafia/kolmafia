@@ -43,9 +43,9 @@ import java.awt.BorderLayout;
 public class CouncilFrame extends RequestFrame
 {
 	public CouncilFrame()
-	{	super( "Council of Loathing", new KoLRequest( StaticEntity.getClient(), "council.php", true ) );
+	{	super( "Council of Loathing", new KoLRequest( "council.php", true ) );
 	}
-	
+
 	public boolean hasSideBar()
 	{	return false;
 	}

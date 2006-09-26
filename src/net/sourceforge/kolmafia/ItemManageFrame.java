@@ -143,7 +143,7 @@ public class ItemManageFrame extends KoLFrame
 
 			setButtons( new String [] { "use one", "use multiple", "refresh" },
 				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ),
-				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
+				new RequestButton( "Refresh Items", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
 
 			filters = new JCheckBox[3];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
@@ -193,7 +193,7 @@ public class ItemManageFrame extends KoLFrame
 					if ( consumptionCount == 0 )
 						return;
 
-					requests[i] = new ConsumeItemRequest( StaticEntity.getClient(), currentItem.getInstance( consumptionCount ) );
+					requests[i] = new ConsumeItemRequest( currentItem.getInstance( consumptionCount ) );
 				}
 
 				(new RequestThread( requests )).start();
@@ -237,7 +237,7 @@ public class ItemManageFrame extends KoLFrame
 					return;
 
 				Runnable request = elementList.getModel() == restaurantItems ?
-					(KoLRequest) (new RestaurantRequest( StaticEntity.getClient(), item )) : (KoLRequest) (new MicrobreweryRequest( StaticEntity.getClient(), item ));
+					(KoLRequest) (new RestaurantRequest( item )) : (KoLRequest) (new MicrobreweryRequest( item ));
 
 				(new RequestThread( request, consumptionCount )).start();
 			}
@@ -295,7 +295,7 @@ public class ItemManageFrame extends KoLFrame
 				this.requests = new Runnable[ !retrieveFromClosetFirst || description.equals( "Bagging" ) ? 1 : 2 ];
 
 				if ( retrieveFromClosetFirst )
-					requests[0] = new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.CLOSET_TO_INVENTORY, items );
+					requests[0] = new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items );
 
 				return items;
 			}
@@ -318,7 +318,7 @@ public class ItemManageFrame extends KoLFrame
 					return;
 
 				if ( !retrieveFromClosetFirst )
-					requests[0] = new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.INVENTORY_TO_CLOSET, items );
+					requests[0] = new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items );
 
 				initializeTransfer();
 			}
@@ -356,7 +356,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( items == null )
 					return;
 
-				requests[ requests.length - 1 ] = new AutoSellRequest( StaticEntity.getClient(), items, sellType );
+				requests[ requests.length - 1 ] = new AutoSellRequest( items, sellType );
 				initializeTransfer();
 			}
 		}
@@ -373,7 +373,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( items == null )
 					return;
 
-				requests[ requests.length - 1 ] = new ClanStashRequest( StaticEntity.getClient(), items, ClanStashRequest.ITEMS_TO_STASH );
+				requests[ requests.length - 1 ] = new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH );
 				initializeTransfer();
 			}
 		}
@@ -396,7 +396,7 @@ public class ItemManageFrame extends KoLFrame
 					return;
 				}
 
-				requests[ requests.length - 1 ] = new MuseumRequest( StaticEntity.getClient(), items, true );
+				requests[ requests.length - 1 ] = new MuseumRequest( items, true );
 				initializeTransfer();
 			}
 		}
@@ -420,7 +420,7 @@ public class ItemManageFrame extends KoLFrame
 						JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 							items[i].getName() + " is untradeable.  Are you sure?", "Smash request nag screen!", JOptionPane.YES_NO_OPTION );
 
-					requests[i] = willSmash ? new PulverizeRequest( StaticEntity.getClient(), items[i] ) : null;
+					requests[i] = willSmash ? new PulverizeRequest( items[i] ) : null;
 				}
 
 				initializeTransfer();
@@ -441,7 +441,7 @@ public class ItemManageFrame extends KoLFrame
 					new PulverizeListener( false, elementList ),
 					new PutOnDisplayListener( false, elementList ),
 					new GiveToClanListener( false, elementList ),
-					new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
+					new RequestButton( "Refresh Items", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
 		}
 	}
 
@@ -458,7 +458,7 @@ public class ItemManageFrame extends KoLFrame
 					new PulverizeListener( true, elementList ),
 					new PutOnDisplayListener( true, elementList ),
 					new GiveToClanListener( true, elementList ),
-					new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
+					new RequestButton( "Refresh Items", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
 		}
 	}
 
@@ -485,7 +485,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public SearchListener( String location )
 			{
-				request = new KoLRequest( StaticEntity.getClient(), location, true );
+				request = new KoLRequest( location, true );
 				request.addFormField( "pwd" );
 
 				if ( location.equals( "gnomes.php" ) )
@@ -698,7 +698,7 @@ public class ItemManageFrame extends KoLFrame
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			setButtons( new String [] { "create one", "create multiple", "refresh" },
 				new ActionListener [] { new CreateListener( false ), new CreateListener( true ),
-				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
+				new RequestButton( "Refresh Items", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
 
 			JCheckBox [] filters = new JCheckBox[6];
 
@@ -737,7 +737,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( setting.equals( "showStashIngredients" ) && KoLCharacter.hasClan() && isSelected() &&
 					StaticEntity.getClient().shouldMakeConflictingRequest() && !ClanManager.isStashRetrieved() )
 				{
-					(new RequestThread( new ClanStashRequest( StaticEntity.getClient() ) )).start();
+					(new RequestThread( new ClanStashRequest() )).start();
 				}
 
 				ConcoctionsDatabase.refreshConcoctions();

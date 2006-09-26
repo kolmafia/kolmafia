@@ -149,7 +149,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	/**
 	 * Whenever the tab changes, this method is used to retrieve
-	 * the messages from the appropriate StaticEntity.getClient(), if the mailbox
+	 * the messages from the appropriate if the mailbox
 	 * is currently empty.
 	 */
 
@@ -200,7 +200,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public RequestMailboxThread( String mailboxName )
 		{
-			super( new MailboxRequest( StaticEntity.getClient(), mailboxName ) );
+			super( new MailboxRequest( mailboxName ) );
 			this.mailboxName = mailboxName;
 		}
 

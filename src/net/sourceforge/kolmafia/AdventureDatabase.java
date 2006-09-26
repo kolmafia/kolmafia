@@ -618,14 +618,14 @@ public class AdventureDatabase extends KoLDatabase
 
 		for ( int i = 1; isValidZone && i < validationRequests.size() - 1; ++i )
 		{
-			KoLRequest request = new KoLRequest( getClient(), (String) validationRequests.get(0) );
+			KoLRequest request = new KoLRequest( (String) validationRequests.get(0) );
 			request.run();
 
 			isValidZone &= request.responseText != null &&
 				request.responseText.indexOf( (String) validationRequests.get(i) ) != -1;
 		}
 
-		KoLRequest request = new KoLRequest( getClient(), (String) validationRequests.get( validationRequests.size() - 1 ) );
+		KoLRequest request = new KoLRequest( (String) validationRequests.get( validationRequests.size() - 1 ) );
 		request.run();
 
 		isValidZone &= request.responseText != null;
@@ -667,7 +667,7 @@ public class AdventureDatabase extends KoLDatabase
 
 	private static KoLAdventure getAdventure( int tableIndex )
 	{
-		return new KoLAdventure( getClient(),
+		return new KoLAdventure(
 			adventureTable[0].get( tableIndex ), adventureTable[1].get( tableIndex ),
 			adventureTable[2].get( tableIndex ), adventureTable[3].get( tableIndex ),
 			adventureTable[4].get( tableIndex ), adventureTable[5].get( tableIndex ) );
@@ -848,7 +848,7 @@ public class AdventureDatabase extends KoLDatabase
 			// Next, attempt to create the item from existing
 			// ingredients (if possible).
 
-			ItemCreationRequest creator = ItemCreationRequest.getInstance( getClient(), item.getItemID(), missingCount );
+			ItemCreationRequest creator = ItemCreationRequest.getInstance( item.getItemID(), missingCount );
 			if ( creator != null )
 			{
 				if ( ConcoctionsDatabase.getMixingMethod( item.getItemID() ) == ItemCreationRequest.NOCREATE ||
@@ -869,7 +869,7 @@ public class AdventureDatabase extends KoLDatabase
 			{
 				int worthlessItemCount = HermitRequest.getWorthlessItemCount();
 				if ( worthlessItemCount > 0 )
-					(new HermitRequest( getClient(), item.getItemID(), Math.min( worthlessItemCount, missingCount ) )).run();
+					(new HermitRequest( item.getItemID(), Math.min( worthlessItemCount, missingCount ) )).run();
 
 				missingCount = item.getCount() - item.getCount( inventory );
 
@@ -908,7 +908,7 @@ public class AdventureDatabase extends KoLDatabase
 				if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 				{
 					if ( !ClanManager.isStashRetrieved() )
-						(new ClanStashRequest( getClient() )).run();
+						(new ClanStashRequest()).run();
 
 					missingCount = retrieveItem( "stash take", ClanManager.getStash(), item, missingCount );
 					if ( missingCount <= 0 )
@@ -951,7 +951,7 @@ public class AdventureDatabase extends KoLDatabase
 			if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 			{
 				if ( !ClanManager.isStashRetrieved() )
-					(new ClanStashRequest( getClient() )).run();
+					(new ClanStashRequest()).run();
 
 				missingCount = retrieveItem( "stash take", ClanManager.getStash(), item, missingCount );
 				if ( missingCount <= 0 )

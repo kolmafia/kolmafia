@@ -4046,14 +4046,14 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue museum_amount( ScriptVariable arg )
 		{
 			if ( collection.isEmpty() )
-				(new MuseumRequest( getClient() )).run();
+				(new MuseumRequest()).run();
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 			return new ScriptValue( item.getCount( collection ) );
 		}
 
 		public ScriptValue shop_amount( ScriptVariable arg )
 		{
-			(new StoreManageRequest( getClient() )).run();
+			(new StoreManageRequest()).run();
 
 			LockableListModel list = StoreManager.getSoldItemList();
 			StoreManager.SoldItem item = new StoreManager.SoldItem( arg.intValue(), 0, 0, 0, 0 );
@@ -4074,7 +4074,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue refresh_stash()
 		{
-			(new ClanStashRequest( getClient() )).run();
+			(new ClanStashRequest()).run();
 			return continueValue();
 		}
 
@@ -4082,14 +4082,14 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			List stash = ClanManager.getStash();
 			if ( stash.size() == 0 )
-				(new ClanStashRequest( getClient() )).run();
+				(new ClanStashRequest()).run();
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 			return new ScriptValue( item.getCount( stash ) );
 		}
 
 		public ScriptValue creatable_amount( ScriptVariable arg )
 		{
-			ItemCreationRequest item = ItemCreationRequest.getInstance( getClient(), arg.intValue(), 0 );
+			ItemCreationRequest item = ItemCreationRequest.getInstance( arg.intValue(), 0 );
 			return new ScriptValue( item == null ? 0 : item.getCount( ConcoctionsDatabase.getConcoctions() ) );
 		}
 
@@ -4387,7 +4387,7 @@ public class KoLmafiaASH extends StaticEntity
 			String itemName = item.toStringValue().toString();
 
 			if ( hunterItems.isEmpty() )
-				(new BountyHunterRequest( getClient() )).run();
+				(new BountyHunterRequest()).run();
 
 			for ( int i = 0; i < hunterItems.size(); ++i )
 				if ( ((String)hunterItems.get(i)).equalsIgnoreCase( itemName ) )
@@ -4669,7 +4669,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			boolean wasChoice = location.indexOf( "choice.php" ) != -1;
 
-			KoLRequest request = new KoLRequest( getClient(), location, true );
+			KoLRequest request = new KoLRequest( location, true );
 			request.run();
 
 			if ( !wasChoice && request.getURLString().indexOf( "choice.php" ) != -1 && getBooleanProperty( "makeBrowserDecisions" ) )

@@ -45,21 +45,21 @@ public class StoreManageRequest extends KoLRequest
 	private int takenItemID;
 	private int requestType;
 
-	public StoreManageRequest( KoLmafia client )
+	public StoreManageRequest()
 	{
-		super( client, "manageprices.php" );
+		super( "manageprices.php" );
 		this.requestType = PRICE_MANAGEMENT;
 	}
 
-	public StoreManageRequest( KoLmafia client, boolean isStoreLog )
+	public StoreManageRequest( boolean isStoreLog )
 	{
-		super( client, isStoreLog ? "storelog.php" : "manageprices.php" );
+		super( isStoreLog ? "storelog.php" : "manageprices.php" );
 		this.requestType = VIEW_STORE_LOG;
 	}
 
-	public StoreManageRequest( KoLmafia client, int itemID )
+	public StoreManageRequest( int itemID )
 	{
-		super( client, "managestore.php" );
+		super( "managestore.php" );
 		addFormField( "action", "takeall" );
 		addFormField( "whichitem", String.valueOf( itemID ) );
 
@@ -67,9 +67,9 @@ public class StoreManageRequest extends KoLRequest
 		this.takenItemID = itemID;
 	}
 
-	public StoreManageRequest( KoLmafia client, int [] itemID, int [] prices, int [] limits )
+	public StoreManageRequest( int [] itemID, int [] prices, int [] limits )
 	{
-		super( client, "manageprices.php" );
+		super( "manageprices.php" );
 		addFormField( "action", "update" );
 		addFormField( "pwd" );
 
@@ -127,7 +127,7 @@ public class StoreManageRequest extends KoLRequest
 
 		Matcher takenItemMatcher = Pattern.compile( "<option value=\"" + takenItemID + "\">.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
 		if ( takenItemMatcher.find() )
-			client.processResult( takenItem.getInstance( StaticEntity.parseInt( takenItemMatcher.group(1) ) - takenItem.getCount( inventory ) ) );
+			StaticEntity.getClient().processResult( takenItem.getInstance( StaticEntity.parseInt( takenItemMatcher.group(1) ) - takenItem.getCount( inventory ) ) );
 
 		StoreManager.update( responseText, false );
 		KoLmafia.updateDisplay( takenItem.getName() + " removed from your store." );

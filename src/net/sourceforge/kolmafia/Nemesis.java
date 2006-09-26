@@ -55,13 +55,13 @@ public abstract class Nemesis extends StaticEntity
 
 		KoLRequest request;
 
-		// If the getClient() has not yet been set, then there is no cave
+		// If thehas not yet been set, then there is no cave
 
 		KoLmafia.updateDisplay( "Checking prerequisites..." );
 
 		// Make sure the player has been given the quest
 
-		request = new KoLRequest( getClient(), "mountains.php", true );
+		request = new KoLRequest( "mountains.php", true );
 		request.run();
 
 		if ( request.responseText.indexOf( "cave.php" ) == -1 )
@@ -82,7 +82,7 @@ public abstract class Nemesis extends StaticEntity
 
 		// See how far the player has gotten in this quest
 
-		KoLRequest request = new KoLRequest( getClient(), "cave.php", true );
+		KoLRequest request = new KoLRequest( "cave.php", true );
 		request.run();
 
 		if ( request.responseText == null )
@@ -221,7 +221,7 @@ public abstract class Nemesis extends StaticEntity
 			}
 
 			// Visit the cave
-			request = new KoLRequest( getClient(), "cave.php?action=" + action );
+			request = new KoLRequest( "cave.php?action=" + action );
 			request.run();
 
 			if ( request.responseText != null && request.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )

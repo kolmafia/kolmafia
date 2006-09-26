@@ -70,12 +70,12 @@ public class SearchMallRequest extends KoLRequest
 	 * Constructs a new <code>SearchMallRequest</code> which searches for
 	 * the given item, storing the results in the given <code>ListModel</code>.
 	 *
-	 * @param	client	The client to be notified in case of error
+	 * @param	client	Theto be notified in case of error
 	 */
 
-	public SearchMallRequest( KoLmafia client, int storeID )
+	public SearchMallRequest( int storeID )
 	{
-		super( client, "mallstore.php" );
+		super( "mallstore.php" );
 		addFormField( "whichstore", String.valueOf( storeID ) );
 
 		this.results = new ArrayList();
@@ -89,14 +89,14 @@ public class SearchMallRequest extends KoLRequest
 	 * Note that the search string is exactly the same as the way KoL does
 	 * it at the current time.
 	 *
-	 * @param	client	The client to be notified in case of error
+	 * @param	client	Theto be notified in case of error
 	 * @param	searchString	The string (including wildcards) for the item to be found
 	 * @param	cheapestCount	The number of stores to show; use a non-positive number to show all
 	 * @param	results	The sorted list in which to store the results
 	 */
 
-	public SearchMallRequest( KoLmafia client, String searchString, int cheapestCount, List results )
-	{	this( client, searchString, cheapestCount, results, false, true );
+	public SearchMallRequest( String searchString, int cheapestCount, List results )
+	{	this( searchString, cheapestCount, results, false, true );
 	}
 
 	/**
@@ -105,14 +105,14 @@ public class SearchMallRequest extends KoLRequest
 	 * Note that the search string is exactly the same as the way KoL does
 	 * it at the current time.
 	 *
-	 * @param	client	The client to be notified in case of error
+	 * @param	client	Theto be notified in case of error
 	 * @param	searchString	The string (including wildcards) for the item to be found
 	 * @param	cheapestCount	The number of stores to show; use a non-positive number to show all
 	 * @param	results	The sorted list in which to store the results
 	 */
 
-	public SearchMallRequest( KoLmafia client, String searchString, int cheapestCount, List results, boolean retainAll )
-	{	this( client, searchString, cheapestCount, results, retainAll, false );
+	public SearchMallRequest( String searchString, int cheapestCount, List results, boolean retainAll )
+	{	this( searchString, cheapestCount, results, retainAll, false );
 	}
 
 	/**
@@ -121,16 +121,16 @@ public class SearchMallRequest extends KoLRequest
 	 * Note that the search string is exactly the same as the way KoL does
 	 * it at the current time.
 	 *
-	 * @param	client	The client to be notified in case of error
+	 * @param	client	Theto be notified in case of error
 	 * @param	searchString	The string (including wildcards) for the item to be found
 	 * @param	cheapestCount	The number of stores to show; use a non-positive number to show all
 	 * @param	results	The sorted list in which to store the results
 	 * @param	sortAfter	Whether the results should be resorted by price afterwards
 	 */
 
-	public SearchMallRequest( KoLmafia client, String searchString, int cheapestCount, List results, boolean retainAll, boolean sortAfter )
+	public SearchMallRequest( String searchString, int cheapestCount, List results, boolean retainAll, boolean sortAfter )
 	{
-		super( client, searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
+		super( searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
 
 		this.searchString = getItemName( searchString );
 		addFormField( "whichitem", this.searchString );
@@ -206,7 +206,7 @@ public class SearchMallRequest extends KoLRequest
 
 	public void run()
 	{
-		// Check to see if the client is able to actually
+		// Check to see if theis able to actually
 		// use the mall -- some people are hardcore or are
 		// somewhere in ronin.
 
@@ -286,7 +286,7 @@ public class SearchMallRequest extends KoLRequest
 					limit = StaticEntity.parseInt( limitMatcher.group(1) );
 
 				int price = StaticEntity.parseInt( priceID.substring( priceID.length() - 9 ) );
-				results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit, true ) );
+				results.add( new MallPurchaseRequest( itemName, itemID, quantity, shopID, shopName, price, limit, true ) );
 			}
 		}
 		else
@@ -298,7 +298,7 @@ public class SearchMallRequest extends KoLRequest
 			while ( storeMatcher.find( lastFindIndex ) )
 			{
 				lastFindIndex = storeMatcher.end();
-				individualStore = new SearchMallRequest( client, StaticEntity.parseInt( storeMatcher.group(1) ) );
+				individualStore = new SearchMallRequest( StaticEntity.parseInt( storeMatcher.group(1) ) );
 				individualStore.run();
 
 				results.addAll( individualStore.results );
@@ -366,7 +366,7 @@ public class SearchMallRequest extends KoLRequest
 			// Only add mall store results if the NPC store option
 			// is not available.
 
-			results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit, canPurchase ) );
+			results.add( new MallPurchaseRequest( itemName, itemID, quantity, shopID, shopName, price, limit, canPurchase ) );
 		}
 
 		// Once the search is complete, add in any remaining NPC

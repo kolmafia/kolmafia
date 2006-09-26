@@ -57,13 +57,12 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	private List ascensionData;
 	private int hardcoreCount, softcoreCount;
 
-	public AscensionDataRequest( KoLmafia client, String playerName, String playerID )
+	public AscensionDataRequest( String playerName, String playerID )
 	{
-		super( client, "ascensionhistory.php" );
-		addFormField( "back", "self" );
+		super( "ascensionhistory.php" );
 
-		if ( client != null )
-			addFormField( "who", KoLmafia.getPlayerID( playerName ) );
+		addFormField( "back", "self" );
+		addFormField( "who", KoLmafia.getPlayerID( playerName ) );
 
 		this.playerName = playerName;
 		this.playerID = playerID;
@@ -317,7 +316,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 	public static AscensionDataRequest getInstance( String playerName, String playerID, String responseText )
 	{
-		AscensionDataRequest instance = new AscensionDataRequest( null, playerName, playerID );
+		AscensionDataRequest instance = new AscensionDataRequest( playerName, playerID );
 
 		instance.responseText = responseText;
 		instance.refreshFields();

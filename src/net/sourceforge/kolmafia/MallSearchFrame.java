@@ -125,7 +125,7 @@ public class MallSearchFrame extends KoLPanelFrame
 			if ( searchCount > 0 )
 				StaticEntity.setProperty( "defaultLimit", String.valueOf( searchCount ) );
 
-			searchMall( new SearchMallRequest( StaticEntity.getClient(), searchField.getText(), searchCount, results, false, forceSortingCheckBox.isSelected() ) );
+			searchMall( new SearchMallRequest( searchField.getText(), searchCount, results, false, forceSortingCheckBox.isSelected() ) );
 		}
 
 		public void actionCancelled()

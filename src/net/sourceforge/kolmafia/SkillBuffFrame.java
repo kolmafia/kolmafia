@@ -124,14 +124,14 @@ public class SkillBuffFrame extends KoLFrame
 			if ( targets.length == 0 )
 			{
 				requests = new Runnable[1];
-				requests[0] = new UseSkillRequest( StaticEntity.getClient(), buffName, "", buffCount );
+				requests[0] = new UseSkillRequest( buffName, "", buffCount );
 			}
 			else
 			{
 				requests = new Runnable[ targets.length ];
 				for ( int i = 0; i < requests.length && KoLmafia.permitsContinue(); ++i )
 					if ( targets[i] != null )
-						requests[i] = new UseSkillRequest( StaticEntity.getClient(), buffName, targets[i], buffCount );
+						requests[i] = new UseSkillRequest( buffName, targets[i], buffCount );
 			}
 
 			(new RequestThread( requests )).start();
@@ -145,7 +145,7 @@ public class SkillBuffFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new UneffectRequest( StaticEntity.getClient(), (AdventureResult) elementList.getSelectedValue() ) )).start();
+		{	(new RequestThread( new UneffectRequest( (AdventureResult) elementList.getSelectedValue() ) )).start();
 		}
 
 		public void actionCancelled()

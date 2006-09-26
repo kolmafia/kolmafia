@@ -449,7 +449,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	}
 
 	/**
-	 * Registers the client that is supposed to be used for handling data submission
+	 * Registers thethat is supposed to be used for handling data submission
 	 * to the Kingdom of Loathing server.
 	 */
 
@@ -1587,7 +1587,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				try
 				{
-					request = new KoLRequest( StaticEntity.getClient(), URLDecoder.decode( actionString.toString(), "UTF-8" ), true );
+					request = new KoLRequest( URLDecoder.decode( actionString.toString(), "UTF-8" ), true );
 				}
 				catch ( Exception e )
 				{
@@ -1595,7 +1595,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					// a stack trace for debug purposes.
 
 					StaticEntity.printStackTrace( e );
-					request = new KoLRequest( StaticEntity.getClient(), actionString.toString(), true );
+					request = new KoLRequest( actionString.toString(), true );
 				}
 			}
 			else
@@ -1603,7 +1603,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				// For normal URLs, the form data can be submitted
 				// just like in every other request.
 
-				request = new KoLRequest( StaticEntity.getClient(), action, true );
+				request = new KoLRequest( action, true );
 				if ( elements[0].length() > 0 )
 					for ( int i = 0; i < elements.length; ++i )
 						if ( elements[i] != null )
@@ -1644,7 +1644,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			downloadImage( location );
 			location = location.substring( location.indexOf( "/" ) );
 
-			KoLRequest request = new KoLRequest( StaticEntity.getClient(), location );
+			KoLRequest request = new KoLRequest( location );
 			request.responseCode = 200;
 			request.responseText = "<html><img src=\"" + location + "\"></html>";
 			request.fullResponse = request.responseText;
@@ -1658,9 +1658,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		KoLRequest request = null;
 
 		if ( location.startsWith( "campground.php" ) )
-			request = new CampgroundRequest( StaticEntity.getClient() );
+			request = new CampgroundRequest();
 		else
-			request = new KoLRequest( StaticEntity.getClient(), urlData[0], true );
+			request = new KoLRequest( urlData[0], true );
 
 		for ( int i = 0; i < formData.length; ++i )
 		{

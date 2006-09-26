@@ -65,9 +65,9 @@ public class ProfileRequest extends KoLRequest
 	private String clanName;
 	private int equipmentPower;
 
-	public ProfileRequest( KoLmafia client, String playerName )
+	public ProfileRequest( String playerName )
 	{
-		super( client, "showplayer.php" );
+		super( "showplayer.php" );
 
 		if ( playerName.startsWith( "#" ) )
 		{
@@ -241,7 +241,7 @@ public class ProfileRequest extends KoLRequest
 
 	public static ProfileRequest getInstance( String playerName, String playerID, String playerLevel, String responseText, String rosterRow )
 	{
-		ProfileRequest instance = new ProfileRequest( StaticEntity.getClient(), playerName );
+		ProfileRequest instance = new ProfileRequest( playerName );
 		instance.playerID = playerID;
 
 		// First, initialize the level field for the
@@ -312,7 +312,7 @@ public class ProfileRequest extends KoLRequest
 
 	public static ProfileRequest getInstance( String playerName, String playerID, String clanName, Integer playerLevel, String classType, Integer pvpRank )
 	{
-		ProfileRequest instance = new ProfileRequest( StaticEntity.getClient(), playerName );
+		ProfileRequest instance = new ProfileRequest( playerName );
 		instance.playerID = playerID;
 		instance.playerLevel = playerLevel;
 		instance.clanName = clanName == null ? "" : clanName;

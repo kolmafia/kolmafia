@@ -42,9 +42,9 @@ public class StarChartRequest extends ItemCreationRequest
 
 	private int stars, lines;
 
-	public StarChartRequest( KoLmafia client, int itemID, int quantityNeeded )
+	public StarChartRequest( int itemID, int quantityNeeded )
 	{
-		super( client, "starchart.php", itemID, quantityNeeded );
+		super( "starchart.php", itemID, quantityNeeded );
 
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 		if ( ingredients != null )
@@ -94,9 +94,9 @@ public class StarChartRequest extends ItemCreationRequest
 
 		// Account for the results
 
-		client.processResult( new AdventureResult( STAR, 0 - stars ) );
-		client.processResult( new AdventureResult( LINE, 0 - lines ) );
-		client.processResult( CHART );
+		StaticEntity.getClient().processResult( new AdventureResult( STAR, 0 - stars ) );
+		StaticEntity.getClient().processResult( new AdventureResult( LINE, 0 - lines ) );
+		StaticEntity.getClient().processResult( CHART );
 	}
 
 	public static boolean processRequest( String urlString )

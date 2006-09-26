@@ -59,16 +59,16 @@ public class CharsheetRequest extends KoLRequest
 	 * in the KoLCharacter entity will be overridden over the
 	 * course of this request.
 	 *
-	 * @param	client	The client to be notified in case of errors
+	 * @param	client	Theto be notified in case of errors
 	 */
 
-	public CharsheetRequest( KoLmafia client )
+	public CharsheetRequest()
 	{
 		// The only thing to do is to retrieve the page from
-		// the client - all variable initialization comes from
+		// the- all variable initialization comes from
 		// when the request is actually run.
 
-		super( client, "charsheet.php" );
+		super( "charsheet.php" );
 	}
 
 	/**
@@ -317,7 +317,7 @@ public class CharsheetRequest extends KoLRequest
 					skipTokens( cleanContent, 2 );
 			}
 			else if ( ClassSkillsDatabase.contains( token ) )
-				newSkillSet.add( new UseSkillRequest( StaticEntity.getClient(), token, "", 1 ) );
+				newSkillSet.add( new UseSkillRequest( token, "", 1 ) );
 
 			// No more tokens if no familiar equipped
 			if ( !cleanContent.hasMoreTokens() )

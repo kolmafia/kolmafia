@@ -46,12 +46,12 @@ public class CampgroundRequest extends KoLRequest
 
 	/**
 	 * Constructs a new <code>CampgroundRequest</code>.
-	 * @param	client	The client to be notified of all the information parsed
+	 * @param	client	Theto be notified of all the information parsed
 	 */
 
-	public CampgroundRequest( KoLmafia client )
+	public CampgroundRequest()
 	{
-		super( client, "campground.php" );
+		super( "campground.php" );
 		this.action = "";
 	}
 
@@ -60,15 +60,15 @@ public class CampgroundRequest extends KoLRequest
 	 * specified action in mind.
 	 */
 
-	public CampgroundRequest( KoLmafia client, String action )
+	public CampgroundRequest( String action )
 	{
-		super( client, "campground.php" );
+		super( "campground.php" );
 		addFormField( "action", action );
 		this.action = action;
 	}
 
 	/**
-	 * Runs the campground request, updating the client as appropriate.
+	 * Runs the campground request, updating theas appropriate.
 	 */
 
 	public void run()

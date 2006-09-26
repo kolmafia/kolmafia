@@ -60,20 +60,20 @@ public class HermitRequest extends KoLRequest
 	 * must be <code>KoLSettings</code> specifying the trade that takes
 	 * place.
 	 *
-	 * @param	client	The client to which this request will report errors/results
+	 * @param	client	Theto which this request will report errors/results
 	 */
 
-	public HermitRequest( KoLmafia client )
+	public HermitRequest()
 	{
-		super( client, "hermit.php" );
+		super( "hermit.php" );
 
 		this.itemID = -1;
 		this.quantity = 0;
 	}
 
-	public HermitRequest( KoLmafia client, int itemID, int quantity )
+	public HermitRequest( int itemID, int quantity )
 	{
-		super( client, "hermit.php" );
+		super( "hermit.php" );
 
 		this.itemID = itemID;
 		this.quantity = quantity;
@@ -88,7 +88,7 @@ public class HermitRequest extends KoLRequest
 	 * Executes the <code>HermitRequest</code>.  This will trade the item
 	 * specified in the character's <code>KoLSettings</code> for their
 	 * worthless trinket; if the character has no worthless trinkets, this
-	 * method will report an error to the client.
+	 * method will report an error to the StaticEntity.getClient().
 	 */
 
 	public void run()
@@ -177,12 +177,12 @@ public class HermitRequest extends KoLRequest
 		{
 			// Figure out how many items you do have.
 
-			(new EquipmentRequest( client, EquipmentRequest.CLOSET )).run();
+			(new EquipmentRequest( EquipmentRequest.CLOSET )).run();
 			int actualQuantity = getWorthlessItemCount();
 
 			if ( actualQuantity > 0 )
 			{
-				(new HermitRequest( client, itemID, actualQuantity )).run();
+				(new HermitRequest( itemID, actualQuantity )).run();
 				return;
 			}
 
@@ -210,7 +210,7 @@ public class HermitRequest extends KoLRequest
 		// Hermit Permit, right?&quot;" or "your Hermit Permits"
 
 		if ( responseText.indexOf( "He looks confused for a moment." ) == -1 )
-			client.processResult( new AdventureResult( 42, 0 - quantity ) );
+			StaticEntity.getClient().processResult( new AdventureResult( 42, 0 - quantity ) );
 
 		// Subtract the worthless items in order of their priority;
 		// as far as we know, the priority is the item ID.
@@ -225,7 +225,7 @@ public class HermitRequest extends KoLRequest
 	private int subtractWorthlessItems( AdventureResult item, int total )
 	{
 		int count = 0 - Math.min( total, item.getCount( inventory ) );
-		client.processResult( item.getInstance( count ) );
+		StaticEntity.getClient().processResult( item.getInstance( count ) );
 		return 0 - count;
 	}
 
@@ -242,7 +242,7 @@ public class HermitRequest extends KoLRequest
 	public static final boolean isCloverDay()
 	{
 		if ( !hermitItems.contains( "ten-leaf clover" ) )
-			(new HermitRequest( StaticEntity.getClient() )).run();
+			(new HermitRequest()).run();
 
 		return hermitItems.contains( "ten-leaf clover" );
 	}

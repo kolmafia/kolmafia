@@ -42,11 +42,11 @@ public abstract class PasswordHashRequest extends KoLRequest
 
 	/**
 	 * Constructs a new <code>PasswordHashRequest</code>.
-	 * @param	client	The client where the hash will be stored
+	 * @param	client	Thewhere the hash will be stored
 	 */
 
-	public PasswordHashRequest( KoLmafia client, String location )
-	{	super( client, location );
+	public PasswordHashRequest( String location )
+	{	super( location );
 	}
 
 	protected void processResults()

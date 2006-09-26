@@ -145,7 +145,7 @@ public class CharsheetFrame extends KoLFrame
 
 		this.avatar = new JLabel( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );
 		imagePanel.add( avatar, BorderLayout.CENTER );
-		imagePanel.add( new RequestButton( "Refresh Status", new CharsheetRequest( StaticEntity.getClient() ) ), BorderLayout.SOUTH );
+		imagePanel.add( new RequestButton( "Refresh Status", new CharsheetRequest() ), BorderLayout.SOUTH );
 
 
 		return imagePanel;

@@ -70,8 +70,8 @@ public class LocalRelayRequest extends KoLRequest
 	protected byte [] rawByteBuffer = null;
 	protected String contentType = null;
 
-	public LocalRelayRequest( KoLmafia client, String formURLString )
-	{	super( client, formURLString );
+	public LocalRelayRequest( String formURLString )
+	{	super( formURLString );
 	}
 
 	public String getFullResponse()
@@ -796,7 +796,7 @@ public class LocalRelayRequest extends KoLRequest
 
 	private void downloadSimulatorFile( String filename )
 	{
-		LocalRelayRequest request = new LocalRelayRequest( client, "http://sol.kolmafia.us/" + filename );
+		LocalRelayRequest request = new LocalRelayRequest( "http://sol.kolmafia.us/" + filename );
 		request.run();
 
 		File directory = new File( "html/simulator/" );

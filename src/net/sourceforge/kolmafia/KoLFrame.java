@@ -248,7 +248,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				KoLmafia.endSession();
 
 			KoLmafia.forceContinue();
-			(new LogoutRequest( StaticEntity.getClient() )).run();
+			(new LogoutRequest()).run();
 			createDisplay( LoginFrame.class );
 		}
 	}

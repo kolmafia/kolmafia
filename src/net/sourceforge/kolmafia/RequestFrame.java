@@ -81,7 +81,7 @@ public class RequestFrame extends KoLFrame
 	private JTextField locationField = new JTextField();
 
 	public RequestFrame()
-	{	this( "Mini-Browser", new KoLRequest( StaticEntity.getClient(), "main.php", true ) );
+	{	this( "Mini-Browser", new KoLRequest( "main.php", true ) );
 	}
 
 	public RequestFrame( KoLRequest request )
@@ -231,7 +231,7 @@ public class RequestFrame extends KoLFrame
 			BrowserComboBoxItem selected = (BrowserComboBoxItem) source.getSelectedItem();
 
 			if ( !selected.getLocation().equals( "" ) )
-				refresh( new KoLRequest( StaticEntity.getClient(), selected.getLocation() ) );
+				refresh( new KoLRequest( selected.getLocation() ) );
 
 			source.setSelectedIndex( 0 );
 		}
@@ -422,7 +422,7 @@ public class RequestFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	refresh( new KoLRequest( StaticEntity.getClient(), "main.php", true ) );
+		{	refresh( new KoLRequest( "main.php", true ) );
 		}
 	}
 
@@ -475,7 +475,7 @@ public class RequestFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	refresh( new KoLRequest( StaticEntity.getClient(), currentLocation, true ) );
+		{	refresh( new KoLRequest( currentLocation, true ) );
 		}
 	}
 

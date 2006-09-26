@@ -146,7 +146,7 @@ public class SpecialOutfit implements Comparable
 		if ( hadImplicitChange )
 			return;
 
-		(new EquipmentRequest( StaticEntity.getClient(), "KoLmafia Checkpoint" )).run();
+		(new EquipmentRequest( "KoLmafia Checkpoint" )).run();
 		SpecialOutfit.hadImplicitChange = isImplicitChange;
 	}
 
@@ -162,7 +162,7 @@ public class SpecialOutfit implements Comparable
 
 		if ( CHECKPOINT != null )
 		{
-			(new EquipmentRequest( StaticEntity.getClient(), CHECKPOINT )).run();
+			(new EquipmentRequest( CHECKPOINT )).run();
 			SpecialOutfit.deleteCheckpoint();
 		}
 
@@ -178,7 +178,7 @@ public class SpecialOutfit implements Comparable
 	{
 		if ( CHECKPOINT != null )
 		{
-			(new KoLRequest( StaticEntity.getClient(), "account_manageoutfits.php?action=Yep.&delete" +
+			(new KoLRequest( "account_manageoutfits.php?action=Yep.&delete" +
 				(0 - CHECKPOINT.getOutfitID()) + "=on" )).run();
 
 			CHECKPOINT = null;

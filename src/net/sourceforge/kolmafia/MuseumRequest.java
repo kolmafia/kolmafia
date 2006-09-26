@@ -51,15 +51,15 @@ public class MuseumRequest extends SendMessageRequest
 	private boolean isDeposit;
 	private boolean isManagement;
 
-	public MuseumRequest( KoLmafia client )
+	public MuseumRequest()
 	{
-		super( client, "managecollectionshelves.php" );
+		super( "managecollectionshelves.php" );
 		this.isManagement = false;
 	}
 
-	public MuseumRequest( KoLmafia client, Object [] attachments, boolean isDeposit )
+	public MuseumRequest( Object [] attachments, boolean isDeposit )
 	{
-		super( client, "managecollection.php", attachments, 0 );
+		super( "managecollection.php", attachments, 0 );
 		addFormField( "pwd" );
 		addFormField( "action", isDeposit ? "put" : "take" );
 
@@ -70,9 +70,9 @@ public class MuseumRequest extends SendMessageRequest
 		this.destination = isDeposit ? collection : inventory;
 	}
 
-	public MuseumRequest( KoLmafia client, AdventureResult [] items, int [] shelves )
+	public MuseumRequest( AdventureResult [] items, int [] shelves )
 	{
-		this( client );
+		this();
 		addFormField( "pwd" );
 		addFormField( "action", "arrange" );
 
@@ -87,7 +87,7 @@ public class MuseumRequest extends SendMessageRequest
 	}
 
 	protected SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new MuseumRequest( client, attachments, isDeposit );
+	{	return new MuseumRequest( attachments, isDeposit );
 	}
 
 	protected String getSuccessMessage()

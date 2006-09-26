@@ -45,15 +45,15 @@ public class RestaurantRequest extends KoLRequest
 	private boolean isPurchase;
 	private int price;
 
-	public RestaurantRequest( KoLmafia client )
+	public RestaurantRequest()
 	{
-		super( client, "restaurant.php" );
+		super( "restaurant.php" );
 		this.isPurchase = false;
 	}
 
-	public RestaurantRequest( KoLmafia client, String name )
+	public RestaurantRequest( String name )
 	{
-		super( client, "restaurant.php" );
+		super( "restaurant.php" );
 		addFormField( "action", "Yep." );
 
 		this.isPurchase = true;
@@ -70,7 +70,7 @@ public class RestaurantRequest extends KoLRequest
 
 			// Get the menu the restaurant offers today
 			if ( restaurantItems.isEmpty() )
-				(new RestaurantRequest( client )).run();
+				(new RestaurantRequest()).run();
 
 			// Find the item in the menu
 			for ( int i = 0; i < 3; i++ )
@@ -136,7 +136,7 @@ public class RestaurantRequest extends KoLRequest
 				return;
 			}
 
-			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
 			KoLmafia.updateDisplay( "Food purchased." );
 			return;
 		}

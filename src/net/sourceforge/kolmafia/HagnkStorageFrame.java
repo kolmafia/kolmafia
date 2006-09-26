@@ -210,10 +210,10 @@ public class HagnkStorageFrame extends KoLFrame
 					return;
 
 				Runnable [] requests = isCloset ? new Runnable[2] : new Runnable[1];
-				requests[0] = new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.STORAGE_TO_INVENTORY, items );
+				requests[0] = new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items );
 
 				if ( isCloset )
-					requests[1] = new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.INVENTORY_TO_CLOSET, items );
+					requests[1] = new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items );
 
 				(new RequestThread( requests )).start();
 			}
@@ -229,7 +229,7 @@ public class HagnkStorageFrame extends KoLFrame
 					return;
 				}
 
-				(new RequestThread( new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.EMPTY_STORAGE ) )).start();
+				(new RequestThread( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) )).start();
 			}
 		}
 	}

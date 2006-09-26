@@ -1872,7 +1872,7 @@ public abstract class KoLCharacter extends StaticEntity
 		battleSkillNames.add( "item spices" );
 
 		if ( KoLCharacter.isMoxieClass() )
-			addAvailableSkill( new UseSkillRequest( getClient(), "Moxious Maneuver", "", 1 ) );
+			addAvailableSkill( new UseSkillRequest( "Moxious Maneuver", "", 1 ) );
 
 		// Check all available skills to see if they
 		// qualify to be added as combat or usables.
@@ -1927,11 +1927,11 @@ public abstract class KoLCharacter extends StaticEntity
 				// castable skills
 				if ( skill.getSkillName().equals( "Flavour of Magic" ) )
 				{
-					usableSkills.add( new UseSkillRequest( getClient(), "Spirit of Cayenne", "", 1 ) );
-					usableSkills.add( new UseSkillRequest( getClient(), "Spirit of Peppermint", "", 1 ) );
-					usableSkills.add( new UseSkillRequest( getClient(), "Spirit of Garlic", "", 1 ) );
-					usableSkills.add( new UseSkillRequest( getClient(), "Spirit of Wormwood", "", 1 ) );
-					usableSkills.add( new UseSkillRequest( getClient(), "Spirit of Bacon Grease", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( "Spirit of Cayenne", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( "Spirit of Peppermint", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( "Spirit of Garlic", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( "Spirit of Wormwood", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( "Spirit of Bacon Grease", "", 1 ) );
 				}
 				break;
 
@@ -1972,7 +1972,7 @@ public abstract class KoLCharacter extends StaticEntity
 				addCombatSkill( "Head + Knee + Shield Combo" );
 		}
 
-		UseSkillRequest handshake = new UseSkillRequest( getClient(), "Shake Hands", "", 1 );
+		UseSkillRequest handshake = new UseSkillRequest( "Shake Hands", "", 1 );
 		if ( KoLCharacter.hasItem( JOYBUZZER, false ) )
 			addAvailableSkill( handshake );
 	}
@@ -2426,7 +2426,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		if ( shouldCreate )
 		{
-			ItemCreationRequest creation = ItemCreationRequest.getInstance( getClient(), item.getItemID(), 1 );
+			ItemCreationRequest creation = ItemCreationRequest.getInstance( item.getItemID(), 1 );
 			if ( creation == null )
 				return false;
 

@@ -429,7 +429,7 @@ public abstract class MushroomPlot extends StaticEntity
 			return false;
 
 		// Pay for the spore.  At this point, it's guaranteed
-		// that the getClient() allows you to continue.
+		// that theallows you to continue.
 
 		getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - sporePrice ) );
 		KoLmafia.updateDisplay( "Spore successfully planted." );
@@ -538,7 +538,7 @@ public abstract class MushroomPlot extends StaticEntity
 	private static class MushroomPlotRequest extends KoLRequest
 	{
 		public MushroomPlotRequest()
-		{	super( getClient(), "knoll_mushrooms.php", true );
+		{	super( "knoll_mushrooms.php", true );
 		}
 
 		public MushroomPlotRequest( int square )

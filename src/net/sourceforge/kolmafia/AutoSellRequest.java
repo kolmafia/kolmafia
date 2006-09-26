@@ -50,21 +50,21 @@ public class AutoSellRequest extends SendMessageRequest
 	public static final int AUTOSELL = 1;
 	public static final int AUTOMALL = 2;
 
-	public AutoSellRequest( KoLmafia client, AdventureResult item )
-	{	this( client, new AdventureResult [] { item }, AUTOSELL );
+	public AutoSellRequest( AdventureResult item )
+	{	this( new AdventureResult [] { item }, AUTOSELL );
 	}
 
-	public AutoSellRequest( KoLmafia client, AdventureResult item, int price, int limit )
-	{	this( client, new AdventureResult [] { item }, new int [] { price }, new int [] { limit }, AUTOMALL );
+	public AutoSellRequest( AdventureResult item, int price, int limit )
+	{	this( new AdventureResult [] { item }, new int [] { price }, new int [] { limit }, AUTOMALL );
 	}
 
-	public AutoSellRequest( KoLmafia client, Object [] items, int sellType )
-	{	this( client, items, new int[0], new int[0], sellType );
+	public AutoSellRequest( Object [] items, int sellType )
+	{	this( items, new int[0], new int[0], sellType );
 	}
 
-	public AutoSellRequest( KoLmafia client, Object [] items, int [] prices, int [] limits, int sellType )
+	public AutoSellRequest( Object [] items, int [] prices, int [] limits, int sellType )
 	{
-		super( client, getSellPage( client, sellType ), items, 0 );
+		super( getSellPage( sellType ), items, 0 );
 		addFormField( "pwd" );
 
 		this.sellType = sellType;
@@ -85,14 +85,14 @@ public class AutoSellRequest extends SendMessageRequest
 		}
 	}
 
-	private static String getSellPage( KoLmafia client, int sellType )
+	private static String getSellPage( int sellType )
 	{
 		if ( sellType == AUTOMALL )
 			return "managestore.php";
 
 		// Get the autosell mode the first time we need it
 		if ( KoLCharacter.getAutosellMode().equals( "" ) )
-			(new AccountRequest( client )).run();
+			(new AccountRequest()).run();
 
 		if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
 			return "sellstuff_ugly.php";
@@ -258,7 +258,7 @@ public class AutoSellRequest extends SendMessageRequest
 				}
 		}
 
-		return new AutoSellRequest( client, attachments, limits, prices, sellType );
+		return new AutoSellRequest( attachments, limits, prices, sellType );
 	}
 
 	protected void processResults()

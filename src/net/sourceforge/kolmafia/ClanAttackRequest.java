@@ -39,9 +39,9 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 	private String name;
 	private int goodies;
 
-	public ClanAttackRequest( KoLmafia client, String id, String name, int goodies )
+	public ClanAttackRequest( String id, String name, int goodies )
 	{
-		super( client, "clan_attack.php" );
+		super( "clan_attack.php" );
 		addFormField( "whichclan", id );
 
 		this.name = name;

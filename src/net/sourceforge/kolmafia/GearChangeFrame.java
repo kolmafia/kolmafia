@@ -168,7 +168,7 @@ public class GearChangeFrame extends KoLFrame
 				if ( weapon != null )
 				{
 					if ( EquipmentDatabase.getHands( weapon.getName() ) == 1 && EquipmentDatabase.isRanged( weapon.getName() ) != EquipmentDatabase.isRanged( offhand.getName() ) )
-						requestList.add( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
+						requestList.add( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
 				}
 			}
 
@@ -176,14 +176,14 @@ public class GearChangeFrame extends KoLFrame
 			{
 				if ( pieces[i] != null )
 				{
-					requestList.add( new EquipmentRequest( StaticEntity.getClient(), pieces[i], i, true ) );
+					requestList.add( new EquipmentRequest( pieces[i], i, true ) );
 					pieces[i] = null;
 				}
 			}
 
 			FamiliarData familiar = (FamiliarData) familiarSelect.getSelectedItem();
 			if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
-				requestList.add( new FamiliarRequest( StaticEntity.getClient(), familiar ) );
+				requestList.add( new FamiliarRequest( familiar ) );
 
 			if ( requestList.isEmpty() )
 				return;
@@ -200,7 +200,7 @@ public class GearChangeFrame extends KoLFrame
 			if ( currentValue == null )
 				return;
 
-			(new RequestThread( new EquipmentRequest( StaticEntity.getClient(), currentValue ) )).start();
+			(new RequestThread( new EquipmentRequest( currentValue ) )).start();
 		}
 	}
 
@@ -220,7 +220,7 @@ public class GearChangeFrame extends KoLFrame
 			{
 				Object outfit = getSelectedItem();
 				if ( outfit != null && !(outfit instanceof String) )
-					(new RequestThread( new EquipmentRequest( StaticEntity.getClient(), (SpecialOutfit) outfit ) )).start();
+					(new RequestThread( new EquipmentRequest( (SpecialOutfit) outfit ) )).start();
 
 				setSelectedItem( null );
 				return;

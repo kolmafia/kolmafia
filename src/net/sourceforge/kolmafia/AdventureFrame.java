@@ -295,7 +295,7 @@ public class AdventureFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			// Once the stubs are finished, this will notify the
-			// client to begin adventuring based on the values
+			//to begin adventuring based on the values
 			// placed in the input fields.
 
 			if ( actionSelect.getSelectedItem() == null )

@@ -215,7 +215,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			String password = StaticEntity.getClient().getSaveState( autoLogin );
 			if ( password != null && !password.equals( "" ) )
-				(new RequestThread( new LoginRequest( StaticEntity.getClient(), autoLogin, password ) )).start();
+				(new RequestThread( new LoginRequest( autoLogin, password ) )).start();
 		}
 	}
 
@@ -312,7 +312,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
-	 * the login has been confirmed to notify the client that the
+	 * the login has been confirmed to notify thethat the
 	 * login was successful, the user-specific settings should be
 	 * loaded, and the user can begin adventuring.
 	 */
@@ -328,8 +328,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( isQuickLogin )
 		{
-			(new AccountRequest( this )).run();
-			(new CharsheetRequest( this )).run();
+			(new AccountRequest()).run();
+			(new CharsheetRequest()).run();
 			CharpaneRequest.getInstance().run();
 			return;
 		}
@@ -386,10 +386,10 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		if ( KoLCharacter.hasToaster() )
 			for ( int i = 0; i < 3 && permitsContinue(); ++i )
-				(new CampgroundRequest( this, "toast" )).run();
+				(new CampgroundRequest( "toast" )).run();
 
 		if ( KoLCharacter.hasArches() )
-			(new CampgroundRequest( this, "arches" )).run();
+			(new CampgroundRequest( "arches" )).run();
 
 		boolean shouldCast = false;
 		String skillSetting = StaticEntity.getProperty( "breakfast" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
@@ -418,7 +418,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void getBreakfast( String skillname, int standardCast )
-	{	(new UseSkillRequest( this, skillname, "", standardCast )).run();
+	{	(new UseSkillRequest( skillname, "", standardCast )).run();
 	}
 
 	public final void refreshSession()
@@ -428,7 +428,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Get current moon phases
 
 		forceContinue();
-		(new MoonPhaseRequest( this )).run();
+		(new MoonPhaseRequest()).run();
 		if ( refusesContinue() )
 			return;
 
@@ -436,7 +436,7 @@ public abstract class KoLmafia implements KoLConstants
 		// this before concoctions have a chance to get refreshed.
 
 		forceContinue();
-		(new CharsheetRequest( this )).run();
+		(new CharsheetRequest()).run();
 		if ( refusesContinue() )
 			return;
 
@@ -444,7 +444,7 @@ public abstract class KoLmafia implements KoLConstants
 		// and item creation.
 
 		forceContinue();
-		(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
+		(new EquipmentRequest( EquipmentRequest.CLOSET )).run();
 		if ( refusesContinue() )
 			return;
 
@@ -458,7 +458,7 @@ public abstract class KoLmafia implements KoLConstants
 		// the player, if they haven't opted to skip them.
 
 		forceContinue();
-		(new FamiliarRequest( this )).run();
+		(new FamiliarRequest()).run();
 
 		if ( refusesContinue() )
 			return;
@@ -469,12 +469,12 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( "Retrieving campground data..." );
 
 		forceContinue();
-		(new CampgroundRequest( this )).run();
+		(new CampgroundRequest()).run();
 		if ( refusesContinue() )
 			return;
 
 		forceContinue();
-		(new ItemStorageRequest( this )).run();
+		(new ItemStorageRequest()).run();
 		if ( refusesContinue() )
 			return;
 
@@ -484,7 +484,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to notify the client that it should attempt
+	 * Utility method used to notify thethat it should attempt
 	 * to retrieve breakfast.
 	 */
 
@@ -1320,7 +1320,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		ItemCreationRequest [] creatables = new ItemCreationRequest[ conditions.size() ];
 		for ( int i = 0; i < conditions.size(); ++i )
-			creatables[i] = ItemCreationRequest.getInstance( this, (AdventureResult) conditions.get(i) );
+			creatables[i] = ItemCreationRequest.getInstance( (AdventureResult) conditions.get(i) );
 
 		while ( permitsContinue() && ++currentIteration <= iterations )
 		{
@@ -1542,7 +1542,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If the faucet has not yet been found, then go through
 		// the process of trying to locate it.
 
-		KoLAdventure adventure = new KoLAdventure( this, "", "0", "0", "rats.php", "", "Typical Tavern (Pre-Rat)" );
+		KoLAdventure adventure = new KoLAdventure( "", "0", "0", "rats.php", "", "Typical Tavern (Pre-Rat)" );
 		boolean foundFaucet = searchList.size() < 2;
 
 		if ( KoLCharacter.getLevel() < 3 )
@@ -1551,7 +1551,7 @@ public abstract class KoLmafia implements KoLConstants
 			return -1;
 		}
 
-		KoLRequest request = new KoLRequest( this, "council.php", true );
+		KoLRequest request = new KoLRequest( "council.php", true );
 		request.run();
 
 		if ( request.responseText == null || request.responseText.indexOf( "rat problems" ) == -1 )
@@ -1606,7 +1606,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void tradeGourdItems()
 	{
 		updateDisplay( "Determining items needed..." );
-		KoLRequest request = new KoLRequest( this, "town_right.php?place=gourd", true );
+		KoLRequest request = new KoLRequest( "town_right.php?place=gourd", true );
 		request.run();
 
 		// For every class, it's the same -- the message reads, "Bring back"
@@ -1633,7 +1633,7 @@ public abstract class KoLmafia implements KoLConstants
 		while ( neededCount <= 25 && neededCount <= item.getCount( inventory ) )
 		{
 			updateDisplay( "Giving up " + neededCount + " " + item.getName() + "s..." );
-			request = new KoLRequest( this, "town_right.php?place=gourd&action=gourd", true );
+			request = new KoLRequest( "town_right.php?place=gourd&action=gourd", true );
 			request.run();
 
 			processResult( item.getInstance( 0 - neededCount++ ) );
@@ -1658,7 +1658,7 @@ public abstract class KoLmafia implements KoLConstants
 		// their current stats.
 
 		updateDisplay( "Entering guild challenge area..." );
-		KoLRequest request = new KoLRequest( this, "guild.php?place=challenge", true );
+		KoLRequest request = new KoLRequest( "guild.php?place=challenge", true );
 		request.run();
 
 		boolean success = stopAtPaco ? request.responseText.indexOf( "paco" ) != -1 :
@@ -1668,7 +1668,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < 6 && !success && KoLCharacter.getAdventuresLeft() > 0 && permitsContinue(); ++i )
 		{
-			request = new KoLRequest( this, "guild.php?action=chal", true );
+			request = new KoLRequest( "guild.php?action=chal", true );
 			request.run();
 
 			if ( request.responseText != null )
@@ -1683,7 +1683,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( success && KoLCharacter.getLevel() > 3 )
 		{
-			request = new KoLRequest( this, "guild.php?place=paco", true );
+			request = new KoLRequest( "guild.php?place=paco", true );
 			request.run();
 		}
 
@@ -1697,7 +1697,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void priceItemsAtLowestPrice()
 	{
-		(new StoreManageRequest( this )).run();
+		(new StoreManageRequest()).run();
 
 		// Now determine the desired prices on items.
 		// If the value of an item is currently 100,
@@ -1726,7 +1726,7 @@ public abstract class KoLmafia implements KoLConstants
 				prices[i] = sold[i].getPrice();
 		}
 
-		(new StoreManageRequest( this, itemID, prices, limits )).run();
+		(new StoreManageRequest( itemID, prices, limits )).run();
 		updateDisplay( "Repricing complete." );
 	}
 
@@ -1742,7 +1742,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	/**
 	 * Retrieves whether or not continuation of an adventure or request
-	 * is permitted by the client, or by current circumstances in-game.
+	 * is permitted by the or by current circumstances in-game.
 	 *
 	 * @return	<code>true</code> if requests are allowed to continue
 	 */
@@ -1753,7 +1753,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	/**
 	 * Retrieves whether or not continuation of an adventure or request
-	 * will be denied by the client, regardless of continue state reset,
+	 * will be denied by the regardless of continue state reset,
 	 * until the display is enable (ie: in an abort state).
 	 *
 	 * @return	<code>true</code> if requests are allowed to continue
@@ -2439,7 +2439,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void removeAllItemsFromStore()
 	{
-		(new StoreManageRequest( this )).run();
+		(new StoreManageRequest()).run();
 
 		// Now determine the desired prices on items.
 		// If the value of an item is currently 100,
@@ -2449,7 +2449,7 @@ public abstract class KoLmafia implements KoLConstants
 		StoreManager.getSoldItemList().toArray( sold );
 
 		for ( int i = 0; i < sold.length && permitsContinue(); ++i )
-			(new StoreManageRequest( this, sold[i].getItemID() )).run();
+			(new StoreManageRequest( sold[i].getItemID() )).run();
 
 		updateDisplay( "Store emptying complete." );
 	}
@@ -2510,10 +2510,10 @@ public abstract class KoLmafia implements KoLConstants
 		// to determine the minimum price.
 
 		if ( autosell.size() > 0 && permitsContinue() )
-			(new AutoSellRequest( this, autosell.toArray(), AutoSellRequest.AUTOSELL )).run();
+			(new AutoSellRequest( autosell.toArray(), AutoSellRequest.AUTOSELL )).run();
 
 		if ( automall.size() > 0 && permitsContinue() )
-			(new AutoSellRequest( this, automall.toArray(), AutoSellRequest.AUTOMALL )).run();
+			(new AutoSellRequest( automall.toArray(), AutoSellRequest.AUTOMALL )).run();
 
 		// Now, remove all the items that you intended
 		// to remove from the store due to pricing issues.

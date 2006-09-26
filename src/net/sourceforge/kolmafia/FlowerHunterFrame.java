@@ -218,7 +218,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				resultsModel[ index ].fireTableRowsDeleted( 0, 0 );
 			}
 
-			FlowerHunterRequest search = new FlowerHunterRequest( StaticEntity.getClient(), levelEntry.getText(), rankEntry.getText() );
+			FlowerHunterRequest search = new FlowerHunterRequest( levelEntry.getText(), rankEntry.getText() );
 			search.run();
 
 			results = new ProfileRequest[ search.getSearchResults().size() ];
@@ -286,7 +286,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				resultsModel[1].fireTableRowsDeleted( 0, 0 );
 			}
 
-			FlowerHunterRequest search = new FlowerHunterRequest( StaticEntity.getClient(), clanID.getText() );
+			FlowerHunterRequest search = new FlowerHunterRequest( clanID.getText() );
 			search.run();
 
 			results = new ProfileRequest[ search.getSearchResults().size() ];
@@ -387,7 +387,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 					break;
 			}
 
-			FlowerHunterRequest request = new FlowerHunterRequest( StaticEntity.getClient(), "",
+			FlowerHunterRequest request = new FlowerHunterRequest( "",
 					stanceSelect.getSelectedIndex() + 1, mission, message.getText() );
 
 			for ( int i = 0; i < selection.length && !KoLmafia.refusesContinue(); ++i )

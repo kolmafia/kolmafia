@@ -37,7 +37,7 @@ package net.sourceforge.kolmafia;
 public class ProfileFrame extends RequestFrame
 {
 	public ProfileFrame( String playerName )
-	{	this( new ProfileRequest( StaticEntity.getClient(), playerName ) );
+	{	this( new ProfileRequest( playerName ) );
 	}
 
 	public ProfileFrame( ProfileRequest profile )

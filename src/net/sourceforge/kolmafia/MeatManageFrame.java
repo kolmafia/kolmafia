@@ -108,7 +108,7 @@ public class MeatManageFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			if ( heroField.getSelectedIndex() != -1 )
-				(new RequestThread( new HeroDonationRequest( StaticEntity.getClient(), heroField.getSelectedIndex() + 1, getValue( amountField ) ) )).start();
+				(new RequestThread( new HeroDonationRequest( heroField.getSelectedIndex() + 1, getValue( amountField ) ) )).start();
 		}
 
 		public void actionCancelled()
@@ -203,9 +203,9 @@ public class MeatManageFrame extends KoLFrame
 					break;
 			}
 
-			requests[0] = new ItemStorageRequest( StaticEntity.getClient(), amountToTransfer, transferType );
+			requests[0] = new ItemStorageRequest( amountToTransfer, transferType );
 			if ( fundTransferType == 3 )
-				requests[1] = new ItemStorageRequest( StaticEntity.getClient(), amountToTransfer, ItemStorageRequest.MEAT_TO_CLOSET );
+				requests[1] = new ItemStorageRequest( amountToTransfer, ItemStorageRequest.MEAT_TO_CLOSET );
 
 			(new RequestThread( requests )).start();
 		}
