@@ -1854,9 +1854,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void setAvailableSkills( List newSkillSet )
 	{
-		if ( availableSkills == newSkillSet )
-			return;
-
 		availableSkills.clear();
 		usableSkills.clear();
 		battleSkillNames.clear();
@@ -1879,8 +1876,8 @@ public abstract class KoLCharacter extends StaticEntity
 		// Check all available skills to see if they
 		// qualify to be added as combat or usables.
 
-		UseSkillRequest [] skillArray = new UseSkillRequest[ availableSkills.size() ];
-		availableSkills.toArray( skillArray );
+		UseSkillRequest [] skillArray = new UseSkillRequest[ newSkillSet.size() ];
+		newSkillSet.toArray( skillArray );
 
 		for ( int i = 0; i < skillArray.length; ++i )
 			addAvailableSkill( skillArray[i] );
