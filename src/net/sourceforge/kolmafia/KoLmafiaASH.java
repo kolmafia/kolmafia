@@ -95,7 +95,7 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int TYPE_RECORD = 1001;
 
 	public static final String [] ZODIACS = { "none", "Wallaby", "Mongoose", "Vole", "Platypus", "Opossum", "Marmot", "Wombat", "Blender", "Packrat" };
-	public static final String [] CLASSES = { "Seal Clubber", "Turtle Tamer", "Pastamancer", "Sauceror", "Disco Bandit", "Accordion Thief" };
+	public static final String [] CLASSES = { KoLCharacter.SEAL_CLUBBER, KoLCharacter.TURTLE_TAMER, KoLCharacter.PASTAMANCER, KoLCharacter.SAUCEROR, KoLCharacter.DISCO_BANDIT, KoLCharacter.ACCORDION_THIEF };
 	public static final String [] STATS = { "Muscle", "Mysticality", "Moxie" };
 	public static final String [] BOOLEANS = { "true", "false" };
 

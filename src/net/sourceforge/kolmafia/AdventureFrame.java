@@ -299,7 +299,7 @@ public class AdventureFrame extends KoLFrame
 			// placed in the input fields.
 
 			if ( actionSelect.getSelectedItem() == null )
-				DEFAULT_SHELL.executeLine( "set battleAction=attack" );
+				DEFAULT_SHELL.executeLine( "set battleAction=attack with weapon" );
 
 			Runnable request = (Runnable) locationSelect.getSelectedItem();
 			if ( request == null )
