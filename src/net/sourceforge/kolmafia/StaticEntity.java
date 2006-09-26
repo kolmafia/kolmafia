@@ -602,4 +602,8 @@ public abstract class StaticEntity implements KoLConstants
 		MoodSettings.saveSettings();
 		CombatSettings.saveSettings();
 	}
+
+	public static final boolean isDisabled( String name )
+	{	return disabledScripts.contains( "all" ) || disabledScripts.contains( name );
+	}
 }
