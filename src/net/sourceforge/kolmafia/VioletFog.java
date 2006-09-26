@@ -282,8 +282,6 @@ public class VioletFog implements UtilityConstants
 	// xx	A destination
 
 	private static int FogChoiceTable [][] = new int [ LAST_CHOICE - FIRST_CHOICE + 1][ 4 ];
-	private static int lastChoice = 0;
-	private static int lastDecision = 0;
 
 	public static void reset()
 	{
@@ -296,10 +294,6 @@ public class VioletFog implements UtilityConstants
 			choice[2] = 0;
 			choice[3] = ( i < FIRST_GOAL_LOCATION ) ? -1 : 0;
 		}
-
-		// We have made no violet fog choices yet
-                lastChoice = 0;
-                lastDecision = 0;
 	}
 
 	public static String handleChoice( String choice )
@@ -309,15 +303,6 @@ public class VioletFog implements UtilityConstants
 		// We only handle Violet Fog choices
 		if ( source < FIRST_CHOICE || source > LAST_CHOICE )
 			return "";
-
-		// Were we mapping?
-		if ( lastChoice != 0 )
-		{
-			// Yes. Update the path table
-			FogChoiceTable[ lastChoice - FIRST_CHOICE ][ lastDecision ] = source;
-			lastChoice = 0;
-			lastDecision = 0;
-		}
 
 		// Get the user specified goal
 		int goal = StaticEntity.getIntegerProperty( "violetFogGoal" );
@@ -353,16 +338,29 @@ public class VioletFog implements UtilityConstants
 		for ( int i = 0; i < path.length; ++i )
 		{
 			if ( path[i] == 0 )
-			{
 				// We don't know how to get to the Next Hop
-				lastChoice = source;
-				lastDecision = i;
 				return String.valueOf( i + 1 );
-			}
 		}
 
 		// This shouldn't happen
 		return "";
+	}
+
+	public static boolean mapChoice( int source )
+	{
+		// We only handle Violet Fog choices
+		if ( source < FIRST_CHOICE || source > LAST_CHOICE )
+			return false;
+
+		int lastChoice = KoLRequest.getLastChoice();
+		if ( lastChoice >= FIRST_CHOICE && lastChoice <= LAST_CHOICE )
+		{
+			// Update the path table
+			int lastDecision = KoLRequest.getLastDecision() - 1;
+			FogChoiceTable[ lastChoice - FIRST_CHOICE ][ lastDecision ] = source;
+		}
+
+		return true;
 	}
 
 	public static String [][] choiceSpoilers( int choice )
