@@ -83,97 +83,91 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Denim Axes Examined
 		{ { "choiceAdventure2" }, { "Palindome" },
-		  { "Trade for a denim axe", "Keep your rubber axe" } },
+		  { "denim axe", "skip the adventure" },
+		  { "499", "292" } },
 
-		// The Oracle Will See You Now
-		// (This adventure cannot be customized)
-		// { { "choiceAdventure3" }, { "Teleportitis" },
-		//  { "Leave the oracle", "Pay for a minor consultation", "Pay for a major consultation" } },
+		// Choice 3 is The Oracle Will See You Now
 
 		// Finger-Lickin'... Death.
 		{ { "choiceAdventure4" }, { "South of the Border" },
-		  { "Bet on Tapajunta Del Maiz", "Bet on Cuerno De...  the other one", "Walk away in disgust" } },
+		  { "small meat boost", "try for poultrygeist", "skip the adventure" },
+		  { null, "1164", null } },
 
 		// Heart of Very, Very Dark Darkness
 		{ { "choiceAdventure5" }, { "Gravy Barrow" },
-		  { "Enter the cave", "Don't enter the cave" } },
+		  { "use inexplicably glowing rock", "skip the adventure" }
+		},
 
 		// Choice 6 is unknown
 
-		// How Depressing
-		// (This adventure cannot be customized)
-		// { { "choiceAdventure7" }, { "Gravy Barrow 2" },
-		//  { "Put your hand in the depression", "Leave the cave" } },
+		// Choice 7 is How Depressing
+		// Choice 8 is On the Verge of a Dirge
 
-		// On the Verge of a Dirge
-		// (This adventure cannot be customized)
-		// { { "choiceAdventure8" }, { "Gravy Barrow 3" },
-		//  { "Enter the chamber", "Enter the chamber", "Enter the chamber" } },
-
-		// Choice 9 is the Giant Castle Chore Wheel: Muscle position
-		// Choice 10 is the Giant Castle Chore Wheel: Mysticality position
-		// Choice 11 is the Giant Castle Chore Wheel: Map Quest position
-		// Choice 12 is the Giant Castle Chore Wheel: Moxie position
+		// Choice 9 is the Giant Castle Chore Wheel: muscle position
+		// Choice 10 is the Giant Castle Chore Wheel: mysticality position
+		// Choice 11 is the Giant Castle Chore Wheel: map quest position
+		// Choice 12 is the Giant Castle Chore Wheel: moxie position
 
 		// Choice 13 is unknown
 
 		// A Bard Day's Night
 		{ { "choiceAdventure14" }, { "Knob Goblin Harem" },
-		  { "Knob goblin harem veil", "Knob goblin harem pants", "100 meat", "Complete the outfit" },
+		  { "Knob goblin harem veil", "Knob goblin harem pants", "small meat boost", "complete the outfit" },
 		  { "306", "305", null } },
 
 		// Yeti Nother Hippy
 		{ { "choiceAdventure15" }, { "eXtreme Slope 1" },
-		  { "eXtreme mittens", "eXtreme scarf", "200 meat", "Complete the outfit" },
+		  { "eXtreme mittens", "eXtreme scarf", "small meat boost", "complete the outfit" },
 		  { "399", "355", null } },
 
 		// Saint Beernard
 		{ { "choiceAdventure16" }, { "eXtreme Slope 2" },
-		  { "snowboarder pants", "eXtreme scarf", "200 meat", "Complete the outfit" },
+		  { "snowboarder pants", "eXtreme scarf", "small meat boost", "complete the outfit" },
 		  { "356", "355", null } },
 
 		// Generic Teen Comedy
 		{ { "choiceAdventure17" }, { "eXtreme Slope 3" },
-		  { "eXtreme mittens", "snowboarder pants", "200 meat", "Complete the outfit" },
+		  { "eXtreme mittens", "snowboarder pants", "small meat boost", "complete the outfit" },
 		  { "399", "356", null } },
 
 		// A Flat Miner
 		{ { "choiceAdventure18" }, { "Itznotyerzitz Mine 1" },
-		  { "miner's pants", "7-Foot Dwarven mattock", "100 meat", "Complete the outfit" },
+		  { "miner's pants", "7-Foot Dwarven mattock", "small meat boost", "complete the outfit" },
 		  { "361", "362", null } },
 
 		// 100% Legal
 		{ { "choiceAdventure19" }, { "Itznotyerzitz Mine 2" },
-		  { "miner's helmet", "miner's pants", "100 meat", "Complete the outfit" },
+		  { "miner's helmet", "miner's pants", "small meat boost", "complete the outfit" },
 		  { "360", "361", null } },
 
 		// See You Next Fall
 		{ { "choiceAdventure20" }, { "Itznotyerzitz Mine 3" },
-		  { "miner's helmet", "7-Foot Dwarven mattock", "100 meat", "Complete the outfit" },
+		  { "miner's helmet", "7-Foot Dwarven mattock", "small meat boost", "complete the outfit" },
 		  { "360", "362", null } },
 
 		// Under the Knife
 		{ { "choiceAdventure21" }, { "Sleazy Back Alley" },
-		  { "Switch Genders", "Umm. No thanks" } },
+		  { "switch genders", "skip adventure" } },
 
 		// The Arrrbitrator
 		{ { "choiceAdventure22" }, { "Pirate's Cove 1" },
-		  { "eyepatch", "swashbuckling pants", "100 meat", "Complete the outfit" },
+		  { "eyepatch", "swashbuckling pants", "small meat boost", "complete the outfit" },
 		  { "224", "402", null } },
 
 		// Barrie Me at Sea
 		{ { "choiceAdventure23" }, { "Pirate's Cove 2" },
-		  { "stuffed shoulder parrot", "swashbuckling pants", "100 meat", "Complete the outfit" },
+		  { "stuffed shoulder parrot", "swashbuckling pants", "small meat boost", "complete the outfit" },
 		  { "403", "402", null } },
 
 		// Amatearrr Night
 		{ { "choiceAdventure24" }, { "Pirate's Cove 3" },
-		  { "stuffed shoulder parrot", "100 meat", "eyepatch", "Complete the outfit" },
+		  { "stuffed shoulder parrot", "small meat boost", "eyepatch", "complete the outfit" },
 		  { "403", null, "224" } },
 
 		// Ouch! You bump into a door!
 		{ { "choiceAdventure25" }, { "Dungeon of Doom" },
-		  { "Buy a magic lamp", "Buy some sort of cloak", "Leave without buying anything" } },
+		  { "magic lamp", "dead mimic", "skip adventure" },
+		  { "1273", "1267", null } },
 
 		// Choice 26 is A Three-Tined Fork
 		// Choice 27 is Footprints
@@ -184,58 +178,62 @@ public class AdventureDatabase extends KoLDatabase
 
 		// The Effervescent Fray
 		{ { "choiceAdventure40" }, { "Cola Wars 1" },
-		  { "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "15 Mysticality" },
+		  { "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "boost mysticality" },
 		  { "1328", "1329", null } },
 
 		// Smells Like Team Spirit
 		{ { "choiceAdventure41" }, { "Cola Wars 2" },
-		  { "Dyspepsi-Cola fatigues", "Cloaca-Cola helmet", "15 Muscle" },
+		  { "Dyspepsi-Cola fatigues", "Cloaca-Cola helmet", "boost muscle" },
 		  { "1330", "1331", null } },
 
 		// What is it Good For?
 		{ { "choiceAdventure42" }, { "Cola Wars 3" },
-		  { "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "15 Moxie" },
+		  { "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "boost moxie" },
 		  { "1326", "1327", null } },
 
 		// Choices 43 - 44 are unknown
 
-		// Maps and Legends
+		// Choise 45 is Maps and Legends
 		{ { "choiceAdventure45" }, { "Spooky Forest 1" },
-		  { "Spooky Temple Map", "Ignore the monolith", "Nothing" } },
+		  { "Spooky Temple map", "skip the adventure", "skip the adventure" },
+		  { "74", null, null } },
 
 		// An Interesting Choice
 		{ { "choiceAdventure46" }, { "Spooky Forest 2" },
-		  { "Moxie", "Muscle", "Fight" } },
+		  { "boost moxie", "boost muscle", "enter combat" } },
 
 		// Have a Heart
 		{ { "choiceAdventure47" }, { "Spooky Forest 3" },
-		  { "Trade for bottle of used blood", "Keep your hearts" } },
+		  { "bottle of used blood", "skip the adventure" },
+		  { "1523", "1518" } },
 
 		// Choices 48 - 70 are violet fog adventures
 		// Choice 71 is A Journey to the Center of Your Mind
 
 		// Lording Over The Flies
 		{ { "choiceAdventure72" }, { "Frat House" },
-		  { "Trade for around the world", "Keep your flies" } },
+		  { "around the world", "skip the adventure" },
+		  { "1634", "1633" } },
 
 		// Don't Fence Me In
 		{ { "choiceAdventure73" }, { "Whitey's Grove 1" },
-		  { "Muscle", "white picket fence", "piece of wedding cake" },
+		  { "boost muscle", "white picket fence", "piece of wedding cake" },
 		  { null, "270", "262" } },
 
 		// The Only Thing About Him is the Way That He Walks
 		{ { "choiceAdventure74" }, { "Whitey's Grove 2" },
-		  { "Moxie", "boxed wine", "mullet wig" },
+		  { "boost moxie", "boxed wine", "mullet wig" },
 		  { null, "1005", "267" } },
 
 		// Rapido!
 		{ { "choiceAdventure75" }, { "Whitey's Grove 3" },
-		  { "Mysticality", "white lightning", "white collar" },
+		  { "boost mysticality", "white lightning", "white collar" },
 		  { null, "266", "1655" } },
 
 		// Junction in the Trunction
 		{ { "choiceAdventure76" }, { "Knob Shaft" },
-		  { "Cardboard Ore", "Styrofoam Ore", "Bubblewrap Ore" } },
+		  { "cardboard ore", "styrofoam ore", "bubblewrap ore" },
+		  { "1675", "1676", "1677" } },
 
 		// Choice 77 is Minnesota Incorporeals
 		// Choice 78 is Broken
@@ -244,26 +242,26 @@ public class AdventureDatabase extends KoLDatabase
 
 		// One NightStand (simple white)
 		{ { "choiceAdventure82" }, { "Haunted Bedroom 1" },
-		  { "Wallet", "Muscle", "Fight" } },
+		  { "old leather wallet", "boost muscle", "enter combat" },
+		  { "1917", null, null } },
 
 		// One NightStand (mahogany)
 		{ { "choiceAdventure83" }, { "Haunted Bedroom 2" },
-		  { "Coin Purse", "Fight", "Quest Item" } },
+		  { "old coin purse", "enter combat", "muscle quest item" },
+		  { "1918", null, null } },
 
 		// One NightStand (ornate)
 		{ { "choiceAdventure84" }, { "Haunted Bedroom 3" },
-		  { "Meat", "Mysticality", "Spectacles" } },
+		  { "small meat boost", "boost mysticality", "Lord Spookyraven's spectacles" },
+		  { null, null, "1916" } },
 
-		// One NightStand (simple wooden)
-		{ { "choiceAdventure85" }, { "Haunted Bedroom 4" },
-		  { "Moxie", "Taped Key", "Fight" } },
-
+		// Choice 85 is retrieval of the key
 		// Choice 86 is History is Fun!
 		// Choice 87 is History is Fun!
 		// Choice 88 is Naughty, Naughty
 
-		// Tuesdays with Abhorrent Fiends -> Mysticality
-		// The Nether Planes on 350 Meat a Day -> Moxie
+		// Tuesdays with Abhorrent Fiends -> mysticality
+		// The Nether Planes on 350 Meat a Day -> moxie
 		// Twisted, Curdled, Corrupt Energy and You -> Damage
 
 		// Out in the Garden
@@ -286,29 +284,37 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final String [][][] CHOICE_ADV_SPOILERS =
 	{
-		// The Oracle Will See You Now -> Self Explanatory
+		// The Oracle Will See You Now
+		{ { "choiceAdventure3" }, { "Teleportitis" },
+		  { "skip the adventure", "randomly sink 100 meat", "make plus sign usable" } },
+
 		// How Depressing -> Self Explanatory
+		// { { "choiceAdventure7" }, { "Gravy Barrow 2" },
+		//  { "use spooky glove", "skip the adventure" } },
+
 		// On the Verge of a Dirge -> Self Explanatory
+		// { { "choiceAdventure8" }, { "Gravy Barrow 3" },
+		//  { "enter the chamber", "enter the chamber", "enter the chamber" } },
 
 		// Wheel In the Sky Keep on Turning: Muscle Position
 		{ { "choiceAdventure9" }, { "Castle Wheel" },
-		  { "Turn to Mysticality", "Turn to Moxie", "Ignore" } },
+		  { "Turn to mysticality", "Turn to moxie", "Leave at muscle" } },
 
 		// Wheel In the Sky Keep on Turning: Mysticality Position
 		{ { "choiceAdventure10" }, { "Castle Wheel" },
-		  { "Turn to Map Quest", "Turn to Muscle", "Ignore" } },
+		  { "Turn to Map Quest", "Turn to muscle", "Leave at mysticality" } },
 
 		// Wheel In the Sky Keep on Turning: Map Quest Position
 		{ { "choiceAdventure11" }, { "Castle Wheel" },
-		  { "Turn to Moxie", "Turn to Mysticality", "Ignore" } },
+		  { "Turn to moxie", "Turn to mysticality", "Leave at map quest" } },
 
 		// Wheel In the Sky Keep on Turning: Moxie Position
 		{ { "choiceAdventure12" }, { "Castle Wheel" },
-		  { "Turn to Muscle", "Turn to Map Quest", "Ignore" } },
+		  { "Turn to muscle", "Turn to map quest", "Leave at moxie" } },
 
 		// A Three-Tined Fork
 		{ { "choiceAdventure26" }, { "Spooky Forest" },
-		  { "Muscle Classes", "Mysticality Classes", "Moxie Classes" } },
+		  { "muscle classes", "mysticality classes", "moxie classes" } },
 
 		// Footprints
 		{ { "choiceAdventure27" }, { "Spooky Forest" },
@@ -326,35 +332,39 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Minnesota Incorporeals
 		{ { "choiceAdventure77" }, { "Haunted Billiard Room" },
-		  { "Moxie", "Other options", "Ignore" } },
+		  { "boost moxie", "other options", "skip adventure" } },
 
 		// Broken
 		{ { "choiceAdventure78" }, { "Haunted Billiard Room" },
-		  { "Other options", "Muscle", "Ignore" } },
+		  { "option options", "boost muscle", "skip adventure" } },
 
 		// A Hustle Here, a Hustle There
 		{ { "choiceAdventure79" }, { "Haunted Billiard Room" },
-		  { "Library Key", "Mysticality", "Ignore" } },
+		  { "Spookyraven library key", "boost mysticality", "skip adventure" } },
 
 		// Take a Look, it's in a Book!
 		{ { "choiceAdventure80" }, { "Haunted Library" },
-		  { "History", "Cooking Recipe", "Other options", "Go Away" } },
+		  { "background history", "cooking recipe", "other options", "skip adventure" } },
 
 		// Take a Look, it's in a Book!
 		{ { "choiceAdventure81" }, { "Haunted Library" },
-		  { "Quest", "Cocktailcrafting recipe", "Muscle", "Go Away" } },
+		  { "gallery quest", "cocktailcrafting recipe", "boost muscle", "skip adventure" } },
+
+		// One NightStand (simple wooden)
+		{ { "choiceAdventure85" }, { "Haunted Bedroom 4" },
+		  { "ballroom key step 1", "ballroom key step 2", "enter combat" } },
 
 		// History is Fun!
 		{ { "choiceAdventure86" }, { "Haunted Library" },
-		  { "Chapter 1", "Chapter 2", "Chapter 3" } },
+		  { "Spookyraven Chapter 1", "Spookyraven Chapter 2", "Spookyraven Chapter 3" } },
 
 		// History is Fun!
 		{ { "choiceAdventure87" }, { "Haunted Library" },
-		  { "Chapter 1", "Gallery Key Quest", "Chapter 3" } },
+		  { "Spookyraven Chapter 4", "Spookyraven Chapter 5 (Gallery Quest)", "Spookyraven Chapter 6" } },
 
 		// Naughty, Naughty
 		{ { "choiceAdventure88" }, { "Haunted Library" },
-		  { "Mysticality", "Moxie", "Mysticality Class Skill" } },
+		  { "boost mysticality", "boost moxie", "mysticality class skill" } },
         };
 
 	// Some choice adventures have a choice that behaves as an "ignore"
