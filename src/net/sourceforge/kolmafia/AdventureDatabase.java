@@ -193,7 +193,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Choices 43 - 44 are unknown
 
-		// Choise 45 is Maps and Legends
+		// Choice 45 is Maps and Legends
 		{ { "choiceAdventure45" }, { "Spooky Forest 1" },
 		  { "Spooky Temple map", "skip the adventure", "skip the adventure" },
 		  { "74", null, null } },
@@ -336,7 +336,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Broken
 		{ { "choiceAdventure78" }, { "Haunted Billiard Room" },
-		  { "option options", "boost muscle", "skip adventure" } },
+		  { "other options", "boost muscle", "skip adventure" } },
 
 		// A Hustle Here, a Hustle There
 		{ { "choiceAdventure79" }, { "Haunted Billiard Room" },
