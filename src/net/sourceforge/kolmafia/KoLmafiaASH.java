@@ -70,6 +70,7 @@ import javax.swing.JOptionPane;
 public class KoLmafiaASH extends StaticEntity
 {
 	/* Variables for Advanced Scripting */
+
 	public final static char [] tokenList = { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
 	public final static String [] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&" };
 
@@ -177,7 +178,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	// Feature control;
 
-	// Disabled until and if we choose to document the feature
+	// disabled until and if we choose to document the feature
 	private static boolean arrays = false;
 
 	// **************** Data Types *****************
@@ -2584,8 +2585,15 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptFunctionList result = new ScriptFunctionList();
 		ScriptType [] params;
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "enable", VOID_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "disable", VOID_TYPE, params ) );
+
 		// All datatypes must supply xxx_to_string and string_to_xxx
 		// methods.
+
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "refresh_status", VOID_TYPE, params ) );
 
@@ -2726,6 +2734,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { INT_TYPE, LOCATION_TYPE };
 		result.addElement( new ScriptExistingFunction( "adventure", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "spiceloop", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "buy", BOOLEAN_TYPE, params ) );
@@ -3629,7 +3640,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private static class ScriptFunction extends ScriptSymbol
+	private static abstract class ScriptFunction extends ScriptSymbol
 	{
 		protected ScriptType type;
 		protected ScriptVariableReferenceList variableReferences;
@@ -3681,10 +3692,7 @@ public class KoLmafiaASH extends StaticEntity
 				((ScriptVariableReference)variableReferences.get(i)).forceValue( values[i] );
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
-		{
-			return null;
-		}
+		public abstract ScriptValue execute() throws AdvancedScriptException;
 	}
 
 	private class ScriptUserDefinedFunction extends ScriptFunction
@@ -3707,6 +3715,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
+			if ( disabledScripts.contains( getName() ) )
+				return getType().initialValue();
+
 			if ( scope == null )
 				throw new RuntimeException( "Calling undefined user function: " + getName() );
 
@@ -3759,6 +3770,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute()
 		{
+			if ( disabledScripts.contains( getName() ) )
+				return getType().initialValue();
+
 			if ( method == null )
 				throw new RuntimeException( "Internal error: no method for " + getName() );
 
@@ -3779,6 +3793,22 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue continueValue()
 		{	return ( KoLmafia.permitsContinue() && !KoLmafia.hadPendingState() ) ? TRUE_VALUE : FALSE_VALUE;
+		}
+
+		public ScriptValue enable( ScriptVariable name )
+		{
+			disabledScripts.remove( name.toStringValue().toString().toLowerCase() );
+			return VOID_VALUE;
+		}
+
+		public ScriptValue disable( ScriptVariable name )
+		{
+			String functionName = name.toStringValue().toString().toLowerCase();
+
+			if ( !disabledScripts.contains( functionName ) )
+				disabledScripts.add( functionName );
+
+			return VOID_VALUE;
 		}
 
 		// Here are all the methods for built-in ASH functions
@@ -3972,6 +4002,15 @@ public class KoLmafiaASH extends StaticEntity
 				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "adventure " + count.intValue() + " " + loc.toStringValue() );
+			return continueValue();
+		}
+
+		public ScriptValue spiceloop( ScriptVariable count )
+		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
+			DEFAULT_SHELL.executeLine( "spiceloop " + count.intValue() );
 			return continueValue();
 		}
 
@@ -5288,7 +5327,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return target.getName();
 		}
 
-                public ScriptExpressionList getIndices()
+		public ScriptExpressionList getIndices()
 		{	return null;
 		}
 
@@ -5343,7 +5382,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return target.getName() + "[]";
 		}
 
-                public ScriptExpressionList getIndices()
+		public ScriptExpressionList getIndices()
 		{	return indices;
 		}
 

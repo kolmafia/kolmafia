@@ -410,6 +410,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCommand( String command, String parameters )
 	{
+		// If the command has already been disabled, then return
+		// from this function.
+
+		if ( disabledScripts.contains( command ) )
+			return;
+
 		// Insert random video game reference command to
 		// start things off.
 
