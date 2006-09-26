@@ -1035,19 +1035,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( !choiceMatcher.find() )
 			return;
 
-		String choice = choiceMatcher.group(1);
-		String option = "choiceAdventure" + choice;
-
 		// Find the options for the choice we've encountered
-		String [][] possibleDecisions = null;
-		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
-		{
-			if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
-			{
-				possibleDecisions = AdventureDatabase.CHOICE_ADVS[i];
-				break;
-			}
-		}
+		int choice = StaticEntity.parseInt( choiceMatcher.group(1) );
+		String [][] possibleDecisions = AdventureDatabase.choiceSpoilers( choice );
 
 		if ( possibleDecisions == null )
 			return;

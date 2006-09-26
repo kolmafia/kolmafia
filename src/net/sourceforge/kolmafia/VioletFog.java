@@ -365,6 +365,49 @@ public class VioletFog implements UtilityConstants
 		return "";
 	}
 
+	public static String [][] choiceSpoilers( int choice )
+	{
+		// We only handle Violet Fog choices
+		if ( choice < FIRST_CHOICE || choice > LAST_CHOICE )
+			return null;
+
+		// Return an array with the same structure as used by built-in
+		// choice adventures.
+		String [][] result = new String[3][];
+
+		// The choice option is the first element
+		result[0] = new String[1];
+		result[0][0] = "choiceAdventure" + String.valueOf( choice );
+
+		// The name of the choice is second element
+		result[1] = new String[1];
+		result[1][0] = FogLocationNames[ choice - FIRST_CHOICE ];
+
+		// An array of choice spoilers is the third element
+		int choices[] = FogChoiceTable[ choice - FIRST_CHOICE ];
+		result[2] = new String[4];
+		result[2][0] = choiceName( choice, choices[0] );
+		result[2][1] = choiceName( choice, choices[1] );
+		result[2][2] = choiceName( choice, choices[2] );
+		result[2][3] = choiceName( choice, choices[3] );
+
+		return result;
+	}
+
+	private static String choiceName( int choice, int destination )
+	{
+		// If it's unknown, no name
+		if ( destination == 0 )
+			return "";
+
+		// If it's the Goal, pick the goal
+		if ( destination == -1 )
+			return ( choice < FIRST_GOAL_LOCATION ) ? FogGoals[0] : FogGoals[ choice - FIRST_GOAL_LOCATION + 1 ];
+
+		// Otherwise, return the name of the destination
+		return FogLocationNames[ destination - FIRST_CHOICE ];
+	}
+
 	public static boolean freeAdventure( String choice, String decision )
 	{
 		// "choiceAdventureX"

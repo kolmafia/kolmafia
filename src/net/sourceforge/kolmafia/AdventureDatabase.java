@@ -284,76 +284,76 @@ public class AdventureDatabase extends KoLDatabase
 	// We choose to not make some choice adventures configurable, but we
 	// want to provide spoilers in the browser for them.
 
-	public static final String [][][] CHOICE_ADV_SPOLIERS =
+	public static final String [][][] CHOICE_ADV_SPOILERS =
 	{
 		// The Oracle Will See You Now -> Self Explanatory
 		// How Depressing -> Self Explanatory
 		// On the Verge of a Dirge -> Self Explanatory
 
 		// Wheel In the Sky Keep on Turning: Muscle Position
-		{ { "choiceAdventure9" },
+		{ { "choiceAdventure9" }, { "Castle Wheel" },
 		  { "Turn to Mysticality", "Turn to Moxie", "Ignore" } },
 
 		// Wheel In the Sky Keep on Turning: Mysticality Position
-		{ { "choiceAdventure10" },
+		{ { "choiceAdventure10" }, { "Castle Wheel" },
 		  { "Turn to Map Quest", "Turn to Muscle", "Ignore" } },
 
 		// Wheel In the Sky Keep on Turning: Map Quest Position
-		{ { "choiceAdventure11" },
+		{ { "choiceAdventure11" }, { "Castle Wheel" },
 		  { "Turn to Moxie", "Turn to Mysticality", "Ignore" } },
 
 		// Wheel In the Sky Keep on Turning: Moxie Position
-		{ { "choiceAdventure12" },
+		{ { "choiceAdventure12" }, { "Castle Wheel" },
 		  { "Turn to Muscle", "Turn to Map Quest", "Ignore" } },
 
 		// A Three-Tined Fork
-		{ { "choiceAdventure26" },
+		{ { "choiceAdventure26" }, { "Spooky Forest" },
 		  { "Muscle Classes", "Mysticality Classes", "Moxie Classes" } },
 
 		// Footprints
-		{ { "choiceAdventure27" },
+		{ { "choiceAdventure27" }, { "Spooky Forest" },
 		  { "Seal Clubber", "Turtle Tamer" } },
 
 		// A Pair of Craters
-		{ { "choiceAdventure28" },
-		  { "Sauceror", "Pastamancer" } },
+		{ { "choiceAdventure28" }, { "Spooky Forest" },
+		  { "Pastamancer", "Sauceror" } },
 
 		// The Road Less Visible
-		{ { "choiceAdventure29" },
+		{ { "choiceAdventure29" }, { "Spooky Forest" },
 		  { "Disco Bandit", "Accordion Thief" } },
 
 		// A Journey to the Center of Your Mind -> Self Explanatory
 
 		// Minnesota Incorporeals
-		{ { "choiceAdventure77" },
+		{ { "choiceAdventure77" }, { "Haunted Billiard Room" },
 		  { "Moxie", "Other options", "Ignore" } },
 
 		// Broken
-		{ { "choiceAdventure78" },
+		{ { "choiceAdventure78" }, { "Haunted Billiard Room" },
 		  { "Other options", "Muscle", "Ignore" } },
 
 		// A Hustle Here, a Hustle There
-		{ { "choiceAdventure79" },
+		{ { "choiceAdventure79" }, { "Haunted Billiard Room" },
 		  { "Library Key", "Mysticality", "Ignore" } },
 
 		// Take a Look, it's in a Book!
-		{ { "choiceAdventure80" },
+		{ { "choiceAdventure80" }, { "Haunted Library" },
 		  { "History", "Cooking Recipe", "Other options", "Go Away" } },
 
 		// Take a Look, it's in a Book!
-		{ { "choiceAdventure81" },
+		{ { "choiceAdventure81" }, { "Haunted Library" },
 		  { "Quest", "Cocktailcrafting recipe", "Muscle", "Go Away" } },
 
 		// History is Fun!
-		{ { "choiceAdventure86" },
+		{ { "choiceAdventure86" }, { "Haunted Library" },
 		  { "Chapter 1", "Chapter 2", "Chapter 3" } },
 
 		// History is Fun!
-		{ { "choiceAdventure87" }, { "Haunted Library 2" },
+		{ { "choiceAdventure87" }, { "Haunted Library" },
 		  { "Chapter 1", "Gallery Key Quest", "Chapter 3" } },
 
 		// Naughty, Naughty
-		{ { "choiceAdventure88" }, { "Library 2" },
+		{ { "choiceAdventure88" }, { "Haunted Library" },
 		  { "Mysticality", "Moxie", "Mysticality Class Skill" } },
         };
 
@@ -670,6 +670,33 @@ public class AdventureDatabase extends KoLDatabase
 
 		String condition = (String) conditionLookup.get( location.getAdventureName() );
 		return condition == null ? "none" : condition;
+	}
+
+	public static String [][] choiceSpoilers( int choice )
+	{
+		String option = "choiceAdventure" + String.valueOf( choice );
+
+		// See if this choice is controlled by user option
+		for ( int i = 0; i < CHOICE_ADVS.length; ++i )
+		{
+			if ( CHOICE_ADVS[i][0][0].equals( option ) )
+				return CHOICE_ADVS[i];
+		}
+
+		// Nope. See if we know this choice
+		for ( int i = 0; i < CHOICE_ADV_SPOILERS.length; ++i )
+		{
+			if ( CHOICE_ADV_SPOILERS[i][0][0].equals( option ) )
+				return CHOICE_ADV_SPOILERS[i];
+		}
+
+		// Nope. See if it's in the Violet Fog
+		String [][] spoilers = VioletFog.choiceSpoilers( choice );
+		if ( spoilers != null )
+			return spoilers;
+
+		// Unknown choice
+		return null;
 	}
 
 	public static String ignoreChoiceOption( String choice )
