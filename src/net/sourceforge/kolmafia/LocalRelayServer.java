@@ -261,7 +261,10 @@ public class LocalRelayServer implements Runnable
 					printStream.println( header );
 			}
 
-			printStream.println( "Content-Type: " + request.contentType );
+			if ( request.contentType.startsWith( "text" ) )
+				printStream.println( "Content-Type: " + request.contentType + ";charset=utf-8" );
+			else
+				printStream.println( "Content-Type: " + request.contentType );
 
 			if ( request.contentType.equals( "text/html" ) )
 			{
