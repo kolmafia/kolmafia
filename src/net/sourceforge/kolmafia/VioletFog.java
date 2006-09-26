@@ -356,6 +356,19 @@ public class VioletFog implements UtilityConstants
 
 	public static boolean mapChoice( String text )
 	{
+		int lastChoice = KoLRequest.getLastChoice();
+		if ( !fogChoice( lastChoice ) )
+			return false;
+
+		int lastDecision = KoLRequest.getLastDecision() - 1;
+		// Punt if bogus decision
+		if ( lastDecision < 0 || lastDecision > 3 )
+			return true;
+
+		// Return if we've already mapped this decision
+		if ( FogChoiceTable[ lastChoice - FIRST_CHOICE ][ lastDecision] != 0 )
+			return true;
+
 		Matcher choiceMatcher = CHOICE_PATTERN.matcher( text );
 		if ( !choiceMatcher.find() )
 			return false;
@@ -366,12 +379,45 @@ public class VioletFog implements UtilityConstants
 		if ( !fogChoice( source ) )
 			return false;
 
-		int lastChoice = KoLRequest.getLastChoice();
-		if ( fogChoice( lastChoice ) )
+		// Update the path table
+		int choices[] = FogChoiceTable[ lastChoice - FIRST_CHOICE ];
+		choices[ lastDecision ] = source;
+
+		// See if exactly one exit is unknown
+		int unknownIndex = -1;
+		for ( int i = 0; i < choices.length; ++i )
 		{
-			// Update the path table
-			int lastDecision = KoLRequest.getLastDecision() - 1;
-			FogChoiceTable[ lastChoice - FIRST_CHOICE ][ lastDecision ] = source;
+			if ( choices[i] != 0 )
+				continue;
+			if ( unknownIndex != -1 )
+				return true;
+			unknownIndex = i;
+		}
+
+		// Done if all three destinations are known.
+		if ( unknownIndex == -1 )
+			return true;
+
+		// Yes. Figure out which one it is
+		int exits[] = FogLocationExits[ lastChoice - FIRST_CHOICE ];
+		for ( int i = 0; i < exits.length; ++i )
+		{
+			int exit = exits[i];
+			boolean found = false;
+			for ( int j = 0; j < choices.length; ++j )
+			{
+				if ( exit == choices[j] )
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if ( !found )
+			{
+				choices[ unknownIndex ] = exit;
+				return true;
+			}
 		}
 
 		return true;
@@ -627,39 +673,7 @@ public class VioletFog implements UtilityConstants
 	}
 
 	private static int [] getPaths( int source )
-	{
-		int paths[] = FogChoiceTable[ source - FIRST_CHOICE ];
-		int exits[] = FogLocationExits[ source - FIRST_CHOICE ];
-
-		// See if exactly one exit is unknown
-		int unknownIndex = -1;
-		for ( int i = 0; i < paths.length; ++i )
-		{
-			if ( paths[i] != 0 )
-				continue;
-			if ( unknownIndex != -1 )
-				return paths;
-			unknownIndex = i;
-		}
-
-		// Yes. Figure out which one it is
-		for ( int i = 0; i < exits.length; ++i )
-		{
-			boolean found = false;
-			for ( int j = 0; j < paths.length; ++j )
-				if ( exits[i] == paths[j] )
-				{
-					found = true;
-					break;
-				}
-			if ( !found )
-			{
-				paths[ unknownIndex ] = exits[i];
-				return paths;
-			}
-		}
-
-		return paths;
+	{	return FogChoiceTable[ source - FIRST_CHOICE ];
 	}
 
 	public static void showGemelliMap()

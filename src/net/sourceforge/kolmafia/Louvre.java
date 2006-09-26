@@ -169,6 +169,10 @@ public class Louvre implements UtilityConstants
 		if ( lastDecision < 0 || lastDecision > 2 )
 			return true;
 
+		// Return if we've already mapped this decision
+		if ( LouvreChoiceTable[ lastChoice - FIRST_CHOICE ][ lastDecision] != 0 )
+			return true;
+
 		Matcher choiceMatcher = CHOICE_PATTERN.matcher( text );
 		if ( choiceMatcher.find() )
 		{
@@ -203,25 +207,23 @@ public class Louvre implements UtilityConstants
 		choices[ decision ] = destination;
 
 		// If 2 choices have been discovered, 3rd might be knowable.
-		int index = -1;
+		int unknownIndex = -1;
 		for ( int i = 0; i < 3; ++i )
 		{
-			if ( choices[i] == 0)
-			{
-				if ( index != -1 )
-					return;
-				index = i;
+			if ( choices[i] != 0)
 				continue;
-			}
+			if ( unknownIndex != -1 )
+				return;
+			unknownIndex = i;
 		}
 
 		// Done if all three destinations are known.
-		if ( index == -1 )
+		if ( unknownIndex == -1 )
 			return;
 
 		// Find which exit has not been mapped
 		int [] exits = LouvreLocationExits[ choice - FIRST_CHOICE ];
-		for ( int i = 0; i < 3; ++i )
+		for ( int i = 0; i < exits.length; ++i )
 		{
 			int exit = exits[i];
 
@@ -230,9 +232,9 @@ public class Louvre implements UtilityConstants
 				continue;
 
 			boolean found = false;
-			for ( int j = 0; j < 3; ++j )
+			for ( int j = 0; j < choices.length; ++j )
 			{
-				if ( choices[j] == exit )
+				if ( exit == choices[j] )
 				{
 					found = true;
 					break;
@@ -241,7 +243,7 @@ public class Louvre implements UtilityConstants
 
 			if ( !found )
 			{
-				choices[index] = exit;
+				choices[ unknownIndex ] = exit;
 				return;
 			}
 		}
@@ -299,7 +301,7 @@ public class Louvre implements UtilityConstants
 
 		// It is. If it stays within the Louvre, it's free
 		int option = StaticEntity.parseInt( decision );
-		int destination = LouvreChoiceTable [source][option];
+		int destination = LouvreChoiceTable[source][option];
 		return ( louvreChoice( destination ) );
 	}
 }
