@@ -265,6 +265,7 @@ public class LocalRelayServer implements Runnable
 
 			if ( request.contentType.equals( "text/html" ) )
 			{
+				printStream.println( "Set-Cookie: " + KoLRequest.sessionID );
 				printStream.println( "Cache-Control: no-cache, must-revalidate" );
 				printStream.println( "Pragma: no-cache" );
 			}
@@ -296,6 +297,7 @@ public class LocalRelayServer implements Runnable
 			LocalRelayRequest request = null;
 
 			String line = null;
+			String path = null;
 			String method = "GET";
 			int contentLength = 0;
 
@@ -314,7 +316,7 @@ public class LocalRelayServer implements Runnable
 				method = line.trim().substring( 0, spaceIndex );
 				int lastSpaceIndex = line.lastIndexOf( " " );
 
-				String path = line.substring( spaceIndex, lastSpaceIndex ).trim();
+				path = line.substring( spaceIndex, lastSpaceIndex ).trim();
 				request = new LocalRelayRequest( StaticEntity.getClient(), path );
 			}
 			catch ( Exception e )
@@ -326,6 +328,8 @@ public class LocalRelayServer implements Runnable
 				return;
 			}
 
+			boolean isCheckingModified = false;
+
 			try
 			{
 				while ( (line = reader.readLine()) != null && line.trim().length() != 0 )
@@ -334,8 +338,14 @@ public class LocalRelayServer implements Runnable
 						continue;
 
 					String [] tokens = line.split( ": " );
+
 					if ( tokens[0].equals( "Content-Length" ) )
 						contentLength = StaticEntity.parseInt( tokens[1].trim() );
+
+					if ( tokens[0].equals( "Cookie" ) && path.indexOf( ".php" ) != -1 )
+						KoLRequest.sessionID = tokens[1];
+
+					isCheckingModified |= tokens[0].equals( "If-Modified-Since" );
 				}
 
 				if ( method.equals( "POST" ) )
@@ -359,7 +369,18 @@ public class LocalRelayServer implements Runnable
 
 			try
 			{
-				request.run();
+				// If not requesting a server-side page, then it is safe
+				// to assume that no changes have been made (save time).
+
+				if ( !isCheckingModified || path.indexOf( ".php" ) != -1 )
+				{
+					request.run();
+				}
+				else
+				{
+					request.pseudoResponse( "HTTP/1.0 304 Not Modified", "" );
+					request.contentType = "text/html";
+				}
 
 				sendHeaders( writer, request );
 				writer.println();
