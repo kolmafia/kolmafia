@@ -63,11 +63,13 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int CONSUME_RESTORE = 14;
 	public static final int CONSUME_HOBO = 15;
 
+	private static final int SEAL_TOOTH = 2;
 	private static final int DOLPHIN_KING_MAP = 26;
 	private static final int SPOOKY_TEMPLE_MAP = 74;
 	private static final int DINGHY_PLANS = 146;
 	private static final int ENCHANTED_BEAN = 186;
 	private static final int FENG_SHUI = 210;
+	private static final int FOUNTAIN = 211;
 	private static final int CHEF = 438;
 	private static final int BARTENDER = 440;
 	private static final int KETCHUP_HOUND = 493;
@@ -125,7 +127,6 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
 	private static final AdventureResult NUTS = new AdventureResult( 509, -1 );
 	private static final AdventureResult PLAN = new AdventureResult( 502, -1 );
-	private static final AdventureResult FOUNTAIN = new AdventureResult( 211, -1 );
 	private static final AdventureResult WINDCHIMES = new AdventureResult( 212, -1 );
 	private static final AdventureResult INKWELL = new AdventureResult( 1958, -1 );
 	private static final AdventureResult SCRAP_OF_PAPER = new AdventureResult( 1959, -1 );
@@ -342,6 +343,16 @@ public class ConsumeItemRequest extends KoLRequest
 
 		switch ( lastItemUsed.getItemID() )
 		{
+			// Items which do not get used up, no matter what.
+
+			case SEAL_TOOTH:
+			case FOUNTAIN:
+
+				StaticEntity.getClient().processResult( lastItemUsed );
+				return;
+
+			// If it's a gift package, get the inner message
+
 			case GIFT1:
 			case GIFT2:
 			case GIFT3:
@@ -355,8 +366,6 @@ public class ConsumeItemRequest extends KoLRequest
 			case GIFT11:
 			case GIFTV:
 			case GIFTR:
-
-				// If it's a gift package, get the inner message
 
 				// "You can't receive things from other players
 				// right now."
@@ -603,7 +612,7 @@ public class ConsumeItemRequest extends KoLRequest
 				}
 				else
 				{
-					StaticEntity.getClient().processResult( FOUNTAIN );
+					StaticEntity.getClient().processResult( new AdventureResult( FOUNTAIN, -1 ) );
 					StaticEntity.getClient().processResult( WINDCHIMES );
 				}
 
