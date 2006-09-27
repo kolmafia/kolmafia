@@ -42,10 +42,9 @@ import java.util.StringTokenizer;
 
 public class SewerRequest extends KoLRequest
 {
+	public static final AdventureResult POSITIVE_CLOVER = new AdventureResult( "ten-leaf clover", 1 );
 	public static final AdventureResult CLOVER = new AdventureResult( "ten-leaf clover", -1 );
 	public static final AdventureResult GUM = new AdventureResult( "chewing gum on a string", -1 );
-
-	private boolean hasCost = true;
 	private boolean isLuckySewer;
 
 	/**
@@ -88,50 +87,36 @@ public class SewerRequest extends KoLRequest
 
 	private void runLuckySewer()
 	{
-		AdventureDatabase.retrieveItem( CLOVER.getInstance(1) );
-		if ( !KoLmafia.permitsContinue() )
+		AdventureDatabase.retrieveItem( POSITIVE_CLOVER );
+		if ( !KoLCharacter.hasItem( POSITIVE_CLOVER, false ) )
 			return;
 
-		if ( !(StaticEntity.getClient().getCurrentRequest() instanceof SewerRequest) )
+		// The Sewage Gnomes insist on giving precisely three
+		// items, so if you have fewer than three items, report
+		// an error.
+
+		String thirdItemString = StaticEntity.getProperty( "luckySewerAdventure" );
+		int thirdItem = thirdItemString.indexOf( "random" ) != -1 ? RNG.nextInt( 11 ) + 1 :
+			TradeableItemDatabase.getItemID( thirdItemString );
+
+		if ( thirdItem < 1 || thirdItem > 12 )
 		{
-			// First time here.
-
-			// The Sewage Gnomes insist on giving precisely three
-			// items, so if you have fewer than three items, report
-			// an error.
-
-			int thirdItem = TradeableItemDatabase.getItemID( StaticEntity.getProperty( "luckySewerAdventure" ) );
-
-			if ( thirdItem < 1 || (thirdItem > 12 && thirdItem != 43) )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You must select a third item from the gnomes." );
-				return;
-			}
-
-			// Enter the sewer for the first time. For whatever
-			// reason, you need to view this page before you can
-			// start submitting data.
-
-			hasCost = false;
-			super.run();
-
-			if ( responseCode != 200 )
-				return;
-
-			// Make a request to use from now on.
-
-			hasCost = true;
-			clearDataFields();
-			addFormField( "doodit", "1" );
-
-			// Rather than giving people flexibility, it seems like
-			// a better idea to assume everyone wants trinkets and
-			// spices and let them specify the third item.
-
-			addFormField( "i43", "on" );
-			addFormField( "i8", "on" );
-			addFormField( "i" + thirdItem, "on" );
+			KoLmafia.updateDisplay( ERROR_STATE, "You must select a third item from the gnomes." );
+			return;
 		}
+
+		// Make a request to use from now on.
+
+		clearDataFields();
+		addFormField( "doodit", "1" );
+
+		// Rather than giving people flexibility, it seems like
+		// a better idea to assume everyone wants trinkets and
+		// spices and let them specify the third item.
+
+		addFormField( "i43", "on" );
+		addFormField( "i8", "on" );
+		addFormField( "i" + thirdItem, "on" );
 
 		// Enter the sewer
 
@@ -161,7 +146,7 @@ public class SewerRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		if ( hasCost )
+		if ( responseText.indexOf( "You acquire" ) != -1 )
 		{
 			if ( StaticEntity.getClient().isLuckyCharacter() )
 				StaticEntity.getClient().processResult( CLOVER );
@@ -179,6 +164,6 @@ public class SewerRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return hasCost && responseCode == 200 ? 1 : 0;
+	{	return responseCode == 200 && responseText.indexOf( "You acquire" ) != -1 ? 1 : 0;
 	}
 }
