@@ -508,7 +508,6 @@ public abstract class KoLMessenger extends StaticEntity
 			while ( ++nextLine < lines.length - 1 && lines[ nextLine ].indexOf( "<a" ) == -1 )
 				lines[i] += "<br>" + lines[ nextLine ].trim();
 
-			System.out.println( lines[i] );
 			processChatMessage( lines[i].trim() );
 		}
 	}
