@@ -72,18 +72,16 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		// Delete any temporary files that were created in the process
 		// of a bad exit.
 
-		File parent = new File( "settings" );
-		if ( !parent.exists() )
-		{
-			parent.mkdirs();
-		}
-		else
-		{
-			File [] files = parent.listFiles();
-			for ( int i = 0; i < files.length; ++i )
-				if ( files[i].getPath().endsWith( ".tmp" ) )
-					files[i].delete();
-		}
+		if ( !SETTINGS_DIRECTORY.exists() )
+			SETTINGS_DIRECTORY.mkdirs();
+
+		if ( !SCRIPT_DIRECTORY.exists() )
+			SCRIPT_DIRECTORY.mkdirs();
+
+		File [] files = SETTINGS_DIRECTORY.listFiles();
+		for ( int i = 0; i < files.length; ++i )
+			if ( files[i].getPath().endsWith( ".tmp" ) )
+				files[i].delete();
 	}
 
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );

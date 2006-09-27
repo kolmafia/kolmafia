@@ -60,12 +60,10 @@ public abstract class CombatSettings implements UtilityConstants
 		StaticEntity.renameDataFiles( "ccs", "combat" );
 	}
 
-	private static String [] keys;
-	private static File settingsFile;
+	private static String [] keys = new String[0];
+	private static File settingsFile = null;
 	private static TreeMap reference = new TreeMap();
 	private static CombatSettingNode root = new CombatSettingNode();
-
-	static { CombatSettings.reset(); }
 
 	public static final void reset()
 	{
@@ -85,7 +83,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 	public static void loadSettings( File source )
 	{
-		if ( source == null )
+		if ( source == null || settingsFile == null )
 			return;
 
 		if ( settingsFile.getAbsolutePath().equals( source.getAbsolutePath() ) )
@@ -122,9 +120,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 			if ( !settingsFile.exists() )
 			{
-				settingsFile.getParentFile().mkdirs();
 				settingsFile.createNewFile();
-
 				ensureProperty( "default", "attack with weapon" );
 
 				keys = new String[ reference.keySet().size() ];
@@ -134,7 +130,6 @@ public abstract class CombatSettings implements UtilityConstants
 			}
 
 			BufferedReader reader = KoLDatabase.getReader( settingsFile );
-
 			String line;
 			CombatSettingNode currentList = root;
 
@@ -452,7 +447,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 	public static String getLongCombatOptionName( String action )
 	{
-		if ( action == null || action.length() == 0 )
+		if ( action == null || action.length() == 0 || action.startsWith( "attack" ) )
 			return "attack with weapon";
 
 		action = action.trim();

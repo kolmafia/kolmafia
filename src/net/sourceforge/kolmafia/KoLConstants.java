@@ -133,6 +133,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final ArrayList disabledScripts = new ArrayList();
 
 	public static final File SCRIPT_DIRECTORY = new File( "scripts" );
+	public static final File SETTINGS_DIRECTORY = new File( "settings" );
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
 
 	// Different states of KoLmafia.  Used in order to determine
