@@ -80,8 +80,6 @@ public abstract class MoodSettings implements KoLConstants
 	private static SortedListModel triggers = new SortedListModel();
 	private static SortedListModel availableMoods = new SortedListModel();
 
-	static { MoodSettings.reset(); }
-
 	public static final String settingsFileName()
 	{	return "settings/moods_" + KoLCharacter.baseUserName() + ".txt";
 	}
@@ -485,9 +483,7 @@ public abstract class MoodSettings implements KoLConstants
 
 			if ( !settingsFile.exists() )
 			{
-				settingsFile.getParentFile().mkdirs();
 				settingsFile.createNewFile();
-
 				setMood( "default" );
 				return;
 			}

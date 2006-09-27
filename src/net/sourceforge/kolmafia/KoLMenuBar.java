@@ -74,11 +74,11 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 	private static final String [] LICENSE_FILENAME = {
 		"kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm",
-		"sungraphics-license.txt", "systray-license.txt", "jline-license.txt" };
+		"sungraphics-license.txt", "jline-license.txt" };
 
 	private static final String [] LICENSE_NAME = {
 		"KoLmafia", "Spellcast", "BrowserLauncher",
-		"Sun Graphics", "System Tray", "JLine Terminal" };
+		"Sun Graphics", "JLine Terminal" };
 
 	protected KoLMenuBar()
 	{

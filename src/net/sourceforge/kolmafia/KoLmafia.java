@@ -75,6 +75,12 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLmafia implements KoLConstants
 {
+	protected static PrintStream sessionStream = NullStream.INSTANCE;
+	protected static PrintStream debugStream = NullStream.INSTANCE;
+	protected static PrintStream outputStream = NullStream.INSTANCE;
+	protected static PrintStream mirrorStream = NullStream.INSTANCE;
+	protected static PrintStream echoStream = NullStream.INSTANCE;
+
 	static
 	{
 		System.setProperty( "com.apple.mrj.application.apple.menu.about.name", "KoLmafia" );
@@ -88,12 +94,6 @@ public abstract class KoLmafia implements KoLConstants
 		CombatSettings.reset();
 		MoodSettings.reset();
 	}
-
-	protected static PrintStream sessionStream = NullStream.INSTANCE;
-	protected static PrintStream debugStream = NullStream.INSTANCE;
-	protected static PrintStream outputStream = NullStream.INSTANCE;
-	protected static PrintStream mirrorStream = NullStream.INSTANCE;
-	protected static PrintStream echoStream = NullStream.INSTANCE;
 
 	private static boolean isEnabled = true;
 	private static boolean hadPendingState = false;
