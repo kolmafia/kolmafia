@@ -215,8 +215,13 @@ public class ConsumeItemRequest extends KoLRequest
 		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
 			(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
 
+		String originalURLString = getURLString();
+
 		for ( int i = 1; KoLmafia.permitsContinue() && i <= iterations; ++i )
+		{
+			constructURLString( originalURLString );
 			useOnce( i, iterations, useTypeAsString );
+		}
 	}
 
 	public void useOnce( int currentIteration, int totalIterations, String useTypeAsString )
@@ -240,20 +245,17 @@ public class ConsumeItemRequest extends KoLRequest
 		// return from the method.
 
 		AdventureDatabase.retrieveItem( itemUsed );
-		if ( !KoLmafia.permitsContinue() )
+		if ( itemUsed.getCount( inventory ) < itemUsed.getCount() )
 		{
 			lastUpdate = "Insufficient items to use.";
 			return;
 		}
 
-		if ( !formURLString.startsWith( "inventory.php" ) )
-		{
-			if ( totalIterations == 1 )
-				KoLmafia.updateDisplay( useTypeAsString + " " + getItemUsed().toString() + "..." );
-			else
-				KoLmafia.updateDisplay( useTypeAsString + " " + getItemUsed().getName() +
-					" (" + currentIteration + " of " + totalIterations + ")..." );
-		}
+		if ( totalIterations == 1 )
+			KoLmafia.updateDisplay( useTypeAsString + " " + getItemUsed().toString() + "..." );
+		else
+			KoLmafia.updateDisplay( useTypeAsString + " " + getItemUsed().getName() +
+				" (" + currentIteration + " of " + totalIterations + ")..." );
 
 		super.run();
 	}
