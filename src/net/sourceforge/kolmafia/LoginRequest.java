@@ -324,7 +324,6 @@ public class LoginRequest extends KoLRequest
 			return true;
 		}
 
-		System.out.println( "Executing login..." );
-		return false;
+		return true;
 	}
 }
