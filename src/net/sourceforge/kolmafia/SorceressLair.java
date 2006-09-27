@@ -1434,13 +1434,6 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 		{
-			// First, we find out if restorative balm is an option for
-			// the shadow fight.
-
-			combatRounds = (int) Math.ceil( shadowHealth / 26 ) + 1;
-			option = new AdventureResult( "Doc Galaktik's Restorative Balm", 2 * combatRounds );
-			neededHealth = (maximumDamage * combatRounds) - (26 * (combatRounds - 1));
-
 			// If restorative balm is not an option for the shadow fight,
 			// then try elixirs next.
 
