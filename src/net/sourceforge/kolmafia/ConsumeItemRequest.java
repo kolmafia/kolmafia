@@ -222,7 +222,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( itemUsed.getItemID() == UneffectRequest.REMEDY.getItemID() )
 		{
-			StaticEntity.getClient().makeUneffectRequest();
+			DEFAULT_SHELL.executeLine( "uneffect beaten up" );
 			return;
 		}
 

@@ -1067,30 +1067,26 @@ public class KoLmafiaCLI extends KoLmafia
 
 				ArrayList temporary = new ArrayList();
 				temporary.addAll( conditions );
+				conditions.clear();
 
-				DEFAULT_SHELL.executeConditionsCommand( "clear" );
-
-				while ( KoLCharacter.getAdventuresLeft() > 0 && HermitRequest.getWorthlessItemCount() < itemCount && permitsContinue() )
-					executeLine( "adventure Unlucky Sewer" );
-
-				conditions.addAll( temporary );
-
-				if ( HermitRequest.getWorthlessItemCount() < itemCount )
+				if ( parameters.indexOf( "with clover" ) != -1 )
 				{
-					updateDisplay( ERROR_STATE, "Unable to acquire worthless item." );
-					return;
-				}
-			}
-			else if ( parameters.equals( "worthless item with clover" ) && HermitRequest.getWorthlessItemCount() == 0 )
-			{
-				if ( KoLCharacter.getAdventuresLeft() > 0 )
-				{
-					AdventureDatabase.retrieveItem( SewerRequest.CLOVER.getInstance(1) );
-					executeLine( "adventure Sewer With Clovers" );
+					if ( KoLCharacter.getAdventuresLeft() > 0 )
+					{
+						AdventureDatabase.retrieveItem( SewerRequest.CLOVER.getInstance( itemCount ) );
+						executeLine( "adventure " + itemCount + " sewer with clovers" );
+					}
 				}
 				else
 				{
-					updateDisplay( ERROR_STATE, "Unable to acquire a worthless item." );
+					while ( KoLCharacter.getAdventuresLeft() > 0 && HermitRequest.getWorthlessItemCount() < itemCount && permitsContinue() )
+						executeLine( "adventure " + (itemCount - HermitRequest.getWorthlessItemCount()) + " unlucky sewer" );
+				}
+
+				conditions.addAll( temporary );
+				if ( HermitRequest.getWorthlessItemCount() < itemCount )
+				{
+					updateDisplay( ERROR_STATE, "Unable to acquire " + itemCount + " worthless items." );
 					return;
 				}
 			}
@@ -1098,7 +1094,7 @@ public class KoLmafiaCLI extends KoLmafia
 			// Non-worthless-item requests default to
 			// internal retrieveItem calls.
 
-			else if ( !parameters.startsWith( "worthless item" ) )
+			else
 			{
 				AdventureResult item = getFirstMatchingItem( parameters );
 				if ( item != null )
@@ -1254,30 +1250,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "spiceloop" ) )
 		{
-			executeLine( "acquire worthless item" );
-			(new HermitRequest()).run();
-
-			if ( !HermitRequest.isCloverDay() )
-			{
-				updateDisplay( ERROR_STATE, "Today is not a clover day." );
-				return;
-			}
-
-			if ( HermitRequest.neededPermits() )
-			{
-				int neededPermits = StaticEntity.parseInt( parameters );
-				if ( neededPermits <= 0 )
-					neededPermits += KoLCharacter.getAdventuresLeft();
-
-				AdventureDatabase.retrieveItem( HermitRequest.PERMIT.getInstance( neededPermits ) );
-			}
-
-			StaticEntity.setProperty( "luckySewerAdventure", "stolen accordion" );
-
-			String previousScript = StaticEntity.getProperty( "betweenBattleScript" );
-			StaticEntity.setProperty( "betweenBattleScript", "acquire ten-leaf clover" );
-			executeAdventureRequest( parameters + " sewer with clovers" );
-			StaticEntity.setProperty( "betweenBattleScript", previousScript );
+			executeSpiceLoop( parameters );
 			return;
 		}
 
@@ -3521,6 +3494,51 @@ public class KoLmafiaCLI extends KoLmafia
 
 		StaticEntity.getClient().makeRequest(
 			new MuseumRequest( items, !parameters.startsWith( "take" ) ) );
+	}
+
+	private void executeSpiceLoop( String parameters )
+	{
+		int loopsToExecute = parameters.equals( "" ) ? 1 : StaticEntity.parseInt( parameters );
+		if ( loopsToExecute < 1 )
+			loopsToExecute += KoLCharacter.getAdventuresLeft();
+
+		executeConsumeItemRequest( "* disassembled clover" );
+
+		if ( isLuckyCharacter() )
+			executeAdventureRequest( "sewer with clovers" );
+		else
+			executeLine( "acquire worthless item" );
+
+		if ( !HermitRequest.isCloverDay() )
+		{
+			updateDisplay( ERROR_STATE, "Today is not a clover day." );
+			return;
+		}
+
+		if ( HermitRequest.neededPermits() )
+		{
+			int neededPermits = StaticEntity.parseInt( parameters );
+			if ( neededPermits <= 0 )
+				neededPermits += KoLCharacter.getAdventuresLeft();
+
+			AdventureDatabase.retrieveItem( HermitRequest.PERMIT.getInstance( neededPermits ) );
+		}
+
+		int itemCount = HermitRequest.getWorthlessItemCount();
+		int cloverCount = SewerRequest.CLOVER.getCount( inventory );
+
+		int loopsExecuted = 0;
+
+		while ( permitsContinue() && loopsExecuted < loopsToExecute )
+		{
+			itemCount = HermitRequest.getWorthlessItemCount();
+			if ( itemCount > 0 )
+				executeHermitRequest( itemCount + " ten-leaf clover" );
+
+			cloverCount = Math.min( loopsToExecute - loopsExecuted, SewerRequest.CLOVER.getCount( inventory ) );
+			executeAdventureRequest( cloverCount + " sewer with clovers" );
+			loopsExecuted += cloverCount;
+		}
 	}
 
 	/**
