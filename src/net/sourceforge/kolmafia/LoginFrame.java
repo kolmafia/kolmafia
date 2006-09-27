@@ -710,7 +710,6 @@ public class LoginFrame extends KoLFrame
 			super( "Connection Options", new Dimension( 80, 20 ), new Dimension( 380, 20 ) );
 
 			servers = new JComboBox();
-			servers.addItem( "Select random server for login attempt" );
 			servers.addItem( "Attempt to use www.kingdomofloathing.com" );
 
 			for ( int i = 2; i <= KoLRequest.SERVER_COUNT; ++i )
@@ -733,17 +732,18 @@ public class LoginFrame extends KoLFrame
 		{
 			int serverID = servers.getSelectedIndex();
 			if ( serverID == 0 )
-				StaticEntity.setProperty( "loginServerName", "random" );
-			else if ( serverID == 1 )
 				StaticEntity.setProperty( "loginServerName", "www.kingdomofloathing.com" );
 			else if ( serverID != -1 )
-				StaticEntity.setProperty( "loginServerName", "www" + serverID + ".kingdomofloathing.com" );
+				StaticEntity.setProperty( "loginServerName", "www" + (serverID + 1) + ".kingdomofloathing.com" );
 		}
 
 		public void actionCancelled()
 		{
-			StaticEntity.setProperty( "loginServerName", "random" );
-			servers.setSelectedIndex( 0 );
+			String server = "Attempt to use " + StaticEntity.getProperty( "loginServerName" );
+			if ( server.indexOf( "." ) != -1 )
+				servers.setSelectedItem( server );
+			else
+				servers.setSelectedIndex( RNG.nextInt( KoLRequest.SERVER_COUNT ) );
 		}
 
 		private class ConnectionCheckboxPanel extends OptionsPanel

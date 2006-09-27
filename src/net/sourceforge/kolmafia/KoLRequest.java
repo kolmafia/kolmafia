@@ -247,6 +247,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				KOL_HOST = SERVERS[i][0];
 				KOL_ROOT = "http://" + SERVERS[i][1] + "/";
+
+				StaticEntity.setProperty( "loginServerName", KOL_HOST );
+				KoLmafia.updateDisplay( "Redirected to " + KOL_HOST + "..." );
 			}
 		}
 	}

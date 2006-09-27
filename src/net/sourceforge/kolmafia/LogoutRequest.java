@@ -55,6 +55,8 @@ public class LogoutRequest extends KoLRequest
 
 	public void run()
 	{
+		super.run();
+
 		KoLMessenger.dispose();
 		BuffBotHome.setBuffBotActive( false );
 		StaticEntity.saveSettings();

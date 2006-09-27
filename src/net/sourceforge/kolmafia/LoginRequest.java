@@ -302,7 +302,7 @@ public class LoginRequest extends KoLRequest
 				return executeLogin();
 			}
 		}
-		else if ( responseText.indexOf( "Please wait a minute" ) != -1 )
+		else if ( responseText.indexOf( "wait a minute" ) != -1 )
 		{
 			// Ooh, logged in too fast.  KoLmafia should recognize this and
 			// try again automatically in 75 seconds.
@@ -310,7 +310,7 @@ public class LoginRequest extends KoLRequest
 			waitTime = STANDARD_WAIT;
 			return true;
 		}
-		else if ( responseText.indexOf( "Please wait fifteen minutes" ) != -1 )
+		else if ( responseText.indexOf( "wait fifteen minutes" ) != -1 )
 		{
 			// Ooh, logged in too fast.  KoLmafia should recognize this and
 			// try again automatically in 1000 seconds.
@@ -344,7 +344,7 @@ public class LoginRequest extends KoLRequest
 		// This means that the login failed.  Therefore, the user should
 		// re-input their username and password.
 
-		KoLmafia.updateDisplay( ERROR_STATE, "Login failed." );
+		KoLmafia.updateDisplay( ERROR_STATE, "Login failed.  Please try again." );
 		return false;
 	}
 }
