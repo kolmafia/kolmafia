@@ -170,7 +170,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		this.lastTitle = newTitle;
 		KoLDesktop.setTitle( this, newTitle );
 
-		super.setTitle( !(this instanceof LoginFrame) && KoLCharacter.getUsername().length() > 0 ?
+		super.setTitle( !(this instanceof LoginFrame || this instanceof ContactListFrame) && KoLCharacter.getUsername().length() > 0 ?
 			KoLCharacter.getUsername() + ": " + this.lastTitle : this.lastTitle );
 	}
 

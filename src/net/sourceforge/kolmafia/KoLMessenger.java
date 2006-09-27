@@ -411,12 +411,13 @@ public abstract class KoLMessenger extends StaticEntity
 		while ( tableMatcher.find() )
 		{
 			String result = tableMatcher.group();
-			String [] contactList = ANYTAG_PATTERN.matcher( result.substring( result.indexOf( ":" ) ) ).replaceAll( "" ).split( "\\s*,\\s*" );
+			String [] contactList = ANYTAG_PATTERN.matcher( result ).replaceAll( "" ).split( "(\\s*,\\s*|\\:)" );
 
 			for ( int i = 0; i < contactList.length; ++i )
 			{
 				if ( contactList[i].indexOf( "(" ) != -1 )
 					contactList[i] = contactList[i].substring( 0, contactList[i].indexOf( "(" ) ).trim();
+
 				contactList[i] = contactList[i].toLowerCase();
 			}
 
