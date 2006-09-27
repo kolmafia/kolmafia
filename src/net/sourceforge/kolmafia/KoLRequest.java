@@ -640,6 +640,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( urlString.indexOf( "council.php" ) != -1 )
 		{
+			if ( responseText.indexOf( "500" ) != -1 )
+				StaticEntity.getClient().processResult( new AdventureResult( "mosquito larva", -1, false ) );
 			if ( responseText.indexOf( "batskin belt" ) != -1 )
 				StaticEntity.getClient().processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
 		}
