@@ -149,6 +149,9 @@ public class ConsumeItemRequest extends KoLRequest
 	{
 		super( location, true );
 
+		addFormField( "pwd" );
+		addFormField( "whichitem", String.valueOf( item.getItemID() ) );
+
 		switch ( consumptionType )
 		{
 			case CONSUME_MULTIPLE:
@@ -199,7 +202,7 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 
 		int price = TradeableItemDatabase.getPriceByID( itemUsed.getItemID() );
-		if ( price > 0 )
+		if ( price != -1 )
 			AdventureDatabase.retrieveItem( itemUsed );
 
 		int iterations = 1;

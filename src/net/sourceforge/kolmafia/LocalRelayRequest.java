@@ -171,11 +171,22 @@ public class LocalRelayRequest extends KoLRequest
 			StringBuffer gotoMenu = new StringBuffer();
 			gotoMenu.append( "<select name=location onChange='move();'>" );
 
+			gotoMenu.append( "<option value=\"nothing\">- Select -</option>" );
+			for ( int i = 0; i < GOTO_MENU.length; ++i )
+			{
+				gotoMenu.append( "<option value=\"" );
+				gotoMenu.append( GOTO_MENU[i][1] );
+				gotoMenu.append( "\">" );
+				gotoMenu.append( GOTO_MENU[i][0] );
+				gotoMenu.append( "</option>" );
+			}
+
 			String [] bookmarkData = StaticEntity.getProperty( "browserBookmarks" ).split( "\\|" );
 
 			if ( bookmarkData.length > 1 )
 			{
-				gotoMenu.append( "<option value=\"nothing\">- Bookmarks -</option>" );
+				gotoMenu.append( "<option value=\"nothing\"> </option>" );
+				gotoMenu.append( "<option value=\"nothing\">- Select -</option>" );
 
 				for ( int i = 0; i < bookmarkData.length; i += 3 )
 				{
@@ -185,16 +196,6 @@ public class LocalRelayRequest extends KoLRequest
 					gotoMenu.append( bookmarkData[i] );
 					gotoMenu.append( "</option>" );
 				}
-			}
-
-			gotoMenu.append( "<option value=\"nothing\">- Select -</option>" );
-			for ( int i = 0; i < GOTO_MENU.length; ++i )
-			{
-				gotoMenu.append( "<option value=\"" );
-				gotoMenu.append( GOTO_MENU[i][1] );
-				gotoMenu.append( "\">" );
-				gotoMenu.append( GOTO_MENU[i][0] );
-				gotoMenu.append( "</option>" );
 			}
 
 			gotoMenu.append( "</select>" );
