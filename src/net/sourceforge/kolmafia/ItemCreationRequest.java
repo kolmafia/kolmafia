@@ -807,7 +807,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		}
 		else if ( urlString.indexOf( "smith.php" ) != -1 )
 		{
-			isCreationURL = true;
+			isCreationURL = urlString.indexOf( "action=pulverize" ) == -1;
 			command.append( "Smith " );
 			usesTurns = true;
 		}

@@ -793,7 +793,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// with the side pane.  The sewer is an example of a page that should
 		// get logged without form data, though.
 
-		if ( urlString.indexOf( "send" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.indexOf( "search" ) != -1 )
+		if ( shouldIgnoreResults() )
 			return;
 
 		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php" ) == -1 )
