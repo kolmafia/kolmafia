@@ -47,7 +47,6 @@ import javax.swing.JFileChooser;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.ListSelectionModel;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -57,7 +56,6 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.lang.reflect.Method;
 import java.lang.ref.WeakReference;
 
@@ -70,20 +68,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class KoLMenuBar extends JMenuBar implements KoLConstants
 {
-	protected static final FilenameFilter BACKUP_FILTER = new FilenameFilter()
-	{
-		public boolean accept( File dir, String name )
-		{
-			return !name.startsWith( "." ) && !name.endsWith( "~" ) && !name.endsWith( ".bak" ) && !name.endsWith( ".map" ) && !name.endsWith( ".dat" ) &&
-				name.indexOf( "datamaps" ) == -1 && dir.getPath().indexOf( "datamaps" ) == -1;
-		}
-	};
-
 	protected ScriptMenu scriptMenu;
 	protected BookmarkMenu bookmarkMenu;
-
 	protected JMenuItem debugMenuItem = new ToggleDebugMenuItem();
-	protected static final SortedListModel bookmarks = new SortedListModel( String.class );
 
 	private static final String [] LICENSE_FILENAME = {
 		"kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm",
@@ -94,34 +81,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		"Sun Graphics", "System Tray", "JLine Terminal" };
 
 	protected KoLMenuBar()
-	{
-		compileScripts();
-		compileBookmarks();
-		constructMenus();
-	}
-
-	/**
-	 * Utility method to compile the list of bookmarks based on the
-	 * current server settings.
-	 */
-
-	protected static void compileBookmarks()
-	{
-		bookmarks.clear();
-		String [] bookmarkData = StaticEntity.getProperty( "browserBookmarks" ).split( "\\|" );
-
-		if ( bookmarkData.length > 1 )
-			for ( int i = 0; i < bookmarkData.length; ++i )
-				bookmarks.add( bookmarkData[i] + "|" + bookmarkData[++i] + "|" + bookmarkData[++i] );
-	}
-
-	/**
-	 * Utility method which adds a menu bar to the frame.
-	 * This is called by default to allow for all frames to
-	 * have equivalent menu items.
-	 */
-
-	protected void constructMenus()
 	{
 		// Add general features.
 
@@ -298,8 +257,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		{
 			if ( location.startsWith( "http" ) )
 				StaticEntity.openSystemBrowser( location );
-			else
+			else if ( KoLRequest.sessionID != null )
 				StaticEntity.openRequestFrame( location );
+			else
+				KoLmafia.updateDisplay( "You are not yet logged in." );
 		}
 
 		public String toString()
@@ -396,186 +357,9 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[2];
-
-			headers[0] = new AddBookmarkMenuItem();
-			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
-
+			JComponent [] headers = new JComponent[0];
 			return headers;
 		}
-
-		/**
-		 * An internal class which handles the addition of new
-		 * bookmarks to the bookmark menu.
-		 */
-
-		private class AddBookmarkMenuItem extends JMenuItem implements ActionListener
-		{
-			public AddBookmarkMenuItem()
-			{
-				super( "Add Bookmark..." );
-				addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				AddBookmarkDialog prompter = new AddBookmarkDialog();
-				prompter.pack();  prompter.setVisible( true );
-			}
-		}
-
-		private class AddBookmarkDialog extends JDialog
-		{
-			public AddBookmarkDialog()
-			{
-				super( (java.awt.Frame) null, "Add a KoL-relative bookmark!" );
-				getContentPane().add( new AddBookmarkPanel() );
-			}
-
-			private class AddBookmarkPanel extends KoLPanel
-			{
-				private JTextField nameField;
-				private JTextField locationField;
-
-				public AddBookmarkPanel()
-				{
-					super( "add", "cancel" );
-
-					VerifiableElement [] elements = new VerifiableElement[2];
-					nameField = new JTextField();
-					elements[0] = new VerifiableElement( "Name", nameField );
-
-					locationField = new JTextField( StaticEntity.getClient().getCurrentRequest() == null ? "" : StaticEntity.getClient().getCurrentRequest().getURLString() );
-					elements[1] = new VerifiableElement( "Location", locationField );
-					setContent( elements );
-				}
-
-				public void actionConfirmed()
-				{
-					// Strip pwdhash out of location and
-					// set third parameter correctly
-
-					bookmarks.add( nameField.getText() + "|" + locationField.getText() + "|false" );
-					saveBookmarks();
-
-					AddBookmarkDialog.this.dispose();
-				}
-
-				public void actionCancelled()
-				{
-					AddBookmarkDialog.this.dispose();
-				}
-			}
-		}
-	}
-
-	/**
-	 * A special panel which generates a list of bookmarks which
-	 * can subsequently be managed.
-	 */
-
-	protected class BookmarkManagePanel extends ItemManagePanel
-	{
-		public BookmarkManagePanel()
-		{
-			super( "Bookmark Management", "rename", "delete", bookmarks );
-			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-		}
-
-		public void actionConfirmed()
-		{
-			int index = elementList.getSelectedIndex();
-			if ( index == -1 )
-				return;
-
-			String currentItem = (String)elementList.getSelectedValue();
-			if ( currentItem == null )
-				return;
-
-			String [] bookmarkData = currentItem.split( "\\|" );
-
-			String name = bookmarkData[0];
-			String location = bookmarkData[1];
-			String pwdhash = bookmarkData[2];
-
-			String newName = JOptionPane.showInputDialog( "Name your bookmark?", name );
-
-			if ( newName == null )
-				return;
-
-			bookmarks.remove( index );
-			bookmarks.add( newName + "|" + location + "|" + pwdhash );
-
-			saveBookmarks();
-		}
-
-		public void actionCancelled()
-		{
-			int index = elementList.getSelectedIndex();
-			if ( index == -1 )
-				return;
-
-			bookmarks.remove( index );
-			saveBookmarks();
-		}
-	}
-
-	public void compileScripts()
-	{
-		scripts.clear();
-
-		// Get the list of files in the current directory
-		if ( !SCRIPT_DIRECTORY.exists() )
-			SCRIPT_DIRECTORY.mkdirs();
-
-		File [] scriptList = SCRIPT_DIRECTORY.listFiles( BACKUP_FILTER );
-
-		// Iterate through the files.  Do this in two
-		// passes to make sure that directories start
-		// up top, followed by non-directories.
-
-		boolean hasDirectories = false;
-		boolean hasNormalFiles = false;
-
-		for ( int i = 0; i < scriptList.length; ++i )
-		{
-			if ( scriptList[i].isDirectory() )
-			{
-				scripts.add( scriptList[i] );
-				hasDirectories = true;
-			}
-			else
-				hasNormalFiles = true;
-		}
-
-		if ( hasNormalFiles )
-		{
-			if ( hasDirectories )
-				scripts.add( new JSeparator() );
-
-			for ( int i = 0; i < scriptList.length; ++i )
-				if ( !scriptList[i].isDirectory() )
-					scripts.add( scriptList[i] );
-		}
-	}
-
-	/**
-	 * Utility method to save the entire list of bookmarks to the settings
-	 * file.  This should be called after every update.
-	 */
-
-	protected void saveBookmarks()
-	{
-		StringBuffer bookmarkData = new StringBuffer();
-
-		for ( int i = 0; i < bookmarks.size(); ++i )
-		{
-			if ( i > 0 )
-				bookmarkData.append( '|' );
-			bookmarkData.append( (String) bookmarks.get(i) );
-		}
-
-		StaticEntity.setProperty( "browserBookmarks", bookmarkData.toString() );
 	}
 
 	private class ToggleDebugMenuItem extends JMenuItem implements ActionListener
@@ -857,9 +641,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	private class ScriptMenu extends MenuItemList
 	{
 		public ScriptMenu()
-		{
-			super( "Scripts", scripts );
-			compileScripts();
+		{	super( "Scripts", scripts );
 		}
 
 		public JComponent constructMenuItem( Object o )
@@ -933,7 +715,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			JComponent [] headers = new JComponent[2];
 
 			headers[0] = new LoadScriptMenuItem();
-			headers[1] = new InvocationMenuItem( "Refresh menu", KoLMenuBar.this, "compileScripts" );
+			headers[1] = new InvocationMenuItem( "Refresh menu", KoLFrame.class, "compileScripts" );
 
 			return headers;
 		}
