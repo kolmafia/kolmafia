@@ -912,7 +912,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	private boolean shouldIgnoreResults()
-	{	return shouldIgnore( formURLString ) || formURLString.indexOf( "message" ) != -1;
+	{	return shouldIgnore( formURLString ) || formURLString.indexOf( "message" ) != -1 || formURLString.indexOf( "clan" ) != -1;
 	}
 
 	public static boolean shouldIgnore( String formURLString )
