@@ -98,7 +98,7 @@ public class LoginRequest extends KoLRequest
 	 * via KoL.
 	 */
 
-	public void detectChallenge()
+	public boolean detectChallenge()
 	{
 		KoLmafia.updateDisplay( "Validating login server..." );
 
@@ -107,8 +107,12 @@ public class LoginRequest extends KoLRequest
 		// of a devster, the developer server.
 
 		KoLRequest.applySettings();
+
 		if ( username.toLowerCase().startsWith( "devster" ) )
 			setLoginServer( "dev.kingdomofloathing.com" );
+
+		if ( !KOL_HOST.equals( "dev.kingdomofloathing.com" ) )
+			setLoginServer( "www.kingdomofloathing.com" );
 
 		super.run();
 
@@ -122,7 +126,7 @@ public class LoginRequest extends KoLRequest
 		if ( !challengeMatcher.find() )
 		{
 			addFormField( "password", password );
-			return;
+			return true;
 		}
 
 		// We got this far, so that means we now have a
@@ -134,11 +138,13 @@ public class LoginRequest extends KoLRequest
 			addFormField( "secure", "on" );
 			addFormField( "challenge", challenge );
 			addFormField( "response", digestPassword( this.password, challenge ) );
+
+			return true;
 		}
 		catch ( Exception e )
 		{
 			addFormField( "password", password );
-			return;
+			return true;
 		}
 	}
 
@@ -211,10 +217,9 @@ public class LoginRequest extends KoLRequest
 
 		try
 		{
-			detectChallenge();
 			KoLmafia.forceContinue();
 
-			while ( !KoLmafia.refusesContinue() && executeLogin() )
+			while ( !KoLmafia.refusesContinue() && detectChallenge() && executeLogin() )
 			{
 				KoLmafia.forceContinue();
 				StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
@@ -257,8 +262,8 @@ public class LoginRequest extends KoLRequest
 	public boolean executeLogin()
 	{
 		sessionID = null;
-		KoLmafia.updateDisplay( "Sending login request..." );
 
+		KoLmafia.updateDisplay( "Sending login request..." );
 		super.run();
 
 		if ( responseCode == 302 && redirectLocation.equals( "maint.php" ) )
@@ -318,33 +323,8 @@ public class LoginRequest extends KoLRequest
 			waitTime = 1000;
 			return true;
 		}
-		else if ( responseText.indexOf( "login.php" ) != -1 )
-		{
-			// KoL sometimes switches servers while logging in. It returns a hidden form
-			// with responseCode 200.
 
-			// <html>
-			//   <body>
-			//     <form name=formredirect method=post action="http://www.kingdomofloathing.com/login.php">
-			//       <input type=hidden name=loginname value="xxx">
-			//       <input type=hidden name=loggingin value="Yup.">
-			//       <input type=hidden name=password value="xxx">
-			//     </form>
-			//   </body>
-			// </html>Redirecting to www.
-
-			Matcher matcher = REDIRECT_PATTERN.matcher( responseText );
-			if ( matcher.find() )
-			{
-				setLoginServer( matcher.group(1) );
-				return executeLogin();
-			}
-		}
-
-		// This means that the login failed.  Therefore, the user should
-		// re-input their username and password.
-
-		KoLmafia.updateDisplay( ERROR_STATE, "Login failed.  Please try again." );
+		System.out.println( "Executing login..." );
 		return false;
 	}
 }
