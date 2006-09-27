@@ -56,8 +56,6 @@ public class FightRequest extends KoLRequest
 
 	private String action1, action2;
 	private MonsterDatabase.Monster monsterData;
-
-	private String encounter = "";
 	private String encounterLookup = "";
 
 	private static final String [] RARE_MONSTERS =
@@ -322,11 +320,8 @@ public class FightRequest extends KoLRequest
 		// If this is the first round, then register the opponent
 		// you are fighting against.
 
-		if ( roundCount == 1 )
-		{
-			encounterLookup = CombatSettings.encounterKey( encounter );
-			monsterData = MonsterDatabase.findMonster( encounter );
-		}
+		encounterLookup = CombatSettings.encounterKey( encounter );
+		monsterData = MonsterDatabase.findMonster( encounter );
 
 		if ( responseText.indexOf( "fight.php" ) == -1 )
 		{
