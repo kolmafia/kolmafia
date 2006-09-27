@@ -73,8 +73,15 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 		// elements displayed in the list.  Also go
 		// ahead and initialize the header count.
 
-		this.add( new JSeparator() );
-		this.headerCount = headers.length + 1;
+		if ( headers.length == 0 )
+		{
+			this.headerCount = 0;
+		}
+		else
+		{
+			this.add( new JSeparator() );
+			this.headerCount = headers.length + 1;
+		}
 
 		// Now, add everything that's contained inside of
 		// the current list.

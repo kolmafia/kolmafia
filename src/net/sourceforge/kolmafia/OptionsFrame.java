@@ -38,6 +38,7 @@ package net.sourceforge.kolmafia;
 import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 
 // events
@@ -50,6 +51,7 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.ListSelectionModel;
 
 // containers
 import javax.swing.JComponent;
@@ -170,13 +172,17 @@ public class OptionsFrame extends KoLFrame
 		moodPanel.add( new AddTriggerPanel(), BorderLayout.NORTH );
 		moodPanel.add( new MoodTriggerListPanel(), BorderLayout.CENTER );
 
+		JPanel addonPanel = new JPanel( new GridLayout( 2, 1, 10, 10 ) );
+		addonPanel.add( new ScriptButtonPanel() );
+		addonPanel.add( new BookmarkManagePanel() );
+
 		addTab( "General", generalPanel );
-		tabs.addTab( "Scriptbar", new ScriptButtonPanel() );
+		tabs.addTab( "Links", addonPanel );
 		addTab( "Choices", choices = new ChoiceOptionsPanel() );
 		addTab( "Restores", restorePanel );
 		tabs.addTab( "Combats", combatPanel );
 		tabs.addTab( "Moods", moodPanel );
-		tabs.addTab( "Mafia Chat", new ChatOptionsPanel() );
+		tabs.addTab( "Chat", new ChatOptionsPanel() );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -413,62 +419,39 @@ public class OptionsFrame extends KoLFrame
 		}
 	}
 
-	private class ScriptButtonPanel extends ItemManagePanel implements ListDataListener
+	private abstract class ShiftableOrderPanel extends ItemManagePanel implements ListDataListener
 	{
-		private LockableListModel scriptList;
+		private LockableListModel list;
 
-		public ScriptButtonPanel()
+		public ShiftableOrderPanel( String title, LockableListModel list )
 		{
-			super( "gCLI Toolbar Buttons", "new script", "new command", new LockableListModel(), true, true );
+			super( title, "move up", "move down", list );
+			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
-			scriptList = (LockableListModel) elementList.getModel();
-			scriptList.addListDataListener( this );
-
-			((JList)scrollComponent).addKeyListener( new RemoveScriptListener() );
-
-			String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
-
-			for ( int i = 0; i < scriptList.length; ++i )
-				this.scriptList.add( scriptList[i] );
+			this.list = list;
+			list.addListDataListener( this );
 		}
 
-		public void actionConfirmed()
+		public final void actionConfirmed()
 		{
-			String rootPath = SCRIPT_DIRECTORY.getAbsolutePath();
-			JFileChooser chooser = new JFileChooser( rootPath );
-			int returnVal = chooser.showOpenDialog( null );
-
-			if ( chooser.getSelectedFile() == null )
+			int index = elementList.getSelectedIndex();
+			if ( index == -1 )
 				return;
 
-			if ( returnVal == JFileChooser.APPROVE_OPTION )
-			{
-				String scriptPath = chooser.getSelectedFile().getAbsolutePath();
-				if ( scriptPath.startsWith( rootPath ) )
-					scriptPath = scriptPath.substring( rootPath.length() + 1 );
-
-				scriptList.add( "call " + scriptPath );
-			}
+			Object value = list.remove( index );
+			list.add( index - 1, value );
+			elementList.setSelectedIndex( index - 1 );
 		}
 
-		public void actionCancelled()
+		public final void actionCancelled()
 		{
-			String currentValue = JOptionPane.showInputDialog( "CLI Command", "" );
-			if ( currentValue != null && currentValue.length() != 0 )
-				scriptList.add( currentValue );
-		}
+			int index = elementList.getSelectedIndex();
+			if ( index == -1 )
+				return;
 
-		private class RemoveScriptListener extends KeyAdapter
-		{
-			public void keyPressed( KeyEvent e )
-			{
-				if ( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE )
-				{
-					Object [] values = ((JList)scrollComponent).getSelectedValues();
-					for ( int i = 0; i < values.length; ++i )
-						scriptList.remove( values[i] );
-				}
-			}
+			Object value = list.remove( index );
+			list.add( index + 1, value );
+			elementList.setSelectedIndex( index + 1 );
 		}
 
 		public void intervalAdded( ListDataEvent e )
@@ -480,10 +463,96 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		public void contentsChanged( ListDataEvent e )
-		{	saveSettings();
+		{
 		}
 
-		private void saveSettings()
+		public abstract void saveSettings();
+	}
+
+	private class ScriptButtonPanel extends ShiftableOrderPanel implements ListDataListener
+	{
+		private LockableListModel scriptList;
+
+		public ScriptButtonPanel()
+		{
+			super( "gCLI Toolbar Buttons", new LockableListModel() );
+			this.scriptList = (LockableListModel) elementList.getModel();
+
+			String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
+
+			for ( int i = 0; i < scriptList.length; ++i )
+				this.scriptList.add( scriptList[i] );
+
+			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
+			extraButtons.add( new AddScriptButton(), BorderLayout.NORTH );
+			extraButtons.add( new AddCommandButton(), BorderLayout.CENTER );
+			extraButtons.add( new DeleteListingButton(), BorderLayout.SOUTH );
+			buttonPanel.add( extraButtons, BorderLayout.SOUTH );
+		}
+
+		private class AddScriptButton extends JButton implements ActionListener
+		{
+			public AddScriptButton()
+			{
+				super( "script file" );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				String rootPath = SCRIPT_DIRECTORY.getAbsolutePath();
+				JFileChooser chooser = new JFileChooser( rootPath );
+				int returnVal = chooser.showOpenDialog( null );
+
+				if ( chooser.getSelectedFile() == null )
+					return;
+
+				if ( returnVal == JFileChooser.APPROVE_OPTION )
+				{
+					String scriptPath = chooser.getSelectedFile().getAbsolutePath();
+					if ( scriptPath.startsWith( rootPath ) )
+						scriptPath = scriptPath.substring( rootPath.length() + 1 );
+
+					scriptList.add( "call " + scriptPath );
+				}
+			}
+		}
+
+		private class AddCommandButton extends JButton implements ActionListener
+		{
+			public AddCommandButton()
+			{
+				super( "cli command" );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				String currentValue = JOptionPane.showInputDialog( "CLI Command", "" );
+				if ( currentValue != null && currentValue.length() != 0 )
+					scriptList.add( currentValue );
+			}
+		}
+
+		private class DeleteListingButton extends JButton implements ActionListener
+		{
+			public DeleteListingButton()
+			{
+				super( "delete" );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				int index = elementList.getSelectedIndex();
+				if ( index == -1 )
+					return;
+
+				scriptList.remove( index );
+			}
+		}
+
+		public void saveSettings()
 		{
 			StringBuffer settingString = new StringBuffer();
 			if ( scriptList.size() != 0 )
@@ -1480,6 +1549,99 @@ public class OptionsFrame extends KoLFrame
 			useTabSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "useTabbedChat" ) );
 			popupSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "usePopupContacts" ) );
 			eSoluSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "eSoluScriptType" ) );
+		}
+	}
+
+	/**
+	 * A special panel which generates a list of bookmarks which
+	 * can subsequently be managed.
+	 */
+
+	private class BookmarkManagePanel extends ShiftableOrderPanel
+	{
+		public BookmarkManagePanel()
+		{
+			super( "Configure Bookmarks", bookmarks );
+
+			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
+			extraButtons.add( new AddBookmarkButton(), BorderLayout.NORTH );
+			extraButtons.add( new RenameBookmarkButton(), BorderLayout.CENTER );
+			extraButtons.add( new DeleteBookmarkButton(), BorderLayout.SOUTH );
+			buttonPanel.add( extraButtons, BorderLayout.SOUTH );
+		}
+
+		public void saveSettings()
+		{	saveBookmarks();
+		}
+
+		private class AddBookmarkButton extends JButton implements ActionListener
+		{
+			public AddBookmarkButton()
+			{
+				super( "new page" );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				String newName = JOptionPane.showInputDialog( "Add a bookmark!", "http://www.google.com/" );
+				if ( newName == null )
+					return;
+
+				bookmarks.add( "New bookmark " + (bookmarks.size() + 1) + "|" + newName + "|" + String.valueOf( newName.indexOf( "pwd" ) != -1 ) );
+			}
+		}
+
+		private class RenameBookmarkButton extends JButton implements ActionListener
+		{
+			public RenameBookmarkButton()
+			{
+				super( "rename" );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				int index = elementList.getSelectedIndex();
+				if ( index == -1 )
+					return;
+
+				String currentItem = (String)elementList.getSelectedValue();
+				if ( currentItem == null )
+					return;
+
+				String [] bookmarkData = currentItem.split( "\\|" );
+
+				String name = bookmarkData[0];
+				String location = bookmarkData[1];
+				String pwdhash = bookmarkData[2];
+
+				String newName = JOptionPane.showInputDialog( "Rename your bookmark?", name );
+
+				if ( newName == null )
+					return;
+
+				bookmarks.remove( index );
+				bookmarks.add( newName + "|" + location + "|" + pwdhash );
+			}
+		}
+
+		private class DeleteBookmarkButton extends JButton implements ActionListener
+		{
+			public DeleteBookmarkButton()
+			{
+				super( "delete" );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				int index = elementList.getSelectedIndex();
+				if ( index == -1 )
+					return;
+
+				bookmarks.remove( index );
+			}
 		}
 	}
 }

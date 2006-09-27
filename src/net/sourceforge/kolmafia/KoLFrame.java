@@ -36,7 +36,8 @@ package net.sourceforge.kolmafia;
 
 // containers
 import java.awt.Image;
-
+import java.io.FilenameFilter;
+import javax.swing.JSeparator;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
 import javax.swing.JFrame;
@@ -103,6 +104,15 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class KoLFrame extends JFrame implements KoLConstants
 {
+	protected static final FilenameFilter BACKUP_FILTER = new FilenameFilter()
+	{
+		public boolean accept( File dir, String name )
+		{
+			return !name.startsWith( "." ) && !name.endsWith( "~" ) && !name.endsWith( ".bak" ) && !name.endsWith( ".map" ) && !name.endsWith( ".dat" ) &&
+				name.indexOf( "datamaps" ) == -1 && dir.getPath().indexOf( "datamaps" ) == -1;
+		}
+	};
+
 	protected JTabbedPane tabs = null;
 	protected String lastTitle;
 	protected String frameName;
@@ -111,13 +121,20 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	protected StatusRefresher refresher = null;
 	protected KoLCharacterAdapter refreshListener = null;
 
+	static
+	{
+		compileScripts();
+		compileBookmarks();
+	}
+
 	/**
 	 * Constructs a new <code>KoLFrame</code> with the given title,
 	 * to be associated with the given StaticEntity.getClient().
 	 */
 
 	protected KoLFrame()
-	{	this( "" );
+	{
+		this( "" );
 	}
 
 	/**
@@ -1454,5 +1471,78 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	protected static void createDisplay( Class frameClass, Object [] parameters )
 	{	SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );
+	}
+
+	public static void compileScripts()
+	{
+		scripts.clear();
+
+		// Get the list of files in the current directory
+		if ( !SCRIPT_DIRECTORY.exists() )
+			SCRIPT_DIRECTORY.mkdirs();
+
+		File [] scriptList = SCRIPT_DIRECTORY.listFiles( BACKUP_FILTER );
+
+		// Iterate through the files.  Do this in two
+		// passes to make sure that directories start
+		// up top, followed by non-directories.
+
+		boolean hasDirectories = false;
+		boolean hasNormalFiles = false;
+
+		for ( int i = 0; i < scriptList.length; ++i )
+		{
+			if ( scriptList[i].isDirectory() )
+			{
+				scripts.add( scriptList[i] );
+				hasDirectories = true;
+			}
+			else
+				hasNormalFiles = true;
+		}
+
+		if ( hasNormalFiles )
+		{
+			if ( hasDirectories )
+				scripts.add( new JSeparator() );
+
+			for ( int i = 0; i < scriptList.length; ++i )
+				if ( !scriptList[i].isDirectory() )
+					scripts.add( scriptList[i] );
+		}
+	}
+
+	/**
+	 * Utility method to save the entire list of bookmarks to the settings
+	 * file.  This should be called after every update.
+	 */
+
+	protected static void saveBookmarks()
+	{
+		StringBuffer bookmarkData = new StringBuffer();
+
+		for ( int i = 0; i < bookmarks.size(); ++i )
+		{
+			if ( i > 0 )
+				bookmarkData.append( '|' );
+			bookmarkData.append( (String) bookmarks.get(i) );
+		}
+
+		StaticEntity.setProperty( "browserBookmarks", bookmarkData.toString() );
+	}
+
+	/**
+	 * Utility method to compile the list of bookmarks based on the
+	 * current settings.
+	 */
+
+	protected static void compileBookmarks()
+	{
+		bookmarks.clear();
+		String [] bookmarkData = StaticEntity.getProperty( "browserBookmarks" ).split( "\\|" );
+
+		if ( bookmarkData.length > 1 )
+			for ( int i = 0; i < bookmarkData.length; ++i )
+				bookmarks.add( bookmarkData[i] + "|" + bookmarkData[++i] + "|" + bookmarkData[++i] );
 	}
 }

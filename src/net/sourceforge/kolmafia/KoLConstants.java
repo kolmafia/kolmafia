@@ -129,6 +129,7 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final Vector commandQueue = new Vector();
 	public static final LockableListModel scripts = new LockableListModel();
+	public static final LockableListModel bookmarks = new LockableListModel();
 	public static final ArrayList disabledScripts = new ArrayList();
 
 	public static final File SCRIPT_DIRECTORY = new File( "scripts" );
