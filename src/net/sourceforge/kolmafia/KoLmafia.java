@@ -2722,6 +2722,8 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		MoodSettings.setMood( "apathetic" );
 
+		KoLCharacter.reset( KoLCharacter.getUsername() );
+
 		refreshSession();
 		resetSession();
 
