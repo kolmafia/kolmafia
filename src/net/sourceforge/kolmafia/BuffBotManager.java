@@ -554,7 +554,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 */
 
 	private static boolean containsDonation( KoLMailMessage message )
-	{    return message.getMessageHTML().indexOf( "width=30" ) != -1;
+	{    return message.getMessageHTML().indexOf( "You acquire" ) != -1;
 	}
 
 	/**
