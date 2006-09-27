@@ -125,7 +125,7 @@ public abstract class CombatSettings implements UtilityConstants
 				settingsFile.getParentFile().mkdirs();
 				settingsFile.createNewFile();
 
-				ensureProperty( "default", "attack" );
+				ensureProperty( "default", "attack with weapon" );
 
 				keys = new String[ reference.keySet().size() ];
 				reference.keySet().toArray( keys );
@@ -144,7 +144,7 @@ public abstract class CombatSettings implements UtilityConstants
 				if ( line.startsWith( "[" ) )
 				{
 					if ( currentList != root && currentList.getChildCount() == 0 )
-						currentList.add( new CombatActionNode( 1, "attack" ) );
+						currentList.add( new CombatActionNode( 1, "attack with weapon" ) );
 
 					String currentKey = encounterKey( line.substring( 1, line.length() - 1 ) );
 					currentList = new CombatSettingNode( currentKey );
@@ -165,12 +165,12 @@ public abstract class CombatSettings implements UtilityConstants
 						if ( pieces.length == 2 && desiredIndex >= currentList.getChildCount() )
 						{
 							String action = currentList.getChildCount() > 0 ?
-								((CombatActionNode) currentList.getLastChild()).action : "attack";
+								((CombatActionNode) currentList.getLastChild()).action : "attack with weapon";
 
 							while ( currentList.getChildCount() < desiredIndex - 1 )
 								currentList.add( new CombatActionNode( currentList.getChildCount() + 1, action ) );
 
-							currentList.add( new CombatActionNode( desiredIndex, pieces[1] ) );
+							currentList.add( new CombatActionNode( desiredIndex, pieces[1].trim() ) );
 						}
 					}
 
@@ -185,7 +185,7 @@ public abstract class CombatSettings implements UtilityConstants
 			}
 
 			if ( currentList != root && currentList.getChildCount() == 0 )
-				currentList.add( new CombatActionNode( 1, "attack" ) );
+				currentList.add( new CombatActionNode( 1, "attack with weapon" ) );
 
 			reader.close();
 			reader = null;
@@ -387,7 +387,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 		CombatSettingNode match = (CombatSettingNode) reference.get( keys[ longestMatch ] );
 		if ( match.getChildCount() == 0 )
-			return "attack";
+			return "attack with weapon";
 
 		CombatActionNode setting = (CombatActionNode) match.getChildAt(
 			roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
@@ -453,9 +453,11 @@ public abstract class CombatSettings implements UtilityConstants
 	public static String getLongCombatOptionName( String action )
 	{
 		if ( action == null || action.length() == 0 )
-			return "attack";
+			return "attack with weapon";
 
-		if ( action.startsWith( "delevel" ) || action.startsWith( "default" ) || action.startsWith( "abort" ) || action.startsWith( "attack" ) || action.startsWith( "run" ) )
+		action = action.trim();
+
+		if ( action.startsWith( "delevel" ) || action.startsWith( "default" ) || action.startsWith( "abort" ) || action.startsWith( "run" ) )
 			return action;
 
 		else if ( action.startsWith( "custom" ) )
@@ -484,11 +486,16 @@ public abstract class CombatSettings implements UtilityConstants
 		if ( itemID != -1 )
 			return "item " + TradeableItemDatabase.getItemName( itemID ).toLowerCase();
 
-		return "attack";
+		return "attack with weapon";
 	}
 
 	public static String getShortCombatOptionName( String action )
 	{
+		action = action.trim();
+
+		if ( action.startsWith( "attack" ) )
+			return "attack";
+
 		boolean isSkillNumber = true;
 		for ( int i = 0; i < action.length(); ++i )
 			isSkillNumber &= Character.isDigit( action.charAt(i) );
@@ -505,7 +512,7 @@ public abstract class CombatSettings implements UtilityConstants
 		if ( action.startsWith( "abort" ) )
 			return "abort";
 
-		if ( action.startsWith( "attack" ) )
+		if ( action.startsWith( "attack with weapon" ) )
 			return "attack";
 
 		if ( action.startsWith( "run" ) )
@@ -514,7 +521,7 @@ public abstract class CombatSettings implements UtilityConstants
 		if ( action.startsWith( "skill" ) )
 		{
 			String name = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
-			return name == null ? "attack" : String.valueOf( ClassSkillsDatabase.getSkillID( name ) );
+			return name == null ? "attack with weapon" : String.valueOf( ClassSkillsDatabase.getSkillID( name ) );
 		}
 
 		if ( action.startsWith( "item" ) )
