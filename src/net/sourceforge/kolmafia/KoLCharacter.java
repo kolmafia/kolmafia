@@ -2289,33 +2289,6 @@ public abstract class KoLCharacter extends StaticEntity
 		updateEquipmentLists();
 		ConcoctionsDatabase.refreshConcoctions();
 		recalculateAdjustments( false );
-
-		sellables.retainAll( inventory );
-		usables.retainAll( inventory );
-
-		AdventureResult [] items = new AdventureResult[ inventory.size() ];
-		inventory.toArray( items );
-
-		for ( int i = 0; i < items.length; ++i )
-		{
-			if ( TradeableItemDatabase.isUsable( items[i].getName() ) && items[i].getCount( usables ) != items[i].getCount() )
-			{
-				if ( items[i].getCount( usables ) == 0 )
-					usables.add( items[i] );
-				else
-					usables.set( usables.indexOf( items[i] ), items[i] );
-			}
-
-			int price = TradeableItemDatabase.getPriceByID( items[i].getItemID() );
-			if ( ( price > 0 || price == -1 ) && items[i].getCount( sellables ) != items[i].getCount() )
-			{
-				if ( items[i].getCount( sellables ) == 0 )
-					sellables.add( items[i] );
-				else
-					sellables.set( sellables.indexOf( items[i] ), items[i] );
-			}
-		}
-
 		updateStatus();
 	}
 
@@ -2334,7 +2307,16 @@ public abstract class KoLCharacter extends StaticEntity
 		String resultName = result.getName();
 
 		if ( result.isItem() )
+		{
 			AdventureResult.addResultToList( inventory, result );
+
+			if ( TradeableItemDatabase.isUsable( result.getName() ) )
+				AdventureResult.addResultToList( usables, result );
+
+			int price = TradeableItemDatabase.getPriceByID( result.getItemID() );
+			if ( price > 0 || price == -1 )
+				AdventureResult.addResultToList( sellables, result );
+		}
 		else if ( resultName.equals( AdventureResult.HP ) )
 			setHP( getCurrentHP() + result.getCount(), getMaximumHP(), getBaseMaxHP() );
 		else if ( resultName.equals( AdventureResult.MP ) )
