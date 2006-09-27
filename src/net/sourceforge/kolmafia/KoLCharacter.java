@@ -364,6 +364,22 @@ public abstract class KoLCharacter extends StaticEntity
 
 		usableSkills.clear();
 		availableSkills.clear();
+		battleSkillNames.clear();
+
+		// All characters get the option to
+		// attack something.
+
+		battleSkillNames.add( "attack with weapon" );
+		battleSkillNames.add( "custom combat script" );
+		battleSkillNames.setSelectedIndex( 0 );
+
+		battleSkillNames.add( "item facsimile dictionary" );
+		battleSkillNames.add( "item dictionary" );
+
+		battleSkillNames.add( "item seal tooth" );
+		battleSkillNames.add( "item scroll of turtle summoning" );
+		battleSkillNames.add( "item spices" );
+
 		getClient().resetBreakfastSummonings();
 
 		isHardcore = false;
@@ -1855,22 +1871,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void setAvailableSkills( List newSkillSet )
 	{
-		availableSkills.clear();
-		usableSkills.clear();
-		battleSkillNames.clear();
-
-		// All characters get the option to
-		// attack something.
-
-		battleSkillNames.add( "attack with weapon" );
-
-		battleSkillNames.add( "item facsimile dictionary" );
-		battleSkillNames.add( "item dictionary" );
-
-		battleSkillNames.add( "item seal tooth" );
-		battleSkillNames.add( "item scroll of turtle summoning" );
-		battleSkillNames.add( "item spices" );
-
 		if ( KoLCharacter.isMoxieClass() )
 			addAvailableSkill( new UseSkillRequest( "Moxious Maneuver", "", 1 ) );
 
@@ -1901,11 +1901,9 @@ public abstract class KoLCharacter extends StaticEntity
 		// Add derived skills based on base skills
 		addDerivedSkills();
 
-		// Set the selected combat skill based on
-		// the user's current setting.
-
-		battleSkillNames.add( "custom combat script" );
-		battleSkillNames.setSelectedIndex(0);
+		String originalAction = StaticEntity.getProperty( "battleAction" );
+		if ( battleSkillNames.contains( originalAction ) )
+			battleSkillNames.setSelectedItem( originalAction );
 	}
 
 	/**
