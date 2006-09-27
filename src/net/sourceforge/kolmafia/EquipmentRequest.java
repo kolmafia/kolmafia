@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -514,10 +515,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 				Matcher selectMatcher = SELECT_PATTERN.matcher( combines.responseText );
 				if ( selectMatcher.find() )
-				{
-					inventory.clear();
 					parseCloset( selectMatcher.group(), inventory );
-				}
 			}
 			else
 			{
@@ -595,23 +593,20 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		Matcher inventoryMatcher = OUTSIDECLOSET_PATTERN.matcher( responseText );
 		if ( inventoryMatcher.find() )
-		{
-			inventory.clear();
 			parseCloset( inventoryMatcher.group(), inventory );
-		}
 
 		Matcher closetMatcher = INSIDECLOSET_PATTERN.matcher( responseText );
 		if ( closetMatcher.find() )
-		{
-			closet.clear();
 			parseCloset( closetMatcher.group(), closet );
-		}
 	}
 
 	private void parseCloset( String content, List resultList )
 	{
 		int lastFindIndex = 0;
 		Matcher optionMatcher = INVENTORYITEM_PATTERN.matcher( content );
+
+		ArrayList seenResults = new ArrayList();
+
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = optionMatcher.end();
@@ -622,12 +617,32 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( itemName == null || !realName.equals( itemName ) )
 				TradeableItemDatabase.registerItem( itemID, realName );
 
-			AdventureResult result = new AdventureResult( itemID, StaticEntity.parseInt( optionMatcher.group(3) ) );
+			seenResults.add( new AdventureResult( itemID, StaticEntity.parseInt( optionMatcher.group(3) ) ) );
+		}
 
-			if ( resultList == inventory )
-				KoLCharacter.processResult( result );
-			else
-				AdventureResult.addResultToList( resultList, result );
+		resultList.retainAll( seenResults );
+
+		if ( resultList == inventory )
+		{
+			sellables.retainAll( seenResults );
+			usables.retainAll( seenResults );
+		}
+
+		AdventureResult [] results = new AdventureResult[ seenResults.size() ];
+		seenResults.toArray( results );
+
+		for ( int i = 0; i < results.length; ++i )
+		{
+			int inventoryCount = results[i].getCount( resultList );
+
+			if ( inventoryCount != results[i].getCount() )
+			{
+				results[i] = results[i].getInstance( results[i].getCount() - inventoryCount );
+				if ( resultList == inventory )
+					KoLCharacter.processResult( results[i] );
+				else
+					AdventureResult.addResultToList( resultList, results[i] );
+			}
 		}
 	}
 
@@ -658,7 +673,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( inventoryCount != quantityValue )
 			{
 				item = item.getInstance( quantityValue - inventoryCount );
-				AdventureResult.addResultToList( inventory, item );
+				KoLCharacter.processResult( item );
 			}
 		}
 	}
