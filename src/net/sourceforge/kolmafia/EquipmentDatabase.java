@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.TreeMap;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -46,6 +47,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class EquipmentDatabase extends KoLDatabase
 {
+	private static TreeMap outfitPieces = new TreeMap();
 	private static IntegerArray power = new IntegerArray();
 	private static IntegerArray hands = new IntegerArray();
 	private static StringArray type = new StringArray();
@@ -109,9 +111,19 @@ public class EquipmentDatabase extends KoLDatabase
 
 				String [] pieces = data[2].split( "\\s*,\\s*" );
 				for ( int i = 0; i < pieces.length; ++i )
+				{
+					outfitPieces.put( getCanonicalName( pieces[i] ), new Integer( outfitID ) );
 					outfits.get( outfitID ).addPiece( new AdventureResult( pieces[i], 1, false ) );
+				}
 			}
 		}
+	}
+
+	public static int getOutfitWithItem( int itemID )
+	{
+		String itemName = getCanonicalName( TradeableItemDatabase.getItemName( itemID ) );
+		Integer result = (Integer) outfitPieces.get( itemName );
+		return result == null ? -1 : result.intValue();
 	}
 
 	public static int getOutfitCount()

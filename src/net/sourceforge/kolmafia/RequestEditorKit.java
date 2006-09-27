@@ -965,8 +965,19 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				switch ( TradeableItemDatabase.getConsumptionType( itemID ) )
 				{
 					case ConsumeItemRequest.CONSUME_EAT:
-						useType = KoLCharacter.canEat() ? "eat" : null;
-						useLocation = "inv_eat.php?pwd=&which=1&whichitem=";
+
+						if ( itemID == 322 )
+						{
+							AdventureResult cheese = new AdventureResult( itemID, 1 );
+							useType = "trapper (" + cheese.getCount( inventory ) + ")";
+							useLocation = "trapper.php";
+						}
+						else
+						{
+							useType = KoLCharacter.canEat() ? "eat" : null;
+							useLocation = "inv_eat.php?pwd=&which=1&whichitem=";
+						}
+
 						break;
 
 					case ConsumeItemRequest.CONSUME_DRINK:
@@ -985,6 +996,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						break;
 
 					case ConsumeItemRequest.CONSUME_USE:
+
 						useType = "use";
 						useLocation = itemID == UneffectRequest.REMEDY.getItemID() ? "uneffect.php" :
 							"inv_use.php?pwd=&which=3&whichitem=";
@@ -994,21 +1006,45 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					case ConsumeItemRequest.EQUIP_HAT:
 					case ConsumeItemRequest.EQUIP_PANTS:
 					case ConsumeItemRequest.EQUIP_SHIRT:
-						useType = "equip";
-						useLocation = "inv_equip.php?pwd=&which=2&action=equip&whichitem=";
+					case ConsumeItemRequest.EQUIP_ACCESSORY:
+
+						useType = null;
+						int outfit = EquipmentDatabase.getOutfitWithItem( itemID );
+
+						if ( outfit != -1 )
+						{
+							if ( EquipmentDatabase.hasOutfit( outfit ) )
+							{
+								useType = "outfit";
+								useLocation = "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit;
+							}
+						}
+
+						if ( useType == null )
+						{
+							useType = "equip";
+							useLocation = "inv_equip.php?pwd=&which=2&action=equip&whichitem=";
+						}
+
 						break;
 
 					default:
 
-						if ( itemID == SorceressLair.PUZZLE_PIECE.getItemID() )
+						if ( itemID == SorceressLair.HEDGE_KEY.getItemID() )
 						{
 							useType = "maze";
 							useLocation = "hedgepuzzle.php";
 						}
-						else if ( itemID == SorceressLair.HEDGE_KEY.getItemID() )
+						else if ( itemID == SorceressLair.PUZZLE_PIECE.getItemID() )
 						{
 							useType = "maze";
 							useLocation = "hedgepuzzle.php";
+						}
+						else if ( itemID == 363 || itemID == 364 || itemID == 365 )
+						{
+							AdventureResult ore = new AdventureResult( itemID, 1 );
+							useType = "trapper (" + ore.getCount( inventory ) + ")";
+							useLocation = "trapper.php";
 						}
 				}
 			}
