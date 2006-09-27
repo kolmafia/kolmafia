@@ -823,7 +823,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		registerPlayer( playerName, playerID );
 		if ( !contactList.contains( playerName ) )
-			contactList.add( playerName );
+			contactList.add( playerName.toLowerCase() );
 	}
 
 	/**
