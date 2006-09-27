@@ -90,15 +90,15 @@
 15	68	0	mountains.php	80	Bridge the Orc Chasm
 15	68	0	adventure.php	80	Valley Beyond Orc Chasm	1 64735 scroll, 1 lowercase N
 
-16	85	90	adventure.php	81	Penultimate Fantasy Airship	1 metallic A, 1 photoprotoneutron torpedo, 1 S.O.C.K.
-16	85	95	adventure.php	82	Castle in the Clouds in the Sky	1 heavy D, 1 giant needle, 1 awful poetry journal, 1 furry fur
+16	85	90	adventure.php	81	Penultimate Fantasy Airship	1 metallic A, 1 S.O.C.K.
+16	85	95	adventure.php	82	Castle in the Clouds in the Sky	1 heavy D, 1 choiceadv
 16	85	100	adventure.php	83	Hole in the Sky	1 Richard's star key, 1 star hat
 
 17	104	0	lair3.php	hedge	Sorceress' Hedge Maze	3 hedge maze puzzle
 17	104	0	lair6.php	5	Fight the Naughty Sorceress
 
 18	0	13	adventure.php	47	Bugbear Pens	1 annoying pitchfork
-18	0	40	adventure.php	48	Spooky Gravy Barrow	1 inexplicably glowing rock, 1 small leather glove, 1 spooky fairy gravy
+18	0	40	adventure.php	48	Spooky Gravy Barrow	1 inexplicably glowing rock, 1 spooky glove
 18	0	40	adventure.php	49	Post-Quest Bugbear Pens
 
 19	0	0	adventure.php	43	Outskirts of Camp
