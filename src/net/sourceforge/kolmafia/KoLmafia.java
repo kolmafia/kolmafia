@@ -1430,49 +1430,243 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Makes a request which attempts to remove the given effect.
+	 * Makes a request which attempts to zap the chosen item
 	 */
 
-	public abstract void makeUneffectRequest();
+	public void makeZapRequest()
+	{
+		AdventureResult wand = KoLCharacter.getZapper();
+
+		if ( wand == null )
+			return;
+
+		Object selectedValue = JOptionPane.showInputDialog(
+			null, "I want to zap this item...", "Zzzzzzzzzap!", JOptionPane.INFORMATION_MESSAGE, null,
+			inventory.toArray(), inventory.get(0) );
+
+		if ( selectedValue == null )
+			return;
+
+		(new RequestThread( new ZapRequest( wand, (AdventureResult) selectedValue ) )).run();
+	}
 
 	/**
-	 * Makes a request which attempts to zap a chosen item
+	 * Makes a request to the hermit, looking for the given number of
+	 * items. method should prompt the user to determine which
+	 * item to retrieve the hermit.
 	 */
 
-	public abstract void makeZapRequest();
+	public void makeHermitRequest()
+	{
+		if ( !hermitItems.contains( "ten-leaf clover" ) )
+			(new HermitRequest()).run();
+
+		if ( !permitsContinue() )
+			return;
+
+		Object [] hermitItemArray = hermitItems.toArray();
+		Object selectedValue = JOptionPane.showInputDialog(
+			null, "I want this from the hermit...", "Mugging Hermit for...", JOptionPane.INFORMATION_MESSAGE, null,
+			hermitItemArray, null );
+
+		if ( selectedValue == null )
+			return;
+
+		int selected = TradeableItemDatabase.getItemID( (String)selectedValue );
+		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?", HermitRequest.getWorthlessItemCount() );
+
+		if ( tradeCount == 0 )
+			return;
+
+		(new RequestThread( new HermitRequest( selected, tradeCount ) )).run();
+	}
 
 	/**
-	 * Makes a request to the hermit in order to trade worthless
-	 * items for more useful items.
+	 * Makes a request to the trapper, looking for the given number of
+	 * items. method should prompt the user to determine which
+	 * item to retrieve from the trapper.
 	 */
 
-	public abstract void makeHermitRequest();
+	public void makeTrapperRequest()
+	{
+		int furs = TrapperRequest.YETI_FUR.getCount( inventory );
+
+		if ( furs == 0 )
+		{
+			updateDisplay( ERROR_STATE, "You don't have any yeti furs to trade." );
+			return;
+		}
+
+		Object selectedValue = JOptionPane.showInputDialog(
+			null, "I want this from the trapper...", "1337ing Trapper for...", JOptionPane.INFORMATION_MESSAGE, null,
+			trapperItemNames, trapperItemNames[0] );
+
+		if ( selectedValue == null )
+			return;
+
+		int selected = -1;
+		for ( int i = 0; i < trapperItemNames.length; ++i )
+			if ( selectedValue.equals( trapperItemNames[i] ) )
+			{
+				selected = trapperItemNumbers[i];
+				break;
+			}
+
+		// Should not be possible...
+		if ( selected == -1 )
+			return;
+
+		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?", furs );
+		if ( tradeCount == 0 )
+			return;
+
+		(new RequestThread( new TrapperRequest( selected, tradeCount ) )).run();
+	}
 
 	/**
-	 * Makes a request to the trapper to trade yeti furs for
-	 * other kinds of furs.
+	 * Makes a request to the hunter, looking to sell a given type of
+	 * item. method should prompt the user to determine which
+	 * item to sell to the hunter.
 	 */
 
-	public abstract void makeTrapperRequest();
+	public void makeHunterRequest()
+	{
+		if ( hunterItems.isEmpty() )
+			(new BountyHunterRequest()).run();
+
+		Object [] hunterItemArray = hunterItems.toArray();
+
+		String selectedValue = (String) JOptionPane.showInputDialog(
+			null, "I want to sell this to the hunter...", "The Quilted Thicker Picker Upper!", JOptionPane.INFORMATION_MESSAGE, null,
+			hunterItemArray, hunterItemArray[0] );
+
+		if ( selectedValue == null )
+			return;
+
+		AdventureResult selected = new AdventureResult( selectedValue, 0, false );
+		int available = selected.getCount( inventory );
+
+		if ( available == 0 )
+		{
+			updateDisplay( ERROR_STATE, "You don't have any " + selectedValue + "." );
+			return;
+		}
+
+		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to sell?", available );
+		if ( tradeCount == 0 )
+			return;
+
+		// If we're not selling all of the item, closet the rest
+		if ( tradeCount < available )
+		{
+			Object [] items = new Object[1];
+			items[0] = selected.getInstance( available - tradeCount );
+
+			Runnable [] sequence = new Runnable[3];
+			sequence[0] = new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items );
+			sequence[1] = new BountyHunterRequest( selected.getItemID() );
+			sequence[2] = new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items );
+
+			(new RequestThread( sequence )).run();
+		}
+		else
+			(new RequestThread( new BountyHunterRequest( TradeableItemDatabase.getItemID( selectedValue ) ) )).run();
+	}
+
 	/**
-	 * Makes a request to the hunter to trade today's bounty
-	 * items in for meat.
+	 * Makes a request to Doc Galaktik, looking for a cure.
 	 */
 
-	public abstract void makeHunterRequest();
+	public void makeGalaktikRequest()
+	{
+		Object [] cureArray = GalaktikRequest.retrieveCures().toArray();
+
+		if ( cureArray.length == 0 )
+		{
+			updateDisplay( ERROR_STATE, "You don't need any cures." );
+			return;
+		}
+
+		String selectedValue = (String) JOptionPane.showInputDialog(
+			null, "Cure me, Doc!", "Doc Galaktik", JOptionPane.INFORMATION_MESSAGE, null,
+			cureArray, cureArray[0] );
+
+		if ( selectedValue == null )
+			return;
+
+		int type = 0;
+		if ( selectedValue.indexOf( "HP" ) != -1 )
+			type = GalaktikRequest.HP;
+		else if ( selectedValue.indexOf( "MP" ) != -1 )
+			type = GalaktikRequest.MP;
+		else
+			return;
+
+		(new RequestThread( new GalaktikRequest( type ) )).run();
+	}
 
 	/**
-	 * Makes a request to the untinkerer to untinker items
-	 * into their component parts.
+	 * Makes a request to the hunter, looking for the given number of
+	 * items. method should prompt the user to determine which
+	 * item to retrieve the hunter.
 	 */
 
-	public abstract void makeUntinkerRequest();
+	public void makeUntinkerRequest()
+	{
+		List untinkerItems = new ArrayList();
+
+		for ( int i = 0; i < inventory.size(); ++i )
+		{
+			AdventureResult currentItem = (AdventureResult) inventory.get(i);
+			int itemID = currentItem.getItemID();
+
+			// Ignore silly fairy gravy + meat from yesterday recipe
+			if ( itemID == ItemCreationRequest.MEAT_STACK )
+				continue;
+
+			// Otherwise, accept any COMBINE recipe
+			if ( ConcoctionsDatabase.getMixingMethod( itemID ) == ItemCreationRequest.COMBINE )
+				untinkerItems.add( currentItem );
+		}
+
+		if ( untinkerItems.isEmpty() )
+		{
+			updateDisplay( ERROR_STATE, "You don't have any untinkerable items." );
+			return;
+		}
+
+		Object [] untinkerItemArray = untinkerItems.toArray();
+		Arrays.sort( untinkerItemArray );
+
+		AdventureResult selectedValue = (AdventureResult) JOptionPane.showInputDialog(
+			null, "I want to untinkeritem...", "You can unscrew meat paste?", JOptionPane.INFORMATION_MESSAGE, null,
+			untinkerItemArray, untinkerItemArray[0] );
+
+		if ( selectedValue == null )
+			return;
+
+		(new RequestThread( new UntinkerRequest( selectedValue.getItemID() ) )).run();
+	}
 
 	/**
-	 * Makes a request to set the mind control device to the desired value
+	 * Set the Canadian Mind Control device to selected setting.
 	 */
 
-	public abstract void makeMindControlRequest();
+	public void makeMindControlRequest()
+	{
+		String [] levelArray = new String[12];
+		for ( int i = 0; i < 12; ++i )
+			levelArray[i] = "Level " + i;
+
+		String selectedLevel = (String) JOptionPane.showInputDialog(
+			null, "Set the device to what level?", "Change mind control device from level " + KoLCharacter.getMindControlLevel(),
+				JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ KoLCharacter.getMindControlLevel() ] );
+
+		if ( selectedLevel == null )
+			return;
+
+		(new RequestThread( new MindControlRequest( StaticEntity.parseInt( selectedLevel.split( " " )[1] ) ) )).run();
+	}
 
 	public static void validateFaucetQuest()
 	{

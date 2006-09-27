@@ -1046,7 +1046,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "uneffect" ) || command.equals( "remedy" ) )
 		{
-			makeUneffectRequest();
+			executeUneffectRequest( parameters );
 			return;
 		}
 
@@ -1174,7 +1174,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "untinker" ) )
 		{
-			makeUntinkerRequest();
+			executeUntinkerRequest( parameters );
 			return;
 		}
 
@@ -1228,7 +1228,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "mind-control" ) || command.equals( "mcd" ) )
 		{
-			makeMindControlRequest();
+			executeMindControlRequest( parameters );
 			return;
 		}
 
@@ -1459,25 +1459,25 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "hermit" ) )
 		{
-			makeHermitRequest();
+			executeHermitRequest( parameters );
 			return;
 		}
 
 		if ( command.equals( "trapper" ) )
 		{
-			makeTrapperRequest();
+			executeTrapperRequest( parameters );
 			return;
 		}
 
 		if ( command.equals( "hunter" ) )
 		{
-			makeHunterRequest();
+			executeHunterRequest( parameters );
 			return;
 		}
 
 		if ( command.equals( "galaktik" ) )
 		{
-			makeGalaktikRequest();
+			executeGalaktikRequest( parameters );
 			return;
 		}
 
@@ -3094,16 +3094,15 @@ public class KoLmafiaCLI extends KoLmafia
 	 * abstract method provided in the KoLmafia class.
 	 */
 
-	public void makeUntinkerRequest()
+	public void executeUntinkerRequest( String parameters )
 	{
-		if ( previousLine.indexOf( " " ) == -1 )
+		if ( parameters.equals( "" ) )
 		{
 			StaticEntity.getClient().makeRequest( new UntinkerRequest() );
 			return;
 		}
 
-		String item = previousLine.substring( previousLine.split( " " )[0].length() ).trim();
-		AdventureResult firstMatch = getFirstMatchingItem( item );
+		AdventureResult firstMatch = getFirstMatchingItem( parameters );
 		if ( firstMatch == null )
 			return;
 
@@ -3114,15 +3113,9 @@ public class KoLmafiaCLI extends KoLmafia
 	 * Set the Canadian Mind Control device to selected setting.
 	 */
 
-	public void makeMindControlRequest()
+	public void executeMindControlRequest( String parameters )
 	{
-		if ( previousLine == null )
-			return;
-
-		if ( !previousLine.startsWith( "mcd" ) && !previousLine.startsWith( "mind-control" ) )
-			return;
-
-		int setting = StaticEntity.parseInt( previousLine.split( " " )[1] );
+		int setting = StaticEntity.parseInt( parameters );
 		StaticEntity.getClient().makeRequest( new MindControlRequest( setting ) );
 	}
 
@@ -3639,21 +3632,14 @@ public class KoLmafiaCLI extends KoLmafia
 	 * be removed.
 	 */
 
-	public void makeUneffectRequest()
+	public void executeUneffectRequest( String parameters )
 	{
-		if ( previousLine == null )
-			return;
-
-		if ( !previousLine.startsWith( "uneffect" ) || previousLine.indexOf( " " ) == -1 )
-			return;
-
-		String effectToUneffect = previousLine.trim().substring( previousLine.split( " " )[0].length() ).trim().toLowerCase();
-
+		parameters = parameters.toLowerCase();
 		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
 		activeEffects.toArray( effects );
 
 		for ( int i = 0; i < effects.length; ++i )
-			if ( effects[i].getName().toLowerCase().indexOf( effectToUneffect ) != -1 )
+			if ( effects[i].getName().toLowerCase().indexOf( parameters ) != -1 )
 				StaticEntity.getClient().makeRequest( new UneffectRequest( effects[i] ) );
 	}
 
@@ -3717,28 +3703,19 @@ public class KoLmafiaCLI extends KoLmafia
 	 * are no clovers available, the request will abort.
 	 */
 
-	public void makeHermitRequest()
+	public void executeHermitRequest( String parameters )
 	{
-		if ( previousLine == null )
-			return;
-
-		if ( !previousLine.startsWith( "hermit" ) )
-			return;
-
 		String oldLine = previousLine;
 		boolean clovers = HermitRequest.isCloverDay();
 
 		if ( !permitsContinue() )
 			return;
 
-		if ( previousLine.indexOf( " " ) == -1 )
+		if ( parameters.equals( "" ) )
 		{
 			updateDisplay( "Today is " + ( clovers ? "" : "not " ) + "a clover day." );
 			return;
 		}
-
-		String command = oldLine.split( " " )[0];
-		String parameters = oldLine.substring( command.length() ).trim();
 
 		int itemID = -1;
 		int tradeCount = 1;
@@ -3779,17 +3756,8 @@ public class KoLmafiaCLI extends KoLmafia
 	 * furs for the given fur.
 	 */
 
-	public void makeTrapperRequest()
+	public void executeTrapperRequest( String parameters )
 	{
-		if ( previousLine == null )
-			return;
-
-		if ( !previousLine.startsWith( "trapper" ) || previousLine.indexOf( " " ) == -1 )
-			return;
-
-		String command = previousLine.split( " " )[0];
-		String parameters = previousLine.substring( command.length() ).trim();
-
 		// If he doesn't specify a number, use number of yeti furs
 		AdventureResult item = getFirstMatchingItem( parameters );
 		if ( item == null )
@@ -3814,26 +3782,18 @@ public class KoLmafiaCLI extends KoLmafia
 	 * not report an error.
 	 */
 
-	public void makeHunterRequest()
+	public void executeHunterRequest( String parameters )
 	{
-		if ( previousLine == null )
-			return;
+		parameters = parameters.toLowerCase();
 
-		if ( !previousLine.startsWith( "hunter" ) )
-			return;
-
-		if ( hunterItems.isEmpty() )
-			(new BountyHunterRequest()).run();
-
-		if ( previousLine.indexOf( " " ) == -1 )
+		if ( parameters.equals( "" ) )
 		{
 			printList( hunterItems );
 			return;
 		}
 
-		String item = previousLine.substring( previousLine.indexOf( " " ) ).trim();
 		for ( int i = 0; i < hunterItems.size(); ++i )
-			if ( ((String)hunterItems.get(i)).indexOf( item ) != -1 )
+			if ( ((String)hunterItems.get(i)).indexOf( parameters ) != -1 )
 				(new BountyHunterRequest( TradeableItemDatabase.getItemID( (String) hunterItems.get(i) ) )).run();
 	}
 
@@ -3879,7 +3839,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * cure is not available, this method does not report an error.
 	 */
 
-	public void makeGalaktikRequest()
+	public void executeGalaktikRequest( String parameters )
 	{
 		if ( previousLine == null )
 			return;
@@ -3887,25 +3847,16 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( !previousLine.startsWith( "galaktik" ) )
 			return;
 
-		if ( previousLine.indexOf( " " ) == -1 )
-		{
-			List cures = GalaktikRequest.retrieveCures();
-			printList( cures );
-			return;
-		}
-
 		// Cure "HP" or "MP"
 
-		String cure = previousLine.substring( previousLine.indexOf( " " ) ).trim();
-
 		int type = 0;
-		if ( cure.equalsIgnoreCase( "hp" ) )
+		if ( parameters.equalsIgnoreCase( "hp" ) )
 			type = GalaktikRequest.HP;
-		else if ( cure.equalsIgnoreCase( "mp" ) )
+		else if ( parameters.equalsIgnoreCase( "mp" ) )
 			type = GalaktikRequest.MP;
 		else
 		{
-			updateDisplay( ERROR_STATE, "Unknown Doc Galaktik request <" + cure + ">" );
+			updateDisplay( ERROR_STATE, "Unknown Doc Galaktik request <" + parameters + ">" );
 			return;
 		}
 
