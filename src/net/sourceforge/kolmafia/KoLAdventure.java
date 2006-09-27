@@ -702,7 +702,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			}
 		}
 
-		if ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) &&
+		if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) &&
 			EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Thrust smacks should use non-ranged weapons." );
