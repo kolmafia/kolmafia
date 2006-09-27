@@ -504,7 +504,7 @@ public abstract class KoLMessenger extends StaticEntity
 			}
 
 			lines[i] = lines[i].trim();
-			while ( nextLine + 2 < lines.length && lines[ ++nextLine ].indexOf( "<a" ) != -1 )
+			while ( ++nextLine < lines.length - 1 && lines[ nextLine ].indexOf( "<a" ) != -1 )
 				lines[i] += "<br>" + lines[ nextLine ].trim();
 
 			processChatMessage( lines[i].trim() );
