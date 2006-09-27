@@ -197,15 +197,6 @@ public class KoLRequest implements Runnable, KoLConstants
 				System.setProperty( "http.proxyPassword", StaticEntity.getProperty( "http.proxyPassword" ) );
 			}
 
-			// Determine the login server that will be used.
-			String server = StaticEntity.getProperty( "loginServerName" );
-			if ( server.equals( "random" ) )
-				server = SERVERS[ RNG.nextInt( SERVER_COUNT ) ][0];
-			else if ( server.indexOf( "." ) == -1 )
-				server = server + ".kingdomofloathing.com";
-
-			setLoginServer( server );
-
 			if ( proxySet.equals( "true" ) )
 			{
 				KoLmafia.updateDisplay( "Validating proxy settings..." );
