@@ -788,7 +788,7 @@ public class ConsumeItemRequest extends KoLRequest
 				// covered with ink. More like mud than dust, I
 				// guess.
 
-				if ( responseText.indexOf( "disintegrates into dust?" ) == -1 )
+				if ( responseText.indexOf( "disintegrates into dust" ) == -1 )
 				{
 					lastUpdate = "You're missing some parts.";
 					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
@@ -868,6 +868,7 @@ public class ConsumeItemRequest extends KoLRequest
 				itemCount = StaticEntity.parseInt( quantityMatcher.group(1) );
 		}
 
+
 		return new AdventureResult( itemID, itemCount );
 	}
 
@@ -875,7 +876,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public static boolean processRequest( String urlString )
 	{
-		if ( urlString.indexOf( "inventory.php" ) != -1 && urlString.indexOf( "action=message" ) != -1 )
+		if ( urlString.indexOf( "action=message" ) != -1 )
 			return true;
 
 		lastItemUsed = extractItem( urlString );

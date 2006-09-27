@@ -57,7 +57,6 @@ public abstract class KoLMessenger extends StaticEntity
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<img.*?>" );
 	private static final Pattern EXPAND_PATTERN = Pattern.compile( "(</?p>)+" );
 	private static final Pattern COLOR_PATTERN = Pattern.compile( "</?font.*?>" );
-	private static final Pattern ITALICS_PATTERN = Pattern.compile( "</?i>" );
 	private static final Pattern LINEBREAK_PATTERN = Pattern.compile( "</?br>", Pattern.CASE_INSENSITIVE );
 	private static final Pattern TABLE_PATTERN = Pattern.compile( "<table>.*?</table>" );
 	private static final Pattern ANYTAG_PATTERN = Pattern.compile( "<.*?>" );
@@ -395,9 +394,8 @@ public abstract class KoLMessenger extends StaticEntity
 		String noImageContent = IMAGE_PATTERN.matcher( originalContent ).replaceAll( "" );
 		String condensedContent = EXPAND_PATTERN.matcher( noImageContent ).replaceAll( "<br>" );
 		String noColorContent = COLOR_PATTERN.matcher( condensedContent ).replaceAll( "" );
-		String noItalicsContent = ITALICS_PATTERN.matcher( noColorContent ).replaceAll( "" );
 
-		String normalBreaksContent = LINEBREAK_PATTERN.matcher( noItalicsContent ).replaceAll( "<br>" );
+		String normalBreaksContent = LINEBREAK_PATTERN.matcher( noColorContent ).replaceAll( "<br>" );
 		String normalBoldsContent = StaticEntity.globalStringReplace( normalBreaksContent, "<br></b>", "</b><br>" );
 		String colonOrderedContent = StaticEntity.globalStringReplace( normalBoldsContent, ":</b></a>", "</b></a>:" );
 		colonOrderedContent = StaticEntity.globalStringReplace( colonOrderedContent, "</a>:</b>", "</a></b>:" );
@@ -495,22 +493,21 @@ public abstract class KoLMessenger extends StaticEntity
 		// check to see if there are any messages coming from
 		// channel haiku.
 
-		for ( int i = 0; i < lines.length; ++i )
+		int nextLine = 0;
+
+		for ( int i = 0; i < lines.length; i = nextLine )
 		{
 			if ( lines[i] == null )
+			{
+				++nextLine;
 				continue;
+			}
 
-			else if ( lines[i].indexOf( ">Mod Warning<" ) != -1 || lines[i].indexOf( ">System Message<" ) != -1 )
-				processChatMessage( lines[i].trim() );
+			lines[i] = lines[i].trim();
+			while ( nextLine + 2 < lines.length && lines[ ++nextLine ].indexOf( "<a" ) != -1 )
+				lines[i] += "<br>" + lines[ nextLine ].trim();
 
-			else if ( lines[i].startsWith( "[haiku]" ) )
-				processChatMessage( lines[i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() );
-
-			else if ( currentChannel.equals( "/haiku" ) && lines[i].indexOf( "[" ) == -1 && lines[i].indexOf( ":" ) != -1 )
-				processChatMessage( lines[i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() );
-
-			else
-				processChatMessage( lines[i].trim() );
+			processChatMessage( lines[i].trim() );
 		}
 	}
 

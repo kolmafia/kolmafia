@@ -623,7 +623,11 @@ public class EquipmentRequest extends PasswordHashRequest
 				TradeableItemDatabase.registerItem( itemID, realName );
 
 			AdventureResult result = new AdventureResult( itemID, StaticEntity.parseInt( optionMatcher.group(3) ) );
-			AdventureResult.addResultToList( resultList, result );
+
+			if ( resultList == inventory )
+				KoLCharacter.processResult( result );
+			else
+				AdventureResult.addResultToList( resultList, result );
 		}
 	}
 
