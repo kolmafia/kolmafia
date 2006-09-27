@@ -1006,7 +1006,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					case ConsumeItemRequest.EQUIP_HAT:
 					case ConsumeItemRequest.EQUIP_PANTS:
 					case ConsumeItemRequest.EQUIP_SHIRT:
+					case ConsumeItemRequest.EQUIP_OFFHAND:
 					case ConsumeItemRequest.EQUIP_ACCESSORY:
+					case ConsumeItemRequest.EQUIP_FAMILIAR:
 
 						useType = null;
 						int outfit = EquipmentDatabase.getOutfitWithItem( itemID );
