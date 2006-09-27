@@ -853,22 +853,20 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static String getColor( String channel )
 	{
-		String lowercase = channel.toLowerCase();
-
-		if ( colors.containsKey( lowercase ) )
-			return (String) colors.get( lowercase );
+		if ( colors.containsKey( channel ) )
+			return (String) colors.get( channel );
 
 		if ( channel.startsWith( "/" ) )
 		{
 			Color color = getRandomColor();
-			colors.put( lowercase, color );
+			colors.put( channel, color );
 			return DataUtilities.toHexString( color );
 		}
 
-		if ( lowercase.equals( KoLCharacter.getUsername().toLowerCase() ) )
+		if ( channel.equalsIgnoreCase( KoLCharacter.getUsername() ) )
 			return (String) colors.get( "chatcolorself" );
 
-		if ( contactList.contains( channel ) )
+		if ( contactList.contains( channel.toLowerCase() ) )
 			return (String) colors.get( "chatcolorcontacts" );
 
 		return (String) colors.get( "chatcolorothers" );
