@@ -742,8 +742,13 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			StaticEntity.getClient().applyEffects();
 
-			if ( needsRefresh || (!shouldIgnoreResults && responseText.indexOf( "You acquire" ) != -1) )
-				KoLCharacter.refreshCalculatedLists();
+			if ( !shouldIgnoreResults )
+			{
+				if ( needsRefresh || responseText.indexOf( "You acquire" ) != -1 )
+					KoLCharacter.refreshCalculatedLists();
+				else if ( responseText.indexOf( "You gain" ) != -1 )
+					KoLCharacter.updateStatus();
+			}
 		}
 
 		StaticEntity.getClient().setCurrentRequest( null );
