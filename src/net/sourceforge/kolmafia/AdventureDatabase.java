@@ -255,7 +255,10 @@ public class AdventureDatabase extends KoLDatabase
 		  { "small meat boost", "boost mysticality", "Lord Spookyraven's spectacles" },
 		  { null, null, "1916" } },
 
-		// Choice 85 is retrieval of the key
+		// One NightStand (simple wooden)
+		{ { "choiceAdventure85" }, { "Haunted Bedroom 4" },
+		  { "boost moxie", "ballroom key step 2", "enter combat" } },
+
 		// Choice 86 is History is Fun!
 		// Choice 87 is History is Fun!
 		// Choice 88 is Naughty, Naughty
@@ -349,10 +352,6 @@ public class AdventureDatabase extends KoLDatabase
 		// Take a Look, it's in a Book!
 		{ { "choiceAdventure81" }, { "Haunted Library" },
 		  { "gallery quest", "cocktailcrafting recipe", "boost muscle", "skip adventure" } },
-
-		// One NightStand (simple wooden)
-		{ { "choiceAdventure85" }, { "Haunted Bedroom 4" },
-		  { "ballroom key step 1", "ballroom key step 2", "enter combat" } },
 
 		// History is Fun!
 		{ { "choiceAdventure86" }, { "Haunted Library" },
