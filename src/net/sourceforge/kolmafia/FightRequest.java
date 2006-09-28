@@ -52,6 +52,7 @@ public class FightRequest extends KoLRequest
 	public static final AdventureResult DICTIONARY2 = new AdventureResult( 1316, 1 );
 
 	private int roundCount;
+	private boolean shouldRun = true;
 	private int offenseModifier = 0, defenseModifier = 0;
 
 	private String action1, action2;
@@ -131,6 +132,16 @@ public class FightRequest extends KoLRequest
 		else if ( action1.equals( "custom" ) )
 		{
 			action1 = CombatSettings.getSetting( encounterLookup, roundCount - 2 );
+		}
+
+		if ( action1.startsWith( "consult" ) )
+		{
+			responseText = StaticEntity.globalStringReplace( responseText, "\"", "\\\"" );
+			DEFAULT_SHELL.executeCommand( "call", action1.substring( "consult".length() ).trim() + " (" + roundCount +
+				", \"" + encounterLookup + "\", \"" + responseText + "\" )" );
+
+			shouldRun = false;
+			return;
 		}
 
 		// Let the de-level action figure out what
@@ -233,6 +244,9 @@ public class FightRequest extends KoLRequest
 
 			if ( !KoLmafia.refusesContinue() )
 				nextRound();
+
+			if ( !shouldRun )
+				return;
 
 			super.run();
 

@@ -1185,6 +1185,7 @@ public class OptionsFrame extends KoLFrame
 				writer.close();
 				writer = null;
 
+				KoLCharacter.battleSkillNames.setSelectedItem( "custom combat script" );
 				StaticEntity.setProperty( "battleAction", "custom combat script" );
 			}
 			catch ( Exception e )
