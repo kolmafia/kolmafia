@@ -408,7 +408,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * delegate this to other functions, or do it itself.
 	 */
 
-	private void executeCommand( String command, String parameters )
+	public void executeCommand( String command, String parameters )
 	{
 		// If the command has already been disabled, then return
 		// from this function.
@@ -1825,7 +1825,10 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( quoteIndex != -1 && quoteIndex < delimiterIndex )
 			{
-				int endQuoteIndex = parameters.indexOf( "\"", quoteIndex );
+				int endQuoteIndex = parameters.indexOf( "\"", quoteIndex + 1 );
+				while ( endQuoteIndex != -1 && endQuoteIndex != 0 && parameters.charAt( endQuoteIndex - 1 ) == '\\' )
+					endQuoteIndex = parameters.indexOf( "\"", endQuoteIndex + 1 );
+
 				if ( endQuoteIndex == -1 )
 					endQuoteIndex = parameters.length() - 1;
 

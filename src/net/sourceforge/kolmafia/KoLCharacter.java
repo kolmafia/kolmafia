@@ -228,7 +228,7 @@ public abstract class KoLCharacter extends StaticEntity
 			equipment.add( EquipmentRequest.UNEQUIP );
 	}
 
-	private static SortedListModel battleSkillNames = new SortedListModel();
+	protected static SortedListModel battleSkillNames = new SortedListModel();
 	private static SortedListModel [] equipmentLists = new SortedListModel[9];
 
 	static

@@ -452,7 +452,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 		action = action.trim();
 
-		if ( action.startsWith( "delevel" ) || action.startsWith( "default" ) || action.startsWith( "abort" ) || action.startsWith( "run" ) )
+		if ( action.startsWith( "delevel" ) || action.startsWith( "default" ) || action.startsWith( "abort" ) || action.startsWith( "run" ) || action.startsWith( "consult" ) )
 			return action;
 
 		else if ( action.startsWith( "custom" ) )
@@ -487,6 +487,9 @@ public abstract class CombatSettings implements UtilityConstants
 	public static String getShortCombatOptionName( String action )
 	{
 		action = action.trim();
+
+		if ( action.startsWith( "consult" ) )
+			return action;
 
 		if ( action.startsWith( "attack" ) )
 			return "attack";
