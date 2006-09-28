@@ -43,14 +43,12 @@ import javax.swing.JCheckBox;
 public abstract class MPRestoreItemList extends StaticEntity
 {
 	private static final MPRestoreItem GALAKTIK = new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", Integer.MAX_VALUE );
-	private static final MPRestoreItem CAMPING = new MPRestoreItem( "rest at campground", Integer.MAX_VALUE );
-	private static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in beanbag", Integer.MAX_VALUE );
 	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
 	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10 );
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
-		GALAKTIK, BEANBAG, CAMPING, new MPRestoreItem( "unrefined mountain stream syrup", 55 ),
+		GALAKTIK, new MPRestoreItem( "unrefined mountain stream syrup", 55 ),
 		new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tonic water", 40 ),
 		new MPRestoreItem( "blue paisley oyster egg", 33 ), new MPRestoreItem( "blue polka-dot oyster egg", 33 ),
 		new MPRestoreItem( "blue striped oyster egg", 33 ), new MPRestoreItem( "blue pixel potion", 28 ),
@@ -92,23 +90,11 @@ public abstract class MPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverMP( int needed )
+		public void recoverMP( int needed, boolean purchase )
 		{
 			if ( this == GALAKTIK )
 			{
 				DEFAULT_SHELL.executeLine( "galaktik mp" );
-				return;
-			}
-
-			if ( this == CAMPING )
-			{
-				DEFAULT_SHELL.executeLine( "rest" );
-				return;
-			}
-
-			if ( this == BEANBAG )
-			{
-				DEFAULT_SHELL.executeLine( "relax" );
 				return;
 			}
 
@@ -126,7 +112,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			int numberToUse = (int) Math.ceil( (float) mpShort / (float) mpPerUse );
 			int numberAvailable = itemUsed.getCount( inventory );
 
-			if ( !NPCStoreDatabase.contains( this.toString() ) )
+			if ( !NPCStoreDatabase.contains( this.toString() ) || !purchase )
 				numberToUse = Math.min( numberAvailable, numberToUse );
 
 			if ( numberToUse <= 0 )
