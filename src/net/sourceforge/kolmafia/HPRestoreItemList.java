@@ -47,11 +47,10 @@ public abstract class HPRestoreItemList extends StaticEntity
 	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", Integer.MAX_VALUE );
 	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
 	private static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
-	private static final HPRestoreItem CAMPING = new HPRestoreItem( "rest at campground", Integer.MAX_VALUE );
 	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 );
 
 	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] {
-		GALAKTIK, CAMPING, HERBS, SCROLL, new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE ),
+		GALAKTIK, HERBS, SCROLL, new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE ),
 		new HPRestoreItem( "phonics down", 48 ), new HPRestoreItem( "Disco Power Nap", 40 ), WALRUS,
 		new HPRestoreItem( "red paisley oyster egg", 33 ), new HPRestoreItem( "red polka-dot oyster egg", 33 ),
 		new HPRestoreItem( "red striped oyster egg", 33 ), new HPRestoreItem( "red pixel potion", 27 ),
@@ -92,17 +91,11 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverHP( int needed )
+		public void recoverHP( int needed, boolean purchase )
 		{
 			if ( this == GALAKTIK )
 			{
 				DEFAULT_SHELL.executeLine( "galaktik hp" );
-				return;
-			}
-
-			if ( this == CAMPING )
-			{
-				DEFAULT_SHELL.executeLine( "rest" );
 				return;
 			}
 
@@ -125,12 +118,15 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 				int numberAvailable = itemUsed.getCount( inventory );
 
-				if ( this == HERBS )
-					numberAvailable = belowMax < 20 || !NPCStoreDatabase.contains( HERBS.toString() ) || KoLCharacter.spleenLimitReached() ? 0 : 1;
-				else if ( this == SCROLL && KoLCharacter.canInteract() )
-					numberAvailable = 1;
-				else if ( this == OINTMENT )
-					numberAvailable = numberToUse;
+				if ( purchase )
+				{
+					if ( this == HERBS )
+						numberAvailable = belowMax < 20 || !NPCStoreDatabase.contains( HERBS.toString() ) || KoLCharacter.spleenLimitReached() ? 0 : 1;
+					else if ( this == SCROLL && KoLCharacter.canInteract() )
+						numberAvailable = 1;
+					else if ( this == OINTMENT )
+						numberAvailable = numberToUse;
+				}
 
 				numberToUse = Math.min( numberToUse, numberAvailable );
 			}

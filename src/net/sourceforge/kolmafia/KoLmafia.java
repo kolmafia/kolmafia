@@ -915,7 +915,27 @@ public abstract class KoLmafia implements KoLConstants
 				do
 				{
 					last = current;
-					recoverOnce( techniques[i], currentTechniqueName, needed );
+					recoverOnce( techniques[i], currentTechniqueName, needed, false );
+					current = ((Number)currentMethod.invoke( null, empty )).intValue();
+
+					// Do not allow seltzer to be used more than once,
+					// as this indicates MP changes due to outfits.
+					// Simply break the loop and move onto cola or soda
+					// water as the next restore.
+				}
+				while ( current <= threshold && last != current && !refusesContinue() );
+			}
+		}
+
+		for ( int i = 0; i < techniques.length && current <= threshold; ++i )
+		{
+			currentTechniqueName = techniques[i].toString().toLowerCase();
+			if ( restoreSetting.indexOf( currentTechniqueName ) != -1 )
+			{
+				do
+				{
+					last = current;
+					recoverOnce( techniques[i], currentTechniqueName, needed, true );
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
 
 					// Do not allow seltzer to be used more than once,
@@ -972,17 +992,17 @@ public abstract class KoLmafia implements KoLConstants
 	 * in a script) in order to restore.
 	 */
 
-	private final void recoverOnce( Object technique, String techniqueName, int needed )
+	private final void recoverOnce( Object technique, String techniqueName, int needed, boolean purchase )
 	{
 		// If the technique is an item, and the item is not readily available,
 		// then don't bother with this item -- however, if it is the only item
 		// present, then rethink it.
 
 		if ( technique instanceof HPRestoreItemList.HPRestoreItem )
-			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( needed );
+			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( needed, purchase );
 
 		if ( technique instanceof MPRestoreItemList.MPRestoreItem )
-			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( needed );
+			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( needed, purchase );
 	}
 
 	/**
