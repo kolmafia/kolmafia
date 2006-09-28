@@ -618,7 +618,7 @@ public abstract class MushroomPlot extends StaticEntity
 		// The easiest file to parse that is already provided is
 		// the text file which was generated automatically.
 
-		BufferedReader reader = KoLDatabase.getReader( new File( "plots/" + filename + ".txt" ) );
+		BufferedReader reader = KoLDatabase.getReader( new File( "planting/" + filename + ".txt" ) );
 
 		try
 		{
