@@ -365,9 +365,9 @@ public class KoLmafiaGUI extends KoLmafia
 		try
 		{
 			Class associatedClass = Class.forName( "net.sourceforge.kolmafia." + frameName );
-			(new CreateFrameRunnable( associatedClass )).run();
+			SwingUtilities.invokeAndWait( new CreateFrameRunnable( associatedClass ) );
 		}
-		catch ( ClassNotFoundException e )
+		catch ( Exception e )
 		{
 			//should not happen.  Therefore, print
 			// a stack trace for debug purposes.

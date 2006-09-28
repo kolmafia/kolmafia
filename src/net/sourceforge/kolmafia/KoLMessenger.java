@@ -487,7 +487,7 @@ public abstract class KoLMessenger extends StaticEntity
 		// Now that you know that there was no intent to exit
 		// chat, go ahead and split up the lines in chat.
 
-		String [] lines = getNormalizedContent( content ).split( "<br>" );
+		String [] lines = getNormalizedContent( content ).split( "\\s*<br>\\s*" );
 
 		// First, trim all the lines that were received so
 		// that you don't get anything funny-looking, and
@@ -498,15 +498,15 @@ public abstract class KoLMessenger extends StaticEntity
 
 		for ( int i = 0; i < lines.length; i = nextLine )
 		{
-			if ( lines[i] == null )
+			if ( lines[i] == null || lines[i].length() == 0 )
 			{
 				++nextLine;
 				continue;
 			}
 
-			lines[i] = lines[i].trim();
 			while ( ++nextLine < lines.length - 1 && lines[ nextLine ].indexOf( "<a" ) == -1 )
-				lines[i] += "<br>" + lines[ nextLine ].trim();
+				if ( lines[ nextLine ] != null && lines[ nextLine ].length() > 0 )
+					lines[i] += "<br>" + lines[ nextLine ];
 
 			processChatMessage( lines[i].trim() );
 		}
