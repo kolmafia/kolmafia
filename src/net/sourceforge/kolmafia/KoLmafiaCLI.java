@@ -1699,6 +1699,8 @@ public class KoLmafiaCLI extends KoLmafia
 			parameters = parameters.substring( 0, paren );
 		}
 
+		parameters = parameters.trim();
+
 		try
 		{
 			// Locate the script file.  In order of preference,
