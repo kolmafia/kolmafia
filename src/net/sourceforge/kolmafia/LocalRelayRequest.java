@@ -803,7 +803,7 @@ public class LocalRelayRequest extends KoLRequest
 		File directory = new File( "html/simulator/" );
 		directory.mkdirs();
 
-		request.fullResponse = StaticEntity.globalStringReplace( request.fullResponse, "images/", "\"http://sol.kolmafia.us/images/" );
+		request.fullResponse = StaticEntity.globalStringReplace( request.fullResponse, "images/", "http://sol.kolmafia.us/images/" );
 
 		try
 		{
