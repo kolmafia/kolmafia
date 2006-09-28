@@ -247,7 +247,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// One NightStand (mahogany)
 		{ { "choiceAdventure83" }, { "Haunted Bedroom 2" },
-		  { "old coin purse", "enter combat", "muscle quest item" },
+		  { "old coin purse", "enter combat", "quest item" },
 		  { "1918", null, null } },
 
 		// One NightStand (ornate)
