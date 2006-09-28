@@ -554,10 +554,18 @@ public class KoLRequest implements Runnable, KoLConstants
 	public void run()
 	{
 		if ( formURLString.indexOf( "sewer.php" ) != -1 )
+		{
 			AdventureDatabase.retrieveItem( "chewing gum on a string" );
+			if ( this instanceof LocalRelayRequest )
+				KoLmafia.enableDisplay();
+		}
 
 		if ( formURLString.indexOf( "casino.php" ) != -1 )
+		{
 			AdventureDatabase.retrieveItem( "casino pass" );
+			if ( this instanceof LocalRelayRequest )
+				KoLmafia.enableDisplay();
+		}
 
 		// To avoid wasting turns, buy a can of hair spray before
 		// climbing the tower.  Also, if the person has an NG,
@@ -746,7 +754,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( !shouldIgnoreResults )
 			{
-				if ( needsRefresh || responseText.indexOf( "You acquire" ) != -1 )
+				if ( needsRefresh || formURLString.indexOf( "sell" ) != -1 || responseText.indexOf( "You acquire" ) != -1 )
 					KoLCharacter.refreshCalculatedLists();
 				else if ( responseText.indexOf( "You gain" ) != -1 )
 					KoLCharacter.updateStatus();
