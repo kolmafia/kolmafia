@@ -953,9 +953,9 @@ public abstract class MushroomPlot extends StaticEntity
 						if ( j != 0 )  plotScript.print( ";" );
 						plotScript.print( commands.get(j) );
 					}
-				}
 
-				plotScript.println( "\" );" );
+					plotScript.println( "\" );" );
+				}
 			}
 
 			plotScript.println( "}" );
