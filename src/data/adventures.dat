@@ -13,12 +13,23 @@
 03	0	0	adventure.php	71	Poker Room
 
 04	0	0	adventure.php	9	Sleazy Back Alley	1 spider web
-04	0	0	adventure.php	10	Haunted Pantry	1 razor-sharp can lid
 04	0	5	adventure.php	16	Haiku Dungeon	1 fairy gravy
 04	19	0	adventure.php	19	Limerick Dungeon
 04	47	0	adventure.php	38	Enormous Greater-Than Sign	1 plus sign
 04	47	0	adventure.php	39	Dungeons of Doom	1 dead mimic
 04	15	0	dungeon.php	1	Daily Dungeon
+
+# Spookyraven Manor
+
+04	0	0	adventure.php	10	Haunted Pantry	1 razor-sharp can lid
+25	0	0	adventure.php	102	Haunted Kitchen
+25	0	6	adventure.php	103	Haunted Conservatory
+25	0	40	adventure.php	104	Haunted Library
+25	0	10	adventure.php	105	Haunted Billiards Room
+25	0	68	adventure.php	106	Haunted Gallery
+25	0	68	adventure.php	107	Haunted Bathroom
+25	0	85	adventure.php	108	Haunted Bedroom
+25	0	68	adventure.php	109	Haunted Ballroom
 
 05	5	0	adventure.php	15	Spooky Forest	1 mosquito larva
 05	5	0	adventure.php	17	Hidden Temple
@@ -125,14 +136,3 @@
 24	0	0	adventure.php	88	Future Market Square
 24	0	0	adventure.php	89	Mall of the Future
 24	0	0	adventure.php	90	Future Wrong Side of the Tracks
-
-# Spookyraven Manor
-
-25	0	0	adventure.php	102	Haunted Kitchen
-25	0	6	adventure.php	103	Haunted Conservatory
-25	0	40	adventure.php	104	Haunted Library
-25	0	10	adventure.php	105	Haunted Billiards Room
-25	0	68	adventure.php	106	Haunted Gallery
-25	0	68	adventure.php	107	Haunted Bathroom
-25	0	85	adventure.php	108	Haunted Bedroom
-25	0	68	adventure.php	109	Haunted Ballroom
