@@ -232,7 +232,6 @@ public class LoginRequest extends KoLRequest
 			{
 				KoLmafia.forceContinue();
 				StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
-				waitTime = STANDARD_WAIT;
 			}
 		}
 		catch ( Exception e )
@@ -275,8 +274,6 @@ public class LoginRequest extends KoLRequest
 		if ( waitTime == BAD_CHALLENGE_WAIT || !StaticEntity.getBooleanProperty( "useSecureLogin" ) )
 		{
 			clearDataFields();
-			waitTime = STANDARD_WAIT;
-
 			addFormField( "loggingin", "Yup." );
 			addFormField( "loginname", this.username + "/q" );
 			addFormField( "password", password );
@@ -288,6 +285,7 @@ public class LoginRequest extends KoLRequest
 		}
 
 		KoLmafia.updateDisplay( "Sending login request..." );
+		waitTime = STANDARD_WAIT;
 		super.run();
 
 		if ( responseCode == 302 && redirectLocation.equals( "maint.php" ) )
