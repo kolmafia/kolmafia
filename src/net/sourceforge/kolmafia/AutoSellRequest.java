@@ -258,7 +258,7 @@ public class AutoSellRequest extends SendMessageRequest
 				}
 		}
 
-		return new AutoSellRequest( attachments, limits, prices, sellType );
+		return new AutoSellRequest( attachments, prices, limits, sellType );
 	}
 
 	protected void processResults()
