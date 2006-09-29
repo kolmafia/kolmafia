@@ -59,8 +59,6 @@ public abstract class MushroomPlot extends StaticEntity
 	// 13 14 15 16
 
 	private static String [][] actualPlot = new String[4][4];
-
-	private static boolean initialized = false;
 	private static boolean ownsPlot = false;
 
 	// Empty spot
@@ -144,7 +142,7 @@ public abstract class MushroomPlot extends StaticEntity
 	 */
 
 	public static void reset()
-	{	initialized = false;
+	{	ownsPlot = false;
 	}
 
 	/**
@@ -502,23 +500,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 	private static boolean initialize()
 	{
-		// If you're not in a Muscle sign, no go.
-
-		if ( !KoLCharacter.inMuscleSign() )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the mushroom fields." );
-			return false;
-		}
-
-		// Fetch the state of the plot only once
-
-		if ( !initialized )
-		{
-			ownsPlot = false;
-			(new MushroomPlotRequest()).run();
-		}
-
-		if ( ownsPlot == false )
+		if ( !ownsPlot() )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You haven't bought a mushroom plot yet." );
 			return false;
@@ -529,9 +511,18 @@ public abstract class MushroomPlot extends StaticEntity
 
 	public static boolean ownsPlot()
 	{
-		if ( !initialized )
-			(new MushroomPlotRequest()).run();
+		// If you're not in a Muscle sign, no go.
 
+		if ( !KoLCharacter.inMuscleSign() )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the mushroom fields." );
+			return false;
+		}
+
+		if ( ownsPlot )
+			return true;
+
+		(new MushroomPlotRequest()).run();
 		return ownsPlot;
 	}
 
@@ -565,8 +556,6 @@ public abstract class MushroomPlot extends StaticEntity
 
 	public static void parsePlot( String text )
 	{
-		initialized = true;
-
 		// Pretend all of the sections on the plot are empty
 		// before you begin parsing the plot.
 
@@ -624,9 +613,24 @@ public abstract class MushroomPlot extends StaticEntity
 		{
 			String line = "";
 			int dayIndex = 0;
+			String [][] arrayData = new String[4][4];
 
 			while ( line != null )
 			{
+				if ( dayIndex == 0 )
+				{
+					for ( int i = 0; i < 16; ++i )
+						originalData[ dayIndex ][i] = "__";
+				}
+				else if ( dayIndex < originalData.length )
+				{
+					for ( int i = 0; i < 4; ++i )
+						for ( int j = 0; j < 4; ++j )
+							arrayData[i][j] = planningData[ dayIndex - 1 ][ i * 4 + j ];
+
+					originalData[ dayIndex ] = getForecastedPlot( true, arrayData ).split( ";" );
+				}
+
 				// Skip four lines from the mushroom plot,
 				// which only contain header information.
 
@@ -638,18 +642,18 @@ public abstract class MushroomPlot extends StaticEntity
 
 				if ( line != null )
 				{
+					// Get the plot that will result from the
+					// previous day's plantings.
+
 					for ( int i = 0; i < 4; ++i )
 					{
-						line = reader.readLine();
+						line = reader.readLine().trim();
+						String [] pieces = line.split( "\\*?\\s+" );
 
 						if ( line != null )
 						{
-							String [] pieces = line.trim().split( "[\\s\\*]+" );
-							for ( int j = 0; j < 4; ++j )
-								originalData[ dayIndex ][ i * 4 + j ] = pieces[j];
-
 							for ( int j = 4; j < 8; ++j )
-								planningData[ dayIndex ][ i * 4 + j - 4 ] = pieces[j];
+								planningData[ dayIndex ][ i * 4 + j - 4 ] = pieces[j].substring( 0, 2 );
 						}
 					}
 
@@ -763,7 +767,7 @@ public abstract class MushroomPlot extends StaticEntity
 			for ( int j = 0; j < 16; ++j )
 			{
 				if ( i == 0 )
-					commands.add( "pick " + (j+1) );
+					commands.add( "field pick " + (j+1) );
 
 				// If you've reached the end of a row, then you
 				// will need to add line breaks.
@@ -799,7 +803,8 @@ public abstract class MushroomPlot extends StaticEntity
 				if ( pickRequired )
 				{
 					pickText.append( " ***" );
-					pickHtml.append( "<td style=\"border: 1px dashed blue\"><img src=\"" );
+					pickHtml.append( "<td style=\"border: 1px dashed red\"><img src=\"" );
+					commands.add( "field pick " + (j+1) );
 				}
 				else
 				{
@@ -823,19 +828,19 @@ public abstract class MushroomPlot extends StaticEntity
 				{
 					addedSpore = false;
 
-					if ( planningData[i][j].equals( "kb" ) )
+					if ( planningData[i][j].startsWith( "kb" ) )
 					{
-						commands.add( "plant " + (j+1) + " knob" );
+						commands.add( "field plant " + (j+1) + " knob" );
 						addedSpore = true;
 					}
-					else if ( planningData[i][j].equals( "kn" ) )
+					else if ( planningData[i][j].startsWith( "kn" ) )
 					{
-						commands.add( "plant " + (j+1) + " knoll" );
+						commands.add( "field plant " + (j+1) + " knoll" );
 						addedSpore = true;
 					}
-					else if ( planningData[i][j].equals( "sp" ) )
+					else if ( planningData[i][j].startsWith( "sp" ) )
 					{
-						commands.add( "plant " + (j+1) + " spooky" );
+						commands.add( "field plant " + (j+1) + " spooky" );
 						addedSpore = true;
 					}
 				}
@@ -848,7 +853,7 @@ public abstract class MushroomPlot extends StaticEntity
 				if ( addedSpore )
 				{
 					plantText.append( "*" );
-					plantHtml.append( "<td style=\"border: 1px dashed red\"><img src=\"" );
+					plantHtml.append( "<td style=\"border: 1px dashed blue\"><img src=\"" );
 
 					image = getMushroomImage( planningData[i][j].toUpperCase() );
 					copyMushroomImage( image );
@@ -920,10 +925,10 @@ public abstract class MushroomPlot extends StaticEntity
 
 		try
 		{
-			plotScript.println( "void main()" );
+			plotScript.println( "boolean main()" );
 			plotScript.println( "{" );
 			plotScript.println();
-			plotScript.println( "    if ( get_property( \"plantingScript\" ) == \"" + filename + "\" )" );
+			plotScript.println( "    if ( get_property( \"plantingScript\" ) != \"" + filename + "\" )" );
 			plotScript.println( "    {" );
 			plotScript.println( "        set_property( \"plantingDay\", \"-1\" );" );
 			plotScript.println( "        set_property( \"plantingDate\", \"\" );" );
@@ -958,6 +963,8 @@ public abstract class MushroomPlot extends StaticEntity
 				}
 			}
 
+			plotScript.println();
+			plotScript.println( "    return true;" );
 			plotScript.println( "}" );
 			plotScript.close();
 		}

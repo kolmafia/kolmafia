@@ -3159,11 +3159,14 @@ public class KoLmafiaCLI extends KoLmafia
 			parameters = parameters.substring( command.length() ).trim();
 			parameters = parameters.substring( squareString.length() ).trim();
 
-			int spore = TradeableItemDatabase.getItemID( parameters );
+			if ( parameters.indexOf( "mushroom" ) == -1 )
+				parameters = parameters.trim() + " mushroom";
+
+			int spore = getFirstMatchingItem( parameters ).getItemID();
 
 			if ( spore == -1 )
 			{
-				updateDisplay( ERROR_STATE, "Unknown spore: " + parameters);
+				updateDisplay( ERROR_STATE, "Unknown spore: " + parameters );
 				return;
 			}
 
@@ -3189,12 +3192,16 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( permitsContinue() )
 		{
-			updateDisplay( "Current:" );
-			updateDisplay( plot );
-			updateDisplay( " " );
-			updateDisplay( "Forecast:" );
-			updateDisplay( MushroomPlot.getForecastedPlot( false ) );
-			updateDisplay( " " );
+			StringBuffer plotDetails = new StringBuffer();
+			plotDetails.append( "Current:" + );
+			plotDetails.append( LINE_BREAK );
+			plotDetails.append( plot );
+			plotDetails.append( LINE_BREAK );
+			plotDetails.append( "Forecast:" );
+			plotDetails.append( LINE_BREAK );
+			plotDetails.append( MushroomPlot.getForecastedPlot( false ) );
+			plotDetails.append( LINE_BREAK );
+			printLine( plotDetails.toString() );
 		}
 	}
 
