@@ -55,7 +55,9 @@ public class LoginRequest extends KoLRequest
 	private static String lastPassword;
 
 	private static int STANDARD_WAIT = 75;
+	private static int TOO_MANY_WAIT = 960;
 	private static int ROLLOVER_WAIT = 1800;
+	private static int BAD_CHALLENGE_WAIT = 1;
 
 	private static int waitTime = STANDARD_WAIT;
 	private static boolean instanceRunning = false;
@@ -114,7 +116,9 @@ public class LoginRequest extends KoLRequest
 		if ( !KOL_HOST.equals( "dev.kingdomofloathing.com" ) )
 			setLoginServer( "www.kingdomofloathing.com" );
 
+		clearDataFields();
 		super.run();
+		clearDataFields();
 
 		addFormField( "loggingin", "Yup." );
 		addFormField( "loginname", this.username + "/q" );
@@ -143,7 +147,12 @@ public class LoginRequest extends KoLRequest
 		}
 		catch ( Exception e )
 		{
+			clearDataFields();
+
+			addFormField( "loggingin", "Yup." );
+			addFormField( "loginname", this.username + "/q" );
 			addFormField( "password", password );
+
 			return true;
 		}
 	}
@@ -219,7 +228,7 @@ public class LoginRequest extends KoLRequest
 		{
 			KoLmafia.forceContinue();
 
-			while ( !KoLmafia.refusesContinue() && detectChallenge() && executeLogin() )
+			while ( !KoLmafia.refusesContinue() && executeLogin() )
 			{
 				KoLmafia.forceContinue();
 				StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
@@ -262,6 +271,21 @@ public class LoginRequest extends KoLRequest
 	public boolean executeLogin()
 	{
 		sessionID = null;
+
+		if ( waitTime == BAD_CHALLENGE_WAIT || !StaticEntity.getBooleanProperty( "useSecureLogin" ) )
+		{
+			clearDataFields();
+			waitTime = STANDARD_WAIT;
+
+			addFormField( "loggingin", "Yup." );
+			addFormField( "loginname", this.username + "/q" );
+			addFormField( "password", password );
+		}
+		else
+		{
+			clearDataFields();
+			detectChallenge();
+		}
 
 		KoLmafia.updateDisplay( "Sending login request..." );
 		super.run();
@@ -320,10 +344,11 @@ public class LoginRequest extends KoLRequest
 			// Ooh, logged in too fast.  KoLmafia should recognize this and
 			// try again automatically in 1000 seconds.
 
-			waitTime = 1000;
+			waitTime = TOO_MANY_WAIT;
 			return true;
 		}
 
+		waitTime = BAD_CHALLENGE_WAIT;
 		return true;
 	}
 }

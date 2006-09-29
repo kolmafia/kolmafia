@@ -696,6 +696,7 @@ public class LoginFrame extends KoLFrame
 
 		private final String [][] options =
 		{
+			{ "useSecureLogin", "Use secure login algorithm" },
 			{ "serverFriendly", "Use server-friendlier request speed" },
 			{ "lazyLoadInventory", "Lazy inventory loading (may be inaccurate)" },
 			{ "useNonBlockingReader", "Use non-blocking response readers (risky)" },
