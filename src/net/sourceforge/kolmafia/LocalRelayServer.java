@@ -377,15 +377,14 @@ public class LocalRelayServer implements Runnable
 				// If not requesting a server-side page, then it is safe
 				// to assume that no changes have been made (save time).
 
-				if ( !isCheckingModified || path.indexOf( ".php" ) != -1 )
-				{
-					request.run();
-				}
-				else
+				if ( isCheckingModified && !request.contentType.equals( "text/html" ) )
 				{
 					request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 					request.responseCode = 304;
-					request.contentType = "text/html";
+				}
+				else
+				{
+					request.run();
 				}
 
 				sendHeaders( writer, request );
