@@ -74,19 +74,19 @@ public class LocalRelayRequest extends KoLRequest
 	{
 		super( formURLString );
 
-		if ( formURLString.endsWith( ".css" ) )
+		if ( this.formURLString.endsWith( ".css" ) )
 			this.contentType = "text/css";
-		else if ( formURLString.endsWith( ".js" ) )
+		else if ( this.formURLString.endsWith( ".js" ) )
 			this.contentType = "text/javascript";
-		else if ( formURLString.endsWith( ".php" ) || formURLString.endsWith( ".htm" ) || formURLString.endsWith( ".html" ) )
+		else if ( this.formURLString.endsWith( ".php" ) || this.formURLString.endsWith( ".htm" ) || this.formURLString.endsWith( ".html" ) )
 			this.contentType = "text/html";
-		else if ( formURLString.endsWith( ".gif" ) )
+		else if ( this.formURLString.endsWith( ".gif" ) )
 			this.contentType = "image/gif";
-		else if ( formURLString.endsWith( ".png" ) )
+		else if ( this.formURLString.endsWith( ".png" ) )
 			this.contentType = "image/png";
-		else if ( formURLString.endsWith( ".jpg" ) || formURLString.endsWith( ".jpeg" ) )
+		else if ( this.formURLString.endsWith( ".jpg" ) || this.formURLString.endsWith( ".jpeg" ) )
 			this.contentType = "image/jpeg";
-		else if ( formURLString.endsWith( ".ico" ) )
+		else if ( this.formURLString.endsWith( ".ico" ) )
 			this.contentType = "image/x-icon";
 		else
 			this.contentType = "text/plain";
