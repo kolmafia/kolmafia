@@ -87,7 +87,7 @@ public class LoginRequest extends KoLRequest
 	{
 		super( "login.php" );
 
-		this.username = username == null ? "" : StaticEntity.singleStringReplace( username, "/q", "" );
+		this.username = username == null ? "" : StaticEntity.globalStringReplace( username, "/q", "" );
 		this.password = password;
 		this.savePassword = savePassword;
 		this.getBreakfast = getBreakfast;
@@ -278,11 +278,7 @@ public class LoginRequest extends KoLRequest
 		}
 
 		addFormField( "loggingin", "Yup." );
-
-		if ( waitTime != BAD_CHALLENGE_WAIT )
-			addFormField( "loginname", this.username + "/q" );
-		else
-			addFormField( "loginname", this.username );
+		addFormField( "loginname", this.username );
 
 		KoLmafia.updateDisplay( "Sending login request..." );
 		waitTime = STANDARD_WAIT;
