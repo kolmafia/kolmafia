@@ -261,15 +261,18 @@ public class LocalRelayServer implements Runnable
 					printStream.println( header );
 			}
 
-			if ( request.contentType.startsWith( "text" ) )
-				printStream.println( "Content-Type: " + request.contentType + ";charset=utf-8" );
-			else
-				printStream.println( "Content-Type: " + request.contentType );
-
-			if ( request.contentType.equals( "text/html" ) )
+			if ( request.responseCode == 200 )
 			{
-				printStream.println( "Cache-Control: no-cache, must-revalidate" );
-				printStream.println( "Pragma: no-cache" );
+				if ( request.contentType.startsWith( "text" ) )
+					printStream.println( "Content-Type: " + request.contentType + ";charset=utf-8" );
+				else
+					printStream.println( "Content-Type: " + request.contentType );
+
+				if ( request.contentType.equals( "text/html" ) )
+				{
+					printStream.println( "Cache-Control: no-cache, must-revalidate" );
+					printStream.println( "Pragma: no-cache" );
+				}
 			}
 
 			printStream.println( "Connection: close" );
@@ -380,7 +383,8 @@ public class LocalRelayServer implements Runnable
 				}
 				else
 				{
-					request.pseudoResponse( "HTTP/1.0 304 Not Modified", "" );
+					request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
+					request.responseCode = 304;
 					request.contentType = "text/html";
 				}
 
