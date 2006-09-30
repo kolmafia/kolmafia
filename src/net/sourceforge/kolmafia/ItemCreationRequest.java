@@ -458,13 +458,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			for ( int i = 0; i < ingredients.length; ++i )
 				StaticEntity.getClient().processResult( new AdventureResult( ingredients[i].getItemID(), -1 * createdQuantity * ingredients[i].getCount() ) );
 
-			switch ( mixingMethod )
-			{
-				case COMBINE:
-					if ( !KoLCharacter.inMuscleSign() )
-						StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
-					break;
-			}
+			if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
+				StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
 		}
 
 		// Check to see if box-servant was overworked and exploded.
@@ -630,7 +625,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	protected void makeIngredients()
 	{
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
+ 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
@@ -649,11 +644,17 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			AdventureDatabase.retrieveItem( ingredients[i].getInstance( quantityNeeded * multiplier ) );
 		}
 
-		// If this is a combining request, you will need
-		// to make meat paste as well.
+		// If this is a combining request, you will need to make
+		// paste as well.  Make an even multiple, if none is left.
 
 		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
-			AdventureDatabase.retrieveItem( new AdventureResult( MEAT_PASTE, (int) (Math.ceil( quantityNeeded / 10 ) * 10) ) );
+		{
+			AdventureResult paste = new AdventureResult( MEAT_PASTE, (int) (Math.ceil( quantityNeeded / 5.0f ) * 5.0f) );
+
+			int pasteCount = paste.getCount( inventory );
+			if ( pasteCount < quantityNeeded )
+				AdventureDatabase.retrieveItem( paste );
+		}
 	}
 
 	/**

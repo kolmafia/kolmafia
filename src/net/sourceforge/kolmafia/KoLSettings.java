@@ -253,7 +253,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
 		CLIENT_SETTINGS.put( "lastOperatingSystem", System.getProperty( "os.name" ) );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
-		CLIENT_SETTINGS.put( "lazyLoadInventory", "true" );
 		CLIENT_SETTINGS.put( "loginServerName", "random" );
 		CLIENT_SETTINGS.put( "louvreGoal", "0" );
 		CLIENT_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
@@ -271,7 +270,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "saveState", "" );
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
 		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
-		CLIENT_SETTINGS.put( "serverFriendly", "false" );
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );
 		CLIENT_SETTINGS.put( "showClosetIngredients", "true" );
 		CLIENT_SETTINGS.put( "showStashIngredients", "false" );

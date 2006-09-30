@@ -97,7 +97,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	protected static boolean isCompactMode = false;
-	protected static boolean isServerFriendly = false;
+	protected static boolean useSlowRequests = false;
 
 	private static final String [][] SERVERS =
 	{
@@ -595,8 +595,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( KoLmafia.refusesContinue() && !isDelayExempt() )
 			return;
 
-		isServerFriendly = StaticEntity.getBooleanProperty( "serverFriendly" ) ||
-			StaticEntity.getBooleanProperty( "showAllRequests" );
+		useSlowRequests = StaticEntity.getBooleanProperty( "showAllRequests" );
 
 		needsRefresh = false;
 		String urlString = getURLString();
@@ -704,7 +703,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		do
 		{
 			statusChanged = false;
-			if ( !isDelayExempt && isServerFriendly )
+			if ( !isDelayExempt && useSlowRequests )
 				delay();
 		}
 		while ( (!prepareConnection() || !postClientData() || (!retrieveServerReply() && delay( 5000 ))) && (!KoLmafia.refusesContinue() || isDelayExempt) );
