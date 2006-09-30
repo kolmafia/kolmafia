@@ -265,7 +265,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Tuesdays with Abhorrent Fiends -> mysticality
 		// The Nether Planes on 350 Meat a Day -> moxie
-		// Twisted, Curdled, Corrupt Energy and You -> Damage
+		// Twisted, Curdled, Corrupt Energy and You -> myst class skill
 
 		// Out in the Garden
 		{ { "choiceAdventure89" }, { "Haunted Gallery 1" },
@@ -275,10 +275,7 @@ public class AdventureDatabase extends KoLDatabase
 		{ { "choiceAdventure90" }, { "Haunted Ballroom" },
 		  { "Investigate Organ", "Watch Dancers", "Hide" } },
 
-		// Louvre It or Leave It
-		{ { "choiceAdventure91" }, { "Haunted Gallery 2" },
-		  { "Enter the Drawing", "Pass on By" } },
-
+		// Choice 91 is Louvre It or Leave It
 		// Choices 92 - 102 are Escher print adventures
 	};
 
@@ -364,6 +361,9 @@ public class AdventureDatabase extends KoLDatabase
 		// Naughty, Naughty
 		{ { "choiceAdventure88" }, { "Haunted Library" },
 		  { "boost mysticality", "boost moxie", "mysticality class skill" } },
+		// Louvre It or Leave It
+		{ { "choiceAdventure91" }, { "Haunted Gallery 2" },
+		  { "Enter the Drawing", "Pass on By" } },
         };
 
 	// Some choice adventures have a choice that behaves as an "ignore"

@@ -634,6 +634,7 @@ public class OptionsFrame extends KoLFrame
 				violetFogSelect.addItem( VioletFog.FogGoals[i] );
 
 			louvreSelect = new JComboBox();
+			louvreSelect.addItem( "Ignore this adventure" );
 			for ( int i = 0; i < Louvre.LouvreGoals.length; ++i )
 				louvreSelect.addItem( Louvre.LouvreGoals[i] );
 
@@ -677,9 +678,12 @@ public class OptionsFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			StaticEntity.setProperty( "violetFogGoal", String.valueOf( violetFogSelect.getSelectedIndex() ) );
-			StaticEntity.setProperty( "louvreGoal", String.valueOf( louvreSelect.getSelectedIndex() ) );
 			StaticEntity.setProperty( "choiceAdventure71", String.valueOf( tripTypeSelect.getSelectedIndex() + 1 ) );
 			StaticEntity.setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
+
+                        int louvreGoal = louvreSelect.getSelectedIndex();
+			StaticEntity.setProperty( "choiceAdventure91",  String.valueOf( louvreGoal > 0 ? "1" : "2" ) );
+			StaticEntity.setProperty( "louvreGoal", String.valueOf( louvreGoal ) );
 
 			for ( int i = 1; i < optionSelects.length; ++i )
 			{

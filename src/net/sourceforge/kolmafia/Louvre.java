@@ -171,12 +171,19 @@ public class Louvre implements UtilityConstants
 
 	private static int LouvreChoiceTable [][] = new int [ LAST_CHOICE - FIRST_CHOICE + 1][ 3 ];
 
+	private static int [] choiceTuple( int source )
+	{
+		if ( source < FIRST_CHOICE || source > LAST_CHOICE )
+			return null;
+		return LouvreChoiceTable[ source - FIRST_CHOICE ];
+	}
+
 	public static void reset()
 	{
 		// Reset what we've "learned" about the Louvre choices
 		for ( int i = FIRST_CHOICE; i <= LAST_CHOICE; ++i )
 		{
-			int choice[] = LouvreChoiceTable[ i - FIRST_CHOICE ];
+			int choice[] = choiceTuple( i );
 			choice[0] = 0;
 			choice[1] = 0;
 			choice[2] = 0;
@@ -189,20 +196,42 @@ public class Louvre implements UtilityConstants
 
 	public static String handleChoice( String choice )
 	{
-		int source = StaticEntity.parseInt( choice );
-
 		// We only handle Louvre choices
+		int source = StaticEntity.parseInt( choice );
 		if ( !louvreChoice( source ) )
 			return "";
 
-		// Get the user specified goal
+		// Get the routing tuple for this choice/gaol
 		int goal = StaticEntity.getIntegerProperty( "louvreGoal" );
-
-		// If no goal, return "".
-		if ( goal == 0 )
+		int [] tuple = routingTuple( source, goal );
+		if ( tuple == null )
 			return "";
 
-		// Not implemented yet
+		// Examine destinations and take one that we know about
+		int [] choices = choiceTuple( source );
+		for ( int i = 0; i < tuple.length; ++i )
+		{
+			int option = tuple[i];
+			for ( int j = 0; j < choices.length; ++j )
+			{
+				int destination = choices[j];
+				// If routing table destination is 0, we any of
+				// 92 - 95 will do. Otherwise, need exact match
+				if ( ( option == 0 && ( destination >= 92 && destination <= 95 ) ) ||
+				     ( option != 0 && option == destination ) )
+					return String.valueOf( j + 1 );
+			}
+		}
+
+		// We don't know how to get to the destination. Pick one we
+		// haven't explored.
+		for ( int j = 0; j < choices.length; ++j )
+		{
+			if ( choices[j] == 0 )
+				return String.valueOf( j + 1 );
+		}
+
+		// Shouldn't get here
 		return "";
 	}
 
@@ -251,7 +280,7 @@ public class Louvre implements UtilityConstants
 
 	private static void mapChoice( int choice, int decision, int destination )
 	{
-		int choices[] = LouvreChoiceTable[ choice - FIRST_CHOICE ];
+		int choices[] = choiceTuple( choice );
 		choices[ decision ] = destination;
 
 		// If 2 choices have been discovered, 3rd might be knowable.
@@ -316,7 +345,7 @@ public class Louvre implements UtilityConstants
 		result[1][0] = LouvreLocationNames[ choice - FIRST_CHOICE ];
 
 		// An array of choice spoilers is the third element
-		int choices[] = LouvreChoiceTable[ choice - FIRST_CHOICE ];
+		int choices[] = choiceTuple( choice );
 		result[2] = new String[3];
 		result[2][0] = choiceName( choice, choices[0] );
 		result[2][1] = choiceName( choice, choices[1] );
@@ -348,8 +377,8 @@ public class Louvre implements UtilityConstants
 			return false;
 
 		// It is. If it stays within the Louvre, it's free
-		int option = StaticEntity.parseInt( decision );
-		int destination = LouvreChoiceTable[source][option];
+		int option = StaticEntity.parseInt( decision ) - 1;
+		int destination = LouvreChoiceTable[ source - FIRST_CHOICE ][option];
 		return ( louvreChoice( destination ) );
 	}
 }
