@@ -203,11 +203,11 @@ public class LoginRequest extends KoLRequest
 
 		StringBuffer result = new StringBuffer( (new BigInteger( output )).toString( 16 ) );
 
-		while ( result.length() < bytes.length )
+		while ( result.length() < bytes.length * 2 )
 			result.insert( 0, '0' );
 
-		while ( result.length() > bytes.length )
-			result.delete( 0, result.length() - bytes.length );
+		while ( result.length() > bytes.length * 2 )
+			result.delete( 0, result.length() - (bytes.length * 2) );
 
 		return result.toString();
 	}
@@ -274,7 +274,7 @@ public class LoginRequest extends KoLRequest
 	{
 		sessionID = null;
 
-		if ( waitTime == BAD_CHALLENGE_WAIT || !StaticEntity.getBooleanProperty( "useSecureLogin" ) )
+		if ( !StaticEntity.getBooleanProperty( "useSecureLogin" ) )
 		{
 			clearDataFields();
 			addFormField( "password", this.password );
@@ -286,7 +286,7 @@ public class LoginRequest extends KoLRequest
 		}
 
 		addFormField( "loggingin", "Yup." );
-		addFormField( "loginname", this.username );
+		addFormField( "loginname", this.username + "/q" );
 
 		KoLmafia.updateDisplay( "Sending login request..." );
 		waitTime = STANDARD_WAIT;
