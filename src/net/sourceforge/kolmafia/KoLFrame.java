@@ -530,6 +530,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		switch ( displayState )
 		{
 			case ABORT_STATE:
+			case ERROR_STATE:
 
 				if ( refresher != null )
 					refresher.getCompactPane().setBackground( ERROR_COLOR );
