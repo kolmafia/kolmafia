@@ -71,7 +71,25 @@ public class LocalRelayRequest extends KoLRequest
 	protected String contentType = null;
 
 	public LocalRelayRequest( String formURLString )
-	{	super( formURLString );
+	{
+		super( formURLString );
+
+		if ( formURLString.endsWith( ".css" ) )
+			this.contentType = "text/css";
+		else if ( formURLString.endsWith( ".js" ) )
+			this.contentType = "text/javascript";
+		else if ( formURLString.endsWith( ".php" ) || formURLString.endsWith( ".htm" ) || formURLString.endsWith( ".html" ) )
+			this.contentType = "text/html";
+		else if ( formURLString.endsWith( ".gif" ) )
+			this.contentType = "image/gif";
+		else if ( formURLString.endsWith( ".png" ) )
+			this.contentType = "image/png";
+		else if ( formURLString.endsWith( ".jpg" ) || formURLString.endsWith( ".jpeg" ) )
+			this.contentType = "image/jpeg";
+		else if ( formURLString.endsWith( ".ico" ) )
+			this.contentType = "image/x-icon";
+		else
+			this.contentType = "text/plain";
 	}
 
 	public String getFullResponse()
@@ -360,26 +378,7 @@ public class LocalRelayRequest extends KoLRequest
 		else if ( status.indexOf( "200" ) != -1 )
 		{
 			headers.add( "Content-Length: " + (this.rawByteBuffer == null ? this.fullResponse.length() : this.rawByteBuffer.length) );
-
-			this.contentType = null;
 			this.responseCode = 200;
-
-			if ( formURLString.endsWith( ".css" ) )
-				this.contentType = "text/css";
-			else if ( formURLString.endsWith( ".js" ) )
-				this.contentType = "text/javascript";
-			else if ( formURLString.endsWith( ".php" ) || formURLString.endsWith( ".htm" ) || formURLString.endsWith( ".html" ) )
-				this.contentType = "text/html";
-			else if ( formURLString.endsWith( ".txt" ) )
-				this.contentType = "text/plain";
-			else if ( formURLString.endsWith( ".gif" ) )
-				this.contentType = "image/gif";
-			else if ( formURLString.endsWith( ".png" ) )
-				this.contentType = "image/png";
-			else if ( formURLString.endsWith( ".jpg" ) || formURLString.endsWith( ".jpeg" ) )
-				this.contentType = "image/jpeg";
-			else if ( formURLString.endsWith( ".ico" ) )
-				this.contentType = "image/x-icon";
 		}
 	}
 
@@ -822,6 +821,6 @@ public class LocalRelayRequest extends KoLRequest
 	}
 
 	protected boolean mayChangeCreatables()
-	{	return contentType != null && contentType.equals( "text/html" ) && super.mayChangeCreatables();
+	{	return contentType.equals( "text/html" ) && super.mayChangeCreatables();
 	}
 }
