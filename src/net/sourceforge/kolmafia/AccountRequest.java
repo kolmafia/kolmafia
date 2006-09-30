@@ -96,4 +96,8 @@ public class AccountRequest extends PasswordHashRequest
 			}
 		}
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return false;
+	}
 }

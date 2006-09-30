@@ -816,4 +816,8 @@ public class LocalRelayRequest extends KoLRequest
 			StaticEntity.printStackTrace( e, "Failed to create cached simulator file." );
 		}
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return contentType != null && contentType.equals( "text/html" ) && super.mayChangeCreatables();
+	}
 }

@@ -56,4 +56,8 @@ public class ContactListRequest extends KoLRequest
 				StaticEntity.getClient().registerContact( entryMatcher.group(2), entryMatcher.group(1) );
 		}
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return false;
+	}
 }

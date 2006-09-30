@@ -511,4 +511,7 @@ public class FightRequest extends KoLRequest
 		return true;
 	}
 
+	protected boolean mayChangeCreatables()
+	{	return responseText.indexOf( "You gain" ) != -1 || responseText.indexOf( "You acquire" ) != -1;
+	}
 }

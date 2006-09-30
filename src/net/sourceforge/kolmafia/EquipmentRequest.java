@@ -509,7 +509,9 @@ public class EquipmentRequest extends PasswordHashRequest
 
 			if ( hasMeatPaste )
 			{
-				AdventureDatabase.retrieveItem( PASTE );
+				if ( !KoLCharacter.inMuscleSign() )
+					AdventureDatabase.retrieveItem( PASTE );
+
 				KoLRequest combines = new KoLRequest( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
 				combines.run();
 
@@ -908,5 +910,9 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 
 		return true;
+	}
+
+	protected boolean mayChangeCreatables()
+	{	return true;
 	}
 }

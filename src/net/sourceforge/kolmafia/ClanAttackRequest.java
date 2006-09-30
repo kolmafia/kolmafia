@@ -71,4 +71,8 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 		int goodiesDifference = car.goodies - goodies;
 		return goodiesDifference != 0 ? goodiesDifference : name.compareToIgnoreCase( car.name );
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return false;
+	}
 }

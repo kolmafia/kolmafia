@@ -369,4 +369,8 @@ public class ItemStorageRequest extends SendMessageRequest
 				return "Unknown request type";
 		}
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return true;
+	}
 }

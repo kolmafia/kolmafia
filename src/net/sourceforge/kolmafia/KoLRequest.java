@@ -754,9 +754,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( !shouldIgnoreResults )
 			{
-				if ( needsRefresh || formURLString.indexOf( "sell" ) != -1 || responseText.indexOf( "You acquire" ) != -1 )
+				if ( needsRefresh || mayChangeCreatables() )
 					KoLCharacter.refreshCalculatedLists();
-				else if ( responseText.indexOf( "You gain" ) != -1 )
+				else if ( formURLString.indexOf( "charpane.php" ) != -1 )
 					KoLCharacter.updateStatus();
 			}
 		}
@@ -1889,5 +1889,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			Map.Entry entry = (Map.Entry)iterator.next();
 			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
+	}
+
+	protected boolean mayChangeCreatables()
+	{	return responseText != null && responseText.indexOf( "You gain" ) != -1 || responseText.indexOf( "You acquire" ) != -1;
 	}
 }

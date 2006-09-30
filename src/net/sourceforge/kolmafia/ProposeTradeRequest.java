@@ -104,4 +104,8 @@ public class ProposeTradeRequest extends SendMessageRequest
 	protected String getStatusMessage()
 	{	return "Placing items in KoL escrow";
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return false;
+	}
 }

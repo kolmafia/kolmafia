@@ -82,4 +82,8 @@ public class MoonPhaseRequest extends KoLRequest
 
 		KoLCharacter.setClan( responseText.indexOf( "clan_hall.php" ) != -1 );
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return false;
+	}
 }

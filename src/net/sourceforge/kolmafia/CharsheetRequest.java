@@ -375,4 +375,8 @@ public class CharsheetRequest extends KoLRequest
 		Matcher baseMatcher = BASE_PATTERN.matcher( token );
 		return baseMatcher.find() ? StaticEntity.parseInt( baseMatcher.group(1) ) : defaultBase;
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return true;
+	}
 }

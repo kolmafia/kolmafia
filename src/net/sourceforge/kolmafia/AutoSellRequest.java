@@ -381,4 +381,8 @@ public class AutoSellRequest extends SendMessageRequest
 	protected String getStatusMessage()
 	{	return sellType == AUTOMALL ? "Transfering items to store" : "Autoselling items to NPCs";
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return true;
+	}
 }

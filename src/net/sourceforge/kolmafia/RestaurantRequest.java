@@ -150,4 +150,8 @@ public class RestaurantRequest extends KoLRequest
 
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return false;
+	}
 }
