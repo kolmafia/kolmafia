@@ -40,6 +40,7 @@ public class ConsumeItemRequest extends KoLRequest
 {
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
 	private static final Pattern GIFT_PATTERN = Pattern.compile( "From: <b>(.*?)</b>" );
+	private static final Pattern FORTUNE_PATTERN = Pattern.compile( "<Table style=\"border: 1px solid black;\" cellpadding=10>.*?</table>" );
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</table><table.*?</body>" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
@@ -65,6 +66,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 	private static final int SEAL_TOOTH = 2;
 	private static final int DOLPHIN_KING_MAP = 26;
+	private static final int FORTUNE_COOKIE = 61;
 	private static final int SPOOKY_TEMPLE_MAP = 74;
 	private static final int DINGHY_PLANS = 146;
 	private static final int ENCHANTED_BEAN = 186;
@@ -385,6 +387,18 @@ public class ConsumeItemRequest extends KoLRequest
 					String title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
 					StaticEntity.getClient().showHTML( trimInventoryText( responseText ), title );
 				}
+
+				return;
+
+			// If it's a fortune cookie, get the fortune
+
+			case FORTUNE_COOKIE:
+                                // Popup a window showing the fortune
+
+                                Matcher matcher = FORTUNE_PATTERN.matcher( responseText );
+                                String text = matcher.find() ? matcher.group() : trimInventoryText( responseText );
+                                String title = "Your fortune";
+                                StaticEntity.getClient().showHTML( text, title );
 
 				return;
 
