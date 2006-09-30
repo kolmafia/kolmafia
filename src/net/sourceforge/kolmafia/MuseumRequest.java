@@ -104,4 +104,8 @@ public class MuseumRequest extends SendMessageRequest
 	protected String getStatusMessage()
 	{	return isDeposit ? "Placing items in display case" : "Removing items from display case";
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return true;
+	}
 }

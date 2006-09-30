@@ -113,4 +113,8 @@ public class HeroDonationRequest extends KoLRequest
 	public String getCommandForm()
 	{	return "donate " + amount + " " + statue;
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return true;
+	}
 }

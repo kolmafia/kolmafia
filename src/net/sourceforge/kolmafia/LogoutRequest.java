@@ -65,4 +65,8 @@ public class LogoutRequest extends KoLRequest
 		if ( KoLDesktop.instanceExists() )
 			KoLDesktop.getInstance().dispose();
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return false;
+	}
 }

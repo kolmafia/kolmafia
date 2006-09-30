@@ -79,4 +79,8 @@ public class TinkerRequest extends ItemCreationRequest
 	public static boolean processRequest( String urlString )
 	{	return true;
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return true;
+	}
 }

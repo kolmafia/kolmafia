@@ -128,4 +128,8 @@ public class ClanBuffRequest extends KoLRequest
 		stringForm.append( buffID < 40 ? "Training" : "Boost" );
 		return stringForm.toString();
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return false;
+	}
 }

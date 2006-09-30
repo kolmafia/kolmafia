@@ -349,4 +349,8 @@ public class LoginRequest extends KoLRequest
 		waitTime = BAD_CHALLENGE_WAIT;
 		return true;
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return false;
+	}
 }

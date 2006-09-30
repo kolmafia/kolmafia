@@ -196,4 +196,8 @@ public class ChatRequest extends KoLRequest
 			thread = null;
 		}
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return false;
+	}
 }

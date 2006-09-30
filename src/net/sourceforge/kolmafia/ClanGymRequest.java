@@ -157,4 +157,8 @@ public class ClanGymRequest extends KoLRequest
 	public int getAdventuresUsed()
 	{	return turnCount;
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return false;
+	}
 }

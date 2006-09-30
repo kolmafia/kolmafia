@@ -193,4 +193,8 @@ public class MailboxRequest extends KoLRequest
 
 		return nextMessageIndex;
 	}
+
+	protected boolean mayChangeCreatables()
+	{	return false;
+	}
 }
