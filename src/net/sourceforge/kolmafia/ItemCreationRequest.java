@@ -653,7 +653,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// to make meat paste as well.
 
 		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
-			AdventureDatabase.retrieveItem( new AdventureResult( MEAT_PASTE, quantityNeeded ) );
+			AdventureDatabase.retrieveItem( new AdventureResult( MEAT_PASTE, (int) (Math.ceil( quantityNeeded / 10 ) * 10) ) );
 	}
 
 	/**
