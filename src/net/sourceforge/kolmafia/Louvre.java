@@ -112,6 +112,54 @@ public class Louvre implements UtilityConstants
 		"Moxious!"
 	};
 
+	// The routing table.
+	//
+	// One row for each Louvre location (92 - 104)
+	// Each row contains one tuple for each goal
+	// Each tuple contains a directly accessible destination from the
+	// current location that leads efficiently to the destination
+
+	// 0		92, 93, 94, or 95
+	// 1 - 6	A goal
+	// X		A destination
+
+	private static final int LouvreRoutingTable [][][] =
+	{
+		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 92
+		  { 97 }, { 98 }, { 96 } },
+		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 93
+		  { 97 }, { 98 }, { 96 } },
+		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 94
+		  { 97 }, { 98 }, { 96 } },
+		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 95
+		  { 97 }, { 98 }, { 96 } },
+		{ { 100 }, { 0 }, { 99 },		// 96
+		  { 0 }, { 0 }, { 99, 100 } },
+		{ { 101 }, { 102 }, { 0 },		// 97
+		  { 101, 102 }, { 0 }, { 0 } },
+		{ { 0 }, { 103 }, { 104 },		// 98
+		  { 0 }, { 103, 104 }, { 0 } },
+		{ { 0 }, { 0 }, { 3 },			// 99
+		  { 0 }, { 0 }, { 6 } },
+		{ { 1 }, { 0 }, { 0 },			// 100
+		  { 0 }, { 0 }, { 6 } },
+		{ { 1 }, { 0 }, { 0 },			// 101
+		  { 4 }, { 0 }, { 0 } },
+		{ { 0 }, { 2 }, { 0 },			// 102
+		  { 4 }, { 0 }, { 0 } },
+		{ { 0 }, { 2 }, { 0 },			// 103
+		  { 0 }, { 5 }, { 0 } },
+		{ { 0 }, { 0 }, { 3 },			// 104
+		  { 0 }, { 5 }, { 0 } },
+	};
+
+	private static int [] routingTuple( int source, int goal )
+	{
+		if ( source < FIRST_CHOICE || source > LAST_CHOICE || goal < 1 || goal > 6 )
+			return null;
+		return LouvreRoutingTable[ source - FIRST_CHOICE ][ goal - 1];
+	}
+
 	// The choice table.
 	//
 	// One row for each Louvre location (92 - 104)
