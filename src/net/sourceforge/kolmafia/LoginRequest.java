@@ -202,12 +202,13 @@ public class LoginRequest extends KoLRequest
 			output[i+1] = bytes[i];
 
 		StringBuffer result = new StringBuffer( (new BigInteger( output )).toString( 16 ) );
+		int desiredLength = bytes.length * 2;
 
-		while ( result.length() < bytes.length * 2 )
+		while ( result.length() < desiredLength )
 			result.insert( 0, '0' );
 
-		while ( result.length() > bytes.length * 2 )
-			result.delete( 0, result.length() - (bytes.length * 2) );
+		if ( result.length() > desiredLength )
+			result.delete( 0, result.length() - desiredLength );
 
 		return result.toString();
 	}
