@@ -55,6 +55,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.table.TableCellRenderer;
 import com.sun.java.forums.TableSorter;
 
