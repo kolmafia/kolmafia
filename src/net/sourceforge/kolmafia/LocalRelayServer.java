@@ -268,7 +268,6 @@ public class LocalRelayServer implements Runnable
 
 			if ( request.contentType.equals( "text/html" ) )
 			{
-				printStream.println( "Set-Cookie: " + KoLRequest.sessionID );
 				printStream.println( "Cache-Control: no-cache, must-revalidate" );
 				printStream.println( "Pragma: no-cache" );
 			}
