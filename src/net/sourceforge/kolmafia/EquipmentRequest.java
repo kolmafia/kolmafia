@@ -500,18 +500,8 @@ public class EquipmentRequest extends PasswordHashRequest
 			// meat paste, then do so and then parse the combines
 			// page.  Otherwise, go to the equipment pages.
 
-			boolean hasMeatPaste = KoLCharacter.inMuscleSign() || KoLCharacter.hasItem( PASTE, false );
-			if ( !hasMeatPaste )
+			if ( KoLCharacter.inMuscleSign() || KoLCharacter.hasItem( PASTE, false ) )
 			{
-				hasMeatPaste = !StaticEntity.getBooleanProperty( "lazyLoadInventory" ) &&
-					KoLCharacter.hasItem( PASTE, true );
-			}
-
-			if ( hasMeatPaste )
-			{
-				if ( !KoLCharacter.inMuscleSign() )
-					AdventureDatabase.retrieveItem( PASTE );
-
 				KoLRequest combines = new KoLRequest( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
 				combines.run();
 
