@@ -581,6 +581,7 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox spookyForestSelect;
 		private JComboBox tripTypeSelect;
 		private JComboBox violetFogSelect;
+		private JComboBox louvreSelect;
 		private JComboBox billiardRoomSelect;
 		private JComboBox library1Select;
 		private JComboBox library2Select;
@@ -632,6 +633,10 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < VioletFog.FogGoals.length; ++i )
 				violetFogSelect.addItem( VioletFog.FogGoals[i] );
 
+			louvreSelect = new JComboBox();
+			for ( int i = 0; i < Louvre.LouvreGoals.length; ++i )
+				louvreSelect.addItem( Louvre.LouvreGoals[i] );
+
 			billiardRoomSelect = new JComboBox();
 			billiardRoomSelect.addItem( "Ignore this adventure" );
 			billiardRoomSelect.addItem( "Muscle" );
@@ -650,7 +655,7 @@ public class OptionsFrame extends KoLFrame
 			library2Select.addItem( "Muscle" );
 			library2Select.addItem( "Gallery Key" );
 
-			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 8 ];
+			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 9 ];
 			elements[0] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
 			elements[1] = new VerifiableElement( "Forest Corpses", spookyForestSelect );
 			elements[2] = new VerifiableElement( "Violet Fog 1", tripTypeSelect );
@@ -658,11 +663,12 @@ public class OptionsFrame extends KoLFrame
 			elements[4] = new VerifiableElement( "Haunted Billiard Room", billiardRoomSelect );
 			elements[5] = new VerifiableElement( "Haunted Library 1", library1Select );
 			elements[6] = new VerifiableElement( "Haunted Library 2", library2Select );
-			elements[7] = new VerifiableElement( "Lucky Sewer", optionSelects[0] );
+			elements[7] = new VerifiableElement( "Haunted Gallery", louvreSelect );
+			elements[8] = new VerifiableElement( "Lucky Sewer", optionSelects[0] );
 
-			elements[8] = new VerifiableElement( "", new JLabel() );
+			elements[9] = new VerifiableElement( "", new JLabel() );
 			for ( int i = 1; i < optionSelects.length; ++i )
-				elements[i+8] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i][1][0], optionSelects[i] );
+				elements[i+9] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i][1][0], optionSelects[i] );
 
 			setContent( elements );
 			actionCancelled();
@@ -671,6 +677,7 @@ public class OptionsFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			StaticEntity.setProperty( "violetFogGoal", String.valueOf( violetFogSelect.getSelectedIndex() ) );
+			StaticEntity.setProperty( "louvreGoal", String.valueOf( louvreSelect.getSelectedIndex() ) );
 			StaticEntity.setProperty( "choiceAdventure71", String.valueOf( tripTypeSelect.getSelectedIndex() + 1 ) );
 			StaticEntity.setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
 
@@ -868,6 +875,7 @@ public class OptionsFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			violetFogSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "violetFogGoal" ) );
+			louvreSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "louvreGoal" ) );
 			for ( int i = 1; i < optionSelects.length; ++i )
 				optionSelects[i].setSelectedIndex( StaticEntity.getIntegerProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) );
 
