@@ -112,9 +112,6 @@ public class LoginRequest extends KoLRequest
 		if ( username.toLowerCase().startsWith( "devster" ) )
 			setLoginServer( "dev.kingdomofloathing.com" );
 
-		if ( !KOL_HOST.equals( "dev.kingdomofloathing.com" ) )
-			setLoginServer( "www.kingdomofloathing.com" );
-
 		clearDataFields();
 		super.run();
 
@@ -281,10 +278,7 @@ public class LoginRequest extends KoLRequest
 			addFormField( "password", this.password );
 		}
 		else
-		{
-			clearDataFields();
 			detectChallenge();
-		}
 
 		addFormField( "loggingin", "Yup." );
 		addFormField( "loginname", this.username + "/q" );
@@ -350,9 +344,31 @@ public class LoginRequest extends KoLRequest
 			waitTime = TOO_MANY_WAIT;
 			return true;
 		}
+		else if ( responseText.indexOf( "login.php" ) != -1 )
+		{
+			// KoL sometimes switches servers while logging in. It returns a hidden form
+			// with responseCode 200.
+ 
+			// <html>
+			//   <body>
+			//     <form name=formredirect method=post action="http://www.kingdomofloathing.com/login.php">
+			//	 <input type=hidden name=loginname value="xxx">
+			//	 <input type=hidden name=loggingin value="Yup.">
+			//	 <input type=hidden name=password value="xxx">
+			//     </form>
+			//   </body>
+			// </html>Redirecting to www.
+ 
+			Matcher matcher = REDIRECT_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				setLoginServer( matcher.group(1) );
+				return executeLogin();
+			}
+		}
 
 		Matcher failureMatcher = FAILURE_PATTERN.matcher( responseText );
-		if ( failureMatcher.find() );
+		if ( failureMatcher.find() )
 			KoLmafia.updateDisplay( failureMatcher.group(1) );
 
 		waitTime = BAD_CHALLENGE_WAIT;
