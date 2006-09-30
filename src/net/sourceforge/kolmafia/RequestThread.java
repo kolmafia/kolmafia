@@ -33,9 +33,12 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.Vector;
 
 public class RequestThread extends Thread implements KoLConstants
 {
+	private static final Vector runningRequests = new Vector();
+
 	private int repeatCount;
 	private Runnable [] requests;
 
@@ -59,6 +62,16 @@ public class RequestThread extends Thread implements KoLConstants
 
 	public void run()
 	{
+		if ( requests.length == 0 )
+			return;
+
+		while ( !runningRequests.isEmpty() )
+		{
+			KoLmafia.updateDisplay( "Waiting for successful world peace..." );
+			KoLRequest.delay( 1000 );
+		}
+
+		runningRequests.add( this );
 		KoLmafia.forceContinue();
 
 		for ( int i = 0; i < requests.length && KoLmafia.permitsContinue(); ++i )
@@ -92,8 +105,11 @@ public class RequestThread extends Thread implements KoLConstants
 			}
 		}
 
+		runningRequests.remove( this );
 		KoLmafia.enableDisplay();
-		SystemTrayFrame.showBalloon( "Requests complete." );
+
+		if ( runningRequests.isEmpty() )
+			SystemTrayFrame.showBalloon( "Requests complete." );
 	}
 
 	protected void run( KoLRequest request, int repeatCount )

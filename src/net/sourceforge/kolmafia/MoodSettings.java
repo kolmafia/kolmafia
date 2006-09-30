@@ -395,7 +395,7 @@ public abstract class MoodSettings implements KoLConstants
 		// the triggers which have been set.  First, start out
 		// with any skill casting.
 
-		for ( int i = 0; i < triggers.size(); ++i )
+		for ( int i = 0; !KoLmafia.refusesContinue() && i < triggers.size(); ++i )
 		{
 			current = (MoodTrigger) triggers.get(i);
 			if ( current.skillID != -1 && (!current.isThiefTrigger() || shouldExecuteThiefSkills) )

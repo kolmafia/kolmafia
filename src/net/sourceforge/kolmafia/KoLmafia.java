@@ -260,7 +260,9 @@ public abstract class KoLmafia implements KoLConstants
 		if ( continuationState == ABORT_STATE && message.equals( "" ) )
 			return;
 
-		continuationState = state;
+		if ( continuationState != ABORT_STATE )
+			continuationState = state;
+
 		KoLmafiaCLI.printLine( state, message );
 
 		if ( !existingFrames.isEmpty() && message.indexOf( LINE_BREAK ) == -1 )
