@@ -71,6 +71,8 @@ public class RequestThread extends Thread implements KoLConstants
 			KoLRequest.delay( 1000 );
 		}
 
+		KoLmafia.updateDisplay( "Beginning a series of external requests..." );
+
 		runningRequests.add( this );
 		KoLmafia.forceContinue();
 
