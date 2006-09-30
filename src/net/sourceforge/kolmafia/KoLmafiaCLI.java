@@ -3193,7 +3193,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( permitsContinue() )
 		{
 			StringBuffer plotDetails = new StringBuffer();
-			plotDetails.append( "Current:" + );
+			plotDetails.append( "Current:" );
 			plotDetails.append( LINE_BREAK );
 			plotDetails.append( plot );
 			plotDetails.append( LINE_BREAK );
