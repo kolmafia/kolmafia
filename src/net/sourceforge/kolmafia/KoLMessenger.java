@@ -503,10 +503,12 @@ public abstract class KoLMessenger extends StaticEntity
 				++nextLine;
 				continue;
 			}
-
-			while ( ++nextLine < lines.length - 1 && lines[ nextLine ].indexOf( "<a" ) == -1 )
-				if ( lines[ nextLine ] != null && lines[ nextLine ].length() > 0 )
-					lines[i] += "<br>" + lines[ nextLine ];
+			else
+			{
+				while ( ++nextLine < lines.length && lines[ nextLine ].indexOf( "<a" ) == -1 )
+					if ( lines[ nextLine ] != null && lines[ nextLine ].length() > 0 )
+						lines[i] += "<br>" + lines[ nextLine ];
+			}
 
 			processChatMessage( lines[i].trim() );
 		}
