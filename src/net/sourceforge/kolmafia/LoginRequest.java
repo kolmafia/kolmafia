@@ -49,6 +49,7 @@ import java.security.MessageDigest;
 
 public class LoginRequest extends KoLRequest
 {
+	private static final Pattern FAILURE_PATTERN = Pattern.compile( "<p><b>(.*?)</b>" );
 	private static final Pattern CHALLENGE_PATTERN = Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
 
 	private static String lastUsername;
@@ -57,7 +58,7 @@ public class LoginRequest extends KoLRequest
 	private static int STANDARD_WAIT = 75;
 	private static int TOO_MANY_WAIT = 960;
 	private static int ROLLOVER_WAIT = 1800;
-	private static int BAD_CHALLENGE_WAIT = 1;
+	private static int BAD_CHALLENGE_WAIT = 15;
 
 	private static int waitTime = STANDARD_WAIT;
 	private static boolean instanceRunning = false;
@@ -79,16 +80,14 @@ public class LoginRequest extends KoLRequest
 	 */
 
 	public LoginRequest( String username, String password )
-	{
-		this( username, password, true,
-			StaticEntity.getBooleanProperty( "getBreakfast." + username ), false );
+	{	this( username, password, true, StaticEntity.getGlobalProperty( username, "getBreakfast" ).equals( "true" ), false );
 	}
 
 	public LoginRequest( String username, String password, boolean savePassword, boolean getBreakfast, boolean isQuickLogin )
 	{
 		super( "login.php" );
 
-		this.username = username == null ? "" : username.replaceFirst( "/[qQ]", "" );
+		this.username = username == null ? "" : StaticEntity.singleStringReplace( username, "/q", "" );
 		this.password = password;
 		this.savePassword = savePassword;
 		this.getBreakfast = getBreakfast;
@@ -100,7 +99,7 @@ public class LoginRequest extends KoLRequest
 	 * via KoL.
 	 */
 
-	public boolean detectChallenge()
+	public void detectChallenge()
 	{
 		KoLmafia.updateDisplay( "Validating login server..." );
 
@@ -118,10 +117,6 @@ public class LoginRequest extends KoLRequest
 
 		clearDataFields();
 		super.run();
-		clearDataFields();
-
-		addFormField( "loggingin", "Yup." );
-		addFormField( "loginname", this.username + "/q" );
 
 		// If the pattern is not found, then do not submit
 		// the challenge version.
@@ -129,8 +124,10 @@ public class LoginRequest extends KoLRequest
 		Matcher challengeMatcher = CHALLENGE_PATTERN.matcher( responseText );
 		if ( !challengeMatcher.find() )
 		{
-			addFormField( "password", password );
-			return true;
+			clearDataFields();
+			addFormField( "password", this.password );
+
+			return;
 		}
 
 		// We got this far, so that means we now have a
@@ -138,22 +135,20 @@ public class LoginRequest extends KoLRequest
 
 		try
 		{
+			clearDataFields();
 			String challenge = challengeMatcher.group(1);
+
 			addFormField( "secure", "on" );
 			addFormField( "challenge", challenge );
 			addFormField( "response", digestPassword( this.password, challenge ) );
 
-			return true;
+			return;
 		}
 		catch ( Exception e )
 		{
 			clearDataFields();
-
-			addFormField( "loggingin", "Yup." );
-			addFormField( "loginname", this.username + "/q" );
-			addFormField( "password", password );
-
-			return true;
+			addFormField( "password", this.password );
+			return;
 		}
 	}
 
@@ -274,15 +269,20 @@ public class LoginRequest extends KoLRequest
 		if ( waitTime == BAD_CHALLENGE_WAIT || !StaticEntity.getBooleanProperty( "useSecureLogin" ) )
 		{
 			clearDataFields();
-			addFormField( "loggingin", "Yup." );
-			addFormField( "loginname", this.username + "/q" );
-			addFormField( "password", password );
+			addFormField( "password", this.password );
 		}
 		else
 		{
 			clearDataFields();
 			detectChallenge();
 		}
+
+		addFormField( "loggingin", "Yup." );
+
+		if ( waitTime != BAD_CHALLENGE_WAIT )
+			addFormField( "loginname", this.username + "/q" );
+		else
+			addFormField( "loginname", this.username );
 
 		KoLmafia.updateDisplay( "Sending login request..." );
 		waitTime = STANDARD_WAIT;
@@ -345,6 +345,10 @@ public class LoginRequest extends KoLRequest
 			waitTime = TOO_MANY_WAIT;
 			return true;
 		}
+
+		Matcher failureMatcher = FAILURE_PATTERN.matcher( responseText );
+		if ( failureMatcher.find() );
+			KoLmafia.updateDisplay( failureMatcher.group(1) );
 
 		waitTime = BAD_CHALLENGE_WAIT;
 		return true;
