@@ -1219,6 +1219,12 @@ public class KoLRequest implements Runnable, KoLConstants
 						setLoginServer( matcher.group(1) );
 						return false;
 					}
+
+					// Otherwise, it's probably just a gibberish URL
+					// that is used in order to force a cache refresh.
+
+					constructURLString( redirectLocation );
+					return true;
 				}
 
 				KoLmafia.updateDisplay( ABORT_STATE, "Session timed out." );
