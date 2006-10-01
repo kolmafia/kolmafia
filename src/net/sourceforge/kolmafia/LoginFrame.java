@@ -474,7 +474,7 @@ public class LoginFrame extends KoLFrame
 				contentPanel.add( interfaceOptions[i] );
 			}
 
-			usernameComboBox = new JComboBox( StaticEntity.getPastUserList() );
+			usernameComboBox = new JComboBox( saveStateNames );
 
 			String autoLoginSetting = StaticEntity.getProperty( "autoLogin" );
 			if ( autoLoginSetting.equals( "" ) )
@@ -504,6 +504,12 @@ public class LoginFrame extends KoLFrame
 
 			String frameString = StaticEntity.getGlobalProperty( username, "initialFrames" );
 			String desktopString = StaticEntity.getGlobalProperty( username, "initialDesktop" );
+
+			if ( frameString.equals( "" ) && desktopString.equals( "" ) )
+			{
+				frameString = StaticEntity.getGlobalProperty( "", "initialFrames" );
+				desktopString = StaticEntity.getGlobalProperty( "", "initialDesktop" );
+			}
 
 			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
 			{
