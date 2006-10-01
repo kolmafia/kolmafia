@@ -65,10 +65,10 @@ public class RequestThread extends Thread implements KoLConstants
 		if ( requests.length == 0 )
 			return;
 
-		while ( !runningRequests.isEmpty() )
+		if ( !runningRequests.isEmpty() )
 		{
-			KoLmafia.updateDisplay( "Waiting for successful world peace..." );
-			KoLRequest.delay( 1000 );
+			KoLmafia.updateDisplay( ABORT_STATE, "World peace declaration is still propogating." );
+			return;
 		}
 
 		KoLmafia.updateDisplay( "Beginning a series of external requests..." );
