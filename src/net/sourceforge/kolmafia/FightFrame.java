@@ -72,7 +72,9 @@ public class FightFrame extends RequestFrame
 		if ( request.getClass() == KoLRequest.class && request.responseText == null )
 			request.run();
 
-		if ( INSTANCE == null )
+		if ( request.getURLString().indexOf( "action=message" ) != -1 )
+			createDisplay( RequestFrame.class, new Object [] { request } );
+		else if ( INSTANCE == null )
 			createDisplay( FightFrame.class, new Object [] { request } );
 		else
 			INSTANCE.refresh( request );
