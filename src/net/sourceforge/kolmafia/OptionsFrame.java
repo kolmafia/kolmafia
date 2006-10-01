@@ -206,6 +206,7 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsPlinking", "Add plinking-friendly button to attack screen" },
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add mood maintenance links to left side pane" },
+			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
 			{ "relayRemovesExpensiveItems", "Remove unaffordable items from stores in browser" },
 			{ "relayRemovesMinpricedItems", "Remove items priced at minimum from stores in browser" },
 			{ "cacheRelayImages", "Cache relay browser images for mini browser" },
