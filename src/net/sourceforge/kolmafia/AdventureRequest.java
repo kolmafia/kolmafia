@@ -414,7 +414,7 @@ public class AdventureRequest extends KoLRequest
 		// data fields.  Therefore, it will equal fight.php
 		// exactly every single time.
 
-		if ( urlString.equals( "fight.php" ) )
+		if ( urlString.indexOf( "fight.php" ) != -1 )
 		{
 			int spanIndex = request.responseText.indexOf( "monname" ) + 1;
 			spanIndex = request.responseText.indexOf( ">", spanIndex ) + 1;
@@ -429,9 +429,13 @@ public class AdventureRequest extends KoLRequest
 			String encounter = request.responseText.substring( spanIndex, endSpanIndex );
 			encounter = CombatSettings.encounterKey( encounter, false );
 
-			KoLmafiaCLI.printLine( "Encounter: " + encounter );
-			KoLmafia.getSessionStream().println( "Encounter: " + encounter );
-			StaticEntity.getClient().registerEncounter( encounter );
+			if ( urlString.equals( "fight.php" ) )
+			{
+				KoLmafiaCLI.printLine( "Encounter: " + encounter );
+				KoLmafia.getSessionStream().println( "Encounter: " + encounter );
+				StaticEntity.getClient().registerEncounter( encounter );
+			}
+
 			return encounter;
 		}
 		else
