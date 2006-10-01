@@ -203,7 +203,6 @@ public class OptionsFrame extends KoLFrame
 		{
 			{ "relayAddsUseLinks", "Add [use] links when acquiring items" },
 			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
-			{ "relayAddsPlinking", "Add plinking-friendly button to attack screen" },
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add mood maintenance links to left side pane" },
 			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },

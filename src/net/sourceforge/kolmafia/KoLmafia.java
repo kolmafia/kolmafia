@@ -1670,7 +1670,7 @@ public abstract class KoLmafia implements KoLConstants
 		Arrays.sort( untinkerItemArray );
 
 		AdventureResult selectedValue = (AdventureResult) JOptionPane.showInputDialog(
-			null, "I want to untinkeritem...", "You can unscrew meat paste?", JOptionPane.INFORMATION_MESSAGE, null,
+			null, "I want to untinker an item...", "You can unscrew meat paste?", JOptionPane.INFORMATION_MESSAGE, null,
 			untinkerItemArray, untinkerItemArray[0] );
 
 		if ( selectedValue == null )
@@ -1697,6 +1697,32 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 
 		(new MindControlRequest( StaticEntity.parseInt( selectedLevel.split( " " )[1] ) )).run();
+	}
+
+	/**
+	 * Set the Canadian Mind Control device to selected setting.
+	 */
+
+	public void makeCampgroundRestRequest()
+	{
+		String turnCount = (String) JOptionPane.showInputDialog( null, "Rest for how many turns?", "1" );
+		if ( turnCount == null )
+			return;
+
+		makeRequest( new CampgroundRequest( "rest" ), StaticEntity.parseInt( turnCount ) );
+	}
+
+	/**
+	 * Set the Canadian Mind Control device to selected setting.
+	 */
+
+	public void makeCampgroundRelaxRequest()
+	{
+		String turnCount = (String) JOptionPane.showInputDialog( null, "Relax for how many turns?", "1" );
+		if ( turnCount == null )
+			return;
+
+		makeRequest( new CampgroundRequest( "relax" ), StaticEntity.parseInt( turnCount ) );
 	}
 
 	public static void validateFaucetQuest()
