@@ -1411,7 +1411,7 @@ public abstract class SorceressLair extends StaticEntity
 		// worst-case scenario in all cases (minimum recovery, maximum
 		// damage, which may happen).
 
-		int shadowHealth = 96 + KoLCharacter.getMonsterLevelAdjustment();
+		int shadowHealth = 96;
 		int maximumDamage = 22 + (int) Math.floor( KoLCharacter.getMaximumHP() / 5 ) + 3;
 
 		int combatRounds = (int) Math.ceil( shadowHealth / 25 ) + 1;
@@ -1434,15 +1434,9 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 		{
-			// If restorative balm is not an option for the shadow fight,
-			// then try elixirs next.
-
-			if ( neededHealth > KoLCharacter.getMaximumHP() )
-			{
-				combatRounds = (int) Math.ceil( shadowHealth / 36 ) + 1;
-				option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 2 * combatRounds );
-				neededHealth = (maximumDamage * combatRounds) - (36 * (combatRounds - 1));
-			}
+			combatRounds = (int) Math.ceil( shadowHealth / 36 ) + 1;
+			option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 2 * combatRounds );
+			neededHealth = (maximumDamage * combatRounds) - (36 * (combatRounds - 1));
 
 			// If elixirs are not possible, then maybe you can use two
 			// red pixel potions at once.

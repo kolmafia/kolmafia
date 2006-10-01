@@ -135,7 +135,7 @@ public class LoginRequest extends KoLRequest
 			clearDataFields();
 			String challenge = challengeMatcher.group(1);
 
-			addFormField( "secure", "on" );
+			addFormField( "secure", "1" );
 			addFormField( "challenge", challenge );
 			addFormField( "response", digestPassword( this.password, challenge ) );
 
@@ -144,6 +144,7 @@ public class LoginRequest extends KoLRequest
 		catch ( Exception e )
 		{
 			clearDataFields();
+			addFormField( "secure", "0" );
 			addFormField( "password", this.password );
 			return;
 		}
@@ -275,6 +276,7 @@ public class LoginRequest extends KoLRequest
 		if ( !StaticEntity.getBooleanProperty( "useSecureLogin" ) )
 		{
 			clearDataFields();
+			addFormField( "secure", "0" );
 			addFormField( "password", this.password );
 		}
 		else
@@ -348,7 +350,7 @@ public class LoginRequest extends KoLRequest
 		{
 			// KoL sometimes switches servers while logging in. It returns a hidden form
 			// with responseCode 200.
- 
+
 			// <html>
 			//   <body>
 			//     <form name=formredirect method=post action="http://www.kingdomofloathing.com/login.php">
@@ -358,7 +360,7 @@ public class LoginRequest extends KoLRequest
 			//     </form>
 			//   </body>
 			// </html>Redirecting to www.
- 
+
 			Matcher matcher = REDIRECT_PATTERN.matcher( responseText );
 			if ( matcher.find() )
 			{
