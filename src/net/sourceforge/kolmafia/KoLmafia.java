@@ -215,7 +215,10 @@ public abstract class KoLmafia implements KoLConstants
 
 			String password = StaticEntity.getClient().getSaveState( autoLogin );
 			if ( password != null && !password.equals( "" ) )
-				(new RequestThread( new LoginRequest( autoLogin, password ) )).start();
+			{
+				(new LoginRequest( autoLogin, password )).run();
+				enableDisplay();
+			}
 		}
 	}
 
@@ -1469,7 +1472,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( selectedValue == null )
 			return;
 
-		(new RequestThread( new ZapRequest( wand, (AdventureResult) selectedValue ) )).run();
+		(new ZapRequest( wand, (AdventureResult) selectedValue )).run();
 	}
 
 	/**
@@ -1500,7 +1503,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( tradeCount == 0 )
 			return;
 
-		(new RequestThread( new HermitRequest( selected, tradeCount ) )).run();
+		(new HermitRequest( selected, tradeCount )).run();
 	}
 
 	/**
@@ -1542,7 +1545,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( tradeCount == 0 )
 			return;
 
-		(new RequestThread( new TrapperRequest( selected, tradeCount ) )).run();
+		(new TrapperRequest( selected, tradeCount )).run();
 	}
 
 	/**
@@ -1584,15 +1587,17 @@ public abstract class KoLmafia implements KoLConstants
 			Object [] items = new Object[1];
 			items[0] = selected.getInstance( available - tradeCount );
 
-			Runnable [] sequence = new Runnable[3];
-			sequence[0] = new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items );
-			sequence[1] = new BountyHunterRequest( selected.getItemID() );
-			sequence[2] = new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items );
+			if ( permitsContinue() )
+				(new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items )).run();
 
-			(new RequestThread( sequence )).run();
+			if ( permitsContinue() )
+				(new BountyHunterRequest( selected.getItemID() )).run();
+
+			if ( permitsContinue() )
+				(new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items )).run();
 		}
 		else
-			(new RequestThread( new BountyHunterRequest( TradeableItemDatabase.getItemID( selectedValue ) ) )).run();
+			(new BountyHunterRequest( TradeableItemDatabase.getItemID( selectedValue ) )).run();
 	}
 
 	/**
@@ -1624,7 +1629,7 @@ public abstract class KoLmafia implements KoLConstants
 		else
 			return;
 
-		(new RequestThread( new GalaktikRequest( type ) )).run();
+		(new GalaktikRequest( type )).run();
 	}
 
 	/**
@@ -1667,7 +1672,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( selectedValue == null )
 			return;
 
-		(new RequestThread( new UntinkerRequest( selectedValue.getItemID() ) )).run();
+		(new UntinkerRequest( selectedValue.getItemID() )).run();
 	}
 
 	/**
@@ -1687,7 +1692,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( selectedLevel == null )
 			return;
 
-		(new RequestThread( new MindControlRequest( StaticEntity.parseInt( selectedLevel.split( " " )[1] ) ) )).run();
+		(new MindControlRequest( StaticEntity.parseInt( selectedLevel.split( " " )[1] ) )).run();
 	}
 
 	public static void validateFaucetQuest()
