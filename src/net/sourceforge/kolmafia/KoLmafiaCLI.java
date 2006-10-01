@@ -3062,6 +3062,9 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( items.length == 0 )
 			return;
 
+		if ( ClanManager.getStash().isEmpty() )
+			(new ClanStashRequest()).run();
+
 		StaticEntity.getClient().makeRequest( new ClanStashRequest( items, isWithdraw ?
 			ClanStashRequest.STASH_TO_ITEMS : ClanStashRequest.ITEMS_TO_STASH ) );
 	}
