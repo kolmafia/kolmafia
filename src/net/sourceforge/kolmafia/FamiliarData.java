@@ -92,6 +92,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			itemData.indexOf( "pitchfork.gif" ) != -1 ? "annoying pitchfork" :
 			itemData.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" :
 			itemData.indexOf( "ratbal.gif" ) != -1 ? "rat head balloon" :
+			itemData.indexOf( "punkin.gif" ) != -1 ? "plastic pumpkin bucket" :
 			FamiliarsDatabase.getFamiliarItem( this.id );
 	}
 
