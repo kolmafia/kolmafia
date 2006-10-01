@@ -922,17 +922,19 @@ public class AdventureDatabase extends KoLDatabase
 				return;
 
 			// If it's creatable, rather than seeing what main ingredient is missing,
-			// show what  sub-ingredients are missing; but only do this if it's not
-			// clovers or dough, which causes infinite recursion.
+			// show what sub-ingredients are missing; but only do this if it's not
+			// clovers or dough, which causes infinite recursion.  Also don't do this
+			// for white pixels, as that causes confusion.
 
 			if ( creator != null )
 			{
 				switch ( item.getItemID() )
 				{
-					case 24:
-					case 196:
-					case 159:
-					case 301:
+					case 24:	// ten-leaf clover
+					case 196:	// disassembled clover
+					case 159:	// wad of dough
+					case 301:	// flat dough
+					case 459:	// white pixel
 
 						break;
 
