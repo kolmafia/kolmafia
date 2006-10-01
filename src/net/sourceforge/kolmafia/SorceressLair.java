@@ -1424,8 +1424,13 @@ public abstract class SorceressLair extends StaticEntity
 		if ( neededHealth > KoLCharacter.getMaximumHP() )
 		{
 			combatRounds = (int) Math.ceil( shadowHealth / 35 ) + 1;
-			option = new AdventureResult( "red plastic oyster egg", combatRounds );
-			neededHealth = (maximumDamage * combatRounds) - (35 * (combatRounds - 1));
+			AdventureResult egg = new AdventureResult( "red plastic oyster egg", combatRounds );
+
+			if ( hasItem( egg ) )
+			{
+				option = egg;
+				neededHealth = (maximumDamage * combatRounds) - (35 * (combatRounds - 1));
+			}
 		}
 
 		// In the event that you have Ambidextrous Funkslinging, then
@@ -1454,8 +1459,13 @@ public abstract class SorceressLair extends StaticEntity
 			if ( neededHealth > KoLCharacter.getMaximumHP() )
 			{
 				combatRounds = (int) Math.ceil( shadowHealth / 70 ) + 1;
-				option = new AdventureResult( "red plastic oyster egg", combatRounds );
-				neededHealth = (maximumDamage * combatRounds) - (70 * (combatRounds - 1));
+				AdventureResult egg = new AdventureResult( "red plastic oyster egg", 2 * combatRounds );
+
+				if ( hasItem( egg ) )
+				{
+					option = egg;
+					neededHealth = (maximumDamage * combatRounds) - (70 * (combatRounds - 1));
+				}
 			}
 
 		}
