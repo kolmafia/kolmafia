@@ -79,8 +79,15 @@ public class GalaktikRequest extends KoLRequest
 			return;
 		}
 
+		int originalAmount = KoLCharacter.getAvailableMeat();
 		KoLmafia.updateDisplay( "Visiting Doc Galaktik..." );
+
 		super.run();
+
+		int finalCost = KoLCharacter.getAvailableMeat() - originalAmount;
+		if ( finalCost != 0 )
+			AdventureResult.addResultToList( tally, new AdventureResult( AdventureResult.MEAT, finalCost ) );
+
 	}
 
 	public static LockableListModel retrieveCures()

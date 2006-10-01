@@ -394,9 +394,7 @@ public class AdventureFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{
-			KoLmafia.declareWorldPeace();
-			locationSelect.requestFocus();
+		{	KoLmafia.declareWorldPeace();
 		}
 
 		public void requestFocus()
