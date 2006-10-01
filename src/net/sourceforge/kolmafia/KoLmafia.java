@@ -524,7 +524,6 @@ public abstract class KoLmafia implements KoLConstants
 	public void resetSession()
 	{
 		forceContinue();
-		updateDisplay( "Resetting session tallies..." );
 
 		missingItems.clear();
 		encounterList.clear();
@@ -543,8 +542,6 @@ public abstract class KoLmafia implements KoLConstants
 		tally.add( new AdventureResult( AdventureResult.MEAT ) );
 		tally.add( new AdventureResult( AdventureResult.SUBSTATS ) );
 		tally.add( new AdventureResult( AdventureResult.FULLSTATS ) );
-
-		updateDisplay( "Session tallies reset." );
 	}
 
 	/**
