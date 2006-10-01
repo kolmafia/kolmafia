@@ -16,6 +16,7 @@ gasmask	Stench: +30
 giant discarded bottlecap	DR: 3
 green traffic cone	Stench: +20
 ice pick	Item: +15.0
+jewel-eyed wizard hat	Mana: -1
 Knob Goblin harem veil	Stench: +10
 lihc face	Spooky: +20
 miner's helmet	Item: +5.0
@@ -101,6 +102,7 @@ stainless steel slacks	Init: +15.0, Meat: +20.0
 star pants	Init: +20.0
 white satin pants	Sleaze: +10
 
+baconstone bracelet	Mana: -1
 Baron Von Ratsworth's money clip	Meat: +15.0
 Baron Von Ratsworth's monocle	Item: +10.0
 Bonerdagon necklace	Init: +30.0
@@ -120,6 +122,7 @@ Mr. Accessory Jr.	Item: +25.0
 penguin whip	Meat: +3.0
 Pine-Fresh air freshener	Stench: +10
 plexiglass pinky ring	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30,
+plexiglass pocketwatch	Mana: -3
 porquoise necklace	Meat: +10.0
 ring of aggravate monster	ML: +5
 ring of cold resistance	Cold: +20
@@ -127,6 +130,7 @@ ring of conflict	Combat: -5.0
 ring of fire resistance	Hot: +20
 sk8board	Init: +15.0
 stainless steel scarf	ML: +20
+stainless steel solitaire	Mana: -2
 stainless steel suspenders	DA: +60
 tap shoes	Init: -20.0
 tiny plastic angry goat	Weight: +1
@@ -171,6 +175,7 @@ Cletus's Canticle of Celerity	Init: +30.0
 Cold Blooded	Cold: +20
 Contemptible Emanations	ML: +20
 Cupcake of Choice	Item: +30.0
+Dreams and Lights	Mana: -3
 Egg-stortionary Tactics	Meat: +50.0
 Eggs-tra Sensory Perception	Item: +30.0
 Elemental Saucesphere	Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20,

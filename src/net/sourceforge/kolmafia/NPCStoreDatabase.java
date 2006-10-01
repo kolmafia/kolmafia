@@ -46,7 +46,7 @@ import java.util.ArrayList;
 public class NPCStoreDatabase extends KoLDatabase
 {
 	private static List [] storeTable = new ArrayList[4];
-	private static final AdventureResult RABBIT_FOOT = new AdventureResult( KoLCharacter.RABBIT_FOOT, 1 );
+	private static final AdventureResult RABBIT_FOOT = new AdventureResult( 1485, 1 );
 
 	static
 	{
