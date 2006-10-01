@@ -77,8 +77,4 @@ public class FightFrame extends RequestFrame
 		else
 			INSTANCE.refresh( request );
 	}
-
-	public boolean hasSideBar()
-	{	return true;
-	}
 }
