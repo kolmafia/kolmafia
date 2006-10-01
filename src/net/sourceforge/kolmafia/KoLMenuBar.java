@@ -159,12 +159,17 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		add( travelMenu );
 
 		travelMenu.add( new InvocationMenuItem( "Doc Galaktik", StaticEntity.getClient(), "makeGalaktikRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Mind Control", StaticEntity.getClient(), "makeMindControlRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Untinker Items", StaticEntity.getClient(), "makeUntinkerRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Rest in House", StaticEntity.getClient(), "makeCampgroundRestRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Relax in Beanbag", StaticEntity.getClient(), "makeCampgroundRelaxRequest" ) );
 
 		travelMenu.add( new JSeparator() );
 
+		travelMenu.add( new InvocationMenuItem( "Mind Control", StaticEntity.getClient(), "makeMindControlRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Untinker Items", StaticEntity.getClient(), "makeUntinkerRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", StaticEntity.getClient(), "makeHermitRequest" ) );
+
+		travelMenu.add( new JSeparator() );
+
 		travelMenu.add( new InvocationMenuItem( "Skin the Trapper", StaticEntity.getClient(), "makeTrapperRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Mug the Hunter", StaticEntity.getClient(), "makeHunterRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Trade for Gourds", StaticEntity.getClient(), "tradeGourdItems" ) );

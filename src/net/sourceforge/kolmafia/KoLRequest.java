@@ -606,25 +606,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		needsRefresh = false;
 		String urlString = getURLString();
-
-		if ( urlString.indexOf( "fight.php?action=plink" ) != -1 )
-		{
-			String oldAction = StaticEntity.getProperty( "battleAction" );
-			DEFAULT_SHELL.executeLine( "set battleAction=attack with weapon" );
-
-			FightRequest request = new FightRequest( false );
-			request.run();
-
-			DEFAULT_SHELL.executeLine( "set battleAction=" + oldAction );
-
-			this.responseText = request.responseText;
-			this.fullResponse = request.fullResponse;
-			this.formConnection = request.formConnection;
-		}
-		else
-		{
-			execute();
-		}
+		execute();
 
 		// If this is the trapper page, make sure to check to
 		// see if there's any changes to your inventory.
