@@ -2474,9 +2474,6 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int HARE = 50;
 	private static final int HOBO = 52;
 
-	// Items that modify Meat Drops
-	public static final int RABBIT_FOOT = 1485;
-
 	// Familiars that modify Meat Drops
 	private static final int LEPRECHAUN = 2;
 	private static final int TURKEY = 25;
@@ -2503,12 +2500,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 	// Items and skills that make Mysticality the To-Hit stat
 	private static final int SAUCE_GLOVE = 531;
-
-	// Items that modify Mana cost of skills
-	private static final int BACONSTONE_BRACELET = 717;
-	private static final int STAINLESS_SOLITAIRE = 1226;
-	private static final int PLEXIGLASS_POCKETWATCH = 1232;
-	private static final int WIZARD_HAT = 1653;
 
 	public static boolean recalculateAdjustments( boolean update )
 	{
@@ -2567,6 +2558,7 @@ public abstract class KoLCharacter extends StaticEntity
 			newSleazeResistance += modifiers[ StatusEffectDatabase.SLEAZE_RESISTANCE_MODIFIER ];
 			newSpookyResistance += modifiers[ StatusEffectDatabase.SPOOKY_RESISTANCE_MODIFIER ];
 			newStenchResistance += modifiers[ StatusEffectDatabase.STENCH_RESISTANCE_MODIFIER ];
+			newManaCostModifier += modifiers[ StatusEffectDatabase.MANA_COST_MODIFIER ];
 
 			switch ( slot )
 			{
@@ -2597,19 +2589,6 @@ public abstract class KoLCharacter extends StaticEntity
 			case SAUCE_GLOVE:
 				if ( classtype.startsWith( "Sa" ) )
 					rigatoniSkill = true;
-				break;
-
-			case BACONSTONE_BRACELET:
-			case WIZARD_HAT:
-				newManaCostModifier -= 1;
-				break;
-
-			case STAINLESS_SOLITAIRE:
-				newManaCostModifier -= 2;
-				break;
-
-			case PLEXIGLASS_POCKETWATCH:
-				newManaCostModifier -= 3;
 				break;
 			}
 		}
@@ -2713,6 +2692,7 @@ public abstract class KoLCharacter extends StaticEntity
 			newSleazeResistance += modifiers[ StatusEffectDatabase.SLEAZE_RESISTANCE_MODIFIER ];
 			newSpookyResistance += modifiers[ StatusEffectDatabase.SPOOKY_RESISTANCE_MODIFIER ];
 			newStenchResistance += modifiers[ StatusEffectDatabase.STENCH_RESISTANCE_MODIFIER ];
+			newManaCostModifier += modifiers[ StatusEffectDatabase.MANA_COST_MODIFIER ];
 		}
 
 		if ( ARIA.getCount( activeEffects ) > 0 )

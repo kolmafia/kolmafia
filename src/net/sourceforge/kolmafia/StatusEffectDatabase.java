@@ -181,6 +181,7 @@ public class StatusEffectDatabase extends KoLDatabase
 	public static final int SLEAZE_RESISTANCE_MODIFIER = 11;
 	public static final int SPOOKY_RESISTANCE_MODIFIER = 12;
 	public static final int STENCH_RESISTANCE_MODIFIER = 13;
+	public static final int MANA_COST_MODIFIER = 14;
 
 	private static final Pattern [] MODIFIER_PATTERNS = new Pattern [] {
 		Pattern.compile( "Weight: ([+-]\\d+)" ),
@@ -197,9 +198,10 @@ public class StatusEffectDatabase extends KoLDatabase
 		Pattern.compile( "Sleaze: ([+-]\\d+)" ),
 		Pattern.compile( "Spooky: ([+-]\\d+)" ),
 		Pattern.compile( "Stench: ([+-]\\d+)" ),
+		Pattern.compile( "Mana: ([+-]\\d+)" ),
 	};
 
-	private static final float [] NO_MODIFIERS = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+	private static final float [] NO_MODIFIERS = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 
 	public static final float [] getModifiers( String name )
 	{
