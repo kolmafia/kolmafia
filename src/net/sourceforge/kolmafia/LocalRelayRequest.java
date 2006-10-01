@@ -800,18 +800,26 @@ public class LocalRelayRequest extends KoLRequest
 
 	private void downloadSimulatorFile( String filename )
 	{
-		LocalRelayRequest request = new LocalRelayRequest( "http://sol.kolmafia.us/" + filename );
-		request.run();
-
-		File directory = new File( "html/simulator/" );
-		directory.mkdirs();
-
-		request.fullResponse = StaticEntity.globalStringReplace( request.fullResponse, "images/", "http://sol.kolmafia.us/images/" );
-
 		try
 		{
-			PrintStream writer = new LogStream( "html/simulator/" + filename );
-			writer.print( request.fullResponse );
+			BufferedReader reader = DataUtilities.getReader( "http://sol.kolmafia.us/" + filename );
+
+			String line;
+			StringBuffer contents = new StringBuffer();
+
+			while ( (line = reader.readLine()) != null )
+			{
+				contents.append( line );
+				contents.append( LINE_BREAK );
+			}
+
+			File directory = new File( "html/simulator/" );
+			directory.mkdirs();
+
+			StaticEntity.globalStringReplace( contents, "images/", "http://sol.kolmafia.us/images/" );
+
+			PrintStream writer = KoLmafia.openStream( "html/simulator/" + filename, NullStream.INSTANCE, true );
+			writer.println( contents.toString() );
 			writer.close();
 		}
 		catch ( Exception e )
