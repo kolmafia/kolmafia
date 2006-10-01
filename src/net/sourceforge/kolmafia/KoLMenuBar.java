@@ -399,12 +399,20 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public final void run()
 		{
-			KoLmafia.forceContinue();
+			if ( makesRequest() )
+				KoLmafia.forceContinue();
+
 			executeTask();
-			KoLmafia.enableDisplay();
+
+			if ( makesRequest() )
+				KoLmafia.enableDisplay();
 		}
 
 		protected abstract void executeTask();
+
+		public boolean makesRequest()
+		{	return true;
+		}
 	}
 
 	/**
@@ -519,6 +527,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	{
 		private Object object;
 		private Method method;
+		private String methodName;
 
 		public InvocationMenuItem( String title, Object object, String methodName )
 		{
@@ -529,6 +538,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		public InvocationMenuItem( String title, Class c, String methodName )
 		{
 			super( title );
+			this.methodName = methodName;
 
 			if ( c == null )
 				return;
@@ -545,6 +555,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 				StaticEntity.printStackTrace( e );
 			}
+		}
+
+		public boolean makesRequest()
+		{	return !methodName.equals( "resetSession" );
 		}
 
 		public void executeTask()
