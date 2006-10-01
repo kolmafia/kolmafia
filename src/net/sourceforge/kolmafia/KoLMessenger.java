@@ -218,11 +218,11 @@ public abstract class KoLMessenger extends StaticEntity
 	}
 
 	public static void checkFriends()
-	{	(new RequestThread( new ChatRequest( currentChannel, "/friends" ) )).start();
+	{	(new Thread( new ChatRequest( currentChannel, "/friends" ) )).start();
 	}
 
 	public static void checkChannel()
-	{	(new RequestThread( new ChatRequest( updateChannel, "/who" ) )).start();
+	{	(new Thread( new ChatRequest( updateChannel, "/who" ) )).start();
 	}
 
 	/**
@@ -318,7 +318,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		else if ( contact.startsWith( "/" ) && currentlyActive.contains( contact ) )
 		{
-			(new RequestThread( new ChatRequest( contact, "/listen " + contact.substring(1) ) )).start();
+			(new Thread( new ChatRequest( contact, "/listen " + contact.substring(1) ) )).start();
 			currentlyActive.remove( contact );
 		}
 	}
