@@ -130,6 +130,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected boolean needsRefresh;
 	protected boolean statusChanged;
 
+	private boolean isDelayExempt;
 	private int readInputLength;
 	private int totalInputLength;
 
@@ -301,6 +302,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		constructURLString( formURLString );
 		isConsumeRequest = this instanceof ConsumeItemRequest;
+
+		this.isDelayExempt = getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof ChatRequest ||
+			this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
 	}
 
 	protected void constructURLString( String newURLString )
@@ -555,9 +559,12 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		if ( formURLString.indexOf( "sewer.php" ) != -1 )
 		{
-			AdventureDatabase.retrieveItem( "chewing gum on a string" );
-			if ( this instanceof LocalRelayRequest )
-				KoLmafia.enableDisplay();
+			if ( !isDelayExempt || StaticEntity.getBooleanProperty( "relayAlwaysBuysGum" ) )
+			{
+				AdventureDatabase.retrieveItem( "chewing gum on a string" );
+				if ( !isDelayExempt )
+					KoLmafia.enableDisplay();
+			}
 		}
 
 		if ( formURLString.indexOf( "casino.php" ) != -1 )
@@ -592,7 +599,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			return;
 		}
 
-		if ( KoLmafia.refusesContinue() && !isDelayExempt() )
+		if ( KoLmafia.refusesContinue() && !isDelayExempt )
 			return;
 
 		useSlowRequests = StaticEntity.getBooleanProperty( "showAllRequests" );
@@ -665,8 +672,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void execute()
 	{
-		boolean isDelayExempt = isDelayExempt();
-
 		// If this is the rat quest, then go ahead and pre-set the data
 		// to reflect a fight sequence (mini-browser compatibility).
 
@@ -710,7 +715,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( responseCode == 200 && responseText != null )
 		{
-			if ( !isDelayExempt() && formURLString.indexOf( "search" ) == -1 )
+			if ( !isDelayExempt && formURLString.indexOf( "search" ) == -1 )
 				showInBrowser( false );
 
 			// Mark the location as visited inside of
@@ -731,7 +736,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( responseText.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
 			{
 				DEFAULT_SHELL.executeLine( "use 1 ten-leaf clover" );
-				if ( isDelayExempt() && !isChatRequest )
+				if ( isDelayExempt && !isChatRequest )
 					KoLmafia.enableDisplay();
 			}
 
@@ -967,10 +972,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 
 		return true;
-	}
-
-	private boolean isDelayExempt()
-	{	return getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof ChatRequest || this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
 	}
 
 	/**
