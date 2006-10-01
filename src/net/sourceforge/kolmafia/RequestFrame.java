@@ -282,9 +282,11 @@ public class RequestFrame extends KoLFrame
 
 	public boolean hasSideBar()
 	{
-		return currentRequest != null && !currentRequest.getURLString().startsWith( "chat" ) && !currentRequest.getURLString().startsWith( "static" ) &&
-			!currentRequest.getURLString().startsWith( "desc" ) && !currentRequest.getURLString().startsWith( "showplayer" ) &&
-			!currentRequest.getURLString().startsWith( "doc" ) && !currentRequest.getURLString().startsWith( "searchp" );
+		String location = currentRequest == null ? "" : currentRequest.getURLString();
+
+		return currentRequest != null && !location.startsWith( "chat" ) && !location.startsWith( "static" ) &&
+			!location.startsWith( "desc" ) && !location.startsWith( "showplayer" ) && !location.startsWith( "doc" ) &&
+			!location.startsWith( "searchp" ) && location.indexOf( "action=message" ) == -1;
 	}
 
 	public String getCurrentLocation()
