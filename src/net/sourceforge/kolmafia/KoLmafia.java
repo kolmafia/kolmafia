@@ -133,8 +133,9 @@ public abstract class KoLmafia implements KoLConstants
 	protected static boolean executedLogin = false;
 	protected static boolean useDisjunction = false;
 
-	private static final Pattern FUMBLE_PATTERN = Pattern.compile( "You drop .*? ([\\d,]+) damage" );
+	private static final Pattern FUMBLE_PATTERN = Pattern.compile( ", doing ([\\d,]+) damage" );
 	private static final Pattern STABBAT_PATTERN = Pattern.compile( " stabs you for ([\\d,]+) damage" );
+	private static final Pattern CARBS_PATTERN = Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 	private static final Pattern TAVERN_PATTERN = Pattern.compile( "where=(\\d+)" );
 	private static final Pattern GOURD_PATTERN = Pattern.compile( "Bring back (\\d+)" );
 
@@ -1094,15 +1095,24 @@ public abstract class KoLmafia implements KoLConstants
 		String lastToken = null;
 
 		Matcher damageMatcher = null;
-		int lastDamageIndex = 0;
 
 		if ( KoLCharacter.isUsingStabBat() )
 		{
 			damageMatcher = STABBAT_PATTERN.matcher( plainTextResult );
 
-			while ( damageMatcher.find( lastDamageIndex ) )
+			if ( damageMatcher.find() )
 			{
-				lastDamageIndex = damageMatcher.end();
+				String message = "You lose " + damageMatcher.group(1) + " hit points";
+
+				KoLmafiaCLI.printLine( message );
+				sessionStream.println( message );
+				parseResult( message );
+			}
+
+			damageMatcher = CARBS_PATTERN.matcher( plainTextResult );
+
+			if ( damageMatcher.find() )
+			{
 				String message = "You lose " + damageMatcher.group(1) + " hit points";
 
 				KoLmafiaCLI.printLine( message );
@@ -1112,11 +1122,9 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		damageMatcher = FUMBLE_PATTERN.matcher( plainTextResult );
-		lastDamageIndex = 0;
 
-		while ( damageMatcher.find( lastDamageIndex ) )
+		while ( damageMatcher.find() )
 		{
-			lastDamageIndex = damageMatcher.end();
 			String message = "You lose " + damageMatcher.group(1) + " hit points";
 
 			KoLmafiaCLI.printLine( message );
