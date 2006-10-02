@@ -193,8 +193,8 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		questsMenu.add( new InvocationMenuItem( "Lucky Entryway", SorceressLair.class, "completeCloveredEntryway" ) );
 		questsMenu.add( new InvocationMenuItem( "Unlucky Entryway", SorceressLair.class, "completeCloverlessEntryway" ) );
 		questsMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLair.class, "completeHedgeMaze" ) );
-		questsMenu.add( new InvocationMenuItem( "Tower (Familiars)", SorceressLair.class, "fightAllTowerGuardians" ) );
-		questsMenu.add( new InvocationMenuItem( "Tower (No Familiars)", SorceressLair.class, "fightNonFamiliarGuardians" ) );
+		questsMenu.add( new InvocationMenuItem( "Tower (Complete)", SorceressLair.class, "fightAllTowerGuardians" ) );
+		questsMenu.add( new InvocationMenuItem( "Tower (To Shadow)", SorceressLair.class, "fightMostTowerGuardians" ) );
 
 		// Add script and bookmark menus, which use the
 		// listener-driven static lists.
