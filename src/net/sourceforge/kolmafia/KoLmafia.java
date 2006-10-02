@@ -2594,7 +2594,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public static boolean isRunningBetweenBattleChecks()
-	{	return recoveryActive;
+	{	return recoveryActive || MoodSettings.isExecuting();
 	}
 
 	public void runBetweenBattleChecks( boolean isFullCheck )

@@ -74,6 +74,8 @@ public abstract class MoodSettings implements KoLConstants
 	private static TreeMap reference = new TreeMap();
 
 	private static AdventureResult songWeapon = null;
+	private static boolean isExecuting = false;
+
 	public static boolean hasChangedOutfit = false;
 
 	private static ArrayList thiefTriggers = new ArrayList();
@@ -82,6 +84,10 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static final String settingsFileName()
 	{	return "settings/moods_" + KoLCharacter.baseUserName() + ".txt";
+	}
+
+	public static boolean isExecuting()
+	{	return isExecuting;
 	}
 
 	public static final void reset()
@@ -346,6 +352,8 @@ public abstract class MoodSettings implements KoLConstants
 		if ( KoLmafia.refusesContinue() || !willExecute() )
 			return;
 
+		isExecuting = true;
+
 		AdventureResult initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
 		AdventureResult initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 		AdventureResult initialHat = KoLCharacter.getEquipment( KoLCharacter.HAT );
@@ -413,6 +421,7 @@ public abstract class MoodSettings implements KoLConstants
 			SpecialOutfit.restoreCheckpoint( true );
 
 		UseSkillRequest.restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
+		isExecuting = false;
 	}
 
 	public static boolean willExecute()
