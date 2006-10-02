@@ -642,7 +642,7 @@ public class VioletFog implements UtilityConstants
 			int source = mafiaCode( i );
 
 			// Get the array of exit paths
-			int paths[] = getPaths( source );
+			int paths[] = FogChoiceTable[ source - FIRST_CHOICE ];
 
 			// For each choice in Wiki order
 			int exits[] = WikiFogLocationExits[ i - 1];
@@ -670,10 +670,6 @@ public class VioletFog implements UtilityConstants
 		}
 
 		return String.valueOf( data );
-	}
-
-	private static int [] getPaths( int source )
-	{	return FogChoiceTable[ source - FIRST_CHOICE ];
 	}
 
 	public static void showGemelliMap()
