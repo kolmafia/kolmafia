@@ -607,7 +607,7 @@ public class ClanManageFrame extends KoLFrame
 
 		public SnapshotPanel()
 		{
-			super( "Clan Snapshot", "snapshot", "logshot", new Dimension( 300, 16 ), new Dimension( 50, 16 ) );
+			super( "Clan Snapshot", "snapshot", "logshot", new Dimension( 300, 20 ), new Dimension( 50, 20 ) );
 
 			VerifiableElement [] elements = new VerifiableElement[ options.length + 5 ];
 
@@ -637,36 +637,50 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
-			// Apply all the settings before generating the
-			// needed clan ClanSnapshotTable.
-
-			StringBuffer tableHeaderSetting = new StringBuffer();
-
-			for ( int i = 0; i < options.length; ++i )
-				if ( optionBoxes[i].isSelected() )
-					tableHeaderSetting.append( options[i][0] );
-
-			StaticEntity.setProperty( "clanRosterHeader", tableHeaderSetting.toString() + "<td>Ascensions</td>" );
-
-			// Now that you've got everything, go ahead and
-			// generate the snapshot.
-
-			int mostAscensionsBoardSize = getValue( mostAscensionsBoardSizeField, Integer.MAX_VALUE );
-			int mainBoardSize = getValue( mainBoardSizeField, Integer.MAX_VALUE );
-			int classBoardSize = getValue( classBoardSizeField, Integer.MAX_VALUE );
-			int maxAge = getValue( maxAgeField, Integer.MAX_VALUE );
-			boolean playerMoreThanOnce = playerMoreThanOnceOption.isSelected();
-
-			// Now that you've got everything, go ahead and
-			// generate the snapshot.
-
-			ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce );
+		{	(new RequestThread( new SnapshotRunnable() )).start();
 		}
 
 		public void actionCancelled()
-		{
-			ClanManager.saveStashLog();
+		{	(new RequestThread( new StashlogRunnable() )).start();
 		}
+
+		private class StashlogRunnable implements Runnable
+		{
+			public void run()
+			{	ClanManager.saveStashLog();
+			}
+		}
+
+		private class SnapshotRunnable implements Runnable
+		{
+			public void run()
+			{
+				// Apply all the settings before generating the
+				// needed clan ClanSnapshotTable.
+
+				StringBuffer tableHeaderSetting = new StringBuffer();
+
+				for ( int i = 0; i < options.length; ++i )
+					if ( optionBoxes[i].isSelected() )
+						tableHeaderSetting.append( options[i][0] );
+
+				StaticEntity.setProperty( "clanRosterHeader", tableHeaderSetting.toString() + "<td>Ascensions</td>" );
+
+				// Now that you've got everything, go ahead and
+				// generate the snapshot.
+
+				int mostAscensionsBoardSize = getValue( mostAscensionsBoardSizeField, Integer.MAX_VALUE );
+				int mainBoardSize = getValue( mainBoardSizeField, Integer.MAX_VALUE );
+				int classBoardSize = getValue( classBoardSizeField, Integer.MAX_VALUE );
+				int maxAge = getValue( maxAgeField, Integer.MAX_VALUE );
+				boolean playerMoreThanOnce = playerMoreThanOnceOption.isSelected();
+
+				// Now that you've got everything, go ahead and
+				// generate the snapshot.
+
+				ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce );
+			}
+		}
+
 	}
 }
