@@ -59,7 +59,7 @@ public class MuseumRequest extends SendMessageRequest
 
 	public MuseumRequest( Object [] attachments, boolean isDeposit )
 	{
-		super( "managecollection.php", attachments, 0 );
+		super( "managecollection.php", attachments );
 		addFormField( "pwd" );
 		addFormField( "action", isDeposit ? "put" : "take" );
 

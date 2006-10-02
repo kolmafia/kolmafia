@@ -51,80 +51,35 @@ public abstract class SendMessageRequest extends KoLRequest
 	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity\\d*=([\\d,]+)" );
 	protected static final Pattern RECIPIENT_PATTERN = Pattern.compile( "towho=([^=&]*)" );
 
-	protected int meatAttachment;
 	protected Object [] attachments;
 	protected List source = inventory;
 	protected List destination = new ArrayList();
-	protected String whichField, quantityField;
+	protected String whichField, quantityField, meatField;
 	protected boolean isSubInstance = false;
 
 	protected SendMessageRequest( String formSource )
 	{
 		super( formSource );
 
-		this.meatAttachment = 0;
 		this.attachments = new Object[0];
 
 		this.whichField = "whichitem";
 		this.quantityField = "howmany";
+		this.meatField = "sendmeat";
 	}
 
 	protected SendMessageRequest( String formSource, AdventureResult attachment )
 	{
-		super( formSource );
+		this( formSource );
 
-		if ( attachment.getName().equals( AdventureResult.MEAT ) )
-		{
-			this.meatAttachment = attachment.getCount();
-			this.attachments = new Object[0];
-		}
-		else
-		{
-			this.meatAttachment = 0;
-			this.attachments = new Object[1];
-			this.attachments[0] = attachment;
-		}
-
-		this.whichField = "whichitem";
-		this.quantityField = "howmany";
+		this.attachments = new Object[1];
+		this.attachments[0] = attachment;
 	}
 
-	protected SendMessageRequest( String formSource, Object [] attachments, int meatAttachment )
+	protected SendMessageRequest( String formSource, Object [] attachments )
 	{
-		super( formSource );
-
-		this.meatAttachment = meatAttachment;
-
-		// Check to see if there are any meat attachments in the
-		// list of items to be sent.
-
-		int currentSize = attachments.length;
-		for ( int i = 0; i < attachments.length; ++i )
-		{
-			if ( attachments[i] == null )
-				continue;
-
-			if ( ((AdventureResult)attachments[i]).getName().equals( AdventureResult.MEAT ) )
-			{
-				this.meatAttachment += ((AdventureResult)attachments[i]).getCount();
-				--currentSize;
-			}
-		}
-
-		this.attachments = new Object[ currentSize ];
-		currentSize = 0;
-
-		for ( int i = 0; i < attachments.length; ++i )
-		{
-			if ( attachments[i] == null )
-				continue;
-
-			if ( !((AdventureResult)attachments[i]).getName().equals( AdventureResult.MEAT ) )
-				this.attachments[ currentSize++ ] = attachments[i];
-		}
-
-		this.whichField = "whichitem";
-		this.quantityField = "howmany";
+		this( formSource );
+		this.attachments = attachments;
 	}
 
 	protected void attachItem( AdventureResult item, int index )
@@ -169,6 +124,7 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		AdventureResult item = null;
 		int availableCount;
+		int meatAttachment = 0;
 
 		ArrayList nextAttachments = new ArrayList();
 		SendMessageRequest subinstance = null;
@@ -180,6 +136,12 @@ public abstract class SendMessageRequest extends KoLRequest
 			do
 			{
 				item = (AdventureResult) attachments[index1++];
+
+				if ( item.getName().equals( AdventureResult.MEAT ) )
+				{
+					meatAttachment += item.getCount();
+					continue;
+				}
 
 				if ( !allowUntradeableTransfer() && !TradeableItemDatabase.isTradeable( item.getItemID() ) )
 					continue;
@@ -199,7 +161,7 @@ public abstract class SendMessageRequest extends KoLRequest
 			// For each broken-up request, you create a new sending request
 			// which will create the appropriate data to post.
 
-			if ( !KoLmafia.refusesContinue() && nextAttachments.size() > 0 )
+			if ( !KoLmafia.refusesContinue() && !nextAttachments.isEmpty() )
 			{
 				subinstance = getSubInstance( nextAttachments.toArray() );
 				subinstance.isSubInstance = true;
@@ -215,6 +177,9 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		if ( requests.length > 1 )
 		{
+			if ( meatAttachment > 0 )
+				requests[0].addFormField( meatField, String.valueOf( meatAttachment ) );
+
 			for ( int i = 0; i < requests.length; ++i )
 			{
 				KoLmafia.updateDisplay( getStatusMessage() + " (request " + (i+1) + " of " + requests.length + ")..." );
@@ -225,6 +190,13 @@ public abstract class SendMessageRequest extends KoLRequest
 		{
 			KoLmafia.updateDisplay( getStatusMessage() + "..." );
 			requests[0].run();
+		}
+		else if ( meatAttachment > 0 )
+		{
+			KoLmafia.updateDisplay( getStatusMessage() + "..." );
+			SendMessageRequest request = getSubInstance( new Object[0] );
+			request.addFormField( meatField, String.valueOf( meatAttachment ) );
+			request.run();
 		}
 	}
 
@@ -296,26 +268,11 @@ public abstract class SendMessageRequest extends KoLRequest
 				else
 					AdventureResult.addResultToList( destination, (AdventureResult) attachments[i] );
 			}
-
-			if ( meatAttachment > 0 )
-			{
-				if ( source == inventory )
-					KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() - meatAttachment );
-				else
-					KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() + meatAttachment );
-			}
 		}
-		else if ( tallyItemTransfer() )
+		else if ( tallyItemTransfer() && attachments.length > 0 )
 		{
-			if ( attachments.length > 0 )
-			{
-				for ( int i = 0; i < attachments.length; ++i )
-					KoLmafia.updateDisplay( PENDING_STATE, "Transfer may have failed for " + attachments[i].toString() );
-			}
-			else
-			{
-				KoLmafia.updateDisplay( PENDING_STATE, "Transfer failed when attempting to send " + meatAttachment + " meat." );
-			}
+			for ( int i = 0; i < attachments.length; ++i )
+				KoLmafia.updateDisplay( PENDING_STATE, "Transfer may have failed for " + attachments[i].toString() );
 		}
 	}
 

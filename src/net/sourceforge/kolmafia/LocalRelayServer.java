@@ -237,7 +237,7 @@ public class LocalRelayServer implements Runnable
 			}
 		}
 
-		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request, boolean resetCookie ) throws IOException
+		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request, boolean clientHasValidCookie ) throws IOException
 		{
 			String header = null;
 			String lowercase = null;
@@ -279,7 +279,7 @@ public class LocalRelayServer implements Runnable
 				}
 			}
 
-			if ( resetCookie )
+			if ( !clientHasValidCookie )
 				printStream.println( "Set-Cookie: " + KoLRequest.sessionID );
 
 			printStream.println( "Connection: close" );
@@ -340,7 +340,7 @@ public class LocalRelayServer implements Runnable
 				return;
 			}
 
-			boolean resetCookie = false;
+			boolean clientHasValidCookie = false;
 			boolean isCheckingModified = false;
 
 			try
@@ -368,8 +368,8 @@ public class LocalRelayServer implements Runnable
 						Matcher cookieMatcher = COOKIE_PATTERN.matcher( tokens[1] );
 						if ( cookieMatcher.find() )
 						{
-							resetCookie = KoLRequest.sessionID != null && KoLRequest.sessionID.indexOf( cookieMatcher.group(1) ) == -1;
-							if ( !resetCookie )
+							clientHasValidCookie = KoLRequest.sessionID != null && KoLRequest.sessionID.indexOf( cookieMatcher.group(1) ) != -1;
+							if ( clientHasValidCookie )
 							{
 								if ( tokens[1].endsWith( "; path=/" ) )
 									tokens[1] += "; path=/";
@@ -416,7 +416,7 @@ public class LocalRelayServer implements Runnable
 					request.run();
 				}
 
-				sendHeaders( writer, request, resetCookie );
+				sendHeaders( writer, request, clientHasValidCookie );
 				writer.println();
 
 				if ( request.rawByteBuffer != null )

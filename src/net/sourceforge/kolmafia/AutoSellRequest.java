@@ -64,7 +64,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 	public AutoSellRequest( Object [] items, int [] prices, int [] limits, int sellType )
 	{
-		super( getSellPage( sellType ), items, 0 );
+		super( getSellPage( sellType ), items );
 		addFormField( "pwd" );
 
 		this.sellType = sellType;

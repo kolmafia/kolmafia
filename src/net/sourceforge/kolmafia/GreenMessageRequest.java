@@ -61,17 +61,15 @@ public class GreenMessageRequest extends SendMessageRequest
 
 		this.recipient = KoLmafia.getPlayerID( recipient );
 		this.message = message;
-
-		addFormField( "sendmeat", String.valueOf( this.meatAttachment ) );
 	}
 
-	public GreenMessageRequest( String recipient, String message, Object [] attachments, int meatAttachment )
-	{	this( recipient, message, attachments, meatAttachment, !BuffBotHome.isBuffBotActive() );
+	public GreenMessageRequest( String recipient, String message, Object [] attachments )
+	{	this( recipient, message, attachments, !BuffBotHome.isBuffBotActive() );
 	}
 
-	public GreenMessageRequest( String recipient, String message, Object [] attachments, int meatAttachment, boolean saveMessage )
+	public GreenMessageRequest( String recipient, String message, Object [] attachments, boolean saveMessage )
 	{
-		super( "sendmessage.php", attachments, meatAttachment );
+		super( "sendmessage.php", attachments );
 		addFormField( "action", "send" );
 		addFormField( "pwd" );
 		addFormField( "towho", recipient );
@@ -83,8 +81,6 @@ public class GreenMessageRequest extends SendMessageRequest
 
 		this.recipient = KoLmafia.getPlayerID( recipient );
 		this.message = message;
-
-		addFormField( "sendmeat", String.valueOf( this.meatAttachment ) );
 	}
 
 	public String getRecipient()
@@ -96,7 +92,7 @@ public class GreenMessageRequest extends SendMessageRequest
 	}
 
 	protected SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new GreenMessageRequest( recipient, message, attachments, 0 );
+	{	return new GreenMessageRequest( recipient, message, attachments );
 	}
 
 	protected String getSuccessMessage()
@@ -108,7 +104,7 @@ public class GreenMessageRequest extends SendMessageRequest
 	}
 
 	protected String getStatusMessage()
-	{	return "Sending kmail to " + recipient;
+	{	return "Sending kmail to " + KoLmafia.getPlayerName( recipient );
 	}
 
 	public static boolean processRequest( String urlString )
