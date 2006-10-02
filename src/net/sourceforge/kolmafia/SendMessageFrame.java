@@ -307,11 +307,9 @@ public abstract class SendMessageFrame extends KoLFrame
 	}
 
 	protected Object [] getAttachedItems()
-	{	return attachments.toArray();
-	}
-
-	protected int getAttachedMeat()
-	{	return getValue( attachedMeat );
+	{
+		attachments.add( new AdventureResult( AdventureResult.MEAT, getValue( attachedMeat ) ) );
+		return attachments.toArray();
 	}
 
 	public void dispose()

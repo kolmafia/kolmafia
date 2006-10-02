@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.util.ArrayList;
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -89,15 +91,15 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 	public GiftMessageRequest( String recipient, String outsideMessage, String insideMessage,
-		Object wrappingType, Object [] attachments, int meatAttachment )
+		Object wrappingType, Object [] attachments )
 	{
-		this( recipient, outsideMessage, insideMessage, wrappingType, attachments, meatAttachment, false );
+		this( recipient, outsideMessage, insideMessage, wrappingType, attachments, false );
 	}
 
 	public GiftMessageRequest( String recipient, String outsideMessage, String insideMessage,
-		Object wrappingType, Object [] attachments, int meatAttachment, boolean isFromStorage )
+		Object wrappingType, Object [] attachments, boolean isFromStorage )
 	{
-		super( "town_sendgift.php", attachments, meatAttachment );
+		super( "town_sendgift.php", attachments );
 		addFormField( "pwd" );
 		addFormField( "action", "Yep." );
 		addFormField( "towho", recipient );
@@ -113,7 +115,6 @@ public class GiftMessageRequest extends SendMessageRequest
 		this.materialCost = this.wrappingType.materialCost;
 
 		addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
-		addFormField( isFromStorage ? "hagnks_sendmeat" : "sendmeat", String.valueOf( this.meatAttachment ) );
 
 		// You can take from inventory (0) or Hagnks (1)
 		addFormField( "fromwhere", isFromStorage ? "1" : "0" );
@@ -121,6 +122,9 @@ public class GiftMessageRequest extends SendMessageRequest
 		if ( isFromStorage )
 		{
 			this.source = storage;
+			this.destination = new ArrayList();
+
+			this.meatField = "hagnks_sendmeat";
 			this.whichField = "hagnks_whichitem";
 			this.quantityField = "hagnks_howmany";
 		}
@@ -135,7 +139,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 	protected SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new GiftMessageRequest( recipient, outsideMessage, insideMessage, wrappingType, attachments, 0, this.source == storage );
+	{	return new GiftMessageRequest( recipient, outsideMessage, insideMessage, wrappingType, attachments, this.source == storage );
 	}
 
 	protected String getSuccessMessage()
@@ -171,6 +175,6 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 	protected String getStatusMessage()
-	{	return "Sending package to " + getFormField( "towho" );
+	{	return "Sending package to " + KoLmafia.getPlayerName( getFormField( "towho" ) );
 	}
 }

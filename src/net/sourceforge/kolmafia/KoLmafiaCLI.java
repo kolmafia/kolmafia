@@ -1628,12 +1628,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( attachments.length == 0 )
 			return;
 
-		boolean hasMeatAttachment = false;
-		for ( int i = 0; i < attachments.length; ++i )
-			hasMeatAttachment |= ((AdventureResult)attachments[i]).getName().equals( AdventureResult.MEAT );
-
-		(new GreenMessageRequest( splitParameters[1],
-			hasMeatAttachment ? "Buff please!" : "For your collection.", attachments, 0, false )).run();
+		(new GreenMessageRequest( splitParameters[1], "Just wanted to send you stuff.", attachments, false )).run();
 
 		if ( permitsContinue() )
 			updateDisplay( "Message sent to " + splitParameters[1] );
@@ -1649,7 +1644,7 @@ public class KoLmafiaCLI extends KoLmafia
 				forceContinue();
 
 			(new GiftMessageRequest( splitParameters[1], "You were in Ronin, so I'm sending you a package!",
-				"For your collection.", availablePackages.get( desiredPackageIndex ), attachments, 0 )).run();
+				"For your collection.", availablePackages.get( desiredPackageIndex ), attachments )).run();
 
 			if ( permitsContinue() )
 				updateDisplay( "Gift sent to " + splitParameters[1] );

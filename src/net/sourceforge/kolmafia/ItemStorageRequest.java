@@ -76,7 +76,8 @@ public class ItemStorageRequest extends SendMessageRequest
 			new AdventureResult( AdventureResult.MEAT, moveType == PULL_MEAT_FROM_STORAGE ? amount : 0 ) );
 
 		addFormField( "pwd" );
-		addFormField( "amt", String.valueOf( amount ) );
+
+		this.meatField = "amt";
 		addFormField( "action", moveType == MEAT_TO_CLOSET ? "addmeat" : "takemeat" );
 
 		this.moveType = moveType;
@@ -103,7 +104,7 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	public ItemStorageRequest( int moveType, Object [] attachments )
 	{
-		super( moveType == STORAGE_TO_INVENTORY || moveType == EMPTY_STORAGE ? "storage.php" : "closet.php", attachments, 0 );
+		super( moveType == STORAGE_TO_INVENTORY || moveType == EMPTY_STORAGE ? "storage.php" : "closet.php", attachments );
 
 		addFormField( "pwd" );
 		addFormField( "action", moveType == EMPTY_STORAGE ? "takeall" : moveType == INVENTORY_TO_CLOSET ? "put" : "take" );
@@ -304,12 +305,6 @@ public class ItemStorageRequest extends SendMessageRequest
 		}
 
 		boolean needsComma = false;
-		if ( this.meatAttachment != 0 )
-		{
-			commandString.append( this.meatAttachment );
-			commandString.append( " meat" );
-			needsComma = true;
-		}
 
 		for ( int i = 0; i < items.length; ++i )
 		{

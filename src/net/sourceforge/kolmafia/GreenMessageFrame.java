@@ -64,7 +64,7 @@ public class GreenMessageFrame extends SendMessageFrame
 	protected boolean sendMessage( String recipient, String [] messages )
 	{
 		GreenMessageFrame.this.setEnabled( false );
-		(new GreenMessageRequest( recipient, messages[0], getAttachedItems(), getAttachedMeat() )).run();
+		(new GreenMessageRequest( recipient, messages[0], getAttachedItems() )).run();
 		GreenMessageFrame.this.setEnabled( true );
 
 		if ( KoLmafia.permitsContinue() )

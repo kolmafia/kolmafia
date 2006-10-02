@@ -68,12 +68,13 @@ public class ClanStashRequest extends SendMessageRequest
 
 	public ClanStashRequest( int amount )
 	{
-		super( "clan_stash.php", new Object[0], amount );
+		super( "clan_stash.php", new AdventureResult( AdventureResult.MEAT, amount ) );
 		addFormField( "pwd" );
 		addFormField( "action", "contribute" );
-		addFormField( "howmuch", String.valueOf( amount ) );
 
+		this.meatField = "howmuch";
 		this.moveType = MEAT_TO_STASH;
+
 		destination = new ArrayList();
 	}
 
@@ -85,7 +86,7 @@ public class ClanStashRequest extends SendMessageRequest
 
 	public ClanStashRequest( Object [] attachments, int moveType )
 	{
-		super( "clan_stash.php", attachments, 0 );
+		super( "clan_stash.php", attachments );
 
 		addFormField( "pwd" );
 

@@ -45,32 +45,32 @@ public class ProposeTradeRequest extends SendMessageRequest
 	private String recipient, message;
 
 	public ProposeTradeRequest()
-	{	super( "makeoffer.php", new Object[0], 0 );
+	{	super( "makeoffer.php", new Object[0] );
 	}
 
-	public ProposeTradeRequest( int offerID, String message, Object [] attachments, int meatAttachment )
+	public ProposeTradeRequest( int offerID, String message, Object [] attachments )
 	{
-		super( "counteroffer.php", attachments, meatAttachment );
+		super( "counteroffer.php", attachments );
 		addFormField( "action", "counter" );
 		addFormField( "whichoffer", String.valueOf( offerID ) );
 		addFormField( "pwd" );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
-		addFormField( "offermeat", String.valueOf( this.meatAttachment ) );
 
+		this.meatField = "offermeat";
 		this.message = message;
 		this.isCounterOffer = true;
 		this.recipient = KoLmafia.getPlayerID( recipient );
 	}
 
-	public ProposeTradeRequest( String recipient, String message, Object [] attachments, int meatAttachment )
+	public ProposeTradeRequest( String recipient, String message, Object [] attachments )
 	{
-		super( "makeoffer.php", attachments, meatAttachment );
+		super( "makeoffer.php", attachments );
 		addFormField( "action", "proposeoffer" );
 		addFormField( "pwd" );
 		addFormField( "towho", recipient );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
-		addFormField( "offermeat", String.valueOf( this.meatAttachment ) );
 
+		this.meatField = "offermeat";
 		this.message = message;
 		this.isCounterOffer = false;
 		this.recipient = KoLmafia.getPlayerID( recipient );
