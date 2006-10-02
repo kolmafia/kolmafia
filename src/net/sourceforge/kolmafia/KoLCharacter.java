@@ -2182,7 +2182,7 @@ public abstract class KoLCharacter extends StaticEntity
 		updateEquipmentList( equipmentLists[FAMILIAR], ConsumeItemRequest.EQUIP_FAMILIAR, getFamiliarItem() );
 		recalculateAdjustments( false );
 
-		isUsingStabBat = familiar.getRace().equals( "Stab Bat" );
+		isUsingStabBat = familiar.getRace().equals( "Stab Bat" ) || familiar.getRace().equals( "Scary Death Orb" );
 		updateStatus();
 	}
 
