@@ -364,9 +364,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( outfit == SpecialOutfit.BIRTHDAY_SUIT )
 			{
 				(new EquipmentRequest( UNEQUIP_ALL )).run();
-
-				if ( !KoLCharacter.getEquipment( KoLCharacter.FAMILIAR ).equals( UNEQUIP ) )
-					(new EquipmentRequest( UNEQUIP, KoLCharacter.FAMILIAR )).run();
+				(new EquipmentRequest( UNEQUIP, KoLCharacter.FAMILIAR )).run();
 
 				return;
 			}
