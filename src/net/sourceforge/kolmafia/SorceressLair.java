@@ -1011,7 +1011,7 @@ public abstract class SorceressLair extends StaticEntity
 	{	return fightTowerGuardians( true );
 	}
 
-	public static int fightNonFamiliarGuardians()
+	public static int fightMostTowerGuardians()
 	{	return fightTowerGuardians( false );
 	}
 
@@ -1141,13 +1141,22 @@ public abstract class SorceressLair extends StaticEntity
 					reflectEnergyBolt();
 					break;
 				case 2:
+
+					if ( !fightFamiliarGuardians )
+					{
+						KoLmafia.updateDisplay( "Path to shadow cleared." );
+						resetAutoAttack( previousAutoAttack );
+						return -1;
+					}
+
 					fightShadow();
 					break;
+
 				case 3:
 
 					if ( !fightFamiliarGuardians )
 					{
-						KoLmafia.updateDisplay( "Path to familiars cleared." );
+						KoLmafia.updateDisplay( "Path to shadow cleared." );
 						resetAutoAttack( previousAutoAttack );
 						return -1;
 					}
@@ -1159,7 +1168,7 @@ public abstract class SorceressLair extends StaticEntity
 
 					if ( !fightFamiliarGuardians )
 					{
-						KoLmafia.updateDisplay( "Path to familiars cleared." );
+						KoLmafia.updateDisplay( "Path to shadow cleared." );
 						resetAutoAttack( previousAutoAttack );
 						return -1;
 					}
