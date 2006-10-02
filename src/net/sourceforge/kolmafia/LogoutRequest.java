@@ -44,6 +44,8 @@ package net.sourceforge.kolmafia;
 
 public class LogoutRequest extends KoLRequest
 {
+	private static boolean instanceRunning = false;
+
 	/**
 	 * Constructs a new <code>LogoutRequest</code>.
 	 * @param	client	Theto be notified of the logout
@@ -53,17 +55,31 @@ public class LogoutRequest extends KoLRequest
 	{	super( "logout.php", true );
 	}
 
+	public static boolean isInstanceRunning()
+	{	return instanceRunning;
+	}
+
 	public void run()
 	{
-		super.run();
+		if ( instanceRunning )
+			return;
 
-		KoLMessenger.dispose();
-		BuffBotHome.setBuffBotActive( false );
-		StaticEntity.saveSettings();
+		instanceRunning = true;
 
-		KoLRequest.sessionID = null;
-		if ( KoLDesktop.instanceExists() )
-			KoLDesktop.getInstance().dispose();
+		synchronized ( LogoutRequest.class )
+		{
+			super.run();
+
+			KoLMessenger.dispose();
+			BuffBotHome.setBuffBotActive( false );
+			StaticEntity.saveSettings();
+
+			KoLRequest.sessionID = null;
+			if ( KoLDesktop.instanceExists() )
+				KoLDesktop.getInstance().dispose();
+		}
+
+		instanceRunning = false;
 	}
 
 	protected boolean mayChangeCreatables()

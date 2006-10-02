@@ -226,23 +226,29 @@ public class LoginRequest extends KoLRequest
 		lastUsername = username;
 		lastPassword = password;
 
-		try
-		{
-			KoLmafia.forceContinue();
+		if ( LogoutRequest.isInstanceRunning() )
+			KoLmafia.updateDisplay( "Waiting for logout request to complete..." );
 
-			while ( !KoLmafia.refusesContinue() && executeLogin() )
+		synchronized ( LogoutRequest.class )
+		{
+			try
 			{
 				KoLmafia.forceContinue();
-				StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
-			}
-		}
-		catch ( Exception e )
-		{
-			// It's possible that all the login hangups are due
-			// to an exception in executeLogin().  Let's try to
-			// catch it.
 
-			StaticEntity.printStackTrace( e );
+				while ( !KoLmafia.refusesContinue() && executeLogin() )
+				{
+					KoLmafia.forceContinue();
+					StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
+				}
+			}
+			catch ( Exception e )
+			{
+				// It's possible that all the login hangups are due
+				// to an exception in executeLogin().  Let's try to
+				// catch it.
+
+				StaticEntity.printStackTrace( e );
+			}
 		}
 
 		instanceRunning = false;

@@ -1210,11 +1210,14 @@ public class KoLRequest implements Runnable, KoLConstants
 					return true;
 				}
 
-				KoLmafia.updateDisplay( ABORT_STATE, "Session timed out." );
-				if ( StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
+				if ( sessionID != null )
 				{
-					LoginRequest.executeTimeInRequest( false );
-					return sessionID == null;
+					KoLmafia.updateDisplay( ABORT_STATE, "Session timed out." );
+					if ( StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
+					{
+						LoginRequest.executeTimeInRequest( false );
+						return sessionID == null;
+					}
 				}
 
 				shouldStop = true;
