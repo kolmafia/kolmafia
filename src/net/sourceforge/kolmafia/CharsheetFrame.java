@@ -217,13 +217,13 @@ public class CharsheetFrame extends KoLFrame
 		hpMeter.setValue( 0 );
 		hpMeter.setStringPainted( true );
 
-		JComponentUtilities.setComponentSize( hpMeter, 60, 20 );
+		JComponentUtilities.setComponentSize( hpMeter, 100, 20 );
 
 		mpMeter = new JProgressBar();
 		mpMeter.setValue( 0 );
 		mpMeter.setStringPainted( true );
 
-		JComponentUtilities.setComponentSize( mpMeter, 60, 20 );
+		JComponentUtilities.setComponentSize( mpMeter, 100, 20 );
 
 		JPanel hpPanel = new JPanel( new BorderLayout( 5, 5 ) );
 		hpPanel.add( new JLabel( JComponentUtilities.getImage( "hp.gif" ), JLabel.CENTER ), BorderLayout.CENTER );
