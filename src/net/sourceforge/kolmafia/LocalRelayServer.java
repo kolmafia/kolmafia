@@ -41,9 +41,13 @@ import java.net.Socket;
 import java.net.ServerSocket;
 import java.net.InetAddress;
 import java.util.Vector;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class LocalRelayServer implements Runnable
 {
+	private static final Pattern COOKIE_PATTERN = Pattern.compile( "SESSID=([0-9A-Fa-f]+)" );
+
 	private static long lastStatusMessage = 0;
 	private static Thread relayThread = null;
 	private static final LocalRelayServer INSTANCE = new LocalRelayServer();
@@ -233,7 +237,7 @@ public class LocalRelayServer implements Runnable
 			}
 		}
 
-		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request ) throws IOException
+		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request, boolean resetCookie ) throws IOException
 		{
 			String header = null;
 			String lowercase = null;
@@ -274,6 +278,9 @@ public class LocalRelayServer implements Runnable
 					printStream.println( "Pragma: no-cache" );
 				}
 			}
+
+			if ( resetCookie )
+				printStream.println( "Set-Cookie: " + KoLRequest.sessionID );
 
 			printStream.println( "Connection: close" );
 		}
@@ -333,22 +340,44 @@ public class LocalRelayServer implements Runnable
 				return;
 			}
 
+			boolean resetCookie = false;
 			boolean isCheckingModified = false;
 
 			try
 			{
+				int colonIndex = 0;
+				String [] tokens = new String[2];
+
 				while ( (line = reader.readLine()) != null && line.trim().length() != 0 )
 				{
-					if ( line.indexOf( ": " ) == -1 )
+					colonIndex = line.indexOf( ": " );
+					if ( colonIndex == -1 )
 						continue;
 
-					String [] tokens = line.split( ": " );
+					tokens[0] = line.substring( 0, colonIndex );
+					tokens[1] = line.substring( colonIndex + 2 );
 
 					if ( tokens[0].equals( "Content-Length" ) )
 						contentLength = StaticEntity.parseInt( tokens[1].trim() );
 
 					if ( tokens[0].equals( "Cookie" ) && path.indexOf( ".php" ) != -1 )
-						KoLRequest.sessionID = tokens[1];
+					{
+						// Okay, this MIGHT be a stale cookie because of
+						// the way cookies are saved.
+
+						Matcher cookieMatcher = COOKIE_PATTERN.matcher( tokens[1] );
+						if ( cookieMatcher.find() )
+						{
+							resetCookie = KoLRequest.sessionID != null && KoLRequest.sessionID.indexOf( cookieMatcher.group(1) ) == -1;
+							if ( !resetCookie )
+							{
+								if ( tokens[1].endsWith( "; path=/" ) )
+									tokens[1] += "; path=/";
+
+								KoLRequest.sessionID = tokens[1];
+							}
+						}
+					}
 
 					isCheckingModified |= tokens[0].equals( "If-Modified-Since" );
 				}
@@ -387,7 +416,7 @@ public class LocalRelayServer implements Runnable
 					request.run();
 				}
 
-				sendHeaders( writer, request );
+				sendHeaders( writer, request, resetCookie );
 				writer.println();
 
 				if ( request.rawByteBuffer != null )
