@@ -2223,7 +2223,7 @@ public abstract class KoLmafia implements KoLConstants
 		try
 		{
 			String password = StaticEntity.getGlobalProperty( loginname, "saveState" );
-			if ( password == null || password.length() == 0 || password.indexOf( "//" ) != -1 )
+			if ( password == null || password.length() == 0 || password.indexOf( "/" ) != -1 )
 				return null;
 
 			String hexString = (new BigInteger( password, 10 )).toString( 36 );
