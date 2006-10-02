@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 // utilities
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,10 +70,10 @@ public class Louvre implements UtilityConstants
 
 	private static final int MANETWICH = 1;
 	private static final int VANGOGHBITUSSIN = 2;
-	private static final int PINOT_RENOIR = 2;
-	private static final int MUSCLE = 5;
-	private static final int MYSTICALITY = 6;
-	private static final int MOXIE = 7;
+	private static final int PINOT_RENOIR = 3;
+	private static final int MUSCLE = 4;
+	private static final int MYSTICALITY = 5;
+	private static final int MOXIE = 6;
 
 	private static final int LouvreLocationExits [][] =
 	{
@@ -380,5 +381,263 @@ public class Louvre implements UtilityConstants
 		int option = StaticEntity.parseInt( decision ) - 1;
 		int destination = LouvreChoiceTable[ source - FIRST_CHOICE ][option];
 		return ( louvreChoice( destination ) );
+	}
+
+	// The Wiki has a Louvre Map:
+	//
+	//     http://kol.coldfront.net/thekolwiki/index.php/Louvre_Map
+	//
+	// The Wiki's numbering scheme mapped to Choice Adventure number:
+	//
+	//  0 = 92 (Escher: Relativity)
+	//  1 = 93 (Escher: House of Stairs)
+	//  2 = 94 (Escher: Labyrinth)
+	//  3 = 95 (Escher: Ascending and Descending)
+	//  4 = 97 (Munch: The Scream)
+	//  5 = 98 (Botticelli: The Birth of Venus)
+	//  6 = 96 (Mondrian)
+	//  7 = 101 (Hopper: Nighthawks)
+	//  8 = 102 (Seurat: Sunday Afternoon on the Island of La Grande Jatte)
+	//  9 = 103 (Leonardo da Vinci: The Last Supper)
+	// 10 = 104 (Dali: The Persistence of Memory)
+	// 11 = 99 (Michelangelo: The Creation of Adam)
+	// 12 = 100 (David: The Death of Socrates)
+	//
+	// Additionally, Gemelli has numbered the rewards for use in his
+	// mapping tool:
+	//
+	// 13 = Muscle
+	// 14 = Mysticality
+	// 15 = Moxie
+	// 16 = Manetwich
+	// 17 = bottle of Vangoghbitussin
+	// 18 = bottle of Pinot Renoir
+
+	// The "random" exit - value chosen so it sorts at the end
+	static final int RANDOM = Integer.MAX_VALUE;
+
+	private static final int WikiToMafia [] =
+	{
+		92,		// 0
+		93,		// 1
+		94,		// 2
+		95,		// 3
+		97,		// 4
+		98,		// 5
+		96,		// 6
+		101,		// 7
+		102,		// 8
+		103,		// 9
+		104,		// 10
+		99,		// 11
+		100,		// 12
+		5,		// 13
+		6,		// 14
+		7,		// 15
+		1,		// 16
+		2,		// 17
+		3,		// 18
+	};
+
+	private static int mafiaCode( int wikiCode )
+	{
+		if ( wikiCode == RANDOM )
+			return 0;
+		return WikiToMafia[ wikiCode ];
+	}
+
+	private static final int MafiaLocationToWiki [] =
+	{
+		0,		// 92
+		1,		// 93
+		2,		// 94
+		3,		// 95
+		6,		// 96
+		4,		// 97
+		5,		// 98
+		11,		// 99
+		12,		// 100
+		7,		// 101
+		8,		// 102
+		9,		// 103
+		10,		// 104
+	};
+
+	private static final int MafiaGoalToWiki [] =
+	{
+		16,		// 1
+		17,		// 2
+		18,		// 3
+		13,		// 4
+		14,		// 5
+		15,		// 6
+	};
+
+	private static int wikiCode( int mafiaCode )
+	{
+		// Map goals through one table
+		if ( mafiaCode >= 1 && mafiaCode <= 6 )
+			return MafiaGoalToWiki[ mafiaCode - 1 ];
+
+		// Map destinations through another table
+		if ( mafiaCode >= FIRST_CHOICE && mafiaCode <= LAST_CHOICE )
+			return MafiaLocationToWiki[ mafiaCode - FIRST_CHOICE ];
+
+		// Otherwise, just return max value
+		return RANDOM;
+	}
+
+	private static int WikiLouvreLocationExits [][];
+
+	static
+	{
+		buildWikiExits();
+	}
+
+	private static void buildWikiExits()
+	{
+		// Get a zeroed array to start things off.
+		WikiLouvreLocationExits = new int [ LAST_CHOICE - FIRST_CHOICE + 1][ 3 ];
+
+		// Examine each node in Mafia order
+		for ( int source = FIRST_CHOICE; source <= LAST_CHOICE; ++source )
+		{
+			// Get the array of exit paths
+			int mafiaExits[] = LouvreLocationExits[ source - FIRST_CHOICE ];
+			int wikiExits[] = WikiLouvreLocationExits[ wikiCode( source) ];
+
+			// Copy translated exit from Mafia exit table to Wiki exit table
+			for ( int i = 0; i < mafiaExits.length; ++i )
+				wikiExits[i] = wikiCode( mafiaExits[i] );
+
+			// Sort the exits in Wiki order
+			Arrays.sort( wikiExits );
+		}
+	}
+
+	// Gemelli has a tool that accepts a code and displays the map
+	// corresponding to it:
+	//
+	//     http://www.feesher.com/louvre_mapper.php
+	//
+        // Gemelli says:
+        //
+        // Just like the Fog Mapper, each digit transforms from a base-16
+        // character to two base-4 characters. So after this transformation,
+        // you'll end up with a 48-character string containing digits from 0 to
+        // 3.
+        //
+        // The first 39 characters represent the paths from locations 0 through
+        // 12. 0=unmapped, 1=up, 2=down, and 3=sideways. The target locations
+        // are listed in numeric order. So the first three characters represent
+        // the paths from location 0 to locations 4, 5, and 6 in that order.
+        //
+        // For locations 4-12, the first two characters are used to capture the
+        // paths to the absolute locations, and the third character captures
+        // the path to the randomized location. Example: for location 4, the
+        // first character represents the path to location 7, the second to
+        // location 8, and the third to the randomized location.
+        //
+        // So that covers the first 39 characters. The final 9 characters then
+        // tell you the randomized locations accessible from locations 4-12. So
+        // let's say those characters are 021310021 ... this means:
+        //
+        // * the randomized paths from locations 4, 9, and 10 are unmapped 
+        // * the randomized paths from locations 6, 8, and 12 connect to location 1 
+        // * the randomized paths from locations 5 and 11 connect to location 2 
+        // * the randomized path from location 7 connects to location 3 
+
+	public static String gemelliCode()
+	{
+		int code[] = new int[48];
+		int codeIndex = 0;
+
+		// Examine each node in Wiki order: 0 - 12
+		for ( int i = 0; i < LouvreChoiceTable.length; ++i )
+		{
+			// Get the choice adventure # corresponding to the Wiki code
+			int source = mafiaCode( i );
+
+			// Get the array of exit paths
+			int paths[] = LouvreChoiceTable[ source - FIRST_CHOICE ];
+
+			// For each choice in Wiki order
+			int exits[] = WikiLouvreLocationExits[ i ];
+
+			for ( int j = 0; j < exits.length; ++j )
+			{
+				// Find the exit in the paths
+				for ( int index = 0; index < paths.length; ++index )
+				{
+					int destination = wikiCode( paths[index] );
+
+					// Ignore unmapped paths
+					if ( destination == RANDOM )
+						continue;
+
+					// If this is the random exit...
+					if ( exits[j] == RANDOM )
+					{
+						// ...destination must be an
+						// Escher location
+						if ( destination < 4 )
+						{
+							code[ codeIndex ] = index + 1;
+							break;
+						}
+						continue;
+					}
+
+					if ( exits[j] == destination )
+					{
+						code[ codeIndex ] = index + 1;
+						break;
+					}
+				}
+				++codeIndex;
+			}
+		}
+
+		// Look at choices 4-12 and determine where the "random" exit
+		// goes. 0 = unmapped, 1 = 93, 2 = 94, 3 = 95
+
+		for ( int i = 4; i < LouvreChoiceTable.length; ++i )
+		{
+			// Get the choice adventure # corresponding to the Wiki code
+			int source = mafiaCode( i );
+
+			// Get the array of exit paths
+			int paths[] = LouvreChoiceTable[ source - FIRST_CHOICE ];
+
+			// Examine each exit and determine which one is random
+			int random = 0;
+			for ( int j = 0; j < paths.length; ++j )
+			{
+				int exit = paths[j];
+				if ( exit < FIRST_CHOICE )
+					continue;
+				exit -= FIRST_CHOICE;
+				if ( exit > 3 )
+					continue;
+				random = exit;
+				break;
+			}
+			code[ codeIndex ] = random;
+			++codeIndex;
+		}
+
+		// Convert the 48 element int array into a 24 character character array
+		char data[] = new char[24];
+		for ( int i = 0; i < code.length; i += 2 )
+		{
+			int hexDigit = code[i] * 4 + code[i+1];
+			data[i/2] = Character.forDigit( hexDigit, 16 );
+		}
+
+		return String.valueOf( data );
+	}
+
+	public static void showGemelliMap()
+	{	StaticEntity.openSystemBrowser( "http://www.feesher.com/louvre_mapper.php?mapstring=" + gemelliCode() );
 	}
 }
