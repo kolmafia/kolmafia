@@ -237,7 +237,7 @@ public class LocalRelayServer implements Runnable
 			}
 		}
 
-		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request, boolean clientHasValidCookie ) throws IOException
+		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request ) throws IOException
 		{
 			String header = null;
 			String lowercase = null;
@@ -278,9 +278,6 @@ public class LocalRelayServer implements Runnable
 					printStream.println( "Pragma: no-cache" );
 				}
 			}
-
-			if ( !clientHasValidCookie )
-				printStream.println( "Set-Cookie: " + KoLRequest.sessionID );
 
 			printStream.println( "Connection: close" );
 		}
@@ -340,7 +337,6 @@ public class LocalRelayServer implements Runnable
 				return;
 			}
 
-			boolean clientHasValidCookie = false;
 			boolean isCheckingModified = false;
 
 			try
@@ -365,17 +361,16 @@ public class LocalRelayServer implements Runnable
 						// Okay, this MIGHT be a stale cookie because of
 						// the way cookies are saved.
 
-						Matcher cookieMatcher = COOKIE_PATTERN.matcher( tokens[1] );
-						if ( cookieMatcher.find() )
-						{
-							clientHasValidCookie = KoLRequest.sessionID != null && KoLRequest.sessionID.indexOf( cookieMatcher.group(1) ) != -1;
-							if ( clientHasValidCookie )
-							{
-								if ( tokens[1].endsWith( "; path=/" ) )
-									tokens[1] += "; path=/";
+						Matcher browserCookie = COOKIE_PATTERN.matcher( tokens[1] );
+						Matcher internalCookie = COOKIE_PATTERN.matcher( KoLRequest.sessionID == null ? "" : KoLRequest.sessionID );
 
-								KoLRequest.sessionID = tokens[1];
-							}
+						if ( browserCookie.find() && internalCookie.find() )
+						{
+							KoLRequest.sessionID = StaticEntity.singleStringReplace( tokens[1],
+								browserCookie.group(1), internalCookie.group(1) );
+
+							if ( KoLRequest.sessionID.indexOf( "; path=/" ) == -1 )
+								KoLRequest.sessionID += "; path=/";
 						}
 					}
 
@@ -416,7 +411,7 @@ public class LocalRelayServer implements Runnable
 					request.run();
 				}
 
-				sendHeaders( writer, request, clientHasValidCookie );
+				sendHeaders( writer, request );
 				writer.println();
 
 				if ( request.rawByteBuffer != null )

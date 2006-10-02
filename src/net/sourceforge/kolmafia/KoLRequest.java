@@ -585,17 +585,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// been constructed, pull them out.
 
 		if ( formURLString.indexOf( "lair4.php" ) != -1 || formURLString.indexOf( "lair5.php" ) != -1 )
-		{
-			for ( int i = 0; i < SorceressLair.GUARDIAN_DATA.length; ++i )
-			{
-				AdventureResult item = new AdventureResult( SorceressLair.GUARDIAN_DATA[i][1], 1, false );
-				if ( !inventory.contains( item ) )
-				{
-					if ( KoLCharacter.hasItem( item, true ) || NPCStoreDatabase.contains( SorceressLair.GUARDIAN_DATA[i][1] ) )
-						AdventureDatabase.retrieveItem( item );
-				}
-			}
-		}
+			SorceressLair.makeGuardianItems();
 
 		if ( !usingValidConnection )
 		{
