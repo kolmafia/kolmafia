@@ -1398,8 +1398,8 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static void fightShadow()
 	{
-		// You need at least 33 health for the shadow fight.
-		// Make this test now.
+		// You need at least 33 health for the shadow fight
+		// using red plastic oyster eggs. Make this test now.
 
 		if ( KoLCharacter.getMaximumHP() < 33 )
 		{
@@ -1408,12 +1408,6 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		List requirements = new ArrayList();
-
-		// Assume maximum damage taken and that the shadow's health
-		// is affected by monster level, even though its attack power
-		// remains fixed according to known formulas.  However, since
-		// all damage has been randomized, maybe the shadow's damage
-		// has also become random.  Assume +3 HP per attack.
 
 		// In order to see what happens, we calculate the health needed
 		// to survive the shadow fight using red pixel potions.  We use
@@ -1520,6 +1514,19 @@ public abstract class SorceressLair extends StaticEntity
 		// the original KoL-side auto-attack.
 
 		setProperty( "battleAction", oldAction );
+	}
+
+	public static void makeGuardianItems()
+	{
+		for ( int i = 0; i < GUARDIAN_DATA.length; ++i )
+		{
+			AdventureResult item = new AdventureResult( GUARDIAN_DATA[i][1], 1, false );
+			if ( !inventory.contains( item ) )
+			{
+				if ( KoLCharacter.hasItem( item, true ) || NPCStoreDatabase.contains( GUARDIAN_DATA[i][1] ) )
+					AdventureDatabase.retrieveItem( item );
+			}
+		}
 	}
 
 	private static void familiarBattle( int n )
