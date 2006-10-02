@@ -789,7 +789,12 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public static String getPlayerName( String playerID )
-	{	return (String) seenPlayerNames.get( playerID );
+	{
+		if ( playerID == null )
+			return null;
+
+		String playerName = (String) seenPlayerNames.get( playerID );
+		return playerName != null ? playerName : playerID;
 	}
 
 	/**

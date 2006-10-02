@@ -652,6 +652,9 @@ public class AdventureDatabase extends KoLDatabase
 		if ( adventureLookup.isEmpty() )
 			refreshAdventureList();
 
+		if ( adventureURL.indexOf( "sewer.php" ) != -1 && adventureURL.indexOf( "doodit" ) != -1 )
+			return (KoLAdventure) adventureLookup.get( "sewer.php?doodit=1" );
+
 		return (KoLAdventure) adventureLookup.get( adventureURL );
 	}
 

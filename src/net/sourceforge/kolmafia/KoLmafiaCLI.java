@@ -3812,6 +3812,8 @@ public class KoLmafiaCLI extends KoLmafia
 	public void executeHunterRequest( String parameters )
 	{
 		parameters = parameters.toLowerCase();
+		if ( hunterItems.isEmpty() )
+			(new BountyHunterRequest()).run();
 
 		if ( parameters.equals( "" ) )
 		{
