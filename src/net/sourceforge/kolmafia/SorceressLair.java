@@ -115,6 +115,12 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static final AdventureResult HEART_ROCK = new AdventureResult( 48, 1 );
 
+	// Items for the shadow battle
+
+	private static final AdventureResult DOC_ELIXIR = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
+	private static final AdventureResult RED_POTION = new AdventureResult( "red pixel potion", 4 );
+	private static final AdventureResult PLASTIC_EGG = new AdventureResult( "red plastic oyster egg", 3 );
+
 	// Guardians and the items that defeat them
 
 	public static final String [][] GUARDIAN_DATA =
@@ -489,12 +495,12 @@ public abstract class SorceressLair extends StaticEntity
 			if ( !useCloverForSkeleton && !hasItem( CLOVER ) )
 			{
 				int healthNeeded = Math.max( KoLCharacter.getMaximumHP() / 4, 50 );
-				getClient().recoverHP( healthNeeded );
+				getClient().recoverHP( healthNeeded + 1 );
 
 				// Verify that you have enough HP to proceed with the
 				// skeleton dice game.
 
-				if ( KoLCharacter.getCurrentHP() < healthNeeded )
+				if ( KoLCharacter.getCurrentHP() <= healthNeeded )
 				{
 					KoLmafia.updateDisplay( ERROR_STATE, "You must have more than " + healthNeeded + " HP to proceed." );
 					return requirements;
@@ -1396,17 +1402,15 @@ public abstract class SorceressLair extends StaticEntity
 			DEFAULT_SHELL.executeLine( "equip off-hand " + initialWeapon.getName() );
 	}
 
+	private static int getShadowBattleHealth( int shadowDamage, int healAmount )
+	{
+		int combatRounds = (int) Math.ceil( 96.0f / ((float) healAmount) ) - 1;
+		int neededHealth = shadowDamage + Math.max( shadowDamage - healAmount, 0 ) * combatRounds;
+		return neededHealth + 1;
+	}
+
 	private static void fightShadow()
 	{
-		// You need at least 33 health for the shadow fight
-		// using red plastic oyster eggs. Make this test now.
-
-		if ( KoLCharacter.getMaximumHP() < 33 )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " health." );
-			return;
-		}
-
 		List requirements = new ArrayList();
 
 		// In order to see what happens, we calculate the health needed
@@ -1414,63 +1418,30 @@ public abstract class SorceressLair extends StaticEntity
 		// worst-case scenario in all cases (minimum recovery, maximum
 		// damage, which may happen).
 
-		int shadowHealth = 96;
-		int maximumDamage = 22 + (int) Math.floor( KoLCharacter.getMaximumHP() / 5 ) + 3;
+		int shadowDamage = 22 + ((int)Math.floor( KoLCharacter.getMaximumHP() / 5 )) + 3;
 
-		int combatRounds = (int) Math.ceil( shadowHealth / 25 ) + 1;
-		AdventureResult option = new AdventureResult( "red pixel potion", combatRounds );
-		int neededHealth = (maximumDamage * combatRounds) - (25 * (combatRounds - 1));
+		AdventureResult option = RED_POTION;
+		int neededHealth = getShadowBattleHealth( shadowDamage, 25 );
 
 		// If the person has red plastic oyster eggs, then they are an
-		// alternative if the person can't survive.
+		// alternative if the person can't survive using red pixel potions.
 
 		if ( neededHealth > KoLCharacter.getMaximumHP() )
 		{
-			combatRounds = (int) Math.ceil( shadowHealth / 35 ) + 1;
-			AdventureResult egg = new AdventureResult( "red plastic oyster egg", combatRounds );
-
-			if ( hasItem( egg ) )
+			if ( hasItem( PLASTIC_EGG ) )
 			{
-				option = egg;
-				neededHealth = (maximumDamage * combatRounds) - (35 * (combatRounds - 1));
+				option = PLASTIC_EGG;
+				neededHealth = getShadowBattleHealth( shadowDamage, 35 );
 			}
 		}
 
 		// In the event that you have Ambidextrous Funkslinging, then
-		// always rely on it because it will automatically be used in
-		// the shadow fight.  We begin by looking at all the options.
+		// always rely on elixirs.
 
 		if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 		{
-			combatRounds = (int) Math.ceil( shadowHealth / 36 ) + 1;
-			option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 2 * combatRounds );
-			neededHealth = (maximumDamage * combatRounds) - (36 * (combatRounds - 1));
-
-			// If elixirs are not possible, then maybe you can use two
-			// red pixel potions at once.
-
-			if ( neededHealth > KoLCharacter.getMaximumHP() )
-			{
-				combatRounds = (int) Math.ceil( shadowHealth / 50 ) + 1;
-				option = new AdventureResult( "red pixel potion", 2 * combatRounds );
-				neededHealth = (maximumDamage * combatRounds) - (50 * (combatRounds - 1));
-			}
-
-			// If even that fails, then we assume that red plastic
-			// oyster eggs are needed for the fight.
-
-			if ( neededHealth > KoLCharacter.getMaximumHP() )
-			{
-				combatRounds = (int) Math.ceil( shadowHealth / 70 ) + 1;
-				AdventureResult egg = new AdventureResult( "red plastic oyster egg", 2 * combatRounds );
-
-				if ( hasItem( egg ) )
-				{
-					option = egg;
-					neededHealth = (maximumDamage * combatRounds) - (70 * (combatRounds - 1));
-				}
-			}
-
+			option = DOC_ELIXIR;
+			neededHealth = getShadowBattleHealth( shadowDamage, 36 );
 		}
 
 		// Make sure you can get enough health for the shadow
