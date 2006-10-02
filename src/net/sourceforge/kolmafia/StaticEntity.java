@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -91,30 +92,51 @@ public abstract class StaticEntity implements KoLConstants
 		// If you detect any files with the old filenames,
 		// convert them over automatically.
 
-		File directory = new File( DATA_DIRECTORY );
-		if ( directory.exists() )
+		try
 		{
-			File [] files = directory.listFiles();
-
-			String location;
-			File destination;
-
-			for ( int i = 0; i < files.length; ++i )
+			File directory = new File( DATA_DIRECTORY );
+			if ( directory.exists() )
 			{
-				location = files[i].getAbsolutePath();
-				location = location.substring( location.lastIndexOf( File.separator ) + 1 );
+				File [] files = directory.listFiles();
 
-				if ( location.endsWith( oldExtension ) )
+				String location;
+				File destination;
+
+				for ( int i = 0; i < files.length; ++i )
 				{
-					location = location.length() == 5 ? "GLOBAL" : location.substring( 1, location.length() - 4 );
-					destination = new File( "settings/" + newPrefix + "_" + location + ".txt" );
+					location = files[i].getAbsolutePath();
+					location = location.substring( location.lastIndexOf( File.separator ) + 1 );
 
-					if ( !destination.getParentFile().exists() )
-						destination.getParentFile().mkdirs();
+					if ( location.endsWith( oldExtension ) )
+					{
+						location = location.length() == 5 ? "GLOBAL" : location.substring( 1, location.length() - 4 );
+						destination = new File( "settings/" + newPrefix + "_" + location + ".txt" );
 
-					files[i].renameTo( destination );
+						if ( destination.exists() )
+							continue;
+
+						if ( !destination.getParentFile().exists() )
+							destination.getParentFile().mkdirs();
+
+						FileInputStream input = new FileInputStream( files[i] );
+
+						destination.createNewFile();
+						OutputStream output = new FileOutputStream( destination );
+
+						byte [] buffer = new byte[ 1024 ];
+						int bufferLength;
+						while ( (bufferLength = input.read( buffer )) != -1 )
+							output.write( buffer, 0, bufferLength );
+
+						input.close();
+						output.close();
+					}
 				}
 			}
+		}
+		catch ( Exception e )
+		{
+			// Do nothing.
 		}
 	}
 
