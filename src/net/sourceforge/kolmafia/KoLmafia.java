@@ -177,7 +177,7 @@ public abstract class KoLmafia implements KoLConstants
 			String [] currentNames = StaticEntity.getProperty( "saveState" ).split( "//" );
 			for ( int i = 0; i < currentNames.length; ++i )
 			{
-				saveStateNames.remove( currentNames[i].toLowerCase() );
+				saveStateNames.remove( KoLCharacter.baseUserName( currentNames[i] ) );
 				saveStateNames.add( currentNames[i] );
 			}
 
