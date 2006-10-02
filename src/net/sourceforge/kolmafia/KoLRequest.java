@@ -1184,7 +1184,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				// notified that they should try again later.
 
 				KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
-				if ( !LoginRequest.isInstanceRunning() && StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
+				if ( !LoginRequest.isInstanceRunning() && sessionID != null && StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
 				{
 					LoginRequest.executeTimeInRequest( true );
 					return sessionID == null;
