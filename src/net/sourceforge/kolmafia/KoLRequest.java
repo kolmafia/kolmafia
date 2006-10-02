@@ -742,7 +742,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				if ( needsRefresh || mayChangeCreatables() )
 					KoLCharacter.refreshCalculatedLists();
-				else if ( formURLString.indexOf( "charpane.php" ) != -1 )
+				else if ( formURLString.indexOf( "charpane.php" ) != -1 || formURLString.indexOf( "brewery.php" ) != -1 )
 					KoLCharacter.updateStatus();
 			}
 		}
