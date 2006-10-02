@@ -70,7 +70,9 @@ public abstract class CombatSettings implements UtilityConstants
 		settingsFile = new File( settingsFileName() );
 		root.removeAllChildren();
 		reference.clear();
+
 		loadSettings();
+		ensureProperty( "default", "attack with weapon" );
 	}
 
 	public static final String settingsFileName()
@@ -90,7 +92,9 @@ public abstract class CombatSettings implements UtilityConstants
 			return;
 
 		settingsFile = source;
+
 		loadSettings();
+		ensureProperty( "default", "attack with weapon" );
 	}
 
 	/**
@@ -121,7 +125,6 @@ public abstract class CombatSettings implements UtilityConstants
 			if ( !settingsFile.exists() )
 			{
 				settingsFile.createNewFile();
-				ensureProperty( "default", "attack with weapon" );
 
 				keys = new String[ reference.keySet().size() ];
 				reference.keySet().toArray( keys );
@@ -375,7 +378,7 @@ public abstract class CombatSettings implements UtilityConstants
 		}
 
 		if ( longestMatch == -1 )
-			return getSetting( "default", roundCount );
+			return encounter == null || encounter.equals( "default" ) ? "attack with weapon" : getSetting( "default", roundCount );
 
 		// Otherwise, you have a tactic for this round against
 		// the given monster.  Return that tactic.
