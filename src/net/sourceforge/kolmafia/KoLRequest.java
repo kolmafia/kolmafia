@@ -87,7 +87,9 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected static boolean isRatQuest = false;
 	protected static int lastChoice = 0;
 	protected static int lastDecision = 0;
+
 	protected String encounter = "";
+	private boolean shouldIgnoreResults;
 
 	private static final AdventureResult [] WOODS_ITEMS = new AdventureResult[12];
 	static
@@ -305,6 +307,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		this.isDelayExempt = getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof ChatRequest ||
 			this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
+
+		this.shouldIgnoreResults = shouldIgnore( formURLString ) || formURLString.indexOf( "message" ) != -1;
 	}
 
 	protected void constructURLString( String newURLString )
@@ -562,7 +566,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( !isDelayExempt || StaticEntity.getBooleanProperty( "relayAlwaysBuysGum" ) )
 			{
 				AdventureDatabase.retrieveItem( "chewing gum on a string" );
-				if ( !isDelayExempt )
+				if ( isDelayExempt )
 					KoLmafia.enableDisplay();
 			}
 		}
@@ -570,7 +574,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( formURLString.indexOf( "casino.php" ) != -1 )
 		{
 			AdventureDatabase.retrieveItem( "casino pass" );
-			if ( this instanceof LocalRelayRequest )
+			if ( isDelayExempt )
 				KoLmafia.enableDisplay();
 		}
 
@@ -704,11 +708,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			// the adventure requesting module.
 
 			encounter = AdventureRequest.registerEncounter( this );
-			boolean shouldIgnoreResults = shouldIgnoreResults();
-
-			if ( !shouldIgnoreResults )
-				parseResults();
-
 			processResults();
 
 			// Let the mappers do their work
@@ -794,7 +793,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// with the side pane.  The sewer is an example of a page that should
 		// get logged without form data, though.
 
-		if ( shouldIgnoreResults() )
+		if ( shouldIgnoreResults )
 			return;
 
 		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php" ) == -1 )
@@ -904,10 +903,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			wasLastRequestSimple = true;
 			KoLmafia.getSessionStream().println( urlString );
 		}
-	}
-
-	private boolean shouldIgnoreResults()
-	{	return shouldIgnore( formURLString ) || formURLString.indexOf( "message" ) != -1;
 	}
 
 	public static boolean shouldIgnore( String formURLString )
@@ -1388,6 +1383,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( isRatQuest )
 			KoLmafia.addTavernLocation( this );
+
+		if ( !shouldIgnoreResults )
+			parseResults();
 	}
 
 	/**
