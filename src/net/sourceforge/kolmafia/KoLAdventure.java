@@ -756,86 +756,39 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	public static boolean recordToSession( String urlString )
 	{
-		if ( urlString.indexOf( "dungeon.php" ) != -1 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Daily Dungeon" );
-			return true;
-		}
-		else if ( urlString.indexOf( "sewer.php" ) != -1 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Market Sewer" );
-			return true;
-		}
-		else if ( urlString.indexOf( "rats.php" ) != -1 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Typical Tavern Quest" );
-			return true;
-		}
-		else if ( urlString.indexOf( "barrels.php" ) != -1 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Barrel Full of Barrels" );
-			return true;
-		}
-		else if ( urlString.indexOf( "arena.php" ) != -1 && urlString.indexOf( "action" ) != -1 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Cake-Shaped Arena" );
-			return true;
-		}
-		else if ( urlString.indexOf( "lair4.php" ) != -1 && urlString.indexOf( "level1" ) != -1 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Level 1" );
-			return true;
-		}
-		else if ( urlString.indexOf( "lair4.php" ) != -1 && urlString.indexOf( "level2" ) != -1 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Level 2" );
-			return true;
-		}
-		else if ( urlString.indexOf( "lair4.php" ) != -1 && urlString.indexOf( "level3" ) != -1 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Level 3" );
-			return true;
-		}
-		else if ( urlString.indexOf( "lair5.php" ) != -1 && urlString.indexOf( "level1" ) != -1 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Level 4" );
-			return true;
-		}
-		else if ( urlString.indexOf( "lair5.php" ) != -1 && urlString.indexOf( "level2" ) != -1 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Level 5" );
-			return true;
-		}
-		else if ( urlString.indexOf( "lair5.php" ) != -1 && urlString.indexOf( "level3" ) != -1 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Level 6" );
-			return true;
-		}
-		else if ( urlString.indexOf( "lair6.php" ) != -1 && urlString.indexOf( "place=0" ) != -1 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Door Puzzles" );
-			return true;
-		}
-		else if ( urlString.indexOf( "lair6.php" ) != -1 && urlString.indexOf( "place=2" ) != -1 )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Shadow Battle" );
-			return true;
-		}
+		String location = null;
 
-		return false;
+		if ( urlString.indexOf( "dungeon.php" ) != -1 )
+			location = "Daily Dungeon";
+		else if ( urlString.indexOf( "rats.php" ) != -1 )
+			location = "Typical Tavern Quest";
+		else if ( urlString.indexOf( "barrels.php" ) != -1 )
+			location = "Barrel Full of Barrels";
+		else if ( urlString.indexOf( "arena.php" ) != -1 && urlString.indexOf( "action" ) != -1 )
+			location = "Cake-Shaped Arena";
+		else if ( urlString.indexOf( "lair4.php" ) != -1 && urlString.indexOf( "level1" ) != -1 )
+			location = "Sorceress Tower: Level 1";
+		else if ( urlString.indexOf( "lair4.php" ) != -1 && urlString.indexOf( "level2" ) != -1 )
+			location = "Sorceress Tower: Level 2";
+		else if ( urlString.indexOf( "lair4.php" ) != -1 && urlString.indexOf( "level3" ) != -1 )
+			location = "Sorceress Tower: Level 3";
+		else if ( urlString.indexOf( "lair5.php" ) != -1 && urlString.indexOf( "level1" ) != -1 )
+			location = "Sorceress Tower: Level 4";
+		else if ( urlString.indexOf( "lair5.php" ) != -1 && urlString.indexOf( "level2" ) != -1 )
+			location = "Sorceress Tower: Level 5";
+		else if ( urlString.indexOf( "lair5.php" ) != -1 && urlString.indexOf( "level3" ) != -1 )
+			location = "Sorceress Tower: Level 6";
+		else if ( urlString.indexOf( "lair6.php" ) != -1 && urlString.indexOf( "place=0" ) != -1 )
+			location = "Sorceress Tower: Door Puzzles";
+		else if ( urlString.indexOf( "lair6.php" ) != -1 && urlString.indexOf( "place=2" ) != -1 )
+			location = "Sorceress Tower: Shadow Fight";
+
+		if ( location == null )
+			return false;
+
+		KoLmafia.getSessionStream().println();
+		KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getAdventuresLeft() + 1) + "] " + location );
+		return true;
 	}
 
 	public int compareTo( Object o )

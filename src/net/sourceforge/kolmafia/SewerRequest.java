@@ -61,6 +61,9 @@ public class SewerRequest extends KoLRequest
 	{
 		super( "sewer.php" );
 		this.isLuckySewer = isLuckySewer;
+
+		if ( isLuckySewer )
+			addFormField( "doodit", "1" );
 	}
 
 	/**
@@ -104,11 +107,6 @@ public class SewerRequest extends KoLRequest
 			KoLmafia.updateDisplay( ERROR_STATE, "You must select a third item from the gnomes." );
 			return;
 		}
-
-		// Make a request to use from now on.
-
-		clearDataFields();
-		addFormField( "doodit", "1" );
 
 		// Rather than giving people flexibility, it seems like
 		// a better idea to assume everyone wants trinkets and
