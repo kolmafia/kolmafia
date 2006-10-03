@@ -218,6 +218,7 @@ public class FightRequest extends KoLRequest
 	public void run()
 	{
 		currentRound = 1;
+		encounter = "";
 		encounterLookup = "";
 		responseText = null;
 
@@ -318,7 +319,11 @@ public class FightRequest extends KoLRequest
 		}
 
 		if ( rawResponse.indexOf( "fight.php" ) == -1 )
+		{
+			encounter = "";
+			encounterLookup = "";
 			currentRound = 0;
+		}
 	}
 
 	private static int getActionCost()

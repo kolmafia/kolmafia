@@ -237,6 +237,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "defaultDropdown1", "0" );
 		CLIENT_SETTINGS.put( "defaultDropdown2", "1" );
 		CLIENT_SETTINGS.put( "defaultLimit", "5" );
+		CLIENT_SETTINGS.put( "defaultLoginServer", "1" );
 		CLIENT_SETTINGS.put( "defaultToRelayBrowser", "true" );
 		CLIENT_SETTINGS.put( "desiredLookAndFeel", "" );
 		CLIENT_SETTINGS.put( "desiredLookAndFeelTitle", String.valueOf( System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
@@ -252,7 +253,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
 		CLIENT_SETTINGS.put( "lastOperatingSystem", System.getProperty( "os.name" ) );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
-		CLIENT_SETTINGS.put( "loginServerName", "random" );
 		CLIENT_SETTINGS.put( "makeBrowserDecisions", "false" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
 		CLIENT_SETTINGS.put( "proxySet", "false" );
