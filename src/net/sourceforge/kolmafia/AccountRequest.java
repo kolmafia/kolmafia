@@ -40,7 +40,10 @@ public class AccountRequest extends PasswordHashRequest
 {
 	private static final Pattern AUTOSELL_PATTERN = Pattern.compile( "action=sellstuff\">Switch to (\\S*?) Autosale Mode</a>" );
 	private static final Pattern TIMEZONE_PATTERN = Pattern.compile( "<select name=timezone>.*?</select>", Pattern.DOTALL );
-	private static final Pattern SELECTED_PATTERN = Pattern.compile( "selected>(-?\\d*?)</option>" );
+	private static final Pattern SELECTED1_PATTERN = Pattern.compile( "selected>(-?\\d*?)</option>" );
+
+	private static final Pattern AUTOATTACK_PATTERN = Pattern.compile( "<select class=small name=whichattack>.*?</select>" );
+	private static final Pattern SELECTED2_PATTERN = Pattern.compile( "selected value=(\\d+)>" );
 
 	public AccountRequest()
 	{	super( "account.php" );
@@ -83,7 +86,7 @@ public class AccountRequest extends PasswordHashRequest
 
 		if ( matcher.find() )
 		{
-			matcher = SELECTED_PATTERN.matcher( matcher.group() );
+			matcher = SELECTED1_PATTERN.matcher( matcher.group() );
 			if ( matcher.find() )
 			{
 				// You now have the current integer offset
@@ -94,6 +97,14 @@ public class AccountRequest extends PasswordHashRequest
 
 				int timeOffset = StaticEntity.parseInt( matcher.group(1) );
 			}
+		}
+
+		Matcher selectMatcher = AUTOATTACK_PATTERN.matcher( responseText );
+		if ( selectMatcher.find() )
+		{
+			Matcher optionMatcher = SELECTED2_PATTERN.matcher( selectMatcher.group() );
+			if ( optionMatcher.find() )
+				StaticEntity.setProperty( "defaultAutoAttack", optionMatcher.group(1) );
 		}
 	}
 

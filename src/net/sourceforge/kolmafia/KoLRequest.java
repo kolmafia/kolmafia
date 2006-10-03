@@ -91,13 +91,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected String encounter = "";
 	private boolean shouldIgnoreResults;
 
-	private static final AdventureResult [] WOODS_ITEMS = new AdventureResult[12];
-	static
-	{
-		for ( int i = 0; i < 12; ++i )
-			WOODS_ITEMS[i] = new AdventureResult( i + 1, 1 );
-	}
-
 	protected static boolean isCompactMode = false;
 	protected static boolean useSlowRequests = false;
 
@@ -308,7 +301,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.isDelayExempt = getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof ChatRequest ||
 			this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
 
-		this.shouldIgnoreResults = shouldIgnore( formURLString ) || formURLString.indexOf( "message" ) != -1;
+		this.shouldIgnoreResults = shouldIgnore( formURLString ) || formURLString.indexOf( "message" ) != -1 ||
+			formURLString.startsWith( "chat" ) || formURLString.startsWith( "static" ) ||
+			formURLString.startsWith( "desc" ) || formURLString.startsWith( "showplayer" ) || formURLString.startsWith( "doc" ) ||
+			formURLString.startsWith( "searchp" );
 	}
 
 	protected void constructURLString( String newURLString )
@@ -1230,11 +1226,10 @@ public class KoLRequest implements Runnable, KoLConstants
 				// You have been redirected to a fight!  Here, you need
 				// to complete the fight before you can continue.
 
-				FightRequest battle = new FightRequest();
-				battle.run();
+				FightRequest.INSTANCE.run();
 
 				return this instanceof AdventureRequest || getClass() == KoLRequest.class ||
-					battle.getAdventuresUsed() == 0;
+					FightRequest.INSTANCE.getAdventuresUsed() == 0;
 			}
 			else
 			{
@@ -1376,6 +1371,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( !shouldIgnoreResults )
 			parseResults();
+
+		FightRequest.updateCombatData( encounter, rawResponse );
 	}
 
 	/**
@@ -1554,7 +1551,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( (choice.equals( "26" ) || choice.equals( "27" )) && !conditions.isEmpty() )
 		{
 			for ( int i = 0; i < 12; ++i )
-				if ( WOODS_ITEMS[i].getCount( conditions ) > 0 )
+				if ( AdventureDatabase.WOODS_ITEMS[i].getCount( conditions ) > 0 )
 					decision = choice.equals( "26" ) ? String.valueOf( (i / 4) + 1 ) : String.valueOf( ((i % 4) / 2) + 1 );
 		}
 

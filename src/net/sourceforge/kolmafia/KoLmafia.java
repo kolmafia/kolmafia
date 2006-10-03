@@ -133,7 +133,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected static boolean executedLogin = false;
 	protected static boolean useDisjunction = false;
 
-	private static final Pattern FUMBLE_PATTERN = Pattern.compile( ", doing ([\\d,]+) damage" );
+	private static final Pattern FUMBLE_PATTERN = Pattern.compile( "You drop your .*? on your .*?, doing ([\\d,]+) damage" );
 	private static final Pattern STABBAT_PATTERN = Pattern.compile( " stabs you for ([\\d,]+) damage" );
 	private static final Pattern CARBS_PATTERN = Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 	private static final Pattern TAVERN_PATTERN = Pattern.compile( "where=(\\d+)" );
@@ -338,12 +338,12 @@ public abstract class KoLmafia implements KoLConstants
 
 		executedLogin = true;
 		KoLmafia.forceContinue();
+		CharpaneRequest.getInstance().run();
 
 		if ( isQuickLogin )
 		{
 			(new AccountRequest()).run();
 			(new CharsheetRequest()).run();
-			CharpaneRequest.getInstance().run();
 			return;
 		}
 

@@ -72,6 +72,13 @@ public class AdventureDatabase extends KoLDatabase
 		AdventureDatabase.refreshAdventureList();
 	}
 
+	public static final AdventureResult [] WOODS_ITEMS = new AdventureResult[12];
+	static
+	{
+		for ( int i = 0; i < 12; ++i )
+			WOODS_ITEMS[i] = new AdventureResult( i + 1, 1 );
+	}
+
 	public static final String [][][] CHOICE_ADVS =
 	{
 		// Lucky sewer options
