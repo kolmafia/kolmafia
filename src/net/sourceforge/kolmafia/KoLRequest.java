@@ -304,10 +304,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.isDelayExempt = getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof ChatRequest ||
 			this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
 
-		this.shouldIgnoreResults = shouldIgnore( formURLString ) || formURLString.indexOf( "message" ) != -1 ||
-			formURLString.startsWith( "chat" ) || formURLString.startsWith( "static" ) ||
-			formURLString.startsWith( "desc" ) || formURLString.startsWith( "showplayer" ) || formURLString.startsWith( "doc" ) ||
-			formURLString.startsWith( "searchp" );
+		this.shouldIgnoreResults = shouldIgnore( formURLString ) || formURLString.startsWith( "chat" ) ||
+			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "showplayer" ) ||
+			formURLString.startsWith( "doc" ) || formURLString.startsWith( "searchp" );
 	}
 
 	protected void constructURLString( String newURLString )
