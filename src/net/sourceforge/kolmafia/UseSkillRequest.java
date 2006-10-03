@@ -207,7 +207,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( initialWeapon != null && initialWeapon.equals( songWeapon ) )
 			{
 				untinkerCloverWeapon( ROCKNROLL_LEGEND );
-				DEFAULT_SHELL.executeLine( "create " + songWeapon );
+				DEFAULT_SHELL.executeLine( "create " + initialWeapon.getName() );
 			}
 		}
 
