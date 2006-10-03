@@ -50,6 +50,8 @@ import edu.stanford.ejalbert.BrowserLauncher;
 
 public abstract class StaticEntity implements KoLConstants
 {
+	protected static final KoLRequest REDIRECT_FOLLOWER = new KoLRequest( "main.php", true );
+
 	private static final Pattern NONDIGIT_PATTERN = Pattern.compile( "[^\\-0-9]" );
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
 	private static final Pattern NEWSKILL_PATTERN = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" );

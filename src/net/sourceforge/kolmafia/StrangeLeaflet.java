@@ -771,23 +771,15 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 	private static String executeCommand( String command )
 	{
-		KoLRequest request = new CommandRequest( command );
-		request.run();
+		REDIRECT_FOLLOWER.constructURLString( "leaflet.php" );
+		REDIRECT_FOLLOWER.addFormField( "pwd" );
+		REDIRECT_FOLLOWER.addFormField( "command", command );
+		REDIRECT_FOLLOWER.run();
 
 		// Figure out where we are
-		parseLocation( request.responseText );
+		parseLocation( REDIRECT_FOLLOWER.responseText );
 
-                // Let the caller look at the results, if desired
-                return request.responseText;
-	}
-
-	private static class CommandRequest extends KoLRequest
-	{
-		protected CommandRequest( String command )
-		{
-			super( "leaflet.php", true );
-			addFormField( "pwd" );
-			addFormField( "command", command );
-		}
+		// Let the caller look at the results, if desired
+		return REDIRECT_FOLLOWER.responseText;
 	}
 }

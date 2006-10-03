@@ -288,6 +288,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		PLAYER_SETTINGS.put( "buffBotMessageDisposal", "0" );
 		PLAYER_SETTINGS.put( "chosenTrip", "" );
 		PLAYER_SETTINGS.put( "currentMood", "default" );
+		PLAYER_SETTINGS.put( "defaultAutoAttack", "0" );
 		PLAYER_SETTINGS.put( "hpAutoRecovery", "-0.1" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment" );

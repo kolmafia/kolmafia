@@ -44,6 +44,8 @@ import java.util.regex.Matcher;
 
 public class FightRequest extends KoLRequest
 {
+	public static final FightRequest INSTANCE = new FightRequest();
+
 	private static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ITEM2_PATTERN = Pattern.compile( "whichitem2=(\\d+)" );
@@ -51,13 +53,13 @@ public class FightRequest extends KoLRequest
 	public static final AdventureResult DICTIONARY1 = new AdventureResult( 536, 1 );
 	public static final AdventureResult DICTIONARY2 = new AdventureResult( 1316, 1 );
 
-	private int roundCount;
-	private boolean shouldRun = true;
-	private int offenseModifier = 0, defenseModifier = 0;
+	private static int currentRound = 0;
+	private static int offenseModifier = 0, defenseModifier = 0;
 
-	private String action1, action2;
-	private MonsterDatabase.Monster monsterData;
-	private String encounterLookup = "";
+	private static String action1 = null;
+	private static String action2 = null;
+	private static MonsterDatabase.Monster monsterData = null;
+	private static String encounterLookup = "";
 
 	private static final String [] RARE_MONSTERS =
 	{
@@ -78,69 +80,46 @@ public class FightRequest extends KoLRequest
 	 * of action1 to be taken during the battle.
 	 */
 
-	public FightRequest()
-	{
-		this( true );
-	}
-
-	public FightRequest( boolean isFirstRound )
-	{
-		super( "fight.php" );
-		this.roundCount = isFirstRound ? 0 : -100;
-
-		this.encounter = "";
-		this.encounterLookup = "";
-
-		this.monsterData = null;
-
-		this.offenseModifier = 0;
-		this.defenseModifier = 0;
+	private FightRequest()
+	{	super( "fight.php" );
 	}
 
 	public void nextRound()
 	{
 		clearDataFields();
-		++roundCount;
 
 		// Now, to test if the user should run away from the
 		// battle - this is an HP test.
 
 		int haltTolerance = (int)( StaticEntity.getFloatProperty( "battleStop" ) * (float) KoLCharacter.getMaximumHP() );
 
-		if ( passwordHash == null )
-		{
-			action1 = "attack";
-		}
-		else
-		{
-			action1 = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
-			action2 = null;
+		action1 = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
+		action2 = null;
 
-			for ( int i = 0; i < RARE_MONSTERS.length; ++i )
-				if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
-					KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
-		}
+		for ( int i = 0; i < RARE_MONSTERS.length; ++i )
+			if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
+				KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
 
-		if ( roundCount == 1 )
+		if ( currentRound == 1 )
 		{
-			// If this is the first round, you
-			// actually wind up submitting no
-			// extra data.
-
-			action1 = "attack";
+			action1 = StaticEntity.getProperty( "defaultAutoAttack" );
+			if ( action1.equals( "" ) || action1.equals( "0" ) )
+				action1 = "attack";
 		}
 		else if ( action1.equals( "custom" ) )
 		{
-			action1 = CombatSettings.getSetting( encounterLookup, roundCount - 2 );
+			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 2 );
 		}
+
+		// If the person wants to use their own script,
+		// then this is where it happens.
 
 		if ( action1.startsWith( "consult" ) )
 		{
 			responseText = StaticEntity.globalStringReplace( responseText, "\"", "\\\"" );
-			DEFAULT_SHELL.executeCommand( "call", action1.substring( "consult".length() ).trim() + " (" + roundCount +
+			DEFAULT_SHELL.executeCommand( "call", action1.substring( "consult".length() ).trim() + " (" + currentRound +
 				", \"" + encounterLookup + "\", \"" + responseText + "\" )" );
 
-			shouldRun = false;
 			return;
 		}
 
@@ -152,10 +131,13 @@ public class FightRequest extends KoLRequest
 
 		if ( action1 == null || action1.equals( "abort" ) || !KoLmafia.permitsContinue() )
 		{
-			// If the user has chosen to abort
-			// combat, flag it.
-
+			// If the user has chosen to abort combat, flag it.
 			action1 = null;
+		}
+		else if ( currentRound == 1 )
+		{
+			// If this is the first round, you do not
+			// submit extra data.
 		}
 		else if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
 		{
@@ -172,8 +154,7 @@ public class FightRequest extends KoLRequest
 		else if ( action1.equals( "attack" ) )
 		{
 			action1 = "attack";
-			if ( roundCount != 1 )
-				addFormField( "action", action1 );
+			addFormField( "action", action1 );
 		}
 
 		// If the player wants to use an item, make sure he has one
@@ -236,6 +217,14 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
+		currentRound = 1;
+		encounterLookup = "";
+
+		monsterData = null;
+
+		offenseModifier = 0;
+		defenseModifier = 0;
+
 		while ( KoLmafia.permitsContinue() && (responseText == null || responseText.indexOf( "fight.php" ) != -1) )
 		{
 			clearDataFields();
@@ -245,27 +234,13 @@ public class FightRequest extends KoLRequest
 			if ( !KoLmafia.refusesContinue() )
 				nextRound();
 
-			if ( !shouldRun )
-				return;
-
 			super.run();
 
 			if ( KoLmafia.refusesContinue() || action1 == null )
 			{
-				if ( getAdventuresUsed() == 1 )
-				{
-					KoLmafia.updateDisplay( ABORT_STATE, "Battle completed." );
-					return;
-				}
-				if ( passwordHash != null )
-				{
-					showInBrowser( true );
-					KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
-				}
-				else
-				{
-					KoLmafia.updateDisplay( ABORT_STATE, "Please finish your battle in-browser first." );
-				}
+				showInBrowser( true );
+				KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
+				return;
 			}
 		}
 	}
@@ -325,7 +300,7 @@ public class FightRequest extends KoLRequest
 		return desiredSkill == 0 ? null : String.valueOf( desiredSkill );
 	}
 
-	protected void processResults()
+	public static void updateCombatData( String encounter, String rawResponse )
 	{
 		// Spend MP and consume items
 
@@ -334,21 +309,18 @@ public class FightRequest extends KoLRequest
 		// If this is the first round, then register the opponent
 		// you are fighting against.
 
-		encounterLookup = CombatSettings.encounterKey( encounter );
-		monsterData = MonsterDatabase.findMonster( encounter );
-
-		if ( responseText.indexOf( "fight.php" ) == -1 )
+		if ( !encounter.equals( INSTANCE.encounter ) )
 		{
-			if ( KoLCharacter.getCurrentHP() == 0 )
-				KoLmafia.updateDisplay( ERROR_STATE, "You were defeated!" );
+			currentRound = 1;
+			encounterLookup = CombatSettings.encounterKey( encounter );
+			monsterData = MonsterDatabase.findMonster( encounter );
 		}
+
+		if ( rawResponse.indexOf( "fight.php" ) == -1 )
+			currentRound = 0;
 	}
 
-	public int getCombatRound()
-	{	return roundCount;
-	}
-
-	private int getActionCost()
+	private static int getActionCost()
 	{
 		if ( action1.equals( "attack" ) )
 			return 0;
@@ -359,7 +331,7 @@ public class FightRequest extends KoLRequest
 		return ClassSkillsDatabase.getMPConsumptionByID( StaticEntity.parseInt( action1 ) );
 	}
 
-	private boolean hasActionCost( int itemID )
+	private static boolean hasActionCost( int itemID )
 	{
 		switch ( itemID )
 		{
@@ -377,8 +349,10 @@ public class FightRequest extends KoLRequest
 		}
 	}
 
-	private void payActionCost()
+	public static void payActionCost()
 	{
+		++currentRound;
+
 		if ( action1 == null || action1.equals( "" ) )
 			return;
 
@@ -461,14 +435,22 @@ public class FightRequest extends KoLRequest
 		if ( urlString.indexOf( "fight.php?" ) == -1 )
 			return urlString.indexOf( "fight.php" ) != -1;
 
+		action1 = null;
+		action2 = null;
+
 		Matcher skillMatcher = SKILL_PATTERN.matcher( urlString );
 		if ( skillMatcher.find() )
 		{
 			String skill = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
 			if ( skill == null )
+			{
 				KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of CHANCE!" );
+			}
 			else
+			{
+				action1 = CombatSettings.getShortCombatOptionName( "skill " + skill );
 				KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of " + skill.toUpperCase() + "!" );
+			}
 
 			return true;
 		}
@@ -478,9 +460,14 @@ public class FightRequest extends KoLRequest
 		{
 			String item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
 			if ( item == null )
+			{
 				KoLmafia.getSessionStream().print( KoLCharacter.getUsername() + " plays Garin's Harp" );
+			}
 			else
+			{
+				action1 = CombatSettings.getShortCombatOptionName( "item " + item );
 				KoLmafia.getSessionStream().print( KoLCharacter.getUsername() + " uses the " + item );
+			}
 
 			itemMatcher = ITEM2_PATTERN.matcher( urlString );
 			if ( itemMatcher.find() )
@@ -489,9 +476,14 @@ public class FightRequest extends KoLRequest
 
 				item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
 				if ( item == null )
+				{
 					KoLmafia.getSessionStream().print( "plays the Fairy Flute" );
+				}
 				else
+				{
+					action2 = CombatSettings.getShortCombatOptionName( "item " + item );
 					KoLmafia.getSessionStream().print( "uses the " + item );
+				}
 			}
 
 			KoLmafia.getSessionStream().println( "!" );
@@ -500,10 +492,12 @@ public class FightRequest extends KoLRequest
 
 		if ( urlString.indexOf( "runaway" ) != -1 )
 		{
+			action1 = "runaway";
 			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the spell of RETURN!" );
 		}
 		else
 		{
+			action1 = "attack";
 			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " attacks with " +
 				"fear-inducing body language!" );
 		}
@@ -512,6 +506,6 @@ public class FightRequest extends KoLRequest
 	}
 
 	protected boolean mayChangeCreatables()
-	{	return responseText.indexOf( "You gain" ) != -1 || responseText.indexOf( "You acquire" ) != -1;
+	{	return responseText != null && responseText.indexOf( "fight.php" ) == -1;
 	}
 }
