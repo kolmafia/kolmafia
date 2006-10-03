@@ -48,7 +48,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
-	private static final AdventureResult SONAR = new AdventureResult( 563, 1 );
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
 	private static final AdventureResult SOCK = new AdventureResult( 609, 1 );
 	private static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
@@ -539,17 +538,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		// You can unlock pieces of the bat hole by using up to
 		// three different sonars.
-
-		if ( zone.equals( "BatHole" ) && !visitedCouncil )
-		{
-			int sonarCount = SONAR.getCount( inventory );
-			if ( sonarCount == 0 )
-				return;
-
-			DEFAULT_SHELL.executeLine( "use " + Math.min( 3, sonarCount ) + " sonar-in-a-biscuit" );
-			validate( true );
-			return;
-		}
 
 		if ( zone.equals( "McLarge" ) && !visitedCouncil )
 		{
