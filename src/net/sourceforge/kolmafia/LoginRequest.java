@@ -68,6 +68,8 @@ public class LoginRequest extends KoLRequest
 	private boolean savePassword;
 	private boolean getBreakfast;
 	private boolean isQuickLogin;
+
+	private boolean runCountdown;
 	private boolean sendPlainText;
 
 	/**
@@ -223,7 +225,9 @@ public class LoginRequest extends KoLRequest
 		if ( instanceRunning )
 			return;
 
+		runCountdown = true;
 		sendPlainText = false;
+
 		instanceRunning = true;
 		lastUsername = username;
 		lastPassword = password;
@@ -240,7 +244,8 @@ public class LoginRequest extends KoLRequest
 				while ( !KoLmafia.refusesContinue() && executeLogin() )
 				{
 					KoLmafia.forceContinue();
-					StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
+					if ( runCountdown )
+						StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
 				}
 			}
 			catch ( Exception e )
@@ -280,6 +285,7 @@ public class LoginRequest extends KoLRequest
 	public boolean executeLogin()
 	{
 		sessionID = null;
+		runCountdown = true;
 
 		if ( !StaticEntity.getBooleanProperty( "useSecureLogin" ) || sendPlainText )
 		{
@@ -334,8 +340,9 @@ public class LoginRequest extends KoLRequest
 			Matcher matcher = REDIRECT_PATTERN.matcher( redirectLocation );
 			if ( matcher.find() )
 			{
+				runCountdown = false;
 				setLoginServer( matcher.group(1) );
-				return executeLogin();
+				return true;
 			}
 		}
 		else if ( responseText.indexOf( "wait a minute" ) != -1 )
@@ -369,13 +376,14 @@ public class LoginRequest extends KoLRequest
 			//   </body>
 			// </html>Redirecting to www.
 
+			runCountdown = false;
 			sendPlainText = true;
 
 			Matcher matcher = REDIRECT_PATTERN.matcher( responseText );
 			if ( matcher.find() )
 			{
 				setLoginServer( matcher.group(1) );
-				return executeLogin();
+				return true;
 			}
 		}
 

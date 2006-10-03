@@ -1305,32 +1305,26 @@ public abstract class KoLmafia implements KoLConstants
 		// the target are the same, which logically only
 		// happens if KoLmafia is changing it internally.
 
-		if ( trigger == target )
+		if ( (!action.startsWith( "skill" ) || resetToZero) && trigger == target )
 		{
-			if ( !action.startsWith( "skill" ) || resetToZero )
-			{
-				StaticEntity.setProperty( "mpAutoRecovery", "0.0" );
-				StaticEntity.setProperty( "mpAutoRecoveryTarget", "0.0" );
-			}
-			else
-			{
-				int skillID = ClassSkillsDatabase.getSkillID( action.substring( 6 ) );
-				int mpCost = ClassSkillsDatabase.getMPConsumptionByID( skillID );
+			StaticEntity.setProperty( "mpAutoRecovery", "0.0" );
+			StaticEntity.setProperty( "mpAutoRecoveryTarget", "0.0" );
+		}
+		else if ( action.startsWith( "skill" ) )
+		{
+			int skillID = ClassSkillsDatabase.getSkillID( action.substring( 6 ) );
+			int mpCost = ClassSkillsDatabase.getMPConsumptionByID( skillID );
 
-				if ( trigger == 0.0f )
-				{
-					float required = Math.min( (float) mpCost / (float) KoLCharacter.getMaximumMP(), 1.0f );
+			float required = Math.min( (float) mpCost / (float) KoLCharacter.getMaximumMP(), 1.0f );
 
-					if ( required != 1.0 )
-						required = ((float) Math.ceil( required * 10.0f )) / 10.0f;
+			if ( required != 1.0 )
+				required = ((float) Math.ceil( required * 10.0f )) / 10.0f;
 
-					if ( trigger <= required )
-					{
-						StaticEntity.setProperty( "mpAutoRecovery", String.valueOf( required ) );
-						StaticEntity.setProperty( "mpAutoRecoveryTarget", String.valueOf( required ) );
-					}
-				}
-			}
+			if ( trigger <= required )
+				StaticEntity.setProperty( "mpAutoRecovery", String.valueOf( required ) );
+
+			if ( target <= required )
+				StaticEntity.setProperty( "mpAutoRecoveryTarget", String.valueOf( required ) );
 		}
 	}
 
