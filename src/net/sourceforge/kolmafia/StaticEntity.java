@@ -41,6 +41,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -627,6 +628,32 @@ public abstract class StaticEntity implements KoLConstants
 		settings.saveSettings();
 		MoodSettings.saveSettings();
 		CombatSettings.saveSettings();
+	}
+
+	public static void disable( String name )
+	{
+		String functionName;
+		StringTokenizer tokens = new StringTokenizer( name, ", " );
+
+		while ( tokens.hasMoreTokens() )
+		{
+			functionName = tokens.nextToken();
+			if ( !disabledScripts.contains( functionName ) )
+				disabledScripts.add( functionName );
+		}
+	}
+
+	public static void enable( String name )
+	{
+		if ( name.equals( "all" ) )
+		{
+			disabledScripts.clear();
+			return;
+		}
+
+		StringTokenizer tokens = new StringTokenizer( name, ", " );
+		while ( tokens.hasMoreTokens() )
+			disabledScripts.remove( tokens.nextToken() );
 	}
 
 	public static final boolean isDisabled( String name )
