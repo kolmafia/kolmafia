@@ -72,6 +72,7 @@ public class AdventureDatabase extends KoLDatabase
 		AdventureDatabase.refreshAdventureList();
 	}
 
+	private static final AdventureResult SONAR = new AdventureResult( 563, 1 );
 	public static final AdventureResult [] WOODS_ITEMS = new AdventureResult[12];
 	static
 	{
@@ -633,6 +634,39 @@ public class AdventureDatabase extends KoLDatabase
 
 		KoLRequest request = new KoLRequest( (String) validationRequests.get( validationRequests.size() - 1 ) );
 		request.run();
+
+		// Special handling of the bat zone.
+
+		if ( locationID.equals( "32" ) || locationID.equals( "33" ) || locationID.equals( "34" ) )
+		{
+			if ( locationID.equals( "32" ) && request.responseText.indexOf( "batrockleft.gif" ) == -1 )
+				return true;
+
+			if ( locationID.equals( "33" ) && request.responseText.indexOf( "batrockright.gif" ) == -1 )
+				return true;
+
+			if ( locationID.equals( "34" ) && request.responseText.indexOf( "batrockbottom.gif" ) == -1 )
+				return true;
+
+			int sonarCount = SONAR.getCount( inventory );
+			int sonarToUse = 0;
+
+			if ( request.responseText.indexOf( "batrockleft.gif" ) != -1 )
+				sonarToUse = 3;
+			else if ( request.responseText.indexOf( "batrockright.gif" ) != -1 )
+				sonarToUse = 2;
+			else if ( request.responseText.indexOf( "batrockbottom.gif" ) != -1 )
+				sonarToUse = 1;
+
+			DEFAULT_SHELL.executeLine( "use " + Math.min( sonarToUse, sonarCount ) + " sonar-in-a-biscuit" );
+			request.run();
+
+			return locationID.equals( "32" ) && request.responseText.indexOf( "batrockleft.gif" ) == -1 ||
+				locationID.equals( "33" ) && request.responseText.indexOf( "batrockright.gif" ) == -1 ||
+				locationID.equals( "34" ) && request.responseText.indexOf( "batrockbottom.gif" ) == -1;
+		}
+
+		// Handle all others as normal.
 
 		isValidZone &= request.responseText != null;
 		if ( isValidZone )
