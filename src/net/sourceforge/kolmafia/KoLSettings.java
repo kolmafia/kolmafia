@@ -108,8 +108,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 	public static boolean isGlobalProperty( String name )
 	{
-		return CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "getBreakfast" ) ||
-			name.startsWith( "loginScript" ) || name.startsWith( "initialFrames" ) || name.startsWith( "initialDesktop" );
+		return CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) ||
+			name.startsWith( "getBreakfast" ) || name.startsWith( "loginScript" ) || name.startsWith( "initialFrames" ) || name.startsWith( "initialDesktop" );
 	}
 
 	public String getProperty( String name )

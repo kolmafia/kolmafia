@@ -617,9 +617,7 @@ public abstract class StaticEntity implements KoLConstants
 		}
 
 		String [] pastUsers = new String[ pastUserList.size() ];
-		for ( int i = 0; i < pastUsers.length; ++i )
-			pastUsers[i] = globalStringReplace( (String) pastUserList.get(i), "_", " " );
-
+		pastUserList.toArray( pastUsers );
 		return pastUsers;
 	}
 

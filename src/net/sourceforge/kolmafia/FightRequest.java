@@ -367,6 +367,9 @@ public class FightRequest extends KoLRequest
 
 		if ( action1.startsWith( "item" ) )
 		{
+			if ( currentRound < 2 )
+				return;
+
 			int id1 = StaticEntity.parseInt( action1.substring( 4 ) );
 
 			if ( hasActionCost( id1 ) )

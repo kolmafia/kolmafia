@@ -320,6 +320,7 @@ public class LoginRequest extends KoLRequest
 			// of success.  But first, if there was a desire to
 			// save the password, do so here.
 
+			StaticEntity.setGlobalProperty( username, "displayName", username );
 			if ( this.savePassword )
 				KoLmafia.addSaveState( username, password );
 

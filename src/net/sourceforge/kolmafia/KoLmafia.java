@@ -169,24 +169,13 @@ public abstract class KoLmafia implements KoLConstants
 
 		StaticEntity.reloadSettings( "" );
 
-		if ( saveStateNames.isEmpty() )
+		String actualName;
+		String [] pastUsers = StaticEntity.getPastUserList();
+
+		for ( int i = 0; i < pastUsers.length; ++i )
 		{
-			String [] pastUsers = StaticEntity.getPastUserList();
-			for ( int i = 0; i < pastUsers.length; ++i )
-				saveStateNames.add( pastUsers[i] );
-
-			String [] currentNames = StaticEntity.getProperty( "saveState" ).split( "//" );
-			for ( int i = 0; i < currentNames.length; ++i )
-			{
-				saveStateNames.remove( KoLCharacter.baseUserName( currentNames[i] ) );
-				saveStateNames.add( currentNames[i] );
-			}
-
-			// This line is added to clear out data from previous
-			// releases of KoLmafia - the extra disk access does
-			// affect performance, but not significantly.
-
-			storeSaveStates();
+			actualName = StaticEntity.getGlobalProperty( pastUsers[i], "displayName" );
+			saveStateNames.add( actualName.equals( "" ) ? pastUsers[i] : actualName );
 		}
 
 		// Also clear out any outdated data files.  Include the
