@@ -5152,9 +5152,10 @@ public class KoLmafiaASH extends StaticEntity
 			int raw = KoLCharacter.getDamageAbsorption();
 			if ( raw == 0 )
 				return ZERO_FLOAT_VALUE;
-			// 1 - 2^(-DA/350)
-			float percent = 100.0f * ( 1.0f - ((float)Math.pow( 2.0, -raw / 350.0f )) );
-			return new ScriptValue( percent );
+			// http://forums.kingdomofloathing.com/viewtopic.php?p=2016073
+			// ( sqrt( raw / 10 ) - 1 ) / 10
+			double percent = ( Math.sqrt( raw / 10.0 ) - 1.0 ) * 10.0;
+			return new ScriptValue( (float)percent );
 		}
 
 		public ScriptValue damage_reduction()
