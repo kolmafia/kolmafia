@@ -693,7 +693,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			// Mark the location as visited inside of
 			// the adventure requesting module.
 
-			encounter = AdventureRequest.registerEncounter( this );
 			processResults();
 
 			// Let the mappers do their work
@@ -1368,6 +1367,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( isRatQuest )
 			KoLmafia.addTavernLocation( this );
+
+		encounter = AdventureRequest.registerEncounter( this );
 
 		if ( !shouldIgnoreResults )
 			parseResults();

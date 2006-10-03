@@ -219,6 +219,7 @@ public class FightRequest extends KoLRequest
 	{
 		currentRound = 1;
 		encounterLookup = "";
+		responseText = null;
 
 		monsterData = null;
 
