@@ -68,6 +68,7 @@ public class LoginRequest extends KoLRequest
 	private boolean savePassword;
 	private boolean getBreakfast;
 	private boolean isQuickLogin;
+	private boolean sendPlainText;
 
 	/**
 	 * Constructs a new <code>LoginRequest</code>.  The given
@@ -222,6 +223,7 @@ public class LoginRequest extends KoLRequest
 		if ( instanceRunning )
 			return;
 
+		sendPlainText = false;
 		instanceRunning = true;
 		lastUsername = username;
 		lastPassword = password;
@@ -279,7 +281,7 @@ public class LoginRequest extends KoLRequest
 	{
 		sessionID = null;
 
-		if ( !StaticEntity.getBooleanProperty( "useSecureLogin" ) )
+		if ( !StaticEntity.getBooleanProperty( "useSecureLogin" ) || sendPlainText )
 		{
 			clearDataFields();
 			addFormField( "secure", "0" );
@@ -366,6 +368,8 @@ public class LoginRequest extends KoLRequest
 			//     </form>
 			//   </body>
 			// </html>Redirecting to www.
+
+			sendPlainText = true;
 
 			Matcher matcher = REDIRECT_PATTERN.matcher( responseText );
 			if ( matcher.find() )

@@ -15,7 +15,7 @@
 04	0	0	adventure.php	9	Sleazy Back Alley	1 spider web
 04	0	5	adventure.php	16	Haiku Dungeon	1 fairy gravy
 04	19	0	adventure.php	19	Limerick Dungeon
-04	47	0	adventure.php	38	Enormous Greater-Than Sign	1 plus sign
+04	47	0	adventure.php	38	Enormous Greater-Than Sign	1 plus sign, 1 choiceadv
 04	47	0	adventure.php	39	Dungeons of Doom	1 dead mimic
 04	15	0	dungeon.php	1	Daily Dungeon
 
@@ -25,7 +25,7 @@
 25	0	0	adventure.php	102	Haunted Kitchen
 25	0	6	adventure.php	103	Haunted Conservatory
 25	0	40	adventure.php	104	Haunted Library
-25	0	10	adventure.php	105	Haunted Billiards Room
+25	0	10	adventure.php	105	Haunted Billiards Room	1 pool cue, 1 choiceadv
 25	0	68	adventure.php	106	Haunted Gallery
 25	0	68	adventure.php	107	Haunted Bathroom
 25	0	85	adventure.php	108	Haunted Bedroom
@@ -33,8 +33,8 @@
 
 05	5	0	adventure.php	15	Spooky Forest	1 mosquito larva
 05	5	0	adventure.php	17	Hidden Temple
-05	5	0	adventure.php	25	Typical Tavern	2 beer lens
-05	20	0	adventure.php	73	8-Bit Realm	4 red pixel potion, 1 digital key
+05	5	0	adventure.php	25	Typical Tavern	beer goggles
+05	20	0	adventure.php	73	8-Bit Realm	1 digital key
 05	36	0	adventure.php	100	Whitey's Grove	1 white picket fence
 05	36	0	adventure.php	99	The Road to the White Citadel
 
