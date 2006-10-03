@@ -275,6 +275,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				// fails, make sure to report it and return whether
 				// or not at least one cast was completed.
 
+				buffCount = currentCast;
 				addFormField( countFieldID, String.valueOf( currentCast ), false );
 
 				if ( target == null || target.trim().length() == 0 )
