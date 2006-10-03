@@ -204,7 +204,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// rebuild the weapon we started with, but only if that
 			// weapon was equipped!
 
-			if ( initialWeapon != null && initialWeapon.equals( songWeapon.getName() ) )
+			if ( initialWeapon != null && initialWeapon.equals( songWeapon ) )
 			{
 				untinkerCloverWeapon( ROCKNROLL_LEGEND );
 				DEFAULT_SHELL.executeLine( "create " + songWeapon );
