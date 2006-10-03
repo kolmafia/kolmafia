@@ -3832,23 +3832,13 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue enable( ScriptVariable name )
 		{
-			String functionName = name.toStringValue().toString().toLowerCase();
-
-			if ( name.equals( "all" ) )
-				disabledScripts.clear();
-			else
-				disabledScripts.remove( functionName );
-
+			StaticEntity.enable( name.toStringValue().toString().toLowerCase() );
 			return VOID_VALUE;
 		}
 
 		public ScriptValue disable( ScriptVariable name )
 		{
-			String functionName = name.toStringValue().toString().toLowerCase();
-
-			if ( !disabledScripts.contains( functionName ) )
-				disabledScripts.add( functionName );
-
+			StaticEntity.disable( name.toStringValue().toString().toLowerCase() );
 			return VOID_VALUE;
 		}
 

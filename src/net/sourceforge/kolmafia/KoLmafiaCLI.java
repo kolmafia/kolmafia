@@ -421,21 +421,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "enable" ) )
 		{
-			String name = parameters.toLowerCase();
-			if ( name.equals( "all" ) )
-				disabledScripts.clear();
-			else
-				disabledScripts.remove( name );
-
+			StaticEntity.enable( parameters.toLowerCase() );
 			return;
 		}
 
 		if ( command.equals( "disable" ) )
 		{
-			String name = parameters.toLowerCase();
-			if ( !disabledScripts.contains( name ) )
-				disabledScripts.add( name );
-
+			StaticEntity.disable( parameters.toLowerCase() );
 			return;
 		}
 
