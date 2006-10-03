@@ -96,6 +96,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private static final String [][] SERVERS =
 	{
+		{ "dev.kingdomofloathing.com", "69.16.150.202" },
 		{ "www.kingdomofloathing.com", "69.16.150.196" },
 		{ "www2.kingdomofloathing.com", "69.16.150.197" },
 		{ "www3.kingdomofloathing.com", "69.16.150.198" },
@@ -103,8 +104,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{ "www5.kingdomofloathing.com", "69.16.150.200" },
 		{ "www6.kingdomofloathing.com", "69.16.150.205" },
 		{ "www7.kingdomofloathing.com", "69.16.150.206" },
-		{ "www8.kingdomofloathing.com", "69.16.150.207" },
-		{ "dev.kingdomofloathing.com", "69.16.150.202" }
+		{ "www8.kingdomofloathing.com", "69.16.150.207" }
 	};
 
 	public static final int SERVER_COUNT = 8;
@@ -192,6 +192,9 @@ public class KoLRequest implements Runnable, KoLConstants
 				System.setProperty( "http.proxyUser", StaticEntity.getProperty( "http.proxyUser" ) );
 				System.setProperty( "http.proxyPassword", StaticEntity.getProperty( "http.proxyPassword" ) );
 			}
+
+			int defaultLoginServer = StaticEntity.getIntegerProperty( "defaultLoginServer" );
+			setLoginServer( SERVERS[defaultLoginServer][0] );
 
 			if ( proxySet.equals( "true" ) )
 			{
@@ -1373,7 +1376,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( !shouldIgnoreResults )
 			parseResults();
 
-		FightRequest.updateCombatData( encounter, rawResponse );
+		if ( formURLString.indexOf( "fight.php" ) != -1 )
+			FightRequest.updateCombatData( encounter, rawResponse );
 	}
 
 	/**
