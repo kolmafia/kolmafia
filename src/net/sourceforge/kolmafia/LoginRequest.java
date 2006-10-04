@@ -163,39 +163,13 @@ public class LoginRequest extends KoLRequest
 		// password is processed two times.
 
 		MessageDigest digester = MessageDigest.getInstance( "MD5" );
-		byte [] key = getHexString( digester.digest( password.getBytes() ) ).getBytes();
+		String hash1 = getHexString( digester.digest( password.getBytes() ) );
 		digester.reset();
 
-		byte [] data = challenge.getBytes();
-
-		// Step 1, compute [ K ]
-		byte [] step1 = new byte[64];
-		for ( int i = 0; i < key.length; ++i )
-			step1[i] = key[i];
-
-		// Step 2, compute [ K XOR ipad ]
-		byte [] step2 = new byte[64];
-		for ( int i = 0; i < 64; ++i )
-			step2[i] = (byte) (step1[i] ^ 0x36);
-
-		// Step 3, compute [ H( K XOR ipad, text ) ]
-		digester.update( step2 );
-		digester.update( data );
-		byte [] step3 = digester.digest();
+		String hash2 = getHexString( digester.digest( (hash1 + ":" + challenge).getBytes() ) );
 		digester.reset();
 
-		// Step 4, compute [ K XOR opad ]
-		byte [] step4 = new byte[64];
-		for ( int i = 0; i < 64; ++i )
-			step4[i] = (byte) (step1[i] ^ 0x5c);
-
-		// Step 5, compute [ H( K XOR opad, H( K XOR ipad, text ) ) ]
-		digester.update( step4 );
-		digester.update( step3 );
-		byte [] step5 = digester.digest();
-		digester.reset();
-
-		return getHexString( step5 );
+		return hash2;
 	}
 
 	private static String getHexString( byte [] bytes )
