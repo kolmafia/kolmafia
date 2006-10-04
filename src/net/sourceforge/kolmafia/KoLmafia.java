@@ -217,6 +217,8 @@ public abstract class KoLmafia implements KoLConstants
 				enableDisplay();
 			}
 		}
+
+		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
 	}
 
 	private static void deleteSimulator( File location )
@@ -483,35 +485,6 @@ public abstract class KoLmafia implements KoLConstants
 		forceContinue();
 		CharpaneRequest.getInstance().run();
 		updateDisplay( "Session data refreshed." );
-	}
-
-	/**
-	 * Utility method used to notify thethat it should attempt
-	 * to retrieve breakfast.
-	 */
-
-	/**
-	 * Deinitializes the <code>KoLmafia</code> session.  Called after
-	 * the user has logged out.
-	 */
-
-	public static final void endSession()
-	{
-		StaticEntity.saveSettings();
-
-		sessionStream.close();
-		sessionStream = NullStream.INSTANCE;
-
-		debugStream.close();
-		debugStream = NullStream.INSTANCE;
-
-		mirrorStream.close();
-		mirrorStream = NullStream.INSTANCE;
-
-		echoStream.close();
-		echoStream = NullStream.INSTANCE;
-
-		System.exit(0);
 	}
 
 	/**
@@ -2796,5 +2769,25 @@ public abstract class KoLmafia implements KoLConstants
 			startRelayServer();
 		else
 			SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class ) );
+	}
+
+	private static class ShutdownThread extends Thread
+	{
+		public void run()
+		{
+			StaticEntity.saveSettings();
+
+			sessionStream.close();
+			sessionStream = NullStream.INSTANCE;
+
+			debugStream.close();
+			debugStream = NullStream.INSTANCE;
+
+			mirrorStream.close();
+			mirrorStream = NullStream.INSTANCE;
+
+			echoStream.close();
+			echoStream = NullStream.INSTANCE;
+		}
 	}
 }

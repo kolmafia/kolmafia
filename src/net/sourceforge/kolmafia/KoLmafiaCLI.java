@@ -731,7 +731,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// character has already logged in.
 
 		if ( command.equals( "exit" ) || command.equals( "quit" ) || command.equals( "logout" ) )
-			endSession();
+			System.exit(0);
 
 		// Next, handle any requests for script execution;
 		// these can be done at any time (including before

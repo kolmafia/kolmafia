@@ -63,7 +63,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 		if ( icon != null )
 			WindowsTrayIcon.cleanUp();
 
-		KoLmafia.endSession();
+		System.exit(0);
 	}
 
 	public static void updateToolTip()

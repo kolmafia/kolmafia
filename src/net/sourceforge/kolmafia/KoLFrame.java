@@ -262,7 +262,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		public void run()
 		{
 			if ( !StaticEntity.getProperty( "autoLogin" ).equals( "" ) || !KoLmafia.executedLogin() )
-				KoLmafia.endSession();
+				SystemTrayFrame.removeTrayIcon();
 
 			KoLmafia.forceContinue();
 			createDisplay( LoginFrame.class );
