@@ -167,7 +167,7 @@ public class LoginFrame extends KoLFrame
 		{
 			super( "login", "cancel" );
 
-			usernameField = StaticEntity.getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
+			usernameField = saveStateNames.isEmpty() ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
 			passwordField = new JPasswordField();
 			scriptField = new ScriptSelectPanel( new JTextField() );
 

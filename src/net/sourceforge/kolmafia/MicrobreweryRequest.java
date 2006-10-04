@@ -84,6 +84,8 @@ public class MicrobreweryRequest extends KoLRequest
 			if ( itemID == 0 )
 				itemID = TradeableItemDatabase.getItemID( itemName );
 		}
+
+		addFormField( "whichitem", String.valueOf( itemID ) );
 	}
 
 	public void run()

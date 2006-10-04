@@ -91,6 +91,8 @@ public class LoginRequest extends KoLRequest
 		super( "login.php" );
 
 		this.username = username == null ? "" : StaticEntity.globalStringReplace( username, "/q", "" );
+		StaticEntity.setGlobalProperty( this.username, "displayName", this.username );
+
 		this.password = password;
 		this.savePassword = savePassword;
 		this.getBreakfast = getBreakfast;
@@ -320,7 +322,6 @@ public class LoginRequest extends KoLRequest
 			// of success.  But first, if there was a desire to
 			// save the password, do so here.
 
-			StaticEntity.setGlobalProperty( username, "displayName", username );
 			if ( this.savePassword )
 				KoLmafia.addSaveState( username, password );
 
