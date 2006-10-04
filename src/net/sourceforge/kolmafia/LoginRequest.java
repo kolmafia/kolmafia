@@ -263,15 +263,7 @@ public class LoginRequest extends KoLRequest
 		sessionID = null;
 		runCountdown = true;
 
-		if ( !StaticEntity.getBooleanProperty( "useSecureLogin" ) || sendPlainText )
-		{
-			clearDataFields();
-			addFormField( "secure", "0" );
-			addFormField( "password", this.password );
-		}
-		else
-			detectChallenge();
-
+		detectChallenge();
 		addFormField( "loggingin", "Yup." );
 		addFormField( "loginname", this.username + "/q" );
 

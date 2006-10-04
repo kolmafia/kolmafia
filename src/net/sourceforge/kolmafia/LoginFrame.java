@@ -702,7 +702,6 @@ public class LoginFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "useSecureLogin", "Use secure login algorithm" },
 			{ "useNonBlockingReader", "Use non-blocking response readers (risky)" },
 			{ "autoExecuteTimeIn", "Automatically time-in whenever you're timed-out" },
 			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" }
