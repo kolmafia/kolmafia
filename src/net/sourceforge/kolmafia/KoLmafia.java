@@ -168,6 +168,7 @@ public abstract class KoLmafia implements KoLConstants
 		hermitItems.add( "wooden figurine" );
 
 		StaticEntity.reloadSettings( "" );
+		StaticEntity.setProperty( "defaultLoginServer", "1" );
 
 		String actualName;
 		String [] pastUsers = StaticEntity.getPastUserList();
@@ -175,7 +176,10 @@ public abstract class KoLmafia implements KoLConstants
 		for ( int i = 0; i < pastUsers.length; ++i )
 		{
 			actualName = StaticEntity.getGlobalProperty( pastUsers[i], "displayName" );
-			saveStateNames.add( actualName.equals( "" ) ? pastUsers[i] : actualName );
+			if ( actualName.equals( "" ) )
+				actualName = StaticEntity.globalStringReplace( pastUsers[i], "_", " " );
+
+			saveStateNames.add( actualName );
 		}
 
 		// Also clear out any outdated data files.  Include the
@@ -2126,7 +2130,6 @@ public abstract class KoLmafia implements KoLConstants
 
 			StaticEntity.setGlobalProperty( username, "saveState", (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
 			saveStateNames.add( username );
-			storeSaveStates();
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
@@ -2144,41 +2147,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		saveStateNames.remove( loginname );
 		StaticEntity.removeGlobalProperty( loginname, "saveState" );
-	}
-
-	private static final void storeSaveStates()
-	{
-		StringBuffer saveStateBuffer = new StringBuffer();
-		String [] names = new String[ saveStateNames.size() ];
-		saveStateNames.toArray( names );
-
-		for ( int i = 0; i < names.length; ++i )
-		{
-			if ( getSaveState( names[i] ) == null )
-				removeSaveState( names[i] );
-
-			for ( int j = 0; j < i; ++j )
-				if ( names[i].equalsIgnoreCase( names[j] ) )
-					saveStateNames.remove( names[i] );
-		}
-
-		if ( names.length != saveStateNames.size() )
-		{
-			names = new String[ saveStateNames.size() ];
-			saveStateNames.toArray( names );
-		}
-
-		if ( names.length > 0 )
-		{
-			saveStateBuffer.append( names[0] );
-			for ( int i = 1; i < names.length; ++i )
-			{
-				saveStateBuffer.append( "//" );
-				saveStateBuffer.append( names[i] );
-			}
-		}
-
-		StaticEntity.setProperty( "saveState", saveStateBuffer.toString() );
 	}
 
 	/**
