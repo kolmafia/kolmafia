@@ -129,6 +129,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptType ELEMENT_TYPE = new ScriptType( "element", TYPE_ELEMENT );
 
 	private static final ScriptType AGGREGATE_TYPE = new ScriptType( "aggregate", TYPE_AGGREGATE );
+	private static final ScriptAggregateType RESULT_TYPE = new ScriptAggregateType( INT_TYPE, ITEM_TYPE );
 	private static final ScriptAggregateType REGEX_GROUP_TYPE = new ScriptAggregateType( new ScriptAggregateType( STRING_TYPE, INT_TYPE ), INT_TYPE );
 
 	// Common values
@@ -3005,6 +3006,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "contains_text", BOOLEAN_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "extract_items", RESULT_TYPE, params ) );
+
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "index_of", INT_TYPE, params ) );
 
@@ -4616,6 +4620,23 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue contains_text( ScriptVariable source, ScriptVariable search )
 		{	return new ScriptValue( source.toStringValue().toString().indexOf( search.toStringValue().toString() ) != -1 );
+		}
+
+		public ScriptValue extract_items( ScriptVariable string )
+		{
+			ArrayList data = new ArrayList();
+			StaticEntity.getClient().processResults( string.toStringValue().toString(), data );
+			ScriptMap value = new ScriptMap( RESULT_TYPE );
+
+			AdventureResult item;
+
+			for ( int i = 0; i < data.size(); ++i )
+			{
+				item = (AdventureResult) data.get(i);
+				value.aset( parseItemValue( item.getName() ), parseIntValue( String.valueOf( item.getCount() ) ) );
+			}
+
+			return value;
 		}
 
 		public ScriptValue index_of( ScriptVariable source, ScriptVariable search )

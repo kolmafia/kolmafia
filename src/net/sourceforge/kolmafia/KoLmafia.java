@@ -526,14 +526,16 @@ public abstract class KoLmafia implements KoLConstants
 	 * @param	result	String to parse for the result
 	 */
 
-	public boolean parseResult( String result )
+	public AdventureResult parseResult( String result )
 	{
 		String trimResult = result.trim();
+		debugStream.println( "Parsing result: " + trimResult );
 
 		try
 		{
-			debugStream.println( "Parsing result: " + trimResult );
-			return processResult( AdventureResult.parseResult( trimResult ) );
+			AdventureResult parsed = AdventureResult.parseResult( trimResult );
+			processResult( parsed );
+			return parsed;
 		}
 		catch ( Exception e )
 		{
@@ -541,12 +543,11 @@ public abstract class KoLmafia implements KoLConstants
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
+			return null;
 		}
-
-		return false;
 	}
 
-	public void parseItem( String result )
+	private AdventureResult parseItem( String result )
 	{
 		debugStream.println( "Parsing item: " + result );
 
@@ -562,10 +563,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Look for a verbatim match
 		int itemID = TradeableItemDatabase.getItemID( result.trim() );
 		if ( itemID != -1 )
-		{
-			processResult( new AdventureResult( itemID, 1 ) );
-			return;
-		 }
+			return new AdventureResult( itemID, 1 );
 
 		// Remove parenthesized number and match again.
 		String name = result;
@@ -578,10 +576,10 @@ public abstract class KoLmafia implements KoLConstants
 			count = StaticEntity.parseInt( result.substring( index ) );
 		}
 
-		processResult( new AdventureResult( name, count, false ) );
+		return new AdventureResult( name, count, false );
 	}
 
-	public boolean parseEffect( String result )
+	private boolean parseEffect( String result )
 	{
 		debugStream.println( "Parsing effect: " + result );
 
@@ -1045,10 +1043,15 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public final boolean processResults( String results )
-	{
-		debugStream.println( "Processing results..." );
+	{	return processResults( results, null );
+	}
 
-		if ( results.indexOf( "gains a pound" ) != -1 )
+	public final boolean processResults( String results, ArrayList data )
+	{
+		if ( data == null )
+			debugStream.println( "Processing results..." );
+
+		if ( data == null && results.indexOf( "gains a pound" ) != -1 )
 		{
 			KoLCharacter.incrementFamilarWeight();
 
@@ -1061,8 +1064,9 @@ public abstract class KoLmafia implements KoLConstants
 		String lastToken = null;
 
 		Matcher damageMatcher = null;
+		AdventureResult lastResult;
 
-		if ( KoLCharacter.isUsingStabBat() )
+		if ( data == null && KoLCharacter.isUsingStabBat() )
 		{
 			damageMatcher = STABBAT_PATTERN.matcher( plainTextResult );
 
@@ -1087,15 +1091,18 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
-		damageMatcher = FUMBLE_PATTERN.matcher( plainTextResult );
-
-		while ( damageMatcher.find() )
+		if ( data == null )
 		{
-			String message = "You lose " + damageMatcher.group(1) + " hit points";
+			damageMatcher = FUMBLE_PATTERN.matcher( plainTextResult );
 
-			KoLmafiaCLI.printLine( message );
-			sessionStream.println( message );
-			parseResult( message );
+			while ( damageMatcher.find() )
+			{
+				String message = "You lose " + damageMatcher.group(1) + " hit points";
+
+				KoLmafiaCLI.printLine( message );
+				sessionStream.println( message );
+				parseResult( message );
+			}
 		}
 
 		boolean requiresRefresh = false;
@@ -1117,9 +1124,17 @@ public abstract class KoLmafia implements KoLConstants
 
 					if ( lastToken.indexOf( "an item" ) != -1 )
 					{
-						KoLmafiaCLI.printLine( acquisition + " " + item );
-						sessionStream.println( acquisition + " " + item );
-						parseItem( item );
+						if ( data == null )
+						{
+							KoLmafiaCLI.printLine( acquisition + " " + item );
+							sessionStream.println( acquisition + " " + item );
+						}
+
+						lastResult = parseItem( item );
+						if ( data == null )
+							processResult( lastResult );
+						else
+							data.add( lastResult );
 					}
 					else
 					{
@@ -1142,10 +1157,15 @@ public abstract class KoLmafia implements KoLConstants
 
 						KoLmafiaCLI.printLine( acquisition + " " + item );
 						sessionStream.println( acquisition + " " + item );
-						parseItem( itemName + " (" + countString + ")" );
+
+						lastResult = parseItem( itemName + " (" + countString + ")" );
+						if ( data == null )
+							processResult( lastResult );
+						else
+							data.add( lastResult );
 					}
 				}
-				else
+				else if ( data != null )
 				{
 					String effectName = parsedResults.nextToken();
 					lastToken = parsedResults.nextToken();
@@ -1164,7 +1184,7 @@ public abstract class KoLmafia implements KoLConstants
 					}
 				}
 			}
-			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
+			else if ( data == null && (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
 			{
 				int periodIndex = lastToken.indexOf( "." );
 				if ( periodIndex != -1 )
@@ -1189,7 +1209,10 @@ public abstract class KoLmafia implements KoLConstants
 				// do nothing (eventhough it's technically bad style).
 
 				if ( !lastToken.startsWith( "You gain a" ) && !lastToken.startsWith( "You gain some" ) )
-					requiresRefresh |= parseResult( lastToken );
+				{
+					lastResult = parseResult( lastToken );
+					requiresRefresh |= lastResult != null;
+				}
 			}
 		}
 
