@@ -342,10 +342,10 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		KoLCharacter.reset( username );
+
 		StaticEntity.setProperty( "lastUsername", username );
 		StaticEntity.reloadSettings( username );
-
-		KoLCharacter.reset( username );
 		KoLmafia.openSessionStream();
 
 		refreshSession();
@@ -1134,7 +1134,7 @@ public abstract class KoLmafia implements KoLConstants
 						if ( data == null )
 							processResult( lastResult );
 						else
-							data.add( lastResult );
+							AdventureResult.addResultToList( data, lastResult );
 					}
 					else
 					{
@@ -1162,7 +1162,7 @@ public abstract class KoLmafia implements KoLConstants
 						if ( data == null )
 							processResult( lastResult );
 						else
-							data.add( lastResult );
+							AdventureResult.addResultToList( data, lastResult );
 					}
 				}
 				else if ( data != null )
@@ -1184,7 +1184,7 @@ public abstract class KoLmafia implements KoLConstants
 					}
 				}
 			}
-			else if ( data == null && (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
+			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
 			{
 				int periodIndex = lastToken.indexOf( "." );
 				if ( periodIndex != -1 )
@@ -1196,7 +1196,7 @@ public abstract class KoLmafia implements KoLConstants
 
 				lastToken = lastToken.trim();
 
-				if ( lastToken.indexOf( "level" ) == -1 )
+				if ( data == null && lastToken.indexOf( "level" ) == -1 )
 				{
 					KoLmafiaCLI.printLine( lastToken );
 					sessionStream.println( lastToken );
@@ -1211,7 +1211,15 @@ public abstract class KoLmafia implements KoLConstants
 				if ( !lastToken.startsWith( "You gain a" ) && !lastToken.startsWith( "You gain some" ) )
 				{
 					lastResult = parseResult( lastToken );
-					requiresRefresh |= lastResult != null;
+
+					if ( lastResult != null )
+					{
+						requiresRefresh = true;
+						if ( data == null )
+							processResult( lastResult );
+						else if ( lastResult.getName().equals( AdventureResult.MEAT ) )
+							AdventureResult.addResultToList( data, lastResult );
+					}
 				}
 			}
 		}
