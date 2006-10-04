@@ -120,48 +120,61 @@ public class MallSearchFrame extends KoLPanelFrame
 		}
 
 		public void actionConfirmed()
-		{
-			int searchCount = getValue( countField, 0 );
-			if ( searchCount > 0 )
-				StaticEntity.setProperty( "defaultLimit", String.valueOf( searchCount ) );
+		{	(new RequestThread( new MallSearchRunnable() )).start();
+		}
 
-			searchMall( new SearchMallRequest( searchField.getText(), searchCount, results, false, forceSortingCheckBox.isSelected() ) );
+		private class MallSearchRunnable implements Runnable
+		{
+			public void run()
+			{
+				int searchCount = getValue( countField, 0 );
+				if ( searchCount > 0 )
+					StaticEntity.setProperty( "defaultLimit", String.valueOf( searchCount ) );
+
+				searchMall( new SearchMallRequest( searchField.getText(), searchCount, results, false, forceSortingCheckBox.isSelected() ) );
+			}
 		}
 
 		public void actionCancelled()
+		{	(new RequestThread( new MallPurchaseRunnable() )).start();
+		}
+
+		private class MallPurchaseRunnable implements Runnable
 		{
-			if ( currentlyBuying )
+			public void run()
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Purchases stopped." );
-				return;
+				if ( currentlyBuying )
+				{
+					KoLmafia.updateDisplay( ERROR_STATE, "Purchases stopped." );
+					return;
+				}
+
+				Object [] purchases = resultsList.getSelectedValues();
+				if ( purchases == null || purchases.length == 0 )
+				{
+					setStatusMessage( "Please select a store from which to purchase." );
+					return;
+				}
+
+				int defaultPurchases = 0;
+				for ( int i = 0; i < purchases.length; ++i )
+					defaultPurchases += ((MallPurchaseRequest) purchases[i]).getQuantity() == MallPurchaseRequest.MAX_QUANTITY ?
+						MallPurchaseRequest.MAX_QUANTITY : ((MallPurchaseRequest) purchases[i]).getLimit();
+
+				int count = limitPurchasesCheckBox.isSelected() || defaultPurchases >= 1000 ?
+					getQuantity( "Maximum number of items to purchase?", defaultPurchases, 1 ) : defaultPurchases;
+
+				if ( count == 0 )
+					return;
+
+				currentlyBuying = true;
+
+				KoLmafia.forceContinue();
+				StaticEntity.getClient().makePurchases( results, purchases, count );
+				currentlyBuying = false;
+
+				resultsList.updateUI();
 			}
-
-			Object [] purchases = resultsList.getSelectedValues();
-			if ( purchases == null || purchases.length == 0 )
-			{
-				setStatusMessage( "Please select a store from which to purchase." );
-				return;
-			}
-
-			int defaultPurchases = 0;
-			for ( int i = 0; i < purchases.length; ++i )
-				defaultPurchases += ((MallPurchaseRequest) purchases[i]).getQuantity() == MallPurchaseRequest.MAX_QUANTITY ?
-					MallPurchaseRequest.MAX_QUANTITY : ((MallPurchaseRequest) purchases[i]).getLimit();
-
-			int count = limitPurchasesCheckBox.isSelected() || defaultPurchases >= 1000 ?
-				getQuantity( "Maximum number of items to purchase?", defaultPurchases, 1 ) : defaultPurchases;
-
-			if ( count == 0 )
-				return;
-
-			currentlyBuying = true;
-
-			KoLmafia.forceContinue();
-			StaticEntity.getClient().makePurchases( results, purchases, count );
-			currentlyBuying = false;
-
-			resultsList.updateUI();
-			KoLmafia.enableDisplay();
 		}
 
 		public void requestFocus()

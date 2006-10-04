@@ -69,6 +69,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	private LockableListModel priceSummary;
 	private JPanel searchResults;
 	private JTable addTable, manageTable;
+	private JList resultsDisplay;
 
 	public StoreManageFrame()
 	{
@@ -301,6 +302,8 @@ public class StoreManageFrame extends KoLPanelFrame
 
 				StoreManager.searchMall( searchName, priceSummary, 10, true );
 				searchLabel.setText( searchName );
+				resultDisplay.updateUI();
+
 				KoLmafia.updateDisplay( "Price analysis complete." );
 			}
 		}
@@ -417,7 +420,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			container.add( searchLabel, BorderLayout.NORTH );
 			JComponentUtilities.setComponentSize( searchLabel, 150, 16 );
 
-			JList resultsDisplay = new JList( priceSummary = new LockableListModel() );
+			resultsDisplay = new JList( priceSummary = new LockableListModel() );
 			resultsDisplay.setPrototypeCellValue( "1234567890ABCDEF" );
 			resultsDisplay.setVisibleRowCount( 11 );
 			resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
