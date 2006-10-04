@@ -119,7 +119,7 @@ public class BuffBotFrame extends KoLFrame
 	 * operating the buffbot.
 	 */
 
-	private class MainBuffPanel extends ItemManagePanel
+	private class MainBuffPanel extends ItemManagePanel implements Runnable
 	{
 		public MainBuffPanel()
 		{
@@ -146,8 +146,13 @@ public class BuffBotFrame extends KoLFrame
 			// This includes character status, inventory
 			// data and current settings.
 
-			CharpaneRequest.getInstance().run();
 			BuffBotHome.setBuffBotActive( true );
+			(new RequestThread( this )).start();
+		}
+
+		public void run()
+		{
+			CharpaneRequest.getInstance().run();
 			BuffBotManager.runBuffBot( Integer.MAX_VALUE );
 		}
 
