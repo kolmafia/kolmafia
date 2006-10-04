@@ -106,6 +106,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int ASTRAL_MUSHROOM = 1622;
 	private static final int DUSTY_ANIMAL_SKULL = 1799;
 	private static final int QUILL_PEN = 1957;
+	private static final int MEMO = 1973;
 
 	private static final int GIFT1 = 1167;
 	private static final int GIFT2 = 1168;
@@ -349,6 +350,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 			case SEAL_TOOTH:
 			case FOUNTAIN:
+			case MEMO:
 
 				StaticEntity.getClient().processResult( lastItemUsed );
 				return;
