@@ -342,10 +342,10 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		KoLCharacter.reset( username );
-
 		StaticEntity.setProperty( "lastUsername", username );
 		StaticEntity.reloadSettings( username );
+
+		KoLCharacter.reset( username );
 		KoLmafia.openSessionStream();
 
 		refreshSession();
@@ -533,9 +533,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		try
 		{
-			AdventureResult parsed = AdventureResult.parseResult( trimResult );
-			processResult( parsed );
-			return parsed;
+			return AdventureResult.parseResult( trimResult );
 		}
 		catch ( Exception e )
 		{
@@ -1732,24 +1730,24 @@ public abstract class KoLmafia implements KoLConstants
 	public static void validateFaucetQuest()
 	{
 		int lastAscension = StaticEntity.getIntegerProperty( "lastTavernAscension" );
-		if ( lastAscension != KoLCharacter.getAscensions() )
+		if ( lastAscension < KoLCharacter.getAscensions() )
 		{
 			StaticEntity.setProperty( "lastTavernSquare", "0" );
 			StaticEntity.setProperty( "lastTavernAscension", String.valueOf( KoLCharacter.getAscensions() ) );
-			for ( int i = 1; i <= 25; ++i )
-				StaticEntity.setProperty( "tavernSquare" + i, "0" );
+			StaticEntity.setProperty( "tavernLayout", "0000000000000000000000000" );
 		}
 	}
 
 	public static void addTavernLocation( KoLRequest request )
 	{
 		KoLmafia.validateFaucetQuest();
+		StringBuffer layout = new StringBuffer( StaticEntity.getProperty( "tavernLayout" ) );
 
 		if ( request.getURLString().indexOf( "fight" ) != -1 )
 		{
-			String lastSquare = StaticEntity.getProperty( "lastTavernSquare" );
+			int square = StaticEntity.getIntegerProperty( "lastTavernSquare" );
 			if ( request.fullResponse != null )
-				StaticEntity.setProperty( lastSquare, request.fullResponse.indexOf( "Baron" ) != -1 ? "4" : "1" );
+				layout.setCharAt( square - 1, request.fullResponse.indexOf( "Baron" ) != -1 ? '4' : '1' );
 		}
 		else
 		{
@@ -1765,16 +1763,19 @@ public abstract class KoLmafia implements KoLConstants
 			// the mini-browser, you'll have response text; else,
 			// the response text will be null.
 
-			String lastSquare = "tavernSquare" + squareMatcher.group(1);
-			StaticEntity.setProperty( "lastTavernSquare", lastSquare );
+			int square = StaticEntity.parseInt( squareMatcher.group(1) );
+			StaticEntity.setProperty( "lastTavernSquare", String.valueOf( square ) );
 
+			char replacement = '1';
 			if ( request.fullResponse != null && request.fullResponse.indexOf( "faucetoff" ) != -1 )
-				StaticEntity.setProperty( lastSquare, "3" );
+				replacement = '3';
 			else if ( request.fullResponse != null && request.fullResponse.indexOf( "You acquire" ) != -1 )
-				StaticEntity.setProperty( lastSquare, "2" );
-			else
-				StaticEntity.setProperty( lastSquare, "1" );
+				replacement = '2';
+
+			layout.setCharAt( square - 1, replacement );
 		}
+
+		StaticEntity.setProperty( "tavernLayout", layout.toString() );
 	}
 
 	/**

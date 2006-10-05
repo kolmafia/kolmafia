@@ -295,7 +295,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		PLAYER_SETTINGS.put( "lastAdventure", "" );
 		PLAYER_SETTINGS.put( "lastBreakfast", "19691231" );
 		PLAYER_SETTINGS.put( "lastMessageID", "" );
-		PLAYER_SETTINGS.put( "louvreGoal", "0" );
 		PLAYER_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
 		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0" );
 		PLAYER_SETTINGS.put( "mpAutoRecoveryTarget", "0.3" );
@@ -314,8 +313,13 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 		PLAYER_SETTINGS.put( "lastTavernSquare", "0" );
 		PLAYER_SETTINGS.put( "lastTavernAscension", "0" );
-		for ( int i = 1; i <= 25; ++i )
-			PLAYER_SETTINGS.put( "tavernSquare" + i, "0" );
+		PLAYER_SETTINGS.put( "tavernLayout", "0000000000000000000000000" );
+
+		// Yay for the Louvre.
+
+		PLAYER_SETTINGS.put( "lastLouvreMap", "0" );
+		PLAYER_SETTINGS.put( "louvreGoal", "0" );
+		PLAYER_SETTINGS.put( "louvreLayout", "" );
 
 		// These are settings related to choice adventures.
 		// Ensure that they exist, and if they do not, load

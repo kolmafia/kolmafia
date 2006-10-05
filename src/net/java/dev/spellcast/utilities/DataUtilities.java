@@ -49,9 +49,6 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 
-// Java utilities
-import java.math.BigInteger;
-
 /**
  * Formed after the same idea as <code>SwingUtilities</code>, this contains common
  * functions needed by many of the data-related classes.  Any methods which
@@ -240,11 +237,10 @@ public class DataUtilities implements UtilityConstants
 
 	public static Color toColor( String hexString )
 	{
-		String r = hexString.substring( 1, 3 );
-		String g = hexString.substring( 3, 5 );
-		String b = hexString.substring( 5 );
-
-		return new Color( (new BigInteger( r, 16 )).intValue(), (new BigInteger( g, 16 )).intValue(), (new BigInteger( b, 16 )).intValue() );
+		return new Color(
+			Character.digit( hexString.charAt(1), 16 ) * 16 + Character.digit( hexString.charAt(2), 16 ),
+			Character.digit( hexString.charAt(3), 16 ) * 16 + Character.digit( hexString.charAt(4), 16 ),
+			Character.digit( hexString.charAt(5), 16 ) * 16 + Character.digit( hexString.charAt(6), 16 ) );
 	}
 
 	/**

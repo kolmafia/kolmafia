@@ -68,11 +68,11 @@ public class LogoutRequest extends KoLRequest
 
 		synchronized ( LogoutRequest.class )
 		{
-			super.run();
-
+			StaticEntity.saveSettings();
 			KoLMessenger.dispose();
 			BuffBotHome.setBuffBotActive( false );
-			StaticEntity.saveSettings();
+
+			super.run();
 
 			KoLRequest.sessionID = null;
 			if ( KoLDesktop.instanceExists() )

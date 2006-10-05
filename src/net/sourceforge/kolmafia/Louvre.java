@@ -182,13 +182,43 @@ public class Louvre implements UtilityConstants
 	public static void reset()
 	{
 		// Reset what we've "learned" about the Louvre choices
-		for ( int i = FIRST_CHOICE; i <= LAST_CHOICE; ++i )
+		for ( int i = 0; i < LouvreChoiceTable.length; ++i )
+			for ( int j = 0; j < LouvreChoiceTable[i].length; ++j )
+				LouvreChoiceTable[i][j] = 0;
+
+		int lastLouvreAscension = StaticEntity.getIntegerProperty( "lastLouvreMap" );
+		if ( lastLouvreAscension < KoLCharacter.getAscensions() )
 		{
-			int choice[] = choiceTuple( i );
-			choice[0] = 0;
-			choice[1] = 0;
-			choice[2] = 0;
+			StaticEntity.setProperty( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
+			StaticEntity.setProperty( "louvreLayout", "" );
 		}
+
+		String layout = StaticEntity.getProperty( "louvreLayout" );
+		if ( layout.equals( "" ) )
+			return;
+
+		int currentIndex = 0;
+		String [] layoutSplit = layout.split( "," );
+		for ( int i = 0; i < LouvreChoiceTable.length; ++i )
+			for ( int j = 0; j < LouvreChoiceTable[i].length; ++j )
+				LouvreChoiceTable[i][j] = StaticEntity.parseInt( layoutSplit[currentIndex++] );
+	}
+
+	public static void saveMap()
+	{
+		StringBuffer map = new StringBuffer();
+
+		for ( int i = 0; i < LouvreChoiceTable.length; ++i )
+		{
+			for ( int j = 0; j < LouvreChoiceTable[i].length; ++j )
+			{
+				if ( i != 0 || j != 0 )  map.append( ',' );
+				map.append( LouvreChoiceTable[i][j] );
+			}
+		}
+
+		StaticEntity.setProperty( "lastLouvreMap", String.valueOf( KoLCharacter.getAscensions() ) );
+		StaticEntity.setProperty( "louvreLayout", map.toString() );
 	}
 
 	public static boolean louvreChoice( int choice )
@@ -542,10 +572,10 @@ public class Louvre implements UtilityConstants
         // tell you the randomized locations accessible from locations 4-12. So
         // let's say those characters are 021310021 ... this means:
         //
-        // * the randomized paths from locations 4, 9, and 10 are unmapped 
-        // * the randomized paths from locations 6, 8, and 12 connect to location 1 
-        // * the randomized paths from locations 5 and 11 connect to location 2 
-        // * the randomized path from location 7 connects to location 3 
+        // * the randomized paths from locations 4, 9, and 10 are unmapped
+        // * the randomized paths from locations 6, 8, and 12 connect to location 1
+        // * the randomized paths from locations 5 and 11 connect to location 2
+        // * the randomized path from location 7 connects to location 3
 
 	public static String gemelliCode()
 	{

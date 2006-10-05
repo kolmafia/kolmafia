@@ -367,10 +367,7 @@ public class LocalRelayServer implements Runnable
 						if ( browserCookie.find() && internalCookie.find() )
 						{
 							KoLRequest.sessionID = StaticEntity.singleStringReplace( tokens[1],
-								browserCookie.group(1), internalCookie.group(1) );
-
-							if ( KoLRequest.sessionID.indexOf( "; path=/" ) == -1 )
-								KoLRequest.sessionID += "; path=/";
+								browserCookie.group(1), internalCookie.group(1) ).replaceAll( "; path=/\\w*", "" ) + "; path=/";
 						}
 					}
 
