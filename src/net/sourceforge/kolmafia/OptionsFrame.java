@@ -463,7 +463,7 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		public void contentsChanged( ListDataEvent e )
-		{
+		{	saveSettings();
 		}
 
 		public abstract void saveSettings();

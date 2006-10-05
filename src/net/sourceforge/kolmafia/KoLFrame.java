@@ -1386,13 +1386,19 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			LockableListModel source = (LockableListModel) e.getSource();
 			int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-			if ( index1 >= getRowCount() )
-				return;
+			int rowCount = getRowCount();
 
 			for ( int i = index1; i >= index0; --i )
 			{
-				removeRow(i);
-				insertRow( i, constructVector( source.get(i) ) );
+				if ( source.size() < i )
+					removeRow(i);
+				else if ( i > rowCount )
+					insertRow( rowCount, constructVector( source.get(i) ) );
+				else
+				{
+					removeRow(i);
+					insertRow( i, constructVector( source.get(i) ) );
+				}
 			}
 		}
 	}

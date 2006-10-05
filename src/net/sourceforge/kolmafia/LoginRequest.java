@@ -104,7 +104,7 @@ public class LoginRequest extends KoLRequest
 	 * via KoL.
 	 */
 
-	public void detectChallenge()
+	private boolean detectChallenge()
 	{
 		KoLmafia.updateDisplay( "Validating login server..." );
 
@@ -125,12 +125,7 @@ public class LoginRequest extends KoLRequest
 
 		Matcher challengeMatcher = CHALLENGE_PATTERN.matcher( responseText );
 		if ( !challengeMatcher.find() )
-		{
-			clearDataFields();
-			addFormField( "password", this.password );
-
-			return;
-		}
+			return false;
 
 		// We got this far, so that means we now have a
 		// challenge pattern.
@@ -141,17 +136,18 @@ public class LoginRequest extends KoLRequest
 			String challenge = challengeMatcher.group(1);
 
 			addFormField( "secure", "1" );
+			addFormField( "password", "" );
 			addFormField( "challenge", challenge );
 			addFormField( "response", digestPassword( this.password, challenge ) );
 
-			return;
+			return true;
 		}
 		catch ( Exception e )
 		{
-			clearDataFields();
-			addFormField( "secure", "0" );
-			addFormField( "password", this.password );
-			return;
+			// An exception means bad things, so make sure to send the
+			// original plaintext password.
+
+			return false;
 		}
 	}
 
@@ -263,7 +259,13 @@ public class LoginRequest extends KoLRequest
 		sessionID = null;
 		runCountdown = true;
 
-		detectChallenge();
+		if ( waitTime == BAD_CHALLENGE_WAIT || !runCountdown || !detectChallenge() )
+		{
+			clearDataFields();
+			addFormField( "secure", "0" );
+			addFormField( "password", this.password );
+		}
+
 		addFormField( "loggingin", "Yup." );
 		addFormField( "loginname", this.username + "/q" );
 
@@ -313,20 +315,20 @@ public class LoginRequest extends KoLRequest
 				return true;
 			}
 		}
-		else if ( responseText.indexOf( "wait a minute" ) != -1 )
-		{
-			// Ooh, logged in too fast.  KoLmafia should recognize this and
-			// try again automatically in 75 seconds.
-
-			waitTime = STANDARD_WAIT;
-			return true;
-		}
 		else if ( responseText.indexOf( "wait fifteen minutes" ) != -1 )
 		{
 			// Ooh, logged in too fast.  KoLmafia should recognize this and
 			// try again automatically in 1000 seconds.
 
 			waitTime = TOO_MANY_WAIT;
+			return true;
+		}
+		else if ( responseText.indexOf( "wait" ) != -1 )
+		{
+			// Ooh, logged in too fast.  KoLmafia should recognize this and
+			// try again automatically in 75 seconds.
+
+			waitTime = STANDARD_WAIT;
 			return true;
 		}
 		else if ( responseText.indexOf( "login.php" ) != -1 )
@@ -348,6 +350,7 @@ public class LoginRequest extends KoLRequest
 			sendPlainText = true;
 
 			Matcher matcher = REDIRECT_PATTERN.matcher( responseText );
+
 			if ( matcher.find() )
 			{
 				setLoginServer( matcher.group(1) );

@@ -447,6 +447,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		Object removedElement = elements.remove( index );
 		if ( removedElement == null )
 			return null;
+
 		fireIntervalRemoved( this, index, index );
 		return removedElement;
 	}
@@ -467,10 +468,11 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public boolean removeAll( Collection c )
 	{
-		Iterator myIterator = c.iterator();
-		while ( myIterator.hasNext() )
-			if ( !remove( myIterator.next() ) )
-				return false;
+		int originalSize = size();
+		if ( !elements.removeAll( c ) )
+			return false;
+
+		fireContentsChanged( this, 0, originalSize - 1 );
 		return true;
 	}
 
@@ -481,18 +483,12 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public boolean retainAll( Collection c )
 	{
-		boolean hasChanged = false;
-		Object [] elements = toArray();
+		int originalSize = size();
+		if ( !elements.retainAll( c ) )
+			return false;
 
-		for ( int i = 0; i < elements.length; ++i )
-		{
-			if ( !c.contains( elements[i] ) )
-			{
-				remove( elements[i] );
-				hasChanged = true;
-			}
-		}
-		return hasChanged;
+		fireContentsChanged( this, 0, originalSize - 1 );
+		return true;
 	}
 
 	/**
@@ -507,6 +503,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		Object originalElement = get( index );
 		elements.set( index, element );
+
 		fireContentsChanged( this, index, index );
 		return originalElement;
 	}

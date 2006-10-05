@@ -251,11 +251,17 @@ public abstract class PanelList extends JPanel
 			LockableListModel source = (LockableListModel) e.getSource();
 			int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-			if ( index1 >= listPanel.getComponentCount() )
-				return;
+			int originalCount = listPanel.getComponentCount();
 
 			for ( int i = index1; i >= index0; --i )
-				((PanelListCell)listPanel.getComponent(i)).updateDisplay( PanelList.this, source.get(i), i );
+			{
+				if ( i >= originalCount )
+					listPanel.add( (Component) constructPanelListCell( source.get(i), i ), originalCount );
+				else if ( i < source.size() )
+					listPanel.remove(i);
+				else
+					((PanelListCell)listPanel.getComponent(i)).updateDisplay( PanelList.this, source.get(i), i );
+			}
 
 			validatePanelList();
 		}
