@@ -681,7 +681,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		int conditionsIndex = conditions.indexOf( result );
 
-		if ( !resultName.equals( AdventureResult.ADV ) && conditionsIndex != -1 )
+		if ( conditionsIndex != -1 )
 		{
 			if ( resultName.equals( AdventureResult.SUBSTATS ) )
 			{

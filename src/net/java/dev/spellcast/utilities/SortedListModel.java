@@ -140,7 +140,7 @@ public class SortedListModel extends LockableListModel
 		super.add( desiredIndex < index ? desiredIndex : desiredIndex - 1, element );
 		return value;
 	}
-	
+
     /**
      * Please refer to {@link java.util.List#add(Object)} for more
      * information regarding this function.
@@ -162,19 +162,6 @@ public class SortedListModel extends LockableListModel
 		catch ( ClassCastException e2 )
 		{	return false;
 		}
-	}
-
-	public boolean addAll( Collection c )
-	{
-		boolean succeeded = true;
-
-		ArrayList interimList = new ArrayList();
-		interimList.addAll( c );
-
-		for ( int i = 0; i < interimList.size(); ++i )
-			succeeded &= add( interimList.get(i) );
-
-		return succeeded;
 	}
 
     /**
@@ -223,10 +210,10 @@ public class SortedListModel extends LockableListModel
 
 			return compareResult == 0 ? beginIndex : -1;
 		}
-		
+
 		if ( beginIndex > endIndex )
 			return whichIndexOf == INSERTION ? beginIndex : -1;
-		
+
 		// calculate the halfway point and compare the element with the
 		// element located at the halfway point - note that in locating
 		// the last index of, the value is rounded up to avoid an infinite
@@ -255,7 +242,7 @@ public class SortedListModel extends LockableListModel
 
 		return whichIndexOf == NORMAL ? halfwayIndex : halfwayIndex + 1;
 	}
-	
+
 	private int compare( Comparable left, Comparable right )
 	{
 		return left == null ? 1 : right == null ? -1 :

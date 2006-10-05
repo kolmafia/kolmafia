@@ -56,6 +56,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MallSearchFrame extends KoLPanelFrame
 {
+	private boolean currentlyBuying;
 	private LockableListModel results;
 	private JList resultsList;
 	private MallSearchPanel mallSearch;
@@ -74,8 +75,6 @@ public class MallSearchFrame extends KoLPanelFrame
 
 	private class MallSearchPanel extends KoLPanel
 	{
-		private boolean currentlyBuying;
-
 		private JTextField searchField;
 		private JTextField countField;
 
@@ -253,7 +252,8 @@ public class MallSearchFrame extends KoLPanelFrame
 				// show what the current state of the selections
 				// is at this time.
 
-				mallSearch.setStatusMessage( getPurchaseSummary( resultsList.getSelectedValues() ) );
+				if ( !currentlyBuying )
+					mallSearch.setStatusMessage( getPurchaseSummary( resultsList.getSelectedValues() ) );
 			}
 		}
 	}

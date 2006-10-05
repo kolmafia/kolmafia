@@ -166,5 +166,16 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 
 	public void contentsChanged( ListDataEvent e )
 	{
+		for ( int i = 0; i < dataValues.size(); ++i )
+			remove( headerCount );
+
+		dataValues.clear();
+		LockableListModel source = (LockableListModel) e.getSource();
+
+		for ( int i = 0; i < source.size(); ++i )
+		{
+				dataValues.add( i, source.get(i) );
+				add( constructMenuItem( source.get(i) ), i + headerCount );
+		}
 	}
 }
