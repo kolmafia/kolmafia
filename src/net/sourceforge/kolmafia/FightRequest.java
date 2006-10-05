@@ -53,7 +53,7 @@ public class FightRequest extends KoLRequest
 	public static final AdventureResult DICTIONARY1 = new AdventureResult( 536, 1 );
 	public static final AdventureResult DICTIONARY2 = new AdventureResult( 1316, 1 );
 
-	private static int currentRound = 0;
+	private static int currentRound = -1;
 	private static int offenseModifier = 0, defenseModifier = 0;
 
 	private static String action1 = null;
@@ -100,7 +100,7 @@ public class FightRequest extends KoLRequest
 			if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
 				KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
 
-		if ( currentRound == 1 )
+		if ( currentRound < 1 )
 		{
 			action1 = StaticEntity.getProperty( "defaultAutoAttack" );
 			if ( action1.equals( "" ) || action1.equals( "0" ) )
@@ -108,7 +108,7 @@ public class FightRequest extends KoLRequest
 		}
 		else if ( action1.equals( "custom" ) )
 		{
-			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 2 );
+			action1 = CombatSettings.getSetting( encounterLookup, currentRound );
 		}
 
 		// If the person wants to use their own script,
@@ -134,7 +134,7 @@ public class FightRequest extends KoLRequest
 			// If the user has chosen to abort combat, flag it.
 			action1 = null;
 		}
-		else if ( currentRound == 1 )
+		else if ( currentRound == 0 )
 		{
 			// If this is the first round, you do not
 			// submit extra data.
@@ -217,7 +217,7 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
-		currentRound = 1;
+		currentRound = -1;
 		encounter = "";
 		encounterLookup = "";
 		responseText = null;
@@ -311,9 +311,8 @@ public class FightRequest extends KoLRequest
 		// If this is the first round, then register the opponent
 		// you are fighting against.
 
-		if ( !encounter.equals( INSTANCE.encounter ) )
+		if ( currentRound == 0 )
 		{
-			currentRound = 1;
 			encounterLookup = CombatSettings.encounterKey( encounter );
 			monsterData = MonsterDatabase.findMonster( encounter );
 		}
@@ -322,7 +321,7 @@ public class FightRequest extends KoLRequest
 		{
 			encounter = "";
 			encounterLookup = "";
-			currentRound = 0;
+			currentRound = -1;
 		}
 	}
 
@@ -367,7 +366,7 @@ public class FightRequest extends KoLRequest
 
 		if ( action1.startsWith( "item" ) )
 		{
-			if ( currentRound < 2 )
+			if ( currentRound == 0 )
 				return;
 
 			int id1 = StaticEntity.parseInt( action1.substring( 4 ) );
