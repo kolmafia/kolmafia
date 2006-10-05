@@ -46,7 +46,7 @@ import java.util.regex.Matcher;
 
 public class LocalRelayServer implements Runnable
 {
-	private static final Pattern COOKIE_PATTERN = Pattern.compile( "SESSID=([0-9A-Fa-f]+)" );
+	private static final Pattern COOKIE_PATTERN = Pattern.compile( "PHPSESSID=([^\\s;]+)" );
 
 	private static long lastStatusMessage = 0;
 	private static Thread relayThread = null;
@@ -261,6 +261,9 @@ public class LocalRelayServer implements Runnable
 				if ( lowercase.startsWith( "connection" ) )
 					continue;
 
+				if ( lowercase.startsWith( "set-cookie" ) )
+					continue;
+
 				if ( !lowercase.equals( "" ) )
 					printStream.println( header );
 			}
@@ -356,7 +359,7 @@ public class LocalRelayServer implements Runnable
 					if ( tokens[0].equals( "Content-Length" ) )
 						contentLength = StaticEntity.parseInt( tokens[1].trim() );
 
-					if ( tokens[0].equals( "Cookie" ) && path.indexOf( ".php" ) != -1 )
+					if ( tokens[0].equals( "Cookie" ) )
 					{
 						// Okay, this MIGHT be a stale cookie because of
 						// the way cookies are saved.
@@ -367,7 +370,7 @@ public class LocalRelayServer implements Runnable
 						if ( browserCookie.find() && internalCookie.find() )
 						{
 							KoLRequest.sessionID = StaticEntity.singleStringReplace( tokens[1],
-								browserCookie.group(1), internalCookie.group(1) ).replaceAll( "; path=/\\w*", "" ) + "; path=/";
+								browserCookie.group(1), internalCookie.group(1) ).replaceAll( "; path=/[^\\s;]*", "" ) + "; path=/";
 						}
 					}
 
