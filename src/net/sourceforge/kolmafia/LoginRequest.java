@@ -257,7 +257,6 @@ public class LoginRequest extends KoLRequest
 	public boolean executeLogin()
 	{
 		sessionID = null;
-		runCountdown = true;
 
 		if ( waitTime == BAD_CHALLENGE_WAIT || !runCountdown || !detectChallenge() )
 		{
@@ -270,7 +269,10 @@ public class LoginRequest extends KoLRequest
 		addFormField( "loginname", this.username + "/q" );
 
 		KoLmafia.updateDisplay( "Sending login request..." );
+
 		waitTime = STANDARD_WAIT;
+		runCountdown = true;
+
 		super.run();
 
 		if ( responseCode == 302 && redirectLocation.equals( "maint.php" ) )
