@@ -595,6 +595,13 @@ public class EquipmentRequest extends PasswordHashRequest
 		int lastFindIndex = 0;
 		Matcher optionMatcher = INVENTORYITEM_PATTERN.matcher( content );
 
+		resultList.clear();
+		if ( resultList == inventory )
+		{
+			sellables.clear();
+			usables.clear();
+		}
+
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = optionMatcher.end();
@@ -606,22 +613,10 @@ public class EquipmentRequest extends PasswordHashRequest
 				TradeableItemDatabase.registerItem( itemID, realName );
 
 			AdventureResult result = new AdventureResult( itemID, StaticEntity.parseInt( optionMatcher.group(3) ) );
-			int difference = result.getCount() - result.getCount( resultList );
-
-			if ( difference != 0 )
-			{
-				result = result.getInstance( difference );
-				if ( resultList == inventory )
-					KoLCharacter.processResult( result );
-				else
-					AdventureResult.addResultToList( resultList, result );
-			}
-		}
-
-		if ( resultList == inventory )
-		{
-			sellables.retainAll( inventory );
-			usables.retainAll( inventory );
+			if ( resultList == inventory )
+				KoLCharacter.processResult( result );
+			else
+				AdventureResult.addResultToList( resultList, result );
 		}
 	}
 
