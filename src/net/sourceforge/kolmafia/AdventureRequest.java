@@ -453,7 +453,10 @@ public class AdventureRequest extends KoLRequest
 			String encounter = request.responseText.substring( boldIndex, endBoldIndex );
 			KoLmafiaCLI.printLine( "Encounter: " + encounter );
 			KoLmafia.getSessionStream().println( "Encounter: " + encounter );
-			StaticEntity.getClient().registerEncounter( encounter );
+
+			if ( !urlString.startsWith( "choice.php" ) || urlString.indexOf( "option" ) == -1 )
+				StaticEntity.getClient().registerEncounter( encounter );
+
 			return encounter;
 		}
 	}
