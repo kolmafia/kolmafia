@@ -595,8 +595,6 @@ public class EquipmentRequest extends PasswordHashRequest
 		int lastFindIndex = 0;
 		Matcher optionMatcher = INVENTORYITEM_PATTERN.matcher( content );
 
-		ArrayList seenResults = new ArrayList();
-
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = optionMatcher.end();
@@ -607,32 +605,23 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( itemName == null || !realName.equals( itemName ) )
 				TradeableItemDatabase.registerItem( itemID, realName );
 
-			seenResults.add( new AdventureResult( itemID, StaticEntity.parseInt( optionMatcher.group(3) ) ) );
-		}
+			AdventureResult result = new AdventureResult( itemID, StaticEntity.parseInt( optionMatcher.group(3) ) );
+			int difference = result.getCount() - result.getCount( resultList );
 
-		resultList.retainAll( seenResults );
+			if ( difference != 0 )
+			{
+				result = result.getInstance( difference );
+				if ( resultList == inventory )
+					KoLCharacter.processResult( result );
+				else
+					AdventureResult.addResultToList( resultList, result );
+			}
+		}
 
 		if ( resultList == inventory )
 		{
-			sellables.retainAll( seenResults );
-			usables.retainAll( seenResults );
-		}
-
-		AdventureResult [] results = new AdventureResult[ seenResults.size() ];
-		seenResults.toArray( results );
-
-		for ( int i = 0; i < results.length; ++i )
-		{
-			int inventoryCount = results[i].getCount( resultList );
-
-			if ( inventoryCount != results[i].getCount() )
-			{
-				results[i] = results[i].getInstance( results[i].getCount() - inventoryCount );
-				if ( resultList == inventory )
-					KoLCharacter.processResult( results[i] );
-				else
-					AdventureResult.addResultToList( resultList, results[i] );
-			}
+			sellables.retainAll( inventory );
+			usables.retainAll( inventory );
 		}
 	}
 
