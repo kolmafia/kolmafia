@@ -1137,9 +1137,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		String text = buffer.toString();
 		buffer.setLength(0);
 
+		String layout = StaticEntity.getProperty( "tavernLayout" );
+
 		for ( int i = 1; i <= 25; ++i )
 		{
-			int squareType = StaticEntity.getIntegerProperty( "tavernSquare" + i );
+			int squareType = Character.digit( layout.charAt(i-1), 10 );
 
 			switch ( squareType )
 			{
