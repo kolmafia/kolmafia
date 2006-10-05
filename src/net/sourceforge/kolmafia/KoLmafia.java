@@ -1165,7 +1165,7 @@ public abstract class KoLmafia implements KoLConstants
 							AdventureResult.addResultToList( data, lastResult );
 					}
 				}
-				else if ( data != null )
+				else if ( data == null )
 				{
 					String effectName = parsedResults.nextToken();
 					lastToken = parsedResults.nextToken();
