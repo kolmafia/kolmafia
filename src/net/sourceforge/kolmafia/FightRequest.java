@@ -44,6 +44,7 @@ import java.util.regex.Matcher;
 
 public class FightRequest extends KoLRequest
 {
+	private static boolean isUsingConsultScript = false;
 	public static final FightRequest INSTANCE = new FightRequest();
 
 	private static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
@@ -87,6 +88,7 @@ public class FightRequest extends KoLRequest
 	public void nextRound()
 	{
 		clearDataFields();
+		isUsingConsultScript = false;
 
 		// Now, to test if the user should run away from the
 		// battle - this is an HP test.
@@ -116,7 +118,9 @@ public class FightRequest extends KoLRequest
 
 		if ( action1.startsWith( "consult" ) )
 		{
+			isUsingConsultScript = true;
 			responseText = StaticEntity.globalStringReplace( responseText, "\"", "\\\"" );
+
 			DEFAULT_SHELL.executeCommand( "call", action1.substring( "consult".length() ).trim() + " (" + currentRound +
 				", \"" + encounterLookup + "\", \"" + responseText + "\" )" );
 
@@ -217,26 +221,15 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
-		currentRound = -1;
-		encounter = "";
-		encounterLookup = "";
-		responseText = null;
-
-		monsterData = null;
-
-		offenseModifier = 0;
-		defenseModifier = 0;
-
-		while ( KoLmafia.permitsContinue() && (responseText == null || responseText.indexOf( "fight.php" ) != -1) )
+		do
 		{
 			clearDataFields();
 			action1 = null;
 			action2 = null;
 
-			if ( !KoLmafia.refusesContinue() )
-				nextRound();
-
-			super.run();
+			nextRound();
+			if ( !isUsingConsultScript )
+				super.run();
 
 			if ( KoLmafia.refusesContinue() || action1 == null )
 			{
@@ -245,6 +238,7 @@ public class FightRequest extends KoLRequest
 				return;
 			}
 		}
+		while ( KoLmafia.permitsContinue() && currentRound != -1 );
 	}
 
 	private boolean isAcceptable( int offenseModifier, int defenseModifier )
@@ -306,6 +300,7 @@ public class FightRequest extends KoLRequest
 	{
 		// Spend MP and consume items
 
+		++currentRound;
 		payActionCost();
 
 		// If this is the first round, then register the opponent
@@ -321,7 +316,11 @@ public class FightRequest extends KoLRequest
 		{
 			encounter = "";
 			encounterLookup = "";
+			monsterData = null;
+
 			currentRound = -1;
+			offenseModifier = 0;
+			defenseModifier = 0;
 		}
 	}
 
@@ -356,8 +355,6 @@ public class FightRequest extends KoLRequest
 
 	public static void payActionCost()
 	{
-		++currentRound;
-
 		if ( action1 == null || action1.equals( "" ) )
 			return;
 
@@ -514,6 +511,6 @@ public class FightRequest extends KoLRequest
 	}
 
 	protected boolean mayChangeCreatables()
-	{	return responseText != null && responseText.indexOf( "fight.php" ) == -1;
+	{	return currentRound == -1;
 	}
 }
