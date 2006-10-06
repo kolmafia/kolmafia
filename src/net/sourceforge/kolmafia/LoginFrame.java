@@ -266,9 +266,7 @@ public class LoginFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{
-			KoLmafia.declareWorldPeace();
-			usernameField.requestFocus();
+		{	KoLmafia.declareWorldPeace();
 		}
 
 		private class RemovePasswordListener implements ActionListener

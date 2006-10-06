@@ -1166,7 +1166,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				// If the system is down for maintenance, the user must be
 				// notified that they should try again later.
 
-				KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
+				KoLmafia.updateDisplay( "Nightly maintenance." );
 				if ( !LoginRequest.isInstanceRunning() && sessionID != null && StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
 				{
 					LoginRequest.executeTimeInRequest( true );
@@ -1195,7 +1195,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 				if ( sessionID != null )
 				{
-					KoLmafia.updateDisplay( ABORT_STATE, "Session timed out." );
+					KoLmafia.updateDisplay( "Session timed out." );
 					if ( StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
 					{
 						LoginRequest.executeTimeInRequest( false );
