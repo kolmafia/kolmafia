@@ -116,6 +116,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			firstFamiliar = NO_FAMILIAR;
 
 		KoLCharacter.setFamiliar( firstFamiliar );
+		KoLCharacter.recalculateAdjustments();
 	}
 
 	public int getID()

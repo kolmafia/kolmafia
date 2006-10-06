@@ -217,6 +217,8 @@ public class LoginFrame extends KoLFrame
 
 			getBreakfastCheckBox.setSelected( StaticEntity.getBooleanProperty( "alwaysGetBreakfast" ) );
 			setDefaultButton( confirmedButton );
+
+			autoLoginCheckBox.addActionListener( new AutoLoginListener() );
 			savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
 		}
 
@@ -267,6 +269,17 @@ public class LoginFrame extends KoLFrame
 
 		public void actionCancelled()
 		{	KoLmafia.declareWorldPeace();
+		}
+
+		private class AutoLoginListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( autoLoginCheckBox.isSelected() )
+					actionConfirmed();
+				else
+					StaticEntity.setProperty( "autoLogin", "" );
+			}
 		}
 
 		private class RemovePasswordListener implements ActionListener

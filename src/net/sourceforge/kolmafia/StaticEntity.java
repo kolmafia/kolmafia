@@ -55,7 +55,8 @@ public abstract class StaticEntity implements KoLConstants
 
 	private static final Pattern NONDIGIT_PATTERN = Pattern.compile( "[^\\-0-9]" );
 	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
-	private static final Pattern NEWSKILL_PATTERN = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" );
+	private static final Pattern NEWSKILL1_PATTERN = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" );
+	private static final Pattern NEWSKILL2_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern SETTINGS_PATTERN = Pattern.compile( "prefs_(.*?).txt" );
 
 	private static KoLSettings settings = KoLSettings.GLOBAL_SETTINGS;
@@ -274,14 +275,13 @@ public abstract class StaticEntity implements KoLConstants
 		// See if the person learned a new skill from using a
 		// mini-browser frame.
 
-		Matcher learnedMatcher = NEWSKILL_PATTERN.matcher( responseText );
+		Matcher learnedMatcher = NEWSKILL1_PATTERN.matcher( responseText );
 		if ( learnedMatcher.find() )
 		{
 			String skillName = learnedMatcher.group(1);
 
 			KoLCharacter.addAvailableSkill( new UseSkillRequest( skillName, "", 1 ) );
 			KoLCharacter.addDerivedSkills();
-			KoLCharacter.updateStatus();
 		}
 
 		learnedMatcher = AdventureRequest.STEEL_PATTERN.matcher( responseText );
@@ -294,7 +294,16 @@ public abstract class StaticEntity implements KoLConstants
 		// It simply says: "You leargn a new skill. Whee!"
 
 		if ( responseText.indexOf( "You leargn a new skill." ) != -1 )
-			(new CharsheetRequest()).run();
+		{
+			learnedMatcher = NEWSKILL2_PATTERN.matcher( location );
+			if ( learnedMatcher.find() )
+			{
+				KoLCharacter.addAvailableSkill( new UseSkillRequest( ClassSkillsDatabase.getSkillName(
+					StaticEntity.parseInt( learnedMatcher.group(1) ) ), "", 1 ) );
+
+				KoLCharacter.addDerivedSkills();
+			}
+		}
 	}
 
 	public static final boolean executeCountdown( String message, int seconds )

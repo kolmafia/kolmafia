@@ -801,6 +801,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		// Skip past equipped gear
 
 		parseQuestItems( responseText.substring( responseText.indexOf( "Save as Custom Outfit" ) ) );
+		KoLCharacter.recalculateAdjustments();
 	}
 
 	public static int slotNumber( String name )
