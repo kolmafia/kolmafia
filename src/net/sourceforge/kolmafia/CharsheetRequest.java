@@ -240,64 +240,6 @@ public class CharsheetRequest extends KoLRequest
 			KoLCharacter.setPvpRank( intToken( cleanContent ) );
 		}
 
-		// We can't get familiar equipment from this page,
-		// so don't reset it.
-
-		AdventureResult [] equipment = new AdventureResult[8];
-		for ( int i = 0; i < 8; ++i )
-			equipment[i] = EquipmentRequest.UNEQUIP;
-
-		int fakeHands = 0;
-
-		if ( responseText.indexOf( "Equipment:" ) != -1 )
-		{
-			while ( !cleanContent.nextToken().startsWith( "Equipment" ) );
-			boolean seenWeapon = false;
-
-			while ( !token.startsWith( "Eff" ) && !token.startsWith( "Skill" ) && !token.startsWith( "You" ) )
-			{
-				token = cleanContent.nextToken();
-				switch ( TradeableItemDatabase.getConsumptionType( token ) )
-				{
-					case ConsumeItemRequest.EQUIP_HAT:
-						equipment[ KoLCharacter.HAT ] = new AdventureResult( token, 1, false );
-						break;
-
-					case ConsumeItemRequest.EQUIP_WEAPON:
-						equipment[ seenWeapon ? KoLCharacter.OFFHAND : KoLCharacter.WEAPON ] = new AdventureResult( token, 1, false );
-						seenWeapon = true;
-						break;
-
-					case ConsumeItemRequest.EQUIP_OFFHAND:
-						if ( token.equals( "fake hand" ) )
-							++fakeHands;
-						else
-							equipment[ KoLCharacter.OFFHAND ] = new AdventureResult( token, 1, false );
-						break;
-
-					case ConsumeItemRequest.EQUIP_SHIRT:
-						equipment[ KoLCharacter.SHIRT ] = new AdventureResult( token, 1, false );
-						break;
-
-					case ConsumeItemRequest.EQUIP_PANTS:
-						equipment[ KoLCharacter.PANTS ] = new AdventureResult( token, 1, false );
-						break;
-
-					case ConsumeItemRequest.EQUIP_ACCESSORY:
-
-						if ( equipment[ KoLCharacter.ACCESSORY1 ].equals( EquipmentRequest.UNEQUIP ) )
-							equipment[ KoLCharacter.ACCESSORY1 ] = new AdventureResult( token, 1, false );
-						else if ( equipment[ KoLCharacter.ACCESSORY2 ].equals( EquipmentRequest.UNEQUIP ) )
-							equipment[ KoLCharacter.ACCESSORY2 ] = new AdventureResult( token, 1, false );
-						else
-							equipment[ KoLCharacter.ACCESSORY3 ] = new AdventureResult( token, 1, false );
-				}
-			}
-		}
-
-		KoLCharacter.setEquipment( equipment );
-		KoLCharacter.setFakeHands( fakeHands );
-
 		while ( !token.startsWith( "Skill" ) )
 			token = cleanContent.nextToken();
 
@@ -308,7 +250,10 @@ public class CharsheetRequest extends KoLRequest
 		token = cleanContent.nextToken();
 
 		List newSkillSet = new ArrayList();
-		// Loop until we get to Current Familiar
+
+		// Loop until we get to Current Familiar, since everything before that
+		// contains the player's skills.
+
 		while ( !token.startsWith( "Current" ) )
 		{
 			if ( token.startsWith( "(" ) || token.startsWith( " (" ) )

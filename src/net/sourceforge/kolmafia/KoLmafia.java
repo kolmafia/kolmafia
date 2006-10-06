@@ -650,7 +650,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		int effectCount = activeEffects.size();
 		KoLCharacter.processResult( result );
+
 		shouldRefresh |= effectCount != activeEffects.size();
+		shouldRefresh |= result.getName().equals( AdventureResult.MEAT );
 
 		if ( !shouldTally )
 			return shouldRefresh;
