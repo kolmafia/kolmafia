@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
 
 public class HermitRequest extends KoLRequest
 {
-	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<tr><td.*?><input.*?value=(\\d*)>.*?<b>(.*?)</b></td></tr>" );
+	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<tr><td.*?><input.*?value=(\\d*)>.*?<b>(.*?)</b>.*?</td></tr>" );
 
 	public static final AdventureResult PERMIT =  new AdventureResult( 42, 0 );
 	public static final AdventureResult TRINKET = new AdventureResult( 43, 0 );

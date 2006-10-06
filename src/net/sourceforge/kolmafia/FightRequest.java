@@ -138,7 +138,7 @@ public class FightRequest extends KoLRequest
 			// If the user has chosen to abort combat, flag it.
 			action1 = null;
 		}
-		else if ( currentRound < 1 )
+		else if ( currentRound == -1 )
 		{
 			// If this is the first round, you do not
 			// submit extra data.
