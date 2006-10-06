@@ -281,8 +281,6 @@ public abstract class StaticEntity implements KoLConstants
 
 			KoLCharacter.addAvailableSkill( new UseSkillRequest( skillName, "", 1 ) );
 			KoLCharacter.addDerivedSkills();
-
-			KoLCharacter.recalculateAdjustments( false );
 			KoLCharacter.updateStatus();
 		}
 

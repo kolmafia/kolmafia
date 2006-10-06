@@ -741,7 +741,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		activeEffects.sort();
 		recentEffects.clear();
-		KoLCharacter.recalculateAdjustments( false );
 	}
 
 	/**

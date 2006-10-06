@@ -955,9 +955,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setAdventuresLeft( int adventuresLeft )
-	{
-		KoLCharacter.adventuresLeft = adventuresLeft;
-		updateStatus();
+	{	KoLCharacter.adventuresLeft = adventuresLeft;
 	}
 
 	/**
@@ -1116,8 +1114,7 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( equipment.length > FAMILIAR && currentFamiliar != FamiliarData.NO_FAMILIAR )
 			currentFamiliar.setItem( equipment[FAMILIAR].getName() );
 
-		recalculateAdjustments( false );
-		updateStatus();
+		recalculateAdjustments();
 	}
 
 	public static void setOutfits( List newOutfits )
@@ -1785,8 +1782,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setMindControlLevel( int level )
 	{
 		KoLCharacter.mindControlLevel = level;
-		recalculateAdjustments( false );
-		updateStatus();
+		recalculateAdjustments();
 	}
 
 	/**
@@ -1919,8 +1915,10 @@ public abstract class KoLCharacter extends StaticEntity
 		switch ( ClassSkillsDatabase.getSkillType( skill.getSkillID() ) )
 		{
 			case ClassSkillsDatabase.PASSIVE:
+
 				// Flavour of Magic gives you access to five other
 				// castable skills
+
 				if ( skill.getSkillName().equals( "Flavour of Magic" ) )
 				{
 					usableSkills.add( new UseSkillRequest( "Spirit of Cayenne", "", 1 ) );
@@ -1929,6 +1927,8 @@ public abstract class KoLCharacter extends StaticEntity
 					usableSkills.add( new UseSkillRequest( "Spirit of Wormwood", "", 1 ) );
 					usableSkills.add( new UseSkillRequest( "Spirit of Bacon Grease", "", 1 ) );
 				}
+
+				recalculateAdjustments();
 				break;
 
 			case ClassSkillsDatabase.SKILL:
@@ -1942,8 +1942,6 @@ public abstract class KoLCharacter extends StaticEntity
 				addCombatSkill( skill.getSkillName() );
 				break;
 		}
-
-		recalculateAdjustments( true );
 	}
 
 	/**
@@ -2145,9 +2143,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setArenaWins( int wins )
-	{
-		arenaWins = wins;
-		updateStatus();
+	{	arenaWins = wins;
 	}
 
 	/**
@@ -2179,10 +2175,9 @@ public abstract class KoLCharacter extends StaticEntity
 		familiars.setSelectedItem( currentFamiliar );
 
 		updateEquipmentList( ConsumeItemRequest.EQUIP_FAMILIAR, equipmentLists[FAMILIAR] );
-		recalculateAdjustments( false );
+		recalculateAdjustments();
 
 		isUsingStabBat = familiar.getRace().equals( "Stab Bat" ) || familiar.getRace().equals( "Scary Death Orb" );
-		updateStatus();
 	}
 
 	/**
@@ -2195,8 +2190,7 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( currentFamiliar != null )
 		{
 			currentFamiliar.setWeight( currentFamiliar.getWeight() + 1 );
-			recalculateAdjustments( false );
-			updateStatus();
+			recalculateAdjustments();
 		}
 	}
 
@@ -2497,7 +2491,7 @@ public abstract class KoLCharacter extends StaticEntity
 	// Items and skills that make Mysticality the To-Hit stat
 	private static final int SAUCE_GLOVE = 531;
 
-	public static boolean recalculateAdjustments( boolean update )
+	public static boolean recalculateAdjustments()
 	{
 		int newMonsterLevelAdjustment = 0;
 		int newFamiliarWeightAdjustment = 0;
@@ -2820,12 +2814,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		changed |= newStenchResistance != stenchResistance;
 		stenchResistance = newStenchResistance;
-
-		// If the recalculation requires an update, and there was a
-		// change detected, then update.
-
-		if ( changed && update )
-			updateStatus();
 
 		return changed;
 	}

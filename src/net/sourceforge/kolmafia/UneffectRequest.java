@@ -184,8 +184,6 @@ public class UneffectRequest extends KoLRequest
 				RequestFrame.refreshStatus();
 			else
 				CharpaneRequest.getInstance().run();
-
-			KoLCharacter.recalculateAdjustments( false );
 		}
 		else if ( !isShruggable )
 			KoLmafia.updateDisplay( "Effect removal failed." );
