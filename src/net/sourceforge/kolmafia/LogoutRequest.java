@@ -81,8 +81,4 @@ public class LogoutRequest extends KoLRequest
 
 		instanceRunning = false;
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

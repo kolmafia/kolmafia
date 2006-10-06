@@ -190,8 +190,4 @@ public class UneffectRequest extends KoLRequest
 		else if ( !isShruggable )
 			KoLmafia.updateDisplay( "Effect removal failed." );
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

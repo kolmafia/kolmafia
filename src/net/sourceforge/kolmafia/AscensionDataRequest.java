@@ -509,8 +509,4 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			return level - adf.level;
 		}
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

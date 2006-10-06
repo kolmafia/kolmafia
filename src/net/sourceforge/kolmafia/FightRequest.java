@@ -509,8 +509,4 @@ public class FightRequest extends KoLRequest
 
 		return true;
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return currentRound == -1;
-	}
 }

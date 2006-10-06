@@ -107,8 +107,4 @@ public class AccountRequest extends PasswordHashRequest
 				StaticEntity.setProperty( "defaultAutoAttack", optionMatcher.group(1) );
 		}
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

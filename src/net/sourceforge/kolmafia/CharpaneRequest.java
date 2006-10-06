@@ -262,8 +262,4 @@ public class CharpaneRequest extends KoLRequest
 		KoLmafia.applyEffects();
 		activeEffects.retainAll( visibleEffects );
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

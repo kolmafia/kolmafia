@@ -304,9 +304,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.isDelayExempt = getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof ChatRequest ||
 			this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
 
-		this.shouldIgnoreResults = shouldIgnore( formURLString ) || formURLString.startsWith( "chat" ) ||
-			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "showplayer" ) ||
-			formURLString.startsWith( "doc" ) || formURLString.startsWith( "searchp" );
+		this.shouldIgnoreResults = formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) ||
+			formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" ) || formURLString.indexOf( "search" ) != -1  ||
+			formURLString.indexOf( "clan" ) != -1 || formURLString.startsWith( "chat" ) || formURLString.indexOf( "message" ) != -1;
 	}
 
 	protected void constructURLString( String newURLString )
@@ -726,10 +726,11 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( !shouldIgnoreResults )
 			{
-				if ( needsRefresh || mayChangeCreatables() )
-					KoLCharacter.refreshCalculatedLists();
-				else if ( formURLString.indexOf( "charpane.php" ) != -1 || formURLString.indexOf( "brewery.php" ) != -1 )
+				if ( needsRefresh || formURLString.indexOf( "charpane.php" ) != -1 || formURLString.indexOf( "brewery.php" ) != -1 )
+				{
+					KoLCharacter.recalculateAdjustments( false );
 					KoLCharacter.updateStatus();
+				}
 			}
 		}
 
@@ -1869,9 +1870,5 @@ public class KoLRequest implements Runnable, KoLConstants
 			Map.Entry entry = (Map.Entry)iterator.next();
 			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
-	}
-
-	protected boolean mayChangeCreatables()
-	{	return responseText != null && responseText.indexOf( "You gain" ) != -1 || responseText.indexOf( "You acquire" ) != -1;
 	}
 }

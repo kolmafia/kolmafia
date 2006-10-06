@@ -1317,37 +1317,59 @@ public abstract class KoLCharacter extends StaticEntity
 	{	updateEquipmentList( listIndex, getEquipment( listIndex ) );
 	}
 
-	public static void updateEquipmentList( int listIndex, AdventureResult equippedItem )
+	private static int consumeFilterToEquipmentType( int consumeFilter )
 	{
-		int consumeFilter = 0;
-		switch ( listIndex )
+		switch ( consumeFilter )
+		{
+			case ConsumeItemRequest.EQUIP_HAT:
+				return HAT;
+			case ConsumeItemRequest.EQUIP_WEAPON:
+				return WEAPON;
+			case ConsumeItemRequest.EQUIP_OFFHAND:
+				return OFFHAND;
+			case ConsumeItemRequest.EQUIP_SHIRT:
+				return SHIRT;
+			case ConsumeItemRequest.EQUIP_PANTS:
+				return PANTS;
+			case ConsumeItemRequest.EQUIP_ACCESSORY:
+				return ACCESSORY1;
+			case ConsumeItemRequest.EQUIP_FAMILIAR:
+				return FAMILIAR;
+			default:
+				return -1;
+		}
+	}
+
+	private static int equipmentTypeToConsumeFilter( int equipmentType )
+	{
+		switch ( equipmentType )
 		{
 			case HAT:
-				consumeFilter = ConsumeItemRequest.EQUIP_HAT;
-				break;
+				return ConsumeItemRequest.EQUIP_HAT;
 			case WEAPON:
-				consumeFilter = ConsumeItemRequest.EQUIP_WEAPON;
-				break;
+				return ConsumeItemRequest.EQUIP_WEAPON;
 			case OFFHAND:
-				consumeFilter = ConsumeItemRequest.EQUIP_OFFHAND;
-				break;
+				return ConsumeItemRequest.EQUIP_OFFHAND;
 			case SHIRT:
-				consumeFilter = ConsumeItemRequest.EQUIP_SHIRT;
-				break;
+				return ConsumeItemRequest.EQUIP_SHIRT;
 			case PANTS:
-				consumeFilter = ConsumeItemRequest.EQUIP_PANTS;
-				break;
+				return ConsumeItemRequest.EQUIP_PANTS;
 			case ACCESSORY1:
 			case ACCESSORY2:
 			case ACCESSORY3:
-				consumeFilter = ConsumeItemRequest.EQUIP_ACCESSORY;
-				break;
+				return ConsumeItemRequest.EQUIP_ACCESSORY;
 			case FAMILIAR:
-				consumeFilter = ConsumeItemRequest.EQUIP_FAMILIAR;
-				break;
+				return ConsumeItemRequest.EQUIP_FAMILIAR;
 			default:
-				return;
+				return -1;
 		}
+	}
+
+	public static void updateEquipmentList( int listIndex, AdventureResult equippedItem )
+	{
+		int consumeFilter = equipmentTypeToConsumeFilter( listIndex );
+		if ( consumeFilter == -1 )
+			return;
 
 		updateEquipmentList( equipmentLists[ listIndex ], consumeFilter, equippedItem );
 	}
@@ -1637,7 +1659,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setBartender( boolean hasBartender )
 	{
 		KoLCharacter.hasBartender = hasBartender;
-		refreshCalculatedLists();
+		ConcoctionsDatabase.refreshConcoctions();
 	}
 
 	/**
@@ -1657,7 +1679,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setChef( boolean hasChef )
 	{
 		KoLCharacter.hasChef = hasChef;
-		refreshCalculatedLists();
+		ConcoctionsDatabase.refreshConcoctions();
 	}
 
 	/**
@@ -2273,21 +2295,8 @@ public abstract class KoLCharacter extends StaticEntity
 			listenerList.remove( listener );
 	}
 
-	/**
-	 * Utility method which forces the update of a group
-	 * of results.  This should be called immediately after
-	 * the processing of results.
-	 */
-
-	public static void refreshCalculatedLists()
-	{
-		if ( username.equals( "" ) )
-			return;
-
-		updateEquipmentLists();
-		ConcoctionsDatabase.refreshConcoctions();
-		recalculateAdjustments( false );
-		updateStatus();
+	public static void processResult( AdventureResult result )
+	{	processResult( result, true );
 	}
 
 	/**
@@ -2296,7 +2305,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * of other good stuff.
 	 */
 
-	public static void processResult( AdventureResult result )
+	public static void processResult( AdventureResult result, boolean updateCalculatedLists )
 	{
 		// Treat the result as normal from this point forward.
 		// Figure out which list the skill should be added to
@@ -2314,6 +2323,16 @@ public abstract class KoLCharacter extends StaticEntity
 			int price = TradeableItemDatabase.getPriceByID( result.getItemID() );
 			if ( price > 0 || price == -1 )
 				AdventureResult.addResultToList( sellables, result );
+
+			if ( updateCalculatedLists )
+			{
+				int equipmentType = consumeFilterToEquipmentType( TradeableItemDatabase.getConsumptionType( result.getItemID() ) );
+				if ( equipmentType != -1 )
+					updateEquipmentList( equipmentType );
+
+				if ( !ConcoctionsDatabase.getKnownUses( result ).isEmpty() )
+					ConcoctionsDatabase.refreshConcoctions();
+			}
 		}
 		else if ( resultName.equals( AdventureResult.HP ) )
 			setHP( getCurrentHP() + result.getCount(), getMaximumHP(), getBaseMaxHP() );

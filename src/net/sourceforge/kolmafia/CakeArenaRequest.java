@@ -144,8 +144,4 @@ public class CakeArenaRequest extends KoLRequest
 	public int getAdventuresUsed()
 	{	return isCompetition ? 1 : 0;
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

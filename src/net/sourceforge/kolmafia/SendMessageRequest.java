@@ -333,8 +333,4 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		return true;
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return true;
-	}
 }

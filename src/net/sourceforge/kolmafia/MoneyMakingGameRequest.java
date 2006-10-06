@@ -211,8 +211,4 @@ public class MoneyMakingGameRequest extends KoLRequest
 			}
 		}
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }
