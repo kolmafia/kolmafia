@@ -278,7 +278,10 @@ public abstract class MoodSettings implements KoLConstants
 		// and poisoned statuses.
 
 		addTrigger( "gain_effect", "Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
-		addTrigger( "gain_effect", "Beaten Up", getDefaultAction( "gain_effect", "Beaten Up" ) );
+
+		String beatenUpAction = getDefaultAction( "gain_effect", "Beaten Up" );
+		if ( !beatenUpAction.equals( "" ) )
+			addTrigger( "gain_effect", "Beaten Up", beatenUpAction );
 
 
 		// If there's any effects the player currently has and there
@@ -569,10 +572,10 @@ public abstract class MoodSettings implements KoLConstants
 
 			if ( name.equals( "Beaten Up" ) )
 			{
-				if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
-					return "cast Tongue of the Otter";
 				if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
 					return "cast Tongue of the Walrus";
+				if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
+					return "cast Tongue of the Otter";
 				if ( KoLCharacter.hasItem( UneffectRequest.FOREST_TEARS, false ) )
 					return "use forest tears";
 				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE, false ) )
@@ -580,11 +583,7 @@ public abstract class MoodSettings implements KoLConstants
 				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY, false ) || KoLCharacter.canInteract() )
 					return "uneffect beaten up";
 
-				int beatenUpTurns = KoLAdventure.BEATEN_UP.getCount( KoLConstants.activeEffects );
-				if ( beatenUpTurns == 0 )
-					beatenUpTurns = 3;
-
-				return "use unguent; adventure " + beatenUpTurns + " unlucky sewer";
+				return "";
 			}
 
 		}
