@@ -726,10 +726,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				if ( !(this instanceof LocalRelayRequest) || formURLString.indexOf( "charpane.php" ) != -1 )
 					KoLCharacter.updateStatus();
 			}
-
 		}
-
-		StaticEntity.getClient().setCurrentRequest( null );
 	}
 
 	private void saveLastChoice( String url )
