@@ -261,7 +261,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		public void run()
 		{
-			if ( !StaticEntity.getProperty( "autoLogin" ).equals( "" ) || !KoLmafia.executedLogin() )
+			if ( (!StaticEntity.getProperty( "autoLogin" ).equals( "" ) && saveStateNames.size() == 1) || !KoLmafia.executedLogin() )
 				SystemTrayFrame.removeTrayIcon();
 
 			KoLmafia.forceContinue();
@@ -787,15 +787,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{
-			if ( makesRequest() )
-				(new RequestThread( this )).start();
-			else
-				(new Thread( this )).start();
-		}
-
-		public boolean makesRequest()
-		{	return false;
+		{	(new Thread( this )).start();
 		}
 
 		public final void run()
@@ -930,10 +922,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			StaticEntity.getClient().makeRequest( request );
 			KoLmafia.enableDisplay();
-		}
-
-		public boolean makesRequest()
-		{	return true;
 		}
 	}
 

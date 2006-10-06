@@ -272,7 +272,7 @@ public class CharsheetRequest extends KoLRequest
 		}
 
 		KoLCharacter.setAvailableSkills( newSkillSet );
-		KoLCharacter.updateStatus();
+		KoLCharacter.recalculateAdjustments();
 	}
 
 	/**

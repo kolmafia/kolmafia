@@ -709,8 +709,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			needsRefresh &= !(this instanceof LocalRelayRequest);
-			needsRefresh &= !shouldIgnoreResults;
-
 			StaticEntity.getClient().applyEffects();
 
 			if ( statusChanged && RequestFrame.willRefreshStatus() )
@@ -721,12 +719,18 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				CharpaneRequest.getInstance().run();
 			}
-			else if ( !shouldIgnoreResults )
+			else if ( formURLString.indexOf( "charpane.php" ) != -1 )
 			{
-				if ( !(this instanceof LocalRelayRequest) || formURLString.indexOf( "charpane.php" ) != -1 )
-					KoLCharacter.updateStatus();
+				KoLCharacter.recalculateAdjustments();
+				KoLCharacter.updateStatus();
+			}
+			else if ( !shouldIgnoreResults && !(this instanceof LocalRelayRequest) && getClass() != KoLRequest.class )
+			{
+				KoLCharacter.updateStatus();
 			}
 		}
+
+		StaticEntity.getClient().setCurrentRequest( null );
 	}
 
 	private void saveLastChoice( String url )
@@ -1108,11 +1112,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( e instanceof FileNotFoundException )
 			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e, "Page <" + formURLString + "> not found" );
-
 				// In this case, it's like a false redirect, but to
 				// a page which no longer exists.  Pretend it's the
 				// maintenance page.

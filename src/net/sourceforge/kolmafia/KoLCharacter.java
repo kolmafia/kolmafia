@@ -1100,8 +1100,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		if ( equipment.length > FAMILIAR && currentFamiliar != FamiliarData.NO_FAMILIAR )
 			currentFamiliar.setItem( equipment[FAMILIAR].getName() );
-
-		recalculateAdjustments();
 	}
 
 	public static void setOutfits( List newOutfits )
@@ -1785,9 +1783,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setMindControlLevel( int level )
-	{
-		KoLCharacter.mindControlLevel = level;
-		recalculateAdjustments();
+	{	KoLCharacter.mindControlLevel = level;
 	}
 
 	/**
@@ -1933,7 +1929,6 @@ public abstract class KoLCharacter extends StaticEntity
 					usableSkills.add( new UseSkillRequest( "Spirit of Bacon Grease", "", 1 ) );
 				}
 
-				recalculateAdjustments();
 				break;
 
 			case ClassSkillsDatabase.SKILL:
@@ -2180,8 +2175,6 @@ public abstract class KoLCharacter extends StaticEntity
 		familiars.setSelectedItem( currentFamiliar );
 
 		updateEquipmentList( ConsumeItemRequest.EQUIP_FAMILIAR, equipmentLists[FAMILIAR] );
-		recalculateAdjustments();
-
 		isUsingStabBat = familiar.getRace().equals( "Stab Bat" ) || familiar.getRace().equals( "Scary Death Orb" );
 	}
 
@@ -2193,10 +2186,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void incrementFamilarWeight()
 	{
 		if ( currentFamiliar != null )
-		{
 			currentFamiliar.setWeight( currentFamiliar.getWeight() + 1 );
-			recalculateAdjustments();
-		}
 	}
 
 	/**

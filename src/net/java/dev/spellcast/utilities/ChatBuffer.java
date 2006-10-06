@@ -122,7 +122,7 @@ public class ChatBuffer
 
 	public ChatBuffer( String title )
 	{
-		this.displayBuffer = new StringBuffer();
+		this.displayBuffer = new StringBuffer( "<body>" );
 		this.title = title;
 		this.header = "<html><head>" + NEW_LINE + "<title>" + title + "</title>" + NEW_LINE;
 	}
@@ -136,6 +136,8 @@ public class ChatBuffer
 	public void clearBuffer()
 	{
 		displayBuffer.setLength( 0 );
+		displayBuffer.append( "<body>" );
+
 		fireBufferChanged( DISPLAY_CHANGE, null );
 	}
 
@@ -266,18 +268,30 @@ public class ChatBuffer
 		if ( changeType != LOGFILE_CHANGE )
 		{
 			boolean shouldScroll = displayBuffer.length() != 0;
+			boolean shouldReset = displayBuffer.length() == 0 || newContents == null;
 
 			if ( newContents != null )
+			{
+				if ( newContents.indexOf( "<body" ) != -1 )
+				{
+					shouldReset = true;
+					displayBuffer.setLength(0);
+				}
+
+				int endBody = newContents.indexOf( "</body>" );
+				if ( endBody != -1 )
+					newContents = newContents.substring( 0, endBody );
+
 				displayBuffer.append( newContents );
 
-			boolean shouldReset = displayBuffer.length() == 0 || newContents == null;
+			}
 
 			if ( displayPane != null && displayPane.getDocument() instanceof HTMLDocument )
 			{
 				HTMLDocument currentHTML = null;
 				if ( shouldReset )
 				{
-					displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+					displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head>" + displayBuffer.toString() + "</body></html>" );
 				}
 				else if ( newContents != null && displayPane.getDocument() instanceof HTMLDocument )
 				{
