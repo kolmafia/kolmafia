@@ -199,6 +199,7 @@ public class LoginRequest extends KoLRequest
 
 		runCountdown = true;
 		sendPlainText = false;
+		KoLmafia.forceContinue();
 
 		instanceRunning = true;
 		lastUsername = username;
@@ -211,13 +212,16 @@ public class LoginRequest extends KoLRequest
 		{
 			try
 			{
-				KoLmafia.forceContinue();
-
-				while ( !KoLmafia.refusesContinue() && executeLogin() )
+				if ( executeLogin() )
 				{
-					KoLmafia.forceContinue();
 					if ( runCountdown )
 						StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
+
+					if ( executeLogin() )
+					{
+						KoLmafia.updateDisplay( ABORT_STATE, "Encountered error in login." );
+						KoLmafia.enableDisplay();
+					}
 				}
 			}
 			catch ( Exception e )
@@ -272,6 +276,9 @@ public class LoginRequest extends KoLRequest
 
 		waitTime = STANDARD_WAIT;
 		runCountdown = true;
+
+		if ( KoLmafia.refusesContinue() )
+			return false;
 
 		super.run();
 
@@ -358,6 +365,14 @@ public class LoginRequest extends KoLRequest
 				setLoginServer( matcher.group(1) );
 				return true;
 			}
+		}
+		else if ( responseText.indexOf( "Too many" ) != -1 )
+		{
+			// Too many bad logins in too short a time span.
+			// Notify the user that something bad happened.
+
+			KoLmafia.updateDisplay( ABORT_STATE, "Too many failed login attempts." );
+			return false;
 		}
 
 		Matcher failureMatcher = FAILURE_PATTERN.matcher( responseText );
