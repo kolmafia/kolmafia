@@ -76,6 +76,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final int FOOD = 4;
 	public static final int BOOZE = 5;
 
+	private boolean isMatchingCreateRequest = false;
 	private String previousLine;
 	private BufferedReader commandStream;
 
@@ -2944,7 +2945,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public AdventureResult getFirstMatchingItem( String parameters )
 	{
-		boolean isCreationMatch = previousLine != null && previousLine.startsWith( "create" );
+		boolean isCreationMatch = isMatchingCreateRequest;
 
 		int itemID = -1;
 		int itemCount = 1;
@@ -3387,9 +3388,13 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		isMatchingCreateRequest = true;
 		AdventureResult firstMatch = getFirstMatchingItem( parameters );
+		isMatchingCreateRequest = false;
+
 		if ( firstMatch == null )
 			return;
+
 
 		ItemCreationRequest irequest = ItemCreationRequest.getInstance( firstMatch );
 		if ( irequest == null )
