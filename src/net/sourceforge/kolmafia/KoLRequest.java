@@ -711,27 +711,22 @@ public class KoLRequest implements Runnable, KoLConstants
 			needsRefresh &= !(this instanceof LocalRelayRequest);
 			needsRefresh &= !shouldIgnoreResults;
 
+			StaticEntity.getClient().applyEffects();
+
 			if ( statusChanged && RequestFrame.willRefreshStatus() )
 			{
 				RequestFrame.refreshStatus();
-				KoLCharacter.recalculateAdjustments( false );
 			}
 			else if ( needsRefresh )
 			{
 				CharpaneRequest.getInstance().run();
-				KoLCharacter.recalculateAdjustments( false );
 			}
-
-			StaticEntity.getClient().applyEffects();
-
-			if ( !shouldIgnoreResults )
+			else if ( !shouldIgnoreResults )
 			{
-				if ( needsRefresh || formURLString.indexOf( "charpane.php" ) != -1 || formURLString.indexOf( "brewery.php" ) != -1 )
-				{
-					KoLCharacter.recalculateAdjustments( false );
+				if ( !(this instanceof LocalRelayRequest) || formURLString.indexOf( "charpane.php" ) != -1 )
 					KoLCharacter.updateStatus();
-				}
 			}
+
 		}
 
 		StaticEntity.getClient().setCurrentRequest( null );
