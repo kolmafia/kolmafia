@@ -1292,7 +1292,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarData ratHeadBalloonOwner;
 
 		AdventureResult pumpkinBasket;
-		AdventureResult pumpkinBasketOwner;
+		FamiliarData pumpkinBasketOwner;
 
 		int tpCount;
 		AdventureResult [] tp = new AdventureResult [3];
@@ -1457,7 +1457,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				else if ( name.equals( PUMPKIN_BASKET.getName() ) )
 				{
 					this.item = pumpkinBasket = PUMPKIN_BASKET;
-					leadNecklaceOwner = familiar;
+					pumpkinBasketOwner = familiar;
 				}
 				else if ( name.equals( LEAD_NECKLACE.getName() ) )
 				{
