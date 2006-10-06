@@ -238,7 +238,7 @@ public class FightRequest extends KoLRequest
 				return;
 			}
 		}
-		while ( KoLmafia.permitsContinue() && currentRound != -1 );
+		while ( KoLmafia.permitsContinue() && currentRound != 0 );
 	}
 
 	private boolean isAcceptable( int offenseModifier, int defenseModifier )
