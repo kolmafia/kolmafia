@@ -1373,6 +1373,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				if ( upkeepAction.endsWith( "snowcone" ) || upkeepAction.endsWith( "mushroom" ) || upkeepAction.endsWith( "cupcake" ) )
 					upkeepAction = "";
+				if ( effectName.equals( "Beaten Up" ) && removeAction.equals( "" ) )
+					removeAction = "use unguent; adventure 3 unlucky sewer";
 
 				String skillName = UneffectRequest.effectToSkill( effectName );
 				int skillType = ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillID( skillName ) );
@@ -1410,7 +1412,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						buffer.append( Character.toUpperCase( removeAction.charAt(0) ) + removeAction.substring(1) + " to remove the " );
 
 					buffer.append( effectName );
-					buffer.append( " effect\">" );
+					buffer.append( " effect\"" );
+
+					if ( effectName.equals( "Poisoned" ) || effectName.equals( "Beaten Up" ) )
+						buffer.append( " style=\"color:red\"" );
+
+					buffer.append( ">" );
 				}
 
 				nextAppendIndex = text.indexOf( ")", lastAppendIndex ) + 1;
