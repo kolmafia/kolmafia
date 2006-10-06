@@ -308,7 +308,10 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	protected Object [] getAttachedItems()
 	{
-		attachments.add( new AdventureResult( AdventureResult.MEAT, getValue( attachedMeat ) ) );
+		int meatAttachment = getValue( attachedMeat );
+		if ( meatAttachment > 0 )
+			attachments.add( new AdventureResult( AdventureResult.MEAT, meatAttachment ) );
+
 		return attachments.toArray();
 	}
 
