@@ -448,6 +448,19 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return;
 
+		// Clear the violet fog path table and everything
+		// else that changes on the player.
+
+		VioletFog.reset();
+		Louvre.reset();
+		CombatSettings.reset();
+		MoodSettings.reset();
+		KoLMailManager.reset();
+		StoreManager.reset();
+		MuseumManager.reset();
+		ClanManager.reset();
+		MushroomPlot.reset();
+
 		// Retrieve the items which are available for consumption
 		// and item creation.
 
