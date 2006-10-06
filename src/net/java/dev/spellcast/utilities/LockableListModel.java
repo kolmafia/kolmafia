@@ -468,11 +468,16 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public boolean removeAll( Collection c )
 	{
+		if ( isEmpty() || c.isEmpty() )
+			return false;
+
 		int originalSize = size();
 		if ( !elements.removeAll( c ) )
 			return false;
 
-		fireContentsChanged( this, 0, originalSize - 1 );
+		fireIntervalRemoved( this, 0, originalSize - 1 );
+		fireIntervalAdded( this, 0, size() - 1 );
+
 		return true;
 	}
 
@@ -483,11 +488,22 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public boolean retainAll( Collection c )
 	{
+		if ( isEmpty() )
+			return false;
+
+		if ( c.isEmpty() )
+		{
+			clear();
+			return true;
+		}
+
 		int originalSize = size();
 		if ( !elements.retainAll( c ) )
 			return false;
 
-		fireContentsChanged( this, 0, originalSize - 1 );
+		fireIntervalRemoved( this, 0, originalSize - 1 );
+		fireIntervalAdded( this, 0, size() - 1 );
+
 		return true;
 	}
 
@@ -568,11 +584,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
      */
 
     public Object getSelectedItem()
-    {
-    	if ( !contains( selectedValue ) )
-    		selectedValue = null;
-
-    	return selectedValue;
+    {	return contains( selectedValue ) ? selectedValue : null;
 	}
 
 	/**
@@ -585,11 +597,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public int getSelectedIndex()
-	{
-    	if ( !contains( selectedValue ) )
-    		selectedValue = null;
-
-    	return indexOf( selectedValue );
+	{	return indexOf( selectedValue );
 	}
 
     /**
@@ -598,7 +606,9 @@ public class LockableListModel extends javax.swing.AbstractListModel
      */
 
 	public void setSelectedItem( Object o )
-	{	setSelectedIndex( o == null ? -1 : indexOf( o ) );
+	{
+		selectedValue = o;
+		fireContentsChanged( this, -1, -1 );
 	}
 
 	/**
@@ -920,7 +930,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		private void contentsChanged( LockableListModel source, int index0, int index1 )
 		{
-			if ( mirrorImage == null || source == null || index1 < 0 )
+			if ( mirrorImage == null || source == null || index0 < 0 || index1 < 0 )
 				return;
 
 			for ( int i = index0; i <= index1; ++i )

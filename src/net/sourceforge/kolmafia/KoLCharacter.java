@@ -1306,17 +1306,6 @@ public abstract class KoLCharacter extends StaticEntity
 	{	return equipmentLists;
 	}
 
-	public static void updateEquipmentLists()
-	{
-		EquipmentDatabase.updateOutfits();
-		for ( int i = 0; i <= FAMILIAR; ++i )
-			updateEquipmentList( i );
-	}
-
-	public static void updateEquipmentList( int listIndex )
-	{	updateEquipmentList( listIndex, getEquipment( listIndex ) );
-	}
-
 	private static int consumeFilterToEquipmentType( int consumeFilter )
 	{
 		switch ( consumeFilter )
@@ -1365,30 +1354,32 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 	}
 
-	public static void updateEquipmentList( int listIndex, AdventureResult equippedItem )
+	public static void updateEquipmentLists()
+	{
+		EquipmentDatabase.updateOutfits();
+		for ( int i = 0; i <= FAMILIAR; ++i )
+			updateEquipmentList( i );
+	}
+
+	public static void updateEquipmentList( int listIndex )
 	{
 		int consumeFilter = equipmentTypeToConsumeFilter( listIndex );
 		if ( consumeFilter == -1 )
 			return;
 
-		updateEquipmentList( equipmentLists[ listIndex ], consumeFilter, equippedItem );
+		updateEquipmentList( consumeFilter, equipmentLists[ listIndex ] );
+		AdventureResult equippedItem = getEquipment( listIndex );
+
+		if ( !equipmentLists[ listIndex ].contains( equippedItem ) )
+			equipmentLists[ listIndex ].add( equippedItem );
+
+		equipmentLists[ listIndex ].setSelectedItem( equippedItem );
 	}
 
-	private static void updateEquipmentList( LockableListModel currentList, int consumeFilter, AdventureResult equippedItem )
+	private static void updateEquipmentList( int filterID, List currentList )
 	{
-		List newItems = getFilteredItems( consumeFilter, equippedItem );
-
-		currentList.retainAll( newItems );
-		newItems.removeAll( currentList );
-		currentList.addAll( newItems );
-
-		currentList.setSelectedItem( equippedItem );
-	}
-
-	private static List getFilteredItems( int filterID, AdventureResult equippedItem )
-	{
-		List items = new ArrayList();
-		items.add( EquipmentRequest.UNEQUIP );
+		if ( !currentList.contains( EquipmentRequest.UNEQUIP ) )
+			currentList.add( EquipmentRequest.UNEQUIP );
 
 		// If the character is currently equipped with a one-handed
 		// weapon and the character has the ability to dual-wield
@@ -1402,13 +1393,13 @@ public abstract class KoLCharacter extends StaticEntity
 		// be equipped.  So, return the blank list now.
 
 		if ( filterID == ConsumeItemRequest.EQUIP_FAMILIAR && currentFamiliar == null )
-			return items;
+			return;
 
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			AdventureResult currentItem = (AdventureResult) inventory.get(i);
 			String currentItemName = currentItem.getName();
-			int type = TradeableItemDatabase.getConsumptionType( currentItemName );
+			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemID() );
 
 			// If we want off-hand items and we can dual wield,
 			// allow one-handed weapons of same type
@@ -1441,7 +1432,8 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( type == ConsumeItemRequest.EQUIP_FAMILIAR )
 			{
 				if ( currentFamiliar.canEquip( currentItemName ) )
-					items.add( currentItem );
+					currentList.add( currentItem );
+
 				continue;
 			}
 
@@ -1450,10 +1442,8 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( !EquipmentDatabase.canEquip( currentItemName ) )
 				continue;
 
-			if ( type == ConsumeItemRequest.EQUIP_ACCESSORY )
-				items.add( currentItem.getInstance( getCount( currentItem ) ) );
-			else
-				items.add( currentItem );
+			if ( !currentList.contains( currentItem ) )
+				currentList.add( currentItem );
 		}
 
 		// If we are looking at familiar items, include those which can
@@ -1470,24 +1460,10 @@ public abstract class KoLCharacter extends StaticEntity
 				String itemName = familiarList[i].getItem();
 				AdventureResult item = new AdventureResult( itemName, 1, false );
 
-				if ( item != null && !items.contains( item ) && currentFamiliar.canEquip( itemName ) )
-					items.add( item );
+				if ( item != null && !currentList.contains( item ) && currentFamiliar.canEquip( itemName ) )
+					currentList.add( item );
 			}
 		}
-		else if ( filterID == ConsumeItemRequest.EQUIP_ACCESSORY )
-		{
-			if ( !items.contains( KoLCharacter.getEquipment( ACCESSORY1 ) ) )
-				items.add( equippedItem.getInstance( getCount( KoLCharacter.getEquipment( ACCESSORY1 ) ) ) );
-			if ( !items.contains( KoLCharacter.getEquipment( ACCESSORY2 ) ) )
-				items.add( equippedItem.getInstance( getCount( KoLCharacter.getEquipment( ACCESSORY2 ) ) ) );
-			if ( !items.contains( KoLCharacter.getEquipment( ACCESSORY3 ) ) )
-				items.add( equippedItem.getInstance( getCount( KoLCharacter.getEquipment( ACCESSORY3 ) ) ) );
-		}
-
-		if ( !items.contains( equippedItem ) )
-			items.add( equippedItem );
-
-		return items;
 	}
 
 	private static int getCount( AdventureResult accessory )
@@ -2201,7 +2177,8 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		currentFamiliar = addFamiliar( familiar );
 		familiars.setSelectedItem( currentFamiliar );
-		updateEquipmentList( equipmentLists[FAMILIAR], ConsumeItemRequest.EQUIP_FAMILIAR, getFamiliarItem() );
+
+		updateEquipmentList( ConsumeItemRequest.EQUIP_FAMILIAR, equipmentLists[FAMILIAR] );
 		recalculateAdjustments( false );
 
 		isUsingStabBat = familiar.getRace().equals( "Stab Bat" ) || familiar.getRace().equals( "Scary Death Orb" );

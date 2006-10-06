@@ -108,6 +108,7 @@ public class GearChangeFrame extends KoLFrame
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( equip = new EquipPanel(), "" );
+
 		KoLCharacter.updateEquipmentLists();
 		ensureValidSelections();
 	}
@@ -161,6 +162,7 @@ public class GearChangeFrame extends KoLFrame
 
 			// If current offhand item is not compatible with new
 			// weapon, unequip it first.
+
 			AdventureResult offhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 			if ( EquipmentDatabase.getHands( offhand.getName() ) == 1 )
 			{
@@ -394,5 +396,4 @@ public class GearChangeFrame extends KoLFrame
 		currentList.addAll( newItems );
 		currentList.setSelectedItem( equippedItem );
 	}
-
 }
