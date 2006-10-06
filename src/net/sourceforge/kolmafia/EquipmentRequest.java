@@ -614,9 +614,15 @@ public class EquipmentRequest extends PasswordHashRequest
 
 			AdventureResult result = new AdventureResult( itemID, StaticEntity.parseInt( optionMatcher.group(3) ) );
 			if ( resultList == inventory )
-				KoLCharacter.processResult( result );
+				KoLCharacter.processResult( result, false );
 			else
 				AdventureResult.addResultToList( resultList, result );
+		}
+
+		if ( resultList == inventory )
+		{
+			KoLCharacter.updateEquipmentLists();
+			ConcoctionsDatabase.refreshConcoctions();
 		}
 	}
 
@@ -882,9 +888,5 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 
 		return true;
-	}
-
-	protected boolean mayChangeCreatables()
-	{	return true;
 	}
 }

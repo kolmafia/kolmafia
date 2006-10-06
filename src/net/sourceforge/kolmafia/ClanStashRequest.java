@@ -270,8 +270,4 @@ public class ClanStashRequest extends SendMessageRequest
 		return moveType == ITEMS_TO_STASH ? "Dropping items into stash" : moveType == STASH_TO_ITEMS ? "Pulling items from stash" :
 			"Donating meat to stash";
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return true;
-	}
 }

@@ -118,8 +118,4 @@ public class GalaktikRequest extends KoLRequest
 	public String getCommandForm()
 	{	return "galaktik " + (type == HP ? "hp" : "mp");
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

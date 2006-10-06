@@ -75,8 +75,4 @@ public class MindControlRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Mind control device reset." );
 		KoLCharacter.setMindControlLevel( level );
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

@@ -277,9 +277,13 @@ public abstract class StaticEntity implements KoLConstants
 		Matcher learnedMatcher = NEWSKILL_PATTERN.matcher( responseText );
 		if ( learnedMatcher.find() )
 		{
-			KoLCharacter.addAvailableSkill( new UseSkillRequest( learnedMatcher.group(1), "", 1 ) );
+			String skillName = learnedMatcher.group(1);
+
+			KoLCharacter.addAvailableSkill( new UseSkillRequest( skillName, "", 1 ) );
 			KoLCharacter.addDerivedSkills();
-			KoLCharacter.refreshCalculatedLists();
+
+			KoLCharacter.recalculateAdjustments( false );
+			KoLCharacter.updateStatus();
 		}
 
 		learnedMatcher = AdventureRequest.STEEL_PATTERN.matcher( responseText );

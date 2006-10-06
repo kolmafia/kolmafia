@@ -71,8 +71,4 @@ public class ClanListRequest extends KoLRequest
 			KoLmafia.updateDisplay( ERROR_STATE, "Your clan can attack again in " + nextMatcher.group(1) );
 		}
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

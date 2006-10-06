@@ -131,8 +131,4 @@ public class FamiliarRequest extends KoLRequest
 
 		return false;
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

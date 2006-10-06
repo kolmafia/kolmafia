@@ -153,8 +153,4 @@ public class ClanMembersRequest extends KoLRequest
 	public String getClanName()
 	{	return clanName;
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

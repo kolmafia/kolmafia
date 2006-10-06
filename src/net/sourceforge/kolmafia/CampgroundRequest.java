@@ -130,8 +130,4 @@ public class CampgroundRequest extends KoLRequest
 	public int getAdventuresUsed()
 	{	return responseCode != 200 || (!action.equals( "rest" ) && !action.equals( "relax" )) ? 0 : 1;
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

@@ -136,8 +136,4 @@ public class StoreManageRequest extends KoLRequest
 	protected void processResults()
 	{
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

@@ -293,7 +293,6 @@ public class OptionsFrame extends KoLFrame
 				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
 			actionCancelled();
-			KoLCharacter.refreshCalculatedLists();
 			AdventureDatabase.refreshAdventureList();
 		}
 
@@ -352,7 +351,7 @@ public class OptionsFrame extends KoLFrame
 				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
 			actionCancelled();
-			KoLCharacter.refreshCalculatedLists();
+			ConcoctionsDatabase.refreshConcoctions();
 		}
 
 		public void actionCancelled()

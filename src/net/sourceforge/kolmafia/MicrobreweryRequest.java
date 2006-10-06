@@ -148,8 +148,4 @@ public class MicrobreweryRequest extends KoLRequest
 
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }

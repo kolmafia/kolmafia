@@ -411,8 +411,4 @@ public class SearchMallRequest extends KoLRequest
 		else
 			searchMall();
 	}
-
-	protected boolean mayChangeCreatables()
-	{	return false;
-	}
 }
