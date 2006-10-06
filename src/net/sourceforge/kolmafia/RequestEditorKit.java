@@ -888,11 +888,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		int cloverIndex = buffer.indexOf( "you look down and notice a ten-leaf clover" );
 		if ( cloverIndex != -1 )
 		{
-			cloverIndex = buffer.indexOf( "</td>" ) + 5;
-			buffer.insert( cloverIndex,
-				"</td></tr><tr><td valign=center>You carefully pull the leaves off of your ten-leaf clover. It seems much less lucky now.</td></tr>" +
-				"<tr><td valign=center class=effect><img src=\"http://images.kingdomofloathing.com/itemimages/disclover.gif\" class=hand onClick='descitem(328909735)'>" +
-				"You acquire an item: <b>disassembled clover</b>" );
+			StaticEntity.singleStringReplace( buffer, "<b>ten-leaf clover</b>", "<b>disassembled clover</b>" );
+			StaticEntity.singleStringReplace( buffer, "clover.gif", "disclover.gif" );
+			StaticEntity.singleStringReplace( buffer, "370834526", "328909735" );
 		}
 
 		// Now, for a little fun HTML manipulation.  See
