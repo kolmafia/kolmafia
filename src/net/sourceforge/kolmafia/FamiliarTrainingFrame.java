@@ -107,6 +107,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final AdventureResult PITH_HELMET = new AdventureResult( 1231, 1 );
 	private static final AdventureResult LEAD_NECKLACE = new AdventureResult( 865, 1 );
 	private static final AdventureResult RAT_HEAD_BALLOON = new AdventureResult( 1218, 1 );
+	private static final AdventureResult PUMPKIN_BASKET = new AdventureResult( 1971, 1 );
 
 	private static final AdventureResult GREEN_SNOWCONE = new AdventureResult( 1413, 1 );
 	private static final AdventureResult BLACK_SNOWCONE = new AdventureResult( 1417, 1 );
@@ -1283,10 +1284,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 		AdventureResult pithHelmet;
 		AdventureResult specItem;
 		int specWeight;
+
 		AdventureResult leadNecklace;
 		FamiliarData leadNecklaceOwner;
+
 		AdventureResult ratHeadBalloon;
 		FamiliarData ratHeadBalloonOwner;
+
+		AdventureResult pumpkinBasket;
+		AdventureResult pumpkinBasketOwner;
+
 		int tpCount;
 		AdventureResult [] tp = new AdventureResult [3];
 
@@ -1424,10 +1431,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 			pithHelmet = null;
 			specItem = null;
 			specWeight = 0;
+
 			leadNecklace = null;
 			leadNecklaceOwner = null;
 			ratHeadBalloon = null;
 			ratHeadBalloonOwner = null;
+			pumpkinBasket = null;
+			pumpkinBasketOwner = null;
+
 			tpCount = 0;
 
 			// Check hat for pithiness
@@ -1442,6 +1453,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 				{
 					this.item = specItem = familiarItem;
 					specWeight = familiarItemWeight;
+				}
+				else if ( name.equals( PUMPKIN_BASKET.getName() ) )
+				{
+					this.item = pumpkinBasket = PUMPKIN_BASKET;
+					leadNecklaceOwner = familiar;
 				}
 				else if ( name.equals( LEAD_NECKLACE.getName() ) )
 				{
@@ -1502,6 +1518,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 				specWeight = familiarItemWeight;
 			}
 
+			// If current familiar is not wearing a pumpkin basket,
+			// search inventory
+			if ( leadNecklace == null &&
+			     PUMPKIN_BASKET.getCount( inventory ) > 0 )
+			{
+				pumpkinBasket = PUMPKIN_BASKET;
+				pumpkinBasketOwner = null;
+			}
+
 			// If current familiar is not wearing a lead necklace,
 			// search inventory
 			if ( leadNecklace == null &&
@@ -1523,7 +1548,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// If we don't have a lead necklace or a rat head
 			// balloon, search other familiars; we'll steal it from
 			// them if necessary
-			if ( leadNecklace == null || ratHeadBalloon == null )
+			if ( leadNecklace == null || ratHeadBalloon == null || pumpkinBasket == null )
 			{
 				// Find first familiar with item
 				LockableListModel familiars = KoLCharacter.getFamiliarList();
@@ -1534,7 +1559,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					if ( item == null )
 						continue;
 
-					if ( item.equals( "lead necklace") )
+					if ( item.equals( "lead necklace" ) )
 					{
 						// We found a lead necklace
 						if ( leadNecklace == null )
@@ -1542,16 +1567,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 							leadNecklace = LEAD_NECKLACE;
 							leadNecklaceOwner = familiar;
 						}
-
-						// Continue looking for balloon
-						if ( ratHeadBalloon == null )
-							continue;
-
-						// Both are available
-						break;
 					}
 
-					if ( item.equals( "rat head balloon") )
+					if ( item.equals( "rat head balloon" ) )
 					{
 						// We found a balloon
 						if ( ratHeadBalloon == null )
@@ -1559,13 +1577,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 							ratHeadBalloon = RAT_HEAD_BALLOON;
 							ratHeadBalloonOwner = familiar;
 						}
+					}
 
-						// Continue looking for necklace
-						if ( leadNecklace == null )
-							continue;
-
-						// Both are available
-						break;
+					if ( item.equals( "plastic pumpkin bucket" ) )
+					{
+						// We found a plastic pumpkin basket
+						if ( pumpkinBasket == null )
+						{
+							pumpkinBasket = PUMPKIN_BASKET;
+							pumpkinBasketOwner = familiar;
+						}
 					}
 				}
 			}
@@ -1661,6 +1682,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// If familiar specific item adds weight, calculate
 			if ( specWeight != 0 )
 				getAccessoryWeights( weight + specWeight );
+
+			// If we have a pumpkin basket, use it
+			if ( pumpkinBasket != null )
+				getAccessoryWeights( weight + 5 );
 
 			// If we have a lead necklace, use it
 			if ( leadNecklace != null )
@@ -1788,6 +1813,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 				results.append( "Taking off " + current.getName() + "<br>" );
 				(new EquipmentRequest( EquipmentRequest.UNEQUIP, slot)).run();
 				setItem( slot, null );
+			}
+
+			if ( next == pumpkinBasket && pumpkinBasketOwner != null && pumpkinBasketOwner != familiar )
+			{
+				results.append( "Stealing rat head balloon from " + pumpkinBasketOwner.getName() + " the " + pumpkinBasketOwner.getRace() + "<br>" );
+				(new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR )).run();
+				pumpkinBasketOwner = familiar;
 			}
 
 			// Steal a lead necklace, if needed
@@ -1943,6 +1975,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{
 			if ( specItem != null )
 				getAccessoryGearSets( weight, specItem, hat, leash, empathy, spray );
+			if ( pumpkinBasket != null )
+				getAccessoryGearSets( weight, pumpkinBasket, hat, leash, empathy, spray );
 			if ( leadNecklace != null )
 				getAccessoryGearSets( weight, leadNecklace, hat, leash, empathy, spray );
 			if ( ratHeadBalloon != null )
@@ -2130,7 +2164,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				weight += 5;
 
 			// Add available familiar items
-			if ( specWeight > 3 )
+			if ( pumpkinBasket != null )
+				weight += 5;
+			else if ( specWeight > 3 )
 				weight += specWeight;
 			else if ( leadNecklace != null )
 				weight += 3;
@@ -2215,6 +2251,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 				text.append( " plexiglass pith helmet (+5)" );
 			if ( specItem != null )
 				text.append( " " + specItem.getName() + " (+" + specWeight + ")" );
+			if ( pumpkinBasket != null)
+				text.append( " plastic pumpkin bucket (+5)" );
 			if ( leadNecklace != null)
 				text.append( " lead necklace (+3)" );
 			if ( ratHeadBalloon != null)

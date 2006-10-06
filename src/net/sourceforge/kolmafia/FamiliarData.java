@@ -176,7 +176,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1623:	// badger badge
 		case 1928:	// tuning fork
 		case 1971:  // plastic pumpkin bucket
-			return 0;
+			return 5;
 
 		case 865:	// lead necklace
 			return 3;
@@ -251,13 +251,14 @@ public class FamiliarData implements KoLConstants, Comparable
 			case -1:
 				return false;
 
-			case 865:
-			case 1040:
-			case 1116:
-			case 1152:
-			case 1218:
-			case 1260:
-			case 1539:
+			case 865:   // lead necklace
+			case 1040:  // lucky Tam O'Shanter
+			case 1116:  // annoying pitchfork
+			case 1152:  // miniature gravy-covered maypole
+			case 1218:  // rat head balloon
+			case 1260:  // wax lips
+			case 1539:  // lucky Tam O'Shatner
+			case 1971:  // plastic pumpkin bucket
 				return true;
 
 			default:
