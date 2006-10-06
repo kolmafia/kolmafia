@@ -1322,11 +1322,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Initialize the list of GearSets
 			gearSets = new ArrayList();
 
-                        // Check skills and equipment
-                        updateStatus();
+			// Check skills and equipment
+			updateStatus();
 		}
 
-                public void updateStatus()
+		public void updateStatus()
 		{
 			// Check available skills
 			checkSkills();
