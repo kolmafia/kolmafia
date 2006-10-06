@@ -81,6 +81,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private KoLmafiaCLI lastScript;
 	private static String previousUpdateString = "";
+	private static boolean printToSession = false;
 
 	private static boolean isPrompting = false;
 	private static boolean isExecutingCheckOnlyCommand = false;
@@ -2734,6 +2735,8 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else if ( desiredData.startsWith( "stat" ) )
 		{
+			printToSession = true;
+
 			printLine( "Lv: " + KoLCharacter.getLevel() );
 			printLine( "HP: " + KoLCharacter.getCurrentHP() + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
 			printLine( "MP: " + KoLCharacter.getCurrentMP() + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
@@ -2754,9 +2757,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 			printLine( "Pet: " + KoLCharacter.getFamiliar() );
 			printLine( "Item: " + KoLCharacter.getFamiliarItem() );
+
+			printToSession = false;
 		}
 		else if ( desiredData.startsWith( "equip" ) )
 		{
+			printToSession = true;
+
 			printLine( "Hat: " + KoLCharacter.getEquipment( KoLCharacter.HAT ) );
 			printLine( "Weapon: " + KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
 
@@ -2777,6 +2784,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 			printLine( "Pet: " + KoLCharacter.getFamiliar() );
 			printLine( "Item: " + KoLCharacter.getFamiliarItem() );
+
+			printToSession = false;
 		}
 		else if ( desiredData.startsWith( "encounters" ) )
 		{
@@ -3937,6 +3946,9 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 
 		previousUpdateString = message.trim();
+
+		if ( printToSession )
+			sessionStream.println( message );
 
 		StringBuffer wordWrappedLine = new StringBuffer();
 		StringTokenizer lineTokens = new StringTokenizer( message, LINE_BREAK, true );

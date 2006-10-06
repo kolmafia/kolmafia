@@ -562,9 +562,10 @@ public class EquipmentRequest extends PasswordHashRequest
 			// excessive list updating.
 
 			if ( switchIn != -1 )
-				AdventureResult.addResultToList( inventory, new AdventureResult( switchIn, -1 ) );
+				KoLCharacter.processResult( new AdventureResult( switchIn, -1 ) );
 
-            // Items will be found when we parse quest items
+			if ( switchOut != -1 )
+				KoLCharacter.processResult( new AdventureResult( switchOut, 1 ) );
 		}
 	}
 
