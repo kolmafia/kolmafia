@@ -709,6 +709,10 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			needsRefresh &= !(this instanceof LocalRelayRequest);
+
+			statusChanged &= formURLString.indexOf( "charpane.php" ) == -1;
+			needsRefresh &= formURLString.indexOf( "charpane.php" ) == -1;
+
 			StaticEntity.getClient().applyEffects();
 
 			if ( statusChanged && RequestFrame.willRefreshStatus() )
