@@ -1354,8 +1354,26 @@ public abstract class KoLCharacter extends StaticEntity
 		updateEquipmentList( consumeFilter, equipmentLists[ listIndex ] );
 		AdventureResult equippedItem = getEquipment( listIndex );
 
-		if ( !equipmentLists[ listIndex ].contains( equippedItem ) )
-			equipmentLists[ listIndex ].add( equippedItem );
+		switch ( listIndex )
+		{
+			case ACCESSORY1:
+			case ACCESSORY2:
+			case ACCESSORY3:
+
+				if ( !equipmentLists[ ACCESSORY1 ].contains( equippedItem ) )
+					equipmentLists[ ACCESSORY1 ].add( equippedItem );
+				if ( !equipmentLists[ ACCESSORY2 ].contains( equippedItem ) )
+					equipmentLists[ ACCESSORY2 ].add( equippedItem );
+				if ( !equipmentLists[ ACCESSORY3 ].contains( equippedItem ) )
+					equipmentLists[ ACCESSORY3 ].add( equippedItem );
+
+			default:
+
+				if ( !equipmentLists[ listIndex ].contains( equippedItem ) )
+					equipmentLists[ listIndex ].add( equippedItem );
+
+		}
+
 
 		equipmentLists[ listIndex ].setSelectedItem( equippedItem );
 	}
