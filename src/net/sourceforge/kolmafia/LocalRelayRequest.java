@@ -78,8 +78,6 @@ public class LocalRelayRequest extends KoLRequest
 			this.contentType = "text/css";
 		else if ( this.formURLString.endsWith( ".js" ) )
 			this.contentType = "text/javascript";
-		else if ( this.formURLString.endsWith( ".php" ) || this.formURLString.endsWith( ".htm" ) || this.formURLString.endsWith( ".html" ) )
-			this.contentType = "text/html";
 		else if ( this.formURLString.endsWith( ".gif" ) )
 			this.contentType = "image/gif";
 		else if ( this.formURLString.endsWith( ".png" ) )
@@ -89,7 +87,7 @@ public class LocalRelayRequest extends KoLRequest
 		else if ( this.formURLString.endsWith( ".ico" ) )
 			this.contentType = "image/x-icon";
 		else
-			this.contentType = "text/plain";
+			this.contentType = "text/html";
 	}
 
 	public String getFullResponse()
@@ -646,7 +644,7 @@ public class LocalRelayRequest extends KoLRequest
 	protected void executeCommand()
 	{
 		runCommand( getFormField( "cmd" ) );
-		pseudoResponse( "HTTP/1.1 200 OK", "" );
+		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 	}
 
 	protected void sideCommand()
@@ -680,7 +678,7 @@ public class LocalRelayRequest extends KoLRequest
 		commandQueue.add( command );
 
 		if ( shouldStartThread )
-			(new Thread( new CommandRunnable() )).start();
+			(new CommandRunnable()).run();
 	}
 
 	protected void sendNotFound()
