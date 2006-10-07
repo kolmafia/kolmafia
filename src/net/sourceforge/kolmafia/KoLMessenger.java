@@ -162,8 +162,8 @@ public abstract class KoLMessenger extends StaticEntity
 
 	protected static void setColor( String channel, int colorIndex )
 	{
-		if ( colorIndex == 0 && !channel.equalsIgnoreCase( "chatcolorothers" ) )
-			colors.put( channel, DataUtilities.toHexString( getRandomColor() ) );
+		if ( colorIndex == 0 )
+			colors.put( channel, channel.startsWith( "chat" ) ? "black" : "green" );
 		else
 			colors.put( channel, AVAILABLE_COLORS[ colorIndex ] );
 	}
@@ -189,8 +189,7 @@ public abstract class KoLMessenger extends StaticEntity
 		reset();
 		isRunning = true;
 
-		if ( enableMonitor )
-			openInstantMessage( "[ALL]" );
+		openInstantMessage( "[ALL]", enableMonitor );
 
 		// Clear the highlights and add all the ones which
 		// were saved from the last session.
@@ -240,6 +239,10 @@ public abstract class KoLMessenger extends StaticEntity
 	 */
 
 	public static LimitedSizeChatBuffer getChatBuffer( String contact )
+	{	return getChatBuffer( contact, true );
+	}
+
+	public static LimitedSizeChatBuffer getChatBuffer( String contact, boolean shouldOpenWindow )
 	{
 		String neededBufferName = getBufferKey( contact );
 		LimitedSizeChatBuffer neededBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.get( neededBufferName );
@@ -250,7 +253,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		if ( neededBuffer == null )
 		{
-			openInstantMessage( neededBufferName );
+			openInstantMessage( neededBufferName, shouldOpenWindow );
 			neededBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.get( neededBufferName );
 		}
 
@@ -477,12 +480,12 @@ public abstract class KoLMessenger extends StaticEntity
 			String [] channels = new String[ channelList.size() ];
 			channelList.toArray( channels );
 
-			openInstantMessage( getBufferKey( currentChannel ) );
+			openInstantMessage( getBufferKey( currentChannel ), true );
 
 			for ( int i = 0; i < channels.length; ++i )
 			{
 				channelKey = "/" + ANYTAG_PATTERN.matcher( channels[i] ).replaceAll( "" ).trim();
-				openInstantMessage( getBufferKey( channelKey ) );
+				openInstantMessage( getBufferKey( channelKey ), true );
 			}
 
 			return;
@@ -631,6 +634,7 @@ public abstract class KoLMessenger extends StaticEntity
 			String sender = ANYTAG_PATTERN.matcher( message.substring( 0, message.indexOf( " (" ) ) ).replaceAll( "" );
 			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerID( sender ) + "\"><b><font color=blue>" +
 				sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
+
 			processChatMessage( sender, cleanHTML );
 		}
 		else if ( message.startsWith( "<b>private to" ) )
@@ -640,6 +644,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerID( sender ) + "\"><b><font color=red>" +
 				sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
+
 			processChatMessage( recipient, cleanHTML );
 		}
 		else
@@ -667,8 +672,7 @@ public abstract class KoLMessenger extends StaticEntity
 			return;
 
 		processChatMessage( channel, message, bufferKey );
-		if ( enableMonitor && channelsSeparate )
-			processChatMessage( channel, message, "[ALL]" );
+		processChatMessage( channel, message, "[ALL]" );
 	}
 
 	private static void processChatMessage( String channel, String message, String bufferKey )
@@ -836,7 +840,7 @@ public abstract class KoLMessenger extends StaticEntity
 		// channel with the appropriate color.
 
 		if ( bufferKey.startsWith( "[" ) && channel.startsWith( "/" ) )
-			displayHTML.insert( 0, "<font color=\"" + getColor( channel.substring(1) ) + "\">[" + channel.substring(1) + "]</font> " );
+			displayHTML.insert( 0, "<font color=\"" + getColor( channel ) + "\">[" + channel.substring(1) + "]</font> " );
 
 		// Now that everything has been properly formatted,
 		// show the display HTML.
@@ -866,11 +870,7 @@ public abstract class KoLMessenger extends StaticEntity
 			return (String) colors.get( channel );
 
 		if ( channel.startsWith( "/" ) )
-		{
-			Color color = getRandomColor();
-			colors.put( channel, color );
-			return DataUtilities.toHexString( color );
-		}
+			return "green";
 
 		if ( channel.equalsIgnoreCase( KoLCharacter.getUsername() ) )
 			return (String) colors.get( "chatcolorself" );
@@ -888,7 +888,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * @param	channel	The channel to be opened
 	 */
 
-	public static void openInstantMessage( String channel )
+	public static void openInstantMessage( String channel, boolean shouldOpenWindow )
 	{
 		// If the window exists, don't open another one as it
 		// just confuses the disposal issue
@@ -908,10 +908,13 @@ public abstract class KoLMessenger extends StaticEntity
 			if ( channel.startsWith( "/" ) )
 				currentlyActive.add( channel );
 
-			if ( useTabbedChat )
-				tabbedFrame.addTab( channel );
-			else
-				SwingUtilities.invokeLater( new CreateFrameRunnable( ChatFrame.class, new String [] { channel } ) );
+			if ( shouldOpenWindow )
+			{
+				if ( useTabbedChat )
+					tabbedFrame.addTab( channel );
+				else
+					SwingUtilities.invokeLater( new CreateFrameRunnable( ChatFrame.class, new String [] { channel } ) );
+			}
 
 			buffer.setActiveLogFile( getChatLogName( channel ) );
 
