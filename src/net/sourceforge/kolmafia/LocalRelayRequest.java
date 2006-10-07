@@ -779,7 +779,7 @@ public class LocalRelayRequest extends KoLRequest
 				if ( formURLString.indexOf( "submitnewchat.php" ) != -1 || formURLString.indexOf( "newchatmessages.php" ) != -1 )
 				{
 					if ( !KoLCharacter.getUsername().equals( lastUsername ) )
-						chatLogger.setActiveLogFile( KoLMessenger.getChatLogName() );
+						chatLogger.setActiveLogFile( KoLMessenger.getChatLogName( "[ALL]" ) );
 
 					if ( responseText.length() > 0 && responseText.indexOf( "<img" ) == -1 )
 						chatLogger.append( responseText );

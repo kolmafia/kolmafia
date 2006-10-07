@@ -138,14 +138,18 @@ public abstract class KoLMessenger extends StaticEntity
 			tabbedFrame = (TabbedChatFrame) creator.getCreation();
 		}
 
-		String chatLogName = getChatLogName();
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
-			getChatBuffer( (String) keys[i] ).setActiveLogFile( chatLogName );
+			getChatBuffer( (String) keys[i] ).setActiveLogFile( getChatLogName( (String) keys[i] ) );
 	}
 
-	public static String getChatLogName()
-	{	return "chats/" + DATED_FILENAME_FORMAT.format( new Date() ) + "_" + KoLCharacter.baseUserName() + ".html";
+	public static String getChatLogName( String key )
+	{
+		if ( key.startsWith( "/" ) )
+			key = "[" + key.substring(1) + "]";
+
+		String filename = "chats/" + DATED_FILENAME_FORMAT.format( new Date() ) + "_" + KoLCharacter.baseUserName();
+		return key.equals( "[ALL]" ) ? filename + ".html" : filename + "_" + key + ".html";
 	}
 
 	protected static final boolean usingTabbedChat()
@@ -186,7 +190,7 @@ public abstract class KoLMessenger extends StaticEntity
 		isRunning = true;
 
 		if ( enableMonitor )
-			openInstantMessage( "[chat]" );
+			openInstantMessage( "[ALL]" );
 
 		// Clear the highlights and add all the ones which
 		// were saved from the last session.
@@ -261,8 +265,8 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static String getBufferKey( String contact )
 	{
-		return chattingStyle == KOL_STYLE ? "[chat]" : contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
-			!privateSeparate && !contact.startsWith( "/" ) ? "[blues]" : !channelsSeparate && contact.startsWith( "/" ) ? "[chat]" : contact;
+		return chattingStyle == KOL_STYLE ? "[ALL]" : contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
+			!privateSeparate && !contact.startsWith( "/" ) ? "[blues]" : !channelsSeparate && contact.startsWith( "/" ) ? "[ALL]" : contact;
 	}
 
 	/**
@@ -664,7 +668,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		processChatMessage( channel, message, bufferKey );
 		if ( enableMonitor && channelsSeparate )
-			processChatMessage( channel, message, "[chat]" );
+			processChatMessage( channel, message, "[ALL]" );
 	}
 
 	private static void processChatMessage( String channel, String message, String bufferKey )
@@ -907,7 +911,7 @@ public abstract class KoLMessenger extends StaticEntity
 			else
 				SwingUtilities.invokeLater( new CreateFrameRunnable( ChatFrame.class, new String [] { channel } ) );
 
-			buffer.setActiveLogFile( getChatLogName() );
+			buffer.setActiveLogFile( getChatLogName( channel ) );
 
 			if ( highlighting && !channel.equals( "[highs]" ) )
 				buffer.applyHighlights();
