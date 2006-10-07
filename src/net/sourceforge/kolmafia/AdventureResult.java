@@ -752,21 +752,34 @@ public class AdventureResult implements Comparable, KoLConstants
 			int power = EquipmentDatabase.getPower( ar.getName() );
 			String stringForm = null;
 
-			if ( equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY )
+			if ( equipmentType == ConsumeItemRequest.EQUIP_FAMILIAR || ar.equals( EquipmentRequest.UNEQUIP ) )
 			{
-				int count = ar.getCount( inventory );
-				if ( ar.equals( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) ) )
-					++count;
-				if ( ar.equals( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) ) )
-					++count;
-				if ( ar.equals( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) ) )
-					++count;
-				stringForm = ar.getName() + " (" + count + " max)";
-			}
-			else if ( equipmentType == ConsumeItemRequest.EQUIP_FAMILIAR || ar.equals( EquipmentRequest.UNEQUIP ) )
 				stringForm = ar.getName();
+			}
 			else
-				stringForm = ar.getName() + " (+" + COMMA_FORMAT.format(power) + ")";
+			{
+				if ( equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY )
+				{
+					int count = ar.getCount( inventory );
+					if ( ar.equals( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) ) )
+						++count;
+					if ( ar.equals( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) ) )
+						++count;
+					if ( ar.equals( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) ) )
+						++count;
+					stringForm = ar.getName() + " (" + count + " max)";
+				}
+				else
+				{
+					stringForm = ar.getName() + " (+" + COMMA_FORMAT.format(power) + ")";
+				}
+
+				// Gray out any equipment that the player cannot currently equip
+				// inside of an equipment filter.
+
+				if ( !EquipmentDatabase.canEquip( ar.getName() ) )
+					stringForm = "<html><font color=gray>" + stringForm + "</font></html>";
+			}
 
 			JLabel defaultComponent = (JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 			defaultComponent.setText( stringForm );
