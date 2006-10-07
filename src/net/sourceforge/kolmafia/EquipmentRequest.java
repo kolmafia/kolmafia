@@ -109,7 +109,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private int requestType;
 	private int equipmentSlot;
-	private String changeItemName;
+	private AdventureResult changeItem;
 	private int itemID;
 	private int equipmentType;
 	private SpecialOutfit outfit;
@@ -159,22 +159,22 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
-	public EquipmentRequest( AdventureResult change, int equipmentSlot )
-	{	this( change, equipmentSlot, false );
+	public EquipmentRequest( AdventureResult changeItem, int equipmentSlot )
+	{	this( changeItem, equipmentSlot, false );
 	}
 
-	public EquipmentRequest( AdventureResult change, int equipmentSlot, boolean force )
+	public EquipmentRequest( AdventureResult changeItem, int equipmentSlot, boolean force )
 	{
 		super( "inv_equip.php" );
-		initializeChangeData( change, equipmentSlot, force );
+		initializeChangeData( changeItem, equipmentSlot, force );
 	}
 
-	private void initializeChangeData( AdventureResult change, int equipmentSlot, boolean force )
+	private void initializeChangeData( AdventureResult changeItem, int equipmentSlot, boolean force )
 	{
 		addFormField( "which", "2" );
 		this.equipmentSlot = equipmentSlot;
 
-		if ( change.equals( UNEQUIP ) )
+		if ( changeItem.equals( UNEQUIP ) )
 		{
 			this.requestType = REMOVE_ITEM;
 			this.error = null;
@@ -185,7 +185,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 
 		// Find out what item is being equipped
-		this.itemID = change.getItemID();
+		this.itemID = changeItem.getItemID();
 
 		// Find out what kind of item it is
 		this.equipmentType = TradeableItemDatabase.getConsumptionType( itemID );
@@ -200,7 +200,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			return;
 
 		this.requestType = CHANGE_ITEM;
-		this.changeItemName = KoLDatabase.getCanonicalName( change.getName() );
+		this.changeItem = changeItem;
 
 		addFormField( "action", action );
 		addFormField( "whichitem", String.valueOf( itemID ) );
@@ -394,7 +394,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			// Do not submit a request if the item matches what you
 			// want to equip on the character.
 
-			if ( KoLCharacter.hasEquipped( changeItemName, equipmentSlot ) )
+			if ( KoLCharacter.hasEquipped( changeItem.getName(), equipmentSlot ) )
 				return;
 
 			// If we are requesting another familiar's equipment,
@@ -402,22 +402,20 @@ public class EquipmentRequest extends PasswordHashRequest
 
 			if ( equipmentSlot == KoLCharacter.FAMILIAR )
 			{
-				AdventureResult result = new AdventureResult( itemID, 1 );
-				if ( !inventory.contains( result ) &&
-				     !closet.contains( result ))
+				if ( !inventory.contains( changeItem ) && !closet.contains( changeItem ))
 				{
 					// Find first familiar with item
 					FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
 					KoLCharacter.getFamiliarList().toArray( familiars );
 					for ( int i = 0; i < familiars.length; ++i )
 					{
-						if ( familiars[i].getItem() != null && familiars[i].getItem().indexOf( changeItemName ) != -1 )
+						if ( familiars[i].getItem() != null && familiars[i].getItem().equals( changeItem ) )
 						{
-							KoLmafia.updateDisplay( "Stealing " + result.getName() + " from " + familiars[i].getRace() + "..." );
+							KoLmafia.updateDisplay( "Stealing " + changeItem.getName() + " from " + familiars[i].getRace() + "..." );
 							REDIRECT_FOLLOWER.constructURLString( "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getID() ).run();
 
-							familiars[i].setItem( UNEQUIP.toString() );
-							StaticEntity.getClient().processResult( result, false );
+							familiars[i].setItem( UNEQUIP );
+							StaticEntity.getClient().processResult( changeItem, false );
 
 							break;
 						}
@@ -425,7 +423,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				}
 			}
 
-			AdventureDatabase.retrieveItem( new AdventureResult( changeItemName, 1, false ) );
+			AdventureDatabase.retrieveItem( changeItem );
 			if ( !KoLmafia.permitsContinue() )
 				return;
 
@@ -833,8 +831,8 @@ public class EquipmentRequest extends PasswordHashRequest
 		if ( requestType == REMOVE_ITEM )
 			return "unequip " + slotNames[ equipmentSlot ];
 
-		return equipmentSlot == -1 ? "equip " + changeItemName :
-			"equip " + slotNames[ equipmentSlot ] + " " + changeItemName;
+		return equipmentSlot == -1 ? "equip " + changeItem.getName() :
+			"equip " + slotNames[ equipmentSlot ] + " " + changeItem.getName();
 	}
 
 	public static boolean processRequest( String urlString )

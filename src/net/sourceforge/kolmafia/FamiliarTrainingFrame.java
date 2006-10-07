@@ -1573,11 +1573,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 				for ( int i = 0; i < familiars.size(); ++i )
 				{
 					FamiliarData familiar = (FamiliarData)familiars.get(i);
-					String item = familiar.getItem();
+					AdventureResult item = familiar.getItem();
 					if ( item == null )
 						continue;
 
-					if ( item.equals( "lead necklace" ) )
+					if ( item.equals( LEAD_NECKLACE ) )
 					{
 						// We found a lead necklace
 						if ( leadNecklace == null )
@@ -1587,7 +1587,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 						}
 					}
 
-					if ( item.equals( "rat head balloon" ) )
+					if ( item.equals( RAT_HEAD_BALLOON ) )
 					{
 						// We found a balloon
 						if ( ratHeadBalloon == null )
@@ -1597,7 +1597,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 						}
 					}
 
-					if ( item.equals( "plastic pumpkin bucket" ) )
+					if ( item.equals( PUMPKIN_BASKET ) )
 					{
 						// We found a plastic pumpkin basket
 						if ( pumpkinBasket == null )
