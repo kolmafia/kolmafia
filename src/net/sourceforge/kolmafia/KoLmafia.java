@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.ArrayList;
@@ -83,6 +84,11 @@ public abstract class KoLmafia implements KoLConstants
 
 	static
 	{
+		// Rollover ends at roughly 4:45am GMT.  Therefore, make use
+		// of that relativity in doing date calculations.
+
+		DATED_FILENAME_FORMAT.setTimeZone( TimeZone.getTimeZone( "GMT-4:45" ) );
+
 		System.setProperty( "com.apple.mrj.application.apple.menu.about.name", "KoLmafia" );
 		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
@@ -389,6 +395,13 @@ public abstract class KoLmafia implements KoLConstants
 		String scriptSetting = StaticEntity.getGlobalProperty( "loginScript" );
 		if ( !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
+
+		// Also, do mushrooms, if a mushroom script has already
+		// been setup by the user.
+
+		String currentLayout = StaticEntity.getProperty( "plantingScript" );
+		if ( KoLCharacter.inMuscleSign() && MushroomPlot.ownsPlot() && !currentLayout.equals( "" ) )
+			DEFAULT_SHELL.executeLine( "call " + MushroomPlot.PLOT_DIRECTORY.getPath() + "/" + currentLayout + ".ash" );
 	}
 
 	public void resetBreakfastSummonings()
