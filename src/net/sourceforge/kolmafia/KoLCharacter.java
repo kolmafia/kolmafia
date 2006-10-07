@@ -2610,7 +2610,7 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( hasSkill( "Amphibian Sympathy" ) )
 		{
 			newFamiliarWeightAdjustment += 5;
-			newDodecapedeWeightAdjustment += 5;
+			newDodecapedeWeightAdjustment -= 5;
 		}
 
 		if ( hasSkill( "Cold-Blooded Fearlessness" ) )
