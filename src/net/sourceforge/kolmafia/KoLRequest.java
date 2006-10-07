@@ -303,12 +303,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		this.isDelayExempt = getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof ChatRequest ||
 			this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
-
-		this.shouldIgnoreResults = formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) ||
-			formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" ) || formURLString.indexOf( "search" ) != -1  ||
-			formURLString.indexOf( "clan" ) != -1 || formURLString.startsWith( "chat" ) || formURLString.indexOf( "message" ) != -1;
-
-		this.shouldIgnoreResults &= formURLString.indexOf( "gym" ) == -1;
 	}
 
 	protected KoLRequest constructURLString( String newURLString )
@@ -327,8 +321,11 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		this.formURLString = newURLString.substring( 0, formSplitIndex );
 		this.isChatRequest = this instanceof ChatRequest || this.formURLString.indexOf( "chat" ) != -1;
-		addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
 
+		this.shouldIgnoreResults = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "search" ) ||
+			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" );
+
+		addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
 		return this;
 	}
 
