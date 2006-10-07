@@ -504,6 +504,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 							AdventureResult item = new AdventureResult( itemName, 1, false );
 							if ( KoLCharacter.hasItem( item, false ) )
 							{
+								REDIRECT_FOLLOWER.constructURLString( "familiar.php" );
+								REDIRECT_FOLLOWER.addFormField( "pwd" );
+								REDIRECT_FOLLOWER.addFormField( "action", "equip" );
+								REDIRECT_FOLLOWER.addFormField( "whichfam", String.valueOf( familiars[i].getID() ) );
+								REDIRECT_FOLLOWER.addFormField( "action", "equip" );
+								REDIRECT_FOLLOWER.addFormField( "whichfam", String.valueOf( familiars[i].getID() ) );
+								REDIRECT_FOLLOWER.addFormField( "whichitem", String.valueOf( item.getItemID() ) );
+
 								(new FamiliarRequest( familiars[i] )).run();
 								(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
 							}

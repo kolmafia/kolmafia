@@ -760,7 +760,7 @@ public class ItemManageFrame extends KoLFrame
 					return;
 
 				ItemCreationRequest selection = (ItemCreationRequest) selected;
-				int quantityDesired = createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityNeeded() ) : 1;
+				int quantityDesired = createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() ) : 1;
 				if ( quantityDesired < 1 )
 					return;
 

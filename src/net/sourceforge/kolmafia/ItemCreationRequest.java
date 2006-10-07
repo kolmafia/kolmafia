@@ -47,6 +47,7 @@ import java.util.regex.Matcher;
 
 public class ItemCreationRequest extends KoLRequest implements Comparable
 {
+	private static final CreationRequestArray ALL_CREATIONS = new CreationRequestArray();
 	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
 	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 
@@ -102,9 +103,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
 	private static final AdventureResult CLOCKWORK_BARTENDER = new AdventureResult( 1111, 1 );
 
-	private String name;
-	private boolean shouldRerun = false;
-	private int itemID, quantityNeeded, beforeQuantity, mixingMethod;
+	protected String name;
+	protected AdventureResult createdItem;
+	protected boolean shouldRerun = false;
+	protected int itemID, beforeQuantity, mixingMethod;
+
+	private int quantityNeeded, quantityPossible;
 
 	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
 	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
@@ -127,8 +131,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 * @param	formSource	The form to be used for the item creation
 	 */
 
-	protected ItemCreationRequest( String formSource, int itemID, int quantityNeeded )
-	{	this( formSource, itemID, SUBCLASS, quantityNeeded );
+	protected ItemCreationRequest( String formSource, int itemID )
+	{	this( formSource, itemID, SUBCLASS );
 	}
 
 	/**
@@ -142,14 +146,70 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 * @param	quantityNeeded	How many of this item are needed
 	 */
 
-	protected ItemCreationRequest( String formSource, int itemID, int mixingMethod, int quantityNeeded )
+	private ItemCreationRequest( String formSource, int itemID, int mixingMethod )
 	{
 		super( formSource );
+		addFormField( "pwd" );
 
 		this.itemID = itemID;
 		this.mixingMethod = mixingMethod;
-		this.quantityNeeded = quantityNeeded;
+		this.createdItem = new AdventureResult( itemID, 0 );
+	}
 
+	protected void reconstructFields()
+	{
+		String formSource = "";
+
+		switch ( mixingMethod )
+		{
+			case COMBINE:
+				formSource = KoLCharacter.inMuscleSign() ? "knoll.php" : "combine.php";
+				break;
+
+			case MIX:
+			case MIX_SPECIAL:
+			case MIX_SUPER:
+				formSource = "cocktail.php";
+				break;
+
+			case COOK:
+			case COOK_REAGENT:
+			case SUPER_REAGENT:
+			case COOK_PASTA:
+				formSource = "cook.php";
+				break;
+
+			case SMITH:
+				formSource = KoLCharacter.inMuscleSign() ? "knoll.php" : "smith.php";
+				break;
+
+			case SMITH_ARMOR:
+			case SMITH_WEAPON:
+				formSource = "smith.php";
+				break;
+
+			case JEWELRY:
+				formSource = "jewelry.php";
+				break;
+
+			case ROLLING_PIN:
+				formSource = "inv_use.php";
+				break;
+
+			case CATALYST:
+			case CLOVER:
+				formSource = "multiuse.php";
+				break;
+
+			case WOK:
+			case MALUS:
+			case STILL_MIXER:
+			case STILL_BOOZE:
+				formSource = "guild.php";
+				break;
+		}
+
+		constructURLString( formSource );
 		addFormField( "pwd" );
 
 		if ( KoLCharacter.inMuscleSign() && mixingMethod == SMITH )
@@ -174,45 +234,32 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			addFormField( "action", "combine" );
 	}
 
-	/**
-	 * Static method which determines the appropriate subclass
-	 * of an ItemCreationRequest to return, based on the idea
-	 * that the given AdventureResult is the item to be created.
-	 */
-
-	public static ItemCreationRequest getInstance( AdventureResult ar )
-	{	return getInstance( ar.getItemID(), ar.getCount(), true );
-	}
-
-	/**
-	 * Static method which determines the appropriate subclass
-	 * of an ItemCreationRequest to return, based on the idea
-	 * that the given quantity of the given item is to be created.
-	 */
-
-	public static ItemCreationRequest getInstance( int itemID, int quantityNeeded )
-	{	return getInstance( itemID, quantityNeeded, true );
-	}
-
-	/**
-	 * Static method which determines the appropriate subclass
-	 * of an ItemCreationRequest to return, based on the idea
-	 * that the given quantity of the given item is to be created.
-	 */
-
-	public static ItemCreationRequest getInstance( int itemID, int quantityNeeded, boolean returnNullIfImpossible )
+	public static ItemCreationRequest getInstance( int itemID )
 	{
-		if ( itemID == MEAT_PASTE || itemID == MEAT_STACK || itemID == DENSE_STACK )
-			return new CombineMeatRequest( itemID, quantityNeeded );
+		ItemCreationRequest instance = ALL_CREATIONS.get( itemID );
 
-		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemID );
+		// Assume if you have subclass that everything
+		// works as intended.
+
+		if ( instance == null || instance.mixingMethod == SUBCLASS )
+			return instance;
 
 		// If the item creation process is not permitted,
 		// then return null to indicate that it is not
 		// possible to create the item.
 
-		if ( returnNullIfImpossible && !ConcoctionsDatabase.isPermittedMethod( mixingMethod ) )
+		if ( !ConcoctionsDatabase.isPermittedMethod( instance.mixingMethod ) )
 			return null;
+
+		return instance;
+	}
+
+	public static ItemCreationRequest constructInstance( int itemID )
+	{
+		if ( itemID == MEAT_PASTE || itemID == MEAT_STACK || itemID == DENSE_STACK )
+			return new CombineMeatRequest( itemID );
+
+		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemID );
 
 		// Otherwise, return the appropriate subclass of
 		// item which will be created.
@@ -221,54 +268,54 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		{
 			case COMBINE:
 				return new ItemCreationRequest( KoLCharacter.inMuscleSign() ?
-					"knoll.php" : "combine.php", itemID, mixingMethod, quantityNeeded );
+					"knoll.php" : "combine.php", itemID, mixingMethod );
 
 			case MIX:
 			case MIX_SPECIAL:
 			case MIX_SUPER:
-				return new ItemCreationRequest( "cocktail.php", itemID, mixingMethod, quantityNeeded );
+				return new ItemCreationRequest( "cocktail.php", itemID, mixingMethod );
 
 			case COOK:
 			case COOK_REAGENT:
 			case SUPER_REAGENT:
 			case COOK_PASTA:
-				return new ItemCreationRequest( "cook.php", itemID, mixingMethod, quantityNeeded );
+				return new ItemCreationRequest( "cook.php", itemID, mixingMethod );
 
 			case SMITH:
 				return new ItemCreationRequest( KoLCharacter.inMuscleSign() ?
-					"knoll.php" : "smith.php", itemID, mixingMethod, quantityNeeded );
+					"knoll.php" : "smith.php", itemID, mixingMethod );
 
 			case SMITH_ARMOR:
 			case SMITH_WEAPON:
-				return new ItemCreationRequest( "smith.php", itemID, mixingMethod, quantityNeeded );
+				return new ItemCreationRequest( "smith.php", itemID, mixingMethod );
 
 			case JEWELRY:
-				return new ItemCreationRequest( "jewelry.php", itemID, mixingMethod, quantityNeeded );
+				return new ItemCreationRequest( "jewelry.php", itemID, mixingMethod );
 
 			case ROLLING_PIN:
-				return new ItemCreationRequest( "inv_use.php", itemID, mixingMethod, quantityNeeded );
+				return new ItemCreationRequest( "inv_use.php", itemID, mixingMethod );
 
 			case STARCHART:
-				return new StarChartRequest( itemID, quantityNeeded );
+				return new StarChartRequest( itemID );
 
 			case PIXEL:
-				return new PixelRequest( itemID, quantityNeeded );
+				return new PixelRequest( itemID );
 
 			case TINKER:
-				return new TinkerRequest( itemID, quantityNeeded );
+				return new TinkerRequest( itemID );
 
 			case TOY:
-				return new ToyRequest( itemID, quantityNeeded );
+				return new ToyRequest( itemID );
 
 			case CATALYST:
 			case CLOVER:
-				return new ItemCreationRequest( "multiuse.php", itemID, mixingMethod, quantityNeeded );
+				return new ItemCreationRequest( "multiuse.php", itemID, mixingMethod );
 
 			case WOK:
 			case MALUS:
 			case STILL_MIXER:
 			case STILL_BOOZE:
-				return new ItemCreationRequest( "guild.php", itemID, mixingMethod, quantityNeeded );
+				return new ItemCreationRequest( "guild.php", itemID, mixingMethod );
 
 			default:
 				return null;
@@ -293,11 +340,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !KoLmafia.permitsContinue() || quantityNeeded <= 0 )
 			return;
 
-		AdventureResult createdItem = new AdventureResult( itemID, 0 );
-
 		do
 		{
 			shouldRerun = false;
+			reconstructFields();
+
 			beforeQuantity = createdItem.getCount( inventory );
 
 			switch ( mixingMethod )
@@ -445,7 +492,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		AdventureResult createdItem = new AdventureResult( itemID, 0 );
 		int createdQuantity = createdItem.getCount( inventory ) - beforeQuantity;
 
-		KoLCharacter.reduceStillCount( createdQuantity );
+		if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
+			KoLCharacter.reduceStillCount( createdQuantity );
 
 		if ( createdQuantity > 0 )
 		{
@@ -696,6 +744,25 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	}
 
 	/**
+	 * Returns the quantity of items to be created by this request
+	 * if it were to run right now.
+	 */
+
+	public int getQuantityPossible()
+	{	return quantityPossible;
+	}
+
+	/**
+	 * Sets the quantity of items to be created by this request.
+	 * This method is used whenever the original quantity intended
+	 * by the request changes.
+	 */
+
+	public void setQuantityPossible( int quantityPossible )
+	{	this.quantityPossible = quantityPossible;
+	}
+
+	/**
 	 * Returns the string form of this item creation request.
 	 * This displays the item name, and the amount that will
 	 * be created by this request.
@@ -704,18 +771,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 */
 
 	public String toString()
-	{	return getName() + " (" + quantityNeeded + ")";
-	}
-
-	/**
-	 * Special method which simplifies the constant use of indexOf and
-	 * count retrieval.  This makes intent more transparent.
-	 */
-
-	public int getCount( List list )
-	{
-		int index = list.indexOf( this );
-		return index == -1 ? 0 : ((ItemCreationRequest)list.get( index )).getQuantityNeeded();
+	{	return getName() + " (" + getQuantityPossible() + ")";
 	}
 
 	public String getCommandForm()
@@ -863,5 +919,33 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		KoLmafia.sessionStream.println( command.toString() );
 		return true;
+	}
+
+	private static class CreationRequestArray
+	{
+		private ArrayList internalList = new ArrayList();
+
+		public ItemCreationRequest get( int index )
+		{
+			if ( index < 0 )
+				return null;
+
+			for ( int i = internalList.size(); i <= index; ++i )
+				internalList.add( constructInstance( i ) );
+
+			return (ItemCreationRequest) internalList.get( index );
+		}
+
+		public void set( int index, ItemCreationRequest value )
+		{
+			for ( int i = internalList.size(); i <= index; ++i )
+				internalList.add( constructInstance( i ) );
+
+			internalList.set( index, value );
+		}
+
+		public int size()
+		{	return internalList.size();
+		}
 	}
 }

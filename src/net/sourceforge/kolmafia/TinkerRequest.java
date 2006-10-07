@@ -38,20 +38,25 @@ public class TinkerRequest extends ItemCreationRequest
 {
 	private AdventureResult [] ingredients;
 
-	public TinkerRequest( int itemID, int quantityNeeded )
+	public TinkerRequest( int itemID )
 	{
-		super( "gnomes.php", itemID, quantityNeeded );
+		super( "gnomes.php", itemID );
 
 		addFormField( "place", "tinker" );
 		addFormField( "action", "tinksomething" );
 
 		ingredients = ConcoctionsDatabase.getIngredients( itemID );
+
 		if ( ingredients != null && ingredients.length == 3 )
 		{
 			addFormField( "item1", String.valueOf( ingredients[0].getItemID() ) );
 			addFormField( "item2", String.valueOf( ingredients[1].getItemID() ) );
 			addFormField( "item3", String.valueOf( ingredients[2].getItemID() ) );
 		}
+	}
+
+	protected void reconstructFields()
+	{
 	}
 
 	public void run()

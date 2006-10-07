@@ -4166,8 +4166,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue creatable_amount( ScriptVariable arg )
 		{
-			ItemCreationRequest item = ItemCreationRequest.getInstance( arg.intValue(), 0 );
-			return new ScriptValue( item == null ? 0 : item.getCount( ConcoctionsDatabase.getConcoctions() ) );
+			ItemCreationRequest item = ItemCreationRequest.getInstance( arg.intValue() );
+			return new ScriptValue( item == null ? 0 : item.getQuantityPossible() );
 		}
 
 		public ScriptValue put_closet( ScriptVariable count, ScriptVariable item )
@@ -4781,14 +4781,14 @@ public class KoLmafiaASH extends StaticEntity
 
 			boolean wasChoice = location.indexOf( "choice.php" ) != -1;
 
-			KoLRequest request = new KoLRequest( location, true );
-			request.run();
+			REDIRECT_FOLLOWER.constructURLString( location );
+			REDIRECT_FOLLOWER.run();
 
-			if ( !wasChoice && request.getURLString().indexOf( "choice.php" ) != -1 && getBooleanProperty( "makeBrowserDecisions" ) )
-				request.handleChoiceResponse( request );
+			if ( !wasChoice && REDIRECT_FOLLOWER.getURLString().indexOf( "choice.php" ) != -1 && getBooleanProperty( "makeBrowserDecisions" ) )
+				REDIRECT_FOLLOWER.handleChoiceResponse( REDIRECT_FOLLOWER );
 
-			StaticEntity.externalUpdate( location, request.responseText );
-			return new ScriptValue( request.fullResponse == null ? "" : request.fullResponse );
+			StaticEntity.externalUpdate( location, REDIRECT_FOLLOWER.responseText );
+			return new ScriptValue( REDIRECT_FOLLOWER.fullResponse == null ? "" : REDIRECT_FOLLOWER.fullResponse );
 		}
 
 		public ScriptValue wait( ScriptVariable delay )

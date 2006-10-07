@@ -117,11 +117,11 @@ public class UntinkerRequest extends KoLRequest
 
 			if ( KoLCharacter.inMuscleSign() )
 			{
-				KoLRequest retrieve = new KoLRequest( "knoll.php", true );
-				retrieve.run();
+				REDIRECT_FOLLOWER.constructURLString( "knoll.php" );
+				REDIRECT_FOLLOWER.run();
 
-				retrieve = new KoLRequest( "knoll.php?place=smith", true );
-				retrieve.run();
+				REDIRECT_FOLLOWER.constructURLString( "knoll.php?place=smith" );
+				REDIRECT_FOLLOWER.run();
 			}
 			else
 			{

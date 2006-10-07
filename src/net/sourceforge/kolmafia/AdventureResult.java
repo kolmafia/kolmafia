@@ -599,7 +599,7 @@ public class AdventureResult implements Comparable, KoLConstants
 				return BLANK_LABEL;
 
 			String name = value instanceof AdventureResult ? ((AdventureResult)value).getName() : ((ItemCreationRequest)value).getName();
-			int count = value instanceof AdventureResult ? ((AdventureResult)value).getCount() : ((ItemCreationRequest)value).getQuantityNeeded();
+			int count = value instanceof AdventureResult ? ((AdventureResult)value).getCount() : ((ItemCreationRequest)value).getQuantityPossible();
 
 			String stringForm = name + " (" + COMMA_FORMAT.format( count ) + ")";
 			defaultComponent.setText( stringForm );

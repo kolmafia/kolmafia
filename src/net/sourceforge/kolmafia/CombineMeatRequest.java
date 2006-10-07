@@ -47,15 +47,19 @@ public class CombineMeatRequest extends ItemCreationRequest
 	private int meatType;
 	private int costToMake;
 
-	public CombineMeatRequest( int meatType, int quantityNeeded )
+	public CombineMeatRequest( int meatType )
 	{
-		super( "inventory.php", meatType, quantityNeeded );
-		addFormField( "action", "makestuff" );
+		super( "inventory.php", meatType );
 
+		addFormField( "action", "makestuff" );
 		addFormField( "whichitem", String.valueOf( meatType ) );
 
 		this.meatType = meatType;
 		this.costToMake = meatType == MEAT_PASTE ? -10 : meatType == MEAT_STACK ? -100 : -1000;
+	}
+
+	protected void reconstructFields()
+	{
 	}
 
 	public void run()

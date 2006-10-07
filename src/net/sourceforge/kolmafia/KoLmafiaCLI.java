@@ -520,13 +520,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.indexOf( ".php" ) != -1 )
 		{
-			String url = command.indexOf( "?" ) != -1 ? command.substring( 0, command.indexOf( "?" ) ) : command;
-			if ( KoLRequest.shouldIgnore( url ) )
+			if ( KoLRequest.shouldIgnore( previousLine ) )
 				return;
 
-			KoLRequest desired = new KoLRequest( previousLine, true );
-			StaticEntity.getClient().makeRequest( desired );
-			StaticEntity.externalUpdate( desired.getURLString(), desired.responseText );
+			REDIRECT_FOLLOWER.constructURLString( previousLine );
+			StaticEntity.getClient().makeRequest( REDIRECT_FOLLOWER );
+			StaticEntity.externalUpdate( REDIRECT_FOLLOWER.getURLString(), REDIRECT_FOLLOWER.responseText );
 			return;
 		}
 
@@ -535,14 +534,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "text" ) )
 		{
-			if ( parameters.indexOf( "send" ) != -1 || parameters.indexOf( "chat" ) != -1 )
+			if ( KoLRequest.shouldIgnore( previousLine ) )
 				return;
 
-			KoLRequest desired = new KoLRequest( previousLine, true );
-			StaticEntity.getClient().makeRequest( desired );
-			StaticEntity.externalUpdate( desired.getURLString(), desired.responseText );
+			REDIRECT_FOLLOWER.constructURLString( previousLine.substring(4).trim() );
+			StaticEntity.getClient().makeRequest( REDIRECT_FOLLOWER );
+			StaticEntity.externalUpdate( REDIRECT_FOLLOWER.getURLString(), REDIRECT_FOLLOWER.responseText );
+			showHTML( REDIRECT_FOLLOWER.getURLString(), REDIRECT_FOLLOWER.responseText );
 
-			showHTML( desired.getURLString(), desired.responseText );
 			return;
 
 		}
@@ -1007,10 +1006,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "council" ) )
 		{
-			KoLRequest request = new KoLRequest( "council.php", true );
-			request.run();
+			REDIRECT_FOLLOWER.constructURLString( "council.php" );
+			REDIRECT_FOLLOWER.run();
 
-			showHTML( request.responseText.replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" ), "Available Quests" );
+			showHTML( StaticEntity.singleStringReplace( REDIRECT_FOLLOWER.responseText,
+				"<a href=\"town.php\">Back to Seaside Town</a>", "" ), "Available Quests" );
+
 			return;
 		}
 
@@ -3009,9 +3010,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( isCreationMatch )
 		{
-			ItemCreationRequest request = ItemCreationRequest.getInstance( firstMatch );
-			matchCount = request == null ? 0 : request.getCount( ConcoctionsDatabase.getConcoctions() );
+			ItemCreationRequest instance = ItemCreationRequest.getInstance( firstMatch.getItemID() );
+			matchCount = instance == null ? 0 : instance.getQuantityPossible();
 		}
+
 		else
 			matchCount = firstMatch.getCount( inventory );
 
@@ -3396,7 +3398,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 
 
-		ItemCreationRequest irequest = ItemCreationRequest.getInstance( firstMatch );
+		ItemCreationRequest irequest = ItemCreationRequest.getInstance( firstMatch.getItemID() );
 		if ( irequest == null )
 		{
 			boolean needServant = !StaticEntity.getBooleanProperty( "createWithoutBoxServants" );
@@ -3435,6 +3437,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		irequest.setQuantityNeeded( firstMatch.getCount() );
 		StaticEntity.getClient().makeRequest( irequest );
 	}
 

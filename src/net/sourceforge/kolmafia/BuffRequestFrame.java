@@ -87,14 +87,14 @@ public class BuffRequestFrame extends KoLFrame
 
 	private void isBotOnline( String botName )
 	{
-		KoLRequest request = new KoLRequest( "submitnewchat.php" );
+		REDIRECT_FOLLOWER.constructURLString( "submitnewchat.php" );
 
-		request.addFormField( "playerid", String.valueOf( KoLCharacter.getUserID() ) );
-		request.addFormField( "pwd" );
-		request.addFormField( "graf", "/whois " + botName );
-		request.run();
+		REDIRECT_FOLLOWER.addFormField( "playerid", String.valueOf( KoLCharacter.getUserID() ) );
+		REDIRECT_FOLLOWER.addFormField( "pwd" );
+		REDIRECT_FOLLOWER.addFormField( "graf", "/whois " + botName );
+		REDIRECT_FOLLOWER.run();
 
-		if ( request.responseText != null && request.responseText.indexOf( "online" ) != -1 )
+		if ( REDIRECT_FOLLOWER.responseText != null && REDIRECT_FOLLOWER.responseText.indexOf( "online" ) != -1 )
 			JOptionPane.showMessageDialog( null, botName + " is online." );
 		else
 			JOptionPane.showMessageDialog( null, botName + " is probably not online." );
