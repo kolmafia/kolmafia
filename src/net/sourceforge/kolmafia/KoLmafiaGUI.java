@@ -388,7 +388,7 @@ public class KoLmafiaGUI extends KoLmafia
 		FightFrame.showRequest( request );
 	}
 
-	private static final Pattern GENERAL_PATTERN = Pattern.compile( "<td>(.*?)&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<option value=(\\d+) selected>" );
+	private static final Pattern GENERAL_PATTERN = Pattern.compile( "<td>([^<]*?)&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<option value=(\\d+) selected>" );
 	private static final Pattern SELF_PATTERN = Pattern.compile( "<select name=chatcolorself>.*?<option value=(\\d+) selected>" );
 	private static final Pattern CONTACTS_PATTERN = Pattern.compile( "<select name=chatcolorcontacts>.*?<option value=(\\d+) selected>" );
 	private static final Pattern OTHER_PATTERN = Pattern.compile( "<select name=chatcolorothers>.*?<option value=(\\d+) selected>" );
@@ -409,7 +409,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 			Matcher colorMatcher = GENERAL_PATTERN.matcher( responseText );
 			while ( colorMatcher.find() )
-				KoLMessenger.setColor( colorMatcher.group(1).toLowerCase(), StaticEntity.parseInt( colorMatcher.group(2) ) );
+				KoLMessenger.setColor( "/" + colorMatcher.group(1).toLowerCase(), StaticEntity.parseInt( colorMatcher.group(2) ) );
 
 			// Add in other custom colors which are available
 			// in the chat options.
