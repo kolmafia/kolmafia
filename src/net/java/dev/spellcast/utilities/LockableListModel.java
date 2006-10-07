@@ -102,11 +102,19 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		public void run()
 		{
-			if ( !queued )
+			try
 			{
-				queued = true;
-				SwingUtilities.invokeLater( this );
-				return;
+				if ( !queued && !SwingUtilities.isEventDispatchThread() )
+				{
+					queued = true;
+					SwingUtilities.invokeAndWait( this );
+					return;
+				}
+			}
+			catch ( Exception e )
+			{
+				// Interrupted is a bad thing, but there's not much
+				// that can be done -- skip.
 			}
 
 			switch ( changeType )
@@ -233,17 +241,17 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public void clear()
 	{
-		int lastIndex = size() - 1;
+		int originalSize = elements.size();
 
 		// If the size of the list model is 0, then
 		// there's nothing to do.  Avoid misfiring
 		// the action listeners in this case.
 
-		if ( lastIndex == -1 )
+		if ( originalSize == 0 )
 			return;
 
 		elements.clear();
-		fireIntervalRemoved( this, 0, lastIndex );
+		fireIntervalRemoved( this, 0, originalSize - 1 );
 	}
 
 	/**
@@ -468,17 +476,13 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public boolean removeAll( Collection c )
 	{
-		if ( isEmpty() || c.isEmpty() )
-			return false;
+		boolean changed = false;
 
-		int originalSize = size();
-		if ( !elements.removeAll( c ) )
-			return false;
+		Iterator it = c.iterator();
+		while ( it.hasNext() )
+			changed |= remove( it.next() );
 
-		fireIntervalRemoved( this, 0, originalSize - 1 );
-		fireIntervalAdded( this, 0, size() - 1 );
-
-		return true;
+		return changed;
 	}
 
 	/**
@@ -488,23 +492,19 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public boolean retainAll( Collection c )
 	{
-		if ( isEmpty() )
-			return false;
+		boolean changed = false;
 
-		if ( c.isEmpty() )
+		Iterator it = iterator();
+		while ( it.hasNext() )
 		{
-			clear();
-			return true;
+			if ( !c.contains( it.next() ) )
+			{
+				it.remove();
+				changed = true;
+			}
 		}
 
-		int originalSize = size();
-		if ( !elements.retainAll( c ) )
-			return false;
-
-		fireIntervalRemoved( this, 0, originalSize - 1 );
-		fireIntervalAdded( this, 0, size() - 1 );
-
-		return true;
+		return changed;
 	}
 
 	/**
