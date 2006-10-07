@@ -320,7 +320,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 
 		this.formURLString = newURLString.substring( 0, formSplitIndex );
-		this.isChatRequest = this instanceof ChatRequest || this.formURLString.indexOf( "chat" ) != -1;
+		this.isChatRequest = this instanceof ChatRequest ||
+			formURLString.indexOf( "submitnewchat.php" ) != -1 || formURLString.indexOf( "newchatmessages.php" ) != -1;
 
 		this.shouldIgnoreResults = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "search" ) ||
 			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" );

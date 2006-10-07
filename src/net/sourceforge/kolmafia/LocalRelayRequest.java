@@ -542,6 +542,9 @@ public class LocalRelayRequest extends KoLRequest
 			// Make sure to print the reply buffer to the
 			// response buffer for the local relay server.
 
+			if ( isChatRequest )
+				StaticEntity.globalStringReplace( replyBuffer, "<br>", "</font><br>" );
+
 			pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
 		}
 	}
@@ -776,13 +779,13 @@ public class LocalRelayRequest extends KoLRequest
 			{
 				sendSharedFile( formURLString );
 
-				if ( formURLString.indexOf( "submitnewchat.php" ) != -1 || formURLString.indexOf( "newchatmessages.php" ) != -1 )
+				if ( isChatRequest )
 				{
 					if ( !KoLCharacter.getUsername().equals( lastUsername ) )
 						chatLogger.setActiveLogFile( KoLMessenger.getChatLogName( "[ALL]" ) );
 
 					if ( responseText.length() > 0 && responseText.indexOf( "<img" ) == -1 )
-						chatLogger.append( responseText );
+						chatLogger.append( StaticEntity.globalStringReplace( responseText, "<br>", "</font><br>" ) );
 				}
 			}
 		}
