@@ -98,15 +98,6 @@ public abstract class CombatSettings implements UtilityConstants
 	}
 
 	/**
-	 * Stores the settings maintained in this <code>KoLSettings</code>
-	 * object to disk for later retrieval.
-	 */
-
-	public static void saveSettings()
-	{	storeSettings( settingsFile );
-	}
-
-	/**
 	 * Loads the settings located in the given file into this object.
 	 * Note that all settings are overridden; if the given file does
 	 * not exist, the current global settings will also be rewritten
@@ -281,18 +272,17 @@ public abstract class CombatSettings implements UtilityConstants
 	 * Stores the settings maintained in this <code>KoLSettings</code>
 	 * to the noted file.  Note that this method ALWAYS overwrites
 	 * the given file.
-	 *
-	 * @param	destination	The file to which the settings will be stored.
 	 */
 
-	private static void storeSettings( File destination )
+	public static void saveSettings()
 	{
 		try
 		{
-			if ( !destination.exists() )
-				destination.createNewFile();
+			if ( settingsFile.exists() )
+				settingsFile.delete();
 
-			PrintStream writer = new LogStream( destination );
+			settingsFile.createNewFile();
+			PrintStream writer = new LogStream( settingsFile );
 
 			CombatSettingNode combatOptions;
 			for ( int i = 0; i < keys.length; ++i )

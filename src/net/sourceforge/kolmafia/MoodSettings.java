@@ -92,15 +92,8 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static final void reset()
 	{
-		reference.clear();
-		triggers.clear();
-		availableMoods.clear();
-
 		settingsFile = new File( settingsFileName() );
-
 		loadSettings();
-		ensureProperty( "default" );
-		ensureProperty( "apathetic" );
 	}
 
 	public static SortedListModel getAvailableMoods()
@@ -116,9 +109,10 @@ public abstract class MoodSettings implements KoLConstants
 	public static SortedListModel setMood( String mood )
 	{
 		mood = mood == null || mood.trim().equals( "" ) ? "default" : mood.toLowerCase().trim();
-		ensureProperty( mood );
 
 		StaticEntity.setProperty( "currentMood", mood );
+		ensureProperty( mood );
+
 		triggers = (SortedListModel) reference.get( mood );
 
 		return triggers;
@@ -452,6 +446,10 @@ public abstract class MoodSettings implements KoLConstants
 	{
 		try
 		{
+			if ( settingsFile.exists() )
+				settingsFile.delete();
+
+			settingsFile.createNewFile();
 			PrintStream writer = new LogStream( settingsFile );
 
 			SortedListModel triggerList;
@@ -488,6 +486,9 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void loadSettings()
 	{
+		reference.clear();
+		availableMoods.clear();
+
 		try
 		{
 			// First guarantee that a settings file exists with
@@ -496,6 +497,10 @@ public abstract class MoodSettings implements KoLConstants
 			if ( !settingsFile.exists() )
 			{
 				settingsFile.createNewFile();
+
+				ensureProperty( "default" );
+				ensureProperty( "apathetic" );
+
 				setMood( "default" );
 				return;
 			}
@@ -662,7 +667,6 @@ public abstract class MoodSettings implements KoLConstants
 			SortedListModel defaultList = new SortedListModel();
 			reference.put( key, defaultList );
 			availableMoods.add( key );
-			availableMoods.setSelectedItem( key );
 		}
 	}
 
@@ -671,7 +675,7 @@ public abstract class MoodSettings implements KoLConstants
 	 * to the noted file.  Note that this method ALWAYS overwrites
 	 * the given file.
 	 *
-	 * @param	destination	The file to which the settings will be stored.
+	 * @param	settingsFile	The file to which the settings will be stored.
 	 */
 
 	private static class MoodTrigger implements Comparable

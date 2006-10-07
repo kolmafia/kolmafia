@@ -102,7 +102,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	{
 		this.noExtensionName = KoLCharacter.baseUserName( characterName );
 		this.settingsFile = new File( "settings/prefs_" + noExtensionName + ".txt" );
-		loadSettings( this.settingsFile );
+
+		loadSettings();
 		ensureDefaults();
 	}
 
@@ -150,7 +151,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 	public void saveSettings()
 	{
-		storeSettings( settingsFile );
+		storeSettings();
 
 		if ( GLOBAL_SETTINGS != null && this != GLOBAL_SETTINGS )
 		{
@@ -168,20 +169,20 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	 * @param	source	The file that contains (or will contain) the character data
 	 */
 
-	private void loadSettings( File source )
+	private void loadSettings()
 	{
 		try
 		{
 			// First guarantee that a settings file exists with
 			// the appropriate Properties data.
 
-			if ( !source.exists() )
-				storeSettings( source );
+			if ( !settingsFile.exists() )
+				return;
 
 			// Now that it is guaranteed that an XML file exists
 			// with the appropriate properties, load the file.
 
-			FileInputStream istream = new FileInputStream( source );
+			FileInputStream istream = new FileInputStream( settingsFile );
 			load( istream );
 			istream.close();
 			istream = null;
@@ -200,8 +201,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			// the current file is deleted.
 
 			StaticEntity.printStackTrace( e2 );
-			source.delete();
-			loadSettings( source );
+			settingsFile.delete();
 		}
 	}
 
@@ -414,14 +414,15 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	 * Stores the settings maintained in this <code>KoLSettings</code>
 	 * to the noted file.  Note that this method ALWAYS overwrites
 	 * the given file.
-	 *
-	 * @param	destination	The file to which the settings will be stored.
 	 */
 
-	private void storeSettings( File destination )
+	private void storeSettings()
 	{
 		try
 		{
+			if ( settingsFile.exists() )
+				settingsFile.delete();
+
 			// Determine the contents of the file by
 			// actually printing them.
 
@@ -431,10 +432,9 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			String [] lines = ostream.toString().split( LINE_BREAK );
 			Arrays.sort( lines );
 
-			File temporary = new File( "settings/" + System.currentTimeMillis() + ".tmp" );
-			temporary.createNewFile();
+			settingsFile.createNewFile();
+			PrintStream writer = new LogStream( settingsFile );
 
-			PrintStream writer = new LogStream( temporary );
 			for ( int i = 0; i < lines.length; ++i )
 			{
 				if ( !lines[i].startsWith( "saveState" ) || noExtensionName.equals( "GLOBAL" ) )
@@ -442,11 +442,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			}
 
 			writer.close();
-
-			if ( destination.exists() )
-				destination.delete();
-
-			temporary.renameTo( destination );
 			ostream = null;
 		}
 		catch ( IOException e )
