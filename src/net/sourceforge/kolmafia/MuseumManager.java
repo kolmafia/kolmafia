@@ -96,7 +96,7 @@ public class MuseumManager extends StaticEntity
 
 	public static void reorder( String [] headers )
 	{
-		headers[0] = "Display Case";
+		headers[0] = "-none-";
 
 		// Unfortunately, if there are deleted shelves, the
 		// shelves cannot be re-ordered directly.  What has
@@ -147,7 +147,7 @@ public class MuseumManager extends StaticEntity
 
 		for ( int i = 1; i < headers.length; ++i )
 		{
-			REDIRECT_FOLLOWER.addFormField( "newname" + i, RequestEditorKit.getEntities( headers[i] ) );
+			REDIRECT_FOLLOWER.addFormField( "newname" + i, headers[i] );
 			if ( deleted[i] )
 				REDIRECT_FOLLOWER.addFormField( "delete" + i, "on" );
 		}
@@ -223,7 +223,8 @@ public class MuseumManager extends StaticEntity
 
 	private static void updateShelves( String data )
 	{
-		reset();
+		MuseumManager.reset();
+
 		Matcher selectMatcher = SELECT_PATTERN.matcher( data );
 		if ( selectMatcher.find() )
 		{
@@ -242,8 +243,8 @@ public class MuseumManager extends StaticEntity
 
 		if ( headers.size() == 0 )
 			headers.add( "" );
-		headers.set( 0, "Display Case" );
 
+		headers.set( 0, "-none-" );
 		for ( int i = 0; i < headers.size(); ++i )
 			shelves.add( new SortedListModel() );
 	}
