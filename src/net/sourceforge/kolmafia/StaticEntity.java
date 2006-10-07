@@ -632,11 +632,11 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static final void saveSettings()
 	{
+		Louvre.saveMap();
 		settings.saveSettings();
 
 		MoodSettings.saveSettings();
 		CombatSettings.saveSettings();
-		Louvre.saveMap();
 	}
 
 	public static void disable( String name )
