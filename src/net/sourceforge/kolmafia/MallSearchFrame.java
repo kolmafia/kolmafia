@@ -119,19 +119,12 @@ public class MallSearchFrame extends KoLPanelFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new MallSearchRunnable() )).start();
-		}
-
-		private class MallSearchRunnable implements Runnable
 		{
-			public void run()
-			{
-				int searchCount = getValue( countField, 0 );
-				if ( searchCount > 0 )
-					StaticEntity.setProperty( "defaultLimit", String.valueOf( searchCount ) );
+			int searchCount = getValue( countField, 0 );
+			if ( searchCount > 0 )
+				StaticEntity.setProperty( "defaultLimit", String.valueOf( searchCount ) );
 
-				searchMall( new SearchMallRequest( searchField.getText(), searchCount, results, false, forceSortingCheckBox.isSelected() ) );
-			}
+			searchMall( new SearchMallRequest( searchField.getText(), searchCount, results, false, forceSortingCheckBox.isSelected() ) );
 		}
 
 		public void actionCancelled()
