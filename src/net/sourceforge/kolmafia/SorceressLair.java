@@ -1229,9 +1229,6 @@ public abstract class SorceressLair extends StaticEntity
 			REDIRECT_FOLLOWER.addFormField( "whichitem", String.valueOf( guardianItem.getItemID() ) );
 			REDIRECT_FOLLOWER.run();
 
-			// Use up the item
-
-			getClient().processResult( guardianItem.getNegation() );
 			return -1;
 		}
 
