@@ -53,13 +53,14 @@ public class FamiliarData implements KoLConstants, Comparable
 		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (exp|experience)?, .*? kills?\\)(.*?)<(/tr|form)" );
 
 	private int id, weight;
-	private String name, race, item;
+	private String name, race;
+	private AdventureResult item;
 
 	public FamiliarData( int id )
-	{	this( id, "", 1, EquipmentRequest.UNEQUIP.toString() );
+	{	this( id, "", 1, EquipmentRequest.UNEQUIP );
 	}
 
-	public FamiliarData( int id, String name, int weight, String item )
+	public FamiliarData( int id, String name, int weight, AdventureResult item )
 	{
 		this.id = id;
 		this.name = name;
@@ -84,16 +85,16 @@ public class FamiliarData implements KoLConstants, Comparable
 
 		String itemData = dataMatcher.group(7);
 
-		this.item = itemData.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP.toString() :
-			itemData.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" :
-			itemData.indexOf( "omat.gif" ) != -1 ? "lucky Tam O'Shatner" :
-			itemData.indexOf( "maypole.gif" ) != -1 ? "miniature gravy-covered maypole" :
-			itemData.indexOf( "waxlips.gif" ) != -1 ? "wax lips" :
-			itemData.indexOf( "pitchfork.gif" ) != -1 ? "annoying pitchfork" :
-			itemData.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" :
-			itemData.indexOf( "ratbal.gif" ) != -1 ? "rat head balloon" :
-			itemData.indexOf( "punkin.gif" ) != -1 ? "plastic pumpkin bucket" :
-			FamiliarsDatabase.getFamiliarItem( this.id );
+		this.item = itemData.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP :
+			itemData.indexOf( "tamo.gif" ) != -1 ? new AdventureResult( "lucky Tam O'Shanter", 1, false ) :
+			itemData.indexOf( "omat.gif" ) != -1 ? new AdventureResult( "lucky Tam O'Shatner", 1, false ) :
+			itemData.indexOf( "maypole.gif" ) != -1 ? new AdventureResult( "miniature gravy-covered maypole", 1, false ) :
+			itemData.indexOf( "waxlips.gif" ) != -1 ? new AdventureResult( "wax lips", 1, false ) :
+			itemData.indexOf( "pitchfork.gif" ) != -1 ? new AdventureResult( "annoying pitchfork", 1, false ) :
+			itemData.indexOf( "lnecklace.gif" ) != -1 ? new AdventureResult( "lead necklace", 1, false ) :
+			itemData.indexOf( "ratbal.gif" ) != -1 ? new AdventureResult( "rat head balloon", 1, false ) :
+			itemData.indexOf( "punkin.gif" ) != -1 ? new AdventureResult( "plastic pumpkin bucket", 1, false ) :
+			new AdventureResult( FamiliarsDatabase.getFamiliarItem( this.id ), 1, false );
 	}
 
 	public static final void registerFamiliarData( String searchText )
@@ -123,11 +124,11 @@ public class FamiliarData implements KoLConstants, Comparable
 	{	return id;
 	}
 
-	public void setItem( String item )
+	public void setItem( AdventureResult item )
 	{	this.item = item;
 	}
 
-	public String getItem()
+	public AdventureResult getItem()
 	{	return item;
 	}
 
@@ -151,8 +152,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			total += KoLCharacter.getFamiliarWeightAdjustment();
 
 		// Finally, add in effect of current equipment
-		if ( !item.equals( EquipmentRequest.UNEQUIP ) )
-			total += itemWeightModifier( TradeableItemDatabase.getItemID( item ) );
+		total += itemWeightModifier( item.getItemID() );
 
 		return total;
 	}
@@ -161,44 +161,44 @@ public class FamiliarData implements KoLConstants, Comparable
 	{
 		switch ( itemID )
 		{
-		case -1:	// bogus item ID
-		case 856:	// shock collar
-		case 857:	// moonglasses
-		case 1040:	// lucky Tam O'Shanter
-		case 1102:	// targeting chip
-		case 1116:	// annoying pitchfork
-		case 1152:	// miniature gravy-covered maypole
-		case 1260:	// wax lips
-		case 1264:	// tiny nose-bone fetish
-		case 1419:	// teddy bear sewing kit
-		case 1489:	// miniature dormouse
-		case 1537:	// weegee sqouija
-		case 1539:	// lucky Tam O'Shatner
-		case 1623:	// badger badge
-		case 1928:	// tuning fork
-		case 1971:  // plastic pumpkin bucket
-			return 5;
+			case -1:	// bogus item ID
+			case 856:	// shock collar
+			case 857:	// moonglasses
+			case 1040:	// lucky Tam O'Shanter
+			case 1102:	// targeting chip
+			case 1116:  // annoying pitchfork
+			case 1152:	// miniature gravy-covered maypole
+			case 1260:	// wax lips
+			case 1264:	// tiny nose-bone fetish
+			case 1419:	// teddy bear sewing kit
+			case 1489:	// miniature dormouse
+			case 1537:	// weegee sqouija
+			case 1539:	// lucky Tam O'Shatner
+			case 1623:	// badger badge
+			case 1928:	// tuning fork
+				return 0;
 
-		case 865:	// lead necklace
-			return 3;
+			case 865:	// lead necklace
+				return 3;
 
-		case 1218:	// rat head balloon
-			return -3;
-
-		case 1243:	// toy six-seater hovercraft
-			return -5;
-
-		case 1305:	// tiny makeup kit
-			return 15;
-
-		case 1526:	// pet rock "Snooty" disguise
-		case 1678:	// pet rock "Groucho" disguise
-			return 11;
-
-		default:
-			if ( TradeableItemDatabase.getConsumptionType( itemID ) == ConsumeItemRequest.EQUIP_FAMILIAR )
+			case 1971:  // plastic pumpkin bucket
 				return 5;
-			return 0;
+
+			case 1218:	// rat head balloon
+				return -3;
+
+			case 1243:	// toy six-seater hovercraft
+				return -5;
+
+			case 1305:	// tiny makeup kit
+				return 15;
+
+			case 1526:	// pet rock "Snooty" disguise
+			case 1678:	// pet rock "Groucho" disguise
+				return 11;
+
+			default:
+				return 5;
 		}
 	}
 
@@ -245,9 +245,9 @@ public class FamiliarData implements KoLConstants, Comparable
 	 * familiar item.
 	 */
 
-	public boolean canEquip( String item )
+	public boolean canEquip( AdventureResult item )
 	{
-		switch ( TradeableItemDatabase.getItemID( item ) )
+		switch ( item.getItemID() )
 		{
 			case -1:
 				return false;
@@ -263,7 +263,7 @@ public class FamiliarData implements KoLConstants, Comparable
 				return true;
 
 			default:
-				return item.equals( FamiliarsDatabase.getFamiliarItem( id ) );
+				return item.getName().equals( FamiliarsDatabase.getFamiliarItem( id ) );
 		}
 	}
 

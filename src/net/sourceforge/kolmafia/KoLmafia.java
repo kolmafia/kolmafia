@@ -84,11 +84,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	static
 	{
-		// Rollover ends at roughly 4:45am GMT.  Therefore, make use
-		// of that relativity in doing date calculations.
-
-		DATED_FILENAME_FORMAT.setTimeZone( TimeZone.getTimeZone( "GMT-4:45" ) );
-
 		System.setProperty( "com.apple.mrj.application.apple.menu.about.name", "KoLmafia" );
 		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
@@ -172,6 +167,11 @@ public abstract class KoLmafia implements KoLConstants
 		hermitItems.add( "sweet rims" );
 		hermitItems.add( "volleyball" );
 		hermitItems.add( "wooden figurine" );
+
+		// Rollover ends at roughly 4:45am GMT.  Therefore, make use
+		// of that relativity in doing date calculations.
+
+		DATED_FILENAME_FORMAT.setTimeZone( TimeZone.getTimeZone( "GMT-4:45" ) );
 
 		StaticEntity.reloadSettings( "" );
 		StaticEntity.setProperty( "defaultLoginServer", "1" );

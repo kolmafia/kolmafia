@@ -1101,7 +1101,7 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 
 		if ( equipment.length > FAMILIAR && currentFamiliar != FamiliarData.NO_FAMILIAR )
-			currentFamiliar.setItem( equipment[FAMILIAR].getName() );
+			currentFamiliar.setItem( equipment[FAMILIAR] );
 	}
 
 	public static void setOutfits( List newOutfits )
@@ -1122,7 +1122,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static AdventureResult getFamiliarItem()
-	{	return currentFamiliar == null ? EquipmentRequest.UNEQUIP : new AdventureResult( currentFamiliar.getItem(), 1, false );
+	{	return currentFamiliar == null ? EquipmentRequest.UNEQUIP : currentFamiliar.getItem();
 	}
 
 	/**
@@ -1433,7 +1433,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 			if ( type == ConsumeItemRequest.EQUIP_FAMILIAR )
 			{
-				if ( currentFamiliar.canEquip( currentItemName ) )
+				if ( currentFamiliar.canEquip( currentItem ) )
 					currentList.add( currentItem );
 
 				continue;
@@ -1459,10 +1459,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 			for ( int i = 0; i < familiarList.length; ++i )
 			{
-				String itemName = familiarList[i].getItem();
-				AdventureResult item = new AdventureResult( itemName, 1, false );
-
-				if ( item != null && !currentList.contains( item ) && currentFamiliar.canEquip( itemName ) )
+				AdventureResult item = familiarList[i].getItem();
+				if ( item != null && !currentList.contains( item ) && currentFamiliar.canEquip( item ) )
 					currentList.add( item );
 			}
 		}
@@ -1785,7 +1783,9 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setMindControlLevel( int level )
-	{	KoLCharacter.mindControlLevel = level;
+	{
+		KoLCharacter.mindControlLevel = level;
+		updateStatus();
 	}
 
 	/**
@@ -2188,6 +2188,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		updateEquipmentList( ConsumeItemRequest.EQUIP_FAMILIAR, equipmentLists[FAMILIAR] );
 		isUsingStabBat = familiar.getRace().equals( "Stab Bat" ) || familiar.getRace().equals( "Scary Death Orb" );
+		updateStatus();
 	}
 
 	/**
