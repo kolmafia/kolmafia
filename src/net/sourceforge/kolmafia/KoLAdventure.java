@@ -300,8 +300,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		KoLRequest request = null;
-
 		// The casino is unlocked provided the player
 		// has a casino pass in their inventory.
 
@@ -372,8 +370,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// questlog.php?which=3
 			// "You have planted a Beanstalk in the Nearby Plains."
 
-			request = new KoLRequest( "plains.php" );
-			request.run();
+			REDIRECT_FOLLOWER.constructURLString( "plains.php" );
+			REDIRECT_FOLLOWER.run();
 
 			if ( request.responseText.indexOf( "beanstalk.php" ) == -1 )
 			{
@@ -409,8 +407,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				DEFAULT_SHELL.executeLine( "use enchanted bean" );
 			}
 
-			request = new KoLRequest( "beanstalk.php" );
-			request.run();
+			REDIRECT_FOLLOWER.constructURLString( "beanstalk.php" );
+			REDIRECT_FOLLOWER.run();
 
 			KoLCharacter.armBeanstalk();
 			isValidAdventure = true;
@@ -484,12 +482,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER, false ) )
 			{
-				request = new KoLRequest( "town_wrong.php?place=crackpot" );
-				request.run();
-				request = new KoLRequest( "town_wrong.php?action=crackyes1" );
-				request.run();
-				request = new KoLRequest( "town_wrong.php?action=crackyes2" );
-				request.run();
+				REDIRECT_FOLLOWER.constructURLString( "town_wrong.php?place=crackpot" ).run();
+				REDIRECT_FOLLOWER.constructURLString( "town_wrong.php?action=crackyes1" ).run();
+				REDIRECT_FOLLOWER.constructURLString( "town_wrong.php?action=crackyes2" ).run();
 			}
 
 			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) > 1 )
@@ -549,8 +544,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// See if the trapper will give it to us
 
 			DEFAULT_SHELL.executeLine( "council" );
-			request = new KoLRequest( "trapper.php" );
-			request.run();
+			REDIRECT_FOLLOWER.constructURLString( "trapper.php" ).run();
 
 			validate( true );
 			return;

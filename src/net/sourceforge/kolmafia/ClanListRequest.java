@@ -62,10 +62,8 @@ public class ClanListRequest extends KoLRequest
 
 		if ( enemyClans.isEmpty() )
 		{
-			KoLRequest details = new KoLRequest( "clan_war.php" );
-			details.run();
-
-			Matcher nextMatcher = WAIT_PATTERN.matcher( details.responseText );
+			REDIRECT_FOLLOWER.constructURLString( "clan_war.php" ).run();
+			Matcher nextMatcher = WAIT_PATTERN.matcher( REDIRECT_FOLLOWER.responseText );
 			nextMatcher.find();
 
 			KoLmafia.updateDisplay( ERROR_STATE, "Your clan can attack again in " + nextMatcher.group(1) );

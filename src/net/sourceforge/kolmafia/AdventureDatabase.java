@@ -625,56 +625,53 @@ public class AdventureDatabase extends KoLDatabase
 
 		for ( int i = 1; isValidZone && i < validationRequests.size() - 1; ++i )
 		{
-			KoLRequest request = new KoLRequest( (String) validationRequests.get(0) );
-			request.run();
-
-			isValidZone &= request.responseText != null &&
-				request.responseText.indexOf( (String) validationRequests.get(i) ) != -1;
+			REDIRECT_FOLLOWER.constructURLString( (String) validationRequests.get(0) ).run();
+			isValidZone &= REDIRECT_FOLLOWER.responseText != null &&
+				REDIRECT_FOLLOWER.responseText.indexOf( (String) validationRequests.get(i) ) != -1;
 		}
 
-		KoLRequest request = new KoLRequest( (String) validationRequests.get( validationRequests.size() - 1 ) );
-		request.run();
+		REDIRECT_FOLLOWER.constructURLString( (String) validationRequests.get( validationRequests.size() - 1 ) ).run();
 
 		// Special handling of the bat zone.
 
 		if ( locationID.equals( "32" ) || locationID.equals( "33" ) || locationID.equals( "34" ) )
 		{
-			if ( locationID.equals( "32" ) && request.responseText.indexOf( "batrockleft.gif" ) == -1 )
+			if ( locationID.equals( "32" ) && REDIRECT_FOLLOWER.responseText.indexOf( "batrockleft.gif" ) == -1 )
 				return true;
 
-			if ( locationID.equals( "33" ) && request.responseText.indexOf( "batrockright.gif" ) == -1 )
+			if ( locationID.equals( "33" ) && REDIRECT_FOLLOWER.responseText.indexOf( "batrockright.gif" ) == -1 )
 				return true;
 
-			if ( locationID.equals( "34" ) && request.responseText.indexOf( "batrockbottom.gif" ) == -1 )
+			if ( locationID.equals( "34" ) && REDIRECT_FOLLOWER.responseText.indexOf( "batrockbottom.gif" ) == -1 )
 				return true;
 
 			int sonarCount = SONAR.getCount( inventory );
 			int sonarToUse = 0;
 
-			if ( request.responseText.indexOf( "batrockleft.gif" ) != -1 )
+			if ( REDIRECT_FOLLOWER.responseText.indexOf( "batrockleft.gif" ) != -1 )
 				sonarToUse = 3;
-			else if ( request.responseText.indexOf( "batrockright.gif" ) != -1 )
+			else if ( REDIRECT_FOLLOWER.responseText.indexOf( "batrockright.gif" ) != -1 )
 				sonarToUse = 2;
-			else if ( request.responseText.indexOf( "batrockbottom.gif" ) != -1 )
+			else if ( REDIRECT_FOLLOWER.responseText.indexOf( "batrockbottom.gif" ) != -1 )
 				sonarToUse = 1;
 
 			DEFAULT_SHELL.executeLine( "use " + Math.min( sonarToUse, sonarCount ) + " sonar-in-a-biscuit" );
-			request.run();
+			REDIRECT_FOLLOWER.run();
 
-			return locationID.equals( "32" ) && request.responseText.indexOf( "batrockleft.gif" ) == -1 ||
-				locationID.equals( "33" ) && request.responseText.indexOf( "batrockright.gif" ) == -1 ||
-				locationID.equals( "34" ) && request.responseText.indexOf( "batrockbottom.gif" ) == -1;
+			return locationID.equals( "32" ) && REDIRECT_FOLLOWER.responseText.indexOf( "batrockleft.gif" ) == -1 ||
+				locationID.equals( "33" ) && REDIRECT_FOLLOWER.responseText.indexOf( "batrockright.gif" ) == -1 ||
+				locationID.equals( "34" ) && REDIRECT_FOLLOWER.responseText.indexOf( "batrockbottom.gif" ) == -1;
 		}
 
 		// Handle all others as normal.
 
-		isValidZone &= request.responseText != null;
+		isValidZone &= REDIRECT_FOLLOWER.responseText != null;
 		if ( isValidZone )
 		{
-			isValidZone &= request.responseText.indexOf( "snarfblat=" + locationID ) != -1 ||
-				request.responseText.indexOf( "adv=" + locationID ) != -1 ||
-				request.responseText.indexOf( "name=snarfblat value=" + locationID ) != -1 ||
-				request.responseText.indexOf( "name=adv value=" + locationID ) != -1;
+			isValidZone &= REDIRECT_FOLLOWER.responseText.indexOf( "snarfblat=" + locationID ) != -1 ||
+				REDIRECT_FOLLOWER.responseText.indexOf( "adv=" + locationID ) != -1 ||
+				REDIRECT_FOLLOWER.responseText.indexOf( "name=snarfblat value=" + locationID ) != -1 ||
+				REDIRECT_FOLLOWER.responseText.indexOf( "name=adv value=" + locationID ) != -1;
 		}
 
 		return isValidZone;
@@ -840,14 +837,12 @@ public class AdventureDatabase extends KoLDatabase
 	 * appropriate CLI command.
 	 */
 
-	private static final void retrieveItem( ItemCreationRequest item, int missingCount )
+	private static final void retrieveItem( ItemCreationRequest irequest, int missingCount )
 	{
-		int createCount = Math.min( missingCount, item.getCount( ConcoctionsDatabase.getConcoctions() ) );
-
-		if ( createCount > 0 )
+		if ( missingCount > 0 )
 		{
-			DEFAULT_SHELL.executeLine( "make " + createCount + " " + item.getName() );
-			return;
+			irequest.setQuantityNeeded( missingCount );
+			irequest.run();
 		}
 	}
 
@@ -891,13 +886,12 @@ public class AdventureDatabase extends KoLDatabase
 			// Next, attempt to create the item from existing
 			// ingredients (if possible).
 
-			ItemCreationRequest creator = ItemCreationRequest.getInstance( item.getItemID(), missingCount );
+			ItemCreationRequest creator = ItemCreationRequest.getInstance( item.getItemID() );
 			if ( creator != null )
 			{
-				if ( ConcoctionsDatabase.getMixingMethod( item.getItemID() ) == ItemCreationRequest.NOCREATE ||
-					ConcoctionsDatabase.hasAnyIngredient( item.getItemID() ) )
+				if ( ConcoctionsDatabase.hasAnyIngredient( item.getItemID() ) )
 				{
-					retrieveItem( creator, missingCount );
+					retrieveItem( creator, Math.min( missingCount, creator.getQuantityPossible() ) );
 					missingCount = item.getCount() - item.getCount( inventory );
 
 					if ( missingCount <= 0 )

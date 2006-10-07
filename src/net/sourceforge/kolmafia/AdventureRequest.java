@@ -147,10 +147,8 @@ public class AdventureRequest extends KoLRequest
 
 		if ( formSource.equals( "mountains.php" ) )
 		{
-			KoLRequest check = new KoLRequest( "mountains.php" );
-			check.run();
-
-			if ( check.responseText.indexOf( "value=80" ) != -1 )
+			REDIRECT_FOLLOWER.constructURLString( "mountains.php" ).run();
+			if ( REDIRECT_FOLLOWER.responseText.indexOf( "value=80" ) != -1 )
 			{
 				KoLmafia.updateDisplay( PENDING_STATE, "The Orc Chasm has already been bridged." );
 				return;

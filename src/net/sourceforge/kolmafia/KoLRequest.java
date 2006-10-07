@@ -307,9 +307,11 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.shouldIgnoreResults = formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) ||
 			formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" ) || formURLString.indexOf( "search" ) != -1  ||
 			formURLString.indexOf( "clan" ) != -1 || formURLString.startsWith( "chat" ) || formURLString.indexOf( "message" ) != -1;
+
+		this.shouldIgnoreResults &= formURLString.indexOf( "gym" ) == -1;
 	}
 
-	protected void constructURLString( String newURLString )
+	protected KoLRequest constructURLString( String newURLString )
 	{
 		this.data.clear();
 		if ( newURLString.startsWith( "/" ) )
@@ -320,12 +322,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( formSplitIndex == -1 )
 		{
 			this.formURLString = newURLString;
-			return;
+			return this;
 		}
 
 		this.formURLString = newURLString.substring( 0, formSplitIndex );
 		this.isChatRequest = this instanceof ChatRequest || this.formURLString.indexOf( "chat" ) != -1;
 		addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
+
+		return this;
 	}
 
 	/**
@@ -1508,15 +1512,15 @@ public class KoLRequest implements Runnable, KoLConstants
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
 
-		KoLRequest request = new KoLRequest( "choice.php" );
-		request.run();
+		REDIRECT_FOLLOWER.constructURLString( "choice.php" );
+		REDIRECT_FOLLOWER.run();
 
 		if ( getClass() != KoLRequest.class || StaticEntity.getBooleanProperty( "makeBrowserDecisions" ) )
-			handleChoiceResponse( request );
+			handleChoiceResponse( REDIRECT_FOLLOWER );
 
-		this.responseText = request.responseText;
-		this.fullResponse = request.fullResponse;
-		this.formConnection = request.formConnection;
+		this.responseText = REDIRECT_FOLLOWER.responseText;
+		this.fullResponse = REDIRECT_FOLLOWER.fullResponse;
+		this.formConnection = REDIRECT_FOLLOWER.formConnection;
 	}
 
 	/**

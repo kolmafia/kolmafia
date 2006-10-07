@@ -2386,16 +2386,11 @@ public abstract class KoLCharacter extends StaticEntity
 				break;
 		}
 
-		if ( count > 0 && count >= item.getCount() )
-			return true;
-
 		if ( shouldCreate )
 		{
-			ItemCreationRequest creation = ItemCreationRequest.getInstance( item.getItemID(), 1 );
-			if ( creation == null )
-				return false;
-
-			count += creation.getCount( ConcoctionsDatabase.getConcoctions() );
+			ItemCreationRequest creation = ItemCreationRequest.getInstance( item.getItemID() );
+			if ( creation != null )
+				count += creation.getQuantityPossible();
 		}
 
 		return count > 0 && count >= item.getCount();

@@ -45,7 +45,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
  * custom outfits as well as standard in-game outfits.
  */
 
-public class SpecialOutfit implements Comparable
+public class SpecialOutfit implements Comparable, KoLConstants
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
 
@@ -178,8 +178,10 @@ public class SpecialOutfit implements Comparable
 	{
 		if ( CHECKPOINT != null )
 		{
-			(new KoLRequest( "account_manageoutfits.php?action=Yep.&delete" +
-				(0 - CHECKPOINT.getOutfitID()) + "=on" )).run();
+			REDIRECT_FOLLOWER.constructURLString( "account_manageoutfits.php" );
+			REDIRECT_FOLLOWER.addFormField( "action", "Yep." );
+			REDIRECT_FOLLOWER.addFormField( "delete" + (0 - CHECKPOINT.getOutfitID()), "on" );
+			REDIRECT_FOLLOWER.run();
 
 			CHECKPOINT = null;
 			hadImplicitChange = false;

@@ -392,34 +392,33 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// all creatable items.  We do this by determining the
 		// number of items inside of the old list.
 
+		ItemCreationRequest instance;
+
 		for ( int i = 1; i < concoctions.size(); ++i )
 		{
-			// We can't make this concoction now
+			instance = ItemCreationRequest.getInstance( i );
+			if ( instance == null || concoctions.get(i).creatable == instance.getQuantityPossible() )
+				continue;
 
-			if ( concoctions.get(i).creatable <= 0 )
+			instance.setQuantityPossible( concoctions.get(i).creatable );
+
+			if ( instance.getQuantityPossible() == 0 )
 			{
+				// We can't make this concoction now
+
 				if ( concoctions.get(i).wasPossible() )
 				{
-					concoctionsList.remove( ItemCreationRequest.getInstance( i, 0, false ) );
+					concoctionsList.remove( instance );
 					concoctions.get(i).setPossible( false );
 				}
 			}
 			else
 			{
 				// We can make the concoction now
-				ItemCreationRequest currentCreation = ItemCreationRequest.getInstance( i, concoctions.get(i).creatable );
 
-				if ( concoctions.get(i).wasPossible() )
+				if ( !concoctions.get(i).wasPossible() )
 				{
-					if ( currentCreation.getCount( concoctionsList ) != concoctions.get(i).creatable )
-					{
-						concoctionsList.remove( currentCreation );
-						concoctionsList.add( currentCreation );
-					}
-				}
-				else
-				{
-					concoctionsList.add( currentCreation );
+					concoctionsList.add( instance );
 					concoctions.get(i).setPossible( true );
 				}
 			}

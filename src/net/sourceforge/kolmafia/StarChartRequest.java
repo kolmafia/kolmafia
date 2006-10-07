@@ -42,9 +42,9 @@ public class StarChartRequest extends ItemCreationRequest
 
 	private int stars, lines;
 
-	public StarChartRequest( int itemID, int quantityNeeded )
+	public StarChartRequest( int itemID )
 	{
-		super( "starchart.php", itemID, quantityNeeded );
+		super( "starchart.php", itemID );
 
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 		if ( ingredients != null )
@@ -59,6 +59,10 @@ public class StarChartRequest extends ItemCreationRequest
 		addFormField( "action", "makesomething" );
 		addFormField( "numstars", String.valueOf( stars ) );
 		addFormField( "numlines", String.valueOf( lines ) );
+	}
+
+	protected void reconstructFields()
+	{
 	}
 
 	public void run()

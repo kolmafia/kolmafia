@@ -117,11 +117,11 @@ public class MuseumManager extends StaticEntity
 		{
 			if ( deleted[i] )
 			{
-				KoLRequest request = new KoLRequest( "managecollection.php" );
-				request.addFormField( "action", "newshelf" );
-				request.addFormField( "pwd" );
-				request.addFormField( "shelfname", "Deleted Shelf " + i );
-				request.run();
+				REDIRECT_FOLLOWER.constructURLString( "managecollection.php" );
+				REDIRECT_FOLLOWER.addFormField( "action", "newshelf" );
+				REDIRECT_FOLLOWER.addFormField( "pwd" );
+				REDIRECT_FOLLOWER.addFormField( "shelfname", "Deleted Shelf " + i );
+				REDIRECT_FOLLOWER.run();
 			}
 		}
 
@@ -141,18 +141,18 @@ public class MuseumManager extends StaticEntity
 		// Redelete the previously deleted shelves so that the
 		// user isn't stuck with shelves they aren't going to use.
 
-		KoLRequest request = new KoLRequest( "managecollection.php" );
-		request.addFormField( "action", "modifyshelves" );
-		request.addFormField( "pwd" );
+		REDIRECT_FOLLOWER.constructURLString( "managecollection.php" );
+		REDIRECT_FOLLOWER.addFormField( "action", "modifyshelves" );
+		REDIRECT_FOLLOWER.addFormField( "pwd" );
 
 		for ( int i = 1; i < headers.length; ++i )
 		{
-			request.addFormField( "newname" + i, RequestEditorKit.getEntities( headers[i] ) );
+			REDIRECT_FOLLOWER.addFormField( "newname" + i, RequestEditorKit.getEntities( headers[i] ) );
 			if ( deleted[i] )
-				request.addFormField( "delete" + i, "on" );
+				REDIRECT_FOLLOWER.addFormField( "delete" + i, "on" );
 		}
 
-		request.run();
+		REDIRECT_FOLLOWER.run();
 		(new MuseumRequest()).run();
 		KoLmafia.updateDisplay( "Display case updated." );
 	}

@@ -414,8 +414,7 @@ public class EquipmentRequest extends PasswordHashRequest
 						if ( familiars[i].getItem() != null && familiars[i].getItem().indexOf( changeItemName ) != -1 )
 						{
 							KoLmafia.updateDisplay( "Stealing " + result.getName() + " from " + familiars[i].getRace() + "..." );
-							KoLRequest unequip = new KoLRequest( "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getID(), true );
-							unequip.run();
+							REDIRECT_FOLLOWER.constructURLString( "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getID() ).run();
 
 							familiars[i].setItem( UNEQUIP.toString() );
 							StaticEntity.getClient().processResult( result, false );
@@ -500,10 +499,9 @@ public class EquipmentRequest extends PasswordHashRequest
 
 			if ( KoLCharacter.inMuscleSign() || KoLCharacter.hasItem( PASTE, false ) )
 			{
-				KoLRequest combines = new KoLRequest( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
-				combines.run();
+				REDIRECT_FOLLOWER.constructURLString( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" ).run();
 
-				Matcher selectMatcher = SELECT_PATTERN.matcher( combines.responseText );
+				Matcher selectMatcher = SELECT_PATTERN.matcher( REDIRECT_FOLLOWER.responseText );
 				if ( selectMatcher.find() )
 					parseCloset( selectMatcher.group(), inventory );
 			}

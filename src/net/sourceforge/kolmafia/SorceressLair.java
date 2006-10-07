@@ -299,7 +299,10 @@ public abstract class SorceressLair extends StaticEntity
 			if ( hasItem( BANJO_STRING ) && hasItem( cloverWeapon ) )
 			{
 				UseSkillRequest.untinkerCloverWeapon( cloverWeapon );
-				ItemCreationRequest.getInstance( STONE_BANJO ).run();
+
+				ItemCreationRequest irequest = ItemCreationRequest.getInstance( STONE_BANJO.getItemID() );
+				irequest.setQuantityNeeded( 1 );
+				irequest.run();
 			}
 		}
 
@@ -383,7 +386,10 @@ public abstract class SorceressLair extends StaticEntity
 		if ( untinkerCloverWeapon )
 		{
 			(new UntinkerRequest( STONE_BANJO.getItemID() )).run();
-			ItemCreationRequest.getInstance( cloverWeapon ).run();
+
+			ItemCreationRequest irequest = ItemCreationRequest.getInstance( cloverWeapon.getItemID() );
+			irequest.setQuantityNeeded( 1 );
+			irequest.run();
 		}
 
 		KoLmafia.updateDisplay( "Sorceress entryway complete." );
@@ -824,7 +830,9 @@ public abstract class SorceressLair extends StaticEntity
 			AdventureDatabase.retrieveItem( SCUBA );
 			DEFAULT_SHELL.executeLine( "equip acc1 makeshift SCUBA gear" );
 			KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
-			(new KoLRequest( "lair2.php?action=odor" )).run();
+
+			REDIRECT_FOLLOWER.constructURLString( "lair2.php?action=odor" );
+			REDIRECT_FOLLOWER.run();
 		}
 
 		return requirements;

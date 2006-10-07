@@ -36,13 +36,17 @@ package net.sourceforge.kolmafia;
 
 public class PixelRequest extends ItemCreationRequest
 {
-	public PixelRequest( int itemID, int quantityNeeded )
+	public PixelRequest( int itemID )
 	{
-		super( "town_wrong.php", itemID, quantityNeeded );
-		addFormField( "place", "crackpot" );
+		super( "town_wrong.php", itemID );
 
+		addFormField( "place", "crackpot" );
 		addFormField( "action", "makepixel" );
 		addFormField( "makewhich", String.valueOf( itemID ) );
+	}
+
+	protected void reconstructFields()
+	{
 	}
 
 	public void run()
