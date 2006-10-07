@@ -192,7 +192,7 @@ public class ContactListFrame extends KoLFrame
 				int index = list.locationToIndex( e.getPoint() );
 
 				if ( index >= 0 && index < contacts.size() )
-					KoLMessenger.openInstantMessage( (String) contacts.get( index ) );
+					KoLMessenger.openInstantMessage( (String) contacts.get( index ), true );
 			}
 		}
 	}
