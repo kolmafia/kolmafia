@@ -223,7 +223,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "autoSatisfyWithMall", "true" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithNPCs", "true" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithStash", "false" );
-		CLIENT_SETTINGS.put( "autoSetConditions", "true" );
+		CLIENT_SETTINGS.put( "autoSetConditions", "false" );
 		CLIENT_SETTINGS.put( "battleStop", "0.0" );
 		CLIENT_SETTINGS.put( "breakfastSoftcore", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "breakfastHardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );

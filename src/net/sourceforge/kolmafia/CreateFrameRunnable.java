@@ -137,6 +137,9 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				this.creation.requestFocus();
 			}
 
+			if ( creationType == SkillBuffFrame.class && parameters.length == 1 )
+				((SkillBuffFrame)this.creation).setRecipient( (String) parameters[0] );
+
 			return;
 		}
 

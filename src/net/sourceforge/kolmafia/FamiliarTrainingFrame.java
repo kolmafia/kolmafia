@@ -1050,20 +1050,27 @@ public class FamiliarTrainingFrame extends KoLFrame
 				if ( goal != 20 )
 					return goalReached;
 
-				if ( maxBuffedWeight >= 15 && greenTongueActive == 0 && blackTongueActive == 0 )
-				{
-					if ( KoLCharacter.hasItem( GREEN_SNOWCONE, false ) )
-					{
-						DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
-						greenTongueActive = 20;
-						return true;
-					}
+				boolean hasTongue = false;
+				for ( int i = 0; i < activeEffects.size(); ++i )
+					hasTongue |= ((AdventureResult)activeEffects.get(i)).getName().toLowerCase().endsWith( "tongue" );
 
-					if ( KoLCharacter.hasItem( BLACK_SNOWCONE, false ) )
+				if ( !hasTongue )
+				{
+					if ( maxBuffedWeight >= 15 && greenTongueActive == 0 && blackTongueActive == 0 )
 					{
-						DEFAULT_SHELL.executeLine( "use 1 black snowcone" );
-						blackTongueActive = 20;
-						return true;
+						if ( KoLCharacter.hasItem( GREEN_SNOWCONE, false ) )
+						{
+							DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
+							greenTongueActive = 20;
+							return true;
+						}
+
+						if ( KoLCharacter.hasItem( BLACK_SNOWCONE, false ) && blackTongueActive == 0 )
+						{
+							DEFAULT_SHELL.executeLine( "use 1 black snowcone" );
+							blackTongueActive = 20;
+							return true;
+						}
 					}
 				}
 
@@ -1122,8 +1129,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 				// a snowcone; any other circumstance and you would have
 				// had enough to get by.
 
-				DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
-				poundsNeeded -= 5;
+				if ( !hasTongue && greenTongueActive == 0 )
+				{
+					DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
+					poundsNeeded -= 5;
+				}
 
 				if ( poundsNeeded <= 0 )
 					return true;
