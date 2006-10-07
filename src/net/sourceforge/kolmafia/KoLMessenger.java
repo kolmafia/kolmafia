@@ -678,7 +678,9 @@ public abstract class KoLMessenger extends StaticEntity
 			LimitedSizeChatBuffer buffer = getChatBuffer( bufferKey );
 			String displayHTML = formatChatMessage( channel, message, bufferKey );
 
+			buffer.setActiveLogFile( getChatLogName( bufferKey ) );
 			buffer.append( displayHTML );
+
 			if ( displayHTML.indexOf( "<font color=green>" ) != -1 )
 				eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( message ).replaceAll( "" ) );
 
