@@ -55,6 +55,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class KoLCharacter extends StaticEntity
 {
+	private static final Pattern STILLS_PATTERN = Pattern.compile( "with (\\d+) bright" );
+
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List SEAL_CLUBBER_RANKS = new ArrayList();
 	static
@@ -2120,7 +2122,17 @@ public abstract class KoLCharacter extends StaticEntity
 			return 0;
 
 		if ( stillsAvailable == -1 )
-			stillsAvailable = 10;
+		{
+			REDIRECT_FOLLOWER.constructURLString( "guild.php?place=still" );
+			REDIRECT_FOLLOWER.run();
+
+			Matcher stillMatcher = STILLS_PATTERN.matcher( REDIRECT_FOLLOWER.responseText );
+
+			if ( stillMatcher.find() )
+				stillsAvailable = parseInt( stillMatcher.group(1) );
+			else
+				stillsAvailable = 0;
+		}
 
 		return stillsAvailable;
 	}

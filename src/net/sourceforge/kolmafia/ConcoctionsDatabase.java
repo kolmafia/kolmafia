@@ -52,6 +52,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 {
 	public static final SortedListModel concoctionsList = new SortedListModel();
 
+	private static Concoction stillsLimit = new Concoction( new AdventureResult( 0, 0 ), ItemCreationRequest.NOCREATE );
+	private static Concoction adventureLimit = new Concoction( new AdventureResult( 0, 0 ), ItemCreationRequest.NOCREATE );
+
 	private static ConcoctionArray concoctions = new ConcoctionArray();
 	private static SortedListModelArray knownUses = new SortedListModelArray();
 
@@ -340,9 +343,16 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
 
-		concoctions.get(0).initial = KoLCharacter.getAdventuresLeft();
-		concoctions.get(0).creatable = 0;
-		concoctions.get(0).total = KoLCharacter.getAdventuresLeft();
+		adventureLimit.initial = KoLCharacter.getAdventuresLeft();
+		adventureLimit.creatable = 0;
+		adventureLimit.total = KoLCharacter.getAdventuresLeft();
+
+		// Stills are also considered Item #0 in the event that the
+		// concoction will use stills.
+
+		stillsLimit.initial = KoLCharacter.getStillsAvailable();
+		stillsLimit.creatable = 0;
+		stillsLimit.total = KoLCharacter.getStillsAvailable();
 
 		calculateMeatCombines( availableIngredients );
 
@@ -831,14 +841,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 				this.creatable = concoctions.get( ingredientArray[0].getItemID() ).initial;
 				this.total = this.initial + this.creatable;
 			}
-			else if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
-			{
-				// Improving mixers or booze depends on the
-				// quantity of the ingredient as well as the
-				// number of Still usages remaining
-				this.creatable = Math.min( concoctions.get( ingredientArray[0].getItemID() ).initial, KoLCharacter.getStillsAvailable() );
-				this.total = this.initial + this.creatable;
-			}
 			else
 			{
 				this.total = Integer.MAX_VALUE;
@@ -846,7 +848,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 					this.total = Math.min( this.total, concoctions.get( ingredientArray[i].getItemID() ).quantity() );
 
 				if ( ADVENTURE_USAGE[ mixingMethod ] != 0 )
-					this.total = Math.min( this.total, concoctions.get(0).quantity() );
+					this.total = Math.min( this.total, adventureLimit.quantity() );
+
+				if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
+					this.total = Math.min( this.total, stillsLimit.quantity() );
 
 				// The total available for other creations is equal
 				// to the total, less the initial.
@@ -898,8 +903,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// be zero and the infinite number available will have
 			// no effect on the calculation.
 
-			if ( quantity > 0 && this != concoctions.get(0) )
-				quantity = Math.min( quantity, concoctions.get(0).quantity() );
+			if ( ADVENTURE_USAGE[ mixingMethod ] != 0 )
+				quantity = Math.min( quantity, adventureLimit.quantity() );
+
+			// Still uses are also considered an ingredient.
+
+			if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
+				quantity = Math.min( quantity, stillsLimit.quantity() );
 
 			// The true value is now calculated.  Return this
 			// value to the requesting method.
@@ -951,9 +961,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// sure to multiply by the number of adventures
 			// which are required for this mixture.
 
-			if ( this != concoctions.get(0) && ADVENTURE_USAGE[ mixingMethod ] != 0 )
-				concoctions.get(0).mark( (this.modifier + this.initial) * ADVENTURE_USAGE[ mixingMethod ],
+			if ( ADVENTURE_USAGE[ mixingMethod ] != 0 )
+				adventureLimit.mark( (this.modifier + this.initial) * ADVENTURE_USAGE[ mixingMethod ],
 					this.multiplier * ADVENTURE_USAGE[ mixingMethod ] );
+
+			if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
+				stillsLimit.mark( (this.modifier + this.initial), this.multiplier );
 		}
 
 		/**
@@ -972,15 +985,18 @@ public class ConcoctionsDatabase extends KoLDatabase
 			for ( int i = 0; i < ingredientArray.length; ++i )
 				concoctions.get( ingredientArray[i].getItemID() ).unmark();
 
-			if ( this != concoctions.get(0) )
-				concoctions.get(0).unmark();
+			if ( ADVENTURE_USAGE[ mixingMethod ] != 0 )
+				adventureLimit.unmark();
+
+			if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
+				stillsLimit.unmark();
 		}
 
 		private int getMeatPasteNeeded()
 		{
 			// Avoid mutual recursion.
 
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER || !isPermittedMethod( mixingMethod ) )
+			if ( mixingMethod != ItemCreationRequest.COMBINE || KoLCharacter.inMuscleSign() )
 				return 0;
 
 			// Count all the meat paste from the different
