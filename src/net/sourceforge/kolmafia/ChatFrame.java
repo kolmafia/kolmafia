@@ -410,7 +410,7 @@ public class ChatFrame extends KoLFrame
 			switch ( linkOption )
 			{
 				case 1:
-					KoLMessenger.openInstantMessage( (String) parameters[0] );
+					KoLMessenger.openInstantMessage( (String) parameters[0], true );
 					return;
 
 				case 2:
