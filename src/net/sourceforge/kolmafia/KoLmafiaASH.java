@@ -3012,6 +3012,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "extract_items", RESULT_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "length", INT_TYPE, params ) );
+
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "index_of", INT_TYPE, params ) );
 
@@ -4658,6 +4661,10 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			return value;
+		}
+
+		public ScriptValue length( ScriptVariable string )
+		{	return new ScriptValue( string.toStringValue().toString().length() );
 		}
 
 		public ScriptValue index_of( ScriptVariable source, ScriptVariable search )
