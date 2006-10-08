@@ -1736,6 +1736,12 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
+			if ( scriptFile.isDirectory() )
+			{
+				KoLmafia.updateDisplay( scriptFile.getAbsolutePath() + " is a directory." );
+				return;
+			}
+
 			// Allow the ".ash" to appear anywhere in the filename
 			// in a case-insensitive manner.
 
