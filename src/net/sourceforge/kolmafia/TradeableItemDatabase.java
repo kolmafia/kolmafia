@@ -239,12 +239,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		// The word right before the dash may also be pluralized,
 		// so make sure the dashed words are recognized.
 
-		itemID = itemIDByName.get( canonicalName.replaceFirst( "es-", "-" ) );
+		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "es-", "-" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
-		itemID = itemIDByName.get( canonicalName.replaceFirst( "s-", "-" ) );
+		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "s-", "-" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -254,7 +254,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// also have "ee" plural forms should be clumped
 		// in as well.
 
-		itemID = itemIDByName.get( canonicalName.replaceFirst( "ee", "oo" ) );
+		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ee", "oo" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -263,7 +263,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// "vortices" -- this should only appear in the
 		// meat vortex, but better safe than sorry.
 
-		itemID = itemIDByName.get( canonicalName.replaceFirst( "ices", "ex" ) );
+		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ex" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -272,7 +272,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// of appendix, not appendex, so it is not caught
 		// by the previous test).
 
-		itemID = itemIDByName.get( canonicalName.replaceFirst( "ices", "ix" ) );
+		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ix" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -280,7 +280,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// Also add in a special handling for knives
 		// and other things ending in "ife".
 
-		itemID = itemIDByName.get( canonicalName.replaceFirst( "ives", "ife" ) );
+		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ives", "ife" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -288,7 +288,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// Also add in a special handling for elves
 		// and other things ending in "f".
 
-		itemID = itemIDByName.get( canonicalName.replaceFirst( "ves", "f" ) );
+		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ves", "f" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -296,7 +296,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// Also add in a special handling for staves
 		// and other things ending in "aff".
 
-		itemID = itemIDByName.get( canonicalName.replaceFirst( "aves", "aff" ) );
+		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "aves", "aff" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -311,7 +311,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
-		itemID = itemIDByName.get( canonicalName.replaceFirst( "ies ", "y " ) );
+		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ies ", "y " ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -326,7 +326,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
-		itemID = itemIDByName.get( canonicalName.replaceFirst( "es ", " " ) );
+		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "es ", " " ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -335,7 +335,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// ends with "an", then return the appropriate
 		// item ID for the "en" version.
 
-		itemID = itemIDByName.get( canonicalName.replaceFirst( "en ", "an " ) );
+		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "en ", "an " ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -357,7 +357,14 @@ public class TradeableItemDatabase extends KoLDatabase
 		// If it's a cactus, then go ahead and return
 		// the appropriate cactus-type ID.
 
-		itemID = itemIDByName.get( canonicalName.replaceFirst( "cacti", "cactus" ) );
+		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "cacti", "cactus" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// Check for vertebrae.
+
+		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "vertebrae", "vertebra" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
