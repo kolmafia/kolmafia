@@ -209,7 +209,6 @@ public class OptionsFrame extends KoLFrame
 			{ "relayRemovesExpensiveItems", "Remove unaffordable items from stores in browser" },
 			{ "relayRemovesMinpricedItems", "Remove items priced at minimum from stores in browser" },
 			{ "cacheRelayImages", "Cache relay browser images for mini browser" },
-			{ "makeBrowserDecisions", "Browser modules automatically make decisions" },
 			{ "trackLocationChanges", "Adventuring in browser changes selected adventure location" }
 		};
 

@@ -961,7 +961,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			String useType = null;
 			String useLocation = null;
 
-			boolean addCreateLink = location.indexOf( "combine.php" ) == -1 && location.indexOf( "cocktail.php" ) == -1 &&
+			boolean addCreateLink = location != null && location.indexOf( "combine.php" ) == -1 && location.indexOf( "cocktail.php" ) == -1 &&
 				location.indexOf( "cook.php" ) == -1 && location.indexOf( "paster" ) == -1 && location.indexOf( "smith" ) == -1;
 
 			AdventureResult creation = null;
@@ -973,7 +973,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// If you find goat cheese, let the trapper link handle it.
 			// Ore is skipped for now, so no need to check for it.
 
-			addCreateLink &= !creations.isEmpty() && itemID != 322;
+			addCreateLink &= creations != null && !creations.isEmpty() && itemID != 322;
 
 			if ( addCreateLink )
 			{
