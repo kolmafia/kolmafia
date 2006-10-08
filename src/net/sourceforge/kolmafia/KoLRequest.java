@@ -563,6 +563,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
+		if ( !isChatRequest )
+			KoLmafia.getDebugStream().println( getClass() );
+
 		if ( formURLString.indexOf( "sewer.php" ) != -1 )
 		{
 			if ( !isDelayExempt || StaticEntity.getBooleanProperty( "relayAlwaysBuysGum" ) )
@@ -1153,10 +1156,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 
 		if ( this instanceof LocalRelayRequest && responseCode != 200 )
-		{
-			if ( redirectLocation.indexOf( "choice.php" ) != -1 || StaticEntity.getBooleanProperty( "makeBrowserDecisions" ) )
-				return true;
-		}
+			return true;
 
 		boolean shouldStop = true;
 
@@ -1521,7 +1521,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		REDIRECT_FOLLOWER.constructURLString( "choice.php" );
 		REDIRECT_FOLLOWER.run();
 
-		if ( getClass() != KoLRequest.class || StaticEntity.getBooleanProperty( "makeBrowserDecisions" ) )
+		if ( getClass() != KoLRequest.class )
 			handleChoiceResponse( REDIRECT_FOLLOWER );
 
 		this.responseText = REDIRECT_FOLLOWER.responseText;

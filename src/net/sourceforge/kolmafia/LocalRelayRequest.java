@@ -795,6 +795,7 @@ public class LocalRelayRequest extends KoLRequest
 			// that means the browser is asking for a bad URL.
 			// Go ahead and return a 404 in this case.
 
+			e.printStackTrace( KoLmafia.getDebugStream() );
 			sendNotFound();
 		}
 	}

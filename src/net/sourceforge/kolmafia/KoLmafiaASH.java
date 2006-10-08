@@ -4786,13 +4786,8 @@ public class KoLmafiaASH extends StaticEntity
 			if ( KoLRequest.shouldIgnore( location ) || location.startsWith( "http" ) )
 				return STRING_INIT;
 
-			boolean wasChoice = location.indexOf( "choice.php" ) != -1;
-
 			REDIRECT_FOLLOWER.constructURLString( location );
 			REDIRECT_FOLLOWER.run();
-
-			if ( !wasChoice && REDIRECT_FOLLOWER.getURLString().indexOf( "choice.php" ) != -1 && getBooleanProperty( "makeBrowserDecisions" ) )
-				REDIRECT_FOLLOWER.handleChoiceResponse( REDIRECT_FOLLOWER );
 
 			StaticEntity.externalUpdate( location, REDIRECT_FOLLOWER.responseText );
 			return new ScriptValue( REDIRECT_FOLLOWER.fullResponse == null ? "" : REDIRECT_FOLLOWER.fullResponse );

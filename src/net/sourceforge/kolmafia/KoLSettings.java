@@ -253,7 +253,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
 		CLIENT_SETTINGS.put( "lastOperatingSystem", System.getProperty( "os.name" ) );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
-		CLIENT_SETTINGS.put( "makeBrowserDecisions", "false" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
 		CLIENT_SETTINGS.put( "proxySet", "false" );
 		CLIENT_SETTINGS.put( "relayAddsQuickScripts", "false" );
