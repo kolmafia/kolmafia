@@ -365,7 +365,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				break;
 			}
 		}
-		while ( shouldRerun );
+		while ( shouldRerun && KoLmafia.permitsContinue() );
 	}
 
 	protected void makeDough()
@@ -524,14 +524,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case SUPER_REAGENT:
 			case COOK_PASTA:
 				KoLCharacter.setChef( false );
-				shouldRerun = true;
+				shouldRerun = quantityNeeded > 0;
 				break;
 
 			case MIX:
 			case MIX_SPECIAL:
 			case MIX_SUPER:
 				KoLCharacter.setBartender( false );
-				shouldRerun = true;
+				shouldRerun = quantityNeeded > 0;
 				break;
 			}
 		}
