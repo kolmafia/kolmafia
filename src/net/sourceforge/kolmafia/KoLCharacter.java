@@ -2307,7 +2307,11 @@ public abstract class KoLCharacter extends StaticEntity
 			{
 				int equipmentType = consumeFilterToEquipmentType( TradeableItemDatabase.getConsumptionType( result.getItemID() ) );
 				if ( equipmentType != -1 )
+				{
 					updateEquipmentList( equipmentType );
+					if ( EquipmentDatabase.getOutfitWithItem( result.getItemID() ) != -1 )
+						EquipmentDatabase.updateOutfits();
+				}
 
 				if ( !ConcoctionsDatabase.getKnownUses( result ).isEmpty() )
 					ConcoctionsDatabase.refreshConcoctions();

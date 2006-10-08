@@ -34,8 +34,10 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.List;
 import java.util.TreeMap;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -251,15 +253,15 @@ public class EquipmentDatabase extends KoLDatabase
 
 	public static void updateOutfits()
 	{
-		SortedListModel available = new SortedListModel();
+		ArrayList available = new ArrayList();
 		for ( int i = 0; i < outfits.size(); ++i )
-		{
 			if ( outfits.get(i) != null && outfits.get(i).hasAllPieces() )
-					available.add( outfits.get(i) );
-		}
+				available.add( outfits.get(i) );
+
+		Collections.sort( available );
 
 		// Rebuild the list of outfits
-		LockableListModel outfits = KoLCharacter.getOutfits();
+		List outfits = KoLCharacter.getOutfits();
 		outfits.clear();
 
 		// Start with the two constant outfits
