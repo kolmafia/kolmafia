@@ -164,12 +164,8 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		{
 			try
 			{
-				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ) );
-
-				if ( holiday.startsWith( "No" ) )
-					KoLmafia.updateDisplay( MoonPhaseDatabase.getMoonEffect() );
-				else
-					KoLmafia.updateDisplay( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
+				KoLmafia.updateDisplay( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 			}
 			catch ( Exception e )
 			{
