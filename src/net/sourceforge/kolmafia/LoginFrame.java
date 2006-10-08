@@ -126,7 +126,7 @@ public class LoginFrame extends KoLFrame
 	public void dispose()
 	{
 		if ( existingFrames.size() == 1 )
-			SystemTrayFrame.removeTrayIcon();
+			System.exit(0);
 
 		super.dispose();
 	}
