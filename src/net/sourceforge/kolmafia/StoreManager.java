@@ -144,15 +144,15 @@ public abstract class StoreManager extends StaticEntity
 		{
 			switch ( currentLogSort )
 			{
-				case RECENT_FIRST:
-					currentLogSort = OLDEST_FIRST;
-					break;
-				case OLDEST_FIRST:
-					currentLogSort = GROUP_BY_NAME;
-					break;
-				case GROUP_BY_NAME:
-					currentLogSort = RECENT_FIRST;
-					break;
+			case RECENT_FIRST:
+				currentLogSort = OLDEST_FIRST;
+				break;
+			case OLDEST_FIRST:
+				currentLogSort = GROUP_BY_NAME;
+				break;
+			case GROUP_BY_NAME:
+				currentLogSort = RECENT_FIRST;
+				break;
 			}
 		}
 
@@ -305,14 +305,14 @@ public abstract class StoreManager extends StaticEntity
 
 			switch ( currentLogSort )
 			{
-				case RECENT_FIRST:
-					return ((StoreLogEntry)o).id - id;
-				case OLDEST_FIRST:
-					return id - ((StoreLogEntry)o).id;
-				case GROUP_BY_NAME:
-					return text.compareToIgnoreCase( ((StoreLogEntry)o).text );
-				default:
-					return -1;
+			case RECENT_FIRST:
+				return ((StoreLogEntry)o).id - id;
+			case OLDEST_FIRST:
+				return id - ((StoreLogEntry)o).id;
+			case GROUP_BY_NAME:
+				return text.compareToIgnoreCase( ((StoreLogEntry)o).text );
+			default:
+				return -1;
 			}
 		}
 	}

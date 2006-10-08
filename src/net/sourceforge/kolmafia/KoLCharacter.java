@@ -1294,22 +1294,22 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		switch ( consumeFilter )
 		{
-			case ConsumeItemRequest.EQUIP_HAT:
-				return HAT;
-			case ConsumeItemRequest.EQUIP_WEAPON:
-				return WEAPON;
-			case ConsumeItemRequest.EQUIP_OFFHAND:
-				return OFFHAND;
-			case ConsumeItemRequest.EQUIP_SHIRT:
-				return SHIRT;
-			case ConsumeItemRequest.EQUIP_PANTS:
-				return PANTS;
-			case ConsumeItemRequest.EQUIP_ACCESSORY:
-				return ACCESSORY1;
-			case ConsumeItemRequest.EQUIP_FAMILIAR:
-				return FAMILIAR;
-			default:
-				return -1;
+		case ConsumeItemRequest.EQUIP_HAT:
+			return HAT;
+		case ConsumeItemRequest.EQUIP_WEAPON:
+			return WEAPON;
+		case ConsumeItemRequest.EQUIP_OFFHAND:
+			return OFFHAND;
+		case ConsumeItemRequest.EQUIP_SHIRT:
+			return SHIRT;
+		case ConsumeItemRequest.EQUIP_PANTS:
+			return PANTS;
+		case ConsumeItemRequest.EQUIP_ACCESSORY:
+			return ACCESSORY1;
+		case ConsumeItemRequest.EQUIP_FAMILIAR:
+			return FAMILIAR;
+		default:
+			return -1;
 		}
 	}
 
@@ -1317,24 +1317,24 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		switch ( equipmentType )
 		{
-			case HAT:
-				return ConsumeItemRequest.EQUIP_HAT;
-			case WEAPON:
-				return ConsumeItemRequest.EQUIP_WEAPON;
-			case OFFHAND:
-				return ConsumeItemRequest.EQUIP_OFFHAND;
-			case SHIRT:
-				return ConsumeItemRequest.EQUIP_SHIRT;
-			case PANTS:
-				return ConsumeItemRequest.EQUIP_PANTS;
-			case ACCESSORY1:
-			case ACCESSORY2:
-			case ACCESSORY3:
-				return ConsumeItemRequest.EQUIP_ACCESSORY;
-			case FAMILIAR:
-				return ConsumeItemRequest.EQUIP_FAMILIAR;
-			default:
-				return -1;
+		case HAT:
+			return ConsumeItemRequest.EQUIP_HAT;
+		case WEAPON:
+			return ConsumeItemRequest.EQUIP_WEAPON;
+		case OFFHAND:
+			return ConsumeItemRequest.EQUIP_OFFHAND;
+		case SHIRT:
+			return ConsumeItemRequest.EQUIP_SHIRT;
+		case PANTS:
+			return ConsumeItemRequest.EQUIP_PANTS;
+		case ACCESSORY1:
+		case ACCESSORY2:
+		case ACCESSORY3:
+			return ConsumeItemRequest.EQUIP_ACCESSORY;
+		case FAMILIAR:
+			return ConsumeItemRequest.EQUIP_FAMILIAR;
+		default:
+			return -1;
 		}
 	}
 
@@ -1356,22 +1356,21 @@ public abstract class KoLCharacter extends StaticEntity
 
 		switch ( listIndex )
 		{
-			case ACCESSORY1:
-			case ACCESSORY2:
-			case ACCESSORY3:
+		case ACCESSORY1:
+		case ACCESSORY2:
+		case ACCESSORY3:
 
-				if ( !equipmentLists[ ACCESSORY1 ].contains( equippedItem ) )
-					equipmentLists[ ACCESSORY1 ].add( equippedItem );
-				if ( !equipmentLists[ ACCESSORY2 ].contains( equippedItem ) )
-					equipmentLists[ ACCESSORY2 ].add( equippedItem );
-				if ( !equipmentLists[ ACCESSORY3 ].contains( equippedItem ) )
-					equipmentLists[ ACCESSORY3 ].add( equippedItem );
+			if ( !equipmentLists[ ACCESSORY1 ].contains( equippedItem ) )
+				equipmentLists[ ACCESSORY1 ].add( equippedItem );
+			if ( !equipmentLists[ ACCESSORY2 ].contains( equippedItem ) )
+				equipmentLists[ ACCESSORY2 ].add( equippedItem );
+			if ( !equipmentLists[ ACCESSORY3 ].contains( equippedItem ) )
+				equipmentLists[ ACCESSORY3 ].add( equippedItem );
 
-			default:
+		default:
 
-				if ( !equipmentLists[ listIndex ].contains( equippedItem ) )
-					equipmentLists[ listIndex ].add( equippedItem );
-
+			if ( !equipmentLists[ listIndex ].contains( equippedItem ) )
+				equipmentLists[ listIndex ].add( equippedItem );
 		}
 
 
@@ -1917,32 +1916,32 @@ public abstract class KoLCharacter extends StaticEntity
 
 		switch ( ClassSkillsDatabase.getSkillType( skill.getSkillID() ) )
 		{
-			case ClassSkillsDatabase.PASSIVE:
+		case ClassSkillsDatabase.PASSIVE:
 
-				// Flavour of Magic gives you access to five other
-				// castable skills
+			// Flavour of Magic gives you access to five other
+			// castable skills
 
-				if ( skill.getSkillName().equals( "Flavour of Magic" ) )
-				{
-					usableSkills.add( new UseSkillRequest( "Spirit of Cayenne", "", 1 ) );
-					usableSkills.add( new UseSkillRequest( "Spirit of Peppermint", "", 1 ) );
-					usableSkills.add( new UseSkillRequest( "Spirit of Garlic", "", 1 ) );
-					usableSkills.add( new UseSkillRequest( "Spirit of Wormwood", "", 1 ) );
-					usableSkills.add( new UseSkillRequest( "Spirit of Bacon Grease", "", 1 ) );
-				}
+			if ( skill.getSkillName().equals( "Flavour of Magic" ) )
+			{
+				usableSkills.add( new UseSkillRequest( "Spirit of Cayenne", "", 1 ) );
+				usableSkills.add( new UseSkillRequest( "Spirit of Peppermint", "", 1 ) );
+				usableSkills.add( new UseSkillRequest( "Spirit of Garlic", "", 1 ) );
+				usableSkills.add( new UseSkillRequest( "Spirit of Wormwood", "", 1 ) );
+				usableSkills.add( new UseSkillRequest( "Spirit of Bacon Grease", "", 1 ) );
+			}
 
-				break;
+			break;
 
-			case ClassSkillsDatabase.SKILL:
-			case ClassSkillsDatabase.BUFF:
+		case ClassSkillsDatabase.SKILL:
+		case ClassSkillsDatabase.BUFF:
 
-				usableSkills.add( skill );
-				break;
+			usableSkills.add( skill );
+			break;
 
-			case ClassSkillsDatabase.COMBAT:
+		case ClassSkillsDatabase.COMBAT:
 
-				addCombatSkill( skill.getSkillName() );
-				break;
+			addCombatSkill( skill.getSkillName() );
+			break;
 		}
 	}
 
@@ -2380,23 +2379,23 @@ public abstract class KoLCharacter extends StaticEntity
 		int count = item.getCount( inventory ) + item.getCount( closet );
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
 		{
-			case ConsumeItemRequest.EQUIP_HAT:
-			case ConsumeItemRequest.EQUIP_PANTS:
-			case ConsumeItemRequest.EQUIP_FAMILIAR:
-			case ConsumeItemRequest.EQUIP_OFFHAND:
-				if ( hasEquipped( item ) )  ++count;
-				break;
+		case ConsumeItemRequest.EQUIP_HAT:
+		case ConsumeItemRequest.EQUIP_PANTS:
+		case ConsumeItemRequest.EQUIP_FAMILIAR:
+		case ConsumeItemRequest.EQUIP_OFFHAND:
+			if ( hasEquipped( item ) )  ++count;
+			break;
 
-			case ConsumeItemRequest.EQUIP_WEAPON:
-				if ( hasEquipped( item.getName(), WEAPON ) )  ++count;
-				if ( hasEquipped( item.getName(), OFFHAND ) )  ++count;
-				break;
+		case ConsumeItemRequest.EQUIP_WEAPON:
+			if ( hasEquipped( item.getName(), WEAPON ) )  ++count;
+			if ( hasEquipped( item.getName(), OFFHAND ) )  ++count;
+			break;
 
-			case ConsumeItemRequest.EQUIP_ACCESSORY:
-				if ( hasEquipped( item.getName(), ACCESSORY1 ) )  ++count;
-				if ( hasEquipped( item.getName(), ACCESSORY2 ) )  ++count;
-				if ( hasEquipped( item.getName(), ACCESSORY3 ) )  ++count;
-				break;
+		case ConsumeItemRequest.EQUIP_ACCESSORY:
+			if ( hasEquipped( item.getName(), ACCESSORY1 ) )  ++count;
+			if ( hasEquipped( item.getName(), ACCESSORY2 ) )  ++count;
+			if ( hasEquipped( item.getName(), ACCESSORY3 ) )  ++count;
+			break;
 		}
 
 		if ( shouldCreate )
@@ -2421,26 +2420,26 @@ public abstract class KoLCharacter extends StaticEntity
 		String name = item.getName();
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
 		{
-			case ConsumeItemRequest.EQUIP_WEAPON:
-				return hasEquipped( name, WEAPON ) || hasEquipped( name, OFFHAND );
+		case ConsumeItemRequest.EQUIP_WEAPON:
+			return hasEquipped( name, WEAPON ) || hasEquipped( name, OFFHAND );
 
-			case ConsumeItemRequest.EQUIP_OFFHAND:
-				return hasEquipped( name, OFFHAND );
+		case ConsumeItemRequest.EQUIP_OFFHAND:
+			return hasEquipped( name, OFFHAND );
 
-			case ConsumeItemRequest.EQUIP_HAT:
-				return hasEquipped( name, HAT );
+		case ConsumeItemRequest.EQUIP_HAT:
+			return hasEquipped( name, HAT );
 
-			case ConsumeItemRequest.EQUIP_SHIRT:
-				return hasEquipped( name, SHIRT );
+		case ConsumeItemRequest.EQUIP_SHIRT:
+			return hasEquipped( name, SHIRT );
 
-			case ConsumeItemRequest.EQUIP_PANTS:
-				return hasEquipped( name, PANTS );
+		case ConsumeItemRequest.EQUIP_PANTS:
+			return hasEquipped( name, PANTS );
 
-			case ConsumeItemRequest.EQUIP_ACCESSORY:
-				return hasEquipped( name, ACCESSORY1 ) || hasEquipped( name, ACCESSORY2 ) || hasEquipped( name, ACCESSORY3 );
+		case ConsumeItemRequest.EQUIP_ACCESSORY:
+			return hasEquipped( name, ACCESSORY1 ) || hasEquipped( name, ACCESSORY2 ) || hasEquipped( name, ACCESSORY3 );
 
-			case ConsumeItemRequest.EQUIP_FAMILIAR:
-				return hasEquipped( name, FAMILIAR );
+		case ConsumeItemRequest.EQUIP_FAMILIAR:
+			return hasEquipped( name, FAMILIAR );
 		}
 
 		return false;
@@ -2697,61 +2696,61 @@ public abstract class KoLCharacter extends StaticEntity
 		float modifier = (float)( currentFamiliar.getWeight() + newFamiliarWeightAdjustment + newFamiliarItemWeightAdjustment );
 		switch ( familiarID )
 		{
-			case BABY_GRAVY_FAIRY:
-			case FLAMING_GRAVY_FAIRY:
-			case FROZEN_GRAVY_FAIRY:
-			case STINKY_GRAVY_FAIRY:
-			case SPOOKY_GRAVY_FAIRY:
-			case SLEAZY_GRAVY_FAIRY:
-			case CRIMBO_ELF:
-				// Full gravy fairy equivalent familiar
-				newItemDropPercentAdjustment += modifier * 2.5;
-				break;
+		case BABY_GRAVY_FAIRY:
+		case FLAMING_GRAVY_FAIRY:
+		case FROZEN_GRAVY_FAIRY:
+		case STINKY_GRAVY_FAIRY:
+		case SPOOKY_GRAVY_FAIRY:
+		case SLEAZY_GRAVY_FAIRY:
+		case CRIMBO_ELF:
+			// Full gravy fairy equivalent familiar
+			newItemDropPercentAdjustment += modifier * 2.5;
+			break;
 
-			case PIXIE:
-			case DEMON:
-				// Full gravy fairy equivalent familiar
-				// Full leprechaun equivalent familiar
-				newItemDropPercentAdjustment += modifier * 2.5;
-				newMeatDropPercentAdjustment += modifier * 5;
-				break;
+		case PIXIE:
+		case DEMON:
+			// Full gravy fairy equivalent familiar
+			// Full leprechaun equivalent familiar
+			newItemDropPercentAdjustment += modifier * 2.5;
+			newMeatDropPercentAdjustment += modifier * 5;
+			break;
 
-			case VOLLEYBALL:
-			case HOBO:
-				// Full volleyball equivalent familiar
-				newFixedXPAdjustment += modifier / 4.0;
-				break;
+		case VOLLEYBALL:
+		case HOBO:
+			// Full volleyball equivalent familiar
+			newFixedXPAdjustment += modifier / 4.0;
+			break;
 
-			case LEPRECHAUN:
-			case TURKEY:
-				// Full leprechaun equivalent familiar
-				newMeatDropPercentAdjustment += modifier * 5;
-				break;
+		case LEPRECHAUN:
+		case TURKEY:
+			// Full leprechaun equivalent familiar
+			newMeatDropPercentAdjustment += modifier * 5;
+			break;
 
-			case CHESHIRE:
-			case MONKEY:
-				// Full volleyball equivalent familiar
-				// Full leprechaun equivalent familiar
-				newFixedXPAdjustment += modifier / 4.0;
-				newMeatDropPercentAdjustment += modifier * 5;
-				break;
+		case CHESHIRE:
+		case MONKEY:
+			// Full volleyball equivalent familiar
+			// Full leprechaun equivalent familiar
+			newFixedXPAdjustment += modifier / 4.0;
+			newMeatDropPercentAdjustment += modifier * 5;
+			break;
 
-			case SHAMAN:
-				// Full volleyball equivalent familiar
-				// Full gravy fairy equivalent familiar
-				newFixedXPAdjustment += modifier / 4.0;
-				newItemDropPercentAdjustment += modifier * 2.5;
-				break;
+		case SHAMAN:
+			// Full volleyball equivalent familiar
+			// Full gravy fairy equivalent familiar
+			newFixedXPAdjustment += modifier / 4.0;
+			newItemDropPercentAdjustment += modifier * 2.5;
+			break;
 
-			case JILL:
-				// Half volleyball equivalent familiar
-				newFixedXPAdjustment += modifier / 8.0;
-				break;
+		case JILL:
+			// Half volleyball equivalent familiar
+			newFixedXPAdjustment += modifier / 8.0;
+			break;
 
-			case HARE:
-				// Full volleyball equivalent 1/4 of the time
-				newFixedXPAdjustment += modifier / 16.0;
-				break;
+		case HARE:
+			// Full volleyball equivalent 1/4 of the time
+			newFixedXPAdjustment += modifier / 16.0;
+			break;
 		}
 
 		// Determine if Mysticality is the current To-hit stat

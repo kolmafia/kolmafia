@@ -101,28 +101,28 @@ public class ClanBuffRequest extends KoLRequest
 
 		switch ( buffID % 10 )
 		{
-			case 1:
-				stringForm.append( "Cheap " );
-				break;
-			case 2:
-				stringForm.append( "Normal " );
-				break;
-			default:
-				stringForm.append( "Expensive " );
-				break;
+		case 1:
+			stringForm.append( "Cheap " );
+			break;
+		case 2:
+			stringForm.append( "Normal " );
+			break;
+		default:
+			stringForm.append( "Expensive " );
+			break;
 		}
 
 		switch ( ((int) ( buffID / 10 )) % 3 )
 		{
-			case 1:
-				stringForm.append( "Muscle " );
-				break;
-			case 2:
-				stringForm.append( "Mysticality " );
-				break;
-			default:
-				stringForm.append( "Moxie " );
-				break;
+		case 1:
+			stringForm.append( "Muscle " );
+			break;
+		case 2:
+			stringForm.append( "Mysticality " );
+			break;
+		default:
+			stringForm.append( "Moxie " );
+			break;
 		}
 
 		stringForm.append( buffID < 40 ? "Training" : "Boost" );

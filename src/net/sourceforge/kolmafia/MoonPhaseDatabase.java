@@ -257,15 +257,15 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		switch ( phase )
 		{
-			case 0:  return "new moon";
-			case 1:  return "waxing crescent";
-			case 2:  return "first quarter";
-			case 3:  return "waxing gibbous";
-			case 4:  return "full moon";
-			case 5:  return "waning gibbous";
-			case 6:  return "third quarter";
-			case 7:  return "waning crescent";
-			default:  return "unknown";
+		case 0:  return "new moon";
+		case 1:  return "waxing crescent";
+		case 2:  return "first quarter";
+		case 3:  return "waxing gibbous";
+		case 4:  return "full moon";
+		case 5:  return "waning gibbous";
+		case 6:  return "third quarter";
+		case 7:  return "waning crescent";
+		default:  return "unknown";
 		}
 	}
 
@@ -304,32 +304,32 @@ public class MoonPhaseDatabase extends StaticEntity
 		int lightModifier = 0;
 		switch ( ronaldPhase )
 		{
-			case 0:
-				if ( hamburglarPosition == 8 || hamburglarPosition == 9 )
-					lightModifier = 1;
-				break;
-			case 1:
-				if ( hamburglarPosition == 8 )
-					lightModifier = -1;
-				if ( hamburglarPosition == 9 )
-					lightModifier = 1;
-				break;
-			case 2:
-				if ( hamburglarPosition == 9 )
-					lightModifier = 1;
-				break;
-			case 3:
-				if ( hamburglarPosition == 8 )
-					lightModifier = -1;
-				if ( hamburglarPosition == 9 )
-					lightModifier = 1;
-				break;
-			default:
-				if ( hamburglarPosition == 8 )
-					lightModifier = 1;
-				if ( hamburglarPosition == 9 )
-					lightModifier = -1;
-				break;
+		case 0:
+			if ( hamburglarPosition == 8 || hamburglarPosition == 9 )
+				lightModifier = 1;
+			break;
+		case 1:
+			if ( hamburglarPosition == 8 )
+				lightModifier = -1;
+			if ( hamburglarPosition == 9 )
+				lightModifier = 1;
+			break;
+		case 2:
+			if ( hamburglarPosition == 9 )
+				lightModifier = 1;
+			break;
+		case 3:
+			if ( hamburglarPosition == 8 )
+				lightModifier = -1;
+			if ( hamburglarPosition == 9 )
+				lightModifier = 1;
+			break;
+		default:
+			if ( hamburglarPosition == 8 )
+				lightModifier = 1;
+			if ( hamburglarPosition == 9 )
+				lightModifier = -1;
+			break;
 		}
 
 		int baseLight = ronaldPhase > 4 ? 8 - ronaldPhase : ronaldPhase;
@@ -349,32 +349,32 @@ public class MoonPhaseDatabase extends StaticEntity
 		int lightModifier = 0;
 		switch ( grimacePhase )
 		{
-			case 0:
-				if ( hamburglarPosition == 0 || hamburglarPosition == 1 )
-					lightModifier = 1;
-				break;
-			case 1:
-				if ( hamburglarPosition == 0 )
-					lightModifier = -1;
-				if ( hamburglarPosition == 1 )
-					lightModifier = 1;
-				break;
-			case 2:
-				if ( hamburglarPosition == 1 )
-					lightModifier = 1;
-				break;
-			case 3:
-				if ( hamburglarPosition == 0 )
-					lightModifier = -1;
-				if ( hamburglarPosition == 1 )
-					lightModifier = 1;
-				break;
-			default:
-				if ( hamburglarPosition == 0 )
-					lightModifier = 1;
-				if ( hamburglarPosition == 1 )
-					lightModifier = -1;
-				break;
+		case 0:
+			if ( hamburglarPosition == 0 || hamburglarPosition == 1 )
+				lightModifier = 1;
+			break;
+		case 1:
+			if ( hamburglarPosition == 0 )
+				lightModifier = -1;
+			if ( hamburglarPosition == 1 )
+				lightModifier = 1;
+			break;
+		case 2:
+			if ( hamburglarPosition == 1 )
+				lightModifier = 1;
+			break;
+		case 3:
+			if ( hamburglarPosition == 0 )
+				lightModifier = -1;
+			if ( hamburglarPosition == 1 )
+				lightModifier = 1;
+			break;
+		default:
+			if ( hamburglarPosition == 0 )
+				lightModifier = 1;
+			if ( hamburglarPosition == 1 )
+				lightModifier = -1;
+			break;
 		}
 
 		int baseLight = grimacePhase > 4 ? 8 - grimacePhase : grimacePhase;
@@ -501,18 +501,18 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		switch ( hamburglarPosition )
 		{
-			case 2:
-				return grimacePhase > 3 ? 1 : 0;
-			case 4:
-				return grimacePhase > 0 && grimacePhase < 5 ? 1 : 0;
-			case 5:
-				return ronaldPhase > 3 ? 1 : 0;
-			case 7:
-				return ronaldPhase > 0 && ronaldPhase < 5 ? 1 : 0;
-			case 10:
-				return ronaldPhase > 3 || (grimacePhase > 0 && grimacePhase < 5) ? 1 : 0;
-			default:
-				return 0;
+		case 2:
+			return grimacePhase > 3 ? 1 : 0;
+		case 4:
+			return grimacePhase > 0 && grimacePhase < 5 ? 1 : 0;
+		case 5:
+			return ronaldPhase > 3 ? 1 : 0;
+		case 7:
+			return ronaldPhase > 0 && ronaldPhase < 5 ? 1 : 0;
+		case 10:
+			return ronaldPhase > 3 || (grimacePhase > 0 && grimacePhase < 5) ? 1 : 0;
+		default:
+			return 0;
 		}
 	}
 

@@ -308,26 +308,26 @@ public class MushroomFrame extends KoLFrame
 
 			switch ( loopIndex )
 			{
-				// If you loop around, then test to see if the
-				// old data was a blank.  If it was, then you
-				// have already displayed it, so move on to the
-				// next element in the cycle.  If not, return a
-				// blank, as that's the next element in the cycle.
+			// If you loop around, then test to see if the
+			// old data was a blank.  If it was, then you
+			// have already displayed it, so move on to the
+			// next element in the cycle.  If not, return a
+			// blank, as that's the next element in the cycle.
 
-				case 0:
+			case 0:
 
-					if ( originalData[ dayIndex ][ squareIndex ].equals( "__" ) )
-						loopIndex = 1;
-					else
-						return "__";
+				if ( originalData[ dayIndex ][ squareIndex ].equals( "__" ) )
+					loopIndex = 1;
+				else
+					return "__";
 
-				// In all other cases, return the next element
-				// in the mushroom toggle cycle.
+			// In all other cases, return the next element
+			// in the mushroom toggle cycle.
 
-				case 1:  return "kb";
-				case 2:  return "kn";
-				case 3:  return "sp";
-				case 4:  return originalData[ dayIndex ][ squareIndex ];
+			case 1:  return "kb";
+			case 2:  return "kn";
+			case 3:  return "sp";
+			case 4:  return originalData[ dayIndex ][ squareIndex ];
 			}
 
 			return "__";

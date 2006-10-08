@@ -374,17 +374,17 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			String mission = null;
 			switch ( victorySelect.getSelectedIndex() )
 			{
-				case 0:
-					mission = "flowers";
-					break;
+			case 0:
+				mission = "flowers";
+				break;
 
-				case 1:
-					mission = "rank";
-					break;
+			case 1:
+				mission = "rank";
+				break;
 
-				case 2:
-					mission = "dignity";
-					break;
+			case 2:
+				mission = "dignity";
+				break;
 			}
 
 			FlowerHunterRequest request = new FlowerHunterRequest( "",

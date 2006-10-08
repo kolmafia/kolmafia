@@ -255,58 +255,58 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 		switch ( location )
 		{
-			case HOUSE:
-				fireplace = response.indexOf( "fireplace is lit" ) != -1;
-				// You cannot close the door. "close door" =>
-				// "You feel a sudden streak of malevolence and
-				// decide to leave the door wide open. Serves
-				// 'em right for not locking it."
-				door = true;
-				break;
+		case HOUSE:
+			fireplace = response.indexOf( "fireplace is lit" ) != -1;
+			// You cannot close the door. "close door" =>
+			// "You feel a sudden streak of malevolence and
+			// decide to leave the door wide open. Serves
+			// 'em right for not locking it."
+			door = true;
+			break;
 
-			case FIELD:
-				door = response.indexOf( "front door is closed" ) == -1;
-				break;
+		case FIELD:
+			door = response.indexOf( "front door is closed" ) == -1;
+			break;
 
-			case PATH:
-				hedge = response.indexOf( "thick hedge" ) == -1;
-				break;
+		case PATH:
+			hedge = response.indexOf( "thick hedge" ) == -1;
+			break;
 
-			case CLEARING:
-				hedge = true;
-				break;
+		case CLEARING:
+			hedge = true;
+			break;
 
-			case CAVE:
-				hedge = true;
-				chest =	 response.indexOf( "empty treasure chest" ) != -1;
-				serpent = response.indexOf( "dangerous-looking serpent" ) == -1;
-				break;
+		case CAVE:
+			hedge = true;
+			chest =	 response.indexOf( "empty treasure chest" ) != -1;
+			serpent = response.indexOf( "dangerous-looking serpent" ) == -1;
+			break;
 
-			case BANK:
-				fireplace = true;
-				break;
+		case BANK:
+			fireplace = true;
+			break;
 
-			case FOREST:
-				Matcher matcher = FOREST_PATTERN.matcher( response );
-				if ( matcher.find() )
-					exit = matcher.group(1);
-				break;
+		case FOREST:
+			Matcher matcher = FOREST_PATTERN.matcher( response );
+			if ( matcher.find() )
+				exit = matcher.group(1);
+			break;
 
-			case BOTTOM:
-				break;
+		case BOTTOM:
+			break;
 
-			case TREE:
-				roadrunner = response.indexOf( "large ruby in its beak" ) == -1;
-				petunias =  response.indexOf( "scroll entangled in the flowers" ) == -1;
-				break;
+		case TREE:
+			roadrunner = response.indexOf( "large ruby in its beak" ) == -1;
+			petunias =  response.indexOf( "scroll entangled in the flowers" ) == -1;
+			break;
 
-			case TABLE:
-				giant = response.indexOf( "The Giant himself" ) == -1;
-				break;
+		case TABLE:
+			giant = response.indexOf( "The Giant himself" ) == -1;
+			break;
 
-			default:
-				KoLmafia.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
-				break;
+		default:
+			KoLmafia.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
+			break;
 		}
 	}
 
@@ -510,154 +510,146 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 		switch ( destination )
 		{
-			case HOUSE:
+		case HOUSE:
+
+			switch ( location )
 			{
-				switch ( location )
-				{
-					case BANK:
-					case PATH:
-					case CLEARING:
-					case CAVE:
-						goTo( FIELD );
-						// Fall through
-					case FIELD:
-						openDoor();
-						executeCommand( "east" );
-						break;
-					default:
-						break;
-				}
-
-				break;
-			}
-
-			case FIELD:
-			{
-				switch ( location )
-				{
-					case HOUSE:
-						executeCommand( "west" );
-						break;
-					case CLEARING:
-					case CAVE:
-						goTo( PATH );
-						// Fall through
-					case PATH:
-						executeCommand( "south" );
-						break;
-					case BANK:
-						executeCommand( "north" );
-						break;
-					default:
-						break;
-				}
-
-				break;
-			}
-
+			case BANK:
 			case PATH:
-			{
-				switch ( location )
-				{
-					case HOUSE:
-					case BANK:
-						goTo( FIELD );
-						// Fall through
-					case FIELD:
-						executeCommand( "north" );
-						break;
-					case CLEARING:
-						executeCommand( "east" );
-						break;
-					case CAVE:
-						executeCommand( "south" );
-						break;
-					default:
-						break;
-				}
-
+			case CLEARING:
+			case CAVE:
+				goTo( FIELD );
+				// Fall through
+			case FIELD:
+				openDoor();
+				executeCommand( "east" );
+				break;
+			default:
 				break;
 			}
 
-			case CLEARING:
+			break;
+
+		case FIELD:
+
+			switch ( location )
 			{
-				cutHedge();
-				goTo( PATH );
+			case HOUSE:
 				executeCommand( "west" );
 				break;
-			}
-
+			case CLEARING:
 			case CAVE:
-			{
-				getTorch();
 				goTo( PATH );
+				// Fall through
+			case PATH:
+				executeCommand( "south" );
+				break;
+			case BANK:
 				executeCommand( "north" );
 				break;
+			default:
+				break;
 			}
 
+			break;
+
+		case PATH:
+
+			switch ( location )
+			{
+			case HOUSE:
 			case BANK:
-			{
-				wearBoots();
 				goTo( FIELD );
+				// Fall through
+			case FIELD:
+				executeCommand( "north" );
+				break;
+			case CLEARING:
+				executeCommand( "east" );
+				break;
+			case CAVE:
 				executeCommand( "south" );
+				break;
+			default:
 				break;
 			}
 
-			// From here on we've entered the maze and can't go back
+			break;
+
+		case CLEARING:
+
+			cutHedge();
+			goTo( PATH );
+			executeCommand( "west" );
+			break;
+
+		case CAVE:
+
+			getTorch();
+			goTo( PATH );
+			executeCommand( "north" );
+			break;
+
+		case BANK:
+
+			wearBoots();
+			goTo( FIELD );
+			executeCommand( "south" );
+			break;
+
+		// From here on we've entered the maze and can't go back
+		case FOREST:
+
+			// No return
+			if ( location > FOREST )
+				return;
+			goTo( BANK );
+			executeCommand( "south" );
+			executeCommand( "south" );
+			break;
+
+		case BOTTOM:
+
+			switch ( location )
+			{
+			default:
+				goTo( FOREST );
+				// Fall through
 			case FOREST:
-			{
-				// No return
-				if ( location > FOREST )
-					return;
-				goTo( BANK );
-				executeCommand( "south" );
-				executeCommand( "south" );
+				// Stumble around until we get out
+				KoLmafia.updateDisplay( "Navigating the forest..." );
+				while ( exit != null )
+					executeCommand( exit );
 				break;
-			}
-
-			case BOTTOM:
-			{
-				switch ( location )
-				{
-					default:
-						goTo( FOREST );
-						// Fall through
-					case FOREST:
-						// Stumble around until we get out
-						KoLmafia.updateDisplay( "Navigating the forest..." );
-						while ( exit != null )
-							executeCommand( exit );
-						break;
-					case TABLE:
-						goTo( TREE);
-						// Fall through
-					case TREE:
-						executeCommand( "down" );
-						break;
-				}
-				break;
-			}
-
-			case TREE:
-			{
-				switch ( location )
-				{
-					case BOTTOM:
-						executeCommand( "up" );
-						break;
-					case TABLE:
-						executeCommand( "down" );
-						break;
-				}
-				break;
-			}
-
 			case TABLE:
+				goTo( TREE );
+				// Fall through
+			case TREE:
+				executeCommand( "down" );
+				break;
+			}
+
+			break;
+
+		case TREE:
+
+			switch ( location )
 			{
-				goTo( TREE);
+			case BOTTOM:
 				executeCommand( "up" );
 				break;
+			case TABLE:
+				executeCommand( "down" );
+				break;
 			}
+
+			break;
+
+		case TABLE:
+
+			goTo( TREE );
+			executeCommand( "up" );
+			break;
 		}
 	}
 

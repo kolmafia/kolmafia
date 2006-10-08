@@ -157,12 +157,12 @@ public class ItemStorageRequest extends SendMessageRequest
 	{
 		switch ( moveType )
 		{
-			case STORAGE_TO_INVENTORY:
-				return "moved from storage to inventory";
-			case INVENTORY_TO_CLOSET:
-				return "moved from inventory to closet";
-			case CLOSET_TO_INVENTORY:
-				return "moved from closet to inventory";
+		case STORAGE_TO_INVENTORY:
+			return "moved from storage to inventory";
+		case INVENTORY_TO_CLOSET:
+			return "moved from inventory to closet";
+		case CLOSET_TO_INVENTORY:
+			return "moved from closet to inventory";
 		}
 
 		return "";
@@ -174,27 +174,26 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		switch ( moveType )
 		{
-			case EMPTY_STORAGE:
-				while ( !storage.isEmpty() )
-					StaticEntity.getClient().processResult( (AdventureResult) storage.remove(0) );
+		case EMPTY_STORAGE:
+			while ( !storage.isEmpty() )
+				StaticEntity.getClient().processResult( (AdventureResult) storage.remove(0) );
 
-				CharpaneRequest.getInstance().run();
-				break;
+			CharpaneRequest.getInstance().run();
+			break;
 
-			case STORAGE_TO_INVENTORY:
-			case RETRIEVE_STORAGE:
-				parseStorage();
-				break;
+		case STORAGE_TO_INVENTORY:
+		case RETRIEVE_STORAGE:
+			parseStorage();
+			break;
 
-			case PULL_MEAT_FROM_STORAGE:
-				parseStorage();
-				// Fall through and handle meat changes.
+		case PULL_MEAT_FROM_STORAGE:
+			parseStorage();
+			// Fall through and handle meat changes.
 
-			case MEAT_TO_CLOSET:
-			case MEAT_TO_INVENTORY:
-				handleMeat();
-				break;
-
+		case MEAT_TO_CLOSET:
+		case MEAT_TO_INVENTORY:
+			handleMeat();
+			break;
 		}
 	}
 
@@ -277,13 +276,13 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		switch ( moveType )
 		{
-			case ItemStorageRequest.INVENTORY_TO_CLOSET:
-			case ItemStorageRequest.CLOSET_TO_INVENTORY:
-			case ItemStorageRequest.STORAGE_TO_INVENTORY:
-				break;
+		case ItemStorageRequest.INVENTORY_TO_CLOSET:
+		case ItemStorageRequest.CLOSET_TO_INVENTORY:
+		case ItemStorageRequest.STORAGE_TO_INVENTORY:
+			break;
 
-			default:
-				return "";
+		default:
+			return "";
 		}
 
 		// Otherwise, because commands cannot be strung
@@ -292,17 +291,17 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		switch ( moveType )
 		{
-			case ItemStorageRequest.INVENTORY_TO_CLOSET:
-				commandString.append( "closet put " );
-				break;
+		case ItemStorageRequest.INVENTORY_TO_CLOSET:
+			commandString.append( "closet put " );
+			break;
 
-			case ItemStorageRequest.CLOSET_TO_INVENTORY:
-				commandString.append( "closet take " );
-				break;
+		case ItemStorageRequest.CLOSET_TO_INVENTORY:
+			commandString.append( "closet take " );
+			break;
 
-			case ItemStorageRequest.STORAGE_TO_INVENTORY:
-				commandString.append( "pull " );
-				break;
+		case ItemStorageRequest.STORAGE_TO_INVENTORY:
+			commandString.append( "pull " );
+			break;
 		}
 
 		boolean needsComma = false;
@@ -337,32 +336,32 @@ public class ItemStorageRequest extends SendMessageRequest
 	{
 		switch ( moveType )
 		{
-			case EMPTY_STORAGE:
-				return "Emptying storage";
+		case EMPTY_STORAGE:
+			return "Emptying storage";
 
-			case STORAGE_TO_INVENTORY:
-				return "Pulling items from storage";
+		case STORAGE_TO_INVENTORY:
+			return "Pulling items from storage";
 
-			case RETRIEVE_STORAGE:
-				return "Retrieving storage list";
+		case RETRIEVE_STORAGE:
+			return "Retrieving storage list";
 
-			case INVENTORY_TO_CLOSET:
-				return "Placing items into closet";
+		case INVENTORY_TO_CLOSET:
+			return "Placing items into closet";
 
-			case CLOSET_TO_INVENTORY:
-				return "Removing items from closet";
+		case CLOSET_TO_INVENTORY:
+			return "Removing items from closet";
 
-			case MEAT_TO_CLOSET:
-				return "Placing meat into closet";
+		case MEAT_TO_CLOSET:
+			return "Placing meat into closet";
 
-			case MEAT_TO_INVENTORY:
-				return "Removing meat from closet";
+		case MEAT_TO_INVENTORY:
+			return "Removing meat from closet";
 
-			case PULL_MEAT_FROM_STORAGE:
-				return "Pulling meat from storage";
+		case PULL_MEAT_FROM_STORAGE:
+			return "Pulling meat from storage";
 
-			default:
-				return "Unknown request type";
+		default:
+			return "Unknown request type";
 		}
 	}
 }

@@ -53,21 +53,21 @@ public class GalaktikRequest extends KoLRequest
 		this.type = type;
 		switch ( type )
 		{
-			case HP:
-				addFormField( "action", "curehp" );
-				addFormField( "pwd" );
-				this.restoreAmount = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
-				break;
+		case HP:
+			addFormField( "action", "curehp" );
+			addFormField( "pwd" );
+			this.restoreAmount = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
+			break;
 
-			case MP:
-				addFormField( "action", "curemp" );
-				addFormField( "pwd" );
-				this.restoreAmount = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
-				break;
+		case MP:
+			addFormField( "action", "curemp" );
+			addFormField( "pwd" );
+			this.restoreAmount = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
+			break;
 
-			default:
-				this.restoreAmount = 0;
-				break;
+		default:
+			this.restoreAmount = 0;
+			break;
 		}
 	}
 

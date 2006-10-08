@@ -61,17 +61,17 @@ public class PulverizeRequest extends KoLRequest
 	{
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
 		{
-			case ConsumeItemRequest.EQUIP_FAMILIAR:
-			case ConsumeItemRequest.EQUIP_ACCESSORY:
-			case ConsumeItemRequest.EQUIP_HAT:
-			case ConsumeItemRequest.EQUIP_PANTS:
-			case ConsumeItemRequest.EQUIP_SHIRT:
-			case ConsumeItemRequest.EQUIP_WEAPON:
-			case ConsumeItemRequest.EQUIP_OFFHAND:
-				break;
+		case ConsumeItemRequest.EQUIP_FAMILIAR:
+		case ConsumeItemRequest.EQUIP_ACCESSORY:
+		case ConsumeItemRequest.EQUIP_HAT:
+		case ConsumeItemRequest.EQUIP_PANTS:
+		case ConsumeItemRequest.EQUIP_SHIRT:
+		case ConsumeItemRequest.EQUIP_WEAPON:
+		case ConsumeItemRequest.EQUIP_OFFHAND:
+			break;
 
-			default:
-				return;
+		default:
+			return;
 		}
 
 		if ( !KoLCharacter.hasSkill( "Pulverize" ) )

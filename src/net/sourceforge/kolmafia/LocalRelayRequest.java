@@ -312,7 +312,7 @@ public class LocalRelayRequest extends KoLRequest
 		// Download and link to any Players of Loathing
 		// picture pages locally.
 
-		StaticEntity.singleStringReplace( responseBuffer, "http://pics.communityofloathing.com/albums", "/images" );
+		StaticEntity.globalStringReplace( responseBuffer, "http://pics.communityofloathing.com/albums", "/images" );
 
 		// Remove the default frame busting script so that
 		// we can detach user interface elements.

@@ -194,34 +194,34 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		switch ( StaticEntity.getIntegerProperty( "toolbarPosition" ) )
 		{
-			case 1:
-				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+		case 1:
+			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+			getContentPane().add( toolbarPanel, BorderLayout.NORTH );
+			break;
+
+		case 2:
+			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+			getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
+			break;
+
+		case 3:
+			toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
+			getContentPane().add( toolbarPanel, BorderLayout.WEST );
+			break;
+
+		case 4:
+			toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
+			getContentPane().add( toolbarPanel, BorderLayout.EAST );
+			break;
+
+		default:
+
+			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+			if ( this instanceof LoginFrame || this instanceof ChatFrame )
+			{
 				getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 				break;
-
-			case 2:
-				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-				getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
-				break;
-
-			case 3:
-				toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
-				getContentPane().add( toolbarPanel, BorderLayout.WEST );
-				break;
-
-			case 4:
-				toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
-				getContentPane().add( toolbarPanel, BorderLayout.EAST );
-				break;
-
-			default:
-
-				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-				if ( this instanceof LoginFrame || this instanceof ChatFrame )
-				{
-					getContentPane().add( toolbarPanel, BorderLayout.NORTH );
-					break;
-				}
+			}
 		}
 
 		return toolbarPanel;
@@ -529,30 +529,30 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		switch ( displayState )
 		{
-			case ABORT_STATE:
-			case ERROR_STATE:
+		case ABORT_STATE:
+		case ERROR_STATE:
 
-				if ( refresher != null )
-					refresher.getCompactPane().setBackground( ERROR_COLOR );
+			if ( refresher != null )
+				refresher.getCompactPane().setBackground( ERROR_COLOR );
 
-				setEnabled( true );
-				break;
+			setEnabled( true );
+			break;
 
-			case ENABLE_STATE:
+		case ENABLE_STATE:
 
-				if ( refresher != null )
-					refresher.getCompactPane().setBackground( ENABLED_COLOR );
+			if ( refresher != null )
+				refresher.getCompactPane().setBackground( ENABLED_COLOR );
 
-				setEnabled( true );
-				break;
+			setEnabled( true );
+			break;
 
-			default:
+		default:
 
-				if ( refresher != null )
-					refresher.getCompactPane().setBackground( DISABLED_COLOR );
+			if ( refresher != null )
+				refresher.getCompactPane().setBackground( DISABLED_COLOR );
 
-				setEnabled( false );
-				break;
+			setEnabled( false );
+			break;
 		}
 	}
 

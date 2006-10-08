@@ -193,18 +193,18 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		switch ( KoLCharacter.getPrimeIndex() )
 		{
-			case 0:
-				baseValue = KoLCharacter.getBaseMuscle();
-				buffedValue = KoLCharacter.getAdjustedMuscle();
-				break;
-			case 1:
-				baseValue = KoLCharacter.getBaseMysticality();
-				buffedValue = KoLCharacter.getAdjustedMysticality();
-				break;
-			case 2:
-				baseValue = KoLCharacter.getBaseMoxie();
-				buffedValue = KoLCharacter.getAdjustedMoxie();
-				break;
+		case 0:
+			baseValue = KoLCharacter.getBaseMuscle();
+			buffedValue = KoLCharacter.getAdjustedMuscle();
+			break;
+		case 1:
+			baseValue = KoLCharacter.getBaseMysticality();
+			buffedValue = KoLCharacter.getAdjustedMysticality();
+			break;
+		case 2:
+			baseValue = KoLCharacter.getBaseMoxie();
+			buffedValue = KoLCharacter.getAdjustedMoxie();
+			break;
 		}
 
 		return baseValue >= baseRequirement && buffedValue >= buffedRequirement;

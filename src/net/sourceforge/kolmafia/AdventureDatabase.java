@@ -968,19 +968,19 @@ public class AdventureDatabase extends KoLDatabase
 			{
 				switch ( item.getItemID() )
 				{
-					case 24:	// ten-leaf clover
-					case 196:	// disassembled clover
-					case 159:	// wad of dough
-					case 301:	// flat dough
-					case 459:	// white pixel
+				case 24:	// ten-leaf clover
+				case 196:	// disassembled clover
+				case 159:	// wad of dough
+				case 301:	// flat dough
+				case 459:	// white pixel
 
-						break;
+					break;
 
-					default:
+				default:
 
-						creator.setQuantityNeeded( missingCount );
-						creator.run();
-						return;
+					creator.setQuantityNeeded( missingCount );
+					creator.run();
+					return;
 				}
 			}
 

@@ -145,24 +145,24 @@ public class ClanStashRequest extends SendMessageRequest
 
 		switch ( moveType )
 		{
-			case REFRESH_ONLY:
-				parseStash();
-				KoLmafia.updateDisplay( "Stash list retrieved." );
-				return;
+		case REFRESH_ONLY:
+			parseStash();
+			KoLmafia.updateDisplay( "Stash list retrieved." );
+			return;
 
-			case MEAT_TO_STASH:
-				parseStash();
-				KoLmafia.updateDisplay( "Clan donation attempt complete." );
-				break;
+		case MEAT_TO_STASH:
+			parseStash();
+			KoLmafia.updateDisplay( "Clan donation attempt complete." );
+			break;
 
-			case STASH_TO_ITEMS:
-			case ITEMS_TO_STASH:
+		case STASH_TO_ITEMS:
+		case ITEMS_TO_STASH:
 
-				if ( !KoLmafia.permitsContinue() )
-					KoLmafia.updateDisplay( ERROR_STATE, "Movement of items failed." );
+			if ( !KoLmafia.permitsContinue() )
+				KoLmafia.updateDisplay( ERROR_STATE, "Movement of items failed." );
 
-				parseStash();
-				break;
+			parseStash();
+			break;
 		}
 	}
 

@@ -174,34 +174,34 @@ public class ClanSnapshotTable extends KoLDatabase
 		{
 			switch ( filterType )
 			{
-				case NAME_FILTER:
-					compareValue = request.getPlayerName().compareToIgnoreCase( filter );
-					break;
+			case NAME_FILTER:
+				compareValue = request.getPlayerName().compareToIgnoreCase( filter );
+				break;
 
-				case LEVEL_FILTER:
-					compareValue = request.getPlayerLevel().intValue() - parseInt( filter );
-					break;
+			case LEVEL_FILTER:
+				compareValue = request.getPlayerLevel().intValue() - parseInt( filter );
+				break;
 
-				case PVP_FILTER:
-					compareValue = request.getPvpRank().intValue() - parseInt( filter );
-					break;
+			case PVP_FILTER:
+				compareValue = request.getPvpRank().intValue() - parseInt( filter );
+				break;
 
-				case CLASS_FILTER:
-					compareValue = request.getClassType().compareToIgnoreCase( filter );
-					break;
+			case CLASS_FILTER:
+				compareValue = request.getClassType().compareToIgnoreCase( filter );
+				break;
 
-				case KARMA_FILTER:
-					compareValue = request.getKarma().intValue() - parseInt( filter );
-					break;
+			case KARMA_FILTER:
+				compareValue = request.getKarma().intValue() - parseInt( filter );
+				break;
 
-				case LOGIN_FILTER:
+			case LOGIN_FILTER:
 
-					int daysIdle = parseInt( filter );
-					long millisecondsIdle = 86400000L * daysIdle;
-					Date cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
+				int daysIdle = parseInt( filter );
+				long millisecondsIdle = 86400000L * daysIdle;
+				Date cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
 
-					compareValue = request.getLastLogin().after( cutoffDate ) ? -1 : request.getLastLogin().before( cutoffDate ) ? 1 : 0;
-					break;
+				compareValue = request.getLastLogin().after( cutoffDate ) ? -1 : request.getLastLogin().before( cutoffDate ) ? 1 : 0;
+				break;
 			}
 		}
 		catch ( Exception e )

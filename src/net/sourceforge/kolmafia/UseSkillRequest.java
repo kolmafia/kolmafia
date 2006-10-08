@@ -384,30 +384,30 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	{
 		switch ( item.getItemID() )
 		{
-			case 32:	// Bjorn's Hammer
-				DEFAULT_SHELL.executeLine( "untinker Bjorn's Hammer" );
-				DEFAULT_SHELL.executeLine( "untinker seal-toothed rock" );
-				break;
-			case 50:	// Rock and Roll Legend
-				DEFAULT_SHELL.executeLine( "untinker Rock and Roll Legend" );
-				DEFAULT_SHELL.executeLine( "untinker heart of rock and roll" );
-				break;
-			case 54:	// Disco Banjo
-				DEFAULT_SHELL.executeLine( "untinker Disco Banjo" );
-				DEFAULT_SHELL.executeLine( "untinker stone banjo" );
-				break;
-			case 57:	// 5-Alarm Saucepan
-				DEFAULT_SHELL.executeLine( "untinker 5-Alarm Saucepan" );
-				DEFAULT_SHELL.executeLine( "untinker heavy hot sauce" );
-				break;
-			case 60:	// Turtleslinger
-				DEFAULT_SHELL.executeLine( "untinker Turtleslinger" );
-				DEFAULT_SHELL.executeLine( "untinker turtle factory" );
-				break;
-			case 68:	// Pasta of Peril
-				DEFAULT_SHELL.executeLine( "untinker Pasta of Peril" );
-				DEFAULT_SHELL.executeLine( "untinker spaghetti with rock-balls" );
-				break;
+		case 32:	// Bjorn's Hammer
+			DEFAULT_SHELL.executeLine( "untinker Bjorn's Hammer" );
+			DEFAULT_SHELL.executeLine( "untinker seal-toothed rock" );
+			break;
+		case 50:	// Rock and Roll Legend
+			DEFAULT_SHELL.executeLine( "untinker Rock and Roll Legend" );
+			DEFAULT_SHELL.executeLine( "untinker heart of rock and roll" );
+			break;
+		case 54:	// Disco Banjo
+			DEFAULT_SHELL.executeLine( "untinker Disco Banjo" );
+			DEFAULT_SHELL.executeLine( "untinker stone banjo" );
+			break;
+		case 57:	// 5-Alarm Saucepan
+			DEFAULT_SHELL.executeLine( "untinker 5-Alarm Saucepan" );
+			DEFAULT_SHELL.executeLine( "untinker heavy hot sauce" );
+			break;
+		case 60:	// Turtleslinger
+			DEFAULT_SHELL.executeLine( "untinker Turtleslinger" );
+			DEFAULT_SHELL.executeLine( "untinker turtle factory" );
+			break;
+		case 68:	// Pasta of Peril
+			DEFAULT_SHELL.executeLine( "untinker Pasta of Peril" );
+			DEFAULT_SHELL.executeLine( "untinker spaghetti with rock-balls" );
+			break;
 		}
 	}
 

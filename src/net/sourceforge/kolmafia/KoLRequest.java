@@ -70,6 +70,7 @@ import javax.swing.SwingUtilities;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
+	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
 	private static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
 	private static final Pattern STYLE_PATTERN = Pattern.compile( "<style.*?</style>", Pattern.DOTALL );
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
@@ -299,7 +300,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			formURLString = formURLString.substring(1);
 
 		constructURLString( formURLString );
-		isConsumeRequest = this instanceof ConsumeItemRequest;
+
+		this.isConsumeRequest = this instanceof ConsumeItemRequest;
 
 		this.isDelayExempt = getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof ChatRequest ||
 			this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
@@ -316,17 +318,17 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( formSplitIndex == -1 )
 		{
 			this.formURLString = newURLString;
-			return this;
+		}
+		else
+		{
+			this.formURLString = newURLString.substring( 0, formSplitIndex );
+			addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
 		}
 
-		this.formURLString = newURLString.substring( 0, formSplitIndex );
-		this.isChatRequest = this instanceof ChatRequest ||
-			formURLString.indexOf( "submitnewchat.php" ) != -1 || formURLString.indexOf( "newchatmessages.php" ) != -1;
-
+		this.isChatRequest = formURLString.indexOf( "submitnewchat.php" ) != -1 || formURLString.indexOf( "newchatmessages.php" ) != -1;
 		this.shouldIgnoreResults = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "search" ) ||
 			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" );
 
-		addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
 		return this;
 	}
 
@@ -607,6 +609,12 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( urlString.indexOf( "trapper.php" ) != -1 )
 		{
+			Matcher oreMatcher = ORE_PATTERN.matcher( responseText );
+			if ( oreMatcher.find() )
+			{
+				StaticEntity.setProperty( "trapperOre", oreMatcher.group(1) + " ore" );
+			}
+
 			if ( responseText.indexOf( "You acquire" ) != -1 )
 			{
 				if ( responseText.indexOf( "crossbow" ) != -1 || responseText.indexOf( "staff" ) != -1 || responseText.indexOf( "sword" ) != -1 )

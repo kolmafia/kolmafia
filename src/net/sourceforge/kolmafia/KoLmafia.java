@@ -1921,14 +1921,14 @@ public abstract class KoLmafia implements KoLConstants
 
 		switch ( KoLCharacter.getPrimeIndex() )
 		{
-			case 0:
-				item = new AdventureResult( 747, 5 );
-				break;
-			case 1:
-				item = new AdventureResult( 559, 5 );
-				break;
-			default:
-				item = new AdventureResult( 27, 5 );
+		case 0:
+			item = new AdventureResult( 747, 5 );
+			break;
+		case 1:
+			item = new AdventureResult( 559, 5 );
+			break;
+		default:
+			item = new AdventureResult( 27, 5 );
 		}
 
 		int neededCount = neededMatcher.find() ? StaticEntity.parseInt( neededMatcher.group(1) ) : 26;
@@ -2185,20 +2185,20 @@ public abstract class KoLmafia implements KoLConstants
 				currentCharacter = utfString.charAt(i);
 				switch ( currentCharacter )
 				{
-					case '-':  encodedString.append( "2D" );  break;
-					case '.':  encodedString.append( "2E" );  break;
-					case '*':  encodedString.append( "2A" );  break;
-					case '_':  encodedString.append( "5F" );  break;
-					case '+':  encodedString.append( "20" );  break;
+				case '-':  encodedString.append( "2D" );  break;
+				case '.':  encodedString.append( "2E" );  break;
+				case '*':  encodedString.append( "2A" );  break;
+				case '_':  encodedString.append( "5F" );  break;
+				case '+':  encodedString.append( "20" );  break;
 
-					case '%':
-						encodedString.append( utfString.charAt( ++i ) );
-						encodedString.append( utfString.charAt( ++i ) );
-						break;
+				case '%':
+					encodedString.append( utfString.charAt( ++i ) );
+					encodedString.append( utfString.charAt( ++i ) );
+					break;
 
-					default:
-						encodedString.append( Integer.toHexString( (int) currentCharacter ).toUpperCase() );
-						break;
+				default:
+					encodedString.append( Integer.toHexString( (int) currentCharacter ).toUpperCase() );
+					break;
 				}
 			}
 
@@ -2750,20 +2750,20 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			switch ( items[i].getItemID() )
 			{
-				case ItemCreationRequest.MEAT_PASTE:
-				case ItemCreationRequest.MEAT_STACK:
-				case ItemCreationRequest.DENSE_STACK:
-					autosell.add( items[i] );
+			case ItemCreationRequest.MEAT_PASTE:
+			case ItemCreationRequest.MEAT_STACK:
+			case ItemCreationRequest.DENSE_STACK:
+				autosell.add( items[i] );
 
-				default:
-					int standardPrice = TradeableItemDatabase.getPriceByID( items[i].getItemID() );
-					if ( standardPrice > 0 )
-					{
-						if ( NPCStoreDatabase.contains( items[i].getName(), false ) )
-							autosell.add( items[i] );
-						else
-							automall.add( items[i] );
-					}
+			default:
+				int standardPrice = TradeableItemDatabase.getPriceByID( items[i].getItemID() );
+				if ( standardPrice > 0 )
+				{
+					if ( NPCStoreDatabase.contains( items[i].getName(), false ) )
+						autosell.add( items[i] );
+					else
+						automall.add( items[i] );
+				}
 			}
 		}
 

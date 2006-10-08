@@ -1039,115 +1039,115 @@ public class FamiliarTrainingFrame extends KoLFrame
 	{
 		switch ( type )
 		{
-			case BASE:
-				return ( status.baseWeight() >= goal );
+		case BASE:
+			return ( status.baseWeight() >= goal );
 
-			case BUFFED:
+		case BUFFED:
+		{
+			int maxBuffedWeight = status.maxBuffedWeight();
+			boolean goalReached = maxBuffedWeight >= goal;
+
+			if ( goal != 20 )
+				return goalReached;
+
+			boolean hasTongue = false;
+			for ( int i = 0; i < activeEffects.size(); ++i )
+				hasTongue |= ((AdventureResult)activeEffects.get(i)).getName().toLowerCase().endsWith( "tongue" );
+
+			if ( !hasTongue )
 			{
-				int maxBuffedWeight = status.maxBuffedWeight();
-				boolean goalReached = maxBuffedWeight >= goal;
-
-				if ( goal != 20 )
-					return goalReached;
-
-				boolean hasTongue = false;
-				for ( int i = 0; i < activeEffects.size(); ++i )
-					hasTongue |= ((AdventureResult)activeEffects.get(i)).getName().toLowerCase().endsWith( "tongue" );
-
-				if ( !hasTongue )
+				if ( maxBuffedWeight >= 15 && greenTongueActive == 0 && blackTongueActive == 0 )
 				{
-					if ( maxBuffedWeight >= 15 && greenTongueActive == 0 && blackTongueActive == 0 )
+					if ( KoLCharacter.hasItem( GREEN_SNOWCONE, false ) )
 					{
-						if ( KoLCharacter.hasItem( GREEN_SNOWCONE, false ) )
-						{
-							DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
-							greenTongueActive = 20;
-							return true;
-						}
+						DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
+						greenTongueActive = 20;
+						return true;
+					}
 
-						if ( KoLCharacter.hasItem( BLACK_SNOWCONE, false ) && blackTongueActive == 0 )
-						{
-							DEFAULT_SHELL.executeLine( "use 1 black snowcone" );
-							blackTongueActive = 20;
-							return true;
-						}
+					if ( KoLCharacter.hasItem( BLACK_SNOWCONE, false ) && blackTongueActive == 0 )
+					{
+						DEFAULT_SHELL.executeLine( "use 1 black snowcone" );
+						blackTongueActive = 20;
+						return true;
 					}
 				}
-
-				if ( goalReached || !KoLCharacter.canInteract() )
-					return goalReached;
-
-				// If the player is currently out of Ronin, then they have
-				// the option of automatically purchasing their familiar item,
-				// pet-buffing spray, empathy and a green snowcone, which will
-				// boost you straight to 20 pounds without any skills.
-
-				int poundsNeeded = goal - maxBuffedWeight;
-
-				// If you're out of Ronin, pet-buffing spray is still
-				// available in the mall.  Check this option first.
-
-				if ( !heavyPettingAvailable && heavyPettingActive == 0 )
-				{
-					poundsNeeded -= 5;
-					heavyPettingAvailable = true;
-					DEFAULT_SHELL.executeBuyCommand( "1 Knob Goblin pet-buffing spray" );
-				}
-
-				if ( poundsNeeded <= 0 )
-					return true;
-
-				// First, check their current familiar's
-				// item. If it affects weight (positively) and
-				// they don't have one, buy one in the mall
-
-				if ( status.familiarItem != null && status.specItem != status.familiarItem && status.familiarItemWeight > 0 )
-				{
-					poundsNeeded -= status.familiarItemWeight;
-					String familiarItem = status.familiarItem.getName();
-					DEFAULT_SHELL.executeBuyCommand( "1 " + familiarItem );
-					status.updateStatus();
-				}
-
-				if ( poundsNeeded <= 0 )
-					return true;
-
-				// Acquire tiny plastic items from the mall.  Randomly
-				// choose one of the items using a random number generator.
-
-				if ( poundsNeeded <= 3 - status.tpCount )
-				{
-					String plasticItem = TradeableItemDatabase.getItemName(
-						firstTinyPlastic + RNG.nextInt( lastTinyPlastic - firstTinyPlastic ) );
-
-					DEFAULT_SHELL.executeBuyCommand( poundsNeeded + " " + plasticItem );
-					status.updateStatus();
-					return true;
-				}
-
-				// Otherwise, if it gets this far, you definitely need
-				// a snowcone; any other circumstance and you would have
-				// had enough to get by.
-
-				if ( !hasTongue && greenTongueActive == 0 )
-				{
-					DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
-					poundsNeeded -= 5;
-				}
-
-				if ( poundsNeeded <= 0 )
-					return true;
-
-				// Finally, if they need empathy, tell them that they
-				// should consider requesting it from a buffbot.
-
-				stop = true;
-				statusMessage( ABORT_STATE, "Ask a buffbot for empathy?" );
-				return false;
 			}
 
-			case TURNS:
-				return ( status.turnsUsed() >= goal );
+			if ( goalReached || !KoLCharacter.canInteract() )
+				return goalReached;
+
+			// If the player is currently out of Ronin, then they have
+			// the option of automatically purchasing their familiar item,
+			// pet-buffing spray, empathy and a green snowcone, which will
+			// boost you straight to 20 pounds without any skills.
+
+			int poundsNeeded = goal - maxBuffedWeight;
+
+			// If you're out of Ronin, pet-buffing spray is still
+			// available in the mall.  Check this option first.
+
+			if ( !heavyPettingAvailable && heavyPettingActive == 0 )
+			{
+				poundsNeeded -= 5;
+				heavyPettingAvailable = true;
+				DEFAULT_SHELL.executeBuyCommand( "1 Knob Goblin pet-buffing spray" );
+			}
+
+			if ( poundsNeeded <= 0 )
+				return true;
+
+			// First, check their current familiar's
+			// item. If it affects weight (positively) and
+			// they don't have one, buy one in the mall
+
+			if ( status.familiarItem != null && status.specItem != status.familiarItem && status.familiarItemWeight > 0 )
+			{
+				poundsNeeded -= status.familiarItemWeight;
+				String familiarItem = status.familiarItem.getName();
+				DEFAULT_SHELL.executeBuyCommand( "1 " + familiarItem );
+				status.updateStatus();
+			}
+
+			if ( poundsNeeded <= 0 )
+				return true;
+
+			// Acquire tiny plastic items from the mall.  Randomly
+			// choose one of the items using a random number generator.
+
+			if ( poundsNeeded <= 3 - status.tpCount )
+			{
+				String plasticItem = TradeableItemDatabase.getItemName(
+					firstTinyPlastic + RNG.nextInt( lastTinyPlastic - firstTinyPlastic ) );
+
+				DEFAULT_SHELL.executeBuyCommand( poundsNeeded + " " + plasticItem );
+				status.updateStatus();
+				return true;
+			}
+
+			// Otherwise, if it gets this far, you definitely need
+			// a snowcone; any other circumstance and you would have
+			// had enough to get by.
+
+			if ( !hasTongue && greenTongueActive == 0 )
+			{
+				DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
+				poundsNeeded -= 5;
+			}
+
+			if ( poundsNeeded <= 0 )
+				return true;
+
+			// Finally, if they need empathy, tell them that they
+			// should consider requesting it from a buffbot.
+
+			stop = true;
+			statusMessage( ABORT_STATE, "Ask a buffbot for empathy?" );
+			return false;
+		}
+
+		case TURNS:
+			return ( status.turnsUsed() >= goal );
 		}
 
 		return false;

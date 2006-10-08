@@ -1125,51 +1125,51 @@ public abstract class SorceressLair extends StaticEntity
 			CharpaneRequest.getInstance().run();
 		}
 
-		for ( ; n < 5 && KoLmafia.permitsContinue(); ++n )
+		while ( n < 5 && KoLmafia.permitsContinue() )
 		{
-			switch ( n )
+			switch ( n++ )
 			{
-				case 0:
-					findDoorCode();
-					break;
-				case 1:
-					reflectEnergyBolt();
-					break;
-				case 2:
+			case 0:
+				findDoorCode();
+				break;
+			case 1:
+				reflectEnergyBolt();
+				break;
+			case 2:
 
-					if ( !fightFamiliarGuardians )
-					{
-						KoLmafia.updateDisplay( "Path to shadow cleared." );
-						resetAutoAttack( previousAutoAttack );
-						return -1;
-					}
+				if ( !fightFamiliarGuardians )
+				{
+					KoLmafia.updateDisplay( "Path to shadow cleared." );
+					resetAutoAttack( previousAutoAttack );
+					return -1;
+				}
 
-					fightShadow();
-					break;
+				fightShadow();
+				break;
 
-				case 3:
+			case 3:
 
-					if ( !fightFamiliarGuardians )
-					{
-						KoLmafia.updateDisplay( "Path to shadow cleared." );
-						resetAutoAttack( previousAutoAttack );
-						return -1;
-					}
+				if ( !fightFamiliarGuardians )
+				{
+					KoLmafia.updateDisplay( "Path to shadow cleared." );
+					resetAutoAttack( previousAutoAttack );
+					return -1;
+				}
 
-					familiarBattle(3);
-					break;
+				familiarBattle(3);
+				break;
 
-				case 4:
+			case 4:
 
-					if ( !fightFamiliarGuardians )
-					{
-						KoLmafia.updateDisplay( "Path to shadow cleared." );
-						resetAutoAttack( previousAutoAttack );
-						return -1;
-					}
+				if ( !fightFamiliarGuardians )
+				{
+					KoLmafia.updateDisplay( "Path to shadow cleared." );
+					resetAutoAttack( previousAutoAttack );
+					return -1;
+				}
 
-					familiarBattle(4);
-					break;
+				familiarBattle(4);
+				break;
 			}
 
 			if ( !KoLmafia.permitsContinue() )
