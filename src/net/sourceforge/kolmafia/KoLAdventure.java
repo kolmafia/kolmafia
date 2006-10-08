@@ -373,7 +373,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			REDIRECT_FOLLOWER.constructURLString( "plains.php" );
 			REDIRECT_FOLLOWER.run();
 
-			if ( request.responseText.indexOf( "beanstalk.php" ) == -1 )
+			if ( REDIRECT_FOLLOWER.responseText.indexOf( "beanstalk.php" ) == -1 )
 			{
 				// If not, check to see if the player has an enchanted
 				// bean which can be used.  If they don't, then try to
