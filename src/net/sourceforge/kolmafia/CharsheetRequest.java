@@ -262,7 +262,7 @@ public class CharsheetRequest extends KoLRequest
 					skipTokens( cleanContent, 2 );
 			}
 			else if ( ClassSkillsDatabase.contains( token ) )
-				newSkillSet.add( new UseSkillRequest( token, "", 1 ) );
+				newSkillSet.add( UseSkillRequest.getInstance( token ) );
 
 			// No more tokens if no familiar equipped
 			if ( !cleanContent.hasMoreTokens() )

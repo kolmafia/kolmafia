@@ -841,7 +841,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			BuffBotHome.update( BuffBotHome.BUFFCOLOR, "Casting " + buffName + ", " + castCount + " times on " +
 				target + " for " + price + " meat... " );
 
-			getClient().makeRequest( new UseSkillRequest( buffName, target, castCount ) );
+			getClient().makeRequest( UseSkillRequest.getInstance( buffName, target, castCount ) );
 
 			if ( UseSkillRequest.lastUpdate.equals( "" ) )
 			{

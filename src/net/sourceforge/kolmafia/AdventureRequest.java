@@ -351,7 +351,7 @@ public class AdventureRequest extends KoLRequest
 
 				Matcher learnedMatcher = STEEL_PATTERN.matcher( responseText );
 				if ( learnedMatcher.find() )
-					KoLCharacter.addAvailableSkill( new UseSkillRequest( learnedMatcher.group(1) + " of Steel", "", 1 ) );
+					KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( learnedMatcher.group(1) + " of Steel" ) );
 
 				KoLmafia.updateDisplay( PENDING_STATE, "Taint cleansed." );
 				return;

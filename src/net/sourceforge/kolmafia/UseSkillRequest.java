@@ -33,11 +33,13 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 public class UseSkillRequest extends KoLRequest implements Comparable
 {
+	private static final TreeMap ALL_SKILLS = new TreeMap();
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern COUNT_PATTERN = Pattern.compile( "(bufftimes|quantity)=([\\d,]*)" );
 
@@ -85,7 +87,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	 * @param	buffCount	The number of times the target is affected by this skill
 	 */
 
-	public UseSkillRequest( String skillName, String target, int buffCount )
+	private UseSkillRequest( String skillName )
 	{
 		super( "skills.php" );
 
@@ -93,9 +95,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		addFormField( "pwd" );
 
 		this.skillID = ClassSkillsDatabase.getSkillID( skillName );
-		this.skillName = skillName;
-		addFormField( "whichskill", String.valueOf( skillID ) );
+		this.skillName = ClassSkillsDatabase.getSkillName( skillID );
 
+		addFormField( "whichskill", String.valueOf( skillID ) );
+		this.target = "yourself";
+	}
+
+	public void setTarget( String target )
+	{
 		if ( ClassSkillsDatabase.isBuff( skillID ) )
 		{
 			this.countFieldID = "bufftimes";
@@ -119,7 +126,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			this.countFieldID = "quantity";
 			this.target = null;
 		}
+	}
 
+	public void setBuffCount( int buffCount )
+	{
 		for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
 			if ( this.skillName.equals( BREAKFAST_SKILLS[i][0] ) )
 				buffCount = Math.min( StaticEntity.parseInt( BREAKFAST_SKILLS[i][1] ), buffCount );
@@ -442,9 +452,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			encounteredError = true;
 			lastUpdate = "Not enough mana to continue.";
 		}
-		else if ( responseText.indexOf( "You can only conjure" ) != -1 ||
-			  responseText.indexOf( "You can only scrounge up" ) != -1 ||
-			  responseText.indexOf( "You can only summon" ) != -1 )
+		else if ( responseText.indexOf( "You can only conjure" ) != -1 || responseText.indexOf( "You can only scrounge up" ) != -1 || responseText.indexOf( "You can only summon" ) != -1 )
 		{
 			// If it's a buff count greater than one,
 			// try to scale down the request.
@@ -453,9 +461,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( buffAttempt > 1 )
 			{
 				KoLmafia.updateDisplay( "Summon limit exceeded. Shrinking request..." );
-				UseSkillRequest attempt = new UseSkillRequest( skillName, "", 1 );
-				while ( buffAttempt++ < buffCount && KoLmafia.permitsContinue() )
-					attempt.run();
+
+				int initialBuffCount = buffCount;
+				setBuffCount( 1 );
+
+				while ( buffAttempt++ < initialBuffCount && KoLmafia.permitsContinue() )
+					useSkillLoop();
 
 				KoLmafia.forceContinue();
 				return;
@@ -555,5 +566,33 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( "cast " + count + " " + skillName );
 		return true;
+	}
+
+	public static UseSkillRequest getInstance( int skillID )
+	{	return getInstance( ClassSkillsDatabase.getSkillName( skillID ) );
+	}
+
+	public static UseSkillRequest getInstance( String skillName, int buffCount )
+	{	return getInstance( skillName, "", buffCount );
+	}
+
+	public static UseSkillRequest getInstance( String skillName, String target, int buffCount )
+	{
+		UseSkillRequest instance = getInstance( skillName );
+		instance.setTarget( target );
+		instance.setBuffCount( buffCount );
+		return instance;
+	}
+
+	public static UseSkillRequest getInstance( String skillName )
+	{
+		if ( skillName == null || !ClassSkillsDatabase.contains( skillName ) )
+			return null;
+
+		skillName = KoLDatabase.getCanonicalName( skillName );
+		if ( !ALL_SKILLS.containsKey( skillName ) )
+			ALL_SKILLS.put( skillName, new UseSkillRequest( skillName ) );
+
+		return (UseSkillRequest) ALL_SKILLS.get( skillName );
 	}
 }

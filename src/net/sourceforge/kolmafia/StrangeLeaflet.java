@@ -446,7 +446,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( parchment && !KoLCharacter.hasSkill( "CLEESH" ) )
 		{
 			executeCommand( "GNUSTO CLEESH" );
-			KoLCharacter.addAvailableSkill( new UseSkillRequest( "CLEESH", "", 1 ) );
+			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "CLEESH" ) );
 			parchment = false;
 			scroll = false;
 		}

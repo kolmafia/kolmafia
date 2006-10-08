@@ -445,7 +445,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void getBreakfast( String skillname, int standardCast )
-	{	(new UseSkillRequest( skillname, "", standardCast )).run();
+	{	UseSkillRequest.getInstance( skillname, standardCast ).run();
 	}
 
 	public final void refreshSession()

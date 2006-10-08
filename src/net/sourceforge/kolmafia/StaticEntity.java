@@ -278,13 +278,13 @@ public abstract class StaticEntity implements KoLConstants
 		{
 			String skillName = learnedMatcher.group(1);
 
-			KoLCharacter.addAvailableSkill( new UseSkillRequest( skillName, "", 1 ) );
+			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( skillName ) );
 			KoLCharacter.addDerivedSkills();
 		}
 
 		learnedMatcher = AdventureRequest.STEEL_PATTERN.matcher( responseText );
 		if ( learnedMatcher.find() )
-			KoLCharacter.addAvailableSkill( new UseSkillRequest( learnedMatcher.group(1) + " of Steel", "", 1 ) );
+			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( learnedMatcher.group(1) + " of Steel" ) );
 
 		// Unfortunately, if you learn a new skill from Frank
 		// the Regnaissance Gnome at the Gnomish Gnomads
@@ -295,12 +295,7 @@ public abstract class StaticEntity implements KoLConstants
 		{
 			learnedMatcher = NEWSKILL2_PATTERN.matcher( location );
 			if ( learnedMatcher.find() )
-			{
-				KoLCharacter.addAvailableSkill( new UseSkillRequest( ClassSkillsDatabase.getSkillName(
-					StaticEntity.parseInt( learnedMatcher.group(1) ) ), "", 1 ) );
-
-				KoLCharacter.addDerivedSkills();
-			}
+				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( StaticEntity.parseInt( learnedMatcher.group(1) ) ) );
 		}
 	}
 
