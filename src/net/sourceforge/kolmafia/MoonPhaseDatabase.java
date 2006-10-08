@@ -127,7 +127,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		for ( int i = 0; i < 13; ++i )
 			for ( int j = 0; j < 9; ++j )
-				HOLIDAYS[i][j] = "No known holiday today.";
+				HOLIDAYS[i][j] = null;
 
 		// Initialize all the known holidays here so that
 		// they can be used in later initializers.
@@ -190,7 +190,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 		for ( int i = 0; i < 13; ++i )
 			for ( int j = 0; j < 9; ++j )
-				if ( !HOLIDAYS[i][j].equals( "No known holiday today." ) )
+				if ( HOLIDAYS[i][j] != null )
 					SPECIAL[ 8 * i + j - 9 ] = SP_HOLIDAY;
 	}
 
@@ -651,7 +651,7 @@ public class MoonPhaseDatabase extends StaticEntity
 					testDate = DATED_FILENAME_FORMAT.format( holidayTester.getTime() );
 					testResult = getRealLifeHoliday( testDate );
 
-					if ( testResult != null && testResult.equals( holiday ) )
+					if ( holiday != null && testResult != null && testResult.equals( holiday ) )
 						currentEstimate = j;
 
 					holidayTester.add( Calendar.DATE, 1 );
@@ -677,18 +677,41 @@ public class MoonPhaseDatabase extends StaticEntity
 		return predictionsArray;
 	}
 
+	public static final String getHoliday( Date time )
+	{	return getHoliday( time, false );
+	}
+
 	/**
 	 * Returns the KoL holiday associated with the given
 	 * date in the real world.
 	 */
 
-	public static final String getHoliday( Date time )
+	public static final String getHoliday( Date time, boolean showPrediction )
 	{
-		int [] calendarDayAsArray = convertCalendarDayToArray( getCalendarDay( time ) );
+		int calendarDay = getCalendarDay( time );
+		int [] calendarDayAsArray = convertCalendarDayToArray( calendarDay );
 		String gameHoliday = HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
 
-		if ( gameHoliday.equals( "No known holiday today." ) )
-			gameHoliday = null;
+		if ( showPrediction )
+		{
+			if ( gameHoliday != null )
+				gameHoliday = gameHoliday + " today";
+
+			for ( int i = 1; gameHoliday == null; ++i )
+			{
+				calendarDayAsArray = convertCalendarDayToArray( calendarDay + i % 96 );
+				gameHoliday = HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
+
+				if ( gameHoliday != null )
+				{
+					if ( i == 1 )
+						gameHoliday = gameHoliday + " tomorrow";
+					else
+						gameHoliday = getDayCountAsString( i ) + " until " + gameHoliday;
+
+				}
+			}
+		}
 
 		String realHoliday = getRealLifeHoliday( DATED_FILENAME_FORMAT.format( time ) );
 

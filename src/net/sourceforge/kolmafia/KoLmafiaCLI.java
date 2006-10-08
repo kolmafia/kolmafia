@@ -793,9 +793,6 @@ public class KoLmafiaCLI extends KoLmafia
 			updateDisplay( "Grimace: " + MoonPhaseDatabase.getGrimacePhaseAsString() );
 			printBlankLine();
 
-			updateDisplay( MoonPhaseDatabase.getMoonEffect() );
-			printBlankLine();
-
 			Date today = new Date();
 
 			try
@@ -817,6 +814,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			printBlankLine();
 			updateDisplay( MoonPhaseDatabase.getHoliday( today ) );
+			updateDisplay( MoonPhaseDatabase.getMoonEffect() );
 			printBlankLine();
 
 			return;
