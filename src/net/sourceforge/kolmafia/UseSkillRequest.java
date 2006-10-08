@@ -41,6 +41,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern COUNT_PATTERN = Pattern.compile( "(bufftimes|quantity)=([\\d,]*)" );
 
+	public static String [][] BREAKFAST_SKILLS =
+	{
+		{ "Summon Snowcone", "1" },
+		{ "Summon Hilarious Objects", "1" },
+		{ "Advanced Saucecrafting", "3" },
+		{ "Pastamastery", "3" },
+		{ "Advanced Cocktailcrafting", "3" }
+	};
+
 	private static final int OTTER_TONGUE = 1007;
 	private static final int WALRUS_TONGUE = 1010;
 	protected static String lastUpdate = "";
@@ -84,7 +93,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		addFormField( "pwd" );
 
 		this.skillID = ClassSkillsDatabase.getSkillID( skillName );
-		this.skillName = ClassSkillsDatabase.getSkillName( skillID );
+		this.skillName = skillName;
 		addFormField( "whichskill", String.valueOf( skillID ) );
 
 		if ( ClassSkillsDatabase.isBuff( skillID ) )
@@ -111,9 +120,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			this.target = null;
 		}
 
-		for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
-			if ( this.skillName.equals( KoLmafia.BREAKFAST_SKILLS[i][0] ) )
-				buffCount = Math.min( StaticEntity.parseInt( KoLmafia.BREAKFAST_SKILLS[i][1] ), buffCount );
+		for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
+			if ( this.skillName.equals( BREAKFAST_SKILLS[i][0] ) )
+				buffCount = Math.min( StaticEntity.parseInt( BREAKFAST_SKILLS[i][1] ), buffCount );
 
 		if ( buffCount < 1 )
 			buffCount = 1;

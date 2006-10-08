@@ -112,15 +112,6 @@ public abstract class KoLmafia implements KoLConstants
 	public static final int PASTAMASTERY = 3;
 	public static final int COCKTAILCRAFTING = 4;
 
-	public static String [][] BREAKFAST_SKILLS =
-	{
-		{ "Summon Snowcone", "1" },
-		{ "Summon Hilarious Objects", "1" },
-		{ "Advanced Saucecrafting", "3" },
-		{ "Pastamastery", "3" },
-		{ "Advanced Cocktailcrafting", "3" }
-	};
-
 	private static boolean recoveryActive = false;
 	private static String currentIterationString = "";
 
@@ -415,7 +406,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void setBreakfastSummonings( int index, int count )
-	{	BREAKFAST_SKILLS[index][1] = String.valueOf( count );
+	{	UseSkillRequest.BREAKFAST_SKILLS[index][1] = String.valueOf( count );
 	}
 
 	public void getBreakfast( boolean checkSettings )
@@ -432,21 +423,21 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( skillSetting != null )
 		{
-			for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
+			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 			{
-				shouldCast = !checkSettings || skillSetting.indexOf( BREAKFAST_SKILLS[i][0] ) != -1;
-				shouldCast &= KoLCharacter.hasSkill( BREAKFAST_SKILLS[i][0] );
+				shouldCast = !checkSettings || skillSetting.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i][0] ) != -1;
+				shouldCast &= KoLCharacter.hasSkill( UseSkillRequest.BREAKFAST_SKILLS[i][0] );
 
 				if ( checkSettings && shouldCast && KoLCharacter.isHardcore() )
 				{
-					if ( BREAKFAST_SKILLS[i][0].equals( "Pastamastery" ) && !KoLCharacter.canEat() )
+					if ( UseSkillRequest.BREAKFAST_SKILLS[i][0].equals( "Pastamastery" ) && !KoLCharacter.canEat() )
 						shouldCast = false;
-					if ( BREAKFAST_SKILLS[i][0].equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
+					if ( UseSkillRequest.BREAKFAST_SKILLS[i][0].equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
 						shouldCast = false;
 				}
 
 				if ( shouldCast )
-					getBreakfast( BREAKFAST_SKILLS[i][0], StaticEntity.parseInt( BREAKFAST_SKILLS[i][1] ) );
+					getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i][0], StaticEntity.parseInt( UseSkillRequest.BREAKFAST_SKILLS[i][1] ) );
 			}
 		}
 
