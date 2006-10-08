@@ -121,10 +121,12 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		this.itemID = itemID;
 
-		if ( TradeableItemDatabase.getItemName( itemID ) == null )
+		if ( TradeableItemDatabase.getItemName( itemID ) == null && itemName != null )
 			TradeableItemDatabase.registerItem( itemID, itemName );
 
 		this.itemName = TradeableItemDatabase.getItemName( this.itemID );
+		if ( this.itemName == null )
+			this.itemName = "(unknown)";
 
 		this.shopID = shopID;
 		this.shopName = shopName;
