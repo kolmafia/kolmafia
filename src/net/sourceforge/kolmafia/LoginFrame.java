@@ -369,14 +369,14 @@ public class LoginFrame extends KoLFrame
 			super( title, new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
 
 			this.breakfastType = breakfastType;
-			skillOptions = new JCheckBox[ KoLmafia.BREAKFAST_SKILLS.length ];
-			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
+			skillOptions = new JCheckBox[ UseSkillRequest.BREAKFAST_SKILLS.length ];
+			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 				skillOptions[i] = new JCheckBox();
 
 			VerifiableElement [] elements = new VerifiableElement[ skillOptions.length ];
 
 			for ( int i = 0; i < elements.length; ++i )
-				elements[i] = new VerifiableElement( KoLmafia.BREAKFAST_SKILLS[i][0], JLabel.LEFT, skillOptions[i] );
+				elements[i] = new VerifiableElement( UseSkillRequest.BREAKFAST_SKILLS[i][0], JLabel.LEFT, skillOptions[i] );
 
 			setContent( elements, false );
 			actionCancelled();
@@ -386,14 +386,14 @@ public class LoginFrame extends KoLFrame
 		{
 			StringBuffer skillString = new StringBuffer();
 
-			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
+			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 			{
 				if ( skillOptions[i].isSelected() )
 				{
 					if ( skillString.length() != 0 )
 						skillString.append( "," );
 
-					skillString.append( KoLmafia.BREAKFAST_SKILLS[i][0] );
+					skillString.append( UseSkillRequest.BREAKFAST_SKILLS[i][0] );
 				}
 			}
 
@@ -403,8 +403,8 @@ public class LoginFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			String skillString = StaticEntity.getProperty( "breakfast" + breakfastType );
-			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
-				skillOptions[i].setSelected( skillString != null && skillString.indexOf( KoLmafia.BREAKFAST_SKILLS[i][0] ) != -1 );
+			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
+				skillOptions[i].setSelected( skillString != null && skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i][0] ) != -1 );
 		}
 	}
 
