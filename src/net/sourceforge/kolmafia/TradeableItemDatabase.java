@@ -226,7 +226,13 @@ public class TradeableItemDatabase extends KoLDatabase
 		// guess.
 
 		itemID = itemIDByPlural.get( canonicalName );
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
 
+		// Or maybe it's a standard plural where they just add a letter
+		// to the end.
+
+		itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
@@ -243,12 +249,10 @@ public class TradeableItemDatabase extends KoLDatabase
 		// so make sure the dashed words are recognized.
 
 		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "es-", "-" ) );
-
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
 		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "s-", "-" ) );
-
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
@@ -258,7 +262,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		// in as well.
 
 		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ee", "oo" ) );
-
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
@@ -267,7 +270,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		// meat vortex, but better safe than sorry.
 
 		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ex" ) );
-
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
@@ -276,7 +278,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		// by the previous test).
 
 		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ix" ) );
-
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
@@ -284,7 +285,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		// and other things ending in "ife".
 
 		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ives", "ife" ) );
-
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
@@ -292,7 +292,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		// and other things ending in "f".
 
 		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ves", "f" ) );
-
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
@@ -300,7 +299,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		// and other things ending in "aff".
 
 		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "aves", "aff" ) );
-
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
@@ -309,13 +307,13 @@ public class TradeableItemDatabase extends KoLDatabase
 		// item ID for the "y" version.
 
 		if ( canonicalName.endsWith( "ies" ) )
+		{
 			itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 3 ) + "y" );
-
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+			if ( itemID != null )
+				return ((Integer)itemID).intValue();
+		}
 
 		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ies ", "y " ) );
-
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
@@ -324,13 +322,13 @@ public class TradeableItemDatabase extends KoLDatabase
 		// item ID for the "o" version.
 
 		if ( canonicalName.endsWith( "es" ) )
+		{
 			itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 2 ) );
-
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+			if ( itemID != null )
+				return ((Integer)itemID).intValue();
+		}
 
 		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "es ", " " ) );
-
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
@@ -339,7 +337,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		// item ID for the "en" version.
 
 		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "en ", "an " ) );
-
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
@@ -347,30 +344,18 @@ public class TradeableItemDatabase extends KoLDatabase
 		// return the appropriate item ID.
 
 		itemID = itemIDByName.get( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) );
-
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
-		if ( canonicalName.endsWith( "s" ) )
-			itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
+		// If it's something that ends with 'i', then
+		// it might be a singular ending with 'us'.
 
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
-
-		// If it's a cactus, then go ahead and return
-		// the appropriate cactus-type ID.
-
-		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "cacti", "cactus" ) );
-
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
-
-		// Check for vertebrae.
-
-		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "vertebrae", "vertebra" ) );
-
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		if ( canonicalName.endsWith( "i" ) )
+		{
+			itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) + "us" );
+			if ( itemID != null )
+				return ((Integer)itemID).intValue();
+		}
 
 		// Attempt to find the item name by brute force
 		// by checking every single space location.  Do
