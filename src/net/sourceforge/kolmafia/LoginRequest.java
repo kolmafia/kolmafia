@@ -34,6 +34,10 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.text.SimpleDateFormat;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -49,6 +53,16 @@ import java.security.MessageDigest;
 
 public class LoginRequest extends KoLRequest
 {
+	private static final SimpleDateFormat MAINTENANCE_FORMATTER = new SimpleDateFormat( "E", Locale.US );
+	static
+	{
+		// Use Halifax time in order to determine when rollover has
+		// started (game should be offline before midnight ... this
+		// ensures that you use the rollover for the previous day).
+
+		MAINTENANCE_FORMATTER.setTimeZone( TimeZone.getTimeZone( "America/Halifax" ) );
+	}
+
 	private static final Pattern FAILURE_PATTERN = Pattern.compile( "<p><b>(.*?)</b>" );
 	private static final Pattern CHALLENGE_PATTERN = Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
 
@@ -57,7 +71,10 @@ public class LoginRequest extends KoLRequest
 
 	private static int STANDARD_WAIT = 75;
 	private static int TOO_MANY_WAIT = 960;
-	private static int ROLLOVER_WAIT = 1800;
+
+	private static int ROLLOVER_WAIT = 1200;
+	private static int LONG_ROLLOVER_WAIT = 5400;
+
 	private static int BAD_CHALLENGE_WAIT = 15;
 
 	private static int waitTime = STANDARD_WAIT;
@@ -71,16 +88,6 @@ public class LoginRequest extends KoLRequest
 
 	private boolean runCountdown;
 	private boolean sendPlainText;
-
-	/**
-	 * Constructs a new <code>LoginRequest</code>.  The given
-	 *will be notified in the event of success.
-	 *
-	 * @param	client	Theassociated with this <code>LoginRequest</code>
-	 * @param	loginname	The name of the player to be logged in
-	 * @param	password	The password to be used in the login attempt
-	 * @param	getBreakfast	Whether or not theshould retrieve breakfast after login
-	 */
 
 	public LoginRequest( String username, String password )
 	{	this( username, password, true, StaticEntity.getGlobalProperty( username, "getBreakfast" ).equals( "true" ), false );
@@ -241,10 +248,33 @@ public class LoginRequest extends KoLRequest
 	{	executeTimeInRequest( false );
 	}
 
+	private static int getWaitTime( boolean isRollover )
+	{
+		if ( isRollover )
+		{
+			// If this is the extra-long rollover (day of
+			// week is Sunday), wait for 90 minutes.
+
+			// Otherwise, wait for 20 minutes, since due
+			// to server optimizations, 20 minutes marks
+			// the end of rollover.
+
+			return MAINTENANCE_FORMATTER.format( new Date() ).startsWith( "Sun" ) ?
+				LONG_ROLLOVER_WAIT : ROLLOVER_WAIT;
+		}
+		else
+		{
+			// Since it's not rollover, just wait for 75
+			// seconds before resuming.
+
+			return STANDARD_WAIT;
+		}
+	}
+
 	public static void executeTimeInRequest( boolean isRollover )
 	{
 		sessionID = null;
-		waitTime = isRollover ? ROLLOVER_WAIT : STANDARD_WAIT;
+		waitTime = getWaitTime( isRollover );
 
 		LoginRequest loginAttempt = new LoginRequest( lastUsername, lastPassword, false, false, true );
 		loginAttempt.run();
@@ -287,7 +317,7 @@ public class LoginRequest extends KoLRequest
 			// Nightly maintenance, so KoLmafia should retry.
 			// Therefore, return true.
 
-			waitTime = ROLLOVER_WAIT;
+			waitTime = getWaitTime( true );
 			return true;
 		}
 		else if ( responseCode == 302 && redirectLocation.startsWith( "main" ) )
