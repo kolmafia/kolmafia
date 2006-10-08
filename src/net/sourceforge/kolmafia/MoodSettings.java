@@ -196,6 +196,13 @@ public abstract class MoodSettings implements KoLConstants
 			if ( skills[i].getSkillID() < 1000 )
 				continue;
 
+			// Combat rate increasers are not handled by mood
+			// autofill, since KoLmafia has a preference for
+			// non-combats in the area below.
+
+			if ( skills[i].getSkillID() == 1019 || skills[i].getSkillID() == 6016 )
+				continue;
+
 			if ( skills[i].getSkillID() > 6000 && skills[i].getSkillID() < 7000 )
 			{
 				thiefSkills.add( skills[i].getSkillName() );
