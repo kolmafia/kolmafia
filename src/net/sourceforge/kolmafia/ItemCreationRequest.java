@@ -162,51 +162,51 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		switch ( mixingMethod )
 		{
-			case COMBINE:
-				formSource = KoLCharacter.inMuscleSign() ? "knoll.php" : "combine.php";
-				break;
+		case COMBINE:
+			formSource = KoLCharacter.inMuscleSign() ? "knoll.php" : "combine.php";
+			break;
 
-			case MIX:
-			case MIX_SPECIAL:
-			case MIX_SUPER:
-				formSource = "cocktail.php";
-				break;
+		case MIX:
+		case MIX_SPECIAL:
+		case MIX_SUPER:
+			formSource = "cocktail.php";
+			break;
 
-			case COOK:
-			case COOK_REAGENT:
-			case SUPER_REAGENT:
-			case COOK_PASTA:
-				formSource = "cook.php";
-				break;
+		case COOK:
+		case COOK_REAGENT:
+		case SUPER_REAGENT:
+		case COOK_PASTA:
+			formSource = "cook.php";
+			break;
 
-			case SMITH:
-				formSource = KoLCharacter.inMuscleSign() ? "knoll.php" : "smith.php";
-				break;
+		case SMITH:
+			formSource = KoLCharacter.inMuscleSign() ? "knoll.php" : "smith.php";
+			break;
 
-			case SMITH_ARMOR:
-			case SMITH_WEAPON:
-				formSource = "smith.php";
-				break;
+		case SMITH_ARMOR:
+		case SMITH_WEAPON:
+			formSource = "smith.php";
+			break;
 
-			case JEWELRY:
-				formSource = "jewelry.php";
-				break;
+		case JEWELRY:
+			formSource = "jewelry.php";
+			break;
 
-			case ROLLING_PIN:
-				formSource = "inv_use.php";
-				break;
+		case ROLLING_PIN:
+			formSource = "inv_use.php";
+			break;
 
-			case CATALYST:
-			case CLOVER:
-				formSource = "multiuse.php";
-				break;
+		case CATALYST:
+		case CLOVER:
+			formSource = "multiuse.php";
+			break;
 
-			case WOK:
-			case MALUS:
-			case STILL_MIXER:
-			case STILL_BOOZE:
-				formSource = "guild.php";
-				break;
+		case WOK:
+		case MALUS:
+		case STILL_MIXER:
+		case STILL_BOOZE:
+			formSource = "guild.php";
+			break;
 		}
 
 		constructURLString( formSource );
@@ -266,59 +266,59 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		switch ( mixingMethod )
 		{
-			case COMBINE:
-				return new ItemCreationRequest( KoLCharacter.inMuscleSign() ?
-					"knoll.php" : "combine.php", itemID, mixingMethod );
+		case COMBINE:
+			return new ItemCreationRequest( KoLCharacter.inMuscleSign() ?
+				"knoll.php" : "combine.php", itemID, mixingMethod );
 
-			case MIX:
-			case MIX_SPECIAL:
-			case MIX_SUPER:
-				return new ItemCreationRequest( "cocktail.php", itemID, mixingMethod );
+		case MIX:
+		case MIX_SPECIAL:
+		case MIX_SUPER:
+			return new ItemCreationRequest( "cocktail.php", itemID, mixingMethod );
 
-			case COOK:
-			case COOK_REAGENT:
-			case SUPER_REAGENT:
-			case COOK_PASTA:
-				return new ItemCreationRequest( "cook.php", itemID, mixingMethod );
+		case COOK:
+		case COOK_REAGENT:
+		case SUPER_REAGENT:
+		case COOK_PASTA:
+			return new ItemCreationRequest( "cook.php", itemID, mixingMethod );
 
-			case SMITH:
-				return new ItemCreationRequest( KoLCharacter.inMuscleSign() ?
-					"knoll.php" : "smith.php", itemID, mixingMethod );
+		case SMITH:
+			return new ItemCreationRequest( KoLCharacter.inMuscleSign() ?
+				"knoll.php" : "smith.php", itemID, mixingMethod );
 
-			case SMITH_ARMOR:
-			case SMITH_WEAPON:
-				return new ItemCreationRequest( "smith.php", itemID, mixingMethod );
+		case SMITH_ARMOR:
+		case SMITH_WEAPON:
+			return new ItemCreationRequest( "smith.php", itemID, mixingMethod );
 
-			case JEWELRY:
-				return new ItemCreationRequest( "jewelry.php", itemID, mixingMethod );
+		case JEWELRY:
+			return new ItemCreationRequest( "jewelry.php", itemID, mixingMethod );
 
-			case ROLLING_PIN:
-				return new ItemCreationRequest( "inv_use.php", itemID, mixingMethod );
+		case ROLLING_PIN:
+			return new ItemCreationRequest( "inv_use.php", itemID, mixingMethod );
 
-			case STARCHART:
-				return new StarChartRequest( itemID );
+		case STARCHART:
+			return new StarChartRequest( itemID );
 
-			case PIXEL:
-				return new PixelRequest( itemID );
+		case PIXEL:
+			return new PixelRequest( itemID );
 
-			case TINKER:
-				return new TinkerRequest( itemID );
+		case TINKER:
+			return new TinkerRequest( itemID );
 
-			case TOY:
-				return new ToyRequest( itemID );
+		case TOY:
+			return new ToyRequest( itemID );
 
-			case CATALYST:
-			case CLOVER:
-				return new ItemCreationRequest( "multiuse.php", itemID, mixingMethod );
+		case CATALYST:
+		case CLOVER:
+			return new ItemCreationRequest( "multiuse.php", itemID, mixingMethod );
 
-			case WOK:
-			case MALUS:
-			case STILL_MIXER:
-			case STILL_BOOZE:
-				return new ItemCreationRequest( "guild.php", itemID, mixingMethod );
+		case WOK:
+		case MALUS:
+		case STILL_MIXER:
+		case STILL_BOOZE:
+			return new ItemCreationRequest( "guild.php", itemID, mixingMethod );
 
-			default:
-				return null;
+		default:
+			return null;
 		}
 	}
 
@@ -349,20 +349,20 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			switch ( mixingMethod )
 			{
-				case SUBCLASS:
+			case SUBCLASS:
 
-					super.run();
-					break;
+				super.run();
+				break;
 
-				case ROLLING_PIN:
+			case ROLLING_PIN:
 
-					makeDough();
-					break;
+				makeDough();
+				break;
 
-				default:
+			default:
 
-					combineItems();
-					break;
+				combineItems();
+				break;
 			}
 		}
 		while ( shouldRerun );
@@ -519,20 +519,20 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			switch ( mixingMethod )
 			{
-				case COOK:
-				case COOK_REAGENT:
-				case SUPER_REAGENT:
-				case COOK_PASTA:
-					KoLCharacter.setChef( false );
-					shouldRerun = true;
-					break;
+			case COOK:
+			case COOK_REAGENT:
+			case SUPER_REAGENT:
+			case COOK_PASTA:
+				KoLCharacter.setChef( false );
+				shouldRerun = true;
+				break;
 
-				case MIX:
-				case MIX_SPECIAL:
-				case MIX_SUPER:
-					KoLCharacter.setBartender( false );
-					shouldRerun = true;
-					break;
+			case MIX:
+			case MIX_SPECIAL:
+			case MIX_SUPER:
+				KoLCharacter.setBartender( false );
+				shouldRerun = true;
+				break;
 			}
 		}
 		else
@@ -551,25 +551,25 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		switch ( mixingMethod )
 		{
-			case COOK:
-			case COOK_REAGENT:
-			case SUPER_REAGENT:
-			case COOK_PASTA:
+		case COOK:
+		case COOK_REAGENT:
+		case SUPER_REAGENT:
+		case COOK_PASTA:
 
-				if ( KoLCharacter.hasChef() )
-					return true;
-				break;
-
-			case MIX:
-			case MIX_SPECIAL:
-			case MIX_SUPER:
-
-				if ( KoLCharacter.hasBartender() )
-					return true;
-				break;
-
-			default:
+			if ( KoLCharacter.hasChef() )
 				return true;
+			break;
+
+		case MIX:
+		case MIX_SPECIAL:
+		case MIX_SUPER:
+
+			if ( KoLCharacter.hasBartender() )
+				return true;
+			break;
+
+		default:
+			return true;
 		}
 
 		boolean autoRepairSuccessful = false;
@@ -579,18 +579,18 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		switch ( mixingMethod )
 		{
-			case COOK:
-			case COOK_REAGENT:
-			case SUPER_REAGENT:
-			case COOK_PASTA:
-				autoRepairSuccessful = useBoxServant( CHEF, CLOCKWORK_CHEF, OVEN, CHEF_SKULL, CHEF_SKULL_BOX );
-				break;
+		case COOK:
+		case COOK_REAGENT:
+		case SUPER_REAGENT:
+		case COOK_PASTA:
+			autoRepairSuccessful = useBoxServant( CHEF, CLOCKWORK_CHEF, OVEN, CHEF_SKULL, CHEF_SKULL_BOX );
+			break;
 
-			case MIX:
-			case MIX_SPECIAL:
-			case MIX_SUPER:
-				autoRepairSuccessful = useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, KIT, BARTENDER_SKULL, BARTENDER_SKULL_BOX );
-				break;
+		case MIX:
+		case MIX_SPECIAL:
+		case MIX_SUPER:
+			autoRepairSuccessful = useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, KIT, BARTENDER_SKULL, BARTENDER_SKULL_BOX );
+			break;
 		}
 
 		if ( !autoRepairSuccessful )
@@ -790,29 +790,29 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	{
 		switch ( mixingMethod )
 		{
-			case SMITH:
-				return KoLCharacter.inMuscleSign() ? 0 : quantityNeeded;
+		case SMITH:
+			return KoLCharacter.inMuscleSign() ? 0 : quantityNeeded;
 
-			case SMITH_ARMOR:
-			case SMITH_WEAPON:
-				return quantityNeeded;
+		case SMITH_ARMOR:
+		case SMITH_WEAPON:
+			return quantityNeeded;
 
-			case JEWELRY:
-				return 3 * quantityNeeded;
+		case JEWELRY:
+			return 3 * quantityNeeded;
 
-			case COOK:
-			case COOK_REAGENT:
-			case SUPER_REAGENT:
-			case COOK_PASTA:
-				return KoLCharacter.hasChef() ? 0 : quantityNeeded;
+		case COOK:
+		case COOK_REAGENT:
+		case SUPER_REAGENT:
+		case COOK_PASTA:
+			return KoLCharacter.hasChef() ? 0 : quantityNeeded;
 
-			case MIX:
-			case MIX_SPECIAL:
-			case MIX_SUPER:
-				return KoLCharacter.hasBartender() ? 0 : quantityNeeded;
+		case MIX:
+		case MIX_SPECIAL:
+		case MIX_SUPER:
+			return KoLCharacter.hasBartender() ? 0 : quantityNeeded;
 
-			case WOK:
-				return quantityNeeded;
+		case WOK:
+			return quantityNeeded;
 		}
 
 		return 0;

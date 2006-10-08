@@ -410,29 +410,29 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 			switch ( this.classID )
 			{
-				case AscensionSnapshotTable.SEAL_CLUBBER:
-					stringForm.append( "SC" );
-					break;
+			case AscensionSnapshotTable.SEAL_CLUBBER:
+				stringForm.append( "SC" );
+				break;
 
-				case AscensionSnapshotTable.TURTLE_TAMER:
-					stringForm.append( "TT" );
-					break;
+			case AscensionSnapshotTable.TURTLE_TAMER:
+				stringForm.append( "TT" );
+				break;
 
-				case AscensionSnapshotTable.PASTAMANCER:
-					stringForm.append( "P" );
-					break;
+			case AscensionSnapshotTable.PASTAMANCER:
+				stringForm.append( "P" );
+				break;
 
-				case AscensionSnapshotTable.SAUCEROR:
-					stringForm.append( "S" );
-					break;
+			case AscensionSnapshotTable.SAUCEROR:
+				stringForm.append( "S" );
+				break;
 
-				case AscensionSnapshotTable.DISCO_BANDIT:
-					stringForm.append( "DB" );
-					break;
+			case AscensionSnapshotTable.DISCO_BANDIT:
+				stringForm.append( "DB" );
+				break;
 
-				case AscensionSnapshotTable.ACCORDION_THIEF:
-					stringForm.append( "AT" );
-					break;
+			case AscensionSnapshotTable.ACCORDION_THIEF:
+				stringForm.append( "AT" );
+				break;
 			}
 
 			stringForm.append( ")&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=right>" );

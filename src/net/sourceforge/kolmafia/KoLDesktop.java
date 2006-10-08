@@ -82,20 +82,20 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 		switch ( StaticEntity.getIntegerProperty( "toolbarPosition" ) )
 		{
-			case 1:
-				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-				getContentPane().add( toolbarPanel, BorderLayout.NORTH );
-				break;
+		case 1:
+			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+			getContentPane().add( toolbarPanel, BorderLayout.NORTH );
+			break;
 
-			case 2:
-				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-				getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
-				break;
+		case 2:
+			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+			getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
+			break;
 
-			case 3:
-				toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
-				getContentPane().add( toolbarPanel, BorderLayout.WEST );
-				break;
+		case 3:
+			toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
+			getContentPane().add( toolbarPanel, BorderLayout.WEST );
+			break;
 		}
 
 		setJMenuBar( new KoLMenuBar() );

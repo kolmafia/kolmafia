@@ -1505,7 +1505,7 @@ public class KoLmafiaCLI extends KoLmafia
 			else if ( !parameters.equals( "" ) && !parameters.startsWith( "exec" ) )
 				MoodSettings.setMood( parameters );
 
-			MoodSettings.execute();
+			MoodSettings.execute( true );
 			printLine( "Mood swing complete." );
 			return;
 		}
@@ -3405,33 +3405,33 @@ public class KoLmafiaCLI extends KoLmafia
 
 			switch ( ConcoctionsDatabase.getMixingMethod( firstMatch.getItemID() ) )
 			{
-				case ItemCreationRequest.COOK:
-				case ItemCreationRequest.COOK_REAGENT:
-				case ItemCreationRequest.SUPER_REAGENT:
-				case ItemCreationRequest.COOK_PASTA:
+			case ItemCreationRequest.COOK:
+			case ItemCreationRequest.COOK_REAGENT:
+			case ItemCreationRequest.SUPER_REAGENT:
+			case ItemCreationRequest.COOK_PASTA:
 
-					if ( needServant )
-						updateDisplay( ERROR_STATE, "You cannot cook without a chef-in-the-box." );
-					else
-						updateDisplay( ERROR_STATE, "You cannot cook without an oven." );
+				if ( needServant )
+					updateDisplay( ERROR_STATE, "You cannot cook without a chef-in-the-box." );
+				else
+					updateDisplay( ERROR_STATE, "You cannot cook without an oven." );
 
-					break;
+				break;
 
-				case ItemCreationRequest.MIX:
-				case ItemCreationRequest.MIX_SPECIAL:
-				case ItemCreationRequest.MIX_SUPER:
+			case ItemCreationRequest.MIX:
+			case ItemCreationRequest.MIX_SPECIAL:
+			case ItemCreationRequest.MIX_SUPER:
 
-					if ( needServant )
-						updateDisplay( ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
-					else
-						updateDisplay( ERROR_STATE, "You cannot mix without a cocktail crafting kit." );
+				if ( needServant )
+					updateDisplay( ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
+				else
+					updateDisplay( ERROR_STATE, "You cannot mix without a cocktail crafting kit." );
 
-					break;
+				break;
 
-				default:
+			default:
 
-					updateDisplay( ERROR_STATE, "That item cannot be created." );
-					break;
+				updateDisplay( ERROR_STATE, "That item cannot be created." );
+				break;
 			}
 
 			return;
@@ -3485,12 +3485,12 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			switch ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemID() ) )
 			{
-				case ConsumeItemRequest.CONSUME_EAT:
-					updateDisplay( ERROR_STATE, firstMatch.getName() + " must be eaten." );
-					return;
-				case ConsumeItemRequest.CONSUME_DRINK:
-					updateDisplay( ERROR_STATE, firstMatch.getName() + " is an alcoholic beverage." );
-					return;
+			case ConsumeItemRequest.CONSUME_EAT:
+				updateDisplay( ERROR_STATE, firstMatch.getName() + " must be eaten." );
+				return;
+			case ConsumeItemRequest.CONSUME_DRINK:
+				updateDisplay( ERROR_STATE, firstMatch.getName() + " is an alcoholic beverage." );
+				return;
 			}
 		}
 

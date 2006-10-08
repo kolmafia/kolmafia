@@ -223,11 +223,11 @@ public class ProfileRequest extends KoLRequest
 			{
 				switch ( TradeableItemDatabase.getConsumptionType( currentItem ) )
 				{
-					case ConsumeItemRequest.EQUIP_HAT:
-					case ConsumeItemRequest.EQUIP_PANTS:
+				case ConsumeItemRequest.EQUIP_HAT:
+				case ConsumeItemRequest.EQUIP_PANTS:
 
-						this.equipmentPower += EquipmentDatabase.getPower( currentItem );
-						break;
+					this.equipmentPower += EquipmentDatabase.getPower( currentItem );
+					break;
 				}
 			}
 		}

@@ -409,41 +409,41 @@ public class ChatFrame extends KoLFrame
 
 			switch ( linkOption )
 			{
-				case 1:
-					KoLMessenger.openInstantMessage( (String) parameters[0], true );
-					return;
+			case 1:
+				KoLMessenger.openInstantMessage( (String) parameters[0], true );
+				return;
 
-				case 2:
-					frameClass = GreenMessageFrame.class;
-					break;
+			case 2:
+				frameClass = GreenMessageFrame.class;
+				break;
 
-				case 3:
-					frameClass = GiftMessageFrame.class;
-					break;
+			case 3:
+				frameClass = GiftMessageFrame.class;
+				break;
 
-				case 4:
-					frameClass = ProposeTradeFrame.class;
-					break;
+			case 4:
+				frameClass = ProposeTradeFrame.class;
+				break;
 
-				case 5:
-					StaticEntity.openRequestFrame( "displaycollection.php?who=" + KoLmafia.getPlayerID( (String) parameters[0] ) );
-					return;
+			case 5:
+				StaticEntity.openRequestFrame( "displaycollection.php?who=" + KoLmafia.getPlayerID( (String) parameters[0] ) );
+				return;
 
-				case 6:
-					StaticEntity.openRequestFrame( "ascensionhistory.php?who=" + KoLmafia.getPlayerID( (String) parameters[0] ) );
-					return;
+			case 6:
+				StaticEntity.openRequestFrame( "ascensionhistory.php?who=" + KoLmafia.getPlayerID( (String) parameters[0] ) );
+				return;
 
-				case 7:
-					(new Thread( new ChatRequest( "/whois", (String) parameters[0] ) )).start();
-					return;
+			case 7:
+				(new Thread( new ChatRequest( "/whois", (String) parameters[0] ) )).start();
+				return;
 
-				case 8:
-					(new Thread( new ChatRequest( "/baleet", (String) parameters[0] ) )).start();
-					return;
+			case 8:
+				(new Thread( new ChatRequest( "/baleet", (String) parameters[0] ) )).start();
+				return;
 
-				default:
-					frameClass = ProfileFrame.class;
-					break;
+			default:
+				frameClass = ProfileFrame.class;
+				break;
 			}
 
 			// Now, determine what needs to be done based

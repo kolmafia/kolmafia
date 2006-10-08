@@ -708,171 +708,171 @@ public class OptionsFrame extends KoLFrame
 
 			switch ( castleWheelSelect.getSelectedIndex() )
 			{
-				case 0: // Map quest position (choice adventure 11)
-                                        // Muscle goes through moxie
-					StaticEntity.setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
-					StaticEntity.setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
-					StaticEntity.setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
-					StaticEntity.setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
-					break;
+			case 0: // Map quest position (choice adventure 11)
+									// Muscle goes through moxie
+				StaticEntity.setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
+				StaticEntity.setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
+				StaticEntity.setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
+				StaticEntity.setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
+				break;
 
-				case 1: // Map quest position (choice adventure 11)
-                                        // Muscle goes through mysticality
-					StaticEntity.setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
-					StaticEntity.setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
-					StaticEntity.setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
-					StaticEntity.setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
-					break;
+			case 1: // Map quest position (choice adventure 11)
+									// Muscle goes through mysticality
+				StaticEntity.setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
+				StaticEntity.setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
+				StaticEntity.setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
+				StaticEntity.setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
+				break;
 
-				case 2: // Muscle position (choice adventure 9)
-					StaticEntity.setProperty( "choiceAdventure9", "3" );	  // Leave the muscle position alone
-					StaticEntity.setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
-					StaticEntity.setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
-					StaticEntity.setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
-					break;
+			case 2: // Muscle position (choice adventure 9)
+				StaticEntity.setProperty( "choiceAdventure9", "3" );	  // Leave the muscle position alone
+				StaticEntity.setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
+				StaticEntity.setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
+				StaticEntity.setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
+				break;
 
-				case 3: // Mysticality position (choice adventure 10)
-					StaticEntity.setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
-					StaticEntity.setProperty( "choiceAdventure10", "3" );  // Leave the mysticality position alone
-					StaticEntity.setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
-					StaticEntity.setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
-					break;
+			case 3: // Mysticality position (choice adventure 10)
+				StaticEntity.setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
+				StaticEntity.setProperty( "choiceAdventure10", "3" );  // Leave the mysticality position alone
+				StaticEntity.setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
+				StaticEntity.setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
+				break;
 
-				case 4: // Moxie position (choice adventure 12)
-					StaticEntity.setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
-					StaticEntity.setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
-					StaticEntity.setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
-					StaticEntity.setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
-					break;
+			case 4: // Moxie position (choice adventure 12)
+				StaticEntity.setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
+				StaticEntity.setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
+				StaticEntity.setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
+				StaticEntity.setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
+				break;
 
-				case 5: // Turn the wheel clockwise
-					StaticEntity.setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
-					StaticEntity.setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
-					StaticEntity.setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
-					StaticEntity.setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
-					break;
+			case 5: // Turn the wheel clockwise
+				StaticEntity.setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
+				StaticEntity.setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
+				StaticEntity.setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
+				StaticEntity.setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
+				break;
 
-				case 6: // Turn the wheel counterclockwise
-					StaticEntity.setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
-					StaticEntity.setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
-					StaticEntity.setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
-					StaticEntity.setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
-					break;
+			case 6: // Turn the wheel counterclockwise
+				StaticEntity.setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
+				StaticEntity.setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
+				StaticEntity.setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
+				StaticEntity.setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
+				break;
 
-				case 7: // Ignore this adventure
-					StaticEntity.setProperty( "choiceAdventure9", "3" );	  // Leave the muscle position alone
-					StaticEntity.setProperty( "choiceAdventure10", "3" );  // Leave the mysticality position alone
-					StaticEntity.setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
-					StaticEntity.setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
-					break;
+			case 7: // Ignore this adventure
+				StaticEntity.setProperty( "choiceAdventure9", "3" );	  // Leave the muscle position alone
+				StaticEntity.setProperty( "choiceAdventure10", "3" );  // Leave the mysticality position alone
+				StaticEntity.setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
+				StaticEntity.setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
+				break;
 			}
 
 			switch ( spookyForestSelect.getSelectedIndex() )
 			{
-				case 0: // Seal clubber corpse
-					StaticEntity.setProperty( "choiceAdventure26", "1" );
-					StaticEntity.setProperty( "choiceAdventure27", "1" );
-					break;
+			case 0: // Seal clubber corpse
+				StaticEntity.setProperty( "choiceAdventure26", "1" );
+				StaticEntity.setProperty( "choiceAdventure27", "1" );
+				break;
 
-				case 1: // Turtle tamer corpse
-					StaticEntity.setProperty( "choiceAdventure26", "1" );
-					StaticEntity.setProperty( "choiceAdventure27", "2" );
-					break;
+			case 1: // Turtle tamer corpse
+				StaticEntity.setProperty( "choiceAdventure26", "1" );
+				StaticEntity.setProperty( "choiceAdventure27", "2" );
+				break;
 
-				case 2: // Pastamancer corpse
-					StaticEntity.setProperty( "choiceAdventure26", "2" );
-					StaticEntity.setProperty( "choiceAdventure28", "1" );
-					break;
+			case 2: // Pastamancer corpse
+				StaticEntity.setProperty( "choiceAdventure26", "2" );
+				StaticEntity.setProperty( "choiceAdventure28", "1" );
+				break;
 
-				case 3: // Sauceror corpse
-					StaticEntity.setProperty( "choiceAdventure26", "2" );
-					StaticEntity.setProperty( "choiceAdventure28", "2" );
-					break;
+			case 3: // Sauceror corpse
+				StaticEntity.setProperty( "choiceAdventure26", "2" );
+				StaticEntity.setProperty( "choiceAdventure28", "2" );
+				break;
 
-				case 4: // Disco bandit corpse
-					StaticEntity.setProperty( "choiceAdventure26", "3" );
-					StaticEntity.setProperty( "choiceAdventure29", "1" );
-					break;
+			case 4: // Disco bandit corpse
+				StaticEntity.setProperty( "choiceAdventure26", "3" );
+				StaticEntity.setProperty( "choiceAdventure29", "1" );
+				break;
 
-				case 5: // Accordion thief corpse
-					StaticEntity.setProperty( "choiceAdventure26", "3" );
-					StaticEntity.setProperty( "choiceAdventure29", "2" );
-					break;
+			case 5: // Accordion thief corpse
+				StaticEntity.setProperty( "choiceAdventure26", "3" );
+				StaticEntity.setProperty( "choiceAdventure29", "2" );
+				break;
 			}
 
 			switch ( billiardRoomSelect.getSelectedIndex() )
 			{
-				case 0: // Ignore this adventure
-					StaticEntity.setProperty( "choiceAdventure77", "3" );
-					StaticEntity.setProperty( "choiceAdventure78", "3" );
-					StaticEntity.setProperty( "choiceAdventure79", "3" );
-					break;
+			case 0: // Ignore this adventure
+				StaticEntity.setProperty( "choiceAdventure77", "3" );
+				StaticEntity.setProperty( "choiceAdventure78", "3" );
+				StaticEntity.setProperty( "choiceAdventure79", "3" );
+				break;
 
-				case 1: // Muscle
-					StaticEntity.setProperty( "choiceAdventure77", "2" );
-					StaticEntity.setProperty( "choiceAdventure78", "2" );
-					StaticEntity.setProperty( "choiceAdventure79", "3" );
-					break;
+			case 1: // Muscle
+				StaticEntity.setProperty( "choiceAdventure77", "2" );
+				StaticEntity.setProperty( "choiceAdventure78", "2" );
+				StaticEntity.setProperty( "choiceAdventure79", "3" );
+				break;
 
-				case 2: // Mysticality
-					StaticEntity.setProperty( "choiceAdventure77", "2" );
-					StaticEntity.setProperty( "choiceAdventure78", "1" );
-					StaticEntity.setProperty( "choiceAdventure79", "2" );
-					break;
+			case 2: // Mysticality
+				StaticEntity.setProperty( "choiceAdventure77", "2" );
+				StaticEntity.setProperty( "choiceAdventure78", "1" );
+				StaticEntity.setProperty( "choiceAdventure79", "2" );
+				break;
 
-				case 3: // Moxie
-					StaticEntity.setProperty( "choiceAdventure77", "1" );
-					StaticEntity.setProperty( "choiceAdventure78", "3" );
-					StaticEntity.setProperty( "choiceAdventure79", "3" );
-					break;
+			case 3: // Moxie
+				StaticEntity.setProperty( "choiceAdventure77", "1" );
+				StaticEntity.setProperty( "choiceAdventure78", "3" );
+				StaticEntity.setProperty( "choiceAdventure79", "3" );
+				break;
 
-				case 4: // Library Key
-					StaticEntity.setProperty( "choiceAdventure77", "2" );
-					StaticEntity.setProperty( "choiceAdventure78", "1" );
-					StaticEntity.setProperty( "choiceAdventure79", "1" );
-					break;
-                        }
+			case 4: // Library Key
+				StaticEntity.setProperty( "choiceAdventure77", "2" );
+				StaticEntity.setProperty( "choiceAdventure78", "1" );
+				StaticEntity.setProperty( "choiceAdventure79", "1" );
+				break;
+			}
 
 			switch ( library1Select.getSelectedIndex() )
 			{
-				case 0: // Ignore this adventure
-					StaticEntity.setProperty( "choiceAdventure80", "4" );
-					StaticEntity.setProperty( "choiceAdventure88", "1" );
-					break;
+			case 0: // Ignore this adventure
+				StaticEntity.setProperty( "choiceAdventure80", "4" );
+				StaticEntity.setProperty( "choiceAdventure88", "1" );
+				break;
 
-				case 1: // Mysticality
-					StaticEntity.setProperty( "choiceAdventure80", "3" );
-					StaticEntity.setProperty( "choiceAdventure88", "1" );
-					break;
+			case 1: // Mysticality
+				StaticEntity.setProperty( "choiceAdventure80", "3" );
+				StaticEntity.setProperty( "choiceAdventure88", "1" );
+				break;
 
-				case 2: // Moxie
-					StaticEntity.setProperty( "choiceAdventure80", "3" );
-					StaticEntity.setProperty( "choiceAdventure88", "2" );
-					break;
+			case 2: // Moxie
+				StaticEntity.setProperty( "choiceAdventure80", "3" );
+				StaticEntity.setProperty( "choiceAdventure88", "2" );
+				break;
 
-				case 3: // Mysticality Class Skill
-					StaticEntity.setProperty( "choiceAdventure80", "3" );
-					StaticEntity.setProperty( "choiceAdventure88", "3" );
-					break;
-                        }
+			case 3: // Mysticality Class Skill
+				StaticEntity.setProperty( "choiceAdventure80", "3" );
+				StaticEntity.setProperty( "choiceAdventure88", "3" );
+				break;
+			}
 
 			switch ( library2Select.getSelectedIndex() )
 			{
-				case 0: // Ignore this adventure
-					StaticEntity.setProperty( "choiceAdventure81", "4" );
-					StaticEntity.setProperty( "choiceAdventure87", "1" );
-					break;
+			case 0: // Ignore this adventure
+				StaticEntity.setProperty( "choiceAdventure81", "4" );
+				StaticEntity.setProperty( "choiceAdventure87", "1" );
+				break;
 
-				case 1: // Muscle
-					StaticEntity.setProperty( "choiceAdventure81", "3" );
-					StaticEntity.setProperty( "choiceAdventure87", "2" );
-					break;
+			case 1: // Muscle
+				StaticEntity.setProperty( "choiceAdventure81", "3" );
+				StaticEntity.setProperty( "choiceAdventure87", "2" );
+				break;
 
-				case 2: // Gallery Key
-					StaticEntity.setProperty( "choiceAdventure81", "1" );
-					StaticEntity.setProperty( "choiceAdventure87", "2" );
-					break;
-                        }
+			case 2: // Gallery Key
+				StaticEntity.setProperty( "choiceAdventure81", "1" );
+				StaticEntity.setProperty( "choiceAdventure87", "2" );
+				break;
+			}
 		}
 
 		public void actionCancelled()
@@ -955,58 +955,49 @@ public class OptionsFrame extends KoLFrame
 			spookyForestSelect.setSelectedIndex( index < 0 ? 5 : index );
 
 			// Figure out what to do in the billiard room
-			index = StaticEntity.getIntegerProperty( "choiceAdventure77" );
-			switch ( index )
+
+			switch ( StaticEntity.getIntegerProperty( "choiceAdventure77" ) )
 			{
 			case 1:
+
 				// Moxie
 				index = 3;
 				break;
+
 			case 2:
+
 				index = StaticEntity.getIntegerProperty( "choiceAdventure78" );
+
 				switch ( index )
 				{
 				case 1:
 					index = StaticEntity.getIntegerProperty( "choiceAdventure79" );
-					switch (index )
-					{
-					case 1:
-						// Library Key
-						index = 4;
-						break;
-					case 2:
-						// Mysticality
-						index = 2;
-						break;
-					default:
-					case 3:
-						// Ignore this adventure
-						index = 0;
-						break;
-					}
+					index = index == 1 ? 4 : index == 2 ? 2 : 0;
 					break;
 				case 2:
 					// Muscle
 					index = 1;
 					break;
-				default:
 				case 3:
 					// Ignore this adventure
 					index = 0;
 					break;
 				}
+
 				break;
-			default:
+
 			case 3:
+
 				// Ignore this adventure
 				index = 0;
 				break;
 			}
+
 			billiardRoomSelect.setSelectedIndex( index );
 
 			// Figure out what to do at the first bookcase
 			index = StaticEntity.getIntegerProperty( "choiceAdventure80" );
-			if ( index == 3)
+			if ( index == 3 )
 			{
 				index = StaticEntity.getIntegerProperty( "choiceAdventure88" );
 				index = ( index < 1 || index > 3 ) ? 0 : index;
@@ -1016,6 +1007,7 @@ public class OptionsFrame extends KoLFrame
 				// None of the above. Ignore
 				index = 0;
 			}
+
 			library1Select.setSelectedIndex( index );
 
 			// Figure out what to do at the second bookcase
@@ -1036,6 +1028,7 @@ public class OptionsFrame extends KoLFrame
 				index = 0;
 				break;
 			}
+
 			library2Select.setSelectedIndex( index );
 		}
 
@@ -1388,14 +1381,14 @@ public class OptionsFrame extends KoLFrame
 			{
 				switch ( getSelectedIndex() )
 				{
-					case 0:
-						return "lose_effect";
-					case 1:
-						return "gain_effect";
-					case 2:
-						return "unconditional";
-					default:
-						return null;
+				case 0:
+					return "lose_effect";
+				case 1:
+					return "gain_effect";
+				case 2:
+					return "unconditional";
+				default:
+					return null;
 				}
 			}
 

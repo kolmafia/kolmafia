@@ -345,8 +345,12 @@ public abstract class MoodSettings implements KoLConstants
 	 */
 
 	public static void execute()
+	{	execute( false );
+	}
+
+	public static void execute( boolean isManualInvocation )
 	{
-		if ( KoLmafia.refusesContinue() || !willExecute() )
+		if ( KoLmafia.refusesContinue() || !willExecute( isManualInvocation ) )
 			return;
 
 		isExecuting = true;
@@ -404,14 +408,14 @@ public abstract class MoodSettings implements KoLConstants
 		{
 			current = (MoodTrigger) triggers.get(i);
 			if ( current.skillID != -1 && (!current.isThiefTrigger() || shouldExecuteThiefSkills) )
-				current.execute();
+				current.execute( isManualInvocation );
 		}
 
 		for ( int i = 0; i < triggers.size(); ++i )
 		{
 			current = (MoodTrigger) triggers.get(i);
 			if ( current.skillID == -1 )
-				current.execute();
+				current.execute( isManualInvocation );
 		}
 
 		if ( hasChangedOutfit )
@@ -421,7 +425,7 @@ public abstract class MoodSettings implements KoLConstants
 		isExecuting = false;
 	}
 
-	public static boolean willExecute()
+	public static boolean willExecute( boolean isManualInvocation )
 	{
 		if ( triggers.isEmpty() )
 			return false;
@@ -431,7 +435,7 @@ public abstract class MoodSettings implements KoLConstants
 		for ( int i = 0; i < triggers.size(); ++i )
 		{
 			MoodTrigger current = (MoodTrigger) triggers.get(i);
-			willExecute |= current.shouldExecute();
+			willExecute |= current.shouldExecute( isManualInvocation );
 		}
 
 		return willExecute;
@@ -732,9 +736,9 @@ public abstract class MoodSettings implements KoLConstants
 			return triggerName.equals( mt.triggerName );
 		}
 
-		public void execute()
+		public void execute( boolean isManualInvocation )
 		{
-			if ( shouldExecute() )
+			if ( shouldExecute( isManualInvocation ) )
 			{
 				if ( skillID != -1 && songWeapon == null )
 					songWeapon = UseSkillRequest.optimizeEquipment( skillID );
@@ -746,7 +750,7 @@ public abstract class MoodSettings implements KoLConstants
 			}
 		}
 
-		public boolean shouldExecute()
+		public boolean shouldExecute( boolean isManualInvocation )
 		{
 			if ( KoLmafia.refusesContinue() )
 				return false;
@@ -764,7 +768,7 @@ public abstract class MoodSettings implements KoLConstants
 			else if ( triggerType.equals( "lose_effect" ) )
 			{
 				shouldExecute = action.indexOf( "cupcake" ) != -1 || action.indexOf( "snowcone" ) != -1 ?
-					!activeEffects.contains( effect ) : effect.getCount( activeEffects ) <= 1;
+					!activeEffects.contains( effect ) : effect.getCount( activeEffects ) <= (isManualInvocation ? 5 : 1);
 
 				shouldExecute &= !triggerName.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
 			}

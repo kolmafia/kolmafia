@@ -2522,53 +2522,53 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		switch ( type.getType() )
 		{
-			case TYPE_BOOLEAN:
-				return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
-					JOptionPane.INFORMATION_MESSAGE, null, BOOLEANS, BOOLEANS[0] );
+		case TYPE_BOOLEAN:
+			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
+				JOptionPane.INFORMATION_MESSAGE, null, BOOLEANS, BOOLEANS[0] );
 
-			case TYPE_LOCATION:
-				return ((KoLAdventure) JOptionPane.showInputDialog( null, message, "Input Variable",
-					JOptionPane.INFORMATION_MESSAGE, null, AdventureDatabase.getAsLockableListModel().toArray(),
-					AdventureDatabase.getAdventure( getProperty( "lastAdventure" ) ) )).getAdventureName();
+		case TYPE_LOCATION:
+			return ((KoLAdventure) JOptionPane.showInputDialog( null, message, "Input Variable",
+				JOptionPane.INFORMATION_MESSAGE, null, AdventureDatabase.getAsLockableListModel().toArray(),
+				AdventureDatabase.getAdventure( getProperty( "lastAdventure" ) ) )).getAdventureName();
 
-			case TYPE_SKILL:
-				return ((UseSkillRequest) JOptionPane.showInputDialog( null, message, "Input Variable",
-					JOptionPane.INFORMATION_MESSAGE, null, availableSkills.toArray(), availableSkills.get(0) )).getSkillName();
+		case TYPE_SKILL:
+			return ((UseSkillRequest) JOptionPane.showInputDialog( null, message, "Input Variable",
+				JOptionPane.INFORMATION_MESSAGE, null, availableSkills.toArray(), availableSkills.get(0) )).getSkillName();
 
-			case TYPE_FAMILIAR:
-				return ((FamiliarData) JOptionPane.showInputDialog( null, message, "Input Variable",
-					JOptionPane.INFORMATION_MESSAGE, null, KoLCharacter.getFamiliarList().toArray(), KoLCharacter.getFamiliar() )).getRace();
+		case TYPE_FAMILIAR:
+			return ((FamiliarData) JOptionPane.showInputDialog( null, message, "Input Variable",
+				JOptionPane.INFORMATION_MESSAGE, null, KoLCharacter.getFamiliarList().toArray(), KoLCharacter.getFamiliar() )).getRace();
 
-			case TYPE_SLOT:
-				return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
-					JOptionPane.INFORMATION_MESSAGE, null, EquipmentRequest.slotNames, EquipmentRequest.slotNames[0] );
+		case TYPE_SLOT:
+			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
+				JOptionPane.INFORMATION_MESSAGE, null, EquipmentRequest.slotNames, EquipmentRequest.slotNames[0] );
 
-			case TYPE_ELEMENT:
-				return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
-					JOptionPane.INFORMATION_MESSAGE, null, MonsterDatabase.elementNames, MonsterDatabase.elementNames[0] );
+		case TYPE_ELEMENT:
+			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
+				JOptionPane.INFORMATION_MESSAGE, null, MonsterDatabase.elementNames, MonsterDatabase.elementNames[0] );
 
-			case TYPE_ZODIAC:
-				return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
-					JOptionPane.INFORMATION_MESSAGE, null, ZODIACS, ZODIACS[0] );
+		case TYPE_ZODIAC:
+			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
+				JOptionPane.INFORMATION_MESSAGE, null, ZODIACS, ZODIACS[0] );
 
-			case TYPE_CLASS:
-				return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
-						JOptionPane.INFORMATION_MESSAGE, null, CLASSES, CLASSES[0] );
+		case TYPE_CLASS:
+			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
+					JOptionPane.INFORMATION_MESSAGE, null, CLASSES, CLASSES[0] );
 
-			case TYPE_STAT:
-				return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
-						JOptionPane.INFORMATION_MESSAGE, null, STATS, STATS[0] );
+		case TYPE_STAT:
+			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
+					JOptionPane.INFORMATION_MESSAGE, null, STATS, STATS[0] );
 
-			case TYPE_INT:
-			case TYPE_FLOAT:
-			case TYPE_STRING:
-			case TYPE_ITEM:
-			case TYPE_EFFECT:
-			case TYPE_MONSTER:
-				return JOptionPane.showInputDialog( message );
+		case TYPE_INT:
+		case TYPE_FLOAT:
+		case TYPE_STRING:
+		case TYPE_ITEM:
+		case TYPE_EFFECT:
+		case TYPE_MONSTER:
+			return JOptionPane.showInputDialog( message );
 
-			default:
-				throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
+		default:
+			throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
 		}
 	}
 
@@ -3554,13 +3554,13 @@ public class KoLmafiaASH extends StaticEntity
 				trace( "[" + executionStateString( currentState ) + "] <- " + result.toQuotedString() );
 				switch ( currentState )
 				{
-					case STATE_RETURN:
-					case STATE_BREAK:
-					case STATE_CONTINUE:
-					case STATE_EXIT:
+				case STATE_RETURN:
+				case STATE_BREAK:
+				case STATE_CONTINUE:
+				case STATE_EXIT:
 
-						traceUnindent();
-						return result;
+					traceUnindent();
+					return result;
 				}
 			}
 
@@ -4529,22 +4529,22 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			switch ( TradeableItemDatabase.getConsumptionType( slot.intValue() ) )
 			{
-				case ConsumeItemRequest.EQUIP_HAT:
-					return parseSlotValue( "hat" );
-				case ConsumeItemRequest.EQUIP_WEAPON:
-					return parseSlotValue( "weapon" );
-				case ConsumeItemRequest.EQUIP_OFFHAND:
-					return parseSlotValue( "off-hand" );
-				case ConsumeItemRequest.EQUIP_SHIRT:
-					return parseSlotValue( "shirt" );
-				case ConsumeItemRequest.EQUIP_PANTS:
-					return parseSlotValue( "pants" );
-				case ConsumeItemRequest.EQUIP_FAMILIAR:
-					return parseSlotValue( "familiar" );
-				case ConsumeItemRequest.EQUIP_ACCESSORY:
-					return parseSlotValue( "acc1" );
-				default:
-					return parseSlotValue( "none" );
+			case ConsumeItemRequest.EQUIP_HAT:
+				return parseSlotValue( "hat" );
+			case ConsumeItemRequest.EQUIP_WEAPON:
+				return parseSlotValue( "weapon" );
+			case ConsumeItemRequest.EQUIP_OFFHAND:
+				return parseSlotValue( "off-hand" );
+			case ConsumeItemRequest.EQUIP_SHIRT:
+				return parseSlotValue( "shirt" );
+			case ConsumeItemRequest.EQUIP_PANTS:
+				return parseSlotValue( "pants" );
+			case ConsumeItemRequest.EQUIP_FAMILIAR:
+				return parseSlotValue( "familiar" );
+			case ConsumeItemRequest.EQUIP_ACCESSORY:
+				return parseSlotValue( "acc1" );
+			default:
+				return parseSlotValue( "none" );
 			}
 		}
 
@@ -5658,7 +5658,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String toString()
 		{
-			switch ( this.command)
+			switch ( this.command )
 			{
 			case COMMAND_BREAK:
 				return "break";
@@ -5676,7 +5676,7 @@ public class KoLmafiaASH extends StaticEntity
 			trace( toString() );
 			traceUnindent();
 
-			switch ( this.command)
+			switch ( this.command )
 			{
 			case COMMAND_BREAK:
 				currentState = STATE_BREAK;

@@ -305,6 +305,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		PLAYER_SETTINGS.put( "plantingScript", "" );
 		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
 		PLAYER_SETTINGS.put( "thanksMessage", "Thank you for the donation!" );
+		PLAYER_SETTINGS.put( "trapperOre", "chrome ore" );
 		PLAYER_SETTINGS.put( "violetFogGoal", "0" );
 		PLAYER_SETTINGS.put( "whiteList", "" );
 

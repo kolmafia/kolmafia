@@ -339,17 +339,17 @@ public class FightRequest extends KoLRequest
 	{
 		switch ( itemID )
 		{
-			case 2:		// Seal Tooth
-			case 4:		// Scroll of Turtle Summoning
-			case 8:		// Spices
-			case 536:	// Dictionary 1
-			case 1316:	// Dictionary 2
+		case 2:		// Seal Tooth
+		case 4:		// Scroll of Turtle Summoning
+		case 8:		// Spices
+		case 536:	// Dictionary 1
+		case 1316:	// Dictionary 2
 
-				return false;
+			return false;
 
-			default:
+		default:
 
-				return true;
+			return true;
 		}
 	}
 
@@ -387,34 +387,34 @@ public class FightRequest extends KoLRequest
 
 		switch ( skillID )
 		{
-			case 2005: // Shieldbutt
-				offenseModifier -= 5;
-				defenseModifier -= 5;
-				break;
+		case 2005: // Shieldbutt
+			offenseModifier -= 5;
+			defenseModifier -= 5;
+			break;
 
-			case 3004: // Entangling Noodles
-				offenseModifier -= 6;
-				break;
+		case 3004: // Entangling Noodles
+			offenseModifier -= 6;
+			break;
 
-			case 5003: // Disco Eye-Poke
-				offenseModifier -= 1;
-				defenseModifier -= 1;
-				break;
+		case 5003: // Disco Eye-Poke
+			offenseModifier -= 1;
+			defenseModifier -= 1;
+			break;
 
-			case 5005: // Disco Dance of Doom
-				offenseModifier -= 3;
-				defenseModifier -= 3;
-				break;
+		case 5005: // Disco Dance of Doom
+			offenseModifier -= 3;
+			defenseModifier -= 3;
+			break;
 
-			case 5008: // Disco Dance II: Electric Boogaloo
-				offenseModifier -= 5;
-				defenseModifier -= 5;
-				break;
+		case 5008: // Disco Dance II: Electric Boogaloo
+			offenseModifier -= 5;
+			defenseModifier -= 5;
+			break;
 
-			case 5012: // Disco Face Stab
-				offenseModifier -= 7;
-				defenseModifier -= 7;
-				break;
+		case 5012: // Disco Face Stab
+			offenseModifier -= 7;
+			defenseModifier -= 7;
+			break;
 		}
 
 		if ( mpCost > 0 )

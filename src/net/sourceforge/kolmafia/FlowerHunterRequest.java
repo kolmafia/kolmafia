@@ -105,17 +105,17 @@ public class FlowerHunterRequest extends KoLRequest
 	{
 		switch ( hunterType )
 		{
-			case ATTACK:
-				parseAttack();
-				break;
+		case ATTACK:
+			parseAttack();
+			break;
 
-			case PLAYER_SEARCH:
-				parseSearch();
-				break;
+		case PLAYER_SEARCH:
+			parseSearch();
+			break;
 
-			case CLAN_PROFILER:
-				parseClan();
-				break;
+		case CLAN_PROFILER:
+			parseClan();
+			break;
 		}
 	}
 

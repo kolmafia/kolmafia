@@ -243,8 +243,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return false;
 	}
 
+	public static final SortedListModel getKnownUses( int itemID )
+	{	return knownUses.get( itemID );
+	}
+
 	public static final SortedListModel getKnownUses( AdventureResult item )
-	{	return knownUses.get( item.getItemID() );
+	{	return getKnownUses( item.getItemID() );
 	}
 
 	public static final boolean isPermittedMethod( int method )

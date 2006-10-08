@@ -134,16 +134,16 @@ public class CakeArenaManager extends StaticEntity
 	{
 		switch ( eventID )
 		{
-			case 1:
-				return "Cage Match";
-			case 2:
-				return "Scavenger Hunt";
-			case 3:
-				return "Obstacle Course";
-			case 4:
-				return "Hide and Seek";
-			default:
-				return "Unknown Event";
+		case 1:
+			return "Cage Match";
+		case 2:
+			return "Scavenger Hunt";
+		case 3:
+			return "Obstacle Course";
+		case 4:
+			return "Hide and Seek";
+		default:
+			return "Unknown Event";
 		}
 	}
 

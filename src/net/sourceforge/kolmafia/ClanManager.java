@@ -862,16 +862,16 @@ public class ClanManager extends StaticEntity
 
 		switch ( filterType )
 		{
-			case ClanSnapshotTable.NAME_FILTER:
-			case ClanSnapshotTable.LEVEL_FILTER:
-			case ClanSnapshotTable.KARMA_FILTER:
+		case ClanSnapshotTable.NAME_FILTER:
+		case ClanSnapshotTable.LEVEL_FILTER:
+		case ClanSnapshotTable.KARMA_FILTER:
 
-				break;
+			break;
 
-			default:
+		default:
 
-				retrieveMemberData( true, false );
-				break;
+			retrieveMemberData( true, false );
+			break;
 		}
 
 		ClanSnapshotTable.applyFilter( matchType, filterType, filter );

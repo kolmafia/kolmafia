@@ -170,52 +170,52 @@ public abstract class Nemesis extends StaticEntity
 
 			switch (i)
 			{
-				case 4: // The Fly Bend
+			case 4: // The Fly Bend
 
-					// Equip fly swatter, but only if it's
-					// not currently equipped
+				// Equip fly swatter, but only if it's
+				// not currently equipped
 
-					DEFAULT_SHELL.executeLine( "equip Gnollish flyswatter" );
-					action = "flies";
-					KoLmafia.updateDisplay( "Swatting flies..." );
-					break;
+				DEFAULT_SHELL.executeLine( "equip Gnollish flyswatter" );
+				action = "flies";
+				KoLmafia.updateDisplay( "Swatting flies..." );
+				break;
 
-				case 5: // A Stone Door
+			case 5: // A Stone Door
 
-					action = "door1";
-					KoLmafia.updateDisplay( "Activating the stone door..." );
-					break;
+				action = "door1";
+				KoLmafia.updateDisplay( "Activating the stone door..." );
+				break;
 
-				case 6: // Lavatory Troll 1
+			case 6: // Lavatory Troll 1
 
-					action = "troll1";
-					KoLmafia.updateDisplay( "Feeding the first troll..." );
-					break;
+				action = "troll1";
+				KoLmafia.updateDisplay( "Feeding the first troll..." );
+				break;
 
-				case 7:	// Salad-Covered Door
+			case 7:	// Salad-Covered Door
 
-					DEFAULT_SHELL.executeLine( "equip Knob Goblin tongs" );
-					action = "door2";
-					KoLmafia.updateDisplay( "Plucking the salad door..." );
-					break;
+				DEFAULT_SHELL.executeLine( "equip Knob Goblin tongs" );
+				action = "door2";
+				KoLmafia.updateDisplay( "Plucking the salad door..." );
+				break;
 
-				case 8: // Lavatory Troll 2
+			case 8: // Lavatory Troll 2
 
-					action = "troll2";
-					KoLmafia.updateDisplay( "Feeding the second troll..." );
-					break;
+				action = "troll2";
+				KoLmafia.updateDisplay( "Feeding the second troll..." );
+				break;
 
-				case 9: // Chamber of Epic Conflict
+			case 9: // Chamber of Epic Conflict
 
-					if ( initialWeapon != null )
-						DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon.getName() );
+				if ( initialWeapon != null )
+					DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon.getName() );
 
-					if ( initialOffhand != null )
-						DEFAULT_SHELL.executeLine( "equip off-hand " + initialOffhand.getName() );
+				if ( initialOffhand != null )
+					DEFAULT_SHELL.executeLine( "equip off-hand " + initialOffhand.getName() );
 
-					action = "end";
-					KoLmafia.updateDisplay( "Fighting your nemesis..." );
-					break;
+				action = "end";
+				KoLmafia.updateDisplay( "Fighting your nemesis..." );
+				break;
 			}
 
 			// Visit the cave
@@ -231,24 +231,24 @@ public abstract class Nemesis extends StaticEntity
 			// Consume items
 			switch (i)
 			{
-				case 5: // A Stone Door
+			case 5: // A Stone Door
 
-					// Use up cog & sprocket
-					getClient().processResult( COG.getNegation() );
-					getClient().processResult( SPROCKET.getNegation() );
-					break;
+				// Use up cog & sprocket
+				getClient().processResult( COG.getNegation() );
+				getClient().processResult( SPROCKET.getNegation() );
+				break;
 
-				case 6: // Lavatory Troll 1
+			case 6: // Lavatory Troll 1
 
-					// Use up fairy gravy
-					getClient().processResult( GRAVY.getNegation() );
-					break;
+				// Use up fairy gravy
+				getClient().processResult( GRAVY.getNegation() );
+				break;
 
-				case 8: // Lavatory Troll 2
+			case 8: // Lavatory Troll 2
 
-					// Use up ketchup
-					getClient().processResult( ketchup.getNegation() );
-					break;
+				// Use up ketchup
+				getClient().processResult( ketchup.getNegation() );
+				break;
 			}
 		}
 

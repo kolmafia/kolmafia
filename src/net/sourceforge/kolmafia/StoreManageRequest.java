@@ -86,17 +86,17 @@ public class StoreManageRequest extends KoLRequest
 	{
 		switch ( requestType )
 		{
-			case ITEM_REMOVAL:
-				removeItem();
-				break;
+		case ITEM_REMOVAL:
+			removeItem();
+			break;
 
-			case PRICE_MANAGEMENT:
-				managePrices();
-				break;
+		case PRICE_MANAGEMENT:
+			managePrices();
+			break;
 
-			case VIEW_STORE_LOG:
-				viewStoreLogs();
-				break;
+		case VIEW_STORE_LOG:
+			viewStoreLogs();
+			break;
 		}
 	}
 

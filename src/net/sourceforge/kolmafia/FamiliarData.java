@@ -161,44 +161,44 @@ public class FamiliarData implements KoLConstants, Comparable
 	{
 		switch ( itemID )
 		{
-			case -1:	// bogus item ID
-			case 856:	// shock collar
-			case 857:	// moonglasses
-			case 1040:	// lucky Tam O'Shanter
-			case 1102:	// targeting chip
-			case 1116:  // annoying pitchfork
-			case 1152:	// miniature gravy-covered maypole
-			case 1260:	// wax lips
-			case 1264:	// tiny nose-bone fetish
-			case 1419:	// teddy bear sewing kit
-			case 1489:	// miniature dormouse
-			case 1537:	// weegee sqouija
-			case 1539:	// lucky Tam O'Shatner
-			case 1623:	// badger badge
-			case 1928:	// tuning fork
-				return 0;
+		case -1:	// bogus item ID
+		case 856:	// shock collar
+		case 857:	// moonglasses
+		case 1040:	// lucky Tam O'Shanter
+		case 1102:	// targeting chip
+		case 1116:  // annoying pitchfork
+		case 1152:	// miniature gravy-covered maypole
+		case 1260:	// wax lips
+		case 1264:	// tiny nose-bone fetish
+		case 1419:	// teddy bear sewing kit
+		case 1489:	// miniature dormouse
+		case 1537:	// weegee sqouija
+		case 1539:	// lucky Tam O'Shatner
+		case 1623:	// badger badge
+		case 1928:	// tuning fork
+			return 0;
 
-			case 865:	// lead necklace
-				return 3;
+		case 865:	// lead necklace
+			return 3;
 
-			case 1971:  // plastic pumpkin bucket
-				return 5;
+		case 1971:  // plastic pumpkin bucket
+			return 5;
 
-			case 1218:	// rat head balloon
-				return -3;
+		case 1218:	// rat head balloon
+			return -3;
 
-			case 1243:	// toy six-seater hovercraft
-				return -5;
+		case 1243:	// toy six-seater hovercraft
+			return -5;
 
-			case 1305:	// tiny makeup kit
-				return 15;
+		case 1305:	// tiny makeup kit
+			return 15;
 
-			case 1526:	// pet rock "Snooty" disguise
-			case 1678:	// pet rock "Groucho" disguise
-				return 11;
+		case 1526:	// pet rock "Snooty" disguise
+		case 1678:	// pet rock "Groucho" disguise
+			return 11;
 
-			default:
-				return 5;
+		default:
+			return 5;
 		}
 	}
 
@@ -249,21 +249,21 @@ public class FamiliarData implements KoLConstants, Comparable
 	{
 		switch ( item.getItemID() )
 		{
-			case -1:
-				return false;
+		case -1:
+			return false;
 
-			case 865:   // lead necklace
-			case 1040:  // lucky Tam O'Shanter
-			case 1116:  // annoying pitchfork
-			case 1152:  // miniature gravy-covered maypole
-			case 1218:  // rat head balloon
-			case 1260:  // wax lips
-			case 1539:  // lucky Tam O'Shatner
-			case 1971:  // plastic pumpkin bucket
-				return true;
+		case 865:   // lead necklace
+		case 1040:  // lucky Tam O'Shanter
+		case 1116:  // annoying pitchfork
+		case 1152:  // miniature gravy-covered maypole
+		case 1218:  // rat head balloon
+		case 1260:  // wax lips
+		case 1539:  // lucky Tam O'Shatner
+		case 1971:  // plastic pumpkin bucket
+			return true;
 
-			default:
-				return item.getName().equals( FamiliarsDatabase.getFamiliarItem( id ) );
+		default:
+			return item.getName().equals( FamiliarsDatabase.getFamiliarItem( id ) );
 		}
 	}
 
@@ -271,43 +271,47 @@ public class FamiliarData implements KoLConstants, Comparable
 	{
 		switch ( id )
 		{
-			case 1:  // Mosquito
-			case 4:  // Angry Goat
-			case 5:  // Sabre-Toothed Lime
-			case 6:  // Fuzzy Dice
-			case 7:  // Spooky Pirate Skeleton
-			case 9:  // Howling Balloon Monkey
-			case 10: // Stab Bat
-			case 16: // Cocoabo
-			case 17: // Star Starfish
-			case 19: // Ghost Pickle on a Stick
-			case 21: // Whirling Maple Leaf
-			case 24: // Jill-O-Lantern
-			case 25: // Hand Turkey
-			case 26: // Crimbo Elf
-			case 27: // Hanukkimbo Dreidl
-			case 28: // Baby Yeti
-			case 29: // Feather Boa Constrictor
-			case 31: // Personal Raincloud
-			case 32: // Clockwork Grapefruit
-			case 33: // MagimechTech MicroMechaMech
-			case 34: // Flaming Gravy Fairy
-			case 35: // Frozen Gravy Fairy
-			case 36: // Stinky Gravy Fairy
-			case 37: // Spooky Gravy Fairy
-			case 38: // Inflatable Dodecapede
-			case 40: // Doppelshifter
-			case 44: // Sweet Nutcracker
-			case 46: // Snowy Owl
-			case 48: // Ninja Pirate Zombie Robot
-			case 49: // Sleazy Gravy Fairy
-			case 51: // Wind-up Chattering Teeth
-			case 52: // Spirit Hobo
-			case 54: // Comma Chameleon
-				return true;
+		case 1:  // Mosquito
+		case 4:  // Angry Goat
+		case 5:  // Sabre-Toothed Lime
+		case 6:  // Fuzzy Dice
+		case 7:  // Spooky Pirate Skeleton
+		case 9:  // Howling Balloon Monkey
+		case 10: // Stab Bat
+		case 16: // Cocoabo
+		case 17: // Star Starfish
+		case 19: // Ghost Pickle on a Stick
+		case 21: // Whirling Maple Leaf
+		case 24: // Jill-O-Lantern
+		case 25: // Hand Turkey
+		case 26: // Crimbo Elf
+		case 27: // Hanukkimbo Dreidl
+		case 28: // Baby Yeti
+		case 29: // Feather Boa Constrictor
+		case 31: // Personal Raincloud
+		case 32: // Clockwork Grapefruit
+		case 33: // MagimechTech MicroMechaMech
+		case 34: // Flaming Gravy Fairy
+		case 35: // Frozen Gravy Fairy
+		case 36: // Stinky Gravy Fairy
+		case 37: // Spooky Gravy Fairy
+		case 38: // Inflatable Dodecapede
+		case 40: // Doppelshifter
+		case 44: // Sweet Nutcracker
+		case 46: // Snowy Owl
+		case 48: // Ninja Pirate Zombie Robot
+		case 49: // Sleazy Gravy Fairy
+		case 51: // Wind-up Chattering Teeth
+		case 52: // Spirit Hobo
+		case 54: // Comma Chameleon
+			return true;
 
-			default:
-				return false;
+		default:
+
+			// pumpkin basket makes a non-combat familiar
+			// into a combat familiar.
+
+			return item.getItemID() == 1971;
 		}
 	}
 

@@ -615,53 +615,53 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		switch ( TradeableItemDatabase.getConsumptionType( itemID ) )
 		{
-			case ConsumeItemRequest.CONSUME_EAT:
-				isVisibleWithFilter = food;
-				break;
+		case ConsumeItemRequest.CONSUME_EAT:
+			isVisibleWithFilter = food;
+			break;
 
-			case ConsumeItemRequest.CONSUME_DRINK:
-				isVisibleWithFilter = booze;
-				break;
+		case ConsumeItemRequest.CONSUME_DRINK:
+			isVisibleWithFilter = booze;
+			break;
 
-			default:
+		default:
 
-				if ( value instanceof AdventureResult )
+			if ( value instanceof AdventureResult )
+			{
+				// Milk of magnesium is marked as food, as are
+				// munchies pills; all others are marked as expected.
+
+				isVisibleWithFilter = other;
+				if ( name.equals( "milk of magnesium" ) || name.equals( "munchies pills" ) )
+					isVisibleWithFilter |= food;
+			}
+			else
+			{
+				switch ( ConcoctionsDatabase.getMixingMethod( itemID ) )
 				{
-					// Milk of magnesium is marked as food, as are
-					// munchies pills; all others are marked as expected.
+				case ItemCreationRequest.COOK:
+				case ItemCreationRequest.COOK_REAGENT:
+				case ItemCreationRequest.SUPER_REAGENT:
+					isVisibleWithFilter = food || other;
+					break;
 
+				case ItemCreationRequest.COOK_PASTA:
+				case ItemCreationRequest.WOK:
+					isVisibleWithFilter = food;
+					break;
+
+				case ItemCreationRequest.MIX:
+				case ItemCreationRequest.MIX_SPECIAL:
+				case ItemCreationRequest.STILL_BOOZE:
+				case ItemCreationRequest.STILL_MIXER:
+				case ItemCreationRequest.MIX_SUPER:
+					isVisibleWithFilter = booze;
+					break;
+
+				default:
 					isVisibleWithFilter = other;
-					if ( name.equals( "milk of magnesium" ) || name.equals( "munchies pills" ) )
-						isVisibleWithFilter |= food;
+					break;
 				}
-				else
-				{
-					switch ( ConcoctionsDatabase.getMixingMethod( itemID ) )
-					{
-						case ItemCreationRequest.COOK:
-						case ItemCreationRequest.COOK_REAGENT:
-						case ItemCreationRequest.SUPER_REAGENT:
-							isVisibleWithFilter = food || other;
-							break;
-
-						case ItemCreationRequest.COOK_PASTA:
-						case ItemCreationRequest.WOK:
-							isVisibleWithFilter = food;
-							break;
-
-						case ItemCreationRequest.MIX:
-						case ItemCreationRequest.MIX_SPECIAL:
-						case ItemCreationRequest.STILL_BOOZE:
-						case ItemCreationRequest.STILL_MIXER:
-						case ItemCreationRequest.MIX_SUPER:
-							isVisibleWithFilter = booze;
-							break;
-
-						default:
-							isVisibleWithFilter = other;
-							break;
-					}
-				}
+			}
 		}
 
 		int autoSellValue = TradeableItemDatabase.getPriceByID( itemID );
@@ -709,43 +709,43 @@ public class AdventureResult implements Comparable, KoLConstants
 			{
 				switch ( equipmentType )
 				{
-					case ConsumeItemRequest.EQUIP_WEAPON:
-						if ( !weapon )
-							return BLANK_LABEL;
-						break;
-
-					case ConsumeItemRequest.EQUIP_OFFHAND:
-						if ( !offhand )
-							return BLANK_LABEL;
-						break;
-
-					case ConsumeItemRequest.EQUIP_HAT:
-						if ( !hat )
-							return BLANK_LABEL;
-						break;
-
-					case ConsumeItemRequest.EQUIP_SHIRT:
-						if ( !shirt )
-							return BLANK_LABEL;
-						break;
-
-					case ConsumeItemRequest.EQUIP_PANTS:
-						if ( !pants )
-							return BLANK_LABEL;
-						break;
-
-					case ConsumeItemRequest.EQUIP_ACCESSORY:
-						if ( !accessory )
-							return BLANK_LABEL;
-						break;
-
-					case ConsumeItemRequest.EQUIP_FAMILIAR:
-						if ( !familiar )
-							return BLANK_LABEL;
-						break;
-
-					default:
+				case ConsumeItemRequest.EQUIP_WEAPON:
+					if ( !weapon )
 						return BLANK_LABEL;
+					break;
+
+				case ConsumeItemRequest.EQUIP_OFFHAND:
+					if ( !offhand )
+						return BLANK_LABEL;
+					break;
+
+				case ConsumeItemRequest.EQUIP_HAT:
+					if ( !hat )
+						return BLANK_LABEL;
+					break;
+
+				case ConsumeItemRequest.EQUIP_SHIRT:
+					if ( !shirt )
+						return BLANK_LABEL;
+					break;
+
+				case ConsumeItemRequest.EQUIP_PANTS:
+					if ( !pants )
+						return BLANK_LABEL;
+					break;
+
+				case ConsumeItemRequest.EQUIP_ACCESSORY:
+					if ( !accessory )
+						return BLANK_LABEL;
+					break;
+
+				case ConsumeItemRequest.EQUIP_FAMILIAR:
+					if ( !familiar )
+						return BLANK_LABEL;
+					break;
+
+				default:
+					return BLANK_LABEL;
 				}
 			}
 

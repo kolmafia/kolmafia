@@ -436,38 +436,38 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		switch ( requestType )
 		{
-			case MISCELLANEOUS:
-				KoLmafia.updateDisplay( "Updating miscellaneous items..." );
-				break;
+		case MISCELLANEOUS:
+			KoLmafia.updateDisplay( "Updating miscellaneous items..." );
+			break;
 
-			case CLOSET:
-				KoLmafia.updateDisplay( "Refreshing closet..." );
-				break;
+		case CLOSET:
+			KoLmafia.updateDisplay( "Refreshing closet..." );
+			break;
 
-			case EQUIPMENT:
-				KoLmafia.updateDisplay( "Retrieving equipment..." );
-				break;
+		case EQUIPMENT:
+			KoLmafia.updateDisplay( "Retrieving equipment..." );
+			break;
 
-			case SAVE_OUTFIT:
-				KoLmafia.updateDisplay( "Saving outfit..." );
-				break;
+		case SAVE_OUTFIT:
+			KoLmafia.updateDisplay( "Saving outfit..." );
+			break;
 
-			case CHANGE_OUTFIT:
-				KoLmafia.updateDisplay( "Putting on " + outfit + "..." );
-				break;
+		case CHANGE_OUTFIT:
+			KoLmafia.updateDisplay( "Putting on " + outfit + "..." );
+			break;
 
-			case CHANGE_ITEM:
-				KoLmafia.updateDisplay( ( equipmentSlot == KoLCharacter.WEAPON ? "Wielding " :
-					equipmentSlot == KoLCharacter.OFFHAND ? "Holding " : "Putting on " ) + TradeableItemDatabase.getItemName( itemID ) + "..." );
-				break;
+		case CHANGE_ITEM:
+			KoLmafia.updateDisplay( ( equipmentSlot == KoLCharacter.WEAPON ? "Wielding " :
+				equipmentSlot == KoLCharacter.OFFHAND ? "Holding " : "Putting on " ) + TradeableItemDatabase.getItemName( itemID ) + "..." );
+			break;
 
-			case REMOVE_ITEM:
-				KoLmafia.updateDisplay( "Taking off " + KoLCharacter.getEquipment( equipmentSlot ).getName() + "..." );
-				break;
+		case REMOVE_ITEM:
+			KoLmafia.updateDisplay( "Taking off " + KoLCharacter.getEquipment( equipmentSlot ).getName() + "..." );
+			break;
 
-			case UNEQUIP_ALL:
-				KoLmafia.updateDisplay( "Taking off everything..." );
-				break;
+		case UNEQUIP_ALL:
+			KoLmafia.updateDisplay( "Taking off everything..." );
+			break;
 		}
 
 		super.run();

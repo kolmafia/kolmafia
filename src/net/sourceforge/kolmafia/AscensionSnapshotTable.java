@@ -281,41 +281,41 @@ public class AscensionSnapshotTable extends KoLDatabase
 
 		switch ( classFilter )
 		{
-			case NO_FILTER:
-				strbuf.append( "Fastest " );
+		case NO_FILTER:
+			strbuf.append( "Fastest " );
 
-				strbuf.append( isSoftcore ? "Normal " : "Hardcore " );
-				strbuf.append( pathFilter == NO_FILTER ? "" : pathFilter == NOPATH ? "No-Path " :
-					pathFilter == TEETOTALER ? "Teetotaler " : pathFilter == BOOZETAFARIAN ? "Boozetafarian " : " Oxygenarian " );
+			strbuf.append( isSoftcore ? "Normal " : "Hardcore " );
+			strbuf.append( pathFilter == NO_FILTER ? "" : pathFilter == NOPATH ? "No-Path " :
+				pathFilter == TEETOTALER ? "Teetotaler " : pathFilter == BOOZETAFARIAN ? "Boozetafarian " : " Oxygenarian " );
 
-				strbuf.append( "Ascensions (Out of " );
-				strbuf.append( resultsList.size() );
-				strbuf.append( ")" );
-				break;
+			strbuf.append( "Ascensions (Out of " );
+			strbuf.append( resultsList.size() );
+			strbuf.append( ")" );
+			break;
 
-			case SEAL_CLUBBER:
-				strbuf.append( "Seal Clubber" );
-				break;
+		case SEAL_CLUBBER:
+			strbuf.append( "Seal Clubber" );
+			break;
 
-			case TURTLE_TAMER:
-				strbuf.append( "Turtle Tamer" );
-				break;
+		case TURTLE_TAMER:
+			strbuf.append( "Turtle Tamer" );
+			break;
 
-			case PASTAMANCER:
-				strbuf.append( "Pastamancer" );
-				break;
+		case PASTAMANCER:
+			strbuf.append( "Pastamancer" );
+			break;
 
-			case SAUCEROR:
-				strbuf.append( "Sauceror" );
-				break;
+		case SAUCEROR:
+			strbuf.append( "Sauceror" );
+			break;
 
-			case DISCO_BANDIT:
-				strbuf.append( "Disco Bandit" );
-				break;
+		case DISCO_BANDIT:
+			strbuf.append( "Disco Bandit" );
+			break;
 
-			case ACCORDION_THIEF:
-				strbuf.append( "Accordion Thief" );
-				break;
+		case ACCORDION_THIEF:
+			strbuf.append( "Accordion Thief" );
+			break;
 		}
 
 		strbuf.append( "</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table>" );

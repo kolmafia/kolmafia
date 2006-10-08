@@ -158,25 +158,25 @@ public class ConsumeItemRequest extends KoLRequest
 
 		switch ( consumptionType )
 		{
-			case CONSUME_MULTIPLE:
-				addFormField( "action", "useitem" );
-				addFormField( "quantity", String.valueOf( item.getCount() ) );
-				break;
-			case CONSUME_RESTORE:
-				addFormField( "action", "useitem" );
-				addFormField( "itemquantity", String.valueOf( item.getCount() ) );
-				break;
-			case CONSUME_HOBO:
-				addFormField( "action", "hobo" );
-				addFormField( "which", "1" );
-				break;
-			case CONSUME_EAT:
-			case CONSUME_DRINK:
-				addFormField( "which", "1" );
-				break;
-			default:
-				addFormField( "which", "3" );
-				break;
+		case CONSUME_MULTIPLE:
+			addFormField( "action", "useitem" );
+			addFormField( "quantity", String.valueOf( item.getCount() ) );
+			break;
+		case CONSUME_RESTORE:
+			addFormField( "action", "useitem" );
+			addFormField( "itemquantity", String.valueOf( item.getCount() ) );
+			break;
+		case CONSUME_HOBO:
+			addFormField( "action", "hobo" );
+			addFormField( "which", "1" );
+			break;
+		case CONSUME_EAT:
+		case CONSUME_DRINK:
+			addFormField( "which", "1" );
+			break;
+		default:
+			addFormField( "which", "3" );
+			break;
 		}
 
 		this.consumptionType = consumptionType;
@@ -346,487 +346,487 @@ public class ConsumeItemRequest extends KoLRequest
 
 		switch ( lastItemUsed.getItemID() )
 		{
-			// Items which do not get used up, no matter what.
+		// Items which do not get used up, no matter what.
 
-			case SEAL_TOOTH:
-			case FOUNTAIN:
-			case MEMO:
+		case SEAL_TOOTH:
+		case FOUNTAIN:
+		case MEMO:
 
+			StaticEntity.getClient().processResult( lastItemUsed );
+			return;
+
+		// If it's a gift package, get the inner message
+
+		case GIFT1:
+		case GIFT2:
+		case GIFT3:
+		case GIFT4:
+		case GIFT5:
+		case GIFT6:
+		case GIFT7:
+		case GIFT8:
+		case GIFT9:
+		case GIFT10:
+		case GIFT11:
+		case GIFTV:
+		case GIFTR:
+
+			// "You can't receive things from other players
+			// right now."
+
+			if ( responseText.indexOf( "You can't receive things" ) != -1 )
+			{
+				lastUpdate = "You can't open that package yet.";
+				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
-				return;
+			}
+			else
+			{
+				// Find out who sent it and popup a window showing
+				// what was in the gift.
 
-			// If it's a gift package, get the inner message
+				Matcher matcher = GIFT_PATTERN.matcher( responseText );
+				String title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
+				StaticEntity.getClient().showHTML( trimInventoryText( responseText ), title );
+			}
 
-			case GIFT1:
-			case GIFT2:
-			case GIFT3:
-			case GIFT4:
-			case GIFT5:
-			case GIFT6:
-			case GIFT7:
-			case GIFT8:
-			case GIFT9:
-			case GIFT10:
-			case GIFT11:
-			case GIFTV:
-			case GIFTR:
+			return;
 
-				// "You can't receive things from other players
-				// right now."
+		// If it's a fortune cookie, get the fortune
 
-				if ( responseText.indexOf( "You can't receive things" ) != -1 )
-				{
-					lastUpdate = "You can't open that package yet.";
-					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
-					StaticEntity.getClient().processResult( lastItemUsed );
-				}
-				else
-				{
-					// Find out who sent it and popup a window showing
-					// what was in the gift.
+		case FORTUNE_COOKIE:
+							// Popup a window showing the fortune
 
-					Matcher matcher = GIFT_PATTERN.matcher( responseText );
-					String title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
-					StaticEntity.getClient().showHTML( trimInventoryText( responseText ), title );
-				}
+							Matcher matcher = FORTUNE_PATTERN.matcher( responseText );
+							String text = matcher.find() ? matcher.group() : trimInventoryText( responseText );
+							String title = "Your fortune";
+							StaticEntity.getClient().showHTML( text, title );
 
-				return;
+			return;
 
-			// If it's a fortune cookie, get the fortune
+		case GATES_SCROLL:
 
-			case FORTUNE_COOKIE:
-                                // Popup a window showing the fortune
+			// You can only use a 64735 scroll if you have the
+			// original dictionary in your inventory
 
-                                Matcher matcher = FORTUNE_PATTERN.matcher( responseText );
-                                String text = matcher.find() ? matcher.group() : trimInventoryText( responseText );
-                                String title = "Your fortune";
-                                StaticEntity.getClient().showHTML( text, title );
+			// "Even though your name isn't Lee, you're flattered
+			// and hand over your dictionary."
 
-				return;
-
-			case GATES_SCROLL:
-
-				// You can only use a 64735 scroll if you have the
-				// original dictionary in your inventory
-
-				// "Even though your name isn't Lee, you're flattered
-				// and hand over your dictionary."
-
-				if ( responseText.indexOf( "you're flattered" ) == -1 )
-					StaticEntity.getClient().processResult( lastItemUsed );
-				else
-					StaticEntity.getClient().processResult( FightRequest.DICTIONARY1.getNegation() );
-
-				return;
-
-			case ENCHANTED_BEAN:
-
-				// There are three possibilities:
-
-				// If you haven't been give the quest, "you can't find
-				// anywhere that looks like a good place to plant the
-				// bean" and you're told to "wait until later"
-
-				// If you've already planted one, "There's already a
-				// beanstalk in the Nearby Plains." In either case, the
-				// bean is not consumed.
-
-				// Otherwise, "it immediately grows into an enormous
-				// beanstalk".
-
-				if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
-					StaticEntity.getClient().processResult( lastItemUsed );
-
-				return;
-
-			case HEY_DEZE_MAP:
-
-				// "Your song has pleased me greatly. I will reward you
-				// with some of my crazy imps, to do your bidding."
-
-				if ( responseText.indexOf( "pleased me greatly" ) == -1 )
-				{
-					lastUpdate = "You music was inadequate.";
-					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
-					StaticEntity.getClient().processResult( lastItemUsed );
-				}
-
-				return;
-
-			case GIANT_CASTLE_MAP:
-
-				// "I'm sorry, adventurer, but the Sorceress is in
-				// another castle!"
-
-				if ( responseText.indexOf( "Sorceress is in another castle" ) == -1 )
-				{
-					lastUpdate = "You couldn't make it all the way to the back door.";
-					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
-					StaticEntity.getClient().processResult( lastItemUsed );
-				}
-
-				return;
-
-			case DRASTIC_HEALING:
-
-				// If a scroll of drastic healing was used and didn't
-				// crumble, it is not consumed
-
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
-
-				if ( responseText.indexOf( "crumble" ) == -1 )
-				{
-					StaticEntity.getClient().processResult( lastItemUsed );
-					KoLCharacter.updateStatus();
-				}
-
-				return;
-
-			case TEARS:
-
-				activeEffects.remove( KoLAdventure.BEATEN_UP );
-				return;
-
-			case ANTIDOTE:
-
-				activeEffects.remove( POISON );
-				return;
-
-			case TINY_HOUSE:
-
-				// Tiny houses remove lots of different effects.
-
-				activeEffects.clear();
-				return;
-
-			case RAFFLE_TICKET:
-
-				// The first time you use an Elf Farm Raffle ticket
-				// with a ten-leaf clover in your inventory, the clover
-				// disappears in a puff of smoke and you get pagoda
-				// plans.
-
-				// Subsequent raffle tickets don't consume clovers.
-
-				if ( responseText.indexOf( "puff of smoke" ) != -1 )
-					StaticEntity.getClient().processResult( SewerRequest.CLOVER );
-
-				return;
-
-			case KETCHUP_HOUND:
-
-				// Successfully using a ketchup hound uses up the Hey
-				// Deze nuts and pagoda plan.
-
-				if ( responseText.indexOf( "pagoda" ) != -1 )
-				{
-					StaticEntity.getClient().processResult( NUTS );
-					StaticEntity.getClient().processResult( PLAN );
-				}
-
-				// The ketchup hound does not go away...
-
+			if ( responseText.indexOf( "you're flattered" ) == -1 )
 				StaticEntity.getClient().processResult( lastItemUsed );
-				return;
+			else
+				StaticEntity.getClient().processResult( FightRequest.DICTIONARY1.getNegation() );
 
-			case LUCIFER:
+			return;
 
-				// Jumbo Dr. Lucifer reduces your hit points to 1.
+		case ENCHANTED_BEAN:
 
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
-				return;
+			// There are three possibilities:
 
-			case DOLPHIN_KING_MAP:
+			// If you haven't been give the quest, "you can't find
+			// anywhere that looks like a good place to plant the
+			// bean" and you're told to "wait until later"
 
-				// "You follow the Dolphin King's map to the bottom of
-				// the sea, and find his glorious treasure."
+			// If you've already planted one, "There's already a
+			// beanstalk in the Nearby Plains." In either case, the
+			// bean is not consumed.
 
-				if ( responseText.indexOf( "find his glorious treasure" ) == -1 )
-				{
-					lastUpdate = "You don't have everything you need.";
-					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
-					StaticEntity.getClient().processResult( lastItemUsed );
-				}
+			// Otherwise, "it immediately grows into an enormous
+			// beanstalk".
 
-				return;
-
-			case SLUG_LORD_MAP:
-
-				// "You make your way to the deepest part of the tank,
-				// and find a chest engraved with the initials S. L."
-
-				if ( responseText.indexOf( "deepest part of the tank" ) == -1 )
-				{
-					lastUpdate = "You don't have everything you need.";
-					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
-					StaticEntity.getClient().processResult( lastItemUsed );
-				}
-
-				return;
-
-			case DR_HOBO_MAP:
-
-				// "You place it atop the Altar, and grab the Scalpel
-				// at the exact same moment."
-
-				if ( responseText.indexOf( "exact same moment" ) == -1 )
-				{
-					lastUpdate = "You don't have everything you need.";
-					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
-					StaticEntity.getClient().processResult( lastItemUsed );
-				}
-
-				return;
-
-			case SPOOKY_TEMPLE_MAP:
-
-				// "You plant your Spooky Sapling in the loose soil at
-				// the base of the Temple.  You spray it with your
-				// Spooky-Gro Fertilizer, and it immediately grows to
-				// 20 feet in height.  You can easily climb the
-				// branches to reach the first step of the Temple
-				// now..."
-
-				if ( responseText.indexOf( "easily climb the branches" ) == -1 )
-				{
-					lastUpdate = "You don't have everything you need.";
-					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
-					StaticEntity.getClient().processResult( lastItemUsed );
-				}
-
-				StaticEntity.getClient().processResult( SAPLING );
-				StaticEntity.getClient().processResult( FERTILIZER );
-				return;
-
-			case DINGHY_PLANS:
-
-				// "You need some planks to build the dinghy."
-
-				if ( responseText.indexOf( "need some planks" ) != -1 )
-				{
-					lastUpdate = "You need some dingy planks.";
-					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
-					StaticEntity.getClient().processResult( lastItemUsed );
-				}
-				else
-				{
-					StaticEntity.getClient().processResult( PLANKS );
-				}
-
-				return;
-
-			case FENG_SHUI:
-
-				// Successfully using "Feng Shui for Big Dumb Idiots"
-				// consumes the decorative fountain and windchimes.
-
-				// Only used up once
-
-				if ( responseText.indexOf( "Feng Shui goodness" ) == -1 )
-				{
-					StaticEntity.getClient().processResult( lastItemUsed );
-				}
-				else
-				{
-					StaticEntity.getClient().processResult( new AdventureResult( FOUNTAIN, -1 ) );
-					StaticEntity.getClient().processResult( WINDCHIMES );
-				}
-
-				return;
-
-			case WARM_SUBJECT:
-
-				// The first time you use Warm Subject gift
-				// certificates when you have the Torso Awaregness
-				// skill consumes only one, even if you tried to
-				// multi-use the item.
-
-				// "You go to Warm Subject and browse the shirts for a
-				// while. You find one that you wouldn't mind wearing
-				// ironically. There seems to be only one in the store,
-				// though."
-
-				if ( responseText.indexOf( "ironically" ) != -1 )
-					StaticEntity.getClient().processResult( lastItemUsed.getInstance( lastItemUsed.getCount() - 1 ) );
-
-				return;
-
-			case PURPLE:
-			case GREEN:
-			case ORANGE:
-			case RED:
-			case BLUE:
-			case BLACK:
-
-				// "Your mouth is still cold from the last snowcone you
-				// ate.	 Try again later."
-
-				if ( responseText.indexOf( "still cold" ) != -1 )
-				{
-					lastUpdate = "Your mouth is too cold.";
-					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
-					StaticEntity.getClient().processResult( lastItemUsed );
-				}
-
-				return;
-
-			case ROLLING_PIN:
-
-				// Rolling pins remove dough from your inventory
-				// They are not consumed by being used
-
-				StaticEntity.getClient().processResult( DOUGH.getInstance( DOUGH.getCount( inventory ) ).getNegation() );
+			if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
 				StaticEntity.getClient().processResult( lastItemUsed );
 
-				return;
+			return;
 
-			case UNROLLING_PIN:
+		case HEY_DEZE_MAP:
 
-				// Unrolling pins remove flat dough from your inventory
-				// They are not consumed by being used
+			// "Your song has pleased me greatly. I will reward you
+			// with some of my crazy imps, to do your bidding."
 
-				StaticEntity.getClient().processResult( FLAT_DOUGH.getInstance( FLAT_DOUGH.getCount( inventory ) ).getNegation() );
+			if ( responseText.indexOf( "pleased me greatly" ) == -1 )
+			{
+				lastUpdate = "You music was inadequate.";
+				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
-				return;
+			}
 
-			case PLUS_SIGN:
+			return;
 
-				// "Following The Oracle's advice, you treat the plus
-				// sign as a book, and read it."
+		case GIANT_CASTLE_MAP:
 
-				if ( responseText.indexOf( "you treat the plus sign as a book" ) == -1 )
-				{
-					lastUpdate = "You don't know how to use it.";
-					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
-					StaticEntity.getClient().processResult( lastItemUsed );
-				}
+			// "I'm sorry, adventurer, but the Sorceress is in
+			// another castle!"
 
-				return;
-
-			case YETI_PROTEST_SIGN:
-
-				// You don't use up a Yeti Protest Sign by protesting
+			if ( responseText.indexOf( "Sorceress is in another castle" ) == -1 )
+			{
+				lastUpdate = "You couldn't make it all the way to the back door.";
+				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
-				return;
+			}
 
-			case CHEF:
-			case CLOCKWORK_CHEF:
-				KoLCharacter.setChef( true );
-				return;
+			return;
 
-			case BARTENDER:
-			case CLOCKWORK_BARTENDER:
-				KoLCharacter.setBartender( true );
-				return;
+		case DRASTIC_HEALING:
 
-			case TOASTER:
-				KoLCharacter.setToaster( true );
-				return;
+			// If a scroll of drastic healing was used and didn't
+			// crumble, it is not consumed
 
-			case ARCHES:
-				KoLCharacter.setArches( true );
-				return;
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
 
-			case SNOWCONE_TOME:
+			if ( responseText.indexOf( "crumble" ) == -1 )
+			{
+				StaticEntity.getClient().processResult( lastItemUsed );
+				KoLCharacter.updateStatus();
+			}
 
-				// "You read the incantation written on the pages of
-				// the tome. Snowflakes coalesce in your
-				// mind. Delicious snowflakes."
+			return;
 
-				if ( responseText.indexOf( "You read the incantation" ) == -1 )
-					StaticEntity.getClient().processResult( lastItemUsed );
-				else
-					KoLCharacter.addAvailableSkill( new UseSkillRequest( "Summon Snowcone", "", 1 ) );
+		case TEARS:
 
-				return;
+			activeEffects.remove( KoLAdventure.BEATEN_UP );
+			return;
+
+		case ANTIDOTE:
+
+			activeEffects.remove( POISON );
+			return;
+
+		case TINY_HOUSE:
+
+			// Tiny houses remove lots of different effects.
+
+			activeEffects.clear();
+			return;
+
+		case RAFFLE_TICKET:
+
+			// The first time you use an Elf Farm Raffle ticket
+			// with a ten-leaf clover in your inventory, the clover
+			// disappears in a puff of smoke and you get pagoda
+			// plans.
+
+			// Subsequent raffle tickets don't consume clovers.
+
+			if ( responseText.indexOf( "puff of smoke" ) != -1 )
+				StaticEntity.getClient().processResult( SewerRequest.CLOVER );
+
+			return;
+
+		case KETCHUP_HOUND:
+
+			// Successfully using a ketchup hound uses up the Hey
+			// Deze nuts and pagoda plan.
+
+			if ( responseText.indexOf( "pagoda" ) != -1 )
+			{
+				StaticEntity.getClient().processResult( NUTS );
+				StaticEntity.getClient().processResult( PLAN );
+			}
+
+			// The ketchup hound does not go away...
+
+			StaticEntity.getClient().processResult( lastItemUsed );
+			return;
+
+		case LUCIFER:
+
+			// Jumbo Dr. Lucifer reduces your hit points to 1.
+
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
+			return;
+
+		case DOLPHIN_KING_MAP:
+
+			// "You follow the Dolphin King's map to the bottom of
+			// the sea, and find his glorious treasure."
+
+			if ( responseText.indexOf( "find his glorious treasure" ) == -1 )
+			{
+				lastUpdate = "You don't have everything you need.";
+				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
+			}
+
+			return;
+
+		case SLUG_LORD_MAP:
+
+			// "You make your way to the deepest part of the tank,
+			// and find a chest engraved with the initials S. L."
+
+			if ( responseText.indexOf( "deepest part of the tank" ) == -1 )
+			{
+				lastUpdate = "You don't have everything you need.";
+				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
+			}
+
+			return;
+
+		case DR_HOBO_MAP:
+
+			// "You place it atop the Altar, and grab the Scalpel
+			// at the exact same moment."
+
+			if ( responseText.indexOf( "exact same moment" ) == -1 )
+			{
+				lastUpdate = "You don't have everything you need.";
+				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
+			}
+
+			return;
+
+		case SPOOKY_TEMPLE_MAP:
+
+			// "You plant your Spooky Sapling in the loose soil at
+			// the base of the Temple.  You spray it with your
+			// Spooky-Gro Fertilizer, and it immediately grows to
+			// 20 feet in height.  You can easily climb the
+			// branches to reach the first step of the Temple
+			// now..."
+
+			if ( responseText.indexOf( "easily climb the branches" ) == -1 )
+			{
+				lastUpdate = "You don't have everything you need.";
+				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
+			}
+
+			StaticEntity.getClient().processResult( SAPLING );
+			StaticEntity.getClient().processResult( FERTILIZER );
+			return;
+
+		case DINGHY_PLANS:
+
+			// "You need some planks to build the dinghy."
+
+			if ( responseText.indexOf( "need some planks" ) != -1 )
+			{
+				lastUpdate = "You need some dingy planks.";
+				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
+			}
+			else
+			{
+				StaticEntity.getClient().processResult( PLANKS );
+			}
+
+			return;
+
+		case FENG_SHUI:
+
+			// Successfully using "Feng Shui for Big Dumb Idiots"
+			// consumes the decorative fountain and windchimes.
+
+			// Only used up once
+
+			if ( responseText.indexOf( "Feng Shui goodness" ) == -1 )
+			{
+				StaticEntity.getClient().processResult( lastItemUsed );
+			}
+			else
+			{
+				StaticEntity.getClient().processResult( new AdventureResult( FOUNTAIN, -1 ) );
+				StaticEntity.getClient().processResult( WINDCHIMES );
+			}
+
+			return;
+
+		case WARM_SUBJECT:
+
+			// The first time you use Warm Subject gift
+			// certificates when you have the Torso Awaregness
+			// skill consumes only one, even if you tried to
+			// multi-use the item.
+
+			// "You go to Warm Subject and browse the shirts for a
+			// while. You find one that you wouldn't mind wearing
+			// ironically. There seems to be only one in the store,
+			// though."
+
+			if ( responseText.indexOf( "ironically" ) != -1 )
+				StaticEntity.getClient().processResult( lastItemUsed.getInstance( lastItemUsed.getCount() - 1 ) );
+
+			return;
+
+		case PURPLE:
+		case GREEN:
+		case ORANGE:
+		case RED:
+		case BLUE:
+		case BLACK:
+
+			// "Your mouth is still cold from the last snowcone you
+			// ate.	 Try again later."
+
+			if ( responseText.indexOf( "still cold" ) != -1 )
+			{
+				lastUpdate = "Your mouth is too cold.";
+				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
+			}
+
+			return;
+
+		case ROLLING_PIN:
+
+			// Rolling pins remove dough from your inventory
+			// They are not consumed by being used
+
+			StaticEntity.getClient().processResult( DOUGH.getInstance( DOUGH.getCount( inventory ) ).getNegation() );
+			StaticEntity.getClient().processResult( lastItemUsed );
+
+			return;
+
+		case UNROLLING_PIN:
+
+			// Unrolling pins remove flat dough from your inventory
+			// They are not consumed by being used
+
+			StaticEntity.getClient().processResult( FLAT_DOUGH.getInstance( FLAT_DOUGH.getCount( inventory ) ).getNegation() );
+			StaticEntity.getClient().processResult( lastItemUsed );
+			return;
+
+		case PLUS_SIGN:
+
+			// "Following The Oracle's advice, you treat the plus
+			// sign as a book, and read it."
+
+			if ( responseText.indexOf( "you treat the plus sign as a book" ) == -1 )
+			{
+				lastUpdate = "You don't know how to use it.";
+				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
+			}
+
+			return;
+
+		case YETI_PROTEST_SIGN:
+
+			// You don't use up a Yeti Protest Sign by protesting
+			StaticEntity.getClient().processResult( lastItemUsed );
+			return;
+
+		case CHEF:
+		case CLOCKWORK_CHEF:
+			KoLCharacter.setChef( true );
+			return;
+
+		case BARTENDER:
+		case CLOCKWORK_BARTENDER:
+			KoLCharacter.setBartender( true );
+			return;
+
+		case TOASTER:
+			KoLCharacter.setToaster( true );
+			return;
+
+		case ARCHES:
+			KoLCharacter.setArches( true );
+			return;
+
+		case SNOWCONE_TOME:
+
+			// "You read the incantation written on the pages of
+			// the tome. Snowflakes coalesce in your
+			// mind. Delicious snowflakes."
+
+			if ( responseText.indexOf( "You read the incantation" ) == -1 )
+				StaticEntity.getClient().processResult( lastItemUsed );
+			else
+				KoLCharacter.addAvailableSkill( new UseSkillRequest( "Summon Snowcone", "", 1 ) );
+
+			return;
 
 
-			case HILARIOUS_TOME:
+		case HILARIOUS_TOME:
 
-				// "You pore over the tome, and sophomoric humor pours
-				// into your brain. The mysteries of McPhee become
-				// clear to you."
+			// "You pore over the tome, and sophomoric humor pours
+			// into your brain. The mysteries of McPhee become
+			// clear to you."
 
-				if ( responseText.indexOf( "You pore over the tome" ) == -1 )
-					StaticEntity.getClient().processResult( lastItemUsed );
-				else
-					KoLCharacter.addAvailableSkill( new UseSkillRequest( "Summon Hilarious Objects", "", 1 ) );
+			if ( responseText.indexOf( "You pore over the tome" ) == -1 )
+				StaticEntity.getClient().processResult( lastItemUsed );
+			else
+				KoLCharacter.addAvailableSkill( new UseSkillRequest( "Summon Hilarious Objects", "", 1 ) );
 
-				return;
+			return;
 
-			case ASTRAL_MUSHROOM:
+		case ASTRAL_MUSHROOM:
 
-				// "You eat the mushroom, and are suddenly engulfed in
-				// a whirling maelstrom of colors and sensations as
-				// your awareness is whisked away to some strange
-				// alternate dimension. Who would have thought that a
-				// glowing, ethereal mushroom could have that kind of
-				// effect?"
+			// "You eat the mushroom, and are suddenly engulfed in
+			// a whirling maelstrom of colors and sensations as
+			// your awareness is whisked away to some strange
+			// alternate dimension. Who would have thought that a
+			// glowing, ethereal mushroom could have that kind of
+			// effect?"
 
-				// "Whoo, man, lemme tell you, you don't need to be
-				// eating another one of those just now, okay?"
+			// "Whoo, man, lemme tell you, you don't need to be
+			// eating another one of those just now, okay?"
 
-				if ( responseText.indexOf( "whirling maelstrom" ) == -1 )
-					StaticEntity.getClient().processResult( lastItemUsed );
+			if ( responseText.indexOf( "whirling maelstrom" ) == -1 )
+				StaticEntity.getClient().processResult( lastItemUsed );
 
-				return;
+			return;
 
 		case DUSTY_ANIMAL_SKULL:
-				// You pick up the animal skull, and start
-				// hooking other bones to it. It would be
-				// easier if there were instructions, Tab A
-				// into Slot B, or something... eventually,
-				// though, you manage to produce a
-				// fully-assembled animal skeleton. If you can
-				// call something made out of random cat,
-				// monkey, and hamster bones
-				// "fully-assembled". The magic that had
-				// previously animated the animals kicks back
-				// in, and it stands up shakily and looks at
-				// you. "Graaangh?"
+			// You pick up the animal skull, and start
+			// hooking other bones to it. It would be
+			// easier if there were instructions, Tab A
+			// into Slot B, or something... eventually,
+			// though, you manage to produce a
+			// fully-assembled animal skeleton. If you can
+			// call something made out of random cat,
+			// monkey, and hamster bones
+			// "fully-assembled". The magic that had
+			// previously animated the animals kicks back
+			// in, and it stands up shakily and looks at
+			// you. "Graaangh?"
 
-				if ( responseText.indexOf( "Graaangh?" ) == -1 )
-				{
-					lastUpdate = "You're missing some parts.";
-					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
-					StaticEntity.getClient().processResult( lastItemUsed );
-					return;
-				}
-
-				// Remove the other 98 bones
-				for ( int i = 1802; i < 1900; ++i )
-				{
-					AdventureResult bone = new AdventureResult( i, -1 );
-					StaticEntity.getClient().processResult( bone );
-				}
-
+			if ( responseText.indexOf( "Graaangh?" ) == -1 )
+			{
+				lastUpdate = "You're missing some parts.";
+				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
 				return;
+			}
+
+			// Remove the other 98 bones
+			for ( int i = 1802; i < 1900; ++i )
+			{
+				AdventureResult bone = new AdventureResult( i, -1 );
+				StaticEntity.getClient().processResult( bone );
+			}
+
+			return;
 
 		case QUILL_PEN:
-				// You pick up the pen, and it immediately dips
-				// itself into your inkwell, completely
-				// draining it. Filled to capacity, it
-				// immediately floats toward a tattered scrap
-				// of paper in your sack, and begins scrawling
-				// arcane symbols on it.
-				//
-				// Exhausted, the pen falls to the floor, where
-				// it disintegrates into dust. Well, dust
-				// covered with ink. More like mud than dust, I
-				// guess.
+			// You pick up the pen, and it immediately dips
+			// itself into your inkwell, completely
+			// draining it. Filled to capacity, it
+			// immediately floats toward a tattered scrap
+			// of paper in your sack, and begins scrawling
+			// arcane symbols on it.
+			//
+			// Exhausted, the pen falls to the floor, where
+			// it disintegrates into dust. Well, dust
+			// covered with ink. More like mud than dust, I
+			// guess.
 
-				if ( responseText.indexOf( "disintegrates into dust" ) == -1 )
-				{
-					lastUpdate = "You're missing some parts.";
-					KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
-					StaticEntity.getClient().processResult( lastItemUsed );
-					return;
-				}
-
-				// It worked. Also remove the ink and paper.
-				StaticEntity.getClient().processResult( INKWELL );
-				StaticEntity.getClient().processResult( SCRAP_OF_PAPER );
+			if ( responseText.indexOf( "disintegrates into dust" ) == -1 )
+			{
+				lastUpdate = "You're missing some parts.";
+				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				StaticEntity.getClient().processResult( lastItemUsed );
 				return;
+			}
+
+			// It worked. Also remove the ink and paper.
+			StaticEntity.getClient().processResult( INKWELL );
+			StaticEntity.getClient().processResult( SCRAP_OF_PAPER );
+			return;
 		}
 	}
 
@@ -851,17 +851,17 @@ public class ConsumeItemRequest extends KoLRequest
 
 		switch ( getConsumptionType() )
 		{
-			case ConsumeItemRequest.CONSUME_EAT:
-				commandString.append( "eat " );
-				break;
+		case ConsumeItemRequest.CONSUME_EAT:
+			commandString.append( "eat " );
+			break;
 
-			case ConsumeItemRequest.CONSUME_DRINK:
-				commandString.append( "drink " );
-				break;
+		case ConsumeItemRequest.CONSUME_DRINK:
+			commandString.append( "drink " );
+			break;
 
-			default:
-				commandString.append( "use " );
-				break;
+		default:
+			commandString.append( "use " );
+			break;
 		}
 
 		commandString.append( itemUsed.getCount() );

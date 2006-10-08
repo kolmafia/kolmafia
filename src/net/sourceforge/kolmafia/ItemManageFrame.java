@@ -511,13 +511,13 @@ public class ItemManageFrame extends KoLFrame
 			{
 				switch ( searchType )
 				{
-					case NORMAL:
-						combineTwoItems();
-						break;
+				case NORMAL:
+					combineTwoItems();
+					break;
 
-					case GNOMES:
-						combineThreeItems();
-						break;
+				case GNOMES:
+					combineThreeItems();
+					break;
 				}
 			}
 

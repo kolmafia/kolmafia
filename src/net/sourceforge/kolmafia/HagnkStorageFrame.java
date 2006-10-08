@@ -92,17 +92,17 @@ public class HagnkStorageFrame extends KoLFrame
 			{
 				switch ( pullsRemaining )
 				{
-					case 0:
-						frames[i].setTitle( "No pulls remaining" );
-						break;
-					case -1:
-						frames[i].setTitle( "Ronin cleared" );
-						break;
-					case 1:
-						frames[i].setTitle( "1 pull remaining" );
-						break;
-					default:
-						frames[i].setTitle( pullsRemaining + " pulls remaining" );
+				case 0:
+					frames[i].setTitle( "No pulls remaining" );
+					break;
+				case -1:
+					frames[i].setTitle( "Ronin cleared" );
+					break;
+				case 1:
+					frames[i].setTitle( "1 pull remaining" );
+					break;
+				default:
+					frames[i].setTitle( pullsRemaining + " pulls remaining" );
 				}
 			}
 	}

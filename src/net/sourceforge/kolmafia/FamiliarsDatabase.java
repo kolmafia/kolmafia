@@ -54,7 +54,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class FamiliarsDatabase extends KoLDatabase
 {
-	private static final int KNOWN_FAMILIARS = 51;
 	private static final String DEFAULT_ITEM = "steaming evil";
 	private static final Integer DEFAULT_LARVA = new Integer( 666 );
 
@@ -225,29 +224,10 @@ public class FamiliarsDatabase extends KoLDatabase
 			return location;
 
 		// If the HTML on the familiar page changes, then the map lookup
-		// strategy will not work.  Revert to the old behavior.
+		// strategy will not work.  Rather than maintaining a database of
+		// images, here, though, just return an unknown image.
 
-		switch ( familiarID )
-		{
-			case 18:
-				return "itemimages/hat2.gif";
-			case 37:
-				return "itemimages/sgfairy.gif";
-			case 48:
-				return "itemimages/npzr.gif";
-			case 49:
-				return "itemimages/slgfairy.gif";
-			case 50:
-				return "itemimages/hare.gif";
-			case 51:
-				return "itemimages/chatteeth.gif";
-			case 52:
-				return "itemimages/ghobo.gif";
-			case 53:
-				return "itemimages/badger.gif";
-			default:
-				return familiarID <= KNOWN_FAMILIARS ? "itemimages/familiar" + familiarID + ".gif" : "0star.gif";
-		}
+		return "debug.gif";
 	}
 
 	private static void downloadFamiliarImage( int familiarID )
