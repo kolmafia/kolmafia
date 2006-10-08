@@ -2396,7 +2396,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( buffCount > 0 )
-			StaticEntity.getClient().makeRequest( new UseSkillRequest( skillName, splitParameters[1], buffCount ) );
+			StaticEntity.getClient().makeRequest( UseSkillRequest.getInstance( skillName, splitParameters[1], buffCount ) );
 	}
 
 	private String [] splitCountAndName( String parameters )

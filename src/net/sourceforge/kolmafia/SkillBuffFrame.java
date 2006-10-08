@@ -124,14 +124,14 @@ public class SkillBuffFrame extends KoLFrame
 			if ( targets.length == 0 )
 			{
 				requests = new Runnable[1];
-				requests[0] = new UseSkillRequest( buffName, "", buffCount );
+				requests[0] = UseSkillRequest.getInstance( buffName, "", buffCount );
 			}
 			else
 			{
 				requests = new Runnable[ targets.length ];
 				for ( int i = 0; i < requests.length && KoLmafia.permitsContinue(); ++i )
 					if ( targets[i] != null )
-						requests[i] = new UseSkillRequest( buffName, targets[i], buffCount );
+						requests[i] = UseSkillRequest.getInstance( buffName, targets[i], buffCount );
 			}
 
 			(new RequestThread( requests )).start();

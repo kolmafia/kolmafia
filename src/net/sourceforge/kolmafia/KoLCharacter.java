@@ -1869,16 +1869,13 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setAvailableSkills( List newSkillSet )
 	{
 		if ( KoLCharacter.isMoxieClass() )
-			addAvailableSkill( new UseSkillRequest( "Moxious Maneuver", "", 1 ) );
+			addAvailableSkill( UseSkillRequest.getInstance( "Moxious Maneuver" ) );
 
 		// Check all available skills to see if they
 		// qualify to be added as combat or usables.
 
-		UseSkillRequest [] skillArray = new UseSkillRequest[ newSkillSet.size() ];
-		newSkillSet.toArray( skillArray );
-
-		for ( int i = 0; i < skillArray.length; ++i )
-			addAvailableSkill( skillArray[i] );
+		for ( int i = 0; i < newSkillSet.size(); ++i )
+			addAvailableSkill( (UseSkillRequest) newSkillSet.get(i) );
 
 		// Superhuman Cocktailcrafting affects # of summons for
 		// Advanced Cocktailcrafting
@@ -1924,11 +1921,11 @@ public abstract class KoLCharacter extends StaticEntity
 
 			if ( skill.getSkillName().equals( "Flavour of Magic" ) )
 			{
-				usableSkills.add( new UseSkillRequest( "Spirit of Cayenne", "", 1 ) );
-				usableSkills.add( new UseSkillRequest( "Spirit of Peppermint", "", 1 ) );
-				usableSkills.add( new UseSkillRequest( "Spirit of Garlic", "", 1 ) );
-				usableSkills.add( new UseSkillRequest( "Spirit of Wormwood", "", 1 ) );
-				usableSkills.add( new UseSkillRequest( "Spirit of Bacon Grease", "", 1 ) );
+				usableSkills.add( UseSkillRequest.getInstance( "Spirit of Cayenne" ) );
+				usableSkills.add( UseSkillRequest.getInstance( "Spirit of Peppermint" ) );
+				usableSkills.add( UseSkillRequest.getInstance( "Spirit of Garlic" ) );
+				usableSkills.add( UseSkillRequest.getInstance( "Spirit of Wormwood" ) );
+				usableSkills.add( UseSkillRequest.getInstance( "Spirit of Bacon Grease" ) );
 			}
 
 			break;
@@ -1968,7 +1965,7 @@ public abstract class KoLCharacter extends StaticEntity
 				addCombatSkill( "Head + Knee + Shield Combo" );
 		}
 
-		UseSkillRequest handshake = new UseSkillRequest( "Shake Hands", "", 1 );
+		UseSkillRequest handshake = UseSkillRequest.getInstance( "Shake Hands" );
 		if ( KoLCharacter.hasItem( JOYBUZZER, false ) )
 			addAvailableSkill( handshake );
 	}

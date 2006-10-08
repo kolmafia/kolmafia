@@ -736,7 +736,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "You read the incantation" ) == -1 )
 				StaticEntity.getClient().processResult( lastItemUsed );
 			else
-				KoLCharacter.addAvailableSkill( new UseSkillRequest( "Summon Snowcone", "", 1 ) );
+				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Snowcone" ) );
 
 			return;
 
@@ -750,7 +750,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "You pore over the tome" ) == -1 )
 				StaticEntity.getClient().processResult( lastItemUsed );
 			else
-				KoLCharacter.addAvailableSkill( new UseSkillRequest( "Summon Hilarious Objects", "", 1 ) );
+				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( "Summon Hilarious Objects" ) );
 
 			return;
 
