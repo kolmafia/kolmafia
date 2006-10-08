@@ -691,7 +691,7 @@ public class OptionsFrame extends KoLFrame
 
 				if ( ignorable || index != 0 )
 					StaticEntity.setProperty( choice, String.valueOf( index ) );
-				else
+				else if ( index >= 0 )
 					optionSelects[i].setSelectedIndex( StaticEntity.getIntegerProperty( choice ) );
 			}
 
@@ -876,10 +876,20 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			violetFogSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "violetFogGoal" ) );
-			louvreSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "louvreGoal" ) );
+			int index = StaticEntity.getIntegerProperty( "violetFogGoal" );
+			if ( index >= 0 )
+				violetFogSelect.setSelectedIndex( index );
+
+			index = StaticEntity.getIntegerProperty( "louvreGoal" );
+			if ( index >= 0 )
+				louvreSelect.setSelectedIndex( index );
+
 			for ( int i = 1; i < optionSelects.length; ++i )
-				optionSelects[i].setSelectedIndex( StaticEntity.getIntegerProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) );
+			{
+				index = StaticEntity.getIntegerProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] );
+				if ( index >= 0 )
+					optionSelects[i].setSelectedIndex( index );
+			}
 
 			// Determine the desired wheel position by examining
 			// which choice adventure has the "3" value.
@@ -898,7 +908,7 @@ public class OptionsFrame extends KoLFrame
 					option3 = i;
 			}
 
-			int index = 0;
+			index = 0;
 
 			if ( counts[1] == 4 )
 			{
@@ -943,7 +953,8 @@ public class OptionsFrame extends KoLFrame
 				index = 4;
 			}
 
-			castleWheelSelect.setSelectedIndex( index );
+			if ( index >= 0 )
+				castleWheelSelect.setSelectedIndex( index );
 
 			// Now, determine what is located in choice adventure #26,
 			// which shows you which slot (in general) to use.
@@ -992,7 +1003,8 @@ public class OptionsFrame extends KoLFrame
 				break;
 			}
 
-			billiardRoomSelect.setSelectedIndex( index );
+			if ( index >= 0 )
+				billiardRoomSelect.setSelectedIndex( index );
 
 			// Figure out what to do at the first bookcase
 			index = StaticEntity.getIntegerProperty( "choiceAdventure80" );
@@ -1007,7 +1019,8 @@ public class OptionsFrame extends KoLFrame
 				index = 0;
 			}
 
-			library1Select.setSelectedIndex( index );
+			if ( index >= 0 )
+				library1Select.setSelectedIndex( index );
 
 			// Figure out what to do at the second bookcase
 			index = StaticEntity.getIntegerProperty( "choiceAdventure81" );
@@ -1028,7 +1041,8 @@ public class OptionsFrame extends KoLFrame
 				break;
 			}
 
-			library2Select.setSelectedIndex( index );
+			if ( index >= 0 )
+				library2Select.setSelectedIndex( index );
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
