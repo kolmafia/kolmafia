@@ -62,8 +62,6 @@ public abstract class SystemTrayFrame implements KoLConstants
 	{
 		if ( icon != null )
 			WindowsTrayIcon.cleanUp();
-
-		System.exit(0);
 	}
 
 	public static void updateToolTip()
@@ -170,7 +168,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	removeTrayIcon();
+		{	System.exit(0);
 		}
 	}
 }
