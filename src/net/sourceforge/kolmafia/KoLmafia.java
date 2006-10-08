@@ -168,10 +168,11 @@ public abstract class KoLmafia implements KoLConstants
 		hermitItems.add( "volleyball" );
 		hermitItems.add( "wooden figurine" );
 
-		// Rollover ends at roughly 4:45am GMT.  Therefore, make use
-		// of that relativity in doing date calculations.
+		// Use New York time in order to determine when rollover has
+		// started (game should be online AFTER midnight ... those who
+		// login too fast can suffer a bad time zone).
 
-		DATED_FILENAME_FORMAT.setTimeZone( TimeZone.getTimeZone( "GMT-4:45" ) );
+		DATED_FILENAME_FORMAT.setTimeZone( TimeZone.getTimeZone( "America/New York" ) );
 
 		StaticEntity.reloadSettings( "" );
 		StaticEntity.setProperty( "defaultLoginServer", "1" );

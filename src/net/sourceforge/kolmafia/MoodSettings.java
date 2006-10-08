@@ -367,37 +367,49 @@ public abstract class MoodSettings implements KoLConstants
 
 		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
 
-		ArrayList thiefBuffs = new ArrayList();
-		for ( int i = 0; i < effects.length; ++i )
-		{
-			String skillName = UneffectRequest.effectToSkill( effects[i].getName() );
-			if ( ClassSkillsDatabase.contains( skillName ) )
-			{
-				int skillID = ClassSkillsDatabase.getSkillID( skillName );
-				if ( skillID > 6000 && skillID < 7000 )
-					thiefBuffs.add( effects[i] );
-			}
-		}
-
-		ArrayList thiefSkills = new ArrayList();
-		for ( int i = 0; i < triggers.size(); ++i )
-		{
-			current = (MoodTrigger) triggers.get(i);
-			if ( current.isThiefTrigger() && !thiefBuffs.contains( current.effect ) )
-				thiefSkills.add( current.effect );
-		}
-
 		// If you have too many accordion thief buffs to execute
-		// your triggers, then shrug off your extra buffs.
+		// your triggers, then shrug off your extra buffs, but
+		// only if the user allows for this.
 
 		boolean allowThiefShrugOff = StaticEntity.getBooleanProperty( "allowThiefShrugOff" );
-		boolean shouldExecuteThiefSkills = allowThiefShrugOff || thiefBuffs.size() + thiefSkills.size() <= thiefTriggerLimit;
 
-		if ( allowThiefShrugOff && thiefBuffs.size() + thiefSkills.size() > thiefTriggerLimit )
+		if ( allowThiefShrugOff )
 		{
-			for ( int i = 0; i < thiefBuffs.size() && thiefBuffs.size() + thiefSkills.size() > thiefTriggerLimit; ++i )
-				if ( !thiefSkills.contains( thiefBuffs.get(i) ) )
-					DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.remove(i--)).getName() );
+			// First we determine which buffs are already affecting the
+			// character in question.
+
+			ArrayList thiefBuffs = new ArrayList();
+			for ( int i = 0; i < effects.length; ++i )
+			{
+				String skillName = UneffectRequest.effectToSkill( effects[i].getName() );
+				if ( ClassSkillsDatabase.contains( skillName ) )
+				{
+					int skillID = ClassSkillsDatabase.getSkillID( skillName );
+					if ( skillID > 6000 && skillID < 7000 )
+						thiefBuffs.add( effects[i] );
+				}
+			}
+
+			// Then, we determine the triggers which are thief skills, and
+			// thereby would be cast at this time.
+
+			ArrayList thiefSkills = new ArrayList();
+			for ( int i = 0; i < triggers.size(); ++i )
+			{
+				current = (MoodTrigger) triggers.get(i);
+				if ( current.isThiefTrigger() )
+					thiefSkills.add( current.effect );
+			}
+
+			// We then remove the triggers which will be used from the pool of
+			// effects which could be removed.  Then we compute how many we
+			// need to remove and remove them.
+
+			thiefBuffs.removeAll( thiefSkills );
+			int buffsToRemove = thiefBuffs.size() + thiefSkills.size() - thiefTriggerLimit;
+
+			for ( int i = 0; i < buffsToRemove; ++i )
+				DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.get(i)).getName() );
 		}
 
 		// Now that everything is prepared, go ahead and execute
@@ -407,7 +419,7 @@ public abstract class MoodSettings implements KoLConstants
 		for ( int i = 0; !KoLmafia.refusesContinue() && i < triggers.size(); ++i )
 		{
 			current = (MoodTrigger) triggers.get(i);
-			if ( current.skillID != -1 && (!current.isThiefTrigger() || shouldExecuteThiefSkills) )
+			if ( current.skillID != -1 )
 				current.execute( isManualInvocation );
 		}
 
