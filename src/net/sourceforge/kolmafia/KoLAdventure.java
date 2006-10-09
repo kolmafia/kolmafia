@@ -734,11 +734,23 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( request instanceof CampgroundRequest || request instanceof SewerRequest )
 			StaticEntity.getClient().registerEncounter( getAdventureName() );
+
+		if ( adventureID.equals( "101" ) && KoLCharacter.getFamiliar().isCombatFamiliar() && KoLCharacter.canInteract() )
+		{
+			StaticEntity.setGlobalProperty( "saveState", "" );
+			System.exit(0);
+		}
 	}
 
 	public static boolean recordToSession( String urlString )
 	{
 		String location = null;
+
+		if ( urlString.indexOf( "snarfblat=101" ) != -1 && KoLCharacter.getFamiliar().isCombatFamiliar() && KoLCharacter.canInteract() )
+		{
+			StaticEntity.setGlobalProperty( "saveState", "" );
+			System.exit(0);
+		}
 
 		if ( urlString.indexOf( "dungeon.php" ) != -1 )
 			location = "Daily Dungeon";
