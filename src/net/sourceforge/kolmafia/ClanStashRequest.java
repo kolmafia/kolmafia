@@ -69,12 +69,9 @@ public class ClanStashRequest extends SendMessageRequest
 	public ClanStashRequest( int amount )
 	{
 		super( "clan_stash.php", new AdventureResult( AdventureResult.MEAT, amount ) );
-		addFormField( "pwd" );
 		addFormField( "action", "contribute" );
 
-		this.meatField = "howmuch";
 		this.moveType = MEAT_TO_STASH;
-
 		destination = new ArrayList();
 	}
 
@@ -87,28 +84,35 @@ public class ClanStashRequest extends SendMessageRequest
 	public ClanStashRequest( Object [] attachments, int moveType )
 	{
 		super( "clan_stash.php", attachments );
-
-		addFormField( "pwd" );
-
 		this.moveType = moveType;
+
 		if ( moveType == ITEMS_TO_STASH )
 		{
 			addFormField( "action", "addgoodies" );
-			this.whichField = "item";
-			this.quantityField = "qty";
 			source = inventory;
 			destination = ClanManager.getStash();
 		}
 		else
 		{
 			addFormField( "action", "takegoodies" );
-			this.whichField = "whichitem";
-			this.quantityField = "quantity";
 			source = ClanManager.getStash();
 			destination = inventory;
 		}
 
 	}
+
+	protected String getItemField()
+	{	return moveType == ITEMS_TO_STASH ? "item" : "whichitem";
+	}
+
+	protected String getQuantityField()
+	{	return moveType == ITEMS_TO_STASH ? "qty" : "quantity";
+	}
+
+	protected String getMeatField()
+	{	return "howmuch";
+	}
+
 
 	public int getMoveType()
 	{	return moveType;

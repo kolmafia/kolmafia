@@ -2156,7 +2156,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public static final void openDebugStream()
-	{	debugStream = openStream( "log", debugStream, true );
+	{	debugStream = openStream( "DEBUG.txt", debugStream, true );
 	}
 
 	public static final PrintStream getDebugStream()

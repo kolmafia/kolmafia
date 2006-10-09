@@ -100,7 +100,6 @@ public class GiftMessageRequest extends SendMessageRequest
 		Object wrappingType, Object [] attachments, boolean isFromStorage )
 	{
 		super( "town_sendgift.php", attachments );
-		addFormField( "pwd" );
 		addFormField( "action", "Yep." );
 		addFormField( "towho", recipient );
 		addFormField( "note", outsideMessage );
@@ -123,10 +122,6 @@ public class GiftMessageRequest extends SendMessageRequest
 		{
 			this.source = storage;
 			this.destination = new ArrayList();
-
-			this.meatField = "hagnks_sendmeat";
-			this.whichField = "hagnks_whichitem";
-			this.quantityField = "hagnks_howmany";
 		}
 	}
 
@@ -145,6 +140,19 @@ public class GiftMessageRequest extends SendMessageRequest
 	protected String getSuccessMessage()
 	{	return "<td>Package sent.</td>";
 	}
+
+	protected String getItemField()
+	{	return source == storage ? "hagnks_whichitem" : "whichitem";
+	}
+
+	protected String getQuantityField()
+	{	return source == storage ? "hagnks_howmany" : "howmany";
+	}
+
+	protected String getMeatField()
+	{	return source == storage ? "hagnks_sendmeat" : "sendmeat";
+	}
+
 
 	public static LockableListModel getPackages()
 	{

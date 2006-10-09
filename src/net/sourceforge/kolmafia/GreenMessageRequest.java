@@ -51,7 +51,6 @@ public class GreenMessageRequest extends SendMessageRequest
 	{
 		super( "sendmessage.php", attachment );
 		addFormField( "action", "send" );
-		addFormField( "pwd" );
 		addFormField( "towho", recipient );
 
 		if ( saveMessage )
@@ -105,6 +104,18 @@ public class GreenMessageRequest extends SendMessageRequest
 
 	protected String getStatusMessage()
 	{	return "Sending kmail to " + KoLmafia.getPlayerName( recipient );
+	}
+
+	protected String getItemField()
+	{	return "whichitem";
+	}
+
+	protected String getQuantityField()
+	{	return "howmany";
+	}
+
+	protected String getMeatField()
+	{	return "sendmeat";
 	}
 
 	public static boolean processRequest( String urlString )

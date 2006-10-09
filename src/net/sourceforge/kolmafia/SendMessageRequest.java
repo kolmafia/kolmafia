@@ -54,18 +54,12 @@ public abstract class SendMessageRequest extends KoLRequest
 	protected Object [] attachments;
 	protected List source = inventory;
 	protected List destination = new ArrayList();
-	protected String whichField, quantityField, meatField;
 	protected boolean isSubInstance = false;
 
 	protected SendMessageRequest( String formSource )
 	{
 		super( formSource );
-
 		this.attachments = new Object[0];
-
-		this.whichField = "whichitem";
-		this.quantityField = "howmany";
-		this.meatField = "sendmeat";
 	}
 
 	protected SendMessageRequest( String formSource, AdventureResult attachment )
@@ -88,18 +82,18 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		if ( getCapacity() > 1 )
 		{
-			which = whichField + index;
-			quantity = quantityField + index;
+			which = getItemField() + index;
+			quantity = getQuantityField() + index;
 		}
 		else if ( alwaysIndex() )
 		{
-			which = whichField + "1";
-			quantity = quantityField + "1";
+			which = getItemField() + "1";
+			quantity = getQuantityField() + "1";
 		}
 		else
 		{
-			which = whichField;
-			quantity = quantityField;
+			which = getItemField();
+			quantity = getQuantityField();
 		}
 
 		addFormField( which, String.valueOf( item.getItemID() ) );
@@ -109,6 +103,10 @@ public abstract class SendMessageRequest extends KoLRequest
 	protected boolean alwaysIndex()
 	{	return false;
 	}
+
+	protected abstract String getItemField();
+	protected abstract String getQuantityField();
+	protected abstract String getMeatField();
 
 	protected abstract int getCapacity();
 	protected abstract SendMessageRequest getSubInstance( Object [] attachments );
@@ -178,7 +176,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		if ( requests.length > 1 )
 		{
 			if ( meatAttachment > 0 )
-				requests[0].addFormField( meatField, String.valueOf( meatAttachment ) );
+				requests[0].addFormField( getMeatField(), String.valueOf( meatAttachment ) );
 
 			for ( int i = 0; i < requests.length; ++i )
 			{
@@ -195,7 +193,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		{
 			KoLmafia.updateDisplay( getStatusMessage() + "..." );
 			SendMessageRequest request = getSubInstance( new Object[0] );
-			request.addFormField( meatField, String.valueOf( meatAttachment ) );
+			request.addFormField( getMeatField(), String.valueOf( meatAttachment ) );
 			request.run();
 		}
 	}

@@ -63,73 +63,84 @@ public class ItemStorageRequest extends SendMessageRequest
 		this.moveType = RETRIEVE_STORAGE;
 	}
 
-	/**
-	 * Constructs a new <code>ItemStorageRequest</code>.
-	 * @param	client	Theto be notified of the results
-	 * @param	amount	The amount of meat involved in this transaction
-	 * @param	moveType	Whether or not this is a deposit or withdrawal, or if it's to the clan stash
-	 */
-
-	public ItemStorageRequest( int amount, int moveType )
-	{
-		super( moveType == PULL_MEAT_FROM_STORAGE ? "storage.php" : "closet.php",
-			new AdventureResult( AdventureResult.MEAT, moveType == PULL_MEAT_FROM_STORAGE ? amount : 0 ) );
-
-		addFormField( "pwd" );
-
-		this.meatField = "amt";
-		addFormField( "action", moveType == MEAT_TO_CLOSET ? "addmeat" : "takemeat" );
-
-		this.moveType = moveType;
-
-		if ( moveType == PULL_MEAT_FROM_STORAGE )
-		{
-			source = storage;
-			destination = inventory;
-		}
-	}
-
 	public ItemStorageRequest( int moveType )
 	{
 		this( moveType, new Object[0] );
 		this.moveType = moveType;
 	}
 
-	/**
-	 * Constructs a new <code>ItemStorageRequest</code>.
-	 * @param	client	Theto be notified of the results
-	 * @param	moveType	The identifier for the kind of action taking place
-	 * @param	attachments	The list of attachments involved in the request
-	 */
+	public ItemStorageRequest( int moveType, int amount )
+	{
+		this( moveType, new Object [] { new AdventureResult( AdventureResult.MEAT, amount ) } );
+	}
 
 	public ItemStorageRequest( int moveType, Object [] attachments )
 	{
-		super( moveType == STORAGE_TO_INVENTORY || moveType == EMPTY_STORAGE ? "storage.php" : "closet.php", attachments );
-
-		addFormField( "pwd" );
-		addFormField( "action", moveType == EMPTY_STORAGE ? "takeall" : moveType == INVENTORY_TO_CLOSET ? "put" : "take" );
-
+		super( "fight.php", attachments );
 		this.moveType = moveType;
 
-		if ( moveType == CLOSET_TO_INVENTORY )
+		// Figure out the actual URL information based on the
+		// different request types.
+
+		switch ( moveType )
 		{
-			source = closet;
-			destination = inventory;
-		}
-		else if ( moveType == INVENTORY_TO_CLOSET )
-		{
-			source = inventory;
-			destination = closet;
-		}
-		else if ( moveType == STORAGE_TO_INVENTORY )
-		{
+		case MEAT_TO_CLOSET:
+			constructURLString( "closet.php?action=addmeat" );
+			break;
+
+		case MEAT_TO_INVENTORY:
+			constructURLString( "closet.php?action=takemeat" );
+			break;
+
+		case PULL_MEAT_FROM_STORAGE:
+			constructURLString( "storage.php?action=takemeat" );
+			break;
+
+		case EMPTY_STORAGE:
+			constructURLString( "storage.php?action=takeall" );
 			source = storage;
 			destination = inventory;
+			break;
+
+		case STORAGE_TO_INVENTORY:
+			constructURLString( "storage.php?action=take" );
+			source = storage;
+			destination = inventory;
+			break;
+
+		case INVENTORY_TO_CLOSET:
+			constructURLString( "closet.php?action=put" );
+			source = inventory;
+			destination = closet;
+			break;
+
+		case CLOSET_TO_INVENTORY:
+			constructURLString( "closet.php?action=take" );
+			source = closet;
+			destination = inventory;
+			break;
 		}
+
+		// Now, make sure that every request has a password hash
+		// attached to it.
+
+		addFormField( "pwd" );
 	}
 
 	public int getMoveType()
 	{	return moveType;
+	}
+
+	protected String getItemField()
+	{	return "whichitem";
+	}
+
+	protected String getQuantityField()
+	{	return "howmany";
+	}
+
+	protected String getMeatField()
+	{	return "amt";
 	}
 
 	public List getItems()
