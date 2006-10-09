@@ -220,7 +220,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "autoExecuteTimeIn", "true" );
 		CLIENT_SETTINGS.put( "autoLogin", "" );
 		CLIENT_SETTINGS.put( "autoRepairBoxes", "false" );
-		CLIENT_SETTINGS.put( "autoSatisfyWithMall", "true" );
+		CLIENT_SETTINGS.put( "autoSatisfyWithMall", "false" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithNPCs", "true" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithStash", "false" );
 		CLIENT_SETTINGS.put( "autoSetConditions", "false" );
@@ -249,10 +249,11 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "http.proxyPort", "" );
 		CLIENT_SETTINGS.put( "http.proxyUser", "" );
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
-		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame" );
-		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
+		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,SkillBuffFrame,OptionsFrame" );
+		CLIENT_SETTINGS.put( "initialFrames", "ItemManageFrame,GearChangeFrame,EventsFrame" );
 		CLIENT_SETTINGS.put( "lastOperatingSystem", System.getProperty( "os.name" ) );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
+		CLIENT_SETTINGS.put( "loadedWikiOnce", "false" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
 		CLIENT_SETTINGS.put( "proxySet", "false" );
 		CLIENT_SETTINGS.put( "relayAddsQuickScripts", "false" );
@@ -266,6 +267,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
 		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );
+		CLIENT_SETTINGS.put( "showAlmanacBeforeLogin", "true" );
 		CLIENT_SETTINGS.put( "showClosetIngredients", "true" );
 		CLIENT_SETTINGS.put( "showStashIngredients", "false" );
 		CLIENT_SETTINGS.put( "sortAdventures", "false" );

@@ -68,11 +68,6 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	{	"", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"
 	};
 
-	// Special date formatter which formats according to
-	// the standard Western format of month, day, year.
-
-	public static final SimpleDateFormat TODAY_FORMATTER = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
-
 	// The following are static variables used to track the calendar.
 	// They are made static as a design decision to allow the oracle
 	// table nested inside of this class the access it needs to data.
@@ -99,7 +94,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		try
 		{
-			selectedDate = DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) );
+			selectedDate = MoonPhaseDatabase.CALENDAR_FORMAT.parse( MoonPhaseDatabase.CALENDAR_FORMAT.format( new Date() ) );
 		}
 		catch ( Exception e )
 		{
@@ -167,7 +162,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 				if ( selectedDateString.equals( "" ) )
 					return;
 
-				selectedDate = DATED_FILENAME_FORMAT.parse( selectedDateString );
+				selectedDate = MoonPhaseDatabase.CALENDAR_FORMAT.parse( selectedDateString );
 
 				calculatePhases( selectedDate );
 				(new UpdateTabsThread()).start();
@@ -242,7 +237,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 	private static void updateDailyPage()
 	{
-		if ( DATED_FILENAME_FORMAT.format( selectedDate ).equals( "20051027" ) )
+		if ( MoonPhaseDatabase.CALENDAR_FORMAT.format( selectedDate ).equals( "20051027" ) )
 		{
 			dailyBuffer.clearBuffer();
 			dailyBuffer.append( "<center><h1>White Wednesday</h1></center>" );
@@ -281,7 +276,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/otherimages/" + artDirectory + "/" );
 		displayHTML.append( CALENDARS[ MoonPhaseDatabase.getCalendarMonth( selectedDate ) ] );
 		displayHTML.append( ".gif\"></td></tr><tr><td align=center>" );
-		displayHTML.append( TODAY_FORMATTER.format( selectedDate ) );
+		displayHTML.append( MoonPhaseDatabase.TODAY_FORMATTER.format( selectedDate ) );
 		displayHTML.append( "</td></tr><tr><td align=center><font size=+1><b>" );
 		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( selectedDate ) );
 		displayHTML.append( "</b></font></td></tr></table></center>" );
@@ -393,7 +388,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// link shown in the clan calendar.
 
 		displayHTML.append( "<b><u>" );
-		displayHTML.append( TODAY_FORMATTER.format( selectedDate ) );
+		displayHTML.append( MoonPhaseDatabase.TODAY_FORMATTER.format( selectedDate ) );
 		displayHTML.append( "</u></b><br><i>" );
 		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( selectedDate ) );
 		displayHTML.append( "</i><br>&nbsp;<br>" );
@@ -513,7 +508,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 				// First, if the date today is equal to the
 				// date selected, highlight it.
 
-				String todayDateString = DATED_FILENAME_FORMAT.format( new Date() );
+				String todayDateString = MoonPhaseDatabase.CALENDAR_FORMAT.format( new Date() );
 				String cellDateString = constructDateString( model, row, column );
 
 				if ( cellDateString.equals( "" ) )
@@ -532,7 +527,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 				// Otherwise, if the date selected is equal
 				// to a special day, then highlight it.
 
-				Date cellDate = DATED_FILENAME_FORMAT.parse( cellDateString );
+				Date cellDate = MoonPhaseDatabase.CALENDAR_FORMAT.parse( cellDateString );
 
 				if ( MoonPhaseDatabase.isHoliday( cellDate ) )
 					return holidayRenderer;

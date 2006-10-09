@@ -35,9 +35,12 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 
 /**
  * A special class used to determine the current moon phase.
@@ -48,6 +51,18 @@ import java.util.ArrayList;
 
 public class MoonPhaseDatabase extends StaticEntity
 {
+	// Special date formatter which formats according to
+	// the standard Western format of month, day, year.
+
+	public static final SimpleDateFormat CALENDAR_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
+	public static final SimpleDateFormat TODAY_FORMATTER = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
+
+	static
+	{
+		CALENDAR_FORMAT.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
+		TODAY_FORMATTER.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
+	}
+
 	// Special date marked as the new year.  This is
 	// done as a string, since sdf.parse() throws an
 	// exception, most of the time.
@@ -60,6 +75,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		try
 		{
+			DATED_FILENAME_FORMAT.setTimeZone( TimeZone.getTimeZone( "US/Eastern" ) );
 			NEWYEAR = DATED_FILENAME_FORMAT.parse( "20050917" ).getTime();
 			BOUNDARY = DATED_FILENAME_FORMAT.parse( "20051027" ).getTime();
 			COLLISION = DATED_FILENAME_FORMAT.parse( "20060603" ).getTime();
@@ -81,7 +97,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		try
 		{
-			int calendarDay = getCalendarDay( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ) );
+			int calendarDay = getCalendarDay( CALENDAR_FORMAT.parse( CALENDAR_FORMAT.format( new Date() ) ) );
 			int phaseStep = ((calendarDay % 16) + 16) % 16;
 
 			RONALD_PHASE = phaseStep % 8;
@@ -580,7 +596,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	public static boolean isHoliday( Date time )
 	{
 		return SPECIAL[ getCalendarDay( time ) ] == SP_HOLIDAY ||
-			getRealLifeHoliday( DATED_FILENAME_FORMAT.format( time ) ) != null;
+			getRealLifeHoliday( CALENDAR_FORMAT.format( time ) ) != null;
 	}
 
 	/**
@@ -648,7 +664,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 				for ( int j = 0; j < currentEstimate; ++j )
 				{
-					testDate = DATED_FILENAME_FORMAT.format( holidayTester.getTime() );
+					testDate = CALENDAR_FORMAT.format( holidayTester.getTime() );
 					testResult = getRealLifeHoliday( testDate );
 
 					if ( holiday != null && testResult != null && testResult.equals( holiday ) )
@@ -667,7 +683,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 		if ( SPECIAL[ getCalendarDay( time ) ] != SP_HOLIDAY )
 		{
-			String holiday = getRealLifeOnlyHoliday( DATED_FILENAME_FORMAT.format( time ) );
+			String holiday = getRealLifeOnlyHoliday( CALENDAR_FORMAT.format( time ) );
 			if ( holiday != null )
 				predictionsList.add( holiday + ": today" );
 		}
@@ -713,7 +729,7 @@ public class MoonPhaseDatabase extends StaticEntity
 			}
 		}
 
-		String realHoliday = getRealLifeHoliday( DATED_FILENAME_FORMAT.format( time ) );
+		String realHoliday = getRealLifeHoliday( CALENDAR_FORMAT.format( time ) );
 
 		return gameHoliday == null && realHoliday == null ? "No known holiday today." :
 			gameHoliday == null ? realHoliday : realHoliday == null ? gameHoliday :
@@ -753,7 +769,7 @@ public class MoonPhaseDatabase extends StaticEntity
 			holidayFinder.set( Calendar.YEAR, y );
 			holidayFinder.set( Calendar.MONTH, m - 1 );
 			holidayFinder.set( Calendar.DAY_OF_MONTH, d );
-			easter = DATED_FILENAME_FORMAT.format( holidayFinder.getTime() );
+			easter = CALENDAR_FORMAT.format( holidayFinder.getTime() );
 
 			// Calculating Thanksgiving is easier -- just detect
 			// what day is the start of November and adjust.

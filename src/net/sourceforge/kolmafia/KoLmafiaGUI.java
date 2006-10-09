@@ -124,7 +124,10 @@ public class KoLmafiaGUI extends KoLmafia
 
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
-		SwingUtilities.invokeLater( new CreateFrameRunnable( LoginFrame.class ) );
+
+		(new CreateFrameRunnable( LoginFrame.class )).run();
+		if ( StaticEntity.getBooleanProperty( "showAlmanacBeforeLogin" ) )
+			(new CreateFrameRunnable( CalendarFrame.class )).run();
 	}
 
 	/**
