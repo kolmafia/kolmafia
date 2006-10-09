@@ -576,7 +576,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		ADVENTURE_USAGE[ ItemCreationRequest.COOK_REAGENT ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
 
 		PERMIT_METHOD[ ItemCreationRequest.SUPER_REAGENT ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.hasSkill( "The Way of Sauce" );
-;
 		ADVENTURE_USAGE[ ItemCreationRequest.SUPER_REAGENT ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
 
 		PERMIT_METHOD[ ItemCreationRequest.COOK_PASTA ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.canSummonNoodles();
@@ -704,6 +703,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 	{
 		boolean hasOneIngredient = false;
 		AdventureResult [] ingredients = concoctions.get( itemID ).getIngredients();
+
+		if ( ingredients.length == 0 )
+			return true;
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
