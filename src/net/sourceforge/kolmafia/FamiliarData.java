@@ -267,6 +267,19 @@ public class FamiliarData implements KoLConstants, Comparable
 		}
 	}
 
+	public boolean isStasisFamiliar()
+	{
+		switch ( id )
+		{
+		case 16: // Cocoabo
+		case 48: // Ninja Pirate Zombie Robot
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
 	public boolean isCombatFamiliar()
 	{
 		switch ( id )
@@ -304,6 +317,8 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 51: // Wind-up Chattering Teeth
 		case 52: // Spirit Hobo
 		case 54: // Comma Chameleon
+		case 55: // Misshapen Animal Skeleton
+		case 56: // Scary Death Orb
 			return true;
 
 		default:
