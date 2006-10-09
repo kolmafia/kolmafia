@@ -2122,16 +2122,20 @@ public abstract class KoLCharacter extends StaticEntity
 		{
 			REDIRECT_FOLLOWER.constructURLString( "guild.php?place=still" );
 			REDIRECT_FOLLOWER.run();
-
-			Matcher stillMatcher = STILLS_PATTERN.matcher( REDIRECT_FOLLOWER.responseText );
-
-			if ( stillMatcher.find() )
-				stillsAvailable = parseInt( stillMatcher.group(1) );
-			else
-				stillsAvailable = 0;
+			determineStillsAvailable( REDIRECT_FOLLOWER.responseText );
 		}
 
 		return stillsAvailable;
+	}
+
+	public static void determineStillsAvailable( String responseText )
+	{
+		Matcher stillMatcher = STILLS_PATTERN.matcher( responseText );
+
+		if ( stillMatcher.find() )
+			stillsAvailable = parseInt( stillMatcher.group(1) );
+		else
+			stillsAvailable = 0;
 	}
 
 	public static void reduceStillCount( int reductionAmount )

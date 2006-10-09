@@ -152,6 +152,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		addFormField( "pwd" );
 
 		this.itemID = itemID;
+		this.name = TradeableItemDatabase.getItemName( itemID );
 		this.mixingMethod = mixingMethod;
 		this.createdItem = new AdventureResult( itemID, 0 );
 	}
@@ -473,6 +474,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	protected void processResults()
 	{
+		// Figure out how many items were created
+
+		AdventureResult createdItem = new AdventureResult( itemID, 0 );
+		int createdQuantity = createdItem.getCount( inventory ) - beforeQuantity;
+
+		if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
+			KoLCharacter.determineStillsAvailable( responseText );
+
 		// Check to make sure that the item creation did not fail.
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
@@ -487,13 +496,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return;
 		}
 
-		// Figure out how many items were created
-
-		AdventureResult createdItem = new AdventureResult( itemID, 0 );
-		int createdQuantity = createdItem.getCount( inventory ) - beforeQuantity;
-
-		if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
-			KoLCharacter.reduceStillCount( createdQuantity );
+		if ( createdQuantity == 0 )
+			return;
 
 		if ( createdQuantity > 0 )
 		{

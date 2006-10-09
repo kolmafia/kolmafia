@@ -298,8 +298,8 @@ public class FightRequest extends KoLRequest
 
 	public static void updateCombatData( String encounter, String rawResponse )
 	{
-		INSTANCE.responseText = rawResponse;
 		INSTANCE.fullResponse = rawResponse;
+		INSTANCE.generateResponseText();
 
 		// Spend MP and consume items
 

@@ -1283,31 +1283,9 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLmafia.getDebugStream().println( "Error reading server reply.  Retrying..." );
 			}
 
-			responseText = replyBuffer.toString();
-
-			// Here, we have a danger of not getting a complete response from
-			// the KoL server due to a timeout.  If the response is incomplete,
-			// then try again.  We detect this by looking for a beginning tag
-			// that is never closed at the end of the document.
-
+			processRawResponse( replyBuffer.toString() );
 			if ( responseText.lastIndexOf( "<" ) > responseText.lastIndexOf( ">" ) )
 				return false;
-
-			responseText = SCRIPT_PATTERN.matcher( responseText ).replaceAll( "" );
-			responseText = STYLE_PATTERN.matcher( responseText ).replaceAll( "" );
-			responseText = COMMENT_PATTERN.matcher( responseText ).replaceAll( "" );
-
-			// Remove password hash before logging and strip out
-			// all new lines to make debug logs easier to read.
-
-			if ( !isChatRequest )
-			{
-				String response = responseText.replaceAll( "[\r\n]+", "" ).replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" );
-				KoLmafia.getDebugStream().println( response );
-			}
-
-			checkForNewEvents();
-			processRawResponse( replyBuffer.toString() );
 		}
 
 		try
@@ -1328,6 +1306,20 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		istream = null;
 		return shouldStop;
+	}
+
+	public void generateResponseText()
+	{
+		responseText = fullResponse;
+
+		// Here, we have a danger of not getting a complete response from
+		// the KoL server due to a timeout.  If the response is incomplete,
+		// then try again.  We detect this by looking for a beginning tag
+		// that is never closed at the end of the document.
+
+		responseText = SCRIPT_PATTERN.matcher( responseText ).replaceAll( "" );
+		responseText = STYLE_PATTERN.matcher( responseText ).replaceAll( "" );
+		responseText = COMMENT_PATTERN.matcher( responseText ).replaceAll( "" );
 	}
 
 	private String read( InputStream istream )
@@ -1372,6 +1364,18 @@ public class KoLRequest implements Runnable, KoLConstants
 			LocalRelayServer.addStatusMessage( "<!-- REFRESH -->" );
 
 		this.fullResponse = rawResponse;
+
+		checkForNewEvents();
+		generateResponseText();
+
+		// Remove password hash before logging and strip out
+		// all new lines to make debug logs easier to read.
+
+		if ( !isChatRequest )
+		{
+			String response = responseText.replaceAll( "[\r\n]+", "" ).replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" );
+			KoLmafia.getDebugStream().println( response );
+		}
 
 		if ( isRatQuest )
 			KoLmafia.addTavernLocation( this );
