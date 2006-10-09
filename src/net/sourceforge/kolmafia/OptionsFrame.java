@@ -1243,7 +1243,7 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			JFileChooser chooser = new JFileChooser( (new File( "data/settings" )).getAbsolutePath() );
+			JFileChooser chooser = new JFileChooser( (new File( "settings" )).getAbsolutePath() );
 			chooser.setFileFilter( CCS_FILTER );
 
 			int returnVal = chooser.showOpenDialog( null );

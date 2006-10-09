@@ -94,6 +94,7 @@ public abstract class MoodSettings implements KoLConstants
 	{
 		settingsFile = new File( settingsFileName() );
 		loadSettings();
+		setMood( StaticEntity.getProperty( "currentMood" ) );
 	}
 
 	public static SortedListModel getAvailableMoods()
@@ -111,10 +112,10 @@ public abstract class MoodSettings implements KoLConstants
 		mood = mood == null || mood.trim().equals( "" ) ? "default" : mood.toLowerCase().trim();
 
 		StaticEntity.setProperty( "currentMood", mood );
+		availableMoods.setSelectedItem( mood );
 		ensureProperty( mood );
 
 		triggers = (SortedListModel) reference.get( mood );
-
 		return triggers;
 	}
 
@@ -312,6 +313,11 @@ public abstract class MoodSettings implements KoLConstants
 		if ( currentMood.equals( "default" ) )
 		{
 			triggers.clear();
+
+			String beatenUpAction = getDefaultAction( "gain_effect", "Beaten Up" );
+			if ( !beatenUpAction.equals( "" ) )
+				addTrigger( "gain_effect", "Beaten Up", beatenUpAction );
+
 			return;
 		}
 
@@ -520,11 +526,8 @@ public abstract class MoodSettings implements KoLConstants
 			if ( !settingsFile.exists() )
 			{
 				settingsFile.createNewFile();
-
 				ensureProperty( "default" );
 				ensureProperty( "apathetic" );
-
-				setMood( "default" );
 				return;
 			}
 

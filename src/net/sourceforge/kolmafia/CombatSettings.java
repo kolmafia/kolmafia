@@ -73,6 +73,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 		loadSettings();
 		ensureProperty( "default", "attack with weapon" );
+		saveSettings();
 	}
 
 	public static final String settingsFileName()
