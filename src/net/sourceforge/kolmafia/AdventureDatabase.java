@@ -265,7 +265,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// One NightStand (simple wooden)
 		{ { "choiceAdventure85" }, { "Haunted Bedroom 4" },
-		  { "boost moxie", "ballroom key step 2", "enter combat" } },
+		  { "boost moxie (ballroom key step 1)", "empty drawer (ballroom key step 2)", "enter combat" } },
 
 		// Choice 86 is History is Fun!
 		// Choice 87 is History is Fun!
