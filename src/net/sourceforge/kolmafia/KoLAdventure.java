@@ -48,6 +48,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
+	private static final AdventureResult NAGAMAR = new AdventureResult( 626, 1 );
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
 	private static final AdventureResult SOCK = new AdventureResult( 609, 1 );
 	private static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
@@ -170,6 +171,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	private boolean meetsGeneralRequirements()
 	{
+		if ( formSource.equals( "lair6.php" ) )
+		{
+			isValidAdventure = KoLCharacter.hasEquipped( NAGAMAR );
+			return isValidAdventure;
+		}
+
 		if ( zone.equals( "MusSign" ) && !KoLCharacter.inMuscleSign() )
 		{
 			isValidAdventure = false;
@@ -617,7 +624,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			if ( !meetsGeneralRequirements() )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient stats to adventure at " + adventureName + "." );
+				KoLmafia.updateDisplay( ERROR_STATE, formSource.equals( "lair6.php" ) ? "Equip a Wand of Nagamar first." :
+					"Insufficient stats to adventure at " + adventureName + "." );
+
 				return;
 			}
 
@@ -735,7 +744,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( request instanceof CampgroundRequest || request instanceof SewerRequest )
 			StaticEntity.getClient().registerEncounter( getAdventureName() );
 
-		if ( adventureID.equals( "101" ) && KoLCharacter.getFamiliar().isCombatFamiliar() && KoLCharacter.canInteract() )
+		if ( adventureID.equals( "101" ) && KoLCharacter.getFamiliar().isStasisFamiliar() && KoLCharacter.canInteract() )
 		{
 			StaticEntity.setGlobalProperty( "saveState", "" );
 			System.exit(0);
@@ -746,7 +755,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	{
 		String location = null;
 
-		if ( urlString.indexOf( "snarfblat=101" ) != -1 && KoLCharacter.getFamiliar().isCombatFamiliar() && KoLCharacter.canInteract() )
+		if ( urlString.indexOf( "snarfblat=101" ) != -1 && KoLCharacter.getFamiliar().isStasisFamiliar() && KoLCharacter.canInteract() )
 		{
 			StaticEntity.setGlobalProperty( "saveState", "" );
 			System.exit(0);
