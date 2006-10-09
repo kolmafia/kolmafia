@@ -739,7 +739,7 @@ public class LocalRelayRequest extends KoLRequest
 			return;
 		}
 
-		if ( formURLString.indexOf( "lair6.php" ) != -1 && formURLString.indexOf( "place=5" ) != -1 )
+		if ( formURLString.indexOf( "lair6.php" ) != -1 && getFormField( "place" ) != null && getFormField( "place" ).equals( "5" ) )
 		{
 			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) )
 			{
