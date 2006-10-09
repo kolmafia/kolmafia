@@ -157,6 +157,8 @@ public interface KoLConstants extends UtilityConstants
 	// Includes win game text.
 
 	public static final String IMAGE_SERVER = "69.16.150.201";
+	public static final String DEFAULT_KMAIL = "Keep the contents of this message top-sekrit, ultra hush-hush.";
+
 	public static final String [][] WIN_GAME_TEXT = new String [][]
 	{
 		{

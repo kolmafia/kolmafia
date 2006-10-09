@@ -1621,7 +1621,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( attachments.length == 0 )
 			return;
 
-		(new GreenMessageRequest( splitParameters[1], "Just wanted to send you stuff.", attachments, false )).run();
+		(new GreenMessageRequest( splitParameters[1], DEFAULT_KMAIL, attachments )).run();
 
 		if ( permitsContinue() )
 			updateDisplay( "Message sent to " + splitParameters[1] );

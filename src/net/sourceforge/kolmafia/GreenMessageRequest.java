@@ -44,39 +44,28 @@ public class GreenMessageRequest extends SendMessageRequest
 	private String recipient, message;
 
 	public GreenMessageRequest( String recipient, String message, AdventureResult attachment )
-	{	this( recipient, message, attachment, false );
-	}
-
-	public GreenMessageRequest( String recipient, String message, AdventureResult attachment, boolean saveMessage )
 	{
 		super( "sendmessage.php", attachment );
 		addFormField( "action", "send" );
 		addFormField( "towho", recipient );
-
-		if ( saveMessage )
-			addFormField( "savecopy", "on" );
-
 		addFormField( "message", message );
+
+		if ( !message.equals( DEFAULT_KMAIL ) )
+			addFormField( "savecopy", "on" );
 
 		this.recipient = KoLmafia.getPlayerID( recipient );
 		this.message = message;
 	}
 
 	public GreenMessageRequest( String recipient, String message, Object [] attachments )
-	{	this( recipient, message, attachments, !BuffBotHome.isBuffBotActive() );
-	}
-
-	public GreenMessageRequest( String recipient, String message, Object [] attachments, boolean saveMessage )
 	{
 		super( "sendmessage.php", attachments );
 		addFormField( "action", "send" );
-		addFormField( "pwd" );
 		addFormField( "towho", recipient );
-
-		if ( saveMessage )
-			addFormField( "savecopy", "on" );
-
 		addFormField( "message", message );
+
+		if ( !message.equals( DEFAULT_KMAIL ) )
+			addFormField( "savecopy", "on" );
 
 		this.recipient = KoLmafia.getPlayerID( recipient );
 		this.message = message;
