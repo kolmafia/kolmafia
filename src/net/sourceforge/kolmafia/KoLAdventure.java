@@ -48,7 +48,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
-	private static final AdventureResult NAGAMAR = new AdventureResult( 626, 1 );
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
 	private static final AdventureResult SOCK = new AdventureResult( 609, 1 );
 	private static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
@@ -173,7 +172,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	{
 		if ( formSource.equals( "lair6.php" ) )
 		{
-			isValidAdventure = KoLCharacter.hasEquipped( NAGAMAR );
+			isValidAdventure = KoLCharacter.hasEquipped( SorceressLair.NAGAMAR );
 			return isValidAdventure;
 		}
 
@@ -624,7 +623,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			if ( !meetsGeneralRequirements() )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, formSource.equals( "lair6.php" ) ? "Equip a Wand of Nagamar first." :
+				KoLmafia.updateDisplay( ERROR_STATE, formSource.equals( "lair6.php" ) ? "Did you forget to equip something?" :
 					"Insufficient stats to adventure at " + adventureName + "." );
 
 				return;
