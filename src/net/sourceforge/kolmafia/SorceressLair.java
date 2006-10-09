@@ -47,6 +47,8 @@ public abstract class SorceressLair extends StaticEntity
 	private static final Pattern LAIR6_PATTERN = Pattern.compile( "lair6.php\\?place=(\\d+)" );
 
 	// Items for the entryway
+	public static final AdventureResult NAGAMAR = new AdventureResult( 626, 1 );
+
 
 	private static final AdventureResult SUGAR = new AdventureResult( "Sugar Rush", 0 );
 	private static final AdventureResult RICE_CANDY = new AdventureResult( 540, 1 );

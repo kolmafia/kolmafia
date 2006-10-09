@@ -739,6 +739,15 @@ public class LocalRelayRequest extends KoLRequest
 			return;
 		}
 
+		if ( formURLString.indexOf( "lair6.php" ) != -1 && formURLString.indexOf( "place=5" ) != -1 )
+		{
+			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) )
+			{
+				pseudoResponse( "HTTP/1.1 200 OK", "Did you forget to equip something?" );
+				return;
+			}
+		}
+
 		String graf = getFormField( "graf" );
 
 		if ( graf != null && graf.startsWith( "/run" ) )
