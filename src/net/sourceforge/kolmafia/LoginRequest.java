@@ -206,7 +206,9 @@ public class LoginRequest extends KoLRequest
 
 		runCountdown = true;
 		sendPlainText = false;
-		KoLmafia.forceContinue();
+
+		if ( !KoLmafia.refusesContinue() )
+			KoLmafia.forceContinue();
 
 		instanceRunning = true;
 		lastUsername = username;
@@ -332,12 +334,8 @@ public class LoginRequest extends KoLRequest
 			if ( this.savePassword )
 				KoLmafia.addSaveState( username, password );
 
-			KoLmafia.forceContinue();
 			sessionID = formConnection.getHeaderField( "Set-Cookie" );
-
-			KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
 			StaticEntity.getClient().initialize( username, this.getBreakfast, this.isQuickLogin );
-
 			return false;
 		}
 		else if ( responseCode == 302 )
