@@ -304,14 +304,13 @@ public class LoginRequest extends KoLRequest
 		addFormField( "loggingin", "Yup." );
 		addFormField( "loginname", this.username + "/q" );
 
-		KoLmafia.updateDisplay( "Sending login request..." );
-
 		waitTime = STANDARD_WAIT;
 		runCountdown = true;
 
 		if ( KoLmafia.refusesContinue() )
 			return false;
 
+		KoLmafia.updateDisplay( "Sending login request..." );
 		super.run();
 
 		if ( responseCode == 302 && redirectLocation.equals( "maint.php" ) )
