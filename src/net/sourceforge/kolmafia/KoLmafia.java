@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2005, KoLmafia development team
- * http://kolmafia.sourceforge.net/
+ * http://sourceforge.net/
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -88,7 +88,7 @@ public abstract class KoLmafia implements KoLConstants
 		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
 
-		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
+		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.RequestEditorKit" );
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
 
@@ -339,13 +339,17 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void initialize( String username, boolean getBreakfast, boolean isQuickLogin )
 	{
+		if ( refusesContinue() )
+			return;
+
 		// Initialize the variables to their initial
 		// states to avoid null pointers getting thrown
 		// all over the place
 
 		executedLogin = true;
-		KoLmafia.forceContinue();
 		CharpaneRequest.getInstance().run();
+		if ( refusesContinue() )
+			return;
 
 		if ( isQuickLogin )
 		{
@@ -354,13 +358,17 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
 		StaticEntity.setProperty( "lastUsername", username );
 		StaticEntity.reloadSettings( username );
 
 		KoLCharacter.reset( username );
-		KoLmafia.openSessionStream();
+		openSessionStream();
 
 		refreshSession();
+		if ( refusesContinue() )
+			return;
+
 		resetSession();
 
 		// If the password hash is non-null, then that means you
@@ -379,6 +387,9 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( lastBreakfast == null || !lastBreakfast.equals( today ) )
 				getBreakfast( true );
+
+			if ( refusesContinue() )
+				return;
 		}
 
 		// A breakfast script might include loading an adventure
@@ -388,12 +399,18 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
 
+		if ( refusesContinue() )
+			return;
+
 		// Also, do mushrooms, if a mushroom script has already
 		// been setup by the user.
 
 		String currentLayout = StaticEntity.getProperty( "plantingScript" );
 		if ( KoLCharacter.inMuscleSign() && MushroomPlot.ownsPlot() && !currentLayout.equals( "" ) )
 			DEFAULT_SHELL.executeLine( "call " + MushroomPlot.PLOT_DIRECTORY.getPath() + "/" + currentLayout + ".ash" );
+
+		if ( refusesContinue() )
+			return;
 	}
 
 	public void resetBreakfastSummonings()
@@ -450,11 +467,12 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void refreshSession()
 	{
-		updateDisplay( "Refreshing session data..." );
+		if ( refusesContinue() )
+			return;
 
 		// Get current moon phases
 
-		forceContinue();
+		updateDisplay( "Refreshing session data..." );
 		(new MoonPhaseRequest()).run();
 		if ( refusesContinue() )
 			return;
@@ -462,7 +480,6 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve the character sheet first. It's necessary to do
 		// this before concoctions have a chance to get refreshed.
 
-		forceContinue();
 		(new CharsheetRequest()).run();
 		if ( refusesContinue() )
 			return;
@@ -483,7 +500,6 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve the items which are available for consumption
 		// and item creation.
 
-		forceContinue();
 		(new EquipmentRequest( EquipmentRequest.CLOSET )).run();
 		if ( refusesContinue() )
 			return;
@@ -497,9 +513,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve the list of familiars which are available to
 		// the player, if they haven't opted to skip them.
 
-		forceContinue();
 		(new FamiliarRequest()).run();
-
 		if ( refusesContinue() )
 			return;
 
@@ -508,17 +522,14 @@ public abstract class KoLmafia implements KoLConstants
 
 		updateDisplay( "Retrieving campground data..." );
 
-		forceContinue();
 		(new CampgroundRequest()).run();
 		if ( refusesContinue() )
 			return;
 
-		forceContinue();
 		(new ItemStorageRequest()).run();
 		if ( refusesContinue() )
 			return;
 
-		forceContinue();
 		CharpaneRequest.getInstance().run();
 		updateDisplay( "Session data refreshed." );
 	}
@@ -1307,7 +1318,7 @@ public abstract class KoLmafia implements KoLConstants
 			// Execute the request as initially intended by calling
 			// a subroutine.  In doing so, make sure your HP/MP restore
 			// settings are scaled back down to current levels, if they've
-			// been manipulated internally by KoLmafia.
+			// been manipulated internally by
 
 			resetRestoreSettings( false );
 			executeRequest( request, iterations );
@@ -1779,7 +1790,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static void addTavernLocation( KoLRequest request )
 	{
-		KoLmafia.validateFaucetQuest();
+		validateFaucetQuest();
 		StringBuffer layout = new StringBuffer( StaticEntity.getProperty( "tavernLayout" ) );
 
 		if ( request.getURLString().indexOf( "fight" ) != -1 )
@@ -2113,7 +2124,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	/**
 	 * Initializes a stream for logging debugging information.  This
-	 * method creates a <code>KoLmafia.log</code> file in the default
+	 * method creates a <code>log</code> file in the default
 	 * directory if one does not exist, or appends to the existing
 	 * log.  This method should only be invoked if the user wishes to
 	 * assist in beta testing because the output is VERY verbose.
@@ -2145,7 +2156,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public static final void openDebugStream()
-	{	debugStream = openStream( "KoLmafia.log", debugStream, true );
+	{	debugStream = openStream( "log", debugStream, true );
 	}
 
 	public static final PrintStream getDebugStream()
@@ -2634,7 +2645,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		int haltTolerance = (int)( StaticEntity.getFloatProperty( "battleStop" ) * (float) KoLCharacter.getMaximumHP() );
 		if ( haltTolerance >= 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
-			KoLmafia.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
+			updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
 
 		if ( permitsContinue() && currentIterationString.length() > 0 )
 		{
