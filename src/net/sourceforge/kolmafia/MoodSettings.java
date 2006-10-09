@@ -116,6 +116,14 @@ public abstract class MoodSettings implements KoLConstants
 		ensureProperty( mood );
 
 		triggers = (SortedListModel) reference.get( mood );
+
+		if ( mood.equals( "default" ) && triggers.isEmpty() )
+		{
+			String beatenUpAction = getDefaultAction( "gain_effect", "Beaten Up" );
+			if ( beatenUpAction.startsWith( "cast" ) )
+				addTrigger( "gain_effect", "Beaten Up", beatenUpAction );
+		}
+
 		return triggers;
 	}
 
@@ -239,17 +247,17 @@ public abstract class MoodSettings implements KoLConstants
 			if ( KoLCharacter.isHardcore() )
 			{
 				rankedBuffs = new String [] {
-					"Aloysius' Antiphon of Aptitude", "Ur-Kel's Aria of Annoyance",
-					"Fat Leon's Phat Loot Lyric", "Cletus's Canticle of Celerity",
-					"The Psalm of Pointiness", "The Moxious Madrigal"
+					"Fat Leon's Phat Loot Lyric", "The Sonata of Sneakiness",
+					"The Psalm of Pointiness", "The Moxious Madrigal",
+					"Aloysius' Antiphon of Aptitude", "Ur-Kel's Aria of Annoyance"
 				};
 			}
 			else
 			{
 				rankedBuffs = new String [] {
-					"Fat Leon's Phat Loot Lyric", "Aloysius' Antiphon of Aptitude",
-					"Ur-Kel's Aria of Annoyance", "The Sonata of Sneakiness",
-					"Cletus's Canticle of Celerity", "Jackasses' Symphony of Destruction"
+					"Fat Leon's Phat Loot Lyric", "The Sonata of Sneakiness",
+					"Jackasses' Symphony of Destruction", "Cletus's Canticle of Celerity",
+					"Aloysius' Antiphon of Aptitude", "Ur-Kel's Aria of Annoyance"
 				};
 			}
 
@@ -282,9 +290,8 @@ public abstract class MoodSettings implements KoLConstants
 		addTrigger( "gain_effect", "Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
 
 		String beatenUpAction = getDefaultAction( "gain_effect", "Beaten Up" );
-		if ( !beatenUpAction.equals( "" ) )
+		if ( beatenUpAction.startsWith( "cast" ) )
 			addTrigger( "gain_effect", "Beaten Up", beatenUpAction );
-
 
 		// If there's any effects the player currently has and there
 		// is a known way to re-acquire it (internally known, anyway),
