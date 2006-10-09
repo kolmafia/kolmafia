@@ -59,6 +59,7 @@ public abstract class SendMessageRequest extends KoLRequest
 	protected SendMessageRequest( String formSource )
 	{
 		super( formSource );
+		addFormField( "pwd" );
 		this.attachments = new Object[0];
 	}
 
