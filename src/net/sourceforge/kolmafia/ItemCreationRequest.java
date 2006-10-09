@@ -467,7 +467,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		}
 
 		addFormField( "quantity", String.valueOf( quantityNeeded ) );
-		KoLmafia.updateDisplay( "Creating " + toString() + "..." );
+		KoLmafia.updateDisplay( "Creating " + name + " (" + quantityNeeded + ")..." );
 		super.run();
 	}
 
