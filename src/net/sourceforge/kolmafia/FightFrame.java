@@ -57,6 +57,10 @@ public class FightFrame extends RequestFrame
 		FightFrame.INSTANCE = this;
 	}
 
+	public FightFrame( String title, KoLRequest request )
+	{	super( title, null, request );
+	}
+
 	public void dispose()
 	{
 		INSTANCE = null;
@@ -68,15 +72,25 @@ public class FightFrame extends RequestFrame
 	}
 
 	public static void showRequest( KoLRequest request )
+	{	showRequest( request, null );
+	}
+
+	public static void showRequest( KoLRequest request, String title )
 	{
-		if ( request.getClass() == KoLRequest.class && request.responseText == null )
+		if ( request.responseText == null )
 			request.run();
 
-		if ( request.getURLString().indexOf( "action=message" ) != -1 )
-			createDisplay( RequestFrame.class, new Object [] { request } );
+		if ( title != null )
+		{
+			createDisplay( RequestFrame.class, new Object [] { title, request } );
+		}
 		else if ( INSTANCE == null )
+		{
 			createDisplay( FightFrame.class, new Object [] { request } );
+		}
 		else
+		{
 			INSTANCE.refresh( request );
+		}
 	}
 }

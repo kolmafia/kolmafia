@@ -388,7 +388,7 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		KoLRequest request = new KoLRequest( "" );
 		request.responseText = text;
-		FightFrame.showRequest( request );
+		FightFrame.showRequest( request, title );
 	}
 
 	private static final Pattern GENERAL_PATTERN = Pattern.compile( "<td>([^<]*?)&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<option value=(\\d+) selected>" );
