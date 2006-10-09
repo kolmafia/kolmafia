@@ -53,10 +53,8 @@ public class ProposeTradeRequest extends SendMessageRequest
 		super( "counteroffer.php", attachments );
 		addFormField( "action", "counter" );
 		addFormField( "whichoffer", String.valueOf( offerID ) );
-		addFormField( "pwd" );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
 
-		this.meatField = "offermeat";
 		this.message = message;
 		this.isCounterOffer = true;
 		this.recipient = KoLmafia.getPlayerID( recipient );
@@ -66,11 +64,9 @@ public class ProposeTradeRequest extends SendMessageRequest
 	{
 		super( "makeoffer.php", attachments );
 		addFormField( "action", "proposeoffer" );
-		addFormField( "pwd" );
 		addFormField( "towho", recipient );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
 
-		this.meatField = "offermeat";
 		this.message = message;
 		this.isCounterOffer = false;
 		this.recipient = KoLmafia.getPlayerID( recipient );
@@ -103,5 +99,17 @@ public class ProposeTradeRequest extends SendMessageRequest
 
 	protected String getStatusMessage()
 	{	return "Placing items in KoL escrow";
+	}
+
+	protected String getItemField()
+	{	return "whichitem";
+	}
+
+	protected String getQuantityField()
+	{	return "howmany";
+	}
+
+	protected String getMeatField()
+	{	return "offermeat";
 	}
 }

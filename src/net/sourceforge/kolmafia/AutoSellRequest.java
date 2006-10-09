@@ -65,7 +65,6 @@ public class AutoSellRequest extends SendMessageRequest
 	public AutoSellRequest( Object [] items, int [] prices, int [] limits, int sellType )
 	{
 		super( getSellPage( sellType ), items );
-		addFormField( "pwd" );
 
 		this.sellType = sellType;
 		this.prices = new int[ prices.length ];
@@ -75,8 +74,6 @@ public class AutoSellRequest extends SendMessageRequest
 		{
 			addFormField( "action", "additem" );
 
-			this.quantityField = "qty";
-
 			for ( int i = 0; i < prices.length; ++i )
 			{
 				this.prices[i] = prices[i];
@@ -84,6 +81,19 @@ public class AutoSellRequest extends SendMessageRequest
 			}
 		}
 	}
+
+	protected String getItemField()
+	{	return "whichitem";
+	}
+
+	protected String getQuantityField()
+	{	return "qty";
+	}
+
+	protected String getMeatField()
+	{	return "sendmeat";
+	}
+
 
 	private static String getSellPage( int sellType )
 	{
@@ -105,7 +115,7 @@ public class AutoSellRequest extends SendMessageRequest
 		if ( sellType == AUTOMALL )
 		{
 			addFormField( "item" + index, String.valueOf( item.getItemID() ) );
-			addFormField( quantityField + index, String.valueOf( item.getCount() ) );
+			addFormField( getQuantityField() + index, String.valueOf( item.getCount() ) );
 
 			if ( prices.length == 0 )
 			{

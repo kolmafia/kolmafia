@@ -60,7 +60,6 @@ public class MuseumRequest extends SendMessageRequest
 	public MuseumRequest( Object [] attachments, boolean isDeposit )
 	{
 		super( "managecollection.php", attachments );
-		addFormField( "pwd" );
 		addFormField( "action", isDeposit ? "put" : "take" );
 
 		this.isManagement = true;
@@ -73,7 +72,6 @@ public class MuseumRequest extends SendMessageRequest
 	public MuseumRequest( AdventureResult [] items, int [] shelves )
 	{
 		this();
-		addFormField( "pwd" );
 		addFormField( "action", "arrange" );
 
 		for ( int i = 0; i < items.length; ++i )
@@ -91,6 +89,18 @@ public class MuseumRequest extends SendMessageRequest
 	}
 
 	protected String getSuccessMessage()
+	{	return "";
+	}
+
+	protected String getItemField()
+	{	return "whichitem";
+	}
+
+	protected String getQuantityField()
+	{	return "howmany";
+	}
+
+	protected String getMeatField()
 	{	return "";
 	}
 

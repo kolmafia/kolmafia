@@ -173,39 +173,39 @@ public class MeatManageFrame extends KoLFrame
 
 			switch ( fundTransferType )
 			{
-				case 0:
-					transferType = ItemStorageRequest.MEAT_TO_CLOSET;
+			case 0:
+				transferType = ItemStorageRequest.MEAT_TO_CLOSET;
 
-					if ( amountToTransfer <= 0 )
-						amountToTransfer = KoLCharacter.getAvailableMeat();
+				if ( amountToTransfer <= 0 )
+					amountToTransfer = KoLCharacter.getAvailableMeat();
 
-					break;
+				break;
 
-				case 1:
-					transferType = ItemStorageRequest.MEAT_TO_INVENTORY;
+			case 1:
+				transferType = ItemStorageRequest.MEAT_TO_INVENTORY;
 
-					if ( amountToTransfer <= 0 )
-						amountToTransfer = KoLCharacter.getClosetMeat();
+				if ( amountToTransfer <= 0 )
+					amountToTransfer = KoLCharacter.getClosetMeat();
 
-					break;
+				break;
 
-				case 2:
-				case 3:
+			case 2:
+			case 3:
 
-					transferType = ItemStorageRequest.PULL_MEAT_FROM_STORAGE;
+				transferType = ItemStorageRequest.PULL_MEAT_FROM_STORAGE;
 
-					if ( amountToTransfer <= 0 )
-					{
-						KoLmafia.updateDisplay( ERROR_STATE, "You must specify an amount to pull from Hagnk's." );
-						return;
-					}
+				if ( amountToTransfer <= 0 )
+				{
+					KoLmafia.updateDisplay( ERROR_STATE, "You must specify an amount to pull from Hagnk's." );
+					return;
+				}
 
-					break;
+				break;
 			}
 
-			requests[0] = new ItemStorageRequest( amountToTransfer, transferType );
+			requests[0] = new ItemStorageRequest( transferType, amountToTransfer );
 			if ( fundTransferType == 3 )
-				requests[1] = new ItemStorageRequest( amountToTransfer, ItemStorageRequest.MEAT_TO_CLOSET );
+				requests[1] = new ItemStorageRequest( ItemStorageRequest.MEAT_TO_CLOSET, amountToTransfer );
 
 			(new RequestThread( requests )).start();
 		}
