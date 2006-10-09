@@ -50,7 +50,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		addFormField( "towho", recipient );
 		addFormField( "message", message );
 
-		if ( !message.equals( DEFAULT_KMAIL ) )
+		if ( !message.equals( DEFAULT_KMAIL ) && !BuffBotHome.isBuffBotActive() )
 			addFormField( "savecopy", "on" );
 
 		this.recipient = KoLmafia.getPlayerID( recipient );
@@ -64,7 +64,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		addFormField( "towho", recipient );
 		addFormField( "message", message );
 
-		if ( !message.equals( DEFAULT_KMAIL ) )
+		if ( !message.equals( DEFAULT_KMAIL ) && !BuffBotHome.isBuffBotActive() )
 			addFormField( "savecopy", "on" );
 
 		this.recipient = KoLmafia.getPlayerID( recipient );
