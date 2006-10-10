@@ -202,7 +202,7 @@ supportive bra	50	Mox: 10
 # which go in the "weapon" slot of the equipment menu.
 
 25-meat staff	70	Mus: 20	2-handed staff
-5-Alarm Saucepan	50	Mus: 10	1-handed suacepan
+5-Alarm Saucepan	50	Mus: 10	1-handed saucepan
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe
 acoustic guitarrr	100	Mox: 35	2-handed guitar
 antique spear	200	Mus: 85	1-handed spear
@@ -217,7 +217,7 @@ bamboo bokuto	100	Mus: 35	1-handed sword
 basic meat crossbow	40	Mox: 5	2-handed crossbow
 basic meat spork	45	Mus: 7	1-handed utensil
 basic meat staff	40	Mus: 5	2-handed staff
-basic meat sword	40	Mus: 5	1-handed sword
+basic meat sword	40	Mus: 5	2-handed sword
 batblade	110	Mus: 40	1-handed knife
 big stick	10	none	2-handed staff
 Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
@@ -314,9 +314,9 @@ ice sickle	100	none	1-handed scythe
 icy-hot katana	90	Mus: 30	2-handed sword
 iron pasta spoon	110	Mus: 40	1-handed utensil
 jack flapper	35	Mus: 2	1-handed utensil
-Kentucky-fried meat crossbow	80	Mox: 25	2-handed crossbow
-Kentucky-fried meat staff	80	Mus: 25	2-handed staff
-Kentucky-fried meat sword	80	Mus: 25	2-handed sword
+Kentucky-fried meat crossbow	70	Mox: 20	2-handed crossbow
+Kentucky-fried meat staff	70	Mus: 20	2-handed staff
+Kentucky-fried meat sword	70	Mus: 20	2-handed sword
 kneecapping stick	90	Mus: 30	1-handed club
 Knob Goblin elite polearm	60	Mus: 15	2-handed polearm
 Knob Goblin melon baller	80	Mus: 25	1-handed utensil
@@ -500,7 +500,7 @@ voodoo doll	0	none
 wad of Crovacite	0	none
 white balloon	0	none
 white satin shield	0	Mus: 25
-yak skin buckler	0	Mys: 30
+yakskin buckler	0	Mys: 30
 
 # Accessories section.  While Coldfront lists an item
 # power for each item, I have no idea where those values
