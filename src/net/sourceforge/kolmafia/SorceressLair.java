@@ -181,7 +181,10 @@ public abstract class SorceressLair extends StaticEntity
 				// this inefficient workaround.
 
 				DEFAULT_SHELL.executeLine( "council" );
+
+				REDIRECT_FOLLOWER.constructURLString( "main.php" );
 				REDIRECT_FOLLOWER.run();
+
 				unlockedQuest = REDIRECT_FOLLOWER.responseText.indexOf( "lair.php" ) != -1;
 			}
 
