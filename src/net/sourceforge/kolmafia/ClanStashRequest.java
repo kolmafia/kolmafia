@@ -216,19 +216,20 @@ public class ClanStashRequest extends SendMessageRequest
 		// clan stash, and THEN update the quantities
 		// of items which are still there.
 
+		int currentCount;
+		AdventureResult currentResult;
 		stashContents.retainAll( intermediateList );
-		AdventureResult [] intermediateArray = new AdventureResult[ intermediateList.size() ];
-		intermediateList.toArray( intermediateArray );
 
-		for ( int i = 0; i < intermediateArray.length; ++i )
+		for ( int i = 0; i < intermediateList.size(); ++i )
 		{
-			int currentCount = intermediateArray[i].getCount( stashContents );
-			if ( currentCount != intermediateArray[i].getCount() )
+			currentResult = (AdventureResult) intermediateList.get(i);
+			currentCount = currentResult.getCount( stashContents );
+			if ( currentCount != currentResult.getCount() )
 			{
 				if ( currentCount > 0 )
-					stashContents.remove( intermediateArray[i] );
+					stashContents.remove( currentResult );
 
-				stashContents.add( intermediateArray[i] );
+				stashContents.add( currentResult );
 			}
 		}
 	}
