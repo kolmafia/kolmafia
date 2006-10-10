@@ -253,7 +253,7 @@ clockwork staff	80	Mus: 25	2-handed staff
 clockwork sword	80	Mus: 25	2-handed sword
 clown hammer	10	none	1-handed club
 cool whip	10	none	1-handed whip
-cornholder	20	none	1-handed utensil
+corn holder	20	none	1-handed utensil
 crazy bastard sword	75	Mus: 22	1-handed sword
 Crimbo sword	100	Mus: 35	2-handed sword
 crowbarrr	80	Mus: 25	2-handed staff
@@ -359,7 +359,7 @@ Rock and Roll Legend	50	Mox: 10	2-handed accordion
 rubber axe	40	Mus: 5	2-handed axe
 rusty grave robbing shovel	80	Mus: 25	2-handed polearm
 sabre teeth	60	Mus: 15	1-handed knife
-sack of doorknobs	110	Mox: 50	2-handed sack
+sack of doorknobs	110	Mox: 40	2-handed sack
 saucepan	10	none	1-handed saucepan
 savory sword	80	Mus: 25	1-handed sword
 savory staff	80	Mus: 25	2-handed staff
@@ -571,6 +571,7 @@ Item #13	0	none
 Jarlsberg's earring	0	Mys: 25
 Jekyllin hide belt	0	none
 Junior LAAAAME merit badge	0	none
+ladle of mystery	0	none
 Lord Spookyraven's spectacles	0	none
 lucky rabbit's foot	0	none
 Mafia bow tie	0	Mys: 35
