@@ -103,7 +103,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	public void add( int index, Object element )
 	{
 		if ( element == null )
-			throw new IllegalArgumentException( "cannot add a null object to this list" );
+			return;
 
 		elements.add( index, element );
 		fireIntervalAdded( this, index, index );
@@ -116,9 +116,6 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public boolean add( Object o )
 	{
-		if ( o == null )
-			return false;
-
 		int originalSize = elements.size();
 		add( originalSize, o );
 		return originalSize != elements.size();
@@ -130,32 +127,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public boolean addAll( Collection c )
-	{
-		if ( isEmpty() )
-		{
-			if ( elements.addAll( c ) )
-			{
-				fireIntervalAdded( this, 0, elements.size() - 1 );
-				return true;
-			}
-
-			return false;
-		}
-
-		try
-		{
-			int originalSize = elements.size();
-
-			Iterator myIterator = c.iterator();
-			while ( myIterator.hasNext() )
-				add( myIterator.next() );
-
-			return originalSize != elements.size();
-		}
-		catch( IllegalArgumentException e )
-		{
-			return false;
-		}
+	{	return addAll( elements.size(), c );
 	}
 
 	/**
@@ -165,20 +137,24 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public boolean addAll( int index, Collection c )
 	{
-		try
+		int originalSize = elements.size();
+
+		Object currentItem;
+		int currentIndex = index;
+		Iterator myIterator = c.iterator();
+
+		while ( myIterator.hasNext() )
 		{
-			int originalSize = elements.size();
-
-			Iterator myIterator = c.iterator();
-			for ( int i = index; myIterator.hasNext(); ++i )
-				add( i, myIterator.next() );
-
-			return originalSize != elements.size();
+			currentItem = myIterator.next();
+			if ( currentItem != null && !elements.contains( currentItem ) )
+				elements.add( currentIndex++, currentItem );
 		}
-		catch( IllegalArgumentException e )
-		{
+
+		if ( originalSize == elements.size() )
 			return false;
-		}
+
+		fireIntervalAdded( this, index, currentIndex - 1 );
+		return true;
 	}
 
 	/**
@@ -219,8 +195,25 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	{	return elements.containsAll( c );
 	}
 
+	/**
+	 * Please refer to {@link java.util.List#equals(Object)} for more
+	 * information regarding this function.
+	 */
+
 	public boolean equals( Object o )
-	{	return this == o;
+	{	return o instanceof LockableListModel ? this == o : elements.equals( o );
+	}
+
+	/**
+	 * Utility function which makes this list equal to the other list.
+	 * This is called instead of clear() followed by addAll() in order
+	 * to reduce screen flicker.
+	 */
+
+	public void makeEqualTo( Collection c )
+	{
+		retainAll( c );
+		addAll( c );
 	}
 
 	/**

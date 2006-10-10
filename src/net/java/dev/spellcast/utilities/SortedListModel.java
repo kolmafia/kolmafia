@@ -164,30 +164,42 @@ public class SortedListModel extends LockableListModel
 		}
 	}
 
-    /**
-     * Please refer to {@link java.util.List#indexOf(Object)} for more
-     * information regarding this function.
-     */
 
-	public int indexOf( Object o )
+	/**
+	 * Please refer to {@link java.util.List#addAll(Collection)} for more
+	 * information regarding this function.
+	 */
+
+	public boolean addAll( Collection c )
 	{
-		if ( !associatedClass.isInstance( o ) )
-			return -1;
+		if ( !super.addAll( c ) )
+			return false;
 
-		return indexOf( 0, size() - 1,  (Comparable)o, NORMAL );
+		sort();
+		return true;
+	}
+
+	/**
+	 * Please refer to {@link java.util.List#addAll(int,Collection)} for more
+	 * information regarding this function.
+	 */
+
+	public boolean addAll( int index, Collection c )
+	{
+		if ( !super.addAll( index, c ) )
+			return false;
+
+		sort();
+		return true;
 	}
 
     /**
-     * Please refer to {@link java.util.List#indexOf(Object)} for more information
-     * regarding this function.
+     * Please refer to {@link java.util.List#contains(Object)} for more
+     * information regarding this function.
      */
 
-	public int lastIndexOf( Object o )
-	{
-		if ( !associatedClass.isInstance( o ) )
-			return -1;
-
-		return indexOf( 0, size() - 1,  (Comparable)o, NORMAL );
+	public boolean contains( Object o )
+	{	return indexOf( o ) != -1;
 	}
 
  	/**
