@@ -644,6 +644,15 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	public void run()
 	{
+		// Abort before adventure verification in the event that
+		// this person is stasis-mining.
+
+		if ( adventureID.indexOf( "101" ) != -1 && KoLCharacter.getFamiliar().isStasisFamiliar() && KoLCharacter.canInteract() )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Please reconsider your meat farming strategy." );
+			return;
+		}
+
 		// Validate the adventure before running it.
 		// If it's invalid, return and do nothing.
 
@@ -770,23 +779,11 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( request instanceof CampgroundRequest || request instanceof SewerRequest )
 			StaticEntity.getClient().registerEncounter( getAdventureName() );
-
-		if ( adventureID.equals( "101" ) && KoLCharacter.getFamiliar().isStasisFamiliar() && KoLCharacter.canInteract() )
-		{
-			StaticEntity.setGlobalProperty( "saveState", "" );
-			System.exit(0);
-		}
 	}
 
 	public static boolean recordToSession( String urlString )
 	{
 		String location = null;
-
-		if ( urlString.indexOf( "snarfblat=101" ) != -1 && KoLCharacter.getFamiliar().isStasisFamiliar() && KoLCharacter.canInteract() )
-		{
-			StaticEntity.setGlobalProperty( "saveState", "" );
-			System.exit(0);
-		}
 
 		if ( urlString.indexOf( "dungeon.php" ) != -1 )
 			location = "Daily Dungeon";
