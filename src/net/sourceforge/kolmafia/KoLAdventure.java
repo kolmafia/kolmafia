@@ -647,7 +647,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Abort before adventure verification in the event that
 		// this person is stasis-mining.
 
-		if ( adventureID.indexOf( "101" ) != -1 && KoLCharacter.getFamiliar().isStasisFamiliar() && KoLCharacter.canInteract() )
+		if ( adventureID.indexOf( "101" ) != -1 && KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Please reconsider your meat farming strategy." );
 			return;
