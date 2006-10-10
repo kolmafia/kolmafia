@@ -45,6 +45,8 @@ import java.util.regex.Matcher;
 public class FightRequest extends KoLRequest
 {
 	private static boolean isUsingConsultScript = false;
+	private static boolean isInstanceRunning = false;
+
 	public static final FightRequest INSTANCE = new FightRequest();
 
 	private static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
@@ -229,7 +231,11 @@ public class FightRequest extends KoLRequest
 
 			nextRound();
 			if ( !isUsingConsultScript )
+			{
+				isInstanceRunning = true;
 				super.run();
+				isInstanceRunning = false;
+			}
 
 			if ( KoLmafia.refusesContinue() || action1 == null )
 			{
@@ -298,8 +304,11 @@ public class FightRequest extends KoLRequest
 
 	public static void updateCombatData( String encounter, String rawResponse )
 	{
-		INSTANCE.fullResponse = rawResponse;
-		INSTANCE.generateResponseText();
+		if ( !isInstanceRunning )
+		{
+			INSTANCE.fullResponse = rawResponse;
+			INSTANCE.generateResponseText();
+		}
 
 		// Spend MP and consume items
 
