@@ -169,21 +169,23 @@ public class FamiliarTool
 
 	private boolean betterWeightDifference( int newVal, int oldVal )
 	{
-		//I am assuming priority to flow as follows: 0/+1/-1/+2/-2/+3/+4/+5/etc
-		if ( oldVal == 0 )
+		// In order to reduce the probability for accidental loss,
+		// do not consider priority values less than -1.
+
+		switch ( oldVal )
+		{
+		case 0:
 			return false;
-		else if ( oldVal == 1 )
+
+		case 1:
 			return newVal == 0;
-		else if ( oldVal == -1 )
+
+		case -1:
 			return newVal == 0 || newVal == 1;
-		else if ( oldVal == 2 )
-			return newVal == 0 || newVal == 1 || newVal == -1;
-		else if ( oldVal == -2 )
-			return newVal == 0 || newVal == 1 || newVal == -1 || newVal == 2;
-		else if ( newVal == 0 || newVal == 1 || newVal == -1 || newVal == 2 )
-			return true;
-		else
-			return newVal < oldVal && newVal >= -2;
+
+		default:
+			return newVal == 0 || (newVal < oldVal && newVal >= -1);
+		}
 	}
 
 	private class Opponent
