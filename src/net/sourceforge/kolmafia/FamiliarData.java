@@ -267,11 +267,12 @@ public class FamiliarData implements KoLConstants, Comparable
 		}
 	}
 
-	public boolean isStasisFamiliar()
+	public boolean isThiefFamiliar()
 	{
 		switch ( id )
 		{
 		case 16: // Cocoabo
+		case 27: // Hanukkimbo Dreidl
 		case 48: // Ninja Pirate Zombie Robot
 			return true;
 
