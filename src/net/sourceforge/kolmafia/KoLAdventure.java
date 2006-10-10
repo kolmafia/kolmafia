@@ -48,6 +48,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
+	private static final AdventureResult PERFUME_ITEM = new AdventureResult( 307, 1 );
+	private static final AdventureResult PERFUME_EFFECT = new AdventureResult( "Knob Goblin Perfume", 1, false );
+
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
 	private static final AdventureResult SOCK = new AdventureResult( 609, 1 );
 	private static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
@@ -115,7 +118,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		else
 		{
 			shouldRunCheck = true;
-			shouldRunFullCheck = formSource.indexOf( "lair6.php" ) == -1;
+			shouldRunFullCheck = formSource.indexOf( "lair6.php" ) == -1 && formSource.indexOf( "shore.php" ) == -1;
 			this.request = new AdventureRequest( adventureName, formSource, adventureID );
 		}
 
@@ -226,12 +229,37 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( isValidAdventure )
 			return;
 
-		if ( getRequest().getURLString().indexOf( "adventure.php" ) == -1 )
+		// Fighting the Goblin King requires effects
+		if ( formSource.equals( "knob.php" ) )
+		{
+			int outfitID = EquipmentDatabase.getOutfitID( this );
+
+			if ( !EquipmentDatabase.isWearingOutfit( outfitID ) )
+			{
+				EquipmentDatabase.retrieveOutfit( outfitID );
+				if ( !KoLmafia.permitsContinue() )
+					return;
+
+				if ( !activeEffects.contains( PERFUME_EFFECT ) )
+				{
+					AdventureDatabase.retrieveItem( PERFUME_ITEM );
+					if ( !KoLmafia.permitsContinue() )
+						return;
+
+					(new ConsumeItemRequest( PERFUME_ITEM )).run();
+				}
+
+				(new EquipmentRequest( EquipmentDatabase.getOutfit( outfitID ) )).run();
+			}
+		}
+
+		if ( formSource.indexOf( "adventure.php" ) == -1 )
 		{
 			isValidAdventure = true;
 			return;
 		}
 
+		// Disguise zones require outfits
 		if ( adventureName.indexOf( "In Disguise" ) != -1 || adventureName.indexOf( "Cloaca Uniform" ) != -1 || adventureName.indexOf( "Dyspepsi Uniform" ) != -1 )
 		{
 			int outfitID = EquipmentDatabase.getOutfitID( this );
