@@ -2244,9 +2244,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 			StringBuffer text = new StringBuffer();
 
 			text.append( "Current equipment:" );
-			if ( hat == PITH_HELMET)
+			if ( hat == PITH_HELMET )
 				text.append( " plexiglass pith helmet (+5)" );
-			if ( item == LEAD_NECKLACE )
+			if ( item == PUMPKIN_BASKET )
+				text.append( " plastic pumpkin basket (+5)" );
+			else if ( item == LEAD_NECKLACE )
 				text.append( " lead necklace (+3)" );
 			else if ( item == RAT_HEAD_BALLOON )
 				text.append( " rat head balloon (-3)" );
