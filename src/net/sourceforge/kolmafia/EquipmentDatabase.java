@@ -293,7 +293,7 @@ public class EquipmentDatabase extends KoLDatabase
 			return 5;
 
 		// Knob goblin harem has the harem girl disguise
-		if ( adventureID.equals( "42" ) )
+		if ( adventureID.equals( "42" ) || adventure.getFormSource().equals( "knob.php" ) )
 			return 4;
 
 		// The mine has mining gear

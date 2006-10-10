@@ -119,8 +119,9 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		if ( o == null )
 			return false;
 
-		add( size(), o );
-		return true;
+		int originalSize = elements.size();
+		add( originalSize, o );
+		return originalSize != elements.size();
 	}
 
 	/**
@@ -132,18 +133,24 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	{
 		if ( isEmpty() )
 		{
-			elements.addAll( c );
-			fireIntervalAdded( this, 0, elements.size() - 1 );
-			return true;
+			if ( elements.addAll( c ) )
+			{
+				fireIntervalAdded( this, 0, elements.size() - 1 );
+				return true;
+			}
+
+			return false;
 		}
 
 		try
 		{
+			int originalSize = elements.size();
+
 			Iterator myIterator = c.iterator();
 			while ( myIterator.hasNext() )
-				if ( !add( myIterator.next() ) )
-					return false;
-			return true;
+				add( myIterator.next() );
+
+			return originalSize != elements.size();
 		}
 		catch( IllegalArgumentException e )
 		{
@@ -160,10 +167,13 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	{
 		try
 		{
+			int originalSize = elements.size();
+
 			Iterator myIterator = c.iterator();
 			for ( int i = index; myIterator.hasNext(); ++i )
 				add( i, myIterator.next() );
-			return true;
+
+			return originalSize != elements.size();
 		}
 		catch( IllegalArgumentException e )
 		{
@@ -279,7 +289,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		}
 
 		public boolean hasNext()
-		{	return nextIndex < LockableListModel.this.size();
+		{	return nextIndex < LockableListModel.this.elements.size();
 		}
 
 		public Object next()
@@ -413,13 +423,13 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public boolean removeAll( Collection c )
 	{
-		boolean changed = false;
+		int originalSize = elements.size();
 
 		Iterator it = c.iterator();
 		while ( it.hasNext() )
-			changed |= remove( it.next() );
+			remove( it.next() );
 
-		return changed;
+		return originalSize != elements.size();
 	}
 
 	/**
@@ -429,19 +439,14 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public boolean retainAll( Collection c )
 	{
-		boolean changed = false;
+		int originalSize = elements.size();
 
 		Iterator it = iterator();
 		while ( it.hasNext() )
-		{
 			if ( !c.contains( it.next() ) )
-			{
 				it.remove();
-				changed = true;
-			}
-		}
 
-		return changed;
+		return originalSize != elements.size();
 	}
 
 	/**
@@ -512,7 +517,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public int getSize()
-	{	return size();
+	{	return elements.size();
 	}
 
     /**
@@ -649,7 +654,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		Vector clonedList = new Vector();
 		java.lang.reflect.Method cloneMethod;  Object toClone;
 
-		for ( int i = 0; i < size(); ++i )
+		for ( int i = 0; i < elements.size(); ++i )
 			clonedList.add( attemptClone( get(i) ) );
 
 		return clonedList;
