@@ -2898,6 +2898,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { INT_TYPE, SKILL_TYPE };
 		result.addElement( new ScriptExistingFunction( "use_skill", BOOLEAN_TYPE, params ) );
 
+		params = new ScriptType[] { INT_TYPE, SKILL_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "use_skill", BOOLEAN_TYPE, params ) );
+
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "add_item_condition", VOID_TYPE, params ) );
 
@@ -4425,6 +4428,15 @@ public class KoLmafiaASH extends StaticEntity
 				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "cast " + count.intValue() + " " + skill.toStringValue() );
+			return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
+		}
+
+		public ScriptValue use_skill( ScriptVariable count, ScriptVariable skill, ScriptVariable target )
+		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
+			DEFAULT_SHELL.executeLine( "cast " + count.intValue() + " " + skill.toStringValue() + " on " + target.toStringValue() );
 			return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
 		}
 
