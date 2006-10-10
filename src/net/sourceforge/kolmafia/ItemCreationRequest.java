@@ -479,22 +479,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		AdventureResult createdItem = new AdventureResult( itemID, 0 );
 		int createdQuantity = createdItem.getCount( inventory ) - beforeQuantity;
 
-		if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
-			KoLCharacter.determineStillsAvailable( responseText );
+		if ( mixingMethod == STILL_MIXER || mixingMethod == STILL_BOOZE )
+			KoLCharacter.decrementStillsAvailable( createdQuantity );
 
 		// Check to make sure that the item creation did not fail.
-
-		if ( responseText.indexOf( "You don't have enough" ) != -1 )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You're missing ingredients." );
-			return;
-		}
-
-		if ( responseText.indexOf( "You don't have that many adventures left" ) != -1 )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have enough adventures." );
-			return;
-		}
 
 		if ( createdQuantity == 0 )
 			return;
