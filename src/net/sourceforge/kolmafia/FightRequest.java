@@ -289,7 +289,7 @@ public class FightRequest extends KoLRequest
 		if ( !isAcceptable && KoLCharacter.hasSkill( "Entangling Noodles" ) )
 		{
 			desiredSkill = 3004;
-			isAcceptable = isAcceptable( -6, 0 );
+			isAcceptable = isAcceptable( -1 - Math.min( 5, KoLCharacter.getAdjustedMysticality() / 8 ), 0 );
 		}
 
 		// Disco Face Stab
