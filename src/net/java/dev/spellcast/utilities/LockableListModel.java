@@ -36,7 +36,7 @@ package net.java.dev.spellcast.utilities;
 
 // list-related imports
 import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Collection;
 import java.util.Iterator;
@@ -65,7 +65,7 @@ import javax.swing.event.ListDataListener;
 public class LockableListModel extends javax.swing.AbstractListModel
 	implements Cloneable, java.util.List, javax.swing.ListModel, javax.swing.ComboBoxModel, javax.swing.MutableComboBoxModel
 {
-	private Vector elements;
+	private ArrayList elements;
 	private Object selectedValue;
 
 	/**
@@ -74,7 +74,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public LockableListModel()
 	{
-		elements = new Vector();
+		elements = new ArrayList();
 		selectedValue = null;
 	}
 
@@ -83,16 +83,41 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		this();
 		addAll( c );
 	}
+
 	public void sort()
 	{
 		Collections.sort( elements );
-		fireContentsChanged( this, 0, size() - 1 );
+		fireContentsChanged( this, 0, elements.size() - 1 );
 	}
 
 	public void sort( Comparator c )
 	{
 		Collections.sort( elements, c );
-		fireContentsChanged( this, 0, size() - 1 );
+		fireContentsChanged( this, 0, elements.size() - 1 );
+	}
+
+	public void fireContentsChanged( Object source, int index0, int index1 )
+	{
+		if ( listenerList.getListenerCount() == 0 )
+			return;
+
+		super.fireContentsChanged( source, index0, index1 );
+	}
+
+	public void fireIntervalAdded( Object source, int index0, int index1 )
+	{
+		if ( listenerList.getListenerCount() == 0 )
+			return;
+
+		super.fireIntervalAdded( source, index0, index1 );
+	}
+
+	public void fireIntervalRemoved( Object source, int index0, int index1 )
+	{
+		if ( listenerList.getListenerCount() == 0 )
+			return;
+
+		super.fireIntervalRemoved( source, index0, index1 );
 	}
 
 	/**
@@ -139,6 +164,16 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	{
 		int originalSize = elements.size();
 
+		if ( isEmpty() || index == elements.size() )
+		{
+			if ( c.isEmpty() )
+				return false;
+
+			elements.addAll( index, c );
+			fireContentsChanged( this, originalSize, elements.size() );
+			return true;
+		}
+
 		Object currentItem;
 		int currentIndex = index;
 		Iterator myIterator = c.iterator();
@@ -146,15 +181,11 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		while ( myIterator.hasNext() )
 		{
 			currentItem = myIterator.next();
-			if ( currentItem != null && !elements.contains( currentItem ) )
-				elements.add( currentIndex++, currentItem );
+			if ( currentItem != null )
+				add( currentIndex, currentItem );
 		}
 
-		if ( originalSize == elements.size() )
-			return false;
-
-		fireIntervalAdded( this, index, currentIndex - 1 );
-		return true;
+		return originalSize != elements.size();
 	}
 
 	/**
@@ -205,26 +236,15 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	}
 
 	/**
-	 * Utility function which makes this list equal to the other list.
-	 * This is called instead of clear() followed by addAll() in order
-	 * to reduce screen flicker.
-	 */
-
-	public void makeEqualTo( Collection c )
-	{
-		retainAll( c );
-		addAll( c );
-	}
-
-	/**
 	 * Please refer to {@link java.util.List#get(int)} for more
 	 * information regarding this function.
 	 */
 
 	public Object get( int index )
 	{
-		if ( index < 0 || index >= size() )
+		if ( index < 0 || index >= elements.size() )
 			return null;
+
 		return elements.get( index );
 	}
 
@@ -346,12 +366,12 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	}
 
 	/**
-	 * Please refer to {@link java.util.Vector#lastElement()} for more
+	 * Please refer to {@link java.util.ArrayList#lastElement()} for more
 	 * information regarding this function.
 	 */
 
 	public Object lastElement()
-	{	return elements.isEmpty() ? null : elements.lastElement();
+	{	return elements.isEmpty() ? null : elements.get( elements.size() - 1 );
 	}
 
 	/**
@@ -360,7 +380,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public int lastIndexOf( Object o )
-	{	return elements.lastIndexOf( o );
+	{	return indexOf( o );
 	}
 
 	/**
@@ -389,7 +409,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public Object remove( int index )
 	{
-		if ( index < 0 || index >= size() )
+		if ( index < 0 || index >= elements.size() )
 			return null;
 
 		Object removedElement = elements.remove( index );
@@ -605,7 +625,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * method will not fail; it will add a reference to the object, in effect creating a shallow
 	 * copy of it.  Thus, retrieving an object using get() and modifying a field will result
 	 * in both <code>LockableListModel</code> objects changing, in the same way retrieving
-	 * an element from a cloned <code>Vector</code> will.
+	 * an element from a cloned <code>ArrayList</code> will.
 	 *
 	 * @return	a deep copy (exempting listeners) of this <code>LockableListModel</code>.
 	 */
@@ -631,7 +651,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	}
 
 	/**
-	 * Because <code>Vector</code> only creates a shallow copy of the objects,
+	 * Because <code>ArrayList</code> only creates a shallow copy of the objects,
 	 * the one used as a data structure here must be cloned manually in order
 	 * to satifsy the contract established by <code>clone()</code>.  However,
 	 * the individual elements are known to be of class <code>Object</code>,
@@ -642,9 +662,9 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * @return	as deep a copy of the object as can be obtained
 	 */
 
-	private Vector cloneList()
+	private ArrayList cloneList()
 	{
-		Vector clonedList = new Vector();
+		ArrayList clonedList = new ArrayList();
 		java.lang.reflect.Method cloneMethod;  Object toClone;
 
 		for ( int i = 0; i < elements.size(); ++i )

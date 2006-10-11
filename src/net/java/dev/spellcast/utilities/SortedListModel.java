@@ -35,16 +35,13 @@
 package net.java.dev.spellcast.utilities;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * An extension of the {@link net.java.dev.spellcast.utilities.LockableListModel} which maintains
  * elements in ascending order, where elements can only be added and replaced if they do not
- * disturb the sorted property of the <code>List</code>.  The <code>SortedListModel</code> adds
- * the additional restriction that, if an element <tt>e2</tt> is added to the list after another
- * element <tt>e1</tt> is added, and <tt>e1.equals(e2)</tt> returns <tt>true</tt>, then <tt>e2</tt>
- * will not be added to the list.
+ * disturb the sorted property of the <code>List</code>.
  */
 
 public class SortedListModel extends LockableListModel
@@ -100,6 +97,14 @@ public class SortedListModel extends LockableListModel
 			throw new IllegalArgumentException( associatedClass.getName() + " does not implement Comparable" );
 	}
 
+	public void sort()
+	{
+	}
+
+	public void sort( Comparator c )
+	{
+	}
+
     /**
      * Please refer to {@link java.util.List#add(int,Object)} for more
      * information regarding this function.  Note that if the position
@@ -109,6 +114,22 @@ public class SortedListModel extends LockableListModel
 
 	public void add( int index, Object element )
 	{	this.add( element );
+	}
+
+	/**
+	 * Please refer to {@link java.util.List#addAll(int,Collection)} for more
+	 * information regarding this function.
+	 */
+
+	public boolean addAll( int index, Collection c )
+	{
+		boolean wasEmpty = isEmpty();
+		boolean result = super.addAll( index, c );
+
+		if ( wasEmpty && !(c instanceof SortedListModel) )
+			super.sort();
+
+		return result;
 	}
 
     /**
@@ -129,7 +150,7 @@ public class SortedListModel extends LockableListModel
 		// given position, and then re-add the element
 		// which is to be set (to ensure sortedness).
 
-		Object value = remove( index );
+		Object value = super.remove( index );
 
 		// If the location would be unaffected by
 		// the removal process, call the super-class
@@ -148,7 +169,7 @@ public class SortedListModel extends LockableListModel
 
 	public boolean add( Object o )
 	{
-		if ( contains( o ) )
+		if ( o == null )
 			return false;
 
 		try
@@ -164,33 +185,17 @@ public class SortedListModel extends LockableListModel
 		}
 	}
 
+    /**
+     * Please refer to {@link java.util.List#indexOf(Object)} for more
+     * information regarding this function.
+     */
 
-	/**
-	 * Please refer to {@link java.util.List#addAll(Collection)} for more
-	 * information regarding this function.
-	 */
-
-	public boolean addAll( Collection c )
+	public int indexOf( Object o )
 	{
-		if ( !super.addAll( c ) )
-			return false;
+		if ( o == null || !associatedClass.isInstance( o ) )
+			return -1;
 
-		sort();
-		return true;
-	}
-
-	/**
-	 * Please refer to {@link java.util.List#addAll(int,Collection)} for more
-	 * information regarding this function.
-	 */
-
-	public boolean addAll( int index, Collection c )
-	{
-		if ( !super.addAll( index, c ) )
-			return false;
-
-		sort();
-		return true;
+		return indexOf( 0, size() - 1, (Comparable)o, NORMAL );
 	}
 
     /**
@@ -257,9 +262,7 @@ public class SortedListModel extends LockableListModel
 
 	private int compare( Comparable left, Comparable right )
 	{
-		return left == null ? 1 : right == null ? -1 :
-			left instanceof String && right instanceof String ?
-			((String)left).compareToIgnoreCase( (String) right ) :
+		return left instanceof String && right instanceof String ? ((String)left).compareToIgnoreCase( (String) right ) :
 			left instanceof String ? 0 - right.compareTo( left ) : left.compareTo( right );
 	}
 

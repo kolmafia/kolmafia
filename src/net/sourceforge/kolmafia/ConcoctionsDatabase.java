@@ -50,6 +50,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ConcoctionsDatabase extends KoLDatabase
 {
+	private static final SortedListModel EMPTY_LIST = new SortedListModel();
 	public static final SortedListModel concoctionsList = new SortedListModel();
 
 	private static Concoction stillsLimit = new Concoction( new AdventureResult( 0, 0 ), ItemCreationRequest.NOCREATE );
@@ -244,7 +245,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 	}
 
 	public static final SortedListModel getKnownUses( int itemID )
-	{	return knownUses.get( itemID );
+	{
+		SortedListModel uses = knownUses.get( itemID );
+		return uses == null ? EMPTY_LIST : uses;
 	}
 
 	public static final SortedListModel getKnownUses( AdventureResult item )
@@ -769,9 +772,16 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		public void addIngredient( AdventureResult ingredient )
 		{
-			knownUses.get( ingredient.getItemID() ).add( concoction );
+			SortedListModel uses = knownUses.get( ingredient.getItemID() );
+			if ( uses == null )
+			{
+				uses = new SortedListModel();
+				knownUses.set( ingredient.getItemID(), uses );
+			}
 
+			uses.add( concoction );
 			ingredients.add( ingredient );
+
 			ingredientArray = new AdventureResult[ ingredients.size() ];
 			ingredients.toArray( ingredientArray );
 		}
@@ -1043,7 +1053,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				return null;
 
 			while ( index >= internalList.size() )
-				internalList.add( new SortedListModel() );
+				internalList.add( null );
 
 			return (SortedListModel) internalList.get( index );
 		}
@@ -1051,7 +1061,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		public void set( int index, SortedListModel value )
 		{
 			while ( index >= internalList.size() )
-				internalList.add( new SortedListModel() );
+				internalList.add( null );
 
 			internalList.set( index, value );
 		}

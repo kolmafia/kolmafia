@@ -739,6 +739,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			else if ( formURLString.indexOf( "charpane.php" ) != -1 )
 			{
 				KoLCharacter.recalculateAdjustments();
+				KoLCharacter.updateEquipmentLists();
 				KoLCharacter.updateStatus();
 			}
 			else if ( !shouldIgnoreResults && !(this instanceof LocalRelayRequest) && getClass() != KoLRequest.class )
@@ -1490,7 +1491,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			StaticEntity.getClient().processResult( SewerRequest.GUM );
 
 		int previousHP = KoLCharacter.getCurrentHP();
-
 		needsRefresh |= StaticEntity.getClient().processResults( responseText );
 		needsRefresh |= getAdventuresUsed() > 0;
 

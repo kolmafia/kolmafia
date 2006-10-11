@@ -973,7 +973,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// If you find goat cheese, let the trapper link handle it.
 			// Ore is skipped for now, so no need to check for it.
 
-			addCreateLink &= creations != null && !creations.isEmpty() && itemID != 322;
+			addCreateLink &= !creations.isEmpty() && itemID != 322;
 
 			if ( addCreateLink )
 			{

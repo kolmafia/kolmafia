@@ -846,19 +846,19 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		{
 			isCreationURL = true;
 			command.append( "Mix " );
-			usesTurns = KoLCharacter.hasBartender();
+			usesTurns = !KoLCharacter.hasBartender();
 		}
 		else if ( urlString.indexOf( "cook.php" ) != -1 )
 		{
 			isCreationURL = true;
 			command.append( "Cook " );
-			usesTurns = KoLCharacter.hasChef();
+			usesTurns = !KoLCharacter.hasChef();
 		}
 		else if ( urlString.indexOf( "smith.php" ) != -1 )
 		{
 			isCreationURL = urlString.indexOf( "action=pulverize" ) == -1;
 			command.append( "Smith " );
-			usesTurns = true;
+			usesTurns = urlString.indexOf( "action=pulverize" ) == -1;
 		}
 		else if ( urlString.indexOf( "jewelry.php" ) != -1 )
 		{
@@ -870,7 +870,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		{
 			isCreationURL = true;
 			command.append( "Distill " );
-			usesTurns = true;
+			usesTurns = false;
 		}
 		else if ( urlString.indexOf( "action=wokcook" ) != -1 )
 		{

@@ -1135,7 +1135,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static AdventureResult getEquipment( int type )
 	{
-		if ( type >= HAT && type < FAMILIAR )
+		if ( type >= HAT && type < FAMILIAR && type < equipment.size() )
 			return (AdventureResult) equipment.get( type );
 
 		if ( type == FAMILIAR )
@@ -2137,7 +2137,10 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void decrementStillsAvailable( int decrementAmount )
 	{
+System.out.println( "Before: " + stillsAvailable );
+System.out.println( " Minus: " + decrementAmount );
 		stillsAvailable -= decrementAmount;
+System.out.println( " After: " + stillsAvailable );
 		ConcoctionsDatabase.refreshConcoctions();
 	}
 
@@ -2296,7 +2299,7 @@ public abstract class KoLCharacter extends StaticEntity
 		{
 			AdventureResult.addResultToList( inventory, result );
 
-			if ( TradeableItemDatabase.isUsable( result.getName() ) )
+			if ( TradeableItemDatabase.isUsable( resultName ) )
 				AdventureResult.addResultToList( usables, result );
 
 			int price = TradeableItemDatabase.getPriceByID( result.getItemID() );
@@ -2318,11 +2321,17 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 		}
 		else if ( resultName.equals( AdventureResult.HP ) )
+		{
 			setHP( getCurrentHP() + result.getCount(), getMaximumHP(), getBaseMaxHP() );
+		}
 		else if ( resultName.equals( AdventureResult.MP ) )
+		{
 			setMP( getCurrentMP() + result.getCount(), getMaximumMP(), getBaseMaxMP() );
+		}
 		else if ( resultName.equals( AdventureResult.MEAT ) )
+		{
 			setAvailableMeat( getAvailableMeat() + result.getCount() );
+		}
 		else if ( resultName.equals( AdventureResult.ADV ) )
 		{
 			setAdventuresLeft( getAdventuresLeft() + result.getCount() );
@@ -2346,7 +2355,9 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 		}
 		else if ( resultName.equals( AdventureResult.DRUNK ) )
+		{
 			setInebriety( getInebriety() + result.getCount() );
+		}
 
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
@@ -2381,6 +2392,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasItem( AdventureResult item, boolean shouldCreate )
 	{
+		if ( item == null )
+			return false;
+
 		int count = item.getCount( inventory ) + item.getCount( closet );
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
 		{
@@ -2415,9 +2429,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasEquipped( String itemName, int equipmentSlot )
 	{
-		itemName = KoLDatabase.getCanonicalName( itemName );
-		String itemInSlot = KoLDatabase.getCanonicalName( getEquipment( equipmentSlot ).getName() );
-		return itemInSlot.equals( itemName );
+		AdventureResult itemInSlot = getEquipment( equipmentSlot );
+		return KoLDatabase.getCanonicalName( itemInSlot.getName() ).equals( KoLDatabase.getCanonicalName( itemName ) );
 	}
 
 	public static boolean hasEquipped( AdventureResult item )
