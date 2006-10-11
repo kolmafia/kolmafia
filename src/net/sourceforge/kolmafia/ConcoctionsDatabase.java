@@ -347,20 +347,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 			}
 		}
 
-		// Adventures are considered Item #0 in the event that the
-		// concoction will use ADVs.
-
-		adventureLimit.initial = KoLCharacter.getAdventuresLeft();
-		adventureLimit.creatable = 0;
-		adventureLimit.total = KoLCharacter.getAdventuresLeft();
-
-		// Stills are also considered Item #0 in the event that the
-		// concoction will use stills.
-
-		stillsLimit.initial = KoLCharacter.getStillsAvailable();
-		stillsLimit.creatable = 0;
-		stillsLimit.total = KoLCharacter.getStillsAvailable();
-
 		calculateMeatCombines( availableIngredients );
 
 		// Ice-cold beer and ketchup are special instances -- for the
@@ -413,7 +399,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		for ( int i = 1; i < concoctions.size(); ++i )
 		{
-			instance = ItemCreationRequest.getInstance( i );
+			instance = ItemCreationRequest.getInstance( i, false );
 			if ( instance == null || concoctions.get(i).creatable == instance.getQuantityPossible() )
 				continue;
 
@@ -467,6 +453,20 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static void cachePermitted( List availableIngredients )
 	{
+		// Adventures are considered Item #0 in the event that the
+		// concoction will use ADVs.
+
+		adventureLimit.initial = KoLCharacter.getAdventuresLeft();
+		adventureLimit.creatable = 0;
+		adventureLimit.total = KoLCharacter.getAdventuresLeft();
+
+		// Stills are also considered Item #0 in the event that the
+		// concoction will use stills.
+
+		stillsLimit.initial = KoLCharacter.getStillsAvailable();
+		stillsLimit.creatable = 0;
+		stillsLimit.total = stillsLimit.initial;
+
 		calculateMeatCombines( availableIngredients );
 
 		// It is never possible to create items which are flagged
@@ -612,7 +612,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Using Crosby Nash's Still is possible if the person has
 		// Superhuman Cocktailcrafting and is a Moxie class character.
 
-		boolean hasStillsAvailable = KoLCharacter.getStillsAvailable() > 0;
+		boolean hasStillsAvailable = stillsLimit.total > 0;
 		PERMIT_METHOD[ ItemCreationRequest.STILL_MIXER ] = hasStillsAvailable;
 		ADVENTURE_USAGE[ ItemCreationRequest.STILL_MIXER ] = 0;
 
@@ -632,6 +632,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		PERMIT_METHOD[ ItemCreationRequest.MALUS ] = KoLCharacter.canUseMalus();
 		ADVENTURE_USAGE[ ItemCreationRequest.MALUS ] = 0;
+
+		// Now, go through all the cached adventure usage values and if
+		// the number of adventures left is zero and the request requires
+		// adventures, it is not permitted.
+
+		for ( int i = 0; i < METHOD_COUNT; ++i )
+			if ( PERMIT_METHOD[i] && ADVENTURE_USAGE[i] > 0 )
+				PERMIT_METHOD[i] = ADVENTURE_USAGE[i] < KoLCharacter.getAdventuresLeft();
 	}
 
 	private static boolean isAvailable( int servantID, int clockworkID )

@@ -236,6 +236,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	}
 
 	public static ItemCreationRequest getInstance( int itemID )
+	{	return getInstance( itemID, true );
+	}
+
+	public static ItemCreationRequest getInstance( int itemID, boolean returnNullIfNotPermitted )
 	{
 		ItemCreationRequest instance = ALL_CREATIONS.get( itemID );
 
@@ -249,7 +253,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// then return null to indicate that it is not
 		// possible to create the item.
 
-		if ( !ConcoctionsDatabase.isPermittedMethod( instance.mixingMethod ) )
+		if ( returnNullIfNotPermitted && !ConcoctionsDatabase.isPermittedMethod( instance.mixingMethod ) )
 			return null;
 
 		return instance;
