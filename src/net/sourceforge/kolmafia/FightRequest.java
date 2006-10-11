@@ -333,6 +333,9 @@ public class FightRequest extends KoLRequest
 			currentRound = 0;
 			offenseModifier = 0;
 			defenseModifier = 0;
+
+			action1 = null;
+			action2 = null;
 		}
 	}
 
