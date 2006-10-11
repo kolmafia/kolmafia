@@ -138,7 +138,7 @@ public class FightRequest extends KoLRequest
 		if ( action1 == null || action1.equals( "abort" ) || !KoLmafia.permitsContinue() )
 		{
 			// If the user has chosen to abort combat, flag it.
-			action1 = null;
+			action1 = "abort";
 		}
 		else if ( currentRound == 0 )
 		{
@@ -150,7 +150,7 @@ public class FightRequest extends KoLRequest
 			// If you plan on halting the battle
 			// due to HP loss, then flag it.
 
-			action1 = null;
+			action1 = "abort";
 		}
 		else if ( action1.startsWith( "run" ) )
 		{
@@ -237,7 +237,7 @@ public class FightRequest extends KoLRequest
 				isInstanceRunning = false;
 			}
 
-			if ( KoLmafia.refusesContinue() || action1 == null )
+			if ( KoLmafia.refusesContinue() || (action1 != null && action1.equals( "abort" )) )
 			{
 				showInBrowser( true );
 				KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
