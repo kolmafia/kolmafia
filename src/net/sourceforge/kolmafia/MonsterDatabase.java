@@ -125,14 +125,31 @@ public class MonsterDatabase extends KoLDatabase
 	}
 
 	public static Monster findMonster( String name )
+	{	return findMonster( name, true );
+	}
+
+	public static Monster findMonster( String name, boolean trySubstrings )
 	{
-		String realName = (String) MONSTER_NAMES.get( CombatSettings.encounterKey( name ) );
+		String keyName = CombatSettings.encounterKey( name );
+		String realName = (String) MONSTER_NAMES.get( keyName );
+
+		// If no monster with that name exists, maybe it's
+		// one of those monsters with an alternate name.
+
+		if ( realName == null && trySubstrings )
+		{
+			Object [] possibleNames = MONSTER_NAMES.keySet().toArray();
+			for ( int i = 0; realName == null && i < possibleNames.length; ++i )
+				if ( ((String)possibleNames[i]).indexOf( keyName ) != -1 )
+					realName = (String) MONSTER_NAMES.get( possibleNames[i] );
+		}
+
 		return realName == null ? null : (Monster) MONSTER_DATA.get( realName );
 	}
 
 	public static Monster registerMonster( String name, String s )
 	{
-		Monster monster = findMonster( name );
+		Monster monster = findMonster( name, false );
 		if ( monster != null )
 			return monster;
 
