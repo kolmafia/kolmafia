@@ -428,8 +428,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	public static final boolean isUsable( String itemName )
 	{
 		int itemID = getItemID( itemName );
-
-		if ( itemID < 1 )
+		if ( itemID <= 0 )
 			return false;
 
 		switch ( useTypeByID.get( itemID ) )
@@ -454,7 +453,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final int getConsumptionType( int itemID )
-	{	return itemID == -1 ? ConsumeItemRequest.NO_CONSUME : useTypeByID.get( itemID );
+	{	return itemID <= 0 ? ConsumeItemRequest.NO_CONSUME : useTypeByID.get( itemID );
 	}
 
 	public static final int getConsumptionType( String itemName )

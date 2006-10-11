@@ -260,6 +260,6 @@ public class CharpaneRequest extends KoLRequest
 		}
 
 		KoLmafia.applyEffects();
-		activeEffects.makeEqualTo( visibleEffects );
+		activeEffects.retainAll( visibleEffects );
 	}
 }

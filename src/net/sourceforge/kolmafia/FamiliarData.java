@@ -129,7 +129,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	}
 
 	public AdventureResult getItem()
-	{	return item;
+	{	return item == null ? EquipmentRequest.UNEQUIP : item;
 	}
 
 	public void setWeight( int weight )

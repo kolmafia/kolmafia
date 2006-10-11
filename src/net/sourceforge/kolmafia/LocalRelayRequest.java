@@ -307,7 +307,14 @@ public class LocalRelayRequest extends KoLRequest
 			}
 		}
 
-		RequestEditorKit.getFeatureRichHTML( formURLString.toString(), responseBuffer );
+		try
+		{
+			RequestEditorKit.getFeatureRichHTML( formURLString.toString(), responseBuffer );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
 
 		// Download and link to any Players of Loathing
 		// picture pages locally.
