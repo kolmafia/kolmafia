@@ -126,11 +126,6 @@ public class KoLmafiaGUI extends KoLmafia
 		StaticEntity.setClient( session );
 
 		(new CreateFrameRunnable( LoginFrame.class )).run();
-		if ( StaticEntity.getBooleanProperty( "showAlmanacBeforeLogin" ) )
-		{
-			(new CreateFrameRunnable( CalendarFrame.class )).run();
-			StaticEntity.setProperty( "showAlmanacBeforeLogin", "false" );
-		}
 	}
 
 	/**
