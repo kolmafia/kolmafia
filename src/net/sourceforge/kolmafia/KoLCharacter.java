@@ -2137,10 +2137,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void decrementStillsAvailable( int decrementAmount )
 	{
-System.out.println( "Before: " + stillsAvailable );
-System.out.println( " Minus: " + decrementAmount );
 		stillsAvailable -= decrementAmount;
-System.out.println( " After: " + stillsAvailable );
 		ConcoctionsDatabase.refreshConcoctions();
 	}
 
