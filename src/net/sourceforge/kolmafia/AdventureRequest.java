@@ -170,7 +170,10 @@ public class AdventureRequest extends KoLRequest
 		// In this case, skip and continue onto the next one.
 
 		if ( responseText == null || responseText.trim().length() == 0 )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't get to that area yet." );
 			return;
+		}
 
 		// The hedge maze should always result in you getting
 		// a fight redirect.  If this is not the case, then
@@ -203,7 +206,7 @@ public class AdventureRequest extends KoLRequest
 		// We're missing an item, haven't been given a quest yet, or otherwise
 		// trying to go somewhere not allowed.
 
-		if ( responseText.indexOf( "You shouldn't be here." ) != -1 || responseText.indexOf( "not yet be accessible" ) != -1 )
+		if ( responseText.indexOf( "You shouldn't be here." ) != -1 || responseText.indexOf( "not yet be accessible" ) != -1 || responseText.indexOf( "You can't get there." ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You can't get to that area yet." );
 			return;
