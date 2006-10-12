@@ -1153,7 +1153,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				// If the response code is not 200, then you've read all
 				// the information you need.  Close the input stream.
 
-//				istream.close();
+				istream.close();
 				return responseCode == 302 ? handleServerRedirect() : true;
 			}
 
