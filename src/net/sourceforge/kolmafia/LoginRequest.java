@@ -124,7 +124,7 @@ public class LoginRequest extends KoLRequest
 		if ( username.toLowerCase().startsWith( "devster" ) )
 			setLoginServer( "dev.kingdomofloathing.com" );
 
-		clearDataFields();
+		constructURLString( "" );
 		super.run();
 
 		// If the pattern is not found, then do not submit
@@ -221,6 +221,7 @@ public class LoginRequest extends KoLRequest
 		{
 			try
 			{
+				runCountdown = true;
 				if ( executeLogin() )
 				{
 					if ( runCountdown )
@@ -297,15 +298,16 @@ public class LoginRequest extends KoLRequest
 		if ( waitTime == BAD_CHALLENGE_WAIT || !runCountdown || !detectChallenge() )
 		{
 			clearDataFields();
-			addFormField( "secure", "0" );
+			addFormField( "loginname", this.username );
 			addFormField( "password", this.password );
+		}
+		else
+		{
+			addFormField( "loginname", this.username + "/q" );
 		}
 
 		addFormField( "loggingin", "Yup." );
-		addFormField( "loginname", this.username + "/q" );
-
 		waitTime = STANDARD_WAIT;
-		runCountdown = true;
 
 		if ( KoLmafia.refusesContinue() )
 			return false;

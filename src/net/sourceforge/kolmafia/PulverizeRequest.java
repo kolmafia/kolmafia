@@ -33,9 +33,14 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class PulverizeRequest extends KoLRequest
 {
+	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "smashitem=(\\d+)" );
+	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
+
 	private AdventureResult item;
 
 	/**
@@ -101,16 +106,34 @@ public class PulverizeRequest extends KoLRequest
 		// "That's too important to pulverize."
 		// "That's not something you can pulverize."
 
-		if ( responseText.indexOf( "too important to pulverize" ) != -1 ||
-		     responseText.indexOf( "not something you can pulverize" ) != -1 )
-
+		if ( responseText.indexOf( "too important to pulverize" ) != -1 || responseText.indexOf( "not something you can pulverize" ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "The " + item.getName() + " could not be smashed." );
+			StaticEntity.getClient().processResult( item );
 			return;
 		}
 
 		// Remove old item and notify the user of success.
-		StaticEntity.getClient().processResult( item.getNegation() );
 		KoLmafia.updateDisplay( item + " smashed." );
+	}
+
+	public static boolean processRequest( String urlString )
+	{
+		if ( !urlString.startsWith( "smith.php" ) || urlString.indexOf( "action=pulverize" ) == -1 )
+			return false;
+
+		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
+		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
+
+		if ( itemMatcher.find() && quantityMatcher.find() )
+		{
+			int itemID = StaticEntity.parseInt( itemMatcher.group(1) );
+			int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+
+			StaticEntity.getClient().processResult( new AdventureResult( itemID, 0 - quantity ) );
+			KoLmafia.getSessionStream().println( "pulverize " + quantity + " " + TradeableItemDatabase.getItemName( itemID ) );
+		}
+
+		return true;
 	}
 }

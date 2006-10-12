@@ -913,7 +913,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( usesTurns )
 			command.insert( 0, "[" + KoLCharacter.getTotalTurnsUsed() + "] " );
 
-		KoLmafia.sessionStream.println( command.toString() );
+		KoLmafia.getSessionStream().println( command.toString() );
 		return true;
 	}
 
