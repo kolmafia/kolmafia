@@ -4957,9 +4957,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue readMap( String filename, ScriptCompositeValue result, boolean compact )
 		{
-			if ( filename.startsWith( "http" ) )
-				return FALSE_VALUE;
-
 			BufferedReader reader = null;
 
 			if ( filename.startsWith( "http" ) )
@@ -4977,12 +4974,12 @@ public class KoLmafiaASH extends StaticEntity
 					reader = DataUtilities.getReader( "", filename );
 			}
 
-			String [] data = null;
-
 			if ( reader == null )
 			{
 				if ( filename.startsWith( "http:" ) )
+				{
 					KoLmafia.updateDisplay( ABORT_STATE, "Could not locate remote file <" + filename + ">" );
+				}
 				else
 				{
 					DEFAULT_SHELL.printLine( "File not located: scripts/datamaps/" + filename );
@@ -4992,8 +4989,11 @@ public class KoLmafiaASH extends StaticEntity
 
 					KoLmafia.updateDisplay( ABORT_STATE, "Could not locate local file <" + filename + ">" );
 				}
+
+				return FALSE_VALUE;
 			}
 
+			String [] data = null;
 			result.clear();
 
 			try
