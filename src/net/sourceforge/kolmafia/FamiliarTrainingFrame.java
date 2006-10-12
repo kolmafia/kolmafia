@@ -1538,7 +1538,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// If current familiar is not wearing a pumpkin basket,
 			// search inventory
-			if ( leadNecklace == null &&
+			if ( pumpkinBasket == null &&
 			     PUMPKIN_BASKET.getCount( inventory ) > 0 )
 			{
 				pumpkinBasket = PUMPKIN_BASKET;
