@@ -117,8 +117,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public EquipmentRequest( int requestType )
 	{
-		super( requestType == CLOSET ? "closet.php" :
-			requestType == UNEQUIP_ALL ? "inv_equip.php" : "inventory.php" );
+		super( requestType == CLOSET ? "closet.php" : requestType == UNEQUIP_ALL ? "inv_equip.php" : "inventory.php", true );
 
 		this.requestType = requestType;
 		this.outfit = null;
@@ -143,7 +142,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public EquipmentRequest( String changeName )
 	{
-		super( "inv_equip.php" );
+		super( "inv_equip.php", true );
 
 		if ( TradeableItemDatabase.contains( changeName ) )
 		{
@@ -165,7 +164,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public EquipmentRequest( AdventureResult changeItem, int equipmentSlot, boolean force )
 	{
-		super( "inv_equip.php" );
+		super( "inv_equip.php", true );
 		initializeChangeData( changeItem, equipmentSlot, force );
 	}
 
@@ -209,7 +208,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public EquipmentRequest( SpecialOutfit change )
 	{
-		super( "inv_equip.php" );
+		super( "inv_equip.php", true );
 
 		addFormField( "action", "outfit" );
 		addFormField( "which", "2" );
@@ -471,15 +470,6 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 
 		super.run();
-
-		// If you changed your outfit, there will be a redirect
-		// to the equipment page - therefore, process it.
-
-		if ( responseCode == 302 && !redirectLocation.equals( "maint.php" ) )
-		{
-			constructURLString( redirectLocation );
-			super.run();
-		}
 	}
 
 	protected void processResults()
@@ -795,8 +785,6 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 
 		// Skip past equipped gear
-
-		parseQuestItems( responseText.substring( responseText.indexOf( "Save as Custom Outfit" ) ) );
 		KoLCharacter.recalculateAdjustments();
 	}
 
