@@ -756,6 +756,10 @@ public class KoLRequest implements Runnable, KoLConstants
 				KoLCharacter.updateEquipmentLists();
 				KoLCharacter.updateStatus();
 			}
+			else if ( !shouldIgnoreResults && !(this instanceof LocalRelayRequest) && getClass() != KoLRequest.class )
+			{
+				KoLCharacter.updateStatus();
+			}
 		}
 
 		StaticEntity.getClient().setCurrentRequest( null );
