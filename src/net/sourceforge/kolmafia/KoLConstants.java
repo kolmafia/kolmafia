@@ -49,6 +49,7 @@ import java.awt.Toolkit;
 
 import java.util.TreeMap;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
@@ -67,6 +68,7 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final Random RNG = new Random();
 	public static final String LINE_BREAK = System.getProperty( "line.separator" );
+	public static final Pattern LINE_BREAK_PATTERN = Pattern.compile( "\\s*[\r\n]+\\s*" );
 
 	public static final DecimalFormat COMMA_FORMAT = new DecimalFormat( "#,##0", new DecimalFormatSymbols( Locale.US ) );
 	public static final DecimalFormat MODIFIER_FORMAT = new DecimalFormat( "+#0;-#0", new DecimalFormatSymbols( Locale.US ) );

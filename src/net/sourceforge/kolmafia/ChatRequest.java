@@ -163,12 +163,6 @@ public class ChatRequest extends KoLRequest
 		}
 	}
 
-	public void generateResponseText( String responseText )
-	{
-		// Make sure that the original text containing all the HTML
-		// is left unmodified.
-	}
-
 	/**
 	 * An internal class used so that the previous request thread
 	 * can die and a new one can begin.

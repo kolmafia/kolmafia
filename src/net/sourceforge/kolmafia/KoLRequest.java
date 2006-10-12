@@ -45,6 +45,7 @@ import java.net.UnknownHostException;
 
 import java.io.InputStream;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -70,15 +71,10 @@ import javax.swing.SwingUtilities;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
-	// This defines how long KoLmafia should wait, in groups of 100 milliseconds,
-	// before considering a request to be timed out.  Default is 30, or 3 seconds.
-	private static final int MAX_TIMEOUT = 30;
+	private static final byte [] BYTE_ARRAY = new byte[ 8096 ];
+	private static final ByteArrayOutputStream BYTE_BUFFER = new ByteArrayOutputStream();
 
-	private static final Pattern NEWLINE_PATTERN = Pattern.compile( "[\r\n]+" );
 	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
-	private static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
-	private static final Pattern STYLE_PATTERN = Pattern.compile( "<style.*?</style>", Pattern.DOTALL );
-	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern CHOICE_DECISION_PATTERN = Pattern.compile( "whichchoice=(\\d+).*?option=(\\d+)" );
 	private static final Pattern EVENT_PATTERN = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
@@ -132,7 +128,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean isDelayExempt;
 	private int readInputLength;
-	private int totalInputLength;
+	private int contentLength;
 
 	protected int responseCode;
 	protected String responseText;
@@ -573,6 +569,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		return dataBuffer.toString();
 	}
 
+	private boolean shouldPrintDebug()
+	{	return !(isChatRequest || KoLmafia.getDebugStream() instanceof NullStream);
+	}
+
 	/**
 	 * Runs the thread, which prepares the connection for output, posts the data
 	 * to the Kingdom of Loathing, and prepares the input for reading.  Because
@@ -582,7 +582,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		if ( !isChatRequest )
+		if ( shouldPrintDebug() )
 			KoLmafia.getDebugStream().println( getClass() );
 
 		if ( formURLString.indexOf( "sewer.php" ) != -1 )
@@ -687,7 +687,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			KoLmafia.addTavernLocation( this );
 
 		readInputLength = 0;
-		totalInputLength = 0;
+		contentLength = 0;
 
 		registerRequest();
 		String urlString = getURLString();
@@ -968,7 +968,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean prepareConnection()
 	{
-		if ( !isChatRequest )
+		if ( shouldPrintDebug() )
 			KoLmafia.getDebugStream().println( "Connecting to " + formURLString + "..." );
 
 		// Make sure that all variables are reset before you reopen
@@ -992,11 +992,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			// that there was a timeout; return false and let the loop
 			// attempt to connect again
 
-			if ( !isChatRequest )
-			{
+			if ( shouldPrintDebug() )
 				KoLmafia.getDebugStream().println( "Error opening connection.  Retrying..." );
-				e.printStackTrace( KoLmafia.getDebugStream() );
-			}
 
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
@@ -1038,7 +1035,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			String dataString = getDataString( true );
 
-			if ( passwordHash != null && !isChatRequest )
+			if ( shouldPrintDebug() )
 				KoLmafia.getDebugStream().println( "Submitting data string: " + getDataString( false ) );
 
 			formConnection.setRequestMethod( "POST" );
@@ -1053,11 +1050,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( Exception e )
 		{
-			if ( !isChatRequest )
-			{
+			if ( shouldPrintDebug() )
 				KoLmafia.getDebugStream().println( "Connection timed out during post.  Retrying..." );
-				e.printStackTrace( KoLmafia.getDebugStream() );
-			}
 
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
@@ -1080,55 +1074,39 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		InputStream istream = null;
 
+		// In the event of redirects, the appropriate flags should be set
+		// indicating whether or not the direct is a normal redirect (ie:
+		// one that results in something happening), or an error-type one
+		// (ie: maintenance).
+
+		if ( shouldPrintDebug() )
+			KoLmafia.getDebugStream().println( "Retrieving server reply..." );
+
+		responseText = "";
+		redirectLocation = "";
+
 		try
 		{
-			// In the event of redirects, the appropriate flags should be set
-			// indicating whether or not the direct is a normal redirect (ie:
-			// one that results in something happening), or an error-type one
-			// (ie: maintenance).
-
-			if ( !isChatRequest )
-				KoLmafia.getDebugStream().println( "Retrieving server reply..." );
-
-			responseText = "";
-			redirectLocation = "";
-
-			// Store any cookies that might be found in the headers of the
-			// reply - there really is only one cookie to worry about, so
-			// it will be stored here.
-
 			istream = formConnection.getInputStream();
 			responseCode = formConnection.getResponseCode();
 			redirectLocation = formConnection.getHeaderField( "Location" );
-			totalInputLength = StaticEntity.parseInt( formConnection.getHeaderField( "Content-Length" ) );
+			contentLength = StaticEntity.parseInt( formConnection.getHeaderField( "Content-Length" ) );
 		}
-		catch ( Exception e )
+		catch ( Exception e1 )
 		{
-			// Now that the proxy problem has been resolved, FNFEs
-			// should only happen if the file does not exist.  In
-			// this case, stop retrying.
-
-			if ( e instanceof FileNotFoundException )
-			{
-				// In this case, it's like a false redirect, but to
-				// a page which no longer exists.  Pretend it's the
-				// maintenance page.
-
-				responseCode = 302;
-				responseText = "";
-				redirectLocation = "maint.php";
-
-				return true;
-			}
-
-			if ( !isChatRequest )
-			{
+			if ( shouldPrintDebug() )
 				KoLmafia.getDebugStream().println( "Connection timed out during response.  Retrying..." );
-				e.printStackTrace( KoLmafia.getDebugStream() );
-			}
 
-			// Add in an extra delay in the event of a time-out in
-			// order to be nicer on the KoL servers.
+			try
+			{
+				if ( istream != null )
+					istream.close();
+			}
+			catch ( Exception e2 )
+			{
+				// The input stream was already closed.  Ignore this
+				// error and continue.
+			}
 
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
@@ -1136,168 +1114,136 @@ public class KoLRequest implements Runnable, KoLConstants
 			return formURLString.startsWith( "http://" );
 		}
 
-		if ( this instanceof LocalRelayRequest && responseCode != 200 )
-			return true;
-
-		boolean shouldStop = true;
-
-		if ( responseCode >= 300 && responseCode <= 399 )
-		{
-			// Redirect codes are all the ones that occur between
-			// 300 and 399.  All these notify the user of a location
-			// to return to; deal with the ones which are errors.
-
-			if ( redirectLocation.indexOf( "maint.php" ) != -1 )
-			{
-				// If the system is down for maintenance, the user must be
-				// notified that they should try again later.
-
-				KoLmafia.updateDisplay( "Nightly maintenance." );
-				if ( !LoginRequest.isInstanceRunning() && sessionID != null && StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
-				{
-					LoginRequest.executeTimeInRequest( true );
-					return sessionID == null;
-				}
-
-				shouldStop = true;
-			}
-			else if ( redirectLocation.indexOf( "login.php" ) != -1 )
-			{
-				if ( LoginRequest.isInstanceRunning()  )
-				{
-					Matcher matcher = REDIRECT_PATTERN.matcher( redirectLocation );
-					if ( matcher.find() )
-					{
-						setLoginServer( matcher.group(1) );
-						return false;
-					}
-
-					// Otherwise, it's probably just a gibberish URL
-					// that is used in order to force a cache refresh.
-
-					constructURLString( redirectLocation );
-					return true;
-				}
-
-				if ( sessionID != null )
-				{
-					KoLmafia.updateDisplay( "Session timed out." );
-					if ( StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
-					{
-						LoginRequest.executeTimeInRequest( false );
-						return sessionID == null;
-					}
-				}
-
-				shouldStop = true;
-			}
-			else if ( redirectLocation.indexOf( "choice.php" ) != -1 )
-			{
-				processChoiceAdventure();
-				shouldStop = true;
-			}
-			else if ( followRedirects )
-			{
-				// Re-setup this request to follow the redirect
-				// desired and rerun the request.
-
-				constructURLString( redirectLocation );
-				return false;
-			}
-			else if ( redirectLocation.indexOf( "valhalla.php" ) != -1 )
-			{
-				passwordHash = "";
-				shouldStop = true;
-			}
-			else if ( redirectLocation.indexOf( "fight.php" ) != -1 && !(this instanceof LocalRelayRequest) )
-			{
-				// You have been redirected to a fight!  Here, you need
-				// to complete the fight before you can continue.
-
-				FightRequest.INSTANCE.run();
-
-				return this instanceof AdventureRequest || getClass() == KoLRequest.class ||
-					FightRequest.INSTANCE.getAdventuresUsed() == 0;
-			}
-			else
-			{
-				shouldStop = true;
-				KoLmafia.getDebugStream().println( "Redirected: " + redirectLocation );
-			}
-		}
-		else if ( responseCode == 200 )
-		{
-			try
-			{
-				if ( totalInputLength == 0 )
-				{
-					if ( !isChatRequest )
-						KoLmafia.getDebugStream().println( "No content-length data.  Reading line by line..." );
-
-					String line = null;
-					StringBuffer responseBuffer = new StringBuffer();
-					BufferedReader reader = KoLDatabase.getReader( istream );
-
-					while ( (line = reader.readLine()) != null )
-					{
-						responseBuffer.append( line );
-						responseBuffer.append( LINE_BREAK );
-					}
-
-					this.responseText = responseBuffer.toString();
-				}
-				else
-				{
-					for ( int i = 0; istream.available() < totalInputLength && i < MAX_TIMEOUT; ++i )
-						delay( 100 );
-
-					if ( !isChatRequest && istream.available() < totalInputLength )
-						KoLmafia.getDebugStream().println( "Incomplete response from server.  Reading anyway..." );
-
-					byte [] array = new byte[ istream.available() ];
-					istream.read( array );
-
-					this.responseText = new String( array );
-				}
-			}
-			catch ( Exception e )
-			{
-				// An Exception is clearly an error; here it will be reported
-				// to the but another attempt will be made
-
-				if ( !isChatRequest )
-					KoLmafia.getDebugStream().println( "Error reading server reply.  Retrying..." );
-			}
-
-			processResponse();
-			if ( responseText.lastIndexOf( "<" ) > responseText.lastIndexOf( ">" ) )
-				return false;
-		}
-
 		try
 		{
-			istream.close();
+			if ( responseCode != 200 )
+			{
+				// If the response code is not 200, then you've read all
+				// the information you need.  Close the input stream.
+
+				istream.close();
+				return responseCode == 302 ? handleServerRedirect() : true;
+			}
+
+			return retrieveServerReply( istream );
 		}
 		catch ( Exception e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
+			// Do nothing, you're going to close the input stream
+			// and nullify it in the next section.
 
-			StaticEntity.printStackTrace( e );
+			e.printStackTrace();
+			return true;
 		}
-
-		// Null the pointer to help the garbage collector
-		// identify this as discardable data and return
-		// from the function call.
-
-		istream = null;
-		return shouldStop;
 	}
 
-	public void generateResponseText( String responseText )
+	private boolean handleServerRedirect()
 	{
-		this.responseText = COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
-			responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" );
+		if ( this instanceof LocalRelayRequest || redirectLocation == null )
+			return true;
+
+		// Redirect codes are all the ones that occur between
+		// 300 and 399.  All these notify the user of a location
+		// to return to; deal with the ones which are errors.
+
+		if ( redirectLocation.indexOf( "maint.php" ) != -1 )
+		{
+			// If the system is down for maintenance, the user must be
+			// notified that they should try again later.
+
+			KoLmafia.updateDisplay( "Nightly maintenance." );
+
+			if ( !LoginRequest.isInstanceRunning() && sessionID != null && StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
+			{
+				LoginRequest.executeTimeInRequest( true );
+				return sessionID == null;
+			}
+
+			return true;
+		}
+		else if ( redirectLocation.indexOf( "login.php" ) != -1 )
+		{
+			if ( LoginRequest.isInstanceRunning()  )
+			{
+				Matcher matcher = REDIRECT_PATTERN.matcher( redirectLocation );
+				if ( matcher.find() )
+				{
+					setLoginServer( matcher.group(1) );
+					return false;
+				}
+
+				// Otherwise, it's probably just a gibberish URL
+				// that is used in order to force a cache refresh.
+
+				constructURLString( redirectLocation );
+			}
+			else if ( sessionID != null )
+			{
+				KoLmafia.updateDisplay( "Session timed out." );
+				if ( StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
+				{
+					LoginRequest.executeTimeInRequest( false );
+					return sessionID == null;
+				}
+			}
+
+			return true;
+		}
+		else if ( redirectLocation.indexOf( "choice.php" ) != -1 )
+		{
+			processChoiceAdventure();
+			return true;
+		}
+		else if ( followRedirects )
+		{
+			// Re-setup this request to follow the redirect
+			// desired and rerun the request.
+
+			constructURLString( redirectLocation );
+			return false;
+		}
+		else if ( redirectLocation.indexOf( "valhalla.php" ) != -1 )
+		{
+			passwordHash = "";
+			return true;
+		}
+		else if ( redirectLocation.indexOf( "fight.php" ) != -1 && !(this instanceof LocalRelayRequest) )
+		{
+			// You have been redirected to a fight!  Here, you need
+			// to complete the fight before you can continue.
+
+			FightRequest.INSTANCE.run();
+			return this instanceof AdventureRequest || getClass() == KoLRequest.class ||
+				FightRequest.INSTANCE.getAdventuresUsed() == 0;
+		}
+		else
+		{
+			if ( shouldPrintDebug() )
+				KoLmafia.getDebugStream().println( "Redirected: " + redirectLocation );
+
+			return true;
+		}
+	}
+
+	private boolean retrieveServerReply( InputStream istream ) throws Exception
+	{
+		// If you get this far, you know you've got a 200 response.  Therefore,
+		// read all the data into the static byte array output stream and then
+		// convert that string to UTF-8.
+
+		synchronized ( BYTE_BUFFER )
+		{
+			int availableBytes = 0;
+			while ( (availableBytes = istream.read( BYTE_ARRAY )) != -1 )
+				BYTE_BUFFER.write( BYTE_ARRAY, 0, availableBytes );
+
+			this.responseText = BYTE_BUFFER.toString( "UTF-8" );
+			BYTE_BUFFER.reset();
+		}
+
+		istream.close();
+		processResponse();
+		return true;
 	}
 
 	/**
@@ -1307,8 +1253,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void processResponse()
 	{
-		if ( !isChatRequest )
-			KoLmafia.getDebugStream().println( NEWLINE_PATTERN.matcher( responseText ).replaceAll( "" ) );
+		if ( shouldPrintDebug() )
+			KoLmafia.getDebugStream().println( LINE_BREAK_PATTERN.matcher( responseText ).replaceAll( "" ) );
 
 		statusChanged = responseText.indexOf( "charpane.php" ) != -1;
 		if ( statusChanged && !(this instanceof LocalRelayRequest) )
@@ -1316,14 +1262,13 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		checkForNewEvents();
 
-		if ( !shouldIgnoreResults )
-			parseResults();
-
 		if ( isRatQuest )
 			KoLmafia.addTavernLocation( this );
 
-		generateResponseText( responseText );
 		encounter = AdventureRequest.registerEncounter( this );
+
+		if ( !shouldIgnoreResults )
+			parseResults();
 
 		if ( formURLString.indexOf( "fight.php" ) != -1 )
 			FightRequest.updateCombatData( encounter, responseText );
@@ -1784,8 +1729,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			// This means simply that there was no file from which
 			// to load the data.  Given that this is run during debug
 			// tests, only, we can ignore the error.
-
-			e.printStackTrace( KoLmafia.getDebugStream() );
 		}
 	}
 
@@ -1795,6 +1738,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void printHeaderFields()
 	{
+		if ( !shouldPrintDebug() )
+			return;
+
 		Map headerFields = formConnection.getHeaderFields();
 		KoLmafia.getDebugStream().println( headerFields.size() + " header fields" );
 
@@ -1808,6 +1754,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void printRequestProperties()
 	{
+		if ( !shouldPrintDebug() )
+			return;
+
 		Map requestProperties = formConnection.getRequestProperties();
 		KoLmafia.getDebugStream().println( requestProperties.size() + " request properties" );
 

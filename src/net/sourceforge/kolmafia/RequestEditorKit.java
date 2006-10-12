@@ -76,6 +76,10 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 {
+	private static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
+	private static final Pattern STYLE_PATTERN = Pattern.compile( "<style.*?</style>", Pattern.DOTALL );
+	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
+
 	// Overkill Unicode table borrowed from HTMLParser
 	// http://htmlparser.sourceforge.net/
 
@@ -490,8 +494,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			}
 
 			BufferedInputStream in = new BufferedInputStream( connection.getInputStream() );
+			ByteArrayOutputStream outbytes = new ByteArrayOutputStream();
 
-			ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 1024 );
 			byte [] buffer = new byte[4096];
 
 			int offset;
@@ -499,15 +503,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				outbytes.write(buffer, 0, offset);
 
 			in.close();
-			outbytes.flush();
-
-			buffer = outbytes.toByteArray();
-
-			FileOutputStream out = new FileOutputStream( local );
-			out.write( buffer, 0, buffer.length );
-
-			out.flush();
-			out.close();
+			outbytes.writeTo( new FileOutputStream( local ) );
 		}
 		catch ( Exception e )
 		{
@@ -710,9 +706,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// and remove all <HR> tags.
 
 		KoLmafia.getDebugStream().println( "Rendering hypertext..." );
-		String displayHTML = responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" ).replaceAll( "[\r\n]+", "" );
+
+		String displayHTML = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
+			responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" );
 
 		// The default Java browser doesn't display blank lines correctly
+
 		displayHTML = displayHTML.replaceAll( "<br><br>", "<br>&nbsp;<br>" );
 
 		// Fix all the tables which decide to put a row end,
