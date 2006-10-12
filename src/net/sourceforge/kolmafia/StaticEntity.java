@@ -181,7 +181,7 @@ public abstract class StaticEntity implements KoLConstants
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, "Failed to open system browser" );
+			printStackTrace( e, "Failed to open system browser" );
 		}
 	}
 
@@ -405,7 +405,8 @@ public abstract class StaticEntity implements KoLConstants
 
 		printedStackTrace = true;
 		boolean shouldOpenStream = KoLmafia.getDebugStream() instanceof NullStream;
-		KoLmafia.debugStream = KoLmafia.openStream( "KoLmafia.log", KoLmafia.getDebugStream(), true );
+		if ( shouldOpenStream )
+			KoLmafia.openDebugStream();
 
 		KoLmafia.updateDisplay( message + ".  Debug log printed." );
 		for ( int i = 0; i < logAssistMessages.length; ++i )
@@ -421,16 +422,19 @@ public abstract class StaticEntity implements KoLConstants
 		t.printStackTrace();
 
 		if ( client.getCurrentRequest() != null )
-			KoLmafia.debugStream.println( "" + client.getCurrentRequest().responseText );
+		{
+			KoLmafia.getDebugStream().println();
+			KoLmafia.getDebugStream().println( "" + client.getCurrentRequest().getClass() );
+			KoLmafia.getDebugStream().println();
+			KoLmafia.getDebugStream().println( "" + client.getCurrentRequest().responseText );
+		}
 
 		try
 		{
 			if ( shouldOpenStream )
 			{
-				KoLmafia.debugStream.close();
-				KoLmafia.debugStream = NullStream.INSTANCE;
-
-				BrowserLauncher.openURL( (new File( "KoLmafia.log" )).getAbsolutePath() );
+				KoLmafia.closeDebugStream();
+				BrowserLauncher.openURL( (new File( "DEBUG.txt" )).getAbsolutePath() );
 			}
 		}
 		catch ( Exception e )

@@ -286,7 +286,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	// Familiar data for reference
 
-	private static SortedListModel familiars = new SortedListModel( FamiliarData.class );
+	private static SortedListModel familiars = new SortedListModel();
 	private static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
 
 	private static boolean isUsingStabBat = false;

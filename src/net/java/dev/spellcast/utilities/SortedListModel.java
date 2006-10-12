@@ -49,8 +49,6 @@ public class SortedListModel extends LockableListModel
 	private static final int NORMAL = 0;
 	private static final int INSERTION = 1;
 
-	private Class associatedClass;
-
 	/**
 	 * Constructs a new <code>SortedListModel</code>.  In essence, all this
 	 * class does is call the constructor for the <code>LockableListModel</code>
@@ -58,43 +56,7 @@ public class SortedListModel extends LockableListModel
 	 */
 
 	public SortedListModel()
-	{	this( Comparable.class );
-	}
-
-	/**
-	 * Constructs a specialized list, where all objects inserted
-	 * into the list are guaranteed to be an instance of the class
-	 * or interface noted.
-	 *
-	 * @param	className	the fully-qualified name of the appropriate class
-	 */
-
-	public SortedListModel( String className )
 	{
-		try
-		{	associatedClass = Class.forName( className );
-		}
-		catch ( ClassNotFoundException e )
-		{	throw new IllegalArgumentException( className + " does not exist" );
-		}
-
-		if ( !Comparable.class.isAssignableFrom( associatedClass ) )
-			throw new IllegalArgumentException( associatedClass.getName() + " does not implement Comparable" );
-	}
-
-	/**
-	 * Constructs a new <code>SortedListModel</code> where all the elements are of
-	 * the given type.  Note that the given class name must indicate a class that
-	 * implements <code>java.lang.Comparable</code>.
-	 *
-	 * @param	associatedClass	the class object indicative of the elements to be inserted
-	 */
-
-	public SortedListModel( Class associatedClass )
-	{
-		this.associatedClass = associatedClass;
-		if ( !Comparable.class.isAssignableFrom( associatedClass ) )
-			throw new IllegalArgumentException( associatedClass.getName() + " does not implement Comparable" );
 	}
 
 	public void sort()
@@ -114,52 +76,6 @@ public class SortedListModel extends LockableListModel
 
 	public void add( int index, Object element )
 	{	this.add( element );
-	}
-
-	/**
-	 * Please refer to {@link java.util.List#addAll(int,Collection)} for more
-	 * information regarding this function.
-	 */
-
-	public boolean addAll( int index, Collection c )
-	{
-		boolean wasEmpty = isEmpty();
-		boolean result = super.addAll( index, c );
-
-		if ( wasEmpty && !(c instanceof SortedListModel) )
-			super.sort();
-
-		return result;
-	}
-
-    /**
-     * Please refer to {@link java.util.List#set(int,Object)} for more
-     * information regarding this function.  Note that if the position
-     * is invalid (ie: it does not result in a sorted property), the
-     * element will be successfully set, but to a different position.
-     */
-
-	public Object set( int index, Object element )
-	{
-		int desiredIndex = indexOf( 0, size() - 1, (Comparable)element, INSERTION );
-		if ( index == desiredIndex - 1 )
-			return super.set( index, element );
-
-		// Now, you know they're not equal, so what
-		// you would do is remove the element at the
-		// given position, and then re-add the element
-		// which is to be set (to ensure sortedness).
-
-		Object value = super.remove( index );
-
-		// If the location would be unaffected by
-		// the removal process, call the super-class
-		// add method on this index; otherwise, lower
-		// the index by one to account for the missing
-		// item and do the insertion.
-
-		super.add( desiredIndex < index ? desiredIndex : desiredIndex - 1, element );
-		return value;
 	}
 
     /**
@@ -185,17 +101,29 @@ public class SortedListModel extends LockableListModel
 		}
 	}
 
+	/**
+	 * Please refer to {@link java.util.List#addAll(int,Collection)} for more
+	 * information regarding this function.
+	 */
+
+	public boolean addAll( int index, Collection c )
+	{
+		boolean wasEmpty = isEmpty();
+		boolean result = super.addAll( index, c );
+
+		if ( wasEmpty && result && !(c instanceof SortedListModel) )
+			super.sort();
+
+		return result;
+	}
+
     /**
      * Please refer to {@link java.util.List#indexOf(Object)} for more
      * information regarding this function.
      */
 
 	public int indexOf( Object o )
-	{
-		if ( o == null || !associatedClass.isInstance( o ) )
-			return -1;
-
-		return indexOf( 0, size() - 1, (Comparable)o, NORMAL );
+	{	return indexOf( 0, size() - 1, (Comparable)o, NORMAL );
 	}
 
     /**
@@ -264,12 +192,5 @@ public class SortedListModel extends LockableListModel
 	{
 		return left instanceof String && right instanceof String ? ((String)left).compareToIgnoreCase( (String) right ) :
 			left instanceof String ? 0 - right.compareTo( left ) : left.compareTo( right );
-	}
-
-	public Object clone()
-	{
-		SortedListModel cloneCopy = (SortedListModel) super.clone();
-		cloneCopy.associatedClass = associatedClass;
-		return cloneCopy;
 	}
 }

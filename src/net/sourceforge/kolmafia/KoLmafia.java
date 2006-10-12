@@ -683,8 +683,9 @@ public abstract class KoLmafia implements KoLConstants
 			shouldRefresh |= !activeEffects.containsAll( recentEffects );
 		}
 		else if ( resultName.equals( AdventureResult.ADV ) && result.getCount() < 0 )
+		{
 			AdventureResult.addResultToList( tally, result.getNegation() );
-
+		}
 		else if ( result.isItem() || resultName.equals( AdventureResult.SUBSTATS ) || resultName.equals( AdventureResult.MEAT ) )
 		{
 			if ( shouldTally )
@@ -1253,15 +1254,10 @@ public abstract class KoLmafia implements KoLConstants
 				if ( !lastToken.startsWith( "You gain a" ) && !lastToken.startsWith( "You gain some" ) )
 				{
 					lastResult = parseResult( lastToken );
-
-					if ( lastResult != null )
-					{
-						requiresRefresh = true;
-						if ( data == null )
-							processResult( lastResult );
-						else if ( lastResult.getName().equals( AdventureResult.MEAT ) )
-							AdventureResult.addResultToList( data, lastResult );
-					}
+					if ( data == null )
+						processResult( lastResult );
+					else if ( lastResult.getName().equals( AdventureResult.MEAT ) )
+						AdventureResult.addResultToList( data, lastResult );
 				}
 			}
 		}
@@ -1980,9 +1976,6 @@ public abstract class KoLmafia implements KoLConstants
 				success |= stopAtPaco ? REDIRECT_FOLLOWER.responseText.indexOf( "paco" ) != -1 :
 					REDIRECT_FOLLOWER.responseText.indexOf( "You've already beaten" ) != -1;
 			}
-
-			if ( !success && !REDIRECT_FOLLOWER.needsRefresh )
-				CharpaneRequest.getInstance().run();
 		}
 
 		if ( success && KoLCharacter.getLevel() > 3 )
@@ -2662,7 +2655,7 @@ public abstract class KoLmafia implements KoLConstants
 		// on the relay server.
 
 		for ( int i = 0; i < 50 && !LocalRelayServer.isRunning(); ++i )
-			KoLRequest.delay( 100 );
+			KoLRequest.delay( 500 );
 
 		if ( !LocalRelayServer.isRunning() )
 			return;
@@ -2681,7 +2674,7 @@ public abstract class KoLmafia implements KoLConstants
 		// on the relay server.
 
 		for ( int i = 0; i < 50 && !LocalRelayServer.isRunning(); ++i )
-			KoLRequest.delay( 100 );
+			KoLRequest.delay( 500 );
 
 		if ( !LocalRelayServer.isRunning() )
 			return;

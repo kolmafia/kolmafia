@@ -669,7 +669,7 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			commandQueue.add( getFormField( "cmd" ) );
 			while ( !commandQueue.isEmpty() )
-				delay( 1000 );
+				delay( 500 );
 		}
 
 		pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );

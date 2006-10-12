@@ -91,7 +91,7 @@ public class ClanManager extends StaticEntity
 	private static List battleList = new ArrayList();
 
 	private static LockableListModel rankList = new LockableListModel();
-	private static SortedListModel stashContents = new SortedListModel( AdventureResult.class );
+	private static SortedListModel stashContents = new SortedListModel();
 
 	public static void reset()
 	{

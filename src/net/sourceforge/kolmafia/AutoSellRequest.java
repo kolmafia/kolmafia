@@ -293,6 +293,7 @@ public class AutoSellRequest extends SendMessageRequest
 		// interface.
 
 		KoLmafia.updateDisplay( "Items sold." );
+		KoLCharacter.updateStatus();
 	}
 
 	public static boolean processRequest( String urlString )

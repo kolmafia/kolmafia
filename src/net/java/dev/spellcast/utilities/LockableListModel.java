@@ -127,9 +127,6 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public void add( int index, Object element )
 	{
-		if ( element == null )
-			return;
-
 		elements.add( index, element );
 		fireIntervalAdded( this, index, index );
 	}
@@ -413,9 +410,6 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			return null;
 
 		Object removedElement = elements.remove( index );
-		if ( removedElement == null )
-			return null;
-
 		fireIntervalRemoved( this, index, index );
 		return removedElement;
 	}
@@ -469,9 +463,6 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public Object set( int index, Object element )
 	{
-		if ( element == null )
-			throw new IllegalArgumentException( "cannot add a null object to this list" );
-
 		Object originalElement = get( index );
 		elements.set( index, element );
 
@@ -822,7 +813,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		private void intervalAdded( LockableListModel source, int index0, int index1 )
 		{
-			if ( mirrorImage == null || source == null || index0 < 0 || index1 < 0 || index1 >= source.size() )
+			if ( index0 < 0 || index1 < 0 || index1 >= source.size() )
 				return;
 
 			for ( int i = index0; i <= index1; ++i )
@@ -854,7 +845,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		private void intervalRemoved( LockableListModel source, int index0, int index1 )
 		{
-			if ( mirrorImage == null || source == null || index0 < 0 || index1 < 0 || index1 >= mirrorImage.size() )
+			if ( index0 < 0 || index1 < 0 || index1 >= mirrorImage.size() )
 				return;
 
 			mirrorImage.retainAll( source );
@@ -885,7 +876,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		private void contentsChanged( LockableListModel source, int index0, int index1 )
 		{
-			if ( mirrorImage == null || source == null || index0 < 0 || index1 < 0 )
+			if ( index0 < 0 || index1 < 0 )
 				return;
 
 			for ( int i = index0; i <= index1; ++i )
