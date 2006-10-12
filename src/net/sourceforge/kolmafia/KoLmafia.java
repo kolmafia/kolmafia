@@ -139,6 +139,8 @@ public abstract class KoLmafia implements KoLConstants
 	public static void main( String [] args )
 	{
 		boolean useGUI = true;
+		System.setProperty( "http.agent", VERSION_NAME );
+
 		for ( int i = 0; i < args.length; ++i )
 		{
 			if ( args[i].equals( "--CLI" ) )
