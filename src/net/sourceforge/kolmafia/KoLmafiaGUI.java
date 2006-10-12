@@ -212,6 +212,9 @@ public class KoLmafiaGUI extends KoLmafia
 		login.setVisible( false );
 		login.dispose();
 
+		if ( KoLMailManager.hasNewMessages() )
+			KoLmafia.updateDisplay( "You have new mail." );
+
 		enableDisplay();
 	}
 
