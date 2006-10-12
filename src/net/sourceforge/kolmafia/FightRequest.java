@@ -157,7 +157,7 @@ public class FightRequest extends KoLRequest
 			action1 = "runaway";
 			addFormField( "action", action1 );
 		}
-		else if ( action1.equals( "attack" ) )
+		else if ( action1.startsWith( "attack" ) )
 		{
 			action1 = "attack";
 			addFormField( "action", action1 );
@@ -197,6 +197,8 @@ public class FightRequest extends KoLRequest
 		// If the player wants to use a skill, make sure he knows it
 		else
 		{
+System.out.println( action1 );
+System.exit(0);
 			String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( action1 ) );
 
 			if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
@@ -454,6 +456,8 @@ public class FightRequest extends KoLRequest
 
 		action1 = null;
 		action2 = null;
+
+		KoLmafia.getSessionStream().print( " - Round " + currentRound + ": " );
 
 		Matcher skillMatcher = SKILL_PATTERN.matcher( urlString );
 		if ( skillMatcher.find() )

@@ -740,20 +740,46 @@ public class LocalRelayRequest extends KoLRequest
 
 	public void run()
 	{
+		// Abort request if the person is attempting to stasis
+		// mine, even if it's done manually.
+
+		if ( formURLString.indexOf( "aventure.php" ) != -1 && KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() )
+		{
+			String location = getFormField( "snarfblat" );
+			if ( location == null )
+				location = getFormField( "adv" );
+
+			if ( location != null && location.equals( "101" ) )
+			{
+				pseudoResponse( "HTTP/1.1 200 OK", "<html><body><h1>Please reconsider your meat farming strategy.</h1></body></html>" );
+				return;
+			}
+		}
+
+		// If there is an attempt to view the error page, or if
+		// there is an attempt to view the robots file, neither
+		// are available on KoL, so return.
+
 		if ( formURLString.endsWith( "missing.gif" ) || formURLString.endsWith( "robots.txt" ) )
 		{
 			sendNotFound();
 			return;
 		}
 
+		// If the person is visiting the sorceress and they forgot
+		// to equip the Wand, remind them.
+
 		if ( formURLString.indexOf( "lair6.php" ) != -1 && getFormField( "place" ) != null && getFormField( "place" ).equals( "5" ) )
 		{
 			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) )
 			{
-				pseudoResponse( "HTTP/1.1 200 OK", "Did you forget to equip something?" );
+				pseudoResponse( "HTTP/1.1 200 OK", "<html><body><h1>Did you forget to equip something?</h1></body></html>" );
 				return;
 			}
 		}
+
+		// If you are in chat, and the person submitted a command
+		// via chat, check to see if it's a CLI command.
 
 		String graf = getFormField( "graf" );
 
@@ -764,6 +790,10 @@ public class LocalRelayRequest extends KoLRequest
 
 			return;
 		}
+
+		// None of the above checks wound up happening.  So, do some
+		// special handling, catching any exceptions that happen to
+		// popup along the way.
 
 		try
 		{

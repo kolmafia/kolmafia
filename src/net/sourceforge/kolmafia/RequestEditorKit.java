@@ -907,8 +907,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
 			addUseLinks( location, buffer );
 
-		if ( StaticEntity.getBooleanProperty( "relayAddsPlinking" ) )
-			addPlinking( buffer );
+		if ( location.indexOf( "fight.php" ) != -1 )
+			addFightModifiers( buffer );
 
 		addChoiceSpoilers( buffer );
 
@@ -919,14 +919,41 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		addTavernSpoilers( buffer );
 	}
 
-	private static void addPlinking( StringBuffer buffer )
+	private static void addFightModifiers( StringBuffer buffer )
 	{
 		if ( buffer.indexOf( "fight.php" ) == -1 )
 			return;
 
-		int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
-		buffer.insert( firstFormIndex,
-			"<tr><td align=center><form action=fight.php method=post><input type=hidden name=\"action\" value=\"plink\"><input class=\"button\" type=\"submit\" value=\"Repeatedly\"></form></td></tr>" );
+		// If the person opts to add a plinking link, check to see if it's
+		// a valid page to add plinking, and make sure the person hasn't
+		// already started plinking.
+
+		if ( StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) )
+		{
+			int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
+			buffer.insert( firstFormIndex,
+				"<tr><td align=center><form action=fight.php method=post><input type=hidden name=\"action\" value=\"script\"><input class=\"button\" type=\"submit\" value=\"Run Custom Combat Script\"></form></td></tr>" );
+		}
+
+		// Now, remove the runaway button and place it inside of the user's
+		// skill list, IF the preference is active.
+
+		if ( StaticEntity.getBooleanProperty( "relayRemovesRunaway" ) )
+		{
+			StaticEntity.singleStringReplace( buffer, "<form name=runaway action=fight.php method=post><input type=hidden name=action value=\"runaway\"><tr><td align=center><input class=button type=submit value=\"Run Away\"></td></tr></form>", "" );
+			int insertIndex = buffer.lastIndexOf( "</select>" );
+
+			StringBuffer runawayString = new StringBuffer( "<option value=\"runaway\">Run Away (0 " );
+			if ( KoLCharacter.isMuscleClass() )
+				runawayString.append( "Muscularity" );
+			else if ( KoLCharacter.isMysticalityClass() )
+				runawayString.append( "Mana" );
+			else
+				runawayString.append( "Mojo" );
+			runawayString.append( " Points)</option>" );
+
+			buffer.insert( insertIndex, runawayString.toString() );
+		}
 	}
 
 	private static void addUseLinks( String location, StringBuffer buffer )

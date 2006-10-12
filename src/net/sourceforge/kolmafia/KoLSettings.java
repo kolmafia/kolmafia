@@ -209,7 +209,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
 		CLIENT_SETTINGS.put( "allowStasisTactics", "false" );
 		CLIENT_SETTINGS.put( "allowThiefShrugOff", "true" );
-		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "true" );
+		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
 		CLIENT_SETTINGS.put( "areaValidation", "true" );
 		CLIENT_SETTINGS.put( "assumeInfiniteNPCItems", "false" );
 		CLIENT_SETTINGS.put( "autoCheckpoint", "true" );
@@ -252,6 +252,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "loadedWikiOnce", "false" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
 		CLIENT_SETTINGS.put( "proxySet", "false" );
+		CLIENT_SETTINGS.put( "relayAddsCustomCombat", "false" );
 		CLIENT_SETTINGS.put( "relayAddsQuickScripts", "false" );
 		CLIENT_SETTINGS.put( "relayAddsRestoreLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsUpArrowLinks", "true" );
@@ -259,6 +260,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "relayAlwaysBuysGum", "false" );
 		CLIENT_SETTINGS.put( "relayRemovesExpensiveItems", "true" );
 		CLIENT_SETTINGS.put( "relayRemovesMinpricedItems", "true" );
+		CLIENT_SETTINGS.put( "relayRemovesRunaway", "true" );
 		CLIENT_SETTINGS.put( "saveState", "" );
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
 		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
