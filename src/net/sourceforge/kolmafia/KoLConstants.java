@@ -134,6 +134,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final LockableListModel bookmarks = new LockableListModel();
 	public static final ArrayList disabledScripts = new ArrayList();
 
+	public static final File IMAGE_DIRECTORY = new File( "images" );
 	public static final File SCRIPT_DIRECTORY = new File( "scripts" );
 	public static final File SETTINGS_DIRECTORY = new File( "settings" );
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
