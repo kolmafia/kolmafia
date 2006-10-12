@@ -70,6 +70,10 @@ import javax.swing.SwingUtilities;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
+	// This defines how long KoLmafia should wait, in groups of 100 milliseconds,
+	// before considering a request to be timed out.  Default is 30, or 3 seconds.
+	private static final int MAX_TIMEOUT = 30;
+
 	private static final Pattern NEWLINE_PATTERN = Pattern.compile( "[\r\n]+" );
 	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
 	private static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
@@ -132,7 +136,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected int responseCode;
 	protected String responseText;
-	protected String fullResponse;
 	protected HttpURLConnection formConnection;
 
 	protected String redirectLocation;
@@ -325,7 +328,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
 		}
 
-		this.isChatRequest = formURLString.indexOf( "submitnewchat.php" ) != -1 || formURLString.indexOf( "newchatmessages.php" ) != -1;
+		this.isChatRequest = this.formURLString.indexOf( "chat" ) != -1;
 		this.shouldIgnoreResults = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "search" ) ||
 			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" );
 
@@ -1001,9 +1004,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		formConnection.setDoOutput( !data.isEmpty() );
 		formConnection.setUseCaches( false );
 		formConnection.setInstanceFollowRedirects( false );
-
-		formConnection.setRequestProperty( "Content-Type",
-			"application/x-www-form-urlencoded" );
+		formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 
 		if ( sessionID != null )
 			formConnection.addRequestProperty( "Cookie", sessionID );
@@ -1074,7 +1075,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	private boolean retrieveServerReply()
 	{
 		InputStream istream = null;
-		BufferedReader reader = null;
 
 		try
 		{
@@ -1094,10 +1094,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			// it will be stored here.
 
 			istream = formConnection.getInputStream();
-
-			if ( StaticEntity.getProperty( "useNonBlockingReader" ).equals( "false" ) )
-				reader = KoLDatabase.getReader( istream );
-
 			responseCode = formConnection.getResponseCode();
 			redirectLocation = formConnection.getHeaderField( "Location" );
 			totalInputLength = StaticEntity.parseInt( formConnection.getHeaderField( "Content-Length" ) );
@@ -1227,33 +1223,38 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		else if ( responseCode == 200 )
 		{
-			String line = null;
-			StringBuffer replyBuffer = new StringBuffer();
-
 			try
 			{
-				line = reader == null ? read( istream ) : reader.readLine();
-
-				// There's a chance that there was no content in the reply
-				// (header-only reply) - if that's the case, the line will
-				// be null and you've hit an error state.
-
-				if ( line == null )
+				if ( totalInputLength == 0 )
 				{
-					responseText = null;
-					return true;
+					if ( !isChatRequest )
+						KoLmafia.getDebugStream().println( "No content-length data.  Reading line by line..." );
+
+					String line = null;
+					StringBuffer responseBuffer = new StringBuffer();
+					BufferedReader reader = KoLDatabase.getReader( istream );
+
+					while ( (line = reader.readLine()) != null )
+					{
+						responseBuffer.append( line );
+						responseBuffer.append( LINE_BREAK );
+					}
+
+					this.responseText = responseBuffer.toString();
 				}
-
-				// Line breaks bloat the log, but they are important
-				// inside <textarea> input fields.
-
-				do
+				else
 				{
-					replyBuffer.append( line );
-					if ( reader != null )
-						replyBuffer.append( LINE_BREAK );
+					for ( int i = 0; istream.available() < totalInputLength && i < MAX_TIMEOUT; ++i )
+						delay( 100 );
+
+					if ( !isChatRequest && istream.available() < totalInputLength )
+						KoLmafia.getDebugStream().println( "Incomplete response from server.  Reading anyway..." );
+
+					byte [] array = new byte[ istream.available() ];
+					istream.read( array );
+
+					this.responseText = new String( array );
 				}
-				while ( (line = reader == null ? read( istream ) : reader.readLine()) != null );
 			}
 			catch ( Exception e )
 			{
@@ -1264,7 +1265,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLmafia.getDebugStream().println( "Error reading server reply.  Retrying..." );
 			}
 
-			processRawResponse( replyBuffer.toString() );
+			processResponse();
 			if ( responseText.lastIndexOf( "<" ) > responseText.lastIndexOf( ">" ) )
 				return false;
 		}
@@ -1289,40 +1290,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		return shouldStop;
 	}
 
-	public void generateResponseText( String fullResponse )
+	public void generateResponseText( String responseText )
 	{
-		responseText = COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
-			fullResponse ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" );
-	}
-
-	private String read( InputStream istream )
-	{
-		if ( totalInputLength != 0 && readInputLength >= totalInputLength )
-			return null;
-
-		try
-		{
-			int available = istream.available();
-			for ( int i = 0; available == 0 && i < 10; ++i )
-			{
-				available = istream.available();
-				delay( 100 );
-			}
-
-			if ( available == 0 )
-				return null;
-
-			byte [] array = new byte[ available ];
-			istream.read( array );
-
-			readInputLength += available;
-			return new String( array );
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-			return null;
-		}
+		this.responseText = COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
+			responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" );
 	}
 
 	/**
@@ -1330,37 +1301,28 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * server response.
 	 */
 
-	protected void processRawResponse( String rawResponse )
+	protected void processResponse()
 	{
-		statusChanged = rawResponse.indexOf( "charpane.php" ) != -1;
+		if ( !isChatRequest )
+			KoLmafia.getDebugStream().println( NEWLINE_PATTERN.matcher( responseText ).replaceAll( "" ) );
+
+		statusChanged = responseText.indexOf( "charpane.php" ) != -1;
 		if ( statusChanged && !(this instanceof LocalRelayRequest) )
 			LocalRelayServer.addStatusMessage( "<!-- REFRESH -->" );
 
-		if ( this instanceof LocalRelayRequest || isChatRequest )
-			this.fullResponse = rawResponse;
-
 		checkForNewEvents();
-		generateResponseText( rawResponse );
-
-		// Remove password hash before logging and strip out
-		// all new lines to make debug logs easier to read.
-
-		if ( !isChatRequest )
-		{
-			String response = responseText.replaceAll( "", "" );
-			KoLmafia.getDebugStream().println( response );
-		}
-
-		if ( isRatQuest )
-			KoLmafia.addTavernLocation( this );
-
-		encounter = AdventureRequest.registerEncounter( this );
 
 		if ( !shouldIgnoreResults )
 			parseResults();
 
+		if ( isRatQuest )
+			KoLmafia.addTavernLocation( this );
+
+		generateResponseText( responseText );
+		encounter = AdventureRequest.registerEncounter( this );
+
 		if ( formURLString.indexOf( "fight.php" ) != -1 )
-			FightRequest.updateCombatData( encounter, rawResponse );
+			FightRequest.updateCombatData( encounter, responseText );
 	}
 
 	/**
@@ -1502,7 +1464,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			handleChoiceResponse( REDIRECT_FOLLOWER );
 
 		this.responseText = REDIRECT_FOLLOWER.responseText;
-		this.fullResponse = REDIRECT_FOLLOWER.fullResponse;
 		this.formConnection = REDIRECT_FOLLOWER.formConnection;
 	}
 

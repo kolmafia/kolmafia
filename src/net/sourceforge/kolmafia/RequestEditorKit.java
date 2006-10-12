@@ -1791,7 +1791,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			KoLRequest request = new KoLRequest( location );
 			request.responseCode = 200;
 			request.responseText = "<html><img src=\"" + location + "\"></html>";
-			request.fullResponse = request.responseText;
+			request.responseText = request.responseText;
 			return request;
 		}
 

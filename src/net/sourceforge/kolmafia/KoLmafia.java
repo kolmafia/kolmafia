@@ -1792,8 +1792,8 @@ public abstract class KoLmafia implements KoLConstants
 		if ( request.getURLString().indexOf( "fight" ) != -1 )
 		{
 			int square = StaticEntity.getIntegerProperty( "lastTavernSquare" );
-			if ( request.fullResponse != null )
-				layout.setCharAt( square - 1, request.fullResponse.indexOf( "Baron" ) != -1 ? '4' : '1' );
+			if ( request.responseText != null )
+				layout.setCharAt( square - 1, request.responseText.indexOf( "Baron" ) != -1 ? '4' : '1' );
 		}
 		else
 		{
@@ -1813,9 +1813,9 @@ public abstract class KoLmafia implements KoLConstants
 			StaticEntity.setProperty( "lastTavernSquare", String.valueOf( square ) );
 
 			char replacement = '1';
-			if ( request.fullResponse != null && request.fullResponse.indexOf( "faucetoff" ) != -1 )
+			if ( request.responseText != null && request.responseText.indexOf( "faucetoff" ) != -1 )
 				replacement = '3';
-			else if ( request.fullResponse != null && request.fullResponse.indexOf( "You acquire" ) != -1 )
+			else if ( request.responseText != null && request.responseText.indexOf( "You acquire" ) != -1 )
 				replacement = '2';
 
 			layout.setCharAt( square - 1, replacement );
