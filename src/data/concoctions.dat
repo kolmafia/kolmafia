@@ -152,6 +152,8 @@ wang	1	WA	NG
 # pickles, are also included.
 
 bean burrito	2	flat dough	hill of beans
+cherry pie	2	pie crust	cherry
+cream pie	2	pie crust	glass of goat's milk
 Boris's key lime	2	Boris's key	lime
 Boris's key lime pie	2	Boris's key lime	pie crust
 briny vinegar	2	brine	vinegar
@@ -167,6 +169,7 @@ insanely spicy jumping bean burrito	2	spicy jumping bean burrito	jaba&ntilde;ero
 Jarlsberg's key lime	2	Jarlsberg's key	lime
 Jarlsberg's key lime pie	2	Jarlsberg's key lime	pie crust
 jumping bean burrito	2	flat dough	pile of jumping beans
+lemon meringue pie	2	pie crust	lemon
 Lucky Surprise Egg	2	ten-leaf clover	cocoa egg
 mushroom pizza	2	plain pizza	Knob mushroom
 pie crust	2	Gnollish pie tin	wad of dough
@@ -178,6 +181,7 @@ spicy jumping bean burrito	2	jumping bean burrito	spices
 Sneaky Pete's key lime	2	Sneaky Pete's key	lime
 Sneaky Pete's key lime pie	2	Sneaky Pete's key lime	pie crust
 spectral pickle	2	ghost cucumber	ghostly pickling solution
+strawberry pie	2	pie crust	strawberry
 
 flat dough	11	wad of dough
 wad of dough	11	flat dough
