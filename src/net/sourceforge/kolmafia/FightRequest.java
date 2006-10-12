@@ -197,8 +197,6 @@ public class FightRequest extends KoLRequest
 		// If the player wants to use a skill, make sure he knows it
 		else
 		{
-System.out.println( action1 );
-System.exit(0);
 			String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( action1 ) );
 
 			if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
