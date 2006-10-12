@@ -170,7 +170,8 @@ public class FamiliarTool
 	private boolean betterWeightDifference( int newVal, int oldVal )
 	{
 		// In order to reduce the probability for accidental loss,
-		// do not consider priority values less than -1.
+		// do not consider priority values less than -2, but make
+		// it lower priority than 3.
 
 		switch ( oldVal )
 		{
@@ -183,8 +184,17 @@ public class FamiliarTool
 		case -1:
 			return newVal == 0 || newVal == 1;
 
+		case 2:
+			return newVal == 0 || newVal == 1 || newVal == -1;
+
+		case 3:
+			return newVal == 0 || newVal == 1 || newVal == -1 || newVal == 2;
+
+		case -2:
+			return newVal == 0 || newVal == 1 || newVal == -1 || newVal == 2 || newVal == 3;
+
 		default:
-			return newVal == 0 || (newVal < oldVal && newVal >= -1);
+			return newVal == 0 || (newVal < oldVal && newVal >= -2);
 		}
 	}
 

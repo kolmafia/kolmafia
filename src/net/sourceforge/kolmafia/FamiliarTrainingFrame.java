@@ -63,6 +63,7 @@ import java.io.PrintWriter;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import java.util.Collections;
 import java.lang.ref.WeakReference;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.ChatBuffer;
@@ -601,10 +602,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	}
 
 	private static boolean levelFamiliar( int goal, int type )
-	{
-		boolean buffs = type == BUFFED;
-		boolean debug = StaticEntity.getBooleanProperty( "debugFamiliarTraining" );
-		return levelFamiliar( goal, type, buffs, debug );
+	{	return levelFamiliar( goal, type, type == BUFFED, StaticEntity.getBooleanProperty( "debugFamiliarTraining" ) );
 	}
 
 	/**
@@ -696,7 +694,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 			int [] weights = status.getWeights( buffs );
 
 			if ( debug )
+			{
+				statusMessage( CONTINUE_STATE, "Assuming buffs: " + buffs );
 				printWeights( weights, buffs );
+			}
 
 			// Choose next opponent
 			CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( familiar.getID(), weights );
@@ -1044,7 +1045,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		case BUFFED:
 		{
-			int maxBuffedWeight = status.maxBuffedWeight();
+			int maxBuffedWeight = status.maxBuffedWeight( true );
 			boolean goalReached = maxBuffedWeight >= goal;
 
 			if ( goal != 20 )
@@ -1756,7 +1757,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			GearSet next = chooseGearSet( current, weight, buffs );
 
 			// If we couldn't pick one, that's an internal error
-			if ( next == null || weight != next.weight() )
+			if ( next == null || weight < next.weight() )
 			{
 				statusMessage( ERROR_STATE, "Could not select gear set to achieve " + weight + " lbs." );
 
@@ -1835,7 +1836,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( next == pumpkinBasket && pumpkinBasketOwner != null && pumpkinBasketOwner != familiar )
 			{
-				results.append( "Stealing rat head balloon from " + pumpkinBasketOwner.getName() + " the " + pumpkinBasketOwner.getRace() + "<br>" );
+				results.append( "Stealing pumpkin basket from " + pumpkinBasketOwner.getName() + " the " + pumpkinBasketOwner.getRace() + "<br>" );
 				(new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR )).run();
 				pumpkinBasketOwner = familiar;
 			}
@@ -1922,28 +1923,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Clear out the accumulated list of GearSets
 			gearSets.clear();
 
-			// Start with buffs
-			getBuffGearSets( weight, buffs );
+			// Start without buffs
+			getBuffGearSets( weight, false );
 
 			// Iterate over all the GearSets and choose the first
 			// one which is closest to the current GearSet
+			if ( gearSets.isEmpty() && buffs )
+				getBuffGearSets( weight, buffs );
 
-			GearSet choice = null;
-			int choiceSwaps = Integer.MAX_VALUE;
-			int count = gearSets.size();
-
-			for ( int i = 0; i < count; ++i )
-			{
-				GearSet gear = (GearSet) gearSets.get(i);
-				int swaps = gear.compareTo( current );
-				if ( swaps < choiceSwaps )
-				{
-					choice = gear;
-					choiceSwaps = swaps;
-				}
-			}
-
-			return choice;
+			Collections.sort( gearSets );
+			return gearSets.isEmpty() ? null : (GearSet) gearSets.get(0);
 		}
 
 		private void getBuffGearSets( int weight, boolean buffs )
@@ -2074,6 +2063,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( item == specItem )
 				weight += specWeight;
+			else if ( item == PUMPKIN_BASKET )
+				weight += 5;
 			else if ( item == LEAD_NECKLACE )
 				weight += 3;
 			else if ( item == RAT_HEAD_BALLOON )
@@ -2166,7 +2157,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{	return familiar.getWeight();
 		}
 
-		public int maxBuffedWeight()
+		public int maxBuffedWeight( boolean buffs )
 		{
 			// Start with current base weight of familiar
 			int weight = familiar.getWeight();
@@ -2174,12 +2165,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Add possible skills
 			if ( sympathyAvailable )
 				weight += ( familiar.getID() == DODECAPEDE ) ? -5 : 5;
-			if ( leashAvailable || leashActive > 0 )
-				weight += 5;
-			if ( empathyAvailable || empathyActive > 0 )
-				weight += 5;
-			if ( heavyPettingAvailable || heavyPettingActive > 0 )
-				weight += 5;
+
+			if ( buffs )
+			{
+				if ( leashAvailable || leashActive > 0 )
+					weight += 5;
+				if ( empathyAvailable || empathyActive > 0 )
+					weight += 5;
+				if ( heavyPettingAvailable || heavyPettingActive > 0 )
+					weight += 5;
+			}
 
 			// Add available familiar items
 			if ( pumpkinBasket != null )
@@ -2284,7 +2279,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return text.toString();
 		}
 
-		private class GearSet
+		private class GearSet implements Comparable
 		{
 			public AdventureResult hat;
 			public AdventureResult item;
@@ -2320,26 +2315,50 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{	return gearSetWeight( acc1, acc2, acc3, item, hat, leash, empathy, spray );
 			}
 
-			public int compareTo( GearSet that )
+			public int compareTo( Object o )
 			{
+				// Keep in mind that all unequips are considered
+				// better than equips, so unequips have a change
+				// weight of 1.  All others vary from that.
+
+				GearSet that = (GearSet) o;
 				int changes = 0;
 
+				// Plexiglass pith helmet is considered the
+				// most ideal change, if it exists.
+
 				if ( this.hat != that.hat )
-					changes++;
+					changes += that.item == null ? 1 : 5;
+
+				// Pumpkin basket is also ideal, lead necklace
+				// is less than ideal, standard item is ideal.
+
 				if ( this.item != that.item )
-					changes++;
+					changes += that.item == null ? 1 : that.item == pumpkinBasket ? 5 : that.item == leadNecklace ? 10 : 5;
+
+				// Tiny plastic accessory changes are preferred
+				// over buffs, because they don't require MP.
+
 				if ( this.acc1 != that.acc1 )
-					changes++;
+					changes += that.item == null ? 1 : 20;
 				if ( this.acc2 != that.acc2 )
-					changes++;
+					changes += that.item == null ? 1 : 20;
 				if ( this.acc3 != that.acc3 )
-					changes++;
+					changes += that.item == null ? 1 : 20;
+
+				// Leash and empathy are probably the only two
+				// buffs which are useful, so consider them next.
+
 				if ( this.leash != that.leash )
-					changes++;
+					changes += that.item == null ? 1 : 80;
 				if ( this.empathy != that.empathy )
-					changes++;
+					changes += that.item == null ? 1 : 80;
+
+				// Pet-buffing spray should be considered an
+				// absolute last resort, so make it last place.
+
 				if ( this.spray != that.spray )
-					changes++;
+					changes += that.item == null ? 1 : 250;
 
 				return changes;
 			}
