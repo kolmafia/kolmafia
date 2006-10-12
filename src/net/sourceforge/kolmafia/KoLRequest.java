@@ -135,6 +135,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected HttpURLConnection formConnection;
 
 	protected String redirectLocation;
+	private static final KoLRequest CHOICE_HANDLER = new KoLRequest( "choice.php" );
 
 	/**
 	 * Static method called when <code>KoLRequest</code> is first
@@ -1447,123 +1448,112 @@ public class KoLRequest implements Runnable, KoLConstants
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
 
-		REDIRECT_FOLLOWER.constructURLString( "choice.php" );
-		REDIRECT_FOLLOWER.run();
+		CHOICE_HANDLER.clearDataFields();
+		CHOICE_HANDLER.run();
 
-		if ( getClass() != KoLRequest.class )
-			handleChoiceResponse( REDIRECT_FOLLOWER );
-
-		stealRequestData( REDIRECT_FOLLOWER );
-	}
-
-	/**
-	 * Utility method to handle the response for a specific choice
-	 * adventure.
-	 */
-
-	public void handleChoiceResponse( KoLRequest request )
-	{
-		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
-		String text = request.responseText;
-
-		Matcher choiceMatcher = CHOICE_PATTERN.matcher( text );
-		if ( !choiceMatcher.find() )
+		if ( getClass() == KoLRequest.class )
 		{
-			// choice.php did not offer us any choices. This would
-			// be a bug in KoL itself. Bail now and let the user
-			// finish by hand.
-
-			KoLmafia.updateDisplay( ABORT_STATE, "Encountered choice adventure with no choices." );
-			request.showInBrowser( true );
+			stealRequestData( CHOICE_HANDLER );
 			return;
 		}
 
-		String choice = choiceMatcher.group(1);
-		String option = "choiceAdventure" + choice;
-		String decision = StaticEntity.getProperty( option );
+		String choice = null;
+		String option = null;
+		String decision = null;
 
-		// If this happens to be adventure 26 or 27,
-		// check against the player's conditions.
-
-		if ( (choice.equals( "26" ) || choice.equals( "27" )) && !conditions.isEmpty() )
+		while ( CHOICE_HANDLER.responseText.indexOf( "action=choice.php" ) != -1 )
 		{
-			for ( int i = 0; i < 12; ++i )
-				if ( AdventureDatabase.WOODS_ITEMS[i].getCount( conditions ) > 0 )
-					decision = choice.equals( "26" ) ? String.valueOf( (i / 4) + 1 ) : String.valueOf( ((i % 4) / 2) + 1 );
-		}
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
+			Matcher choiceMatcher = CHOICE_PATTERN.matcher( CHOICE_HANDLER.responseText );
 
-		// If there is no setting which determines the
-		// decision, see if it's in the violet fog
-
-		if ( decision.equals( "" ) )
-			decision = VioletFog.handleChoice( choice );
-
-		// If there is no setting which determines the
-		// decision, see if it's in the Louvre
-
-		if ( decision.equals( "" ) )
-			decision = Louvre.handleChoice( choice );
-
-		// If there is currently no setting which determines the
-		// decision, give an error and bail.
-
-		if ( decision.equals( "" ) )
-		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Unsupported choice adventure #" + choice );
-			request.showInBrowser( true );
-			return;
-		}
-
-		// If the user wants to ignore this specific choice or all
-		// choices, see if this choice is ignorable.
-
-		boolean willIgnore = false;
-
-		if ( decision.equals( "0" ) )
-		{
-			String ignoreChoice = AdventureDatabase.ignoreChoiceOption( option );
-			if ( ignoreChoice != null )
+			if ( !choiceMatcher.find() )
 			{
-				willIgnore = true;
-				decision = ignoreChoice;
+				// choice.php did not offer us any choices. This would
+				// be a bug in KoL itself. Bail now and let the user
+				// finish by hand.
+
+				KoLmafia.updateDisplay( ABORT_STATE, "Encountered choice adventure with no choices." );
+				CHOICE_HANDLER.showInBrowser( true );
+				return;
 			}
+
+			choice = choiceMatcher.group(1);
+			option = "choiceAdventure" + choice;
+			decision = StaticEntity.getProperty( option );
+
+			// If this happens to be adventure 26 or 27,
+			// check against the player's conditions.
+
+			if ( (choice.equals( "26" ) || choice.equals( "27" )) && !conditions.isEmpty() )
+			{
+				for ( int i = 0; i < 12; ++i )
+					if ( AdventureDatabase.WOODS_ITEMS[i].getCount( conditions ) > 0 )
+						decision = choice.equals( "26" ) ? String.valueOf( (i / 4) + 1 ) : String.valueOf( ((i % 4) / 2) + 1 );
+			}
+
+			// If there is no setting which determines the
+			// decision, see if it's in the violet fog
+
+			if ( decision.equals( "" ) )
+				decision = VioletFog.handleChoice( choice );
+
+			// If there is no setting which determines the
+			// decision, see if it's in the Louvre
+
+			if ( decision.equals( "" ) )
+				decision = Louvre.handleChoice( choice );
+
+			// If there is currently no setting which determines the
+			// decision, give an error and bail.
+
+			if ( decision.equals( "" ) )
+			{
+				KoLmafia.updateDisplay( ABORT_STATE, "Unsupported choice adventure #" + choice );
+				CHOICE_HANDLER.showInBrowser( true );
+				return;
+			}
+
+			// If the user wants to ignore this specific choice or all
+			// choices, see if this choice is ignorable.
+
+			boolean willIgnore = false;
+
+			if ( decision.equals( "0" ) )
+			{
+				String ignoreChoice = AdventureDatabase.ignoreChoiceOption( option );
+				if ( ignoreChoice != null )
+				{
+					willIgnore = true;
+					decision = ignoreChoice;
+				}
+			}
+
+			// Always change the option whenever it's not an ignore option
+			// and remember to store the result.
+
+			if ( !willIgnore )
+				decision = pickOutfitChoice( option, decision );
+
+			CHOICE_HANDLER.clearDataFields();
+			CHOICE_HANDLER.addFormField( "pwd" );
+			CHOICE_HANDLER.addFormField( "whichchoice", choice );
+			CHOICE_HANDLER.addFormField( "option", decision );
+			CHOICE_HANDLER.run();
+
+			// Certain choices cost meat when selected
+
+			int meat = AdventureDatabase.consumesMeat( option, decision );
+			if ( meat > 0 )
+				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - meat ) );
 		}
-
-		// Always change the option whenever it's not an ignore option
-		// and remember to store the result.
-
-		if ( !willIgnore )
-			decision = pickOutfitChoice( option, decision );
-
-		request.clearDataFields();
-		request.addFormField( "pwd" );
-		request.addFormField( "whichchoice", choice );
-		request.addFormField( "option", decision );
-		request.run();
-
-		// Certain choices cost meat when selected
-
-		int meat = AdventureDatabase.consumesMeat( option, decision );
-		if ( meat > 0 )
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - meat ) );
 
 		// Manually process any adventure usage for choice adventures,
 		// since they necessarily consume an adventure.
 
 		if ( AdventureDatabase.consumesAdventure( option, decision ) )
-		{
-			if ( !request.needsRefresh )
-			{
-				CharpaneRequest.getInstance().run();
-				KoLCharacter.updateStatus();
-			}
-		}
+			needsRefresh = !CHOICE_HANDLER.needsRefresh;
 
-		// Choice adventures can lead to other choice adventures
-		// without a redirect. Detect this and recurse, as needed.
-
-		if ( request.responseText.indexOf( "action=choice.php" ) != -1 )
-			handleChoiceResponse( request );
+		stealRequestData( CHOICE_HANDLER );
 	}
 
 	private String pickOutfitChoice( String option, String decision )
