@@ -40,13 +40,17 @@ public abstract class PasswordHashRequest extends KoLRequest
 {
 	private static final Pattern HASH_PATTERN = Pattern.compile( "name=[\"\']?pwd[\"\']? value=[\"\'](.*?)[\"\']" );
 
+	public PasswordHashRequest( String location )
+	{	this( location, false );
+	}
+
 	/**
 	 * Constructs a new <code>PasswordHashRequest</code>.
 	 * @param	client	Thewhere the hash will be stored
 	 */
 
-	public PasswordHashRequest( String location )
-	{	super( location );
+	public PasswordHashRequest( String location, boolean followRedirects )
+	{	super( location, followRedirects );
 	}
 
 	protected void processResults()
