@@ -44,10 +44,12 @@ import java.text.DecimalFormat;
 import java.lang.ref.WeakReference;
 
 import java.awt.Color;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import java.awt.Component;
 import javax.swing.JList;
+
+import javax.swing.DefaultListCellRenderer;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * A container class which encapsulates the results from an adventure and
@@ -471,38 +473,27 @@ public class AdventureResult implements Comparable, KoLConstants
 		// current adventure result, and construct the sum.
 
 		AdventureResult current = (AdventureResult) tally.get( index );
-
-		int [] sumCount = new int[ current.count.length ];
-		for ( int i = 0; i < sumCount.length; ++i )
-			sumCount[i] = current.count[i] + result.count[i];
-
-		AdventureResult sumResult = current.getInstance( sumCount );
+		for ( int i = 0; i < current.count.length; ++i )
+			current.count[i] += result.count[i];
 
 		// Check to make sure that the result didn't transform the value
 		// to zero - if it did, then remove the item from the list if
 		// it's an item (non-items are exempt).
 
-		if ( sumResult.getCount() == 0 )
+		if ( current.getCount() == 0 )
 		{
-			if ( sumResult.isItem() || sumResult.isStatusEffect() )
-			{
+			if ( current.isItem() || current.isStatusEffect() )
 				tally.remove( index );
-				return;
-			}
 		}
-		else if ( sumResult.getCount() < 0 )
+		else if ( current.getCount() < 0 )
 		{
-			if ( sumResult.isStatusEffect() )
-			{
+			if ( current.isStatusEffect() )
 				tally.remove( index );
-				return;
-			}
 		}
-
-		if ( sumResult.getName().equals( AdventureResult.ADV ) && sumResult.getCount() < 0 )
-			sumResult = new AdventureResult( AdventureResult.ADV, 0 );
-
-		tally.set( index, sumResult );
+		else if ( tally instanceof LockableListModel )
+		{
+			((LockableListModel)tally).fireContentsChanged( tally, index, index );
+		}
 	}
 
 	public static DefaultListCellRenderer getAutoSellCellRenderer()
@@ -809,13 +800,6 @@ public class AdventureResult implements Comparable, KoLConstants
 		return isItem() ? new AdventureResult( name, quantity, false ) :
 			isStatusEffect() ? new AdventureResult( name, quantity, true ) :
 				new AdventureResult( name, quantity );
-	}
-
-	private AdventureResult getInstance( int [] count )
-	{
-		return isItem() ? new AdventureResult( name, count[0], false ) :
-			isStatusEffect() ? new AdventureResult( name, count[0], true ) :
-				new AdventureResult( name, count );
 	}
 
 	/**
