@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 // layout
+import java.util.Date;
 import java.awt.Dimension;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -114,6 +115,21 @@ public class LoginFrame extends KoLFrame
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
+
+		try
+		{
+			String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
+			KoLmafia.updateDisplay( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+
+		KoLmafia.enableDisplay();
 	}
 
 	public void requestFocus()

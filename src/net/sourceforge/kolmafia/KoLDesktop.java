@@ -144,37 +144,18 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 	public void initializeTabs()
 	{
-		if ( tabListing.size() != 0 || isInitializing )
+		if ( isInitializing )
 			return;
 
 		isInitializing = true;
 
 		String interfaceSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
+
 		String [] interfaceArray = interfaceSetting.split( "," );
 
 		if ( !interfaceSetting.equals( "" ) )
 			for ( int i = 0; i < interfaceArray.length; ++i )
 				KoLmafiaGUI.constructFrame( interfaceArray[i] );
-
-		if ( KoLMailManager.hasNewMessages() )
-		{
-			KoLmafia.updateDisplay( "You have new mail." );
-		}
-		else
-		{
-			try
-			{
-				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
-				KoLmafia.updateDisplay( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
-		}
 
 		isInitializing = false;
 		KoLmafia.enableDisplay();

@@ -317,9 +317,10 @@ public class ChatBuffer
 						e.printStackTrace();
 					}
 				}
-
-				displayPane.setCaretPosition( shouldScroll ? displayPane.getDocument().getLength() - 1 : 0 );
 			}
+
+			if ( displayPane != null )
+				displayPane.setCaretPosition( shouldScroll ? displayPane.getDocument().getLength() - 1 : 0 );
 
 			if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
 				updateLogFile( newContents );
