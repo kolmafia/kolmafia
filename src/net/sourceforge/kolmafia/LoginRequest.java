@@ -56,11 +56,12 @@ public class LoginRequest extends KoLRequest
 	private static final SimpleDateFormat MAINTENANCE_FORMATTER = new SimpleDateFormat( "E", Locale.US );
 	static
 	{
-		// Use Halifax time in order to determine when rollover has
-		// started (game should be offline before midnight ... this
-		// ensures that you use the rollover for the previous day).
+		// Change it so that it doesn't recognize daylight savings in order
+		// to ensure different localizations work.
 
-		MAINTENANCE_FORMATTER.setTimeZone( TimeZone.getTimeZone( "America/Halifax" ) );
+		TimeZone koltime = (TimeZone) TimeZone.getDefault().clone();
+		koltime.setRawOffset( 1000 * 60 * 60 * -6 );
+		MAINTENANCE_FORMATTER.setTimeZone( koltime );
 	}
 
 	private static final Pattern FAILURE_PATTERN = Pattern.compile( "<p><b>(.*?)</b>" );

@@ -69,7 +69,13 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		try
 		{
-			DATED_FILENAME_FORMAT.setTimeZone( TimeZone.getTimeZone( "US/Eastern" ) );
+			// Change it so that it doesn't recognize daylight savings in order
+			// to ensure different localizations work.
+
+			TimeZone koltime = (TimeZone) TimeZone.getDefault().clone();
+			koltime.setRawOffset( 1000 * 60 * 60 * -5 );
+			DATED_FILENAME_FORMAT.setTimeZone( koltime );
+
 			NEWYEAR = DATED_FILENAME_FORMAT.parse( "20050917" ).getTime();
 			BOUNDARY = DATED_FILENAME_FORMAT.parse( "20051027" ).getTime();
 			COLLISION = DATED_FILENAME_FORMAT.parse( "20060603" ).getTime();
