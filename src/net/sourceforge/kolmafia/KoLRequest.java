@@ -709,11 +709,23 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( urlString.endsWith( "lair6.php?place=6" ) )
 			KoLCharacter.setInteraction( KoLCharacter.getTotalTurnsUsed() >= 600 );
 
-		do
+		if ( getURLString().indexOf( "fight.php?action=script" ) != -1 )
 		{
-			statusChanged = false;
+			String previousAction = StaticEntity.getProperty( "battleAction" );
+			StaticEntity.setProperty( "battleAction", "custom" );
+
+			FightRequest.INSTANCE.run();
+			stealRequestData( FightRequest.INSTANCE );
+			StaticEntity.setProperty( "battleAction", previousAction );
 		}
-		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() && !KoLmafia.refusesContinue() );
+		else
+		{
+			do
+			{
+				statusChanged = false;
+			}
+			while ( !prepareConnection() || !postClientData() || !retrieveServerReply() && !KoLmafia.refusesContinue() );
+		}
 
 		if ( responseCode == 200 && responseText != null )
 		{
@@ -823,6 +835,23 @@ public class KoLRequest implements Runnable, KoLConstants
 			return;
 		}
 
+		// If it's a runaway command, then make sure you register it
+		// as the correct type of runaway.
+
+		if ( urlString.indexOf( "fight.php" ) != -1 )
+		{
+			if ( urlString.indexOf( "action=script" ) != -1 )
+				return;
+
+			if ( urlString.indexOf( "runaway" ) != -1 )
+				urlString = "fight.php?action=runaway";
+
+			constructURLString( urlString );
+			FightRequest.processRequest( urlString );
+			wasLastRequestSimple = false;
+			return;
+		}
+
 		// In the event that this is an adventure, assume "snarfblat"
 		// instead of "adv" in order to determine the location.
 
@@ -843,10 +872,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			matchingLocation.recordToSession();
 		}
 		else if ( KoLAdventure.recordToSession( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( FightRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 		}
@@ -1395,6 +1420,14 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 	}
 
+	public void stealRequestData( KoLRequest request )
+	{
+		this.responseCode = request.responseCode;
+		this.responseText = request.responseText;
+		this.redirectLocation = request.redirectLocation;
+		this.formConnection = request.formConnection;
+	}
+
 	/**
 	 * Utility method which notifies thethat it needs to process
 	 * the given choice adventure.
@@ -1412,8 +1445,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( getClass() != KoLRequest.class )
 			handleChoiceResponse( REDIRECT_FOLLOWER );
 
-		this.responseText = REDIRECT_FOLLOWER.responseText;
-		this.formConnection = REDIRECT_FOLLOWER.formConnection;
+		stealRequestData( REDIRECT_FOLLOWER );
 	}
 
 	/**

@@ -202,6 +202,8 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "relayAddsUseLinks", "Add [use] links when acquiring items" },
+			{ "relayAddsCustomCombat", "Add custom combat button to fight page" },
+			{ "relayRemovesRunaway", "Move runaway button to skill usage dropdown" },
 			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add mood maintenance links to left side pane" },

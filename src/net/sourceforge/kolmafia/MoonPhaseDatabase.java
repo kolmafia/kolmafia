@@ -57,12 +57,6 @@ public class MoonPhaseDatabase extends StaticEntity
 	public static final SimpleDateFormat CALENDAR_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
 	public static final SimpleDateFormat TODAY_FORMATTER = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
 
-	static
-	{
-		CALENDAR_FORMAT.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
-		TODAY_FORMATTER.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
-	}
-
 	// Special date marked as the new year.  This is
 	// done as a string, since sdf.parse() throws an
 	// exception, most of the time.
