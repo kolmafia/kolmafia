@@ -1362,8 +1362,6 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static void reflectEnergyBolt()
 	{
-		AdventureDatabase.retrieveItem( SHARD );
-
 		// Get current equipment
 		AdventureResult initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
 		AdventureResult initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
