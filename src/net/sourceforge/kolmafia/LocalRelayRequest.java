@@ -91,7 +91,7 @@ public class LocalRelayRequest extends KoLRequest
 	}
 
 	public String getFullResponse()
-	{	return fullResponse;
+	{	return responseText;
 	}
 
 	private static final boolean isJunkItem( int itemID, int price, boolean ignoreExpensiveItems, boolean ignoreMinpricedItems )
@@ -106,14 +106,14 @@ public class LocalRelayRequest extends KoLRequest
 		return shouldIgnore;
 	}
 
-	protected void processRawResponse( String rawResponse )
+	protected void processResponse()
 	{
-		super.processRawResponse( rawResponse );
+		super.processResponse();
 
 		if ( formURLString.startsWith( "http" ) )
 			return;
 
-		StringBuffer responseBuffer = new StringBuffer( fullResponse );
+		StringBuffer responseBuffer = new StringBuffer( responseText );
 
 		// If this is a store, you can opt to remove all the min-priced items from view
 		// along with all the items which are priced above affordable levels.
@@ -130,7 +130,7 @@ public class LocalRelayRequest extends KoLRequest
 				searchPrice = StaticEntity.parseInt( itemMatcher.group(2) );
 			}
 
-			itemMatcher = STORE_PATTERN.matcher( fullResponse );
+			itemMatcher = STORE_PATTERN.matcher( responseText );
 
 			boolean ignoreExpensiveItems = StaticEntity.getBooleanProperty( "relayRemovesExpensiveItems" );
 			boolean ignoreMinpricedItems = StaticEntity.getBooleanProperty( "relayRemovesMinpricedItems" );
@@ -178,7 +178,7 @@ public class LocalRelayRequest extends KoLRequest
 			functionMenu.append( "\">Donate</option>" );
 			functionMenu.append( "</select>" );
 
-			Matcher menuMatcher = MENU1_PATTERN.matcher( fullResponse );
+			Matcher menuMatcher = MENU1_PATTERN.matcher( responseText );
 			if ( menuMatcher.find() )
 				StaticEntity.singleStringReplace( responseBuffer, menuMatcher.group(), functionMenu.toString() );
 
@@ -216,7 +216,7 @@ public class LocalRelayRequest extends KoLRequest
 
 			gotoMenu.append( "</select>" );
 
-			menuMatcher = MENU2_PATTERN.matcher( fullResponse );
+			menuMatcher = MENU2_PATTERN.matcher( responseText );
 			if ( menuMatcher.find() )
 				StaticEntity.singleStringReplace( responseBuffer, menuMatcher.group(), gotoMenu.toString() );
 		}
@@ -339,7 +339,7 @@ public class LocalRelayRequest extends KoLRequest
 		else
 			StaticEntity.globalStringReplace( responseBuffer, "images.kingdomofloathing.com", IMAGE_SERVER );
 
-		fullResponse = responseBuffer.toString();
+		responseText = responseBuffer.toString();
 	}
 
 	public String getHeader( int index )
@@ -352,8 +352,8 @@ public class LocalRelayRequest extends KoLRequest
 			{
 				if ( formConnection.getHeaderFieldKey( i ).equals( "Content-Length" ) )
 				{
-					if ( this.fullResponse != null )
-						headers.add( "Content-Length: " + this.fullResponse.length() );
+					if ( this.responseText != null )
+						headers.add( "Content-Length: " + this.responseText.length() );
 				}
 				else if ( !formConnection.getHeaderFieldKey( i ).equals( "Transfer-Encoding" ) )
 					headers.add( formConnection.getHeaderFieldKey( i ) + ": " + formConnection.getHeaderField( i ) );
@@ -363,11 +363,11 @@ public class LocalRelayRequest extends KoLRequest
 		return index >= headers.size() ? null : (String) headers.get( index );
 	}
 
-	protected void pseudoResponse( String status, String fullResponse )
+	protected void pseudoResponse( String status, String responseText )
 	{
-		this.fullResponse = StaticEntity.globalStringReplace( fullResponse, "<!--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
-		if ( fullResponse.length() == 0 )
-			this.fullResponse = " ";
+		this.responseText = StaticEntity.globalStringReplace( responseText, "<!--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
+		if ( responseText.length() == 0 )
+			this.responseText = " ";
 
 		headers.clear();
 		headers.add( status );
@@ -376,13 +376,13 @@ public class LocalRelayRequest extends KoLRequest
 
 		if ( status.indexOf( "302" ) != -1 )
 		{
-			headers.add( "Location: " + fullResponse );
+			headers.add( "Location: " + responseText );
 			this.responseCode = 302;
-			this.fullResponse = "";
+			this.responseText = "";
 		}
 		else if ( status.indexOf( "200" ) != -1 )
 		{
-			headers.add( "Content-Length: " + (this.rawByteBuffer == null ? this.fullResponse.length() : this.rawByteBuffer.length) );
+			headers.add( "Content-Length: " + (this.rawByteBuffer == null ? this.responseText.length() : this.rawByteBuffer.length) );
 			this.responseCode = 200;
 		}
 	}
@@ -517,7 +517,7 @@ public class LocalRelayRequest extends KoLRequest
 
 				if ( isServerRequest )
 				{
-					replyBuffer.append( fullResponse );
+					replyBuffer.append( responseText );
 					writePseudoResponse = true;
 				}
 
@@ -814,6 +814,12 @@ public class LocalRelayRequest extends KoLRequest
 			e.printStackTrace( KoLmafia.getDebugStream() );
 			sendNotFound();
 		}
+	}
+
+	public void generateResponseText( String responseText )
+	{
+		// Make sure that the original text containing all the HTML
+		// is left unmodified.
 	}
 
 	private void downloadSimulatorFile( String filename )

@@ -4802,7 +4802,7 @@ public class KoLmafiaASH extends StaticEntity
 			REDIRECT_FOLLOWER.run();
 
 			StaticEntity.externalUpdate( location, REDIRECT_FOLLOWER.responseText );
-			return new ScriptValue( REDIRECT_FOLLOWER.fullResponse == null ? "" : REDIRECT_FOLLOWER.fullResponse );
+			return new ScriptValue( REDIRECT_FOLLOWER.responseText == null ? "" : REDIRECT_FOLLOWER.responseText );
 		}
 
 		public ScriptValue wait( ScriptVariable delay )

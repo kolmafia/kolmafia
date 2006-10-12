@@ -148,19 +148,25 @@ public class ChatRequest extends KoLRequest
 			thread.start();
 		}
 
-		Matcher lastSeenMatcher = LASTSEEN_PATTERN.matcher( fullResponse );
+		Matcher lastSeenMatcher = LASTSEEN_PATTERN.matcher( responseText );
 		if ( lastSeenMatcher.find() )
 			lastSeen = lastSeenMatcher.group(1);
 
 		try
 		{
 			if ( KoLMessenger.isRunning() )
-				KoLMessenger.updateChat( fullResponse );
+				KoLMessenger.updateChat( responseText );
 		}
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e, "Chat error" );
 		}
+	}
+
+	public void generateResponseText( String responseText )
+	{
+		// Make sure that the original text containing all the HTML
+		// is left unmodified.
 	}
 
 	/**

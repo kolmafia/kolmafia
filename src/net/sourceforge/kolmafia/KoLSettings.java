@@ -268,7 +268,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "sortAdventures", "false" );
 		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
 		CLIENT_SETTINGS.put( "trackLocationChanges", "false" );
-		CLIENT_SETTINGS.put( "useNonBlockingReader", "false" );
 
 		CLIENT_SETTINGS.put( "useSystemTrayIcon", String.valueOf( System.getProperty( "os.name" ).startsWith( "Windows" ) ) );
 		CLIENT_SETTINGS.put( "usePopupContacts", "1" );
