@@ -715,7 +715,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( getURLString().indexOf( "fight.php?action=script" ) != -1 )
 		{
 			String previousAction = StaticEntity.getProperty( "battleAction" );
-			StaticEntity.setProperty( "battleAction", "custom" );
+			StaticEntity.setProperty( "battleAction", "custom combat script" );
 
 			FightRequest.INSTANCE.run();
 			stealRequestData( FightRequest.INSTANCE );
