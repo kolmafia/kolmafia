@@ -152,12 +152,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	public void saveSettings()
 	{
 		storeSettings();
-
 		if ( GLOBAL_SETTINGS != null && this != GLOBAL_SETTINGS )
-		{
-			KoLRequest.delay( 100 );
 			GLOBAL_SETTINGS.saveSettings();
-		}
 	}
 
 	/**

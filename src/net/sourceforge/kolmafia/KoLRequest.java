@@ -70,6 +70,7 @@ import javax.swing.SwingUtilities;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
+	private static final Pattern NEWLINE_PATTERN = Pattern.compile( "[\r\n]+" );
 	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
 	private static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
 	private static final Pattern STYLE_PATTERN = Pattern.compile( "<style.*?</style>", Pattern.DOTALL );
@@ -93,7 +94,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	private boolean shouldIgnoreResults;
 
 	protected static boolean isCompactMode = false;
-	protected static boolean useSlowRequests = false;
 
 	private static final String [][] SERVERS =
 	{
@@ -328,6 +328,22 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.isChatRequest = formURLString.indexOf( "submitnewchat.php" ) != -1 || formURLString.indexOf( "newchatmessages.php" ) != -1;
 		this.shouldIgnoreResults = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "search" ) ||
 			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" );
+
+		// With that taken care of, determine the actual URL that you
+		// are about to request.
+
+		try
+		{
+			this.formURL = this.formURLString.startsWith( "http:" ) ?
+				new URL( this.formURLString ) : new URL( KOL_ROOT + this.formURLString );
+		}
+		catch ( MalformedURLException e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e, "Error in URL: " + KOL_ROOT + formURLString );
+		}
 
 		return this;
 	}
@@ -601,8 +617,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( KoLmafia.refusesContinue() && !isDelayExempt )
 			return;
 
-		useSlowRequests = StaticEntity.getBooleanProperty( "showAllRequests" );
-
 		needsRefresh = false;
 		String urlString = getURLString();
 		execute();
@@ -695,10 +709,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		do
 		{
 			statusChanged = false;
-			if ( !isDelayExempt && useSlowRequests )
-				delay();
 		}
-		while ( (!prepareConnection() || !postClientData() || (!retrieveServerReply() && delay( 5000 ))) && (!KoLmafia.refusesContinue() || isDelayExempt) );
+		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() && !KoLmafia.refusesContinue() );
 
 		if ( responseCode == 200 && responseText != null )
 		{
@@ -722,10 +734,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			needsRefresh &= !(this instanceof LocalRelayRequest);
-
-			statusChanged &= formURLString.indexOf( "charpane.php" ) == -1;
 			needsRefresh &= formURLString.indexOf( "charpane.php" ) == -1;
 
+			statusChanged &= formURLString.indexOf( "charpane.php" ) == -1;
 			StaticEntity.getClient().applyEffects();
 
 			if ( statusChanged && RequestFrame.willRefreshStatus() )
@@ -740,10 +751,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				KoLCharacter.recalculateAdjustments();
 				KoLCharacter.updateEquipmentLists();
-				KoLCharacter.updateStatus();
-			}
-			else if ( !shouldIgnoreResults && !(this instanceof LocalRelayRequest) && getClass() != KoLRequest.class )
-			{
 				KoLCharacter.updateStatus();
 			}
 		}
@@ -914,17 +921,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	/**
-	 * Utility method which waits for the default refresh rate
-	 * without using Thread.sleep() - this means CPU usage can
-	 * be greatly reduced.  This will always use the server
-	 * friendly delay speed.
-	 */
-
-	protected static boolean delay()
-	{	return delay( 1000 );
-	}
-
-	/**
 	 * Utility method which waits for the given duration without
 	 * using Thread.sleep() - this means CPU usage can be greatly
 	 * reduced.
@@ -971,28 +967,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		// Make sure that all variables are reset before you reopen
 		// the connection.
 
-		formURL = null;
 		responseCode = 0;
 		responseText = null;
 		redirectLocation = null;
 		formConnection = null;
-
-		// With that taken care of, determine the actual URL that you
-		// are about to request.
-
-		try
-		{
-			formURL = formURLString.startsWith( "http:" ) ?
-				new URL( formURLString ) : new URL( KOL_ROOT + formURLString );
-		}
-		catch ( MalformedURLException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e, "Error in URL: " + KOL_ROOT + formURLString );
-			return false;
-		}
 
 		try
 		{
@@ -1311,18 +1289,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		return shouldStop;
 	}
 
-	public void generateResponseText()
+	public void generateResponseText( String fullResponse )
 	{
-		responseText = fullResponse;
-
-		// Here, we have a danger of not getting a complete response from
-		// the KoL server due to a timeout.  If the response is incomplete,
-		// then try again.  We detect this by looking for a beginning tag
-		// that is never closed at the end of the document.
-
-		responseText = SCRIPT_PATTERN.matcher( responseText ).replaceAll( "" );
-		responseText = STYLE_PATTERN.matcher( responseText ).replaceAll( "" );
-		responseText = COMMENT_PATTERN.matcher( responseText ).replaceAll( "" );
+		responseText = COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
+			fullResponse ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" );
 	}
 
 	private String read( InputStream istream )
@@ -1366,17 +1336,18 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( statusChanged && !(this instanceof LocalRelayRequest) )
 			LocalRelayServer.addStatusMessage( "<!-- REFRESH -->" );
 
-		this.fullResponse = rawResponse;
+		if ( this instanceof LocalRelayRequest || isChatRequest )
+			this.fullResponse = rawResponse;
 
 		checkForNewEvents();
-		generateResponseText();
+		generateResponseText( rawResponse );
 
 		// Remove password hash before logging and strip out
 		// all new lines to make debug logs easier to read.
 
 		if ( !isChatRequest )
 		{
-			String response = responseText.replaceAll( "[\r\n]+", "" ).replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" );
+			String response = responseText.replaceAll( "", "" );
 			KoLmafia.getDebugStream().println( response );
 		}
 
