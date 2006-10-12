@@ -125,7 +125,7 @@ public class LoginRequest extends KoLRequest
 		if ( username.toLowerCase().startsWith( "devster" ) )
 			setLoginServer( "dev.kingdomofloathing.com" );
 
-		constructURLString( "" );
+		clearDataFields();
 		super.run();
 
 		// If the pattern is not found, then do not submit
