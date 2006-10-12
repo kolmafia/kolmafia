@@ -123,7 +123,7 @@ public class SortedListModel extends LockableListModel
      */
 
 	public int indexOf( Object o )
-	{	return indexOf( 0, size() - 1, (Comparable)o, NORMAL );
+	{	return o == null ? -1 : indexOf( 0, size() - 1, (Comparable)o, NORMAL );
 	}
 
     /**
