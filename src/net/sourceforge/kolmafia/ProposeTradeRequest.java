@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * An extension of a <code>KoLRequest</code> which specifically handles
@@ -41,6 +43,9 @@ package net.sourceforge.kolmafia;
 
 public class ProposeTradeRequest extends SendMessageRequest
 {
+	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d+=(\\d+)" );
+	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "howmany\\d+=(\\d+)" );
+
 	private boolean isCounterOffer;
 	private String recipient, message;
 
@@ -111,5 +116,23 @@ public class ProposeTradeRequest extends SendMessageRequest
 
 	protected String getMeatField()
 	{	return "offermeat";
+	}
+
+	public static boolean processRequest( String urlString )
+	{
+		if ( !urlString.startsWith( "makeoffer.php" ) && !urlString.startsWith( "counteroffer.php" ) )
+			return false;
+
+		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
+		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
+
+		while ( itemMatcher.find() && quantityMatcher.find() )
+		{
+			int itemID = StaticEntity.parseInt( itemMatcher.group(1) );
+			int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+			StaticEntity.getClient().processResult( new AdventureResult( itemID, 0 - quantity ) );
+		}
+
+		return true;
 	}
 }

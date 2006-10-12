@@ -194,7 +194,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			int defaultLoginServer = StaticEntity.getIntegerProperty( "defaultLoginServer" );
-			setLoginServer( SERVERS[defaultLoginServer][0] );
+			setLoginServer( SERVERS[ defaultLoginServer == 0 ? 0 : 1 ][0] );
 
 			if ( proxySet.equals( "true" ) )
 			{
@@ -299,7 +299,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			formURLString = formURLString.substring(1);
 
 		constructURLString( formURLString );
-
 		this.isConsumeRequest = this instanceof ConsumeItemRequest;
 
 		this.isDelayExempt = getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof ChatRequest ||
@@ -314,7 +313,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		int formSplitIndex = newURLString.indexOf( "?" );
 
-		if ( formSplitIndex == -1 )
+		if ( formSplitIndex == -1 || newURLString.startsWith( "login.php?loginid=" ) )
 		{
 			this.formURLString = newURLString;
 		}
@@ -720,10 +719,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		else
 		{
-			do
-			{
-				statusChanged = false;
-			}
+			statusChanged = false;
 			while ( !prepareConnection() || !postClientData() || !retrieveServerReply() && !KoLmafia.refusesContinue() );
 		}
 
@@ -892,6 +888,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			wasLastRequestSimple = false;
 		}
+		else if ( PulverizeRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
 
 		// Otherwise, see if it matches one of the standard "changeup"
 		// requests, like a familiar request or an equipment request.
@@ -929,6 +929,10 @@ public class KoLRequest implements Runnable, KoLConstants
 			wasLastRequestSimple = false;
 		}
 		else if ( GiftMessageRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+		else if ( ProposeTradeRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 		}
@@ -1146,7 +1150,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				// If the response code is not 200, then you've read all
 				// the information you need.  Close the input stream.
 
-				istream.close();
+//				istream.close();
 				return responseCode == 302 ? handleServerRedirect() : true;
 			}
 
@@ -1194,13 +1198,14 @@ public class KoLRequest implements Runnable, KoLConstants
 				if ( matcher.find() )
 				{
 					setLoginServer( matcher.group(1) );
-					return false;
+					redirectLocation = redirectLocation.substring( redirectLocation.lastIndexOf( "/" ) + 1 );
 				}
 
 				// Otherwise, it's probably just a gibberish URL
 				// that is used in order to force a cache refresh.
 
 				constructURLString( redirectLocation );
+				return false;
 			}
 			else if ( sessionID != null )
 			{

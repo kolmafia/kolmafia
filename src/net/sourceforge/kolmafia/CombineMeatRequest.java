@@ -82,7 +82,7 @@ public class CombineMeatRequest extends ItemCreationRequest
 		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
 		int quantity = quantityMatcher.find() ? StaticEntity.parseInt( quantityMatcher.group(1) ) : 1;
 
-		KoLmafia.sessionStream.println( "Make " + quantity + " " +
+		KoLmafia.getSessionStream().println( "Make " + quantity + " " +
 			TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) ) );
 
 		return true;
