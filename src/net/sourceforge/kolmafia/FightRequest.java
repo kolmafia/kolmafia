@@ -302,10 +302,10 @@ public class FightRequest extends KoLRequest
 		return desiredSkill == 0 ? null : String.valueOf( desiredSkill );
 	}
 
-	public static void updateCombatData( String encounter, String rawResponse )
+	public static void updateCombatData( String encounter, String responseText )
 	{
 		if ( !isInstanceRunning )
-			INSTANCE.generateResponseText( rawResponse );
+			INSTANCE.responseText = responseText;
 
 		// Spend MP and consume items
 
@@ -321,7 +321,7 @@ public class FightRequest extends KoLRequest
 			monsterData = MonsterDatabase.findMonster( encounter );
 		}
 
-		if ( rawResponse.indexOf( "fight.php" ) == -1 )
+		if ( responseText.indexOf( "fight.php" ) == -1 )
 		{
 			encounter = "";
 			encounterLookup = "";

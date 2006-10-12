@@ -816,12 +816,6 @@ public class LocalRelayRequest extends KoLRequest
 		}
 	}
 
-	public void generateResponseText( String responseText )
-	{
-		// Make sure that the original text containing all the HTML
-		// is left unmodified.
-	}
-
 	private void downloadSimulatorFile( String filename )
 	{
 		try

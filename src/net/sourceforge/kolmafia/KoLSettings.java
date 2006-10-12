@@ -245,8 +245,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "http.proxyPort", "" );
 		CLIENT_SETTINGS.put( "http.proxyUser", "" );
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
-		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,SkillBuffFrame,OptionsFrame" );
-		CLIENT_SETTINGS.put( "initialFrames", "ItemManageFrame,GearChangeFrame,EventsFrame" );
+		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,ItemManageFrame,SkillBuffFrame,OptionsFrame" );
+		CLIENT_SETTINGS.put( "initialFrames", "GearChangeFrame,EventsFrame" );
 		CLIENT_SETTINGS.put( "lastOperatingSystem", System.getProperty( "os.name" ) );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
 		CLIENT_SETTINGS.put( "loadedWikiOnce", "false" );
@@ -429,16 +429,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			Arrays.sort( lines );
 
 			settingsFile.createNewFile();
-			PrintStream writer = new LogStream( settingsFile );
-
-			for ( int i = 0; i < lines.length; ++i )
-			{
-				if ( !lines[i].startsWith( "saveState" ) || noExtensionName.equals( "GLOBAL" ) )
-					writer.println( lines[i] );
-			}
-
-			writer.close();
-			ostream = null;
+			ostream.writeTo( new FileOutputStream( settingsFile ) );
 		}
 		catch ( IOException e )
 		{

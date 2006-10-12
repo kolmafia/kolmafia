@@ -175,6 +175,14 @@ public class KoLmafiaGUI extends KoLmafia
 		// Instantiate the appropriate instance of the
 		// frame that should be loaded based on the mode.
 
+		if ( !StaticEntity.getGlobalProperty( "initialDesktop" ).equals( "" ) )
+		{
+			KoLDesktop.getInstance().initializeTabs();
+			KoLDesktop.getInstance().pack();
+			KoLDesktop.getInstance().setVisible( true );
+			KoLDesktop.getInstance().requestFocus();
+		}
+
 		String [] frameArray = frameSetting.split( "," );
 		String [] desktopArray = desktopSetting.split( "," );
 
@@ -196,14 +204,6 @@ public class KoLmafiaGUI extends KoLmafia
 			for ( int i = 0; i < initialFrames.length; ++i )
 				if ( !initialFrames[i].equals( "EventsFrame" ) )
 					constructFrame( initialFrames[i] );
-		}
-
-		if ( !StaticEntity.getGlobalProperty( "initialDesktop" ).equals( "" ) )
-		{
-			KoLDesktop.getInstance().initializeTabs();
-			KoLDesktop.getInstance().pack();
-			KoLDesktop.getInstance().setVisible( true );
-			KoLDesktop.getInstance().requestFocus();
 		}
 
 		// Figure out which user interface is being
