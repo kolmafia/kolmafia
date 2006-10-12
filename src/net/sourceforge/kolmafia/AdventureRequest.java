@@ -417,7 +417,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( urlString.indexOf( "fight.php" ) != -1 )
 		{
-			int spanIndex = request.responseText.indexOf( "monname" ) + 1;
+			int spanIndex = request.responseText.indexOf( "<span id='monname" ) + 1;
 			spanIndex = request.responseText.indexOf( ">", spanIndex ) + 1;
 
 			if ( spanIndex == 0 )
