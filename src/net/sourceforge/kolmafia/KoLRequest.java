@@ -306,6 +306,10 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	protected KoLRequest constructURLString( String newURLString )
+	{	return constructURLString( newURLString, true );
+	}
+
+	protected KoLRequest constructURLString( String newURLString, boolean usePostMethod )
 	{
 		this.data.clear();
 		if ( newURLString.startsWith( "/" ) )
@@ -313,7 +317,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		int formSplitIndex = newURLString.indexOf( "?" );
 
-		if ( formSplitIndex == -1 || newURLString.startsWith( "login.php?loginid=" ) )
+		if ( formSplitIndex == -1 || !usePostMethod )
 		{
 			this.formURLString = newURLString;
 		}
@@ -840,9 +844,8 @@ public class KoLRequest implements Runnable, KoLConstants
 				return;
 
 			if ( urlString.indexOf( "runaway" ) != -1 )
-				urlString = "fight.php?action=runaway";
+				constructURLString( "fight.php?action=runaway" );
 
-			constructURLString( urlString );
 			FightRequest.processRequest( urlString );
 			wasLastRequestSimple = false;
 			return;
@@ -1204,7 +1207,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				// Otherwise, it's probably just a gibberish URL
 				// that is used in order to force a cache refresh.
 
-				constructURLString( redirectLocation );
+				constructURLString( redirectLocation, false );
 				return false;
 			}
 			else if ( sessionID != null )
@@ -1229,7 +1232,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// Re-setup this request to follow the redirect
 			// desired and rerun the request.
 
-			constructURLString( redirectLocation );
+			constructURLString( redirectLocation, false );
 			return false;
 		}
 		else if ( redirectLocation.indexOf( "valhalla.php" ) != -1 )
