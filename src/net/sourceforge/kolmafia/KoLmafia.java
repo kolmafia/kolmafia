@@ -159,11 +159,12 @@ public abstract class KoLmafia implements KoLConstants
 		hermitItems.add( "volleyball" );
 		hermitItems.add( "wooden figurine" );
 
-		// Use US/Eastern time in order to determine when rollover has
-		// started (game should be online AFTER midnight ... those who
-		// login too fast can suffer a bad time zone).
+		// Change it so that it doesn't recognize daylight savings in order
+		// to ensure different localizations work.
 
-		DATED_FILENAME_FORMAT.setTimeZone( TimeZone.getTimeZone( "US/Eastern" ) );
+		TimeZone koltime = (TimeZone) TimeZone.getDefault().clone();
+		koltime.setRawOffset( 1000 * 60 * 60 * -5 );
+		DATED_FILENAME_FORMAT.setTimeZone( koltime );
 
 		StaticEntity.reloadSettings( "" );
 		StaticEntity.setProperty( "defaultLoginServer", "1" );
