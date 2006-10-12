@@ -931,8 +931,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) )
 		{
 			int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
-			buffer.insert( firstFormIndex,
-				"<tr><td align=center><form action=fight.php method=post><input type=hidden name=\"action\" value=\"script\"><input class=\"button\" type=\"submit\" value=\"Run Custom Combat Script\"></form></td></tr>" );
+			if ( firstFormIndex > 6 )
+			{
+				buffer.insert( firstFormIndex,
+					"<tr><td align=center><form action=fight.php method=post><input type=hidden name=\"action\" value=\"script\"><input class=\"button\" type=\"submit\" value=\"Run Custom Combat Script\"></form></td></tr>" );
+			}
 		}
 
 		// Now, remove the runaway button and place it inside of the user's
@@ -940,19 +943,27 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( StaticEntity.getBooleanProperty( "relayRemovesRunaway" ) )
 		{
-			StaticEntity.singleStringReplace( buffer, "<form name=runaway action=fight.php method=post><input type=hidden name=action value=\"runaway\"><tr><td align=center><input class=button type=submit value=\"Run Away\"></td></tr></form>", "" );
+			int startIndex = buffer.indexOf( "<form name=runaway" );
+			int stopIndex = buffer.indexOf( "</form>", startIndex );
 			int insertIndex = buffer.lastIndexOf( "</select>" );
 
-			StringBuffer runawayString = new StringBuffer( "<option value=\"runaway\">Run Away (0 " );
-			if ( KoLCharacter.isMuscleClass() )
-				runawayString.append( "Muscularity" );
-			else if ( KoLCharacter.isMysticalityClass() )
-				runawayString.append( "Mana" );
-			else
-				runawayString.append( "Mojo" );
-			runawayString.append( " Points)</option>" );
+			if ( startIndex != -1 && stopIndex != -1 && insertIndex != -1 )
+			{
+				buffer.delete( startIndex, stopIndex );
 
-			buffer.insert( insertIndex, runawayString.toString() );
+				StringBuffer runawayString = new StringBuffer( "<option value=\"runaway\">Run Away (0 " );
+				if ( KoLCharacter.isMuscleClass() )
+					runawayString.append( "Muscularity" );
+				else if ( KoLCharacter.isMysticalityClass() )
+					runawayString.append( "Mana" );
+				else
+					runawayString.append( "Mojo" );
+				runawayString.append( " Points)</option>" );
+
+				buffer.insert( insertIndex, runawayString.toString() );
+
+			}
+
 		}
 	}
 
