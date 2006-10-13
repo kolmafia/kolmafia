@@ -71,6 +71,7 @@ import javax.swing.SwingUtilities;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
+	private static final Pattern SESSIONID_COOKIE_PATTERN = Pattern.compile( "PHPSESSID=([^\\;]+)" );
 	private static final byte [] BYTE_ARRAY = new byte[ 8096 ];
 	private static final ByteArrayOutputStream BYTE_BUFFER = new ByteArrayOutputStream();
 
@@ -1152,6 +1153,14 @@ public class KoLRequest implements Runnable, KoLConstants
 				chooseNewLoginServer();
 
 			return formURLString.startsWith( "http://" );
+		}
+
+		String serverCookie = formConnection.getHeaderField( "Set-Cookie" );
+		if ( serverCookie != null )
+		{
+			Matcher sessionMatcher = SESSIONID_COOKIE_PATTERN.matcher( serverCookie );
+			if ( sessionMatcher.find() )
+				KoLRequest.sessionID = sessionMatcher.group(1);
 		}
 
 		try
