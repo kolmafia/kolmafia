@@ -51,13 +51,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MallSearchFrame extends KoLPanelFrame
 {
 	private boolean currentlyBuying;
-	private LockableListModel results;
+	private SortedListModel results;
 	private JList resultsList;
 	private MallSearchPanel mallSearch;
 
@@ -90,7 +90,7 @@ public class MallSearchFrame extends KoLPanelFrame
 
 			forceSortingCheckBox = new JCheckBox();
 			limitPurchasesCheckBox = new JCheckBox();
-			results = new LockableListModel();
+			results = new SortedListModel();
 
 			JPanel checkBoxPanels = new JPanel();
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );

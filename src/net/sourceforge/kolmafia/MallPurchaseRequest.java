@@ -335,7 +335,20 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	}
 
 	public int compareTo( MallPurchaseRequest mpr )
-	{	return price - mpr.price;
+	{
+		if ( price != mpr.price )
+			return price - mpr.price;
+
+		if ( !isNPCStore && mpr.isNPCStore )
+			return -1;
+
+		if ( isNPCStore && !mpr.isNPCStore )
+			return 1;
+
+		if ( quantity != mpr.quantity )
+			return quantity - mpr.quantity;
+
+		return shopName.compareToIgnoreCase( mpr.shopName );
 	}
 
 	public boolean ensureProperAttire()
