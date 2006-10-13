@@ -118,6 +118,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected URL formURL;
 	protected boolean followRedirects;
 	protected String formURLString;
+	protected String dataString = null;
 
 	protected boolean isChatRequest = false;
 	protected boolean isEquipResult = false;
@@ -241,6 +242,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 				StaticEntity.setProperty( "loginServerName", KOL_HOST );
 				KoLmafia.updateDisplay( "Redirected to " + KOL_HOST + "..." );
+				System.setProperty( "http.referer", "http://" + KOL_HOST + "/main.html" );
 			}
 		}
 	}
@@ -331,22 +333,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.isChatRequest = this.formURLString.indexOf( "chat" ) != -1;
 		this.shouldIgnoreResults = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "search" ) ||
 			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" );
-
-		// With that taken care of, determine the actual URL that you
-		// are about to request.
-
-		try
-		{
-			this.formURL = this.formURLString.startsWith( "http:" ) ?
-				new URL( this.formURLString ) : new URL( KOL_ROOT + this.formURLString );
-		}
-		catch ( MalformedURLException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e, "Error in URL: " + KOL_ROOT + formURLString );
-		}
 
 		return this;
 	}
@@ -1017,6 +1003,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			// For now, because there isn't HTTPS support, just open the
 			// connection and directly cast it into an HttpURLConnection
 
+			this.formURL = this.formURLString.startsWith( "http:" ) ?
+				new URL( this.formURLString ) : new URL( KOL_ROOT + this.formURLString );
+
 			formConnection = (HttpURLConnection) formURL.openConnection();
 		}
 		catch ( Exception e )
@@ -1039,9 +1028,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		formConnection.setUseCaches( false );
 		formConnection.setInstanceFollowRedirects( false );
 
-		if ( !data.isEmpty() )
-			formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
-
 		if ( sessionID != null )
 		{
 			if ( formURLString.indexOf( "inventory.php" ) != -1 && inventoryCookie != null )
@@ -1049,6 +1035,15 @@ public class KoLRequest implements Runnable, KoLConstants
 			else
 				formConnection.addRequestProperty( "Cookie", sessionID );
 		}
+
+		dataString = getDataString( true );
+		formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
+
+		if ( !data.isEmpty() )
+			formConnection.setRequestProperty( "Content-Length", String.valueOf( dataString.length() ) );
+		else
+			formConnection.setRequestProperty( "Content-Length", "0" );
+
 
 		return true;
 	}
@@ -1073,15 +1068,17 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		try
 		{
-			String dataString = getDataString( true );
+			formConnection.setRequestMethod( "POST" );
 
 			if ( shouldPrintDebug() )
-				KoLmafia.getDebugStream().println( "Submitting data string: " + getDataString( false ) );
+			{
+				KoLmafia.getDebugStream().println( "Submitting data string: " + dataString );
+				printRequestProperties();
+			}
 
-			formConnection.setRequestMethod( "POST" );
 			BufferedWriter ostream = new BufferedWriter( new OutputStreamWriter( formConnection.getOutputStream() ) );
-
 			ostream.write( dataString );
+
 			ostream.flush();
 			ostream.close();
 			ostream = null;
@@ -1153,6 +1150,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			return formURLString.startsWith( "http://" );
 		}
+
+		if ( shouldPrintDebug() )
+			printHeaderFields();
 
 		boolean shouldStop = false;
 
@@ -1228,6 +1228,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 			else if ( sessionID != null )
 			{
+KoLmafia.getDebugStream().println( "" + passwordHash );
+System.exit(0);
+
 				KoLmafia.updateDisplay( "Session timed out." );
 				if ( StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
 				{
@@ -1462,14 +1465,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
 
-		KoLRequest request = new KoLRequest( "choice.php" );
+		KoLRequest request = new KoLRequest( redirectLocation );
 		request.run();
 
 		String choice = null;
 		String option = null;
 		String decision = null;
 
-		while ( request.responseText.indexOf( "action=choice.php" ) != -1 )
+		while ( request.responseText.indexOf( "choice.php" ) != -1 )
 		{
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
 			Matcher choiceMatcher = CHOICE_PATTERN.matcher( request.responseText );
@@ -1776,39 +1779,39 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void printRequestProperties()
 	{
-		System.out.println();
-		System.out.println( "Requesting: " + getURLString() );
+		KoLmafia.getDebugStream().println();
+		KoLmafia.getDebugStream().println( "Requesting: http://" + KOL_HOST + "/" + getURLString() );
 
 		Map requestProperties = formConnection.getRequestProperties();
-		System.out.println( requestProperties.size() + " request properties" );
-		System.out.println();
+		KoLmafia.getDebugStream().println( requestProperties.size() + " request properties" );
+		KoLmafia.getDebugStream().println();
 
 		Iterator iterator = requestProperties.entrySet().iterator();
 		while ( iterator.hasNext() )
 		{
 			Map.Entry entry = (Map.Entry)iterator.next();
-			System.out.println( "Field: " + entry.getKey() + " = " + entry.getValue() );
+			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
 
-		System.out.println();
+		KoLmafia.getDebugStream().println();
 	}
 
 	protected void printHeaderFields()
 	{
-		System.out.println();
-		System.out.println( "Retrieved: " + getURLString() );
-		System.out.println();
+		KoLmafia.getDebugStream().println();
+		KoLmafia.getDebugStream().println( "Retrieved: http://" + KOL_HOST + "/" + getURLString() );
+		KoLmafia.getDebugStream().println();
 
 		Map headerFields = formConnection.getHeaderFields();
-		System.out.println( headerFields.size() + " header fields" );
+		KoLmafia.getDebugStream().println( headerFields.size() + " header fields" );
 
 		Iterator iterator = headerFields.entrySet().iterator();
 		while ( iterator.hasNext() )
 		{
 			Map.Entry entry = (Map.Entry)iterator.next();
-			System.out.println( "Field: " + entry.getKey() + " = " + entry.getValue() );
+			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
 
-		System.out.println();
+		KoLmafia.getDebugStream().println();
 	}
 }
