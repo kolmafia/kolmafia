@@ -38,6 +38,8 @@ import java.util.ArrayList;
 
 public abstract class Nemesis extends StaticEntity
 {
+	private static final KoLRequest QUEST_HANDLER = new KoLRequest( "cave.php" );
+
 	// Items for the cave
 
 	private static final AdventureResult FLY_SWATTER = new AdventureResult( 123, 1 );
@@ -59,10 +61,10 @@ public abstract class Nemesis extends StaticEntity
 
 		// Make sure the player has been given the quest
 
-		REDIRECT_FOLLOWER.constructURLString( "mountains.php" );
-		REDIRECT_FOLLOWER.run();
+		KoLRequest request = new KoLRequest( "mountains.php" );
+		request.run();
 
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "cave.php" ) == -1 )
+		if ( request.responseText.indexOf( "cave.php" ) == -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You haven't been given the quest to defeat your Nemesis!" );
 			return false;
@@ -80,10 +82,10 @@ public abstract class Nemesis extends StaticEntity
 
 		// See how far the player has gotten in this quest
 
-		REDIRECT_FOLLOWER.constructURLString( "cave.php" );
-		REDIRECT_FOLLOWER.run();
+		QUEST_HANDLER.clearDataFields();
+		QUEST_HANDLER.run();
 
-		if ( REDIRECT_FOLLOWER.responseText == null )
+		if ( QUEST_HANDLER.responseText == null )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Unable to find quest." );
 			return;
@@ -91,19 +93,19 @@ public abstract class Nemesis extends StaticEntity
 
 		int region = 0;
 
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "value='flies'" ) != -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "value='flies'" ) != -1 )
 			region = 4;
-		else if ( REDIRECT_FOLLOWER.responseText.indexOf( "value='door1'" ) != -1 )
+		else if ( QUEST_HANDLER.responseText.indexOf( "value='door1'" ) != -1 )
 			region = 5;
-		else if ( REDIRECT_FOLLOWER.responseText.indexOf( "value='troll1'" ) != -1 )
+		else if ( QUEST_HANDLER.responseText.indexOf( "value='troll1'" ) != -1 )
 			region = 6;
-		else if ( REDIRECT_FOLLOWER.responseText.indexOf( "value='door2'" ) != -1 )
+		else if ( QUEST_HANDLER.responseText.indexOf( "value='door2'" ) != -1 )
 			region = 7;
-		else if ( REDIRECT_FOLLOWER.responseText.indexOf( "value='troll2'" ) != -1 )
+		else if ( QUEST_HANDLER.responseText.indexOf( "value='troll2'" ) != -1 )
 			region = 8;
-		else if ( REDIRECT_FOLLOWER.responseText.indexOf( "value='end'" ) != -1 )
+		else if ( QUEST_HANDLER.responseText.indexOf( "value='end'" ) != -1 )
 			region = 9;
-		else if ( REDIRECT_FOLLOWER.responseText.indexOf( "cave9done" ) != -1 )
+		else if ( QUEST_HANDLER.responseText.indexOf( "cave9done" ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You've already defeated your nemesis." );
 			return;
@@ -219,10 +221,12 @@ public abstract class Nemesis extends StaticEntity
 			}
 
 			// Visit the cave
-			KoLRequest request = new KoLRequest( "cave.php?action=" + action );
-			request.run();
 
-			if ( REDIRECT_FOLLOWER.responseText != null && REDIRECT_FOLLOWER.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
+			QUEST_HANDLER.clearDataFields();
+			QUEST_HANDLER.addFormField( "action", action );
+			QUEST_HANDLER.run();
+
+			if ( QUEST_HANDLER.responseText != null && QUEST_HANDLER.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "You're out of adventures." );
 				return;

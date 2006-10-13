@@ -83,7 +83,9 @@ public class LoginFrame extends KoLFrame
 	public LoginFrame()
 	{
 		super( VERSION_NAME + ": Login" );
+
 		tabs = new JTabbedPane();
+		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
 
 		tabs.addTab( "KoL Login", constructLoginPanel() );
 

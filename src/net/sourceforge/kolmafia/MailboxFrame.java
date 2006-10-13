@@ -101,6 +101,8 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		this.tabbedListDisplay = new JTabbedPane();
+		this.tabbedListDisplay.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+
 		tabbedListDisplay.addTab( "Inbox", messageListInboxDisplay );
 		tabbedListDisplay.addTab( "PvP", messageListPvpDisplay );
 		tabbedListDisplay.addTab( "Outbox", messageListOutboxDisplay );

@@ -4798,11 +4798,11 @@ public class KoLmafiaASH extends StaticEntity
 			if ( KoLRequest.shouldIgnore( location ) || location.startsWith( "http" ) )
 				return STRING_INIT;
 
-			REDIRECT_FOLLOWER.constructURLString( location );
-			REDIRECT_FOLLOWER.run();
+			KoLRequest request = new KoLRequest( location, true );
+			request.run();
 
-			StaticEntity.externalUpdate( location, REDIRECT_FOLLOWER.responseText );
-			return new ScriptValue( REDIRECT_FOLLOWER.responseText == null ? "" : REDIRECT_FOLLOWER.responseText );
+			StaticEntity.externalUpdate( location, request.responseText );
+			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
 
 		public ScriptValue wait( ScriptVariable delay )

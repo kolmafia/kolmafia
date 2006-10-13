@@ -67,6 +67,8 @@ public class HagnkStorageFrame extends KoLFrame
 		// storage frame.
 
 		tabs = new JTabbedPane();
+		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+
 		all = new HagnkStoragePanel( false );
 		equip = new HagnkStoragePanel( true );
 

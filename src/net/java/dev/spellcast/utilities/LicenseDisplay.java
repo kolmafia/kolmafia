@@ -71,6 +71,7 @@ public class LicenseDisplay extends javax.swing.JFrame
 
 		JPanel contentPanel = (JPanel) getContentPane();
 		JTabbedPane tabbedPane = new JTabbedPane();
+		tabbedPane.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
 
 		if ( versionData != null )
 		{

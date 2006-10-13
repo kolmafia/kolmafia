@@ -178,11 +178,10 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	{
 		if ( CHECKPOINT != null )
 		{
-			REDIRECT_FOLLOWER.constructURLString( "account_manageoutfits.php" );
-			REDIRECT_FOLLOWER.addFormField( "action", "Yep." );
-			REDIRECT_FOLLOWER.addFormField( "delete" + (0 - CHECKPOINT.getOutfitID()), "on" );
-			REDIRECT_FOLLOWER.run();
+			KoLRequest request = new KoLRequest( "account_manageoutfits.php?action=Yep.&delete" +
+				(0 - CHECKPOINT.getOutfitID()) + "=on", true );
 
+			request.run();
 			CHECKPOINT = null;
 			hadImplicitChange = false;
 		}

@@ -64,8 +64,7 @@ public class EventsFrame extends KoLPanelFrame
 		{
 			// Connect to main map to pick up new events
 			KoLmafia.updateDisplay( "Checking for new events..." );
-			(new RequestThread( REDIRECT_FOLLOWER.constructURLString( "main.php" ) )).start();
-			KoLmafia.updateDisplay( "Events retrieved." );
+			(new RequestThread( new KoLRequest( "main.php" ) )).start();
 		}
 	}
 }

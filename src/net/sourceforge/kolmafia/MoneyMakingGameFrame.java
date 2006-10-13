@@ -53,10 +53,6 @@ public class MoneyMakingGameFrame extends KoLFrame
 	{
 		super( "Coin Toss Game" );
 
-		// tabs = new JTabbedPane();
-		// tabs.addTab( "Analysis", new AnalysisPanel() );
-		// framePanel.add( tabs, BorderLayout.CENTER );
-
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( new AnalysisPanel(), "" );
 	}

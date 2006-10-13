@@ -42,7 +42,7 @@ import java.util.regex.Matcher;
 public abstract class SorceressLair extends StaticEntity
 {
 	// Patterns for repeated usage.
-
+	private static final KoLRequest QUEST_HANDLER = new KoLRequest( "main.php", true );
 	private static final Pattern MAP_PATTERN = Pattern.compile( "usemap=\"#(\\w+)\"" );
 	private static final Pattern LAIR6_PATTERN = Pattern.compile( "lair6.php\\?place=(\\d+)" );
 
@@ -164,10 +164,9 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Make sure he's been given the quest
 
-		REDIRECT_FOLLOWER.constructURLString( "main.php" );
-		REDIRECT_FOLLOWER.run();
+		QUEST_HANDLER.constructURLString( "main.php" ).run();
 
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "lair.php" ) == -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "lair.php" ) == -1 )
 		{
 			// Visit the council to see if the quest can be unlocked,
 			// but only if you've reached level 11.
@@ -182,10 +181,8 @@ public abstract class SorceressLair extends StaticEntity
 
 				DEFAULT_SHELL.executeLine( "council" );
 
-				REDIRECT_FOLLOWER.constructURLString( "main.php" );
-				REDIRECT_FOLLOWER.run();
-
-				unlockedQuest = REDIRECT_FOLLOWER.responseText.indexOf( "lair.php" ) != -1;
+				QUEST_HANDLER.run();
+				unlockedQuest = QUEST_HANDLER.responseText.indexOf( "lair.php" ) != -1;
 			}
 
 			if ( !unlockedQuest )
@@ -205,10 +202,9 @@ public abstract class SorceressLair extends StaticEntity
 		// Map3 = lair1, lair3, lair4, lair5
 		// Map4 = lair1, lair3, lair4, lair5, lair6
 
-		REDIRECT_FOLLOWER.constructURLString( "lair.php" );
-		REDIRECT_FOLLOWER.run();
+		QUEST_HANDLER.constructURLString( "lair.php" ).run();
+		Matcher mapMatcher = MAP_PATTERN.matcher( QUEST_HANDLER.responseText );
 
-		Matcher mapMatcher = MAP_PATTERN.matcher( REDIRECT_FOLLOWER.responseText );
 		if ( mapMatcher.find() )
 		{
 			String map = mapMatcher.group( 1 );
@@ -322,10 +318,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( hasItem( BALLOON ) )
 		{
 			AdventureDatabase.retrieveItem( BALLOON );
-			REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-			REDIRECT_FOLLOWER.addFormField( "preaction", "key" );
-			REDIRECT_FOLLOWER.addFormField( "whichkey", String.valueOf( BALLOON.getItemID() ) );
-			REDIRECT_FOLLOWER.run();
+			QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + BALLOON.getItemID() ).run();
 		}
 
 		// Now, iterate through each of the completion steps;
@@ -361,10 +354,7 @@ public abstract class SorceressLair extends StaticEntity
 		AdventureDatabase.retrieveItem( STRUMMING );
 		AdventureDatabase.retrieveItem( SQUEEZINGS );
 
-		REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-		REDIRECT_FOLLOWER.addFormField( "action", "statues" );
-		REDIRECT_FOLLOWER.run();
-
+		QUEST_HANDLER.constructURLString( "lair2.php?action=statues" ).run();
 
 		// "As the mariachis reach a dire crescendo (Hey, have you
 		// heard my new band, Dire Crescendo?) the gate behind the
@@ -373,7 +363,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Just check to see if there is a link to lair3.php
 
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "lair3.php" ) == -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "lair3.php" ) == -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Failed to complete entryway." );
 			return;
@@ -411,10 +401,9 @@ public abstract class SorceressLair extends StaticEntity
 		// gates already.  If they haven't, then that's the
 		// only time you need the special effects.
 
-		REDIRECT_FOLLOWER.constructURLString( "lair1.php" );
-		REDIRECT_FOLLOWER.run();
+		QUEST_HANDLER.constructURLString( "lair1.php" ).run();
 
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "gatesdone" ) == -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "gatesdone" ) == -1 )
 		{
 			if ( !activeEffects.contains( SUGAR ) )
 				AdventureDatabase.retrieveItem( candy );
@@ -432,7 +421,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Use the rice candy, wussiness potion, and black candle
 		// and then cross through the first door.
 
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "gatesdone" ) == -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "gatesdone" ) == -1 )
 		{
 			if ( !activeEffects.contains( SUGAR ) )
 				(new ConsumeItemRequest( candy )).run();
@@ -444,16 +433,13 @@ public abstract class SorceressLair extends StaticEntity
 				(new ConsumeItemRequest( BLACK_CANDLE )).run();
 
 			KoLmafia.updateDisplay( "Crossing three door puzzle..." );
-
-			REDIRECT_FOLLOWER.constructURLString( "lair1.php" );
-			REDIRECT_FOLLOWER.addFormField( "action", "gates" );
-			REDIRECT_FOLLOWER.run();
+			QUEST_HANDLER.constructURLString( "lair1.php?action=gates" ).run();
 		}
 
 		// Now, unequip all of your equipment and cross through
 		// the mirror. Process the mirror shard that results.
 
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "lair2.php" ) == -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "lair2.php" ) == -1 )
 		{
 			DEFAULT_SHELL.executeLine( "familiar none" );
 			DEFAULT_SHELL.executeLine( "outfit birthday suit" );
@@ -461,10 +447,7 @@ public abstract class SorceressLair extends StaticEntity
 			// We will need to re-equip
 
 			KoLmafia.updateDisplay( "Crossing mirror puzzle..." );
-
-			REDIRECT_FOLLOWER.constructURLString( "lair1.php" );
-			REDIRECT_FOLLOWER.addFormField( "action", "mirror" );
-			REDIRECT_FOLLOWER.run();
+			QUEST_HANDLER.constructURLString( "lair1.php?action=mirror" ).run();
 		}
 	}
 
@@ -519,18 +502,11 @@ public abstract class SorceressLair extends StaticEntity
 
 			AdventureDatabase.retrieveItem( SKELETON );
 			KoLmafia.updateDisplay( "Inserting skeleton key..." );
+			QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SKELETON.getItemID() ).run();
 
-			REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-			REDIRECT_FOLLOWER.addFormField( "preaction", "key" );
-			REDIRECT_FOLLOWER.addFormField( "whichkey", String.valueOf( SKELETON.getItemID() ) );
-			REDIRECT_FOLLOWER.run();
-
-			if ( REDIRECT_FOLLOWER.responseText.indexOf( "prepreaction" ) != -1 )
+			if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 			{
-				REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-				REDIRECT_FOLLOWER.addFormField( "prepreaction", "skel" );
-				REDIRECT_FOLLOWER.run();
-
+				QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=skel" ).run();
 				if ( hasItem( CLOVER ) )
 					getClient().processResult( CLOVER.getNegation() );
 			}
@@ -642,22 +618,16 @@ public abstract class SorceressLair extends StaticEntity
 		// require you to re-equip your star weapon and
 		// a star buckler and switch to a starfish first.
 
-		DEFAULT_SHELL.executeLine( "equip " + starWeapon.getName() );
-		DEFAULT_SHELL.executeLine( "equip star hat" );
+		DEFAULT_SHELL.executeLine( "equip weapon " + starWeapon.getName() );
+		DEFAULT_SHELL.executeLine( "equip hat star hat" );
 		DEFAULT_SHELL.executeLine( "familiar star starfish" );
 
 		KoLmafia.updateDisplay( "Inserting Richard's star key..." );
+		QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + RICHARD.getItemID() ).run();
 
-		REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-		REDIRECT_FOLLOWER.addFormField( "preaction", "key" );
-		REDIRECT_FOLLOWER.addFormField( "whichkey", String.valueOf( RICHARD.getItemID() ) );
-		REDIRECT_FOLLOWER.run();
-
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "prepreaction" ) != -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 		{
-			REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-			REDIRECT_FOLLOWER.addFormField( "prepreaction", "starcage" );
-			REDIRECT_FOLLOWER.run();
+			QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=starcage" ).run();
 
 			// For unknown reasons, this doesn't always work
 			// Error check the possibilities
@@ -666,21 +636,21 @@ public abstract class SorceressLair extends StaticEntity
 			// to no avail.	 It doesn't appear to be made
 			// out of the right stuff."
 
-			if ( REDIRECT_FOLLOWER.responseText.indexOf( "right stuff" ) != -1 )
+			if ( QUEST_HANDLER.responseText.indexOf( "right stuff" ) != -1 )
 				KoLmafia.updateDisplay( ERROR_STATE, "Failed to equip a star weapon." );
 
 			// "A fragment of a line hits you really hard
 			// on the arm, and it knocks you back into the
 			// main cavern."
 
-			if ( REDIRECT_FOLLOWER.responseText.indexOf( "knocks you back" ) != -1 )
+			if ( QUEST_HANDLER.responseText.indexOf( "knocks you back" ) != -1 )
 				KoLmafia.updateDisplay( ERROR_STATE, "Failed to equip star buckler." );
 
 			// "Trog creeps toward the pedestal, but is
 			// blown backwards.  You give up, and go back
 			// out to the main cavern."
 
-			if ( REDIRECT_FOLLOWER.responseText.indexOf( "You give up" ) != -1 )
+			if ( QUEST_HANDLER.responseText.indexOf( "You give up" ) != -1 )
 				KoLmafia.updateDisplay( ERROR_STATE, "Failed to equip star starfish." );
 		}
 
@@ -707,28 +677,10 @@ public abstract class SorceressLair extends StaticEntity
 		// the Squeezings of Woe.
 
 		KoLmafia.updateDisplay( "Inserting digital key..." );
+		QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + DIGITAL.getItemID() ).run();
 
-		REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-		REDIRECT_FOLLOWER.addFormField( "preaction", "key" );
-		REDIRECT_FOLLOWER.addFormField( "whichkey", String.valueOf( DIGITAL.getItemID() ) );
-		REDIRECT_FOLLOWER.run();
-
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "prepreaction" ) != -1 )
-		{
-			REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-			REDIRECT_FOLLOWER.addFormField( "prepreaction", "sequence" );
-			REDIRECT_FOLLOWER.addFormField( "seq1", "up" );
-			REDIRECT_FOLLOWER.addFormField( "seq2", "up" );
-			REDIRECT_FOLLOWER.addFormField( "seq3", "down" );
-			REDIRECT_FOLLOWER.addFormField( "seq4", "down" );
-			REDIRECT_FOLLOWER.addFormField( "seq5", "left" );
-			REDIRECT_FOLLOWER.addFormField( "seq6", "right" );
-			REDIRECT_FOLLOWER.addFormField( "seq7", "left" );
-			REDIRECT_FOLLOWER.addFormField( "seq8", "right" );
-			REDIRECT_FOLLOWER.addFormField( "seq9", "b" );
-			REDIRECT_FOLLOWER.addFormField( "seq10", "a" );
-			REDIRECT_FOLLOWER.run();
-		}
+		if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
+			QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sequence&seq1=up&seq2=up&seq3=down&seq4=down&seq5=left&seq6=right&seq7=left&seq8=right&seq9=b&seq10=a" ).run();
 
 		return requirements;
 	}
@@ -756,19 +708,10 @@ public abstract class SorceressLair extends StaticEntity
 			else
 			{
 				KoLmafia.updateDisplay( "Inserting Boris's key..." );
+				QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + BORIS.getItemID() ).run();
 
-				REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-				REDIRECT_FOLLOWER.addFormField( "preaction", "key" );
-				REDIRECT_FOLLOWER.addFormField( "whichkey", String.valueOf( BORIS.getItemID() ) );
-				REDIRECT_FOLLOWER.run();
-
-				if ( REDIRECT_FOLLOWER.responseText.indexOf( "prepreaction" ) != -1 )
-				{
-					REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-					REDIRECT_FOLLOWER.addFormField( "prepreaction", "sorcriddle1" );
-					REDIRECT_FOLLOWER.addFormField( "answer", "fish" );
-					REDIRECT_FOLLOWER.run();
-				}
+				if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
+					QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sorcriddle1&answer=fish" ).run();
 			}
 		}
 
@@ -783,19 +726,10 @@ public abstract class SorceressLair extends StaticEntity
 			else
 			{
 				KoLmafia.updateDisplay( "Inserting Jarlsberg's key..." );
+				QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + JARLSBERG.getItemID() ).run();
 
-				REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-				REDIRECT_FOLLOWER.addFormField( "preaction", "key" );
-				REDIRECT_FOLLOWER.addFormField( "whichkey", String.valueOf( JARLSBERG.getItemID() ) );
-				REDIRECT_FOLLOWER.run();
-
-				if ( REDIRECT_FOLLOWER.responseText.indexOf( "prepreaction" ) != -1 )
-				{
-					REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-					REDIRECT_FOLLOWER.addFormField( "prepreaction", "sorcriddle2" );
-					REDIRECT_FOLLOWER.addFormField( "answer", "phish" );
-					REDIRECT_FOLLOWER.run();
-				}
+				if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
+					QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sorcriddle2&answer=phish" ).run();
 			}
 		}
 
@@ -809,21 +743,11 @@ public abstract class SorceressLair extends StaticEntity
 			}
 			else
 			{
-				AdventureDatabase.retrieveItem( SNEAKY_PETE );
 				KoLmafia.updateDisplay( "Inserting Sneaky Pete's key..." );
+				QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SNEAKY_PETE.getItemID() ).run();
 
-				REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-				REDIRECT_FOLLOWER.addFormField( "preaction", "key" );
-				REDIRECT_FOLLOWER.addFormField( "whichkey", String.valueOf( SNEAKY_PETE.getItemID() ) );
-				REDIRECT_FOLLOWER.run();
-
-				if ( REDIRECT_FOLLOWER.responseText.indexOf( "prepreaction" ) != -1 )
-				{
-					REDIRECT_FOLLOWER.constructURLString( "lair2.php" );
-					REDIRECT_FOLLOWER.addFormField( "prepreaction", "sorcriddle3" );
-					REDIRECT_FOLLOWER.addFormField( "answer", "fsh" );
-					REDIRECT_FOLLOWER.run();
-				}
+				if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
+					QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sorcriddle3&answer=fsh" ).run();
 			}
 		}
 
@@ -835,9 +759,7 @@ public abstract class SorceressLair extends StaticEntity
 			AdventureDatabase.retrieveItem( SCUBA );
 			DEFAULT_SHELL.executeLine( "equip acc1 makeshift SCUBA gear" );
 			KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
-
-			REDIRECT_FOLLOWER.constructURLString( "lair2.php?action=odor" );
-			REDIRECT_FOLLOWER.run();
+			QUEST_HANDLER.constructURLString( "lair2.php?action=odor" ).run();
 		}
 
 		return requirements;
@@ -870,10 +792,9 @@ public abstract class SorceressLair extends StaticEntity
 		// to the hedge maze, and begin!
 
 		KoLmafia.updateDisplay( "Retrieving maze status..." );
-		REDIRECT_FOLLOWER.constructURLString( "hedgepuzzle.php" );
-		REDIRECT_FOLLOWER.run();
+		QUEST_HANDLER.constructURLString( "hedgepuzzle.php" ).run();
 
-		String responseText = REDIRECT_FOLLOWER.responseText;
+		String responseText = QUEST_HANDLER.responseText;
 
 		// First mission -- retrieve the key from the hedge
 		// maze puzzle.
@@ -932,20 +853,16 @@ public abstract class SorceressLair extends StaticEntity
 			if ( responseText.indexOf( "Click one" ) == -1 )
 				return responseText;
 
-			REDIRECT_FOLLOWER.constructURLString( "hedgepuzzle.php" );
-			REDIRECT_FOLLOWER.addFormField( "action", hedgePiece );
-			REDIRECT_FOLLOWER.run();
-
-			responseText = REDIRECT_FOLLOWER.responseText;
+			QUEST_HANDLER.constructURLString( "hedgepuzzle.php?action=" + hedgePiece ).run();
 
 			// If the topiary golem stole one of your hedge
 			// pieces, take it away.
 
-			if ( responseText.indexOf( "Topiary Golem" ) != -1 )
+			if ( QUEST_HANDLER.responseText.indexOf( "Topiary Golem" ) != -1 )
 				getClient().processResult( PUZZLE_PIECE.getNegation() );
 		}
 
-		return responseText;
+		return QUEST_HANDLER.responseText;
 	}
 
 	private static String retrieveHedgeKey( String responseText )
@@ -968,11 +885,8 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( responseText.indexOf( "Click one" ) != -1 )
 		{
-			REDIRECT_FOLLOWER.constructURLString( "lair3.php" );
-			REDIRECT_FOLLOWER.addFormField( "action", "hedge" );
-			REDIRECT_FOLLOWER.run();
-
-			if ( REDIRECT_FOLLOWER.responseText.indexOf( "You're out of adventures." ) != -1 )
+			QUEST_HANDLER.constructURLString( "lair3.php?action=hedge" ).run();
+			if ( QUEST_HANDLER.responseText.indexOf( "You're out of adventures." ) != -1 )
 			{
 				// Cancel and return now
 
@@ -980,7 +894,7 @@ public abstract class SorceressLair extends StaticEntity
 				return responseText;
 			}
 
-			if ( !REDIRECT_FOLLOWER.needsRefresh )
+			if ( !QUEST_HANDLER.needsRefresh )
 				CharpaneRequest.getInstance().run();
 		}
 
@@ -1000,18 +914,16 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( responseText.indexOf( "Click one" ) != -1 )
 		{
-			REDIRECT_FOLLOWER.constructURLString( "lair3.php" );
-			REDIRECT_FOLLOWER.addFormField( "action", "hedge" );
-			REDIRECT_FOLLOWER.run();
+			QUEST_HANDLER.constructURLString( "lair3.php?action=hedge" ).run();
 
-			if ( REDIRECT_FOLLOWER.responseText.indexOf( "You're out of adventures." ) != -1 )
+			if ( QUEST_HANDLER.responseText.indexOf( "You're out of adventures." ) != -1 )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Ran out of adventures." );
 				return responseText;
 			}
 
 			// Decrement adventure tally
-			if ( !REDIRECT_FOLLOWER.needsRefresh )
+			if ( !QUEST_HANDLER.needsRefresh )
 				CharpaneRequest.getInstance().run();
 		}
 
@@ -1037,35 +949,28 @@ public abstract class SorceressLair extends StaticEntity
 		String previousAutoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
 
 		if ( !previousAutoAttack.equals( "0" ) )
-		{
-			REDIRECT_FOLLOWER.constructURLString( "account.php?action=autoattack&whichattack=0" );
-			REDIRECT_FOLLOWER.run();
-		}
+			QUEST_HANDLER.constructURLString( "account.php?action=autoattack&whichattack=0" ).run();
 
 		// Determine which level you actually need to start from.
 
 		KoLmafia.updateDisplay( "Climbing the tower..." );
 
-		REDIRECT_FOLLOWER.constructURLString( "lair4.php" );
-		REDIRECT_FOLLOWER.run();
-
+		QUEST_HANDLER.constructURLString( "lair4.php" ).run();
 		int currentLevel = 0;
 
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "lair5.php" ) != -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "lair5.php" ) != -1 )
 		{
 			// There is a link to higher in the tower.
 
-			REDIRECT_FOLLOWER.constructURLString( "lair5.php" );
-			REDIRECT_FOLLOWER.run();
-
+			QUEST_HANDLER.constructURLString( "lair5.php" ).run();
 			currentLevel = 3;
 		}
 
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "value=\"level1\"" ) != -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "value=\"level1\"" ) != -1 )
 			currentLevel += 1;
-		else if ( REDIRECT_FOLLOWER.responseText.indexOf( "value=\"level2\"" ) != -1 )
+		else if ( QUEST_HANDLER.responseText.indexOf( "value=\"level2\"" ) != -1 )
 			currentLevel += 2;
-		else if ( REDIRECT_FOLLOWER.responseText.indexOf( "value=\"level3\"" ) != -1 )
+		else if ( QUEST_HANDLER.responseText.indexOf( "value=\"level3\"" ) != -1 )
 			currentLevel += 3;
 		else
 			currentLevel += 4;
@@ -1096,10 +1001,8 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		// Figure out how far he's gotten into the Sorceress's Chamber
-		REDIRECT_FOLLOWER.constructURLString( "lair6.php" );
-		REDIRECT_FOLLOWER.run();
-
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "ascend.php" ) != -1 )
+		QUEST_HANDLER.constructURLString( "lair6.php" ).run();
+		if ( QUEST_HANDLER.responseText.indexOf( "ascend.php" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "You've already beaten Her Naughtiness." );
 			return -1;
@@ -1108,7 +1011,7 @@ public abstract class SorceressLair extends StaticEntity
 		int n = -1;
 		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
 
-		Matcher placeMatcher = LAIR6_PATTERN.matcher( REDIRECT_FOLLOWER.responseText );
+		Matcher placeMatcher = LAIR6_PATTERN.matcher( QUEST_HANDLER.responseText );
 		if ( placeMatcher.find() )
 			n = parseInt( placeMatcher.group(1) );
 
@@ -1209,38 +1112,38 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Boldly climb the stairs.
 
-		REDIRECT_FOLLOWER.constructURLString( towerLevel <= 3 ? "lair4.php" : "lair5.php" );
-		REDIRECT_FOLLOWER.addFormField( "action", "level" + ((towerLevel - 1) % 3 + 1) );
-		REDIRECT_FOLLOWER.run();
+		QUEST_HANDLER.constructURLString( towerLevel <= 3 ? "lair4.php" : "lair5.php" );
+		QUEST_HANDLER.addFormField( "action", "level" + ((towerLevel - 1) % 3 + 1) );
+		QUEST_HANDLER.run();
 
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "You don't have time to mess around in the Tower." ) != -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "You don't have time to mess around in the Tower." ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You're out of adventures." );
 			return -1;
 		}
 
 		// Parse response to see which item we need.
-		AdventureResult guardianItem = getGuardianItem( REDIRECT_FOLLOWER.responseText );
+		AdventureResult guardianItem = getGuardianItem( QUEST_HANDLER.responseText );
 
 		// With the guardian item retrieved, check to see if you have
 		// the item, and if so, use it and report success.  Otherwise,
 		// run away and report failure.
 
-		REDIRECT_FOLLOWER.constructURLString( "fight.php" );
+		QUEST_HANDLER.constructURLString( "fight.php" );
 
 		if ( inventory.contains( guardianItem ) )
 		{
-			REDIRECT_FOLLOWER.addFormField( "action", "useitem" );
-			REDIRECT_FOLLOWER.addFormField( "whichitem", String.valueOf( guardianItem.getItemID() ) );
-			REDIRECT_FOLLOWER.run();
+			QUEST_HANDLER.addFormField( "action", "useitem" );
+			QUEST_HANDLER.addFormField( "whichitem", String.valueOf( guardianItem.getItemID() ) );
+			QUEST_HANDLER.run();
 
 			return -1;
 		}
 
 		// Since we don't have the item, run away
 
-		REDIRECT_FOLLOWER.addFormField( "action", "runaway" );
-		REDIRECT_FOLLOWER.run();
+		QUEST_HANDLER.addFormField( "action", "runaway" );
+		QUEST_HANDLER.run();
 
 		AdventureDatabase.retrieveItem( guardianItem );
 		if ( guardianItem.getCount( inventory ) != 0 )
@@ -1263,24 +1166,13 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static void findDoorCode()
 	{
-		KoLmafia.updateDisplay( "Cracking door code..." );
-
 		// Enter the chamber
+		KoLmafia.updateDisplay( "Cracking door code..." );
+		QUEST_HANDLER.constructURLString( "lair6.php?place=0" ).run();
 
-		REDIRECT_FOLLOWER.constructURLString( "lair6.php" );
-		REDIRECT_FOLLOWER.addFormField( "place", "0" );
-		REDIRECT_FOLLOWER.run();
-
-		// Talk to the guards
-
-		REDIRECT_FOLLOWER.constructURLString( "lair6.php" );
-		REDIRECT_FOLLOWER.addFormField( "place", "0" );
-		REDIRECT_FOLLOWER.addFormField( "preaction", "lightdoor" );
-		REDIRECT_FOLLOWER.run();
-
-		// Crack the code
-
-		String code = deduceCode( REDIRECT_FOLLOWER.responseText );
+		// Talk to the guards and crack the code
+		QUEST_HANDLER.constructURLString( "lair6.php?place=0&preaction=lightdoor" ).run();
+		String code = deduceCode( QUEST_HANDLER.responseText );
 
 		if ( code == null )
 		{
@@ -1288,15 +1180,9 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 		}
 
-		REDIRECT_FOLLOWER.constructURLString( "lair6.php" );
-		REDIRECT_FOLLOWER.addFormField( "place", "0" );
-		REDIRECT_FOLLOWER.addFormField( "action", "doorcode" );
-		REDIRECT_FOLLOWER.addFormField( "code", code );
-		REDIRECT_FOLLOWER.run();
-
 		// Check for success
-
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "the door slides open" ) == -1 )
+		QUEST_HANDLER.constructURLString( "lair6.php?place=0&action=doorcode&code=" + code ).run();
+		if ( QUEST_HANDLER.responseText.indexOf( "the door slides open" ) == -1 )
 			KoLmafia.updateDisplay( ERROR_STATE, "I used the wrong code. Sorry." );
 	}
 
@@ -1376,9 +1262,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Reflect the energy bolt
 		KoLmafia.updateDisplay( "Reflecting energy bolt..." );
-		REDIRECT_FOLLOWER.constructURLString( "lair6.php" );
-		REDIRECT_FOLLOWER.addFormField( "place", "1" );
-		REDIRECT_FOLLOWER.run();
+		QUEST_HANDLER.constructURLString( "lair6.php?place=1" ).run();
 
 		// If we unequipped a weapon, equip it again
 		if ( initialWeapon != null && !initialWeapon.equals( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) ) )
@@ -1461,11 +1345,10 @@ public abstract class SorceressLair extends StaticEntity
 		String oldAction = getProperty( "battleAction" );
 		setProperty( "battleAction", "item " + option.getName().toLowerCase() );
 
-		KoLRequest combat = new KoLRequest( "lair6.php" );
-		combat.addFormField( "place", "2" );
-		combat.run();
+		KoLRequest request = new KoLRequest( "lair6.php?place=2" );
+		request.run();
 
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
 			KoLmafia.updateDisplay( ERROR_STATE, "You're out of adventures." );
 
 		// Reset all of the old battle action settings, including
@@ -1494,7 +1377,7 @@ public abstract class SorceressLair extends StaticEntity
 	private static void familiarBattle( int n, boolean requiresHeal )
 	{
 		// Make sure that the familiar is at least twenty pounds.
-		// Otherwise, it's a wasted REDIRECT_FOLLOWER.
+		// Otherwise, it's a wasted QUEST_HANDLER.
 
 		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
 		if ( originalFamiliar == null )
@@ -1533,14 +1416,12 @@ public abstract class SorceressLair extends StaticEntity
 		boolean shouldFaceFamiliar = !isPotentialFamiliar || FamiliarTrainingFrame.buffFamiliar( 20 );
 
 		KoLmafia.updateDisplay( "Facing giant familiar..." );
-		REDIRECT_FOLLOWER.constructURLString( "lair6.php" );
-		REDIRECT_FOLLOWER.addFormField( "place", String.valueOf( n ) );
-		REDIRECT_FOLLOWER.run();
+		QUEST_HANDLER.constructURLString( "lair6.php?place=" + n ).run();
 
 		// If you do not successfully pass the familiar, you
 		// will get a "stomp off in a huff" message.
 
-		if ( REDIRECT_FOLLOWER.responseText.indexOf( "stomp off in a huff" ) == -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "stomp off in a huff" ) == -1 )
 			return;
 
 		// Find the necessary familiar and see if the player has one.
@@ -1549,7 +1430,7 @@ public abstract class SorceressLair extends StaticEntity
 		FamiliarData familiar = null;
 		for ( int i = 0; i < FAMILIAR_DATA.length; ++i )
 		{
-			if ( REDIRECT_FOLLOWER.responseText.indexOf( FAMILIAR_DATA[i][0] ) != -1 )
+			if ( QUEST_HANDLER.responseText.indexOf( FAMILIAR_DATA[i][0] ) != -1 )
 			{
 				race = FAMILIAR_DATA[i][1];
 				familiar = KoLCharacter.findFamiliar( race );

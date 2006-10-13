@@ -101,7 +101,9 @@ public class ClanManageFrame extends KoLFrame
 		this.withdrawal = new WithdrawPanel();
 		this.search = new MemberSearchPanel();
 		this.warfare = new WarfarePanel();
+
 		this.tabs = new JTabbedPane();
+		this.tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
 
 		JPanel adminPanel = new JPanel();
 		adminPanel.setLayout( new BoxLayout( adminPanel, BoxLayout.Y_AXIS ) );

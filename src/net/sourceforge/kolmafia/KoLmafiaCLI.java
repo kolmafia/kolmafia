@@ -523,9 +523,10 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( KoLRequest.shouldIgnore( previousLine ) )
 				return;
 
-			REDIRECT_FOLLOWER.constructURLString( previousLine );
-			StaticEntity.getClient().makeRequest( REDIRECT_FOLLOWER );
-			StaticEntity.externalUpdate( REDIRECT_FOLLOWER.getURLString(), REDIRECT_FOLLOWER.responseText );
+			KoLRequest request = new KoLRequest( previousLine, true );
+			request.run();
+
+			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
 			return;
 		}
 
@@ -537,10 +538,11 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( KoLRequest.shouldIgnore( previousLine ) )
 				return;
 
-			REDIRECT_FOLLOWER.constructURLString( previousLine.substring(4).trim() );
-			StaticEntity.getClient().makeRequest( REDIRECT_FOLLOWER );
-			StaticEntity.externalUpdate( REDIRECT_FOLLOWER.getURLString(), REDIRECT_FOLLOWER.responseText );
-			showHTML( REDIRECT_FOLLOWER.getURLString(), REDIRECT_FOLLOWER.responseText );
+			KoLRequest request = new KoLRequest( previousLine.substring(4).trim(), true );
+			request.run();
+
+			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
+			showHTML( request.getURLString(), request.responseText );
 
 			return;
 
@@ -1004,10 +1006,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "council" ) )
 		{
-			REDIRECT_FOLLOWER.constructURLString( "council.php" );
-			REDIRECT_FOLLOWER.run();
+			KoLRequest request = new KoLRequest( "council.php", true );
+			request.run();
 
-			showHTML( StaticEntity.singleStringReplace( REDIRECT_FOLLOWER.responseText,
+			showHTML( StaticEntity.singleStringReplace( request.responseText,
 				"<a href=\"town.php\">Back to Seaside Town</a>", "" ), "Available Quests" );
 
 			return;
@@ -3082,7 +3084,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		if ( parameters.equals( "" ) )
 		{
-			StaticEntity.getClient().makeRequest( new UntinkerRequest() );
+			UntinkerRequest.completeQuest();
 			return;
 		}
 
