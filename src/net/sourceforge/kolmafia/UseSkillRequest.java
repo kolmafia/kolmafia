@@ -591,6 +591,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( !ALL_SKILLS.containsKey( skillName ) )
 			ALL_SKILLS.put( skillName, new UseSkillRequest( skillName ) );
 
-		return (UseSkillRequest) ALL_SKILLS.get( skillName );
+		UseSkillRequest request = (UseSkillRequest) ALL_SKILLS.get( skillName );
+		request.setTarget( "" );
+		request.setBuffCount( 0 );
+		return request;
 	}
 }
