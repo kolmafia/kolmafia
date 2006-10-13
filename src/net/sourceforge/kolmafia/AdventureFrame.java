@@ -150,10 +150,11 @@ public class AdventureFrame extends KoLFrame
 
 		tabs.addTab( "Burn Turns", adventureContainer );
 		addTab( "Auto Recovery", restorePanel );
-		addTab( "Choice Adventures", new ChoiceOptionsPanel() );
+		addTab( "Choice Handling", new ChoiceOptionsPanel() );
 		tabs.addTab( "Custom Combat", combatPanel );
 
-		getContentPane().add( tabs, BorderLayout.CENTER );
+		framePanel.setLayout( new CardLayout( 10, 10 ) );
+		framePanel.add( tabs, "" );
 	}
 
 	public boolean useSidePane()
