@@ -404,6 +404,8 @@ public class RequestFrame extends KoLFrame
 			location = location.substring( location.lastIndexOf( "/" ) + 1 );
 
 			locationField.setText( location );
+			locationField.setCaretPosition( 0 );
+
 			locationIndex = shownHTML.size() - 1;
 			mainBuffer.append( renderText );
 		}
