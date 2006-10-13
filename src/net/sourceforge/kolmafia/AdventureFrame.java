@@ -148,9 +148,9 @@ public class AdventureFrame extends KoLFrame
 		combatPanel.add( "tree", new CustomCombatTreePanel() );
 		combatPanel.add( "editor", new CustomCombatPanel() );
 
-		tabs.addTab( "Burn Turns", adventureContainer );
-		addTab( "Auto Recovery", restorePanel );
+		tabs.addTab( "Turn Burning", adventureContainer );
 		addTab( "Choice Handling", new ChoiceOptionsPanel() );
+		addTab( "Auto Recovery", restorePanel );
 		tabs.addTab( "Custom Combat", combatPanel );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
