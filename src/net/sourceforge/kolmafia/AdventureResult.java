@@ -482,14 +482,14 @@ public class AdventureResult implements Comparable, KoLConstants
 		// to zero - if it did, then remove the item from the list if
 		// it's an item (non-items are exempt).
 
-		if ( current.getCount() == 0 )
+		if ( sumResult.getCount() == 0 )
 		{
-			if ( current.isItem() || current.isStatusEffect() )
+			if ( sumResult.isItem() || sumResult.isStatusEffect() )
 				tally.remove( index );
 		}
-		else if ( current.getCount() < 0 )
+		else if ( sumResult.getCount() < 0 )
 		{
-			if ( current.isStatusEffect() )
+			if ( sumResult.isStatusEffect() )
 				tally.remove( index );
 		}
 		else
