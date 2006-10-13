@@ -1372,7 +1372,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Equip the huge mirror shard
 		if ( initialWeapon != null && !initialWeapon.equals( "huge mirror shard" ) )
-			DEFAULT_SHELL.executeLine( "equip huge mirror shard" );
+			DEFAULT_SHELL.executeLine( "equip weapon huge mirror shard" );
 
 		// Reflect the energy bolt
 		KoLmafia.updateDisplay( "Reflecting energy bolt..." );

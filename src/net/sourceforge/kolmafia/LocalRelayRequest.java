@@ -263,9 +263,19 @@ public class LocalRelayRequest extends KoLRequest
 
 		if ( formURLString.indexOf( "chatlaunch" ) != -1 )
 		{
-			int linkIndex = responseBuffer.indexOf( "<a href" );
-			if ( linkIndex != -1 )
-				responseBuffer.insert( linkIndex, "<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" );
+			if ( StaticEntity.getBooleanProperty( "relayAddsGraphicalCLI" ) )
+			{
+				int linkIndex = responseBuffer.indexOf( "<a href" );
+				if ( linkIndex != -1 )
+					responseBuffer.insert( linkIndex, "<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" );
+			}
+
+			if ( StaticEntity.getBooleanProperty( "relayAddsKoLSimulator" ) )
+			{
+				int linkIndex = responseBuffer.indexOf( "<a href" );
+				if ( linkIndex != -1 )
+					responseBuffer.insert( linkIndex, "<a href=\"KoLmafia/simulator/index.html\"><b>KoL Simulator</b></a></center><p>See what might happen before it happens!</p><center>" );
+			}
 		}
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsQuickScripts" ) && formURLString.indexOf( "menu" ) != -1 )

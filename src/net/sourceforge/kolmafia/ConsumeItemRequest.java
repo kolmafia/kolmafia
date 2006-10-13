@@ -315,7 +315,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
-			KoLCharacter.reachSpleenLimit();
 			lastUpdate = "Your spleen might go kabooie.";
 			KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
 			StaticEntity.getClient().processResult( lastItemUsed );
