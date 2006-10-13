@@ -473,8 +473,10 @@ public class AdventureResult implements Comparable, KoLConstants
 		// current adventure result, and construct the sum.
 
 		AdventureResult current = (AdventureResult) tally.get( index );
+		AdventureResult sumResult = current.getInstance( new int[ current.count.length ] );
+
 		for ( int i = 0; i < current.count.length; ++i )
-			current.count[i] += result.count[i];
+			sumResult.count[i] = current.count[i] + result.count[i];
 
 		// Check to make sure that the result didn't transform the value
 		// to zero - if it did, then remove the item from the list if
@@ -490,9 +492,9 @@ public class AdventureResult implements Comparable, KoLConstants
 			if ( current.isStatusEffect() )
 				tally.remove( index );
 		}
-		else if ( tally instanceof LockableListModel )
+		else
 		{
-			((LockableListModel)tally).fireContentsChanged( tally, index, index );
+			tally.set( index, sumResult );
 		}
 	}
 
@@ -799,6 +801,13 @@ public class AdventureResult implements Comparable, KoLConstants
 	{
 		return isItem() ? new AdventureResult( name, quantity, false ) :
 			isStatusEffect() ? new AdventureResult( name, quantity, true ) :
+				new AdventureResult( name, quantity );
+	}
+
+	public AdventureResult getInstance( int [] quantity )
+	{
+		return isItem() ? new AdventureResult( name, quantity[0], false ) :
+			isStatusEffect() ? new AdventureResult( name, quantity[0], true ) :
 				new AdventureResult( name, quantity );
 	}
 
