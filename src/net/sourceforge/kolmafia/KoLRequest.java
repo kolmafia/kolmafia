@@ -71,7 +71,6 @@ import javax.swing.SwingUtilities;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
-	private static final Pattern SESSIONID_COOKIE_PATTERN = Pattern.compile( "PHPSESSID=([^\\;]+)" );
 	private static final byte [] BYTE_ARRAY = new byte[ 8096 ];
 	private static final ByteArrayOutputStream BYTE_BUFFER = new ByteArrayOutputStream();
 
@@ -136,9 +135,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected int responseCode;
 	protected String responseText;
 	protected HttpURLConnection formConnection;
-
 	protected String redirectLocation;
-	private static final KoLRequest CHOICE_HANDLER = new KoLRequest( "choice.php" );
 
 	/**
 	 * Static method called when <code>KoLRequest</code> is first
@@ -1041,14 +1038,16 @@ public class KoLRequest implements Runnable, KoLConstants
 		formConnection.setDoOutput( !data.isEmpty() );
 		formConnection.setUseCaches( false );
 		formConnection.setInstanceFollowRedirects( false );
-		formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
+
+		if ( !data.isEmpty() )
+			formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 
 		if ( sessionID != null )
 		{
 			if ( formURLString.indexOf( "inventory.php" ) != -1 && inventoryCookie != null )
-				formConnection.addRequestProperty( "Cookie", "PHPSESSID=" + sessionID + "; inventory=" + inventoryCookie );
+				formConnection.addRequestProperty( "Cookie", inventoryCookie + "; " + sessionID );
 			else
-				formConnection.addRequestProperty( "Cookie", "PHPSESSID=" + sessionID );
+				formConnection.addRequestProperty( "Cookie", sessionID );
 		}
 
 		return true;
@@ -1155,13 +1154,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			return formURLString.startsWith( "http://" );
 		}
 
-		String serverCookie = formConnection.getHeaderField( "Set-Cookie" );
-		if ( serverCookie != null )
-		{
-			Matcher sessionMatcher = SESSIONID_COOKIE_PATTERN.matcher( serverCookie );
-			if ( sessionMatcher.find() )
-				KoLRequest.sessionID = sessionMatcher.group(1);
-		}
+		boolean shouldStop = false;
 
 		try
 		{
@@ -1171,10 +1164,13 @@ public class KoLRequest implements Runnable, KoLConstants
 				// the information you need.  Close the input stream.
 
 				istream.close();
-				return responseCode == 302 ? handleServerRedirect() : true;
+				shouldStop = responseCode == 302 ? handleServerRedirect() : true;
 			}
-
-			return retrieveServerReply( istream );
+			else
+			{
+				shouldStop = retrieveServerReply( istream );
+				istream.close();
+			}
 		}
 		catch ( Exception e )
 		{
@@ -1184,6 +1180,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			e.printStackTrace();
 			return true;
 		}
+
+		istream = null;
+		return shouldStop;
 	}
 
 	private boolean handleServerRedirect()
@@ -1239,11 +1238,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			return true;
 		}
-		else if ( redirectLocation.indexOf( "choice.php" ) != -1 )
-		{
-			processChoiceAdventure();
-			return true;
-		}
 		else if ( followRedirects )
 		{
 			// Re-setup this request to follow the redirect
@@ -1252,12 +1246,17 @@ public class KoLRequest implements Runnable, KoLConstants
 			constructURLString( redirectLocation, false );
 			return false;
 		}
+		else if ( redirectLocation.indexOf( "choice.php" ) != -1 )
+		{
+			processChoiceAdventure();
+			return true;
+		}
 		else if ( redirectLocation.indexOf( "valhalla.php" ) != -1 )
 		{
 			passwordHash = "";
 			return true;
 		}
-		else if ( redirectLocation.indexOf( "fight.php" ) != -1 && !(this instanceof LocalRelayRequest) )
+		else if ( redirectLocation.indexOf( "fight.php" ) != -1 )
 		{
 			// You have been redirected to a fight!  Here, you need
 			// to complete the fight before you can continue.
@@ -1291,7 +1290,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			BYTE_BUFFER.reset();
 		}
 
-		istream.close();
 		processResponse();
 		return true;
 	}
@@ -1464,23 +1462,17 @@ public class KoLRequest implements Runnable, KoLConstants
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
 
-		CHOICE_HANDLER.clearDataFields();
-		CHOICE_HANDLER.run();
-
-		if ( getClass() == KoLRequest.class )
-		{
-			stealRequestData( CHOICE_HANDLER );
-			return;
-		}
+		KoLRequest request = new KoLRequest( "choice.php" );
+		request.run();
 
 		String choice = null;
 		String option = null;
 		String decision = null;
 
-		while ( CHOICE_HANDLER.responseText.indexOf( "action=choice.php" ) != -1 )
+		while ( request.responseText.indexOf( "action=choice.php" ) != -1 )
 		{
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
-			Matcher choiceMatcher = CHOICE_PATTERN.matcher( CHOICE_HANDLER.responseText );
+			Matcher choiceMatcher = CHOICE_PATTERN.matcher( request.responseText );
 
 			if ( !choiceMatcher.find() )
 			{
@@ -1489,7 +1481,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				// finish by hand.
 
 				KoLmafia.updateDisplay( ABORT_STATE, "Encountered choice adventure with no choices." );
-				CHOICE_HANDLER.showInBrowser( true );
+				request.showInBrowser( true );
 				return;
 			}
 
@@ -1525,7 +1517,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( decision.equals( "" ) )
 			{
 				KoLmafia.updateDisplay( ABORT_STATE, "Unsupported choice adventure #" + choice );
-				CHOICE_HANDLER.showInBrowser( true );
+				request.showInBrowser( true );
 				return;
 			}
 
@@ -1550,11 +1542,11 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( !willIgnore )
 				decision = pickOutfitChoice( option, decision );
 
-			CHOICE_HANDLER.clearDataFields();
-			CHOICE_HANDLER.addFormField( "pwd" );
-			CHOICE_HANDLER.addFormField( "whichchoice", choice );
-			CHOICE_HANDLER.addFormField( "option", decision );
-			CHOICE_HANDLER.run();
+			request.clearDataFields();
+			request.addFormField( "pwd" );
+			request.addFormField( "whichchoice", choice );
+			request.addFormField( "option", decision );
+			request.run();
 
 			// Certain choices cost meat when selected
 
@@ -1567,9 +1559,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		// since they necessarily consume an adventure.
 
 		if ( AdventureDatabase.consumesAdventure( option, decision ) )
-			needsRefresh = !CHOICE_HANDLER.needsRefresh;
+			needsRefresh = !request.needsRefresh;
 
-		stealRequestData( CHOICE_HANDLER );
+		stealRequestData( request );
 	}
 
 	private String pickOutfitChoice( String option, String decision )
@@ -1782,35 +1774,41 @@ public class KoLRequest implements Runnable, KoLConstants
 	{	return getURLString();
 	}
 
-	protected void printHeaderFields()
-	{
-		if ( !shouldPrintDebug() )
-			return;
-
-		Map headerFields = formConnection.getHeaderFields();
-		KoLmafia.getDebugStream().println( headerFields.size() + " header fields" );
-
-		Iterator iterator = headerFields.entrySet().iterator();
-		while ( iterator.hasNext() )
-		{
-			Map.Entry entry = (Map.Entry)iterator.next();
-			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
-		}
-	}
-
 	protected void printRequestProperties()
 	{
-		if ( !shouldPrintDebug() )
-			return;
+		System.out.println();
+		System.out.println( "Requesting: " + getURLString() );
 
 		Map requestProperties = formConnection.getRequestProperties();
-		KoLmafia.getDebugStream().println( requestProperties.size() + " request properties" );
+		System.out.println( requestProperties.size() + " request properties" );
+		System.out.println();
 
 		Iterator iterator = requestProperties.entrySet().iterator();
 		while ( iterator.hasNext() )
 		{
 			Map.Entry entry = (Map.Entry)iterator.next();
-			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
+			System.out.println( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
+
+		System.out.println();
+	}
+
+	protected void printHeaderFields()
+	{
+		System.out.println();
+		System.out.println( "Retrieved: " + getURLString() );
+		System.out.println();
+
+		Map headerFields = formConnection.getHeaderFields();
+		System.out.println( headerFields.size() + " header fields" );
+
+		Iterator iterator = headerFields.entrySet().iterator();
+		while ( iterator.hasNext() )
+		{
+			Map.Entry entry = (Map.Entry)iterator.next();
+			System.out.println( "Field: " + entry.getKey() + " = " + entry.getValue() );
+		}
+
+		System.out.println();
 	}
 }
