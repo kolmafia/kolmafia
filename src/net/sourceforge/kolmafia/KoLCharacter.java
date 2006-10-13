@@ -297,7 +297,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static List listenerList = new ArrayList();
 	private static boolean beanstalkArmed = false;
-	private static boolean spleenLimitReached = false;
 
 	// Ascension-related variables
 
@@ -402,7 +401,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		stillsAvailable = -1;
 		beanstalkArmed = false;
-		spleenLimitReached = false;
 
 		ascensions = 0;
 		ascensionSign = "None";
@@ -1519,14 +1517,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void armBeanstalk()
 	{	KoLCharacter.beanstalkArmed = true;
-	}
-
-	public static boolean spleenLimitReached()
-	{	return spleenLimitReached;
-	}
-
-	public static void reachSpleenLimit()
-	{	KoLCharacter.spleenLimitReached = true;
 	}
 
 	/**

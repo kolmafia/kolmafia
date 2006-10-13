@@ -46,7 +46,7 @@ import java.util.regex.Matcher;
 
 public class LocalRelayServer implements Runnable
 {
-	private static final Pattern COOKIE_PATTERN = Pattern.compile( "PHPSESSID=([^\\s;]+)" );
+	private static final Pattern INVENTORY_COOKIE_PATTERN = Pattern.compile( "inventory=(\\d+)" );
 
 	private static long lastStatusMessage = 0;
 	private static Thread relayThread = null;
@@ -359,19 +359,14 @@ public class LocalRelayServer implements Runnable
 					if ( tokens[0].equals( "Content-Length" ) )
 						contentLength = StaticEntity.parseInt( tokens[1].trim() );
 
-					if ( tokens[0].equals( "Cookie" ) )
+					if ( tokens[0].equals( "Cookie" ) && KoLRequest.sessionID != null )
 					{
-						// Okay, this MIGHT be a stale cookie because of
-						// the way cookies are saved.
+						// Let's find out what kind of cookie the browser is trying
+						// to tell KoLmafia about.
 
-						Matcher browserCookie = COOKIE_PATTERN.matcher( tokens[1] );
-						Matcher internalCookie = COOKIE_PATTERN.matcher( KoLRequest.sessionID == null ? "" : KoLRequest.sessionID );
-
-						if ( browserCookie.find() && internalCookie.find() )
-						{
-							KoLRequest.sessionID = StaticEntity.singleStringReplace( tokens[1],
-								browserCookie.group(1), internalCookie.group(1) ).replaceAll( "; path=/[^\\s;]*", "" ) + "; path=/";
-						}
+						Matcher inventoryMatcher = INVENTORY_COOKIE_PATTERN.matcher( tokens[1] );
+						if ( inventoryMatcher.find() )
+							KoLRequest.inventoryCookie = inventoryMatcher.group(1);
 					}
 
 					isCheckingModified |= tokens[0].equals( "If-Modified-Since" );

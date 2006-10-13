@@ -207,6 +207,9 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add mood maintenance links to left side pane" },
+			{ "relayAddsGraphicalCLI", "Add link to in-browser command-line interface to right side pane" },
+			{ "relayAddsKoLSimulator", "Add link to Ayvuir's Simulator of Loathing to right side pane" },
+
 			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
 			{ "relayRemovesExpensiveItems", "Remove unaffordable items from stores in browser" },
 			{ "relayRemovesMinpricedItems", "Remove items priced at minimum from stores in browser" },
