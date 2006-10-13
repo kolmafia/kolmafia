@@ -132,7 +132,7 @@ public class SearchMallRequest extends KoLRequest
 	{
 		super( searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
 
-		this.searchString = getItemName( searchString );
+		this.searchString = searchString;
 		addFormField( "whichitem", this.searchString );
 
 		if ( cheapestCount > 0 )
@@ -146,7 +146,7 @@ public class SearchMallRequest extends KoLRequest
 		this.sortAfter = sortAfter;
 	}
 
-	private String getItemName( String searchString )
+	public static String getItemName( String searchString )
 	{
 		String itemName = searchString;
 
@@ -228,7 +228,8 @@ public class SearchMallRequest extends KoLRequest
 			for ( int i = 0; i < itemNames.size(); ++i )
 			{
 				int autoSellPrice = TradeableItemDatabase.getPriceByID( TradeableItemDatabase.getItemID( (String) itemNames.get(i) ) );
-				canAvoidSearch &= NPCStoreDatabase.contains( (String) itemNames.get(i) ) || autoSellPrice == 0 || autoSellPrice < -1;
+				canAvoidSearch &= NPCStoreDatabase.contains( (String) itemNames.get(i) ) ?
+					(!KoLCharacter.canInteract() || (autoSellPrice > 0 && autoSellPrice < 100)) : (autoSellPrice == 0 || autoSellPrice < -1);
 			}
 
 			if ( canAvoidSearch )
