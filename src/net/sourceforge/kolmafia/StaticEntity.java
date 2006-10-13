@@ -425,8 +425,8 @@ public abstract class StaticEntity implements KoLConstants
 		{
 			KoLmafia.getDebugStream().println();
 			KoLmafia.getDebugStream().println( "" + client.getCurrentRequest().getClass() );
+			KoLmafia.getDebugStream().println( LINE_BREAK_PATTERN.matcher( client.getCurrentRequest().responseText ).replaceAll( "" ) );
 			KoLmafia.getDebugStream().println();
-			KoLmafia.getDebugStream().println( "" + client.getCurrentRequest().responseText );
 		}
 
 		try

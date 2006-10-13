@@ -366,7 +366,7 @@ public class LocalRelayServer implements Runnable
 
 						Matcher inventoryMatcher = INVENTORY_COOKIE_PATTERN.matcher( tokens[1] );
 						if ( inventoryMatcher.find() )
-							KoLRequest.inventoryCookie = inventoryMatcher.group(1);
+							KoLRequest.inventoryCookie = "inventory=" + inventoryMatcher.group(1);
 					}
 
 					isCheckingModified |= tokens[0].equals( "If-Modified-Since" );
