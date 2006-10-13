@@ -53,7 +53,6 @@ import java.security.MessageDigest;
 
 public class LoginRequest extends KoLRequest
 {
-	private static final Pattern SESSIONID_COOKIE_PATTERN = Pattern.compile( "PHPSESSID=([^\\;]+)" );
 	private static final SimpleDateFormat MAINTENANCE_FORMATTER = new SimpleDateFormat( "E", Locale.US );
 	static
 	{
@@ -336,11 +335,6 @@ public class LoginRequest extends KoLRequest
 
 			if ( this.savePassword )
 				KoLmafia.addSaveState( username, password );
-
-			String serverCookie = formConnection.getHeaderField( "Set-Cookie" );
-			Matcher sessionMatcher = SESSIONID_COOKIE_PATTERN.matcher( serverCookie );
-			if ( sessionMatcher.find() )
-				KoLRequest.sessionID = sessionMatcher.group(1);
 
 			StaticEntity.getClient().initialize( username, this.getBreakfast, this.isQuickLogin );
 			return false;
