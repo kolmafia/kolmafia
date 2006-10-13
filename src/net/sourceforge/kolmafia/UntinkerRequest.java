@@ -38,16 +38,7 @@ import java.util.ArrayList;
 public class UntinkerRequest extends KoLRequest
 {
 	private static final AdventureResult SCREWDRIVER = new AdventureResult( 454, -1 );
-
 	private int itemID;
-
-	public UntinkerRequest()
-	{
-		super( "town_right.php" );
-		addFormField( "place", "untinker" );
-
-		this.itemID = -1;
-	}
 
 	public UntinkerRequest( int itemID )
 	{
@@ -63,16 +54,6 @@ public class UntinkerRequest extends KoLRequest
 
 	public void run()
 	{
-		// If we are not untinkering an item, then the user wants to
-		// visit the untinker and get or fulfill the quest
-
-		if ( itemID == -1 )
-		{
-			KoLmafia.updateDisplay( "Visiting the Untinker..." );
-			super.run();
-			return;
-		}
-
 		// Check to see if the item can be constructed using meat
 		// paste, and only execute the request if it is known to be
 		// creatable through combination.
@@ -86,13 +67,27 @@ public class UntinkerRequest extends KoLRequest
 		// Check to see if the person has the untinkering accomplishment
 		// before starting.
 
-		if ( KoLCharacter.getLevel() < 4 )
+		if ( KoLCharacter.getLevel() < 4 || !completeQuest() )
 			KoLmafia.updateDisplay( ERROR_STATE, "You cannot untinker items yet." );
 
+		// Visiting the untinker automatically deducts a
+		// screwdriver from the inventory.
+
+		if ( inventory.contains( SCREWDRIVER ) )
+			StaticEntity.getClient().processResult( SCREWDRIVER );
+
+		KoLmafia.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );
+
+		super.run();
+		KoLmafia.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( itemID ) + "." );
+	}
+
+	public static final boolean completeQuest()
+	{
 		// If the person does not have the accomplishment, visit
 		// the untinker to ensure that they get the quest.
 
-		KoLRequest questCompleter = new UntinkerRequest();
+		KoLRequest questCompleter = new KoLRequest( "town_right.php?place=untinker" );
 		questCompleter.run();
 
 		// "I can take apart anything that's put together with meat
@@ -104,7 +99,7 @@ public class UntinkerRequest extends KoLRequest
 			// Untinker is willing to work on.
 
 			KoLmafia.updateDisplay( ERROR_STATE, "You don't have that item in your inventory." );
-			return;
+			return true;
 		}
 
 		// If they do not have a screwdriver, tell them they
@@ -117,11 +112,11 @@ public class UntinkerRequest extends KoLRequest
 
 			if ( KoLCharacter.inMuscleSign() )
 			{
-				REDIRECT_FOLLOWER.constructURLString( "knoll.php" );
-				REDIRECT_FOLLOWER.run();
+				questCompleter.constructURLString( "knoll.php" );
+				questCompleter.run();
 
-				REDIRECT_FOLLOWER.constructURLString( "knoll.php?place=smith" );
-				REDIRECT_FOLLOWER.run();
+				questCompleter.constructURLString( "knoll.php?place=smith" );
+				questCompleter.run();
 			}
 			else
 			{
@@ -143,7 +138,7 @@ public class UntinkerRequest extends KoLRequest
 					KoLmafia.updateDisplay( ERROR_STATE, "Unable to complete untinkerer's quest." );
 					conditions.clear();
 					conditions.addAll( temporary );
-					return;
+					return false;
 				}
 
 				conditions.clear();
@@ -154,19 +149,11 @@ public class UntinkerRequest extends KoLRequest
 			// Go ahead and rerun the untinker request and you will
 			// have the needed accomplishment.
 
+			questCompleter.constructURLString( "town_right.php?place=untinker" );
 			questCompleter.run();
 		}
 
-		// Visiting the untinker automatically deducts a
-		// screwdriver from the inventory.
-
-		if ( inventory.contains( SCREWDRIVER ) )
-			StaticEntity.getClient().processResult( SCREWDRIVER );
-
-		KoLmafia.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );
-
-		super.run();
-		KoLmafia.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( itemID ) + "." );
+		return questCompleter.responseText.indexOf( "Degrassi Knoll" ) == -1;
 	}
 
 	protected void processResults()

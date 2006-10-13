@@ -51,8 +51,6 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 {
 	private static KoLDesktop INSTANCE = null;
 	private static boolean isInitializing = false;
-
-	private JTabbedPane tabs = new JTabbedPane();
 	private ArrayList tabListing = new ArrayList();
 
 	protected JPanel compactPane;
@@ -74,7 +72,10 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		getContentPane().setLayout( new BorderLayout() );
 
+		tabs = new JTabbedPane();
+		tabs.setTabPlacement( JTabbedPane.BOTTOM );
 		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		addCompactPane();
 
@@ -197,9 +198,6 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		int tabIndex = INSTANCE.tabListing.indexOf( content );
 		if ( tabIndex == -1 )
 		{
-			if ( content.tabs != null )
-				content.tabs.setTabPlacement( JTabbedPane.BOTTOM );
-
 			INSTANCE.tabListing.add( content );
 			INSTANCE.tabs.addTab( content.lastTitle, content.getContentPane() );
 			INSTANCE.tabs.setSelectedIndex( 0 );

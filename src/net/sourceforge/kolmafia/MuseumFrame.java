@@ -89,6 +89,8 @@ public class MuseumFrame extends KoLFrame
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		tabs = new JTabbedPane();
+		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+
 		tabs.addTab( "General", general );
 		tabs.addTab( "Shelves", shelvesScroller );
 		tabs.addTab( "Ordering", orderingScroller );

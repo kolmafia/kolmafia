@@ -66,6 +66,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffRequestFrame extends KoLFrame
 {
+	private static final KoLRequest ONLINE_VALIDATOR = new KoLRequest( "submitnewchat.php", true );
+
 	private JPanel requestContainer;
 	private CardLayout requestCards;
 
@@ -73,7 +75,6 @@ public class BuffRequestFrame extends KoLFrame
 	{
 		super( "Purchase Buffs" );
 
-		tabs = new JTabbedPane();
 		requestCards = new CardLayout( 10, 10 );
 		requestContainer = new JPanel( requestCards );
 
@@ -87,14 +88,12 @@ public class BuffRequestFrame extends KoLFrame
 
 	private void isBotOnline( String botName )
 	{
-		REDIRECT_FOLLOWER.constructURLString( "submitnewchat.php" );
+		ONLINE_VALIDATOR.addFormField( "playerid", String.valueOf( KoLCharacter.getUserID() ) );
+		ONLINE_VALIDATOR.addFormField( "pwd" );
+		ONLINE_VALIDATOR.addFormField( "graf", "/whois " + botName );
+		ONLINE_VALIDATOR.run();
 
-		REDIRECT_FOLLOWER.addFormField( "playerid", String.valueOf( KoLCharacter.getUserID() ) );
-		REDIRECT_FOLLOWER.addFormField( "pwd" );
-		REDIRECT_FOLLOWER.addFormField( "graf", "/whois " + botName );
-		REDIRECT_FOLLOWER.run();
-
-		if ( REDIRECT_FOLLOWER.responseText != null && REDIRECT_FOLLOWER.responseText.indexOf( "online" ) != -1 )
+		if ( ONLINE_VALIDATOR.responseText != null && ONLINE_VALIDATOR.responseText.indexOf( "online" ) != -1 )
 			JOptionPane.showMessageDialog( null, botName + " is online." );
 		else
 			JOptionPane.showMessageDialog( null, botName + " is probably not online." );

@@ -1856,14 +1856,7 @@ public abstract class KoLmafia implements KoLConstants
 			return -1;
 		}
 
-		REDIRECT_FOLLOWER.constructURLString( "council.php" );
-		REDIRECT_FOLLOWER.run();
-
-		if ( REDIRECT_FOLLOWER.responseText == null || REDIRECT_FOLLOWER.responseText.indexOf( "rat problems" ) == -1 )
-		{
-			updateDisplay( ERROR_STATE, "This quest is not available." );
-			return -1;
-		}
+		DEFAULT_SHELL.executeLine( "council" );
 
 		updateDisplay( "Searching for faucet..." );
 		adventure.run();
@@ -1911,14 +1904,15 @@ public abstract class KoLmafia implements KoLConstants
 	public void tradeGourdItems()
 	{
 		updateDisplay( "Determining items needed..." );
-		REDIRECT_FOLLOWER.constructURLString( "town_right.php?place=gourd" );
-		REDIRECT_FOLLOWER.run();
+
+		KoLRequest request = new KoLRequest( "town_right.php?place=gourd", true );
+		request.run();
 
 		// For every class, it's the same -- the message reads, "Bring back"
 		// and then the number of the item needed.  Compare how many you need
 		// with how many you have.
 
-		Matcher neededMatcher = GOURD_PATTERN.matcher( REDIRECT_FOLLOWER.responseText );
+		Matcher neededMatcher = GOURD_PATTERN.matcher( request.responseText );
 		AdventureResult item;
 
 		switch ( KoLCharacter.getPrimeIndex() )
@@ -1938,9 +1932,7 @@ public abstract class KoLmafia implements KoLConstants
 		while ( neededCount <= 25 && neededCount <= item.getCount( inventory ) )
 		{
 			updateDisplay( "Giving up " + neededCount + " " + item.getName() + "s..." );
-			REDIRECT_FOLLOWER.constructURLString( "town_right.php?place=gourd&action=gourd" );
-			REDIRECT_FOLLOWER.run();
-
+			request.constructURLString( "town_right.php?place=gourd&action=gourd" ).run();
 			processResult( item.getInstance( 0 - neededCount++ ) );
 		}
 
@@ -1963,26 +1955,27 @@ public abstract class KoLmafia implements KoLConstants
 		// their current stats.
 
 		updateDisplay( "Entering guild challenge area..." );
-		REDIRECT_FOLLOWER.constructURLString( "guild.php?place=challenge" ).run();
+		KoLRequest request = new KoLRequest( "guild.php?place=challenge", true );
+		request.run();
 
-		boolean success = stopAtPaco ? REDIRECT_FOLLOWER.responseText.indexOf( "paco" ) != -1 :
-			REDIRECT_FOLLOWER.responseText.indexOf( "store.php" ) != -1;
+		boolean success = stopAtPaco ? request.responseText.indexOf( "paco" ) != -1 :
+			request.responseText.indexOf( "store.php" ) != -1;
 
 		updateDisplay( "Completing guild tasks..." );
 
 		for ( int i = 0; i < 6 && !success && KoLCharacter.getAdventuresLeft() > 0 && permitsContinue(); ++i )
 		{
-			REDIRECT_FOLLOWER.constructURLString( "guild.php?action=chal" ).run();
+			request.constructURLString( "guild.php?action=chal" ).run();
 
-			if ( REDIRECT_FOLLOWER.responseText != null )
+			if ( request.responseText != null )
 			{
-				success |= stopAtPaco ? REDIRECT_FOLLOWER.responseText.indexOf( "paco" ) != -1 :
-					REDIRECT_FOLLOWER.responseText.indexOf( "You've already beaten" ) != -1;
+				success |= stopAtPaco ? request.responseText.indexOf( "paco" ) != -1 :
+					request.responseText.indexOf( "You've already beaten" ) != -1;
 			}
 		}
 
 		if ( success && KoLCharacter.getLevel() > 3 )
-			REDIRECT_FOLLOWER.constructURLString( "guild.php?place=paco" ).run();
+			request.constructURLString( "guild.php?place=paco" ).run();
 
 		if ( success && stopAtPaco )
 			updateDisplay( "You have unlocked the guild meatcar quest." );

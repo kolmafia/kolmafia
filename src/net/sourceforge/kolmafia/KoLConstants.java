@@ -138,7 +138,6 @@ public interface KoLConstants extends UtilityConstants
 	public static final File SCRIPT_DIRECTORY = new File( "scripts" );
 	public static final File SETTINGS_DIRECTORY = new File( "settings" );
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
-	public static final KoLRequest REDIRECT_FOLLOWER = new KoLRequest( "main.php", true );
 
 	// Different states of KoLmafia.  Used in order to determine
 	// what is still permitted.

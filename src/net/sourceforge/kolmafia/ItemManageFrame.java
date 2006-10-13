@@ -94,6 +94,8 @@ public class ItemManageFrame extends KoLFrame
 		super( "Item Manager" );
 
 		tabs = new JTabbedPane();
+		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+
 		itemConsumer = new ConsumePanel();
 		bruteForcer = new InventPanel();
 		itemCreator = new CreateItemPanel();

@@ -48,6 +48,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureDatabase extends KoLDatabase
 {
+	public static final KoLRequest ZONE_VALIDATOR = new KoLRequest( "main.php", true );
+
 	private static LockableListModel adventures = new LockableListModel();
 	private static AdventureArray allAdventures = new AdventureArray();
 
@@ -625,53 +627,53 @@ public class AdventureDatabase extends KoLDatabase
 
 		for ( int i = 1; isValidZone && i < validationRequests.size() - 1; ++i )
 		{
-			REDIRECT_FOLLOWER.constructURLString( (String) validationRequests.get(0) ).run();
-			isValidZone &= REDIRECT_FOLLOWER.responseText != null &&
-				REDIRECT_FOLLOWER.responseText.indexOf( (String) validationRequests.get(i) ) != -1;
+			ZONE_VALIDATOR.constructURLString( (String) validationRequests.get(0) ).run();
+			isValidZone &= ZONE_VALIDATOR.responseText != null &&
+				ZONE_VALIDATOR.responseText.indexOf( (String) validationRequests.get(i) ) != -1;
 		}
 
-		REDIRECT_FOLLOWER.constructURLString( (String) validationRequests.get( validationRequests.size() - 1 ) ).run();
+		ZONE_VALIDATOR.constructURLString( (String) validationRequests.get( validationRequests.size() - 1 ) ).run();
 
 		// Special handling of the bat zone.
 
 		if ( locationID.equals( "32" ) || locationID.equals( "33" ) || locationID.equals( "34" ) )
 		{
-			if ( locationID.equals( "32" ) && REDIRECT_FOLLOWER.responseText.indexOf( "batrockleft.gif" ) == -1 )
+			if ( locationID.equals( "32" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1 )
 				return true;
 
-			if ( locationID.equals( "33" ) && REDIRECT_FOLLOWER.responseText.indexOf( "batrockright.gif" ) == -1 )
+			if ( locationID.equals( "33" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) == -1 )
 				return true;
 
-			if ( locationID.equals( "34" ) && REDIRECT_FOLLOWER.responseText.indexOf( "batrockbottom.gif" ) == -1 )
+			if ( locationID.equals( "34" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) == -1 )
 				return true;
 
 			int sonarCount = SONAR.getCount( inventory );
 			int sonarToUse = 0;
 
-			if ( REDIRECT_FOLLOWER.responseText.indexOf( "batrockleft.gif" ) != -1 )
+			if ( ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) != -1 )
 				sonarToUse = 3;
-			else if ( REDIRECT_FOLLOWER.responseText.indexOf( "batrockright.gif" ) != -1 )
+			else if ( ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) != -1 )
 				sonarToUse = 2;
-			else if ( REDIRECT_FOLLOWER.responseText.indexOf( "batrockbottom.gif" ) != -1 )
+			else if ( ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) != -1 )
 				sonarToUse = 1;
 
 			DEFAULT_SHELL.executeLine( "use " + Math.min( sonarToUse, sonarCount ) + " sonar-in-a-biscuit" );
-			REDIRECT_FOLLOWER.run();
+			ZONE_VALIDATOR.run();
 
-			return locationID.equals( "32" ) && REDIRECT_FOLLOWER.responseText.indexOf( "batrockleft.gif" ) == -1 ||
-				locationID.equals( "33" ) && REDIRECT_FOLLOWER.responseText.indexOf( "batrockright.gif" ) == -1 ||
-				locationID.equals( "34" ) && REDIRECT_FOLLOWER.responseText.indexOf( "batrockbottom.gif" ) == -1;
+			return locationID.equals( "32" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1 ||
+				locationID.equals( "33" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) == -1 ||
+				locationID.equals( "34" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) == -1;
 		}
 
 		// Handle all others as normal.
 
-		isValidZone &= REDIRECT_FOLLOWER.responseText != null;
+		isValidZone &= ZONE_VALIDATOR.responseText != null;
 		if ( isValidZone )
 		{
-			isValidZone &= REDIRECT_FOLLOWER.responseText.indexOf( "snarfblat=" + locationID ) != -1 ||
-				REDIRECT_FOLLOWER.responseText.indexOf( "adv=" + locationID ) != -1 ||
-				REDIRECT_FOLLOWER.responseText.indexOf( "name=snarfblat value=" + locationID ) != -1 ||
-				REDIRECT_FOLLOWER.responseText.indexOf( "name=adv value=" + locationID ) != -1;
+			isValidZone &= ZONE_VALIDATOR.responseText.indexOf( "snarfblat=" + locationID ) != -1 ||
+				ZONE_VALIDATOR.responseText.indexOf( "adv=" + locationID ) != -1 ||
+				ZONE_VALIDATOR.responseText.indexOf( "name=snarfblat value=" + locationID ) != -1 ||
+				ZONE_VALIDATOR.responseText.indexOf( "name=adv value=" + locationID ) != -1;
 		}
 
 		return isValidZone;

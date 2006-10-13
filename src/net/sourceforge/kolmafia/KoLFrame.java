@@ -165,6 +165,16 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			addWindowListener( new MinimizeListener() );
 	}
 
+	protected final void addTab( String name, JComponent panel )
+	{
+		if ( tabs == null )
+			return;
+
+		JScrollPane scroller = new JScrollPane( panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		JComponentUtilities.setComponentSize( scroller, 560, 400 );
+		tabs.add( name, scroller );
+	}
+
 	public final void setTitle( String newTitle )
 	{
 		this.lastTitle = newTitle;

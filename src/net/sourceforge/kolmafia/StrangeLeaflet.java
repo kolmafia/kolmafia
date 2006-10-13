@@ -761,17 +761,17 @@ public abstract class StrangeLeaflet extends StaticEntity
 		fireplace = true;
 	}
 
+	private static final KoLRequest LEAFLET_REQUEST = new KoLRequest( "leaflet.php?pwd" );
+
 	private static String executeCommand( String command )
 	{
-		REDIRECT_FOLLOWER.constructURLString( "leaflet.php" );
-		REDIRECT_FOLLOWER.addFormField( "pwd" );
-		REDIRECT_FOLLOWER.addFormField( "command", command );
-		REDIRECT_FOLLOWER.run();
+		LEAFLET_REQUEST.addFormField( "command", command );
+		LEAFLET_REQUEST.run();
 
 		// Figure out where we are
-		parseLocation( REDIRECT_FOLLOWER.responseText );
+		parseLocation( LEAFLET_REQUEST.responseText );
 
 		// Let the caller look at the results, if desired
-		return REDIRECT_FOLLOWER.responseText;
+		return LEAFLET_REQUEST.responseText;
 	}
 }

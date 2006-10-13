@@ -394,9 +394,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// If he mentions Degrassi Knoll, you haven't given him
 		// his screwdriver yet.
 
-		KoLRequest questCompleter = new UntinkerRequest();
-		questCompleter.run();
-		return questCompleter.responseText.indexOf( "Degrassi Knoll" ) == -1;
+		return UntinkerRequest.completeQuest();
 	}
 
 	public static void untinkerCloverWeapon( AdventureResult item )
