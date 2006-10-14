@@ -247,7 +247,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
 		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,HagnkStorageFrame,SkillBuffFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
-		CLIENT_SETTINGS.put( "lastOperatingSystem", "" );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
 		CLIENT_SETTINGS.put( "loadedWikiOnce", "false" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
