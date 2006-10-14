@@ -794,15 +794,13 @@ public abstract class SorceressLair extends StaticEntity
 		KoLmafia.updateDisplay( "Retrieving maze status..." );
 		QUEST_HANDLER.constructURLString( "hedgepuzzle.php" ).run();
 
-		String responseText = QUEST_HANDLER.responseText;
-
 		// First mission -- retrieve the key from the hedge
 		// maze puzzle.
 
 		if ( !inventory.contains( HEDGE_KEY ) )
 		{
 			KoLmafia.updateDisplay( "Retrieving hedge key..." );
-			responseText = retrieveHedgeKey( responseText );
+			retrieveHedgeKey();
 
 			// Retrieving the key after rotating the puzzle pieces
 			// uses an adventure. If we ran out, we canceled.
@@ -814,10 +812,10 @@ public abstract class SorceressLair extends StaticEntity
 		// Second mission -- rotate the hedge maze until
 		// the hedge path leads to the hedge door.
 
-		if ( responseText.indexOf( "Click one" ) != -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "Executing final rotations..." );
-			responseText = finalizeHedgeMaze( responseText );
+			finalizeHedgeMaze();
 
 			// Navigating up to the tower door after rotating the
 			// puzzle pieces requires an adventure. If we ran out,
@@ -831,7 +829,7 @@ public abstract class SorceressLair extends StaticEntity
 		// in the middle -- if you did, update the user
 		// display to say so.
 
-		if ( responseText.indexOf( "Click one" ) == -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) == -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Ran out of puzzle pieces." );
 			return;
@@ -840,18 +838,17 @@ public abstract class SorceressLair extends StaticEntity
 		KoLmafia.updateDisplay( "Hedge maze quest complete." );
 	}
 
-	private static String rotateHedgePiece( String responseText, String hedgePiece, String searchText )
+	private static void rotateHedgePiece( String hedgePiece, String searchText )
 	{
 		// Rotate puzzle sections until we reach our goal
-		while ( responseText.indexOf( searchText ) == -1 )
+		while ( QUEST_HANDLER.responseText.indexOf( searchText ) == -1 )
 		{
 			// We're out of puzzles unless the response says:
-
 			// "Click one of the puzzle sections to rotate that
 			// section 90 degrees to the right."
 
-			if ( responseText.indexOf( "Click one" ) == -1 )
-				return responseText;
+			if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) == -1 )
+				return;
 
 			QUEST_HANDLER.constructURLString( "hedgepuzzle.php?action=" + hedgePiece ).run();
 
@@ -861,73 +858,58 @@ public abstract class SorceressLair extends StaticEntity
 			if ( QUEST_HANDLER.responseText.indexOf( "Topiary Golem" ) != -1 )
 				getClient().processResult( PUZZLE_PIECE.getNegation() );
 		}
-
-		return QUEST_HANDLER.responseText;
 	}
 
-	private static String retrieveHedgeKey( String responseText )
+	private static void retrieveHedgeKey()
 	{
 		// Before doing anything, check to see if the hedge
 		// maze has already been solved for the key.
 
-		if ( responseText.indexOf( "There is a key here." ) == -1 )
-			return responseText;
+		if ( QUEST_HANDLER.responseText.indexOf( "There is a key here." ) == -1 )
+			return;
 
-		responseText = rotateHedgePiece( responseText, "3", "Upper-Right Tile: Dead end, exit to the west.  There is a key here." );
-		responseText = rotateHedgePiece( responseText, "2", "Upper-Middle Tile: Straight east/west passage." );
-		responseText = rotateHedgePiece( responseText, "1", "Upper-Left Tile: 90 degree bend, exits south and east." );
-		responseText = rotateHedgePiece( responseText, "4", "Middle-Left Tile: Straight north/south passage." );
-		responseText = rotateHedgePiece( responseText, "7", "Lower-Left Tile: 90 degree bend, exits north and east." );
-		responseText = rotateHedgePiece( responseText, "8", "Lower-Middle Tile: 90 degree bend, exits south and west." );
+		rotateHedgePiece( "3", "Upper-Right Tile: Dead end, exit to the west.  There is a key here." );
+		rotateHedgePiece( "2", "Upper-Middle Tile: Straight east/west passage." );
+		rotateHedgePiece( "1", "Upper-Left Tile: 90 degree bend, exits south and east." );
+		rotateHedgePiece( "4", "Middle-Left Tile: Straight north/south passage." );
+		rotateHedgePiece( "7", "Lower-Left Tile: 90 degree bend, exits north and east." );
+		rotateHedgePiece( "8", "Lower-Middle Tile: 90 degree bend, exits south and west." );
 
 		// The hedge maze has been properly rotated!  Now go ahead
 		// and retrieve the key from the maze.
 
-		if ( responseText.indexOf( "Click one" ) != -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) != -1 )
 		{
 			QUEST_HANDLER.constructURLString( "lair3.php?action=hedge" ).run();
 			if ( QUEST_HANDLER.responseText.indexOf( "You're out of adventures." ) != -1 )
-			{
-				// Cancel and return now
-
 				KoLmafia.updateDisplay( ERROR_STATE, "Ran out of adventures." );
-				return responseText;
-			}
-
 			if ( !QUEST_HANDLER.needsRefresh )
 				CharpaneRequest.getInstance().run();
 		}
-
-		return responseText;
 	}
 
-	private static String finalizeHedgeMaze( String responseText )
+	private static void finalizeHedgeMaze()
 	{
-		responseText = rotateHedgePiece( responseText, "2", "Upper-Middle Tile: Straight north/south passage." );
-		responseText = rotateHedgePiece( responseText, "5", "Center Tile: 90 degree bend, exits north and east." );
-		responseText = rotateHedgePiece( responseText, "6", "Middle-Right Tile: 90 degree bend, exits south and west." );
-		responseText = rotateHedgePiece( responseText, "9", "Lower-Right Tile: 90 degree bend, exits north and west." );
-		responseText = rotateHedgePiece( responseText, "8", "Lower-Middle Tile: 90 degree bend, exits south and east." );
+		rotateHedgePiece( "2", "Upper-Middle Tile: Straight north/south passage." );
+		rotateHedgePiece( "5", "Center Tile: 90 degree bend, exits north and east." );
+		rotateHedgePiece( "6", "Middle-Right Tile: 90 degree bend, exits south and west." );
+		rotateHedgePiece( "9", "Lower-Right Tile: 90 degree bend, exits north and west." );
+		rotateHedgePiece( "8", "Lower-Middle Tile: 90 degree bend, exits south and east." );
 
 		// The hedge maze has been properly rotated!  Now go ahead
 		// and complete the hedge maze puzzle!
 
-		if ( responseText.indexOf( "Click one" ) != -1 )
+		if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) != -1 )
 		{
 			QUEST_HANDLER.constructURLString( "lair3.php?action=hedge" ).run();
 
 			if ( QUEST_HANDLER.responseText.indexOf( "You're out of adventures." ) != -1 )
-			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Ran out of adventures." );
-				return responseText;
-			}
 
 			// Decrement adventure tally
 			if ( !QUEST_HANDLER.needsRefresh )
 				CharpaneRequest.getInstance().run();
 		}
-
-		return responseText;
 	}
 
 	public static int fightAllTowerGuardians()

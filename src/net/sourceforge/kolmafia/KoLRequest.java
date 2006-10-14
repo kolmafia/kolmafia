@@ -599,7 +599,11 @@ public class KoLRequest implements Runnable, KoLConstants
 		// been constructed, pull them out.
 
 		if ( formURLString.indexOf( "lair4.php" ) != -1 || formURLString.indexOf( "lair5.php" ) != -1 )
+		{
 			SorceressLair.makeGuardianItems();
+			if ( isDelayExempt )
+				KoLmafia.enableDisplay();
+		}
 
 		if ( !usingValidConnection )
 		{
