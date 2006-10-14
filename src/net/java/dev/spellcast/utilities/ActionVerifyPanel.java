@@ -215,10 +215,7 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 				elementsContainer.add( elements[i].getInputField() );
 
 				if ( !isLabelPreceeding )
-				{
-					JComponentUtilities.setComponentSize( elements[i].getLabel(), labelSize );
 					elementsContainer.add( elements[i].getLabel() );
-				}
 			}
 
 			// Construct the compact grid with the
