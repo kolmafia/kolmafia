@@ -45,7 +45,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JList;
-import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import java.awt.event.WindowAdapter;
@@ -125,9 +124,7 @@ public class ContactListFrame extends KoLFrame
 		entryCDL.setLineWrap( true );
 		entryCDL.setWrapStyleWord( true );
 
-		JScrollPane scrollCDL = new JScrollPane( entryCDL, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
+		SimpleScrollPane scrollCDL = new SimpleScrollPane( entryCDL );
 		JComponentUtilities.setComponentSize( scrollCDL, 250, 120 );
 		dialogCDL.getContentPane().add( scrollCDL );
 
@@ -171,9 +168,7 @@ public class ContactListFrame extends KoLFrame
 			contactsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
 			contactsDisplay.addMouseListener( new SendInstantMessageAdapter() );
-
-			add( new JScrollPane( contactsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ) );
+			add( new SimpleScrollPane( contactsDisplay ) );
 		}
 	}
 

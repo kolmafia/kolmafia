@@ -49,12 +49,13 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.JScrollPane;
 import javax.swing.Box;
 import javax.swing.JList;
-import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.text.JTextComponent;
 import javax.swing.table.TableModel;
 
 // layout
@@ -170,7 +171,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( tabs == null )
 			return;
 
-		JScrollPane scroller = new JScrollPane( panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		SimpleScrollPane scroller = new SimpleScrollPane( panel );
 		JComponentUtilities.setComponentSize( scroller, 560, 400 );
 		tabs.add( name, scroller );
 	}
@@ -603,8 +604,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			enclosingPanel = new JPanel( new BorderLayout( 10, 10 ) );
 			enclosingPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
-			enclosingPanel.add( new JScrollPane( elementList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+			enclosingPanel.add( new SimpleScrollPane( elementList ), BorderLayout.CENTER );
 
 			setLayout( new CardLayout( 10, 0 ) );
 			add( enclosingPanel, "" );
@@ -1131,14 +1131,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		return restoreSetting.toString();
 	}
 
-	protected JScrollPane constructScroller( JCheckBox [] restoreCheckbox )
+	protected SimpleScrollPane constructScroller( JCheckBox [] restoreCheckbox )
 	{
 		JPanel checkboxPanel = new JPanel( new GridLayout( restoreCheckbox.length, 1 ) );
 		for ( int i = 0; i < restoreCheckbox.length; ++i )
 			checkboxPanel.add( restoreCheckbox[i] );
 
-		JScrollPane scrollArea = new JScrollPane( checkboxPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		return scrollArea;
+		return new SimpleScrollPane( checkboxPanel,
+			SimpleScrollPane.VERTICAL_SCROLLBAR_NEVER, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 	}
 
 	public void pack()
@@ -1201,10 +1201,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public OptionsPanel( String panelTitle, Dimension left, Dimension right )
 		{	super( panelTitle, left, right );
-		}
-
-		public void setStatusMessage( int displayState, String message )
-		{
 		}
 
 		public void actionConfirmed()

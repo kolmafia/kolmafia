@@ -49,7 +49,6 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JButton;
-import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
@@ -93,8 +92,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			super( "save changes", "auto-undercut", true );
 
 			addTable = new StoreListTable( new LockableListModel() );
-			JScrollPane addScroller = new JScrollPane( addTable,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			SimpleScrollPane addScroller = new SimpleScrollPane( addTable );
 
 			JComponentUtilities.setComponentSize( addScroller, 500, 50 );
 			JPanel addPanel = new JPanel( new BorderLayout() );
@@ -103,8 +101,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			addPanel.add( addScroller, BorderLayout.CENTER );
 
 			manageTable = new StoreListTable( StoreManager.getSoldItemList() );
-			JScrollPane manageScroller = new JScrollPane( manageTable,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			SimpleScrollPane manageScroller = new SimpleScrollPane( manageTable );
 
 			JPanel managePanel = new JPanel( new BorderLayout() );
 			managePanel.add( manageTable.getTableHeader(), BorderLayout.NORTH );
@@ -426,8 +423,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			resultsDisplay.setPrototypeCellValue( "1234567890ABCDEF" );
 			resultsDisplay.setVisibleRowCount( 11 );
 			resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-			JScrollPane scrollArea = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			SimpleScrollPane scrollArea = new SimpleScrollPane( resultsDisplay );
 
 			container.add( scrollArea, BorderLayout.CENTER );
 			add( Box.createVerticalStrut( 20 ), BorderLayout.NORTH );

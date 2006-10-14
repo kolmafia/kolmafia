@@ -1400,6 +1400,16 @@ public abstract class KoLCharacter extends StaticEntity
 		{
 			AdventureResult currentItem = (AdventureResult) inventory.get(i);
 			String currentItemName = currentItem.getName();
+
+			// Make sure we meet requirements -- these are the
+			// two most common checks so do them first.
+
+			if ( !EquipmentDatabase.canEquip( currentItemName ) )
+				continue;
+
+			if ( currentList.contains( currentItem ) )
+				continue;
+
 			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemID() );
 
 			// If we want off-hand items and we can dual wield,
@@ -1438,13 +1448,7 @@ public abstract class KoLCharacter extends StaticEntity
 				continue;
 			}
 
-			// It's a regular item. Make sure we meet requirements
-
-			if ( !EquipmentDatabase.canEquip( currentItemName ) )
-				continue;
-
-			if ( !currentList.contains( currentItem ) )
-				currentList.add( currentItem );
+			currentList.add( currentItem );
 		}
 
 		// If we are looking at familiar items, include those which can

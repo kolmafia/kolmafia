@@ -58,7 +58,7 @@ import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 
 // other imports
 import java.util.ArrayList;
@@ -101,12 +101,7 @@ public class LoginFrame extends KoLFrame
 		displayPanel.add( new UserInterfacePanel() );
 		displayPanel.add( new StartupFramesPanel() );
 
-		JScrollPane scroller = new JScrollPane( displayPanel,
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		JComponentUtilities.setComponentSize( scroller, 300, 300 );
-
-		tabs.addTab( "Displays", scroller );
+		addTab( "Displays", displayPanel );
 
 		JPanel connectPanel = new JPanel();
 		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
@@ -627,7 +622,7 @@ public class LoginFrame extends KoLFrame
 		{
 			super( "Look and Feel", new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
 
-			javax.swing.UIManager.LookAndFeelInfo [] installed = javax.swing.UIManager.getInstalledLookAndFeels();
+			UIManager.LookAndFeelInfo [] installed = UIManager.getInstalledLookAndFeels();
 			Object [] installedLooks = new Object[ installed.length ];
 
 			for ( int i = 0; i < installedLooks.length; ++i )

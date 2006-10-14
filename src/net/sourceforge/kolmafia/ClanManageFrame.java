@@ -53,7 +53,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 
@@ -148,9 +147,7 @@ public class ClanManageFrame extends KoLFrame
 		members.getColumnModel().getColumn(4).setMinWidth( 45 );
 		members.getColumnModel().getColumn(4).setMaxWidth( 45 );
 
-		JScrollPane results = new JScrollPane( members,
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
+		SimpleScrollPane results = new SimpleScrollPane( members );
 		results.setOpaque( false );
 		JPanel searchPanel = new JPanel( new BorderLayout() );
 		searchPanel.add( search, BorderLayout.NORTH );

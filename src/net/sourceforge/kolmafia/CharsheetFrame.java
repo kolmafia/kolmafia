@@ -51,7 +51,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
 import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
 
 // event listeners
 import java.awt.event.ActionEvent;
@@ -96,12 +95,9 @@ public class CharsheetFrame extends KoLFrame
 		northPanel.add( createStatusPanel(), BorderLayout.CENTER );
 		northPanel.add( createImagePanel(), BorderLayout.WEST );
 
-		JScrollPane scroller = new JScrollPane( new JList( activeEffects ),
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
 		JPanel entirePanel = new JPanel( new BorderLayout( 20, 20 ) );
 		entirePanel.add( northPanel, BorderLayout.NORTH );
-		entirePanel.add( scroller, BorderLayout.CENTER );
+		entirePanel.add( new SimpleScrollPane( new JList( activeEffects ) ), BorderLayout.CENTER );
 
 		framePanel.add( entirePanel, "" );
 		statusRefresher = new KoLCharacterAdapter( new StatusRefreshRunnable() );
