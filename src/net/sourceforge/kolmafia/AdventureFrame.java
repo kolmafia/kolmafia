@@ -693,8 +693,11 @@ public class AdventureFrame extends KoLFrame
 
 			louvreSelect = new JComboBox();
 			louvreSelect.addItem( "Ignore this adventure" );
-			for ( int i = 0; i < Louvre.LouvreGoals.length; ++i )
+			for ( int i = 0; i < Louvre.LouvreGoals.length - 3; ++i )
 				louvreSelect.addItem( Louvre.LouvreGoals[i] );
+			for ( int i = Louvre.LouvreGoals.length - 3; i < Louvre.LouvreGoals.length; ++i )
+				louvreSelect.addItem( "Boost " + Louvre.LouvreGoals[i] );
+			louvreSelect.addItem( "Boost Lowest Stat" );
 
 			billiardRoomSelect = new JComboBox();
 			billiardRoomSelect.addItem( "Ignore this adventure" );
@@ -739,9 +742,11 @@ public class AdventureFrame extends KoLFrame
 			StaticEntity.setProperty( "choiceAdventure71", String.valueOf( tripTypeSelect.getSelectedIndex() + 1 ) );
 			StaticEntity.setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
 
-                        int louvreGoal = louvreSelect.getSelectedIndex();
+			int louvreGoal = louvreSelect.getSelectedIndex();
 			StaticEntity.setProperty( "choiceAdventure91",  String.valueOf( louvreGoal > 0 ? "1" : "2" ) );
-			StaticEntity.setProperty( "louvreGoal", String.valueOf( louvreGoal ) );
+
+			StaticEntity.setProperty( "louvreDesiredGoal", String.valueOf( louvreGoal ) );
+			StaticEntity.setProperty( "louvreBoostsLowestStat", String.valueOf( louvreGoal > Louvre.LouvreGoals.length ) );
 
 			for ( int i = 1; i < optionSelects.length; ++i )
 			{
@@ -940,7 +945,7 @@ public class AdventureFrame extends KoLFrame
 			if ( index >= 0 )
 				violetFogSelect.setSelectedIndex( index );
 
-			index = StaticEntity.getIntegerProperty( "louvreGoal" );
+			index = StaticEntity.getIntegerProperty( "louvreDesiredGoal" );
 			if ( index >= 0 )
 				louvreSelect.setSelectedIndex( index );
 

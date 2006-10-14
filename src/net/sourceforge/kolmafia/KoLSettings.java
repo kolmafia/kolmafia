@@ -317,8 +317,10 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		// Yay for the Louvre.
 
 		PLAYER_SETTINGS.put( "lastLouvreMap", "0" );
-		PLAYER_SETTINGS.put( "louvreGoal", "0" );
 		PLAYER_SETTINGS.put( "louvreLayout", "" );
+		PLAYER_SETTINGS.put( "louvreDesiredGoal", "0" );
+		PLAYER_SETTINGS.put( "louvreGoal", "0" );
+		PLAYER_SETTINGS.put( "louvreBoostsLowestStat", "false" );
 
 		// These are settings related to choice adventures.
 		// Ensure that they exist, and if they do not, load

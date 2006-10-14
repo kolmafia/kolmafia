@@ -99,7 +99,7 @@ public class Louvre implements UtilityConstants
 		"bottle of Pinot Renoir",
 		"Muscle",
 		"Mysticality",
-		"Moxie",
+		"Moxie"
 	};
 
 	// Identifying strings from the response text
@@ -225,8 +225,35 @@ public class Louvre implements UtilityConstants
 	{	return ( choice >= FIRST_CHOICE && choice <= LAST_CHOICE );
 	}
 
+	private static void resetDecisions()
+	{
+		if ( StaticEntity.getBooleanProperty( "louvreBoostsLowestStat" ) )
+		{
+			// Compare total subpoints acquired, rather than the
+			// non-raw, calculated value for comparing which stat
+			// should be chosen next.
+
+			int mus = KoLCharacter.getTotalMuscle();
+			int mys = KoLCharacter.getTotalMysticality();
+			int mox = KoLCharacter.getTotalMoxie();
+
+			if ( mus <= mys && mus <= mox )
+				StaticEntity.setProperty( "louvreGoal", "4" );
+			else if ( mys <= mus && mys <= mox )
+				StaticEntity.setProperty( "louvreGoal", "5" );
+			else
+				StaticEntity.setProperty( "louvreGoal", "6" );
+		}
+		else
+		{
+			StaticEntity.setProperty( "louvreGoal", StaticEntity.getProperty( "louvreDesiredGoal" ) );
+		}
+	}
+
 	public static String handleChoice( String choice )
 	{
+		resetDecisions();
+
 		// We only handle Louvre choices
 		int source = StaticEntity.parseInt( choice );
 		if ( !louvreChoice( source ) )
