@@ -45,7 +45,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
-import javax.swing.JScrollPane;
 
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -223,8 +222,7 @@ public class MallSearchFrame extends KoLPanelFrame
 			resultsList.setVisibleRowCount( 11 );
 
 			resultsList.addListSelectionListener( new PurchaseSelectListener() );
-			resultsPanel.add( new JScrollPane( resultsList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+			resultsPanel.add( new SimpleScrollPane( resultsList ), BorderLayout.CENTER );
 
 			add( resultsPanel, "" );
 		}

@@ -2195,7 +2195,8 @@ public abstract class KoLmafia implements KoLConstants
 			}
 
 			StaticEntity.setGlobalProperty( username, "saveState", (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
-			saveStateNames.add( username );
+			if ( !saveStateNames.contains( username ) )
+				saveStateNames.add( username );
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{

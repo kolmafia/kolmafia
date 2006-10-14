@@ -43,7 +43,6 @@ import javax.swing.JPanel;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JScrollPane;
 
 // other imports
 import net.java.dev.spellcast.utilities.PanelList;
@@ -80,20 +79,12 @@ public class MuseumFrame extends KoLFrame
 		shelves = new MuseumShelfList();
 		ordering = new OrderingPanel();
 
-		JScrollPane shelvesScroller = new JScrollPane( shelves, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		JComponentUtilities.setComponentSize( shelvesScroller, 500, 300 );
-
-		JScrollPane orderingScroller = new JScrollPane( ordering, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
 		tabs = new JTabbedPane();
 		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
 
-		tabs.addTab( "General", general );
-		tabs.addTab( "Shelves", shelvesScroller );
-		tabs.addTab( "Ordering", orderingScroller );
+		addTab( "General", general );
+		addTab( "Shelves", shelves );
+		tabs.addTab( "Ordering", ordering );
 
 		framePanel.add( tabs, BorderLayout.CENTER );
 	}

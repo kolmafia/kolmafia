@@ -48,6 +48,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultTreeModel;
 
 // containers
+import javax.swing.JList;
 import javax.swing.JTree;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -56,12 +57,15 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JFileChooser;
 import javax.swing.ListSelectionModel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JCheckBox;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 // utilities
 import java.util.Date;
+import java.util.Arrays;
+
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.PrintStream;
@@ -81,6 +85,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class AdventureFrame extends KoLFrame
 {
+	private JList moodList;
 	private JTree combatTree;
 	private JTextArea combatEditor;
 	private DefaultTreeModel combatModel;
@@ -138,6 +143,10 @@ public class AdventureFrame extends KoLFrame
 		for ( int i = 0; i < mpRestoreCheckbox.length; ++i )
 			mpRestoreCheckbox[i].addActionListener( listener );
 
+		JPanel moodPanel = new JPanel( new BorderLayout() );
+		moodPanel.add( new AddTriggerPanel(), BorderLayout.NORTH );
+		moodPanel.add( new MoodTriggerListPanel(), BorderLayout.CENTER );
+
 		// Components of custom combat
 
 		combatTree = new JTree();
@@ -151,6 +160,7 @@ public class AdventureFrame extends KoLFrame
 		tabs.addTab( "Turn Burning", adventureContainer );
 		addTab( "Choice Handling", new ChoiceOptionsPanel() );
 		addTab( "Auto Recovery", restorePanel );
+		tabs.addTab( "Mood Swings", moodPanel );
 		tabs.addTab( "Custom Combat", combatPanel );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
@@ -243,8 +253,7 @@ public class AdventureFrame extends KoLFrame
 			super( new BorderLayout() );
 			safetyText.setVerticalAlignment( JLabel.TOP );
 
-			JScrollPane textScroller = new JScrollPane( safetyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+			SimpleScrollPane textScroller = new SimpleScrollPane( safetyText, SimpleScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
 
 			JComponentUtilities.setComponentSize( textScroller, 100, 100 );
 			add( textScroller, BorderLayout.CENTER );
@@ -477,8 +486,7 @@ public class AdventureFrame extends KoLFrame
 			tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 			tallyDisplay.setVisibleRowCount( 11 );
 
-			add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+			add( new SimpleScrollPane( tallyDisplay ), BorderLayout.CENTER );
 		}
 	}
 
@@ -1229,6 +1237,179 @@ public class AdventureFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{
+		}
+	}
+
+	/**
+	 * Internal class used to handle everything related to
+	 * BuffBot options management
+	 */
+
+	private class AddTriggerPanel extends KoLPanel
+	{
+		private LockableListModel EMPTY_MODEL = new LockableListModel();
+		private LockableListModel EFFECT_MODEL = new LockableListModel();
+
+		private TypeComboBox typeSelect;
+		private ValueComboBox valueSelect;
+		private JTextField commandField;
+
+		public AddTriggerPanel()
+		{
+			super( "add entry", "auto-fill" );
+
+			typeSelect = new TypeComboBox();
+
+			Object [] names = StatusEffectDatabase.values().toArray();
+			Arrays.sort( names );
+
+			for ( int i = 0; i < names.length; ++i )
+				EFFECT_MODEL.add( names[i] );
+
+			valueSelect = new ValueComboBox();
+			commandField = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Trigger On: ", typeSelect );
+			elements[1] = new VerifiableElement( "Check For: ", valueSelect );
+			elements[2] = new VerifiableElement( "Command: ", commandField );
+
+			setContent( elements );
+		}
+
+		public void actionConfirmed()
+		{	MoodSettings.addTrigger( (String) typeSelect.getSelectedType(), (String) valueSelect.getSelectedItem(), commandField.getText() );
+		}
+
+		public void actionCancelled()
+		{	MoodSettings.autoFillTriggers();
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+		}
+
+		private class ValueComboBox extends JComboBox implements ActionListener
+		{
+			public ValueComboBox()
+			{
+				super( EFFECT_MODEL );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				commandField.setText( MoodSettings.getDefaultAction( typeSelect.getSelectedType(), (String) getSelectedItem() ) );
+			}
+		}
+
+		private class TypeComboBox extends JComboBox implements ActionListener
+		{
+			public TypeComboBox()
+			{
+				addItem( "When an effect is lost" );
+				addItem( "When an effect is gained" );
+				addItem( "Unconditional trigger" );
+
+				addActionListener( this );
+			}
+
+			public String getSelectedType()
+			{
+				switch ( getSelectedIndex() )
+				{
+				case 0:
+					return "lose_effect";
+				case 1:
+					return "gain_effect";
+				case 2:
+					return "unconditional";
+				default:
+					return null;
+				}
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{	valueSelect.setModel( getSelectedIndex() == 2 ? EMPTY_MODEL : EFFECT_MODEL );
+			}
+		}
+	}
+
+	private class MoodTriggerListPanel extends LabeledScrollPanel
+	{
+		private JComboBox moodSelect;
+
+		public MoodTriggerListPanel()
+		{
+
+			super( "", "new list", "remove", new JList( MoodSettings.getTriggers() ) );
+
+			moodSelect = new MoodComboBox();
+
+			CopyMoodButton moodCopy = new CopyMoodButton();
+			InvocationButton moodRemove = new InvocationButton( "delete list", MoodSettings.class, "deleteCurrentMood" );
+
+			actualPanel.add( moodSelect, BorderLayout.NORTH );
+			moodList = (JList) scrollComponent;
+
+			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
+			extraButtons.add( moodRemove, BorderLayout.NORTH );
+			extraButtons.add( moodCopy, BorderLayout.SOUTH );
+
+			buttonPanel.add( extraButtons, BorderLayout.SOUTH );
+		}
+
+		public void actionConfirmed()
+		{
+			String name = JOptionPane.showInputDialog( "Give your list a name!" );
+			if ( name == null )
+				return;
+
+			moodList.setModel( MoodSettings.setMood( name ) );
+		}
+
+		public void actionCancelled()
+		{	MoodSettings.removeTriggers( moodList.getSelectedValues() );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+		}
+
+		private class MoodComboBox extends JComboBox implements ActionListener
+		{
+			public MoodComboBox()
+			{
+				super( MoodSettings.getAvailableMoods() );
+				setSelectedItem( StaticEntity.getProperty( "currentMood" ) );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{	moodList.setModel( MoodSettings.setMood( (String) getSelectedItem() ) );
+			}
+		}
+
+		private class CopyMoodButton extends JButton implements ActionListener
+		{
+			public CopyMoodButton()
+			{
+				super( "copy list" );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				String moodName = JOptionPane.showInputDialog( "Make a copy of current mood list called:" );
+				if ( moodName == null )
+					return;
+
+				if ( moodName.equals( "default" ) )
+					return;
+
+				MoodSettings.copyTriggers( moodName );
+				moodList.setModel( MoodSettings.setMood( moodName ) );
+			}
 		}
 	}
 }

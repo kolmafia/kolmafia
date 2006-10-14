@@ -55,7 +55,6 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -118,8 +117,7 @@ public abstract class SendMessageFrame extends KoLFrame
 		this.attachments = new LockableListModel();
 		this.attachmentList = new ShowDescriptionList( attachments );
 
-		JScrollPane attachmentArea = new JScrollPane( attachmentList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
+		SimpleScrollPane attachmentArea = new SimpleScrollPane( attachmentList );
 		attachmentPanel.add( attachmentArea, BorderLayout.CENTER );
 
 		JPanel meatPanel = new JPanel();
@@ -165,7 +163,7 @@ public abstract class SendMessageFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );
 
 		messageEntry = new JTextArea[ entryHeaders.length ];
-		JScrollPane [] scrollArea = new JScrollPane[ entryHeaders.length ];
+		SimpleScrollPane [] scrollArea = new SimpleScrollPane[ entryHeaders.length ];
 
 		for ( int i = 0; i < messageEntry.length; ++i )
 		{
@@ -174,7 +172,7 @@ public abstract class SendMessageFrame extends KoLFrame
 			messageEntry[i].setRows( 7 );
 			messageEntry[i].setLineWrap( true );
 			messageEntry[i].setWrapStyleWord( true );
-			scrollArea[i] = new JScrollPane( messageEntry[i], JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			scrollArea[i] = new SimpleScrollPane( messageEntry[i] );
 		}
 
 		JPanel recipientPanel = new JPanel();
@@ -368,7 +366,7 @@ public abstract class SendMessageFrame extends KoLFrame
 			this.newAttachments = new ShowDescriptionList( this.attachments );
 			this.newAttachments.setVisibleRowCount( 16 );
 
-			JScrollPane attachmentArea = new JScrollPane( newAttachments, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			SimpleScrollPane attachmentArea = new SimpleScrollPane( newAttachments );
 
 			JPanel labeledArea = new JPanel( new BorderLayout() );
 			labeledArea.add( JComponentUtilities.createLabel( "Currently Attached", JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );

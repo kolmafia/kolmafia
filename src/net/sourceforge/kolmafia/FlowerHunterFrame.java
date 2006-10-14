@@ -41,7 +41,6 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.JScrollPane;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
@@ -96,9 +95,9 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		constructTableModel( 0, new String [] { "Name", "Clan", "Class", "Level", "Rank" } );
 		constructTableModel( 1, new String [] { "Name", "Class", "Path", "Level", "Rank", "Drink", "Fashion", "Turns", "Login" } );
 
-		JScrollPane [] resultsScroller = new JScrollPane[2];
-		resultsScroller[0] = new JScrollPane( resultsTable[0], JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		resultsScroller[1] = new JScrollPane( resultsTable[1], JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		SimpleScrollPane [] resultsScroller = new SimpleScrollPane[2];
+		resultsScroller[0] = new SimpleScrollPane( resultsTable[0] );
+		resultsScroller[1] = new SimpleScrollPane( resultsTable[1] );
 
 		resultCards = new CardLayout();
 		resultCardPanel = new JPanel( resultCards );

@@ -54,7 +54,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
@@ -229,8 +228,7 @@ public class BuffBotFrame extends KoLFrame
 			buffListDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			buffListDisplay.setVisibleRowCount( 5 );
 
-			add( new JScrollPane( buffListDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+			add( new SimpleScrollPane( buffListDisplay ), BorderLayout.CENTER );
 		}
 	}
 
@@ -298,20 +296,17 @@ public class BuffBotFrame extends KoLFrame
 			JPanel settingsTopPanel = new JPanel( new BorderLayout() );
 			settingsTopPanel.add( JComponentUtilities.createLabel( "White List (separate names with commas):", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.NORTH );
-			settingsTopPanel.add( new JScrollPane( whiteListEntry, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+			settingsTopPanel.add( new SimpleScrollPane( whiteListEntry ), BorderLayout.CENTER );
 
 			JPanel settingsMiddlePanel = new JPanel( new BorderLayout() );
 			settingsMiddlePanel.add( JComponentUtilities.createLabel( "Invalid Buff Price Message", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.NORTH );
-			settingsMiddlePanel.add( new JScrollPane( invalidPriceMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+			settingsMiddlePanel.add( new SimpleScrollPane( invalidPriceMessage ), BorderLayout.CENTER );
 
 			JPanel settingsBottomPanel = new JPanel( new BorderLayout() );
 			settingsBottomPanel.add( JComponentUtilities.createLabel( "Donation Thanks Message", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.NORTH );
-			settingsBottomPanel.add( new JScrollPane( thanksMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+			settingsBottomPanel.add( new SimpleScrollPane( thanksMessage ), BorderLayout.CENTER );
 
 			JPanel settingsPanel = new JPanel( new GridLayout( 3, 1, 10, 10 ) );
 

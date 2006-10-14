@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.SwingUtilities;
@@ -70,7 +71,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( lookAndFeel.equals( "" ) )
 		{
-			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "java.runtime.version" ).indexOf( "1.4.2" ) != -1 )
 			{
 				lookAndFeel = UIManager.getSystemLookAndFeelClassName();
 				StaticEntity.setProperty( "desiredLookAndFeel", lookAndFeel );
@@ -87,7 +88,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else
 		{
-			javax.swing.UIManager.LookAndFeelInfo [] installed = javax.swing.UIManager.getInstalledLookAndFeels();
+			UIManager.LookAndFeelInfo [] installed = UIManager.getInstalledLookAndFeels();
 			Object [] installedLooks = new Object[ installed.length ];
 
 			for ( int i = 0; i < installedLooks.length; ++i )
@@ -101,8 +102,8 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			try
 			{
-				javax.swing.UIManager.setLookAndFeel( lookAndFeel );
-				javax.swing.JFrame.setDefaultLookAndFeelDecorated(
+				UIManager.setLookAndFeel( lookAndFeel );
+				JFrame.setDefaultLookAndFeelDecorated(
 					StaticEntity.getBooleanProperty( "desiredLookAndFeelTitle" ) );
 			}
 			catch ( Exception e )
@@ -110,13 +111,13 @@ public class KoLmafiaGUI extends KoLmafia
 				//should not happen, as we checked to see if
 				// the look and feel was installed first.
 
-				javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
+				JFrame.setDefaultLookAndFeelDecorated( true );
 			}
 		}
 		else
 		{
 			StaticEntity.setProperty( "desiredLookAndFeel", "" );
-			javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
+			JFrame.setDefaultLookAndFeelDecorated( true );
 		}
 
 		if ( StaticEntity.usesSystemTray() )

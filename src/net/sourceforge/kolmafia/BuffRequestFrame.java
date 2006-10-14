@@ -44,7 +44,6 @@ import java.awt.Color;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
@@ -331,9 +330,7 @@ public class BuffRequestFrame extends KoLFrame
 					centerPanel.add( checkboxes[i] );
 				}
 
-				JScrollPane scroller = new JScrollPane( centerPanel,
-					JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-
+				SimpleScrollPane scroller = new SimpleScrollPane( centerPanel );
 				JComponentUtilities.setComponentSize( scroller, 500, 400 );
 
 				setLayout( new BorderLayout() );

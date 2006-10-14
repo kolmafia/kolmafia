@@ -41,7 +41,6 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import java.lang.ref.WeakReference;
 import net.java.dev.spellcast.utilities.ActionPanel;
@@ -77,9 +76,7 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 		if ( !title.equals( "" ) )
 			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 
-		centerPanel.add( new JScrollPane( scrollComponent, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-
+		centerPanel.add( new SimpleScrollPane( scrollComponent ), BorderLayout.CENTER );
 		actualPanel = new JPanel( new BorderLayout( 20, 10 ) );
 		actualPanel.add( centerPanel, BorderLayout.CENTER );
 

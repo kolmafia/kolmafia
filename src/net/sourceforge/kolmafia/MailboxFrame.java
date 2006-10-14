@@ -85,20 +85,16 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		super( "IcePenguin Express" );
 
 		this.messageListInbox = new MailSelectList( "Inbox" );
-		JScrollPane messageListInboxDisplay = new JScrollPane( messageListInbox,
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		SimpleScrollPane messageListInboxDisplay = new SimpleScrollPane( messageListInbox );
 
 		this.messageListPvp = new MailSelectList( "PvP" );
-		JScrollPane messageListPvpDisplay = new JScrollPane( messageListPvp,
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		SimpleScrollPane messageListPvpDisplay = new SimpleScrollPane( messageListPvp );
 
 		this.messageListOutbox = new MailSelectList( "Outbox" );
-		JScrollPane messageListOutboxDisplay = new JScrollPane( messageListOutbox,
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		SimpleScrollPane messageListOutboxDisplay = new SimpleScrollPane( messageListOutbox );
 
 		this.messageListSaved = new MailSelectList( "Saved" );
-		JScrollPane messageListSavedDisplay = new JScrollPane( messageListSaved,
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		SimpleScrollPane messageListSavedDisplay = new SimpleScrollPane( messageListSaved );
 
 		this.tabbedListDisplay = new JTabbedPane();
 		this.tabbedListDisplay.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );

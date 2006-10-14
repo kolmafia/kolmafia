@@ -59,7 +59,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.ButtonGroup;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 
 // other imports

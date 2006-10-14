@@ -90,23 +90,33 @@ public class HagnkStorageFrame extends KoLFrame
 		existingFrames.toArray( frames );
 
 		for ( int i = 0; i < frames.length; ++i )
+		{
 			if ( frames[i] instanceof HagnkStorageFrame )
 			{
-				switch ( pullsRemaining )
+				if ( KoLCharacter.isHardcore() )
 				{
-				case 0:
-					frames[i].setTitle( "No pulls remaining" );
-					break;
-				case -1:
-					frames[i].setTitle( "Ronin cleared" );
-					break;
-				case 1:
-					frames[i].setTitle( "1 pull remaining" );
-					break;
-				default:
-					frames[i].setTitle( pullsRemaining + " pulls remaining" );
+					frames[i].setTitle( "No Pulls Left" );
+					return;
+				}
+				else
+				{
+					switch ( pullsRemaining )
+					{
+					case 0:
+						frames[i].setTitle( "No Pulls Left" );
+						break;
+					case -1:
+						frames[i].setTitle( "Hagnk's Storage" );
+						break;
+					case 1:
+						frames[i].setTitle( "1 Pull Left" );
+						break;
+					default:
+						frames[i].setTitle( pullsRemaining + " Pulls Left" );
+					}
 				}
 			}
+		}
 	}
 
 	private class HagnkStoragePanel extends MultiButtonPanel
