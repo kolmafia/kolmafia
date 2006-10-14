@@ -64,18 +64,6 @@ public class CommandDisplayFrame extends KoLFrame
 	{
 		super( "Graphical CLI" );
 		framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
-
-		if ( StaticEntity.getProperty( "scriptList" ).equals( "" ) )
-			return;
-
-		if ( StaticEntity.getIntegerProperty( "scriptButtonPosition" ) == 0 )
-		{
-			JToolBar toolbarPanel = getToolbar();
-			String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
-
-			for ( int i = 0; i < scriptList.length; ++i )
-				toolbarPanel.add( new LoadScriptButton( i + 1, scriptList[i] ) );
-		}
 	}
 
 	public boolean useSidePane()
