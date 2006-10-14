@@ -66,63 +66,52 @@ public class KoLmafiaGUI extends KoLmafia
 		String lookAndFeel = StaticEntity.getProperty( "desiredLookAndFeel" );
 		boolean foundLookAndFeel = false;
 
-		if ( !StaticEntity.getProperty( "lastOperatingSystem" ).equals( System.getProperty( "os.name" ) ) )
-			lookAndFeel = "";
-
-		if ( lookAndFeel.equals( "" ) )
+		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 		{
-			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "java.runtime.version" ).indexOf( "1.4.2" ) != -1 )
-			{
-				lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-				StaticEntity.setProperty( "desiredLookAndFeel", lookAndFeel );
-				StaticEntity.setProperty( "desiredLookAndFeelTitle", "true" );
-				foundLookAndFeel = true;
-			}
-			else
-			{
-				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
-				StaticEntity.setProperty( "desiredLookAndFeel", lookAndFeel );
-				StaticEntity.setProperty( "desiredLookAndFeelTitle", "false" );
-				foundLookAndFeel = true;
-			}
+			lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+			StaticEntity.setProperty( "desiredLookAndFeelTitle", "true" );
+			foundLookAndFeel = true;
 		}
 		else
 		{
 			UIManager.LookAndFeelInfo [] installed = UIManager.getInstalledLookAndFeels();
-			Object [] installedLooks = new Object[ installed.length ];
+			String [] installedLooks = new String[ installed.length ];
 
 			for ( int i = 0; i < installedLooks.length; ++i )
 				installedLooks[i] = installed[i].getClassName();
 
 			for ( int i = 0; i < installedLooks.length; ++i )
-				foundLookAndFeel |= ((String)installedLooks[i]).startsWith( lookAndFeel );
+				foundLookAndFeel |= installedLooks[i].equals( lookAndFeel );
 		}
 
-		if ( foundLookAndFeel )
+		if ( !foundLookAndFeel )
 		{
-			try
-			{
-				UIManager.setLookAndFeel( lookAndFeel );
-				JFrame.setDefaultLookAndFeelDecorated(
-					StaticEntity.getBooleanProperty( "desiredLookAndFeelTitle" ) );
-			}
-			catch ( Exception e )
-			{
-				//should not happen, as we checked to see if
-				// the look and feel was installed first.
+			if ( System.getProperty( "os.name" ).startsWith( "Win" ) )
+				lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+			else
+				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
 
-				JFrame.setDefaultLookAndFeelDecorated( true );
-			}
+			StaticEntity.setProperty( "desiredLookAndFeelTitle", "false" );
+			foundLookAndFeel = true;
 		}
-		else
+
+		try
 		{
-			StaticEntity.setProperty( "desiredLookAndFeel", "" );
+			UIManager.setLookAndFeel( lookAndFeel );
+			JFrame.setDefaultLookAndFeelDecorated( StaticEntity.getBooleanProperty( "desiredLookAndFeelTitle" ) );
+		}
+		catch ( Exception e )
+		{
+			//should not happen, as we checked to see if
+			// the look and feel was installed first.
+
 			JFrame.setDefaultLookAndFeelDecorated( true );
 		}
 
 		if ( StaticEntity.usesSystemTray() )
 			SystemTrayFrame.addTrayIcon();
 
+		StaticEntity.setProperty( "desiredLookAndFeel", lookAndFeel );
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
 
