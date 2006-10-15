@@ -225,7 +225,7 @@ public class SearchMallRequest extends KoLRequest
 			// can be used in this circumstance.
 
 			boolean canAvoidSearch = true;
-			for ( int i = 0; i < itemNames.size(); ++i )
+			for ( int i = 0; canAvoidSearch && i < itemNames.size(); ++i )
 			{
 				int autoSellPrice = TradeableItemDatabase.getPriceByID( TradeableItemDatabase.getItemID( (String) itemNames.get(i) ) );
 				canAvoidSearch &= NPCStoreDatabase.contains( (String) itemNames.get(i) ) ?
