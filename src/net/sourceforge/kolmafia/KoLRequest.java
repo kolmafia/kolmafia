@@ -1284,14 +1284,28 @@ public class KoLRequest implements Runnable, KoLConstants
 		// read all the data into the static byte array output stream and then
 		// convert that string to UTF-8.
 
-		synchronized ( BYTE_BUFFER )
+		if ( isDelayExempt )
 		{
 			int availableBytes = 0;
-			while ( (availableBytes = istream.read( BYTE_ARRAY )) != -1 )
-				BYTE_BUFFER.write( BYTE_ARRAY, 0, availableBytes );
+			byte [] array = new byte[1024];
+			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
-			this.responseText = BYTE_BUFFER.toString( "UTF-8" );
-			BYTE_BUFFER.reset();
+			while ( (availableBytes = istream.read( array )) != -1 )
+				buffer.write( array, 0, availableBytes );
+
+			this.responseText = buffer.toString( "UTF-8" );
+		}
+		else
+		{
+			synchronized ( BYTE_BUFFER )
+			{
+				int availableBytes = 0;
+				while ( (availableBytes = istream.read( BYTE_ARRAY )) != -1 )
+					BYTE_BUFFER.write( BYTE_ARRAY, 0, availableBytes );
+
+				this.responseText = BYTE_BUFFER.toString( "UTF-8" );
+				BYTE_BUFFER.reset();
+			}
 		}
 
 		processResponse();
