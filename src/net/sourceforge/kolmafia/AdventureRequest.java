@@ -178,11 +178,20 @@ public class AdventureRequest extends KoLRequest
 
 		// The hedge maze should always result in you getting
 		// a fight redirect.  If this is not the case, then
-		// abort the request.
+		// if the hedge maze is not complete, use up all their
+		// pieces first, then go adventuring.
 
 		if ( formSource.equals( "lair3.php" ) )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, "Hedge maze already completed." );
+			if ( KoLCharacter.hasItem( SorceressLair.HEDGE_KEY, false ) && KoLCharacter.hasItem( SorceressLair.PUZZLE_PIECE, false ) )
+			{
+				SorceressLair.completeHedgeMaze();
+				KoLmafia.forceContinue();
+				super.run();
+			}
+			else
+				KoLmafia.updateDisplay( PENDING_STATE, "Hedge maze already completed." );
+
 			return;
 		}
 
