@@ -195,6 +195,15 @@ public class AdventureRequest extends KoLRequest
 			return;
 		}
 
+		// The sorceress fight should always result in you getting
+		// a fight redirect.
+
+		if ( formSource.equals( "lair6.php" ) )
+		{
+			KoLmafia.updateDisplay( PENDING_STATE, "The sorceress has already been defeated." );
+			return;
+		}
+
 		// If you haven't unlocked the orc chasm yet,
 		// try doing so now.
 
