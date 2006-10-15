@@ -1234,25 +1234,20 @@ public abstract class SorceressLair extends StaticEntity
 		AdventureResult initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
 		AdventureResult initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 
-		// Unequip a ranged off-hand weapon
-		if ( EquipmentDatabase.isRanged( initialOffhand.getName() ) )
-			DEFAULT_SHELL.executeLine( "unequip off-hand" );
-
 		// Equip the huge mirror shard
-		if ( initialWeapon != null && !initialWeapon.equals( "huge mirror shard" ) )
-			DEFAULT_SHELL.executeLine( "equip weapon huge mirror shard" );
+		DEFAULT_SHELL.executeLine( "equip weapon huge mirror shard" );
 
 		// Reflect the energy bolt
 		KoLmafia.updateDisplay( "Reflecting energy bolt..." );
 		QUEST_HANDLER.constructURLString( "lair6.php?place=1" ).run();
 
 		// If we unequipped a weapon, equip it again
-		if ( initialWeapon != null && !initialWeapon.equals( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) ) )
+		if ( initialWeapon != null )
 			DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon.getName() );
 
 		// If we unequipped an off-hand weapon, equip it again
-		if ( initialOffhand != null && !initialOffhand.equals( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) )
-			DEFAULT_SHELL.executeLine( "equip off-hand " + initialWeapon.getName() );
+		if ( initialOffhand != null )
+			DEFAULT_SHELL.executeLine( "equip off-hand " + initialOffhand.getName() );
 	}
 
 	private static int getShadowBattleHealth( int shadowDamage, int healAmount )
