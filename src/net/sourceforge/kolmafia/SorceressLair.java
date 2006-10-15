@@ -841,7 +841,7 @@ public abstract class SorceressLair extends StaticEntity
 	private static void rotateHedgePiece( String hedgePiece, String searchText )
 	{
 		// Rotate puzzle sections until we reach our goal
-		while ( QUEST_HANDLER.responseText.indexOf( searchText ) == -1 )
+		while ( KoLmafia.permitsContinue() && QUEST_HANDLER.responseText.indexOf( searchText ) == -1 )
 		{
 			// We're out of puzzles unless the response says:
 			// "Click one of the puzzle sections to rotate that
@@ -878,7 +878,7 @@ public abstract class SorceressLair extends StaticEntity
 		// The hedge maze has been properly rotated!  Now go ahead
 		// and retrieve the key from the maze.
 
-		if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) != -1 )
+		if ( KoLmafia.permitsContinue() && QUEST_HANDLER.responseText.indexOf( "Click one" ) != -1 )
 		{
 			QUEST_HANDLER.constructURLString( "lair3.php?action=hedge" ).run();
 			if ( QUEST_HANDLER.responseText.indexOf( "You're out of adventures." ) != -1 )
@@ -899,7 +899,7 @@ public abstract class SorceressLair extends StaticEntity
 		// The hedge maze has been properly rotated!  Now go ahead
 		// and complete the hedge maze puzzle!
 
-		if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) != -1 )
+		if ( KoLmafia.permitsContinue() && QUEST_HANDLER.responseText.indexOf( "Click one" ) != -1 )
 		{
 			QUEST_HANDLER.constructURLString( "lair3.php?action=hedge" ).run();
 
