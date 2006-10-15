@@ -1384,6 +1384,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		int initialConditions = conditions.size();
 		int remainingConditions = initialConditions;
+		int adventuresBeforeRequest = 0;
 
 		// Begin the adventuring process, or the request execution
 		// process (whichever is applicable).
@@ -1455,6 +1456,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( refusesContinue() )
 				return;
 
+			adventuresBeforeRequest = KoLCharacter.getAdventuresLeft();
 			request.run();
 
 			if ( request instanceof KoLAdventure )
@@ -1463,7 +1465,7 @@ public abstract class KoLmafia implements KoLConstants
 			// Decrement the counter to null out the increment
 			// effect on the next iteration of the loop.
 
-			if ( request instanceof KoLAdventure && ((KoLAdventure)request).getRequest().getAdventuresUsed() == 0 )
+			if ( request instanceof KoLAdventure && adventuresBeforeRequest == KoLCharacter.getAdventuresLeft() )
 				--currentIteration;
 
 			// Prevent drunkenness adventures from occurring by
