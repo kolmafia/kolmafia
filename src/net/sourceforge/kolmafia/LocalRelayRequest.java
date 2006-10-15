@@ -94,9 +94,79 @@ public class LocalRelayRequest extends KoLRequest
 	{	return responseText;
 	}
 
-	private static final boolean isJunkItem( int itemID, int price, boolean ignoreExpensiveItems, boolean ignoreMinpricedItems )
+	private static final boolean isJunkItem( int itemID, int price, int searchType, boolean ignoreExpensiveItems, boolean ignoreMinpricedItems, boolean ignoreUnrelatedItems )
 	{
 		boolean shouldIgnore = false;
+
+		// Before you do any other searching, check to see if
+		// the item is relevant to what you're searching for.
+
+		if ( ignoreUnrelatedItems )
+		{
+			int useType = TradeableItemDatabase.getConsumptionType( itemID );
+			switch ( searchType )
+			{
+
+			// You can't really do added filtering on an item that
+			// isn't usable in any way, so leave it.
+
+			case ConsumeItemRequest.NO_CONSUME:
+				break;
+
+			// If the person is searching for a familiar or an item
+			// related to familiars, then go ahead and filter out
+			// everything else.
+
+			case ConsumeItemRequest.GROW_FAMILIAR:
+			case ConsumeItemRequest.EQUIP_FAMILIAR:
+				shouldIgnore = true;
+				break;
+
+			// If searching for a consumable item, then filter out
+			// any items which are not consumable.
+
+			case ConsumeItemRequest.CONSUME_EAT:
+			case ConsumeItemRequest.CONSUME_DRINK:
+			case ConsumeItemRequest.CONSUME_USE:
+			case ConsumeItemRequest.CONSUME_MULTIPLE:
+			case ConsumeItemRequest.CONSUME_RESTORE:
+
+				switch ( useType )
+				{
+				case ConsumeItemRequest.CONSUME_EAT:
+				case ConsumeItemRequest.CONSUME_DRINK:
+				case ConsumeItemRequest.CONSUME_USE:
+				case ConsumeItemRequest.CONSUME_MULTIPLE:
+				case ConsumeItemRequest.CONSUME_RESTORE:
+					break;
+				default:
+					shouldIgnore = true;
+				}
+
+			// Searching for equipment means filtering out anything
+			// which is not equipment.
+
+			case ConsumeItemRequest.EQUIP_ACCESSORY:
+			case ConsumeItemRequest.EQUIP_HAT:
+			case ConsumeItemRequest.EQUIP_PANTS:
+			case ConsumeItemRequest.EQUIP_SHIRT:
+			case ConsumeItemRequest.EQUIP_WEAPON:
+			case ConsumeItemRequest.EQUIP_OFFHAND:
+
+				switch ( useType )
+				{
+				case ConsumeItemRequest.EQUIP_ACCESSORY:
+				case ConsumeItemRequest.EQUIP_HAT:
+				case ConsumeItemRequest.EQUIP_PANTS:
+				case ConsumeItemRequest.EQUIP_SHIRT:
+				case ConsumeItemRequest.EQUIP_WEAPON:
+				case ConsumeItemRequest.EQUIP_OFFHAND:
+					break;
+				default:
+					shouldIgnore = true;
+				}
+			}
+		}
 
 		shouldIgnore |= ignoreExpensiveItems && price > KoLCharacter.getAvailableMeat();
 		shouldIgnore |= NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemID ) );
@@ -118,22 +188,25 @@ public class LocalRelayRequest extends KoLRequest
 		// If this is a store, you can opt to remove all the min-priced items from view
 		// along with all the items which are priced above affordable levels.
 
-		if ( KoLCharacter.canInteract() && formURLString.indexOf( "mallstore.php" ) != -1 )
+		if ( formURLString.indexOf( "mallstore.php" ) != -1 )
 		{
 			int searchItemID = -1;
 			int searchPrice = -1;
+			int searchType = ConsumeItemRequest.NO_CONSUME;
 
 			Matcher itemMatcher = SEARCHITEM_PATTERN.matcher( getURLString() );
 			if ( itemMatcher.find() )
 			{
 				searchItemID = StaticEntity.parseInt( itemMatcher.group(1) );
 				searchPrice = StaticEntity.parseInt( itemMatcher.group(2) );
+				searchType = TradeableItemDatabase.getConsumptionType( searchItemID );
 			}
 
 			itemMatcher = STORE_PATTERN.matcher( responseText );
 
 			boolean ignoreExpensiveItems = StaticEntity.getBooleanProperty( "relayRemovesExpensiveItems" );
 			boolean ignoreMinpricedItems = StaticEntity.getBooleanProperty( "relayRemovesMinpricedItems" );
+			boolean ignoreUnrelatedItems = StaticEntity.getBooleanProperty( "relayRemovesUnrelatedItems" );
 
 			while ( itemMatcher.find() )
 			{
@@ -142,7 +215,7 @@ public class LocalRelayRequest extends KoLRequest
 				int itemID = StaticEntity.parseInt( itemData.substring( 0, itemData.length() - 9 ) );
 				int price = StaticEntity.parseInt( itemData.substring( itemData.length() - 9 ) );
 
-				if ( itemID != searchItemID && isJunkItem( itemID, price, ignoreExpensiveItems, ignoreMinpricedItems ) )
+				if ( itemID != searchItemID && isJunkItem( itemID, price, searchType, ignoreExpensiveItems, ignoreMinpricedItems, ignoreUnrelatedItems ) )
 					StaticEntity.singleStringDelete( responseBuffer, itemMatcher.group() );
 			}
 
