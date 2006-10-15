@@ -91,7 +91,7 @@ public class SewerRequest extends KoLRequest
 	private void runLuckySewer()
 	{
 		AdventureDatabase.retrieveItem( POSITIVE_CLOVER );
-		if ( !KoLCharacter.hasItem( POSITIVE_CLOVER, false ) )
+		if ( !KoLCharacter.hasItem( POSITIVE_CLOVER ) )
 			return;
 
 		// The Sewage Gnomes insist on giving precisely three

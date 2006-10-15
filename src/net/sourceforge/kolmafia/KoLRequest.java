@@ -1631,7 +1631,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( possibleDecisions[i] != null )
 			{
 				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
-				if ( !KoLCharacter.hasItem( item, false ) )
+				if ( !KoLCharacter.hasItem( item ) )
 					return String.valueOf( i + 1 );
 			}
 		}

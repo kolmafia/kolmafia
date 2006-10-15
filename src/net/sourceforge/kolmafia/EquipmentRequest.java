@@ -199,7 +199,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			return;
 
 		this.requestType = CHANGE_ITEM;
-		this.changeItem = changeItem;
+		this.changeItem = changeItem.getCount() == 1 ? changeItem : changeItem.getInstance(1);
 
 		addFormField( "action", action );
 		addFormField( "whichitem", String.valueOf( itemID ) );
@@ -488,7 +488,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			// meat paste, then do so and then parse the combines
 			// page.  Otherwise, go to the equipment pages.
 
-			if ( KoLCharacter.inMuscleSign() || KoLCharacter.hasItem( PASTE, false ) )
+			if ( KoLCharacter.inMuscleSign() || KoLCharacter.hasItem( PASTE ) )
 			{
 				KoLRequest request = new KoLRequest( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
 				request.run();

@@ -1351,7 +1351,6 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( consumeFilter == -1 )
 			return;
 
-		updateEquipmentList( consumeFilter, equipmentLists[ listIndex ] );
 		AdventureResult equippedItem = getEquipment( listIndex );
 
 		switch ( listIndex )
@@ -1359,6 +1358,10 @@ public abstract class KoLCharacter extends StaticEntity
 		case ACCESSORY1:
 		case ACCESSORY2:
 		case ACCESSORY3:
+
+			updateEquipmentList( ACCESSORY1, equipmentLists[ ACCESSORY1 ] );
+			updateEquipmentList( ACCESSORY2, equipmentLists[ ACCESSORY2 ] );
+			updateEquipmentList( ACCESSORY3, equipmentLists[ ACCESSORY3 ] );
 
 			if ( !equipmentLists[ ACCESSORY1 ].contains( equippedItem ) )
 				equipmentLists[ ACCESSORY1 ].add( equippedItem );
@@ -1369,6 +1372,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		default:
 
+			updateEquipmentList( consumeFilter, equipmentLists[ listIndex ] );
 			if ( !equipmentLists[ listIndex ].contains( equippedItem ) )
 				equipmentLists[ listIndex ].add( equippedItem );
 		}
@@ -1962,7 +1966,7 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 
 		UseSkillRequest handshake = UseSkillRequest.getInstance( "Shake Hands" );
-		if ( KoLCharacter.hasItem( JOYBUZZER, false ) )
+		if ( hasItem( JOYBUZZER ) )
 			addAvailableSkill( handshake );
 	}
 
@@ -2378,6 +2382,10 @@ public abstract class KoLCharacter extends StaticEntity
 
 		// No wand
 		return null;
+	}
+
+	public static boolean hasItem( AdventureResult item )
+	{	return hasItem( item, false );
 	}
 
 	public static boolean hasItem( AdventureResult item, boolean shouldCreate )

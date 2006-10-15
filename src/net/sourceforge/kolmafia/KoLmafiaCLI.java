@@ -3419,7 +3419,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( needServant )
 					updateDisplay( ERROR_STATE, "You cannot cook without a chef-in-the-box." );
 				else
-					updateDisplay( ERROR_STATE, "You cannot cook without an oven." );
+					AdventureDatabase.retrieveItem( ItemCreationRequest.OVEN );
 
 				break;
 
@@ -3430,7 +3430,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( needServant )
 					updateDisplay( ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
 				else
-					updateDisplay( ERROR_STATE, "You cannot mix without a cocktail crafting kit." );
+					AdventureDatabase.retrieveItem( ItemCreationRequest.KIT );
 
 				break;
 
@@ -3440,7 +3440,8 @@ public class KoLmafiaCLI extends KoLmafia
 				break;
 			}
 
-			return;
+			if ( !permitsContinue() )
+				return;
 		}
 
 		irequest.setQuantityNeeded( firstMatch.getCount() );

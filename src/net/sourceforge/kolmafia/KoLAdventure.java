@@ -54,9 +54,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	private static final AdventureResult PERFUME_EFFECT = new AdventureResult( "Knob Goblin Perfume", 1, false );
 
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
-	private static final AdventureResult SOCK = new AdventureResult( 609, 1 );
-	private static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
-	private static final AdventureResult BEAN = new AdventureResult( 186, 1 );
+	public static final AdventureResult SOCK = new AdventureResult( 609, 1 );
+	public static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
+	public static final AdventureResult BEAN = new AdventureResult( 186, 1 );
 	private static final AdventureResult TRANSFUNCTIONER = new AdventureResult( 458, 1 );
 	private static final AdventureResult LIBRARY_KEY = new AdventureResult( 1764, 1 );
 	private static final AdventureResult GALLERY_KEY = new AdventureResult( 1765, 1 );
@@ -351,7 +351,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		else if ( zone.equals( "Island" ) )
 		{
-			if ( KoLCharacter.hasItem( DINGHY, false ) )
+			if ( KoLCharacter.hasItem( DINGHY ) )
 				AdventureDatabase.retrieveItem( DINGHY );
 			else
 			{
@@ -368,12 +368,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		else if ( adventureID.equals( "82" ) )
 		{
-			if ( KoLCharacter.hasItem( SOCK, true ) )
-				AdventureDatabase.retrieveItem( SOCK );
-			else
-				AdventureDatabase.retrieveItem( ROWBOAT );
-
-			isValidAdventure = KoLmafia.permitsContinue();
+			isValidAdventure = KoLCharacter.hasItem( SOCK ) || KoLCharacter.hasItem( ROWBOAT );
 			return;
 		}
 
@@ -382,8 +377,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		else if ( adventureID.equals( "83" ) )
 		{
-			AdventureDatabase.retrieveItem( ROWBOAT );
-			isValidAdventure = KoLmafia.permitsContinue();
+			isValidAdventure = KoLCharacter.hasItem( ROWBOAT );
 			return;
 		}
 
@@ -396,7 +390,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// If the character has a S.O.C.K. or an intragalactic
 			// rowboat, they can get to the airship
 
-			if ( KoLCharacter.hasItem( SOCK, false ) || KoLCharacter.hasItem( ROWBOAT, false ) )
+			if ( KoLCharacter.hasItem( SOCK ) || KoLCharacter.hasItem( ROWBOAT ) )
 			{
 				isValidAdventure = true;
 				return;
@@ -415,7 +409,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				// bean which can be used.  If they don't, then try to
 				// find one through adventuring.
 
-				if ( !KoLCharacter.hasItem( BEAN, false ) )
+				if ( !KoLCharacter.hasItem( BEAN ) )
 				{
 					ArrayList temporary = new ArrayList();
 					temporary.addAll( conditions );
@@ -516,7 +510,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( adventureID.equals( "73" ) )
 		{
-			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER, false ) )
+			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER ) )
 			{
 				ZONE_VALIDATOR.constructURLString( "town_wrong.php?place=crackpot" ).run();
 				ZONE_VALIDATOR.constructURLString( "town_wrong.php?action=crackyes1" ).run();

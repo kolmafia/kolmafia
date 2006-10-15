@@ -290,7 +290,7 @@ public abstract class MoodSettings implements KoLConstants
 		addTrigger( "gain_effect", "Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
 
 		String beatenUpAction = getDefaultAction( "gain_effect", "Beaten Up" );
-		if ( beatenUpAction.startsWith( "cast" ) )
+		if ( KoLCharacter.canInteract() || beatenUpAction.startsWith( "cast" ) )
 			addTrigger( "gain_effect", "Beaten Up", beatenUpAction );
 
 		// If there's any effects the player currently has and there
@@ -614,11 +614,11 @@ public abstract class MoodSettings implements KoLConstants
 					return "cast Tongue of the Walrus";
 				if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
 					return "cast Tongue of the Otter";
-				if ( KoLCharacter.hasItem( UneffectRequest.FOREST_TEARS, false ) )
+				if ( KoLCharacter.hasItem( UneffectRequest.FOREST_TEARS ) )
 					return "use forest tears";
-				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE, false ) )
+				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) )
 					return "use tiny house";
-				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY, false ) || KoLCharacter.canInteract() )
+				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) || KoLCharacter.canInteract() )
 					return "uneffect beaten up";
 
 				return "";

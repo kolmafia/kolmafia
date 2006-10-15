@@ -769,7 +769,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			this.castCount = castCount;
 
 			int multiplier = buffID == 3 ? 40 : buffID > 6000 && buffID < 7000 ? 15 : 10;
-			if ( KoLCharacter.hasItem( UseSkillRequest.WIZARD_HAT, false ) )
+			if ( KoLCharacter.hasItem( UseSkillRequest.WIZARD_HAT ) )
 				multiplier += 5;
 
 			this.turnCount = castCount * multiplier;

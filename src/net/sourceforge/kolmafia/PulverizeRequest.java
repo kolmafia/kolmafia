@@ -85,12 +85,7 @@ public class PulverizeRequest extends KoLRequest
 			return;
 		}
 
-		if ( ConcoctionsDatabase.HAMMER.getCount( inventory ) < 1 )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a tenderizing hammer." );
-			return;
-		}
-
+		AdventureDatabase.retrieveItem( ConcoctionsDatabase.HAMMER );
 		if ( item.getCount( inventory ) < item.getCount() )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + item.getName() + "." );
