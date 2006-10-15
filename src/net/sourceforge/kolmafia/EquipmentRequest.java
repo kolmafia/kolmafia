@@ -413,7 +413,7 @@ public class EquipmentRequest extends PasswordHashRequest
 							KoLmafia.updateDisplay( "Stealing " + changeItem.getName() + " from " + familiars[i].getRace() + "..." );
 
 							KoLRequest request = new KoLRequest( "familiar.php?pwd=&action=unequip", true );
-							request.addFormField( "famid=", String.valueOf( familiars[i].getID() ) );
+							request.addFormField( "famid", String.valueOf( familiars[i].getID() ) );
 							request.run();
 
 							familiars[i].setItem( UNEQUIP );

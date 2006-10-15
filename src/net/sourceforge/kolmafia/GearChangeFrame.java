@@ -178,7 +178,7 @@ public class GearChangeFrame extends KoLFrame
 			{
 				if ( pieces[i] != null )
 				{
-					requestList.add( new EquipmentRequest( pieces[i], i, true ) );
+					requestList.add( new EquipmentRequest( pieces[i].getCount() == 1 ? pieces[i] : pieces[i].getInstance(1), i, true ) );
 					pieces[i] = null;
 				}
 			}

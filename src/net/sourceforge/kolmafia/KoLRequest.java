@@ -1232,9 +1232,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 			else if ( sessionID != null )
 			{
-KoLmafia.getDebugStream().println( "" + passwordHash );
-System.exit(0);
-
 				KoLmafia.updateDisplay( "Session timed out." );
 				if ( StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
 				{
