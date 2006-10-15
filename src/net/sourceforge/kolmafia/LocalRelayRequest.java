@@ -99,8 +99,8 @@ public class LocalRelayRequest extends KoLRequest
 		boolean shouldIgnore = false;
 
 		shouldIgnore |= ignoreExpensiveItems && price > KoLCharacter.getAvailableMeat();
-		shouldIgnore |= ignoreMinpricedItems && NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemID ) );
-		shouldIgnore |= ignoreMinpricedItems && price <= TradeableItemDatabase.getPriceByID( itemID ) * 2 + 1;
+		shouldIgnore |= NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemID ) );
+		shouldIgnore |= ignoreMinpricedItems && price <= TradeableItemDatabase.getPriceByID( itemID ) * 2;
 		shouldIgnore |= ignoreMinpricedItems && price == 100;
 
 		return shouldIgnore;
