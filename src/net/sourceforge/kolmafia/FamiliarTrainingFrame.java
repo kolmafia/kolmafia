@@ -503,7 +503,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 						if ( itemName != null && !familiars[i].getItem().equals( itemName ) )
 						{
 							AdventureResult item = new AdventureResult( itemName, 1, false );
-							if ( KoLCharacter.hasItem( item, false ) )
+							if ( KoLCharacter.hasItem( item ) )
 							{
 								KoLRequest request = new KoLRequest( "familiar.php?pwd&action=equip&whichfam=" +
 									familiars[i].getID() + "&whichitem=" + item.getItemID() );
@@ -1055,14 +1055,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				if ( maxBuffedWeight >= 15 && greenTongueActive == 0 && blackTongueActive == 0 )
 				{
-					if ( KoLCharacter.hasItem( GREEN_SNOWCONE, false ) )
+					if ( KoLCharacter.hasItem( GREEN_SNOWCONE ) )
 					{
 						DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
 						greenTongueActive = 20;
 						return true;
 					}
 
-					if ( KoLCharacter.hasItem( BLACK_SNOWCONE, false ) && blackTongueActive == 0 )
+					if ( KoLCharacter.hasItem( BLACK_SNOWCONE ) && blackTongueActive == 0 )
 					{
 						DEFAULT_SHELL.executeLine( "use 1 black snowcone" );
 						blackTongueActive = 20;

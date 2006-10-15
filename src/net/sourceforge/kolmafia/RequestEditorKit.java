@@ -1008,9 +1008,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			SortedListModel creations = ConcoctionsDatabase.getKnownUses( itemID );
 
 			// If you find goat cheese, let the trapper link handle it.
-			// Ore is skipped for now, so no need to check for it.
+			// Ore is skipped for now, so no need to check for it.  And,
+			// finally, enchanted beans are primarily use.
 
 			addCreateLink &= !creations.isEmpty() && itemID != 322;
+			addCreateLink &= itemID != KoLAdventure.BEAN.getItemID() || KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT );
 
 			if ( addCreateLink )
 			{
@@ -1519,7 +1521,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				// be removed.  This is either when the buff can be shrugged
 				// or the buff has a default removal method.
 
-				if ( skillType == ClassSkillsDatabase.BUFF || KoLCharacter.hasItem( UneffectRequest.REMEDY, true ) )
+				if ( skillType == ClassSkillsDatabase.BUFF || KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
 					removeAction = "uneffect " + effectName;
 
 				if ( !removeAction.equals( "" ) )

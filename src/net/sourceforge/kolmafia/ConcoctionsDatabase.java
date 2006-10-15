@@ -494,7 +494,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Smithing of items is possible whenever the person
 		// has a hammer.
 
-		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = inventory.contains( HAMMER ) &&
+		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = (inventory.contains( HAMMER ) || KoLCharacter.getAvailableMeat() >= 1000) &&
 			KoLCharacter.getAdventuresLeft() > 0;
 
 		// Advanced smithing is available whenever the person can
@@ -564,9 +564,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF, CLOCKWORK_CHEF );
 
-		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded && inventory.contains( OVEN ) )
+		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded )
 		{
-			PERMIT_METHOD[ ItemCreationRequest.COOK ] = KoLCharacter.getAdventuresLeft() > 0;
+			PERMIT_METHOD[ ItemCreationRequest.COOK ] = (inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000)
+				&& KoLCharacter.getAdventuresLeft() > 0;
 			ADVENTURE_USAGE[ ItemCreationRequest.COOK ] = 1;
 		}
 		else
@@ -589,9 +590,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER, CLOCKWORK_BARTENDER );
 
-		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded && inventory.contains( KIT ) )
+		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded )
 		{
-			PERMIT_METHOD[ ItemCreationRequest.MIX ] = KoLCharacter.getAdventuresLeft() > 0;
+			PERMIT_METHOD[ ItemCreationRequest.MIX ] = ( inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000) &&
+				KoLCharacter.getAdventuresLeft() > 0;
 			ADVENTURE_USAGE[ ItemCreationRequest.MIX ] = 1;
 		}
 		else

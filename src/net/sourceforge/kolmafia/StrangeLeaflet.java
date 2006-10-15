@@ -155,7 +155,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 	public static void robStrangeLeaflet( boolean invokeMagic )
 	{
 		// Make sure the player has the Strange Leaflet.
-		if ( !KoLCharacter.hasItem( LEAFLET, false ) )
+		if ( !KoLCharacter.hasItem( LEAFLET ) )
 		{
 			if ( KoLCharacter.getLevel() >= 9 )
 				DEFAULT_SHELL.executeLine( "council" );
@@ -165,9 +165,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 				return;
 			}
 		}
-
-		// Make sure it's in the inventory
-		AdventureDatabase.retrieveItem( LEAFLET );
 
 		// Deduce location and status of items and actions
 		// by initializing the leaflet variables.

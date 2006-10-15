@@ -249,13 +249,13 @@ public abstract class SorceressLair extends StaticEntity
 				return itemOptions[i];
 
 		for ( int i = 0; i < itemOptions.length; ++i )
-			if ( hasItem( itemOptions[i] ) )
+			if ( isItemAvailable( itemOptions[i] ) )
 				return itemOptions[i];
 
 		return itemOptions[0];
 	}
 
-	private static boolean hasItem( AdventureResult item )
+	private static boolean isItemAvailable( AdventureResult item )
 	{	return KoLCharacter.hasItem( item, true );
 	}
 
@@ -291,13 +291,13 @@ public abstract class SorceressLair extends StaticEntity
 		// then dismantle the legend and construct the stone banjo.
 
 		AdventureResult cloverWeapon = null;
-		boolean untinkerCloverWeapon = !hasItem( ACOUSTIC_GUITAR ) && !hasItem( HEAVY_METAL_GUITAR ) && !hasItem( STONE_BANJO ) && !hasItem( DISCO_BANJO );
+		boolean untinkerCloverWeapon = !isItemAvailable( ACOUSTIC_GUITAR ) && !isItemAvailable( HEAVY_METAL_GUITAR ) && !isItemAvailable( STONE_BANJO ) && !isItemAvailable( DISCO_BANJO );
 
 		if ( untinkerCloverWeapon )
 		{
 			cloverWeapon = pickOne( CLOVER_WEAPONS );
 
-			if ( hasItem( BANJO_STRING ) && hasItem( cloverWeapon ) )
+			if ( isItemAvailable( BANJO_STRING ) && isItemAvailable( cloverWeapon ) )
 			{
 				UseSkillRequest.untinkerCloverWeapon( cloverWeapon );
 
@@ -315,7 +315,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// If he brought a balloon monkey, get him an easter egg
 
-		if ( hasItem( BALLOON ) )
+		if ( isItemAvailable( BALLOON ) )
 		{
 			AdventureDatabase.retrieveItem( BALLOON );
 			QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + BALLOON.getItemID() ).run();
@@ -458,30 +458,30 @@ public abstract class SorceressLair extends StaticEntity
 
 		List requirements = new ArrayList();
 
-		if ( !hasItem( SKELETON ) && hasItem( KEY_RING ) )
+		if ( !isItemAvailable( SKELETON ) && isItemAvailable( KEY_RING ) )
 			DEFAULT_SHELL.executeLine( "use skeleton key ring" );
 
 		AdventureDatabase.retrieveItem( SKELETON );
-		if ( !hasItem( SKELETON ) )
+		if ( !isItemAvailable( SKELETON ) )
 			requirements.add( SKELETON );
 
 		if ( useCloverForSkeleton )
 		{
 			AdventureDatabase.retrieveItem( CLOVER );
-			if ( !hasItem( CLOVER ) )
+			if ( !isItemAvailable( CLOVER ) )
 				requirements.add( CLOVER );
 		}
 
 		if ( !requirements.isEmpty() )
 			return requirements;
 
-		while ( KoLmafia.permitsContinue() && !hasItem( RHYTHM ) )
+		while ( KoLmafia.permitsContinue() && !isItemAvailable( RHYTHM ) )
 		{
 			// The character needs to have at least 50 HP, or 25% of
 			// maximum HP (whichever is greater) in order to play
 			// the skeleton dice game, UNLESS you have a clover.
 
-			if ( !useCloverForSkeleton && !hasItem( CLOVER ) )
+			if ( !useCloverForSkeleton && !isItemAvailable( CLOVER ) )
 			{
 				int healthNeeded = Math.max( KoLCharacter.getMaximumHP() / 4, 50 );
 				getClient().recoverHP( healthNeeded + 1 );
@@ -507,7 +507,7 @@ public abstract class SorceressLair extends StaticEntity
 			if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 			{
 				QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=skel" ).run();
-				if ( hasItem( CLOVER ) )
+				if ( isItemAvailable( CLOVER ) )
 					getClient().processResult( CLOVER.getNegation() );
 			}
 		}
@@ -525,9 +525,9 @@ public abstract class SorceressLair extends StaticEntity
 
 		// See which ones are available
 
-		boolean hasSword = KoLCharacter.hasItem( STAR_SWORD, false );
-		boolean hasStaff = KoLCharacter.hasItem( STAR_STAFF, false );
-		boolean hasCrossbow = KoLCharacter.hasItem( STAR_CROSSBOW, false );
+		boolean hasSword = KoLCharacter.hasItem( STAR_SWORD );
+		boolean hasStaff = KoLCharacter.hasItem( STAR_STAFF );
+		boolean hasCrossbow = KoLCharacter.hasItem( STAR_CROSSBOW );
 
 		// See which ones he can use
 
@@ -547,12 +547,12 @@ public abstract class SorceressLair extends StaticEntity
 		// Otherwise, pick one that he can
 		// create and use
 
-		else if ( canUseSword && hasItem( STAR_SWORD ) )
+		else if ( canUseSword && isItemAvailable( STAR_SWORD ) )
 			starWeapon = STAR_SWORD;
 
-		else if ( canUseStaff && hasItem( STAR_SWORD ) )
+		else if ( canUseStaff && isItemAvailable( STAR_SWORD ) )
 			starWeapon = STAR_STAFF;
-		else if ( canUseCrossbow && hasItem( STAR_SWORD ) )
+		else if ( canUseCrossbow && isItemAvailable( STAR_SWORD ) )
 			starWeapon = STAR_CROSSBOW;
 
 		// At least pick one that he can use
@@ -580,22 +580,22 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Star equipment unless you already have Sinister Strummings
 
-		if ( !hasItem( STRUMMING ) )
+		if ( !isItemAvailable( STRUMMING ) )
 		{
 			AdventureDatabase.retrieveItem( starWeapon );
-			if ( !hasItem( starWeapon ) )
+			if ( !isItemAvailable( starWeapon ) )
 				requirements.add( starWeapon );
 
 			AdventureDatabase.retrieveItem( STAR_HAT );
-			if ( !hasItem( STAR_HAT ) )
+			if ( !isItemAvailable( STAR_HAT ) )
 				requirements.add( STAR_HAT );
 
 			AdventureDatabase.retrieveItem( RICHARD );
-			if ( !hasItem( RICHARD ) )
+			if ( !isItemAvailable( RICHARD ) )
 				requirements.add( RICHARD );
 		}
 
-		if ( hasItem( STRUMMING ) || !requirements.isEmpty() )
+		if ( isItemAvailable( STRUMMING ) || !requirements.isEmpty() )
 			return requirements;
 
 		// If you can't equip the appropriate weapon and buckler,
@@ -663,14 +663,14 @@ public abstract class SorceressLair extends StaticEntity
 
 		List requirements = new ArrayList();
 
-		if ( !hasItem( SQUEEZINGS ) )
+		if ( !isItemAvailable( SQUEEZINGS ) )
 		{
 			AdventureDatabase.retrieveItem( DIGITAL );
-			if ( !hasItem( DIGITAL ) )
+			if ( !isItemAvailable( DIGITAL ) )
 				requirements.add( DIGITAL );
 		}
 
-		if ( hasItem( SQUEEZINGS ) || !requirements.isEmpty() )
+		if ( isItemAvailable( SQUEEZINGS ) || !requirements.isEmpty() )
 			return requirements;
 
 		// Now handle the form for the digital key to get
@@ -691,16 +691,16 @@ public abstract class SorceressLair extends StaticEntity
 
 		// The three hero keys are needed to get the SCUBA gear
 
-		if ( hasItem( SCUBA ) )
+		if ( isItemAvailable( SCUBA ) )
 			return requirements;
 
 		// Next, handle the three hero keys, which involve
 		// answering the riddles with the forms of fish.
 
-		if ( !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
+		if ( !isItemAvailable( BOWL ) && !isItemAvailable( HOSE_BOWL ) )
 		{
 			AdventureDatabase.retrieveItem( BORIS );
-			if ( !hasItem( BORIS ) )
+			if ( !isItemAvailable( BORIS ) )
 			{
 				KoLmafia.forceContinue();
 				requirements.add( BORIS );
@@ -715,10 +715,10 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
-		if ( !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
+		if ( !isItemAvailable( TANK ) && !isItemAvailable( HOSE_TANK ) )
 		{
 			AdventureDatabase.retrieveItem( JARLSBERG );
-			if ( !hasItem( JARLSBERG ) )
+			if ( !isItemAvailable( JARLSBERG ) )
 			{
 				KoLmafia.forceContinue();
 				requirements.add( JARLSBERG );
@@ -733,10 +733,10 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
-		if ( !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
+		if ( !isItemAvailable( HOSE ) && !isItemAvailable( HOSE_TANK ) && !isItemAvailable( HOSE_BOWL ) )
 		{
 			AdventureDatabase.retrieveItem( SNEAKY_PETE );
-			if ( !hasItem( SNEAKY_PETE ) )
+			if ( !isItemAvailable( SNEAKY_PETE ) )
 			{
 				KoLmafia.forceContinue();
 				requirements.add( SNEAKY_PETE );
@@ -754,7 +754,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Equip the SCUBA gear.  Attempting to retrieve it
 		// will automatically create it.
 
-		if ( hasItem( SCUBA ) )
+		if ( isItemAvailable( SCUBA ) )
 		{
 			AdventureDatabase.retrieveItem( SCUBA );
 			DEFAULT_SHELL.executeLine( "equip acc1 makeshift SCUBA gear" );
@@ -1281,7 +1281,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( neededHealth > KoLCharacter.getMaximumHP() )
 		{
-			if ( hasItem( PLASTIC_EGG ) )
+			if ( isItemAvailable( PLASTIC_EGG ) )
 			{
 				option = PLASTIC_EGG;
 				neededHealth = getShadowBattleHealth( shadowDamage, 35 );
@@ -1346,7 +1346,7 @@ public abstract class SorceressLair extends StaticEntity
 			AdventureResult item = new AdventureResult( GUARDIAN_DATA[i][1], 1, false );
 			if ( !inventory.contains( item ) )
 			{
-				if ( KoLCharacter.hasItem( item, true ) || NPCStoreDatabase.contains( GUARDIAN_DATA[i][1] ) )
+				if ( isItemAvailable( item ) || NPCStoreDatabase.contains( GUARDIAN_DATA[i][1] ) )
 					AdventureDatabase.retrieveItem( item );
 			}
 		}

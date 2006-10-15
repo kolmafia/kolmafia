@@ -328,27 +328,29 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( KoLCharacter.canInteract() )
 		{
-			DEFAULT_SHELL.executeLine( "acquire " + ROCKNROLL_LEGEND.getName() );
-			if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND, false ) )
+			AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
+			KoLmafia.forceContinue();
+
+			if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND, true ) )
 				return ROCKNROLL_LEGEND;
 		}
 
 		// He must have at least a stolen accordion
 
-		if ( !KoLCharacter.hasItem( ACCORDION, false ) )
+		if ( !KoLCharacter.hasItem( ACCORDION ) )
 			return null;
 
 		// Does he have a hot buttered roll?  If not,
 		// untinkering weapons won't help.
 
-		if ( !KoLCharacter.hasItem( ROLL, false ) )
+		if ( !KoLCharacter.hasItem( ROLL ) )
 			return ACCORDION;
 
 		// Can we get a big rock from a clover weapon?
 
 		AdventureResult cloverWeapon = null;
 		for ( int i = 0; i < CLOVER_WEAPONS.length; ++i )
-			if ( KoLCharacter.hasItem( CLOVER_WEAPONS[i], false ) )
+			if ( KoLCharacter.hasItem( CLOVER_WEAPONS[i] ) )
 				cloverWeapon = CLOVER_WEAPONS[i];
 
 		// If not, just use existing stolen accordion

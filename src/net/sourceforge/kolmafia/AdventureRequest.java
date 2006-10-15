@@ -183,7 +183,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( formSource.equals( "lair3.php" ) )
 		{
-			if ( KoLCharacter.hasItem( SorceressLair.HEDGE_KEY, false ) && KoLCharacter.hasItem( SorceressLair.PUZZLE_PIECE, false ) )
+			if ( KoLCharacter.hasItem( SorceressLair.HEDGE_KEY ) && KoLCharacter.hasItem( SorceressLair.PUZZLE_PIECE ) )
 			{
 				SorceressLair.completeHedgeMaze();
 				KoLmafia.forceContinue();
@@ -225,7 +225,7 @@ public class AdventureRequest extends KoLRequest
 		// We're missing an item, haven't been given a quest yet, or otherwise
 		// trying to go somewhere not allowed.
 
-		if ( responseText.indexOf( "You shouldn't be here." ) != -1 || responseText.indexOf( "not yet be accessible" ) != -1 || responseText.indexOf( "You can't get there." ) != -1 )
+		if ( responseText.indexOf( "You shouldn't be here." ) != -1 || responseText.indexOf( "not yet be accessible" ) != -1 || responseText.indexOf( "You can't get there." ) != -1 || responseText.indexOf( "Seriously.  It's locked." ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You can't get to that area yet." );
 			return;
@@ -332,7 +332,7 @@ public class AdventureRequest extends KoLRequest
 				// inventory, visit the untinkerer
 				// automatically and repeat the request.
 
-				if ( KoLCharacter.hasItem( ABRIDGED, false ) )
+				if ( KoLCharacter.hasItem( ABRIDGED ) )
 				{
 					AdventureDatabase.retrieveItem( ABRIDGED.getNegation() );
 					(new UntinkerRequest( ABRIDGED.getItemID() )).run();

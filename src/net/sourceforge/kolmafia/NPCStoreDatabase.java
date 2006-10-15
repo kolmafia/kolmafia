@@ -186,7 +186,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		// the person has access to the Citadel.
 
 		else if ( storeID.equals( "w" ) )
-			return KoLCharacter.hasItem( RABBIT_FOOT, false );
+			return KoLCharacter.hasItem( RABBIT_FOOT );
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.

@@ -81,7 +81,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	{
 		for ( int i = 0; i < pieces.size(); ++i )
 		{
-			boolean itemAvailable = KoLCharacter.hasItem( (AdventureResult) pieces.get(i), false ) &&
+			boolean itemAvailable = KoLCharacter.hasItem( (AdventureResult) pieces.get(i) ) &&
 				EquipmentDatabase.canEquip( ((AdventureResult) pieces.get(i)).getName() );
 
 			if ( !itemAvailable )

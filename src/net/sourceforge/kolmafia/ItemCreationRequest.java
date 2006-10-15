@@ -89,8 +89,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int WOK = 22;
 	public static final int MALUS = 23;
 
-	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
-	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
+	public static final AdventureResult OVEN = new AdventureResult( 157, 1 );
+	public static final AdventureResult KIT = new AdventureResult( 236, 1 );
 
 	private static final AdventureResult BOX = new AdventureResult( 427, 1 );
 	private static final AdventureResult CHEF_SKULL = new AdventureResult( 437, 1 );
@@ -404,7 +404,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If we have the correct tool, use it to
 		// create the needed dough type.
 
-		if ( quantityNeeded >= 10 || KoLCharacter.hasItem( tool, false ) )
+		if ( quantityNeeded >= 10 || KoLCharacter.hasItem( tool ) )
 			AdventureDatabase.retrieveItem( tool );
 
 		if ( tool.getCount( inventory ) > 0 )
@@ -564,6 +564,22 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				return true;
 			break;
 
+		case SMITH:
+
+			if ( !KoLCharacter.inMuscleSign() )
+			{
+				AdventureDatabase.retrieveItem( ConcoctionsDatabase.HAMMER );
+				return KoLmafia.permitsContinue();
+			}
+
+			return true;
+
+		case SMITH_WEAPON:
+		case SMITH_ARMOR:
+
+			AdventureDatabase.retrieveItem( ConcoctionsDatabase.HAMMER );
+			return KoLmafia.permitsContinue();
+
 		default:
 			return true;
 		}
@@ -611,7 +627,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				return false;
 
 			if ( hasNoServantItem )
+			{
 				AdventureDatabase.retrieveItem( noServantItem );
+				return KoLmafia.permitsContinue();
+			}
 
 			return hasNoServantItem;
 		}
