@@ -770,19 +770,10 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !checkPrerequisites( 3, 3 ) )
 			return;
 
-		// Retrieve any puzzle pieces that might be sitting
-		// inside of the player's closet.
-
-		int closetCount = PUZZLE_PIECE.getCount( closet );
-		int inventoryCount = PUZZLE_PIECE.getCount( inventory );
-
-		if ( closetCount > 0 )
-			AdventureDatabase.retrieveItem( PUZZLE_PIECE.getInstance( inventoryCount + closetCount ) );
-
 		// Check to see if you've run out of puzzle pieces.
 		// If you have, don't bother running the puzzle.
 
-		if ( inventoryCount + closetCount == 0 )
+		if ( PUZZLE_PIECE.getCount( inventory ) == 0 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Ran out of puzzle pieces." );
 			return;
@@ -812,6 +803,8 @@ public abstract class SorceressLair extends StaticEntity
 		// Second mission -- rotate the hedge maze until
 		// the hedge path leads to the hedge door.
 
+		QUEST_HANDLER.constructURLString( "hedgepuzzle.php" ).run();
+
 		if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "Executing final rotations..." );
@@ -829,7 +822,7 @@ public abstract class SorceressLair extends StaticEntity
 		// in the middle -- if you did, update the user
 		// display to say so.
 
-		if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) == -1 )
+		if ( PUZZLE_PIECE.getCount( inventory ) == 0 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Ran out of puzzle pieces." );
 			return;
