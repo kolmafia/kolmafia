@@ -1215,7 +1215,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			if ( formURLString.indexOf( "login.php" ) != -1 )
-				return LoginRequest.processLoginRequest( this );
+				LoginRequest.processLoginRequest( this );
 
 			return true;
 		}
