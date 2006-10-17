@@ -264,6 +264,9 @@ public class LocalRelayServer implements Runnable
 				if ( lowercase.startsWith( "set-cookie" ) )
 					continue;
 
+				if ( lowercase.startsWith( "http-referer" ) )
+					continue;
+
 				if ( !lowercase.equals( "" ) )
 					printStream.println( header );
 			}

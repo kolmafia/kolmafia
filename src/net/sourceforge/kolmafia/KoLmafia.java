@@ -2662,7 +2662,14 @@ public abstract class KoLmafia implements KoLConstants
 		// Even after the wait, sometimes, the
 		// worker threads have not been filled.
 
-		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + (KoLRequest.isCompactMode ? "/main_c.html" : "/main.html") );
+		String baseURL = "http://127.0.0.1:" + LocalRelayServer.getPort() + "/";
+
+		if ( KoLRequest.sessionID == null )
+			StaticEntity.openSystemBrowser( baseURL + "login.php" );
+		else if ( KoLRequest.isCompactMode )
+			StaticEntity.openSystemBrowser( baseURL + "main_c.html" );
+		else
+			StaticEntity.openSystemBrowser( baseURL + "/main.html" );
 	}
 
 	public void launchSimulator()

@@ -329,25 +329,10 @@ public class LoginRequest extends KoLRequest
 		}
 		else if ( responseCode == 302 && redirectLocation.startsWith( "main" ) )
 		{
-			if ( redirectLocation.equals( "main_c.html" ) )
-				KoLRequest.isCompactMode = true;
-
-			// If the login is successful, you notify the client
-			// of success.  But first, if there was a desire to
-			// save the password, do so here.
-
 			if ( this.savePassword )
 				KoLmafia.addSaveState( username, password );
 
-			String serverCookie = formConnection.getHeaderField( "Set-Cookie" );
-			if ( serverCookie != null )
-			{
-				Matcher sessionMatcher = SESSIONID_COOKIE_PATTERN.matcher( serverCookie );
-				if ( sessionMatcher.find() )
-					KoLRequest.sessionID = "PHPSESSID=" + sessionMatcher.group(1) + "; path=/";
-			}
-
-			StaticEntity.getClient().initialize( username, this.getBreakfast, this.isQuickLogin );
+			processLoginRequest( this );
 			return false;
 		}
 		else if ( responseCode == 302 )
@@ -420,6 +405,33 @@ public class LoginRequest extends KoLRequest
 			KoLmafia.updateDisplay( failureMatcher.group(1) );
 
 		waitTime = BAD_CHALLENGE_WAIT;
+		return true;
+	}
+
+	public static boolean processLoginRequest( KoLRequest request )
+	{
+		if ( request.redirectLocation == null || !request.redirectLocation.startsWith( "main" ) )
+			return false;
+
+		if ( request.redirectLocation.equals( "main_c.html" ) )
+			KoLRequest.isCompactMode = true;
+
+		// If the login is successful, you notify the client
+		// of success.  But first, if there was a desire to
+		// save the password, do so here.
+
+		String serverCookie = request.formConnection.getHeaderField( "Set-Cookie" );
+		if ( serverCookie != null )
+		{
+			Matcher sessionMatcher = SESSIONID_COOKIE_PATTERN.matcher( serverCookie );
+			if ( sessionMatcher.find() )
+				KoLRequest.sessionID = "PHPSESSID=" + sessionMatcher.group(1) + "; path=/";
+		}
+
+		StaticEntity.getClient().initialize( request.getFormField( "loginname" ),
+			request instanceof LoginRequest && ((LoginRequest) request).getBreakfast,
+			request instanceof LoginRequest && ((LoginRequest) request).isQuickLogin );
+
 		return true;
 	}
 }
