@@ -1015,7 +1015,7 @@ public class AdventureDatabase extends KoLDatabase
 			// then notify the user that there aren't enough items
 			// available to continue and cancel the request.
 
-			KoLmafia.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
+			KoLmafia.updateDisplay( ABORT_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
 		}
 		catch ( Exception e )
 		{
