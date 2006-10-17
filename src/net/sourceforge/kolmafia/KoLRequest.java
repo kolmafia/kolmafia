@@ -82,8 +82,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
 
 	protected static String sessionID = null;
-	protected static String inventoryCookie = null;
-
 	protected static String passwordHash = null;
 	private static boolean wasLastRequestSimple = false;
 
@@ -1034,8 +1032,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( sessionID != null )
 		{
-			if ( formURLString.indexOf( "inventory.php" ) != -1 && inventoryCookie != null )
-				formConnection.addRequestProperty( "Cookie", inventoryCookie + "; " + sessionID );
+			if ( formURLString.indexOf( "inventory.php" ) != -1 && !StaticEntity.getProperty( "visibleBrowserInventory" ).equals( "" ) )
+				formConnection.addRequestProperty( "Cookie", StaticEntity.getProperty( "visibleBrowserInventory" ) + "; " + sessionID );
 			else
 				formConnection.addRequestProperty( "Cookie", sessionID );
 		}
