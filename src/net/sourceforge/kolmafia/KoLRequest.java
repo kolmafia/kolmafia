@@ -110,8 +110,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public static final int SERVER_COUNT = 8;
 
-	protected static String KOL_HOST = SERVERS[0][0];
-	protected static String KOL_ROOT = "http://" + SERVERS[0][1] + "/";
+	protected static String KOL_HOST = SERVERS[1][0];
+	protected static String KOL_ROOT = "http://" + SERVERS[1][1] + "/";
 
 	protected URL formURL;
 	protected boolean followRedirects;
@@ -1189,14 +1189,49 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean handleServerRedirect()
 	{
-		if ( this instanceof LocalRelayRequest || redirectLocation == null )
+		if ( redirectLocation == null )
 			return true;
 
-		// Redirect codes are all the ones that occur between
-		// 300 and 399.  All these notify the user of a location
-		// to return to; deal with the ones which are errors.
+		// Check to see if this is a login page redirect.  If it is, then
+		// construct the URL string and notify the browser that it should
+		// change everything.
 
-		if ( redirectLocation.indexOf( "maint.php" ) != -1 )
+		Matcher matcher = REDIRECT_PATTERN.matcher( redirectLocation );
+		if ( matcher.find() )
+		{
+			setLoginServer( matcher.group(1) );
+			redirectLocation = redirectLocation.substring( redirectLocation.lastIndexOf( "/" ) + 1 );
+
+			constructURLString( redirectLocation, false );
+			return false;
+		}
+
+		if ( this instanceof LocalRelayRequest )
+		{
+			if ( redirectLocation.indexOf( "login.php" ) != -1 )
+			{
+				constructURLString( redirectLocation, false );
+				return false;
+			}
+
+			if ( formURLString.indexOf( "login.php" ) != -1 )
+				return LoginRequest.processLoginRequest( this );
+
+			return true;
+		}
+
+		if ( redirectLocation.indexOf( "login.php" ) != -1 )
+		{
+			KoLmafia.updateDisplay( "Session timed out." );
+			if ( StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
+			{
+				LoginRequest.executeTimeInRequest( false );
+				return sessionID == null;
+			}
+
+			return true;
+		}
+		else if ( redirectLocation.indexOf( "maint.php" ) != -1 )
 		{
 			// If the system is down for maintenance, the user must be
 			// notified that they should try again later.
@@ -1207,35 +1242,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				LoginRequest.executeTimeInRequest( true );
 				return sessionID == null;
-			}
-
-			return true;
-		}
-		else if ( redirectLocation.indexOf( "login.php" ) != -1 )
-		{
-			if ( LoginRequest.isInstanceRunning()  )
-			{
-				Matcher matcher = REDIRECT_PATTERN.matcher( redirectLocation );
-				if ( matcher.find() )
-				{
-					setLoginServer( matcher.group(1) );
-					redirectLocation = redirectLocation.substring( redirectLocation.lastIndexOf( "/" ) + 1 );
-				}
-
-				// Otherwise, it's probably just a gibberish URL
-				// that is used in order to force a cache refresh.
-
-				constructURLString( redirectLocation, false );
-				return false;
-			}
-			else if ( sessionID != null )
-			{
-				KoLmafia.updateDisplay( "Session timed out." );
-				if ( StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
-				{
-					LoginRequest.executeTimeInRequest( false );
-					return sessionID == null;
-				}
 			}
 
 			return true;
