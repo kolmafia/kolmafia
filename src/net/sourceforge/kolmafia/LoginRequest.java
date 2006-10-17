@@ -408,10 +408,10 @@ public class LoginRequest extends KoLRequest
 		return true;
 	}
 
-	public static boolean processLoginRequest( KoLRequest request )
+	public static void processLoginRequest( KoLRequest request )
 	{
 		if ( request.redirectLocation == null || !request.redirectLocation.startsWith( "main" ) )
-			return false;
+			return;
 
 		if ( request.redirectLocation.equals( "main_c.html" ) )
 			KoLRequest.isCompactMode = true;
@@ -431,7 +431,5 @@ public class LoginRequest extends KoLRequest
 		StaticEntity.getClient().initialize( request.getFormField( "loginname" ),
 			request instanceof LoginRequest && ((LoginRequest) request).getBreakfast,
 			request instanceof LoginRequest && ((LoginRequest) request).isQuickLogin );
-
-		return true;
 	}
 }
