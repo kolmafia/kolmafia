@@ -104,6 +104,23 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 	public void run()
 	{
+		if ( !SwingUtilities.isEventDispatchThread() )
+		{
+			try
+			{
+				SwingUtilities.invokeAndWait( this );
+				return;
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e,  creationType.getName() + " could not be loaded" );
+				return;
+			}
+		}
+
 		// If there is no creation creation, then return
 		// from the method because there's nothing to do.
 
@@ -268,7 +285,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, "Frame could not be loaded" );
+			StaticEntity.printStackTrace( e,  creationType.getName() + " could not be loaded" );
 			return;
 		}
 	}
