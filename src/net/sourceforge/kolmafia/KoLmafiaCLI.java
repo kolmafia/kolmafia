@@ -518,7 +518,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// to test something without creating a brand new
 		// KoLRequest object to handle it yet?
 
-		if ( command.indexOf( ".php" ) != -1 )
+		if ( command.startsWith( "http:" ) || command.indexOf( ".php" ) != -1 )
 		{
 			if ( KoLRequest.shouldIgnore( previousLine ) )
 				return;
