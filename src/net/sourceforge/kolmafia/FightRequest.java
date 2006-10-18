@@ -192,17 +192,17 @@ public class FightRequest extends KoLRequest
 					}
 					else if ( SEAL_TOOTH.getCount( inventory ) > 0 )
 					{
-						action2 = action1;
+						action2 = "item" + SEAL_TOOTH.getItemID();
 						addFormField( "whichitem2", String.valueOf( SEAL_TOOTH.getItemID() ) );
 					}
 					else if ( TURTLE_SUMMON.getCount( inventory ) > 0 )
 					{
-						action2 = action1;
+						action2 = "item" + TURTLE_SUMMON.getItemID();
 						addFormField( "whichitem2", String.valueOf( TURTLE_SUMMON.getItemID() ) );
 					}
 					else if ( SPICES.getCount( inventory ) > 0 )
 					{
-						action2 = action1;
+						action2 = "item" + SPICES.getItemID();
 						addFormField( "whichitem2", String.valueOf( SPICES.getItemID() ) );
 					}
 				}
