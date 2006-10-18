@@ -487,13 +487,30 @@ sock monkey	0	Mys: 40
 Spanish fly trap	0	none
 star buckler	0	Mys: 67
 steaming evil	0	Mus: 75
-stuffed can of asparagus	0	none
-stuffed dodecapede	0	none
-stuffed ghuol whelp	0	none
+stuffed Cheshire bitten	0	none
+stuffed MagiMechTech MicroMechaMech	0	none
 stuffed Mob Penguin	0	none
+stuffed angry cow	0	none
+stuffed astral badger	0	none
+stuffed baby gravy fairy	0	none
+stuffed can of asparagus	0	none
+stuffed cocoabo	0	none
+stuffed dodecapede	0	none
+stuffed flaming gravy fairy	0	none
+stuffed frozen gravy fairy	0	none
+stuffed ghuol whelp	0	none
+stuffed hand turkey	0	none
+stuffed mind flayer	0	none
 stuffed sabre-toothed lime	0	none
+stuffed scary death orb	0	none
+stuffed sleazy gravy fairy	0	none
+stuffed snowy owl	0	none
+stuffed spooky gravy fairy	0	none
 stuffed stab bat	0	none
+stuffed stinky gravy fairy	0	none
+stuffed undead elbow macaroni	0	none
 stuffed yeti	0	none
+stuffed yo-yo	0	none
 stuffed zmobie	0	none
 thought balloon	0	none
 voodoo doll	0	none
@@ -536,9 +553,11 @@ chintzy saucepan earring	0	none
 chintzy disco ball pendant	0	none
 chintzy accordion pin	0	none
 clown shoes	0	Mys: 10
+club necklace	100	none
 colored-light "necklace"	0	Mys: 35
 consolation ribbon	0	none
 dead guy's watch	0	Mys: 10
+diamond necklace	0	none
 dirty hobo gloves	0	none
 disbelief suspenders	0	Mys: 10
 disembodied smile	0	none
@@ -572,6 +591,8 @@ Jarlsberg's earring	0	Mys: 25
 Jekyllin hide belt	0	none
 Junior LAAAAME merit badge	0	none
 ladle of mystery	0	none
+left half of a heart necklace	0	none
+Lockenstock (TM) sandals	0	Mys: 10
 Lord Spookyraven's spectacles	0	none
 lucky rabbit's foot	0	none
 Mafia bow tie	0	Mys: 35
@@ -598,6 +619,7 @@ Radio KoL Flashlight	0	none
 Radio KoL Maracas	0	none
 Radio KoL Bottle Opener	0	none
 Radio KoL Patch	0	none
+right half of a heart necklace	0	none
 ring of adornment	0	Mys: 25
 ring of aggravate monster	0	Mys: 25
 ring of cold resistance	0	Mys: 25
@@ -606,6 +628,10 @@ ring of fire resistance	0	Mys: 25
 ring of gain strength	0	Mys: 25
 ring of half-assed regeneration	0	Mys: 10
 ring of increase damage	0	Mys: 25
+rubber WWJD? bracelet	0	none
+rubber WWBD? bracelet	0	none
+rubber WWSPD? bracelet	0	none
+rubber WWtNSD? bracelet	0	none
 Scandalously Skimpy Bikini	0	Mox: 10
 second-hand knockoff engagement ring	0	none
 Senior LAAAAME merit badge	0	none
@@ -613,6 +639,7 @@ severed rocking horse head	0	Mys: 10
 shiny ring	0	Mys: 10
 sk8board	0	Mys: 20
 Sneaky Pete's breath spray	0	Mys: 25
+spade necklace	0	none
 sparkly engagement ring	0	none
 special sauce glove	0	none
 spooky glove	0	none
