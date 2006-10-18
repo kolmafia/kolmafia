@@ -51,6 +51,9 @@ public abstract class SendMessageRequest extends KoLRequest
 	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity\\d*=([\\d,]+)" );
 	protected static final Pattern RECIPIENT_PATTERN = Pattern.compile( "towho=([^=&]*)" );
 
+	private static boolean hadSendMessageFailure = false;
+	private static boolean updateDisplayOnFailure = true;
+
 	protected Object [] attachments;
 	protected List source = inventory;
 	protected List destination = new ArrayList();
@@ -237,6 +240,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		// just calls the normal run method from KoLRequest
 		// to execute the request.
 
+		hadSendMessageFailure = false;
 		super.run();
 	}
 
@@ -268,11 +272,31 @@ public abstract class SendMessageRequest extends KoLRequest
 					AdventureResult.addResultToList( destination, (AdventureResult) attachments[i] );
 			}
 		}
-		else if ( tallyItemTransfer() && attachments.length > 0 )
+		else
 		{
-			for ( int i = 0; i < attachments.length; ++i )
-				KoLmafia.updateDisplay( PENDING_STATE, "Transfer may have failed for " + attachments[i].toString() );
+			hadSendMessageFailure = true;
+			if ( tallyItemTransfer() && willUpdateDisplayOnFailure() )
+			{
+				for ( int i = 0; i < attachments.length; ++i )
+					KoLmafia.updateDisplay( ERROR_STATE, "Transfer failed for " + attachments[i].toString() );
+
+				int totalMeat = StaticEntity.parseInt( getFormField( getMeatField() ) );
+				if ( totalMeat != 0 )
+					KoLmafia.updateDisplay( ERROR_STATE, "Transfer failed for " + totalMeat + " meat" );
+			}
 		}
+	}
+
+	public static boolean hadSendMessageFailure()
+	{	return hadSendMessageFailure;
+	}
+
+	public static boolean willUpdateDisplayOnFailure()
+	{	return updateDisplayOnFailure;
+	}
+
+	public static void setUpdateDisplayOnFailure( boolean shouldUpdate )
+	{	updateDisplayOnFailure = shouldUpdate;
 	}
 
 	protected boolean allowUntradeableTransfer()

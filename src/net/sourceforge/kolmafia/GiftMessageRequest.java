@@ -163,7 +163,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		LockableListModel packages = new LockableListModel();
 		int packageCount = Math.min( KoLCharacter.getAscensions() / 3 + 2, 11 );
 
-		packages.addAll( PACKAGES.subList( 0, packageCount ) );
+		packages.addAll( PACKAGES.subList( 0, packageCount + 1 ) );
 		return packages;
 	}
 
