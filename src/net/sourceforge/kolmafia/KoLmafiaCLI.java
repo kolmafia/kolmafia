@@ -1625,14 +1625,21 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( attachments.length == 0 )
 			return;
 
+		SendMessageRequest.setUpdateDisplayOnFailure( false );
 		(new GreenMessageRequest( splitParameters[1], DEFAULT_KMAIL, attachments )).run();
+		SendMessageRequest.setUpdateDisplayOnFailure( true );
 
-		if ( permitsContinue() )
+		if ( !SendMessageRequest.hadSendMessageFailure() )
+		{
 			updateDisplay( "Message sent to " + splitParameters[1] );
+		}
 		else
 		{
 			List availablePackages = GiftMessageRequest.getPackages();
-			int desiredPackageIndex = Math.min( availablePackages.size() - 1, attachments.length );
+			int desiredPackageIndex = Math.min( Math.min( availablePackages.size(), attachments.length ), 5 );
+
+			if ( MoonPhaseDatabase.getHoliday( new Date() ).startsWith( "Valentine's" ) )
+				desiredPackageIndex = 0;
 
 			// Clear the error state for continuation on the
 			// message sending attempt.
