@@ -432,7 +432,7 @@ public class LoginRequest extends KoLRequest
 		if ( request instanceof LoginRequest )
 			runner.run();
 		else
-			(new RequestThread( runner )).start();
+			(new Thread( runner )).start();
 	}
 
 	private static class LoginRunner implements Runnable
@@ -448,6 +448,8 @@ public class LoginRequest extends KoLRequest
 			StaticEntity.getClient().initialize( request.getFormField( "loginname" ),
 				request instanceof LoginRequest && ((LoginRequest) request).getBreakfast,
 				request instanceof LoginRequest && ((LoginRequest) request).isQuickLogin );
+
+			KoLmafia.enableDisplay();
 		}
 	}
 }
