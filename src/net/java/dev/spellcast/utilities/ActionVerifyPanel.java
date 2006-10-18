@@ -199,14 +199,14 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 
 			for ( int i = 0; i < elements.length; ++i )
 			{
-				if ( elements[i].shouldResizeLabel() )
+				if ( elements[i].shouldResize() )
 				{
 					JComponentUtilities.setComponentSize( elements[i].getLabel(),
 						elements[i].isInputPreceding() ? right : left );
-				}
 
-				JComponentUtilities.setComponentSize( elements[i].getInputField(),
-					elements[i].isInputPreceding() ? left : right );
+					JComponentUtilities.setComponentSize( elements[i].getInputField(),
+						elements[i].isInputPreceding() ? left : right );
+				}
 
 				if ( elements[i].isInputPreceding() )
 				{
@@ -300,7 +300,7 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 	protected final class VerifiableElement implements Comparable
 	{
 		private JLabel label;
-		private boolean shouldResizeLabel;
+		private boolean shouldResize;
 		private JComponent inputField;
 		private boolean isInputPreceding;
 
@@ -316,19 +316,19 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 		{	this( label, JLabel.RIGHT, inputField, !(inputField instanceof JScrollPane || inputField instanceof JCheckBox) );
 		}
 
-		public VerifiableElement( String label, JComponent inputField, boolean shouldResizeLabel )
-		{	this( label, JLabel.RIGHT, inputField, shouldResizeLabel );
+		public VerifiableElement( String label, JComponent inputField, boolean shouldResize )
+		{	this( label, JLabel.RIGHT, inputField, shouldResize );
 		}
 
 		public VerifiableElement( String label, int direction, JComponent inputField )
 		{	this( label, direction, inputField, !(inputField instanceof JScrollPane || inputField instanceof JCheckBox) );
 		}
 
-		public VerifiableElement( String label, int direction, JComponent inputField, boolean shouldResizeLabel )
+		public VerifiableElement( String label, int direction, JComponent inputField, boolean shouldResize )
 		{
 			this.label = new JLabel( label, direction );
 			this.inputField = inputField;
-			this.shouldResizeLabel = shouldResizeLabel;
+			this.shouldResize = shouldResize;
 			this.isInputPreceding = direction == JLabel.LEFT;
 
 			this.label.setLabelFor( inputField );
@@ -380,8 +380,8 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 		{	return inputField;
 		}
 
-		public boolean shouldResizeLabel()
-		{	return shouldResizeLabel;
+		public boolean shouldResize()
+		{	return shouldResize;
 		}
 
 		public int compareTo( Object o )
