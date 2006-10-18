@@ -252,11 +252,11 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( getStandardSummary() );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<br><br><table class=\"sortable\" id=\"details\" border=1 cellspacing=4 cellpadding=4>" );
+		strbuf.append( "<br><br><table class=\"sortable\" id=\"details\" border=0 cellspacing=6 cellpadding=6>" );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "<tr style=\"font-weight: bold\"><td align=center>Name</td><td align=center>User ID</td>" );
 
-		strbuf.append( getRosterHeader().replaceAll( "<td>", "<td align=center>" ) );
+		strbuf.append( getRosterHeader() );
 		strbuf.append( LINE_BREAK );
 
 		String [] members = new String[ profileMap.keySet().size() ];
@@ -338,7 +338,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		Collections.sort( drinkList );
 		Collections.sort( rankList );
 
-		strbuf.append( "<table border=0 cellspacing=4 cellpadding=4><tr>" );
+		strbuf.append( "<table border=0 cellspacing=10 cellpadding=10><tr>" );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "<td valign=top>" );
 		strbuf.append( LINE_BREAK );
@@ -347,34 +347,34 @@ public class ClanSnapshotTable extends KoLDatabase
 
 		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
 		{
-			strbuf.append( "<li>PVP Rank: " + COMMA_FORMAT.format( calculateAverage( pvpList ) ) + "</li>" );
+			strbuf.append( "<li><nobr>PVP Rank: " + COMMA_FORMAT.format( calculateAverage( pvpList ) ) + "</nobr></li>" );
 			strbuf.append( LINE_BREAK );
 		}
 
-		strbuf.append( "<li>Muscle: " + COMMA_FORMAT.format( calculateAverage( musList ) ) + "</li>" );
+		strbuf.append( "<li><nobr>Muscle: " + COMMA_FORMAT.format( calculateAverage( musList ) ) + "</nobr></li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Myst: " + COMMA_FORMAT.format( calculateAverage( mysList ) ) + "</li>" );
+		strbuf.append( "<li><nobr>Myst: " + COMMA_FORMAT.format( calculateAverage( mysList ) ) + "</nobr></li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Moxie: " + COMMA_FORMAT.format( calculateAverage( moxList ) ) + "</li>" );
+		strbuf.append( "<li><nobr>Moxie: " + COMMA_FORMAT.format( calculateAverage( moxList ) ) + "</nobr></li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Power: " + COMMA_FORMAT.format( calculateAverage( powerList ) ) + "</li>" );
+		strbuf.append( "<li><nobr>Power: " + COMMA_FORMAT.format( calculateAverage( powerList ) ) + "</nobr></li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Karma: " + COMMA_FORMAT.format( calculateAverage( karmaList ) ) + "</li>" );
+		strbuf.append( "<li><nobr>Karma: " + COMMA_FORMAT.format( calculateAverage( karmaList ) ) + "</nobr></li>" );
 		strbuf.append( LINE_BREAK );
 
 		if ( header.indexOf( "<td>Meat</td>" ) != -1 )
 		{
-			strbuf.append( "<li>Meat: " + COMMA_FORMAT.format( calculateAverage( meatList ) ) + "</li>" );
+			strbuf.append( "<li><nobr>Meat: " + COMMA_FORMAT.format( calculateAverage( meatList ) ) + "</nobr></li>" );
 			strbuf.append( LINE_BREAK );
 		}
 
 		if ( header.indexOf( "<td>Turns</td>" ) != -1 )
 		{
-			strbuf.append( "<li>Turns: " + COMMA_FORMAT.format( calculateAverage( turnsList ) ) + "</li>" );
+			strbuf.append( "<li><nobr>Turns: " + COMMA_FORMAT.format( calculateAverage( turnsList ) ) + "</nobr></li>" );
 			strbuf.append( LINE_BREAK );
 		}
 
@@ -385,34 +385,34 @@ public class ClanSnapshotTable extends KoLDatabase
 
 		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
 		{
-			strbuf.append( "<li>PVP Rank: " + COMMA_FORMAT.format( calculateTotal( pvpList ) ) + "</li>" );
+			strbuf.append( "<li><nobr>PVP Rank: " + COMMA_FORMAT.format( calculateTotal( pvpList ) ) + "</nobr></li>" );
 			strbuf.append( LINE_BREAK );
 		}
 
-		strbuf.append( "<li>Muscle: " + COMMA_FORMAT.format( calculateTotal( musList ) ) + "</li>" );
+		strbuf.append( "<li><nobr>Muscle: " + COMMA_FORMAT.format( calculateTotal( musList ) ) + "</nobr></li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Myst: " + COMMA_FORMAT.format( calculateTotal( mysList ) ) + "</li>" );
+		strbuf.append( "<li><nobr>Myst: " + COMMA_FORMAT.format( calculateTotal( mysList ) ) + "</nobr></li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Moxie: " + COMMA_FORMAT.format( calculateTotal( moxList ) ) + "</li>" );
+		strbuf.append( "<li><nobr>Moxie: " + COMMA_FORMAT.format( calculateTotal( moxList ) ) + "</nobr></li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Power: " + COMMA_FORMAT.format( calculateTotal( powerList ) ) + "</li>" );
+		strbuf.append( "<li><nobr>Power: " + COMMA_FORMAT.format( calculateTotal( powerList ) ) + "</nobr></li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Karma: " + COMMA_FORMAT.format( calculateTotal( karmaList ) ) + "</li>" );
+		strbuf.append( "<li><nobr>Karma: " + COMMA_FORMAT.format( calculateTotal( karmaList ) ) + "</nobr></li>" );
 		strbuf.append( LINE_BREAK );
 
 		if ( header.indexOf( "<td>Meat</td>" ) != -1 )
 		{
-			strbuf.append( "<li>Meat: " + COMMA_FORMAT.format( calculateTotal( meatList ) ) + "</li>" );
+			strbuf.append( "<li><nobr>Meat: " + COMMA_FORMAT.format( calculateTotal( meatList ) ) + "</nobr></li>" );
 			strbuf.append( LINE_BREAK );
 		}
 
 		if ( header.indexOf( "<td>Turns</td>" ) != -1 )
 		{
-			strbuf.append( "<li>Turns: " + COMMA_FORMAT.format( calculateTotal( turnsList ) ) + "</li>" );
+			strbuf.append( "<li><nobr>Turns: " + COMMA_FORMAT.format( calculateTotal( turnsList ) ) + "</nobr></li>" );
 			strbuf.append( LINE_BREAK );
 		}
 
@@ -423,12 +423,13 @@ public class ClanSnapshotTable extends KoLDatabase
 		{
 			strbuf.append( "<td valign=top><b>Class Breakdown</b>:" );
 			strbuf.append( getBreakdown( classList ) );
+
+			strbuf.append( LINE_BREAK );
+
+			strbuf.append( "<br><b>Rank Breakdown</b>:" );
+			strbuf.append( getBreakdown( rankList ) );
 			strbuf.append( "</td>" );
 		}
-
-		strbuf.append( "<td valign=top><b>Rank Breakdown</b>:" );
-		strbuf.append( getBreakdown( rankList ) );
-		strbuf.append( "</td>" );
 
 		if ( header.indexOf( "<td>Food</td>" ) != -1 )
 		{
@@ -533,7 +534,9 @@ public class ClanSnapshotTable extends KoLDatabase
 			if ( header[i].equals( "PVP" ) )
 			{
 				strbuf.append( "</td><td>" );
-				strbuf.append( COMMA_FORMAT.format( memberLookup.getPvpRank().intValue() ) );
+
+				int rank = memberLookup.getPvpRank().intValue();
+				strbuf.append( rank == 0 ? "&nbsp;" : COMMA_FORMAT.format( rank ) );
 			}
 
 			if ( header[i].equals( "Class" ) )
