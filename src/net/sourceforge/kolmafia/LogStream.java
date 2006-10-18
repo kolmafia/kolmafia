@@ -84,7 +84,19 @@ public class LogStream extends PrintStream implements KoLConstants
 			println();
 			println();
 			println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-			println( "            Beginning New Logging Session (" + VERSION_NAME + ")" );
+
+			StringBuffer versionData = new StringBuffer();
+			versionData.append( VERSION_NAME );
+			versionData.append( ", " );
+			versionData.append( System.getProperty( "os.name" ) );
+			versionData.append( ", Java " );
+			versionData.append( System.getProperty( "java.version" ) );
+
+			int leftIndent = (66 - versionData.length()) / 2;
+			for ( int i = 0; i < leftIndent; ++i )
+				versionData.insert( 0, ' ' );
+			println( versionData.toString() );
+
 			println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 			println( " Please note: do not post these logs in the KoLmafia thread.  If " );
 			println( " you would like us to look at the log, please instead email logs " );

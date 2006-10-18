@@ -180,6 +180,7 @@ public class KoLmafiaASH extends StaticEntity
 	// Feature control;
 
 	// disabled until and if we choose to document the feature
+	private static String notifyRecipient = null;
 	private static boolean arrays = false;
 
 	// **************** Data Types *****************
@@ -620,8 +621,25 @@ public class KoLmafiaASH extends StaticEntity
 
 		try
 		{
-			ScriptValue result = executeScope( global, functionName, parameters );
+			String currentScript = scriptFile == null ? "<test.ash>" : "<" + scriptFile.getPath() + ">";
+			String notifyList = StaticEntity.getProperty( "previousNotifyList" );
 
+			if ( notifyRecipient != null && notifyList.indexOf( currentScript ) == -1 )
+			{
+				StaticEntity.setProperty( "previousNotifyList", notifyList + currentScript );
+
+				if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+						"The writer of this script (" + notifyRecipient + ") would like to know which players have used it.\n" +
+						"Would you like KoLmafia to send a k-mail to let them know this?",
+						"Are you being stalked? >.>  <.<", JOptionPane.YES_NO_OPTION ) )
+				{
+
+					GreenMessageRequest notifier = new GreenMessageRequest( notifyRecipient, currentScript );
+					notifier.run();
+				}
+			}
+
+			ScriptValue result = executeScope( global, functionName, parameters );
 			if ( !KoLmafia.permitsContinue() || result == null || result.getType() == null )
 			{
 				KoLmafiaCLI.printLine( "Script aborted!" );
@@ -729,6 +747,7 @@ public class KoLmafiaASH extends StaticEntity
 		String importString;
 
 		result = startScope == null ? new ScriptScope( variables, parentScope ) : startScope;
+		parseNotify();
 
 		while ( (importString = parseImport()) != null )
 		{
@@ -1984,6 +2003,30 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		return new ScriptCompositeReference( var, indices );
+	}
+
+	private void parseNotify() throws AdvancedScriptException
+	{
+		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "notify" ) )
+			return;
+		readToken(); //notify
+
+		if ( currentToken() == null || !currentToken().equals( "<" ) )
+			throw new AdvancedScriptException( "'<' Expected " + getLineAndFile() );
+
+		int index = line.indexOf( ">" );
+		if ( index == -1 )
+			throw new AdvancedScriptException( "No closing '>' found " + getLineAndFile() );
+
+		String recipient = line.substring( 1, index );
+		line = line.substring( index + 1 ); //+1 to get rid of '>' token
+
+		if ( !currentToken().equals( ";" ) )
+			throw new AdvancedScriptException( "';' Expected " + getLineAndFile() );
+		readToken(); //read ;
+
+		if ( notifyRecipient == null )
+			notifyRecipient = recipient;
 	}
 
 	private String parseImport() throws AdvancedScriptException
