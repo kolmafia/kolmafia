@@ -296,7 +296,7 @@ public class LocalRelayRequest extends KoLRequest
 			// Now kill off the weird focusing problems inherent in
 			// the Javascript.
 
-			StaticEntity.singleStringReplace( responseBuffer, "selectedIndex=0", "selectedIndex=0; parent.mainpane.focus();" );
+			StaticEntity.globalStringReplace( responseBuffer, "selectedIndex=0;", "selectedIndex=0; parent.mainpane.focus();" );
 		}
 
 		// Fix chat javascript problems with relay system
