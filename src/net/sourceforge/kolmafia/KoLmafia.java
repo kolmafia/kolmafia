@@ -138,6 +138,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static void main( String [] args )
 	{
+		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
+
 		boolean useGUI = true;
 		System.setProperty( "http.agent", VERSION_NAME );
 
@@ -236,8 +238,6 @@ public abstract class KoLmafia implements KoLConstants
 				enableDisplay();
 			}
 		}
-
-		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
 	}
 
 	private static void deleteSimulator( File location )

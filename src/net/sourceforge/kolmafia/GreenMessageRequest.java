@@ -33,6 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.Date;
 
 /**
  * An extension of a <code>KoLRequest</code> which specifically handles
@@ -42,6 +43,17 @@ package net.sourceforge.kolmafia;
 public class GreenMessageRequest extends SendMessageRequest
 {
 	private String recipient, message;
+
+	public GreenMessageRequest( String recipient, String scriptName )
+	{
+		super( "sendmessage.php", new AdventureResult( AdventureResult.MEAT, 0 ) );
+		addFormField( "action", "send" );
+		addFormField( "towho", recipient );
+		addFormField( "message", message );
+
+		this.recipient = KoLmafia.getPlayerID( recipient );
+		this.message = "I have opted to let you know that I have chosen to run <" + scriptName + ">.  Thanks for writing this script!";
+	}
 
 	public GreenMessageRequest( String recipient, String message, AdventureResult attachment )
 	{
