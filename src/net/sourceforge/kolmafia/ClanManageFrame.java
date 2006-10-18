@@ -491,7 +491,7 @@ public class ClanManageFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Constraint: ", matchSelect );
 			elements[2] = new VerifiableElement( "Value:", valueField );
 
-			setContent( elements, null, null, true, true );
+			setContent( elements, null, null, true );
 		}
 
 		public void actionConfirmed()

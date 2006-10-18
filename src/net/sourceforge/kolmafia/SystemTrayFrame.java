@@ -44,6 +44,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 			icon.addMouseListener( new SetVisibleListener() );
 
 			TrayIconPopup popup = new TrayIconPopup();
+			popup.addMenuItem( new ShowMainWindowPopupItem() );
 			popup.addMenuItem( new ShowCommandLinePopupItem() );
 			popup.addMenuItem( new ShowRelayBrowserPopupItem() );
 			popup.addMenuItem( new EndSessionPopupItem() );
@@ -111,27 +112,52 @@ public abstract class SystemTrayFrame implements KoLConstants
 			if ( e.getClickCount() != 2 )
 				return;
 
-			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-			existingFrames.toArray( frames );
+			showDisplay();
+		}
+	}
 
-			String interfaceSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
+	public static void showDisplay()
+	{
+		if ( existingFrames.isEmpty() || KoLRequest.sessionID == null )
+		{
+			KoLFrame.createDisplay( LoginFrame.class );
+			return;
+		}
 
-			for ( int i = 0; i < frames.length; ++i )
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		String interfaceSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
+
+		for ( int i = 0; i < frames.length; ++i )
+		{
+			if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
 			{
-				if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
-				{
-					frames[i].pack();
-					frames[i].setVisible( true );
-					frames[i].setExtendedState( KoLFrame.NORMAL );
-				}
+				frames[i].pack();
+				frames[i].setVisible( true );
+				frames[i].setExtendedState( KoLFrame.NORMAL );
 			}
+		}
 
-			if ( KoLDesktop.instanceExists() )
-			{
-				KoLDesktop.getInstance().pack();
-				KoLDesktop.getInstance().setVisible( true );
-				KoLDesktop.getInstance().setExtendedState( KoLFrame.NORMAL );
-			}
+		if ( KoLDesktop.instanceExists() )
+		{
+			KoLDesktop.getInstance().pack();
+			KoLDesktop.getInstance().setVisible( true );
+			KoLDesktop.getInstance().setExtendedState( KoLFrame.NORMAL );
+		}
+
+	}
+
+	private static class ShowMainWindowPopupItem extends TrayIconPopupSimpleItem implements ActionListener
+	{
+		public ShowMainWindowPopupItem()
+		{
+			super( "Show Interface" );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	showDisplay();
 		}
 	}
 

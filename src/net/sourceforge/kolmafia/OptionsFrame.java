@@ -153,7 +153,7 @@ public class OptionsFrame extends KoLFrame
 
 		public RelayOptionsPanel()
 		{
-			super( "Relay Browser", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
+			super( "Relay Browser", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ options.length ];
 
 			optionBoxes = new JCheckBox[ options.length ];
@@ -163,7 +163,7 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < options.length; ++i )
 				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
-			setContent( elements, false );
+			setContent( elements );
 			actionCancelled();
 		}
 
@@ -205,7 +205,7 @@ public class OptionsFrame extends KoLFrame
 
 		public GeneralOptionsPanel()
 		{
-			super( "General Options", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
+			super( "General Options", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ options.length ];
 
 			optionBoxes = new JCheckBox[ options.length ];
@@ -215,7 +215,7 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < options.length; ++i )
 				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
-			setContent( elements, false );
+			setContent( elements );
 			actionCancelled();
 		}
 
@@ -263,7 +263,7 @@ public class OptionsFrame extends KoLFrame
 
 		public ItemOptionsPanel()
 		{
-			super( "Item Options", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
+			super( "Item Options", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ options.length ];
 
 			optionBoxes = new JCheckBox[ options.length ];
@@ -273,7 +273,7 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < options.length; ++i )
 				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
-			setContent( elements, false );
+			setContent( elements );
 			actionCancelled();
 		}
 
@@ -300,7 +300,7 @@ public class OptionsFrame extends KoLFrame
 
 		public AreaOptionsPanel()
 		{
-			super( "Adventure List", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
+			super( "Adventure List", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 
 			zones = new String[ AdventureDatabase.ZONE_NAMES.size() ];
 			options = new JCheckBox[ AdventureDatabase.ZONE_NAMES.size() ];
@@ -318,7 +318,7 @@ public class OptionsFrame extends KoLFrame
 				elements[i] = new VerifiableElement( "Hide " + AdventureDatabase.ZONE_DESCRIPTIONS.get( names[i] ), JLabel.LEFT, options[i] );
 			}
 
-			setContent( elements, false );
+			setContent( elements );
 			actionCancelled();
 		}
 
