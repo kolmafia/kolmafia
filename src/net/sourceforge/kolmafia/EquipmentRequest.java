@@ -473,6 +473,38 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 
 		super.run();
+
+		switch ( requestType )
+		{
+		case SAVE_OUTFIT:
+			KoLmafia.updateDisplay( "Outfit saved" );
+			break;
+
+		case CHANGE_ITEM:
+		case CHANGE_OUTFIT:
+
+			Matcher resultMatcher = CELL_PATTERN.matcher( responseText );
+			if ( resultMatcher.find() )
+			{
+				String result = resultMatcher.group(1).replaceAll( "</?b>", "" );
+				if ( result.indexOf( "You put" ) == -1 && result.indexOf( "You equip" ) == -1 && result.indexOf( "Item equipped" ) == -1 )
+				{
+					KoLmafia.updateDisplay( ERROR_STATE, result );
+					return;
+				}
+			}
+
+			KoLmafia.updateDisplay( "Equipment changed." );
+			break;
+
+		case REMOVE_ITEM:
+			KoLmafia.updateDisplay( "Equipment changed." );
+			break;
+
+		case UNEQUIP_ALL:
+			KoLmafia.updateDisplay( "Everything removed." );
+			break;
+		}
 	}
 
 	protected void processResults()
@@ -516,21 +548,6 @@ public class EquipmentRequest extends PasswordHashRequest
 		// In valhalla, you can't make outfits and have no inventory.
 		if ( responseText.indexOf( "Save as Custom Outfit" ) == -1 )
 			return;
-
-		// Detect possible failure
-		if ( requestType == CHANGE_ITEM || requestType == CHANGE_OUTFIT )
-		{
-			Matcher resultMatcher = CELL_PATTERN.matcher( responseText );
-			if ( resultMatcher.find() )
-			{
-				String result = resultMatcher.group(1).replaceAll( "</?b>", "" );
-				if ( result.indexOf( "You put" ) == -1 && result.indexOf( "You equip" ) == -1 && result.indexOf( "Item equipped" ) == -1 )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, result );
-					return;
-				}
-			}
-		}
 
 		parseEquipment( this.responseText );
 	}

@@ -542,7 +542,7 @@ public class KoLmafiaCLI extends KoLmafia
 			request.run();
 
 			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
-			showHTML( request.getURLString(), request.responseText );
+			showHTML( request.responseText, request.getURLString() );
 
 			return;
 

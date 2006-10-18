@@ -56,6 +56,10 @@ public class FightRequest extends KoLRequest
 	public static final AdventureResult DICTIONARY1 = new AdventureResult( 536, 1 );
 	public static final AdventureResult DICTIONARY2 = new AdventureResult( 1316, 1 );
 
+	private static final AdventureResult SEAL_TOOTH = new AdventureResult( 2, 1 );
+	private static final AdventureResult TURTLE_SUMMON = new AdventureResult( 4, 1 );
+	private static final AdventureResult SPICES = new AdventureResult( 8, 1 );
+
 	private static int currentRound = 0;
 	private static int offenseModifier = 0, defenseModifier = 0;
 
@@ -179,10 +183,28 @@ public class FightRequest extends KoLRequest
 				addFormField( "action", "useitem" );
 				addFormField( "whichitem", String.valueOf( itemID ) );
 
-				if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) && itemCount >= 2 )
+				if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 				{
-					action2 = action1;
-					addFormField( "whichitem2", String.valueOf( itemID ) );
+					if ( itemCount >= 2 )
+					{
+						action2 = action1;
+						addFormField( "whichitem2", String.valueOf( itemID ) );
+					}
+					else if ( SEAL_TOOTH.getCount( inventory ) > 0 )
+					{
+						action2 = action1;
+						addFormField( "whichitem2", String.valueOf( SEAL_TOOTH.getItemID() ) );
+					}
+					else if ( TURTLE_SUMMON.getCount( inventory ) > 0 )
+					{
+						action2 = action1;
+						addFormField( "whichitem2", String.valueOf( TURTLE_SUMMON.getItemID() ) );
+					}
+					else if ( SPICES.getCount( inventory ) > 0 )
+					{
+						action2 = action1;
+						addFormField( "whichitem2", String.valueOf( SPICES.getItemID() ) );
+					}
 				}
 			}
 		}
