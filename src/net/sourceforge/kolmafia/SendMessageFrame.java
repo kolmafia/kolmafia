@@ -169,6 +169,7 @@ public abstract class SendMessageFrame extends KoLFrame
 		{
 			messageEntry[i] = new JTextArea();
 
+			messageEntry[i].setFont( DEFAULT_FONT );
 			messageEntry[i].setRows( 7 );
 			messageEntry[i].setLineWrap( true );
 			messageEntry[i].setWrapStyleWord( true );

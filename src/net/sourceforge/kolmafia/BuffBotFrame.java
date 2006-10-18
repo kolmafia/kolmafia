@@ -284,12 +284,15 @@ public class BuffBotFrame extends KoLFrame
 			invalidPriceMessage = new JTextArea();
 			thanksMessage = new JTextArea();
 
+			whiteListEntry.setFont( DEFAULT_FONT );
 			whiteListEntry.setLineWrap( true );
 			whiteListEntry.setWrapStyleWord( true );
 
+			invalidPriceMessage.setFont( DEFAULT_FONT );
 			invalidPriceMessage.setLineWrap( true );
 			invalidPriceMessage.setWrapStyleWord( true );
 
+			thanksMessage.setFont( DEFAULT_FONT );
 			thanksMessage.setLineWrap( true );
 			thanksMessage.setWrapStyleWord( true );
 

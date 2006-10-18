@@ -35,6 +35,9 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+
 import java.util.Vector;
 import java.util.Random;
 import java.util.Locale;
@@ -67,6 +70,7 @@ public interface KoLConstants extends UtilityConstants
 	// strings, as well as for string parsing.
 
 	public static final Random RNG = new Random();
+	public static final Font DEFAULT_FONT = (new JTextField()).getFont();
 	public static final String LINE_BREAK = System.getProperty( "line.separator" );
 	public static final Pattern LINE_BREAK_PATTERN = Pattern.compile( "\\s*[\r\n]+\\s*" );
 
