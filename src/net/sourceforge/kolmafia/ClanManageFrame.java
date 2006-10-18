@@ -109,7 +109,7 @@ public class ClanManageFrame extends KoLFrame
 		adminPanel.add( attacks );
 		adminPanel.add( snapshot );
 
-		tabs.addTab( "Admin", adminPanel );
+		addTab( "Admin", adminPanel );
 
 		JPanel spendPanel = new JPanel();
 		spendPanel.setLayout( new BoxLayout( spendPanel, BoxLayout.Y_AXIS ) );
@@ -117,7 +117,7 @@ public class ClanManageFrame extends KoLFrame
 		spendPanel.add( clanBuff );
 		spendPanel.add( warfare );
 
-		tabs.addTab( "Coffers", spendPanel );
+		addTab( "Coffers", spendPanel );
 		tabs.addTab( "Deposit", storing );
 		tabs.addTab( "Withdraw", withdrawal );
 
@@ -148,6 +148,8 @@ public class ClanManageFrame extends KoLFrame
 		members.getColumnModel().getColumn(4).setMaxWidth( 45 );
 
 		SimpleScrollPane results = new SimpleScrollPane( members );
+		JComponentUtilities.setComponentSize( results, 400, 300 );
+
 		results.setOpaque( false );
 		JPanel searchPanel = new JPanel( new BorderLayout() );
 		searchPanel.add( search, BorderLayout.NORTH );
@@ -592,7 +594,9 @@ public class ClanManageFrame extends KoLFrame
 		private JTextField mainBoardSizeField;
 		private JTextField classBoardSizeField;
 		private JTextField maxAgeField;
+
 		private JCheckBox playerMoreThanOnceOption;
+		private JCheckBox localProfileOption;
 
 		private JCheckBox [] optionBoxes;
 		private final String [][] options =
@@ -608,26 +612,30 @@ public class ClanManageFrame extends KoLFrame
 		{
 			super( "Clan Snapshot", "snapshot", "logshot", new Dimension( 300, 20 ), new Dimension( 50, 20 ) );
 
-			VerifiableElement [] elements = new VerifiableElement[ options.length + 5 ];
+			VerifiableElement [] elements = new VerifiableElement[ options.length + 7 ];
 
 			mostAscensionsBoardSizeField = new JTextField( "20" );
 			mainBoardSizeField = new JTextField( "10" );
 			classBoardSizeField = new JTextField( "5" );
 			maxAgeField = new JTextField( "0" );
+
 			playerMoreThanOnceOption = new JCheckBox();
+			localProfileOption = new JCheckBox();
 
 			elements[0] = new VerifiableElement( "Most Ascensions Board Size:  ", mostAscensionsBoardSizeField );
 			elements[1] = new VerifiableElement( "Fastest Ascensions Board Size:  ", mainBoardSizeField );
 			elements[2] = new VerifiableElement( "Class Breakdown Board Size:  ", classBoardSizeField );
 			elements[3] = new VerifiableElement( "Maximum Ascension Age (in days):  ", maxAgeField );
-			elements[4] = new VerifiableElement( "Allow Multiple Appearances:  ", playerMoreThanOnceOption );
+			elements[4] = new VerifiableElement();
+			elements[5] = new VerifiableElement( "Add Internal Profile Links:  ", localProfileOption );
+			elements[6] = new VerifiableElement( "Allow Multiple Appearances:  ", playerMoreThanOnceOption );
 
 			optionBoxes = new JCheckBox[ options.length ];
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i] = new JCheckBox();
 
 			for ( int i = 0; i < options.length; ++i )
-				elements[i + 5] = new VerifiableElement( options[i][1], optionBoxes[i] );
+				elements[i + 7] = new VerifiableElement( options[i][1], optionBoxes[i] );
 
 			setContent( elements );
 			String tableHeaderSetting = StaticEntity.getProperty( "clanRosterHeader" );
@@ -672,12 +680,14 @@ public class ClanManageFrame extends KoLFrame
 				int mainBoardSize = getValue( mainBoardSizeField, Integer.MAX_VALUE );
 				int classBoardSize = getValue( classBoardSizeField, Integer.MAX_VALUE );
 				int maxAge = getValue( maxAgeField, Integer.MAX_VALUE );
+
 				boolean playerMoreThanOnce = playerMoreThanOnceOption.isSelected();
+				boolean localProfileLink = localProfileOption.isSelected();
 
 				// Now that you've got everything, go ahead and
 				// generate the snapshot.
 
-				ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce );
+				ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink );
 			}
 		}
 

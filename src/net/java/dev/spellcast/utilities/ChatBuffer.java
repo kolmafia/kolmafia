@@ -78,6 +78,8 @@ import javax.swing.text.html.HTMLDocument;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.FileOutputStream;
+
+import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -92,6 +94,7 @@ import java.util.regex.Matcher;
 
 public class ChatBuffer
 {
+	private DisplayPaneUpdater UPDATER = new DisplayPaneUpdater();
 	private static TreeMap activeLogFiles = new TreeMap();
 
 	protected static final int CONTENT_CHANGE = 0;
@@ -267,8 +270,52 @@ public class ChatBuffer
 	{
 		if ( changeType != LOGFILE_CHANGE )
 		{
-			boolean shouldScroll = displayBuffer.length() != 0;
-			boolean shouldReset = displayBuffer.length() == 0 || newContents == null;
+			UPDATER.queueUpdate( newContents );
+
+			if ( displayPane != null && !UPDATER.isQueued() )
+			{
+				UPDATER.markQueued();
+				SwingUtilities.invokeLater( UPDATER );
+			}
+
+			if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
+				updateLogFile( newContents );
+		}
+
+		else if ( activeLogWriter != null )
+			updateLogFile( displayBuffer.toString() );
+	}
+
+	/**
+	 * An internal module used to update the log file.  This method basically
+	 * appends the given string to the current logfile.  However, because many
+	 * things may wish to update a log file, it is useful to have an extra
+	 * module whose job is merely to write data to the current log file.
+	 *
+	 * @param	chatContent	The content to be written to the file
+	 */
+
+	private void updateLogFile( String chatContent )
+	{
+		if ( activeLogWriter != null )
+		{
+			activeLogWriter.println( chatContent );
+			activeLogWriter.flush();
+		}
+	}
+
+	private class DisplayPaneUpdater implements Runnable
+	{
+		private boolean isQueued = false;
+		private boolean shouldScroll = false;
+		private boolean shouldReset = false;
+
+		private ArrayList contentQueue = new ArrayList();
+
+		public void queueUpdate( String newContents )
+		{
+			this.shouldScroll |= displayBuffer.length() != 0;
+			this.shouldReset |= displayBuffer.length() == 0 || newContents == null;
 
 			if ( newContents != null )
 			{
@@ -283,10 +330,32 @@ public class ChatBuffer
 					newContents = newContents.substring( 0, endBody );
 
 				displayBuffer.append( newContents );
-
+				contentQueue.add( newContents );
 			}
 
-			if ( displayPane != null && displayPane.getDocument() instanceof HTMLDocument )
+		}
+
+		public boolean isQueued()
+		{	return isQueued;
+		}
+
+		public void markQueued()
+		{	this.isQueued = true;
+		}
+
+		public void run()
+		{
+			while ( !contentQueue.isEmpty() )
+				runOnce( (String) contentQueue.remove(0) );
+
+			this.shouldScroll = false;
+			this.shouldReset = false;
+			this.isQueued = false;
+		}
+
+		private void runOnce( String newContents )
+		{
+			if ( displayPane.getDocument() instanceof HTMLDocument )
 			{
 				HTMLDocument currentHTML = null;
 				if ( shouldReset )
@@ -319,42 +388,8 @@ public class ChatBuffer
 				}
 			}
 
-			if ( displayPane != null )
-				displayPane.setCaretPosition( shouldScroll ? displayPane.getDocument().getLength() - 1 : 0 );
-
-			if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
-				updateLogFile( newContents );
-
-		}
-
-		else if ( activeLogWriter != null )
-			updateLogFile( displayBuffer.toString() );
-	}
-
-	/**
-	 * An internal module used to update the log file.  This method basically
-	 * appends the given string to the current logfile.  However, because many
-	 * things may wish to update a log file, it is useful to have an extra
-	 * module whose job is merely to write data to the current log file.
-	 *
-	 * @param	chatContent	The content to be written to the file
-	 */
-
-	private void updateLogFile( String chatContent )
-	{
-		if ( activeLogWriter != null )
-		{
-			activeLogWriter.println( chatContent );
-			activeLogWriter.flush();
-		}
-	}
-
-	private class DisplayPaneUpdater implements Runnable
-	{
-		private boolean shouldScroll;
-
-		public void run()
-		{
+			int length = displayPane.getDocument().getLength();
+			displayPane.setCaretPosition( shouldScroll && length > 0 ? length - 1 : 0 );
 		}
 	}
 }
