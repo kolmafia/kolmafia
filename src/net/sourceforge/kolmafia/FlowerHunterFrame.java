@@ -190,7 +190,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			elements[1] = new VerifiableElement( "Rank: ", rankEntry );
 			elements[2] = new VerifiableElement( "Limit: ", limitEntry );
 
-			setContent( elements, null, getRankLabel(), true, true );
+			setContent( elements, null, getRankLabel(), true );
 		}
 
 		public void actionConfirmed()
@@ -263,7 +263,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Clan ID: ", clanID );
 
-			setContent( elements, null, getRankLabel(), true, true );
+			setContent( elements, null, getRankLabel(), true );
 		}
 
 		public void actionConfirmed()
@@ -343,7 +343,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			elements[1] = new VerifiableElement( "Mission: ", victorySelect );
 			elements[2] = new VerifiableElement( "Message: ", message );
 
-			setContent( elements, null, getRankLabel(), true, true );
+			setContent( elements, null, getRankLabel(), true );
 			if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
 				stanceSelect.setSelectedIndex( 0 );
 			if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )

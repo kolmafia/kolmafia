@@ -138,10 +138,28 @@ public class LoginFrame extends KoLFrame
 
 	public void dispose()
 	{
-		if ( existingFrames.size() == 1 )
-			System.exit(0);
+		if ( StaticEntity.getProperty( "initialFrames" ).equals( "LocalRelayServer" ) && KoLRequest.sessionID != null )
+		{
+			// The person logged in and the relay server was the only option
+			// they wanted active -- simply dispose the frame and move on.
 
-		super.dispose();
+			super.dispose();
+		}
+		else if ( !KoLmafia.executedLogin() || existingFrames.size() == 1 )
+		{
+			// If the person never logged in, or this is the only frame left,
+			// then go ahead and dispose this.
+
+			System.exit(0);
+		}
+		else
+		{
+			// Here, we go ahead and handle the last case -- there are other
+			// GUI windows and they're already loaded.  Just use the superclass
+			// exiter in this instance.
+
+			super.dispose();
+		}
 	}
 
 	public JPanel constructLoginPanel()
@@ -379,7 +397,7 @@ public class LoginFrame extends KoLFrame
 
 		public BreakfastPanel( String title, String breakfastType )
 		{
-			super( title, new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
+			super( title, new Dimension( 20, 20 ), new Dimension( 380, 20 ) );
 
 			this.breakfastType = breakfastType;
 			skillOptions = new JCheckBox[ UseSkillRequest.BREAKFAST_SKILLS.length ];
@@ -391,7 +409,7 @@ public class LoginFrame extends KoLFrame
 			for ( int i = 0; i < elements.length; ++i )
 				elements[i] = new VerifiableElement( UseSkillRequest.BREAKFAST_SKILLS[i][0], JLabel.LEFT, skillOptions[i] );
 
-			setContent( elements, false );
+			setContent( elements );
 			actionCancelled();
 		}
 
@@ -610,6 +628,7 @@ public class LoginFrame extends KoLFrame
 
 		private final String [][] options =
 		{
+			{ "relayBrowserOnly", "Use KoL's login page for the login process" },
 			{ "useTextHeavySidepane", "Show detailed information in sidepane" },
 			{ "guiUsesOneWindow", "Restrict interface to a single window" },
 			{ "desiredLookAndFeelTitle", "Use title bar for selected Java L&F" },
@@ -688,7 +707,7 @@ public class LoginFrame extends KoLFrame
 
 			public InterfaceCheckboxPanel()
 			{
-				super( new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
+				super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 				VerifiableElement [] elements = new VerifiableElement[ options.length ];
 
 				optionBoxes = new JCheckBox[ options.length ];
@@ -699,7 +718,7 @@ public class LoginFrame extends KoLFrame
 				for ( int i = 0; i < options.length; ++i )
 					elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
-				setContent( elements, false );
+				setContent( elements );
 				actionCancelled();
 			}
 
@@ -722,12 +741,10 @@ public class LoginFrame extends KoLFrame
 	private class ConnectionOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] optionBoxes;
-		private JCheckBox proxySet = null;
 
 		private final String [][] options =
 		{
-			{ "relayBrowserOnly", "Do not load the KoLmafia interface at all?" },
-			{ "autoExecuteTimeIn", "Automatically time-in whenever you're timed-out" },
+			{ "autoExecuteTimeIn", "Automatically time-in whenever timed-out" },
 			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" }
 		};
 
@@ -735,92 +752,40 @@ public class LoginFrame extends KoLFrame
 
 		public ConnectionOptionsPanel()
 		{
-			super( "Connection Options", new Dimension( 80, 20 ), new Dimension( 380, 20 ) );
+			super( "Connection Options", new Dimension( 20, 20 ), new Dimension( 380, 20 ) );
 
 			servers = new JComboBox();
-
 			servers.addItem( "Attempt to use dev.kingdomofloathing.com" );
 			servers.addItem( "Attempt to use www.kingdomofloathing.com" );
 
 			for ( int i = 2; i <= KoLRequest.SERVER_COUNT; ++i )
 				servers.addItem( "Attempt to use www" + i + ".kingdomofloathing.com" );
 
-			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Server: ", servers );
+			optionBoxes = new JCheckBox[ options.length ];
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i] = new JCheckBox();
+
+			VerifiableElement [] elements = new VerifiableElement[ 2 + options.length ];
+
+			elements[0] = new VerifiableElement( servers );
+			elements[1] = new VerifiableElement();
+
+			for ( int i = 0; i < options.length; ++i )
+				elements[i+2] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
 			setContent( elements );
 			actionCancelled();
 		}
 
-		protected void setContent( VerifiableElement [] elements )
-		{
-			super.setContent( elements );
-			container.add( new ConnectionCheckboxPanel(), BorderLayout.SOUTH );
-		}
-
 		public void actionConfirmed()
-		{	StaticEntity.setProperty( "defaultLoginServer", String.valueOf( servers.getSelectedIndex() ) );
+		{
+			StaticEntity.setProperty( "defaultLoginServer", String.valueOf( servers.getSelectedIndex() ) );
 		}
 
 		public void actionCancelled()
 		{
 			int defaultServer = StaticEntity.getIntegerProperty( "defaultLoginServer" );
 			servers.setSelectedIndex( defaultServer == 0 ? 1 : defaultServer );
-		}
-
-		private class ConnectionCheckboxPanel extends OptionsPanel
-		{
-			public ConnectionCheckboxPanel()
-			{
-				super( new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
-
-				optionBoxes = new JCheckBox[ options.length ];
-				for ( int i = 0; i < options.length; ++i )
-					optionBoxes[i] = new JCheckBox();
-
-				proxySet = optionBoxes[ optionBoxes.length - 1 ];
-				proxyHost = new JTextField();
-				proxyPort = new JTextField();
-				proxyLogin = new JTextField();
-				proxyPassword = new JPasswordField();
-
-				VerifiableElement [] elements = new VerifiableElement[ options.length ];
-				for ( int i = 0; i < options.length; ++i )
-					elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
-
-				setContent( elements, false );
-				actionCancelled();
-			}
-
-			public void actionConfirmed()
-			{
-				super.actionConfirmed();
-
-				for ( int i = 0; i < optionBoxes.length; ++i )
-					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
-
-				if ( proxySet == null )
-					return;
-
-				proxyHost.setEnabled( proxySet.isSelected() );
-				proxyPort.setEnabled( proxySet.isSelected() );
-				proxyLogin.setEnabled( proxySet.isSelected() );
-				proxyPassword.setEnabled( proxySet.isSelected() );
-			}
-
-			public void actionCancelled()
-			{
-				for ( int i = 0; i < options.length; ++i )
-					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
-
-				if ( proxySet == null )
-					return;
-
-				proxyHost.setEnabled( proxySet.isSelected() );
-				proxyPort.setEnabled( proxySet.isSelected() );
-				proxyLogin.setEnabled( proxySet.isSelected() );
-				proxyPassword.setEnabled( proxySet.isSelected() );
-			}
 		}
 	}
 
@@ -841,13 +806,18 @@ public class LoginFrame extends KoLFrame
 		{
 			super( "Proxy Settings", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
+			proxyHost = new JTextField();
+			proxyPort = new JTextField();
+			proxyLogin = new JTextField();
+			proxyPassword = new JTextField();
+
 			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Host: ", proxyHost );
 			elements[1] = new VerifiableElement( "Port: ", proxyPort );
 			elements[2] = new VerifiableElement( "Login: ", proxyLogin );
 			elements[3] = new VerifiableElement( "Password: ", proxyPassword );
 
-			setContent( elements, true );
+			setContent( elements );
 			actionCancelled();
 		}
 
@@ -858,10 +828,24 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.setProperty( "http.proxyPort", proxyPort.getText() );
 			StaticEntity.setProperty( "http.proxyUser", proxyLogin.getText() );
 			StaticEntity.setProperty( "http.proxyPassword", proxyPassword.getText() );
+
+			boolean shouldEnable = StaticEntity.getBooleanProperty( "proxySet" );
+
+			proxyHost.setEnabled( shouldEnable );
+			proxyPort.setEnabled( shouldEnable );
+			proxyLogin.setEnabled( shouldEnable );
+			proxyPassword.setEnabled( shouldEnable );
 		}
 
 		public void actionCancelled()
 		{
+			boolean shouldEnable = StaticEntity.getBooleanProperty( "proxySet" );
+
+			proxyHost.setEnabled( shouldEnable );
+			proxyPort.setEnabled( shouldEnable );
+			proxyLogin.setEnabled( shouldEnable );
+			proxyPassword.setEnabled( shouldEnable );
+
 			proxyHost.setText( StaticEntity.getProperty( "http.proxyHost" ) );
 			proxyPort.setText( StaticEntity.getProperty( "http.proxyPort" ) );
 			proxyLogin.setText( StaticEntity.getProperty( "http.proxyUser" ) );

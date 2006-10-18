@@ -71,15 +71,15 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	protected JPanel actionStatusPanel;
 	protected StatusLabel actionStatusLabel;
 
-	protected KoLPanel( Dimension labelSize, Dimension fieldSize )
+	protected KoLPanel( Dimension left, Dimension right )
 	{
-		super( labelSize, fieldSize );
+		super( left, right );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
+	protected KoLPanel( Dimension left, Dimension right, boolean isCenterPanel )
 	{
-		super( labelSize, fieldSize, isCenterPanel );
+		super( left, right, isCenterPanel );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
@@ -107,9 +107,9 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
+	protected KoLPanel( String confirmedText, Dimension left, Dimension right, boolean isCenterPanel )
 	{
-		super( confirmedText, labelSize, fieldSize, isCenterPanel );
+		super( confirmedText, left, right, isCenterPanel );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
@@ -119,33 +119,33 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize )
+	protected KoLPanel( String confirmedText, String cancelledText, Dimension left, Dimension right )
 	{
-		super( confirmedText, cancelledText, labelSize, fieldSize );
+		super( confirmedText, cancelledText, left, right );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize )
+	protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension left, Dimension right )
 	{
-		super( confirmedText, cancelledText1, cancelledText2, labelSize, fieldSize );
+		super( confirmedText, cancelledText1, cancelledText2, left, right );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
+	protected KoLPanel( String confirmedText, String cancelledText, Dimension left, Dimension right, boolean isCenterPanel )
 	{
-		super( confirmedText, cancelledText, labelSize, fieldSize, isCenterPanel );
+		super( confirmedText, cancelledText, left, right, isCenterPanel );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
+	protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension left, Dimension right, boolean isCenterPanel )
 	{
-		super( confirmedText, cancelledText1, cancelledText2, labelSize, fieldSize, isCenterPanel );
+		super( confirmedText, cancelledText1, cancelledText2, left, right, isCenterPanel );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean isLabelPreceeding, boolean bothDisabledOnClick )
+	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean bothDisabledOnClick )
 	{
-		super.setContent( elements, mainPanel, eastPanel, isLabelPreceeding, bothDisabledOnClick );
+		super.setContent( elements, mainPanel, eastPanel, bothDisabledOnClick );
 
 		// In addition to setting the content on these, also
 		// add a return-key listener to each of the input fields.

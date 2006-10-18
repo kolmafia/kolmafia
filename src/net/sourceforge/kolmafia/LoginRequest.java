@@ -230,10 +230,7 @@ public class LoginRequest extends KoLRequest
 						StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
 
 					if ( executeLogin() )
-					{
-						KoLmafia.updateDisplay( ABORT_STATE, "Encountered error in login." );
 						KoLmafia.enableDisplay();
-					}
 				}
 			}
 			catch ( Exception e )
@@ -402,7 +399,9 @@ public class LoginRequest extends KoLRequest
 
 		Matcher failureMatcher = FAILURE_PATTERN.matcher( responseText );
 		if ( failureMatcher.find() )
-			KoLmafia.updateDisplay( failureMatcher.group(1) );
+			KoLmafia.updateDisplay( ERROR_STATE, failureMatcher.group(1) );
+		else
+			KoLmafia.updateDisplay( ABORT_STATE, "Encountered error in login." );
 
 		waitTime = BAD_CHALLENGE_WAIT;
 		return true;
@@ -428,8 +427,27 @@ public class LoginRequest extends KoLRequest
 				KoLRequest.sessionID = "PHPSESSID=" + sessionMatcher.group(1) + "; path=/";
 		}
 
-		StaticEntity.getClient().initialize( request.getFormField( "loginname" ),
-			request instanceof LoginRequest && ((LoginRequest) request).getBreakfast,
-			request instanceof LoginRequest && ((LoginRequest) request).isQuickLogin );
+		LoginRunner runner = new LoginRunner( request );
+
+		if ( request instanceof LoginRequest )
+			runner.run();
+		else
+			(new RequestThread( runner )).start();
+	}
+
+	private static class LoginRunner implements Runnable
+	{
+		private KoLRequest request;
+
+		public LoginRunner( KoLRequest request )
+		{	this.request = request;
+		}
+
+		public void run()
+		{
+			StaticEntity.getClient().initialize( request.getFormField( "loginname" ),
+				request instanceof LoginRequest && ((LoginRequest) request).getBreakfast,
+				request instanceof LoginRequest && ((LoginRequest) request).isQuickLogin );
+		}
 	}
 }

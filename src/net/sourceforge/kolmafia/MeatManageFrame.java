@@ -102,7 +102,7 @@ public class MeatManageFrame extends KoLFrame
 			elements[0] = new VerifiableElement( "Donate To: ", heroField );
 			elements[1] = new VerifiableElement( "Amount: ", amountField );
 
-			setContent( elements, true, true );
+			setContent( elements );
 		}
 
 		public void actionConfirmed()
@@ -143,7 +143,7 @@ public class MeatManageFrame extends KoLFrame
 			elements[0] = new VerifiableElement( "Transfer: ", fundSource );
 			elements[1] = new VerifiableElement( "Amount: ", amountField );
 			elements[2] = new VerifiableElement( "In Closet: ", closetField );
-			setContent( elements, true, true );
+			setContent( elements );
 
 			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new ClosetUpdater() ) );
 		}

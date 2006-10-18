@@ -71,81 +71,77 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 	private boolean isCenterPanel;
 	private JComponent eastContainer;
 	private VerifyButtonPanel buttonPanel;
-	private Dimension labelSize, fieldSize;
+	private Dimension left, right;
 
-	private static final Dimension DEFAULT_LABEL_SIZE = new Dimension( 100, 20 );
-	private static final Dimension DEFAULT_FIELD_SIZE = new Dimension( 165, 20 );
+	private static final Dimension DEFAULT_LEFT = new Dimension( 100, 20 );
+	private static final Dimension DEFAULT_RIGHT = new Dimension( 165, 20 );
 
 	public ActionVerifyPanel()
-	{	this( null, null, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, false );
+	{	this( null, null, DEFAULT_LEFT, DEFAULT_RIGHT, false );
 	}
 
 	public ActionVerifyPanel( String confirmedText )
-	{	this( confirmedText, null, null, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, false );
+	{	this( confirmedText, null, null, DEFAULT_LEFT, DEFAULT_RIGHT, false );
 	}
 
 	public ActionVerifyPanel( String confirmedText, boolean isCenterPanel )
-	{	this( confirmedText, null, null, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, isCenterPanel );
+	{	this( confirmedText, null, null, DEFAULT_LEFT, DEFAULT_RIGHT, isCenterPanel );
 	}
 
-	public ActionVerifyPanel( Dimension labelSize, Dimension fieldSize )
-	{	this( null, null, labelSize, fieldSize, false );
+	public ActionVerifyPanel( Dimension left, Dimension right )
+	{	this( null, null, left, right, false );
 	}
 
-	public ActionVerifyPanel( Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
-	{	this( null, null, labelSize, fieldSize, isCenterPanel );
+	public ActionVerifyPanel( Dimension left, Dimension right, boolean isCenterPanel )
+	{	this( null, null, left, right, isCenterPanel );
 	}
 
-	public ActionVerifyPanel( String confirmedText, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
-	{	this( confirmedText, null, null, labelSize, fieldSize, isCenterPanel );
+	public ActionVerifyPanel( String confirmedText, Dimension left, Dimension right, boolean isCenterPanel )
+	{	this( confirmedText, null, null, left, right, isCenterPanel );
 	}
 
 	public ActionVerifyPanel( String confirmedText, String cancelledText )
-	{	this( confirmedText, cancelledText, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, false );
+	{	this( confirmedText, cancelledText, DEFAULT_LEFT, DEFAULT_RIGHT, false );
 	}
 
 	public ActionVerifyPanel( String confirmedText, String cancelledText, boolean isCenterPanel )
-	{	this( confirmedText, cancelledText, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, isCenterPanel );
+	{	this( confirmedText, cancelledText, DEFAULT_LEFT, DEFAULT_RIGHT, isCenterPanel );
 	}
 
 	public ActionVerifyPanel( String confirmedText, String cancelledText1, String cancelledText2 )
-	{	this( confirmedText, cancelledText1, cancelledText2, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, false );
+	{	this( confirmedText, cancelledText1, cancelledText2, DEFAULT_LEFT, DEFAULT_RIGHT, false );
 	}
 
-	public ActionVerifyPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize )
-	{	this( confirmedText, cancelledText, labelSize, fieldSize, false );
+	public ActionVerifyPanel( String confirmedText, String cancelledText, Dimension left, Dimension right )
+	{	this( confirmedText, cancelledText, left, right, false );
 	}
 
-	public ActionVerifyPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize )
-	{	this( confirmedText, cancelledText1, cancelledText2, labelSize, fieldSize, false );
+	public ActionVerifyPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension left, Dimension right )
+	{	this( confirmedText, cancelledText1, cancelledText2, left, right, false );
 	}
 
-	public ActionVerifyPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
-	{	this( confirmedText, cancelledText, cancelledText, labelSize, fieldSize, isCenterPanel );
+	public ActionVerifyPanel( String confirmedText, String cancelledText, Dimension left, Dimension right, boolean isCenterPanel )
+	{	this( confirmedText, cancelledText, cancelledText, left, right, isCenterPanel );
 	}
 
-	public ActionVerifyPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
+	public ActionVerifyPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension left, Dimension right, boolean isCenterPanel )
 	{
 		contentSet = false;
-		this.labelSize = labelSize;
-		this.fieldSize = fieldSize;
+		this.left = left;
+		this.right = right;
 		this.isCenterPanel = isCenterPanel;
 		this.buttonPanel = confirmedText == null ? null : new VerifyButtonPanel( confirmedText, cancelledText1, cancelledText2 );
 	}
 
 	protected void setContent( VerifiableElement [] elements )
-	{	setContent( elements, null, null, true, false );
-	}
-
-	protected void setContent( VerifiableElement [] elements, boolean isLabelPreceeding )
-	{	setContent( elements, null, null, isLabelPreceeding, false );
+	{	setContent( elements, null, null, false );
 	}
 
 	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel )
-	{	setContent( elements, mainPanel, eastPanel, true, false );
+	{	setContent( elements, mainPanel, eastPanel, false );
 	}
 
-	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean isLabelPreceeding, boolean bothDisabledOnClick )
+	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean bothDisabledOnClick )
 	{
 		if ( contentSet )
 			return;
@@ -156,7 +152,7 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 		container.add( Box.createVerticalStrut( 2 ), BorderLayout.NORTH );
 
 		// add the main container
-		container.add( constructMainContainer( elements, mainPanel, isLabelPreceeding ), BorderLayout.CENTER );
+		container.add( constructMainContainer( elements, mainPanel ), BorderLayout.CENTER );
 
 		// construct the east container, which usually consists of only the
 		// button panel, if an east panel is not specified; if one happens
@@ -182,11 +178,11 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 
 		contentSet = true;
 
-		if ( bothDisabledOnClick && buttonPanel != null )
-			buttonPanel.setBothDisabledOnClick( true );
+		if ( buttonPanel != null )
+			buttonPanel.setBothDisabledOnClick( bothDisabledOnClick );
 	}
 
-	private JPanel constructMainContainer( VerifiableElement [] elements, JPanel mainPanel, boolean isLabelPreceeding )
+	private JPanel constructMainContainer( VerifiableElement [] elements, JPanel mainPanel )
 	{
 		JPanel mainContainer = new JPanel();
 		mainContainer.setLayout( new BorderLayout() );
@@ -203,19 +199,25 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 
 			for ( int i = 0; i < elements.length; ++i )
 			{
-				if ( isLabelPreceeding )
+				if ( elements[i].shouldResizeLabel() )
 				{
-					JComponentUtilities.setComponentSize( elements[i].getLabel(), labelSize );
-					elementsContainer.add( elements[i].getLabel() );
+					JComponentUtilities.setComponentSize( elements[i].getLabel(),
+						elements[i].isInputPreceding() ? right : left );
 				}
 
-				if ( elements[i].shouldResize() )
-					JComponentUtilities.setComponentSize( elements[i].getInputField(), fieldSize );
+				JComponentUtilities.setComponentSize( elements[i].getInputField(),
+					elements[i].isInputPreceding() ? left : right );
 
-				elementsContainer.add( elements[i].getInputField() );
-
-				if ( !isLabelPreceeding )
+				if ( elements[i].isInputPreceding() )
+				{
+					elementsContainer.add( elements[i].getInputField() );
 					elementsContainer.add( elements[i].getLabel() );
+				}
+				else
+				{
+					elementsContainer.add( elements[i].getLabel() );
+					elementsContainer.add( elements[i].getInputField() );
+				}
 			}
 
 			// Construct the compact grid with the
@@ -298,32 +300,46 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 	protected final class VerifiableElement implements Comparable
 	{
 		private JLabel label;
-		private boolean shouldResize;
+		private boolean shouldResizeLabel;
 		private JComponent inputField;
+		private boolean isInputPreceding;
 
-		public VerifiableElement( String label, JComponent inputField )
-		{	this( label, JLabel.RIGHT, inputField, !(inputField instanceof JScrollPane) );
+		public VerifiableElement()
+		{	this( "", JLabel.RIGHT, new JLabel(), false );
 		}
 
-		public VerifiableElement( String label, JComponent inputField, boolean shouldResize )
-		{	this( label, JLabel.RIGHT, inputField, shouldResize );
+		public VerifiableElement( JComponent inputField )
+		{	this( "", JLabel.RIGHT, inputField, !(inputField instanceof JScrollPane || inputField instanceof JCheckBox) );
+		}
+
+		public VerifiableElement( String label, JComponent inputField )
+		{	this( label, JLabel.RIGHT, inputField, !(inputField instanceof JScrollPane || inputField instanceof JCheckBox) );
+		}
+
+		public VerifiableElement( String label, JComponent inputField, boolean shouldResizeLabel )
+		{	this( label, JLabel.RIGHT, inputField, shouldResizeLabel );
 		}
 
 		public VerifiableElement( String label, int direction, JComponent inputField )
-		{	this( label, direction, inputField, !(inputField instanceof JScrollPane) );
+		{	this( label, direction, inputField, !(inputField instanceof JScrollPane || inputField instanceof JCheckBox) );
 		}
 
-		public VerifiableElement( String label, int direction, JComponent inputField, boolean shouldResize )
+		public VerifiableElement( String label, int direction, JComponent inputField, boolean shouldResizeLabel )
 		{
 			this.label = new JLabel( label, direction );
 			this.inputField = inputField;
-			this.shouldResize = shouldResize;
+			this.shouldResizeLabel = shouldResizeLabel;
+			this.isInputPreceding = direction == JLabel.LEFT;
 
 			this.label.setLabelFor( inputField );
 			this.label.setVerticalAlignment( JLabel.TOP );
 
 			if ( buttonPanel == null )
 				addListeners( inputField );
+		}
+
+		public boolean isInputPreceding()
+		{	return isInputPreceding;
 		}
 
 		private void addListeners( JComponent c )
@@ -364,8 +380,8 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 		{	return inputField;
 		}
 
-		public boolean shouldResize()
-		{	return shouldResize;
+		public boolean shouldResizeLabel()
+		{	return shouldResizeLabel;
 		}
 
 		public int compareTo( Object o )

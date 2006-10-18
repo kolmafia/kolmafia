@@ -127,18 +127,18 @@ public class GearChangeFrame extends KoLFrame
 			elements[3] = new VerifiableElement( "Shirt: ", equipment[3] );
 			elements[4] = new VerifiableElement( "Pants: ", equipment[4] );
 
-			elements[5] = new VerifiableElement( "", new JLabel() );
+			elements[5] = new VerifiableElement();
 
 			elements[6] = new VerifiableElement( "Accessory 1: ", equipment[5] );
 			elements[7] = new VerifiableElement( "Accessory 2: ", equipment[6] );
 			elements[8] = new VerifiableElement( "Accessory 3: ", equipment[7] );
 
-			elements[9] = new VerifiableElement( "", new JLabel() );
+			elements[9] = new VerifiableElement();
 
 			elements[10] = new VerifiableElement( "Familiar: ", familiarSelect );
 			elements[11] = new VerifiableElement( "Familiar Item: ", equipment[8] );
 
-			elements[12] = new VerifiableElement( "", new JLabel() );
+			elements[12] = new VerifiableElement();
 
 			elements[13] = new VerifiableElement( "Outfit: ", outfitSelect );
 
