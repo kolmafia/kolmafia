@@ -726,6 +726,7 @@ public class LoginFrame extends KoLFrame
 
 		private final String [][] options =
 		{
+			{ "relayBrowserOnly", "Do not load the KoLmafia interface at all?" },
 			{ "autoExecuteTimeIn", "Automatically time-in whenever you're timed-out" },
 			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" }
 		};
