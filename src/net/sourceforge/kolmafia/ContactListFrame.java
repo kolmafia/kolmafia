@@ -121,6 +121,7 @@ public class ContactListFrame extends KoLFrame
 		JDialog dialogCDL = new JDialog( (java.awt.Frame) null, "Here's your CDL!" );
 		JTextArea entryCDL = new JTextArea();
 
+		entryCDL.setFont( DEFAULT_FONT );
 		entryCDL.setLineWrap( true );
 		entryCDL.setWrapStyleWord( true );
 

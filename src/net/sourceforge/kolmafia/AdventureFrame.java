@@ -496,6 +496,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			super( "Editor", "save", "help", new JTextArea( 12, 40 ) );
 			combatEditor = (JTextArea) scrollComponent;
+			combatEditor.setFont( DEFAULT_FONT );
 			refreshCombatSettings();
 		}
 
