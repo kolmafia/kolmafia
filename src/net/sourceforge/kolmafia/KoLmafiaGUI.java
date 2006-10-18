@@ -154,10 +154,28 @@ public class KoLmafiaGUI extends KoLmafia
 		String frameSetting = StaticEntity.getGlobalProperty( "initialFrames" );
 		String desktopSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
 
+		// If this user doesn't have any data, then go
+		// ahead and copy the global data instead.
+
 		if ( frameSetting.equals( "" ) && desktopSetting.equals( "" ) )
 		{
 			StaticEntity.setGlobalProperty( "initialFrames", StaticEntity.getGlobalProperty( "", "initialFrames" ) );
 			StaticEntity.setGlobalProperty( "initialDesktop", StaticEntity.getGlobalProperty( "", "initialDesktop" ) );
+
+			frameSetting = StaticEntity.getGlobalProperty( "initialFrames" );
+			desktopSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
+		}
+
+		// If there is still no data (somehow the global data
+		// got emptied), default to relay-browser only).
+
+		if ( frameSetting.equals( "" ) && desktopSetting.equals( "" ) )
+		{
+			StaticEntity.setGlobalProperty( "initialFrames", "LocalRelayServer" );
+			StaticEntity.setGlobalProperty( "initialDesktop", "" );
+
+			frameSetting = StaticEntity.getGlobalProperty( "initialFrames" );
+			desktopSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
 		}
 
 		// Reset all the titles on all existing frames.
