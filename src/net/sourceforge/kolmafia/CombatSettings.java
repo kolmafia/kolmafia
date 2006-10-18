@@ -50,7 +50,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
-public abstract class CombatSettings implements UtilityConstants
+public abstract class CombatSettings implements UtilityConstants, KoLConstants
 {
 	static
 	{
@@ -521,7 +521,16 @@ public abstract class CombatSettings implements UtilityConstants
 			String name = action.substring(4).trim();
 			for ( int i = 0; i < name.length(); ++i )
 				if ( !Character.isDigit( name.charAt(i) ) )
-					return "item" + TradeableItemDatabase.getItemID( name );
+				{
+					int itemID = TradeableItemDatabase.getItemID( name );
+					if ( itemID == FightRequest.DICTIONARY1.getItemID() && !inventory.contains( FightRequest.DICTIONARY1 ) )
+						itemID = FightRequest.DICTIONARY2.getItemID();
+
+					if ( itemID == FightRequest.DICTIONARY2.getItemID() && !inventory.contains( FightRequest.DICTIONARY2 ) )
+						itemID = FightRequest.DICTIONARY1.getItemID();
+
+					return "item" + itemID;
+				}
 
 			return "item" + StaticEntity.parseInt( name );
 		}

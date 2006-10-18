@@ -374,9 +374,7 @@ public abstract class KoLCharacter extends StaticEntity
 		battleSkillNames.add( "custom combat script" );
 		battleSkillNames.setSelectedIndex( 0 );
 
-		battleSkillNames.add( "item facsimile dictionary" );
 		battleSkillNames.add( "item dictionary" );
-
 		battleSkillNames.add( "item seal tooth" );
 		battleSkillNames.add( "item scroll of turtle summoning" );
 		battleSkillNames.add( "item spices" );
