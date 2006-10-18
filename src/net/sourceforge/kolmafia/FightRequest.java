@@ -185,7 +185,7 @@ public class FightRequest extends KoLRequest
 
 				if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 				{
-					if ( itemCount >= 2 )
+					if ( itemCount >= 2 && itemID != DICTIONARY1.getItemID() && itemID != DICTIONARY2.getItemID() )
 					{
 						action2 = action1;
 						addFormField( "whichitem2", String.valueOf( itemID ) );
