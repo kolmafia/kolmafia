@@ -308,6 +308,7 @@ public class ChatBuffer
 	{
 		private boolean isQueued = false;
 		private boolean shouldReset = false;
+		private boolean shouldScroll = true;
 
 		private ArrayList contentQueue = new ArrayList();
 
@@ -320,6 +321,8 @@ public class ChatBuffer
 				if ( newContents.indexOf( "<body" ) != -1 )
 				{
 					shouldReset = true;
+					shouldScroll = false;
+
 					displayBuffer.setLength(0);
 					newContents = newContents.substring( newContents.indexOf( ">" ) + 1 );
 				}
@@ -343,10 +346,19 @@ public class ChatBuffer
 
 		public void run()
 		{
-			while ( !contentQueue.isEmpty() )
-				runOnce( (String) contentQueue.remove(0) );
+			if ( shouldReset )
+			{
+				runOnce( null );
+				contentQueue.clear();
+			}
+			else
+			{
+				while ( !contentQueue.isEmpty() )
+					runOnce( (String) contentQueue.remove(0) );
+			}
 
 			this.shouldReset = false;
+			this.shouldScroll = false;
 			this.isQueued = false;
 		}
 
@@ -355,7 +367,6 @@ public class ChatBuffer
 			if ( shouldReset )
 			{
 				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
-				displayPane.setCaretPosition( 0 );
 			}
 			else
 			{
@@ -381,9 +392,10 @@ public class ChatBuffer
 					e.printStackTrace();
 				}
 
-				int length = displayPane.getDocument().getLength();
-				displayPane.setCaretPosition( length > 0 ? length - 1 : 0 );
 			}
+
+			int length = displayPane.getDocument().getLength();
+			displayPane.setCaretPosition( shouldScroll && length > 0 ? length - 1 : 0 );
 		}
 	}
 }

@@ -83,6 +83,10 @@ public class LocalRelayServer implements Runnable
 	{	return listening;
 	}
 
+	public static void stop()
+	{	listening = false;
+	}
+
 	public void run()
 	{
 		port = 60080;

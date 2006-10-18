@@ -68,6 +68,7 @@ public class LogoutRequest extends KoLRequest
 
 		synchronized ( LogoutRequest.class )
 		{
+			LocalRelayServer.stop();
 			StaticEntity.saveSettings();
 			KoLMessenger.dispose();
 			BuffBotHome.setBuffBotActive( false );
