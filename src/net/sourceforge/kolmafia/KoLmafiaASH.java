@@ -621,22 +621,14 @@ public class KoLmafiaASH extends StaticEntity
 
 		try
 		{
-			String currentScript = scriptFile == null ? "<test.ash>" : "<" + scriptFile.getPath() + ">";
+			String currentScript = scriptFile == null ? "<>" : "<" + scriptFile.getPath() + ">";
 			String notifyList = StaticEntity.getProperty( "previousNotifyList" );
 
 			if ( notifyRecipient != null && notifyList.indexOf( currentScript ) == -1 )
 			{
 				StaticEntity.setProperty( "previousNotifyList", notifyList + currentScript );
-
-				if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-						"The writer of this script (" + notifyRecipient + ") would like to know which players have used it.\n" +
-						"Would you like KoLmafia to send a k-mail to let them know you invoked " + currentScript + "?",
-						"Are you being stalked? >.>  <.<", JOptionPane.YES_NO_OPTION ) )
-				{
-
-					GreenMessageRequest notifier = new GreenMessageRequest( notifyRecipient, currentScript );
-					notifier.run();
-				}
+				GreenMessageRequest notifier = new GreenMessageRequest( notifyRecipient, currentScript );
+				notifier.run();
 			}
 
 			ScriptValue result = executeScope( global, functionName, parameters );
