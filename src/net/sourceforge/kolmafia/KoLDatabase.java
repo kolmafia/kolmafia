@@ -39,6 +39,7 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.io.BufferedReader;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -206,6 +207,32 @@ public class KoLDatabase extends StaticEntity
 		return substringList;
 	}
 
+	private static class ItemCounter implements Comparable
+	{
+		private int count;
+		private String name;
+
+		public ItemCounter( String name, int count )
+		{
+			this.name = name;
+			this.count = count;
+		}
+
+		public int compareTo( Object o )
+		{
+			ItemCounter ic = (ItemCounter) o;
+
+			if ( count != ic.count )
+				return ic.count - count;
+
+			return name.compareToIgnoreCase( ic.name );
+		}
+
+		public String toString()
+		{	return name + ": " + count;
+		}
+	}
+
 	public static String getBreakdown( List items )
 	{
 		StringBuffer strbuf = new StringBuffer();
@@ -215,36 +242,33 @@ public class KoLDatabase extends StaticEntity
 		items.toArray( itemArray );
 
 		int maximumCount = 0;
-		int currentCount = 0;
-		Object favorite = itemArray.length > 0 ? itemArray[0] : null;
+		int currentCount = 1;
 
-		strbuf.append( "<ul>" );
+		ArrayList itemList = new ArrayList();
 
 		for ( int i = 1; i < itemArray.length; ++i )
 		{
-			++currentCount;
 			if ( !itemArray[ i - 1 ].equals( itemArray[i] ) )
 			{
-				strbuf.append( "<li>" + itemArray[ i - 1 ].toString() + ": " + currentCount + "</li>" );
-				strbuf.append( LINE_BREAK );
-
-				if ( currentCount > maximumCount )
-				{
-					maximumCount = currentCount;
-					favorite = itemArray[ i - 1 ];
-				}
-
+				itemList.add( new ItemCounter( itemArray[ i - 1 ].toString(), currentCount ) );
 				currentCount = 0;
 			}
+
+			++currentCount;
 		}
 
-		strbuf.append( "<li>" + itemArray[ itemArray.length - 1 ].toString() + ": " + (currentCount + 1) + "</li>" );
-		strbuf.append( LINE_BREAK );
+		itemList.add( new ItemCounter( itemArray[ itemArray.length - 1 ].toString(), currentCount ) );
 
-		if ( currentCount > maximumCount )
-			favorite = itemArray[ itemArray.length - 1 ];
+		strbuf.append( "<ul>" );
+		Collections.sort( itemList );
 
-		strbuf.append( "</ul><hr width=\"80%\"><b>Favorite</b>: " + favorite.toString() );
+		for ( int i = 0; i < itemList.size(); ++i )
+		{
+			strbuf.append( "<li><nobr>" + itemList.get(i) + "</nobr></li>" );
+			strbuf.append( LINE_BREAK );
+		}
+
+		strbuf.append( "</ul>" );
 		strbuf.append( LINE_BREAK );
 
 		return strbuf.toString();
