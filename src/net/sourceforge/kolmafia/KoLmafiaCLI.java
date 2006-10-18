@@ -683,7 +683,9 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else if ( command.equals( "get" ) )
 		{
-			printLine( StaticEntity.getProperty( parameters ) );
+			if ( !parameters.startsWith( "saveState" ) )
+				printLine( StaticEntity.getProperty( parameters ) );
+
 			return;
 		}
 
