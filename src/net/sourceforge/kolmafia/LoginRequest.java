@@ -409,7 +409,7 @@ public class LoginRequest extends KoLRequest
 
 	public static void processLoginRequest( KoLRequest request )
 	{
-		if ( request.redirectLocation == null || !request.redirectLocation.startsWith( "main" ) )
+		if ( request.redirectLocation == null || request.redirectLocation.startsWith( "maint" ) || !request.redirectLocation.startsWith( "main" ) )
 			return;
 
 		if ( request.redirectLocation.equals( "main_c.html" ) )

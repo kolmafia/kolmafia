@@ -2385,7 +2385,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		String skillName = getUsableSkillName( skillNameString );
 		if ( skillName == null )
+		{
+			KoLmafia.updateDisplay( "You don't have a skill matching \"" + parameters + "\"" );
 			return;
+		}
 
 		int buffCount = 1;
 

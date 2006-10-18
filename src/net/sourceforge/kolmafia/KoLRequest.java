@@ -85,7 +85,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected static String passwordHash = null;
 	private static boolean wasLastRequestSimple = false;
 
-	protected static boolean usingValidConnection = true;
 	protected static boolean isRatQuest = false;
 	protected static int lastChoice = 0;
 	protected static int lastDecision = 0;
@@ -195,18 +194,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			int defaultLoginServer = StaticEntity.getIntegerProperty( "defaultLoginServer" );
 			setLoginServer( SERVERS[ defaultLoginServer == 0 ? 0 : 1 ][0] );
-
-			if ( proxySet.equals( "true" ) )
-			{
-				KoLmafia.updateDisplay( "Validating proxy settings..." );
-				int portNumber = StaticEntity.getIntegerProperty( "http.proxyPort" );
-
-				Socket s = new Socket( StaticEntity.getProperty( "http.proxyHost" ), portNumber == 0 ? 80 : portNumber );
-	            BufferedWriter out = new BufferedWriter( new OutputStreamWriter( s.getOutputStream() ) );
-	            out.close();  s.close();
-			}
-
-			usingValidConnection = true;
 		}
 		catch ( Exception e )
 		{
@@ -214,7 +201,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			// a stack trace for debug purposes.
 
 			e.printStackTrace();
-			usingValidConnection = false;
 		}
 	}
 
@@ -612,12 +598,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			SorceressLair.makeGuardianItems();
 			if ( this instanceof LocalRelayRequest )
 				KoLmafia.enableDisplay();
-		}
-
-		if ( !usingValidConnection )
-		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Unable to establish connection with proxy server." );
-			return;
 		}
 
 		if ( KoLmafia.refusesContinue() && !isDelayExempt )
