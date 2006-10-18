@@ -630,7 +630,7 @@ public class KoLmafiaASH extends StaticEntity
 
 				if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"The writer of this script (" + notifyRecipient + ") would like to know which players have used it.\n" +
-						"Would you like KoLmafia to send a k-mail to let them know this?",
+						"Would you like KoLmafia to send a k-mail to let them know you invoked " + currentScript + "?",
 						"Are you being stalked? >.>  <.<", JOptionPane.YES_NO_OPTION ) )
 				{
 
@@ -640,6 +640,8 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			ScriptValue result = executeScope( global, functionName, parameters );
+			notifyRecipient = null;
+
 			if ( !KoLmafia.permitsContinue() || result == null || result.getType() == null )
 			{
 				KoLmafiaCLI.printLine( "Script aborted!" );
