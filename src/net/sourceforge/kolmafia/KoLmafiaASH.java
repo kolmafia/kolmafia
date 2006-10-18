@@ -4838,7 +4838,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue visit_url( ScriptVariable string )
 		{
 			String location = string.toStringValue().toString();
-			if ( KoLRequest.shouldIgnore( location ) || location.startsWith( "http" ) )
+			if ( KoLRequest.shouldIgnore( location ) )
 				return STRING_INIT;
 
 			KoLRequest request = new KoLRequest( location, true );
