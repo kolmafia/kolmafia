@@ -215,7 +215,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		return compareValue < 0 ? -1 : compareValue > 0 ? 1 : 0;
 	}
 
-	public static String getStandardData()
+	public static String getStandardData( boolean localProfileLink )
 	{
 		// First, if you haven't retrieved a detailed
 		// roster for the clan, do so.
@@ -264,7 +264,7 @@ public class ClanSnapshotTable extends KoLDatabase
 
 		for ( int i = 0; i < members.length; ++i )
 		{
-			strbuf.append( getMemberDetail( members[i] ) );
+			strbuf.append( getMemberDetail( members[i], localProfileLink ) );
 			strbuf.append( LINE_BREAK );
 		}
 
@@ -294,8 +294,6 @@ public class ClanSnapshotTable extends KoLDatabase
 		ArrayList musList = new ArrayList();
 		ArrayList mysList = new ArrayList();
 		ArrayList moxList = new ArrayList();
-
-		ArrayList ascensionsList = new ArrayList();
 
 		// Iterate through the list of clan members
 		// and populate the lists.
@@ -333,16 +331,12 @@ public class ClanSnapshotTable extends KoLDatabase
 			moxList.add( memberLookup.getMoxie() );
 			powerList.add( memberLookup.getPower() );
 			karmaList.add( memberLookup.getKarma() );
-
-			if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
-				ascensionsList.add( memberLookup.getAscensionCount() );
 		}
 
 		Collections.sort( classList );
 		Collections.sort( foodList );
 		Collections.sort( drinkList );
 		Collections.sort( rankList );
-		Collections.sort( ascensionsList );
 
 		strbuf.append( "<table border=0 cellspacing=4 cellpadding=4><tr>" );
 		strbuf.append( LINE_BREAK );
@@ -450,20 +444,13 @@ public class ClanSnapshotTable extends KoLDatabase
 			strbuf.append( "</td>" );
 		}
 
-		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
-		{
-			strbuf.append( "<td valign=top><b>Ascension Breakdown</b>:" );
-			strbuf.append( getBreakdown( ascensionsList ) );
-			strbuf.append( "</td>" );
-		}
-
 		strbuf.append( "</tr></table>" );
 		strbuf.append( LINE_BREAK );
 
 		return strbuf.toString();
 	}
 
-	private static String getMemberDetail( String memberName )
+	private static String getMemberDetail( String memberName, boolean localProfileLink )
 	{
 		ProfileRequest memberLookup = getProfile( memberName );
 		StringBuffer strbuf = new StringBuffer();
@@ -471,11 +458,21 @@ public class ClanSnapshotTable extends KoLDatabase
 		// No matter what happens, you need to make sure
 		// to print the player's name first.
 
-		strbuf.append( "<tr><td><a href=\"profiles/" );
-		strbuf.append( KoLmafia.getPlayerID( memberName ) );
-		strbuf.append( ".htm\">" );
+		strbuf.append( "<tr><td>" );
+
+		if ( localProfileLink )
+		{
+			strbuf.append( "<a href=\"profiles/" );
+			strbuf.append( KoLmafia.getPlayerID( memberName ) );
+			strbuf.append( ".htm\">" );
+		}
+
 		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerID( memberName ) ) );
-		strbuf.append( "</a></td><td>" );
+
+		if ( localProfileLink )
+			strbuf.append( "</a>" );
+
+		strbuf.append( "</td><td>" );
 		strbuf.append( KoLmafia.getPlayerID( memberName ) );
 
 		// Each of these are printed, pending on what
@@ -607,6 +604,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		return "<td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>" +
 			"<td>Title</td><td>Rank</td><td>Karma</td>" +
 			"<td>Class</td><td>Path</td><td>Turns</td><td>Meat</td>" +
+			"<td>PVP</td><td>Food</td><td>Drink</td>" +
 			"<td>Created</td><td>Last Login</td>";
 	}
 

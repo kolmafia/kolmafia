@@ -780,6 +780,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		public void executeTask()
 		{	KoLmafiaGUI.constructFrame( frameClass );
 		}
+
+		public boolean makesRequest()
+		{	return false;
+		}
 	}
 
 	protected static abstract class ThreadedActionButton extends JButton implements ActionListener, Runnable
@@ -804,7 +808,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			KoLmafia.forceContinue();
 			executeTask();
-			KoLmafia.enableDisplay();
+
+			if ( makesRequest() )
+				KoLmafia.enableDisplay();
+		}
+
+		public boolean makesRequest()
+		{	return true;
 		}
 
 		protected abstract void executeTask();

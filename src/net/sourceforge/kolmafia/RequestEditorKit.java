@@ -76,10 +76,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 {
-	private static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
-	private static final Pattern STYLE_PATTERN = Pattern.compile( "<style.*?</style>", Pattern.DOTALL );
-	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
-
 	// Overkill Unicode table borrowed from HTMLParser
 	// http://htmlparser.sourceforge.net/
 

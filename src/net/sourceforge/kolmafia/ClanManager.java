@@ -275,6 +275,7 @@ public class ClanManager extends StaticEntity
 				}
 
 				profileMap.put( name, profileString.toString() );
+				istream.close();
 			}
 			catch ( Exception e )
 			{
@@ -292,7 +293,11 @@ public class ClanManager extends StaticEntity
 
 			ProfileRequest request = new ProfileRequest( name );
 			request.initialize();
-			profileMap.put( name, request.responseText );
+
+			String data = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
+				request.responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" );
+
+			profileMap.put( name, data );
 
 			// To avoid retrieving the file again, store the intermediate
 			// result in a local file.
@@ -301,7 +306,7 @@ public class ClanManager extends StaticEntity
 			{
 				profile.getParentFile().mkdirs();
 				PrintStream ostream = new LogStream( profile );
-				ostream.println( request.responseText );
+				ostream.println( data );
 				ostream.close();
 			}
 			catch ( Exception e )
@@ -399,7 +404,7 @@ public class ClanManager extends StaticEntity
 	 * initialized, this method will also initialize that list.
 	 */
 
-	public static void takeSnapshot( int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce )
+	public static void takeSnapshot( int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce, boolean localProfileLink )
 	{
 		retrieveClanData();
 
@@ -408,7 +413,7 @@ public class ClanManager extends StaticEntity
 		File hardcoreFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
 		File sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
 
-		String header = getProperty( "clanRosterHeader" ).toString();
+		String header = getProperty( "clanRosterHeader" );
 
 		KoLRequest.delay( 1000 );
 		standardFile.getParentFile().mkdirs();
@@ -439,7 +444,7 @@ public class ClanManager extends StaticEntity
 			KoLmafia.updateDisplay( "Storing clan snapshot..." );
 
 			ostream = new LogStream( standardFile );
-			ostream.println( ClanSnapshotTable.getStandardData() );
+			ostream.println( ClanSnapshotTable.getStandardData( localProfileLink ) );
 			ostream.close();
 
 			String line;
@@ -454,11 +459,11 @@ public class ClanManager extends StaticEntity
 			KoLmafia.updateDisplay( "Storing ascension snapshot..." );
 
 			ostream = new LogStream( softcoreFile );
-			ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
+			ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink ) );
 			ostream.close();
 
 			ostream = new LogStream( hardcoreFile );
-			ostream.println( AscensionSnapshotTable.getAscensionData( false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
+			ostream.println( AscensionSnapshotTable.getAscensionData( false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink ) );
 			ostream.close();
 		}
 		catch ( Exception e )

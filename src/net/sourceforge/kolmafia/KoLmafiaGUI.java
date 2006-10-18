@@ -266,6 +266,7 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 
 			updateDisplay( "MMG bet history retrieved." );
+			enableDisplay();
 		}
 		else if ( frameName.equals( "KoLMessenger" ) )
 		{
@@ -287,10 +288,13 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( !StaticEntity.getClient().shouldMakeConflictingRequest() )
 			{
 				updateDisplay( "You are currently adventuring." );
+				enableDisplay();
 				return;
 			}
 
 			(new MailboxRequest( "Inbox" )).run();
+			enableDisplay();
+
 			if ( LoginRequest.isInstanceRunning() && !KoLMailManager.hasNewMessages() )
 				return;
 		}
@@ -299,6 +303,7 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( !BuffBotDatabase.hasOfferings() )
 			{
 				updateDisplay( "No buffs found to purchase." );
+				enableDisplay();
 				return;
 			}
 		}
@@ -307,10 +312,12 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( !StaticEntity.getClient().shouldMakeConflictingRequest() )
 			{
 				updateDisplay( "You can't do that while adventuring." );
+				enableDisplay();
 				return;
 			}
 
 			CakeArenaManager.getOpponentList();
+			enableDisplay();
 		}
 		else if ( frameName.equals( "ClanManageFrame" ) )
 		{
@@ -319,12 +326,16 @@ public class KoLmafiaGUI extends KoLmafia
 				if ( !KoLCharacter.hasClan() )
 				{
 					updateDisplay( "You are not in a clan." );
+					enableDisplay();
 					return;
 				}
 			}
 
 			if ( !ClanManager.isStashRetrieved() )
+			{
 				(new ClanStashRequest()).run();
+				enableDisplay();
+			}
 		}
 		else if ( frameName.equals( "MushroomFrame" ) )
 		{
@@ -333,6 +344,8 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "ItemManageFrame" ) )
 		{
+			boolean ranRequest = false;
+
 			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
 			{
 				// If the person is in a mysticality sign, make sure
@@ -340,7 +353,10 @@ public class KoLmafiaGUI extends KoLmafia
 
 				if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
 					if ( restaurantItems.isEmpty() )
+					{
+						ranRequest = true;
 						(new RestaurantRequest()).run();
+					}
 
 				// If the person is in a moxie sign and they have completed
 				// the beach quest, then retrieve information from the
@@ -348,20 +364,30 @@ public class KoLmafiaGUI extends KoLmafia
 
 				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() )
 					if ( microbreweryItems.isEmpty() )
+					{
+						ranRequest = true;
 						(new MicrobreweryRequest()).run();
+					}
 
 				if ( StaticEntity.getBooleanProperty( "showStashIngredients" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 				{
 					if ( !ClanManager.isStashRetrieved() )
+					{
+						ranRequest = true;
 						(new ClanStashRequest()).run();
+					}
 				}
 			}
+
+			if ( ranRequest )
+				enableDisplay();
 		}
 		else if ( frameName.equals( "StoreManageFrame" ) )
 		{
 			if ( !KoLCharacter.hasStore() )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a store." );
+				enableDisplay();
 				return;
 			}
 
@@ -369,12 +395,16 @@ public class KoLmafiaGUI extends KoLmafia
 			{
 				(new StoreManageRequest()).run();
 				(new StoreManageRequest( true )).run();
+				enableDisplay();
 			}
 		}
 		else if ( frameName.equals( "HagnkStorageFrame" ) )
 		{
 			if ( storage.isEmpty() && StaticEntity.getClient().shouldMakeConflictingRequest() )
+			{
 				(new ItemStorageRequest()).run();
+				enableDisplay();
+			}
 		}
 
 		else if ( frameName.equals( "RestoreOptionsFrame" ) )

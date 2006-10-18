@@ -498,6 +498,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				KoLmafiaGUI.constructFrame( frameClass );
 			}
 		}
+
+		public boolean makesRequest()
+		{	return false;
+		}
 	}
 
 	/**
@@ -519,6 +523,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public void actionPerformed( ActionEvent e )
 		{	StaticEntity.openSystemBrowser( location );
+		}
+
+		public boolean makesRequest()
+		{	return false;
 		}
 	}
 

@@ -118,9 +118,15 @@ public abstract class SystemTrayFrame implements KoLConstants
 
 	public static void showDisplay()
 	{
-		if ( existingFrames.isEmpty() || KoLRequest.sessionID == null )
+		if ( KoLRequest.sessionID == null )
 		{
 			KoLFrame.createDisplay( LoginFrame.class );
+			return;
+		}
+
+		if ( existingFrames.isEmpty() )
+		{
+			KoLFrame.createDisplay( OptionsFrame.class );
 			return;
 		}
 
