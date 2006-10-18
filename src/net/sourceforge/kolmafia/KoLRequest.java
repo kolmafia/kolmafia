@@ -492,18 +492,29 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected String getFormField( String key )
 	{
-		String [] elements = new String[ data.size() ];
-		data.toArray( elements );
+		String [] fields = null;
 
-		for ( int i = 0; i < elements.length; ++i )
+		if ( data.isEmpty() )
 		{
-			int splitIndex = elements[i].indexOf( "=" );
+			int breakIndex = formURLString.indexOf( "?" ) + 1;
+			if ( breakIndex != 0 )
+				fields = formURLString.substring( breakIndex ).split( "&" );
+		}
+		else
+		{
+			fields = new String[ data.size() ];
+			data.toArray( fields );
+		}
+
+		for ( int i = 0; fields != null && i < fields.length; ++i )
+		{
+			int splitIndex = fields[i].indexOf( "=" );
 			if ( splitIndex != -1 )
 			{
-				String name = elements[i].substring( 0, splitIndex );
+				String name = fields[i].substring( 0, splitIndex );
 				if ( name.equalsIgnoreCase( key ) )
 				{
-					String value = elements[i].substring( splitIndex + 1 );
+					String value = fields[i].substring( splitIndex + 1 );
 
 					try
 					{

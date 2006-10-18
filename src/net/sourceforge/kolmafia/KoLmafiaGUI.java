@@ -115,7 +115,10 @@ public class KoLmafiaGUI extends KoLmafia
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
 
-		(new CreateFrameRunnable( LoginFrame.class )).run();
+		if ( StaticEntity.getBooleanProperty( "relayBrowserOnly" ) )
+			StaticEntity.getClient().startRelayServer();
+		else
+			(new CreateFrameRunnable( LoginFrame.class )).run();
 	}
 
 	/**
@@ -168,9 +171,13 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( !StaticEntity.getGlobalProperty( "initialDesktop" ).equals( "" ) )
 		{
 			KoLDesktop.getInstance().initializeTabs();
-			KoLDesktop.getInstance().pack();
-			KoLDesktop.getInstance().setVisible( true );
-			KoLDesktop.getInstance().requestFocus();
+
+			if ( !StaticEntity.getBooleanProperty( "relayBrowserOnly" ) )
+			{
+				KoLDesktop.getInstance().pack();
+				KoLDesktop.getInstance().setVisible( true );
+				KoLDesktop.getInstance().requestFocus();
+			}
 		}
 
 		String [] frameArray = frameSetting.split( "," );
@@ -186,7 +193,7 @@ public class KoLmafiaGUI extends KoLmafia
 		for ( int i = 0; i < desktopArray.length; ++i )
 			initialFrameList.remove( desktopArray[i] );
 
-		if ( !initialFrameList.isEmpty() )
+		if ( !initialFrameList.isEmpty() && !StaticEntity.getBooleanProperty( "relayBrowserOnly" ) )
 		{
 			String [] initialFrames = new String[ initialFrameList.size() ];
 			initialFrameList.toArray( initialFrames );
@@ -199,8 +206,11 @@ public class KoLmafiaGUI extends KoLmafia
 		// Figure out which user interface is being
 		// used -- account for minimalist loadings.
 
-		login.setVisible( false );
-		login.dispose();
+		if ( login != null )
+		{
+			login.setVisible( false );
+			login.dispose();
+		}
 
 		if ( KoLMailManager.hasNewMessages() )
 			KoLmafia.updateDisplay( "You have new mail." );

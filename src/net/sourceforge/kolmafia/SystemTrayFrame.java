@@ -120,6 +120,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 			{
 				if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
 				{
+					frames[i].pack();
 					frames[i].setVisible( true );
 					frames[i].setExtendedState( KoLFrame.NORMAL );
 				}
@@ -127,6 +128,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 
 			if ( KoLDesktop.instanceExists() )
 			{
+				KoLDesktop.getInstance().pack();
 				KoLDesktop.getInstance().setVisible( true );
 				KoLDesktop.getInstance().setExtendedState( KoLFrame.NORMAL );
 			}
