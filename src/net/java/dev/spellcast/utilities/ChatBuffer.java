@@ -139,8 +139,6 @@ public class ChatBuffer
 	public void clearBuffer()
 	{
 		displayBuffer.setLength( 0 );
-		displayBuffer.append( "<body>" );
-
 		fireBufferChanged( DISPLAY_CHANGE, null );
 	}
 
@@ -167,7 +165,9 @@ public class ChatBuffer
 		displayPane.setContentType( "text/html" );
 		displayPane.setEditable( false );
 
+		displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head>" + displayBuffer.toString() + "</body></html>" );
 		fireBufferChanged( DISPLAY_CHANGE, null );
+
 		return new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 	}
 
@@ -307,15 +307,13 @@ public class ChatBuffer
 	private class DisplayPaneUpdater implements Runnable
 	{
 		private boolean isQueued = false;
-		private boolean shouldScroll = false;
 		private boolean shouldReset = false;
 
 		private ArrayList contentQueue = new ArrayList();
 
 		public void queueUpdate( String newContents )
 		{
-			this.shouldScroll |= displayBuffer.length() != 0;
-			this.shouldReset |= displayBuffer.length() == 0 || newContents == null;
+			this.shouldReset |= newContents == null;
 
 			if ( newContents != null )
 			{
@@ -323,6 +321,7 @@ public class ChatBuffer
 				{
 					shouldReset = true;
 					displayBuffer.setLength(0);
+					newContents = newContents.substring( newContents.indexOf( ">" ) + 1 );
 				}
 
 				int endBody = newContents.indexOf( "</body>" );
@@ -332,7 +331,6 @@ public class ChatBuffer
 				displayBuffer.append( newContents );
 				contentQueue.add( newContents );
 			}
-
 		}
 
 		public boolean isQueued()
@@ -348,48 +346,43 @@ public class ChatBuffer
 			while ( !contentQueue.isEmpty() )
 				runOnce( (String) contentQueue.remove(0) );
 
-			this.shouldScroll = false;
 			this.shouldReset = false;
 			this.isQueued = false;
 		}
 
 		private void runOnce( String newContents )
 		{
-			if ( displayPane.getDocument() instanceof HTMLDocument )
+			if ( shouldReset )
 			{
-				HTMLDocument currentHTML = null;
-				if ( shouldReset )
+				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+			}
+			else
+			{
+				// This is really the only way to ensure that the
+				// screen does not flicker in later versions of Java.
+
+				HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
+				Element parentElement = currentHTML.getDefaultRootElement();
+
+				while ( !parentElement.isLeaf() )
+					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
+
+				try
 				{
-					displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head>" + displayBuffer.toString() + "</body></html>" );
+					currentHTML.insertAfterEnd( parentElement, newContents.trim() );
 				}
-				else if ( newContents != null && displayPane.getDocument() instanceof HTMLDocument )
+				catch ( Exception e )
 				{
-					// This is really the only way to ensure that the
-					// screen does not flicker in later versions of Java.
+					// If there's an exception, continue onward so that you
+					// still have an updated display.  But, print the stack
+					// trace so you know what's going on.
 
-					currentHTML = (HTMLDocument) displayPane.getDocument();
-					Element parentElement = currentHTML.getDefaultRootElement();
-
-					while ( !parentElement.isLeaf() )
-						parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
-
-					try
-					{
-						currentHTML.insertAfterEnd( parentElement, newContents.trim() );
-					}
-					catch ( Exception e )
-					{
-						// If there's an exception, continue onward so that you
-						// still have an updated display.  But, print the stack
-						// trace so you know what's going on.
-
-						e.printStackTrace();
-					}
+					e.printStackTrace();
 				}
 			}
 
 			int length = displayPane.getDocument().getLength();
-			displayPane.setCaretPosition( shouldScroll && length > 0 ? length - 1 : 0 );
+			displayPane.setCaretPosition( length > 0 ? length - 1 : 0 );
 		}
 	}
 }
