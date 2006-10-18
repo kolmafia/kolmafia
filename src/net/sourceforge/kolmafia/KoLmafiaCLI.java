@@ -1107,7 +1107,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "clan" ) )
 		{
 			if ( parameters.equals( "snapshot" ) )
-				ClanManager.takeSnapshot( 20, 10, 5, 0, false );
+				ClanManager.takeSnapshot( 20, 10, 5, 0, false, true );
 			else if ( parameters.equals( "stashlog" ) )
 				ClanManager.saveStashLog();
 
