@@ -355,6 +355,7 @@ public class ChatBuffer
 			if ( shouldReset )
 			{
 				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+				displayPane.setCaretPosition( 0 );
 			}
 			else
 			{
@@ -379,10 +380,10 @@ public class ChatBuffer
 
 					e.printStackTrace();
 				}
-			}
 
-			int length = displayPane.getDocument().getLength();
-			displayPane.setCaretPosition( length > 0 ? length - 1 : 0 );
+				int length = displayPane.getDocument().getLength();
+				displayPane.setCaretPosition( length > 0 ? length - 1 : 0 );
+			}
 		}
 	}
 }
