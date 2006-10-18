@@ -214,8 +214,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( KoLMailManager.hasNewMessages() )
 			KoLmafia.updateDisplay( "You have new mail." );
-
-		enableDisplay();
 	}
 
 	public static void constructFrame( String frameName )

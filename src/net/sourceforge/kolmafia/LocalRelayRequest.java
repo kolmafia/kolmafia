@@ -292,6 +292,11 @@ public class LocalRelayRequest extends KoLRequest
 			menuMatcher = MENU2_PATTERN.matcher( responseText );
 			if ( menuMatcher.find() )
 				StaticEntity.singleStringReplace( responseBuffer, menuMatcher.group(), gotoMenu.toString() );
+
+			// Now kill off the weird focusing problems inherent in
+			// the Javascript.
+
+			StaticEntity.singleStringReplace( responseBuffer, "selectedIndex=0", "selectedIndex=0; parent.mainpane.focus();" );
 		}
 
 		// Fix chat javascript problems with relay system
