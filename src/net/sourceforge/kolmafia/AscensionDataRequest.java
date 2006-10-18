@@ -77,7 +77,12 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	public String toString()
 	{
 		StringBuffer stringForm = new StringBuffer();
-		stringForm.append( "<tr><td><a href=\"ascensions/" + this.playerID + ".htm\"><b>" + this.playerName + "</b></a></td>" );
+		stringForm.append( "<tr><td><a href=\"ascensions/" + this.playerID + ".htm\"><b>" );
+
+		String name = KoLmafia.getPlayerName( this.playerID );
+		stringForm.append( name.equals( this.playerID ) ? this.playerName : name );
+
+		stringForm.append( "</b></a></td>" );
 		stringForm.append( "<td align=right>" );
 		stringForm.append( isSoftcoreComparator ? softcoreCount : hardcoreCount );
 		stringForm.append( "</td></tr>" );
@@ -369,8 +374,11 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 		private void setData( String playerName, String playerID, String[] columns )
 		{
-			this.playerName = playerName;
 			this.playerID = playerID;
+			this.playerName = KoLmafia.getPlayerName( playerID );
+
+			if ( this.playerName.equals( this.playerID ) )
+				this.playerName = playerName;
 
 			try
 			{
@@ -406,7 +414,9 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			}
 
 			stringForm = new StringBuffer();
-			stringForm.append( "<tr><td><a href=\"ascensions/" + this.playerID + ".htm\"><b>" + this.playerName + "</b></a>&nbsp;(" );
+			stringForm.append( "<tr><td><a href=\"ascensions/" + this.playerID + ".htm\"><b>" );
+			stringForm.append( this.playerName );
+			stringForm.append( "</b></a>&nbsp;(" );
 
 			switch ( this.classID )
 			{
@@ -456,7 +466,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		}
 
 		public boolean equals( Object o )
-		{	return o != null && o instanceof AscensionDataField && playerName.equals( ((AscensionDataField)o).playerName );
+		{	return o != null && o instanceof AscensionDataField && playerID.equals( ((AscensionDataField)o).playerID );
 		}
 
 		public boolean matchesFilter( boolean isSoftcore, int pathFilter, int classFilter, int maxAge )
