@@ -45,8 +45,9 @@ public abstract class SystemTrayFrame implements KoLConstants
 
 			TrayIconPopup popup = new TrayIconPopup();
 			popup.addMenuItem( new ShowMainWindowPopupItem() );
-			popup.addMenuItem( new ShowCommandLinePopupItem() );
-			popup.addMenuItem( new ShowRelayBrowserPopupItem() );
+			popup.addMenuItem( new ConstructFramePopupItem( "Graphical CLI", "CommandDisplayFrame" ) );
+			popup.addMenuItem( new ConstructFramePopupItem( "Relay Browser", "LocalRelayServer" ) );
+			popup.addMenuItem( new ConstructFramePopupItem( "KoLmafia Chat", "KoLMessenger" ) );
 			popup.addMenuItem( new EndSessionPopupItem() );
 
 			icon.setPopup( popup );
@@ -167,29 +168,20 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 	}
 
-	private static class ShowCommandLinePopupItem extends TrayIconPopupSimpleItem implements ActionListener
+	private static class ConstructFramePopupItem extends TrayIconPopupSimpleItem implements ActionListener
 	{
-		public ShowCommandLinePopupItem()
+		private String frame;
+
+		public ConstructFramePopupItem( String title, String frame )
 		{
-			super( "Graphical CLI" );
+			super( title );
+
+			this.frame = frame;
 			addActionListener( this );
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	KoLmafiaGUI.constructFrame( "CommandDisplayFrame" );
-		}
-	}
-
-	private static class ShowRelayBrowserPopupItem extends TrayIconPopupSimpleItem implements ActionListener
-	{
-		public ShowRelayBrowserPopupItem()
-		{
-			super( "Relay Browser" );
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	KoLmafiaGUI.constructFrame( "LocalRelayServer" );
+		{	KoLmafiaGUI.constructFrame( frame );
 		}
 	}
 
