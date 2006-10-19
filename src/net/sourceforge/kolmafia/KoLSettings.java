@@ -277,7 +277,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "useSystemTrayIcon", String.valueOf( System.getProperty( "os.name" ).startsWith( "Windows" ) ) );
 		CLIENT_SETTINGS.put( "usePopupContacts", "1" );
 		CLIENT_SETTINGS.put( "useTabbedChat", "1" );
-		CLIENT_SETTINGS.put( "useTextHeavySidepane", "true" );
 		CLIENT_SETTINGS.put( "useToolbars", "true" );
 		CLIENT_SETTINGS.put( "zoneExcludeList", "Holiday,Removed" );
 

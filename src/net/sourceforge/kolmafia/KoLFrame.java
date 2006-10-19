@@ -52,6 +52,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.Box;
 import javax.swing.JList;
+import javax.swing.JProgressBar;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
@@ -301,7 +302,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( refresher != null )
 			return;
 
-		refresher = new StatusRefresher( StaticEntity.getBooleanProperty( "useTextHeavySidepane" ) );
+		refresher = new StatusRefresher();
 		refresher.run();
 
 		refreshListener = new KoLCharacterAdapter( refresher );
@@ -314,6 +315,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	protected static class StatusRefresher implements Runnable
 	{
 		private JPanel compactPane;
+		private JPanel levelPanel;
+		private JProgressBar levelMeter;
 		private JLabel levelLabel, roninLabel, mcdLabel;
 		private JLabel musLabel, mysLabel, moxLabel, drunkLabel;
 		private JLabel hpLabel, mpLabel, meatLabel, advLabel;
@@ -321,65 +324,26 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		private JLabel mlLabel, combatLabel, initLabel;
 		private JLabel xpLabel, meatDropLabel, itemDropLabel;
 
-		protected boolean useTextOnly;
-
-		public StatusRefresher( boolean useTextOnly )
-		{
-			this.useTextOnly = useTextOnly;
-
-			if ( useTextOnly )
-				addTextOnlyCompactPane();
-			else
-				addGraphicalCompactPane();
-		}
-
-		protected String getStatText( int adjusted, int base )
-		{
-			return adjusted == base ? "<html>" + Integer.toString( base ) :
-				adjusted >  base ? "<html><font color=blue>" + Integer.toString( adjusted ) + "</font> (" + Integer.toString( base ) + ")" :
-				"<html><font color=red>" + Integer.toString( adjusted ) + "</font> (" + Integer.toString( base ) + ")";
-		}
-
-		public void run()
-		{
-			if ( useTextOnly )
-				updateTextOnly();
-			else
-				updateGraphical();
-
-			FamiliarData familiar = KoLCharacter.getFamiliar();
-			int id = familiar == null ? -1 : familiar.getID();
-
-			if ( id == -1 )
-			{
-				familiarLabel.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
-				familiarLabel.setText( "0 lbs." );
-				familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
-				familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
-			}
-			else
-			{
-				ImageIcon familiarIcon = FamiliarsDatabase.getFamiliarImage( id );
-				familiarLabel.setIcon( familiarIcon );
-				familiarLabel.setText( familiar.getModifiedWeight() + (familiar.getModifiedWeight() == 1 ? " lb." : " lbs.") );
-				familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
-				familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
-
-				familiarLabel.updateUI();
-			}
-		}
-
-		public void addTextOnlyCompactPane()
+		public StatusRefresher()
 		{
 			JPanel [] panels = new JPanel[5];
 			int panelCount = -1;
 
-			panels[ ++panelCount ] = new JPanel( new GridLayout( 3, 1 ) );
-			panels[ panelCount ].add( levelLabel = new JLabel( " ", JLabel.CENTER ) );
-			panels[ panelCount ].add( roninLabel = new JLabel( " ", JLabel.CENTER ) );
+			panels[ ++panelCount ] = new JPanel( new BorderLayout() );
+			levelPanel = panels[0];
 
-			if ( KoLCharacter.inMysticalitySign() || true )
-				panels[ panelCount ].add( mcdLabel = new JLabel( " ", JLabel.CENTER ) );
+			panels[ panelCount ].add( levelLabel = new JLabel( " ", JLabel.CENTER ), BorderLayout.NORTH );
+			panels[ panelCount ].add( levelMeter = new JProgressBar(), BorderLayout.CENTER );
+			JComponentUtilities.setComponentSize( levelMeter, 40, 5 );
+			panels[ panelCount ].add( Box.createHorizontalStrut( 10 ), BorderLayout.WEST );
+			panels[ panelCount ].add( Box.createHorizontalStrut( 10 ), BorderLayout.EAST );
+			panels[ panelCount ].setOpaque( false );
+
+			JPanel holderPanel = new JPanel( new GridLayout( 2, 1 ) );
+			holderPanel.add( roninLabel = new JLabel( " ", JLabel.CENTER ) );
+			holderPanel.add( mcdLabel = new JLabel( " ", JLabel.CENTER ) );
+			holderPanel.setOpaque( false );
+			panels[ panelCount ].add( holderPanel, BorderLayout.SOUTH );
 
 			panels[ ++panelCount ] = new JPanel( new GridLayout( 4, 2 ) );
 			panels[ panelCount ].add( new JLabel( "Mus: ", JLabel.RIGHT ) );
@@ -454,33 +418,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			compactPane.add( refreshPanel, BorderLayout.SOUTH );
 		}
 
-		protected JPanel getCompactPane()
-		{	return compactPane;
-		}
-
-		protected void addGraphicalCompactPane()
+		protected String getStatText( int adjusted, int base )
 		{
-			JPanel compactContainer = new JPanel( new GridLayout( 7, 1, 0, 20 ) );
-			compactContainer.setOpaque( false );
-
-			compactContainer.add( hpLabel = new JLabel( " ", JComponentUtilities.getImage( "hp.gif" ), JLabel.CENTER ) );
-			compactContainer.add( mpLabel = new JLabel( " ", JComponentUtilities.getImage( "mp.gif" ), JLabel.CENTER ) );
-
-			compactContainer.add( familiarLabel = new UnanimatedLabel() );
-
-			compactContainer.add( meatLabel = new JLabel( " ", JComponentUtilities.getImage( "meat.gif" ), JLabel.CENTER ) );
-			compactContainer.add( advLabel = new JLabel( " ", JComponentUtilities.getImage( "hourglass.gif" ), JLabel.CENTER ) );
-			compactContainer.add( drunkLabel = new JLabel( " ", JComponentUtilities.getImage( "sixpack.gif" ), JLabel.CENTER) );
-
-			compactContainer.add( Box.createHorizontalStrut( 80 ) );
-
-			compactPane = new JPanel();
-			compactPane.setLayout( new BoxLayout( this.compactPane, BoxLayout.Y_AXIS ) );
-			compactPane.add( Box.createVerticalStrut( 20 ) );
-			compactPane.add( compactContainer );
+			return adjusted == base ? "<html>" + Integer.toString( base ) :
+				adjusted >  base ? "<html><font color=blue>" + Integer.toString( adjusted ) + "</font> (" + Integer.toString( base ) + ")" :
+				"<html><font color=red>" + Integer.toString( adjusted ) + "</font> (" + Integer.toString( base ) + ")";
 		}
 
-		protected void updateTextOnly()
+		public void run()
 		{
 			levelLabel.setText( "Level " + KoLCharacter.getLevel() );
 			roninLabel.setText( KoLCharacter.isHardcore() ? "(Hardcore)" : KoLCharacter.canInteract() ? "(Ronin Clear)" :
@@ -506,29 +451,42 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			xpLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getFixedXPAdjustment() + (float)ml / 5.0 ) );
 			meatDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
 			itemDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
+
+			int currentLevel = KoLCharacter.calculateLastLevel();
+			int nextLevel = KoLCharacter.calculateNextLevel();
+			int totalPrime = KoLCharacter.getTotalPrime();
+
+			levelMeter.setMaximum( nextLevel - currentLevel );
+			levelMeter.setValue( totalPrime - currentLevel );
+			levelMeter.setString( "" );
+
+			levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
+				COMMA_FORMAT.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
+
+			FamiliarData familiar = KoLCharacter.getFamiliar();
+			int id = familiar == null ? -1 : familiar.getID();
+
+			if ( id == -1 )
+			{
+				familiarLabel.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
+				familiarLabel.setText( "0 lbs." );
+				familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
+				familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
+			}
+			else
+			{
+				ImageIcon familiarIcon = FamiliarsDatabase.getFamiliarImage( id );
+				familiarLabel.setIcon( familiarIcon );
+				familiarLabel.setText( familiar.getModifiedWeight() + (familiar.getModifiedWeight() == 1 ? " lb." : " lbs.") );
+				familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
+				familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
+
+				familiarLabel.updateUI();
+			}
 		}
 
-		protected void updateGraphical()
-		{
-			hpLabel.setText( KoLCharacter.getCurrentHP() + " / " + KoLCharacter.getMaximumHP() );
-			hpLabel.setVerticalTextPosition( JLabel.BOTTOM );
-			hpLabel.setHorizontalTextPosition( JLabel.CENTER );
-
-			mpLabel.setText( KoLCharacter.getCurrentMP() + " / " + KoLCharacter.getMaximumMP() );
-			mpLabel.setVerticalTextPosition( JLabel.BOTTOM );
-			mpLabel.setHorizontalTextPosition( JLabel.CENTER );
-
-			meatLabel.setText( COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
-			meatLabel.setVerticalTextPosition( JLabel.BOTTOM );
-			meatLabel.setHorizontalTextPosition( JLabel.CENTER );
-
-			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
-			advLabel.setVerticalTextPosition( JLabel.BOTTOM );
-			advLabel.setHorizontalTextPosition( JLabel.CENTER );
-
-			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
-			drunkLabel.setVerticalTextPosition( JLabel.BOTTOM );
-			drunkLabel.setHorizontalTextPosition( JLabel.CENTER );
+		protected JPanel getCompactPane()
+		{	return compactPane;
 		}
 	}
 
