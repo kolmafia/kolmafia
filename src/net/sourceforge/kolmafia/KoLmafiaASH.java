@@ -627,6 +627,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( notifyRecipient != null && notifyList.indexOf( currentScript ) == -1 )
 			{
 				StaticEntity.setProperty( "previousNotifyList", notifyList + currentScript );
+
 				GreenMessageRequest notifier = new GreenMessageRequest( notifyRecipient, currentScript );
 				notifier.run();
 			}
@@ -1999,51 +2000,60 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptCompositeReference( var, indices );
 	}
 
-	private void parseNotify() throws AdvancedScriptException
+	private String parseDirective( String directive ) throws AdvancedScriptException
 	{
-		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "notify" ) )
-			return;
-		readToken(); //notify
+		if ( currentToken() == null || !currentToken().equalsIgnoreCase( directive ) )
+			return null;
 
-		if ( currentToken() == null || !currentToken().equals( "<" ) )
-			throw new AdvancedScriptException( "'<' Expected " + getLineAndFile() );
+		readToken(); //directive
 
-		int index = line.indexOf( ">" );
-		if ( index == -1 )
+		if ( currentToken() == null )
+			throw new AdvancedScriptException( "'<' or '\"' Expected " + getLineAndFile() );
+
+		int startIndex = line.indexOf( "<" );
+		int endIndex = line.indexOf( ">" );
+
+		if ( startIndex != -1 && endIndex == -1 )
 			throw new AdvancedScriptException( "No closing '>' found " + getLineAndFile() );
 
-		String recipient = line.substring( 1, index );
-		line = line.substring( index + 1 ); //+1 to get rid of '>' token
+		if ( startIndex == -1 )
+		{
+			startIndex = line.indexOf( "\"" );
+			endIndex = line.indexOf( "\"", startIndex + 1 );
+
+			if ( startIndex != -1 && endIndex == -1 )
+				throw new AdvancedScriptException( "No closing '\"' found " + getLineAndFile() );
+		}
+
+		if ( endIndex == -1 )
+		{
+			endIndex = line.indexOf( ";" );
+			if ( endIndex == -1 )
+				throw new AdvancedScriptException( "No closing ';' found " + getLineAndFile() );
+		}
+
+		String resultString = line.substring( startIndex + 1, endIndex );
+		line = line.substring( endIndex );
+
+		if ( currentToken().equals( ">" ) || currentToken().equals( "\"" ) )
+			readToken(); //get rid of '>' or '"' token
 
 		if ( !currentToken().equals( ";" ) )
 			throw new AdvancedScriptException( "';' Expected " + getLineAndFile() );
-		readToken(); //read ;
 
+		readToken(); //read ;
+		return resultString;
+	}
+
+	private void parseNotify() throws AdvancedScriptException
+	{
+		String resultString = parseDirective( "notify" );
 		if ( notifyRecipient == null )
-			notifyRecipient = recipient;
+			notifyRecipient = resultString;
 	}
 
 	private String parseImport() throws AdvancedScriptException
-	{
-		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "import" ) )
-			return null;
-		readToken(); //import
-
-		if ( currentToken() == null || !currentToken().equals( "<" ) )
-			throw new AdvancedScriptException( "'<' Expected " + getLineAndFile() );
-
-		int index = line.indexOf( ">" );
-		if ( index == -1 )
-			throw new AdvancedScriptException( "No closing '>' found " + getLineAndFile() );
-
-		String resultString = line.substring( 1, index );
-		line = line.substring( index + 1 ); //+1 to get rid of '>' token
-
-		if ( !currentToken().equals( ";" ) )
-			throw new AdvancedScriptException( "';' Expected " + getLineAndFile() );
-		readToken(); //read ;
-
-		return resultString;
+	{	return parseDirective( "import" );
 	}
 
 	private static boolean validCoercion( ScriptType lhs, ScriptType rhs, String oper )

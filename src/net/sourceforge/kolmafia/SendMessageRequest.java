@@ -342,7 +342,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		if ( recipientMatcher.find() )
 		{
 			itemListBuffer.append( " to " );
-			itemListBuffer.append( recipientMatcher.group(1) );
+			itemListBuffer.append( KoLmafia.getPlayerName( recipientMatcher.group(1) ) );
 		}
 
 		if ( itemList.isEmpty() )

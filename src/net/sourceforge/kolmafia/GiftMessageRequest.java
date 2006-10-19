@@ -100,12 +100,8 @@ public class GiftMessageRequest extends SendMessageRequest
 		Object wrappingType, Object [] attachments, boolean isFromStorage )
 	{
 		super( "town_sendgift.php", attachments );
-		addFormField( "action", "Yep." );
-		addFormField( "towho", recipient );
-		addFormField( "note", outsideMessage );
-		addFormField( "insidenote", insideMessage );
 
-		this.recipient = KoLmafia.getPlayerID( recipient );
+		this.recipient = recipient;
 		this.outsideMessage = outsideMessage;
 		this.insideMessage = insideMessage;
 
@@ -113,6 +109,10 @@ public class GiftMessageRequest extends SendMessageRequest
 		this.maxCapacity = this.wrappingType.maxCapacity;
 		this.materialCost = this.wrappingType.materialCost;
 
+		addFormField( "action", "Yep." );
+		addFormField( "towho", this.recipient );
+		addFormField( "note", this.outsideMessage );
+		addFormField( "insidenote", this.insideMessage );
 		addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
 
 		// You can take from inventory (0) or Hagnks (1)

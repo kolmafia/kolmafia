@@ -46,41 +46,44 @@ public class GreenMessageRequest extends SendMessageRequest
 
 	public GreenMessageRequest( String recipient, String scriptName )
 	{
-		super( "sendmessage.php", new AdventureResult( AdventureResult.MEAT, 0 ) );
-		addFormField( "action", "send" );
-		addFormField( "towho", recipient );
-		addFormField( "message", message );
+		super( "sendmessage.php" );
 
-		this.recipient = KoLmafia.getPlayerID( recipient );
+		this.recipient = recipient;
 		this.message = "I have opted to let you know that I have chosen to run <" + scriptName + ">.  Thanks for writing this script!";
+
+		addFormField( "action", "send" );
+		addFormField( "towho", this.recipient );
+		addFormField( "message", this.message );
 	}
 
 	public GreenMessageRequest( String recipient, String message, AdventureResult attachment )
 	{
 		super( "sendmessage.php", attachment );
+
+		this.recipient = recipient;
+		this.message = message;
+
 		addFormField( "action", "send" );
-		addFormField( "towho", recipient );
-		addFormField( "message", message );
+		addFormField( "towho", this.recipient );
+		addFormField( "message", this.message );
 
 		if ( !message.equals( DEFAULT_KMAIL ) && !BuffBotHome.isBuffBotActive() )
 			addFormField( "savecopy", "on" );
-
-		this.recipient = KoLmafia.getPlayerID( recipient );
-		this.message = message;
 	}
 
 	public GreenMessageRequest( String recipient, String message, Object [] attachments )
 	{
 		super( "sendmessage.php", attachments );
+
+		this.recipient = recipient;
+		this.message = message;
+
 		addFormField( "action", "send" );
-		addFormField( "towho", recipient );
-		addFormField( "message", message );
+		addFormField( "towho", this.recipient );
+		addFormField( "message", this.message );
 
 		if ( !message.equals( DEFAULT_KMAIL ) && !BuffBotHome.isBuffBotActive() )
 			addFormField( "savecopy", "on" );
-
-		this.recipient = KoLmafia.getPlayerID( recipient );
-		this.message = message;
 	}
 
 	public String getRecipient()
