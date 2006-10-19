@@ -929,6 +929,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			needsPlus = true;
 		}
 
+		if ( urlString.indexOf( "combine.php" ) != -1 )
+			StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, 0 - quantity ) );
+
 		if ( usesTurns )
 			command.insert( 0, "[" + KoLCharacter.getTotalTurnsUsed() + "] " );
 
