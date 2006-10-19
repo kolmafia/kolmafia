@@ -134,7 +134,7 @@ public class CharsheetFrame extends KoLFrame
 		this.levelMeter = new JProgressBar();
 		levelMeter.setValue( 0 );
 		levelMeter.setStringPainted( true );
-		JComponentUtilities.setComponentSize( levelMeter, 40, 5 );
+		JComponentUtilities.setComponentSize( levelMeter, 40, 6 );
 
 		levelPanel.add( levelMeter, BorderLayout.SOUTH );
 		imagePanel.add( levelPanel, BorderLayout.NORTH );
@@ -283,7 +283,7 @@ public class CharsheetFrame extends KoLFrame
 
 			levelMeter.setMaximum( nextLevel - currentLevel );
 			levelMeter.setValue( totalPrime - currentLevel );
-			levelMeter.setString( "" );
+			levelMeter.setString( " " );
 
 			levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
 				COMMA_FORMAT.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );

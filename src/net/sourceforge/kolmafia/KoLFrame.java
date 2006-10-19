@@ -334,7 +334,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			panels[ panelCount ].add( levelLabel = new JLabel( " ", JLabel.CENTER ), BorderLayout.NORTH );
 			panels[ panelCount ].add( levelMeter = new JProgressBar(), BorderLayout.CENTER );
-			JComponentUtilities.setComponentSize( levelMeter, 40, 5 );
+			levelMeter.setOpaque( true );
+			levelMeter.setStringPainted( true );
+			JComponentUtilities.setComponentSize( levelMeter, 40, 6 );
 			panels[ panelCount ].add( Box.createHorizontalStrut( 10 ), BorderLayout.WEST );
 			panels[ panelCount ].add( Box.createHorizontalStrut( 10 ), BorderLayout.EAST );
 			panels[ panelCount ].setOpaque( false );
@@ -458,7 +460,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			levelMeter.setMaximum( nextLevel - currentLevel );
 			levelMeter.setValue( totalPrime - currentLevel );
-			levelMeter.setString( "" );
+			levelMeter.setString( " " );
 
 			levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
 				COMMA_FORMAT.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
