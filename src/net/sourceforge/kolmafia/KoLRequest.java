@@ -692,20 +692,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( urlString.endsWith( "lair6.php?place=6" ) )
 			KoLCharacter.setInteraction( KoLCharacter.getTotalTurnsUsed() >= 600 );
 
-		if ( getURLString().indexOf( "fight.php?action=script" ) != -1 )
-		{
-			String previousAction = StaticEntity.getProperty( "battleAction" );
-			StaticEntity.setProperty( "battleAction", "custom combat script" );
-
-			FightRequest.INSTANCE.run();
-			stealRequestData( FightRequest.INSTANCE );
-			StaticEntity.setProperty( "battleAction", previousAction );
-		}
-		else
-		{
-			statusChanged = false;
-			while ( !prepareConnection() || !postClientData() || !retrieveServerReply() && !KoLmafia.refusesContinue() );
-		}
+		statusChanged = false;
+		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() && !KoLmafia.refusesContinue() );
 
 		if ( responseCode == 200 && responseText != null )
 		{

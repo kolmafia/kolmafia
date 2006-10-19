@@ -410,7 +410,31 @@ public class LocalRelayServer implements Runnable
 				}
 				else
 				{
-					request.run();
+					if ( request.getURLString().indexOf( "fight.php?action=script" ) != -1 )
+					{
+						if ( !FightRequest.isTrackingFights() )
+						{
+							String previousAction = StaticEntity.getProperty( "battleAction" );
+							StaticEntity.setProperty( "battleAction", "custom combat script" );
+
+							FightRequest.beginTrackingFights();
+							(new Thread( FightRequest.INSTANCE )).start();
+						}
+
+						String fightResponse = FightRequest.getNextTrackedRound();
+
+						if ( FightRequest.isTrackingFights() )
+						{
+							fightResponse = StaticEntity.singleStringReplace( fightResponse, "</html>",
+								"<script language=\"Javascript\"> function continueAutomatedFight() { document.location = \"fight.php?action=script\"; return 0; } setTimeout( continueAutomatedFight, 400 ); </script></html>" );
+						}
+
+						request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
+					}
+					else
+					{
+						request.run();
+					}
 				}
 
 				sendHeaders( writer, request );

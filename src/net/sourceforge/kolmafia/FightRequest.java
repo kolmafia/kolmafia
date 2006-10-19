@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -44,6 +46,9 @@ import java.util.regex.Matcher;
 
 public class FightRequest extends KoLRequest
 {
+	private static boolean isTrackingFights = false;
+	private static ArrayList trackedRounds = new ArrayList();
+
 	private static boolean isUsingConsultScript = false;
 	private static boolean isInstanceRunning = false;
 
@@ -329,6 +334,11 @@ public class FightRequest extends KoLRequest
 		if ( !isInstanceRunning )
 			INSTANCE.responseText = responseText;
 
+		// Round tracker should include this data.
+
+		if ( isTrackingFights )
+			trackedRounds.add( responseText );
+
 		// Spend MP and consume items
 
 		++currentRound;
@@ -544,5 +554,28 @@ public class FightRequest extends KoLRequest
 		}
 
 		return true;
+	}
+
+	public static String getNextTrackedRound()
+	{
+		if ( !isTrackingFights )
+			return null;
+
+		while ( trackedRounds.isEmpty() )
+			delay( 200 );
+
+		String result = (String) trackedRounds.remove(0);
+		if ( trackedRounds.isEmpty() && currentRound == 0 )
+			isTrackingFights = false;
+
+		return result;
+	}
+
+	public static void beginTrackingFights()
+	{	isTrackingFights = true;
+	}
+
+	public static boolean isTrackingFights()
+	{	return isTrackingFights;
 	}
 }
