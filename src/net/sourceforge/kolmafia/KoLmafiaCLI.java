@@ -440,6 +440,8 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( !KoLDesktop.instanceExists() )
 			{
+				KoLmafiaGUI.checkFrameSettings();
+
 				KoLDesktop.getInstance().initializeTabs();
 				KoLDesktop.getInstance().pack();
 				KoLDesktop.getInstance().setVisible( true );
