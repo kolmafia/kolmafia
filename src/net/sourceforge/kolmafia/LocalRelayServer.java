@@ -265,6 +265,9 @@ public class LocalRelayServer implements Runnable
 				if ( lowercase.startsWith( "connection" ) )
 					continue;
 
+				if ( lowercase.startsWith( "transfer-encoding" ) )
+					continue;
+
 				if ( lowercase.startsWith( "set-cookie" ) )
 					continue;
 
@@ -410,7 +413,7 @@ public class LocalRelayServer implements Runnable
 				}
 				else
 				{
-					if ( request.getURLString().indexOf( "fight.php?action=script" ) != -1 )
+					if ( path.indexOf( "fight.php?action=script" ) != -1 )
 					{
 						if ( !FightRequest.isTrackingFights() )
 						{

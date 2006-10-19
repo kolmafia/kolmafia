@@ -839,17 +839,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			displayHTML = sortItemList( "whichitem2", displayHTML );
 		}
 
-		// The clan gym buttons are a little mixed up, but
-		// it's possible to get everything to work by changing
-		// the table cells to line breaks.
-
-		if ( displayHTML.indexOf( "action=clan_gym.php") != -1 )
-		{
-			displayHTML = displayHTML.replaceAll( "<td width=100 height=100>", "<tr><td width=100 height=100>" );
-			displayHTML = displayHTML.replaceAll( "</td><td valign=center>", "<br>" );
-			displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
-		}
-
 		// Doc Galaktik's page is going to get completely
 		// killed, except for the main purchases.
 
@@ -919,20 +908,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	{
 		if ( buffer.indexOf( "fight.php" ) == -1 )
 			return;
-
-		// If the person opts to add a plinking link, check to see if it's
-		// a valid page to add plinking, and make sure the person hasn't
-		// already started plinking.
-
-		if ( StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) )
-		{
-			int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
-			if ( firstFormIndex > 6 )
-			{
-				buffer.insert( firstFormIndex,
-					"<tr><td align=center><form action=fight.php method=post><input type=hidden name=\"action\" value=\"script\"><input class=\"button\" type=\"submit\" value=\"Run Custom Combat Script\"></form></td></tr>" );
-			}
-		}
 
 		// Now, remove the runaway button and place it inside of the user's
 		// skill list, IF the preference is active.

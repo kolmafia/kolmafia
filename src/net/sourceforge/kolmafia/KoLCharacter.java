@@ -363,6 +363,8 @@ public abstract class KoLCharacter extends StaticEntity
 		storage.clear();
 		collection.clear();
 
+		ConcoctionsDatabase.getConcoctions().clear();
+
 		usableSkills.clear();
 		availableSkills.clear();
 		battleSkillNames.clear();
@@ -394,6 +396,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 		familiars.clear();
 		familiars.add( FamiliarData.NO_FAMILIAR );
+		familiars.setSelectedItem( FamiliarData.NO_FAMILIAR );
+
+		currentFamiliar = FamiliarData.NO_FAMILIAR;
 		arenaWins = 0;
 		isUsingStabBat = false;
 
