@@ -70,6 +70,9 @@ public class LogoutRequest extends KoLRequest
 		{
 			LocalRelayServer.stop();
 			StaticEntity.saveSettings();
+
+			KoLCharacter.reset( "" );
+
 			KoLMessenger.dispose();
 			BuffBotHome.setBuffBotActive( false );
 

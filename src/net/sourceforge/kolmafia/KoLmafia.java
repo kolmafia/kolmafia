@@ -222,6 +222,8 @@ public abstract class KoLmafia implements KoLConstants
 		else
 			KoLmafiaCLI.main( args );
 
+		KoLCharacter.reset( "" );
+
 		// All that completed, check to see if there is an auto-login
 		// which should occur.
 
@@ -409,7 +411,7 @@ public abstract class KoLmafia implements KoLConstants
 		// been setup by the user.
 
 		String currentLayout = StaticEntity.getProperty( "plantingScript" );
-		if ( KoLCharacter.inMuscleSign() && MushroomPlot.ownsPlot() && !currentLayout.equals( "" ) )
+		if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomPlot.ownsPlot() )
 			DEFAULT_SHELL.executeLine( "call " + MushroomPlot.PLOT_DIRECTORY.getPath() + "/" + currentLayout + ".ash" );
 
 		if ( refusesContinue() )

@@ -141,7 +141,7 @@ public class LoginRequest extends KoLRequest
 
 		try
 		{
-			clearDataFields();
+			constructURLString( "login.php" );
 			String challenge = challengeMatcher.group(1);
 
 			addFormField( "secure", "1" );
@@ -445,7 +445,11 @@ public class LoginRequest extends KoLRequest
 
 		public void run()
 		{
-			StaticEntity.getClient().initialize( request.getFormField( "loginname" ),
+			String name = request.getFormField( "loginname" );
+			if ( name.endsWith( "/q" ) )
+				name = name.substring( 0, name.length() - 2 ).trim();
+
+			StaticEntity.getClient().initialize( name,
 				request instanceof LoginRequest && ((LoginRequest) request).getBreakfast,
 				request instanceof LoginRequest && ((LoginRequest) request).isQuickLogin );
 

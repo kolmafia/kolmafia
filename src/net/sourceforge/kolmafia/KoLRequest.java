@@ -71,7 +71,12 @@ import javax.swing.SwingUtilities;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
+	private static final byte [] CHAT_ARRAY = new byte[ 1024 ];
+	private static final byte [] LEFT_ARRAY = new byte[ 2048 ];
 	private static final byte [] BYTE_ARRAY = new byte[ 8096 ];
+
+	private static final ByteArrayOutputStream CHAT_BUFFER = new ByteArrayOutputStream();
+	private static final ByteArrayOutputStream LEFT_BUFFER = new ByteArrayOutputStream();
 	private static final ByteArrayOutputStream BYTE_BUFFER = new ByteArrayOutputStream();
 
 	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
@@ -555,7 +560,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	private boolean shouldPrintDebug()
-	{	return !(isChatRequest || KoLmafia.getDebugStream() instanceof NullStream);
+	{	return !(KoLmafia.getDebugStream() instanceof NullStream || isChatRequest);
 	}
 
 	/**
@@ -808,9 +813,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( urlString.indexOf( "fight.php" ) != -1 )
 		{
-			if ( urlString.indexOf( "action=script" ) != -1 )
-				return;
-
 			if ( urlString.indexOf( "runaway" ) != -1 )
 				constructURLString( "fight.php?action=runaway" );
 
@@ -1185,14 +1187,14 @@ public class KoLRequest implements Runnable, KoLConstants
 			return false;
 		}
 
+		if ( sessionID == null && redirectLocation.indexOf( "login.php" ) != -1 )
+		{
+			constructURLString( redirectLocation, false );
+			return false;
+		}
+
 		if ( this instanceof LocalRelayRequest )
 		{
-			if ( redirectLocation.indexOf( "login.php" ) != -1 )
-			{
-				constructURLString( redirectLocation, false );
-				return false;
-			}
-
 			if ( formURLString.indexOf( "login.php" ) != -1 )
 				LoginRequest.processLoginRequest( this );
 
@@ -1267,16 +1269,29 @@ public class KoLRequest implements Runnable, KoLConstants
 		// read all the data into the static byte array output stream and then
 		// convert that string to UTF-8.
 
-		if ( isDelayExempt )
+		if ( isChatRequest )
 		{
-			int availableBytes = 0;
-			byte [] array = new byte[1024];
-			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+			synchronized ( CHAT_BUFFER )
+			{
+				int availableBytes = 0;
+				while ( (availableBytes = istream.read( CHAT_ARRAY )) != -1 )
+					CHAT_BUFFER.write( CHAT_ARRAY, 0, availableBytes );
 
-			while ( (availableBytes = istream.read( array )) != -1 )
-				buffer.write( array, 0, availableBytes );
+				this.responseText = CHAT_BUFFER.toString( "UTF-8" );
+				CHAT_BUFFER.reset();
+			}
+		}
+		else if ( formURLString.equals( "charpane.php" ) )
+		{
+			synchronized ( LEFT_BUFFER )
+			{
+				int availableBytes = 0;
+				while ( (availableBytes = istream.read( LEFT_ARRAY )) != -1 )
+					LEFT_BUFFER.write( LEFT_ARRAY, 0, availableBytes );
 
-			this.responseText = buffer.toString( "UTF-8" );
+				this.responseText = LEFT_BUFFER.toString( "UTF-8" );
+				LEFT_BUFFER.reset();
+			}
 		}
 		else
 		{
@@ -1309,7 +1324,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( statusChanged && !(this instanceof LocalRelayRequest) )
 			LocalRelayServer.addStatusMessage( "<!-- REFRESH -->" );
 
-		checkForNewEvents();
+		if ( !isDelayExempt )
+			checkForNewEvents();
 
 		if ( isRatQuest )
 			KoLmafia.addTavernLocation( this );

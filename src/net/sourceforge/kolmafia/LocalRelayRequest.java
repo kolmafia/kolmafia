@@ -413,20 +413,6 @@ public class LocalRelayRequest extends KoLRequest
 		// we can detach user interface elements.
 
 		StaticEntity.singleStringReplace( responseBuffer, "frames.length == 0", "frames.length == -1" );
-
-		// If the person is currently caching relay images,
-		// then it would be most beneficial to use local
-		// file access.
-
-		if ( StaticEntity.getBooleanProperty( "cacheRelayImages" ) )
-			StaticEntity.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
-
-		// Otherwise, use the standard image server address
-		// just in case there is a DNS problem.
-
-		else
-			StaticEntity.globalStringReplace( responseBuffer, "images.kingdomofloathing.com", IMAGE_SERVER );
-
 		responseText = responseBuffer.toString();
 	}
 
@@ -458,7 +444,28 @@ public class LocalRelayRequest extends KoLRequest
 			this.responseText = " ";
 
 		if ( formURLString.indexOf( "fight.php" ) != -1 )
-			this.responseText = StaticEntity.singleStringReplace( this.responseText, "</html>", "<!-- KoLmafia --></html>" );
+		{
+			// If the person opts to add a plinking link, check to see if it's
+			// a valid page to add plinking, and make sure the person hasn't
+			// already started plinking.
+
+			StringBuffer buffer = new StringBuffer( responseText );
+			if ( StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) )
+			{
+				int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
+				if ( firstFormIndex > 6 )
+				{
+					buffer.insert( firstFormIndex,
+						"<tr><td align=center><form action=fight.php method=\"GET\"><input type=hidden name=\"action\" value=\"script\"><input class=\"button\" type=\"submit\" value=\"Run Custom Combat Script\"></form></td></tr>" );
+				}
+			}
+
+			int lastIndex = buffer.lastIndexOf( "</html>" );
+			if ( lastIndex != -1 )
+				buffer.insert( lastIndex, "<!-- KoLmafia -->" );
+
+			this.responseText = buffer.toString();
+		}
 
 		headers.clear();
 		headers.add( status );
