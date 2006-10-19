@@ -365,6 +365,11 @@ public class FightRequest extends KoLRequest
 
 			action1 = null;
 			action2 = null;
+
+			if ( RequestFrame.willRefreshStatus() )
+				RequestFrame.refreshStatus();
+			else
+				CharpaneRequest.getInstance().run();
 		}
 	}
 
