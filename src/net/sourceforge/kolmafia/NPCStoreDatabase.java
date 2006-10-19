@@ -35,7 +35,6 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
-import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -45,15 +44,12 @@ import java.util.ArrayList;
 
 public class NPCStoreDatabase extends KoLDatabase
 {
-	private static List [] storeTable = new ArrayList[4];
+	private static final ArrayList NPC_ITEMS = new ArrayList();
 	private static final AdventureResult RABBIT_FOOT = new AdventureResult( 1485, 1 );
 
 	static
 	{
 		BufferedReader reader = getReader( "npcstores.dat" );
-
-		for ( int i = 0; i < 4; ++i )
-			storeTable[i] = new ArrayList();
 
 		String [] data;
 
@@ -61,9 +57,8 @@ public class NPCStoreDatabase extends KoLDatabase
 		{
 			if ( data.length == 4 )
 			{
-				data[2] = getCanonicalName( data[2] );
-				for ( int i = 0; i < 4; ++i )
-					storeTable[i].add( data[i] );
+				NPC_ITEMS.add( new MallPurchaseRequest( data[1], data[0],
+					TradeableItemDatabase.getItemID( data[2] ), parseInt( data[3] ) ) );
 			}
 		}
 
@@ -82,50 +77,28 @@ public class NPCStoreDatabase extends KoLDatabase
 
 	public static final MallPurchaseRequest getPurchaseRequest( String itemName )
 	{
-		String canonicalName = getCanonicalName( itemName );
+		int itemID = TradeableItemDatabase.getItemID( itemName );
 
-		int itemIndex = storeTable[2].indexOf( canonicalName );
-		if ( itemIndex == -1 )
-			return null;
+		MallPurchaseRequest foundItem = null;
+		MallPurchaseRequest currentItem = null;
 
-		String storeID = getStoreID( canonicalName );
-		if ( storeID == null )
-			return null;
-
-		MallPurchaseRequest itemRequest = new MallPurchaseRequest( (String) storeTable[1].get(itemIndex), storeID,
-			TradeableItemDatabase.getItemID( (String) canonicalName ), parseInt( (String) storeTable[3].get(itemIndex) ) );
-
-		itemRequest.setCanPurchase( canPurchase( storeID ) );
-		return itemRequest;
-	}
-
-	private static final String getStoreID( String itemName )
-	{
-		if ( itemName == null )
-			return null;
-
-		int itemIndex = storeTable[2].indexOf( itemName );
-
-		// If the item is not present in the NPC store table, then
-		// the item is not available.
-
-		if ( itemIndex == -1 )
-			return null;
-
-		// Check for whether or not the purchase can be made from a
-		// guild store.  Store #1 is moxie classes, store #2 is for
-		// mysticality classes, and store #3 is for muscle classes.
-
-		String classType = KoLCharacter.getClassType();
-		String storeID = (String) storeTable[0].get( itemIndex );
-
-		if ( storeID.equals( "b" ) && !EquipmentDatabase.hasOutfit( 1 ) )
+		for ( int i = 0; i < NPC_ITEMS.size(); ++i )
 		{
-			itemIndex = storeTable[2].lastIndexOf( itemName );
-			storeID = (String) storeTable[0].get( itemIndex );
+			currentItem = (MallPurchaseRequest) NPC_ITEMS.get(i);
+			if ( currentItem.getItemID() == itemID )
+			{
+				foundItem = currentItem;
+				if ( canPurchase( foundItem.getStoreID() ) )
+					return foundItem;
+			}
+
 		}
 
-		return storeID;
+		if ( foundItem == null )
+			return null;
+
+		foundItem.setCanPurchase( false );
+		return foundItem;
 	}
 
 	private static boolean canPurchase( String storeID )
@@ -186,7 +159,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		// the person has access to the Citadel.
 
 		else if ( storeID.equals( "w" ) )
-			return KoLCharacter.hasItem( RABBIT_FOOT );
+			return KoLCharacter.isHardcore() && KoLCharacter.hasItem( RABBIT_FOOT );
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.
@@ -200,7 +173,7 @@ public class NPCStoreDatabase extends KoLDatabase
 
 	public static final boolean contains( String itemName, boolean validate )
 	{
-		String storeID = getStoreID( getCanonicalName( itemName ) );
-		return storeID != null && (!validate || canPurchase( storeID ));
+		MallPurchaseRequest item = getPurchaseRequest( itemName );
+		return item != null && item.canPurchase();
 	}
 }

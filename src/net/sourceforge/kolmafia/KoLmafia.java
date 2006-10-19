@@ -2354,62 +2354,63 @@ public abstract class KoLmafia implements KoLConstants
 		AdventureResult itemToBuy = new AdventureResult( currentRequest.getItemID(), 0 );
 
 		int initialCount = itemToBuy.getCount( inventory );
-		int purchaseCount = 0, previousLimit = 0;
+		int currentCount = initialCount;
+		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
 
-		for ( int i = 0; i < purchases.length && purchaseCount < maxPurchases && permitsContinue(); ++i )
+		int previousLimit = 0;
+
+		for ( int i = 0; i < purchases.length && currentCount < desiredCount && permitsContinue(); ++i )
 		{
-			if ( purchases[i] instanceof MallPurchaseRequest )
+			currentRequest = (MallPurchaseRequest) purchases[i];
+
+			if ( !KoLCharacter.canInteract() && currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
 			{
-				currentRequest = (MallPurchaseRequest) purchases[i];
-
-				if ( !KoLCharacter.canInteract() && currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
-				{
-					updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
-					return;
-				}
-
-				// Keep track of how many of the item you had before
-				// you run the purchase request
-
-				previousLimit = currentRequest.getLimit();
-				currentRequest.setLimit( Math.min( previousLimit, maxPurchases - purchaseCount ) );
-				currentRequest.run();
-
-				// Calculate how many of the item you have now after
-				// you run the purchase request
-
-				purchaseCount = itemToBuy.getCount( inventory ) - initialCount;
-
-				// Remove the purchase from the list!  Because you
-				// have already made a purchase from the store
-
-				if ( permitsContinue() )
-				{
-					if ( currentRequest.getQuantity() == currentRequest.getLimit() )
-						results.remove( currentRequest );
-					else if ( currentRequest.getQuantity() == MallPurchaseRequest.MAX_QUANTITY )
-						currentRequest.setLimit( MallPurchaseRequest.MAX_QUANTITY );
-					else
-					{
-						if ( currentRequest.getLimit() == previousLimit )
-							currentRequest.setCanPurchase( false );
-
-						currentRequest.setQuantity( currentRequest.getQuantity() - currentRequest.getLimit() );
-						currentRequest.setLimit( previousLimit );
-					}
-				}
-				else
-					currentRequest.setLimit( previousLimit );
+				updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
+				return;
 			}
+
+			// Keep track of how many of the item you had before
+			// you run the purchase request
+
+			previousLimit = currentRequest.getLimit();
+			currentRequest.setLimit( Math.min( previousLimit, desiredCount - currentCount ) );
+			currentRequest.run();
+
+			// Remove the purchase from the list!  Because you
+			// have already made a purchase from the store
+
+			if ( permitsContinue() )
+			{
+				if ( currentRequest.getQuantity() == currentRequest.getLimit() )
+					results.remove( currentRequest );
+				else if ( currentRequest.getQuantity() == MallPurchaseRequest.MAX_QUANTITY )
+					currentRequest.setLimit( MallPurchaseRequest.MAX_QUANTITY );
+				else
+				{
+					if ( currentRequest.getLimit() == previousLimit )
+						currentRequest.setCanPurchase( false );
+
+					currentRequest.setQuantity( currentRequest.getQuantity() - currentRequest.getLimit() );
+					currentRequest.setLimit( previousLimit );
+				}
+			}
+			else
+				currentRequest.setLimit( previousLimit );
+
+			// Now update how many you actually have for the next
+			// iteration of the loop.
+
+			currentCount = itemToBuy.getCount( inventory );
 		}
 
 		// With all that information parsed out, we should
 		// refresh the lists at the very end.
 
-		if ( purchaseCount >= maxPurchases || maxPurchases == Integer.MAX_VALUE )
+		if ( itemToBuy.getCount( inventory ) >= desiredCount || maxPurchases == Integer.MAX_VALUE )
 			updateDisplay( "Purchases complete." );
 		else
-			updateDisplay( "Desired purchase quantity not reached (wanted " + maxPurchases + ", got " + purchaseCount + ")." );
+			updateDisplay( "Desired purchase quantity not reached (wanted " + maxPurchases + ", got " +
+				(currentCount - initialCount) + ")" );
 	}
 
 	/**

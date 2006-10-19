@@ -168,6 +168,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	{	return itemID;
 	}
 
+	public String getStoreID()
+	{	return isNPCStore ? npcStoreID : String.valueOf( shopID );
+	}
+
 	/**
 	 * Retrieves the name of the item being purchased.
 	 * @return	The name of the item being purchased
