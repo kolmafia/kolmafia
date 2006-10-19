@@ -275,7 +275,11 @@ public class ChatBuffer
 			if ( displayPane != null && !UPDATER.isQueued() )
 			{
 				UPDATER.markQueued();
-				SwingUtilities.invokeLater( UPDATER );
+
+				if ( SwingUtilities.isEventDispatchThread() )
+					UPDATER.run();
+				else
+					SwingUtilities.invokeLater( UPDATER );
 			}
 
 			if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
@@ -314,26 +318,26 @@ public class ChatBuffer
 
 		public void queueUpdate( String newContents )
 		{
-			this.shouldReset |= newContents == null;
-
-			if ( newContents != null )
+			if ( newContents == null )
 			{
-				if ( newContents.indexOf( "<body" ) != -1 )
-				{
-					shouldReset = true;
-					shouldScroll = false;
-
-					displayBuffer.setLength(0);
-					newContents = newContents.substring( newContents.indexOf( ">" ) + 1 );
-				}
-
-				int endBody = newContents.indexOf( "</body>" );
-				if ( endBody != -1 )
-					newContents = newContents.substring( 0, endBody );
-
-				displayBuffer.append( newContents );
-				contentQueue.add( newContents );
+				this.shouldReset = true;
+				return;
 			}
+
+			if ( newContents.indexOf( "<body" ) != -1 )
+			{
+				shouldReset = true;
+				shouldScroll = false;
+
+				displayBuffer.setLength(0);
+				newContents = newContents.substring( newContents.indexOf( ">" ) + 1 );
+			}
+
+			int endBody = newContents.indexOf( "</body>" );
+			if ( endBody != -1 )
+				newContents = newContents.substring( 0, endBody );
+
+			contentQueue.add( newContents );
 		}
 
 		public boolean isQueued()
@@ -358,7 +362,7 @@ public class ChatBuffer
 			}
 
 			this.shouldReset = false;
-			this.shouldScroll = false;
+			this.shouldScroll = true;
 			this.isQueued = false;
 		}
 
@@ -366,6 +370,10 @@ public class ChatBuffer
 		{
 			if ( shouldReset )
 			{
+				shouldScroll = displayBuffer.length() > 0;
+				if ( newContents != null )
+					displayBuffer.append( newContents );
+
 				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
 			}
 			else
@@ -381,6 +389,7 @@ public class ChatBuffer
 
 				try
 				{
+					displayBuffer.append( newContents );
 					currentHTML.insertAfterEnd( parentElement, newContents.trim() );
 				}
 				catch ( Exception e )
@@ -391,7 +400,6 @@ public class ChatBuffer
 
 					e.printStackTrace();
 				}
-
 			}
 
 			int length = displayPane.getDocument().getLength();
