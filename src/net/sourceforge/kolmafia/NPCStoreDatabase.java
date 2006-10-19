@@ -89,7 +89,10 @@ public class NPCStoreDatabase extends KoLDatabase
 			{
 				foundItem = currentItem;
 				if ( canPurchase( foundItem.getStoreID() ) )
+				{
+					foundItem.setCanPurchase( true );
 					return foundItem;
+				}
 			}
 
 		}
