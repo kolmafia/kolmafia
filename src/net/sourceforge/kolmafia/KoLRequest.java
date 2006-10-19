@@ -716,7 +716,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLmafia.enableDisplay();
 			}
 
-			needsRefresh &= !(this instanceof LocalRelayRequest);
+			needsRefresh &= !(this instanceof LocalRelayRequest || this instanceof FightRequest);
 			needsRefresh &= formURLString.indexOf( "charpane.php" ) == -1;
 
 			statusChanged &= formURLString.indexOf( "charpane.php" ) == -1;
