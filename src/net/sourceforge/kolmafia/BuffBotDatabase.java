@@ -57,6 +57,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class BuffBotDatabase extends KoLDatabase
 {
+	public static final String OPTOUT_URL = "http://forums.kingdomofloathing.com/";
+
 	private static final Pattern BUFFDATA_PATTERN = Pattern.compile( "<buffdata>(.*?)</buffdata>", Pattern.DOTALL );
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<name>(.*?)</name>", Pattern.DOTALL );
 	private static final Pattern PRICE_PATTERN = Pattern.compile( "<price>(.*?)</price>", Pattern.DOTALL );
@@ -155,6 +157,15 @@ public class BuffBotDatabase extends KoLDatabase
 
 		public void run()
 		{
+			if ( location.equals( OPTOUT_URL ) )
+			{
+				freeOfferings.put( botName, new LockableListModel() );
+				normalOfferings.put( botName, new LockableListModel() );
+
+				++buffBotsConfigured;
+				return;
+			}
+
 			BufferedReader reader = KoLDatabase.getReader( location );
 			StringBuffer dataBuffer = new StringBuffer();
 

@@ -224,6 +224,14 @@ public class BuffRequestFrame extends KoLFrame
 			public RequestPanel( boolean isFree, String botName )
 			{
 				this.botName = botName;
+
+				if ( !botName.equals( "" ) && BuffBotDatabase.getPhilanthropicOfferings( botName ).isEmpty() &&
+					BuffBotDatabase.getStandardOfferings( botName ).isEmpty() )
+				{
+					add( new JLabel( "<html><center><b><font size=7>This buffbot has opted<br>not to be included<br>in this price listing.<br><br>Please stop asking.<br>Thank you.</font><b></center></html>" ) );
+					return;
+				}
+
 				LockableListModel list = isFree ? BuffBotDatabase.getPhilanthropicOfferings( botName ) :
 					BuffBotDatabase.getStandardOfferings( botName );
 
