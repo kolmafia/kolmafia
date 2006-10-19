@@ -283,7 +283,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public boolean canPurchase()
 	{
-		canPurchase &= KoLCharacter.getAvailableMeat() >= price;
+		canPurchase &= isNPCStore || KoLCharacter.getAvailableMeat() >= price;
 		return canPurchase;
 	}
 
