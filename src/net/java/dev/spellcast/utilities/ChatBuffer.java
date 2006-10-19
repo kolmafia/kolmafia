@@ -351,15 +351,10 @@ public class ChatBuffer
 		public void run()
 		{
 			if ( shouldReset )
-			{
 				runOnce( null );
-				contentQueue.clear();
-			}
-			else
-			{
-				while ( !contentQueue.isEmpty() )
-					runOnce( (String) contentQueue.remove(0) );
-			}
+
+			while ( !contentQueue.isEmpty() )
+				runOnce( (String) contentQueue.remove(0) );
 
 			this.shouldReset = false;
 			this.shouldScroll = true;
