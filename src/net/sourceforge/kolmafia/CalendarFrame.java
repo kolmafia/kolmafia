@@ -64,7 +64,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	// Static array of file names (not including .gif extension)
 	// for the various months in the KoL calendar.
 
-	private static final String [] CALENDARS =
+	public static final String [] CALENDARS =
 	{	"", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"
 	};
 

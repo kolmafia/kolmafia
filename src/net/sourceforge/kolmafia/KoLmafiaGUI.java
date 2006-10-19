@@ -406,10 +406,19 @@ public class KoLmafiaGUI extends KoLmafia
 				enableDisplay();
 			}
 		}
-
 		else if ( frameName.equals( "RestoreOptionsFrame" ) )
 		{
 			frameName = "OptionsFrame";
+		}
+
+		else if ( frameName.equals( "CalendarFrame" ) )
+		{
+			String base = "http://images.kingdomofloathing.com/otherimages/bikini/";
+			for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
+				RequestEditorKit.downloadImage( base + CalendarFrame.CALENDARS[i] + ".gif" );
+			base = "http://images.kingdomofloathing.com/otherimages/beefcake/";
+			for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
+				RequestEditorKit.downloadImage( base + CalendarFrame.CALENDARS[i] + ".gif" );
 		}
 
 		try
