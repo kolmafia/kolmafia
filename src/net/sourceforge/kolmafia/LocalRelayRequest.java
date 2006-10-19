@@ -457,6 +457,9 @@ public class LocalRelayRequest extends KoLRequest
 		if ( responseText.length() == 0 )
 			this.responseText = " ";
 
+		if ( formURLString.indexOf( "fight.php" ) != -1 )
+			this.responseText = StaticEntity.singleStringReplace( this.responseText, "</html>", "<!-- KoLmafia --></html>" );
+
 		headers.clear();
 		headers.add( status );
 		headers.add( "Date: " + ( new Date() ) );
