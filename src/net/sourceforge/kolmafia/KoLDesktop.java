@@ -149,14 +149,17 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 			return;
 
 		isInitializing = true;
+		KoLmafiaGUI.checkFrameSettings();
 
 		String interfaceSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
-
-		String [] interfaceArray = interfaceSetting.split( "," );
-
 		if ( !interfaceSetting.equals( "" ) )
-			for ( int i = 0; i < interfaceArray.length; ++i )
-				KoLmafiaGUI.constructFrame( interfaceArray[i] );
+		{
+			String [] interfaceArray = interfaceSetting.split( "," );
+
+			if ( !interfaceSetting.equals( "" ) )
+				for ( int i = 0; i < interfaceArray.length; ++i )
+					KoLmafiaGUI.constructFrame( interfaceArray[i] );
+		}
 
 		isInitializing = false;
 		KoLmafia.enableDisplay();
@@ -215,7 +218,8 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	public void pack()
 	{
 		super.pack();
-		tabs.setSelectedIndex( 0 );
+		if ( tabs.getTabCount() > 0 )
+			tabs.setSelectedIndex( 0 );
 	}
 
 	public static void removeTab( KoLFrame content )
