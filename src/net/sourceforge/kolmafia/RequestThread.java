@@ -67,7 +67,7 @@ public class RequestThread extends Thread implements KoLConstants
 
 		if ( !runningRequests.isEmpty() )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "World peace declaration is still propagating." );
+			KoLmafia.updateDisplay( "World peace declaration is still propagating." );
 			return;
 		}
 
