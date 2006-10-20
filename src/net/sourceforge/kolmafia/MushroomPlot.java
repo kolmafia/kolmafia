@@ -91,26 +91,26 @@ public abstract class MushroomPlot extends StaticEntity
 	public static final Object [][] MUSHROOMS =
 	{
 		// Sprout and emptiness
-		{ new Integer( EMPTY ), "dirt1.gif", "__", "__", new Integer( 0 ) },
-		{ new Integer( SPROUT ), "mushsprout.gif", "..", "..", new Integer( 0 ) },
+		{ new Integer( EMPTY ), "dirt1.gif", "__", "__", new Integer( 0 ), "empty" },
+		{ new Integer( SPROUT ), "mushsprout.gif", "..", "..", new Integer( 0 ), "unknown" },
 
 		// First generation mushrooms
-		{ new Integer( KNOB ), "mushroom.gif", "kb", "KB", new Integer( 1 ) },
-		{ new Integer( KNOLL ), "bmushroom.gif", "kn", "KN", new Integer( 2 ) },
-		{ new Integer( SPOOKY ), "spooshroom.gif", "sp", "SP", new Integer( 3 ) },
+		{ new Integer( KNOB ), "mushroom.gif", "kb", "KB", new Integer( 1 ), "knob" },
+		{ new Integer( KNOLL ), "bmushroom.gif", "kn", "KN", new Integer( 2 ), "knoll" },
+		{ new Integer( SPOOKY ), "spooshroom.gif", "sp", "SP", new Integer( 3 ), "spooky" },
 
 		// Second generation mushrooms
-		{ new Integer( WARM ), "flatshroom.gif", "wa", "WA", new Integer( 4 ) },
-		{ new Integer( COOL ), "plaidroom.gif", "co", "CO", new Integer( 5 ) },
-		{ new Integer( POINTY ), "tallshroom.gif", "po", "PO", new Integer( 6 ) },
+		{ new Integer( WARM ), "flatshroom.gif", "wa", "WA", new Integer( 4 ), "warm" },
+		{ new Integer( COOL ), "plaidroom.gif", "co", "CO", new Integer( 5 ), "cool" },
+		{ new Integer( POINTY ), "tallshroom.gif", "po", "PO", new Integer( 6 ), "pointy" },
 
 		// Third generation mushrooms
-		{ new Integer( FLAMING ), "fireshroom.gif", "fl", "FL", new Integer( 7 ) },
-		{ new Integer( FROZEN ), "iceshroom.gif", "fr", "FR", new Integer( 8 ) },
-		{ new Integer( STINKY ), "stinkshroo.gif", "st", "ST", new Integer( 9 ) },
+		{ new Integer( FLAMING ), "fireshroom.gif", "fl", "FL", new Integer( 7 ), "flaming" },
+		{ new Integer( FROZEN ), "iceshroom.gif", "fr", "FR", new Integer( 8 ), "frozen" },
+		{ new Integer( STINKY ), "stinkshroo.gif", "st", "ST", new Integer( 9 ), "stinky" },
 
 		// Special mushrooms
-		{ new Integer( GLOOMY ), "blackshroo.gif", "gl", "GL", new Integer( 10 ) },
+		{ new Integer( GLOOMY ), "blackshroo.gif", "gl", "GL", new Integer( 10 ), "gloomy" },
 	};
 
 	public static final int [][] BREEDING =
@@ -928,6 +928,12 @@ public abstract class MushroomPlot extends StaticEntity
 			plotScript.println( "boolean main()" );
 			plotScript.println( "{" );
 			plotScript.println();
+			plotScript.println( "    if ( !have_mushroom_plot() )" );
+			plotScript.println( "    {" );
+			plotScript.println( "        print( \"You do not have a mushroom plot.\" );" );
+			plotScript.println( "        return false;" );
+			plotScript.println( "    }" );
+			plotScript.println();
 			plotScript.println( "    if ( get_property( \"plantingScript\" ) != \"" + filename + "\" )" );
 			plotScript.println( "    {" );
 			plotScript.println( "        set_property( \"plantingDay\", \"-1\" );" );
@@ -937,7 +943,7 @@ public abstract class MushroomPlot extends StaticEntity
 			plotScript.println( "    }" );
 			plotScript.println();
 			plotScript.println( "    if ( get_property( \"plantingDate\" ) == today_to_string() )" );
-			plotScript.println( "        return;" );
+			plotScript.println( "        return true;" );
 			plotScript.println();
 			plotScript.println( "    set_property( \"plantingDate\", today_to_string() );" );
 			plotScript.println( "    int index = (string_to_int( get_property( \"plantingDay\" ) ) + 1) % " + days.size() + ";" );
