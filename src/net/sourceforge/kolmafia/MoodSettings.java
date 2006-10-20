@@ -79,7 +79,10 @@ public abstract class MoodSettings implements KoLConstants
 	public static boolean hasChangedOutfit = false;
 
 	private static ArrayList thiefTriggers = new ArrayList();
-	private static SortedListModel triggers = new SortedListModel();
+
+	private static SortedListModel mappedList = null;
+	private static SortedListModel displayList = new SortedListModel();
+
 	private static SortedListModel availableMoods = new SortedListModel();
 
 	public static final String settingsFileName()
@@ -107,24 +110,18 @@ public abstract class MoodSettings implements KoLConstants
 	 * for the given mood if no data exists.
 	 */
 
-	public static SortedListModel setMood( String mood )
+	public static void setMood( String mood )
 	{
-		mood = mood == null || mood.trim().equals( "" ) ? "default" : mood.toLowerCase().trim();
+		mood = (mood == null || mood.trim().equals( "" )) ? "default" : mood.toLowerCase().trim();
 
 		StaticEntity.setProperty( "currentMood", mood );
 		availableMoods.setSelectedItem( mood );
 		ensureProperty( mood );
 
-		triggers = (SortedListModel) reference.get( mood );
+		mappedList = (SortedListModel) reference.get( mood );
 
-		if ( mood.equals( "default" ) && triggers.isEmpty() )
-		{
-			String beatenUpAction = getDefaultAction( "gain_effect", "Beaten Up" );
-			if ( beatenUpAction.startsWith( "cast" ) )
-				addTrigger( "gain_effect", "Beaten Up", beatenUpAction );
-		}
-
-		return triggers;
+		displayList.clear();
+		displayList.addAll( mappedList );
 	}
 
 	/**
@@ -132,7 +129,7 @@ public abstract class MoodSettings implements KoLConstants
 	 */
 
 	public static SortedListModel getTriggers()
-	{	return triggers;
+	{	return displayList;
 	}
 
 	/**
@@ -148,41 +145,45 @@ public abstract class MoodSettings implements KoLConstants
 		if ( node == null )
 			return;
 
-		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) || triggers.contains( node ) )
+		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) || displayList.contains( node ) )
 			return;
 
 		// Check to make sure that there are fewer than three thief
-		// triggers if this is a thief trigger.
+		// displayList if this is a thief trigger.
 
 		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
 
 		if ( node.isThiefTrigger() )
 		{
 			int thiefTriggerCount = 0;
-			for ( int i = 0; i < triggers.size(); ++i )
-				if ( ((MoodTrigger)triggers.get(i)).isThiefTrigger() )
+			for ( int i = 0; i < displayList.size(); ++i )
+				if ( ((MoodTrigger)displayList.get(i)).isThiefTrigger() )
 					++thiefTriggerCount;
 
 			if ( thiefTriggerCount >= thiefTriggerLimit )
 				return;
 		}
 
-		triggers.add( node );
+		mappedList.add( node );
+		displayList.add( node );
+
 		if ( node.isThiefTrigger() )
 			thiefTriggers.add( node );
 	}
 
 	/**
-	 * Removes all the current triggers.
+	 * Removes all the current displayList.
 	 */
 
-	public static void removeTriggers( Object [] triggers )
+	public static void removeTriggers( Object [] toRemove )
 	{
-		for ( int i = 0; i < triggers.length; ++i )
+		for ( int i = 0; i < toRemove.length; ++i )
 		{
-			MoodSettings.triggers.remove( triggers[i] );
-			if ( thiefTriggers.contains( triggers[i] ) )
-				thiefTriggers.remove( triggers[i] );
+			mappedList.remove( toRemove[i] );
+			displayList.remove( toRemove[i] );
+
+			if ( thiefTriggers.contains( toRemove[i] ) )
+				thiefTriggers.remove( toRemove[i] );
 		}
 	}
 
@@ -277,7 +278,7 @@ public abstract class MoodSettings implements KoLConstants
 
 
 		// Muscle class characters are rather special when it comes
-		// to their default triggers.
+		// to their default displayList.
 
 		if ( NPCStoreDatabase.contains( "cheap wind-up clock" ) )
 			addTrigger( "lose_effect", "Ticking Clock", getDefaultAction( "lose_effect", "Ticking Clock" ) );
@@ -319,20 +320,18 @@ public abstract class MoodSettings implements KoLConstants
 
 		if ( currentMood.equals( "default" ) )
 		{
-			triggers.clear();
+			mappedList.clear();
+			displayList.clear();
 
-			String beatenUpAction = getDefaultAction( "gain_effect", "Beaten Up" );
-			if ( !beatenUpAction.equals( "" ) )
-				addTrigger( "gain_effect", "Beaten Up", beatenUpAction );
-
+			setMood( "default" );
 			return;
 		}
 
-		availableMoods.setSelectedItem( "apathetic" );
-		setMood( "apathetic" );
-
 		reference.remove( currentMood );
 		availableMoods.remove( currentMood );
+
+		availableMoods.setSelectedItem( "apathetic" );
+		setMood( "apathetic" );
 	}
 
 	/**
@@ -350,18 +349,18 @@ public abstract class MoodSettings implements KoLConstants
 		if ( currentMood.equals( "apathetic" ) || newListName.equals( "apathetic" ) )
 			return;
 
-		// Copy triggers from current list, then
+		// Copy displayList from current list, then
 		// create and switch to new list
 
-		SortedListModel oldTriggers = getTriggers();
+		SortedListModel oldList = mappedList;
 		setMood( newListName );
 
-		triggers.clear();
-		triggers.addAll( oldTriggers );
+		mappedList.addAll( oldList );
+		displayList.addAll( oldList );
 	}
 
 	/**
-	 * Executes all the mood triggers for the current mood.
+	 * Executes all the mood displayList for the current mood.
 	 */
 
 	public static void execute()
@@ -388,7 +387,7 @@ public abstract class MoodSettings implements KoLConstants
 		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
 
 		// If you have too many accordion thief buffs to execute
-		// your triggers, then shrug off your extra buffs, but
+		// your displayList, then shrug off your extra buffs, but
 		// only if the user allows for this.
 
 		boolean allowThiefShrugOff = StaticEntity.getBooleanProperty( "allowThiefShrugOff" );
@@ -410,18 +409,18 @@ public abstract class MoodSettings implements KoLConstants
 				}
 			}
 
-			// Then, we determine the triggers which are thief skills, and
+			// Then, we determine the displayList which are thief skills, and
 			// thereby would be cast at this time.
 
 			ArrayList thiefSkills = new ArrayList();
-			for ( int i = 0; i < triggers.size(); ++i )
+			for ( int i = 0; i < displayList.size(); ++i )
 			{
-				current = (MoodTrigger) triggers.get(i);
+				current = (MoodTrigger) displayList.get(i);
 				if ( current.isThiefTrigger() )
 					thiefSkills.add( current.effect );
 			}
 
-			// We then remove the triggers which will be used from the pool of
+			// We then remove the displayList which will be used from the pool of
 			// effects which could be removed.  Then we compute how many we
 			// need to remove and remove them.
 
@@ -433,19 +432,19 @@ public abstract class MoodSettings implements KoLConstants
 		}
 
 		// Now that everything is prepared, go ahead and execute
-		// the triggers which have been set.  First, start out
+		// the displayList which have been set.  First, start out
 		// with any skill casting.
 
-		for ( int i = 0; !KoLmafia.refusesContinue() && i < triggers.size(); ++i )
+		for ( int i = 0; !KoLmafia.refusesContinue() && i < displayList.size(); ++i )
 		{
-			current = (MoodTrigger) triggers.get(i);
+			current = (MoodTrigger) displayList.get(i);
 			if ( current.skillID != -1 )
 				current.execute( isManualInvocation );
 		}
 
-		for ( int i = 0; i < triggers.size(); ++i )
+		for ( int i = 0; i < displayList.size(); ++i )
 		{
-			current = (MoodTrigger) triggers.get(i);
+			current = (MoodTrigger) displayList.get(i);
 			if ( current.skillID == -1 )
 				current.execute( isManualInvocation );
 		}
@@ -459,14 +458,14 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static boolean willExecute( boolean isManualInvocation )
 	{
-		if ( triggers.isEmpty() )
+		if ( displayList.isEmpty() )
 			return false;
 
 		boolean willExecute = false;
 
-		for ( int i = 0; i < triggers.size(); ++i )
+		for ( int i = 0; i < displayList.size(); ++i )
 		{
-			MoodTrigger current = (MoodTrigger) triggers.get(i);
+			MoodTrigger current = (MoodTrigger) displayList.get(i);
 			willExecute |= current.shouldExecute( isManualInvocation );
 		}
 
@@ -549,9 +548,11 @@ public abstract class MoodSettings implements KoLConstants
 				if ( line.startsWith( "[" ) )
 				{
 					currentKey = line.substring( 1, line.length() - 1 ).trim().toLowerCase();
-					triggers = new SortedListModel();
 
-					reference.put( currentKey, triggers );
+					displayList.clear();
+					mappedList = new SortedListModel();
+
+					reference.put( currentKey, mappedList );
 					availableMoods.add( currentKey );
 				}
 				else if ( line.length() != 0 )
@@ -559,6 +560,8 @@ public abstract class MoodSettings implements KoLConstants
 					addTrigger( MoodTrigger.constructNode( line ) );
 				}
 			}
+
+			displayList.clear();
 
 			reader.close();
 			reader = null;
@@ -589,13 +592,13 @@ public abstract class MoodSettings implements KoLConstants
 		if ( type == null || name == null )
 			return "";
 
-		// We can look at the triggers list to see if it matches
+		// We can look at the displayList list to see if it matches
 		// your current mood.  That way, the "default action" is
 		// considered whatever your current mood says it is.
 
-		for ( int i = 0; i < triggers.size(); ++i )
+		for ( int i = 0; i < displayList.size(); ++i )
 		{
-			MoodTrigger current = (MoodTrigger) triggers.get(i);
+			MoodTrigger current = (MoodTrigger) displayList.get(i);
 			if ( current.triggerType.equals( type ) && current.triggerName.equals( name ) )
 				return current.action;
 		}
@@ -873,17 +876,17 @@ public abstract class MoodSettings implements KoLConstants
 			if ( pieces[0].startsWith( "gain_effect" ) )
 			{
 				type = "gain_effect";
-				stringForm.append( "When I am affected by" );
+				stringForm.append( "When I get" );
 			}
 			else if ( pieces[0].startsWith( "lose_effect" ) )
 			{
 				type = "lose_effect";
-				stringForm.append( "When I run out of" );
+				stringForm.append( "When I run low on" );
 			}
 			else if ( pieces[0].startsWith( "unconditional" ) )
 			{
 				type = "unconditional";
-				stringForm.append( "No matter what" );
+				stringForm.append( "Always" );
 			}
 
 			if ( type == null )
