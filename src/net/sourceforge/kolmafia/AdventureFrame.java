@@ -346,7 +346,10 @@ public class AdventureFrame extends KoLFrame
 			public void actionPerformed( ActionEvent e )
 			{
 				if ( actionSelect.getSelectedIndex() != -1 )
+				{
+					KoLmafia.forceContinue();
 					DEFAULT_SHELL.executeLine( "set battleAction=" + actionSelect.getSelectedItem() );
+				}
 			}
 		}
 
