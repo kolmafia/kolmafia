@@ -156,10 +156,6 @@ public abstract class KoLMessenger extends StaticEntity
 	{	return useTabbedChat;
 	}
 
-	protected static boolean hasColors()
-	{	return !colors.isEmpty();
-	}
-
 	protected static void setColor( String channel, int colorIndex )
 	{
 		if ( colorIndex == 0 )

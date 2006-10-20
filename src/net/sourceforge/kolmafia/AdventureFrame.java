@@ -335,7 +335,6 @@ public class AdventureFrame extends KoLFrame
 				if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
 					return;
 
-				conditions.clear();
 				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedItem();
 				conditionField.setText( AdventureDatabase.getCondition( location ) );
 			}
@@ -455,9 +454,8 @@ public class AdventureFrame extends KoLFrame
 					conditionField.setText( "" );
 			}
 
-			int requestCount = getValue( countField, 1 );
-			if ( requestCount == KoLCharacter.getAdventuresLeft() )
-				countField.setText( "" );
+			int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
+			countField.setText( String.valueOf( requestCount ) );
 
 			(new RequestThread( request, requestCount )).start();
 		}
