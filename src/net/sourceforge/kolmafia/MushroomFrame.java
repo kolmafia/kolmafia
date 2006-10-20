@@ -186,6 +186,9 @@ public class MushroomFrame extends KoLFrame
 
 	public void initializeLayout()
 	{
+		int plantingLength = 2;
+		int indexToHighlight = 0;
+
 		if ( currentLayout.equals( "" ) )
 		{
 			StaticEntity.setProperty( "plantingDay", "-1" );
@@ -194,12 +197,29 @@ public class MushroomFrame extends KoLFrame
 		}
 		else
 		{
-			MushroomPlot.loadLayout( currentLayout, originalData, planningData );
-			updateImages();
+			plantingLength = MushroomPlot.loadLayout( currentLayout, originalData, planningData );
+			indexToHighlight = StaticEntity.getIntegerProperty( "plantingDay" );
 		}
 
-		int plantingLength = StaticEntity.getIntegerProperty( "plantingLength" );
-		int indexToHighlight = StaticEntity.getIntegerProperty( "plantingDay" );
+		if ( plantingLength > currentForecast )
+		{
+			centerPanel.invalidate();
+			for ( int i = currentForecast; i < plantingLength; ++i )
+				centerPanel.add( constructPanel( i, planningPanels[ i ] ), (i < 3) ? i : (i+1) );
+
+			currentForecast = plantingLength;
+			enableLayout();
+		}
+		else if ( plantingLength > 1 )
+		{
+			centerPanel.invalidate();
+			for ( int i = currentForecast; i > plantingLength; --i )
+				centerPanel.remove( i < 4 ? i - 1 : i );
+
+			currentForecast = plantingLength;
+			enableLayout();
+		}
+
 
 		String today = DATED_FILENAME_FORMAT.format( new Date() );
 
@@ -208,6 +228,8 @@ public class MushroomFrame extends KoLFrame
 
 		for ( int i = 0; i < currentForecast; ++i )
 			headers[i].setBackground( i == indexToHighlight ? TODAY_COLOR : OTHER_COLOR );
+
+		updateImages();
 	}
 
 	public void runLayout()
