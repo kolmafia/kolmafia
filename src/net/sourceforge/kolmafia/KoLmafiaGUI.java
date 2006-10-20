@@ -272,7 +272,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "KoLMessenger" ) )
 		{
-			if ( !KoLMessenger.hasColors() && StaticEntity.getClient().shouldMakeConflictingRequest() )
+			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
 			{
 				updateDisplay( "Retrieving chat color preferences..." );
 				(new ChannelColorsRequest()).run();
