@@ -630,7 +630,6 @@ public class LoginFrame extends KoLFrame
 		{
 			{ "relayBrowserOnly", "Use KoL's login page for the login process" },
 			{ "guiUsesOneWindow", "Restrict interface to a single window" },
-			{ "desiredLookAndFeelTitle", "Use title bar for selected Java L&F" },
 			{ "useSystemTrayIcon", "Minimize to system tray (Windows only)" }
 		};
 
@@ -682,7 +681,7 @@ public class LoginFrame extends KoLFrame
 		{
 			String lookAndFeel = (String) looks.getSelectedItem();
 			if ( lookAndFeel != null )
-				StaticEntity.setProperty( "desiredLookAndFeel", lookAndFeel );
+				StaticEntity.setProperty( "swingLookAndFeel", lookAndFeel );
 
 			StaticEntity.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			StaticEntity.setProperty( "scriptButtonPosition", String.valueOf( scripts.getSelectedIndex() ) );
@@ -691,7 +690,7 @@ public class LoginFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			looks.setSelectedItem( StaticEntity.getProperty( "desiredLookAndFeel" ) );
+			looks.setSelectedItem( StaticEntity.getProperty( "swingLookAndFeel" ) );
 			toolbars.setSelectedIndex( StaticEntity.getIntegerProperty( "toolbarPosition" ) );
 			scripts.setSelectedIndex( StaticEntity.getIntegerProperty( "scriptButtonPosition" ) );
 		}
