@@ -602,17 +602,17 @@ public abstract class MushroomPlot extends StaticEntity
 		return EMPTY;
 	}
 
-	public static void loadLayout( String filename, String [][] originalData, String [][] planningData )
+	public static int loadLayout( String filename, String [][] originalData, String [][] planningData )
 	{
 		// The easiest file to parse that is already provided is
 		// the text file which was generated automatically.
 
+		int dayIndex = 0;
 		BufferedReader reader = KoLDatabase.getReader( new File( "planting/" + filename + ".txt" ) );
 
 		try
 		{
 			String line = "";
-			int dayIndex = 0;
 			String [][] arrayData = new String[4][4];
 
 			while ( line != null )
@@ -665,11 +665,14 @@ public abstract class MushroomPlot extends StaticEntity
 					line = reader.readLine();
 				}
 			}
+
+			for ( int i = 0; i < 16; ++i )
+				planningData[ dayIndex - 1 ][i] = originalData[ dayIndex - 1 ][i];
 		}
 		catch ( Exception e )
 		{
 			printStackTrace( e );
-			return;
+			return Math.max( dayIndex, 2 );
 		}
 
 		// Make sure to close the reader after you're done reading
@@ -678,11 +681,12 @@ public abstract class MushroomPlot extends StaticEntity
 		try
 		{
 			reader.close();
+			return Math.max( dayIndex, 2 );
 		}
 		catch ( Exception e )
 		{
 			printStackTrace( e );
-			return;
+			return Math.max( dayIndex, 2 );
 		}
 	}
 
