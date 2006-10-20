@@ -183,17 +183,20 @@ public class AdventureFrame extends KoLFrame
 		resultSelect.addItem( "Location Details" );
 		resultPanel.add( new SafetyField(), "1" );
 
+		resultSelect.addItem( "Mood Summary" );
+		resultPanel.add( new AdventureResultsPanel( MoodSettings.getTriggers() ), "2" );
+
 		resultSelect.addItem( "Conditions Left" );
-		resultPanel.add( new AdventureResultsPanel( conditions ), "2" );
+		resultPanel.add( new AdventureResultsPanel( conditions ), "3" );
 
 		resultSelect.addItem( "Active Effects" );
-		resultPanel.add( new AdventureResultsPanel( activeEffects ), "3" );
+		resultPanel.add( new AdventureResultsPanel( activeEffects ), "4" );
 
 		resultSelect.addItem( "Visited Locations" );
-		resultPanel.add( new AdventureResultsPanel( adventureList ), "4" );
+		resultPanel.add( new AdventureResultsPanel( adventureList ), "5" );
 
 		resultSelect.addItem( "Encounter Listing" );
-		resultPanel.add( new AdventureResultsPanel( encounterList ), "5" );
+		resultPanel.add( new AdventureResultsPanel( encounterList ), "6" );
 
 		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect ) );
 
@@ -1372,7 +1375,7 @@ public class AdventureFrame extends KoLFrame
 			if ( name == null )
 				return;
 
-			moodList.setModel( MoodSettings.setMood( name ) );
+			MoodSettings.setMood( name );
 		}
 
 		public void actionCancelled()
@@ -1393,7 +1396,7 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			public void actionPerformed( ActionEvent e )
-			{	moodList.setModel( MoodSettings.setMood( (String) getSelectedItem() ) );
+			{	MoodSettings.setMood( (String) getSelectedItem() );
 			}
 		}
 
@@ -1415,7 +1418,7 @@ public class AdventureFrame extends KoLFrame
 					return;
 
 				MoodSettings.copyTriggers( moodName );
-				moodList.setModel( MoodSettings.setMood( moodName ) );
+				MoodSettings.setMood( moodName );
 			}
 		}
 	}
