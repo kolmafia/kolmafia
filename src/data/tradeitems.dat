@@ -1993,8 +1993,8 @@
 1993	rubber WWSPD? bracelet	8	5
 1994	rubber WWtNSD? bracelet	8	5
 1995	heart necklace		10
-1996	right half of a heart necklace	8	10
-1997	left half of a heart necklace	8	10
+1996	right half of a heart necklace	8	0
+1997	left half of a heart necklace	8	0
 1998	pack of KWE trading card	1	50
 1999	stick of "gum"	1	5
 2000	Das &Uuml;berk&uuml;hlraum trading card	1	50
@@ -2023,9 +2023,9 @@
 2023	
 2024	
 2025	Tofat wing chow mein	1	73
-2026	
-2027	
-2028	
+2026	Tof0n chow mein	1	130
+2027	Tofofu chow mein	1	109
+2028	Tofat appendix chow mein	1	130
 2029	
 2030	Lockenstock (TM) sandals	8	60
 2031	
