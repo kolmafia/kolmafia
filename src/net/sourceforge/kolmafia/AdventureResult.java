@@ -485,17 +485,21 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( sumResult.getCount() == 0 )
 		{
 			if ( sumResult.isItem() || sumResult.isStatusEffect() )
+			{
 				tally.remove( index );
+				return;
+			}
 		}
 		else if ( sumResult.getCount() < 0 )
 		{
 			if ( sumResult.isStatusEffect() )
+			{
 				tally.remove( index );
+				return;
+			}
 		}
-		else
-		{
-			tally.set( index, sumResult );
-		}
+
+		tally.set( index, sumResult );
 	}
 
 	public static DefaultListCellRenderer getAutoSellCellRenderer()
