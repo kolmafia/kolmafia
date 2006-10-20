@@ -234,8 +234,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "defaultLimit", "5" );
 		CLIENT_SETTINGS.put( "defaultLoginServer", "1" );
 		CLIENT_SETTINGS.put( "defaultToRelayBrowser", "true" );
-		CLIENT_SETTINGS.put( "desiredLookAndFeel", "" );
-		CLIENT_SETTINGS.put( "desiredLookAndFeelTitle", String.valueOf( System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
 		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
 		CLIENT_SETTINGS.put( "fontSize", "3" );
 		CLIENT_SETTINGS.put( "guiUsesOneWindow", "false" );
@@ -270,6 +268,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "showClosetIngredients", "false" );
 		CLIENT_SETTINGS.put( "showStashIngredients", "false" );
 		CLIENT_SETTINGS.put( "sortAdventures", "false" );
+		CLIENT_SETTINGS.put( "swingLookAndFeel", "" );
 		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
 		CLIENT_SETTINGS.put( "trackLocationChanges", "false" );
 

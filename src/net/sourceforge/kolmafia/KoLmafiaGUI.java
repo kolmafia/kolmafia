@@ -63,13 +63,12 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public static void main( String [] args )
 	{
-		String lookAndFeel = StaticEntity.getProperty( "desiredLookAndFeel" );
+		String lookAndFeel = StaticEntity.getProperty( "swingLookAndFeel" );
 		boolean foundLookAndFeel = false;
 
 		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 		{
 			lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-			StaticEntity.setProperty( "desiredLookAndFeelTitle", "true" );
 			foundLookAndFeel = true;
 		}
 		else
@@ -91,14 +90,13 @@ public class KoLmafiaGUI extends KoLmafia
 			else
 				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
 
-			StaticEntity.setProperty( "desiredLookAndFeelTitle", "false" );
 			foundLookAndFeel = true;
 		}
 
 		try
 		{
 			UIManager.setLookAndFeel( lookAndFeel );
-			JFrame.setDefaultLookAndFeelDecorated( StaticEntity.getBooleanProperty( "desiredLookAndFeelTitle" ) );
+			JFrame.setDefaultLookAndFeelDecorated( System.getProperty( "os.name" ).startsWith( "Mac" ) );
 		}
 		catch ( Exception e )
 		{
@@ -111,7 +109,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( StaticEntity.usesSystemTray() )
 			SystemTrayFrame.addTrayIcon();
 
-		StaticEntity.setProperty( "desiredLookAndFeel", lookAndFeel );
+		StaticEntity.setProperty( "swingLookAndFeel", lookAndFeel );
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
 
