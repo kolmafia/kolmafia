@@ -148,45 +148,13 @@ public class SearchMallRequest extends KoLRequest
 
 	public static String getItemName( String searchString )
 	{
-		String itemName = searchString;
+		if ( searchString.startsWith( "\"" ) || searchString.startsWith( "\'" ) )
+			return searchString;
 
-		if ( itemName.startsWith( "\"" ) || itemName.startsWith( "\'" ) )
-		{
-		}
+		if ( TradeableItemDatabase.contains( searchString ) )
+			return "\"" + searchString + "\"";
 
-		// For items with the n-tilde character, a
-		// perfect match is available if you use the
-		// substring consisting of everything after
-		// the ntilde;
-
-		else if ( itemName.indexOf( "\u00f1" ) != -1 )
-			itemName = itemName.substring( itemName.indexOf( "\u00f1" ) + 1 );
-
-		// For items with the trademark character, a
-		// perfect match is available if you use the
-		// substring consisting of everything before
-		// the trademark character
-
-		else if ( itemName.indexOf( "\u2122" ) != -1 )
-			itemName = itemName.substring( 0, itemName.indexOf( "\u2122" ) );
-
-		else if ( itemName.indexOf( "\u00e9" ) != -1 )
-			itemName = itemName.substring( 0, itemName.indexOf( "\u00e9" ) );
-
-		// All items with float quotes can be matched
-		// by searching on everything before the float
-
-		else if ( itemName.indexOf( "\"" ) > 0 )
-			itemName = itemName.substring( 0, itemName.indexOf( "\"" ) );
-
-		else if ( TradeableItemDatabase.contains( searchString ) )
-			itemName = "\"" + itemName + "\"";
-
-		// In all other cases, an exact match is only
-		// available if you enclose the item name in
-		// float quotes.
-
-		return itemName;
+		return KoLDatabase.getCanonicalName( searchString );
 	}
 
 	public List getResults()

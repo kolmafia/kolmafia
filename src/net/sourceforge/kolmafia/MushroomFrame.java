@@ -56,23 +56,29 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class MushroomFrame extends KoLFrame
 {
 	private String currentLayout = "";
+
+	private JPanel centerPanel;
+	private int currentForecast = 2;
+	private JButton addToLayoutButton, deleteFromLayoutButton;
+
 	public static final int MAX_FORECAST = 11;
 
 	private static final Color TODAY_COLOR = new Color( 192, 255, 192 );
 	private static final Color OTHER_COLOR = new Color( 240, 240, 240 );
 
-	private final JLabel [] headers;
-	private final String [][] planningData;
-	private final String [][] originalData;
-	private final InvocationButton doLayoutButton = new InvocationButton( "Run Layout", this, "runLayout" );
+	private String [][] planningData;
+	private String [][] originalData;
 
-	private final MushroomButton [][][] planningButtons;
+	private JLabel [] headers;
+	private JPanel [] planningPanels;
+	private MushroomButton [][][] planningButtons;
 
 	public MushroomFrame()
 	{
 		super( "Mushroom Plot" );
 
 		headers = new JLabel[MAX_FORECAST];
+
 		planningData = new String[MAX_FORECAST][16];
 		originalData = new String[MAX_FORECAST][16];
 
@@ -85,33 +91,45 @@ public class MushroomFrame extends KoLFrame
 			}
 		}
 
+		centerPanel = new JPanel( new GridLayout( 0, 4, 20, 20 ) );
+
+		// Now add the first panel to the layout so that the person
+		// can add more panels as they are needed.
+
+		planningPanels = new JPanel[MAX_FORECAST];
 		planningButtons = new MushroomButton[MAX_FORECAST][4][4];
-		JPanel centerPanel = new JPanel( new GridLayout( 3, 4, 20, 20 ) );
 
 		for ( int i = 0; i < MAX_FORECAST; ++i )
 		{
-			JPanel currentPlot = new JPanel( new GridLayout( 4, 4, 0, 2 ) );
+			planningPanels[i] = new JPanel( new GridLayout( 4, 4, 0, 2 ) );
 			for ( int j = 0; j < 4; ++j )
 			{
 				for ( int k = 0; k < 4; ++k )
 				{
 					planningButtons[i][j][k] = new MushroomButton( i, j * 4 + k );
-					currentPlot.add( planningButtons[i][j][k] );
+					planningPanels[i].add( planningButtons[i][j][k] );
 				}
 			}
-
-			centerPanel.add( constructPanel( i, currentPlot ) );
 		}
+
+		centerPanel.add( constructPanel( 0, planningPanels[0] ) );
+		centerPanel.add( constructPanel( 1, planningPanels[1] ) );
 
 		// Dummy buttons for the mushroom plot (just for layout
 		// viewing purposes.  To be replaced with real functionality
 		// at a later date.
 
-		JPanel buttonPanel = new JPanel( new GridLayout( 3, 1, 12, 12 ) );
+		JPanel buttonPanel = new JPanel( new GridLayout( 0, 1, 5, 5 ) );
 
 		// Now add the various action buttons.
 
-		buttonPanel.add( doLayoutButton );
+		addToLayoutButton = new InvocationButton( "Add a Day", this, "addToLayout" );
+		deleteFromLayoutButton = new InvocationButton( "Delete a Day", this, "removeFromLayout" );
+		deleteFromLayoutButton.setEnabled( false );
+
+		buttonPanel.add( addToLayoutButton );
+		buttonPanel.add( deleteFromLayoutButton );
+		buttonPanel.add( new InvocationButton( "Run Layout", this, "runLayout" ) );
 		buttonPanel.add( new InvocationButton( "Load Layout", this, "loadLayout" ) );
 		buttonPanel.add( new InvocationButton( "Save Layout", this, "saveLayout" ) );
 		centerPanel.add( buttonPanel );
@@ -119,11 +137,51 @@ public class MushroomFrame extends KoLFrame
 		framePanel.setLayout( new CardLayout( 40, 40 ) );
 		framePanel.add( centerPanel, "" );
 
-		updateForecasts( 1 );
-		setResizable( false );
-
+		enableLayout();
 		currentLayout = StaticEntity.getProperty( "plantingScript" );
 		initializeLayout();
+	}
+
+	private void enableLayout()
+	{
+		for ( int i = 0; i < currentForecast; ++i )
+			headers[i].setText( "Day " + (i+1) );
+
+		headers[ currentForecast - 1 ].setText( "Final Day" );
+
+		for ( int i = 0; i < 16; ++i )
+		{
+			planningData[ currentForecast ][i] = "__";
+			originalData[ currentForecast ][i] = "__";
+		}
+
+		updateForecasts( currentForecast - 1 );
+
+		centerPanel.validate();
+		centerPanel.repaint();
+		pack();
+
+		addToLayoutButton.setEnabled( currentForecast != 11 );
+		deleteFromLayoutButton.setEnabled( currentForecast != 2 );
+	}
+
+	public void addToLayout()
+	{
+		centerPanel.invalidate();
+		centerPanel.add( constructPanel( currentForecast, planningPanels[currentForecast] ),
+			(currentForecast < 3) ? currentForecast : (currentForecast + 1) );
+
+		++currentForecast;
+		enableLayout();
+	}
+
+	public void removeFromLayout()
+	{
+		centerPanel.invalidate();
+		centerPanel.remove( currentForecast < 4 ? currentForecast - 1 : currentForecast );
+
+		--currentForecast;
+		enableLayout();
 	}
 
 	public void initializeLayout()
@@ -145,17 +203,10 @@ public class MushroomFrame extends KoLFrame
 
 		String today = DATED_FILENAME_FORMAT.format( new Date() );
 
-		if ( StaticEntity.getProperty( "plantingDate" ).equals( today ) )
-		{
-			doLayoutButton.setEnabled( false );
-		}
-		else
-		{
-			doLayoutButton.setEnabled( true );
+		if ( !StaticEntity.getProperty( "plantingDate" ).equals( today ) )
 			++indexToHighlight;
-		}
 
-		for ( int i = 0; i < headers.length; ++i )
+		for ( int i = 0; i < currentForecast; ++i )
 			headers[i].setBackground( i == indexToHighlight ? TODAY_COLOR : OTHER_COLOR );
 	}
 
@@ -165,10 +216,7 @@ public class MushroomFrame extends KoLFrame
 			saveLayout();
 
 		if ( !currentLayout.equals( "" ) )
-		{
 			DEFAULT_SHELL.executeLine( "call " + MushroomPlot.PLOT_DIRECTORY.getPath() + "/" + currentLayout + ".ash" );
-			doLayoutButton.setEnabled( false );
-		}
 	}
 
 	public void loadLayout()
@@ -202,10 +250,6 @@ public class MushroomFrame extends KoLFrame
 		if ( layout == null || layout.equals( "" ) || currentLayout.equals( layout ) )
 			return;
 
-		StaticEntity.setProperty( "plantingDay", "-1" );
-		StaticEntity.setProperty( "plantingDate", "" );
-		StaticEntity.setProperty( "plantingScript", currentLayout );
-
 		currentLayout = layout;
 		initializeLayout();
 	}
@@ -217,7 +261,18 @@ public class MushroomFrame extends KoLFrame
 			return;
 
 		currentLayout = location;
+
+		String [] planned = new String[16];
+
+		for ( int i = 0; i < 16; ++i )
+		{
+			planned[i] = planningData[ currentForecast - 1 ][i];
+			planningData[ currentForecast - 1 ][i] = "__";
+		}
+
 		MushroomPlot.saveLayout( location, originalData, planningData );
+		for ( int i = 0; i < 16; ++i )
+			planningData[ currentForecast - 1 ][i] = planned[i];
 	}
 
 	public void updateForecasts( int startDay )
@@ -254,7 +309,6 @@ public class MushroomFrame extends KoLFrame
 		panel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
 
 		headers[dayIndex] = new JLabel( "Day " + (dayIndex + 1), JLabel.CENTER );
-		headers[dayIndex].setOpaque( true );
 
 		panel.add( headers[dayIndex], BorderLayout.NORTH );
 		panel.add( c, BorderLayout.CENTER );
@@ -277,12 +331,14 @@ public class MushroomFrame extends KoLFrame
 			JComponentUtilities.setComponentSize( this, 30, 30 );
 
 			setOpaque( true );
-			setBackground( Color.white );
 			addActionListener( this );
 		}
 
 		public void actionPerformed( ActionEvent e )
 		{
+			if ( dayIndex == currentForecast - 1 )
+				return;
+
 			planningData[ dayIndex ][ squareIndex ] = toggleMushroom();
 			updateForecasts( dayIndex + 1 );
 		}
@@ -297,6 +353,10 @@ public class MushroomFrame extends KoLFrame
 				setIcon( JComponentUtilities.getImage( "itemimages/mushsprout.gif" ) );
 			else
 				setIcon( JComponentUtilities.getImage( MushroomPlot.getMushroomImage( currentMushroom ) ) );
+
+			for ( int i = 0; i < MushroomPlot.MUSHROOMS.length; ++i )
+				if ( currentMushroom.equals( MushroomPlot.MUSHROOMS[i][2] ) || currentMushroom.equals( MushroomPlot.MUSHROOMS[i][3] ) )
+					setToolTipText( (String) MushroomPlot.MUSHROOMS[i][5] );
 		}
 
 		private String toggleMushroom()
