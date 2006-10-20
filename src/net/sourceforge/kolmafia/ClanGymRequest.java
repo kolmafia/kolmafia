@@ -58,7 +58,7 @@ public class ClanGymRequest extends KoLRequest
 
 	public ClanGymRequest( int equipmentID )
 	{
-		super( "clan_gym.php" );
+		super( "clan_rumpus.php" );
 		this.equipmentID = equipmentID;
 	}
 
@@ -72,7 +72,7 @@ public class ClanGymRequest extends KoLRequest
 				return "knoll.php";
 
 			// Otherwise, use the one in our clan - if we're in one.
-			return "clan_gym.php";
+			return "clan_rumpus.php";
 
 		case MYSTICALITY:
 			// If we are in a Mysticality sign, Canadia has a gym.
@@ -80,7 +80,7 @@ public class ClanGymRequest extends KoLRequest
 				return "canadia.php";
 
 			// Otherwise, use the one in our clan - if we're in one.
-			return "clan_gym.php";
+			return "clan_rumpus.php";
 
 		case MOXIE:
 			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
@@ -88,11 +88,11 @@ public class ClanGymRequest extends KoLRequest
 				return "gnomes.php";
 
 			// Otherwise, use the one in our clan - if we're in one.
-			return "clan_gym.php";
+			return "clan_rumpus.php";
 		}
 
 		// Better not get here.
-		return "clan_gym.php";
+		return "clan_rumpus.php";
 	}
 
 	private static String chooseAction( int equipmentID )
@@ -101,15 +101,15 @@ public class ClanGymRequest extends KoLRequest
 		{
 		case MUSCLE:
 			// If we are in a Muscle sign, Degrassi Knoll has a gym.
-			return KoLCharacter.inMuscleSign() ? "gym" : "hoboflex";
+			return KoLCharacter.inMuscleSign() ? "gym" : "3";
 
 		case MYSTICALITY:
 			// If we are in a Mysticality sign, Canadia has a gym.
-			return KoLCharacter.inMysticalitySign() ? "institute" : "bigbook";
+			return KoLCharacter.inMysticalitySign() ? "institute" : "1";
 
 		case MOXIE:
 			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
-			return KoLCharacter.inMoxieSign() ? "train" : "tanningbed";
+			return KoLCharacter.inMoxieSign() ? "train" : "2";
 		}
 
 		return null;
@@ -127,7 +127,21 @@ public class ClanGymRequest extends KoLRequest
 	public void run()
 	{
 		constructURLString( chooseGym( equipmentID ) );
-		addFormField( "action", chooseAction( equipmentID ) );
+
+		String equipment = chooseAction( equipmentID );
+		if ( equipment == null )
+			return;
+
+		if ( equipment.length() > 1 )
+		{
+			addFormField( "action", equipment );
+		}
+		else
+		{
+			addFormField( "preaction", "gym" );
+			addFormField( "whichgym", equipment );
+		}
+
 		addFormField( "numturns", String.valueOf( turnCount ) );
 
 		if ( KoLCharacter.getAdventuresLeft() < turnCount )
