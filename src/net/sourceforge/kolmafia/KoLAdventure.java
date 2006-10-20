@@ -716,7 +716,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// If the person doesn't stand a chance of surviving,
 		// automatically quit and tell them so.
 
-		if ( action.equals( "attack" ) && areaSummary != null && !areaSummary.willHitSomething() )
+		if ( action.startsWith( "attack" ) && areaSummary != null && !areaSummary.willHitSomething() )
 		{
 			if ( !allowStasis || !KoLCharacter.getFamiliar().isCombatFamiliar() )
 			{
