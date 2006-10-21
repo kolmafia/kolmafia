@@ -227,6 +227,12 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( !useOnce( i, iterations, useTypeAsString ) )
 				return;
 		}
+
+		if ( KoLmafia.permitsContinue() )
+		{
+			KoLmafia.updateDisplay( "Finished " + useTypeAsString.toLowerCase() + " " + Math.max( iterations, itemUsed.getCount() ) +
+				itemUsed.getName() + "." );
+		}
 	}
 
 	public boolean useOnce( int currentIteration, int totalIterations, String useTypeAsString )
