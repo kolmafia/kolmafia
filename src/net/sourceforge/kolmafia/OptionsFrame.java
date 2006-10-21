@@ -294,28 +294,24 @@ public class OptionsFrame extends KoLFrame
 
 	private class AreaOptionsPanel extends OptionsPanel
 	{
-		private String [] zones;
+		private Object [] zones;
 		private JCheckBox [] options;
 
 		public AreaOptionsPanel()
 		{
 			super( "Adventure List", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 
-			zones = new String[ AdventureDatabase.ZONE_NAMES.size() ];
-			options = new JCheckBox[ AdventureDatabase.ZONE_NAMES.size() ];
+			zones = new String[ AdventureDatabase.ZONE_DESCRIPTIONS.size() ];
+			options = new JCheckBox[ AdventureDatabase.ZONE_DESCRIPTIONS.size() ];
 
 			for ( int i = 0; i < options.length; ++i )
 				options[i] = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[ AdventureDatabase.ZONE_NAMES.size() ];
-			String [] names = new String[ AdventureDatabase.ZONE_NAMES.keySet().size() ];
-			AdventureDatabase.ZONE_NAMES.keySet().toArray( names );
+			VerifiableElement [] elements = new VerifiableElement[ AdventureDatabase.ZONE_DESCRIPTIONS.size() ];
+			zones = AdventureDatabase.ZONE_DESCRIPTIONS.keySet().toArray();
 
-			for ( int i = 0; i < names.length; ++i )
-			{
-				zones[i] = (String) AdventureDatabase.ZONE_NAMES.get( names[i] );
-				elements[i] = new VerifiableElement( "Hide " + AdventureDatabase.ZONE_DESCRIPTIONS.get( names[i] ), JLabel.LEFT, options[i] );
-			}
+			for ( int i = 0; i < zones.length; ++i )
+				elements[i] = new VerifiableElement( "Hide " + AdventureDatabase.ZONE_DESCRIPTIONS.get( zones[i] ), JLabel.LEFT, options[i] );
 
 			setContent( elements );
 			actionCancelled();
@@ -345,7 +341,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			String excluded = StaticEntity.getProperty( "zoneExcludeList" );
 			for ( int i = 0; i < zones.length; ++i )
-				options[i].setSelected( excluded.indexOf( zones[i] ) != -1 );
+				options[i].setSelected( excluded.indexOf( (String) zones[i] ) != -1 );
 		}
 	}
 

@@ -1588,10 +1588,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		String [] possibleDecisions = null;
 		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
 		{
-			if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
+			if ( AdventureDatabase.CHOICE_ADVS[i].getSetting().equals( option ) )
 			{
-				if ( AdventureDatabase.CHOICE_ADVS[i].length > 3 )
-					possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][3];
+				possibleDecisions = AdventureDatabase.CHOICE_ADVS[i].getItems();
 				break;
 			}
 		}

@@ -364,9 +364,9 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		PLAYER_SETTINGS.put( "choiceAdventure74", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure75", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure76", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure77", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure78", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure79", "3" );
+		PLAYER_SETTINGS.put( "choiceAdventure77", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure78", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure79", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure80", "4" );
 		PLAYER_SETTINGS.put( "choiceAdventure81", "4" );
 		PLAYER_SETTINGS.put( "choiceAdventure82", "1" );
@@ -432,6 +432,29 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 			String [] lines = ostream.toString().split( LINE_BREAK );
 			Arrays.sort( lines );
+
+			ostream.reset();
+
+			if ( lines[0].endsWith( VERSION_NAME ) )
+			{
+				ostream.write( lines[0].getBytes() );
+				ostream.write( LINE_BREAK.getBytes() );
+				ostream.write( lines[1].getBytes() );
+				ostream.write( LINE_BREAK.getBytes() );
+			}
+			else
+			{
+				ostream.write( lines[1].getBytes() );
+				ostream.write( LINE_BREAK.getBytes() );
+				ostream.write( lines[0].getBytes() );
+				ostream.write( LINE_BREAK.getBytes() );
+			}
+
+			for ( int i = 2; i < lines.length; ++i )
+			{
+				ostream.write( lines[i].getBytes() );
+				ostream.write( LINE_BREAK.getBytes() );
+			}
 
 			settingsFile.createNewFile();
 			ostream.writeTo( new FileOutputStream( settingsFile ) );
