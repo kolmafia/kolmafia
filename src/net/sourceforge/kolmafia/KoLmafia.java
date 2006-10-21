@@ -1489,28 +1489,27 @@ public abstract class KoLmafia implements KoLConstants
 			RequestFrame.refreshStatus();
 		}
 
-		if ( !permitsContinue() )
-		{
-			if ( continuationState != PENDING_STATE )
-				return;
-
-			hadPendingState = true;
-			forceContinue();
-		}
-
 		// If you've completed the requests, make sure to update
 		// the display.
 
-		if ( !isRunningBetweenBattleChecks() && request instanceof KoLAdventure && !conditions.isEmpty() )
-			updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
-				((currentIteration == 2) ? " request." : " requests.") );
+		if ( permitsContinue() )
+		{
+			if ( !isRunningBetweenBattleChecks() && request instanceof KoLAdventure && !conditions.isEmpty() )
+				updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
+					((currentIteration == 2) ? " request." : " requests.") );
 
-		else if ( initialConditions != 0 && conditions.isEmpty() )
-			updateDisplay( "Conditions satisfied after " + (currentIteration - 1) +
-				((currentIteration == 2) ? " request." : " requests.") );
+			else if ( initialConditions != 0 && conditions.isEmpty() )
+				updateDisplay( "Conditions satisfied after " + (currentIteration - 1) +
+					((currentIteration == 2) ? " request." : " requests.") );
 
-		else if ( !hadPendingState && !(request instanceof UseSkillRequest || request instanceof LoginRequest || request instanceof LogoutRequest) )
-			updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
+			else if ( !(request instanceof UseSkillRequest || request instanceof LoginRequest || request instanceof LogoutRequest) )
+				updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
+		}
+		else if ( continuationState == PENDING_STATE )
+		{
+			hadPendingState = true;
+			forceContinue();
+		}
 	}
 
 	/**
