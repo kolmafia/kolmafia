@@ -444,28 +444,7 @@ public class LocalRelayRequest extends KoLRequest
 			this.responseText = " ";
 
 		if ( formURLString.indexOf( "fight.php" ) != -1 )
-		{
-			// If the person opts to add a plinking link, check to see if it's
-			// a valid page to add plinking, and make sure the person hasn't
-			// already started plinking.
-
-			StringBuffer buffer = new StringBuffer( responseText );
-			if ( StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) )
-			{
-				int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
-				if ( firstFormIndex > 6 )
-				{
-					buffer.insert( firstFormIndex,
-						"<tr><td align=center><form action=fight.php method=\"GET\"><input type=hidden name=\"action\" value=\"script\"><input class=\"button\" type=\"submit\" value=\"Run Custom Combat Script\"></form></td></tr>" );
-				}
-			}
-
-			int lastIndex = buffer.lastIndexOf( "</html>" );
-			if ( lastIndex != -1 )
-				buffer.insert( lastIndex, "<!-- KoLmafia -->" );
-
-			this.responseText = buffer.toString();
-		}
+			this.responseText = StaticEntity.singleStringReplace( this.responseText, "</html>", "<!-- KoLmafia --></html>" );
 
 		headers.clear();
 		headers.add( status );
