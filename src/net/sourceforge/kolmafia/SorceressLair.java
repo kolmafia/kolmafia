@@ -278,9 +278,7 @@ public abstract class SorceressLair extends StaticEntity
 		// from this method call.
 
 		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
-		completeGateway();
-
-		if ( !KoLmafia.permitsContinue() )
+		if ( !completeGateway() )
 			return;
 
 		List requirements = new ArrayList();
@@ -385,7 +383,7 @@ public abstract class SorceressLair extends StaticEntity
 		KoLmafia.updateDisplay( "Sorceress entryway complete." );
 	}
 
-	private static void completeGateway()
+	private static boolean completeGateway()
 	{
 		// Make sure the character has some candy, or at least
 		// the appropriate status effect.
@@ -401,20 +399,17 @@ public abstract class SorceressLair extends StaticEntity
 		if ( QUEST_HANDLER.responseText.indexOf( "gatesdone" ) == -1 )
 		{
 			if ( !activeEffects.contains( SUGAR ) && !AdventureDatabase.retrieveItem( candy ) )
-				return;
+				return false;
 
 			if ( !activeEffects.contains( WUSSINESS ) && !AdventureDatabase.retrieveItem( WUSSY_POTION ) )
-				return;
+				return false;
 
 			if ( !activeEffects.contains( MIASMA ) && !AdventureDatabase.retrieveItem( BLACK_CANDLE ) )
-				return;
-		}
+				return false;
 
-		// Use the rice candy, wussiness potion, and black candle
-		// and then cross through the first door.
+			// Use the rice candy, wussiness potion, and black candle
+			// and then cross through the first door.
 
-		if ( QUEST_HANDLER.responseText.indexOf( "gatesdone" ) == -1 )
-		{
 			if ( !activeEffects.contains( SUGAR ) )
 				(new ConsumeItemRequest( candy )).run();
 
@@ -441,6 +436,8 @@ public abstract class SorceressLair extends StaticEntity
 			KoLmafia.updateDisplay( "Crossing mirror puzzle..." );
 			QUEST_HANDLER.constructURLString( "lair1.php?action=mirror" ).run();
 		}
+
+		return true;
 	}
 
 	private static List retrieveRhythm( boolean useCloverForSkeleton )
