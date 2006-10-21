@@ -950,6 +950,7 @@ public class AdventureFrame extends KoLFrame
 			if ( index >= 0 )
 				louvreSelect.setSelectedIndex( index );
 
+			optionSelects[0].setSelectedItem( StaticEntity.getProperty( "luckySewerAdventure" ) );
 			for ( int i = 1; i < optionSelects.length; ++i )
 			{
 				index = StaticEntity.getIntegerProperty( AdventureDatabase.CHOICE_ADVS[i].getSetting() );
