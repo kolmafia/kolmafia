@@ -118,8 +118,7 @@ public class HermitRequest extends KoLRequest
 			if ( responseText.indexOf( "you're not allowed to visit" ) != -1 )
 			{
 				neededPermits = true;
-				AdventureDatabase.retrieveItem( PERMIT.getInstance( 1 ) );
-				if ( KoLmafia.permitsContinue() )
+				if ( AdventureDatabase.retrieveItem( PERMIT.getInstance( 1 ) ) )
 					this.run();
 				else
 					KoLmafia.updateDisplay( ERROR_STATE, "You're not allowed to visit the Hermit." );
@@ -162,10 +161,7 @@ public class HermitRequest extends KoLRequest
 
 		if ( responseText.indexOf( "You don't have enough Hermit Permits" ) != -1 )
 		{
-			// Figure out how many you do have.
-
-			AdventureDatabase.retrieveItem( PERMIT.getInstance( quantity ) );
-			if ( KoLmafia.permitsContinue() )
+			if ( AdventureDatabase.retrieveItem( PERMIT.getInstance( quantity ) ) )
 				this.run();
 
 			return;

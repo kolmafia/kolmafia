@@ -1311,8 +1311,8 @@ public abstract class KoLmafia implements KoLConstants
 				}
 				else if ( adventure.getRequest() instanceof SewerRequest )
 				{
-					if ( conditions.isEmpty() )
-						AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) );
+					if ( conditions.isEmpty() && !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) ) )
+						return;
 				}
 			}
 
@@ -1509,7 +1509,7 @@ public abstract class KoLmafia implements KoLConstants
 			updateDisplay( "Conditions satisfied after " + (currentIteration - 1) +
 				((currentIteration == 2) ? " request." : " requests.") );
 
-		else if ( !(request instanceof UseSkillRequest || request instanceof LoginRequest || request instanceof LogoutRequest) )
+		else if ( !hadPendingState && !(request instanceof UseSkillRequest || request instanceof LoginRequest || request instanceof LogoutRequest) )
 			updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
 	}
 
@@ -2278,9 +2278,6 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				AdventureDatabase.retrieveItem( requirementsArray[i] );
 				missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( inventory );
-
-				if ( KoLCharacter.hasEquipped( requirementsArray[i] ) )
-					--missingCount;
 			}
 			else if ( requirementsArray[i].isStatusEffect() )
 			{

@@ -320,20 +320,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND, true ) )
 		{
-			if ( !KoLCharacter.hasEquipped( ROCKNROLL_LEGEND ) )
-				AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
-
-			return ROCKNROLL_LEGEND;
-		}
-
-		if ( KoLCharacter.canInteract() )
-		{
-			AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
-			KoLmafia.forceContinue();
-
-			if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND, true ) )
+			if ( KoLCharacter.hasEquipped( ROCKNROLL_LEGEND ) || AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND ) )
 				return ROCKNROLL_LEGEND;
 		}
+
+		if ( KoLCharacter.canInteract() && AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND ) )
+			return ROCKNROLL_LEGEND;
 
 		// He must have at least a stolen accordion
 
@@ -514,7 +506,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( encounteredError )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+			KoLmafia.updateDisplay( lastUpdate );
 
 			if ( BuffBotHome.isBuffBotActive() )
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, lastUpdate );

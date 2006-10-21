@@ -349,11 +349,6 @@ public abstract class SorceressLair extends StaticEntity
 		// appropriate instruments.
 
 		KoLmafia.updateDisplay( "Arming stone mariachis..." );
-
-		AdventureDatabase.retrieveItem( RHYTHM );
-		AdventureDatabase.retrieveItem( STRUMMING );
-		AdventureDatabase.retrieveItem( SQUEEZINGS );
-
 		QUEST_HANDLER.constructURLString( "lair2.php?action=statues" ).run();
 
 		// "As the mariachis reach a dire crescendo (Hey, have you
@@ -405,18 +400,15 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( QUEST_HANDLER.responseText.indexOf( "gatesdone" ) == -1 )
 		{
-			if ( !activeEffects.contains( SUGAR ) )
-				AdventureDatabase.retrieveItem( candy );
+			if ( !activeEffects.contains( SUGAR ) && !AdventureDatabase.retrieveItem( candy ) )
+				return;
 
-			if ( !activeEffects.contains( WUSSINESS ) )
-				AdventureDatabase.retrieveItem( WUSSY_POTION );
+			if ( !activeEffects.contains( WUSSINESS ) && !AdventureDatabase.retrieveItem( WUSSY_POTION ) )
+				return;
 
-			if ( !activeEffects.contains( MIASMA ) )
-				AdventureDatabase.retrieveItem( BLACK_CANDLE );
+			if ( !activeEffects.contains( MIASMA ) && AdventureDatabase.retrieveItem( BLACK_CANDLE ) )
+				return;
 		}
-
-		if ( !KoLmafia.permitsContinue() )
-			return;
 
 		// Use the rice candy, wussiness potion, and black candle
 		// and then cross through the first door.
@@ -461,16 +453,11 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !isItemAvailable( SKELETON ) && isItemAvailable( KEY_RING ) )
 			DEFAULT_SHELL.executeLine( "use skeleton key ring" );
 
-		AdventureDatabase.retrieveItem( SKELETON );
-		if ( !isItemAvailable( SKELETON ) )
+		if ( !AdventureDatabase.retrieveItem( SKELETON ) )
 			requirements.add( SKELETON );
 
-		if ( useCloverForSkeleton )
-		{
-			AdventureDatabase.retrieveItem( CLOVER );
-			if ( !isItemAvailable( CLOVER ) )
-				requirements.add( CLOVER );
-		}
+		if ( useCloverForSkeleton && !AdventureDatabase.retrieveItem( CLOVER ) )
+			requirements.add( CLOVER );
 
 		if ( !requirements.isEmpty() )
 			return requirements;
@@ -500,7 +487,6 @@ public abstract class SorceressLair extends StaticEntity
 			// get the Really Evil Rhythm. This uses up the
 			// clover you had, so process it.
 
-			AdventureDatabase.retrieveItem( SKELETON );
 			KoLmafia.updateDisplay( "Inserting skeleton key..." );
 			QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SKELETON.getItemID() ).run();
 
@@ -582,16 +568,13 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( !isItemAvailable( STRUMMING ) )
 		{
-			AdventureDatabase.retrieveItem( starWeapon );
-			if ( !isItemAvailable( starWeapon ) )
+			if ( !AdventureDatabase.retrieveItem( starWeapon ) )
 				requirements.add( starWeapon );
 
-			AdventureDatabase.retrieveItem( STAR_HAT );
-			if ( !isItemAvailable( STAR_HAT ) )
+			if ( !AdventureDatabase.retrieveItem( STAR_HAT ) )
 				requirements.add( STAR_HAT );
 
-			AdventureDatabase.retrieveItem( RICHARD );
-			if ( !isItemAvailable( RICHARD ) )
+			if ( !AdventureDatabase.retrieveItem( RICHARD ) )
 				requirements.add( RICHARD );
 		}
 
@@ -663,12 +646,8 @@ public abstract class SorceressLair extends StaticEntity
 
 		List requirements = new ArrayList();
 
-		if ( !isItemAvailable( SQUEEZINGS ) )
-		{
-			AdventureDatabase.retrieveItem( DIGITAL );
-			if ( !isItemAvailable( DIGITAL ) )
-				requirements.add( DIGITAL );
-		}
+		if ( !isItemAvailable( SQUEEZINGS ) && !AdventureDatabase.retrieveItem( DIGITAL ) )
+			requirements.add( DIGITAL );
 
 		if ( isItemAvailable( SQUEEZINGS ) || !requirements.isEmpty() )
 			return requirements;
@@ -699,10 +678,8 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( !isItemAvailable( BOWL ) && !isItemAvailable( HOSE_BOWL ) )
 		{
-			AdventureDatabase.retrieveItem( BORIS );
-			if ( !isItemAvailable( BORIS ) )
+			if ( !AdventureDatabase.retrieveItem( BORIS ) )
 			{
-				KoLmafia.forceContinue();
 				requirements.add( BORIS );
 			}
 			else
@@ -717,10 +694,8 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( !isItemAvailable( TANK ) && !isItemAvailable( HOSE_TANK ) )
 		{
-			AdventureDatabase.retrieveItem( JARLSBERG );
-			if ( !isItemAvailable( JARLSBERG ) )
+			if ( !AdventureDatabase.retrieveItem( JARLSBERG ) )
 			{
-				KoLmafia.forceContinue();
 				requirements.add( JARLSBERG );
 			}
 			else
@@ -735,10 +710,8 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( !isItemAvailable( HOSE ) && !isItemAvailable( HOSE_TANK ) && !isItemAvailable( HOSE_BOWL ) )
 		{
-			AdventureDatabase.retrieveItem( SNEAKY_PETE );
-			if ( !isItemAvailable( SNEAKY_PETE ) )
+			if ( !AdventureDatabase.retrieveItem( SNEAKY_PETE ) )
 			{
-				KoLmafia.forceContinue();
 				requirements.add( SNEAKY_PETE );
 			}
 			else
@@ -754,14 +727,15 @@ public abstract class SorceressLair extends StaticEntity
 		// Equip the SCUBA gear.  Attempting to retrieve it
 		// will automatically create it.
 
-		if ( isItemAvailable( SCUBA ) )
+		if ( !AdventureDatabase.retrieveItem( SCUBA ) )
 		{
-			AdventureDatabase.retrieveItem( SCUBA );
-			DEFAULT_SHELL.executeLine( "equip acc1 makeshift SCUBA gear" );
-			KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
-			QUEST_HANDLER.constructURLString( "lair2.php?action=odor" ).run();
+			requirements.add( SCUBA );
+			return requirements;
 		}
 
+		DEFAULT_SHELL.executeLine( "equip acc1 makeshift SCUBA gear" );
+		KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
+		QUEST_HANDLER.constructURLString( "lair2.php?action=odor" ).run();
 		return requirements;
 	}
 
@@ -1120,8 +1094,7 @@ public abstract class SorceressLair extends StaticEntity
 		QUEST_HANDLER.addFormField( "action", "runaway" );
 		QUEST_HANDLER.run();
 
-		AdventureDatabase.retrieveItem( guardianItem );
-		if ( guardianItem.getCount( inventory ) != 0 )
+		if ( AdventureDatabase.retrieveItem( guardianItem ) )
 			return fightGuardian( towerLevel );
 
 		return guardianItem.getItemID();

@@ -425,8 +425,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				}
 			}
 
-			AdventureDatabase.retrieveItem( changeItem );
-			if ( !KoLmafia.permitsContinue() )
+			if ( !AdventureDatabase.retrieveItem( changeItem ) )
 				return;
 
 			// If we are changing familiar equipment, first we must

@@ -900,11 +900,11 @@ public class AdventureDatabase extends KoLDatabase
 		}
 	}
 
-	public static final void retrieveItem( String itemName )
-	{	retrieveItem( new AdventureResult( itemName, 1, false ) );
+	public static final boolean retrieveItem( String itemName )
+	{	return retrieveItem( new AdventureResult( itemName, 1, false ) );
 	}
 
-	public static final void retrieveItem( AdventureResult item )
+	public static final boolean retrieveItem( AdventureResult item )
 	{
 		try
 		{
@@ -914,7 +914,7 @@ public class AdventureDatabase extends KoLDatabase
 			// return from this method.
 
 			if ( missingCount <= 0 )
-				return;
+				return true;
 
 			// Next, if you have a piece of equipment, then
 			// assume this might be a check on equipment.
@@ -927,7 +927,7 @@ public class AdventureDatabase extends KoLDatabase
 			}
 
 			if ( missingCount <= 0 )
-				return;
+				return true;
 
 			// First, attempt to pull the item from the closet.
 			// If this is successful, return from the method.
@@ -935,7 +935,7 @@ public class AdventureDatabase extends KoLDatabase
 			missingCount = retrieveItem( "closet take", closet, item, missingCount );
 
 			if ( missingCount <= 0 )
-				return;
+				return true;
 
 			// Next, attempt to create the item from existing
 			// ingredients (if possible).
@@ -949,7 +949,7 @@ public class AdventureDatabase extends KoLDatabase
 					missingCount = item.getCount() - item.getCount( inventory );
 
 					if ( missingCount <= 0 )
-						return;
+						return true;
 				}
 			}
 
@@ -965,7 +965,7 @@ public class AdventureDatabase extends KoLDatabase
 				missingCount = item.getCount() - item.getCount( inventory );
 
 				if ( missingCount <= 0 )
-					return;
+					return true;
 			}
 
 			// Next, attempt to pull the items out of storage,
@@ -975,7 +975,7 @@ public class AdventureDatabase extends KoLDatabase
 				missingCount = retrieveItem( "hagnk", storage, item, missingCount );
 
 			if ( missingCount <= 0 )
-				return;
+				return true;
 
 			// Try to purchase the item from the mall, if the
 			// user wishes to autosatisfy through purchases,
@@ -1003,7 +1003,7 @@ public class AdventureDatabase extends KoLDatabase
 
 					missingCount = retrieveItem( "stash take", ClanManager.getStash(), item, missingCount );
 					if ( missingCount <= 0 )
-						return;
+						return true;
 				}
 
 				if ( canUseNPCStore || (KoLCharacter.canInteract() && shouldUseMall) )
@@ -1011,7 +1011,7 @@ public class AdventureDatabase extends KoLDatabase
 			}
 
 			if ( missingCount <= 0 )
-				return;
+				return true;
 
 			// If it's creatable, rather than seeing what main ingredient is missing,
 			// show what sub-ingredients are missing; but only do this if it's not
@@ -1034,7 +1034,8 @@ public class AdventureDatabase extends KoLDatabase
 
 					creator.setQuantityNeeded( missingCount );
 					creator.run();
-					return;
+
+					return KoLCharacter.hasItem( item );
 				}
 			}
 
@@ -1048,7 +1049,7 @@ public class AdventureDatabase extends KoLDatabase
 
 				missingCount = retrieveItem( "stash take", ClanManager.getStash(), item, missingCount );
 				if ( missingCount <= 0 )
-					return;
+					return true;
 			}
 
 			// Try to purchase the item from the mall, if the user wishes to allow
@@ -1061,13 +1062,14 @@ public class AdventureDatabase extends KoLDatabase
 			}
 
 			if ( missingCount <= 0 )
-				return;
+				return true;
 
 			// If the item does not exist in sufficient quantities,
 			// then notify the user that there aren't enough items
 			// available to continue and cancel the request.
 
-			KoLmafia.updateDisplay( ABORT_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
+			KoLmafia.updateDisplay( "You need " + missingCount + " more " + item.getName() + " to continue." );
+			return false;
 		}
 		catch ( Exception e )
 		{
@@ -1075,6 +1077,7 @@ public class AdventureDatabase extends KoLDatabase
 			// a stack trace for debug purposes.
 
 			printStackTrace( e );
+			return false;
 		}
 	}
 

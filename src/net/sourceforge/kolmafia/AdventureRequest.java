@@ -334,9 +334,7 @@ public class AdventureRequest extends KoLRequest
 
 				if ( KoLCharacter.hasItem( ABRIDGED ) )
 				{
-					AdventureDatabase.retrieveItem( ABRIDGED.getNegation() );
 					(new UntinkerRequest( ABRIDGED.getItemID() )).run();
-
 					this.run();
 					return;
 				}
