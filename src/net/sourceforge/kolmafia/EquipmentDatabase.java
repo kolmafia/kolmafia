@@ -342,12 +342,23 @@ public class EquipmentDatabase extends KoLDatabase
 		return true;
 	}
 
-	public static void retrieveOutfit( int outfitID )
+	public static boolean retrieveOutfit( int outfitID )
 	{
+		AdventureResult currentPiece;
 		String [] pieces = outfits.get( outfitID ).getPieces();
+
 		for ( int i = 0; i < pieces.length; ++i )
-			if ( !KoLCharacter.hasEquipped( new AdventureResult( pieces[i], 1, false ) ) )
+		{
+			currentPiece = new AdventureResult( pieces[i], 1, false );
+			if ( !KoLCharacter.hasEquipped( currentPiece ) )
+			{
 				DEFAULT_SHELL.executeLine( "acquire " + pieces[i] );
+				if ( !KoLCharacter.hasItem( currentPiece ) )
+					return false;
+			}
+		}
+
+		return true;
 	}
 
 	public static void addOutfitConditions( int outfitID )

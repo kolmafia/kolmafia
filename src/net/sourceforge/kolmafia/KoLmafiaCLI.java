@@ -17,6 +17,7 @@
  *      its contributors may be used to endorse or promote products
  *      derived from this software without specific prior written
  *      permission.
+
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -3433,8 +3434,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 				if ( needServant )
 					updateDisplay( ERROR_STATE, "You cannot cook without a chef-in-the-box." );
-				else
-					AdventureDatabase.retrieveItem( ItemCreationRequest.OVEN );
+				else if ( !AdventureDatabase.retrieveItem( ItemCreationRequest.OVEN ) )
+					return;
 
 				break;
 
@@ -3444,8 +3445,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 				if ( needServant )
 					updateDisplay( ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
-				else
-					AdventureDatabase.retrieveItem( ItemCreationRequest.KIT );
+				else if ( AdventureDatabase.retrieveItem( ItemCreationRequest.KIT ) )
+					return;
 
 				break;
 
@@ -3454,9 +3455,6 @@ public class KoLmafiaCLI extends KoLmafia
 				updateDisplay( ERROR_STATE, "That item cannot be created." );
 				break;
 			}
-
-			if ( !permitsContinue() )
-				return;
 		}
 
 		irequest.setQuantityNeeded( firstMatch.getCount() );
@@ -3557,8 +3555,8 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( HermitRequest.neededPermits() )
-			AdventureDatabase.retrieveItem( HermitRequest.PERMIT.getInstance( loopsToExecute ) );
+		if ( HermitRequest.neededPermits() && !AdventureDatabase.retrieveItem( HermitRequest.PERMIT.getInstance( loopsToExecute ) ) )
+			return;
 
 		int itemCount = HermitRequest.getWorthlessItemCount();
 		int cloverCount = SewerRequest.CLOVER.getCount( inventory );

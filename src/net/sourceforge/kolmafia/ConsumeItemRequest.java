@@ -206,8 +206,8 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 
 		int price = TradeableItemDatabase.getPriceByID( itemUsed.getItemID() );
-		if ( price != -1 )
-			AdventureDatabase.retrieveItem( itemUsed );
+		if ( price != -1 && !AdventureDatabase.retrieveItem( itemUsed ) )
+			return;
 
 		int iterations = 1;
 		if ( itemUsed.getCount() != 1 && consumptionType != ConsumeItemRequest.CONSUME_MULTIPLE && consumptionType != ConsumeItemRequest.CONSUME_RESTORE )
@@ -224,35 +224,35 @@ public class ConsumeItemRequest extends KoLRequest
 		for ( int i = 1; KoLmafia.permitsContinue() && i <= iterations; ++i )
 		{
 			constructURLString( originalURLString );
-			useOnce( i, iterations, useTypeAsString );
+			if ( !useOnce( i, iterations, useTypeAsString ) )
+				return;
 		}
 	}
 
-	public void useOnce( int currentIteration, int totalIterations, String useTypeAsString )
+	public boolean useOnce( int currentIteration, int totalIterations, String useTypeAsString )
 	{
 		lastUpdate = "";
 
 		if ( itemUsed.getItemID() == UneffectRequest.REMEDY.getItemID() )
 		{
 			DEFAULT_SHELL.executeLine( "uneffect beaten up" );
-			return;
+			return true;
 		}
 
 		if ( consumptionType == CONSUME_ZAP )
 		{
 			StaticEntity.getClient().makeZapRequest();
-			return;
+			return true;
 		}
 
 		// Check to make sure the character has the item in their
 		// inventory first - if not, report the error message and
 		// return from the method.
 
-		AdventureDatabase.retrieveItem( itemUsed );
-		if ( itemUsed.getCount( inventory ) < itemUsed.getCount() )
+		if ( !AdventureDatabase.retrieveItem( itemUsed ) )
 		{
 			lastUpdate = "Insufficient items to use.";
-			return;
+			return false;
 		}
 
 		if ( totalIterations == 1 )
@@ -262,6 +262,7 @@ public class ConsumeItemRequest extends KoLRequest
 				" (" + currentIteration + " of " + totalIterations + ")..." );
 
 		super.run();
+		return true;
 	}
 
 	protected void processResults()

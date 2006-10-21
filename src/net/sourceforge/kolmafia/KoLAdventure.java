@@ -238,14 +238,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 			if ( !EquipmentDatabase.isWearingOutfit( outfitID ) )
 			{
-				EquipmentDatabase.retrieveOutfit( outfitID );
-				if ( !KoLmafia.permitsContinue() )
+				if ( !EquipmentDatabase.retrieveOutfit( outfitID ) )
 					return;
 
 				if ( !activeEffects.contains( PERFUME_EFFECT ) )
 				{
-					AdventureDatabase.retrieveItem( PERFUME_ITEM );
-					if ( !KoLmafia.permitsContinue() )
+					if ( !AdventureDatabase.retrieveItem( PERFUME_ITEM ) )
 						return;
 
 					(new ConsumeItemRequest( PERFUME_ITEM )).run();
@@ -268,8 +266,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 			if ( !EquipmentDatabase.isWearingOutfit( outfitID ) )
 			{
-				EquipmentDatabase.retrieveOutfit( outfitID );
-				if ( !KoLmafia.permitsContinue() )
+				if ( !EquipmentDatabase.retrieveOutfit( outfitID ) )
 					return;
 
 				(new EquipmentRequest( EquipmentDatabase.getOutfit( outfitID ) )).run();
@@ -341,8 +338,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( zone.equals( "Casino" ) )
 		{
-			AdventureDatabase.retrieveItem( "casino pass" );
-			isValidAdventure = KoLmafia.permitsContinue();
+			isValidAdventure = AdventureDatabase.retrieveItem( "casino pass" );
 			return;
 		}
 
@@ -351,15 +347,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		else if ( zone.equals( "Island" ) )
 		{
-			if ( KoLCharacter.hasItem( DINGHY ) )
-				AdventureDatabase.retrieveItem( DINGHY );
-			else
+			if ( !KoLCharacter.hasItem( DINGHY ) )
 			{
-				AdventureDatabase.retrieveItem( "dingy planks" );
-				DEFAULT_SHELL.executeLine( "use dinghy plans" );
+				isValidAdventure = AdventureDatabase.retrieveItem( "dingy planks" );
+				if ( isValidAdventure )
+					DEFAULT_SHELL.executeLine( "use dinghy plans" );
 			}
 
-			isValidAdventure = KoLmafia.permitsContinue();
+			isValidAdventure = AdventureDatabase.retrieveItem( DINGHY );
 			return;
 		}
 
@@ -368,7 +363,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		else if ( adventureID.equals( "82" ) )
 		{
-			isValidAdventure = KoLCharacter.hasItem( SOCK ) || KoLCharacter.hasItem( ROWBOAT );
+			isValidAdventure = KoLCharacter.hasItem( SOCK ) || AdventureDatabase.retrieveItem( ROWBOAT );
 			return;
 		}
 
@@ -377,7 +372,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		else if ( adventureID.equals( "83" ) )
 		{
-			isValidAdventure = KoLCharacter.hasItem( ROWBOAT );
+			isValidAdventure = AdventureDatabase.retrieveItem( ROWBOAT );
 			return;
 		}
 
@@ -390,7 +385,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// If the character has a S.O.C.K. or an intragalactic
 			// rowboat, they can get to the airship
 
-			if ( KoLCharacter.hasItem( SOCK ) || KoLCharacter.hasItem( ROWBOAT ) )
+			if ( KoLCharacter.hasItem( SOCK ) || AdventureDatabase.retrieveItem( ROWBOAT ) )
 			{
 				isValidAdventure = true;
 				return;
@@ -455,16 +450,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			if ( adventureID.equals( "104" ) )
 			{
 				// Haunted Library
-				AdventureDatabase.retrieveItem( LIBRARY_KEY );
-				isValidAdventure = KoLmafia.permitsContinue();
+				isValidAdventure = AdventureDatabase.retrieveItem( LIBRARY_KEY );
 				return;
 			}
 
 			if ( adventureID.equals( "106" ) )
 			{
 				// Haunted Gallery
-				AdventureDatabase.retrieveItem( GALLERY_KEY );
-				isValidAdventure = KoLmafia.permitsContinue();
+				isValidAdventure = AdventureDatabase.retrieveItem( GALLERY_KEY );
 				return;
 			}
 
@@ -474,16 +467,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			if ( adventureID.equals( "107" ) || adventureID.equals( "108" ) )
 			{
 				// Haunted Bathroom & Bedroom
-				AdventureDatabase.retrieveItem( LIBRARY_KEY );
-				isValidAdventure = KoLmafia.permitsContinue();
+				isValidAdventure = AdventureDatabase.retrieveItem( LIBRARY_KEY );
 				return;
 			}
 
 			if ( adventureID.equals( "109" ) )
 			{
 				// Haunted Ballroom
-				AdventureDatabase.retrieveItem( BALLROOM_KEY );
-				isValidAdventure = KoLmafia.permitsContinue();
+				isValidAdventure = AdventureDatabase.retrieveItem( BALLROOM_KEY );
 				return;
 			}
 		}
@@ -515,6 +506,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				ZONE_VALIDATOR.constructURLString( "town_wrong.php?place=crackpot" ).run();
 				ZONE_VALIDATOR.constructURLString( "town_wrong.php?action=crackyes1" ).run();
 				ZONE_VALIDATOR.constructURLString( "town_wrong.php?action=crackyes2" ).run();
+				ZONE_VALIDATOR.constructURLString( "town_wrong.php?action=crackyes3" ).run();
 			}
 
 			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) > 1 )
@@ -551,9 +543,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// with your meatcar.
 
 			visitedCouncil = true;
-			AdventureDatabase.retrieveItem( "bitchin' meatcar" );
 
-			if ( KoLmafia.permitsContinue() )
+			if ( AdventureDatabase.retrieveItem( "bitchin' meatcar" ) )
 			{
 				StaticEntity.getClient().unlockGuildStore( true );
 				isValidAdventure = KoLmafia.permitsContinue();

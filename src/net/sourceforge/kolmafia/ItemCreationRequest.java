@@ -399,29 +399,27 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return;
 		}
 
-		AdventureDatabase.retrieveItem( input.getInstance( quantityNeeded ) );
-
-		// If we have the correct tool, use it to
-		// create the needed dough type.
-
-		if ( quantityNeeded >= 10 || KoLCharacter.hasItem( tool ) )
-			AdventureDatabase.retrieveItem( tool );
-
-		if ( tool.getCount( inventory ) > 0 )
-		{
-			KoLmafia.updateDisplay( "Using " + tool.getName() + "..." );
-			(new ConsumeItemRequest( tool )).run();
+		if ( AdventureDatabase.retrieveItem( input.getInstance( quantityNeeded ) ) )
 			return;
-		}
 
 		// If we don't have the correct tool, and the
 		// person wishes to create more than 10 dough,
 		// then notify the person that they should
 		// purchase a tool before continuing.
 
-		if ( quantityNeeded >= 10 )
+		if ( (quantityNeeded >= 10 || KoLCharacter.hasItem( tool )) && !AdventureDatabase.retrieveItem( tool ) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Please purchase a " + tool.getName() + " first." );
+			return;
+		}
+
+		// If we have the correct tool, use it to
+		// create the needed dough type.
+
+		if ( tool.getCount( inventory ) > 0 )
+		{
+			KoLmafia.updateDisplay( "Using " + tool.getName() + "..." );
+			(new ConsumeItemRequest( tool )).run();
 			return;
 		}
 
@@ -447,7 +445,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// First, make all the required ingredients for
 		// this concoction.
 
-		makeIngredients();
+		if ( !makeIngredients() )
+			return;
+
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 
 		if ( ingredients.length == 1 || mixingMethod == CATALYST || mixingMethod == WOK )
@@ -567,18 +567,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		case SMITH:
 
 			if ( !KoLCharacter.inMuscleSign() )
-			{
-				AdventureDatabase.retrieveItem( ConcoctionsDatabase.HAMMER );
-				return KoLmafia.permitsContinue();
-			}
+				return AdventureDatabase.retrieveItem( ConcoctionsDatabase.HAMMER );
 
 			return true;
 
 		case SMITH_WEAPON:
 		case SMITH_ARMOR:
 
-			AdventureDatabase.retrieveItem( ConcoctionsDatabase.HAMMER );
-			return KoLmafia.permitsContinue();
+			return AdventureDatabase.retrieveItem( ConcoctionsDatabase.HAMMER );
 
 		default:
 			return true;
@@ -627,10 +623,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				return false;
 
 			if ( hasNoServantItem )
-			{
-				AdventureDatabase.retrieveItem( noServantItem );
-				return KoLmafia.permitsContinue();
-			}
+				return AdventureDatabase.retrieveItem( noServantItem );
 
 			return hasNoServantItem;
 		}
@@ -663,10 +656,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			}
 			else if ( isCreatePermitted )
 			{
-				if ( hasNoServantItem )
-					AdventureDatabase.retrieveItem( noServantItem );
-
-				return hasNoServantItem;
+				return hasNoServantItem ? AdventureDatabase.retrieveItem( noServantItem ) : false;
 			}
 			else if ( KoLCharacter.canInteract() )
 			{
@@ -686,7 +676,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		return KoLmafia.permitsContinue();
 	}
 
-	protected void makeIngredients()
+	protected boolean makeIngredients()
 	{
  		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 
@@ -704,7 +694,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// Then, make enough of the ingredient in order
 			// to proceed with the concoction.
 
-			AdventureDatabase.retrieveItem( ingredients[i].getInstance( quantityNeeded * multiplier ) );
+			if ( !AdventureDatabase.retrieveItem( ingredients[i].getInstance( quantityNeeded * multiplier ) ) )
+				return false;
 		}
 
 		// If this is a combining request, you will need to make
@@ -713,11 +704,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
 		{
 			AdventureResult paste = new AdventureResult( MEAT_PASTE, (int) (Math.ceil( quantityNeeded / 5.0f ) * 5.0f) );
-
 			int pasteCount = paste.getCount( inventory );
+
 			if ( pasteCount < quantityNeeded )
-				AdventureDatabase.retrieveItem( paste );
+				return AdventureDatabase.retrieveItem( paste );
 		}
+
+		return true;
 	}
 
 	/**

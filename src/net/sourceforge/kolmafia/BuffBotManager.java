@@ -385,13 +385,13 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 					}
 					else if ( NPCStoreDatabase.contains( "magical mystery juice" ) )
 					{
-						AdventureDatabase.retrieveItem( new AdventureResult( "magical mystery juice", initialRestores ) );
-						BuffBotHome.setBuffBotActive( KoLmafia.permitsContinue() );
+						AdventureResult restores = new AdventureResult( "magical mystery juice", initialRestores );
+						BuffBotHome.setBuffBotActive( AdventureDatabase.retrieveItem( restores ) );
 					}
 					else
 					{
-						AdventureDatabase.retrieveItem( new AdventureResult( "phonics down", initialRestores ) );
-						BuffBotHome.setBuffBotActive( KoLmafia.permitsContinue() );
+						AdventureResult restores = new AdventureResult( "phonics down", initialRestores );
+						BuffBotHome.setBuffBotActive( AdventureDatabase.retrieveItem( restores ) );
 					}
 				}
 			}

@@ -85,7 +85,9 @@ public class PulverizeRequest extends KoLRequest
 			return;
 		}
 
-		AdventureDatabase.retrieveItem( ConcoctionsDatabase.HAMMER );
+		if ( !AdventureDatabase.retrieveItem( ConcoctionsDatabase.HAMMER ) )
+			return;
+
 		if ( item.getCount( inventory ) < item.getCount() )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + item.getName() + "." );
