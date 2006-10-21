@@ -671,13 +671,15 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// have the servant in your inventory, so attempt
 		// to repair the box servant.
 
-
 		(new ConsumeItemRequest( usedServant )).run();
 		return KoLmafia.permitsContinue();
 	}
 
 	protected boolean makeIngredients()
 	{
+		KoLmafia.updateDisplay( "Verifying ingredients for " + name + "..." );
+
+		boolean foundAllIngredients = true;
  		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 
 		for ( int i = 0; i < ingredients.length; ++i )
@@ -694,8 +696,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// Then, make enough of the ingredient in order
 			// to proceed with the concoction.
 
-			if ( !AdventureDatabase.retrieveItem( ingredients[i].getInstance( quantityNeeded * multiplier ) ) )
-				return false;
+			foundAllIngredients &= AdventureDatabase.retrieveItem( ingredients[i].getInstance( quantityNeeded * multiplier ) );
 		}
 
 		// If this is a combining request, you will need to make
@@ -707,10 +708,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			int pasteCount = paste.getCount( inventory );
 
 			if ( pasteCount < quantityNeeded )
-				return AdventureDatabase.retrieveItem( paste );
+				foundAllIngredients &= AdventureDatabase.retrieveItem( paste );
 		}
 
-		return true;
+		return foundAllIngredients;
 	}
 
 	/**

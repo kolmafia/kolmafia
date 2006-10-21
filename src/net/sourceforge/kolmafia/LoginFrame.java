@@ -181,6 +181,7 @@ public class LoginFrame extends KoLFrame
 
 	private class LoginPanel extends KoLPanel
 	{
+		private String username;
 		private JPasswordField passwordField;
 		private ScriptSelectPanel scriptField;
 		private JCheckBox savePasswordCheckBox;
@@ -247,6 +248,7 @@ public class LoginFrame extends KoLFrame
 			}
 
 			getBreakfastCheckBox.setSelected( StaticEntity.getBooleanProperty( "alwaysGetBreakfast" ) );
+			getBreakfastCheckBox.addActionListener( new GetBreakfastListener() );
 			setDefaultButton( confirmedButton );
 
 			autoLoginCheckBox.addActionListener( new AutoLoginListener() );
@@ -266,16 +268,13 @@ public class LoginFrame extends KoLFrame
 			usernameField.setEnabled( isEnabled );
 			passwordField.setEnabled( isEnabled );
 			scriptField.setEnabled( isEnabled );
-
-			savePasswordCheckBox.setEnabled( isEnabled );
-			autoLoginCheckBox.setEnabled( isEnabled );
-			getBreakfastCheckBox.setEnabled( isEnabled );
 		}
 
 		public void actionConfirmed()
 		{
 			StaticEntity.setProperty( "alwaysGetBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
-			String username = ((String)(usernameField instanceof JComboBox ?
+
+			this.username = ((String)(usernameField instanceof JComboBox ?
 				((JComboBox)usernameField).getSelectedItem() : ((JTextField)usernameField).getText() ));
 
 			String password = new String( passwordField.getPassword() );
@@ -295,7 +294,7 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.setGlobalProperty( username, "getBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
 			KoLmafia.forceContinue();
-			(new Thread( new LoginRequest( username, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected(), false ) )).start();
+			(new Thread( new LoginRequest( username, password, false ) )).start();
 		}
 
 		public void actionCancelled()
@@ -313,6 +312,15 @@ public class LoginFrame extends KoLFrame
 			}
 		}
 
+		private class GetBreakfastListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( LoginRequest.isInstanceRunning() )
+					StaticEntity.setGlobalProperty( username, "getBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
+			}
+		}
+
 		private class RemovePasswordListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
@@ -325,6 +333,8 @@ public class LoginFrame extends KoLFrame
 					KoLmafia.removeSaveState( value );
 					passwordField.setText( "" );
 				}
+
+				StaticEntity.setProperty( "saveStateActive", String.valueOf( savePasswordCheckBox.isSelected() ) );
 			}
 		}
 

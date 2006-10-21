@@ -153,9 +153,9 @@ public class KoLmafiaGUI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String username, boolean getBreakfast, boolean isQuickLogin )
+	public void initialize( String username, boolean isQuickLogin )
 	{
-		super.initialize( username, getBreakfast, isQuickLogin );
+		super.initialize( username, isQuickLogin );
 
 		if ( refusesContinue() || isQuickLogin )
 			return;

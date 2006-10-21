@@ -85,17 +85,18 @@ public class LoginRequest extends KoLRequest
 	private String username;
 	private String password;
 	private boolean savePassword;
-	private boolean getBreakfast;
 	private boolean isQuickLogin;
 
 	private boolean runCountdown;
 	private boolean sendPlainText;
 
 	public LoginRequest( String username, String password )
-	{	this( username, password, true, StaticEntity.getGlobalProperty( username, "getBreakfast" ).equals( "true" ), false );
+	{
+		this( username, password, false );
+		StaticEntity.setProperty( "saveStateActive", "true" );
 	}
 
-	public LoginRequest( String username, String password, boolean savePassword, boolean getBreakfast, boolean isQuickLogin )
+	public LoginRequest( String username, String password, boolean isQuickLogin )
 	{
 		super( "login.php" );
 
@@ -104,7 +105,6 @@ public class LoginRequest extends KoLRequest
 
 		this.password = password;
 		this.savePassword = savePassword;
-		this.getBreakfast = getBreakfast;
 		this.isQuickLogin = isQuickLogin;
 	}
 
@@ -278,7 +278,7 @@ public class LoginRequest extends KoLRequest
 		sessionID = null;
 		waitTime = getWaitTime( isRollover );
 
-		LoginRequest loginAttempt = new LoginRequest( lastUsername, lastPassword, false, false, true );
+		LoginRequest loginAttempt = new LoginRequest( lastUsername, lastPassword, false );
 		loginAttempt.run();
 
 		if ( sessionID != null )
@@ -326,7 +326,7 @@ public class LoginRequest extends KoLRequest
 		}
 		else if ( responseCode == 302 && redirectLocation.startsWith( "main" ) )
 		{
-			if ( this.savePassword )
+			if ( StaticEntity.getBooleanProperty( "saveStateActive" ) )
 				KoLmafia.addSaveState( username, password );
 
 			processLoginRequest( this );
@@ -450,7 +450,6 @@ public class LoginRequest extends KoLRequest
 				name = name.substring( 0, name.length() - 2 ).trim();
 
 			StaticEntity.getClient().initialize( name,
-				request instanceof LoginRequest && ((LoginRequest) request).getBreakfast,
 				request instanceof LoginRequest && ((LoginRequest) request).isQuickLogin );
 
 			KoLmafia.enableDisplay();
