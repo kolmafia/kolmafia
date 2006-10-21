@@ -2669,7 +2669,7 @@ public abstract class KoLmafia implements KoLConstants
 		else if ( KoLRequest.isCompactMode )
 			StaticEntity.openSystemBrowser( baseURL + "main_c.html" );
 		else
-			StaticEntity.openSystemBrowser( baseURL + "/main.html" );
+			StaticEntity.openSystemBrowser( baseURL + "main.html" );
 	}
 
 	public void launchSimulator()
