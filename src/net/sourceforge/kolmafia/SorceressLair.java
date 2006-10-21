@@ -406,7 +406,7 @@ public abstract class SorceressLair extends StaticEntity
 			if ( !activeEffects.contains( WUSSINESS ) && !AdventureDatabase.retrieveItem( WUSSY_POTION ) )
 				return;
 
-			if ( !activeEffects.contains( MIASMA ) && AdventureDatabase.retrieveItem( BLACK_CANDLE ) )
+			if ( !activeEffects.contains( MIASMA ) && !AdventureDatabase.retrieveItem( BLACK_CANDLE ) )
 				return;
 		}
 
