@@ -225,6 +225,7 @@ public class ProfileRequest extends KoLRequest
 				{
 				case ConsumeItemRequest.EQUIP_HAT:
 				case ConsumeItemRequest.EQUIP_PANTS:
+				case ConsumeItemRequest.EQUIP_SHIRT:
 
 					this.equipmentPower += EquipmentDatabase.getPower( currentItem );
 					break;

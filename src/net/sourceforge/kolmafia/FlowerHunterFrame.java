@@ -159,10 +159,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 	private void updateRank()
 	{
 		int equipmentPower = EquipmentDatabase.getPower( KoLCharacter.getEquipment( KoLCharacter.HAT ).getItemID() ) +
-			EquipmentDatabase.getPower( KoLCharacter.getEquipment( KoLCharacter.PANTS ).getItemID() );
-
-		if ( KoLCharacter.hasSkill( "Tao of the Terrapin" ) )
-			equipmentPower <<= 1;
+			EquipmentDatabase.getPower( KoLCharacter.getEquipment( KoLCharacter.PANTS ).getItemID() ) +
+			EquipmentDatabase.getPower( KoLCharacter.getEquipment( KoLCharacter.SHIRT ).getItemID() );
 
 		JLabel [] rankLabels = new JLabel[ this.rankLabels.size() ];
 		this.rankLabels.toArray( rankLabels );
