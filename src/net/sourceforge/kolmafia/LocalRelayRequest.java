@@ -395,6 +395,9 @@ public class LocalRelayRequest extends KoLRequest
 			}
 		}
 
+		if ( formURLString.indexOf( "fight.php" ) != -1 )
+			StaticEntity.singleStringReplace( responseBuffer, "</html>", "<!-- KoLmafia --></html>" );
+
 		try
 		{
 			RequestEditorKit.getFeatureRichHTML( formURLString.toString(), responseBuffer );
