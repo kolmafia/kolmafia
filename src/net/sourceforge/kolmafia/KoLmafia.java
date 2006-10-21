@@ -342,7 +342,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String username, boolean getBreakfast, boolean isQuickLogin )
+	public void initialize( String username, boolean isQuickLogin )
 	{
 		if ( refusesContinue() )
 			return;
@@ -384,7 +384,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
 
-		if ( getBreakfast )
+		if ( StaticEntity.getGlobalProperty( username, "getBreakfast" ).equals( "true" ) )
 		{
 			String today = DATED_FILENAME_FORMAT.format( new Date() );
 			String lastBreakfast = StaticEntity.getProperty( "lastBreakfast" );

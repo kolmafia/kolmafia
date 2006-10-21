@@ -234,15 +234,15 @@ public class KoLmafiaCLI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String username, boolean getBreakfast, boolean isQuickLogin )
+	public void initialize( String username, boolean isQuickLogin )
 	{
 		if ( StaticEntity.getClient() != this )
 		{
-			StaticEntity.getClient().initialize( username, getBreakfast, isQuickLogin );
+			StaticEntity.getClient().initialize( username, isQuickLogin );
 			return;
 		}
 
-		super.initialize( username, getBreakfast, isQuickLogin );
+		super.initialize( username, isQuickLogin );
 		printBlankLine();
 		executeCommand( "moons", "" );
 		printBlankLine();
