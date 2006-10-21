@@ -326,9 +326,6 @@ public class LoginRequest extends KoLRequest
 		}
 		else if ( responseCode == 302 && redirectLocation.startsWith( "main" ) )
 		{
-			if ( StaticEntity.getBooleanProperty( "saveStateActive" ) )
-				KoLmafia.addSaveState( username, password );
-
 			processLoginRequest( this );
 			return false;
 		}
@@ -451,6 +448,9 @@ public class LoginRequest extends KoLRequest
 
 			StaticEntity.getClient().initialize( name,
 				request instanceof LoginRequest && ((LoginRequest) request).isQuickLogin );
+
+			if ( StaticEntity.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )
+				KoLmafia.addSaveState( lastUsername, lastPassword );
 
 			KoLmafia.enableDisplay();
 		}
