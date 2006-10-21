@@ -231,7 +231,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( KoLmafia.permitsContinue() )
 		{
 			KoLmafia.updateDisplay( "Finished " + useTypeAsString.toLowerCase() + " " + Math.max( iterations, itemUsed.getCount() ) +
-				itemUsed.getName() + "." );
+				" " + itemUsed.getName() + "." );
 		}
 	}
 
