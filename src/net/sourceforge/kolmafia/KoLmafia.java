@@ -314,13 +314,17 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			if ( references[i].get() != null )
 			{
-				if ( references[i].get() instanceof KoLPanel && message != null && message.length() > 0 )
-					((KoLPanel) references[i].get()).setStatusMessage( state, message );
-
-				else if ( references[i].get() instanceof JLabel && message != null && message.length() > 0 )
+				if ( references[i].get() instanceof JLabel && message != null && message.length() > 0 )
+				{
 					((JLabel) references[i].get()).setText( message );
+				}
+				else
+				{
+					if ( references[i].get() instanceof KoLPanel && message != null && message.length() > 0 )
+						((KoLPanel) references[i].get()).setStatusMessage( state, message );
 
-				((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
+					((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
+				}
 			}
 		}
 
