@@ -204,7 +204,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 			INSTANCE.tabListing.add( content );
 			INSTANCE.tabs.addTab( content.lastTitle, content.getContentPane() );
 
-			if ( content.tabs != null )
+			if ( content.tabs != null && !(content instanceof AdventureFrame) )
 				content.tabs.setTabPlacement( JTabbedPane.BOTTOM );
 
 			INSTANCE.tabs.setSelectedIndex( 0 );

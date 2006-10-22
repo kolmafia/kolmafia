@@ -53,6 +53,7 @@ import javax.swing.JScrollPane;
 import javax.swing.Box;
 import javax.swing.JList;
 import javax.swing.JProgressBar;
+import javax.swing.JSpinner;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
@@ -932,6 +933,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			return defaultValue;
 
 		return StaticEntity.parseInt( field.getText().trim() );
+	}
+
+	protected static final int getValue( JSpinner field, int defaultValue )
+	{
+		if ( !(field.getValue() instanceof Integer) )
+			return defaultValue;
+
+		return ((Integer) field.getValue()).intValue();
 	}
 
 	protected static final int getQuantity( String title, int maximumValue, int defaultValue )

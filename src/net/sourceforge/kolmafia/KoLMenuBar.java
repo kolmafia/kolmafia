@@ -205,11 +205,8 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			add( bookmarkMenu );
 		}
 
-		if ( !scripts.isEmpty() )
-		{
-			scriptMenu = new ScriptMenu();
-			add( scriptMenu );
-		}
+		scriptMenu = new ScriptMenu();
+		add( scriptMenu );
 
 		add( new WindowMenu() );
 
