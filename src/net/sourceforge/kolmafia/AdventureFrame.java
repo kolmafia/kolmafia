@@ -73,6 +73,7 @@ import javax.swing.Box;
 import javax.swing.JSpinner;
 
 // utilities
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.TreeMap;
 
@@ -734,9 +735,10 @@ public class AdventureFrame extends KoLFrame
 	 * to do for each of the different choice adventures.
 	 */
 
-	private class ChoiceOptionsPanel extends JPanel implements ActionListener
+	private class ChoiceOptionsPanel extends JPanel
 	{
 		private TreeMap choiceMap;
+		private TreeMap selectMap;
 		private CardLayout choiceCards;
 
 		private JComboBox [] optionSelects;
@@ -754,7 +756,9 @@ public class AdventureFrame extends KoLFrame
 		public ChoiceOptionsPanel()
 		{
 			choiceCards = new CardLayout( 10, 10 );
+
 			choiceMap = new TreeMap();
+			selectMap = new TreeMap();
 
 			this.setLayout( choiceCards );
 			add( new JPanel(), "" );
@@ -827,36 +831,55 @@ public class AdventureFrame extends KoLFrame
 			for ( int i = 1; i < optionSelects.length; ++i )
 				addChoiceSelect( AdventureDatabase.CHOICE_ADVS[i].getZone(), AdventureDatabase.CHOICE_ADVS[i].getName(), optionSelects[i] );
 
-			JPanel wrapper;
+			ArrayList options;
 			Object [] keys = choiceMap.keySet().toArray();
 
 			for ( int i = 0; i < keys.length; ++i )
 			{
-				wrapper = new JPanel();
-				wrapper.add( (JPanel) choiceMap.get( keys[i] ) );
-				add( wrapper, (String) keys[i] );
+				options = (ArrayList) choiceMap.get( keys[i] );
+				add( new ChoicePanel( options ), (String) keys[i] );
 			}
 
 			actionCancelled();
 			locationSelect.addListSelectionListener( new UpdateChoicesListener() );
 		}
 
-		private void addChoiceSelect( String zone, String name, JComboBox select )
+		private void addChoiceSelect( String zone, String name, JComboBox option )
 		{
-			JPanel destination;
-
 			if ( !choiceMap.containsKey( zone ) )
+				choiceMap.put( zone, new ArrayList() );
+
+			ArrayList options = (ArrayList) choiceMap.get( zone );
+			options.add( name );
+
+			selectMap.put( name, option );
+		}
+
+		private class ChoicePanel extends KoLPanel
+		{
+			public ChoicePanel( ArrayList options )
 			{
-				destination = new JPanel( new GridLayout( 0, 2, 20, 20 ) );
-				choiceMap.put( zone, destination );
-			}
-			else
-			{
-				destination = (JPanel) choiceMap.get( zone );
+				super( new Dimension( 150, 20 ), new Dimension( 300, 20 ) );
+
+				VerifiableElement [] elements = new VerifiableElement[ options.size() ];
+
+				for ( int i = 0; i < options.size(); ++i )
+					elements[i] = new VerifiableElement( options.get(i) + ":  ", (JComboBox) selectMap.get( options.get(i) ) );
+
+				setContent( elements );
 			}
 
-			destination.add( constructLabelPair( name, select ) );
-			select.addActionListener( this );
+			public void actionConfirmed()
+			{	ChoiceOptionsPanel.this.actionConfirmed();
+			}
+
+			public void actionCancelled()
+			{
+			}
+
+			protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+			{	return false;
+			}
 		}
 
 		private class UpdateChoicesListener implements ListSelectionListener
@@ -866,10 +889,6 @@ public class AdventureFrame extends KoLFrame
 				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();
 				choiceCards.show( ChoiceOptionsPanel.this, choiceMap.containsKey( location.getZone() ) ? location.getZone() : "" );
 			}
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	actionConfirmed();
 		}
 
 		public void actionConfirmed()
