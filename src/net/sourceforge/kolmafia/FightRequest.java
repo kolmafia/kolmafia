@@ -46,6 +46,7 @@ import java.util.regex.Matcher;
 
 public class FightRequest extends KoLRequest
 {
+	private static final AdventureResult TEQUILA = new AdventureResult( 1004, -1 );
 	private static boolean isTrackingFights = false;
 	private static ArrayList trackedRounds = new ArrayList();
 
@@ -418,7 +419,15 @@ public class FightRequest extends KoLRequest
 			int id1 = StaticEntity.parseInt( action1.substring( 4 ) );
 
 			if ( hasActionCost( id1 ) )
-				StaticEntity.getClient().processResult( new AdventureResult( id1, -1 ) );
+			{
+				if ( id1 == 1397 ) // If it's a toy soldier, then decrement tequila instead
+				{
+					if ( inventory.contains( TEQUILA ) )
+						StaticEntity.getClient().processResult( TEQUILA );
+				}
+				else
+					StaticEntity.getClient().processResult( new AdventureResult( id1, -1 ) );
+			}
 
 			if ( action2 == null || action2.equals( "" ) )
 				return;
@@ -426,7 +435,15 @@ public class FightRequest extends KoLRequest
 			int id2 = StaticEntity.parseInt( action2.substring( 4 ) );
 
 			if ( hasActionCost( id2 ) )
-				StaticEntity.getClient().processResult( new AdventureResult( id2, -1 ) );
+			{
+				if ( id2 == 1397 ) // If it's a toy soldier, then decrement tequila instead
+				{
+					if ( inventory.contains( TEQUILA ) )
+						StaticEntity.getClient().processResult( TEQUILA );
+				}
+				else
+					StaticEntity.getClient().processResult( new AdventureResult( id2, -1 ) );
+			}
 
 			return;
 		}
