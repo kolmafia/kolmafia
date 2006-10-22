@@ -334,6 +334,9 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !getClient().checkRequirements( requirements ) || KoLmafia.refusesContinue() )
 			return;
 
+		KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
+		QUEST_HANDLER.constructURLString( "lair2.php?action=odor" ).run();
+
 		// If you decided to use a broken skull because
 		// you had no other items, untinker the key.
 
@@ -447,6 +450,9 @@ public abstract class SorceressLair extends StaticEntity
 
 		List requirements = new ArrayList();
 
+		if ( isItemAvailable( RHYTHM ) )
+			return requirements;
+
 		if ( !isItemAvailable( SKELETON ) && isItemAvailable( KEY_RING ) )
 			DEFAULT_SHELL.executeLine( "use skeleton key ring" );
 
@@ -504,6 +510,10 @@ public abstract class SorceressLair extends StaticEntity
 		// this whole process.
 
 		List requirements = new ArrayList();
+
+		if ( isItemAvailable( STRUMMING ) )
+			return requirements;
+
 		AdventureResult starWeapon;
 
 		// See which ones are available
@@ -561,21 +571,18 @@ public abstract class SorceressLair extends StaticEntity
 		else
 			starWeapon = STAR_SWORD;
 
-		// Star equipment unless you already have Sinister Strummings
+		// Star equipment check.
 
-		if ( !isItemAvailable( STRUMMING ) )
-		{
-			if ( !AdventureDatabase.retrieveItem( starWeapon ) )
-				requirements.add( starWeapon );
+		if ( !AdventureDatabase.retrieveItem( starWeapon ) )
+			requirements.add( starWeapon );
 
-			if ( !AdventureDatabase.retrieveItem( STAR_HAT ) )
-				requirements.add( STAR_HAT );
+		if ( !AdventureDatabase.retrieveItem( STAR_HAT ) )
+			requirements.add( STAR_HAT );
 
-			if ( !AdventureDatabase.retrieveItem( RICHARD ) )
-				requirements.add( RICHARD );
-		}
+		if ( !AdventureDatabase.retrieveItem( RICHARD ) )
+			requirements.add( RICHARD );
 
-		if ( isItemAvailable( STRUMMING ) || !requirements.isEmpty() )
+		if ( !requirements.isEmpty() )
 			return requirements;
 
 		// If you can't equip the appropriate weapon and buckler,
@@ -643,11 +650,14 @@ public abstract class SorceressLair extends StaticEntity
 
 		List requirements = new ArrayList();
 
-		if ( !isItemAvailable( SQUEEZINGS ) && !AdventureDatabase.retrieveItem( DIGITAL ) )
-			requirements.add( DIGITAL );
-
-		if ( isItemAvailable( SQUEEZINGS ) || !requirements.isEmpty() )
+		if ( isItemAvailable( SQUEEZINGS ) )
 			return requirements;
+
+		if ( !AdventureDatabase.retrieveItem( DIGITAL ) )
+		{
+			requirements.add( DIGITAL );
+			return requirements;
+		}
 
 		// Now handle the form for the digital key to get
 		// the Squeezings of Woe.
@@ -731,8 +741,6 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		DEFAULT_SHELL.executeLine( "equip acc1 makeshift SCUBA gear" );
-		KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
-		QUEST_HANDLER.constructURLString( "lair2.php?action=odor" ).run();
 		return requirements;
 	}
 
