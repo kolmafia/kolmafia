@@ -103,6 +103,7 @@ public class AdventureFrame extends KoLFrame
 	private JPanel combatPanel;
 
 	private JList locationSelect;
+	private JComboBox dropdown1, dropdown2;
 	private AdventureSelectPanel adventureSelect;
 
 	private JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect;
@@ -136,7 +137,7 @@ public class AdventureFrame extends KoLFrame
 
 		framePanel.setLayout( new BorderLayout( 20, 20 ) );
 		framePanel.add( adventureDetails, BorderLayout.NORTH );
-		framePanel.add( getAdventureSummary(), BorderLayout.CENTER );
+		framePanel.add( getSouthernTabs(), BorderLayout.CENTER );
 
 		JComponentUtilities.setComponentSize( framePanel, 640, 480 );
 	}
@@ -157,7 +158,7 @@ public class AdventureFrame extends KoLFrame
 		return container;
 	}
 
-	private JTabbedPane getAdventureSummary()
+	private JTabbedPane getSouthernTabs()
 	{
 		tabs = new JTabbedPane();
 		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
@@ -165,19 +166,11 @@ public class AdventureFrame extends KoLFrame
 		// Handle everything that might appear inside of the
 		// session tally.
 
-		JPanel survivalPanel = new JPanel( new BorderLayout() );
-		survivalPanel.add( JComponentUtilities.createLabel( "Survival Data", JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
-		survivalPanel.add( new SafetyField(), BorderLayout.CENTER );
-
-		JPanel encounterGrid = new JPanel( new BorderLayout( 10, 10 ) );
-		encounterGrid.add( survivalPanel, BorderLayout.CENTER );
-		encounterGrid.add( new AdventureResultsPanel( "Encounter Listing", encounterList, 3 ), BorderLayout.SOUTH );
-
 		JPanel sessionGrid = new JPanel( new GridLayout( 1, 2, 10, 10 ) );
-		sessionGrid.add( new AdventureResultsPanel( "Session Results", tally, 11 ) );
-		sessionGrid.add( encounterGrid );
+		sessionGrid.add( getAdventureSummary( StaticEntity.getIntegerProperty( "defaultDropdown1" ) ) );
+		sessionGrid.add( getAdventureSummary( StaticEntity.getIntegerProperty( "defaultDropdown2" ) ) );
 
-		tabs.addTab( "Session Results", sessionGrid );
+		tabs.addTab( "Normal Options", sessionGrid );
 
 		// Components of auto-restoration
 
@@ -209,26 +202,87 @@ public class AdventureFrame extends KoLFrame
 		combatPanel.add( "tree", new CustomCombatTreePanel() );
 		combatPanel.add( "editor", new CustomCombatPanel() );
 
-		JPanel settingsPanel = new JPanel( new GridLayout( 1, 2, 10, 10 ) );
-
-		JPanel moodContainer = new JPanel( new CardLayout( 10, 10 ) );
-		moodContainer.add( new AdventureResultsPanel( "Mood Settings", MoodSettings.getTriggers(), 11 ), "" );
-
-		settingsPanel.add( moodContainer );
-		settingsPanel.add( combatPanel );
-
 		addTab( "Auto Recovery", restorePanel );
 		addTab( "Choice Adventures", new ChoiceOptionsPanel() );
-		tabs.addTab( "Script Overview", settingsPanel );
+		tabs.addTab( "Custom Combat", combatPanel );
 
 		locationSelect.setSelectedValue( AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) ), true );
 		return tabs;
+	}
+
+	private JPanel getAdventureSummary( int selectedIndex )
+	{
+		CardLayout resultCards = new CardLayout();
+		JPanel resultPanel = new JPanel( resultCards );
+		JComboBox resultSelect = new JComboBox();
+
+		resultSelect.addItem( "Session Results" );
+		resultPanel.add( new AdventureResultsPanel( tally ), "0" );
+
+		resultSelect.addItem( "Location Details" );
+		resultPanel.add( new SafetyField(), "1" );
+
+		resultSelect.addItem( "Mood Summary" );
+		resultPanel.add( new AdventureResultsPanel( MoodSettings.getTriggers() ), "2" );
+
+		resultSelect.addItem( "Conditions Left" );
+		resultPanel.add( new AdventureResultsPanel( conditions ), "3" );
+
+		resultSelect.addItem( "Active Effects" );
+		resultPanel.add( new AdventureResultsPanel( activeEffects ), "4" );
+
+		resultSelect.addItem( "Visited Locations" );
+		resultPanel.add( new AdventureResultsPanel( adventureList ), "5" );
+
+		resultSelect.addItem( "Encounter Listing" );
+		resultPanel.add( new AdventureResultsPanel( encounterList ), "6" );
+
+		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect ) );
+
+		JPanel containerPanel = new JPanel( new BorderLayout() );
+		containerPanel.add( resultSelect, BorderLayout.NORTH );
+		containerPanel.add( resultPanel, BorderLayout.CENTER );
+
+		if ( dropdown1 == null )
+		{
+			dropdown1 = resultSelect;
+			dropdown1.setSelectedIndex( selectedIndex );
+		}
+		else
+		{
+			dropdown2 = resultSelect;
+			dropdown2.setSelectedIndex( selectedIndex );
+		}
+
+		return containerPanel;
 	}
 
 	public void requestFocus()
 	{
 		super.requestFocus();
 		locationSelect.requestFocus();
+	}
+
+	private class ResultSelectListener implements ActionListener
+	{
+		private CardLayout resultCards;
+		private JPanel resultPanel;
+		private JComboBox resultSelect;
+
+		public ResultSelectListener( CardLayout resultCards, JPanel resultPanel, JComboBox resultSelect )
+		{
+			this.resultCards = resultCards;
+			this.resultPanel = resultPanel;
+			this.resultSelect = resultSelect;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			String index = String.valueOf( resultSelect.getSelectedIndex() );
+			resultCards.show( resultPanel, index );
+			StaticEntity.setProperty( resultSelect == dropdown1 ? "defaultDropdown1" : "defaultDropdown2", index );
+
+		}
 	}
 
 	private class SafetyField extends JPanel implements Runnable, ListSelectionListener
@@ -460,6 +514,8 @@ public class AdventureFrame extends KoLFrame
 		{
 			public void valueChanged( ListSelectionEvent e )
 			{
+				conditions.clear();
+
 				if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
 					return;
 
