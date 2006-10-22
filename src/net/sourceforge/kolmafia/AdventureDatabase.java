@@ -177,7 +177,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 13 is unknown
 
 		// A Bard Day's Night
-		new ChoiceAdventure( "Plains", "choiceAdventure14", "Knob Goblin Harem",
+		new ChoiceAdventure( "Knob", "choiceAdventure14", "Knob Goblin Harem",
 		  new String [] { "Knob goblin harem veil", "Knob goblin harem pants", "small meat boost", "complete the outfit" },
 		  new String [] { "306", "305", null } ),
 
