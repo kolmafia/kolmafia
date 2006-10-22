@@ -40,7 +40,6 @@ public class ConsumeItemRequest extends KoLRequest
 {
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
 	private static final Pattern GIFT_PATTERN = Pattern.compile( "From: <b>(.*?)</b>" );
-	private static final Pattern FORTUNE_PATTERN = Pattern.compile( "<Table style=\"border: 1px solid black;\" cellpadding=10>.*?</table>" );
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</table><table.*?</body>" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
@@ -121,6 +120,23 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int GIFT11 = 1177;
 	private static final int GIFTV = 1460;
 	private static final int GIFTR = 1534;
+
+	private static final int TRADING_CARD1 = 2000;
+	private static final int TRADING_CARD2 = 2001;
+	private static final int TRADING_CARD3 = 2002;
+	private static final int TRADING_CARD4 = 2003;
+	private static final int TRADING_CARD5 = 2004;
+	private static final int TRADING_CARD6 = 2005;
+	private static final int TRADING_CARD7 = 2006;
+	private static final int TRADING_CARD8 = 2007;
+	private static final int TRADING_CARD9 = 2008;
+	private static final int TRADING_CARD10 = 2009;
+	private static final int TRADING_CARD11 = 2010;
+	private static final int TRADING_CARD12 = 2011;
+	private static final int TRADING_CARD13 = 2012;
+	private static final int TRADING_CARD14 = 2013;
+	private static final int TRADING_CARD15 = 2014;
+	private static final int TRADING_CARD16 = 2015;
 
 	private static final AdventureResult POISON = new AdventureResult( "Poisoned", 1, true );
 	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
@@ -348,6 +364,11 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
+		// For popping up HTML windows
+
+		String text;
+		String title;
+
 		// Perform item-specific processing
 
 		switch ( lastItemUsed.getItemID() )
@@ -392,21 +413,48 @@ public class ConsumeItemRequest extends KoLRequest
 				// what was in the gift.
 
 				Matcher matcher = GIFT_PATTERN.matcher( responseText );
-				String title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
+				title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
 				StaticEntity.getClient().showHTML( trimInventoryText( responseText ), title );
 			}
+
+			return;
+
+		// If it's a trading card, display it
+
+		case TRADING_CARD1:
+		case TRADING_CARD2:
+		case TRADING_CARD3:
+		case TRADING_CARD4:
+		case TRADING_CARD5:
+		case TRADING_CARD6:
+		case TRADING_CARD7:
+		case TRADING_CARD8:
+		case TRADING_CARD9:
+		case TRADING_CARD10:
+		case TRADING_CARD11:
+		case TRADING_CARD12:
+		case TRADING_CARD13:
+		case TRADING_CARD14:
+		case TRADING_CARD15:
+		case TRADING_CARD16:
+
+			text = trimInventoryText( responseText );
+			title = "Trading Card";
+			StaticEntity.getClient().showHTML( text, title );
+
+			// The card is not consumed by being read. I think.
+			StaticEntity.getClient().processResult( lastItemUsed );
 
 			return;
 
 		// If it's a fortune cookie, get the fortune
 
 		case FORTUNE_COOKIE:
-							// Popup a window showing the fortune
+			// Popup a window showing the fortune
 
-							Matcher matcher = FORTUNE_PATTERN.matcher( responseText );
-							String text = matcher.find() ? matcher.group() : trimInventoryText( responseText );
-							String title = "Your fortune";
-							StaticEntity.getClient().showHTML( text, title );
+			text = trimInventoryText( responseText );
+			title = "Your fortune";
+			StaticEntity.getClient().showHTML( text, title );
 
 			return;
 
