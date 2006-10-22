@@ -438,7 +438,7 @@ public class AdventureFrame extends KoLFrame
 					if ( conditions.size() > 1 )
 						DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 
-					if ( countField.getValue().equals( "0" ) )
+					if ( ((Integer)countField.getValue()).intValue() == 0 )
 						countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
 
 					if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
