@@ -35,15 +35,22 @@
 package net.sourceforge.kolmafia;
 
 // layout
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
+import javax.swing.SpringLayout;
+import com.sun.java.forums.SpringUtilities;
 
 // event listeners
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.AbstractSpinnerModel;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -52,6 +59,7 @@ import javax.swing.JList;
 import javax.swing.JTree;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JComponent;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -61,15 +69,18 @@ import javax.swing.JTabbedPane;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.Box;
+import javax.swing.JSpinner;
 
 // utilities
 import java.util.Date;
-import java.util.Arrays;
+import java.util.TreeMap;
 
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.io.FileOutputStream;
+import java.lang.ref.WeakReference;
 
 // other imports
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -85,18 +96,14 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class AdventureFrame extends KoLFrame
 {
-	private JList moodList;
 	private JTree combatTree;
 	private JTextArea combatEditor;
 	private DefaultTreeModel combatModel;
 	private CardLayout combatCards;
 	private JPanel combatPanel;
 
-	private JComboBox locationSelect;
-	private JComboBox dropdown1, dropdown2;
+	private JList locationSelect;
 	private AdventureSelectPanel adventureSelect;
-
-	private JComboBox battleStopSelect;
 
 	private JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect;
 	private JCheckBox [] hpRestoreCheckbox;
@@ -113,29 +120,77 @@ public class AdventureFrame extends KoLFrame
 	{
 		super( "Adventure" );
 
-		tabs = new JTabbedPane();
-		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
-
 		// Construct the adventure select container
 		// to hold everything related to adventuring.
 
-		JPanel adventureContainer = new JPanel( new BorderLayout( 10, 10 ) );
 		this.adventureSelect = new AdventureSelectPanel();
 
-		JPanel southPanel = new JPanel( new GridLayout( 1, 2, 5, 5 ) );
-		southPanel.add( getAdventureSummary( StaticEntity.getIntegerProperty( "defaultDropdown1" ) ) );
-		southPanel.add( getAdventureSummary( StaticEntity.getIntegerProperty( "defaultDropdown2" ) ) );
+		JPanel adventureDetails = new JPanel( new BorderLayout( 20, 20 ) );
+		adventureDetails.add( adventureSelect, BorderLayout.CENTER );
 
-		adventureContainer.add( adventureSelect, BorderLayout.NORTH );
-		adventureContainer.add( southPanel, BorderLayout.CENTER );
+		JLabel statusLabel = new JLabel( " ", JLabel.CENTER );
+		statusLabel.setOpaque( true );
+
+		existingPanels.add( new WeakReference( statusLabel ) );
+		adventureDetails.add( statusLabel, BorderLayout.SOUTH );
+
+		framePanel.setLayout( new BorderLayout( 20, 20 ) );
+		framePanel.add( adventureDetails, BorderLayout.NORTH );
+		framePanel.add( getAdventureSummary(), BorderLayout.CENTER );
+
+		JComponentUtilities.setComponentSize( framePanel, 640, 480 );
+	}
+
+	public boolean useSidePane()
+	{	return true;
+	}
+
+	private JPanel constructLabelPair( String label, JComponent element )
+	{
+		JPanel container = new JPanel( new BorderLayout() );
+
+		if ( element instanceof JComboBox )
+			JComponentUtilities.setComponentSize( element, 240, 20 );
+
+		container.add( new JLabel( "<html><b>" + label + "</b></html>", JLabel.LEFT ), BorderLayout.NORTH );
+		container.add( element, BorderLayout.CENTER );
+		return container;
+	}
+
+	private JTabbedPane getAdventureSummary()
+	{
+		tabs = new JTabbedPane();
+		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+
+		// Handle everything that might appear inside of the
+		// session tally.
+
+		JPanel survivalPanel = new JPanel( new BorderLayout() );
+		survivalPanel.add( JComponentUtilities.createLabel( "Survival Data", JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+		survivalPanel.add( new SafetyField(), BorderLayout.CENTER );
+
+		JPanel encounterGrid = new JPanel( new BorderLayout( 10, 10 ) );
+		encounterGrid.add( survivalPanel, BorderLayout.CENTER );
+		encounterGrid.add( new AdventureResultsPanel( "Encounter Listing", encounterList, 3 ), BorderLayout.SOUTH );
+
+		JPanel sessionGrid = new JPanel( new GridLayout( 1, 2, 10, 10 ) );
+		sessionGrid.add( new AdventureResultsPanel( "Session Results", tally, 11 ) );
+		sessionGrid.add( encounterGrid );
+
+		tabs.addTab( "Session Results", sessionGrid );
 
 		// Components of auto-restoration
 
-		JPanel restorePanel = new JPanel();
-		restorePanel.setLayout( new BoxLayout( restorePanel, BoxLayout.Y_AXIS ) );
+		JPanel restorePanel = new JPanel( new GridLayout( 1, 2, 10, 10 ) );
 
-		restorePanel.add( new HealthOptionsPanel() );
-		restorePanel.add( new ManaOptionsPanel() );
+		JPanel healthPanel = new JPanel();
+		healthPanel.add( new HealthOptionsPanel() );
+
+		JPanel manaPanel = new JPanel();
+		manaPanel.add( new ManaOptionsPanel() );
+
+		restorePanel.add( healthPanel );
+		restorePanel.add( manaPanel );
 
 		CheckboxListener listener = new CheckboxListener();
 		for ( int i = 0; i < hpRestoreCheckbox.length; ++i )
@@ -143,11 +198,8 @@ public class AdventureFrame extends KoLFrame
 		for ( int i = 0; i < mpRestoreCheckbox.length; ++i )
 			mpRestoreCheckbox[i].addActionListener( listener );
 
-		JPanel moodPanel = new JPanel( new BorderLayout() );
-		moodPanel.add( new AddTriggerPanel(), BorderLayout.NORTH );
-		moodPanel.add( new MoodTriggerListPanel(), BorderLayout.CENTER );
-
-		// Components of custom combat
+		// Components of custom combat and choice adventuring,
+		// combined into one friendly panel.
 
 		combatTree = new JTree();
 		combatModel = (DefaultTreeModel) combatTree.getModel();
@@ -157,65 +209,20 @@ public class AdventureFrame extends KoLFrame
 		combatPanel.add( "tree", new CustomCombatTreePanel() );
 		combatPanel.add( "editor", new CustomCombatPanel() );
 
-		tabs.addTab( "Turn Burning", adventureContainer );
-		addTab( "Choice Handling", new ChoiceOptionsPanel() );
+		JPanel settingsPanel = new JPanel( new GridLayout( 1, 2, 10, 10 ) );
+
+		JPanel moodContainer = new JPanel( new CardLayout( 10, 10 ) );
+		moodContainer.add( new AdventureResultsPanel( "Mood Settings", MoodSettings.getTriggers(), 11 ), "" );
+
+		settingsPanel.add( moodContainer );
+		settingsPanel.add( combatPanel );
+
 		addTab( "Auto Recovery", restorePanel );
-		tabs.addTab( "Mood Swings", moodPanel );
-		tabs.addTab( "Custom Combat", combatPanel );
+		addTab( "Choice Adventures", new ChoiceOptionsPanel() );
+		tabs.addTab( "Script Overview", settingsPanel );
 
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( tabs, "" );
-	}
-
-	public boolean useSidePane()
-	{	return true;
-	}
-
-	private JPanel getAdventureSummary( int selectedIndex )
-	{
-		CardLayout resultCards = new CardLayout();
-		JPanel resultPanel = new JPanel( resultCards );
-		JComboBox resultSelect = new JComboBox();
-
-		resultSelect.addItem( "Session Results" );
-		resultPanel.add( new AdventureResultsPanel( tally ), "0" );
-
-		resultSelect.addItem( "Location Details" );
-		resultPanel.add( new SafetyField(), "1" );
-
-		resultSelect.addItem( "Mood Summary" );
-		resultPanel.add( new AdventureResultsPanel( MoodSettings.getTriggers() ), "2" );
-
-		resultSelect.addItem( "Conditions Left" );
-		resultPanel.add( new AdventureResultsPanel( conditions ), "3" );
-
-		resultSelect.addItem( "Active Effects" );
-		resultPanel.add( new AdventureResultsPanel( activeEffects ), "4" );
-
-		resultSelect.addItem( "Visited Locations" );
-		resultPanel.add( new AdventureResultsPanel( adventureList ), "5" );
-
-		resultSelect.addItem( "Encounter Listing" );
-		resultPanel.add( new AdventureResultsPanel( encounterList ), "6" );
-
-		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect ) );
-
-		JPanel containerPanel = new JPanel( new BorderLayout() );
-		containerPanel.add( resultSelect, BorderLayout.NORTH );
-		containerPanel.add( resultPanel, BorderLayout.CENTER );
-
-		if ( dropdown1 == null )
-		{
-			dropdown1 = resultSelect;
-			dropdown1.setSelectedIndex( selectedIndex );
-		}
-		else
-		{
-			dropdown2 = resultSelect;
-			dropdown2.setSelectedIndex( selectedIndex );
-		}
-
-		return containerPanel;
+		locationSelect.setSelectedValue( AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) ), true );
+		return tabs;
 	}
 
 	public void requestFocus()
@@ -224,29 +231,7 @@ public class AdventureFrame extends KoLFrame
 		locationSelect.requestFocus();
 	}
 
-	private class ResultSelectListener implements ActionListener
-	{
-		private CardLayout resultCards;
-		private JPanel resultPanel;
-		private JComboBox resultSelect;
-
-		public ResultSelectListener( CardLayout resultCards, JPanel resultPanel, JComboBox resultSelect )
-		{
-			this.resultCards = resultCards;
-			this.resultPanel = resultPanel;
-			this.resultSelect = resultSelect;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			String index = String.valueOf( resultSelect.getSelectedIndex() );
-			resultCards.show( resultPanel, index );
-			StaticEntity.setProperty( resultSelect == dropdown1 ? "defaultDropdown1" : "defaultDropdown2", index );
-
-		}
-	}
-
-	private class SafetyField extends JPanel implements Runnable, ActionListener
+	private class SafetyField extends JPanel implements Runnable, ListSelectionListener
 	{
 		private JLabel safetyText = new JLabel( " " );
 		private String savedText = " ";
@@ -257,12 +242,11 @@ public class AdventureFrame extends KoLFrame
 			safetyText.setVerticalAlignment( JLabel.TOP );
 
 			SimpleScrollPane textScroller = new SimpleScrollPane( safetyText, SimpleScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-
 			JComponentUtilities.setComponentSize( textScroller, 100, 100 );
 			add( textScroller, BorderLayout.CENTER );
 
 			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( this ) );
-			locationSelect.addActionListener( this );
+			locationSelect.addListSelectionListener( this );
 
 			setSafetyString();
 		}
@@ -271,13 +255,13 @@ public class AdventureFrame extends KoLFrame
 		{	setSafetyString();
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void valueChanged( ListSelectionEvent e )
 		{	setSafetyString();
 		}
 
 		private void setSafetyString()
 		{
-			KoLAdventure request = (KoLAdventure) locationSelect.getSelectedItem();
+			KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
 			if ( request == null )
 				return;
 
@@ -301,44 +285,185 @@ public class AdventureFrame extends KoLFrame
 	 * selection in the <code>AdventureFrame</code>.
 	 */
 
-	private class AdventureSelectPanel extends KoLPanel
+	private class AdventureSelectPanel extends JPanel
 	{
 		private JComboBox actionSelect;
-		private JTextField countField;
+		private JSpinner countField;
 		private JTextField conditionField;
 
 		public AdventureSelectPanel()
 		{
-			super( "begin advs", "stop all", new Dimension( 130, 20 ), new Dimension( 270, 20 ) );
+			super( new GridLayout( 1, 2 ) );
 
-			actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
 			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
 
-			locationSelect = new JComboBox( adventureList );
+			// West pane is a scroll pane which lists all of the available
+			// locations -- to be included is a map on a separate tab.
 
-			countField = new JTextField();
-			conditionField = new JTextField( "none" );
+			locationSelect = new JList( adventureList );
+			locationSelect.setVisibleRowCount( 6 );
 
-			VerifiableElement [] elements = new VerifiableElement[4];
-			elements[0] = new VerifiableElement( "Location: ", locationSelect );
-			elements[1] = new VerifiableElement( "# of Visits: ", countField );
-			elements[2] = new VerifiableElement( "Combat Action: ", actionSelect );
-			elements[3] = new VerifiableElement( "Objective(s): ", conditionField );
+			countField = new JSpinner();
+			JComponentUtilities.setComponentSize( countField, 50, 20 );
 
-			setContent( elements );
+			JPanel meterPanel = new JPanel( new BorderLayout( 10, 10 ) );
+			meterPanel.add( KoLmafia.requestMeter, BorderLayout.CENTER );
+			meterPanel.add( countField, BorderLayout.EAST );
+
+			JPanel locationPanel = new JPanel( new BorderLayout( 10, 10 ) );
+			locationPanel.add( new SimpleScrollPane( locationSelect ), BorderLayout.CENTER );
+			locationPanel.add( meterPanel, BorderLayout.SOUTH );
+
+			JPanel westPanel = new JPanel( new CardLayout( 10, 10 ) );
+			westPanel.add( locationPanel, "" );
+
+			add( westPanel );
+
+			// East pane, you have the spinner which lets the people select
+			// how many adventures they wish to use and the action they
+			// wish to attempt in this battle.
+
+			JPanel corePanel = new JPanel();
+			corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.Y_AXIS ) );
+
+			// Also include the combat action right below it.
+
+			actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
 			actionSelect.addActionListener( new BattleActionListener() );
-			locationSelect.addActionListener( new ConditionChangeListener() );
-			locationSelect.setSelectedItem( AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) ) );
+
+			conditionField = new JTextField();
+			locationSelect.addListSelectionListener( new ConditionChangeListener() );
+
+			JPanel buttonPanel = new JPanel();
+			buttonPanel.add( new ExecuteButton() );
+			buttonPanel.add( new WorldPeaceButton() );
+
+			corePanel.add( constructLabelPair( "Combat Action", actionSelect ) );
+			corePanel.add( Box.createVerticalStrut( 8 ) );
+			corePanel.add( constructLabelPair( "Halt Condition", conditionField ) );
+			corePanel.add( Box.createVerticalStrut( 8 ) );
+			corePanel.add( buttonPanel );
+
+			JPanel eastPanel = new JPanel( new CardLayout( 10, 10 ) );
+			eastPanel.add( corePanel, "" );
+			add( eastPanel );
 		}
 
-		private class ConditionChangeListener implements ActionListener
+		private class ExecuteButton extends ThreadedActionButton
 		{
-			public void actionPerformed( ActionEvent e )
+			public ExecuteButton()
+			{	super( "begin" );
+			}
+
+			public void executeTask()
+			{
+				// Once the stubs are finished, this will notify the
+				//to begin adventuring based on the values
+				// placed in the input fields.
+
+				if ( actionSelect.getSelectedItem() == null )
+					DEFAULT_SHELL.executeLine( "set battleAction=attack with weapon" );
+
+				Runnable request = (Runnable) locationSelect.getSelectedValue();
+				if ( request == null )
+					return;
+
+				// If there are conditions in the condition field, be
+				// sure to process them.
+
+				String conditionList = conditionField.getText().trim().toLowerCase();
+
+				if ( conditionList.equalsIgnoreCase( "none" ) )
+					conditionList = "";
+
+				if ( !conditions.isEmpty() && StaticEntity.getBooleanProperty( "autoSetConditions" ) &&
+					request instanceof KoLAdventure && conditionList.equals( AdventureDatabase.getCondition( (KoLAdventure) request ) ) )
+				{
+					conditionList = "";
+				}
+
+				if ( conditionList.length() > 0 )
+				{
+					DEFAULT_SHELL.executeConditionsCommand( "clear" );
+
+					boolean verifyConditions = false;
+					boolean useDisjunction = false;
+					String [] splitConditions = conditionList.split( "\\s*,\\s*" );
+
+					for ( int i = 0; i < splitConditions.length; ++i )
+					{
+						if ( splitConditions[i].equals( "check" ) )
+						{
+							// Postpone verification of conditions
+							// until all other conditions added.
+
+							verifyConditions = true;
+						}
+						else if ( splitConditions[i].equals( "outfit" ) )
+						{
+							// Determine where you're adventuring and use
+							// that to determine which components make up
+							// the outfit pulled from that area.
+
+							if ( !(request instanceof KoLAdventure) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
+								return;
+
+							verifyConditions = true;
+						}
+						else if ( splitConditions[i].equals( "or" ) || splitConditions[i].equals( "and" ) || splitConditions[i].startsWith( "conjunction" ) || splitConditions[i].startsWith( "disjunction" ) )
+						{
+							useDisjunction = splitConditions[i].equals( "or" ) || splitConditions[i].startsWith( "disjunction" );
+						}
+						else
+						{
+							if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i] ) )
+							{
+								KoLmafia.enableDisplay();
+								return;
+							}
+						}
+					}
+
+					if ( verifyConditions )
+					{
+						DEFAULT_SHELL.executeConditionsCommand( "check" );
+						if ( conditions.isEmpty() )
+						{
+							KoLmafia.updateDisplay( "All conditions already satisfied." );
+							KoLmafia.enableDisplay();
+							return;
+						}
+					}
+
+					if ( conditions.size() > 1 )
+						DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
+
+					if ( countField.getValue().equals( "0" ) )
+						countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
+
+					if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
+						conditionField.setText( "" );
+				}
+
+				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
+				countField.setValue( new Integer( requestCount ) );
+
+				(new RequestThread( request, requestCount )).start();
+			}
+
+			public boolean makesRequest()
+			{	return false;
+			}
+		}
+
+		private class ConditionChangeListener implements ListSelectionListener
+		{
+			public void valueChanged( ListSelectionEvent e )
 			{
 				if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
 					return;
 
-				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedItem();
+				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();
 				conditionField.setText( AdventureDatabase.getCondition( location ) );
 			}
 		}
@@ -364,107 +489,17 @@ public class AdventureFrame extends KoLFrame
 			actionSelect.setEnabled( true );
 		}
 
-		public void actionConfirmed()
+		private class WorldPeaceButton extends JButton implements ActionListener
 		{
-			// Once the stubs are finished, this will notify the
-			//to begin adventuring based on the values
-			// placed in the input fields.
-
-			if ( actionSelect.getSelectedItem() == null )
-				DEFAULT_SHELL.executeLine( "set battleAction=attack with weapon" );
-
-			Runnable request = (Runnable) locationSelect.getSelectedItem();
-			if ( request == null )
-				return;
-
-			// If there are conditions in the condition field, be
-			// sure to process them.
-
-			String conditionList = conditionField.getText().trim().toLowerCase();
-
-			if ( conditionList.equalsIgnoreCase( "none" ) )
-				conditionList = "";
-
-			if ( !conditions.isEmpty() && StaticEntity.getBooleanProperty( "autoSetConditions" ) &&
-				request instanceof KoLAdventure && conditionList.equals( AdventureDatabase.getCondition( (KoLAdventure) request ) ) )
+			public WorldPeaceButton()
 			{
-				conditionList = "";
+				super( "stop" );
+				addActionListener( this );
 			}
 
-			if ( conditionList.length() > 0 )
-			{
-				DEFAULT_SHELL.executeConditionsCommand( "clear" );
-
-				boolean verifyConditions = false;
-				boolean useDisjunction = false;
-				String [] splitConditions = conditionList.split( "\\s*,\\s*" );
-
-				for ( int i = 0; i < splitConditions.length; ++i )
-				{
-					if ( splitConditions[i].equals( "check" ) )
-					{
-						// Postpone verification of conditions
-						// until all other conditions added.
-
-						verifyConditions = true;
-					}
-					else if ( splitConditions[i].equals( "outfit" ) )
-					{
-						// Determine where you're adventuring and use
-						// that to determine which components make up
-						// the outfit pulled from that area.
-
-						if ( !(request instanceof KoLAdventure) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
-						{
-							setStatusMessage( "No outfit corresponds to this zone." );
-							return;
-						}
-
-						verifyConditions = true;
-					}
-					else if ( splitConditions[i].equals( "or" ) || splitConditions[i].equals( "and" ) || splitConditions[i].startsWith( "conjunction" ) || splitConditions[i].startsWith( "disjunction" ) )
-					{
-						useDisjunction = splitConditions[i].equals( "or" ) || splitConditions[i].startsWith( "disjunction" );
-					}
-					else
-					{
-						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i] ) )
-						{
-							KoLmafia.enableDisplay();
-							return;
-						}
-					}
-				}
-
-				if ( verifyConditions )
-				{
-					DEFAULT_SHELL.executeConditionsCommand( "check" );
-					if ( conditions.isEmpty() )
-					{
-						KoLmafia.updateDisplay( "All conditions already satisfied." );
-						KoLmafia.enableDisplay();
-						return;
-					}
-				}
-
-				if ( conditions.size() > 1 )
-					DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
-
-				if ( countField.getText().equals( "" ) )
-					countField.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
-
-				if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
-					conditionField.setText( "" );
+			public void actionPerformed( ActionEvent e )
+			{	KoLmafia.declareWorldPeace();
 			}
-
-			int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
-			countField.setText( String.valueOf( requestCount ) );
-
-			(new RequestThread( request, requestCount )).start();
-		}
-
-		public void actionCancelled()
-		{	KoLmafia.declareWorldPeace();
 		}
 
 		public void requestFocus()
@@ -482,15 +517,22 @@ public class AdventureFrame extends KoLFrame
 	private class AdventureResultsPanel extends JPanel
 	{
 		public AdventureResultsPanel( LockableListModel resultList )
+		{	this( null, resultList, 11 );
+		}
+
+		public AdventureResultsPanel( String header, LockableListModel resultList, int rowCount )
 		{
 			setLayout( new BorderLayout() );
 
 			ShowDescriptionList tallyDisplay = new ShowDescriptionList( resultList );
 			tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-			tallyDisplay.setVisibleRowCount( 11 );
+			tallyDisplay.setVisibleRowCount( rowCount );
 
 			add( new SimpleScrollPane( tallyDisplay ), BorderLayout.CENTER );
+
+			if ( header != null )
+				add( JComponentUtilities.createLabel( header, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 		}
 	}
 
@@ -498,7 +540,7 @@ public class AdventureFrame extends KoLFrame
 	{
 		public CustomCombatPanel()
 		{
-			super( "Editor", "save", "help", new JTextArea( 12, 40 ) );
+			super( "Editor", "save", "help", new JTextArea() );
 			combatEditor = (JTextArea) scrollComponent;
 			combatEditor.setFont( DEFAULT_FONT );
 			refreshCombatSettings();
@@ -547,7 +589,7 @@ public class AdventureFrame extends KoLFrame
 	private class CustomCombatTreePanel extends LabeledScrollPanel
 	{
 		public CustomCombatTreePanel()
-		{	super( "Tree View", "edit", "load", combatTree );
+		{	super( "Custom Combat", "edit", "load", combatTree );
 		}
 
 		public void actionConfirmed()
@@ -636,10 +678,12 @@ public class AdventureFrame extends KoLFrame
 	 * to do for each of the different choice adventures.
 	 */
 
-	private class ChoiceOptionsPanel extends KoLPanel
+	private class ChoiceOptionsPanel extends JPanel implements ActionListener
 	{
-		private JComboBox [] optionSelects;
+		private TreeMap choiceMap;
+		private CardLayout choiceCards;
 
+		private JComboBox [] optionSelects;
 		private JComboBox castleWheelSelect;
 		private JComboBox spookyForestSelect;
 		private JComboBox violetFogSelect;
@@ -653,7 +697,11 @@ public class AdventureFrame extends KoLFrame
 
 		public ChoiceOptionsPanel()
 		{
-			super( new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
+			choiceCards = new CardLayout( 10, 10 );
+			choiceMap = new TreeMap();
+
+			this.setLayout( choiceCards );
+			add( new JPanel(), "" );
 
 			optionSelects = new JComboBox[ AdventureDatabase.CHOICE_ADVS.length ];
 			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
@@ -713,25 +761,59 @@ public class AdventureFrame extends KoLFrame
 			librarySelect.addItem( "Gallery Key" );
 			librarySelect.addItem( "Mysticality Class Skill" );
 
-			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 8 ];
-
-			elements[0] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
-			elements[1] = new VerifiableElement( "Lucky Sewer", optionSelects[0] );
-			elements[2] = new VerifiableElement( "Forest Corpses", spookyForestSelect );
-
-			elements[3] = new VerifiableElement( "", new JLabel() );
-
-			elements[4] = new VerifiableElement( "Violet Fog", violetFogSelect );
-			elements[5] = new VerifiableElement( "Haunted Billiards", billiardRoomSelect );
-			elements[6] = new VerifiableElement( "Haunted Library", librarySelect );
-			elements[7] = new VerifiableElement( "The Louvre", louvreSelect );
-			elements[8] = new VerifiableElement( "", new JLabel() );
+			addChoiceSelect( "Beanstalk", "Castle Wheel", castleWheelSelect );
+			addChoiceSelect( "Town", "Lucky Sewer", optionSelects[0] );
+			addChoiceSelect( "Woods", "Forest Corpses", spookyForestSelect );
+			addChoiceSelect( "Astral", "Violet Fog", violetFogSelect );
+			addChoiceSelect( "Manor", "Billiard Room", billiardRoomSelect );
+			addChoiceSelect( "Manor", "The Louvre", louvreSelect );
 
 			for ( int i = 1; i < optionSelects.length; ++i )
-				elements[i+8] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i].getName(), optionSelects[i] );
+				addChoiceSelect( AdventureDatabase.CHOICE_ADVS[i].getZone(), AdventureDatabase.CHOICE_ADVS[i].getName(), optionSelects[i] );
 
-			setContent( elements );
+			JPanel wrapper;
+			Object [] keys = choiceMap.keySet().toArray();
+
+			for ( int i = 0; i < keys.length; ++i )
+			{
+				wrapper = new JPanel();
+				wrapper.add( (JPanel) choiceMap.get( keys[i] ) );
+				add( wrapper, (String) keys[i] );
+			}
+
 			actionCancelled();
+			locationSelect.addListSelectionListener( new UpdateChoicesListener() );
+		}
+
+		private void addChoiceSelect( String zone, String name, JComboBox select )
+		{
+			JPanel destination;
+
+			if ( !choiceMap.containsKey( zone ) )
+			{
+				destination = new JPanel( new GridLayout( 0, 2, 20, 20 ) );
+				choiceMap.put( zone, destination );
+			}
+			else
+			{
+				destination = (JPanel) choiceMap.get( zone );
+			}
+
+			destination.add( constructLabelPair( name, select ) );
+			select.addActionListener( this );
+		}
+
+		private class UpdateChoicesListener implements ListSelectionListener
+		{
+			public void valueChanged( ListSelectionEvent e )
+			{
+				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();
+				choiceCards.show( ChoiceOptionsPanel.this, choiceMap.containsKey( location.getZone() ) ? location.getZone() : "" );
+			}
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	actionConfirmed();
 		}
 
 		public void actionConfirmed()
@@ -753,8 +835,6 @@ public class AdventureFrame extends KoLFrame
 
 				if ( ignorable || index != 0 )
 					StaticEntity.setProperty( choice, String.valueOf( index ) );
-				else if ( index >= 0 )
-					optionSelects[i].setSelectedIndex( StaticEntity.getIntegerProperty( choice ) );
 			}
 
 			//              The Wheel:
@@ -1094,20 +1174,10 @@ public class AdventureFrame extends KoLFrame
 
 			librarySelect.setSelectedIndex( index );
 		}
-
-		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
-		{	return false;
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-		}
 	}
 
 	private void saveRestoreSettings()
 	{
-		StaticEntity.setProperty( "battleStop", String.valueOf( ((float)(battleStopSelect.getSelectedIndex()) / 10.0f) ) );
-
 		StaticEntity.setProperty( "hpAutoRecovery", String.valueOf( ((float)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "hpAutoRecoveryTarget", String.valueOf( ((float)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "hpAutoRecoveryItems", getSettingString( hpRestoreCheckbox ) );
@@ -1124,18 +1194,12 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
-	private class HealthOptionsPanel extends KoLPanel
+	private class HealthOptionsPanel extends JPanel implements ActionListener
 	{
 		private boolean refreshSoon = false;
 
 		public HealthOptionsPanel()
 		{
-			super( new Dimension( 160, 20 ), new Dimension( 300, 20 ) );
-
-			battleStopSelect = new JComboBox();
-			for ( int i = 0; i <= 9; ++i )
-				battleStopSelect.addItem( "Restorer fails to bring health above " + (i*10) + "%" );
-
 			hpAutoRecoverSelect = new JComboBox();
 			hpAutoRecoverSelect.addItem( "Do not autorecover health" );
 			for ( int i = 0; i <= 10; ++i )
@@ -1148,46 +1212,35 @@ public class AdventureFrame extends KoLFrame
 
 			// Add the elements to the panel
 
-			int currentElementCount = 0;
-			VerifiableElement [] elements = new VerifiableElement[5];
+			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+			add( constructLabelPair( "Restore your health: ", hpAutoRecoverSelect ) );
+			add( Box.createVerticalStrut( 5 ) );
 
-			elements[ currentElementCount++ ] = new VerifiableElement( "Abort condition: ", battleStopSelect );
-			elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
+			JComponentUtilities.setComponentSize( hpAutoRecoverTargetSelect, 240, 20 );
+			add( hpAutoRecoverTargetSelect );
+			add( Box.createVerticalStrut( 10 ) );
 
-			elements[ currentElementCount++ ] = new VerifiableElement( "Restore your health: ", hpAutoRecoverSelect );
-			elements[ currentElementCount++ ] = new VerifiableElement( "", hpAutoRecoverTargetSelect );
-			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", constructScroller( hpRestoreCheckbox = HPRestoreItemList.getCheckboxes() ) );
+			add( constructLabelPair( "Use these restores: ", constructScroller( hpRestoreCheckbox = HPRestoreItemList.getCheckboxes() ) ) );
 
-			setContent( elements );
-			actionCancelled();
-		}
-
-		public void actionConfirmed()
-		{	saveRestoreSettings();
-		}
-
-		public void actionCancelled()
-		{
-			battleStopSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "battleStop" ) * 10) );
 			hpAutoRecoverSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "hpAutoRecovery" ) * 10) + 1 );
 			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "hpAutoRecoveryTarget" ) * 10) + 1 );
+
+			hpAutoRecoverSelect.addActionListener( this );
+			hpAutoRecoverTargetSelect.addActionListener( this );
+
+			for ( int i = 0; i < hpRestoreCheckbox.length; ++i )
+				hpRestoreCheckbox[i].addActionListener( this );
 		}
 
-		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
-		{	return false;
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
+		public void actionPerformed( ActionEvent e )
+		{	saveRestoreSettings();
 		}
 	}
 
-	private class ManaOptionsPanel extends KoLPanel
+	private class ManaOptionsPanel extends JPanel implements ActionListener
 	{
 		public ManaOptionsPanel()
 		{
-			super( new Dimension( 160, 20 ), new Dimension( 300, 20 ) );
-
 			mpAutoRecoverSelect = new JComboBox();
 			mpAutoRecoverSelect.addItem( "Do not automatically recover mana" );
 			for ( int i = 0; i <= 10; ++i )
@@ -1200,206 +1253,27 @@ public class AdventureFrame extends KoLFrame
 
 			// Add the elements to the panel
 
-			int currentElementCount = 0;
-			VerifiableElement [] elements = new VerifiableElement[3];
+			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+			add( constructLabelPair( "Restore your mana: ", mpAutoRecoverSelect ) );
+			add( Box.createVerticalStrut( 5 ) );
 
-			elements[ currentElementCount++ ] = new VerifiableElement( "Restore your mana: ", mpAutoRecoverSelect );
-			elements[ currentElementCount++ ] = new VerifiableElement( "", mpAutoRecoverTargetSelect );
-			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) );
+			JComponentUtilities.setComponentSize( mpAutoRecoverTargetSelect, 240, 20 );
+			add( mpAutoRecoverTargetSelect );
+			add( Box.createVerticalStrut( 10 ) );
+			add( constructLabelPair( "Use these restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) ) );
 
-			setContent( elements );
-			actionCancelled();
-		}
-
-		public void actionConfirmed()
-		{	saveRestoreSettings();
-		}
-
-		public void actionCancelled()
-		{
 			mpAutoRecoverSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "mpAutoRecovery" ) * 10) + 1 );
 			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "mpAutoRecoveryTarget" ) * 10) + 1 );
+
+			mpAutoRecoverSelect.addActionListener( this );
+			mpAutoRecoverTargetSelect.addActionListener( this );
+
+			for ( int i = 0; i < mpRestoreCheckbox.length; ++i )
+				mpRestoreCheckbox[i].addActionListener( this );
 		}
 
-		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
-		{	return false;
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-		}
-	}
-
-	/**
-	 * Internal class used to handle everything related to
-	 * BuffBot options management
-	 */
-
-	private class AddTriggerPanel extends KoLPanel
-	{
-		private LockableListModel EMPTY_MODEL = new LockableListModel();
-		private LockableListModel EFFECT_MODEL = new LockableListModel();
-
-		private TypeComboBox typeSelect;
-		private ValueComboBox valueSelect;
-		private JTextField commandField;
-
-		public AddTriggerPanel()
-		{
-			super( "add entry", "auto-fill" );
-
-			typeSelect = new TypeComboBox();
-
-			Object [] names = StatusEffectDatabase.values().toArray();
-			Arrays.sort( names );
-
-			for ( int i = 0; i < names.length; ++i )
-				EFFECT_MODEL.add( names[i] );
-
-			valueSelect = new ValueComboBox();
-			commandField = new JTextField();
-
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Trigger On: ", typeSelect );
-			elements[1] = new VerifiableElement( "Check For: ", valueSelect );
-			elements[2] = new VerifiableElement( "Command: ", commandField );
-
-			setContent( elements );
-		}
-
-		public void actionConfirmed()
-		{	MoodSettings.addTrigger( (String) typeSelect.getSelectedType(), (String) valueSelect.getSelectedItem(), commandField.getText() );
-		}
-
-		public void actionCancelled()
-		{	MoodSettings.autoFillTriggers();
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-		}
-
-		private class ValueComboBox extends JComboBox implements ActionListener
-		{
-			public ValueComboBox()
-			{
-				super( EFFECT_MODEL );
-				addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				commandField.setText( MoodSettings.getDefaultAction( typeSelect.getSelectedType(), (String) getSelectedItem() ) );
-			}
-		}
-
-		private class TypeComboBox extends JComboBox implements ActionListener
-		{
-			public TypeComboBox()
-			{
-				addItem( "When an effect is lost" );
-				addItem( "When an effect is gained" );
-				addItem( "Unconditional trigger" );
-
-				addActionListener( this );
-			}
-
-			public String getSelectedType()
-			{
-				switch ( getSelectedIndex() )
-				{
-				case 0:
-					return "lose_effect";
-				case 1:
-					return "gain_effect";
-				case 2:
-					return "unconditional";
-				default:
-					return null;
-				}
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{	valueSelect.setModel( getSelectedIndex() == 2 ? EMPTY_MODEL : EFFECT_MODEL );
-			}
-		}
-	}
-
-	private class MoodTriggerListPanel extends LabeledScrollPanel
-	{
-		private JComboBox moodSelect;
-
-		public MoodTriggerListPanel()
-		{
-
-			super( "", "new list", "remove", new JList( MoodSettings.getTriggers() ) );
-
-			moodSelect = new MoodComboBox();
-
-			CopyMoodButton moodCopy = new CopyMoodButton();
-			InvocationButton moodRemove = new InvocationButton( "delete list", MoodSettings.class, "deleteCurrentMood" );
-
-			actualPanel.add( moodSelect, BorderLayout.NORTH );
-			moodList = (JList) scrollComponent;
-
-			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
-			extraButtons.add( moodRemove, BorderLayout.NORTH );
-			extraButtons.add( moodCopy, BorderLayout.SOUTH );
-
-			buttonPanel.add( extraButtons, BorderLayout.SOUTH );
-		}
-
-		public void actionConfirmed()
-		{
-			String name = JOptionPane.showInputDialog( "Give your list a name!" );
-			if ( name == null )
-				return;
-
-			MoodSettings.setMood( name );
-		}
-
-		public void actionCancelled()
-		{	MoodSettings.removeTriggers( moodList.getSelectedValues() );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-		}
-
-		private class MoodComboBox extends JComboBox implements ActionListener
-		{
-			public MoodComboBox()
-			{
-				super( MoodSettings.getAvailableMoods() );
-				setSelectedItem( StaticEntity.getProperty( "currentMood" ) );
-				addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{	MoodSettings.setMood( (String) getSelectedItem() );
-			}
-		}
-
-		private class CopyMoodButton extends JButton implements ActionListener
-		{
-			public CopyMoodButton()
-			{
-				super( "copy list" );
-				addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				String moodName = JOptionPane.showInputDialog( "Make a copy of current mood list called:" );
-				if ( moodName == null )
-					return;
-
-				if ( moodName.equals( "default" ) )
-					return;
-
-				MoodSettings.copyTriggers( moodName );
-				MoodSettings.setMood( moodName );
-			}
+		public void actionPerformed( ActionEvent e )
+		{	saveRestoreSettings();
 		}
 	}
 }

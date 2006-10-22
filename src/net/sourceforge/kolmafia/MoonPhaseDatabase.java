@@ -706,9 +706,11 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		int calendarDay = getCalendarDay( time );
 		int [] calendarDayAsArray = convertCalendarDayToArray( calendarDay );
-		String gameHoliday = HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
 
-		if ( showPrediction )
+		String gameHoliday = HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
+		String realHoliday = getRealLifeHoliday( CALENDAR_FORMAT.format( time ) );
+
+		if ( showPrediction && realHoliday == null )
 		{
 			if ( gameHoliday != null )
 				gameHoliday = gameHoliday + " today";
@@ -728,8 +730,6 @@ public class MoonPhaseDatabase extends StaticEntity
 				}
 			}
 		}
-
-		String realHoliday = getRealLifeHoliday( CALENDAR_FORMAT.format( time ) );
 
 		return gameHoliday == null && realHoliday == null ? "No known holiday today." :
 			gameHoliday == null ? realHoliday : realHoliday == null ? gameHoliday :
