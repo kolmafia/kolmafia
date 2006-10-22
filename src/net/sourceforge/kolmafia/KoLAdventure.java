@@ -54,6 +54,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	private static final AdventureResult PERFUME_EFFECT = new AdventureResult( "Knob Goblin Perfume", 1, false );
 
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
+	private static final AdventureResult PLANS = new AdventureResult( 146, 1 );
 	public static final AdventureResult SOCK = new AdventureResult( 609, 1 );
 	public static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
 	public static final AdventureResult BEAN = new AdventureResult( 186, 1 );
@@ -347,14 +348,18 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		else if ( zone.equals( "Island" ) )
 		{
-			if ( !KoLCharacter.hasItem( DINGHY ) )
+			isValidAdventure = KoLCharacter.hasItem( DINGHY );
+			if ( !isValidAdventure )
 			{
+				isValidAdventure = KoLCharacter.hasItem( PLANS );
+				if ( !isValidAdventure )
+					return;
+
 				isValidAdventure = AdventureDatabase.retrieveItem( "dingy planks" );
 				if ( isValidAdventure )
 					DEFAULT_SHELL.executeLine( "use dinghy plans" );
 			}
 
-			isValidAdventure = AdventureDatabase.retrieveItem( DINGHY );
 			return;
 		}
 
@@ -655,7 +660,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 			validate( false );
 			if ( !isValidAdventure )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "That area is not available." );
 				return;
+			}
 		}
 
 		if ( getFormSource().equals( "shore.php" ) && KoLCharacter.getAvailableMeat() < 500 )
