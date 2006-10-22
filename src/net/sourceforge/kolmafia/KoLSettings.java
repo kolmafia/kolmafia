@@ -436,23 +436,11 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 			ostream.reset();
 
-			if ( lines[0].endsWith( VERSION_NAME ) )
+			for ( int i = 0; i < lines.length; ++i )
 			{
-				ostream.write( lines[0].getBytes() );
-				ostream.write( LINE_BREAK.getBytes() );
-				ostream.write( lines[1].getBytes() );
-				ostream.write( LINE_BREAK.getBytes() );
-			}
-			else
-			{
-				ostream.write( lines[1].getBytes() );
-				ostream.write( LINE_BREAK.getBytes() );
-				ostream.write( lines[0].getBytes() );
-				ostream.write( LINE_BREAK.getBytes() );
-			}
+				if ( lines[i].startsWith( "#" ) )
+					continue;
 
-			for ( int i = 2; i < lines.length; ++i )
-			{
 				ostream.write( lines[i].getBytes() );
 				ostream.write( LINE_BREAK.getBytes() );
 			}

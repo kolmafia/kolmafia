@@ -2858,6 +2858,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			StaticEntity.saveSettings();
 			SystemTrayFrame.removeTrayIcon();
+			LocalRelayServer.stop();
 
 			sessionStream.close();
 			sessionStream = NullStream.INSTANCE;
