@@ -213,9 +213,9 @@ public class AdventureFrame extends KoLFrame
 		combatPanel.add( "tree", new CustomCombatTreePanel() );
 		combatPanel.add( "editor", new CustomCombatPanel() );
 
-		addTab( "Auto Recovery", restorePanel );
 		addTab( "Choice Adventures", new ChoiceOptionsPanel() );
-		tabs.addTab( "Custom Combat", combatPanel );
+		tabs.addTab( "Combat Adventures", combatPanel );
+		addTab( "Auto Recovery", restorePanel );
 
 		return tabs;
 	}
@@ -351,14 +351,15 @@ public class AdventureFrame extends KoLFrame
 
 	private class AdventureSelectPanel extends JPanel
 	{
-		private TreeMap zoneMap;
+		private JComboBox moodSelect;
 		private JComboBox actionSelect;
-		private JSpinner countField;
+		private TreeMap zoneMap;
+		private JTextField countField;
 		private JTextField conditionField;
 
 		public AdventureSelectPanel()
 		{
-			super( new GridLayout( 1, 2 ) );
+			super( new BorderLayout( 10, 10 ) );
 
 			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
 
@@ -380,54 +381,77 @@ public class AdventureFrame extends KoLFrame
 				zoneSelect.addItem( currentZone );
 			}
 
-			countField = new JSpinner();
-			JComponentUtilities.setComponentSize( countField, 50, 20 );
 			zoneSelect.addActionListener( new ZoneChangeListener() );
-
-			JPanel zonePanel = new JPanel( new BorderLayout( 10, 10 ) );
-			zonePanel.add( zoneSelect, BorderLayout.CENTER );
-			zonePanel.add( countField, BorderLayout.EAST );
+			JComponentUtilities.setComponentSize( zoneSelect, 250, 20 );
 
 			locationSelect = new JList( adventureList );
-			locationSelect.setVisibleRowCount( 6 );
+			locationSelect.setVisibleRowCount( 4 );
 
-			JPanel locationPanel = new JPanel( new BorderLayout( 10, 10 ) );
-			locationPanel.add( zonePanel, BorderLayout.NORTH );
+			JPanel locationPanel = new JPanel( new BorderLayout( 5, 5 ) );
+			locationPanel.add( zoneSelect, BorderLayout.NORTH );
 			locationPanel.add( new SimpleScrollPane( locationSelect ), BorderLayout.CENTER );
 
 			JPanel westPanel = new JPanel( new CardLayout( 10, 10 ) );
 			westPanel.add( locationPanel, "" );
 
-			add( westPanel );
+			add( westPanel, BorderLayout.WEST );
+			add( new ObjectivesPanel(), BorderLayout.CENTER );
+		}
 
-			// East pane, you have the spinner which lets the people select
-			// how many adventures they wish to use and the action they
-			// wish to attempt in this battle.
+		private class ObjectivesPanel extends KoLPanel
+		{
+			public ObjectivesPanel()
+			{
+				super( new Dimension( 70, 20 ), new Dimension( 100, 20 ) );
 
-			JPanel corePanel = new JPanel();
-			corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.Y_AXIS ) );
+				countField = new JTextField();
+				JComponentUtilities.setComponentSize( countField, 50, 20 );
 
-			// Also include the combat action right below it.
+				actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
+				moodSelect = new JComboBox( MoodSettings.getAvailableMoods() );
 
-			actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
-			actionSelect.addActionListener( new BattleActionListener() );
+				conditionField = new JTextField();
+				locationSelect.addListSelectionListener( new ConditionChangeListener() );
 
-			conditionField = new JTextField();
-			locationSelect.addListSelectionListener( new ConditionChangeListener() );
+				JPanel buttonPanel = new JPanel();
+				buttonPanel.add( new ExecuteButton() );
+				buttonPanel.add( new WorldPeaceButton() );
 
-			JPanel buttonPanel = new JPanel();
-			buttonPanel.add( new ExecuteButton() );
-			buttonPanel.add( new WorldPeaceButton() );
+				JPanel buttonWrapper = new JPanel( new BorderLayout() );
+				buttonWrapper.add( buttonPanel, BorderLayout.EAST );
 
-			corePanel.add( constructLabelPair( "Combat Action", actionSelect ) );
-			corePanel.add( Box.createVerticalStrut( 8 ) );
-			corePanel.add( constructLabelPair( "Halt Condition", conditionField ) );
-			corePanel.add( Box.createVerticalStrut( 8 ) );
-			corePanel.add( buttonPanel );
+				VerifiableElement [] elements = new VerifiableElement[4];
+				elements[0] = new VerifiableElement( "# of Visits:  ", countField );
+				elements[1] = new VerifiableElement( "In Combat:  ", actionSelect );
+				elements[2] = new VerifiableElement( "Use Mood:  ", moodSelect );
+				elements[3] = new VerifiableElement( "Objectives:  ", conditionField );
 
-			JPanel eastPanel = new JPanel( new CardLayout( 10, 10 ) );
-			eastPanel.add( corePanel, "" );
-			add( eastPanel );
+				setContent( elements );
+				container.add( buttonWrapper, BorderLayout.SOUTH );
+			}
+
+			public void actionConfirmed()
+			{
+				if ( actionSelect.getSelectedIndex() != -1 )
+				{
+					KoLmafia.forceContinue();
+					DEFAULT_SHELL.executeLine( "set battleAction=" + actionSelect.getSelectedItem() );
+				}
+
+				MoodSettings.setMood( (String) moodSelect.getSelectedItem() );
+			}
+
+			public void actionCancelled()
+			{
+			}
+
+			protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+			{	return false;
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+			}
 		}
 
 		private class ExecuteButton extends ThreadedActionButton
@@ -438,13 +462,6 @@ public class AdventureFrame extends KoLFrame
 
 			public void executeTask()
 			{
-				// Once the stubs are finished, this will notify the
-				//to begin adventuring based on the values
-				// placed in the input fields.
-
-				if ( actionSelect.getSelectedItem() == null )
-					DEFAULT_SHELL.executeLine( "set battleAction=attack with weapon" );
-
 				Runnable request = (Runnable) locationSelect.getSelectedValue();
 				if ( request == null )
 					return;
@@ -519,15 +536,15 @@ public class AdventureFrame extends KoLFrame
 					if ( conditions.size() > 1 )
 						DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 
-					if ( ((Integer)countField.getValue()).intValue() == 0 )
-						countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
+					if ( countField.getText().equals( "" ) )
+						countField.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 
 					if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
 						conditionField.setText( "" );
 				}
 
 				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
-				countField.setValue( new Integer( requestCount ) );
+				countField.setText( String.valueOf( requestCount ) );
 
 				(new RequestThread( request, requestCount )).start();
 			}
@@ -575,27 +592,6 @@ public class AdventureFrame extends KoLFrame
 
 				conditionField.setText( AdventureDatabase.getCondition( location ) );
 			}
-		}
-
-		private class BattleActionListener implements ActionListener
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				if ( actionSelect.getSelectedIndex() != -1 )
-				{
-					KoLmafia.forceContinue();
-					DEFAULT_SHELL.executeLine( "set battleAction=" + actionSelect.getSelectedItem() );
-				}
-			}
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			if ( actionSelect == null )
-				return;
-
-			super.setEnabled( isEnabled );
-			actionSelect.setEnabled( true );
 		}
 
 		private class WorldPeaceButton extends JButton implements ActionListener
