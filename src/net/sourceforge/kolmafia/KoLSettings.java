@@ -278,7 +278,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "useTabbedChat", "1" );
 		CLIENT_SETTINGS.put( "useToolbars", "true" );
 
-		PLAYER_SETTINGS.put( "battleAction", "attack" );
+		PLAYER_SETTINGS.put( "battleAction", "attack with weapon" );
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
 		PLAYER_SETTINGS.put( "buffBotCasting", "" );
 		PLAYER_SETTINGS.put( "buffBotMessageDisposal", "0" );
