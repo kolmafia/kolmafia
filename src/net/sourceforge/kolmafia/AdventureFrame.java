@@ -354,7 +354,7 @@ public class AdventureFrame extends KoLFrame
 		private JComboBox moodSelect;
 		private JComboBox actionSelect;
 		private TreeMap zoneMap;
-		private JTextField countField;
+		private JSpinner countField;
 		private JTextField conditionField;
 
 		public AdventureSelectPanel()
@@ -381,14 +381,22 @@ public class AdventureFrame extends KoLFrame
 				zoneSelect.addItem( currentZone );
 			}
 
+			countField = new JSpinner();
+
+			JComponentUtilities.setComponentSize( countField, 50, 20 );
+			JComponentUtilities.setComponentSize( zoneSelect, 200, 20 );
+
+			JPanel zonePanel = new JPanel( new BorderLayout( 5, 5 ) );
+			zonePanel.add( countField, BorderLayout.EAST );
+			zonePanel.add( zoneSelect, BorderLayout.CENTER );
+
 			zoneSelect.addActionListener( new ZoneChangeListener() );
-			JComponentUtilities.setComponentSize( zoneSelect, 250, 20 );
 
 			locationSelect = new JList( adventureList );
 			locationSelect.setVisibleRowCount( 4 );
 
 			JPanel locationPanel = new JPanel( new BorderLayout( 5, 5 ) );
-			locationPanel.add( zoneSelect, BorderLayout.NORTH );
+			locationPanel.add( zonePanel, BorderLayout.NORTH );
 			locationPanel.add( new SimpleScrollPane( locationSelect ), BorderLayout.CENTER );
 
 			JPanel westPanel = new JPanel( new CardLayout( 10, 10 ) );
@@ -404,9 +412,6 @@ public class AdventureFrame extends KoLFrame
 			{
 				super( new Dimension( 70, 20 ), new Dimension( 100, 20 ) );
 
-				countField = new JTextField();
-				JComponentUtilities.setComponentSize( countField, 50, 20 );
-
 				actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
 				moodSelect = new JComboBox( MoodSettings.getAvailableMoods() );
 
@@ -420,11 +425,10 @@ public class AdventureFrame extends KoLFrame
 				JPanel buttonWrapper = new JPanel( new BorderLayout() );
 				buttonWrapper.add( buttonPanel, BorderLayout.EAST );
 
-				VerifiableElement [] elements = new VerifiableElement[4];
-				elements[0] = new VerifiableElement( "# of Visits:  ", countField );
-				elements[1] = new VerifiableElement( "In Combat:  ", actionSelect );
-				elements[2] = new VerifiableElement( "Use Mood:  ", moodSelect );
-				elements[3] = new VerifiableElement( "Objectives:  ", conditionField );
+				VerifiableElement [] elements = new VerifiableElement[3];
+				elements[0] = new VerifiableElement( "In Combat:  ", actionSelect );
+				elements[1] = new VerifiableElement( "Use Mood:  ", moodSelect );
+				elements[2] = new VerifiableElement( "Objectives:  ", conditionField );
 
 				setContent( elements );
 				container.add( buttonWrapper, BorderLayout.SOUTH );
@@ -536,15 +540,15 @@ public class AdventureFrame extends KoLFrame
 					if ( conditions.size() > 1 )
 						DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 
-					if ( countField.getText().equals( "" ) )
-						countField.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
+					if ( ((Integer)countField.getValue()).intValue() == 0 )
+						countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
 
 					if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
 						conditionField.setText( "" );
 				}
 
 				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
-				countField.setText( String.valueOf( requestCount ) );
+				countField.setValue( new Integer( requestCount ) );
 
 				(new RequestThread( request, requestCount )).start();
 			}
