@@ -436,12 +436,8 @@ public class AdventureFrame extends KoLFrame
 
 			public void actionConfirmed()
 			{
-				if ( actionSelect.getSelectedIndex() != -1 )
-				{
-					KoLmafia.forceContinue();
-					DEFAULT_SHELL.executeLine( "set battleAction=" + actionSelect.getSelectedItem() );
-				}
-
+				KoLmafia.forceContinue();
+				DEFAULT_SHELL.executeLine( "set battleAction=" + actionSelect.getSelectedItem() );
 				MoodSettings.setMood( (String) moodSelect.getSelectedItem() );
 			}
 
