@@ -201,10 +201,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	{
 		public void keyReleased( KeyEvent e )
 		{
-			boolean shouldAct = e.getKeyCode() == KeyEvent.VK_ENTER;
-			shouldAct &= !(e.getSource() instanceof JComboBox) || !((JComboBox)e.getSource()).isPopupVisible();
-
-			if ( shouldAct )
+			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
 				(new Thread( this )).start();
 		}
 
