@@ -62,7 +62,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -132,13 +131,6 @@ public abstract class KoLmafia implements KoLConstants
 	private static final Pattern CARBS_PATTERN = Pattern.compile( "some of your blood, to the tune of ([\\d,]+) damage" );
 	private static final Pattern TAVERN_PATTERN = Pattern.compile( "where=(\\d+)" );
 	private static final Pattern GOURD_PATTERN = Pattern.compile( "Bring back (\\d+)" );
-
-	public static final JProgressBar requestMeter = new JProgressBar();
-	static
-	{
-		requestMeter.setOpaque( false );
-		requestMeter.setStringPainted( true );
-	}
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -322,7 +314,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		if ( message != null && message.length() > 0 )
-			requestMeter.setString( message );
+			AdventureFrame.updateRequestMeter( message );
 
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );
@@ -1471,7 +1463,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( refusesContinue() )
 			{
 				if ( request instanceof KoLAdventure )
-					requestMeter.setValue( 0 );
+					AdventureFrame.updateRequestMeter( 0, 0 );
 
 				return;
 			}
@@ -1479,10 +1471,7 @@ public abstract class KoLmafia implements KoLConstants
 			adventuresBeforeRequest = KoLCharacter.getAdventuresLeft();
 
 			if ( request instanceof KoLAdventure )
-			{
-				requestMeter.setMaximum( iterations );
-				requestMeter.setValue( currentIteration );
-			}
+				AdventureFrame.updateRequestMeter( currentIteration, iterations );
 
 			request.run();
 
@@ -1520,10 +1509,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( permitsContinue() )
 		{
 			if ( request instanceof KoLAdventure )
-			{
-				requestMeter.setValue( 1 );
-				requestMeter.setMaximum( 1 );
-			}
+				AdventureFrame.updateRequestMeter( 1, 1 );
 
 			if ( !isRunningBetweenBattleChecks() && request instanceof KoLAdventure && !conditions.isEmpty() )
 				updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
