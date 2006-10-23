@@ -383,8 +383,8 @@ public class AdventureFrame extends KoLFrame
 
 			countField = new JSpinner();
 
-			JComponentUtilities.setComponentSize( countField, 50, 20 );
-			JComponentUtilities.setComponentSize( zoneSelect, 200, 20 );
+			JComponentUtilities.setComponentSize( countField, 50, 24 );
+			JComponentUtilities.setComponentSize( zoneSelect, 200, 24 );
 
 			JPanel zonePanel = new JPanel( new BorderLayout( 5, 5 ) );
 			zonePanel.add( countField, BorderLayout.EAST );
@@ -399,7 +399,7 @@ public class AdventureFrame extends KoLFrame
 			locationPanel.add( zonePanel, BorderLayout.NORTH );
 			locationPanel.add( new SimpleScrollPane( locationSelect ), BorderLayout.CENTER );
 
-			JPanel westPanel = new JPanel( new CardLayout( 10, 10 ) );
+			JPanel westPanel = new JPanel( new CardLayout( 20, 20 ) );
 			westPanel.add( locationPanel, "" );
 
 			add( westPanel, BorderLayout.WEST );
