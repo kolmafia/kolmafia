@@ -7865,6 +7865,8 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( operator.equals( "/" ) )
 			{
+				if ( isInt )
+					return new ScriptValue( ((float)lint) / ((float)rint) );
 				return new ScriptValue( lfloat / rfloat );
 			}
 
