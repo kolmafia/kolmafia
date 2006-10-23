@@ -123,11 +123,62 @@ public class OptionsFrame extends KoLFrame
 		addTab( "Relay", new RelayOptionsPanel() );
 		tabs.addTab( "Moods", moodPanel );
 		addTab( "Links", addonPanel );
+		addTab( "Logs", new SessionLogOptionsPanel() );
 		addTab( "Chat", new ChatOptionsPanel() );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
 	}
+
+	private class SessionLogOptionsPanel extends OptionsPanel
+	{
+		private JCheckBox [] optionBoxes;
+
+		private final String [][] options =
+		{
+			{ "logReverseOrder", "Log adventures left instead of adventures used" },
+			{ "logStatGains", "Session log records stat gains" },
+			{ "logAcquiredItems", "Session log records items acquired" },
+			{ "logStatusEffects", "Session log records status effects gained" },
+			{ "logGainMessages", "Session log records HP/MP/meat changes" },
+			{ "logBattleAction", "Session log records attacks for each round" }
+		};
+
+		/**
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
+		 * place for the users to select their desired server and for them
+		 * to modify any applicable proxy settings.
+		 */
+
+		public SessionLogOptionsPanel()
+		{
+			super( "Session Log", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
+			VerifiableElement [] elements = new VerifiableElement[ options.length ];
+
+			optionBoxes = new JCheckBox[ options.length ];
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i] = new JCheckBox();
+
+			for ( int i = 0; i < options.length; ++i )
+				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+
+			setContent( elements );
+			actionCancelled();
+		}
+
+		public void actionConfirmed()
+		{
+			for ( int i = 0; i < options.length; ++i )
+				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+		}
+
+		public void actionCancelled()
+		{
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
+		}
+	}
+
 
 	private class RelayOptionsPanel extends OptionsPanel
 	{

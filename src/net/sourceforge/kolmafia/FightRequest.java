@@ -509,7 +509,10 @@ public class FightRequest extends KoLRequest
 		action1 = null;
 		action2 = null;
 
-		KoLmafia.getSessionStream().print( " - Round " + currentRound + ": " );
+		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
+
+		if ( shouldLogAction )
+			KoLmafia.getSessionStream().print( " - Round " + currentRound + ": " );
 
 		Matcher skillMatcher = SKILL_PATTERN.matcher( urlString );
 		if ( skillMatcher.find() )
@@ -517,12 +520,14 @@ public class FightRequest extends KoLRequest
 			String skill = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
 			if ( skill == null )
 			{
-				KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of CHANCE!" );
+				if ( shouldLogAction )
+					KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of CHANCE!" );
 			}
 			else
 			{
 				action1 = CombatSettings.getShortCombatOptionName( "skill " + skill );
-				KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of " + skill.toUpperCase() + "!" );
+				if ( shouldLogAction )
+					KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of " + skill.toUpperCase() + "!" );
 			}
 
 			return true;
@@ -534,45 +539,56 @@ public class FightRequest extends KoLRequest
 			String item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
 			if ( item == null )
 			{
-				KoLmafia.getSessionStream().print( KoLCharacter.getUsername() + " plays Garin's Harp" );
+				if ( shouldLogAction )
+					KoLmafia.getSessionStream().print( KoLCharacter.getUsername() + " plays Garin's Harp" );
 			}
 			else
 			{
 				action1 = CombatSettings.getShortCombatOptionName( "item " + item );
-				KoLmafia.getSessionStream().print( KoLCharacter.getUsername() + " uses the " + item );
+				if ( shouldLogAction )
+					KoLmafia.getSessionStream().print( KoLCharacter.getUsername() + " uses the " + item );
 			}
 
 			itemMatcher = ITEM2_PATTERN.matcher( urlString );
 			if ( itemMatcher.find() )
 			{
-				KoLmafia.getSessionStream().print( " and " );
+				if ( shouldLogAction )
+					KoLmafia.getSessionStream().print( " and " );
 
 				item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
 				if ( item == null )
 				{
-					KoLmafia.getSessionStream().print( "plays the Fairy Flute" );
+					if ( shouldLogAction )
+						KoLmafia.getSessionStream().print( "plays the Fairy Flute" );
 				}
 				else
 				{
 					action2 = CombatSettings.getShortCombatOptionName( "item " + item );
-					KoLmafia.getSessionStream().print( "uses the " + item );
+					if ( shouldLogAction )
+						KoLmafia.getSessionStream().print( "uses the " + item );
 				}
 			}
 
-			KoLmafia.getSessionStream().println( "!" );
+			if ( shouldLogAction )
+				KoLmafia.getSessionStream().println( "!" );
+
 			return true;
 		}
 
 		if ( urlString.indexOf( "runaway" ) != -1 )
 		{
 			action1 = "runaway";
-			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the spell of RETURN!" );
+			if ( shouldLogAction )
+				KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the spell of RETURN!" );
 		}
 		else
 		{
 			action1 = "attack";
-			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " attacks with " +
-				"fear-inducing body language!" );
+			if ( shouldLogAction )
+			{
+				KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " attacks with " +
+					"fear-inducing body language!" );
+			}
 		}
 
 		return true;

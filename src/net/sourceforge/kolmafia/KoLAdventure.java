@@ -771,7 +771,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( StaticEntity.getBooleanProperty( "trackLocationChanges" ) && shouldRunFullCheck )
 			AdventureFrame.updateSelectedAdventure( this );
 
-		KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] " + getAdventureName() );
+		KoLmafia.getSessionStream().println( "[" + getAdventureCount() + "] " + getAdventureName() );
 		StaticEntity.getClient().registerAdventure( this );
 
 		if ( request instanceof CampgroundRequest || request instanceof SewerRequest )
@@ -811,8 +811,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return false;
 
 		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getAdventuresLeft() + 1) + "] " + location );
+		KoLmafia.getSessionStream().println( "[" + getAdventureCount() + "] " + location );
 		return true;
+	}
+
+	public static int getAdventureCount()
+	{
+		return StaticEntity.getBooleanProperty( "logReverseOrder" ) ? KoLCharacter.getAdventuresLeft() :
+			KoLCharacter.getTotalTurnsUsed() + 1;
 	}
 
 	public int compareTo( Object o )
