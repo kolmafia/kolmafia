@@ -768,7 +768,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	{
 		StaticEntity.setProperty( "lastAdventure", adventureName );
 
-		if ( StaticEntity.getBooleanProperty( "trackLocationChanges" ) && shouldRunFullCheck && AdventureFrame.locationSelect != null )
+		if ( StaticEntity.getBooleanProperty( "trackLocationChanges" ) && shouldRunFullCheck )
 			AdventureFrame.updateSelectedAdventure( this );
 
 		KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] " + getAdventureName() );
