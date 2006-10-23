@@ -122,7 +122,6 @@ public class OptionsFrame extends KoLFrame
 		addTab( "Items", new ItemOptionsPanel() );
 		addTab( "Relay", new RelayOptionsPanel() );
 		tabs.addTab( "Moods", moodPanel );
-		addTab( "Areas", new AreaOptionsPanel() );
 		addTab( "Links", addonPanel );
 		addTab( "Chat", new ChatOptionsPanel() );
 
@@ -297,59 +296,6 @@ public class OptionsFrame extends KoLFrame
 		{
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
-		}
-	}
-
-	private class AreaOptionsPanel extends OptionsPanel
-	{
-		private Object [] zones;
-		private JCheckBox [] options;
-
-		public AreaOptionsPanel()
-		{
-			super( "Adventure List", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-
-			zones = new String[ AdventureDatabase.ZONE_DESCRIPTIONS.size() ];
-			options = new JCheckBox[ AdventureDatabase.ZONE_DESCRIPTIONS.size() ];
-
-			for ( int i = 0; i < options.length; ++i )
-				options[i] = new JCheckBox();
-
-			VerifiableElement [] elements = new VerifiableElement[ AdventureDatabase.ZONE_DESCRIPTIONS.size() ];
-			zones = AdventureDatabase.ZONE_DESCRIPTIONS.keySet().toArray();
-
-			for ( int i = 0; i < zones.length; ++i )
-				elements[i] = new VerifiableElement( "Hide " + AdventureDatabase.ZONE_DESCRIPTIONS.get( zones[i] ), JLabel.LEFT, options[i] );
-
-			setContent( elements );
-			actionCancelled();
-		}
-
-		public void actionConfirmed()
-		{
-			StringBuffer areas = new StringBuffer();
-
-			for ( int i = 0; i < options.length; ++i )
-			{
-				if ( options[i].isSelected() )
-				{
-					if ( areas.length() != 0 )
-						areas.append( ',' );
-
-					areas.append( zones[i] );
-				}
-			}
-
-			StaticEntity.setProperty( "zoneExcludeList", areas.toString() );
-			super.actionConfirmed();
-			AdventureDatabase.refreshAdventureList();
-		}
-
-		public void actionCancelled()
-		{
-			String excluded = StaticEntity.getProperty( "zoneExcludeList" );
-			for ( int i = 0; i < zones.length; ++i )
-				options[i].setSelected( excluded.indexOf( (String) zones[i] ) != -1 );
 		}
 	}
 

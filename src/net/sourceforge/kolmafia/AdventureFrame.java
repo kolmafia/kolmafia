@@ -73,6 +73,7 @@ import javax.swing.Box;
 import javax.swing.JSpinner;
 
 // utilities
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TreeMap;
@@ -103,6 +104,7 @@ public class AdventureFrame extends KoLFrame
 	private CardLayout combatCards;
 	private JPanel combatPanel;
 
+	private JComboBox zoneSelect;
 	private JList locationSelect;
 	private JComboBox dropdown1, dropdown2;
 	private AdventureSelectPanel adventureSelect;
@@ -139,6 +141,13 @@ public class AdventureFrame extends KoLFrame
 		framePanel.setLayout( new BorderLayout( 20, 20 ) );
 		framePanel.add( adventureDetails, BorderLayout.NORTH );
 		framePanel.add( getSouthernTabs(), BorderLayout.CENTER );
+
+		KoLAdventure location = AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) );
+		if ( location != null )
+		{
+			zoneSelect.setSelectedItem( AdventureDatabase.ZONE_DESCRIPTIONS.get( location.getParentZone() ) );
+			locationSelect.setSelectedValue( location, true );
+		}
 
 		JComponentUtilities.setComponentSize( framePanel, 640, 480 );
 	}
@@ -207,7 +216,6 @@ public class AdventureFrame extends KoLFrame
 		addTab( "Choice Adventures", new ChoiceOptionsPanel() );
 		tabs.addTab( "Custom Combat", combatPanel );
 
-		locationSelect.setSelectedValue( AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) ), true );
 		return tabs;
 	}
 
@@ -342,6 +350,7 @@ public class AdventureFrame extends KoLFrame
 
 	private class AdventureSelectPanel extends JPanel
 	{
+		private TreeMap zoneMap;
 		private JComboBox actionSelect;
 		private JSpinner countField;
 		private JTextField conditionField;
@@ -355,6 +364,23 @@ public class AdventureFrame extends KoLFrame
 			// West pane is a scroll pane which lists all of the available
 			// locations -- to be included is a map on a separate tab.
 
+			Object currentZone;
+			zoneMap = new TreeMap();
+
+			zoneSelect = new JComboBox();
+			zoneSelect.addItem( "All Locations" );
+
+			Object [] zones = AdventureDatabase.PARENT_LIST.toArray();
+
+			for ( int i = 0; i < zones.length; ++i )
+			{
+				currentZone = AdventureDatabase.ZONE_DESCRIPTIONS.get( zones[i] );
+				zoneMap.put( currentZone, zones[i] );
+				zoneSelect.addItem( currentZone );
+			}
+
+			zoneSelect.addActionListener( new ZoneChangeListener() );
+
 			locationSelect = new JList( adventureList );
 			locationSelect.setVisibleRowCount( 6 );
 
@@ -366,6 +392,7 @@ public class AdventureFrame extends KoLFrame
 			meterPanel.add( countField, BorderLayout.EAST );
 
 			JPanel locationPanel = new JPanel( new BorderLayout( 10, 10 ) );
+			locationPanel.add( zoneSelect, BorderLayout.NORTH );
 			locationPanel.add( new SimpleScrollPane( locationSelect ), BorderLayout.CENTER );
 			locationPanel.add( meterPanel, BorderLayout.SOUTH );
 
@@ -511,6 +538,29 @@ public class AdventureFrame extends KoLFrame
 			}
 		}
 
+		private class ZoneChangeListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( zoneSelect.getSelectedIndex() == 0 )
+				{
+					AdventureDatabase.refreshAdventureList();
+					return;
+				}
+
+				String zone = (String) zoneSelect.getSelectedItem();
+
+				if ( zone == null )
+					return;
+
+				zone = (String) zoneMap.get( zone );
+				if ( zone == null )
+					return;
+
+				AdventureDatabase.refreshAdventureList( zone );
+			}
+		}
+
 		private class ConditionChangeListener implements ListSelectionListener
 		{
 			public void valueChanged( ListSelectionEvent e )
@@ -521,6 +571,9 @@ public class AdventureFrame extends KoLFrame
 					return;
 
 				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();
+				if ( location == null )
+					return;
+
 				conditionField.setText( AdventureDatabase.getCondition( location ) );
 			}
 		}
@@ -887,7 +940,10 @@ public class AdventureFrame extends KoLFrame
 			public void valueChanged( ListSelectionEvent e )
 			{
 				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();
-				choiceCards.show( ChoiceOptionsPanel.this, choiceMap.containsKey( location.getZone() ) ? location.getZone() : "" );
+				if ( location == null )
+					return;
+
+				choiceCards.show( ChoiceOptionsPanel.this, choiceMap.containsKey( location.getParentZone() ) ? location.getParentZone() : "" );
 			}
 		}
 

@@ -68,7 +68,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	private boolean isValidAdventure = false;
 	private int baseRequirement, buffedRequirement;
-	private String zone, adventureID, formSource, adventureName;
+	private String zone, parentZone, adventureID, formSource, adventureName;
 	private KoLRequest request;
 	private AreaCombatData areaSummary;
 
@@ -88,6 +88,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	public KoLAdventure( String zone, String baseRequirement, String buffedRequirement, String formSource, String adventureID, String adventureName )
 	{
 		this.zone = zone;
+		this.parentZone = (String) AdventureDatabase.PARENT_ZONES.get( zone );
 		this.baseRequirement = StaticEntity.parseInt( baseRequirement );
 		this.buffedRequirement = StaticEntity.parseInt( buffedRequirement );
 		this.formSource = formSource;
@@ -142,6 +143,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	public String getZone()
 	{	return zone;
+	}
+
+	public String getParentZone()
+	{	return parentZone;
 	}
 
 	/**
