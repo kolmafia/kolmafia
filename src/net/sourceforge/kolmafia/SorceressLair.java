@@ -989,7 +989,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		while ( n < 5 && KoLmafia.permitsContinue() )
 		{
-			switch ( n++ )
+			switch ( n )
 			{
 			case 0:
 				findDoorCode();
@@ -1039,6 +1039,8 @@ public abstract class SorceressLair extends StaticEntity
 				resetAutoAttack( previousAutoAttack );
 				return -1;
 			}
+
+			++n;
 		}
 
 		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
@@ -1245,7 +1247,7 @@ public abstract class SorceressLair extends StaticEntity
 		// If the person has red plastic oyster eggs, then they are an
 		// alternative if the person can't survive using red pixel potions.
 
-		if ( neededHealth > KoLCharacter.getMaximumHP() )
+		if ( neededHealth > KoLCharacter.getMaximumHP() || !isItemAvailable( RED_POTION ) )
 		{
 			if ( isItemAvailable( PLASTIC_EGG ) )
 			{
@@ -1277,7 +1279,10 @@ public abstract class SorceressLair extends StaticEntity
 
 		requirements.add( option );
 		if ( !getClient().checkRequirements( requirements ) )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Could not determine items to use to fight shadow." );
 			return;
+		}
 
 		getClient().recoverHP( neededHealth );
 		if ( KoLCharacter.getCurrentHP() < neededHealth )

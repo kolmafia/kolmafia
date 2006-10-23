@@ -1110,6 +1110,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			sessionStream.println();
 			sessionStream.println( "familiar " + KoLCharacter.getFamiliar() );
+			sessionStream.println();
 		}
 
 		String plainTextResult = results.replaceAll( "<.*?>", LINE_BREAK );
@@ -1128,7 +1129,10 @@ public abstract class KoLmafia implements KoLConstants
 				String message = "You lose " + damageMatcher.group(1) + " hit points";
 
 				KoLmafiaCLI.printLine( message );
-				sessionStream.println( message );
+
+				if ( StaticEntity.getBooleanProperty( "logGainMessages" ) );
+					sessionStream.println( message );
+
 				parseResult( message );
 			}
 
@@ -1139,7 +1143,10 @@ public abstract class KoLmafia implements KoLConstants
 				String message = "You lose " + damageMatcher.group(1) + " hit points";
 
 				KoLmafiaCLI.printLine( message );
-				sessionStream.println( message );
+
+				if ( StaticEntity.getBooleanProperty( "logGainMessages" ) );
+					sessionStream.println( message );
+
 				parseResult( message );
 			}
 		}
@@ -1153,7 +1160,10 @@ public abstract class KoLmafia implements KoLConstants
 				String message = "You lose " + damageMatcher.group(1) + " hit points";
 
 				KoLmafiaCLI.printLine( message );
-				sessionStream.println( message );
+
+				if ( StaticEntity.getBooleanProperty( "logGainMessages" ) );
+					sessionStream.println( message );
+
 				parseResult( message );
 			}
 		}
@@ -1180,7 +1190,8 @@ public abstract class KoLmafia implements KoLConstants
 						if ( data == null )
 						{
 							KoLmafiaCLI.printLine( acquisition + " " + item );
-							sessionStream.println( acquisition + " " + item );
+							if ( StaticEntity.getBooleanProperty( "logAcquiredItems" ) );
+								sessionStream.println( acquisition + " " + item );
 						}
 
 						lastResult = parseItem( item );
@@ -1209,7 +1220,9 @@ public abstract class KoLmafia implements KoLConstants
 							itemName = "evil golden arch";
 
 						KoLmafiaCLI.printLine( acquisition + " " + item );
-						sessionStream.println( acquisition + " " + item );
+
+						if ( StaticEntity.getBooleanProperty( "logAcquiredItems" ) );
+							sessionStream.println( acquisition + " " + item );
 
 						lastResult = parseItem( itemName + " (" + countString + ")" );
 						if ( data == null )
@@ -1223,8 +1236,10 @@ public abstract class KoLmafia implements KoLConstants
 					String effectName = parsedResults.nextToken();
 					lastToken = parsedResults.nextToken();
 
-					sessionStream.println( acquisition + " " + effectName + " " + lastToken );
 					KoLmafiaCLI.printLine( acquisition + " " + effectName + " " + lastToken );
+
+					if ( StaticEntity.getBooleanProperty( "logStatusEffects" ) );
+						sessionStream.println( acquisition + " " + effectName + " " + lastToken );
 
 					if ( lastToken.indexOf( "duration" ) == -1 )
 					{
@@ -1252,7 +1267,6 @@ public abstract class KoLmafia implements KoLConstants
 				if ( data == null && lastToken.indexOf( "level" ) == -1 )
 				{
 					KoLmafiaCLI.printLine( lastToken );
-					sessionStream.println( lastToken );
 				}
 
 				// Because of the simplified parsing, there's a chance that
@@ -1265,9 +1279,23 @@ public abstract class KoLmafia implements KoLConstants
 				{
 					lastResult = parseResult( lastToken );
 					if ( data == null )
+					{
 						processResult( lastResult );
+						if ( lastResult.getName().equals( AdventureResult.SUBSTATS ) )
+						{
+							if ( StaticEntity.getBooleanProperty( "logStatGains" ) )
+								sessionStream.println( lastToken );
+						}
+						else if ( StaticEntity.getBooleanProperty( "logGainMessages" ) )
+							sessionStream.println( lastToken );
+
+					}
 					else if ( lastResult.getName().equals( AdventureResult.MEAT ) )
+					{
 						AdventureResult.addResultToList( data, lastResult );
+						if ( StaticEntity.getBooleanProperty( "logGainMessages" ) );
+							sessionStream.println( lastToken );
+					}
 				}
 			}
 		}

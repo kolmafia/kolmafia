@@ -245,6 +245,14 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,HagnkStorageFrame,SkillBuffFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
+
+		CLIENT_SETTINGS.put( "logAcquiredItems", "true" );
+		CLIENT_SETTINGS.put( "logBattleAction", "true" );
+		CLIENT_SETTINGS.put( "logGainMessages", "true" );
+		CLIENT_SETTINGS.put( "logReverseOrder", "false" );
+		CLIENT_SETTINGS.put( "logStatGains", "true" );
+		CLIENT_SETTINGS.put( "logStatusEffects", "false" );
+
 		CLIENT_SETTINGS.put( "previousNotifyList", "<>" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
 		CLIENT_SETTINGS.put( "proxySet", "false" );

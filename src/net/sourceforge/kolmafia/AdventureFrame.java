@@ -472,7 +472,7 @@ public class AdventureFrame extends KoLFrame
 			public void actionConfirmed()
 			{
 				KoLmafia.forceContinue();
-				DEFAULT_SHELL.executeLine( "set battleAction=" + actionSelect.getSelectedItem() );
+				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
 				MoodSettings.setMood( (String) moodSelect.getSelectedItem() );
 			}
 
@@ -497,6 +497,7 @@ public class AdventureFrame extends KoLFrame
 
 			public void executeTask()
 			{
+				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
 				Runnable request = (Runnable) locationSelect.getSelectedValue();
 				if ( request == null )
 					return;
