@@ -71,6 +71,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.Box;
 import javax.swing.JSpinner;
+import javax.swing.JProgressBar;
 
 // utilities
 import java.util.Arrays;
@@ -98,14 +99,16 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class AdventureFrame extends KoLFrame
 {
+	private static JComboBox zoneSelect = null;
+	private static JList locationSelect = null;
+	private static JProgressBar requestMeter = null;
+
 	private JTree combatTree;
 	private JTextArea combatEditor;
 	private DefaultTreeModel combatModel;
 	private CardLayout combatCards;
 	private JPanel combatPanel;
 
-	private JComboBox zoneSelect;
-	private JList locationSelect;
 	private JComboBox dropdown1, dropdown2;
 	private AdventureSelectPanel adventureSelect;
 
@@ -132,9 +135,13 @@ public class AdventureFrame extends KoLFrame
 		JPanel adventureDetails = new JPanel( new BorderLayout( 20, 20 ) );
 		adventureDetails.add( adventureSelect, BorderLayout.CENTER );
 
+		requestMeter = new JProgressBar();
+		requestMeter.setOpaque( false );
+		requestMeter.setStringPainted( true );
+
 		JPanel meterPanel = new JPanel( new BorderLayout( 10, 10 ) );
 		meterPanel.add( Box.createHorizontalStrut( 20 ), BorderLayout.WEST );
-		meterPanel.add( KoLmafia.requestMeter, BorderLayout.CENTER );
+		meterPanel.add( requestMeter, BorderLayout.CENTER );
 		meterPanel.add( Box.createHorizontalStrut( 20 ), BorderLayout.EAST );
 
 		adventureDetails.add( meterPanel, BorderLayout.SOUTH );
@@ -151,6 +158,34 @@ public class AdventureFrame extends KoLFrame
 		}
 
 		JComponentUtilities.setComponentSize( framePanel, 640, 480 );
+	}
+
+	public static void updateRequestMeter( String message )
+	{
+		if ( requestMeter == null )
+			return;
+
+		requestMeter.setString( message );
+	}
+
+	public static void updateRequestMeter( int value, int maximum )
+	{
+		if ( requestMeter == null )
+			return;
+
+		requestMeter.setMaximum( maximum );
+		requestMeter.setValue( value );
+	}
+
+	public static void updateSelectedAdventure( KoLAdventure location )
+	{
+		if ( zoneSelect == null || locationSelect == null )
+			return;
+
+		if ( zoneSelect.getSelectedIndex() != 0 )
+			zoneSelect.setSelectedItem( location.getParentZone() );
+
+		locationSelect.setSelectedValue( location, true );
 	}
 
 	public boolean useSidePane()
