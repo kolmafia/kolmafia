@@ -70,9 +70,7 @@ public class StarChartRequest extends ItemCreationRequest
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.
 
-		makeIngredients();
-
-		if ( !KoLmafia.permitsContinue() )
+		if ( !makeIngredients() )
 			return;
 
 		for ( int i = 1; i <= getQuantityNeeded(); ++i )

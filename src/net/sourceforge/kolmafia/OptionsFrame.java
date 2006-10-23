@@ -664,7 +664,19 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	MoodSettings.autoFillTriggers();
+		{
+			Integer [] levelArray = new Integer[11];
+			for ( int i = 0; i < 11; ++i )
+				levelArray[i] = new Integer( i + 1 );
+
+			Integer selectedLevel = (Integer) JOptionPane.showInputDialog(
+				null, "Pick a number?", "Choose 1 if you're not sure!",
+					JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[0] );
+
+			if ( selectedLevel == null )
+				return;
+
+			MoodSettings.autoFillTriggers( selectedLevel.intValue() );
 		}
 
 		public void setEnabled( boolean isEnabled )

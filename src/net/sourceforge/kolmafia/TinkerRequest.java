@@ -71,9 +71,7 @@ public class TinkerRequest extends ItemCreationRequest
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.
 
-		makeIngredients();
-
-		if ( !KoLmafia.permitsContinue() )
+		if ( !makeIngredients() )
 			return;
 
 		KoLmafia.updateDisplay( "Creating " + getQuantityNeeded() + " " + getName() + "..." );

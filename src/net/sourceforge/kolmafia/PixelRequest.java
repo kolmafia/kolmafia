@@ -56,9 +56,7 @@ public class PixelRequest extends ItemCreationRequest
 		// In this case, it will also create the needed white
 		// pixels if they are not currently available.
 
-		makeIngredients();
-
-		if ( !KoLmafia.permitsContinue() )
+		if ( !makeIngredients() )
 			return;
 
 		KoLmafia.updateDisplay( "Creating " + getQuantityNeeded() + " " + getName() + "..." );
