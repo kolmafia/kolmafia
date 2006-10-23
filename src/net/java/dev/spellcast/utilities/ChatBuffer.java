@@ -337,6 +337,12 @@ public class ChatBuffer
 			if ( endBody != -1 )
 				newContents = newContents.substring( 0, endBody );
 
+			if ( newContents != null )
+			{
+				newContents = newContents.trim();
+				displayBuffer.append( newContents );
+			}
+
 			contentQueue.add( newContents );
 		}
 
@@ -351,7 +357,10 @@ public class ChatBuffer
 		public void run()
 		{
 			if ( shouldReset )
+			{
+				contentQueue.clear();
 				runOnce( null );
+			}
 
 			while ( !contentQueue.isEmpty() )
 				runOnce( (String) contentQueue.remove(0) );
@@ -366,9 +375,6 @@ public class ChatBuffer
 			if ( shouldReset )
 			{
 				shouldScroll = displayBuffer.length() > 0;
-				if ( newContents != null )
-					displayBuffer.append( newContents );
-
 				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
 			}
 			else
@@ -384,8 +390,7 @@ public class ChatBuffer
 
 				try
 				{
-					displayBuffer.append( newContents );
-					currentHTML.insertAfterEnd( parentElement, newContents.trim() );
+					currentHTML.insertAfterEnd( parentElement, newContents );
 				}
 				catch ( Exception e )
 				{
