@@ -70,6 +70,9 @@ public class FamiliarRequest extends KoLRequest
 
 	public void run()
 	{
+		AdventureResult item = KoLCharacter.getFamiliar() != null ? KoLCharacter.getFamiliar().getItem() :
+			EquipmentRequest.UNEQUIP;
+
 		if ( changeTo == null )
 			KoLmafia.updateDisplay( "Retrieving familiar data..." );
 		else
@@ -86,6 +89,9 @@ public class FamiliarRequest extends KoLRequest
 		}
 
 		super.run();
+
+		if ( changeTo != null && changeTo.canEquip( item ) && FamiliarData.itemWeightModifier( changeTo.getItem().getItemID() ) <= FamiliarData.itemWeightModifier( item.getItemID() ) )
+			(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
 	}
 
 	protected void processResults()
