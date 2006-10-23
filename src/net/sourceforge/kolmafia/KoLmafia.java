@@ -137,7 +137,7 @@ public abstract class KoLmafia implements KoLConstants
 	static
 	{
 		requestMeter.setOpaque( false );
-		requestMeter.setStringPainted( false );
+		requestMeter.setStringPainted( true );
 	}
 
 	/**
@@ -314,19 +314,15 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			if ( references[i].get() != null )
 			{
-				if ( references[i].get() instanceof JLabel && message != null && message.length() > 0 )
-				{
-					((JLabel) references[i].get()).setText( message );
-				}
-				else
-				{
-					if ( references[i].get() instanceof KoLPanel && message != null && message.length() > 0 )
-						((KoLPanel) references[i].get()).setStatusMessage( state, message );
+				if ( references[i].get() instanceof KoLPanel && message != null && message.length() > 0 )
+					((KoLPanel) references[i].get()).setStatusMessage( state, message );
 
-					((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
-				}
+				((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
 			}
 		}
+
+		if ( message != null && message.length() > 0 )
+			requestMeter.setString( message );
 
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );

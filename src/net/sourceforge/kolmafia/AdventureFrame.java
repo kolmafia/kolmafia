@@ -132,11 +132,12 @@ public class AdventureFrame extends KoLFrame
 		JPanel adventureDetails = new JPanel( new BorderLayout( 20, 20 ) );
 		adventureDetails.add( adventureSelect, BorderLayout.CENTER );
 
-		JLabel statusLabel = new JLabel( " ", JLabel.CENTER );
-		statusLabel.setOpaque( true );
+		JPanel meterPanel = new JPanel( new BorderLayout( 10, 10 ) );
+		meterPanel.add( Box.createHorizontalStrut( 20 ), BorderLayout.WEST );
+		meterPanel.add( KoLmafia.requestMeter, BorderLayout.CENTER );
+		meterPanel.add( Box.createHorizontalStrut( 20 ), BorderLayout.EAST );
 
-		existingPanels.add( new WeakReference( statusLabel ) );
-		adventureDetails.add( statusLabel, BorderLayout.SOUTH );
+		adventureDetails.add( meterPanel, BorderLayout.SOUTH );
 
 		framePanel.setLayout( new BorderLayout( 20, 20 ) );
 		framePanel.add( adventureDetails, BorderLayout.NORTH );
@@ -379,22 +380,20 @@ public class AdventureFrame extends KoLFrame
 				zoneSelect.addItem( currentZone );
 			}
 
+			countField = new JSpinner();
+			JComponentUtilities.setComponentSize( countField, 50, 20 );
 			zoneSelect.addActionListener( new ZoneChangeListener() );
+
+			JPanel zonePanel = new JPanel( new BorderLayout( 10, 10 ) );
+			zonePanel.add( zoneSelect, BorderLayout.CENTER );
+			zonePanel.add( countField, BorderLayout.EAST );
 
 			locationSelect = new JList( adventureList );
 			locationSelect.setVisibleRowCount( 6 );
 
-			countField = new JSpinner();
-			JComponentUtilities.setComponentSize( countField, 50, 20 );
-
-			JPanel meterPanel = new JPanel( new BorderLayout( 10, 10 ) );
-			meterPanel.add( KoLmafia.requestMeter, BorderLayout.CENTER );
-			meterPanel.add( countField, BorderLayout.EAST );
-
 			JPanel locationPanel = new JPanel( new BorderLayout( 10, 10 ) );
-			locationPanel.add( zoneSelect, BorderLayout.NORTH );
+			locationPanel.add( zonePanel, BorderLayout.NORTH );
 			locationPanel.add( new SimpleScrollPane( locationSelect ), BorderLayout.CENTER );
-			locationPanel.add( meterPanel, BorderLayout.SOUTH );
 
 			JPanel westPanel = new JPanel( new CardLayout( 10, 10 ) );
 			westPanel.add( locationPanel, "" );
