@@ -873,12 +873,12 @@ public class AdventureFrame extends KoLFrame
 			librarySelect.addItem( "Gallery Key" );
 			librarySelect.addItem( "Mysticality Class Skill" );
 
-			addChoiceSelect( "Beanstalk", "Castle Wheel", castleWheelSelect );
+			addChoiceSelect( "Plains", "Castle Wheel", castleWheelSelect );
 			addChoiceSelect( "Town", "Lucky Sewer", optionSelects[0] );
 			addChoiceSelect( "Woods", "Forest Corpses", spookyForestSelect );
-			addChoiceSelect( "Astral", "Violet Fog", violetFogSelect );
-			addChoiceSelect( "Manor", "Billiard Room", billiardRoomSelect );
-			addChoiceSelect( "Manor", "The Louvre", louvreSelect );
+			addChoiceSelect( "Unsorted", "Violet Fog", violetFogSelect );
+			addChoiceSelect( "Town", "Billiard Room", billiardRoomSelect );
+			addChoiceSelect( "Town", "The Louvre", louvreSelect );
 
 			for ( int i = 1; i < optionSelects.length; ++i )
 				addChoiceSelect( AdventureDatabase.CHOICE_ADVS[i].getZone(), AdventureDatabase.CHOICE_ADVS[i].getName(), optionSelects[i] );
