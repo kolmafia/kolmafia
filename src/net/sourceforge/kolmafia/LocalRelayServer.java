@@ -420,6 +420,7 @@ public class LocalRelayServer implements Runnable
 							String previousAction = StaticEntity.getProperty( "battleAction" );
 							StaticEntity.setProperty( "battleAction", "custom combat script" );
 
+							KoLmafia.forceContinue();
 							FightRequest.beginTrackingFights();
 							(new Thread( FightRequest.INSTANCE )).start();
 						}

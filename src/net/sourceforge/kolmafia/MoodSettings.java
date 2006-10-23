@@ -187,11 +187,15 @@ public abstract class MoodSettings implements KoLConstants
 		}
 	}
 
+	public static void autoFillTriggers()
+	{	autoFillTriggers( 1 );
+	}
+
 	/**
 	 * Fills up the trigger list automatically.
 	 */
 
-	public static void autoFillTriggers()
+	public static void autoFillTriggers( int multiplier )
 	{
 		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
 			return;
@@ -221,7 +225,7 @@ public abstract class MoodSettings implements KoLConstants
 
 			String effectName = UneffectRequest.skillToEffect( skills[i].getSkillName() );
 			if ( StatusEffectDatabase.contains( effectName ) )
-				addTrigger( "lose_effect", effectName, getDefaultAction( "lose_effect", effectName ) );
+				addTrigger( "lose_effect", effectName, getDefaultAction( "lose_effect", multiplier, effectName ) );
 		}
 
 		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
@@ -234,7 +238,7 @@ public abstract class MoodSettings implements KoLConstants
 			for ( int i = 0; i < skillNames.length; ++i )
 			{
 				String effectName = UneffectRequest.skillToEffect( skillNames[i] );
-				addTrigger( "lose_effect", effectName, getDefaultAction( "lose_effect", effectName ) );
+				addTrigger( "lose_effect", effectName, getDefaultAction( "lose_effect", multiplier, effectName ) );
 			}
 		}
 		else if ( !thiefSkills.isEmpty() )
@@ -274,16 +278,16 @@ public abstract class MoodSettings implements KoLConstants
 		}
 
 		if ( KoLCharacter.isHardcore() )
-			addTrigger( "lose_effect", "Butt-Rock Hair", getDefaultAction( "lose_effect", "Butt-Rock Hair" ) );
+			addTrigger( "lose_effect", "Butt-Rock Hair", getDefaultAction( "lose_effect", multiplier, "Butt-Rock Hair" ) );
 
 
 		// Muscle class characters are rather special when it comes
 		// to their default displayList.
 
 		if ( NPCStoreDatabase.contains( "cheap wind-up clock" ) )
-			addTrigger( "lose_effect", "Ticking Clock", getDefaultAction( "lose_effect", "Ticking Clock" ) );
+			addTrigger( "lose_effect", "Ticking Clock", getDefaultAction( "lose_effect", multiplier, "Ticking Clock" ) );
 		if ( NPCStoreDatabase.contains( "blood of the wereseal" ) )
-			addTrigger( "lose_effect", "Temporary Lycanthropy", getDefaultAction( "lose_effect", "Temporary Lycanthropy" ) );
+			addTrigger( "lose_effect", "Temporary Lycanthropy", getDefaultAction( "lose_effect", multiplier, "Temporary Lycanthropy" ) );
 
 		// Beaten-up removal, as a demo of how to handle beaten-up
 		// and poisoned statuses.
@@ -303,7 +307,7 @@ public abstract class MoodSettings implements KoLConstants
 
 		for ( int i = 0; i < effects.length; ++i )
 		{
-			String action = getDefaultAction( "lose_effect", effects[i].getName() );
+			String action = getDefaultAction( "lose_effect", multiplier, effects[i].getName() );
 			if ( action != null && !action.equals( "" ) && !action.startsWith( "cast" ) )
 				addTrigger( "lose_effect", effects[i].getName(), action );
 		}
@@ -588,6 +592,10 @@ public abstract class MoodSettings implements KoLConstants
 	}
 
 	public static String getDefaultAction( String type, String name )
+	{	return getDefaultAction( type, 1, name );
+	}
+
+	public static String getDefaultAction( String type, int multiplier, String name )
 	{
 		if ( type == null || name == null )
 			return "";
@@ -631,13 +639,13 @@ public abstract class MoodSettings implements KoLConstants
 		else if ( type.equals( "lose_effect" ) )
 		{
 			if ( name.equals( "Butt-Rock Hair" ) )
-				return "use 5 can of hair spray";
+				return "use " + (5*multiplier) + " can of hair spray";
 
 			if ( name.equals( "Ticking Clock" ) )
-				return "use 1 cheap wind-up clock";
+				return "use " + multiplier + " cheap wind-up clock";
 
 			if ( name.equals( "Temporary Lycanthropy" ) )
-				return "use 1 blood of the Wereseal";
+				return "use " + multiplier + " blood of the Wereseal";
 
 			// Tongues require snowcones
 
@@ -660,19 +668,19 @@ public abstract class MoodSettings implements KoLConstants
 			// Laboratory effects
 
 			if ( name.equals( "Wasabi Sinuses" ) )
-				return "use 1 Knob Goblin nasal spray";
+				return "use " + multiplier + " Knob Goblin nasal spray";
 
 			if ( name.equals( "Peeled Eyeballs" ) )
-				return "use 1 Knob Goblin eyedrops";
+				return "use " + multiplier + " Knob Goblin eyedrops";
 
 			if ( name.equals( "Sharp Weapon" ) )
-				return "use 1 Knob Goblin sharpening spray";
+				return "use " + multiplier + " Knob Goblin sharpening spray";
 
 			if ( name.equals( "Heavy Petting" ) )
-				return "use 1 Knob Goblin pet-buffing spray";
+				return "use " + multiplier + " Knob Goblin pet-buffing spray";
 
 			if ( name.equals( "Big Veiny Brain" ) )
-				return "use 1 Knob Goblin learning pill";
+				return "use " + multiplier + " Knob Goblin learning pill";
 
 			// Finally, fall back on skills
 
@@ -682,9 +690,9 @@ public abstract class MoodSettings implements KoLConstants
 				int skillID = ClassSkillsDatabase.getSkillID( skillName );
 
 				if ( skillID % 1000 == 0 || skillID == 1015 )
-					return "cast 3 " + skillName;
+					return "cast " + (3 * multiplier) + " " + skillName;
 				else if ( skillID != 3 )
-					return "cast " + skillName;
+					return "cast " + multiplier + " " + skillName;
 			}
 		}
 

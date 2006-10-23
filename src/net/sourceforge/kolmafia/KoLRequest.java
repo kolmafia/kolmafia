@@ -700,53 +700,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		statusChanged = false;
 		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() && !KoLmafia.refusesContinue() );
 
-		if ( responseCode == 200 && responseText != null )
-		{
-			if ( !isDelayExempt && formURLString.indexOf( "search" ) == -1 )
-				showInBrowser( false );
-
-			// Mark the location as visited inside of
-			// the adventure requesting module.
-
-			processResults();
-
-			// Let the mappers do their work
-			if ( urlString.indexOf( "choice.php" ) != -1 )
-				mapCurrentChoice( responseText );
-
-			if ( responseText.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
-			{
-				DEFAULT_SHELL.executeLine( "use 1 ten-leaf clover" );
-				if ( isDelayExempt && !isChatRequest )
-					KoLmafia.enableDisplay();
-			}
-
-			needsRefresh &= !(this instanceof LocalRelayRequest || this instanceof FightRequest);
-			needsRefresh &= formURLString.indexOf( "charpane.php" ) == -1;
-
-			statusChanged &= formURLString.indexOf( "charpane.php" ) == -1;
-			StaticEntity.getClient().applyEffects();
-
-			if ( statusChanged && RequestFrame.willRefreshStatus() )
-			{
-				RequestFrame.refreshStatus();
-			}
-			else if ( needsRefresh )
-			{
-				CharpaneRequest.getInstance().run();
-			}
-			else if ( formURLString.indexOf( "charpane.php" ) != -1 )
-			{
-				KoLCharacter.recalculateAdjustments();
-				KoLCharacter.updateEquipmentLists();
-				KoLCharacter.updateStatus();
-			}
-			else if ( !shouldIgnoreResults && !(this instanceof LocalRelayRequest) && getClass() != KoLRequest.class )
-			{
-				KoLCharacter.updateStatus();
-			}
-		}
-
 		StaticEntity.getClient().setCurrentRequest( null );
 	}
 
@@ -1337,6 +1290,51 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( formURLString.indexOf( "fight.php" ) != -1 )
 			FightRequest.updateCombatData( encounter, responseText );
+
+		if ( !isDelayExempt && formURLString.indexOf( "search" ) == -1 )
+			showInBrowser( false );
+
+		// Now let the main method of result processing for
+		// each request type happen.
+
+		processResults();
+
+		// Let the mappers do their work
+
+		if ( formURLString.indexOf( "choice.php" ) != -1 )
+			mapCurrentChoice( responseText );
+
+		if ( responseText.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
+		{
+			DEFAULT_SHELL.executeLine( "use 1 ten-leaf clover" );
+			if ( isDelayExempt && !isChatRequest )
+				KoLmafia.enableDisplay();
+		}
+
+		needsRefresh &= !(this instanceof LocalRelayRequest || this instanceof FightRequest);
+		needsRefresh &= formURLString.indexOf( "charpane.php" ) == -1;
+
+		statusChanged &= formURLString.indexOf( "charpane.php" ) == -1;
+		StaticEntity.getClient().applyEffects();
+
+		if ( statusChanged && RequestFrame.willRefreshStatus() )
+		{
+			RequestFrame.refreshStatus();
+		}
+		else if ( needsRefresh )
+		{
+			CharpaneRequest.getInstance().run();
+		}
+		else if ( formURLString.indexOf( "charpane.php" ) != -1 )
+		{
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateEquipmentLists();
+			KoLCharacter.updateStatus();
+		}
+		else if ( !shouldIgnoreResults && !(this instanceof LocalRelayRequest) && getClass() != KoLRequest.class )
+		{
+			KoLCharacter.updateStatus();
+		}
 	}
 
 	/**
