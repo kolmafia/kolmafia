@@ -91,11 +91,11 @@ Island	0	45	adventure.php	67	Pirate Cove In Disguise	1 abridged dictionary
 
 Mountain	0	0	adventure.php	91	Noob Cave
 Mountain	0	0	adventure.php	92	The Dire Warren	level 2
-Mountain	53	0	adventure.php	61	Itznotyerzitz Mine	outfit
-Mountain	53	0	adventure.php	60	Goatlet	6 goat cheese
-Mountain	53	0	adventure.php	62	Ninja Snowmen	1 frigid ninja star
-Mountain	53	0	adventure.php	63	eXtreme Slope	outfit
-Mountain	53	0	adventure.php	110	Icy Peak	level 10
+McLarge	53	0	adventure.php	61	Itznotyerzitz Mine	outfit
+McLarge	53	0	adventure.php	60	Goatlet	6 goat cheese
+McLarge	53	0	adventure.php	62	Ninja Snowmen	1 frigid ninja star
+McLarge	53	0	adventure.php	63	eXtreme Slope	outfit
+McLarge	53	0	adventure.php	110	Icy Peak	level 10
 Mountain	68	0	mountains.php	80	Bridge the Orc Chasm
 Mountain	68	0	adventure.php	80	Valley Beyond Orc Chasm	1 64735 scroll, 1 lowercase N
 

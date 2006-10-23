@@ -1,33 +1,33 @@
-Gyms	Clan/Signed Gyms
-Beach	Desert Beach	main.php	beach.php
-Casino	Seaside Town - Casino
+Town	Town	Seaside Town
+MysSign	Town	Mysticality Sign
+Casino	Town	Seaside Casino
+Dungeon	Town	Seaside Dungeon
+Manor	Town	Spookyraven Manor
 
-Dungeon	Seaside Town - Dungeon
-Town	Seaside Town - Main Area
-Manor	Spookyraven Manor
+Plains	Plains	Nearby Plains	plains.php
+Rift	Plains	Temporal Rift
+BatHole	Plains	Bat Hole	plains.php	bathole.php
+Knob	Plains	Cobb's Knob	plains.php	knob.php
+Lab	Plains	Knob Cobb's Knob Lab	plains.php	knob.php	knob2.php
+Cyrpt	Plains	Defiled Cyrpt	plains.php	cyrpt.php
 
-Woods	Distant Woods	woods.php
-BatHole	Nearby Plains - Bat Hole	plains.php	bathole.php
-Rift	Nearby Plains - Temporal Rifts
+Woods	Woods	Distant Woods	woods.php
+MusSign	Woods	Muscle Sign
+Friars	Woods	Deep Fat Friar's	woods.php	friars.php
 
-Plains	Nearby Plains	plains.php
-Knob	Nearby Plains - Cobb's Knob	plains.php	knob.php
-Lab	Knob Nearby Plains - Cobb's Knob Lab	plains.php	knob.php	knob2.php
+Mountain	Mountain	Big Mountains
+McLarge	Mountain	Mt. McLargeHuge
 
-Friars	Deep Fat Friar's	woods.php	friars.php
-Cyrpt	Nearby Plains - Defiled Cyrpt	plains.php	cyrpt.php
-Island	Mysterious Island
+Beach	Beach	Desert Beach	main.php	beach.php
+MoxSign	Beach	Moxie Sign
 
-Mountain	Big Mountains
-Beanstalk	Above the Beanstalk
-Sorceress	Sorceress Lair
+Island	Island	Mysterious Island
+Beanstalk	Beanstalk	Above the Beanstalk
+Sorceress	Sorceress	Sorceress Lair
 
-MusSign	Muscle-Sign Areas
-MysSign	Mysticality-Sign Areas
-MoxSign	Moxie-Sign Areas
+Unsorted	Unsorted	No Category
+Holiday	Unsorted	Holiday Zones
+Astral	Unsorted	Astral Plane
+Gyms	Unsorted	Clan/Signed Gyms
 
-Astral	Astral Plane
-
-Holiday	Holiday Zones
-Removed	Removed Areas
-Unsorted	No Category
+Removed	Removed	Removed Areas

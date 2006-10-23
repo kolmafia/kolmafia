@@ -53,6 +53,8 @@ public class AdventureDatabase extends KoLDatabase
 	private static LockableListModel adventures = new LockableListModel();
 	private static AdventureArray allAdventures = new AdventureArray();
 
+	public static final ArrayList PARENT_LIST = new ArrayList();
+	public static final TreeMap PARENT_ZONES = new TreeMap();
 	public static final TreeMap ZONE_DESCRIPTIONS = new TreeMap();
 
 	private static StringArray [] adventureTable = new StringArray[6];
@@ -161,7 +163,7 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { null, "1164", null } ),
 
 		// Heart of Very, Very Dark Darkness
-		new ChoiceAdventure( "MusSign", "choiceAdventure5", "Gravy Barrow",
+		new ChoiceAdventure( "Woods", "choiceAdventure5", "Gravy Barrow",
 		  new String [] { "use inexplicably glowing rock", "skip the adventure" } ),
 
 		// Choice 6 is unknown
@@ -177,7 +179,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 13 is unknown
 
 		// A Bard Day's Night
-		new ChoiceAdventure( "Knob", "choiceAdventure14", "Knob Goblin Harem",
+		new ChoiceAdventure( "Plains", "choiceAdventure14", "Knob Goblin Harem",
 		  new String [] { "Knob goblin harem veil", "Knob goblin harem pants", "small meat boost", "complete the outfit" },
 		  new String [] { "306", "305", null } ),
 
@@ -231,7 +233,7 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "403", null, "224" } ),
 
 		// Ouch! You bump into a door!
-		new ChoiceAdventure( "Dungeon", "choiceAdventure25", "Dungeon of Doom",
+		new ChoiceAdventure( "Town", "choiceAdventure25", "Dungeon of Doom",
 		  new String [] { "magic lamp", "dead mimic", "skip adventure" },
 		  new String [] { "1273", "1267", null } ),
 
@@ -297,7 +299,7 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { null, "266", "1655" } ),
 
 		// Junction in the Trunction
-		new ChoiceAdventure( "Lab", "choiceAdventure76", "Knob Shaft",
+		new ChoiceAdventure( "Plains", "choiceAdventure76", "Knob Shaft",
 		  new String [] { "cardboard ore", "styrofoam ore", "bubblewrap ore" },
 		  new String [] { "1675", "1676", "1677" } ),
 
@@ -307,22 +309,22 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 80 is Take a Look, it's in a Book!
 
 		// One NightStand (simple white)
-		new ChoiceAdventure( "Manor", "choiceAdventure82", "Haunted Bedroom 1",
+		new ChoiceAdventure( "Town", "choiceAdventure82", "Haunted Bedroom 1",
 		  new String [] { "old leather wallet", "boost muscle", "enter combat" },
 		  new String [] { "1917", null, null } ),
 
 		// One NightStand (mahogany)
-		new ChoiceAdventure( "Manor", "choiceAdventure83", "Haunted Bedroom 2",
+		new ChoiceAdventure( "Town", "choiceAdventure83", "Haunted Bedroom 2",
 		  new String [] { "old coin purse", "enter combat", "quest item" },
 		  new String [] { "1918", null, null } ),
 
 		// One NightStand (ornate)
-		new ChoiceAdventure( "Manor", "choiceAdventure84", "Haunted Bedroom 3",
+		new ChoiceAdventure( "Town", "choiceAdventure84", "Haunted Bedroom 3",
 		  new String [] { "small meat boost", "boost mysticality", "Lord Spookyraven's spectacles" },
 		  new String [] { null, null, "1916" } ),
 
 		// One NightStand (simple wooden)
-		new ChoiceAdventure( "Manor", "choiceAdventure85", "Haunted Bedroom 4",
+		new ChoiceAdventure( "Town", "choiceAdventure85", "Haunted Bedroom 4",
 		  new String [] { "boost moxie (ballroom key step 1)", "empty drawer (ballroom key step 2)", "enter combat" } ),
 
 		// Choice 86 is History is Fun!
@@ -334,11 +336,11 @@ public class AdventureDatabase extends KoLDatabase
 		// Twisted, Curdled, Corrupt Energy and You -> myst class skill
 
 		// Out in the Garden
-		new ChoiceAdventure( "Manor", "choiceAdventure89", "Haunted Gallery",
+		new ChoiceAdventure( "Town", "choiceAdventure89", "Haunted Gallery",
 		  new String [] { "Wolf Knight", "Snake Knight", "Dreams and Lights" } ),
 
 		// Curtains
-		new ChoiceAdventure( "Manor", "choiceAdventure90", "Haunted Ballroom",
+		new ChoiceAdventure( "Town", "choiceAdventure90", "Haunted Ballroom",
 		  new String [] { "Investigate Organ", "Watch Dancers", "Hide" } ),
 
 		// Choice 91 is Louvre It or Leave It
@@ -514,14 +516,19 @@ public class AdventureDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length >= 2 )
+			if ( data.length >= 3 )
 			{
-				ZONE_DESCRIPTIONS.put( data[0], data[1] );
+				PARENT_ZONES.put( data[0], data[1] );
 
-				if ( data.length > 2 )
+				if ( !PARENT_LIST.contains( data[1] ) )
+					PARENT_LIST.add( data[1] );
+
+				ZONE_DESCRIPTIONS.put( data[0], data[2] );
+
+				if ( data.length > 3 )
 				{
 					ArrayList validationRequests = new ArrayList();
-					for ( int i = 2; i < data.length; ++i )
+					for ( int i = 3; i < data.length; ++i )
 						validationRequests.add( data[i] );
 
 					zoneValidations.put( data[0], validationRequests );
@@ -629,36 +636,34 @@ public class AdventureDatabase extends KoLDatabase
 		allAdventures.clear();
 		adventureLookup.clear();
 
-		String [] excludedZones = getProperty( "zoneExcludeList" ).split( "," );
-		if ( excludedZones.length == 1 && excludedZones[0].length() == 0 )
-			excludedZones[0] = "-";
+		for ( int i = 0; i < adventureTable[3].size(); ++i )
+			addAdventure( getAdventure(i) );
+
+		if ( StaticEntity.getBooleanProperty( "sortAdventures" ) )
+			adventures.sort();
+	}
+
+	public static void refreshAdventureList( String desiredZone )
+	{
+		KoLAdventure location;
+		adventures.clear();
 
 		for ( int i = 0; i < adventureTable[3].size(); ++i )
-			addAdventure( excludedZones, getAdventure(i) );
+		{
+			location = allAdventures.get(i);
+			if ( location.getParentZone().equals( desiredZone ) )
+				adventures.add( location );
+		}
 
-		if ( getBooleanProperty( "sortAdventures" ) )
+		if ( StaticEntity.getBooleanProperty( "sortAdventures" ) )
 			adventures.sort();
 	}
 
 	public static void addAdventure( KoLAdventure location )
-	{	addAdventure( null, location );
-	}
-
-	private static void addAdventure( String [] excludedZones, KoLAdventure location )
 	{
-		boolean shouldAdd = true;
-		String zoneName = location.getZone();
-
-		if ( excludedZones != null )
-			for ( int j = 0; j < excludedZones.length && shouldAdd; ++j )
-				if ( zoneName.equals( excludedZones[j] ) )
-					shouldAdd = false;
-
+		adventures.add( location );
 		allAdventures.add( location );
 		adventureLookup.put( location.getRequest().getURLString(), location );
-
-		if ( shouldAdd )
-			adventures.add( location );
 	}
 
 	public static final boolean validateZone( String zoneName, String locationID )
@@ -749,6 +754,9 @@ public class AdventureDatabase extends KoLDatabase
 	{
 		if ( adventureLookup.isEmpty() )
 			refreshAdventureList();
+
+		if ( adventureName == null || adventureName.equals( "" ) )
+			return null;
 
 		return allAdventures.find( adventureName );
 
