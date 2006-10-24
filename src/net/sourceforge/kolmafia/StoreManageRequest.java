@@ -125,7 +125,7 @@ public class StoreManageRequest extends KoLRequest
 
 		super.run();
 
-		Matcher takenItemMatcher = Pattern.compile( "<option value=\"" + takenItemID + "\">.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
+		Matcher takenItemMatcher = Pattern.compile( "<option value=\"" + takenItemID + "\".*?>.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
 		if ( takenItemMatcher.find() )
 			StaticEntity.getClient().processResult( takenItem.getInstance( StaticEntity.parseInt( takenItemMatcher.group(1) ) - takenItem.getCount( inventory ) ) );
 
