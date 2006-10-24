@@ -189,7 +189,10 @@ public class AutoSellRequest extends SendMessageRequest
 		int mode = KoLCharacter.getAutosellMode().equals( "detailed" ) ? 1 : 0;
 
 		AdventureResult currentAttachment;
-		int inventoryCount, attachmentCount;
+		int inventoryCount, attachmentCount, lastAttachment;
+
+		int lastAttachmentCount = attachments.length == 0 ? 0 :
+			((AdventureResult)attachments[0]).getCount();
 
 		for ( int i = 0; i < attachments.length; ++i )
 		{
@@ -229,7 +232,8 @@ public class AutoSellRequest extends SendMessageRequest
 
 				// Switch to "quantity" mode
 				addFormField( "mode", "3" );
-				return 1;
+				if ( lastAttachmentCount != attachmentCount )
+					return 1;
 			}
 
 			// We are in detailed "all but one" mode. This item had
@@ -243,6 +247,7 @@ public class AutoSellRequest extends SendMessageRequest
 			}
 
 			// We continue in "all but one" mode
+			lastAttachmentCount = attachmentCount;
 		}
 
 		// We can sell all the items with the same mode.
