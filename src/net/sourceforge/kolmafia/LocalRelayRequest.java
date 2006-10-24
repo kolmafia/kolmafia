@@ -853,7 +853,7 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) )
 			{
-				pseudoResponse( "HTTP/1.1 200 OK", "<html><body><h1>Did you forget to equip something?</h1></body></html>" );
+				pseudoResponse( "HTTP/1.1 200 OK", "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center><img src=\"http://images.kingdomofloathing.com/itemimages/wand.gif\" width=30 height=30><br></center><blockquote>Hm, it's possible there is something very important you're forgetting.  Maybe you should <a href=\"inventory.php?which=2\">double-check</a> just to make sure.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
 				return;
 			}
 		}

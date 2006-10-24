@@ -571,6 +571,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public static UseSkillRequest getInstance( String skillName, String target, int buffCount )
 	{
 		UseSkillRequest instance = getInstance( skillName );
+		if ( instance == null )
+			return null;
+
 		instance.setTarget( target );
 		instance.setBuffCount( buffCount );
 		return instance;

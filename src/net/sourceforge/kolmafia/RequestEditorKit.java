@@ -895,20 +895,66 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.indexOf( "fight.php" ) != -1 )
 			addFightModifiers( buffer );
 
-		addChoiceSpoilers( buffer );
+		if ( location.indexOf( "choice.php" ) != -1 )
+			addChoiceSpoilers( buffer );
 
-		// Now, if you find out that this is the tavern
-		// quest, make sure to make all adjustments which
-		// show previously seen locations.
+		if ( location.indexOf( "rats.php" ) != -1 )
+			addTavernSpoilers( buffer );
 
-		addTavernSpoilers( buffer );
+		if ( location.indexOf( "ascend.php" ) != -1 )
+			addAscensionReminders( buffer );
+	}
+
+	private static void addAscensionReminders( StringBuffer buffer )
+	{
+		int insertIndex = buffer.indexOf( "<p><center><a" );
+		if ( insertIndex == -1 )
+			return;
+
+		StringBuffer missingSkills = new StringBuffer();
+
+		int skillStart = 0;
+		String type = KoLCharacter.getClassType();
+
+		if ( type.equals( KoLCharacter.SEAL_CLUBBER ) )
+			skillStart = 1001;
+		else if ( type.equals( KoLCharacter.TURTLE_TAMER ) )
+			skillStart = 2001;
+		else if ( type.equals( KoLCharacter.PASTAMANCER ) )
+			skillStart = 3001;
+		else if ( type.equals( KoLCharacter.SAUCEROR ) )
+			skillStart = 4001;
+		else if ( type.equals( KoLCharacter.DISCO_BANDIT ) )
+			skillStart = 5001;
+		else
+			skillStart = 6001;
+
+		UseSkillRequest instance;
+
+		for ( int i = 0; i < 25; ++i )
+		{
+			instance = UseSkillRequest.getInstance( skillStart + i );
+			if ( instance == null )
+				continue;
+
+			if ( !KoLCharacter.hasSkill( instance.getSkillName() ) )
+			{
+				missingSkills.append( instance.getSkillName() );
+				missingSkills.append( "<br>" );
+			}
+		}
+
+		if ( missingSkills.length() == 0 )
+			return;
+
+		missingSkills.insert( 0, "<p><center>You have not yet acquired the following " + type + " skills:<br><br>" );
+		missingSkills.append( "</center></p>" );
+
+		buffer.insert( insertIndex, missingSkills.toString() );
 	}
 
 	private static void addFightModifiers( StringBuffer buffer )
 	{
-		if ( buffer.indexOf( "fight.php" ) == -1 )
-			return;
-
 		// Now, remove the runaway button and place it inside of the user's
 		// skill list, IF the preference is active.
 
@@ -1251,9 +1297,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static void addTavernSpoilers( StringBuffer buffer )
 	{
-		if ( buffer.indexOf( "rats.php" ) == -1 )
-			return;
-
 		String text = buffer.toString();
 		buffer.setLength(0);
 

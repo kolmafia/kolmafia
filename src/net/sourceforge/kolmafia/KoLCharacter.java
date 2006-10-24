@@ -115,9 +115,9 @@ public abstract class KoLCharacter extends StaticEntity
 		PASTAMANCER_RANKS.add( "Ravioli Sorcerer" );
 		PASTAMANCER_RANKS.add( "Manicotti Magus" );
 		PASTAMANCER_RANKS.add( "Spaghetti Spellbinder" );
-		PASTAMANCER_RANKS.add( "Canneloni Conjurer" );
+		PASTAMANCER_RANKS.add( "Cannelloni Conjurer" );
 		PASTAMANCER_RANKS.add( "Angel-Hair Archmage" );
-		PASTAMANCER_RANKS.add( "PASTAMANCER_RANKS" );
+		PASTAMANCER_RANKS.add( "Pastamancer" );
 	}
 
 	public static final String SAUCEROR = "Sauceror";
@@ -138,7 +138,7 @@ public abstract class KoLCharacter extends StaticEntity
 		SAUCEROR_RANKS.add( "Sesame Soothsayer" );
 		SAUCEROR_RANKS.add( "Marinara Mage" );
 		SAUCEROR_RANKS.add( "Alfredo Archmage" );
-		SAUCEROR_RANKS.add( "SAUCEROR_RANKS" );
+		SAUCEROR_RANKS.add( "Sauceror" );
 	}
 
 	public static final String DISCO_BANDIT = "Disco Bandit";
