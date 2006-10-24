@@ -7042,6 +7042,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue( float value )
 		{
 			this.type = FLOAT_TYPE;
+			this.contentInt = (int) value;
 			this.contentFloat = value;
 		}
 
