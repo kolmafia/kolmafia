@@ -1215,11 +1215,11 @@ public abstract class SorceressLair extends StaticEntity
 		QUEST_HANDLER.constructURLString( "lair6.php?place=1" ).run();
 
 		// If we unequipped a weapon, equip it again
-		if ( initialWeapon != null )
+		if ( initialWeapon != null && !initialOffhand.equals( EquipmentRequest.UNEQUIP ) )
 			DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon.getName() );
 
 		// If we unequipped an off-hand weapon, equip it again
-		if ( initialOffhand != null )
+		if ( initialOffhand != null && !initialOffhand.equals( EquipmentRequest.UNEQUIP ) )
 			DEFAULT_SHELL.executeLine( "equip off-hand " + initialOffhand.getName() );
 	}
 
