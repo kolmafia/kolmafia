@@ -68,7 +68,6 @@ public class LogoutRequest extends KoLRequest
 
 		synchronized ( LogoutRequest.class )
 		{
-			StaticEntity.saveSettings();
 			KoLCharacter.reset( "" );
 
 			KoLMessenger.dispose();

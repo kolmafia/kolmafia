@@ -352,6 +352,10 @@ public class Louvre implements UtilityConstants
 			unknownIndex = i;
 		}
 
+		// You now know something -- go ahead and save the map right
+		// away so you can find out what it looks like for debugging.
+		saveMap();
+
 		// Done if all three destinations are known.
 		if ( unknownIndex == -1 )
 			return;
