@@ -62,9 +62,13 @@ public class FightRequest extends KoLRequest
 	public static final AdventureResult DICTIONARY1 = new AdventureResult( 536, 1 );
 	public static final AdventureResult DICTIONARY2 = new AdventureResult( 1316, 1 );
 
-	private static final AdventureResult SEAL_TOOTH = new AdventureResult( 2, 1 );
-	private static final AdventureResult TURTLE_SUMMON = new AdventureResult( 4, 1 );
+	private static final AdventureResult TOOTH = new AdventureResult( 2, 1 );
+	private static final AdventureResult TURTLE = new AdventureResult( 4, 1 );
 	private static final AdventureResult SPICES = new AdventureResult( 8, 1 );
+
+	private static final String TOOTH_ACTION = "item" + TOOTH.getItemID();
+	private static final String TURTLE_ACTION = "item" + TURTLE.getItemID();
+	private static final String SPICES_ACTION = "item" + SPICES.getItemID();
 
 	private static int currentRound = 0;
 	private static int offenseModifier = 0, defenseModifier = 0;
@@ -196,19 +200,19 @@ public class FightRequest extends KoLRequest
 						action2 = action1;
 						addFormField( "whichitem2", String.valueOf( itemID ) );
 					}
-					else if ( SEAL_TOOTH.getCount( inventory ) > 0 )
+					else if ( TOOTH.getCount( inventory ) > (action1.equals( TOOTH_ACTION ) ? 1 : 0) )
 					{
-						action2 = "item" + SEAL_TOOTH.getItemID();
-						addFormField( "whichitem2", String.valueOf( SEAL_TOOTH.getItemID() ) );
+						action2 = TOOTH_ACTION;
+						addFormField( "whichitem2", String.valueOf( TOOTH.getItemID() ) );
 					}
-					else if ( TURTLE_SUMMON.getCount( inventory ) > 0 )
+					else if ( TURTLE.getCount( inventory ) > (action1.equals( TURTLE_ACTION ) ? 1 : 0) )
 					{
-						action2 = "item" + TURTLE_SUMMON.getItemID();
-						addFormField( "whichitem2", String.valueOf( TURTLE_SUMMON.getItemID() ) );
+						action2 = TURTLE_ACTION;
+						addFormField( "whichitem2", String.valueOf( TURTLE.getItemID() ) );
 					}
-					else if ( SPICES.getCount( inventory ) > 0 )
+					else if ( SPICES.getCount( inventory ) > (action1.equals( SPICES_ACTION ) ? 1 : 0) )
 					{
-						action2 = "item" + SPICES.getItemID();
+						action2 = SPICES_ACTION;
 						addFormField( "whichitem2", String.valueOf( SPICES.getItemID() ) );
 					}
 				}
