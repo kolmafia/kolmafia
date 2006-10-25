@@ -266,9 +266,9 @@ public abstract class StaticEntity implements KoLConstants
 		// See if the request would have used up an item.
 
 		if ( location.indexOf( "inventory.php" ) != -1 && location.indexOf( "action=message" ) != -1 )
-			ConsumeItemRequest.parseConsumption( responseText );
+			ConsumeItemRequest.parseConsumption( responseText, false );
 		if ( (location.indexOf( "multiuse.php" ) != -1 || location.indexOf( "skills.php" ) != -1) && location.indexOf( "useitem" ) != -1 )
-			ConsumeItemRequest.parseConsumption( responseText );
+			ConsumeItemRequest.parseConsumption( responseText, false );
 
 		// See if the person learned a new skill from using a
 		// mini-browser frame.

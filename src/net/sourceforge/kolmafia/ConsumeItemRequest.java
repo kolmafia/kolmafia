@@ -292,13 +292,13 @@ public class ConsumeItemRequest extends KoLRequest
 		int originalEffectCount = activeEffects.size();
 
 		lastItemUsed = itemUsed;
-		parseConsumption( responseText );
+		parseConsumption( responseText, true );
 
 		// We might have removed - or added - an effect
 		needsRefresh |= originalEffectCount != activeEffects.size();
 	}
 
-	protected static void parseConsumption( String responseText )
+	protected static void parseConsumption( String responseText, boolean showHTML )
 	{
 		if ( lastItemUsed == null )
 			return;
@@ -325,7 +325,10 @@ public class ConsumeItemRequest extends KoLRequest
 
 			// Pop up a window showing the result
 			KoLCharacter.addFamiliar( FamiliarsDatabase.growFamiliarLarva( lastItemUsed.getItemID() ) );
-			StaticEntity.getClient().showHTML( trimInventoryText( responseText ), "Your new familiar" );
+
+			if ( showHTML )
+				StaticEntity.getClient().showHTML( trimInventoryText( responseText ), "Your new familiar" );
+
 			return;
 		}
 
@@ -407,7 +410,7 @@ public class ConsumeItemRequest extends KoLRequest
 				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
-			else
+			else if ( showHTML )
 			{
 				// Find out who sent it and popup a window showing
 				// what was in the gift.
@@ -438,9 +441,12 @@ public class ConsumeItemRequest extends KoLRequest
 		case TRADING_CARD15:
 		case TRADING_CARD16:
 
-			text = trimInventoryText( responseText );
-			title = "Trading Card";
-			StaticEntity.getClient().showHTML( text, title );
+			if ( showHTML )
+			{
+				text = trimInventoryText( responseText );
+				title = "Trading Card";
+				StaticEntity.getClient().showHTML( text, title );
+			}
 
 			// The card is not consumed by being read. I think.
 			StaticEntity.getClient().processResult( lastItemUsed );
@@ -452,9 +458,12 @@ public class ConsumeItemRequest extends KoLRequest
 		case FORTUNE_COOKIE:
 			// Popup a window showing the fortune
 
-			text = trimInventoryText( responseText );
-			title = "Your fortune";
-			StaticEntity.getClient().showHTML( text, title );
+			if ( showHTML )
+			{
+				text = trimInventoryText( responseText );
+				title = "Your fortune";
+				StaticEntity.getClient().showHTML( text, title );
+			}
 
 			return;
 
