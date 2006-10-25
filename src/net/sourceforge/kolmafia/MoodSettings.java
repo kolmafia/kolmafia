@@ -115,8 +115,9 @@ public abstract class MoodSettings implements KoLConstants
 		mood = (mood == null || mood.trim().equals( "" )) ? "default" : mood.toLowerCase().trim();
 
 		StaticEntity.setProperty( "currentMood", mood );
-		availableMoods.setSelectedItem( mood );
+
 		ensureProperty( mood );
+		availableMoods.setSelectedItem( mood );
 
 		mappedList = (SortedListModel) reference.get( mood );
 
@@ -706,7 +707,7 @@ public abstract class MoodSettings implements KoLConstants
 
 	private static void ensureProperty( String key )
 	{
-		if ( !reference.containsKey( key ) )
+		if ( !availableMoods.contains( key ) )
 		{
 			SortedListModel defaultList = new SortedListModel();
 			reference.put( key, defaultList );
