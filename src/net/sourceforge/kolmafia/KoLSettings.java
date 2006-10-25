@@ -146,14 +146,13 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		if ( oldValue != null && oldValue.equals( value ) )
 			return oldValue;
 
-		return super.setProperty( name, value );
+		super.setProperty( name, value );
+		saveSettings();
+		return oldValue;
 	}
 
 	public void saveSettings()
-	{
-		storeSettings();
-		if ( GLOBAL_SETTINGS != null && this != GLOBAL_SETTINGS )
-			GLOBAL_SETTINGS.saveSettings();
+	{	storeSettings();
 	}
 
 	/**

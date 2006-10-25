@@ -1552,7 +1552,7 @@ public abstract class KoLmafia implements KoLConstants
 			adventuresBeforeRequest = KoLCharacter.getAdventuresLeft();
 
 			if ( request instanceof KoLAdventure )
-				AdventureFrame.updateRequestMeter( currentIteration, iterations );
+				AdventureFrame.updateRequestMeter( currentIteration - 1, iterations );
 
 			request.run();
 
@@ -2919,7 +2919,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		public void run()
 		{
-			StaticEntity.saveSettings();
 			SystemTrayFrame.removeTrayIcon();
 			LocalRelayServer.stop();
 

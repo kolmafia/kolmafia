@@ -630,15 +630,6 @@ public abstract class StaticEntity implements KoLConstants
 		return pastUsers;
 	}
 
-	public static final void saveSettings()
-	{
-		Louvre.saveMap();
-		settings.saveSettings();
-
-		MoodSettings.saveSettings();
-		CombatSettings.saveSettings();
-	}
-
 	public static void disable( String name )
 	{
 		String functionName;
