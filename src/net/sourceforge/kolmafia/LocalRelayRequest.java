@@ -876,7 +876,7 @@ public class LocalRelayRequest extends KoLRequest
 			{
 				sendLocalImage( formURLString );
 			}
-			else if ( formURLString.indexOf( "lchat.php" ) != -1 )
+			else if ( formURLString.indexOf( "lchat.php" ) != -1 && StaticEntity.getBooleanProperty( "relayUsesIntegratedChat" ) )
 			{
 				sendSharedFile( "chat.html" );
 			}
