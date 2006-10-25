@@ -166,9 +166,11 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		}
 
 		// Download all the images outside of the Swing thread
-		// by downloading them here.
+		// by downloading them here.  Also convert everything
+		// into unicode, rather than character entities.
 
 		RequestEditorKit.downloadImages( message );
+		message = RequestEditorKit.getUnicode( message );
 
 		// In the event that there's a link to the player pics
 		// page, make it so the file links locally rather than

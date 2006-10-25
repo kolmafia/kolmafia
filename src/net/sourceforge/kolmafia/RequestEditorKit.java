@@ -754,12 +754,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		displayHTML = displayHTML.replaceAll( "</style></html>" , "</style>" );
 
-		// For some reason, character entitites are not properly
-		// handled by the mini browser, so convert them all to
-		// UNICODE characters using the table.
-
-		displayHTML = getUnicode( displayHTML );
-
 		// Image links are mangled a little bit because they use
 		// Javascript now -- fix them.
 
