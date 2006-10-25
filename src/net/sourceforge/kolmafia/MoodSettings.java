@@ -329,6 +329,7 @@ public abstract class MoodSettings implements KoLConstants
 			displayList.clear();
 
 			setMood( "default" );
+			MoodSettings.saveSettings();
 			return;
 		}
 
@@ -337,6 +338,7 @@ public abstract class MoodSettings implements KoLConstants
 
 		availableMoods.setSelectedItem( "apathetic" );
 		setMood( "apathetic" );
+		MoodSettings.saveSettings();
 	}
 
 	/**

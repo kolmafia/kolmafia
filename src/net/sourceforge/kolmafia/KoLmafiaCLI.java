@@ -17,7 +17,6 @@
  *      its contributors may be used to endorse or promote products
  *      derived from this software without specific prior written
  *      permission.
-
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -1482,13 +1481,22 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.startsWith( "trigger" ) )
 		{
 			if ( parameters.equals( "clear" ) )
+			{
 				MoodSettings.removeTriggers( MoodSettings.getTriggers().toArray() );
+				MoodSettings.saveSettings();
+			}
 			else if ( parameters.equals( "autofill" ) )
+			{
 				MoodSettings.autoFillTriggers();
+				MoodSettings.saveSettings();
+			}
 
 			String [] split = parameters.split( "\\s*,\\s*" );
 			if ( split.length == 3 )
+			{
 				MoodSettings.addTrigger( split[0], split[1], split[2] );
+				MoodSettings.saveSettings();
+			}
 
 			printList( MoodSettings.getTriggers() );
 			return;
@@ -1499,11 +1507,13 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.equals( "clear" ) )
 			{
 				MoodSettings.removeTriggers( MoodSettings.getTriggers().toArray() );
+				MoodSettings.saveSettings();
 				return;
 			}
 			else if ( parameters.equals( "autofill" ) )
 			{
 				MoodSettings.autoFillTriggers();
+				MoodSettings.saveSettings();
 				printList( MoodSettings.getTriggers() );
 				return;
 			}

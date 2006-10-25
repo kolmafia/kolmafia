@@ -711,7 +711,9 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	MoodSettings.addTrigger( (String) typeSelect.getSelectedType(), (String) valueSelect.getSelectedItem(), commandField.getText() );
+		{
+			MoodSettings.addTrigger( (String) typeSelect.getSelectedType(), (String) valueSelect.getSelectedItem(), commandField.getText() );
+			MoodSettings.saveSettings();
 		}
 
 		public void actionCancelled()
@@ -728,6 +730,7 @@ public class OptionsFrame extends KoLFrame
 				return;
 
 			MoodSettings.autoFillTriggers( selectedLevel.intValue() );
+			MoodSettings.saveSettings();
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -854,6 +857,7 @@ public class OptionsFrame extends KoLFrame
 
 				MoodSettings.copyTriggers( moodName );
 				MoodSettings.setMood( moodName );
+				MoodSettings.saveSettings();
 			}
 		}
 	}
