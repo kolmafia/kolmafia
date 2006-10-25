@@ -39,9 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import javax.swing.SwingUtilities;
 
 /**
@@ -63,53 +61,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public static void main( String [] args )
 	{
-		String lookAndFeel = StaticEntity.getProperty( "swingLookAndFeel" );
-		boolean foundLookAndFeel = false;
-
-		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
-		{
-			lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-			foundLookAndFeel = true;
-		}
-		else
-		{
-			UIManager.LookAndFeelInfo [] installed = UIManager.getInstalledLookAndFeels();
-			String [] installedLooks = new String[ installed.length ];
-
-			for ( int i = 0; i < installedLooks.length; ++i )
-				installedLooks[i] = installed[i].getClassName();
-
-			for ( int i = 0; i < installedLooks.length; ++i )
-				foundLookAndFeel |= installedLooks[i].equals( lookAndFeel );
-		}
-
-		if ( !foundLookAndFeel )
-		{
-			if ( System.getProperty( "os.name" ).startsWith( "Win" ) )
-				lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-			else
-				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
-
-			foundLookAndFeel = true;
-		}
-
-		try
-		{
-			UIManager.setLookAndFeel( lookAndFeel );
-			JFrame.setDefaultLookAndFeelDecorated( System.getProperty( "os.name" ).startsWith( "Mac" ) );
-		}
-		catch ( Exception e )
-		{
-			//should not happen, as we checked to see if
-			// the look and feel was installed first.
-
-			JFrame.setDefaultLookAndFeelDecorated( true );
-		}
-
-		if ( StaticEntity.usesSystemTray() )
-			SystemTrayFrame.addTrayIcon();
-
-		StaticEntity.setProperty( "swingLookAndFeel", lookAndFeel );
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
 
@@ -117,6 +68,23 @@ public class KoLmafiaGUI extends KoLmafia
 			StaticEntity.getClient().startRelayServer();
 		else
 			(new CreateFrameRunnable( LoginFrame.class )).run();
+
+		// All that completed, check to see if there is an auto-login
+		// which should occur.
+
+		String autoLogin = StaticEntity.getProperty( "autoLogin" );
+		if ( !autoLogin.equals( "" ) )
+		{
+			// Make sure that a password was stored for this
+			// character (would fail otherwise):
+
+			String password = StaticEntity.getClient().getSaveState( autoLogin );
+			if ( password != null && !password.equals( "" ) )
+			{
+				(new LoginRequest( autoLogin, password )).run();
+				enableDisplay();
+			}
+		}
 	}
 
 	public static void checkFrameSettings()

@@ -58,7 +58,10 @@ import java.util.regex.Matcher;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 
+import java.awt.Color;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
 import javax.swing.SwingUtilities;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
@@ -171,6 +174,9 @@ public abstract class KoLmafia implements KoLConstants
 		koltime.setRawOffset( 1000 * 60 * 60 * -5 );
 		DATED_FILENAME_FORMAT.setTimeZone( koltime );
 
+		// Reload your settings and determine all the different users which
+		// are present in your save state list.
+
 		StaticEntity.reloadSettings( "" );
 		StaticEntity.setProperty( "defaultLoginServer", "1" );
 
@@ -218,29 +224,76 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
+		// Change the default look and feel to match the player's
+		// preferences.  Always do this.
+
+		String lookAndFeel = StaticEntity.getProperty( "swingLookAndFeel" );
+		boolean foundLookAndFeel = false;
+
+		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+		{
+			lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+			foundLookAndFeel = true;
+		}
+		else
+		{
+			UIManager.LookAndFeelInfo [] installed = UIManager.getInstalledLookAndFeels();
+			String [] installedLooks = new String[ installed.length ];
+
+			for ( int i = 0; i < installedLooks.length; ++i )
+				installedLooks[i] = installed[i].getClassName();
+
+			for ( int i = 0; i < installedLooks.length; ++i )
+				foundLookAndFeel |= installedLooks[i].equals( lookAndFeel );
+		}
+
+		if ( !foundLookAndFeel )
+		{
+			if ( System.getProperty( "os.name" ).startsWith( "Win" ) )
+				lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+			else
+				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+
+			foundLookAndFeel = true;
+		}
+
+		try
+		{
+			UIManager.setLookAndFeel( lookAndFeel );
+			JFrame.setDefaultLookAndFeelDecorated( System.getProperty( "os.name" ).startsWith( "Mac" ) );
+		}
+		catch ( Exception e )
+		{
+			// Should not happen, as we checked to see if
+			// the look and feel was installed first.
+
+			JFrame.setDefaultLookAndFeelDecorated( true );
+		}
+
+		if ( StaticEntity.usesSystemTray() )
+			SystemTrayFrame.addTrayIcon();
+
+		StaticEntity.setProperty( "swingLookAndFeel", lookAndFeel );
+
+		// Change the look of the progress bar if you're not on a
+		// Macintosh (let Aqua decide it for Macs) since you're
+		// going to put text in most of them.
+
+		if ( !System.getProperty( "os.name" ).startsWith( "Mac" ) )
+		{
+			UIManager.put( "ProgressBar.foreground", Color.black );
+			UIManager.put( "ProgressBar.selectionForeground", Color.lightGray );
+
+			UIManager.put( "ProgressBar.background", Color.lightGray );
+			UIManager.put( "ProgressBar.selectionBackground", Color.black );
+		}
+
+		// Now run the main routines.
+
 		if ( useGUI )
 			KoLmafiaGUI.main( args );
 		else
 			KoLmafiaCLI.main( args );
-
-		KoLCharacter.reset( "" );
-
-		// All that completed, check to see if there is an auto-login
-		// which should occur.
-
-		String autoLogin = StaticEntity.getProperty( "autoLogin" );
-		if ( !autoLogin.equals( "" ) )
-		{
-			// Make sure that a password was stored for this
-			// character (would fail otherwise):
-
-			String password = StaticEntity.getClient().getSaveState( autoLogin );
-			if ( password != null && !password.equals( "" ) )
-			{
-				(new LoginRequest( autoLogin, password )).run();
-				enableDisplay();
-			}
-		}
 	}
 
 	private static void deleteSimulator( File location )
