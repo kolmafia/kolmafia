@@ -329,13 +329,14 @@ public abstract class SorceressLair extends StaticEntity
 		requirements.addAll( retrieveScubaGear() );
 
 		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
-		SpecialOutfit.restoreCheckpoint( true );
 
 		if ( !getClient().checkRequirements( requirements ) || KoLmafia.refusesContinue() )
 			return;
 
+		DEFAULT_SHELL.executeLine( "equip acc1 makeshift SCUBA gear" );
 		KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
 		QUEST_HANDLER.constructURLString( "lair2.php?action=odor" ).run();
+		SpecialOutfit.restoreCheckpoint( true );
 
 		// If you decided to use a broken skull because
 		// you had no other items, untinker the key.
@@ -740,7 +741,6 @@ public abstract class SorceressLair extends StaticEntity
 			return requirements;
 		}
 
-		DEFAULT_SHELL.executeLine( "equip acc1 makeshift SCUBA gear" );
 		return requirements;
 	}
 
