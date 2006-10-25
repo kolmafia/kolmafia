@@ -1362,9 +1362,9 @@ public abstract class KoLCharacter extends StaticEntity
 		case ACCESSORY2:
 		case ACCESSORY3:
 
-			updateEquipmentList( ACCESSORY1, equipmentLists[ ACCESSORY1 ] );
-			updateEquipmentList( ACCESSORY2, equipmentLists[ ACCESSORY2 ] );
-			updateEquipmentList( ACCESSORY3, equipmentLists[ ACCESSORY3 ] );
+			updateEquipmentList( consumeFilter, equipmentLists[ ACCESSORY1 ] );
+			updateEquipmentList( consumeFilter, equipmentLists[ ACCESSORY2 ] );
+			updateEquipmentList( consumeFilter, equipmentLists[ ACCESSORY3 ] );
 
 			if ( !equipmentLists[ ACCESSORY1 ].contains( equippedItem ) )
 				equipmentLists[ ACCESSORY1 ].add( equippedItem );
