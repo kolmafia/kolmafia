@@ -319,7 +319,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
 		}
 
-		this.isChatRequest = this.formURLString.indexOf( "chat" ) != -1;
+		this.isChatRequest = this.formURLString.indexOf( "chat" ) != -1 && this.formURLString.indexOf( "chatlaunch.php" ) == -1 &&
+			this.formURLString.indexOf( "lchat.php" ) == -1;
+
 		this.shouldIgnoreResults = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "search" ) ||
 			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" );
 
