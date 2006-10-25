@@ -702,9 +702,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// and remove all <HR> tags.
 
 		KoLmafia.getDebugStream().println( "Rendering hypertext..." );
+		String displayHTML = getFeatureRichHTML( "", responseText );
 
-		String displayHTML = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
-			responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" );
+		displayHTML = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
+			displayHTML ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" );
 
 		// The default Java browser doesn't display blank lines correctly
 
@@ -849,11 +850,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// compiled string.  Print it to the debug log for
 		// reference purposes.
 
-		String pwd = KoLRequest.passwordHash;
-		String text = pwd == null ? displayHTML : displayHTML.replaceAll( pwd, "" );
-		KoLmafia.getDebugStream().println( text );
-
-		displayHTML = getFeatureRichHTML( "", displayHTML );
+		KoLmafia.getDebugStream().println( displayHTML );
 		return displayHTML;
 	}
 

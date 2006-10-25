@@ -6,7 +6,7 @@ Gyms	0	0	clan_gym.php	3	Pump Up Moxie
 Beach	0	0	shore.php	1	Muscle Vacation	1 ten-leaf clover
 Beach	0	0	shore.php	2	Mysticality Vacation
 Beach	0	0	shore.php	3	Moxie Vacation	1 barbed-wire fence
-Beach	0	0	adventure.php	45	South of the Border
+Beach	0	0	adventure.php	45	South of the Border	1 pile of candy
 
 Casino	0	0	casino.php	1	Goat Party
 Casino	0	0	casino.php	2	Pirate Party
@@ -16,7 +16,7 @@ Casino	0	0	adventure.php	71	Poker Room
 
 Dungeon	0	5	adventure.php	16	Haiku Dungeon	1 fairy gravy
 Dungeon	19	0	adventure.php	19	Limerick Dungeon
-Dungeon	47	0	adventure.php	38	Enormous Greater-Than Sign	1 plus sign, 1 choiceadv
+Dungeon	47	0	adventure.php	38	Enormous Greater-Than Sign	1 plus sign
 Dungeon	47	0	adventure.php	39	Dungeons of Doom	1 dead mimic
 Dungeon	15	0	dungeon.php	1	Daily Dungeon
 
@@ -43,7 +43,7 @@ Woods	36	0	adventure.php	100	Whitey's Grove	1 white picket fence
 Woods	36	0	adventure.php	99	The Road to the White Citadel
 
 BatHole	8	8	adventure.php	30	Bat Hole Entryway	1 Pine-Fresh air freshener
-BatHole	8	8	adventure.php	31	Guano Junction	3 sonar-in-a-biscuit
+BatHole	8	8	adventure.php	31	Guano Junction	3 sonar-in-a-biscuit, 1 broken skull
 BatHole	8	8	adventure.php	32	Batrat and Ratbat Burrow
 BatHole	8	8	adventure.php	33	Beanbat Chamber	1 enchanted bean
 BatHole	8	8	adventure.php	34	The Boss Bat's Lair
@@ -53,7 +53,7 @@ Rift	13	0	adventure.php	86	Battlefield (Cloaca Uniform)
 Rift	13	0	adventure.php	87	Battlefield (Dyspepsi Uniform)
 
 Plains	0	10	adventure.php	18	Degrassi Knoll	1 gnollish toolbox, 1 tires
-Plains	15	0	adventure.php	20	Fun House	1 box, 1 acid-squirting flower
+Plains	15	0	adventure.php	20	Fun House	1 disease
 Plains	18	0	adventure.php	21	Pre-Cyrpt Cemetary	1 smart skull
 Plains	12	0	adventure.php	22	Fernswarthy's Tower	1 disembodied brain
 Plains	40	0	adventure.php	58	Post-Cyrpt Cemetary
@@ -109,7 +109,7 @@ Sorceress	104	0	lair6.php	5	Fight the Naughty Sorceress
 # Zodiac Areas
 
 MusSign	0	13	adventure.php	47	Bugbear Pens	1 annoying pitchfork
-MusSign	0	40	adventure.php	48	Spooky Gravy Barrow	1 inexplicably glowing rock, 1 spooky glove
+MusSign	0	40	adventure.php	48	Spooky Gravy Barrow
 MusSign	0	40	adventure.php	49	Post-Quest Bugbear Pens
 MysSign	0	0	adventure.php	43	Outskirts of Camp
 MysSign	0	30	adventure.php	44	Camp Logging Camp

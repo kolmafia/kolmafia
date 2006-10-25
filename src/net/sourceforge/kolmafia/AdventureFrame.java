@@ -46,6 +46,8 @@ import javax.swing.SpringLayout;
 import com.sun.java.forums.SpringUtilities;
 
 // event listeners
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractSpinnerModel;
@@ -136,8 +138,9 @@ public class AdventureFrame extends KoLFrame
 		adventureDetails.add( adventureSelect, BorderLayout.CENTER );
 
 		requestMeter = new JProgressBar();
-		requestMeter.setOpaque( false );
+		requestMeter.setOpaque( true );
 		requestMeter.setStringPainted( true );
+		requestMeter.setString( " " );
 
 		JPanel meterPanel = new JPanel( new BorderLayout( 10, 10 ) );
 		meterPanel.add( Box.createHorizontalStrut( 20 ), BorderLayout.WEST );
@@ -386,6 +389,7 @@ public class AdventureFrame extends KoLFrame
 
 	private class AdventureSelectPanel extends JPanel
 	{
+		private ExecuteButton begin;
 		private JComboBox moodSelect;
 		private JComboBox actionSelect;
 		private TreeMap zoneMap;
@@ -426,6 +430,7 @@ public class AdventureFrame extends KoLFrame
 			zonePanel.add( zoneSelect, BorderLayout.CENTER );
 
 			zoneSelect.addActionListener( new ZoneChangeListener() );
+			countField.addKeyListener( new ActionConfirmListener() );
 
 			locationSelect = new JList( adventureList );
 			locationSelect.setVisibleRowCount( 4 );
@@ -441,6 +446,19 @@ public class AdventureFrame extends KoLFrame
 			add( new ObjectivesPanel(), BorderLayout.CENTER );
 		}
 
+		protected class ActionConfirmListener extends KeyAdapter implements Runnable
+		{
+			public void keyReleased( KeyEvent e )
+			{
+				if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+					(new Thread( this )).start();
+			}
+
+			public void run()
+			{	begin.actionPerformed( null );
+			}
+		}
+
 		private class ObjectivesPanel extends KoLPanel
 		{
 			public ObjectivesPanel()
@@ -454,7 +472,7 @@ public class AdventureFrame extends KoLFrame
 				locationSelect.addListSelectionListener( new ConditionChangeListener() );
 
 				JPanel buttonPanel = new JPanel();
-				buttonPanel.add( new ExecuteButton() );
+				buttonPanel.add( begin = new ExecuteButton() );
 				buttonPanel.add( new WorldPeaceButton() );
 
 				JPanel buttonWrapper = new JPanel( new BorderLayout() );
@@ -467,6 +485,7 @@ public class AdventureFrame extends KoLFrame
 
 				setContent( elements );
 				container.add( buttonWrapper, BorderLayout.SOUTH );
+				conditionField.addKeyListener( new ActionConfirmListener() );
 			}
 
 			public void actionConfirmed()
@@ -485,7 +504,7 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			public void setEnabled( boolean isEnabled )
-			{
+			{	begin.setEnabled( isEnabled );
 			}
 		}
 
@@ -963,6 +982,10 @@ public class AdventureFrame extends KoLFrame
 
 			protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
 			{	return false;
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
 			}
 		}
 
