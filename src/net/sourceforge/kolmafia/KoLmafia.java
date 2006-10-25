@@ -2532,7 +2532,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		else
 		{
-			adventureList.add( new RegisteredEncounter( adventureName ) );
+			adventureList.add( new RegisteredEncounter( null, adventureName ) );
 		}
 	}
 
@@ -2543,7 +2543,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void registerEncounter( String encounterName, String encounterType )
 	{
-		encounterName = encounterType + ": " + encounterName.trim();
+		encounterName = encounterName.trim();
 
 		RegisteredEncounter [] encounters = new RegisteredEncounter[ encounterList.size() ];
 		encounterList.toArray( encounters );
@@ -2560,28 +2560,38 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
-		encounterList.add( new RegisteredEncounter( encounterName ) );
+		encounterList.add( new RegisteredEncounter( encounterType, encounterName ) );
 	}
 
 	private class RegisteredEncounter implements Comparable
 	{
+		private String type;
 		private String name;
+		private String stringform;
 		private int encounterCount;
 
-		public RegisteredEncounter( String name )
+		public RegisteredEncounter( String type, String name )
 		{
+			this.type = type;
 			this.name = name;
+
+			this.stringform = type == null ? name : type + ": " + name;
 			encounterCount = 1;
 		}
 
 		public String toString()
-		{	return name + " (" + encounterCount + ")";
+		{	return stringform + " (" + encounterCount + ")";
 		}
 
 		public int compareTo( Object o )
 		{
-			return !(o instanceof RegisteredEncounter) || o == null ? -1 :
-				name.compareToIgnoreCase( ((RegisteredEncounter)o).name );
+			if ( !(o instanceof RegisteredEncounter) || o == null )
+				return -1;
+
+			if ( type == null || ((RegisteredEncounter)o).type == null || type.equals( ((RegisteredEncounter)o).type ) )
+				return name.compareToIgnoreCase( ((RegisteredEncounter)o).name );
+
+			return type.equals( "Combat" ) ? 1 : -1;
 		}
 	}
 
