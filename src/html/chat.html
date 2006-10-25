@@ -1,5 +1,5 @@
 <html><head>
-<title>KoLmafia gCLI</title>
+<title>KoLmafia Chat</title>
 <link rel="stylesheet" type="text/css" href="http://images.kingdomofloathing.com/styles.css">
 
 <style type=text/css>
@@ -40,7 +40,7 @@
 		border: none;
 	}
 
-	.cmddisplay
+	.cmddisplay, .chatdisplay
 	{
 		position: absolute;
 		padding: 2px;
@@ -67,8 +67,10 @@
 
 <script language=Javascript>
 
+	var initialized = false;
 	var initwidth = 0;
 	var timeout = 0;
+	var lastseen = 0;
 
 	function initSizes()
 	{
@@ -80,15 +82,31 @@
 		if ( initwidth < 150 )
 			initwidth = 150;
 
+		document.getElementById( "ChatWindow" ).style.width = initwidth;
 		document.getElementById( "CmdWindow" ).style.width = initwidth;
 		document.getElementById( "InputForm" ).style.width = initwidth;
 		document.getElementById( "ToggleDisplay" ).style.width = initwidth;
+
+		document.getElementById( "ChatWindow" ).style.height = document.body.clientHeight -
+			document.getElementById( "InputForm" ).offsetHeight -
+			document.getElementById( "ToggleDisplay" ).offsetHeight - 20;
 		document.getElementById( "CmdWindow" ).style.height = document.body.clientHeight -
 			document.getElementById( "InputForm" ).offsetHeight -
 			document.getElementById( "ToggleDisplay" ).offsetHeight - 20;
+
+		document.getElementById( "ChatWindow" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 6;
 		document.getElementById( "CmdWindow" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 6;
-		document.getElementById( "InputForm" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight +
-			document.getElementById( "CmdWindow" ).offsetHeight + 6;
+
+		if ( document.getElementById( "ChatWindow" ).style.display != "none" )
+		{
+			document.getElementById( "InputForm" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight +
+				document.getElementById( "ChatWindow" ).offsetHeight + 6;
+		}
+		else
+		{
+			document.getElementById( "InputForm" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight +
+				document.getElementById( "CmdWindow" ).offsetHeight + 6;
+		}
 	};
 
 	var requests = new Array();
@@ -101,13 +119,13 @@
 		var key = window.event ? e.keyCode : e.which;
 
 		if ( key == 13 )
-			submitCommand();
+			submitEvent();
 
 		if ( key == 38 && commandCount > 0 )
-			document.cmdform.cmd.value = commands[ --commandCount ];
+			document.inputform.data.value = commands[ --commandCount ];
 
 		if ( key == 40 && commandCount + 1 < commands.length )
-			document.cmdform.cmd.value = commands[ ++commandCount ];
+			document.inputform.data.value = commands[ ++commandCount ];
 
 		// Safari processes the key event twice; in order
 		// to make sure this doesn't cause problems, you
@@ -116,6 +134,33 @@
 		if ( e.stopPropagation )
 			e.stopPropagation();
 	};
+
+	function switchToCLI()
+	{
+		document.getElementById( "ChatTag" ).style.fontWeight = "";
+		document.getElementById( "CmdTag" ).style.fontWeight = "bold";
+		document.getElementById( "ChatWindow" ).style.display = "none";
+		document.getElementById( "CmdWindow" ).style.display = "";
+		initSizes();
+	}
+
+	function switchToChat()
+	{
+		document.getElementById( "ChatTag" ).style.fontWeight = "bold";
+		document.getElementById( "CmdTag" ).style.fontWeight = "";
+		document.getElementById( "ChatWindow" ).style.display = "";
+		document.getElementById( "CmdWindow" ).style.display = "none";
+		initSizes();
+	}
+
+	function submitEvent()
+	{
+		if ( document.getElementById( "ChatWindow" ).style.display != "none" )
+			submitchat( false );
+		else
+			submitCommand();
+
+	}
 
 	function getHttpObject()
 	{
@@ -160,7 +205,7 @@
 	}
 
 
-	function getNewMessages()
+	function getCLIUpdate()
 	{
 		var display = document.getElementById( "CmdWindow" );
 		var httpObject = getHttpObject();
@@ -193,7 +238,7 @@
 				refreshSidebar();
 		}
 
-		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/getNewMessages" );
+		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/getCLIUpdate" );
 		httpObject.send( null );
 	};
 
@@ -201,8 +246,8 @@
 	function submitCommand()
 	{
 		var display = document.getElementById( "CmdWindow" );
-		var command = document.cmdform.cmd.value;
-		document.cmdform.cmd.value = "";
+		var command = document.inputform.data.value;
+		document.inputform.data.value = "";
 
 		if ( command == "" )
 			return true;
@@ -247,7 +292,118 @@
 		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/submitCommand?cmd=" + URLEncode( command ) );
 		httpObject.send( null );
 
-		document.cmdform.cmd.focus();
+		document.inputform.data.focus();
+		return true;
+	};
+
+	function getChatUpdate()
+	{
+		var display = document.getElementById( "ChatWindow" );
+		var httpObject = getHttpObject();
+		if ( !httpObject )
+			return true;
+
+		httpObject.onreadystatechange = function()
+		{
+			if ( httpObject.readyState != 4 )
+				return;
+
+			if ( httpObject.responseText == null )
+				parent.location.href = "http://www.kingdomofloathing.com/login.php?results=Session timed out.";
+
+			if ( httpObject.responseText.length < 2 )
+				return;
+
+			display.innerHTML += ( httpObject.responseText );
+
+			if ( display.innerHTML.length > 30000 )
+			{
+				display.innerHTML = display.innerHTML.substring(
+					display.innerHTML.lastIndexOf( "<br>", 10000 ) + 4 );
+			}
+
+			display.style.width = initwidth;
+			display.scrollTop = display.scrollHeight;
+
+			var index = httpObject.responseText.lastIndexOf( "lastseen" );
+			var newlast = httpObject.responseText.substring( index + 9, index + 19 );
+			if ( newlast > 0 )
+				lastseen = newlast;
+
+			timeout = setTimeout( getChatUpdate, 8000 );
+		}
+
+		httpObject.open( "GET", "http://" + window.location.host + "/newchatmessages.php?lasttime=" + lastseen );
+		httpObject.send( null );
+		return true;
+	};
+
+	function submitchat( override )
+	{
+		var display = document.getElementById( "ChatWindow" );
+		var postedgraf = document.inputform.data.value;
+
+		if ( override )
+			postedgraf = override;
+
+		if ( postedgraf == "" )
+			return true;
+
+		document.inputform.data.value = "";
+		document.inputform.data.focus();
+
+		if ( postedgraf == "/clear" || postedgraf == "/cls" )
+		{
+			display.innerHTML = "";
+			return true;
+		}
+
+		if ( postedgraf == "/help" || postedgraf == "/?" )
+		{
+			window.open("doc.php?topic=chat_commands","","height=400,width=500,scrollbars=yes,resizable=yes");
+			return true;
+		}
+
+		if ( postedgraf == "/mark" )
+		{
+			var d = new Date();
+			display.innerHTML += "<center class=tiny>&mdash;&mdash;&mdash;&nbsp;" + d.getHours() + ":" + (d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes()) + ":" + (d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds()) + "&nbsp;&mdash;&mdash;&mdash;</center>";
+			return true;
+		}
+
+		var httpObject = getHttpObject();
+		if ( !httpObject )
+			return true;
+
+		executed = false;
+		httpObject.onreadystatechange = function()
+		{
+			if ( httpObject.readyState != 4 || executed )
+				return;
+
+			executed = true;
+			if ( httpObject.responseText == null )
+				parent.location.href = "http://www.kingdomofloathing.com/login.php?results=Session timed out.";
+
+			if ( httpObject.responseText.length < 2 )
+				return;
+
+			display.innerHTML += ( httpObject.responseText );
+
+			if ( display.innerHTML.length > 30000 )
+			{
+				display.innerHTML = display.innerHTML.substring(
+					display.innerHTML.lastIndexOf( "<br>", 10000 ) + 4 );
+			}
+
+			display.style.width = initwidth;
+			display.scrollTop = display.scrollHeight;
+		}
+
+		httpObject.open( "GET", "http://" + window.location.host + "/submitnewchat.php?playerid=&pwd=&graf=" + URLEncode( postedgraf ) );
+		httpObject.send( null );
+
+		document.inputform.data.focus();
 		return true;
 	};
 
@@ -345,18 +501,24 @@
 </head>
 
 
- <body link=black alink=black vlink=black onLoad='initSizes(); setInterval( getNewMessages, 2000 );' onResize='initSizes();'>
+ <body link=black alink=black vlink=black onLoad='switchToChat(); submitchat( "/listen" ); getChatUpdate(); setInterval( getCLIUpdate, 2000 );' onResize='initSizes();'>
 
-  <div id="ToggleDisplay" class=toggledisplay><center><b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]</center></div>
+  <div id="ToggleDisplay" class=toggledisplay><center><nobr>
+  <a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
+  <a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag">gCLI</a>
+  </nobr></center></div>
+
+  <div id="ChatWindow" class=chatdisplay></div>
   <div id="CmdWindow" class=cmddisplay></div>
 
-  <form name=cmdform onSubmit='return false;'>
+  <form name=inputform onSubmit='return false;'>
    <div id="InputForm" class=inputform>
     <center>
-     <input style="width: 70%;" maxlength=200 class=text type=text size=12 name=cmd onKeyUp='checkForKeyEvent( event );' autocomplete="off">
-     <input class=button type=button onClick="submitCommand();" value="exec">
+     <input style="width: 70%;" maxlength=200 class=text type=text size=12 name=data onKeyUp='checkForKeyEvent( event );' autocomplete="off">
+     <input class=button type=button onClick="submitText();" value="submit">
     </center>
    </div>
   </form>
+
  </body>
 </html>

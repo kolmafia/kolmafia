@@ -367,6 +367,12 @@ public class KoLRequest implements Runnable, KoLConstants
 			return;
 		}
 
+		if ( name.equals( "playerid" ) && value.equals( "" ) )
+		{
+			data.add( "playerid=" + KoLCharacter.getUserID() );
+			return;
+		}
+
 		String encodedName = name == null ? "" : name;
 		String encodedValue = value == null ? "" : value;
 

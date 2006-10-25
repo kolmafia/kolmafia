@@ -299,28 +299,6 @@ public class LocalRelayRequest extends KoLRequest
 			StaticEntity.globalStringReplace( responseBuffer, "selectedIndex=0;", "selectedIndex=0; if ( parent && parent.mainpane ) parent.mainpane.focus();" );
 		}
 
-		// Fix chat javascript problems with relay system
-
-		if ( formURLString.indexOf( "lchat.php" ) != -1 )
-		{
-			StaticEntity.globalStringReplace( responseBuffer, "cycles++", "cycles = 0" );
-			StaticEntity.globalStringReplace( responseBuffer, "window.location.hostname", "\"127.0.0.1:" + LocalRelayServer.getPort() + "\"" );
-
-			int headIndex = responseBuffer.indexOf( "</head>" );
-			if ( headIndex != -1 )
-				responseBuffer.insert( headIndex, "<script language=\"Javascript\">base = \"http://127.0.0.1:" +  LocalRelayServer.getPort() + "\";</script>" );
-
-			int onLoadIndex = responseBuffer.indexOf( "onLoad='" );
-			if ( onLoadIndex != -1 )
-				responseBuffer.insert( onLoadIndex + 8, "setInterval( getNewMessages, 8000 ); " );
-
-			// This is a hack to fix KoL chat, as it is handled
-			// in Opera.  No guarantees it works, though.
-
-			StaticEntity.singleStringReplace( responseBuffer, "http.onreadystatechange", "executed = false; http.onreadystatechange" );
-			StaticEntity.singleStringReplace( responseBuffer, "readyState==4) {", "readyState==4 && !executed) { executed = true;" );
-		}
-
 		// Fix KoLmafia getting outdated by events happening
 		// in the browser by using the sidepane.
 
@@ -897,6 +875,10 @@ public class LocalRelayRequest extends KoLRequest
 			else if ( formURLString.indexOf( "images/" ) != -1 )
 			{
 				sendLocalImage( formURLString );
+			}
+			else if ( formURLString.indexOf( "lchat.php" ) != -1 )
+			{
+				sendSharedFile( "chat.html" );
 			}
 			else
 			{
