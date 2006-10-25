@@ -2541,9 +2541,9 @@ public abstract class KoLmafia implements KoLConstants
 	 * the running adventure summary.
 	 */
 
-	public void registerEncounter( String encounterName )
+	public void registerEncounter( String encounterName, String encounterType )
 	{
-		encounterName = encounterName.trim();
+		encounterName = encounterType + ": " + encounterName.trim();
 
 		RegisteredEncounter [] encounters = new RegisteredEncounter[ encounterList.size() ];
 		encounterList.toArray( encounters );

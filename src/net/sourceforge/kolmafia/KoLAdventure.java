@@ -775,7 +775,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		StaticEntity.getClient().registerAdventure( this );
 
 		if ( request instanceof CampgroundRequest || request instanceof SewerRequest )
-			StaticEntity.getClient().registerEncounter( getAdventureName() );
+			StaticEntity.getClient().registerEncounter( getAdventureName(), "Noncombat" );
 	}
 
 	public static boolean recordToSession( String urlString )
