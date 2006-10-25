@@ -299,6 +299,20 @@ public class LocalRelayRequest extends KoLRequest
 			StaticEntity.globalStringReplace( responseBuffer, "selectedIndex=0;", "selectedIndex=0; if ( parent && parent.mainpane ) parent.mainpane.focus();" );
 		}
 
+		// Fix chat javascript problems with relay system
+
+		else if ( formURLString.indexOf( "lchat.php" ) != -1 )
+		{
+			StaticEntity.globalStringReplace( responseBuffer, "cycles++", "cycles = 0" );
+			StaticEntity.globalStringReplace( responseBuffer, "window.location.hostname", "window.location.host" );
+
+			// This is a hack to fix KoL chat, as it is handled
+			// in Opera.  No guarantees it works, though.
+
+			StaticEntity.singleStringReplace( responseBuffer, "http.onreadystatechange", "executed = false; http.onreadystatechange" );
+			StaticEntity.singleStringReplace( responseBuffer, "readyState==4) {", "readyState==4 && !executed) { executed = true;" );
+		}
+
 		// Fix KoLmafia getting outdated by events happening
 		// in the browser by using the sidepane.
 

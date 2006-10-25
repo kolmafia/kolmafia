@@ -56,6 +56,8 @@ import javax.swing.JComboBox;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
 import javax.swing.SwingUtilities;
 
 /**
@@ -67,6 +69,8 @@ import javax.swing.SwingUtilities;
 
 public class ChatFrame extends KoLFrame
 {
+	private static final SimpleDateFormat MARK_TIMESTAMP = new SimpleDateFormat( "HH:mm:ss", Locale.US );
+
 	private ChatPanel mainPanel;
 	private JComboBox nameClickSelect;
 
@@ -258,7 +262,9 @@ public class ChatFrame extends KoLFrame
 
 				if ( message.equals( "/m" ) || message.startsWith( "/mark" ) )
 				{
-					buffer.append( "<br><hr><b>" + (new Date()).toString() + "</b><br><br>" );
+					buffer.append( "<center><font size=2>&mdash;&mdash;&mdash;&nbsp;" +
+						MARK_TIMESTAMP.format( new Date() ) + "&nbsp;&mdash;&mdash;&mdash;</font>" );
+
 					return;
 				}
 
