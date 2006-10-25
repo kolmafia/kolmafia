@@ -58,6 +58,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class KoLSettings extends Properties implements UtilityConstants, KoLConstants
 {
+	private static boolean initializingDefaults = false;
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
 
@@ -152,7 +153,45 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	}
 
 	public void saveSettings()
-	{	storeSettings();
+	{
+		if ( initializingDefaults )
+			return;
+
+		try
+		{
+			if ( settingsFile.exists() )
+				settingsFile.delete();
+
+			// Determine the contents of the file by
+			// actually printing them.
+
+			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+			store( ostream, VERSION_NAME );
+
+			String [] lines = ostream.toString().split( LINE_BREAK );
+			Arrays.sort( lines );
+
+			ostream.reset();
+
+			for ( int i = 0; i < lines.length; ++i )
+			{
+				if ( lines[i].startsWith( "#" ) )
+					continue;
+
+				ostream.write( lines[i].getBytes() );
+				ostream.write( LINE_BREAK.getBytes() );
+			}
+
+			settingsFile.createNewFile();
+			ostream.writeTo( new FileOutputStream( settingsFile ) );
+		}
+		catch ( IOException e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
 	}
 
 	/**
@@ -396,6 +435,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 	private void ensureDefaults()
 	{
+		initializingDefaults = true;
+
 		// If this is the set of global settings, be sure
 		// to initialize the global settings.
 
@@ -416,50 +457,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		for ( int i = 0; i < keys.length; ++i )
 			if ( !containsKey( keys[i] ) )
 				super.setProperty( (String) keys[i], (String) PLAYER_SETTINGS.get( keys[i] ) );
-	}
 
-	/**
-	 * Stores the settings maintained in this <code>KoLSettings</code>
-	 * to the noted file.  Note that this method ALWAYS overwrites
-	 * the given file.
-	 */
-
-	private void storeSettings()
-	{
-		try
-		{
-			if ( settingsFile.exists() )
-				settingsFile.delete();
-
-			// Determine the contents of the file by
-			// actually printing them.
-
-			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-			store( ostream, VERSION_NAME );
-
-			String [] lines = ostream.toString().split( LINE_BREAK );
-			Arrays.sort( lines );
-
-			ostream.reset();
-
-			for ( int i = 0; i < lines.length; ++i )
-			{
-				if ( lines[i].startsWith( "#" ) )
-					continue;
-
-				ostream.write( lines[i].getBytes() );
-				ostream.write( LINE_BREAK.getBytes() );
-			}
-
-			settingsFile.createNewFile();
-			ostream.writeTo( new FileOutputStream( settingsFile ) );
-		}
-		catch ( IOException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
+		initializingDefaults = false;
+		saveSettings();
 	}
 }
