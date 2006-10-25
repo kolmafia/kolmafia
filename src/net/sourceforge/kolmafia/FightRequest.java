@@ -603,12 +603,34 @@ public class FightRequest extends KoLRequest
 		if ( !isTrackingFights )
 			return null;
 
-		while ( trackedRounds.isEmpty() )
+		for ( int i = 0; trackedRounds.isEmpty() && i < 10; ++i )
 			delay( 200 );
 
-		String result = (String) trackedRounds.remove(0);
-		if ( trackedRounds.isEmpty() && currentRound == 0 )
+		if ( trackedRounds.isEmpty() )
+		{
 			isTrackingFights = false;
+			return null;
+		}
+
+		String result = (String) trackedRounds.remove(0);
+
+		if ( trackedRounds.isEmpty() && currentRound == 0 )
+		{
+			isTrackingFights = false;
+
+			StringBuffer resultBuffer = new StringBuffer();
+			resultBuffer.append( result );
+
+			try
+			{
+				RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", resultBuffer );
+				result = resultBuffer.toString();
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
+		}
 
 		return result;
 	}

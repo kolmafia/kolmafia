@@ -413,7 +413,7 @@ public class LocalRelayServer implements Runnable
 				}
 				else
 				{
-					if ( path.indexOf( "fight.php?action=script" ) != -1 )
+					if ( (path.indexOf( "fight.php" ) != -1 && FightRequest.isTrackingFights()) || path.indexOf( "fight.php?action=script" ) != -1 )
 					{
 						if ( !FightRequest.isTrackingFights() )
 						{
@@ -426,14 +426,20 @@ public class LocalRelayServer implements Runnable
 						}
 
 						String fightResponse = FightRequest.getNextTrackedRound();
-
-						if ( FightRequest.isTrackingFights() )
+						if ( fightResponse == null )
 						{
-							fightResponse = StaticEntity.singleStringReplace( fightResponse, "</html>",
-								"<script language=\"Javascript\"> function continueAutomatedFight() { document.location = \"fight.php?action=script\"; return 0; } setTimeout( continueAutomatedFight, 400 ); </script></html>" );
+							request.pseudoResponse( "HTTP/1.1 302 Found", "/main.php" );
 						}
+						else
+						{
+							if ( FightRequest.isTrackingFights() )
+							{
+								fightResponse = StaticEntity.singleStringReplace( fightResponse, "</html>",
+									"<script language=\"Javascript\"> function continueAutomatedFight() { document.location = \"fight.php\"; return 0; } setTimeout( continueAutomatedFight, 400 ); </script></html>" );
+							}
 
-						request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
+							request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
+						}
 					}
 					else
 					{

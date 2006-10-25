@@ -473,7 +473,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static final Pattern IMAGESERVER_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\">]+" );
 	private static final Pattern COLOR_PATTERN = Pattern.compile( "(color|class)=\"?\'?([^\"\'>]*)" );
 
-	private static final Pattern ACQUIRE_PATTERN = Pattern.compile( "You acquire(.*?)</td>" );
+	private static final Pattern ACQUIRE_PATTERN = Pattern.compile( "You acquire([^<]*?<b>.*?</b>.*?)</td>", Pattern.DOTALL );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option.*?value=(.*?)>.*?\\((.*?)\\)</option>" );
 
@@ -1185,12 +1185,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				default:
 
-					if ( itemID == SorceressLair.HEDGE_KEY.getItemID() )
-					{
-						useType = "maze";
-						useLocation = "hedgepuzzle.php";
-					}
-					else if ( itemID == SorceressLair.PUZZLE_PIECE.getItemID() )
+					if ( itemID == SorceressLair.HEDGE_KEY.getItemID() || itemID == SorceressLair.PUZZLE_PIECE.getItemID() )
 					{
 						useType = "maze";
 						useLocation = "hedgepuzzle.php";
