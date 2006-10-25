@@ -1420,7 +1420,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 */
 
 	public int getAdventuresUsed()
-	{	return 0;
+	{	return formURLString.indexOf( "choice.php" ) != -1 ? 1 : 0;
 	}
 
 	protected void parseResults()
