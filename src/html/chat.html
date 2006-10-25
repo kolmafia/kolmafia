@@ -37,7 +37,6 @@
 		top: 2px;
 		left: 2px;
 		font-size: 12px;
-		border: none;
 	}
 
 	.cmddisplay, .chatdisplay
@@ -49,7 +48,7 @@
 		font-family: arial;
 		font-size: 12px;
 		height: 300;
-		border: 1px solid black;
+		border-bottom: 1px solid black;
 		overflow-y: scroll;
 		overflow-x: hidden;
 		overflow: auto;
@@ -501,12 +500,11 @@
 </head>
 
 
- <body link=black alink=black vlink=black onLoad='switchToChat(); submitchat( "/listen" ); getChatUpdate(); setInterval( getCLIUpdate, 2000 );' onResize='initSizes();'>
+ <body link=black alink=black vlink=black onLoad='switchToChat(); submitchat( "/channel" ); getChatUpdate(); setInterval( getCLIUpdate, 2000 );' onResize='initSizes();'>
 
-  <div id="ToggleDisplay" class=toggledisplay><center><nobr>
-  <a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
-  <a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag">gCLI</a>
-  </nobr></center></div>
+  <div id="ToggleDisplay" class=toggledisplay><center><center><nobr><a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
+  <a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag"> gCLI</a>
+  </nobr></center><br></div>
 
   <div id="ChatWindow" class=chatdisplay></div>
   <div id="CmdWindow" class=cmddisplay></div>

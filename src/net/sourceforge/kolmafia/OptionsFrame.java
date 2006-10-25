@@ -186,6 +186,7 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
+			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
 			{ "relayAddsUseLinks", "Add [use] links when acquiring items" },
 			{ "relayAddsCustomCombat", "Add custom combat button to fight page" },
 			{ "relayRemovesRunaway", "Move runaway button to skill usage dropdown" },
