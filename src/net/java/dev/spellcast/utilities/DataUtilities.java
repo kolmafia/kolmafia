@@ -126,7 +126,7 @@ public class DataUtilities implements UtilityConstants
 	}
 
 	public static BufferedReader getReader( InputStream istream )
-	{	return getReader( istream, "UTF-8" );
+	{	return getReader( istream, "Latin-1" );
 	}
 
 	public static BufferedReader getReader( InputStream istream, String encoding )
@@ -142,7 +142,7 @@ public class DataUtilities implements UtilityConstants
 			if ( encoding != null )
 				reader = new InputStreamReader( istream, encoding );
 			else
-				reader = new InputStreamReader( istream, "UTF-8" );
+				reader = new InputStreamReader( istream, "Latin-1" );
 		}
 		catch ( Exception e )
 		{
