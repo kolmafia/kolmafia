@@ -375,11 +375,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// character set. Names are ISO 10646 names.
 		// C0 Controls and Basic Latin
 
-// Because of compiler problems, the quote is a
-// special case and is translated into the actual
-// symbol instead of the UNICODE value.
+// Because the browser can render quotes, go ahead and
+// leave them (changing them breaks forms).
 
-		{ "&quot;",	"\"" }, // quotation mark = APL quote, U+0022 ISOnum
+//		{ "&quot;",	"\"" }, // quotation mark = APL quote, U+0022 ISOnum
 
 		{ "&amp;",	"\u0026" }, // ampersand, U+0026 ISOnum
 		{ "&lt;",	"\u003c" }, // less-than sign, U+003C ISOnum
@@ -476,6 +475,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static final Pattern ACQUIRE_PATTERN = Pattern.compile( "You acquire([^<]*?<b>.*?</b>.*?)</td>", Pattern.DOTALL );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option.*?value=(.*?)>.*?\\((.*?)\\)</option>" );
+	private static final Pattern BOOKSHELF_PATTERN = Pattern.compile( "onclick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 
 	private static void downloadFile( File local, String remote )
 	{
@@ -695,14 +695,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	 * but can still be properly rendered by post-3.2 browsers.
 	 */
 
-	public static final String getDisplayHTML( String responseText )
+	public static final String getDisplayHTML( String location, String responseText )
 	{
 		// Switch all the <BR> tags that are not understood
 		// by the default Java browser to an understood form,
 		// and remove all <HR> tags.
 
 		KoLmafia.getDebugStream().println( "Rendering hypertext..." );
-		String displayHTML = getFeatureRichHTML( "", responseText );
+		String displayHTML = getFeatureRichHTML( location, responseText );
 
 		displayHTML = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
 			displayHTML ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" );
@@ -839,6 +839,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( displayHTML.indexOf( "action=galaktik.php") != -1 )
 			displayHTML = displayHTML.replaceFirst( "<table><table.*", "" );
+
+
+		// The library bookshelf has some secretive Javascript
+		// which needs to be removed.
+
+		displayHTML = BOOKSHELF_PATTERN.matcher( displayHTML ).replaceAll( "href=\"$1\"" );
 
 		// All HTML is now properly rendered!  Return the
 		// compiled string.  Print it to the debug log for

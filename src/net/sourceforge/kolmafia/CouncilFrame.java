@@ -50,9 +50,9 @@ public class CouncilFrame extends RequestFrame
 	{	return false;
 	}
 
-	protected static String getDisplayHTML( String responseText )
+	protected String getDisplayHTML( String responseText )
 	{
-		return RequestFrame.getDisplayHTML( responseText ).replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" ).replaceFirst(
+		return super.getDisplayHTML( responseText ).replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" ).replaceFirst(
 			"table width=95%", "table width=100%" );
 	}
 }

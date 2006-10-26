@@ -317,8 +317,8 @@ public class RequestFrame extends KoLFrame
 	{	this.currentRequest = request;
 	}
 
-	protected static String getDisplayHTML( String responseText )
-	{	return RequestEditorKit.getDisplayHTML( responseText );
+	protected String getDisplayHTML( String responseText )
+	{	return RequestEditorKit.getDisplayHTML( currentRequest.getURLString(), responseText );
 	}
 
 	/**
@@ -514,7 +514,7 @@ public class RequestFrame extends KoLFrame
 		public void run()
 		{
 			CharpaneRequest.getInstance().run();
-			refreshStatus( getDisplayHTML( CharpaneRequest.getInstance().responseText ) );
+			refreshStatus( RequestEditorKit.getDisplayHTML( "charpane.php", CharpaneRequest.getInstance().responseText ) );
 		}
 
 		public void refreshStatus( String text )
