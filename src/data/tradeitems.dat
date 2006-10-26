@@ -1401,7 +1401,7 @@
 1401	sock monkey	13	89
 1402	rag doll	13	106
 1403	can of fake snow	12	-1
-1404	colored-light "necklace"	8	-1
+1404	colored-light &quot;necklace&quot;	8	-1
 1405	tree skirt	10	-1
 1406	wreath-shaped Crimbo cookie	1	50
 1407	bell-shaped Crimbo cookie	1	50
@@ -1523,7 +1523,7 @@
 1523	bottle of used blood	4	0
 1524	wind-up chattering teeth	5	5
 1525	joybuzzer	13	5
-1526	pet rock "Snooty" disguise	7	5
+1526	pet rock &quot;Snooty&quot; disguise	7	5
 1527	diamond-studded fronts	7	75
 1528	portable corkscrew	12	50
 1529	St. Sneaky Pete's Day goodies basket	3	-1
@@ -1675,7 +1675,7 @@
 1675	cardboard ore	0	50
 1676	styrofoam ore	0	50
 1677	bubblewrap ore	0	50
-1678	pet rock "Groucho" disguise	7	5
+1678	pet rock &quot;Groucho&quot; disguise	7	5
 1679	cardboard sword	12	65
 1680	cardboard staff	12	65
 1681	bubblewrap sword	12	65
@@ -1996,7 +1996,7 @@
 1996	right half of a heart necklace	8	0
 1997	left half of a heart necklace	8	0
 1998	pack of KWE trading card	3	50
-1999	stick of "gum"	3	5
+1999	stick of &quot;gum&quot;	3	5
 2000	Das &Uuml;berk&uuml;hlraum trading card	3	50
 2001	Vaso De Agua trading card	3	50
 2002	The Grand Poo-Bah trading card	3	50
