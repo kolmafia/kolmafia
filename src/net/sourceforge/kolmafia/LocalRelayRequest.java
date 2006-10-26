@@ -303,6 +303,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		else if ( formURLString.indexOf( "lchat.php" ) != -1 )
 		{
+			StaticEntity.globalStringDelete( responseBuffer, "spacing: 0px;" );
 			StaticEntity.globalStringReplace( responseBuffer, "cycles++", "cycles = 0" );
 			StaticEntity.globalStringReplace( responseBuffer, "window.location.hostname", "window.location.host" );
 
