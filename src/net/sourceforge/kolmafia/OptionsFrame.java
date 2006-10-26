@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 // layout
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
@@ -46,6 +47,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
@@ -63,9 +66,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 
 import java.util.Arrays;
 import net.java.dev.spellcast.utilities.ActionPanel;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -182,11 +187,11 @@ public class OptionsFrame extends KoLFrame
 
 	private class RelayOptionsPanel extends OptionsPanel
 	{
+		private JLabel colorChanger;
 		private JCheckBox [] optionBoxes;
 
 		private final String [][] options =
 		{
-			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
 			{ "relayAddsUseLinks", "Add [use] links when acquiring items" },
 			{ "relayAddsCustomCombat", "Add custom combat button to fight page" },
 			{ "relayRemovesRunaway", "Move runaway button to skill usage dropdown" },
@@ -200,7 +205,8 @@ public class OptionsFrame extends KoLFrame
 			{ "relayRemovesExpensiveItems", "Remove unaffordable items from stores in browser" },
 			{ "relayRemovesMinpricedItems", "Remove items priced at minimum from stores in browser" },
 			{ "relayRemovesUnrelatedItems", "Remove items unrelated to your search from stores in browser" },
-			{ "trackLocationChanges", "Adventuring in browser changes selected adventure location" }
+			{ "trackLocationChanges", "Adventuring in browser changes selected adventure location" },
+			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" }
 		};
 
 		/**
@@ -211,8 +217,8 @@ public class OptionsFrame extends KoLFrame
 
 		public RelayOptionsPanel()
 		{
-			super( "Relay Browser", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ options.length ];
+			super( "Relay Browser", new Dimension( 16, 16 ), new Dimension( 370, 16 ) );
+			VerifiableElement [] elements = new VerifiableElement[ options.length + 1 ];
 
 			optionBoxes = new JCheckBox[ options.length ];
 			for ( int i = 0; i < options.length; ++i )
@@ -221,8 +227,47 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < options.length; ++i )
 				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
+			colorChanger = new BorderColorChanger();
+			elements[ options.length ] = new VerifiableElement( "Change the color for tables in the browser interface",
+				JLabel.LEFT, colorChanger );
+
 			setContent( elements );
 			actionCancelled();
+		}
+
+		private class BorderColorChanger extends JLabel implements MouseListener
+		{
+			public BorderColorChanger()
+			{
+				setOpaque( true );
+				addMouseListener( this );
+			}
+
+			public void mousePressed( MouseEvent e )
+			{
+				Color c = JColorChooser.showDialog( null, "Choose a border color:", getBackground() );
+				if ( c == null )
+					return;
+
+				StaticEntity.setProperty( "defaultBorderColor", DataUtilities.toHexString( c ) );
+				setBackground( c );
+			}
+
+			public void mouseReleased( MouseEvent e )
+			{
+			}
+
+			public void mouseClicked( MouseEvent e )
+			{
+			}
+
+			public void mouseEntered( MouseEvent e )
+			{
+			}
+
+			public void mouseExited( MouseEvent e )
+			{
+			}
 		}
 
 		public void actionConfirmed()
@@ -233,6 +278,12 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
+			String color = StaticEntity.getProperty( "defaultBorderColor" );
+			if ( color.equals( "blue" ) )
+				colorChanger.setBackground( Color.blue );
+			else
+				colorChanger.setBackground( DataUtilities.toColor( color ) );
+
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
 		}
