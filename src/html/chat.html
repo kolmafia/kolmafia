@@ -37,6 +37,8 @@
 		top: 2px;
 		left: 2px;
 		font-size: 12px;
+		border-bottom: 1px solid black;
+		padding: 2px 2px;
 	}
 
 	.cmddisplay, .chatdisplay
@@ -60,6 +62,29 @@
 		border: none;
 		left: 2px;
 		padding: 2px;
+	}
+
+	div.rcm
+	{
+		position: absolute;
+		font-family: Arial;
+		font-size: 10pt;
+		border: 1px solid black;
+		background: white;
+		display: none;
+	}
+
+	p.rcm
+	{
+		cursor: pointer;
+		background-color: white;
+		margin: 0px;
+		padding: 0px 2px;
+	}
+
+	p.rcm:hover
+	{
+        background-color: #ccccff;
 	}
 
 </style>
@@ -495,7 +520,10 @@
 		 return plaintext;
 	};
 
-</script>
+	actions = { "sendmessage.php" : { "action" : 1, "title" : "Send Message", "arg" : "toid" }, "town_sendgift.php" : { "action" : 1, "title" : "Send Gift", "arg" : "towho" }, "makeoffer.php" : { "action" : 1, "title" : "Propose Trade", "arg" : "towho" }, "skills.php" : { "action" : 1, "title" : "Buff", "arg" : "towho" }, "mallstore.php" : { "action" : 1, "title" : "Mall Store", "arg" : "whichstore" }, "displaycollection.php" : { "action" : 1, "title" : "Display Case", "arg" : "who" }, "showfamiliars.php" : { "action" : 1, "title" : "View Familiars", "arg" : "who" }, "ascensionhistory.php" : { "action" : 1, "title" : "Ascension History", "arg" : "back=other&who" }, "/whois" : { "action" : 2, "useid" : false, "submit" : true}, "/msg" : { "action" : 3, "useid" : true, "query" : "Enter message to send to %:" }, "/friend" : { "action" : 2, "useid" : true, "submit" : true }, "/ignore" : { "action" : 2, "useid" : true, "submit" : true }};
+	notchat = false;
+
+</script><script language="Javascript" src="http://images.kingdomofloathing.com/scripts/rcm.js"></script>
 
 </head>
 
@@ -504,7 +532,7 @@
 
   <div id="ToggleDisplay" class=toggledisplay><center><center><nobr><a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
   <a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag"> gCLI</a>
-  </nobr></center><br></div>
+  </nobr></center></div>
 
   <div id="ChatWindow" class=chatdisplay></div>
   <div id="CmdWindow" class=cmddisplay></div>
@@ -517,6 +545,8 @@
     </center>
    </div>
   </form>
+
+  <div id='menu' class='rcm'></div>
 
  </body>
 </html>
