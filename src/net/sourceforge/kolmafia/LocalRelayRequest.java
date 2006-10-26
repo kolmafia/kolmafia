@@ -334,7 +334,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		if ( formURLString.indexOf( "chatlaunch" ) != -1 )
 		{
-			if ( StaticEntity.getBooleanProperty( "relayAddsGraphicalCLI" ) )
+			if ( StaticEntity.getBooleanProperty( "relayAddsGraphicalCLI" ) && !StaticEntity.getBooleanProperty( "relayUsesIntegratedChat" ) )
 			{
 				int linkIndex = responseBuffer.indexOf( "<a href" );
 				if ( linkIndex != -1 )
