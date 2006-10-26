@@ -929,6 +929,7 @@ public class AdventureFrame extends KoLFrame
 			addChoiceSelect( "Woods", "Forest Corpses", spookyForestSelect );
 			addChoiceSelect( "Unsorted", "Violet Fog", violetFogSelect );
 			addChoiceSelect( "Manor", "Billiard Room", billiardRoomSelect );
+			addChoiceSelect( "Manor", "Haunted Library", librarySelect );
 			addChoiceSelect( "Manor", "The Louvre", louvreSelect );
 
 			for ( int i = 1; i < optionSelects.length; ++i )
