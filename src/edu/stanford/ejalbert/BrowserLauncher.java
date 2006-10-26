@@ -608,11 +608,6 @@ public class BrowserLauncher {
 					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
 						"start", "\"\"", executable, url } );
 				}
-				else if ( usingIE )
-				{
-					process = Runtime.getRuntime().exec(
-						new String[] { (String) browser, "/c", "explorer", url } );
-				}
 				else
 				{
 					// Add quotes around the URL to allow ampersands and other special
