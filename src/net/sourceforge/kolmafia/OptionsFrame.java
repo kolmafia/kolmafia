@@ -133,6 +133,17 @@ public class OptionsFrame extends KoLFrame
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
+
+		boolean anyFrameVisible = false;
+		for ( int i = 0; i < existingFrames.size(); ++i )
+			anyFrameVisible |= ((KoLFrame)existingFrames.get(i)).isVisible();
+
+		if ( !anyFrameVisible )
+			tabs.setSelectedIndex(2);
+		else if ( KoLDesktop.instanceExists() )
+			tabs.setSelectedIndex(3);
+		else
+			tabs.setSelectedIndex(0);
 	}
 
 	private class SessionLogOptionsPanel extends OptionsPanel
