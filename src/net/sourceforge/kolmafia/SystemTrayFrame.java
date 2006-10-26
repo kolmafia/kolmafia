@@ -46,6 +46,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 			TrayIconPopup popup = new TrayIconPopup();
 			popup.addMenuItem( new ShowMainWindowPopupItem() );
 			popup.addMenuItem( new ConstructFramePopupItem( "Graphical CLI", "CommandDisplayFrame" ) );
+			popup.addMenuItem( new ConstructFramePopupItem( "Preferences", "OptionsFrame" ) );
 			popup.addMenuItem( new ConstructFramePopupItem( "Relay Browser", "LocalRelayServer" ) );
 			popup.addMenuItem( new ConstructFramePopupItem( "KoLmafia Chat", "KoLMessenger" ) );
 			popup.addMenuItem( new EndSessionPopupItem() );
@@ -127,7 +128,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 
 		if ( existingFrames.isEmpty() )
 		{
-			KoLFrame.createDisplay( OptionsFrame.class );
+			KoLmafiaGUI.constructFrame( "LocalRelayServer" );
 			return;
 		}
 
@@ -159,7 +160,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 	{
 		public ShowMainWindowPopupItem()
 		{
-			super( "Show Interface" );
+			super( "Main Interface" );
 			addActionListener( this );
 		}
 

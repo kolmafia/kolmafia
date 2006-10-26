@@ -1055,6 +1055,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			rememberPosition();
 
 		super.setVisible( isVisible );
+
+		if ( isVisible )
+		{
+			setExtendedState( NORMAL );
+			requestFocus();
+		}
 	}
 
 	protected class KoLHyperlinkAdapter extends HyperlinkAdapter
@@ -1132,16 +1138,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	private void rememberPosition()
 	{
 		Point p = getLocation();
-		if ( this instanceof LoginFrame )
-			StaticEntity.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
-		else
-			StaticEntity.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+		StaticEntity.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 	}
 
 	private void restorePosition()
 	{
 		int xLocation = 0;
 		int yLocation = 0;
+
 		Dimension screenSize = TOOLKIT.getScreenSize();
 		String position = StaticEntity.getProperty( frameName );
 
