@@ -436,6 +436,8 @@ public class LocalRelayRequest extends KoLRequest
 		if ( responseText.length() == 0 )
 			this.responseText = " ";
 
+		this.responseText = StaticEntity.globalStringReplace( this.responseText, "images.kingdomofloathing.com", IMAGE_SERVER );
+
 		if ( formURLString.indexOf( "fight.php" ) != -1 )
 			this.responseText = StaticEntity.singleStringReplace( this.responseText, "</html>", "<!-- KoLmafia --></html>" );
 
