@@ -907,6 +907,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			StaticEntity.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
 			StaticEntity.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
 		}
+
+		StaticEntity.globalStringReplace( buffer, "images.kingdomofloathing.com", IMAGE_SERVER );
 	}
 
 	private static void addAscensionReminders( StringBuffer buffer )
