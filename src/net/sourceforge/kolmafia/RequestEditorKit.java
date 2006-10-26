@@ -378,7 +378,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 // Because the browser can render quotes, go ahead and
 // leave them (changing them breaks forms).
 
-//		{ "&quot;",	"\"" }, // quotation mark = APL quote, U+0022 ISOnum
+		{ "&quot;",	"\"" }, // quotation mark = APL quote, U+0022 ISOnum
 
 		{ "&amp;",	"\u0026" }, // ampersand, U+0026 ISOnum
 		{ "&lt;",	"\u003c" }, // less-than sign, U+003C ISOnum
@@ -628,6 +628,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	}
 
 	public static final String getUnicode( String entityVersion )
+	{	return getUnicode( entityVersion, true );
+	}
+
+	public static final String getUnicode( String entityVersion, boolean replaceQuotes )
 	{
 		int index = entityVersion.indexOf( "&" );
 
@@ -651,7 +655,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			// Replace entity with unicode
 			String entity = entityVersion.substring( index, semi + 1 );
-			Character unicode = (Character)unicodes.get( entity );
+			Character unicode = !replaceQuotes && entity.equals( "&quot;" ) ? null : (Character)unicodes.get( entity );
 
 			// If we don't have a translation, skip past entity
 			if ( unicode == null )
