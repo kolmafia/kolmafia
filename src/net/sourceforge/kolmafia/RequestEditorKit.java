@@ -894,6 +894,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( location.indexOf( "ascend.php" ) != -1 )
 			addAscensionReminders( buffer );
+
+		String defaultColor = StaticEntity.getProperty( "defaultBorderColor" );
+		if ( !defaultColor.equals( "blue" ) )
+		{
+			StaticEntity.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
+			StaticEntity.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
+		}
 	}
 
 	private static void addAscensionReminders( StringBuffer buffer )
