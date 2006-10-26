@@ -116,15 +116,18 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 	public String getProperty( String name )
 	{
-		boolean isGlobalProperty = isGlobalProperty( name );
-
-		if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
+		if ( !containsKey( name ) )
 		{
-			String value = GLOBAL_SETTINGS.getProperty( name );
-			return value == null ? "" : value;
+			boolean isGlobalProperty = isGlobalProperty( name );
+
+			if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
+			{
+				String value = GLOBAL_SETTINGS.getProperty( name );
+				return value == null ? "" : value;
+			}
+			else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
+				return "";
 		}
-		else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
-			return "";
 
 		String value = super.getProperty( name );
 		return value == null ? "" : value;
@@ -132,12 +135,15 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 	public Object setProperty( String name, String value )
 	{
-		boolean isGlobalProperty = isGlobalProperty( name );
+		if ( !containsKey( name ) )
+		{
+			boolean isGlobalProperty = isGlobalProperty( name );
 
-		if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
-			return GLOBAL_SETTINGS.setProperty( name, value );
-		else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
-			return "";
+			if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
+				return GLOBAL_SETTINGS.setProperty( name, value );
+			else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
+				return "";
+		}
 
 		// All tests passed.  Now, go ahead and execute the
 		// set property and return the old value.
@@ -267,6 +273,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "cloverProtectActive", "false" );
 		CLIENT_SETTINGS.put( "commandLineNamespace", "" );
 		CLIENT_SETTINGS.put( "createWithoutBoxServants", "false" );
+		CLIENT_SETTINGS.put( "defaultBorderColor", "blue" );
 		CLIENT_SETTINGS.put( "defaultDropdown1", "0" );
 		CLIENT_SETTINGS.put( "defaultDropdown2", "1" );
 		CLIENT_SETTINGS.put( "defaultLimit", "5" );
