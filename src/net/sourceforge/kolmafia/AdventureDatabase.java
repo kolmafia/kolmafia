@@ -299,7 +299,7 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { null, "266", "1655" } ),
 
 		// Junction in the Trunction
-		new ChoiceAdventure( "Plains", "choiceAdventure76", "Knob Shaft",
+		new ChoiceAdventure( "Knob", "choiceAdventure76", "Knob Shaft",
 		  new String [] { "cardboard ore", "styrofoam ore", "bubblewrap ore" },
 		  new String [] { "1675", "1676", "1677" } ),
 
@@ -309,22 +309,22 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 80 is Take a Look, it's in a Book!
 
 		// One NightStand (simple white)
-		new ChoiceAdventure( "Town", "choiceAdventure82", "Haunted Bedroom 1",
+		new ChoiceAdventure( "Manor", "choiceAdventure82", "Haunted Bedroom 1",
 		  new String [] { "old leather wallet", "boost muscle", "enter combat" },
 		  new String [] { "1917", null, null } ),
 
 		// One NightStand (mahogany)
-		new ChoiceAdventure( "Town", "choiceAdventure83", "Haunted Bedroom 2",
+		new ChoiceAdventure( "Manor", "choiceAdventure83", "Haunted Bedroom 2",
 		  new String [] { "old coin purse", "enter combat", "quest item" },
 		  new String [] { "1918", null, null } ),
 
 		// One NightStand (ornate)
-		new ChoiceAdventure( "Town", "choiceAdventure84", "Haunted Bedroom 3",
+		new ChoiceAdventure( "Manor", "choiceAdventure84", "Haunted Bedroom 3",
 		  new String [] { "small meat boost", "boost mysticality", "Lord Spookyraven's spectacles" },
 		  new String [] { null, null, "1916" } ),
 
 		// One NightStand (simple wooden)
-		new ChoiceAdventure( "Town", "choiceAdventure85", "Haunted Bedroom 4",
+		new ChoiceAdventure( "Manor", "choiceAdventure85", "Haunted Bedroom 4",
 		  new String [] { "boost moxie (ballroom key step 1)", "empty drawer (ballroom key step 2)", "enter combat" } ),
 
 		// Choice 86 is History is Fun!
@@ -336,11 +336,11 @@ public class AdventureDatabase extends KoLDatabase
 		// Twisted, Curdled, Corrupt Energy and You -> myst class skill
 
 		// Out in the Garden
-		new ChoiceAdventure( "Town", "choiceAdventure89", "Haunted Gallery",
+		new ChoiceAdventure( "Manor", "choiceAdventure89", "Haunted Gallery",
 		  new String [] { "Wolf Knight", "Snake Knight", "Dreams and Lights" } ),
 
 		// Curtains
-		new ChoiceAdventure( "Town", "choiceAdventure90", "Haunted Ballroom",
+		new ChoiceAdventure( "Manor", "choiceAdventure90", "Haunted Ballroom",
 		  new String [] { "Investigate Organ", "Watch Dancers", "Hide" } ),
 
 		// Choice 91 is Louvre It or Leave It

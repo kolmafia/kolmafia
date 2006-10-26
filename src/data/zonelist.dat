@@ -2,18 +2,23 @@ Town	Town	Seaside Town
 MysSign	Town	Mysticality Sign
 Casino	Town	Seaside Casino
 Dungeon	Town	Seaside Dungeon
-Manor	Town	Spookyraven Manor
+
+Manor	Manor	Spookyraven Manor
 
 Plains	Plains	Nearby Plains	plains.php
 Rift	Plains	Temporal Rift
-BatHole	Plains	Bat Hole	plains.php	bathole.php
-Knob	Plains	Cobb's Knob	plains.php	knob.php
-Lab	Plains	Knob Cobb's Knob Lab	plains.php	knob.php	knob2.php
-Cyrpt	Plains	Defiled Cyrpt	plains.php	cyrpt.php
+
+BatHole	BatHole	Bat Hole	plains.php	bathole.php
+
+Knob	Knob	Cobb's Knob	plains.php	knob.php
+Lab	Knob	Knob Cobb's Knob Lab	plains.php	knob.php	knob2.php
+
+Cyrpt	Cyrpt	Defiled Cyrpt	plains.php	cyrpt.php
 
 Woods	Woods	Distant Woods	woods.php
 MusSign	Woods	Muscle Sign
-Friars	Woods	Deep Fat Friar's	woods.php	friars.php
+
+Friars	Friars	Deep Fat Friar's	woods.php	friars.php
 
 Mountain	Mountain	Big Mountains
 McLarge	Mountain	Mt. McLargeHuge
