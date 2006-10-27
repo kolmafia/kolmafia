@@ -40,7 +40,7 @@ import java.util.List;
 public class RestaurantRequest extends KoLRequest
 {
 	private static final Pattern COST_PATTERN = Pattern.compile( "(.*?) \\((\\d*) Meat\\)" );
-	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<td>([\\w -]*?\\(.*? Meat\\))</td>" );
+	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<td>([^<]*? \\(.*? Meat\\))</td>" );
 
 	private boolean isPurchase;
 	private int price;
