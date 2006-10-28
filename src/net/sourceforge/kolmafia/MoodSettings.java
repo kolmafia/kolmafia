@@ -650,6 +650,9 @@ public abstract class MoodSettings implements KoLConstants
 			if ( name.equals( "Temporary Lycanthropy" ) )
 				return "use " + multiplier + " blood of the Wereseal";
 
+			if ( name.equals( "Half-Astral" ) )
+				return "use 1 astral mushroom";
+
 			// Tongues require snowcones
 
 			if ( name.endsWith( "Tongue" ) )
@@ -810,7 +813,7 @@ public abstract class MoodSettings implements KoLConstants
 			}
 			else if ( triggerType.equals( "lose_effect" ) )
 			{
-				shouldExecute = action.indexOf( "cupcake" ) != -1 || action.indexOf( "snowcone" ) != -1 ?
+				shouldExecute = action.indexOf( "cupcake" ) != -1 || action.indexOf( "snowcone" ) != -1 || action.indexOf( "mushroom" ) != -1 ?
 					!activeEffects.contains( effect ) : effect.getCount( activeEffects ) <= (isManualInvocation ? 5 : 1);
 
 				shouldExecute &= !triggerName.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
