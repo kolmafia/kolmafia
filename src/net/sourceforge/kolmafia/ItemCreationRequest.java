@@ -628,13 +628,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return hasNoServantItem;
 		}
 
-		if ( KoLCharacter.hasItem( clockworkServant, false ) )
-			usedServant = clockworkServant;
-
-		else if ( KoLCharacter.hasItem( servant, false ) )
-			usedServant = servant;
-
-		else if ( KoLCharacter.hasItem( clockworkServant, true ) )
+		if ( KoLCharacter.hasItem( clockworkServant ) )
 			usedServant = clockworkServant;
 
 		else if ( KoLCharacter.hasItem( servant, true ) )
