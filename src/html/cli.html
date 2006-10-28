@@ -23,6 +23,7 @@
 	body
 	{
 		padding: 0px;
+		overflow-y: hidden;
 	}
 
 	a
@@ -33,9 +34,9 @@
 	.toggledisplay
 	{
 		position: absolute;
-		padding: 2px;
 		top: 2px;
-		left: 2px;
+		left: 3px;
+		padding: 2px, 2px;
 		font-size: 12px;
 		border: none;
 	}
@@ -43,12 +44,11 @@
 	.cmddisplay
 	{
 		position: absolute;
-		padding: 2px;
-		top: 22px;
-		left: 2px;
+		top: 2px;
+		left: 3px;
+		padding: 2px, 2px;
 		font-family: arial;
 		font-size: 12px;
-		height: 300;
 		border: 1px solid black;
 		overflow-y: scroll;
 		overflow-x: hidden;
@@ -58,9 +58,10 @@
 	.inputform
 	{
 		position: absolute;
+		top: 2px;
+		left: 3px;
+		padding: 2px, 2px;
 		border: none;
-		left: 2px;
-		padding: 2px;
 	}
 
 </style>
@@ -68,28 +69,36 @@
 <script language=Javascript>
 
 	var initwidth = 0;
+	var initheight = 0;
 	var timeout = 0;
 
 	function initSizes()
 	{
 		if ( navigator.appName.indexOf( "Explorer" ) != -1 )
-			initwidth = document.body.offsetWidth - 5;
+			initwidth = document.body.offsetWidth - 7;
 		else
 			initwidth = self.innerWidth - 10;
-
-		if ( initwidth < 150 )
-			initwidth = 150;
 
 		document.getElementById( "CmdWindow" ).style.width = initwidth;
 		document.getElementById( "InputForm" ).style.width = initwidth;
 		document.getElementById( "ToggleDisplay" ).style.width = initwidth;
-		document.getElementById( "CmdWindow" ).style.height = document.body.clientHeight -
-			document.getElementById( "InputForm" ).offsetHeight -
-			document.getElementById( "ToggleDisplay" ).offsetHeight - 20;
+
+		if ( window.opera )
+		{
+			initheight = document.body.clientHeight - 6 -
+				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
+		}
+		else
+		{
+			initheight = document.body.clientHeight + 5 -
+				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
+		}
+
+		document.getElementById( "CmdWindow" ).style.height = initheight;
 		document.getElementById( "CmdWindow" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 6;
 		document.getElementById( "InputForm" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight +
 			document.getElementById( "CmdWindow" ).offsetHeight + 6;
-	};
+	}
 
 	var requests = new Array();
 	var commands = new Array();
@@ -350,13 +359,9 @@
   <div id="ToggleDisplay" class=toggledisplay><center><b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]</center></div>
   <div id="CmdWindow" class=cmddisplay></div>
 
-  <form name=cmdform onSubmit='return false;'>
-   <div id="InputForm" class=inputform>
-    <center>
-     <input style="width: 70%;" maxlength=200 class=text type=text size=12 name=cmd onKeyUp='checkForKeyEvent( event );' autocomplete="off">
+   <div id="InputForm" class=inputform><center><form name=cmdform onSubmit='return false;'>
+     <input style="width: 70%" maxlength=200 class=text type=text size=12 name=cmd onKeyUp='checkForKeyEvent( event );' autocomplete="off">
      <input class=button type=button onClick="submitCommand();" value="exec">
-    </center>
-   </div>
-  </form>
+   </form></center></div>
  </body>
 </html>

@@ -917,50 +917,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static void addAscensionReminders( StringBuffer buffer )
 	{
-		int insertIndex = buffer.indexOf( "<p><center><a" );
-		if ( insertIndex == -1 )
-			return;
-
-		StringBuffer missingSkills = new StringBuffer();
-
-		int skillStart = 0;
-		String type = KoLCharacter.getClassType();
-
-		if ( type.equals( KoLCharacter.SEAL_CLUBBER ) )
-			skillStart = 1001;
-		else if ( type.equals( KoLCharacter.TURTLE_TAMER ) )
-			skillStart = 2001;
-		else if ( type.equals( KoLCharacter.PASTAMANCER ) )
-			skillStart = 3001;
-		else if ( type.equals( KoLCharacter.SAUCEROR ) )
-			skillStart = 4001;
-		else if ( type.equals( KoLCharacter.DISCO_BANDIT ) )
-			skillStart = 5001;
-		else
-			skillStart = 6001;
-
-		UseSkillRequest instance;
-
-		for ( int i = 0; i < 25; ++i )
-		{
-			instance = UseSkillRequest.getInstance( skillStart + i );
-			if ( instance == null )
-				continue;
-
-			if ( !KoLCharacter.hasSkill( instance.getSkillName() ) )
-			{
-				missingSkills.append( instance.getSkillName() );
-				missingSkills.append( "<br>" );
-			}
-		}
-
-		if ( missingSkills.length() == 0 )
-			return;
-
-		missingSkills.insert( 0, "<p><center>You have not yet acquired the following " + type + " skills:<br><br>" );
-		missingSkills.append( "</center></p>" );
-
-		buffer.insert( insertIndex, missingSkills.toString() );
+		StaticEntity.singleStringReplace( buffer,
+			"<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)",
+			"<table><tr><td align=left valign=center><input type=submit class=button value=\"Ascend\">&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=left><input type=checkbox name=confirm> I remembered to buy the skill I wanted.<br><input type=checkbox name=confirm2> I remembered to stock up for my next ascension.</td></tr></table>" );
 	}
 
 	private static void addFightModifiers( StringBuffer buffer )
