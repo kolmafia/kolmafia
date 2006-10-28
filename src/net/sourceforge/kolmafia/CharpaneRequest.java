@@ -228,16 +228,21 @@ public class CharpaneRequest extends KoLRequest
 
 			if ( searchIndex != -1 )
 			{
-				int nextSearchIndex = responseText.indexOf( "(", searchIndex + 14 ) + 1;
+				int nextSearchIndex = responseText.indexOf( "(", searchIndex ) + 1;
 				lastSearchIndex = nextSearchIndex;
 
 				int effectID = StaticEntity.parseInt(
-					responseText.substring( searchIndex + 14, responseText.indexOf( "\"", searchIndex + 15 ) ) );
+					responseText.substring( nextSearchIndex, responseText.indexOf( ")", nextSearchIndex ) ) );
 
 				String effectName = StatusEffectDatabase.getEffectName( effectID );
 
 				if ( effectName != null )
 				{
+					if ( KoLRequest.isCompactMode )
+						lastSearchIndex = responseText.indexOf( "<td>(", lastSearchIndex ) + 5;
+					else
+						lastSearchIndex = responseText.indexOf( "(", responseText.indexOf( "<font size=2>", lastSearchIndex ) ) + 1;
+
 					nextSearchIndex = responseText.indexOf( ")", lastSearchIndex );
 					String duration = responseText.substring( lastSearchIndex, nextSearchIndex );
 
