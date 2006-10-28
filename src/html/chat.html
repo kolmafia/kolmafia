@@ -23,6 +23,7 @@
 	body
 	{
 		padding: 0px;
+		overflow-y: hidden;
 	}
 
 	a
@@ -33,24 +34,22 @@
 	.toggledisplay
 	{
 		position: absolute;
-		padding: 2px;
 		top: 2px;
 		left: 2px;
+		padding: 2px, 2px;
 		font-size: 12px;
-		border-bottom: 1px solid black;
-		padding: 2px 2px;
+		border: none;
 	}
 
 	.cmddisplay, .chatdisplay
 	{
 		position: absolute;
-		padding: 2px;
-		top: 22px;
+		top: 2px;
 		left: 2px;
+		padding: 2px, 2px;
 		font-family: arial;
 		font-size: 12px;
-		height: 300;
-		border-bottom: 1px solid black;
+		border: 1px solid black;
 		overflow-y: scroll;
 		overflow-x: hidden;
 		overflow: auto;
@@ -59,9 +58,10 @@
 	.inputform
 	{
 		position: absolute;
-		border: none;
+		top: 2px;
 		left: 2px;
-		padding: 2px;
+		padding: 2px, 2px;
+		border: none;
 	}
 
 	div.rcm
@@ -93,6 +93,7 @@
 
 	var initialized = false;
 	var initwidth = 0;
+	var initheight = 0;
 	var timeout = 0;
 	var lastseen = 0;
 
@@ -103,20 +104,24 @@
 		else
 			initwidth = self.innerWidth - 10;
 
-		if ( initwidth < 150 )
-			initwidth = 150;
-
 		document.getElementById( "ChatWindow" ).style.width = initwidth;
 		document.getElementById( "CmdWindow" ).style.width = initwidth;
 		document.getElementById( "InputForm" ).style.width = initwidth;
 		document.getElementById( "ToggleDisplay" ).style.width = initwidth;
 
-		document.getElementById( "ChatWindow" ).style.height = document.body.clientHeight -
-			document.getElementById( "InputForm" ).offsetHeight -
-			document.getElementById( "ToggleDisplay" ).offsetHeight - 20;
-		document.getElementById( "CmdWindow" ).style.height = document.body.clientHeight -
-			document.getElementById( "InputForm" ).offsetHeight -
-			document.getElementById( "ToggleDisplay" ).offsetHeight - 20;
+		if ( window.opera )
+		{
+			initheight = document.body.clientHeight - 6 -
+				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
+		}
+		else
+		{
+			initheight = document.body.clientHeight + 5 -
+				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
+		}
+
+		document.getElementById( "ChatWindow" ).style.height = initheight;
+		document.getElementById( "CmdWindow" ).style.height = initheight;
 
 		document.getElementById( "ChatWindow" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 6;
 		document.getElementById( "CmdWindow" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 6;
@@ -131,7 +136,7 @@
 			document.getElementById( "InputForm" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight +
 				document.getElementById( "CmdWindow" ).offsetHeight + 6;
 		}
-	};
+	}
 
 	var requests = new Array();
 	var commands = new Array();
@@ -530,21 +535,17 @@
 
  <body link=black alink=black vlink=black onLoad='switchToChat(); submitchat( "/channel" ); getChatUpdate(); setInterval( getCLIUpdate, 2000 );' onResize='initSizes();'>
 
-  <div id="ToggleDisplay" class=toggledisplay><center><center><nobr><a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
+  <div id="ToggleDisplay" class=toggledisplay><center><nobr><a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
   <a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag"> gCLI</a>
   </nobr></center></div>
 
   <div id="ChatWindow" class=chatdisplay></div>
   <div id="CmdWindow" class=cmddisplay></div>
 
-  <form name=inputform onSubmit='return false;'>
-   <div id="InputForm" class=inputform>
-    <center>
-     <input style="width: 70%;" maxlength=200 class=text type=text size=12 name=data onKeyUp='checkForKeyEvent( event );' autocomplete="off">
-     <input class=button type=button onClick="submitText();" value="submit">
-    </center>
-   </div>
-  </form>
+   <div id="InputForm" class=inputform><center><form name=inputform onSubmit='return false;'>
+     <input style="width: 70%" maxlength=200 class=text type=text size=12 name=data onKeyUp='checkForKeyEvent( event );' autocomplete="off">
+     <input class=button type=button onClick="submitEvent();" value="exec">
+   </form></center></div>
 
   <div id='menu' class='rcm'></div>
 
