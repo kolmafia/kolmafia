@@ -1485,12 +1485,20 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			startingIndex = text.indexOf( "onClick='eff", lastAppendIndex + 1 );
 			if ( startingIndex != -1 )
 			{
-				int nextAppendIndex = text.indexOf( "(", startingIndex + 14 ) + 1;
+				int nextAppendIndex = text.indexOf( "(", startingIndex ) + 1;
 				buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
 				lastAppendIndex = nextAppendIndex;
 
 				int effectID = StaticEntity.parseInt(
-					text.substring( startingIndex + 14, text.indexOf( "\"", startingIndex + 15 ) ) );
+					text.substring( nextAppendIndex, text.indexOf( ")", nextAppendIndex ) ) );
+
+				if ( KoLRequest.isCompactMode )
+					nextAppendIndex = text.indexOf( "<td>(", startingIndex ) + 5;
+				else
+					nextAppendIndex = text.indexOf( "(", text.indexOf( "<font size=2>", startingIndex ) ) + 1;
+
+				buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+				lastAppendIndex = nextAppendIndex;
 
 				String effectName = StatusEffectDatabase.getEffectName( effectID );
 
