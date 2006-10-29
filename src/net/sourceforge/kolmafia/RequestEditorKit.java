@@ -958,7 +958,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// more compact.
 
 		int endIndex = buffer.indexOf( "</form>" );
-		String suffix = buffer.toString().substring( endIndex );
+		String suffix = buffer.toString().substring( endIndex + 7 );
 		buffer.delete( buffer.indexOf( "<form" ), buffer.length() );
 
 		buffer.append( "<form action=valhalla.php method=post>" );
@@ -993,7 +993,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( "<select style=\"width: 250px\" name=whichpath><option value=0>No dietary restrictions</option><option value=1>Boozetafarian</option><option value=2>Teetotaler</option><option value=3>Oxygenarian</option></select></td></tr>" );
 
 		buffer.append( "<tr><td colspan=2>&nbsp;</td></tr><tr><td>&nbsp;</td><td>" );
-		buffer.append( "<input class=button type=submit value=\"Resurrect\"> <input type=checkbox name=confirm> (confirm)</td></tr></table></center>" );
+		buffer.append( "<input class=button type=submit value=\"Resurrect\"> <input type=checkbox name=confirm> (confirm)</td></tr></table></center></form>" );
 
 		// Finished with adding all the data in a more compact form.  Now, we
 		// go ahead and add in all the missing data that players might want to
