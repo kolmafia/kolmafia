@@ -649,7 +649,6 @@ public class AdventureResult implements Comparable, KoLConstants
 				case ItemCreationRequest.MIX:
 				case ItemCreationRequest.MIX_SPECIAL:
 				case ItemCreationRequest.STILL_BOOZE:
-				case ItemCreationRequest.STILL_MIXER:
 				case ItemCreationRequest.MIX_SUPER:
 					isVisibleWithFilter = booze;
 					break;
