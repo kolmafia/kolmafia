@@ -323,7 +323,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			this.formURLString.indexOf( "lchat.php" ) == -1;
 
 		this.shouldIgnoreResults = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "search" ) ||
-			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" );
+			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) ||
+			formURLString.startsWith( "doc" ) || formURLString.startsWith( "clan" );
 
 		return this;
 	}
