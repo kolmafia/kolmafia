@@ -902,8 +902,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.indexOf( "rats.php" ) != -1 )
 			addTavernSpoilers( buffer );
 
-		if ( location.indexOf( "ascend.php" ) != -1 )
-			addAscensionReminders( buffer );
+		if ( location.indexOf( "ascend.php" ) != -1 || location.indexOf( "valhalla.php?place=consultant" ) != -1 )
+			addAscensionReminders( location, buffer );
 
 		String defaultColor = StaticEntity.getProperty( "defaultBorderColor" );
 		if ( !defaultColor.equals( "blue" ) )
@@ -915,11 +915,142 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		StaticEntity.globalStringReplace( buffer, "images.kingdomofloathing.com", IMAGE_SERVER );
 	}
 
-	private static void addAscensionReminders( StringBuffer buffer )
+	private static void addAscensionReminders( String location, StringBuffer buffer )
 	{
-		StaticEntity.singleStringReplace( buffer,
-			"<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)",
-			"<table><tr><td align=left valign=center><input type=submit class=button value=\"Ascend\">&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=left><input type=checkbox name=confirm> I remembered to buy the skill I wanted.<br><input type=checkbox name=confirm2> I remembered to stock up for my next ascension.</td></tr></table>" );
+		if ( location.indexOf( "ascend.php" ) != -1 )
+		{
+			StaticEntity.singleStringReplace( buffer,
+				"<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)",
+				"<table><tr><td align=left valign=center><input type=submit class=button value=\"Ascend\">&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=left><input type=checkbox name=confirm> I remembered to buy the skill I wanted.<br><input type=checkbox name=confirm2> I remembered to stock up for my next ascension.</td></tr></table>" );
+			return;
+		}
+
+		// What we're going to do is kill the standard form and replace it with
+		// one that requires a lot less scrolling while still retaining all of
+		// the form fields.  But first, extract needed information from it.
+
+		ArrayList softSkills = new ArrayList();
+		ArrayList hardSkills = new ArrayList();
+
+		Matcher permedMatcher = Pattern.compile( "<b>Permanent Skills:</b>.*?</table>", Pattern.DOTALL ).matcher( buffer.toString() );
+		if ( permedMatcher.find() )
+		{
+			Matcher skillMatcher = Pattern.compile( "desc_skill.php\\?whichskill=(\\d+)[^>]+>[^<+]+</a>(.*?)</td>" ).matcher( permedMatcher.group() );
+
+			while ( skillMatcher.find() )
+			{
+				softSkills.add( skillMatcher.group(1) );
+				if ( skillMatcher.group(2).length() > 0 )
+					hardSkills.add( skillMatcher.group(1) );
+			}
+		}
+
+		ArrayList recentSkills = new ArrayList();
+		Matcher recentMatcher = Pattern.compile( "<b>Current Skills:</b>.*?</table>", Pattern.DOTALL ).matcher( buffer.toString() );
+		if ( recentMatcher.find() )
+		{
+			Matcher skillMatcher = Pattern.compile( "value=(\\d+)" ).matcher( recentMatcher.group() );
+			while ( skillMatcher.find() )
+				recentSkills.add( skillMatcher.group(1) );
+		}
+
+		// Now we begin replacing the standard Valhalla form with one that is much
+		// more compact.
+
+		int endIndex = buffer.indexOf( "</form>" );
+		String suffix = buffer.toString().substring( endIndex );
+		buffer.delete( buffer.indexOf( "<form" ), buffer.length() );
+
+		buffer.append( "<form action=valhalla.php method=post>" );
+		buffer.append( "<input type=hidden name=action value=\"resurrect\"><input type=hidden name=pwd value=\"\">" );
+
+		buffer.append( "<center><table><tr><td align=right><b>New Class:</b>&nbsp;</td><td>" );
+		buffer.append( "<select style=\"width: 250px\" name=whichclass><option value=0>- select a class -</option><option value=1>Seal Clubber</option><option value=2>Turtle Tamer</option><option value=3>Pastamancer</option><option value=4>Sauceror</option><option value=5>Disco Bandit</option><option value=6>Accordion Thief</option></select>" );
+		buffer.append( "</td></tr><tr><td align=right><b>Gender:</b>&nbsp;</td><td>" );
+		buffer.append( "<select style=\"width: 250px\" name=gender><option value=1>Male</option><option value=2>Female</option></select>" );
+		buffer.append( "</td></tr><tr><td align=right><b>Skill to Keep:</b>&nbsp;</td><td>" );
+
+		buffer.append( "<select style=\"width: 250px\" name=keepskill><option value=9999 selected>- select a skill -</option><option value=0>(no skill)</option>" );
+
+		int skillID;
+		for ( int i = 0; i < recentSkills.size(); ++i )
+		{
+			skillID = Integer.parseInt( (String) recentSkills.get(i) );
+			if ( skillID == 0 )
+				continue;
+
+			buffer.append( "<option value=" );
+			buffer.append( skillID );
+			buffer.append( ">" );
+			buffer.append( ClassSkillsDatabase.getSkillName( skillID ) );
+			buffer.append( "</option>" );
+		}
+
+		buffer.append( "</select></td></tr><tr><td align=right><b>Moon Sign:</b>&nbsp;</td><td>" );
+		buffer.append( "<select style=\"width: 250px\" name=whichsign><option value=0>- Muscle Signs -</option><option value=1>The Mongoose</option><option value=2>The Wallaby</option><option value=3>The Vole</option><option value=0>- Mysticality Signs -</option><option value=4>The Platypus</option><option value=5>The Opossum</option><option value=6>The Marmot</option><option value=0>- Moxie Signs -</option><option value=7>The Wombat</option><option value=8>The Blender</option><option value=9>The Packrat</option></select>" );
+		buffer.append( "</td></tr><tr><td align=right><b>Hardcore:</b>&nbsp;</td><td><input type=checkbox id=hardcore name=hardcore onClick=\"var softstyle = document.getElementById(\'softskills\').style; var hardstyle = document.getElementById(\'hardskills\').style; if ( document.getElementById('hardcore').checked ) { softstyle.display = 'none'; hardstyle.display = ''; } else { hardstyle.display = 'none'; softstyle.display = ''; } return true;\"></td></tr>" );
+		buffer.append( "<tr><td align=right><b>Restrictions:</b>&nbsp;</td><td>" );
+		buffer.append( "<select style=\"width: 250px\" name=whichpath><option value=0>No dietary restrictions</option><option value=1>Boozetafarian</option><option value=2>Teetotaler</option><option value=3>Oxygenarian</option></select></td></tr>" );
+
+		buffer.append( "<tr><td colspan=2>&nbsp;</td></tr><tr><td>&nbsp;</td><td>" );
+		buffer.append( "<input class=button type=submit value=\"Resurrect\"> <input type=checkbox name=confirm> (confirm)</td></tr></table></center>" );
+
+		// Finished with adding all the data in a more compact form.  Now, we
+		// go ahead and add in all the missing data that players might want to
+		// look at to see which class to go for next.
+
+		buffer.append( "<center><div id=\"softskills\"><h2>Unpermed Softcore Skills</h2>" );
+		createSkillTable( buffer, softSkills );
+		buffer.append( "</div><div id=\"hardskills\" style=\"display:none\"><h2>Unpermed Hardcore Skills</h2>" );
+		createSkillTable( buffer, hardSkills );
+		buffer.append( "</div></center>" );
+
+		buffer.append( suffix );
+	}
+
+	private static void createSkillTable( StringBuffer buffer, ArrayList skillList )
+	{
+		buffer.append( "<table width=\"80%\"><tr>" );
+		buffer.append( "<td valign=\"top\" bgcolor=\"#ffcccc\"><table><tr><th style=\"font-size: 120%; text-decoration: underline; text-align: left;\">Muscle Skills</th></tr><tr><td>" );
+		listPermanentSkills( buffer, skillList, 1000 );
+		listPermanentSkills( buffer, skillList, 2000 );
+		buffer.append( "</td></tr></table></td>" );
+		buffer.append( "<td valign=\"top\" bgcolor=\"#ccccff\"><table><tr><th style=\"font-size: 120%; text-decoration: underline; text-align: left;\">Mysticality Skills</th></tr><tr><td>" );
+		listPermanentSkills( buffer, skillList, 3000 );
+		listPermanentSkills( buffer, skillList, 4000 );
+		buffer.append( "</td></tr></table></td>" );
+		buffer.append( "<td valign=\"top\" bgcolor=\"#ccffcc\"><table><tr><th style=\"font-size: 120%; text-decoration: underline; text-align: left;\">Moxie Skills</th></tr><tr><td>" );
+		listPermanentSkills( buffer, skillList, 5000 );
+		listPermanentSkills( buffer, skillList, 6000 );
+		buffer.append( "</td></tr></table></td>" );
+		buffer.append( "</tr></table>" );
+	}
+
+	private static void listPermanentSkills( StringBuffer buffer, ArrayList skillList, int startingPoint )
+	{
+		String skillName;
+		for ( int i = 0; i < 100; ++i )
+		{
+			skillName = ClassSkillsDatabase.getSkillName( startingPoint + i );
+			if ( skillName == null )
+				continue;
+
+			buffer.append( "<nobr>" );
+			boolean alreadyPermed = skillList.contains( String.valueOf( startingPoint + i ) );
+			if ( alreadyPermed )
+				buffer.append( "<font color=darkgray><s>" );
+
+			buffer.append( "<a onClick='javascript:window.open(\"desc_skill.php?whichskill=" );
+			buffer.append( startingPoint + i );
+			buffer.append( "\",\"\",\"height=350,width=300\");'>" );
+			buffer.append( skillName );
+			buffer.append( "</a>" );
+
+			if ( alreadyPermed )
+				buffer.append( "</s></font>" );
+
+			buffer.append( "</nobr><br>" );
+		}
 	}
 
 	private static void addFightModifiers( StringBuffer buffer )
