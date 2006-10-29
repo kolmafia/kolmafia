@@ -421,7 +421,7 @@ public abstract class KoLCharacter extends StaticEntity
 			equipmentLists[i].add( EquipmentRequest.UNEQUIP );
 		}
 
-		updateEquipmentLists();
+		GearChangeFrame.clearWeaponLists();
 
 		// Clear some of the standard lists so they don't
 		// carry over from player to player.
