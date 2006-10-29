@@ -119,7 +119,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public void setButtons( String [] buttonLabels, ActionListener [] buttonListeners )
 	{
-		JPanel buttonPanel = new JPanel( new GridLayout( 0, 1, 5, 5 ) );
+		JPanel buttonPanel = new JPanel();
 		buttons = new JButton[ buttonLabels.length ];
 
 		for ( int i = 0; i < buttonLabels.length; ++i )
@@ -148,12 +148,8 @@ public class ItemManagePanel extends LabeledScrollPanel
 		JPanel northPanel = new JPanel( new BorderLayout() );
 		northPanel.add( moverPanel, BorderLayout.CENTER );
 		northPanel.add( optionPanel, BorderLayout.NORTH );
-
+		northPanel.add( buttonPanel, BorderLayout.SOUTH );
 		actualPanel.add( northPanel, BorderLayout.NORTH );
-
-		JPanel buttonContainer = new JPanel( new BorderLayout() );
-		buttonContainer.add( buttonPanel, BorderLayout.NORTH );
-		actualPanel.add( buttonContainer, BorderLayout.EAST );
 	}
 
 	public void setEnabled( boolean isEnabled )
