@@ -179,6 +179,15 @@ public class ConsumeItemRequest extends KoLRequest
 			addFormField( "quantity", String.valueOf( item.getCount() ) );
 			break;
 		case CONSUME_RESTORE:
+
+			int maximumSuggested = item.getCount();
+			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
+				if ( MPRestoreItemList.CONFIGURES[i].getItem().getItemID() == item.getItemID() )
+					maximumSuggested = (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP()) / MPRestoreItemList.CONFIGURES[i].getManaPerUse();
+
+			if ( item.getCount() > maximumSuggested )
+				item = item.getInstance( maximumSuggested );
+
 			addFormField( "action", "useitem" );
 			addFormField( "itemquantity", String.valueOf( item.getCount() ) );
 			break;

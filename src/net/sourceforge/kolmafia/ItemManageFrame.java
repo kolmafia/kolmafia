@@ -81,7 +81,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ItemManageFrame extends KoLFrame
 {
-	private ItemManagePanel bruteForcer, inventoryManager, closetManager, itemCreator, npcOfferings;
+	private ItemManagePanel bruteForcer, inventoryManager, itemConsumer, closetManager, itemCreator, npcOfferings;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -96,15 +96,17 @@ public class ItemManageFrame extends KoLFrame
 		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
 
 		bruteForcer = new InventPanel();
+		itemConsumer = new ConsumePanel();
 		itemCreator = new CreateItemPanel();
 		inventoryManager = new OutsideClosetPanel();
 		closetManager = new InsideClosetPanel();
 		npcOfferings = null;
 
+		tabs.addTab( "Item Usage", itemConsumer );
+		tabs.addTab( "Item Creation", itemCreator );
 //		tabs.addTab( "Find Recipe", bruteForcer );
 		tabs.addTab( "Inventory", inventoryManager );
-		tabs.addTab( "Closet", closetManager );
-		tabs.addTab( "Creatables", itemCreator );
+		tabs.addTab( "Colossal Closet", closetManager );
 
 		if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
 		{
@@ -129,6 +131,74 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		framePanel.add( tabs, BorderLayout.CENTER );
+	}
+
+	private class ConsumePanel extends ItemManagePanel
+	{
+		private JCheckBox [] filters;
+
+		public ConsumePanel()
+		{
+			super( "Usable Items", usables, false );
+
+			setButtons( new String [] { "use one", "use multiple", "refresh" },
+				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ),
+				new RequestButton( "Refresh Items", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
+
+			filters = new JCheckBox[3];
+			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
+			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
+			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
+
+			for ( int i = 0; i < filters.length; ++i )
+				optionPanel.add( filters[i] );
+
+			elementList.setCellRenderer(
+				AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+		}
+
+		protected AdventureResult [] getDesiredItems( String message )
+		{
+			filterSelection( filters[0].isSelected(),
+				 filters[1].isSelected(), filters[2].isSelected(), true, true );
+			return super.getDesiredItems( message );
+		}
+
+		private class ConsumeListener implements ActionListener
+		{
+			private boolean useMultiple;
+
+			public ConsumeListener( boolean useMultiple )
+			{	this.useMultiple = useMultiple;
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				Object [] items = getDesiredItems( "Consume" );
+				if ( items.length == 0 )
+					return;
+
+				int consumptionType, consumptionCount;
+				AdventureResult currentItem;
+
+				Runnable [] requests = new Runnable[ items.length ];
+
+				for ( int i = 0; i < items.length; ++i )
+				{
+					currentItem = (AdventureResult) items[i];
+
+					consumptionType = TradeableItemDatabase.getConsumptionType( currentItem.getName() );
+					consumptionCount = useMultiple ? getQuantity( "Using multiple " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
+
+					if ( consumptionCount == 0 )
+						return;
+
+					requests[i] = new ConsumeItemRequest( currentItem.getInstance( consumptionCount ) );
+				}
+
+				(new RequestThread( requests )).start();
+			}
+		}
 	}
 
 	private class SpecialPanel extends ItemManagePanel
@@ -386,9 +456,8 @@ public class ItemManageFrame extends KoLFrame
 		public OutsideClosetPanel()
 		{
 			super( "Inside Inventory", inventory );
-			setButtons( new String [] { "use item", "closet", "autosell", "put in mall", "pulverize", "display case", "clan stash", "refresh" },
+			setButtons( new String [] { "closet", "autosell", "put in mall", "pulverize", "display case", "clan stash", "refresh" },
 				new ActionListener [] {
-					new ConsumeListener( false, elementList ),
 					new PutInClosetListener( false, elementList ),
 					new AutoSellListener( false, AutoSellRequest.AUTOSELL, elementList ),
 					new AutoSellListener( false, AutoSellRequest.AUTOMALL, elementList ),
@@ -404,9 +473,8 @@ public class ItemManageFrame extends KoLFrame
 		public InsideClosetPanel()
 		{
 			super( "Inside Closet", closet );
-			setButtons( new String [] { "use item", "backpack", "autosell", "put in mall", "pulverize", "display case", "clan stash", "refresh" },
+			setButtons( new String [] { "take out", "autosell", "put in mall", "pulverize", "display case", "clan stash", "refresh" },
 				new ActionListener [] {
-					new ConsumeListener( false, elementList ),
 					new PutInClosetListener( true, elementList ),
 					new AutoSellListener( true, AutoSellRequest.AUTOSELL, elementList ),
 					new AutoSellListener( true, AutoSellRequest.AUTOMALL, elementList ),

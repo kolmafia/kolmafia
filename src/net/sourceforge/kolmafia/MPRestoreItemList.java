@@ -91,6 +91,19 @@ public abstract class MPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
+		public int getManaPerUse()
+		{
+			if ( this == MYSTERY_JUICE )
+			{
+				// The restore rate on magical mystery juice changes
+				// based on your current level.
+
+				this.mpPerUse = (int) (KoLCharacter.getLevel() * 1.5 + 4.0);
+			}
+
+			return mpPerUse;
+		}
+
 		public void recoverMP( int needed, boolean purchase )
 		{
 			if ( this == GALAKTIK )
