@@ -73,14 +73,14 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class GearChangeFrame extends KoLFrame
 {
-	private AdventureResult [] pieces = new AdventureResult[9];
-	private JButton outfitButton;
+	private static AdventureResult [] pieces = new AdventureResult[9];
+	private static JButton outfitButton;
 
-	private EquipPanel equip;
-	private ChangeComboBox [] equipment;
-	private SortedListModel weapons = new SortedListModel();
-	private SortedListModel offhands = new SortedListModel();
-	private ChangeComboBox outfitSelect, familiarSelect;
+	private static EquipPanel equip;
+	private static ChangeComboBox [] equipment;
+	private static SortedListModel weapons = new SortedListModel();
+	private static SortedListModel offhands = new SortedListModel();
+	private static ChangeComboBox outfitSelect, familiarSelect;
 
 	public GearChangeFrame()
 	{
@@ -204,6 +204,12 @@ public class GearChangeFrame extends KoLFrame
 
 			(new RequestThread( new EquipmentRequest( currentValue ) )).start();
 		}
+	}
+
+	public static void clearWeaponLists()
+	{
+		weapons.clear();
+		offhands.clear();
 	}
 
 	private class ChangeComboBox extends JComboBox
