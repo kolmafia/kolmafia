@@ -119,7 +119,7 @@ public class HagnkStorageFrame extends KoLFrame
 		}
 	}
 
-	private class HagnkStoragePanel extends MultiButtonPanel
+	private class HagnkStoragePanel extends ItemManagePanel
 	{
 		private boolean isEquipment;
 		private FilterCheckBox [] consumeFilters;

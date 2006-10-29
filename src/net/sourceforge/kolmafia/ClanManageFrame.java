@@ -326,7 +326,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private class StoragePanel extends MultiButtonPanel
+	private class StoragePanel extends ItemManagePanel
 	{
 		private JCheckBox [] filters;
 
@@ -391,7 +391,7 @@ public class ClanManageFrame extends KoLFrame
 	 * placing items into the stash.
 	 */
 
-	private class WithdrawPanel extends MultiButtonPanel
+	private class WithdrawPanel extends ItemManagePanel
 	{
 		private JCheckBox [] filters;
 

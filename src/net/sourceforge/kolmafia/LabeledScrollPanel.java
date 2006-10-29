@@ -56,6 +56,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public abstract class LabeledScrollPanel extends ActionPanel implements KoLConstants
 {
 	protected JPanel actualPanel;
+	protected JPanel centerPnael;
 	protected VerifyButtonPanel buttonPanel;
 	protected JComponent scrollComponent;
 
@@ -71,7 +72,7 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 	{
 		this.scrollComponent = scrollComponent;
 
-		JPanel centerPanel = new JPanel( new BorderLayout() );
+		centerPanel = new JPanel( new BorderLayout() );
 
 		if ( !title.equals( "" ) )
 			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
