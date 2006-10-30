@@ -533,7 +533,7 @@ public class AdventureResult implements Comparable, KoLConstants
 				return defaultComponent;
 
 			AdventureResult ar = (AdventureResult) value;
-			if ( !isVisibleWithFilter( ar, food, booze, other, notrade, nosell ) )
+			if ( !isVisibleWithFilter( ar, food, booze, other, nosell, notrade ) )
 				return BLANK_LABEL;
 
 			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.getItemID() );
