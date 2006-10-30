@@ -1496,19 +1496,19 @@
 1496	gloomy mushroom wine	2	90
 1497	oily mushroom wine	2	90
 1498	McPhee's Grimoire of Hilarious Object Summoning	3	-1
-1499	whoopie cushion	0	5
-1500	fake fake vomit	0	5
-1501	explosion-flavored chewing gum	0	5
-1502	clown hammer	12	5
-1503	rubber emo roe	0	5
-1504	yellow snowcone	3	5
-1505	magical ice cube with a fly in it	0	5
-1506	calle de miel with a fly in it	0	5
-1507	rockin' wagon with a fly in it	0	5
-1508	perpendicular hula with a fly in it	0	5
-1509	slap and tickle with a fly in it	0	5
-1510	bag of airline peanuts	0	5
-1511	fake hand	13	5
+1499	whoopie cushion	0	-5
+1500	fake fake vomit	0	-5
+1501	explosion-flavored chewing gum	0	-5
+1502	clown hammer	12	-5
+1503	rubber emo roe	0	-5
+1504	yellow snowcone	3	-5
+1505	magical ice cube with a fly in it	0	-5
+1506	calle de miel with a fly in it	0	-5
+1507	rockin' wagon with a fly in it	0	-5
+1508	perpendicular hula with a fly in it	0	-5
+1509	slap and tickle with a fly in it	0	-5
+1510	bag of airline peanuts	0	-5
+1511	fake hand	13	-5
 1512	Knob Goblin pet-buffing spray	4	125
 1513	Knob Goblin learning pill	4	150
 1514	Knob Goblin eyedrops	4	100
@@ -1521,9 +1521,9 @@
 1521	Frank Gorshin trophy	0	0
 1522	Radio Free Jersey	11	0
 1523	bottle of used blood	4	0
-1524	wind-up chattering teeth	5	5
-1525	joybuzzer	13	5
-1526	pet rock &quot;Snooty&quot; disguise	7	5
+1524	wind-up chattering teeth	5	-5
+1525	joybuzzer	13	-5
+1526	pet rock &quot;Snooty&quot; disguise	7	-5
 1527	diamond-studded fronts	7	75
 1528	portable corkscrew	12	50
 1529	St. Sneaky Pete's Day goodies basket	3	-1
@@ -1596,11 +1596,11 @@
 1596	sleazy hi mein	1	144
 1597	Junior LAAAAME merit badge	8	-1
 1598	Senior LAAAAME merit badge	8	-1
-1599	jazz soap	3	5
-1600	tangarita with a fly in it	0	130
-1601	mandarina colada with a fly in it	0	130
-1602	prussian cathouse with a fly in it	0	130
-1603	Mae West with a fly in it	0	130
+1599	jazz soap	3	-5
+1600	tangarita with a fly in it	0	-130
+1601	mandarina colada with a fly in it	0	-130
+1602	prussian cathouse with a fly in it	0	-130
+1603	Mae West with a fly in it	0	-130
 1604	astronaut ice-cream	3	0
 1605	delectable catalyst	4	500
 1606	ultimate wad	3	-1
@@ -1675,7 +1675,7 @@
 1675	cardboard ore	0	50
 1676	styrofoam ore	0	50
 1677	bubblewrap ore	0	50
-1678	pet rock &quot;Groucho&quot; disguise	7	5
+1678	pet rock &quot;Groucho&quot; disguise	7	-5
 1679	cardboard sword	12	65
 1680	cardboard staff	12	65
 1681	bubblewrap sword	12	65
@@ -1746,7 +1746,7 @@
 1746	Super Magic Power Sword X	12	105
 1747	soylent staff	12	105
 1748	goulauncher	12	105
-1749	defective skull	13	5
+1749	defective skull	13	-5
 1750	Gnollish pie server	12	25
 1751	Gnollish slotted spoon	12	30
 1752	Knob Goblin spatula	12	35
@@ -1963,7 +1963,7 @@
 1963	dance card	3	55
 1964	opera mask	9	37
 1965	bottle of Monsieur Bubble	4	50
-1966	the Amulet of Yendor	8	5
+1966	the Amulet of Yendor	8	-5
 1967	jitterbug larva	5	-1
 1968	bottle of perfume	7	75
 1969	spoon!	7	75
@@ -1971,28 +1971,28 @@
 1971	plastic pumpkin bucket	7	-1
 1972	silver shrimp fork	12	-1
 1973	half of a memo	3	0
-1974	stuffed cocoabo	13	10
-1975	stuffed baby gravy fairy	13	10
-1976	stuffed flaming gravy fairy	13	10
-1977	stuffed frozen gravy fairy	13	10
-1978	stuffed stinky gravy fairy	13	10
-1979	stuffed spooky gravy fairy	13	10
-1980	stuffed sleazy gravy fairy	13	10
-1981	stuffed astral badger	13	10
-1982	stuffed MagiMechTech MicroMechaMech	13	10
-1983	stuffed hand turkey	13	10
-1984	stuffed snowy owl	13	10
-1985	stuffed scary death orb	13	10
-1986	stuffed mind flayer	13	10
-1987	stuffed undead elbow macaroni	13	10
-1988	stuffed angry cow	13	10
-1989	stuffed Cheshire bitten	13	10
-1990	stuffed yo-yo	13	10
-1991	rubber WWJD? bracelet	8	5
-1992	rubber WWBD? bracelet	8	5
-1993	rubber WWSPD? bracelet	8	5
-1994	rubber WWtNSD? bracelet	8	5
-1995	heart necklace		10
+1974	stuffed cocoabo	13	-10
+1975	stuffed baby gravy fairy	13	-10
+1976	stuffed flaming gravy fairy	13	-10
+1977	stuffed frozen gravy fairy	13	-10
+1978	stuffed stinky gravy fairy	13	-10
+1979	stuffed spooky gravy fairy	13	-10
+1980	stuffed sleazy gravy fairy	13	-10
+1981	stuffed astral badger	13	-10
+1982	stuffed MagiMechTech MicroMechaMech	13	-10
+1983	stuffed hand turkey	13	-10
+1984	stuffed snowy owl	13	-10
+1985	stuffed scary death orb	13	-10
+1986	stuffed mind flayer	13	-10
+1987	stuffed undead elbow macaroni	13	-10
+1988	stuffed angry cow	13	-10
+1989	stuffed Cheshire bitten	13	-10
+1990	stuffed yo-yo	13	-10
+1991	rubber WWJD? bracelet	8	-5
+1992	rubber WWBD? bracelet	8	-5
+1993	rubber WWSPD? bracelet	8	-5
+1994	rubber WWtNSD? bracelet	8	-5
+1995	heart necklace		-10
 1996	right half of a heart necklace	8	0
 1997	left half of a heart necklace	8	0
 1998	pack of KWE trading card	3	50
@@ -2013,9 +2013,9 @@
 2013	Serenity trading card	3	50
 2014	Inndya trading card	3	50
 2015	Kitty the Zmobie Basher trading card	3	50
-2016	diamond necklace	8	10
-2017	spade necklace	8	10
-2018	club necklace	8	10
+2016	diamond necklace	8	-10
+2017	spade necklace	8	-10
+2018	club necklace	8	-10
 2019	cream pie	0	50
 2020	cherry pie	1	80
 2021	strawberry pie	1	45
@@ -2036,7 +2036,7 @@
 2036	radium-flavored potato chips	1	30
 2037	wintergreen-flavored potato chips	1	30
 2038	ennui-flavored potato chips	1	30
-2039	x-ray specs	8	0
+2039	x-ray specs	8	-5
 2040
 2041
 2042
