@@ -674,6 +674,17 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		KoLmafia.updateDisplay( "Verifying ingredients for " + name + "..." );
 
 		boolean foundAllIngredients = true;
+
+		// If this is a combining request, you will need to make
+		// paste as well.  Make an even multiple, if none is left.
+
+		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
+		{
+			int pasteNeeded = ConcoctionsDatabase.getMeatPasteRequired( itemID, quantityNeeded );
+			AdventureResult paste = new AdventureResult( MEAT_PASTE, pasteNeeded );
+			foundAllIngredients &= AdventureDatabase.retrieveItem( paste );
+		}
+
  		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 
 		for ( int i = 0; i < ingredients.length; ++i )
@@ -691,18 +702,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// to proceed with the concoction.
 
 			foundAllIngredients &= AdventureDatabase.retrieveItem( ingredients[i].getInstance( quantityNeeded * multiplier ) );
-		}
-
-		// If this is a combining request, you will need to make
-		// paste as well.  Make an even multiple, if none is left.
-
-		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
-		{
-			AdventureResult paste = new AdventureResult( MEAT_PASTE, (int) (Math.ceil( quantityNeeded / 5.0f ) * 5.0f) );
-			int pasteCount = paste.getCount( inventory );
-
-			if ( pasteCount < quantityNeeded )
-				foundAllIngredients &= AdventureDatabase.retrieveItem( paste );
 		}
 
 		return foundAllIngredients;
