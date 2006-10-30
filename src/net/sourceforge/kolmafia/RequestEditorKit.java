@@ -915,7 +915,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.indexOf( "rats.php" ) != -1 )
 			addTavernSpoilers( buffer );
 
-		if ( location.indexOf( "ascend.php" ) != -1 || location.indexOf( "valhalla.php?place=consultant" ) != -1 )
+		if ( location.indexOf( "ascend.php" ) != -1 || location.indexOf( "valhalla.php" ) != -1 )
 			addAscensionReminders( location, buffer );
 
 		String defaultColor = StaticEntity.getProperty( "defaultBorderColor" );
@@ -937,6 +937,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				"<table><tr><td align=left valign=center><input type=submit class=button value=\"Ascend\">&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=left><input type=checkbox name=confirm> I remembered to buy the skill I wanted.<br><input type=checkbox name=confirm2> I remembered to stock up for my next ascension.</td></tr></table>" );
 			return;
 		}
+
+		if ( buffer.indexOf( "<form" ) == -1 )
+			return;
 
 		// What we're going to do is kill the standard form and replace it with
 		// one that requires a lot less scrolling while still retaining all of

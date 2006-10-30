@@ -490,6 +490,9 @@ public class AdventureFrame extends KoLFrame
 
 			public void actionConfirmed()
 			{
+				if ( actionSelect.getSelectedItem() == null )
+					return;
+
 				KoLmafia.forceContinue();
 				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
 				MoodSettings.setMood( (String) moodSelect.getSelectedItem() );
