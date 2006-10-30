@@ -959,7 +959,7 @@ public class AdventureDatabase extends KoLDatabase
 			// Next, hermit item retrieval is possible when
 			// you have worthless items.  Use this method next.
 
-			if ( hermitItems.contains( item.getName() ) )
+			if ( hermitItems.contains( item ) )
 			{
 				int worthlessItemCount = HermitRequest.getWorthlessItemCount();
 				if ( worthlessItemCount > 0 )
