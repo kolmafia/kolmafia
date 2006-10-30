@@ -888,7 +888,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	public static boolean shouldIgnore( String formURLString )
 	{
 		return formURLString.indexOf( "search" ) != -1  || formURLString.indexOf( "chat" ) != -1 || formURLString.indexOf( "clan" ) != -1 ||
-			formURLString.indexOf( "snarfblat=101" ) != -1 || formURLString.indexOf( "adv=101" ) != -1;
+			formURLString.indexOf( "snarfblat=101" ) != -1 || formURLString.indexOf( "adv=101" ) != -1 || formURLString.indexOf( "flea" ) != -1;
 	}
 
 	/**
