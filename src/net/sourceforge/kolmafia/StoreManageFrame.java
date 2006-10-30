@@ -284,7 +284,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			}
 
 			public void mouseReleased( MouseEvent e )
-			{	(new RequestThread( this )).start();
+			{	(new Thread( this )).start();
 			}
 
 			public void run()
