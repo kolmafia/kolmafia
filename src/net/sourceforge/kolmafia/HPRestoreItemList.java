@@ -91,6 +91,10 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
+		public int getHealthPerUse()
+		{	return hpPerUse;
+		}
+
 		public void recoverHP( int needed, boolean purchase )
 		{
 			if ( this == GALAKTIK )

@@ -175,30 +175,57 @@ public class ConsumeItemRequest extends KoLRequest
 		switch ( consumptionType )
 		{
 		case CONSUME_MULTIPLE:
+
+			float hpRestored = 0.0f;
+
+			for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
+				if ( HPRestoreItemList.CONFIGURES[i].getItem().getItemID() == item.getItemID() )
+					hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
+
+			if ( hpRestored != 0.0f )
+			{
+				float belowMax = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
+				int maximumSuggested = (int) Math.ceil( belowMax / hpRestored );
+
+				if ( item.getCount() > maximumSuggested )
+					item = item.getInstance( maximumSuggested );
+			}
+
 			addFormField( "action", "useitem" );
 			addFormField( "quantity", String.valueOf( item.getCount() ) );
 			break;
+
 		case CONSUME_RESTORE:
 
-			int maximumSuggested = item.getCount();
+			float mpRestored = 0.0f;
+
 			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 				if ( MPRestoreItemList.CONFIGURES[i].getItem().getItemID() == item.getItemID() )
-					maximumSuggested = (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP()) / MPRestoreItemList.CONFIGURES[i].getManaPerUse();
+					mpRestored = (float) MPRestoreItemList.CONFIGURES[i].getManaPerUse();
 
-			if ( item.getCount() > maximumSuggested )
-				item = item.getInstance( maximumSuggested );
+			if ( mpRestored != 0.0f )
+			{
+				float belowMax = (float) (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
+				int maximumSuggested = (int) Math.ceil( belowMax / mpRestored );
+
+				if ( item.getCount() > maximumSuggested )
+					item = item.getInstance( maximumSuggested );
+			}
 
 			addFormField( "action", "useitem" );
 			addFormField( "itemquantity", String.valueOf( item.getCount() ) );
 			break;
+
 		case CONSUME_HOBO:
 			addFormField( "action", "hobo" );
 			addFormField( "which", "1" );
 			break;
+
 		case CONSUME_EAT:
 		case CONSUME_DRINK:
 			addFormField( "which", "1" );
 			break;
+
 		default:
 			addFormField( "which", "3" );
 			break;
