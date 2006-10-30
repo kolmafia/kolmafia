@@ -51,7 +51,7 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
-public class LocalRelayRequest extends KoLRequest
+public class LocalRelayRequest extends PasswordHashRequest
 {
 	private static final Pattern MENU1_PATTERN = Pattern.compile( "<select name=\"loc\".*?</select>", Pattern.DOTALL );
 	private static final Pattern MENU2_PATTERN = Pattern.compile( "<select name=location.*?</select>", Pattern.DOTALL );

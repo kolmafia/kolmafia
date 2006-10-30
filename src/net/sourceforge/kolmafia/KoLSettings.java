@@ -135,6 +135,9 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 	public Object setProperty( String name, String value )
 	{
+		if ( value == null )
+			return;
+
 		if ( !containsKey( name ) )
 		{
 			boolean isGlobalProperty = isGlobalProperty( name );
@@ -298,9 +301,14 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "logStatGains", "true" );
 		CLIENT_SETTINGS.put( "logStatusEffects", "false" );
 
+		CLIENT_SETTINGS.put( "proxySet", "false" );
+		CLIENT_SETTINGS.put( "http.proxyHost", "" );
+		CLIENT_SETTINGS.put( "http.proxyPort", "" );
+		CLIENT_SETTINGS.put( "http.proxyUser", "" );
+		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
+
 		CLIENT_SETTINGS.put( "previousNotifyList", "<>" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
-		CLIENT_SETTINGS.put( "proxySet", "false" );
 		CLIENT_SETTINGS.put( "relayAddsCustomCombat", "false" );
 		CLIENT_SETTINGS.put( "relayAddsGraphicalCLI", "true" );
 		CLIENT_SETTINGS.put( "relayAddsKoLSimulator", "true" );
