@@ -384,7 +384,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		PLAYER_SETTINGS.put( "choiceAdventure3", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure4", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure5", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure7", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure7", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure8", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure9", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure10", "1" );

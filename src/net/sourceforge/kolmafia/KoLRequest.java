@@ -1522,6 +1522,10 @@ public class KoLRequest implements Runnable, KoLConstants
 					if ( AdventureDatabase.WOODS_ITEMS[i].getCount( conditions ) > 0 )
 						decision = choice.equals( "26" ) ? String.valueOf( (i / 4) + 1 ) : String.valueOf( ((i % 4) / 2) + 1 );
 			}
+			if ( choice.equals( "7" ) )
+			{
+				decision = "1";
+			}
 
 			// If there is no setting which determines the
 			// decision, see if it's in the violet fog
