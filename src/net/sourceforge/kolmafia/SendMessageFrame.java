@@ -244,7 +244,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	private class SendMessageListener implements ActionListener, Runnable
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( this )).start();
+		{	(new Thread( this )).start();
 		}
 
 		public void run()
@@ -278,6 +278,8 @@ public abstract class SendMessageFrame extends KoLFrame
 				recipientEntry.setSelectedIndex( -1 );
 				dispose();
 			}
+
+			KoLmafia.enableDisplay();
 		}
 	}
 

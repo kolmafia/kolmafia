@@ -176,10 +176,11 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 		case CONSUME_MULTIPLE:
 
+System.out.println( "HP RESTORE" );
 			float hpRestored = 0.0f;
 
 			for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
-				if ( HPRestoreItemList.CONFIGURES[i].getItem().getItemID() == item.getItemID() )
+				if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemID() == item.getItemID() )
 					hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
 
 			if ( hpRestored != 0.0f )
@@ -197,10 +198,11 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case CONSUME_RESTORE:
 
+System.out.println( "MP RESTORE" );
 			float mpRestored = 0.0f;
 
 			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
-				if ( MPRestoreItemList.CONFIGURES[i].getItem().getItemID() == item.getItemID() )
+				if ( MPRestoreItemList.CONFIGURES[i].getItem() != null && MPRestoreItemList.CONFIGURES[i].getItem().getItemID() == item.getItemID() )
 					mpRestored = (float) MPRestoreItemList.CONFIGURES[i].getManaPerUse();
 
 			if ( mpRestored != 0.0f )
