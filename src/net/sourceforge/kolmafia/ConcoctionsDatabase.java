@@ -283,15 +283,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 	{	return concoctionsList;
 	}
 
-	/**
-	 * Returns the concoctions which are available given the list of
-	 * ingredients.  The list returned contains formal requests for
-	 * item creation.
-	 */
-
-	public static void refreshConcoctions()
+	private static ArrayList getAvailableIngredients()
 	{
-		List availableIngredients = new ArrayList();
+		ArrayList availableIngredients = new ArrayList();
 		availableIngredients.addAll( inventory );
 
 		if ( getBooleanProperty( "showClosetIngredients" ) )
@@ -311,6 +305,19 @@ public class ConcoctionsDatabase extends KoLDatabase
 			for ( int i = 0; i < items.length; ++i )
 				AdventureResult.addResultToList( availableIngredients, items[i] );
 		}
+
+		return availableIngredients;
+	}
+
+	/**
+	 * Returns the concoctions which are available given the list of
+	 * ingredients.  The list returned contains formal requests for
+	 * item creation.
+	 */
+
+	public static void refreshConcoctions()
+	{
+		ArrayList availableIngredients = getAvailableIngredients();
 
 		// First, zero out the quantities table.  Though this is not
 		// actually necessary, it's a good safety and doesn't use up
@@ -426,6 +433,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 				}
 			}
 		}
+	}
+
+	public static int getMeatPasteRequired( int itemID, int creationCount )
+	{
+		ArrayList availableIngredients = getAvailableIngredients();
+		concoctions.get(itemID).calculate( availableIngredients );
+
+		return concoctions.get(itemID).getMeatPasteNeeded( creationCount + concoctions.get(itemID).initial ) -
+			concoctions.get(itemID).initial + 1;
 	}
 
 	private static void calculateMeatCombines( List availableIngredients )
@@ -1018,7 +1034,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				stillsLimit.unmark();
 		}
 
-		private int getMeatPasteNeeded()
+		private int getMeatPasteNeeded( int quantityNeeded )
 		{
 			// Avoid mutual recursion.
 
@@ -1030,9 +1046,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			int runningTotal = 0;
 			for ( int i = 0; i < ingredientArray.length; ++i )
-				runningTotal += concoctions.get( ingredientArray[i].getItemID() ).getMeatPasteNeeded();
+				runningTotal += concoctions.get( ingredientArray[i].getItemID() ).getMeatPasteNeeded( quantityNeeded );
 
-			runningTotal += this.creatable;
+			runningTotal += Math.max( 0, quantityNeeded - this.initial );
 			return runningTotal;
 		}
 
