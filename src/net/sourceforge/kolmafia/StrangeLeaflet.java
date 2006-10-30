@@ -199,6 +199,9 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 		String extra = trophy ? " (trophy available)" : ( magic != null ) ? " (magic invoked)" : "";
 		KoLmafia.updateDisplay( "Strange leaflet completed" + extra + "." );
+
+		if ( magic != null )
+			KoLCharacter.updateStatus();
 	}
 
 	private static void initialize()
