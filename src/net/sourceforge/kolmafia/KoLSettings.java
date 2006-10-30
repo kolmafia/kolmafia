@@ -136,7 +136,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	public Object setProperty( String name, String value )
 	{
 		if ( value == null )
-			return;
+			return null;
 
 		if ( !containsKey( name ) )
 		{
