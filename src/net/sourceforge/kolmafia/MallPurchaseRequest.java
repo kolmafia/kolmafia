@@ -45,6 +45,7 @@ import java.util.regex.Matcher;
 public class MallPurchaseRequest extends KoLRequest implements Comparable
 {
 	private static final Pattern YIELD_PATTERN = Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
+	private static boolean usePriceComparison;
 
 	// In order to prevent overflows from happening, make
 	// it so that the maximum quantity is 10 million
@@ -338,19 +339,30 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			compareTo( (MallPurchaseRequest) o );
 	}
 
+	public static void setUsePriceComparison( boolean usePriceComparison )
+	{	MallPurchaseRequest.usePriceComparison = usePriceComparison;
+	}
+
 	public int compareTo( MallPurchaseRequest mpr )
 	{
+		if ( !usePriceComparison )
+		{
+			int nameComparison = itemName.compareToIgnoreCase( mpr.itemName );
+			if ( nameComparison != 0 )
+				return nameComparison;
+		}
+
 		if ( price != mpr.price )
 			return price - mpr.price;
-
-		if ( !isNPCStore && mpr.isNPCStore )
-			return -1;
 
 		if ( isNPCStore && !mpr.isNPCStore )
 			return 1;
 
+		if ( !isNPCStore && mpr.isNPCStore )
+			return -1;
+
 		if ( quantity != mpr.quantity )
-			return quantity - mpr.quantity;
+			return mpr.quantity - quantity;
 
 		return shopName.compareToIgnoreCase( mpr.shopName );
 	}
