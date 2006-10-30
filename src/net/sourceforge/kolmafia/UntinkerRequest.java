@@ -68,7 +68,10 @@ public class UntinkerRequest extends KoLRequest
 		// before starting.
 
 		if ( KoLCharacter.getLevel() < 4 || !completeQuest() )
+		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You cannot untinker items yet." );
+			return;
+		}
 
 		// Visiting the untinker automatically deducts a
 		// screwdriver from the inventory.
