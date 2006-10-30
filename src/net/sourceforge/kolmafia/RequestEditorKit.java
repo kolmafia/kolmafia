@@ -499,6 +499,19 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				outbytes.write(buffer, 0, offset);
 
 			in.close();
+
+			// If it's textual data, then go ahead and modify it so
+			// that all the variables point to KoLmafia.
+
+			if ( remote.endsWith( ".js" ) )
+			{
+				String text = outbytes.toString();
+				outbytes.reset();
+
+				text = StaticEntity.globalStringReplace( text, "location.hostname", "location.host" );
+				outbytes.write( text.getBytes() );
+			}
+
 			outbytes.writeTo( new FileOutputStream( local ) );
 		}
 		catch ( Exception e )

@@ -176,7 +176,6 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 		case CONSUME_MULTIPLE:
 
-System.out.println( "HP RESTORE" );
 			float hpRestored = 0.0f;
 
 			for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
@@ -198,7 +197,6 @@ System.out.println( "HP RESTORE" );
 
 		case CONSUME_RESTORE:
 
-System.out.println( "MP RESTORE" );
 			float mpRestored = 0.0f;
 
 			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )

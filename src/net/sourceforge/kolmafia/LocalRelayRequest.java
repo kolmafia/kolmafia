@@ -305,7 +305,7 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			StaticEntity.globalStringDelete( responseBuffer, "spacing: 0px;" );
 			StaticEntity.globalStringReplace( responseBuffer, "cycles++", "cycles = 0" );
-			StaticEntity.globalStringReplace( responseBuffer, "window.location.hostname", "window.location.host" );
+			StaticEntity.globalStringReplace( responseBuffer, "location.hostname", "location.host" );
 
 			// This is a hack to fix KoL chat, as it is handled
 			// in Opera.  No guarantees it works, though.
@@ -387,6 +387,10 @@ public class LocalRelayRequest extends KoLRequest
 				// no script bar isn't the end of the world.
 			}
 		}
+
+		// Load script files locally.
+
+		StaticEntity.globalStringReplace( responseBuffer, "http://69.16.150.201/scripts/", "/images/scripts/" );
 
 		try
 		{
