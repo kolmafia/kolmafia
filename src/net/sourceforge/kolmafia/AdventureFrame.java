@@ -525,6 +525,7 @@ public class AdventureFrame extends KoLFrame
 				// sure to process them.
 
 				String conditionList = conditionField.getText().trim().toLowerCase();
+				conditions.clear();
 
 				if ( conditionList.equalsIgnoreCase( "none" ) )
 					conditionList = "";
@@ -537,8 +538,6 @@ public class AdventureFrame extends KoLFrame
 
 				if ( conditionList.length() > 0 )
 				{
-					DEFAULT_SHELL.executeConditionsCommand( "clear" );
-
 					boolean verifyConditions = false;
 					boolean useDisjunction = false;
 					String [] splitConditions = conditionList.split( "\\s*,\\s*" );
@@ -636,8 +635,6 @@ public class AdventureFrame extends KoLFrame
 		{
 			public void valueChanged( ListSelectionEvent e )
 			{
-				conditions.clear();
-
 				if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
 					return;
 
