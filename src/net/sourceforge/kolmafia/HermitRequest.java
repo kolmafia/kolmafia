@@ -151,7 +151,18 @@ public class HermitRequest extends KoLRequest
 			Matcher matcher = AVAILABLE_PATTERN.matcher( responseText );
 
 			while ( matcher.find() )
-				hermitItems.add( KoLDatabase.getDisplayName( matcher.group(2) ) );
+				hermitItems.add( new AdventureResult( KoLDatabase.getDisplayName( matcher.group(2) ), 1, false ) );
+
+			int cloverIndex = hermitItems.indexOf( SewerRequest.POSITIVE_CLOVER );
+			if ( cloverIndex != -1 )
+			{
+				Matcher cloverMatcher = Pattern.compile( "(\\d+) left in stock for today" ).matcher( responseText );
+				if ( cloverMatcher.find() )
+					hermitItems.set( cloverIndex, SewerRequest.POSITIVE_CLOVER.getInstance( Integer.parseInt( cloverMatcher.group(1) ) ) );
+				else
+					hermitItems.remove( SewerRequest.POSITIVE_CLOVER );
+
+			}
 
 			return;
 		}
@@ -237,9 +248,9 @@ public class HermitRequest extends KoLRequest
 
 	public static final boolean isCloverDay()
 	{
-		if ( !hermitItems.contains( "ten-leaf clover" ) )
+		if ( !hermitItems.contains( SewerRequest.CLOVER ) )
 			(new HermitRequest()).run();
 
-		return hermitItems.contains( "ten-leaf clover" );
+		return hermitItems.contains( SewerRequest.CLOVER );
 	}
 }

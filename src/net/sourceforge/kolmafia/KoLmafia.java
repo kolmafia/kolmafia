@@ -155,17 +155,17 @@ public abstract class KoLmafia implements KoLConstants
 				useGUI = true;
 		}
 
-		hermitItems.add( "banjo strings" );
-		hermitItems.add( "catsup" );
-		hermitItems.add( "dingy planks" );
-		hermitItems.add( "fortune cookie" );
-		hermitItems.add( "golden twig" );
-		hermitItems.add( "hot buttered roll" );
-		hermitItems.add( "jaba\u00f1ero pepper" );
-		hermitItems.add( "ketchup" );
-		hermitItems.add( "sweet rims" );
-		hermitItems.add( "volleyball" );
-		hermitItems.add( "wooden figurine" );
+		hermitItems.add( new AdventureResult( "banjo strings", 1, false ) );
+		hermitItems.add( new AdventureResult( "catsup", 1, false ) );
+		hermitItems.add( new AdventureResult( "dingy planks", 1, false ) );
+		hermitItems.add( new AdventureResult( "fortune cookie", 1, false ) );
+		hermitItems.add( new AdventureResult( "golden twig", 1, false ) );
+		hermitItems.add( new AdventureResult( "hot buttered roll", 1, false ) );
+		hermitItems.add( new AdventureResult( "jaba\u00f1ero pepper", 1, false ) );
+		hermitItems.add( new AdventureResult( "ketchup", 1, false ) );
+		hermitItems.add( new AdventureResult( "sweet rims", 1, false ) );
+		hermitItems.add( new AdventureResult( "volleyball", 1, false ) );
+		hermitItems.add( new AdventureResult( "wooden figurine", 1, false ) );
 
 		// Change it so that it doesn't recognize daylight savings in order
 		// to ensure different localizations work.
@@ -1642,7 +1642,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void makeHermitRequest()
 	{
-		if ( !hermitItems.contains( "ten-leaf clover" ) )
+		if ( !hermitItems.contains( SewerRequest.CLOVER ) )
 			(new HermitRequest()).run();
 
 		if ( !permitsContinue() )
@@ -1656,9 +1656,24 @@ public abstract class KoLmafia implements KoLConstants
 		if ( selectedValue == null )
 			return;
 
-		int selected = TradeableItemDatabase.getItemID( (String)selectedValue );
-		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?", HermitRequest.getWorthlessItemCount() );
+		int selected = ((AdventureResult)selectedValue).getItemID();
 
+		String message = "(You have " + HermitRequest.getWorthlessItemCount() + " worthless items)";
+		int maximumValue = HermitRequest.getWorthlessItemCount();
+
+		if ( selected == SewerRequest.CLOVER.getItemID() )
+		{
+			int cloverCount = ((AdventureResult)selectedValue).getCount();
+
+			if ( cloverCount <= maximumValue )
+			{
+				message = "(There are " + cloverCount + " clovers still available)";
+				maximumValue = cloverCount;
+			}
+		}
+
+
+		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?\n" + message, maximumValue, 1 );
 		if ( tradeCount == 0 )
 			return;
 
