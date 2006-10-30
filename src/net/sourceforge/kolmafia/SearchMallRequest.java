@@ -63,7 +63,6 @@ public class SearchMallRequest extends KoLRequest
 
 	private List results;
 	private boolean retainAll;
-	private boolean sortAfter;
 	private String searchString;
 
 	/**
@@ -80,7 +79,6 @@ public class SearchMallRequest extends KoLRequest
 
 		this.results = new ArrayList();
 		this.retainAll = true;
-		this.sortAfter = false;
 	}
 
 	/**
@@ -96,7 +94,7 @@ public class SearchMallRequest extends KoLRequest
 	 */
 
 	public SearchMallRequest( String searchString, int cheapestCount, List results )
-	{	this( searchString, cheapestCount, results, false, true );
+	{	this( searchString, cheapestCount, results, false );
 	}
 
 	/**
@@ -112,23 +110,6 @@ public class SearchMallRequest extends KoLRequest
 	 */
 
 	public SearchMallRequest( String searchString, int cheapestCount, List results, boolean retainAll )
-	{	this( searchString, cheapestCount, results, retainAll, false );
-	}
-
-	/**
-	 * Constructs a new <code>SearchMallRequest</code> which searches for
-	 * the given item, storing the results in the given <code>ListModel</code>.
-	 * Note that the search string is exactly the same as the way KoL does
-	 * it at the current time.
-	 *
-	 * @param	client	Theto be notified in case of error
-	 * @param	searchString	The string (including wildcards) for the item to be found
-	 * @param	cheapestCount	The number of stores to show; use a non-positive number to show all
-	 * @param	results	The sorted list in which to store the results
-	 * @param	sortAfter	Whether the results should be resorted by price afterwards
-	 */
-
-	public SearchMallRequest( String searchString, int cheapestCount, List results, boolean retainAll, boolean sortAfter )
 	{
 		super( searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
 
@@ -143,7 +124,6 @@ public class SearchMallRequest extends KoLRequest
 
 		this.results = results;
 		this.retainAll = retainAll;
-		this.sortAfter = sortAfter;
 	}
 
 	public static String getItemName( String searchString )
@@ -363,14 +343,6 @@ public class SearchMallRequest extends KoLRequest
 
 		for ( int i = 0; i < itemNames.size(); ++i )
 			addNPCStoreItem( (String) itemNames.get(i) );
-
-		if ( this.sortAfter )
-		{
-			if ( results instanceof LockableListModel )
-				((LockableListModel)results).sort();
-			else
-				Collections.sort( results );
-		}
 	}
 
 	protected void processResults()
