@@ -272,7 +272,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "breakfastHardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "browserBookmarks", "" );
 		CLIENT_SETTINGS.put( "chatStyle", "0" );
-		CLIENT_SETTINGS.put( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
 		CLIENT_SETTINGS.put( "cloverProtectActive", "false" );
 		CLIENT_SETTINGS.put( "commandLineNamespace", "" );
 		CLIENT_SETTINGS.put( "createWithoutBoxServants", "false" );

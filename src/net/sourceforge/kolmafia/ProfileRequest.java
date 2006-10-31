@@ -50,6 +50,7 @@ public class ProfileRequest extends KoLRequest
 	private String playerName;
 	private String playerID;
 	private Integer playerLevel;
+	private boolean isHardcore;
 	private String restriction;
 	private Integer currentMeat;
 	private Integer turnsPlayed, currentRun;
@@ -99,6 +100,8 @@ public class ProfileRequest extends KoLRequest
 		// Nothing to refresh if no text
 		if  ( responseText.length() == 0 )
 			return;
+
+		isHardcore = responseText.indexOf( "<b>(Hardcore)</b></td>" ) != -1;
 
 		// This is a massive replace which makes the profile easier to
 		// parse and re-represent inside of editor panes.
@@ -339,6 +342,12 @@ public class ProfileRequest extends KoLRequest
 	{
 		if ( responseText == null )
 			this.run();
+	}
+
+	public boolean isHardcore()
+	{
+		initialize();
+		return isHardcore;
 	}
 
 	public String getRestriction()
