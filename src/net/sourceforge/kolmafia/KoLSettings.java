@@ -130,7 +130,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		}
 
 		String value = super.getProperty( name );
-		return value == null ? "" : value;
+		return value == null ? "" : RequestEditorKit.getUnicode( value );
 	}
 
 	public Object setProperty( String name, String value )
@@ -152,6 +152,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		// set property and return the old value.
 
 		String oldValue = getProperty( name );
+		value = RequestEditorKit.getEntities( value );
 
 		if ( oldValue != null && oldValue.equals( value ) )
 			return oldValue;
