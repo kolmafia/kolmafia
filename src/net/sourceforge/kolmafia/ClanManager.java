@@ -381,7 +381,7 @@ public class ClanManager extends StaticEntity
 			{
 				ascension.getParentFile().mkdirs();
 				PrintStream ostream = new LogStream( ascension );
-				ostream.println( request.responseText );
+				ostream.println( data );
 				ostream.close();
 			}
 			catch ( Exception e )
