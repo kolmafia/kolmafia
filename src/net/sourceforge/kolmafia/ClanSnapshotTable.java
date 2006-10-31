@@ -225,6 +225,9 @@ public class ClanSnapshotTable extends KoLDatabase
 		if ( request.responseText == null )
 			request.run();
 
+		String [] members = new String[ profileMap.keySet().size() ];
+		profileMap.keySet().toArray( members );
+
 		StringBuffer strbuf = new StringBuffer();
 
 		strbuf.append( "<html><head>" );
@@ -232,6 +235,9 @@ public class ClanSnapshotTable extends KoLDatabase
 
 		strbuf.append( "<title>Clan Snapshot for " );
 		strbuf.append( ClanManager.getClanName() );
+
+		strbuf.append( ", Clan #" );
+		strbuf.append( ClanManager.getClanID() );
 		strbuf.append( " (" );
 		strbuf.append( new Date() );
 		strbuf.append( ")</title>" );
@@ -240,51 +246,166 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( "<script language=\"Javascript\" src=\"sorttable.js\"></script>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<style> body, td { font-family: sans-serif; } </style></head><body>" );
+		strbuf.append( "<style> body, td { font-family: sans-serif; } </style></head>" );
+		strbuf.append( LINE_BREAK );
+		strbuf.append( "<body>" );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<center><h2>" );
+		strbuf.append( "<h2>" );
 		strbuf.append( ClanManager.getClanName() );
-		strbuf.append( " (#" );
-		strbuf.append( ClanManager.getClanID() );
-		strbuf.append( ")</h2></center>" );
+		strbuf.append( "</h2>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( getStandardSummary() );
-		strbuf.append( LINE_BREAK );
+		ArrayList rankList = new ArrayList();
 
-		strbuf.append( "<br><br><table class=\"sortable\" id=\"details\" border=1 cellspacing=4 cellpadding=4>" );
+		ProfileRequest memberLookup;
+		for ( int i = 0; i < members.length; ++i )
+		{
+			memberLookup = getProfile( members[i] );
+			rankList.add( memberLookup.getRank() );
+		}
+
+		Collections.sort( rankList );
+		strbuf.append( getBreakdown( rankList ) );
+
+		strbuf.append( "<center><br><br><table class=\"sortable\" id=\"details\" border=0 cellspacing=0 cellpadding=10>" );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "<tr style=\"font-weight: bold\"><td>Name</td>" );
 
-		strbuf.append( getRosterHeader() );
+		strbuf.append( getOverviewHeader() );
 		strbuf.append( LINE_BREAK );
-
-		String [] members = new String[ profileMap.keySet().size() ];
-		profileMap.keySet().toArray( members );
 
 		for ( int i = 0; i < members.length; ++i )
 		{
-			strbuf.append( getMemberDetail( members[i], localProfileLink ) );
+			strbuf.append( getOverviewDetail( members[i], localProfileLink ) );
 			strbuf.append( LINE_BREAK );
 		}
 
-		strbuf.append( "</table></body></html>" );
+		strbuf.append( "</table>" );
+
+		strbuf.append( "<br><br><hr width=80%><br><br>" );
+
+		strbuf.append( getStatsSummary( members ) );
+		strbuf.append( LINE_BREAK );
+
+		strbuf.append( "<br><br><table class=\"sortable\" id=\"details\" border=0 cellspacing=0 cellpadding=10>" );
+		strbuf.append( LINE_BREAK );
+		strbuf.append( "<tr style=\"font-weight: bold\"><td>Name</td>" );
+
+		strbuf.append( getStatsHeader() );
+		strbuf.append( LINE_BREAK );
+
+		for ( int i = 0; i < members.length; ++i )
+		{
+			strbuf.append( getStatsDetail( members[i], localProfileLink ) );
+			strbuf.append( LINE_BREAK );
+		}
+
+		strbuf.append( "</table>" );
+
+		strbuf.append( "<br><br><hr width=80%><br><br>" );
+
+		strbuf.append( getSocialSummary( members ) );
+		strbuf.append( LINE_BREAK );
+
+		strbuf.append( "<br><br><table class=\"sortable\" id=\"details\" border=0 cellspacing=0 cellpadding=10>" );
+		strbuf.append( LINE_BREAK );
+		strbuf.append( "<tr style=\"font-weight: bold\"><td>Name</td>" );
+
+		strbuf.append( getSocialHeader() );
+		strbuf.append( LINE_BREAK );
+
+		for ( int i = 0; i < members.length; ++i )
+		{
+			strbuf.append( getSocialDetail( members[i], localProfileLink ) );
+			strbuf.append( LINE_BREAK );
+		}
+
+		strbuf.append( "</table>" );
+
+		strbuf.append( "</center></body></html>" );
 		strbuf.append( LINE_BREAK );
 
 		return strbuf.toString();
 	}
 
-	private static String getStandardSummary()
+	private static String getOverviewDetail( String memberName, boolean localProfileLink )
+	{
+		ProfileRequest memberLookup = getProfile( memberName );
+		StringBuffer strbuf = new StringBuffer();
+
+		// No matter what happens, you need to make sure
+		// to print the player's name first.
+
+		strbuf.append( "<tr><td>" );
+
+		if ( localProfileLink )
+		{
+			strbuf.append( "<a href=\"profiles/" );
+			strbuf.append( ClanManager.getURLName( memberName ) );
+			strbuf.append( "\">" );
+		}
+
+		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerID( memberName ) ) );
+
+		if ( localProfileLink )
+			strbuf.append( "</a>" );
+
+		strbuf.append( "</td><td align=center>" );
+		strbuf.append( memberLookup.isHardcore() ? "HC" : "SC" );
+
+		String restriction = memberLookup.getRestriction();
+
+		if ( restriction == null )
+			strbuf.append( "Astral" );
+		else if ( restriction.startsWith( "Boo" ) )
+			strbuf.append( "B" );
+		else if ( restriction.startsWith( "Tee" ) )
+			strbuf.append( "T" );
+		else if ( restriction.startsWith( "Oxy" ) )
+			strbuf.append( "O" );
+		else
+			strbuf.append( "NP" );
+
+		strbuf.append( "</td><td align=center>" );
+		strbuf.append( memberLookup.getClassType() );
+
+		strbuf.append( "</td><td align=center>" );
+		strbuf.append( memberLookup.getPlayerLevel() );
+
+		strbuf.append( "</td><td align=center>" );
+		strbuf.append( COMMA_FORMAT.format( memberLookup.getCurrentRun() == null ? 0 : memberLookup.getCurrentRun().intValue() ) );
+
+		AscensionDataRequest request = AscensionDataRequest.getInstance( memberName, KoLmafia.getPlayerID( memberName ),
+			(String) AscensionSnapshotTable.getAscensionMap().get( memberName ) );
+
+		List ascensions = request.getAscensionData();
+
+		strbuf.append( "</td><td align=center>" );
+		if ( ascensions.isEmpty() )
+			strbuf.append( memberLookup.getCreationAsString() );
+		else
+			strbuf.append( ((AscensionDataRequest.AscensionDataField)ascensions.get( ascensions.size() - 1 )).getDateAsString() );
+
+		strbuf.append( "</td><td align=center>" );
+		strbuf.append( memberLookup.getLastLoginAsString() );
+
+		strbuf.append( "</td></tr>" );
+		return strbuf.toString();
+	}
+
+	private static String getOverviewHeader()
+	{
+		return "<td>Path</td><td align=center>Class</td><td align=center>Lvl</td>" +
+			"<td align=center>Turns</td><td align=center>Ascended</td><td align=center>Logged In</td>";
+	}
+
+	private static String getStatsSummary( String [] members )
 	{
 		StringBuffer strbuf = new StringBuffer();
 
 		ArrayList classList = new ArrayList();
-		ArrayList foodList = new ArrayList();
-		ArrayList drinkList = new ArrayList();
-
-		ArrayList rankList = new ArrayList();
 		ArrayList powerList = new ArrayList();
 		ArrayList karmaList = new ArrayList();
 
@@ -300,21 +421,16 @@ public class ClanSnapshotTable extends KoLDatabase
 		// and populate the lists.
 
 		ProfileRequest memberLookup;
-		String [] members = new String[ profileMap.keySet().size() ];
-		profileMap.keySet().toArray( members );
 
 		for ( int i = 0; i < members.length; ++i )
 		{
 			memberLookup = getProfile( members[i] );
 
 			classList.add( memberLookup.getClassType() );
-			foodList.add( memberLookup.getFood() );
-			drinkList.add( memberLookup.getDrink() );
 			meatList.add( memberLookup.getCurrentMeat() );
-			turnsList.add( memberLookup.getCurrentRun() );
+			turnsList.add( memberLookup.getTurnsPlayed() );
 			pvpList.add( memberLookup.getPvpRank() );
 
-			rankList.add( memberLookup.getRank() );
 			musList.add( memberLookup.getMuscle() );
 			mysList.add( memberLookup.getMysticism() );
 			moxList.add( memberLookup.getMoxie() );
@@ -323,15 +439,12 @@ public class ClanSnapshotTable extends KoLDatabase
 		}
 
 		Collections.sort( classList );
-		Collections.sort( foodList );
-		Collections.sort( drinkList );
-		Collections.sort( rankList );
 
 		strbuf.append( "<table border=0 cellspacing=10 cellpadding=10><tr>" );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "<td valign=top>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( "<b>Averages</b>:<ul>" );
+		strbuf.append( "<center><b>Averages</b></center><ul>" );
 		strbuf.append( LINE_BREAK );
 
 		strbuf.append( "<li><nobr>PVP Rank: " + COMMA_FORMAT.format( calculateAverage( pvpList ) ) + "</nobr></li>" );
@@ -352,9 +465,11 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( "<li><nobr>Turns: " + COMMA_FORMAT.format( calculateAverage( turnsList ) ) + "</nobr></li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "</ul>" );
+		strbuf.append( "</ul></td>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( "<b>Totals</b>:<ul>" );
+		strbuf.append( "<td valign=top>" );
+		strbuf.append( LINE_BREAK );
+		strbuf.append( "<center><b>Totals</b></center><ul>" );
 		strbuf.append( LINE_BREAK );
 
 		strbuf.append( "<li><nobr>PVP Rank: " + COMMA_FORMAT.format( calculateTotal( pvpList ) ) + "</nobr></li>" );
@@ -378,22 +493,9 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( "</ul></td>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<td valign=top><b>Class Breakdown</b>:" );
+		strbuf.append( "<td valign=top><center><b>Class Breakdown</b></center>" );
 		strbuf.append( getBreakdown( classList ) );
-
 		strbuf.append( LINE_BREAK );
-
-		strbuf.append( "<br><b>Rank Breakdown</b>:" );
-		strbuf.append( getBreakdown( rankList ) );
-		strbuf.append( "</td>" );
-
-		strbuf.append( "<td valign=top><b>Food Breakdown</b>:" );
-		strbuf.append( getBreakdown( foodList ) );
-		strbuf.append( "</td>" );
-
-		strbuf.append( "<td valign=top><b>Drink Breakdown</b>:" );
-		strbuf.append( getBreakdown( drinkList ) );
-		strbuf.append( "</td>" );
 
 		strbuf.append( "</tr></table>" );
 		strbuf.append( LINE_BREAK );
@@ -401,7 +503,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	private static String getMemberDetail( String memberName, boolean localProfileLink )
+	private static String getStatsDetail( String memberName, boolean localProfileLink )
 	{
 		ProfileRequest memberLookup = getProfile( memberName );
 		StringBuffer strbuf = new StringBuffer();
@@ -423,8 +525,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		if ( localProfileLink )
 			strbuf.append( "</a>" );
 
-
-		strbuf.append( "</td><td>" );
+		strbuf.append( "</td><td align=center>" );
 		strbuf.append( memberLookup.isHardcore() ? "HC" : "SC" );
 
 		String restriction = memberLookup.getRestriction();
@@ -440,53 +541,114 @@ public class ClanSnapshotTable extends KoLDatabase
 		else
 			strbuf.append( "NP" );
 
-		strbuf.append( "</td><td>" );
+		strbuf.append( "</td><td align=center>" );
 		strbuf.append( memberLookup.getClassType() );
 
-		strbuf.append( "</td><td>" );
+		strbuf.append( "</td><td align=center>" );
 		strbuf.append( memberLookup.getPlayerLevel() );
 
-		strbuf.append( "</td><td>" );
-		strbuf.append( COMMA_FORMAT.format( memberLookup.getMuscle() == null ? 0 : memberLookup.getMuscle().intValue() ) );
+		strbuf.append( "</td><td align=center>" );
+		strbuf.append( memberLookup.getPvpRank() == null ? "&nbsp;" : COMMA_FORMAT.format( memberLookup.getPvpRank().intValue() ) );
 
-		strbuf.append( "</td><td>" );
-		strbuf.append( COMMA_FORMAT.format( memberLookup.getMysticism() == null ? 0 : memberLookup.getMysticism().intValue() ) );
+		strbuf.append( "</td><td align=center>" );
+		strbuf.append( memberLookup.getMuscle() == null ? "0" : COMMA_FORMAT.format( memberLookup.getMuscle().intValue() ) );
 
-		strbuf.append( "</td><td>" );
-		strbuf.append( COMMA_FORMAT.format( memberLookup.getMoxie() == null ? 0 : memberLookup.getMoxie().intValue() ) );
+		strbuf.append( "</td><td align=center>" );
+		strbuf.append( memberLookup.getMysticism() == null ? "0" : COMMA_FORMAT.format( memberLookup.getMysticism().intValue() ) );
 
-		strbuf.append( "</td><td>" );
-		int rank = memberLookup.getPvpRank().intValue();
-		strbuf.append( rank == 0 ? "&nbsp;" : COMMA_FORMAT.format( rank ) );
+		strbuf.append( "</td><td align=center>" );
+		strbuf.append( memberLookup.getMoxie() == null ? "0" : COMMA_FORMAT.format( memberLookup.getMoxie().intValue() ) );
 
-		strbuf.append( "</td><td>" );
-		strbuf.append( memberLookup.getCreationAsString() );
+		strbuf.append( "</td><td align=center>" );
+		strbuf.append( memberLookup.getTurnsPlayed() == null ? "0" : COMMA_FORMAT.format( memberLookup.getTurnsPlayed().intValue() ) );
 
-		strbuf.append( "</td><td>" );
+		strbuf.append( "</td><td align=center>" );
 		strbuf.append( COMMA_FORMAT.format( memberLookup.getAscensionCount() == null ? 0 : memberLookup.getAscensionCount().intValue() ) );
-
-		AscensionDataRequest request = AscensionDataRequest.getInstance( memberName, KoLmafia.getPlayerID( memberName ),
-			(String) AscensionSnapshotTable.getAscensionMap().get( memberName ) );
-
-		List ascensions = request.getAscensionData();
-
-		strbuf.append( "</td><td>" );
-		if ( ascensions.isEmpty() )
-			strbuf.append( memberLookup.getCreationAsString() );
-		else
-			strbuf.append( ((AscensionDataRequest.AscensionDataField)ascensions.get( ascensions.size() - 1 )).getDateAsString() );
-
-		strbuf.append( "</td><td>" );
-		strbuf.append( memberLookup.getLastLoginAsString() );
 
 		strbuf.append( "</td></tr>" );
 		return strbuf.toString();
 	}
 
-	public static String getRosterHeader()
+	private static String getStatsHeader()
 	{
-		return "<td>Path</td><td>Class</td><td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td>" +
-			"<td>PVP</td><td>Created</td><td>Count</td><td>Ascended</td><td>Login</td>";
+		return "<td align=center>Path</td><td align=center>Class</td><td align=center>Lv</td><td>PvP</td><td align=center>Mus</td><td align=center>Mys</td><td align=center>Mox</td><td align=center>Total Turns</td><td align=center>Asc</td>";
+	}
+
+	private static String getSocialSummary( String [] members )
+	{
+		StringBuffer strbuf = new StringBuffer();
+
+		ArrayList foodList = new ArrayList();
+		ArrayList drinkList = new ArrayList();
+
+		ProfileRequest memberLookup;
+
+		for ( int i = 0; i < members.length; ++i )
+		{
+			memberLookup = getProfile( members[i] );
+
+			foodList.add( memberLookup.getFood() );
+			drinkList.add( memberLookup.getDrink() );
+		}
+
+		Collections.sort( foodList );
+		Collections.sort( drinkList );
+
+		strbuf.append( "<table border=0 cellspacing=10 cellpadding=10><tr>" );
+		strbuf.append( LINE_BREAK );
+
+		strbuf.append( "<td valign=top><center><b>Food Breakdown</b></center>" );
+		strbuf.append( getBreakdown( foodList ) );
+		strbuf.append( "</td>" );
+
+		strbuf.append( "<td valign=top><center><b>Drink Breakdown</b></center>" );
+		strbuf.append( getBreakdown( drinkList ) );
+		strbuf.append( "</td></tr></table>" );
+
+		return strbuf.toString();
+	}
+
+	private static String getSocialDetail( String memberName, boolean localProfileLink )
+	{
+		ProfileRequest memberLookup = getProfile( memberName );
+		StringBuffer strbuf = new StringBuffer();
+
+		// No matter what happens, you need to make sure
+		// to print the player's name first.
+
+		strbuf.append( "<tr><td>" );
+
+		if ( localProfileLink )
+		{
+			strbuf.append( "<a href=\"profiles/" );
+			strbuf.append( ClanManager.getURLName( memberName ) );
+			strbuf.append( "\">" );
+		}
+
+		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerID( memberName ) ) );
+
+		if ( localProfileLink )
+			strbuf.append( "</a>" );
+
+		strbuf.append( "</td><td>" );
+		strbuf.append( memberLookup.getRank() );
+
+		strbuf.append( "</td><td>" );
+		strbuf.append( memberLookup.getFood() );
+
+		strbuf.append( "</td><td>" );
+		strbuf.append( memberLookup.getDrink() );
+
+		strbuf.append( "</td><td align=center>" );
+		strbuf.append( memberLookup.getCreationAsString() );
+
+		strbuf.append( "</td></tr>" );
+		return strbuf.toString();
+	}
+
+	private static String getSocialHeader()
+	{
+		return "<td align=center>Rank</td><td align=center>Favorite Food</td><td align=center>Favorite Drink</td><td align=center>Created</td>";
 	}
 
 	private static class DetailRosterRequest extends KoLRequest
