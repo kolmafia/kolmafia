@@ -648,7 +648,7 @@ public class ClanSnapshotTable extends KoLDatabase
 
 	private static String getSocialHeader()
 	{
-		return "<td align=center>Rank</td><td align=center>Favorite Food</td><td align=center>Favorite Drink</td><td align=center>Created</td>";
+		return "<td>Rank</td><td>Favorite Food</td><td>Favorite Drink</td><td>Created</td>";
 	}
 
 	private static class DetailRosterRequest extends KoLRequest
