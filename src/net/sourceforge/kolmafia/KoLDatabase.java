@@ -251,7 +251,7 @@ public class KoLDatabase extends StaticEntity
 			if ( itemArray[ i - 1 ] == null )
 				continue;
 
-			if ( !itemArray[ i - 1 ].equals( itemArray[i] ) )
+			if ( itemArray[i] != null && !itemArray[ i - 1 ].equals( itemArray[i] ) )
 			{
 				itemList.add( new ItemCounter( itemArray[ i - 1 ].toString(), currentCount ) );
 				currentCount = 0;
