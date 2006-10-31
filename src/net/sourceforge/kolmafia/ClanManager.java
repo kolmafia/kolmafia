@@ -256,6 +256,10 @@ public class ClanManager extends StaticEntity
 		return true;
 	}
 
+	public static String getURLName( String name )
+	{	return KoLCharacter.baseUserName( name ) + "_(%23" + KoLmafia.getPlayerID( name ) + ")" + ".htm";
+	}
+
 	public static String getFileName( String name )
 	{	return KoLCharacter.baseUserName( name ) + "_(#" + KoLmafia.getPlayerID( name ) + ")" + ".htm";
 	}
@@ -303,7 +307,7 @@ public class ClanManager extends StaticEntity
 
 			String data = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
 				request.responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll(
-					"ascensionhistory.php\\?back=other&who=" + KoLmafia.getPlayerID( name ), "../ascensions/" + getFileName( name ) );
+					"ascensionhistory.php\\?back=other&who=" + KoLmafia.getPlayerID( name ), "../ascensions/" + getURLName( name ) );
 
 			profileMap.put( name, data );
 

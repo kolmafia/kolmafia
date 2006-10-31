@@ -248,6 +248,9 @@ public class KoLDatabase extends StaticEntity
 
 		for ( int i = 1; i < itemArray.length; ++i )
 		{
+			if ( itemArray[ i - 1 ] == null )
+				continue;
+
 			if ( !itemArray[ i - 1 ].equals( itemArray[i] ) )
 			{
 				itemList.add( new ItemCounter( itemArray[ i - 1 ].toString(), currentCount ) );
@@ -257,7 +260,8 @@ public class KoLDatabase extends StaticEntity
 			++currentCount;
 		}
 
-		itemList.add( new ItemCounter( itemArray[ itemArray.length - 1 ].toString(), currentCount ) );
+		if ( itemArray[ itemArray.length - 1 ] != null )
+			itemList.add( new ItemCounter( itemArray[ itemArray.length - 1 ].toString(), currentCount ) );
 
 		strbuf.append( "<ul>" );
 		Collections.sort( itemList );
@@ -285,7 +289,10 @@ public class KoLDatabase extends StaticEntity
 		String currentValue;
 
 		for ( int i = 0; i < values.size(); ++i )
-			total += ((Integer)values.get(i)).intValue();
+		{
+			if ( values.get(i) != null )
+				total += ((Integer)values.get(i)).intValue();
+		}
 
 		return total;
 	}

@@ -414,7 +414,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			}
 
 			stringForm = new StringBuffer();
-			stringForm.append( "<tr><td><a href=\"ascensions/" + ClanManager.getFileName( this.playerName ) + "\"><b>" );
+			stringForm.append( "<tr><td><a href=\"ascensions/" + ClanManager.getURLName( this.playerName ) + "\"><b>" );
 			stringForm.append( this.playerName );
 			stringForm.append( "</b></a>&nbsp;(" );
 
