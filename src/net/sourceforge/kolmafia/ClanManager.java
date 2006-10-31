@@ -360,7 +360,11 @@ public class ClanManager extends StaticEntity
 
 			AscensionDataRequest request = new AscensionDataRequest( name, KoLmafia.getPlayerID( name ) );
 			request.initialize();
-			ascensionMap.put( name, request.responseText );
+
+			String data = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
+				request.responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" );
+
+			ascensionMap.put( name, data );
 
 			// To avoid retrieving the file again, store the intermediate
 			// result in a local file.
