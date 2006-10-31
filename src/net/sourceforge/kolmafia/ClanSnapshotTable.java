@@ -428,7 +428,10 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( memberLookup.isHardcore() ? "HC" : "SC" );
 
 		String restriction = memberLookup.getRestriction();
-		if ( restriction.startsWith( "Boo" ) )
+
+		if ( restriction == null )
+			strbuf.append( "Astral" );
+		else if ( restriction.startsWith( "Boo" ) )
 			strbuf.append( "B" );
 		else if ( restriction.startsWith( "Tee" ) )
 			strbuf.append( "T" );
@@ -444,13 +447,13 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( memberLookup.getPlayerLevel() );
 
 		strbuf.append( "</td><td>" );
-		strbuf.append( COMMA_FORMAT.format( memberLookup.getMuscle().intValue() ) );
+		strbuf.append( COMMA_FORMAT.format( memberLookup.getMuscle() == null ? 0 : memberLookup.getMuscle().intValue() ) );
 
 		strbuf.append( "</td><td>" );
-		strbuf.append( COMMA_FORMAT.format( memberLookup.getMysticism().intValue() ) );
+		strbuf.append( COMMA_FORMAT.format( memberLookup.getMysticism() == null ? 0 : memberLookup.getMysticism().intValue() ) );
 
 		strbuf.append( "</td><td>" );
-		strbuf.append( COMMA_FORMAT.format( memberLookup.getMoxie().intValue() ) );
+		strbuf.append( COMMA_FORMAT.format( memberLookup.getMoxie() == null ? 0 : memberLookup.getMoxie().intValue() ) );
 
 		strbuf.append( "</td><td>" );
 		int rank = memberLookup.getPvpRank().intValue();
@@ -460,7 +463,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( memberLookup.getCreationAsString() );
 
 		strbuf.append( "</td><td>" );
-		strbuf.append( COMMA_FORMAT.format( memberLookup.getAscensionCount().intValue() ) );
+		strbuf.append( COMMA_FORMAT.format( memberLookup.getAscensionCount() == null ? 0 : memberLookup.getAscensionCount().intValue() ) );
 
 		AscensionDataRequest request = AscensionDataRequest.getInstance( memberName, KoLmafia.getPlayerID( memberName ),
 			(String) AscensionSnapshotTable.getAscensionMap().get( memberName ) );
