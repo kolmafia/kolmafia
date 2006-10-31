@@ -302,7 +302,8 @@ public class ClanManager extends StaticEntity
 			request.initialize();
 
 			String data = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
-				request.responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" );
+				request.responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll(
+					"ascensionhistory.php\\?back=other&who=" + KoLmafia.getPlayerID( name ), "../ascensions/" + getFileName( name ) );
 
 			profileMap.put( name, data );
 
