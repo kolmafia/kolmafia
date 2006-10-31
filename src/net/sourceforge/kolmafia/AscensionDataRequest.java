@@ -452,6 +452,10 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			stringForm.append( "</td></tr>" );
 		}
 
+		public String getDateAsString()
+		{	return ProfileRequest.OUTPUT_FORMAT.format( timestamp );
+		}
+
 		public int getAge()
 		{
 			long ascensionDate = timestamp.getTime();

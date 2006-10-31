@@ -605,7 +605,7 @@ public class ClanManageFrame extends KoLFrame
 			{ "<td>Title</td><td>Rank</td><td>Karma</td>", "Internal clan statistics (title, karma):  " },
 			{ "<td>Class</td><td>Path</td><td>Turns</td><td>Meat</td>", "Leaderboard (class, path, turns, wealth):  " },
 			{ "<td>PVP</td><td>Food</td><td>Drink</td>", "Miscellaneous statistics (pvp, food, booze):  " },
-			{ "<td>Created</td><td>Last Login</td>", "Creation and last login dates:  " },
+			{ "<td>Created</td><td>Last Login</td><td>Last Ascension</td>", "Creation, last login, and last ascension dates:  " },
 		};
 
 		public SnapshotPanel()
