@@ -467,7 +467,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		{
 			strbuf.append( "<a href=\"profiles/" );
 			strbuf.append( ClanManager.getFileName( memberName ) );
-			strbuf.append( ".htm\">" );
+			strbuf.append( "\">" );
 		}
 
 		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerID( memberName ) ) );
