@@ -2755,10 +2755,12 @@ public abstract class KoLmafia implements KoLConstants
 			MoodSettings.execute();
 			recoverHP();
 			recoverMP();
-			SpecialOutfit.restoreCheckpoint( true );
 		}
 
 		recoveryActive = false;
+
+		if ( isFullCheck )
+			SpecialOutfit.restoreCheckpoint( true );
 
 		int haltTolerance = (int)( StaticEntity.getFloatProperty( "battleStop" ) * (float) KoLCharacter.getMaximumHP() );
 		if ( haltTolerance >= 0 && KoLCharacter.getCurrentHP() <= haltTolerance )

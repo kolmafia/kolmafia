@@ -160,6 +160,9 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		if ( isImplicitChange && !hadImplicitChange )
 			return;
 
+		if ( KoLmafia.isRunningBetweenBattleChecks() )
+			return;
+
 		if ( CHECKPOINT != null )
 		{
 			(new EquipmentRequest( CHECKPOINT )).run();
