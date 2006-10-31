@@ -597,7 +597,10 @@ public class ClanSnapshotTable extends KoLDatabase
 				List ascensions = request.getAscensionData();
 
 				strbuf.append( "</td><td>" );
-				strbuf.append( ((AscensionDataRequest.AscensionDataField)ascensions.get( ascensions.size() - 1 )).getDateAsString() );
+				if ( ascensions.isEmpty() )
+					strbuf.append( memberLookup.getCreationAsString() );
+				else
+					strbuf.append( ((AscensionDataRequest.AscensionDataField)ascensions.get( ascensions.size() - 1 )).getDateAsString() );
 			}
 
 			if ( header[i].equals( "Path" ) )
