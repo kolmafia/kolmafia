@@ -155,13 +155,13 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	 * the player needs to revert to their checkpointed outfit.
 	 */
 
-	public static void restoreCheckpoint( boolean isImplicitChange )
+	public static boolean restoreCheckpoint( boolean isImplicitChange )
 	{
 		if ( isImplicitChange && !hadImplicitChange )
-			return;
+			return false;
 
 		if ( KoLmafia.isRunningBetweenBattleChecks() )
-			return;
+			return true;
 
 		if ( CHECKPOINT != null )
 		{

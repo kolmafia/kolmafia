@@ -76,8 +76,6 @@ public abstract class MoodSettings implements KoLConstants
 	private static AdventureResult songWeapon = null;
 	private static boolean isExecuting = false;
 
-	public static boolean hasChangedOutfit = false;
-
 	private static ArrayList thiefTriggers = new ArrayList();
 
 	private static SortedListModel mappedList = null;
@@ -387,7 +385,6 @@ public abstract class MoodSettings implements KoLConstants
 		AdventureResult initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 		AdventureResult initialHat = KoLCharacter.getEquipment( KoLCharacter.HAT );
 
-		hasChangedOutfit = false;
 		MoodTrigger current = null;
 
 		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
@@ -458,10 +455,9 @@ public abstract class MoodSettings implements KoLConstants
 				current.execute( isManualInvocation );
 		}
 
-		if ( hasChangedOutfit )
-			SpecialOutfit.restoreCheckpoint( true );
+		if ( !SpecialOutfit.restoreCheckpoint( true ) )
+			UseSkillRequest.restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
 
-		UseSkillRequest.restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
 		isExecuting = false;
 	}
 
