@@ -64,6 +64,20 @@ function ts_makeSortable(table) {
 // End modified section.  All code outside of this
 // section and not similarly marked is unmodified.
     }
+
+// Begin modified code section.  This modification
+// adds colors to the individual rows.
+
+    for ( var i = 1; i < table.rows.length; ++i )
+    {
+        if ( i % 2 == 0 )
+            table.rows[i].style.backgroundColor = "#e0e0ff";
+        else
+            table.rows[i].style.backgroundColor = "#ffffff";
+    }
+
+// End modified section.  All code outside of this
+// section and not similarly marked is unmodified.
 }
 
 function ts_getInnerText(el) {
@@ -122,7 +136,7 @@ function ts_resortTable(lnk) {
     sortfn = ts_sort_caseinsensitive;
     if (itm.match(/^\d\d[\/-]\d\d[\/-]\d\d\d\d$/)) sortfn = ts_sort_date;
     if (itm.match(/^\d\d[\/-]\d\d[\/-]\d\d$/)) sortfn = ts_sort_date;
-    if (itm.match(/^[£$]/)) sortfn = ts_sort_currency;
+    if (itm.match(/^[Â£$]/)) sortfn = ts_sort_currency;
 
 
 // Begin modified code section.  This modification
@@ -180,6 +194,22 @@ function ts_resortTable(lnk) {
 
             }
         }
+
+
+// Begin modified code section.  This modification
+// adds colors to the individual rows.
+
+        for ( var i = 1; i < table.rows.length; ++i )
+        {
+            if ( i % 2 == 0 )
+                table.rows[i].style.backgroundColor = "#e0e0ff";
+            else
+                table.rows[i].style.backgroundColor = "#ffffff";
+	    }
+
+// End modified section.  All code outside of this
+// section and not similarly marked is unmodified.
+
     }
 
 // End modified section.  All code outside of this

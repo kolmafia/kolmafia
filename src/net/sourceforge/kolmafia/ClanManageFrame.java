@@ -598,21 +598,11 @@ public class ClanManageFrame extends KoLFrame
 		private JCheckBox playerMoreThanOnceOption;
 		private JCheckBox localProfileOption;
 
-		private JCheckBox [] optionBoxes;
-		private final String [][] options =
-		{
-			{ "<td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>", "Progression statistics (level, power, class):  " },
-			{ "<td>Title</td><td>Rank</td><td>Karma</td>", "Internal clan statistics (title, karma):  " },
-			{ "<td>Class</td><td>Path</td><td>Turns</td><td>Meat</td>", "Leaderboard (class, path, turns, wealth):  " },
-			{ "<td>PVP</td><td>Food</td><td>Drink</td>", "Miscellaneous statistics (pvp, food, booze):  " },
-			{ "<td>Created</td><td>Last Login</td><td>Last Ascension</td>", "Creation, last login, and last ascension dates:  " },
-		};
-
 		public SnapshotPanel()
 		{
-			super( "Clan Snapshot", "snapshot", "logshot", new Dimension( 300, 20 ), new Dimension( 50, 20 ) );
+			super( "Clan Snapshot", "snapshot", "clan log", new Dimension( 250, 20 ), new Dimension( 50, 20 ) );
 
-			VerifiableElement [] elements = new VerifiableElement[ options.length + 7 ];
+			VerifiableElement [] elements = new VerifiableElement[ 7 ];
 
 			mostAscensionsBoardSizeField = new JTextField( "20" );
 			mainBoardSizeField = new JTextField( "10" );
@@ -630,17 +620,7 @@ public class ClanManageFrame extends KoLFrame
 			elements[5] = new VerifiableElement( "Add Internal Profile Links:  ", localProfileOption );
 			elements[6] = new VerifiableElement( "Allow Multiple Appearances:  ", playerMoreThanOnceOption );
 
-			optionBoxes = new JCheckBox[ options.length ];
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i] = new JCheckBox();
-
-			for ( int i = 0; i < options.length; ++i )
-				elements[i + 7] = new VerifiableElement( options[i][1], optionBoxes[i] );
-
 			setContent( elements );
-			String tableHeaderSetting = StaticEntity.getProperty( "clanRosterHeader" );
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i].setSelected( tableHeaderSetting.indexOf( options[i][0] ) != -1 );
 		}
 
 		public void actionConfirmed()
@@ -662,17 +642,6 @@ public class ClanManageFrame extends KoLFrame
 		{
 			public void run()
 			{
-				// Apply all the settings before generating the
-				// needed clan ClanSnapshotTable.
-
-				StringBuffer tableHeaderSetting = new StringBuffer();
-
-				for ( int i = 0; i < options.length; ++i )
-					if ( optionBoxes[i].isSelected() )
-						tableHeaderSetting.append( options[i][0] );
-
-				StaticEntity.setProperty( "clanRosterHeader", tableHeaderSetting.toString() + "<td>Ascensions</td>" );
-
 				// Now that you've got everything, go ahead and
 				// generate the snapshot.
 
