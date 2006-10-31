@@ -730,9 +730,17 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		}
 
 		if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) &&
-			EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) )
+			EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemID() ) )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Thrust smacks should use non-ranged weapons." );
+			KoLmafia.updateDisplay( ABORT_STATE, "Thrust smack with a ranged weapon?" );
+			return;
+		}
+
+		if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) &&
+			EquipmentDatabase.isStaff( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemID() ) &&
+			KoLCharacter.hasSkill( "Spirit of Rigatoni" ) && KoLCharacter.hasSkill( "Eye of the Stoat" ) )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Thrust smack with a staff?" );
 			return;
 		}
 
