@@ -187,6 +187,8 @@ public class ClanManager extends StaticEntity
 		// before this happens.
 
 		int requestsNeeded = 0;
+
+		String filename;
 		File profile, ascensionData;
 		String currentProfile, currentAscensionData;
 
@@ -198,8 +200,9 @@ public class ClanManager extends StaticEntity
 			currentProfile = (String) profileMap.get( names[i] );
 			currentAscensionData = (String) ascensionMap.get( names[i] );
 
-			profile = new File( SNAPSHOT_DIRECTORY + "profiles/" + KoLmafia.getPlayerID( names[i] ) + ".htm" );
-			ascensionData = new File( SNAPSHOT_DIRECTORY + "ascensions/" + KoLmafia.getPlayerID( names[i] ) + ".htm" );
+			filename = getFileName( names[i] );
+			profile = new File( SNAPSHOT_DIRECTORY + "profiles/" + filename );
+			ascensionData = new File( SNAPSHOT_DIRECTORY + "ascensions/" + filename );
 
 			if ( retrieveProfileData )
 			{
@@ -253,9 +256,13 @@ public class ClanManager extends StaticEntity
 		return true;
 	}
 
+	public static String getFileName( String name )
+	{	return KoLCharacter.baseUserName( name ) + "_(#" + KoLmafia.getPlayerID( name ) + ")" + ".htm";
+	}
+
 	private static void initializeProfile( String name )
 	{
-		File profile = new File( SNAPSHOT_DIRECTORY + "profiles/" + KoLmafia.getPlayerID( name ) + ".htm" );
+		File profile = new File( SNAPSHOT_DIRECTORY + "profiles/" + getFileName( name ) );
 
 		if ( profile.exists() )
 		{
@@ -323,7 +330,7 @@ public class ClanManager extends StaticEntity
 
 	private static void initializeAscensionData( String name )
 	{
-		File ascension = new File( SNAPSHOT_DIRECTORY + "ascensions/" + KoLmafia.getPlayerID( name ) + ".htm" );
+		File ascension = new File( SNAPSHOT_DIRECTORY + "ascensions/" + getFileName( name ) );
 
 		if ( ascension.exists() )
 		{
