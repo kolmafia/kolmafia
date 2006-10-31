@@ -138,6 +138,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int TRADING_CARD15 = 2014;
 	private static final int TRADING_CARD16 = 2015;
 
+	private static final int CRIMBOWEEN_MEMO = 2089;
+
 	private static final AdventureResult POISON = new AdventureResult( "Poisoned", 1, true );
 	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
 	private static final AdventureResult FERTILIZER = new AdventureResult( 76, -1 );
@@ -485,6 +487,22 @@ public class ConsumeItemRequest extends KoLRequest
 			}
 
 			// The card is not consumed by being read. I think.
+			StaticEntity.getClient().processResult( lastItemUsed );
+
+			return;
+
+		// If it's a memo from Uncle Crimbo, show it
+
+		case CRIMBOWEEN_MEMO:
+
+			if ( showHTML )
+			{
+				text = trimInventoryText( responseText );
+				title = "The Memo";
+				StaticEntity.getClient().showHTML( text, title );
+			}
+
+			// The memo is not consumed by being read.
 			StaticEntity.getClient().processResult( lastItemUsed );
 
 			return;
