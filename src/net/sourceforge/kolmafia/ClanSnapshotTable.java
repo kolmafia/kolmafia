@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class ClanSnapshotTable extends KoLDatabase
 	public static final int PVP_FILTER = 2;
 	public static final int CLASS_FILTER = 3;
 	public static final int KARMA_FILTER = 4;
+
 	public static final int LOGIN_FILTER = 5;
 
 	public static final String [] FILTER_NAMES =
@@ -585,6 +587,17 @@ public class ClanSnapshotTable extends KoLDatabase
 			{
 				strbuf.append( "</td><td>" );
 				strbuf.append( COMMA_FORMAT.format( memberLookup.getAscensionCount().intValue() ) );
+			}
+
+			if ( header[i].equals( "Last Ascension" ) )
+			{
+				AscensionDataRequest request = AscensionDataRequest.getInstance( memberName, KoLmafia.getPlayerID( memberName ),
+					(String) AscensionSnapshotTable.getAscensionMap().get( memberName ) );
+
+				List ascensions = request.getAscensionData();
+
+				strbuf.append( "</td><td>" );
+				strbuf.append( ((AscensionDataRequest.AscensionDataField)ascensions.get( ascensions.size() - 1 )).getDateAsString() );
 			}
 
 			if ( header[i].equals( "Path" ) )
