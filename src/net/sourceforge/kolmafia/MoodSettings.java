@@ -186,6 +186,8 @@ public abstract class MoodSettings implements KoLConstants
 			if ( thiefTriggers.contains( toRemove[i] ) )
 				thiefTriggers.remove( toRemove[i] );
 		}
+
+		MoodSettings.saveSettings();
 	}
 
 	public static void autoFillTriggers()
