@@ -108,6 +108,6 @@ public class LogStream extends PrintStream implements KoLConstants
 	}
 
 	public LogStream( OutputStream ostream ) throws IOException
-	{	super( ostream, true, "UTF-8" );
+	{	super( ostream, true, "ISO-8859-1" );
 	}
 }
