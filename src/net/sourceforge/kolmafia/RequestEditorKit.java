@@ -1596,7 +1596,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			buffer.append( "\">mood " +
 				StaticEntity.getProperty( "currentMood" ) + "</a>]<br>" );
 
-			buffer.append( missingCount + " missing effects</font>" );
+			buffer.append( missingCount + " missing</font>" );
 			buffer.append( "<br><br>" );
 		}
 		else
@@ -1626,7 +1626,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			buffer.append( "\">mood " +
 				StaticEntity.getProperty( "currentMood" ) + "</a>]<br>" );
 
-			buffer.append( missingCount + "missing effects</font>" );
+			buffer.append( missingCount + "missing</font>" );
 
 			if ( effectIndex == -1 )
 				buffer.append( "<br></p></center>" );
@@ -1650,22 +1650,34 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				// If the player is in compact mode, then if they wish to textualize
 				// their effects, go ahead and do so.
 
+				String effectName = StatusEffectDatabase.getEffectName( effectID );
 
 				if ( KoLRequest.isCompactMode )
 				{
-					if ( StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) )
+					if ( effectName != null )
 					{
-						nextAppendIndex = text.indexOf( "></td>", startingIndex );
-						buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
-						lastAppendIndex = nextAppendIndex + 6;
+						if ( StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) )
+						{
+							nextAppendIndex = text.indexOf( "></td>", startingIndex );
+							buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+							lastAppendIndex = nextAppendIndex + 6;
 
-						int deleteIndex = buffer.lastIndexOf( "<img" );
-						buffer.delete( deleteIndex, buffer.length() );
+							if ( StaticEntity.getBooleanProperty( "relayTextualizationVerbose" ) )
+							{
+								buffer.append( "></td><td><font size=2>" );
+								buffer.append( effectName );
+								buffer.append( "</font></td>" );
+							}
+							else
+							{
+								int deleteIndex = buffer.lastIndexOf( "<img" );
+								buffer.delete( deleteIndex, buffer.length() );
 
-						buffer.append( "<font size=2>" );
-						buffer.append( StatusEffectDatabase.getShortName( effectID ) );
-						buffer.append( "</font></td>" );
-
+								buffer.append( "<td align=right><font size=2>" );
+								buffer.append( StatusEffectDatabase.getShortName( effectID ) );
+								buffer.append( "</font></td>" );
+							}
+						}
 					}
 
 					nextAppendIndex = text.indexOf( "<td>(", startingIndex ) + 5;
@@ -1675,8 +1687,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
 				lastAppendIndex = nextAppendIndex;
-
-				String effectName = StatusEffectDatabase.getEffectName( effectID );
 
 				if ( effectName == null )
 					continue;
@@ -1740,7 +1750,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( skillType == ClassSkillsDatabase.BUFF || !removeAction.equals( "" ) )
 					buffer.append( "</a>" );
 
-				buffer.append( ")" );
+				buffer.append( ")</td><td>" );
 
 				// Add the up-arrow icon for buffs which can be maintained, based
 				// on information known to the mood maintenance module.
@@ -1770,6 +1780,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					buffer.append( "up.gif\" border=0></a>" );
 				}
+
+				buffer.append( "</td>" );
 			}
 		}
 

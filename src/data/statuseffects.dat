@@ -1,4 +1,4 @@
-1	Light!	Light!
+1	Light	Light!
 2	Sleepy	Sleepy
 3	Confused	Confused
 4	Embarrassed	Embarrassed
@@ -9,13 +9,13 @@
 9	Perfume	Knob Goblin Perfume
 10	Steroids	Steroid Boost
 11	Love Potion	Knob Goblin Lust Frenzy
-12	Sharp Weapon	Sharp Weapon
+12	Sharp Stone	Sharp Weapon
 13
 14	Henna	Hennaliciousness
 15	Seal Tooth	Bloody Hand
 16	Leash	Leash of Linguini
 17	Sugar Rush	Sugar Rush
-18	Ghostly Shell	Ghostly Shell
+18	Ghost Shell	Ghostly Shell
 19	Fortitude	Reptilian Fortitude
 20	Uncertainty	Uncertain
 21	SC Trivial	Seal Clubbing Frenzy
@@ -26,154 +26,154 @@
 26	AT Trivial	Mariachi Mood
 27	Wereseal	Temporary Lycanthropy
 28	Hair Spray	Butt-Rock Hair
-29	Dill++	Contemptible Emanations
-30	Kiwi++	Incredibly Hulking
-31	Olive++	Superhuman Sarcasm
-32	Tomato++	Tomato Power
-33	Lemon++	Phorcefullness
-34	Orange++	Pronounced Potency
-35	Soda++	Concentration
-36	Grapefruit++	Mystically Oiled
-37	Cherry++	Expert Oiliness
-38	Gr8ps++	Gr8tness
-39	Hernia!	Hernia!
-40	Mesh Cap	Red Neck
-41	Leather Chaps	Chapped Legs
+29	Dill	Contemptible Emanations
+30	Kiwi	Incredibly Hulking
+31	Olive	Superhuman Sarcasm
+32	Tomato	Tomato Power
+33	Lemon	Phorcefullness
+34	Orange	Pronounced Potency
+35	Soda Water	Concentration
+36	Grapefruit	Mystically Oiled
+37	Cherry	Expert Oiliness
+38	Gr8tness	Gr8tness
+39	Hernia	Hernia!
+40	Red Neck	Red Neck
+41	Chapped	Chapped Legs
 42	Sunburned	Sunburned
 43	Wussiness	Wussiness
-44	Draggin Hat	Draggin' Balls
-45	1337 7r0uZ0RZ	1337p4n7Z
+44	Draggin	Draggin' Balls
+45	7r0uZ0RZ	1337p4n7Z
 46	Hair Gel	Spiky Hair
 47	Wolf Mask	Complete Delusion
 48	Mr. A Smile	The Smile of Mr. A.
 49	Mafia Aria	Macho Profundo
 50	Empathy	Empathy
 51	Tenacity	Tenacity of the Snapper
-52	Astral Shell	Astral Shell
+52	Astral	Astral Shell
 53	Elemental	Elemental Saucesphere
 54	Jalape&ntilde;o	Jalape&ntilde;o Saucesphere
 55	Jaba&ntilde;ero	Jaba&ntilde;ero Saucesphere
 56	IcyVapo Rub	Extreme Muscle Relaxation
-57	Black Candle	Rainy Soul Miasma
-58	Teleportitis	Teleportitis
+57	Rainy Soul	Rainy Soul Miasma
+58	Teleport	Teleportitis
 59	WANG	Wanged
 60	Antiphon	Aloysius' Antiphon of Aptitude
 61	Madrigal	The Moxious Madrigal
 62	Celerity	Cletus's Canticle of Celerity
 63	Polka	Polka of Plenty
-64	Magical Melody	The Magical Mojomuscular Melody
-65	Power Ballad	Power Ballad of the Arrowsmith
+64	Mojo Melody	The Magical Mojomuscular Melody
+65	Pwr Ballad	Power Ballad of the Arrowsmith
 66	Absorption	Brawnee's Anthem of Absorption
 67	Phat Loot	Fat Leon's Phat Loot Lyric
 68	Pointiness	Psalm of Pointiness
 69	Symphony	Jackasses' Symphony of Destruction
 70	Shanty	Stevedave's Shanty of Superiority
-71	Ode to Booze	Ode to Booze
-72	Fish Sleeping	Sleeping with the Fishes
-73	Ticking Clock	Ticking Clock
+71	Ode	Ode to Booze
+72	Fishes	Sleeping with the Fishes
+73	Clock	Ticking Clock
 74	Deodorant	Fresh Scent
 75	Reodorant	Hippy Stench
-76	Wreath Cookie	Wreathed in Merriment
+76	Wreathed	Wreathed in Merriment
 77	Bell Cookie	Fury of the Bells
 78	Tree Cookie	Yuletide Sappiness
 79
 80	Firecracker	Missing Fingers
-81	Gnawed-Off Arm	Gnawed-Off Arm
-82	Mafia Effect	Broken Knees
-83	Mafia Effect	And Your Family, Too
+81	Gnawed-Off	Gnawed-Off Arm
+82	Broken Knee	Broken Knees
+83	Your Family	And Your Family, Too
 84
 85
-86	Mafia Effect	Missing Eyebrows
-87	Mafia Effect	Two Left Feet
+86	Eyebrows	Missing Eyebrows
+87	LeftFeet	Two Left Feet
 88
-89	Tingly Wrists	Tingly Wrists
-90	Tingly Elbows	Tingly Elbows
-91	Tingly Biceps	Tingly Biceps
-92	Sticky Hands	Sticky Hands
-93	Clean-Shaven	Clean-Shaven
-94	GravyPlum	Aspect of the GravyPlum Fairy
-95	Rushin' Hands	Rushin' Hands
-96	Reedy Pipes	Reedy Pipes
-97	Oriental	Oriental Mysticism
-98	Arabian	Arabian Knighthood
+89	Phonics Mox	Tingly Wrists
+90	Phonics Mys	Tingly Elbows
+91	Phonics Mus	Tingly Biceps
+92	Sticky Hand	Sticky Hands
+93	Shave Cream	Clean-Shaven
+94	Nutcracker	Aspect of the GravyPlum Fairy
+95	Nutcracker	Rushin' Hands
+96	Nutcracker	Reedy Pipes
+97	Nutcracker	Oriental Mysticism
+98	Nutcracker	Arabian Knighthood
 99
-100	Lime Potion	Stabilizing Oiliness
-101	J-Olive Potion	Slippery Oiliness
+100	Lime	Stabilizing Oiliness
+101	Jumbo Olive	Slippery Oiliness
 102	Ten Ettins	Strength of Ten Ettins
-103	Mental Acuity	Strange Mental Acuity
-104	Izchak Bless	Izchak's Blessing
-105	Corroded Weapon	Corroded Weapon
-106	Canadianity	Canadianity
-107	Clan Mus Boost	Enraged	Enraged
-108	Clan Mys Boost	Ancestral Disapproval
-109	Clan Mox Boost	Whitened Teeth
+103	Acuity	Strange Mental Acuity
+104	Izchak's	Izchak's Blessing
+105	Corroded	Corroded Weapon
+106	Canadian	Canadianity
+107	Clan Boost	Enraged	Enraged
+108	Clan Boost	Ancestral Disapproval
+109	Clan Boost	Whitened Teeth
 110	Goofballs	Hopped Up on Goofballs
 111	Withdrawal	Goofball Withdrawal
 112	Maple Syrup	Antsy in your Pantsy
-113	Popping Stomach	Popping Stomach
-114	Dwarf Cookie	Dwarven Hardiness
+113	Popping	Popping Stomach
+114	Dwarven	Dwarven Hardiness
 115	Apathy	Apathy
 116	Radio Head	Radio Head
 117	Free Bird	Free Bird
 118	Radio Foil	Shiny Happy Weapon
-119	Tangerine++	On the Shoulders of Giants
+119	Tangerine	On the Shoulders of Giants
 120	Crossbow	Shot in the Arse
-121	Onion++	Cock of the Walk
+121	Onion	Cock of the Walk
 122	White Egg	Eggs-tra Sensory Perception
 123	Black Egg	Egg-stortionary Tactics
-124	Egg-stra Mus	Egg-stra Arm
-125	Egg-stra Mys	Egg-headedness
-126	Egg-stra Mox	Egg-cellent Vocabulary
+124	Muscle Egg	Egg-stra Arm
+125	Myst Egg	Egg-headedness
+126	Moxie Egg	Egg-cellent Vocabulary
 127	Gothy	Gothy
-128	Flower Power	Flower Power
-129	Lihc Eye Pie	Eye of the Lihc
+128	Flowers	Flower Power
+129	Lihc Eye	Eye of the Lihc
 130	Fusilli	Springy Fusilli
 131	Reindeer	Rage of the Reindeer
 132	Meleegra	Engorged Weapon
-133	Handsome Potion	Mysteriously Handsome
-134	Tamarind Gum	Tamarind Torment
+133	Handsome	Mysteriously Handsome
+134	Tamar Gum	Tamarind Torment
 135	Lime Gum	Spicy Limeness
 136	Pickle Gum	Mystic Pickleness
 137	Pepper Gum	Spicy Mouth
-138	Dead Man Walk	Hombre Muerto Caminando
-139	Purple Tongue	Purple Tongue
-140	Green Tongue	Green Tongue
-141	Orange Tongue	Orange Tongue
-142	Red Tongue	Red Tongue
-143	Blue Tongue	Blue Tongue
-144	Black Tongue	Black Tongue
-145	Object Detect	Object Detection
+138	Dead Man	Hombre Muerto Caminando
+139	Purple Cone	Purple Tongue
+140	Green Cone	Green Tongue
+141	Orange Cone	Orange Tongue
+142	Red Cone	Red Tongue
+143	Blue Cone	Blue Tongue
+144	Black Cone	Black Tongue
+145	Mining	Object Detection
 146
 147
 148
 149
-150	Twinkly Powder	Twinklebritches
-151	Hot Power	Flame-Retardant Trousers
-152	Cold Powder	Insulated Trousers
-153	Spooky Powder	Spookypants
-154	Stench Powder	Smellypants
-155	Sleaze Powder	Sleaze-Resistant Trousers
-156	Twinkly Nugget	Twinkly Weapon
-157	Hot Nugget	Flaming Weapon
-158	Cold Nugget	Frigid Weapon
-159	Spooky Nugget	Spooky Weapon
-160	Stench Nugget	Stinky Weapon
-161	Sleaze Nugget	Sleazy Weapon
+150	Twinklypants	Twinklebritches
+151	Hotpants	Flame-Retardant Trousers
+152	Coldpants	Insulated Trousers
+153	Spookypants	Spookypants
+154	Smellypants	Smellypants
+155	Sleazepants	Sleaze-Resistant Trousers
+156	Twinklysword	Twinkly Weapon
+157	Hotsword	Flaming Weapon
+158	Coldsword	Frigid Weapon
+159	Spookysword	Spooky Weapon
+160	Stinkysword	Stinky Weapon
+161	Sleazysword	Sleazy Weapon
 162	Sneakiness	The Sonata of Sneakiness
 163	Cantata	Carlweather's Cantata of Confrontation
-164	Ur-Kel's Aria	Ur-Kel's Aria of Annoyance
+164	Urkel Aria	Ur-Kel's Aria of Annoyance
 165	Smooth Move	Smooth Movements
-166	Musk of Moose	Musk of the Moose
-167	Fire Spirit	Spirit of Cayenne
-168	Cold Spirit	Spirit of Peppermint
-169	Stench Spirit	Spirit of Garlic
-170	Spooky Spirit	Spirit of Wormwood
-171	Sleaze Spirit	Spirit of Bacon Grease
-172	Yellow Tongue	Yellow Tongue
-173	Learning Pills	Big Veiny Brain
-174	Knob Eyedrops	Peeled Eyeballs
+166	Moose Musk	Musk of the Moose
+167	Cayenne	Spirit of Cayenne
+168	Peppermint	Spirit of Peppermint
+169	Garlic	Spirit of Garlic
+170	Wormwood	Spirit of Wormwood
+171	Grease	Spirit of Bacon Grease
+172	Yellow Cone	Yellow Tongue
+173	Learning	Big Veiny Brain
+174	Eyedrop	Peeled Eyeballs
 175	Nasal Spray	Wasabi Sinuses
-176	Pet Buff Spray	Heavy Petting
+176	Pet Buffing	Heavy Petting
 177
 178
 179
@@ -181,53 +181,53 @@
 181	Jazz Hands	Jazz Hands
 182
 183	Half-Astral	Half-Astral
-184	Blue Cupcake	Cupcake of Choice
-185	Orange Cupcake	Shiny Happy Cupcake
-186	Purple Cupcake	Tiny Bubbles in the Cupcake
-187	Pink Cupcake	Your Cupcake Senses Are Tingling
-188	Green Cupcake	The Cupcake of Wrath
+184	Blue Cake	Cupcake of Choice
+185	Orange Cake	Shiny Happy Cupcake
+186	Purple Cake	Tiny Bubbles in the Cupcake
+187	Pink Cake	Your Cupcake Senses Are Tingling
+188	Green Cake	The Cupcake of Wrath
 189	Hotform	Hotform
 190	Coldform	Coldform
 191	Spookyform	Spookyform
 192	Stenchform	Stenchform
 193	Sleazeform	Sleazeform
-194	Hot Breath	Hot Breath
-195	Cold Breath	Cold Breath
-196	Spooky Breath	Spooky Breath
-197	Stinky Breath	Stinky Breath
-198	Sleazy Breath	Sleazy Breath
-199	Twinkly Wad	Aspect of the Twinklefairy
-200	Hot Wad	Hot Blooded
-201	Cold Wad	Cold Blooded
-202	Spooky Wad	Spooky Demeanor
-203	Stench Sad	Stenchtastic
-204	Sleaze Wad	Supafly
-205	Grape++	Provocative Perkiness
-206	Strawberry++	Ermine Eyes
-207	Pepper++	Eau D'enmity
-208	Raspberry++	Ocelot Eyes
-209	Kumquat++	Ponderous Potency
-210	Tonic++	Concentrated Concentration
+194	Hotbreath	Hot Breath
+195	Coldbreath	Cold Breath
+196	Spookybreath	Spooky Breath
+197	Stinkybreath	Stinky Breath
+198	Sleazybreath	Sleazy Breath
+199	Twinklyblood	Aspect of the Twinklefairy
+200	Hotblood	Hot Blooded
+201	Coldblood	Cold Blooded
+202	Spookyblood	Spooky Demeanor
+203	Stenchblood	Stenchtastic
+204	Sleazeblood	Supafly
+205	Grape	Provocative Perkiness
+206	Strawberry	Ermine Eyes
+207	Pepper	Eau D'enmity
+208	Raspberry	Ocelot Eyes
+209	Kumquat	Ponderous Potency
+210	Tonic Water	Concentrated Concentration
 211	Got Milk	Got Milk
-212	Papaya++	Papowerful
-213	Frog++	Frog In Your Throat
-214	Salamander++	Salamander In Your Stomach
-215	Newt++	Newt Gets In Your Eyes
+212	Papaya	Papowerful
+213	Frog Throat	Frog In Your Throat
+214	Sal Stomach	Salamander In Your Stomach
+215	Newt Eyes	Newt Gets In Your Eyes
 216
-217	Cow Curse	Cursed by the RNG
+217	Evil Cow	Cursed by the RNG
 218	Amorous	Amorous
-219	Bubble, Bubble	Bubble, Bubble
-220	Sticky Fingers	Sticky Fingers
+219	Bubble	Bubble, Bubble
+220	Sticky	Sticky Fingers
 221	Chalky Hand	Chalky Hand
 222	Timberwolf	Snarl of the Timberwolf
-223	Gallery Maiden	Dreams and Lights
+223	Maidens	Dreams and Lights
 224	Scarysauce	Scarysauce
-225	Dreadful Dirge	Dirge of Dreadfulness
-226	Pirate Talk	Talking Like a Pirate
-227	The 'Tussin	The 'Tussin
-228	Pie in the Face	Pie in the Face
-229	Square Dancing	Hip to Be Square Dancin'
-230	Living Large	Livin' Large
+225	Dirge	Dirge of Dreadfulness
+226	Binarrrca	Talking Like a Pirate
+227	Tussin	The 'Tussin
+228	Cream Pie	Pie in the Face
+229	Square Dance	Hip to Be Square Dancin'
+230	Livin Large	Livin' Large
 231	Nostalgia	Wistfully Nostalgic
 232	Salamander	Happy Salamander
 233	Techno Bliss	Techno Bliss

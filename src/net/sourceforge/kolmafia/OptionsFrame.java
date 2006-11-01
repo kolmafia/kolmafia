@@ -209,7 +209,10 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add mood maintenance links to left side pane" },
+
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
+			{ "relayTextualizationVerbose", "Use full effect names when textualizing effects" },
+
 			{ "relayAddsGraphicalCLI", "Add link to in-browser command-line interface to right side pane" },
 			{ "relayAddsKoLSimulator", "Add link to Ayvuir's Simulator of Loathing to right side pane" },
 
