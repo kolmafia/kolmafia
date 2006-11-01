@@ -170,6 +170,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		}
 
 		hadImplicitChange = false;
+		return true;
 	}
 
 	/**
