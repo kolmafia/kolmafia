@@ -345,7 +345,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			{
 				int linkIndex = responseBuffer.indexOf( "<a href" );
 				if ( linkIndex != -1 )
-					responseBuffer.insert( linkIndex, "<a href=\"KoLmafia/simulator/index.html\"><b>KoL Simulator</b></a></center><p>See what might happen before it happens!</p><center>" );
+					responseBuffer.insert( linkIndex, "<a href=\"KoLmafia/simulator/index.html\" target=\"_blank\"><b>KoL Simulator</b></a></center><p>See what might happen before it happens!</p><center>" );
 			}
 		}
 
