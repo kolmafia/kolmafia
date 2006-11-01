@@ -477,6 +477,23 @@ public abstract class MoodSettings implements KoLConstants
 		return willExecute;
 	}
 
+	public static int getMissingEffectCount()
+	{
+		if ( displayList.isEmpty() )
+			return 0;
+
+		int missingCount = 0;
+
+		for ( int i = 0; i < displayList.size(); ++i )
+		{
+			MoodTrigger current = (MoodTrigger) displayList.get(i);
+			if ( current.triggerType.equals( "lose_effect" ) && !activeEffects.contains( current.effect ) )
+				++missingCount;
+		}
+
+		return missingCount;
+	}
+
 	/**
 	 * Stores the settings maintained in this <code>KoLSettings</code>
 	 * object to disk for later retrieval.
