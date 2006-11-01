@@ -1587,10 +1587,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			buffer.append( "<font size=2 color=" );
 			buffer.append( fontColor );
-			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\" style=\"color:" );
+			buffer.append( "><a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\" style=\"color:" );
 			buffer.append( fontColor );
-			buffer.append( "\">mood " +
-				StaticEntity.getProperty( "currentMood" ) + "</a>]</font><br><br>" );
+			buffer.append( "\"><img src=\"/images/buff.gif\"></a></font><br><br>" );
 		}
 		else
 		{
@@ -1639,8 +1638,28 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				int effectID = StaticEntity.parseInt(
 					text.substring( nextAppendIndex, text.indexOf( ")", nextAppendIndex ) ) );
 
+				// If the player is in compact mode, then if they wish to textualize
+				// their effects, go ahead and do so.
+
+
 				if ( KoLRequest.isCompactMode )
+				{
+					if ( StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) )
+					{
+						nextAppendIndex = text.indexOf( "></td>", startingIndex );
+						buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+						lastAppendIndex = nextAppendIndex + 6;
+
+						int deleteIndex = buffer.lastIndexOf( "<img" );
+						buffer.delete( deleteIndex, buffer.length() );
+
+						buffer.append( StatusEffectDatabase.getShortName( effectID ) );
+						buffer.append( "</td>" );
+
+					}
+
 					nextAppendIndex = text.indexOf( "<td>(", startingIndex ) + 5;
+				}
 				else
 					nextAppendIndex = text.indexOf( "(", text.indexOf( "<font size=2>", startingIndex ) ) + 1;
 
