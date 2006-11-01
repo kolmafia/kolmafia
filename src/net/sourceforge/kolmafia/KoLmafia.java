@@ -230,26 +230,26 @@ public abstract class KoLmafia implements KoLConstants
 		String lookAndFeel = StaticEntity.getProperty( "swingLookAndFeel" );
 		boolean foundLookAndFeel = false;
 
-		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+		if ( lookAndFeel.equals( "" ) )
 		{
-			lookAndFeel = UIManager.getSystemLookAndFeelClassName();
-			foundLookAndFeel = true;
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith( "Win" ) )
+				lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+			else
+				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
 		}
-		else
-		{
-			UIManager.LookAndFeelInfo [] installed = UIManager.getInstalledLookAndFeels();
-			String [] installedLooks = new String[ installed.length ];
 
-			for ( int i = 0; i < installedLooks.length; ++i )
-				installedLooks[i] = installed[i].getClassName();
+		UIManager.LookAndFeelInfo [] installed = UIManager.getInstalledLookAndFeels();
+		String [] installedLooks = new String[ installed.length ];
 
-			for ( int i = 0; i < installedLooks.length; ++i )
-				foundLookAndFeel |= installedLooks[i].equals( lookAndFeel );
-		}
+		for ( int i = 0; i < installedLooks.length; ++i )
+			installedLooks[i] = installed[i].getClassName();
+
+		for ( int i = 0; i < installedLooks.length; ++i )
+			foundLookAndFeel |= installedLooks[i].equals( lookAndFeel );
 
 		if ( !foundLookAndFeel )
 		{
-			if ( System.getProperty( "os.name" ).startsWith( "Win" ) )
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith( "Win" ) )
 				lookAndFeel = UIManager.getSystemLookAndFeelClassName();
 			else
 				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();

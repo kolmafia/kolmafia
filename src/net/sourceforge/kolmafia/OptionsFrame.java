@@ -203,25 +203,37 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
+			{ "useSystemBrowser", "Forcefully use system's default browser" },
+			{ "", "" },
+
 			{ "relayAddsUseLinks", "Add [use] links when acquiring items" },
+			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
 			{ "relayAddsCustomCombat", "Add custom combat button to fight page" },
 			{ "relayRemovesRunaway", "Move runaway button to skill usage dropdown" },
-			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
+
+			{ "", "" },
+
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add mood maintenance links to left side pane" },
-
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
 			{ "relayTextualizationVerbose", "Use full effect names when textualizing effects" },
 
-			{ "relayAddsGraphicalCLI", "Add link to in-browser command-line interface to right side pane" },
+			{ "", "" },
+
+			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
+			{ "relayAddsGraphicalCLI", "Add link to command-line interface to right side pane" },
 			{ "relayAddsKoLSimulator", "Add link to Ayvuir's Simulator of Loathing to right side pane" },
 
-			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
+			{ "", "" },
+
+			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
+			{ "trackLocationChanges", "Adventuring in browser changes selected location" },
+
+			{ "", "" },
+
 			{ "relayRemovesExpensiveItems", "Remove unaffordable items from stores in browser" },
 			{ "relayRemovesMinpricedItems", "Remove items priced at minimum from stores in browser" },
 			{ "relayRemovesUnrelatedItems", "Remove items unrelated to your search from stores in browser" },
-			{ "trackLocationChanges", "Adventuring in browser changes selected adventure location" },
-			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" }
 		};
 
 		/**
@@ -240,7 +252,10 @@ public class OptionsFrame extends KoLFrame
 				optionBoxes[i] = new JCheckBox();
 
 			for ( int i = 0; i < options.length; ++i )
-				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+			{
+				elements[i] = options[i][0].equals( "" ) ? new VerifiableElement() :
+					new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+			}
 
 			colorChanger = new BorderColorChanger();
 			elements[ options.length ] = new VerifiableElement( "Change the color for tables in the browser interface",
@@ -288,7 +303,12 @@ public class OptionsFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			for ( int i = 0; i < options.length; ++i )
-				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+			{
+				if ( !options[i][0].equals( "" ) )
+					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+			}
+
+			System.setProperty( "useSystemBrowser", StaticEntity.getProperty( "useSystemBrowser" ) );
 		}
 
 		public void actionCancelled()
