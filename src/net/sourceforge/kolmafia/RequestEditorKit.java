@@ -1566,6 +1566,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		String fontColor = MoodSettings.willExecute( true ) ? "black" : "gray";
 
+		// Insert any effects which are in your maintenance list which
+		// have already run out.
+
+		int missingCount = MoodSettings.getMissingEffectCount();
+
 		if ( MoodSettings.getTriggers().isEmpty() )
 		{
 		}
@@ -1587,9 +1592,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			buffer.append( "<font size=2 color=" );
 			buffer.append( fontColor );
-			buffer.append( "><a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\" style=\"color:" );
-			buffer.append( fontColor );
-			buffer.append( "\"><img src=\"/images/buff.gif\"></a></font><br><br>" );
+			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\" style=\"color:" );
+			buffer.append( "\">mood " +
+				StaticEntity.getProperty( "currentMood" ) + "</a>]<br>" );
+
+			buffer.append( missingCount + " missing effects</font>" );
+			buffer.append( "<br><br>" );
 		}
 		else
 		{
@@ -1616,12 +1624,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\" style=\"color:" );
 			buffer.append( fontColor );
 			buffer.append( "\">mood " +
-				StaticEntity.getProperty( "currentMood" ) + "</a>]</font>" );
+				StaticEntity.getProperty( "currentMood" ) + "</a>]<br>" );
+
+			buffer.append( missingCount + "missing effects</font>" );
 
 			if ( effectIndex == -1 )
 				buffer.append( "<br></p></center>" );
 		}
-
 
 		// Finally, replace all of the shrug off links associated with
 		// this response text.
@@ -1653,8 +1662,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						int deleteIndex = buffer.lastIndexOf( "<img" );
 						buffer.delete( deleteIndex, buffer.length() );
 
+						buffer.append( "<font size=2>" );
 						buffer.append( StatusEffectDatabase.getShortName( effectID ) );
-						buffer.append( "</td>" );
+						buffer.append( "</font></td>" );
 
 					}
 
