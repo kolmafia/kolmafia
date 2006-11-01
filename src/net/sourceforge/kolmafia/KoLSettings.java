@@ -322,6 +322,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "relayRemovesMinpricedItems", "true" );
 		CLIENT_SETTINGS.put( "relayRemovesUnrelatedItems", "true" );
 		CLIENT_SETTINGS.put( "relayTextualizesEffects", "false" );
+		CLIENT_SETTINGS.put( "relayTextualizationVerbose", "false" );
 		CLIENT_SETTINGS.put( "relayUsesIntegratedChat", "false" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
 		CLIENT_SETTINGS.put( "saveState", "" );

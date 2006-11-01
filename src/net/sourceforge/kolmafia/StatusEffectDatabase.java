@@ -125,7 +125,7 @@ public class StatusEffectDatabase extends KoLDatabase
 	 */
 
 	public static final String getShortName( int effectID )
-	{	return effectID == -1 ? "Unknown effect" : (String) shortByID.get( new Integer( effectID ) );
+	{	return effectID == -1 ? "Unknown" : (String) shortByID.get( new Integer( effectID ) );
 	}
 
 	/**
