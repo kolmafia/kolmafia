@@ -58,7 +58,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class KoLSettings extends Properties implements UtilityConstants, KoLConstants
 {
-	private static boolean initializingDefaults = false;
+	private boolean initializingDefaults = false;
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
 
@@ -465,6 +465,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 				if ( !containsKey( keys[i] ) )
 					super.setProperty( (String) keys[i], (String) CLIENT_SETTINGS.get( keys[i] ) );
 
+			initializingDefaults = false;
 			return;
 		}
 
