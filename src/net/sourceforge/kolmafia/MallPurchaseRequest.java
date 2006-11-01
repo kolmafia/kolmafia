@@ -404,8 +404,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			SpecialOutfit.createCheckpoint( true );
 
 		(new EquipmentRequest( EquipmentDatabase.getOutfit( neededOutfit ) )).run();
-
-		MoodSettings.hasChangedOutfit = true;
 		return checkpointing;
 	}
 
