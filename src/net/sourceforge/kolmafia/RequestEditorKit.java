@@ -1673,9 +1673,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 								int deleteIndex = buffer.lastIndexOf( "<img" );
 								buffer.delete( deleteIndex, buffer.length() );
 
-								buffer.append( "<td align=right><font size=2>" );
+								buffer.append( "<td align=right><nobr><font size=2>" );
 								buffer.append( StatusEffectDatabase.getShortName( effectID ) );
-								buffer.append( "</font></td>" );
+								buffer.append( "</font></nobr></td>" );
 							}
 						}
 					}
