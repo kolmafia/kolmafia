@@ -269,7 +269,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		Collections.sort( rankList );
 		strbuf.append( getBreakdown( rankList ) );
 
-		strbuf.append( "<center><br><br><table class=\"sortable\" id=\"details\" border=0 cellspacing=0 cellpadding=10>" );
+		strbuf.append( "<center><br><br><table class=\"sortable\" id=\"overview\" border=0 cellspacing=0 cellpadding=10>" );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "<tr style=\"font-weight: bold\"><td>Name</td>" );
 
@@ -289,7 +289,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( getStatsSummary( members ) );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<br><br><table class=\"sortable\" id=\"details\" border=0 cellspacing=0 cellpadding=10>" );
+		strbuf.append( "<br><br><table class=\"sortable\" id=\"stats\" border=0 cellspacing=0 cellpadding=10>" );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "<tr style=\"font-weight: bold\"><td>Name</td>" );
 
@@ -309,7 +309,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( getSocialSummary( members ) );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<br><br><table class=\"sortable\" id=\"details\" border=0 cellspacing=0 cellpadding=10>" );
+		strbuf.append( "<br><br><table class=\"sortable\" id=\"social\" border=0 cellspacing=0 cellpadding=10>" );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "<tr style=\"font-weight: bold\"><td>Name</td>" );
 

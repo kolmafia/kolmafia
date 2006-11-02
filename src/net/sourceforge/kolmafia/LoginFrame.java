@@ -327,7 +327,9 @@ public class LoginFrame extends KoLFrame
 			{
 				if ( !savePasswordCheckBox.isSelected() && usernameField instanceof JComboBox )
 				{
-					String value = (String) ((JComboBox)usernameField).getSelectedItem();
+					String value = (String) saveStateNames.getSelectedItem();
+					if ( value == null )
+						return;
 
 					saveStateNames.remove( value );
 					KoLmafia.removeSaveState( value );
@@ -572,6 +574,9 @@ public class LoginFrame extends KoLFrame
 			if ( saveStateNames.size() != 0 )
 			{
 				String username = (String) saveStateNames.getSelectedItem();
+				if ( username == null )
+					username = "";
+
 				StaticEntity.setGlobalProperty( username, "initialFrames", frameString.toString() );
 				StaticEntity.setGlobalProperty( username, "initialDesktop", desktopString.toString() );
 			}
