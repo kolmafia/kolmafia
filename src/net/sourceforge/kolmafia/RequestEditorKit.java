@@ -915,6 +915,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.indexOf( "rats.php" ) != -1 )
 			addTavernSpoilers( buffer );
 
+		if ( location.indexOf( "ascensionhistory.php" ) != -1 )
+		{
+			StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\" src=\"/KoLmafia/sorttable.js\"></script></head>" );
+			StaticEntity.singleStringReplace( buffer, "<table><tr><td class=small>", "<table class=\"sortable\" id=\"history\"><tr><td class=small>" );
+		}
+
 		if ( location.indexOf( "ascend.php" ) != -1 || location.indexOf( "valhalla.php" ) != -1 )
 			addAscensionReminders( location, buffer );
 
