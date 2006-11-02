@@ -56,6 +56,7 @@ public class StatusEffectDatabase extends KoLDatabase
 {
 	private static Map shortByID = new TreeMap();
 	private static Map effectByID = new TreeMap();
+	private static Map imageByID = new TreeMap();
 	private static Map effectByName = new TreeMap();
 	private static Map modifierMap = new TreeMap();
 
@@ -69,12 +70,14 @@ public class StatusEffectDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 3 )
+			if ( data.length == 4 )
 			{
 				effectID = Integer.valueOf( data[0] );
+
 				shortByID.put( effectID, data[1] );
 				effectByID.put( effectID, getDisplayName( data[2] ) );
 				effectByName.put( getCanonicalName( data[2] ), effectID );
+				imageByID.put( effectID, data[3] );
 			}
 		}
 
@@ -138,6 +141,18 @@ public class StatusEffectDatabase extends KoLDatabase
 	{
 		Object effectID = effectByName.get( getCanonicalName( effectName ) );
 		return effectID == null ? -1 : ((Integer)effectID).intValue();
+	}
+
+	/**
+	 * Returns the ID number for an effect, given its name.
+	 * @param	effectName	The name of the effect to lookup
+	 * @return	The ID number of the corresponding effect
+	 */
+
+	public static final String getImage( int effectID )
+	{
+		Object imageName = effectID == -1 ? null : imageByID.get( new Integer( effectID ) );
+		return imageName == null ? "/images/debug.gif" : "http://" + IMAGE_SERVER + "/itemimages/" + imageName;
 	}
 
 	/**

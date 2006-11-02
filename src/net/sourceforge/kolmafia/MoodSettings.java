@@ -477,21 +477,20 @@ public abstract class MoodSettings implements KoLConstants
 		return willExecute;
 	}
 
-	public static int getMissingEffectCount()
+	public static ArrayList getMissingEffects()
 	{
+		ArrayList missing = new ArrayList();
 		if ( displayList.isEmpty() )
-			return 0;
-
-		int missingCount = 0;
+			return missing;
 
 		for ( int i = 0; i < displayList.size(); ++i )
 		{
 			MoodTrigger current = (MoodTrigger) displayList.get(i);
 			if ( current.triggerType.equals( "lose_effect" ) && !activeEffects.contains( current.effect ) )
-				++missingCount;
+				missing.add( current.effect );
 		}
 
-		return missingCount;
+		return missing;
 	}
 
 	/**

@@ -1575,7 +1575,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// Insert any effects which are in your maintenance list which
 		// have already run out.
 
-		int missingCount = MoodSettings.getMissingEffectCount();
+		ArrayList missingEffects = MoodSettings.getMissingEffects();
 
 		if ( MoodSettings.getTriggers().isEmpty() )
 		{
@@ -1631,6 +1631,56 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			if ( effectIndex == -1 )
 				buffer.append( "</p></center>" );
+		}
+
+		// If the player has at least one effect, then go ahead and add
+		// all of their missing effects.
+
+		if ( !activeEffects.isEmpty() && !missingEffects.isEmpty() )
+		{
+			startingIndex = text.indexOf( "<tr>", lastAppendIndex );
+			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			lastAppendIndex = startingIndex;
+
+			AdventureResult currentEffect;
+
+			for ( int i = 0; i < missingEffects.size(); ++i )
+			{
+				currentEffect = (AdventureResult) missingEffects.get(i);
+				int effectID = StatusEffectDatabase.getEffectID( currentEffect.getName() );
+
+				buffer.append( "<tr>" );
+
+				if ( !KoLRequest.isCompactMode || !StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) || StaticEntity.getBooleanProperty( "relayTextualizationVerbose" ) )
+				{
+					buffer.append( "<td><img src=\"" );
+					buffer.append( StatusEffectDatabase.getImage( effectID ) );
+					buffer.append( "\" class=hand alt=\"" );
+					buffer.append( currentEffect.getName() );
+					buffer.append( "\" title=\"" );
+					buffer.append( currentEffect.getName() );
+					buffer.append( "\" onClick='eff(\"" + effectID + "\");'></td>" );
+				}
+
+				if ( !KoLRequest.isCompactMode || StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) )
+				{
+					buffer.append( "<td><font size=2>" );
+
+					if ( !KoLRequest.isCompactMode || StaticEntity.getBooleanProperty( "relayTextualizationVerbose" ) )
+						buffer.append( currentEffect.getName() );
+					else
+						buffer.append( "<nobr>" + StatusEffectDatabase.getShortName( effectID ) + "</nobr>" );
+				}
+				else
+					buffer.append( "<td><font size=2>" );
+
+				buffer.append( " (0)</font>&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
+				buffer.append( MoodSettings.getDefaultAction( "lose_effect", currentEffect.getName() ) );
+
+				buffer.append( "\" title=\"Increase rounds of " );
+				buffer.append( currentEffect.getName() );
+				buffer.append( "\"><img src=\"/images/redup.gif\" border=0></a></td></tr>" );
+			}
 		}
 
 		// Finally, replace all of the shrug off links associated with
@@ -1751,7 +1801,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( skillType == ClassSkillsDatabase.BUFF || !removeAction.equals( "" ) )
 					buffer.append( "</a>" );
 
-				buffer.append( ")</td><td>" );
+				buffer.append( ")" );
 
 				// Add the up-arrow icon for buffs which can be maintained, based
 				// on information known to the mood maintenance module.
