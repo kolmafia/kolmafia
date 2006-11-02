@@ -157,6 +157,7 @@ public class MonsterDatabase extends KoLDatabase
 		int health = 0;
 		int attack = 0;
 		int defense = 0;
+		int initiative = 0;
 		int minMeat = 0;
 		int maxMeat = 0;
 		int attackElement = NONE;
@@ -195,6 +196,16 @@ public class MonsterDatabase extends KoLDatabase
 					{
 						value = tokens.nextToken();
 						defense = parseInt( value );
+						continue;
+					}
+				}
+
+				else if ( option.equals( "Init:" ) )
+				{
+					if ( tokens.hasMoreTokens() )
+					{
+						value = tokens.nextToken();
+						initiative = parseInt( value );
 						continue;
 					}
 				}
@@ -275,7 +286,7 @@ public class MonsterDatabase extends KoLDatabase
 			return null;
 		}
 
-		return new Monster( name, health, attack, defense, attackElement, defenseElement, minMeat, maxMeat );
+		return new Monster( name, health, attack, defense, initiative, attackElement, defenseElement, minMeat, maxMeat );
 	}
 
 	private static int parseElement( String s )
@@ -299,6 +310,7 @@ public class MonsterDatabase extends KoLDatabase
 		private int health;
 		private int attack;
 		private int defense;
+		private int initiative;
 		private float statGain;
 		private int attackElement;
 		private int defenseElement;
@@ -306,12 +318,13 @@ public class MonsterDatabase extends KoLDatabase
 		private int maxMeat;
 		private List items;
 
-		public Monster( String name, int health, int attack, int defense, int attackElement, int defenseElement, int minMeat, int maxMeat )
+		public Monster( String name, int health, int attack, int defense, int initiative, int attackElement, int defenseElement, int minMeat, int maxMeat )
 		{
 			this.name = name;
 			this.health = health;
 			this.attack = attack;
 			this.defense = defense;
+			this.initiative = initiative;
 			this.statGain = ((float) (attack + defense)) / 10.0f ;
 			this.attackElement = attackElement;
 			this.defenseElement = defenseElement;
@@ -338,6 +351,10 @@ public class MonsterDatabase extends KoLDatabase
 
 		public int getDefense()
 		{	return defense;
+		}
+
+		public int getInitiative()
+		{	return initiative;
 		}
 
 		public int getAttackElement()
