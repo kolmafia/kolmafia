@@ -1,239 +1,236 @@
-1	Light	Light!
-2	Sleepy	Sleepy
-3	Confused	Confused
-4	Embarrassed	Embarrassed
-5	Far Out	Far Out
-6	Wings	Wings
-7	Beaten Up	Beaten Up
-8	Poisoned	Poisoned
-9	Perfume	Knob Goblin Perfume
-10	Steroids	Steroid Boost
-11	Love Potion	Knob Goblin Lust Frenzy
-12	Sharp Stone	Sharp Weapon
+1	Light	Light!	light.gif
+2	Sleepy	Sleepy	sleepy.gif
+3	Confused	Confused	confused.gif
+4	Embarrassed	Embarrassed	blush.gif
+5	Far Out	Far Out	farout.gif
+6	Wings	Wings	wings.gif
+7	Beaten Up	Beaten Up	beatenup.gif
+8	Poisoned	Poisoned	poison.gif
+9	Perfume	Knob Goblin Perfume	spraycan.gif
+10	Steroids	Steroid Boost	strboost.gif
+11	Love Potion	Knob Goblin Lust Frenzy	lovelips.gif
 13
-14	Henna	Hennaliciousness
-15	Seal Tooth	Bloody Hand
-16	Leash	Leash of Linguini
-17	Sugar Rush	Sugar Rush
-18	Ghost Shell	Ghostly Shell
-19	Fortitude	Reptilian Fortitude
-20	Uncertainty	Uncertain
-21	SC Trivial	Seal Clubbing Frenzy
-22	TT Trivial	Patience of the Tortoise
-23	PM Trivial	Pasta Oneness
-24	SA Trivial	Saucemastery
-25	DB Trivial	Disco State of Mind
-26	AT Trivial	Mariachi Mood
-27	Wereseal	Temporary Lycanthropy
-28	Hair Spray	Butt-Rock Hair
-29	Dill	Contemptible Emanations
-30	Kiwi	Incredibly Hulking
-31	Olive	Superhuman Sarcasm
-32	Tomato	Tomato Power
-33	Lemon	Phorcefullness
-34	Orange	Pronounced Potency
-35	Soda Water	Concentration
-36	Grapefruit	Mystically Oiled
-37	Cherry	Expert Oiliness
-38	Gr8tness	Gr8tness
-39	Hernia	Hernia!
-40	Red Neck	Red Neck
-41	Chapped	Chapped Legs
-42	Sunburned	Sunburned
-43	Wussiness	Wussiness
-44	Draggin	Draggin' Balls
-45	7r0uZ0RZ	1337p4n7Z
-46	Hair Gel	Spiky Hair
-47	Wolf Mask	Complete Delusion
-48	Mr. A Smile	The Smile of Mr. A.
-49	Mafia Aria	Macho Profundo
-50	Empathy	Empathy
-51	Tenacity	Tenacity of the Snapper
-52	Astral	Astral Shell
-53	Elemental	Elemental Saucesphere
-54	Jalape&ntilde;o	Jalape&ntilde;o Saucesphere
-55	Jaba&ntilde;ero	Jaba&ntilde;ero Saucesphere
-56	IcyVapo Rub	Extreme Muscle Relaxation
-57	Rainy Soul	Rainy Soul Miasma
-58	Teleport	Teleportitis
-59	WANG	Wanged
-60	Antiphon	Aloysius' Antiphon of Aptitude
-61	Madrigal	The Moxious Madrigal
-62	Celerity	Cletus's Canticle of Celerity
-63	Polka	Polka of Plenty
-64	Mojo Melody	The Magical Mojomuscular Melody
-65	Pwr Ballad	Power Ballad of the Arrowsmith
-66	Absorption	Brawnee's Anthem of Absorption
-67	Phat Loot	Fat Leon's Phat Loot Lyric
-68	Pointiness	Psalm of Pointiness
-69	Symphony	Jackasses' Symphony of Destruction
-70	Shanty	Stevedave's Shanty of Superiority
-71	Ode	Ode to Booze
-72	Fishes	Sleeping with the Fishes
-73	Clock	Ticking Clock
-74	Deodorant	Fresh Scent
-75	Reodorant	Hippy Stench
-76	Wreathed	Wreathed in Merriment
-77	Bell Cookie	Fury of the Bells
-78	Tree Cookie	Yuletide Sappiness
+12	Sharp Stone	Sharp Weapon	spraycan.gif
+14	Henna	Hennaliciousness	henna.gif
+15	Seal Tooth	Bloody Hand	sad.gif
+16	Leash	Leash of Linguini	string.gif
+17	Sugar Rush	Sugar Rush	hoppedup.gif
+18	Ghost Shell	Ghostly Shell	turtle.gif
+19	Fortitude	Reptilian Fortitude	turtle.gif
+20	Uncertainty	Uncertain	confused.gif
+21	SC Trivial	Seal Clubbing Frenzy	happy.gif
+22	TT Trivial	Patience of the Tortoise	happy.gif
+23	PM Trivial	Pasta Oneness	happy.gif
+24	SA Trivial	Saucemastery	happy.gif
+25	DB Trivial	Disco State of Mind	discoball.gif
+26	AT Trivial	Mariachi Mood	happy.gif
+27	Wereseal	Temporary Lycanthropy	lycanth.gif
+28	Hair Spray	Butt-Rock Hair	buttrock.gif
+29	Dill	Contemptible Emanations	stench.gif
+30	Kiwi	Incredibly Hulking	strboost.gif
+31	Olive	Superhuman Sarcasm	wink.gif
+32	Tomato	Tomato Power	tomato.gif
+33	Lemon	Phorcefullness	strboost.gif
+34	Orange	Pronounced Potency	nicesword.gif
+35	Soda Water	Concentration	farout.gif
+36	Grapefruit	Mystically Oiled	potion4.gif
+37	Cherry	Expert Oiliness	potion4.gif
+38	Gr8tness	Gr8tness	grapes.gif
+39	Hernia	Hernia!	hernia.gif
+40	Red Neck	Red Neck	redneck.gif
+41	Chapped	Chapped Legs	legs.gif
+42	Sunburned	Sunburned	sunburn.gif
+43	Wussiness	Wussiness	sad.gif
+44	Draggin	Draggin' Balls	ballhat.gif
+45	7r0uZ0RZ	1337p4n7Z	whitepants.gif
+46	Hair Gel	Spiky Hair	spikyhair.gif
+47	Wolf Mask	Complete Delusion	wolfmask.gif
+48	Mr. A Smile	The Smile of Mr. A.	gma.gif
+49	Mafia Aria	Macho Profundo	notes.gif
+50	Empathy	Empathy	happy.gif
+51	Tenacity	Tenacity of the Snapper	turtle.gif
+52	Astral	Astral Shell	turtle.gif
+53	Elemental	Elemental Saucesphere	elesphere.gif
+54	Jalape&ntilde;o	Jalapeño Saucesphere	pepsphere.gif
+55	Jaba&ntilde;ero	Jabañero Saucesphere	pepsphere2.gif
+56	IcyVapo Rub	Extreme Muscle Relaxation	happy.gif
+57	Rainy Soul	Rainy Soul Miasma	raincloud.gif
+58	Teleport	Teleportitis	confused.gif
+59	WANG	Wanged	wang.gif
+60	Antiphon	Aloysius' Antiphon of Aptitude	notes.gif
+61	Madrigal	The Moxious Madrigal	notes.gif
+62	Celerity	Cletus's Canticle of Celerity	notes.gif
+63	Polka	Polka of Plenty	notes.gif
+64	Mojo Melody	The Magical Mojomuscular Melody	notes.gif
+65	Pwr Ballad	Power Ballad of the Arrowsmith	notes.gif
+66	Absorption	Brawnee's Anthem of Absorption	notes.gif
+67	Phat Loot	Fat Leon's Phat Loot Lyric	notes.gif
+68	Pointiness	Psalm of Pointiness	notes.gif
+69	Symphony	Jackasses' Symphony of Destruction	notes.gif
+70	Shanty	Stevedave's Shanty of Superiority	notes.gif
+71	Ode	Ode to Booze	notes.gif
+72	Fishes	Sleeping with the Fishes	sleepy.gif
+73	Clock	Ticking Clock	clock.gif
+74	Deodorant	Fresh Scent	happy.gif
+75	Reodorant	Hippy Stench	stench.gif
+76	Wreathed	Wreathed in Merriment	scook1.gif
+77	Bell Cookie	Fury of the Bells	scook2.gif
+78	Tree Cookie	Yuletide Sappiness	scook3.gif
 79
-80	Firecracker	Missing Fingers
-81	Gnawed-Off	Gnawed-Off Arm
-82	Broken Knee	Broken Knees
-83	Your Family	And Your Family, Too
+80	Firecracker	Missing Fingers	sad.gif
+81	Gnawed-Off	Gnawed-Off Arm	sad.gif
+82	Broken Knee	Broken Knees	sad.gif
+83	Your Family	And Your Family, Too	sad.gif
 84
 85
-86	Eyebrows	Missing Eyebrows
-87	LeftFeet	Two Left Feet
+86	Eyebrows	Missing Eyebrows	sad.gif
+87	LeftFeet	Two Left Feet	89	Phonics Mox	Tingly Wrists	feather.gif
 88
-89	Phonics Mox	Tingly Wrists
-90	Phonics Mys	Tingly Elbows
-91	Phonics Mus	Tingly Biceps
-92	Sticky Hand	Sticky Hands
-93	Shave Cream	Clean-Shaven
-94	Nutcracker	Aspect of the GravyPlum Fairy
-95	Nutcracker	Rushin' Hands
-96	Nutcracker	Reedy Pipes
-97	Nutcracker	Oriental Mysticism
-98	Nutcracker	Arabian Knighthood
+90	Phonics Mys	Tingly Elbows	feather.gif
+91	Phonics Mus	Tingly Biceps	feather.gif
+92	Sticky Hand	Sticky Hands	glove.gif
+93	Shave Cream	Clean-Shaven	shaven.gif
+94	Nutcracker	Aspect of the GravyPlum Fairy	gravy.gif
+95	Nutcracker	Rushin' Hands	glove.gif
+96	Nutcracker	Reedy Pipes	reedpipes.gif
+97	Nutcracker	Oriental Mysticism	fumanchu.gif
+98	Nutcracker	Arabian Knighthood	scimitar.gif
 99
-100	Lime	Stabilizing Oiliness
-101	Jumbo Olive	Slippery Oiliness
-102	Ten Ettins	Strength of Ten Ettins
-103	Acuity	Strange Mental Acuity
-104	Izchak's	Izchak's Blessing
-105	Corroded	Corroded Weapon
-106	Canadian	Canadianity
-107	Clan Boost	Enraged	Enraged
-108	Clan Boost	Ancestral Disapproval
-109	Clan Boost	Whitened Teeth
-110	Goofballs	Hopped Up on Goofballs
-111	Withdrawal	Goofball Withdrawal
-112	Maple Syrup	Antsy in your Pantsy
-113	Popping	Popping Stomach
-114	Dwarven	Dwarven Hardiness
-115	Apathy	Apathy
-116	Radio Head	Radio Head
-117	Free Bird	Free Bird
-118	Radio Foil	Shiny Happy Weapon
-119	Tangerine	On the Shoulders of Giants
-120	Crossbow	Shot in the Arse
-121	Onion	Cock of the Walk
-122	White Egg	Eggs-tra Sensory Perception
-123	Black Egg	Egg-stortionary Tactics
-124	Muscle Egg	Egg-stra Arm
-125	Myst Egg	Egg-headedness
-126	Moxie Egg	Egg-cellent Vocabulary
-127	Gothy	Gothy
-128	Flowers	Flower Power
-129	Lihc Eye	Eye of the Lihc
-130	Fusilli	Springy Fusilli
-131	Reindeer	Rage of the Reindeer
-132	Meleegra	Engorged Weapon
-133	Handsome	Mysteriously Handsome
-134	Tamar Gum	Tamarind Torment
-135	Lime Gum	Spicy Limeness
-136	Pickle Gum	Mystic Pickleness
-137	Pepper Gum	Spicy Mouth
-138	Dead Man	Hombre Muerto Caminando
-139	Purple Cone	Purple Tongue
-140	Green Cone	Green Tongue
-141	Orange Cone	Orange Tongue
-142	Red Cone	Red Tongue
-143	Blue Cone	Blue Tongue
-144	Black Cone	Black Tongue
-145	Mining	Object Detection
+100	Lime	Stabilizing Oiliness	potion4.gif
+101	Jumbo Olive	Slippery Oiliness	potion4.gif
+102	Ten Ettins	Strength of Ten Ettins	strboost.gif
+103	Acuity	Strange Mental Acuity	realbrain.gif
+104	Izchak's	Izchak's Blessing	light.gif
+105	Corroded	Corroded Weapon	corroded.gif
+106	Canadian	Canadianity	mapleleaf.gif
+108	Clan Boost	Ancestral Disapproval	skull.gif
+109	Clan Boost	Whitened Teeth	goldfronts.gif
+110	Goofballs	Hopped Up on Goofballs	hoppedup.gif
+111	Withdrawal	Goofball Withdrawal	withdraw.gif
+112	Maple Syrup	Antsy in your Pantsy	syrup.gif
+113	Popping	Popping Stomach	rockpops.gif
+114	Dwarven	Dwarven Hardiness	happy.gif
+115	Apathy	Apathy	apathy.gif
+116	Radio Head	Radio Head	radhat.gif
+117	Free Bird	Free Bird	radpants.gif
+118	Radio Foil	Shiny Happy Weapon	radsword.gif
+119	Tangerine	On the Shoulders of Giants	farout.gif
+120	Crossbow	Shot in the Arse	shotarse.gif
+121	Onion	Cock of the Walk	cockghost.gif
+122	White Egg	Eggs-tra Sensory Perception	eggplain.gif
+123	Black Egg	Egg-stortionary Tactics	eggplain.gif
+124	Muscle Egg	Egg-stra Arm	eggplain.gif
+125	Myst Egg	Egg-headedness	eggplain.gif
+126	Moxie Egg	Egg-cellent Vocabulary	eggplain.gif
+127	Gothy	Gothy	gothy.gif
+128	Flowers	Flower Power	flower.gif
+129	Lihc Eye	Eye of the Lihc	eyeball.gif
+130	Fusilli	Springy Fusilli	fusilli.gif
+131	Reindeer	Rage of the Reindeer	reindeer.gif
+132	Meleegra	Engorged Weapon	nicesword.gif
+133	Handsome	Mysteriously Handsome	happy.gif
+134	Tamar Gum	Tamarind Torment	chicle.gif
+135	Lime Gum	Spicy Limeness	chicle.gif
+136	Pickle Gum	Mystic Pickleness	chicle.gif
+137	Pepper Gum	Spicy Mouth	chicle.gif
+138	Dead Man	Hombre Muerto Caminando	candyskull.gif
+139	Purple Cone	Purple Tongue	tongue.gif
+140	Green Cone	Green Tongue	tongue.gif
+141	Orange Cone	Orange Tongue	tongue.gif
+142	Red Cone	Red Tongue	tongue.gif
+143	Blue Cone	Blue Tongue	tongue.gif
+144	Black Cone	Black Tongue	tongue.gif
+145	Mining	Object Detection	exclam.gif
 146
 147
 148
 149
-150	Twinklypants	Twinklebritches
-151	Hotpants	Flame-Retardant Trousers
-152	Coldpants	Insulated Trousers
-153	Spookypants	Spookypants
-154	Smellypants	Smellypants
-155	Sleazepants	Sleaze-Resistant Trousers
-156	Twinklysword	Twinkly Weapon
-157	Hotsword	Flaming Weapon
-158	Coldsword	Frigid Weapon
-159	Spookysword	Spooky Weapon
-160	Stinkysword	Stinky Weapon
-161	Sleazysword	Sleazy Weapon
-162	Sneakiness	The Sonata of Sneakiness
-163	Cantata	Carlweather's Cantata of Confrontation
-164	Urkel Aria	Ur-Kel's Aria of Annoyance
-165	Smooth Move	Smooth Movements
-166	Moose Musk	Musk of the Moose
-167	Cayenne	Spirit of Cayenne
-168	Peppermint	Spirit of Peppermint
-169	Garlic	Spirit of Garlic
-170	Wormwood	Spirit of Wormwood
-171	Grease	Spirit of Bacon Grease
-172	Yellow Cone	Yellow Tongue
-173	Learning	Big Veiny Brain
-174	Eyedrop	Peeled Eyeballs
-175	Nasal Spray	Wasabi Sinuses
-176	Pet Buffing	Heavy Petting
+150	Twinklypants	Twinklebritches	uberpants.gif
+151	Hotpants	Flame-Retardant Trousers	cords.gif
+152	Coldpants	Insulated Trousers	chinos.gif
+153	Spookypants	Spookypants	demonpants.gif
+154	Smellypants	Smellypants	fatigues2.gif
+155	Sleazepants	Sleaze-Resistant Trousers	yakpants.gif
+156	Twinklysword	Twinkly Weapon	csword.gif
+157	Hotsword	Flaming Weapon	flame.gif
+158	Coldsword	Frigid Weapon	snowflake.gif
+159	Spookysword	Spooky Weapon	skull.gif
+160	Stinkysword	Stinky Weapon	stench.gif
+161	Sleazysword	Sleazy Weapon	dripsword.gif
+162	Sneakiness	The Sonata of Sneakiness	notes.gif
+163	Cantata	Carlweather's Cantata of Confrontation	notes.gif
+164	Urkel Aria	Ur-Kel's Aria of Annoyance	notes.gif
+165	Smooth Move	Smooth Movements	footprints.gif
+166	Moose Musk	Musk of the Moose	stench.gif
+167	Cayenne	Spirit of Cayenne	flame.gif
+168	Peppermint	Spirit of Peppermint	snowflake.gif
+169	Garlic	Spirit of Garlic	stench.gif
+170	Wormwood	Spirit of Wormwood	skull.gif
+171	Grease	Spirit of Bacon Grease	bacon.gif
+172	Yellow Cone	Yellow Tongue	tongue.gif
+173	Learning	Big Veiny Brain	realbrain.gif
+174	Eyedrop	Peeled Eyeballs	eyes.gif
+175	Nasal Spray	Wasabi Sinuses	hernia.gif
+176	Pet Buffing	Heavy Petting	happy.gif
 177
 178
 179
-180	Darkness	Temporary Blindness
-181	Jazz Hands	Jazz Hands
+180	Darkness	Temporary Blindness	hernia.gif
+181	Jazz Hands	Jazz Hands	glove.gif
 182
-183	Half-Astral	Half-Astral
-184	Blue Cake	Cupcake of Choice
-185	Orange Cake	Shiny Happy Cupcake
-186	Purple Cake	Tiny Bubbles in the Cupcake
-187	Pink Cake	Your Cupcake Senses Are Tingling
-188	Green Cake	The Cupcake of Wrath
-189	Hotform	Hotform
-190	Coldform	Coldform
-191	Spookyform	Spookyform
-192	Stenchform	Stenchform
-193	Sleazeform	Sleazeform
-194	Hotbreath	Hot Breath
-195	Coldbreath	Cold Breath
-196	Spookybreath	Spooky Breath
-197	Stinkybreath	Stinky Breath
-198	Sleazybreath	Sleazy Breath
-199	Twinklyblood	Aspect of the Twinklefairy
-200	Hotblood	Hot Blooded
-201	Coldblood	Cold Blooded
-202	Spookyblood	Spooky Demeanor
-203	Stenchblood	Stenchtastic
-204	Sleazeblood	Supafly
-205	Grape	Provocative Perkiness
-206	Strawberry	Ermine Eyes
-207	Pepper	Eau D'enmity
-208	Raspberry	Ocelot Eyes
-209	Kumquat	Ponderous Potency
-210	Tonic Water	Concentrated Concentration
-211	Got Milk	Got Milk
-212	Papaya	Papowerful
-213	Frog Throat	Frog In Your Throat
-214	Sal Stomach	Salamander In Your Stomach
-215	Newt Eyes	Newt Gets In Your Eyes
+183	Half-Astral	Half-Astral	hoppedup.gif
+184	Blue Cake	Cupcake of Choice	cupcake.gif
+185	Orange Cake	Shiny Happy Cupcake	cupcake.gif
+186	Purple Cake	Tiny Bubbles in the Cupcake	cupcake.gif
+187	Pink Cake	Your Cupcake Senses Are Tingling	cupcake.gif
+188	Green Cake	The Cupcake of Wrath	cupcake.gif
+189	Hotform	Hotform	flame.gif
+190	Coldform	Coldform	snowflake.gif
+191	Spookyform	Spookyform	skull.gif
+192	Stenchform	Stenchform	stench.gif
+193	Sleazeform	Sleazeform	wink.gif
+194	Hotbreath	Hot Breath	breath.gif
+195	Coldbreath	Cold Breath	breath.gif
+196	Spookybreath	Spooky Breath	breath.gif
+197	Stinkybreath	Stinky Breath	breath.gif
+198	Sleazybreath	Sleazy Breath	breath.gif
+199	Twinklyblood	Aspect of the Twinklefairy	scwad.gif
+200	Hotblood	Hot Blooded	scwad.gif
+201	Coldblood	Cold Blooded	scwad.gif
+202	Spookyblood	Spooky Demeanor	scwad.gif
+203	Stenchblood	Stenchtastic	scwad.gif
+204	Sleazeblood	Supafly	scwad.gif
+205	Grape	Provocative Perkiness	hoppedup.gif
+206	Strawberry	Ermine Eyes	bigeyes.gif
+207	Pepper	Eau D'enmity	stench.gif
+208	Raspberry	Ocelot Eyes	bigeyes.gif
+209	Kumquat	Ponderous Potency	strboost.gif
+210	Tonic Water	Concentrated Concentration	farout.gif
+211	Got Milk	Got Milk	milk.gif
+212	Papaya	Papowerful	papaya.gif
+213	Frog Throat	Frog In Your Throat	squashfrog.gif
+214	Sal Stomach	Salamander In Your Stomach	liver.gif
+215	Newt Eyes	Newt Gets In Your Eyes	eyes.gif
 216
-217	Evil Cow	Cursed by the RNG
-218	Amorous	Amorous
-219	Bubble	Bubble, Bubble
-220	Sticky	Sticky Fingers
-221	Chalky Hand	Chalky Hand
-222	Timberwolf	Snarl of the Timberwolf
-223	Maidens	Dreams and Lights
-224	Scarysauce	Scarysauce
-225	Dirge	Dirge of Dreadfulness
-226	Binarrrca	Talking Like a Pirate
-227	Tussin	The 'Tussin
-228	Cream Pie	Pie in the Face
-229	Square Dance	Hip to Be Square Dancin'
-230	Livin Large	Livin' Large
-231	Nostalgia	Wistfully Nostalgic
-232	Salamander	Happy Salamander
-233	Techno Bliss	Techno Bliss
-234	Material Orc	Material Witness
-235	No Worries	No Worries
-236	Metal Speed	Metal Speed
-237	Radium Chips	Radium Radicality
-238	Winter Chips	Wintergreen Warmongery
-239	Ennui Chips	Also Schmeckt Zarathustra
+217	Evil Cow	Cursed by the RNG	218	Amorous	Amorous	lips.gif
+219	Bubble	Bubble, Bubble	sphere.gif
+220	Sticky	Sticky Fingers	glove.gif
+221	Chalky Hand	Chalky Hand	glove.gif
+222	Timberwolf	Snarl of the Timberwolf	wolfmask.gif
+223	Maidens	Dreams and Lights	snowflakes.gif
+224	Scarysauce	Scarysauce	skullshld.gif
+225	Dirge	Dirge of Dreadfulness	notes.gif
+226	Binarrrca	Talking Like a Pirate	piratehead.gif
+227	Tussin	The 'Tussin	happy.gif
+228	Cream Pie	Pie in the Face	pieface.gif
+229	Square Dance	Hip to Be Square Dancin'	footprints.gif
+230	Livin Large	Livin' Large	goldfronts.gif
+231	Nostalgia	Wistfully Nostalgic	happy.gif
+232	Salamander	Happy Salamander	commacha.gif
+233	Techno Bliss	Techno Bliss	singlenote.gif
+234	Material Orc	Material Witness	meat.gif
+235	No Worries	No Worries	singlenote.gif
+236	Metal Speed	Metal Speed	singlenote.gif
+237	Radium Chips	Radium Radicality	tongue.gif
+238	Winter Chips	Wintergreen Warmongery	angry.gif
+239	Ennui Chips	Also Schmeckt Zarathustra	waxlips.gif
