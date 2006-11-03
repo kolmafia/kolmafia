@@ -116,18 +116,15 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 	public String getProperty( String name )
 	{
-		if ( !containsKey( name ) )
-		{
-			boolean isGlobalProperty = isGlobalProperty( name );
+		boolean isGlobalProperty = isGlobalProperty( name );
 
-			if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
-			{
-				String value = GLOBAL_SETTINGS.getProperty( name );
-				return value == null ? "" : value;
-			}
-			else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
-				return "";
+		if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
+		{
+			String value = GLOBAL_SETTINGS.getProperty( name );
+			return value == null ? "" : value;
 		}
+		else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
+			return "";
 
 		String value = super.getProperty( name );
 		return value == null ? "" : RequestEditorKit.getUnicode( value );
@@ -138,15 +135,12 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		if ( value == null )
 			return null;
 
-		if ( !containsKey( name ) )
-		{
-			boolean isGlobalProperty = isGlobalProperty( name );
+		boolean isGlobalProperty = isGlobalProperty( name );
 
-			if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
-				return GLOBAL_SETTINGS.setProperty( name, value );
-			else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
-				return "";
-		}
+		if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
+			return GLOBAL_SETTINGS.setProperty( name, value );
+		else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
+			return "";
 
 		// All tests passed.  Now, go ahead and execute the
 		// set property and return the old value.
