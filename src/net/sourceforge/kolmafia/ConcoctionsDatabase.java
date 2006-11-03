@@ -354,7 +354,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			}
 		}
 
-		calculateMeatCombines( availableIngredients );
+		calculateBasicItems( availableIngredients );
 
 		// Ice-cold beer and ketchup are special instances -- for the
 		// purposes of calculation, we assume that they will use the
@@ -444,22 +444,31 @@ public class ConcoctionsDatabase extends KoLDatabase
 			concoctions.get(itemID).initial + 1;
 	}
 
-	private static void calculateMeatCombines( List availableIngredients )
+	private static void calculateBasicItems( List availableIngredients )
 	{
 		// Meat paste and meat stacks can be created directly
 		// and are dependent upon the amount of meat available.
 
-		concoctions.get( PASTE.getItemID() ).initial = PASTE.getCount( availableIngredients );
-		concoctions.get( PASTE.getItemID() ).creatable = KoLCharacter.getAvailableMeat() / 10;
-		concoctions.get( PASTE.getItemID() ).total = concoctions.get( PASTE.getItemID() ).initial + concoctions.get( PASTE.getItemID() ).creatable;
+		setBasicItem( availableIngredients, PASTE, KoLCharacter.getAvailableMeat() / 10 );
+		setBasicItem( availableIngredients, STACK, KoLCharacter.getAvailableMeat() / 100 );
+		setBasicItem( availableIngredients, DENSE, KoLCharacter.getAvailableMeat() / 1000 );
 
-		concoctions.get( STACK.getItemID() ).initial = STACK.getCount( availableIngredients );
-		concoctions.get( STACK.getItemID() ).creatable = KoLCharacter.getAvailableMeat() / 100;
-		concoctions.get( STACK.getItemID() ).total = concoctions.get( STACK.getItemID() ).initial + concoctions.get( STACK.getItemID() ).creatable;
+		AdventureResult item;
+		int worthlessItems = Math.min( hermitItems.getWorthlessItemCount(), KoLCharacter.getAvailableMeat() / 100 );
 
-		concoctions.get( DENSE.getItemID() ).initial = DENSE.getCount( availableIngredients );
-		concoctions.get( DENSE.getItemID() ).creatable = KoLCharacter.getAvailableMeat() / 1000;
-		concoctions.get( DENSE.getItemID() ).total = concoctions.get( DENSE.getItemID() ).initial + concoctions.get( DENSE.getItemID() ).creatable;
+		for ( int i = 0; i < hermitItems.size(); ++i )
+		{
+			item = (AdventureResult) hermitItems.get(i);
+			if ( !item.equals( SewerRequest.POSITIVE_CLOVER ) )
+				setBasicItem( availableIngredients, item, worthlessItems );
+		}
+	}
+
+	private static void setBasicItem( List availableIngredients, AdventureResult item, int creatable )
+	{
+		concoctions.get( item.getItemID() ).initial = item.getCount( availableIngredients );
+		concoctions.get( item.getItemID() ).creatable = creatable;
+		concoctions.get( item.getItemID() ).total = concoctions.get( item.getItemID() ).initial + creatable;
 	}
 
 	/**
@@ -483,7 +492,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		stillsLimit.creatable = 0;
 		stillsLimit.total = stillsLimit.initial;
 
-		calculateMeatCombines( availableIngredients );
+		calculateBasicItems( availableIngredients );
 
 		// It is never possible to create items which are flagged
 		// NOCREATE, and it is always possible to create items

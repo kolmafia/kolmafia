@@ -541,7 +541,9 @@ public class AdventureFrame extends KoLFrame
 
 				if ( conditionList.length() > 0 )
 				{
-					boolean verifyConditions = false;
+					boolean verifyConditions = StaticEntity.getBooleanProperty( "autoSetConditions" ) &&
+						conditionList.equals( AdventureDatabase.getCondition( location ) );
+
 					boolean useDisjunction = false;
 					String [] splitConditions = conditionList.split( "\\s*,\\s*" );
 
