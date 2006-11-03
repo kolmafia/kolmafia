@@ -9,8 +9,8 @@
 9	Perfume	Knob Goblin Perfume	spraycan.gif
 10	Steroids	Steroid Boost	strboost.gif
 11	Love Potion	Knob Goblin Lust Frenzy	lovelips.gif
-13
 12	Sharp Stone	Sharp Weapon	spraycan.gif
+13
 14	Henna	Hennaliciousness	henna.gif
 15	Seal Tooth	Bloody Hand	sad.gif
 16	Leash	Leash of Linguini	string.gif
@@ -84,8 +84,9 @@
 84
 85
 86	Eyebrows	Missing Eyebrows	sad.gif
-87	LeftFeet	Two Left Feet	89	Phonics Mox	Tingly Wrists	feather.gif
+87	LeftFeet	Two Left Feet
 88
+89	Phonics Mox	Tingly Wrists	feather.gif
 90	Phonics Mys	Tingly Elbows	feather.gif
 91	Phonics Mus	Tingly Biceps	feather.gif
 92	Sticky Hand	Sticky Hands	glove.gif
@@ -103,6 +104,7 @@
 104	Izchak's	Izchak's Blessing	light.gif
 105	Corroded	Corroded Weapon	corroded.gif
 106	Canadian	Canadianity	mapleleaf.gif
+107	Clan Boost	Enraged	angry.gif
 108	Clan Boost	Ancestral Disapproval	skull.gif
 109	Clan Boost	Whitened Teeth	goldfronts.gif
 110	Goofballs	Hopped Up on Goofballs	hoppedup.gif
@@ -212,7 +214,8 @@
 214	Sal Stomach	Salamander In Your Stomach	liver.gif
 215	Newt Eyes	Newt Gets In Your Eyes	eyes.gif
 216
-217	Evil Cow	Cursed by the RNG	218	Amorous	Amorous	lips.gif
+217	Evil Cow	Cursed by the RNG
+218	Amorous	Amorous	lips.gif
 219	Bubble	Bubble, Bubble	sphere.gif
 220	Sticky	Sticky Fingers	glove.gif
 221	Chalky Hand	Chalky Hand	glove.gif
