@@ -520,7 +520,7 @@ public class AdventureFrame extends KoLFrame
 			public void executeTask()
 			{
 				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
-				Runnable request = (Runnable) locationSelect.getSelectedValue();
+				KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
 				if ( request == null )
 					return;
 
@@ -542,7 +542,7 @@ public class AdventureFrame extends KoLFrame
 				if ( conditionList.length() > 0 )
 				{
 					boolean verifyConditions = StaticEntity.getBooleanProperty( "autoSetConditions" ) &&
-						conditionList.equals( AdventureDatabase.getCondition( location ) );
+						conditionList.equals( AdventureDatabase.getCondition( request ) );
 
 					boolean useDisjunction = false;
 					String [] splitConditions = conditionList.split( "\\s*,\\s*" );

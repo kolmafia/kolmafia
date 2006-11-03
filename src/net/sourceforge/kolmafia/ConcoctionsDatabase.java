@@ -454,7 +454,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		setBasicItem( availableIngredients, DENSE, KoLCharacter.getAvailableMeat() / 1000 );
 
 		AdventureResult item;
-		int worthlessItems = Math.min( hermitItems.getWorthlessItemCount(), KoLCharacter.getAvailableMeat() / 100 );
+		int worthlessItems = Math.min( HermitRequest.getWorthlessItemCount(), KoLCharacter.getAvailableMeat() / 100 );
 
 		for ( int i = 0; i < hermitItems.size(); ++i )
 		{
