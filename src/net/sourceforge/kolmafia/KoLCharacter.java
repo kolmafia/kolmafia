@@ -2484,6 +2484,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int MONKEY = 42;
 	private static final int HARE = 50;
 	private static final int HOBO = 52;
+	private static final int TICK = 58;
 
 	// Familiars that modify Meat Drops
 	private static final int LEPRECHAUN = 2;
@@ -2507,6 +2508,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int SLEAZY_GRAVY_FAIRY = 49;
 	private static final int PIXIE = 22;
 	private static final int DEMON = 41;
+	private static final int JITTERBUG = 57;
 	private static final int CRIMBO_ELF = 26;
 
 	// Items and skills that make Mysticality the To-Hit stat
@@ -2728,6 +2730,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		case PIXIE:
 		case DEMON:
+		case JITTERBUG:
 			// Full gravy fairy equivalent familiar
 			// Full leprechaun equivalent familiar
 			newItemDropPercentAdjustment += modifier * 2.5;
@@ -2748,6 +2751,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		case CHESHIRE:
 		case MONKEY:
+		case TICK:
 			// Full volleyball equivalent familiar
 			// Full leprechaun equivalent familiar
 			newFixedXPAdjustment += modifier / 4.0;
