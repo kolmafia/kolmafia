@@ -721,6 +721,8 @@ public class KoLmafiaCLI extends KoLmafia
 			forceContinue();
 
 			(new LogoutRequest()).run();
+			KoLmafia.forceContinue();
+
 			String password = StaticEntity.getClient().getSaveState( parameters );
 
 			if ( password != null )
@@ -3783,38 +3785,17 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		int itemID = -1;
-		int tradeCount = 1;
+		AdventureResult item = getFirstMatchingItem( parameters );
+		if ( item == null )
+			return;
 
-		List matchingNames = TradeableItemDatabase.getMatchingNames( parameters );
-		if ( matchingNames.isEmpty() )
-		{
-			String itemCountString = parameters.split( " " )[0];
-			String itemNameString = parameters.substring( itemCountString.length() ).trim();
-			matchingNames = TradeableItemDatabase.getMatchingNames( itemNameString );
-
-			if ( matchingNames.isEmpty() )
-			{
-				updateDisplay( ERROR_STATE, "[" + itemNameString + "] does not match anything in the item database." );
-				return;
-			}
-
-			tradeCount = StaticEntity.parseInt( itemCountString );
-		}
-
-		for ( int i = 0; i < matchingNames.size(); ++i )
-		{
-			if ( hermitItems.contains( KoLDatabase.getDisplayName( (String) matchingNames.get(i) ) ) )
-				itemID = TradeableItemDatabase.getItemID( (String) matchingNames.get(i) );
-		}
-
-		if ( itemID == -1 )
+		if ( !hermitItems.contains( item ) )
 		{
 			updateDisplay( ERROR_STATE, "You can't get " + parameters + " from the hermit today." );
 			return;
 		}
 
-		(new HermitRequest( itemID, tradeCount )).run();
+		(new HermitRequest( item.getItemID(), item.getCount() )).run();
 	}
 
 	/**
