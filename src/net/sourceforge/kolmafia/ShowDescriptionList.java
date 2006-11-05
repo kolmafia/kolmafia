@@ -35,7 +35,11 @@
 package net.sourceforge.kolmafia;
 
 import javax.swing.JList;
+import javax.swing.JPopupMenu;
+import javax.swing.JMenuItem;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
@@ -50,16 +54,58 @@ import net.java.dev.spellcast.utilities.LockableListModel;
  * click on the JList.
  */
 
-public class ShowDescriptionList extends JList
+public class ShowDescriptionList extends JList implements KoLConstants
 {
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
+	private JPopupMenu contextMenu;
 
 	public ShowDescriptionList( LockableListModel model )
 	{
 		super( model );
 		addMouseListener( new ShowDescriptionAdapter() );
+
+		contextMenu = new JPopupMenu();
+
+		JMenuItem dummyItem = new JMenuItem( "Win the game?" );
+		dummyItem.addActionListener( new WinGameListener() );
+		contextMenu.add( dummyItem );
+
+		addMouseListener( new PopupListener() );
 	}
 
+	private class WinGameListener implements ActionListener, Runnable
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new Thread( this )).start();
+		}
+
+		public void run()
+		{
+			DEFAULT_SHELL.executeLine( "win game" );
+			KoLmafia.enableDisplay();
+		}
+	}
+
+	protected class PopupListener extends MouseAdapter
+	{
+		public void mousePressed( MouseEvent e )
+		{
+			maybeShowPopup( e );
+		}
+
+		public void mouseReleased( MouseEvent e )
+		{
+			maybeShowPopup( e );
+		}
+
+		private void maybeShowPopup( MouseEvent e )
+		{
+			if ( e.isPopupTrigger() )
+			{
+				contextMenu.show( e.getComponent(), e.getX(), e.getY() );
+			}
+		}
+    }
 
 	private class ShowDescriptionAdapter extends MouseAdapter
 	{
