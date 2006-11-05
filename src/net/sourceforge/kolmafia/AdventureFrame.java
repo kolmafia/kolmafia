@@ -533,7 +533,17 @@ public class AdventureFrame extends KoLFrame
 
 				if ( lastAdventure != null && lastAdventure != request )
 				{
+					Object stats = null;
+					int substatIndex = conditions.indexOf( tally.get(2) );
+
+					if ( substatIndex != 0 )
+						stats = conditions.get( substatIndex );
+
 					conditions.clear();
+
+					if ( stats != null )
+						conditions.add( stats );
+
 					lastAdventure = request;
 					handleConditions( request );
 				}
