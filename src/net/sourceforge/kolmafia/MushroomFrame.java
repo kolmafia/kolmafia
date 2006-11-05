@@ -383,6 +383,8 @@ public class MushroomFrame extends KoLFrame
 
 		private String toggleMushroom()
 		{
+			currentLayout = "";
+
 			// Everything rotates based on what was there
 			// when you clicked on the image.
 
