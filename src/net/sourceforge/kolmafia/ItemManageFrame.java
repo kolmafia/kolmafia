@@ -108,26 +108,23 @@ public class ItemManageFrame extends KoLFrame
 		tabs.addTab( "Inventory", inventoryManager );
 		tabs.addTab( "Colossal Closet", closetManager );
 
-		if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
+		// If the person is in a mysticality sign, make sure
+		// you retrieve information from the restaurant.
+
+		if ( KoLCharacter.inMysticalitySign() && !restaurantItems.isEmpty() )
 		{
-			// If the person is in a mysticality sign, make sure
-			// you retrieve information from the restaurant.
+			npcOfferings = new SpecialPanel( restaurantItems );
+			tabs.add( "Restaurant", npcOfferings );
+		}
 
-			if ( KoLCharacter.inMysticalitySign() && !restaurantItems.isEmpty() )
-			{
-				npcOfferings = new SpecialPanel( restaurantItems );
-				tabs.add( "Restaurant", npcOfferings );
-			}
+		// If the person is in a moxie sign and they have completed
+		// the beach quest, then retrieve information from the
+		// microbrewery.
 
-			// If the person is in a moxie sign and they have completed
-			// the beach quest, then retrieve information from the
-			// microbrewery.
-
-			if ( KoLCharacter.inMoxieSign() && !microbreweryItems.isEmpty() )
-			{
-				npcOfferings = new SpecialPanel( microbreweryItems );
-				tabs.add( "Microbrewery", npcOfferings );
-			}
+		if ( KoLCharacter.inMoxieSign() && !microbreweryItems.isEmpty() )
+		{
+			npcOfferings = new SpecialPanel( microbreweryItems );
+			tabs.add( "Microbrewery", npcOfferings );
 		}
 
 		framePanel.add( tabs, BorderLayout.CENTER );
@@ -758,7 +755,7 @@ public class ItemManageFrame extends KoLFrame
 				StaticEntity.setProperty( setting, String.valueOf( isSelected() ) );
 
 				if ( setting.equals( "showStashIngredients" ) && KoLCharacter.hasClan() && isSelected() &&
-					StaticEntity.getClient().shouldMakeConflictingRequest() && !ClanManager.isStashRetrieved() )
+					KoLmafia.isAdventuring() && !ClanManager.isStashRetrieved() )
 				{
 					(new RequestThread( new ClanStashRequest() )).start();
 				}
