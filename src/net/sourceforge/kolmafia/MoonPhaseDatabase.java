@@ -72,9 +72,8 @@ public class MoonPhaseDatabase extends StaticEntity
 			// Change it so that it doesn't recognize daylight savings in order
 			// to ensure different localizations work.
 
-			TimeZone koltime = (TimeZone) TimeZone.getDefault().clone();
-			koltime.setRawOffset( 1000 * 60 * 60 * -5 );
-			DATED_FILENAME_FORMAT.setTimeZone( koltime );
+			DATED_FILENAME_FORMAT.setTimeZone( TimeZone.getTimeZone( "GMT-5" ) );
+
 
 			NEWYEAR = DATED_FILENAME_FORMAT.parse( "20050917" ).getTime();
 			BOUNDARY = DATED_FILENAME_FORMAT.parse( "20051027" ).getTime();
@@ -97,7 +96,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		try
 		{
-			int calendarDay = getCalendarDay( CALENDAR_FORMAT.parse( CALENDAR_FORMAT.format( new Date() ) ) );
+			int calendarDay = getCalendarDay( new Date() );
 			int phaseStep = ((calendarDay % 16) + 16) % 16;
 
 			RONALD_PHASE = phaseStep % 8;
