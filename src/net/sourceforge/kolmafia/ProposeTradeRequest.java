@@ -46,6 +46,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d+=(\\d+)" );
 	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "howmany\\d+=(\\d+)" );
 
+	private int offerID;
 	private boolean isCounterOffer;
 	private String recipient, message;
 
@@ -60,6 +61,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 		addFormField( "whichoffer", String.valueOf( offerID ) );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
 
+		this.offerID = offerID;
 		this.message = message;
 		this.isCounterOffer = true;
 		this.recipient = KoLmafia.getPlayerID( recipient );
@@ -72,6 +74,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 		addFormField( "towho", recipient );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
 
+		this.offerID = 0;
 		this.message = message;
 		this.isCounterOffer = false;
 		this.recipient = KoLmafia.getPlayerID( recipient );
@@ -83,11 +86,8 @@ public class ProposeTradeRequest extends SendMessageRequest
 
 	protected SendMessageRequest getSubInstance( Object [] attachments )
 	{
-		// This request cannot be repeated.  Therefore, if the person attaches
-		// too much to the request, only handle the first 11 and do nothing
-		// if the repeat method is called.
-
-		return this;
+		return isCounterOffer ? new ProposeTradeRequest( offerID, message, attachments ) :
+			new ProposeTradeRequest( recipient, message, attachments );
 	}
 
 	protected String getSuccessMessage()
