@@ -666,10 +666,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// such that auto-recovery gets reset as needed.
 
 				if ( name.equals( "battleAction" ) && value != null )
-				{
 					KoLCharacter.getBattleSkillNames().setSelectedItem( value );
-					resetRestoreSettings( false );
-				}
 			}
 
 			printLine( name + " => " + value );
