@@ -336,7 +336,7 @@ public class OptionsFrame extends KoLFrame
 			{ "areaValidation", "Enable stat checks before using adventures" },
 			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
 
-			{ "autoSetConditions", "Autofill conditions field when selecting areas" },
+			{ "autoSetConditions", "While in Ronin, autofill conditions field" },
 			{ "allowStasisTactics", "Allow stasis-type commands when using combat familiars" },
 			{ "sortAdventures", "Sort adventure list display by moxie evade rating" }
 		};

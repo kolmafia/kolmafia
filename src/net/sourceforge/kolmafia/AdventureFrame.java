@@ -640,7 +640,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			public void valueChanged( ListSelectionEvent e )
 			{
-				if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
+				if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) || KoLCharacter.canInteract() )
 					return;
 
 				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();
