@@ -150,6 +150,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 	public void append( String message )
 	{
+
 		if ( requiresTruncation && displayBuffer.length() > MAXIMUM_SIZE )
 		{
 			int lineIndex = displayBuffer.indexOf( "<br>", DELETE_AMOUNT );
@@ -170,7 +171,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		// into unicode, rather than character entities.
 
 		RequestEditorKit.downloadImages( message );
-		message = RequestEditorKit.getUnicode( message, false );
+		message = RequestEditorKit.getUnicode( message, false ).replaceAll( "<([^>]*)<", "&lt;$1<" );
 
 		// In the event that there's a link to the player pics
 		// page, make it so the file links locally rather than
