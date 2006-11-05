@@ -179,7 +179,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 13 is unknown
 
 		// A Bard Day's Night
-		new ChoiceAdventure( "Plains", "choiceAdventure14", "Knob Goblin Harem",
+		new ChoiceAdventure( "Knob", "choiceAdventure14", "Knob Goblin Harem",
 		  new String [] { "Knob goblin harem veil", "Knob goblin harem pants", "small meat boost", "complete the outfit" },
 		  new String [] { "306", "305", null } ),
 
@@ -245,17 +245,17 @@ public class AdventureDatabase extends KoLDatabase
 		// Choices 30 - 39 are unknown
 
 		// The Effervescent Fray
-		new ChoiceAdventure( "Rift", "choiceAdventure40", "Cola Wars 1",
+		new ChoiceAdventure( "Plains", "choiceAdventure40", "Cola Wars 1",
 		  new String [] { "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "boost mysticality" },
 		  new String [] { "1328", "1329", null } ),
 
 		// Smells Like Team Spirit
-		new ChoiceAdventure( "Rift", "choiceAdventure41", "Cola Wars 2",
+		new ChoiceAdventure( "Plains", "choiceAdventure41", "Cola Wars 2",
 		  new String [] { "Dyspepsi-Cola fatigues", "Cloaca-Cola helmet", "boost muscle" },
 		  new String [] { "1330", "1331", null } ),
 
 		// What is it Good For?
-		new ChoiceAdventure( "Rift", "choiceAdventure42", "Cola Wars 3",
+		new ChoiceAdventure( "Plains", "choiceAdventure42", "Cola Wars 3",
 		  new String [] { "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "boost moxie" },
 		  new String [] { "1326", "1327", null } ),
 
@@ -428,7 +428,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Naughty, Naughty
 		new ChoiceAdventure( "choiceAdventure88", "Haunted Library",
-		  new String [] { "boost mysticality", "boost moxie", "mysticality class skill" } ),
+		  new String [] { "boost mysticality", "boost moxie", "Fettucini / Scarysauce" } ),
 
 		// Louvre It or Leave It
 		new ChoiceAdventure( "choiceAdventure91", "Haunted Gallery 2",

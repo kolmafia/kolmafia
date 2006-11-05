@@ -1546,6 +1546,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				KoLmafia.updateDisplay( ABORT_STATE, "Unsupported choice adventure #" + choice );
 				request.showInBrowser( true );
+
+				StaticEntity.printRequestData( request );
 				return;
 			}
 
