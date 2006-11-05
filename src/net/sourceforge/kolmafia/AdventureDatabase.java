@@ -992,7 +992,9 @@ public class AdventureDatabase extends KoLDatabase
 			boolean shouldPurchase = price != 0 || item.getName().indexOf( "clover" ) != -1;
 			boolean canUseNPCStore = getBooleanProperty( "autoSatisfyWithNPCs" ) && NPCStoreDatabase.contains( item.getName() );
 
-			boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemID() ) || ConcoctionsDatabase.getMixingMethod( item.getItemID() ) == ItemCreationRequest.PIXEL;
+			boolean shouldAutoSatisfyEarly = !shouldUseStash &&
+				(canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemID() ) ||
+				ConcoctionsDatabase.getMixingMethod( item.getItemID() ) == ItemCreationRequest.PIXEL);
 
 			// See if the item can be retrieved from the clan stash.  If it can,
 			// go ahead and pull as many items as possible from there.
