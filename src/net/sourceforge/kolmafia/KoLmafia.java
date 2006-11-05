@@ -2897,8 +2897,8 @@ public abstract class KoLmafia implements KoLConstants
 				autosell.add( items[i] );
 
 			default:
-				int standardPrice = TradeableItemDatabase.getPriceByID( items[i].getItemID() );
-				if ( standardPrice > 0 )
+
+				if ( TradeableItemDatabase.isTradeable( items[i].getItemID() ) )
 				{
 					if ( NPCStoreDatabase.contains( items[i].getName(), false ) )
 						autosell.add( items[i] );

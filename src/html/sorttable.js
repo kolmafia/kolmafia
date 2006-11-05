@@ -109,7 +109,8 @@ function ts_resortTable(lnk)
 	sortfn = ts_sort_numeric;
 	if (itm.match(/^\d\d[\/]\d\d[\/]\d\d/)) sortfn = ts_sort_date;
 	if (itm.match(/^[£$]/)) sortfn = ts_sort_currency;
-	if ( !itm || itm.length() == 0 || itm.match(/[A-Za-z]/)) sortfn = ts_sort_default;
+
+	if ( !itm || (typeof itm == "string" && (itm == "" || itm.match(/[A-Za-z]/))) ) sortfn = ts_sort_default;
 
 	SORT_COLUMN_INDEX = column;
 

@@ -102,10 +102,6 @@ public class GreenMessageRequest extends SendMessageRequest
 	{	return "<center>Message ";
 	}
 
-	protected final boolean allowUntradeableTransfer()
-	{	return false;
-	}
-
 	protected String getStatusMessage()
 	{	return "Sending kmail to " + KoLmafia.getPlayerName( recipient );
 	}

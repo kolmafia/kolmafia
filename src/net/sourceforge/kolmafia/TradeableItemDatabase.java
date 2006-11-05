@@ -53,11 +53,15 @@ public class TradeableItemDatabase extends KoLDatabase
 {
 	private static IntegerArray useTypeByID = new IntegerArray();
 	private static IntegerArray priceByID = new IntegerArray();
+
 	private static StringArray descByID = new StringArray();
 
 	private static Map nameByItemID = new TreeMap();
 	private static Map itemIDByName = new TreeMap();
 	private static Map itemIDByPlural = new TreeMap();
+
+	private static BooleanArray tradeableByID = new BooleanArray();
+	private static BooleanArray giftableByID = new BooleanArray();
 
 	static
 	{
@@ -72,16 +76,19 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 4 )
+			if ( data.length == 5 )
 			{
 				int itemID = StaticEntity.parseInt( data[0] );
 				Integer id = new Integer( itemID );
 
 				useTypeByID.set( itemID, StaticEntity.parseInt( data[2] ) );
-				priceByID.set( itemID, StaticEntity.parseInt( data[3] ) );
+				priceByID.set( itemID, StaticEntity.parseInt( data[4] ) );
 
 				itemIDByName.put( getCanonicalName( data[1] ), id );
 				nameByItemID.put( id, getDisplayName( data[1] ) );
+
+				tradeableByID.set( itemID, data[3].equals( "all" ) );
+				giftableByID.set( itemID, data[3].equals( "all" ) || data[3].equals( "gift" ) );
 			}
 		}
 
@@ -380,9 +387,16 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final boolean isTradeable( int itemID )
-	{
-		int price = priceByID.get( itemID );
-		return price == -1 || price > 0;
+	{	return tradeableByID.get( itemID );
+	}
+
+	/**
+	 * Returns true if the item is tradeable, otherwise false
+	 * @return	true if item is tradeable
+	 */
+
+	public static final boolean isGiftable( int itemID )
+	{	return giftableByID.get( itemID );
 	}
 
 	/**
@@ -392,7 +406,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final String getItemName( int itemID )
-	{	return (String)nameByItemID.get( new Integer( itemID ) );
+	{	return (String) nameByItemID.get( new Integer( itemID ) );
 	}
 
 	/**

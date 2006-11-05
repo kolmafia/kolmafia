@@ -542,12 +542,10 @@ public class AdventureResult implements Comparable, KoLConstants
 			stringForm.append( ar.getName() );
 			stringForm.append( " (" );
 
-			if ( autoSellValue == -1 )
-				stringForm.append( "no-autosell" );
-			else if ( autoSellValue == 0 )
+			if ( autoSellValue == 0 )
+				stringForm.append( "no-sell" );
+			else if ( !TradeableItemDatabase.isTradeable( ar.getItemID() ) )
 				stringForm.append( "no-trade" );
-			else if ( autoSellValue < -1 )
-				stringForm.append( COMMA_FORMAT.format( -autoSellValue ) + " meat, no-trade" );
 			else
 				stringForm.append( COMMA_FORMAT.format( autoSellValue ) + " meat" );
 
@@ -661,12 +659,13 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 
 		int autoSellValue = TradeableItemDatabase.getPriceByID( itemID );
+		boolean tradeable = TradeableItemDatabase.isTradeable( itemID );
 
-		if ( autoSellValue == -1 )
-			isVisibleWithFilter &= nosell;
-		else if ( autoSellValue == 0 )
+		if ( autoSellValue == 0 && !tradeable )
 			isVisibleWithFilter &= nosell && notrade;
-		else if ( autoSellValue < -1 )
+		else if ( autoSellValue == 0 )
+			isVisibleWithFilter &= nosell;
+		else if ( !tradeable )
 			isVisibleWithFilter &= notrade;
 
 		return isVisibleWithFilter;
