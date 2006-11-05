@@ -64,6 +64,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class StoreManageFrame extends KoLPanelFrame
 {
+	private static StoreManageFrame INSTANCE = null;
+
 	private JLabel searchLabel;
 	private LockableListModel priceSummary;
 	private JPanel searchResults;
@@ -73,6 +75,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	public StoreManageFrame()
 	{
 		super( "Store Manager" );
+		INSTANCE = this;
 
 		tabs = new JTabbedPane();
 		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
@@ -83,6 +86,15 @@ public class StoreManageFrame extends KoLPanelFrame
 		tabs.add( "Store Log", new StoreLogPanel() );
 
 		framePanel.add( tabs, BorderLayout.CENTER );
+		updateEarnings( StoreManager.getPotentialEarnings() );
+	}
+
+	public static void updateEarnings( long potentialEarnings )
+	{
+		if ( INSTANCE == null )
+			return;
+
+		INSTANCE.setTitle( "Store Manager (potential earnings: " + COMMA_FORMAT.format( potentialEarnings ) + " meat)" );
 	}
 
 	private class StoreManagePanel extends KoLPanel implements Runnable
