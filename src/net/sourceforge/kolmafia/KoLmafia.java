@@ -80,6 +80,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLmafia implements KoLConstants
 {
+	protected static boolean isAdventuring = false;
 	protected static PrintStream sessionStream = NullStream.INSTANCE;
 	protected static PrintStream debugStream = NullStream.INSTANCE;
 	protected static PrintStream outputStream = NullStream.INSTANCE;
@@ -1396,6 +1397,8 @@ public abstract class KoLmafia implements KoLConstants
 
 			forceContinue();
 
+			boolean wasAdventuring = isAdventuring;
+
 			// Handle the gym, which is the only adventure type
 			// which needs to be specially handled.
 
@@ -1414,6 +1417,8 @@ public abstract class KoLmafia implements KoLConstants
 					if ( conditions.isEmpty() && !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) ) )
 						return;
 				}
+
+				isAdventuring = true;
 			}
 
 			// Execute the request as initially intended by calling
@@ -1422,6 +1427,9 @@ public abstract class KoLmafia implements KoLConstants
 			// been manipulated internally by
 
 			executeRequest( request, iterations );
+
+			if ( request instanceof KoLAdventure && !wasAdventuring )
+				isAdventuring = false;
 		}
 		catch ( Exception e )
 		{
@@ -2802,8 +2810,8 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
 	}
 
-	public boolean shouldMakeConflictingRequest()
-	{	return currentRequest == null || !(currentRequest instanceof FightRequest) || currentRequest.getAdventuresUsed() == 1;
+	public static boolean isAdventuring()
+	{	return !isAdventuring;
 	}
 
 	public void removeAllItemsFromStore()

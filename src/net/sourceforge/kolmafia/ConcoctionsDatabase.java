@@ -348,7 +348,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			}
 			else if ( infiniteNPCStoreItems && NPCStoreDatabase.contains( current.concoction.getName() ) )
 			{
-				current.initial = Integer.MAX_VALUE;
+				current.initial = MallPurchaseRequest.MAX_QUANTITY;
 				current.creatable = 0;
 				current.total = current.initial;
 			}
@@ -894,7 +894,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			}
 			else
 			{
-				this.total = Integer.MAX_VALUE;
+				this.total = MallPurchaseRequest.MAX_QUANTITY;
 				for ( int i = 0; i < ingredientArray.length; ++i )
 					this.total = Math.min( this.total, concoctions.get( ingredientArray[i].getItemID() ).quantity() );
 
@@ -928,7 +928,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// number is available.
 
 			if ( this.multiplier == 0 )
-				return Integer.MAX_VALUE;
+				return MallPurchaseRequest.MAX_QUANTITY;
 
 			// The maximum value is equivalent to the total, plus
 			// the modifier, divided by the multiplier, if the

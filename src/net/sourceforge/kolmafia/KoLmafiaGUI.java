@@ -240,7 +240,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "KoLMessenger" ) )
 		{
-			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
+			if ( isAdventuring() )
 			{
 				updateDisplay( "Retrieving chat color preferences..." );
 				(new ChannelColorsRequest()).run();
@@ -255,7 +255,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "MailboxFrame" ) )
 		{
-			if ( !StaticEntity.getClient().shouldMakeConflictingRequest() )
+			if ( !isAdventuring() )
 			{
 				updateDisplay( "You are currently adventuring." );
 				enableDisplay();
@@ -279,7 +279,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "CakeArenaFrame" ) || frameName.equals( "FamiliarTrainingFrame" ) )
 		{
-			if ( !StaticEntity.getClient().shouldMakeConflictingRequest() )
+			if ( !isAdventuring() )
 			{
 				updateDisplay( "You can't do that while adventuring." );
 				enableDisplay();
@@ -291,7 +291,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "ClanManageFrame" ) )
 		{
-			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
+			if ( isAdventuring() )
 			{
 				if ( !KoLCharacter.hasClan() )
 				{
@@ -316,7 +316,7 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			boolean ranRequest = false;
 
-			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
+			if ( isAdventuring() )
 			{
 				// If the person is in a mysticality sign, make sure
 				// you retrieve information from the restaurant.
@@ -361,7 +361,7 @@ public class KoLmafiaGUI extends KoLmafia
 				return;
 			}
 
-			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
+			if ( isAdventuring() )
 			{
 				(new StoreManageRequest()).run();
 				(new StoreManageRequest( true )).run();
@@ -370,7 +370,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "HagnkStorageFrame" ) )
 		{
-			if ( storage.isEmpty() && StaticEntity.getClient().shouldMakeConflictingRequest() )
+			if ( storage.isEmpty() && isAdventuring() )
 			{
 				(new ItemStorageRequest()).run();
 				enableDisplay();

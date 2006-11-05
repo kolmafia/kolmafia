@@ -1178,6 +1178,18 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			return c;
 		}
+
+		public void changeSelection( final int row, final int column, boolean toggle, boolean extend )
+		{
+			super.changeSelection( row, column, toggle, extend );
+
+			if ( editCellAt( row, column ) )
+			{
+				getEditorComponent().requestFocusInWindow();
+				if ( getEditorComponent() instanceof JTextField )
+					((JTextField)getEditorComponent()).selectAll();
+			}
+		}
 	}
 
 	protected class IntegerRenderer extends DefaultTableCellRenderer
