@@ -74,6 +74,7 @@ import javax.swing.JOptionPane;
 import javax.swing.Box;
 import javax.swing.JSpinner;
 import javax.swing.JProgressBar;
+import javax.swing.JSplitPane;
 
 // utilities
 import java.util.Arrays;
@@ -216,10 +217,12 @@ public class AdventureFrame extends KoLFrame
 		// Handle everything that might appear inside of the
 		// session tally.
 
-		JPanel sessionGrid = new JPanel( new GridLayout( 1, 2, 10, 10 ) );
-		sessionGrid.add( getAdventureSummary( StaticEntity.getIntegerProperty( "defaultDropdown1" ) ) );
-		sessionGrid.add( getAdventureSummary( StaticEntity.getIntegerProperty( "defaultDropdown2" ) ) );
+		JSplitPane sessionGrid = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true,
+			getAdventureSummary( StaticEntity.getIntegerProperty( "defaultDropdown1" ) ),
+			getAdventureSummary( StaticEntity.getIntegerProperty( "defaultDropdown2" ) ) );
 
+		sessionGrid.setDividerLocation( 0.5 );
+		sessionGrid.setResizeWeight( 0.5 );
 		tabs.addTab( "Normal Options", sessionGrid );
 
 		// Components of auto-restoration

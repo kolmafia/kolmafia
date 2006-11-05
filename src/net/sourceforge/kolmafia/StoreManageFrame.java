@@ -276,6 +276,10 @@ public class StoreManageFrame extends KoLPanelFrame
 				soldItem = new AdventureResult( soldItem.getItemID(), quantity );
 
 				setValueAt( new AdventureResult( "-select an item-", 1, false ), 0, 0 );
+				setValueAt( new Integer(0), 0, 1 );
+				setValueAt( new Integer(0), 0, 3 );
+				setValueAt( new Boolean(false), 0, 1 );
+
 				(new RequestThread( new AutoSellRequest( soldItem, price, limit ) )).start();
 			}
 		}
