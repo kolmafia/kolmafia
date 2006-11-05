@@ -295,8 +295,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public static boolean allowBoozeConsumption( int inebrietyBonus )
 	{
-		System.out.println( inebrietyBonus );
-
 		if ( !StaticEntity.getBooleanProperty( "protectAgainstOverdrink" ) )
 			return true;
 
