@@ -388,10 +388,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 			}
 		}
 
-		// Load script files locally.
-
-		StaticEntity.globalStringReplace( responseBuffer, "http://69.16.150.201/scripts/", "/images/scripts/" );
-
 		try
 		{
 			RequestEditorKit.getFeatureRichHTML( formURLString.toString(), responseBuffer );
@@ -400,6 +396,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			StaticEntity.printStackTrace( e );
 		}
+
+		// Load script files locally.
+		StaticEntity.globalStringReplace( responseBuffer, "http://69.16.150.201/scripts/", "/images/scripts/" );
 
 		// Download and link to any Players of Loathing
 		// picture pages locally.

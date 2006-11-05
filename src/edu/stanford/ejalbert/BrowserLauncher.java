@@ -516,7 +516,6 @@ public class BrowserLauncher {
 				}
 				break;
 			}
-		    case WINDOWS_NT:
 		    case WINDOWS_9x:
 		    {
 				// Determine whether or not Internet Explorer is flagged as the
@@ -524,17 +523,72 @@ public class BrowserLauncher {
 				// get a new window to open.
 
 		    	Process process = null;
-				boolean usingIE = false;
-
+				boolean usingIE = true;
 				String executable = "";
 
-				if ( url.indexOf( ".txt" ) != -1 || url.indexOf( ".log" ) != -1 || url.indexOf( ".ash" ) != -1 )
+				// Wrap the URL inside of quotes.
+				url = "\"" + url + "\"";
+
+				// Usually, if the person has installed Firefox, then they probably
+				// want to use it.
+
+				File alternative = new File( "C:\\Program Files\\Mozilla Firefox\\firefox.exe" );
+				if ( alternative.exists() )
 				{
 					usingIE = false;
-					executable = "notepad";
+					executable = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
 				}
-				else if ( jvm == WINDOWS_NT )
+
+				// Because the person who has modified the original BrowserLauncher
+				// likes Opera, it will override Firefox if it is installed.
+
+				alternative = new File( "C:\\Program Files\\Opera\\Opera.exe" );
+				if ( alternative.exists() )
 				{
+					usingIE = false;
+					executable = "C:\\Program Files\\Opera\\Opera.exe";
+				}
+
+				// If you're still using IE, then make sure you give the full path
+				// to Internet Explorer to ensure that a browser gets opened.
+
+				if ( usingIE )
+					executable = "C:\\Program Files\\Internet Explorer\\iexplore.exe";
+
+				process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
+					executable, url } );
+
+				// This avoids a memory leak on some versions of Java on Windows.
+				// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
+
+				try {
+					process.waitFor();
+					process.exitValue();
+				} catch (InterruptedException ie) {
+					throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
+				}
+
+				break;
+			}
+		    case WINDOWS_NT:
+		    {
+				// Determine whether or not Internet Explorer is flagged as the
+				// default browser -- if it is, invoke it manually in order to
+				// get a new window to open.
+
+		    	Process process = null;
+				boolean usingIE = System.getProperty( "ignoreHTMLAssocation" ) != null &&
+					System.getProperty( "ignoreHTMLAssocation" ).equals( "true" );
+
+				// Wrap the URL inside of quotes.
+				url = "\"" + url + "\"";
+
+				if ( usingIE )
+				{
+					// Determine the file type for .html files.  On Windows, every other
+					// browser changes the association to something other than "htmlfile",
+					// so if it's htmlfile, you load IE in a new window.
+
 					process = Runtime.getRuntime().exec(
 						new String [] { (String) browser, "/c", "assoc", ".html" } );
 
@@ -559,56 +613,8 @@ public class BrowserLauncher {
 						// that it's Internet Explorer, which is the default.
 					}
 				}
-				else
-				{
-					usingIE = true;
 
-					// Usually, if the person has installed Firefox and they are
-					// running on Windows 9x, then they probably want to use it
-					// for the reduced resource consumption.
-
-					File alternative = new File( "C:\\Program Files\\Mozilla Firefox\\firefox.exe" );
-					if ( alternative.exists() )
-					{
-						usingIE = false;
-						executable = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-					}
-
-					// Because the person who has modified the original BrowserLauncher
-					// likes Opera, that's the browser that will override Firefox if
-					// it happens to be installed.
-
-					alternative = new File( "C:\\Program Files\\Opera\\Opera.exe" );
-					if ( alternative.exists() )
-					{
-						usingIE = false;
-						executable = "C:\\Program Files\\Opera\\Opera.exe";
-					}
-
-					// If you're still using IE, then make sure you give the full path
-					// to Internet Explorer to ensure that a browser gets opened.
-
-					if ( usingIE )
-					{
-						usingIE = true;
-						executable = "C:\\Program Files\\Internet Explorer\\iexplore.exe";
-					}
-				}
-
-				// Wrap the URL inside of quotes.
-				url = "\"" + url + "\"";
-
-				if ( jvm == WINDOWS_9x )
-				{
-					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
-						executable, url } );
-				}
-				else if ( executable.equals( "notepad" ) )
-				{
-					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
-						"start", "\"\"", executable, url } );
-				}
-				else if ( usingIE && System.getProperty( "useSystemBrowser" ) != null && System.getProperty( "useSystemBrowser" ).equals( "false" ) )
+				if ( usingIE )
 				{
 					process = Runtime.getRuntime().exec(
 						new String[] { (String) browser, "/c", "explorer", url } );
@@ -631,8 +637,9 @@ public class BrowserLauncher {
 				} catch (InterruptedException ie) {
 					throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
 				}
+
 				break;
-		    }
+			}
 			default:
 			{
 				// Determine whether or not Netscape exists on this system.

@@ -994,6 +994,14 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < techniques.length && current <= threshold; ++i )
 		{
+			if ( techniques[i] instanceof HPRestoreItemList.HPRestoreItem )
+				if ( ((HPRestoreItemList.HPRestoreItem)techniques[i]).getItem() == null )
+					continue;
+
+			if ( techniques[i] instanceof MPRestoreItemList.MPRestoreItem )
+				if ( ((MPRestoreItemList.MPRestoreItem)techniques[i]).getItem() == null )
+					continue;
+
 			currentTechniqueName = techniques[i].toString().toLowerCase();
 			if ( restoreSetting.indexOf( currentTechniqueName ) != -1 )
 			{
@@ -1011,6 +1019,9 @@ public abstract class KoLmafia implements KoLConstants
 				while ( current <= threshold && last != current && !refusesContinue() );
 			}
 		}
+
+		// If things are still not restored, try looking for items you
+		// don't have.
 
 		for ( int i = 0; i < techniques.length && current <= threshold; ++i )
 		{
@@ -2790,6 +2801,7 @@ public abstract class KoLmafia implements KoLConstants
 		// worker threads have not been filled.
 
 		String baseURL = "http://127.0.0.1:" + LocalRelayServer.getPort() + "/";
+		System.setProperty( "ignoreHTMLAssocation", StaticEntity.getProperty( "ignoreHTMLAssocation" ) );
 
 		if ( KoLRequest.sessionID == null )
 			StaticEntity.openSystemBrowser( baseURL + "login.php" );

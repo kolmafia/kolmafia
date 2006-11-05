@@ -411,40 +411,37 @@ public class LocalRelayServer implements Runnable
 					request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 					request.responseCode = 304;
 				}
-				else
+				else if ( (path.indexOf( "fight.php" ) != -1 && FightRequest.isTrackingFights()) || path.indexOf( "fight.php?action=script" ) != -1 )
 				{
-					if ( (path.indexOf( "fight.php" ) != -1 && FightRequest.isTrackingFights()) || path.indexOf( "fight.php?action=script" ) != -1 )
+					if ( !FightRequest.isTrackingFights() )
 					{
-						if ( !FightRequest.isTrackingFights() )
-						{
-							String previousAction = StaticEntity.getProperty( "battleAction" );
-							StaticEntity.setProperty( "battleAction", "custom combat script" );
+						String previousAction = StaticEntity.getProperty( "battleAction" );
+						StaticEntity.setProperty( "battleAction", "custom combat script" );
 
-							KoLmafia.forceContinue();
-							FightRequest.beginTrackingFights();
-							(new Thread( FightRequest.INSTANCE )).start();
-						}
+						KoLmafia.forceContinue();
+						FightRequest.beginTrackingFights();
+						(new Thread( FightRequest.INSTANCE )).start();
+					}
 
-						String fightResponse = FightRequest.getNextTrackedRound();
-						if ( fightResponse == null )
-						{
-							request.pseudoResponse( "HTTP/1.1 302 Found", "/main.php" );
-						}
-						else
-						{
-							if ( FightRequest.isTrackingFights() )
-							{
-								fightResponse = StaticEntity.singleStringReplace( fightResponse, "</html>",
-									"<script language=\"Javascript\"> function continueAutomatedFight() { document.location = \"fight.php\"; return 0; } setTimeout( continueAutomatedFight, 400 ); </script></html>" );
-							}
-
-							request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
-						}
+					String fightResponse = FightRequest.getNextTrackedRound();
+					if ( fightResponse == null )
+					{
+						request.pseudoResponse( "HTTP/1.1 302 Found", "/main.php" );
 					}
 					else
 					{
-						request.run();
+						if ( FightRequest.isTrackingFights() )
+						{
+							fightResponse = StaticEntity.singleStringReplace( fightResponse, "</html>",
+								"<script language=\"Javascript\"> function continueAutomatedFight() { document.location = \"fight.php\"; return 0; } setTimeout( continueAutomatedFight, 400 ); </script></html>" );
+						}
+
+						request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 					}
+				}
+				else
+				{
+					request.run();
 				}
 
 				sendHeaders( writer, request );

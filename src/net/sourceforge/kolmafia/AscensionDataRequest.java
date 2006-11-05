@@ -50,7 +50,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	private static boolean isSoftcoreComparator = true;
 
 	private static final SimpleDateFormat ASCEND_DATE_FORMAT = new SimpleDateFormat( "MM/dd/yy", Locale.US );
-	private static final Pattern FIELD_PATTERN = Pattern.compile( "</tr><td>.*?</tr>" );
+	private static final Pattern FIELD_PATTERN = Pattern.compile( "</tr><td class=small.*?</tr>" );
 
 	private String playerName;
 	private String playerID;
@@ -98,7 +98,9 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 	protected void processResults()
 	{
-		responseText = responseText.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" );
+		responseText = responseText.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" ).replaceAll( "<td></td>",
+			"<td><img src=\"http://images.kingdomofloathing.com/itemimages/confused.gif\" height=30 width=30></td>" );
+
 		refreshFields();
 	}
 
@@ -207,14 +209,14 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			else
 			{
 				lastFindIndex = fieldMatcher.end() - 5;
-				columnsNew = fieldMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
+				columnsNew = extractColumns( fieldMatcher.group() );
 			}
 
 			while ( oldDataMatcher.find( oldFindIndex ) )
 			{
 				oldFindIndex = oldDataMatcher.end() - 5;
 
-				String [] columnsOld = oldDataMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
+				String [] columnsOld = extractColumns( oldDataMatcher.group() );
 				if ( !newDataAvailable )
 				{
 					lastField = new AscensionDataField( playerName, playerID, columnsOld );
@@ -235,7 +237,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 					else
 					{
 						lastFindIndex = fieldMatcher.end() - 5;
-						columnsNew = fieldMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
+						columnsNew = extractColumns( fieldMatcher.group() );
 					}
 
 					lastField = new AscensionDataField( playerName, playerID, columnsOld );
@@ -283,6 +285,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 					}
 				}
 			}
+
 			if ( inconsistency )
 			{
 				lastField = new AscensionDataField( playerName, playerID, columnsNew );
@@ -301,8 +304,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		{
 			lastFindIndex = fieldMatcher.end() - 5;
 
-			String [] columns = fieldMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
-
+			String [] columns = extractColumns( fieldMatcher.group() );
 			lastField = new AscensionDataField( playerName, playerID, columns );
 			ascensionData.add( lastField );
 
@@ -347,6 +349,10 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	{	return ascensionData;
 	}
 
+	private static String [] extractColumns( String rowData )
+	{	return rowData.replaceFirst( "</tr><td.*?>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(</?t[rd].*?>)+" );
+	}
+
 	public static class AscensionDataField implements Comparable
 	{
 		private String playerName;
@@ -360,19 +366,14 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		private int dayCount, turnCount;
 
 		public AscensionDataField( String playerName, String playerID, String rowData )
-		{
-
-			String [] columns = rowData.replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
-			setData( playerName, playerID, columns );
-
+		{	setData( playerName, playerID, extractColumns( rowData ) );
 		}
 
-		public AscensionDataField( String playerName, String playerID, String[] columns )
-		{
-			setData( playerName, playerID, columns );
+		public AscensionDataField( String playerName, String playerID, String [] columns )
+		{	setData( playerName, playerID, columns );
 		}
 
-		private void setData( String playerName, String playerID, String[] columns )
+		private void setData( String playerName, String playerID, String [] columns )
 		{
 			this.playerID = playerID;
 			this.playerName = KoLmafia.getPlayerName( playerID );
@@ -380,38 +381,27 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			if ( this.playerName.equals( this.playerID ) )
 				this.playerName = playerName;
 
+			// The level at which the ascension took place is found
+			// in the third column, or index 2 in the array.
+
 			try
 			{
-				// The level at which the ascension took place is found
-				// in the third column, or index 2 in the array.
-
 				this.timestamp = ASCEND_DATE_FORMAT.parse( columns[1] );
 				this.level = StaticEntity.parseInt( columns[2] );
-
-				this.classID = columns[3].startsWith( "SC" ) ? AscensionSnapshotTable.SEAL_CLUBBER :
-					columns[3].startsWith( "T" ) ? AscensionSnapshotTable.TURTLE_TAMER :
-					columns[3].startsWith( "P" ) ? AscensionSnapshotTable.PASTAMANCER :
-					columns[3].startsWith( "S" ) ? AscensionSnapshotTable.SAUCEROR :
-					columns[3].startsWith( "D" ) ? AscensionSnapshotTable.DISCO_BANDIT : AscensionSnapshotTable.ACCORDION_THIEF;
-
-				this.sign = columns[4];
-				this.turnCount = StaticEntity.parseInt( columns[5] );
-				this.dayCount = StaticEntity.parseInt( columns[6] );
-
-				String [] path = columns[7].split( "," );
-				this.isSoftcore = path[0].equals( "Normal" );
-
-				this.pathID = path[1].equals( "NoPath" ) ? AscensionSnapshotTable.NOPATH :
-					path[1].equals( "Teetotaler" ) ? AscensionSnapshotTable.TEETOTALER :
-					path[1].equals( "Boozetafarian" ) ? AscensionSnapshotTable.BOOZETAFARIAN : AscensionSnapshotTable.OXYGENARIAN;
 			}
 			catch ( Exception e )
 			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
 				StaticEntity.printStackTrace( e );
 			}
+
+			this.sign = columns[4];
+			this.turnCount = StaticEntity.parseInt( columns[5] );
+			this.dayCount = StaticEntity.parseInt( columns[6] );
+
+			if ( columns.length == 9 )
+				setCurrentColumns( columns );
+			else
+				setHistoricColumns( columns );
 
 			stringForm = new StringBuffer();
 			stringForm.append( "<tr><td><a href=\"ascensions/" + ClanManager.getURLName( this.playerName ) + "\"><b>" );
@@ -450,6 +440,47 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			stringForm.append( "</td><td align=right>" );
 			stringForm.append( this.turnCount );
 			stringForm.append( "</td></tr>" );
+		}
+
+		private void setHistoricColumns( String [] columns )
+		{
+			this.classID = columns[3].startsWith( "SC" ) ? AscensionSnapshotTable.SEAL_CLUBBER :
+				columns[3].startsWith( "T" ) ? AscensionSnapshotTable.TURTLE_TAMER :
+				columns[3].startsWith( "P" ) ? AscensionSnapshotTable.PASTAMANCER :
+				columns[3].startsWith( "S" ) ? AscensionSnapshotTable.SAUCEROR :
+				columns[3].startsWith( "D" ) ? AscensionSnapshotTable.DISCO_BANDIT : AscensionSnapshotTable.ACCORDION_THIEF;
+
+			String [] path = columns[7].split( "," );
+
+			this.isSoftcore = path[0].equals( "Normal" );
+			this.pathID = path[1].equals( "No Path" ) ? AscensionSnapshotTable.NOPATH :
+				path[1].equals( "Teetotaler" ) ? AscensionSnapshotTable.TEETOTALER :
+				path[1].equals( "Boozetafarian" ) ? AscensionSnapshotTable.BOOZETAFARIAN : AscensionSnapshotTable.OXYGENARIAN;
+		}
+
+		private void setCurrentColumns( String [] columns )
+		{
+			try
+			{
+				this.classID = columns[3].indexOf( "seal" ) != -1 ? AscensionSnapshotTable.SEAL_CLUBBER :
+					columns[3].indexOf( "turtle" ) != -1 ? AscensionSnapshotTable.TURTLE_TAMER :
+					columns[3].indexOf( "pasta" ) != -1 ? AscensionSnapshotTable.PASTAMANCER :
+					columns[3].indexOf( "sauce" ) != -1 ? AscensionSnapshotTable.SAUCEROR :
+					columns[3].indexOf( "disco" ) != -1 ? AscensionSnapshotTable.DISCO_BANDIT :
+					AscensionSnapshotTable.ACCORDION_THIEF;
+
+				this.isSoftcore = columns[8].indexOf( "hardcore" ) == -1;
+				this.pathID = columns[8].indexOf( "bowl" ) != -1 ? AscensionSnapshotTable.TEETOTALER :
+					columns[8].indexOf( "martini" ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
+					columns[8].indexOf( "oxy" ) != -1 ? AscensionSnapshotTable.OXYGENARIAN : AscensionSnapshotTable.NOPATH;
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
 		}
 
 		public String getDateAsString()
