@@ -325,16 +325,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				return;
 			}
 
-			String chosenTrip = StaticEntity.getProperty( "chosenTrip" );
-
-			// If we've already selected a trip, we can't switch
-			if ( !chosenTrip.equals( getAdventureName() ) )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You're already taking a different trip." );
-				isValidAdventure = false;
-				return;
-			}
-
 			isValidAdventure = true;
 			return;
 		}

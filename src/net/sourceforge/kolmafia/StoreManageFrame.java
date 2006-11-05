@@ -304,6 +304,7 @@ public class StoreManageFrame extends KoLPanelFrame
 				resultsDisplay.updateUI();
 
 				KoLmafia.updateDisplay( "Price analysis complete." );
+				KoLmafia.enableDisplay();
 			}
 		}
 
