@@ -55,12 +55,16 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class HagnkStorageFrame extends KoLFrame
 {
+	private static HagnkStorageFrame INSTANCE = null;
+
 	private HagnkStoragePanel all, equip;
 	private static int pullsRemaining = 0;
 
 	public HagnkStorageFrame()
 	{
 		super( "Hagnk's Storage" );
+
+		INSTANCE = this;
 		setPullsRemaining( pullsRemaining );
 
 		// Finally, add the actual content to the
@@ -85,36 +89,29 @@ public class HagnkStorageFrame extends KoLFrame
 	public static void setPullsRemaining( int pullsRemaining )
 	{
 		HagnkStorageFrame.pullsRemaining = pullsRemaining;
+		if ( INSTANCE == null )
+			return;
 
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
-		for ( int i = 0; i < frames.length; ++i )
+		if ( KoLCharacter.isHardcore() )
 		{
-			if ( frames[i] instanceof HagnkStorageFrame )
+			INSTANCE.setTitle( "No Pulls Left" );
+			return;
+		}
+		else
+		{
+			switch ( pullsRemaining )
 			{
-				if ( KoLCharacter.isHardcore() )
-				{
-					frames[i].setTitle( "No Pulls Left" );
-					return;
-				}
-				else
-				{
-					switch ( pullsRemaining )
-					{
-					case 0:
-						frames[i].setTitle( "No Pulls Left" );
-						break;
-					case -1:
-						frames[i].setTitle( "Hagnk's Storage" );
-						break;
-					case 1:
-						frames[i].setTitle( "1 Pull Left" );
-						break;
-					default:
-						frames[i].setTitle( pullsRemaining + " Pulls Left" );
-					}
-				}
+			case 0:
+				INSTANCE.setTitle( "No Pulls Left" );
+				break;
+			case -1:
+				INSTANCE.setTitle( "Hagnk's Storage" );
+				break;
+			case 1:
+				INSTANCE.setTitle( "1 Pull Left" );
+				break;
+			default:
+				INSTANCE.setTitle( pullsRemaining + " Pulls Left" );
 			}
 		}
 	}

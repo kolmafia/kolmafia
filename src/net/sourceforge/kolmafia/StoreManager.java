@@ -70,6 +70,10 @@ public abstract class StoreManager extends StaticEntity
 		sortedSoldItemList.clear();
 	}
 
+	public static long getPotentialEarnings()
+	{	return potentialEarnings;
+	}
+
 	/**
 	 * Registers an item inside of the store manager.  Note
 	 * that this includes the price of the item and the
@@ -252,12 +256,7 @@ public abstract class StoreManager extends StaticEntity
 		// Now, update the title of the store manage
 		// frame to reflect the new price.
 
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
-		for ( int i = 0; i < frames.length; ++i )
-			if ( frames[i] instanceof StoreManageFrame )
-				frames[i].setTitle( "Store Manager (potential earnings: " + COMMA_FORMAT.format( potentialEarnings ) + " meat)" );
+		StoreManageFrame.updateEarnings( potentialEarnings );
 	}
 
 	public static void parseLog( String logText )
