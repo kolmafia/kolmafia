@@ -433,11 +433,11 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static boolean isFallingDown()
-	{	return getInebriety() > getInebrietyLimit();
+	{	return getInebriety() >= getInebrietyLimit();
 	}
 
 	public static int getInebrietyLimit()
-	{	return (hasSkill( "Liver of Steel" ) ? 19 : 14);
+	{	return (hasSkill( "Liver of Steel" ) ? 20 : 15);
 	}
 
 	/**
