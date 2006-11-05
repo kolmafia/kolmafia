@@ -538,16 +538,18 @@ public class EquipmentRequest extends PasswordHashRequest
 			return;
 		}
 
+		int outfitDivider = responseText.indexOf( "Save as Custom Outfit" );
+
 		if ( requestType != MISCELLANEOUS && requestType != CONSUMABLES )
 		{
 			// In valhalla, you can't make outfits and have no inventory.
-			if ( responseText.indexOf( "Save as Custom Outfit" ) == -1 )
+			if ( outfitDivider == -1 )
 				return;
 
 			parseEquipment( this.responseText );
 		}
 
-		parseQuestItems( responseText );
+		parseQuestItems( responseText.substring( outfitDivider ) );
 	}
 
 	private static void switchItem( AdventureResult oldItem, AdventureResult newItem )
