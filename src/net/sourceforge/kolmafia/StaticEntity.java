@@ -422,12 +422,33 @@ public abstract class StaticEntity implements KoLConstants
 		t.printStackTrace();
 
 		if ( client.getCurrentRequest() != null )
+			printRequestData( client.getCurrentRequest() );
+
+		try
 		{
-			KoLmafia.getDebugStream().println();
-			KoLmafia.getDebugStream().println( "" + client.getCurrentRequest().getClass() );
-			KoLmafia.getDebugStream().println( LINE_BREAK_PATTERN.matcher( client.getCurrentRequest().responseText ).replaceAll( "" ) );
-			KoLmafia.getDebugStream().println();
+			if ( shouldOpenStream )
+			{
+				KoLmafia.closeDebugStream();
+				BrowserLauncher.openURL( (new File( "DEBUG.txt" )).getAbsolutePath() );
+			}
 		}
+		catch ( Exception e )
+		{
+			// Okay, since you're in the middle of handling an exception
+			// and got a new one, just return from here.
+		}
+	}
+
+	public static void printRequestData( KoLRequest request )
+	{
+		boolean shouldOpenStream = KoLmafia.getDebugStream() instanceof NullStream;
+		if ( shouldOpenStream )
+			KoLmafia.openDebugStream();
+
+		KoLmafia.getDebugStream().println();
+		KoLmafia.getDebugStream().println( "" + request.getClass() );
+		KoLmafia.getDebugStream().println( LINE_BREAK_PATTERN.matcher( request.responseText ).replaceAll( "" ) );
+		KoLmafia.getDebugStream().println();
 
 		try
 		{

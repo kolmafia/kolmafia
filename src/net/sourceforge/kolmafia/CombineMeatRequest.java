@@ -64,6 +64,12 @@ public class CombineMeatRequest extends ItemCreationRequest
 
 	public void run()
 	{
+		if ( this.costToMake * getQuantityNeeded() > KoLCharacter.getAvailableMeat() )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds to make meat paste." );
+			return;
+		}
+
 		KoLmafia.updateDisplay( "Creating " + getQuantityNeeded() + " " + TradeableItemDatabase.getItemName( meatType ) + "..." );
 		addFormField( "quantity", String.valueOf( getQuantityNeeded() ) );
 		super.run();
