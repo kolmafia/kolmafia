@@ -531,12 +531,28 @@ public class AdventureFrame extends KoLFrame
 				// If there are conditions in the condition field, be
 				// sure to process them.
 
+				if ( lastAdventure != null && lastAdventure != request )
+				{
+					conditions.clear();
+					lastAdventure = request;
+					handleConditions( request );
+				}
+
+
+				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
+				countField.setValue( new Integer( requestCount ) );
+
+				(new RequestThread( request, requestCount )).start();
+			}
+
+			public boolean makesRequest()
+			{	return false;
+			}
+
+			private void handleConditions( KoLAdventure request )
+			{
 				String conditionList = conditionField.getText().trim().toLowerCase();
 
-				if ( lastAdventure != null && lastAdventure != request )
-					conditions.clear();
-
-				lastAdventure = request;
 				if ( conditionList.equalsIgnoreCase( "none" ) )
 					conditionList = "";
 
@@ -608,15 +624,6 @@ public class AdventureFrame extends KoLFrame
 					if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
 						conditionField.setText( "" );
 				}
-
-				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
-				countField.setValue( new Integer( requestCount ) );
-
-				(new RequestThread( request, requestCount )).start();
-			}
-
-			public boolean makesRequest()
-			{	return false;
 			}
 		}
 

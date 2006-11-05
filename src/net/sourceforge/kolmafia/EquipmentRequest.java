@@ -549,7 +549,10 @@ public class EquipmentRequest extends PasswordHashRequest
 			parseEquipment( this.responseText );
 		}
 
-		parseQuestItems( responseText.substring( outfitDivider ) );
+		if ( outfitDivider != -1 )
+			parseQuestItems( responseText.substring( outfitDivider ) );
+		else
+			parseQuestItems( responseText );
 	}
 
 	private static void switchItem( AdventureResult oldItem, AdventureResult newItem )

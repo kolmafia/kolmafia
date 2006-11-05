@@ -90,7 +90,7 @@ public class FamiliarRequest extends KoLRequest
 
 		super.run();
 
-		if ( changeTo != null && changeTo.canEquip( item ) && FamiliarData.itemWeightModifier( changeTo.getItem().getItemID() ) <= FamiliarData.itemWeightModifier( item.getItemID() ) )
+		if ( changeTo != null && changeTo != FamiliarData.NO_FAMILIAR && changeTo.canEquip( item ) && FamiliarData.itemWeightModifier( changeTo.getItem().getItemID() ) <= FamiliarData.itemWeightModifier( item.getItemID() ) )
 			(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
 	}
 
