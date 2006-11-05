@@ -69,7 +69,7 @@ public class AccountRequest extends PasswordHashRequest
 
 		KoLCharacter.setConsumptionRestriction(
 			responseText.indexOf( "<input class=button type=submit value=\"Drop Oxygenarian\">" ) != -1 ? AscensionSnapshotTable.OXYGENARIAN :
-			responseText.indexOf( "<input class=button type=submit value=\"Drop BOOZETAFARIAN\">" ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
+			responseText.indexOf( "<input class=button type=submit value=\"Drop Boozetafarian\">" ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
 			responseText.indexOf( "<input class=button type=submit value=\"Drop Teetotaler\">" ) != -1 ? AscensionSnapshotTable.TEETOTALER :
 			AscensionSnapshotTable.NOPATH );
 
