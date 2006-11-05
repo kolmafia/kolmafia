@@ -343,7 +343,7 @@ public class AutoSellRequest extends SendMessageRequest
 	{	return "";
 	}
 
-	protected boolean allowUntradeableTransfer()
+	protected boolean allowGiftableTransfer()
 	{	return sellType == AUTOSELL;
 	}
 

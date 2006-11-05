@@ -84,6 +84,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int SLUG_LORD_MAP = 598;
 	private static final int DR_HOBO_MAP = 601;
 	private static final int WARM_SUBJECT = 621;
+	private static final int AWFUL_POETRY = 622;
 	private static final int TOASTER = 637;
 	private static final int GIANT_CASTLE_MAP = 667;
 	private static final int YETI_PROTEST_SIGN = 775;
@@ -260,7 +261,7 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 
 		int price = TradeableItemDatabase.getPriceByID( itemUsed.getItemID() );
-		if ( price != -1 && !AdventureDatabase.retrieveItem( itemUsed ) )
+		if ( price != 0 && !AdventureDatabase.retrieveItem( itemUsed ) )
 			return;
 
 		int iterations = 1;
@@ -419,6 +420,7 @@ public class ConsumeItemRequest extends KoLRequest
 		case SEAL_TOOTH:
 		case FOUNTAIN:
 		case MEMO:
+		case AWFUL_POETRY:
 
 			StaticEntity.getClient().processResult( lastItemUsed );
 			return;

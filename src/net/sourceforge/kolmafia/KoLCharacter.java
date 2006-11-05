@@ -2300,7 +2300,7 @@ public abstract class KoLCharacter extends StaticEntity
 				AdventureResult.addResultToList( usables, result );
 
 			int price = TradeableItemDatabase.getPriceByID( result.getItemID() );
-			if ( price > 0 || price == -1 )
+			if ( price > 0 || TradeableItemDatabase.isTradeable( result.getItemID() ) )
 				AdventureResult.addResultToList( sellables, result );
 
 			if ( updateCalculatedLists )

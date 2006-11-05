@@ -307,6 +307,30 @@ public class KoLDatabase extends StaticEntity
 	}
 
 	/**
+	 * Internal class which functions exactly an array of boolean,
+	 * except it uses "sets" and "gets" like a list.  This could be
+	 * done with generics (Java 1.5) but is done like this so that
+	 * we get backwards compatibility.
+	 */
+
+	protected static class BooleanArray
+	{
+		private ArrayList internalList = new ArrayList();
+
+		public boolean get( int index )
+		{	return index < 0 || index >= internalList.size() ? false : ((Boolean)internalList.get( index )).booleanValue();
+		}
+
+		public void set( int index, boolean value )
+		{
+			while ( index >= internalList.size() )
+				internalList.add( new Boolean( false ) );
+
+			internalList.set( index, new Boolean( value ) );
+		}
+	}
+
+	/**
 	 * Internal class which functions exactly an array of integers,
 	 * except it uses "sets" and "gets" like a list.  This could be
 	 * done with generics (Java 1.5) but is done like this so that
