@@ -104,6 +104,7 @@ public class AdventureFrame extends KoLFrame
 	private static JComboBox zoneSelect = null;
 	private static JList locationSelect = null;
 	private static JProgressBar requestMeter = null;
+	private static KoLAdventure lastAdventure = null;
 
 	private JTree combatTree;
 	private JTextArea combatEditor;
@@ -528,8 +529,11 @@ public class AdventureFrame extends KoLFrame
 				// sure to process them.
 
 				String conditionList = conditionField.getText().trim().toLowerCase();
-				conditions.clear();
 
+				if ( lastAdventure != null && lastAdventure != request )
+					conditions.clear();
+
+				lastAdventure = request;
 				if ( conditionList.equalsIgnoreCase( "none" ) )
 					conditionList = "";
 
