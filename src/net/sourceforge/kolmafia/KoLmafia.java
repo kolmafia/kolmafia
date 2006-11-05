@@ -468,9 +468,12 @@ public abstract class KoLmafia implements KoLConstants
 		// Also, do mushrooms, if a mushroom script has already
 		// been setup by the user.
 
-		String currentLayout = StaticEntity.getProperty( "plantingScript" );
-		if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomPlot.ownsPlot() )
-			DEFAULT_SHELL.executeLine( "call " + MushroomPlot.PLOT_DIRECTORY.getPath() + "/" + currentLayout + ".ash" );
+		if ( StaticEntity.getBooleanProperty( "autoPlant" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
+		{
+			String currentLayout = StaticEntity.getProperty( "plantingScript" );
+			if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomPlot.ownsPlot() )
+				DEFAULT_SHELL.executeLine( "call " + MushroomPlot.PLOT_DIRECTORY.getPath() + "/" + currentLayout + ".ash" );
+		}
 
 		if ( refusesContinue() )
 			return;
@@ -2773,8 +2776,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( isFullCheck )
 			SpecialOutfit.restoreCheckpoint( true );
 
-		int haltTolerance = (int)( StaticEntity.getFloatProperty( "battleStop" ) * (float) KoLCharacter.getMaximumHP() );
-		if ( haltTolerance >= 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
+		if ( KoLCharacter.getCurrentHP() == 0 )
 			updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
 
 		if ( permitsContinue() && currentIterationString.length() > 0 )

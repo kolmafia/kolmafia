@@ -109,8 +109,6 @@ public class FightRequest extends KoLRequest
 		// Now, to test if the user should run away from the
 		// battle - this is an HP test.
 
-		int haltTolerance = (int)( StaticEntity.getFloatProperty( "battleStop" ) * (float) KoLCharacter.getMaximumHP() );
-
 		action1 = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
 		action2 = null;
 
@@ -158,13 +156,6 @@ public class FightRequest extends KoLRequest
 		{
 			// If this is the first round, you do not
 			// submit extra data.
-		}
-		else if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
-		{
-			// If you plan on halting the battle
-			// due to HP loss, then flag it.
-
-			action1 = "abort";
 		}
 		else if ( action1.startsWith( "run" ) )
 		{

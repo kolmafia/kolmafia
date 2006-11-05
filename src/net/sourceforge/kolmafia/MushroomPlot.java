@@ -802,7 +802,7 @@ public abstract class MushroomPlot extends StaticEntity
 				// bit different pending on what happened.
 
 				boolean pickRequired = !originalData[i][j].equals( "__" ) &&
-					!originalData[i][j].equalsIgnoreCase( planningData[i][j] );
+					!originalData[i][j].equals( planningData[i][j] );
 
 				if ( pickRequired )
 				{

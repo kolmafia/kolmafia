@@ -49,6 +49,9 @@ public class MicrobreweryRequest extends KoLRequest
 	public MicrobreweryRequest()
 	{
 		super( "brewery.php" );
+
+		this.price = 0;
+		this.itemID = 0;
 		this.isPurchase = false;
 	}
 
@@ -62,7 +65,7 @@ public class MicrobreweryRequest extends KoLRequest
 
 		// Parse item name and price
 		Matcher itemMatcher = COST_PATTERN.matcher( name );
-		int itemID = 0;
+		this.itemID = 0;
 
 		if ( itemMatcher.find( 0 ) )
 		{
@@ -77,12 +80,12 @@ public class MicrobreweryRequest extends KoLRequest
 			for ( int i = 0; i < 3; i++ )
 				if ( ((String)microbreweryItems.get(i)).equals( name ) )
 				{
-					itemID = -1 - i;
+					this.itemID = -1 - i;
 					break;
 				}
 
-			if ( itemID == 0 )
-				itemID = TradeableItemDatabase.getItemID( itemName );
+			if ( this.itemID == 0 )
+				this.itemID = TradeableItemDatabase.getItemID( itemName );
 		}
 
 		addFormField( "whichitem", String.valueOf( itemID ) );
@@ -116,6 +119,9 @@ public class MicrobreweryRequest extends KoLRequest
 				return;
 			}
 		}
+
+		if ( this.itemID != 0 && !ConsumeItemRequest.allowBoozeConsumption( itemID < 0 ? 3 : TradeableItemDatabase.getInebriety( itemID ) ) )
+			return;
 
 		KoLmafia.updateDisplay( "Visiting the micromicrobrewery..." );
 		super.run();

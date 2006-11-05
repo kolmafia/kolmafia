@@ -60,6 +60,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static Map itemIDByName = new TreeMap();
 	private static Map itemIDByPlural = new TreeMap();
 
+	private static Map inebrietyByID = new TreeMap();
 	private static BooleanArray tradeableByID = new BooleanArray();
 	private static BooleanArray giftableByID = new BooleanArray();
 
@@ -152,6 +153,37 @@ public class TradeableItemDatabase extends KoLDatabase
 				}
 
 				itemIDByPlural.put( data[1] , itemID );
+			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+
+		// Next, retrieve the table of inebriety
+
+		reader = getReader( "inebriety.dat" );
+
+		while ( (data = readData( reader )) != null )
+		{
+			if ( data.length == 2 )
+			{
+				Object itemID = itemIDByName.get( getCanonicalName( data[0] ) );
+				if ( itemID == null )
+				{
+					System.out.println( "Bad item name in inebriety file: " + data[0] );
+					continue;
+				}
+
+				inebrietyByID.put( itemID, Integer.valueOf( data[1] ) );
 			}
 		}
 
@@ -370,6 +402,12 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		int lastSpaceIndex = canonicalName.indexOf( " " );
 		return lastSpaceIndex != -1 ? getItemID( canonicalName.substring( lastSpaceIndex ).trim(), count ) : -1;
+	}
+
+	public static final int getInebriety( int itemID )
+	{
+		Integer inebriety = (Integer) inebrietyByID.get( new Integer( itemID ) );
+		return inebriety == null ? 0 : inebriety.intValue();
 	}
 
 	/**

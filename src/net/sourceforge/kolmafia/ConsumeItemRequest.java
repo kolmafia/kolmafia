@@ -33,6 +33,9 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.util.Date;
+import javax.swing.JOptionPane;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -271,8 +274,8 @@ public class ConsumeItemRequest extends KoLRequest
 			itemUsed = itemUsed.getInstance( 1 );
 		}
 
-		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
-			(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
+		String useTypeAsString = (consumptionType == CONSUME_EAT) ? "Eating" :
+			(consumptionType == CONSUME_DRINK) ? "Drinking" : "Using";
 
 		String originalURLString = getURLString();
 
@@ -290,6 +293,26 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 	}
 
+	public static boolean allowBoozeConsumption( int inebrietyBonus )
+	{
+		System.out.println( inebrietyBonus );
+
+		if ( !StaticEntity.getBooleanProperty( "protectAgainstOverdrink" ) )
+			return true;
+
+		if ( KoLCharacter.getAdventuresLeft() == 0 )
+			return true;
+
+		if ( KoLCharacter.getInebrietyLimit() > KoLCharacter.getInebriety() + inebrietyBonus )
+			return true;
+
+		if ( MoonPhaseDatabase.getHoliday( new Date() ).indexOf( "Sneaky Pete" ) != -1 )
+			return true;
+
+		return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null, "Are you sure you want to overdrink?",
+			"Think carefully before you answer...", JOptionPane.YES_NO_OPTION );
+	}
+
 	public boolean useOnce( int currentIteration, int totalIterations, String useTypeAsString )
 	{
 		lastUpdate = "";
@@ -304,6 +327,12 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			StaticEntity.getClient().makeZapRequest();
 			return true;
+		}
+
+		if ( consumptionType == CONSUME_DRINK && StaticEntity.getClient() instanceof KoLmafiaGUI )
+		{
+			if ( !allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemUsed.getItemID() ) ) )
+				return false;
 		}
 
 		// Check to make sure the character has the item in their
