@@ -203,7 +203,7 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "useSystemBrowser", "Forcefully use system's default browser" },
+			{ "ignoreHTMLAssocation", "Ignore file association when choosing browser" },
 			{ "", "" },
 
 			{ "relayAddsUseLinks", "Add [use] links when acquiring items" },
@@ -308,7 +308,7 @@ public class OptionsFrame extends KoLFrame
 					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 			}
 
-			System.setProperty( "useSystemBrowser", StaticEntity.getProperty( "useSystemBrowser" ) );
+			System.setProperty( "ignoreHTMLAssocation", StaticEntity.getProperty( "ignoreHTMLAssocation" ) );
 		}
 
 		public void actionCancelled()

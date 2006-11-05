@@ -374,7 +374,8 @@ public class ClanManager extends StaticEntity
 			request.initialize();
 
 			String data = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
-				request.responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" );
+				request.responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll(
+				"<a href=\"charsheet.php\">", "<a href=../profiles/" + getURLName( name ) );
 
 			ascensionMap.put( name, data );
 
@@ -497,6 +498,8 @@ public class ClanManager extends StaticEntity
 		{
 			// To make things less confusing, load the summary
 			// file inside of the default browser after completion.
+
+			System.setProperty( "ignoreHTMLAssocation", StaticEntity.getProperty( "ignoreHTMLAssocation" ) );
 
 			BrowserLauncher.openURL( standardFile.getAbsolutePath() );
 			BrowserLauncher.openURL( softcoreFile.getAbsolutePath() );
