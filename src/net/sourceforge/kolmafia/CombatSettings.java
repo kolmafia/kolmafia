@@ -453,13 +453,17 @@ public abstract class CombatSettings implements UtilityConstants, KoLConstants
 			return "custom combat script";
 
 		else if ( action.startsWith( "item" ) )
-			return "item " + ((String) TradeableItemDatabase.getMatchingNames( action.substring(4).trim() ).get(0)).toLowerCase();
+		{
+			AdventureResult item = DEFAULT_SHELL.getFirstMatchingItem( action.substring(4).trim() );
+			if ( item != null )
+				return "item " + KoLDatabase.getCanonicalName( item.getName() );
+		}
 
 		else if ( action.startsWith( "skill" ) )
 		{
-			String potentialSkill = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() ).toLowerCase();
+			String potentialSkill = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
 			if ( potentialSkill != null )
-				return "skill " + potentialSkill;
+				return "skill " + potentialSkill.toLowerCase();
 		}
 
 		// Well, it's either a standard skill, or it's an item,
