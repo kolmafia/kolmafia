@@ -94,7 +94,7 @@ public class LoginFrame extends KoLFrame
 
 		breakfastPanel.add( new BreakfastPanel( "Softcore Characters", "Softcore" ) );
 		breakfastPanel.add( new BreakfastPanel( "Hardcore Characters", "Hardcore" ) );
-		tabs.addTab( "Breakfast", breakfastPanel );
+		addTab( "Breakfast", breakfastPanel );
 
 		JPanel displayPanel = new JPanel();
 		displayPanel.setLayout( new BoxLayout( displayPanel, BoxLayout.Y_AXIS ) );
@@ -126,6 +126,7 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.printStackTrace( e );
 		}
 
+		setResizable( false );
 		KoLmafia.enableDisplay();
 	}
 
@@ -406,6 +407,7 @@ public class LoginFrame extends KoLFrame
 	{
 		private String breakfastType;
 		private JCheckBox [] skillOptions;
+		private JCheckBox mushroomPlot;
 
 		public BreakfastPanel( String title, String breakfastType )
 		{
@@ -416,10 +418,14 @@ public class LoginFrame extends KoLFrame
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 				skillOptions[i] = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[ skillOptions.length ];
+			mushroomPlot = new JCheckBox();
 
-			for ( int i = 0; i < elements.length; ++i )
+			VerifiableElement [] elements = new VerifiableElement[ skillOptions.length + 1 ];
+
+			for ( int i = 0; i < skillOptions.length; ++i )
 				elements[i] = new VerifiableElement( UseSkillRequest.BREAKFAST_SKILLS[i][0], JLabel.LEFT, skillOptions[i] );
+
+			elements[ skillOptions.length ] = new VerifiableElement( "Plant mushrooms", JLabel.LEFT, mushroomPlot );
 
 			setContent( elements );
 			actionCancelled();
@@ -441,13 +447,16 @@ public class LoginFrame extends KoLFrame
 			}
 
 			StaticEntity.setProperty( "breakfast" + breakfastType, skillString.toString() );
+			StaticEntity.setProperty( "autoPlant" + breakfastType, String.valueOf( mushroomPlot.isSelected() ) );
 		}
 
 		public void actionCancelled()
 		{
 			String skillString = StaticEntity.getProperty( "breakfast" + breakfastType );
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
-				skillOptions[i].setSelected( skillString != null && skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i][0] ) != -1 );
+				skillOptions[i].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i][0] ) != -1 );
+
+			mushroomPlot.setSelected( StaticEntity.getBooleanProperty( "autoPlant" + breakfastType ) );
 		}
 	}
 
