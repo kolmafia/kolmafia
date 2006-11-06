@@ -308,6 +308,9 @@ public class ChatBuffer
 		}
 	}
 
+	private static final Pattern OPENBODY_PATTERN = Pattern.compile( "<body", Pattern.CASE_INSENSITIVE );
+	private static final Pattern CLOSEBODY_PATTERN = Pattern.compile( "</body>", Pattern.CASE_INSENSITIVE );
+
 	private class DisplayPaneUpdater implements Runnable
 	{
 		private boolean isQueued = false;
@@ -324,18 +327,14 @@ public class ChatBuffer
 				return;
 			}
 
-			if ( newContents.indexOf( "<body" ) != -1 )
+			if ( OPENBODY_PATTERN.matcher( newContents ).find() )
 			{
-				shouldReset = true;
 				shouldScroll = false;
-
 				displayBuffer.setLength(0);
 				newContents = newContents.substring( newContents.indexOf( ">" ) + 1 );
 			}
 
-			int endBody = newContents.indexOf( "</body>" );
-			if ( endBody != -1 )
-				newContents = newContents.substring( 0, endBody );
+			shouldReset |= displayBuffer.length() == 0;
 
 			if ( newContents != null )
 			{
@@ -374,7 +373,7 @@ public class ChatBuffer
 		{
 			if ( shouldReset )
 			{
-				shouldScroll = displayBuffer.length() > 0;
+				shouldScroll = false;
 				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
 			}
 			else
