@@ -334,7 +334,11 @@ public class ChatBuffer
 				newContents = newContents.substring( newContents.indexOf( ">" ) + 1 );
 			}
 
-			shouldReset |= displayBuffer.length() == 0;
+			if ( displayBuffer.length() == 0 )
+			{
+				shouldReset = true;
+				shouldScroll = false;
+			}
 
 			if ( newContents != null )
 			{
@@ -373,7 +377,6 @@ public class ChatBuffer
 		{
 			if ( shouldReset )
 			{
-				shouldScroll = false;
 				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
 			}
 			else
