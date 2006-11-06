@@ -531,7 +531,7 @@ public class AdventureFrame extends KoLFrame
 				// If there are conditions in the condition field, be
 				// sure to process them.
 
-				if ( lastAdventure != null && lastAdventure != request )
+				if ( conditions.isEmpty() || (lastAdventure != null && lastAdventure != request) )
 				{
 					Object stats = null;
 					int substatIndex = conditions.indexOf( tally.get(2) );
