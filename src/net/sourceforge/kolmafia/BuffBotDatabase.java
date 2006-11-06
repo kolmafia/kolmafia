@@ -208,6 +208,12 @@ public class BuffBotDatabase extends KoLDatabase
 				if ( nameMatcher.find() && priceMatcher.find() && turnMatcher.find() )
 				{
 					String name = nameMatcher.group(1).trim();
+
+					if ( name.startsWith( "Jaba" ) )
+						name = ClassSkillsDatabase.getSkillName( 4011 );
+					else if ( name.startsWith( "Jala" ) )
+						name = ClassSkillsDatabase.getSkillName( 4008 );
+
 					int price = parseInt( priceMatcher.group(1).trim() );
 					int turns = parseInt( turnMatcher.group(1).trim() );
 					boolean philanthropic = freeMatcher.find() ? freeMatcher.group(1).trim().equals( "true" ) : false;
