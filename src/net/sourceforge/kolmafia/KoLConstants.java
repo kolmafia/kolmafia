@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.text.DecimalFormatSymbols;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.Date;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
@@ -100,6 +101,15 @@ public interface KoLConstants extends UtilityConstants
 
 	// Menus rendered in the relay browser and the KoLmafia mini-browser.
 	// Ensures that the two menus always contain the same information.
+
+	public static final FilenameFilter BACKUP_FILTER = new FilenameFilter()
+	{
+		public boolean accept( File dir, String name )
+		{
+			return !name.startsWith( "." ) && !name.endsWith( "~" ) && !name.endsWith( ".bak" ) && !name.endsWith( ".map" ) && !name.endsWith( ".dat" ) &&
+				name.indexOf( "datamaps" ) == -1 && dir.getPath().indexOf( "datamaps" ) == -1;
+		}
+	};
 
 	public static final String [][] FUNCTION_MENU = new String[][] {
 		{ "Inventory", "inventory.php?which=1" },

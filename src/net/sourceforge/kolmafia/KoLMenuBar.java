@@ -48,6 +48,7 @@ import javax.swing.JFileChooser;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.io.FilenameFilter;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -701,7 +702,9 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			if ( file.isDirectory() )
 			{
 				// Get a list of all the files
-				File [] scriptList = file.listFiles();
+				File [] scriptList = file.listFiles( BACKUP_FILTER );
+				if ( scriptList == null || scriptList.length == 0 )
+					return null;
 
 				//  Convert the list into a menu
 				JMenu menu = new JMenu( name );
@@ -716,8 +719,13 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				{
 					if ( scriptList[i].isDirectory() )
 					{
-						menu.add( constructMenuItem( scriptList[i], path ) );
-						hasDirectories = true;
+						JComponent menuItem = constructMenuItem( scriptList[i], path );
+
+						if ( menuItem != null )
+						{
+							menu.add( menuItem );
+							hasDirectories = true;
+						}
 					}
 				}
 
