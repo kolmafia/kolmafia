@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 
 // containers
 import java.awt.Image;
-import java.io.FilenameFilter;
 import javax.swing.JSeparator;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
@@ -107,15 +106,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class KoLFrame extends JFrame implements KoLConstants
 {
-	protected static final FilenameFilter BACKUP_FILTER = new FilenameFilter()
-	{
-		public boolean accept( File dir, String name )
-		{
-			return !name.startsWith( "." ) && !name.endsWith( "~" ) && !name.endsWith( ".bak" ) && !name.endsWith( ".map" ) && !name.endsWith( ".dat" ) &&
-				name.indexOf( "datamaps" ) == -1 && dir.getPath().indexOf( "datamaps" ) == -1;
-		}
-	};
-
 	protected JTabbedPane tabs = null;
 	protected String lastTitle;
 	protected String frameName;
