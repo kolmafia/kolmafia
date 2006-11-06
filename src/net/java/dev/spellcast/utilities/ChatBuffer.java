@@ -362,11 +362,14 @@ public class ChatBuffer
 			if ( shouldReset )
 			{
 				contentQueue.clear();
-				runOnce( null );
+				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
 			}
 
 			while ( !contentQueue.isEmpty() )
 				runOnce( (String) contentQueue.remove(0) );
+
+			int length = displayPane.getDocument().getLength();
+			displayPane.setCaretPosition( shouldScroll && length > 0 ? length - 1 : 0 );
 
 			this.shouldReset = false;
 			this.shouldScroll = true;
@@ -375,37 +378,27 @@ public class ChatBuffer
 
 		private void runOnce( String newContents )
 		{
-			if ( shouldReset )
+			// This is really the only way to ensure that the
+			// screen does not flicker in later versions of Java.
+
+			HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
+			Element parentElement = currentHTML.getDefaultRootElement();
+
+			while ( !parentElement.isLeaf() )
+				parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
+
+			try
 			{
-				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+				currentHTML.insertAfterEnd( parentElement, newContents );
 			}
-			else
+			catch ( Exception e )
 			{
-				// This is really the only way to ensure that the
-				// screen does not flicker in later versions of Java.
+				// If there's an exception, continue onward so that you
+				// still have an updated display.  But, print the stack
+				// trace so you know what's going on.
 
-				HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
-				Element parentElement = currentHTML.getDefaultRootElement();
-
-				while ( !parentElement.isLeaf() )
-					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
-
-				try
-				{
-					currentHTML.insertAfterEnd( parentElement, newContents );
-				}
-				catch ( Exception e )
-				{
-					// If there's an exception, continue onward so that you
-					// still have an updated display.  But, print the stack
-					// trace so you know what's going on.
-
-					e.printStackTrace();
-				}
+				e.printStackTrace();
 			}
-
-			int length = displayPane.getDocument().getLength();
-			displayPane.setCaretPosition( shouldScroll && length > 0 ? length - 1 : 0 );
 		}
 	}
 }
