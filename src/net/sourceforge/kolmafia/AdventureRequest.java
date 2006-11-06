@@ -518,7 +518,7 @@ public class AdventureRequest extends KoLRequest
 	}
 
 	public int getAdventuresUsed()
-	{	return KoLmafia.permitsContinue() && ( responseText == null || responseText.indexOf( "oyster egg" ) == -1 ) ? adventuresUsed : 0;
+	{	return 1;
 	}
 
 	public String toString()
