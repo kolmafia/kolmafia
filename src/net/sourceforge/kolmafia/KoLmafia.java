@@ -2714,12 +2714,39 @@ public abstract class KoLmafia implements KoLConstants
 	{	return recoveryActive || MoodSettings.isExecuting();
 	}
 
+	public static boolean runThresholdChecks()
+	{
+		float autoStopValue = StaticEntity.getFloatProperty( "hpThreshold" );
+		if ( autoStopValue >= 0.0f )
+		{
+			autoStopValue *= ((float) KoLCharacter.getMaximumHP());
+			if ( KoLCharacter.getCurrentHP() <= autoStopValue )
+			{
+				KoLmafia.updateDisplay( ABORT_STATE, "Health fell below " + ((int)autoStopValue) + ". Auto-abort triggered." );
+				return false;
+			}
+		}
+
+		autoStopValue = StaticEntity.getFloatProperty( "mpThreshold" );
+		if ( autoStopValue >= 0.0f )
+		{
+			autoStopValue *= ((float) KoLCharacter.getMaximumMP());
+			if ( KoLCharacter.getCurrentMP() <= autoStopValue )
+			{
+				KoLmafia.updateDisplay( ABORT_STATE, "Mana fell below " + ((int)autoStopValue) + ". Auto-abort triggered." );
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	public void runBetweenBattleChecks( boolean isFullCheck )
 	{
 		// Do not run between battle checks if you are in the middle
 		// of your checks or if you have aborted.
 
-		if ( recoveryActive || refusesContinue() )
+		if ( recoveryActive || refusesContinue() || !runThresholdChecks() )
 			return;
 
 		recoveryActive = true;
