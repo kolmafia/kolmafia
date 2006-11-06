@@ -1648,7 +1648,7 @@ public class KoLmafiaCLI extends KoLmafia
 		else
 		{
 			List availablePackages = GiftMessageRequest.getPackages();
-			int desiredPackageIndex = Math.min( Math.min( availablePackages.size(), attachments.length ), 5 );
+			int desiredPackageIndex = Math.min( Math.min( availablePackages.size() - 1, attachments.length ), 5 );
 
 			if ( MoonPhaseDatabase.getHoliday( new Date() ).startsWith( "Valentine's" ) )
 				desiredPackageIndex = 0;
@@ -1660,7 +1660,7 @@ public class KoLmafiaCLI extends KoLmafia
 				forceContinue();
 
 			(new GiftMessageRequest( splitParameters[1], "You were in Ronin, so I'm sending you a package!",
-				"For your collection.", availablePackages.get( desiredPackageIndex ), attachments )).run();
+				"For your collection.", desiredPackageIndex, attachments )).run();
 
 			if ( permitsContinue() )
 				updateDisplay( "Gift sent to " + splitParameters[1] );

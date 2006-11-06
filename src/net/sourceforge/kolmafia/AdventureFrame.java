@@ -116,9 +116,9 @@ public class AdventureFrame extends KoLFrame
 	private JComboBox dropdown1, dropdown2;
 	private AdventureSelectPanel adventureSelect;
 
-	private JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect;
+	private JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect, hpHaltCombatSelect;
 	private JCheckBox [] hpRestoreCheckbox;
-	private JComboBox mpAutoRecoverSelect, mpAutoRecoverTargetSelect;
+	private JComboBox mpAutoRecoverSelect, mpAutoRecoverTargetSelect, mpHaltCombatSelect;
 	private JCheckBox [] mpRestoreCheckbox;
 
 	/**
@@ -1394,10 +1394,12 @@ public class AdventureFrame extends KoLFrame
 
 	private void saveRestoreSettings()
 	{
+		StaticEntity.setProperty( "hpThreshold", String.valueOf( ((float)(hpHaltCombatSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "hpAutoRecovery", String.valueOf( ((float)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "hpAutoRecoveryTarget", String.valueOf( ((float)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "hpAutoRecoveryItems", getSettingString( hpRestoreCheckbox ) );
 
+		StaticEntity.setProperty( "mpThreshold", String.valueOf( ((float)(mpHaltCombatSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "mpAutoRecovery", String.valueOf( ((float)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "mpAutoRecoveryTarget", String.valueOf( ((float)(mpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "mpAutoRecoveryItems", getSettingString( mpRestoreCheckbox ) );
@@ -1416,6 +1418,11 @@ public class AdventureFrame extends KoLFrame
 
 		public HealthOptionsPanel()
 		{
+			hpHaltCombatSelect = new JComboBox();
+			hpHaltCombatSelect.addItem( "Stop automation if auto-recovery fails" );
+			for ( int i = 0; i <= 10; ++i )
+				hpHaltCombatSelect.addItem( "Stop automation if health at " + (i*10) + "%" );
+
 			hpAutoRecoverSelect = new JComboBox();
 			hpAutoRecoverSelect.addItem( "Do not autorecover health" );
 			for ( int i = 0; i <= 10; ++i )
@@ -1429,6 +1436,9 @@ public class AdventureFrame extends KoLFrame
 			// Add the elements to the panel
 
 			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+			add( constructLabelPair( "Stop automation: ", hpHaltCombatSelect ) );
+			add( Box.createVerticalStrut( 10 ) );
+
 			add( constructLabelPair( "Restore your health: ", hpAutoRecoverSelect ) );
 			add( Box.createVerticalStrut( 5 ) );
 
@@ -1457,6 +1467,11 @@ public class AdventureFrame extends KoLFrame
 	{
 		public ManaOptionsPanel()
 		{
+			mpHaltCombatSelect = new JComboBox();
+			mpHaltCombatSelect.addItem( "Stop automation if auto-recovery fails" );
+			for ( int i = 0; i <= 10; ++i )
+				mpHaltCombatSelect.addItem( "Stop automation if mana at " + (i*10) + "%" );
+
 			mpAutoRecoverSelect = new JComboBox();
 			mpAutoRecoverSelect.addItem( "Do not automatically recover mana" );
 			for ( int i = 0; i <= 10; ++i )
@@ -1470,6 +1485,9 @@ public class AdventureFrame extends KoLFrame
 			// Add the elements to the panel
 
 			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+			add( constructLabelPair( "Stop automation: ", mpHaltCombatSelect ) );
+			add( Box.createVerticalStrut( 10 ) );
+
 			add( constructLabelPair( "Restore your mana: ", mpAutoRecoverSelect ) );
 			add( Box.createVerticalStrut( 5 ) );
 

@@ -45,6 +45,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class GiftMessageRequest extends SendMessageRequest
 {
+	private int desiredCapacity;
 	private String recipient, outsideMessage, insideMessage;
 	private GiftWrapper wrappingType;
 	private int maxCapacity, materialCost;
@@ -91,21 +92,22 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 	public GiftMessageRequest( String recipient, String outsideMessage, String insideMessage,
-		Object wrappingType, Object [] attachments )
+		int desiredCapacity, Object [] attachments )
 	{
-		this( recipient, outsideMessage, insideMessage, wrappingType, attachments, false );
+		this( recipient, outsideMessage, insideMessage, desiredCapacity, attachments, false );
 	}
 
 	public GiftMessageRequest( String recipient, String outsideMessage, String insideMessage,
-		Object wrappingType, Object [] attachments, boolean isFromStorage )
+		int desiredCapacity, Object [] attachments, boolean isFromStorage )
 	{
 		super( "town_sendgift.php", attachments );
 
 		this.recipient = recipient;
 		this.outsideMessage = outsideMessage;
 		this.insideMessage = insideMessage;
+		this.desiredCapacity = desiredCapacity;
 
-		this.wrappingType = (GiftWrapper) wrappingType;
+		this.wrappingType = (GiftWrapper) PACKAGES.get( desiredCapacity );
 		this.maxCapacity = this.wrappingType.maxCapacity;
 		this.materialCost = this.wrappingType.materialCost;
 
@@ -134,7 +136,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 	protected SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new GiftMessageRequest( recipient, outsideMessage, insideMessage, wrappingType, attachments, this.source == storage );
+	{	return new GiftMessageRequest( recipient, outsideMessage, insideMessage, desiredCapacity, attachments, this.source == storage );
 	}
 
 	protected String getSuccessMessage()

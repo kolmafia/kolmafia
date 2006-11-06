@@ -252,19 +252,22 @@ public class FightRequest extends KoLRequest
 			action1 = null;
 			action2 = null;
 
-			nextRound();
-			if ( !isUsingConsultScript )
+			if ( KoLmafia.runThresholdChecks() )
 			{
-				isInstanceRunning = true;
-				super.run();
-				isInstanceRunning = false;
-			}
+				nextRound();
+				if ( !isUsingConsultScript )
+				{
+					isInstanceRunning = true;
+					super.run();
+					isInstanceRunning = false;
+				}
 
-			if ( KoLmafia.refusesContinue() || (action1 != null && action1.equals( "abort" )) )
-			{
-				showInBrowser( true );
-				KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
-				return;
+				if ( KoLmafia.refusesContinue() || (action1 != null && action1.equals( "abort" )) )
+				{
+					showInBrowser( true );
+					KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
+					return;
+				}
 			}
 		}
 		while ( KoLmafia.permitsContinue() && currentRound != 0 );

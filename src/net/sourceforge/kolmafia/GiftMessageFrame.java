@@ -78,7 +78,7 @@ public class GiftMessageFrame extends SendMessageFrame
 	protected boolean sendMessage( String recipient, String [] messages )
 	{
 		GiftMessageFrame.this.setEnabled( false );
-		(new GiftMessageRequest( recipient, messages[0], messages[1], packageSelect.getSelectedItem(), getAttachedItems(), usingStorage )).run();
+		(new GiftMessageRequest( recipient, messages[0], messages[1], packageSelect.getSelectedIndex(), getAttachedItems(), usingStorage )).run();
 		GiftMessageFrame.this.setEnabled( true );
 
 		if ( KoLmafia.permitsContinue() )
