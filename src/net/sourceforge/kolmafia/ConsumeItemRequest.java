@@ -142,6 +142,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int TRADING_CARD15 = 2014;
 	private static final int TRADING_CARD16 = 2015;
 
+	private static final int STUFFED_ANGRY_COW = 1988;
 	private static final int CRIMBOWEEN_MEMO = 2089;
 
 	private static final AdventureResult POISON = new AdventureResult( "Poisoned", 1, true );
@@ -532,6 +533,22 @@ public class ConsumeItemRequest extends KoLRequest
 			}
 
 			// The memo is not consumed by being read.
+			StaticEntity.getClient().processResult( lastItemUsed );
+
+			return;
+
+		// If it's a stuffed angry cow, let the player beat the stuffing out of it
+
+		case STUFFED_ANGRY_COW:
+
+			if ( showHTML )
+			{
+				text = trimInventoryText( responseText );
+				title = "Aggression Relief";
+				StaticEntity.getClient().showHTML( text, title );
+			}
+
+			// The stuffed angry cow is not consumed by being read.
 			StaticEntity.getClient().processResult( lastItemUsed );
 
 			return;
