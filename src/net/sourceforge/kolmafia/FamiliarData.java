@@ -166,7 +166,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 857:	// moonglasses
 		case 1040:	// lucky Tam O'Shanter
 		case 1102:	// targeting chip
-		case 1116:  // annoying pitchfork
+		case 1116:	// annoying pitchfork
 		case 1152:	// miniature gravy-covered maypole
 		case 1260:	// wax lips
 		case 1264:	// tiny nose-bone fetish
@@ -176,6 +176,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1539:	// lucky Tam O'Shatner
 		case 1623:	// badger badge
 		case 1928:	// tuning fork
+		case 2084:	// can of starch
 			return 0;
 
 		case 865:	// lead necklace

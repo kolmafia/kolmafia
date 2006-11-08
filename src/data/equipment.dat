@@ -62,6 +62,7 @@ lihc face	90	Mox: 30
 linoleum helmet turtle	100	Mox: 35
 MAHI fez	200	Mox: 85
 maiden wig	35	Mox: 2
+makeshift turban	100	none
 meat cowboy hat	40	Mox: 5
 meatloaf helmet	55	Mox: 12
 meaty helmet turtle	70	Mox: 20
@@ -144,6 +145,7 @@ Knob Goblin Uberpants	45	Mox: 7
 leather chaps	130	Mox: 50
 leotarrrd	90	Mox: 30
 los chinos	55	Mox: 12
+makeshift skirt	100	none
 mariachi pants	10	none
 miner's pants	80	Mox: 25
 ninja hot pants	70	Mox: 20
@@ -460,6 +462,7 @@ gnauga hide buckler	0	Mys: 30
 green balloon	0	none
 heart-shaped balloon	0	none
 hippo skin buckler	0	Mys: 30
+hors d'oeuvre tray	0	Mus: 40
 hypnodisk	0	none
 ice baby	0	none
 joybuzzer	0	Mus: 5
@@ -600,6 +603,7 @@ Lord Spookyraven's spectacles	0	none
 lucky rabbit's foot	0	none
 Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
+makeshift cape	0	none
 makeshift SCUBA gear	0	none
 Mr. Accessory	0	none
 Mr. Accessory Jr.	0	none
