@@ -19,6 +19,7 @@ ice pick	Item: +15.0
 jewel-eyed wizard hat	Mana: -1
 Knob Goblin harem veil	Stench: +10
 lihc face	Spooky: +20
+makeshift skirt	Spooky: +20
 miner's helmet	Item: +5.0
 orange traffic cone	Spooky: +20
 pail	DA: +10
@@ -67,6 +68,7 @@ coffin lid	DR: 3, Spooky: +10
 Dyspepsi-cola shield	DR: 4
 gnauga hide buckler	DR: 5
 hippo skin buckler	DR: 5
+hors d'oeuvre tray	DR: 7 Init: +20.0
 hypnodisk	Item: +25.0
 ice baby	Exp: +1.0
 penguin skin buckler	DR: 5
@@ -92,6 +94,7 @@ gnauga hide skirt	DA: +30
 Grimacite greaves	Init: +20.0
 leotarrrd	Init: +15.0
 los chinos	DA: +20
+makeshift skirt	Init: +15.0
 miner's pants	DA: +20
 pants of the Slug Lord	Stench: +10
 penguin kilt	Init: +20.0
@@ -118,6 +121,7 @@ ice skates	Init: +15.0, Meat: +15.0
 incredibly dense meat gem	Meat: +25.0
 infernal insoles	Hot: +10, Init: +10.0
 lucky rabbit's foot	Item: +7.0, Meat: +7.0
+makeshift cape	Item: +5.0
 makeshift SCUBA gear	Stench: +20
 monster bait	Combat: +5.0
 Mr. Accessory Jr.	Item: +25.0

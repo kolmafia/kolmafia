@@ -2076,15 +2076,21 @@
 2076	
 2077	
 2078	
-2079	
-2080	
-2081	
+2079	makeshift turban	9	all	1000
+2080	makeshift cape	8	all	1000
+2081	makeshift skirt	10	all	1000
 2082	
-2083	
-2084	
-2085	
-2086	
-2087	
-2088	Daffy Taffy	3	all	30
-2089	Crimboween memo	3	all	10
-2090	pilgrim shield	13	all	0
+2083	makeshift crane	5	all	1000
+2084	can of starch	7	all	75
+2085	bottle of ultravitamins	1	all	100
+2086	antique bottle of cough syrup	1	all	100
+2087	tube of hair oil	1	all	100
+2088	Daffy Taffy	3	all	all	30
+2089	Crimboween memo	3	all	all	10
+2090	pilgrim shield	13	all	all	0
+2091	fancy bath salts	0	all	300
+2092	antique hand mirror	0	all	100
+2093	hors d'oeuvre tray	13	all	115
+2094	ballroom blintz	1	all	43
+2095	towel	0	all	1000
+2096	guy made of bee pollen	1	all	000
