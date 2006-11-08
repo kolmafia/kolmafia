@@ -2873,6 +2873,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
+
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_name", STRING_TYPE, params ) );
 
@@ -4325,14 +4328,21 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue echo( ScriptVariable string )
 		{
-			KoLmafia.updateDisplay( string.toStringValue().toString() );
-			KoLmafia.echoStream.println( string.toStringValue().toString() );
+			DEFAULT_SHELL.executeCommand( "echo", string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
 		public ScriptValue print( ScriptVariable string )
 		{
-			KoLmafia.updateDisplay( string.toStringValue().toString() );
+			DEFAULT_SHELL.executeCommand( "echo", string.toStringValue().toString() );
+			return VOID_VALUE;
+		}
+
+		public ScriptValue print( ScriptVariable string, ScriptVariable color )
+		{
+			KoLmafia.updateDisplay( "<font color=\"" + color.toStringValue().toString() + "\">" +
+				string.toStringValue().toString().replaceAll( "<", "&lt;" ) + "</font>" );
+
 			KoLmafia.echoStream.println( string.toStringValue().toString() );
 			return VOID_VALUE;
 		}

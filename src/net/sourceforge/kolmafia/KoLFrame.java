@@ -1262,20 +1262,20 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		for ( int i = 0; i < scriptList.length; ++i )
 		{
-			if ( scriptList[i].isDirectory() )
+			if ( KoLMenuBar.shouldAddScript( scriptList[i] ) )
 			{
-				scripts.add( scriptList[i] );
-				hasDirectories = true;
+				if ( scriptList[i].isDirectory() )
+				{
+					scripts.add( scriptList[i] );
+					hasDirectories = true;
+				}
+				else
+					hasNormalFiles = true;
 			}
-			else
-				hasNormalFiles = true;
 		}
 
 		if ( hasNormalFiles )
 		{
-			if ( hasDirectories )
-				scripts.add( new JSeparator() );
-
 			for ( int i = 0; i < scriptList.length; ++i )
 				if ( !scriptList[i].isDirectory() )
 					scripts.add( scriptList[i] );
