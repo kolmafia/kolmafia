@@ -242,4 +242,10 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 		}
 	}
+
+	public void dispose()
+	{
+		INSTANCE = null;
+		super.dispose();
+	}
 }
