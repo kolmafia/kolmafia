@@ -107,13 +107,13 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		{
 			this.countFieldID = "bufftimes";
 
-			if ( target == null || target.trim().length() == 0 || target.equals( String.valueOf( KoLCharacter.getUserID() ) ) || target.equals( KoLCharacter.getUsername() ) )
+			if ( target == null || target.trim().length() == 0 || target.equals( String.valueOf( KoLCharacter.getUserID() ) ) || target.equals( KoLCharacter.getUserName() ) )
 			{
 				this.target = "yourself";
 				if ( KoLCharacter.getUserID() != 0 )
 					addFormField( "targetplayer", String.valueOf( KoLCharacter.getUserID() ) );
 				else
-					addFormField( "specificplayer", KoLCharacter.getUsername() );
+					addFormField( "specificplayer", KoLCharacter.getUserName() );
 			}
 			else
 			{

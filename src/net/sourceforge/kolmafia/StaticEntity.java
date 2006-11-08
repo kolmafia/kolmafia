@@ -617,7 +617,7 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static String getGlobalProperty( String name )
-	{	return getGlobalProperty( KoLCharacter.getUsername(), name );
+	{	return getGlobalProperty( KoLCharacter.getUserName(), name );
 	}
 
 	public static String getGlobalProperty( String player, String name )
@@ -625,7 +625,7 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static void setGlobalProperty( String name, String value )
-	{	setGlobalProperty( KoLCharacter.getUsername(), name, value );
+	{	setGlobalProperty( KoLCharacter.getUserName(), name, value );
 	}
 
 	public static void setGlobalProperty( String player, String name, String value )

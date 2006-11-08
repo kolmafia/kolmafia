@@ -123,7 +123,7 @@ public class CharsheetFrame extends KoLFrame
 	{
 		JPanel imagePanel = new JPanel( new BorderLayout( 10, 10 ) );
 		JPanel namePanel = new JPanel( new GridLayout( 2, 1 ) );
-		namePanel.add( new JLabel( KoLCharacter.getUsername() + " (#" + KoLCharacter.getUserID() + ")", JLabel.CENTER ) );
+		namePanel.add( new JLabel( KoLCharacter.getUserName() + " (#" + KoLCharacter.getUserID() + ")", JLabel.CENTER ) );
 
 		this.levelLabel = new JLabel( "Level " + KoLCharacter.getLevel() + " " + KoLCharacter.getClassType(), JLabel.CENTER );
 		namePanel.add( levelLabel );
