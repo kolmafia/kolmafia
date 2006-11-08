@@ -93,9 +93,15 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static final void reset()
 	{
+		thiefTriggers.clear();
+		availableMoods.clear();
+		displayList.clear();
+		reference.clear();
+
 		settingsFile = new File( settingsFileName() );
 		loadSettings();
 		setMood( StaticEntity.getProperty( "currentMood" ) );
+		saveSettings();
 	}
 
 	public static SortedListModel getAvailableMoods()
@@ -253,17 +259,17 @@ public abstract class MoodSettings implements KoLConstants
 			if ( KoLCharacter.isHardcore() )
 			{
 				rankedBuffs = new String [] {
-					"Fat Leon's Phat Loot Lyric", "The Sonata of Sneakiness",
-					"The Psalm of Pointiness", "The Moxious Madrigal",
-					"Aloysius' Antiphon of Aptitude", "Ur-Kel's Aria of Annoyance"
+					"Fat Leon's Phat Loot Lyric", "The Moxious Madrigal",
+					"Aloysius' Antiphon of Aptitude", "The Sonata of Sneakiness",
+					"The Psalm of Pointiness", "Ur-Kel's Aria of Annoyance"
 				};
 			}
 			else
 			{
 				rankedBuffs = new String [] {
-					"Fat Leon's Phat Loot Lyric", "The Sonata of Sneakiness",
-					"Jackasses' Symphony of Destruction", "Cletus's Canticle of Celerity",
-					"Aloysius' Antiphon of Aptitude", "Ur-Kel's Aria of Annoyance"
+					"Fat Leon's Phat Loot Lyric", "Aloysius' Antiphon of Aptitude",
+					"Ur-Kel's Aria of Annoyance", "The Sonata of Sneakiness",
+					"Jackasses' Symphony of Destruction", "Cletus's Canticle of Celerity"
 				};
 			}
 
@@ -569,12 +575,18 @@ public abstract class MoodSettings implements KoLConstants
 				if ( line.startsWith( "[" ) )
 				{
 					currentKey = line.substring( 1, line.length() - 1 ).trim().toLowerCase();
-
 					displayList.clear();
-					mappedList = new SortedListModel();
 
-					reference.put( currentKey, mappedList );
-					availableMoods.add( currentKey );
+					if ( reference.containsKey( currentKey ) )
+					{
+						mappedList = (SortedListModel) reference.get( currentKey );
+					}
+					else
+					{
+						mappedList = new SortedListModel();
+						reference.put( currentKey, mappedList );
+						availableMoods.add( currentKey );
+					}
 				}
 				else if ( line.length() != 0 )
 				{
@@ -726,7 +738,7 @@ public abstract class MoodSettings implements KoLConstants
 
 	private static void ensureProperty( String key )
 	{
-		if ( !availableMoods.contains( key ) )
+		if ( !reference.containsKey( key ) )
 		{
 			SortedListModel defaultList = new SortedListModel();
 			reference.put( key, defaultList );

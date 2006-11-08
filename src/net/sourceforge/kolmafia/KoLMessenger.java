@@ -851,7 +851,7 @@ public abstract class KoLMessenger extends StaticEntity
 		displayHTML.insert( 0, timestamp.toString() + "&nbsp;" );
 		displayHTML.append( "<br>" );
 
-		return displayHTML.toString();
+		return displayHTML.toString().replaceAll( "<([^>]*?<)", "&lt;$1" );
 	}
 
 	/**
