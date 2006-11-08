@@ -380,9 +380,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		{ "&quot;",	"\"" }, // quotation mark = APL quote, U+0022 ISOnum
 
-		{ "&amp;",	"\u0026" }, // ampersand, U+0026 ISOnum
-		{ "&lt;",	"\u003c" }, // less-than sign, U+003C ISOnum
-		{ "&gt;",	"\u003e" }, // greater-than sign, U+003E ISOnum
+// These entities are rendered correctly, but may appear
+// in markup -- therefore, don't change them.
+
+//		{ "&amp;",	"\u0026" }, // ampersand, U+0026 ISOnum
+//		{ "&lt;",	"\u003c" }, // less-than sign, U+003C ISOnum
+//		{ "&gt;",	"\u003e" }, // greater-than sign, U+003E ISOnum
 
 		// Latin Extended-A
 

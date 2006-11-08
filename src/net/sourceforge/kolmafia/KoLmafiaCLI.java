@@ -633,7 +633,7 @@ public class KoLmafiaCLI extends KoLmafia
 			else if ( parameters.equalsIgnoreCase( "kol-date" ) )
 				parameters = MoonPhaseDatabase.getCalendarDayAsString( new Date() );
 
-			updateDisplay( parameters );
+			updateDisplay( parameters.replaceAll( "<", "&lt;" ) );
 			echoStream.println( parameters );
 
 			return;
