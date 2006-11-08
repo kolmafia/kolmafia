@@ -97,6 +97,12 @@ public class StoreManageFrame extends KoLPanelFrame
 		INSTANCE.setTitle( "Store Manager (potential earnings: " + COMMA_FORMAT.format( potentialEarnings ) + " meat)" );
 	}
 
+	public void dispose()
+	{
+		INSTANCE = null;
+		super.dispose();
+	}
+
 	private class StoreManagePanel extends KoLPanel implements Runnable
 	{
 		public StoreManagePanel()
