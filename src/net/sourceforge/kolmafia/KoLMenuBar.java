@@ -692,10 +692,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				return null;
 			}
 
-			// There must be at least a file name
-			if ( pieces.length < 1 )
-				return null;
-
 			String name = pieces[ pieces.length - 1 ];
 			String path = prefix + File.separator + name;
 
@@ -703,8 +699,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			{
 				// Get a list of all the files
 				File [] scriptList = file.listFiles( BACKUP_FILTER );
-				if ( scriptList == null || scriptList.length == 0 )
-					return null;
 
 				//  Convert the list into a menu
 				JMenu menu = new JMenu( name );
@@ -717,20 +711,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 				for ( int i = 0; i < scriptList.length; ++i )
 				{
-					if ( scriptList[i].isDirectory() )
+					if ( scriptList[i].isDirectory() && shouldAddScript( scriptList[i] ) )
 					{
-						JComponent menuItem = constructMenuItem( scriptList[i], path );
-
-						if ( menuItem != null )
-						{
-							menu.add( menuItem );
-							hasDirectories = true;
-						}
+						menu.add( constructMenuItem( scriptList[i], path ) );
+						hasDirectories = true;
 					}
 				}
-
-				if ( hasDirectories )
-					menu.add( new JSeparator() );
 
 				for ( int i = 0; i < scriptList.length; ++i )
 					if ( !scriptList[i].isDirectory() )
@@ -752,6 +738,22 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 			return headers;
 		}
+	}
+
+	public static boolean shouldAddScript( File script )
+	{
+		if ( !script.isDirectory() )
+			return true;
+
+		File [] scriptList = script.listFiles( BACKUP_FILTER );
+		if ( scriptList == null || scriptList.length == 0 )
+			return false;
+
+		for ( int i = 0; i < scriptList.length; ++i )
+			if ( !shouldAddScript( scriptList[i] ) )
+				return false;
+
+		return true;
 	}
 
 	private class RequestMenuItem extends JMenuItem implements ActionListener
