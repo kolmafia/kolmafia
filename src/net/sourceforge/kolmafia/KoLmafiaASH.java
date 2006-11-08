@@ -4348,7 +4348,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue my_name()
-		{	return new ScriptValue( KoLCharacter.getUsername() );
+		{	return new ScriptValue( KoLCharacter.getUserName() );
 		}
 
 		public ScriptValue my_zodiac()

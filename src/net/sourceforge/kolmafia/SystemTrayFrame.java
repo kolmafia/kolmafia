@@ -73,10 +73,10 @@ public abstract class SystemTrayFrame implements KoLConstants
 			return;
 
 		icon.setVisible( true );
-		if ( KoLCharacter.getUsername().equals( "" ) )
+		if ( KoLCharacter.getUserName().equals( "" ) )
 			icon.setToolTipText( VERSION_NAME );
 		else
-			icon.setToolTipText( VERSION_NAME + ": " + KoLCharacter.getUsername() );
+			icon.setToolTipText( VERSION_NAME + ": " + KoLCharacter.getUserName() );
 	}
 
 	public static void showBalloon( String message )

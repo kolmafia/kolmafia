@@ -445,7 +445,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The name of this character
 	 */
 
-	public static String getUsername()
+	public static String getUserName()
 	{	return username;
 	}
 

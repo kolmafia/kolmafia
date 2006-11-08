@@ -519,13 +519,13 @@ public class FightRequest extends KoLRequest
 			if ( skill == null )
 			{
 				if ( shouldLogAction )
-					KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of CHANCE!" );
+					KoLmafia.getSessionStream().println( KoLCharacter.getUserName() + " casts the enchanted spell of CHANCE!" );
 			}
 			else
 			{
 				action1 = CombatSettings.getShortCombatOptionName( "skill " + skill );
 				if ( shouldLogAction )
-					KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of " + skill.toUpperCase() + "!" );
+					KoLmafia.getSessionStream().println( KoLCharacter.getUserName() + " casts the enchanted spell of " + skill.toUpperCase() + "!" );
 			}
 
 			return true;
@@ -538,13 +538,13 @@ public class FightRequest extends KoLRequest
 			if ( item == null )
 			{
 				if ( shouldLogAction )
-					KoLmafia.getSessionStream().print( KoLCharacter.getUsername() + " plays Garin's Harp" );
+					KoLmafia.getSessionStream().print( KoLCharacter.getUserName() + " plays Garin's Harp" );
 			}
 			else
 			{
 				action1 = CombatSettings.getShortCombatOptionName( "item " + item );
 				if ( shouldLogAction )
-					KoLmafia.getSessionStream().print( KoLCharacter.getUsername() + " uses the " + item );
+					KoLmafia.getSessionStream().print( KoLCharacter.getUserName() + " uses the " + item );
 			}
 
 			itemMatcher = ITEM2_PATTERN.matcher( urlString );
@@ -577,14 +577,14 @@ public class FightRequest extends KoLRequest
 		{
 			action1 = "runaway";
 			if ( shouldLogAction )
-				KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the spell of RETURN!" );
+				KoLmafia.getSessionStream().println( KoLCharacter.getUserName() + " casts the spell of RETURN!" );
 		}
 		else
 		{
 			action1 = "attack";
 			if ( shouldLogAction )
 			{
-				KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " attacks with " +
+				KoLmafia.getSessionStream().println( KoLCharacter.getUserName() + " attacks with " +
 					"fear-inducing body language!" );
 			}
 		}

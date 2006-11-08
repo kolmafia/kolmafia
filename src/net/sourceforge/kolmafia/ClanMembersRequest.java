@@ -101,7 +101,7 @@ public class ClanMembersRequest extends KoLRequest
 			// profile lookup on yourself.
 
 			KoLmafia.updateDisplay( "Determining clan ID..." );
-			ProfileRequest clanIDLookup = new ProfileRequest( KoLCharacter.getUsername() );
+			ProfileRequest clanIDLookup = new ProfileRequest( KoLCharacter.getUserName() );
 			clanIDLookup.run();
 
 			Matcher clanIDMatcher = CLANID_PATTERN.matcher( clanIDLookup.responseText );

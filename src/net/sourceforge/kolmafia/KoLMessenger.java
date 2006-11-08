@@ -635,7 +635,7 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 		else if ( message.startsWith( "<b>private to" ) )
 		{
-			String sender = KoLCharacter.getUsername();
+			String sender = KoLCharacter.getUserName();
 			String recipient = ANYTAG_PATTERN.matcher( message.substring( 0, message.indexOf( ":" ) ) ).replaceAll( "" ).substring( 11 );
 
 			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerID( sender ) + "\"><b><font color=red>" +
@@ -868,7 +868,7 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( channel.startsWith( "/" ) )
 			return "green";
 
-		if ( channel.equalsIgnoreCase( KoLCharacter.getUsername() ) )
+		if ( channel.equalsIgnoreCase( KoLCharacter.getUserName() ) )
 			return (String) colors.get( "chatcolorself" );
 
 		if ( contactList.contains( channel.toLowerCase() ) )
@@ -897,7 +897,7 @@ public abstract class KoLMessenger extends StaticEntity
 			if ( !isRunning )
 				return;
 
-			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " +
+			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUserName() + ": " +
 				channel + " - Started " + Calendar.getInstance().getTime().toString(), true, true );
 
 			instantMessageBuffers.put( channel, buffer );
@@ -963,7 +963,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void addHighlighting()
 	{
-		String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", KoLCharacter.getUsername() );
+		String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", KoLCharacter.getUserName() );
 		if ( highlight == null )
 			return;
 

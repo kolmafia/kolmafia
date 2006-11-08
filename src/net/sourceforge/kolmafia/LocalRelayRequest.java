@@ -906,7 +906,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 				if ( isChatRequest )
 				{
-					if ( !KoLCharacter.getUsername().equals( lastUsername ) )
+					if ( !KoLCharacter.getUserName().equals( lastUsername ) )
 						chatLogger.setActiveLogFile( KoLMessenger.getChatLogName( "[ALL]" ) );
 
 					if ( responseText.length() > 0 && responseText.indexOf( "<img" ) == -1 )

@@ -91,7 +91,7 @@ public class ChatFrame extends KoLFrame
 	{
 		super( associatedContact == null || associatedContact.equals( "" ) ? "KoLmafia Chat" :
 			associatedContact.startsWith( "/" ) ? "KoL Chat: " + associatedContact :
-				"KoL PM: " + KoLCharacter.getUsername() + " / " + associatedContact );
+				"KoL PM: " + KoLCharacter.getUserName() + " / " + associatedContact );
 
 		framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		initialize( associatedContact );
@@ -140,7 +140,7 @@ public class ChatFrame extends KoLFrame
 			if ( associatedContact.startsWith( "/" ) )
 				setTitle( "KoL Chat: " + associatedContact );
 			else
-				setTitle( "KoL PM: " + KoLCharacter.getUsername() + " / " + associatedContact );
+				setTitle( "KoL PM: " + KoLCharacter.getUserName() + " / " + associatedContact );
 		}
 	}
 

@@ -46,6 +46,7 @@ import java.util.Arrays;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
@@ -91,26 +92,44 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		deleteList.clear();
 		sendList.clear();
 
-		String [] soldBuffs = getProperty( "buffBotCasting" ).split( ";" );
-		if ( soldBuffs[0].length() > 0 )
+		String [] currentBuff;
+		BufferedReader reader = KoLDatabase.getReader( "buffs/" + KoLCharacter.baseUserName() + ".txt" );
+
+		// It's possible the person is starting from an older release
+		// of KoLmafia.  If that's the case, reload the data from the
+		// properties file, clear it out, and continue.
+
+		if ( reader == null )
 		{
-			for ( int i = 0; i < soldBuffs.length; ++i )
+			String [] soldBuffs = getProperty( "buffBotCasting" ).split( ";" );
+			if ( soldBuffs[0].length() > 0 )
 			{
-				String [] currentBuff = soldBuffs[i].split( ":" );
-				if ( currentBuff.length == 4 )
+				for ( int i = 0; i < soldBuffs.length; ++i )
 				{
-					addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ),
-						parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), false );
-				}
-				else if ( currentBuff.length == 5 )
-				{
+					currentBuff = soldBuffs[i].split( ":" );
 					addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ),
 						parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), currentBuff[4].equals( "true" ) );
 				}
 			}
+
+			StaticEntity.removeProperty( "buffBotCasting" );
+			return;
 		}
 
-		saveBuffs();
+		while ( (currentBuff = KoLDatabase.readData( reader )) != null )
+		{
+			addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ),
+				parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), currentBuff[4].equals( "true" ) );
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
 	}
 
 	/**
@@ -192,14 +211,24 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	{
 		StringBuffer sellerSetting = new StringBuffer();
 
+		PrintStream settings = null;
 		PrintStream document = null;
 
 		try
 		{
-			File xmlfile = new File( "buffs/" + KoLCharacter.getUsername() + ".xml" );
+			File datafile = new File( "buffs/" + KoLCharacter.baseUserName() + ".txt" );
+			File xmlfile = new File( "buffs/" + KoLCharacter.baseUserName() + ".xml" );
+
+			if ( datafile.exists() )
+				datafile.delete();
+
 			if ( xmlfile.exists() )
 				xmlfile.delete();
 
+			datafile.createNewFile();
+			xmlfile.createNewFile();
+
+			settings = new LogStream( datafile );
 			document = new LogStream( xmlfile );
 		}
 		catch ( Exception e )
@@ -217,7 +246,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			document.println();
 
 			document.println( "<botdata>" );
-			document.println( "<name>" + KoLCharacter.getUsername() + "</name>" );
+			document.println( "<name>" + KoLCharacter.getUserName() + "</name>" );
 			document.println( "<playerid>" + KoLCharacter.getUserID() + "</playerid>" );
 
 			document.println( "<free-list>" );
@@ -234,10 +263,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// First, append the buff to the setting string, then
 			// print the buff to the XML tree.
 
-			if ( i > 0 )
-				sellerSetting.append( ';' );
-
-			sellerSetting.append( casters[i].toSettingString() );
+			settings.println( casters[i].toSettingString() );
 
 			// Don't print the cast to the XML tree if it happens
 			// to be restricted.
@@ -266,7 +292,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			}
 		}
 
-		setProperty( "buffBotCasting", sellerSetting.toString() );
 		if ( document == null )
 			return;
 
@@ -798,8 +823,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				stringForm.append( " (philanthropic)" );
 
 			this.stringForm = stringForm.toString();
-			this.settingString = buffID + ":" + COMMA_FORMAT.format( price ) + ":" +
-				COMMA_FORMAT.format( castCount ) + ":" + restricted + ":" + philanthropic;
+			this.settingString = buffID + "\t" + price + "\t" + castCount + "\t" + restricted + "\t" + philanthropic;
 		}
 
 		public boolean equals( Object o )

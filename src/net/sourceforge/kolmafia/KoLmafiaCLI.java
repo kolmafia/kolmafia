@@ -2761,7 +2761,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( desiredData.equals( "session" ) )
 		{
-			printLine( "Player: " + KoLCharacter.getUsername() );
+			printLine( "Player: " + KoLCharacter.getUserName() );
 			printLine( "Session ID: " + KoLRequest.sessionID );
 			printLine( "Password Hash: " + KoLRequest.passwordHash );
 			printLine( "Current Server: " + KoLRequest.KOL_HOST );

@@ -2176,7 +2176,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected static final PrintStream openStream( String filename, PrintStream originalStream, boolean hasStaticLocation )
 	{
-		if ( !hasStaticLocation && KoLCharacter.getUsername().equals( "" ) )
+		if ( !hasStaticLocation && KoLCharacter.getUserName().equals( "" ) )
 			return NullStream.INSTANCE;
 
 		try
@@ -2226,7 +2226,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static final void openSessionStream()
 	{
-		sessionStream = openStream( "sessions/" + KoLCharacter.getUsername() + "_" +
+		sessionStream = openStream( "sessions/" + KoLCharacter.getUserName() + "_" +
 			DATED_FILENAME_FORMAT.format( new Date() ) + ".txt", sessionStream, false );
 	}
 
@@ -2932,7 +2932,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		MoodSettings.setMood( "apathetic" );
 
-		KoLCharacter.reset( KoLCharacter.getUsername() );
+		KoLCharacter.reset( KoLCharacter.getUserName() );
 
 		refreshSession();
 		resetSession();
