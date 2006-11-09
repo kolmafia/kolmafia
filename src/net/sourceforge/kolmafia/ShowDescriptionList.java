@@ -56,35 +56,24 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ShowDescriptionList extends JList implements KoLConstants
 {
-	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
+	private int lastSelectIndex;
 	private JPopupMenu contextMenu;
+	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
 	public ShowDescriptionList( LockableListModel model )
 	{
 		super( model );
-		addMouseListener( new ShowDescriptionAdapter() );
-
 		contextMenu = new JPopupMenu();
 
-		JMenuItem dummyItem = new JMenuItem( "Win the game?" );
-		dummyItem.addActionListener( new WinGameListener() );
-		contextMenu.add( dummyItem );
-
+		contextMenu.add( new DescriptionMenuItem() );
+		contextMenu.add( new WikiLookupMenuItem() );
 		addMouseListener( new PopupListener() );
 	}
 
-	private class WinGameListener implements ActionListener, Runnable
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
-		}
-
-		public void run()
-		{
-			DEFAULT_SHELL.executeLine( "win game" );
-			KoLmafia.enableDisplay();
-		}
-	}
+	/**
+	 * Shows and hides the applicable context menu item.  Actually
+	 * all it does is show it -- the VM will handle hiding it.
+	 */
 
 	protected class PopupListener extends MouseAdapter
 	{
@@ -102,46 +91,109 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		{
 			if ( e.isPopupTrigger() )
 			{
+				int index = locationToIndex( e.getPoint() );
+				lastSelectIndex = index;
+
+				if ( !isSelectedIndex( index ) )
+				{
+					clearSelection();
+					addSelectionInterval( index, index );
+				}
+
 				contextMenu.show( e.getComponent(), e.getX(), e.getY() );
+			}
+			else
+			{
+				lastSelectIndex = -1;
 			}
 		}
     }
 
-	private class ShowDescriptionAdapter extends MouseAdapter
+	/**
+	 * Utility class which shows the description of the item
+	 * which is currently selected.
+	 */
+
+	private class DescriptionMenuItem extends JMenuItem implements ActionListener, Runnable
 	{
-		public void mouseClicked( MouseEvent e )
+		public DescriptionMenuItem()
 		{
-			if ( e.getClickCount() == 2 )
+			super( "Game description" );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new Thread( this )).start();
+		}
+
+		public void run()
+		{
+			int index = lastSelectIndex == -1 ? getSelectedIndex() : lastSelectIndex;
+			Object item = ShowDescriptionList.this.getModel().getElementAt( index );
+
+			if ( item == null )
+				return;
+
+			ensureIndexIsVisible( index );
+
+			if ( item instanceof AdventureResult )
 			{
-				int index = locationToIndex( e.getPoint() );
-				Object item = getModel().getElementAt( index );
-
-				if ( item == null )
-					return;
-
-				ensureIndexIsVisible( index );
-
-				if ( item instanceof AdventureResult )
+				if ( ((AdventureResult)item).isItem() )
+					FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((AdventureResult)item).getItemId() ) );
+				if ( ((AdventureResult)item).isStatusEffect() )
+					FightFrame.showLocation( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectId( ((AdventureResult)item).getName() ) );
+			}
+			else if ( item instanceof ItemCreationRequest )
+			{
+				FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((ItemCreationRequest)item).getItemId() ) );
+			}
+			else if ( item instanceof String )
+			{
+				Matcher playerMatcher = PLAYERID_MATCHER.matcher( (String) item );
+				if ( playerMatcher.find() )
 				{
-					if ( ((AdventureResult)item).isItem() )
-						FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((AdventureResult)item).getItemId() ) );
-					if ( ((AdventureResult)item).isStatusEffect() )
-						FightFrame.showLocation( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectId( ((AdventureResult)item).getName() ) );
-				}
-				if ( item instanceof ItemCreationRequest )
-				{
-					FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((ItemCreationRequest)item).getItemId() ) );
-				}
-				if ( item instanceof String )
-				{
-					Matcher playerMatcher = PLAYERID_MATCHER.matcher( (String) item );
-					if ( playerMatcher.find() )
-					{
-						Object [] parameters = new Object [] { "#" + playerMatcher.group(1) };
-						SwingUtilities.invokeLater( new CreateFrameRunnable( ProfileFrame.class, parameters ) );
-					}
+					Object [] parameters = new Object [] { "#" + playerMatcher.group(1) };
+					SwingUtilities.invokeLater( new CreateFrameRunnable( ProfileFrame.class, parameters ) );
 				}
 			}
+		}
+	}
+
+	/**
+	 * Utility class which shows the description of the item
+	 * which is currently selected, as it appears on the wiki.
+	 */
+
+	private class WikiLookupMenuItem extends JMenuItem implements ActionListener, Runnable
+	{
+		public WikiLookupMenuItem()
+		{
+			super( "Wiki description" );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new Thread( this )).start();
+		}
+
+		public void run()
+		{
+			int index = lastSelectIndex == -1 ? getSelectedIndex() : lastSelectIndex;
+			Object item = ShowDescriptionList.this.getModel().getElementAt( index );
+
+			if ( item == null )
+				return;
+
+			ensureIndexIsVisible( index );
+			String name = null;
+
+			if ( item instanceof AdventureResult )
+				name = ((AdventureResult)item).getName();
+			else if ( item instanceof ItemCreationRequest )
+				name = ((ItemCreationRequest)item).getName();
+
+			if ( name != null )
+				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
 		}
 	}
 }
