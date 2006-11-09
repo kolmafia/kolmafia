@@ -343,6 +343,10 @@ public class ItemStorageRequest extends SendMessageRequest
 		return processRequest( "pull", urlString, storage, 0 );
 	}
 
+	protected boolean allowUntradeableTransfer()
+	{	return true;
+	}
+
 	protected String getStatusMessage()
 	{
 		switch ( moveType )

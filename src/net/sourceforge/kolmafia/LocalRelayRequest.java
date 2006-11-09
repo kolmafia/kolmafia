@@ -487,7 +487,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 					if ( location.indexOf( "http://" ) == -1 )
 					{
 						imageMatcher.appendReplacement( lineBuffer,
-							"<img src=\"" + (new File( directory + location )).toURL() + "\"" );
+							"<img src=\"" + (new File( directory + location )).toURI().toURL().toString() + "\"" );
 					}
 					else
 					{
