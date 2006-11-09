@@ -131,7 +131,8 @@ public abstract class SendMessageRequest extends KoLRequest
 		ArrayList nextAttachments = new ArrayList();
 		SendMessageRequest subinstance = null;
 
-		boolean allowGifts = allowGiftableTransfer();
+		boolean allowNoTrade = allowUntradeableTransfer();
+		boolean allowNoGift = allowUngiftableTransfer();
 
 		while ( index1 < attachments.length )
 		{
@@ -147,10 +148,10 @@ public abstract class SendMessageRequest extends KoLRequest
 					continue;
 				}
 
-				if ( !TradeableItemDatabase.isGiftable( item.getItemID() ) )
+				if ( !allowNoGift && !TradeableItemDatabase.isGiftable( item.getItemID() ) )
 					continue;
 
-				else if ( !allowGifts && !TradeableItemDatabase.isTradeable( item.getItemID() ) )
+				else if ( !allowNoTrade && !TradeableItemDatabase.isTradeable( item.getItemID() ) )
 					continue;
 
 				availableCount = item.getCount( source );
@@ -304,7 +305,11 @@ public abstract class SendMessageRequest extends KoLRequest
 	{	updateDisplayOnFailure = shouldUpdate;
 	}
 
-	protected boolean allowGiftableTransfer()
+	protected boolean allowUngiftableTransfer()
+	{	return true;
+	}
+
+	protected boolean allowUntradeableTransfer()
 	{	return true;
 	}
 

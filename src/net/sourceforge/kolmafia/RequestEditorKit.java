@@ -573,7 +573,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		try
 		{
-			return localfile.toURL();
+			return localfile.toURI().toURL();
 		}
 		catch ( Exception e )
 		{

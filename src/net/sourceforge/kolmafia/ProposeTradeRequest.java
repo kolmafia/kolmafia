@@ -94,7 +94,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 	{	return "";
 	}
 
-	protected final boolean allowGiftableTransfer()
+	protected boolean allowUntradeableTransfer()
 	{	return false;
 	}
 
