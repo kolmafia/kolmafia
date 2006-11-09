@@ -393,9 +393,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// Pop up a window showing the result
 			KoLCharacter.addFamiliar( FamiliarsDatabase.growFamiliarLarva( lastItemUsed.getItemID() ) );
 
-			if ( showHTML )
-				StaticEntity.getClient().showHTML( trimInventoryText( responseText ), "Your new familiar" );
-
+			showItemUsage( showHTML, responseText, "Your new familiar", true );
 			return;
 		}
 
@@ -485,7 +483,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 				Matcher matcher = GIFT_PATTERN.matcher( responseText );
 				title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
-				StaticEntity.getClient().showHTML( trimInventoryText( responseText ), title );
+				showItemUsage( true, responseText, title, true );
 			}
 
 			return;
@@ -509,62 +507,28 @@ public class ConsumeItemRequest extends KoLRequest
 		case TRADING_CARD15:
 		case TRADING_CARD16:
 
-			if ( showHTML )
-			{
-				text = trimInventoryText( responseText );
-				title = "Trading Card";
-				StaticEntity.getClient().showHTML( text, title );
-			}
-
-			// The card is not consumed by being read. I think.
-			StaticEntity.getClient().processResult( lastItemUsed );
-
+                        showItemUsage( showHTML, responseText, "Trading Card", false );
 			return;
 
 		// If it's a memo from Uncle Crimbo, show it
 
 		case CRIMBOWEEN_MEMO:
 
-			if ( showHTML )
-			{
-				text = trimInventoryText( responseText );
-				title = "The Memo";
-				StaticEntity.getClient().showHTML( text, title );
-			}
-
-			// The memo is not consumed by being read.
-			StaticEntity.getClient().processResult( lastItemUsed );
-
+                        showItemUsage( showHTML, responseText, "The Memo", false );
 			return;
 
 		// If it's a stuffed angry cow, let the player beat the stuffing out of it
 
 		case STUFFED_ANGRY_COW:
 
-			if ( showHTML )
-			{
-				text = trimInventoryText( responseText );
-				title = "Aggression Relief";
-				StaticEntity.getClient().showHTML( text, title );
-			}
-
-			// The stuffed angry cow is not consumed by being read.
-			StaticEntity.getClient().processResult( lastItemUsed );
-
+                        showItemUsage( showHTML, responseText, "Aggression Relief", false );
 			return;
 
 		// If it's a fortune cookie, get the fortune
 
 		case FORTUNE_COOKIE:
-			// Popup a window showing the fortune
 
-			if ( showHTML )
-			{
-				text = trimInventoryText( responseText );
-				title = "Your fortune";
-				StaticEntity.getClient().showHTML( text, title );
-			}
-
+                        showItemUsage( showHTML, responseText, "Your fortune", true );
 			return;
 
 		case GATES_SCROLL:
@@ -991,6 +955,15 @@ public class ConsumeItemRequest extends KoLRequest
 			StaticEntity.getClient().processResult( SCRAP_OF_PAPER );
 			return;
 		}
+	}
+
+	private static void showItemUsage( boolean showHTML, String text, String title, boolean consumed )
+	{
+		if ( showHTML )
+			StaticEntity.getClient().showHTML( trimInventoryText( text ), title );
+
+		if ( !consumed )
+			StaticEntity.getClient().processResult( lastItemUsed );
 	}
 
 	private static String trimInventoryText( String text )
