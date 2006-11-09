@@ -306,7 +306,7 @@ public abstract class SendMessageRequest extends KoLRequest
 	}
 
 	protected boolean allowUngiftableTransfer()
-	{	return true;
+	{	return false;
 	}
 
 	protected boolean allowUntradeableTransfer()
