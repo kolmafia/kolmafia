@@ -1025,7 +1025,7 @@ public class AdventureDatabase extends KoLDatabase
 			// clovers or dough, which causes infinite recursion.  Also don't do this
 			// for white pixels, as that causes confusion.
 
-			if ( ConcoctionsDatabase.getMixingMethod( item.getItemID() ) != ItemCreationRequest.NOCREATE )
+			if ( creator != null && ConcoctionsDatabase.getMixingMethod( item.getItemID() ) != ItemCreationRequest.NOCREATE )
 			{
 				switch ( item.getItemID() )
 				{
