@@ -51,10 +51,10 @@ import java.io.BufferedReader;
 
 public class ClassSkillsDatabase extends KoLDatabase
 {
-	private static Map skillByID = new TreeMap();
+	private static Map skillById = new TreeMap();
 	private static Map skillByName = new TreeMap();
-	private static Map mpConsumptionByID = new TreeMap();
-	private static Map skillTypeByID = new TreeMap();
+	private static Map mpConsumptionById = new TreeMap();
+	private static Map skillTypeById = new TreeMap();
 
 	public static final int PASSIVE = 0;
 	public static final int SKILL = 1;
@@ -66,27 +66,27 @@ public class ClassSkillsDatabase extends KoLDatabase
 		// This begins by opening up the data file and preparing
 		// a buffered reader; once this is done, every line is
 		// examined and float-referenced: once in the name-lookup,
-		// and again in the ID lookup.
+		// and again in the Id lookup.
 
 		BufferedReader reader = getReader( "classskills.dat" );
 
 		String [] data;
-		Integer skillID, skillType, mpConsumption;
+		Integer skillId, skillType, mpConsumption;
 		String skillName;
 
 		while ( (data = readData( reader )) != null )
 		{
 			if ( data.length == 4 )
 			{
-				skillID = Integer.valueOf( data[0] );
+				skillId = Integer.valueOf( data[0] );
 				skillType = Integer.valueOf( data[1] );
 				mpConsumption = Integer.valueOf( data[2] );
 				skillName = getDisplayName( data[3] );
 
-				skillByID.put( skillID, skillName );
-				skillByName.put( getCanonicalName( data[3] ), skillID );
-				mpConsumptionByID.put( skillID, mpConsumption );
-				skillTypeByID.put( skillID, skillType );
+				skillById.put( skillId, skillName );
+				skillByName.put( getCanonicalName( data[3] ), skillId );
+				mpConsumptionById.put( skillId, mpConsumption );
+				skillTypeById.put( skillId, skillType );
 			}
 		}
 
@@ -114,61 +114,61 @@ public class ClassSkillsDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns the name for an skill, given its ID.
-	 * @param	skillID	The ID of the skill to lookup
+	 * Returns the name for an skill, given its Id.
+	 * @param	skillId	The Id of the skill to lookup
 	 * @return	The name of the corresponding skill
 	 */
 
-	public static final String getSkillName( int skillID )
-	{	return (String) skillByID.get( new Integer( skillID ) );
+	public static final String getSkillName( int skillId )
+	{	return (String) skillById.get( new Integer( skillId ) );
 	}
 
 	/**
-	 * Returns the type for an skill, given its ID.
-	 * @param	skillID	The ID of the skill to lookup
+	 * Returns the type for an skill, given its Id.
+	 * @param	skillId	The Id of the skill to lookup
 	 * @return	The type of the corresponding skill
 	 */
 
-	public static final int getSkillType( int skillID )
+	public static final int getSkillType( int skillId )
 	{
-		Object skillType = skillTypeByID.get( new Integer( skillID ) );
+		Object skillType = skillTypeById.get( new Integer( skillId ) );
 		return skillType == null ? -1 : ((Integer)skillType).intValue();
 	}
 
 	/**
-	 * Returns the ID number for an skill, given its name.
+	 * Returns the Id number for an skill, given its name.
 	 * @param	skillName	The name of the skill to lookup
-	 * @return	The ID number of the corresponding skill
+	 * @return	The Id number of the corresponding skill
 	 */
 
-	public static final int getSkillID( String skillName )
+	public static final int getSkillId( String skillName )
 	{
-		Object skillID = skillByName.get( getCanonicalName( skillName ) );
-		return skillID == null ? -1 : ((Integer)skillID).intValue();
+		Object skillId = skillByName.get( getCanonicalName( skillName ) );
+		return skillId == null ? -1 : ((Integer)skillId).intValue();
 	}
 
 	/**
 	 * Returns how much MP is consumed by using the skill
-	 * with the given ID.
+	 * with the given Id.
 	 *
-	 * @param	skillID	The id of the skill to lookup
+	 * @param	skillId	The id of the skill to lookup
 	 * @return	The MP consumed by the skill, or 0 if unknown
 	 */
 
-	public static final int getMPConsumptionByID( int skillID )
+	public static final int getMPConsumptionById( int skillId )
 	{
 		// Moxious Maneuver has a special mana cost.
-		if ( skillID == 7008 )
+		if ( skillId == 7008 )
 			return Math.max( KoLCharacter.getLevel() + KoLCharacter.getManaCostModifier(), 1 );
 
 		// Magic Missile has a special mana cost.
-		if ( skillID == 7009 )
+		if ( skillId == 7009 )
 			return Math.max( Math.min( ( KoLCharacter.getLevel() + 3 ) / 2, 6 ) + KoLCharacter.getManaCostModifier(), 1 );
 
-		if ( getSkillType( skillID ) == PASSIVE )
+		if ( getSkillType( skillId ) == PASSIVE )
 			return 0;
 
-		Object mpConsumption = mpConsumptionByID.get( new Integer( skillID ) );
+		Object mpConsumption = mpConsumptionById.get( new Integer( skillId ) );
 		return mpConsumption == null ? 0 : Math.max( ((Integer)mpConsumption).intValue() + KoLCharacter.getManaCostModifier(), 1 );
 	}
 
@@ -179,8 +179,8 @@ public class ClassSkillsDatabase extends KoLDatabase
 	 * @return <code>true</code> if the skill is a normal skill
 	 */
 
-	public static final boolean isNormal( int skillID )
-	{	return isType( skillID, SKILL );
+	public static final boolean isNormal( int skillId )
+	{	return isType( skillId, SKILL );
 	}
 
 	/**
@@ -188,8 +188,8 @@ public class ClassSkillsDatabase extends KoLDatabase
 	 * @return	<code>true</code> if the skill is passive
 	 */
 
-	public static final boolean isPassive( int skillID )
-	{	return isType( skillID, PASSIVE );
+	public static final boolean isPassive( int skillId )
+	{	return isType( skillId, PASSIVE );
 	}
 
 	/**
@@ -199,8 +199,8 @@ public class ClassSkillsDatabase extends KoLDatabase
 	 * @return	<code>true</code> if the skill can target other players
 	 */
 
-	public static final boolean isBuff( int skillID )
-	{	return isType( skillID, BUFF );
+	public static final boolean isBuff( int skillId )
+	{	return isType( skillId, BUFF );
 	}
 
 	/**
@@ -210,8 +210,8 @@ public class ClassSkillsDatabase extends KoLDatabase
 	 * @return	<code>true</code> if the skill can be used in combat
 	 */
 
-	public static final boolean isCombat( int skillID )
-	{	return isType( skillID, COMBAT );
+	public static final boolean isCombat( int skillId )
+	{	return isType( skillId, COMBAT );
 	}
 
 	/**
@@ -219,9 +219,9 @@ public class ClassSkillsDatabase extends KoLDatabase
 	 * appropriate type.
 	 */
 
-	private static final boolean isType( int skillID, int type )
+	private static final boolean isType( int skillId, int type )
 	{
-		Object skillType = skillTypeByID.get( new Integer( skillID ) );
+		Object skillType = skillTypeById.get( new Integer( skillId ) );
 		return skillType == null ? false : ((Integer)skillType).intValue() == type;
 	}
 
@@ -233,7 +233,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 	{
 		ArrayList list = new ArrayList();
 
-		Object [] keys = skillTypeByID.keySet().toArray();
+		Object [] keys = skillTypeById.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 			if ( isType( ((Integer)keys[i]).intValue(), type ) )
 				list.add( UseSkillRequest.getInstance( ((Integer)keys[i]).intValue() ) );
@@ -259,6 +259,6 @@ public class ClassSkillsDatabase extends KoLDatabase
 	 * @return	The set of skills keyed by name
 	 */
 	public static Set entrySet()
-	{	return skillByID.entrySet();
+	{	return skillById.entrySet();
 	}
 }

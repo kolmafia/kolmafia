@@ -155,7 +155,7 @@ public class SkillBuffFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	FightFrame.showLocation( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectID( ((AdventureResult) elementList.getSelectedValue()).getName() ) );
+		{	FightFrame.showLocation( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectId( ((AdventureResult) elementList.getSelectedValue()).getName() ) );
 		}
 	}
 }

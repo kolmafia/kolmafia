@@ -114,7 +114,7 @@ public class AutoSellRequest extends SendMessageRequest
 	{
 		if ( sellType == AUTOMALL )
 		{
-			addFormField( "item" + index, String.valueOf( item.getItemID() ) );
+			addFormField( "item" + index, String.valueOf( item.getItemId() ) );
 			addFormField( getQuantityField() + index, String.valueOf( item.getCount() ) );
 
 			if ( prices.length == 0 )
@@ -145,8 +145,8 @@ public class AutoSellRequest extends SendMessageRequest
 				addFormField( "quantity", String.valueOf( item.getCount() ) );
 			}
 
-			String itemID = String.valueOf( item.getItemID() );
-			addFormField( "item" + itemID, itemID );
+			String itemId = String.valueOf( item.getItemId() );
+			addFormField( "item" + itemId, itemId );
 		}
 		else
 		{
@@ -171,7 +171,7 @@ public class AutoSellRequest extends SendMessageRequest
 			// This is a multiple selection input field.
 			// Therefore, you can give it multiple items.
 
-			addFormField( "whichitem[]", String.valueOf( item.getItemID() ), true );
+			addFormField( "whichitem[]", String.valueOf( item.getItemId() ), true );
 		}
 	}
 

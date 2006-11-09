@@ -44,8 +44,8 @@ public class KoLMailMessage implements Comparable
 	private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat( "EEEE, MMMM dd, yyyy, hh:mmaa", Locale.US );
 
 	private String messageHTML;
-	private String messageID;
-	private String senderID;
+	private String messageId;
+	private String senderId;
 	private String senderName;
 	private String messageDate;
 	private Date timestamp;
@@ -54,14 +54,14 @@ public class KoLMailMessage implements Comparable
 	{
 		this.messageHTML = message.substring( message.indexOf( "\">" ) + 2 ).replaceAll( "(<[pP]>)+", "<br><br>" );
 
-		this.messageID = message.substring( message.indexOf( "name=" ) + 6, message.indexOf( "\">" ) );
+		this.messageId = message.substring( message.indexOf( "name=" ) + 6, message.indexOf( "\">" ) );
 		StringTokenizer messageParser = new StringTokenizer( message, "<>" );
 
 		String lastToken = messageParser.nextToken();
 		while ( !lastToken.startsWith( "a " ) )
 			lastToken = messageParser.nextToken();
 
-		this.senderID = lastToken.substring( lastToken.indexOf( "who=" ) + 4, lastToken.length() - 1 );
+		this.senderId = lastToken.substring( lastToken.indexOf( "who=" ) + 4, lastToken.length() - 1 );
 		this.senderName = messageParser.nextToken();
 
 		while ( !messageParser.nextToken().startsWith( "Date" ) );
@@ -104,11 +104,11 @@ public class KoLMailMessage implements Comparable
 	public boolean equals( Object o )
 	{
 		return o == null ? false :
-			o instanceof KoLMailMessage ? messageID.equals( ((KoLMailMessage)o).messageID ) : false;
+			o instanceof KoLMailMessage ? messageId.equals( ((KoLMailMessage)o).messageId ) : false;
 	}
 
-	public String getMessageID()
-	{	return messageID;
+	public String getMessageId()
+	{	return messageId;
 	}
 
 	public String getMessageHTML()
@@ -119,8 +119,8 @@ public class KoLMailMessage implements Comparable
 	{	return senderName;
 	}
 
-	public String getSenderID()
-	{	return senderID;
+	public String getSenderId()
+	{	return senderId;
 	}
 
 	public String getDisplayHTML()

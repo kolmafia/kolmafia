@@ -106,7 +106,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	protected String name;
 	protected AdventureResult createdItem;
 	protected boolean shouldRerun = false;
-	protected int itemID, beforeQuantity, mixingMethod;
+	protected int itemId, beforeQuantity, mixingMethod;
 
 	private int quantityNeeded, quantityPossible;
 
@@ -131,8 +131,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 * @param	formSource	The form to be used for the item creation
 	 */
 
-	protected ItemCreationRequest( String formSource, int itemID )
-	{	this( formSource, itemID, SUBCLASS );
+	protected ItemCreationRequest( String formSource, int itemId )
+	{	this( formSource, itemId, SUBCLASS );
 	}
 
 	/**
@@ -141,20 +141,20 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 *
 	 * @param	client	Theto be notified of the item creation
 	 * @param	formSource	The form to be used for the item creation
-	 * @param	itemID	The identifier for the item to be created
+	 * @param	itemId	The identifier for the item to be created
 	 * @param	mixingMethod	How the item is created
 	 * @param	quantityNeeded	How many of this item are needed
 	 */
 
-	private ItemCreationRequest( String formSource, int itemID, int mixingMethod )
+	private ItemCreationRequest( String formSource, int itemId, int mixingMethod )
 	{
 		super( formSource );
 		addFormField( "pwd" );
 
-		this.itemID = itemID;
-		this.name = TradeableItemDatabase.getItemName( itemID );
+		this.itemId = itemId;
+		this.name = TradeableItemDatabase.getItemName( itemId );
 		this.mixingMethod = mixingMethod;
-		this.createdItem = new AdventureResult( itemID, 0 );
+		this.createdItem = new AdventureResult( itemId, 0 );
 	}
 
 	protected void reconstructFields()
@@ -235,13 +235,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			addFormField( "action", "combine" );
 	}
 
-	public static ItemCreationRequest getInstance( int itemID )
-	{	return getInstance( itemID, true );
+	public static ItemCreationRequest getInstance( int itemId )
+	{	return getInstance( itemId, true );
 	}
 
-	public static ItemCreationRequest getInstance( int itemID, boolean returnNullIfNotPermitted )
+	public static ItemCreationRequest getInstance( int itemId, boolean returnNullIfNotPermitted )
 	{
-		ItemCreationRequest instance = ALL_CREATIONS.get( itemID );
+		ItemCreationRequest instance = ALL_CREATIONS.get( itemId );
 
 		// Assume if you have subclass that everything
 		// works as intended.
@@ -259,12 +259,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		return instance;
 	}
 
-	public static ItemCreationRequest constructInstance( int itemID )
+	public static ItemCreationRequest constructInstance( int itemId )
 	{
-		if ( itemID == MEAT_PASTE || itemID == MEAT_STACK || itemID == DENSE_STACK )
-			return new CombineMeatRequest( itemID );
+		if ( itemId == MEAT_PASTE || itemId == MEAT_STACK || itemId == DENSE_STACK )
+			return new CombineMeatRequest( itemId );
 
-		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemID );
+		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemId );
 
 		// Otherwise, return the appropriate subclass of
 		// item which will be created.
@@ -273,54 +273,54 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		{
 		case COMBINE:
 			return new ItemCreationRequest( KoLCharacter.inMuscleSign() ?
-				"knoll.php" : "combine.php", itemID, mixingMethod );
+				"knoll.php" : "combine.php", itemId, mixingMethod );
 
 		case MIX:
 		case MIX_SPECIAL:
 		case MIX_SUPER:
-			return new ItemCreationRequest( "cocktail.php", itemID, mixingMethod );
+			return new ItemCreationRequest( "cocktail.php", itemId, mixingMethod );
 
 		case COOK:
 		case COOK_REAGENT:
 		case SUPER_REAGENT:
 		case COOK_PASTA:
-			return new ItemCreationRequest( "cook.php", itemID, mixingMethod );
+			return new ItemCreationRequest( "cook.php", itemId, mixingMethod );
 
 		case SMITH:
 			return new ItemCreationRequest( KoLCharacter.inMuscleSign() ?
-				"knoll.php" : "smith.php", itemID, mixingMethod );
+				"knoll.php" : "smith.php", itemId, mixingMethod );
 
 		case SMITH_ARMOR:
 		case SMITH_WEAPON:
-			return new ItemCreationRequest( "smith.php", itemID, mixingMethod );
+			return new ItemCreationRequest( "smith.php", itemId, mixingMethod );
 
 		case JEWELRY:
-			return new ItemCreationRequest( "jewelry.php", itemID, mixingMethod );
+			return new ItemCreationRequest( "jewelry.php", itemId, mixingMethod );
 
 		case ROLLING_PIN:
-			return new ItemCreationRequest( "inv_use.php", itemID, mixingMethod );
+			return new ItemCreationRequest( "inv_use.php", itemId, mixingMethod );
 
 		case STARCHART:
-			return new StarChartRequest( itemID );
+			return new StarChartRequest( itemId );
 
 		case PIXEL:
-			return new PixelRequest( itemID );
+			return new PixelRequest( itemId );
 
 		case TINKER:
-			return new TinkerRequest( itemID );
+			return new TinkerRequest( itemId );
 
 		case TOY:
-			return new ToyRequest( itemID );
+			return new ToyRequest( itemId );
 
 		case CATALYST:
 		case CLOVER:
-			return new ItemCreationRequest( "multiuse.php", itemID, mixingMethod );
+			return new ItemCreationRequest( "multiuse.php", itemId, mixingMethod );
 
 		case WOK:
 		case MALUS:
 		case STILL_MIXER:
 		case STILL_BOOZE:
-			return new ItemCreationRequest( "guild.php", itemID, mixingMethod );
+			return new ItemCreationRequest( "guild.php", itemId, mixingMethod );
 
 		default:
 			return null;
@@ -328,7 +328,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	}
 
 	public boolean equals( Object o )
-	{	return o != null && o instanceof ItemCreationRequest && itemID == ((ItemCreationRequest)o).itemID;
+	{	return o != null && o instanceof ItemCreationRequest && itemId == ((ItemCreationRequest)o).itemId;
 	}
 
 	public int compareTo( Object o )
@@ -385,7 +385,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		for ( int i = 0; i < DOUGH_DATA.length; ++i )
 		{
 			output = DOUGH_DATA[i][2];
-			if ( itemID == output.getItemID() )
+			if ( itemId == output.getItemId() )
 			{
 				tool = DOUGH_DATA[i][1];
 				input = DOUGH_DATA[i][0];
@@ -448,14 +448,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !makeIngredients() )
 			return;
 
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 
 		if ( ingredients.length == 1 || mixingMethod == CATALYST || mixingMethod == WOK )
 		{
 			// If there is only one ingredient, then it probably
 			// only needs a "whichitem" field added to the request.
 
-			addFormField( "whichitem", String.valueOf( ingredients[0].getItemID() ) );
+			addFormField( "whichitem", String.valueOf( ingredients[0].getItemId() ) );
 		}
 		else
 		{
@@ -468,7 +468,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				return;
 
 			for ( int i = 0; i < ingredients.length; ++i )
-				addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemID() ) );
+				addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemId() ) );
 		}
 
 		addFormField( "quantity", String.valueOf( quantityNeeded ) );
@@ -480,7 +480,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	{
 		// Figure out how many items were created
 
-		AdventureResult createdItem = new AdventureResult( itemID, 0 );
+		AdventureResult createdItem = new AdventureResult( itemId, 0 );
 		int createdQuantity = createdItem.getCount( inventory ) - beforeQuantity;
 
 		if ( mixingMethod == STILL_MIXER || mixingMethod == STILL_BOOZE )
@@ -497,10 +497,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// quantity that has changed might not be accurate.
 			// Therefore, update with the actual value.
 
-			AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
+			AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 
 			for ( int i = 0; i < ingredients.length; ++i )
-				StaticEntity.getClient().processResult( new AdventureResult( ingredients[i].getItemID(), -1 * createdQuantity * ingredients[i].getCount() ) );
+				StaticEntity.getClient().processResult( new AdventureResult( ingredients[i].getItemId(), -1 * createdQuantity * ingredients[i].getCount() ) );
 
 			if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
 				StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
@@ -680,12 +680,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
 		{
-			int pasteNeeded = ConcoctionsDatabase.getMeatPasteRequired( itemID, quantityNeeded );
+			int pasteNeeded = ConcoctionsDatabase.getMeatPasteRequired( itemId, quantityNeeded );
 			AdventureResult paste = new AdventureResult( MEAT_PASTE, pasteNeeded );
 			foundAllIngredients &= AdventureDatabase.retrieveItem( paste );
 		}
 
- 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
+ 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
@@ -695,7 +695,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			int multiplier = 0;
 			for ( int j = 0; j < ingredients.length; ++j )
-				if ( ingredients[i].getItemID() == ingredients[j].getItemID() )
+				if ( ingredients[i].getItemId() == ingredients[j].getItemId() )
 					multiplier += ingredients[i].getCount();
 
 			// Then, make enough of the ingredient in order
@@ -708,12 +708,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	}
 
 	/**
-	 * Returns the item ID for the item created by this request.
-	 * @return	The item ID of the item being created
+	 * Returns the item Id for the item created by this request.
+	 * @return	The item Id of the item being created
 	 */
 
-	public int getItemID()
-	{	return itemID;
+	public int getItemId()
+	{	return itemId;
 	}
 
 	/**
@@ -722,7 +722,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 */
 
 	public String getName()
-	{	return TradeableItemDatabase.getItemName( itemID );
+	{	return TradeableItemDatabase.getItemName( itemId );
 	}
 
 	/**
@@ -906,13 +906,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			if ( needsPlus )
 				command.append( " + " );
 
-			int itemID = StaticEntity.parseInt( itemMatcher.group(1) );
+			int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
 
 			command.append( quantity );
 			command.append( ' ' );
-			command.append( TradeableItemDatabase.getItemName( itemID ) );
+			command.append( TradeableItemDatabase.getItemName( itemId ) );
 
-			StaticEntity.getClient().processResult( new AdventureResult( itemID, 0 - quantity ) );
+			StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
 			needsPlus = true;
 		}
 

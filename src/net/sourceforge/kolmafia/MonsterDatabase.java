@@ -403,7 +403,7 @@ public class MonsterDatabase extends KoLDatabase
 
 		public static float sombreroXPAdjustment( float ml, FamiliarData familiar )
 		{
-			if ( familiar.getID() != SOMBRERO )
+			if ( familiar.getId() != SOMBRERO )
 				return 0.0f;
 
 			// ( sqrt(ML) * weight * 3 ) / 100

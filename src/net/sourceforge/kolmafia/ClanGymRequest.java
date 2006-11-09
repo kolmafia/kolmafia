@@ -46,25 +46,25 @@ public class ClanGymRequest extends KoLRequest
 	public static final int MOXIE = 3;
 
 	private int turnCount;
-	private int equipmentID;
+	private int equipmentId;
 
 	/**
 	 * Constructs a new <code>ClanGymRequest</code>.
 	 *
 	 * @param	client	Theto be notified in the event of error
-	 * @param	equipmentID	The identifier for the equipment you're using
+	 * @param	equipmentId	The identifier for the equipment you're using
 	 * @param	turnCount	The number of turns you're spending on the equipment
 	 */
 
-	public ClanGymRequest( int equipmentID )
+	public ClanGymRequest( int equipmentId )
 	{
 		super( "clan_rumpus.php" );
-		this.equipmentID = equipmentID;
+		this.equipmentId = equipmentId;
 	}
 
-	private static String chooseGym( int equipmentID )
+	private static String chooseGym( int equipmentId )
 	{
-		switch ( equipmentID )
+		switch ( equipmentId )
 		{
 		case MUSCLE:
 			// If we are in a Muscle sign, Degrassi Knoll has a gym.
@@ -95,9 +95,9 @@ public class ClanGymRequest extends KoLRequest
 		return "clan_rumpus.php";
 	}
 
-	private static String chooseAction( int equipmentID )
+	private static String chooseAction( int equipmentId )
 	{
-		switch ( equipmentID )
+		switch ( equipmentId )
 		{
 		case MUSCLE:
 			// If we are in a Muscle sign, Degrassi Knoll has a gym.
@@ -126,9 +126,9 @@ public class ClanGymRequest extends KoLRequest
 
 	public void run()
 	{
-		constructURLString( chooseGym( equipmentID ) );
+		constructURLString( chooseGym( equipmentId ) );
 
-		String equipment = chooseAction( equipmentID );
+		String equipment = chooseAction( equipmentId );
 		if ( equipment == null )
 			return;
 

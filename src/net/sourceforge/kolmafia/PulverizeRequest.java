@@ -55,7 +55,7 @@ public class PulverizeRequest extends KoLRequest
 		addFormField( "action", "pulverize" );
 		addFormField( "pwd" );
 		this.item = item;
-		addFormField( "smashitem", String.valueOf( item.getItemID() ) );
+		addFormField( "smashitem", String.valueOf( item.getItemId() ) );
 		addFormField( "quantity", String.valueOf( item.getCount() ) );
 
 		// 1 to confirm smashing untradables
@@ -64,7 +64,7 @@ public class PulverizeRequest extends KoLRequest
 
 	public void run()
 	{
-		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
+		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
 		case ConsumeItemRequest.EQUIP_FAMILIAR:
 		case ConsumeItemRequest.EQUIP_ACCESSORY:
@@ -124,11 +124,11 @@ public class PulverizeRequest extends KoLRequest
 
 		if ( itemMatcher.find() && quantityMatcher.find() )
 		{
-			int itemID = StaticEntity.parseInt( itemMatcher.group(1) );
+			int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
 			int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
 
-			StaticEntity.getClient().processResult( new AdventureResult( itemID, 0 - quantity ) );
-			KoLmafia.getSessionStream().println( "pulverize " + quantity + " " + TradeableItemDatabase.getItemName( itemID ) );
+			StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
+			KoLmafia.getSessionStream().println( "pulverize " + quantity + " " + TradeableItemDatabase.getItemName( itemId ) );
 		}
 
 		return true;

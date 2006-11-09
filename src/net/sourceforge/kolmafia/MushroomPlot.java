@@ -85,7 +85,7 @@ public abstract class MushroomPlot extends StaticEntity
 	// Special mushrooms
 	public static final int GLOOMY = 1266;
 
-	// Assocations between the mushroom IDs
+	// Assocations between the mushroom Ids
 	// and the mushroom image.
 
 	public static final Object [][] MUSHROOMS =
@@ -131,7 +131,7 @@ public abstract class MushroomPlot extends StaticEntity
 	};
 
 	// Spore data - includes price of the spore
-	// and the item ID associated with the spore.
+	// and the item Id associated with the spore.
 
 	private static final int [][] SPORE_DATA = { { SPOOKY, 30 }, { KNOB, 40 }, { KNOLL, 50 } };
 

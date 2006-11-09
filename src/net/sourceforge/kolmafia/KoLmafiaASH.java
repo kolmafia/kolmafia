@@ -74,7 +74,7 @@ public class KoLmafiaASH extends StaticEntity
 	public final static char [] tokenList = { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
 	public final static String [] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&" };
 
-	public static final int TYPE_VOID = 0;
+	public static final int TYPE_VOId = 0;
 	public static final int TYPE_BOOLEAN = 1;
 	public static final int TYPE_INT = 2;
 	public static final int TYPE_FLOAT = 3;
@@ -110,7 +110,7 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int STATE_CONTINUE = 4;
 	public static final int STATE_EXIT = 5;
 
-	private static final ScriptType VOID_TYPE = new ScriptType( "void", TYPE_VOID );
+	private static final ScriptType VOID_TYPE = new ScriptType( "void", TYPE_VOId );
 	private static final ScriptType BOOLEAN_TYPE = new ScriptType( "boolean", TYPE_BOOLEAN );
 	private static final ScriptType INT_TYPE = new ScriptType( "int", TYPE_INT );
 	private static final ScriptType FLOAT_TYPE = new ScriptType( "float", TYPE_FLOAT );
@@ -219,7 +219,7 @@ public class KoLmafiaASH extends StaticEntity
 		// Allow for an item number to be specified
 		// inside of the "item" construct.
 
-		int itemID;
+		int itemId;
 		for ( int i = 0; i < name.length(); ++i )
 		{
 			// If you get an actual item number, then store it
@@ -240,18 +240,18 @@ public class KoLmafiaASH extends StaticEntity
 				if ( item == null )
 					throw new IllegalArgumentException( "Item " + name + " not found in database" );
 
-				itemID = item.getItemID();
-				name = TradeableItemDatabase.getItemName( itemID );
-				return new ScriptValue( ITEM_TYPE, itemID, name );
+				itemId = item.getItemId();
+				name = TradeableItemDatabase.getItemName( itemId );
+				return new ScriptValue( ITEM_TYPE, itemId, name );
 			}
 		}
 
 		// Since it is numeric, parse the integer value
 		// and store it inside of the contentInt.
 
-		itemID = parseInt( name );
-		name = TradeableItemDatabase.getItemName( itemID );
-		return new ScriptValue( ITEM_TYPE, itemID, name );
+		itemId = parseInt( name );
+		name = TradeableItemDatabase.getItemName( itemId );
+		return new ScriptValue( ITEM_TYPE, itemId, name );
 	}
 
 	private static int zodiacToInt( String name )
@@ -332,7 +332,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( skills.isEmpty() )
 			throw new IllegalArgumentException( "Skill " + name + " not found in database" );
 
-		int num = ClassSkillsDatabase.getSkillID( (String)skills.get(0) );
+		int num = ClassSkillsDatabase.getSkillId( (String)skills.get(0) );
 		name = ClassSkillsDatabase.getSkillName( num );
 		return new ScriptValue( SKILL_TYPE, num, name );
 	}
@@ -346,7 +346,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( effect == null )
 			throw new IllegalArgumentException( "Effect " + name + " not found in database" );
 
-		int num = StatusEffectDatabase.getEffectID( effect.getName() );
+		int num = StatusEffectDatabase.getEffectId( effect.getName() );
 		name = StatusEffectDatabase.getEffectName( num );
 		return new ScriptValue( EFFECT_TYPE, num, name );
 	}
@@ -356,7 +356,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( name.equalsIgnoreCase( "none" ) )
 			return FAMILIAR_INIT;
 
-		int num = FamiliarsDatabase.getFamiliarID( name );
+		int num = FamiliarsDatabase.getFamiliarId( name );
 		if ( num == -1 )
 			throw new IllegalArgumentException( "Familiar " + name + " not found in database" );
 
@@ -428,7 +428,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static ScriptValue makeItemValue( String name )
 	{
-		int num = TradeableItemDatabase.getItemID( name );
+		int num = TradeableItemDatabase.getItemId( name );
 
 		if ( num == -1 )
 			return ITEM_INIT;
@@ -641,7 +641,7 @@ public class KoLmafiaASH extends StaticEntity
 				return;
 			}
 
-			if ( result.getType().equals( TYPE_VOID ) )
+			if ( result.getType().equals( TYPE_VOId ) )
 				KoLmafiaCLI.printLine( !KoLmafia.permitsContinue() ? "Script failed!" : "Script succeeded!" );
 			else if ( result.getType().equals( TYPE_BOOLEAN ) )
 				KoLmafiaCLI.printLine( result.intValue() == 0 ? "Script failed!" : "Script succeeded!" );
@@ -985,7 +985,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		result.setScope( scope );
-		if ( !result.assertReturn() && !functionType.equals( TYPE_VOID )
+		if ( !result.assertReturn() && !functionType.equals( TYPE_VOId )
 		     // The following clause can't be correct. I think it
 		     // depends on the various conditional & loop constructs
 		     // returning a boolean. Or something. But without it,
@@ -1202,7 +1202,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( currentToken() != null && currentToken().equals( ";" ) )
 		{
-			if ( expectedType != null && expectedType.equals( TYPE_VOID ) )
+			if ( expectedType != null && expectedType.equals( TYPE_VOId ) )
 				return new ScriptReturn( null, VOID_TYPE );
 
 			throw new AdvancedScriptException( "Return needs value " + getLineAndFile() );
@@ -2289,7 +2289,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		indentLine( indent );
 		KoLmafia.getDebugStream().println( "<RETURN " + ret.getType() + ">" );
-		if ( !ret.getType().equals( TYPE_VOID ) )
+		if ( !ret.getType().equals( TYPE_VOId ) )
 			printExpression( ret.getExpression(), indent + 1 );
 	}
 
@@ -4455,7 +4455,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue my_familiar()
-		{	return makeFamiliarValue( KoLCharacter.getFamiliar().getID() );
+		{	return makeFamiliarValue( KoLCharacter.getFamiliar().getId() );
 		}
 
 		public ScriptValue have_familiar( ScriptVariable familiar )
@@ -4882,8 +4882,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue guardians()
 		{
-			int itemID = SorceressLair.fightTowerGuardians( true );
-			return makeItemValue( itemID );
+			int itemId = SorceressLair.fightTowerGuardians( true );
+			return makeItemValue( itemId );
 		}
 
 		public ScriptValue chamber()
@@ -5193,18 +5193,18 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			String effectName = UneffectRequest.skillToEffect( skill.toStringValue().toString() );
 			return !StatusEffectDatabase.contains( effectName ) ? EFFECT_INIT :
-				new ScriptValue( EFFECT_TYPE, StatusEffectDatabase.getEffectID( effectName ), effectName );
+				new ScriptValue( EFFECT_TYPE, StatusEffectDatabase.getEffectId( effectName ), effectName );
 		}
 
 		public ScriptValue effect_to_skill( ScriptVariable effect )
 		{
 			String skillName = UneffectRequest.effectToSkill( effect.toStringValue().toString() );
 			return !ClassSkillsDatabase.contains( skillName ) ? SKILL_INIT :
-				new ScriptValue( SKILL_TYPE, ClassSkillsDatabase.getSkillID( skillName ), skillName );
+				new ScriptValue( SKILL_TYPE, ClassSkillsDatabase.getSkillId( skillName ), skillName );
 		}
 
 		public ScriptValue mp_cost( ScriptVariable skill )
-		{	return new ScriptValue( ClassSkillsDatabase.getMPConsumptionByID( skill.intValue() ) );
+		{	return new ScriptValue( ClassSkillsDatabase.getMPConsumptionById( skill.intValue() ) );
 		}
 
 		public ScriptValue can_equip( ScriptVariable item )
@@ -5236,7 +5236,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue familiar_weight_adjustment()
 		{
 			// Weight from skills and effects
-			int val = (KoLCharacter.getFamiliar().getID() == 38 ) ? KoLCharacter.getDodecapedeWeightAdjustment() : KoLCharacter.getFamiliarWeightAdjustment();
+			int val = (KoLCharacter.getFamiliar().getId() == 38 ) ? KoLCharacter.getDodecapedeWeightAdjustment() : KoLCharacter.getFamiliarWeightAdjustment();
 			// plus weight from equipment
 			val += KoLCharacter.getFamiliarItemWeightAdjustment();
 			return new ScriptValue( val );
@@ -6646,7 +6646,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			switch ( type )
 			{
-			case TYPE_VOID:
+			case TYPE_VOId:
 				return VOID_VALUE;
 			case TYPE_BOOLEAN:
 				return BOOLEAN_INIT;
@@ -7106,7 +7106,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String toString()
 		{
-			if ( type.equals( TYPE_VOID ) )
+			if ( type.equals( TYPE_VOId ) )
 				return "void";
 
 			if ( contentString != null )

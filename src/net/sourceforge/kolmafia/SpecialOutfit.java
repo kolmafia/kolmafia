@@ -49,7 +49,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
 
-	private int outfitID;
+	private int outfitId;
 	private String outfitName;
 	private ArrayList pieces;
 
@@ -61,14 +61,14 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	private SpecialOutfit()
 	{
-		this.outfitID = Integer.MAX_VALUE;
+		this.outfitId = Integer.MAX_VALUE;
 		this.outfitName = "Birthday Suit";
 		this.pieces = new ArrayList();
 	}
 
-	public SpecialOutfit( int outfitID, String outfitName )
+	public SpecialOutfit( int outfitId, String outfitName )
 	{
-		this.outfitID = outfitID;
+		this.outfitId = outfitId;
 		this.outfitName = outfitName;
 
 		if ( this.outfitName.equals( "Custom: KoLmafia Checkpoint" ) )
@@ -120,12 +120,12 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	{	return outfitName;
 	}
 
-	public int getOutfitID()
-	{	return outfitID;
+	public int getOutfitId()
+	{	return outfitId;
 	}
 
 	public boolean equals( Object o )
-	{	return o != null && o instanceof SpecialOutfit && outfitID == ((SpecialOutfit)o).outfitID;
+	{	return o != null && o instanceof SpecialOutfit && outfitId == ((SpecialOutfit)o).outfitId;
 	}
 
 	public int compareTo( Object o )
@@ -183,7 +183,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		if ( CHECKPOINT != null )
 		{
 			KoLRequest request = new KoLRequest( "account_manageoutfits.php?action=Yep.&delete" +
-				(0 - CHECKPOINT.getOutfitID()) + "=on", true );
+				(0 - CHECKPOINT.getOutfitId()) + "=on", true );
 
 			request.run();
 			CHECKPOINT = null;
@@ -202,15 +202,15 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	{
 		Matcher singleOutfitMatcher = OPTION_PATTERN.matcher( selectHTML );
 
-		int outfitID;
+		int outfitId;
 		CHECKPOINT = null;
 		SortedListModel outfits = new SortedListModel();
 
 		while ( singleOutfitMatcher.find() )
 		{
-			outfitID = StaticEntity.parseInt( singleOutfitMatcher.group(1) );
-			if ( outfitID < 0 )
-				outfits.add( new SpecialOutfit( outfitID, singleOutfitMatcher.group(2) ) );
+			outfitId = StaticEntity.parseInt( singleOutfitMatcher.group(1) );
+			if ( outfitId < 0 )
+				outfits.add( new SpecialOutfit( outfitId, singleOutfitMatcher.group(2) ) );
 		}
 
 		return outfits;

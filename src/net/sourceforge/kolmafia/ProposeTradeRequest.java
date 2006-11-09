@@ -46,7 +46,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d+=(\\d+)" );
 	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "howmany\\d+=(\\d+)" );
 
-	private int offerID;
+	private int offerId;
 	private boolean isCounterOffer;
 	private String recipient, message;
 
@@ -54,17 +54,17 @@ public class ProposeTradeRequest extends SendMessageRequest
 	{	super( "makeoffer.php", new Object[0] );
 	}
 
-	public ProposeTradeRequest( int offerID, String message, Object [] attachments )
+	public ProposeTradeRequest( int offerId, String message, Object [] attachments )
 	{
 		super( "counteroffer.php", attachments );
 		addFormField( "action", "counter" );
-		addFormField( "whichoffer", String.valueOf( offerID ) );
+		addFormField( "whichoffer", String.valueOf( offerId ) );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
 
-		this.offerID = offerID;
+		this.offerId = offerId;
 		this.message = message;
 		this.isCounterOffer = true;
-		this.recipient = KoLmafia.getPlayerID( recipient );
+		this.recipient = KoLmafia.getPlayerId( recipient );
 	}
 
 	public ProposeTradeRequest( String recipient, String message, Object [] attachments )
@@ -74,10 +74,10 @@ public class ProposeTradeRequest extends SendMessageRequest
 		addFormField( "towho", recipient );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
 
-		this.offerID = 0;
+		this.offerId = 0;
 		this.message = message;
 		this.isCounterOffer = false;
-		this.recipient = KoLmafia.getPlayerID( recipient );
+		this.recipient = KoLmafia.getPlayerId( recipient );
 	}
 
 	protected int getCapacity()
@@ -86,7 +86,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 
 	protected SendMessageRequest getSubInstance( Object [] attachments )
 	{
-		return isCounterOffer ? new ProposeTradeRequest( offerID, message, attachments ) :
+		return isCounterOffer ? new ProposeTradeRequest( offerId, message, attachments ) :
 			new ProposeTradeRequest( recipient, message, attachments );
 	}
 
@@ -128,9 +128,9 @@ public class ProposeTradeRequest extends SendMessageRequest
 
 		while ( itemMatcher.find() && quantityMatcher.find() )
 		{
-			int itemID = StaticEntity.parseInt( itemMatcher.group(1) );
+			int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
 			int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
-			StaticEntity.getClient().processResult( new AdventureResult( itemID, 0 - quantity ) );
+			StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
 		}
 
 		return true;

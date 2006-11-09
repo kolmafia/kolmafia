@@ -120,8 +120,8 @@ public class ExamineItemsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			// Sort elements by ID number
-			list.sort( new EntryIDComparator() );
+			// Sort elements by Id number
+			list.sort( new EntryIdComparator() );
 		}
 
 		private class ShowEntryAdapter extends MouseAdapter
@@ -137,13 +137,13 @@ public class ExamineItemsFrame extends KoLFrame
 						return;
 
 					elementList.ensureIndexIsVisible( index );
-					String id = IDNumberMapper( ((Integer)((Map.Entry)entry).getKey()).intValue() );
+					String id = IdNumberMapper( ((Integer)((Map.Entry)entry).getKey()).intValue() );
 					StaticEntity.openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
 				}
 			}
 		}
 
-		public String IDNumberMapper( int id )
+		public String IdNumberMapper( int id )
 		{	return String.valueOf( id );
 		}
 	}
@@ -154,8 +154,8 @@ public class ExamineItemsFrame extends KoLFrame
 		{	super( list, "Items", "item", "whichitem" );
 		}
 
-		public String IDNumberMapper( int id )
-		{	return TradeableItemDatabase.getDescriptionID( id );
+		public String IdNumberMapper( int id )
+		{	return TradeableItemDatabase.getDescriptionId( id );
 		}
 	}
 
@@ -185,7 +185,7 @@ public class ExamineItemsFrame extends KoLFrame
 		}
 	}
 
-	private class EntryIDComparator implements Comparator
+	private class EntryIdComparator implements Comparator
 	{
 		public int compare( Object o1, Object o2 )
 		{

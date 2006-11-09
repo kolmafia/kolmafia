@@ -61,18 +61,18 @@ public class EquipmentDatabase extends KoLDatabase
 		BufferedReader reader = getReader( "equipment.dat" );
 
 		String [] data;
-		int itemID;
+		int itemId;
 
 		while ( (data = readData( reader )) != null )
 		{
 			if ( data.length >= 3 )
 			{
-				itemID = TradeableItemDatabase.getItemID( data[0] );
+				itemId = TradeableItemDatabase.getItemId( data[0] );
 
-				if ( itemID != -1 )
+				if ( itemId != -1 )
 				{
-					power.set( itemID, parseInt( data[1] ) );
-					requirement.set( itemID, data[2] );
+					power.set( itemId, parseInt( data[1] ) );
+					requirement.set( itemId, data[2] );
 
 					int hval = 0;
 					String tval = null;
@@ -83,8 +83,8 @@ public class EquipmentDatabase extends KoLDatabase
 						tval = str.substring( str.indexOf( " " ) + 1 );
 					}
 
-					hands.set( itemID, hval );
-					type.set( itemID, tval );
+					hands.set( itemId, hval );
+					type.set( itemId, tval );
 				}
 			}
 		}
@@ -102,28 +102,28 @@ public class EquipmentDatabase extends KoLDatabase
 		}
 
 		reader = getReader( "outfits.dat" );
-		int outfitID;
+		int outfitId;
 
 		while ( (data = readData( reader )) != null )
 		{
 			if ( data.length == 3 )
 			{
-				outfitID = parseInt( data[0] );
-				outfits.set( outfitID, new SpecialOutfit( outfitID, data[1] ) );
+				outfitId = parseInt( data[0] );
+				outfits.set( outfitId, new SpecialOutfit( outfitId, data[1] ) );
 
 				String [] pieces = data[2].split( "\\s*,\\s*" );
 				for ( int i = 0; i < pieces.length; ++i )
 				{
-					outfitPieces.put( getCanonicalName( pieces[i] ), new Integer( outfitID ) );
-					outfits.get( outfitID ).addPiece( new AdventureResult( pieces[i], 1, false ) );
+					outfitPieces.put( getCanonicalName( pieces[i] ), new Integer( outfitId ) );
+					outfits.get( outfitId ).addPiece( new AdventureResult( pieces[i], 1, false ) );
 				}
 			}
 		}
 	}
 
-	public static int getOutfitWithItem( int itemID )
+	public static int getOutfitWithItem( int itemId )
 	{
-		String itemName = getCanonicalName( TradeableItemDatabase.getItemName( itemID ) );
+		String itemName = getCanonicalName( TradeableItemDatabase.getItemName( itemId ) );
 		Integer result = (Integer) outfitPieces.get( itemName );
 		return result == null ? -1 : result.intValue();
 	}
@@ -134,31 +134,31 @@ public class EquipmentDatabase extends KoLDatabase
 
 	public static boolean contains( String itemName )
 	{
-		int itemID = TradeableItemDatabase.getItemID( itemName );
-		return itemID != -1 && requirement.get( itemID ) != null;
+		int itemId = TradeableItemDatabase.getItemId( itemName );
+		return itemId != -1 && requirement.get( itemId ) != null;
 	}
 
 	public static boolean canEquip( String itemName )
 	{
-		int itemID = TradeableItemDatabase.getItemID( itemName );
+		int itemId = TradeableItemDatabase.getItemId( itemName );
 
-		if ( itemID == -1 || requirement.get( itemID ) == null )
+		if ( itemId == -1 || requirement.get( itemId ) == null )
 			return false;
 
-		if ( requirement.get( itemID ).startsWith( "Mus:" ) )
-			return KoLCharacter.getBaseMuscle() >= parseInt( requirement.get( itemID ).substring(5) );
+		if ( requirement.get( itemId ).startsWith( "Mus:" ) )
+			return KoLCharacter.getBaseMuscle() >= parseInt( requirement.get( itemId ).substring(5) );
 
-		if ( requirement.get( itemID ).startsWith( "Mys:" ) )
-			return KoLCharacter.getBaseMysticality() >= parseInt( requirement.get( itemID ).substring(5) );
+		if ( requirement.get( itemId ).startsWith( "Mys:" ) )
+			return KoLCharacter.getBaseMysticality() >= parseInt( requirement.get( itemId ).substring(5) );
 
-		if ( requirement.get( itemID ).startsWith( "Mox:" ) )
-			return KoLCharacter.getBaseMoxie() >= parseInt( requirement.get( itemID ).substring(5) );
+		if ( requirement.get( itemId ).startsWith( "Mox:" ) )
+			return KoLCharacter.getBaseMoxie() >= parseInt( requirement.get( itemId ).substring(5) );
 
 		return true;
 	}
 
-	public static int getPower( int itemID )
-	{	return power.get( itemID );
+	public static int getPower( int itemId )
+	{	return power.get( itemId );
 	}
 
 	public static int getPower( String itemName )
@@ -166,16 +166,16 @@ public class EquipmentDatabase extends KoLDatabase
 		if ( itemName == null )
 			return 0;
 
-		int itemID = TradeableItemDatabase.getItemID( itemName );
+		int itemId = TradeableItemDatabase.getItemId( itemName );
 
-		if ( itemID == -1 )
+		if ( itemId == -1 )
 			return 0;
 
-		return getPower( itemID );
+		return getPower( itemId );
 	}
 
-	public static int getHands( int itemID )
-	{	return hands.get( itemID );
+	public static int getHands( int itemId )
+	{	return hands.get( itemId );
 	}
 
 	public static int getHands( String itemName )
@@ -183,16 +183,16 @@ public class EquipmentDatabase extends KoLDatabase
 		if ( itemName == null )
 			return 0;
 
-		int itemID = TradeableItemDatabase.getItemID( itemName );
+		int itemId = TradeableItemDatabase.getItemId( itemName );
 
-		if ( itemID == -1 )
+		if ( itemId == -1 )
 			return 0;
 
-		return getHands( itemID );
+		return getHands( itemId );
 	}
 
-	public static String getType( int itemID )
-	{	return type.get( itemID );
+	public static String getType( int itemId )
+	{	return type.get( itemId );
 	}
 
 	public static String getType( String itemName )
@@ -200,17 +200,17 @@ public class EquipmentDatabase extends KoLDatabase
 		if ( itemName == null )
 			return null;
 
-		int itemID = TradeableItemDatabase.getItemID( itemName );
+		int itemId = TradeableItemDatabase.getItemId( itemName );
 
-		if ( itemID == -1 )
+		if ( itemId == -1 )
 			return null;
 
-		return getType( itemID );
+		return getType( itemId );
 	}
 
-	public static boolean isRanged( int itemID )
+	public static boolean isRanged( int itemId )
 	{
-		String req = requirement.get( itemID );
+		String req = requirement.get( itemId );
 		return req != null && req.startsWith( "Mox:" );
 	}
 
@@ -219,28 +219,28 @@ public class EquipmentDatabase extends KoLDatabase
 		if ( itemName == null )
 			return false;
 
-		int itemID = TradeableItemDatabase.getItemID( itemName );
+		int itemId = TradeableItemDatabase.getItemId( itemName );
 
-		if ( itemID == -1 )
+		if ( itemId == -1 )
 			return false;
 
-		return isRanged( itemID );
+		return isRanged( itemId );
 	}
 
-	public static boolean isStaff( int itemID )
+	public static boolean isStaff( int itemId )
 	{
-		String type = getType( itemID );
+		String type = getType( itemId );
 		return type != null && type.equals( "staff" );
 	}
 
 	public static boolean isStaff( String itemName )
 	{
-		int itemID = TradeableItemDatabase.getItemID( itemName );
+		int itemId = TradeableItemDatabase.getItemId( itemName );
 
-		if ( itemID == -1 )
+		if ( itemId == -1 )
 			return false;
 
-		return isStaff( itemID );
+		return isStaff( itemId );
 	}
 
 	public static boolean hasOutfit( int id )
@@ -280,52 +280,52 @@ public class EquipmentDatabase extends KoLDatabase
 	 * corresponding to the given outfit is already equipped.
 	 */
 
-	public static boolean isWearingOutfit( int outfitID )
-	{	return outfits.get( outfitID ) != null && outfits.get( outfitID ).isWearing();
+	public static boolean isWearingOutfit( int outfitId )
+	{	return outfits.get( outfitId ) != null && outfits.get( outfitId ).isWearing();
 	}
 
-	public static int getOutfitID( KoLAdventure adventure )
+	public static int getOutfitId( KoLAdventure adventure )
 	{
-		String adventureID = adventure.getAdventureID();
+		String adventureId = adventure.getAdventureId();
 
 		// Knob goblin treasury has the elite guard outfit
-		if ( adventureID.equals( "41" ) )
+		if ( adventureId.equals( "41" ) )
 			return 5;
 
 		// Knob goblin harem has the harem girl disguise
-		if ( adventureID.equals( "42" ) || adventure.getFormSource().equals( "knob.php" ) )
+		if ( adventureId.equals( "42" ) || adventure.getFormSource().equals( "knob.php" ) )
 			return 4;
 
 		// The mine has mining gear
-		if ( adventureID.equals( "61" ) )
+		if ( adventureId.equals( "61" ) )
 			return 8;
 
 		// The slope has eXtreme cold weather gear
-		if ( adventureID.equals( "63" ) )
+		if ( adventureId.equals( "63" ) )
 			return 7;
 
 		// Hippies have a filthy hippy disguise
-		if ( adventureID.equals( "26" ) || adventureID.equals( "65" ) )
+		if ( adventureId.equals( "26" ) || adventureId.equals( "65" ) )
 			return 2;
 
 		// Frat house has a frat house ensemble
-		if ( adventureID.equals( "27" ) || adventureID.equals( "29" ) )
+		if ( adventureId.equals( "27" ) || adventureId.equals( "29" ) )
 			return 3;
 
 		// Pirates have a swashbuckling getup
-		if ( adventureID.equals( "66" ) || adventureID.equals( "67" ) )
+		if ( adventureId.equals( "66" ) || adventureId.equals( "67" ) )
 			return 9;
 
 		// Choose the uniform randomly
-		if ( adventureID.equals( "85" ) )
+		if ( adventureId.equals( "85" ) )
 			return RNG.nextInt(2) == 0 ? 23 : 24;
 
 		// Cloaca area requires cloaca uniforms
-		if ( adventureID.equals( "86" ) )
+		if ( adventureId.equals( "86" ) )
 			return 23;
 
 		// Dyspepsi area requires dyspepsi uniforms
-		if ( adventureID.equals( "87" ) )
+		if ( adventureId.equals( "87" ) )
 			return 24;
 
 		// No outfit existed for this area
@@ -334,18 +334,18 @@ public class EquipmentDatabase extends KoLDatabase
 
 	public static boolean addOutfitConditions( KoLAdventure adventure )
 	{
-		int outfitID = getOutfitID( adventure );
-		if ( outfitID == 0 )
+		int outfitId = getOutfitId( adventure );
+		if ( outfitId == 0 )
 			return false;
 
-		addOutfitConditions( outfitID );
+		addOutfitConditions( outfitId );
 		return true;
 	}
 
-	public static boolean retrieveOutfit( int outfitID )
+	public static boolean retrieveOutfit( int outfitId )
 	{
 		AdventureResult currentPiece;
-		String [] pieces = outfits.get( outfitID ).getPieces();
+		String [] pieces = outfits.get( outfitId ).getPieces();
 
 		for ( int i = 0; i < pieces.length; ++i )
 		{
@@ -361,15 +361,15 @@ public class EquipmentDatabase extends KoLDatabase
 		return true;
 	}
 
-	public static void addOutfitConditions( int outfitID )
+	public static void addOutfitConditions( int outfitId )
 	{
 		// Ignore custom outfits, since there's
 		// no way to know what they are (yet).
 
-		if ( outfitID < 1 )
+		if ( outfitId < 1 )
 			return;
 
-		String [] pieces = outfits.get( outfitID ).getPieces();
+		String [] pieces = outfits.get( outfitId ).getPieces();
 		for ( int i = 0; i < pieces.length; ++i )
 			if ( !KoLCharacter.hasEquipped( new AdventureResult( pieces[i], 1, false ) ) )
 				DEFAULT_SHELL.executeConditionsCommand( "add " + pieces[i] );

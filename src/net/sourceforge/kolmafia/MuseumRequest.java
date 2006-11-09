@@ -75,7 +75,7 @@ public class MuseumRequest extends SendMessageRequest
 		addFormField( "action", "arrange" );
 
 		for ( int i = 0; i < items.length; ++i )
-			addFormField( "whichshelf" + items[i].getItemID(), String.valueOf( shelves[i] ) );
+			addFormField( "whichshelf" + items[i].getItemId(), String.valueOf( shelves[i] ) );
 
 		isManagement = true;
 	}

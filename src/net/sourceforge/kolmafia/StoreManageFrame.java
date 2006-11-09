@@ -142,18 +142,18 @@ public class StoreManageFrame extends KoLPanelFrame
 			KoLmafia.updateDisplay( "Compiling reprice data..." );
 			int rowCount = manageTable.getRowCount();
 
-			int [] itemID = new int[ rowCount ];
+			int [] itemId = new int[ rowCount ];
 			int [] prices = new int[ rowCount ];
 			int [] limits = new int[ rowCount ];
 
 			for ( int i = 0; i < rowCount; ++i )
 			{
-				itemID[i] = ((AdventureResult)manageTable.getValueAt( i, 0 )).getItemID();
+				itemId[i] = ((AdventureResult)manageTable.getValueAt( i, 0 )).getItemId();
 				prices[i] = ((Integer) manageTable.getValueAt( i, 1 )).intValue();
 				limits[i] = ((Boolean)manageTable.getValueAt( i, 4 )).booleanValue() ? 1 : 0;
 			}
 
-			(new RequestThread( new StoreManageRequest( itemID, prices, limits ) )).start();
+			(new RequestThread( new StoreManageRequest( itemId, prices, limits ) )).start();
 		}
 
 		public void actionCancelled()
@@ -279,7 +279,7 @@ public class StoreManageFrame extends KoLPanelFrame
 					quantity = soldItem.getCount() - quantity;
 
 				int limit = ((Boolean) getValueAt( 0, 4 )).booleanValue() ? 1 : 0;
-				soldItem = new AdventureResult( soldItem.getItemID(), quantity );
+				soldItem = new AdventureResult( soldItem.getItemId(), quantity );
 
 				setValueAt( new AdventureResult( "-select an item-", 1, false ), 0, 0 );
 				setValueAt( new Integer(0), 0, 1 );
@@ -332,17 +332,17 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		private class RemoveItemButton extends NestedInsideTableButton
 		{
-			private int itemID;
+			private int itemId;
 
 			public RemoveItemButton( String itemName )
 			{
 				super( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
-				this.itemID = TradeableItemDatabase.getItemID( itemName );
+				this.itemId = TradeableItemDatabase.getItemId( itemName );
 				setToolTipText( "remove item from store" );
 			}
 
 			public void mouseReleased( MouseEvent e )
-			{	(new RequestThread( new StoreManageRequest( itemID ) )).start();
+			{	(new RequestThread( new StoreManageRequest( itemId ) )).start();
 			}
 		}
 	}
@@ -404,7 +404,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			Runnable [] requests = new Runnable[ autoSellAfter ? items.length + 2 : items.length + 1 ];
 
 			for ( int i = 0; i < items.length; ++i )
-			 	requests[i] = new StoreManageRequest( ((StoreManager.SoldItem)items[i]).getItemID() );
+			 	requests[i] = new StoreManageRequest( ((StoreManager.SoldItem)items[i]).getItemId() );
 
 			requests[ items.length ] = new StoreManageRequest();
 
@@ -412,7 +412,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			{
 				AdventureResult [] itemsToSell = new AdventureResult[ items.length ];
 				for ( int i = 0; i < items.length; ++i )
-					itemsToSell[i] = new AdventureResult( ((StoreManager.SoldItem)items[i]).getItemID(), ((StoreManager.SoldItem)items[i]).getQuantity() );
+					itemsToSell[i] = new AdventureResult( ((StoreManager.SoldItem)items[i]).getItemId(), ((StoreManager.SoldItem)items[i]).getQuantity() );
 
 				requests[ items.length + 1 ] = new AutoSellRequest( itemsToSell, AutoSellRequest.AUTOSELL );
 			}

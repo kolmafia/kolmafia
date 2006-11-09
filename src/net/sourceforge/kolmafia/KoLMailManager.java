@@ -59,17 +59,17 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static boolean hasNewMessages()
 	{
-		String oldMessageID = getProperty( "lastMessageID" );
+		String oldMessageId = getProperty( "lastMessageId" );
 
 		SortedListModel inbox = getMessages( "Inbox" );
 		if ( inbox.isEmpty() )
 			return false;
 
 		KoLMailMessage latest = (KoLMailMessage) inbox.get(0);
-		String newMessageID = latest.getMessageID();
+		String newMessageId = latest.getMessageId();
 
-		setProperty( "lastMessageID", newMessageID );
-		return !oldMessageID.equals( newMessageID );
+		setProperty( "lastMessageId", newMessageId );
+		return !oldMessageId.equals( newMessageId );
 	}
 
 	/**
@@ -101,7 +101,7 @@ public abstract class KoLMailManager extends StaticEntity
 		if ( mailbox.contains( toadd ) )
 			return null;
 
-		KoLmafia.registerPlayer( toadd.getSenderName(), toadd.getSenderID() );
+		KoLmafia.registerPlayer( toadd.getSenderName(), toadd.getSenderId() );
 
 		mailbox.add( toadd );
 		return toadd;

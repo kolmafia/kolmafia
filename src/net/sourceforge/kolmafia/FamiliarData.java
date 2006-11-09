@@ -120,7 +120,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		KoLCharacter.recalculateAdjustments();
 	}
 
-	public int getID()
+	public int getId()
 	{	return id;
 	}
 
@@ -152,16 +152,16 @@ public class FamiliarData implements KoLConstants, Comparable
 			total += KoLCharacter.getFamiliarWeightAdjustment();
 
 		// Finally, add in effect of current equipment
-		total += itemWeightModifier( item.getItemID() );
+		total += itemWeightModifier( item.getItemId() );
 
 		return total;
 	}
 
-	public static int itemWeightModifier( int itemID )
+	public static int itemWeightModifier( int itemId )
 	{
-		switch ( itemID )
+		switch ( itemId )
 		{
-		case -1:	// bogus item ID
+		case -1:	// bogus item Id
 		case 856:	// shock collar
 		case 857:	// moonglasses
 		case 1040:	// lucky Tam O'Shanter
@@ -248,7 +248,7 @@ public class FamiliarData implements KoLConstants, Comparable
 
 	public boolean canEquip( AdventureResult item )
 	{
-		switch ( item.getItemID() )
+		switch ( item.getItemId() )
 		{
 		case -1:
 			return false;

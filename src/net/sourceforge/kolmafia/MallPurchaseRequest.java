@@ -51,10 +51,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	// it so that the maximum quantity is 10 million
 
 	private String itemName, shopName;
-	private int itemID, shopID, quantity, price, limit;
+	private int itemId, shopId, quantity, price, limit;
 
 	private boolean isNPCStore;
-	private String npcStoreID;
+	private String npcStoreId;
 
 	private boolean canPurchase;
 	public static final int MAX_QUANTITY = 10000000;
@@ -64,17 +64,17 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 * things from NPC stores.
 	 */
 
-	public MallPurchaseRequest( String storeName, String storeID, int itemID, int price )
+	public MallPurchaseRequest( String storeName, String storeId, int itemId, int price )
 	{
-		super( storeID.indexOf( "." ) == -1 ? "store.php" : storeID );
+		super( storeId.indexOf( "." ) == -1 ? "store.php" : storeId );
 
-		if ( storeID.indexOf( "." ) == -1 )
+		if ( storeId.indexOf( "." ) == -1 )
 		{
-			addFormField( "whichstore", storeID );
+			addFormField( "whichstore", storeId );
 			addFormField( "phash" );
 			addFormField( "buying", "Yep." );
 		}
-		else if ( storeID.equals( "galaktik.php" ) )
+		else if ( storeId.equals( "galaktik.php" ) )
 		{
 			// Annoying special case.
 			addFormField( "action", "buyitem" );
@@ -86,18 +86,18 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			addFormField( "pwd" );
 		}
 
-		addFormField( "whichitem", String.valueOf( itemID ) );
+		addFormField( "whichitem", String.valueOf( itemId ) );
 
-		this.itemName = TradeableItemDatabase.getItemName( itemID );
+		this.itemName = TradeableItemDatabase.getItemName( itemId );
 		this.shopName = storeName;
-		this.itemID = itemID;
-		this.shopID = 0;
+		this.itemId = itemId;
+		this.shopId = 0;
 		this.quantity = MAX_QUANTITY;
 		this.limit = quantity;
 		this.price = price;
 
 		this.isNPCStore = true;
-		this.npcStoreID = storeID;
+		this.npcStoreId = storeId;
 		this.canPurchase = true;
 	}
 
@@ -109,27 +109,27 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 *
 	 * @param	client	Theto which this request reports errors
 	 * @param	itemName	The name of the item to be purchased
-	 * @param	itemID	The database ID for the item to be purchased
+	 * @param	itemId	The database Id for the item to be purchased
 	 * @param	quantity	The quantity of items to be purchased
-	 * @param	shopID	The integer identifier for the shop from which the item will be purchased
+	 * @param	shopId	The integer identifier for the shop from which the item will be purchased
 	 * @param	shopName	The name of the shop
 	 * @param	price	The price at which the item will be purchased
 	 */
 
-	public MallPurchaseRequest( String itemName, int itemID, int quantity, int shopID, String shopName, int price, int limit, boolean canPurchase )
+	public MallPurchaseRequest( String itemName, int itemId, int quantity, int shopId, String shopName, int price, int limit, boolean canPurchase )
 	{
 		super( "mallstore.php" );
 
-		this.itemID = itemID;
+		this.itemId = itemId;
 
-		if ( TradeableItemDatabase.getItemName( itemID ) == null && itemName != null )
-			TradeableItemDatabase.registerItem( itemID, itemName );
+		if ( TradeableItemDatabase.getItemName( itemId ) == null && itemName != null )
+			TradeableItemDatabase.registerItem( itemId, itemName );
 
-		this.itemName = TradeableItemDatabase.getItemName( this.itemID );
+		this.itemName = TradeableItemDatabase.getItemName( this.itemId );
 		if ( this.itemName == null )
 			this.itemName = "(unknown)";
 
-		this.shopID = shopID;
+		this.shopId = shopId;
 		this.shopName = shopName;
 		this.quantity = quantity;
 		this.price = price;
@@ -138,22 +138,22 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.canPurchase = canPurchase;
 
 		addFormField( "pwd" );
-		addFormField( "whichstore", String.valueOf( shopID ) );
+		addFormField( "whichstore", String.valueOf( shopId ) );
 		addFormField( "buying", "Yep." );
 
-		addFormField( "whichitem", getStoreString( itemID, price ) );
+		addFormField( "whichitem", getStoreString( itemId, price ) );
 	}
 
-	public static String getStoreString( int itemID, int price )
+	public static String getStoreString( int itemId, int price )
 	{
 		// With the basic fields out of the way, you need to construct
 		// the string representing the item you want to buy at the price
 		// you wish to buy at.
 
 		StringBuffer whichItem = new StringBuffer();
-		whichItem.append( itemID );
+		whichItem.append( itemId );
 
-		// First append the item ID.  Until the item database is done,
+		// First append the item Id.  Until the item database is done,
 		// there's no way to look up the item.
 
 		int originalLength = whichItem.length();
@@ -165,12 +165,12 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		return whichItem.toString();
 	}
 
-	public int getItemID()
-	{	return itemID;
+	public int getItemId()
+	{	return itemId;
 	}
 
-	public String getStoreID()
-	{	return isNPCStore ? npcStoreID : String.valueOf( shopID );
+	public String getStoreId()
+	{	return isNPCStore ? npcStoreId : String.valueOf( shopId );
 	}
 
 	/**
@@ -297,7 +297,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		if ( limit < 1 || !canPurchase() || shopID == KoLCharacter.getUserID() )
+		if ( limit < 1 || !canPurchase() || shopId == KoLCharacter.getUserId() )
 			return;
 
 		addFormField( isNPCStore ? "howmany" : "quantity", String.valueOf( limit ) );
@@ -305,7 +305,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// If the item is not currently recognized, the user should
 		// be notified that the purchases cannot be made because of that
 
-		if ( itemID == -1 )
+		if ( itemId == -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Item not recognized by KoLmafia database." );
 			return;
@@ -326,7 +326,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Now that everything's ensured, go ahead and execute the
 		// actual purchase request.
 
-		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( price ) + ")..." );
+		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemId ) + " (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( price ) + ")..." );
 		super.run();
 
 		if ( attireChanged )
@@ -374,13 +374,13 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		int neededOutfit = 0;
 
-		if ( npcStoreID.equals( "b" ) )
+		if ( npcStoreId.equals( "b" ) )
 			neededOutfit = 1;
 
-		if ( npcStoreID.equals( "g" ) )
+		if ( npcStoreId.equals( "g" ) )
 			neededOutfit = 5;
 
-		if ( npcStoreID.equals( "h" ) )
+		if ( npcStoreId.equals( "h" ) )
 			neededOutfit = 2;
 
 		if ( neededOutfit == 0 )
@@ -452,14 +452,14 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 				if ( price >= newPrice )
 				{
 					KoLmafia.updateDisplay( "Failed to yield.  Attempting repurchase..." );
-					(new MallPurchaseRequest( itemName, itemID, Math.min( limit, quantity ), shopID, shopName, newPrice, Math.min( limit, quantity ), true )).run();
+					(new MallPurchaseRequest( itemName, itemId, Math.min( limit, quantity ), shopId, shopName, newPrice, Math.min( limit, quantity ), true )).run();
 				}
 				else
 				{
 					// In the event of a price switch, give the
 					// player the option to report it.
 
-					KoLmafia.updateDisplay( "Price switch detected (#" + shopID + ").  Skipping..." );
+					KoLmafia.updateDisplay( "Price switch detected (#" + shopId + ").  Skipping..." );
 				}
 			}
 			else
@@ -488,7 +488,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			int alreadyPurchased = StaticEntity.parseInt( quantityMatcher.group(2) );
 
 			if ( limit != alreadyPurchased )
-				(new MallPurchaseRequest( itemName, itemID, limit - alreadyPurchased, shopID, shopName, price, limit, true )).run();
+				(new MallPurchaseRequest( itemName, itemId, limit - alreadyPurchased, shopId, shopName, price, limit, true )).run();
 
 			canPurchase = false;
 			return;
@@ -511,7 +511,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	public boolean equals( Object o )
 	{
 		return o == null || !(o instanceof MallPurchaseRequest) ? false :
-			shopName.equals( ((MallPurchaseRequest)o).shopName ) && itemID == ((MallPurchaseRequest)o).itemID;
+			shopName.equals( ((MallPurchaseRequest)o).shopName ) && itemId == ((MallPurchaseRequest)o).itemId;
 	}
 
 	public String getCommandForm()

@@ -38,18 +38,18 @@ import java.util.ArrayList;
 public class UntinkerRequest extends KoLRequest
 {
 	private static final AdventureResult SCREWDRIVER = new AdventureResult( 454, -1 );
-	private int itemID;
+	private int itemId;
 
-	public UntinkerRequest( int itemID )
+	public UntinkerRequest( int itemId )
 	{
 		super( "town_right.php" );
 
 		addFormField( "pwd" );
 		addFormField( "action", "untinker" );
-		addFormField( "whichitem", String.valueOf( itemID ) );
+		addFormField( "whichitem", String.valueOf( itemId ) );
 		addFormField( "untinker", "Untinker!" );
 
-		this.itemID = itemID;
+		this.itemId = itemId;
 	}
 
 	public void run()
@@ -58,7 +58,7 @@ public class UntinkerRequest extends KoLRequest
 		// paste, and only execute the request if it is known to be
 		// creatable through combination.
 
-		if ( ConcoctionsDatabase.getMixingMethod( itemID ) != ItemCreationRequest.COMBINE )
+		if ( ConcoctionsDatabase.getMixingMethod( itemId ) != ItemCreationRequest.COMBINE )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You cannot untinker that item." );
 			return;
@@ -79,10 +79,10 @@ public class UntinkerRequest extends KoLRequest
 		if ( inventory.contains( SCREWDRIVER ) )
 			StaticEntity.getClient().processResult( SCREWDRIVER );
 
-		KoLmafia.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );
+		KoLmafia.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemId ) + "..." );
 
 		super.run();
-		KoLmafia.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( itemID ) + "." );
+		KoLmafia.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( itemId ) + "." );
 	}
 
 	public static final boolean completeQuest()
@@ -160,6 +160,6 @@ public class UntinkerRequest extends KoLRequest
 	}
 
 	protected void processResults()
-	{	StaticEntity.getClient().processResult( new AdventureResult( itemID, -1 ) );
+	{	StaticEntity.getClient().processResult( new AdventureResult( itemId, -1 ) );
 	}
 }

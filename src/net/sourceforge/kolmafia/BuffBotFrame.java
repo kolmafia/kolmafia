@@ -184,7 +184,7 @@ public class BuffBotFrame extends KoLFrame
 			LockableListModel skillSet = usableSkills;
 			LockableListModel buffSet = new LockableListModel();
 			for (int i = 0; (skill = (UseSkillRequest) skillSet.get(i)) != null; ++i )
-				if (ClassSkillsDatabase.isBuff( ClassSkillsDatabase.getSkillID( skill.getSkillName() ) ))
+				if (ClassSkillsDatabase.isBuff( ClassSkillsDatabase.getSkillId( skill.getSkillName() ) ))
 					buffSet.add( skill );
 
 			skillSelect = new JComboBox( buffSet );

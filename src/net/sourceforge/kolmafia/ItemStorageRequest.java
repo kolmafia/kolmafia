@@ -265,12 +265,12 @@ public class ItemStorageRequest extends SendMessageRequest
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = optionMatcher.end();
-			int itemID = StaticEntity.parseInt( optionMatcher.group(1) );
+			int itemId = StaticEntity.parseInt( optionMatcher.group(1) );
 
-			if ( TradeableItemDatabase.getItemName( itemID ) == null )
-				TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
+			if ( TradeableItemDatabase.getItemName( itemId ) == null )
+				TradeableItemDatabase.registerItem( itemId, optionMatcher.group(2).trim() );
 
-			AdventureResult result = new AdventureResult( itemID, StaticEntity.parseInt( optionMatcher.group(3) ) );
+			AdventureResult result = new AdventureResult( itemId, StaticEntity.parseInt( optionMatcher.group(3) ) );
 			AdventureResult.addResultToList( storageContents, result );
 		}
 	}

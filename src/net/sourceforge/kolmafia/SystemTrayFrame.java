@@ -120,7 +120,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 
 	public static void showDisplay()
 	{
-		if ( KoLRequest.sessionID == null )
+		if ( KoLRequest.sessionId == null )
 		{
 			KoLFrame.createDisplay( LoginFrame.class );
 			return;

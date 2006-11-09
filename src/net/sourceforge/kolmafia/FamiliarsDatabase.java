@@ -57,15 +57,15 @@ public class FamiliarsDatabase extends KoLDatabase
 	private static final String DEFAULT_ITEM = "steaming evil";
 	private static final Integer DEFAULT_LARVA = new Integer( 666 );
 
-	private static Map familiarByID = new TreeMap();
+	private static Map familiarById = new TreeMap();
 	private static Map familiarByName = new TreeMap();
 	private static Map familiarByLarva = new TreeMap();
 	private static Map familiarByItem = new TreeMap();
 
-	private static Map familiarItemByID = new TreeMap();
-	private static Map familiarLarvaByID = new TreeMap();
+	private static Map familiarItemById = new TreeMap();
+	private static Map familiarLarvaById = new TreeMap();
 
-	private static Map familiarImageByID = new TreeMap();
+	private static Map familiarImageById = new TreeMap();
 
 	private static Map [] eventSkillByName = new TreeMap[4];
 
@@ -77,12 +77,12 @@ public class FamiliarsDatabase extends KoLDatabase
 		// This begins by opening up the data file and preparing
 		// a buffered reader; once this is done, every line is
 		// examined and float-referenced: once in the name-lookup,
-		// and again in the ID lookup.
+		// and again in the Id lookup.
 
 		BufferedReader reader = getReader( "familiars.dat" );
 
 		String [] data;
-		Integer familiarID, familiarLarva;
+		Integer familiarId, familiarLarva;
 		String familiarName, familiarItemName;
 
 		while ( (data = readData( reader )) != null )
@@ -91,18 +91,18 @@ public class FamiliarsDatabase extends KoLDatabase
 			{
 				try
 				{
-					familiarID = Integer.valueOf( data[0] );
+					familiarId = Integer.valueOf( data[0] );
 					familiarLarva = Integer.valueOf( data[1] );
 					familiarName = getDisplayName( data[2] );
 					familiarItemName = getDisplayName( data[3] );
 
-					familiarByID.put( familiarID, familiarName );
-					familiarByName.put( getCanonicalName( data[2] ), familiarID );
-					familiarByLarva.put( familiarLarva, familiarID );
-					familiarByItem.put( getCanonicalName( data[3] ), familiarID );
+					familiarById.put( familiarId, familiarName );
+					familiarByName.put( getCanonicalName( data[2] ), familiarId );
+					familiarByLarva.put( familiarLarva, familiarId );
+					familiarByItem.put( getCanonicalName( data[3] ), familiarId );
 
-					familiarItemByID.put( familiarID, familiarItemName );
-					familiarLarvaByID.put( familiarID, familiarLarva );
+					familiarItemById.put( familiarId, familiarItemName );
+					familiarLarvaById.put( familiarId, familiarLarva );
 
 					for ( int i = 0; i < 4; ++i )
 						eventSkillByName[i].put( getCanonicalName( data[2] ), Integer.valueOf( data[i+4] ) );
@@ -136,54 +136,54 @@ public class FamiliarsDatabase extends KoLDatabase
 	 * login and is designed to minimize crashing as a result.
 	 */
 
-	public static void registerFamiliar( int familiarID, String familiarName )
+	public static void registerFamiliar( int familiarId, String familiarName )
 	{
 		if ( familiarByName.containsKey( getCanonicalName( familiarName ) ) )
 			return;
 
-		KoLmafia.getDebugStream().println( "New familiar: \"" + familiarID + "\" (" + familiarName + ")" );
+		KoLmafia.getDebugStream().println( "New familiar: \"" + familiarId + "\" (" + familiarName + ")" );
 
 		// Because I'm intelligent, assume that both the familiar item
 		// and the familiar larva are the steaming evil (for now).
 
-		Integer dummyID = new Integer( familiarID );
+		Integer dummyId = new Integer( familiarId );
 
-		familiarByID.put( dummyID, familiarName );
-		familiarByName.put( getCanonicalName( familiarName ), dummyID );
-		familiarByLarva.put( DEFAULT_LARVA, dummyID );
-		familiarItemByID.put( dummyID, DEFAULT_ITEM );
-		familiarByItem.put( getCanonicalName( DEFAULT_ITEM ), dummyID );
+		familiarById.put( dummyId, familiarName );
+		familiarByName.put( getCanonicalName( familiarName ), dummyId );
+		familiarByLarva.put( DEFAULT_LARVA, dummyId );
+		familiarItemById.put( dummyId, DEFAULT_ITEM );
+		familiarByItem.put( getCanonicalName( DEFAULT_ITEM ), dummyId );
 	}
 
 	/**
-	 * Returns the name for an familiar, given its ID.
-	 * @param	familiarID	The ID of the familiar to lookup
+	 * Returns the name for an familiar, given its Id.
+	 * @param	familiarId	The Id of the familiar to lookup
 	 * @return	The name of the corresponding familiar
 	 */
 
-	public static final String getFamiliarName( int familiarID )
-	{	return (String) familiarByID.get( new Integer( familiarID ) );
+	public static final String getFamiliarName( int familiarId )
+	{	return (String) familiarById.get( new Integer( familiarId ) );
 	}
 
 	/**
-	 * Returns the ID number for an familiar, given its larval stage.
-	 * @param	larvaID	The larva stage of the familiar to lookup
-	 * @return	The ID number of the corresponding familiar
+	 * Returns the Id number for an familiar, given its larval stage.
+	 * @param	larvaId	The larva stage of the familiar to lookup
+	 * @return	The Id number of the corresponding familiar
 	 */
 
-	public static final FamiliarData growFamiliarLarva( int larvaID )
+	public static final FamiliarData growFamiliarLarva( int larvaId )
 	{
-		Object familiarID = familiarByLarva.get( new Integer( larvaID ) );
-		return familiarID == null ? null : new FamiliarData( ((Integer)familiarID).intValue() );
+		Object familiarId = familiarByLarva.get( new Integer( larvaId ) );
+		return familiarId == null ? null : new FamiliarData( ((Integer)familiarId).intValue() );
 	}
 
 	/**
-	 * Returns the ID number for an familiar, given its name.
+	 * Returns the Id number for an familiar, given its name.
 	 * @param	substring	The name of the familiar to lookup
-	 * @return	The ID number of the corresponding familiar
+	 * @return	The Id number of the corresponding familiar
 	 */
 
-	public static final int getFamiliarID( String substring )
+	public static final int getFamiliarId( String substring )
 	{
 		String searchString = substring.toLowerCase();
 
@@ -194,32 +194,32 @@ public class FamiliarsDatabase extends KoLDatabase
 		{
 			if ( familiarNames[i].indexOf( searchString ) != -1 )
 			{
-				Object familiarID = familiarByName.get( familiarNames[i] );
-				return familiarID == null ? -1 : ((Integer)familiarID).intValue();
+				Object familiarId = familiarByName.get( familiarNames[i] );
+				return familiarId == null ? -1 : ((Integer)familiarId).intValue();
 			}
 		}
 
 		return -1;
 	}
 
-	public static final String getFamiliarItem( int familiarID )
-	{	return (String) familiarItemByID.get( new Integer( familiarID ) );
+	public static final String getFamiliarItem( int familiarId )
+	{	return (String) familiarItemById.get( new Integer( familiarId ) );
 	}
 
 	public static final int getFamiliarByItem( String item )
 	{
-		Object familiarID = familiarByItem.get( getCanonicalName( item ) );
-		return familiarID == null ? -1 : ((Integer)familiarID).intValue();
+		Object familiarId = familiarByItem.get( getCanonicalName( item ) );
+		return familiarId == null ? -1 : ((Integer)familiarId).intValue();
 	}
 
-	public static void setFamiliarImageLocation( int familiarID, String location )
+	public static void setFamiliarImageLocation( int familiarId, String location )
 	{
-		familiarImageByID.put( new Integer( familiarID ), location );
+		familiarImageById.put( new Integer( familiarId ), location );
 	}
 
-	public static String getFamiliarImageLocation( int familiarID )
+	public static String getFamiliarImageLocation( int familiarId )
 	{
-		String location = (String) familiarImageByID.get( new Integer( familiarID ) );
+		String location = (String) familiarImageById.get( new Integer( familiarId ) );
 		if ( location != null )
 			return location;
 
@@ -230,18 +230,18 @@ public class FamiliarsDatabase extends KoLDatabase
 		return "debug.gif";
 	}
 
-	private static void downloadFamiliarImage( int familiarID )
-	{	RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/" + getFamiliarImageLocation( familiarID ) );
+	private static void downloadFamiliarImage( int familiarId )
+	{	RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/" + getFamiliarImageLocation( familiarId ) );
 	}
 
-	public static ImageIcon getFamiliarImage( int familiarID )
+	public static ImageIcon getFamiliarImage( int familiarId )
 	{
-		downloadFamiliarImage( familiarID );
-		return JComponentUtilities.getImage( getFamiliarImageLocation( familiarID ) );
+		downloadFamiliarImage( familiarId );
+		return JComponentUtilities.getImage( getFamiliarImageLocation( familiarId ) );
 	}
 
 	public static ImageIcon getFamiliarImage( String name )
-	{	return getFamiliarImage( getFamiliarID( name ) );
+	{	return getFamiliarImage( getFamiliarId( name ) );
 	}
 
 	/**
@@ -287,7 +287,7 @@ public class FamiliarsDatabase extends KoLDatabase
 	 */
 
 	public static Set entrySet()
-	{	return familiarByID.entrySet();
+	{	return familiarById.entrySet();
 	}
 
 	private static void saveDataOverride()
@@ -304,23 +304,23 @@ public class FamiliarsDatabase extends KoLDatabase
 			writer.println( "# http://www.the-rye.dreamhosters.com/familiars/" );
 			writer.println();
 
-			Integer [] familiarIDs = new Integer[ familiarByID.keySet().size() ];
-			familiarByID.keySet().toArray( familiarIDs );
+			Integer [] familiarIds = new Integer[ familiarById.keySet().size() ];
+			familiarById.keySet().toArray( familiarIds );
 
-			for ( int i = 0; i < familiarIDs.length; ++i )
+			for ( int i = 0; i < familiarIds.length; ++i )
 			{
-				writer.print( familiarIDs[i].intValue() );
+				writer.print( familiarIds[i].intValue() );
 				writer.print( "\t" );
 
-				writer.print( familiarLarvaByID.get( familiarIDs[i] ) );
+				writer.print( familiarLarvaById.get( familiarIds[i] ) );
 				writer.print( "\t" );
 
-				writer.print( getFamiliarName( familiarIDs[i].intValue() ) );
+				writer.print( getFamiliarName( familiarIds[i].intValue() ) );
 				writer.print( "\t" );
 
-				writer.print( getFamiliarItem( familiarIDs[i].intValue() ) );
+				writer.print( getFamiliarItem( familiarIds[i].intValue() ) );
 
-				int [] skills = getFamiliarSkills( familiarIDs[i].intValue() );
+				int [] skills = getFamiliarSkills( familiarIds[i].intValue() );
 				for ( int j = 0; j < skills.length; ++j )
 				{
 					writer.print( "\t" );

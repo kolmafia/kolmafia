@@ -266,7 +266,7 @@ public class BuffBotDatabase extends KoLDatabase
 		private int price;
 		private boolean free;
 
-		private int lowestBuffID;
+		private int lowestBuffId;
 		private String [] buffs;
 		private int [] turns;
 
@@ -276,7 +276,7 @@ public class BuffBotDatabase extends KoLDatabase
 		{
 			this.buffs = new String [] { buffName };
 			this.turns = new int [] { turns };
-			this.lowestBuffID = ClassSkillsDatabase.getSkillID( buffName );
+			this.lowestBuffId = ClassSkillsDatabase.getSkillId( buffName );
 
 			this.botName = botName;
 			this.price = price;
@@ -297,8 +297,8 @@ public class BuffBotDatabase extends KoLDatabase
 		{	return turns;
 		}
 
-		public int getLowestBuffID()
-		{	return lowestBuffID;
+		public int getLowestBuffId()
+		{	return lowestBuffId;
 		}
 
 		public String toString()
@@ -319,9 +319,9 @@ public class BuffBotDatabase extends KoLDatabase
 			this.buffs[ this.buffs.length - 1 ] = buffName;
 			this.turns[ this.turns.length - 1 ] = turns;
 
-			int skillID = ClassSkillsDatabase.getSkillID( buffName );
-			if ( skillID < lowestBuffID )
-				this.lowestBuffID = skillID;
+			int skillId = ClassSkillsDatabase.getSkillId( buffName );
+			if ( skillId < lowestBuffId )
+				this.lowestBuffId = skillId;
 
 			constructStringForm();
 		}
@@ -389,9 +389,9 @@ public class BuffBotDatabase extends KoLDatabase
 			if ( free || turns.length > 1 || off.turns.length > 1 )
 				return price - off.price;
 
-			// Compare the ID of the lowest ID buffs
-			if ( lowestBuffID != off.lowestBuffID )
-				return lowestBuffID - off.lowestBuffID;
+			// Compare the Id of the lowest Id buffs
+			if ( lowestBuffId != off.lowestBuffId )
+				return lowestBuffId - off.lowestBuffId;
 
 			// First compare turns
 			if ( turns[0] != off.turns[0] )

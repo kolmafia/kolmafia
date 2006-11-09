@@ -56,11 +56,11 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private static final int WALRUS_TONGUE = 1010;
 	protected static String lastUpdate = "";
 
-	private int skillID;
+	private int skillId;
 	private String skillName;
 	private String target;
 	private int buffCount;
-	private String countFieldID;
+	private String countFieldId;
 
 	private static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
 	public static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
@@ -94,24 +94,24 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		addFormField( "action", "Skillz." );
 		addFormField( "pwd" );
 
-		this.skillID = ClassSkillsDatabase.getSkillID( skillName );
-		this.skillName = ClassSkillsDatabase.getSkillName( skillID );
+		this.skillId = ClassSkillsDatabase.getSkillId( skillName );
+		this.skillName = ClassSkillsDatabase.getSkillName( skillId );
 
-		addFormField( "whichskill", String.valueOf( skillID ) );
+		addFormField( "whichskill", String.valueOf( skillId ) );
 		this.target = "yourself";
 	}
 
 	public void setTarget( String target )
 	{
-		if ( ClassSkillsDatabase.isBuff( skillID ) )
+		if ( ClassSkillsDatabase.isBuff( skillId ) )
 		{
-			this.countFieldID = "bufftimes";
+			this.countFieldId = "bufftimes";
 
-			if ( target == null || target.trim().length() == 0 || target.equals( String.valueOf( KoLCharacter.getUserID() ) ) || target.equals( KoLCharacter.getUserName() ) )
+			if ( target == null || target.trim().length() == 0 || target.equals( String.valueOf( KoLCharacter.getUserId() ) ) || target.equals( KoLCharacter.getUserName() ) )
 			{
 				this.target = "yourself";
-				if ( KoLCharacter.getUserID() != 0 )
-					addFormField( "targetplayer", String.valueOf( KoLCharacter.getUserID() ) );
+				if ( KoLCharacter.getUserId() != 0 )
+					addFormField( "targetplayer", String.valueOf( KoLCharacter.getUserId() ) );
 				else
 					addFormField( "specificplayer", KoLCharacter.getUserName() );
 			}
@@ -123,7 +123,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		}
 		else
 		{
-			this.countFieldID = "quantity";
+			this.countFieldId = "quantity";
 			this.target = null;
 		}
 	}
@@ -137,7 +137,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( buffCount < 1 )
 			buffCount = 1;
 		else if ( buffCount == Integer.MAX_VALUE )
-			buffCount = (int) (KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionByID( skillID ));
+			buffCount = (int) (KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionById( skillId ));
 
 		this.buffCount = buffCount;
 	}
@@ -147,14 +147,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( o == null || !(o instanceof UseSkillRequest) )
 			return -1;
 
-		int mpDifference = ClassSkillsDatabase.getMPConsumptionByID( skillID ) -
-			ClassSkillsDatabase.getMPConsumptionByID( ((UseSkillRequest)o).skillID );
+		int mpDifference = ClassSkillsDatabase.getMPConsumptionById( skillId ) -
+			ClassSkillsDatabase.getMPConsumptionById( ((UseSkillRequest)o).skillId );
 
 		return mpDifference != 0 ? mpDifference : skillName.compareToIgnoreCase( ((UseSkillRequest)o).skillName );
 	}
 
-	public int getSkillID()
-	{	return skillID;
+	public int getSkillId()
+	{	return skillId;
 	}
 
 	public String getSkillName()
@@ -162,14 +162,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	}
 
 	public String toString()
-	{	return skillName + " (" + ClassSkillsDatabase.getMPConsumptionByID( skillID ) + " mp)";
+	{	return skillName + " (" + ClassSkillsDatabase.getMPConsumptionById( skillId ) + " mp)";
 	}
 
-	public static AdventureResult optimizeEquipment( int skillID )
+	public static AdventureResult optimizeEquipment( int skillId )
 	{
 		AdventureResult songWeapon = null;
 
-		if ( skillID > 6000 && skillID < 7000 )
+		if ( skillId > 6000 && skillId < 7000 )
 		{
 			songWeapon = prepareAccordion();
 
@@ -186,7 +186,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				DEFAULT_SHELL.executeLine( "unequip weapon" );
 		}
 
-		if ( ClassSkillsDatabase.isBuff( skillID ) && skillID > 1000 && inventory.contains( WIZARD_HAT ) )
+		if ( ClassSkillsDatabase.isBuff( skillId ) && skillId > 1000 && inventory.contains( WIZARD_HAT ) )
 			DEFAULT_SHELL.executeLine( "equip jewel-eyed wizard hat" );
 
 		return songWeapon;
@@ -205,7 +205,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		// Cast the skill as many times as needed
 
-		AdventureResult songWeapon = optimizeEquipment( skillID );
+		AdventureResult songWeapon = optimizeEquipment( skillId );
 		useSkillLoop();
 
 		if ( !KoLmafia.isRunningBetweenBattleChecks() )
@@ -249,7 +249,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// recovered in advance.
 
 		int castsRemaining = buffCount;
-		int mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( skillID );
+		int mpPerCast = ClassSkillsDatabase.getMPConsumptionById( skillId );
 
 		int currentMP = KoLCharacter.getCurrentMP();
 		int maximumMP = KoLCharacter.getMaximumMP();
@@ -295,7 +295,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				// or not at least one cast was completed.
 
 				buffCount = currentCast;
-				addFormField( countFieldID, String.valueOf( currentCast ), false );
+				addFormField( countFieldId, String.valueOf( currentCast ), false );
 
 				if ( target == null || target.trim().length() == 0 )
 					KoLmafia.updateDisplay( "Casting " + skillName + " " + currentCast + " times..." );
@@ -393,7 +393,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public static void untinkerCloverWeapon( AdventureResult item )
 	{
-		switch ( item.getItemID() )
+		switch ( item.getItemId() )
 		{
 		case 32:	// Bjorn's Hammer
 			DEFAULT_SHELL.executeLine( "untinker Bjorn's Hammer" );
@@ -449,7 +449,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// If it's a buff count greater than one,
 			// try to scale down the request.
 
-			int buffAttempt = StaticEntity.parseInt( getFormField( countFieldID ) );
+			int buffAttempt = StaticEntity.parseInt( getFormField( countFieldId ) );
 			if ( buffAttempt > 1 )
 			{
 				KoLmafia.updateDisplay( "Summon limit exceeded. Shrinking request..." );
@@ -521,10 +521,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// Tongue of the Walrus (1010) automatically
 			// removes any beaten up.
 
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount) ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionById( skillId ) * buffCount) ) );
 			StaticEntity.getClient().applyEffects();
 
-			if ( skillID == OTTER_TONGUE || skillID == WALRUS_TONGUE )
+			if ( skillId == OTTER_TONGUE || skillId == WALRUS_TONGUE )
 			{
 				activeEffects.remove( KoLAdventure.BEATEN_UP );
 				needsRefresh = true;
@@ -560,8 +560,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		return true;
 	}
 
-	public static UseSkillRequest getInstance( int skillID )
-	{	return getInstance( ClassSkillsDatabase.getSkillName( skillID ) );
+	public static UseSkillRequest getInstance( int skillId )
+	{	return getInstance( ClassSkillsDatabase.getSkillName( skillId ) );
 	}
 
 	public static UseSkillRequest getInstance( String skillName, int buffCount )

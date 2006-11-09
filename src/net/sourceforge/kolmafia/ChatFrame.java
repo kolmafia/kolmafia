@@ -432,11 +432,11 @@ public class ChatFrame extends KoLFrame
 				break;
 
 			case 5:
-				StaticEntity.openRequestFrame( "displaycollection.php?who=" + KoLmafia.getPlayerID( (String) parameters[0] ) );
+				StaticEntity.openRequestFrame( "displaycollection.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] ) );
 				return;
 
 			case 6:
-				StaticEntity.openRequestFrame( "ascensionhistory.php?who=" + KoLmafia.getPlayerID( (String) parameters[0] ) );
+				StaticEntity.openRequestFrame( "ascensionhistory.php?who=" + KoLmafia.getPlayerId( (String) parameters[0] ) );
 				return;
 
 			case 7:

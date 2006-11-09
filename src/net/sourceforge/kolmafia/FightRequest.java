@@ -66,9 +66,9 @@ public class FightRequest extends KoLRequest
 	private static final AdventureResult TURTLE = new AdventureResult( 4, 1 );
 	private static final AdventureResult SPICES = new AdventureResult( 8, 1 );
 
-	private static final String TOOTH_ACTION = "item" + TOOTH.getItemID();
-	private static final String TURTLE_ACTION = "item" + TURTLE.getItemID();
-	private static final String SPICES_ACTION = "item" + SPICES.getItemID();
+	private static final String TOOTH_ACTION = "item" + TOOTH.getItemId();
+	private static final String TURTLE_ACTION = "item" + TURTLE.getItemId();
+	private static final String SPICES_ACTION = "item" + SPICES.getItemId();
 
 	private static int currentRound = 0;
 	private static int offenseModifier = 0, defenseModifier = 0;
@@ -171,8 +171,8 @@ public class FightRequest extends KoLRequest
 		// If the player wants to use an item, make sure he has one
 		else if ( action1.startsWith( "item" ) )
 		{
-			int itemID = StaticEntity.parseInt( action1.substring( 4 ) );
-			int itemCount = (new AdventureResult( itemID, 1 )).getCount( inventory );
+			int itemId = StaticEntity.parseInt( action1.substring( 4 ) );
+			int itemCount = (new AdventureResult( itemId, 1 )).getCount( inventory );
 
 			if ( itemCount == 0 )
 			{
@@ -182,29 +182,29 @@ public class FightRequest extends KoLRequest
 			else
 			{
 				addFormField( "action", "useitem" );
-				addFormField( "whichitem", String.valueOf( itemID ) );
+				addFormField( "whichitem", String.valueOf( itemId ) );
 
 				if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 				{
-					if ( itemCount >= 2 && itemID != DICTIONARY1.getItemID() && itemID != DICTIONARY2.getItemID() )
+					if ( itemCount >= 2 && itemId != DICTIONARY1.getItemId() && itemId != DICTIONARY2.getItemId() )
 					{
 						action2 = action1;
-						addFormField( "whichitem2", String.valueOf( itemID ) );
+						addFormField( "whichitem2", String.valueOf( itemId ) );
 					}
 					else if ( TOOTH.getCount( inventory ) > (action1.equals( TOOTH_ACTION ) ? 1 : 0) )
 					{
 						action2 = TOOTH_ACTION;
-						addFormField( "whichitem2", String.valueOf( TOOTH.getItemID() ) );
+						addFormField( "whichitem2", String.valueOf( TOOTH.getItemId() ) );
 					}
 					else if ( TURTLE.getCount( inventory ) > (action1.equals( TURTLE_ACTION ) ? 1 : 0) )
 					{
 						action2 = TURTLE_ACTION;
-						addFormField( "whichitem2", String.valueOf( TURTLE.getItemID() ) );
+						addFormField( "whichitem2", String.valueOf( TURTLE.getItemId() ) );
 					}
 					else if ( SPICES.getCount( inventory ) > (action1.equals( SPICES_ACTION ) ? 1 : 0) )
 					{
 						action2 = SPICES_ACTION;
-						addFormField( "whichitem2", String.valueOf( SPICES.getItemID() ) );
+						addFormField( "whichitem2", String.valueOf( SPICES.getItemId() ) );
 					}
 				}
 			}
@@ -270,7 +270,7 @@ public class FightRequest extends KoLRequest
 				}
 			}
 		}
-		while ( KoLmafia.permitsContinue() && currentRound != 0 );
+		while ( responseCode == 200 && KoLmafia.permitsContinue() && currentRound != 0 );
 	}
 
 	private boolean isAcceptable( int offenseModifier, int defenseModifier )
@@ -380,12 +380,12 @@ public class FightRequest extends KoLRequest
 		if ( action1.startsWith( "item" ) )
 			return 0;
 
-		return ClassSkillsDatabase.getMPConsumptionByID( StaticEntity.parseInt( action1 ) );
+		return ClassSkillsDatabase.getMPConsumptionById( StaticEntity.parseInt( action1 ) );
 	}
 
-	private static boolean hasActionCost( int itemID )
+	private static boolean hasActionCost( int itemId )
 	{
-		switch ( itemID )
+		switch ( itemId )
 		{
 		case 2:		// Seal Tooth
 		case 4:		// Scroll of Turtle Summoning
@@ -446,10 +446,10 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
-		int skillID = StaticEntity.parseInt( action1 );
-		int mpCost = ClassSkillsDatabase.getMPConsumptionByID( skillID );
+		int skillId = StaticEntity.parseInt( action1 );
+		int mpCost = ClassSkillsDatabase.getMPConsumptionById( skillId );
 
-		switch ( skillID )
+		switch ( skillId )
 		{
 		case 2005: // Shieldbutt
 			offenseModifier -= 5;

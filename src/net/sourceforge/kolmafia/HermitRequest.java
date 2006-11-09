@@ -51,7 +51,7 @@ public class HermitRequest extends KoLRequest
 	public static final AdventureResult GEWGAW = new AdventureResult( 44, 0 );
 	public static final AdventureResult KNICK_KNACK =  new AdventureResult( 45, 0 );
 
-	private int itemID, quantity;
+	private int itemId, quantity;
 	private static boolean neededPermits = false;
 
 	/**
@@ -67,20 +67,20 @@ public class HermitRequest extends KoLRequest
 	{
 		super( "hermit.php" );
 
-		this.itemID = -1;
+		this.itemId = -1;
 		this.quantity = 0;
 	}
 
-	public HermitRequest( int itemID, int quantity )
+	public HermitRequest( int itemId, int quantity )
 	{
 		super( "hermit.php" );
 
-		this.itemID = itemID;
+		this.itemId = itemId;
 		this.quantity = quantity;
 
 		addFormField( "action", "trade" );
 		addFormField( "quantity", String.valueOf( quantity ) );
-		addFormField( "whichitem", String.valueOf( itemID ) );
+		addFormField( "whichitem", String.valueOf( itemId ) );
 		addFormField( "pwd" );
 	}
 
@@ -93,7 +93,7 @@ public class HermitRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( itemID != -1 && quantity <= 0 )
+		if ( itemId != -1 && quantity <= 0 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );
 			return;
@@ -110,7 +110,7 @@ public class HermitRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		if ( itemID == -1 )
+		if ( itemId == -1 )
 		{
 			// "You don't have a Hermit Permit, so you're not
 			// allowed to visit the Hermit."
@@ -189,7 +189,7 @@ public class HermitRequest extends KoLRequest
 
 			if ( actualQuantity > 0 )
 			{
-				(new HermitRequest( itemID, actualQuantity )).run();
+				(new HermitRequest( itemId, actualQuantity )).run();
 				return;
 			}
 
@@ -220,7 +220,7 @@ public class HermitRequest extends KoLRequest
 			StaticEntity.getClient().processResult( new AdventureResult( 42, 0 - quantity ) );
 
 		// Subtract the worthless items in order of their priority;
-		// as far as we know, the priority is the item ID.
+		// as far as we know, the priority is the item Id.
 
 		quantity -= subtractWorthlessItems( TRINKET, quantity );
 		quantity -= subtractWorthlessItems( GEWGAW, quantity );

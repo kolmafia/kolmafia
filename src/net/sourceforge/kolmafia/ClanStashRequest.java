@@ -200,16 +200,16 @@ public class ClanStashRequest extends SendMessageRequest
 		while ( matcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = matcher.end();
-			int itemID = StaticEntity.parseInt( matcher.group(1) );
+			int itemId = StaticEntity.parseInt( matcher.group(1) );
 			String itemString = matcher.group(2);
 			int quantity = matcher.group(3) == null ? 1 :
 				StaticEntity.parseInt( matcher.group(3) );
 
 			// If this is a previously unknown item, register it.
-			if ( TradeableItemDatabase.getItemName( itemID ) == null )
-				TradeableItemDatabase.registerItem( itemID, itemString );
+			if ( TradeableItemDatabase.getItemName( itemId ) == null )
+				TradeableItemDatabase.registerItem( itemId, itemString );
 
-			intermediateList.add( new AdventureResult( itemID, quantity ) );
+			intermediateList.add( new AdventureResult( itemId, quantity ) );
 		}
 
 		// Remove everything that is no longer in the

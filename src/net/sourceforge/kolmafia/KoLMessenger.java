@@ -439,17 +439,17 @@ public abstract class KoLMessenger extends StaticEntity
 	{
 		Matcher playerMatcher = PLAYERID_PATTERN.matcher( content );
 
-		String playerName, playerID;
+		String playerName, playerId;
 		while ( playerMatcher.find() )
 		{
 			playerName = PARENTHESIS_PATTERN.matcher( ANYTAG_PATTERN.matcher( playerMatcher.group(2) ).replaceAll( "" ) ).replaceAll( "" );
-			playerID = playerMatcher.group(1);
+			playerId = playerMatcher.group(1);
 
 			// Handle the new player profile links -- in
 			// this case, ignore the registration.
 
 			if ( !playerName.startsWith( "&" ) )
-				KoLmafia.registerPlayer( playerName, playerID );
+				KoLmafia.registerPlayer( playerName, playerId );
 		}
 	}
 
@@ -537,7 +537,7 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( !isRunning() )
 			return;
 
-		// Extract player IDs from the most recent chat content, since it
+		// Extract player Ids from the most recent chat content, since it
 		// can prove useful at a later time.
 
 		handlePlayerData( content );
@@ -628,7 +628,7 @@ public abstract class KoLMessenger extends StaticEntity
 		else if ( message.indexOf( "(private)</b></a>:" ) != -1 )
 		{
 			String sender = ANYTAG_PATTERN.matcher( message.substring( 0, message.indexOf( " (" ) ) ).replaceAll( "" );
-			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerID( sender ) + "\"><b><font color=blue>" +
+			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerId( sender ) + "\"><b><font color=blue>" +
 				sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
 
 			processChatMessage( sender, cleanHTML );
@@ -638,7 +638,7 @@ public abstract class KoLMessenger extends StaticEntity
 			String sender = KoLCharacter.getUserName();
 			String recipient = ANYTAG_PATTERN.matcher( message.substring( 0, message.indexOf( ":" ) ) ).replaceAll( "" ).substring( 11 );
 
-			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerID( sender ) + "\"><b><font color=red>" +
+			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerId( sender ) + "\"><b><font color=red>" +
 				sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
 
 			processChatMessage( recipient, cleanHTML );

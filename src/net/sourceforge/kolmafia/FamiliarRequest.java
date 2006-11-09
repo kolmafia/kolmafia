@@ -58,7 +58,7 @@ public class FamiliarRequest extends KoLRequest
 		else
 		{
 			addFormField( "action", "newfam" );
-			addFormField( "newfam", String.valueOf( changeTo.getID() ) );
+			addFormField( "newfam", String.valueOf( changeTo.getId() ) );
 		}
 
 		this.changeTo = changeTo;
@@ -78,7 +78,7 @@ public class FamiliarRequest extends KoLRequest
 		else
 		{
 			FamiliarData familiar = KoLCharacter.getFamiliar();
-			if ( familiar.getID() == changeTo.getID() )
+			if ( familiar.getId() == changeTo.getId() )
 				return;
 
 			if ( familiar != FamiliarData.NO_FAMILIAR )
@@ -90,7 +90,7 @@ public class FamiliarRequest extends KoLRequest
 
 		super.run();
 
-		if ( changeTo != null && changeTo != FamiliarData.NO_FAMILIAR && changeTo.canEquip( item ) && FamiliarData.itemWeightModifier( changeTo.getItem().getItemID() ) <= FamiliarData.itemWeightModifier( item.getItemID() ) )
+		if ( changeTo != null && changeTo != FamiliarData.NO_FAMILIAR && changeTo.canEquip( item ) && FamiliarData.itemWeightModifier( changeTo.getItem().getItemId() ) <= FamiliarData.itemWeightModifier( item.getItemId() ) )
 			(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
 	}
 

@@ -214,17 +214,17 @@ public abstract class MoodSettings implements KoLConstants
 
 		for ( int i = 0; i < skills.length; ++i )
 		{
-			if ( skills[i].getSkillID() < 1000 )
+			if ( skills[i].getSkillId() < 1000 )
 				continue;
 
 			// Combat rate increasers are not handled by mood
 			// autofill, since KoLmafia has a preference for
 			// non-combats in the area below.
 
-			if ( skills[i].getSkillID() == 1019 || skills[i].getSkillID() == 6016 )
+			if ( skills[i].getSkillId() == 1019 || skills[i].getSkillId() == 6016 )
 				continue;
 
-			if ( skills[i].getSkillID() > 6000 && skills[i].getSkillID() < 7000 )
+			if ( skills[i].getSkillId() > 6000 && skills[i].getSkillId() < 7000 )
 			{
 				thiefSkills.add( skills[i].getSkillName() );
 				continue;
@@ -415,8 +415,8 @@ public abstract class MoodSettings implements KoLConstants
 				String skillName = UneffectRequest.effectToSkill( effects[i].getName() );
 				if ( ClassSkillsDatabase.contains( skillName ) )
 				{
-					int skillID = ClassSkillsDatabase.getSkillID( skillName );
-					if ( skillID > 6000 && skillID < 7000 )
+					int skillId = ClassSkillsDatabase.getSkillId( skillName );
+					if ( skillId > 6000 && skillId < 7000 )
 						thiefBuffs.add( effects[i] );
 				}
 			}
@@ -450,14 +450,14 @@ public abstract class MoodSettings implements KoLConstants
 		for ( int i = 0; !KoLmafia.refusesContinue() && i < displayList.size(); ++i )
 		{
 			current = (MoodTrigger) displayList.get(i);
-			if ( current.skillID != -1 )
+			if ( current.skillId != -1 )
 				current.execute( isManualInvocation );
 		}
 
 		for ( int i = 0; i < displayList.size(); ++i )
 		{
 			current = (MoodTrigger) displayList.get(i);
-			if ( current.skillID == -1 )
+			if ( current.skillId == -1 )
 				current.execute( isManualInvocation );
 		}
 
@@ -719,11 +719,11 @@ public abstract class MoodSettings implements KoLConstants
 			String skillName = UneffectRequest.effectToSkill( name );
 			if ( KoLCharacter.hasSkill( skillName ) )
 			{
-				int skillID = ClassSkillsDatabase.getSkillID( skillName );
+				int skillId = ClassSkillsDatabase.getSkillId( skillName );
 
-				if ( skillID % 1000 == 0 || skillID == 1015 )
+				if ( skillId % 1000 == 0 || skillId == 1015 )
 					return "cast " + (3 * multiplier) + " " + skillName;
-				else if ( skillID != 3 )
+				else if ( skillId != 3 )
 					return "cast " + multiplier + " " + skillName;
 			}
 		}
@@ -756,7 +756,7 @@ public abstract class MoodSettings implements KoLConstants
 
 	private static class MoodTrigger implements Comparable
 	{
-		private int skillID = -1;
+		private int skillId = -1;
 		private AdventureResult effect;
 		private boolean isThiefTrigger = false;
 		private String stringForm, triggerType, triggerName, action;
@@ -776,8 +776,8 @@ public abstract class MoodSettings implements KoLConstants
 				String skillName = UneffectRequest.effectToSkill( effect.getName() );
 				if ( ClassSkillsDatabase.contains( skillName ) )
 				{
-					skillID = ClassSkillsDatabase.getSkillID( skillName );
-					isThiefTrigger = skillID > 6000 && skillID < 7000;
+					skillId = ClassSkillsDatabase.getSkillId( skillName );
+					isThiefTrigger = skillId > 6000 && skillId < 7000;
 				}
 			}
 		}
@@ -812,8 +812,8 @@ public abstract class MoodSettings implements KoLConstants
 		{
 			if ( shouldExecute( isManualInvocation ) )
 			{
-				if ( skillID != -1 && songWeapon == null )
-					songWeapon = UseSkillRequest.optimizeEquipment( skillID );
+				if ( skillId != -1 && songWeapon == null )
+					songWeapon = UseSkillRequest.optimizeEquipment( skillId );
 
 				if ( isThiefTrigger() && songWeapon == null )
 					return;

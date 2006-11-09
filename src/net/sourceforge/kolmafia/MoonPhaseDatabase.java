@@ -136,22 +136,22 @@ public class MoonPhaseDatabase extends StaticEntity
 	// name of the holiday which occurs on the given KoL month and
 	// given KoL day.
 
-	private static String [][] HOLIDAYS = new String[13][9];
+	private static String [][] HOLIdAYS = new String[13][9];
 
 	static
 	{
 		for ( int i = 0; i < 13; ++i )
 			for ( int j = 0; j < 9; ++j )
-				HOLIDAYS[i][j] = null;
+				HOLIdAYS[i][j] = null;
 
 		// Initialize all the known holidays here so that
 		// they can be used in later initializers.
 
-		HOLIDAYS[2][4] = "Valentine's Day";
-		HOLIDAYS[3][3] = "St. Sneaky Pete's Day";
-		HOLIDAYS[4][2] = "Oyster Egg Day";
-		HOLIDAYS[10][8] = "Halloween";
-		HOLIDAYS[11][7] = "Feast of Boris";
+		HOLIdAYS[2][4] = "Valentine's Day";
+		HOLIdAYS[3][3] = "St. Sneaky Pete's Day";
+		HOLIdAYS[4][2] = "Oyster Egg Day";
+		HOLIdAYS[10][8] = "Halloween";
+		HOLIdAYS[11][7] = "Feast of Boris";
 	}
 
 	// Static array of when the special events in KoL occur, including
@@ -161,7 +161,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	private static int [] SPECIAL = new int[96];
 
 	public static final int SP_NOTHING = 0;
-	public static final int SP_HOLIDAY = 1;
+	public static final int SP_HOLIdAY = 1;
 
 	public static int SP_MUSDAY = 2;
 	public static int SP_MYSDAY = 3;
@@ -205,8 +205,8 @@ public class MoonPhaseDatabase extends StaticEntity
 
 		for ( int i = 0; i < 13; ++i )
 			for ( int j = 0; j < 9; ++j )
-				if ( HOLIDAYS[i][j] != null )
-					SPECIAL[ 8 * i + j - 9 ] = SP_HOLIDAY;
+				if ( HOLIdAYS[i][j] != null )
+					SPECIAL[ 8 * i + j - 9 ] = SP_HOLIdAY;
 	}
 
 	public static final void setMoonPhases( int ronaldPhase, int grimacePhase )
@@ -594,7 +594,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	public static boolean isHoliday( Date time )
 	{
-		return SPECIAL[ getCalendarDay( time ) ] == SP_HOLIDAY ||
+		return SPECIAL[ getCalendarDay( time ) ] == SP_HOLIdAY ||
 			getRealLifeHoliday( CALENDAR_FORMAT.format( time ) ) != null;
 	}
 
@@ -648,12 +648,12 @@ public class MoonPhaseDatabase extends StaticEntity
 
 		for ( int i = 0; i < 96; ++i )
 		{
-			if ( SPECIAL[i] == SP_HOLIDAY )
+			if ( SPECIAL[i] == SP_HOLIdAY )
 			{
 				calendarDayAsArray = convertCalendarDayToArray( i );
 				int currentEstimate = (i - currentCalendarDay + 96) % 96;
 
-				String holiday = HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
+				String holiday = HOLIdAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
 
 				String testDate = null;
 				String testResult = null;
@@ -672,7 +672,7 @@ public class MoonPhaseDatabase extends StaticEntity
 					holidayTester.add( Calendar.DATE, 1 );
 				}
 
-				predictionsList.add( HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ] + ": " +
+				predictionsList.add( HOLIdAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ] + ": " +
 					getDayCountAsString( currentEstimate ) );
 			}
 		}
@@ -680,7 +680,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		// If today is a real life holiday that doesn't map to a KoL
 		// holiday, list it here.
 
-		if ( SPECIAL[ getCalendarDay( time ) ] != SP_HOLIDAY )
+		if ( SPECIAL[ getCalendarDay( time ) ] != SP_HOLIdAY )
 		{
 			String holiday = getRealLifeOnlyHoliday( CALENDAR_FORMAT.format( time ) );
 			if ( holiday != null )
@@ -706,7 +706,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		int calendarDay = getCalendarDay( time );
 		int [] calendarDayAsArray = convertCalendarDayToArray( calendarDay );
 
-		String gameHoliday = HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
+		String gameHoliday = HOLIdAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
 		String realHoliday = getRealLifeHoliday( CALENDAR_FORMAT.format( time ) );
 
 		if ( showPrediction && realHoliday == null )
@@ -717,7 +717,7 @@ public class MoonPhaseDatabase extends StaticEntity
 			for ( int i = 1; gameHoliday == null; ++i )
 			{
 				calendarDayAsArray = convertCalendarDayToArray( calendarDay + i % 96 );
-				gameHoliday = HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
+				gameHoliday = HOLIdAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
 
 				if ( gameHoliday != null )
 				{

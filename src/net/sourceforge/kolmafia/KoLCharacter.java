@@ -209,7 +209,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static String username = "";
 	private static String avatar = "";
-	private static int userID = 0;
+	private static int userId = 0;
 	private static String classname = "";
 	private static String classtype = "";
 
@@ -460,21 +460,21 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to set the user ID associated with this character.
-	 * @param	userID	The user ID associated with this character
+	 * Accessor method to set the user Id associated with this character.
+	 * @param	userId	The user Id associated with this character
 	 */
 
-	public static void setUserID( int userID )
-	{	KoLCharacter.userID = userID;
+	public static void setUserId( int userId )
+	{	KoLCharacter.userId = userId;
 	}
 
 	/**
-	 * Accessor method to retrieve the user ID associated with this character.
-	 * @return	The user ID associated with this character
+	 * Accessor method to retrieve the user Id associated with this character.
+	 * @return	The user Id associated with this character
 	 */
 
-	public static int getUserID()
-	{	return userID;
+	public static int getUserId()
+	{	return userId;
 	}
 
 	/**
@@ -1297,7 +1297,7 @@ public abstract class KoLCharacter extends StaticEntity
 	{	return equipmentLists;
 	}
 
-	private static int consumeFilterToEquipmentType( int consumeFilter )
+	public static int consumeFilterToEquipmentType( int consumeFilter )
 	{
 		switch ( consumeFilter )
 		{
@@ -1320,7 +1320,7 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 	}
 
-	private static int equipmentTypeToConsumeFilter( int equipmentType )
+	public static int equipmentTypeToConsumeFilter( int equipmentType )
 	{
 		switch ( equipmentType )
 		{
@@ -1388,7 +1388,7 @@ public abstract class KoLCharacter extends StaticEntity
 		equipmentLists[ listIndex ].setSelectedItem( equippedItem );
 	}
 
-	private static void updateEquipmentList( int filterID, List currentList )
+	private static void updateEquipmentList( int filterId, List currentList )
 	{
 		if ( !currentList.contains( EquipmentRequest.UNEQUIP ) )
 			currentList.add( EquipmentRequest.UNEQUIP );
@@ -1404,7 +1404,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// have a familiar, then no familiar items can actually
 		// be equipped.  So, return the blank list now.
 
-		if ( filterID == ConsumeItemRequest.EQUIP_FAMILIAR && currentFamiliar == null )
+		if ( filterId == ConsumeItemRequest.EQUIP_FAMILIAR && currentFamiliar == null )
 			return;
 
 		for ( int i = 0; i < inventory.size(); ++i )
@@ -1421,12 +1421,12 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( currentList.contains( currentItem ) )
 				continue;
 
-			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemID() );
+			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemId() );
 
 			// If we want off-hand items and we can dual wield,
 			// allow one-handed weapons of same type
 
-			if ( filterID == ConsumeItemRequest.EQUIP_OFFHAND && type == ConsumeItemRequest.EQUIP_WEAPON && dual )
+			if ( filterId == ConsumeItemRequest.EQUIP_OFFHAND && type == ConsumeItemRequest.EQUIP_WEAPON && dual )
 			{
 				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.isRanged( currentItemName ) != ranged )
 					continue;
@@ -1434,7 +1434,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 			// Otherwise, slot and item type must match
 
-			else if ( filterID != type )
+			else if ( filterId != type )
 				continue;
 
 			// If we are currently dual-wielding, only melee
@@ -1442,7 +1442,7 @@ public abstract class KoLCharacter extends StaticEntity
 			// Two-handed ranged weapons are also allowed since
 			// they will remove both weapons when equipped
 
-			else if ( filterID == ConsumeItemRequest.EQUIP_WEAPON && dual )
+			else if ( filterId == ConsumeItemRequest.EQUIP_WEAPON && dual )
 			{
 				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.isRanged( currentItemName ) != ranged )
 					continue;
@@ -1466,7 +1466,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// be universally equipped, but are currently on another
 		// familiar.
 
-		if ( filterID == ConsumeItemRequest.EQUIP_FAMILIAR )
+		if ( filterId == ConsumeItemRequest.EQUIP_FAMILIAR )
 		{
 			FamiliarData [] familiarList = new FamiliarData[ familiars.size() ];
 			familiars.toArray( familiarList );
@@ -1919,7 +1919,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		availableSkills.add( skill );
 
-		switch ( ClassSkillsDatabase.getSkillType( skill.getSkillID() ) )
+		switch ( ClassSkillsDatabase.getSkillType( skill.getSkillId() ) )
 		{
 		case ClassSkillsDatabase.PASSIVE:
 
@@ -2076,8 +2076,8 @@ public abstract class KoLCharacter extends StaticEntity
 	 * has a skill of the given name.
 	 */
 
-	public static boolean hasSkill( int skillID )
-	{	return hasSkill( ClassSkillsDatabase.getSkillName( skillID ) );
+	public static boolean hasSkill( int skillId )
+	{	return hasSkill( ClassSkillsDatabase.getSkillName( skillId ) );
 	}
 
 	public static boolean hasSkill( String skillName )
@@ -2208,7 +2208,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Adds the given familiar to the list of available familiars.
-	 * @param	familiar	The ID of the familiar to be added
+	 * @param	familiar	The Id of the familiar to be added
 	 */
 
 	public static FamiliarData addFamiliar( FamiliarData familiar )
@@ -2303,17 +2303,17 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( TradeableItemDatabase.isUsable( resultName ) )
 				AdventureResult.addResultToList( usables, result );
 
-			int price = TradeableItemDatabase.getPriceByID( result.getItemID() );
-			if ( price > 0 || TradeableItemDatabase.isTradeable( result.getItemID() ) )
+			int price = TradeableItemDatabase.getPriceById( result.getItemId() );
+			if ( price > 0 || TradeableItemDatabase.isTradeable( result.getItemId() ) )
 				AdventureResult.addResultToList( sellables, result );
 
 			if ( updateCalculatedLists )
 			{
-				int equipmentType = consumeFilterToEquipmentType( TradeableItemDatabase.getConsumptionType( result.getItemID() ) );
+				int equipmentType = consumeFilterToEquipmentType( TradeableItemDatabase.getConsumptionType( result.getItemId() ) );
 				if ( equipmentType != -1 )
 				{
 					updateEquipmentList( equipmentType );
-					if ( EquipmentDatabase.getOutfitWithItem( result.getItemID() ) != -1 )
+					if ( EquipmentDatabase.getOutfitWithItem( result.getItemId() ) != -1 )
 						EquipmentDatabase.updateOutfits();
 				}
 
@@ -2384,7 +2384,7 @@ public abstract class KoLCharacter extends StaticEntity
 		inventory.toArray( items );
 
 		for ( int i = 0; i < items.length; ++i )
-			if ( TradeableItemDatabase.getConsumptionType( items[i].getItemID() ) == ConsumeItemRequest.CONSUME_ZAP )
+			if ( TradeableItemDatabase.getConsumptionType( items[i].getItemId() ) == ConsumeItemRequest.CONSUME_ZAP )
 				return items[i];
 
 		// No wand
@@ -2401,7 +2401,7 @@ public abstract class KoLCharacter extends StaticEntity
 			return false;
 
 		int count = item.getCount( inventory ) + item.getCount( closet );
-		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
+		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
 		case ConsumeItemRequest.EQUIP_HAT:
 		case ConsumeItemRequest.EQUIP_PANTS:
@@ -2424,7 +2424,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		if ( shouldCreate )
 		{
-			ItemCreationRequest creation = ItemCreationRequest.getInstance( item.getItemID() );
+			ItemCreationRequest creation = ItemCreationRequest.getInstance( item.getItemId() );
 			if ( creation != null )
 				count += creation.getQuantityPossible();
 		}
@@ -2441,7 +2441,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static boolean hasEquipped( AdventureResult item )
 	{
 		String name = item.getName();
-		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
+		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
 		case ConsumeItemRequest.EQUIP_WEAPON:
 			return hasEquipped( name, WEAPON ) || hasEquipped( name, OFFHAND );
@@ -2546,7 +2546,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		int taoFactor = hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
-		int familiarID = currentFamiliar.getID();
+		int familiarId = currentFamiliar.getId();
 
 		// Look at mind control level
 		newMonsterLevelAdjustment += getMindControlLevel();
@@ -2580,24 +2580,24 @@ public abstract class KoLCharacter extends StaticEntity
 			switch ( slot )
 			{
 			case WEAPON:
-				hasStaff = EquipmentDatabase.isStaff( item.getItemID() );
+				hasStaff = EquipmentDatabase.isStaff( item.getItemId() );
 				break;
 
 			case FAMILIAR:
-				newFamiliarItemWeightAdjustment = FamiliarData.itemWeightModifier( item.getItemID() );
+				newFamiliarItemWeightAdjustment = FamiliarData.itemWeightModifier( item.getItemId() );
 				break;
 
 			case HAT:
 			case PANTS:
-				newDamageAbsorption += taoFactor * EquipmentDatabase.getPower( item.getItemID() );
+				newDamageAbsorption += taoFactor * EquipmentDatabase.getPower( item.getItemId() );
 				break;
 
 			case SHIRT:
-				newDamageAbsorption += EquipmentDatabase.getPower( item.getItemID() );
+				newDamageAbsorption += EquipmentDatabase.getPower( item.getItemId() );
 				break;
 			}
 
-			switch ( item.getItemID() )
+			switch ( item.getItemId() )
 			{
 			case JEKYLLIN:
 				newItemDropPercentAdjustment += 15 + MoonPhaseDatabase.getMoonlight() * 5;
@@ -2719,7 +2719,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// look at familiar.
 
 		float modifier = (float)( currentFamiliar.getWeight() + newFamiliarWeightAdjustment + newFamiliarItemWeightAdjustment );
-		switch ( familiarID )
+		switch ( familiarId )
 		{
 		case BABY_GRAVY_FAIRY:
 		case FLAMING_GRAVY_FAIRY:

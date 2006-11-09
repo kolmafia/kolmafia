@@ -231,10 +231,10 @@ public class CharpaneRequest extends KoLRequest
 				int nextSearchIndex = responseText.indexOf( "(", searchIndex ) + 1;
 				lastSearchIndex = nextSearchIndex;
 
-				int effectID = StaticEntity.parseInt(
+				int effectId = StaticEntity.parseInt(
 					responseText.substring( nextSearchIndex, responseText.indexOf( ")", nextSearchIndex ) ) );
 
-				String effectName = StatusEffectDatabase.getEffectName( effectID );
+				String effectName = StatusEffectDatabase.getEffectName( effectId );
 
 				if ( effectName != null )
 				{

@@ -117,7 +117,7 @@ public abstract class Nemesis extends StaticEntity
 
 		if ( region <= 4 )
 		{
-			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemID() != FLY_SWATTER.getItemID() )
+			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() != FLY_SWATTER.getItemId() )
 				requirements.add( FLY_SWATTER );
 		}
 
@@ -140,7 +140,7 @@ public abstract class Nemesis extends StaticEntity
 
 		if ( region <= 7 )
 		{
-			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemID() != TONGS.getItemID() )
+			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() != TONGS.getItemId() )
 				requirements.add( TONGS );
 		}
 

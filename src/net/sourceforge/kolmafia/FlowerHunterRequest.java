@@ -85,12 +85,12 @@ public class FlowerHunterRequest extends KoLRequest
 		addFormField( "losemessage", message );
 	}
 
-	public FlowerHunterRequest( String clanID )
+	public FlowerHunterRequest( String clanId )
 	{
 		super( "showclan.php" );
 		this.hunterType = CLAN_PROFILER;
 
-		addFormField( "whichclan", clanID );
+		addFormField( "whichclan", clanId );
 	}
 
 	public void setTarget( String target )

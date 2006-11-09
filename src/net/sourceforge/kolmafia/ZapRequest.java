@@ -51,10 +51,10 @@ public class ZapRequest extends KoLRequest
 		addFormField( "action", "zap" );
 
 		this.wand = wand;
-		addFormField( "whichwand", String.valueOf( wand.getItemID() ) );
+		addFormField( "whichwand", String.valueOf( wand.getItemId() ) );
 
 		this.item = item;
-		addFormField( "whichitem", String.valueOf( item.getItemID() ) );
+		addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 	}
 
 	public void run()

@@ -158,9 +158,9 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 	private void updateRank()
 	{
-		int equipmentPower = EquipmentDatabase.getPower( KoLCharacter.getEquipment( KoLCharacter.HAT ).getItemID() ) +
-			EquipmentDatabase.getPower( KoLCharacter.getEquipment( KoLCharacter.PANTS ).getItemID() ) +
-			EquipmentDatabase.getPower( KoLCharacter.getEquipment( KoLCharacter.SHIRT ).getItemID() );
+		int equipmentPower = EquipmentDatabase.getPower( KoLCharacter.getEquipment( KoLCharacter.HAT ).getItemId() ) +
+			EquipmentDatabase.getPower( KoLCharacter.getEquipment( KoLCharacter.PANTS ).getItemId() ) +
+			EquipmentDatabase.getPower( KoLCharacter.getEquipment( KoLCharacter.SHIRT ).getItemId() );
 
 		JLabel [] rankLabels = new JLabel[ this.rankLabels.size() ];
 		this.rankLabels.toArray( rankLabels );
@@ -250,16 +250,16 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 	private class ClanPanel extends KoLPanel implements Runnable
 	{
-		private JTextField clanID;
+		private JTextField clanId;
 
 		public ClanPanel()
 		{
 			super( "profile", true );
 
-			clanID = new JTextField();
+			clanId = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Clan ID: ", clanID );
+			elements[0] = new VerifiableElement( "Clan Id: ", clanId );
 
 			setContent( elements, null, getRankLabel(), true );
 		}
@@ -285,7 +285,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				resultsModel[1].fireTableRowsDeleted( 0, 0 );
 			}
 
-			FlowerHunterRequest search = new FlowerHunterRequest( clanID.getText() );
+			FlowerHunterRequest search = new FlowerHunterRequest( clanId.getText() );
 			search.run();
 
 			results = new ProfileRequest[ search.getSearchResults().size() ];
@@ -392,7 +392,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			for ( int i = 0; i < selection.length && !KoLmafia.refusesContinue(); ++i )
 			{
 				KoLmafia.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
-				request.setTarget( selection[i].getPlayerID() );  request.run();
+				request.setTarget( selection[i].getPlayerId() );  request.run();
 
 				updateRank();
 			}

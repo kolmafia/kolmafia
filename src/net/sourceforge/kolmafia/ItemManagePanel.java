@@ -178,13 +178,13 @@ public class ItemManagePanel extends LabeledScrollPanel
 			movers[2].isSelected() ? TAKE_MULTIPLE : TAKE_ONE );
 	}
 
-	protected void filterSelection( boolean eat, boolean drink, boolean other, boolean nosell, boolean notrade )
+	protected void filterSelection( boolean eat, boolean drink, boolean other )
 	{
 		Object [] elements = elementList.getSelectedValues();
 		for ( int i = 0; i < elements.length; ++i )
 		{
 			int actualIndex = ((LockableListModel)elementList.getModel()).indexOf( elements[i] );
-			if ( !AdventureResult.isVisibleWithFilter( ((LockableListModel)elementList.getModel()).get( actualIndex ), eat, drink, other, nosell, notrade ) )
+			if ( !AdventureResult.isVisibleWithFilter( ((LockableListModel)elementList.getModel()).get( actualIndex ), eat, drink, other ) )
 				elementList.removeSelectionInterval( actualIndex, actualIndex );
 		}
 	}
@@ -274,22 +274,11 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public void actionPerformed( ActionEvent e )
 		{
+
 			if ( isTradeable )
 			{
-				if ( !filters[0].isSelected() && !filters[1].isSelected() && !filters[2].isSelected() )
-				{
-					filters[3].setEnabled( false );
-					filters[4].setEnabled( false );
-				}
-				else
-				{
-					filters[3].setEnabled( true );
-					filters[4].setEnabled( true );
-				}
-
-
 				elementList.setCellRenderer(
-					AdventureResult.getAutoSellCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected(), filters[3].isSelected(), filters[4].isSelected() ) );
+					AdventureResult.getAutoSellCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
 			}
 			else
 			{

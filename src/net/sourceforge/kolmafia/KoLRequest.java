@@ -86,7 +86,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
 
-	protected static String sessionID = null;
+	protected static String sessionId = null;
 	protected static String passwordHash = null;
 	private static boolean wasLastRequestSimple = false;
 
@@ -370,7 +370,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( name.equals( "playerid" ) && value.equals( "" ) )
 		{
-			data.add( "playerid=" + KoLCharacter.getUserID() );
+			data.add( "playerid=" + KoLCharacter.getUserId() );
 			return;
 		}
 
@@ -973,12 +973,12 @@ public class KoLRequest implements Runnable, KoLConstants
 		formConnection.setUseCaches( false );
 		formConnection.setInstanceFollowRedirects( false );
 
-		if ( sessionID != null )
+		if ( sessionId != null )
 		{
 			if ( formURLString.indexOf( "inventory.php" ) != -1 && !StaticEntity.getProperty( "visibleBrowserInventory" ).equals( "" ) )
-				formConnection.addRequestProperty( "Cookie", StaticEntity.getProperty( "visibleBrowserInventory" ) + "; " + sessionID );
+				formConnection.addRequestProperty( "Cookie", StaticEntity.getProperty( "visibleBrowserInventory" ) + "; " + sessionId );
 			else
-				formConnection.addRequestProperty( "Cookie", sessionID );
+				formConnection.addRequestProperty( "Cookie", sessionId );
 		}
 
 		dataString = getDataString( true );
@@ -1149,7 +1149,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			return false;
 		}
 
-		if ( sessionID == null && redirectLocation.indexOf( "login.php" ) != -1 )
+		if ( sessionId == null && redirectLocation.indexOf( "login.php" ) != -1 )
 		{
 			constructURLString( redirectLocation, false );
 			return false;
@@ -1169,7 +1169,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
 			{
 				LoginRequest.executeTimeInRequest( false );
-				return sessionID == null;
+				return sessionId == null;
 			}
 
 			return true;
@@ -1181,10 +1181,10 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			KoLmafia.updateDisplay( "Nightly maintenance." );
 
-			if ( !LoginRequest.isInstanceRunning() && sessionID != null && StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
+			if ( !LoginRequest.isInstanceRunning() && sessionId != null && StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
 			{
 				LoginRequest.executeTimeInRequest( true );
-				return sessionID == null;
+				return sessionId == null;
 			}
 
 			return true;
@@ -1458,7 +1458,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( !formURLString.equals( "fight.php" ) || responseText.indexOf( "lair6.php" ) != -1 )
 				needsRefresh |= StaticEntity.getClient().processResult( KoLAdventure.BEATEN_UP.getInstance( 4 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
-			else if ( KoLCharacter.getFamiliar().getID() != 50 )
+			else if ( KoLCharacter.getFamiliar().getId() != 50 )
 				needsRefresh |= StaticEntity.getClient().processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
 		}
 	}
@@ -1710,7 +1710,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// 04/25/06 12:53:54 PM - New message received from <a target=mainpane href='showplayer.php?who=115875'><font color=green>Brianna</font></a>.
 			// 04/25/06 01:06:43 PM - <a class=nounder target=mainpane href='showplayer.php?who=115875'><b><font color=green>Brianna</font></b></a> has played a song (The Polka of Plenty) for you.
 
-			// Add in a player ID so that the events can be handled
+			// Add in a player Id so that the events can be handled
 			// using a ShowDescriptionList.
 
 			event = event.replaceAll( "</a>", "<a>" ).replaceAll( "<[^a].*?>", "" );

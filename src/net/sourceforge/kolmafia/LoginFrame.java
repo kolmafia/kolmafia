@@ -139,7 +139,7 @@ public class LoginFrame extends KoLFrame
 
 	public void dispose()
 	{
-		if ( StaticEntity.getGlobalProperty( "initialFrames" ).equals( "LocalRelayServer" ) && LocalRelayServer.isRunning() && KoLRequest.sessionID != null )
+		if ( StaticEntity.getGlobalProperty( "initialFrames" ).equals( "LocalRelayServer" ) && LocalRelayServer.isRunning() && KoLRequest.sessionId != null )
 		{
 			// The person logged in and the relay server was the only option
 			// they wanted active -- simply dispose the frame and move on.

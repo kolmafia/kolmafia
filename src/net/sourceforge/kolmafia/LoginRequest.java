@@ -275,13 +275,13 @@ public class LoginRequest extends KoLRequest
 
 	public static void executeTimeInRequest( boolean isRollover )
 	{
-		sessionID = null;
+		sessionId = null;
 		waitTime = getWaitTime( isRollover );
 
 		LoginRequest loginAttempt = new LoginRequest( lastUsername, lastPassword, false );
 		loginAttempt.run();
 
-		if ( sessionID != null )
+		if ( sessionId != null )
 			KoLmafia.updateDisplay( "Session timed-in." );
 
 	}
@@ -292,7 +292,7 @@ public class LoginRequest extends KoLRequest
 
 	public boolean executeLogin()
 	{
-		sessionID = null;
+		sessionId = null;
 
 		if ( waitTime == BAD_CHALLENGE_WAIT || !runCountdown || !detectChallenge() )
 		{
@@ -308,7 +308,7 @@ public class LoginRequest extends KoLRequest
 		addFormField( "loggingin", "Yup." );
 		waitTime = STANDARD_WAIT;
 
-		sessionID = null;
+		sessionId = null;
 
 		if ( KoLmafia.refusesContinue() )
 			return false;
@@ -421,7 +421,7 @@ public class LoginRequest extends KoLRequest
 		{
 			Matcher sessionMatcher = SESSIONID_COOKIE_PATTERN.matcher( serverCookie );
 			if ( sessionMatcher.find() )
-				KoLRequest.sessionID = "PHPSESSID=" + sessionMatcher.group(1) + "; path=/";
+				KoLRequest.sessionId = "PHPSESSID=" + sessionMatcher.group(1) + "; path=/";
 		}
 
 		LoginRunner runner = new LoginRunner( request );
