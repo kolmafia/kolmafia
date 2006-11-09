@@ -50,12 +50,12 @@ public class CakeArenaRequest extends KoLRequest
 		this.isCompetition = false;
 	}
 
-	public CakeArenaRequest( int opponentID, int eventID )
+	public CakeArenaRequest( int opponentId, int eventId )
 	{
 		super( "arena.php" );
 		addFormField( "action", "go" );
-		addFormField( "whichopp", String.valueOf( opponentID ) );
-		addFormField( "event", String.valueOf( eventID ) );
+		addFormField( "whichopp", String.valueOf( opponentId ) );
+		addFormField( "event", String.valueOf( eventId ) );
 		this.isCompetition = true;
 	}
 

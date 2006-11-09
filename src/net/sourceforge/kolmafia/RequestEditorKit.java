@@ -999,17 +999,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		buffer.append( "<select style=\"width: 250px\" name=keepskill><option value=9999 selected>- select a skill -</option><option value=0>(no skill)</option>" );
 
-		int skillID;
+		int skillId;
 		for ( int i = 0; i < recentSkills.size(); ++i )
 		{
-			skillID = Integer.parseInt( (String) recentSkills.get(i) );
-			if ( skillID == 0 )
+			skillId = Integer.parseInt( (String) recentSkills.get(i) );
+			if ( skillId == 0 )
 				continue;
 
 			buffer.append( "<option value=" );
-			buffer.append( skillID );
+			buffer.append( skillId );
 			buffer.append( ">" );
-			buffer.append( ClassSkillsDatabase.getSkillName( skillID ) );
+			buffer.append( ClassSkillsDatabase.getSkillName( skillId ) );
 			buffer.append( "</option>" );
 		}
 
@@ -1150,7 +1150,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				itemName = itemName.substring( itemName.indexOf( " " ) + 1 ).trim();
 			}
 
-			int itemID = TradeableItemDatabase.getItemID( itemName, itemCount );
+			int itemId = TradeableItemDatabase.getItemId( itemName, itemCount );
 
 			String useType = null;
 			String useLocation = null;
@@ -1162,14 +1162,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			ItemCreationRequest irequest = null;
 
 			int mixingMethod = ItemCreationRequest.NOCREATE;
-			SortedListModel creations = ConcoctionsDatabase.getKnownUses( itemID );
+			SortedListModel creations = ConcoctionsDatabase.getKnownUses( itemId );
 
 			// If you find goat cheese, let the trapper link handle it.
 			// Ore is skipped for now, so no need to check for it.  And,
 			// finally, enchanted beans are primarily use.
 
-			addCreateLink &= !creations.isEmpty() && itemID != 322;
-			addCreateLink &= itemID != KoLAdventure.BEAN.getItemID() || KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT );
+			addCreateLink &= !creations.isEmpty() && itemId != 322;
+			addCreateLink &= itemId != KoLAdventure.BEAN.getItemId() || KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT );
 
 			if ( addCreateLink )
 			{
@@ -1178,7 +1178,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				for ( int i = 0; !addCreateLink && i < creations.size(); ++i )
 				{
 					creation = (AdventureResult) creations.get(i);
-					mixingMethod = ConcoctionsDatabase.getMixingMethod( creation.getItemID() );
+					mixingMethod = ConcoctionsDatabase.getMixingMethod( creation.getItemId() );
 
 					// Only accept if it's a creation method that the editor kit
 					// currently understands and links.
@@ -1199,7 +1199,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						continue;
 					}
 
-					irequest = ItemCreationRequest.getInstance( creation.getItemID() );
+					irequest = ItemCreationRequest.getInstance( creation.getItemId() );
 					addCreateLink = irequest != null && irequest.getQuantityPossible() > 0;
 				}
 			}
@@ -1245,13 +1245,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			}
 			else
 			{
-				switch ( TradeableItemDatabase.getConsumptionType( itemID ) )
+				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 				{
 				case ConsumeItemRequest.CONSUME_EAT:
 
-					if ( itemID == 322 )
+					if ( itemId == 322 )
 					{
-						AdventureResult cheese = new AdventureResult( itemID, 1 );
+						AdventureResult cheese = new AdventureResult( itemId, 1 );
 						useType = String.valueOf( cheese.getCount( inventory ) );
 						useLocation = "trapper.php";
 					}
@@ -1281,7 +1281,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				case ConsumeItemRequest.CONSUME_USE:
 
 					useType = "use";
-					useLocation = itemID == UneffectRequest.REMEDY.getItemID() ? "uneffect.php" :
+					useLocation = itemId == UneffectRequest.REMEDY.getItemId() ? "uneffect.php" :
 						"inv_use.php?pwd=&which=3&whichitem=";
 
 					break;
@@ -1294,7 +1294,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				case ConsumeItemRequest.EQUIP_FAMILIAR:
 
 					useType = null;
-					int outfit = EquipmentDatabase.getOutfitWithItem( itemID );
+					int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
 
 					if ( outfit != -1 )
 					{
@@ -1315,22 +1315,22 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				default:
 
-					if ( itemID == SorceressLair.HEDGE_KEY.getItemID() || itemID == SorceressLair.PUZZLE_PIECE.getItemID() )
+					if ( itemId == SorceressLair.HEDGE_KEY.getItemId() || itemId == SorceressLair.PUZZLE_PIECE.getItemId() )
 					{
 						useType = "maze";
 						useLocation = "hedgepuzzle.php";
 					}
-					else if ( (itemID == 363 || itemID == 364 || itemID == 365) )
+					else if ( (itemId == 363 || itemId == 364 || itemId == 365) )
 					{
 						AdventureResult ore = new AdventureResult( StaticEntity.getProperty( "trapperOre" ), itemCount, false );
 
-						if ( ore.getItemID() == itemID )
+						if ( ore.getItemId() == itemId )
 						{
 							useType = String.valueOf( ore.getCount( inventory ) );
 							useLocation = "trapper.php";
 						}
 					}
-					else if ( itemID == 459 || itemID == 461 || itemID == 462 || itemID == 463 )
+					else if ( itemId == 459 || itemId == 461 || itemId == 462 || itemId == 463 )
 					{
 						AdventureResult white = new AdventureResult( 459, 1 );
 						useType = String.valueOf( white.getCount( inventory ) + ItemCreationRequest.getInstance( 459 ).getQuantityPossible() ) + " white";
@@ -1343,7 +1343,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			{
 				useLinkMatcher.appendReplacement( buffer,
 					"You acquire$1 <font size=1>[<a href=\"" + useLocation.toString() +
-					(useLocation.endsWith( "=" ) ? String.valueOf( itemID ) : "") +
+					(useLocation.endsWith( "=" ) ? String.valueOf( itemId ) : "") +
 					"\">" + useType + "</a>]</font></td>" );
 			}
 			else
@@ -1392,14 +1392,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// If this choice helps complete an outfit...
 			if ( possibleDecisions.length > 3 )
 			{
-				String itemID = possibleDecisions[3][i];
+				String itemId = possibleDecisions[3][i];
 
 				// If this decision leads to an item...
-				if ( itemID != null )
+				if ( itemId != null )
 				{
 					// List # in inventory
 					buffer.append( " - " );
-					AdventureResult result = new AdventureResult( StaticEntity.parseInt( itemID ), 1 );
+					AdventureResult result = new AdventureResult( StaticEntity.parseInt( itemId ), 1 );
 
 					int available = KoLCharacter.hasEquipped( result ) ? 1 : 0;
 					available += result.getCount( inventory );
@@ -1652,19 +1652,19 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			for ( int i = 0; i < missingEffects.size(); ++i )
 			{
 				currentEffect = (AdventureResult) missingEffects.get(i);
-				int effectID = StatusEffectDatabase.getEffectID( currentEffect.getName() );
+				int effectId = StatusEffectDatabase.getEffectId( currentEffect.getName() );
 
 				buffer.append( "<tr>" );
 
 				if ( !KoLRequest.isCompactMode || !StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) || StaticEntity.getBooleanProperty( "relayTextualizationVerbose" ) )
 				{
 					buffer.append( "<td><img src=\"" );
-					buffer.append( StatusEffectDatabase.getImage( effectID ) );
+					buffer.append( StatusEffectDatabase.getImage( effectId ) );
 					buffer.append( "\" class=hand alt=\"" );
 					buffer.append( currentEffect.getName() );
 					buffer.append( "\" title=\"" );
 					buffer.append( currentEffect.getName() );
-					buffer.append( "\" onClick='eff(\"" + effectID + "\");'></td>" );
+					buffer.append( "\" onClick='eff(\"" + effectId + "\");'></td>" );
 				}
 
 				if ( !KoLRequest.isCompactMode || StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) )
@@ -1674,7 +1674,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					if ( !KoLRequest.isCompactMode || StaticEntity.getBooleanProperty( "relayTextualizationVerbose" ) )
 						buffer.append( currentEffect.getName() );
 					else
-						buffer.append( "<nobr>" + StatusEffectDatabase.getShortName( effectID ) + "</nobr>" );
+						buffer.append( "<nobr>" + StatusEffectDatabase.getShortName( effectId ) + "</nobr>" );
 				}
 				else
 					buffer.append( "<td><font size=2>" );
@@ -1700,13 +1700,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
 				lastAppendIndex = nextAppendIndex;
 
-				int effectID = StaticEntity.parseInt(
+				int effectId = StaticEntity.parseInt(
 					text.substring( nextAppendIndex, text.indexOf( ")", nextAppendIndex ) ) );
 
 				// If the player is in compact mode, then if they wish to textualize
 				// their effects, go ahead and do so.
 
-				String effectName = StatusEffectDatabase.getEffectName( effectID );
+				String effectName = StatusEffectDatabase.getEffectName( effectId );
 
 				if ( KoLRequest.isCompactMode )
 				{
@@ -1730,7 +1730,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 								buffer.delete( deleteIndex, buffer.length() );
 
 								buffer.append( "<td align=right><nobr><font size=2>" );
-								buffer.append( StatusEffectDatabase.getShortName( effectID ) );
+								buffer.append( StatusEffectDatabase.getShortName( effectId ) );
 								buffer.append( "</font></nobr></td>" );
 							}
 						}
@@ -1754,7 +1754,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					upkeepAction = "";
 
 				String skillName = UneffectRequest.effectToSkill( effectName );
-				int skillType = ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillID( skillName ) );
+				int skillType = ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillId( skillName ) );
 
 				// Add a removal link to the duration for buffs which can
 				// be removed.  This is either when the buff can be shrugged
@@ -1875,9 +1875,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			for ( int i = 0; i < itemArray.length; ++i )
 			{
 				itemString.append( "<option value=" );
-				itemString.append( itemArray[i].getItemID() );
+				itemString.append( itemArray[i].getItemId() );
 
-				if ( itemArray[i].getItemID() == selectedItem )
+				if ( itemArray[i].getItemId() == selectedItem )
 					itemString.append( " selected" );
 
 				itemString.append( ">" );

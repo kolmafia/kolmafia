@@ -48,7 +48,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ClanBuffRequest extends KoLRequest
 {
-	private int buffID;
+	private int buffId;
 
 	/**
 	 * Constructs a new <code>ClanBuffRequest</code> with the
@@ -57,17 +57,17 @@ public class ClanBuffRequest extends KoLRequest
 	 * possible because of the nature of the constructor.
 	 *
 	 * @param	client	Theto be notified in the event of error
-	 * @param	buffID	The unique numeric identifier of the buff
+	 * @param	buffId	The unique numeric identifier of the buff
 	 */
 
-	private ClanBuffRequest( int buffID )
+	private ClanBuffRequest( int buffId )
 	{
 		super( "clan_stash.php" );
 
-		this.buffID = buffID;
+		this.buffId = buffId;
 		addFormField( "action", "buyround" );
-		addFormField( "size", String.valueOf( buffID % 10 ) );
-		addFormField( "whichgift", String.valueOf( (int) ( buffID / 10 ) ) );
+		addFormField( "size", String.valueOf( buffId % 10 ) );
+		addFormField( "whichgift", String.valueOf( (int) ( buffId / 10 ) ) );
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class ClanBuffRequest extends KoLRequest
 	{
 		StringBuffer stringForm = new StringBuffer();
 
-		switch ( buffID % 10 )
+		switch ( buffId % 10 )
 		{
 		case 1:
 			stringForm.append( "Cheap " );
@@ -112,7 +112,7 @@ public class ClanBuffRequest extends KoLRequest
 			break;
 		}
 
-		switch ( ((int) ( buffID / 10 )) % 3 )
+		switch ( ((int) ( buffId / 10 )) % 3 )
 		{
 		case 1:
 			stringForm.append( "Muscle " );
@@ -125,7 +125,7 @@ public class ClanBuffRequest extends KoLRequest
 			break;
 		}
 
-		stringForm.append( buffID < 40 ? "Training" : "Boost" );
+		stringForm.append( buffId < 40 ? "Training" : "Boost" );
 		return stringForm.toString();
 	}
 }

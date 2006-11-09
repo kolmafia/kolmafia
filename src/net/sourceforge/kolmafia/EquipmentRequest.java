@@ -52,8 +52,8 @@ public class EquipmentRequest extends PasswordHashRequest
 	private static final Pattern CELL_PATTERN = Pattern.compile( "<td>(.*?)</td>" );
 	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select.*?</select>", Pattern.DOTALL );
 	private static final Pattern MEAT_PATTERN = Pattern.compile( "[\\d,]+ meat\\.</b>" );
-	private static final Pattern OUTSIDECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
-	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
+	private static final Pattern OUTSIdECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
+	private static final Pattern INSIdECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INVENTORYITEM_PATTERN = Pattern.compile( "<option value='?([\\d]+)'?[^>]*>([^>]*?) \\(([\\d,]+)\\)</option>" );
 	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "<b>(<a.*?>)?([^<]+)(</a>)?</b>([^<]*?)<font size=1>" );
 	private static final Pattern HAT_PATTERN = Pattern.compile( "Hat:</td>.*?<b>(.*?)</b>.*unequip&type=hat" );
@@ -110,7 +110,7 @@ public class EquipmentRequest extends PasswordHashRequest
 	private int requestType;
 	private int equipmentSlot;
 	private AdventureResult changeItem;
-	private int itemID;
+	private int itemId;
 	private int equipmentType;
 	private SpecialOutfit outfit;
 	private String error;
@@ -184,10 +184,10 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 
 		// Find out what item is being equipped
-		this.itemID = changeItem.getItemID();
+		this.itemId = changeItem.getItemId();
 
 		// Find out what kind of item it is
-		this.equipmentType = TradeableItemDatabase.getConsumptionType( itemID );
+		this.equipmentType = TradeableItemDatabase.getConsumptionType( itemId );
 
 		// If unspecified slot, pick based on type of item
 		if ( this.equipmentSlot == -1 )
@@ -202,7 +202,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		this.changeItem = changeItem.getCount() == 1 ? changeItem : changeItem.getInstance(1);
 
 		addFormField( "action", action );
-		addFormField( "whichitem", String.valueOf( itemID ) );
+		addFormField( "whichitem", String.valueOf( itemId ) );
 		addFormField( "pwd" );
 	}
 
@@ -212,7 +212,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		addFormField( "action", "outfit" );
 		addFormField( "which", "2" );
-		addFormField( "whichoutfit", String.valueOf( change.getOutfitID() ) );
+		addFormField( "whichoutfit", String.valueOf( change.getOutfitId() ) );
 
 		this.requestType = CHANGE_OUTFIT;
 		this.outfit = change;
@@ -284,7 +284,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			return "equip";
 		}
 
-		error = "You can't equip a " + TradeableItemDatabase.getItemName( itemID ) + " in the " +
+		error = "You can't equip a " + TradeableItemDatabase.getItemName( itemId ) + " in the " +
 			slotNames[equipmentSlot] + " slot.";
 
 		return null;
@@ -368,7 +368,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				return;
 			}
 
-			int id = outfit.getOutfitID();
+			int id = outfit.getOutfitId();
 
 			// If this is not a custom outfit...
 			if ( id > 0 )
@@ -413,7 +413,7 @@ public class EquipmentRequest extends PasswordHashRequest
 							KoLmafia.updateDisplay( "Stealing " + changeItem.getName() + " from " + familiars[i].getRace() + "..." );
 
 							KoLRequest request = new KoLRequest( "familiar.php?pwd=&action=unequip", true );
-							request.addFormField( "famid", String.valueOf( familiars[i].getID() ) );
+							request.addFormField( "famid", String.valueOf( familiars[i].getId() ) );
 							request.run();
 
 							familiars[i].setItem( UNEQUIP );
@@ -459,7 +459,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		case CHANGE_ITEM:
 			KoLmafia.updateDisplay( ( equipmentSlot == KoLCharacter.WEAPON ? "Wielding " :
-				equipmentSlot == KoLCharacter.OFFHAND ? "Holding " : "Putting on " ) + TradeableItemDatabase.getItemName( itemID ) + "..." );
+				equipmentSlot == KoLCharacter.OFFHAND ? "Holding " : "Putting on " ) + TradeableItemDatabase.getItemName( itemId ) + "..." );
 			break;
 
 		case REMOVE_ITEM:
@@ -560,8 +560,8 @@ public class EquipmentRequest extends PasswordHashRequest
 		// Determine the item which is being switched
 		// in and out.
 
-		int switchIn = newItem.equals( UNEQUIP ) ? -1 : newItem.getItemID();
-		int switchOut = oldItem.equals( UNEQUIP ) ? -1 : oldItem.getItemID();
+		int switchIn = newItem.equals( UNEQUIP ) ? -1 : newItem.getItemId();
+		int switchOut = oldItem.equals( UNEQUIP ) ? -1 : oldItem.getItemId();
 
 		// If the items are not equivalent, make sure
 		// the items should get switched out.
@@ -592,11 +592,11 @@ public class EquipmentRequest extends PasswordHashRequest
 			KoLCharacter.setClosetMeat( StaticEntity.parseInt( meatInCloset ) );
 		}
 
-		Matcher inventoryMatcher = OUTSIDECLOSET_PATTERN.matcher( responseText );
+		Matcher inventoryMatcher = OUTSIdECLOSET_PATTERN.matcher( responseText );
 		if ( inventoryMatcher.find() )
 			parseCloset( inventoryMatcher.group(), inventory );
 
-		Matcher closetMatcher = INSIDECLOSET_PATTERN.matcher( responseText );
+		Matcher closetMatcher = INSIdECLOSET_PATTERN.matcher( responseText );
 		if ( closetMatcher.find() )
 			parseCloset( closetMatcher.group(), closet );
 	}
@@ -616,14 +616,14 @@ public class EquipmentRequest extends PasswordHashRequest
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = optionMatcher.end();
-			int itemID = StaticEntity.parseInt( optionMatcher.group(1) );
-			String itemName = TradeableItemDatabase.getCanonicalName( TradeableItemDatabase.getItemName( itemID ) );
+			int itemId = StaticEntity.parseInt( optionMatcher.group(1) );
+			String itemName = TradeableItemDatabase.getCanonicalName( TradeableItemDatabase.getItemName( itemId ) );
 			String realName = TradeableItemDatabase.getCanonicalName( optionMatcher.group(2).toLowerCase() );
 
 			if ( itemName == null || !realName.equals( itemName ) )
-				TradeableItemDatabase.registerItem( itemID, realName );
+				TradeableItemDatabase.registerItem( itemId, realName );
 
-			AdventureResult result = new AdventureResult( itemID, StaticEntity.parseInt( optionMatcher.group(3) ) );
+			AdventureResult result = new AdventureResult( itemId, StaticEntity.parseInt( optionMatcher.group(3) ) );
 			if ( resultList == inventory )
 				KoLCharacter.processResult( result, false );
 			else
@@ -653,9 +653,9 @@ public class EquipmentRequest extends PasswordHashRequest
 				return;
 
 			int quantityValue = quantity.length() == 0 ? 1 : StaticEntity.parseInt( quantity.substring( 1, quantity.length() - 1 ) );
-			int itemID = TradeableItemDatabase.getItemID( realName );
+			int itemId = TradeableItemDatabase.getItemId( realName );
 
-			AdventureResult item = new AdventureResult( itemID, quantityValue );
+			AdventureResult item = new AdventureResult( itemId, quantityValue );
 			int inventoryCount = item.getCount( inventory );
 
 			// Add the difference between your existing count
@@ -855,10 +855,10 @@ public class EquipmentRequest extends PasswordHashRequest
 		Matcher outfitMatcher = OUTFIT_PATTERN.matcher( urlString );
 		if ( outfitMatcher.find() )
 		{
-			int outfitID = StaticEntity.parseInt( outfitMatcher.group(1) );
-			if ( outfitID > 0 )
+			int outfitId = StaticEntity.parseInt( outfitMatcher.group(1) );
+			if ( outfitId > 0 )
 			{
-				KoLmafia.getSessionStream().println( "outfit " + EquipmentDatabase.getOutfit( outfitID ) );
+				KoLmafia.getSessionStream().println( "outfit " + EquipmentDatabase.getOutfit( outfitId ) );
 				return true;
 			}
 			else

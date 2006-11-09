@@ -195,7 +195,7 @@ public class MuseumManager extends StaticEntity
 		updateShelves( data );
 		Matcher selectedMatcher;
 
-		int itemID, itemCount;
+		int itemId, itemCount;
 		String [] itemString;
 
 		Matcher optionMatcher = OPTION_PATTERN.matcher( data );
@@ -203,15 +203,15 @@ public class MuseumManager extends StaticEntity
 		{
 			selectedMatcher = SELECTED_PATTERN.matcher( optionMatcher.group(3) );
 
-			itemID = parseInt( optionMatcher.group(2) );
+			itemId = parseInt( optionMatcher.group(2) );
 
 			itemString = optionMatcher.group(1).split( "[\\(\\)]" );
-			if ( TradeableItemDatabase.getItemName( itemID ) == null )
-				TradeableItemDatabase.registerItem( itemID, itemString[0].trim() );
+			if ( TradeableItemDatabase.getItemName( itemId ) == null )
+				TradeableItemDatabase.registerItem( itemId, itemString[0].trim() );
 
 			itemCount = itemString.length == 1 ? 1 : parseInt( itemString[1] );
 
-			registerItem( new AdventureResult( itemID, itemCount ),
+			registerItem( new AdventureResult( itemId, itemCount ),
 				selectedMatcher.find() ? parseInt( selectedMatcher.group(1) ) : 0 );
 		}
 	}

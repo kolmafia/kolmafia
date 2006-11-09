@@ -65,7 +65,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffRequestFrame extends KoLFrame
 {
-	private static final KoLRequest ONLINE_VALIDATOR = new KoLRequest( "submitnewchat.php", true );
+	private static final KoLRequest ONLINE_VALIdATOR = new KoLRequest( "submitnewchat.php", true );
 
 	private JPanel requestContainer;
 	private CardLayout requestCards;
@@ -87,12 +87,12 @@ public class BuffRequestFrame extends KoLFrame
 
 	private void isBotOnline( String botName )
 	{
-		ONLINE_VALIDATOR.addFormField( "playerid", String.valueOf( KoLCharacter.getUserID() ) );
-		ONLINE_VALIDATOR.addFormField( "pwd" );
-		ONLINE_VALIDATOR.addFormField( "graf", "/whois " + botName );
-		ONLINE_VALIDATOR.run();
+		ONLINE_VALIdATOR.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
+		ONLINE_VALIdATOR.addFormField( "pwd" );
+		ONLINE_VALIdATOR.addFormField( "graf", "/whois " + botName );
+		ONLINE_VALIdATOR.run();
 
-		if ( ONLINE_VALIDATOR.responseText != null && ONLINE_VALIDATOR.responseText.indexOf( "online" ) != -1 )
+		if ( ONLINE_VALIdATOR.responseText != null && ONLINE_VALIdATOR.responseText.indexOf( "online" ) != -1 )
 			JOptionPane.showMessageDialog( null, botName + " is online." );
 		else
 			JOptionPane.showMessageDialog( null, botName + " is probably not online." );
@@ -148,7 +148,7 @@ public class BuffRequestFrame extends KoLFrame
 		{
 			public void run()
 			{
-				RequestPanel panel = (RequestPanel) panelMap.get( getCardID() );
+				RequestPanel panel = (RequestPanel) panelMap.get( getCardId() );
 
 				JCheckBox [] checkboxes = panel.checkboxes;
 				BuffBotDatabase.Offering [] offerings = panel.offerings;
@@ -179,14 +179,14 @@ public class BuffRequestFrame extends KoLFrame
 		{	isBotOnline( botName );
 		}
 
-		private String getCardID()
+		private String getCardId()
 		{
 			botName = (String) names.getSelectedItem();
 			return botName + " : " + (sets.getSelectedIndex() + 1);
 		}
 
 		private void resetCard()
-		{	requestCards.show( requestContainer, getCardID() );
+		{	requestCards.show( requestContainer, getCardId() );
 		}
 
 		private class NameComboBox extends JComboBox implements ActionListener
@@ -291,8 +291,8 @@ public class BuffRequestFrame extends KoLFrame
 					}
 					else
 					{
-						int buffID = offerings[i].getLowestBuffID();
-						if ( buffID > 2000 && buffID < 3000 )
+						int buffId = offerings[i].getLowestBuffId();
+						if ( buffId > 2000 && buffId < 3000 )
 						{
 							if ( !addedTurtleLabel )
 							{
@@ -306,7 +306,7 @@ public class BuffRequestFrame extends KoLFrame
 								addedTurtleLabel = true;
 							}
 						}
-						if ( buffID > 4000 && buffID < 5000 )
+						if ( buffId > 4000 && buffId < 5000 )
 						{
 							if ( !addedSaucerorLabel )
 							{
@@ -320,7 +320,7 @@ public class BuffRequestFrame extends KoLFrame
 								addedSaucerorLabel = true;
 							}
 						}
-						if ( buffID > 6000 && buffID < 7000 )
+						if ( buffId > 6000 && buffId < 7000 )
 						{
 							if ( !addedThiefLabel )
 							{
@@ -352,7 +352,7 @@ public class BuffRequestFrame extends KoLFrame
 			public void actionPerformed( ActionEvent e )
 			{
 				int price = 0;
-				RequestPanel panel = (RequestPanel) panelMap.get( getCardID() );
+				RequestPanel panel = (RequestPanel) panelMap.get( getCardId() );
 
 				JCheckBox [] checkboxes = panel.checkboxes;
 				BuffBotDatabase.Offering [] offerings = panel.offerings;

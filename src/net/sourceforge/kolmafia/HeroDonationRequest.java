@@ -62,21 +62,21 @@ public class HeroDonationRequest extends KoLRequest
 	 * Constructs a new <code>HeroDonationRequest</code>.
 	 *
 	 * @param	client	Theto be notified in the event of error
-	 * @param	heroID	The identifier for the hero to whom you are donating
+	 * @param	heroId	The identifier for the hero to whom you are donating
 	 * @param	amount	The amount you're donating to the given hero
 	 */
 
-	public HeroDonationRequest( int heroID, int amount )
+	public HeroDonationRequest( int heroId, int amount )
 	{
 		super( "shrines.php" );
 
 		addFormField( "pwd" );
-		addFormField( "action", heroID == BORIS ? "boris" : heroID == JARLSBERG ? "jarlsberg" : "sneakypete" );
+		addFormField( "action", heroId == BORIS ? "boris" : heroId == JARLSBERG ? "jarlsberg" : "sneakypete" );
 		addFormField( "howmuch", String.valueOf( amount ) );
 
 		this.amount = amount;
-		this.statue = heroID == BORIS ? "boris" : heroID == JARLSBERG ? "jarlsberg" : "pete";
-		this.hasStatueKey = inventory.contains( STATUE_KEYS[ heroID ] );
+		this.statue = heroId == BORIS ? "boris" : heroId == JARLSBERG ? "jarlsberg" : "pete";
+		this.hasStatueKey = inventory.contains( STATUE_KEYS[ heroId ] );
 	}
 
 	/**

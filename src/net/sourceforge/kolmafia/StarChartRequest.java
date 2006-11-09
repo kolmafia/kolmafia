@@ -42,17 +42,17 @@ public class StarChartRequest extends ItemCreationRequest
 
 	private int stars, lines;
 
-	public StarChartRequest( int itemID )
+	public StarChartRequest( int itemId )
 	{
-		super( "starchart.php", itemID );
+		super( "starchart.php", itemId );
 
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 		if ( ingredients != null )
 			for ( int i = 0; i < ingredients.length; ++i )
 			{
-				if ( ingredients[i].getItemID() == STAR )
+				if ( ingredients[i].getItemId() == STAR )
 					stars = ingredients[i].getCount();
-				else if ( ingredients[i].getItemID() == LINE)
+				else if ( ingredients[i].getItemId() == LINE)
 					lines = ingredients[i].getCount();
 			}
 

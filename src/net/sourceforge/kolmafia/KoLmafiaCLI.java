@@ -877,7 +877,7 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 
 			KoLRequest request = new KoLRequest(
-				"desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( result.getItemID() ) );
+				"desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( result.getItemId() ) );
 
 			request.run();
 
@@ -2414,7 +2414,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( buffCountString != null && buffCountString.equals( "*" ) )
 		{
 			buffCount = (int) ( KoLCharacter.getCurrentMP() /
-				ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillName ) ) );
+				ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) ) );
 		}
 		else if ( buffCountString != null )
 		{
@@ -2513,21 +2513,21 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeDonateCommand( String parameters )
 	{
-		int heroID;  int amount = -1;
+		int heroId;  int amount = -1;
 
 		String [] parameterList = parameters.split( " " );
 
 		if ( parameterList[0].startsWith( "boris" ) || parameterList[0].startsWith( "mus" ) )
 		{
-			heroID = HeroDonationRequest.BORIS;
+			heroId = HeroDonationRequest.BORIS;
 		}
 		else if ( parameterList[0].startsWith( "jarl" ) || parameterList[0].startsWith( "mys" ) )
 		{
-			heroID = HeroDonationRequest.JARLSBERG;
+			heroId = HeroDonationRequest.JARLSBERG;
 		}
 		else if ( parameterList[0].startsWith( "pete" ) || parameterList[0].startsWith( "mox" ) )
 		{
-			heroID = HeroDonationRequest.PETE;
+			heroId = HeroDonationRequest.PETE;
 		}
 		else
 		{
@@ -2537,7 +2537,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		amount = StaticEntity.parseInt( parameterList[1] );
 		updateDisplay( "Donating " + amount + " to the shrine..." );
-		StaticEntity.getClient().makeRequest( new HeroDonationRequest( heroID, amount ) );
+		StaticEntity.getClient().makeRequest( new HeroDonationRequest( heroId, amount ) );
 	}
 
 	/**
@@ -2592,7 +2592,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			// It's not equipped. Choose a slot for it
-			slot = EquipmentRequest.chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( match.getItemID() ) );
+			slot = EquipmentRequest.chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( match.getItemId() ) );
 
 			// If it can't be equipped, give up
 			if ( slot == -1 )
@@ -2614,9 +2614,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( KoLCharacter.dualWielding() && ( slot == KoLCharacter.WEAPON || slot == KoLCharacter.OFFHAND ) )
         {
-			int itemID = match.getItemID();
-			int desiredHands = EquipmentDatabase.getHands( itemID );
-			boolean desiredType = EquipmentDatabase.isRanged( itemID );
+			int itemId = match.getItemId();
+			int desiredHands = EquipmentDatabase.getHands( itemId );
+			boolean desiredType = EquipmentDatabase.isRanged( itemId );
 			boolean currentType = EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
 
             // If we are equipping a new weapon, a two-handed
@@ -2762,7 +2762,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( desiredData.equals( "session" ) )
 		{
 			printLine( "Player: " + KoLCharacter.getUserName() );
-			printLine( "Session ID: " + KoLRequest.sessionID );
+			printLine( "Session Id: " + KoLRequest.sessionId );
 			printLine( "Password Hash: " + KoLRequest.passwordHash );
 			printLine( "Current Server: " + KoLRequest.KOL_HOST );
 		}
@@ -2930,7 +2930,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return new AdventureResult( effectName, duration, true );
 	}
 
-	public static int getFirstMatchingItemID( List nameList )
+	public static int getFirstMatchingItemId( List nameList )
 	{
 		if ( nameList.isEmpty() )
 			return -1;
@@ -2966,7 +2966,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		return TradeableItemDatabase.getItemID( nameArray[ shortestIndex ] );
+		return TradeableItemDatabase.getItemId( nameArray[ shortestIndex ] );
 	}
 
 	/**
@@ -2979,7 +2979,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		boolean isCreationMatch = isMatchingCreateRequest;
 
-		int itemID = -1;
+		int itemId = -1;
 		int itemCount = 1;
 
 		// First, allow for the person to type without specifying
@@ -3007,7 +3007,7 @@ public class KoLmafiaCLI extends KoLmafia
 				matchingNames.addAll( TradeableItemDatabase.getMatchingNames( itemName ) );
 
 				if ( matchingNames.isEmpty() )
-					itemID = TradeableItemDatabase.getItemID( itemName, itemCount );
+					itemId = TradeableItemDatabase.getItemId( itemName, itemCount );
 			}
 			else if ( parameters.charAt(0) == '*' )
 			{
@@ -3023,16 +3023,16 @@ public class KoLmafiaCLI extends KoLmafia
 		// Next, check to see if any of the items matching appear
 		// in an NPC store.  If so, automatically default to it.
 
-		if ( !matchingNames.isEmpty() && itemID == -1 )
-			itemID = getFirstMatchingItemID( matchingNames );
+		if ( !matchingNames.isEmpty() && itemId == -1 )
+			itemId = getFirstMatchingItemId( matchingNames );
 
-		if ( itemID == -1 )
+		if ( itemId == -1 )
 		{
 			updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
 			return null;
 		}
 
-		AdventureResult firstMatch = new AdventureResult( itemID, itemCount );
+		AdventureResult firstMatch = new AdventureResult( itemId, itemCount );
 
 		// The result also depends on the number of items which
 		// are available in the given match area.
@@ -3041,7 +3041,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( isCreationMatch )
 		{
-			ItemCreationRequest instance = ItemCreationRequest.getInstance( firstMatch.getItemID() );
+			ItemCreationRequest instance = ItemCreationRequest.getInstance( firstMatch.getItemId() );
 			matchCount = instance == null ? 0 : instance.getQuantityPossible();
 		}
 
@@ -3117,7 +3117,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( firstMatch == null )
 			return;
 
-		StaticEntity.getClient().makeRequest( new UntinkerRequest( firstMatch.getItemID() ) );
+		StaticEntity.getClient().makeRequest( new UntinkerRequest( firstMatch.getItemId() ) );
 	}
 
 	/**
@@ -3195,7 +3195,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.indexOf( "mushroom" ) == -1 )
 				parameters = parameters.trim() + " mushroom";
 
-			int spore = getFirstMatchingItem( parameters ).getItemID();
+			int spore = getFirstMatchingItem( parameters ).getItemId();
 
 			if ( spore == -1 )
 			{
@@ -3429,12 +3429,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 
 
-		ItemCreationRequest irequest = ItemCreationRequest.getInstance( firstMatch.getItemID() );
+		ItemCreationRequest irequest = ItemCreationRequest.getInstance( firstMatch.getItemId() );
 		if ( irequest == null )
 		{
 			boolean needServant = !StaticEntity.getBooleanProperty( "createWithoutBoxServants" );
 
-			switch ( ConcoctionsDatabase.getMixingMethod( firstMatch.getItemID() ) )
+			switch ( ConcoctionsDatabase.getMixingMethod( firstMatch.getItemId() ) )
 			{
 			case ItemCreationRequest.COOK:
 			case ItemCreationRequest.COOK_REAGENT:
@@ -3494,7 +3494,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( previousLine.startsWith( "eat" ) )
 		{
-			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemID() ) != ConsumeItemRequest.CONSUME_EAT )
+			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) != ConsumeItemRequest.CONSUME_EAT )
 			{
 				updateDisplay( ERROR_STATE, firstMatch.getName() + " cannot be consumed." );
 				return;
@@ -3503,7 +3503,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( previousLine.startsWith( "drink" ) || previousLine.startsWith( "hobodrink" ) )
 		{
-			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemID() ) != ConsumeItemRequest.CONSUME_DRINK )
+			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) != ConsumeItemRequest.CONSUME_DRINK )
 			{
 				updateDisplay( ERROR_STATE, firstMatch.getName() + " is not an alcoholic beverage." );
 				return;
@@ -3512,7 +3512,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( previousLine.startsWith( "use" ) && !StaticEntity.getBooleanProperty( "allowGenericUse" ) )
 		{
-			switch ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemID() ) )
+			switch ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) )
 			{
 			case ConsumeItemRequest.CONSUME_EAT:
 				updateDisplay( ERROR_STATE, firstMatch.getName() + " must be eaten." );
@@ -3753,7 +3753,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( item == null )
 			return;
 
-		if ( !TradeableItemDatabase.isTradeable( item.getItemID() ) )
+		if ( !TradeableItemDatabase.isTradeable( item.getItemId() ) )
 		{
 			// Force him to confirm this, somehow? That doesn't
 			// work in a script...
@@ -3792,7 +3792,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		(new HermitRequest( item.getItemID(), item.getCount() )).run();
+		(new HermitRequest( item.getItemId(), item.getCount() )).run();
 	}
 
 	/**
@@ -3807,15 +3807,15 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( item == null )
 			return;
 
-		int itemID = item.getItemID();
+		int itemId = item.getItemId();
 		int tradeCount = Character.isDigit( parameters.charAt(0) ) ? item.getCount() :
 			TrapperRequest.YETI_FUR.getCount( inventory );
 
 		// Ensure that the requested item is available from the trapper
 		for ( int i = 0; i < trapperItemNumbers.length; ++i )
-			if ( trapperItemNumbers[i] == itemID )
+			if ( trapperItemNumbers[i] == itemId )
 			{
-				(new TrapperRequest( itemID, tradeCount ) ).run();
+				(new TrapperRequest( itemId, tradeCount ) ).run();
 				return;
 			}
 	}
@@ -3840,7 +3840,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		for ( int i = 0; i < hunterItems.size(); ++i )
 			if ( ((String)hunterItems.get(i)).indexOf( parameters ) != -1 )
-				(new BountyHunterRequest( TradeableItemDatabase.getItemID( (String) hunterItems.get(i) ) )).run();
+				(new BountyHunterRequest( TradeableItemDatabase.getItemId( (String) hunterItems.get(i) ) )).run();
 	}
 
 	/**

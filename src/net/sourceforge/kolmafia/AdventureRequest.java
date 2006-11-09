@@ -47,39 +47,39 @@ import java.util.regex.Matcher;
 
 public class AdventureRequest extends KoLRequest
 {
-	private static final KoLRequest ZONE_VALIDATOR = AdventureDatabase.ZONE_VALIDATOR;
+	private static final KoLRequest ZONE_VALIdATOR = AdventureDatabase.ZONE_VALIdATOR;
 	public static final Pattern STEEL_PATTERN = Pattern.compile( "emerge with a (.*?) of Steel" );
 
 	private String adventureName;
 	private String formSource;
-	private String adventureID;
+	private String adventureId;
 	protected int adventuresUsed;
 
-	public static final AdventureResult ABRIDGED = new AdventureResult( 534, -1 );
-	public static final AdventureResult BRIDGE = new AdventureResult( 535, -1 );
+	public static final AdventureResult ABRIdGED = new AdventureResult( 534, -1 );
+	public static final AdventureResult BRIdGE = new AdventureResult( 535, -1 );
 	public static final AdventureResult DODECAGRAM = new AdventureResult( 479, -1 );
 	public static final AdventureResult CANDLES = new AdventureResult( 480, -1 );
 	public static final AdventureResult BUTTERKNIFE = new AdventureResult( 481, -1 );
 
 	/**
 	 * Constructs a new <code>AdventureRequest</code> which executes the
-	 * adventure designated by the given ID by posting to the provided form,
+	 * adventure designated by the given Id by posting to the provided form,
 	 * notifying the givenof results (or errors).
 	 *
 	 * @param	client	Theto which results will be reported
 	 * @param	adventureName	The name of the adventure location
 	 * @param	formSource	The form to which the data will be posted
-	 * @param	adventureID	The identifer for the adventure to be executed
+	 * @param	adventureId	The identifer for the adventure to be executed
 	 */
 
-	public AdventureRequest( String adventureName, String formSource, String adventureID )
+	public AdventureRequest( String adventureName, String formSource, String adventureId )
 	{
 		super( formSource );
 		this.adventureName = adventureName;
 		this.formSource = formSource;
-		this.adventureID = adventureID;
+		this.adventureId = adventureId;
 
-		// The adventure ID is all you need to identify the adventure;
+		// The adventure Id is all you need to identify the adventure;
 		// posting it in the form sent to adventure.php will handle
 		// everything for you.
 
@@ -87,18 +87,18 @@ public class AdventureRequest extends KoLRequest
 		this.adventuresUsed = 1;
 
 		if ( formSource.equals( "adventure.php" ) )
-			addFormField( "snarfblat", adventureID );
+			addFormField( "snarfblat", adventureId );
 		else if ( formSource.equals( "shore.php" ) )
 		{
-			addFormField( "whichtrip", adventureID );
+			addFormField( "whichtrip", adventureId );
 			addFormField( "pwd" );
 			this.adventuresUsed = 3;
 		}
 		else if ( formSource.equals( "casino.php" ) )
 		{
 			addFormField( "action", "slot" );
-			addFormField( "whichslot", adventureID );
-			if ( !adventureID.equals( "11" ) )
+			addFormField( "whichslot", adventureId );
+			if ( !adventureId.equals( "11" ) )
 				this.adventuresUsed = 0;
 		}
 		else if ( formSource.equals( "dungeon.php" ) )
@@ -125,9 +125,9 @@ public class AdventureRequest extends KoLRequest
 			this.adventuresUsed = 0;
 		}
 		else if ( formSource.equals( "lair6.php" ) )
-			addFormField( "place", adventureID );
+			addFormField( "place", adventureId );
 		else if ( !formSource.equals( "rats.php" ) )
-			addFormField( "action", adventureID );
+			addFormField( "action", adventureId );
 	}
 
 	/**
@@ -148,8 +148,8 @@ public class AdventureRequest extends KoLRequest
 
 		if ( formSource.equals( "mountains.php" ) )
 		{
-			ZONE_VALIDATOR.constructURLString( "mountains.php" ).run();
-			if ( ZONE_VALIDATOR.responseText.indexOf( "value=80" ) != -1 )
+			ZONE_VALIdATOR.constructURLString( "mountains.php" ).run();
+			if ( ZONE_VALIdATOR.responseText.indexOf( "value=80" ) != -1 )
 			{
 				KoLmafia.updateDisplay( PENDING_STATE, "The Orc Chasm has already been bridged." );
 				return;
@@ -207,7 +207,7 @@ public class AdventureRequest extends KoLRequest
 		// If you haven't unlocked the orc chasm yet,
 		// try doing so now.
 
-		if ( adventureID.equals( "80" ) && responseText.indexOf( "You shouldn't be here." ) != -1 )
+		if ( adventureId.equals( "80" ) && responseText.indexOf( "You shouldn't be here." ) != -1 )
 		{
 			ArrayList temporary = new ArrayList();
 			temporary.addAll( conditions );
@@ -332,9 +332,9 @@ public class AdventureRequest extends KoLRequest
 				// inventory, visit the untinkerer
 				// automatically and repeat the request.
 
-				if ( KoLCharacter.hasItem( ABRIDGED ) )
+				if ( KoLCharacter.hasItem( ABRIdGED ) )
 				{
-					(new UntinkerRequest( ABRIDGED.getItemID() )).run();
+					(new UntinkerRequest( ABRIdGED.getItemId() )).run();
 					this.run();
 					return;
 				}
@@ -349,7 +349,7 @@ public class AdventureRequest extends KoLRequest
 			if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
 			{
 				KoLmafia.updateDisplay( PENDING_STATE, "You have bridged the Orc Chasm." );
-				StaticEntity.getClient().processResult( BRIDGE );
+				StaticEntity.getClient().processResult( BRIdGE );
 			}
 
 			return;
@@ -390,17 +390,17 @@ public class AdventureRequest extends KoLRequest
 
 		if ( formSource.equals( "casino.php" ) )
 		{
-			if ( adventureID.equals( "1" ) )
+			if ( adventureId.equals( "1" ) )
 				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -5 ) );
-			else if ( adventureID.equals( "2" ) )
+			else if ( adventureId.equals( "2" ) )
 				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
-			else if ( adventureID.equals( "11" ) )
+			else if ( adventureId.equals( "11" ) )
 				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 		}
 
-		if ( adventureID.equals( "70" ) )
+		if ( adventureId.equals( "70" ) )
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
-		else if ( adventureID.equals( "71" ) )
+		else if ( adventureId.equals( "71" ) )
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
 
 		// Shore Trips cost 500 meat each; handle

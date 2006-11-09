@@ -36,12 +36,12 @@ package net.sourceforge.kolmafia;
 
 public class ToyRequest extends ItemCreationRequest
 {
-	public ToyRequest( int itemID )
+	public ToyRequest( int itemId )
 	{
-		super( "crimbo_uncle.php", itemID );
+		super( "crimbo_uncle.php", itemId );
 
 		addFormField( "action", "1" );
-		addFormField( "whichitem", String.valueOf( itemID ) );
+		addFormField( "whichitem", String.valueOf( itemId ) );
 	}
 
 	protected void reconstructFields()

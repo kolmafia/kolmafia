@@ -80,12 +80,12 @@ public abstract class StoreManager extends StaticEntity
 	 * limit which is used to sell the item.
 	 */
 
-	public static SoldItem registerItem( int itemID, int quantity, int price, int limit, int lowest )
+	public static SoldItem registerItem( int itemId, int quantity, int price, int limit, int lowest )
 	{
 		if ( price < 50000000 )
 			potentialEarnings += (long) price * (long) quantity;
 
-		SoldItem newItem = new SoldItem( itemID, quantity, price, limit, lowest );
+		SoldItem newItem = new SoldItem( itemId, quantity, price, limit, lowest );
 		int itemIndex = soldItemList.indexOf( newItem );
 
 		// If the item is brand-new, just add it to the
@@ -116,15 +116,15 @@ public abstract class StoreManager extends StaticEntity
 
 	/**
 	 * Returns the current price of the item with the given
-	 * item ID.  This is useful for auto-adding at the
+	 * item Id.  This is useful for auto-adding at the
 	 * existing price.
 	 */
 
-	public static int getPrice( int itemID )
+	public static int getPrice( int itemId )
 	{
 		int currentPrice = 999999999;
 		for ( int i = 0; i < soldItemList.size(); ++i )
-			if ( ((SoldItem)soldItemList.get(i)).getItemID() == itemID )
+			if ( ((SoldItem)soldItemList.get(i)).getItemId() == itemId )
 				currentPrice = ((SoldItem)soldItemList.get(i)).getPrice();
 
 		return currentPrice;
@@ -174,7 +174,7 @@ public abstract class StoreManager extends StaticEntity
 
 		if ( isPriceManagement )
 		{
-			int itemID, quantity, price, limit, lowest;
+			int itemId, quantity, price, limit, lowest;
 
 			// The item matcher here examines each row in the table
 			// displayed in the price management page.
@@ -183,9 +183,9 @@ public abstract class StoreManager extends StaticEntity
 
 			while ( priceMatcher.find() )
 			{
-				itemID = parseInt( priceMatcher.group(4) );
-				if ( TradeableItemDatabase.getItemName( itemID ) == null )
-					TradeableItemDatabase.registerItem( itemID, priceMatcher.group(1) );
+				itemId = parseInt( priceMatcher.group(4) );
+				if ( TradeableItemDatabase.getItemName( itemId ) == null )
+					TradeableItemDatabase.registerItem( itemId, priceMatcher.group(1) );
 
 				quantity = parseInt( priceMatcher.group(2) );
 
@@ -196,13 +196,13 @@ public abstract class StoreManager extends StaticEntity
 				// Now that all the data has been retrieved, register
 				// the item that was discovered.
 
-				newItems.add( registerItem( itemID, quantity, price, limit, lowest ) );
+				newItems.add( registerItem( itemId, quantity, price, limit, lowest ) );
 			}
 		}
 		else
 		{
 			AdventureResult item;
-			int itemID, price, limit;
+			int itemId, price, limit;
 
 			// The item matcher here examines each row in the table
 			// displayed in the standard item-addition page.
@@ -211,14 +211,14 @@ public abstract class StoreManager extends StaticEntity
 
 			while ( itemMatcher.find() )
 			{
-				itemID = parseInt( itemMatcher.group(4) );
-				if ( TradeableItemDatabase.getItemName( itemID ) == null )
+				itemId = parseInt( itemMatcher.group(4) );
+				if ( TradeableItemDatabase.getItemName( itemId ) == null )
 				{
 					String itemName = itemMatcher.group(1);
 					if ( itemName.indexOf( "(" ) != -1 )
 						itemName = itemName.substring( 0, itemName.indexOf( "(" ) ).trim();
 
-					TradeableItemDatabase.registerItem( itemID, itemName );
+					TradeableItemDatabase.registerItem( itemId, itemName );
 				}
 
 				// Remove parenthesized number and match again.
@@ -240,7 +240,7 @@ public abstract class StoreManager extends StaticEntity
 				// Now that all the data has been retrieved, register
 				// the item that was discovered.
 
-				newItems.add( registerItem( item.getItemID(), item.getCount(), price, limit, 0 ) );
+				newItems.add( registerItem( item.getItemId(), item.getCount(), price, limit, 0 ) );
 			}
 		}
 
@@ -370,31 +370,31 @@ public abstract class StoreManager extends StaticEntity
 
 	public static class SoldItem extends Vector implements Comparable
 	{
-		private int itemID;
+		private int itemId;
 		private String itemName;
 		private int quantity;
 		private int price;
 		private int limit;
 		private int lowest;
 
-		public SoldItem( int itemID, int quantity, int price, int limit, int lowest )
+		public SoldItem( int itemId, int quantity, int price, int limit, int lowest )
 		{
-			this.itemID = itemID;
-			this.itemName = TradeableItemDatabase.getItemName( itemID );
+			this.itemId = itemId;
+			this.itemName = TradeableItemDatabase.getItemName( itemId );
 			this.quantity = quantity;
 			this.price = price;
 			this.limit = limit;
 			this.lowest = lowest;
 
-			super.add( new AdventureResult( itemID, quantity ) );
+			super.add( new AdventureResult( itemId, quantity ) );
 			super.add( new Integer( price ) );
 			super.add( new Integer( lowest ) );
 			super.add( new Integer( quantity ) );
 			super.add( new Boolean( limit != 0 ) );
 		}
 
-		public int getItemID()
-		{	return itemID;
+		public int getItemId()
+		{	return itemId;
 		}
 
 		public String getItemName()
@@ -418,7 +418,7 @@ public abstract class StoreManager extends StaticEntity
 		}
 
 		public boolean equals( Object o )
-		{	return o != null && o instanceof SoldItem && ((SoldItem)o).itemID == itemID;
+		{	return o != null && o instanceof SoldItem && ((SoldItem)o).itemId == itemId;
 		}
 
 		public int compareTo( Object o )
@@ -442,7 +442,7 @@ public abstract class StoreManager extends StaticEntity
 		{
 			StringBuffer buffer = new StringBuffer();
 
-			buffer.append( TradeableItemDatabase.getItemName( itemID ) );
+			buffer.append( TradeableItemDatabase.getItemName( itemId ) );
 			buffer.append( " (" );
 
 			buffer.append( COMMA_FORMAT.format( quantity ) );

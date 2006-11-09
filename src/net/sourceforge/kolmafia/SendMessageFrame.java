@@ -436,7 +436,7 @@ public abstract class SendMessageFrame extends KoLFrame
 				{
 					AdventureResult currentItem = (AdventureResult) items[i];
 					// Skip filtered items
-					if ( !TradeableItemDatabase.isTradeable( currentItem.getItemID() ) )
+					if ( !TradeableItemDatabase.isTradeable( currentItem.getItemId() ) )
 						continue;
 
 					int attachmentCount = getQuantity( "Attaching " + currentItem.getName() + "...",

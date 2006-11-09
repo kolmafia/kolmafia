@@ -59,7 +59,7 @@ public class MailboxRequest extends KoLRequest
 		this.action = action;
 		this.boxname = boxname;
 		for ( int i = 0; i < messages.length; ++i )
-			addFormField( ((KoLMailMessage) messages[i]).getMessageID(), "on" );
+			addFormField( ((KoLMailMessage) messages[i]).getMessageId(), "on" );
 	}
 
 	public MailboxRequest( String boxname )
@@ -100,7 +100,7 @@ public class MailboxRequest extends KoLRequest
 			return;
 		}
 
-		int lastMessageID = 0;
+		int lastMessageId = 0;
 		int totalMessages = Integer.MAX_VALUE;
 
 		try
@@ -109,7 +109,7 @@ public class MailboxRequest extends KoLRequest
 
 			if ( matcher.find() )
 			{
-				lastMessageID = StaticEntity.parseInt( matcher.group(1) );
+				lastMessageId = StaticEntity.parseInt( matcher.group(1) );
 				totalMessages = StaticEntity.parseInt( matcher.group(2) );
 			}
 			else
@@ -117,8 +117,8 @@ public class MailboxRequest extends KoLRequest
 				matcher = SINGLEPAGE_PATTERN.matcher( responseText );
 				if ( matcher.find() )
 				{
-					lastMessageID = StaticEntity.parseInt( matcher.group(1) );
-					totalMessages = lastMessageID;
+					lastMessageId = StaticEntity.parseInt( matcher.group(1) );
+					totalMessages = lastMessageId;
 				}
 			}
 		}

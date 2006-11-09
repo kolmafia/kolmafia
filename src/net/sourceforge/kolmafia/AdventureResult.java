@@ -63,7 +63,7 @@ public class AdventureResult implements Comparable, KoLConstants
 {
 	public static final String [] STAT_NAMES = { "muscle", "mysticality", "moxie" };
 
-	private int itemID;
+	private int itemId;
 	private int [] count;
 	private String name;
 	private int priority;
@@ -111,16 +111,16 @@ public class AdventureResult implements Comparable, KoLConstants
 	}
 
 	/**
-	 * Constructs a new <code>AdventureResult</code> with the given item ID.
+	 * Constructs a new <code>AdventureResult</code> with the given item Id.
 	 * which increased/decreased by the given value.  This constructor
 	 * should be used for item-related results.
 	 *
-	 * @param	itemID	The itemID of the result
+	 * @param	itemId	The itemId of the result
 	 * @param	count	How many of the noted result were gained
 	 */
 
-	public AdventureResult( int itemID, int count )
-	{	this( TradeableItemDatabase.getItemName( itemID ), count, false );
+	public AdventureResult( int itemId, int count )
+	{	this( TradeableItemDatabase.getItemName( itemId ), count, false );
 	}
 
 	/**
@@ -192,15 +192,15 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		if ( priority == EFFECT_PRIORITY )
 		{
-			this.itemID = StatusEffectDatabase.getEffectID( this.name );
-			if ( this.itemID > 0 )
-				this.name = StatusEffectDatabase.getEffectName( this.itemID );
+			this.itemId = StatusEffectDatabase.getEffectId( this.name );
+			if ( this.itemId > 0 )
+				this.name = StatusEffectDatabase.getEffectName( this.itemId );
 		}
 		else if ( priority == ITEM_PRIORITY )
 		{
-			this.itemID = TradeableItemDatabase.getItemID( name, this.count[0] );
-			if ( this.itemID > 0 )
-				this.name = TradeableItemDatabase.getItemName( this.itemID );
+			this.itemId = TradeableItemDatabase.getItemId( name, this.count[0] );
+			if ( this.itemId > 0 )
+				this.name = TradeableItemDatabase.getItemName( this.itemId );
 		}
 	}
 
@@ -261,14 +261,14 @@ public class AdventureResult implements Comparable, KoLConstants
 	}
 
 	/**
-	 * Accessor method to retrieve the item ID associated with the result,
-	 * if this is an item and the item ID is known.
+	 * Accessor method to retrieve the item Id associated with the result,
+	 * if this is an item and the item Id is known.
 	 *
-	 * @return	The item ID associated with this item
+	 * @return	The item Id associated with this item
 	 */
 
-	public int getItemID()
-	{	return itemID;
+	public int getItemId()
+	{	return itemId;
 	}
 
 	/**
@@ -416,7 +416,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( name == null || ar.name == null || count == null || ar.count == null )
 			return false;
 
-		return count.length == ar.count.length && (!ar.isItem() || (itemID == ar.itemID)) && name.equalsIgnoreCase( ar.name );
+		return count.length == ar.count.length && (!ar.isItem() || (itemId == ar.itemId)) && name.equalsIgnoreCase( ar.name );
 	}
 
 	/**
@@ -443,7 +443,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( nameComparison != 0 )
 			return nameComparison;
 
-		return isItem() ? itemID - ar.itemID : 0;
+		return isItem() ? itemId - ar.itemId : 0;
 	}
 
 	/**
@@ -503,26 +503,24 @@ public class AdventureResult implements Comparable, KoLConstants
 	}
 
 	public static DefaultListCellRenderer getAutoSellCellRenderer()
-	{	return getAutoSellCellRenderer( true, true, true, true, false );
+	{	return getAutoSellCellRenderer( true, true, true );
 	}
 
-	public static DefaultListCellRenderer getAutoSellCellRenderer( boolean food, boolean booze, boolean other, boolean nosell, boolean notrade )
-	{	return new AutoSellCellRenderer( food, booze, other, nosell, notrade );
+	public static DefaultListCellRenderer getAutoSellCellRenderer( boolean food, boolean booze, boolean other )
+	{	return new AutoSellCellRenderer( food, booze, other );
 	}
 
 	private static class AutoSellCellRenderer extends DefaultListCellRenderer
 	{
-		private boolean food, booze, other, nosell, notrade;
+		private boolean food, booze, other;
 
-		public AutoSellCellRenderer( boolean food, boolean booze, boolean other, boolean nosell, boolean notrade )
+		public AutoSellCellRenderer( boolean food, boolean booze, boolean other )
 		{
 			setOpaque( true );
 
 			this.food = food;
 			this.booze = booze;
 			this.other = other;
-			this.nosell = nosell;
-			this.notrade = notrade;
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
@@ -533,10 +531,10 @@ public class AdventureResult implements Comparable, KoLConstants
 				return defaultComponent;
 
 			AdventureResult ar = (AdventureResult) value;
-			if ( !isVisibleWithFilter( ar, food, booze, other, nosell, notrade ) )
+			if ( !isVisibleWithFilter( ar, food, booze, other ) )
 				return BLANK_LABEL;
 
-			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.getItemID() );
+			int autoSellValue = TradeableItemDatabase.getPriceById( ar.getItemId() );
 
 			StringBuffer stringForm = new StringBuffer();
 			stringForm.append( ar.getName() );
@@ -544,7 +542,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 			if ( autoSellValue == 0 )
 				stringForm.append( "no-sell" );
-			else if ( !TradeableItemDatabase.isTradeable( ar.getItemID() ) )
+			else if ( !TradeableItemDatabase.isTradeable( ar.getItemId() ) )
 				stringForm.append( "no-trade" );
 			else
 				stringForm.append( COMMA_FORMAT.format( autoSellValue ) + " meat" );
@@ -590,7 +588,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		public Component getRendererComponent( JLabel defaultComponent, Object value )
 		{
-			if ( !isVisibleWithFilter( value, food, booze, other, true, true ) )
+			if ( !isVisibleWithFilter( value, food, booze, other ) )
 				return BLANK_LABEL;
 
 			String name = value instanceof AdventureResult ? ((AdventureResult)value).getName() : ((ItemCreationRequest)value).getName();
@@ -602,13 +600,13 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 	}
 
-	public static boolean isVisibleWithFilter( Object value, boolean food, boolean booze, boolean other, boolean nosell, boolean notrade )
+	public static boolean isVisibleWithFilter( Object value, boolean food, boolean booze, boolean other )
 	{
 		boolean isVisibleWithFilter = true;
 		String name = value instanceof AdventureResult ? ((AdventureResult)value).getName() : ((ItemCreationRequest)value).getName();
-		int itemID = TradeableItemDatabase.getItemID( name );
+		int itemId = TradeableItemDatabase.getItemId( name );
 
-		switch ( TradeableItemDatabase.getConsumptionType( itemID ) )
+		switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 		{
 		case ConsumeItemRequest.CONSUME_EAT:
 			isVisibleWithFilter = food;
@@ -631,7 +629,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			}
 			else
 			{
-				switch ( ConcoctionsDatabase.getMixingMethod( itemID ) )
+				switch ( ConcoctionsDatabase.getMixingMethod( itemId ) )
 				{
 				case ItemCreationRequest.COOK:
 				case ItemCreationRequest.COOK_REAGENT:
@@ -658,38 +656,21 @@ public class AdventureResult implements Comparable, KoLConstants
 			}
 		}
 
-		int autoSellValue = TradeableItemDatabase.getPriceByID( itemID );
-		boolean tradeable = TradeableItemDatabase.isTradeable( itemID );
-
-		if ( autoSellValue == 0 && !tradeable )
-			isVisibleWithFilter &= nosell && notrade;
-		else if ( autoSellValue == 0 )
-			isVisibleWithFilter &= nosell;
-		else if ( !tradeable )
-			isVisibleWithFilter &= notrade;
-
 		return isVisibleWithFilter;
 	}
 
-	public static DefaultListCellRenderer getEquipmentCellRenderer( boolean weapon, boolean offhand, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
-	{	return new EquipmentCellRenderer( weapon, offhand, hat, shirt, pants, accessory, familiar );
+	public static DefaultListCellRenderer getEquipmentRenderer( int filterType )
+	{	return new EquipmentCellRenderer( filterType );
 	}
 
 	private static class EquipmentCellRenderer extends DefaultListCellRenderer
 	{
-		private boolean weapon, offhand, hat, shirt, pants, accessory, familiar;
+		private int filterType;
 
-		public EquipmentCellRenderer( boolean weapon, boolean offhand, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
+		public EquipmentCellRenderer( int filterType )
 		{
 			setOpaque( true );
-
-			this.weapon = weapon;
-			this.offhand = offhand;
-			this.hat = hat;
-			this.shirt = shirt;
-			this.pants = pants;
-			this.accessory = accessory;
-			this.familiar = familiar;
+			this.filterType = filterType;
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
@@ -700,48 +681,10 @@ public class AdventureResult implements Comparable, KoLConstants
 			AdventureResult ar = (AdventureResult) value;
 			int equipmentType = TradeableItemDatabase.getConsumptionType( ar.getName() );
 
-			if ( !weapon || !offhand || !hat || !shirt || !pants || !accessory || !familiar )
+			if ( filterType != equipmentType )
 			{
-				switch ( equipmentType )
-				{
-				case ConsumeItemRequest.EQUIP_WEAPON:
-					if ( !weapon )
-						return BLANK_LABEL;
-					break;
-
-				case ConsumeItemRequest.EQUIP_OFFHAND:
-					if ( !offhand )
-						return BLANK_LABEL;
-					break;
-
-				case ConsumeItemRequest.EQUIP_HAT:
-					if ( !hat )
-						return BLANK_LABEL;
-					break;
-
-				case ConsumeItemRequest.EQUIP_SHIRT:
-					if ( !shirt )
-						return BLANK_LABEL;
-					break;
-
-				case ConsumeItemRequest.EQUIP_PANTS:
-					if ( !pants )
-						return BLANK_LABEL;
-					break;
-
-				case ConsumeItemRequest.EQUIP_ACCESSORY:
-					if ( !accessory )
-						return BLANK_LABEL;
-					break;
-
-				case ConsumeItemRequest.EQUIP_FAMILIAR:
-					if ( !familiar )
-						return BLANK_LABEL;
-					break;
-
-				default:
-					return BLANK_LABEL;
-				}
+				System.out.println( filterType + ": " + ar );
+				return BLANK_LABEL;
 			}
 
 			int power = EquipmentDatabase.getPower( ar.getName() );
@@ -787,7 +730,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		// Allow for negation of substats as well.
 
 		if ( isItem() )
-			return new AdventureResult( itemID, 0 - getCount() );
+			return new AdventureResult( itemId, 0 - getCount() );
 
 		else if ( isStatusEffect() )
 			return new AdventureResult( name, 0 - getCount(), true );

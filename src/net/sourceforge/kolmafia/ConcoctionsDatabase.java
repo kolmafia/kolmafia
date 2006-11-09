@@ -92,7 +92,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// This begins by opening up the data file and preparing
 		// a buffered reader; once this is done, every line is
 		// examined and float-referenced: once in the name-lookup,
-		// and again in the ID lookup.
+		// and again in the Id lookup.
 
 		BufferedReader reader = getReader( "concoctions.dat" );
 		String [] data;
@@ -104,9 +104,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 				if ( data.length > 2 )
 				{
 					AdventureResult item = AdventureResult.parseResult( data[0] );
-					int itemID = item.getItemID();
+					int itemId = item.getItemId();
 
-					if ( itemID != -1 )
+					if ( itemId != -1 )
 					{
 						int mixingMethod = parseInt( data[1] );
 						Concoction concoction = new Concoction( item, mixingMethod );
@@ -116,7 +116,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 						if ( !concoction.isBadRecipe() )
 						{
-							concoctions.set( itemID, concoction );
+							concoctions.set( itemId, concoction );
 							continue;
 						}
 					}
@@ -157,28 +157,28 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// Handle meat stacks, which are created from fairy
 			// gravy and meat from yesterday.
 
-			if ( ingredients[0].getItemID() == 80 && ingredients[1].getItemID() == 87 )
+			if ( ingredients[0].getItemId() == 80 && ingredients[1].getItemId() == 87 )
 				return true;
-			if ( ingredients[1].getItemID() == 80 && ingredients[0].getItemID() == 87 )
+			if ( ingredients[1].getItemId() == 80 && ingredients[0].getItemId() == 87 )
 				return true;
 
 			// Handle plain pizza, which also allows flat dough
 			// to be used instead of wads of dough.
 
-			if ( ingredients[0].getItemID() == TOMATO && ingredients[1].getItemID() == FLAT_DOUGH )
+			if ( ingredients[0].getItemId() == TOMATO && ingredients[1].getItemId() == FLAT_DOUGH )
 				return true;
-			if ( ingredients[1].getItemID() == TOMATO && ingredients[0].getItemID() == FLAT_DOUGH )
+			if ( ingredients[1].getItemId() == TOMATO && ingredients[0].getItemId() == FLAT_DOUGH )
 				return true;
 
 			// Handle catsup recipes, which only exist in the
 			// item table as ketchup recipes.
 
-			if ( ingredients[0].getItemID() == CATSUP.getItemID() )
+			if ( ingredients[0].getItemId() == CATSUP.getItemId() )
 			{
 				ingredients[0] = KETCHUP;
 				return isKnownCombination( ingredients );
 			}
-			if ( ingredients[1].getItemID() == CATSUP.getItemID() )
+			if ( ingredients[1].getItemId() == CATSUP.getItemId() )
 			{
 				ingredients[1] = KETCHUP;
 				return isKnownCombination( ingredients );
@@ -187,12 +187,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// Handle ice-cold beer recipes, which only uses the
 			// recipe for item #41 at this time.
 
-			if ( ingredients[0].getItemID() == WILLER.getItemID() )
+			if ( ingredients[0].getItemId() == WILLER.getItemId() )
 			{
 				ingredients[0] = SCHLITZ;
 				return isKnownCombination( ingredients );
 			}
-			if ( ingredients[1].getItemID() == WILLER.getItemID() )
+			if ( ingredients[1].getItemId() == WILLER.getItemId() )
 			{
 				ingredients[1] = SCHLITZ;
 				return isKnownCombination( ingredients );
@@ -201,19 +201,19 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// Handle cloaca recipes, which only exist in the
 			// item table as dyspepsi cola.
 
-			if ( ingredients[0].getItemID() == CLOACA.getItemID() )
+			if ( ingredients[0].getItemId() == CLOACA.getItemId() )
 			{
 				ingredients[0] = DYSPEPSI;
 				return isKnownCombination( ingredients );
 			}
-			if ( ingredients[1].getItemID() == CLOACA.getItemID() )
+			if ( ingredients[1].getItemId() == CLOACA.getItemId() )
 			{
 				ingredients[1] = DYSPEPSI;
 				return isKnownCombination( ingredients );
 			}
 		}
 
-		int [] ingredientTestIDs;
+		int [] ingredientTestIds;
 		AdventureResult [] ingredientTest;
 
 		for ( int i = 0; i < concoctions.size(); ++i )
@@ -222,18 +222,18 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( ingredientTest.length != ingredients.length )
 				continue;
 
-			ingredientTestIDs = new int[ ingredients.length ];
-			for ( int j = 0; j < ingredientTestIDs.length; ++j )
-				ingredientTestIDs[j] = ingredientTest[j].getItemID();
+			ingredientTestIds = new int[ ingredients.length ];
+			for ( int j = 0; j < ingredientTestIds.length; ++j )
+				ingredientTestIds[j] = ingredientTest[j].getItemId();
 
 			boolean foundMatch = true;
 			for ( int j = 0; j < ingredients.length && foundMatch; ++j )
 			{
 				foundMatch = false;
-				for ( int k = 0; k < ingredientTestIDs.length && !foundMatch; ++k )
+				for ( int k = 0; k < ingredientTestIds.length && !foundMatch; ++k )
 				{
-					foundMatch |= ingredients[j].getItemID() == ingredientTestIDs[k];
-					if ( foundMatch )  ingredientTestIDs[k] = -1;
+					foundMatch |= ingredients[j].getItemId() == ingredientTestIds[k];
+					if ( foundMatch )  ingredientTestIds[k] = -1;
 				}
 			}
 
@@ -244,14 +244,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return false;
 	}
 
-	public static final SortedListModel getKnownUses( int itemID )
+	public static final SortedListModel getKnownUses( int itemId )
 	{
-		SortedListModel uses = knownUses.get( itemID );
+		SortedListModel uses = knownUses.get( itemId );
 		return uses == null ? EMPTY_LIST : uses;
 	}
 
 	public static final SortedListModel getKnownUses( AdventureResult item )
-	{	return getKnownUses( item.getItemID() );
+	{	return getKnownUses( item.getItemId() );
 	}
 
 	public static final boolean isPermittedMethod( int method )
@@ -261,15 +261,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static AdventureResult parseIngredient( String data )
 	{
 		// If the ingredient is specified inside of brackets,
-		// then a specific item ID is being designated.
+		// then a specific item Id is being designated.
 
 		if ( data.startsWith( "[" ) )
 		{
 			int closeBracketIndex = data.indexOf( "]" );
-			String itemIDString = data.substring( 0, closeBracketIndex ).replaceAll( "[\\[\\]]", "" ).trim();
+			String itemIdString = data.substring( 0, closeBracketIndex ).replaceAll( "[\\[\\]]", "" ).trim();
 			String quantityString = data.substring( closeBracketIndex + 1 ).trim();
 
-			return new AdventureResult( parseInt( itemIDString ), quantityString.length() == 0 ? 1 :
+			return new AdventureResult( parseInt( itemIdString ), quantityString.length() == 0 ? 1 :
 				parseInt( quantityString.replaceAll( "[\\(\\)]", "" ) ) );
 		}
 
@@ -362,33 +362,33 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		int availableSoda = getBetterIngredient( DYSPEPSI, CLOACA, availableIngredients ).getCount( availableIngredients );
 
-		concoctions.get( DYSPEPSI.getItemID() ).initial = availableSoda;
-		concoctions.get( DYSPEPSI.getItemID() ).creatable = 0;
-		concoctions.get( DYSPEPSI.getItemID() ).total = availableSoda;
+		concoctions.get( DYSPEPSI.getItemId() ).initial = availableSoda;
+		concoctions.get( DYSPEPSI.getItemId() ).creatable = 0;
+		concoctions.get( DYSPEPSI.getItemId() ).total = availableSoda;
 
-		concoctions.get( CLOACA.getItemID() ).initial = availableSoda;
-		concoctions.get( CLOACA.getItemID() ).creatable = 0;
-		concoctions.get( CLOACA.getItemID() ).total = availableSoda;
+		concoctions.get( CLOACA.getItemId() ).initial = availableSoda;
+		concoctions.get( CLOACA.getItemId() ).creatable = 0;
+		concoctions.get( CLOACA.getItemId() ).total = availableSoda;
 
 		int availableBeer = getBetterIngredient( SCHLITZ, WILLER, availableIngredients ).getCount( availableIngredients );
 
-		concoctions.get( SCHLITZ.getItemID() ).initial = availableBeer;
-		concoctions.get( SCHLITZ.getItemID() ).creatable = 0;
-		concoctions.get( SCHLITZ.getItemID() ).total = availableBeer;
+		concoctions.get( SCHLITZ.getItemId() ).initial = availableBeer;
+		concoctions.get( SCHLITZ.getItemId() ).creatable = 0;
+		concoctions.get( SCHLITZ.getItemId() ).total = availableBeer;
 
-		concoctions.get( WILLER.getItemID() ).initial = availableBeer;
-		concoctions.get( WILLER.getItemID() ).creatable = 0;
-		concoctions.get( WILLER.getItemID() ).total = availableBeer;
+		concoctions.get( WILLER.getItemId() ).initial = availableBeer;
+		concoctions.get( WILLER.getItemId() ).creatable = 0;
+		concoctions.get( WILLER.getItemId() ).total = availableBeer;
 
 		int availableKetchup = getBetterIngredient( KETCHUP, CATSUP, availableIngredients ).getCount( availableIngredients );
 
-		concoctions.get( KETCHUP.getItemID() ).initial = availableKetchup;
-		concoctions.get( KETCHUP.getItemID() ).creatable = 0;
-		concoctions.get( KETCHUP.getItemID() ).total = availableKetchup;
+		concoctions.get( KETCHUP.getItemId() ).initial = availableKetchup;
+		concoctions.get( KETCHUP.getItemId() ).creatable = 0;
+		concoctions.get( KETCHUP.getItemId() ).total = availableKetchup;
 
-		concoctions.get( CATSUP.getItemID() ).initial = availableKetchup;
-		concoctions.get( CATSUP.getItemID() ).creatable = 0;
-		concoctions.get( CATSUP.getItemID() ).total = availableKetchup;
+		concoctions.get( CATSUP.getItemId() ).initial = availableKetchup;
+		concoctions.get( CATSUP.getItemId() ).creatable = 0;
+		concoctions.get( CATSUP.getItemId() ).total = availableKetchup;
 
 		// Finally, increment through all of the things which are
 		// created any other way, making sure that it's a permitted
@@ -435,13 +435,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 	}
 
-	public static int getMeatPasteRequired( int itemID, int creationCount )
+	public static int getMeatPasteRequired( int itemId, int creationCount )
 	{
 		ArrayList availableIngredients = getAvailableIngredients();
-		concoctions.get(itemID).calculate( availableIngredients );
+		concoctions.get(itemId).calculate( availableIngredients );
 
-		return concoctions.get(itemID).getMeatPasteNeeded( creationCount + concoctions.get(itemID).initial ) -
-			concoctions.get(itemID).initial + 1;
+		return concoctions.get(itemId).getMeatPasteNeeded( creationCount + concoctions.get(itemId).initial ) -
+			concoctions.get(itemId).initial + 1;
 	}
 
 	private static void calculateBasicItems( List availableIngredients )
@@ -466,9 +466,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static void setBasicItem( List availableIngredients, AdventureResult item, int creatable )
 	{
-		concoctions.get( item.getItemID() ).initial = item.getCount( availableIngredients );
-		concoctions.get( item.getItemID() ).creatable = creatable;
-		concoctions.get( item.getItemID() ).total = concoctions.get( item.getItemID() ).initial + creatable;
+		concoctions.get( item.getItemId() ).initial = item.getCount( availableIngredients );
+		concoctions.get( item.getItemId() ).creatable = creatable;
+		concoctions.get( item.getItemId() ).total = concoctions.get( item.getItemId() ).initial + creatable;
 	}
 
 	/**
@@ -669,14 +669,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 				PERMIT_METHOD[i] = ADVENTURE_USAGE[i] < KoLCharacter.getAdventuresLeft();
 	}
 
-	private static boolean isAvailable( int servantID, int clockworkID )
+	private static boolean isAvailable( int servantId, int clockworkId )
 	{
 		// If it's a base case, return whether or not the
 		// servant is already available at the camp.
 
-		if ( servantID == CHEF && KoLCharacter.hasChef() )
+		if ( servantId == CHEF && KoLCharacter.hasChef() )
 			return true;
-		if ( servantID == BARTENDER && KoLCharacter.hasBartender() )
+		if ( servantId == BARTENDER && KoLCharacter.hasBartender() )
 			return true;
 
 		// If the user did not wish to repair their boxes
@@ -689,24 +689,24 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// the given box servants is non-zero.	This works because
 		// cooking tests are made after item creation tests.
 
-		return concoctions.get( servantID ).total > 0 || concoctions.get( clockworkID ).total > 0;
+		return concoctions.get( servantId ).total > 0 || concoctions.get( clockworkId ).total > 0;
 	}
 
 	/**
-	 * Returns the mixing method for the item with the given ID.
+	 * Returns the mixing method for the item with the given Id.
 	 */
 
-	public static int getMixingMethod( int itemID )
-	{	return concoctions.get( itemID ) != null ? concoctions.get( itemID ).getMixingMethod() : ItemCreationRequest.NOCREATE;
+	public static int getMixingMethod( int itemId )
+	{	return concoctions.get( itemId ) != null ? concoctions.get( itemId ).getMixingMethod() : ItemCreationRequest.NOCREATE;
 	}
 
 	/**
-	 * Returns the item IDs of the ingredients for the given item.
+	 * Returns the item Ids of the ingredients for the given item.
 	 * Note that if there are no ingredients, then <code>null</code>
 	 * will be returned instead.
 	 */
 
-	public static AdventureResult [] getIngredients( int itemID )
+	public static AdventureResult [] getIngredients( int itemId )
 	{
 		List availableIngredients = new ArrayList();
 		availableIngredients.addAll( inventory );
@@ -724,23 +724,23 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// were used in the calculations.  Usually this is the case,
 		// but ice-cold beer and ketchup are tricky cases.
 
-		AdventureResult [] ingredients = concoctions.get( itemID ).getIngredients();
+		AdventureResult [] ingredients = concoctions.get( itemId ).getIngredients();
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			if ( ingredients[i].getItemID() == SCHLITZ.getItemID() || ingredients[i].getItemID() == WILLER.getItemID() )
+			if ( ingredients[i].getItemId() == SCHLITZ.getItemId() || ingredients[i].getItemId() == WILLER.getItemId() )
 				ingredients[i] = getBetterIngredient( SCHLITZ, WILLER, availableIngredients );
-			else if ( ingredients[i].getItemID() == KETCHUP.getItemID() || ingredients[i].getItemID() == CATSUP.getItemID() )
+			else if ( ingredients[i].getItemId() == KETCHUP.getItemId() || ingredients[i].getItemId() == CATSUP.getItemId() )
 				ingredients[i] = getBetterIngredient( KETCHUP, CATSUP, availableIngredients );
 		}
 
 		return ingredients;
 	}
 
-	public static boolean hasAnyIngredient( int itemID )
+	public static boolean hasAnyIngredient( int itemId )
 	{
 		boolean hasOneIngredient = false;
-		AdventureResult [] ingredients = concoctions.get( itemID ).getIngredients();
+		AdventureResult [] ingredients = concoctions.get( itemId ).getIngredients();
 
 		if ( ingredients.length == 0 )
 			return true;
@@ -749,8 +749,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{
 			hasOneIngredient |= inventory.contains( ingredients[i] );
 			hasOneIngredient |= closet.contains( ingredients[i] );
-			hasOneIngredient |= ingredients.length > 1 && hasAnyIngredient( ingredients[i].getItemID() );
-			hasOneIngredient |= NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemID ) );
+			hasOneIngredient |= ingredients.length > 1 && hasAnyIngredient( ingredients[i].getItemId() );
+			hasOneIngredient |= NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemId ) );
 		}
 
 		return hasOneIngredient;
@@ -807,11 +807,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		public void addIngredient( AdventureResult ingredient )
 		{
-			SortedListModel uses = knownUses.get( ingredient.getItemID() );
+			SortedListModel uses = knownUses.get( ingredient.getItemId() );
 			if ( uses == null )
 			{
 				uses = new SortedListModel();
-				knownUses.set( ingredient.getItemID(), uses );
+				knownUses.set( ingredient.getItemId(), uses );
 			}
 
 			uses.add( concoction );
@@ -830,7 +830,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			for ( int i = 0; i < ingredientArray.length; ++i )
 			{
 				AdventureResult ingredient = ingredientArray[i];
-				if ( ingredient == null || ingredient.getItemID() == -1 || ingredient.getName() == null )
+				if ( ingredient == null || ingredient.getItemId() == -1 || ingredient.getName() == null )
 					return true;
 			}
 
@@ -876,7 +876,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// how many of each ingredient is possible now.
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
-				concoctions.get( ingredientArray[i].getItemID() ).calculate( availableIngredients );
+				concoctions.get( ingredientArray[i].getItemId() ).calculate( availableIngredients );
 
 			this.mark( 0, 1 );
 
@@ -889,14 +889,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 				// If there's only one ingredient, then the
 				// quantity depends entirely on it.
 
-				this.creatable = concoctions.get( ingredientArray[0].getItemID() ).initial;
+				this.creatable = concoctions.get( ingredientArray[0].getItemId() ).initial;
 				this.total = this.initial + this.creatable;
 			}
 			else
 			{
 				this.total = MallPurchaseRequest.MAX_QUANTITY;
 				for ( int i = 0; i < ingredientArray.length; ++i )
-					this.total = Math.min( this.total, concoctions.get( ingredientArray[i].getItemID() ).quantity() );
+					this.total = Math.min( this.total, concoctions.get( ingredientArray[i].getItemId() ).quantity() );
 
 				if ( ADVENTURE_USAGE[ mixingMethod ] != 0 )
 					this.total = Math.min( this.total, adventureLimit.quantity() );
@@ -947,7 +947,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// of the linear inequality.
 
 			for ( int i = 0; quantity > 0 && i < ingredientArray.length; ++i )
-				quantity = Math.min( quantity, concoctions.get( ingredientArray[i].getItemID() ).quantity() );
+				quantity = Math.min( quantity, concoctions.get( ingredientArray[i].getItemId() ).quantity() );
 
 			// Adventures are also considered an ingredient; if
 			// no adventures are necessary, the multiplier should
@@ -995,15 +995,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 				instanceCount = ingredientArray[i].getCount();
 
 				for ( int j = 0; j < i; ++j )
-					shouldMark &= ingredientArray[i].getItemID() != ingredientArray[j].getItemID();
+					shouldMark &= ingredientArray[i].getItemId() != ingredientArray[j].getItemId();
 
 				if ( shouldMark )
 				{
 					for ( int j = i + 1; j < ingredientArray.length; ++j )
-						if ( ingredientArray[i].getItemID() == ingredientArray[j].getItemID() )
+						if ( ingredientArray[i].getItemId() == ingredientArray[j].getItemId() )
 							instanceCount += ingredientArray[j].getCount();
 
-					concoctions.get( ingredientArray[i].getItemID() ).mark(
+					concoctions.get( ingredientArray[i].getItemId() ).mark(
 							(this.modifier + this.initial) * instanceCount, this.multiplier * instanceCount );
 				}
 			}
@@ -1034,7 +1034,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.multiplier = 0;
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
-				concoctions.get( ingredientArray[i].getItemID() ).unmark();
+				concoctions.get( ingredientArray[i].getItemId() ).unmark();
 
 			if ( ADVENTURE_USAGE[ mixingMethod ] != 0 )
 				adventureLimit.unmark();
@@ -1055,7 +1055,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			int runningTotal = 0;
 			for ( int i = 0; i < ingredientArray.length; ++i )
-				runningTotal += concoctions.get( ingredientArray[i].getItemID() ).getMeatPasteNeeded( quantityNeeded );
+				runningTotal += concoctions.get( ingredientArray[i].getItemId() ).getMeatPasteNeeded( quantityNeeded );
 
 			runningTotal += Math.max( 0, quantityNeeded - this.initial );
 			return runningTotal;

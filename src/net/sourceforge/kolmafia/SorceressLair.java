@@ -299,7 +299,7 @@ public abstract class SorceressLair extends StaticEntity
 			{
 				UseSkillRequest.untinkerCloverWeapon( cloverWeapon );
 
-				ItemCreationRequest irequest = ItemCreationRequest.getInstance( STONE_BANJO.getItemID() );
+				ItemCreationRequest irequest = ItemCreationRequest.getInstance( STONE_BANJO.getItemId() );
 				irequest.setQuantityNeeded( 1 );
 				irequest.run();
 			}
@@ -316,7 +316,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( isItemAvailable( BALLOON ) )
 		{
 			AdventureDatabase.retrieveItem( BALLOON );
-			QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + BALLOON.getItemID() ).run();
+			QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + BALLOON.getItemId() ).run();
 		}
 
 		// Now, iterate through each of the completion steps;
@@ -377,9 +377,9 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( untinkerCloverWeapon )
 		{
-			(new UntinkerRequest( STONE_BANJO.getItemID() )).run();
+			(new UntinkerRequest( STONE_BANJO.getItemId() )).run();
 
-			ItemCreationRequest irequest = ItemCreationRequest.getInstance( cloverWeapon.getItemID() );
+			ItemCreationRequest irequest = ItemCreationRequest.getInstance( cloverWeapon.getItemId() );
 			irequest.setQuantityNeeded( 1 );
 			irequest.run();
 		}
@@ -492,7 +492,7 @@ public abstract class SorceressLair extends StaticEntity
 			// clover you had, so process it.
 
 			KoLmafia.updateDisplay( "Inserting skeleton key..." );
-			QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SKELETON.getItemID() ).run();
+			QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SKELETON.getItemId() ).run();
 
 			if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 			{
@@ -611,7 +611,7 @@ public abstract class SorceressLair extends StaticEntity
 		DEFAULT_SHELL.executeLine( "familiar star starfish" );
 
 		KoLmafia.updateDisplay( "Inserting Richard's star key..." );
-		QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + RICHARD.getItemID() ).run();
+		QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + RICHARD.getItemId() ).run();
 
 		if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 		{
@@ -664,7 +664,7 @@ public abstract class SorceressLair extends StaticEntity
 		// the Squeezings of Woe.
 
 		KoLmafia.updateDisplay( "Inserting digital key..." );
-		QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + DIGITAL.getItemID() ).run();
+		QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + DIGITAL.getItemId() ).run();
 
 		if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 			QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sequence&seq1=up&seq2=up&seq3=down&seq4=down&seq5=left&seq6=right&seq7=left&seq8=right&seq9=b&seq10=a" ).run();
@@ -693,7 +693,7 @@ public abstract class SorceressLair extends StaticEntity
 			else
 			{
 				KoLmafia.updateDisplay( "Inserting Boris's key..." );
-				QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + BORIS.getItemID() ).run();
+				QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + BORIS.getItemId() ).run();
 
 				if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 					QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sorcriddle1&answer=fish" ).run();
@@ -709,7 +709,7 @@ public abstract class SorceressLair extends StaticEntity
 			else
 			{
 				KoLmafia.updateDisplay( "Inserting Jarlsberg's key..." );
-				QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + JARLSBERG.getItemID() ).run();
+				QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + JARLSBERG.getItemId() ).run();
 
 				if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 					QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sorcriddle2&answer=phish" ).run();
@@ -725,7 +725,7 @@ public abstract class SorceressLair extends StaticEntity
 			else
 			{
 				KoLmafia.updateDisplay( "Inserting Sneaky Pete's key..." );
-				QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SNEAKY_PETE.getItemID() ).run();
+				QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SNEAKY_PETE.getItemId() ).run();
 
 				if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 					QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sorcriddle3&answer=fsh" ).run();
@@ -929,18 +929,18 @@ public abstract class SorceressLair extends StaticEntity
 		else
 			currentLevel += 4;
 
-		int requiredItemID = -1;
+		int requiredItemId = -1;
 		for ( int towerLevel = currentLevel; KoLCharacter.getAdventuresLeft() > 0 && KoLmafia.permitsContinue() && towerLevel <= 6; ++towerLevel )
 		{
-			requiredItemID = fightGuardian( towerLevel );
+			requiredItemId = fightGuardian( towerLevel );
 			CharpaneRequest.getInstance().run();
 
 			getClient().runBetweenBattleChecks( false );
 
-			if ( requiredItemID != -1 )
+			if ( requiredItemId != -1 )
 			{
 				resetAutoAttack( previousAutoAttack );
-				return requiredItemID;
+				return requiredItemId;
 			}
 		}
 
@@ -1090,7 +1090,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( inventory.contains( guardianItem ) )
 		{
 			QUEST_HANDLER.addFormField( "action", "useitem" );
-			QUEST_HANDLER.addFormField( "whichitem", String.valueOf( guardianItem.getItemID() ) );
+			QUEST_HANDLER.addFormField( "whichitem", String.valueOf( guardianItem.getItemId() ) );
 			QUEST_HANDLER.run();
 
 			return -1;
@@ -1104,7 +1104,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( AdventureDatabase.retrieveItem( guardianItem ) )
 			return fightGuardian( towerLevel );
 
-		return guardianItem.getItemID();
+		return guardianItem.getItemId();
 	}
 
 	private static AdventureResult getGuardianItem( String fightText )

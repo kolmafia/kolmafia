@@ -70,16 +70,16 @@ public class ChatRequest extends KoLRequest
 	public ChatRequest( String contact, String message )
 	{
 		super( "submitnewchat.php" );
-		addFormField( "playerid", String.valueOf( KoLCharacter.getUserID() ) );
+		addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
 		addFormField( "pwd" );
 
-		String contactID = KoLmafia.getPlayerID( contact );
+		String contactId = KoLmafia.getPlayerId( contact );
 		String actualMessage = null;
 
 		if ( contact == null || (message != null && message.equals( "/exit" )) )
 			actualMessage = message;
 		else if ( message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) )
-			actualMessage = message + " " + contactID;
+			actualMessage = message + " " + contactId;
 		else if ( message.startsWith( "/w " ) || message.startsWith( "/whisper" ) || message.startsWith( "/r" ) || message.startsWith( "/v" ) || message.startsWith( "/conv" ) )
 			actualMessage = message;
 		else
@@ -98,7 +98,7 @@ public class ChatRequest extends KoLRequest
 			else if ( contact.startsWith( "/" ) && message.startsWith( "/" ) )
 				actualMessage = message;
 			else
-				actualMessage = "/msg " + contactID.replaceAll( " ", "_" ) + " " + message;
+				actualMessage = "/msg " + contactId.replaceAll( " ", "_" ) + " " + message;
 		}
 
 		addFormField( "graf", actualMessage );

@@ -111,11 +111,11 @@ public class MoneyMakingGameRequest extends KoLRequest
 
 		for ( int i = 0; i < betHistoryArray.length; ++i )
 		{
-			if ( !playerMap.containsKey( betHistoryArray[i].playerID ) )
-				playerMap.put( betHistoryArray[i].playerID, new Integer(0) );
+			if ( !playerMap.containsKey( betHistoryArray[i].playerId ) )
+				playerMap.put( betHistoryArray[i].playerId, new Integer(0) );
 
-			Integer currentTally = (Integer) playerMap.get( betHistoryArray[i].playerID );
-			playerMap.put( betHistoryArray[i].playerID, new Integer( currentTally.intValue() + betHistoryArray[i].betAmount ) );
+			Integer currentTally = (Integer) playerMap.get( betHistoryArray[i].playerId );
+			playerMap.put( betHistoryArray[i].playerId, new Integer( currentTally.intValue() + betHistoryArray[i].betAmount ) );
 		}
 
 		Object [] keys = playerMap.keySet().toArray();
@@ -131,12 +131,12 @@ public class MoneyMakingGameRequest extends KoLRequest
 
 	private class MoneyMakingGameSummary implements Comparable
 	{
-		private String playerID;
+		private String playerId;
 		private Integer winAmount;
 
-		public MoneyMakingGameSummary( String playerID, Integer winAmount )
+		public MoneyMakingGameSummary( String playerId, Integer winAmount )
 		{
-			this.playerID = playerID;
+			this.playerId = playerId;
 			this.winAmount = winAmount;
 		}
 
@@ -147,7 +147,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 		public String toString()
 		{
 			return "<html><font color=" + (winAmount.intValue() > 0 ? "green" : "red") +
-				">" + StaticEntity.getClient().getPlayerName( playerID ) + ": " + (winAmount.intValue() > 0 ? "+" : "") +
+				">" + StaticEntity.getClient().getPlayerName( playerId ) + ": " + (winAmount.intValue() > 0 ? "+" : "") +
 				COMMA_FORMAT.format( winAmount.intValue() ) + "</font></html>";
 		}
 	}
@@ -156,7 +156,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 	{
 		private Date timestamp;
 		private int betAmount;
-		private String playerID;
+		private String playerId;
 
 		private boolean isPlacedBet;
 		private boolean isPositive;
@@ -205,8 +205,8 @@ public class MoneyMakingGameRequest extends KoLRequest
 				Matcher playerMatcher = PLAYER_PATTERN.matcher( results.group() );
 				if ( playerMatcher.find() )
 				{
-					playerID = playerMatcher.group(1);
-					StaticEntity.getClient().registerPlayer( playerMatcher.group(2), playerID );
+					playerId = playerMatcher.group(1);
+					StaticEntity.getClient().registerPlayer( playerMatcher.group(2), playerId );
 				}
 			}
 		}

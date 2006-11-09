@@ -91,7 +91,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int TOASTER = 637;
 	private static final int GIANT_CASTLE_MAP = 667;
 	private static final int YETI_PROTEST_SIGN = 775;
-	private static final int ANTIDOTE = 829;
+	private static final int ANTIdOTE = 829;
 	private static final int TEARS = 869;
 	private static final int ROLLING_PIN = 873;
 	private static final int UNROLLING_PIN = 874;
@@ -177,7 +177,7 @@ public class ConsumeItemRequest extends KoLRequest
 		super( location, true );
 
 		addFormField( "pwd" );
-		addFormField( "whichitem", String.valueOf( item.getItemID() ) );
+		addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 
 		switch ( consumptionType )
 		{
@@ -186,7 +186,7 @@ public class ConsumeItemRequest extends KoLRequest
 			float hpRestored = 0.0f;
 
 			for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
-				if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemID() == item.getItemID() )
+				if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == item.getItemId() )
 					hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
 
 			if ( hpRestored != 0.0f )
@@ -207,7 +207,7 @@ public class ConsumeItemRequest extends KoLRequest
 			float mpRestored = 0.0f;
 
 			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
-				if ( MPRestoreItemList.CONFIGURES[i].getItem() != null && MPRestoreItemList.CONFIGURES[i].getItem().getItemID() == item.getItemID() )
+				if ( MPRestoreItemList.CONFIGURES[i].getItem() != null && MPRestoreItemList.CONFIGURES[i].getItem().getItemId() == item.getItemId() )
 					mpRestored = (float) MPRestoreItemList.CONFIGURES[i].getManaPerUse();
 
 			if ( mpRestored != 0.0f )
@@ -255,7 +255,7 @@ public class ConsumeItemRequest extends KoLRequest
 	{
 		lastUpdate = "";
 
-		if ( itemUsed.getItemID() == SorceressLair.PUZZLE_PIECE.getItemID() )
+		if ( itemUsed.getItemId() == SorceressLair.PUZZLE_PIECE.getItemId() )
 		{
 			SorceressLair.completeHedgeMaze();
 			return;
@@ -264,7 +264,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( itemUsed.getCount() < 1 )
 			return;
 
-		int price = TradeableItemDatabase.getPriceByID( itemUsed.getItemID() );
+		int price = TradeableItemDatabase.getPriceById( itemUsed.getItemId() );
 		if ( price != 0 && !AdventureDatabase.retrieveItem( itemUsed ) )
 			return;
 
@@ -316,7 +316,7 @@ public class ConsumeItemRequest extends KoLRequest
 	{
 		lastUpdate = "";
 
-		if ( itemUsed.getItemID() == UneffectRequest.REMEDY.getItemID() )
+		if ( itemUsed.getItemId() == UneffectRequest.REMEDY.getItemId() )
 		{
 			DEFAULT_SHELL.executeLine( "uneffect beaten up" );
 			return true;
@@ -330,7 +330,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( consumptionType == CONSUME_DRINK && StaticEntity.getClient() instanceof KoLmafiaGUI )
 		{
-			if ( !allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemUsed.getItemID() ) ) )
+			if ( !allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemUsed.getItemId() ) ) )
 				return false;
 		}
 
@@ -374,7 +374,7 @@ public class ConsumeItemRequest extends KoLRequest
 		// In the event that the item is not used, then proceed to
 		// undo the consumption.
 
-		int consumptionType = TradeableItemDatabase.getConsumptionType( lastItemUsed.getItemID() );
+		int consumptionType = TradeableItemDatabase.getConsumptionType( lastItemUsed.getItemId() );
 		StaticEntity.getClient().processResult( lastItemUsed.getNegation() );
 
 		// Check for familiar growth - if a familiar is added,
@@ -391,7 +391,7 @@ public class ConsumeItemRequest extends KoLRequest
 			}
 
 			// Pop up a window showing the result
-			KoLCharacter.addFamiliar( FamiliarsDatabase.growFamiliarLarva( lastItemUsed.getItemID() ) );
+			KoLCharacter.addFamiliar( FamiliarsDatabase.growFamiliarLarva( lastItemUsed.getItemId() ) );
 
 			showItemUsage( showHTML, responseText, "Your new familiar", true );
 			return;
@@ -439,7 +439,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		// Perform item-specific processing
 
-		switch ( lastItemUsed.getItemID() )
+		switch ( lastItemUsed.getItemId() )
 		{
 		// Items which do not get used up, no matter what.
 
@@ -614,7 +614,7 @@ public class ConsumeItemRequest extends KoLRequest
 			activeEffects.remove( KoLAdventure.BEATEN_UP );
 			return;
 
-		case ANTIDOTE:
+		case ANTIdOTE:
 
 			activeEffects.remove( POISON );
 			return;
@@ -1021,7 +1021,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( !itemMatcher.find() )
 			return null;
 
-		int itemID = StaticEntity.parseInt( itemMatcher.group(1) );
+		int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
 		int itemCount = 1;
 
 		if ( urlString.indexOf( "multiuse.php" ) != -1 || urlString.indexOf( "skills.php" ) != -1 )
@@ -1032,7 +1032,7 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 
 
-		return new AdventureResult( itemID, itemCount );
+		return new AdventureResult( itemId, itemCount );
 	}
 
 	private static AdventureResult lastItemUsed = null;
@@ -1046,7 +1046,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( lastItemUsed == null )
 			return false;
 
-		int consumptionType = TradeableItemDatabase.getConsumptionType( lastItemUsed.getItemID() );
+		int consumptionType = TradeableItemDatabase.getConsumptionType( lastItemUsed.getItemId() );
 		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "eat " :
 			(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "drink " : "use ";
 

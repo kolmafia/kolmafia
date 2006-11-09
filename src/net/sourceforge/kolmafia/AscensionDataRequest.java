@@ -53,19 +53,19 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	private static final Pattern FIELD_PATTERN = Pattern.compile( "</tr><td class=small.*?</tr>" );
 
 	private String playerName;
-	private String playerID;
+	private String playerId;
 	private List ascensionData;
 	private int hardcoreCount, softcoreCount;
 
-	public AscensionDataRequest( String playerName, String playerID )
+	public AscensionDataRequest( String playerName, String playerId )
 	{
 		super( "ascensionhistory.php" );
 
 		addFormField( "back", "self" );
-		addFormField( "who", KoLmafia.getPlayerID( playerName ) );
+		addFormField( "who", KoLmafia.getPlayerId( playerName ) );
 
 		this.playerName = playerName;
-		this.playerID = playerID;
+		this.playerId = playerId;
 
 		this.ascensionData = new ArrayList();
 	}
@@ -77,10 +77,10 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	public String toString()
 	{
 		StringBuffer stringForm = new StringBuffer();
-		stringForm.append( "<tr><td><a href=\"ascensions/" + this.playerID + ".htm\"><b>" );
+		stringForm.append( "<tr><td><a href=\"ascensions/" + this.playerId + ".htm\"><b>" );
 
-		String name = KoLmafia.getPlayerName( this.playerID );
-		stringForm.append( name.equals( this.playerID ) ? this.playerName : name );
+		String name = KoLmafia.getPlayerName( this.playerId );
+		stringForm.append( name.equals( this.playerId ) ? this.playerName : name );
 
 		stringForm.append( "</b></a></td>" );
 		stringForm.append( "<td align=right>" );
@@ -139,7 +139,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 				if ( shouldReplace )
 				{
-					File checkFile = new File( ascensionFolders[j], "ascensions/" + playerID + ".htm");
+					File checkFile = new File( ascensionFolders[j], "ascensions/" + playerId + ".htm");
 					if ( checkFile.exists() )
 					{
 						backupFile = checkFile;
@@ -219,7 +219,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 				String [] columnsOld = extractColumns( oldDataMatcher.group() );
 				if ( !newDataAvailable )
 				{
-					lastField = new AscensionDataField( playerName, playerID, columnsOld );
+					lastField = new AscensionDataField( playerName, playerId, columnsOld );
 					ascensionData.add( lastField );
 
 					if ( lastField.isSoftcore )
@@ -240,7 +240,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 						columnsNew = extractColumns( fieldMatcher.group() );
 					}
 
-					lastField = new AscensionDataField( playerName, playerID, columnsOld );
+					lastField = new AscensionDataField( playerName, playerId, columnsOld );
 					ascensionData.add( lastField );
 
 					if ( lastField.isSoftcore )
@@ -250,7 +250,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 				}
 				else
 				{
-					lastField = new AscensionDataField( playerName, playerID, columnsOld );
+					lastField = new AscensionDataField( playerName, playerId, columnsOld );
 					ascensionData.add( lastField );
 
 					if ( lastField.isSoftcore )
@@ -288,7 +288,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 			if ( inconsistency )
 			{
-				lastField = new AscensionDataField( playerName, playerID, columnsNew );
+				lastField = new AscensionDataField( playerName, playerId, columnsNew );
 				ascensionData.add( lastField );
 
 				if ( lastField.isSoftcore )
@@ -305,7 +305,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			lastFindIndex = fieldMatcher.end() - 5;
 
 			String [] columns = extractColumns( fieldMatcher.group() );
-			lastField = new AscensionDataField( playerName, playerID, columns );
+			lastField = new AscensionDataField( playerName, playerId, columns );
 			ascensionData.add( lastField );
 
 			if ( lastField.isSoftcore )
@@ -321,9 +321,9 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	 * data already known.
 	 */
 
-	public static AscensionDataRequest getInstance( String playerName, String playerID, String responseText )
+	public static AscensionDataRequest getInstance( String playerName, String playerId, String responseText )
 	{
-		AscensionDataRequest instance = new AscensionDataRequest( playerName, playerID );
+		AscensionDataRequest instance = new AscensionDataRequest( playerName, playerId );
 
 		instance.responseText = responseText;
 		instance.refreshFields();
@@ -335,8 +335,8 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	{	return playerName;
 	}
 
-	public String getPlayerID()
-	{	return playerID;
+	public String getPlayerId()
+	{	return playerId;
 	}
 
 	public void initialize()
@@ -356,29 +356,29 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	public static class AscensionDataField implements Comparable
 	{
 		private String playerName;
-		private String playerID;
+		private String playerId;
 		private StringBuffer stringForm;
 
 		private String sign;
 		private Date timestamp;
 		private boolean isSoftcore;
-		private int level, classID, pathID;
+		private int level, classId, pathId;
 		private int dayCount, turnCount;
 
-		public AscensionDataField( String playerName, String playerID, String rowData )
-		{	setData( playerName, playerID, extractColumns( rowData ) );
+		public AscensionDataField( String playerName, String playerId, String rowData )
+		{	setData( playerName, playerId, extractColumns( rowData ) );
 		}
 
-		public AscensionDataField( String playerName, String playerID, String [] columns )
-		{	setData( playerName, playerID, columns );
+		public AscensionDataField( String playerName, String playerId, String [] columns )
+		{	setData( playerName, playerId, columns );
 		}
 
-		private void setData( String playerName, String playerID, String [] columns )
+		private void setData( String playerName, String playerId, String [] columns )
 		{
-			this.playerID = playerID;
-			this.playerName = KoLmafia.getPlayerName( playerID );
+			this.playerId = playerId;
+			this.playerName = KoLmafia.getPlayerName( playerId );
 
-			if ( this.playerName.equals( this.playerID ) )
+			if ( this.playerName.equals( this.playerId ) )
 				this.playerName = playerName;
 
 			// The level at which the ascension took place is found
@@ -408,7 +408,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			stringForm.append( this.playerName );
 			stringForm.append( "</b></a>&nbsp;(" );
 
-			switch ( this.classID )
+			switch ( this.classId )
 			{
 			case AscensionSnapshotTable.SEAL_CLUBBER:
 				stringForm.append( "SC" );
@@ -444,7 +444,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 		private void setHistoricColumns( String [] columns )
 		{
-			this.classID = columns[3].startsWith( "SC" ) ? AscensionSnapshotTable.SEAL_CLUBBER :
+			this.classId = columns[3].startsWith( "SC" ) ? AscensionSnapshotTable.SEAL_CLUBBER :
 				columns[3].startsWith( "T" ) ? AscensionSnapshotTable.TURTLE_TAMER :
 				columns[3].startsWith( "P" ) ? AscensionSnapshotTable.PASTAMANCER :
 				columns[3].startsWith( "S" ) ? AscensionSnapshotTable.SAUCEROR :
@@ -453,7 +453,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			String [] path = columns[7].split( "," );
 
 			this.isSoftcore = path[0].equals( "Normal" );
-			this.pathID = path[1].equals( "No Path" ) ? AscensionSnapshotTable.NOPATH :
+			this.pathId = path[1].equals( "No Path" ) ? AscensionSnapshotTable.NOPATH :
 				path[1].equals( "Teetotaler" ) ? AscensionSnapshotTable.TEETOTALER :
 				path[1].equals( "Boozetafarian" ) ? AscensionSnapshotTable.BOOZETAFARIAN : AscensionSnapshotTable.OXYGENARIAN;
 		}
@@ -462,7 +462,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		{
 			try
 			{
-				this.classID = columns[3].indexOf( "seal" ) != -1 ? AscensionSnapshotTable.SEAL_CLUBBER :
+				this.classId = columns[3].indexOf( "seal" ) != -1 ? AscensionSnapshotTable.SEAL_CLUBBER :
 					columns[3].indexOf( "turtle" ) != -1 ? AscensionSnapshotTable.TURTLE_TAMER :
 					columns[3].indexOf( "pasta" ) != -1 ? AscensionSnapshotTable.PASTAMANCER :
 					columns[3].indexOf( "sauce" ) != -1 ? AscensionSnapshotTable.SAUCEROR :
@@ -470,7 +470,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 					AscensionSnapshotTable.ACCORDION_THIEF;
 
 				this.isSoftcore = columns[8].indexOf( "hardcore" ) == -1;
-				this.pathID = columns[8].indexOf( "bowl" ) != -1 ? AscensionSnapshotTable.TEETOTALER :
+				this.pathId = columns[8].indexOf( "bowl" ) != -1 ? AscensionSnapshotTable.TEETOTALER :
 					columns[8].indexOf( "martini" ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
 					columns[8].indexOf( "oxy" ) != -1 ? AscensionSnapshotTable.OXYGENARIAN : AscensionSnapshotTable.NOPATH;
 			}
@@ -501,20 +501,20 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		}
 
 		public boolean equals( Object o )
-		{	return o != null && o instanceof AscensionDataField && playerID.equals( ((AscensionDataField)o).playerID );
+		{	return o != null && o instanceof AscensionDataField && playerId.equals( ((AscensionDataField)o).playerId );
 		}
 
 		public boolean matchesFilter( boolean isSoftcore, int pathFilter, int classFilter, int maxAge )
 		{
-			return isSoftcore == this.isSoftcore && (pathFilter == AscensionSnapshotTable.NO_FILTER || pathFilter == this.pathID) &&
-				(classFilter == AscensionSnapshotTable.NO_FILTER || classFilter == this.classID) &&
+			return isSoftcore == this.isSoftcore && (pathFilter == AscensionSnapshotTable.NO_FILTER || pathFilter == this.pathId) &&
+				(classFilter == AscensionSnapshotTable.NO_FILTER || classFilter == this.classId) &&
 				(maxAge == 0 || maxAge >= getAge());
 		}
 
 		public boolean matchesFilter( boolean isSoftcore, int pathFilter, int classFilter )
 		{
-			return isSoftcore == this.isSoftcore && (pathFilter == AscensionSnapshotTable.NO_FILTER || pathFilter == this.pathID) &&
-				(classFilter == AscensionSnapshotTable.NO_FILTER || classFilter == this.classID);
+			return isSoftcore == this.isSoftcore && (pathFilter == AscensionSnapshotTable.NO_FILTER || pathFilter == this.pathId) &&
+				(classFilter == AscensionSnapshotTable.NO_FILTER || classFilter == this.classId);
 		}
 
 		public int compareTo( Object o )

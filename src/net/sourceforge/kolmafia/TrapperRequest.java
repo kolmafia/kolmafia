@@ -51,23 +51,23 @@ public class TrapperRequest extends KoLRequest
 	 * Constructs a new <code>TrapperRequest</code>.
 	 *
 	 * @param	client	Theto which this request will report errors/results
-	 * @param	itemID	The item which will be traded at the trapper
+	 * @param	itemId	The item which will be traded at the trapper
 	 * @param	quantity	How many items to trade
 	 */
 
-	public TrapperRequest( int itemID, int quantity )
+	public TrapperRequest( int itemId, int quantity )
 	{
 		super( "trapper.php" );
 
 		this.quantity = quantity;
 		addFormField( "action", "Yep." );
 		addFormField( "pwd" );
-		addFormField( "whichitem", String.valueOf( itemID ) );
+		addFormField( "whichitem", String.valueOf( itemId ) );
 		addFormField( "qty", String.valueOf( quantity ) );
 	}
 
-	public TrapperRequest( int itemID )
-	{	this( itemID, YETI_FUR.getCount( inventory ) );
+	public TrapperRequest( int itemId )
+	{	this( itemId, YETI_FUR.getCount( inventory ) );
 	}
 
 	/**

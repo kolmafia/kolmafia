@@ -247,7 +247,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			document.println( "<botdata>" );
 			document.println( "<name>" + KoLCharacter.getUserName() + "</name>" );
-			document.println( "<playerid>" + KoLCharacter.getUserID() + "</playerid>" );
+			document.println( "<playerid>" + KoLCharacter.getUserId() + "</playerid>" );
 
 			document.println( "<free-list>" );
 		}
@@ -275,7 +275,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			{
 				document.println( "\t<buffdata>" );
 				document.println( "\t\t<name>" + casters[i].getBuffName() + "</name>" );
-				document.println( "\t\t<skillid>" + casters[i].getBuffID() + "</skillid>" );
+				document.println( "\t\t<skillid>" + casters[i].getBuffId() + "</skillid>" );
 				document.println( "\t\t<price>" + COMMA_FORMAT.format( casters[i].getPrice() ) + "</price>" );
 				document.println( "\t\t<turns>" + COMMA_FORMAT.format( casters[i].getTurnCount() ) + "</turns>" );
 				document.println( "\t\t<philanthropic>" + casters[i].philanthropic + "</philanthropic>" );
@@ -283,7 +283,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			}
 			else
 			{
-				int index = casters[i].getBuffID() / 2000;
+				int index = casters[i].getBuffId() / 2000;
 				if ( !nameMap[ index ].containsKey( casters[i].getBuffName() ) )
 					nameMap[ index ].put( casters[i].getBuffName(), new ArrayList() );
 
@@ -339,7 +339,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 					document.println( "\t\t\t<buffdata>" );
 
 					document.println( "\t\t\t\t<name>" + casters[i].getBuffName() + "</name>" );
-					document.println( "\t\t\t\t<skillid>" + casters[i].getBuffID() + "</skillid>" );
+					document.println( "\t\t\t\t<skillid>" + casters[i].getBuffId() + "</skillid>" );
 					document.println( "\t\t\t\t<price>" + COMMA_FORMAT.format( casters[i].getPrice() ) + "</price>" );
 					document.println( "\t\t\t\t<turns>" + COMMA_FORMAT.format( casters[i].getTurnCount() ) + "</turns>" );
 					document.println( "\t\t\t\t<philanthropic>" + casters[i].philanthropic + "</philanthropic>" );
@@ -774,7 +774,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	public static class BuffBotCaster implements Comparable
 	{
 		private int price;
-		private int buffID;
+		private int buffId;
 		private String buffName;
 		private int castCount;
 		private int turnCount;
@@ -788,12 +788,12 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		public BuffBotCaster( String buffName, int price, int castCount, boolean restricted, boolean philanthropic )
 		{
-			this.buffID = ClassSkillsDatabase.getSkillID( buffName );
+			this.buffId = ClassSkillsDatabase.getSkillId( buffName );
 			this.buffName = buffName;
 			this.price = price;
 			this.castCount = castCount;
 
-			int multiplier = buffID == 3 ? 40 : buffID > 6000 && buffID < 7000 ? 15 : 10;
+			int multiplier = buffId == 3 ? 40 : buffId > 6000 && buffId < 7000 ? 15 : 10;
 			if ( KoLCharacter.hasItem( UseSkillRequest.WIZARD_HAT ) )
 				multiplier += 5;
 
@@ -823,11 +823,11 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				stringForm.append( " (philanthropic)" );
 
 			this.stringForm = stringForm.toString();
-			this.settingString = buffID + "\t" + price + "\t" + castCount + "\t" + restricted + "\t" + philanthropic;
+			this.settingString = buffId + "\t" + price + "\t" + castCount + "\t" + restricted + "\t" + philanthropic;
 		}
 
 		public boolean equals( Object o )
-		{	return o != null && o instanceof BuffBotCaster && buffID == ((BuffBotCaster)o).buffID;
+		{	return o != null && o instanceof BuffBotCaster && buffId == ((BuffBotCaster)o).buffId;
 		}
 
 		public int compareTo( Object o )
@@ -879,8 +879,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			}
 		}
 
-		public int getBuffID()
-		{	return buffID;
+		public int getBuffId()
+		{	return buffId;
 		}
 
 		public String getBuffName()

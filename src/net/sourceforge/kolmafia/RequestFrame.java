@@ -329,11 +329,17 @@ public class RequestFrame extends KoLFrame
 	protected class DisplayRequestThread extends Thread
 	{
 		private KoLRequest request;
+		private String responseText;
 
 		public DisplayRequestThread( KoLRequest request )
 		{
 			super( request );
 			this.request = request;
+
+			currentLocation = request.getURLString();
+			this.responseText = request.responseText;
+
+			StaticEntity.getClient().setCurrentRequest( request );
 		}
 
 		public void run()
@@ -341,15 +347,12 @@ public class RequestFrame extends KoLFrame
 			if ( mainBuffer == null || request == null )
 				return;
 
-			currentLocation = request.getURLString();
 			mainBuffer.clearBuffer();
-
 			setupRequest();
 
-			if ( request != null && request.responseText != null && request.responseText.length() != 0 )
+			if ( request != null && responseText != null && responseText.length() != 0 )
 			{
-				StaticEntity.getClient().setCurrentRequest( request );
-				displayRequest( request.responseText );
+				displayRequest( responseText );
 			}
 			else
 			{
@@ -370,7 +373,13 @@ public class RequestFrame extends KoLFrame
 			if ( request == null )
 				return;
 
-			if ( request.responseText == null || request.responseText.length() == 0 )
+			if ( request != StaticEntity.getClient().getCurrentRequest() )
+			{
+				request = StaticEntity.getClient().getCurrentRequest();
+				responseText = null;
+			}
+
+			if ( responseText == null || responseText.length() == 0 )
 			{
 				// New prevention mechanism: tell the requests that there
 				// will be no synchronization.
@@ -379,6 +388,7 @@ public class RequestFrame extends KoLFrame
 				StaticEntity.setProperty( "showAllRequests", "false" );
 
 				request.run();
+				responseText = request.responseText;
 				StaticEntity.setProperty( "showAllRequests", original );
 			}
 		}
@@ -514,7 +524,7 @@ public class RequestFrame extends KoLFrame
 		public void run()
 		{
 			CharpaneRequest.getInstance().run();
-			refreshStatus( RequestEditorKit.getDisplayHTML( "charpane.php", CharpaneRequest.getInstance().responseText ) );
+			refreshStatus( RequestEditorKit.getDisplayHTML( "", CharpaneRequest.getInstance().responseText ) );
 		}
 
 		public void refreshStatus( String text )

@@ -42,7 +42,7 @@ public class StoreManageRequest extends KoLRequest
 	private static final int PRICE_MANAGEMENT = 2;
 	private static final int VIEW_STORE_LOG = 3;
 
-	private int takenItemID;
+	private int takenItemId;
 	private int requestType;
 
 	public StoreManageRequest()
@@ -57,28 +57,28 @@ public class StoreManageRequest extends KoLRequest
 		this.requestType = VIEW_STORE_LOG;
 	}
 
-	public StoreManageRequest( int itemID )
+	public StoreManageRequest( int itemId )
 	{
 		super( "managestore.php" );
 		addFormField( "action", "takeall" );
-		addFormField( "whichitem", String.valueOf( itemID ) );
+		addFormField( "whichitem", String.valueOf( itemId ) );
 
 		this.requestType = ITEM_REMOVAL;
-		this.takenItemID = itemID;
+		this.takenItemId = itemId;
 	}
 
-	public StoreManageRequest( int [] itemID, int [] prices, int [] limits )
+	public StoreManageRequest( int [] itemId, int [] prices, int [] limits )
 	{
 		super( "manageprices.php" );
 		addFormField( "action", "update" );
 		addFormField( "pwd" );
 
 		this.requestType = PRICE_MANAGEMENT;
-		for ( int i = 0; i < itemID.length; ++i )
+		for ( int i = 0; i < itemId.length; ++i )
 		{
-			addFormField( "price" + itemID[i], prices[i] == 0 ? "" :
-				String.valueOf( Math.max( prices[i], Math.max( TradeableItemDatabase.getPriceByID( itemID[i] ), 100 ) ) ) );
-			addFormField( "limit" + itemID[i], String.valueOf( limits[i] ) );
+			addFormField( "price" + itemId[i], prices[i] == 0 ? "" :
+				String.valueOf( Math.max( prices[i], Math.max( TradeableItemDatabase.getPriceById( itemId[i] ), 100 ) ) ) );
+			addFormField( "limit" + itemId[i], String.valueOf( limits[i] ) );
 		}
 	}
 
@@ -120,12 +120,12 @@ public class StoreManageRequest extends KoLRequest
 
 	private void removeItem()
 	{
-		KoLmafia.updateDisplay( "Removing " + TradeableItemDatabase.getItemName( this.takenItemID ) + " from store..." );
-		AdventureResult takenItem = new AdventureResult( takenItemID, 0 );
+		KoLmafia.updateDisplay( "Removing " + TradeableItemDatabase.getItemName( this.takenItemId ) + " from store..." );
+		AdventureResult takenItem = new AdventureResult( takenItemId, 0 );
 
 		super.run();
 
-		Matcher takenItemMatcher = Pattern.compile( "<option value=\"" + takenItemID + "\".*?>.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
+		Matcher takenItemMatcher = Pattern.compile( "<option value=\"" + takenItemId + "\".*?>.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
 		if ( takenItemMatcher.find() )
 			StaticEntity.getClient().processResult( takenItem.getInstance( StaticEntity.parseInt( takenItemMatcher.group(1) ) - takenItem.getCount( inventory ) ) );
 

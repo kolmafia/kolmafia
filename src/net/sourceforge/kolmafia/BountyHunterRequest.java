@@ -40,7 +40,7 @@ public class BountyHunterRequest extends KoLRequest
 {
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "<b>([^<]*?)</b></td><td>" );
 
-	private int itemID;
+	private int itemId;
 	private boolean isExchange;
 	private AdventureResult itemTraded;
 
@@ -51,17 +51,17 @@ public class BountyHunterRequest extends KoLRequest
 		this.isExchange = false;
 	}
 
-	public BountyHunterRequest( int itemID )
+	public BountyHunterRequest( int itemId )
 	{
 		super( "town_wrong.php" );
 		addFormField( "place", "bountyhunter" );
 		addFormField( "action", "bsellall" );
-		addFormField( "what", String.valueOf( itemID ) );
+		addFormField( "what", String.valueOf( itemId ) );
 
-		this.itemID = itemID;
+		this.itemId = itemId;
 		this.isExchange = true;
 
-		itemTraded = new AdventureResult( itemID, 0 );
+		itemTraded = new AdventureResult( itemId, 0 );
 		itemTraded = itemTraded.getInstance( itemTraded.getCount( inventory ) );
 	}
 

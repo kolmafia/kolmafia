@@ -99,7 +99,7 @@ public class SewerRequest extends KoLRequest
 
 		String thirdItemString = StaticEntity.getProperty( "luckySewerAdventure" );
 		int thirdItem = thirdItemString.indexOf( "random" ) != -1 ? RNG.nextInt( 11 ) + 1 :
-			TradeableItemDatabase.getItemID( thirdItemString );
+			TradeableItemDatabase.getItemId( thirdItemString );
 
 		if ( thirdItem < 1 || thirdItem > 12 )
 		{

@@ -106,7 +106,7 @@ public class CharsheetRequest extends KoLRequest
 		while ( !token.startsWith( " (" ) )
 			token = cleanContent.nextToken();
 
-		KoLCharacter.setUserID( StaticEntity.parseInt( token.substring( 3, token.length() - 1 ) ) );
+		KoLCharacter.setUserId( StaticEntity.parseInt( token.substring( 3, token.length() - 1 ) ) );
 		skipTokens( cleanContent, 1 );
 		KoLCharacter.setClassName( cleanContent.nextToken().trim() );
 

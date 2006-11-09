@@ -104,7 +104,7 @@ public abstract class KoLmafia implements KoLConstants
 	private static boolean isEnabled = true;
 	private static boolean hadPendingState = false;
 
-	private static final String [] OVERRIDE_DATA =
+	private static final String [] OVERRIdE_DATA =
 	{
 		"adventures.dat", "buffbots.dat", "classskills.dat", "combats.dat", "concoctions.dat",
 		"equipment.dat", "familiars.dat", "itemdescs.dat", "monsters.dat", "npcstores.dat",
@@ -215,9 +215,9 @@ public abstract class KoLmafia implements KoLConstants
 		if ( version == null || !version.equals( VERSION_NAME ) )
 		{
 			StaticEntity.setProperty( "previousUpdateVersion", VERSION_NAME );
-			for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
+			for ( int i = 0; i < OVERRIdE_DATA.length; ++i )
 			{
-				File outdated = new File( "data/" + OVERRIDE_DATA[i] );
+				File outdated = new File( "data/" + OVERRIdE_DATA[i] );
 				if ( outdated.exists() )
 					outdated.delete();
 
@@ -441,7 +441,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLRequest.passwordHash != null && KoLRequest.passwordHash.equals( "" ) )
 			return;
 
-		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
+		registerPlayer( username, String.valueOf( KoLCharacter.getUserId() ) );
 
 		if ( StaticEntity.getGlobalProperty( username, "getBreakfast" ).equals( "true" ) )
 		{
@@ -669,9 +669,9 @@ public abstract class KoLmafia implements KoLConstants
 		// which otherwise cause an exception and a stack trace
 
 		// Look for a verbatim match
-		int itemID = TradeableItemDatabase.getItemID( result.trim() );
-		if ( itemID != -1 )
-			return new AdventureResult( itemID, 1 );
+		int itemId = TradeableItemDatabase.getItemId( result.trim() );
+		if ( itemId != -1 )
+			return new AdventureResult( itemId, 1 );
 
 		// Remove parenthesized number and match again.
 		String name = result;
@@ -855,62 +855,62 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Returns the string form of the player ID associated
+	 * Returns the string form of the player Id associated
 	 * with the given player name.
 	 *
-	 * @param	playerID	The ID of the player
+	 * @param	playerId	The Id of the player
 	 * @return	The player's name if it has been seen, or null if it has not
 	 *          yet appeared in the chat (not likely, but possible).
 	 */
 
-	public static String getPlayerName( String playerID )
+	public static String getPlayerName( String playerId )
 	{
-		if ( playerID == null )
+		if ( playerId == null )
 			return null;
 
-		String playerName = (String) seenPlayerNames.get( playerID );
-		return playerName != null ? playerName : playerID;
+		String playerName = (String) seenPlayerNames.get( playerId );
+		return playerName != null ? playerName : playerId;
 	}
 
 	/**
-	 * Returns the string form of the player ID associated
+	 * Returns the string form of the player Id associated
 	 * with the given player name.
 	 *
 	 * @param	playerName	The name of the player
-	 * @return	The player's ID if the player has been seen, or the player's name
+	 * @return	The player's Id if the player has been seen, or the player's name
 	 *			with spaces replaced with underscores and other elements encoded
-	 *			if the player's ID has not been seen.
+	 *			if the player's Id has not been seen.
 	 */
 
-	public static String getPlayerID( String playerName )
+	public static String getPlayerId( String playerName )
 	{
 		if ( playerName == null )
 			return null;
 
-		String playerID = (String) seenPlayerIDs.get( playerName.toLowerCase() );
-		return playerID != null ? playerID : playerName;
+		String playerId = (String) seenPlayerIds.get( playerName.toLowerCase() );
+		return playerId != null ? playerId : playerName;
 	}
 
 	/**
-	 * Registers the given player name and player ID with
+	 * Registers the given player name and player Id with
 	 * KoLmafia's player name tracker.
 	 *
 	 * @param	playerName	The name of the player
-	 * @param	playerID	The player ID associated with this player
+	 * @param	playerId	The player Id associated with this player
 	 */
 
-	public static void registerPlayer( String playerName, String playerID )
+	public static void registerPlayer( String playerName, String playerId )
 	{
-		if ( !seenPlayerIDs.containsKey( playerName.toLowerCase() ) )
+		if ( !seenPlayerIds.containsKey( playerName.toLowerCase() ) )
 		{
-			seenPlayerIDs.put( playerName.toLowerCase(), playerID );
-			seenPlayerNames.put( playerID, playerName );
+			seenPlayerIds.put( playerName.toLowerCase(), playerId );
+			seenPlayerNames.put( playerId, playerName );
 		}
 	}
 
-	public static void registerContact( String playerName, String playerID )
+	public static void registerContact( String playerName, String playerId )
 	{
-		registerPlayer( playerName, playerID );
+		registerPlayer( playerName, playerId );
 		if ( !contactList.contains( playerName ) )
 			contactList.add( playerName.toLowerCase() );
 	}
@@ -1473,7 +1473,7 @@ public abstract class KoLmafia implements KoLConstants
 		for ( int i = 0; i < conditions.size(); ++i )
 		{
 			items[i] = (AdventureResult) conditions.get(i);
-			creatables[i] = ItemCreationRequest.getInstance( items[i].getItemID() );
+			creatables[i] = ItemCreationRequest.getInstance( items[i].getItemId() );
 		}
 
 		while ( permitsContinue() && ++currentIteration <= iterations )
@@ -1642,12 +1642,12 @@ public abstract class KoLmafia implements KoLConstants
 		if ( selectedValue == null )
 			return;
 
-		int selected = ((AdventureResult)selectedValue).getItemID();
+		int selected = ((AdventureResult)selectedValue).getItemId();
 
 		String message = "(You have " + HermitRequest.getWorthlessItemCount() + " worthless items)";
 		int maximumValue = HermitRequest.getWorthlessItemCount();
 
-		if ( selected == SewerRequest.CLOVER.getItemID() )
+		if ( selected == SewerRequest.CLOVER.getItemId() )
 		{
 			int cloverCount = ((AdventureResult)selectedValue).getCount();
 
@@ -1751,13 +1751,13 @@ public abstract class KoLmafia implements KoLConstants
 				(new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items )).run();
 
 			if ( permitsContinue() )
-				(new BountyHunterRequest( selected.getItemID() )).run();
+				(new BountyHunterRequest( selected.getItemId() )).run();
 
 			if ( permitsContinue() )
 				(new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items )).run();
 		}
 		else
-			(new BountyHunterRequest( TradeableItemDatabase.getItemID( selectedValue ) )).run();
+			(new BountyHunterRequest( TradeableItemDatabase.getItemId( selectedValue ) )).run();
 	}
 
 	/**
@@ -1805,14 +1805,14 @@ public abstract class KoLmafia implements KoLConstants
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			AdventureResult currentItem = (AdventureResult) inventory.get(i);
-			int itemID = currentItem.getItemID();
+			int itemId = currentItem.getItemId();
 
 			// Ignore silly fairy gravy + meat from yesterday recipe
-			if ( itemID == ItemCreationRequest.MEAT_STACK )
+			if ( itemId == ItemCreationRequest.MEAT_STACK )
 				continue;
 
 			// Otherwise, accept any COMBINE recipe
-			if ( ConcoctionsDatabase.getMixingMethod( itemID ) == ItemCreationRequest.COMBINE )
+			if ( ConcoctionsDatabase.getMixingMethod( itemId ) == ItemCreationRequest.COMBINE )
 				untinkerItems.add( currentItem );
 		}
 
@@ -1832,7 +1832,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( selectedValue == null )
 			return;
 
-		(new UntinkerRequest( selectedValue.getItemID() )).run();
+		(new UntinkerRequest( selectedValue.getItemId() )).run();
 	}
 
 	/**
@@ -2101,16 +2101,16 @@ public abstract class KoLmafia implements KoLConstants
 		StoreManager.SoldItem [] sold = new StoreManager.SoldItem[ StoreManager.getSoldItemList().size() ];
 		StoreManager.getSoldItemList().toArray( sold );
 
-		int [] itemID = new int[ sold.length ];
+		int [] itemId = new int[ sold.length ];
 		int [] prices = new int[ sold.length ];
 		int [] limits = new int[ sold.length ];
 
 		for ( int i = 0; i < sold.length; ++i )
 		{
 			limits[i] = sold[i].getLimit();
-			itemID[i] = sold[i].getItemID();
+			itemId[i] = sold[i].getItemId();
 
-			int minimumPrice = TradeableItemDatabase.getPriceByID( sold[i].getItemID() ) * 2;
+			int minimumPrice = TradeableItemDatabase.getPriceById( sold[i].getItemId() ) * 2;
 			if ( sold[i].getPrice() == 999999999 && minimumPrice > 0 )
 			{
 				minimumPrice = Math.max( 100, minimumPrice );
@@ -2121,7 +2121,7 @@ public abstract class KoLmafia implements KoLConstants
 				prices[i] = sold[i].getPrice();
 		}
 
-		(new StoreManageRequest( itemID, prices, limits )).run();
+		(new StoreManageRequest( itemId, prices, limits )).run();
 		updateDisplay( "Repricing complete." );
 	}
 
@@ -2451,7 +2451,7 @@ public abstract class KoLmafia implements KoLConstants
 				return;
 
 		MallPurchaseRequest currentRequest = (MallPurchaseRequest) purchases[0];
-		AdventureResult itemToBuy = new AdventureResult( currentRequest.getItemID(), 0 );
+		AdventureResult itemToBuy = new AdventureResult( currentRequest.getItemId(), 0 );
 
 		int initialCount = itemToBuy.getCount( inventory );
 		int currentCount = initialCount;
@@ -2617,8 +2617,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		String [] targets = targetList.trim().split( "\\s*,\\s*" );
 		for ( int i = 0; i < targets.length; ++i )
-			targets[i] = getPlayerID( targets[i] ) == null ? targets[i] :
-				getPlayerID( targets[i] );
+			targets[i] = getPlayerId( targets[i] ) == null ? targets[i] :
+				getPlayerId( targets[i] );
 
 		// Sort the list in order to increase the
 		// speed of duplicate detection.
@@ -2652,7 +2652,7 @@ public abstract class KoLmafia implements KoLConstants
 			targets = uniqueList;
 		}
 
-		// Convert all the user IDs back to the
+		// Convert all the user Ids back to the
 		// original player names so that the results
 		// are easy to understand for the user.
 
@@ -2675,14 +2675,14 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
+			for ( int i = 0; i < OVERRIdE_DATA.length; ++i )
 			{
-				updateDisplay( "Downloading " + OVERRIDE_DATA[i] + "..." );
+				updateDisplay( "Downloading " + OVERRIdE_DATA[i] + "..." );
 
 				BufferedReader reader = KoLDatabase.getReader(
-					"http://svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIDE_DATA[i] );
+					"http://svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIdE_DATA[i] );
 
-				File output = new File( "data/" + OVERRIDE_DATA[i] );
+				File output = new File( "data/" + OVERRIdE_DATA[i] );
 				if ( output.exists() )
 					output.delete();
 
@@ -2804,7 +2804,7 @@ public abstract class KoLmafia implements KoLConstants
 		String baseURL = "http://127.0.0.1:" + LocalRelayServer.getPort() + "/";
 		System.setProperty( "ignoreHTMLAssocation", StaticEntity.getProperty( "ignoreHTMLAssocation" ) );
 
-		if ( KoLRequest.sessionID == null )
+		if ( KoLRequest.sessionId == null )
 			StaticEntity.openSystemBrowser( baseURL + "login.php" );
 		else if ( KoLRequest.isCompactMode )
 			StaticEntity.openSystemBrowser( baseURL + "main_c.html" );
@@ -2853,7 +2853,7 @@ public abstract class KoLmafia implements KoLConstants
 		StoreManager.getSoldItemList().toArray( sold );
 
 		for ( int i = 0; i < sold.length && permitsContinue(); ++i )
-			(new StoreManageRequest( sold[i].getItemID() )).run();
+			(new StoreManageRequest( sold[i].getItemId() )).run();
 
 		updateDisplay( "Store emptying complete." );
 	}
@@ -2890,7 +2890,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			switch ( items[i].getItemID() )
+			switch ( items[i].getItemId() )
 			{
 			case ItemCreationRequest.MEAT_PASTE:
 			case ItemCreationRequest.MEAT_STACK:
@@ -2899,7 +2899,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			default:
 
-				if ( TradeableItemDatabase.isTradeable( items[i].getItemID() ) )
+				if ( TradeableItemDatabase.isTradeable( items[i].getItemId() ) )
 				{
 					if ( NPCStoreDatabase.contains( items[i].getName(), false ) )
 						autosell.add( items[i] );

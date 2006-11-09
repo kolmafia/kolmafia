@@ -80,7 +80,7 @@ public class ClanManager extends StaticEntity
 
 	private static String SNAPSHOT_DIRECTORY = "clan/";
 
-	private static String clanID;
+	private static String clanId;
 	private static String clanName;
 
 	private static boolean stashRetrieved = false;
@@ -117,8 +117,8 @@ public class ClanManager extends StaticEntity
 	{	return stashRetrieved;
 	}
 
-	public static String getClanID()
-	{	return clanID;
+	public static String getClanId()
+	{	return clanId;
 	}
 
 	public static String getClanName()
@@ -173,10 +173,10 @@ public class ClanManager extends StaticEntity
 			ClanMembersRequest cmr = new ClanMembersRequest();
 			cmr.run();
 
-			clanID = cmr.getClanID();
+			clanId = cmr.getClanId();
 			clanName = cmr.getClanName();
 
-			SNAPSHOT_DIRECTORY = "clan/" + clanID + "/" + DIRECTORY_FORMAT.format( new Date() ) + "/";
+			SNAPSHOT_DIRECTORY = "clan/" + clanId + "/" + DIRECTORY_FORMAT.format( new Date() ) + "/";
 			KoLmafia.updateDisplay( "Clan data retrieved." );
 		}
 	}
@@ -257,11 +257,11 @@ public class ClanManager extends StaticEntity
 	}
 
 	public static String getURLName( String name )
-	{	return KoLCharacter.baseUserName( name ) + "_(%23" + KoLmafia.getPlayerID( name ) + ")" + ".htm";
+	{	return KoLCharacter.baseUserName( name ) + "_(%23" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
 	}
 
 	public static String getFileName( String name )
-	{	return KoLCharacter.baseUserName( name ) + "_(#" + KoLmafia.getPlayerID( name ) + ")" + ".htm";
+	{	return KoLCharacter.baseUserName( name ) + "_(#" + KoLmafia.getPlayerId( name ) + ")" + ".htm";
 	}
 
 	private static void initializeProfile( String name )
@@ -307,7 +307,7 @@ public class ClanManager extends StaticEntity
 
 			String data = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
 				request.responseText ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll(
-					"ascensionhistory.php\\?back=other&who=" + KoLmafia.getPlayerID( name ), "../ascensions/" + getURLName( name ) );
+					"ascensionhistory.php\\?back=other&who=" + KoLmafia.getPlayerId( name ), "../ascensions/" + getURLName( name ) );
 
 			profileMap.put( name, data );
 
@@ -370,7 +370,7 @@ public class ClanManager extends StaticEntity
 			// Otherwise, run the request and pull the data from the
 			// web server.
 
-			AscensionDataRequest request = new AscensionDataRequest( name, KoLmafia.getPlayerID( name ) );
+			AscensionDataRequest request = new AscensionDataRequest( name, KoLmafia.getPlayerId( name ) );
 			request.initialize();
 
 			String data = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
@@ -407,10 +407,10 @@ public class ClanManager extends StaticEntity
 		AscensionSnapshotTable.registerMember( playerName );
 	}
 
-	public static void unregisterMember( String playerID )
+	public static void unregisterMember( String playerId )
 	{
-		ClanSnapshotTable.unregisterMember( playerID );
-		AscensionSnapshotTable.registerMember( playerID );
+		ClanSnapshotTable.unregisterMember( playerId );
+		AscensionSnapshotTable.registerMember( playerId );
 	}
 
 	/**
@@ -526,7 +526,7 @@ public class ClanManager extends StaticEntity
 	public static void saveStashLog()
 	{
 		retrieveClanData();
-		File file = new File( "clan/" + clanID + "/stashlog.htm" );
+		File file = new File( "clan/" + clanId + "/stashlog.htm" );
 
 		try
 		{
@@ -732,7 +732,7 @@ public class ClanManager extends StaticEntity
 
 			String suffixDescription = parseAdditions ? "added to stash" : "taken from stash";
 
-			int lastItemID;
+			int lastItemId;
 			int entryCount;
 
 			List entryList;
@@ -755,8 +755,8 @@ public class ClanManager extends StaticEntity
 					entryList = (List) stashMap.get( currentMember );
 					entryCount = parseInt( entryMatcher.group(3) );
 
-					lastItemID = TradeableItemDatabase.getItemID( entryMatcher.group(4), entryCount );
-					entryBuffer.append( (new AdventureResult( lastItemID, entryCount )).toString() );
+					lastItemId = TradeableItemDatabase.getItemId( entryMatcher.group(4), entryCount );
+					entryBuffer.append( (new AdventureResult( lastItemId, entryCount )).toString() );
 
 					entryBuffer.append( " " );
 					entryBuffer.append( suffixDescription );

@@ -473,11 +473,11 @@ public abstract class CombatSettings implements UtilityConstants, KoLConstants
 		if ( potentialSkill != null )
 			return "skill " + potentialSkill.toLowerCase();
 
-		int itemID = action.equals( "" ) ? -1 :
-			KoLmafiaCLI.getFirstMatchingItemID( TradeableItemDatabase.getMatchingNames( action ) );
+		int itemId = action.equals( "" ) ? -1 :
+			KoLmafiaCLI.getFirstMatchingItemId( TradeableItemDatabase.getMatchingNames( action ) );
 
-		if ( itemID != -1 )
-			return "item " + TradeableItemDatabase.getItemName( itemID ).toLowerCase();
+		if ( itemId != -1 )
+			return "item " + TradeableItemDatabase.getItemName( itemId ).toLowerCase();
 
 		return "attack with weapon";
 	}
@@ -517,7 +517,7 @@ public abstract class CombatSettings implements UtilityConstants, KoLConstants
 		if ( action.startsWith( "skill" ) )
 		{
 			String name = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
-			return name == null ? "attack with weapon" : String.valueOf( ClassSkillsDatabase.getSkillID( name ) );
+			return name == null ? "attack with weapon" : String.valueOf( ClassSkillsDatabase.getSkillId( name ) );
 		}
 
 		if ( action.startsWith( "item" ) )
@@ -526,14 +526,14 @@ public abstract class CombatSettings implements UtilityConstants, KoLConstants
 			for ( int i = 0; i < name.length(); ++i )
 				if ( !Character.isDigit( name.charAt(i) ) )
 				{
-					int itemID = TradeableItemDatabase.getItemID( name );
-					if ( itemID == FightRequest.DICTIONARY1.getItemID() && !inventory.contains( FightRequest.DICTIONARY1 ) )
-						itemID = FightRequest.DICTIONARY2.getItemID();
+					int itemId = TradeableItemDatabase.getItemId( name );
+					if ( itemId == FightRequest.DICTIONARY1.getItemId() && !inventory.contains( FightRequest.DICTIONARY1 ) )
+						itemId = FightRequest.DICTIONARY2.getItemId();
 
-					if ( itemID == FightRequest.DICTIONARY2.getItemID() && !inventory.contains( FightRequest.DICTIONARY2 ) )
-						itemID = FightRequest.DICTIONARY1.getItemID();
+					if ( itemId == FightRequest.DICTIONARY2.getItemId() && !inventory.contains( FightRequest.DICTIONARY2 ) )
+						itemId = FightRequest.DICTIONARY1.getItemId();
 
-					return "item" + itemID;
+					return "item" + itemId;
 				}
 
 			return "item" + StaticEntity.parseInt( name );
@@ -541,13 +541,13 @@ public abstract class CombatSettings implements UtilityConstants, KoLConstants
 
 		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );
 		if ( potentialSkill != null )
-			return String.valueOf( ClassSkillsDatabase.getSkillID( potentialSkill ) );
+			return String.valueOf( ClassSkillsDatabase.getSkillId( potentialSkill ) );
 
-		int itemID = action.equals( "" ) ? -1 :
-			KoLmafiaCLI.getFirstMatchingItemID( TradeableItemDatabase.getMatchingNames( action ) );
+		int itemId = action.equals( "" ) ? -1 :
+			KoLmafiaCLI.getFirstMatchingItemId( TradeableItemDatabase.getMatchingNames( action ) );
 
-		if ( itemID != -1 )
-			return "item" + itemID;
+		if ( itemId != -1 )
+			return "item" + itemId;
 
 		return "attack";
 	}

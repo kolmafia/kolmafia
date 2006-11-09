@@ -51,25 +51,25 @@ import java.util.Set;
 
 public class TradeableItemDatabase extends KoLDatabase
 {
-	private static IntegerArray useTypeByID = new IntegerArray();
-	private static IntegerArray priceByID = new IntegerArray();
+	private static IntegerArray useTypeById = new IntegerArray();
+	private static IntegerArray priceById = new IntegerArray();
 
-	private static StringArray descByID = new StringArray();
+	private static StringArray descById = new StringArray();
 
-	private static Map nameByItemID = new TreeMap();
-	private static Map itemIDByName = new TreeMap();
-	private static Map itemIDByPlural = new TreeMap();
+	private static Map nameByItemId = new TreeMap();
+	private static Map itemIdByName = new TreeMap();
+	private static Map itemIdByPlural = new TreeMap();
 
-	private static Map inebrietyByID = new TreeMap();
-	private static BooleanArray tradeableByID = new BooleanArray();
-	private static BooleanArray giftableByID = new BooleanArray();
+	private static Map inebrietyById = new TreeMap();
+	private static BooleanArray tradeableById = new BooleanArray();
+	private static BooleanArray giftableById = new BooleanArray();
 
 	static
 	{
 		// This begins by opening up the data file and preparing
 		// a buffered reader; once this is done, every line is
 		// examined and float-referenced: once in the name-lookup,
-		// and again in the ID lookup.
+		// and again in the Id lookup.
 
 		BufferedReader reader = getReader( "tradeitems.dat" );
 
@@ -79,21 +79,21 @@ public class TradeableItemDatabase extends KoLDatabase
 		{
 			if ( data.length == 5 )
 			{
-				int itemID = StaticEntity.parseInt( data[0] );
-				Integer id = new Integer( itemID );
+				int itemId = StaticEntity.parseInt( data[0] );
+				Integer id = new Integer( itemId );
 
-				useTypeByID.set( itemID, StaticEntity.parseInt( data[2] ) );
-				priceByID.set( itemID, StaticEntity.parseInt( data[4] ) );
+				useTypeById.set( itemId, StaticEntity.parseInt( data[2] ) );
+				priceById.set( itemId, StaticEntity.parseInt( data[4] ) );
 
-				itemIDByName.put( getCanonicalName( data[1] ), id );
-				nameByItemID.put( id, getDisplayName( data[1] ) );
+				itemIdByName.put( getCanonicalName( data[1] ), id );
+				nameByItemId.put( id, getDisplayName( data[1] ) );
 
-				tradeableByID.set( itemID, data[3].equals( "all" ) );
-				giftableByID.set( itemID, data[3].equals( "all" ) || data[3].equals( "gift" ) );
+				tradeableById.set( itemId, data[3].equals( "all" ) );
+				giftableById.set( itemId, data[3].equals( "all" ) || data[3].equals( "gift" ) );
 			}
 		}
 
-		// Next, retrieve the description IDs using the data
+		// Next, retrieve the description Ids using the data
 		// table present in MaxDemian's database.
 
 		try
@@ -112,16 +112,16 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			boolean isDescriptionID = true;
+			boolean isDescriptionId = true;
 			if ( data.length >= 2 && data[1].length() > 0 )
 			{
-				isDescriptionID = true;
-				for ( int i = 0; i < data[1].length() && isDescriptionID; ++i )
+				isDescriptionId = true;
+				for ( int i = 0; i < data[1].length() && isDescriptionId; ++i )
 					if ( !Character.isDigit( data[1].charAt(i) ) )
-						isDescriptionID = false;
+						isDescriptionId = false;
 
-				if ( isDescriptionID )
-					descByID.set( StaticEntity.parseInt( data[0].trim() ), data[1] );
+				if ( isDescriptionId )
+					descById.set( StaticEntity.parseInt( data[0].trim() ), data[1] );
 			}
 		}
 
@@ -145,14 +145,14 @@ public class TradeableItemDatabase extends KoLDatabase
 		{
 			if ( data.length == 2 )
 			{
-				Object itemID = itemIDByName.get( data[0] );
-				if ( itemID == null )
+				Object itemId = itemIdByName.get( data[0] );
+				if ( itemId == null )
 				{
 					System.out.println( "Bad item name in plurals file: " + data[0] );
 					continue;
 				}
 
-				itemIDByPlural.put( data[1] , itemID );
+				itemIdByPlural.put( data[1] , itemId );
 			}
 		}
 
@@ -176,14 +176,14 @@ public class TradeableItemDatabase extends KoLDatabase
 		{
 			if ( data.length == 2 )
 			{
-				Object itemID = itemIDByName.get( getCanonicalName( data[0] ) );
-				if ( itemID == null )
+				Object itemId = itemIdByName.get( getCanonicalName( data[0] ) );
+				if ( itemId == null )
 				{
 					System.out.println( "Bad item name in inebriety file: " + data[0] );
 					continue;
 				}
 
-				inebrietyByID.put( itemID, Integer.valueOf( data[1] ) );
+				inebrietyById.put( itemId, Integer.valueOf( data[1] ) );
 			}
 		}
 
@@ -206,41 +206,41 @@ public class TradeableItemDatabase extends KoLDatabase
 	 * in the mall or in the player's inventory.
 	 */
 
-	public static void registerItem( int itemID, String itemName )
+	public static void registerItem( int itemId, String itemName )
 	{
 		if ( itemName == null )
 			return;
 
-		KoLmafia.getDebugStream().println( "New item: <" + itemName + "> (#" + itemID + ")" );
+		KoLmafia.getDebugStream().println( "New item: <" + itemName + "> (#" + itemId + ")" );
 
-		useTypeByID.set( itemID, 0 );
-		priceByID.set( itemID, -1 );
-		descByID.set( itemID, "" );
+		useTypeById.set( itemId, 0 );
+		priceById.set( itemId, -1 );
+		descById.set( itemId, "" );
 
-		Integer id = new Integer( itemID );
+		Integer id = new Integer( itemId );
 
-		itemIDByName.put( getCanonicalName( itemName ), id );
-		nameByItemID.put( id, getDisplayName( itemName ) );
+		itemIdByName.put( getCanonicalName( itemName ), id );
+		nameByItemId.put( id, getDisplayName( itemName ) );
 	}
 
 	/**
-	 * Returns the ID number for an item, given its name.
+	 * Returns the Id number for an item, given its name.
 	 * @param	itemName	The name of the item to lookup
-	 * @return	The ID number of the corresponding item
+	 * @return	The Id number of the corresponding item
 	 */
 
-	public static final int getItemID( String itemName )
-	{	return getItemID( itemName, 1 );
+	public static final int getItemId( String itemName )
+	{	return getItemId( itemName, 1 );
 	}
 
 	/**
-	 * Returns the ID number for an item, given its name.
+	 * Returns the Id number for an item, given its name.
 	 * @param	itemName	The name of the item to lookup
 	 * @param	count		How many there are
-	 * @return	The ID number of the corresponding item
+	 * @return	The Id number of the corresponding item
 	 */
 
-	public static final int getItemID( String itemName, int count )
+	public static final int getItemId( String itemName, int count )
 	{
 		if ( itemName == null || itemName.length() == 0 )
 			return -1;
@@ -249,13 +249,13 @@ public class TradeableItemDatabase extends KoLDatabase
 		// to parse based on that.
 
 		String canonicalName = getCanonicalName( itemName );
-		Object itemID = itemIDByName.get( canonicalName );
+		Object itemId = itemIdByName.get( canonicalName );
 
 		// If the name, as-is, exists in the item database,
-		// then go ahead and return the item ID.
+		// then go ahead and return the item Id.
 
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// If there's no more than one, don't deal with pluralization
 		if ( count < 2 )
@@ -264,16 +264,16 @@ public class TradeableItemDatabase extends KoLDatabase
 		// See if it's a weird pluralization with a pattern we can't
 		// guess.
 
-		itemID = itemIDByPlural.get( canonicalName );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByPlural.get( canonicalName );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// Or maybe it's a standard plural where they just add a letter
 		// to the end.
 
-		itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// Work around a specific KoL bug: the "less-than-three-shaped
 		// box" is sometimes listed as a "less-than-three- shaped box"
@@ -282,118 +282,118 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		// If it's a snowcone, then reverse the word order
 		if ( canonicalName.startsWith( "snowcones" ) )
-			return getItemID( canonicalName.split( " " )[1] + " snowcone", count );
+			return getItemId( canonicalName.split( " " )[1] + " snowcone", count );
 
 		// The word right before the dash may also be pluralized,
 		// so make sure the dashed words are recognized.
 
-		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "es-", "-" ) );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "es-", "-" ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
-		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "s-", "-" ) );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "s-", "-" ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// If it's a plural form of "tooth", then make
 		// sure that it's handled.  Other things which
 		// also have "ee" plural forms should be clumped
 		// in as well.
 
-		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ee", "oo" ) );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ee", "oo" ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// Also handle the plural of vortex, which is
 		// "vortices" -- this should only appear in the
 		// meat vortex, but better safe than sorry.
 
-		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ex" ) );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ex" ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// Handling of appendices (which is the plural
 		// of appendix, not appendex, so it is not caught
 		// by the previous test).
 
-		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ix" ) );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ices", "ix" ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// Also add in a special handling for knives
 		// and other things ending in "ife".
 
-		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ives", "ife" ) );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ives", "ife" ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// Also add in a special handling for elves
 		// and other things ending in "f".
 
-		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ves", "f" ) );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ves", "f" ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// Also add in a special handling for staves
 		// and other things ending in "aff".
 
-		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "aves", "aff" ) );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "aves", "aff" ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// If it's a pluralized form of something that
 		// ends with "y", then return the appropriate
-		// item ID for the "y" version.
+		// item Id for the "y" version.
 
 		if ( canonicalName.endsWith( "ies" ) )
 		{
-			itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 3 ) + "y" );
-			if ( itemID != null )
-				return ((Integer)itemID).intValue();
+			itemId = itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 3 ) + "y" );
+			if ( itemId != null )
+				return ((Integer)itemId).intValue();
 		}
 
-		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "ies ", "y " ) );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "ies ", "y " ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// If it's a pluralized form of something that
 		// ends with "o", then return the appropriate
-		// item ID for the "o" version.
+		// item Id for the "o" version.
 
 		if ( canonicalName.endsWith( "es" ) )
 		{
-			itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 2 ) );
-			if ( itemID != null )
-				return ((Integer)itemID).intValue();
+			itemId = itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 2 ) );
+			if ( itemId != null )
+				return ((Integer)itemId).intValue();
 		}
 
-		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "es ", " " ) );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "es ", " " ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// If it's a pluralized form of something that
 		// ends with "an", then return the appropriate
-		// item ID for the "en" version.
+		// item Id for the "en" version.
 
-		itemID = itemIDByName.get( StaticEntity.singleStringReplace( canonicalName, "en ", "an " ) );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "en ", "an " ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// If it's a standard pluralized forms, then
-		// return the appropriate item ID.
+		// return the appropriate item Id.
 
-		itemID = itemIDByName.get( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) );
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		itemId = itemIdByName.get( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// If it's something that ends with 'i', then
 		// it might be a singular ending with 'us'.
 
 		if ( canonicalName.endsWith( "i" ) )
 		{
-			itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) + "us" );
-			if ( itemID != null )
-				return ((Integer)itemID).intValue();
+			itemId = itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) + "us" );
+			if ( itemId != null )
+				return ((Integer)itemId).intValue();
 		}
 
 		// Attempt to find the item name by brute force
@@ -401,22 +401,22 @@ public class TradeableItemDatabase extends KoLDatabase
 		// this recursively for best results.
 
 		int lastSpaceIndex = canonicalName.indexOf( " " );
-		return lastSpaceIndex != -1 ? getItemID( canonicalName.substring( lastSpaceIndex ).trim(), count ) : -1;
+		return lastSpaceIndex != -1 ? getItemId( canonicalName.substring( lastSpaceIndex ).trim(), count ) : -1;
 	}
 
-	public static final int getInebriety( int itemID )
+	public static final int getInebriety( int itemId )
 	{
-		Integer inebriety = (Integer) inebrietyByID.get( new Integer( itemID ) );
+		Integer inebriety = (Integer) inebrietyById.get( new Integer( itemId ) );
 		return inebriety == null ? 0 : inebriety.intValue();
 	}
 
 	/**
-	 * Returns the price for the item with the given ID.
+	 * Returns the price for the item with the given Id.
 	 * @return	The price associated with the item
 	 */
 
-	public static final int getPriceByID( int itemID )
-	{	return priceByID.get( itemID );
+	public static final int getPriceById( int itemId )
+	{	return priceById.get( itemId );
 	}
 
 	/**
@@ -424,8 +424,8 @@ public class TradeableItemDatabase extends KoLDatabase
 	 * @return	true if item is tradeable
 	 */
 
-	public static final boolean isTradeable( int itemID )
-	{	return tradeableByID.get( itemID );
+	public static final boolean isTradeable( int itemId )
+	{	return tradeableById.get( itemId );
 	}
 
 	/**
@@ -433,18 +433,18 @@ public class TradeableItemDatabase extends KoLDatabase
 	 * @return	true if item is tradeable
 	 */
 
-	public static final boolean isGiftable( int itemID )
-	{	return giftableByID.get( itemID );
+	public static final boolean isGiftable( int itemId )
+	{	return giftableById.get( itemId );
 	}
 
 	/**
-	 * Returns the name for an item, given its ID number.
-	 * @param	itemID	The ID number of the item to lookup
+	 * Returns the name for an item, given its Id number.
+	 * @param	itemId	The Id number of the item to lookup
 	 * @return	The name of the corresponding item
 	 */
 
-	public static final String getItemName( int itemID )
-	{	return (String) nameByItemID.get( new Integer( itemID ) );
+	public static final String getItemName( int itemId )
+	{	return (String) nameByItemId.get( new Integer( itemId ) );
 	}
 
 	/**
@@ -454,7 +454,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final List getMatchingNames( String substring )
-	{	return getMatchingNames( itemIDByName, substring );
+	{	return getMatchingNames( itemIdByName, substring );
 	}
 
 	/**
@@ -467,7 +467,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final boolean contains( String itemName )
-	{	return getItemID( itemName ) != -1;
+	{	return getItemId( itemName ) != -1;
 	}
 
 	/**
@@ -479,11 +479,11 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static final boolean isUsable( String itemName )
 	{
-		int itemID = getItemID( itemName );
-		if ( itemID <= 0 )
+		int itemId = getItemId( itemName );
+		if ( itemId <= 0 )
 			return false;
 
-		switch ( useTypeByID.get( itemID ) )
+		switch ( useTypeById.get( itemId ) )
 		{
 		case ConsumeItemRequest.CONSUME_EAT:
 		case ConsumeItemRequest.CONSUME_DRINK:
@@ -504,23 +504,23 @@ public class TradeableItemDatabase extends KoLDatabase
 	 * @return	The consumption associated with the item
 	 */
 
-	public static final int getConsumptionType( int itemID )
-	{	return itemID <= 0 ? ConsumeItemRequest.NO_CONSUME : useTypeByID.get( itemID );
+	public static final int getConsumptionType( int itemId )
+	{	return itemId <= 0 ? ConsumeItemRequest.NO_CONSUME : useTypeById.get( itemId );
 	}
 
 	public static final int getConsumptionType( String itemName )
-	{	return getConsumptionType( getItemID( itemName ) );
+	{	return getConsumptionType( getItemId( itemName ) );
 	}
 
 	/**
-	 * Returns the item description ID used by the given
-	 * item, given its item ID.
+	 * Returns the item description Id used by the given
+	 * item, given its item Id.
 	 *
-	 * @return	The description ID associated with the item
+	 * @return	The description Id associated with the item
 	 */
 
-	public static final String getDescriptionID( int itemID )
-	{	return descByID.get( itemID );
+	public static final String getDescriptionId( int itemId )
+	{	return descById.get( itemId );
 	}
 
 	/**
@@ -529,6 +529,6 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static Set entrySet()
-	{	return nameByItemID.entrySet();
+	{	return nameByItemId.entrySet();
 	}
 }

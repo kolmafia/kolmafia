@@ -48,7 +48,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
-	private static final KoLRequest ZONE_VALIDATOR = AdventureDatabase.ZONE_VALIDATOR;
+	private static final KoLRequest ZONE_VALIdATOR = AdventureDatabase.ZONE_VALIdATOR;
 
 	private static final AdventureResult PERFUME_ITEM = new AdventureResult( 307, 1 );
 	private static final AdventureResult PERFUME_EFFECT = new AdventureResult( "Knob Goblin Perfume", 1, false );
@@ -68,7 +68,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	private boolean isValidAdventure = false;
 	private int baseRequirement, buffedRequirement;
-	private String zone, parentZone, adventureID, formSource, adventureName;
+	private String zone, parentZone, adventureId, formSource, adventureName;
 	private KoLRequest request;
 	private AreaCombatData areaSummary;
 
@@ -81,18 +81,18 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	 *
 	 * @param	client	Theto which the results of the adventure are reported
 	 * @param	formSource	The form associated with the given adventure
-	 * @param	adventureID	The identifier for this adventure, relative to its form
+	 * @param	adventureId	The identifier for this adventure, relative to its form
 	 * @param	adventureName	The string form, or name of this adventure
 	 */
 
-	public KoLAdventure( String zone, String baseRequirement, String buffedRequirement, String formSource, String adventureID, String adventureName )
+	public KoLAdventure( String zone, String baseRequirement, String buffedRequirement, String formSource, String adventureId, String adventureName )
 	{
 		this.zone = zone;
 		this.parentZone = (String) AdventureDatabase.PARENT_ZONES.get( zone );
 		this.baseRequirement = StaticEntity.parseInt( baseRequirement );
 		this.buffedRequirement = StaticEntity.parseInt( buffedRequirement );
 		this.formSource = formSource;
-		this.adventureID = adventureID;
+		this.adventureId = adventureId;
 		this.adventureName = adventureName;
 
 		if ( formSource.equals( "sewer.php" ) )
@@ -111,19 +111,19 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			shouldRunCheck = false;
 			shouldRunFullCheck = false;
-			this.request = new CampgroundRequest( adventureID );
+			this.request = new CampgroundRequest( adventureId );
 		}
 		else if ( formSource.equals( "clan_gym.php" ) )
 		{
 			shouldRunCheck = false;
 			shouldRunFullCheck = false;
-			this.request = new ClanGymRequest( StaticEntity.parseInt( adventureID ) );
+			this.request = new ClanGymRequest( StaticEntity.parseInt( adventureId ) );
 		}
 		else
 		{
 			shouldRunCheck = true;
 			shouldRunFullCheck = formSource.indexOf( "lair6.php" ) == -1 && formSource.indexOf( "shore.php" ) == -1;
-			this.request = new AdventureRequest( adventureName, formSource, adventureID );
+			this.request = new AdventureRequest( adventureName, formSource, adventureId );
 		}
 
 		this.areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
@@ -158,12 +158,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	/**
-	 * Returns the adventure ID for this adventure.
-	 * @return	The adventure ID for this adventure
+	 * Returns the adventure Id for this adventure.
+	 * @return	The adventure Id for this adventure
 	 */
 
-	public String getAdventureID()
-	{	return adventureID;
+	public String getAdventureId()
+	{	return adventureId;
 	}
 
 	public AreaCombatData getAreaSummary()
@@ -240,11 +240,11 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Fighting the Goblin King requires effects
 		if ( formSource.equals( "knob.php" ) )
 		{
-			int outfitID = EquipmentDatabase.getOutfitID( this );
+			int outfitId = EquipmentDatabase.getOutfitId( this );
 
-			if ( !EquipmentDatabase.isWearingOutfit( outfitID ) )
+			if ( !EquipmentDatabase.isWearingOutfit( outfitId ) )
 			{
-				if ( !EquipmentDatabase.retrieveOutfit( outfitID ) )
+				if ( !EquipmentDatabase.retrieveOutfit( outfitId ) )
 					return;
 
 				if ( !activeEffects.contains( PERFUME_EFFECT ) )
@@ -255,7 +255,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 					(new ConsumeItemRequest( PERFUME_ITEM )).run();
 				}
 
-				(new EquipmentRequest( EquipmentDatabase.getOutfit( outfitID ) )).run();
+				(new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) )).run();
 			}
 		}
 
@@ -268,14 +268,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Disguise zones require outfits
 		if ( adventureName.indexOf( "In Disguise" ) != -1 || adventureName.indexOf( "Cloaca Uniform" ) != -1 || adventureName.indexOf( "Dyspepsi Uniform" ) != -1 )
 		{
-			int outfitID = EquipmentDatabase.getOutfitID( this );
+			int outfitId = EquipmentDatabase.getOutfitId( this );
 
-			if ( !EquipmentDatabase.isWearingOutfit( outfitID ) )
+			if ( !EquipmentDatabase.isWearingOutfit( outfitId ) )
 			{
-				if ( !EquipmentDatabase.retrieveOutfit( outfitID ) )
+				if ( !EquipmentDatabase.retrieveOutfit( outfitId ) )
 					return;
 
-				(new EquipmentRequest( EquipmentDatabase.getOutfit( outfitID ) )).run();
+				(new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) )).run();
 			}
 
 			// If it's the pirate quest in disguise, make sure
@@ -286,7 +286,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		}
 
 		// If we're trying to take a trip, make sure it's the right one
-		if ( adventureID.equals( "96" ) || adventureID.equals( "97" ) || adventureID.equals( "98" ) )
+		if ( adventureId.equals( "96" ) || adventureId.equals( "97" ) || adventureId.equals( "98" ) )
 		{
 			// You must be Half-Astral to go on a trip
 			int astral = ASTRAL.getCount( ( activeEffects ) );
@@ -304,9 +304,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			if ( astral == 5 )
 			{
 				String choice;
-				if ( adventureID.equals( "96" ) )
+				if ( adventureId.equals( "96" ) )
 					choice = "1";
-				else if ( adventureID.equals( "98" ) )
+				else if ( adventureId.equals( "98" ) )
 					choice = "2";
 				else
 					choice = "3";
@@ -361,7 +361,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// The Castle in the Clouds in the Sky is unlocked provided the
 		// character has either a S.O.C.K. or an intragalactic rowboat
 
-		else if ( adventureID.equals( "82" ) )
+		else if ( adventureId.equals( "82" ) )
 		{
 			isValidAdventure = KoLCharacter.hasItem( SOCK ) || AdventureDatabase.retrieveItem( ROWBOAT );
 			return;
@@ -370,7 +370,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// The Hole in the Sky is unlocked provided the player has an
 		// intragalactic rowboat in their inventory.
 
-		else if ( adventureID.equals( "83" ) )
+		else if ( adventureId.equals( "83" ) )
 		{
 			isValidAdventure = AdventureDatabase.retrieveItem( ROWBOAT );
 			return;
@@ -380,7 +380,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// has planted a beanstalk -- but, the zone
 		// needs to be armed first.
 
-		else if ( adventureID.equals( "81" ) && !KoLCharacter.beanstalkArmed() )
+		else if ( adventureId.equals( "81" ) && !KoLCharacter.beanstalkArmed() )
 		{
 			// If the character has a S.O.C.K. or an intragalactic
 			// rowboat, they can get to the airship
@@ -395,10 +395,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// questlog.php?which=3
 			// "You have planted a Beanstalk in the Nearby Plains."
 
-			ZONE_VALIDATOR.constructURLString( "plains.php" );
-			ZONE_VALIDATOR.run();
+			ZONE_VALIdATOR.constructURLString( "plains.php" );
+			ZONE_VALIdATOR.run();
 
-			if ( ZONE_VALIDATOR.responseText.indexOf( "beanstalk.php" ) == -1 )
+			if ( ZONE_VALIdATOR.responseText.indexOf( "beanstalk.php" ) == -1 )
 			{
 				// If not, check to see if the player has an enchanted
 				// bean which can be used.  If they don't, then try to
@@ -432,8 +432,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				DEFAULT_SHELL.executeLine( "use enchanted bean" );
 			}
 
-			ZONE_VALIDATOR.constructURLString( "beanstalk.php" );
-			ZONE_VALIDATOR.run();
+			ZONE_VALIdATOR.constructURLString( "beanstalk.php" );
+			ZONE_VALIdATOR.run();
 
 			KoLCharacter.armBeanstalk();
 			isValidAdventure = true;
@@ -447,14 +447,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// unlocked. However, we can verify that the zones that
 			// require keys are accessible.
 
-			if ( adventureID.equals( "104" ) )
+			if ( adventureId.equals( "104" ) )
 			{
 				// Haunted Library
 				isValidAdventure = AdventureDatabase.retrieveItem( LIBRARY_KEY );
 				return;
 			}
 
-			if ( adventureID.equals( "106" ) )
+			if ( adventureId.equals( "106" ) )
 			{
 				// Haunted Gallery
 				isValidAdventure = AdventureDatabase.retrieveItem( GALLERY_KEY );
@@ -464,14 +464,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// It takes a special action to make the upstairs areas
 			// available. Assume they are accessible if the player
 			// can get into the library
-			if ( adventureID.equals( "107" ) || adventureID.equals( "108" ) )
+			if ( adventureId.equals( "107" ) || adventureId.equals( "108" ) )
 			{
 				// Haunted Bathroom & Bedroom
 				isValidAdventure = AdventureDatabase.retrieveItem( LIBRARY_KEY );
 				return;
 			}
 
-			if ( adventureID.equals( "109" ) )
+			if ( adventureId.equals( "109" ) )
 			{
 				// Haunted Ballroom
 				isValidAdventure = AdventureDatabase.retrieveItem( BALLROOM_KEY );
@@ -479,7 +479,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			}
 		}
 
-		else if ( adventureID.equals( "11" ) )
+		else if ( adventureId.equals( "11" ) )
 		{
 			isValidAdventure = true;
 			return;
@@ -488,7 +488,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// If a zone validation is sufficient, then validate the
 		// zone normally.
 
-		if ( AdventureDatabase.validateZone( zone, adventureID ) )
+		if ( AdventureDatabase.validateZone( zone, adventureId ) )
 		{
 			isValidAdventure = true;
 			return;
@@ -499,14 +499,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// acquire one then try to equip it.  If the person has a two
 		// handed weapon, then report an error.
 
-		if ( adventureID.equals( "73" ) )
+		if ( adventureId.equals( "73" ) )
 		{
 			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER ) )
 			{
-				ZONE_VALIDATOR.constructURLString( "town_wrong.php?place=crackpot" ).run();
-				ZONE_VALIDATOR.constructURLString( "town_wrong.php?action=crackyes1" ).run();
-				ZONE_VALIDATOR.constructURLString( "town_wrong.php?action=crackyes2" ).run();
-				ZONE_VALIDATOR.constructURLString( "town_wrong.php?action=crackyes3" ).run();
+				ZONE_VALIdATOR.constructURLString( "town_wrong.php?place=crackpot" ).run();
+				ZONE_VALIdATOR.constructURLString( "town_wrong.php?action=crackyes1" ).run();
+				ZONE_VALIdATOR.constructURLString( "town_wrong.php?action=crackyes2" ).run();
+				ZONE_VALIdATOR.constructURLString( "town_wrong.php?action=crackyes3" ).run();
 			}
 
 			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) > 1 )
@@ -525,7 +525,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// don't want to open up the guild store right now.  So,
 		// only keep trying until paco is unlocked.
 
-		if ( adventureID.equals( "10" ) || adventureID.equals( "100" ) )
+		if ( adventureId.equals( "10" ) || adventureId.equals( "100" ) )
 		{
 			StaticEntity.getClient().unlockGuildStore( true );
 			if ( KoLmafia.permitsContinue() )
@@ -565,7 +565,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// See if the trapper will give it to us
 
 			DEFAULT_SHELL.executeLine( "council" );
-			ZONE_VALIDATOR.constructURLString( "trapper.php" ).run();
+			ZONE_VALIdATOR.constructURLString( "trapper.php" ).run();
 
 			validate( true );
 			return;
@@ -588,7 +588,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	{
 		// If we're trying to take a trip, make sure we're still
 		// half-astral
-		if ( adventureID.equals( "96" ) || adventureID.equals( "97" ) || adventureID.equals( "98" ) )
+		if ( adventureId.equals( "96" ) || adventureId.equals( "97" ) || adventureId.equals( "98" ) )
 		{
 			if ( ASTRAL.getCount( ( activeEffects ) ) == 0 )
 				isValidAdventure = false;
@@ -634,7 +634,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Abort before adventure verification in the event that
 		// this person is stasis-mining.
 
-		if ( adventureID.indexOf( "101" ) != -1 && KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() )
+		if ( adventureId.indexOf( "101" ) != -1 && KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Please reconsider your meat farming strategy." );
 			return;
@@ -695,7 +695,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Check for dictionaries as a battle strategy, if the
 		// person is not adventuring at the chasm.
 
-		if ( !adventureID.equals( "80" ) && request instanceof AdventureRequest && request.getAdventuresUsed() == 1 && action.indexOf( "dictionary" ) != -1 )
+		if ( !adventureId.equals( "80" ) && request instanceof AdventureRequest && request.getAdventuresUsed() == 1 && action.indexOf( "dictionary" ) != -1 )
 		{
 			// Only allow damage-dealing familiars when using
 			// stasis techniques.
@@ -720,14 +720,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		}
 
 		if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) &&
-			EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemID() ) )
+			EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Thrust smacks are useless with ranged weapons." );
 			return;
 		}
 
 		if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) &&
-			EquipmentDatabase.isStaff( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemID() ) &&
+			EquipmentDatabase.isStaff( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) &&
 			KoLCharacter.hasSkill( "Spirit of Rigatoni" ) && KoLCharacter.hasSkill( "Eye of the Stoat" ) )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Thrust smacks are useless with staves and Spirit of Rigatoni." );

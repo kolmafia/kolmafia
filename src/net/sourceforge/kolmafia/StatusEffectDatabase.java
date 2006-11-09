@@ -54,9 +54,9 @@ import java.util.regex.Matcher;
 
 public class StatusEffectDatabase extends KoLDatabase
 {
-	private static Map shortByID = new TreeMap();
-	private static Map effectByID = new TreeMap();
-	private static Map imageByID = new TreeMap();
+	private static Map shortById = new TreeMap();
+	private static Map effectById = new TreeMap();
+	private static Map imageById = new TreeMap();
 	private static Map effectByName = new TreeMap();
 	private static Map modifierMap = new TreeMap();
 
@@ -66,18 +66,18 @@ public class StatusEffectDatabase extends KoLDatabase
 		String [] data;
 
 		String name;
-		Integer effectID;
+		Integer effectId;
 
 		while ( (data = readData( reader )) != null )
 		{
 			if ( data.length == 4 )
 			{
-				effectID = Integer.valueOf( data[0] );
+				effectId = Integer.valueOf( data[0] );
 
-				shortByID.put( effectID, data[1] );
-				effectByID.put( effectID, getDisplayName( data[2] ) );
-				effectByName.put( getCanonicalName( data[2] ), effectID );
-				imageByID.put( effectID, data[3] );
+				shortById.put( effectId, data[1] );
+				effectById.put( effectId, getDisplayName( data[2] ) );
+				effectByName.put( getCanonicalName( data[2] ), effectId );
+				imageById.put( effectId, data[3] );
 			}
 		}
 
@@ -112,60 +112,60 @@ public class StatusEffectDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns the name for an effect, given its ID.
-	 * @param	effectID	The ID of the effect to lookup
+	 * Returns the name for an effect, given its Id.
+	 * @param	effectId	The Id of the effect to lookup
 	 * @return	The name of the corresponding effect
 	 */
 
-	public static final String getEffectName( int effectID )
-	{	return effectID == -1 ? "Unknown effect" : getDisplayName( (String) effectByID.get( new Integer( effectID ) ) );
+	public static final String getEffectName( int effectId )
+	{	return effectId == -1 ? "Unknown effect" : getDisplayName( (String) effectById.get( new Integer( effectId ) ) );
 	}
 
 	/**
-	 * Returns the shorthand for an effect, given its ID.
-	 * @param	effectID	The ID of the effect to lookup
+	 * Returns the shorthand for an effect, given its Id.
+	 * @param	effectId	The Id of the effect to lookup
 	 * @return	The short name of the corresponding effect
 	 */
 
-	public static final String getShortName( int effectID )
-	{	return effectID == -1 ? "Unknown" : (String) shortByID.get( new Integer( effectID ) );
+	public static final String getShortName( int effectId )
+	{	return effectId == -1 ? "Unknown" : (String) shortById.get( new Integer( effectId ) );
 	}
 
 	/**
-	 * Returns the ID number for an effect, given its name.
+	 * Returns the Id number for an effect, given its name.
 	 * @param	effectName	The name of the effect to lookup
-	 * @return	The ID number of the corresponding effect
+	 * @return	The Id number of the corresponding effect
 	 */
 
-	public static final int getEffectID( String effectName )
+	public static final int getEffectId( String effectName )
 	{
-		Object effectID = effectByName.get( getCanonicalName( effectName ) );
-		return effectID == null ? -1 : ((Integer)effectID).intValue();
+		Object effectId = effectByName.get( getCanonicalName( effectName ) );
+		return effectId == null ? -1 : ((Integer)effectId).intValue();
 	}
 
 	/**
-	 * Returns the ID number for an effect, given its name.
+	 * Returns the Id number for an effect, given its name.
 	 * @param	effectName	The name of the effect to lookup
-	 * @return	The ID number of the corresponding effect
+	 * @return	The Id number of the corresponding effect
 	 */
 
-	public static final String getImage( int effectID )
+	public static final String getImage( int effectId )
 	{
-		Object imageName = effectID == -1 ? null : imageByID.get( new Integer( effectID ) );
+		Object imageName = effectId == -1 ? null : imageById.get( new Integer( effectId ) );
 		return imageName == null ? "/images/debug.gif" : "http://" + IMAGE_SERVER + "/itemimages/" + imageName;
 	}
 
 	/**
-	 * Returns the set of status effects keyed by ID
-	 * @return	The set of status effects keyed by ID
+	 * Returns the set of status effects keyed by Id
+	 * @return	The set of status effects keyed by Id
 	 */
 
 	public static Set entrySet()
-	{	return effectByID.entrySet();
+	{	return effectById.entrySet();
 	}
 
 	public static Collection values()
-	{	return effectByID.values();
+	{	return effectById.values();
 	}
 
 	/**

@@ -41,7 +41,7 @@ import java.awt.event.KeyEvent;
 
 public class ProposeTradeFrame extends SendMessageFrame
 {
-	private String offerID;
+	private String offerId;
 	private static final String [] HEADERS = { "Send this note:" };
 
 	public ProposeTradeFrame()
@@ -52,12 +52,12 @@ public class ProposeTradeFrame extends SendMessageFrame
 	{	this( recipient, null );
 	}
 
-	public ProposeTradeFrame( String recipient, String offerID )
+	public ProposeTradeFrame( String recipient, String offerId )
 	{
 		super( "Send a Trade Proposal", recipient );
-		this.offerID = offerID;
+		this.offerId = offerId;
 
-		if ( this.offerID != null )
+		if ( this.offerId != null )
 			recipientEntry.setEnabled( false );
 	}
 
@@ -72,7 +72,7 @@ public class ProposeTradeFrame extends SendMessageFrame
 
 		super.setEnabled( isEnabled );
 
-		if ( this.offerID != null )
+		if ( this.offerId != null )
 			recipientEntry.setEnabled( false );
 	}
 
@@ -88,11 +88,11 @@ public class ProposeTradeFrame extends SendMessageFrame
 
 		// Send the offer / response
 
-		if ( offerID != null )
-			(new ProposeTradeRequest( StaticEntity.parseInt( offerID ), messages[0], getAttachedItems() )).run();
+		if ( offerId != null )
+			(new ProposeTradeRequest( StaticEntity.parseInt( offerId ), messages[0], getAttachedItems() )).run();
 
 		Object [] parameters = new Object[1];
-		parameters[0] = offerID != null ? new ProposeTradeRequest() :
+		parameters[0] = offerId != null ? new ProposeTradeRequest() :
 			new ProposeTradeRequest( recipient, messages[0], getAttachedItems() );
 
 		createDisplay( PendingTradesFrame.class, parameters );

@@ -48,7 +48,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureDatabase extends KoLDatabase
 {
-	public static final KoLRequest ZONE_VALIDATOR = new KoLRequest( "main.php", true );
+	public static final KoLRequest ZONE_VALIdATOR = new KoLRequest( "main.php", true );
 
 	private static LockableListModel adventures = new LockableListModel();
 	private static AdventureArray allAdventures = new AdventureArray();
@@ -666,9 +666,9 @@ public class AdventureDatabase extends KoLDatabase
 		adventureLookup.put( location.getRequest().getURLString(), location );
 	}
 
-	public static final boolean validateZone( String zoneName, String locationID )
+	public static final boolean validateZone( String zoneName, String locationId )
 	{
-		if ( zoneName == null || locationID == null )
+		if ( zoneName == null || locationId == null )
 			return true;
 
 		ArrayList validationRequests = (ArrayList) zoneValidations.get( zoneName );
@@ -679,53 +679,53 @@ public class AdventureDatabase extends KoLDatabase
 
 		for ( int i = 1; isValidZone && i < validationRequests.size() - 1; ++i )
 		{
-			ZONE_VALIDATOR.constructURLString( (String) validationRequests.get(0) ).run();
-			isValidZone &= ZONE_VALIDATOR.responseText != null &&
-				ZONE_VALIDATOR.responseText.indexOf( (String) validationRequests.get(i) ) != -1;
+			ZONE_VALIdATOR.constructURLString( (String) validationRequests.get(0) ).run();
+			isValidZone &= ZONE_VALIdATOR.responseText != null &&
+				ZONE_VALIdATOR.responseText.indexOf( (String) validationRequests.get(i) ) != -1;
 		}
 
-		ZONE_VALIDATOR.constructURLString( (String) validationRequests.get( validationRequests.size() - 1 ) ).run();
+		ZONE_VALIdATOR.constructURLString( (String) validationRequests.get( validationRequests.size() - 1 ) ).run();
 
 		// Special handling of the bat zone.
 
-		if ( locationID.equals( "32" ) || locationID.equals( "33" ) || locationID.equals( "34" ) )
+		if ( locationId.equals( "32" ) || locationId.equals( "33" ) || locationId.equals( "34" ) )
 		{
-			if ( locationID.equals( "32" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1 )
+			if ( locationId.equals( "32" ) && ZONE_VALIdATOR.responseText.indexOf( "batrockleft.gif" ) == -1 )
 				return true;
 
-			if ( locationID.equals( "33" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) == -1 )
+			if ( locationId.equals( "33" ) && ZONE_VALIdATOR.responseText.indexOf( "batrockright.gif" ) == -1 )
 				return true;
 
-			if ( locationID.equals( "34" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) == -1 )
+			if ( locationId.equals( "34" ) && ZONE_VALIdATOR.responseText.indexOf( "batrockbottom.gif" ) == -1 )
 				return true;
 
 			int sonarCount = SONAR.getCount( inventory );
 			int sonarToUse = 0;
 
-			if ( ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) != -1 )
+			if ( ZONE_VALIdATOR.responseText.indexOf( "batrockleft.gif" ) != -1 )
 				sonarToUse = 3;
-			else if ( ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) != -1 )
+			else if ( ZONE_VALIdATOR.responseText.indexOf( "batrockright.gif" ) != -1 )
 				sonarToUse = 2;
-			else if ( ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) != -1 )
+			else if ( ZONE_VALIdATOR.responseText.indexOf( "batrockbottom.gif" ) != -1 )
 				sonarToUse = 1;
 
 			DEFAULT_SHELL.executeLine( "use " + Math.min( sonarToUse, sonarCount ) + " sonar-in-a-biscuit" );
-			ZONE_VALIDATOR.run();
+			ZONE_VALIdATOR.run();
 
-			return locationID.equals( "32" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1 ||
-				locationID.equals( "33" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) == -1 ||
-				locationID.equals( "34" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) == -1;
+			return locationId.equals( "32" ) && ZONE_VALIdATOR.responseText.indexOf( "batrockleft.gif" ) == -1 ||
+				locationId.equals( "33" ) && ZONE_VALIdATOR.responseText.indexOf( "batrockright.gif" ) == -1 ||
+				locationId.equals( "34" ) && ZONE_VALIdATOR.responseText.indexOf( "batrockbottom.gif" ) == -1;
 		}
 
 		// Handle all others as normal.
 
-		isValidZone &= ZONE_VALIDATOR.responseText != null;
+		isValidZone &= ZONE_VALIdATOR.responseText != null;
 		if ( isValidZone )
 		{
-			isValidZone &= ZONE_VALIDATOR.responseText.indexOf( "snarfblat=" + locationID ) != -1 ||
-				ZONE_VALIDATOR.responseText.indexOf( "adv=" + locationID ) != -1 ||
-				ZONE_VALIDATOR.responseText.indexOf( "name=snarfblat value=" + locationID ) != -1 ||
-				ZONE_VALIDATOR.responseText.indexOf( "name=adv value=" + locationID ) != -1;
+			isValidZone &= ZONE_VALIdATOR.responseText.indexOf( "snarfblat=" + locationId ) != -1 ||
+				ZONE_VALIdATOR.responseText.indexOf( "adv=" + locationId ) != -1 ||
+				ZONE_VALIdATOR.responseText.indexOf( "name=snarfblat value=" + locationId ) != -1 ||
+				ZONE_VALIdATOR.responseText.indexOf( "name=adv value=" + locationId ) != -1;
 		}
 
 		return isValidZone;
@@ -943,10 +943,10 @@ public class AdventureDatabase extends KoLDatabase
 			// Next, attempt to create the item from existing
 			// ingredients (if possible).
 
-			ItemCreationRequest creator = ItemCreationRequest.getInstance( item.getItemID() );
+			ItemCreationRequest creator = ItemCreationRequest.getInstance( item.getItemId() );
 			if ( creator != null )
 			{
-				if ( ConcoctionsDatabase.hasAnyIngredient( item.getItemID() ) )
+				if ( ConcoctionsDatabase.hasAnyIngredient( item.getItemId() ) )
 				{
 					retrieveItem( creator, Math.min( missingCount, creator.getQuantityPossible() ) );
 					missingCount = item.getCount() - item.getCount( inventory );
@@ -963,7 +963,7 @@ public class AdventureDatabase extends KoLDatabase
 			{
 				int worthlessItemCount = HermitRequest.getWorthlessItemCount();
 				if ( worthlessItemCount > 0 )
-					(new HermitRequest( item.getItemID(), Math.min( worthlessItemCount, missingCount ) )).run();
+					(new HermitRequest( item.getItemId(), Math.min( worthlessItemCount, missingCount ) )).run();
 
 				missingCount = item.getCount() - item.getCount( inventory );
 
@@ -984,7 +984,7 @@ public class AdventureDatabase extends KoLDatabase
 			// user wishes to autosatisfy through purchases,
 			// and the item is not creatable through combines.
 
-			int price = TradeableItemDatabase.getPriceByID( item.getItemID() );
+			int price = TradeableItemDatabase.getPriceById( item.getItemId() );
 
 			boolean shouldUseMall = getBooleanProperty( "autoSatisfyWithMall" );
 			boolean shouldUseStash = getBooleanProperty( "autoSatisfyWithStash" ) || getBooleanProperty( "showStashIngredients" );
@@ -992,8 +992,8 @@ public class AdventureDatabase extends KoLDatabase
 			boolean shouldPurchase = price != 0 || item.getName().indexOf( "clover" ) != -1;
 			boolean canUseNPCStore = getBooleanProperty( "autoSatisfyWithNPCs" ) && NPCStoreDatabase.contains( item.getName() );
 
-			boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemID() );
-			shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( item.getItemID() ) == ItemCreationRequest.PIXEL;
+			boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemId() );
+			shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( item.getItemId() ) == ItemCreationRequest.PIXEL;
 
 			// See if the item can be retrieved from the clan stash.  If it can,
 			// go ahead and pull as many items as possible from there.
@@ -1025,9 +1025,9 @@ public class AdventureDatabase extends KoLDatabase
 			// clovers or dough, which causes infinite recursion.  Also don't do this
 			// for white pixels, as that causes confusion.
 
-			if ( creator != null && ConcoctionsDatabase.getMixingMethod( item.getItemID() ) != ItemCreationRequest.NOCREATE )
+			if ( creator != null && ConcoctionsDatabase.getMixingMethod( item.getItemId() ) != ItemCreationRequest.NOCREATE )
 			{
-				switch ( item.getItemID() )
+				switch ( item.getItemId() )
 				{
 				case 24:	// ten-leaf clover
 				case 196:	// disassembled clover

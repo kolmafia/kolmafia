@@ -457,7 +457,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				COMMA_FORMAT.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
 
 			FamiliarData familiar = KoLCharacter.getFamiliar();
-			int id = familiar == null ? -1 : familiar.getID();
+			int id = familiar == null ? -1 : familiar.getId();
 
 			if ( id == -1 )
 			{
@@ -970,9 +970,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		private String scriptPath;
 
-		public LoadScriptButton( int scriptID, String scriptPath )
+		public LoadScriptButton( int scriptId, String scriptPath )
 		{
-			super( String.valueOf( scriptID ) );
+			super( String.valueOf( scriptId ) );
 
 			addActionListener( this );
 			this.scriptPath = scriptPath;

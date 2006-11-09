@@ -49,9 +49,9 @@ public class CakeArenaManager extends StaticEntity
 	 * relates to the arena.
 	 */
 
-	public static void registerOpponent( int opponentID, String name, String race, int weight )
+	public static void registerOpponent( int opponentId, String name, String race, int weight )
 	{
-		ArenaOpponent ao = new ArenaOpponent( opponentID, name, race, weight );
+		ArenaOpponent ao = new ArenaOpponent( opponentId, name, race, weight );
 
 		int index = opponentList.indexOf( ao );
 
@@ -64,17 +64,17 @@ public class CakeArenaManager extends StaticEntity
 	}
 
 	/**
-	 * Retrieves the opponents ID based on the string
+	 * Retrieves the opponents Id based on the string
 	 * description for the opponent.
 	 */
 
-	public static void fightOpponent( String opponent, int eventID, int repeatCount )
+	public static void fightOpponent( String opponent, int eventId, int repeatCount )
 	{
 		for ( int i = 0; i < opponentList.size(); ++i )
 		{
 			if ( opponent.equals( opponentList.get(i).toString() ) )
 			{
-				(new ArenaThread( new CakeArenaRequest( ((ArenaOpponent)opponentList.get(i)).getID(), eventID ), repeatCount )).start();
+				(new ArenaThread( new CakeArenaRequest( ((ArenaOpponent)opponentList.get(i)).getId(), eventId ), repeatCount )).start();
 				return;
 			}
 		}
@@ -130,9 +130,9 @@ public class CakeArenaManager extends StaticEntity
 		return opponentList;
 	}
 
-	public static String getEvent( int eventID )
+	public static String getEvent( int eventId )
 	{
-		switch ( eventID )
+		switch ( eventId )
 		{
 		case 1:
 			return "Cage Match";
@@ -169,7 +169,7 @@ public class CakeArenaManager extends StaticEntity
 			this.description = race + " (" + weight + " lbs)";
 		}
 
-		public int getID()
+		public int getId()
 		{	return id;
 		}
 

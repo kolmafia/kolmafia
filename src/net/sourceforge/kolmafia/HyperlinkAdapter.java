@@ -111,10 +111,10 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 				// being submitted and submit it manually.
 
 				String [] locationSplit = location.split( "\\." );
-				String formID = "\"" + locationSplit[ locationSplit.length - 2 ] + "\"";
+				String formId = "\"" + locationSplit[ locationSplit.length - 2 ] + "\"";
 
 				String editorText = ((JEditorPane)e.getSource()).getText();
-				int formIndex =  editorText.indexOf( formID );
+				int formIndex =  editorText.indexOf( formId );
 
 				String locationText = editorText.substring( editorText.lastIndexOf( "<form", formIndex ),
 					editorText.toLowerCase().indexOf( "</form>", formIndex ) );

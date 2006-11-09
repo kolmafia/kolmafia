@@ -43,14 +43,14 @@ public class ClanMembersRequest extends KoLRequest
 	private static final Pattern CLANID_PATTERN = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" );
 	private static final Pattern MEMBER_PATTERN = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">(.*?)</a>.*?<td class=small>(\\d+).*?</td>" );
 
-	private String clanID;
+	private String clanId;
 	private String clanName;
 	private boolean isLookup;
 
 	public ClanMembersRequest()
 	{
 		super( "showclan.php" );
-		this.clanID = "";
+		this.clanId = "";
 		this.clanName = "";
 		this.isLookup = true;
 	}
@@ -65,31 +65,31 @@ public class ClanMembersRequest extends KoLRequest
 
 		ArrayList fields = new ArrayList();
 
-		String currentID;
+		String currentId;
 		for ( int i = 0; i < titleChange.length; ++i )
 		{
-			currentID = KoLmafia.getPlayerID( (String) titleChange[i] );
-			addFormField( "title" + currentID, (String) newTitles[i] );
+			currentId = KoLmafia.getPlayerId( (String) titleChange[i] );
+			addFormField( "title" + currentId, (String) newTitles[i] );
 
-			if ( !fields.contains( currentID ) )
-				fields.add( currentID );
+			if ( !fields.contains( currentId ) )
+				fields.add( currentId );
 		}
 
 		for ( int i = 0; i < boots.length; ++i )
 		{
-			currentID = KoLmafia.getPlayerID( (String) boots[i] );
-			ClanManager.unregisterMember( currentID );
-			addFormField( "boot" + currentID, "on" );
+			currentId = KoLmafia.getPlayerId( (String) boots[i] );
+			ClanManager.unregisterMember( currentId );
+			addFormField( "boot" + currentId, "on" );
 
-			if ( !fields.contains( currentID ) )
-				fields.add( currentID );
+			if ( !fields.contains( currentId ) )
+				fields.add( currentId );
 		}
 
-		String [] changedIDs = new String[ fields.size() ];
-		fields.toArray( changedIDs );
+		String [] changedIds = new String[ fields.size() ];
+		fields.toArray( changedIds );
 
-		for ( int i = 0; i < changedIDs.length; ++i )
-			addFormField( "pids[]", changedIDs[i], true );
+		for ( int i = 0; i < changedIds.length; ++i )
+			addFormField( "pids[]", changedIds[i], true );
 	}
 
 	public void run()
@@ -100,12 +100,12 @@ public class ClanMembersRequest extends KoLRequest
 			// belong to.  This is done by doing a
 			// profile lookup on yourself.
 
-			KoLmafia.updateDisplay( "Determining clan ID..." );
-			ProfileRequest clanIDLookup = new ProfileRequest( KoLCharacter.getUserName() );
-			clanIDLookup.run();
+			KoLmafia.updateDisplay( "Determining clan Id..." );
+			ProfileRequest clanIdLookup = new ProfileRequest( KoLCharacter.getUserName() );
+			clanIdLookup.run();
 
-			Matcher clanIDMatcher = CLANID_PATTERN.matcher( clanIDLookup.responseText );
-			if ( !clanIDMatcher.find() )
+			Matcher clanIdMatcher = CLANID_PATTERN.matcher( clanIdLookup.responseText );
+			if ( !clanIdMatcher.find() )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Your character does not belong to a clan." );
 				return;
@@ -115,10 +115,10 @@ public class ClanMembersRequest extends KoLRequest
 			// to, you can do a clan lookup to get a
 			// complete list of clan members in one hit
 
-			this.clanID = clanIDMatcher.group(1);
-			this.clanName = clanIDMatcher.group(2);
+			this.clanId = clanIdMatcher.group(1);
+			this.clanName = clanIdMatcher.group(2);
 
-			addFormField( "whichclan", clanID );
+			addFormField( "whichclan", clanId );
 			KoLmafia.updateDisplay( "Retrieving clan member list..." );
 		}
 
@@ -136,18 +136,18 @@ public class ClanMembersRequest extends KoLRequest
 			{
 				lastMatchIndex = memberMatcher.end();
 
-				String playerID = memberMatcher.group(1);
+				String playerId = memberMatcher.group(1);
 				String playerName = memberMatcher.group(2);
 				String playerLevel = memberMatcher.group(3);
 
-				KoLmafia.registerPlayer( playerName, playerID );
+				KoLmafia.registerPlayer( playerName, playerId );
 				ClanManager.registerMember( playerName, playerLevel );
 			}
 		}
 	}
 
-	public String getClanID()
-	{	return clanID;
+	public String getClanId()
+	{	return clanId;
 	}
 
 	public String getClanName()

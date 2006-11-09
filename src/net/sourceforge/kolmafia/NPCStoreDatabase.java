@@ -58,7 +58,7 @@ public class NPCStoreDatabase extends KoLDatabase
 			if ( data.length == 4 )
 			{
 				NPC_ITEMS.add( new MallPurchaseRequest( data[1], data[0],
-					TradeableItemDatabase.getItemID( data[2] ), parseInt( data[3] ) ) );
+					TradeableItemDatabase.getItemId( data[2] ), parseInt( data[3] ) ) );
 			}
 		}
 
@@ -77,7 +77,7 @@ public class NPCStoreDatabase extends KoLDatabase
 
 	public static final MallPurchaseRequest getPurchaseRequest( String itemName )
 	{
-		int itemID = TradeableItemDatabase.getItemID( itemName );
+		int itemId = TradeableItemDatabase.getItemId( itemName );
 
 		MallPurchaseRequest foundItem = null;
 		MallPurchaseRequest currentItem = null;
@@ -85,10 +85,10 @@ public class NPCStoreDatabase extends KoLDatabase
 		for ( int i = 0; i < NPC_ITEMS.size(); ++i )
 		{
 			currentItem = (MallPurchaseRequest) NPC_ITEMS.get(i);
-			if ( currentItem.getItemID() == itemID )
+			if ( currentItem.getItemId() == itemId )
 			{
 				foundItem = currentItem;
-				if ( canPurchase( foundItem.getStoreID() ) )
+				if ( canPurchase( foundItem.getStoreId() ) )
 				{
 					foundItem.setCanPurchase( true );
 					return foundItem;
@@ -104,9 +104,9 @@ public class NPCStoreDatabase extends KoLDatabase
 		return foundItem;
 	}
 
-	private static boolean canPurchase( String storeID )
+	private static boolean canPurchase( String storeId )
 	{
-		if ( storeID == null )
+		if ( storeId == null )
 			return false;
 
 		// Check for whether or not the purchase can be made from a
@@ -115,13 +115,13 @@ public class NPCStoreDatabase extends KoLDatabase
 
 		String classType = KoLCharacter.getClassType();
 
-		if ( storeID.equals( "1" ) )
+		if ( storeId.equals( "1" ) )
 			return KoLCharacter.isMoxieClass();
 
-		else if ( storeID.equals( "2" ) )
+		else if ( storeId.equals( "2" ) )
 			return KoLCharacter.isMysticalityClass() || (classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9);
 
-		else if ( storeID.equals( "3" ) )
+		else if ( storeId.equals( "3" ) )
 			return KoLCharacter.isMuscleClass() || (classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9);
 
 		// If the person is trying to get one of the items from the bugbear
@@ -129,39 +129,39 @@ public class NPCStoreDatabase extends KoLDatabase
 		// bugbear outfit.  Of course, some items are available from the
 		// Degrassi knoll bakery, so fallback on that when possible.
 
-		else if ( storeID.equals( "b" ) )
+		else if ( storeId.equals( "b" ) )
 			return EquipmentDatabase.hasOutfit( 1 );
 
 		// If the person is not in a muscle sign, then items from the
 		// Degrassi Knoll are not available.
 
-		else if ( (storeID.equals( "4" ) || storeID.equals( "5" )) )
+		else if ( (storeId.equals( "4" ) || storeId.equals( "5" )) )
 			return KoLCharacter.inMuscleSign();
 
 		// If the person is not in a mysticality sign, then items from the
 		// Canadia Jewelers are not available.
 
-		else if ( storeID.equals( "j" ) )
+		else if ( storeId.equals( "j" ) )
 			return KoLCharacter.inMysticalitySign();
 
 		// If the person is trying to get the items from the laboratory,
 		// then the item is not available if they don't have the elite
 		// guard uniform, and not available if out of Ronin.
 
-		else if ( storeID.equals( "g" ) )
+		else if ( storeId.equals( "g" ) )
 			return EquipmentDatabase.hasOutfit( 5 );
 
 		// If the person is trying to get one of the items from the hippy
 		// store, then the item is not available if they don't have the
 		// hippy outfit.
 
-		else if ( storeID.equals( "h" ) )
+		else if ( storeId.equals( "h" ) )
 			return EquipmentDatabase.hasOutfit( 2 );
 
 		// Check for a lucky rabbit's foot when determining whether or not
 		// the person has access to the Citadel.
 
-		else if ( storeID.equals( "w" ) )
+		else if ( storeId.equals( "w" ) )
 			return KoLCharacter.isHardcore() && KoLCharacter.hasItem( RABBIT_FOOT );
 
 		// If it gets this far, then the item is definitely available

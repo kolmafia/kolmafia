@@ -249,7 +249,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final LockableListModel activeEffects = new LockableListModel();
 	public static final ArrayList recentEffects = new ArrayList();
 
-	public static final TreeMap seenPlayerIDs = new TreeMap();
+	public static final TreeMap seenPlayerIds = new TreeMap();
 	public static final TreeMap seenPlayerNames = new TreeMap();
 	public static final SortedListModel contactList = new SortedListModel();
 

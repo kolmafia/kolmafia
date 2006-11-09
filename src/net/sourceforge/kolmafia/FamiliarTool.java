@@ -60,7 +60,7 @@ public class FamiliarTool
 
 	/**
 	 * Initializes Familiar Tool with all Arena Data
-	 * @param	opponents	Array with IDs of all opponents. The index of each opponent will be re-used as a return value
+	 * @param	opponents	Array with Ids of all opponents. The index of each opponent will be re-used as a return value
 	 */
 	public FamiliarTool( List opponents )
 	{
@@ -75,9 +75,9 @@ public class FamiliarTool
 
 	/**
 	 * Runs all the calculation to determine the best matchup for a familiar
-	 * @param	ownFamiliar		ID of the familiar to calculate a matchup for
+	 * @param	ownFamiliar		Id of the familiar to calculate a matchup for
 	 * @param	possibleOwnWeights	Array with all possibilities for familiar weight
-	 * @return	The ID number of the best opponent. Further information can be collected through other functions
+	 * @return	The Id number of the best opponent. Further information can be collected through other functions
 	 */
 	public CakeArenaManager.ArenaOpponent bestOpponent( int ownFamiliar, int [] possibleOwnWeights )
 	{
@@ -89,7 +89,7 @@ public class FamiliarTool
 	 * Runs all the calculation to determine the best matchup for a familiar
 	 * @param	ownSkills		our familiar's skills
 	 * @param	possibleOwnWeights	Array with all possibilities for familiar weight
-	 * @return	The ID number of the best opponent. Further information can be collected through other functions
+	 * @return	The Id number of the best opponent. Further information can be collected through other functions
 	 */
 	public CakeArenaManager.ArenaOpponent bestOpponent( int [] ownSkills, int [] possibleOwnWeights )
 	{
@@ -145,7 +145,7 @@ public class FamiliarTool
 
 	/**
 	 * Retrieves match data. Will only supply relevant data for last call to bestOpponent
-	 * @return	The ID number of the best match. 1 = 'Ultimate Cage Match', 2 = 'Scavenger Hunt', 3 = 'Obstacle Course', 4 = 'Hide and Seek'
+	 * @return	The Id number of the best match. 1 = 'Ultimate Cage Match', 2 = 'Scavenger Hunt', 3 = 'Obstacle Course', 4 = 'Hide and Seek'
 	 */
 	public int bestMatch()
 	{	return bestMatch + 1;
@@ -215,7 +215,7 @@ public class FamiliarTool
 		public Opponent( CakeArenaManager.ArenaOpponent opponent )
 		{
 			this.opponent = opponent;
-			this.type = FamiliarsDatabase.getFamiliarID( opponent.getRace() );
+			this.type = FamiliarsDatabase.getFamiliarId( opponent.getRace() );
 			this.weight = opponent.getWeight();
 			this.arena = FamiliarsDatabase.getFamiliarSkills( type );
 		}

@@ -94,7 +94,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 	{	return responseText;
 	}
 
-	private static final boolean isJunkItem( int itemID, int price, int searchType, boolean ignoreExpensiveItems, boolean ignoreMinpricedItems, boolean ignoreUnrelatedItems )
+	private static final boolean isJunkItem( int itemId, int price, int searchType, boolean ignoreExpensiveItems, boolean ignoreMinpricedItems, boolean ignoreUnrelatedItems )
 	{
 		boolean shouldIgnore = false;
 
@@ -103,7 +103,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		if ( ignoreUnrelatedItems )
 		{
-			int useType = TradeableItemDatabase.getConsumptionType( itemID );
+			int useType = TradeableItemDatabase.getConsumptionType( itemId );
 			switch ( searchType )
 			{
 
@@ -169,8 +169,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 
 		shouldIgnore |= ignoreExpensiveItems && price > KoLCharacter.getAvailableMeat();
-		shouldIgnore |= NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemID ) );
-		shouldIgnore |= ignoreMinpricedItems && price <= TradeableItemDatabase.getPriceByID( itemID ) * 2;
+		shouldIgnore |= NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemId ) );
+		shouldIgnore |= ignoreMinpricedItems && price <= TradeableItemDatabase.getPriceById( itemId ) * 2;
 		shouldIgnore |= ignoreMinpricedItems && price == 100;
 
 		return shouldIgnore;
@@ -190,16 +190,16 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		if ( formURLString.indexOf( "mallstore.php" ) != -1 )
 		{
-			int searchItemID = -1;
+			int searchItemId = -1;
 			int searchPrice = -1;
 			int searchType = ConsumeItemRequest.NO_CONSUME;
 
 			Matcher itemMatcher = SEARCHITEM_PATTERN.matcher( getURLString() );
 			if ( itemMatcher.find() )
 			{
-				searchItemID = StaticEntity.parseInt( itemMatcher.group(1) );
+				searchItemId = StaticEntity.parseInt( itemMatcher.group(1) );
 				searchPrice = StaticEntity.parseInt( itemMatcher.group(2) );
-				searchType = TradeableItemDatabase.getConsumptionType( searchItemID );
+				searchType = TradeableItemDatabase.getConsumptionType( searchItemId );
 			}
 
 			itemMatcher = STORE_PATTERN.matcher( responseText );
@@ -212,19 +212,19 @@ public class LocalRelayRequest extends PasswordHashRequest
 			{
 				String itemData = itemMatcher.group(1);
 
-				int itemID = StaticEntity.parseInt( itemData.substring( 0, itemData.length() - 9 ) );
+				int itemId = StaticEntity.parseInt( itemData.substring( 0, itemData.length() - 9 ) );
 				int price = StaticEntity.parseInt( itemData.substring( itemData.length() - 9 ) );
 
-				if ( itemID != searchItemID && isJunkItem( itemID, price, searchType, ignoreExpensiveItems, ignoreMinpricedItems, ignoreUnrelatedItems ) )
+				if ( itemId != searchItemId && isJunkItem( itemId, price, searchType, ignoreExpensiveItems, ignoreMinpricedItems, ignoreUnrelatedItems ) )
 					StaticEntity.singleStringDelete( responseBuffer, itemMatcher.group() );
 			}
 
 			// Also make sure the item that the person selected when coming into the
 			// store is pre-selected.
 
-			if ( searchItemID != -1 )
+			if ( searchItemId != -1 )
 			{
-				String searchString = MallPurchaseRequest.getStoreString( searchItemID, searchPrice );
+				String searchString = MallPurchaseRequest.getStoreString( searchItemId, searchPrice );
 				StaticEntity.singleStringReplace( responseBuffer, "value=" + searchString, "checked value=" + searchString );
 			}
 		}
@@ -247,7 +247,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			}
 
 			functionMenu.append( "<option value=\"donatepopup.php?pid=" );
-			functionMenu.append( KoLCharacter.getUserID() );
+			functionMenu.append( KoLCharacter.getUserId() );
 			functionMenu.append( "\">Donate</option>" );
 			functionMenu.append( "</select>" );
 
@@ -658,7 +658,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		StaticEntity.globalStringReplace( scriptBuffer, "/*familiarWeight*/", KoLCharacter.getFamiliar().getWeight() );
 
 		String familiarEquipment = KoLCharacter.getEquipment( KoLCharacter.FAMILIAR ).getName();
-		if ( FamiliarData.itemWeightModifier( TradeableItemDatabase.getItemID( familiarEquipment ) ) == 5 )
+		if ( FamiliarData.itemWeightModifier( TradeableItemDatabase.getItemId( familiarEquipment ) ) == 5 )
 			StaticEntity.globalStringReplace( scriptBuffer, "/*familiarEquip*/", "familiar-specific +5 lbs." );
 		else
 			StaticEntity.globalStringReplace( scriptBuffer, "/*familiarEquip*/", familiarEquipment );
@@ -686,8 +686,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 		StringBuffer passiveSkills = new StringBuffer();
 		for ( int i = 0; i < skills.length; ++i )
 		{
-			int skillID = skills[i].getSkillID();
-			if ( !( ClassSkillsDatabase.getSkillType( skillID ) == ClassSkillsDatabase.PASSIVE && !(skillID < 10 || (skillID > 14 && skillID < 1000)) ) )
+			int skillId = skills[i].getSkillId();
+			if ( !( ClassSkillsDatabase.getSkillType( skillId ) == ClassSkillsDatabase.PASSIVE && !(skillId < 10 || (skillId > 14 && skillId < 1000)) ) )
 				continue;
 
 			passiveSkills.append( "\t" );

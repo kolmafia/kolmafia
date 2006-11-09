@@ -61,7 +61,7 @@ public class RestaurantRequest extends KoLRequest
 
 		// Parse item name and price
 		Matcher itemMatcher = COST_PATTERN.matcher( name );
-		int itemID = 0;
+		int itemId = 0;
 
 		if ( itemMatcher.find( 0 ) )
 		{
@@ -76,15 +76,15 @@ public class RestaurantRequest extends KoLRequest
 			for ( int i = 0; i < 3; i++ )
 				if ( ((String)restaurantItems.get(i)).equals( name ) )
 				{
-					itemID = -1 - i;
+					itemId = -1 - i;
 					break;
 				}
 
-			if ( itemID == 0 )
-				itemID = TradeableItemDatabase.getItemID( itemName );
+			if ( itemId == 0 )
+				itemId = TradeableItemDatabase.getItemId( itemName );
 		}
 
-		addFormField( "whichitem", String.valueOf( itemID ) );
+		addFormField( "whichitem", String.valueOf( itemId ) );
 	}
 
 	public void run()

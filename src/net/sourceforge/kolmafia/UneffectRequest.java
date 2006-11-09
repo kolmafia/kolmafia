@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia;
 
 public class UneffectRequest extends KoLRequest
 {
-	private int effectID;
+	private int effectId;
 	private boolean isShruggable;
 	private AdventureResult effect;
 
@@ -55,26 +55,26 @@ public class UneffectRequest extends KoLRequest
 		super( isShruggable( effect.getName() ) ? "charsheet.php" : "uneffect.php" );
 
 		this.effect = effect;
-		this.effectID = StatusEffectDatabase.getEffectID( effect.getName() );
+		this.effectId = StatusEffectDatabase.getEffectId( effect.getName() );
 		this.isShruggable = isShruggable( effect.getName() );
 
 		if ( isShruggable )
 		{
 			addFormField( "pwd" );
 			addFormField( "action", "unbuff" );
-			addFormField( "whichbuff", String.valueOf( effectID ) );
+			addFormField( "whichbuff", String.valueOf( effectId ) );
 		}
 		else
 		{
 			addFormField( "pwd" );
 			addFormField( "using", "Yep." );
-			addFormField( "whicheffect", String.valueOf( effectID ) );
+			addFormField( "whicheffect", String.valueOf( effectId ) );
 		}
 	}
 
 	private static final boolean isShruggable( String effectName )
 	{
-		int id = ClassSkillsDatabase.getSkillID( effectToSkill( effectName ) );
+		int id = ClassSkillsDatabase.getSkillId( effectToSkill( effectName ) );
 		return id != -1 && ClassSkillsDatabase.isBuff( id  );
 	}
 

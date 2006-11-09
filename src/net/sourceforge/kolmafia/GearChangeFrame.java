@@ -100,7 +100,7 @@ public class GearChangeFrame extends KoLFrame
 			else
 				list = lists[i];
 
-			equipment[i] = new ChangeComboBox( list );
+			equipment[i] = new ChangeComboBox( i, list );
 		}
 
 		familiarSelect = new ChangeComboBox( KoLCharacter.getFamiliarList() );
@@ -217,7 +217,12 @@ public class GearChangeFrame extends KoLFrame
 		public ChangeComboBox( LockableListModel slot )
 		{
 			super( slot );
-			this.setRenderer( AdventureResult.getEquipmentCellRenderer( true, true, true, true, true, true, true ) );
+		}
+
+		public ChangeComboBox( int slotId, LockableListModel slot )
+		{
+			super( slot );
+			this.setRenderer( AdventureResult.getEquipmentRenderer( KoLCharacter.equipmentTypeToConsumeFilter( slotId ) ) );
 		}
 
 		public void firePopupMenuWillBecomeInvisible()
@@ -311,7 +316,7 @@ public class GearChangeFrame extends KoLFrame
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			AdventureResult currentItem = (AdventureResult) inventory.get(i);
-			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemID() );
+			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemId() );
 
 			if ( type != ConsumeItemRequest.EQUIP_WEAPON )
 				continue;
@@ -376,7 +381,7 @@ public class GearChangeFrame extends KoLFrame
 
 	private static boolean validOffhandItem( AdventureResult currentItem, boolean weapons, boolean ranged )
 	{
-		switch ( TradeableItemDatabase.getConsumptionType( currentItem.getItemID() ) )
+		switch ( TradeableItemDatabase.getConsumptionType( currentItem.getItemId() ) )
 		{
 		case ConsumeItemRequest.EQUIP_WEAPON:
 			if ( !weapons )

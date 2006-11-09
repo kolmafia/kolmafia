@@ -100,7 +100,7 @@ public abstract class SendMessageRequest extends KoLRequest
 			quantity = getQuantityField();
 		}
 
-		addFormField( which, String.valueOf( item.getItemID() ) );
+		addFormField( which, String.valueOf( item.getItemId() ) );
 		addFormField( quantity, String.valueOf( item.getCount() ) );
 	}
 
@@ -148,10 +148,10 @@ public abstract class SendMessageRequest extends KoLRequest
 					continue;
 				}
 
-				if ( !allowNoGift && !TradeableItemDatabase.isGiftable( item.getItemID() ) )
+				if ( !allowNoGift && !TradeableItemDatabase.isGiftable( item.getItemId() ) )
 					continue;
 
-				else if ( !allowNoTrade && !TradeableItemDatabase.isTradeable( item.getItemID() ) )
+				else if ( !allowNoTrade && !TradeableItemDatabase.isTradeable( item.getItemId() ) )
 					continue;
 
 				availableCount = item.getCount( source );
@@ -253,7 +253,7 @@ public abstract class SendMessageRequest extends KoLRequest
 	protected void processResults()
 	{
 		// Make sure that the message was actually sent -
-		// the person could have input an invalid player ID
+		// the person could have input an invalid player Id
 
 		if ( tallyItemTransfer() && (getSuccessMessage().equals( "" ) || responseText.indexOf( getSuccessMessage() ) != -1) )
 		{
@@ -331,9 +331,9 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		while ( itemMatcher.find() && (quantityMatcher == null || quantityMatcher.find()) )
 		{
-			int itemID = StaticEntity.parseInt( itemMatcher.group(1) );
+			int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
 			int quantity = quantityPattern == null ? defaultQuantity : StaticEntity.parseInt( quantityMatcher.group(1) );
-			AdventureResult item = new AdventureResult( itemID, quantity );
+			AdventureResult item = new AdventureResult( itemId, quantity );
 
 			if ( quantity < 1 )
 				quantity = quantity + item.getCount( source );
@@ -345,7 +345,7 @@ public abstract class SendMessageRequest extends KoLRequest
 
 			itemListBuffer.append( quantity );
 			itemListBuffer.append( " " );
-			itemListBuffer.append( TradeableItemDatabase.getItemName( itemID ) );
+			itemListBuffer.append( TradeableItemDatabase.getItemName( itemId ) );
 		}
 
 		Matcher recipientMatcher = RECIPIENT_PATTERN.matcher( urlString );

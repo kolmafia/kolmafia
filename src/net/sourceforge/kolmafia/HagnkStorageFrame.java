@@ -57,7 +57,6 @@ public class HagnkStorageFrame extends KoLFrame
 {
 	private static HagnkStorageFrame INSTANCE = null;
 
-	private HagnkStoragePanel all, equip;
 	private static int pullsRemaining = 0;
 
 	public HagnkStorageFrame()
@@ -66,20 +65,7 @@ public class HagnkStorageFrame extends KoLFrame
 
 		INSTANCE = this;
 		setPullsRemaining( pullsRemaining );
-
-		// Finally, add the actual content to the
-		// storage frame.
-
-		tabs = new JTabbedPane();
-		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
-
-		all = new HagnkStoragePanel( false );
-		equip = new HagnkStoragePanel( true );
-
-		tabs.addTab( "All Items", all );
-		tabs.addTab( "Equipment", equip );
-
-		framePanel.add( tabs, BorderLayout.CENTER );
+		framePanel.add( new HagnkStoragePanel(), BorderLayout.CENTER );
 	}
 
 	public static int getPullsRemaining()
@@ -118,55 +104,27 @@ public class HagnkStorageFrame extends KoLFrame
 
 	private class HagnkStoragePanel extends ItemManagePanel
 	{
-		private boolean isEquipment;
 		private FilterCheckBox [] consumeFilters;
-		private FilterRadioButton [] equipmentFilters;
 
-		public HagnkStoragePanel( boolean isEquipment )
+		public HagnkStoragePanel()
 		{
-			super( "Inside Storage", storage, !isEquipment );
+			super( "Inside Storage", storage, true );
 
 			setButtons( new String [] { "put in bag", "put in closet", "take it all" },
 				new ActionListener [] { new PullFromStorageListener( false ), new PullFromStorageListener( true ), new EmptyStorageListener() } );
 
 			movers[2].setSelected( true );
-			this.isEquipment = isEquipment;
 
-			if ( isEquipment )
-			{
-				elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			consumeFilters = new FilterCheckBox[3];
+			consumeFilters[0] = new FilterCheckBox( consumeFilters, elementList, "Show food", true );
+			consumeFilters[1] = new FilterCheckBox( consumeFilters, elementList, "Show drink", true );
+			consumeFilters[2] = new FilterCheckBox( consumeFilters, elementList, "Show others", true );
 
-				equipmentFilters = new FilterRadioButton[7];
-				equipmentFilters[0] = new FilterRadioButton( "weapons", true );
-				equipmentFilters[1] = new FilterRadioButton( "offhand" );
-				equipmentFilters[2] = new FilterRadioButton( "hats" );
-				equipmentFilters[3] = new FilterRadioButton( "shirts" );
-				equipmentFilters[4] = new FilterRadioButton( "pants" );
-				equipmentFilters[5] = new FilterRadioButton( "accessories" );
-				equipmentFilters[6] = new FilterRadioButton( "familiar" );
+			for ( int i = 0; i < consumeFilters.length; ++i )
+				optionPanel.add( consumeFilters[i] );
 
-				ButtonGroup filterGroup = new ButtonGroup();
-				for ( int i = 0; i < 7; ++i )
-				{
-					filterGroup.add( equipmentFilters[i] );
-					optionPanel.add( equipmentFilters[i] );
-				}
-
-				elementList.setCellRenderer( AdventureResult.getEquipmentCellRenderer( true, false, false, false, false, false, false ) );
-			}
-			else
-			{
-				consumeFilters = new FilterCheckBox[3];
-				consumeFilters[0] = new FilterCheckBox( consumeFilters, elementList, "Show food", true );
-				consumeFilters[1] = new FilterCheckBox( consumeFilters, elementList, "Show drink", true );
-				consumeFilters[2] = new FilterCheckBox( consumeFilters, elementList, "Show others", true );
-
-				for ( int i = 0; i < consumeFilters.length; ++i )
-					optionPanel.add( consumeFilters[i] );
-
-				elementList.setCellRenderer(
-					AdventureResult.getConsumableCellRenderer( true, true, true ) );
-			}
+			elementList.setCellRenderer(
+				AdventureResult.getConsumableCellRenderer( true, true, true ) );
 		}
 
 		protected AdventureResult [] getDesiredItems( String message )
@@ -174,34 +132,8 @@ public class HagnkStorageFrame extends KoLFrame
 			// Ensure that the selection interval does not include
 			// anything that was filtered out by the checkboxes.
 
-			if ( !isEquipment )
-			{
-				filterSelection( consumeFilters[0].isSelected(), consumeFilters[1].isSelected(),
-					consumeFilters[2].isSelected(), true, true );
-			}
-
+			filterSelection( consumeFilters[0].isSelected(), consumeFilters[1].isSelected(), consumeFilters[2].isSelected() );
 			return super.getDesiredItems( message );
-		}
-
-		private class FilterRadioButton extends JRadioButton implements ActionListener
-		{
-			public FilterRadioButton( String label )
-			{	this( label, false );
-			}
-
-			public FilterRadioButton( String label, boolean isSelected )
-			{
-				super( label, isSelected );
-				addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				elementList.setCellRenderer( AdventureResult.getEquipmentCellRenderer(
-					equipmentFilters[0].isSelected(), equipmentFilters[1].isSelected(), equipmentFilters[2].isSelected(), equipmentFilters[3].isSelected(),
-					equipmentFilters[4].isSelected(), equipmentFilters[5].isSelected(), equipmentFilters[6].isSelected() ) );
-				elementList.validate();
-			}
 		}
 
 		private class PullFromStorageListener implements ActionListener

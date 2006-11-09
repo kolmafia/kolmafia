@@ -72,10 +72,10 @@ public class SearchMallRequest extends KoLRequest
 	 * @param	client	Theto be notified in case of error
 	 */
 
-	public SearchMallRequest( int storeID )
+	public SearchMallRequest( int storeId )
 	{
 		super( "mallstore.php" );
-		addFormField( "whichstore", String.valueOf( storeID ) );
+		addFormField( "whichstore", String.valueOf( storeId ) );
 
 		this.results = new ArrayList();
 		this.retainAll = true;
@@ -175,10 +175,10 @@ public class SearchMallRequest extends KoLRequest
 			boolean canAvoidSearch = true;
 			for ( int i = 0; canAvoidSearch && i < itemNames.size(); ++i )
 			{
-				int itemID = TradeableItemDatabase.getItemID( (String) itemNames.get(i) );
-				int autoSellPrice = TradeableItemDatabase.getPriceByID( itemID );
+				int itemId = TradeableItemDatabase.getItemId( (String) itemNames.get(i) );
+				int autoSellPrice = TradeableItemDatabase.getPriceById( itemId );
 
-				canAvoidSearch &= !TradeableItemDatabase.isTradeable( itemID ) ||
+				canAvoidSearch &= !TradeableItemDatabase.isTradeable( itemId ) ||
 					(NPCStoreDatabase.contains( (String) itemNames.get(i) ) && (!KoLCharacter.canInteract() || autoSellPrice < 100));
 			}
 
@@ -210,7 +210,7 @@ public class SearchMallRequest extends KoLRequest
 			Matcher shopMatcher = STOREID_PATTERN.matcher( responseText );
 			shopMatcher.find();
 
-			int shopID = StaticEntity.parseInt( shopMatcher.group(2) );
+			int shopId = StaticEntity.parseInt( shopMatcher.group(2) );
 
 			// Translate the shop name to its unicode form so
 			// it can be properly rendered.  In the process,
@@ -224,11 +224,11 @@ public class SearchMallRequest extends KoLRequest
 			while ( priceMatcher.find( lastFindIndex ) )
 			{
 				lastFindIndex = priceMatcher.end();
-				String priceID = priceMatcher.group(1);
+				String priceId = priceMatcher.group(1);
 
 				String itemName = priceMatcher.group(2);
 
-				int itemID = StaticEntity.parseInt( priceID.substring( 0, priceID.length() - 9 ) );
+				int itemId = StaticEntity.parseInt( priceId.substring( 0, priceId.length() - 9 ) );
 				int quantity = StaticEntity.parseInt( priceMatcher.group(3) );
 				int limit = quantity;
 
@@ -236,8 +236,8 @@ public class SearchMallRequest extends KoLRequest
 				if ( limitMatcher.find() )
 					limit = StaticEntity.parseInt( limitMatcher.group(1) );
 
-				int price = StaticEntity.parseInt( priceID.substring( priceID.length() - 9 ) );
-				results.add( new MallPurchaseRequest( itemName, itemID, quantity, shopID, shopName, price, limit, true ) );
+				int price = StaticEntity.parseInt( priceId.substring( priceId.length() - 9 ) );
+				results.add( new MallPurchaseRequest( itemName, itemId, quantity, shopId, shopName, price, limit, true ) );
 			}
 		}
 		else
@@ -274,7 +274,7 @@ public class SearchMallRequest extends KoLRequest
 		Matcher linkMatcher = STOREDETAIL_PATTERN.matcher( storeListResult );
 		String linkText = null;
 
-		int previousItemID = -1;
+		int previousItemId = -1;
 
 		while ( linkMatcher.find() )
 		{
@@ -299,17 +299,17 @@ public class SearchMallRequest extends KoLRequest
 			if ( !detailsMatcher.find() )
 				continue;
 
-			int shopID = StaticEntity.parseInt( detailsMatcher.group(1) );
-			int itemID = StaticEntity.parseInt( detailsMatcher.group(2) );
+			int shopId = StaticEntity.parseInt( detailsMatcher.group(1) );
+			int itemId = StaticEntity.parseInt( detailsMatcher.group(2) );
 			int price = StaticEntity.parseInt( detailsMatcher.group(3) );
 
 			String shopName = detailsMatcher.group(4).replaceAll( "<br>", " " );
-			String itemName = TradeableItemDatabase.getItemName( itemID );
+			String itemName = TradeableItemDatabase.getItemName( itemId );
 			boolean canPurchase = linkText.indexOf( "<td style=" ) == -1;
 
-			if ( previousItemID != itemID )
+			if ( previousItemId != itemId )
 			{
-				previousItemID = itemID;
+				previousItemId = itemId;
 				addNPCStoreItem( itemName );
 				itemNames.remove( itemName );
 			}
@@ -317,7 +317,7 @@ public class SearchMallRequest extends KoLRequest
 			// Only add mall store results if the NPC store option
 			// is not available.
 
-			results.add( new MallPurchaseRequest( itemName, itemID, quantity, shopID, shopName, price, limit, canPurchase ) );
+			results.add( new MallPurchaseRequest( itemName, itemId, quantity, shopId, shopName, price, limit, canPurchase ) );
 		}
 
 		// Once the search is complete, add in any remaining NPC

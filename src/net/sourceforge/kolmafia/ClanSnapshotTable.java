@@ -105,7 +105,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		profileMap.put( lowerCaseName, "" );
 	}
 
-	public static void unregisterMember( String playerID )
+	public static void unregisterMember( String playerId )
 	{
 		ProfileRequest [] filterArray = new ProfileRequest[ filterList.size() ];
 		filterList.toArray( filterArray );
@@ -114,7 +114,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		{
 			String lowerCaseName = filterArray[i].getPlayerName().toLowerCase();
 
-			if ( filterArray[i].getPlayerID().equals( playerID ) )
+			if ( filterArray[i].getPlayerId().equals( playerId ) )
 			{
 				filterList.remove(i);
 
@@ -163,7 +163,7 @@ public class ClanSnapshotTable extends KoLDatabase
 
 	private static ProfileRequest getProfile( String name )
 	{
-		return ProfileRequest.getInstance( name, KoLmafia.getPlayerID( name ), (String) levelMap.get(name),
+		return ProfileRequest.getInstance( name, KoLmafia.getPlayerId( name ), (String) levelMap.get(name),
 			(String) profileMap.get(name), (String) rosterMap.get(name) );
 	}
 
@@ -237,7 +237,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( ClanManager.getClanName() );
 
 		strbuf.append( ", Clan #" );
-		strbuf.append( ClanManager.getClanID() );
+		strbuf.append( ClanManager.getClanId() );
 		strbuf.append( " (" );
 		strbuf.append( new Date() );
 		strbuf.append( ")</title>" );
@@ -347,7 +347,7 @@ public class ClanSnapshotTable extends KoLDatabase
 			strbuf.append( "\">" );
 		}
 
-		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerID( memberName ) ) );
+		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerId( memberName ) ) );
 
 		if ( localProfileLink )
 			strbuf.append( "</a>" );
@@ -377,7 +377,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( "</td><td align=center>" );
 		strbuf.append( COMMA_FORMAT.format( memberLookup.getCurrentRun() == null ? 0 : memberLookup.getCurrentRun().intValue() ) );
 
-		AscensionDataRequest request = AscensionDataRequest.getInstance( memberName, KoLmafia.getPlayerID( memberName ),
+		AscensionDataRequest request = AscensionDataRequest.getInstance( memberName, KoLmafia.getPlayerId( memberName ),
 			(String) AscensionSnapshotTable.getAscensionMap().get( memberName ) );
 
 		List ascensions = request.getAscensionData();
@@ -520,7 +520,7 @@ public class ClanSnapshotTable extends KoLDatabase
 			strbuf.append( "\">" );
 		}
 
-		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerID( memberName ) ) );
+		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerId( memberName ) ) );
 
 		if ( localProfileLink )
 			strbuf.append( "</a>" );
@@ -625,7 +625,7 @@ public class ClanSnapshotTable extends KoLDatabase
 			strbuf.append( "\">" );
 		}
 
-		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerID( memberName ) ) );
+		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerId( memberName ) ) );
 
 		if ( localProfileLink )
 			strbuf.append( "</a>" );

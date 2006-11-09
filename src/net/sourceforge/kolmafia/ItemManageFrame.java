@@ -156,8 +156,7 @@ public class ItemManageFrame extends KoLFrame
 
 		protected AdventureResult [] getDesiredItems( String message )
 		{
-			filterSelection( filters[0].isSelected(),
-				 filters[1].isSelected(), filters[2].isSelected(), true, true );
+			filterSelection( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() );
 			return super.getDesiredItems( message );
 		}
 
@@ -249,23 +248,20 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( title, elementModel, true );
 
-			filters = new JCheckBox[5];
+			filters = new JCheckBox[3];
 			filters[0] = new FilterCheckBox( filters, elementList, true, "Show food", true );
 			filters[1] = new FilterCheckBox( filters, elementList, true, "Show drink", true );
 			filters[2] = new FilterCheckBox( filters, elementList, true, "Show others", true );
-			filters[3] = new FilterCheckBox( filters, elementList, true, "Show no-sell", true );
-			filters[4] = new FilterCheckBox( filters, elementList, true, "Show no-trade", true );
 
 			for ( int i = 0; i < filters.length; ++i )
 				optionPanel.add( filters[i] );
 
-			elementList.setCellRenderer(
-				AdventureResult.getAutoSellCellRenderer( true, true, true, true, true ) );
+			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer( true, true, true ) );
 		}
 
 		protected AdventureResult [] getDesiredItems( String message )
 		{
-			filterSelection( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected(), filters[3].isSelected(), filters[4].isSelected() );
+			filterSelection( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() );
 			return super.getDesiredItems( message );
 		}
 
@@ -413,7 +409,7 @@ public class ItemManageFrame extends KoLFrame
 				requests = new Runnable[ items.length ];
 				for ( int i = 0; i < items.length; ++i )
 				{
-					boolean willSmash = TradeableItemDatabase.isTradeable( items[i].getItemID() ) ||
+					boolean willSmash = TradeableItemDatabase.isTradeable( items[i].getItemId() ) ||
 						JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 							items[i].getName() + " is untradeable.  Are you sure?", "Smash request nag screen!", JOptionPane.YES_NO_OPTION );
 
@@ -558,12 +554,12 @@ public class ItemManageFrame extends KoLFrame
 					return;
 				}
 
-				int itemID = 0;
+				int itemId = 0;
 				Matcher optionMatcher = Pattern.compile( "<option value=\"?(\\d+)" ).matcher( selectMatcher.group() );
 				while ( optionMatcher.find() )
 				{
-					itemID = StaticEntity.parseInt( optionMatcher.group(1) );
-					if ( itemID >= 1 )  availableItems.add( new AdventureResult( itemID, 1 ) );
+					itemId = StaticEntity.parseInt( optionMatcher.group(1) );
+					if ( itemId >= 1 )  availableItems.add( new AdventureResult( itemId, 1 ) );
 				}
 
 				// Determine which items are available at the "core"
@@ -601,8 +597,8 @@ public class ItemManageFrame extends KoLFrame
 						if ( !ConcoctionsDatabase.isKnownCombination( currentTest ) )
 						{
 							KoLmafia.updateDisplay( "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
-							request.addFormField( "item1", String.valueOf( currentTest[0].getItemID() ) );
-							request.addFormField( "item2", String.valueOf( currentTest[1].getItemID() ) );
+							request.addFormField( "item1", String.valueOf( currentTest[0].getItemId() ) );
+							request.addFormField( "item2", String.valueOf( currentTest[1].getItemId() ) );
 
 							request.run();
 
@@ -635,12 +631,12 @@ public class ItemManageFrame extends KoLFrame
 					return;
 				}
 
-				int itemID = 0;
+				int itemId = 0;
 				Matcher optionMatcher = Pattern.compile( "<option value=\"?(\\d+)" ).matcher( selectMatcher.group() );
 				while ( optionMatcher.find() )
 				{
-					itemID = StaticEntity.parseInt( optionMatcher.group(1) );
-					if ( itemID >= 1 )  availableItems.add( new AdventureResult( itemID, 1 ) );
+					itemId = StaticEntity.parseInt( optionMatcher.group(1) );
+					if ( itemId >= 1 )  availableItems.add( new AdventureResult( itemId, 1 ) );
 				}
 
 				// Determine which items are available at the "core"
@@ -681,9 +677,9 @@ public class ItemManageFrame extends KoLFrame
 							if ( !ConcoctionsDatabase.isKnownCombination( currentTest ) )
 							{
 								KoLmafia.updateDisplay( "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
-								request.addFormField( "item1", String.valueOf( currentTest[0].getItemID() ) );
-								request.addFormField( "item2", String.valueOf( currentTest[1].getItemID() ) );
-								request.addFormField( "item3", String.valueOf( currentTest[1].getItemID() ) );
+								request.addFormField( "item1", String.valueOf( currentTest[0].getItemId() ) );
+								request.addFormField( "item2", String.valueOf( currentTest[1].getItemId() ) );
+								request.addFormField( "item3", String.valueOf( currentTest[1].getItemId() ) );
 
 								request.run();
 
@@ -726,7 +722,7 @@ public class ItemManageFrame extends KoLFrame
 			filters[1] = new FilterCheckBox( filters, elementList, "Show mixables", KoLCharacter.canDrink() );
 			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
 
-			filters[3] = new CreateSettingCheckbox( "Allow no-box", "createWithoutBoxServants", "Create without requiring a box servant" );
+			filters[3] = new CreateSettingCheckbox( "Use oven/kit", "createWithoutBoxServants", "Create without requiring a box servant" );
 			filters[4] = new CreateSettingCheckbox( "Allow closet", "showClosetIngredients", "List items creatable when adding the closet" );
 			filters[5] = new CreateSettingCheckbox( "Allow stash", "showStashIngredients", "List items creatable when adding the clan stash" );
 

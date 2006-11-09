@@ -80,7 +80,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final Pattern CAGELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>(.*?\\1.*?\\.<p>)\\1 struggles for" );
 	private static final Pattern HUNTLOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in a Scavenger Hunt.<p>(.*?\\1.*?\\.<p>)\\1 finds" );
 	private static final Pattern COURSELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in an Obstacle Course race.<p>(.*?\\1.*?\\.<p>)\\1 makes it through the obstacle course" );
-	private static final Pattern HIDELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\1.*?\\.<p>)\\1 manages to stay hidden" );
+	private static final Pattern HIdELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\1.*?\\.<p>)\\1 manages to stay hidden" );
 
 	private static ChatBuffer results = new ChatBuffer( "Arena Tracker" );
 	private static boolean stop = false;
@@ -466,7 +466,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					// Save familiar parameters
 					if ( skills != null )
 					{
-						int [] original = FamiliarsDatabase.getFamiliarSkills( familiar.getID() );
+						int [] original = FamiliarsDatabase.getFamiliarSkills( familiar.getId() );
 						boolean changed = false;
 
 						for ( int i = 0; i < original.length; ++i )
@@ -498,7 +498,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					for ( int i = 0; i < familiars.length; ++i )
 					{
-						String itemName = FamiliarsDatabase.getFamiliarItem( familiars[i].getID() );
+						String itemName = FamiliarsDatabase.getFamiliarItem( familiars[i].getId() );
 
 						if ( itemName != null && !familiars[i].getItem().equals( itemName ) )
 						{
@@ -506,7 +506,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 							if ( KoLCharacter.hasItem( item ) )
 							{
 								KoLRequest request = new KoLRequest( "familiar.php?pwd&action=equip&whichfam=" +
-									familiars[i].getID() + "&whichitem=" + item.getItemID() );
+									familiars[i].getId() + "&whichitem=" + item.getItemId() );
 
 								request.run();
 								(new FamiliarRequest( familiars[i] )).run();
@@ -696,7 +696,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			// Choose next opponent
-			CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( familiar.getID(), weights );
+			CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( familiar.getId(), weights );
 
 			if ( opponent == null )
 			{
@@ -875,7 +875,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 
 		// Original skill rankings
-		int [] original = FamiliarsDatabase.getFamiliarSkills( familiar.getID() );
+		int [] original = FamiliarsDatabase.getFamiliarSkills( familiar.getId() );
 
 		// Derived skill rankings
 		int skills [] = new int[4];
@@ -1208,7 +1208,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		printMatch( status, opponent, tool, match );
 
 		// Run the match
-		KoLRequest request = new CakeArenaRequest( opponent.getID(), match );
+		KoLRequest request = new CakeArenaRequest( opponent.getId(), match );
 		request.run();
 
 		// Pass the response text to the FamiliarStatus to
@@ -1262,7 +1262,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// difficult to remain concealed.<p>Tot manages to stay
 			// hidden for 28 seconds.<p>Pork Soda stays hidden for
 			// 53 seconds.<p>Tot lost."
-			matcher = HIDELOST_PATTERN.matcher( response );
+			matcher = HIdELOST_PATTERN.matcher( response );
 			break;
 		default:
 			return false;
@@ -1324,9 +1324,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			familiar = KoLCharacter.getFamiliar();
 
 			// Get details about the special item it can wear
-			String name = FamiliarsDatabase.getFamiliarItem( familiar.getID() );
+			String name = FamiliarsDatabase.getFamiliarItem( familiar.getId() );
 			familiarItem = new AdventureResult( name, 1, false );
-			familiarItemWeight = FamiliarData.itemWeightModifier( familiarItem.getItemID() );
+			familiarItemWeight = FamiliarData.itemWeightModifier( familiarItem.getItemId() );
 
 			// No turns have been used yet
 			turns = 0;
@@ -1376,9 +1376,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			this.familiar = familiar;
 
 			// Get details about the special item it can wear
-			String name = FamiliarsDatabase.getFamiliarItem( familiar.getID() );
+			String name = FamiliarsDatabase.getFamiliarItem( familiar.getId() );
 			familiarItem = new AdventureResult( name, 1, false );
-			familiarItemWeight = FamiliarData.itemWeightModifier( familiarItem.getItemID() );
+			familiarItemWeight = FamiliarData.itemWeightModifier( familiarItem.getItemId() );
 
 			// Check available skills
 			this.sympathyAvailable = sympathyAvailable;
@@ -1505,7 +1505,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{
 			if ( ar != null )
 			{
-				int id = ar.getItemID();
+				int id = ar.getItemId();
 				if ( id >= firstTinyPlastic && id <= lastTinyPlastic )
 					return true;
 				if ( id >= firstTinyPlasticCrimbo && id <= lastTinyPlasticCrimbo )
@@ -1642,7 +1642,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Sympathy adds 5 lbs. except to a dodecapede, for
 			// which it subtracts 5 lbs.
 			if ( sympathyAvailable )
-				weight += ( familiar.getID() == DODECAPEDE ) ? -5 : 5;
+				weight += ( familiar.getId() == DODECAPEDE ) ? -5 : 5;
 			if ( empathyActive > 0 )
 				weight += 5;
 			if ( leashActive > 0 )
@@ -2048,7 +2048,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			int weight = familiar.getWeight();
 
 			if ( sympathyAvailable )
-				weight += ( familiar.getID() == DODECAPEDE ) ? -5 : 5;
+				weight += ( familiar.getId() == DODECAPEDE ) ? -5 : 5;
 
 			// One snowcone effect at a time
 			if ( greenTongueActive > 0 || blackTongueActive > 0 )
@@ -2160,7 +2160,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Add possible skills
 			if ( sympathyAvailable )
-				weight += ( familiar.getID() == DODECAPEDE ) ? -5 : 5;
+				weight += ( familiar.getId() == DODECAPEDE ) ? -5 : 5;
 
 			if ( buffs )
 			{
@@ -2212,7 +2212,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			text.append( "Current buffs:" );
 			if ( sympathyAvailable )
-				text.append( " Sympathy (" + ( (familiar.getID() == DODECAPEDE) ? "-" : "+" ) + "5 permanent)" );
+				text.append( " Sympathy (" + ( (familiar.getId() == DODECAPEDE) ? "-" : "+" ) + "5 permanent)" );
 			if ( empathyActive > 0 )
 				text.append( " Empathy (+5 for " + empathyActive + " turns)" );
 			if ( leashActive > 0 )
@@ -2366,27 +2366,27 @@ public class FamiliarTrainingFrame extends KoLFrame
 				if ( hat == null )
 					text.append( "null" );
 				else
-					text.append( hat.getItemID() );
+					text.append( hat.getItemId() );
 				text.append( ", " );
 				if ( item == null )
 					text.append( "null" );
 				else
-					text.append( item.getItemID() );
+					text.append( item.getItemId() );
 				text.append( ", " );
 				if ( acc1 == null )
 					text.append( "null" );
 				else
-					text.append( acc1.getItemID() );
+					text.append( acc1.getItemId() );
 				text.append( ", " );
 				if ( acc2 == null )
 					text.append( "null" );
 				else
-					text.append( acc2.getItemID() );
+					text.append( acc2.getItemId() );
 				text.append( ", " );
 				if ( acc3 == null )
 					text.append( "null" );
 				else
-					text.append( acc3.getItemID() );
+					text.append( acc3.getItemId() );
 				text.append( ", " );
 				text.append( leash );
 				text.append( ", " );
@@ -2455,7 +2455,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		int [] weights = status.getWeights( false );
 		printWeights( weights, false );
 
-		CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( debugFamiliar.getID(), weights );
+		CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( debugFamiliar.getId(), weights );
 
 		printMatch( status, opponent, tool, tool.bestMatch() );
 

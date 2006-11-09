@@ -75,11 +75,11 @@ public class LogoutRequest extends KoLRequest
 
 			super.run();
 
-			KoLRequest.sessionID = null;
+			KoLRequest.sessionId = null;
 			if ( KoLDesktop.instanceExists() )
 				KoLDesktop.getInstance().dispose();
 
-			sessionID = null;
+			sessionId = null;
 		}
 
 		instanceRunning = false;

@@ -48,7 +48,7 @@ public class ProfileRequest extends KoLRequest
 	public static final SimpleDateFormat OUTPUT_FORMAT = new SimpleDateFormat( "yyyy-MM-dd", Locale.US );
 
 	private String playerName;
-	private String playerID;
+	private String playerId;
 	private Integer playerLevel;
 	private boolean isHardcore;
 	private String restriction;
@@ -72,16 +72,16 @@ public class ProfileRequest extends KoLRequest
 
 		if ( playerName.startsWith( "#" ) )
 		{
-			this.playerID = playerName.substring(1);
-			this.playerName = KoLmafia.getPlayerName( playerID );
+			this.playerId = playerName.substring(1);
+			this.playerName = KoLmafia.getPlayerName( playerId );
 		}
 		else
 		{
 			this.playerName = playerName;
-			this.playerID = KoLmafia.getPlayerID( playerName );
+			this.playerId = KoLmafia.getPlayerId( playerName );
 		}
 
-		addFormField( "who", playerID );
+		addFormField( "who", playerId );
 
 		this.muscle = new Integer(0);
 		this.mysticism = new Integer(0);
@@ -243,10 +243,10 @@ public class ProfileRequest extends KoLRequest
 	 * data already known.
 	 */
 
-	public static ProfileRequest getInstance( String playerName, String playerID, String playerLevel, String responseText, String rosterRow )
+	public static ProfileRequest getInstance( String playerName, String playerId, String playerLevel, String responseText, String rosterRow )
 	{
 		ProfileRequest instance = new ProfileRequest( playerName );
-		instance.playerID = playerID;
+		instance.playerId = playerId;
 
 		// First, initialize the level field for the
 		// current player.
@@ -314,10 +314,10 @@ public class ProfileRequest extends KoLRequest
 	 * data already known.
 	 */
 
-	public static ProfileRequest getInstance( String playerName, String playerID, String clanName, Integer playerLevel, String classType, Integer pvpRank )
+	public static ProfileRequest getInstance( String playerName, String playerId, String clanName, Integer playerLevel, String classType, Integer pvpRank )
 	{
 		ProfileRequest instance = new ProfileRequest( playerName );
-		instance.playerID = playerID;
+		instance.playerId = playerId;
 		instance.playerLevel = playerLevel;
 		instance.clanName = clanName == null ? "" : clanName;
 		instance.classType = classType;
@@ -330,8 +330,8 @@ public class ProfileRequest extends KoLRequest
 	{	return playerName;
 	}
 
-	public String getPlayerID()
-	{	return playerID;
+	public String getPlayerId()
+	{	return playerId;
 	}
 
 	public String getClanName()

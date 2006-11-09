@@ -43,7 +43,7 @@ public class MicrobreweryRequest extends KoLRequest
 	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<td>([^<]*? \\(.*? Meat\\))</td>" );
 
 	private int price;
-	private int itemID;
+	private int itemId;
 	private boolean isPurchase;
 
 	public MicrobreweryRequest()
@@ -51,7 +51,7 @@ public class MicrobreweryRequest extends KoLRequest
 		super( "brewery.php" );
 
 		this.price = 0;
-		this.itemID = 0;
+		this.itemId = 0;
 		this.isPurchase = false;
 	}
 
@@ -65,7 +65,7 @@ public class MicrobreweryRequest extends KoLRequest
 
 		// Parse item name and price
 		Matcher itemMatcher = COST_PATTERN.matcher( name );
-		this.itemID = 0;
+		this.itemId = 0;
 
 		if ( itemMatcher.find( 0 ) )
 		{
@@ -80,15 +80,15 @@ public class MicrobreweryRequest extends KoLRequest
 			for ( int i = 0; i < 3; i++ )
 				if ( ((String)microbreweryItems.get(i)).equals( name ) )
 				{
-					this.itemID = -1 - i;
+					this.itemId = -1 - i;
 					break;
 				}
 
-			if ( this.itemID == 0 )
-				this.itemID = TradeableItemDatabase.getItemID( itemName );
+			if ( this.itemId == 0 )
+				this.itemId = TradeableItemDatabase.getItemId( itemName );
 		}
 
-		addFormField( "whichitem", String.valueOf( itemID ) );
+		addFormField( "whichitem", String.valueOf( itemId ) );
 	}
 
 	public void run()
@@ -120,7 +120,7 @@ public class MicrobreweryRequest extends KoLRequest
 			}
 		}
 
-		if ( this.itemID != 0 && !ConsumeItemRequest.allowBoozeConsumption( itemID < 0 ? 3 : TradeableItemDatabase.getInebriety( itemID ) ) )
+		if ( this.itemId != 0 && !ConsumeItemRequest.allowBoozeConsumption( itemId < 0 ? 3 : TradeableItemDatabase.getInebriety( itemId ) ) )
 			return;
 
 		KoLmafia.updateDisplay( "Visiting the micromicrobrewery..." );
