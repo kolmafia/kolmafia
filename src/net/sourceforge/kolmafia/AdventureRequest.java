@@ -47,7 +47,7 @@ import java.util.regex.Matcher;
 
 public class AdventureRequest extends KoLRequest
 {
-	private static final KoLRequest ZONE_VALIdATOR = AdventureDatabase.ZONE_VALIdATOR;
+	private static final KoLRequest ZONE_VALIDATOR = AdventureDatabase.ZONE_VALIDATOR;
 	public static final Pattern STEEL_PATTERN = Pattern.compile( "emerge with a (.*?) of Steel" );
 
 	private String adventureName;
@@ -148,8 +148,8 @@ public class AdventureRequest extends KoLRequest
 
 		if ( formSource.equals( "mountains.php" ) )
 		{
-			ZONE_VALIdATOR.constructURLString( "mountains.php" ).run();
-			if ( ZONE_VALIdATOR.responseText.indexOf( "value=80" ) != -1 )
+			ZONE_VALIDATOR.constructURLString( "mountains.php" ).run();
+			if ( ZONE_VALIDATOR.responseText.indexOf( "value=80" ) != -1 )
 			{
 				KoLmafia.updateDisplay( PENDING_STATE, "The Orc Chasm has already been bridged." );
 				return;

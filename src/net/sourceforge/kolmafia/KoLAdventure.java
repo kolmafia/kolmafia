@@ -48,7 +48,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
-	private static final KoLRequest ZONE_VALIdATOR = AdventureDatabase.ZONE_VALIdATOR;
+	private static final KoLRequest ZONE_VALIDATOR = AdventureDatabase.ZONE_VALIDATOR;
 
 	private static final AdventureResult PERFUME_ITEM = new AdventureResult( 307, 1 );
 	private static final AdventureResult PERFUME_EFFECT = new AdventureResult( "Knob Goblin Perfume", 1, false );
@@ -395,10 +395,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// questlog.php?which=3
 			// "You have planted a Beanstalk in the Nearby Plains."
 
-			ZONE_VALIdATOR.constructURLString( "plains.php" );
-			ZONE_VALIdATOR.run();
+			ZONE_VALIDATOR.constructURLString( "plains.php" );
+			ZONE_VALIDATOR.run();
 
-			if ( ZONE_VALIdATOR.responseText.indexOf( "beanstalk.php" ) == -1 )
+			if ( ZONE_VALIDATOR.responseText.indexOf( "beanstalk.php" ) == -1 )
 			{
 				// If not, check to see if the player has an enchanted
 				// bean which can be used.  If they don't, then try to
@@ -432,8 +432,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				DEFAULT_SHELL.executeLine( "use enchanted bean" );
 			}
 
-			ZONE_VALIdATOR.constructURLString( "beanstalk.php" );
-			ZONE_VALIdATOR.run();
+			ZONE_VALIDATOR.constructURLString( "beanstalk.php" );
+			ZONE_VALIDATOR.run();
 
 			KoLCharacter.armBeanstalk();
 			isValidAdventure = true;
@@ -503,10 +503,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER ) )
 			{
-				ZONE_VALIdATOR.constructURLString( "town_wrong.php?place=crackpot" ).run();
-				ZONE_VALIdATOR.constructURLString( "town_wrong.php?action=crackyes1" ).run();
-				ZONE_VALIdATOR.constructURLString( "town_wrong.php?action=crackyes2" ).run();
-				ZONE_VALIdATOR.constructURLString( "town_wrong.php?action=crackyes3" ).run();
+				ZONE_VALIDATOR.constructURLString( "mystic.php" ).run();
+				ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes1" ).run();
+				ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes2" ).run();
+				ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes3" ).run();
 			}
 
 			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) > 1 )
@@ -565,7 +565,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// See if the trapper will give it to us
 
 			DEFAULT_SHELL.executeLine( "council" );
-			ZONE_VALIdATOR.constructURLString( "trapper.php" ).run();
+			ZONE_VALIDATOR.constructURLString( "trapper.php" ).run();
 
 			validate( true );
 			return;
