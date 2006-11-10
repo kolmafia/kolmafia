@@ -358,9 +358,10 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "Manor", "choiceAdventure106", "Haunted Ballroom 2",
 		  new String [] { "lively, saucy song", "mellow, relaxing tune", "lovely, semi-fast waltz", "skip adventure" } ),
 
-		// Having a Medicine Ball
+		// Bad Medicine is What You Need
 		new ChoiceAdventure( "Manor", "choiceAdventure107", "Haunted Bathroom 2",
-		  new String [] { "boost moxie", "other options", "guy made of bees" } ),
+		  new String [] { "antique bottle of cough syrup", "tube of hair oil", "bottle of ultravitamins" },
+		  new String [] { "2086", "2087", "2085" } ),
 
 	};
 
