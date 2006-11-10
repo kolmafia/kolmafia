@@ -34,10 +34,8 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Arrays;
 import java.util.TreeMap;
 import java.util.ArrayList;
-
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -48,7 +46,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureDatabase extends KoLDatabase
 {
-	public static final KoLRequest ZONE_VALIdATOR = new KoLRequest( "main.php", true );
+	public static final KoLRequest ZONE_VALIDATOR = new KoLRequest( "main.php", true );
 
 	private static LockableListModel adventures = new LockableListModel();
 	private static AdventureArray allAdventures = new AdventureArray();
@@ -679,53 +677,53 @@ public class AdventureDatabase extends KoLDatabase
 
 		for ( int i = 1; isValidZone && i < validationRequests.size() - 1; ++i )
 		{
-			ZONE_VALIdATOR.constructURLString( (String) validationRequests.get(0) ).run();
-			isValidZone &= ZONE_VALIdATOR.responseText != null &&
-				ZONE_VALIdATOR.responseText.indexOf( (String) validationRequests.get(i) ) != -1;
+			ZONE_VALIDATOR.constructURLString( (String) validationRequests.get(0) ).run();
+			isValidZone &= ZONE_VALIDATOR.responseText != null &&
+				ZONE_VALIDATOR.responseText.indexOf( (String) validationRequests.get(i) ) != -1;
 		}
 
-		ZONE_VALIdATOR.constructURLString( (String) validationRequests.get( validationRequests.size() - 1 ) ).run();
+		ZONE_VALIDATOR.constructURLString( (String) validationRequests.get( validationRequests.size() - 1 ) ).run();
 
 		// Special handling of the bat zone.
 
 		if ( locationId.equals( "32" ) || locationId.equals( "33" ) || locationId.equals( "34" ) )
 		{
-			if ( locationId.equals( "32" ) && ZONE_VALIdATOR.responseText.indexOf( "batrockleft.gif" ) == -1 )
+			if ( locationId.equals( "32" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1 )
 				return true;
 
-			if ( locationId.equals( "33" ) && ZONE_VALIdATOR.responseText.indexOf( "batrockright.gif" ) == -1 )
+			if ( locationId.equals( "33" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) == -1 )
 				return true;
 
-			if ( locationId.equals( "34" ) && ZONE_VALIdATOR.responseText.indexOf( "batrockbottom.gif" ) == -1 )
+			if ( locationId.equals( "34" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) == -1 )
 				return true;
 
 			int sonarCount = SONAR.getCount( inventory );
 			int sonarToUse = 0;
 
-			if ( ZONE_VALIdATOR.responseText.indexOf( "batrockleft.gif" ) != -1 )
+			if ( ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) != -1 )
 				sonarToUse = 3;
-			else if ( ZONE_VALIdATOR.responseText.indexOf( "batrockright.gif" ) != -1 )
+			else if ( ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) != -1 )
 				sonarToUse = 2;
-			else if ( ZONE_VALIdATOR.responseText.indexOf( "batrockbottom.gif" ) != -1 )
+			else if ( ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) != -1 )
 				sonarToUse = 1;
 
 			DEFAULT_SHELL.executeLine( "use " + Math.min( sonarToUse, sonarCount ) + " sonar-in-a-biscuit" );
-			ZONE_VALIdATOR.run();
+			ZONE_VALIDATOR.run();
 
-			return locationId.equals( "32" ) && ZONE_VALIdATOR.responseText.indexOf( "batrockleft.gif" ) == -1 ||
-				locationId.equals( "33" ) && ZONE_VALIdATOR.responseText.indexOf( "batrockright.gif" ) == -1 ||
-				locationId.equals( "34" ) && ZONE_VALIdATOR.responseText.indexOf( "batrockbottom.gif" ) == -1;
+			return locationId.equals( "32" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1 ||
+				locationId.equals( "33" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) == -1 ||
+				locationId.equals( "34" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) == -1;
 		}
 
 		// Handle all others as normal.
 
-		isValidZone &= ZONE_VALIdATOR.responseText != null;
+		isValidZone &= ZONE_VALIDATOR.responseText != null;
 		if ( isValidZone )
 		{
-			isValidZone &= ZONE_VALIdATOR.responseText.indexOf( "snarfblat=" + locationId ) != -1 ||
-				ZONE_VALIdATOR.responseText.indexOf( "adv=" + locationId ) != -1 ||
-				ZONE_VALIdATOR.responseText.indexOf( "name=snarfblat value=" + locationId ) != -1 ||
-				ZONE_VALIdATOR.responseText.indexOf( "name=adv value=" + locationId ) != -1;
+			isValidZone &= ZONE_VALIDATOR.responseText.indexOf( "snarfblat=" + locationId ) != -1 ||
+				ZONE_VALIDATOR.responseText.indexOf( "adv=" + locationId ) != -1 ||
+				ZONE_VALIDATOR.responseText.indexOf( "name=snarfblat value=" + locationId ) != -1 ||
+				ZONE_VALIDATOR.responseText.indexOf( "name=adv value=" + locationId ) != -1;
 		}
 
 		return isValidZone;
