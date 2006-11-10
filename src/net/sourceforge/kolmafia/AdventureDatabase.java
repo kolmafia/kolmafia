@@ -34,8 +34,10 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.Arrays;
 import java.util.TreeMap;
 import java.util.ArrayList;
+
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -81,7 +83,7 @@ public class AdventureDatabase extends KoLDatabase
 			WOODS_ITEMS[i] = new AdventureResult( i + 1, 1 );
 	}
 
-	public static class ChoiceAdventure
+	public static class ChoiceAdventure implements Comparable
 	{
 		private String zone;
 		private String setting;
@@ -136,6 +138,10 @@ public class AdventureDatabase extends KoLDatabase
 
 		public String [][] getSpoilers()
 		{	return spoilers;
+		}
+
+		public int compareTo( Object o )
+		{	return name.compareToIgnoreCase( ((ChoiceAdventure)o).name );
 		}
 	}
 
@@ -338,12 +344,30 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "Wolf Knight", "Snake Knight", "Dreams and Lights" } ),
 
 		// Curtains
-		new ChoiceAdventure( "Manor", "choiceAdventure90", "Haunted Ballroom",
-		  new String [] { "Investigate Organ", "Watch Dancers", "Hide" } ),
+		new ChoiceAdventure( "Manor", "choiceAdventure90", "Haunted Ballroom 1",
+		  new String [] { "enter combat", "boost moxie", "skip adventure" } ),
 
 		// Choice 91 is Louvre It or Leave It
-		// Choices 92 - 102 are Escher print adventures
+		// Choices 92 - 104 are Escher print adventures
+
+		// Having a Medicine Ball
+		new ChoiceAdventure( "Manor", "choiceAdventure105", "Haunted Bathroom 1",
+		  new String [] { "boost moxie", "other options", "guy made of bees" } ),
+
+		// Strung-Up Quartet
+		new ChoiceAdventure( "Manor", "choiceAdventure106", "Haunted Ballroom 2",
+		  new String [] { "lively, saucy song", "mellow, relaxing tune", "lovely, semi-fast waltz", "skip adventure" } ),
+
+		// Having a Medicine Ball
+		new ChoiceAdventure( "Manor", "choiceAdventure107", "Haunted Bathroom 2",
+		  new String [] { "boost moxie", "other options", "guy made of bees" } ),
+
 	};
+
+	static
+	{
+		Arrays.sort( CHOICE_ADVS );
+	}
 
 	// We choose to not make some choice adventures configurable, but we
 	// want to provide spoilers in the browser for them.
