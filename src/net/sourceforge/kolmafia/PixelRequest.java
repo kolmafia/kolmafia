@@ -38,9 +38,8 @@ public class PixelRequest extends ItemCreationRequest
 {
 	public PixelRequest( int itemId )
 	{
-		super( "town_wrong.php", itemId );
+		super( "mystic.php", itemId );
 
-		addFormField( "place", "crackpot" );
 		addFormField( "action", "makepixel" );
 		addFormField( "makewhich", String.valueOf( itemId ) );
 	}
