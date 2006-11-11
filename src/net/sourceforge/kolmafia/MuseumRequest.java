@@ -111,6 +111,10 @@ public class MuseumRequest extends SendMessageRequest
 			MuseumManager.update( responseText );
 	}
 
+	protected boolean allowUngiftableTransfer()
+	{	return true;
+	}
+
 	protected String getStatusMessage()
 	{	return isDeposit ? "Placing items in display case" : "Removing items from display case";
 	}
