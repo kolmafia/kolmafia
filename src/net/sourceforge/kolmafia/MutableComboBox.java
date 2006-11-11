@@ -50,6 +50,10 @@ public class MutableComboBox extends JComboBox
 	protected String currentMatch;
 	protected LockableListModel model;
 
+	public MutableComboBox()
+	{	this( new LockableListModel() );
+	}
+
 	public MutableComboBox( LockableListModel model )
 	{
 		super( model );
@@ -61,6 +65,14 @@ public class MutableComboBox extends JComboBox
 
 		this.getEditor().getEditorComponent().addFocusListener( listener );
 		this.getEditor().getEditorComponent().addKeyListener( listener );
+	}
+
+	public void forceAddition()
+	{
+		if ( !model.contains( currentName ) )
+			model.add( currentName );
+
+		setSelectedItem( currentName );
 	}
 
 	public void setSelectedItem( Object anObject )
@@ -85,30 +97,30 @@ public class MutableComboBox extends JComboBox
 		boolean matchNotFound = true;
 		Object [] currentNames = model.toArray();
 
-		if ( currentName.length() > 0 )
+		if ( currentName.length() == 0 )
+			return;
+
+		for ( int i = 0; i < currentNames.length && matchNotFound; ++i )
 		{
-			for ( int i = 0; i < currentNames.length && matchNotFound; ++i )
+			if ( ((String)currentNames[i]).toLowerCase().startsWith( currentName.toLowerCase() ) )
 			{
-				if ( ((String)currentNames[i]).toLowerCase().startsWith( currentName.toLowerCase() ) )
+				matchNotFound = false;
+
+				if ( ((String)currentNames[i]).toLowerCase().equals( currentName.toLowerCase() ) )
+					setSelectedIndex(i);
+
+				if ( keycode != KeyEvent.VK_BACK_SPACE && keycode != KeyEvent.VK_DELETE )
 				{
-					matchNotFound = false;
+					// If this wasn't an undefined character, then
+					// the user wants autocompletion!  Highlight
+					// the rest of the possible name.
 
-					if ( ((String)currentNames[i]).toLowerCase().equals( currentName.toLowerCase() ) )
-						setSelectedIndex(i);
-
-					if ( keycode != KeyEvent.VK_BACK_SPACE && keycode != KeyEvent.VK_DELETE )
-					{
-						// If this wasn't an undefined character, then
-						// the user wants autocompletion!  Highlight
-						// the rest of the possible name.
-
-						currentMatch = (String) currentNames[i];
-						getEditor().setItem( currentMatch );
-						JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
-						editor.setSelectionStart( currentName.length() );
-						editor.setSelectionEnd( currentMatch.length() );
-						return;
-					}
+					currentMatch = (String) currentNames[i];
+					getEditor().setItem( currentMatch );
+					JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
+					editor.setSelectionStart( currentName.length() );
+					editor.setSelectionEnd( currentMatch.length() );
+					return;
 				}
 			}
 		}
@@ -135,13 +147,8 @@ public class MutableComboBox extends JComboBox
 			if ( currentName == null || currentName.trim().length() == 0 )
 				return;
 
-			if ( currentMatch == null && !model.contains( currentName ) )
-			{
-				model.add( currentName );
-				currentMatch = currentName;
-			}
-
-			setSelectedItem( currentMatch );
+			if ( currentMatch == null )
+				forceAddition();
 		}
 	}
 }

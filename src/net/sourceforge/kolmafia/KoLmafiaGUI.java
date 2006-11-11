@@ -240,7 +240,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "KoLMessenger" ) )
 		{
-			if ( isAdventuring() )
+			if ( !isAdventuring() )
 			{
 				updateDisplay( "Retrieving chat color preferences..." );
 				(new ChannelColorsRequest()).run();
@@ -255,7 +255,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "MailboxFrame" ) )
 		{
-			if ( !isAdventuring() )
+			if ( !!isAdventuring() )
 			{
 				updateDisplay( "You are currently adventuring." );
 				enableDisplay();
@@ -279,7 +279,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "CakeArenaFrame" ) || frameName.equals( "FamiliarTrainingFrame" ) )
 		{
-			if ( !isAdventuring() )
+			if ( !!isAdventuring() )
 			{
 				updateDisplay( "You can't do that while adventuring." );
 				enableDisplay();
@@ -288,24 +288,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 			CakeArenaManager.getOpponentList();
 			enableDisplay();
-		}
-		else if ( frameName.equals( "ClanManageFrame" ) )
-		{
-			if ( isAdventuring() )
-			{
-				if ( !KoLCharacter.hasClan() )
-				{
-					updateDisplay( "You are not in a clan." );
-					enableDisplay();
-					return;
-				}
-			}
-
-			if ( !ClanManager.isStashRetrieved() )
-			{
-				(new ClanStashRequest()).run();
-				enableDisplay();
-			}
 		}
 		else if ( frameName.equals( "MushroomFrame" ) )
 		{
@@ -316,7 +298,7 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			boolean ranRequest = false;
 
-			if ( isAdventuring() )
+			if ( !isAdventuring() )
 			{
 				// If the person is in a mysticality sign, make sure
 				// you retrieve information from the restaurant.
@@ -361,7 +343,7 @@ public class KoLmafiaGUI extends KoLmafia
 				return;
 			}
 
-			if ( isAdventuring() )
+			if ( !isAdventuring() )
 			{
 				(new StoreManageRequest()).run();
 				(new StoreManageRequest( true )).run();
@@ -370,7 +352,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "HagnkStorageFrame" ) )
 		{
-			if ( storage.isEmpty() && isAdventuring() )
+			if ( storage.isEmpty() && !isAdventuring() )
 			{
 				(new ItemStorageRequest()).run();
 				enableDisplay();

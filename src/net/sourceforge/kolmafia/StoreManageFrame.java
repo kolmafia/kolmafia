@@ -219,7 +219,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			if ( model != StoreManager.getSoldItemList() )
 			{
-				sellingList = new JComboBox( sellables );
+				sellingList = new JComboBox( inventory );
 
 				Vector value = new Vector();
 				value.add( new AdventureResult( "- select an item -", 1, false ) );
@@ -347,17 +347,17 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
-	private class StoreAddPanel extends ItemManagePanel implements Runnable
+	private class StoreAddPanel extends ItemManagePanel
 	{
 		public StoreAddPanel()
 		{
-			super( "On-Hand Inventory", "add selected", "end of run sale", sellables );
+			super( "On-Hand Inventory", "put in", "auto sell", inventory );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}
 
 		public void actionConfirmed()
 		{
-			Object [] items = getDesiredItems( elementList, "Stock up", TAKE_MULTIPLE );
+			Object [] items = getDesiredItems( "Automall" );
 			if ( items == null || items.length == 0 )
 				return;
 
@@ -369,11 +369,9 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionCancelled()
-		{	(new RequestThread( this )).start();
-		}
-
-		public void run()
-		{	StaticEntity.getClient().makeEndOfRunSaleRequest();
+		{
+			Object [] items = getDesiredItems( "Autosell" );
+			(new RequestThread( new AutoSellRequest( items, AutoSellRequest.AUTOSELL ) )).start();
 		}
 	}
 
@@ -381,7 +379,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public StoreRemovePanel()
 		{
-			super( "Store's Inventory", "remove items", "autosell items", StoreManager.getSortedSoldItemList() );
+			super( "Store's Inventory", "take out", "auto sell", StoreManager.getSortedSoldItemList() );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}
 

@@ -304,8 +304,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "previousNotifyList", "<>" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
 		CLIENT_SETTINGS.put( "relayAddsCustomCombat", "false" );
-		CLIENT_SETTINGS.put( "relayAddsGraphicalCLI", "true" );
-		CLIENT_SETTINGS.put( "relayAddsKoLSimulator", "true" );
+		CLIENT_SETTINGS.put( "relayAddsGraphicalCLI", "false" );
+		CLIENT_SETTINGS.put( "relayAddsKoLSimulator", "false" );
 		CLIENT_SETTINGS.put( "relayAddsQuickScripts", "false" );
 		CLIENT_SETTINGS.put( "relayAddsRestoreLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsUpArrowLinks", "true" );
@@ -317,7 +317,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "relayRemovesUnrelatedItems", "true" );
 		CLIENT_SETTINGS.put( "relayTextualizesEffects", "false" );
 		CLIENT_SETTINGS.put( "relayTextualizationVerbose", "false" );
-		CLIENT_SETTINGS.put( "relayUsesIntegratedChat", "false" );
+		CLIENT_SETTINGS.put( "relayUsesIntegratedChat", "true" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
 		CLIENT_SETTINGS.put( "saveState", "" );
 		CLIENT_SETTINGS.put( "saveStateActive", "" );

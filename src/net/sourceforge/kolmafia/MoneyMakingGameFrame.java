@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia;
 
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
+
+import javax.swing.JList;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 
@@ -57,10 +59,10 @@ public class MoneyMakingGameFrame extends KoLFrame
 		framePanel.add( new AnalysisPanel(), "" );
 	}
 
-	private class AnalysisPanel extends ItemManagePanel
+	private class AnalysisPanel extends LabeledScrollPanel
 	{
 		public AnalysisPanel()
-		{	super( "Bet History", null, null, MoneyMakingGameRequest.getBetSummary() );
+		{	super( "Bet History", null, null, new JList( MoneyMakingGameRequest.getBetSummary() ) );
 		}
 
 		public void actionConfirmed()

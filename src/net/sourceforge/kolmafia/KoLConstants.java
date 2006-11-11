@@ -237,10 +237,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final SortedListModel inventory = new SortedListModel();
 	public static final SortedListModel closet = new SortedListModel();
 	public static final SortedListModel storage = new SortedListModel();
-
 	public static final SortedListModel collection = new SortedListModel();
-	public static final SortedListModel usables = new SortedListModel();
-	public static final SortedListModel sellables = new SortedListModel();
 
 	public static final SortedListModel usableSkills = new SortedListModel();
 	public static final LockableListModel availableSkills = new LockableListModel();

@@ -328,31 +328,15 @@ public class ClanManageFrame extends KoLFrame
 
 	private class StoragePanel extends ItemManagePanel
 	{
-		private JCheckBox [] filters;
-
 		public StoragePanel()
 		{
-			super( "", inventory, false );
+			super( inventory );
 
-			setButtons( new String [] { "stash one", "stash all", "stash all but one", "refresh" },
+			setButtons(
 				new ActionListener [] { new StorageListener( MOVE_ONE ), new StorageListener( MOVE_ALL ), new StorageListener( MOVE_ALL_BUT ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
 
-			filters = new JCheckBox[3];
-			filters[0] = new FilterCheckBox( filters, elementList, "Show food", true );
-			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", true );
-			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
-
-			for ( int i = 0; i < filters.length; ++i )
-				optionPanel.add( filters[i] );
-
-			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer( true, true, true ) );
-		}
-
-		protected AdventureResult [] getDesiredItems( String message )
-		{
-			filterSelection( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() );
-			return super.getDesiredItems( message );
+			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}
 
 		private class StorageListener implements ActionListener
@@ -395,28 +379,12 @@ public class ClanManageFrame extends KoLFrame
 
 		public WithdrawPanel()
 		{
-			super( "", ClanManager.getStash(), false );
+			super( ClanManager.getStash() );
 
-			setButtons( new String [] { "take all", "take all but #", "take multiple", "refresh" },
-				new ActionListener [] { new WithdrawListener( MOVE_ALL ), new WithdrawListener( MOVE_ALL_BUT ), new WithdrawListener( MOVE_MULTIPLE ),
-				new RequestButton( "Refresh Items", new ClanStashRequest() ) } );
+			setButtons( new ActionListener [] { new WithdrawListener( MOVE_ALL ), new WithdrawListener( MOVE_ALL_BUT ),
+				new WithdrawListener( MOVE_MULTIPLE ), new RequestButton( "Refresh Items", new ClanStashRequest() ) } );
 
-			filters = new JCheckBox[3];
-			filters[0] = new FilterCheckBox( filters, elementList, "Show food", true );
-			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", true );
-			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
-
-			for ( int i = 0; i < filters.length; ++i )
-				optionPanel.add( filters[i] );
-
-			elementList.setCellRenderer(
-				AdventureResult.getAutoSellCellRenderer( true, true, true ) );
-		}
-
-		protected AdventureResult [] getDesiredItems( String message )
-		{
-			filterSelection( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() );
-			return super.getDesiredItems( message );
+			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}
 
 		private class WithdrawListener implements ActionListener

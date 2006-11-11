@@ -100,7 +100,7 @@ public class GearChangeFrame extends KoLFrame
 			else
 				list = lists[i];
 
-			equipment[i] = new ChangeComboBox( i, list );
+			equipment[i] = new ChangeComboBox( list );
 		}
 
 		familiarSelect = new ChangeComboBox( KoLCharacter.getFamiliarList() );
@@ -217,12 +217,7 @@ public class GearChangeFrame extends KoLFrame
 		public ChangeComboBox( LockableListModel slot )
 		{
 			super( slot );
-		}
-
-		public ChangeComboBox( int slotId, LockableListModel slot )
-		{
-			super( slot );
-			this.setRenderer( AdventureResult.getEquipmentRenderer( KoLCharacter.equipmentTypeToConsumeFilter( slotId ) ) );
+			this.setRenderer( AdventureResult.getEquipmentRenderer() );
 		}
 
 		public void firePopupMenuWillBecomeInvisible()

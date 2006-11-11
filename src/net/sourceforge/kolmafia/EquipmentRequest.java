@@ -607,11 +607,6 @@ public class EquipmentRequest extends PasswordHashRequest
 		Matcher optionMatcher = INVENTORYITEM_PATTERN.matcher( content );
 
 		resultList.clear();
-		if ( resultList == inventory )
-		{
-			sellables.clear();
-			usables.clear();
-		}
 
 		while ( optionMatcher.find( lastFindIndex ) )
 		{

@@ -34,28 +34,22 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.CardLayout;
 import java.awt.BorderLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JLabel;
-import javax.swing.JCheckBox;
-import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
-import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;
-import javax.swing.JOptionPane;
 
 import javax.swing.ListSelectionModel;
-import com.informit.guides.JDnDList;
+import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * An internal class which creates a panel which manages items.
@@ -72,38 +66,29 @@ public class ItemManagePanel extends LabeledScrollPanel
 	protected static final int TAKE_MULTIPLE = 3;
 	protected static final int TAKE_ONE = 4;
 
-	protected boolean showMovers;
-	protected JPanel optionPanel;
+	protected JPanel filterPanel;
 	protected LockableListModel elementModel;
 	protected ShowDescriptionList elementList;
+	protected int baseFilter = ConsumeItemRequest.CONSUME_MULTIPLE;
 
 	protected JButton [] buttons;
+	protected JCheckBox [] filters;
 	protected JRadioButton [] movers;
+	protected FilterItemComboBox wordfilter;
+
 
 	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements )
-	{	this( title, confirmedText, cancelledText, elements, true, false );
-	}
-
-	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements, boolean isRootPane )
-	{	this( title, confirmedText, cancelledText, elements, isRootPane, false );
-	}
-
-	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements, boolean isRootPane, boolean allowDragAndDrop )
 	{
-		super( title, confirmedText, cancelledText,
-			allowDragAndDrop ? (JList) new JDnDList( elements ) : (JList) new ShowDescriptionList( elements ), isRootPane );
+		super( title, confirmedText, cancelledText, new ShowDescriptionList( elements ), false );
 
 		elementList = (ShowDescriptionList) scrollComponent;
 		elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 		elementList.setVisibleRowCount( 8 );
 	}
 
-	public ItemManagePanel( String title, LockableListModel elementModel, boolean showMovers )
+	public ItemManagePanel( LockableListModel elementModel )
 	{
 		super( "", null, null, new ShowDescriptionList( elementModel ), false );
-
-		this.showMovers = showMovers;
-		this.optionPanel = new JPanel();
 
 		this.elementModel = elementModel;
 		this.elementList = (ShowDescriptionList) scrollComponent;
@@ -117,79 +102,102 @@ public class ItemManagePanel extends LabeledScrollPanel
 	{
 	}
 
-	public void setButtons( String [] buttonLabels, ActionListener [] buttonListeners )
+	public void setButtons( ActionListener [] buttonListeners )
 	{
-		JPanel buttonPanel = new JPanel();
-		buttons = new JButton[ buttonLabels.length ];
+		JPanel eastGridPanel = new JPanel( new GridLayout( 0, 1, 5, 5 ) );
+		buttons = new JButton[ buttonListeners.length ];
 
-		for ( int i = 0; i < buttonLabels.length; ++i )
+		for ( int i = 0; i < buttonListeners.length; ++i )
 		{
-			buttons[i] = new JButton( buttonLabels[i] );
-			buttons[i].addActionListener( buttonListeners[i] );
-			buttonPanel.add( buttons[i] );
+			if ( buttonListeners[i] instanceof JButton )
+			{
+				buttons[i] = (JButton) buttonListeners[i];
+			}
+			else
+			{
+				buttons[i] = new JButton( buttonListeners[i].toString() );
+				buttons[i].addActionListener( buttonListeners[i] );
+			}
+
+			eastGridPanel.add( buttons[i] );
+		}
+
+		JPanel eastPanel = new JPanel( new BorderLayout() );
+		eastPanel.add( eastGridPanel, BorderLayout.NORTH );
+
+		filterPanel = new JPanel();
+
+		if ( elementModel == ConcoctionsDatabase.getConcoctions() )
+		{
+			filters = new JCheckBox[3];
+			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
+			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
+			filters[2] = new JCheckBox( "Show others", true );
+		}
+		else
+		{
+			filters = new JCheckBox[4];
+
+			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
+			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
+			filters[2] = new JCheckBox( "Show equipment", true );
+			filters[3] = new JCheckBox( "Show others", true );
+		}
+
+		for ( int i = 0; i < filters.length; ++i )
+		{
+			filterPanel.add( filters[i] );
+			filters[i].addActionListener( new UpdateFilterListener() );
 		}
 
 		JPanel moverPanel = new JPanel();
 
 		movers = new JRadioButton[4];
-		movers[0] = new JRadioButton( "Move all", true );
+		movers[0] = new JRadioButton( "Move all" );
 		movers[1] = new JRadioButton( "Move all but one" );
-		movers[2] = new JRadioButton( "Move multiple" );
+		movers[2] = new JRadioButton( "Move multiple", true );
 		movers[3] = new JRadioButton( "Move exactly one" );
 
 		ButtonGroup moverGroup = new ButtonGroup();
 		for ( int i = 0; i < 4; ++i )
 		{
 			moverGroup.add( movers[i] );
-			if ( showMovers )
-				moverPanel.add( movers[i] );
+			moverPanel.add( movers[i] );
 		}
 
 		JPanel northPanel = new JPanel( new BorderLayout() );
-		northPanel.add( moverPanel, BorderLayout.CENTER );
-		northPanel.add( optionPanel, BorderLayout.NORTH );
-		northPanel.add( buttonPanel, BorderLayout.SOUTH );
+		northPanel.add( filterPanel, BorderLayout.NORTH );
+		northPanel.add( moverPanel, BorderLayout.SOUTH );
+
+		wordfilter = new FilterItemComboBox( elementModel );
+		centerPanel.add( wordfilter, BorderLayout.NORTH );
 		actualPanel.add( northPanel, BorderLayout.NORTH );
+		actualPanel.add( eastPanel, BorderLayout.EAST );
+
+		wordfilter.filterItems();
 	}
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( elementList == null || buttons == null || movers == null )
+		if ( elementList == null || buttons == null )
 			return;
 
 		if ( buttons.length > 0 && buttons[ buttons.length - 1 ] == null )
 			return;
 
-		if ( movers.length > 0 && movers[ movers.length - 1 ] == null )
-			return;
-
 		elementList.setEnabled( isEnabled );
 		for ( int i = 0; i < buttons.length; ++i )
 			buttons[i].setEnabled( isEnabled );
-
-		for ( int i = 0; i < movers.length; ++i )
-			movers[i].setEnabled( isEnabled );
 	}
 
 	protected AdventureResult [] getDesiredItems( String message )
 	{
-		return getDesiredItems( elementList, message,
+		return getDesiredItems( message, movers == null ? TAKE_ALL :
 			movers[0].isSelected() ? TAKE_ALL : movers[1].isSelected() ? TAKE_ALL_BUT_ONE :
 			movers[2].isSelected() ? TAKE_MULTIPLE : TAKE_ONE );
 	}
 
-	protected void filterSelection( boolean eat, boolean drink, boolean other )
-	{
-		Object [] elements = elementList.getSelectedValues();
-		for ( int i = 0; i < elements.length; ++i )
-		{
-			int actualIndex = ((LockableListModel)elementList.getModel()).indexOf( elements[i] );
-			if ( !AdventureResult.isVisibleWithFilter( ((LockableListModel)elementList.getModel()).get( actualIndex ), eat, drink, other ) )
-				elementList.removeSelectionInterval( actualIndex, actualIndex );
-		}
-	}
-
-	protected AdventureResult [] getDesiredItems( JList elementList, String message, int quantityType )
+	protected AdventureResult [] getDesiredItems( String message, int quantityType )
 	{
 		Object [] items = elementList.getSelectedValues();
 		if ( items.length == 0 )
@@ -212,18 +220,18 @@ public class ItemManagePanel extends LabeledScrollPanel
 					quantity = currentItem.getCount() - 1;
 					break;
 				case TAKE_MULTIPLE:
-					quantity = getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() );
+					quantity = KoLFrame.getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() );
 					break;
 				default:
 					quantity = 1;
 					break;
 			}
 
-			// If the user manually enters zero, return from
-			// this, since they probably wanted to cancel.
+			if ( quantity > currentItem.getCount() )
+				quantity = Math.min( quantity, currentItem.getCount() );
 
-			if ( quantity == 0 && quantityType == TAKE_MULTIPLE )
-				return null;
+			if ( quantity <= 0 )
+				quantity += currentItem.getCount();
 
 			// Otherwise, if it was not a manual entry, then reset
 			// the entry to null so that it can be re-processed.
@@ -252,65 +260,176 @@ public class ItemManagePanel extends LabeledScrollPanel
 		return desiredItems;
 	}
 
-	protected static class FilterCheckBox extends JCheckBox implements ActionListener
+	protected class UpdateFilterListener implements ActionListener
 	{
-		protected boolean isTradeable;
-		protected JCheckBox [] filters;
-		protected ShowDescriptionList elementList;
-
-		public FilterCheckBox( JCheckBox [] filters, ShowDescriptionList elementList, String label, boolean isSelected )
-		{	this( filters, elementList, false, label, isSelected );
-		}
-
-		public FilterCheckBox( JCheckBox [] filters, ShowDescriptionList elementList, boolean isTradeable, String label, boolean isSelected )
-		{
-			super( label, isSelected );
-			addActionListener( this );
-
-			this.isTradeable = isTradeable;
-			this.filters = filters;
-			this.elementList = elementList;
-		}
-
 		public void actionPerformed( ActionEvent e )
-		{
+		{	wordfilter.filterItems();
+		}
+	}
 
-			if ( isTradeable )
+	protected abstract class TransferListener implements ActionListener
+	{
+		protected String description;
+		protected boolean retrieveFromClosetFirst;
+
+		protected Runnable [] requests;
+
+		public TransferListener( String description, boolean retrieveFromClosetFirst )
+		{
+			this.description = description;
+			this.retrieveFromClosetFirst = retrieveFromClosetFirst;
+		}
+
+		public AdventureResult [] initialSetup()
+		{
+			AdventureResult [] items = getDesiredItems( description );
+			if (items == null )
+				return null;
+			this.requests = new Runnable[ !retrieveFromClosetFirst || description.equals( "Bagging" ) ? 1 : 2 ];
+
+			if ( retrieveFromClosetFirst )
+				requests[0] = new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items );
+
+			return items;
+		}
+
+		public void initializeTransfer()
+		{	(new RequestThread( requests )).start();
+		}
+	}
+
+	/**
+	 * Special instance of a JComboBox which overrides the default
+	 * key events of a JComboBox to allow you to catch key events.
+	 */
+
+	private class FilterItemComboBox extends MutableComboBox
+	{
+		private Pattern pattern = null;
+		private WordBasedFilter filter;
+		private boolean food, booze, equip, other;
+
+		public FilterItemComboBox( LockableListModel list )
+		{
+			super( new LockableListModel() );
+			filter = new WordBasedFilter();
+			inventory.applyListFilter( filter );
+		}
+
+		public void setSelectedItem( Object anObject )
+		{
+			super.setSelectedItem( anObject );
+			filterItems();
+		}
+
+		protected void findMatch( int keyCode )
+		{
+			super.findMatch( keyCode );
+			filterItems();
+		}
+
+		private void filterItems()
+		{
+			if ( currentName == null || currentName.length() == 0 )
 			{
-				elementList.setCellRenderer(
-					AdventureResult.getAutoSellCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
+				pattern = null;
 			}
 			else
 			{
-				elementList.setCellRenderer(
-					AdventureResult.getConsumableCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
+				StringBuffer regex = new StringBuffer();
+				for ( int i = 0; i < currentName.length(); ++i )
+				{
+					regex.append( currentName.charAt(i) );
+					regex.append( "[^0-9a-z]*" );
+				}
+
+				pattern = Pattern.compile( regex.toString(), Pattern.CASE_INSENSITIVE );
 			}
 
-			elementList.validate();
+			food = filters[0].isSelected();
+			booze = filters[1].isSelected();
+			equip = filters[2].isSelected();
+			other = filters.length == 3 || filters[3].isSelected();
+
+			elementModel.applyListFilter( filter );
 		}
-	}
 
-	protected static final int getQuantity( String title, int maximumValue, int defaultValue )
-	{
-		// Check parameters; avoid programmer error.
-		if ( defaultValue > maximumValue )
-			defaultValue = maximumValue;
+		private class WordBasedFilter extends LockableListModel.ListElementFilter
+		{
+			public boolean isVisible( Object element )
+			{
+				if ( pattern == null )
+					return true;
 
-		if ( maximumValue == 1 && maximumValue == defaultValue )
-			return 1;
+				boolean isVisibleWithFilter = true;
+				String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() : ((ItemCreationRequest)element).getName();
+				int itemId = TradeableItemDatabase.getItemId( name );
 
-		String currentValue = JOptionPane.showInputDialog( title, COMMA_FORMAT.format( defaultValue ) );
-		if ( currentValue == null )
-			return 0;
+				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
+				{
+				case ConsumeItemRequest.CONSUME_EAT:
+					isVisibleWithFilter = food;
+					break;
 
-		if ( currentValue.equals( "*" ) )
-			return maximumValue;
+				case ConsumeItemRequest.CONSUME_DRINK:
+					isVisibleWithFilter = booze;
+					break;
 
-		int desiredValue = StaticEntity.parseInt( currentValue );
-		return desiredValue <= 0 ? maximumValue - desiredValue : Math.min( desiredValue, maximumValue );
-	}
+				case ConsumeItemRequest.EQUIP_HAT:
+				case ConsumeItemRequest.EQUIP_SHIRT:
+				case ConsumeItemRequest.EQUIP_WEAPON:
+				case ConsumeItemRequest.EQUIP_OFFHAND:
+				case ConsumeItemRequest.EQUIP_PANTS:
+				case ConsumeItemRequest.EQUIP_ACCESSORY:
+				case ConsumeItemRequest.EQUIP_FAMILIAR:
+					isVisibleWithFilter = equip;
+					break;
 
-	protected static final int getQuantity( String title, int maximumValue )
-	{	return getQuantity( title, maximumValue, maximumValue );
+				default:
+
+					if ( element instanceof AdventureResult )
+					{
+						// Milk of magnesium is marked as food, as are
+						// munchies pills; all others are marked as expected.
+
+						isVisibleWithFilter = other;
+						if ( name.equals( "milk of magnesium" ) || name.equals( "munchies pills" ) )
+							isVisibleWithFilter |= food;
+					}
+					else
+					{
+						switch ( ConcoctionsDatabase.getMixingMethod( itemId ) )
+						{
+						case ItemCreationRequest.COOK:
+						case ItemCreationRequest.COOK_REAGENT:
+						case ItemCreationRequest.SUPER_REAGENT:
+							isVisibleWithFilter = food || other;
+							break;
+
+						case ItemCreationRequest.COOK_PASTA:
+						case ItemCreationRequest.WOK:
+							isVisibleWithFilter = food;
+							break;
+
+						case ItemCreationRequest.MIX:
+						case ItemCreationRequest.MIX_SPECIAL:
+						case ItemCreationRequest.STILL_BOOZE:
+						case ItemCreationRequest.MIX_SUPER:
+							isVisibleWithFilter = booze;
+							break;
+
+						default:
+							isVisibleWithFilter = other;
+							break;
+						}
+					}
+				}
+
+				if ( !isVisibleWithFilter )
+					return false;
+
+				return pattern.matcher( name ).find();
+			}
+		}
 	}
 }

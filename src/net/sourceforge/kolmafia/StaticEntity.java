@@ -471,7 +471,7 @@ public abstract class StaticEntity implements KoLConstants
 			return 0;
 
 		String clean = NONDIGIT_PATTERN.matcher( string ).replaceAll( "" );
-		return clean.equals( "" ) ? 0 : Integer.parseInt( clean );
+		return clean.equals( "" ) || clean.equals( "-" ) ? 0 : Integer.parseInt( clean );
 	}
 
 	public static final float parseFloat( String string )

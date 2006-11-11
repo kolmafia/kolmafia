@@ -120,14 +120,14 @@ public class BuffBotFrame extends KoLFrame
 	 * operating the buffbot.
 	 */
 
-	private class MainBuffPanel extends ItemManagePanel implements Runnable
+	private class MainBuffPanel extends LabeledScrollPanel implements Runnable
 	{
 		public MainBuffPanel()
 		{
-			super( "BuffBot Activities", "start", "stop", BuffBotHome.getMessages() );
+			super( "BuffBot Activities", "start", "stop", new JList( BuffBotHome.getMessages() ) );
 
 			BuffBotHome.setFrame( BuffBotFrame.this );
-			elementList.setCellRenderer( BuffBotHome.getMessageRenderer() );
+			((JList)scrollComponent).setCellRenderer( BuffBotHome.getMessageRenderer() );
 		}
 
 		public void setEnabled( boolean isEnabled )

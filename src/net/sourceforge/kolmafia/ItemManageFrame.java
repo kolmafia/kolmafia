@@ -35,9 +35,8 @@
 package net.sourceforge.kolmafia;
 
 // layout
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 
@@ -48,29 +47,19 @@ import javax.swing.ListSelectionModel;
 
 // containers
 import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
+import javax.swing.JCheckBox;
 import javax.swing.JTabbedPane;
-import javax.swing.ButtonGroup;
-import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
-import javax.swing.JToolBar;
 
 // other imports
 import java.util.List;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.text.ParseException;
 
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * An extension of <code>KoLFrame</code> which handles all the item
@@ -81,7 +70,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ItemManageFrame extends KoLFrame
 {
-	private ItemManagePanel bruteForcer, inventoryManager, itemConsumer, closetManager, itemCreator, npcOfferings;
+//	private ItemManagePanel bruteForcer;
+	private ItemManagePanel insideBackpack, insideCloset, itemCreator, npcOfferings;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -95,18 +85,16 @@ public class ItemManageFrame extends KoLFrame
 		tabs = new JTabbedPane();
 		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
 
-		bruteForcer = new InventPanel();
-		itemConsumer = new ConsumePanel();
 		itemCreator = new CreateItemPanel();
-		inventoryManager = new OutsideClosetPanel();
-		closetManager = new InsideClosetPanel();
+//		bruteForcer = new InventPanel();
+		insideBackpack = new ClosetManagePanel( inventory );
+		insideCloset = new ClosetManagePanel( closet );
 		npcOfferings = null;
 
-		tabs.addTab( "Item Usage", itemConsumer );
 		tabs.addTab( "Item Creation", itemCreator );
 //		tabs.addTab( "Find Recipe", bruteForcer );
-		tabs.addTab( "Inventory", inventoryManager );
-		tabs.addTab( "Colossal Closet", closetManager );
+		tabs.addTab( "Inventory", insideBackpack );
+		tabs.addTab( "Colossal Closet", insideCloset );
 
 		// If the person is in a mysticality sign, make sure
 		// you retrieve information from the restaurant.
@@ -127,72 +115,125 @@ public class ItemManageFrame extends KoLFrame
 			tabs.add( "Microbrewery", npcOfferings );
 		}
 
+		// Now a special panel which does nothing more than list
+		// some common actions and some descriptions.
+
+		addTab( "Scripted Actions", new CommonActionsPanel() );
 		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
-	private class ConsumePanel extends ItemManagePanel
+	private class CommonActionsPanel extends JPanel
 	{
-		private JCheckBox [] filters;
-
-		public ConsumePanel()
+		public CommonActionsPanel()
 		{
-			super( "Usable Items", usables, false );
+			JPanel container = new JPanel();
+			container.setLayout( new BoxLayout( container, BoxLayout.Y_AXIS ) );
 
-			setButtons( new String [] { "use one", "use multiple", "refresh" },
-				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ),
-				new RequestButton( "Refresh Items", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
+			JLabel description;
+			Dimension maxWidth = new Dimension( 500, Integer.MAX_VALUE );
 
-			filters = new JCheckBox[3];
-			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
-			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
-			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
+			// End-user warning
 
-			for ( int i = 0; i < filters.length; ++i )
-				optionPanel.add( filters[i] );
+			description = new JLabel( "<html>KoLmafia will not prompt you for confirmation when you click these buttons.  Read the descriptions before pressing.</html>" );
+			description.setMaximumSize( maxWidth );
+			container.add( description );
 
-			elementList.setCellRenderer(
-				AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+			container.add( Box.createVerticalStrut( 20 ) );
+
+			// Information on the end of run sale button
+
+			container.add( new EndOfRunSaleButton() );
+			container.add( Box.createVerticalStrut( 5 ) );
+
+			description = new JLabel( "<html>This feature takes all items which are currently in your inventory and either autosells them, if they're available in NPC stores, or dumps them into your store in the mall.</html>" );
+			description.setMaximumSize( maxWidth );
+			container.add( description );
+
+			container.add( Box.createVerticalStrut( 20 ) );
+
+			// Information on the mall restock script
+
+			container.add( new MallRestockButton() );
+			container.add( Box.createVerticalStrut( 5 ) );
+
+			description = new JLabel( "<html>This feature looks at all the items currently in your store, and if you have any matching items in your inventory, drops those items into your store at your current price.</html>" );
+			description.setMaximumSize( maxWidth );
+			container.add( description );
+
+			container.add( Box.createVerticalStrut( 20 ) );
+
+			// Information on the display case filling script
+
+			container.add( new DisplayCaseButton() );
+			container.add( Box.createVerticalStrut( 5 ) );
+
+			description = new JLabel( "<html>This feature scans your inventory and, if it finds any items which match what's in your display case, puts those items on display.</html>" );
+			description.setMaximumSize( maxWidth );
+			container.add( description );
+
+			container.add( Box.createVerticalStrut( 20 ) );
+
+			// Information on the display case filling script
+
+			container.add( new JunkItemsButton() );
+			container.add( Box.createVerticalStrut( 5 ) );
+
+			description = new JLabel( "<html>This feature compares the list of items which you have labels as \"junk\" against your inventory, and if it finds any matches, autosells those junk items.</html>" );
+			description.setMaximumSize( maxWidth );
+			container.add( description );
+
+			container.add( Box.createVerticalStrut( 20 ) );
+
+			// Now to add the generated panel to the list.
+
+			JPanel northPanel = new JPanel( new CardLayout( 10, 10 ) );
+			northPanel.add( container, "" );
+
+			setLayout( new BorderLayout() );
+			add( northPanel, BorderLayout.NORTH );
 		}
 
-		protected AdventureResult [] getDesiredItems( String message )
+		private class EndOfRunSaleButton extends ThreadedActionButton
 		{
-			filterSelection( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() );
-			return super.getDesiredItems( message );
-		}
-
-		private class ConsumeListener implements ActionListener
-		{
-			private boolean useMultiple;
-
-			public ConsumeListener( boolean useMultiple )
-			{	this.useMultiple = useMultiple;
+			public EndOfRunSaleButton()
+			{	super( "end of run sale" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void executeTask()
+			{	StaticEntity.getClient().makeEndOfRunSaleRequest();
+			}
+		}
+
+		private class MallRestockButton extends ThreadedActionButton
+		{
+			public MallRestockButton()
+			{	super( "mall store restocker" );
+			}
+
+			public void executeTask()
 			{
-				Object [] items = getDesiredItems( "Consume" );
-				if ( items.length == 0 )
-					return;
+			}
+		}
 
-				int consumptionType, consumptionCount;
-				AdventureResult currentItem;
+		private class DisplayCaseButton extends ThreadedActionButton
+		{
+			public DisplayCaseButton()
+			{	super( "display case matcher" );
+			}
 
-				Runnable [] requests = new Runnable[ items.length ];
+			public void executeTask()
+			{
+			}
+		}
 
-				for ( int i = 0; i < items.length; ++i )
-				{
-					currentItem = (AdventureResult) items[i];
+		private class JunkItemsButton extends ThreadedActionButton
+		{
+			public JunkItemsButton()
+			{	super( "autosell junk items" );
+			}
 
-					consumptionType = TradeableItemDatabase.getConsumptionType( currentItem.getName() );
-					consumptionCount = useMultiple ? getQuantity( "Using multiple " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
-
-					if ( consumptionCount == 0 )
-						return;
-
-					requests[i] = new ConsumeItemRequest( currentItem.getInstance( consumptionCount ) );
-				}
-
-				(new RequestThread( requests )).start();
+			public void executeTask()
+			{
 			}
 		}
 	}
@@ -204,14 +245,10 @@ public class ItemManageFrame extends KoLFrame
 
 		public SpecialPanel( LockableListModel items )
 		{
-			super( "Sign-Specific Stuffs", items, false );
+			super( items );
 
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			setButtons( new String [] { "buy one", "buy multiple" },
-				new ActionListener [] {
-					new BuyListener( PURCHASE_ONE ),
-					new BuyListener( PURCHASE_MULTIPLE )
-				} );
+			setButtons( new ActionListener [] { new BuyListener( PURCHASE_ONE ), new BuyListener( PURCHASE_MULTIPLE ) } );
 		}
 
 		private class BuyListener implements ActionListener
@@ -242,66 +279,60 @@ public class ItemManageFrame extends KoLFrame
 
 	private class ClosetManagePanel extends ItemManagePanel
 	{
-		private JCheckBox [] filters;
-
-		public ClosetManagePanel( String title, LockableListModel elementModel )
+		public ClosetManagePanel( LockableListModel elementModel )
 		{
-			super( title, elementModel, true );
+			super( elementModel );
 
-			filters = new JCheckBox[3];
-			filters[0] = new FilterCheckBox( filters, elementList, true, "Show food", true );
-			filters[1] = new FilterCheckBox( filters, elementList, true, "Show drink", true );
-			filters[2] = new FilterCheckBox( filters, elementList, true, "Show others", true );
+			boolean isCloset = (elementModel == closet);
 
-			for ( int i = 0; i < filters.length; ++i )
-				optionPanel.add( filters[i] );
+			setButtons( new ActionListener [] {
+				new ConsumeListener(),
+				new PutInClosetListener( isCloset ),
+				new AutoSellListener( isCloset, AutoSellRequest.AUTOSELL ),
+				new AutoSellListener( isCloset, AutoSellRequest.AUTOMALL ),
+				new PulverizeListener( isCloset ),
+				new PutOnDisplayListener( isCloset ),
+				new GiveToClanListener( isCloset ) } );
 
-			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer( true, true, true ) );
+			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}
 
-		protected AdventureResult [] getDesiredItems( String message )
+		private class ConsumeListener implements ActionListener
 		{
-			filterSelection( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() );
-			return super.getDesiredItems( message );
-		}
-
-		protected abstract class TransferListener implements ActionListener
-		{
-			protected String description;
-			protected boolean retrieveFromClosetFirst;
-
-			protected Runnable [] requests;
-			protected ShowDescriptionList elementList;
-
-			public TransferListener( String description, boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
+			public void actionPerformed( ActionEvent e )
 			{
-				this.description = description;
-				this.retrieveFromClosetFirst = retrieveFromClosetFirst;
-				this.elementList = elementList;
+				Object [] items = getDesiredItems( "Consume" );
+				if ( items.length == 0 )
+					return;
+
+				int consumptionCount;
+				AdventureResult currentItem;
+
+				Runnable [] requests = new Runnable[ items.length ];
+
+				for ( int i = 0; i < items.length; ++i )
+				{
+					currentItem = (AdventureResult) items[i];
+
+					consumptionCount = getQuantity( "Using multiple " + currentItem.getName() + "...", currentItem.getCount() );
+					if ( consumptionCount == 0 )
+						return;
+
+					requests[i] = new ConsumeItemRequest( currentItem.getInstance( consumptionCount ) );
+				}
+
+				(new RequestThread( requests )).start();
 			}
 
-			public AdventureResult [] initialSetup()
-			{
-				AdventureResult [] items = getDesiredItems( description );
-				if (items == null )
-					return null;
-				this.requests = new Runnable[ !retrieveFromClosetFirst || description.equals( "Bagging" ) ? 1 : 2 ];
-
-				if ( retrieveFromClosetFirst )
-					requests[0] = new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items );
-
-				return items;
-			}
-
-			public void initializeTransfer()
-			{	(new RequestThread( requests )).start();
+			public String toString()
+			{	return "use item";
 			}
 		}
 
 		protected class PutInClosetListener extends TransferListener
 		{
-			public PutInClosetListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
-			{	super( retrieveFromClosetFirst ? "Bagging" : "Closeting", retrieveFromClosetFirst, elementList );
+			public PutInClosetListener( boolean retrieveFromClosetFirst )
+			{	super( retrieveFromClosetFirst ? "Bagging" : "Closeting", retrieveFromClosetFirst );
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -315,15 +346,19 @@ public class ItemManageFrame extends KoLFrame
 
 				initializeTransfer();
 			}
+
+			public String toString()
+			{	return retrieveFromClosetFirst ? "backpack" : "closet";
+			}
 		}
 
 		protected class AutoSellListener extends TransferListener
 		{
 			private int sellType;
 
-			public AutoSellListener( boolean retrieveFromClosetFirst, int sellType, ShowDescriptionList elementList )
+			public AutoSellListener( boolean retrieveFromClosetFirst, int sellType )
 			{
-				super( sellType == AutoSellRequest.AUTOSELL ? "Autoselling" : "Automalling", retrieveFromClosetFirst, elementList );
+				super( sellType == AutoSellRequest.AUTOSELL ? "Autoselling" : "Automalling", retrieveFromClosetFirst );
 				this.sellType = sellType;
 			}
 
@@ -352,12 +387,16 @@ public class ItemManageFrame extends KoLFrame
 				requests[ requests.length - 1 ] = new AutoSellRequest( items, sellType );
 				initializeTransfer();
 			}
+
+			public String toString()
+			{	return sellType == AutoSellRequest.AUTOSELL ? "auto sell" : "place in mall";
+			}
 		}
 
 		protected class GiveToClanListener extends TransferListener
 		{
-			public GiveToClanListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
-			{	super( "Stashing", retrieveFromClosetFirst, elementList );
+			public GiveToClanListener( boolean retrieveFromClosetFirst )
+			{	super( "Stashing", retrieveFromClosetFirst );
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -369,12 +408,16 @@ public class ItemManageFrame extends KoLFrame
 				requests[ requests.length - 1 ] = new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH );
 				initializeTransfer();
 			}
+
+			public String toString()
+			{	return "clan stash";
+			}
 		}
 
 		protected class PutOnDisplayListener extends TransferListener
 		{
-			public PutOnDisplayListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
-			{	super( "Showcasing", retrieveFromClosetFirst, elementList );
+			public PutOnDisplayListener( boolean retrieveFromClosetFirst )
+			{	super( "Showcasing", retrieveFromClosetFirst );
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -392,12 +435,16 @@ public class ItemManageFrame extends KoLFrame
 				requests[ requests.length - 1 ] = new MuseumRequest( items, true );
 				initializeTransfer();
 			}
+
+			public String toString()
+			{	return "display case";
+			}
 		}
 
 		protected class PulverizeListener extends TransferListener
 		{
-			public PulverizeListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
-			{	super( "Smashing", retrieveFromClosetFirst, elementList );
+			public PulverizeListener( boolean retrieveFromClosetFirst )
+			{	super( "Smashing", retrieveFromClosetFirst );
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -418,63 +465,10 @@ public class ItemManageFrame extends KoLFrame
 
 				initializeTransfer();
 			}
-		}
 
-		protected class ConsumeListener extends TransferListener
-		{
-			public ConsumeListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
-			{	super( "Using", retrieveFromClosetFirst, elementList );
+			public String toString()
+			{	return "pulverize";
 			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				Object [] items = initialSetup();
-				if ( items == null || items.length == 0 )
-					return;
-
-				int consumptionType, consumptionCount;
-				AdventureResult currentItem;
-
-				requests = new Runnable[ items.length ];
-				for ( int i = 0; i < items.length; ++i )
-					requests[i] = new ConsumeItemRequest( (AdventureResult) items[i] );
-
-				(new RequestThread( requests )).start();
-			}
-		}
-	}
-
-	private class OutsideClosetPanel extends ClosetManagePanel
-	{
-		public OutsideClosetPanel()
-		{
-			super( "Inside Inventory", inventory );
-			setButtons( new String [] { "closet", "autosell", "put in mall", "pulverize", "display case", "clan stash", "refresh" },
-				new ActionListener [] {
-					new PutInClosetListener( false, elementList ),
-					new AutoSellListener( false, AutoSellRequest.AUTOSELL, elementList ),
-					new AutoSellListener( false, AutoSellRequest.AUTOMALL, elementList ),
-					new PulverizeListener( false, elementList ),
-					new PutOnDisplayListener( false, elementList ),
-					new GiveToClanListener( false, elementList ),
-					new RequestButton( "Refresh Items", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
-		}
-	}
-
-	private class InsideClosetPanel extends ClosetManagePanel
-	{
-		public InsideClosetPanel()
-		{
-			super( "Inside Closet", closet );
-			setButtons( new String [] { "take out", "autosell", "put in mall", "pulverize", "display case", "clan stash", "refresh" },
-				new ActionListener [] {
-					new PutInClosetListener( true, elementList ),
-					new AutoSellListener( true, AutoSellRequest.AUTOSELL, elementList ),
-					new AutoSellListener( true, AutoSellRequest.AUTOMALL, elementList ),
-					new PulverizeListener( true, elementList ),
-					new PutOnDisplayListener( true, elementList ),
-					new GiveToClanListener( true, elementList ),
-					new RequestButton( "Refresh Items", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
 		}
 	}
 
@@ -482,13 +476,11 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public InventPanel()
 		{
-			super( "Invent an Item", inventory, false );
-			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( true, true, true ) );
+			super( inventory );
 
-			setButtons( new String [] { "combine", "cook", "mix", "smith", "pliers", "tinker" },
-				new ActionListener [] { new SearchListener( "combine.php" ), new SearchListener( "cook.php" ),
-					new SearchListener( "cocktail.php" ), new SearchListener( "smith.php" ), new SearchListener( "jewelry.php" ),
-					new SearchListener( "gnomes.php" ) } );
+			setButtons( new ActionListener [] { new SearchListener( "combine.php" ), new SearchListener( "cook.php" ),
+				new SearchListener( "cocktail.php" ), new SearchListener( "smith.php" ), new SearchListener( "jewelry.php" ),
+				new SearchListener( "gnomes.php" ) } );
 		}
 
 		private final int NORMAL = 1;
@@ -517,6 +509,10 @@ public class ItemManageFrame extends KoLFrame
 					request.addFormField( "action", "combine" );
 					request.addFormField( "quantity", "1" );
 				}
+			}
+
+			public String toString()
+			{	return request.formURLString;
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -709,28 +705,19 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public CreateItemPanel()
 		{
-			super( "Create an Item", ConcoctionsDatabase.getConcoctions(), false );
+			super( ConcoctionsDatabase.getConcoctions() );
 
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			setButtons( new String [] { "create one", "create multiple", "refresh" },
-				new ActionListener [] { new CreateListener( false ), new CreateListener( true ),
-				new RequestButton( "Refresh Items", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
+			setButtons( new ActionListener [] { new CreateListener(), new CreateAndUseListener() } );
 
-			JCheckBox [] filters = new JCheckBox[6];
+			JCheckBox [] addedFilters = new JCheckBox[3];
 
-			filters[0] = new FilterCheckBox( filters, elementList, "Show cookables", KoLCharacter.canEat() );
-			filters[1] = new FilterCheckBox( filters, elementList, "Show mixables", KoLCharacter.canDrink() );
-			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
+			addedFilters[0] = new CreateSettingCheckbox( "Use oven/kit", "createWithoutBoxServants", "Create without requiring a box servant" );
+			addedFilters[1] = new CreateSettingCheckbox( "Allow closet", "showClosetIngredients", "List items creatable when adding the closet" );
+			addedFilters[2] = new CreateSettingCheckbox( "Allow stash", "showStashIngredients", "List items creatable when adding the clan stash" );
 
-			filters[3] = new CreateSettingCheckbox( "Use oven/kit", "createWithoutBoxServants", "Create without requiring a box servant" );
-			filters[4] = new CreateSettingCheckbox( "Allow closet", "showClosetIngredients", "List items creatable when adding the closet" );
-			filters[5] = new CreateSettingCheckbox( "Allow stash", "showStashIngredients", "List items creatable when adding the clan stash" );
-
-			for ( int i = 0; i < filters.length; ++i )
-				optionPanel.add( filters[i] );
-
-			elementList.setCellRenderer(
-				AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+			for ( int i = 0; i < addedFilters.length; ++i )
+				filterPanel.add( addedFilters[i] );
 		}
 
 		private class CreateSettingCheckbox extends JCheckBox implements ActionListener
@@ -762,12 +749,6 @@ public class ItemManageFrame extends KoLFrame
 
 		private class CreateListener implements ActionListener
 		{
-			private boolean createMultiple;
-
-			public CreateListener( boolean createMultiple )
-			{	this.createMultiple = createMultiple;
-			}
-
 			public void actionPerformed( ActionEvent e )
 			{
 				Object selected = elementList.getSelectedValue();
@@ -776,13 +757,48 @@ public class ItemManageFrame extends KoLFrame
 					return;
 
 				ItemCreationRequest selection = (ItemCreationRequest) selected;
-				int quantityDesired = createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() ) : 1;
+				int quantityDesired = getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() );
 				if ( quantityDesired < 1 )
 					return;
 
 				KoLmafia.updateDisplay( "Verifying ingredients..." );
 				selection.setQuantityNeeded( quantityDesired );
 				(new RequestThread( selection )).start();
+			}
+
+			public String toString()
+			{	return "create item";
+			}
+		}
+
+		private class CreateAndUseListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				Object selected = elementList.getSelectedValue();
+
+				if ( selected == null )
+					return;
+
+				Runnable [] requests = new Runnable[2];
+
+				ItemCreationRequest selection = (ItemCreationRequest) selected;
+				int quantityDesired = getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() );
+				if ( quantityDesired < 1 )
+					return;
+
+				KoLmafia.updateDisplay( "Verifying ingredients..." );
+				selection.setQuantityNeeded( quantityDesired );
+
+				requests[0] = selection;
+				requests[1] = new ConsumeItemRequest( new AdventureResult(
+					selection.getItemId(), selection.getQuantityNeeded() ) );
+
+				(new RequestThread( requests )).start();
+			}
+
+			public String toString()
+			{	return "create & use";
 			}
 		}
 	}
