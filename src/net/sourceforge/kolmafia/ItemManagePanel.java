@@ -49,6 +49,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ListSelectionModel;
 import java.util.regex.Pattern;
 
+import java.util.Map;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
@@ -84,6 +85,10 @@ public class ItemManagePanel extends LabeledScrollPanel
 		elementList = (ShowDescriptionList) scrollComponent;
 		elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 		elementList.setVisibleRowCount( 8 );
+
+		elementModel = elements;
+		wordfilter = new FilterItemComboBox( elementModel );
+		centerPanel.add( wordfilter, BorderLayout.NORTH );
 	}
 
 	public ItemManagePanel( LockableListModel elementModel )
@@ -92,6 +97,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		this.elementModel = elementModel;
 		this.elementList = (ShowDescriptionList) scrollComponent;
+
+		wordfilter = new FilterItemComboBox( elementModel );
+		centerPanel.add( wordfilter, BorderLayout.NORTH );
 	}
 
 	public void actionConfirmed()
@@ -169,8 +177,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 		northPanel.add( filterPanel, BorderLayout.NORTH );
 		northPanel.add( moverPanel, BorderLayout.SOUTH );
 
-		wordfilter = new FilterItemComboBox( elementModel );
-		centerPanel.add( wordfilter, BorderLayout.NORTH );
 		actualPanel.add( northPanel, BorderLayout.NORTH );
 		actualPanel.add( eastPanel, BorderLayout.EAST );
 
@@ -346,10 +352,20 @@ public class ItemManagePanel extends LabeledScrollPanel
 				pattern = Pattern.compile( regex.toString(), Pattern.CASE_INSENSITIVE );
 			}
 
-			food = filters[0].isSelected();
-			booze = filters[1].isSelected();
-			equip = filters[2].isSelected();
-			other = filters.length == 3 || filters[3].isSelected();
+			if ( filters == null )
+			{
+				food = true;
+				booze = true;
+				equip = true;
+				other = true;
+			}
+			else
+			{
+				food = filters[0].isSelected();
+				booze = filters[1].isSelected();
+				equip = filters[2].isSelected();
+				other = filters.length == 3 || filters[3].isSelected();
+			}
 
 			elementModel.applyListFilter( filter );
 		}
@@ -361,7 +377,14 @@ public class ItemManagePanel extends LabeledScrollPanel
 				if ( pattern == null )
 					return true;
 
+				if ( element instanceof Map.Entry )
+				{
+					Map.Entry entry = (Map.Entry) element;
+					return pattern.matcher( entry.getKey().toString() ).find() || pattern.matcher( entry.getValue().toString() ).find();
+				}
+
 				boolean isVisibleWithFilter = true;
+
 				String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() : ((ItemCreationRequest)element).getName();
 				int itemId = TradeableItemDatabase.getItemId( name );
 
