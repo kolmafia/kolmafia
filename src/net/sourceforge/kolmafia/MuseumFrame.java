@@ -73,8 +73,6 @@ public class MuseumFrame extends KoLFrame
 	{
 		super( "Museum Display" );
 
-		(new RequestThread( new MuseumRequest() )).start();
-
 		general = new AddRemovePanel();
 		shelves = new MuseumShelfList();
 		ordering = new OrderingPanel();
