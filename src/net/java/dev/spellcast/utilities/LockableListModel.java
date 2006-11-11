@@ -134,7 +134,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public void add( int index, Object element )
+	public synchronized void add( int index, Object element )
 	{
 		actualElements.add( index, element );
 
@@ -179,7 +179,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	public boolean addAll( int index, Collection c )
 	{
 		int originalSize = actualElements.size();
-		boolean addInBulk = isEmpty() || index == actualElements.size();
+		boolean addInBulk = isEmpty();
 
 		if ( addInBulk && currentFilter != null )
 		{
@@ -207,7 +207,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		while ( myIterator.hasNext() )
 		{
 			currentItem = myIterator.next();
-			if ( currentItem != null && currentFilter.isVisible( currentItem ) )
+			if ( currentItem != null )
 				add( currentIndex++, currentItem );
 		}
 
@@ -433,7 +433,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public Object remove( int index )
+	public synchronized Object remove( int index )
 	{
 		if ( index < 0 || index >= actualElements.size() )
 			return null;
@@ -492,7 +492,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public Object set( int index, Object element )
+	public synchronized Object set( int index, Object element )
 	{
 		Object originalElement = get( index );
 		actualElements.set( index, element );

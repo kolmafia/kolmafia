@@ -99,7 +99,6 @@ public class MutableComboBox extends JComboBox
 		// before the key typed event is fired
 
 		currentName = (String) getEditor().getItem();
-		currentMatch = null;
 
 		if ( model.contains( currentName ) )
 		{
@@ -107,14 +106,15 @@ public class MutableComboBox extends JComboBox
 			return;
 		}
 
+		currentMatch = null;
+		if ( currentName.length() == 0 )
+			return;
+
 		// Autohighlight and popup - note that this
 		// should only happen for standard typing
 		// keys, or the delete and backspace keys.
 
 		Object [] currentNames = model.toArray();
-
-		if ( currentName.length() == 0 )
-			return;
 
 		Matcher matcher;
 		Pattern pattern = Pattern.compile( currentName, Pattern.CASE_INSENSITIVE );
@@ -141,12 +141,12 @@ public class MutableComboBox extends JComboBox
 		// the user wants autocompletion!  Highlight
 		// the rest of the possible name.
 
-		getEditor().setItem( currentMatch );
-
 		if ( !allowAdditions )
 			setSelectedItem( currentMatch );
 
+		getEditor().setItem( currentMatch );
 		matcher = pattern.matcher( currentMatch );
+
 		if ( matcher.find() )
 		{
 			JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
@@ -176,9 +176,9 @@ public class MutableComboBox extends JComboBox
 			if ( currentName == null || currentName.trim().length() == 0 )
 				return;
 
-			if ( currentMatch == null )
-				forceAddition();
-			else
+//			if ( currentMatch == null )
+	//			forceAddition();
+		//	else
 				setSelectedItem( currentMatch );
 		}
 	}
