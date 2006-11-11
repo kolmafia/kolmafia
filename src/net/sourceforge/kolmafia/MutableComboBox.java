@@ -42,6 +42,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MutableComboBox extends JComboBox
@@ -90,13 +92,11 @@ public class MutableComboBox extends JComboBox
 		currentMatch = (String) anObject;
 	}
 
-	protected void findMatch( int keyCode )
+	protected synchronized void findMatch( int keyCode )
 	{
 		// If it wasn't the enter key that was being released,
 		// then make sure that the current name is stored
 		// before the key typed event is fired
-
-		String previousMatch = currentMatch;
 
 		currentName = (String) getEditor().getItem();
 		currentMatch = null;
@@ -116,32 +116,42 @@ public class MutableComboBox extends JComboBox
 		if ( currentName.length() == 0 )
 			return;
 
-		String lowercase = currentName.toLowerCase();
+		Matcher matcher;
+		Pattern pattern = Pattern.compile( currentName, Pattern.CASE_INSENSITIVE );
+
+		int matchCount = 0;
 
 		for ( int i = 0; i < currentNames.length; ++i )
 		{
-			if ( ((String)currentNames[i]).toLowerCase().startsWith( lowercase ) )
+			matcher = pattern.matcher( (String) currentNames[i] );
+			if ( matcher.find() )
 			{
-				// If this wasn't an undefined character, then
-				// the user wants autocompletion!  Highlight
-				// the rest of the possible name.
-
-				String currentName = this.currentName;
+				++matchCount;
 				currentMatch = (String) currentNames[i];
-				getEditor().setItem( currentMatch );
-
-				if ( !allowAdditions )
-				{
-					setSelectedItem( currentMatch );
-					showPopup();
-				}
-
-				JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
-				editor.setSelectionStart( currentName.length() );
-				editor.setSelectionEnd( currentMatch.length() );
-
-				return;
 			}
+		}
+
+		if ( matchCount != 1 )
+		{
+			currentMatch = null;
+			return;
+		}
+
+		// If this wasn't an undefined character, then
+		// the user wants autocompletion!  Highlight
+		// the rest of the possible name.
+
+		getEditor().setItem( currentMatch );
+
+		if ( !allowAdditions )
+			setSelectedItem( currentMatch );
+
+		matcher = pattern.matcher( currentMatch );
+		if ( matcher.find() )
+		{
+			JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
+			editor.setSelectionStart( matcher.end() );
+			editor.setSelectionEnd( currentMatch.length() );
 		}
 	}
 
