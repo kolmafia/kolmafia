@@ -104,63 +104,50 @@ public class HagnkStorageFrame extends KoLFrame
 
 	private class HagnkStoragePanel extends ItemManagePanel
 	{
-		private FilterCheckBox [] consumeFilters;
-
 		public HagnkStoragePanel()
 		{
-			super( "Inside Storage", storage, true );
-
-			setButtons( new String [] { "put in bag", "put in closet", "take it all" },
-				new ActionListener [] { new PullFromStorageListener( false ), new PullFromStorageListener( true ), new EmptyStorageListener() } );
-
-			movers[2].setSelected( true );
-
-			consumeFilters = new FilterCheckBox[3];
-			consumeFilters[0] = new FilterCheckBox( consumeFilters, elementList, "Show food", true );
-			consumeFilters[1] = new FilterCheckBox( consumeFilters, elementList, "Show drink", true );
-			consumeFilters[2] = new FilterCheckBox( consumeFilters, elementList, "Show others", true );
-
-			for ( int i = 0; i < consumeFilters.length; ++i )
-				optionPanel.add( consumeFilters[i] );
-
-			elementList.setCellRenderer(
-				AdventureResult.getConsumableCellRenderer( true, true, true ) );
+			super( storage );
+			setButtons( new ActionListener [] {
+				new PullToInventoryListener(), new PullToClosetListener(), new EmptyToInventoryListener(), new EmptyToClosetListener() } );
 		}
 
-		protected AdventureResult [] getDesiredItems( String message )
+		private class PullToInventoryListener implements ActionListener
 		{
-			// Ensure that the selection interval does not include
-			// anything that was filtered out by the checkboxes.
-
-			filterSelection( consumeFilters[0].isSelected(), consumeFilters[1].isSelected(), consumeFilters[2].isSelected() );
-			return super.getDesiredItems( message );
-		}
-
-		private class PullFromStorageListener implements ActionListener
-		{
-			private boolean isCloset;
-
-			public PullFromStorageListener( boolean withdraw )
-			{	this.isCloset = isCloset;
-			}
-
 			public void actionPerformed( ActionEvent e )
 			{
 				Object [] items = getDesiredItems( "Pulling" );
 				if ( items == null )
 					return;
 
-				Runnable [] requests = isCloset ? new Runnable[2] : new Runnable[1];
-				requests[0] = new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items );
+				(new RequestThread( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) )).start();
+			}
 
-				if ( isCloset )
-					requests[1] = new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items );
-
-				(new RequestThread( requests )).start();
+			public String toString()
+			{	return "pull to inventory";
 			}
 		}
 
-		private class EmptyStorageListener implements ActionListener
+		private class PullToClosetListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				Object [] items = getDesiredItems( "Pulling" );
+				if ( items == null )
+					return;
+
+				Runnable [] requests = new Runnable[2];
+				requests[0] = new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items );
+				requests[1] = new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items );
+
+				(new RequestThread( requests )).start();
+			}
+
+			public String toString()
+			{	return "pull to closet";
+			}
+		}
+
+		private class EmptyToInventoryListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
 			{
@@ -171,6 +158,30 @@ public class HagnkStorageFrame extends KoLFrame
 				}
 
 				(new RequestThread( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) )).start();
+			}
+
+			public String toString()
+			{	return "empty to inventory";
+			}
+		}
+
+		private class EmptyToClosetListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				Object [] items = storage.toArray();
+				if ( items == null )
+					return;
+
+				Runnable [] requests = new Runnable[2];
+				requests[0] = new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE );
+				requests[1] = new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items );
+
+				(new RequestThread( requests )).start();
+			}
+
+			public String toString()
+			{	return "empty to closet";
 			}
 		}
 	}

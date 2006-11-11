@@ -2158,12 +2158,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public boolean executeConditionsCommand( String parameters )
 	{
-		AdventureResult condition = null;
 		String option = parameters.split( " " )[0];
 
 		if ( option.equals( "clear" ) )
 		{
 			conditions.clear();
+			updateDisplay( "Conditions list cleared." );
 			return true;
 		}
 		else if ( option.equals( "check" ) )
@@ -2193,181 +2193,192 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else if ( option.equals( "add" ) )
 		{
-			String conditionString = parameters.substring( option.length() ).toLowerCase().trim();
+			AdventureResult condition;
+			String [] conditionsList = parameters.substring( option.length() ).toLowerCase().trim().split( "\\s*,\\s*" );
 
-			if ( conditionString.length() == 0 )
-				return true;
-
-			Matcher meatMatcher = MEAT_PATTERN.matcher( conditionString );
-			boolean isMeatCondition = meatMatcher.find() ? meatMatcher.group().length() == conditionString.length() : false;
-
-			if ( isMeatCondition )
+			for ( int i = 0; i < conditionsList.length; ++i )
 			{
-				String [] splitCondition = conditionString.split( "\\s+" );
-				int amount = StaticEntity.parseInt( splitCondition[0] );
-				condition = new AdventureResult( AdventureResult.MEAT, amount );
-			}
-			else if ( conditionString.endsWith( "choiceadv" ) || conditionString.endsWith( "choices" ) || conditionString.endsWith( "choice" ) )
-			{
-				// If it's a choice adventure condition, parse out the
-				// number of choice adventures the user wishes to do.
+				condition = extractCondition( conditionsList[i] );
+				if ( condition == null )
+					continue;
 
-				String [] splitCondition = conditionString.split( "\\s+" );
-				condition = new AdventureResult( AdventureResult.CHOICE, splitCondition.length > 1 ? StaticEntity.parseInt( splitCondition[0] ) : 1 );
-			}
-			else if ( conditionString.startsWith( "level" ) )
-			{
-				// If the condition is a level, then determine how many
-				// substat points are required to the next level and
-				// add the substat points as a condition.
-
-				String [] splitCondition = conditionString.split( "\\s+" );
-				int level = StaticEntity.parseInt( splitCondition[1] );
-
-				int [] subpoints = new int[3];
-				int primeIndex = KoLCharacter.getPrimeIndex();
-
-				subpoints[ primeIndex ] = KoLCharacter.calculateSubpoints( (level - 1) * (level - 1) + 4, 0 ) -
-					KoLCharacter.getTotalPrime();
-
-				for ( int i = 0; i < subpoints.length; ++i )
-					subpoints[i] = Math.max( 0, subpoints[i] );
-
-				condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
-
-				// Make sure that if there was a previous substat condition,
-				// and it modifies the same stat as this condition, that the
-				// greater of the two remains and the two aren't added.
-
-				int previousIndex = conditions.indexOf( condition );
-				if ( previousIndex != -1 )
+				if ( condition.getCount() > 0 )
 				{
-					AdventureResult previousCondition = (AdventureResult) conditions.get( previousIndex );
-
-					for ( int i = 0; i < subpoints.length; ++i )
-						if ( subpoints[i] != 0 && previousCondition.getCount(i) != 0 )
-							subpoints[i] = Math.max( 0, subpoints[i] - previousCondition.getCount(i) );
-
-					condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+					AdventureResult.addResultToList( conditions, condition );
+					updateDisplay( "Condition added: " + condition );
 				}
-			}
-			else if ( conditionString.endsWith( "mus" ) || conditionString.endsWith( "muscle" ) || conditionString.endsWith( "moxie" ) ||
-				conditionString.endsWith( "mys" ) || conditionString.endsWith( "myst" ) || conditionString.endsWith( "mysticality" ) )
-			{
-				String [] splitCondition = conditionString.split( "\\s+" );
-				int points = StaticEntity.parseInt( splitCondition[0] );
-
-				int [] subpoints = new int[3];
-				int statIndex = conditionString.indexOf( "mus" ) != -1 ? 0 : conditionString.indexOf( "mys" ) != -1 ? 1 : 2;
-				subpoints[ statIndex ] = KoLCharacter.calculateSubpoints( points, 0 );
-
-				subpoints[ statIndex ] -= conditionString.indexOf( "mus" ) != -1 ? KoLCharacter.getTotalMuscle() :
-					conditionString.indexOf( "mys" ) != -1 ? KoLCharacter.getTotalMysticality() :
-					KoLCharacter.getTotalMoxie();
-
-				for ( int i = 0; i < subpoints.length; ++i )
-					subpoints[i] = Math.max( 0, subpoints[i] );
-
-				condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
-
-				// Make sure that if there was a previous substat condition,
-				// and it modifies the same stat as this condition, that the
-				// greater of the two remains and the two aren't added.
-
-				int previousIndex = conditions.indexOf( condition );
-				if ( previousIndex != -1 )
-				{
-					AdventureResult previousCondition = (AdventureResult) conditions.get( previousIndex );
-
-					for ( int i = 0; i < subpoints.length; ++i )
-						if ( subpoints[i] != 0 && previousCondition.getCount(i) != 0 )
-							subpoints[i] = Math.max( 0, subpoints[i] - previousCondition.getCount(i) );
-
-					condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
-				}
-			}
-			else if ( conditionString.endsWith( "health" ) || conditionString.endsWith( "mana" ) )
-			{
-				String numberString = conditionString.split( "\\s+" )[0];
-				int points = StaticEntity.parseInt( numberString.endsWith( "%" ) ? numberString.substring( 0, numberString.length() - 1 ) : numberString );
-
-				if ( numberString.endsWith( "%" ) )
-				{
-					if ( conditionString.endsWith( "health" ) )
-						points = (int) ((float) points * (float)KoLCharacter.getMaximumHP() / 100.0f);
-					else if ( conditionString.endsWith( "mana" ) )
-						points = (int) ((float) points * (float)KoLCharacter.getMaximumMP() / 100.0f);
-				}
-
-				points -= conditionString.endsWith( "health" ) ? KoLCharacter.getCurrentHP() :
-					KoLCharacter.getCurrentMP();
-
-				condition = new AdventureResult( conditionString.endsWith( "health" ) ? AdventureResult.HP : AdventureResult.MP, points );
-
-				int previousIndex = conditions.indexOf( condition );
-				if ( previousIndex != -1 )
-				{
-					AdventureResult previousCondition = (AdventureResult) conditions.get( previousIndex );
-					condition = condition.getInstance( condition.getCount() - previousCondition.getCount() );
-				}
-			}
-			else if ( conditionString.endsWith( "outfit" ) )
-			{
-				// Usage: conditions add <location> outfit
-				String outfitLocation;
-
-				if (conditionString.equals("outfit"))
-					outfitLocation = StaticEntity.getProperty("lastAdventure");
 				else
-					outfitLocation = conditionString.substring(0, conditionString.length() - 7);
-
-				// Try to support outfit names by mapping some outfits to their locations
-				if (outfitLocation.equals("guard") || outfitLocation.equals("elite") || outfitLocation.equals("elite guard"))
-					outfitLocation = "treasury";
-
-				if (outfitLocation.equals("rift"))
-					outfitLocation = "battlefield";
-
-				if (outfitLocation.equals("cloaca-cola") || outfitLocation.equals("cloaca cola"))
-					outfitLocation = "cloaca";
-
-				if( outfitLocation.equals("dyspepsi-cola") || outfitLocation.equals("dyspepsi cola"))
-					outfitLocation = "dyspepsi";
-
-				KoLAdventure lastAdventure = AdventureDatabase.getAdventure( outfitLocation );
-
-				if ( !(lastAdventure instanceof KoLAdventure) )
-					updateDisplay( ERROR_STATE, "Unrecognized location: "+ outfitLocation);
-
-				else if ( !EquipmentDatabase.addOutfitConditions(lastAdventure ))
-					updateDisplay( ERROR_STATE, "No outfit corresponds to " + lastAdventure.getAdventureName() + ".");
+				{
+					updateDisplay( "Condition already met: " + condition );
+				}
 			}
-			else
+
+			return true;
+		}
+
+		printList( conditions );
+		return false;
+	}
+
+	private AdventureResult extractCondition( String conditionString )
+	{
+		if ( conditionString.length() == 0 )
+			return null;
+
+		AdventureResult condition = null;
+		Matcher meatMatcher = MEAT_PATTERN.matcher( conditionString );
+		boolean isMeatCondition = meatMatcher.find() ? meatMatcher.group().length() == conditionString.length() : false;
+
+		if ( isMeatCondition )
+		{
+			String [] splitCondition = conditionString.split( "\\s+" );
+			int amount = StaticEntity.parseInt( splitCondition[0] );
+			condition = new AdventureResult( AdventureResult.MEAT, amount );
+		}
+		else if ( conditionString.endsWith( "choiceadv" ) || conditionString.endsWith( "choices" ) || conditionString.endsWith( "choice" ) )
+		{
+			// If it's a choice adventure condition, parse out the
+			// number of choice adventures the user wishes to do.
+
+			String [] splitCondition = conditionString.split( "\\s+" );
+			condition = new AdventureResult( AdventureResult.CHOICE, splitCondition.length > 1 ? StaticEntity.parseInt( splitCondition[0] ) : 1 );
+		}
+		else if ( conditionString.startsWith( "level" ) )
+		{
+			// If the condition is a level, then determine how many
+			// substat points are required to the next level and
+			// add the substat points as a condition.
+
+			String [] splitCondition = conditionString.split( "\\s+" );
+			int level = StaticEntity.parseInt( splitCondition[1] );
+
+			int [] subpoints = new int[3];
+			int primeIndex = KoLCharacter.getPrimeIndex();
+
+			subpoints[ primeIndex ] = KoLCharacter.calculateSubpoints( (level - 1) * (level - 1) + 4, 0 ) -
+				KoLCharacter.getTotalPrime();
+
+			for ( int i = 0; i < subpoints.length; ++i )
+				subpoints[i] = Math.max( 0, subpoints[i] );
+
+			condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+
+			// Make sure that if there was a previous substat condition,
+			// and it modifies the same stat as this condition, that the
+			// greater of the two remains and the two aren't added.
+
+			int previousIndex = conditions.indexOf( condition );
+			if ( previousIndex != -1 )
 			{
-				// Otherwise, it's an item or status-effect condition, so parse
-				// out which item or effect is desired and set that as the condition.
+				AdventureResult previousCondition = (AdventureResult) conditions.get( previousIndex );
 
-				condition = getFirstMatchingItem( conditionString );
+				for ( int i = 0; i < subpoints.length; ++i )
+					if ( subpoints[i] != 0 && previousCondition.getCount(i) != 0 )
+						subpoints[i] = Math.max( 0, subpoints[i] - previousCondition.getCount(i) );
+
+				condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
 			}
 		}
-
-		if ( condition == null )
+		else if ( conditionString.endsWith( "mus" ) || conditionString.endsWith( "muscle" ) || conditionString.endsWith( "moxie" ) ||
+			conditionString.endsWith( "mys" ) || conditionString.endsWith( "myst" ) || conditionString.endsWith( "mox" ) || conditionString.endsWith( "mysticality" ) )
 		{
-			printList( conditions );
-			return false;
+			String [] splitCondition = conditionString.split( "\\s+" );
+			int points = StaticEntity.parseInt( splitCondition[0] );
+
+			int [] subpoints = new int[3];
+			int statIndex = conditionString.indexOf( "mus" ) != -1 ? 0 : conditionString.indexOf( "mys" ) != -1 ? 1 : 2;
+			subpoints[ statIndex ] = KoLCharacter.calculateSubpoints( points, 0 );
+
+			subpoints[ statIndex ] -= conditionString.indexOf( "mus" ) != -1 ? KoLCharacter.getTotalMuscle() :
+				conditionString.indexOf( "mys" ) != -1 ? KoLCharacter.getTotalMysticality() :
+				KoLCharacter.getTotalMoxie();
+
+			for ( int i = 0; i < subpoints.length; ++i )
+				subpoints[i] = Math.max( 0, subpoints[i] );
+
+			condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+
+			// Make sure that if there was a previous substat condition,
+			// and it modifies the same stat as this condition, that the
+			// greater of the two remains and the two aren't added.
+
+			int previousIndex = conditions.indexOf( condition );
+			if ( previousIndex != -1 )
+			{
+				AdventureResult previousCondition = (AdventureResult) conditions.get( previousIndex );
+
+				for ( int i = 0; i < subpoints.length; ++i )
+					if ( subpoints[i] != 0 && previousCondition.getCount(i) != 0 )
+						subpoints[i] = Math.max( 0, subpoints[i] - previousCondition.getCount(i) );
+
+				condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+			}
 		}
-
-		if ( condition.getCount() > 0 )
+		else if ( conditionString.endsWith( "health" ) || conditionString.endsWith( "mana" ) )
 		{
-			AdventureResult.addResultToList( conditions, condition );
-			updateDisplay( "Condition added: " + condition );
+			String numberString = conditionString.split( "\\s+" )[0];
+			int points = StaticEntity.parseInt( numberString.endsWith( "%" ) ? numberString.substring( 0, numberString.length() - 1 ) : numberString );
+
+			if ( numberString.endsWith( "%" ) )
+			{
+				if ( conditionString.endsWith( "health" ) )
+					points = (int) ((float) points * (float)KoLCharacter.getMaximumHP() / 100.0f);
+				else if ( conditionString.endsWith( "mana" ) )
+					points = (int) ((float) points * (float)KoLCharacter.getMaximumMP() / 100.0f);
+			}
+
+			points -= conditionString.endsWith( "health" ) ? KoLCharacter.getCurrentHP() :
+				KoLCharacter.getCurrentMP();
+
+			condition = new AdventureResult( conditionString.endsWith( "health" ) ? AdventureResult.HP : AdventureResult.MP, points );
+
+			int previousIndex = conditions.indexOf( condition );
+			if ( previousIndex != -1 )
+			{
+				AdventureResult previousCondition = (AdventureResult) conditions.get( previousIndex );
+				condition = condition.getInstance( condition.getCount() - previousCondition.getCount() );
+			}
+		}
+		else if ( conditionString.endsWith( "outfit" ) )
+		{
+			// Usage: conditions add <location> outfit
+			String outfitLocation;
+
+			if (conditionString.equals("outfit"))
+				outfitLocation = StaticEntity.getProperty("lastAdventure");
+			else
+				outfitLocation = conditionString.substring(0, conditionString.length() - 7);
+
+			// Try to support outfit names by mapping some outfits to their locations
+			if (outfitLocation.equals("guard") || outfitLocation.equals("elite") || outfitLocation.equals("elite guard"))
+				outfitLocation = "treasury";
+
+			if (outfitLocation.equals("rift"))
+				outfitLocation = "battlefield";
+
+			if (outfitLocation.equals("cloaca-cola") || outfitLocation.equals("cloaca cola"))
+				outfitLocation = "cloaca";
+
+			if( outfitLocation.equals("dyspepsi-cola") || outfitLocation.equals("dyspepsi cola"))
+				outfitLocation = "dyspepsi";
+
+			KoLAdventure lastAdventure = AdventureDatabase.getAdventure( outfitLocation );
+
+			if ( !(lastAdventure instanceof KoLAdventure) )
+				updateDisplay( ERROR_STATE, "Unrecognized location: "+ outfitLocation);
+
+			else if ( !EquipmentDatabase.addOutfitConditions(lastAdventure ))
+				updateDisplay( ERROR_STATE, "No outfit corresponds to " + lastAdventure.getAdventureName() + ".");
 		}
 		else
 		{
-			updateDisplay( "Condition already met: " + condition );
+			// Otherwise, it's an item or status-effect condition, so parse
+			// out which item or effect is desired and set that as the condition.
+
+			condition = getFirstMatchingItem( conditionString );
 		}
 
-		return true;
+		return condition;
 	}
 
 	/**

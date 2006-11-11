@@ -206,7 +206,12 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		}
 
 		public void run()
-		{	actionConfirmed();
+		{
+			for ( int i = 0; i < elements.length; ++i )
+				if ( elements[i].getInputField() instanceof MutableComboBox )
+					((MutableComboBox)elements[i].getInputField()).forceAddition();
+
+			actionConfirmed();
 		}
 	}
 

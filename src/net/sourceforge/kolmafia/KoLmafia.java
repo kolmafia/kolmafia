@@ -93,7 +93,7 @@ public abstract class KoLmafia implements KoLConstants
 		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
 
-		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
+		JEditorPane.registerEditorKitForContentType( "text/html", RequestEditorKit.class.getName() );
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
 

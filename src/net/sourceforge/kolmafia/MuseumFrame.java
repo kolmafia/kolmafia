@@ -39,6 +39,7 @@ import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
 // containers
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -49,7 +50,6 @@ import net.java.dev.spellcast.utilities.PanelList;
 import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * An extension of <code>KoLFrame</code> which handles all the item
@@ -97,7 +97,7 @@ public class MuseumFrame extends KoLFrame
 
 	private class AddRemovePanel extends JPanel
 	{
-		private ItemManagePanel inventoryPanel, displayPanel;
+		private LabeledScrollPanel inventoryPanel, displayPanel;
 
 		public AddRemovePanel()
 		{
@@ -130,10 +130,14 @@ public class MuseumFrame extends KoLFrame
 			return selection;
 		}
 
-		private class OutsideDisplayPanel extends ItemManagePanel
+		private class OutsideDisplayPanel extends LabeledScrollPanel
 		{
+			private ShowDescriptionList elementList;
+
 			public OutsideDisplayPanel()
-			{	super( "Inventory", "add all", "add some", inventory );
+			{
+				super( "Inventory", "add all", "add some", new ShowDescriptionList( inventory ) );
+				elementList = (ShowDescriptionList) scrollComponent;
 			}
 
 			private void move( boolean moveAll )
@@ -160,10 +164,14 @@ public class MuseumFrame extends KoLFrame
 			}
 		}
 
-		private class InsideDisplayPanel extends ItemManagePanel
+		private class InsideDisplayPanel extends LabeledScrollPanel
 		{
+			private ShowDescriptionList elementList;
+
 			public InsideDisplayPanel()
-			{	super( "Display Case", "take all", "take some", collection );
+			{
+				super( "Display Case", "add all", "add some", new ShowDescriptionList( collection ) );
+				elementList = (ShowDescriptionList) scrollComponent;
 			}
 
 			private void move( boolean moveAll )
@@ -202,14 +210,17 @@ public class MuseumFrame extends KoLFrame
 		}
 	}
 
-	public class MuseumShelfPanel extends ItemManagePanel implements PanelListCell, Runnable
+	public class MuseumShelfPanel extends LabeledScrollPanel implements PanelListCell, Runnable
 	{
 		private int index;
+		private ShowDescriptionList elementList;
 
 		public MuseumShelfPanel( int index, SortedListModel value )
 		{
-			super( MuseumManager.getHeader( index ), "move", "remove", value, false );
+			super( MuseumManager.getHeader( index ), "move", "remove", new ShowDescriptionList( value ), false );
+
 			this.index = index;
+			this.elementList = (ShowDescriptionList) scrollComponent;
 		}
 
 		public void actionConfirmed()
@@ -246,13 +257,16 @@ public class MuseumFrame extends KoLFrame
 		}
 	}
 
-	private class OrderingPanel extends ItemManagePanel implements Runnable
+	private class OrderingPanel extends LabeledScrollPanel implements Runnable
 	{
 		private LockableListModel headers;
+		private ShowDescriptionList elementList;
 
 		public OrderingPanel()
 		{
-			super( "Reorder Shelves", "move up", "apply", (LockableListModel) MuseumManager.getHeaders().getMirrorImage() );
+			super( "Reorder Shelves", "move up", "apply", new JList( (LockableListModel) MuseumManager.getHeaders().clone() ) );
+
+			elementList = (ShowDescriptionList) scrollComponent;
 			headers = (LockableListModel) elementList.getModel();
 		}
 

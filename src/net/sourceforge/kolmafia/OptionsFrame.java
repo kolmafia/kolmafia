@@ -437,13 +437,16 @@ public class OptionsFrame extends KoLFrame
 		}
 	}
 
-	private abstract class ShiftableOrderPanel extends ItemManagePanel implements ListDataListener
+	private abstract class ShiftableOrderPanel extends LabeledScrollPanel implements ListDataListener
 	{
-		private LockableListModel list;
+		protected LockableListModel list;
+		protected JList elementList;
 
 		public ShiftableOrderPanel( String title, LockableListModel list )
 		{
-			super( title, "move up", "move down", list );
+			super( title, "move up", "move down", new JList( list ) );
+
+			this.elementList = (JList) scrollComponent;
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 			this.list = list;
@@ -489,17 +492,13 @@ public class OptionsFrame extends KoLFrame
 
 	private class ScriptButtonPanel extends ShiftableOrderPanel implements ListDataListener
 	{
-		private LockableListModel scriptList;
-
 		public ScriptButtonPanel()
 		{
 			super( "gCLI Toolbar Buttons", new LockableListModel() );
-			this.scriptList = (LockableListModel) elementList.getModel();
-
 			String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
 
 			for ( int i = 0; i < scriptList.length; ++i )
-				this.scriptList.add( scriptList[i] );
+				this.list.add( scriptList[i] );
 
 			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
 			extraButtons.add( new AddScriptButton(), BorderLayout.NORTH );
@@ -531,7 +530,7 @@ public class OptionsFrame extends KoLFrame
 					if ( scriptPath.startsWith( rootPath ) )
 						scriptPath = scriptPath.substring( rootPath.length() + 1 );
 
-					scriptList.add( "call " + scriptPath );
+					list.add( "call " + scriptPath );
 				}
 			}
 		}
@@ -548,7 +547,7 @@ public class OptionsFrame extends KoLFrame
 			{
 				String currentValue = JOptionPane.showInputDialog( "CLI Command", "" );
 				if ( currentValue != null && currentValue.length() != 0 )
-					scriptList.add( currentValue );
+					list.add( currentValue );
 			}
 		}
 
@@ -566,20 +565,20 @@ public class OptionsFrame extends KoLFrame
 				if ( index == -1 )
 					return;
 
-				scriptList.remove( index );
+				list.remove( index );
 			}
 		}
 
 		public void saveSettings()
 		{
 			StringBuffer settingString = new StringBuffer();
-			if ( scriptList.size() != 0 )
-				settingString.append( (String) scriptList.get(0) );
+			if ( list.size() != 0 )
+				settingString.append( (String) list.get(0) );
 
-			for ( int i = 1; i < scriptList.size(); ++i )
+			for ( int i = 1; i < list.size(); ++i )
 			{
 				settingString.append( " | " );
-				settingString.append( (String) scriptList.get(i) );
+				settingString.append( (String) list.get(i) );
 			}
 
 			StaticEntity.setProperty( "scriptList", settingString.toString() );

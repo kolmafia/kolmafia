@@ -67,7 +67,9 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		contextMenu.add( new DescriptionMenuItem() );
 		contextMenu.add( new WikiLookupMenuItem() );
+
 		addMouseListener( new PopupListener() );
+		addMouseListener( new ShowDescriptionAdapter() );
 	}
 
 	/**
@@ -109,6 +111,53 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
     }
 
+	private void showDescription( Object item )
+	{
+		if ( item instanceof AdventureResult )
+		{
+			if ( ((AdventureResult)item).isItem() )
+				FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((AdventureResult)item).getItemId() ) );
+			if ( ((AdventureResult)item).isStatusEffect() )
+				FightFrame.showLocation( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectId( ((AdventureResult)item).getName() ) );
+		}
+		else if ( item instanceof ItemCreationRequest )
+		{
+			FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((ItemCreationRequest)item).getItemId() ) );
+		}
+		else if ( item instanceof String )
+		{
+			Matcher playerMatcher = PLAYERID_MATCHER.matcher( (String) item );
+			if ( playerMatcher.find() )
+			{
+				Object [] parameters = new Object [] { "#" + playerMatcher.group(1) };
+				SwingUtilities.invokeLater( new CreateFrameRunnable( ProfileFrame.class, parameters ) );
+			}
+		}
+	}
+
+	/**
+	 * Shows the description of the item which was recently
+	 * double-clicked.
+	 */
+
+	private class ShowDescriptionAdapter extends MouseAdapter
+	{
+		public void mouseClicked( MouseEvent e )
+		{
+			if ( e.getClickCount() == 2 )
+			{
+				int index = locationToIndex( e.getPoint() );
+				Object item = getModel().getElementAt( index );
+
+				if ( item == null )
+					return;
+
+				ensureIndexIsVisible( index );
+				showDescription( item );
+			}
+		}
+	}
+
 	/**
 	 * Utility class which shows the description of the item
 	 * which is currently selected.
@@ -135,27 +184,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				return;
 
 			ensureIndexIsVisible( index );
-
-			if ( item instanceof AdventureResult )
-			{
-				if ( ((AdventureResult)item).isItem() )
-					FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((AdventureResult)item).getItemId() ) );
-				if ( ((AdventureResult)item).isStatusEffect() )
-					FightFrame.showLocation( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectId( ((AdventureResult)item).getName() ) );
-			}
-			else if ( item instanceof ItemCreationRequest )
-			{
-				FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((ItemCreationRequest)item).getItemId() ) );
-			}
-			else if ( item instanceof String )
-			{
-				Matcher playerMatcher = PLAYERID_MATCHER.matcher( (String) item );
-				if ( playerMatcher.find() )
-				{
-					Object [] parameters = new Object [] { "#" + playerMatcher.group(1) };
-					SwingUtilities.invokeLater( new CreateFrameRunnable( ProfileFrame.class, parameters ) );
-				}
-			}
+			showDescription( item );
 		}
 	}
 
@@ -191,6 +220,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				name = ((AdventureResult)item).getName();
 			else if ( item instanceof ItemCreationRequest )
 				name = ((ItemCreationRequest)item).getName();
+			else if ( item instanceof String )
+				name = (String) item;
 
 			if ( name != null )
 				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );

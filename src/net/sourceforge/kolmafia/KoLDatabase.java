@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.regex.Pattern;
 import java.io.BufferedReader;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -181,28 +182,18 @@ public class KoLDatabase extends StaticEntity
 		String [] names = new String[ nameMap.keySet().size() ];
 		nameMap.keySet().toArray( names );
 
-		for ( int i = 0; i < names.length; ++i )
+		StringBuffer regex = new StringBuffer();
+		for ( int i = 0; i < substring.length(); ++i )
 		{
-			int searchIndex = 0;
-			int previousIndex = -1;
-
-			for ( int j = 0; j < substring.length() && searchIndex > -1; ++j )
-			{
-				previousIndex = searchIndex;
-				searchIndex = names[i].indexOf( substring.charAt(j), previousIndex );
-
-				if ( searchIndex > -1 )
-				{
-					if ( Character.isLetterOrDigit( substring.charAt(j) ) && previousIndex + 1 < searchIndex && Character.isLetterOrDigit( names[i].charAt( searchIndex - 1 ) ) )
-						searchIndex = -1;
-					else
-						++searchIndex;
-				}
-			}
-
-			if ( searchIndex != -1 )
-				substringList.add( names[i] );
+			regex.append( substring.charAt(i) );
+			regex.append( "[^0-9a-z]*" );
 		}
+
+		Pattern pattern = Pattern.compile( regex.toString(), Pattern.CASE_INSENSITIVE );
+
+		for ( int i = 0; i < names.length; ++i )
+			if ( pattern.matcher( names[i] ).find() )
+				substringList.add( names[i] );
 
 		return substringList;
 	}

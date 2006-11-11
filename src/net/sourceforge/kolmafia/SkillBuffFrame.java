@@ -144,18 +144,18 @@ public class SkillBuffFrame extends KoLFrame
 		}
 	}
 
-	private class UneffectPanel extends ItemManagePanel
+	private class UneffectPanel extends LabeledScrollPanel
 	{
 		public UneffectPanel()
-		{	super( "Status Effects", "uneffect", "describe", activeEffects );
+		{	super( "Status Effects", "uneffect", "describe", new ShowDescriptionList( activeEffects ) );
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new UneffectRequest( (AdventureResult) elementList.getSelectedValue() ) )).start();
+		{	(new RequestThread( new UneffectRequest( (AdventureResult) ((ShowDescriptionList)scrollComponent).getSelectedValue() ) )).start();
 		}
 
 		public void actionCancelled()
-		{	FightFrame.showLocation( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectId( ((AdventureResult) elementList.getSelectedValue()).getName() ) );
+		{	FightFrame.showLocation( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectId( ((AdventureResult)  ((ShowDescriptionList)scrollComponent).getSelectedValue()).getName() ) );
 		}
 	}
 }

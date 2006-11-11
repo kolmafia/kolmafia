@@ -61,9 +61,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.UIManager;
 
 // other imports
-import java.util.ArrayList;
 import com.sun.java.forums.SpringUtilities;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -240,7 +238,7 @@ public class LoginFrame extends KoLFrame
 			if ( usernameField instanceof JComboBox )
 				((JComboBox)usernameField).setSelectedItem( autoLoginSetting );
 
-			String passwordSetting = StaticEntity.getClient().getSaveState( autoLoginSetting );
+			String passwordSetting = KoLmafia.getSaveState( autoLoginSetting );
 
 			if ( passwordSetting != null )
 			{
@@ -346,11 +344,6 @@ public class LoginFrame extends KoLFrame
 		 * key events of a JComboBox to allow you to catch key events.
 		 */
 
-		/**
-		 * Special instance of a JComboBox which overrides the default
-		 * key events of a JComboBox to allow you to catch key events.
-		 */
-
 		private class LoginNameComboBox extends MutableComboBox
 		{
 			public LoginNameComboBox()
@@ -380,7 +373,7 @@ public class LoginFrame extends KoLFrame
 					return;
 				}
 
-				String password = StaticEntity.getClient().getSaveState( currentMatch );
+				String password = KoLmafia.getSaveState( currentMatch );
 				if ( password == null )
 				{
 					passwordField.setText( "" );
