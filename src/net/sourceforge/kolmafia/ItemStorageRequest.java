@@ -343,6 +343,10 @@ public class ItemStorageRequest extends SendMessageRequest
 		return processRequest( "pull", urlString, storage, 0 );
 	}
 
+	protected boolean allowUngiftableTransfer()
+	{	return true;
+	}
+
 	protected boolean allowUntradeableTransfer()
 	{	return true;
 	}
