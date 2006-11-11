@@ -49,18 +49,24 @@ public class MutableComboBox extends JComboBox
 	protected String currentName;
 	protected String currentMatch;
 	protected LockableListModel model;
+	protected boolean allowAdditions;
 
 	public MutableComboBox()
-	{	this( new LockableListModel() );
+	{	this( new LockableListModel(), true );
 	}
 
 	public MutableComboBox( LockableListModel model )
+	{	this( model, true );
+	}
+
+	public MutableComboBox( LockableListModel model, boolean allowAdditions )
 	{
 		super( model );
 
 		this.model = model;
 		this.setEditable( true );
 
+		this.allowAdditions = allowAdditions;
 		NameInputListener listener = new NameInputListener();
 
 		this.getEditor().getEditorComponent().addFocusListener( listener );
@@ -69,7 +75,10 @@ public class MutableComboBox extends JComboBox
 
 	public void forceAddition()
 	{
-		if ( !model.contains( currentName ) )
+		if ( currentName == null || currentName.length() == 0 )
+			return;
+
+		if ( allowAdditions && !model.contains( currentName ) )
 			model.add( currentName );
 
 		setSelectedItem( currentName );
@@ -81,47 +90,57 @@ public class MutableComboBox extends JComboBox
 		currentMatch = (String) anObject;
 	}
 
-	protected void findMatch( int keycode )
+	protected void findMatch( int keyCode )
 	{
 		// If it wasn't the enter key that was being released,
 		// then make sure that the current name is stored
 		// before the key typed event is fired
 
+		String previousMatch = currentMatch;
+
 		currentName = (String) getEditor().getItem();
 		currentMatch = null;
+
+		if ( model.contains( currentName ) )
+		{
+			currentMatch = currentName;
+			return;
+		}
 
 		// Autohighlight and popup - note that this
 		// should only happen for standard typing
 		// keys, or the delete and backspace keys.
 
-		boolean matchNotFound = true;
 		Object [] currentNames = model.toArray();
 
 		if ( currentName.length() == 0 )
 			return;
 
-		for ( int i = 0; i < currentNames.length && matchNotFound; ++i )
+		String lowercase = currentName.toLowerCase();
+
+		for ( int i = 0; i < currentNames.length; ++i )
 		{
-			if ( ((String)currentNames[i]).toLowerCase().startsWith( currentName.toLowerCase() ) )
+			if ( ((String)currentNames[i]).toLowerCase().startsWith( lowercase ) )
 			{
-				matchNotFound = false;
+				// If this wasn't an undefined character, then
+				// the user wants autocompletion!  Highlight
+				// the rest of the possible name.
 
-				if ( ((String)currentNames[i]).toLowerCase().equals( currentName.toLowerCase() ) )
-					setSelectedIndex(i);
+				String currentName = this.currentName;
+				currentMatch = (String) currentNames[i];
+				getEditor().setItem( currentMatch );
 
-				if ( keycode != KeyEvent.VK_BACK_SPACE && keycode != KeyEvent.VK_DELETE )
+				if ( !allowAdditions )
 				{
-					// If this wasn't an undefined character, then
-					// the user wants autocompletion!  Highlight
-					// the rest of the possible name.
-
-					currentMatch = (String) currentNames[i];
-					getEditor().setItem( currentMatch );
-					JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
-					editor.setSelectionStart( currentName.length() );
-					editor.setSelectionEnd( currentMatch.length() );
-					return;
+					setSelectedItem( currentMatch );
+					showPopup();
 				}
+
+				JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
+				editor.setSelectionStart( currentName.length() );
+				editor.setSelectionEnd( currentMatch.length() );
+
+				return;
 			}
 		}
 	}
@@ -149,6 +168,8 @@ public class MutableComboBox extends JComboBox
 
 			if ( currentMatch == null )
 				forceAddition();
+			else
+				setSelectedItem( currentMatch );
 		}
 	}
 }

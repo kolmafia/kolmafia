@@ -823,17 +823,20 @@ public class OptionsFrame extends KoLFrame
 		{
 		}
 
-		private class ValueComboBox extends JComboBox implements ActionListener
+		private class ValueComboBox extends MutableComboBox
 		{
 			public ValueComboBox()
-			{
-				super( EFFECT_MODEL );
-				addActionListener( this );
+			{	super( EFFECT_MODEL, false );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			protected void findMatch( int keyCode )
 			{
-				commandField.setText( MoodSettings.getDefaultAction( typeSelect.getSelectedType(), (String) getSelectedItem() ) );
+				super.findMatch( keyCode );
+
+				if ( currentMatch == null )
+					commandField.setText( "" );
+				else
+					commandField.setText( MoodSettings.getDefaultAction( typeSelect.getSelectedType(), currentMatch ) );
 			}
 		}
 
