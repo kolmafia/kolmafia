@@ -186,7 +186,7 @@ public class KoLDatabase extends StaticEntity
 		for ( int i = 0; i < substring.length(); ++i )
 		{
 			regex.append( substring.charAt(i) );
-			regex.append( "[^0-9a-z]*" );
+			regex.append( ".*" );
 		}
 
 		Pattern pattern = Pattern.compile( regex.toString(), Pattern.CASE_INSENSITIVE );
