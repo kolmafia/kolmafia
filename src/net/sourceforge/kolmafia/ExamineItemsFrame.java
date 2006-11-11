@@ -137,14 +137,10 @@ public class ExamineItemsFrame extends KoLFrame
 						return;
 
 					elementList.ensureIndexIsVisible( index );
-					String id = IdNumberMapper( ((Integer)((Map.Entry)entry).getKey()).intValue() );
+					String id = String.valueOf( ((Integer)((Map.Entry)entry).getKey()).intValue() );
 					StaticEntity.openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
 				}
 			}
-		}
-
-		public String IdNumberMapper( int id )
-		{	return String.valueOf( id );
 		}
 	}
 
