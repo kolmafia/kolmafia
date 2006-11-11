@@ -140,13 +140,13 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		if ( currentFilter.isVisible( element ) )
 		{
-			int neededIndex = 0;
+			int visibleIndex = 0;
 			for ( int i = 0; i < index; ++i )
 				if ( currentFilter.isVisible( actualElements.get(i) ) )
-					++neededIndex;
+					++visibleIndex;
 
-			visibleElements.add( neededIndex, element );
-			fireIntervalAdded( this, neededIndex, neededIndex );
+			visibleElements.add( visibleIndex, element );
+			fireIntervalAdded( this, visibleIndex, visibleIndex );
 		}
 	}
 
@@ -176,10 +176,10 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public boolean addAll( int index, Collection c )
+	public synchronized boolean addAll( int index, Collection c )
 	{
 		int originalSize = actualElements.size();
-		boolean addInBulk = isEmpty();
+		boolean addInBulk = isEmpty() && index == 0;
 
 		if ( addInBulk && currentFilter != null )
 		{
@@ -193,10 +193,12 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			if ( c.isEmpty() )
 				return false;
 
-			actualElements.addAll( index, c );
-			visibleElements.addAll( index, c );
+			originalSize = visibleElements.size();
 
-			fireContentsChanged( this, originalSize, actualElements.size() );
+			actualElements.addAll( 0, c );
+			visibleElements.addAll( 0, c );
+
+			fireContentsChanged( this, originalSize, visibleElements.size() );
 			return true;
 		}
 
@@ -439,9 +441,14 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			return null;
 
 		Object removedElement = actualElements.remove( index );
-		visibleElements.remove( removedElement );
 
-		fireIntervalRemoved( this, index, index );
+		int visibleIndex = visibleElements.indexOf( removedElement );
+		if ( visibleIndex != -1 )
+		{
+			visibleElements.remove( removedElement );
+			fireIntervalRemoved( this, visibleIndex, visibleIndex );
+		}
+
 		return removedElement;
 	}
 
