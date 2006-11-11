@@ -346,7 +346,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 				for ( int i = 0; i < currentName.length(); ++i )
 				{
 					regex.append( currentName.charAt(i) );
-					regex.append( "[^0-9a-z]*" );
+					regex.append( ".*" );
 				}
 
 				pattern = Pattern.compile( regex.toString(), Pattern.CASE_INSENSITIVE );
@@ -364,7 +364,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 				food = filters[0].isSelected();
 				booze = filters[1].isSelected();
 				equip = filters[2].isSelected();
-				other = filters.length == 3 || filters[3].isSelected();
+				other = filters.length == 3 ? equip : filters[3].isSelected();
 			}
 
 			elementModel.applyListFilter( filter );
@@ -374,10 +374,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		{
 			public boolean isVisible( Object element )
 			{
-				if ( pattern == null )
-					return true;
-
-				if ( element instanceof Map.Entry )
+				if ( pattern != null && element instanceof Map.Entry )
 				{
 					Map.Entry entry = (Map.Entry) element;
 					return pattern.matcher( entry.getKey().toString() ).find() || pattern.matcher( entry.getValue().toString() ).find();
@@ -451,7 +448,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 				if ( !isVisibleWithFilter )
 					return false;
 
-				return pattern.matcher( name ).find();
+				return pattern == null ? true : pattern.matcher( name ).find();
 			}
 		}
 	}
