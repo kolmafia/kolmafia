@@ -233,16 +233,12 @@ public class ItemManagePanel extends LabeledScrollPanel
 					break;
 			}
 
-			if ( quantity > currentItem.getCount() )
-				quantity = Math.min( quantity, currentItem.getCount() );
-
-			if ( quantity <= 0 )
-				quantity += currentItem.getCount();
+			quantity = Math.min( quantity, currentItem.getCount() );
 
 			// Otherwise, if it was not a manual entry, then reset
 			// the entry to null so that it can be re-processed.
 
-			if ( quantity == 0 )
+			if ( quantity <= 0 )
 			{
 				items[i] = null;
 				--neededSize;
