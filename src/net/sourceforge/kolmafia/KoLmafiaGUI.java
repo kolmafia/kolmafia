@@ -255,7 +255,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "MailboxFrame" ) )
 		{
-			if ( !!isAdventuring() )
+			if ( isAdventuring() )
 			{
 				updateDisplay( "You are currently adventuring." );
 				enableDisplay();
@@ -268,6 +268,14 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( LoginRequest.isInstanceRunning() && !KoLMailManager.hasNewMessages() )
 				return;
 		}
+		else if ( frameName.equals( "MuseumFrame" ) )
+		{
+			if ( !isAdventuring() )
+			{
+				(new MuseumRequest()).run();
+				enableDisplay();
+			}
+		}
 		else if ( frameName.equals( "BuffRequestFrame" ) )
 		{
 			if ( !BuffBotDatabase.hasOfferings() )
@@ -279,7 +287,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "CakeArenaFrame" ) || frameName.equals( "FamiliarTrainingFrame" ) )
 		{
-			if ( !!isAdventuring() )
+			if ( isAdventuring() )
 			{
 				updateDisplay( "You can't do that while adventuring." );
 				enableDisplay();

@@ -140,6 +140,17 @@ public class ItemManageFrame extends KoLFrame
 
 			container.add( Box.createVerticalStrut( 20 ) );
 
+			// Information on junking script.
+
+			container.add( new JunkItemsButton() );
+			container.add( Box.createVerticalStrut( 5 ) );
+
+			description = new JLabel( "<html>This feature compares the list of items which you have flagged as \"junk\" against the items in your inventory, and if it finds any matches, autosells those junk items.</html>" );
+			description.setMaximumSize( maxWidth );
+			container.add( description );
+
+			container.add( Box.createVerticalStrut( 20 ) );
+
 			// Information on the end of run sale button
 
 			container.add( new EndOfRunSaleButton() );
@@ -173,17 +184,6 @@ public class ItemManageFrame extends KoLFrame
 
 			container.add( Box.createVerticalStrut( 20 ) );
 
-			// Information on the display case filling script
-
-			container.add( new JunkItemsButton() );
-			container.add( Box.createVerticalStrut( 5 ) );
-
-			description = new JLabel( "<html>This feature compares the list of items which you have labels as \"junk\" against your inventory, and if it finds any matches, autosells those junk items.</html>" );
-			description.setMaximumSize( maxWidth );
-			container.add( description );
-
-			container.add( Box.createVerticalStrut( 20 ) );
-
 			// Now to add the generated panel to the list.
 
 			JPanel northPanel = new JPanel( new CardLayout( 10, 10 ) );
@@ -191,39 +191,6 @@ public class ItemManageFrame extends KoLFrame
 
 			setLayout( new BorderLayout() );
 			add( northPanel, BorderLayout.NORTH );
-		}
-
-		private class EndOfRunSaleButton extends ThreadedActionButton
-		{
-			public EndOfRunSaleButton()
-			{	super( "end of run sale" );
-			}
-
-			public void executeTask()
-			{	StaticEntity.getClient().makeEndOfRunSaleRequest();
-			}
-		}
-
-		private class MallRestockButton extends ThreadedActionButton
-		{
-			public MallRestockButton()
-			{	super( "mall store restocker" );
-			}
-
-			public void executeTask()
-			{
-			}
-		}
-
-		private class DisplayCaseButton extends ThreadedActionButton
-		{
-			public DisplayCaseButton()
-			{	super( "display case matcher" );
-			}
-
-			public void executeTask()
-			{
-			}
 		}
 
 		private class JunkItemsButton extends ThreadedActionButton
@@ -234,6 +201,86 @@ public class ItemManageFrame extends KoLFrame
 
 			public void executeTask()
 			{
+			}
+		}
+
+		private class EndOfRunSaleButton extends ThreadedActionButton
+		{
+			public EndOfRunSaleButton()
+			{
+				super( "end of run sale" );
+				setEnabled( KoLCharacter.canInteract() );
+			}
+
+			public void executeTask()
+			{	StaticEntity.getClient().makeEndOfRunSaleRequest();
+			}
+		}
+
+		private class MallRestockButton extends ThreadedActionButton
+		{
+			public MallRestockButton()
+			{
+				super( "mall store restocker" );
+				setEnabled( !KoLCharacter.isHardcore() );
+			}
+
+			public void executeTask()
+			{
+				(new StoreManageRequest()).run();
+
+				StoreManager.SoldItem [] sold = new StoreManager.SoldItem[ StoreManager.getSoldItemList().size() ];
+				StoreManager.getSoldItemList().toArray( sold );
+
+				int itemCount;
+				AdventureResult item;
+				ArrayList items = new ArrayList();
+
+				for ( int i = 0; i < sold.length; ++i )
+				{
+					item = new AdventureResult( sold[i].getItemId(), 1 );
+					itemCount = item.getCount( inventory );
+
+					if ( itemCount > 0 )
+						items.add( item.getInstance( itemCount ) );
+				}
+
+				if ( items.isEmpty() )
+					return;
+
+				(new AutoSellRequest( items.toArray(), AutoSellRequest.AUTOMALL )).run();
+			}
+		}
+
+		private class DisplayCaseButton extends ThreadedActionButton
+		{
+			public DisplayCaseButton()
+			{
+				super( "display case matcher" );
+				setEnabled( !KoLCharacter.isHardcore() );
+			}
+
+			public void executeTask()
+			{
+				(new MuseumRequest()).run();
+
+				AdventureResult [] display = new AdventureResult[ collection.size() ];
+				collection.toArray( display );
+
+				int itemCount;
+				ArrayList items = new ArrayList();
+
+				for ( int i = 0; i < display.length; ++i )
+				{
+					itemCount = display[i].getCount( inventory );
+					if ( itemCount > 0 )
+						items.add( display[i].getInstance( itemCount ) );
+				}
+
+				if ( items.isEmpty() )
+					return;
+
+				(new MuseumRequest( items.toArray(), true )).run();
 			}
 		}
 	}
