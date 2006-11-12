@@ -297,7 +297,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			}
 
 			if ( KoLmafia.refusesContinue() )
+			{
+				lastUpdate = "Error encountered during cast attempt.";
 				return;
+			}
 
 			if ( currentCast > 0 )
 			{
