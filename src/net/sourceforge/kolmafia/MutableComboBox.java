@@ -107,7 +107,7 @@ public class MutableComboBox extends JComboBox
 		}
 
 		currentMatch = null;
-		if ( currentName.length() == 0 )
+		if ( currentName.length() == 0 || keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_BACK_SPACE )
 			return;
 
 		// Autohighlight and popup - note that this
@@ -176,9 +176,9 @@ public class MutableComboBox extends JComboBox
 			if ( currentName == null || currentName.trim().length() == 0 )
 				return;
 
-//			if ( currentMatch == null )
-	//			forceAddition();
-		//	else
+			if ( currentMatch == null )
+				forceAddition();
+			else
 				setSelectedItem( currentMatch );
 		}
 	}
