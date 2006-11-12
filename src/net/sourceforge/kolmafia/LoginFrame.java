@@ -347,7 +347,7 @@ public class LoginFrame extends KoLFrame
 		private class LoginNameComboBox extends MutableComboBox
 		{
 			public LoginNameComboBox()
-			{	super( saveStateNames );
+			{	super( saveStateNames, true, true );
 			}
 
 			public void setSelectedItem( Object anObject )

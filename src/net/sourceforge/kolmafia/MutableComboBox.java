@@ -53,17 +53,10 @@ public class MutableComboBox extends JComboBox
 	protected String currentMatch;
 	protected LockableListModel model;
 	protected boolean allowAdditions;
+	protected boolean prefixMatchOnly;
 	protected WordBasedFilter filter;
 
-	public MutableComboBox()
-	{	this( new LockableListModel(), true );
-	}
-
-	public MutableComboBox( LockableListModel model )
-	{	this( model, true );
-	}
-
-	public MutableComboBox( LockableListModel model, boolean allowAdditions )
+	public MutableComboBox( LockableListModel model, boolean allowAdditions, boolean prefixMatchOnly )
 	{
 		super( model );
 
@@ -73,6 +66,8 @@ public class MutableComboBox extends JComboBox
 		this.setEditable( true );
 
 		this.allowAdditions = allowAdditions;
+		this.prefixMatchOnly = prefixMatchOnly;
+
 		NameInputListener listener = new NameInputListener();
 
 		this.getEditor().getEditorComponent().addFocusListener( listener );
@@ -121,20 +116,33 @@ public class MutableComboBox extends JComboBox
 		// should only happen for standard typing
 		// keys, or the delete and backspace keys.
 
+		int matchCount = 0;
 		Object [] currentNames = model.toArray();
 
 		Matcher matcher;
 		Pattern pattern = Pattern.compile( currentName, Pattern.CASE_INSENSITIVE );
 
-		int matchCount = 0;
-
-		for ( int i = 0; i < currentNames.length; ++i )
+		if ( prefixMatchOnly )
 		{
-			matcher = pattern.matcher( (String) currentNames[i] );
-			if ( matcher.find() )
+			for ( int i = 0; i < currentNames.length; ++i )
 			{
-				++matchCount;
-				currentMatch = (String) currentNames[i];
+				if ( ((String) currentNames[i]).startsWith( currentName ) )
+				{
+					++matchCount;
+					currentMatch = (String) currentNames[i];
+				}
+			}
+		}
+		else
+		{
+			for ( int i = 0; i < currentNames.length; ++i )
+			{
+				matcher = pattern.matcher( (String) currentNames[i] );
+				if ( matcher.find() )
+				{
+					++matchCount;
+					currentMatch = (String) currentNames[i];
+				}
 			}
 		}
 

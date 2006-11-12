@@ -150,7 +150,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			{
 				itemId[i] = ((AdventureResult)manageTable.getValueAt( i, 0 )).getItemId();
 				prices[i] = ((Integer) manageTable.getValueAt( i, 1 )).intValue();
-				limits[i] = ((Boolean)manageTable.getValueAt( i, 4 )).booleanValue() ? 1 : 0;
+				limits[i] = ((Boolean) manageTable.getValueAt( i, 4 )).booleanValue() ? 1 : 0;
 			}
 
 			(new RequestThread( new StoreManageRequest( itemId, prices, limits ) )).start();
@@ -284,7 +284,6 @@ public class StoreManageFrame extends KoLPanelFrame
 				setValueAt( new AdventureResult( "-select an item-", 1, false ), 0, 0 );
 				setValueAt( new Integer(0), 0, 1 );
 				setValueAt( new Integer(0), 0, 3 );
-				setValueAt( new Boolean(false), 0, 1 );
 
 				(new RequestThread( new AutoSellRequest( soldItem, price, limit ) )).start();
 			}
