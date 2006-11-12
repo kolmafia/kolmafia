@@ -254,8 +254,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		int currentMP = KoLCharacter.getCurrentMP();
 		int maximumMP = KoLCharacter.getMaximumMP();
 
-		if ( KoLmafia.refusesContinue() || maximumMP < mpPerCast )
+		if ( KoLmafia.refusesContinue() )
 			return;
+
+		if ( maximumMP < mpPerCast )
+		{
+			lastUpdate = "Not enough mana to continue.";
+			KoLmafia.updateDisplay( lastUpdate );
+			return;
+		}
 
 		int currentCast = 0;
 		int maximumCast = maximumMP / mpPerCast;
@@ -280,7 +287,11 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				// unable to recover MP; abort the process.
 
 				if ( currentMP == KoLCharacter.getCurrentMP() )
+				{
+					lastUpdate = "Not enough mana to continue.";
+					KoLmafia.updateDisplay( lastUpdate );
 					return;
+				}
 
 				currentCast = Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast );
 			}
@@ -522,7 +533,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// removes any beaten up.
 
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionById( skillId ) * buffCount) ) );
-			StaticEntity.getClient().applyEffects();
+			KoLmafia.applyEffects();
 
 			if ( skillId == OTTER_TONGUE || skillId == WALRUS_TONGUE )
 			{
