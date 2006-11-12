@@ -47,9 +47,6 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 
 import javax.swing.ListSelectionModel;
-import java.util.regex.Pattern;
-
-import java.util.Map;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
@@ -349,94 +346,88 @@ public class ItemManagePanel extends LabeledScrollPanel
 			elementModel.applyListFilter( filter );
 		}
 
-		private class WordBasedFilter extends LockableListModel.ListElementFilter
+		private class ConsumptionBasedFilter extends WordBasedFilter
 		{
 			public boolean isVisible( Object element )
 			{
-				if ( !(element instanceof AdventureResult) && !(element instanceof ItemCreationRequest) )
-				{
-					if ( currentName == null || currentName.length() == 0 )
-						return true;
-
-					if ( element instanceof Map.Entry )
-					{
-						Map.Entry entry = (Map.Entry) element;
-						return KoLDatabase.fuzzyMatches( entry.getKey().toString(), currentName ) ||
-							KoLDatabase.fuzzyMatches( entry.getValue().toString(), currentName );
-					}
-
-					return KoLDatabase.fuzzyMatches( element.toString().toLowerCase(), currentName );
-				}
+				if ( isNonResult( element ) )
+					return super.isVisible( element );
 
 				boolean isVisibleWithFilter = true;
-
 				String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() : ((ItemCreationRequest)element).getName();
-				int itemId = TradeableItemDatabase.getItemId( name );
 
-				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
+				boolean isItem = element instanceof ItemCreationRequest;
+				isItem |= element instanceof AdventureResult && ((AdventureResult)element).isItem();
+
+				if ( isItem )
 				{
-				case ConsumeItemRequest.CONSUME_EAT:
-					isVisibleWithFilter = food;
-					break;
+					int itemId = TradeableItemDatabase.getItemId( name );
 
-				case ConsumeItemRequest.CONSUME_DRINK:
-					isVisibleWithFilter = booze;
-					break;
-
-				case ConsumeItemRequest.EQUIP_HAT:
-				case ConsumeItemRequest.EQUIP_SHIRT:
-				case ConsumeItemRequest.EQUIP_WEAPON:
-				case ConsumeItemRequest.EQUIP_OFFHAND:
-				case ConsumeItemRequest.EQUIP_PANTS:
-				case ConsumeItemRequest.EQUIP_ACCESSORY:
-				case ConsumeItemRequest.EQUIP_FAMILIAR:
-					isVisibleWithFilter = equip;
-					break;
-
-				default:
-
-					if ( element instanceof AdventureResult )
+					switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 					{
-						// Milk of magnesium is marked as food, as are
-						// munchies pills; all others are marked as expected.
+					case ConsumeItemRequest.CONSUME_EAT:
+						isVisibleWithFilter = food;
+						break;
 
-						isVisibleWithFilter = other;
-						if ( name.equals( "milk of magnesium" ) || name.equals( "munchies pills" ) )
-							isVisibleWithFilter |= food;
-					}
-					else
-					{
-						switch ( ConcoctionsDatabase.getMixingMethod( itemId ) )
+					case ConsumeItemRequest.CONSUME_DRINK:
+						isVisibleWithFilter = booze;
+						break;
+
+					case ConsumeItemRequest.EQUIP_HAT:
+					case ConsumeItemRequest.EQUIP_SHIRT:
+					case ConsumeItemRequest.EQUIP_WEAPON:
+					case ConsumeItemRequest.EQUIP_OFFHAND:
+					case ConsumeItemRequest.EQUIP_PANTS:
+					case ConsumeItemRequest.EQUIP_ACCESSORY:
+					case ConsumeItemRequest.EQUIP_FAMILIAR:
+						isVisibleWithFilter = equip;
+						break;
+
+					default:
+
+						if ( element instanceof AdventureResult )
 						{
-						case ItemCreationRequest.COOK:
-						case ItemCreationRequest.COOK_REAGENT:
-						case ItemCreationRequest.SUPER_REAGENT:
-							isVisibleWithFilter = food || other;
-							break;
+							// Milk of magnesium is marked as food, as are
+							// munchies pills; all others are marked as expected.
 
-						case ItemCreationRequest.COOK_PASTA:
-						case ItemCreationRequest.WOK:
-							isVisibleWithFilter = food;
-							break;
-
-						case ItemCreationRequest.MIX:
-						case ItemCreationRequest.MIX_SPECIAL:
-						case ItemCreationRequest.STILL_BOOZE:
-						case ItemCreationRequest.MIX_SUPER:
-							isVisibleWithFilter = booze;
-							break;
-
-						default:
 							isVisibleWithFilter = other;
-							break;
+							if ( name.equals( "milk of magnesium" ) || name.equals( "munchies pills" ) )
+								isVisibleWithFilter |= food;
+						}
+						else
+						{
+							switch ( ConcoctionsDatabase.getMixingMethod( itemId ) )
+							{
+							case ItemCreationRequest.COOK:
+							case ItemCreationRequest.COOK_REAGENT:
+							case ItemCreationRequest.SUPER_REAGENT:
+								isVisibleWithFilter = food || other;
+								break;
+
+							case ItemCreationRequest.COOK_PASTA:
+							case ItemCreationRequest.WOK:
+								isVisibleWithFilter = food;
+								break;
+
+							case ItemCreationRequest.MIX:
+							case ItemCreationRequest.MIX_SPECIAL:
+							case ItemCreationRequest.STILL_BOOZE:
+							case ItemCreationRequest.MIX_SUPER:
+								isVisibleWithFilter = booze;
+								break;
+
+							default:
+								isVisibleWithFilter = other;
+								break;
+							}
 						}
 					}
+
+					if ( !isVisibleWithFilter )
+						return false;
 				}
 
-				if ( !isVisibleWithFilter )
-					return false;
-
-				return currentName == null || KoLDatabase.fuzzyMatches( name.toLowerCase(), currentName );
+				return super.isVisible( element );
 			}
 		}
 	}
