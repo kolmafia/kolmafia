@@ -307,7 +307,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	private class FilterItemComboBox extends MutableComboBox
 	{
-		private Pattern pattern = null;
 		private WordBasedFilter filter;
 		private boolean food, booze, equip, other;
 
@@ -354,10 +353,19 @@ public class ItemManagePanel extends LabeledScrollPanel
 		{
 			public boolean isVisible( Object element )
 			{
-				if ( pattern != null && element instanceof Map.Entry )
+				if ( !(element instanceof AdventureResult) && !(element instanceof ItemCreationRequest) )
 				{
-					Map.Entry entry = (Map.Entry) element;
-					return pattern.matcher( entry.getKey().toString() ).find() || pattern.matcher( entry.getValue().toString() ).find();
+					if ( currentName == null || currentName.length() == 0 )
+						return true;
+
+					if ( element instanceof Map.Entry )
+					{
+						Map.Entry entry = (Map.Entry) element;
+						return KoLDatabase.fuzzyMatches( entry.getKey().toString(), currentName ) ||
+							KoLDatabase.fuzzyMatches( entry.getValue().toString(), currentName );
+					}
+
+					return KoLDatabase.fuzzyMatches( element.toString().toLowerCase(), currentName );
 				}
 
 				boolean isVisibleWithFilter = true;
@@ -428,7 +436,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 				if ( !isVisibleWithFilter )
 					return false;
 
-				return KoLDatabase.fuzzyMatches( name.toLowerCase(), currentName );
+				return currentName == null || KoLDatabase.fuzzyMatches( name.toLowerCase(), currentName );
 			}
 		}
 	}
