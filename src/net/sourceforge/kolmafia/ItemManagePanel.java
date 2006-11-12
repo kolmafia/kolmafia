@@ -309,7 +309,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public FilterItemComboBox( LockableListModel list )
 		{
-			super( new LockableListModel() );
+			super( new LockableListModel(), true, false );
 			filter = new WordBasedFilter();
 			inventory.applyListFilter( filter );
 		}

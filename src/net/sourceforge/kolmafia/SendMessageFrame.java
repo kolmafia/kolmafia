@@ -157,7 +157,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	{
 		String [] entryHeaders = getEntryHeaders();
 
-		recipientEntry = new MutableComboBox( (SortedListModel) contactList.clone() );
+		recipientEntry = new MutableComboBox( (SortedListModel) contactList.clone(), true, true );
 		recipientEntry.setEditable( true );
 
 		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );
