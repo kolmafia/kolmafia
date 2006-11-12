@@ -332,22 +332,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		private void filterItems()
 		{
-			if ( currentName == null || currentName.length() == 0 )
-			{
-				pattern = null;
-			}
-			else
-			{
-				StringBuffer regex = new StringBuffer();
-				for ( int i = 0; i < currentName.length(); ++i )
-				{
-					regex.append( currentName.charAt(i) );
-					regex.append( ".*" );
-				}
-
-				pattern = Pattern.compile( regex.toString(), Pattern.CASE_INSENSITIVE );
-			}
-
 			if ( filters == null )
 			{
 				food = true;
@@ -444,7 +428,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 				if ( !isVisibleWithFilter )
 					return false;
 
-				return pattern == null ? true : pattern.matcher( name ).find();
+				return KoLDatabase.fuzzyMatches( name.toLowerCase(), currentName );
 			}
 		}
 	}

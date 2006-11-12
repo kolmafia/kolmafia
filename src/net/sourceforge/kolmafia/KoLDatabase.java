@@ -182,20 +182,38 @@ public class KoLDatabase extends StaticEntity
 		String [] names = new String[ nameMap.keySet().size() ];
 		nameMap.keySet().toArray( names );
 
-		StringBuffer regex = new StringBuffer();
-		for ( int i = 0; i < substring.length(); ++i )
-		{
-			regex.append( substring.charAt(i) );
-			regex.append( ".*" );
-		}
-
-		Pattern pattern = Pattern.compile( regex.toString(), Pattern.CASE_INSENSITIVE );
+		substring = substring.toLowerCase();
 
 		for ( int i = 0; i < names.length; ++i )
-			if ( pattern.matcher( names[i] ).find() )
+			if ( fuzzyMatches( names[i].toLowerCase(), substring ) )
 				substringList.add( names[i] );
 
 		return substringList;
+	}
+
+	public static boolean fuzzyMatches( String source, String substring )
+	{
+		if ( substring == null || substring.length() == 0 )
+			return true;
+
+		int searchIndex = 0;
+		int previousIndex = -1;
+
+		for ( int j = 0; j < substring.length() && searchIndex > -1; ++j )
+		{
+			previousIndex = searchIndex;
+			searchIndex = source.indexOf( substring.charAt(j), previousIndex );
+
+			if ( searchIndex == -1 )
+				return false;
+
+			if ( Character.isLetterOrDigit( substring.charAt(j) ) && previousIndex + 1 < searchIndex && Character.isLetterOrDigit( source.charAt( searchIndex - 1 ) ) )
+				return false;
+
+			++searchIndex;
+		}
+
+		return true;
 	}
 
 	private static class ItemCounter implements Comparable
