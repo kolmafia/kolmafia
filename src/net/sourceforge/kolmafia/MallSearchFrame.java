@@ -55,6 +55,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MallSearchFrame extends KoLPanelFrame
 {
+	private static MallSearchFrame INSTANCE = null;
+
 	private boolean currentlyBuying;
 	private SortedListModel results;
 	private JList resultsList;
@@ -63,8 +65,17 @@ public class MallSearchFrame extends KoLPanelFrame
 	public MallSearchFrame()
 	{
 		super( "Purchases" );
+
+		INSTANCE = this;
 		this.mallSearch = new MallSearchPanel();
+
 		setContentPanel( mallSearch );
+	}
+
+	public void dispose()
+	{
+		INSTANCE = null;
+		super.dispose();
 	}
 
 	/**
@@ -174,10 +185,13 @@ public class MallSearchFrame extends KoLPanelFrame
 		}
 	}
 
-	public void searchMall( SearchMallRequest request )
+	public static void searchMall( SearchMallRequest request )
 	{
-		results.clear();
-		request.setResults( results );
+		if ( INSTANCE == null )
+			KoLmafiaGUI.constructFrame( "MallSearchFrame" );
+
+		INSTANCE.results.clear();
+		request.setResults( INSTANCE.results );
 		(new RequestThread( request )).start();
 	}
 

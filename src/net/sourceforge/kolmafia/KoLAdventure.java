@@ -317,11 +317,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				String name = getAdventureName();
 				StaticEntity.setProperty( "chosenTrip", name );
 
-				// Arm the adventure by running it once
-				// to get the "Journey to the Center of
-				// your Mind" choice.
 				isValidAdventure = true;
-				StaticEntity.getClient().makeRequest( this, 1 );
 				return;
 			}
 
@@ -363,7 +359,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		else if ( adventureId.equals( "82" ) )
 		{
-			isValidAdventure = KoLCharacter.hasItem( SOCK ) || AdventureDatabase.retrieveItem( ROWBOAT );
+			isValidAdventure = KoLCharacter.hasItem( SOCK ) || KoLCharacter.hasItem( ROWBOAT );
 			return;
 		}
 

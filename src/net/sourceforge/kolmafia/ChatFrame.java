@@ -122,6 +122,7 @@ public class ChatFrame extends KoLFrame
 		nameClickSelect.addItem( "Name click opens trade message" );
 		nameClickSelect.addItem( "Name click shows display case" );
 		nameClickSelect.addItem( "Name click shows ascension history" );
+		nameClickSelect.addItem( "Name click shows mall store" );
 		nameClickSelect.addItem( "Name click performs /whois" );
 		nameClickSelect.addItem( "Name click baleets the player" );
 
@@ -440,10 +441,14 @@ public class ChatFrame extends KoLFrame
 				return;
 
 			case 7:
-				(new Thread( new ChatRequest( "/whois", (String) parameters[0] ) )).start();
+				MallSearchFrame.searchMall( new SearchMallRequest( StaticEntity.parseInt( KoLmafia.getPlayerId( (String) parameters[0] ) ) ) );
 				return;
 
 			case 8:
+				(new Thread( new ChatRequest( "/whois", (String) parameters[0] ) )).start();
+				return;
+
+			case 9:
 				(new Thread( new ChatRequest( "/baleet", (String) parameters[0] ) )).start();
 				return;
 

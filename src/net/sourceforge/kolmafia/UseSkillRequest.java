@@ -175,7 +175,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			if ( songWeapon == null )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You need an accordion to play Accordion Thief songs." );
+				lastUpdate = "You need an accordion to play Accordion Thief songs.";
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				return null;
 			}
 
@@ -184,6 +185,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			if ( songWeapon != ACCORDION && KoLCharacter.hasEquipped( ACCORDION ) )
 				DEFAULT_SHELL.executeLine( "unequip weapon" );
+
+			if ( songWeapon != null && songWeapon != ACCORDION )
+				AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
 		}
 
 		if ( ClassSkillsDatabase.isBuff( skillId ) && skillId > 1000 && inventory.contains( WIZARD_HAT ) )
@@ -206,6 +210,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// Cast the skill as many times as needed
 
 		AdventureResult songWeapon = optimizeEquipment( skillId );
+		if ( !KoLmafia.permitsContinue() )
+			return;
+
 		useSkillLoop();
 
 		if ( !KoLmafia.isRunningBetweenBattleChecks() )
@@ -335,13 +342,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// Can the rock and roll legend be acquired in some way
 		// right now?  If so, retrieve it.
 
-		if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND, true ) )
-		{
-			if ( KoLCharacter.hasEquipped( ROCKNROLL_LEGEND ) || AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND ) )
-				return ROCKNROLL_LEGEND;
-		}
-
-		if ( KoLCharacter.canInteract() && AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND ) )
+		if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND ) || KoLCharacter.canInteract() )
 			return ROCKNROLL_LEGEND;
 
 		// He must have at least a stolen accordion

@@ -42,6 +42,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -52,6 +53,7 @@ public class MutableComboBox extends JComboBox
 	protected String currentMatch;
 	protected LockableListModel model;
 	protected boolean allowAdditions;
+	protected WordBasedFilter filter;
 
 	public MutableComboBox()
 	{	this( new LockableListModel(), true );
@@ -66,6 +68,8 @@ public class MutableComboBox extends JComboBox
 		super( model );
 
 		this.model = model;
+		this.filter = new WordBasedFilter();
+
 		this.setEditable( true );
 
 		this.allowAdditions = allowAdditions;
@@ -90,6 +94,9 @@ public class MutableComboBox extends JComboBox
 	{
 		super.setSelectedItem( anObject );
 		currentMatch = (String) anObject;
+
+		if ( currentMatch != null && currentName != null && !currentMatch.startsWith( currentName ) )
+			currentName = (String) anObject;
 	}
 
 	protected synchronized void findMatch( int keyCode )
@@ -141,9 +148,7 @@ public class MutableComboBox extends JComboBox
 		// the user wants autocompletion!  Highlight
 		// the rest of the possible name.
 
-		if ( !allowAdditions )
-			setSelectedItem( currentMatch );
-
+		setSelectedItem( currentMatch );
 		getEditor().setItem( currentMatch );
 		matcher = pattern.matcher( currentMatch );
 
@@ -180,6 +185,35 @@ public class MutableComboBox extends JComboBox
 				forceAddition();
 			else
 				setSelectedItem( currentMatch );
+		}
+	}
+
+	protected class WordBasedFilter extends LockableListModel.ListElementFilter
+	{
+		public boolean isVisible( Object element )
+		{
+			if ( isNonResult( element ) )
+			{
+				if ( currentName == null || currentName.length() == 0 )
+					return true;
+
+				if ( element instanceof Map.Entry )
+				{
+					Map.Entry entry = (Map.Entry) element;
+					return KoLDatabase.fuzzyMatches( entry.getKey().toString(), currentName ) ||
+						KoLDatabase.fuzzyMatches( entry.getValue().toString(), currentName );
+				}
+
+				return KoLDatabase.fuzzyMatches( element.toString().toLowerCase(), currentName );
+			}
+
+			String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() : ((ItemCreationRequest)element).getName();
+			return currentName == null || currentName.length() == 0 || KoLDatabase.fuzzyMatches( name.toLowerCase(), currentName );
+		}
+
+		protected final boolean isNonResult( Object element )
+		{
+			return !(element instanceof AdventureResult) && !(element instanceof ItemCreationRequest);
 		}
 	}
 }
