@@ -132,21 +132,6 @@ public abstract class SystemTrayFrame implements KoLConstants
 			return;
 		}
 
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
-		String interfaceSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
-
-		for ( int i = 0; i < frames.length; ++i )
-		{
-			if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
-			{
-				frames[i].pack();
-				frames[i].setVisible( true );
-				frames[i].setExtendedState( KoLFrame.NORMAL );
-			}
-		}
-
 		if ( KoLDesktop.instanceExists() )
 		{
 			KoLDesktop.getInstance().pack();

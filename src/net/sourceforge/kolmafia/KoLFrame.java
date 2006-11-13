@@ -147,9 +147,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		if ( shouldAddFrame )
 			existingFrames.add( this );
-
-		if ( StaticEntity.usesSystemTray() )
-			addWindowListener( new MinimizeListener() );
 	}
 
 	protected final void addTab( String name, JComponent panel )
@@ -1220,13 +1217,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		return true;
-	}
-
-	private class MinimizeListener extends WindowAdapter
-	{
-		public void windowIconified( WindowEvent e )
-		{	setVisible( false );
-		}
 	}
 
 	protected static void createDisplay( Class frameClass )

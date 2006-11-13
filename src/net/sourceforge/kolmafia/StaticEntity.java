@@ -677,6 +677,10 @@ public abstract class StaticEntity implements KoLConstants
 			disabledScripts.remove( tokens.nextToken() );
 	}
 
+	public static final void saveJunkItemList()
+	{	settings.saveJunkItemList();
+	}
+
 	public static final boolean isDisabled( String name )
 	{
 		if ( name.equals( "enable" ) || name.equals( "disable" ) )

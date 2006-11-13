@@ -503,6 +503,11 @@ public class LockableListModel extends javax.swing.AbstractListModel
 				visibleElements.remove( visibleIndex );
 				fireIntervalRemoved( this, visibleIndex, visibleIndex );
 			}
+			else if ( visibleIndex == visibleElements.size() )
+			{
+				visibleElements.add( visibleIndex, element );
+				fireIntervalAdded( this, visibleIndex, visibleIndex );
+			}
 			else
 			{
 				visibleElements.set( visibleIndex, element );
@@ -1000,8 +1005,11 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			if ( index0 < 0 || index1 < 0 )
 				return;
 
-			for ( int i = index0; i <= index1; ++i )
+			for ( int i = index0; i <= index1 && i < mirrorImage.size(); ++i )
 				mirrorImage.set( i, source.get(i) );
+
+			for ( int i = mirrorImage.size(); i <= index1; ++i )
+				mirrorImage.add( i, source.get(i) );
 		}
 	}
 }
