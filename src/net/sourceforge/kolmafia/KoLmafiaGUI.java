@@ -210,6 +210,18 @@ public class KoLmafiaGUI extends KoLmafia
 		enableDisplay();
 	}
 
+	private static boolean showAdventuringMessage()
+	{
+		if ( isAdventuring() )
+		{
+			updateDisplay( "You are currently adventuring." );
+			enableDisplay();
+			return true;
+		}
+
+		return false;
+	}
+
 	private static void displayFrame( String frameName )
 	{
 		if ( frameName.equals( "" ) )
@@ -225,6 +237,9 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "MoneyMakingGameFrame" ) )
 		{
+			if ( showAdventuringMessage() )
+				return;
+
 			updateDisplay( "Retrieving MMG bet history..." );
 			(new MoneyMakingGameRequest()).run();
 
@@ -255,12 +270,8 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "MailboxFrame" ) )
 		{
-			if ( isAdventuring() )
-			{
-				updateDisplay( "You are currently adventuring." );
-				enableDisplay();
+			if ( showAdventuringMessage() )
 				return;
-			}
 
 			(new MailboxRequest( "Inbox" )).run();
 			enableDisplay();
@@ -270,11 +281,9 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "MuseumFrame" ) )
 		{
-			if ( !isAdventuring() )
-			{
-				(new MuseumRequest()).run();
-				enableDisplay();
-			}
+			if ( showAdventuringMessage() )
+				return;
+
 		}
 		else if ( frameName.equals( "BuffRequestFrame" ) )
 		{
@@ -287,12 +296,8 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "CakeArenaFrame" ) || frameName.equals( "FamiliarTrainingFrame" ) )
 		{
-			if ( isAdventuring() )
-			{
-				updateDisplay( "You can't do that while adventuring." );
-				enableDisplay();
+			if ( showAdventuringMessage() )
 				return;
-			}
 
 			CakeArenaManager.getOpponentList();
 			enableDisplay();
@@ -355,14 +360,6 @@ public class KoLmafiaGUI extends KoLmafia
 			{
 				(new StoreManageRequest()).run();
 				(new StoreManageRequest( true )).run();
-				enableDisplay();
-			}
-		}
-		else if ( frameName.equals( "HagnkStorageFrame" ) )
-		{
-			if ( storage.isEmpty() && !isAdventuring() )
-			{
-				(new ItemStorageRequest()).run();
 				enableDisplay();
 			}
 		}
