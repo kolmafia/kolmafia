@@ -44,6 +44,8 @@ import javax.swing.BoxLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
 // containers
 import javax.swing.Box;
@@ -125,6 +127,7 @@ public class ItemManageFrame extends KoLFrame
 	private class CommonActionsPanel extends JPanel
 	{
 		private JPanel container;
+		private JunkDetailsLabel label;
 		private Dimension MAX_WIDTH = new Dimension( 500, Integer.MAX_VALUE );
 
 		public CommonActionsPanel()
@@ -141,10 +144,13 @@ public class ItemManageFrame extends KoLFrame
 			warnLabel.setAlignmentX( LEFT_ALIGNMENT );
 			container.add( warnLabel );
 
-			addButtonAndLabel( new JunkItemsButton(),
-				"This feature compares the list of items which you have flagged as \"junk\" against the items in your inventory, and if it finds any matches, autosells those junk items." );
+			addButtonAndLabel( new JunkItemsButton(), "" );
 
-			SimpleScrollPane scroller = new SimpleScrollPane( new ShowDescriptionList( junkItemList ) );
+			label.updateText();
+			ShowDescriptionList list = new ShowDescriptionList( junkItemList );
+			list.getModel().addListDataListener( label );
+
+			SimpleScrollPane scroller = new SimpleScrollPane( list );
 			scroller.setMaximumSize( MAX_WIDTH );
 			scroller.setAlignmentX( LEFT_ALIGNMENT );
 			container.add( scroller );
@@ -162,6 +168,39 @@ public class ItemManageFrame extends KoLFrame
 			add( container, "" );
 		}
 
+		private class JunkDetailsLabel extends JLabel implements ListDataListener
+		{
+			public void intervalRemoved( ListDataEvent e )
+			{	updateText();
+			}
+
+			public void intervalAdded( ListDataEvent e )
+			{	updateText();
+			}
+
+			public void contentsChanged( ListDataEvent e )
+			{	updateText();
+			}
+
+			public void updateText()
+			{
+				int totalValue = 0;
+
+				AdventureResult currentItem;
+				Object [] items = junkItemList.toArray();
+
+				for ( int i = 0; i < items.length; ++i )
+				{
+					currentItem = (AdventureResult) items[i];
+					totalValue += currentItem.getCount( inventory ) * TradeableItemDatabase.getPriceById( currentItem.getItemId() );
+				}
+
+				setText( "<html>This feature compares the list of items which you have flagged as \"junk\" against the items in your inventory " +
+					"and autosells any matching items.  The current combined autosell value of these items based on KoLmafia's internal data is " +
+					COMMA_FORMAT.format( totalValue ) + " meat.</html>" );
+			}
+		}
+
 		private void addButtonAndLabel( ThreadedActionButton button, String label )
 		{
 			container.add( Box.createVerticalStrut( 15 ) );
@@ -170,13 +209,16 @@ public class ItemManageFrame extends KoLFrame
 			container.add( button );
 			container.add( Box.createVerticalStrut( 5 ) );
 
-			JLabel description = new JLabel( "<html>" + label + "</html>" );
+			JLabel description = button instanceof JunkItemsButton ? new JunkDetailsLabel() : new JLabel( "<html>" + label + "</html>" );
 			description.setMaximumSize( MAX_WIDTH );
 
 			description.setVerticalAlignment( JLabel.TOP );
 			description.setAlignmentX( LEFT_ALIGNMENT );
 			container.add( description );
 			container.add( Box.createVerticalStrut( 5 ) );
+
+			if ( button instanceof JunkItemsButton )
+				this.label = (JunkDetailsLabel) description;
 		}
 
 		private class JunkItemsButton extends ThreadedActionButton
