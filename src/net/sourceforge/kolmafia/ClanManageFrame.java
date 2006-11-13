@@ -332,19 +332,14 @@ public class ClanManageFrame extends KoLFrame
 		{
 			super( inventory );
 
-			setButtons(
-				new ActionListener [] { new StorageListener( MOVE_ONE ), new StorageListener( MOVE_ALL ), new StorageListener( MOVE_ALL_BUT ),
-				new RequestButton( "Refresh Items", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
-
+			setButtons( new ActionListener [] { new StorageListener(), new RequestButton( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}
 
 		private class StorageListener implements ActionListener
 		{
-			private int moveType;
-
-			public StorageListener( int moveType )
-			{	this.moveType = moveType;
+			public StorageListener()
+			{
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -353,17 +348,11 @@ public class ClanManageFrame extends KoLFrame
 				if ( items.length == 0 )
 					return;
 
-				if ( moveType != MOVE_ALL )
-				{
-					AdventureResult currentItem = null;
-					for ( int i = 0; i < items.length; ++i )
-					{
-						currentItem = (AdventureResult) items[i];
-						items[i] = currentItem.getInstance( moveType == MOVE_ONE ? 1 : currentItem.getCount() - 1 );
-					}
-				}
-
 				(new RequestThread( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) )).start();
+			}
+
+			public String toString()
+			{	return "add items";
 			}
 		}
 	}
@@ -375,14 +364,11 @@ public class ClanManageFrame extends KoLFrame
 
 	private class WithdrawPanel extends ItemManagePanel
 	{
-		private JCheckBox [] filters;
-
 		public WithdrawPanel()
 		{
 			super( ClanManager.getStash() );
 
-			setButtons( new ActionListener [] { new WithdrawListener( MOVE_ALL ), new WithdrawListener( MOVE_ALL_BUT ),
-				new WithdrawListener( MOVE_MULTIPLE ), new RequestButton( "Refresh Items", new ClanStashRequest() ) } );
+			setButtons( new ActionListener [] { new WithdrawListener( MOVE_ALL ), new WithdrawListener( MOVE_ALL_BUT ), new RequestButton( "refresh", new ClanStashRequest() ) } );
 
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}
@@ -397,36 +383,42 @@ public class ClanManageFrame extends KoLFrame
 
 			public void actionPerformed( ActionEvent e )
 			{
-				Object [] items = getDesiredItems( "Take" );
-				if ( items.length == 0 )
+				if ( !KoLCharacter.canInteract() )
 					return;
 
-				if ( moveType != MOVE_ALL )
-				{
-					int quantity = 0;
+				Object [] items;
 
-					if ( moveType == MOVE_ALL_BUT )
-						quantity = getQuantity( "Maximum number of each item allowed in the stash?", 100 );
+				if ( moveType == MOVE_ALL_BUT )
+				{
+					items = elementList.getSelectedValues();
+					if ( items.length == 0 )
+						items = elementModel.toArray();
+
+					if ( items.length == 0 )
+						return;
+
+					AdventureResult currentItem;
+					int quantity = getQuantity( "Maximum number of each item allowed in the stash?", 100 );
 
 					for ( int i = 0; i < items.length; ++i )
 					{
-						AdventureResult currentItem = (AdventureResult) items[i];
-						if ( moveType == MOVE_MULTIPLE )
-						{
-							quantity = getQuantity( "Withdrawing multiple " + currentItem.getName() + "...", currentItem.getCount(), currentItem.getCount() );
-							if ( quantity == 0 )
-								return;
-
-							items[i] = currentItem.getInstance( quantity );
-						}
-						else
-						{
-							items[i] = currentItem.getInstance( Math.max( 0, currentItem.getCount() - quantity ) );
-						}
+						currentItem = (AdventureResult) items[i];
+						items[i] = currentItem.getInstance( Math.max( 0, currentItem.getCount() - quantity ) );
 					}
 				}
+				else
+				{
+					items = getDesiredItems( "Take" );
+				}
+
+				if ( items == null || items.length == 0 )
+					return;
 
 				(new RequestThread( new ClanStashRequest( items, ClanStashRequest.STASH_TO_ITEMS ) )).start();
+			}
+
+			public String toString()
+			{	return moveType == MOVE_ALL_BUT ? "cap stash" : "take items";
 			}
 		}
 	}

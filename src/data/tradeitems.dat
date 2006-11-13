@@ -1792,7 +1792,7 @@
 1792	Travoltan trousers	10	all	0
 1793	pool cue	12	all	45
 1794	handful of hand chalk	4	all	30
-1795	
+1795
 1796	bone collar	7	all	75
 1797	misshapen animal skeleton	5	none	0
 1798	pile of dusty animal bones	4	all	32
@@ -1906,7 +1906,7 @@
 1906	7-ball	13	all	35
 1907	8-ball	0	all	35
 1908
-1909	
+1909
 1910	clockwork sword	12	all	200
 1911	clockwork staff	12	all	200
 1912	clockwork crossbow	12	all	200
@@ -2020,19 +2020,19 @@
 2020	cherry pie	1	all	80
 2021	strawberry pie	1	all	45
 2022	lemon meringue pie	1	all	55
-2023	
-2024	
+2023
+2024
 2025	Tofat wing chow mein	1	all	73
 2026	Tof0n chow mein	1	all	130
 2027	Tofofu chow mein	1	all	109
 2028	Tofat appendix chow mein	1	all	130
-2029	
+2029
 2030	Lockenstock (TM) sandals	8	all	60
-2031	
-2032	
-2033	
-2034	
-2035	Marquis de Poivre soda	1	all	30
+2031
+2032
+2033
+2034
+2035	Marquis de Poivre soda	13	all	30
 2036	radium-flavored potato chips	1	all	30
 2037	wintergreen-flavored potato chips	1	all	30
 2038	ennui-flavored potato chips	1	all	30
@@ -2071,15 +2071,15 @@
 2071
 2072	flashing novelty button	8	none	0
 2073	orange glowstick	8	none	0
-2074	
-2075	
-2076	
-2077	
-2078	
+2074
+2075
+2076
+2077
+2078
 2079	makeshift turban	9	all	1000
 2080	makeshift cape	8	all	1000
 2081	makeshift skirt	10	all	1000
-2082	
+2082
 2083	makeshift crane	5	all	1000
 2084	can of starch	7	all	75
 2085	bottle of ultravitamins	1	all	100

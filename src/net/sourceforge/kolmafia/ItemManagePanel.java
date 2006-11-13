@@ -310,7 +310,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		public FilterItemComboBox( LockableListModel list )
 		{
 			super( new LockableListModel(), true, false );
-			filter = new WordBasedFilter();
+			filter = new ConsumptionBasedFilter();
 			inventory.applyListFilter( filter );
 		}
 
