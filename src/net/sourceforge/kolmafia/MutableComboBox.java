@@ -127,7 +127,7 @@ public class MutableComboBox extends JComboBox
 		{
 			for ( int i = 0; i < currentNames.length; ++i )
 			{
-				if ( ((String) currentNames[i]).startsWith( currentName ) )
+				if ( ((String) currentNames[i]).toLowerCase().startsWith( currentName ) )
 				{
 					++matchCount;
 					currentMatch = (String) currentNames[i];
