@@ -85,16 +85,16 @@ public class ItemManageFrame extends KoLFrame
 		tabs = new JTabbedPane();
 		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
 
-		itemCreator = new CreateItemPanel();
-//		bruteForcer = new InventPanel();
 		insideBackpack = new ClosetManagePanel( inventory );
 		insideCloset = new ClosetManagePanel( closet );
+		itemCreator = new CreateItemPanel();
+//		bruteForcer = new InventPanel();
 		npcOfferings = null;
 
-		tabs.addTab( "Item Creation", itemCreator );
-//		tabs.addTab( "Find Recipe", bruteForcer );
-		tabs.addTab( "Inventory", insideBackpack );
-		tabs.addTab( "Colossal Closet", insideCloset );
+		tabs.addTab( "Inventory Items", insideBackpack );
+		tabs.addTab( "Closeted Items", insideCloset );
+		tabs.addTab( "Creatable Items", itemCreator );
+//		tabs.addTab( "Recipe Finder", bruteForcer );
 
 		// If the person is in a mysticality sign, make sure
 		// you retrieve information from the restaurant.
@@ -102,7 +102,7 @@ public class ItemManageFrame extends KoLFrame
 		if ( KoLCharacter.inMysticalitySign() && !restaurantItems.isEmpty() )
 		{
 			npcOfferings = new SpecialPanel( restaurantItems );
-			tabs.add( "Restaurant", npcOfferings );
+			tabs.add( "Restaurant Menu", npcOfferings );
 		}
 
 		// If the person is in a moxie sign and they have completed
@@ -112,7 +112,7 @@ public class ItemManageFrame extends KoLFrame
 		if ( KoLCharacter.inMoxieSign() && !microbreweryItems.isEmpty() )
 		{
 			npcOfferings = new SpecialPanel( microbreweryItems );
-			tabs.add( "Microbrewery", npcOfferings );
+			tabs.add( "Microrewery Menu", npcOfferings );
 		}
 
 		// Now a special panel which does nothing more than list
@@ -364,7 +364,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			public String toString()
-			{	return retrieveFromClosetFirst ? "backpack" : "closet";
+			{	return retrieveFromClosetFirst ? "inventory" : "closet";
 			}
 		}
 
