@@ -112,8 +112,6 @@ public abstract class SorceressLair extends StaticEntity
 	private static final AdventureResult BANJO_STRING = new AdventureResult( 52, 1 );
 	private static final AdventureResult [] CLOVER_WEAPONS = { new AdventureResult( 32, 1 ), new AdventureResult( 50, 1 ), new AdventureResult( 57, 1 ), new AdventureResult( 60, 1 ), new AdventureResult( 68, 1 ) };
 
-	private static final AdventureResult HEART_ROCK = new AdventureResult( 48, 1 );
-
 	// Items for the shadow battle
 
 	private static final AdventureResult DOC_ELIXIR = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
@@ -131,8 +129,6 @@ public abstract class SorceressLair extends StaticEntity
 	};
 
 	// Items for the Sorceress's Chamber
-	private static final AdventureResult SHARD = new AdventureResult( 726, 1 );
-	private static final AdventureResult RED_PIXEL_POTION = new AdventureResult( 464, 1 );
 
 	private static final FamiliarData STARFISH = new FamiliarData( 17 );
 	private static final AdventureResult STARFISH_ITEM = new AdventureResult( 664, 1 );
@@ -330,7 +326,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
 
-		if ( !getClient().checkRequirements( requirements ) || KoLmafia.refusesContinue() )
+		if ( !KoLmafia.checkRequirements( requirements ) || KoLmafia.refusesContinue() )
 			return;
 
 		DEFAULT_SHELL.executeLine( "equip acc1 makeshift SCUBA gear" );
@@ -1278,7 +1274,7 @@ public abstract class SorceressLair extends StaticEntity
 		// if we have the item to use against the shadow.
 
 		requirements.add( option );
-		if ( !getClient().checkRequirements( requirements ) )
+		if ( !KoLmafia.checkRequirements( requirements ) )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Could not determine items to use to fight shadow." );
 			return;
@@ -1324,7 +1320,8 @@ public abstract class SorceressLair extends StaticEntity
 	}
 
 	private static void familiarBattle( int n )
-	{	familiarBattle( n, true );
+	{
+		familiarBattle( n, true );
 	}
 
 	private static void familiarBattle( int n, boolean requiresHeal )
@@ -1332,15 +1329,25 @@ public abstract class SorceressLair extends StaticEntity
 		// Make sure that the familiar is at least twenty pounds.
 		// Otherwise, it's a wasted QUEST_HANDLER.
 
+		boolean isPotentialFamiliar = false;
 		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
-		if ( originalFamiliar == null )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a familiar equipped." );
-			return;
-		}
 
 		// Ensure that the player has more than 50 HP, since
 		// you cannot enter the familiar chamber with less.
+
+		String race = null;
+		FamiliarData familiar = null;
+
+		for ( int i = 0; i < FAMILIAR_DATA.length; ++i )
+			isPotentialFamiliar |= KoLCharacter.findFamiliar( FAMILIAR_DATA[i][1] ) != null;
+
+		if ( !isPotentialFamiliar )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't have any tower familiars in your terrarium." );
+			return;
+		}
+
+		isPotentialFamiliar = false;
 
 		if ( requiresHeal )
 		{
@@ -1354,19 +1361,26 @@ public abstract class SorceressLair extends StaticEntity
 				KoLmafia.updateDisplay( ERROR_STATE, "You must have more than 50 HP to proceed." );
 				return;
 			}
+
+			// If you need to heal, then obviously, you don't know
+			// what familiar you have.  Change to a random familiar.
+
+			while ( familiar == null )
+			{
+				race = FAMILIAR_DATA[ RNG.nextInt( FAMILIAR_DATA.length )][1];
+				if ( !race.equals( originalFamiliar.getRace() ) )
+					familiar = KoLCharacter.findFamiliar( race );
+			}
+
+			(new FamiliarRequest( familiar )).run();
 		}
 
 		// Make sure that the current familiar is at least twenty
 		// pounds, if it's one of the ones which can be used against
 		// the tower familiars; otherwise, it won't survive.
 
-		boolean isPotentialFamiliar = false;
-
-		for ( int i = 0; i < FAMILIAR_DATA.length; ++i )
-			if ( originalFamiliar.getRace().equals( FAMILIAR_DATA[i][1] ) )
-				isPotentialFamiliar = true;
-
-		boolean shouldFaceFamiliar = !isPotentialFamiliar || FamiliarTrainingFrame.buffFamiliar( 20 );
+		if ( !requiresHeal )
+			FamiliarTrainingFrame.buffFamiliar( 20 );
 
 		KoLmafia.updateDisplay( "Facing giant familiar..." );
 		QUEST_HANDLER.constructURLString( "lair6.php?place=" + n ).run();
@@ -1379,15 +1393,15 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Find the necessary familiar and see if the player has one.
 
-		String race = "";
-		FamiliarData familiar = null;
-		for ( int i = 0; i < FAMILIAR_DATA.length; ++i )
+		race = null;
+		familiar = null;
+
+		for ( int i = 0; i < FAMILIAR_DATA.length && race == null; ++i )
 		{
 			if ( QUEST_HANDLER.responseText.indexOf( FAMILIAR_DATA[i][0] ) != -1 )
 			{
 				race = FAMILIAR_DATA[i][1];
 				familiar = KoLCharacter.findFamiliar( race );
-				break;
 			}
 		}
 
@@ -1400,8 +1414,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		// Switch to the required familiar
-		if ( originalFamiliar != familiar )
-			(new FamiliarRequest( familiar )).run();
+		(new FamiliarRequest( familiar )).run();
 
 		// If we can buff it to 20 pounds, try again.
 		if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) )

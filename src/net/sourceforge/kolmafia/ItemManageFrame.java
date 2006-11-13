@@ -228,19 +228,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			public void executeTask()
-			{
-				int itemCount;
-				AdventureResult currentItem;
-				Object [] items = junkItemList.toArray();
-
-				for ( int i = 0; i < items.length; ++i )
-				{
-					currentItem = (AdventureResult) items[i];
-					itemCount = currentItem.getCount( inventory );
-					items[i] = itemCount > 0 ? currentItem.getInstance( itemCount ) : null;
-				}
-
-				(new AutoSellRequest( items, AutoSellRequest.AUTOSELL )).run();
+			{	StaticEntity.getClient().makeJunkRemovalRequest();
 			}
 		}
 

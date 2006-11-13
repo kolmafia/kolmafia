@@ -299,7 +299,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( !StaticEntity.getBooleanProperty( "protectAgainstOverdrink" ) )
 			return true;
 
-		if ( KoLCharacter.getAdventuresLeft() == 0 )
+		if ( KoLCharacter.getAdventuresLeft() < 10 )
 			return true;
 
 		if ( KoLCharacter.getInebrietyLimit() > KoLCharacter.getInebriety() + inebrietyBonus )
