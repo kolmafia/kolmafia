@@ -64,7 +64,11 @@ import javax.swing.event.ListDataListener;
 public class LockableListModel extends javax.swing.AbstractListModel
 	implements Cloneable, java.util.List, javax.swing.ListModel, javax.swing.ComboBoxModel, javax.swing.MutableComboBoxModel
 {
+	private static final ListElementFilter NO_FILTER = new ListElementFilter();
+
 	private ArrayList actualElements;
+	private ArrayList visibleElements;
+
 	private Object selectedValue;
 	private ListElementFilter currentFilter;
 
@@ -75,8 +79,10 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	public LockableListModel()
 	{
 		actualElements = new ArrayList();
+		visibleElements = new ArrayList();
+
 		selectedValue = null;
-		currentFilter = new ListElementFilter();
+		currentFilter = NO_FILTER;
 	}
 
 	public LockableListModel( Collection c )
@@ -87,13 +93,17 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public void sort()
 	{
+		Collections.sort( visibleElements );
 		Collections.sort( actualElements );
+
 		fireContentsChanged( this, 0, getSize() - 1 );
 	}
 
 	public void sort( Comparator c )
 	{
+		Collections.sort( visibleElements, c );
 		Collections.sort( actualElements, c );
+
 		fireContentsChanged( this, 0, getSize() - 1 );
 	}
 
@@ -133,6 +143,8 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		if ( currentFilter.isVisible( element ) )
 		{
 			int visibleIndex = computeVisibleIndex( index );
+			visibleElements.add( visibleIndex, element );
+
 			fireIntervalAdded( this, visibleIndex, visibleIndex );
 		}
 	}
@@ -171,6 +183,11 @@ public class LockableListModel extends javax.swing.AbstractListModel
 				return false;
 
 			actualElements.addAll( 0, c );
+
+			for ( int i = 0; i < actualElements.size(); ++i )
+				if ( currentFilter.isVisible( actualElements.get(i) ) )
+					visibleElements.add( actualElements.get(i) );
+
 			fireIntervalAdded( this, 0, getSize() - 1 );
 			return true;
 		}
@@ -198,6 +215,8 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	public void clear()
 	{
 		int originalSize = getSize();
+
+		visibleElements.clear();
 		actualElements.clear();
 
 		// If the size of the list model is 0, then
@@ -414,9 +433,11 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		Object returnValue = actualElements.remove( index );
 
-		if ( currentFilter.isVisible( currentFilter ) )
+		if ( currentFilter.isVisible( returnValue ) )
 		{
 			int visibleIndex = computeVisibleIndex( index );
+			visibleElements.remove( visibleIndex );
+
 			fireIntervalRemoved( this, visibleIndex, visibleIndex );
 		}
 
@@ -473,11 +494,25 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	public Object set( int index, Object element )
 	{
 		Object returnValue = actualElements.set( index, element );
+		int visibleIndex = computeVisibleIndex( index );
 
-		if ( currentFilter.isVisible( currentFilter ) )
+		if ( currentFilter.isVisible( returnValue ) )
 		{
-			int visibleIndex = computeVisibleIndex( index );
-			fireContentsChanged( this, visibleIndex, visibleIndex );
+			if ( !currentFilter.isVisible( element ) )
+			{
+				visibleElements.remove( visibleIndex );
+				fireIntervalRemoved( this, visibleIndex, visibleIndex );
+			}
+			else
+			{
+				visibleElements.set( visibleIndex, element );
+				fireContentsChanged( this, visibleIndex, visibleIndex );
+			}
+		}
+		else if ( currentFilter.isVisible( element ) )
+		{
+			visibleElements.add( visibleIndex, element );
+			fireIntervalAdded( this, visibleIndex, visibleIndex );
 		}
 
 		return returnValue;
@@ -525,6 +560,16 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public void applyListFilter( ListElementFilter newFilter )
 	{
+		Object element;
+		visibleElements.clear();
+
+		for ( int i = 0; i < actualElements.size(); ++i )
+		{
+			element = actualElements.get(i);
+			if ( newFilter.isVisible( element ) )
+				visibleElements.add( element );
+		}
+
 		this.currentFilter = newFilter;
 		fireContentsChanged( this, 0, actualElements.size() );
 	}
@@ -541,11 +586,12 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	private int computeActualIndex( int visibleIndex )
 	{
-		for ( int i = 0; i <= visibleIndex; ++i )
+		int actualIndex = visibleIndex;
+		for ( int i = 0; i <= actualIndex; ++i )
 			if ( !currentFilter.isVisible( actualElements.get(i) ) )
-				++visibleIndex;
+				++actualIndex;
 
-		return visibleIndex;
+		return actualIndex;
 	}
 
 	/**
@@ -554,7 +600,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public Object getElementAt( int index )
-	{	return get( computeActualIndex( index ) );
+	{	return visibleElements.get( index );
 	}
 
 	/**
@@ -563,13 +609,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public int getSize()
-	{
-		int visibleSize = 0;
-		for ( int i = 0; i < actualElements.size(); ++i )
-			if ( currentFilter.isVisible( actualElements.get(i) ) )
-				++visibleSize;
-
-		return visibleSize;
+	{	return visibleElements.size();
 	}
 
     /**
@@ -591,13 +631,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public int getSelectedIndex()
-	{
-		int selectedIndex = indexOf( selectedValue );
-		for ( int i = 0; i <= selectedIndex; ++i )
-			if ( !currentFilter.isVisible( actualElements.get(i) ) )
-				--selectedIndex;
-
-		return selectedIndex;
+	{	return visibleElements.indexOf( selectedValue );
 	}
 
     /**
@@ -683,8 +717,11 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			cloneCopy.listenerList = new javax.swing.event.EventListenerList();
 
 			cloneCopy.actualElements = cloneList( actualElements );
-			cloneCopy.currentFilter = new ListElementFilter();
-			cloneCopy.setSelectedIndex( getSelectedIndex() );
+			cloneCopy.visibleElements = cloneList( visibleElements );
+
+			cloneCopy.currentFilter = this.currentFilter;
+			cloneCopy.selectedValue = null;
+
 			return cloneCopy;
 		}
 		catch ( CloneNotSupportedException e )
@@ -823,9 +860,26 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * @return	a mirror image of this <code>LockableListModel</code>
 	 */
 
+	public LockableListModel getMirrorImage()
+	{	return getMirrorImage( NO_FILTER );
+	}
+
+	/**
+	 * Returns a mirror image of this <code>LockableListModel</code>.  In essence,
+	 * the object returned will be a clone of the original object.  However, it has
+	 * the additional feature of listening for changes to the <em>underlying data</em> of this
+	 * <code>LockableListModel</code>.  Note that this means any changes in selected
+	 * indices will not be mirrored in the mirror image.  Note that because this function
+	 * modifies the listeners for this class, an asynchronous version is not available.
+	 *
+	 * @return	a mirror image of this <code>LockableListModel</code>
+	 */
+
 	public LockableListModel getMirrorImage( ListElementFilter filter )
 	{
 		LockableListModel mirrorImage = (LockableListModel) clone();
+
+		mirrorImage.applyListFilter( filter );
 		addListDataListener( new MirrorImageListener( mirrorImage ) );
 		return mirrorImage;
 	}

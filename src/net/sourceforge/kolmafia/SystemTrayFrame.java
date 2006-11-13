@@ -111,7 +111,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 	{
 		public void mousePressed( MouseEvent e )
 		{
-			if ( e.getClickCount() != 2 )
+			if ( e.isPopupTrigger() )
 				return;
 
 			showDisplay();

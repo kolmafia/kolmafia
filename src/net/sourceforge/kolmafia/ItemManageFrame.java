@@ -311,13 +311,16 @@ public class ItemManageFrame extends KoLFrame
 			boolean isCloset = (elementModel == closet);
 
 			setButtons( new ActionListener [] {
+
 				new ConsumeListener(),
 				new PutInClosetListener( isCloset ),
 				new AutoSellListener( isCloset, AutoSellRequest.AUTOSELL ),
 				new AutoSellListener( isCloset, AutoSellRequest.AUTOMALL ),
 				new PulverizeListener( isCloset ),
 				new PutOnDisplayListener( isCloset ),
-				new GiveToClanListener( isCloset ) } );
+				new GiveToClanListener( isCloset )
+
+			} );
 
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}

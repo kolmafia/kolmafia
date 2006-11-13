@@ -63,6 +63,7 @@ public class MutableComboBox extends JComboBox
 		this.model = model;
 		this.filter = new WordBasedFilter();
 
+		model.applyListFilter( filter );
 		this.setEditable( true );
 
 		this.allowAdditions = allowAdditions;
@@ -221,7 +222,16 @@ public class MutableComboBox extends JComboBox
 
 		protected final boolean isNonResult( Object element )
 		{
-			return !(element instanceof AdventureResult) && !(element instanceof ItemCreationRequest);
+			if ( !(element instanceof AdventureResult) && !(element instanceof ItemCreationRequest) )
+				return true;
+
+			if ( element instanceof ItemCreationRequest )
+				return false;
+
+			if ( ((AdventureResult)element).isItem() || ((AdventureResult)element).isStatusEffect() )
+				return false;
+
+			return true;
 		}
 	}
 }

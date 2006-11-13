@@ -592,10 +592,12 @@ public class FightRequest extends KoLRequest
 		return true;
 	}
 
+	private static String lastResult = "";
+
 	public static String getNextTrackedRound()
 	{
 		if ( !isTrackingFights )
-			return null;
+			return lastResult;
 
 		for ( int i = 0; trackedRounds.isEmpty() && i < 10; ++i )
 			delay( 200 );
@@ -603,22 +605,22 @@ public class FightRequest extends KoLRequest
 		if ( trackedRounds.isEmpty() )
 		{
 			isTrackingFights = false;
-			return null;
+			return lastResult;
 		}
 
-		String result = (String) trackedRounds.remove(0);
+		lastResult = (String) trackedRounds.remove(0);
 
 		if ( trackedRounds.isEmpty() && currentRound == 0 )
 		{
 			isTrackingFights = false;
 
 			StringBuffer resultBuffer = new StringBuffer();
-			resultBuffer.append( result );
+			resultBuffer.append( lastResult );
 
 			try
 			{
 				RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", resultBuffer );
-				result = resultBuffer.toString();
+				lastResult = resultBuffer.toString();
 			}
 			catch ( Exception e )
 			{
@@ -626,7 +628,7 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
-		return result;
+		return lastResult;
 	}
 
 	public static void beginTrackingFights()

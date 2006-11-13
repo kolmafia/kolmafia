@@ -186,7 +186,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( songWeapon != ACCORDION && KoLCharacter.hasEquipped( ACCORDION ) )
 				DEFAULT_SHELL.executeLine( "unequip weapon" );
 
-			if ( songWeapon != null && songWeapon != ACCORDION )
+			if ( songWeapon != null && songWeapon != ACCORDION && !KoLCharacter.hasEquipped( ROCKNROLL_LEGEND ) )
 				AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
 		}
 

@@ -36,33 +36,26 @@ package net.sourceforge.kolmafia;
 
 // containers
 import java.awt.Image;
-import javax.swing.JSeparator;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
 import javax.swing.JFrame;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
-import javax.swing.JScrollPane;
 import javax.swing.Box;
-import javax.swing.JList;
 import javax.swing.JProgressBar;
 import javax.swing.JSpinner;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
-import javax.swing.text.JTextComponent;
 import javax.swing.table.TableModel;
 
 // layout
 import java.awt.Component;
 import java.awt.Point;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
@@ -91,7 +84,6 @@ import java.util.Vector;
 
 // other stuff
 import javax.swing.SwingUtilities;
-import java.lang.ref.WeakReference;
 
 // spellcast imports
 import net.java.dev.spellcast.utilities.ActionPanel;
@@ -106,6 +98,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class KoLFrame extends JFrame implements KoLConstants
 {
+	public static final TradeableItemFilter TRADE_FILTER = new TradeableItemFilter();
+
 	protected JTabbedPane tabs = null;
 	protected String lastTitle;
 	protected String frameName;
@@ -1314,5 +1308,17 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( bookmarkData.length > 1 )
 			for ( int i = 0; i < bookmarkData.length; ++i )
 				bookmarks.add( bookmarkData[i] + "|" + bookmarkData[++i] + "|" + bookmarkData[++i] );
+	}
+
+	private static class TradeableItemFilter extends LockableListModel.ListElementFilter
+	{
+		public boolean isVisible( Object element )
+		{
+			if ( !(element instanceof AdventureResult) )
+				return true;
+
+			int itemId = ((AdventureResult)element).getItemId();
+			return itemId < 1 || TradeableItemDatabase.isTradeable( itemId );
+		}
 	}
 }
