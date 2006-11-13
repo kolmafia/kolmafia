@@ -50,7 +50,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 	{
 		GALAKTIK, new MPRestoreItem( "bottle of Vangoghbitussin", 100 ),
 		new MPRestoreItem( "bottle of Monsieur Bubble", 56 ), new MPRestoreItem( "unrefined mountain stream syrup", 55 ),
-		new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tonic water", 40 ),
+		new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tonic water", 40 ), new MPRestoreItem( "Marquis de Poivre soda", 35 ),
 		new MPRestoreItem( "blue paisley oyster egg", 33 ), new MPRestoreItem( "blue polka-dot oyster egg", 33 ),
 		new MPRestoreItem( "blue striped oyster egg", 33 ), new MPRestoreItem( "blue pixel potion", 28 ),
 		new MPRestoreItem( "Knob Goblin superseltzer", 27 ), new MPRestoreItem( "maple syrup", 25 ),

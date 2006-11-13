@@ -124,65 +124,31 @@ public class ItemManageFrame extends KoLFrame
 
 	private class CommonActionsPanel extends JPanel
 	{
+		private JPanel container;
+		private Dimension maxWidth = new Dimension( 500, Integer.MAX_VALUE );
+
 		public CommonActionsPanel()
 		{
-			JPanel container = new JPanel();
+			container = new JPanel();
 			container.setLayout( new BoxLayout( container, BoxLayout.Y_AXIS ) );
-
-			JLabel description;
-			Dimension maxWidth = new Dimension( 500, Integer.MAX_VALUE );
 
 			// End-user warning
 
-			description = new JLabel( "<html>KoLmafia will not prompt you for confirmation when you click these buttons.  Read the descriptions before pressing.</html>" );
+			JLabel description = new JLabel( "<html>KoLmafia will not prompt you for confirmation when you click these buttons.  Read the descriptions before pressing.</html>" );
 			description.setMaximumSize( maxWidth );
 			container.add( description );
 
-			container.add( Box.createVerticalStrut( 20 ) );
+//			addButtonAndLabel( new JunkItemsButton(),
+//				"This feature compares the list of items which you have flagged as \"junk\" against the items in your inventory, and if it finds any matches, autosells those junk items." );
 
-			// Information on junking script.
+			addButtonAndLabel( new EndOfRunSaleButton(),
+				"This feature takes all items which are currently in your inventory and either autosells them, if they're available in NPC stores, or dumps them into your store in the mall." );
 
-			container.add( new JunkItemsButton() );
-			container.add( Box.createVerticalStrut( 5 ) );
+			addButtonAndLabel( new MallRestockButton(),
+				"This feature looks at all the items currently in your store, and if you have any matching items in your inventory, drops those items into your store at your current price." );
 
-			description = new JLabel( "<html>This feature compares the list of items which you have flagged as \"junk\" against the items in your inventory, and if it finds any matches, autosells those junk items.</html>" );
-			description.setMaximumSize( maxWidth );
-			container.add( description );
-
-			container.add( Box.createVerticalStrut( 20 ) );
-
-			// Information on the end of run sale button
-
-			container.add( new EndOfRunSaleButton() );
-			container.add( Box.createVerticalStrut( 5 ) );
-
-			description = new JLabel( "<html>This feature takes all items which are currently in your inventory and either autosells them, if they're available in NPC stores, or dumps them into your store in the mall.</html>" );
-			description.setMaximumSize( maxWidth );
-			container.add( description );
-
-			container.add( Box.createVerticalStrut( 20 ) );
-
-			// Information on the mall restock script
-
-			container.add( new MallRestockButton() );
-			container.add( Box.createVerticalStrut( 5 ) );
-
-			description = new JLabel( "<html>This feature looks at all the items currently in your store, and if you have any matching items in your inventory, drops those items into your store at your current price.</html>" );
-			description.setMaximumSize( maxWidth );
-			container.add( description );
-
-			container.add( Box.createVerticalStrut( 20 ) );
-
-			// Information on the display case filling script
-
-			container.add( new DisplayCaseButton() );
-			container.add( Box.createVerticalStrut( 5 ) );
-
-			description = new JLabel( "<html>This feature scans your inventory and, if it finds any items which match what's in your display case, puts those items on display.</html>" );
-			description.setMaximumSize( maxWidth );
-			container.add( description );
-
-			container.add( Box.createVerticalStrut( 20 ) );
+			addButtonAndLabel( new DisplayCaseButton(),
+				"This feature scans your inventory and, if it finds any items which match what's in your display case, puts those items on display." );
 
 			// Now to add the generated panel to the list.
 
@@ -191,6 +157,18 @@ public class ItemManageFrame extends KoLFrame
 
 			setLayout( new BorderLayout() );
 			add( northPanel, BorderLayout.NORTH );
+		}
+
+		private void addButtonAndLabel( ThreadedActionButton button, String label )
+		{
+			container.add( Box.createVerticalStrut( 20 ) );
+
+			container.add( button );
+			container.add( Box.createVerticalStrut( 5 ) );
+
+			JLabel description = new JLabel( "<html>" + label + "</html>" );
+			description.setMaximumSize( maxWidth );
+			container.add( description );
 		}
 
 		private class JunkItemsButton extends ThreadedActionButton
@@ -352,21 +330,9 @@ public class ItemManageFrame extends KoLFrame
 				if ( items.length == 0 )
 					return;
 
-				int consumptionCount;
-				AdventureResult currentItem;
-
 				Runnable [] requests = new Runnable[ items.length ];
-
 				for ( int i = 0; i < items.length; ++i )
-				{
-					currentItem = (AdventureResult) items[i];
-
-					consumptionCount = getQuantity( "Using multiple " + currentItem.getName() + "...", currentItem.getCount() );
-					if ( consumptionCount == 0 )
-						return;
-
-					requests[i] = new ConsumeItemRequest( currentItem.getInstance( consumptionCount ) );
-				}
+					requests[i] = new ConsumeItemRequest( (AdventureResult) items[i] );
 
 				(new RequestThread( requests )).start();
 			}
