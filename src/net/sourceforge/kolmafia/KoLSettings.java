@@ -39,12 +39,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.BufferedReader;
-import java.io.PrintStream;
 import java.io.InputStreamReader;
 import java.io.ByteArrayOutputStream;
 
 import java.util.TreeMap;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 import net.java.dev.spellcast.utilities.UtilityConstants;
@@ -59,6 +57,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 public class KoLSettings extends Properties implements UtilityConstants, KoLConstants
 {
 	private boolean initializingDefaults = false;
+
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
 
@@ -88,6 +87,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );
 
 	private File settingsFile;
+	private File junkItemsFile;
 	private String noExtensionName;
 
 	/**
@@ -103,6 +103,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	{
 		this.noExtensionName = KoLCharacter.baseUserName( characterName );
 		this.settingsFile = new File( "settings/prefs_" + noExtensionName + ".txt" );
+		this.junkItemsFile = new File( "settings/junk_" + noExtensionName + ".txt" );
 
 		loadSettings();
 		ensureDefaults();
@@ -154,6 +155,31 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		super.setProperty( name, value );
 		saveSettings();
 		return oldValue;
+	}
+
+	public void saveJunkItemList()
+	{
+		if ( junkItemsFile.exists() )
+			junkItemsFile.delete();
+
+//		if ( this == GLOBAL_SETTINGS )
+//			return;
+
+		try
+		{
+			junkItemsFile.createNewFile();
+			LogStream ostream = new LogStream( junkItemsFile );
+
+			ostream.println( "[junk items]" );
+			for ( int i = 0; i < junkItemList.size(); ++i )
+				ostream.println( ((AdventureResult)junkItemList.get(i)).getName() );
+
+			ostream.close();
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
 	}
 
 	public void saveSettings()
@@ -222,8 +248,30 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 			FileInputStream istream = new FileInputStream( settingsFile );
 			load( istream );
+
 			istream.close();
 			istream = null;
+
+			if ( !junkItemsFile.exists() )
+				return;
+
+			junkItemList.clear();
+
+			istream = new FileInputStream( junkItemsFile );
+			BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
+
+			String line;
+
+			while ( (line = reader.readLine()) != null && !line.equals( "[junk items]" ) );
+			while ( line != null && (line = reader.readLine()) != null )
+			{
+				if ( line.equals( "" ) )
+					continue;
+
+				junkItemList.add( new AdventureResult( line, 1, false ) );
+			}
+
+			reader.close();
 		}
 		catch ( IOException e1 )
 		{

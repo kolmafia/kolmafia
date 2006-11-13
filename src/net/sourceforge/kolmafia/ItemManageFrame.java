@@ -125,7 +125,7 @@ public class ItemManageFrame extends KoLFrame
 	private class CommonActionsPanel extends JPanel
 	{
 		private JPanel container;
-		private Dimension maxWidth = new Dimension( 500, Integer.MAX_VALUE );
+		private Dimension MAX_WIDTH = new Dimension( 500, Integer.MAX_VALUE );
 
 		public CommonActionsPanel()
 		{
@@ -134,12 +134,20 @@ public class ItemManageFrame extends KoLFrame
 
 			// End-user warning
 
-			JLabel description = new JLabel( "<html>KoLmafia will not prompt you for confirmation when you click these buttons.  Read the descriptions before pressing.</html>" );
-			description.setMaximumSize( maxWidth );
-			container.add( description );
+			JLabel warnLabel = new JLabel(
+				"<html>KoLmafia will not prompt you for confirmation when you click these buttons.  Read the descriptions before pressing.</html>" );
 
-//			addButtonAndLabel( new JunkItemsButton(),
-//				"This feature compares the list of items which you have flagged as \"junk\" against the items in your inventory, and if it finds any matches, autosells those junk items." );
+			warnLabel.setMaximumSize( MAX_WIDTH );
+			warnLabel.setAlignmentX( LEFT_ALIGNMENT );
+			container.add( warnLabel );
+
+			addButtonAndLabel( new JunkItemsButton(),
+				"This feature compares the list of items which you have flagged as \"junk\" against the items in your inventory, and if it finds any matches, autosells those junk items." );
+
+			SimpleScrollPane scroller = new SimpleScrollPane( new ShowDescriptionList( junkItemList ) );
+			scroller.setMaximumSize( MAX_WIDTH );
+			scroller.setAlignmentX( LEFT_ALIGNMENT );
+			container.add( scroller );
 
 			addButtonAndLabel( new EndOfRunSaleButton(),
 				"This feature takes all items which are currently in your inventory and either autosells them, if they're available in NPC stores, or dumps them into your store in the mall." );
@@ -150,25 +158,36 @@ public class ItemManageFrame extends KoLFrame
 			addButtonAndLabel( new DisplayCaseButton(),
 				"This feature scans your inventory and, if it finds any items which match what's in your display case, puts those items on display." );
 
-			// Now to add the generated panel to the list.
-
-			JPanel northPanel = new JPanel( new CardLayout( 10, 10 ) );
-			northPanel.add( container, "" );
-
-			setLayout( new BorderLayout() );
-			add( northPanel, BorderLayout.NORTH );
+			setLayout( new CardLayout( 10, 10 ) );
+			add( container, "" );
 		}
 
 		private void addButtonAndLabel( ThreadedActionButton button, String label )
 		{
-			container.add( Box.createVerticalStrut( 20 ) );
+			container.add( Box.createVerticalStrut( 15 ) );
 
+			button.setAlignmentX( LEFT_ALIGNMENT );
 			container.add( button );
 			container.add( Box.createVerticalStrut( 5 ) );
 
 			JLabel description = new JLabel( "<html>" + label + "</html>" );
-			description.setMaximumSize( maxWidth );
+			description.setMaximumSize( MAX_WIDTH );
+
+			description.setVerticalAlignment( JLabel.TOP );
+			description.setAlignmentX( LEFT_ALIGNMENT );
 			container.add( description );
+			container.add( Box.createVerticalStrut( 5 ) );
+		}
+
+		private class DoNothingButton extends ThreadedActionButton
+		{
+			public DoNothingButton()
+			{	super( "Warning!" );
+			}
+
+			public void executeTask()
+			{
+			}
 		}
 
 		private class JunkItemsButton extends ThreadedActionButton

@@ -39,12 +39,15 @@ import java.awt.CardLayout;
 import javax.swing.DefaultListCellRenderer;
 
 // events
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import javax.swing.ListSelectionModel;
 
 // containers
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.JTabbedPane;
@@ -94,8 +97,8 @@ public class ExamineItemsFrame extends KoLFrame
 	private class ItemLookupPanel extends ItemManagePanel
 	{
 		private LockableListModel list;
-		private String type;
-		private String which;
+		protected String type;
+		protected String which;
 
 		public ItemLookupPanel( LockableListModel list, String title, String type, String which )
 		{
@@ -108,6 +111,8 @@ public class ExamineItemsFrame extends KoLFrame
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			elementList.addMouseListener( new ShowEntryAdapter() );
 			elementList.setCellRenderer( new EntryCellRenderer() );
+
+			elementList.contextMenu.add( new DescriptionMenuItem(), 0 );
 
 			actionConfirmed();
 		}
@@ -124,23 +129,46 @@ public class ExamineItemsFrame extends KoLFrame
 			list.sort( new EntryIdComparator() );
 		}
 
+		/**
+		 * Utility class which shows the description of the item
+		 * which is currently selected.
+		 */
+
+		private class DescriptionMenuItem extends JMenuItem implements ActionListener
+		{
+			public DescriptionMenuItem()
+			{
+				super( "Game description" );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{	showDescription( (Map.Entry) elementModel.get( elementList.lastSelectIndex ) );
+			}
+		}
+
 		private class ShowEntryAdapter extends MouseAdapter
 		{
 			public void mouseClicked( MouseEvent e )
 			{
-				if ( e.getClickCount() == 2 )
-				{
-					int index = elementList.locationToIndex( e.getPoint() );
-					Object entry = elementList.getModel().getElementAt( index );
+				if ( e.getClickCount() != 2 )
+					return;
 
-					if ( !(entry instanceof Map.Entry ) )
-						return;
+				int index = elementList.locationToIndex( e.getPoint() );
+				Object entry = elementList.getModel().getElementAt( index );
 
-					elementList.ensureIndexIsVisible( index );
-					String id = String.valueOf( ((Integer)((Map.Entry)entry).getKey()).intValue() );
-					StaticEntity.openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
-				}
+				if ( !(entry instanceof Map.Entry ) )
+					return;
+
+				elementList.ensureIndexIsVisible( index );
+				showDescription( (Map.Entry) entry );
 			}
+		}
+
+		public void showDescription( Map.Entry entry )
+		{
+			String id = String.valueOf( ((Integer)entry.getKey()).intValue() );
+			StaticEntity.openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
 		}
 	}
 
@@ -150,8 +178,10 @@ public class ExamineItemsFrame extends KoLFrame
 		{	super( list, "Items", "item", "whichitem" );
 		}
 
-		public String IdNumberMapper( int id )
-		{	return TradeableItemDatabase.getDescriptionId( id );
+		public void showDescription( Map.Entry entry )
+		{
+			String id = TradeableItemDatabase.getDescriptionId( ((Integer)entry.getKey()).intValue() );
+			StaticEntity.openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
 		}
 	}
 

@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class MutableComboBox extends JComboBox
+public class MutableComboBox extends JComboBox implements KoLConstants
 {
 	protected String currentName;
 	protected String currentMatch;
@@ -61,7 +61,7 @@ public class MutableComboBox extends JComboBox
 		super( model );
 
 		this.model = model;
-		this.filter = new WordBasedFilter();
+		this.filter = new WordBasedFilter( false );
 
 		model.applyListFilter( filter );
 		this.setEditable( true );
@@ -199,8 +199,31 @@ public class MutableComboBox extends JComboBox
 
 	protected class WordBasedFilter extends LockableListModel.ListElementFilter
 	{
+		private boolean shouldFilterJunkItems;
+
+		public WordBasedFilter( boolean shouldFilterJunkItems )
+		{	this.shouldFilterJunkItems = shouldFilterJunkItems;
+		}
+
 		public boolean isVisible( Object element )
 		{
+			if ( shouldFilterJunkItems )
+			{
+				if ( element instanceof AdventureResult )
+				{
+					if ( junkItemList.contains( element ) )
+						return false;
+				}
+				else if ( element instanceof ItemCreationRequest )
+				{
+					if ( junkItemList.contains( ((ItemCreationRequest) element).createdItem ) )
+						return false;
+				}
+			}
+
+			// If it's not a result, then check to see if you need to
+			// filter based on its string form.
+
 			if ( isNonResult( element ) )
 			{
 				if ( currentName == null || currentName.length() == 0 )
@@ -209,12 +232,14 @@ public class MutableComboBox extends JComboBox
 				if ( element instanceof Map.Entry )
 				{
 					Map.Entry entry = (Map.Entry) element;
-					return KoLDatabase.fuzzyMatches( entry.getKey().toString(), currentName ) ||
-						KoLDatabase.fuzzyMatches( entry.getValue().toString(), currentName );
+					return KoLDatabase.fuzzyMatches( entry.getValue().toString(), currentName );
 				}
 
 				return KoLDatabase.fuzzyMatches( element.toString().toLowerCase(), currentName );
 			}
+
+			// In all other cases, compare the item against the
+			// item name, so counts don't interfere.
 
 			String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() : ((ItemCreationRequest)element).getName();
 			return currentName == null || currentName.length() == 0 || KoLDatabase.fuzzyMatches( name.toLowerCase(), currentName );

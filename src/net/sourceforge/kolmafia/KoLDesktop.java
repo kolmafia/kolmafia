@@ -35,6 +35,8 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.Box;
 import javax.swing.JTabbedPane;
@@ -69,8 +71,11 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	protected KoLDesktop( String title )
 	{
 		super( "Main Interface" );
-
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+
+		if ( StaticEntity.usesSystemTray() )
+			setDefaultCloseOperation( HIDE_ON_CLOSE );
+
 		getContentPane().setLayout( new BorderLayout() );
 
 		tabs = new JTabbedPane();

@@ -42,8 +42,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import javax.swing.SwingUtilities;
@@ -56,8 +56,10 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ShowDescriptionList extends JList implements KoLConstants
 {
-	private int lastSelectIndex;
-	private JPopupMenu contextMenu;
+	protected int lastSelectIndex;
+	protected JPopupMenu contextMenu;
+	protected LockableListModel.ListElementFilter filter;
+
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
 	public ShowDescriptionList( LockableListModel model )
@@ -65,11 +67,33 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		super( model );
 		contextMenu = new JPopupMenu();
 
-		contextMenu.add( new DescriptionMenuItem() );
+		boolean isEncyclopedia = model.get(0) instanceof Map.Entry;
+
+		if ( model.size() == 0 || !isEncyclopedia )
+			contextMenu.add( new DescriptionMenuItem() );
+
 		contextMenu.add( new WikiLookupMenuItem() );
+
+		if ( model == tally || model == inventory || isEncyclopedia || model == ConcoctionsDatabase.getConcoctions() )
+			contextMenu.add( new AddToJunkListMenuItem() );
 
 		addMouseListener( new PopupListener() );
 		addMouseListener( new ShowDescriptionAdapter() );
+
+		if ( model == junkItemList )
+		{
+			setModel( inventory.getMirrorImage() );
+			applyFilter( new JunkListFilter() );
+		}
+
+		setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+		setVisibleRowCount( 4 );
+	}
+
+	public void applyFilter( LockableListModel.ListElementFilter filter )
+	{
+		this.filter = filter;
+		((LockableListModel)getModel()).applyListFilter( filter );
 	}
 
 	/**
@@ -80,13 +104,11 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	protected class PopupListener extends MouseAdapter
 	{
 		public void mousePressed( MouseEvent e )
-		{
-			maybeShowPopup( e );
+		{	maybeShowPopup( e );
 		}
 
 		public void mouseReleased( MouseEvent e )
-		{
-			maybeShowPopup( e );
+		{	maybeShowPopup( e );
 		}
 
 		private void maybeShowPopup( MouseEvent e )
@@ -158,33 +180,43 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	/**
-	 * Utility class which shows the description of the item
-	 * which is currently selected.
-	 */
-
-	private class DescriptionMenuItem extends JMenuItem implements ActionListener, Runnable
+	private abstract class ThreadedMenuItem extends JMenuItem implements ActionListener, Runnable
 	{
-		public DescriptionMenuItem()
+		protected int index;
+		protected Object item;
+
+		public ThreadedMenuItem( String title )
 		{
-			super( "Game description" );
+			super( title );
 			addActionListener( this );
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
-		}
-
-		public void run()
 		{
-			int index = lastSelectIndex == -1 ? getSelectedIndex() : lastSelectIndex;
-			Object item = ShowDescriptionList.this.getModel().getElementAt( index );
+			this.index = lastSelectIndex == -1 ? getSelectedIndex() : lastSelectIndex;
+			this.item = ShowDescriptionList.this.getModel().getElementAt( index );
 
 			if ( item == null )
 				return;
 
 			ensureIndexIsVisible( index );
-			showDescription( item );
+			this.run();
+		}
+	}
+
+	/**
+	 * Utility class which shows the description of the item
+	 * which is currently selected.
+	 */
+
+	private class DescriptionMenuItem extends ThreadedMenuItem
+	{
+		public DescriptionMenuItem()
+		{	super( "Game description" );
+		}
+
+		public void run()
+		{	showDescription( item );
 		}
 	}
 
@@ -193,38 +225,77 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	 * which is currently selected, as it appears on the wiki.
 	 */
 
-	private class WikiLookupMenuItem extends JMenuItem implements ActionListener, Runnable
+	private class WikiLookupMenuItem extends ThreadedMenuItem
 	{
 		public WikiLookupMenuItem()
-		{
-			super( "Wiki description" );
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
+		{	super( "Wiki description" );
 		}
 
 		public void run()
 		{
-			int index = lastSelectIndex == -1 ? getSelectedIndex() : lastSelectIndex;
-			Object item = ShowDescriptionList.this.getModel().getElementAt( index );
-
-			if ( item == null )
-				return;
-
-			ensureIndexIsVisible( index );
 			String name = null;
-
 			if ( item instanceof AdventureResult )
 				name = ((AdventureResult)item).getName();
 			else if ( item instanceof ItemCreationRequest )
 				name = ((ItemCreationRequest)item).getName();
 			else if ( item instanceof String )
 				name = (String) item;
+			else if ( item instanceof Map.Entry )
+				name = (String) ((Map.Entry)item).getValue();
 
 			if ( name != null )
 				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
+		}
+	}
+
+	public void junkSelectedValues()
+	{
+		Object [] items = getSelectedValues();
+		ShowDescriptionList.this.clearSelection();
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			if ( items[i] instanceof ItemCreationRequest )
+				junkItemList.add( ((ItemCreationRequest)items[i]).createdItem );
+			else if ( items[i] instanceof AdventureResult )
+				junkItemList.add( items[i] );
+			else if ( items[i] instanceof String )
+				junkItemList.add( new AdventureResult( (String) items[i], 1, false ) );
+			else if ( items[i] instanceof Map.Entry )
+				junkItemList.add( new AdventureResult( (String) ((Map.Entry)items[i]).getValue(), 1, false ) );
+		}
+
+		StaticEntity.saveJunkItemList();
+		((LockableListModel)getModel()).applyListFilter( filter );
+	}
+
+	private class AddToJunkListMenuItem extends ThreadedMenuItem
+	{
+		public AddToJunkListMenuItem()
+		{	super( "Add to junk list" );
+		}
+
+		public void run()
+		{	junkSelectedValues();
+		}
+	}
+
+	private class JunkListFilter extends LockableListModel.ListElementFilter
+	{
+		public boolean isVisible( Object element )
+		{
+			if ( element instanceof AdventureResult )
+			{
+				if ( junkItemList.contains( element ) )
+					return true;
+			}
+			else if ( element instanceof ItemCreationRequest )
+			{
+				if ( junkItemList.contains( ((ItemCreationRequest) element).createdItem ) )
+					return true;
+			}
+
+			return false;
 		}
 	}
 }
