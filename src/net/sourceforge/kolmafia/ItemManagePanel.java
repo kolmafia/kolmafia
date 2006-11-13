@@ -84,6 +84,13 @@ public class ItemManagePanel extends LabeledScrollPanel
 		elementList.setVisibleRowCount( 8 );
 
 		elementModel = elements;
+
+		if ( elementModel == inventory )
+		{
+			elementModel = inventory.getMirrorImage();
+			elementList.setModel( elementModel );
+		}
+
 		wordfilter = new FilterItemComboBox( elementModel );
 		centerPanel.add( wordfilter, BorderLayout.NORTH );
 	}
@@ -304,14 +311,13 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	private class FilterItemComboBox extends MutableComboBox
 	{
-		private WordBasedFilter filter;
 		private boolean food, booze, equip, other;
 
 		public FilterItemComboBox( LockableListModel list )
 		{
 			super( new LockableListModel(), true, false );
 			filter = new ConsumptionBasedFilter();
-			inventory.applyListFilter( filter );
+			elementModel.applyListFilter( filter );
 		}
 
 		public void setSelectedItem( Object anObject )
@@ -351,7 +357,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			public boolean isVisible( Object element )
 			{
 				if ( isNonResult( element ) )
-					return super.isVisible( element );
+					return true;
 
 				boolean isVisibleWithFilter = true;
 				String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() : ((ItemCreationRequest)element).getName();

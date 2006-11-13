@@ -415,7 +415,6 @@ public class LocalRelayServer implements Runnable
 				{
 					if ( !FightRequest.isTrackingFights() )
 					{
-						String previousAction = StaticEntity.getProperty( "battleAction" );
 						StaticEntity.setProperty( "battleAction", "custom combat script" );
 
 						KoLmafia.forceContinue();
@@ -426,12 +425,16 @@ public class LocalRelayServer implements Runnable
 					String fightResponse = FightRequest.getNextTrackedRound();
 					if ( fightResponse == null )
 					{
-						request.pseudoResponse( "HTTP/1.1 302 Found", "/main.php" );
+						request.pseudoResponse( "HTTP/1.1 404 Not Found", "" );
 					}
 					else
 					{
 						if ( FightRequest.isTrackingFights() )
 						{
+							fightResponse = StaticEntity.singleStringDelete( fightResponse, "top.charpane.location.href=\"charpane.php\";" );
+							fightResponse = StaticEntity.singleStringDelete( fightResponse, "src=\"http://images.kingdomofloathing.com/scripts/window.js\"" );
+							fightResponse = StaticEntity.singleStringDelete( fightResponse, "src=\"http://images.kingdomofloathing.com/scripts/core.js\"" );
+
 							fightResponse = StaticEntity.singleStringReplace( fightResponse, "</html>",
 								"<script language=\"Javascript\"> function continueAutomatedFight() { document.location = \"fight.php\"; return 0; } setTimeout( continueAutomatedFight, 400 ); </script></html>" );
 						}

@@ -219,7 +219,10 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			if ( model != StoreManager.getSoldItemList() )
 			{
-				sellingList = new JComboBox( inventory );
+				LockableListModel dataModel = inventory.getMirrorImage();
+				dataModel.applyListFilter( TRADE_FILTER );
+
+				sellingList = new JComboBox( dataModel );
 
 				Vector value = new Vector();
 				value.add( new AdventureResult( "- select an item -", 1, false ) );
