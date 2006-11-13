@@ -179,17 +179,6 @@ public class ItemManageFrame extends KoLFrame
 			container.add( Box.createVerticalStrut( 5 ) );
 		}
 
-		private class DoNothingButton extends ThreadedActionButton
-		{
-			public DoNothingButton()
-			{	super( "Warning!" );
-			}
-
-			public void executeTask()
-			{
-			}
-		}
-
 		private class JunkItemsButton extends ThreadedActionButton
 		{
 			public JunkItemsButton()
@@ -198,6 +187,16 @@ public class ItemManageFrame extends KoLFrame
 
 			public void executeTask()
 			{
+				AdventureResult currentItem;
+				Object [] items = junkItemList.toArray();
+
+				for ( int i = 0; i < items.length; ++i )
+				{
+					currentItem = (AdventureResult) items[i];
+					items[i] = currentItem.getInstance( currentItem.getCount( inventory ) );
+				}
+
+				(new AutoSellRequest( items, AutoSellRequest.AUTOSELL )).run();
 			}
 		}
 

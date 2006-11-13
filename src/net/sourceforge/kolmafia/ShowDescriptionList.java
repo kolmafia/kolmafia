@@ -77,6 +77,9 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		if ( model == tally || model == inventory || isEncyclopedia || model == ConcoctionsDatabase.getConcoctions() )
 			contextMenu.add( new AddToJunkListMenuItem() );
 
+		if ( model == junkItemList )
+			contextMenu.add( new RemoveFromJunkListMenuItem() );
+
 		addMouseListener( new PopupListener() );
 		addMouseListener( new ShowDescriptionAdapter() );
 
@@ -269,6 +272,27 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		((LockableListModel)getModel()).applyListFilter( filter );
 	}
 
+	public void unjunkSelectedValues()
+	{
+		Object [] items = getSelectedValues();
+		ShowDescriptionList.this.clearSelection();
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			if ( items[i] instanceof ItemCreationRequest )
+				junkItemList.remove( ((ItemCreationRequest)items[i]).createdItem );
+			else if ( items[i] instanceof AdventureResult )
+				junkItemList.remove( items[i] );
+			else if ( items[i] instanceof String )
+				junkItemList.remove( new AdventureResult( (String) items[i], 1, false ) );
+			else if ( items[i] instanceof Map.Entry )
+				junkItemList.remove( new AdventureResult( (String) ((Map.Entry)items[i]).getValue(), 1, false ) );
+		}
+
+		StaticEntity.saveJunkItemList();
+		((LockableListModel)getModel()).applyListFilter( filter );
+	}
+
 	private class AddToJunkListMenuItem extends ThreadedMenuItem
 	{
 		public AddToJunkListMenuItem()
@@ -277,6 +301,17 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void run()
 		{	junkSelectedValues();
+		}
+	}
+
+	private class RemoveFromJunkListMenuItem extends ThreadedMenuItem
+	{
+		public RemoveFromJunkListMenuItem()
+		{	super( "This is not junk" );
+		}
+
+		public void run()
+		{	unjunkSelectedValues();
 		}
 	}
 
