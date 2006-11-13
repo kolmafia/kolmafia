@@ -2928,6 +2928,22 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( "Undercutting sale complete." );
 	}
 
+	public void makeJunkRemovalRequest()
+	{
+		int itemCount;
+		AdventureResult currentItem;
+		Object [] items = junkItemList.toArray();
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			currentItem = (AdventureResult) items[i];
+			itemCount = currentItem.getCount( inventory );
+			items[i] = itemCount > 0 ? currentItem.getInstance( itemCount ) : null;
+		}
+
+		(new AutoSellRequest( items, AutoSellRequest.AUTOSELL )).run();
+	}
+
 	protected void handleAscension()
 	{
 		MoodSettings.setMood( "apathetic" );
