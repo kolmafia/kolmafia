@@ -49,6 +49,7 @@ import javax.swing.event.ListDataListener;
 
 // containers
 import javax.swing.Box;
+import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JCheckBox;
@@ -72,8 +73,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ItemManageFrame extends KoLFrame
 {
-//	private ItemManagePanel bruteForcer;
-	private ItemManagePanel insideBackpack, insideCloset, itemCreator, npcOfferings;
+//	private LabeledScrollPanel bruteForcer;
+	private LabeledScrollPanel insideBackpack, insideCloset, itemCreator, npcOfferings;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -313,42 +314,43 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class SpecialPanel extends ItemManagePanel
+	private class SpecialPanel extends LabeledScrollPanel
 	{
 		private final int PURCHASE_ONE = 1;
 		private final int PURCHASE_MULTIPLE = 2;
 
+		private JList elementList;
+
 		public SpecialPanel( LockableListModel items )
 		{
-			super( items );
+			super( "", "buy one", "buy multiple", new JList( items ) );
 
+			this.elementList = (JList) scrollComponent;
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			setButtons( new ActionListener [] { new BuyListener( PURCHASE_ONE ), new BuyListener( PURCHASE_MULTIPLE ) } );
 		}
 
-		private class BuyListener implements ActionListener
+		public void actionConfirmed()
+		{	handlePurchase( PURCHASE_ONE );
+		}
+
+		public void actionCancelled()
+		{	handlePurchase( PURCHASE_MULTIPLE );
+		}
+
+		private void handlePurchase( int purchaseType )
 		{
-			private int purchaseType;
+			String item = (String) elementList.getSelectedValue();
+			if ( item == null )
+				return;
 
-			public BuyListener( int purchaseType )
-			{	this.purchaseType = purchaseType;
-			}
+			int consumptionCount = purchaseType == PURCHASE_MULTIPLE ? getQuantity( "Buying multiple " + item + "...", Integer.MAX_VALUE, 1 ) : 1;
+			if ( consumptionCount == 0 )
+				return;
 
-			public void actionPerformed( ActionEvent e )
-			{
-				String item = (String) elementList.getSelectedValue();
-				if ( item == null )
-					return;
+			Runnable request = elementList.getModel() == restaurantItems ?
+				(KoLRequest) (new RestaurantRequest( item )) : (KoLRequest) (new MicrobreweryRequest( item ));
 
-				int consumptionCount = purchaseType == PURCHASE_MULTIPLE ? getQuantity( "Buying multiple " + item + "...", Integer.MAX_VALUE, 1 ) : 1;
-				if ( consumptionCount == 0 )
-					return;
-
-				Runnable request = elementList.getModel() == restaurantItems ?
-					(KoLRequest) (new RestaurantRequest( item )) : (KoLRequest) (new MicrobreweryRequest( item ));
-
-				(new RequestThread( request, consumptionCount )).start();
-			}
+			(new RequestThread( request, consumptionCount )).start();
 		}
 	}
 

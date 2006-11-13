@@ -284,6 +284,7 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( showAdventuringMessage() )
 				return;
 
+			(new MuseumRequest()).run();
 		}
 		else if ( frameName.equals( "BuffRequestFrame" ) )
 		{
