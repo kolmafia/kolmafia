@@ -258,13 +258,13 @@ public class MuseumFrame extends KoLFrame
 	private class OrderingPanel extends LabeledScrollPanel implements Runnable
 	{
 		private LockableListModel headers;
-		private ShowDescriptionList elementList;
+		private JList elementList;
 
 		public OrderingPanel()
 		{
 			super( "Reorder Shelves", "move up", "apply", new JList( (LockableListModel) MuseumManager.getHeaders().clone() ) );
 
-			elementList = (ShowDescriptionList) scrollComponent;
+			elementList = (JList) scrollComponent;
 			headers = (LockableListModel) elementList.getModel();
 		}
 
