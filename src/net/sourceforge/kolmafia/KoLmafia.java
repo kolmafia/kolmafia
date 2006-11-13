@@ -2838,7 +2838,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public static boolean isAdventuring()
-	{	return !isAdventuring;
+	{	return isAdventuring;
 	}
 
 	public void removeAllItemsFromStore()

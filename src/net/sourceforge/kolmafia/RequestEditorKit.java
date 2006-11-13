@@ -1274,8 +1274,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					break;
 
 				case ConsumeItemRequest.CONSUME_RESTORE:
-					useType = "skills";
-					useLocation = "skills.php";
+					useType = "use";
+					useLocation = "multiuse.php?passitem=";
 					break;
 
 				case ConsumeItemRequest.CONSUME_USE:
