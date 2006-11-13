@@ -49,6 +49,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 			popup.addMenuItem( new ConstructFramePopupItem( "Preferences", "OptionsFrame" ) );
 			popup.addMenuItem( new ConstructFramePopupItem( "Relay Browser", "LocalRelayServer" ) );
 			popup.addMenuItem( new ConstructFramePopupItem( "KoLmafia Chat", "KoLMessenger" ) );
+			popup.addMenuItem( new LogoutPopupItem() );
 			popup.addMenuItem( new EndSessionPopupItem() );
 
 			icon.setPopup( popup );
@@ -171,11 +172,37 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 	}
 
+	private static class LogoutPopupItem extends TrayIconPopupSimpleItem implements ActionListener, Runnable
+	{
+		public LogoutPopupItem()
+		{
+			super( "Logout of KoL" );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new Thread( this )).start();
+		}
+
+		public void run()
+		{
+			KoLDesktop.getInstance().setVisible( false );
+			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+			existingFrames.toArray( frames );
+
+			for ( int i = 0; i < frames.length; ++i )
+				frames[i].setVisible( false );
+
+			KoLFrame.createDisplay( LoginFrame.class );
+			(new LogoutRequest()).run();
+		}
+	}
+
 	private static class EndSessionPopupItem extends TrayIconPopupSimpleItem implements ActionListener
 	{
 		public EndSessionPopupItem()
 		{
-			super( "End Session" );
+			super( "Exit KoLmafia" );
 			addActionListener( this );
 		}
 

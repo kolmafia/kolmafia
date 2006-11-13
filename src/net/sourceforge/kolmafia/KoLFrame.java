@@ -255,7 +255,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		public void run()
 		{
-			if ( !KoLmafia.executedLogin() )
+			if ( !KoLmafia.executedLogin() || StaticEntity.getIntegerProperty( "closeLastFrameAction" ) == 1 )
 				System.exit(0);
 
 			KoLmafia.forceContinue();

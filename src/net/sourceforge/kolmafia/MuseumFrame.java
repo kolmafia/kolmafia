@@ -65,8 +65,6 @@ public class MuseumFrame extends KoLFrame
 	/**
 	 * Constructs a new <code>MuseumFrame</code> and inserts all
 	 * of the necessary panels into a tabular layout for accessibility.
-	 *
-	 * @param	StaticEntity.getClient()	Theto be notified in the event of error.
 	 */
 
 	public MuseumFrame()

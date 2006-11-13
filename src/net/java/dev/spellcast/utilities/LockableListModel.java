@@ -605,7 +605,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public Object getElementAt( int index )
-	{	return visibleElements.get( index );
+	{	return index < 0 || index >= visibleElements.size() ? null : visibleElements.get( index );
 	}
 
 	/**
