@@ -162,8 +162,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		if ( junkItemsFile.exists() )
 			junkItemsFile.delete();
 
-//		if ( this == GLOBAL_SETTINGS )
-//			return;
+		if ( this == GLOBAL_SETTINGS )
+			return;
 
 		try
 		{
