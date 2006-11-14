@@ -272,7 +272,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 
 		StaticEntity.saveJunkItemList();
-		((LockableListModel)getModel()).applyListFilter( filter );
+		if ( filter != null )
+			((LockableListModel)getModel()).applyListFilter( filter );
 	}
 
 	public void unjunkSelectedValues()
