@@ -137,28 +137,10 @@ public class LoginFrame extends KoLFrame
 
 	public void dispose()
 	{
-		if ( StaticEntity.getGlobalProperty( "initialFrames" ).equals( "LocalRelayServer" ) && LocalRelayServer.isRunning() && KoLRequest.sessionId != null )
-		{
-			// The person logged in and the relay server was the only option
-			// they wanted active -- simply dispose the frame and move on.
-
-			super.dispose();
-		}
-		else if ( !KoLmafia.executedLogin() || existingFrames.size() == 1 )
-		{
-			// If the person never logged in, or this is the only frame left,
-			// then go ahead and dispose this.
-
+		if ( KoLRequest.sessionId == null )
 			System.exit(0);
-		}
-		else
-		{
-			// Here, we go ahead and handle the last case -- there are other
-			// GUI windows and they're already loaded.  Just use the superclass
-			// exiter in this instance.
 
-			super.dispose();
-		}
+		super.dispose();
 	}
 
 	public JPanel constructLoginPanel()

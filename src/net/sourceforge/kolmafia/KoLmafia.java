@@ -2932,16 +2932,23 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		int itemCount;
 		AdventureResult currentItem;
+
 		Object [] items = junkItemList.toArray();
+		ArrayList itemList = new ArrayList();
 
 		for ( int i = 0; i < items.length; ++i )
 		{
 			currentItem = (AdventureResult) items[i];
 			itemCount = currentItem.getCount( inventory );
-			items[i] = itemCount > 0 ? currentItem.getInstance( itemCount ) : null;
+
+			if ( itemCount > 0 )
+				itemList.add( currentItem.getInstance( itemCount ) );
 		}
 
-		(new AutoSellRequest( items, AutoSellRequest.AUTOSELL )).run();
+		if ( itemList.isEmpty() )
+			return;
+
+		(new AutoSellRequest( itemList.toArray(), AutoSellRequest.AUTOSELL )).run();
 	}
 
 	protected void handleAscension()

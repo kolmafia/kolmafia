@@ -189,7 +189,7 @@ public class AutoSellRequest extends SendMessageRequest
 		int mode = KoLCharacter.getAutosellMode().equals( "detailed" ) ? 1 : 0;
 
 		AdventureResult currentAttachment;
-		int inventoryCount, attachmentCount, lastAttachment;
+		int inventoryCount, attachmentCount;
 
 		int lastAttachmentCount = attachments.length == 0 ? 0 :
 			((AdventureResult)attachments[0]).getCount();
@@ -344,6 +344,10 @@ public class AutoSellRequest extends SendMessageRequest
 	}
 
 	protected boolean allowUntradeableTransfer()
+	{	return sellType == AUTOSELL;
+	}
+
+	protected boolean allowUngiftableTransfer()
 	{	return sellType == AUTOSELL;
 	}
 
