@@ -200,7 +200,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( username.startsWith( "login " ) )
 				username = username.substring( 6 );
 
-			String password = StaticEntity.getClient().getSaveState( username );
+			String password = getSaveState( username );
 
 			if ( password == null )
 			{
@@ -720,7 +720,7 @@ public class KoLmafiaCLI extends KoLmafia
 			(new LogoutRequest()).run();
 			KoLmafia.forceContinue();
 
-			String password = StaticEntity.getClient().getSaveState( parameters );
+			String password = getSaveState( parameters );
 
 			if ( password != null )
 				(new LoginRequest( parameters, password )).run();
@@ -736,7 +736,32 @@ public class KoLmafiaCLI extends KoLmafia
 		// order to be friendlier to the server, if the
 		// character has already logged in.
 
-		if ( command.equals( "exit" ) || command.equals( "quit" ) || command.equals( "logout" ) )
+		if ( command.equals( "logout" ) )
+		{
+			if ( KoLDesktop.instanceExists() )
+				KoLDesktop.getInstance().setVisible( false );
+
+			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+			existingFrames.toArray( frames );
+
+			for ( int i = 0; i < frames.length; ++i )
+				frames[i].setVisible( false );
+
+			if ( StaticEntity.getClient() != DEFAULT_SHELL )
+				KoLFrame.createDisplay( LoginFrame.class );
+
+			(new LogoutRequest()).run();
+			forceContinue();
+
+			if ( StaticEntity.getClient() == DEFAULT_SHELL )
+				DEFAULT_SHELL.attemptLogin();
+
+			return;
+		}
+
+		// Now for formal exit commands.
+
+		if ( command.equals( "exit" ) || command.equals( "quit" ) )
 			System.exit(0);
 
 		// Next, handle any requests for script execution;
@@ -2180,11 +2205,11 @@ public class KoLmafiaCLI extends KoLmafia
 			String conditionString = parameters.substring( option.length() ).trim();
 
 			if ( conditionString.startsWith( "conjunction" ) || conditionString.startsWith( "and" ) )
-				StaticEntity.getClient().useDisjunction = false;
+				useDisjunction = false;
 			else if ( conditionString.startsWith( "disjunction" ) || conditionString.startsWith( "or" ) )
-				StaticEntity.getClient().useDisjunction = true;
+				useDisjunction = true;
 
-			if ( StaticEntity.getClient().useDisjunction )
+			if ( useDisjunction )
 				updateDisplay( "All non-stat conditions will be ORed together." );
 			else
 				updateDisplay( "All non-stat conditions will be ANDed together." );
@@ -2941,7 +2966,13 @@ public class KoLmafiaCLI extends KoLmafia
 		return new AdventureResult( effectName, duration, true );
 	}
 
+	public static final int NO_FILTER = 0;
+
 	public static int getFirstMatchingItemId( List nameList )
+	{	return getFirstMatchingItemId( nameList, NO_FILTER );
+	}
+
+	public static int getFirstMatchingItemId( List nameList, int filter )
 	{
 		if ( nameList.isEmpty() )
 			return -1;
@@ -3494,8 +3525,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( previousLine.startsWith( "drink" ) && makeMicrobreweryRequest( parameters ) )
 			return;
 
-		String itemName;  int itemCount;
-
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
 
@@ -3781,7 +3810,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void executeHermitRequest( String parameters )
 	{
-		String oldLine = previousLine;
 		boolean clovers = HermitRequest.isCloverDay();
 
 		if ( !permitsContinue() )

@@ -186,7 +186,9 @@ public abstract class SystemTrayFrame implements KoLConstants
 
 		public void run()
 		{
-			KoLDesktop.getInstance().setVisible( false );
+			if ( KoLDesktop.instanceExists() )
+				KoLDesktop.getInstance().setVisible( false );
+
 			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 			existingFrames.toArray( frames );
 

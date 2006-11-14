@@ -599,7 +599,7 @@ public class FightRequest extends KoLRequest
 		if ( !isTrackingFights )
 			return lastResult;
 
-		for ( int i = 0; trackedRounds.isEmpty() && i < 10; ++i )
+		for ( int i = 0; trackedRounds.isEmpty() && i < 50; ++i )
 			delay( 200 );
 
 		if ( trackedRounds.isEmpty() )

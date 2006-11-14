@@ -34,7 +34,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.net.URL;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -97,6 +96,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 	private static final boolean isJunkItem( int itemId, int price, int searchType, boolean ignoreExpensiveItems, boolean ignoreMinpricedItems, boolean ignoreUnrelatedItems )
 	{
 		boolean shouldIgnore = false;
+
+		switch ( itemId )
+		{
+		case ItemCreationRequest.MEAT_PASTE:
+		case ItemCreationRequest.MEAT_STACK:
+		case ItemCreationRequest.DENSE_STACK:
+			shouldIgnore = true;
+		}
 
 		// Before you do any other searching, check to see if
 		// the item is relevant to what you're searching for.
@@ -169,10 +176,13 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 
 		shouldIgnore |= ignoreExpensiveItems && price > KoLCharacter.getAvailableMeat();
-		shouldIgnore |= NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemId ) );
-		shouldIgnore |= ignoreMinpricedItems && price <= TradeableItemDatabase.getPriceById( itemId ) * 2;
-		shouldIgnore |= ignoreMinpricedItems && price == 100;
 
+		if ( NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemId ) ) )
+			shouldIgnore |= ignoreMinpricedItems || price == 100 || price > TradeableItemDatabase.getPriceById( itemId ) * 2;
+		else
+			shouldIgnore |= ignoreMinpricedItems && price <= TradeableItemDatabase.getPriceById( itemId ) * 2;
+
+		shouldIgnore |= ignoreMinpricedItems && price == 100;
 		return shouldIgnore;
 	}
 
