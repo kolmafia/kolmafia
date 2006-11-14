@@ -376,12 +376,17 @@ public abstract class KoLCharacter extends StaticEntity
 
 		battleSkillNames.add( "attack with weapon" );
 		battleSkillNames.add( "custom combat script" );
+
 		battleSkillNames.setSelectedIndex( 0 );
+
+		battleSkillNames.add( "delevel and plink" );
 
 		battleSkillNames.add( "item dictionary" );
 		battleSkillNames.add( "item seal tooth" );
 		battleSkillNames.add( "item scroll of turtle summoning" );
 		battleSkillNames.add( "item spices" );
+
+		battleSkillNames.add( "try to run away" );
 
 		getClient().resetBreakfastSummonings();
 

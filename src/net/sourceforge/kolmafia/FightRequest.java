@@ -144,7 +144,7 @@ public class FightRequest extends KoLRequest
 		// Let the de-level action figure out what
 		// should be done, and then re-process.
 
-		if ( action1.equals( "delevel" ) )
+		if ( action1.startsWith( "delevel" ) )
 			action1 = getMonsterWeakenAction();
 
 		if ( action1 == null || action1.equals( "abort" ) || !KoLmafia.permitsContinue() )
@@ -157,7 +157,7 @@ public class FightRequest extends KoLRequest
 			// If this is the first round, you do not
 			// submit extra data.
 		}
-		else if ( action1.startsWith( "run" ) )
+		else if ( action1.indexOf( "run" ) != -1 && action1.indexOf( "away" ) != -1 )
 		{
 			action1 = "runaway";
 			addFormField( "action", action1 );
