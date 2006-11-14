@@ -42,13 +42,16 @@ import javax.swing.JCheckBox;
 
 public abstract class MPRestoreItemList extends StaticEntity
 {
+	public static final MPRestoreItem CAMPGROUND = new MPRestoreItem( "rest at your campground", Integer.MAX_VALUE );
+	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in your beanbag", Integer.MAX_VALUE );
+
 	private static final MPRestoreItem GALAKTIK = new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", Integer.MAX_VALUE );
 	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
 	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10 );
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
-		GALAKTIK, new MPRestoreItem( "bottle of Vangoghbitussin", 100 ),
+		BEANBAG, CAMPGROUND, GALAKTIK, new MPRestoreItem( "bottle of Vangoghbitussin", 100 ),
 		new MPRestoreItem( "bottle of Monsieur Bubble", 56 ), new MPRestoreItem( "unrefined mountain stream syrup", 55 ),
 		new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tonic water", 40 ), new MPRestoreItem( "Marquis de Poivre soda", 35 ),
 		new MPRestoreItem( "blue paisley oyster egg", 33 ), new MPRestoreItem( "blue polka-dot oyster egg", 33 ),
@@ -106,6 +109,18 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 		public void recoverMP( int needed, boolean purchase )
 		{
+			if ( this == BEANBAG )
+			{
+				(new CampgroundRequest( "relax" )).run();
+				return;
+			}
+
+			if ( this == CAMPGROUND )
+			{
+				(new CampgroundRequest( "rest" )).run();
+				return;
+			}
+
 			if ( this == GALAKTIK )
 			{
 				DEFAULT_SHELL.executeLine( "galaktik mp" );
