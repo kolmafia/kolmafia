@@ -243,6 +243,7 @@ public abstract class KoLCharacter extends StaticEntity
 	// the user issues a "status" type command.
 
 	private static int pvpRank = 0;
+	private static int attacksLeft = 0;
 	private static int availableMeat = 0;
 	private static int closetMeat = 0;
 	private static int inebriety = 0;
@@ -328,6 +329,7 @@ public abstract class KoLCharacter extends StaticEntity
 		classtype = "";
 
 		pvpRank = 0;
+		attacksLeft = 0;
 		adjustedStats = new int[3];
 		totalSubpoints = new int[3];
 
@@ -521,6 +523,14 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void setPvpRank( int pvpRank )
 	{	KoLCharacter.pvpRank = pvpRank;
+	}
+
+	public static int getAttacksLeft()
+	{	return attacksLeft;
+	}
+
+	public static void setAttacksLeft( int attacksLeft )
+	{	KoLCharacter.attacksLeft = attacksLeft;
 	}
 
 	/**

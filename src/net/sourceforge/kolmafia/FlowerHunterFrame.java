@@ -70,7 +70,6 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 	private DefaultTableModel [] resultsModel = new DefaultTableModel[2];
 
 	private ProfileRequest [] results;
-	private JCheckBox [] detailOptions;
 
 	public FlowerHunterFrame()
 	{
@@ -166,7 +165,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		this.rankLabels.toArray( rankLabels );
 
 		for ( int i = 0; i < rankLabels.length; ++i )
-			rankLabels[i].setText( "<html><center>Rank " + KoLCharacter.getPvpRank() + "<br>Fashion " + equipmentPower + "</center></html>" );
+			rankLabels[i].setText( "<html><center>Rank " + KoLCharacter.getPvpRank() + "<br>Fashion " + equipmentPower +
+				"<br>Attacks " + KoLCharacter.getAttacksLeft() + "</center></html>" );
 	}
 
 	private class SearchPanel extends KoLPanel implements Runnable
