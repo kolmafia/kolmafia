@@ -80,6 +80,9 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		if ( model == junkItemList )
 			contextMenu.add( new RemoveFromJunkListMenuItem() );
 
+		if ( model == tally )
+			contextMenu.add( new ZeroTallyMenuItem() );
+
 		addMouseListener( new PopupListener() );
 		addMouseListener( new ShowDescriptionAdapter() );
 
@@ -301,6 +304,20 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void run()
 		{	junkSelectedValues();
+		}
+	}
+
+	private class ZeroTallyMenuItem extends ThreadedMenuItem
+	{
+		public ZeroTallyMenuItem()
+		{	super( "Zero out entries" );
+		}
+
+		public void run()
+		{
+			Object [] items = getSelectedValues();
+			for ( int i = 0; i < items.length; ++i )
+				AdventureResult.addResultToList( tally, ((AdventureResult)items[i]).getNegation() );
 		}
 	}
 

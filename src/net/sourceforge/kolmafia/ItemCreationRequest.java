@@ -154,7 +154,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		this.itemId = itemId;
 		this.name = TradeableItemDatabase.getItemName( itemId );
 		this.mixingMethod = mixingMethod;
-		this.createdItem = new AdventureResult( itemId, 0 );
+		this.createdItem = new AdventureResult( itemId, 1 );
 	}
 
 	protected void reconstructFields()

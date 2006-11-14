@@ -197,8 +197,8 @@ public class ItemManageFrame extends KoLFrame
 				}
 
 				setText( "<html>This feature compares the list of items which you have flagged as \"junk\" against the items in your inventory " +
-					"and autosells any matching items.  The current combined autosell value of these items based on KoLmafia's internal data is " +
-					COMMA_FORMAT.format( totalValue ) + " meat.</html>" );
+					"and autosells any matching items.  The list of items which will be autosold appears below.  The current combined autosell " +
+					"value of these items based on KoLmafia's internal data is " + COMMA_FORMAT.format( totalValue ) + " meat.</html>" );
 			}
 		}
 
@@ -374,7 +374,8 @@ public class ItemManageFrame extends KoLFrame
 
 			} );
 
-			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
+			eastPanel.add( new RequestButton( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) ), BorderLayout.SOUTH );
+			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 		}
 
 		private class ConsumeListener implements ActionListener
@@ -774,9 +775,8 @@ public class ItemManageFrame extends KoLFrame
 		public CreateItemPanel()
 		{
 			super( ConcoctionsDatabase.getConcoctions() );
-
-			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			setButtons( new ActionListener [] { new CreateListener(), new CreateAndUseListener() } );
+			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 
 			JCheckBox [] addedFilters = new JCheckBox[3];
 

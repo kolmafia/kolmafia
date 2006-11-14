@@ -502,13 +502,13 @@ public class AdventureResult implements Comparable, KoLConstants
 		tally.set( index, sumResult );
 	}
 
-	public static DefaultListCellRenderer getAutoSellCellRenderer()
-	{	return new AutoSellCellRenderer();
+	public static DefaultListCellRenderer getDefaultRenderer()
+	{	return new AdventureResultRenderer();
 	}
 
-	private static class AutoSellCellRenderer extends DefaultListCellRenderer
+	private static class AdventureResultRenderer extends DefaultListCellRenderer
 	{
-		public AutoSellCellRenderer()
+		public AdventureResultRenderer()
 		{
 			setOpaque( true );
 		}
@@ -517,11 +517,20 @@ public class AdventureResult implements Comparable, KoLConstants
 		{
 			Component defaultComponent = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 
-			if ( value == null || !(value instanceof AdventureResult) )
+			if ( value == null )
 				return defaultComponent;
 
-			AdventureResult ar = (AdventureResult) value;
+			if ( value instanceof AdventureResult )
+				return getRenderer( defaultComponent, (AdventureResult) value );
 
+			if ( value instanceof ItemCreationRequest )
+				return getRenderer( defaultComponent, (ItemCreationRequest) value );
+
+			return defaultComponent;
+		}
+
+		public Component getRenderer( Component defaultComponent, AdventureResult ar )
+		{
 			int autoSellValue = TradeableItemDatabase.getPriceById( ar.getItemId() );
 
 			StringBuffer stringForm = new StringBuffer();
@@ -542,18 +551,46 @@ public class AdventureResult implements Comparable, KoLConstants
 				stringForm.append( ")" );
 			}
 
+			if ( junkItemList.contains( ar ) )
+			{
+				stringForm.insert( 0, "<html><font color=gray>" );
+				stringForm.append( "</font></html>" );
+			}
+
+			((JLabel) defaultComponent).setText( stringForm.toString() );
+			return defaultComponent;
+		}
+
+		public Component getRenderer( Component defaultComponent, ItemCreationRequest icr )
+		{
+			StringBuffer stringForm = new StringBuffer();
+			stringForm.append( icr.getName() );
+
+			if ( icr.getQuantityPossible() > 1 )
+			{
+				stringForm.append( " (" );
+				stringForm.append( COMMA_FORMAT.format( icr.getQuantityPossible() ) );
+				stringForm.append( ")" );
+			}
+
+			if ( junkItemList.contains( icr.createdItem ) )
+			{
+				stringForm.insert( 0, "<html><font color=gray>" );
+				stringForm.append( "</font></html>" );
+			}
+
 			((JLabel) defaultComponent).setText( stringForm.toString() );
 			return defaultComponent;
 		}
 	}
 
 	public static DefaultListCellRenderer getEquipmentRenderer()
-	{	return new EquipmentCellRenderer();
+	{	return new EquipmentRenderer();
 	}
 
-	private static class EquipmentCellRenderer extends DefaultListCellRenderer
+	private static class EquipmentRenderer extends DefaultListCellRenderer
 	{
-		public EquipmentCellRenderer()
+		public EquipmentRenderer()
 		{	setOpaque( true );
 		}
 

@@ -199,7 +199,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 	protected class WordBasedFilter extends LockableListModel.ListElementFilter
 	{
-		private boolean shouldFilterJunkItems;
+		protected boolean shouldFilterJunkItems;
 
 		public WordBasedFilter( boolean shouldFilterJunkItems )
 		{	this.shouldFilterJunkItems = shouldFilterJunkItems;
