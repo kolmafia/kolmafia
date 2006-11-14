@@ -333,7 +333,7 @@ public class ClanManageFrame extends KoLFrame
 			super( inventory );
 
 			setButtons( new ActionListener [] { new StorageListener(), new RequestButton( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
-			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
+			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 		}
 
 		private class StorageListener implements ActionListener
@@ -369,8 +369,7 @@ public class ClanManageFrame extends KoLFrame
 			super( ClanManager.getStash() );
 
 			setButtons( new ActionListener [] { new WithdrawListener( MOVE_ALL ), new WithdrawListener( MOVE_ALL_BUT ), new RequestButton( "refresh", new ClanStashRequest() ) } );
-
-			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
+			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 		}
 
 		private class WithdrawListener implements ActionListener

@@ -34,9 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Component;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.BorderLayout;
 
 import java.awt.event.MouseEvent;
@@ -53,9 +51,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.DefaultCellEditor;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.table.TableCellRenderer;
 import com.sun.java.forums.TableSorter;
 
 // spellcast-related imports
@@ -354,7 +350,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		public StoreAddPanel()
 		{
 			super( "On-Hand Inventory", "put in", "auto sell", inventory );
-			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
+			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 		}
 
 		public void actionConfirmed()
@@ -382,7 +378,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		public StoreRemovePanel()
 		{
 			super( "Store's Inventory", "take out", "auto sell", StoreManager.getSortedSoldItemList() );
-			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
+			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 		}
 
 		public void actionConfirmed()

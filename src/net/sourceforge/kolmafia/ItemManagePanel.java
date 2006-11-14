@@ -64,6 +64,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 	protected static final int TAKE_MULTIPLE = 3;
 	protected static final int TAKE_ONE = 4;
 
+	protected JPanel eastPanel;
 	protected JPanel filterPanel;
 	protected LockableListModel elementModel;
 	protected ShowDescriptionList elementList;
@@ -136,26 +137,28 @@ public class ItemManagePanel extends LabeledScrollPanel
 			eastGridPanel.add( buttons[i] );
 		}
 
-		JPanel eastPanel = new JPanel( new BorderLayout() );
+		eastPanel = new JPanel( new BorderLayout() );
 		eastPanel.add( eastGridPanel, BorderLayout.NORTH );
 
 		filterPanel = new JPanel();
 
 		if ( elementModel == ConcoctionsDatabase.getConcoctions() )
 		{
-			filters = new JCheckBox[3];
+			filters = new JCheckBox[4];
 			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
 			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
-			filters[2] = new JCheckBox( "Show others", true );
+			filters[2] = new JCheckBox( "Show junk", StaticEntity.getBooleanProperty( "showJunkItems" ) );
+			filters[3] = new JCheckBox( "Show others", true );
 		}
 		else
 		{
-			filters = new JCheckBox[4];
+			filters = new JCheckBox[5];
 
 			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
 			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
 			filters[2] = new JCheckBox( "Show equipment", true );
-			filters[3] = new JCheckBox( "Show others", true );
+			filters[3] = new JCheckBox( "Show junk", StaticEntity.getBooleanProperty( "showJunkItems" ) );
+			filters[4] = new JCheckBox( "Show others", true );
 		}
 
 		for ( int i = 0; i < filters.length; ++i )
@@ -313,7 +316,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	private class FilterItemComboBox extends MutableComboBox
 	{
-		private boolean food, booze, equip, other;
+		private boolean food, booze, equip, junk, other;
 
 		public FilterItemComboBox()
 		{
@@ -340,23 +343,36 @@ public class ItemManagePanel extends LabeledScrollPanel
 				food = true;
 				booze = true;
 				equip = true;
+				junk = StaticEntity.getBooleanProperty( "showJunkItems" );
 				other = true;
 			}
 			else
 			{
 				food = filters[0].isSelected();
 				booze = filters[1].isSelected();
-				equip = filters[2].isSelected();
-				other = filters.length == 3 ? equip : filters[3].isSelected();
+
+				if ( filters.length == 4 )
+				{
+					junk = filters[2].isSelected();
+					other = filters[3].isSelected();
+					equip = other;
+				}
+				else
+				{
+					equip = filters[2].isSelected();
+					junk = filters[3].isSelected();
+					other = filters[4].isSelected();
+				}
 			}
 
+			filter.shouldFilterJunkItems = !junk;
 			elementList.applyFilter( filter );
 		}
 
 		private class ConsumptionBasedFilter extends WordBasedFilter
 		{
 			public ConsumptionBasedFilter()
-			{	super( true );
+			{	super( StaticEntity.getBooleanProperty( "showJunkItems" ) );
 			}
 
 			public boolean isVisible( Object element )
