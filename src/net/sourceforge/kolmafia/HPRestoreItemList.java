@@ -44,13 +44,14 @@ public abstract class HPRestoreItemList extends StaticEntity
 {
 	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
 
+	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", Integer.MAX_VALUE );
 	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", Integer.MAX_VALUE );
 	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
 	private static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
 	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 );
 
 	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] {
-		GALAKTIK, HERBS, SCROLL, new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE ),
+		CAMPGROUND, GALAKTIK, HERBS, SCROLL, new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE ),
 		new HPRestoreItem( "phonics down", 48 ), new HPRestoreItem( "Disco Power Nap", 40 ), WALRUS,
 		new HPRestoreItem( "red paisley oyster egg", 33 ), new HPRestoreItem( "red polka-dot oyster egg", 33 ),
 		new HPRestoreItem( "red striped oyster egg", 33 ), new HPRestoreItem( "red pixel potion", 27 ),
@@ -97,6 +98,12 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 		public void recoverHP( int needed, boolean purchase )
 		{
+			if ( this == CAMPGROUND )
+			{
+				(new CampgroundRequest( "rest" )).run();
+				return;
+			}
+
 			if ( this == GALAKTIK )
 			{
 				DEFAULT_SHELL.executeLine( "galaktik hp" );
