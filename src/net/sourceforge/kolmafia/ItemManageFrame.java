@@ -375,7 +375,6 @@ public class ItemManageFrame extends KoLFrame
 			} );
 
 			eastPanel.add( new RequestButton( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) ), BorderLayout.SOUTH );
-			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 		}
 
 		private class ConsumeListener implements ActionListener
@@ -776,7 +775,6 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( ConcoctionsDatabase.getConcoctions() );
 			setButtons( new ActionListener [] { new CreateListener(), new CreateAndUseListener() } );
-			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 
 			JCheckBox [] addedFilters = new JCheckBox[3];
 

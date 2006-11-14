@@ -1530,7 +1530,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( refusesContinue() )
 			{
 				if ( request instanceof KoLAdventure )
-					AdventureFrame.updateRequestMeter( 0, 0 );
+					AdventureFrame.updateRequestMeter( 1, 1 );
 
 				return;
 			}
@@ -1570,14 +1570,14 @@ public abstract class KoLmafia implements KoLConstants
 			RequestFrame.refreshStatus();
 		}
 
+		if ( request instanceof KoLAdventure )
+			AdventureFrame.updateRequestMeter( 1, 1 );
+
 		// If you've completed the requests, make sure to update
 		// the display.
 
 		if ( permitsContinue() )
 		{
-			if ( request instanceof KoLAdventure )
-				AdventureFrame.updateRequestMeter( 1, 1 );
-
 			if ( !isRunningBetweenBattleChecks() && request instanceof KoLAdventure && !conditions.isEmpty() )
 				updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
 					((currentIteration == 2) ? " adventure." : " adventures.") );

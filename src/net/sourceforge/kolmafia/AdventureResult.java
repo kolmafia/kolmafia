@@ -531,6 +531,9 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		public Component getRenderer( Component defaultComponent, AdventureResult ar )
 		{
+			if ( !ar.isItem() )
+				return defaultComponent;
+
 			int autoSellValue = TradeableItemDatabase.getPriceById( ar.getItemId() );
 
 			StringBuffer stringForm = new StringBuffer();

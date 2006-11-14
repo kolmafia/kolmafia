@@ -129,6 +129,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final String [][] GOTO_MENU = new String[][] {
 		{ "Main Map", "main.php" },
 		{ "Seaside Town", "town.php" },
+		{ "Spookyraven", "manor.php" },
 		{ "Council", "council.php" },
 		{ "Guild Hall", "guild.php" },
 		{ "Clan Hall", "clan_hall.php" },
