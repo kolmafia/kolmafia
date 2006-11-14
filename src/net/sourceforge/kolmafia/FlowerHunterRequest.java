@@ -41,9 +41,12 @@ import java.util.regex.Matcher;
 
 public class FlowerHunterRequest extends KoLRequest
 {
+	private static final int RANKVIEW = 0;
 	private static final int ATTACK = 1;
 	private static final int PLAYER_SEARCH = 2;
 	private static final int CLAN_PROFILER = 3;
+
+	private static final Pattern ATTACKS_PATTERN = Pattern.compile( "You may participate in (\\d+) more player fights today" );
 
 	private static final Pattern TARGET_PATTERN =
 		Pattern.compile( "showplayer\\.php\\?who=(\\d+)\">(.*?)</a></b>  \\(PvP\\)(<br>\\(<a target=mainpane href=\"showclan\\.php\\?whichclan=\\d+\">(.*?)</a>)?.*?<td.*?><td.*?>(\\d+)</td><td.*?>(.*?)</td><td.*?>(\\d+)" );
@@ -55,6 +58,12 @@ public class FlowerHunterRequest extends KoLRequest
 
 	private int hunterType;
 	private List searchResults = new ArrayList();
+
+	public FlowerHunterRequest()
+	{
+		super( "pvp.php" );
+		this.hunterType = RANKVIEW;
+	}
 
 	public FlowerHunterRequest( String level, String rank )
 	{
@@ -105,6 +114,7 @@ public class FlowerHunterRequest extends KoLRequest
 	{
 		switch ( hunterType )
 		{
+		case RANKVIEW:
 		case ATTACK:
 			parseAttack();
 			break;
@@ -153,6 +163,12 @@ public class FlowerHunterRequest extends KoLRequest
 	private void parseAttack()
 	{
 		// Reset the player's current PvP ranking
+
+		Matcher attacksMatcher = ATTACKS_PATTERN.matcher( responseText );
+		if ( attacksMatcher.find() )
+			KoLCharacter.setAttacksLeft( StaticEntity.parseInt( attacksMatcher.group(1) ) );
+		else
+			KoLCharacter.setAttacksLeft( 0 );
 
 		Matcher rankMatcher = RANKING_PATTERN.matcher( responseText );
 		if ( rankMatcher.find() )

@@ -78,7 +78,7 @@ public class KoLmafiaGUI extends KoLmafia
 			// Make sure that a password was stored for this
 			// character (would fail otherwise):
 
-			String password = StaticEntity.getClient().getSaveState( autoLogin );
+			String password = getSaveState( autoLogin );
 			if ( password != null && !password.equals( "" ) )
 			{
 				(new LoginRequest( autoLogin, password )).run();
@@ -285,6 +285,13 @@ public class KoLmafiaGUI extends KoLmafia
 				return;
 
 			(new MuseumRequest()).run();
+		}
+		else if ( frameName.equals( "FlowerHunterFrame" ) )
+		{
+			if ( showAdventuringMessage() )
+				return;
+
+			(new FlowerHunterRequest()).run();
 		}
 		else if ( frameName.equals( "BuffRequestFrame" ) )
 		{
