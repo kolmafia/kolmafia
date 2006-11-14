@@ -94,6 +94,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 		setVisibleRowCount( 4 );
+
+		setCellRenderer( AdventureResult.getDefaultRenderer() );
 	}
 
 	public void applyFilter( LockableListModel.ListElementFilter filter )
@@ -332,6 +334,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		{	unjunkSelectedValues();
 		}
 	}
+
+
 
 	private class JunkListFilter extends LockableListModel.ListElementFilter
 	{

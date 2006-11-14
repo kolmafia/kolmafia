@@ -711,7 +711,6 @@ public class AdventureFrame extends KoLFrame
 			setLayout( new BorderLayout() );
 
 			ShowDescriptionList tallyDisplay = new ShowDescriptionList( resultList );
-			tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 			tallyDisplay.setVisibleRowCount( rowCount );
 

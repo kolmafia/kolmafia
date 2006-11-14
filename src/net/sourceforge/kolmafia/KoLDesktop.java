@@ -71,18 +71,10 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	protected KoLDesktop( String title )
 	{
 		super( "Main Interface" );
+		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
-		switch ( StaticEntity.getIntegerProperty( "closeLastFrameAction" ) )
-		{
-		case 0:
-		case 1:
-			setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-			break;
-
-		case 2:
+		if ( StaticEntity.usesSystemTray() && StaticEntity.getIntegerProperty( "closeLastFrameAction" ) == 2 )
 			setDefaultCloseOperation( HIDE_ON_CLOSE );
-			break;
-		}
 
 		getContentPane().setLayout( new BorderLayout() );
 

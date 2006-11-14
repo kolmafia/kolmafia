@@ -331,9 +331,7 @@ public class ClanManageFrame extends KoLFrame
 		public StoragePanel()
 		{
 			super( inventory );
-
 			setButtons( new ActionListener [] { new StorageListener(), new RequestButton( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
-			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 		}
 
 		private class StorageListener implements ActionListener
