@@ -104,6 +104,8 @@ public class FightRequest extends KoLRequest
 	public void nextRound()
 	{
 		clearDataFields();
+
+		responseText = null;
 		isUsingConsultScript = false;
 
 		// Now, to test if the user should run away from the
@@ -249,6 +251,7 @@ public class FightRequest extends KoLRequest
 		do
 		{
 			clearDataFields();
+
 			action1 = null;
 			action2 = null;
 
