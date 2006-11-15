@@ -76,6 +76,9 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		if ( StaticEntity.usesSystemTray() && StaticEntity.getIntegerProperty( "closeLastFrameAction" ) == 2 )
 			setDefaultCloseOperation( HIDE_ON_CLOSE );
 
+		if ( StaticEntity.usesSystemTray() )
+			addWindowListener( new MinimizeListener() );
+
 		getContentPane().setLayout( new BorderLayout() );
 
 		tabs = new JTabbedPane();
@@ -326,6 +329,13 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 				continue;
 
 			frame.dispose();
+		}
+	}
+
+	private class MinimizeListener extends WindowAdapter
+	{
+		public void windowIconified( WindowEvent e )
+		{	setVisible( false );
 		}
 	}
 }
