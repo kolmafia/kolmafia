@@ -201,7 +201,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	{
 		public void keyReleased( KeyEvent e )
 		{
-			if ( e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB )
+			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
 				(new Thread( this )).start();
 		}
 

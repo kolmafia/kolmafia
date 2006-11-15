@@ -326,7 +326,7 @@ public class LocalRelayServer implements Runnable
 			try
 			{
 				reader = KoLDatabase.getReader( socket.getInputStream() );
-				writer = new LogStream( socket.getOutputStream() );
+				writer = new PrintStream( socket.getOutputStream(), true, "UTF-8" );
 
 				if ( (line = reader.readLine()) == null )
 					return;
