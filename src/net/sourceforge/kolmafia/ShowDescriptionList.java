@@ -92,9 +92,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			applyFilter( new JunkListFilter() );
 		}
 
-		setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 		setVisibleRowCount( 4 );
-
 		setCellRenderer( AdventureResult.getDefaultRenderer() );
 	}
 
