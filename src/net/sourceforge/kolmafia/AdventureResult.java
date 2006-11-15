@@ -547,7 +547,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 			stringForm.append( ")" );
 
-			if ( ar.count[0] > 1 )
+			if ( ar.count[0] != 1 )
 			{
 				stringForm.append( " (" );
 				stringForm.append( COMMA_FORMAT.format( ar.count[0] ) );
