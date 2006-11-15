@@ -385,10 +385,11 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
-			{ "cloverProtectActive", "Enable clover protection for automated adventures" },
 			{ "showJunkItems", "Show junk items in gray by default (instead of hiding)" },
+			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
+			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
 
+			{ "cloverProtectActive", "Enable clover protection for automated adventures" },
 			{ "autoCheckpoint", "Enable outfit checkpointing during NPC purchases" },
 			{ "assumeInfiniteNPCItems", "Assume infinite NPC items for item creation" },
 
