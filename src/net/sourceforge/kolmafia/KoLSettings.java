@@ -61,6 +61,38 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
 
+	private static final String [] COMMON_JUNK =
+	{
+		// Items which usually get autosold by people, regardless of the situation.
+		// This includes the various meat combinables, sewer items, and stat boosters.
+
+		"meat paste", "meat stack", "dense meat stack", "twinkly powder",
+		"seal-clubbing club", "seal tooth", "helmet turtle", "scroll of turtle summoning", "pasta spoon", "ravioli hat", "saucepan", "disco mask", "mariachi pants",
+		"moxie weed", "strongness elixir", "magicalness-in-a-can", "enchanted barbell", "concentrated magicalness pill", "giant moxie weed", "extra-strength strongness elixir", "jug-o-magicalness", "suntan lotion of moxiousness",
+
+		// Next, some common drops in low level areas that are farmed for other
+		// reasons other than those items.
+
+		"Mad Train wine", "ice-cold fotie", "ice-cold Willer", "ice-cold Sir Schlitz", "bowl of cottage cheese", "Knob Goblin firecracker",
+		"Knob Goblin pants", "Knob Goblin scimitar", "viking helmet", "bar skin", "spooky shrunken head", "dried face", "barskin hat", "spooky stick",
+		"batgut", "bat guano", "ratgut", "briefcase", "taco shell", "uncooked chorizo", "Gnollish plunger", "gnoll teeth", "gnoll lips", "gnollish toolbox",
+
+		// Next, some common drops in medium level areas that are also farmed for
+		// other reasons beyond these items.
+
+		"hill of beans", "Knob Goblin love potion", "Knob Goblin steroids", "Imp Ale", "hot wing", "evil golden arch", "leather mask",
+		"necklace chain", "hemp bracelet", "piercing post", "phat turquoise bead", "carob chunks", "Feng Shui for Big Dumb Idiots", "homoerotic frat-paddle",
+		"crowbarrr", "sunken chest", "barrrnacle", "safarrri hat", "arrrgyle socks", "snakehead charrrm", "charrrm", "leotarrrd", "pirate pelvis",
+		"grave robbing shovel", "ghuol ears", "ghuol egg", "ghuol guolash", "lihc eye",
+		"mind flayer corpse", "royal jelly", "sabre teeth", "t8r tots", "pail", "Trollhouse cookies", "Spam Witch sammich",
+		"white satin pants", "white chocolate chips", "catgut", "white snake skin", "mullet wig",
+
+		// High level area item drops which tend to be autosold or auto-used.
+
+		"cocoa eggshell fragment", "amulet of extreme plot significance", "Penultimate Fantasy chest",
+		"disturbing fanfic", "probability potion", "procrastination potion", "Mick's IcyVapoHotness Rub"
+	};
+
 	static
 	{
 		// Renaming data files to make then easier to find for most
@@ -252,10 +284,20 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			istream.close();
 			istream = null;
 
-			if ( !junkItemsFile.exists() )
-				return;
-
 			junkItemList.clear();
+
+			if ( !junkItemsFile.exists() )
+			{
+				if ( this != GLOBAL_SETTINGS )
+				{
+					for ( int i = 0; i < COMMON_JUNK.length; ++i )
+						junkItemList.add( new AdventureResult( COMMON_JUNK[i], 1, false ) );
+
+					saveJunkItemList();
+				}
+
+				return;
+			}
 
 			istream = new FileInputStream( junkItemsFile );
 			BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );

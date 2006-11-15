@@ -2934,7 +2934,40 @@ public abstract class KoLmafia implements KoLConstants
 		AdventureResult currentItem;
 
 		Object [] items = junkItemList.toArray();
-		ArrayList itemList = new ArrayList();
+
+		// Before doing anything else, go through the list of items which are
+		// traditionally used, and then junk the results.
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			currentItem = (AdventureResult) items[i];
+			itemCount = currentItem.getCount( inventory );
+
+			switch ( currentItem.getItemId() )
+			{
+			case 184: // briefcase
+			case 533: // Gnollish toolbox
+			case 604: // Penultimate fantasy chest
+				(new ConsumeItemRequest( currentItem.getInstance( itemCount ) )).run();
+				break;
+
+			case 621: // Warm Subject gift certificate
+				(new ConsumeItemRequest( currentItem.getInstance(1) )).run();
+				(new ConsumeItemRequest( currentItem.getInstance( itemCount - 1 ) )).run();
+				break;
+
+			}
+		}
+
+
+		// Now you've got all the items used up, go ahead and prepare to sell
+		// non-equipment, and pulverize strong equipment.
+
+		ArrayList sellList = new ArrayList();
+		ArrayList pulverizeList = new ArrayList();
+
+		boolean canPulverize = KoLCharacter.hasSkill( "Pulverize" ) && KoLCharacter.hasItem( ConcoctionsDatabase.HAMMER );
+		boolean hasMalusAccess = KoLCharacter.isMuscleClass();
 
 		for ( int i = 0; i < items.length; ++i )
 		{
@@ -2942,13 +2975,19 @@ public abstract class KoLmafia implements KoLConstants
 			itemCount = currentItem.getCount( inventory );
 
 			if ( itemCount > 0 )
-				itemList.add( currentItem.getInstance( itemCount ) );
+			{
+				if ( canPulverize && EquipmentDatabase.getPower( currentItem.getItemId() ) >= 100 || hasMalusAccess )
+					pulverizeList.add( currentItem.getInstance( itemCount ) );
+				else
+					sellList.add( currentItem.getInstance( itemCount ) );
+			}
 		}
 
-		if ( itemList.isEmpty() )
-			return;
+		if ( !sellList.isEmpty() )
+			(new AutoSellRequest( sellList.toArray(), AutoSellRequest.AUTOSELL )).run();
 
-		(new AutoSellRequest( itemList.toArray(), AutoSellRequest.AUTOSELL )).run();
+		for ( int i = 0; i < pulverizeList.size(); ++i )
+			(new PulverizeRequest( (AdventureResult) pulverizeList.get(i) )).run();
 	}
 
 	protected void handleAscension()
