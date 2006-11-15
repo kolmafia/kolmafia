@@ -4514,6 +4514,22 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
 		}
 
+		public ScriptValue use_skill( ScriptVariable skill )
+		{
+			// Just in case someone assumed that use_skill would also work
+			// in combat, go ahead and allow it here.
+
+			if ( ClassSkillsDatabase.isCombat( ((UseSkillRequest)skill.rawValue()).getSkillId() ) )
+			{
+				KoLRequest request = new KoLRequest( "fight.php?action=skill&whichskill=" + skill.intValue() );
+				request.run();
+				return new ScriptValue( request.responseText == null ? "" : request.responseText );
+			}
+
+			DEFAULT_SHELL.executeLine( "cast 1 " + skill.toStringValue() );
+			return new ScriptValue( UseSkillRequest.lastUpdate );
+		}
+
 		public ScriptValue use_skill( ScriptVariable count, ScriptVariable skill, ScriptVariable target )
 		{
 			if ( count.intValue() <= 0 )
@@ -4544,13 +4560,6 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue runaway()
 		{
 			KoLRequest request = new KoLRequest( "fight.php?action=runaway" );
-			request.run();
-			return new ScriptValue( request.responseText == null ? "" : request.responseText );
-		}
-
-		public ScriptValue use_skill( ScriptVariable skill )
-		{
-			KoLRequest request = new KoLRequest( "fight.php?action=skill&whichskill=" + skill.intValue() );
 			request.run();
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
