@@ -75,7 +75,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 		"Mad Train wine", "ice-cold fotie", "ice-cold Willer", "ice-cold Sir Schlitz", "bowl of cottage cheese", "Knob Goblin firecracker",
 		"Knob Goblin pants", "Knob Goblin scimitar", "viking helmet", "bar skin", "spooky shrunken head", "dried face", "barskin hat", "spooky stick",
-		"batgut", "bat guano", "ratgut", "briefcase", "taco shell", "uncooked chorizo", "Gnollish plunger", "gnoll teeth", "gnoll lips", "gnollish toolbox",
+		"batgut", "bat guano", "ratgut", "briefcase", "taco shell", "uncooked chorizo", "Gnollish plunger", "gnoll teeth", "gnoll lips", "Gnollish toolbox",
 
 		// Next, some common drops in medium level areas that are also farmed for
 		// other reasons beyond these items.
@@ -84,13 +84,13 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		"necklace chain", "hemp bracelet", "piercing post", "phat turquoise bead", "carob chunks", "Feng Shui for Big Dumb Idiots", "homoerotic frat-paddle",
 		"crowbarrr", "sunken chest", "barrrnacle", "safarrri hat", "arrrgyle socks", "snakehead charrrm", "charrrm", "leotarrrd", "pirate pelvis",
 		"grave robbing shovel", "ghuol ears", "ghuol egg", "ghuol guolash", "lihc eye",
-		"mind flayer corpse", "royal jelly", "sabre teeth", "t8r tots", "pail", "Trollhouse cookies", "Spam Witch sammich",
+		"mind flayer corpse", "royal jelly", "goat beard", "sabre teeth", "t8r tots", "pail", "Trollhouse cookies", "Spam Witch sammich",
 		"white satin pants", "white chocolate chips", "catgut", "white snake skin", "mullet wig",
 
 		// High level area item drops which tend to be autosold or auto-used.
 
-		"cocoa eggshell fragment", "amulet of extreme plot significance", "Penultimate Fantasy chest",
-		"disturbing fanfic", "probability potion", "procrastination potion", "Mick's IcyVapoHotness Rub"
+		"cocoa eggshell fragment", "glowing red eye", "amulet of extreme plot significance", "Penultimate Fantasy chest",
+		"Warm Subject gift certificate", "disturbing fanfic", "probability potion", "procrastination potion", "Mick's IcyVapoHotness Rub"
 	};
 
 	static
