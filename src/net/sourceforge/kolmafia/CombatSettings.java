@@ -476,14 +476,21 @@ public abstract class CombatSettings implements UtilityConstants, KoLConstants
 		int itemId = action.equals( "" ) ? -1 :
 			KoLmafiaCLI.getFirstMatchingItemId( TradeableItemDatabase.getMatchingNames( action ) );
 
-		if ( itemId != -1 )
-			return "item " + TradeableItemDatabase.getItemName( itemId ).toLowerCase();
+		if ( itemId > 0 )
+		{
+			String potentialItem = TradeableItemDatabase.getItemName( itemId );
+			if ( potentialItem != null )
+				return "item " + potentialItem.toLowerCase();
+		}
 
 		return "attack with weapon";
 	}
 
 	public static String getShortCombatOptionName( String action )
 	{
+		if ( action == null || action.length() == 0 || action.startsWith( "attack" ) )
+			return "attack";
+
 		action = action.trim();
 
 		if ( action.startsWith( "consult" ) )
@@ -536,7 +543,7 @@ public abstract class CombatSettings implements UtilityConstants, KoLConstants
 					return "item" + itemId;
 				}
 
-			return "item" + StaticEntity.parseInt( name );
+			return action;
 		}
 
 		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );
