@@ -63,6 +63,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	private static final AdventureResult GALLERY_KEY = new AdventureResult( 1765, 1 );
 	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
 
+	private static final AdventureResult MUSHROOM = new AdventureResult( 1622, 1 );
 	private static final AdventureResult ASTRAL = new AdventureResult( "Half-Astral", 0 );
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1, true );
 
@@ -234,6 +235,16 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	private void validate( boolean visitedCouncil )
 	{
+		if ( zone.equals( "Astral" ) )
+		{
+			if ( !activeEffects.contains( ASTRAL ) )
+			{
+				isValidAdventure = AdventureDatabase.retrieveItem( MUSHROOM );
+				if ( isValidAdventure )
+					DEFAULT_SHELL.executeLine( "use astral mushroom" );
+			}
+		}
+
 		if ( isValidAdventure )
 			return;
 
