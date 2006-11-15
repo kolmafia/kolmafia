@@ -157,13 +157,13 @@ public class ItemManageFrame extends KoLFrame
 			container.add( scroller );
 
 			addButtonAndLabel( new EndOfRunSaleButton(),
-				"This feature takes all items which are currently in your inventory and either autosells them, if they're available in NPC stores, or dumps them into your store in the mall." );
+				"This feature takes all items which are currently in your inventory and either autosells them, if they're available in NPC stores, or dumps them into your store in the mall.  <b>Note</b>: This feature is not available in Ronin." );
 
 			addButtonAndLabel( new MallRestockButton(),
-				"This feature looks at all the items currently in your store, and if you have any matching items in your inventory, drops those items into your store at your current price." );
+				"This feature looks at all the items currently in your store, and if you have any matching items in your inventory, drops those items into your store at your current price.    <b>Note</b>: This feature is not available in hardcore." );
 
 			addButtonAndLabel( new DisplayCaseButton(),
-				"This feature scans your inventory and, if it finds any items which match what's in your display case, puts those items on display." );
+				"This feature scans your inventory and, if it finds any items which match what's in your display case, puts those items on display.  <b>Note</b>: This feature is not available in hardcore." );
 
 			setLayout( new CardLayout( 10, 10 ) );
 			add( container, "" );
@@ -196,18 +196,25 @@ public class ItemManageFrame extends KoLFrame
 					totalValue += currentItem.getCount( inventory ) * TradeableItemDatabase.getPriceById( currentItem.getItemId() );
 				}
 
-				setText( "<html>This feature compares the list of items which you have flagged as \"junk\" against the items in your inventory " +
-					"and autosells any matching items.  The list of items which will be autosold appears below.  The current combined autosell " +
-					"value of these items based on KoLmafia's internal data is " + COMMA_FORMAT.format( totalValue ) + " meat.</html>" );
+				setText( "<html>This feature compares the list of items which you have flagged as \"junk\" against the items in your inventory. " +
+					"If Gnollish toolboxes, briefcases, or Penultimate Fantasy chests are included, they will be used. " +
+					"If the item is a piece of equipment, KoLmafia checks to see if you have malus access and a hammer, and if you do, will " +
+					"pulverize the item.  If you do not have Malus access, KoLmafia will only pulverize the item if it has 100 power or greater. " +
+					"All other items will be autosold.<br><br>The list of items which will be autosold, used, or pulverized appears below. " +
+					"The current combined autosell value of these items is approximately " + COMMA_FORMAT.format( totalValue ) + " meat.</html>" );
 			}
 		}
 
 		private void addButtonAndLabel( ThreadedActionButton button, String label )
 		{
-			container.add( Box.createVerticalStrut( 15 ) );
+			container.add( Box.createVerticalStrut( 25 ) );
 
-			button.setAlignmentX( LEFT_ALIGNMENT );
-			container.add( button );
+			JPanel buttonPanel = new JPanel();
+			buttonPanel.add( button );
+			buttonPanel.setAlignmentX( LEFT_ALIGNMENT );
+			buttonPanel.setMaximumSize( MAX_WIDTH );
+
+			container.add( buttonPanel );
 			container.add( Box.createVerticalStrut( 5 ) );
 
 			JLabel description = button instanceof JunkItemsButton ? new JunkDetailsLabel() : new JLabel( "<html>" + label + "</html>" );

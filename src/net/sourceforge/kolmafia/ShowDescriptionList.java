@@ -265,11 +265,11 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		{
 			if ( items[i] instanceof ItemCreationRequest )
 				junkItemList.add( ((ItemCreationRequest)items[i]).createdItem );
-			else if ( items[i] instanceof AdventureResult )
+			else if ( items[i] instanceof AdventureResult && ((AdventureResult)items[i]).isItem() )
 				junkItemList.add( items[i] );
-			else if ( items[i] instanceof String )
+			else if ( items[i] instanceof String && TradeableItemDatabase.contains( (String) items[i] ) )
 				junkItemList.add( new AdventureResult( (String) items[i], 1, false ) );
-			else if ( items[i] instanceof Map.Entry )
+			else if ( items[i] instanceof Map.Entry && TradeableItemDatabase.contains( (String) ((Map.Entry)items[i]).getValue() ) )
 				junkItemList.add( new AdventureResult( (String) ((Map.Entry)items[i]).getValue(), 1, false ) );
 		}
 
