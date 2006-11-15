@@ -37,6 +37,7 @@ package net.sourceforge.kolmafia;
 import javax.swing.JList;
 import javax.swing.JPopupMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -74,14 +75,17 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		contextMenu.add( new WikiLookupMenuItem() );
 
-		if ( model == tally || model == inventory || isEncyclopedia || model == ConcoctionsDatabase.getConcoctions() )
-			contextMenu.add( new AddToJunkListMenuItem() );
-
 		if ( model == junkItemList )
 			contextMenu.add( new RemoveFromJunkListMenuItem() );
 
 		if ( model == tally )
 			contextMenu.add( new ZeroTallyMenuItem() );
+
+		if ( model == tally || model == inventory )
+			contextMenu.add( new AutoSellMenuItem() );
+
+		if ( model == tally || model == inventory || isEncyclopedia || model == ConcoctionsDatabase.getConcoctions() )
+			contextMenu.add( new AddToJunkListMenuItem() );
 
 		addMouseListener( new PopupListener() );
 		addMouseListener( new ShowDescriptionAdapter() );
@@ -322,6 +326,21 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
+	private class AutoSellMenuItem extends ThreadedMenuItem
+	{
+		public AutoSellMenuItem()
+		{	super( "Autosell selected" );
+		}
+
+		public void run()
+		{
+			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, "Are you sure you would like to sell the selected items?", "Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
+				return;
+
+			(new AutoSellRequest( getSelectedValues(), AutoSellRequest.AUTOSELL )).run();
+		}
+	}
+
 	private class RemoveFromJunkListMenuItem extends ThreadedMenuItem
 	{
 		public RemoveFromJunkListMenuItem()
@@ -332,8 +351,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		{	unjunkSelectedValues();
 		}
 	}
-
-
 
 	private class JunkListFilter extends LockableListModel.ListElementFilter
 	{
