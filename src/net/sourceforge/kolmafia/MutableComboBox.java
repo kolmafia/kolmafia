@@ -80,7 +80,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		if ( currentName == null || currentName.length() == 0 )
 			return;
 
-		if ( allowAdditions && !model.contains( currentName ) )
+		if ( currentMatch == null && allowAdditions && !model.contains( currentName ) )
 			model.add( currentName );
 
 		setSelectedItem( currentName );
@@ -125,9 +125,10 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 		if ( prefixMatchOnly )
 		{
+			String lowercase = currentName.toLowerCase();
 			for ( int i = 0; i < currentNames.length; ++i )
 			{
-				if ( ((String) currentNames[i]).toLowerCase().startsWith( currentName ) )
+				if ( ((String) currentNames[i]).toLowerCase().startsWith( lowercase ) )
 				{
 					++matchCount;
 					currentMatch = (String) currentNames[i];

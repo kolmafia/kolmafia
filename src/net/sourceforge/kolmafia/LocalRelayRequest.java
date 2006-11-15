@@ -641,6 +641,19 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 	}
 
+	private static String getSimulatorName( int equipmentSlot )
+	{
+		AdventureResult item = KoLCharacter.getEquipment( equipmentSlot );
+
+		if ( equipmentSlot == KoLCharacter.FAMILIAR && item.getName().equals( FamiliarsDatabase.getFamiliarItem( KoLCharacter.getFamiliar().getId() ) ) )
+			return "familiar-specific +5 lbs.";
+
+		if ( item == EquipmentRequest.UNEQUIP )
+			return "(None)";
+
+		return item.getName();
+	}
+
 	private void handleSimulatorIndex( StringBuffer replyBuffer, StringBuffer scriptBuffer ) throws IOException
 	{
 		// This is the simple Javascript which can be added
@@ -667,7 +680,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		StaticEntity.globalStringReplace( scriptBuffer, "/*familiar*/",  KoLCharacter.getFamiliar().getRace() );
 		StaticEntity.globalStringReplace( scriptBuffer, "/*familiarWeight*/", KoLCharacter.getFamiliar().getWeight() );
 
-		String familiarEquipment = KoLCharacter.getEquipment( KoLCharacter.FAMILIAR ).getName();
+		String familiarEquipment = getSimulatorName( KoLCharacter.FAMILIAR );
 		if ( FamiliarData.itemWeightModifier( TradeableItemDatabase.getItemId( familiarEquipment ) ) == 5 )
 			StaticEntity.globalStringReplace( scriptBuffer, "/*familiarEquip*/", "familiar-specific +5 lbs." );
 		else
@@ -675,17 +688,17 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		// Change the player's equipment
 
-		StaticEntity.globalStringReplace( scriptBuffer, "/*hat*/", KoLCharacter.getEquipment( KoLCharacter.HAT ).getName() );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*weapon*/", KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*offhand*/", KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).getName() );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*shirt*/", KoLCharacter.getEquipment( KoLCharacter.SHIRT ).getName() );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*pants*/", KoLCharacter.getEquipment( KoLCharacter.PANTS ).getName() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*hat*/", getSimulatorName( KoLCharacter.HAT ) );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*weapon*/", getSimulatorName( KoLCharacter.WEAPON ) );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*offhand*/", getSimulatorName( KoLCharacter.OFFHAND ) );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*shirt*/", getSimulatorName( KoLCharacter.SHIRT ) );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*pants*/", getSimulatorName( KoLCharacter.PANTS ) );
 
 		// Change the player's accessories
 
-		StaticEntity.globalStringReplace( scriptBuffer, "/*accessory1*/", KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ).getName() );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*accessory2*/", KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ).getName() );
-		StaticEntity.globalStringReplace( scriptBuffer, "/*accessory3*/", KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ).getName() );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*accessory1*/", getSimulatorName( KoLCharacter.ACCESSORY1 ) );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*accessory2*/", getSimulatorName( KoLCharacter.ACCESSORY2 ) );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*accessory3*/", getSimulatorName( KoLCharacter.ACCESSORY3 ) );
 
 		// Load up the player's current skillset to figure
 		// out what passive skills are available.
@@ -700,9 +713,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 			if ( !( ClassSkillsDatabase.getSkillType( skillId ) == ClassSkillsDatabase.PASSIVE && !(skillId < 10 || (skillId > 14 && skillId < 1000)) ) )
 				continue;
 
-			passiveSkills.append( "\t" );
+			passiveSkills.append( "\"" );
 			passiveSkills.append( WHITESPACE_PATTERN.matcher( skills[i].getSkillName() ).replaceAll( "" ).toLowerCase() );
-			passiveSkills.append( "\t" );
+			passiveSkills.append( "\"," );
 		}
 
 		StaticEntity.globalStringReplace( scriptBuffer, "/*passiveSkills*/", passiveSkills.toString() );
@@ -713,21 +726,28 @@ public class LocalRelayRequest extends PasswordHashRequest
 		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
 		activeEffects.toArray( effects );
 
-		String activeEffects = "";
+		StringBuffer activeEffects = new StringBuffer();
 		for ( int i = 0; i < effects.length; ++i )
-			activeEffects += "\t" + WHITESPACE_PATTERN.matcher( UneffectRequest.effectToSkill( effects[i].getName() ) ).replaceAll( "" ).toLowerCase() + "\t";
+		{
+			activeEffects.append( "\"" );
+			activeEffects.append( WHITESPACE_PATTERN.matcher( effects[i].getName() ).replaceAll( "" ).toLowerCase() );
+			activeEffects.append( "\"," );
+		}
 
-		StaticEntity.globalStringReplace( scriptBuffer, "/*activeEffects*/", activeEffects );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*activeEffects*/", activeEffects.toString() );
 
 		if ( inventory.contains( UseSkillRequest.ROCKNROLL_LEGEND ) )
 			StaticEntity.globalStringReplace( scriptBuffer, "/*rockAndRoll*/", "true" );
 		else
 			StaticEntity.globalStringReplace( scriptBuffer, "/*rockAndRoll*/", "false" );
 
+		StaticEntity.globalStringReplace( scriptBuffer, "/*lastZone*/", StaticEntity.getProperty( "lastAdventure" ) );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*lastMonster*/", FightRequest.getLastMonster() );
+
 		StaticEntity.globalStringReplace( scriptBuffer, "/*moonPhase*/", (int) ((MoonPhaseDatabase.getGrimacePhase()-1) * 2
 			+ Math.round( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f - Math.floor( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f ) )) );
 
-		replyBuffer.insert( replyBuffer.indexOf( ";GoCalc()" ), ";loadKoLmafiaData()" );
+		StaticEntity.globalStringReplace( scriptBuffer, "/*minimoonPhase*/", String.valueOf( MoonPhaseDatabase.getHamburglarPosition( new Date() ) ) );
 	}
 
 	protected void submitCommand()
@@ -961,7 +981,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 		catch ( Exception e )
 		{
-			StaticEntity.printStackTrace( e, "Failed to create cached simulator file." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Failed to create simulator file <" + filename + ">" );
 		}
 	}
 }

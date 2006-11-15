@@ -638,4 +638,8 @@ public class FightRequest extends KoLRequest
 	public static boolean isTrackingFights()
 	{	return isTrackingFights;
 	}
+
+	public static String getLastMonster()
+	{	return encounterLookup == null ? "" : encounterLookup;
+	}
 }
