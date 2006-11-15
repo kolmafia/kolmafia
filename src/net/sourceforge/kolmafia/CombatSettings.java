@@ -446,8 +446,14 @@ public abstract class CombatSettings implements UtilityConstants, KoLConstants
 
 		action = action.trim();
 
-		if ( action.startsWith( "delevel" ) || action.startsWith( "default" ) || action.startsWith( "abort" ) || action.startsWith( "run" ) || action.startsWith( "consult" ) )
+		if ( action.startsWith( "default" ) || action.startsWith( "abort" ) || action.startsWith( "consult" ) )
 			return action;
+
+		else if ( action.startsWith( "delevel" ) )
+			return "delevel and plink";
+
+		else if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
+			return "try to run away";
 
 		else if ( action.startsWith( "custom" ) )
 			return "custom combat script";
@@ -518,7 +524,7 @@ public abstract class CombatSettings implements UtilityConstants, KoLConstants
 		if ( action.startsWith( "attack with weapon" ) )
 			return "attack";
 
-		if ( action.startsWith( "run" ) )
+		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
 			return "runaway";
 
 		if ( action.startsWith( "skill" ) )

@@ -2951,6 +2951,21 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { INT_TYPE, SKILL_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "use_skill", BOOLEAN_TYPE, params ) );
 
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "attack", STRING_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "runaway", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { SKILL_TYPE };
+		result.addElement( new ScriptExistingFunction( "use_skill", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "throw_item", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE, ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "throw_items", STRING_TYPE, params ) );
+
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "add_item_condition", VOID_TYPE, params ) );
 
@@ -4484,6 +4499,17 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
+			// Just in case someone assumed that use_skill would also work
+			// in combat, go ahead and allow it here.
+
+			if ( ClassSkillsDatabase.isCombat( ((UseSkillRequest)skill.rawValue()).getSkillId() ) )
+			{
+				for ( int i = 0; i < count.intValue() && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
+					use_skill( skill );
+
+				return TRUE_VALUE;
+			}
+
 			DEFAULT_SHELL.executeLine( "cast " + count.intValue() + " " + skill.toStringValue() );
 			return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
 		}
@@ -4493,8 +4519,54 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
+			// Just in case someone assumed that use_skill would also work
+			// in combat, go ahead and allow it here.
+
+			if ( ClassSkillsDatabase.isCombat( ((UseSkillRequest)skill.rawValue()).getSkillId() ) )
+			{
+				for ( int i = 0; i < count.intValue() && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
+					use_skill( skill );
+
+				return TRUE_VALUE;
+			}
+
 			DEFAULT_SHELL.executeLine( "cast " + count.intValue() + " " + skill.toStringValue() + " on " + target.toStringValue() );
 			return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
+		}
+
+		public ScriptValue attack()
+		{
+			KoLRequest request = new KoLRequest( "fight.php?action=attack" );
+			request.run();
+			return new ScriptValue( request.responseText == null ? "" : request.responseText );
+		}
+
+		public ScriptValue runaway()
+		{
+			KoLRequest request = new KoLRequest( "fight.php?action=runaway" );
+			request.run();
+			return new ScriptValue( request.responseText == null ? "" : request.responseText );
+		}
+
+		public ScriptValue use_skill( ScriptVariable skill )
+		{
+			KoLRequest request = new KoLRequest( "fight.php?action=skill&whichskill=" + skill.intValue() );
+			request.run();
+			return new ScriptValue( request.responseText == null ? "" : request.responseText );
+		}
+
+		public ScriptValue throw_item( ScriptVariable item )
+		{
+			KoLRequest request = new KoLRequest( "fight.php?action=item&whichitem=" + item.intValue() );
+			request.run();
+			return new ScriptValue( request.responseText == null ? "" : request.responseText );
+		}
+
+		public ScriptValue throw_items( ScriptVariable item1, ScriptVariable item2 )
+		{
+			KoLRequest request = new KoLRequest( "fight.php?action=item&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
+			request.run();
+			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
 
 		public ScriptValue add_item_condition( ScriptVariable count, ScriptVariable item )
