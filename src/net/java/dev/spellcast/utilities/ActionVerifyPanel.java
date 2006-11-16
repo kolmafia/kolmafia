@@ -305,11 +305,11 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 		private boolean isInputPreceding;
 
 		public VerifiableElement()
-		{	this( "", JLabel.RIGHT, new JLabel(), false );
+		{	this( " ", JLabel.RIGHT, new JLabel( " " ), false );
 		}
 
 		public VerifiableElement( JComponent inputField )
-		{	this( "", JLabel.RIGHT, inputField, !(inputField instanceof JScrollPane || inputField instanceof JCheckBox) );
+		{	this( " ", JLabel.RIGHT, inputField, !(inputField instanceof JScrollPane || inputField instanceof JCheckBox) );
 		}
 
 		public VerifiableElement( String label, JComponent inputField )

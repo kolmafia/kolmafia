@@ -61,7 +61,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
 
-	private static final String [] COMMON_JUNK =
+	public static final String [] COMMON_JUNK =
 	{
 		// Items which usually get autosold by people, regardless of the situation.
 		// This includes the various meat combinables, sewer items, and stat boosters.
@@ -371,6 +371,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
 		CLIENT_SETTINGS.put( "fontSize", "3" );
 		CLIENT_SETTINGS.put( "guiUsesOneWindow", "false" );
+		CLIENT_SETTINGS.put( "hideUnavailableAreas", "false" );
 		CLIENT_SETTINGS.put( "highlightList", "" );
 		CLIENT_SETTINGS.put( "http.proxyHost", "" );
 		CLIENT_SETTINGS.put( "http.proxyPort", "" );

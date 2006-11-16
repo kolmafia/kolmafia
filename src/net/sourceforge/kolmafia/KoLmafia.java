@@ -2095,8 +2095,6 @@ public abstract class KoLmafia implements KoLConstants
 		(new StoreManageRequest()).run();
 
 		// Now determine the desired prices on items.
-		// If the value of an item is currently 100,
-		// then remove the item from the store.
 
 		StoreManager.SoldItem [] sold = new StoreManager.SoldItem[ StoreManager.getSoldItemList().size() ];
 		StoreManager.getSoldItemList().toArray( sold );
@@ -2110,15 +2108,33 @@ public abstract class KoLmafia implements KoLConstants
 			limits[i] = sold[i].getLimit();
 			itemId[i] = sold[i].getItemId();
 
-			int minimumPrice = TradeableItemDatabase.getPriceById( sold[i].getItemId() ) * 2;
-			if ( sold[i].getPrice() == 999999999 && minimumPrice > 0 )
+			int minimumPrice = Math.max( 100, TradeableItemDatabase.getPriceById( sold[i].getItemId() ) * 2 );
+			int desiredPrice = Math.max( minimumPrice, sold[i].getLowest() % 100 );
+
+			if ( sold[i].getPrice() == 999999999 )
 			{
-				minimumPrice = Math.max( 100, minimumPrice );
-				int desiredPrice = sold[i].getLowest() - (sold[i].getLowest() % 100);
-				prices[i] = desiredPrice < minimumPrice ? minimumPrice : desiredPrice;
+				if ( desiredPrice > minimumPrice )
+				{
+					prices[i] = desiredPrice;
+				}
+				else
+				{
+					boolean foundMatch = false;
+					String itemName = TradeableItemDatabase.getItemName( itemId[i] );
+					for ( int j = 0; j < KoLSettings.COMMON_JUNK.length; ++j )
+						if ( KoLSettings.COMMON_JUNK[j].equals( itemName ) )
+							foundMatch = true;
+
+					if ( !foundMatch )
+						foundMatch = junkItemList.contains( new AdventureResult( itemId[i], 1 ) );
+
+					prices[i] = foundMatch ? desiredPrice : 999999999;
+				}
 			}
 			else
+			{
 				prices[i] = sold[i].getPrice();
+			}
 		}
 
 		(new StoreManageRequest( itemId, prices, limits )).run();
