@@ -76,7 +76,9 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final int FOOD = 4;
 	public static final int BOOZE = 5;
 
-	private boolean isMatchingCreateRequest = false;
+	private static boolean isCreationMatch = false;
+	private static boolean isConsumptionMatch = false;
+
 	private String previousLine;
 	private BufferedReader commandStream;
 
@@ -2966,13 +2968,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return new AdventureResult( effectName, duration, true );
 	}
 
-	public static final int NO_FILTER = 0;
-
 	public static int getFirstMatchingItemId( List nameList )
-	{	return getFirstMatchingItemId( nameList, NO_FILTER );
-	}
-
-	public static int getFirstMatchingItemId( List nameList, int filter )
 	{
 		if ( nameList.isEmpty() )
 			return -1;
@@ -2984,8 +2980,18 @@ public class KoLmafiaCLI extends KoLmafia
 		boolean npcStoreMatch = false;
 		int shortestLength = Integer.MAX_VALUE;
 
+		int itemId;
+
 		for ( int i = 0; i < nameArray.length; ++i )
 		{
+			itemId = TradeableItemDatabase.getItemId( nameArray[i] );
+
+			if ( isCreationMatch && ConcoctionsDatabase.getMixingMethod( itemId ) == ItemCreationRequest.NOCREATE )
+				continue;
+
+			if ( isConsumptionMatch && TradeableItemDatabase.getConsumptionType( itemId ) == ConsumeItemRequest.NO_CONSUME )
+				continue;
+
 			if ( NPCStoreDatabase.contains( nameArray[i] ) )
 			{
 				if ( !npcStoreMatch )
@@ -3019,8 +3025,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public AdventureResult getFirstMatchingItem( String parameters )
 	{
-		boolean isCreationMatch = isMatchingCreateRequest;
-
 		int itemId = -1;
 		int itemCount = 1;
 
@@ -3463,9 +3467,9 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		isMatchingCreateRequest = true;
+		isCreationMatch = true;
 		AdventureResult firstMatch = getFirstMatchingItem( parameters );
-		isMatchingCreateRequest = false;
+		isCreationMatch = false;
 
 		if ( firstMatch == null )
 			return;
@@ -3528,7 +3532,10 @@ public class KoLmafiaCLI extends KoLmafia
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
 
+		isConsumptionMatch = true;
 		AdventureResult firstMatch = getFirstMatchingItem( parameters );
+		isConsumptionMatch = false;
+
 		if ( firstMatch == null )
 			return;
 
