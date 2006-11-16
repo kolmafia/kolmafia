@@ -2969,16 +2969,36 @@ public abstract class KoLmafia implements KoLConstants
 		boolean canPulverize = KoLCharacter.hasSkill( "Pulverize" ) && KoLCharacter.hasItem( ConcoctionsDatabase.HAMMER );
 		boolean hasMalusAccess = KoLCharacter.isMuscleClass();
 
+		int itemPower;
+		boolean isPulverizing = false;
+
 		for ( int i = 0; i < items.length; ++i )
 		{
 			currentItem = (AdventureResult) items[i];
 			itemCount = currentItem.getCount( inventory );
+			itemPower = EquipmentDatabase.getPower( currentItem.getItemId() );
+
+			isPulverizing = false;
 
 			if ( itemCount > 0 )
 			{
-				if ( canPulverize && (EquipmentDatabase.getPower( currentItem.getItemId() ) >= 100 || hasMalusAccess) )
-					pulverizeList.add( currentItem.getInstance( itemCount ) );
-				else
+				switch ( TradeableItemDatabase.getConsumptionType( currentItem.getItemId() ) )
+				{
+				case ConsumeItemRequest.EQUIP_FAMILIAR:
+				case ConsumeItemRequest.EQUIP_ACCESSORY:
+				case ConsumeItemRequest.EQUIP_HAT:
+				case ConsumeItemRequest.EQUIP_PANTS:
+				case ConsumeItemRequest.EQUIP_SHIRT:
+				case ConsumeItemRequest.EQUIP_WEAPON:
+				case ConsumeItemRequest.EQUIP_OFFHAND:
+					if ( canPulverize && (itemPower >= 100 || hasMalusAccess) )
+					{
+						isPulverizing = true;
+						pulverizeList.add( currentItem.getInstance( itemCount ) );
+					}
+				}
+
+				if ( !isPulverizing )
 					sellList.add( currentItem.getInstance( itemCount ) );
 			}
 		}
