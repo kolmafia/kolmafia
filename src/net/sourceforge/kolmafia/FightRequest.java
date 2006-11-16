@@ -259,7 +259,7 @@ public class FightRequest extends KoLRequest
 			if ( KoLmafia.runThresholdChecks() )
 			{
 				nextRound();
-				if ( !isUsingConsultScript && (action1 == null || action1.equals( "abort") ) )
+				if ( !isUsingConsultScript && (action1 == null || !action1.equals( "abort") ) )
 				{
 					isInstanceRunning = true;
 					super.run();
