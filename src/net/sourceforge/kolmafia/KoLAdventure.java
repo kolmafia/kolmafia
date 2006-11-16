@@ -612,23 +612,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	public String toString()
 	{
-		int baseValue = 0;
-		switch ( KoLCharacter.getPrimeIndex() )
-		{
-		case 0:
-			baseValue = KoLCharacter.getBaseMuscle();
-			break;
-		case 1:
-			baseValue = KoLCharacter.getBaseMysticality();
-			break;
-		case 2:
-			baseValue = KoLCharacter.getBaseMoxie();
-			break;
-		}
-
-		if ( baseValue < baseRequirement && StaticEntity.getBooleanProperty( "hideUnavailableAreas" ) )
-			return "";
-
 		boolean canAdventureHere = meetsGeneralRequirements();
 		StringBuffer stringForm = new StringBuffer();
 
