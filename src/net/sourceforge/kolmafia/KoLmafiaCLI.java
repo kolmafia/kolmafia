@@ -3014,7 +3014,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		return TradeableItemDatabase.getItemId( nameArray[ shortestIndex ] );
+		return shortestIndex == -1 ? -1 : TradeableItemDatabase.getItemId( nameArray[ shortestIndex ] );
 	}
 
 	/**
