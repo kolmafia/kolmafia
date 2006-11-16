@@ -165,10 +165,11 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
-	public static final String UNDERCUT_MESSAGE = "KoLmafia will take all items priced at 999,999,999 meat and attempt to reprice them. " +
-		"In this attempt, it will look at the item's current lowest price in the mall. " +
-		"If this item is at the lowest possible price, and the item is not on your junk list, the item will remain at 999,999,999 meat. " +
-		"Unfortunately, however, if someone is currently holding an \"anti-raffle\" with prices greater than minimum possible price, KoLmafia will undercut the anti-raffle price.";
+	public static final String UNDERCUT_MESSAGE =
+		"KoLmafia will take all items priced at 999,999,999 meat and attempt to reprice them. \n" +
+		"In this attempt, it will match or undercut the current lowest price in the mall. \n" +
+		"Unfortunately, however, if someone is currently holding an \"anti-raffle\" \n" +
+		"KoLmafia will price based on the anti-raffle price.";
 
 	private class StoreListTable extends TransparentTable
 	{
