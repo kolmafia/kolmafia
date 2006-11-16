@@ -87,7 +87,11 @@ public abstract class MPRestoreItemList extends StaticEntity
 		{
 			this.itemName = itemName;
 			this.mpPerUse = mpPerUse;
-			this.itemUsed = new AdventureResult( itemName, 1, false );
+
+			if ( TradeableItemDatabase.contains( itemName ) )
+				this.itemUsed = new AdventureResult( itemName, 1, false );
+			else
+				this.itemUsed = null;
 		}
 
 		public AdventureResult getItem()
