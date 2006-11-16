@@ -338,6 +338,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		// Do not initialize the maps more than once, as this
 		// would not serve any purpose.
 
+		CLIENT_SETTINGS.put( "abortOnUnknownItem", "false" );
+		CLIENT_SETTINGS.put( "abortOnUnknownMonster", "false" );
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
 		CLIENT_SETTINGS.put( "allowStasisTactics", "false" );
 		CLIENT_SETTINGS.put( "allowThiefShrugOff", "true" );
