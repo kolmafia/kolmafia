@@ -198,11 +198,6 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 		else if ( priority == ITEM_PRIORITY )
 		{
-			if ( name == null )
-			{
-				try { throw new Exception(); } catch ( Exception e ) { e.printStackTrace(); }
-			}
-
 			this.itemId = TradeableItemDatabase.getItemId( name, this.count[0] );
 			if ( this.itemId > 0 )
 			{
@@ -211,7 +206,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			else if ( StaticEntity.getClient() != null )
 			{
 				KoLmafia.updateDisplay( StaticEntity.getBooleanProperty( "abortOnUnknownItem" ) ? ABORT_STATE : CONTINUE_STATE,
-					"Unknown item found: " + this.name );
+					"Unknown item found: " + name );
 			}
 		}
 	}
