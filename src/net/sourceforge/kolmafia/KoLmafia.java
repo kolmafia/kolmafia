@@ -2112,29 +2112,9 @@ public abstract class KoLmafia implements KoLConstants
 			int desiredPrice = Math.max( minimumPrice, sold[i].getLowest() % 100 );
 
 			if ( sold[i].getPrice() == 999999999 )
-			{
-				if ( desiredPrice > minimumPrice )
-				{
-					prices[i] = desiredPrice;
-				}
-				else
-				{
-					boolean foundMatch = false;
-					String itemName = TradeableItemDatabase.getItemName( itemId[i] );
-					for ( int j = 0; j < KoLSettings.COMMON_JUNK.length; ++j )
-						if ( KoLSettings.COMMON_JUNK[j].equals( itemName ) )
-							foundMatch = true;
-
-					if ( !foundMatch )
-						foundMatch = junkItemList.contains( new AdventureResult( itemId[i], 1 ) );
-
-					prices[i] = foundMatch ? desiredPrice : 999999999;
-				}
-			}
+				prices[i] = Math.max( desiredPrice, minimumPrice );
 			else
-			{
 				prices[i] = sold[i].getPrice();
-			}
 		}
 
 		(new StoreManageRequest( itemId, prices, limits )).run();
