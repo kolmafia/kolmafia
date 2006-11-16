@@ -158,10 +158,10 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final AdventureResult SCRAP_OF_PAPER = new AdventureResult( 1959, -1 );
 
 	private int consumptionType;
-	private AdventureResult itemUsed;
+	private AdventureResult itemUsed = null;
 
 	public ConsumeItemRequest( AdventureResult item )
-	{	this( TradeableItemDatabase.getConsumptionType( item.getName() ), item );
+	{	this( TradeableItemDatabase.getConsumptionType( item.getItemId() ), item );
 	}
 
 	public ConsumeItemRequest( int consumptionType, AdventureResult item )
