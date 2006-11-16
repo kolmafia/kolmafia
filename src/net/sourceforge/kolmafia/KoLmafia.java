@@ -2976,7 +2976,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( itemCount > 0 )
 			{
-				if ( canPulverize && EquipmentDatabase.getPower( currentItem.getItemId() ) >= 100 || hasMalusAccess )
+				if ( canPulverize && (EquipmentDatabase.getPower( currentItem.getItemId() ) >= 100 || hasMalusAccess) )
 					pulverizeList.add( currentItem.getInstance( itemCount ) );
 				else
 					sellList.add( currentItem.getInstance( itemCount ) );
