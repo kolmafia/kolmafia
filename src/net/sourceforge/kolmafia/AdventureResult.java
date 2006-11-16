@@ -198,6 +198,11 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 		else if ( priority == ITEM_PRIORITY )
 		{
+			if ( name == null )
+			{
+				try { throw new Exception(); } catch ( Exception e ) { e.printStackTrace(); }
+			}
+
 			this.itemId = TradeableItemDatabase.getItemId( name, this.count[0] );
 			if ( this.itemId > 0 )
 			{

@@ -53,8 +53,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static final SortedListModel EMPTY_LIST = new SortedListModel();
 	public static final SortedListModel concoctionsList = new SortedListModel();
 
-	private static Concoction stillsLimit = new Concoction( new AdventureResult( 0, 0 ), ItemCreationRequest.NOCREATE );
-	private static Concoction adventureLimit = new Concoction( new AdventureResult( 0, 0 ), ItemCreationRequest.NOCREATE );
+	private static Concoction stillsLimit = new Concoction( null, ItemCreationRequest.NOCREATE );
+	private static Concoction adventureLimit = new Concoction( null, ItemCreationRequest.NOCREATE );
 
 	private static ConcoctionArray concoctions = new ConcoctionArray();
 	private static SortedListModelArray knownUses = new SortedListModelArray();
@@ -131,6 +131,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 				// a stack trace for debug purposes.
 
 				printStackTrace( e );
+				System.out.println( data.length );
+				for ( int i = 0; i < data.length; ++i )
+					System.out.println( data[i] );
 			}
 		}
 
@@ -340,7 +343,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 		for ( int i = 1; i < concoctions.size(); ++i )
 		{
 			Concoction current = concoctions.get(i);
-			if ( !isPermittedMethod( current.getMixingMethod() ) )
+			if ( current.concoction == null )
+			{
+				continue;
+			}
+			else if ( !isPermittedMethod( current.getMixingMethod() ) )
 			{
 				current.initial = current.concoction.getCount( availableIngredients );
 				current.creatable = 0;
@@ -1067,7 +1074,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		 */
 
 		public String toString()
-		{	return concoction.getName();
+		{	return concoction == null ? null : concoction.getName();
 		}
 	}
 
@@ -1120,7 +1127,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 				return null;
 
 			for ( int i = internalList.size(); i <= index; ++i )
-				internalList.add( new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE ) );
+			{
+				internalList.add( new Concoction( TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
+					ItemCreationRequest.NOCREATE ) );
+			}
 
 			return (Concoction) internalList.get( index );
 		}
@@ -1128,7 +1138,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 		public void set( int index, Concoction value )
 		{
 			for ( int i = internalList.size(); i <= index; ++i )
-				internalList.add( new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE ) );
+			{
+				internalList.add( new Concoction( TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
+					ItemCreationRequest.NOCREATE ) );
+			}
 
 			internalList.set( index, value );
 		}
