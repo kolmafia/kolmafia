@@ -85,7 +85,11 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{
 			this.itemName = itemName;
 			this.hpPerUse = hpPerUse;
-			this.itemUsed = TradeableItemDatabase.contains( itemName ) ? new AdventureResult( itemName, 0 ) : null;
+
+			if ( TradeableItemDatabase.contains( itemName ) )
+				this.itemUsed = new AdventureResult( itemName, 1, false );
+			else
+				this.itemUsed = null;
 		}
 
 		public AdventureResult getItem()
