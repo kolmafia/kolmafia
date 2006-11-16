@@ -78,17 +78,8 @@ public class FightRequest extends KoLRequest
 	private static MonsterDatabase.Monster monsterData = null;
 	private static String encounterLookup = "";
 
-	private static final String [] RARE_MONSTERS =
-	{
-		// Ultra-rare monsters
-
-		"baiowulf",
-		"crazy bastard",
-		"hockey elemental",
-		"hypnotist of hey deze",
-		"infinite meat bug",
-		"master of thieves"
-	};
+	// Ultra-rare monsters
+	private static final String [] RARE_MONSTERS = { "baiowulf", "crazy bastard", "hockey elemental", "hypnotist of hey deze", "infinite meat bug", "master of thieves" };
 
 	/**
 	 * Constructs a new <code>FightRequest</code>.  Theprovided will
@@ -116,6 +107,15 @@ public class FightRequest extends KoLRequest
 			if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
 				KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
 
+		// Alternatively, allow people to abort if there is
+		// an unknown monster.
+
+		if ( StaticEntity.getBooleanProperty( "abortOnUnknownMonster" ) && MonsterDatabase.findMonster( encounterLookup ) == null )
+		{
+			action1 = "abort";
+			return;
+		}
+
 		if ( currentRound == 0 )
 		{
 			action1 = StaticEntity.getProperty( "defaultAutoAttack" );
@@ -133,7 +133,9 @@ public class FightRequest extends KoLRequest
 		if ( action1.startsWith( "consult" ) )
 		{
 			isUsingConsultScript = true;
-			responseText = StaticEntity.globalStringReplace( responseText, "\"", "\\\"" );
+
+			if ( !responseText.equals( "" ) )
+				responseText = StaticEntity.globalStringReplace( responseText, "\"", "\\\"" );
 
 			DEFAULT_SHELL.executeCommand( "call", action1.substring( "consult".length() ).trim() + " (" + currentRound +
 				", \"" + encounterLookup + "\", \"" + responseText + "\" )" );
@@ -249,7 +251,7 @@ public class FightRequest extends KoLRequest
 		do
 		{
 			clearDataFields();
-			responseText = "fight.php";
+			responseText = "";
 
 			action1 = null;
 			action2 = null;
@@ -257,7 +259,7 @@ public class FightRequest extends KoLRequest
 			if ( KoLmafia.runThresholdChecks() )
 			{
 				nextRound();
-				if ( !isUsingConsultScript )
+				if ( !isUsingConsultScript && (action1 == null || action1.equals( "abort") ) )
 				{
 					isInstanceRunning = true;
 					super.run();
@@ -266,8 +268,16 @@ public class FightRequest extends KoLRequest
 
 				if ( KoLmafia.refusesContinue() || (action1 != null && action1.equals( "abort" )) )
 				{
-					showInBrowser( true );
-					KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
+					if ( currentRound != 0 )
+					{
+						showInBrowser( true );
+						KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
+					}
+					else
+					{
+						KoLmafia.updateDisplay( ABORT_STATE, "Battle properly terminated." );
+					}
+
 					return;
 				}
 			}
@@ -280,8 +290,8 @@ public class FightRequest extends KoLRequest
 		if ( monsterData == null )
 			return true;
 
-		return monsterData.hasAcceptableDodgeRate( this.offenseModifier + offenseModifier ) &&
-			!monsterData.willAlwaysMiss( this.defenseModifier + defenseModifier );
+		return monsterData.hasAcceptableDodgeRate( FightRequest.offenseModifier + offenseModifier ) &&
+			!monsterData.willAlwaysMiss( FightRequest.defenseModifier + defenseModifier );
 	}
 
 	private String getMonsterWeakenAction()
@@ -498,7 +508,7 @@ public class FightRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return responseText == null ? 0 : responseText.indexOf( "fight.php" ) == -1 ? 1 : 0;
+	{	return responseText == null || responseText.equals( "" ) || responseText.indexOf( "fight.php" ) != -1 ? 0 : 1;
 	}
 
 	public static boolean processRequest( String urlString )

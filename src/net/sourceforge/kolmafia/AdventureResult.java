@@ -201,6 +201,8 @@ public class AdventureResult implements Comparable, KoLConstants
 			this.itemId = TradeableItemDatabase.getItemId( name, this.count[0] );
 			if ( this.itemId > 0 )
 				this.name = TradeableItemDatabase.getItemName( this.itemId );
+			else if ( StaticEntity.getBooleanProperty( "abortOnUnknownItem" ) )
+				KoLmafia.updateDisplay( ABORT_STATE, "Unknown item found: " + this.name );
 		}
 	}
 
