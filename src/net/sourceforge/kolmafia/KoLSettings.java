@@ -371,7 +371,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
 		CLIENT_SETTINGS.put( "fontSize", "3" );
 		CLIENT_SETTINGS.put( "guiUsesOneWindow", "false" );
-		CLIENT_SETTINGS.put( "hideUnavailableAreas", "false" );
 		CLIENT_SETTINGS.put( "highlightList", "" );
 		CLIENT_SETTINGS.put( "http.proxyHost", "" );
 		CLIENT_SETTINGS.put( "http.proxyPort", "" );

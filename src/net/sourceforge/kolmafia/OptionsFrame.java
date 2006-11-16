@@ -344,8 +344,7 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "areaValidation", "Enable stat checks before using adventures" },
-			{ "sortAdventures", "Sort adventure list display by moxie evade rating" },
-			{ "hideUnavailableAreas", "Hide locations where you don't have enough base stat" }
+			{ "sortAdventures", "Sort adventure list display by moxie evade rating" }
 		};
 
 		/**
