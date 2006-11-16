@@ -103,7 +103,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public StoreManagePanel()
 		{
-			super( "save changes", "auto-undercut", true );
+			super( "save changes to prices", "reprice recent adds", true );
 
 			addTable = new StoreListTable( new LockableListModel() );
 			SimpleScrollPane addScroller = new SimpleScrollPane( addTable );
@@ -157,9 +157,18 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void run()
-		{	StaticEntity.getClient().priceItemsAtLowestPrice();
+		{
+			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, UNDERCUT_MESSAGE + " Are you sure you wish to continue with this repricing attempt?" ) )
+				return;
+
+			StaticEntity.getClient().priceItemsAtLowestPrice();
 		}
 	}
+
+	public static final String UNDERCUT_MESSAGE = "KoLmafia will take all items priced at 999,999,999 meat and attempt to reprice them. " +
+		"In this attempt, it will look at the item's current lowest price in the mall. " +
+		"If this item is at the lowest possible price, and the item is not on your junk list, the item will remain at 999,999,999 meat. " +
+		"Unfortunately, however, if someone is currently holding an \"anti-raffle\" with prices greater than minimum possible price, KoLmafia will undercut the anti-raffle price.";
 
 	private class StoreListTable extends TransparentTable
 	{

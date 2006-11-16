@@ -330,19 +330,22 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
-
-			{ "areaValidation", "Enable stat checks before using adventures" },
+			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
 			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
 
-			{ "autoSetConditions", "While in Ronin, autofill conditions field" },
-			{ "allowStasisTactics", "Allow stasis-type commands when using combat familiars" },
+			{ "", "" },
 
+			{ "autoSetConditions", "While in Ronin, autofill conditions field" },
 			{ "abortOnUnknownItem", "Abort automated adventuring when finding unknown item" },
 			{ "abortOnUnknownMonster", "Abort automated adventuring on unknown monster" },
+			{ "allowStasisTactics", "Allow stasis-type commands when using combat familiars" },
 
-			{ "sortAdventures", "Sort adventure list display by moxie evade rating" }
+			{ "", "" },
+
+			{ "areaValidation", "Enable stat checks before using adventures" },
+			{ "sortAdventures", "Sort adventure list display by moxie evade rating" },
+			{ "hideUnavailableAreas", "Hide locations where you don't have enough base stat" }
 		};
 
 		/**
@@ -361,7 +364,8 @@ public class OptionsFrame extends KoLFrame
 				optionBoxes[i] = new JCheckBox();
 
 			for ( int i = 0; i < options.length; ++i )
-				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+				elements[i] = options[i][0].equals( "" ) ? new VerifiableElement() :
+					new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
 			setContent( elements );
 			actionCancelled();
@@ -379,7 +383,8 @@ public class OptionsFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
+				if ( !options[i][0].equals( "" ) )
+					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
 		}
 	}
 
@@ -389,16 +394,22 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "showJunkItems", "Show junk items in gray by default (instead of hiding)" },
+			{ "showJunkItems", "Do not hide junk items from lists (show in gray)" },
 			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
-			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
 
+			{ "", "" },
+
+			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
 			{ "cloverProtectActive", "Enable clover protection for automated adventures" },
 			{ "autoCheckpoint", "Enable outfit checkpointing during NPC purchases" },
-			{ "assumeInfiniteNPCItems", "Assume infinite NPC items for item creation" },
 
+			{ "", "" },
+
+			{ "assumeInfiniteNPCItems", "Assume infinite NPC items for item creation" },
 			{ "createWithoutBoxServants", "Create without requiring a box servant" },
 			{ "autoRepairBoxes", "Create and install new box servant after explosion" },
+
+			{ "", "" },
 
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
@@ -421,7 +432,8 @@ public class OptionsFrame extends KoLFrame
 				optionBoxes[i] = new JCheckBox();
 
 			for ( int i = 0; i < options.length; ++i )
-				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+				elements[i] = options[i][0].equals( "" ) ? new VerifiableElement() :
+					new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
 			setContent( elements );
 			actionCancelled();
@@ -430,7 +442,8 @@ public class OptionsFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			for ( int i = 0; i < options.length; ++i )
-				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+				if ( !options[i][0].equals( "" ) )
+					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
 			actionCancelled();
 			ConcoctionsDatabase.refreshConcoctions();
