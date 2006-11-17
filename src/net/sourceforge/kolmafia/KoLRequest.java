@@ -132,9 +132,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected boolean statusChanged;
 
 	private boolean isDelayExempt;
-	private int readInputLength;
-	private int contentLength;
-
 	protected int responseCode;
 	protected String responseText;
 	protected HttpURLConnection formConnection;
@@ -683,9 +680,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( isRatQuest )
 			KoLmafia.addTavernLocation( this );
 
-		readInputLength = 0;
-		contentLength = 0;
-
 		registerRequest();
 		String urlString = getURLString();
 
@@ -1072,7 +1066,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			istream = formConnection.getInputStream();
 			responseCode = formConnection.getResponseCode();
 			redirectLocation = formConnection.getHeaderField( "Location" );
-			contentLength = StaticEntity.parseInt( formConnection.getHeaderField( "Content-Length" ) );
 		}
 		catch ( Exception e1 )
 		{
@@ -1166,28 +1159,15 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( redirectLocation.indexOf( "login.php" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "Session timed out." );
-			if ( StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
-			{
-				LoginRequest.executeTimeInRequest( false );
-				return sessionId == null;
-			}
-
-			return true;
+			return false;
 		}
 		else if ( redirectLocation.indexOf( "maint.php" ) != -1 )
 		{
 			// If the system is down for maintenance, the user must be
 			// notified that they should try again later.
 
-			KoLmafia.updateDisplay( "Nightly maintenance." );
-
-			if ( !LoginRequest.isInstanceRunning() && sessionId != null && StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
-			{
-				LoginRequest.executeTimeInRequest( true );
-				return sessionId == null;
-			}
-
-			return true;
+			KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
+			return false;
 		}
 		else if ( followRedirects )
 		{
