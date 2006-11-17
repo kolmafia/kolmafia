@@ -61,10 +61,10 @@ public class EquipmentRequest extends PasswordHashRequest
 	private static final Pattern OFFHAND_PATTERN = Pattern.compile( "Off-Hand:</td>.*?<b>([^<]*)</b> *(<font.*?/font>)?[^>]*unequip&type=offhand" );
 	private static final Pattern SHIRT_PATTERN = Pattern.compile( "Shirt:</td>.*?<b>(.*?)</b>.*unequip&type=shirt" );
 	private static final Pattern PANTS_PATTERN = Pattern.compile( "Pants:</td>.*?<b>(.*?)</b>.*unequip&type=pants" );
-	private static final Pattern ACC1_PATTERN = Pattern.compile( "Accessory ?1?:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc1\">" );
-	private static final Pattern ACC2_PATTERN = Pattern.compile( "Accessory ?2?:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc2\">" );
-	private static final Pattern ACC3_PATTERN = Pattern.compile( "Accessory ?3?:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc3\">" );
-	private static final Pattern FAMILIARITEM_PATTERN = Pattern.compile( "Familiar:*</td>.*?<b>([^<]*?)</b>.*unequip&type=familiarequip" );
+	private static final Pattern ACC1_PATTERN = Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc1\">" );
+	private static final Pattern ACC2_PATTERN = Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc2\">" );
+	private static final Pattern ACC3_PATTERN = Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=acc3\">" );
+	private static final Pattern FAMILIARITEM_PATTERN = Pattern.compile( "<b>([^<]*?)</b>\\s*<[^<]+unequip&type=familiarequip\">" );
 	private static final Pattern OUTFITLIST_PATTERN = Pattern.compile( "<select name=whichoutfit>.*?</select>" );
 
 	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "whichoutfit=(\\d+)" );
@@ -734,12 +734,16 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=acc1" ) != -1 )
 		{
+System.out.println( "Searching for accessory 1..." );
 			equipmentMatcher = ACC1_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
+System.out.println( equipmentMatcher.group(1) + "..." );
 				equipment[ KoLCharacter.ACCESSORY1 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 				KoLmafia.getDebugStream().println( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
 			}
+			else
+			System.out.println( "Pattern not found." );
 		}
 
 		if ( responseText.indexOf( "unequip&type=acc2" ) != -1 )
