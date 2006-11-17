@@ -2097,8 +2097,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		(new StoreManageRequest()).run();
 
-		// Now determine the desired prices on items.
-
 		StoreManager.SoldItem [] sold = new StoreManager.SoldItem[ StoreManager.getSoldItemList().size() ];
 		StoreManager.getSoldItemList().toArray( sold );
 
@@ -2106,16 +2104,18 @@ public abstract class KoLmafia implements KoLConstants
 		int [] prices = new int[ sold.length ];
 		int [] limits = new int[ sold.length ];
 
+		// Now determine the desired prices on items.
+
 		for ( int i = 0; i < sold.length; ++i )
 		{
-			limits[i] = sold[i].getLimit();
 			itemId[i] = sold[i].getItemId();
+			limits[i] = sold[i].getLimit();
 
 			int minimumPrice = Math.max( 100, TradeableItemDatabase.getPriceById( sold[i].getItemId() ) * 2 );
-			int desiredPrice = Math.max( minimumPrice, sold[i].getLowest() % 100 );
+			int desiredPrice = Math.max( minimumPrice, sold[i].getLowest() - sold[i].getLowest() % 100 );
 
 			if ( sold[i].getPrice() == 999999999 )
-				prices[i] = Math.max( desiredPrice, minimumPrice );
+				prices[i] = desiredPrice;
 			else
 				prices[i] = sold[i].getPrice();
 		}

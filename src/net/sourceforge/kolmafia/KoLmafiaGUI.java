@@ -368,8 +368,8 @@ public class KoLmafiaGUI extends KoLmafia
 
 			if ( !isAdventuring() )
 			{
-				(new StoreManageRequest()).run();
 				(new StoreManageRequest( true )).run();
+				(new StoreManageRequest( false )).run();
 				enableDisplay();
 			}
 		}
