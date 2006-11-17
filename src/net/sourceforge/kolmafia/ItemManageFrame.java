@@ -49,6 +49,7 @@ import javax.swing.event.ListDataListener;
 
 // containers
 import javax.swing.Box;
+import javax.swing.JSeparator;
 import javax.swing.ButtonGroup;
 import javax.swing.JList;
 import javax.swing.JLabel;
@@ -147,11 +148,20 @@ public class ItemManageFrame extends KoLFrame
 			addButtonAndLabel( new JunkItemsButton(), "" );
 			label.updateText();
 
+			container.add( new JSeparator() );
+			container.add( Box.createVerticalStrut( 15 ) );
+
 			addButtonAndLabel( new EndOfRunSaleButton(),
 				"All items which are available in NPC stores will be autosold.  KoLmafia will then place all items into your store at their existing price, if they already exist in your store, or at 999,999,999 meat, if the item is not currently in your store. " + StoreManageFrame.UNDERCUT_MESSAGE );
 
+			container.add( new JSeparator() );
+			container.add( Box.createVerticalStrut( 15 ) );
+
 			addButtonAndLabel( new MallRestockButton(),
 				"This feature looks at all the items currently in your store, and if you have any matching items in your inventory, drops those items into your store at your current price.  Note that if any items are already sold out, these items will not be re-added, even if you've run this script previously on this character, as KoLmafia does not currently remember past decisions related to store management." );
+
+			container.add( new JSeparator() );
+			container.add( Box.createVerticalStrut( 15 ) );
 
 			addButtonAndLabel( new DisplayCaseButton(),
 				"This feature scans your inventory and, if it finds any items which match what's in your display case, puts those items on display.  If there are items which you would rather not have extras of on display, then autosell these items, pulverize these items, place these items in your closet, or place these items in your clan's stash, and KoLmafia will not add those items to your display case.  Alternatively, you may run one of the other scripts listed above, which may remove the item from your inventory." );
@@ -187,7 +197,7 @@ public class ItemManageFrame extends KoLFrame
 					totalValue += currentItem.getCount( inventory ) * TradeableItemDatabase.getPriceById( currentItem.getItemId() );
 				}
 
-				setText( "<html>Gnollish toolboxes, briefcases, or Penultimate Fantasy chests, if flagged as junk, will be used. " +
+				setText( "<html>Gnollish toolboxes, briefcases, warm subject gift certificates, and Penultimate Fantasy chests, if flagged as junk, will be used. " +
 					"If you have the Pulverize and a tenderizing hammer, then items will be pulverized if you have malus access or they are weapons, armor, or pants with power greater than or equal to 100. " +
 					"All other items flagged as junk will be autosold.  All applicable junk items are listed above.  The current autosell value of items to be handled in this script is " + COMMA_FORMAT.format( totalValue ) + " meat.</html>" );
 			}
