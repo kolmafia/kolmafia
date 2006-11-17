@@ -99,7 +99,7 @@ public class DataUtilities implements UtilityConstants
 	 * throwing an exception should the file not be successfully found, this
 	 * function will instead print out an error message and simply return null.
 	 *
-	 * @param	subdirectory	the subdirectory of the file
+	 * @param	directory	the subdirectory of the file
 	 * @param	filename	the name of the file to be retrieved
 	 */
 

@@ -79,14 +79,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	private static final AdventureResult [] CLOVER_WEAPONS = { BJORNS_HAMMER, TURTLESLINGER, FIVE_ALARM_SAUCEPAN, PASTA_OF_PERIL, DISCO_BANJO };
 
-	/**
-	 * Constructs a new <code>UseSkillRequest</code>.
-	 * @param	client	Theto be notified of completion
-	 * @param	skillName	The name of the skill to be used
-	 * @param	target	The name of the target of the skill
-	 * @param	buffCount	The number of times the target is affected by this skill
-	 */
-
 	private UseSkillRequest( String skillName )
 	{
 		super( "skills.php" );

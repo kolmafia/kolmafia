@@ -127,8 +127,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 * avoid weird type-casting problems, as it assumes that there is no
 	 * known way for the item to be created.
 	 *
-	 * @param	client	Theto be notified of the item creation
 	 * @param	formSource	The form to be used for the item creation
+	 * @param	itemId	The item ID for the item to be handled
 	 */
 
 	protected ItemCreationRequest( String formSource, int itemId )
@@ -139,7 +139,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 * Constructs a new <code>ItemCreationRequest</code> where you create
 	 * the given number of items.
 	 *
-	 * @param	client	Theto be notified of the item creation
 	 * @param	formSource	The form to be used for the item creation
 	 * @param	itemId	The identifier for the item to be created
 	 * @param	mixingMethod	How the item is created

@@ -62,7 +62,6 @@ public class ClanStashRequest extends SendMessageRequest
 
 	/**
 	 * Constructs a new <code>ClanStashRequest</code>.
-	 * @param	client	Theto be notified of the results
 	 * @param	amount	The amount of meat involved in this transaction
 	 */
 
@@ -77,7 +76,6 @@ public class ClanStashRequest extends SendMessageRequest
 
 	/**
 	 * Constructs a new <code>ClanStashRequest</code>.
-	 * @param	client	Theto be notified of the results
 	 * @param	attachments	The list of attachments involved in the request
 	 */
 

@@ -46,7 +46,6 @@ public class CampgroundRequest extends KoLRequest
 
 	/**
 	 * Constructs a new <code>CampgroundRequest</code>.
-	 * @param	client	Theto be notified of all the information parsed
 	 */
 
 	public CampgroundRequest()

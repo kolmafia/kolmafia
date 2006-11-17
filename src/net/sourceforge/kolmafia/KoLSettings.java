@@ -128,7 +128,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	 * will be replaced with an underscore, and all other punctuation will
 	 * be removed.
 	 *
-	 * @param	noExtensionName	The name of the character this settings file represents
+	 * @param	characterName	The name of the character this settings file represents
 	 */
 
 	public KoLSettings( String characterName )

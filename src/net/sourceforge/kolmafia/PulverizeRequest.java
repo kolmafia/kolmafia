@@ -43,12 +43,6 @@ public class PulverizeRequest extends KoLRequest
 
 	private AdventureResult item;
 
-	/**
-	 * Constructs a new <code>PulverizeRequest</code>.
-	 * @param	client	Theto be notified of completion
-	 * @param	item	The item to be pulverized
-	 */
-
 	public PulverizeRequest( AdventureResult item )
 	{
 		super( "smith.php" );

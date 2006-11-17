@@ -548,8 +548,6 @@ public abstract class MoodSettings implements KoLConstants
 	 * Note that all settings are overridden; if the given file does
 	 * not exist, the current global settings will also be rewritten
 	 * into the appropriate file.
-	 *
-	 * @param	source	The file that contains (or will contain) the character data
 	 */
 
 	public static void loadSettings()

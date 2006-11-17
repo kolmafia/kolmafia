@@ -119,14 +119,14 @@ public abstract class Terminal
 	}
 
 
-	/** 
+	/**
 	 *  Returns true if the current console supports ANSI
 	 *  codes.
 	 */
 	public boolean isANSISupported ()
 	{
 		return true;
-	}	
+	}
 
 
 	/**
@@ -141,14 +141,14 @@ public abstract class Terminal
 	}
 
 
-	/** 
+	/**
 	 *  Reads a virtual key from the console. Typically, this will
 	 *  just be the raw character that was entered, but in some cases,
 	 *  multiple input keys will need to be translated into a single
 	 *  virtual key.
-	 *  
+	 *
 	 *  @param  in  the InputStream to read from
-	 *  @return  the virtual key (e.g., {@link ConsoleOperations#VK_UP})
+	 *  @return  the virtual key
 	 */
 	public int readVirtualKey (InputStream in)
 		throws IOException

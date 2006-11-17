@@ -51,9 +51,7 @@ public class ClanGymRequest extends KoLRequest
 	/**
 	 * Constructs a new <code>ClanGymRequest</code>.
 	 *
-	 * @param	client	Theto be notified in the event of error
 	 * @param	equipmentId	The identifier for the equipment you're using
-	 * @param	turnCount	The number of turns you're spending on the equipment
 	 */
 
 	public ClanGymRequest( int equipmentId )

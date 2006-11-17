@@ -261,7 +261,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * Constructs a new KoLRequest which will notify the given client
 	 * of any changes and will use the given URL for data submission.
 	 *
-	 * @param	client	Theassociated with this <code>KoLRequest</code>
 	 * @param	formURLString	The form to be used in posting data
 	 */
 
@@ -274,7 +273,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * of any changes and will use the given URL for data submission,
 	 * possibly following redirects if the parameter so specifies.
 	 *
-	 * @param	client	Theassociated with this <code>KoLRequest</code>
 	 * @param	formURLString	The form to be used in posting data
 	 * @param	followRedirects	<code>true</code> if redirects are to be followed
 	 */

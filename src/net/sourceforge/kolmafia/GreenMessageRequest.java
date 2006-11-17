@@ -123,6 +123,6 @@ public class GreenMessageRequest extends SendMessageRequest
 		if ( urlString.indexOf( "sendmessage.php" ) == -1 )
 			return false;
 
-		return processRequest( "send", urlString, storage, 0 );
+		return processRequest( "send", urlString, inventory, 0 );
 	}
 }

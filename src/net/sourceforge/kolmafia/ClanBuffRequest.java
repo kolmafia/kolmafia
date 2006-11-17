@@ -56,7 +56,6 @@ public class ClanBuffRequest extends KoLRequest
 	 * available internally.  Note that no descendents are
 	 * possible because of the nature of the constructor.
 	 *
-	 * @param	client	Theto be notified in the event of error
 	 * @param	buffId	The unique numeric identifier of the buff
 	 */
 
@@ -74,7 +73,6 @@ public class ClanBuffRequest extends KoLRequest
 	 * Returns a list of all the possible requests available through
 	 * the current implementation of <code>ClanBuffRequest</code>.
 	 *
-	 * @param	client	Theto be associated with the requests
 	 * @return	A complete <code>ListModel</code>
 	 */
 

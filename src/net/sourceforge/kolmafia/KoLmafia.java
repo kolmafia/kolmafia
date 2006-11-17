@@ -137,7 +137,7 @@ public abstract class KoLmafia implements KoLConstants
 	private static final Pattern GOURD_PATTERN = Pattern.compile( "Bring back (\\d+)" );
 
 	/**
-	 * The main method.  Currently, it instantiates a single instance
+	 * The mai.  This method.  Currently, it instantiates a single instance
 	 * of the <code>KoLmafiaGUI</code>.
 	 */
 
@@ -629,8 +629,8 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method to parse an individual adventuring result.
-	 * This method determines what the result actually was and
+	 * Utilit.  This method to parse an individual adventuring result.
+	 * Thi.  This method determines what the result actually was and
 	 * adds it to the tally.
 	 *
 	 * @param	result	String to parse for the result
@@ -699,8 +699,8 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to process a result.  By default, this
-	 * method will also add an adventure result to the tally directly.
+	 * Utilit.  This method used to process a result.  By default, this
+	 .  This method will also add an adventure result to the tally directly.
 	 * This is used whenever the nature of the result is already known
 	 * and no additional parsing is needed.
 	 *
@@ -712,7 +712,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to process a result, and the user wishes to
+	 * Utilit.  This method used to process a result, and the user wishes to
 	 * specify whether or not the result should be added to the running
 	 * tally.  This is used whenever the nature of the result is already
 	 * known and no additional parsing is needed.
@@ -929,7 +929,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method which ensures that the amount needed exists,
+	 * Utilit.  This method which ensures that the amount needed exists,
 	 * and if not, calls the appropriate scripts to do so.
 	 */
 
@@ -989,7 +989,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		// If it gets this far, then you should attempt to recover
 		// using the selected items.  This involves a few extra
-		// reflection methods.
+		// reflectio.  This methods.
 
 		String restoreSetting = StaticEntity.getProperty( settingName + "Items" ).trim().toLowerCase();
 
@@ -1064,7 +1064,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method called inbetween battles.  This method
+	 * Utilit.  This method called inbetween battles.  Thi.  This method
 	 * checks to see if the character's HP has dropped below
 	 * the tolerance value, and recovers if it has (if
 	 * the user has specified this in their settings).
@@ -1091,7 +1091,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method which uses the given recovery technique (not specified
+	 * Utilit.  This method which uses the given recovery technique (not specified
 	 * in a script) in order to restore.
 	 */
 
@@ -1126,7 +1126,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method called inbetween commands.  This method
+	 * Utilit.  This method called inbetween commands.  Thi.  This method
 	 * checks to see if the character's MP has dropped below
 	 * the tolerance value, and recovers if it has (if
 	 * the user has specified this in their settings).
@@ -1137,7 +1137,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method which restores the character's current
+	 * Utilit.  This method which restores the character's current
 	 * mana points above the given value.
 	 */
 
@@ -1158,8 +1158,8 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to process the results of any adventure
-	 * in the Kingdom of Loathing.  This method searches for items,
+	 * Utilit.  This method used to process the results of any adventure
+	 * in the Kingdom of Loathing.  Thi.  This method searches for items,
 	 * stat gains, and losses within the provided string.
 	 *
 	 * @param	results	The string containing the results of the adventure
@@ -1625,7 +1625,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	/**
 	 * Makes a request to the hermit, looking for the given number of
-	 * items. method should prompt the user to determine which
+	 * items.  Thi.  This method should prompt the user to determine which
 	 * item to retrieve the hermit.
 	 */
 
@@ -1671,7 +1671,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	/**
 	 * Makes a request to the trapper, looking for the given number of
-	 * items. method should prompt the user to determine which
+	 * items.  Thi.  This method should prompt the user to determine which
 	 * item to retrieve from the trapper.
 	 */
 
@@ -1713,7 +1713,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	/**
 	 * Makes a request to the hunter, looking to sell a given type of
-	 * item. method should prompt the user to determine which
+	 * item.  Thi.  This method should prompt the user to determine which
 	 * item to sell to the hunter.
 	 */
 
@@ -1797,7 +1797,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	/**
 	 * Makes a request to the hunter, looking for the given number of
-	 * items. method should prompt the user to determine which
+	 * items.  This method should prompt the user to determine which
 	 * item to retrieve the hunter.
 	 */
 
@@ -2169,7 +2169,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method which opens a stream to the given file
+	 * Utilit.  This method which opens a stream to the given file
 	 * and closes the original stream, if needed.
 	 */
 
@@ -2217,9 +2217,9 @@ public abstract class KoLmafia implements KoLConstants
 
 	/**
 	 * Initializes a stream for logging debugging information.  This
-	 * method creates a <code>log</code> file in the default
+	 .  This method creates a <code>log</code> file in the default
 	 * directory if one does not exist, or appends to the existing
-	 * log.  This method should only be invoked if the user wishes to
+	 * log.  Thi.  This method should only be invoked if the user wishes to
 	 * assist in beta testing because the output is VERY verbose.
 	 */
 
@@ -2263,7 +2263,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to decode a saved password.
+	 * Utilit.  This method used to decode a saved password.
 	 * This should be called whenever a new password
 	 * intends to be stored in the global file.
 	 */
@@ -2321,7 +2321,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to decode a saved password.
+	 * Utilit.  This method used to decode a saved password.
 	 * This should be called whenever a new password
 	 * intends to be stored in the global file.
 	 */
@@ -2414,9 +2414,9 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to print a list to the given output
+	 * Utilit.  This method used to print a list to the given output
 	 * stream.  If there's a need to print to the current output
-	 * stream, simply pass the output stream to this method.
+	 * stream, simply pass the output stream to thi.  This method.
 	 */
 
 	protected void printList( List printing )
@@ -2436,7 +2436,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to purchase the given number of items
+	 * Utilit.  This method used to purchase the given number of items
 	 * from the mall using the given purchase requests.
 	 */
 
@@ -2513,7 +2513,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to register a given adventure in
+	 * Utilit.  This method used to register a given adventure in
 	 * the running adventure summary.
 	 */
 
@@ -2537,7 +2537,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to register a given encounter in
+	 * Utilit.  This method used to register a given encounter in
 	 * the running adventure summary.
 	 */
 

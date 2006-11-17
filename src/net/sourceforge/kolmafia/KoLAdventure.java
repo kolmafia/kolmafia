@@ -80,7 +80,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	 * Constructs a new <code>KoLAdventure</code> with the given
 	 * specifications.
 	 *
-	 * @param	client	Theto which the results of the adventure are reported
 	 * @param	formSource	The form associated with the given adventure
 	 * @param	adventureId	The identifier for this adventure, relative to its form
 	 * @param	adventureName	The string form, or name of this adventure

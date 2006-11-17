@@ -190,7 +190,7 @@ public class ANSIBuffer
 		static final int BLINK = 5;
 		static final int REVERSE = 7;
 		static final int CONCEALED = 8;
-	
+
 		static final int FG_BLACK = 30;
 		static final int FG_RED = 31;
 		static final int FG_GREEN = 32;
@@ -200,10 +200,10 @@ public class ANSIBuffer
 		static final int FG_CYAN = 36;
 		static final int FG_WHITE = 37;
 		static final char ESC = 27;
-	
 
 
-		/** 
+
+		/**
 		 *  Constructor is private since this is a utility class.
 		 */
 		private ANSICodes ()
@@ -237,7 +237,7 @@ public class ANSIBuffer
 		{
 			return ESC + "[=" + mode + "h";
 		}
-	
+
 		/**
 	 	 * Same as setmode () except for mode = 7, which disables line
 	 	 * wrapping (useful for writing the right-most column without
@@ -247,7 +247,7 @@ public class ANSIBuffer
 		{
 			return ESC + "[=" + mode + "l";
 		}
-	
+
 		/**
 	 	 * Clears the screen and moves the cursor to the home postition.
 	 	 */
@@ -255,7 +255,7 @@ public class ANSIBuffer
 		{
 			return ESC + "[2J";
 		}
-	
+
 		/**
 	 	 * Removes all characters from the current cursor position until
 	 	 * the end of the line.
@@ -264,7 +264,7 @@ public class ANSIBuffer
 		{
 			return ESC + "[K";
 		}
-	
+
 		/**
 	 	 * Moves the cursor n positions to the left. If n is greater or
 	 	 * equal to the current cursor column, the cursor is moved to the
@@ -274,7 +274,7 @@ public class ANSIBuffer
 		{
 			return ESC + "[" + n + "D";
 		}
-	
+
 		/**
 	 	 * Moves the cursor n positions to the right. If n plus the current
 	 	 * cursor column is greater than the rightmost column, the cursor
@@ -284,7 +284,7 @@ public class ANSIBuffer
 		{
 			return ESC + "[" + n + "C";
 		}
-	
+
 		/**
 	 	 * Moves the cursor n rows up without changing the current column.
 	 	 * If n is greater than or equal to the current row, the cursor is
@@ -294,7 +294,7 @@ public class ANSIBuffer
 		{
 			return ESC + "[" + n + "A";
 		}
-	
+
 		/**
 	 	 * Moves the cursor n rows down. If n plus the current row is greater
 	 	 * than the bottom row, the cursor is moved to the bottom row.
@@ -303,7 +303,7 @@ public class ANSIBuffer
 		{
 			return ESC + "[" + n + "B";
 		}
-	
+
 		/*
 	 	 * Moves the cursor to the given row and column. (1,1) represents
 	 	 * the upper left corner. The lower right corner of a usual DOS
@@ -313,7 +313,7 @@ public class ANSIBuffer
 		{
 			return ESC + "[" + row + ";" + column + "H";
 		}
-	
+
 		/**
 	 	 * Saves the current cursor position.
 	 	 */
@@ -321,7 +321,7 @@ public class ANSIBuffer
 		{
 			return ESC + "[s";
 		}
-	
+
 		/**
 	 	 * Restores the saved cursor position.
 	 	 */
@@ -329,7 +329,7 @@ public class ANSIBuffer
 		{
 			return ESC + "[u";
 		}
-	
+
 		/**
 	 	 * Sets the character attribute. It will be
 		 * one of the following character attributes:
@@ -371,11 +371,10 @@ public class ANSIBuffer
 		{
 			return ESC + "[" + attr + "m";
 		}
-	
+
 		/**
-	 	 * Sets the key with the given code to the given value. code must be
-	 	 * derived from the following table, value must
-		 * be any semicolon-separated
+	 	 * Sets the key with the given code to the given value.  Code must be
+	 	 * derived from the following table, value must be any semicolon-separated
 	 	 * combination of String (enclosed in double quotes) and numeric values.
 	 	 * For example, to set F1 to the String "Hello F1", followed by a CRLF
 	 	 * sequence, one can use: ANSI.setkey ("0;59", "\"Hello F1\";13;10").
@@ -498,4 +497,4 @@ public class ANSIBuffer
 		}
 	}
 }
-	
+
