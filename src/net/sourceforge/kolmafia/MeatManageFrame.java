@@ -163,12 +163,6 @@ public class MeatManageFrame extends KoLFrame
 			int fundTransferType = fundSource.getSelectedIndex();
 			int amountToTransfer = getValue( amountField );
 
-			if ( fundTransferType > 1 && KoLCharacter.isHardcore() )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You cannot pull meat from Hagnk's while in Hardcore." );
-				return;
-			}
-
 			ItemStorageRequest [] requests = new ItemStorageRequest[ fundTransferType == 3 ? 2 : 1 ];
 
 			switch ( fundTransferType )
