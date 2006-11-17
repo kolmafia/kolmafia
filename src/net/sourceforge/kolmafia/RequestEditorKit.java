@@ -1015,7 +1015,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		buffer.append( "</select></td></tr><tr><td align=right><b>Moon Sign:</b>&nbsp;</td><td>" );
 		buffer.append( "<select style=\"width: 250px\" name=whichsign><option value=0>- Muscle Signs -</option><option value=1>The Mongoose</option><option value=2>The Wallaby</option><option value=3>The Vole</option><option value=0>- Mysticality Signs -</option><option value=4>The Platypus</option><option value=5>The Opossum</option><option value=6>The Marmot</option><option value=0>- Moxie Signs -</option><option value=7>The Wombat</option><option value=8>The Blender</option><option value=9>The Packrat</option></select>" );
-		buffer.append( "</td></tr><tr><td align=right><b>Hardcore:</b>&nbsp;</td><td><input type=checkbox id=hardcore name=hardcore onClick=\"var softstyle = document.getElementById(\'softskills\').style; var hardstyle = document.getElementById(\'hardskills\').style; if ( document.getElementById('hardcore').checked ) { softstyle.display = 'none'; hardstyle.display = ''; } else { hardstyle.display = 'none'; softstyle.display = ''; } return true;\"></td></tr>" );
+		buffer.append( "</td></tr><tr><td align=right><b>Hardcore:</b>&nbsp;</td><td><input type=checkbox id=hardcore name=hardcore checked onClick=\"var softstyle = document.getElementById(\'softskills\').style; var hardstyle = document.getElementById(\'hardskills\').style; if ( document.getElementById('hardcore').checked ) { softstyle.display = 'none'; hardstyle.display = ''; } else { hardstyle.display = 'none'; softstyle.display = ''; } return true;\"></td></tr>" );
 		buffer.append( "<tr><td align=right><b>Restrictions:</b>&nbsp;</td><td>" );
 		buffer.append( "<select style=\"width: 250px\" name=whichpath><option value=0>No dietary restrictions</option><option value=1>Boozetafarian</option><option value=2>Teetotaler</option><option value=3>Oxygenarian</option></select></td></tr>" );
 
@@ -1026,9 +1026,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// go ahead and add in all the missing data that players might want to
 		// look at to see which class to go for next.
 
-		buffer.append( "<center><div id=\"softskills\"><h2>Unpermed Softcore Skills</h2>" );
+		buffer.append( "<center><div id=\"softskills\" style=\"display:none\"><h2>Unpermed Softcore Skills</h2>" );
 		createSkillTable( buffer, softSkills );
-		buffer.append( "</div><div id=\"hardskills\" style=\"display:none\"><h2>Unpermed Hardcore Skills</h2>" );
+		buffer.append( "</div><div id=\"hardskills\"><h2>Unpermed Hardcore Skills</h2>" );
 		createSkillTable( buffer, hardSkills );
 		buffer.append( "</div></center>" );
 
