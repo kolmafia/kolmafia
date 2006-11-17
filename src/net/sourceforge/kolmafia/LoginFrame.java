@@ -749,7 +749,6 @@ public class LoginFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "autoExecuteTimeIn", "Automatically time-in whenever timed-out" },
 			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" }
 		};
 

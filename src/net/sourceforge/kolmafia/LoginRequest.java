@@ -62,10 +62,6 @@ public class LoginRequest extends KoLRequest
 
 	private static int STANDARD_WAIT = 75;
 	private static int TOO_MANY_WAIT = 960;
-
-	private static int ROLLOVER_WAIT = 1200;
-	private static int LONG_ROLLOVER_WAIT = 5400;
-
 	private static int BAD_CHALLENGE_WAIT = 15;
 
 	private static int waitTime = STANDARD_WAIT;

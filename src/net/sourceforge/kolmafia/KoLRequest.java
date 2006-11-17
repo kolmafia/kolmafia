@@ -1158,8 +1158,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( redirectLocation.indexOf( "login.php" ) != -1 )
 		{
-			KoLmafia.updateDisplay( "Session timed out." );
-			return false;
+			LoginRequest.executeTimeInRequest();
+			return sessionId == null;
 		}
 		else if ( redirectLocation.indexOf( "maint.php" ) != -1 )
 		{
