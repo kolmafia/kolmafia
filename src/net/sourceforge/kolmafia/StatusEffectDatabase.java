@@ -145,8 +145,8 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	/**
 	 * Returns the Id number for an effect, given its name.
-	 * @param	effectName	The name of the effect to lookup
-	 * @return	The Id number of the corresponding effect
+	 * @param	effectId	The Id of the effect to lookup
+	 * @return	The name of the corresponding effect
 	 */
 
 	public static final String getImage( int effectId )

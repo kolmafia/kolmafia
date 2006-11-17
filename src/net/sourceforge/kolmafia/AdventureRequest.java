@@ -66,7 +66,6 @@ public class AdventureRequest extends KoLRequest
 	 * adventure designated by the given Id by posting to the provided form,
 	 * notifying the givenof results (or errors).
 	 *
-	 * @param	client	Theto which results will be reported
 	 * @param	adventureName	The name of the adventure location
 	 * @param	formSource	The form to which the data will be posted
 	 * @param	adventureId	The identifer for the adventure to be executed

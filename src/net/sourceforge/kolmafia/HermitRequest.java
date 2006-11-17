@@ -55,12 +55,8 @@ public class HermitRequest extends KoLRequest
 	private static boolean neededPermits = false;
 
 	/**
-	 * Constructs a new <code>HermitRequest</code>.  Note that in order
-	 * for the hermit request to successfully run after creation, there
-	 * must be <code>KoLSettings</code> specifying the trade that takes
-	 * place.
-	 *
-	 * @param	client	Theto which this request will report errors/results
+	 * Constructs a new <code>HermitRequest</code> that simply checks
+	 * what items the hermit has available.
 	 */
 
 	public HermitRequest()
@@ -70,6 +66,12 @@ public class HermitRequest extends KoLRequest
 		this.itemId = -1;
 		this.quantity = 0;
 	}
+
+	/**
+	 * Constructs a new <code>HermitRequest</code>.  Note that in order
+	 * for the hermit request to successfully run, there must be
+	 * <code>KoLSettings</code> specifying the trade that takes place.
+	 */
 
 	public HermitRequest( int itemId, int quantity )
 	{

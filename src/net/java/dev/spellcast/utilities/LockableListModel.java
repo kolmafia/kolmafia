@@ -385,7 +385,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	}
 
 	/**
-	 * Please refer to {@link java.util.ArrayList#lastElement()} for more
+	 * Please refer to {@link java.util.Vector#lastElement()} for more
 	 * information regarding this function.
 	 */
 

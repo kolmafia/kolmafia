@@ -39,12 +39,6 @@ public class ZapRequest extends KoLRequest
 	private AdventureResult wand;
 	private AdventureResult item;
 
-	/**
-	 * Constructs a new <code>ZapRequest</code>.
-	 * @param	client	Theto be notified of completion
-	 * @param	item	The item to be zapped
-	 */
-
 	public ZapRequest( AdventureResult wand, AdventureResult item )
 	{
 		super( "wand.php" );

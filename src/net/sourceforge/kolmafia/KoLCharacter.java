@@ -1886,7 +1886,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to set the list of available skills.
-	 * @param	availableSkills	The list of the names of available skills
+	 * @param	newSkillSet	The list of the names of available skills
 	 */
 
 	public static void setAvailableSkills( List newSkillSet )
@@ -2110,7 +2110,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to get the current familiar.
-	 * @return	familiar
+	 * @return	familiar	The current familiar
 	 */
 
 	public static FamiliarData getFamiliar()
@@ -2123,7 +2123,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to get arena wins
-	 * @return	wins
+	 * @return	The number of arena wins
 	 */
 
 	public static int getArenaWins()
@@ -2171,7 +2171,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to set arena wins
-	 * @parameter	wins
+	 * @param	wins	The number of arena wins
 	 */
 
 	public static void setArenaWins( int wins )
@@ -2180,8 +2180,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to find the specified familiar.
-	 * @param	race
-	 * @return	familiar
+	 * @param	race	The race of the familiar to find
+	 * @return	familiar	The first familiar matching this race
 	 */
 
 	public static FamiliarData findFamiliar( String race )
@@ -2198,7 +2198,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to set the data for the current familiar.
-	 * @param	familiar
+	 * @param	familiar	The new current familiar
 	 */
 
 	public static void setFamiliar( FamiliarData familiar )

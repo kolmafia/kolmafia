@@ -44,12 +44,6 @@ public class UneffectRequest extends KoLRequest
 	public static AdventureResult TINY_HOUSE = new AdventureResult( "tiny house", 1 );
 	public static AdventureResult FOREST_TEARS = new AdventureResult( "forest tears", 1 );
 
-	/**
-	 * Constructs a new <code>UneffectRequest</code>.
-	 * @param	client	Theto be notified of completion
-	 * @param	effect	The effect to be removed
-	 */
-
 	public UneffectRequest( AdventureResult effect )
 	{
 		super( isShruggable( effect.getName() ) ? "charsheet.php" : "uneffect.php" );
@@ -82,7 +76,7 @@ public class UneffectRequest extends KoLRequest
 	 * Given the name of an effect, return the name of the skill that
 	 * created that effect
 	 *
-	 * @param	effect	The name of the effect
+	 * @param	effectName	The name of the effect
 	 * @return	skill	The name of the skill
 	 */
 

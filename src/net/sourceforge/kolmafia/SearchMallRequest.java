@@ -65,13 +65,6 @@ public class SearchMallRequest extends KoLRequest
 	private boolean retainAll;
 	private String searchString;
 
-	/**
-	 * Constructs a new <code>SearchMallRequest</code> which searches for
-	 * the given item, storing the results in the given <code>ListModel</code>.
-	 *
-	 * @param	client	Theto be notified in case of error
-	 */
-
 	public SearchMallRequest( int storeId )
 	{
 		super( "mallstore.php" );
@@ -87,7 +80,6 @@ public class SearchMallRequest extends KoLRequest
 	 * Note that the search string is exactly the same as the way KoL does
 	 * it at the current time.
 	 *
-	 * @param	client	Theto be notified in case of error
 	 * @param	searchString	The string (including wildcards) for the item to be found
 	 * @param	cheapestCount	The number of stores to show; use a non-positive number to show all
 	 * @param	results	The sorted list in which to store the results
@@ -103,10 +95,10 @@ public class SearchMallRequest extends KoLRequest
 	 * Note that the search string is exactly the same as the way KoL does
 	 * it at the current time.
 	 *
-	 * @param	client	Theto be notified in case of error
 	 * @param	searchString	The string (including wildcards) for the item to be found
 	 * @param	cheapestCount	The number of stores to show; use a non-positive number to show all
 	 * @param	results	The sorted list in which to store the results
+	 * @param	retainAll	Whether the result list should be cleared before searching
 	 */
 
 	public SearchMallRequest( String searchString, int cheapestCount, List results, boolean retainAll )

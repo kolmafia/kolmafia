@@ -47,16 +47,6 @@ public class SewerRequest extends KoLRequest
 	public static final AdventureResult GUM = new AdventureResult( "chewing gum on a string", -1 );
 	private boolean isLuckySewer;
 
-	/**
-	 * Constructs a new <code>SewerRequest</code>.  This method will
-	 * also determine what kind of adventure to request, based on
-	 * whether or not the character is currently lucky, and whether
-	 * or not the desired location is the lucky sewer adventure.
-	 *
-	 * @param	client	Theassociated with this <code>KoLRequest</code>
-	 * @param	isLuckySewer	Whether or not the user intends to go the lucky sewer
-	 */
-
 	public SewerRequest( boolean isLuckySewer )
 	{
 		super( "sewer.php" );

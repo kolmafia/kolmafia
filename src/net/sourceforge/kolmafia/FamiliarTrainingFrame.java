@@ -605,7 +605,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * Utility method to level the current familiar by fighting the
 	 * current arena opponents.
 	 *
-	 * @param	StaticEntity.getClient()	KoLmafia StaticEntity.getClient()
 	 * @param	goal	Weight goal for the familiar
 	 * @param	type	BASE, BUFF, or TURNS
 	 * @param	buffs	true if should cast buffs during training
@@ -930,7 +929,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * Utility method to buff the current familiar to the specified weight
 	 * or higher.
 	 *
-	 * @param	StaticEntity.getClient()	KoLmafia StaticEntity.getClient()
 	 * @param	weight	Weight goal for the familiar
 	 */
 

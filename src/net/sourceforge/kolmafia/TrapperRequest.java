@@ -47,14 +47,6 @@ public class TrapperRequest extends KoLRequest
 	private int quantity;
 	public static final AdventureResult YETI_FUR = new AdventureResult( 388, 0 );
 
-	/**
-	 * Constructs a new <code>TrapperRequest</code>.
-	 *
-	 * @param	client	Theto which this request will report errors/results
-	 * @param	itemId	The item which will be traded at the trapper
-	 * @param	quantity	How many items to trade
-	 */
-
 	public TrapperRequest( int itemId, int quantity )
 	{
 		super( "trapper.php" );

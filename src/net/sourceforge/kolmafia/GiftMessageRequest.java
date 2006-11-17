@@ -181,7 +181,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		if ( urlString.indexOf( "town_sendgift.php" ) == -1 )
 			return false;
 
-		return processRequest( "send", urlString, storage, 0 );
+		return processRequest( "send", urlString, inventory, 0 );
 	}
 
 	protected String getStatusMessage()

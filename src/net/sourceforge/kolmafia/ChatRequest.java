@@ -52,7 +52,6 @@ public class ChatRequest extends KoLRequest
 
 	/**
 	 * Constructs a new <code>ChatRequest</code>.
-	 * @param	client	Theto be updated
 	 */
 
 	public ChatRequest()
@@ -63,7 +62,7 @@ public class ChatRequest extends KoLRequest
 	 * Constructs a new <code>ChatRequest</code> that will send the given
 	 * string to the server.
 	 *
-	 * @param	client	Theto be updated
+	 * @param	contact	The channel or player to which this message is to be sent
 	 * @param	message	The message to be sent
 	 */
 

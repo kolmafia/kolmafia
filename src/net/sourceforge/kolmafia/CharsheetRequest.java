@@ -58,8 +58,6 @@ public class CharsheetRequest extends KoLRequest
 	 * Constructs a new <code>CharsheetRequest</code>.  The data
 	 * in the KoLCharacter entity will be overridden over the
 	 * course of this request.
-	 *
-	 * @param	client	Theto be notified in case of errors
 	 */
 
 	public CharsheetRequest()

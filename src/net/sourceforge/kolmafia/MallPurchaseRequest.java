@@ -107,13 +107,14 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 * quantity of items being purchases; all others are consistent through
 	 * the time when the purchase is actually executed.
 	 *
-	 * @param	client	Theto which this request reports errors
 	 * @param	itemName	The name of the item to be purchased
 	 * @param	itemId	The database Id for the item to be purchased
 	 * @param	quantity	The quantity of items to be purchased
 	 * @param	shopId	The integer identifier for the shop from which the item will be purchased
 	 * @param	shopName	The name of the shop
 	 * @param	price	The price at which the item will be purchased
+	 * @param	limit	The maximum number of items that can be purchased per day
+	 * @param	canPurchase	Whether or not this purchase request is possible
 	 */
 
 	public MallPurchaseRequest( String itemName, int itemId, int quantity, int shopId, String shopName, int price, int limit, boolean canPurchase )

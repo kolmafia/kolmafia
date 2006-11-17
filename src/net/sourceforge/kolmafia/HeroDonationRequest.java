@@ -61,7 +61,6 @@ public class HeroDonationRequest extends KoLRequest
 	/**
 	 * Constructs a new <code>HeroDonationRequest</code>.
 	 *
-	 * @param	client	Theto be notified in the event of error
 	 * @param	heroId	The identifier for the hero to whom you are donating
 	 * @param	amount	The amount you're donating to the given hero
 	 */
