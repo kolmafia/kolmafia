@@ -158,18 +158,20 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void run()
 		{
-			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, UNDERCUT_MESSAGE + " Are you sure you wish to continue with this repricing attempt?" ) )
+			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, UNDERCUT_MESSAGE + "Are you sure you wish to continue with this repricing?" ) )
+			{
+				KoLmafia.enableDisplay();
 				return;
+			}
 
 			StaticEntity.getClient().priceItemsAtLowestPrice();
 		}
 	}
 
 	public static final String UNDERCUT_MESSAGE =
-		"KoLmafia will take all items priced at 999,999,999 meat and attempt to reprice them. \n" +
+		"KoLmafia will take items priced at 999,999,999 meat and attempt to reprice them. \n" +
 		"In this attempt, it will match or undercut the current lowest price in the mall. \n" +
-		"Unfortunately, however, if someone is currently holding an \"anti-raffle\" \n" +
-		"KoLmafia will price based on the anti-raffle price.";
+		"As a warning, if someone holds an \"anti-raffle,\" KoLmafia will price based on that price. \n";
 
 	private class StoreListTable extends TransparentTable
 	{
