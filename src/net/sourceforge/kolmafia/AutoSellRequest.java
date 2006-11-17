@@ -378,6 +378,9 @@ public class AutoSellRequest extends SendMessageRequest
 		StringBuffer buffer = new StringBuffer();
 		for ( int i = 0; i < attachments.length; ++i )
 		{
+			if ( attachments[i] == null )
+				continue;
+
 			buffer.append( buffer.length() == 0 ? "autosell " : ", " );
 			buffer.append( quantity == 0 ? "*" : String.valueOf( quantity ) );
 			buffer.append( " " );

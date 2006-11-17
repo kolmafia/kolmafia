@@ -49,10 +49,12 @@ import javax.swing.event.ListDataListener;
 
 // containers
 import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 
@@ -63,6 +65,8 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.ItemManagePanel.FilterItemComboBox;
+import net.sourceforge.kolmafia.ItemManagePanel.UpdateFilterListener;
 
 /**
  * An extension of <code>KoLFrame</code> which handles all the item
@@ -74,7 +78,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class ItemManageFrame extends KoLFrame
 {
 //	private LabeledScrollPanel bruteForcer;
-	private LabeledScrollPanel insideBackpack, insideCloset, itemCreator, npcOfferings;
+	private LabeledScrollPanel itemConsumer, insideBackpack, insideCloset, itemCreator, npcOfferings;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -88,12 +92,14 @@ public class ItemManageFrame extends KoLFrame
 		tabs = new JTabbedPane();
 		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
 
+		itemConsumer = new ConsumeItemPanel();
 		insideBackpack = new ClosetManagePanel( inventory );
 		insideCloset = new ClosetManagePanel( closet );
 		itemCreator = new CreateItemPanel();
 //		bruteForcer = new InventPanel();
 		npcOfferings = null;
 
+		tabs.addTab( "Usable Items", itemConsumer );
 		tabs.addTab( "Inventory Items", insideBackpack );
 		tabs.addTab( "Closeted Items", insideCloset );
 		tabs.addTab( "Creatable Items", itemCreator );
@@ -353,6 +359,142 @@ public class ItemManageFrame extends KoLFrame
 				(KoLRequest) (new RestaurantRequest( item )) : (KoLRequest) (new MicrobreweryRequest( item ));
 
 			(new RequestThread( request, consumptionCount )).start();
+		}
+	}
+
+	private class ConsumeItemPanel extends ItemManagePanel
+	{
+		public ConsumeItemPanel()
+		{
+			super( "Use Items", "use item", "check wiki", inventory );
+
+			filterPanel = new JPanel();
+
+			filters = new JCheckBox[5];
+
+			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
+			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
+			filters[2] = new JCheckBox( "Show restoratives", true );
+			filters[3] = new JCheckBox( "Show junk", StaticEntity.getBooleanProperty( "showJunkItems" ) );
+			filters[4] = new JCheckBox( "Show others", true );
+
+			for ( int i = 0; i < filters.length; ++i )
+			{
+				filterPanel.add( filters[i] );
+				filters[i].addActionListener( new UpdateFilterListener() );
+			}
+
+			JPanel moverPanel = new JPanel();
+
+			movers = new JRadioButton[4];
+			movers[0] = new JRadioButton( "Move all" );
+			movers[1] = new JRadioButton( "Move all but one" );
+			movers[2] = new JRadioButton( "Move multiple", true );
+			movers[3] = new JRadioButton( "Move exactly one" );
+
+			ButtonGroup moverGroup = new ButtonGroup();
+			for ( int i = 0; i < 4; ++i )
+			{
+				moverGroup.add( movers[i] );
+				moverPanel.add( movers[i] );
+			}
+
+			JPanel northPanel = new JPanel( new BorderLayout() );
+			northPanel.add( filterPanel, BorderLayout.NORTH );
+			northPanel.add( moverPanel, BorderLayout.SOUTH );
+
+			actualPanel.add( northPanel, BorderLayout.NORTH );
+
+			wordfilter = new ConsumableFilterComboBox();
+			centerPanel.add( wordfilter, BorderLayout.NORTH );
+		}
+
+		public void actionConfirmed()
+		{
+			Object [] items = getDesiredItems( "Consume" );
+			if ( items.length == 0 )
+				return;
+
+			Runnable [] requests = new Runnable[ items.length ];
+			for ( int i = 0; i < items.length; ++i )
+				requests[i] = new ConsumeItemRequest( (AdventureResult) items[i] );
+
+			(new RequestThread( requests )).start();
+		}
+
+		public void actionCancelled()
+		{
+			String name;
+			Object [] values = elementList.getSelectedValues();
+
+			for ( int i = 0; i < values.length; ++i )
+			{
+				name = ((AdventureResult)values[i]).getName();
+				if ( name != null )
+					StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
+			}
+		}
+
+		private class ConsumableFilterComboBox extends FilterItemComboBox
+		{
+			private boolean food, booze, restores, junk, other;
+
+			public ConsumableFilterComboBox()
+			{	filter = new ConsumableFilter();
+			}
+
+			private class ConsumableFilter extends WordBasedFilter
+			{
+				public ConsumableFilter()
+				{
+					super( StaticEntity.getBooleanProperty( "showJunkItems" ) );
+				}
+
+				protected void filterItems()
+				{
+					food = filters[0].isSelected();
+					booze = filters[1].isSelected();
+					restores = filters[2].isSelected();
+					junk = filters[3].isSelected();
+					other = filters[4].isSelected();
+
+					filter.shouldFilterJunkItems = !junk;
+					elementList.applyFilter( filter );
+				}
+
+				public boolean isVisible( Object element )
+				{
+					boolean isVisibleWithFilter = true;
+					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
+					{
+					case ConsumeItemRequest.CONSUME_EAT:
+						isVisibleWithFilter = food;
+						break;
+
+					case ConsumeItemRequest.CONSUME_DRINK:
+						isVisibleWithFilter = booze;
+						break;
+
+					case ConsumeItemRequest.CONSUME_RESTORE:
+						isVisibleWithFilter = restores;
+						break;
+
+					case ConsumeItemRequest.CONSUME_MULTIPLE:
+					case ConsumeItemRequest.CONSUME_USE:
+						isVisibleWithFilter = HPRestoreItemList.contains( (AdventureResult) element ) ? restores : other;
+						break;
+
+					default:
+						isVisibleWithFilter = false;
+						break;
+					}
+
+					if ( !isVisibleWithFilter )
+						return false;
+
+					return super.isVisible( element );
+				}
+			}
 		}
 	}
 

@@ -291,7 +291,9 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( showAdventuringMessage() )
 				return;
 
+			KoLmafia.updateDisplay( "Determining number of attacks remaining..." );
 			(new FlowerHunterRequest()).run();
+			KoLmafia.updateDisplay( "Attack count retrieved." );
 		}
 		else if ( frameName.equals( "BuffRequestFrame" ) )
 		{

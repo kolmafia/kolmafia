@@ -314,7 +314,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 	 * key events of a JComboBox to allow you to catch key events.
 	 */
 
-	private class FilterItemComboBox extends MutableComboBox
+	protected class FilterItemComboBox extends MutableComboBox
 	{
 		private boolean food, booze, equip, junk, other;
 
@@ -336,7 +336,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			filterItems();
 		}
 
-		private void filterItems()
+		protected void filterItems()
 		{
 			if ( filters == null )
 			{

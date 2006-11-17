@@ -104,7 +104,7 @@ public abstract class KoLmafia implements KoLConstants
 	private static boolean isEnabled = true;
 	private static boolean hadPendingState = false;
 
-	private static final String [] OVERRIdE_DATA =
+	private static final String [] OVERRIDE_DATA =
 	{
 		"adventures.dat", "buffbots.dat", "classskills.dat", "combats.dat", "concoctions.dat",
 		"equipment.dat", "familiars.dat", "itemdescs.dat", "monsters.dat", "npcstores.dat",
@@ -215,9 +215,9 @@ public abstract class KoLmafia implements KoLConstants
 		if ( version == null || !version.equals( VERSION_NAME ) )
 		{
 			StaticEntity.setProperty( "previousUpdateVersion", VERSION_NAME );
-			for ( int i = 0; i < OVERRIdE_DATA.length; ++i )
+			for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
 			{
-				File outdated = new File( "data/" + OVERRIdE_DATA[i] );
+				File outdated = new File( "data/" + OVERRIDE_DATA[i] );
 				if ( outdated.exists() )
 					outdated.delete();
 
@@ -2671,14 +2671,14 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			for ( int i = 0; i < OVERRIdE_DATA.length; ++i )
+			for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
 			{
-				updateDisplay( "Downloading " + OVERRIdE_DATA[i] + "..." );
+				updateDisplay( "Downloading " + OVERRIDE_DATA[i] + "..." );
 
 				BufferedReader reader = KoLDatabase.getReader(
-					"http://svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIdE_DATA[i] );
+					"http://svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIDE_DATA[i] );
 
-				File output = new File( "data/" + OVERRIdE_DATA[i] );
+				File output = new File( "data/" + OVERRIDE_DATA[i] );
 				if ( output.exists() )
 					output.delete();
 

@@ -63,6 +63,15 @@ public abstract class MPRestoreItemList extends StaticEntity
 		SELTZER, new MPRestoreItem( "Cherry Cloaca Cola", 8 ), new MPRestoreItem( "soda water", 4 )
 	};
 
+	public static boolean contains( AdventureResult item )
+	{
+		for ( int i = 0; i < CONFIGURES.length; ++i )
+			if ( CONFIGURES[i].itemUsed != null && CONFIGURES[i].itemUsed.equals( item ) )
+				return true;
+
+		return false;
+	}
+
 	public static JCheckBox [] getCheckboxes()
 	{
 		String mpRestoreSetting = getProperty( "mpAutoRecoveryItems" );
