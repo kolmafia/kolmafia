@@ -628,8 +628,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return hasNoServantItem;
 		}
 
-		if ( KoLCharacter.hasItem( clockworkServant ) )
+		if ( KoLCharacter.hasItem( clockworkServant, false ) )
 			usedServant = clockworkServant;
+
+		else if ( KoLCharacter.hasItem( clockworkServant, true ) )
+			usedServant = clockworkServant;
+
+		else if ( KoLCharacter.hasItem( servant, false ) )
+			usedServant = servant;
 
 		else if ( KoLCharacter.hasItem( servant, true ) )
 			usedServant = servant;
@@ -666,7 +672,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// to repair the box servant.
 
 		(new ConsumeItemRequest( usedServant )).run();
-		return KoLmafia.permitsContinue();
+		return servant == CHEF ? KoLCharacter.hasChef() : KoLCharacter.hasBartender();
 	}
 
 	protected boolean makeIngredients()

@@ -77,8 +77,6 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final int BOOZE = 5;
 
 	private static boolean isCreationMatch = false;
-	private static boolean isConsumptionMatch = false;
-
 	private String previousLine;
 	private BufferedReader commandStream;
 
@@ -2989,9 +2987,6 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( isCreationMatch && ConcoctionsDatabase.getMixingMethod( itemId ) == ItemCreationRequest.NOCREATE )
 				continue;
 
-			if ( isConsumptionMatch && TradeableItemDatabase.getConsumptionType( itemId ) == ConsumeItemRequest.NO_CONSUME )
-				continue;
-
 			if ( NPCStoreDatabase.contains( nameArray[i] ) )
 			{
 				if ( !npcStoreMatch )
@@ -3532,10 +3527,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
 
-		isConsumptionMatch = true;
 		AdventureResult firstMatch = getFirstMatchingItem( parameters );
-		isConsumptionMatch = false;
-
 		if ( firstMatch == null )
 			return;
 
