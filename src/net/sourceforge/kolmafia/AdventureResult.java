@@ -68,15 +68,13 @@ public class AdventureResult implements Comparable, KoLConstants
 	private String name;
 	private int priority;
 
-	private static final int HP_PRIORITY = 0;
-	private static final int MP_PRIORITY = 1;
-	private static final int ADV_PRIORITY = 2;
-	private static final int DRUNK_PRIORITY = 3;
-	private static final int MEAT_PRIORITY = 4;
-	private static final int SUBSTAT_PRIORITY = 5;
-	private static final int FULLSTAT_PRIORITY = 6;
-	private static final int ITEM_PRIORITY = 7;
-	private static final int EFFECT_PRIORITY = 8;
+	private static final int NO_PRIORITY = 0;
+	private static final int ADV_PRIORITY = 1;
+	private static final int MEAT_PRIORITY = 2;
+	private static final int SUBSTAT_PRIORITY = 3;
+	private static final int FULLSTAT_PRIORITY = 4;
+	private static final int ITEM_PRIORITY = 5;
+	private static final int EFFECT_PRIORITY = 6;
 
 	public static final String HP = "HP";
 	public static final String MP = "MP";
@@ -107,7 +105,20 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public AdventureResult( String name )
-	{	this( name, name.equals( SUBSTATS ) || name.equals( FULLSTATS ) ? new int[3] : new int[1] );
+	{
+		this.name = name;
+		this.count = name.equals( SUBSTATS ) || name.equals( FULLSTATS ) ? new int[3] : new int[1];
+
+		this.priority = name.equals(ADV) ? ADV_PRIORITY : name.equals(MEAT) ? MEAT_PRIORITY :
+			name.equals(HP) || name.equals(MP) || name.equals(DRUNK) ? NO_PRIORITY :
+			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY : name.equals(FULLSTATS) ? FULLSTAT_PRIORITY :
+			StatusEffectDatabase.contains( name ) ? EFFECT_PRIORITY : ITEM_PRIORITY;
+
+		if ( this.priority == EFFECT_PRIORITY )
+			normalizeEffectName();
+		else if ( this.priority == ITEM_PRIORITY )
+			normalizeItemName();
+
 	}
 
 	/**
@@ -120,7 +131,10 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public AdventureResult( int itemId, int count )
-	{	this( TradeableItemDatabase.getItemName( itemId ), count, false );
+	{
+		this.name = TradeableItemDatabase.getItemName( itemId );
+		this.count = new int[] { count };
+		normalizeItemName();
 	}
 
 	/**
@@ -133,33 +147,39 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public AdventureResult( String name, int count )
-	{	this( name, new int[] { count } );
+	{
+		this.name = name;
+		this.count = new int[] { count };
+
+		if ( name.equals(ADV) || name.equals(CHOICE) )
+			this.priority = ADV_PRIORITY;
+		else if ( name.equals(MEAT) )
+			this.priority = MEAT_PRIORITY;
+		else if ( name.equals(HP) || name.equals(MP) || name.equals(DRUNK) )
+			this.priority = NO_PRIORITY;
+		else if ( StatusEffectDatabase.contains( name ) )
+			normalizeEffectName();
+		else
+			normalizeItemName();
 	}
 
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name
-	 * and increase in stat gains.  This method is used internally to
-	 * represent stat gains, but if there are any other results which
-	 * should be represented this way, this constructor is also accessible.
-	 *
-	 * @param	name	The name of the result
-	 * @param	count	How many of the noted result were gained
+	 * and increase in stat gains.
 	 */
 
-	public AdventureResult( String name, int [] count )
+	public AdventureResult( int [] count )
 	{
-		this( name, count, name == null ? ITEM_PRIORITY :
-			name.equals(HP) ? HP_PRIORITY : name.equals(MP) ? MP_PRIORITY :
-			name.equals(ADV) ? ADV_PRIORITY : name.equals(CHOICE) ? ADV_PRIORITY :
-			name.equals(DRUNK) ? DRUNK_PRIORITY : name.equals(MEAT) ? MEAT_PRIORITY :
-			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY : name.equals(FULLSTATS) ? FULLSTAT_PRIORITY :
-			StatusEffectDatabase.contains( name ) ? EFFECT_PRIORITY : ITEM_PRIORITY );
+		this.name = SUBSTATS;
+		this.count = count;
+		this.itemId = -1;
+		this.priority = SUBSTAT_PRIORITY;
 	}
 
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name
 	 * and given gains.  Note that this should only be used if you know
-	 * whether or not this is an item or a status effect -- using
+	 * whether or not this is an item or a status effect.
 	 *
 	 * @param	name	The name of the result
 	 * @param	count	How many of the noted result were gained
@@ -167,49 +187,41 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public AdventureResult( String name, int count, boolean isStatusEffect )
-	{	this( name, new int[] { count }, isStatusEffect ? EFFECT_PRIORITY : ITEM_PRIORITY );
-	}
-
-	/**
-	 * Constructs a new <code>AdventureResult</code> with the given name
-	 * and increase in stat gains.  This also manually sets the priority
-	 * of the element to the given value.  This method is used internally.
-	 *
-	 * @param	name	The name of the result
-	 * @param	count	How many of the noted result were gained
-	 * @param	priority	The priority of this result
-	 */
-
-	private AdventureResult( String name, int [] count, int priority )
 	{
 		this.name = name;
-		this.count = new int[ count.length ];
+		this.count = new int[] { count };
 
-		for ( int i = 0; i < count.length; ++i )
-			this.count[i] = count[i];
+		if ( isStatusEffect )
+			normalizeEffectName();
+		else
+			normalizeItemName();
+	}
 
-		this.priority = priority;
+	public void normalizeEffectName()
+	{
+		this.priority = EFFECT_PRIORITY;
 
-		if ( priority == EFFECT_PRIORITY )
+		int effectId = StatusEffectDatabase.getEffectId( this.name );
+		if ( effectId > 0 )
+			this.name = StatusEffectDatabase.getEffectName( effectId );
+	}
+
+	public void normalizeItemName()
+	{
+		this.priority = ITEM_PRIORITY;
+		this.itemId = TradeableItemDatabase.getItemId( name, this.count[0] );
+
+		if ( this.itemId > 0 )
 		{
-			this.itemId = StatusEffectDatabase.getEffectId( this.name );
-			if ( this.itemId > 0 )
-				this.name = StatusEffectDatabase.getEffectName( this.itemId );
+			this.name = TradeableItemDatabase.getItemName( this.itemId );
 		}
-		else if ( priority == ITEM_PRIORITY )
+		else if ( StaticEntity.getClient() != null )
 		{
-			this.itemId = TradeableItemDatabase.getItemId( name, this.count[0] );
-			if ( this.itemId > 0 )
-			{
-				this.name = TradeableItemDatabase.getItemName( this.itemId );
-			}
-			else if ( StaticEntity.getClient() != null )
-			{
-				KoLmafia.updateDisplay( StaticEntity.getBooleanProperty( "abortOnUnknownItem" ) ? ABORT_STATE : CONTINUE_STATE,
-					"Unknown item found: " + name );
-			}
+			KoLmafia.updateDisplay( StaticEntity.getBooleanProperty( "abortOnUnknownItem" ) ? ABORT_STATE : CONTINUE_STATE,
+				"Unknown item found: " + name );
 		}
 	}
+
 
 	/**
 	 * Accessor method to determine if this result is a status effect.
@@ -359,7 +371,7 @@ public class AdventureResult implements Comparable, KoLConstants
 					MOX_SUBSTAT.contains( statname ) ? modifier : 0
 				};
 
-				return new AdventureResult( SUBSTATS, gained );
+				return new AdventureResult( gained );
 			}
 		}
 
@@ -480,7 +492,12 @@ public class AdventureResult implements Comparable, KoLConstants
 		// current adventure result, and construct the sum.
 
 		AdventureResult current = (AdventureResult) tally.get( index );
-		AdventureResult sumResult = current.getInstance( new int[ current.count.length ] );
+		AdventureResult sumResult;
+
+		if ( current.count.length == 1 )
+			sumResult = current.getInstance( 0 );
+		else
+			sumResult = current.getInstance( new int[ current.count.length ] );
 
 		for ( int i = 0; i < current.count.length; ++i )
 			sumResult.count[i] = current.count[i] + result.count[i];
@@ -664,7 +681,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		for ( int i = 0; i < count.length; ++i )
 			newcount[i] = 0 - count[i];
 
-		return new AdventureResult( name, newcount );
+		return getInstance( newcount );
 	}
 
 	public AdventureResult getInstance( int quantity )
@@ -676,9 +693,15 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public AdventureResult getInstance( int [] quantity )
 	{
-		return isItem() ? new AdventureResult( name, quantity[0], false ) :
-			isStatusEffect() ? new AdventureResult( name, quantity[0], true ) :
-				new AdventureResult( name, quantity );
+		if ( this.priority != SUBSTAT_PRIORITY && this.priority != FULLSTAT_PRIORITY )
+			return getInstance( quantity[0] );
+
+		if ( this.priority == SUBSTAT_PRIORITY )
+			return new AdventureResult( quantity );
+
+		AdventureResult stats = new AdventureResult( FULLSTATS );
+		stats.count = quantity;
+		return stats;
 	}
 
 	/**

@@ -389,6 +389,18 @@ public abstract class StaticEntity implements KoLConstants
 		return KoLmafia.permitsContinue();
 	}
 
+	public static final void printStackTrace()
+	{
+		try
+		{
+			throw new Exception();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public static final void printStackTrace( Throwable t )
 	{	printStackTrace( t, "UNEXPECTED ERROR", EMPTY_STRING_ARRAY );
 	}
