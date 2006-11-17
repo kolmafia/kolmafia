@@ -2164,7 +2164,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( potentialEffects.isEmpty() )
 			return null;
 
-		return new AdventureResult(  (String) potentialEffects.get(0), 0, true );
+		return new AdventureResult( (String) potentialEffects.get(0), 0, true );
 	}
 
 	private static AdventureResult itemParameter( String parameter )
@@ -2288,7 +2288,7 @@ public class KoLmafiaCLI extends KoLmafia
 			for ( int i = 0; i < subpoints.length; ++i )
 				subpoints[i] = Math.max( 0, subpoints[i] );
 
-			condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+			condition = new AdventureResult( subpoints );
 
 			// Make sure that if there was a previous substat condition,
 			// and it modifies the same stat as this condition, that the
@@ -2303,7 +2303,7 @@ public class KoLmafiaCLI extends KoLmafia
 					if ( subpoints[i] != 0 && previousCondition.getCount(i) != 0 )
 						subpoints[i] = Math.max( 0, subpoints[i] - previousCondition.getCount(i) );
 
-				condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+				condition = new AdventureResult( subpoints );
 			}
 		}
 		else if ( conditionString.endsWith( "mus" ) || conditionString.endsWith( "muscle" ) || conditionString.endsWith( "moxie" ) ||
@@ -2323,7 +2323,7 @@ public class KoLmafiaCLI extends KoLmafia
 			for ( int i = 0; i < subpoints.length; ++i )
 				subpoints[i] = Math.max( 0, subpoints[i] );
 
-			condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+			condition = new AdventureResult( subpoints );
 
 			// Make sure that if there was a previous substat condition,
 			// and it modifies the same stat as this condition, that the
@@ -2338,7 +2338,7 @@ public class KoLmafiaCLI extends KoLmafia
 					if ( subpoints[i] != 0 && previousCondition.getCount(i) != 0 )
 						subpoints[i] = Math.max( 0, subpoints[i] - previousCondition.getCount(i) );
 
-				condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+				condition = new AdventureResult( subpoints );
 			}
 		}
 		else if ( conditionString.endsWith( "health" ) || conditionString.endsWith( "mana" ) )

@@ -786,7 +786,10 @@ public abstract class KoLmafia implements KoLConstants
 			fullStatGain[2] = currentTest;
 
 			if ( tally.size() > 3 )
-				tally.set( 3, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
+			{
+				AdventureResult stats = (AdventureResult) tally.get(3);
+				tally.set( 3, stats.getInstance( fullStatGain ) );
+			}
 		}
 
 		// Process the adventure result through the conditions
@@ -809,7 +812,7 @@ public abstract class KoLmafia implements KoLConstants
 				for ( int i = 0; i < 3; ++i )
 					substats[i] = Math.max( 0, condition.getCount(i) - result.getCount(i) );
 
-				condition = new AdventureResult( AdventureResult.SUBSTATS, substats );
+				condition = new AdventureResult( substats );
 
 				if ( condition.getCount() == 0 )
 					conditions.remove( conditionsIndex );

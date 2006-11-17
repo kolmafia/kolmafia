@@ -69,11 +69,8 @@ public class LoginRequest extends KoLRequest
 
 	private String username;
 	private String password;
-	private boolean savePassword;
 	private boolean isQuickLogin;
-
 	private boolean runCountdown;
-	private boolean sendPlainText;
 
 	public LoginRequest( String username, String password )
 	{
@@ -191,7 +188,6 @@ public class LoginRequest extends KoLRequest
 			return;
 
 		runCountdown = true;
-		sendPlainText = false;
 
 		if ( !KoLmafia.refusesContinue() )
 			KoLmafia.forceContinue();
@@ -332,8 +328,6 @@ public class LoginRequest extends KoLRequest
 			// </html>Redirecting to www.
 
 			runCountdown = false;
-			sendPlainText = true;
-
 			Matcher matcher = REDIRECT_PATTERN.matcher( responseText );
 
 			if ( matcher.find() )

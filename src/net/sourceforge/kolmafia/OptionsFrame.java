@@ -336,7 +336,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
-			{ "autoSetConditions", "While in Ronin, autofill conditions field" },
+			{ "autoSetConditions", "While in Ronin, automatically fill conditions field" },
 			{ "abortOnUnknownItem", "Abort automated adventuring when finding unknown item" },
 			{ "abortOnUnknownMonster", "Abort automated adventuring on unknown monster" },
 			{ "allowStasisTactics", "Allow stasis-type commands when using combat familiars" },
