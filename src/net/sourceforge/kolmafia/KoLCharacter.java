@@ -1405,8 +1405,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static void updateEquipmentList( int filterId, List currentList )
 	{
-		if ( !currentList.contains( EquipmentRequest.UNEQUIP ) )
-			currentList.add( EquipmentRequest.UNEQUIP );
+		ArrayList temporary = new ArrayList();
+		temporary.add( EquipmentRequest.UNEQUIP );
 
 		// If the character is currently equipped with a one-handed
 		// weapon and the character has the ability to dual-wield
@@ -1431,9 +1431,6 @@ public abstract class KoLCharacter extends StaticEntity
 			// two most common checks so do them first.
 
 			if ( !EquipmentDatabase.canEquip( currentItemName ) )
-				continue;
-
-			if ( currentList.contains( currentItem ) )
 				continue;
 
 			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemId() );
@@ -1474,7 +1471,7 @@ public abstract class KoLCharacter extends StaticEntity
 				continue;
 			}
 
-			currentList.add( currentItem );
+			temporary.add( currentItem );
 		}
 
 		// If we are looking at familiar items, include those which can
@@ -1489,10 +1486,14 @@ public abstract class KoLCharacter extends StaticEntity
 			for ( int i = 0; i < familiarList.length; ++i )
 			{
 				AdventureResult item = familiarList[i].getItem();
-				if ( item != null && !currentList.contains( item ) && currentFamiliar.canEquip( item ) )
-					currentList.add( item );
+				if ( item != null && !temporary.contains( item ) && currentFamiliar.canEquip( item ) )
+					temporary.add( item );
 			}
 		}
+
+		currentList.retainAll( temporary );
+		temporary.removeAll( currentList );
+		currentList.addAll( temporary );
 	}
 
 	private static int getCount( AdventureResult accessory )
