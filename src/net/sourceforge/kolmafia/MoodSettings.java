@@ -93,14 +93,20 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static final void reset()
 	{
+		String currentMood = StaticEntity.getProperty( "currentMood" );
+		StaticEntity.setProperty( "currentMood", "" );
+
+		reference.clear();
 		thiefTriggers.clear();
 		availableMoods.clear();
 		displayList.clear();
-		reference.clear();
 
 		settingsFile = new File( settingsFileName() );
 		loadSettings();
-		setMood( StaticEntity.getProperty( "currentMood" ) );
+
+		setMood( currentMood );
+		((SortedListModel)reference.get( "apathetic" )).clear();
+
 		saveSettings();
 	}
 
