@@ -337,8 +337,17 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	public static boolean processRequest( String urlString )
 	{
-		if ( urlString.indexOf( "storage.php" ) == -1 || urlString.indexOf( "action=takeall" ) != -1 || urlString.indexOf( "action=takemeat" ) != -1 )
+		if ( urlString.indexOf( "storage.php" ) == -1 || urlString.indexOf( "action=takemeat" ) != -1 )
 			return false;
+
+		if ( urlString.indexOf( "action=takeall" ) != -1 )
+		{
+			for ( int i = 0; i < storage.size(); ++i )
+				KoLCharacter.processResult( (AdventureResult) storage.get(i) );
+
+			storage.clear();
+			return true;
+		}
 
 		return processRequest( "pull", urlString, storage, 0 );
 	}

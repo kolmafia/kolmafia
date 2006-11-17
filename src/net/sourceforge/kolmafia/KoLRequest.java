@@ -698,7 +698,10 @@ public class KoLRequest implements Runnable, KoLConstants
 			needsRefresh = true;
 		}
 		if ( urlString.endsWith( "lair6.php?place=6" ) )
+		{
+			KoLCharacter.setHardcore( false );
 			KoLCharacter.setInteraction( KoLCharacter.getTotalTurnsUsed() >= 600 );
+		}
 
 		statusChanged = false;
 		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() && !KoLmafia.refusesContinue() );
