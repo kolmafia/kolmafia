@@ -258,6 +258,11 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemId != null )
 			return ((Integer)itemId).intValue();
 
+		// Work around a specific KoL bug: the "less-than-three-shaped
+		// box" is sometimes listed as a "less-than-three- shaped box"
+		if ( canonicalName.equals( "less-than-three- shaped box" ) )
+			return 1168;
+
 		// If there's no more than one, don't deal with pluralization
 		if ( count < 2 )
 			return -1;
@@ -276,14 +281,17 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemId != null )
 			return ((Integer)itemId).intValue();
 
-		// Work around a specific KoL bug: the "less-than-three-shaped
-		// box" is sometimes listed as a "less-than-three- shaped box"
-		if ( canonicalName.equals( "less-than-three- shaped box" ) )
-			return 1168;
-
 		// If it's a snowcone, then reverse the word order
 		if ( canonicalName.startsWith( "snowcones" ) )
 			return getItemId( canonicalName.split( " " )[1] + " snowcone", count );
+
+		// Lo mein has this odd pluralization where there's a dash
+		// introduced into the name when no such dash exists in the
+		// singular form.
+
+		itemId = itemIdByName.get( StaticEntity.singleStringReplace( canonicalName, "-", " " ) );
+		if ( itemId != null )
+			return ((Integer)itemId).intValue();
 
 		// The word right before the dash may also be pluralized,
 		// so make sure the dashed words are recognized.

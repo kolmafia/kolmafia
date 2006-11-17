@@ -417,6 +417,8 @@ public class ItemManageFrame extends KoLFrame
 
 			wordfilter = new ConsumableFilterComboBox();
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
+
+			wordfilter.filterItems();
 		}
 
 		public void actionConfirmed()
@@ -453,23 +455,23 @@ public class ItemManageFrame extends KoLFrame
 			{	filter = new ConsumableFilter();
 			}
 
+			protected void filterItems()
+			{
+				food = filters[0].isSelected();
+				booze = filters[1].isSelected();
+				restores = filters[2].isSelected();
+				junk = filters[3].isSelected();
+				other = filters[4].isSelected();
+
+				filter.shouldFilterJunkItems = !junk;
+				elementList.applyFilter( filter );
+			}
+
 			private class ConsumableFilter extends WordBasedFilter
 			{
 				public ConsumableFilter()
 				{
 					super( StaticEntity.getBooleanProperty( "showJunkItems" ) );
-				}
-
-				protected void filterItems()
-				{
-					food = filters[0].isSelected();
-					booze = filters[1].isSelected();
-					restores = filters[2].isSelected();
-					junk = filters[3].isSelected();
-					other = filters[4].isSelected();
-
-					filter.shouldFilterJunkItems = !junk;
-					elementList.applyFilter( filter );
 				}
 
 				public boolean isVisible( Object element )
