@@ -309,6 +309,10 @@ public class ItemManagePanel extends LabeledScrollPanel
 		}
 	}
 
+	public void refreshFilter()
+	{	elementModel.applyListFilter( wordfilter.filter );
+	}
+
 	/**
 	 * Special instance of a JComboBox which overrides the default
 	 * key events of a JComboBox to allow you to catch key events.

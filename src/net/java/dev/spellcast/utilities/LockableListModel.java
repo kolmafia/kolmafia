@@ -496,7 +496,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		Object returnValue = actualElements.set( index, element );
 		int visibleIndex = computeVisibleIndex( index );
 
-		if ( currentFilter.isVisible( returnValue ) )
+		if ( returnValue != null && currentFilter.isVisible( returnValue ) )
 		{
 			if ( !currentFilter.isVisible( element ) )
 			{

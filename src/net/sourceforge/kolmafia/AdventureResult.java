@@ -208,6 +208,9 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public void normalizeItemName()
 	{
+		if ( name.equals( "(none)" ) )
+			return;
+
 		this.priority = ITEM_PRIORITY;
 		this.itemId = TradeableItemDatabase.getItemId( name, this.count[0] );
 

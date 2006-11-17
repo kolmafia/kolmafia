@@ -52,8 +52,8 @@ public class EquipmentRequest extends PasswordHashRequest
 	private static final Pattern CELL_PATTERN = Pattern.compile( "<td>(.*?)</td>" );
 	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select.*?</select>", Pattern.DOTALL );
 	private static final Pattern MEAT_PATTERN = Pattern.compile( "[\\d,]+ meat\\.</b>" );
-	private static final Pattern OUTSIdECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
-	private static final Pattern INSIdECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
+	private static final Pattern OUTSIDECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
+	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INVENTORYITEM_PATTERN = Pattern.compile( "<option value='?([\\d]+)'?[^>]*>([^>]*?) \\(([\\d,]+)\\)</option>" );
 	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "<b>(<a.*?>)?([^<]+)(</a>)?</b>([^<]*?)<font size=1>" );
 	private static final Pattern HAT_PATTERN = Pattern.compile( "Hat:</td>.*?<b>(.*?)</b>.*unequip&type=hat" );
@@ -513,7 +513,16 @@ public class EquipmentRequest extends PasswordHashRequest
 		// Fetch updated equipment
 		if ( requestType == CLOSET )
 		{
-			parseCloset();
+			Matcher meatInClosetMatcher = MEAT_PATTERN.matcher( responseText );
+			if ( meatInClosetMatcher.find() )
+			{
+				String meatInCloset = meatInClosetMatcher.group();
+				KoLCharacter.setClosetMeat( StaticEntity.parseInt( meatInCloset ) );
+			}
+
+			Matcher closetMatcher = INSIDECLOSET_PATTERN.matcher( responseText );
+			if ( closetMatcher.find() )
+				parseCloset( closetMatcher.group(), closet );
 
 			// If the person has meat paste, or is able to create
 			// meat paste, then do so and then parse the combines
@@ -579,38 +588,13 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
-	private void parseCloset()
-	{
-		// Try to find how much meat is in your character's closet -
-		// this way, the program's meat manager frame auto-updates
-
-		Matcher meatInClosetMatcher = MEAT_PATTERN.matcher( responseText );
-
-		if ( meatInClosetMatcher.find() )
-		{
-			String meatInCloset = meatInClosetMatcher.group();
-			KoLCharacter.setClosetMeat( StaticEntity.parseInt( meatInCloset ) );
-		}
-
-		Matcher inventoryMatcher = OUTSIdECLOSET_PATTERN.matcher( responseText );
-		if ( inventoryMatcher.find() )
-			parseCloset( inventoryMatcher.group(), inventory );
-
-		Matcher closetMatcher = INSIdECLOSET_PATTERN.matcher( responseText );
-		if ( closetMatcher.find() )
-			parseCloset( closetMatcher.group(), closet );
-	}
-
 	private void parseCloset( String content, List resultList )
 	{
-		int lastFindIndex = 0;
 		Matcher optionMatcher = INVENTORYITEM_PATTERN.matcher( content );
+		ArrayList temporary = new ArrayList();
 
-		resultList.clear();
-
-		while ( optionMatcher.find( lastFindIndex ) )
+		while ( optionMatcher.find() )
 		{
-			lastFindIndex = optionMatcher.end();
 			int itemId = StaticEntity.parseInt( optionMatcher.group(1) );
 			String itemName = TradeableItemDatabase.getCanonicalName( TradeableItemDatabase.getItemName( itemId ) );
 			String realName = TradeableItemDatabase.getCanonicalName( optionMatcher.group(2).toLowerCase() );
@@ -618,11 +602,19 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( itemName == null || !realName.equals( itemName ) )
 				TradeableItemDatabase.registerItem( itemId, realName );
 
-			AdventureResult result = new AdventureResult( itemId, StaticEntity.parseInt( optionMatcher.group(3) ) );
-			if ( resultList == inventory )
-				KoLCharacter.processResult( result, false );
-			else
-				AdventureResult.addResultToList( resultList, result );
+			temporary.add( new AdventureResult( itemId, StaticEntity.parseInt( optionMatcher.group(3) ) ) );
+		}
+
+		resultList.retainAll( temporary );
+		AdventureResult currentItem;
+
+		for ( int i = 0; i < temporary.size(); ++i )
+		{
+			currentItem = (AdventureResult) temporary.get(i);
+			int count = currentItem.getCount() - currentItem.getCount( resultList );
+
+			if ( count != 0 )
+				AdventureResult.addResultToList( resultList, currentItem.getInstance( count ) );
 		}
 
 		if ( resultList == inventory )

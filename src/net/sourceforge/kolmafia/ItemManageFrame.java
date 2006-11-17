@@ -518,8 +518,22 @@ public class ItemManageFrame extends KoLFrame
 
 			} );
 
-			eastPanel.add( new RequestButton( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) ), BorderLayout.SOUTH );
+			eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
 		}
+
+		private class RefreshButton extends RequestButton
+		{
+			public RefreshButton()
+			{	super( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) );
+			}
+
+			public void executeTask()
+			{
+				super.executeTask();
+				refreshFilter();
+			}
+		}
+
 
 		private class ConsumeListener implements ActionListener
 		{
