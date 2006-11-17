@@ -54,17 +54,6 @@ import java.security.MessageDigest;
 public class LoginRequest extends KoLRequest
 {
 	private static final Pattern SESSIONID_COOKIE_PATTERN = Pattern.compile( "PHPSESSID=([^\\;]+)" );
-	private static final SimpleDateFormat MAINTENANCE_FORMATTER = new SimpleDateFormat( "E", Locale.US );
-	static
-	{
-		// Change it so that it doesn't recognize daylight savings in order
-		// to ensure different localizations work.
-
-		TimeZone koltime = (TimeZone) TimeZone.getDefault().clone();
-		koltime.setRawOffset( 1000 * 60 * 60 * -6 );
-		MAINTENANCE_FORMATTER.setTimeZone( koltime );
-	}
-
 	private static final Pattern FAILURE_PATTERN = Pattern.compile( "<p><b>(.*?)</b>" );
 	private static final Pattern CHALLENGE_PATTERN = Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
 
@@ -104,7 +93,6 @@ public class LoginRequest extends KoLRequest
 		StaticEntity.setGlobalProperty( this.username, "displayName", this.username );
 
 		this.password = password;
-		this.savePassword = savePassword;
 		this.isQuickLogin = isQuickLogin;
 	}
 
@@ -247,36 +235,9 @@ public class LoginRequest extends KoLRequest
 	}
 
 	public static void executeTimeInRequest()
-	{	executeTimeInRequest( false );
-	}
-
-	private static int getWaitTime( boolean isRollover )
-	{
-		if ( isRollover )
-		{
-			// If this is the extra-long rollover (day of
-			// week is Sunday), wait for 90 minutes.
-
-			// Otherwise, wait for 20 minutes, since due
-			// to server optimizations, 20 minutes marks
-			// the end of rollover.
-
-			return MAINTENANCE_FORMATTER.format( new Date() ).startsWith( "Sun" ) ?
-				LONG_ROLLOVER_WAIT : ROLLOVER_WAIT;
-		}
-		else
-		{
-			// Since it's not rollover, just wait for 75
-			// seconds before resuming.
-
-			return STANDARD_WAIT;
-		}
-	}
-
-	public static void executeTimeInRequest( boolean isRollover )
 	{
 		sessionId = null;
-		waitTime = getWaitTime( isRollover );
+		waitTime = STANDARD_WAIT;
 
 		LoginRequest loginAttempt = new LoginRequest( lastUsername, lastPassword, false );
 		loginAttempt.run();
@@ -318,11 +279,11 @@ public class LoginRequest extends KoLRequest
 
 		if ( responseCode == 302 && redirectLocation.equals( "maint.php" ) )
 		{
-			// Nightly maintenance, so KoLmafia should retry.
-			// Therefore, return true.
+			// Nightly maintenance, so KoLmafia should not bother
+			// retrying.  Let the user do it manually later.
 
-			waitTime = getWaitTime( true );
-			return true;
+			KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
+			return false;
 		}
 		else if ( responseCode == 302 && redirectLocation.startsWith( "main" ) )
 		{
