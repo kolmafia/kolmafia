@@ -4502,7 +4502,7 @@ public class KoLmafiaASH extends StaticEntity
 			// Just in case someone assumed that use_skill would also work
 			// in combat, go ahead and allow it here.
 
-			if ( ClassSkillsDatabase.isCombat( ((UseSkillRequest)skill.rawValue()).getSkillId() ) )
+			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
 			{
 				for ( int i = 0; i < count.intValue() && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
 					use_skill( skill );
@@ -4519,7 +4519,7 @@ public class KoLmafiaASH extends StaticEntity
 			// Just in case someone assumed that use_skill would also work
 			// in combat, go ahead and allow it here.
 
-			if ( ClassSkillsDatabase.isCombat( ((UseSkillRequest)skill.rawValue()).getSkillId() ) )
+			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
 			{
 				KoLRequest request = new KoLRequest( "fight.php?action=skill&whichskill=" + skill.intValue() );
 				request.run();
@@ -4538,7 +4538,7 @@ public class KoLmafiaASH extends StaticEntity
 			// Just in case someone assumed that use_skill would also work
 			// in combat, go ahead and allow it here.
 
-			if ( ClassSkillsDatabase.isCombat( ((UseSkillRequest)skill.rawValue()).getSkillId() ) )
+			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
 			{
 				for ( int i = 0; i < count.intValue() && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
 					use_skill( skill );
