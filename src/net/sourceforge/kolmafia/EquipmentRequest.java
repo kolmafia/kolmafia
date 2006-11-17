@@ -734,16 +734,12 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=acc1" ) != -1 )
 		{
-System.out.println( "Searching for accessory 1..." );
 			equipmentMatcher = ACC1_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-System.out.println( equipmentMatcher.group(1) + "..." );
 				equipment[ KoLCharacter.ACCESSORY1 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 				KoLmafia.getDebugStream().println( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
 			}
-			else
-			System.out.println( "Pattern not found." );
 		}
 
 		if ( responseText.indexOf( "unequip&type=acc2" ) != -1 )
