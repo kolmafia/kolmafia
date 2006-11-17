@@ -208,7 +208,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public void normalizeItemName()
 	{
-		if ( name.equals( "(none)" ) )
+		if ( name.equals( "(none)" ) || name.equals( "-select an item-" ) )
 			return;
 
 		this.priority = ITEM_PRIORITY;

@@ -46,15 +46,13 @@ public class StoreManageRequest extends KoLRequest
 	private int requestType;
 
 	public StoreManageRequest()
-	{
-		super( "manageprices.php" );
-		this.requestType = PRICE_MANAGEMENT;
+	{	this( false );
 	}
 
 	public StoreManageRequest( boolean isStoreLog )
 	{
 		super( isStoreLog ? "storelog.php" : "manageprices.php" );
-		this.requestType = VIEW_STORE_LOG;
+		this.requestType = isStoreLog ? VIEW_STORE_LOG : PRICE_MANAGEMENT;
 	}
 
 	public StoreManageRequest( int itemId )

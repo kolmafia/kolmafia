@@ -371,7 +371,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			Runnable [] requests = new Runnable[2];
 			requests[0] = new AutoSellRequest( items, AutoSellRequest.AUTOMALL );
-			requests[1] = new StoreManageRequest();
+			requests[1] = new StoreManageRequest( false );
 
 			(new RequestThread( requests )).start();
 		}
