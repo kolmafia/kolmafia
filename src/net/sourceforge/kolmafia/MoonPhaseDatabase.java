@@ -74,7 +74,6 @@ public class MoonPhaseDatabase extends StaticEntity
 
 			DATED_FILENAME_FORMAT.setTimeZone( TimeZone.getTimeZone( "GMT-5" ) );
 
-
 			NEWYEAR = DATED_FILENAME_FORMAT.parse( "20050917" ).getTime();
 			BOUNDARY = DATED_FILENAME_FORMAT.parse( "20051027" ).getTime();
 			COLLISION = DATED_FILENAME_FORMAT.parse( "20060603" ).getTime();
@@ -132,36 +131,36 @@ public class MoonPhaseDatabase extends StaticEntity
 		"Bor", "Petember", "Carlvember", "Porktober", "Boozember", "Dougtember"
 	};
 
-	// Static array of holidays.  This holiday is filled with the
+	// Static array of HOLIDAYS.  This holiday is filled with the
 	// name of the holiday which occurs on the given KoL month and
 	// given KoL day.
 
-	private static String [][] HOLIdAYS = new String[13][9];
+	private static String [][] HOLIDAYS = new String[13][9];
 
 	static
 	{
 		for ( int i = 0; i < 13; ++i )
 			for ( int j = 0; j < 9; ++j )
-				HOLIdAYS[i][j] = null;
+				HOLIDAYS[i][j] = null;
 
-		// Initialize all the known holidays here so that
+		// Initialize all the known HOLIDAYS here so that
 		// they can be used in later initializers.
 
-		HOLIdAYS[2][4] = "Valentine's Day";
-		HOLIdAYS[3][3] = "St. Sneaky Pete's Day";
-		HOLIdAYS[4][2] = "Oyster Egg Day";
-		HOLIdAYS[10][8] = "Halloween";
-		HOLIdAYS[11][7] = "Feast of Boris";
+		HOLIDAYS[2][4] = "Valentine's Day";
+		HOLIDAYS[3][3] = "St. Sneaky Pete's Day";
+		HOLIDAYS[4][2] = "Oyster Egg Day";
+		HOLIDAYS[10][8] = "Halloween";
+		HOLIDAYS[11][7] = "Feast of Boris";
 	}
 
 	// Static array of when the special events in KoL occur, including
-	// stat days, holidays and all that jazz.  Values are false where
+	// stat days, HOLIDAYS and all that jazz.  Values are false where
 	// there is no special occasion, and true where there is.
 
 	private static int [] SPECIAL = new int[96];
 
 	public static final int SP_NOTHING = 0;
-	public static final int SP_HOLIdAY = 1;
+	public static final int SP_HOLIDAY = 1;
 
 	public static int SP_MUSDAY = 2;
 	public static int SP_MYSDAY = 3;
@@ -199,14 +198,14 @@ public class MoonPhaseDatabase extends StaticEntity
 		for ( int i = 15; i < 96; i += 16 )
 			SPECIAL[i] = SP_MOXDAY;
 
-		// Next, fill in the holidays.  These are manually
+		// Next, fill in the HOLIDAYS.  These are manually
 		// computed based on the recurring day in the year
 		// at which these occur.
 
 		for ( int i = 0; i < 13; ++i )
 			for ( int j = 0; j < 9; ++j )
-				if ( HOLIdAYS[i][j] != null )
-					SPECIAL[ 8 * i + j - 9 ] = SP_HOLIdAY;
+				if ( HOLIDAYS[i][j] != null )
+					SPECIAL[ 8 * i + j - 9 ] = SP_HOLIDAY;
 	}
 
 	public static final void setMoonPhases( int ronaldPhase, int grimacePhase )
@@ -539,6 +538,16 @@ public class MoonPhaseDatabase extends StaticEntity
 	public static int getCalendarDay( Date time )
 	{
 		long timeDifference = time.getTime();
+
+		try
+		{
+			timeDifference = DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( time ) ).getTime();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
+		}
+
 		if ( timeDifference > BOUNDARY )
 			timeDifference -= 86400000L;
 
@@ -593,15 +602,17 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static boolean isHoliday( Date time )
-	{
-		return SPECIAL[ getCalendarDay( time ) ] == SP_HOLIdAY ||
-			getRealLifeHoliday( CALENDAR_FORMAT.format( time ) ) != null;
+	{	return SPECIAL[ getCalendarDay( time ) ] == SP_HOLIDAY;
+	}
+
+	public static boolean isRealLifeHoliday( Date time )
+	{	return getRealLifeHoliday( DATED_FILENAME_FORMAT.format( time ) ) != null;
 	}
 
 	/**
 	 * Returns whether or not the given day's most important
 	 * attribute is being a muscle day.  Note that this ranks
-	 * behind being a holiday, so holidays which are also stat
+	 * behind being a holiday, so HOLIDAYS which are also stat
 	 * days (Halloween and Oyster Egg Day, for example), will
 	 * not be recognized as "stat days" in this method.
 	 */
@@ -613,7 +624,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	/**
 	 * Returns whether or not the given day's most important
 	 * attribute is being a mysticality day.  Note that this ranks
-	 * behind being a holiday, so holidays which are also stat
+	 * behind being a holiday, so HOLIDAYS which are also stat
 	 * days (Halloween and Oyster Egg Day, for example), will
 	 * not be recognized as "stat days" in this method.
 	 */
@@ -625,7 +636,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	/**
 	 * Returns whether or not the given day's most important
 	 * attribute is being a moxie day.  Note that this ranks
-	 * behind being a holiday, so holidays which are also stat
+	 * behind being a holiday, so HOLIDAYS which are also stat
 	 * days (Halloween and Oyster Egg Day, for example), will
 	 * not be recognized as "stat days" in this method.
 	 */
@@ -648,12 +659,12 @@ public class MoonPhaseDatabase extends StaticEntity
 
 		for ( int i = 0; i < 96; ++i )
 		{
-			if ( SPECIAL[i] == SP_HOLIdAY )
+			if ( SPECIAL[i] == SP_HOLIDAY )
 			{
 				calendarDayAsArray = convertCalendarDayToArray( i );
 				int currentEstimate = (i - currentCalendarDay + 96) % 96;
 
-				String holiday = HOLIdAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
+				String holiday = HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
 
 				String testDate = null;
 				String testResult = null;
@@ -672,7 +683,7 @@ public class MoonPhaseDatabase extends StaticEntity
 					holidayTester.add( Calendar.DATE, 1 );
 				}
 
-				predictionsList.add( HOLIdAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ] + ": " +
+				predictionsList.add( HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ] + ": " +
 					getDayCountAsString( currentEstimate ) );
 			}
 		}
@@ -680,7 +691,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		// If today is a real life holiday that doesn't map to a KoL
 		// holiday, list it here.
 
-		if ( SPECIAL[ getCalendarDay( time ) ] != SP_HOLIdAY )
+		if ( SPECIAL[ getCalendarDay( time ) ] != SP_HOLIDAY )
 		{
 			String holiday = getRealLifeOnlyHoliday( CALENDAR_FORMAT.format( time ) );
 			if ( holiday != null )
@@ -706,8 +717,8 @@ public class MoonPhaseDatabase extends StaticEntity
 		int calendarDay = getCalendarDay( time );
 		int [] calendarDayAsArray = convertCalendarDayToArray( calendarDay );
 
-		String gameHoliday = HOLIdAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
-		String realHoliday = getRealLifeHoliday( CALENDAR_FORMAT.format( time ) );
+		String gameHoliday = HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
+		String realHoliday = getRealLifeHoliday( DATED_FILENAME_FORMAT.format( time ) );
 
 		if ( showPrediction && realHoliday == null )
 		{
@@ -717,7 +728,7 @@ public class MoonPhaseDatabase extends StaticEntity
 			for ( int i = 1; gameHoliday == null; ++i )
 			{
 				calendarDayAsArray = convertCalendarDayToArray( calendarDay + i % 96 );
-				gameHoliday = HOLIdAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
+				gameHoliday = HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
 
 				if ( gameHoliday != null )
 				{
@@ -745,7 +756,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		if ( !currentYear.equals( cachedYear ) )
 		{
 			cachedYear = currentYear;
-			Calendar holidayFinder = Calendar.getInstance();
+			Calendar holidayFinder = Calendar.getInstance( TimeZone.getTimeZone( "GMT-5" ) );
 
 			// Apparently, Easter isn't the second Sunday in April;
 			// it actually depends on the occurrence of the first
@@ -768,7 +779,8 @@ public class MoonPhaseDatabase extends StaticEntity
 			holidayFinder.set( Calendar.YEAR, y );
 			holidayFinder.set( Calendar.MONTH, m - 1 );
 			holidayFinder.set( Calendar.DAY_OF_MONTH, d );
-			easter = CALENDAR_FORMAT.format( holidayFinder.getTime() );
+
+			easter = DATED_FILENAME_FORMAT.format( holidayFinder.getTime() );
 
 			// Calculating Thanksgiving is easier -- just detect
 			// what day is the start of November and adjust.
@@ -802,7 +814,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		}
 
 		// Real-life holiday list borrowed from JRSiebz's
-		// variables for holidays on the KoL JS Almanac
+		// variables for HOLIDAYS on the KoL JS Almanac
 		// (http://home.cinci.rr.com/jrsiebz/KoL/almanac.html)
 
 		if ( stringDate.endsWith( "0214" ) )
