@@ -127,11 +127,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		toolsMenu.add( new JSeparator() );
 
-		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", "BuffBotFrame" ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", "BuffRequestFrame" ) );
-
-		toolsMenu.add( new JSeparator() );
-
 		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", "MushroomFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Flower Hunter", "FlowerHunterFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", "FamiliarTrainingFrame" ) );
@@ -149,8 +144,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		peopleMenu.add( new JSeparator() );
 
-		peopleMenu.add( new DisplayFrameMenuItem( "Write a KoLmail", "GreenMessageFrame" ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Send a Package", "GiftMessageFrame" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", "BuffBotFrame" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", "BuffRequestFrame" ) );
+
+		peopleMenu.add( new JSeparator() );
+
+		peopleMenu.add( new DisplayFrameMenuItem( "Send a Message", "SendMessageFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Propose a Trade", "ProposeTradeFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Pending Trades", "PendingTradesFrame" ) );
 
