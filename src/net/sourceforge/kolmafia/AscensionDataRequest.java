@@ -462,7 +462,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		{
 			try
 			{
-				this.classId = columns[3].indexOf( "seal" ) != -1 ? AscensionSnapshotTable.SEAL_CLUBBER :
+				this.classId = columns[3].indexOf( "club" ) != -1 ? AscensionSnapshotTable.SEAL_CLUBBER :
 					columns[3].indexOf( "turtle" ) != -1 ? AscensionSnapshotTable.TURTLE_TAMER :
 					columns[3].indexOf( "pasta" ) != -1 ? AscensionSnapshotTable.PASTAMANCER :
 					columns[3].indexOf( "sauce" ) != -1 ? AscensionSnapshotTable.SAUCEROR :
