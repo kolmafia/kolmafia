@@ -155,7 +155,7 @@ public class ContactListFrame extends KoLFrame
 		Object [] parameters = new Object[1];
 		parameters[0] = convertToCDL();
 
-		createDisplay( GreenMessageFrame.class, parameters );
+		createDisplay( SendMessageFrame.class, parameters );
 	}
 
 	private class ContactListPanel extends JPanel

@@ -424,15 +424,15 @@ public class ChatFrame extends KoLFrame
 				return;
 
 			case 2:
-				frameClass = GreenMessageFrame.class;
+				frameClass = SendMessageFrame.class;
 				break;
 
 			case 3:
-				frameClass = GiftMessageFrame.class;
+				frameClass = SendMessageFrame.class;
 				break;
 
 			case 4:
-				frameClass = ProposeTradeFrame.class;
+				frameClass = SendMessageFrame.class;
 				break;
 
 			case 5:

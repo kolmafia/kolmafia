@@ -73,17 +73,11 @@ public class GiftMessageRequest extends SendMessageRequest
 			this.materialCost = materialCost;
 
 			this.name = new StringBuffer();
+			this.name.append( "Send it in a " );
 			this.name.append( name );
-			this.name.append( " - " );
+			this.name.append( " for " );
 			this.name.append( materialCost );
-			this.name.append( " meat (" );
-			this.name.append( maxCapacity );
-			this.name.append( " item" );
-
-			if ( maxCapacity > 1 )
-				this.name.append( 's' );
-
-			this.name.append( ')' );
+			this.name.append( " meat" );
 		}
 
 		public String toString()

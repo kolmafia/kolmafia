@@ -119,30 +119,48 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public void setButtons( ActionListener [] buttonListeners )
 	{
-		JPanel eastGridPanel = new JPanel( new GridLayout( 0, 1, 5, 5 ) );
-		buttons = new JButton[ buttonListeners.length ];
-
-		for ( int i = 0; i < buttonListeners.length; ++i )
-		{
-			if ( buttonListeners[i] instanceof JButton )
-			{
-				buttons[i] = (JButton) buttonListeners[i];
-			}
-			else
-			{
-				buttons[i] = new JButton( buttonListeners[i].toString() );
-				buttons[i].addActionListener( buttonListeners[i] );
-			}
-
-			eastGridPanel.add( buttons[i] );
-		}
+		// Handle buttons along the right hand side, if there are
+		// supposed to be buttons.
 
 		eastPanel = new JPanel( new BorderLayout() );
-		eastPanel.add( eastGridPanel, BorderLayout.NORTH );
+
+		if ( buttonListeners != null )
+		{
+			JPanel eastGridPanel = new JPanel( new GridLayout( 0, 1, 5, 5 ) );
+			buttons = new JButton[ buttonListeners.length ];
+
+			for ( int i = 0; i < buttonListeners.length; ++i )
+			{
+				if ( buttonListeners[i] instanceof JButton )
+				{
+					buttons[i] = (JButton) buttonListeners[i];
+				}
+				else
+				{
+					buttons[i] = new JButton( buttonListeners[i].toString() );
+					buttons[i].addActionListener( buttonListeners[i] );
+				}
+
+				eastGridPanel.add( buttons[i] );
+			}
+
+			eastPanel.add( eastGridPanel, BorderLayout.NORTH );
+		}
+
+		// Handle filters along the top always, whenever buttons
+		// are added.
 
 		filterPanel = new JPanel();
+		JPanel northPanel = new JPanel( new BorderLayout() );
 
-		if ( elementModel == ConcoctionsDatabase.getConcoctions() )
+		if ( buttonListeners == null )
+		{
+			filters = new JCheckBox[3];
+			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
+			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
+			filters[2] = new JCheckBox( "Show others", true );
+		}
+		else if ( elementModel == ConcoctionsDatabase.getConcoctions() )
 		{
 			filters = new JCheckBox[4];
 			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
@@ -167,27 +185,35 @@ public class ItemManagePanel extends LabeledScrollPanel
 			filters[i].addActionListener( new UpdateFilterListener() );
 		}
 
-		JPanel moverPanel = new JPanel();
+		northPanel.add( filterPanel, BorderLayout.NORTH );
 
-		movers = new JRadioButton[4];
-		movers[0] = new JRadioButton( "Move all" );
-		movers[1] = new JRadioButton( "Move all but one" );
-		movers[2] = new JRadioButton( "Move multiple", true );
-		movers[3] = new JRadioButton( "Move exactly one" );
+		// If there are buttons, they likely need movers.  Therefore, add
+		// some movers to everything.
 
-		ButtonGroup moverGroup = new ButtonGroup();
-		for ( int i = 0; i < 4; ++i )
+		if ( buttonListeners != null )
 		{
-			moverGroup.add( movers[i] );
-			moverPanel.add( movers[i] );
+			JPanel moverPanel = new JPanel();
+
+			movers = new JRadioButton[4];
+			movers[0] = new JRadioButton( "Move all" );
+			movers[1] = new JRadioButton( "Move all but one" );
+			movers[2] = new JRadioButton( "Move multiple", true );
+			movers[3] = new JRadioButton( "Move exactly one" );
+
+			ButtonGroup moverGroup = new ButtonGroup();
+			for ( int i = 0; i < 4; ++i )
+			{
+				moverGroup.add( movers[i] );
+				moverPanel.add( movers[i] );
+			}
+
+			northPanel.add( moverPanel, BorderLayout.SOUTH );
 		}
 
-		JPanel northPanel = new JPanel( new BorderLayout() );
-		northPanel.add( filterPanel, BorderLayout.NORTH );
-		northPanel.add( moverPanel, BorderLayout.SOUTH );
-
 		actualPanel.add( northPanel, BorderLayout.NORTH );
-		actualPanel.add( eastPanel, BorderLayout.EAST );
+
+		if ( buttonListeners != null )
+			actualPanel.add( eastPanel, BorderLayout.EAST );
 
 		wordfilter.filterItems();
 	}
@@ -207,7 +233,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	protected AdventureResult [] getDesiredItems( String message )
 	{
-		return getDesiredItems( message, movers == null ? TAKE_ALL :
+		return getDesiredItems( message, movers == null ? TAKE_MULTIPLE :
 			movers[0].isSelected() ? TAKE_ALL : movers[1].isSelected() ? TAKE_ALL_BUT_ONE :
 			movers[2].isSelected() ? TAKE_MULTIPLE : TAKE_ONE );
 	}
@@ -355,7 +381,13 @@ public class ItemManagePanel extends LabeledScrollPanel
 				food = filters[0].isSelected();
 				booze = filters[1].isSelected();
 
-				if ( filters.length == 4 )
+				if ( filters.length == 3 )
+				{
+					junk = false;
+					other = filters[2].isSelected();
+					equip = other;
+				}
+				else if ( filters.length == 4 )
 				{
 					junk = filters[2].isSelected();
 					other = filters[3].isSelected();
