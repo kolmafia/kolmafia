@@ -2987,7 +2987,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( isCreationMatch && ConcoctionsDatabase.getMixingMethod( itemId ) == ItemCreationRequest.NOCREATE )
 				continue;
 
-			if ( NPCStoreDatabase.contains( nameArray[i] ) )
+			if ( NPCStoreDatabase.contains( nameArray[i], false ) )
 			{
 				if ( !npcStoreMatch )
 				{
