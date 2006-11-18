@@ -376,7 +376,7 @@ public class RequestFrame extends KoLFrame
 			if ( request != StaticEntity.getClient().getCurrentRequest() )
 			{
 				request = StaticEntity.getClient().getCurrentRequest();
-				responseText = null;
+				responseText = request.responseText;
 			}
 
 			if ( responseText == null || responseText.length() == 0 )
