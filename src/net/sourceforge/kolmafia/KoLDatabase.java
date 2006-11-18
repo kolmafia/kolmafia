@@ -144,6 +144,10 @@ public class KoLDatabase extends StaticEntity
 			if ( nameMap.containsKey( searchString ) )
 				substringList.add( searchString );
 		}
+		else if ( nameMap.containsKey( substring ) )
+		{
+			substringList.add( searchString );
+		}
 		else
 		{
 			String [] names = new String[ nameMap.keySet().size() ];
