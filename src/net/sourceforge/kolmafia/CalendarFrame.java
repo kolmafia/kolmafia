@@ -531,6 +531,9 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 				Date cellDate = MoonPhaseDatabase.CALENDAR_FORMAT.parse( cellDateString );
 
+				if ( MoonPhaseDatabase.isRealLifeHoliday( cellDate ) )
+					return holidayRenderer;
+
 				if ( MoonPhaseDatabase.isHoliday( cellDate ) )
 					return holidayRenderer;
 
@@ -565,8 +568,11 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	{
 		public void run()
 		{
-			updateDailyPage();
-			updatePredictionsPage();
+			synchronized ( UpdateTabsThread.class )
+			{
+				updateDailyPage();
+				updatePredictionsPage();
+			}
 		}
 	}
 }
