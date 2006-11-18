@@ -904,6 +904,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static void registerPlayer( String playerName, String playerId )
 	{
+		playerName = playerName.toLowerCase().replaceAll( "[^0-9A-Za-z_ ]", "" );
+
 		if ( !seenPlayerIds.containsKey( playerName.toLowerCase() ) )
 		{
 			seenPlayerIds.put( playerName.toLowerCase(), playerId );
@@ -913,6 +915,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static void registerContact( String playerName, String playerId )
 	{
+		playerName = playerName.toLowerCase().replaceAll( "[^0-9A-Za-z_ ]", "" );
 		registerPlayer( playerName, playerId );
 		if ( !contactList.contains( playerName ) )
 			contactList.add( playerName.toLowerCase() );

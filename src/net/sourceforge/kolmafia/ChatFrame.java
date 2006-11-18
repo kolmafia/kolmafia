@@ -45,6 +45,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 // containers
+import javax.swing.Box;
 import javax.swing.JToolBar;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -103,12 +104,17 @@ public class ChatFrame extends KoLFrame
 		if ( toolbarPanel != null )
 		{
 			toolbarPanel.add( new MessengerButton( "Clear All", "clear.gif", "clearChatBuffers" ) );
-			toolbarPanel.add( new JToolBar.Separator() );
+
+			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
+
 			toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );
 			toolbarPanel.add( new MessengerButton( "Remove Highlighting", "highlight2.gif", "removeHighlighting" ) );
-			toolbarPanel.add( new JToolBar.Separator() );
+
+			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
+
 			toolbarPanel.add( new MessengerButton( "/who", "who2.gif", "checkChannel" ) );
-			toolbarPanel.add( new JToolBar.Separator() );
+
+			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 		}
 
 		// Add the name click options as a giant combo
@@ -399,9 +405,6 @@ public class ChatFrame extends KoLFrame
 			// location which will be passed to frame classes.
 
 			String playerName = KoLmafia.getPlayerName( locationSplit[1] );
-			if ( playerName == null )
-				playerName = "#" + locationSplit[1];
-
 			Object [] parameters = new Object[] { playerName };
 
 			// Next, determine the option which had been
