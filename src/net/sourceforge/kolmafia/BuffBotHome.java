@@ -45,6 +45,7 @@ import java.io.BufferedReader;
 import java.io.PrintStream;
 
 import java.util.List;
+import java.util.TreeMap;
 import java.util.ArrayList;
 import java.util.Date;
 import java.text.DateFormat;
@@ -68,7 +69,8 @@ public class BuffBotHome extends StaticEntity
 
 	private static boolean isActive;
 
-	private static List pastRecipients = new ArrayList();
+	private static TreeMap pastRecipients = new TreeMap();
+	private static TreeMap pastRecipientFiles = new TreeMap();
 	private static LockableListModel messages = new LockableListModel();
 	private static PrintStream textLogStream = System.out;
 	private static PrintStream hypertextLogStream = System.out;
@@ -85,7 +87,7 @@ public class BuffBotHome extends StaticEntity
 	public static void reset()
 	{
 		messages.clear();
-		pastRecipients .clear();
+		pastRecipients.clear();
 
 		// Create the text log file which shows only the buffs
 		// which have been requested in a comma-delimited format.
@@ -142,31 +144,21 @@ public class BuffBotHome extends StaticEntity
 
 	private static List getPastRecipients( int meatSent )
 	{
-		List pastRecipients = new ArrayList();
-		File input = getFile( "_" + meatSent + ".txt" );
+		// First, check to see if a rollover has occurred since the last
+		// time you updated the past recipients list.
 
-		if ( input.exists() )
+		int today = MoonPhaseDatabase.getPhaseStep();
+		if ( StaticEntity.getIntegerProperty( "lastBuffbotRun" ) != today )
 		{
-			try
-			{
-				String line;
-				BufferedReader recipientStream = KoLDatabase.getReader( input );
-
-				while ( (line = recipientStream.readLine()) != null )
-					pastRecipients.add( line );
-
-				recipientStream.close();
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				printStackTrace( e );
-			}
+			StaticEntity.setProperty( "lastBuffbotRun", String.valueOf( today ) );
+			pastRecipients.clear();
 		}
 
-		return pastRecipients;
+		Integer key = new Integer( meatSent );
+		if ( !pastRecipients.containsKey( key ) );
+			pastRecipients.put( key, new ArrayList() );
+
+		return (ArrayList) pastRecipients.get( key );
 	}
 
 	/**
@@ -194,10 +186,6 @@ public class BuffBotHome extends StaticEntity
 	{
 		List pastRecipients = getPastRecipients( meatSent );
 		pastRecipients.add( name );
-
-		PrintStream recipientStream = getPrintStream( "_" + meatSent + ".txt" );
-		recipientStream.println( name );
-		recipientStream.close();
 	}
 
 	/**

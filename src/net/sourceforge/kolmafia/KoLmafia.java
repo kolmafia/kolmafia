@@ -445,12 +445,13 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( StaticEntity.getGlobalProperty( username, "getBreakfast" ).equals( "true" ) )
 		{
-			String today = DATED_FILENAME_FORMAT.format( new Date() );
-			String lastBreakfast = StaticEntity.getProperty( "lastBreakfast" );
-			StaticEntity.setProperty( "lastBreakfast", today );
+			int today = MoonPhaseDatabase.getPhaseStep();
 
-			if ( lastBreakfast == null || !lastBreakfast.equals( today ) )
+			if ( StaticEntity.getIntegerProperty( "lastBreakfast" ) != today )
+			{
+				StaticEntity.setProperty( "lastBreakfast", String.valueOf( today ) );
 				getBreakfast( true );
+			}
 
 			if ( refusesContinue() )
 				return;
@@ -1116,7 +1117,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * available to the player.
 	 */
 
-	public int getRestoreCount()
+	public static int getRestoreCount()
 	{
 		int restoreCount = 0;
 		String mpRestoreSetting = StaticEntity.getProperty( "mpAutoRecoveryItems" );
