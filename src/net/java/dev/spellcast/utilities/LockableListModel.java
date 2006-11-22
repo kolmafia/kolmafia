@@ -493,6 +493,9 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public Object set( int index, Object element )
 	{
+		if ( element == null )
+			return null;
+
 		Object returnValue = actualElements.set( index, element );
 		int visibleIndex = computeVisibleIndex( index );
 

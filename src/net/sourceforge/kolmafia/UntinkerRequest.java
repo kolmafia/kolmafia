@@ -38,9 +38,15 @@ import java.util.ArrayList;
 public class UntinkerRequest extends KoLRequest
 {
 	private static final AdventureResult SCREWDRIVER = new AdventureResult( 454, -1 );
+
 	private int itemId;
+	private int iterationsNeeded;
 
 	public UntinkerRequest( int itemId )
+	{	this( itemId, Integer.MAX_VALUE );
+	}
+
+	public UntinkerRequest( int itemId, int itemCount )
 	{
 		super( "town_right.php" );
 
@@ -50,6 +56,14 @@ public class UntinkerRequest extends KoLRequest
 		addFormField( "untinker", "Untinker!" );
 
 		this.itemId = itemId;
+		this.iterationsNeeded = 1;
+
+		AdventureResult item = new AdventureResult( itemId, itemCount );
+
+		if ( itemCount > 5 || item.getCount( inventory ) == itemCount )
+			addFormField( "untinkerall", "on" );
+		else
+			iterationsNeeded = itemCount;
 	}
 
 	public void run()
@@ -67,7 +81,7 @@ public class UntinkerRequest extends KoLRequest
 		// Check to see if the person has the untinkering accomplishment
 		// before starting.
 
-		if ( KoLCharacter.getLevel() < 4 || !completeQuest() )
+		if ( KoLCharacter.getLevel() < 4 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You cannot untinker items yet." );
 			return;
@@ -80,12 +94,22 @@ public class UntinkerRequest extends KoLRequest
 			StaticEntity.getClient().processResult( SCREWDRIVER );
 
 		KoLmafia.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemId ) + "..." );
-
 		super.run();
+
+		if ( responseText.indexOf( "Degrassi Knoll" ) != -1 )
+		{
+			if ( !completeQuest() )
+				return;
+			super.run();
+		}
+
+		for ( int i = 1; i < iterationsNeeded; ++i )
+			super.run();
+
 		KoLmafia.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( itemId ) + "." );
 	}
 
-	public static final boolean completeQuest()
+	public static final boolean canUntinker()
 	{
 		// If the person does not have the accomplishment, visit
 		// the untinker to ensure that they get the quest.
@@ -101,60 +125,59 @@ public class UntinkerRequest extends KoLRequest
 			// They've completed the quest but have nothing the
 			// Untinker is willing to work on.
 
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have that item in your inventory." );
 			return true;
 		}
 
-		// If they do not have a screwdriver, tell them they
-		// need to complete the untinker quest.
+		return questCompleter.responseText.indexOf( "<select name=whichitem>" ) != -1;
+	}
 
-		if ( questCompleter.responseText.indexOf( "<select name=whichitem>" ) == -1 )
+	public static final boolean completeQuest()
+	{
+		// If the are in a muscle sign, this is a trivial task;
+		// just have them visit Innabox.
+
+		if ( KoLCharacter.inMuscleSign() )
 		{
-			// If the are in a muscle sign, this is a trivial task;
-			// just have them visit Innabox.
-
-			if ( KoLCharacter.inMuscleSign() )
-			{
-				questCompleter.constructURLString( "knoll.php" );
-				questCompleter.run();
-
-				questCompleter.constructURLString( "knoll.php?place=smith" );
-				questCompleter.run();
-			}
-			else
-			{
-				// Okay, so they don't have one yet. Complete the
-				// untinkerer's quest automatically.
-
-				ArrayList temporary = new ArrayList();
-				temporary.addAll( conditions );
-
-				conditions.clear();
-				conditions.add( SCREWDRIVER.getNegation() );
-
-				// Make sure that paco has been visited, or else
-				// the knoll won't be available.
-
-				DEFAULT_SHELL.executeLine( "adventure * degrassi" );
-				if ( !conditions.isEmpty() )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, "Unable to complete untinkerer's quest." );
-					conditions.clear();
-					conditions.addAll( temporary );
-					return false;
-				}
-
-				conditions.clear();
-				conditions.addAll( temporary );
-			}
-
-			// You should now have a screwdriver in your inventory.
-			// Go ahead and rerun the untinker request and you will
-			// have the needed accomplishment.
-
-			questCompleter.constructURLString( "town_right.php?place=untinker" );
+			KoLRequest questCompleter = new KoLRequest( "knoll.php" );
 			questCompleter.run();
+
+			questCompleter.constructURLString( "knoll.php?place=smith" );
+			questCompleter.run();
+
+			return true;
 		}
+
+		// Okay, so they don't have one yet. Complete the
+		// untinkerer's quest automatically.
+
+		ArrayList temporary = new ArrayList();
+		temporary.addAll( conditions );
+
+		conditions.clear();
+		conditions.add( SCREWDRIVER.getNegation() );
+
+		// Make sure that paco has been visited, or else
+		// the knoll won't be available.
+
+		DEFAULT_SHELL.executeLine( "adventure * degrassi" );
+		if ( !conditions.isEmpty() )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "Unable to complete untinkerer's quest." );
+			conditions.clear();
+
+			conditions.addAll( temporary );
+			return false;
+		}
+
+		conditions.clear();
+		conditions.addAll( temporary );
+
+		// You should now have a screwdriver in your inventory.
+		// Go ahead and rerun the untinker request and you will
+		// have the needed accomplishment.
+
+		KoLRequest questCompleter = new KoLRequest( "town_right.php?place=untinker" );
+		questCompleter.run();
 
 		return questCompleter.responseText.indexOf( "Degrassi Knoll" ) == -1;
 	}

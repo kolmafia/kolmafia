@@ -2939,41 +2939,92 @@ public abstract class KoLmafia implements KoLConstants
 		Object [] items = junkItemList.toArray();
 
 		// Before doing anything else, go through the list of items which are
-		// traditionally used, and then junk the results.
+		// traditionally used and use them.  Also, if the item can be untinkered,
+		// it's usually more beneficial to untinker first.
 
-		for ( int i = 0; i < items.length; ++i )
+		boolean madeUntinkerRequest = false;
+		boolean canUntinker = UntinkerRequest.canUntinker();
+
+		do
 		{
-			currentItem = (AdventureResult) items[i];
-			itemCount = currentItem.getCount( inventory );
+			madeUntinkerRequest = false;
 
-			switch ( currentItem.getItemId() )
+			for ( int i = 0; i < items.length; ++i )
 			{
-			case 184: // briefcase
-			case 533: // Gnollish toolbox
-			case 604: // Penultimate fantasy chest
-				(new ConsumeItemRequest( currentItem.getInstance( itemCount ) )).run();
-				break;
+				currentItem = (AdventureResult) items[i];
+				itemCount = currentItem.getCount( inventory );
 
-			case 621: // Warm Subject gift certificate
-				(new ConsumeItemRequest( currentItem.getInstance(1) )).run();
-				(new ConsumeItemRequest( currentItem.getInstance( itemCount - 1 ) )).run();
-				break;
+				if ( itemCount == 0 )
+					continue;
 
+				if ( canUntinker && ConcoctionsDatabase.getMixingMethod( currentItem.getItemId() ) == ItemCreationRequest.COMBINE )
+				{
+					(new UntinkerRequest( currentItem.getItemId() )).run();
+					madeUntinkerRequest = true;
+					continue;
+				}
+
+				switch ( currentItem.getItemId() )
+				{
+				case 184: // briefcase
+				case 533: // Gnollish toolbox
+				case 604: // Penultimate fantasy chest
+					(new ConsumeItemRequest( currentItem.getInstance( itemCount ) )).run();
+					break;
+
+				case 621: // Warm Subject gift certificate
+					(new ConsumeItemRequest( currentItem.getInstance(1) )).run();
+					(new ConsumeItemRequest( currentItem.getInstance( itemCount - 1 ) )).run();
+					break;
+
+				}
+			}
+		}
+		while ( madeUntinkerRequest );
+
+		// Now you've got all the items used up, go ahead and prepare to
+		// pulverize strong equipment.
+
+		int itemPower;
+
+		if ( KoLCharacter.hasSkill( "Pulverize" ) && KoLCharacter.hasItem( ConcoctionsDatabase.HAMMER ) )
+		{
+			boolean hasMalusAccess = KoLCharacter.isMuscleClass();
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				currentItem = (AdventureResult) items[i];
+				itemCount = currentItem.getCount( inventory );
+				itemPower = EquipmentDatabase.getPower( currentItem.getItemId() );
+
+				if ( itemCount > 0 && !NPCStoreDatabase.contains( currentItem.getName() ) )
+				{
+					switch ( TradeableItemDatabase.getConsumptionType( currentItem.getItemId() ) )
+					{
+					case ConsumeItemRequest.EQUIP_HAT:
+					case ConsumeItemRequest.EQUIP_PANTS:
+					case ConsumeItemRequest.EQUIP_SHIRT:
+					case ConsumeItemRequest.EQUIP_WEAPON:
+					case ConsumeItemRequest.EQUIP_OFFHAND:
+
+						if ( itemPower >= 100 || (hasMalusAccess && itemPower > 10) )
+							(new PulverizeRequest( currentItem.getInstance( itemCount ) )).run();
+
+						break;
+
+					case ConsumeItemRequest.EQUIP_FAMILIAR:
+					case ConsumeItemRequest.EQUIP_ACCESSORY:
+						(new PulverizeRequest( currentItem.getInstance( itemCount ) )).run();
+						break;
+					}
+				}
 			}
 		}
 
-
-		// Now you've got all the items used up, go ahead and prepare to sell
-		// non-equipment, and pulverize strong equipment.
+		// Now you've got all the items used up, go ahead and prepare to
+		// sell anything that's left.
 
 		ArrayList sellList = new ArrayList();
-		ArrayList pulverizeList = new ArrayList();
-
-		boolean canPulverize = KoLCharacter.hasSkill( "Pulverize" ) && KoLCharacter.hasItem( ConcoctionsDatabase.HAMMER );
-		boolean hasMalusAccess = KoLCharacter.isMuscleClass();
-
-		int itemPower;
-		boolean isPulverizing = false;
 
 		for ( int i = 0; i < items.length; ++i )
 		{
@@ -2981,36 +3032,12 @@ public abstract class KoLmafia implements KoLConstants
 			itemCount = currentItem.getCount( inventory );
 			itemPower = EquipmentDatabase.getPower( currentItem.getItemId() );
 
-			isPulverizing = false;
-
 			if ( itemCount > 0 )
-			{
-				switch ( TradeableItemDatabase.getConsumptionType( currentItem.getItemId() ) )
-				{
-				case ConsumeItemRequest.EQUIP_FAMILIAR:
-				case ConsumeItemRequest.EQUIP_ACCESSORY:
-				case ConsumeItemRequest.EQUIP_HAT:
-				case ConsumeItemRequest.EQUIP_PANTS:
-				case ConsumeItemRequest.EQUIP_SHIRT:
-				case ConsumeItemRequest.EQUIP_WEAPON:
-				case ConsumeItemRequest.EQUIP_OFFHAND:
-					if ( canPulverize && (itemPower >= 100 || hasMalusAccess) )
-					{
-						isPulverizing = true;
-						pulverizeList.add( currentItem.getInstance( itemCount ) );
-					}
-				}
-
-				if ( !isPulverizing )
-					sellList.add( currentItem.getInstance( itemCount ) );
-			}
+				sellList.add( currentItem.getInstance( itemCount ) );
 		}
 
 		if ( !sellList.isEmpty() )
 			(new AutoSellRequest( sellList.toArray(), AutoSellRequest.AUTOSELL )).run();
-
-		for ( int i = 0; i < pulverizeList.size(); ++i )
-			(new PulverizeRequest( (AdventureResult) pulverizeList.get(i) )).run();
 	}
 
 	protected void handleAscension()
