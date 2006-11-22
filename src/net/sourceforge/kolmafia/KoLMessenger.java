@@ -669,6 +669,37 @@ public abstract class KoLMessenger extends StaticEntity
 
 		processChatMessage( channel, message, bufferKey );
 		processChatMessage( channel, message, "[ALL]" );
+
+		// If it's a private message and the buffbot is currently running,
+		// then handle it as a buffbot command.
+
+		if ( BuffBotHome.isBuffBotActive() && !channel.startsWith( "/" ) )
+		{
+			if ( message.endsWith( "help" ) )
+			{
+				(new ChatRequest( channel, "Please check my profile." )).run();
+				return;
+			}
+
+			if ( message.endsWith( "restores" ) )
+			{
+				(new ChatRequest( channel, "I currently have " + KoLmafia.getRestoreCount() + " mana restores at my disposal." )).run();
+				return;
+			}
+
+			if ( message.endsWith( "logoff" ) )
+			{
+				BuffBotHome.updateStatus( "Logoff requested by " + channel );
+				String [] members = ClanManager.retrieveClanList();
+				for ( int i = 0; i < members.length; ++i )
+					if ( members[i].equalsIgnoreCase( channel ) )
+						System.exit(0);
+
+				BuffBotHome.updateStatus( channel + " added to ignore list" );
+				(new ChatRequest( channel, "/baleet" )).run();
+			}
+
+		}
 	}
 
 	private static void processChatMessage( String channel, String message, String bufferKey )
@@ -679,16 +710,18 @@ public abstract class KoLMessenger extends StaticEntity
 			String displayHTML = formatChatMessage( channel, message, bufferKey );
 
 			buffer.setActiveLogFile( getChatLogName( bufferKey ) );
-			buffer.append( displayHTML );
+			boolean hasEvent = displayHTML.indexOf( "<font color=green>" ) != -1;
 
-			if ( displayHTML.indexOf( "<font color=green>" ) != -1 )
+			if ( !BuffBotHome.isBuffBotActive() || !hasEvent )
+			{
+				buffer.append( displayHTML );
+				if ( useTabbedChat )
+					tabbedFrame.highlightTab( bufferKey );
+			}
+
+			if ( hasEvent )
 				eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( message ).replaceAll( "" ) );
 
-			// Check to make sure that in the time it took for
-			// everything to be processed, chat didn't get closed.
-
-			if ( useTabbedChat )
-				tabbedFrame.highlightTab( bufferKey );
 		}
 		catch ( Exception e )
 		{

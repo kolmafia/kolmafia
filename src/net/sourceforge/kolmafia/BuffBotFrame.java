@@ -105,8 +105,8 @@ public class BuffBotFrame extends KoLFrame
 		optionsContainer.add( new BuffListPanel(), BorderLayout.CENTER );
 
 		tabs.addTab( "Edit Bufflist", optionsContainer );
-		tabs.addTab( "Main Settings", new MainSettingsPanel() );
-		tabs.addTab( "Other Settings", new OtherSettingsPanel() );
+		addTab( "Main Settings", new MainSettingsPanel() );
+		addTab( "Other Settings", new OtherSettingsPanel() );
 
 		framePanel.add( tabs, BorderLayout.CENTER );
 	}
@@ -338,11 +338,5 @@ public class BuffBotFrame extends KoLFrame
 			invalidPriceMessage.setText( StaticEntity.getProperty( "invalidBuffMessage" ) );
 			thanksMessage.setText( StaticEntity.getProperty( "thanksMessage" ) );
 		}
-	}
-
-	public void dispose()
-	{
-		BuffBotHome.deinitialize();
-		super.dispose();
 	}
 }

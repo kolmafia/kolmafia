@@ -1771,6 +1771,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				response.append( line );
 
 			responseText = response.toString();
+			processResponse();
 		}
 		catch ( Exception e )
 		{

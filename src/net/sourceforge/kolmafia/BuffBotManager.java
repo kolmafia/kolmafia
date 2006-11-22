@@ -60,7 +60,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	public static final int DISPOSE = 1;
 
 	private static int initialRestores = 0;
-	private static final int REFUND_THRESHOLD = 5;
+	private static final int REFUND_THRESHOLD = 3;
 
 	private static ArrayList saveList = new ArrayList();
 	private static ArrayList deleteList = new ArrayList();
@@ -719,8 +719,9 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 					// send a notification that they will no longer be
 					// refunded for buffs cast today.
 
+					BuffBotHome.updateStatus( "Refund threshold reached for " + message.getSenderName() + "." );
 					sendRefund( message.getSenderName(), "This is a message to notify you that you have sent " + REFUND_THRESHOLD + " requests which were refunded.  " +
-						"To prevent the possibility of intentional sabatoge, any buff requests received over the next 24 hours will be treated as donations.  " +
+						"To prevent the possibility of intentional sabatoge, any failed buff requests over the next 24 hours will be treated as donations.  " +
 						"Thanks for understanding.", meatSent );
 				}
 				else if ( failureCount < REFUND_THRESHOLD )

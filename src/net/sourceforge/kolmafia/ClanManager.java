@@ -853,16 +853,28 @@ public class ClanManager extends StaticEntity
 
 	/**
 	 * Retrieves the clan membership in the form of a
+	 * list object.
+	 */
+
+	public static String [] retrieveClanList()
+	{
+		retrieveClanData();
+
+		String [] members = new String[ profileMap.keySet().size() ];
+		profileMap.keySet().toArray( members );
+
+		return members;
+	}
+
+	/**
+	 * Retrieves the clan membership in the form of a
 	 * CDL (comma-delimited list)
 	 */
 
 	public static String retrieveClanListAsCDL()
 	{
-		retrieveClanData();
-
+		String [] members = retrieveClanList();
 		StringBuffer clanCDL = new StringBuffer();
-		String [] members = new String[ profileMap.keySet().size() ];
-		profileMap.keySet().toArray( members );
 
 		if ( members.length > 0 )
 			clanCDL.append( members[0] );

@@ -96,15 +96,11 @@ public class KoLMailMessage implements Comparable
 	}
 
 	public int compareTo( Object o )
-	{
-		return o == null || !(o instanceof KoLMailMessage) ? -1 :
-			timestamp.after( ((KoLMailMessage)o).timestamp ) ? -1 : timestamp.before( ((KoLMailMessage)o).timestamp ) ? 1 : 0;
+	{	return o == null || !(o instanceof KoLMailMessage) ? -1 : messageId.compareTo( ((KoLMailMessage)o).messageId );
 	}
 
 	public boolean equals( Object o )
-	{
-		return o == null ? false :
-			o instanceof KoLMailMessage ? messageId.equals( ((KoLMailMessage)o).messageId ) : false;
+	{	return o == null || !(o instanceof KoLMailMessage) ? false : messageId.equals( ((KoLMailMessage)o).messageId );
 	}
 
 	public String getMessageId()
