@@ -113,15 +113,11 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		if ( currentName.length() == 0 || keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_BACK_SPACE )
 			return;
 
-		// Autohighlight and popup - note that this
-		// should only happen for standard typing
-		// keys, or the delete and backspace keys.
+		// Autohighlight and popup - note that this should only happen
+		// for standard typing keys, or the delete and backspace keys.
 
 		int matchCount = 0;
 		Object [] currentNames = model.toArray();
-
-		Matcher matcher;
-		Pattern pattern = Pattern.compile( currentName, Pattern.CASE_INSENSITIVE );
 
 		if ( prefixMatchOnly )
 		{
@@ -139,8 +135,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		{
 			for ( int i = 0; i < currentNames.length; ++i )
 			{
-				matcher = pattern.matcher( (String) currentNames[i] );
-				if ( matcher.find() )
+				if ( KoLDatabase.fuzzyMatches( (String) currentNames[i], currentName ) )
 				{
 					++matchCount;
 					currentMatch = (String) currentNames[i];
@@ -154,20 +149,15 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 			return;
 		}
 
-		// If this wasn't an undefined character, then
-		// the user wants autocompletion!  Highlight
-		// the rest of the possible name.
+		// If this wasn't an undefined character, then the user wants auto-completion!
+		// Highlight the rest of the possible name.
 
 		setSelectedItem( currentMatch );
 		getEditor().setItem( currentMatch );
-		matcher = pattern.matcher( currentMatch );
 
-		if ( matcher.find() )
-		{
-			JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
-			editor.setSelectionStart( matcher.end() );
-			editor.setSelectionEnd( currentMatch.length() );
-		}
+		JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
+		editor.setSelectionStart( currentMatch.toLowerCase().indexOf( currentName.toLowerCase() ) + currentName.length() );
+		editor.setSelectionEnd( currentMatch.length() );
 	}
 
 	private class NameInputListener extends KeyAdapter implements FocusListener
@@ -236,14 +226,14 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 					return KoLDatabase.fuzzyMatches( entry.getValue().toString(), currentName );
 				}
 
-				return KoLDatabase.fuzzyMatches( element.toString().toLowerCase(), currentName );
+				return KoLDatabase.fuzzyMatches( element.toString(), currentName );
 			}
 
 			// In all other cases, compare the item against the
 			// item name, so counts don't interfere.
 
 			String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() : ((ItemCreationRequest)element).getName();
-			return currentName == null || currentName.length() == 0 || KoLDatabase.fuzzyMatches( name.toLowerCase(), currentName );
+			return currentName == null || currentName.length() == 0 || KoLDatabase.fuzzyMatches( name, currentName );
 		}
 
 		protected final boolean isNonResult( Object element )
