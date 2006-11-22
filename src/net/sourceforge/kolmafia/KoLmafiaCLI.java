@@ -3158,7 +3158,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( firstMatch == null )
 			return;
 
-		StaticEntity.getClient().makeRequest( new UntinkerRequest( firstMatch.getItemId() ) );
+		StaticEntity.getClient().makeRequest( new UntinkerRequest( firstMatch.getItemId(), firstMatch.getCount() ) );
 	}
 
 	/**
