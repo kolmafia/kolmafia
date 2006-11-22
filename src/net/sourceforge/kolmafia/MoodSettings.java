@@ -555,6 +555,9 @@ public abstract class MoodSettings implements KoLConstants
 		reference.clear();
 		availableMoods.clear();
 
+		ensureProperty( "default" );
+		ensureProperty( "apathetic" );
+
 		try
 		{
 			// First guarantee that a settings file exists with
@@ -563,8 +566,6 @@ public abstract class MoodSettings implements KoLConstants
 			if ( !settingsFile.exists() )
 			{
 				settingsFile.createNewFile();
-				ensureProperty( "default" );
-				ensureProperty( "apathetic" );
 				return;
 			}
 
