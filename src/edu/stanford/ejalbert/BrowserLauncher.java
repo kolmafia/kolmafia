@@ -617,7 +617,7 @@ public class BrowserLauncher {
 				if ( usingIE )
 				{
 					process = Runtime.getRuntime().exec(
-						new String[] { (String) browser, "/c", "explorer", url } );
+						new String[] { (String) browser, "/c", "C:\\Program Files\\Internet Explorer\\iexplore.exe", url } );
 				}
 				else
 				{
