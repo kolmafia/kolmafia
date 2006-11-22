@@ -144,7 +144,7 @@ public class KoLDatabase extends StaticEntity
 			if ( nameMap.containsKey( searchString ) )
 				substringList.add( searchString );
 		}
-		else if ( nameMap.containsKey( substring ) )
+		else if ( nameMap.containsKey( searchString ) )
 		{
 			substringList.add( searchString );
 		}
@@ -154,7 +154,7 @@ public class KoLDatabase extends StaticEntity
 			nameMap.keySet().toArray( names );
 
 			for ( int i = 0; i < names.length; ++i )
-				if ( names[i].indexOf( searchString ) != -1 )
+				if ( names[i].toLowerCase().indexOf( searchString ) != -1 )
 					substringList.add( names[i] );
 		}
 
@@ -205,9 +205,9 @@ public class KoLDatabase extends StaticEntity
 			searchIndex = source.indexOf( substring.charAt(j), previousIndex );
 
 			if ( searchIndex == -1 )
-				return false;
+				searchIndex = source.indexOf( Character.toUpperCase( substring.charAt(j) ), previousIndex );
 
-			if ( Character.isLetterOrDigit( substring.charAt(j) ) && previousIndex + 1 < searchIndex && Character.isLetterOrDigit( source.charAt( searchIndex - 1 ) ) )
+			if ( searchIndex == -1 )
 				return false;
 
 			++searchIndex;
