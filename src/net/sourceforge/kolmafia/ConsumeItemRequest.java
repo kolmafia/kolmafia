@@ -179,65 +179,6 @@ public class ConsumeItemRequest extends KoLRequest
 		addFormField( "pwd" );
 		addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 
-		switch ( consumptionType )
-		{
-		case CONSUME_MULTIPLE:
-
-			float hpRestored = 0.0f;
-
-			for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
-				if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == item.getItemId() )
-					hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
-
-			if ( hpRestored != 0.0f )
-			{
-				float belowMax = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
-				int maximumSuggested = (int) Math.ceil( belowMax / hpRestored );
-
-				if ( item.getCount() > maximumSuggested )
-					item = item.getInstance( maximumSuggested );
-			}
-
-			addFormField( "action", "useitem" );
-			addFormField( "quantity", String.valueOf( item.getCount() ) );
-			break;
-
-		case CONSUME_RESTORE:
-
-			float mpRestored = 0.0f;
-
-			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
-				if ( MPRestoreItemList.CONFIGURES[i].getItem() != null && MPRestoreItemList.CONFIGURES[i].getItem().getItemId() == item.getItemId() )
-					mpRestored = (float) MPRestoreItemList.CONFIGURES[i].getManaPerUse();
-
-			if ( mpRestored != 0.0f )
-			{
-				float belowMax = (float) (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
-				int maximumSuggested = (int) Math.ceil( belowMax / mpRestored );
-
-				if ( item.getCount() > maximumSuggested )
-					item = item.getInstance( maximumSuggested );
-			}
-
-			addFormField( "action", "useitem" );
-			addFormField( "itemquantity", String.valueOf( item.getCount() ) );
-			break;
-
-		case CONSUME_HOBO:
-			addFormField( "action", "hobo" );
-			addFormField( "which", "1" );
-			break;
-
-		case CONSUME_EAT:
-		case CONSUME_DRINK:
-			addFormField( "which", "1" );
-			break;
-
-		default:
-			addFormField( "which", "3" );
-			break;
-		}
-
 		this.consumptionType = consumptionType;
 		this.itemUsed = item;
 	}
@@ -344,10 +285,69 @@ public class ConsumeItemRequest extends KoLRequest
 			return false;
 		}
 
+		switch ( consumptionType )
+		{
+		case CONSUME_MULTIPLE:
+
+			float hpRestored = 0.0f;
+
+			for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
+				if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemUsed.getItemId() )
+					hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
+
+			if ( hpRestored != 0.0f )
+			{
+				float belowMax = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
+				int maximumSuggested = (int) Math.ceil( belowMax / hpRestored );
+
+				if ( itemUsed.getCount() > maximumSuggested )
+					itemUsed = itemUsed.getInstance( maximumSuggested );
+			}
+
+			addFormField( "action", "useitem" );
+			addFormField( "quantity", String.valueOf( itemUsed.getCount() ) );
+			break;
+
+		case CONSUME_RESTORE:
+
+			float mpRestored = 0.0f;
+
+			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
+				if ( MPRestoreItemList.CONFIGURES[i].getItem() != null && MPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemUsed.getItemId() )
+					mpRestored = (float) MPRestoreItemList.CONFIGURES[i].getManaPerUse();
+
+			if ( mpRestored != 0.0f )
+			{
+				float belowMax = (float) (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
+				int maximumSuggested = (int) Math.ceil( belowMax / mpRestored );
+
+				if ( itemUsed.getCount() > maximumSuggested )
+					itemUsed = itemUsed.getInstance( maximumSuggested );
+			}
+
+			addFormField( "action", "useitem" );
+			addFormField( "itemquantity", String.valueOf( itemUsed.getCount() ) );
+			break;
+
+		case CONSUME_HOBO:
+			addFormField( "action", "hobo" );
+			addFormField( "which", "1" );
+			break;
+
+		case CONSUME_EAT:
+		case CONSUME_DRINK:
+			addFormField( "which", "1" );
+			break;
+
+		default:
+			addFormField( "which", "3" );
+			break;
+		}
+
 		if ( totalIterations == 1 )
-			KoLmafia.updateDisplay( useTypeAsString + " " + getItemUsed().toString() + "..." );
+			KoLmafia.updateDisplay( useTypeAsString + " " + itemUsed.toString() + "..." );
 		else
-			KoLmafia.updateDisplay( useTypeAsString + " " + getItemUsed().getName() +
+			KoLmafia.updateDisplay( useTypeAsString + " " + itemUsed.getName() +
 				" (" + currentIteration + " of " + totalIterations + ")..." );
 
 		super.run();
