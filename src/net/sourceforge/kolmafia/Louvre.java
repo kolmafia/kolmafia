@@ -55,15 +55,15 @@ public class Louvre implements UtilityConstants
 		"Escher: House of Stairs",		// 93
 		"Escher: Labyrinth",			// 94
 		"Escher: Ascending and Descending",	// 95
-		"Mondrian",				// 96
-		"Munch: The Scream",			// 97
-		"Botticelli: The Birth of Venus",	// 98
-		"Michelangelo: The Creation of Adam",	// 99
-		"David: The Death of Socrates",		// 100
-		"Hopper: Nighthawks",			// 101
-		"Seurat: Sunday Afternoon on the Island of La Grande Jatte",	// 102
-		"Leonardo da Vinci: The Last Supper",	// 103
-		"Dali: The Persistence of Memory",	// 104
+		"Mondrian: Moxie, Manetwich, Pinot Renoir",				// 96
+		"Munch: The Scream: Muscle, Manetwich, Vangoghbitussin",			// 97
+		"Botticelli: The Birth of Venus: Mysticality, Vangoghbitussin, Pinot Renoir",	// 98
+		"Michelangelo: The Creation of Adam: Moxie, Pinot Renoir",	// 99
+		"David: The Death of Socrates: Moxie, Manetwich",		// 100
+		"Hopper: Nighthawks: Muscle, Manetwich",			// 101
+		"Seurat: Sunday Afternoon on the Island of La Grande Jatte: Muscle, Vangoghbitussin",	// 102
+		"Leonardo da Vinci: The Last Supper: Mysticality, Vangoghbitussin",	// 103
+		"Dali: The Persistence of Memory: Mysticality, Pinot Renoir",	// 104
 	};
 
 	// 0 = 92, 93, 94, or 95
