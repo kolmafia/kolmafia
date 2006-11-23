@@ -496,6 +496,11 @@ public class ItemManageFrame extends KoLFrame
 						isVisibleWithFilter = HPRestoreItemList.contains( (AdventureResult) element ) ? restores : other;
 						break;
 
+					case ConsumeItemRequest.GROW_FAMILIAR:
+					case ConsumeItemRequest.CONSUME_ZAP:
+						isVisibleWithFilter = other;
+						break;
+
 					default:
 						isVisibleWithFilter = false;
 						break;
