@@ -53,7 +53,6 @@ public class UntinkerRequest extends KoLRequest
 		addFormField( "pwd" );
 		addFormField( "action", "untinker" );
 		addFormField( "whichitem", String.valueOf( itemId ) );
-		addFormField( "untinker", "Untinker!" );
 
 		this.itemId = itemId;
 		this.iterationsNeeded = 1;
@@ -96,10 +95,14 @@ public class UntinkerRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemId ) + "..." );
 		super.run();
 
-		if ( responseText.indexOf( "Degrassi Knoll" ) != -1 )
+		if ( responseText.indexOf( "<select name=whichitem>" ) == -1 )
 		{
 			if ( !completeQuest() )
 				return;
+
+			KoLRequest request = new KoLRequest( "town_right.php?place=untinker" );
+			request.run();
+
 			super.run();
 		}
 
@@ -183,6 +186,8 @@ public class UntinkerRequest extends KoLRequest
 	}
 
 	protected void processResults()
-	{	StaticEntity.getClient().processResult( new AdventureResult( itemId, -1 ) );
+	{
+		if ( responseText.indexOf( "You acquire" ) != -1 )
+			StaticEntity.getClient().processResult( new AdventureResult( itemId, -1 ) );
 	}
 }
