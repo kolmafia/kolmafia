@@ -1971,28 +1971,28 @@
 1971	plastic pumpkin bucket	7	all	0
 1972	silver shrimp fork	12	all	0
 1973	half of a memo	3	none	0
-1974	stuffed cocoabo	13	gift	100
-1975	stuffed baby gravy fairy	13	gift	100
-1976	stuffed flaming gravy fairy	13	gift	100
-1977	stuffed frozen gravy fairy	13	gift	100
-1978	stuffed stinky gravy fairy	13	gift	100
-1979	stuffed spooky gravy fairy	13	gift	100
-1980	stuffed sleazy gravy fairy	13	gift	100
-1981	stuffed astral badger	13	gift	100
-1982	stuffed MagiMechTech MicroMechaMech	13	gift	100
-1983	stuffed hand turkey	13	gift	100
-1984	stuffed snowy owl	13	gift	100
-1985	stuffed scary death orb	13	gift	100
-1986	stuffed mind flayer	13	gift	100
-1987	stuffed undead elbow macaroni	13	gift	100
-1988	stuffed angry cow	3	gift	100
-1989	stuffed Cheshire bitten	13	gift	100
-1990	stuffed yo-yo	13	gift	100
+1974	stuffed cocoabo	13	gift	10
+1975	stuffed baby gravy fairy	13	gift	10
+1976	stuffed flaming gravy fairy	13	gift	10
+1977	stuffed frozen gravy fairy	13	gift	10
+1978	stuffed stinky gravy fairy	13	gift	10
+1979	stuffed spooky gravy fairy	13	gift	10
+1980	stuffed sleazy gravy fairy	13	gift	10
+1981	stuffed astral badger	13	gift	10
+1982	stuffed MagiMechTech MicroMechaMech	13	gift	10
+1983	stuffed hand turkey	13	gift	10
+1984	stuffed snowy owl	13	gift	10
+1985	stuffed scary death orb	13	gift	10
+1986	stuffed mind flayer	13	gift	10
+1987	stuffed undead elbow macaroni	13	gift	10
+1988	stuffed angry cow	3	gift	10
+1989	stuffed Cheshire bitten	13	gift	10
+1990	stuffed yo-yo	13	gift	10
 1991	rubber WWJD? bracelet	8	gift	5
 1992	rubber WWBD? bracelet	8	gift	5
 1993	rubber WWSPD? bracelet	8	gift	5
 1994	rubber WWtNSD? bracelet	8	gift	5
-1995	heart necklace		gift	100
+1995	heart necklace		gift	10
 1996	right half of a heart necklace	8	none	0
 1997	left half of a heart necklace	8	none	0
 1998	pack of KWE trading card	3	all	50
@@ -2013,9 +2013,9 @@
 2013	Serenity trading card	3	all	50
 2014	Inndya trading card	3	all	50
 2015	Kitty the Zmobie Basher trading card	3	all	50
-2016	diamond necklace	8	gift	100
-2017	spade necklace	8	gift	100
-2018	club necklace	8	gift	100
+2016	diamond necklace	8	gift	10
+2017	spade necklace	8	gift	10
+2018	club necklace	8	gift	10
 2019	cream pie	0	all	50
 2020	cherry pie	1	all	80
 2021	strawberry pie	1	all	45
