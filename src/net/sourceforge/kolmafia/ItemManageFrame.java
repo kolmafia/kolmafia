@@ -561,8 +561,32 @@ public class ItemManageFrame extends KoLFrame
 					return;
 
 				Runnable [] requests = new Runnable[ items.length ];
+
 				for ( int i = 0; i < items.length; ++i )
-					requests[i] = new ConsumeItemRequest( (AdventureResult) items[i] );
+				{
+					int usageType = TradeableItemDatabase.getConsumptionType( ((AdventureResult)items[i]).getItemId() );
+
+					switch ( usageType )
+					{
+					case ConsumeItemRequest.NO_CONSUME:
+						requests[i] = null;
+						break;
+
+					case ConsumeItemRequest.EQUIP_FAMILIAR:
+					case ConsumeItemRequest.EQUIP_ACCESSORY:
+					case ConsumeItemRequest.EQUIP_HAT:
+					case ConsumeItemRequest.EQUIP_PANTS:
+					case ConsumeItemRequest.EQUIP_SHIRT:
+					case ConsumeItemRequest.EQUIP_WEAPON:
+					case ConsumeItemRequest.EQUIP_OFFHAND:
+						requests[i] = new EquipmentRequest( (AdventureResult) items[i], KoLCharacter.consumeFilterToEquipmentType( usageType ) );
+						break;
+
+					default:
+						requests[i] = new ConsumeItemRequest( (AdventureResult) items[i] );
+						break;
+					}
+				}
 
 				(new RequestThread( requests )).start();
 			}

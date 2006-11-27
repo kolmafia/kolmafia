@@ -44,6 +44,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 {
 	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
 
+	private static final HPRestoreItem SOFA = new HPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE );
 	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", Integer.MAX_VALUE );
 	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", Integer.MAX_VALUE );
 	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
@@ -108,7 +109,16 @@ public abstract class HPRestoreItemList extends StaticEntity
 		}
 
 		public int getHealthPerUse()
-		{	return hpPerUse;
+		{
+			if ( this == SOFA )
+			{
+				// The restore rate on the rumpus room sofa changes
+				// based on your current level.
+
+				this.hpPerUse = (int) KoLCharacter.getLevel() * 5 + 1;
+			}
+
+			return hpPerUse;
 		}
 
 		public void recoverHP( int needed, boolean purchase )
@@ -130,9 +140,15 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			int hpShort = needed - KoLCharacter.getCurrentHP();
 			int belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
-			int numberToUse = (int) Math.ceil( (float) hpShort / (float) hpPerUse );
+			int numberToUse = (int) Math.ceil( (float) hpShort / (float) getHealthPerUse() );
 
-			if ( ClassSkillsDatabase.contains( itemName ) )
+			if ( this == SOFA )
+			{
+				(new ClanGymRequest( ClanGymRequest.SOFA )).setTurnCount( numberToUse ).run();
+				return;
+			}
+
+			else if ( ClassSkillsDatabase.contains( itemName ) )
 			{
 				if ( !KoLCharacter.hasSkill( itemName ) )
 					numberToUse = 0;

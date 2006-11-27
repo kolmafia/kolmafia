@@ -44,6 +44,7 @@ public class ClanGymRequest extends KoLRequest
 	public static final int MUSCLE = 1;
 	public static final int MYSTICALITY = 2;
 	public static final int MOXIE = 3;
+	public static final int SOFA = 4;
 
 	private int turnCount;
 	private int equipmentId;
@@ -87,10 +88,10 @@ public class ClanGymRequest extends KoLRequest
 
 			// Otherwise, use the one in our clan - if we're in one.
 			return "clan_rumpus.php";
-		}
 
-		// Better not get here.
-		return "clan_rumpus.php";
+		default:
+			return "clan_rumpus.php";
+		}
 	}
 
 	private static String chooseAction( int equipmentId )
@@ -108,6 +109,9 @@ public class ClanGymRequest extends KoLRequest
 		case MOXIE:
 			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
 			return KoLCharacter.inMoxieSign() ? "train" : "2";
+
+		case SOFA:
+			return "5";
 		}
 
 		return null;
@@ -118,37 +122,52 @@ public class ClanGymRequest extends KoLRequest
 	 * it merely parses the results to see if any gains were made.
 	 */
 
-	public void setTurnCount( int turnCount )
-	{	this.turnCount = turnCount;
+	public ClanGymRequest setTurnCount( int turnCount )
+	{
+		this.turnCount = turnCount;
+		return this;
 	}
 
 	public void run()
 	{
 		constructURLString( chooseGym( equipmentId ) );
 
-		String equipment = chooseAction( equipmentId );
-		if ( equipment == null )
-			return;
-
-		if ( equipment.length() > 1 )
+		switch ( equipmentId )
 		{
-			addFormField( "action", equipment );
+		case SOFA:
+			addFormField( "preaction", "nap" );
+			break;
+
+		default:
+			String equipment = chooseAction( equipmentId );
+			if ( equipment == null )
+				return;
+
+			if ( equipment.length() > 1 )
+			{
+				addFormField( "action", equipment );
+			}
+			else
+			{
+				addFormField( "preaction", "gym" );
+				addFormField( "whichgym", equipment );
+			}
+
+			break;
 		}
-		else
+
+		if ( turnCount > 0 )
 		{
-			addFormField( "preaction", "gym" );
-			addFormField( "whichgym", equipment );
+			addFormField( "numturns", String.valueOf( turnCount ) );
+
+			if ( KoLCharacter.getAdventuresLeft() < turnCount )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient adventures." );
+				return;
+			}
 		}
 
-		addFormField( "numturns", String.valueOf( turnCount ) );
-
-		if ( KoLCharacter.getAdventuresLeft() < turnCount )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient adventures." );
-			return;
-		}
-
-		KoLmafia.updateDisplay( "Beginning workout..." );
+		KoLmafia.updateDisplay( "Executing request..." );
 		super.run();
 	}
 

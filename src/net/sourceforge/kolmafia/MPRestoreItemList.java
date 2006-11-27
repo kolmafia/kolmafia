@@ -42,6 +42,7 @@ import javax.swing.JCheckBox;
 
 public abstract class MPRestoreItemList extends StaticEntity
 {
+	public static final MPRestoreItem SOFA = new MPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE );
 	public static final MPRestoreItem CAMPGROUND = new MPRestoreItem( "rest at your campground", Integer.MAX_VALUE );
 	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in your beanbag", Integer.MAX_VALUE );
 
@@ -109,7 +110,14 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 		public int getManaPerUse()
 		{
-			if ( this == MYSTERY_JUICE )
+			if ( this == SOFA )
+			{
+				// The restore rate on the rumpus room sofa changes
+				// based on your current level.
+
+				this.mpPerUse = (int) KoLCharacter.getLevel() * 5 + 1;
+			}
+			else if ( this == MYSTERY_JUICE )
 			{
 				// The restore rate on magical mystery juice changes
 				// based on your current level.
@@ -149,9 +157,14 @@ public abstract class MPRestoreItemList extends StaticEntity
 			}
 
 			int mpShort = needed - KoLCharacter.getCurrentMP();
+			int numberToUse = (int) Math.ceil( (float) mpShort / (float) getManaPerUse() );
 
+			if ( this == SOFA )
+			{
+				(new ClanGymRequest( ClanGymRequest.SOFA )).setTurnCount( numberToUse ).run();
+				return;
+			}
 
-			int numberToUse = (int) Math.ceil( (float) mpShort / (float) mpPerUse );
 			int numberAvailable = itemUsed.getCount( inventory );
 
 			if ( !NPCStoreDatabase.contains( this.toString() ) || !purchase )
