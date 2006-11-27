@@ -158,13 +158,13 @@ public class ItemManageFrame extends KoLFrame
 			container.add( Box.createVerticalStrut( 15 ) );
 
 			addButtonAndLabel( new MallRestockButton(),
-				"This feature looks at all the items currently in your store, and if you have any matching items in your inventory, drops those items into your store at your current price.  Note that if any items are already sold out, these items will not be re-added, even if you've run this script previously on this character, as KoLmafia does not currently remember past decisions related to store management." );
+				"This feature looks at all the items currently in your store, and if you have any matching items in your inventory that are also auto-sellable, drops those items into your store at your current price.  Note that if any items are already sold out, these items will not be re-added, even if you've run this script previously on this character, as KoLmafia does not currently remember past decisions related to store management." );
 
 			container.add( new JSeparator() );
 			container.add( Box.createVerticalStrut( 15 ) );
 
 			addButtonAndLabel( new DisplayCaseButton(),
-				"This feature scans your inventory and, if it finds any items which match what's in your display case, puts those items on display.  If there are items which you would rather not have extras of on display, then autosell these items, pulverize these items, place these items in your closet, or place these items in your clan's stash, and KoLmafia will not add those items to your display case.  Alternatively, you may run one of the other scripts listed above, which may remove the item from your inventory." );
+				"This feature scans your inventory and, if it finds any items which match what's in your display case, and if you have more than one of that item in your display case, puts those items on display.  If there are items which you would rather not have extras of on display, then before running this script, auto-sell these items, pulverize these items, place these items in your closet, or place these items in your clan's stash, and KoLmafia will not add those items to your display case.  Alternatively, you may run one of the other scripts listed above, which may remove the item from your inventory." );
 
 			setLayout( new CardLayout( 10, 10 ) );
 			add( container, "" );
@@ -288,7 +288,7 @@ public class ItemManageFrame extends KoLFrame
 					item = new AdventureResult( sold[i].getItemId(), 1 );
 					itemCount = item.getCount( inventory );
 
-					if ( itemCount > 0 )
+					if ( itemCount > 0 && TradeableItemDatabase.getPriceById( item.getItemId() ) > 0 )
 						items.add( item.getInstance( itemCount ) );
 				}
 
@@ -320,7 +320,7 @@ public class ItemManageFrame extends KoLFrame
 				for ( int i = 0; i < display.length; ++i )
 				{
 					itemCount = display[i].getCount( inventory );
-					if ( itemCount > 0 )
+					if ( itemCount > 1 )
 						items.add( display[i].getInstance( itemCount ) );
 				}
 
