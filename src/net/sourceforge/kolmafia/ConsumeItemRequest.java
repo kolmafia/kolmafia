@@ -83,6 +83,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int GATES_SCROLL = 552;
 	private static final int LUCIFER = 571;
 	private static final int TINY_HOUSE = 592;
+	private static final int PHONICS = 593;
 	private static final int DRASTIC_HEALING = 595;
 	private static final int SLUG_LORD_MAP = 598;
 	private static final int DR_HOBO_MAP = 601;
@@ -285,11 +286,13 @@ public class ConsumeItemRequest extends KoLRequest
 			return false;
 		}
 
+		float hpRestored, mpRestored;
+
 		switch ( consumptionType )
 		{
 		case CONSUME_MULTIPLE:
 
-			float hpRestored = 0.0f;
+			hpRestored = 0.0f;
 
 			for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
 				if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemUsed.getItemId() )
@@ -310,7 +313,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case CONSUME_RESTORE:
 
-			float mpRestored = 0.0f;
+			mpRestored = 0.0f;
 
 			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 				if ( MPRestoreItemList.CONFIGURES[i].getItem() != null && MPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemUsed.getItemId() )
@@ -320,6 +323,20 @@ public class ConsumeItemRequest extends KoLRequest
 			{
 				float belowMax = (float) (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
 				int maximumSuggested = (int) Math.ceil( belowMax / mpRestored );
+
+				// Phonics down is a special case.  You also look at how much HP it
+				// restores when taking an upper limit.
+
+				if ( itemUsed.getItemId() == PHONICS )
+				{
+					hpRestored = 0.0f;
+					for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
+						if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemUsed.getItemId() )
+							hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
+
+					belowMax = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
+					maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / hpRestored ) );
+				}
 
 				if ( itemUsed.getCount() > maximumSuggested )
 					itemUsed = itemUsed.getInstance( maximumSuggested );
