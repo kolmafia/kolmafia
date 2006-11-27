@@ -161,6 +161,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		travelMenu.add( new InvocationMenuItem( "Doc Galaktik", StaticEntity.getClient(), "makeGalaktikRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Rest in House", StaticEntity.getClient(), "makeCampgroundRestRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Relax in Beanbag", StaticEntity.getClient(), "makeCampgroundRelaxRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Sleep in Sofa", StaticEntity.getClient(), "makeClanSofaRequest" ) );
 
 		travelMenu.add( new JSeparator() );
 

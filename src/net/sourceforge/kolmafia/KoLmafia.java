@@ -1415,8 +1415,7 @@ public abstract class KoLmafia implements KoLConstants
 
 				if ( adventure.getRequest() instanceof ClanGymRequest )
 				{
-					((ClanGymRequest)adventure.getRequest()).setTurnCount( iterations );
-					((ClanGymRequest)adventure.getRequest()).run();
+					((ClanGymRequest)adventure.getRequest()).setTurnCount( iterations ).run();
 					return;
 				}
 				else if ( adventure.getRequest() instanceof SewerRequest )
@@ -1886,6 +1885,15 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 
 		makeRequest( new CampgroundRequest( "relax" ), StaticEntity.parseInt( turnCount ) );
+	}
+
+	public void makeClanSofaRequest()
+	{
+		String turnCount = (String) JOptionPane.showInputDialog( null, "Sleep for how many turns?", "1" );
+		if ( turnCount == null )
+			return;
+
+		makeRequest( new ClanGymRequest( ClanGymRequest.SOFA ), StaticEntity.parseInt( turnCount ) );
 	}
 
 	public static void validateFaucetQuest()

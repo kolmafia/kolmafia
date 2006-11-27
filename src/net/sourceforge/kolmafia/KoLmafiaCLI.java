@@ -1570,6 +1570,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "sofa" ) || command.equals( "sleep" ) )
+		{
+			(new ClanGymRequest( ClanGymRequest.SOFA )).setTurnCount( StaticEntity.parseInt( parameters ) ).run();
+			return;
+		}
+
 		// Because it makes sense to add this command as-is,
 		// you now have the ability to request buffs.
 
