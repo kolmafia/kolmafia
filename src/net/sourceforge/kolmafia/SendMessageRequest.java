@@ -46,10 +46,10 @@ import java.util.regex.Matcher;
 
 public abstract class SendMessageRequest extends KoLRequest
 {
-	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item[^=]*\\d*=(\\d*)" );
-	protected static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany\\d*=(\\d*)" );
+	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item[^=]*\\d*=(\\d+)" );
+	protected static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany\\d*=(\\d+)" );
 	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity\\d*=([\\d,]+)" );
-	protected static final Pattern RECIPIENT_PATTERN = Pattern.compile( "towho=([^=&]*)" );
+	protected static final Pattern RECIPIENT_PATTERN = Pattern.compile( "towho=([^=&]+)" );
 
 	private static boolean hadSendMessageFailure = false;
 	private static boolean updateDisplayOnFailure = true;
@@ -270,9 +270,7 @@ public abstract class SendMessageRequest extends KoLRequest
 				else
 					AdventureResult.addResultToList( source, ((AdventureResult)attachments[i]).getNegation() );
 
-				if ( source == storage && destination == inventory && KoLCharacter.canInteract() )
-					KoLCharacter.processResult( (AdventureResult) attachments[i] );
-				else if ( destination == inventory )
+				if ( destination == inventory )
 					StaticEntity.getClient().processResult( (AdventureResult) attachments[i] );
 				else
 					AdventureResult.addResultToList( destination, (AdventureResult) attachments[i] );
@@ -332,7 +330,15 @@ public abstract class SendMessageRequest extends KoLRequest
 		while ( itemMatcher.find() && (quantityMatcher == null || quantityMatcher.find()) )
 		{
 			int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
+
+			// One of the "select" options is a zero value for the item id field.
+			// Trying to parse it generates an exception, so skip it for now.
+
+			if ( itemId == 0 )
+				continue;
+
 			int quantity = quantityPattern == null ? defaultQuantity : StaticEntity.parseInt( quantityMatcher.group(1) );
+
 			AdventureResult item = new AdventureResult( itemId, quantity );
 
 			if ( quantity < 1 )
