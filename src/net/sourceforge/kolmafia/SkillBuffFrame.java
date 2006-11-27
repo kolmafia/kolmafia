@@ -84,7 +84,7 @@ public class SkillBuffFrame extends KoLFrame
 
 			skillSelect = new JComboBox( usableSkills );
 			amountField = new JTextField();
-			targetSelect = new MutableComboBox( (SortedListModel) contactList.clone(), true, true );
+			targetSelect = new MutableComboBox( (SortedListModel) contactList.clone(), true );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Skill Name: ", skillSelect );

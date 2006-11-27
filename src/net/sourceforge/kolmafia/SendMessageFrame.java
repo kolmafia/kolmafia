@@ -197,7 +197,7 @@ public class SendMessageFrame extends KoLFrame
 
 		// Also who you want to send it to.
 
-		recipientEntry = new MutableComboBox( (SortedListModel) contactList.clone(), true, true );
+		recipientEntry = new MutableComboBox( (SortedListModel) contactList.clone(), true );
 		recipientEntry.setEditable( true );
 
 		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );

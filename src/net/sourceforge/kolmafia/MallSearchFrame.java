@@ -95,7 +95,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		{
 			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
-			searchField = new MutableComboBox( new SortedListModel(), true, true );
+			searchField = new MutableComboBox( new SortedListModel(), true );
 			countField = new JTextField();
 
 			forceSortingCheckBox = new JCheckBox();
