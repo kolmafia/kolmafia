@@ -1910,6 +1910,9 @@ public abstract class KoLmafia implements KoLConstants
 	public static void addTavernLocation( KoLRequest request )
 	{
 		validateFaucetQuest();
+		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getCurrentHP() == 0 )
+			return;
+
 		StringBuffer layout = new StringBuffer( StaticEntity.getProperty( "tavernLayout" ) );
 
 		if ( request.getURLString().indexOf( "fight" ) != -1 )
