@@ -53,10 +53,9 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 	protected String currentMatch;
 	protected LockableListModel model;
 	protected boolean allowAdditions;
-	protected boolean prefixMatchOnly;
 	protected WordBasedFilter filter;
 
-	public MutableComboBox( LockableListModel model, boolean allowAdditions, boolean prefixMatchOnly )
+	public MutableComboBox( LockableListModel model, boolean allowAdditions )
 	{
 		super( model );
 
@@ -67,8 +66,6 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		this.setEditable( true );
 
 		this.allowAdditions = allowAdditions;
-		this.prefixMatchOnly = prefixMatchOnly;
-
 		NameInputListener listener = new NameInputListener();
 
 		this.getEditor().getEditorComponent().addFocusListener( listener );
@@ -119,7 +116,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		int matchCount = 0;
 		Object [] currentNames = model.toArray();
 
-		if ( prefixMatchOnly )
+		if ( allowAdditions )
 		{
 			String lowercase = currentName.toLowerCase();
 			for ( int i = 0; i < currentNames.length; ++i )
@@ -190,15 +187,15 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 	protected class WordBasedFilter extends LockableListModel.ListElementFilter
 	{
-		protected boolean shouldFilterJunkItems;
+		protected boolean shouldHideJunkItems;
 
-		public WordBasedFilter( boolean shouldFilterJunkItems )
-		{	this.shouldFilterJunkItems = shouldFilterJunkItems;
+		public WordBasedFilter( boolean shouldHideJunkItems )
+		{	this.shouldHideJunkItems = shouldHideJunkItems;
 		}
 
 		public boolean isVisible( Object element )
 		{
-			if ( shouldFilterJunkItems )
+			if ( shouldHideJunkItems )
 			{
 				if ( element instanceof AdventureResult )
 				{

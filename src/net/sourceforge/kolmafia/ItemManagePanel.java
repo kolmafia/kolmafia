@@ -350,7 +350,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public FilterItemComboBox()
 		{
-			super( new LockableListModel(), true, false );
+			super( new LockableListModel(), true );
 			filter = new ConsumptionBasedFilter();
 		}
 
@@ -383,7 +383,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 				if ( filters.length == 3 )
 				{
-					junk = false;
+					junk = true;
 					other = filters[2].isSelected();
 					equip = other;
 				}
@@ -401,14 +401,14 @@ public class ItemManagePanel extends LabeledScrollPanel
 				}
 			}
 
-			filter.shouldFilterJunkItems = !junk;
+			filter.shouldHideJunkItems = !junk;
 			elementList.applyFilter( filter );
 		}
 
 		private class ConsumptionBasedFilter extends WordBasedFilter
 		{
 			public ConsumptionBasedFilter()
-			{	super( StaticEntity.getBooleanProperty( "showJunkItems" ) );
+			{	super( !StaticEntity.getBooleanProperty( "showJunkItems" ) );
 			}
 
 			public boolean isVisible( Object element )

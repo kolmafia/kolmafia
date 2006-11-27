@@ -463,7 +463,7 @@ public class ItemManageFrame extends KoLFrame
 				junk = filters[3].isSelected();
 				other = filters[4].isSelected();
 
-				filter.shouldFilterJunkItems = !junk;
+				filter.shouldHideJunkItems = !junk;
 				elementList.applyFilter( filter );
 			}
 

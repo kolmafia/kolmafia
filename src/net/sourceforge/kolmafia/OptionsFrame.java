@@ -844,7 +844,7 @@ public class OptionsFrame extends KoLFrame
 		private class ValueComboBox extends MutableComboBox
 		{
 			public ValueComboBox()
-			{	super( EFFECT_MODEL, false, false );
+			{	super( EFFECT_MODEL, false );
 			}
 
 			protected void findMatch( int keyCode )

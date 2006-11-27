@@ -168,7 +168,7 @@ public abstract class ProposeTradeFrame extends KoLFrame
 	{
 		String [] entryHeaders = getEntryHeaders();
 
-		recipientEntry = new MutableComboBox( (SortedListModel) contactList.clone(), true, true );
+		recipientEntry = new MutableComboBox( (SortedListModel) contactList.clone(), true );
 		recipientEntry.setEditable( true );
 
 		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );
