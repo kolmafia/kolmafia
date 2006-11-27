@@ -344,7 +344,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		if ( formURLString.indexOf( "chatlaunch" ) != -1 )
 		{
-			if ( StaticEntity.getBooleanProperty( "relayAddsGraphicalCLI" ) && !StaticEntity.getBooleanProperty( "relayUsesIntegratedChat" ) )
+			if ( StaticEntity.getBooleanProperty( "relayAddsGraphicalCLI" ) )
 			{
 				int linkIndex = responseBuffer.indexOf( "<a href" );
 				if ( linkIndex != -1 )
