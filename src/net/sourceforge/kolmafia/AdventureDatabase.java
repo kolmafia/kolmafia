@@ -170,8 +170,7 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "Woods", "choiceAdventure5", "Gravy Barrow",
 		  new String [] { "use inexplicably glowing rock", "skip the adventure" } ),
 
-		// Choice 6 is unknown
-
+		// Choice 6 is Darker Than Dark
 		// Choice 7 is How Depressing
 		// Choice 8 is On the Verge of a Dirge
 
@@ -379,13 +378,17 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "choiceAdventure3", "Teleportitis",
 		  new String [] { "skip the adventure", "randomly sink 100 meat", "make plus sign usable" } ),
 
+		// Darker Than Dark
+		new ChoiceAdventure( "choiceAdventure6", "Gravy Barrow 2a",
+		  new String [] { "no spooky glove", "skip the adventure" } ),
+
 		// How Depressing -> Self Explanatory
-		// new ChoiceAdventure( "choiceAdventure7", "Gravy Barrow 2",
-		//  new String [] { "use spooky glove", "skip the adventure" } ),
+		new ChoiceAdventure( "choiceAdventure7", "Gravy Barrow 2b",
+		  new String [] { "use spooky glove", "skip the adventure" } ),
 
 		// On the Verge of a Dirge -> Self Explanatory
-		// new ChoiceAdventure( "choiceAdventure8", "Gravy Barrow 3",
-		//  new String [] { "enter the chamber", "enter the chamber", "enter the chamber" } ),
+		new ChoiceAdventure( "choiceAdventure8", "Gravy Barrow 3",
+		  new String [] { "enter the chamber", "enter the chamber", "enter the chamber" } ),
 
 		// Wheel In the Sky Keep on Turning: Muscle Position
 		new ChoiceAdventure( "choiceAdventure9", "Castle Wheel",
