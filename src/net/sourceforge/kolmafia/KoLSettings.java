@@ -166,7 +166,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	public Object setProperty( String name, String value )
 	{
 		if ( value == null )
-			return null;
+			return "";
 
 		boolean isGlobalProperty = isGlobalProperty( name );
 
@@ -186,7 +186,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 		super.setProperty( name, value );
 		saveSettings();
-		return oldValue;
+		return oldValue == null ? "" : oldValue;
 	}
 
 	public void saveJunkItemList()
