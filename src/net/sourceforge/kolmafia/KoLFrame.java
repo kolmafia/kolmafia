@@ -820,8 +820,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		if ( isVisible )
 		{
-			setExtendedState( NORMAL );
-			requestFocus();
+			super.setExtendedState( NORMAL );
+			super.repaint();
 		}
 	}
 

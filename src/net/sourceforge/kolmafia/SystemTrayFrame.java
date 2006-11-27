@@ -137,9 +137,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 		{
 			KoLDesktop.getInstance().pack();
 			KoLDesktop.getInstance().setVisible( true );
-			KoLDesktop.getInstance().setExtendedState( KoLFrame.NORMAL );
 		}
-
 	}
 
 	private static class ShowMainWindowPopupItem extends TrayIconPopupSimpleItem implements ActionListener
