@@ -338,6 +338,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				return;
 
 			(new AutoSellRequest( getSelectedValues(), AutoSellRequest.AUTOSELL )).run();
+			KoLmafia.enableDisplay();
 		}
 	}
 
