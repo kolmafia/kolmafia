@@ -67,9 +67,13 @@ public abstract class CombatSettings implements UtilityConstants, KoLConstants
 
 	public static final void reset()
 	{
-		settingsFile = new File( settingsFileName() );
 		root.removeAllChildren();
 		reference.clear();
+
+		if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) )
+			return;
+
+		settingsFile = new File( settingsFileName() );
 
 		loadSettings();
 		ensureProperty( "default", "attack with weapon" );

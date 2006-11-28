@@ -317,6 +317,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 			StaticEntity.globalStringReplace( responseBuffer, "cycles++", "cycles = 0" );
 			StaticEntity.globalStringReplace( responseBuffer, "location.hostname", "location.host" );
 
+			StaticEntity.singleStringReplace( responseBuffer, "if (postedgraf", "if (postedgraf == \"/exit\") { document.location.href = \"chatlaunch.php\"; return true; } if (postedgraf" );
+
 			// This is a hack to fix KoL chat, as it is handled
 			// in Opera.  No guarantees it works, though.
 
@@ -845,6 +847,16 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	public void run()
 	{
+		// If there is an attempt to view the error page, or if
+		// there is an attempt to view the robots file, neither
+		// are available on KoL, so return.
+
+		if ( formURLString.equals( "missingimage.gif" ) || formURLString.endsWith( "robots.txt" ) )
+		{
+			sendNotFound();
+			return;
+		}
+
 		// Abort request if the person is attempting to stasis
 		// mine, even if it's done manually.
 
@@ -859,16 +871,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 				pseudoResponse( "HTTP/1.1 200 OK", "<html><body><h1>Please reconsider your meat farming strategy.</h1></body></html>" );
 				return;
 			}
-		}
-
-		// If there is an attempt to view the error page, or if
-		// there is an attempt to view the robots file, neither
-		// are available on KoL, so return.
-
-		if ( formURLString.endsWith( "missing.gif" ) || formURLString.endsWith( "robots.txt" ) )
-		{
-			sendNotFound();
-			return;
 		}
 
 		// If the person is visiting the sorceress and they forgot

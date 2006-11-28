@@ -93,13 +93,14 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static final void reset()
 	{
-		String currentMood = StaticEntity.getProperty( "currentMood" );
-		StaticEntity.setProperty( "currentMood", "" );
-
 		reference.clear();
 		thiefTriggers.clear();
 		availableMoods.clear();
 		displayList.clear();
+
+		String currentMood = StaticEntity.getProperty( "currentMood" );
+		if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) || currentMood.equals( "" ) )
+			return;
 
 		settingsFile = new File( settingsFileName() );
 		loadSettings();

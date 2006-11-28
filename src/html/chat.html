@@ -261,7 +261,7 @@
 			if ( !isRefreshing && httpObject.responseText.indexOf("<!-- REFRESH -->") != -1 )
 				refreshSidebar();
 
-			timeout = setTimeout( getCLIUpdate, 1000 );
+			timeout = setTimeout( getCLIUpdate, 8000 );
 		}
 
 		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/getNewMessages" );
@@ -337,7 +337,7 @@
 				return;
 
 			if ( httpObject.responseText == null )
-				parent.location.href = "http://www.kingdomofloathing.com/login.php?results=Session timed out.";
+				return;
 
 			if ( httpObject.responseText.length < 2 )
 				return;
@@ -376,6 +376,12 @@
 
 		if ( postedgraf == "" )
 			return true;
+
+		if ( postedgraf == "/exit" )
+		{
+			document.location.href = "chatlaunch.php";
+			return true;
+		}
 
 		document.inputform.data.value = "";
 		document.inputform.data.focus();
@@ -535,7 +541,8 @@
  <body link=black alink=black vlink=black onLoad="getCLIUpdate(); switchToChat(); submitchat( '/channel' ); getChatUpdate();" onResize="initSizes();">
 
   <div id="ToggleDisplay" class=toggledisplay><center><nobr><a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
-  <a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag"> gCLI</a>
+  <a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag"> gCLI</a> /
+  <a href="chatlaunch.php">Exit</a>
   </nobr></center></div>
 
   <div id="ChatWindow" class=chatdisplay></div>
