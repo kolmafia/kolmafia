@@ -864,6 +864,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			wasLastRequestSimple = false;
 		}
+		else if ( HermitRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
 
 		// For all other requests, log the URL of the location which
 		// was visited.
