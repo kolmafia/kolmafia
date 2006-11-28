@@ -97,12 +97,13 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( responseText.indexOf( "<select name=whichitem>" ) == -1 )
 		{
+			KoLRequest questCompleter = new KoLRequest( "town_right.php?place=untinker" );
+			questCompleter.run();
+
 			if ( !completeQuest() )
 				return;
 
-			KoLRequest request = new KoLRequest( "town_right.php?place=untinker" );
-			request.run();
-
+			questCompleter.run();
 			super.run();
 		}
 

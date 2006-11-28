@@ -1166,10 +1166,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			// If you find goat cheese, let the trapper link handle it.
 			// Ore is skipped for now, so no need to check for it.  And,
-			// finally, enchanted beans are primarily use.
+			// finally, enchanted beans are primarily use, as are clovers.
 
 			addCreateLink &= !creations.isEmpty() && itemId != 322;
 			addCreateLink &= itemId != KoLAdventure.BEAN.getItemId() || KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT );
+			addCreateLink &= itemId != 24 && itemId != 196;
 
 			if ( addCreateLink )
 			{
