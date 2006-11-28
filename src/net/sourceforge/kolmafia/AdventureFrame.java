@@ -817,6 +817,9 @@ public class AdventureFrame extends KoLFrame
 
 	private void refreshCombatSettings()
 	{
+		if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) )
+			return;
+
 		try
 		{
 			CombatSettings.reset();
@@ -936,21 +939,23 @@ public class AdventureFrame extends KoLFrame
 
 			billiardRoomSelect = new JComboBox();
 			billiardRoomSelect.addItem( "Ignore this adventure" );
-			billiardRoomSelect.addItem( "Muscle" );
-			billiardRoomSelect.addItem( "Mysticality" );
-			billiardRoomSelect.addItem( "Moxie" );
-			billiardRoomSelect.addItem( "Library Key" );
+			billiardRoomSelect.addItem( "muscle substats" );
+			billiardRoomSelect.addItem( "mysticality substats" );
+			billiardRoomSelect.addItem( "moxie substats" );
+			billiardRoomSelect.addItem( "Spookyraven Library Key" );
 
 			riseSelect = new JComboBox();
-			riseSelect.addItem( "Ignore this adventure" );
-			riseSelect.addItem( "Mysticality" );
-			riseSelect.addItem( "Moxie" );
-			riseSelect.addItem( "Fettucini / Scarysauce" );
+			riseSelect.addItem( "ignore this adventure" );
+			riseSelect.addItem( "boost mysticality substats" );
+			riseSelect.addItem( "boost moxie substats" );
+			riseSelect.addItem( "acquire mysticality skill" );
+			riseSelect.addItem( "unlock second floor stairs" );
 
 			fallSelect = new JComboBox();
-			fallSelect.addItem( "Ignore this adventure" );
-			fallSelect.addItem( "Muscle" );
-			fallSelect.addItem( "Gallery Key" );
+			fallSelect.addItem( "ignore this adventure" );
+			fallSelect.addItem( "boost muscle substats" );
+			fallSelect.addItem( "reveal key in conservatory" );
+			fallSelect.addItem( "unlock second floor stairs" );
 
 			addChoiceSelect( "Beanstalk", "Castle Wheel", castleWheelSelect );
 			addChoiceSelect( "Town", "Lucky Sewer", optionSelects[0] );
@@ -1208,6 +1213,10 @@ public class AdventureFrame extends KoLFrame
 				StaticEntity.setProperty( "choiceAdventure80", "3" );
 				StaticEntity.setProperty( "choiceAdventure88", "3" );
 				break;
+
+			case 4: // Second Floor
+				StaticEntity.setProperty( "choiceAdventure80", "99" );
+				break;
 			}
 
 			switch ( fallSelect.getSelectedIndex() )
@@ -1222,6 +1231,10 @@ public class AdventureFrame extends KoLFrame
 			case 2: // Gallery Key
 				StaticEntity.setProperty( "choiceAdventure81", "1" );
 				StaticEntity.setProperty( "choiceAdventure87", "2" );
+				break;
+
+			case 3: // Second Floor
+				StaticEntity.setProperty( "choiceAdventure81", "99" );
 				break;
 			}
 		}
@@ -1360,24 +1373,11 @@ public class AdventureFrame extends KoLFrame
 
 			// Figure out what to do at the bookcases
 
-			switch ( fallSelect.getSelectedIndex() )
-			{
-			case 0: // Ignore this adventure
-				StaticEntity.setProperty( "choiceAdventure81", "4" );
-				break;
-
-			case 1: // Muscle
-				StaticEntity.setProperty( "choiceAdventure81", "3" );
-
-			case 2: // Gallery Key
-				StaticEntity.setProperty( "choiceAdventure81", "1" );
-				StaticEntity.setProperty( "choiceAdventure87", "2" );
-				break;
-			}
-
 			index = StaticEntity.getIntegerProperty( "choiceAdventure80" );
 			if ( index == 4 )
 				riseSelect.setSelectedIndex(0);
+			else if ( index == 99 )
+				riseSelect.setSelectedIndex(4);
 			else
 				riseSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "choiceAdventure88" ) );
 
@@ -1386,6 +1386,8 @@ public class AdventureFrame extends KoLFrame
 				fallSelect.setSelectedIndex(0);
 			else if ( index == 3 )
 				fallSelect.setSelectedIndex(1);
+			else if ( index == 99 )
+				riseSelect.setSelectedIndex(3);
 			else
 				fallSelect.setSelectedIndex(2);
 		}
