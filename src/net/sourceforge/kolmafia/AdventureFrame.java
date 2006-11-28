@@ -155,13 +155,7 @@ public class AdventureFrame extends KoLFrame
 		framePanel.add( adventureDetails, BorderLayout.NORTH );
 		framePanel.add( getSouthernTabs(), BorderLayout.CENTER );
 
-		KoLAdventure location = AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) );
-		if ( location != null )
-		{
-			zoneSelect.setSelectedItem( AdventureDatabase.ZONE_DESCRIPTIONS.get( location.getParentZone() ) );
-			locationSelect.setSelectedValue( location, true );
-		}
-
+		updateSelectedAdventure( AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) ) );
 		JComponentUtilities.setComponentSize( framePanel, 640, 480 );
 	}
 
@@ -184,12 +178,10 @@ public class AdventureFrame extends KoLFrame
 
 	public static void updateSelectedAdventure( KoLAdventure location )
 	{
-		if ( zoneSelect == null || locationSelect == null )
+		if ( location == null || zoneSelect == null || locationSelect == null )
 			return;
 
-		if ( zoneSelect.getSelectedIndex() != 0 )
-			zoneSelect.setSelectedItem( location.getParentZone() );
-
+		zoneSelect.setSelectedItem( AdventureDatabase.ZONE_DESCRIPTIONS.get( location.getParentZone() ) );
 		locationSelect.setSelectedValue( location, true );
 	}
 
