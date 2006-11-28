@@ -629,8 +629,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "echo" ) )
 		{
 			if ( parameters.equalsIgnoreCase( "timestamp" ) )
-				parameters = MoonPhaseDatabase.TODAY_FORMATTER.format( new Date() );
-			else if ( parameters.equalsIgnoreCase( "kol-date" ) )
 				parameters = MoonPhaseDatabase.getCalendarDayAsString( new Date() );
 
 			updateDisplay( parameters.replaceAll( "<", "&lt;" ) );
