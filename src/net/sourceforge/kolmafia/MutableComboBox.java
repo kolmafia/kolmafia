@@ -61,8 +61,6 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 		this.model = model;
 		this.filter = new WordBasedFilter( false );
-
-		model.applyListFilter( filter );
 		this.setEditable( true );
 
 		this.allowAdditions = allowAdditions;
@@ -104,7 +102,9 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		if ( model.contains( currentName ) )
 		{
 			currentMatch = currentName;
-			model.applyListFilter( filter );
+			if ( !allowAdditions )
+				model.applyListFilter( filter );
+
 			return;
 		}
 
