@@ -194,7 +194,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		if ( junkItemsFile.exists() )
 			junkItemsFile.delete();
 
-		if ( this == GLOBAL_SETTINGS )
+		if ( KoLCharacter.baseUserName().equals( "GLOBAL" )	)
 			return;
 
 		try
@@ -284,36 +284,35 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			istream.close();
 			istream = null;
 
-			junkItemList.clear();
-
-			if ( !junkItemsFile.exists() )
+			if ( KoLCharacter.baseUserName() != null && !KoLCharacter.baseUserName().equals( "GLOBAL" ) )
 			{
-				if ( this != GLOBAL_SETTINGS )
+				junkItemList.clear();
+
+				if ( !junkItemsFile.exists() )
 				{
 					for ( int i = 0; i < COMMON_JUNK.length; ++i )
 						junkItemList.add( new AdventureResult( COMMON_JUNK[i], 1, false ) );
 
 					saveJunkItemList();
+					return;
 				}
 
-				return;
+				istream = new FileInputStream( junkItemsFile );
+				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
+
+				String line;
+
+				while ( (line = reader.readLine()) != null && !line.equals( "[junk items]" ) );
+				while ( line != null && (line = reader.readLine()) != null )
+				{
+					if ( line.equals( "" ) )
+						continue;
+
+					junkItemList.add( new AdventureResult( line, 1, false ) );
+				}
+
+				reader.close();
 			}
-
-			istream = new FileInputStream( junkItemsFile );
-			BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
-
-			String line;
-
-			while ( (line = reader.readLine()) != null && !line.equals( "[junk items]" ) );
-			while ( line != null && (line = reader.readLine()) != null )
-			{
-				if ( line.equals( "" ) )
-					continue;
-
-				junkItemList.add( new AdventureResult( line, 1, false ) );
-			}
-
-			reader.close();
 		}
 		catch ( IOException e1 )
 		{
