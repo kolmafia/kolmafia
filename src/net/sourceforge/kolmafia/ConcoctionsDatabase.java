@@ -347,15 +347,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 			{
 				continue;
 			}
-			else if ( !isPermittedMethod( current.getMixingMethod() ) )
+			else if ( infiniteNPCStoreItems && NPCStoreDatabase.contains( current.concoction.getName() ) )
 			{
-				current.initial = current.concoction.getCount( availableIngredients );
+				current.initial = KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( current.concoction.getItemId() ) * 2);
 				current.creatable = 0;
 				current.total = current.initial;
 			}
-			else if ( infiniteNPCStoreItems && NPCStoreDatabase.contains( current.concoction.getName() ) )
+			else if ( !isPermittedMethod( current.getMixingMethod() ) )
 			{
-				current.initial = MallPurchaseRequest.MAX_QUANTITY;
+				current.initial = current.concoction.getCount( availableIngredients );
 				current.creatable = 0;
 				current.total = current.initial;
 			}
