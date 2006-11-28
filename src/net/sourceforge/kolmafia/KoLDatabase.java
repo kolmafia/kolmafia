@@ -185,7 +185,7 @@ public class KoLDatabase extends StaticEntity
 		substring = substring.toLowerCase();
 
 		for ( int i = 0; i < names.length; ++i )
-			if ( fuzzyMatches( names[i].toLowerCase(), substring ) )
+			if ( fuzzyMatches( names[i], substring ) )
 				substringList.add( names[i] );
 
 		return substringList;
@@ -197,15 +197,13 @@ public class KoLDatabase extends StaticEntity
 			return true;
 
 		int searchIndex = 0;
-		int previousIndex = -1;
+		int lowerIndex, upperIndex;
 
-		for ( int j = 0; j < substring.length() && searchIndex > -1; ++j )
+		for ( int j = 0; j < substring.length(); ++j )
 		{
-			previousIndex = searchIndex;
-			searchIndex = source.indexOf( substring.charAt(j), previousIndex );
-
-			if ( searchIndex == -1 )
-				searchIndex = source.indexOf( Character.toUpperCase( substring.charAt(j) ), previousIndex );
+			lowerIndex = source.indexOf( Character.toLowerCase( substring.charAt(j) ), searchIndex );
+			upperIndex = source.indexOf( Character.toUpperCase( substring.charAt(j) ), searchIndex );
+			searchIndex = lowerIndex != -1 && upperIndex != -1 ? Math.min( lowerIndex, upperIndex ) : Math.max( lowerIndex, upperIndex );
 
 			if ( searchIndex == -1 )
 				return false;

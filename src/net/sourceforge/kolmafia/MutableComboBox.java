@@ -99,15 +99,30 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		// before the key typed event is fired
 
 		currentName = (String) getEditor().getItem();
+		JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
 
 		if ( model.contains( currentName ) )
 		{
 			currentMatch = currentName;
+			model.applyListFilter( filter );
 			return;
 		}
 
 		currentMatch = null;
-		if ( currentName.length() == 0 || keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_BACK_SPACE )
+
+		if ( !allowAdditions )
+		{
+			if ( !isPopupVisible() )
+				showPopup();
+
+			model.applyListFilter( filter );
+			getEditor().setItem( currentName );
+
+			editor.setSelectionStart( currentName.length() );
+			editor.setSelectionEnd( currentName.length() );
+		}
+
+		if ( !allowAdditions || currentName.length() == 0 || keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_BACK_SPACE )
 			return;
 
 		// Autohighlight and popup - note that this should only happen
@@ -116,27 +131,13 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		int matchCount = 0;
 		Object [] currentNames = model.toArray();
 
-		if ( allowAdditions )
+		String lowercase = currentName.toLowerCase();
+		for ( int i = 0; i < currentNames.length; ++i )
 		{
-			String lowercase = currentName.toLowerCase();
-			for ( int i = 0; i < currentNames.length; ++i )
+			if ( ((String) currentNames[i]).toLowerCase().startsWith( lowercase ) )
 			{
-				if ( ((String) currentNames[i]).toLowerCase().startsWith( lowercase ) )
-				{
-					++matchCount;
-					currentMatch = (String) currentNames[i];
-				}
-			}
-		}
-		else
-		{
-			for ( int i = 0; i < currentNames.length; ++i )
-			{
-				if ( KoLDatabase.fuzzyMatches( (String) currentNames[i], currentName ) )
-				{
-					++matchCount;
-					currentMatch = (String) currentNames[i];
-				}
+				++matchCount;
+				currentMatch = (String) currentNames[i];
 			}
 		}
 
@@ -152,7 +153,6 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		setSelectedItem( currentMatch );
 		getEditor().setItem( currentMatch );
 
-		JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
 		editor.setSelectionStart( currentMatch.toLowerCase().indexOf( currentName.toLowerCase() ) + currentName.length() );
 		editor.setSelectionEnd( currentMatch.length() );
 	}
