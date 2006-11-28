@@ -420,7 +420,10 @@ public class SendMessageFrame extends KoLFrame
 	{
 		int meatAttachment = getValue( attachedMeat );
 		if ( meatAttachment > 0 )
+		{
+			usingStorage = !KoLCharacter.canInteract() || meatAttachment > KoLCharacter.getAvailableMeat();
 			attachments.add( new AdventureResult( AdventureResult.MEAT, meatAttachment ) );
+		}
 
 		return attachments.toArray();
 	}

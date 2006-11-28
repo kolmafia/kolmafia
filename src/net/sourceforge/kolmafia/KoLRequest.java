@@ -703,8 +703,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		statusChanged = false;
 		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() && !KoLmafia.refusesContinue() );
-
-		StaticEntity.getClient().setCurrentRequest( null );
 	}
 
 	private void saveLastChoice( String url )
