@@ -421,7 +421,12 @@ public class SendMessageFrame extends KoLFrame
 		int meatAttachment = getValue( attachedMeat );
 		if ( meatAttachment > 0 )
 		{
-			usingStorage = !KoLCharacter.canInteract() || meatAttachment > KoLCharacter.getAvailableMeat();
+			if ( !usingStorage && (!KoLCharacter.canInteract() || meatAttachment > KoLCharacter.getAvailableMeat()) )
+			{
+				attachments.clear();
+				usingStorage = true;
+			}
+
 			attachments.add( new AdventureResult( AdventureResult.MEAT, meatAttachment ) );
 		}
 
