@@ -51,16 +51,6 @@ import java.text.SimpleDateFormat;
 
 public class MoonPhaseDatabase extends StaticEntity
 {
-	// Special date formatter which formats according to
-	// the standard Western format of month, day, year.
-
-	public static final SimpleDateFormat CALENDAR_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
-	public static final SimpleDateFormat TODAY_FORMATTER = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
-
-	// Special date marked as the new year.  This is
-	// done as a string, since sdf.parse() throws an
-	// exception, most of the time.
-
 	private static long NEWYEAR = 0;
 	private static long BOUNDARY = 0;
 	private static long COLLISION = 0;
@@ -72,11 +62,16 @@ public class MoonPhaseDatabase extends StaticEntity
 			// Change it so that it doesn't recognize daylight savings in order
 			// to ensure different localizations work.
 
-			DATED_FILENAME_FORMAT.setTimeZone( TimeZone.getTimeZone( "GMT-5" ) );
+			Calendar myCalendar = Calendar.getInstance( TimeZone.getTimeZone( "GMT-5" ) );
 
-			NEWYEAR = DATED_FILENAME_FORMAT.parse( "20050917" ).getTime();
-			BOUNDARY = DATED_FILENAME_FORMAT.parse( "20051027" ).getTime();
-			COLLISION = DATED_FILENAME_FORMAT.parse( "20060603" ).getTime();
+			myCalendar.set( 2005, 8, 17, 0, 0, 0 );
+			NEWYEAR = myCalendar.getTimeInMillis();
+
+			myCalendar.set( 2005, 9, 27, 0, 0, 0 );
+			BOUNDARY = myCalendar.getTimeInMillis();
+
+			myCalendar.set( 2006, 5, 3, 0, 0, 0 );
+			COLLISION = myCalendar.getTimeInMillis();
 		}
 		catch ( Exception e )
 		{
@@ -537,23 +532,21 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	public static int getCalendarDay( Date time )
 	{
-		long timeDifference = time.getTime();
-
 		try
 		{
-			timeDifference = DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( time ) ).getTime();
+			long timeDifference = DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( time ) ).getTime() - NEWYEAR;
+
+			if ( timeDifference > BOUNDARY )
+				timeDifference -= 86400000L;
+
+			int dayDifference = (int) Math.floor( timeDifference / 86400000L );
+			return ((dayDifference % 96) + 96) % 96;
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace();
+			StaticEntity.printStackTrace( e );
+			return 0;
 		}
-
-		if ( timeDifference > BOUNDARY )
-			timeDifference -= 86400000L;
-
-		timeDifference -= NEWYEAR;
-		int dayDifference = (int) Math.floor( timeDifference / 86400000L );
-		return ((dayDifference % 96) + 96) % 96;
 	}
 
 	/**
@@ -674,7 +667,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 				for ( int j = 0; j < currentEstimate; ++j )
 				{
-					testDate = CALENDAR_FORMAT.format( holidayTester.getTime() );
+					testDate = DATED_FILENAME_FORMAT.format( holidayTester.getTime() );
 					testResult = getRealLifeHoliday( testDate );
 
 					if ( holiday != null && testResult != null && testResult.equals( holiday ) )
@@ -693,7 +686,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 		if ( SPECIAL[ getCalendarDay( time ) ] != SP_HOLIDAY )
 		{
-			String holiday = getRealLifeOnlyHoliday( CALENDAR_FORMAT.format( time ) );
+			String holiday = getRealLifeOnlyHoliday( DATED_FILENAME_FORMAT.format( time ) );
 			if ( holiday != null )
 				predictionsList.add( holiday + ": today" );
 		}
@@ -748,7 +741,6 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	private static String cachedYear = "";
 	private static String easter = "";
-	private static String thanksgiving = "";
 
 	public static String getRealLifeHoliday( String stringDate )
 	{
@@ -781,36 +773,6 @@ public class MoonPhaseDatabase extends StaticEntity
 			holidayFinder.set( Calendar.DAY_OF_MONTH, d );
 
 			easter = DATED_FILENAME_FORMAT.format( holidayFinder.getTime() );
-
-			// Calculating Thanksgiving is easier -- just detect
-			// what day is the start of November and adjust.
-
-			holidayFinder.set( Calendar.DAY_OF_MONTH, 1 );
-			holidayFinder.set( Calendar.MONTH, Calendar.NOVEMBER );
-			switch ( holidayFinder.get( Calendar.DAY_OF_WEEK ) )
-			{
-				case Calendar.FRIDAY:
-					thanksgiving = "1128";
-					break;
-				case Calendar.SATURDAY:
-					thanksgiving = "1127";
-					break;
-				case Calendar.SUNDAY:
-					thanksgiving = "1126";
-					break;
-				case Calendar.MONDAY:
-					thanksgiving = "1125";
-					break;
-				case Calendar.TUESDAY:
-					thanksgiving = "1124";
-					break;
-				case Calendar.WEDNESDAY:
-					thanksgiving = "1123";
-					break;
-				case Calendar.THURSDAY:
-					thanksgiving = "1122";
-					break;
-			}
 		}
 
 		// Real-life holiday list borrowed from JRSiebz's
@@ -828,9 +790,6 @@ public class MoonPhaseDatabase extends StaticEntity
 
 		if ( stringDate.endsWith( "1031" ) )
 			return "Halloween";
-
-		if ( stringDate.endsWith( thanksgiving ) )
-			return "Feast of Boris";
 
 		return getRealLifeOnlyHoliday( stringDate );
 	}
