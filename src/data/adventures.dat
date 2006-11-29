@@ -22,9 +22,9 @@ Dungeon	15	0	dungeon.php	1	Daily Dungeon
 
 Town	0	0	sewer.php	0	Unlucky Sewer
 Town	0	0	luckysewer.php	0	Sewer With Clovers
-Town	0	0	adventure.php	9	Sleazy Back Alley	1 spider web
+Town	0	0	adventure.php	112	Sleazy Back Alley	1 spider web
 
-Manor	0	0	adventure.php	10	Haunted Pantry	1 razor-sharp can lid
+Manor	0	0	adventure.php	113	Haunted Pantry	1 razor-sharp can lid
 Manor	0	0	adventure.php	102	Haunted Kitchen
 Manor	0	6	adventure.php	103	Haunted Conservatory
 Manor	0	40	adventure.php	104	Haunted Library
@@ -59,7 +59,7 @@ Plains	12	0	adventure.php	22	Fernswarthy's Tower	1 disembodied brain
 Plains	40	0	adventure.php	58	Post-Cyrpt Cemetary
 Plains	0	65	adventure.php	78	Palindome
 
-Knob	0	0	adventure.php	11	Outskirts of The Knob	1 chef's hat
+Knob	0	0	adventure.php	114	Outskirts of The Knob	1 chef's hat
 Knob	20	0	adventure.php	40	Knob Goblin Kitchens
 Knob	20	0	adventure.php	41	Knob Goblin Treasury	outfit
 Knob	20	0	adventure.php	42	Knob Goblin Harem	outfit, 1 Knob Goblin perfume
