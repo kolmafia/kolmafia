@@ -351,7 +351,8 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Having a Medicine Ball
 		new ChoiceAdventure( "Manor", "choiceAdventure105", "Haunted Bathroom 1",
-		  new String [] { "boost moxie", "other options", "guy made of bees" } ),
+		  new String [] { "boost moxie", "other options", "guy made of bees" },
+		  new String [] { null, null, "2096" } ),
 
 		// Strung-Up Quartet
 		new ChoiceAdventure( "Manor", "choiceAdventure106", "Haunted Ballroom 2",
@@ -359,8 +360,34 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Bad Medicine is What You Need
 		new ChoiceAdventure( "Manor", "choiceAdventure107", "Haunted Bathroom 2",
-		  new String [] { "antique bottle of cough syrup", "tube of hair oil", "bottle of ultravitamins" },
-		  new String [] { "2086", "2087", "2085" } ),
+		  new String [] { "antique bottle of cough syrup", "tube of hair oil", "bottle of ultravitamins", "take nothing" },
+		  new String [] { "2086", "2087", "2085", null } ),
+
+		// Aww, Craps
+//		new ChoiceAdventure( "Town", "choiceAdventure108", "Sleazy Back Alley",
+//		  new String [] { "moxie", "meat and moxie", "meat, moxie, and Smugness", "skip adventure" } ),
+
+		// Dumpster Diving
+//		new ChoiceAdventure( "Town", "choiceAdventure109", "Sleazy Back Alley",
+//		  new String [] { "combat", "meat and moxie", "Mad Train wine" },
+//		  new String [] { null, null, "564" } ),
+
+		// Please, Hammer
+//		new ChoiceAdventure( "Town", "choiceAdventure112", "Sleazy Back Alley",
+//		  new String [] { "accept hammer quest", "reject quest", "muscle" } ),
+
+		// Knob Goblin BBQ
+//		new ChoiceAdventure( "Knob", "choiceAdventure113", "Outskirts of The Knob",
+//		  new String [] { "complete cake quest", "combat", "get item" } ),
+
+		// The Baker's Dilemma
+//		new ChoiceAdventure( "Manor", "choiceAdventure114", "Haunted Pantry",
+//		  new String [] { "accept cake quest", "reject quest", "moxie and meat" } ),
+
+		// Ennui is Wasted on the Young
+//		new ChoiceAdventure( "Knob", "choiceAdventure120", "Outskirts of The Knob",
+//		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "ignore this adventure" },
+//		  new String [] { null, "41", "332", null } ),
 
 	};
 
@@ -507,6 +534,18 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Louvre It or Leave It
 		{ "choiceAdventure91", "2" },
+
+		// Strung-Up Quartet
+		{ "choiceAdventure106", "4" },
+
+		// Bad Medicine is What You Need
+		{ "choiceAdventure107", "4" },
+
+		// Aww, Craps
+		{ "choiceAdventure108", "4" },
+
+		// Ennui is Wasted on the Young
+		{ "choiceAdventure120", "4" },
 	};
 
 	// Some choice adventures have options that cost meat
