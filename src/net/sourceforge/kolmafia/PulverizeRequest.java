@@ -119,10 +119,15 @@ public class PulverizeRequest extends KoLRequest
 		if ( itemMatcher.find() && quantityMatcher.find() )
 		{
 			int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
+			String name = TradeableItemDatabase.getItemName( itemId );
+
+			if ( name == null )
+				return true;
+
 			int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
 
 			StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
-			KoLmafia.getSessionStream().println( "pulverize " + quantity + " " + TradeableItemDatabase.getItemName( itemId ) );
+			KoLmafia.getSessionStream().println( "pulverize " + quantity + " " + name );
 		}
 
 		return true;
