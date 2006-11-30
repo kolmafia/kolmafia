@@ -912,10 +912,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				command.append( " + " );
 
 			int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
+			String name = TradeableItemDatabase.getItemName( itemId );
+
+			if ( name == null )
+				continue;
 
 			command.append( quantity );
 			command.append( ' ' );
-			command.append( TradeableItemDatabase.getItemName( itemId ) );
+			command.append( name );
 
 			StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
 			needsPlus = true;

@@ -330,15 +330,15 @@ public abstract class SendMessageRequest extends KoLRequest
 		while ( itemMatcher.find() && (quantityMatcher == null || quantityMatcher.find()) )
 		{
 			int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
+			String name = TradeableItemDatabase.getItemName( itemId );
 
 			// One of the "select" options is a zero value for the item id field.
 			// Trying to parse it generates an exception, so skip it for now.
 
-			if ( itemId == 0 )
+			if ( itemId == 0 || name == null )
 				continue;
 
 			int quantity = quantityPattern == null ? defaultQuantity : StaticEntity.parseInt( quantityMatcher.group(1) );
-
 			AdventureResult item = new AdventureResult( itemId, quantity );
 
 			if ( quantity < 1 )
@@ -351,7 +351,7 @@ public abstract class SendMessageRequest extends KoLRequest
 
 			itemListBuffer.append( quantity );
 			itemListBuffer.append( " " );
-			itemListBuffer.append( TradeableItemDatabase.getItemName( itemId ) );
+			itemListBuffer.append( name );
 		}
 
 		Matcher recipientMatcher = RECIPIENT_PATTERN.matcher( urlString );

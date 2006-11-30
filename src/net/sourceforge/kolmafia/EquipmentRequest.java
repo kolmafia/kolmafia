@@ -873,6 +873,8 @@ public class EquipmentRequest extends PasswordHashRequest
 			return false;
 
 		String itemName = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
+		if ( itemName == null )
+			return true;
 
 		if ( urlString.indexOf( "dualwield" ) != -1 )
 		{

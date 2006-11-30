@@ -1039,6 +1039,9 @@ public class ConsumeItemRequest extends KoLRequest
 			return null;
 
 		int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
+		if ( TradeableItemDatabase.getItemName( itemId ) == null )
+			return null;
+
 		int itemCount = 1;
 
 		if ( urlString.indexOf( "multiuse.php" ) != -1 || urlString.indexOf( "skills.php" ) != -1 )
