@@ -573,7 +573,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
+		{	RequestThread.postConcurrent( this );
 		}
 
 		public final void run()
@@ -797,7 +797,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	protected abstract class ListeningRunnable implements ActionListener, Runnable
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( this )).start();
+		{	RequestThread.postRequest( this );
 		}
 	}
 
@@ -973,7 +973,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( this )).start();
+		{	RequestThread.postRequest( this );
 		}
 
 		public void run()

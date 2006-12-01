@@ -276,7 +276,7 @@ public abstract class ProposeTradeFrame extends KoLFrame
 	private class SendMessageListener implements ActionListener, Runnable
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
+		{	RequestThread.postRequest( this );
 		}
 
 		public void run()

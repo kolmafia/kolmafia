@@ -299,7 +299,7 @@ public class SendMessageFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
+		{	RequestThread.postRequest( this );
 		}
 	}
 
@@ -363,7 +363,7 @@ public class SendMessageFrame extends KoLFrame
 	private class SendMessageListener implements ActionListener, Runnable
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
+		{	RequestThread.postRequest( this );
 		}
 
 		public void run()
@@ -418,16 +418,18 @@ public class SendMessageFrame extends KoLFrame
 
 	protected Object [] getAttachedItems()
 	{
-		int meatAttachment = getValue( attachedMeat );
-		if ( meatAttachment > 0 )
+		AdventureResult meatAttachment = new AdventureResult( AdventureResult.MEAT, getValue( attachedMeat ) );
+		attachments.remove( meatAttachment );
+
+		if ( meatAttachment.getCount() > 0 )
 		{
-			if ( !usingStorage && (!KoLCharacter.canInteract() || meatAttachment > KoLCharacter.getAvailableMeat()) )
+			if ( !usingStorage && (!KoLCharacter.canInteract() || meatAttachment.getCount() > KoLCharacter.getAvailableMeat()) )
 			{
 				attachments.clear();
 				usingStorage = true;
 			}
 
-			attachments.add( new AdventureResult( AdventureResult.MEAT, meatAttachment ) );
+			attachments.add( meatAttachment );
 		}
 
 		return attachments.toArray();

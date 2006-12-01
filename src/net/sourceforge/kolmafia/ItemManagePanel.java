@@ -309,8 +309,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 		protected String description;
 		protected boolean retrieveFromClosetFirst;
 
-		protected Runnable [] requests;
-
 		public TransferListener( String description, boolean retrieveFromClosetFirst )
 		{
 			this.description = description;
@@ -322,16 +320,11 @@ public class ItemManagePanel extends LabeledScrollPanel
 			AdventureResult [] items = getDesiredItems( description );
 			if (items == null )
 				return null;
-			this.requests = new Runnable[ !retrieveFromClosetFirst || description.equals( "Bagging" ) ? 1 : 2 ];
 
 			if ( retrieveFromClosetFirst )
-				requests[0] = new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items );
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items ) );
 
 			return items;
-		}
-
-		public void initializeTransfer()
-		{	(new RequestThread( requests )).start();
 		}
 	}
 

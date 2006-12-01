@@ -41,7 +41,6 @@ import javax.swing.JLabel;
 import javax.swing.DefaultListCellRenderer;
 
 import java.io.File;
-import java.io.BufferedReader;
 import java.io.PrintStream;
 
 import java.util.List;
@@ -70,7 +69,6 @@ public class BuffBotHome extends StaticEntity
 	private static boolean isActive;
 
 	private static TreeMap pastRecipients = new TreeMap();
-	private static TreeMap pastRecipientFiles = new TreeMap();
 	private static LockableListModel messages = new LockableListModel();
 	private static PrintStream textLogStream = System.out;
 	private static PrintStream hypertextLogStream = System.out;
@@ -183,9 +181,7 @@ public class BuffBotHome extends StaticEntity
 	 */
 
 	public static void addToRecipientList( int meatSent, String name )
-	{
-		List pastRecipients = getPastRecipients( meatSent );
-		pastRecipients.add( name );
+	{	getPastRecipients( meatSent ).add( name );
 	}
 
 	/**

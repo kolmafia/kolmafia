@@ -177,7 +177,7 @@ public class CommandDisplayFrame extends KoLFrame
 					return;
 				}
 
-				(new Thread( this )).start();
+				RequestThread.postRequest( this );
 			}
 
 			public void run()

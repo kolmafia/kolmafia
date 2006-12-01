@@ -74,12 +74,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	protected JMenuItem debugMenuItem = new ToggleDebugMenuItem();
 
 	private static final String [] LICENSE_FILENAME = {
-		"kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm",
-		"sungraphics-license.txt", "jline-license.txt" };
+		"kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm", "foxtrot-license.txt", "sungraphics-license.txt", "jline-license.txt" };
 
 	private static final String [] LICENSE_NAME = {
-		"KoLmafia", "Spellcast", "BrowserLauncher",
-		"Sun Graphics", "JLine Terminal" };
+		"KoLmafia", "Spellcast", "BrowserLauncher", "Foxtrot", "Sun Graphics", "JLine" };
 
 	protected KoLMenuBar()
 	{
@@ -398,7 +396,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
+		{	RequestThread.postConcurrent( this );
 		}
 
 		public final void run()
@@ -768,7 +766,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( request )).start();
+		{	RequestThread.postRequest( request );
 		}
 	}
 

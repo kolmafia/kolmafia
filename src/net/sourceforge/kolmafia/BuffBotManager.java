@@ -44,7 +44,6 @@ import java.util.TreeMap;
 import java.util.Arrays;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -209,8 +208,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	private static void saveBuffs()
 	{
-		StringBuffer sellerSetting = new StringBuffer();
-
 		PrintStream settings = null;
 		PrintStream document = null;
 
@@ -386,7 +383,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		refundMessage = getProperty( "invalidBuffMessage" );
 		thanksMessage = getProperty( "thanksMessage" );
-		initialRestores = getClient().getRestoreCount();
+		initialRestores = KoLmafia.getRestoreCount();
 
 		String restoreItems = getProperty( "mpAutoRecoveryItems" );
 		boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1 || restoreItems.indexOf( "relax" ) != -1;
@@ -399,7 +396,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// If you run out of adventures and/or restores, then
 			// check to see if you need to abort.
 
-			if ( getClient().getRestoreCount() == 0 )
+			if ( KoLmafia.getRestoreCount() == 0 )
 			{
 				if ( !usingAdventures || KoLCharacter.getAdventuresLeft() == 0 )
 				{
@@ -430,7 +427,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
 				if ( initialRestores > 0 )
-					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + getClient().getRestoreCount() + " mana restores remaining)" );
+					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + KoLmafia.getRestoreCount() + " mana restores remaining)" );
 				else if ( usingAdventures )
 					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + KoLCharacter.getAdventuresLeft() + " adventures remaining)" );
 

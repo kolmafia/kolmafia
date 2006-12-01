@@ -74,46 +74,36 @@ public class CakeArenaManager extends StaticEntity
 		{
 			if ( opponent.equals( opponentList.get(i).toString() ) )
 			{
-				(new ArenaThread( new CakeArenaRequest( ((ArenaOpponent)opponentList.get(i)).getId(), eventId ), repeatCount )).start();
+				FamiliarTrainingFrame.getResults().clearBuffer();
+
+				Matcher victoryMatcher;
+				Pattern victoryPattern = WIN_PATTERN;
+				CakeArenaRequest request = new CakeArenaRequest( ((ArenaOpponent)opponentList.get(i)).getId(), eventId );
+
+				for ( int j = 1; KoLmafia.permitsContinue() && j <= repeatCount; ++j )
+				{
+					KoLmafia.updateDisplay( "Arena battle, round " + j + " in progress..." );
+					RequestThread.postRequest( request, repeatCount );
+
+					victoryMatcher = victoryPattern.matcher( request.responseText );
+					StringBuffer text = new StringBuffer();
+
+					if ( victoryMatcher.find() )
+						text.append( "<font color=green><b>Round " + j + " of " + repeatCount + "</b></font>: " );
+					else
+						text.append( "<font color=red><b>Round " + j + " of " + repeatCount + "</b></font>: " );
+
+					text.append( request.responseText.substring( 0, request.responseText.indexOf( "</table>" ) ).replaceAll(
+						"><" , "" ).replaceAll( "<.*?>", " " ) );
+
+					text.append( "<br><br>" );
+					FamiliarTrainingFrame.getResults().append( text.toString() );
+
+				}
+
+				KoLmafia.updateDisplay( "Arena battles complete." );
 				return;
 			}
-		}
-	}
-
-	private static class ArenaThread extends RequestThread
-	{
-		public ArenaThread( CakeArenaRequest request, int battleCount )
-		{	super( request, battleCount );
-		}
-
-		public void run( KoLRequest request, int repeatCount )
-		{
-			FamiliarTrainingFrame.getResults().clearBuffer();
-
-			Matcher victoryMatcher;
-			Pattern victoryPattern = WIN_PATTERN;
-
-			for ( int j = 1; KoLmafia.permitsContinue() && j <= repeatCount; ++j )
-			{
-				KoLmafia.updateDisplay( "Arena battle, round " + j + " in progress..." );
-				getClient().makeRequest( request );
-
-				victoryMatcher = victoryPattern.matcher( request.responseText );
-				StringBuffer text = new StringBuffer();
-
-				if ( victoryMatcher.find() )
-					text.append( "<font color=green><b>Round " + j + " of " + repeatCount + "</b></font>: " );
-				else
-					text.append( "<font color=red><b>Round " + j + " of " + repeatCount + "</b></font>: " );
-
-				text.append( request.responseText.substring( 0, request.responseText.indexOf( "</table>" ) ).replaceAll(
-					"><" , "" ).replaceAll( "<.*?>", " " ) );
-
-				text.append( "<br><br>" );
-				FamiliarTrainingFrame.getResults().append( text.toString() );
-			}
-
-			KoLmafia.updateDisplay( "Arena battles complete." );
 		}
 	}
 

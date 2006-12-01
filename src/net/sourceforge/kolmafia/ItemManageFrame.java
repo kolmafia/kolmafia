@@ -368,7 +368,7 @@ public class ItemManageFrame extends KoLFrame
 			Runnable request = elementList.getModel() == restaurantItems ?
 				(KoLRequest) (new RestaurantRequest( item )) : (KoLRequest) (new MicrobreweryRequest( item ));
 
-			(new RequestThread( request, consumptionCount )).start();
+			RequestThread.postRequest( request, consumptionCount );
 		}
 	}
 
@@ -427,11 +427,8 @@ public class ItemManageFrame extends KoLFrame
 			if ( items.length == 0 )
 				return;
 
-			Runnable [] requests = new Runnable[ items.length ];
 			for ( int i = 0; i < items.length; ++i )
-				requests[i] = new ConsumeItemRequest( (AdventureResult) items[i] );
-
-			(new RequestThread( requests )).start();
+				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
 		}
 
 		public void actionCancelled()
@@ -560,8 +557,6 @@ public class ItemManageFrame extends KoLFrame
 				if ( items.length == 0 )
 					return;
 
-				Runnable [] requests = new Runnable[ items.length ];
-
 				for ( int i = 0; i < items.length; ++i )
 				{
 					int usageType = TradeableItemDatabase.getConsumptionType( ((AdventureResult)items[i]).getItemId() );
@@ -569,7 +564,6 @@ public class ItemManageFrame extends KoLFrame
 					switch ( usageType )
 					{
 					case ConsumeItemRequest.NO_CONSUME:
-						requests[i] = null;
 						break;
 
 					case ConsumeItemRequest.EQUIP_FAMILIAR:
@@ -579,16 +573,14 @@ public class ItemManageFrame extends KoLFrame
 					case ConsumeItemRequest.EQUIP_SHIRT:
 					case ConsumeItemRequest.EQUIP_WEAPON:
 					case ConsumeItemRequest.EQUIP_OFFHAND:
-						requests[i] = new EquipmentRequest( (AdventureResult) items[i], KoLCharacter.consumeFilterToEquipmentType( usageType ) );
+						RequestThread.postRequest( new EquipmentRequest( (AdventureResult) items[i], KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
 						break;
 
 					default:
-						requests[i] = new ConsumeItemRequest( (AdventureResult) items[i] );
+						RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
 						break;
 					}
 				}
-
-				(new RequestThread( requests )).start();
 			}
 
 			public String toString()
@@ -609,9 +601,7 @@ public class ItemManageFrame extends KoLFrame
 					return;
 
 				if ( !retrieveFromClosetFirst )
-					requests[0] = new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items );
-
-				initializeTransfer();
+					RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
 			}
 
 			public String toString()
@@ -651,8 +641,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( items == null )
 					return;
 
-				requests[ requests.length - 1 ] = new AutoSellRequest( items, sellType );
-				initializeTransfer();
+				RequestThread.postRequest( new AutoSellRequest( items, sellType ) );
 			}
 
 			public String toString()
@@ -672,8 +661,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( items == null )
 					return;
 
-				requests[ requests.length - 1 ] = new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH );
-				initializeTransfer();
+				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
 			}
 
 			public String toString()
@@ -699,8 +687,7 @@ public class ItemManageFrame extends KoLFrame
 					return;
 				}
 
-				requests[ requests.length - 1 ] = new MuseumRequest( items, true );
-				initializeTransfer();
+				RequestThread.postRequest( new MuseumRequest( items, true ) );
 			}
 
 			public String toString()
@@ -720,17 +707,15 @@ public class ItemManageFrame extends KoLFrame
 				if ( items == null || items.length == 0 )
 					return;
 
-				requests = new Runnable[ items.length ];
 				for ( int i = 0; i < items.length; ++i )
 				{
 					boolean willSmash = TradeableItemDatabase.isTradeable( items[i].getItemId() ) ||
 						JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 							items[i].getName() + " is untradeable.  Are you sure?", "Smash request nag screen!", JOptionPane.YES_NO_OPTION );
 
-					requests[i] = willSmash ? new PulverizeRequest( items[i] ) : null;
+					if ( willSmash )
+						RequestThread.postRequest( new PulverizeRequest( items[i] ) );
 				}
-
-				initializeTransfer();
 			}
 
 			public String toString()
@@ -783,7 +768,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			public void actionPerformed( ActionEvent e )
-			{	(new RequestThread( this )).start();
+			{	RequestThread.postRequest( this );
 			}
 
 			public void run()
@@ -1005,7 +990,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( setting.equals( "showStashIngredients" ) && KoLCharacter.hasClan() && isSelected() &&
 					KoLmafia.isAdventuring() && !ClanManager.isStashRetrieved() )
 				{
-					(new RequestThread( new ClanStashRequest() )).start();
+					RequestThread.postRequest( new ClanStashRequest() );
 				}
 
 				ConcoctionsDatabase.refreshConcoctions();
@@ -1028,7 +1013,7 @@ public class ItemManageFrame extends KoLFrame
 
 				KoLmafia.updateDisplay( "Verifying ingredients..." );
 				selection.setQuantityNeeded( quantityDesired );
-				(new RequestThread( selection )).start();
+				RequestThread.postRequest( selection );
 			}
 
 			public String toString()
@@ -1045,8 +1030,6 @@ public class ItemManageFrame extends KoLFrame
 				if ( selected == null )
 					return;
 
-				Runnable [] requests = new Runnable[2];
-
 				ItemCreationRequest selection = (ItemCreationRequest) selected;
 				int quantityDesired = getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() );
 				if ( quantityDesired < 1 )
@@ -1055,11 +1038,8 @@ public class ItemManageFrame extends KoLFrame
 				KoLmafia.updateDisplay( "Verifying ingredients..." );
 				selection.setQuantityNeeded( quantityDesired );
 
-				requests[0] = selection;
-				requests[1] = new ConsumeItemRequest( new AdventureResult(
-					selection.getItemId(), selection.getQuantityNeeded() ) );
-
-				(new RequestThread( requests )).start();
+				RequestThread.postRequest( selection );
+				RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), selection.getQuantityNeeded() ) ) );
 			}
 
 			public String toString()

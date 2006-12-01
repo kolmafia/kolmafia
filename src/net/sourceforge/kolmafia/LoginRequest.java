@@ -376,7 +376,6 @@ public class LoginRequest extends KoLRequest
 		}
 
 		LoginRunner runner = new LoginRunner( request );
-
 		if ( request instanceof LoginRequest )
 			runner.run();
 		else

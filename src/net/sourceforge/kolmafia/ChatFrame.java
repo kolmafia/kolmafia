@@ -154,18 +154,10 @@ public class ChatFrame extends KoLFrame
 	public void dispose()
 	{
 		super.dispose();
-		(new ChatRemoverThread()).start();
-	}
-
-	private class ChatRemoverThread extends Thread
-	{
-		public void run()
-		{
-			if ( getAssociatedContact() == null )
-				KoLMessenger.dispose();
-			else
-				KoLMessenger.removeChat( getAssociatedContact() );
-		}
+		if ( getAssociatedContact() == null )
+			KoLMessenger.dispose();
+		else
+			KoLMessenger.removeChat( getAssociatedContact() );
 	}
 
 	/**
@@ -281,7 +273,7 @@ public class ChatFrame extends KoLFrame
 					return;
 				}
 
-				(new Thread( new ChatSubmitter( message ) )).start();
+				RequestThread.postConcurrent( new ChatSubmitter( message ) );
 			}
 
 			private class ChatSubmitter implements Runnable
@@ -448,11 +440,11 @@ public class ChatFrame extends KoLFrame
 				return;
 
 			case 8:
-				(new Thread( new ChatRequest( "/whois", (String) parameters[0] ) )).start();
+				RequestThread.postConcurrent( new ChatRequest( "/whois", (String) parameters[0] ) );
 				return;
 
 			case 9:
-				(new Thread( new ChatRequest( "/baleet", (String) parameters[0] ) )).start();
+				RequestThread.postConcurrent( new ChatRequest( "/baleet", (String) parameters[0] ) );
 				return;
 
 			default:

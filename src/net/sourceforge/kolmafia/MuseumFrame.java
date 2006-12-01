@@ -144,11 +144,8 @@ public class MuseumFrame extends KoLFrame
 					return;
 				}
 
-				Runnable [] parameters = new Runnable[2];
-				parameters[0] = new MuseumRequest( getSelectedValues( elementList.getSelectedValues(), moveAll ), true );
-				parameters[1] = new MuseumRequest();
-
-				(new RequestThread( parameters )).start();
+				RequestThread.postRequest( new MuseumRequest( getSelectedValues( elementList.getSelectedValues(), moveAll ), true ) );
+				RequestThread.postRequest( new MuseumRequest() );
 			}
 
 			public void actionConfirmed()
@@ -172,11 +169,8 @@ public class MuseumFrame extends KoLFrame
 
 			private void move( boolean moveAll )
 			{
-				Runnable [] parameters = new Runnable[2];
-				parameters[0] = new MuseumRequest( getSelectedValues( elementList.getSelectedValues(), moveAll ), false );
-				parameters[1] = new MuseumRequest();
-
-				(new RequestThread( parameters )).start();
+				RequestThread.postRequest( new MuseumRequest( getSelectedValues( elementList.getSelectedValues(), moveAll ), false ) );
+				RequestThread.postRequest( new MuseumRequest() );
 			}
 
 			public void actionConfirmed()
@@ -220,7 +214,7 @@ public class MuseumFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( this )).start();
+		{	RequestThread.postRequest( this );
 		}
 
 		public void run()
@@ -241,11 +235,8 @@ public class MuseumFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			Runnable [] parameters = new Runnable[2];
-			parameters[0] = new MuseumRequest( elementList.getSelectedValues(), false );
-			parameters[1] = new MuseumRequest();
-
-			(new RequestThread( parameters )).start();
+			RequestThread.postRequest( new MuseumRequest( elementList.getSelectedValues(), false ) );
+			RequestThread.postRequest( new MuseumRequest() );
 		}
 
 		public void updateDisplay( PanelList list, Object value, int index )
@@ -278,7 +269,7 @@ public class MuseumFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	(new RequestThread( this )).start();
+		{	RequestThread.postRequest( this );
 		}
 
 		public void run()
