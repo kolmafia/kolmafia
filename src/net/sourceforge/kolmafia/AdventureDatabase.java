@@ -351,8 +351,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Having a Medicine Ball
 		new ChoiceAdventure( "Manor", "choiceAdventure105", "Haunted Bathroom 1",
-		  new String [] { "boost moxie", "other options", "guy made of bees" },
-		  new String [] { null, null, "2096" } ),
+		  new String [] { "boost moxie", "other options", "guy made of bees" } ),
 
 		// Strung-Up Quartet
 		new ChoiceAdventure( "Manor", "choiceAdventure106", "Haunted Ballroom 2",

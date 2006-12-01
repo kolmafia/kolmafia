@@ -581,6 +581,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.TOY ] = false;
 		ADVENTURE_USAGE[ ItemCreationRequest.TOY ] = 0;
 
+		// It's possible to ask Ugh Crimbo to make toys
+
+		PERMIT_METHOD[ ItemCreationRequest.UGH ] = true;
+		ADVENTURE_USAGE[ ItemCreationRequest.UGH ] = 0;
+
 		// Next, increment through all the box servant creation methods.
 		// This allows future appropriate calculation for cooking/drinking.
 
