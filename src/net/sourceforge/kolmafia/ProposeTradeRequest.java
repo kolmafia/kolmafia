@@ -130,7 +130,9 @@ public class ProposeTradeRequest extends SendMessageRequest
 		{
 			int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
 			int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
-			StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
+
+			if ( TradeableItemDatabase.getItemName( itemId ) != null )
+				StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
 		}
 
 		return true;

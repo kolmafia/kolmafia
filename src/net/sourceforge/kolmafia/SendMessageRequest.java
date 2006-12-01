@@ -335,7 +335,7 @@ public abstract class SendMessageRequest extends KoLRequest
 			// One of the "select" options is a zero value for the item id field.
 			// Trying to parse it generates an exception, so skip it for now.
 
-			if ( itemId == 0 || name == null )
+			if ( name == null )
 				continue;
 
 			int quantity = quantityPattern == null ? defaultQuantity : StaticEntity.parseInt( quantityMatcher.group(1) );
