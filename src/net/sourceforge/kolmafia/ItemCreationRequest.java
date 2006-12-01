@@ -55,7 +55,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int MEAT_STACK = 88;
 	public static final int DENSE_STACK = 258;
 
-	public static final int METHOD_COUNT = 24;
+	public static final int METHOD_COUNT = 25;
 	public static final int SUBCLASS = Integer.MAX_VALUE;
 
 	public static final int NOCREATE = 0;
@@ -88,6 +88,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int SUPER_REAGENT = 21;
 	public static final int WOK = 22;
 	public static final int MALUS = 23;
+
+	public static final int UGH = 24;
 
 	public static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	public static final AdventureResult KIT = new AdventureResult( 236, 1 );
@@ -320,6 +322,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		case STILL_MIXER:
 		case STILL_BOOZE:
 			return new ItemCreationRequest( "guild.php", itemId, mixingMethod );
+
+		case UGH:
+			return new UghRequest( itemId );
 
 		default:
 			return null;

@@ -2094,7 +2094,7 @@
 2094	ballroom blintz	1	all	43
 2095	towel	0	all	1000
 2096	guy made of bee pollen	1	all	000
-2097
+2097	17-ball	13	all	0
 2098
 2099
 2100
@@ -2105,18 +2105,18 @@
 2105
 2106
 2107
-2108
-2109
-2110
-2111
-2112
-2113
-2114
-2115
-2116
-2117
-2118
-2119
+2108	rock	0	all	10
+2109	stringy sinew	0	all	10
+2110	stick	0	all	10
+2111	tooth	0	all	10
+2112	big leaf	0	none	0
+2113	wheel	8	all	25
+2114	yo	0	all	25
+2115	prehistoric spear	12	all	25
+2116	stick-on-a-string	0	all	25
+2117	fire	9	all	25
+2118	leaf tube	0	none	0
+2119	lit cigar	0	none	0
 2120	Grateful Undead T-shirt	11	all	75
 2121
 2122	safety vest	11	all	75
@@ -2145,7 +2145,7 @@
 2145
 2146
 2147
-2148
+2148	toothsome rock	5	all	31
 2149
 2150
 2151
@@ -2178,7 +2178,7 @@
 2178
 2179
 2180
-2181
+2181	chocolate lump	3	none	0
 2182	Harold's hammer head	0	none	0
 2183	Harold's hammer handle	0	none	0
 2184	Harold's hammer	0	none	0
@@ -2187,3 +2187,14 @@
 2187	lit birthday cake	0	none	0
 2188
 2189
+2190	yuletide troll chrysalis	5	all	0
+2191	giant book of ancient carols	7	all	75
+2192	disintegrating sheet music	0	all	15
+2193	candy stake	1	all	15
+2194	spooky eggnog	2	all	49
+2195	ancient unspeakable fruitcake	1	all	37
+2196	gingerbread horror	1	all	25
+2197
+2198
+2199
+2200

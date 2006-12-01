@@ -826,3 +826,16 @@ toy train	15	length of string (2)	wooden block (3)	toy wheel (6)
 marionette	15	length of string (2)	googly eye (2)	wooden block (2)
 sock monkey	15	googly eye (2)	stuffing (3)	felt
 rag doll	15	googly eye (2)	stuffing (3)	felt (2)
+
+# Crimbo tools.  These are items which are created at Ugh Crimbo
+# after collecting enough components.
+
+wheel	24	stick	rock
+yo	24	stringy sinew	rock
+prehistoric spear	24	stick	tooth
+stick-on-a-string	24	stick	stringy sinew
+toothsome rock	24	tooth	rock
+fire	24	stick	stick
+leaf tube	24	stringy sinew	big leaf
+
+lit cigar	1	fire	leaf tube
