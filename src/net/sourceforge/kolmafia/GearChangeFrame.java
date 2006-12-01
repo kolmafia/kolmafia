@@ -158,8 +158,6 @@ public class GearChangeFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			ArrayList requestList = new ArrayList();
-
 			// If current offhand item is not compatible with new
 			// weapon, unequip it first.
 
@@ -170,7 +168,7 @@ public class GearChangeFrame extends KoLFrame
 				if ( weapon != null )
 				{
 					if ( EquipmentDatabase.getHands( weapon.getName() ) == 1 && EquipmentDatabase.isRanged( weapon.getName() ) != EquipmentDatabase.isRanged( offhand.getName() ) )
-						requestList.add( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
+						RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
 				}
 			}
 
@@ -178,22 +176,14 @@ public class GearChangeFrame extends KoLFrame
 			{
 				if ( pieces[i] != null )
 				{
-					requestList.add( new EquipmentRequest( pieces[i], i, true ) );
+					RequestThread.postRequest( new EquipmentRequest( pieces[i], i, true ) );
 					pieces[i] = null;
 				}
 			}
 
 			FamiliarData familiar = (FamiliarData) familiarSelect.getSelectedItem();
 			if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
-				requestList.add( new FamiliarRequest( familiar ) );
-
-			if ( requestList.isEmpty() )
-				return;
-
-			Runnable [] requests = new Runnable[ requestList.size() ];
-			requestList.toArray( requests );
-
-			(new RequestThread( requests )).start();
+				RequestThread.postRequest( new FamiliarRequest( familiar ) );
 		}
 
 		public void actionCancelled()
@@ -202,7 +192,7 @@ public class GearChangeFrame extends KoLFrame
 			if ( currentValue == null )
 				return;
 
-			(new RequestThread( new EquipmentRequest( currentValue ) )).start();
+			RequestThread.postRequest( new EquipmentRequest( currentValue ) );
 		}
 	}
 
@@ -228,7 +218,7 @@ public class GearChangeFrame extends KoLFrame
 			{
 				Object outfit = getSelectedItem();
 				if ( outfit != null && !(outfit instanceof String) )
-					(new RequestThread( new EquipmentRequest( (SpecialOutfit) outfit ) )).start();
+					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
 
 				setSelectedItem( null );
 				return;

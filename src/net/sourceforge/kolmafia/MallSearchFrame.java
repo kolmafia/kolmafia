@@ -139,7 +139,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		}
 
 		public void actionCancelled()
-		{	(new RequestThread( new MallPurchaseRunnable() )).start();
+		{	RequestThread.postRequest( new MallPurchaseRunnable() );
 		}
 
 		private class MallPurchaseRunnable implements Runnable
@@ -192,7 +192,7 @@ public class MallSearchFrame extends KoLPanelFrame
 
 		INSTANCE.results.clear();
 		request.setResults( INSTANCE.results );
-		(new RequestThread( request )).start();
+		RequestThread.postRequest( request );
 	}
 
 	private String getPurchaseSummary( Object [] purchases )

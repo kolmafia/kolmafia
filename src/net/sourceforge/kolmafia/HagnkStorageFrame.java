@@ -119,7 +119,7 @@ public class HagnkStorageFrame extends KoLFrame
 				if ( items == null )
 					return;
 
-				(new RequestThread( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) )).start();
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
 			}
 
 			public String toString()
@@ -135,11 +135,8 @@ public class HagnkStorageFrame extends KoLFrame
 				if ( items == null )
 					return;
 
-				Runnable [] requests = new Runnable[2];
-				requests[0] = new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items );
-				requests[1] = new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items );
-
-				(new RequestThread( requests )).start();
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
 			}
 
 			public String toString()
@@ -157,7 +154,7 @@ public class HagnkStorageFrame extends KoLFrame
 					return;
 				}
 
-				(new RequestThread( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) )).start();
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) );
 			}
 
 			public String toString()
@@ -173,11 +170,8 @@ public class HagnkStorageFrame extends KoLFrame
 				if ( items == null )
 					return;
 
-				Runnable [] requests = new Runnable[2];
-				requests[0] = new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE );
-				requests[1] = new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items );
-
-				(new RequestThread( requests )).start();
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) );
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
 			}
 
 			public String toString()

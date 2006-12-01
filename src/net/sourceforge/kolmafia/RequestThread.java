@@ -33,86 +33,80 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import net.sourceforge.foxtrot.Job;
+import net.sourceforge.foxtrot.Worker;
+import net.sourceforge.foxtrot.ConcurrentWorker;
+
 import java.util.Vector;
 
-public class RequestThread extends Thread implements KoLConstants
+public abstract class RequestThread implements Runnable, KoLConstants
 {
-	private static final Vector runningRequests = new Vector();
+	private static int repeatCount = 0;
 
-	private int repeatCount;
-	private Runnable [] requests;
-
-	public RequestThread( Runnable request )
-	{	this( new Runnable [] { request }, 1 );
+	public static void postRequest( Runnable request )
+	{	execute( request, 1 );
 	}
 
-	public RequestThread( Runnable request, int repeatCount )
-	{	this( new Runnable [] { request }, repeatCount );
-	}
-
-	public RequestThread( Runnable [] requests )
-	{	this( requests, 1 );
-	}
-
-	public RequestThread( Runnable [] requests, int repeatCount )
+	public static void postRequest( Runnable request, int repeatCount )
 	{
-		this.repeatCount = repeatCount;
-		this.requests = requests;
+		for ( int i = 0; i < repeatCount && KoLmafia.permitsContinue(); ++i )
+			execute( request, repeatCount );
 	}
 
-	public void run()
+	public static void postConcurrent( Runnable request )
 	{
-		if ( requests.length == 0 )
-			return;
-
-		if ( !runningRequests.isEmpty() )
+		try
 		{
-			KoLmafia.updateDisplay( "World peace declaration is still propagating." );
-			return;
+			ConcurrentWorker.post( new Request( request, 1 ) );
 		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+	}
 
-		runningRequests.add( this );
+	private static void execute( Runnable request, int repeatCount )
+	{
+		if ( request == null )
+			return;
+
 		KoLmafia.forceContinue();
 
-		for ( int i = 0; i < requests.length && KoLmafia.permitsContinue(); ++i )
+		try
 		{
-			if ( requests[i] == null )
-			{
-				// If it's null, then there's nothing that
-				// can be done, so skip it.
-			}
-			else if ( requests[i] instanceof KoLRequest )
-			{
-				// Setting it up so that derived classes can
-				// override the behavior of execution.
-
-				run( (KoLRequest) requests[i], repeatCount );
-			}
-			else if ( requests[i] instanceof KoLAdventure )
-			{
-				// Standard KoL adventures are handled through the
-				// client.makeRequest() method.
-
-				StaticEntity.getClient().makeRequest( requests[i], repeatCount );
-			}
-			else
-			{
-				// All other runnables are run, as expected, with
-				// no updates to the client.
-
-				for ( int j = 0; j < repeatCount; ++j )
-					requests[i].run();
-			}
+			Worker.post( new Request( request, repeatCount ) );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
 		}
 
-		runningRequests.remove( this );
 		KoLmafia.enableDisplay();
 
-		if ( runningRequests.isEmpty() )
+		if ( request instanceof KoLAdventure )
 			SystemTrayFrame.showBalloon( "Requests complete." );
 	}
 
-	protected void run( KoLRequest request, int repeatCount )
-	{	StaticEntity.getClient().makeRequest( request, repeatCount );
+	private static class Request extends Job
+	{
+		private Runnable runner;
+		private int repeatCount;
+
+		public Request( Runnable runner, int repeatCount )
+		{
+			this.runner = runner;
+			this.repeatCount = repeatCount;
+		}
+
+		public Object run()
+		{
+			if ( runner instanceof KoLRequest || runner instanceof KoLAdventure )
+				StaticEntity.getClient().makeRequest( runner, repeatCount );
+			else
+				runner.run();
+
+			return null;
+		}
 	}
 }

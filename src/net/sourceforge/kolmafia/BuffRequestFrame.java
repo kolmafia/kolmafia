@@ -141,7 +141,7 @@ public class BuffRequestFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new BuffPurchaseRunnable() )).start();
+		{	RequestThread.postRequest( new BuffPurchaseRunnable() );
 		}
 
 		private class BuffPurchaseRunnable implements Runnable

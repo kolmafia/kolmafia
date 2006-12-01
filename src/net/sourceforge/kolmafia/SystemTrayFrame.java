@@ -179,7 +179,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
+		{	RequestThread.postRequest( this );
 		}
 
 		public void run()

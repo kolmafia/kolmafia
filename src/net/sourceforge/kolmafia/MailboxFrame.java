@@ -181,7 +181,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		if ( requestMailbox )
-			(new RequestMailboxThread( currentTabName )).start();
+			RequestThread.postRequest( new MailRefresher( currentTabName ) );
 	}
 
 	private void refreshMailManager()
@@ -192,14 +192,15 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		messageListSaved.setModel( KoLMailManager.getMessages( "Saved" ) );
 	}
 
-	private class RequestMailboxThread extends RequestThread
+	private class MailRefresher implements Runnable
 	{
 		private String mailboxName;
+		private MailboxRequest refresher;
 
-		public RequestMailboxThread( String mailboxName )
+		public MailRefresher( String mailboxName )
 		{
-			super( new MailboxRequest( mailboxName ) );
 			this.mailboxName = mailboxName;
+			this.refresher = new MailboxRequest( mailboxName );
 		}
 
 		public void run()
@@ -207,7 +208,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			refreshMailManager();
 			mailBuffer.append( "Retrieving messages from server..." );
 
-			super.run();
+			refresher.run();
 			mailBuffer.clearBuffer();
 
 			if ( mailboxName.equals( "Inbox" ) )
@@ -328,7 +329,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 						return;
 
-			(new RequestThread( this )).start();
+			RequestThread.postRequest( this );
 		}
 
 		public void run()
@@ -368,7 +369,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 						return;
 
-			(new RequestThread( this )).start();
+			RequestThread.postRequest( this );
 		}
 
 		public void run()
@@ -388,7 +389,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		public void actionPerformed( ActionEvent e )
 		{
 			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
-			(new RequestMailboxThread( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName )).start();
+			RequestThread.postRequest( new MailRefresher( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName ) );
 		}
 	}
 

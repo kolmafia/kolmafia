@@ -447,7 +447,7 @@ public class AdventureFrame extends KoLFrame
 			public void keyReleased( KeyEvent e )
 			{
 				if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-					(new Thread( this )).start();
+					RequestThread.postRequest( this );
 			}
 
 			public void run()
@@ -540,11 +540,9 @@ public class AdventureFrame extends KoLFrame
 					handleConditions( request );
 				}
 
-
 				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
 				countField.setValue( new Integer( requestCount ) );
-
-				(new RequestThread( request, requestCount )).start();
+				RequestThread.postRequest( request, requestCount );
 			}
 
 			public boolean makesRequest()

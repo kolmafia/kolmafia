@@ -583,7 +583,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					return;
 
 				isChanging = true;
-				(new RequestThread( this )).start();
+				RequestThread.postRequest( this );
 			}
 
 			public void run()

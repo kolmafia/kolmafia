@@ -125,22 +125,16 @@ public class SkillBuffFrame extends KoLFrame
 			if ( buffCount == 0 )
 				return;
 
-			Runnable [] requests;
-
 			if ( targets.length == 0 )
 			{
-				requests = new Runnable[1];
-				requests[0] = UseSkillRequest.getInstance( buffName, "", buffCount );
+				RequestThread.postRequest( UseSkillRequest.getInstance( buffName, KoLCharacter.getUserName(), buffCount ) );
 			}
 			else
 			{
-				requests = new Runnable[ targets.length ];
-				for ( int i = 0; i < requests.length && KoLmafia.permitsContinue(); ++i )
+				for ( int i = 0; i < targets.length && KoLmafia.permitsContinue(); ++i )
 					if ( targets[i] != null )
-						requests[i] = UseSkillRequest.getInstance( buffName, targets[i], buffCount );
+						RequestThread.postRequest( UseSkillRequest.getInstance( buffName, targets[i], buffCount ) );
 			}
-
-			(new RequestThread( requests )).start();
 		}
 	}
 
@@ -151,7 +145,7 @@ public class SkillBuffFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new UneffectRequest( (AdventureResult) ((ShowDescriptionList)scrollComponent).getSelectedValue() ) )).start();
+		{	RequestThread.postRequest( new UneffectRequest( (AdventureResult) ((ShowDescriptionList)scrollComponent).getSelectedValue() ) );
 		}
 
 		public void actionCancelled()

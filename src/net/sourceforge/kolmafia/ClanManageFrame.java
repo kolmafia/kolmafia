@@ -192,7 +192,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( (Runnable) buffField.getSelectedItem(), getValue( countField ) )).start();
+		{	RequestThread.postRequest( (Runnable) buffField.getSelectedItem(), getValue( countField ) );
 		}
 
 		public void actionCancelled()
@@ -222,11 +222,11 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( (Runnable) enemyList.getSelectedItem() )).start();
+		{	RequestThread.postRequest( (Runnable) enemyList.getSelectedItem() );
 		}
 
 		public void actionCancelled()
-		{	(new RequestThread( new ClanListRequest() )).start();
+		{	RequestThread.postRequest( new ClanListRequest() );
 		}
 	}
 
@@ -259,7 +259,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new ClanMaterialsRequest() )).start();
+		{	RequestThread.postRequest( new ClanMaterialsRequest() );
 		}
 
 		public void actionCancelled()
@@ -318,7 +318,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new ClanStashRequest( getValue( amountField ) ) )).start();
+		{	RequestThread.postRequest( new ClanStashRequest( getValue( amountField ) ) );
 		}
 
 		public void actionCancelled()
@@ -346,7 +346,7 @@ public class ClanManageFrame extends KoLFrame
 				if ( items.length == 0 )
 					return;
 
-				(new RequestThread( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) )).start();
+				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
 			}
 
 			public String toString()
@@ -411,7 +411,7 @@ public class ClanManageFrame extends KoLFrame
 				if ( items == null || items.length == 0 )
 					return;
 
-				(new RequestThread( new ClanStashRequest( items, ClanStashRequest.STASH_TO_ITEMS ) )).start();
+				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.STASH_TO_ITEMS ) );
 			}
 
 			public String toString()
@@ -450,7 +450,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new MemberSearcher() )).start();
+		{	RequestThread.postRequest( new MemberSearcher() );
 		}
 
 		private class MemberSearcher implements Runnable
@@ -463,7 +463,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	(new RequestThread( new MemberChanger() )).start();
+		{	RequestThread.postRequest( new MemberChanger() );
 		}
 
 		private class MemberChanger implements Runnable
@@ -577,14 +577,14 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new SnapshotRunnable() )).start();
+		{	RequestThread.postRequest( new SnapshotRunnable() );
 		}
 
 		public void actionCancelled()
-		{	(new RequestThread( new StashlogRunnable() )).start();
+		{	RequestThread.postRequest( new StashLogRunnable() );
 		}
 
-		private class StashlogRunnable implements Runnable
+		private class StashLogRunnable implements Runnable
 		{
 			public void run()
 			{	ClanManager.saveStashLog();
