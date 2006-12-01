@@ -426,8 +426,6 @@ public class AdventureFrame extends KoLFrame
 			zonePanel.add( zoneSelect, BorderLayout.CENTER );
 
 			zoneSelect.addActionListener( new ZoneChangeListener() );
-			countField.addKeyListener( new ActionConfirmListener() );
-
 			locationSelect = new JList( adventureList );
 			locationSelect.setVisibleRowCount( 4 );
 
@@ -440,19 +438,6 @@ public class AdventureFrame extends KoLFrame
 
 			add( westPanel, BorderLayout.WEST );
 			add( new ObjectivesPanel(), BorderLayout.CENTER );
-		}
-
-		protected class ActionConfirmListener extends KeyAdapter implements Runnable
-		{
-			public void keyReleased( KeyEvent e )
-			{
-				if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-					RequestThread.postRequest( this );
-			}
-
-			public void run()
-			{	begin.actionPerformed( null );
-			}
 		}
 
 		private class ObjectivesPanel extends KoLPanel
@@ -481,7 +466,6 @@ public class AdventureFrame extends KoLFrame
 
 				setContent( elements );
 				container.add( buttonWrapper, BorderLayout.SOUTH );
-				conditionField.addKeyListener( new ActionConfirmListener() );
 			}
 
 			public void actionConfirmed()
@@ -542,7 +526,9 @@ public class AdventureFrame extends KoLFrame
 
 				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
 				countField.setValue( new Integer( requestCount ) );
-				RequestThread.postRequest( request, requestCount );
+
+				StaticEntity.getClient().makeRequest( request, requestCount );
+				KoLmafia.enableDisplay();
 			}
 
 			public boolean makesRequest()

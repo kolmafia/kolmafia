@@ -1262,6 +1262,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void processResponse()
 	{
+		if ( responseText == null )
+			return;
+
 		if ( shouldPrintDebug() )
 			KoLmafia.getDebugStream().println( LINE_BREAK_PATTERN.matcher( responseText ).replaceAll( "" ) );
 

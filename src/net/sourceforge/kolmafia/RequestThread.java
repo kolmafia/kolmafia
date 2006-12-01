@@ -43,16 +43,12 @@ import java.util.Vector;
 
 public abstract class RequestThread implements Runnable, KoLConstants
 {
-	private static int repeatCount = 0;
-
 	public static void postRequest( Runnable request )
 	{	execute( request, 1 );
 	}
 
 	public static void postRequest( Runnable request, int repeatCount )
-	{
-		for ( int i = 0; i < repeatCount && KoLmafia.permitsContinue(); ++i )
-			execute( request, repeatCount );
+	{	execute( request, repeatCount );
 	}
 
 	public static void postConcurrent( Runnable request )
@@ -112,9 +108,14 @@ public abstract class RequestThread implements Runnable, KoLConstants
 		public Object run()
 		{
 			if ( runner instanceof KoLRequest || runner instanceof KoLAdventure )
+			{
 				StaticEntity.getClient().makeRequest( runner, repeatCount );
+			}
 			else
-				runner.run();
+			{
+				for ( int i = 0; i < repeatCount; ++i )
+					runner.run();
+			}
 
 			return null;
 		}
