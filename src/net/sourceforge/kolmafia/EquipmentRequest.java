@@ -638,7 +638,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			// continue if this is the case.
 
 			if ( !TradeableItemDatabase.contains( realName ) )
-				return;
+				continue;
 
 			int quantityValue = quantity.length() == 0 ? 1 : StaticEntity.parseInt( quantity.substring( 1, quantity.length() - 1 ) );
 			int itemId = TradeableItemDatabase.getItemId( realName );
