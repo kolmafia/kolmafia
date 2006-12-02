@@ -1204,7 +1204,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					}
 
 					irequest = ItemCreationRequest.getInstance( creation.getItemId() );
-					addCreateLink = irequest != null && irequest.getQuantityPossible() > 0;
+					addCreateLink = ConcoctionsDatabase.isPermittedMethod( mixingMethod ) && irequest != null && irequest.getQuantityPossible() > 0;
 				}
 			}
 
