@@ -35,11 +35,9 @@
 package net.sourceforge.kolmafia;
 
 import java.net.URL;
-import java.net.Socket;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -48,7 +46,6 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 
 import java.util.List;
@@ -74,6 +71,8 @@ public class KoLRequest implements Runnable, KoLConstants
 	private static final byte [] CHAT_ARRAY = new byte[ 1024 ];
 	private static final byte [] LEFT_ARRAY = new byte[ 2048 ];
 	private static final byte [] BYTE_ARRAY = new byte[ 8096 ];
+
+	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
 
 	private static final ByteArrayOutputStream CHAT_BUFFER = new ByteArrayOutputStream();
 	private static final ByteArrayOutputStream LEFT_BUFFER = new ByteArrayOutputStream();
@@ -1310,7 +1309,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		needsRefresh &= formURLString.indexOf( "charpane.php" ) == -1;
 
 		statusChanged &= formURLString.indexOf( "charpane.php" ) == -1;
-		StaticEntity.getClient().applyEffects();
+		KoLmafia.applyEffects();
 
 		if ( statusChanged && RequestFrame.willRefreshStatus() )
 		{
@@ -1326,7 +1325,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			KoLCharacter.updateEquipmentLists();
 			KoLCharacter.updateStatus();
 		}
-		else if ( !shouldIgnoreResults && !(this instanceof LocalRelayRequest) && getClass() != KoLRequest.class )
+		else if ( !shouldIgnoreResults )
 		{
 			KoLCharacter.updateStatus();
 		}
@@ -1542,7 +1541,33 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			boolean willIgnore = false;
 
-			if ( decision.equals( "0" ) )
+			// But first, handle the maidens adventure in a less random
+			// fashion that's actually useful.
+
+			if ( choice.equals( "89" ) )
+			{
+				willIgnore = true;
+
+				switch ( StaticEntity.parseInt( decision ) )
+				{
+				case 0:
+					decision = String.valueOf( RNG.nextInt(2) + 1 );
+					break;
+				case 1:
+				case 2:
+					break;
+				case 3:
+					decision = activeEffects.contains( MAIDEN_EFFECT ) ? String.valueOf( RNG.nextInt(2) + 1 ) : "3";
+					break;
+				case 4:
+					decision = activeEffects.contains( MAIDEN_EFFECT ) ? "1" : "3";
+					break;
+				case 5:
+					decision = activeEffects.contains( MAIDEN_EFFECT ) ? "2" : "3";
+					break;
+				}
+			}
+			else if ( decision.equals( "0" ) )
 			{
 				String ignoreChoice = AdventureDatabase.ignoreChoiceOption( option );
 				if ( ignoreChoice != null )
