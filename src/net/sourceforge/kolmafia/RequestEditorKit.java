@@ -1166,11 +1166,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			// If you find goat cheese, let the trapper link handle it.
 			// Ore is skipped for now, so no need to check for it.  And,
-			// finally, enchanted beans are primarily use, as are clovers.
+			// finally, enchanted beans are primarily use, as are any
+			// items which are multi-use or are mp restores.
+
+			int consumeMethod = TradeableItemDatabase.getConsumptionType( itemId );
 
 			addCreateLink &= !creations.isEmpty() && itemId != 322;
 			addCreateLink &= itemId != KoLAdventure.BEAN.getItemId() || KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT );
-			addCreateLink &= itemId != 24 && itemId != 196;
+			addCreateLink &= consumeMethod != ConsumeItemRequest.CONSUME_MULTIPLE && consumeMethod != ConsumeItemRequest.CONSUME_RESTORE;
 
 			if ( addCreateLink )
 			{
@@ -1246,7 +1249,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			}
 			else
 			{
-				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
+				switch ( consumeMethod )
 				{
 				case ConsumeItemRequest.CONSUME_EAT:
 
