@@ -221,8 +221,24 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( reached < min )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You can't use this script yet." );
-				return false;
+				switch ( min )
+				{
+				case 0:
+				case 1:
+					KoLmafia.updateDisplay( ERROR_STATE, "The sorceress quest has not yet unlocked." );
+					return false;
+				case 2:
+				case 3:
+					KoLmafia.updateDisplay( ERROR_STATE, "You must complete the entryway first." );
+					return false;
+				case 4:
+				case 5:
+					KoLmafia.updateDisplay( ERROR_STATE, "You must complete the hedge maze first." );
+					return false;
+				case 6:
+					KoLmafia.updateDisplay( ERROR_STATE, "You must complete the tower first." );
+					return false;
+				}
 			}
 
 			if ( reached > max )
