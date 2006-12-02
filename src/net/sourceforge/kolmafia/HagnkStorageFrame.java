@@ -34,11 +34,16 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
 import javax.swing.JTabbedPane;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 import javax.swing.ListSelectionModel;
@@ -64,11 +69,13 @@ public class HagnkStorageFrame extends KoLFrame
 		INSTANCE = this;
 		setPullsRemaining( pullsRemaining );
 
-		tabs = new JTabbedPane();
-		tabs.addTab( "Stored Items", new HagnkStoragePanel( false ) );
-		tabs.addTab( "Equipment Only", new HagnkStoragePanel( true ) );
+		JTabbedPane filterTabs = new JTabbedPane();
+		filterTabs.addTab( "Ancestral Items", new HagnkStoragePanel( false ) );
+		filterTabs.addTab( "Closeted Items", new InventoryManagePanel( closet ) );
+		filterTabs.addTab( "Equipment in Storage", new HagnkStoragePanel( true ) );
 
-		framePanel.add( tabs, BorderLayout.CENTER );
+		framePanel.add( new MeatStoragePanel(), BorderLayout.NORTH );
+		framePanel.add( filterTabs, BorderLayout.CENTER );
 	}
 
 	public static int getPullsRemaining()
@@ -102,6 +109,123 @@ public class HagnkStorageFrame extends KoLFrame
 			default:
 				INSTANCE.setTitle( pullsRemaining + " Pulls Left" );
 			}
+		}
+	}
+
+	/**
+	 * An internal class which represents the panel used for storing and
+	 * removing meat from the closet.
+	 */
+
+	private class MeatStoragePanel extends KoLPanel
+	{
+		private JComboBox fundSource;
+		private JTextField amountField;
+		private JLabel closetField;
+
+		public MeatStoragePanel()
+		{
+			super( "transfer", "bedidall", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+
+ 			fundSource = new JComboBox();
+			fundSource.addItem( "From Inventory to Closet" );
+			fundSource.addItem( "From Closet to Inventory" );
+			fundSource.addItem( "From Hagnk's to Inventory" );
+			fundSource.addItem( "From Hagnk's to Closet" );
+
+			amountField = new JTextField();
+			closetField = new JLabel( COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) + " meat" );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Transfer: ", fundSource );
+			elements[1] = new VerifiableElement( "Amount: ", amountField );
+			elements[2] = new VerifiableElement( "Available: ", closetField );
+			setContent( elements );
+
+			fundSource.addActionListener( new AvailableFundListener() );
+		}
+
+		private class AvailableFundListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				switch ( fundSource.getSelectedIndex() )
+				{
+				case 0:
+					closetField.setText( COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) + " meat" );
+					break;
+
+				case 1:
+					closetField.setText( COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) + " meat" );
+					break;
+
+				default:
+					closetField.setText( "Not Yet Implemented" );
+					break;
+				}
+			}
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			if ( closetField == null )
+				return;
+
+			super.setEnabled( isEnabled );
+			closetField.setEnabled( false );
+		}
+
+		public void actionConfirmed()
+		{
+			int transferType = -1;
+			int fundTransferType = fundSource.getSelectedIndex();
+			int amountToTransfer = getValue( amountField );
+
+			switch ( fundTransferType )
+			{
+			case 0:
+				transferType = ItemStorageRequest.MEAT_TO_CLOSET;
+
+				if ( amountToTransfer <= 0 )
+					amountToTransfer = KoLCharacter.getAvailableMeat();
+
+				break;
+
+			case 1:
+				transferType = ItemStorageRequest.MEAT_TO_INVENTORY;
+
+				if ( amountToTransfer <= 0 )
+					amountToTransfer = KoLCharacter.getClosetMeat();
+
+				break;
+
+			case 2:
+			case 3:
+
+				transferType = ItemStorageRequest.PULL_MEAT_FROM_STORAGE;
+
+				if ( amountToTransfer <= 0 )
+				{
+					KoLmafia.updateDisplay( ERROR_STATE, "You must specify an amount to pull from Hagnk's." );
+					return;
+				}
+
+				break;
+			}
+
+			RequestThread.postRequest( new ItemStorageRequest( transferType, amountToTransfer ) );
+			if ( fundTransferType == 3 )
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.MEAT_TO_CLOSET, amountToTransfer ) );
+
+			fundSource.setSelectedIndex( 0 );
+		}
+
+		public void actionCancelled()
+		{	KoLmafiaGUI.constructFrame( "MoneyMakingGameFrame" );
+		}
+
+		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+		{	return false;
 		}
 	}
 
@@ -239,7 +363,7 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 
 			public String toString()
-			{	return "pull to inventory";
+			{	return "pull item";
 			}
 		}
 
@@ -256,7 +380,7 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 
 			public String toString()
-			{	return "pull to closet";
+			{	return "closet item";
 			}
 		}
 
@@ -274,7 +398,7 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 
 			public String toString()
-			{	return "empty to inventory";
+			{	return "pull all";
 			}
 		}
 
@@ -291,7 +415,7 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 
 			public String toString()
-			{	return "empty to closet";
+			{	return "closet all";
 			}
 		}
 	}
