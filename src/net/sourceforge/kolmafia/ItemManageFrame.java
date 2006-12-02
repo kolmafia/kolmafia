@@ -79,7 +79,7 @@ import net.sourceforge.kolmafia.ItemManagePanel.UpdateFilterListener;
 public class ItemManageFrame extends KoLFrame
 {
 //	private LabeledScrollPanel bruteForcer;
-	private LabeledScrollPanel itemConsumer, insideBackpack, insideCloset, itemCreator, npcOfferings;
+	private LabeledScrollPanel itemConsumer, insideBackpack, itemCreator, npcOfferings;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -94,15 +94,13 @@ public class ItemManageFrame extends KoLFrame
 		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
 
 		itemConsumer = new ConsumeItemPanel();
-		insideBackpack = new ClosetManagePanel( inventory );
-		insideCloset = new ClosetManagePanel( closet );
+		insideBackpack = new InventoryManagePanel( inventory );
 		itemCreator = new CreateItemPanel();
 //		bruteForcer = new InventPanel();
 		npcOfferings = null;
 
 		tabs.addTab( "Usable Items", itemConsumer );
 		tabs.addTab( "Inventory Items", insideBackpack );
-		tabs.addTab( "Closeted Items", insideCloset );
 		tabs.addTab( "Creatable Items", itemCreator );
 //		tabs.addTab( "Recipe Finder", bruteForcer );
 
@@ -508,218 +506,6 @@ public class ItemManageFrame extends KoLFrame
 
 					return super.isVisible( element );
 				}
-			}
-		}
-	}
-
-	private class ClosetManagePanel extends ItemManagePanel
-	{
-		public ClosetManagePanel( LockableListModel elementModel )
-		{
-			super( elementModel );
-
-			boolean isCloset = (elementModel == closet);
-
-			setButtons( new ActionListener [] {
-
-				new ConsumeListener(),
-				new PutInClosetListener( isCloset ),
-				new AutoSellListener( isCloset, AutoSellRequest.AUTOSELL ),
-				new AutoSellListener( isCloset, AutoSellRequest.AUTOMALL ),
-				new PulverizeListener( isCloset ),
-				new PutOnDisplayListener( isCloset ),
-				new GiveToClanListener( isCloset )
-
-			} );
-
-			eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
-		}
-
-		private class RefreshButton extends RequestButton
-		{
-			public RefreshButton()
-			{	super( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) );
-			}
-
-			public void executeTask()
-			{
-				super.executeTask();
-				refreshFilter();
-			}
-		}
-
-
-		private class ConsumeListener implements ActionListener
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				Object [] items = getDesiredItems( "Consume" );
-				if ( items.length == 0 )
-					return;
-
-				for ( int i = 0; i < items.length; ++i )
-				{
-					int usageType = TradeableItemDatabase.getConsumptionType( ((AdventureResult)items[i]).getItemId() );
-
-					switch ( usageType )
-					{
-					case ConsumeItemRequest.NO_CONSUME:
-						break;
-
-					case ConsumeItemRequest.EQUIP_FAMILIAR:
-					case ConsumeItemRequest.EQUIP_ACCESSORY:
-					case ConsumeItemRequest.EQUIP_HAT:
-					case ConsumeItemRequest.EQUIP_PANTS:
-					case ConsumeItemRequest.EQUIP_SHIRT:
-					case ConsumeItemRequest.EQUIP_WEAPON:
-					case ConsumeItemRequest.EQUIP_OFFHAND:
-						RequestThread.postRequest( new EquipmentRequest( (AdventureResult) items[i], KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
-						break;
-
-					default:
-						RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
-						break;
-					}
-				}
-			}
-
-			public String toString()
-			{	return "use item";
-			}
-		}
-
-		protected class PutInClosetListener extends TransferListener
-		{
-			public PutInClosetListener( boolean retrieveFromClosetFirst )
-			{	super( retrieveFromClosetFirst ? "Bagging" : "Closeting", retrieveFromClosetFirst );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				AdventureResult [] items = initialSetup();
-				if ( items == null )
-					return;
-
-				if ( !retrieveFromClosetFirst )
-					RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
-			}
-
-			public String toString()
-			{	return retrieveFromClosetFirst ? "inventory" : "closet";
-			}
-		}
-
-		protected class AutoSellListener extends TransferListener
-		{
-			private int sellType;
-
-			public AutoSellListener( boolean retrieveFromClosetFirst, int sellType )
-			{
-				super( sellType == AutoSellRequest.AUTOSELL ? "Autoselling" : "Automalling", retrieveFromClosetFirst );
-				this.sellType = sellType;
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				if ( sellType == AutoSellRequest.AUTOMALL && !KoLCharacter.hasStore() )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, "You don't own a store in the mall.");
-					return;
-				}
-
-				if ( sellType == AutoSellRequest.AUTOSELL && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-					"Are you sure you would like to sell the selected items?",
-						"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
-							return;
-
-				if ( sellType == AutoSellRequest.AUTOMALL && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-					"Are you sure you would like to place the selected items in your store?",
-						"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
-							return;
-
-				AdventureResult [] items = initialSetup();
-				if ( items == null )
-					return;
-
-				RequestThread.postRequest( new AutoSellRequest( items, sellType ) );
-			}
-
-			public String toString()
-			{	return sellType == AutoSellRequest.AUTOSELL ? "auto sell" : "place in mall";
-			}
-		}
-
-		protected class GiveToClanListener extends TransferListener
-		{
-			public GiveToClanListener( boolean retrieveFromClosetFirst )
-			{	super( "Stashing", retrieveFromClosetFirst );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				AdventureResult [] items = initialSetup();
-				if ( items == null )
-					return;
-
-				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
-			}
-
-			public String toString()
-			{	return "clan stash";
-			}
-		}
-
-		protected class PutOnDisplayListener extends TransferListener
-		{
-			public PutOnDisplayListener( boolean retrieveFromClosetFirst )
-			{	super( "Showcasing", retrieveFromClosetFirst );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				Object [] items = initialSetup();
-				if ( items == null )
-					return;
-
-				if ( !KoLCharacter.hasDisplayCase() )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, "You don't own a display case in the Cannon Museum.");
-					return;
-				}
-
-				RequestThread.postRequest( new MuseumRequest( items, true ) );
-			}
-
-			public String toString()
-			{	return "display case";
-			}
-		}
-
-		protected class PulverizeListener extends TransferListener
-		{
-			public PulverizeListener( boolean retrieveFromClosetFirst )
-			{	super( "Smashing", retrieveFromClosetFirst );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				AdventureResult [] items = initialSetup();
-				if ( items == null || items.length == 0 )
-					return;
-
-				for ( int i = 0; i < items.length; ++i )
-				{
-					boolean willSmash = TradeableItemDatabase.isTradeable( items[i].getItemId() ) ||
-						JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-							items[i].getName() + " is untradeable.  Are you sure?", "Smash request nag screen!", JOptionPane.YES_NO_OPTION );
-
-					if ( willSmash )
-						RequestThread.postRequest( new PulverizeRequest( items[i] ) );
-				}
-			}
-
-			public String toString()
-			{	return "pulverize";
 			}
 		}
 	}
