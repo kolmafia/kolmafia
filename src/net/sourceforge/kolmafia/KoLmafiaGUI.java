@@ -174,9 +174,16 @@ public class KoLmafiaGUI extends KoLmafia
 		ArrayList initialFrameList = new ArrayList();
 
 		if ( !frameSetting.equals( "" ) )
+		{
 			for ( int i = 0; i < frameArray.length; ++i )
+			{
+				if ( frameArray[i].equals( "HagnkStorageFrame" ) && (KoLCharacter.isHardcore() || HagnkStorageFrame.getPullsRemaining() == 0) )
+					continue;
+
 				if ( !initialFrameList.contains( frameArray[i] ) )
 					initialFrameList.add( frameArray[i] );
+			}
+		}
 
 		for ( int i = 0; i < desktopArray.length; ++i )
 			initialFrameList.remove( desktopArray[i] );

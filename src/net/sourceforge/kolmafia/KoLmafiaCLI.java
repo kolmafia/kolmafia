@@ -2988,8 +2988,9 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			itemId = TradeableItemDatabase.getItemId( nameArray[i] );
 
-			if ( isCreationMatch && ConcoctionsDatabase.getMixingMethod( itemId ) == ItemCreationRequest.NOCREATE )
-				continue;
+			if ( isCreationMatch && ConcoctionsDatabase.getMixingMethod( itemId ) == ItemCreationRequest.NOCREATE &&
+				itemId != ItemCreationRequest.MEAT_PASTE && itemId != ItemCreationRequest.MEAT_STACK && itemId != ItemCreationRequest.DENSE_STACK )
+					continue;
 
 			if ( NPCStoreDatabase.contains( nameArray[i], false ) )
 			{

@@ -118,6 +118,10 @@ public class ItemManagePanel extends LabeledScrollPanel
 	}
 
 	public void setButtons( ActionListener [] buttonListeners )
+	{	setButtons( true, buttonListeners );
+	}
+
+	public void setButtons( boolean addFilterCheckboxes, ActionListener [] buttonListeners )
 	{
 		// Handle buttons along the right hand side, if there are
 		// supposed to be buttons.
@@ -153,7 +157,11 @@ public class ItemManagePanel extends LabeledScrollPanel
 		filterPanel = new JPanel();
 		JPanel northPanel = new JPanel( new BorderLayout() );
 
-		if ( buttonListeners == null )
+		if ( !addFilterCheckboxes )
+		{
+			filters = null;
+		}
+		else if ( buttonListeners == null )
 		{
 			filters = new JCheckBox[3];
 			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
@@ -179,10 +187,14 @@ public class ItemManagePanel extends LabeledScrollPanel
 			filters[4] = new JCheckBox( "Show others", true );
 		}
 
-		for ( int i = 0; i < filters.length; ++i )
+		if ( filters != null )
 		{
-			filterPanel.add( filters[i] );
-			filters[i].addActionListener( new UpdateFilterListener() );
+			for ( int i = 0; i < filters.length; ++i )
+			{
+				filterPanel.add( filters[i] );
+				filters[i].addActionListener( new UpdateFilterListener() );
+			}
+
 		}
 
 		northPanel.add( filterPanel, BorderLayout.NORTH );
