@@ -55,7 +55,7 @@ public class EquipmentRequest extends PasswordHashRequest
 	private static final Pattern OUTSIDECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INVENTORYITEM_PATTERN = Pattern.compile( "<option value='?([\\d]+)'?[^>]*>([^>]*?) \\(([\\d,]+)\\)</option>" );
-	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "<b>(<a.*?>)?([^<]+)(</a>)?</b>([^<]*?)<font size=1>" );
+	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "<b>(<a.*?>)?([^<]+)(</a>)?</b>([^<]*?)" );
 	private static final Pattern HAT_PATTERN = Pattern.compile( "Hat:</td>.*?<b>(.*?)</b>.*unequip&type=hat" );
 	private static final Pattern WEAPON_PATTERN = Pattern.compile( "Weapon:</td>.*?<b>(.*?)</b>.*unequip&type=weapon" );
 	private static final Pattern OFFHAND_PATTERN = Pattern.compile( "Off-Hand:</td>.*?<b>([^<]*)</b> *(<font.*?/font>)?[^>]*unequip&type=offhand" );
@@ -528,7 +528,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			// meat paste, then do so and then parse the combines
 			// page.  Otherwise, go to the equipment pages.
 
-			if ( KoLCharacter.inMuscleSign() || KoLCharacter.hasItem( PASTE ) )
+			if ( KoLCharacter.inMuscleSign() || responseText.indexOf( "meat paste" ) != -1 )
 			{
 				KoLRequest request = new KoLRequest( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
 				request.run();
@@ -673,6 +673,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipment[i] = UNEQUIP;
 		int fakeHands = 0;
 
+		String name;
 		Matcher equipmentMatcher;
 
 		if ( responseText.indexOf( "unequip&type=hat") != -1 )
@@ -680,7 +681,10 @@ public class EquipmentRequest extends PasswordHashRequest
 			 equipmentMatcher = HAT_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.HAT ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				name = equipmentMatcher.group(1).trim();
+				if ( EquipmentDatabase.contains( name ) )
+					equipment[ KoLCharacter.HAT ] = new AdventureResult( name, 1, false );
+
 				KoLmafia.getDebugStream().println( "Hat: " + equipment[ KoLCharacter.HAT ] );
 			}
 		}
@@ -690,7 +694,10 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = WEAPON_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.WEAPON ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				name = equipmentMatcher.group(1).trim();
+				if ( EquipmentDatabase.contains( name ) )
+					equipment[ KoLCharacter.WEAPON ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+
 				KoLmafia.getDebugStream().println( "Weapon: " + equipment[ KoLCharacter.WEAPON ] );
 			}
 		}
@@ -700,7 +707,10 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = OFFHAND_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.OFFHAND ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				name = equipmentMatcher.group(1).trim();
+				if ( EquipmentDatabase.contains( name ) )
+					equipment[ KoLCharacter.OFFHAND ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+
 				KoLmafia.getDebugStream().println( "Off-hand: " + equipment[ KoLCharacter.OFFHAND ] );
 			}
 		}
@@ -710,7 +720,10 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = SHIRT_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.SHIRT ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				name = equipmentMatcher.group(1).trim();
+				if ( EquipmentDatabase.contains( name ) )
+					equipment[ KoLCharacter.SHIRT ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+
 				KoLmafia.getDebugStream().println( "Shirt: " + equipment[ KoLCharacter.SHIRT ] );
 			}
 		}
@@ -720,7 +733,10 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = PANTS_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.PANTS ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				name = equipmentMatcher.group(1).trim();
+				if ( EquipmentDatabase.contains( name ) )
+					equipment[ KoLCharacter.PANTS ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+
 				KoLmafia.getDebugStream().println( "Pants: " + equipment[ KoLCharacter.PANTS ] );
 			}
 		}
@@ -730,7 +746,10 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = ACC1_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.ACCESSORY1 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				name = equipmentMatcher.group(1).trim();
+				if ( EquipmentDatabase.contains( name ) )
+					equipment[ KoLCharacter.ACCESSORY1 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+
 				KoLmafia.getDebugStream().println( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
 			}
 		}
@@ -740,34 +759,43 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = ACC2_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.ACCESSORY2 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				name = equipmentMatcher.group(1).trim();
+				if ( EquipmentDatabase.contains( name ) )
+					equipment[ KoLCharacter.ACCESSORY2 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+
 				KoLmafia.getDebugStream().println( "Accessory 2: " + equipment[ KoLCharacter.ACCESSORY2 ] );
 			}
 		}
 
-		if ( responseText.indexOf( "unequip&type=acc3") != -1 )
+		if ( responseText.indexOf( "unequip&type=acc3" ) != -1 )
 		{
 			equipmentMatcher = ACC3_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.ACCESSORY3 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				name = equipmentMatcher.group(1).trim();
+				if ( EquipmentDatabase.contains( name ) )
+					equipment[ KoLCharacter.ACCESSORY3 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+
 				KoLmafia.getDebugStream().println( "Accessory 3: " + equipment[ KoLCharacter.ACCESSORY3 ] );
 			}
 
 		}
 
-		if ( responseText.indexOf( "unequip&type=familiarequip") != -1 )
+		if ( responseText.indexOf( "unequip&type=familiarequip" ) != -1 )
 		{
 			equipmentMatcher = FAMILIARITEM_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.FAMILIAR ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+				name = equipmentMatcher.group(1).trim();
+				if ( EquipmentDatabase.contains( name ) )
+					equipment[ KoLCharacter.FAMILIAR ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
+
 				KoLmafia.getDebugStream().println( "Familiar: " + equipment[ KoLCharacter.FAMILIAR ] );
 			}
 		}
 
 		int index = 0;
-		while ( ( index = responseText.indexOf( "unequip&type=fakehand", index) ) != -1 )
+		while ( ( index = responseText.indexOf( "unequip&type=fakehand", index ) ) != -1 )
 		{
 			++fakeHands;
 			index += 21;
