@@ -72,7 +72,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
 import javax.swing.text.Element;
-import javax.swing.text.JTextComponent;
 import javax.swing.text.html.HTMLDocument;
 
 import java.io.File;
@@ -81,8 +80,6 @@ import java.io.FileOutputStream;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 /**
  * A multi-purpose message buffer which stores all sorts of the messages
@@ -100,8 +97,6 @@ public class ChatBuffer
 	protected static final int CONTENT_CHANGE = 0;
 	protected static final int DISPLAY_CHANGE = 1;
 	protected static final int LOGFILE_CHANGE = 2;
-
-	private static final Pattern TRIPLE_LINE_PATTERN = Pattern.compile( "<br>\\s*<br>\\s*(<br>\\s*)+" );
 
 	private String title;
 	private String header;
@@ -275,11 +270,7 @@ public class ChatBuffer
 			if ( displayPane != null && !UPDATER.isQueued() )
 			{
 				UPDATER.markQueued();
-
-				if ( SwingUtilities.isEventDispatchThread() )
-					UPDATER.run();
-				else
-					SwingUtilities.invokeLater( UPDATER );
+				SwingUtilities.invokeLater( UPDATER );
 			}
 
 			if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
@@ -308,9 +299,6 @@ public class ChatBuffer
 		}
 	}
 
-	private static final Pattern OPENBODY_PATTERN = Pattern.compile( "<body", Pattern.CASE_INSENSITIVE );
-	private static final Pattern CLOSEBODY_PATTERN = Pattern.compile( "</body>", Pattern.CASE_INSENSITIVE );
-
 	private class DisplayPaneUpdater implements Runnable
 	{
 		private boolean isQueued = false;
@@ -327,7 +315,7 @@ public class ChatBuffer
 				return;
 			}
 
-			if ( OPENBODY_PATTERN.matcher( newContents ).find() )
+			if ( newContents.indexOf( "<body" ) != -1 )
 			{
 				shouldScroll = false;
 				displayBuffer.setLength(0);
