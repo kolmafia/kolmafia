@@ -204,8 +204,20 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 				}
 				else if ( element instanceof ItemCreationRequest )
 				{
-					if ( junkItemList.contains( ((ItemCreationRequest) element).createdItem ) )
-						return false;
+					ItemCreationRequest irequest = (ItemCreationRequest) element;
+
+					switch ( irequest.getItemId() )
+					{
+					case ItemCreationRequest.MEAT_PASTE:
+					case ItemCreationRequest.MEAT_STACK:
+					case ItemCreationRequest.DENSE_STACK:
+						break;
+
+					default:
+						if ( junkItemList.contains( irequest.createdItem ) )
+							return false;
+					}
+
 				}
 			}
 

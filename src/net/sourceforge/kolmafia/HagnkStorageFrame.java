@@ -38,9 +38,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JOptionPane;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 import javax.swing.ListSelectionModel;
@@ -65,7 +63,12 @@ public class HagnkStorageFrame extends KoLFrame
 
 		INSTANCE = this;
 		setPullsRemaining( pullsRemaining );
-		framePanel.add( new HagnkStoragePanel(), BorderLayout.CENTER );
+
+		tabs = new JTabbedPane();
+		tabs.addTab( "Stored Items", new HagnkStoragePanel( false ) );
+		tabs.addTab( "Equipment Only", new HagnkStoragePanel( true ) );
+
+		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
 	public static int getPullsRemaining()
@@ -104,11 +107,124 @@ public class HagnkStorageFrame extends KoLFrame
 
 	private class HagnkStoragePanel extends ItemManagePanel
 	{
-		public HagnkStoragePanel()
+		private FilterRadioButton [] equipmentFilters;
+
+		public HagnkStoragePanel( boolean isEquipment )
 		{
 			super( storage );
-			setButtons( new ActionListener [] {
-				new PullToInventoryListener(), new PullToClosetListener(), new EmptyToInventoryListener(), new EmptyToClosetListener() } );
+
+			if ( !isEquipment )
+			{
+				setButtons( !isEquipment, new ActionListener [] {
+					new PullToInventoryListener(), new PullToClosetListener(), new EmptyToInventoryListener(), new EmptyToClosetListener() } );
+			}
+			else
+			{
+				setButtons( !isEquipment, new ActionListener [] {
+					new PullToInventoryListener(), new PullToClosetListener() } );
+
+				wordfilter = new EquipmentFilterComboBox();
+				centerPanel.add( wordfilter, BorderLayout.NORTH );
+
+				equipmentFilters = new FilterRadioButton[7];
+				equipmentFilters[0] = new FilterRadioButton( "weapons", true );
+				equipmentFilters[1] = new FilterRadioButton( "offhand" );
+				equipmentFilters[2] = new FilterRadioButton( "hats" );
+				equipmentFilters[3] = new FilterRadioButton( "shirts" );
+				equipmentFilters[4] = new FilterRadioButton( "pants" );
+				equipmentFilters[5] = new FilterRadioButton( "accessories" );
+				equipmentFilters[6] = new FilterRadioButton( "familiar" );
+
+				ButtonGroup filterGroup = new ButtonGroup();
+				for ( int i = 0; i < 7; ++i )
+				{
+					filterGroup.add( equipmentFilters[i] );
+					filterPanel.add( equipmentFilters[i] );
+				}
+
+				elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
+				wordfilter.filterItems();
+			}
+		}
+
+		private class FilterRadioButton extends JRadioButton implements ActionListener
+		{
+			public FilterRadioButton( String label )
+			{	this( label, false );
+			}
+
+			public FilterRadioButton( String label, boolean isSelected )
+			{
+				super( label, isSelected );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{	wordfilter.filterItems();
+			}
+		}
+
+		private class EquipmentFilterComboBox extends FilterItemComboBox
+		{
+			public EquipmentFilterComboBox()
+			{	filter = new EquipmentFilter();
+			}
+
+			protected void filterItems()
+			{
+				filter.shouldHideJunkItems = false;
+				elementList.applyFilter( filter );
+			}
+
+			private class EquipmentFilter extends WordBasedFilter
+			{
+				public EquipmentFilter()
+				{	super( false );
+				}
+
+				public boolean isVisible( Object element )
+				{
+					boolean isVisibleWithFilter = true;
+					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
+					{
+					case ConsumeItemRequest.EQUIP_FAMILIAR:
+						isVisibleWithFilter = equipmentFilters[6].isSelected();
+						break;
+
+					case ConsumeItemRequest.EQUIP_ACCESSORY:
+						isVisibleWithFilter = equipmentFilters[5].isSelected();
+						break;
+
+					case ConsumeItemRequest.EQUIP_HAT:
+						isVisibleWithFilter = equipmentFilters[2].isSelected();
+						break;
+
+					case ConsumeItemRequest.EQUIP_PANTS:
+						isVisibleWithFilter = equipmentFilters[4].isSelected();
+						break;
+
+					case ConsumeItemRequest.EQUIP_SHIRT:
+						isVisibleWithFilter = equipmentFilters[3].isSelected();
+						break;
+
+					case ConsumeItemRequest.EQUIP_WEAPON:
+						isVisibleWithFilter = equipmentFilters[0].isSelected();
+						break;
+
+					case ConsumeItemRequest.EQUIP_OFFHAND:
+						isVisibleWithFilter = equipmentFilters[1].isSelected();
+						break;
+
+					default:
+						return false;
+					}
+
+					if ( !isVisibleWithFilter )
+						return false;
+
+					return super.isVisible( element );
+				}
+			}
 		}
 
 		private class PullToInventoryListener implements ActionListener

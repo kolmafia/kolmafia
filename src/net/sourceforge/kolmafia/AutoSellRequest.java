@@ -361,7 +361,9 @@ public class AutoSellRequest extends SendMessageRequest
 		if ( formURLString.startsWith( "sellstuff.php" ) )
 		{
 			String mode = getFormField( "type" );
-			if ( mode.equals( "allbutone" ) )
+
+			if ( mode == null );
+			else if ( mode.equals( "allbutone" ) )
 				quantity = -1;
 			else if ( mode.equals( "all" ) )
 				quantity = 0;
@@ -369,7 +371,9 @@ public class AutoSellRequest extends SendMessageRequest
 		else
 		{
 			String mode = getFormField( "mode" );
-			if ( mode.equals( "1" ) )
+
+			if ( mode == null );
+			else if ( mode.equals( "1" ) )
 				quantity = 0;
 			else if ( mode.equals( "2" ) )
 				quantity = -1;

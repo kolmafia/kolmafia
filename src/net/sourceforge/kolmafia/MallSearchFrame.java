@@ -85,7 +85,7 @@ public class MallSearchFrame extends KoLPanelFrame
 
 	private class MallSearchPanel extends KoLPanel
 	{
-		private MutableComboBox searchField;
+		private JTextField searchField;
 		private JTextField countField;
 
 		private JCheckBox forceSortingCheckBox;
@@ -95,7 +95,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		{
 			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
-			searchField = new MutableComboBox( new SortedListModel(), true );
+			searchField = new JTextField();
 			countField = new JTextField();
 
 			forceSortingCheckBox = new JCheckBox();
@@ -135,7 +135,7 @@ public class MallSearchFrame extends KoLPanelFrame
 				StaticEntity.setProperty( "defaultLimit", String.valueOf( searchCount ) );
 
 			MallPurchaseRequest.setUsePriceComparison( forceSortingCheckBox.isSelected() );
-			searchMall( new SearchMallRequest( (String) searchField.getSelectedItem(), searchCount, results, false ) );
+			searchMall( new SearchMallRequest( searchField.getText(), searchCount, results, false ) );
 		}
 
 		public void actionCancelled()
