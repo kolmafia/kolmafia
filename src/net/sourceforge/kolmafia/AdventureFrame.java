@@ -849,9 +849,11 @@ public class AdventureFrame extends KoLFrame
 		private CardLayout choiceCards;
 
 		private JComboBox [] optionSelects;
+
 		private JComboBox castleWheelSelect;
 		private JComboBox spookyForestSelect;
 		private JComboBox violetFogSelect;
+		private JComboBox maidenSelect;
 		private JComboBox louvreSelect;
 		private JComboBox billiardRoomSelect;
 		private JComboBox riseSelect, fallSelect;
@@ -913,6 +915,14 @@ public class AdventureFrame extends KoLFrame
 				louvreSelect.addItem( "Boost " + Louvre.LouvreGoals[i] );
 			louvreSelect.addItem( "Boost Lowest Stat" );
 
+			maidenSelect = new JComboBox();
+			maidenSelect.addItem( "Fight a random knight" );
+			maidenSelect.addItem( "Only fight the wolf knight" );
+			maidenSelect.addItem( "Only fight the snake knight" );
+			maidenSelect.addItem( "Maidens, then fight a random knight" );
+			maidenSelect.addItem( "Maidens, then fight the wolf knight" );
+			maidenSelect.addItem( "Maidens, then fight the snake knight" );
+
 			billiardRoomSelect = new JComboBox();
 			billiardRoomSelect.addItem( "Ignore this adventure" );
 			billiardRoomSelect.addItem( "muscle substats" );
@@ -941,6 +951,7 @@ public class AdventureFrame extends KoLFrame
 			addChoiceSelect( "Manor", "Rise of Spookyraven", riseSelect );
 			addChoiceSelect( "Manor", "Fall of Spookyraven", fallSelect );
 			addChoiceSelect( "Manor", "The Louvre", louvreSelect );
+			addChoiceSelect( "Manor", "The Maidens", maidenSelect );
 
 			for ( int i = 1; i < optionSelects.length; ++i )
 				addChoiceSelect( AdventureDatabase.CHOICE_ADVS[i].getZone(), AdventureDatabase.CHOICE_ADVS[i].getName(), optionSelects[i] );
@@ -1040,6 +1051,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			StaticEntity.setProperty( "violetFogGoal", String.valueOf( violetFogSelect.getSelectedIndex() ) );
 			StaticEntity.setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
+			StaticEntity.setProperty( "choiceAdventure89", String.valueOf( maidenSelect.getSelectedIndex() ) );
 
 			int louvreGoal = louvreSelect.getSelectedIndex();
 			StaticEntity.setProperty( "choiceAdventure91",  String.valueOf( louvreGoal > 0 ? "1" : "2" ) );
@@ -1249,6 +1261,7 @@ public class AdventureFrame extends KoLFrame
 			if ( index >= 0 )
 				louvreSelect.setSelectedIndex( index );
 
+			maidenSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "choiceAdventure89" ) );
 			optionSelects[0].setSelectedItem( StaticEntity.getProperty( "luckySewerAdventure" ) );
 			for ( int i = 1; i < optionSelects.length; ++i )
 			{

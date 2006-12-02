@@ -123,12 +123,13 @@ Astral	0	0	adventure.php	97	Astral Mushroom (Great Trip)
 
 # Holiday Locations
 
-Holiday	0	150	adventure.php	37	Spectral Pickle Factory
 Holiday	0	0	trickortreat.php	Yep.	Trick-or-Treating
 Holiday	0	0	adventure.php	84	St. Sneaky Pete's Day Stupor
+Crimbo	0	0	adventure.php	115	Simple Tool-Making Cave
 
 # Discontinued Locations
 
+Removed	0	150	adventure.php	37	Spectral Pickle Factory
 Removed	0	0	adventure.php	93	Crimbo Town Toy Factory
 Removed	0	0	adventure.php	88	Future Market Square
 Removed	0	0	adventure.php	89	Mall of the Future

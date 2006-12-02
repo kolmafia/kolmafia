@@ -348,14 +348,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 86 is History is Fun!
 		// Choice 87 is History is Fun!
 		// Choice 88 is Naughty, Naughty
-
-		// Tuesdays with Abhorrent Fiends -> mysticality
-		// The Nether Planes on 350 Meat a Day -> moxie
-		// Twisted, Curdled, Corrupt Energy and You -> myst class skill
-
-		// Out in the Garden
-		new ChoiceAdventure( "Manor", "choiceAdventure89", "Haunted Gallery",
-		  new String [] { "Wolf Knight", "Snake Knight", "Dreams and Lights" } ),
+		// Choice 89 is Out in the Garden
 
 		// Curtains
 		new ChoiceAdventure( "Manor", "choiceAdventure90", "Haunted Ballroom",
@@ -377,7 +370,7 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "antique bottle of cough syrup", "tube of hair oil", "bottle of ultravitamins", "take nothing" },
 		  new String [] { "2086", "2087", "2085", null } ),
 
-/*		// Aww, Craps
+		// Aww, Craps
 		new ChoiceAdventure( "Town", "choiceAdventure108", "Sleazy Back Alley",
 		  new String [] { "moxie", "meat and moxie", "meat, moxie, and Smugness", "skip adventure" } ),
 
@@ -402,7 +395,7 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "Knob", "choiceAdventure120", "Outskirts of The Knob",
 		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "ignore this adventure" },
 		  new String [] { null, "41", "332", null } )
-*/	};
+	};
 
 	static
 	{
@@ -495,6 +488,9 @@ public class AdventureDatabase extends KoLDatabase
 		// Naughty, Naughty
 		new ChoiceAdventure( "choiceAdventure88", "Haunted Library",
 		  new String [] { "boost mysticality", "boost moxie", "Fettucini / Scarysauce" } ),
+
+		new ChoiceAdventure( "choiceAdventure89", "Haunted Gallery",
+		  new String [] { "Wolf Knight", "Snake Knight", "Dreams and Lights" } ),
 
 		// Louvre It or Leave It
 		new ChoiceAdventure( "choiceAdventure91", "Haunted Gallery",
