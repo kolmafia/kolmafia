@@ -55,6 +55,8 @@ public class LogoutRequest extends KoLRequest
 	public void run()
 	{
 		KoLRequest.sessionId = null;
+		StaticEntity.getClient().setCurrentRequest( null );
+
 		if ( instanceRunning )
 			return;
 

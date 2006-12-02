@@ -288,8 +288,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		constructURLString( formURLString );
 		this.isConsumeRequest = this instanceof ConsumeItemRequest;
 
-		this.isDelayExempt = getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof ChatRequest ||
-			this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
+		this.isDelayExempt = getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof LogoutRequest ||
+			this instanceof ChatRequest || this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
 	}
 
 	protected KoLRequest constructURLString( String newURLString )

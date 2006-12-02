@@ -402,7 +402,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "You've already got a familiar of that type." ) != -1 )
 			{
 				lastUpdate = "You already have that familiar.";
-				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 				return;
 			}
@@ -416,7 +416,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseText.indexOf( "You may not" ) != -1 )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, "Pathed ascension." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Pathed ascension." );
 			StaticEntity.getClient().processResult( lastItemUsed );
 			return;
 		}
@@ -424,7 +424,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
 			lastUpdate = "Your spleen might go kabooie.";
-			KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+			KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 			StaticEntity.getClient().processResult( lastItemUsed );
 			return;
 		}
@@ -436,7 +436,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( responseText.indexOf( "too full" ) != -1 )
 		{
 			lastUpdate = "Consumption limit reached.";
-			KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+			KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 			StaticEntity.getClient().processResult( lastItemUsed );
 			return;
 		}
@@ -444,7 +444,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( responseText.indexOf( "too drunk" ) != -1 )
 		{
 			lastUpdate = "Inebriety limit reached.";
-			KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+			KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 			StaticEntity.getClient().processResult( lastItemUsed );
 			return;
 		}
@@ -490,7 +490,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "You can't receive things" ) != -1 )
 			{
 				lastUpdate = "You can't open that package yet.";
-				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 			else if ( showHTML )
@@ -524,28 +524,28 @@ public class ConsumeItemRequest extends KoLRequest
 		case TRADING_CARD15:
 		case TRADING_CARD16:
 
-                        showItemUsage( showHTML, responseText, "Trading Card", false );
+			showItemUsage( showHTML, responseText, "Trading Card", false );
 			return;
 
 		// If it's a memo from Uncle Crimbo, show it
 
 		case CRIMBOWEEN_MEMO:
 
-                        showItemUsage( showHTML, responseText, "The Memo", false );
+			showItemUsage( showHTML, responseText, "The Memo", false );
 			return;
 
 		// If it's a stuffed angry cow, let the player beat the stuffing out of it
 
 		case STUFFED_ANGRY_COW:
 
-                        showItemUsage( showHTML, responseText, "Aggression Relief", false );
+			showItemUsage( showHTML, responseText, "Aggression Relief", false );
 			return;
 
 		// If it's a fortune cookie, get the fortune
 
 		case FORTUNE_COOKIE:
 
-                        showItemUsage( showHTML, responseText, "Your fortune", true );
+			showItemUsage( showHTML, responseText, "Your fortune", true );
 			return;
 
 		case GATES_SCROLL:
@@ -591,7 +591,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "pleased me greatly" ) == -1 )
 			{
 				lastUpdate = "You music was inadequate.";
-				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 
@@ -605,7 +605,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "Sorceress is in another castle" ) == -1 )
 			{
 				lastUpdate = "You couldn't make it all the way to the back door.";
-				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 
@@ -688,7 +688,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "find his glorious treasure" ) == -1 )
 			{
 				lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 
@@ -702,7 +702,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "deepest part of the tank" ) == -1 )
 			{
 				lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 
@@ -716,7 +716,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "exact same moment" ) == -1 )
 			{
 				lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 
@@ -734,7 +734,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "easily climb the branches" ) == -1 )
 			{
 				lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 
@@ -749,7 +749,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "need some planks" ) != -1 )
 			{
 				lastUpdate = "You need some dingy planks.";
-				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 			else
@@ -808,7 +808,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "still cold" ) != -1 )
 			{
 				lastUpdate = "Your mouth is too cold.";
-				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 
@@ -841,7 +841,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "you treat the plus sign as a book" ) == -1 )
 			{
 				lastUpdate = "You don't know how to use it.";
-				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 			}
 
@@ -932,7 +932,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "Graaangh?" ) == -1 )
 			{
 				lastUpdate = "You're missing some parts.";
-				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 				return;
 			}
@@ -962,7 +962,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "disintegrates into dust" ) == -1 )
 			{
 				lastUpdate = "You're missing some parts.";
-				KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 				StaticEntity.getClient().processResult( lastItemUsed );
 				return;
 			}

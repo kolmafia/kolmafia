@@ -258,7 +258,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( maximumMP < mpPerCast )
 		{
-			lastUpdate = "Not enough mana to continue.";
+			lastUpdate = "Your maximum mana is too low to cast " + skillName + ".";
 			KoLmafia.updateDisplay( lastUpdate );
 			return;
 		}
@@ -287,7 +287,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 				if ( currentMP == KoLCharacter.getCurrentMP() )
 				{
-					lastUpdate = "Not enough mana to continue.";
+					lastUpdate = "Could not restore enough mana to cast " + skillName + ".";
 					KoLmafia.updateDisplay( lastUpdate );
 					return;
 				}
@@ -452,7 +452,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		else if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
 			encounteredError = true;
-			lastUpdate = "Not enough mana to continue.";
+			lastUpdate = "Not enough mana to cast " + skillName + ".";
 		}
 		else if ( responseText.indexOf( "You can only conjure" ) != -1 || responseText.indexOf( "You can only scrounge up" ) != -1 || responseText.indexOf( "You can only summon" ) != -1 )
 		{
