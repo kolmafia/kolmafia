@@ -141,7 +141,22 @@ public class AdventureDatabase extends KoLDatabase
 		}
 
 		public int compareTo( Object o )
-		{	return name.compareToIgnoreCase( ((ChoiceAdventure)o).name );
+		{
+			int result = name.compareToIgnoreCase( ((ChoiceAdventure)o).name );
+			if ( result != 0 )
+				return result;
+
+			int leftIndex = -1;
+			for ( int i = 0; i < CHOICE_ADVS.length; ++i )
+				if ( CHOICE_ADVS[i] == this )
+					leftIndex = i;
+
+			int rightIndex = -1;
+			for ( int i = 0; i < CHOICE_ADVS.length; ++i )
+				if ( CHOICE_ADVS[i] == o )
+					rightIndex = i;
+
+			return leftIndex - rightIndex;
 		}
 	}
 
@@ -187,32 +202,32 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "306", "305", null } ),
 
 		// Yeti Nother Hippy
-		new ChoiceAdventure( "Mountain", "choiceAdventure15", "eXtreme Slope 1",
+		new ChoiceAdventure( "Mountain", "choiceAdventure15", "eXtreme Slope",
 		  new String [] { "eXtreme mittens", "eXtreme scarf", "small meat boost", "complete the outfit" },
 		  new String [] { "399", "355", null } ),
 
 		// Saint Beernard
-		new ChoiceAdventure( "Mountain", "choiceAdventure16", "eXtreme Slope 2",
+		new ChoiceAdventure( "Mountain", "choiceAdventure16", "eXtreme Slope",
 		  new String [] { "snowboarder pants", "eXtreme scarf", "small meat boost", "complete the outfit" },
 		  new String [] { "356", "355", null } ),
 
 		// Generic Teen Comedy
-		new ChoiceAdventure( "Mountain", "choiceAdventure17", "eXtreme Slope 3",
+		new ChoiceAdventure( "Mountain", "choiceAdventure17", "eXtreme Slope",
 		  new String [] { "eXtreme mittens", "snowboarder pants", "small meat boost", "complete the outfit" },
 		  new String [] { "399", "356", null } ),
 
 		// A Flat Miner
-		new ChoiceAdventure( "Mountain", "choiceAdventure18", "Itznotyerzitz Mine 1",
+		new ChoiceAdventure( "Mountain", "choiceAdventure18", "Itznotyerzitz Mine",
 		  new String [] { "miner's pants", "7-Foot Dwarven mattock", "small meat boost", "complete the outfit" },
 		  new String [] { "361", "362", null } ),
 
 		// 100% Legal
-		new ChoiceAdventure( "Mountain", "choiceAdventure19", "Itznotyerzitz Mine 2",
+		new ChoiceAdventure( "Mountain", "choiceAdventure19", "Itznotyerzitz Mine",
 		  new String [] { "miner's helmet", "miner's pants", "small meat boost", "complete the outfit" },
 		  new String [] { "360", "361", null } ),
 
 		// See You Next Fall
-		new ChoiceAdventure( "Mountain", "choiceAdventure20", "Itznotyerzitz Mine 3",
+		new ChoiceAdventure( "Mountain", "choiceAdventure20", "Itznotyerzitz Mine",
 		  new String [] { "miner's helmet", "7-Foot Dwarven mattock", "small meat boost", "complete the outfit" },
 		  new String [] { "360", "362", null } ),
 
@@ -221,17 +236,17 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "switch genders", "skip adventure" } ),
 
 		// The Arrrbitrator
-		new ChoiceAdventure( "Island", "choiceAdventure22", "Pirate's Cove 1",
+		new ChoiceAdventure( "Island", "choiceAdventure22", "Pirate's Cove",
 		  new String [] { "eyepatch", "swashbuckling pants", "small meat boost", "complete the outfit" },
 		  new String [] { "224", "402", null } ),
 
 		// Barrie Me at Sea
-		new ChoiceAdventure( "Island", "choiceAdventure23", "Pirate's Cove 2",
+		new ChoiceAdventure( "Island", "choiceAdventure23", "Pirate's Cove",
 		  new String [] { "stuffed shoulder parrot", "swashbuckling pants", "small meat boost", "complete the outfit" },
 		  new String [] { "403", "402", null } ),
 
 		// Amatearrr Night
-		new ChoiceAdventure( "Island", "choiceAdventure24", "Pirate's Cove 3",
+		new ChoiceAdventure( "Island", "choiceAdventure24", "Pirate's Cove",
 		  new String [] { "stuffed shoulder parrot", "small meat boost", "eyepatch", "complete the outfit" },
 		  new String [] { "403", null, "224" } ),
 
@@ -248,33 +263,33 @@ public class AdventureDatabase extends KoLDatabase
 		// Choices 30 - 39 are unknown
 
 		// The Effervescent Fray
-		new ChoiceAdventure( "Plains", "choiceAdventure40", "Cola Wars 1",
+		new ChoiceAdventure( "Plains", "choiceAdventure40", "Cola Wars",
 		  new String [] { "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "boost mysticality" },
 		  new String [] { "1328", "1329", null } ),
 
 		// Smells Like Team Spirit
-		new ChoiceAdventure( "Plains", "choiceAdventure41", "Cola Wars 2",
+		new ChoiceAdventure( "Plains", "choiceAdventure41", "Cola Wars",
 		  new String [] { "Dyspepsi-Cola fatigues", "Cloaca-Cola helmet", "boost muscle" },
 		  new String [] { "1330", "1331", null } ),
 
 		// What is it Good For?
-		new ChoiceAdventure( "Plains", "choiceAdventure42", "Cola Wars 3",
+		new ChoiceAdventure( "Plains", "choiceAdventure42", "Cola Wars",
 		  new String [] { "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "boost moxie" },
 		  new String [] { "1326", "1327", null } ),
 
 		// Choices 43 - 44 are unknown
 
 		// Choice 45 is Maps and Legends
-		new ChoiceAdventure( "Woods", "choiceAdventure45", "Spooky Forest 1",
-		  new String [] { "Spooky Temple map", "skip the adventure 1", "skip the adventure 2" },
+		new ChoiceAdventure( "Woods", "choiceAdventure45", "Spooky Forest",
+		  new String [] { "Spooky Temple map", "skip the adventure", "skip the adventure" },
 		  new String [] { "74", null, null } ),
 
 		// An Interesting Choice
-		new ChoiceAdventure( "Woods", "choiceAdventure46", "Spooky Forest 2",
+		new ChoiceAdventure( "Woods", "choiceAdventure46", "Spooky Forest",
 		  new String [] { "boost moxie", "boost muscle", "enter combat" } ),
 
 		// Have a Heart
-		new ChoiceAdventure( "Woods", "choiceAdventure47", "Spooky Forest 3",
+		new ChoiceAdventure( "Woods", "choiceAdventure47", "Spooky Forest",
 		  new String [] { "bottle of used blood", "skip the adventure" },
 		  new String [] { "1523", "1518" } ),
 
@@ -287,17 +302,17 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "1634", "1633" } ),
 
 		// Don't Fence Me In
-		new ChoiceAdventure( "Woods", "choiceAdventure73", "Whitey's Grove 1",
+		new ChoiceAdventure( "Woods", "choiceAdventure73", "Whitey's Grove",
 		  new String [] { "boost muscle", "white picket fence", "piece of wedding cake" },
 		  new String [] { null, "270", "262" } ),
 
 		// The Only Thing About Him is the Way That He Walks
-		new ChoiceAdventure( "Woods", "choiceAdventure74", "Whitey's Grove 2",
+		new ChoiceAdventure( "Woods", "choiceAdventure74", "Whitey's Grove",
 		  new String [] { "boost moxie", "boxed wine", "mullet wig" },
 		  new String [] { null, "1005", "267" } ),
 
 		// Rapido!
-		new ChoiceAdventure( "Woods", "choiceAdventure75", "Whitey's Grove 3",
+		new ChoiceAdventure( "Woods", "choiceAdventure75", "Whitey's Grove",
 		  new String [] { "boost mysticality", "white lightning", "white collar" },
 		  new String [] { null, "266", "1655" } ),
 
@@ -312,22 +327,22 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 80 is Take a Look, it's in a Book!
 
 		// One NightStand (simple white)
-		new ChoiceAdventure( "Manor", "choiceAdventure82", "Haunted Bedroom 1",
+		new ChoiceAdventure( "Manor", "choiceAdventure82", "Haunted Bedroom",
 		  new String [] { "old leather wallet", "boost muscle", "enter combat" },
 		  new String [] { "1917", null, null } ),
 
 		// One NightStand (mahogany)
-		new ChoiceAdventure( "Manor", "choiceAdventure83", "Haunted Bedroom 2",
+		new ChoiceAdventure( "Manor", "choiceAdventure83", "Haunted Bedroom",
 		  new String [] { "old coin purse", "enter combat", "quest item" },
 		  new String [] { "1918", null, null } ),
 
 		// One NightStand (ornate)
-		new ChoiceAdventure( "Manor", "choiceAdventure84", "Haunted Bedroom 3",
+		new ChoiceAdventure( "Manor", "choiceAdventure84", "Haunted Bedroom",
 		  new String [] { "small meat boost", "boost mysticality", "Lord Spookyraven's spectacles" },
 		  new String [] { null, null, "1916" } ),
 
 		// One NightStand (simple wooden)
-		new ChoiceAdventure( "Manor", "choiceAdventure85", "Haunted Bedroom 4",
+		new ChoiceAdventure( "Manor", "choiceAdventure85", "Haunted Bedroom",
 		  new String [] { "boost moxie (ballroom key step 1)", "empty drawer (ballroom key step 2)", "enter combat" } ),
 
 		// Choice 86 is History is Fun!
@@ -343,52 +358,51 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "Wolf Knight", "Snake Knight", "Dreams and Lights" } ),
 
 		// Curtains
-		new ChoiceAdventure( "Manor", "choiceAdventure90", "Haunted Ballroom 1",
+		new ChoiceAdventure( "Manor", "choiceAdventure90", "Haunted Ballroom",
 		  new String [] { "enter combat", "boost moxie", "skip adventure" } ),
 
 		// Choice 91 is Louvre It or Leave It
 		// Choices 92 - 104 are Escher print adventures
 
 		// Having a Medicine Ball
-		new ChoiceAdventure( "Manor", "choiceAdventure105", "Haunted Bathroom 1",
+		new ChoiceAdventure( "Manor", "choiceAdventure105", "Haunted Bathroom",
 		  new String [] { "boost moxie", "other options", "guy made of bees" } ),
 
 		// Strung-Up Quartet
-		new ChoiceAdventure( "Manor", "choiceAdventure106", "Haunted Ballroom 2",
+		new ChoiceAdventure( "Manor", "choiceAdventure106", "Haunted Ballroom",
 		  new String [] { "lively, saucy song", "mellow, relaxing tune", "lovely, semi-fast waltz", "skip adventure" } ),
 
 		// Bad Medicine is What You Need
-		new ChoiceAdventure( "Manor", "choiceAdventure107", "Haunted Bathroom 2",
+		new ChoiceAdventure( "Manor", "choiceAdventure107", "Haunted Bathroom",
 		  new String [] { "antique bottle of cough syrup", "tube of hair oil", "bottle of ultravitamins", "take nothing" },
 		  new String [] { "2086", "2087", "2085", null } ),
 
-		// Aww, Craps
-//		new ChoiceAdventure( "Town", "choiceAdventure108", "Sleazy Back Alley",
-//		  new String [] { "moxie", "meat and moxie", "meat, moxie, and Smugness", "skip adventure" } ),
+/*		// Aww, Craps
+		new ChoiceAdventure( "Town", "choiceAdventure108", "Sleazy Back Alley",
+		  new String [] { "moxie", "meat and moxie", "meat, moxie, and Smugness", "skip adventure" } ),
 
 		// Dumpster Diving
-//		new ChoiceAdventure( "Town", "choiceAdventure109", "Sleazy Back Alley",
-//		  new String [] { "combat", "meat and moxie", "Mad Train wine" },
-//		  new String [] { null, null, "564" } ),
+		new ChoiceAdventure( "Town", "choiceAdventure109", "Sleazy Back Alley",
+		  new String [] { "combat", "meat and moxie", "Mad Train wine" },
+		  new String [] { null, null, "564" } ),
 
 		// Please, Hammer
-//		new ChoiceAdventure( "Town", "choiceAdventure112", "Sleazy Back Alley",
-//		  new String [] { "accept hammer quest", "reject quest", "muscle" } ),
+		new ChoiceAdventure( "Town", "choiceAdventure112", "Sleazy Back Alley",
+		  new String [] { "accept hammer quest", "reject quest", "muscle" } ),
 
 		// Knob Goblin BBQ
-//		new ChoiceAdventure( "Knob", "choiceAdventure113", "Outskirts of The Knob",
-//		  new String [] { "complete cake quest", "combat", "get item" } ),
+		new ChoiceAdventure( "Knob", "choiceAdventure113", "Outskirts of The Knob",
+		  new String [] { "complete cake quest", "combat", "get item" } ),
 
 		// The Baker's Dilemma
-//		new ChoiceAdventure( "Manor", "choiceAdventure114", "Haunted Pantry",
-//		  new String [] { "accept cake quest", "reject quest", "moxie and meat" } ),
+		new ChoiceAdventure( "Manor", "choiceAdventure114", "Haunted Pantry",
+		  new String [] { "accept cake quest", "reject quest", "moxie and meat" } ),
 
 		// Ennui is Wasted on the Young
-//		new ChoiceAdventure( "Knob", "choiceAdventure120", "Outskirts of The Knob",
-//		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "ignore this adventure" },
-//		  new String [] { null, "41", "332", null } ),
-
-	};
+		new ChoiceAdventure( "Knob", "choiceAdventure120", "Outskirts of The Knob",
+		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "ignore this adventure" },
+		  new String [] { null, "41", "332", null } )
+*/	};
 
 	static
 	{
@@ -405,15 +419,15 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "skip the adventure", "randomly sink 100 meat", "make plus sign usable" } ),
 
 		// Darker Than Dark
-		new ChoiceAdventure( "choiceAdventure6", "Gravy Barrow 2a",
+		new ChoiceAdventure( "choiceAdventure6", "Gravy Barrow",
 		  new String [] { "no spooky glove", "skip the adventure" } ),
 
 		// How Depressing -> Self Explanatory
-		new ChoiceAdventure( "choiceAdventure7", "Gravy Barrow 2b",
+		new ChoiceAdventure( "choiceAdventure7", "Gravy Barrow",
 		  new String [] { "use spooky glove", "skip the adventure" } ),
 
 		// On the Verge of a Dirge -> Self Explanatory
-		new ChoiceAdventure( "choiceAdventure8", "Gravy Barrow 3",
+		new ChoiceAdventure( "choiceAdventure8", "Gravy Barrow",
 		  new String [] { "enter the chamber", "enter the chamber", "enter the chamber" } ),
 
 		// Wheel In the Sky Keep on Turning: Muscle Position
@@ -483,7 +497,7 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "boost mysticality", "boost moxie", "Fettucini / Scarysauce" } ),
 
 		// Louvre It or Leave It
-		new ChoiceAdventure( "choiceAdventure91", "Haunted Gallery 2",
+		new ChoiceAdventure( "choiceAdventure91", "Haunted Gallery",
 		  new String [] { "Enter the Drawing", "Pass on By" } ),
 	};
 

@@ -964,9 +964,15 @@ public class AdventureFrame extends KoLFrame
 				choiceMap.put( zone, new ArrayList() );
 
 			ArrayList options = (ArrayList) choiceMap.get( zone );
-			options.add( name );
 
-			selectMap.put( name, option );
+			if ( !options.contains( name ) )
+				options.add( name );
+
+			if ( !selectMap.containsKey( name ) )
+				selectMap.put( name, new ArrayList() );
+
+			options = (ArrayList) selectMap.get( name );
+			options.add( option );
 		}
 
 		private class ChoicePanel extends KoLPanel
@@ -975,11 +981,29 @@ public class AdventureFrame extends KoLFrame
 			{
 				super( new Dimension( 150, 20 ), new Dimension( 300, 20 ) );
 
-				VerifiableElement [] elements = new VerifiableElement[ options.size() ];
+				Object key;
+				ArrayList value;
+
+				ArrayList elementList = new ArrayList();
 
 				for ( int i = 0; i < options.size(); ++i )
-					elements[i] = new VerifiableElement( options.get(i) + ":  ", (JComboBox) selectMap.get( options.get(i) ) );
+				{
+					key = options.get(i);
+					value = (ArrayList) selectMap.get( key );
 
+					if ( value.size() == 1 )
+					{
+						elementList.add( new VerifiableElement( key + ":  ", (JComboBox) value.get(0) ) );
+					}
+					else
+					{
+						for ( int j = 0; j < value.size(); ++j )
+							elementList.add( new VerifiableElement( key + " " + (j+1) + ":  ", (JComboBox) value.get(j) ) );
+					}
+				}
+
+				VerifiableElement [] elements = new VerifiableElement[ elementList.size() ];
+				elementList.toArray( elements );
 				setContent( elements );
 			}
 
