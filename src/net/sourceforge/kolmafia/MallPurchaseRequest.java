@@ -357,10 +357,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			return price - mpr.price;
 
 		if ( isNPCStore && !mpr.isNPCStore )
-			return 1;
+			return KoLCharacter.isHardcore() ? -1 : 1;
 
 		if ( !isNPCStore && mpr.isNPCStore )
-			return -1;
+			return KoLCharacter.isHardcore() ? 1 : -1;
 
 		if ( quantity != mpr.quantity )
 			return mpr.quantity - quantity;
