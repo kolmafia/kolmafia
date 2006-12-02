@@ -233,7 +233,7 @@ public class StoreManageFrame extends KoLPanelFrame
 				sellingList = new JComboBox( dataModel );
 
 				Vector value = new Vector();
-				value.add( new AdventureResult( "- select an item -", 1, false ) );
+				value.add( "- select an item -" );
 				value.add( new Integer(0) );
 				value.add( new Integer(0) );
 				value.add( new Integer(0) );

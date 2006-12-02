@@ -157,7 +157,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 				if ( command.indexOf( "refresh" ) == -1 )
 				{
-					if ( command.startsWith( "inv" ) || command.startsWith( "status" ) || command.startsWith( "equip" ) )
+					if ( command.startsWith( "inv" ) || command.equalsIgnoreCase( "status" ) || command.equalsIgnoreCase( "equip" ) )
 					{
 						KoLmafia.commandBuffer.append( "<br><font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br><br>" );
 						DEFAULT_SHELL.executeLine( command );
