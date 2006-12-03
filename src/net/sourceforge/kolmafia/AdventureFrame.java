@@ -530,6 +530,10 @@ public class AdventureFrame extends KoLFrame
 				StaticEntity.getClient().makeRequest( request, requestCount );
 			}
 
+			protected boolean isConcurrent()
+			{	return false;
+			}
+
 			private void handleConditions( KoLAdventure request )
 			{
 				String conditionList = conditionField.getText().trim().toLowerCase();

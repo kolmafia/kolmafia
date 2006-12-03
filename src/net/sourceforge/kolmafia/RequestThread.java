@@ -88,8 +88,6 @@ public abstract class RequestThread implements Runnable, KoLConstants
 			StaticEntity.printStackTrace( e );
 		}
 
-		KoLmafia.enableDisplay();
-
 		if ( request instanceof KoLAdventure )
 			SystemTrayFrame.showBalloon( "Requests complete." );
 	}
