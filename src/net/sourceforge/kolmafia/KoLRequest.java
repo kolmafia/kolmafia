@@ -291,6 +291,10 @@ public class KoLRequest implements Runnable, KoLConstants
 			this instanceof ChatRequest || this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
 	}
 
+	protected boolean isDelayExempt()
+	{	return isDelayExempt;
+	}
+
 	protected KoLRequest constructURLString( String newURLString )
 	{	return constructURLString( newURLString, true );
 	}
@@ -1305,19 +1309,15 @@ public class KoLRequest implements Runnable, KoLConstants
 				KoLmafia.enableDisplay();
 		}
 
-		needsRefresh &= !(this instanceof LocalRelayRequest || this instanceof FightRequest);
+		needsRefresh &= !(getClass() == KoLRequest.class || this instanceof LocalRelayRequest || this instanceof FightRequest);
 		needsRefresh &= formURLString.indexOf( "charpane.php" ) == -1;
 
 		statusChanged &= formURLString.indexOf( "charpane.php" ) == -1;
 		KoLmafia.applyEffects();
 
-		if ( statusChanged && RequestFrame.willRefreshStatus() )
+		if ( statusChanged )
 		{
 			RequestFrame.refreshStatus();
-		}
-		else if ( needsRefresh )
-		{
-			CharpaneRequest.getInstance().run();
 		}
 		else if ( formURLString.indexOf( "charpane.php" ) != -1 )
 		{

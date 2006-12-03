@@ -254,8 +254,7 @@ public abstract class ProposeTradeFrame extends KoLFrame
 	{
 		// Close all pending trades frames first
 
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
+		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		for ( int i = 0; i < frames.length; ++i )
 			if ( frames[i] instanceof PendingTradesFrame )
 				((PendingTradesFrame)frames[i]).dispose();
@@ -370,8 +369,7 @@ public abstract class ProposeTradeFrame extends KoLFrame
 		// associated with this send message frame
 		// and make sure it gets disposed.
 
-		Object [] frames = existingFrames.toArray();
-
+		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		for ( int i = frames.length - 1; i >= 0; --i )
 			if ( frames[i] instanceof AttachmentFrame && ((AttachmentFrame)frames[i]).attachments == attachments )
 				((AttachmentFrame)frames[i]).dispose();

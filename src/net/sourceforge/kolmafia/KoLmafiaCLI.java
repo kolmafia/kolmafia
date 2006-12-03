@@ -739,9 +739,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( KoLDesktop.instanceExists() )
 				KoLDesktop.getInstance().setVisible( false );
 
-			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-			existingFrames.toArray( frames );
-
+			KoLFrame [] frames = StaticEntity.getExistingFrames();
 			for ( int i = 0; i < frames.length; ++i )
 				frames[i].setVisible( false );
 

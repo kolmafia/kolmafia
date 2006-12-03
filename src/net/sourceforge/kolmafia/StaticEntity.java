@@ -45,6 +45,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import java.lang.ref.WeakReference;
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import edu.stanford.ejalbert.BrowserLauncher;
@@ -65,12 +66,49 @@ public abstract class StaticEntity implements KoLConstants
 	private static int usesRelayWindows = 0;
 	private static boolean printedStackTrace = false;
 
+	private static KoLFrame [] frameArray = null;
+	private static WeakReference [] panelArray = null;
+
 	public static final void setClient( KoLmafia client )
 	{	StaticEntity.client = client;
 	}
 
 	public static KoLmafia getClient()
 	{	return client;
+	}
+
+	public static KoLFrame [] getExistingFrames()
+	{
+		boolean needsRefresh = frameArray == null || frameArray.length != existingFrames.size();
+
+		if ( !needsRefresh )
+			for ( int i = 0; i < frameArray.length && !needsRefresh; ++i )
+				needsRefresh |= frameArray[i] != existingFrames.get(i);
+
+		if ( needsRefresh )
+		{
+			frameArray = new KoLFrame[ existingFrames.size() ];
+			existingFrames.toArray( frameArray );
+		}
+
+		return frameArray;
+	}
+
+	public static WeakReference [] getExistingPanels()
+	{
+		boolean needsRefresh = panelArray == null || panelArray.length != existingPanels.size();
+
+		if ( !needsRefresh )
+			for ( int i = 0; i < panelArray.length && !needsRefresh; ++i )
+				needsRefresh |= panelArray[i] != existingPanels.get(i);
+
+		if ( needsRefresh )
+		{
+			panelArray = new WeakReference[ existingPanels.size() ];
+			existingPanels.toArray( panelArray );
+		}
+
+		return panelArray;
 	}
 
 	public static boolean usesSystemTray()
@@ -194,9 +232,7 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static void openRequestFrame( String location )
 	{
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
+		KoLFrame [] frames = getExistingFrames();
 		RequestFrame requestHolder = null;
 
 		for ( int i = frames.length - 1; i >= 0; --i )

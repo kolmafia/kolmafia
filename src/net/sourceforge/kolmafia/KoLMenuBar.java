@@ -302,9 +302,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			{
 				if ( frameReference == null )
 				{
-					KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-					existingFrames.toArray( frames );
-
+					KoLFrame [] frames = StaticEntity.getExistingFrames();
 					String interfaceSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
 
 					for ( int i = 0; i < frames.length; ++i )

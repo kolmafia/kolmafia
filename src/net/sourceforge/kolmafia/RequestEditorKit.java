@@ -2041,7 +2041,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		private RequestFrame findFrame( String value )
 		{
-			Object [] frames = existingFrames.toArray();
+			KoLFrame [] frames = StaticEntity.getExistingFrames();
 			String search = "value=\"" + value + "\"";
 
 			for ( int i = 0; i < frames.length; ++i )

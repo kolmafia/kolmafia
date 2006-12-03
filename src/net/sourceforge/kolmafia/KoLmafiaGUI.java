@@ -137,7 +137,7 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 		}
 
-		Object [] frames = existingFrames.toArray();
+		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		LoginFrame login = null;
 
 		for ( int i = 0; i < frames.length; ++i )
