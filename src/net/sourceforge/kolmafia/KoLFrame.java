@@ -571,9 +571,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		public void actionPerformed( ActionEvent e )
 		{
 			KoLmafia.forceContinue();
-
+			RequestThread.postRequest( this );
 			KoLmafia.enableDisplay();
-			RequestThread.postConcurrent( this );
 		}
 
 		public abstract void run();
