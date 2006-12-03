@@ -71,7 +71,7 @@ Albino Bat	HP: 8  Def: 14 Atk: 10 Meat: 16-26	batgut (10)	bat guano (10)
 Alphabet Giant	HP: 150 Def: 145 Atk: 145 Meat: 122-183	heavy D (40)	original G (40)
 An Angry Bugbear	HP: 12 Def: 15 Atk: 15
 An Annoying Spooky Gravy Fairy	HP: 20 Def: 20 Atk: 20 E: spooky	annoying pitchfork (100)
-Anglerbush	HP: 10 Def: 9 Atk: 9	Meat Stack (35)
+Anglerbush	HP: 10 Def: 9 Atk: 9	meat stack (35)
 Angry Pi&ntilde;ata	HP: 20 Def: 22 Atk: 22	pile of candy (100)
 Angry Raccoon Puppet	HP: 20 Def: 35 Atk: 35	felt (0)	stuffing (0)	googly eye (0)
 Animated Nightstand (Mahogany)	HP: 170 Def: 166 Atk: 158	old coin purse (25)	old leather wallet (25)
@@ -82,7 +82,7 @@ BASIC Elemental	HP: 40 Def: 50 Atk: 50
 Baiowulf	HP: 40 Def: 25 Atk: 25	Talisman of Baio (100)
 Banshee Librarian	HP: 71 Def: 52 Atk: 52 ED: spooky	disintegrating quill pen (20)
 Bar	HP: 5 Def: 3 Atk: 1 Meat: 12-20	bar skin (25)	barskin hat (5)
-Baron Von Ratsworth	
+Baron Von Ratsworth
 Baseball Bat	HP: 9 Def: 15 Atk: 15 Meat: 17-27	baseball (30)	sonar-in-a-biscuit (20)
 Batrat	HP: 20 Def: 23 Atk: 23 Meat: 18-28	bat wing (15)	bat guano (15)	batgut (15)
 Beanbat	HP: 18 Def: 21 Atk: 21 Meat: 28-43	enchanted bean (50)
@@ -141,7 +141,7 @@ Empty Suit of Armor	HP: 120 Def: 115 Atk: 115 ED: spooky	antique greaves (5)	ant
 Evil Olive	HP: 60 Def: 70 Atk: 70	bottle of gin (30)	olive (40)	jumbo olive (10)
 eXtreme Cross-Country Hippy	HP: 65 Def: 73 Atk: 73 E: stench	eXtreme mittens (5)	eXtreme scarf (10)	Mountain Stream soda (30)
 eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 76 Meat: 32-50 E: sleaze	eXtreme mittens (5)	Mountain Stream soda (30)	snowboarder pants (10)
-eXtreme Sports Orc	HP: 30 Def: 38 Atk: 38	Orcish baseball cap (0)	Orcish cargo shorts (0)	Mountain Stream soda (0)	eXtreme mittens (0)	hang glider (0)
+eXtreme Sports Orcs	HP: 30 Def: 38 Atk: 38	Orcish baseball cap (0)	Orcish cargo shorts (0)	Mountain Stream soda (0)	eXtreme mittens (0)	hang glider (0)
 Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat Meat: 36-58	evil golden arch (30)	infernal insoles (10)
 Felonia, Queen of the Spooky Gravy Fairies	HP: 82 Def: 75 Atk: 75 E: spooky
 Fiendish Can of Asparagus	HP: 1 Def: 2 Atk: 1 E: stench Meat: 4-7	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)
@@ -162,7 +162,7 @@ Gaunt Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky	ghuol ears (20)	ghuol egg (20)
 Ghastly Organist	HP: 120 Def: 110 Atk: 100	opera mask (20)
 Ghost Miner	HP: 31  Def: 30 Atk: 30 E: spooky	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
 Ghostly Pickle Factory Worker	HP: 180 Def: 200 Atk: 200	ghost cucumber (30)	ghost cucumber (30)
-Ghoul	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 28-40	ghuol egg (25)	ghuol ears (25)
+Ghuol	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 28-40	ghuol egg (25)	ghuol ears (25)
 Giant Giant Moth	HP: 11 Def: 12 Atk: 11
 Giant Pair of Tweezers	HP: 8 Def: 18 Atk: 16
 Giant Skeelton	HP: 60 Def: 73 Atk: 77 E: spooky
@@ -171,7 +171,7 @@ Gnarly Gnome	HP: 35 Def: 35 Atk: 35	clockwork key (5)	clockwork key (5)	flange (
 Gnasty Gnome	HP: 35 Def: 35 Atk: 35	clockwork key (5)	clockwork key (5)	flange (5)
 Gnefarious Gnome	HP: 35 Def: 35 Atk: 35	sprocket (15)	cog (15)	flange (5)
 Gnollish Bodybuilder	HP: 5 Def: 10 Atk: 10 EA: sleaze Meat: 17-26	gnoll teeth (5)	gnoll lips (5)
-Gnollish Crossdresser	HP: 5 Def: 10 Atk: 10 EA: sleaze Meat: 19-28	gnoll teeth (5)	frilly skirth (25)	maiden wig (25)	frilly skirt (5)
+Gnollish Crossdresser	HP: 5 Def: 10 Atk: 10 EA: sleaze Meat: 19-28	gnoll teeth (5)	frilly skirt (25)	maiden wig (25)	frilly shirt (5)
 Gnollish Flyslayer	HP: 5 Def: 10 Atk: 10 Meat: 17-26	gnoll teeth (5)	gnoll lips (5)	Gnollish flyswatter (25)
 Gnollish Gearhead	HP: 5 Def: 10 Atk: 10 Meat: 17-26	Gnollish toolbox (75)	gnoll lips (5)
 Gnollish Piebaker	HP: 6 Def: 13 Atk: 13 Meat: 22-34	Gnollish pie tin (50)	wad of dough (50)	skewer (50)
@@ -212,7 +212,7 @@ Knob Goblin Mad Scientist	HP: 25 Def: 40 Atk: 40 Meat: 32-51	Knob Goblin love po
 Knob Goblin Master Chef	HP: 20 Def: 22 Atk: 22	dry noodles (15)	Knob mushroom (15)	spices (15)
 Knob Goblin Mutant	HP: 43 Def: 53 Atk: 53 Meat: 44-70
 Knob Goblin Very Mad Scientist	HP: 30 Def: 45 Atk: 45 Meat: 36-57	Knob Goblin seltzer (15)	Knob Goblin superseltzer (15)	scrumptious reagent (25)
-Knott Yeti	HP: 90 Def: 103 Atk: 107 E: cold Meat: 160-262	penguin skin (10)	yeti fur (30)
+Knott Yeti	HP: 90 Def: 103 Atk: 107 E: cold Meat: 160-262	yeti fur (30)
 Koopa Troopa	HP: 15 Def: 20 Atk: 20	black pixel (50)	green pixel (80)	white pixel (50)
 L Imp	HP: 44 Def: 44 Atk: 44 E: heat Meat: 24-39	Imp Ale (30)	cast (30)	flaming crutch (30)
 Lamz0r N00b	HP: 69 Def: 79 Atk: 79 Meat: 24-38	33398 scroll (30)	draggin' ball hat (10)
@@ -235,8 +235,8 @@ Mimic (Bottom 2 Rows)	HP: 25 Def: 15 Atk: 15
 Mimic (Middle 2 Rows)	HP: 35 Def: 25 Atk: 25
 Mimic (Top 2 Rows)	HP: 45 Def: 35 Atk: 35
 Mind Flayer	HP: 47 Def: 40 Atk: 36	mind flayer corpse (25)	cornuthaum (15)	large box (20)
-Naughty Sorceress	
-Naughty Sorceress (second form)	
+Naughty Sorceress
+Naughty Sorceress (second form)
 Ninja Snowman (Katana)	HP: 70 Def: 85 Atk: 85 E: cold	frigid ninja stars (20)	frozen nunchaku (5)	icy katana hilt (15)
 Ninja Snowman (Masked)	HP: 70 Def: 85 Atk: 85 E: cold	cold ninja mask (10)	frigid ninja stars (20)	frozen nunchaku (5)
 Ninja Snowman (Ricebowl)	HP: 70 Def: 85 Atk: 85 ED: cold	frigid ninja stars (20)	rice bowl (5)	chopsticks (5)
