@@ -940,7 +940,6 @@ public class AdventureFrame extends KoLFrame
 			fallSelect.addItem( "unlock second floor stairs" );
 
 			addChoiceSelect( "Beanstalk", "Castle Wheel", castleWheelSelect );
-			addChoiceSelect( "Town", "Lucky Sewer", optionSelects[0] );
 			addChoiceSelect( "Woods", "Forest Corpses", spookyForestSelect );
 			addChoiceSelect( "Unsorted", "Violet Fog", violetFogSelect );
 			addChoiceSelect( "Manor", "Billiard Room", billiardRoomSelect );
@@ -949,7 +948,7 @@ public class AdventureFrame extends KoLFrame
 			addChoiceSelect( "Manor", "The Louvre", louvreSelect );
 			addChoiceSelect( "Manor", "The Maidens", maidenSelect );
 
-			for ( int i = 1; i < optionSelects.length; ++i )
+			for ( int i = 0; i < optionSelects.length; ++i )
 				addChoiceSelect( AdventureDatabase.CHOICE_ADVS[i].getZone(), AdventureDatabase.CHOICE_ADVS[i].getName(), optionSelects[i] );
 
 			ArrayList options;
@@ -973,10 +972,10 @@ public class AdventureFrame extends KoLFrame
 			ArrayList options = (ArrayList) choiceMap.get( zone );
 
 			if ( !options.contains( name ) )
+			{
 				options.add( name );
-
-			if ( !selectMap.containsKey( name ) )
 				selectMap.put( name, new ArrayList() );
+			}
 
 			options = (ArrayList) selectMap.get( name );
 			options.add( option );
