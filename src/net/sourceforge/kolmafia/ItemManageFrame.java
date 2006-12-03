@@ -244,7 +244,7 @@ public class ItemManageFrame extends KoLFrame
 			{	super( "junk item script" );
 			}
 
-			public void executeTask()
+			public void run()
 			{	StaticEntity.getClient().makeJunkRemovalRequest();
 			}
 		}
@@ -257,7 +257,7 @@ public class ItemManageFrame extends KoLFrame
 				setEnabled( KoLCharacter.canInteract() );
 			}
 
-			public void executeTask()
+			public void run()
 			{	StaticEntity.getClient().makeEndOfRunSaleRequest();
 			}
 		}
@@ -270,7 +270,7 @@ public class ItemManageFrame extends KoLFrame
 				setEnabled( !KoLCharacter.isHardcore() );
 			}
 
-			public void executeTask()
+			public void run()
 			{
 				(new StoreManageRequest()).run();
 
@@ -305,7 +305,7 @@ public class ItemManageFrame extends KoLFrame
 				setEnabled( !KoLCharacter.isHardcore() );
 			}
 
-			public void executeTask()
+			public void run()
 			{
 				(new MuseumRequest()).run();
 

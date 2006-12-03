@@ -549,12 +549,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.frameClass = frameClass;
 		}
 
-		public void executeTask()
+		public void run()
 		{	KoLmafiaGUI.constructFrame( frameClass );
-		}
-
-		public boolean makesRequest()
-		{	return false;
 		}
 	}
 
@@ -573,23 +569,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	RequestThread.postConcurrent( this );
-		}
-
-		public final void run()
 		{
 			KoLmafia.forceContinue();
-			executeTask();
 
-			if ( makesRequest() )
-				KoLmafia.enableDisplay();
+			KoLmafia.enableDisplay();
+			RequestThread.postConcurrent( this );
 		}
 
-		public boolean makesRequest()
-		{	return true;
-		}
-
-		protected abstract void executeTask();
+		public abstract void run();
 	}
 
 	/**
@@ -649,14 +636,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		public void executeTask()
+		public void run()
 		{
 			try
 			{
 				if ( method != null )
 					method.invoke( object, null );
-
-				KoLmafia.enableDisplay();
 			}
 			catch ( Exception e )
 			{
@@ -688,7 +673,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			parameters[1] = panel;
 		}
 
-		public void executeTask()
+		public void run()
 		{	createDisplay( KoLPanelFrame.class, parameters );
 		}
 	}
@@ -710,10 +695,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.request = request;
 		}
 
-		public void executeTask()
-		{
-			StaticEntity.getClient().makeRequest( request );
-			KoLmafia.enableDisplay();
+		public void run()
+		{	StaticEntity.getClient().makeRequest( request );
 		}
 	}
 
@@ -1342,9 +1325,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			{	super( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) );
 			}
 
-			public void executeTask()
+			public void run()
 			{
-				super.executeTask();
+				super.run();
 				refreshFilter();
 			}
 		}

@@ -497,7 +497,7 @@ public class AdventureFrame extends KoLFrame
 			{	super( "begin" );
 			}
 
-			public void executeTask()
+			public void run()
 			{
 				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
 				KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
@@ -528,11 +528,6 @@ public class AdventureFrame extends KoLFrame
 				countField.setValue( new Integer( requestCount ) );
 
 				StaticEntity.getClient().makeRequest( request, requestCount );
-				KoLmafia.enableDisplay();
-			}
-
-			public boolean makesRequest()
-			{	return false;
 			}
 
 			private void handleConditions( KoLAdventure request )

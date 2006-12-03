@@ -243,7 +243,7 @@ public class RequestFrame extends KoLFrame
 		{	super( "exec" );
 		}
 
-		public void executeTask()
+		public void run()
 		{
 			String command = (String) scriptSelect.getSelectedItem();
 			if ( command == null )
