@@ -86,7 +86,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		super.setSelectedItem( anObject );
 		currentMatch = (String) anObject;
 
-		if ( currentMatch != null && currentName != null && !currentMatch.startsWith( currentName ) )
+		if ( anObject != null )
 			currentName = (String) anObject;
 	}
 
@@ -101,10 +101,10 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 		if ( model.contains( currentName ) )
 		{
-			currentMatch = currentName;
 			if ( !allowAdditions )
 				model.applyListFilter( filter );
 
+			setSelectedItem( currentName );
 			return;
 		}
 
@@ -150,9 +150,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		// If this wasn't an undefined character, then the user wants auto-completion!
 		// Highlight the rest of the possible name.
 
-		setSelectedItem( currentMatch );
 		getEditor().setItem( currentMatch );
-
 		editor.setSelectionStart( currentMatch.toLowerCase().indexOf( currentName.toLowerCase() ) + currentName.length() );
 		editor.setSelectionEnd( currentMatch.length() );
 	}

@@ -847,14 +847,10 @@ public class OptionsFrame extends KoLFrame
 			{	super( EFFECT_MODEL, false );
 			}
 
-			protected void findMatch( int keyCode )
+			public void setSelectedItem( Object anObject )
 			{
-				super.findMatch( keyCode );
-
-				if ( currentMatch == null )
-					commandField.setText( "" );
-				else
-					commandField.setText( MoodSettings.getDefaultAction( typeSelect.getSelectedType(), currentMatch ) );
+				commandField.setText( MoodSettings.getDefaultAction( typeSelect.getSelectedType(), (String) anObject ) );
+				super.setSelectedItem( anObject );
 			}
 		}
 
