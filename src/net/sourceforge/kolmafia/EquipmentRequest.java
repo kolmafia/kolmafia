@@ -55,7 +55,7 @@ public class EquipmentRequest extends PasswordHashRequest
 	private static final Pattern OUTSIDECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
 	private static final Pattern INVENTORYITEM_PATTERN = Pattern.compile( "<option value='?([\\d]+)'?[^>]*>([^>]*?) \\(([\\d,]+)\\)</option>" );
-	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "<b>(<a.*?>)?([^<]+)(</a>)?</b>([^<]*?)" );
+	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "<b>([^<]+)</b>([^<]*?)<font size=1>" );
 	private static final Pattern HAT_PATTERN = Pattern.compile( "Hat:</td>.*?<b>(.*?)</b>.*unequip&type=hat" );
 	private static final Pattern WEAPON_PATTERN = Pattern.compile( "Weapon:</td>.*?<b>(.*?)</b>.*unequip&type=weapon" );
 	private static final Pattern OFFHAND_PATTERN = Pattern.compile( "Off-Hand:</td>.*?<b>([^<]*)</b> *(<font.*?/font>)?[^>]*unequip&type=offhand" );
@@ -630,8 +630,8 @@ public class EquipmentRequest extends PasswordHashRequest
 		Matcher itemMatcher = QUESTITEM_PATTERN.matcher( text );
 		while ( itemMatcher.find() )
 		{
-			String quantity = itemMatcher.group(4).trim();
-			String realName = itemMatcher.group(2).trim();
+			String quantity = itemMatcher.group(2).trim();
+			String realName = itemMatcher.group(1).trim();
 
 			// We have encountered a brand new item, the person
 			// has no meat paste, and we're in trouble.  Do not

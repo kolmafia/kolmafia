@@ -197,21 +197,18 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			elements[i].getInputField().setEnabled( isEnabled );
 	}
 
-	protected class ActionConfirmListener extends KeyAdapter implements Runnable
+	protected class ActionConfirmListener extends KeyAdapter
 	{
 		public void keyReleased( KeyEvent e )
 		{
 			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-				RequestThread.postRequest( this );
-		}
+			{
+				for ( int i = 0; i < elements.length; ++i )
+					if ( elements[i].getInputField() instanceof MutableComboBox )
+						((MutableComboBox)elements[i].getInputField()).forceAddition();
 
-		public void run()
-		{
-			for ( int i = 0; i < elements.length; ++i )
-				if ( elements[i].getInputField() instanceof MutableComboBox )
-					((MutableComboBox)elements[i].getInputField()).forceAddition();
-
-			actionConfirmed();
+				actionConfirmed();
+			}
 		}
 	}
 
