@@ -1317,7 +1317,10 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( needsRefresh || statusChanged )
 		{
-			RequestFrame.refreshStatus();
+			if ( RequestFrame.willRefreshStatus() )
+				RequestFrame.refreshStatus();
+			else
+				CharpaneRequest.getInstance().run();
 		}
 		else if ( formURLString.indexOf( "charpane.php" ) != -1 )
 		{
