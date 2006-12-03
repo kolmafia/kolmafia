@@ -876,10 +876,6 @@ public class AdventureFrame extends KoLFrame
 			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
 			{
 				optionSelects[i] = new JComboBox();
-
-				boolean ignorable = AdventureDatabase.ignoreChoiceOption( AdventureDatabase.CHOICE_ADVS[i].getSetting() ) != null;
-				optionSelects[i].addItem( ignorable ? "Ignore this adventure" : "Make semi-random decision" );
-
 				String [] options = AdventureDatabase.CHOICE_ADVS[i].getOptions();
 				for ( int j = 0; j < options.length; ++j )
 					optionSelects[i].addItem( options[j] );
@@ -924,7 +920,7 @@ public class AdventureFrame extends KoLFrame
 			maidenSelect.addItem( "Maidens, then fight the snake knight" );
 
 			billiardRoomSelect = new JComboBox();
-			billiardRoomSelect.addItem( "Ignore this adventure" );
+			billiardRoomSelect.addItem( "ignore this adventure" );
 			billiardRoomSelect.addItem( "muscle substats" );
 			billiardRoomSelect.addItem( "mysticality substats" );
 			billiardRoomSelect.addItem( "moxie substats" );
@@ -1063,10 +1059,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				int index = optionSelects[i].getSelectedIndex();
 				String choice = AdventureDatabase.CHOICE_ADVS[i].getSetting();
-				boolean ignorable = AdventureDatabase.ignoreChoiceOption( choice ) != null;
-
-				if ( ignorable || index != 0 )
-					StaticEntity.setProperty( choice, String.valueOf( index ) );
+				StaticEntity.setProperty( choice, String.valueOf( index + 1 ) );
 			}
 
 			//              The Wheel:
@@ -1266,8 +1259,8 @@ public class AdventureFrame extends KoLFrame
 			for ( int i = 1; i < optionSelects.length; ++i )
 			{
 				index = StaticEntity.getIntegerProperty( AdventureDatabase.CHOICE_ADVS[i].getSetting() );
-				if ( index >= 0 )
-					optionSelects[i].setSelectedIndex( index );
+				if ( index > 0 )
+					optionSelects[i].setSelectedIndex( index - 1 );
 			}
 
 			// Determine the desired wheel position by examining
