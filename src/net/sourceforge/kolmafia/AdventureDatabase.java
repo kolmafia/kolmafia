@@ -111,7 +111,6 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( items != null )
 				this.spoilers = new String [][] { { setting }, { name }, options, items };
-
 			else
 				this.spoilers = new String [][] { { setting }, { name }, options };
 		}
