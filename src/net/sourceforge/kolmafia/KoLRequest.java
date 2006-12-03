@@ -1315,7 +1315,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		statusChanged &= formURLString.indexOf( "charpane.php" ) == -1;
 		KoLmafia.applyEffects();
 
-		if ( statusChanged )
+		if ( needsRefresh || statusChanged )
 		{
 			RequestFrame.refreshStatus();
 		}
