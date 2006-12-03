@@ -59,7 +59,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
-	private static SidePaneRefresher REFRESHER = new SidePaneRefresher();
 	private static boolean refreshStatusEnabled = true;
 
 	private int locationIndex = 0;
@@ -211,12 +210,10 @@ public class RequestFrame extends KoLFrame
 		// If this has a side bar, then it will need to be notified
 		// whenever there are updates to the player status.
 
-		REFRESHER.add( this );
-
 		if ( hasSideBar() )
 			refreshStatus();
 
-		(new DisplayRequestThread( request )).start();
+		displayRequest( request );
 	}
 
 	private class BrowserComboBox extends JComboBox implements ActionListener
@@ -307,7 +304,7 @@ public class RequestFrame extends KoLFrame
 		if ( parent == null || location.startsWith( "search" ) || location.startsWith( "desc" ) )
 		{
 			setCurrentRequest( request );
-			(new DisplayRequestThread( request )).start();
+			displayRequest( request );
 		}
 		else
 			parent.refresh( request );
@@ -322,84 +319,41 @@ public class RequestFrame extends KoLFrame
 	}
 
 	/**
-	 * A special thread class which ensures that attempts to
-	 * refresh the frame with data do not long the Swing thread.
+	 * Utility method which displays the given request.
 	 */
 
-	protected class DisplayRequestThread extends Thread
+	public void displayRequest( KoLRequest request )
 	{
-		private KoLRequest request;
-		private String responseText;
+		if ( mainBuffer == null || request == null )
+			return;
 
-		public DisplayRequestThread( KoLRequest request )
+		currentLocation = request.getURLString();
+		StaticEntity.getClient().setCurrentRequest( request );
+
+		mainBuffer.clearBuffer();
+
+		if ( request == null )
+			return;
+
+		if ( request.responseText == null || request.responseText.length() == 0 )
 		{
-			super( request );
-			this.request = request;
+			// New prevention mechanism: tell the requests that there
+			// will be no synchronization.
 
-			currentLocation = request.getURLString();
-			this.responseText = request.responseText;
+			String original = StaticEntity.getProperty( "showAllRequests" );
+			StaticEntity.setProperty( "showAllRequests", "false" );
 
-			StaticEntity.getClient().setCurrentRequest( request );
+			RequestThread.postRequest( request );
+			StaticEntity.setProperty( "showAllRequests", original );
 		}
 
-		public void run()
-		{
-			if ( mainBuffer == null || request == null )
-				return;
-
-			mainBuffer.clearBuffer();
-			setupRequest();
-
-			if ( request != null && responseText != null && responseText.length() != 0 )
-			{
-				displayRequest( responseText );
-			}
-			else
-			{
-				// If this resulted in a redirect, then update the display
-				// to indicate that you were redirected and the display
-				// cannot be shown in the minibrowser.
-
-				mainBuffer.append( "<b>Tried to access</b>: " + currentLocation );
-				mainBuffer.append( "<br><b>Redirected</b>: " + request.redirectLocation );
-				return;
-			}
-
-			updateClient();
-		}
-
-		private void setupRequest()
-		{
-			if ( request == null )
-				return;
-
-			if ( request != StaticEntity.getClient().getCurrentRequest() )
-			{
-				request = StaticEntity.getClient().getCurrentRequest();
-				responseText = request.responseText;
-			}
-
-			if ( responseText == null || responseText.length() == 0 )
-			{
-				// New prevention mechanism: tell the requests that there
-				// will be no synchronization.
-
-				String original = StaticEntity.getProperty( "showAllRequests" );
-				StaticEntity.setProperty( "showAllRequests", "false" );
-
-				request.run();
-				responseText = request.responseText;
-				StaticEntity.setProperty( "showAllRequests", original );
-			}
-		}
-
-		private void displayRequest( String text )
+		if ( request != null && request.responseText != null && request.responseText.length() != 0 )
 		{
 			// Function exactly like a history in a normal browser -
 			// if you open a new frame after going back, all the ones
 			// in the future get removed.
 
-			String renderText = getDisplayHTML( text );
+			String renderText = getDisplayHTML( request.responseText );
 
 			history.add( request.getURLString() );
 			shownHTML.add( renderText );
@@ -417,14 +371,20 @@ public class RequestFrame extends KoLFrame
 			locationField.setCaretPosition( 0 );
 
 			locationIndex = shownHTML.size() - 1;
-			mainBuffer.append( renderText );
+			mainBuffer.append( renderText );		}
+		else
+		{
+			// If this resulted in a redirect, then update the display
+			// to indicate that you were redirected and the display
+			// cannot be shown in the minibrowser.
+
+			mainBuffer.append( "<b>Tried to access</b>: " + currentLocation );
+			mainBuffer.append( "<br><b>Redirected</b>: " + request.redirectLocation );
+			return;
 		}
 
-		private void updateClient()
-		{
-			if ( request.getClass() == KoLRequest.class )
-				StaticEntity.externalUpdate( request.getURLString(), request.responseText );
-		}
+		if ( request.getClass() == KoLRequest.class )
+			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
 	}
 
 	private class HomeButton extends JButton implements ActionListener
@@ -519,40 +479,31 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private static class SidePaneRefresher extends ArrayList implements Runnable
+	public static void refreshStatus()
 	{
-		public void run()
-		{
-			CharpaneRequest.getInstance().run();
-			refreshStatus( RequestEditorKit.getDisplayHTML( "", CharpaneRequest.getInstance().responseText ) );
-		}
+		if ( !refreshStatusEnabled )
+			return;
 
-		public void refreshStatus( String text )
-		{
-			RequestFrame [] frames = new RequestFrame[ this.size() ];
-			toArray( frames );
+		RequestThread.postConcurrent( CharpaneRequest.getInstance() );
+		refreshStatus( RequestEditorKit.getDisplayHTML( "", CharpaneRequest.getInstance().responseText ) );
 
-			for ( int i = 0; i < frames.length; ++i )
+	}
+
+	private static void refreshStatus( String responseText )
+	{
+		KoLFrame [] frames = StaticEntity.getExistingFrames();
+		for ( int i = 0; i < frames.length; ++i )
+		{
+			if ( frames[i] instanceof RequestFrame && ((RequestFrame)frames[i]).hasSideBar() )
 			{
-				if ( frames[i].hasSideBar() )
-				{
-					frames[i].sideBuffer.clearBuffer();
-					frames[i].sideBuffer.append( text );
-				}
+				((RequestFrame)frames[i]).sideBuffer.clearBuffer();
+				((RequestFrame)frames[i]).sideBuffer.append( responseText );
 			}
 		}
 	}
 
-	public static void refreshStatus()
-	{
-		if ( REFRESHER.isEmpty() || !refreshStatusEnabled )
-			return;
-
-		REFRESHER.run();
-	}
-
 	public static boolean willRefreshStatus()
-	{	return !REFRESHER.isEmpty() && refreshStatusEnabled;
+	{	return refreshStatusEnabled;
 	}
 
 	public static boolean isRefreshStatusEnabled()
@@ -562,15 +513,13 @@ public class RequestFrame extends KoLFrame
 	public static void setRefreshStatusEnabled( boolean isEnabled )
 	{
 		refreshStatusEnabled = isEnabled;
-		if ( !isEnabled )
-			REFRESHER.refreshStatus( "" );
+			refreshStatus( "" );
 	}
 
 	public void dispose()
 	{
 		history.clear();
 		shownHTML.clear();
-		REFRESHER.remove( this );
 		super.dispose();
 	}
 }

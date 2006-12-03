@@ -353,9 +353,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Next, update all of the panels with the
 		// desired update message.
 
-		WeakReference [] references = new WeakReference[ existingPanels.size() ];
-		existingPanels.toArray( references );
-
+		WeakReference [] references = StaticEntity.getExistingPanels();
 		for ( int i = 0; i < references.length; ++i )
 		{
 			if ( references[i].get() != null )
@@ -370,9 +368,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( message != null && message.length() > 0 )
 			AdventureFrame.updateRequestMeter( message );
 
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
+		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		for ( int i = 0; i < frames.length; ++i )
 			frames[i].updateDisplayState( state );
 

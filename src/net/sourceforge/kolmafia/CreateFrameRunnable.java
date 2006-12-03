@@ -203,8 +203,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		try
 		{
-			// After that, add the frame to the list of frames
-
 			String tabSetting = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
 			String searchString = ChatFrame.class.isAssignableFrom( creationType ) ? "KoLMessenger" :
 				KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";

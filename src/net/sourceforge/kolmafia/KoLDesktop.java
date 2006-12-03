@@ -180,9 +180,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 	public void dispose()
 	{
-		KoLFrame [] frames = new KoLFrame[ tabListing.size() ];
-		tabListing.toArray( frames );
-
+		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		for ( int i = 0; i < frames.length; ++i )
 			frames[i].dispose();
 
@@ -269,9 +267,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		if ( INSTANCE != null )
 			INSTANCE.setTitle( INSTANCE.lastTitle );
 
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
+		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		for ( int i = 0; i < frames.length; ++i )
 			frames[i].setTitle( frames[i].lastTitle );
 	}
