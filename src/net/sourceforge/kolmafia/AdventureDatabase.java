@@ -143,20 +143,7 @@ public class AdventureDatabase extends KoLDatabase
 		public int compareTo( Object o )
 		{
 			int result = name.compareToIgnoreCase( ((ChoiceAdventure)o).name );
-			if ( result != 0 )
-				return result;
-
-			int leftIndex = -1;
-			for ( int i = 0; i < CHOICE_ADVS.length; ++i )
-				if ( CHOICE_ADVS[i] == this )
-					leftIndex = i;
-
-			int rightIndex = -1;
-			for ( int i = 0; i < CHOICE_ADVS.length; ++i )
-				if ( CHOICE_ADVS[i] == o )
-					rightIndex = i;
-
-			return leftIndex - rightIndex;
+			return result != 0 ? result : setting.compareToIgnoreCase( ((ChoiceAdventure)o).setting );
 		}
 	}
 
@@ -264,17 +251,17 @@ public class AdventureDatabase extends KoLDatabase
 
 		// The Effervescent Fray
 		new ChoiceAdventure( "Plains", "choiceAdventure40", "Cola Wars",
-		  new String [] { "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "boost mysticality" },
+		  new String [] { "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "mysticality substats" },
 		  new String [] { "1328", "1329", null } ),
 
 		// Smells Like Team Spirit
 		new ChoiceAdventure( "Plains", "choiceAdventure41", "Cola Wars",
-		  new String [] { "Dyspepsi-Cola fatigues", "Cloaca-Cola helmet", "boost muscle" },
+		  new String [] { "Dyspepsi-Cola fatigues", "Cloaca-Cola helmet", "muscle substats" },
 		  new String [] { "1330", "1331", null } ),
 
 		// What is it Good For?
 		new ChoiceAdventure( "Plains", "choiceAdventure42", "Cola Wars",
-		  new String [] { "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "boost moxie" },
+		  new String [] { "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "moxie substats" },
 		  new String [] { "1326", "1327", null } ),
 
 		// Choices 43 - 44 are unknown
@@ -286,7 +273,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// An Interesting Choice
 		new ChoiceAdventure( "Woods", "choiceAdventure46", "Spooky Forest",
-		  new String [] { "boost moxie", "boost muscle", "enter combat" } ),
+		  new String [] { "moxie substats", "muscle substats", "enter combat" } ),
 
 		// Have a Heart
 		new ChoiceAdventure( "Woods", "choiceAdventure47", "Spooky Forest",
@@ -303,17 +290,17 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Don't Fence Me In
 		new ChoiceAdventure( "Woods", "choiceAdventure73", "Whitey's Grove",
-		  new String [] { "boost muscle", "white picket fence", "piece of wedding cake" },
+		  new String [] { "muscle substats", "white picket fence", "piece of wedding cake" },
 		  new String [] { null, "270", "262" } ),
 
 		// The Only Thing About Him is the Way That He Walks
 		new ChoiceAdventure( "Woods", "choiceAdventure74", "Whitey's Grove",
-		  new String [] { "boost moxie", "boxed wine", "mullet wig" },
+		  new String [] { "moxie substats", "boxed wine", "mullet wig" },
 		  new String [] { null, "1005", "267" } ),
 
 		// Rapido!
 		new ChoiceAdventure( "Woods", "choiceAdventure75", "Whitey's Grove",
-		  new String [] { "boost mysticality", "white lightning", "white collar" },
+		  new String [] { "mysticality substats", "white lightning", "white collar" },
 		  new String [] { null, "266", "1655" } ),
 
 		// Junction in the Trunction
@@ -328,7 +315,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// One NightStand (simple white)
 		new ChoiceAdventure( "Manor", "choiceAdventure82", "Haunted Bedroom",
-		  new String [] { "old leather wallet", "boost muscle", "enter combat" },
+		  new String [] { "old leather wallet", "muscle substats", "enter combat" },
 		  new String [] { "1917", null, null } ),
 
 		// One NightStand (mahogany)
@@ -338,12 +325,12 @@ public class AdventureDatabase extends KoLDatabase
 
 		// One NightStand (ornate)
 		new ChoiceAdventure( "Manor", "choiceAdventure84", "Haunted Bedroom",
-		  new String [] { "small meat boost", "boost mysticality", "Lord Spookyraven's spectacles" },
+		  new String [] { "small meat boost", "mysticality substats", "Lord Spookyraven's spectacles" },
 		  new String [] { null, null, "1916" } ),
 
 		// One NightStand (simple wooden)
 		new ChoiceAdventure( "Manor", "choiceAdventure85", "Haunted Bedroom",
-		  new String [] { "boost moxie (ballroom key step 1)", "empty drawer (ballroom key step 2)", "enter combat" } ),
+		  new String [] { "moxie (ballroom key step 1)", "empty drawer (ballroom key step 2)", "enter combat" } ),
 
 		// Choice 86 is History is Fun!
 		// Choice 87 is History is Fun!
@@ -352,14 +339,14 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Curtains
 		new ChoiceAdventure( "Manor", "choiceAdventure90", "Haunted Ballroom",
-		  new String [] { "enter combat", "boost moxie", "skip adventure" } ),
+		  new String [] { "enter combat", "moxie substats", "skip adventure" } ),
 
 		// Choice 91 is Louvre It or Leave It
 		// Choices 92 - 104 are Escher print adventures
 
 		// Having a Medicine Ball
 		new ChoiceAdventure( "Manor", "choiceAdventure105", "Haunted Bathroom",
-		  new String [] { "boost moxie", "other options", "guy made of bees" } ),
+		  new String [] { "moxie substats", "other options", "guy made of bees" } ),
 
 		// Strung-Up Quartet
 		new ChoiceAdventure( "Manor", "choiceAdventure106", "Haunted Ballroom",
@@ -372,28 +359,55 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Aww, Craps
 		new ChoiceAdventure( "Town", "choiceAdventure108", "Sleazy Back Alley",
-		  new String [] { "moxie", "meat and moxie", "meat, moxie, and Smugness", "skip adventure" } ),
+		  new String [] { "moxie substats", "meat and moxie", "random effect", "skip adventure" } ),
 
 		// Dumpster Diving
 		new ChoiceAdventure( "Town", "choiceAdventure109", "Sleazy Back Alley",
-		  new String [] { "combat", "meat and moxie", "Mad Train wine" },
+		  new String [] { "enter combat", "meat and moxie", "Mad Train wine" },
 		  new String [] { null, null, "564" } ),
+
+		// The Entertainer
+		new ChoiceAdventure( "Town", "choiceAdventure110", "Sleazy Back Alley",
+		  new String [] { "moxie substats", "moxie and muscle", "small meat boost", "skip adventure" },
+		  new String [] { null, null, "564" } ),
+
+		// Malice in Chains
+		new ChoiceAdventure( "Town", "choiceAdventure111", "Outskirts of The Knob",
+		  new String [] { "muscle substats", "muscle substats", "enter combat" } ),
 
 		// Please, Hammer
 		new ChoiceAdventure( "Town", "choiceAdventure112", "Sleazy Back Alley",
-		  new String [] { "accept hammer quest", "reject quest", "muscle" } ),
+		  new String [] { "accept hammer quest", "reject quest", "muscle substats" } ),
 
 		// Knob Goblin BBQ
 		new ChoiceAdventure( "Knob", "choiceAdventure113", "Outskirts of The Knob",
-		  new String [] { "complete cake quest", "combat", "get item" } ),
+		  new String [] { "complete cake quest", "enter combat", "get a random item" } ),
 
 		// The Baker's Dilemma
 		new ChoiceAdventure( "Manor", "choiceAdventure114", "Haunted Pantry",
 		  new String [] { "accept cake quest", "reject quest", "moxie and meat" } ),
 
+		// Oh No, Hobo
+		new ChoiceAdventure( "Manor", "choiceAdventure115", "Haunted Pantry",
+		  new String [] { "enter combat", "Good Karma", "mysticality, moxie, and meat" } ),
+
+		// The Singing Tree
+		new ChoiceAdventure( "Manor", "choiceAdventure116", "Haunted Pantry",
+		  new String [] { "mysticality substats", "moxie substats", "random effect", "skip adventure" } ),
+
+		// Tresspasser
+		new ChoiceAdventure( "Manor", "choiceAdventure117", "Haunted Pantry",
+		  new String [] { "enter combat", "mysticality substats", "get a random item" } ),
+
+		// When Rocks Attack
+		new ChoiceAdventure( "Knob", "choiceAdventure118", "Outskirts of The Knob",
+		  new String [] { "accept unguent quest", "skip adventure" } ),
+
+		// Choice 119 is unknown
+
 		// Ennui is Wasted on the Young
 		new ChoiceAdventure( "Knob", "choiceAdventure120", "Outskirts of The Knob",
-		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "ignore this adventure" },
+		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "skip adventure" },
 		  new String [] { null, "41", "332", null } )
 	};
 
@@ -459,15 +473,15 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Minnesota Incorporeals
 		new ChoiceAdventure( "choiceAdventure77", "Haunted Billiard Room",
-		  new String [] { "boost moxie", "other options", "skip adventure" } ),
+		  new String [] { "moxie substats", "other options", "skip adventure" } ),
 
 		// Broken
 		new ChoiceAdventure( "choiceAdventure78", "Haunted Billiard Room",
-		  new String [] { "other options", "boost muscle", "skip adventure" } ),
+		  new String [] { "other options", "muscle substats", "skip adventure" } ),
 
 		// A Hustle Here, a Hustle There
 		new ChoiceAdventure( "choiceAdventure79", "Haunted Billiard Room",
-		  new String [] { "Spookyraven library key", "boost mysticality", "skip adventure" } ),
+		  new String [] { "Spookyraven library key", "mysticality substats", "skip adventure" } ),
 
 		// Take a Look, it's in a Book!
 		new ChoiceAdventure( "choiceAdventure80", "Haunted Library",
@@ -475,7 +489,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Take a Look, it's in a Book!
 		new ChoiceAdventure( "choiceAdventure81", "Haunted Library",
-		  new String [] { "gallery quest", "cocktailcrafting recipe", "boost muscle", "skip adventure" } ),
+		  new String [] { "gallery quest", "cocktailcrafting recipe", "muscle substats", "skip adventure" } ),
 
 		// History is Fun!
 		new ChoiceAdventure( "choiceAdventure86", "Haunted Library",
@@ -487,7 +501,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Naughty, Naughty
 		new ChoiceAdventure( "choiceAdventure88", "Haunted Library",
-		  new String [] { "boost mysticality", "boost moxie", "Fettucini / Scarysauce" } ),
+		  new String [] { "mysticality substats", "moxie substats", "Fettucini / Scarysauce" } ),
 
 		new ChoiceAdventure( "choiceAdventure89", "Haunted Gallery",
 		  new String [] { "Wolf Knight", "Snake Knight", "Dreams and Lights" } ),
@@ -552,6 +566,15 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Aww, Craps
 		{ "choiceAdventure108", "4" },
+
+		// Aww, Craps
+		{ "choiceAdventure110", "4" },
+
+		// The Singing Tree
+		{ "choiceAdventure116", "4" },
+
+		// The Singing Tree
+		{ "choiceAdventure116", "2" },
 
 		// Ennui is Wasted on the Young
 		{ "choiceAdventure120", "4" },
