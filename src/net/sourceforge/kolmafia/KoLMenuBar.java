@@ -396,21 +396,17 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	RequestThread.postConcurrent( this );
-		}
-
-		public final void run()
 		{
 			if ( makesRequest() )
 				KoLmafia.forceContinue();
 
-			executeTask();
+			RequestThread.postConcurrent( this );
 
 			if ( makesRequest() )
 				KoLmafia.enableDisplay();
 		}
 
-		protected abstract void executeTask();
+		public abstract void run();
 
 		public boolean makesRequest()
 		{	return true;
@@ -437,7 +433,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			this.scriptPath = scriptPath;
 		}
 
-		public void executeTask()
+		public void run()
 		{
 			String executePath = scriptPath;
 
@@ -477,7 +473,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			this.frameClass = frameClass;
 		}
 
-		public void executeTask()
+		public void run()
 		{
 			if ( frameClass.equals( "LicenseDisplay" ) )
 			{
@@ -493,10 +489,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			{
 				KoLmafiaGUI.constructFrame( frameClass );
 			}
-		}
-
-		public boolean makesRequest()
-		{	return false;
 		}
 	}
 
@@ -571,7 +563,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		{	return !methodName.equals( "resetSession" );
 		}
 
-		public void executeTask()
+		public void run()
 		{
 			try
 			{
@@ -608,7 +600,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			creator = new CreateFrameRunnable( KoLPanelFrame.class, parameters );
 		}
 
-		public void executeTask()
+		public void run()
 		{	SwingUtilities.invokeLater( creator );
 		}
 	}
