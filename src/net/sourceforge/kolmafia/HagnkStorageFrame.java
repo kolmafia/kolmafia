@@ -218,6 +218,7 @@ public class HagnkStorageFrame extends KoLFrame
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.MEAT_TO_CLOSET, amountToTransfer ) );
 
 			fundSource.setSelectedIndex( 0 );
+			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()

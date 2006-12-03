@@ -276,6 +276,7 @@ public class LoginFrame extends KoLFrame
 
 			KoLmafia.forceContinue();
 			RequestThread.postRequest( new LoginRequest( username, password, false ) );
+			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()

@@ -149,11 +149,15 @@ public class MuseumFrame extends KoLFrame
 			}
 
 			public void actionConfirmed()
-			{	move( true );
+			{
+				move( true );
+				KoLmafia.enableDisplay();
 			}
 
 			public void actionCancelled()
-			{	move( false );
+			{
+				move( false );
+				KoLmafia.enableDisplay();
 			}
 		}
 
@@ -174,11 +178,15 @@ public class MuseumFrame extends KoLFrame
 			}
 
 			public void actionConfirmed()
-			{	move( true );
+			{
+				move( true );
+				KoLmafia.enableDisplay();
 			}
 
 			public void actionCancelled()
-			{	move( false );
+			{
+				move( false );
+				KoLmafia.enableDisplay();
 			}
 		}
 	}
@@ -214,7 +222,9 @@ public class MuseumFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( this );
+		{
+			RequestThread.postRequest( this );
+			KoLmafia.enableDisplay();
 		}
 
 		public void run()
@@ -237,6 +247,7 @@ public class MuseumFrame extends KoLFrame
 		{
 			RequestThread.postRequest( new MuseumRequest( elementList.getSelectedValues(), false ) );
 			RequestThread.postRequest( new MuseumRequest() );
+			KoLmafia.enableDisplay();
 		}
 
 		public void updateDisplay( PanelList list, Object value, int index )
@@ -269,7 +280,9 @@ public class MuseumFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	RequestThread.postRequest( this );
+		{
+			RequestThread.postRequest( this );
+			KoLmafia.enableDisplay();
 		}
 
 		public void run()

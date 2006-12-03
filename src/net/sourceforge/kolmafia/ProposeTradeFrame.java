@@ -453,10 +453,10 @@ public abstract class ProposeTradeFrame extends KoLFrame
 			{
 				Object [] items = elementList.getSelectedValues();
 
-
 				for ( int i = 0; i < items.length; ++i )
 				{
 					AdventureResult currentItem = (AdventureResult) items[i];
+
 					// Skip filtered items
 					if ( !TradeableItemDatabase.isTradeable( currentItem.getItemId() ) )
 						continue;

@@ -150,10 +150,13 @@ public class StoreManageFrame extends KoLPanelFrame
 			}
 
 			RequestThread.postRequest( new StoreManageRequest( itemId, prices, limits ) );
+			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
-		{	RequestThread.postRequest( this );
+		{
+			RequestThread.postRequest( this );
+			KoLmafia.enableDisplay();
 		}
 
 		public void run()
@@ -371,12 +374,14 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOMALL ) );
 			RequestThread.postRequest( new StoreManageRequest( false ) );
+			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
 		{
 			Object [] items = getDesiredItems( "Autosell" );
 			RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOSELL ) );
+			KoLmafia.enableDisplay();
 		}
 	}
 
@@ -387,7 +392,9 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionConfirmed()
-		{	removeItems( false );
+		{
+			removeItems( false );
+			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
@@ -397,6 +404,7 @@ public class StoreManageFrame extends KoLPanelFrame
 					return;
 
 			removeItems( true );
+			KoLmafia.enableDisplay();
 		}
 
 		public void removeItems( boolean autoSellAfter )
@@ -459,7 +467,9 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( new StoreManageRequest( true ) );
+		{
+			RequestThread.postRequest( new StoreManageRequest( true ) );
+			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()

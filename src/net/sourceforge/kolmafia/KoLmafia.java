@@ -1591,8 +1591,14 @@ public abstract class KoLmafia implements KoLConstants
 			else if ( request instanceof KoLAdventure )
 				updateDisplay( "Adventuring completed." );
 
-			else if ( !(request instanceof ConsumeItemRequest || request instanceof UseSkillRequest || request instanceof LoginRequest || request instanceof LogoutRequest) )
+			else if ( request instanceof KoLRequest )
+			{
+				if ( !((KoLRequest)request).isDelayExempt() && !(request instanceof ConsumeItemRequest || request instanceof UseSkillRequest) )
+					updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
+			}
+			else
 				updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
+
 		}
 		else if ( continuationState == PENDING_STATE )
 		{

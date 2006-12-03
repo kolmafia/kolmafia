@@ -106,11 +106,15 @@ public class SkillBuffFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	buff( false );
+		{
+			buff( false );
+			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
-		{	buff( true );
+		{
+			buff( true );
+			KoLmafia.enableDisplay();
 		}
 
 		private void buff( boolean maxBuff )
@@ -145,7 +149,9 @@ public class SkillBuffFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( new UneffectRequest( (AdventureResult) ((ShowDescriptionList)scrollComponent).getSelectedValue() ) );
+		{
+			RequestThread.postRequest( new UneffectRequest( (AdventureResult) ((ShowDescriptionList)scrollComponent).getSelectedValue() ) );
+			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
