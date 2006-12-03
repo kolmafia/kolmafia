@@ -184,6 +184,8 @@ public class GearChangeFrame extends KoLFrame
 			FamiliarData familiar = (FamiliarData) familiarSelect.getSelectedItem();
 			if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
 				RequestThread.postRequest( new FamiliarRequest( familiar ) );
+
+			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
@@ -193,6 +195,7 @@ public class GearChangeFrame extends KoLFrame
 				return;
 
 			RequestThread.postRequest( new EquipmentRequest( currentValue ) );
+			KoLmafia.enableDisplay();
 		}
 	}
 

@@ -346,11 +346,15 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	handlePurchase( PURCHASE_ONE );
+		{
+			handlePurchase( PURCHASE_ONE );
+			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
-		{	handlePurchase( PURCHASE_MULTIPLE );
+		{
+			handlePurchase( PURCHASE_MULTIPLE );
+			KoLmafia.enableDisplay();
 		}
 
 		private void handlePurchase( int purchaseType )
@@ -427,6 +431,8 @@ public class ItemManageFrame extends KoLFrame
 
 			for ( int i = 0; i < items.length; ++i )
 				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
+
+			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()

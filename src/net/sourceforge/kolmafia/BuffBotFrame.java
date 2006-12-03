@@ -149,6 +149,7 @@ public class BuffBotFrame extends KoLFrame
 
 			BuffBotHome.setBuffBotActive( true );
 			RequestThread.postRequest( this );
+			KoLmafia.enableDisplay();
 		}
 
 		public void run()

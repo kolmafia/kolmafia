@@ -141,7 +141,9 @@ public class BuffRequestFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( new BuffPurchaseRunnable() );
+		{
+			RequestThread.postRequest( new BuffPurchaseRunnable() );
+			KoLmafia.enableDisplay();
 		}
 
 		private class BuffPurchaseRunnable implements Runnable
@@ -171,7 +173,6 @@ public class BuffRequestFrame extends KoLFrame
 				}
 
 				KoLmafia.updateDisplay( "Buff requests complete." );
-				KoLmafia.enableDisplay();
 			}
 		}
 
