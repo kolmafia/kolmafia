@@ -51,6 +51,7 @@ import java.text.DateFormat;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
  * Holder for the BuffBot log (which should survive outside of
@@ -154,9 +155,9 @@ public class BuffBotHome extends StaticEntity
 
 		Integer key = new Integer( meatSent );
 		if ( !pastRecipients.containsKey( key ) )
-			pastRecipients.put( key, new ArrayList() );
+			pastRecipients.put( key, new SortedListModel() );
 
-		return (ArrayList) pastRecipients.get( key );
+		return (List) pastRecipients.get( key );
 	}
 
 	/**
@@ -167,13 +168,38 @@ public class BuffBotHome extends StaticEntity
 	public static int getInstanceCount( int meatSent, String name )
 	{
 		List pastRecipients = getPastRecipients( meatSent );
+		BuffRecord record = new BuffRecord( name );
 
-		int instanceCount = 0;
-		for ( int i = 0; i < pastRecipients.size(); ++i )
-			if ( pastRecipients.get(i).equals( name ) )
-				++instanceCount;
+		int index = pastRecipients.indexOf( record );
+		return index == -1 ? 0 : ((BuffRecord) pastRecipients.get(index)).getCount();
+	}
 
-		return instanceCount;
+	private static class BuffRecord implements Comparable
+	{
+		private int count;
+		private String name;
+
+		public BuffRecord( String name )
+		{
+			this.name = name;
+			this.count = 1;
+		}
+
+		public int getCount()
+		{	return count;
+		}
+
+		public void incrementCount()
+		{	++count;
+		}
+
+		public int compareTo( Object o )
+		{	return name.compareToIgnoreCase( ((BuffRecord)o).name );
+		}
+
+		public boolean equals( Object o )
+		{	return name.equalsIgnoreCase( ((BuffRecord)o).name );
+		}
 	}
 
 	/**
@@ -182,7 +208,15 @@ public class BuffBotHome extends StaticEntity
 	 */
 
 	public static void addToRecipientList( int meatSent, String name )
-	{	getPastRecipients( meatSent ).add( name );
+	{
+		List pastRecipients = getPastRecipients( meatSent );
+		BuffRecord record = new BuffRecord( name );
+
+		int index = pastRecipients.indexOf( record );
+		if ( index == -1 )
+			pastRecipients.add( record );
+		else
+			((BuffRecord) pastRecipients.get(index)).incrementCount();
 	}
 
 	/**

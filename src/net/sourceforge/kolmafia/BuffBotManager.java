@@ -59,7 +59,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	public static final int DISPOSE = 1;
 
 	private static int initialRestores = 0;
-	private static final int REFUND_THRESHOLD = 3;
+	public static final int REFUND_THRESHOLD = 4;
 
 	private static ArrayList saveList = new ArrayList();
 	private static ArrayList deleteList = new ArrayList();
@@ -681,55 +681,67 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		boolean receivedBuffs = false;
 		boolean gavePhilanthropicBuff = false;
 
+		boolean lastBuffSuccessful = false;
 		int failureCount = BuffBotHome.getInstanceCount( 0, message.getSenderName() );
 
-		if ( failureCount < REFUND_THRESHOLD )
+		for ( int i = 0; i < castList.size(); ++i )
 		{
-			boolean lastBuffSuccessful = false;
+			if ( !lastBuffSuccessful && receivedBuffs )
+				break;
 
-			for ( int i = 0; KoLmafia.permitsContinue() && i < castList.size(); ++i )
+			currentBuff = (BuffBotCaster) castList.get(i);
+
+			if ( failureCount < REFUND_THRESHOLD || !currentBuff.philanthropic )
 			{
-				if ( !lastBuffSuccessful && receivedBuffs )
-					break;
-
-				currentBuff = (BuffBotCaster) castList.get(i);
 				lastBuffSuccessful = executeBuff( currentBuff, message, meatSent );
-
 				receivedBuffs |= lastBuffSuccessful;
 				gavePhilanthropicBuff |= currentBuff.philanthropic;
 			}
+		}
 
-			if ( receivedBuffs && gavePhilanthropicBuff )
-				BuffBotHome.addToRecipientList( meatSent, message.getSenderName() );
+		if ( receivedBuffs && gavePhilanthropicBuff )
+			BuffBotHome.addToRecipientList( meatSent, message.getSenderName() );
 
-			if ( !receivedBuffs )
-			{
+		if ( !receivedBuffs || gavePhilanthropicBuff )
+		{
+			if ( failureCount < REFUND_THRESHOLD )
 				++failureCount;
-				BuffBotHome.addToRecipientList( 0, message.getSenderName() );
 
-				// Record the inability to buff inside of a separate
-				// file which stores how many refunds were sent that day.
+			BuffBotHome.addToRecipientList( 0, message.getSenderName() );
 
-				if ( failureCount == REFUND_THRESHOLD )
+			if ( UseSkillRequest.lastUpdate.startsWith( "Selected target cannot receive" ) )
+			{
+				while ( failureCount < REFUND_THRESHOLD )
 				{
-					// Nine refunds in a single day is pretty bad.  So,
-					// send a notification that they will no longer be
-					// refunded for buffs cast today.
-
-					BuffBotHome.updateStatus( "Refund threshold reached for " + message.getSenderName() + "." );
-					sendRefund( message.getSenderName(), "This is a message to notify you that you have sent " + REFUND_THRESHOLD + " requests which were refunded.  " +
-						"To prevent the possibility of intentional sabatoge, any failed buff requests over the next 24 hours will be treated as donations.  " +
-						"Thanks for understanding.", meatSent );
-				}
-				else if ( failureCount < REFUND_THRESHOLD )
-				{
-					// If the person sent something and received no buffs,
-					// then make sure they're refunded.
-
-					sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " + UseSkillRequest.lastUpdate +
-						"  Please try again later." + LINE_BREAK + LINE_BREAK + refundMessage, meatSent );
+					++failureCount;
+					BuffBotHome.addToRecipientList( 0, message.getSenderName() );
 				}
 			}
+		}
+
+		// Record the inability to buff inside of a separate
+		// file which stores how many refunds were sent that day.
+
+		if ( failureCount == REFUND_THRESHOLD && !receivedBuffs )
+		{
+			// Nine refunds in a single day is pretty bad.  So,
+			// send a notification that they will no longer be
+			// refunded for buffs cast today.
+
+			BuffBotHome.updateStatus( "Refund/philanthropic threshold reached for " + message.getSenderName() + "." );
+
+			sendRefund( message.getSenderName(), "This is a message to notify you that you have sent " + REFUND_THRESHOLD + " requests which were either " +
+				"a request for a buff which can only be requested once per day or a request which resulted in a refund.  " +
+				"To prevent the possibility of intentional sabatoge, any failed buff requests OR requests for philanthropic buffs " +
+				"over the next 24 hours will be treated as donations.  Thanks for understanding.", meatSent );
+		}
+		else if ( !receivedBuffs && failureCount < REFUND_THRESHOLD )
+		{
+			// If the person sent something and received no buffs,
+			// then make sure they're refunded.
+
+			sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " + UseSkillRequest.lastUpdate +
+				"  Please try again later." + LINE_BREAK + LINE_BREAK + refundMessage, meatSent );
 		}
 	}
 

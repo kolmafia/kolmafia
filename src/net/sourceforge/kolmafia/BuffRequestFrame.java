@@ -353,16 +353,26 @@ public class BuffRequestFrame extends KoLFrame
 			public void actionPerformed( ActionEvent e )
 			{
 				int price = 0;
+				int requestCount = 0;
+
 				RequestPanel panel = (RequestPanel) panelMap.get( getCardId() );
 
 				JCheckBox [] checkboxes = panel.checkboxes;
 				BuffBotDatabase.Offering [] offerings = panel.offerings;
 
 				for ( int i = 0; i < checkboxes.length; ++i )
+				{
 					if ( checkboxes[i].isSelected() )
+					{
+						++requestCount;
 						price += offerings[i].getPrice();
+					}
+				}
 
-				setStatusMessage( ENABLE_STATE, COMMA_FORMAT.format( price ) + " meat will be sent to " + botName );
+				if ( sets.getSelectedIndex() == 0 && requestCount > BuffBotManager.REFUND_THRESHOLD )
+					setStatusMessage( "That's too many philanthropic buff requests." );
+				else
+					setStatusMessage( ENABLE_STATE, COMMA_FORMAT.format( price ) + " meat will be sent to " + botName );
 			}
 		}
 	}
