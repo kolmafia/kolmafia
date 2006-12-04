@@ -213,15 +213,21 @@ public class GearChangeFrame extends KoLFrame
 			this.setRenderer( AdventureResult.getEquipmentRenderer() );
 		}
 
-		public void firePopupMenuWillBecomeInvisible()
+		public void setPopupVisible( boolean isVisible )
 		{
-			super.firePopupMenuWillBecomeInvisible();
+			super.setPopupVisible( isVisible );
+
+			if ( isVisible )
+				return;
 
 			if ( this == outfitSelect )
 			{
 				Object outfit = getSelectedItem();
 				if ( outfit != null && !(outfit instanceof String) )
+				{
 					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
+					KoLmafia.enableDisplay();
+				}
 
 				setSelectedItem( null );
 				return;

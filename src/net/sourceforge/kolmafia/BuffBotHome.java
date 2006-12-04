@@ -178,11 +178,13 @@ public class BuffBotHome extends StaticEntity
 	{
 		private int count;
 		private String name;
+		private boolean deny;
 
 		public BuffRecord( String name )
 		{
 			this.name = name;
 			this.count = 1;
+			this.deny = false;
 		}
 
 		public int getCount()
@@ -190,7 +192,17 @@ public class BuffBotHome extends StaticEntity
 		}
 
 		public void incrementCount()
-		{	++count;
+		{
+			if ( count != Integer.MAX_VALUE )
+				++count;
+		}
+
+		public void restrict()
+		{	this.deny = true;
+		}
+
+		public boolean isPermitted()
+		{	return !deny;
 		}
 
 		public int compareTo( Object o )
@@ -217,6 +229,38 @@ public class BuffBotHome extends StaticEntity
 			pastRecipients.add( record );
 		else
 			((BuffRecord) pastRecipients.get(index)).incrementCount();
+	}
+
+	/**
+	 * Causes the given player to be permanently ignored from all
+	 * future buff requests.
+	 */
+
+	public static void denyFutureBuffs( String name )
+	{
+		List pastRecipients = getPastRecipients( 0 );
+		BuffRecord record = new BuffRecord( name );
+
+		int index = pastRecipients.indexOf( record );
+		if ( index == -1 )
+		{
+			record.restrict();
+			pastRecipients.add( record );
+		}
+		else
+			((BuffRecord) pastRecipients.get(index)).restrict();
+	}
+
+	public static boolean isPermitted( String name )
+	{
+		List pastRecipients = getPastRecipients( 0 );
+		BuffRecord record = new BuffRecord( name );
+
+		int index = pastRecipients.indexOf( record );
+		if ( index == -1 )
+			return true;
+
+		return ((BuffRecord) pastRecipients.get(index)).isPermitted();
 	}
 
 	/**

@@ -78,9 +78,6 @@ import net.sourceforge.kolmafia.ItemManagePanel.UpdateFilterListener;
 
 public class ItemManageFrame extends KoLFrame
 {
-//	private LabeledScrollPanel bruteForcer;
-	private LabeledScrollPanel itemConsumer, insideBackpack, itemCreator, npcOfferings;
-
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
 	 * of the necessary panels into a tabular layout for accessibility.
@@ -93,16 +90,13 @@ public class ItemManageFrame extends KoLFrame
 		tabs = new JTabbedPane();
 		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
 
-		itemConsumer = new ConsumeItemPanel();
-		insideBackpack = new InventoryManagePanel( inventory );
-		itemCreator = new CreateItemPanel();
-//		bruteForcer = new InventPanel();
-		npcOfferings = null;
+		LabeledScrollPanel npcOfferings = null;
 
-		tabs.addTab( "Usable Items", itemConsumer );
-		tabs.addTab( "Inventory Items", insideBackpack );
-		tabs.addTab( "Creatable Items", itemCreator );
-//		tabs.addTab( "Recipe Finder", bruteForcer );
+		tabs.addTab( "Usable Items", new ConsumeItemPanel() );
+		tabs.addTab( "Inventory Items", new InventoryManagePanel( inventory ) );
+		tabs.addTab( "Closeted Items", new InventoryManagePanel( closet ) );
+		tabs.addTab( "Creatable Items", new CreateItemPanel() );
+//		tabs.addTab( "Recipe Finder", new InventPanel() );
 
 		// If the person is in a mysticality sign, make sure
 		// you retrieve information from the restaurant.
@@ -783,6 +777,7 @@ public class ItemManageFrame extends KoLFrame
 					KoLmafia.isAdventuring() && !ClanManager.isStashRetrieved() )
 				{
 					RequestThread.postRequest( new ClanStashRequest() );
+					KoLmafia.enableDisplay();
 				}
 
 				ConcoctionsDatabase.refreshConcoctions();
@@ -805,7 +800,9 @@ public class ItemManageFrame extends KoLFrame
 
 				KoLmafia.updateDisplay( "Verifying ingredients..." );
 				selection.setQuantityNeeded( quantityDesired );
+
 				RequestThread.postRequest( selection );
+				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -832,6 +829,7 @@ public class ItemManageFrame extends KoLFrame
 
 				RequestThread.postRequest( selection );
 				RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), selection.getQuantityNeeded() ) ) );
+				KoLmafia.enableDisplay();
 			}
 
 			public String toString()

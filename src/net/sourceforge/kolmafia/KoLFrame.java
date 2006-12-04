@@ -1377,6 +1377,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 						break;
 					}
 				}
+
+				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -1398,6 +1400,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 				if ( !retrieveFromClosetFirst )
 					RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+
+				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -1438,6 +1442,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					return;
 
 				RequestThread.postRequest( new AutoSellRequest( items, sellType ) );
+				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -1458,6 +1463,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					return;
 
 				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
+				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -1484,6 +1490,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				}
 
 				RequestThread.postRequest( new MuseumRequest( items, true ) );
+				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -1512,6 +1519,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					if ( willSmash )
 						RequestThread.postRequest( new PulverizeRequest( items[i] ) );
 				}
+
+				KoLmafia.enableDisplay();
 			}
 
 			public String toString()

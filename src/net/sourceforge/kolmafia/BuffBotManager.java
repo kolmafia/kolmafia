@@ -680,15 +680,18 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		BuffBotCaster currentBuff;
 		boolean receivedBuffs = false;
 		boolean gavePhilanthropicBuff = false;
+		boolean lastBuffSuccessful = true;
 
-		boolean lastBuffSuccessful = false;
 		int failureCount = BuffBotHome.getInstanceCount( 0, message.getSenderName() );
 
-		for ( int i = 0; i < castList.size(); ++i )
-		{
-			if ( !lastBuffSuccessful && receivedBuffs )
-				break;
+		// If it's clear that the person is receiving a refund because they are
+		// restricted due to failure, ignore this request.
 
+		if ( !BuffBotHome.isPermitted( message.getSenderName() ) )
+			return;
+
+		for ( int i = 0; i < castList.size() && lastBuffSuccessful; ++i )
+		{
 			currentBuff = (BuffBotCaster) castList.get(i);
 
 			if ( failureCount < REFUND_THRESHOLD || !currentBuff.philanthropic )
@@ -704,44 +707,48 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		if ( !receivedBuffs || gavePhilanthropicBuff )
 		{
-			if ( failureCount < REFUND_THRESHOLD )
-				++failureCount;
-
+			++failureCount;
 			BuffBotHome.addToRecipientList( 0, message.getSenderName() );
 
 			if ( UseSkillRequest.lastUpdate.startsWith( "Selected target cannot receive" ) )
-			{
-				while ( failureCount < REFUND_THRESHOLD )
-				{
-					++failureCount;
-					BuffBotHome.addToRecipientList( 0, message.getSenderName() );
-				}
-			}
+				BuffBotHome.denyFutureBuffs( message.getSenderName() );
 		}
 
 		// Record the inability to buff inside of a separate
 		// file which stores how many refunds were sent that day.
 
-		if ( failureCount == REFUND_THRESHOLD && !receivedBuffs )
+		if ( receivedBuffs )
+			return;
+
+		if ( failureCount == REFUND_THRESHOLD + 1 )
 		{
 			// Nine refunds in a single day is pretty bad.  So,
 			// send a notification that they will no longer be
 			// refunded for buffs cast today.
 
-			BuffBotHome.updateStatus( "Refund/philanthropic threshold reached for " + message.getSenderName() + "." );
+			BuffBotHome.updateStatus( "Refund/philanthropy threshold reached for " + message.getSenderName() + "." );
 
-			sendRefund( message.getSenderName(), "This is a message to notify you that you have sent " + REFUND_THRESHOLD + " requests which were either " +
-				"a request for a buff which can only be requested once per day or a request which resulted in a refund.  " +
-				"To prevent the possibility of intentional sabatoge, any failed buff requests OR requests for philanthropic buffs " +
-				"over the next 24 hours will be treated as donations.  Thanks for understanding.", meatSent );
+			sendRefund( message.getSenderName(), "This message is to provide notification that you have already sent " + REFUND_THRESHOLD + " " +
+				"unique messages which did not correspond to a buff that can be cast more than once per day.  " +
+				"In order to preserve the integrity of this buffbot, from now until the next rollover begins, " +
+				"all requests which do not correspond to a buff that can be cast more than once per day will be treated as donations.", 0 );
 		}
-		else if ( !receivedBuffs && failureCount < REFUND_THRESHOLD )
+		else if ( failureCount < REFUND_THRESHOLD )
 		{
-			// If the person sent something and received no buffs,
-			// then make sure they're refunded.
+			if ( !BuffBotHome.isPermitted( message.getSenderName() ) )
+			{
+				sendRefund( message.getSenderName(), "It has been determined that at some point during an attempt to buff you in the last 24 hours, you could not receive buffs.  " +
+					"This could be either due to engaging in combat, having too many AT songs in your head, or ascending before receiving your buff.  As a result of this failure, " +
+					"all of your requests are being refunded rather than processed in order to maintain throughput.  Apologies for the inconvenience.", meatSent );
+			}
+			else
+			{
+				// If the person sent something and received no buffs,
+				// then make sure they're refunded.
 
-			sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " + UseSkillRequest.lastUpdate +
-				"  Please try again later." + LINE_BREAK + LINE_BREAK + refundMessage, meatSent );
+				sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " + UseSkillRequest.lastUpdate +
+					"  Please try again later." + LINE_BREAK + LINE_BREAK + refundMessage, meatSent );
+			}
 		}
 	}
 
