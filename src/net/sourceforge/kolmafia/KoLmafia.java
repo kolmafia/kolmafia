@@ -499,6 +499,9 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLCharacter.hasArches() )
 			(new CampgroundRequest( "arches" )).run();
 
+		if ( StaticEntity.getBooleanProperty( "visitRumpus" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
+			(new ClanGymRequest( ClanGymRequest.SEARCH )).run();
+
 		boolean shouldCast = false;
 		String skillSetting = StaticEntity.getProperty( "breakfast" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
 

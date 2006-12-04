@@ -41,17 +41,34 @@ package net.sourceforge.kolmafia;
 
 public class ClanGymRequest extends KoLRequest
 {
+	private static final int BREAKFAST = -1;
+	public static final int SEARCH = 0;
+
 	public static final int MUSCLE = 1;
 	public static final int MYSTICALITY = 2;
 	public static final int MOXIE = 3;
 	public static final int SOFA = 4;
+
+	public static int [][] MAXIMUM_USAGE = new int[10][];
+	static
+	{
+		MAXIMUM_USAGE[0] = new int[0];
+		MAXIMUM_USAGE[1] = new int [] { 0, 0, 0, 0, 1 };
+		MAXIMUM_USAGE[2] = new int [] { 0, 0, 0, 0 };
+		MAXIMUM_USAGE[3] = new int [] { 0, 3, 0, 3 };
+		MAXIMUM_USAGE[4] = new int [] { 0, 0, 1, 0 };
+		MAXIMUM_USAGE[5] = new int [] { 0, 0, 0, 0 };
+		MAXIMUM_USAGE[6] = new int[0];
+		MAXIMUM_USAGE[7] = new int[0];
+		MAXIMUM_USAGE[8] = new int[0];
+		MAXIMUM_USAGE[9] = new int [] { 0, 0, 3, 1 };
+	}
 
 	private int turnCount;
 	private int equipmentId;
 
 	/**
 	 * Constructs a new <code>ClanGymRequest</code>.
-	 *
 	 * @param	equipmentId	The identifier for the equipment you're using
 	 */
 
@@ -134,6 +151,10 @@ public class ClanGymRequest extends KoLRequest
 
 		switch ( equipmentId )
 		{
+		case SEARCH:
+		case BREAKFAST:
+			break;
+
 		case SOFA:
 			addFormField( "preaction", "nap" );
 			break;
@@ -167,12 +188,76 @@ public class ClanGymRequest extends KoLRequest
 			}
 		}
 
-		KoLmafia.updateDisplay( "Executing request..." );
+		if ( equipmentId != SEARCH )
+			KoLmafia.updateDisplay( "Executing request..." );
+
 		super.run();
 	}
 
 	protected void processResults()
-	{	KoLmafia.updateDisplay( "Workout completed." );
+	{
+		if ( equipmentId != SEARCH )
+		{
+			if ( equipmentId != BREAKFAST )
+				KoLmafia.updateDisplay( "Workout completed." );
+
+			return;
+		}
+
+		equipmentId = BREAKFAST;
+
+		// The Klaw can be accessed regardless of whether or not
+		// you are in hardcore, so handle it first.
+
+		if ( responseText.indexOf( "rump3_3.gif" ) != -1 )
+		{
+			clearDataFields();
+			addFormField( "action", "click" );
+			addFormField( "spot", "3" );
+			addFormField( "furni", "3" );
+
+			for ( int i = 0; i < 3; ++i )
+			{
+				KoLmafia.updateDisplay( "Attempting to win a prize (" + (i+1) + " of 3)..." );
+				if ( responseText.indexOf( "wisp of smoke" ) == -1 && responseText.indexOf( "broken down" ) == -1 )
+					super.run();
+			}
+		}
+
+		if ( !KoLCharacter.canInteract() )
+			return;
+
+		for ( int i = 0; i < MAXIMUM_USAGE.length; ++i )
+		{
+			for ( int j = 0; j < MAXIMUM_USAGE[i].length; ++j )
+			{
+				if ( i == 3 && j == 3 )
+					continue;
+
+				// If the equipment is not present, then go ahead and
+				// skip this check.
+
+				if ( MAXIMUM_USAGE[i][j] == 0 || responseText.indexOf( "rump" + i + "_" + j + ".gif" ) == -1 )
+					continue;
+
+				clearDataFields();
+
+				if ( i == 9 && j == 2 )
+				{
+					addFormField( "preaction", "buychips" );
+					addFormField( "whichbag", String.valueOf( RNG.nextInt(3) + 1 ) );
+				}
+				else
+				{
+					addFormField( "action", "click" );
+					addFormField( "spot", String.valueOf(i) );
+					addFormField( "furni", String.valueOf(j) );
+				}
+
+				for ( int k = 0; k < MAXIMUM_USAGE[i][j]; ++k )
+					super.run();
+			}
+		}
 	}
 
 	/**

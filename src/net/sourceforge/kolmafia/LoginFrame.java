@@ -384,6 +384,7 @@ public class LoginFrame extends KoLFrame
 		private String breakfastType;
 		private JCheckBox [] skillOptions;
 		private JCheckBox mushroomPlot;
+		private JCheckBox rumpusRoom;
 
 		public BreakfastPanel( String title, String breakfastType )
 		{
@@ -395,13 +396,15 @@ public class LoginFrame extends KoLFrame
 				skillOptions[i] = new JCheckBox();
 
 			mushroomPlot = new JCheckBox();
+			rumpusRoom = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[ skillOptions.length + 1 ];
+			VerifiableElement [] elements = new VerifiableElement[ skillOptions.length + 2 ];
 
 			for ( int i = 0; i < skillOptions.length; ++i )
 				elements[i] = new VerifiableElement( UseSkillRequest.BREAKFAST_SKILLS[i][0], JLabel.LEFT, skillOptions[i] );
 
 			elements[ skillOptions.length ] = new VerifiableElement( "Plant mushrooms", JLabel.LEFT, mushroomPlot );
+			elements[ skillOptions.length + 1 ] = new VerifiableElement( "Clan rumpus room", JLabel.LEFT, rumpusRoom );
 
 			setContent( elements );
 			actionCancelled();
@@ -424,6 +427,7 @@ public class LoginFrame extends KoLFrame
 
 			StaticEntity.setProperty( "breakfast" + breakfastType, skillString.toString() );
 			StaticEntity.setProperty( "autoPlant" + breakfastType, String.valueOf( mushroomPlot.isSelected() ) );
+			StaticEntity.setProperty( "visitRumpus" + breakfastType, String.valueOf( rumpusRoom.isSelected() ) );
 		}
 
 		public void actionCancelled()
@@ -433,6 +437,7 @@ public class LoginFrame extends KoLFrame
 				skillOptions[i].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i][0] ) != -1 );
 
 			mushroomPlot.setSelected( StaticEntity.getBooleanProperty( "autoPlant" + breakfastType ) );
+			rumpusRoom.setSelected( StaticEntity.getBooleanProperty( "visitRumpus" + breakfastType ) );
 		}
 	}
 

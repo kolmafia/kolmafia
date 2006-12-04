@@ -150,37 +150,23 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		// In addition to setting the content on these, also
 		// add a return-key listener to each of the input fields.
 
-		ActionConfirmListener listener = new ActionConfirmListener();
 		this.elements = elements;
 
-		if ( elements != null )
+		if ( shouldAddStatusLabel( elements ) )
 		{
-			for ( int i = 0; i < elements.length; ++i )
-			{
-				if ( elements[i].getInputField() instanceof MutableComboBox )
-					((MutableComboBox)elements[i].getInputField()).getEditor().getEditorComponent().addKeyListener( listener );
-				else if ( elements[i].getInputField() instanceof JComboBox )
-					((JComboBox)elements[i].getInputField()).addKeyListener( listener );
-				else if ( elements[i].getInputField() instanceof JTextField )
-					((JTextField)elements[i].getInputField()).addKeyListener( listener );
-			}
+			JPanel statusContainer = new JPanel();
+			statusContainer.setLayout( new BoxLayout( statusContainer, BoxLayout.Y_AXIS ) );
 
-			if ( shouldAddStatusLabel( elements ) )
-			{
-				JPanel statusContainer = new JPanel();
-				statusContainer.setLayout( new BoxLayout( statusContainer, BoxLayout.Y_AXIS ) );
+			actionStatusPanel = new JPanel( new BorderLayout() );
+			actionStatusLabel = new StatusLabel();
+			actionStatusPanel.add( actionStatusLabel, BorderLayout.SOUTH );
 
-				actionStatusPanel = new JPanel( new BorderLayout() );
-				actionStatusLabel = new StatusLabel();
-				actionStatusPanel.add( actionStatusLabel, BorderLayout.SOUTH );
+			statusContainer.add( actionStatusPanel );
+			statusContainer.add( Box.createVerticalStrut( 20 ) );
 
-				statusContainer.add( actionStatusPanel );
-				statusContainer.add( Box.createVerticalStrut( 20 ) );
-
-				southContainer = new JPanel( new BorderLayout() );
-				southContainer.add( statusContainer, BorderLayout.NORTH );
-				container.add( southContainer, BorderLayout.SOUTH );
-			}
+			southContainer = new JPanel( new BorderLayout() );
+			southContainer.add( statusContainer, BorderLayout.NORTH );
+			container.add( southContainer, BorderLayout.SOUTH );
 		}
 	}
 
@@ -195,21 +181,6 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 		for ( int i = 0; i < elements.length; ++i )
 			elements[i].getInputField().setEnabled( isEnabled );
-	}
-
-	protected class ActionConfirmListener extends KeyAdapter
-	{
-		public void keyReleased( KeyEvent e )
-		{
-			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-			{
-				for ( int i = 0; i < elements.length; ++i )
-					if ( elements[i].getInputField() instanceof MutableComboBox )
-						((MutableComboBox)elements[i].getInputField()).forceAddition();
-
-				actionConfirmed();
-			}
-		}
 	}
 
 	private class StatusLabel extends JLabel
