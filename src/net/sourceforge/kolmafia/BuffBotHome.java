@@ -153,7 +153,7 @@ public class BuffBotHome extends StaticEntity
 		}
 
 		Integer key = new Integer( meatSent );
-		if ( !pastRecipients.containsKey( key ) );
+		if ( !pastRecipients.containsKey( key ) )
 			pastRecipients.put( key, new ArrayList() );
 
 		return (ArrayList) pastRecipients.get( key );
@@ -172,6 +172,7 @@ public class BuffBotHome extends StaticEntity
 		for ( int i = 0; i < pastRecipients.size(); ++i )
 			if ( pastRecipients.get(i).equals( name ) )
 				++instanceCount;
+
 		return instanceCount;
 	}
 
