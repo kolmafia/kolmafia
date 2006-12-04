@@ -106,6 +106,9 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				for ( int i = 0; i < soldBuffs.length; ++i )
 				{
 					currentBuff = soldBuffs[i].split( ":" );
+					if ( currentBuff.length == 1 )
+						continue;
+
 					addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ),
 						parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), currentBuff[4].equals( "true" ) );
 				}

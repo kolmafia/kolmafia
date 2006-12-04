@@ -144,7 +144,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	public static boolean isGlobalProperty( String name )
 	{
 		return CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) ||
-			name.startsWith( "getBreakfast" ) || name.startsWith( "loginScript" ) || name.startsWith( "initialFrames" ) || name.startsWith( "initialDesktop" );
+			name.startsWith( "getBreakfast" ) || name.startsWith( "loginScript" ) || name.startsWith( "autoPlant" ) || name.startsWith( "visitRumpus" ) ||
+			name.startsWith( "initialFrames" ) || name.startsWith( "initialDesktop" );
 	}
 
 	public String getProperty( String name )
@@ -347,6 +348,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "assumeInfiniteNPCItems", "false" );
 		CLIENT_SETTINGS.put( "autoCheckpoint", "true" );
 		CLIENT_SETTINGS.put( "autoLogin", "" );
+		CLIENT_SETTINGS.put( "autoPlantHardcore", "false" );
+		CLIENT_SETTINGS.put( "autoPlantSoftcore", "false" );
 		CLIENT_SETTINGS.put( "autoRepairBoxes", "false" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithMall", "false" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithNPCs", "true" );
@@ -427,6 +430,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "usePopupContacts", "1" );
 		CLIENT_SETTINGS.put( "useTabbedChat", "1" );
 		CLIENT_SETTINGS.put( "useToolbars", "true" );
+		CLIENT_SETTINGS.put( "visitRumpusHardcore", "false" );
+		CLIENT_SETTINGS.put( "visitRumpusSoftcore", "false" );
 
 		PLAYER_SETTINGS.put( "battleAction", "attack with weapon" );
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );

@@ -456,24 +456,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		}
 		else if ( responseText.indexOf( "You can only conjure" ) != -1 || responseText.indexOf( "You can only scrounge up" ) != -1 || responseText.indexOf( "You can only summon" ) != -1 )
 		{
-			// If it's a buff count greater than one,
-			// try to scale down the request.
-
-			int buffAttempt = StaticEntity.parseInt( getFormField( countFieldId ) );
-			if ( buffAttempt > 1 )
-			{
-				KoLmafia.updateDisplay( "Summon limit exceeded. Shrinking request..." );
-
-				int initialBuffCount = buffCount;
-				setBuffCount( 1 );
-
-				while ( buffAttempt++ < initialBuffCount && KoLmafia.permitsContinue() )
-					useSkillLoop();
-
-				KoLmafia.forceContinue();
-				return;
-			}
-
 			encounteredError = true;
 			lastUpdate = "Summon limit exceeded.";
 		}

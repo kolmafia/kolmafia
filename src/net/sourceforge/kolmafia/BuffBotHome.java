@@ -124,6 +124,9 @@ public class BuffBotHome extends StaticEntity
 		try
 		{
 			output.getParentFile().mkdirs();
+			if ( !output.exists() )
+				output.createNewFile();
+
 			return new LogStream( output );
 		}
 		catch ( Exception e )
