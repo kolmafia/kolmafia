@@ -1441,7 +1441,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				String [] splitup = parameters.split( "with limit" );
 				parameters = splitup[0];
-				desiredLimit = StaticEntity.parseInt( parameters );
+				desiredLimit = StaticEntity.parseInt( splitup[1] );
 			}
 
 			StoreManager.searchMall( parameters, results, desiredLimit, true );
