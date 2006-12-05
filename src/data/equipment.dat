@@ -419,6 +419,7 @@ Totally Gay Claymore	69	Mus: 19	2-handed sword
 Turtleslinger	50	Mus: 10	2-handed slingshot
 two-handed depthsword	120	Mus: 45	2-handed sword
 Unionize The Elves sign	50	Mus: 10	1-handed club
+vampire duck-on-a-string	100	Mus: 35	1-handed flail
 vorpal blade	90	Mus: 30	1-handed sword
 Wand of Nagamar	30	none	1-handed wand
 white sword	40	Mus: 5	1-handed sword
@@ -473,9 +474,12 @@ hippo skin buckler	0	Mys: 30
 hors d'oeuvre tray	0	Mus: 40
 hypnodisk	0	none
 ice baby	0	none
-joybuzzer	0	Mus: 5
+marionette	0	Mys: 40
+incredibly creepy joybuzzer	0	Mus: 5
 Kevlar balloon	0	none
 kickback cookbook	0	none
+killer rag doll	0	Mys: 40
+mad scientist's sock monkey	0	Mys: 40
 magic lamp	0	none
 magical ice cubes	0	none
 marionette	0	Mys: 40
@@ -709,6 +713,7 @@ tiny plastic Susie	0	none
 tiny plastic sweet nutcracker	0	none
 tiny plastic turtle tamer	0	none
 tiny plastic Uncle Crimbo	0	none
+toy crazy train	0	none
 toy train	0	none
 walrus-tusk earring	0	Mys: 10
 Warehouse 23 bling	0	none

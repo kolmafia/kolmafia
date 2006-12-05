@@ -839,3 +839,19 @@ fire	24	stick	stick
 leaf tube	24	stringy sinew	big leaf
 
 lit cigar	1	fire	leaf tube
+
+# Evil Crimbo toys.  These are items which are created by Lady Linnea
+# after collecting enough toy components.
+
+razor-tipped yo-yo	24	spooky length of string	spooky toy wheel
+possessed top	24	spooky wooden block	spooky toy wheel
+fancy dress ball	24	spooky stuffing	spooky felt
+tree-eating kite	24	spooky length of string	spooky felt
+stuffed alien blob	24	evil googly eye	spooky stuffing
+evil teddy bear	24	evil googly eye (2)	spooky stuffing (4)	spooky felt (2)
+vampire duck-on-a-string	24	spooky length of string	evil googly eye (2)	spooky wooden block (2)	spooky toy wheel (2)
+toy mercenary	24	evil googly eye (2)	spooky wooden block (3)
+toy crazy train	24	spooky length of string (2)	spooky wooden block (3)	spooky toy wheel (6)
+incredibly creepy marionette	24	spooky length of string (2)	evil googly eye (2)	spooky wooden block (2)
+mad scientist's sock monkey	24	evil googly eye (2)	spooky stuffing (3)	spooky felt
+killer rag doll	24	evil googly eye (2)	spooky stuffing (3)	spooky felt (2)
