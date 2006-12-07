@@ -2692,6 +2692,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void downloadAdventureOverride()
 	{
+		(new File( "data" )).mkdirs();
+
 		try
 		{
 			for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
@@ -2723,6 +2725,7 @@ public abstract class KoLmafia implements KoLConstants
 			// a stack trace for debug purposes.
 
 			updateDisplay( ERROR_STATE, "Subversion service access failed.  Try again later." );
+			e.printStackTrace();
 			return;
 		}
 
