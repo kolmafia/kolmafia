@@ -206,6 +206,10 @@ public abstract class SendMessageRequest extends KoLRequest
 			request.addFormField( getMeatField(), String.valueOf( meatAttachment ) );
 			request.run();
 		}
+		else if ( subinstances.isEmpty() )
+		{
+			super.run();
+		}
 	}
 
 	/**

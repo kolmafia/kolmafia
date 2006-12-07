@@ -331,6 +331,7 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
+			{ "ignoreGreenEvents", "Do not register special events (kmail, trade, etc)" },
 			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
 			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
 

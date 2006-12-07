@@ -1698,6 +1698,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private void checkForNewEvents()
 	{
+		if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+			return;
+
 		if ( responseText.indexOf( "bgcolor=orange><b>New Events:</b>") == -1 )
 			return;
 
