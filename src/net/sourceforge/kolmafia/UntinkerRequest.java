@@ -33,7 +33,9 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class UntinkerRequest extends KoLRequest
 {
@@ -95,15 +97,19 @@ public class UntinkerRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemId ) + "..." );
 		super.run();
 
-		if ( responseText.indexOf( "<select name=whichitem>" ) == -1 )
+		if ( responseText.indexOf( "You acquire" ) == -1 )
 		{
 			KoLRequest questCompleter = new KoLRequest( "town_right.php?place=untinker" );
 			questCompleter.run();
 
-			if ( !completeQuest() )
-				return;
+			if ( responseText.indexOf( "Degrassi" ) != -1 )
+			{
+				if ( !completeQuest() )
+					return;
 
-			questCompleter.run();
+				questCompleter.run();
+			}
+
 			super.run();
 		}
 
@@ -149,6 +155,13 @@ public class UntinkerRequest extends KoLRequest
 			questCompleter.run();
 
 			return true;
+		}
+
+		if ( !existingFrames.isEmpty() && !StaticEntity.getBooleanProperty( "autoRetrieveScrewdriver" ) )
+		{
+			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, "KoLmafia thinks you haven't completed the screwdriver quest.\nWould you like to have KoLmafia automatically complete it now?",
+				"Think carefully before you answer...", JOptionPane.YES_NO_OPTION ) )
+					return false;
 		}
 
 		// Okay, so they don't have one yet. Complete the

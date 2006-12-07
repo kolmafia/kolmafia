@@ -351,6 +351,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "autoPlantHardcore", "false" );
 		CLIENT_SETTINGS.put( "autoPlantSoftcore", "false" );
 		CLIENT_SETTINGS.put( "autoRepairBoxes", "false" );
+		CLIENT_SETTINGS.put( "autoRetrieveScrewdriver", "false" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithMall", "false" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithNPCs", "true" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithStash", "false" );

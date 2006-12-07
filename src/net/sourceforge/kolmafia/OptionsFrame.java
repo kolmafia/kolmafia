@@ -401,6 +401,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
 			{ "cloverProtectActive", "Enable clover protection for automated adventures" },
+			{ "autoRetrieveScrewdriver", "Automatically do screwdriver quest, if needed" },
 			{ "autoCheckpoint", "Enable outfit checkpointing during NPC purchases" },
 
 			{ "", "" },
