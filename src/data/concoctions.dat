@@ -855,3 +855,23 @@ toy crazy train	24	spooky length of string (2)	spooky wooden block (3)	spooky to
 incredibly creepy marionette	24	spooky length of string (2)	evil googly eye (2)	spooky wooden block (2)
 mad scientist's sock monkey	24	evil googly eye (2)	spooky stuffing (3)	spooky felt
 killer rag doll	24	evil googly eye (2)	spooky stuffing (3)	spooky felt (2)
+
+# Future Crimbo toys.  These are items which are created by Uncle Crimborg
+# after collecting enough toy components.
+
+servomechanical torsion facilitator	24	capacitor relay	carbon nanotube frame
+quantum polarity inducer	24	capacitor relay	ion grid
+bi-lateral logic compressor	24	capacitor relay	Feynman gate
+computronic processing unit	24	capacitor relay	logic synthesizer
+reverse-oscillating klystron	24	carbon nanotube frame	ion grid
+sub-molecular interocitor	24	carbon nanotube frame	Feynman gate
+recursive spline reticulator	24	carbon nanotube frame	logic synthesizer
+atomic vector plotter	24	ion grid	Feynman gate
+ion-pulse modulation stabilizer	24	ion grid	logic synthesizer
+hyperbolic plasma focuser	24	Feynman gate	logic synthesizer
+
+toy ray gun	24	high-resistance ultrapolymer plating	servomechanical torsion facilitator	hyperbolic plasma focuser
+toy space helmet	24	high-resistance ultrapolymer plating	bi-lateral logic compressor	atomic vector plotter
+MagiMechTech NanoMechaMech	24	high-resistance ultrapolymer plating	computronic processing unit	sub-molecular interocitor
+astronaut pants	24	high-resistance ultrapolymer plating	quantum polarity inducer	recursive spline reticulator
+toy jet pack	24	high-resistance ultrapolymer plating	reverse-oscillating klystron	ion-pulse modulation stabilizer

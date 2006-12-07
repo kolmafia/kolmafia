@@ -96,6 +96,7 @@ superhero mask	10	none
 The Colander of Em-er'il	50	Mys: 10
 The Scalp of Gorgolok	50	Mus: 10
 time helmet	100	Mox: 35
+toy space helmet	175	Mox: 72
 viking helmet	20	none
 wolf mask	150	Mox: 60
 wooden salad bowl	120	Mox: 45
@@ -109,6 +110,7 @@ yellow traffic cone	60	Mox: 15
 1337 7r0uZ0RZ	110	Mox: 40
 alpha-mail pants	140	Mox: 55
 antique greaves	200	Mus: 85
+astronaut pants	175	Mox: 72
 basic meat kilt	40	Mox: 5
 basic meat pants	40	Mox: 5
 basic meat skirt	40	Mox: 5
@@ -416,6 +418,7 @@ tiny ninja sword	20	none	1-handed sword
 tiny plastic sword	10	none	1-handed sword
 titanium assault umbrella	130	Mus: 50	1-handed umbrella
 Totally Gay Claymore	69	Mus: 19	2-handed sword
+toy ray gun	175	Mox: 72	1-handed pistol
 Turtleslinger	50	Mus: 10	2-handed slingshot
 two-handed depthsword	120	Mus: 45	2-handed sword
 Unionize The Elves sign	50	Mus: 10	1-handed club
@@ -615,6 +618,7 @@ Lord Spookyraven's spectacles	0	none
 lucky rabbit's foot	0	none
 Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
+MagiMechTech NanoMechaMech	0	none
 makeshift cape	0	none
 makeshift SCUBA gear	0	none
 Mr. Accessory	0	none
@@ -714,6 +718,7 @@ tiny plastic sweet nutcracker	0	none
 tiny plastic turtle tamer	0	none
 tiny plastic Uncle Crimbo	0	none
 toy crazy train	0	none
+toy jet pack	0	Mys: 72
 toy train	0	none
 walrus-tusk earring	0	Mys: 10
 Warehouse 23 bling	0	none
