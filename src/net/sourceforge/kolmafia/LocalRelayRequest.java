@@ -93,6 +93,10 @@ public class LocalRelayRequest extends PasswordHashRequest
 	{	return responseText;
 	}
 
+	public static boolean isRunningCommand()
+	{	return isRunningCommand;
+	}
+
 	private static final boolean isJunkItem( int itemId, int price, int searchType, boolean ignoreExpensiveItems, boolean ignoreMinpricedItems, boolean ignoreUnrelatedItems )
 	{
 		boolean shouldIgnore = false;

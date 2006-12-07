@@ -145,6 +145,10 @@ public class ChatBuffer
 	{	return displayBuffer.toString();
 	}
 
+	public boolean hasChatDisplay()
+	{	return displayPane != null;
+	}
+
 	/**
 	 * Sets the chat display used to display the chat messages currently
 	 * being stored in the buffer.  Note that whenever modifications are
@@ -157,6 +161,9 @@ public class ChatBuffer
 	public JScrollPane setChatDisplay( JEditorPane display )
 	{
 		displayPane = display;
+		if ( display == null )
+			return null;
+
 		displayPane.setContentType( "text/html" );
 		displayPane.setEditable( false );
 

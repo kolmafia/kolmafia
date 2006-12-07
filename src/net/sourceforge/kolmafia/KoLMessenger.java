@@ -756,31 +756,49 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 		else if ( message.startsWith( "<a target=mainpane href=\"messages.php\">" ) )
 		{
+			if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+				return "";
+
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font>" );
 		}
 		else if ( message.indexOf( "has proposed a trade" ) != -1 )
 		{
+			if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+				return "";
+
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font>" );
 		}
 		else if ( message.indexOf( "has cancelled a trade" ) != -1 )
 		{
+			if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+				return "";
+
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font>" );
 		}
 		else if ( message.indexOf( "has responded to a trade" ) != -1 )
 		{
+			if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+				return "";
+
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font>" );
 		}
 		else if ( message.indexOf( "has declined a trade" ) != -1 )
 		{
+			if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+				return "";
+
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font>" );
 		}
 		else if ( message.indexOf( "has accepted a trade" ) != -1 )
 		{
+			if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+				return "";
+
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font>" );
 		}

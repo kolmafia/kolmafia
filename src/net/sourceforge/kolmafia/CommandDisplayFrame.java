@@ -77,6 +77,12 @@ public class CommandDisplayFrame extends KoLFrame
 			entryField.requestFocus();
 	}
 
+	public void dispose()
+	{
+		commandBuffer.setChatDisplay( null );
+		super.dispose();
+	}
+
 	private class CommandDisplayPanel extends JPanel
 	{
 		private JButton entryButton;
@@ -84,7 +90,7 @@ public class CommandDisplayFrame extends KoLFrame
 		public CommandDisplayPanel()
 		{
 			JEditorPane outputDisplay = new JEditorPane();
-			JScrollPane scrollPane = KoLmafia.commandBuffer.setChatDisplay( outputDisplay );
+			JScrollPane scrollPane = commandBuffer.setChatDisplay( outputDisplay );
 			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 
 			JPanel entryPanel = new JPanel( new BorderLayout() );

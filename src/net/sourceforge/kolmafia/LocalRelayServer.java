@@ -179,7 +179,7 @@ public class LocalRelayServer implements Runnable
 
 	public static void addStatusMessage( String message )
 	{
-		if ( isRunning() && !LoginRequest.isInstanceRunning() && lastStatusMessage - System.currentTimeMillis() < 30000 )
+		if ( LocalRelayRequest.isRunningCommand() )
 			statusMessages.append( message );
 		else
 			statusMessages.setLength(0);
