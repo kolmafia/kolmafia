@@ -294,6 +294,8 @@ public class FamiliarsDatabase extends KoLDatabase
 	{
 		try
 		{
+			(new File( "data" )).mkdirs();
+
 			File output = new File( "data/familiars.dat" );
 			if ( output.exists() )
 				output.delete();
