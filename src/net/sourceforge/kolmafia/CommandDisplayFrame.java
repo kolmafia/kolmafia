@@ -157,33 +157,26 @@ public class CommandDisplayFrame extends KoLFrame
 
 				if ( command.startsWith( "abort" ) )
 				{
-					DEFAULT_SHELL.executeLine( command );
+					KoLmafia.declareWorldPeace();
 					return;
 				}
 
-				if ( command.indexOf( "refresh" ) == -1 )
+				synchronized ( commandQueue )
 				{
-					if ( command.startsWith( "inv" ) || command.equalsIgnoreCase( "status" ) || command.equalsIgnoreCase( "equip" ) )
+					commandQueue.add( command );
+					commandHistory.add( command );
+					lastCommandIndex = commandHistory.size();
+
+					if ( commandQueue.size() > 1 )
 					{
-						KoLmafia.commandBuffer.append( "<br><font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br><br>" );
-						DEFAULT_SHELL.executeLine( command );
+						KoLmafiaCLI.printBlankLine();
+						KoLmafiaCLI.printLine( " > QUEUED: " + command );
+						KoLmafiaCLI.printBlankLine();
 						return;
 					}
+
+					RequestThread.postRequest( this );
 				}
-
-				commandQueue.add( command );
-				commandHistory.add( command );
-				lastCommandIndex = commandHistory.size();
-
-				if ( commandQueue.size() > 1 )
-				{
-					KoLmafiaCLI.printBlankLine();
-					KoLmafiaCLI.printLine( " > QUEUED: " + command );
-					KoLmafiaCLI.printBlankLine();
-					return;
-				}
-
-				RequestThread.postRequest( this );
 			}
 
 			public void run()

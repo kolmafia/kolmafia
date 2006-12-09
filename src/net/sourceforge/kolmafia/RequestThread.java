@@ -36,10 +36,7 @@ package net.sourceforge.kolmafia;
 
 import javax.swing.SwingUtilities;
 import net.sourceforge.foxtrot.Job;
-import net.sourceforge.foxtrot.Worker;
 import net.sourceforge.foxtrot.ConcurrentWorker;
-
-import java.util.Vector;
 
 public abstract class RequestThread implements Runnable, KoLConstants
 {
@@ -49,23 +46,6 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 	public static void postRequest( Runnable request, int repeatCount )
 	{	execute( request, repeatCount );
-	}
-
-	public static void postConcurrent( Runnable request )
-	{
-		try
-		{
-			Request runner = new Request( request, 1 );
-
-			if ( SwingUtilities.isEventDispatchThread() )
-				ConcurrentWorker.post( runner );
-			else
-				runner.run();
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
 	}
 
 	private static void execute( Runnable request, int repeatCount )
@@ -79,7 +59,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 		try
 		{
 			if ( SwingUtilities.isEventDispatchThread() )
-				Worker.post( runner );
+				ConcurrentWorker.post( runner );
 			else
 				runner.run();
 		}

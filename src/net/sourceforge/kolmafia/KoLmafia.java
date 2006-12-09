@@ -317,9 +317,6 @@ public abstract class KoLmafia implements KoLConstants
 			initialScript.append( " " );
 		}
 
-System.out.println( args.length );
-System.out.println( initialScript );
-
 		if ( initialScript.length() != 0 )
 		{
 			String actualScript = initialScript.toString().trim();

@@ -571,17 +571,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		public void actionPerformed( ActionEvent e )
 		{
 			KoLmafia.forceContinue();
-
-			if ( isConcurrent() )
-				RequestThread.postConcurrent( this );
-			else
-				RequestThread.postRequest( this );
-
+			RequestThread.postRequest( this );
 			KoLmafia.enableDisplay();
-		}
-
-		protected boolean isConcurrent()
-		{	return true;
 		}
 
 		public abstract void run();
@@ -705,10 +696,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void run()
 		{	StaticEntity.getClient().makeRequest( request );
-		}
-
-		protected boolean isConcurrent()
-		{	return false;
 		}
 	}
 

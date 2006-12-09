@@ -217,8 +217,8 @@ public class LoginFrame extends KoLFrame
 			else
 				autoLoginCheckBox.setSelected( true );
 
-			if ( usernameField instanceof JComboBox )
-				((JComboBox)usernameField).setSelectedItem( autoLoginSetting );
+			if ( usernameField instanceof LoginNameComboBox )
+				((LoginNameComboBox)usernameField).setSelectedItem( autoLoginSetting );
 
 			String passwordSetting = KoLmafia.getSaveState( autoLoginSetting );
 
@@ -230,7 +230,6 @@ public class LoginFrame extends KoLFrame
 
 			getBreakfastCheckBox.setSelected( StaticEntity.getBooleanProperty( "alwaysGetBreakfast" ) );
 			getBreakfastCheckBox.addActionListener( new GetBreakfastListener() );
-			setDefaultButton( confirmedButton );
 
 			autoLoginCheckBox.addActionListener( new AutoLoginListener() );
 			savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
@@ -255,8 +254,14 @@ public class LoginFrame extends KoLFrame
 		{
 			StaticEntity.setProperty( "alwaysGetBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
-			this.username = ((String)(usernameField instanceof JComboBox ?
-				((JComboBox)usernameField).getSelectedItem() : ((JTextField)usernameField).getText() ));
+			this.username = null;
+
+			if ( usernameField instanceof JTextField )
+				this.username = ((JTextField)usernameField).getText();
+			else if ( ((LoginNameComboBox)usernameField).currentMatch != null )
+				this.username = ((LoginNameComboBox)usernameField).currentMatch;
+			else
+				this.username = (String) ((LoginNameComboBox)usernameField).getSelectedItem();
 
 			String password = new String( passwordField.getPassword() );
 

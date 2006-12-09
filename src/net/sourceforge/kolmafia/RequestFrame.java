@@ -213,7 +213,9 @@ public class RequestFrame extends KoLFrame
 		if ( hasSideBar() )
 			refreshStatus();
 
+System.out.println( "Got here." );
 		displayRequest( request );
+System.out.println( "Finished there." );
 	}
 
 	private class BrowserComboBox extends JComboBox implements ActionListener
@@ -328,12 +330,10 @@ public class RequestFrame extends KoLFrame
 			return;
 
 		currentLocation = request.getURLString();
-		StaticEntity.getClient().setCurrentRequest( request );
+
+System.out.println( currentLocation );
 
 		mainBuffer.clearBuffer();
-
-		if ( request == null )
-			return;
 
 		if ( request.responseText == null || request.responseText.length() == 0 )
 		{
@@ -371,7 +371,8 @@ public class RequestFrame extends KoLFrame
 			locationField.setCaretPosition( 0 );
 
 			locationIndex = shownHTML.size() - 1;
-			mainBuffer.append( renderText );		}
+			mainBuffer.append( renderText );
+		}
 		else
 		{
 			// If this resulted in a redirect, then update the display
@@ -484,7 +485,7 @@ public class RequestFrame extends KoLFrame
 		if ( !refreshStatusEnabled )
 			return;
 
-		RequestThread.postConcurrent( CharpaneRequest.getInstance() );
+		RequestThread.postRequest( CharpaneRequest.getInstance() );
 		refreshStatus( RequestEditorKit.getDisplayHTML( "", CharpaneRequest.getInstance().responseText ) );
 
 	}

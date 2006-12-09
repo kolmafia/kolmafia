@@ -687,7 +687,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( urlString.indexOf( "choice.php" ) != -1 )
 			saveLastChoice( urlString );
 
-		if ( !isDelayExempt )
+		if ( !isDelayExempt && !LoginRequest.isInstanceRunning() )
 			StaticEntity.getClient().setCurrentRequest( this );
 
 		// If you're about to fight the Naughty Sorceress,

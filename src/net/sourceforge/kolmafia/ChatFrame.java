@@ -273,7 +273,7 @@ public class ChatFrame extends KoLFrame
 					return;
 				}
 
-				RequestThread.postConcurrent( new ChatSubmitter( message ) );
+				RequestThread.postRequest( new ChatSubmitter( message ) );
 			}
 
 			private class ChatSubmitter implements Runnable
@@ -440,11 +440,11 @@ public class ChatFrame extends KoLFrame
 				return;
 
 			case 8:
-				RequestThread.postConcurrent( new ChatRequest( "/whois", (String) parameters[0] ) );
+				RequestThread.postRequest( new ChatRequest( "/whois", (String) parameters[0] ) );
 				return;
 
 			case 9:
-				RequestThread.postConcurrent( new ChatRequest( "/baleet", (String) parameters[0] ) );
+				RequestThread.postRequest( new ChatRequest( "/baleet", (String) parameters[0] ) );
 				return;
 
 			default:
