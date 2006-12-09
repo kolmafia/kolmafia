@@ -322,7 +322,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		this.shouldIgnoreResults = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "search" ) ||
 			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) ||
-			formURLString.startsWith( "doc" ) || formURLString.startsWith( "clan" );
+			formURLString.startsWith( "doc" ) || (formURLString.startsWith( "clan" ) && !(this instanceof ClanGymRequest));
 
 		return this;
 	}
