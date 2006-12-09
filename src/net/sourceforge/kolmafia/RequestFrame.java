@@ -213,9 +213,7 @@ public class RequestFrame extends KoLFrame
 		if ( hasSideBar() )
 			refreshStatus();
 
-System.out.println( "Got here." );
 		displayRequest( request );
-System.out.println( "Finished there." );
 	}
 
 	private class BrowserComboBox extends JComboBox implements ActionListener
@@ -330,9 +328,6 @@ System.out.println( "Finished there." );
 			return;
 
 		currentLocation = request.getURLString();
-
-System.out.println( currentLocation );
-
 		mainBuffer.clearBuffer();
 
 		if ( request.responseText == null || request.responseText.length() == 0 )
