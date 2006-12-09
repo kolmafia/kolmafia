@@ -383,6 +383,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "HagnkStorageFrame,EventsFrame" );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
+		CLIENT_SETTINGS.put( "loginWindowLogo", "lantern.jpg" );
 
 		CLIENT_SETTINGS.put( "logAcquiredItems", "true" );
 		CLIENT_SETTINGS.put( "logBattleAction", "true" );

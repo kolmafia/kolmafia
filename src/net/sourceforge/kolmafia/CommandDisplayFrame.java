@@ -161,22 +161,19 @@ public class CommandDisplayFrame extends KoLFrame
 					return;
 				}
 
-				synchronized ( commandQueue )
+				commandQueue.add( command );
+				commandHistory.add( command );
+				lastCommandIndex = commandHistory.size();
+
+				if ( commandQueue.size() > 1 )
 				{
-					commandQueue.add( command );
-					commandHistory.add( command );
-					lastCommandIndex = commandHistory.size();
-
-					if ( commandQueue.size() > 1 )
-					{
-						KoLmafiaCLI.printBlankLine();
-						KoLmafiaCLI.printLine( " > QUEUED: " + command );
-						KoLmafiaCLI.printBlankLine();
-						return;
-					}
-
-					RequestThread.postRequest( this );
+					KoLmafiaCLI.printBlankLine();
+					KoLmafiaCLI.printLine( " > QUEUED: " + command );
+					KoLmafiaCLI.printBlankLine();
+					return;
 				}
+
+				RequestThread.postRequest( this );
 			}
 
 			public void run()
