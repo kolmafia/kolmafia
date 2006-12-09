@@ -462,47 +462,34 @@ public class ItemManageFrame extends KoLFrame
 				elementList.applyFilter( filter );
 			}
 
-			private class ConsumableFilter extends WordBasedFilter
+			private class ConsumableFilter extends ConsumptionBasedFilter
 			{
-				public ConsumableFilter()
-				{
-					super( StaticEntity.getBooleanProperty( "showJunkItems" ) );
-				}
-
 				public boolean isVisible( Object element )
 				{
-					boolean isVisibleWithFilter = true;
 					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
 					{
 					case ConsumeItemRequest.CONSUME_EAT:
-						isVisibleWithFilter = food;
-						break;
-
 					case ConsumeItemRequest.CONSUME_DRINK:
-						isVisibleWithFilter = booze;
+					case ConsumeItemRequest.GROW_FAMILIAR:
+					case ConsumeItemRequest.CONSUME_ZAP:
 						break;
 
 					case ConsumeItemRequest.CONSUME_RESTORE:
-						isVisibleWithFilter = restores;
+						if ( !restores )
+							return false;
+
 						break;
 
 					case ConsumeItemRequest.CONSUME_MULTIPLE:
 					case ConsumeItemRequest.CONSUME_USE:
-						isVisibleWithFilter = HPRestoreItemList.contains( (AdventureResult) element ) ? restores : other;
-						break;
+						if ( HPRestoreItemList.contains( (AdventureResult) element ) && !restores )
+							return false;
 
-					case ConsumeItemRequest.GROW_FAMILIAR:
-					case ConsumeItemRequest.CONSUME_ZAP:
-						isVisibleWithFilter = other;
 						break;
 
 					default:
-						isVisibleWithFilter = false;
-						break;
-					}
-
-					if ( !isVisibleWithFilter )
 						return false;
+					}
 
 					return super.isVisible( element );
 				}

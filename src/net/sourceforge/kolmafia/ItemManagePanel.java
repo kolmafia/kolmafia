@@ -410,7 +410,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			elementList.applyFilter( filter );
 		}
 
-		private class ConsumptionBasedFilter extends WordBasedFilter
+		protected class ConsumptionBasedFilter extends WordBasedFilter
 		{
 			public ConsumptionBasedFilter()
 			{	super( !StaticEntity.getBooleanProperty( "showJunkItems" ) );
