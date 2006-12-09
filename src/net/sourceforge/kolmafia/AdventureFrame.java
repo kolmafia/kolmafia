@@ -491,13 +491,15 @@ public class AdventureFrame extends KoLFrame
 			}
 		}
 
-		private class ExecuteButton extends ThreadedActionButton
+		private class ExecuteButton extends JButton implements ActionListener
 		{
 			public ExecuteButton()
-			{	super( "begin" );
+			{
+				super( "begin" );
+				addActionListener( this );
 			}
 
-			public void run()
+			public void actionPerformed( ActionEvent e )
 			{
 				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
 				KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
@@ -527,11 +529,8 @@ public class AdventureFrame extends KoLFrame
 				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
 				countField.setValue( new Integer( requestCount ) );
 
-				StaticEntity.getClient().makeRequest( request, requestCount );
-			}
-
-			protected boolean isConcurrent()
-			{	return false;
+				RequestThread.postRequest( request, requestCount );
+				KoLmafia.enableDisplay();
 			}
 
 			private void handleConditions( KoLAdventure request )

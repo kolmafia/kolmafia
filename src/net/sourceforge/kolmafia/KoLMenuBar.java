@@ -398,7 +398,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			if ( makesRequest() )
 				KoLmafia.forceContinue();
 
-			RequestThread.postConcurrent( this );
+			RequestThread.postRequest( this );
 
 			if ( makesRequest() )
 				KoLmafia.enableDisplay();

@@ -224,27 +224,27 @@ public class GearChangeFrame extends KoLFrame
 			{
 				Object outfit = getSelectedItem();
 				if ( outfit != null && !(outfit instanceof String) )
-				{
 					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
-					KoLmafia.enableDisplay();
-				}
 
+				KoLmafia.enableDisplay();
 				setSelectedItem( null );
-				return;
 			}
 			else if ( this == familiarSelect )
 			{
 				equip.actionConfirmed();
-				return;
 			}
-
-			for ( int i = 0; i < equipment.length; ++i )
-				if ( this == equipment[i] )
+			else
+			{
+				for ( int i = 0; i < equipment.length; ++i )
 				{
-					pieces[i] = (AdventureResult) getSelectedItem();
-					if ( KoLCharacter.getEquipment(i).equals( pieces[i] ) )
-						pieces[i] = null;
+					if ( this == equipment[i] )
+					{
+						pieces[i] = (AdventureResult) getSelectedItem();
+						if ( KoLCharacter.getEquipment(i).equals( pieces[i] ) )
+							pieces[i] = null;
+					}
 				}
+			}
 
 			ensureValidSelections();
 		}

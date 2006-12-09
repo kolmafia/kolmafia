@@ -152,6 +152,21 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 		this.elements = elements;
 
+		if ( elements != null )
+		{
+			ActionConfirmListener listener = new ActionConfirmListener();
+
+			for ( int i = 0; i < elements.length; ++i )
+			{
+				if ( elements[i].getInputField() instanceof MutableComboBox )
+					((MutableComboBox)elements[i].getInputField()).getEditor().getEditorComponent().addKeyListener( listener );
+				else if ( elements[i].getInputField() instanceof JComboBox )
+					((JComboBox)elements[i].getInputField()).addKeyListener( listener );
+				else if ( elements[i].getInputField() instanceof JTextField )
+					((JTextField)elements[i].getInputField()).addKeyListener( listener );
+			}
+		}
+
 		if ( shouldAddStatusLabel( elements ) )
 		{
 			JPanel statusContainer = new JPanel();
@@ -274,5 +289,18 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	{
 		if ( actionStatusLabel != null && !s.trim().equals( "" ) )
 			actionStatusLabel.setStatusMessage( displayState, s.trim() );
+	}
+
+	protected class ActionConfirmListener extends KeyAdapter implements Runnable
+	{
+		public void keyReleased( KeyEvent e )
+		{
+			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+				RequestThread.postRequest( this );
+		}
+
+		public void run()
+		{	actionConfirmed();
+		}
 	}
 }
