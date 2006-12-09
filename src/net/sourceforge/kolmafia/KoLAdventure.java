@@ -236,12 +236,27 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	{
 		if ( zone.equals( "Astral" ) )
 		{
+			// Update the choice adventure setting
+
+			if ( adventureId.equals( "96" ) )
+				StaticEntity.setProperty( "choiceAdventure71", "1" );
+			else if ( adventureId.equals( "97" ) )
+				StaticEntity.setProperty( "choiceAdventure71", "2" );
+			else
+				StaticEntity.setProperty( "choiceAdventure71", "3" );
+
+			// If the player is not half-astral, then
+			// make sure they are before continuing.
+
 			if ( !activeEffects.contains( ASTRAL ) )
 			{
 				isValidAdventure = AdventureDatabase.retrieveItem( MUSHROOM );
 				if ( isValidAdventure )
 					DEFAULT_SHELL.executeLine( "use astral mushroom" );
 			}
+
+			isValidAdventure = activeEffects.contains( ASTRAL );
+			return;
 		}
 
 		if ( isValidAdventure )
@@ -590,18 +605,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		validate( true );
 	}
 
-	private void postValidate()
-	{
-		// If we're trying to take a trip, make sure we're still
-		// half-astral
-		if ( adventureId.equals( "96" ) || adventureId.equals( "97" ) || adventureId.equals( "98" ) )
-		{
-			if ( ASTRAL.getCount( ( activeEffects ) ) == 0 )
-				isValidAdventure = false;
-			return;
-		}
-	}
-
 	/**
 	 * Retrieves the string form of the adventure contained within this
 	 * encapsulation, which is generally the name of the adventure.
@@ -761,8 +764,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			while ( request.redirectLocation != null && request.redirectLocation.equals( "choice.php" ) )
 				request.run();
 		}
-
-		postValidate();
 	}
 
 	public void recordToSession()
