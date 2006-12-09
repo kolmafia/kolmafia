@@ -66,6 +66,11 @@ public class FightRequest extends KoLRequest
 	private static final AdventureResult TURTLE = new AdventureResult( 4, 1 );
 	private static final AdventureResult SPICES = new AdventureResult( 8, 1 );
 
+	private static final AdventureResult BROKEN_GREAVES = new AdventureResult( 1929, -1 );
+	private static final AdventureResult BROKEN_HELMET = new AdventureResult( 1930, -1 );
+	private static final AdventureResult BROKEN_SPEAR = new AdventureResult( 1931, -1 );
+	private static final AdventureResult BROKEN_SHIELD = new AdventureResult( 1932, -1 );
+
 	private static final String TOOTH_ACTION = "item" + TOOTH.getItemId();
 	private static final String TURTLE_ACTION = "item" + TURTLE.getItemId();
 	private static final String SPICES_ACTION = "item" + SPICES.getItemId();
@@ -323,11 +328,11 @@ public class FightRequest extends KoLRequest
 			isAcceptable = isAcceptable( -5, -5 );
 		}
 
-		// Entangling Noodles
-		if ( !isAcceptable && KoLCharacter.hasSkill( "Entangling Noodles" ) )
+		// Tango of Terror
+		if ( !isAcceptable && KoLCharacter.hasSkill( "Tango of Terror" ) )
 		{
-			desiredSkill = 3004;
-			isAcceptable = isAcceptable( -1 - Math.min( 5, KoLCharacter.getAdjustedMysticality() / 8 ), 0 );
+			desiredSkill = 5019;
+			isAcceptable = isAcceptable( -6, -6 );
 		}
 
 		// Disco Face Stab
@@ -335,6 +340,13 @@ public class FightRequest extends KoLRequest
 		{
 			desiredSkill = 5012;
 			isAcceptable = isAcceptable( -7, -7 );
+		}
+
+		// Entangling Noodles
+		if ( !isAcceptable && KoLCharacter.hasSkill( "Entangling Noodles" ) )
+		{
+			desiredSkill = 3004;
+			isAcceptable = isAcceptable( -1 - Math.min( 5, KoLCharacter.getAdjustedMysticality() / 8 ), 0 );
 		}
 
 		return desiredSkill == 0 ? null : String.valueOf( desiredSkill );
@@ -364,6 +376,8 @@ public class FightRequest extends KoLRequest
 			monsterData = MonsterDatabase.findMonster( encounter );
 		}
 
+		// Reset round information.
+
 		if ( responseText.indexOf( "fight.php" ) == -1 )
 		{
 			encounter = "";
@@ -376,11 +390,33 @@ public class FightRequest extends KoLRequest
 
 			action1 = null;
 			action2 = null;
+		}
 
-			if ( RequestFrame.willRefreshStatus() )
-				RequestFrame.refreshStatus();
-			else
-				CharpaneRequest.getInstance().run();
+		// Check for antique breakage; only run the string search if
+		// the player is equipped with the applicable item.
+
+		if ( KoLCharacter.getEquipment( KoLCharacter.HAT ).equals( BROKEN_HELMET ) && responseText.indexOf( "Your antique helmet, weakened" ) != -1 )
+		{
+			KoLCharacter.setEquipment( KoLCharacter.HAT, EquipmentRequest.UNEQUIP );
+			KoLCharacter.processResult( BROKEN_HELMET );
+		}
+
+		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).equals( BROKEN_SPEAR ) && responseText.indexOf( "sunders your antique spear" ) != -1 )
+		{
+			KoLCharacter.setEquipment( KoLCharacter.WEAPON, EquipmentRequest.UNEQUIP );
+			KoLCharacter.processResult( BROKEN_SPEAR );
+		}
+
+		if ( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).equals( BROKEN_SHIELD ) && responseText.indexOf( "Your antique shield, weakened" ) != -1 )
+		{
+			KoLCharacter.setEquipment( KoLCharacter.OFFHAND, EquipmentRequest.UNEQUIP );
+			KoLCharacter.processResult( BROKEN_SHIELD );
+		}
+
+		if ( KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( BROKEN_GREAVES ) && responseText.indexOf( "Your antique greaves, weakened" ) != -1 )
+		{
+			KoLCharacter.setEquipment( KoLCharacter.PANTS, EquipmentRequest.UNEQUIP );
+			KoLCharacter.processResult( BROKEN_GREAVES );
 		}
 	}
 
@@ -491,6 +527,10 @@ public class FightRequest extends KoLRequest
 			offenseModifier -= 7;
 			defenseModifier -= 7;
 			break;
+
+		case 5019: // Tango of Terror
+			offenseModifier -= 6;
+			defenseModifier -= 6;
 		}
 
 		if ( mpCost > 0 )
