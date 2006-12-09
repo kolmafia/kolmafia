@@ -289,12 +289,48 @@ public abstract class KoLmafia implements KoLConstants
 			UIManager.put( "ProgressBar.selectionBackground", Color.black );
 		}
 
-		// Now run the main routines.
+		// Now run the main routines for each, so that
+		// you have an interface.
 
 		if ( useGUI )
 			KoLmafiaGUI.main( args );
 		else
 			KoLmafiaCLI.main( args );
+
+		// Now, maybe the person wishes to run something
+		// on startup, and they associated KoLmafia with
+		// some non-ASH file extension.  This will run it.
+
+		StringBuffer initialScript = new StringBuffer();
+
+		for ( int i = 0; i < args.length; ++i )
+		{
+			if ( args[i].equalsIgnoreCase( "--CLI" ) )
+			{
+				if ( args.length == 0 )
+					continue;
+
+				break;
+			}
+
+			initialScript.append( args[i] );
+			initialScript.append( " " );
+		}
+
+System.out.println( args.length );
+System.out.println( initialScript );
+
+		if ( initialScript.length() != 0 )
+		{
+			String actualScript = initialScript.toString().trim();
+			if ( actualScript.startsWith( "script=" ) )
+				actualScript = actualScript.substring( 7 );
+
+			DEFAULT_SHELL.executeLine( "call " + actualScript );
+
+			if ( !useGUI )
+				DEFAULT_SHELL.listenForCommands();
+		}
 	}
 
 	private static void deleteSimulator( File location )

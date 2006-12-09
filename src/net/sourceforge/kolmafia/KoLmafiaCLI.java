@@ -91,14 +91,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public static void main( String [] args )
 	{
-		StringBuffer initialScript = new StringBuffer();
-
-		for ( int i = 1; i < args.length; ++i )
-		{
-			initialScript.append( args[i] );
-			initialScript.append( " " );
-		}
-
 		System.out.println();
 		System.out.println();
 		System.out.println( " * " + VERSION_NAME );
@@ -118,26 +110,9 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 		}
 
-		if ( initialScript.indexOf( "NO_LOGIN" ) != -1 )
-		{
-			DEFAULT_SHELL.listenForCommands();
-		}
-		else if ( initialScript.indexOf( "TEST_ONLY" ) != -1 )
-		{
-			DEFAULT_SHELL.executeLine( "test" );
-		}
-		else if ( initialScript.length() == 0 )
+		if ( args.length == 0 )
 		{
 			DEFAULT_SHELL.attemptLogin();
-			DEFAULT_SHELL.listenForCommands();
-		}
-		else
-		{
-			String actualScript = initialScript.toString().trim();
-			if ( actualScript.startsWith( "script=" ) )
-				actualScript = actualScript.substring( 7 );
-
-			DEFAULT_SHELL.executeLine( "call " + actualScript );
 			DEFAULT_SHELL.listenForCommands();
 		}
 	}
