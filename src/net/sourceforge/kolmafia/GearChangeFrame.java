@@ -108,8 +108,6 @@ public class GearChangeFrame extends KoLFrame
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( equip = new EquipPanel(), "" );
-
-		KoLCharacter.updateEquipmentLists();
 		ensureValidSelections();
 	}
 
@@ -129,14 +127,14 @@ public class GearChangeFrame extends KoLFrame
 
 			elements[5] = new VerifiableElement();
 
-			elements[6] = new VerifiableElement( "Accessory 1: ", equipment[5] );
-			elements[7] = new VerifiableElement( "Accessory 2: ", equipment[6] );
-			elements[8] = new VerifiableElement( "Accessory 3: ", equipment[7] );
+			elements[6] = new VerifiableElement( "Accessory: ", equipment[5] );
+			elements[7] = new VerifiableElement( "Accessory: ", equipment[6] );
+			elements[8] = new VerifiableElement( "Accessory: ", equipment[7] );
 
 			elements[9] = new VerifiableElement();
 
 			elements[10] = new VerifiableElement( "Familiar: ", familiarSelect );
-			elements[11] = new VerifiableElement( "Familiar Item: ", equipment[8] );
+			elements[11] = new VerifiableElement( "Fam Item: ", equipment[8] );
 
 			elements[12] = new VerifiableElement();
 
@@ -181,10 +179,6 @@ public class GearChangeFrame extends KoLFrame
 				}
 			}
 
-			FamiliarData familiar = (FamiliarData) familiarSelect.getSelectedItem();
-			if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
-				RequestThread.postRequest( new FamiliarRequest( familiar ) );
-
 			KoLmafia.enableDisplay();
 		}
 
@@ -210,43 +204,61 @@ public class GearChangeFrame extends KoLFrame
 		public ChangeComboBox( LockableListModel slot )
 		{
 			super( slot );
-			this.setRenderer( AdventureResult.getEquipmentRenderer() );
+			setRenderer( AdventureResult.getEquipmentRenderer() );
+			addActionListener( new ChangeItemListener() );
 		}
 
-		public void setPopupVisible( boolean isVisible )
+		private class ChangeItemListener implements ActionListener
 		{
-			super.setPopupVisible( isVisible );
-
-			if ( isVisible )
-				return;
-
-			if ( this == outfitSelect )
+			public void actionPerformed( ActionEvent e )
 			{
-				Object outfit = getSelectedItem();
-				if ( outfit != null && !(outfit instanceof String) )
+				// If you're changing an outfit, then the change must
+				// occur right away.
+
+				if ( ChangeComboBox.this == outfitSelect )
+				{
+					Object outfit = getSelectedItem();
+					if ( outfit == null || !(outfit instanceof SpecialOutfit) )
+						return;
+
 					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
+					KoLmafia.enableDisplay();
+					setSelectedItem( null );
 
-				KoLmafia.enableDisplay();
-				setSelectedItem( null );
-			}
-			else if ( this == familiarSelect )
-			{
-				equip.actionConfirmed();
-			}
-			else
-			{
+					return;
+				}
+
+				// If you're changing your familiar, then make sure all
+				// the equipment pieces get changed and the familiar
+				// gets changed right after.
+
+				if ( ChangeComboBox.this == familiarSelect )
+				{
+					equip.actionConfirmed();
+
+					FamiliarData familiar = (FamiliarData) familiarSelect.getSelectedItem();
+					if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
+						RequestThread.postRequest( new FamiliarRequest( familiar ) );
+
+					KoLmafia.enableDisplay();
+					return;
+				}
+
+				// In all other cases, simply re-validate what it is
+				// you need to equip.
+
 				for ( int i = 0; i < equipment.length; ++i )
 				{
-					if ( this == equipment[i] )
+					if ( ChangeComboBox.this == equipment[i] )
 					{
 						pieces[i] = (AdventureResult) getSelectedItem();
 						if ( KoLCharacter.getEquipment(i).equals( pieces[i] ) )
 							pieces[i] = null;
 					}
 				}
-			}
 
-			ensureValidSelections();
+				ensureValidSelections();
+			}
 		}
 	}
 

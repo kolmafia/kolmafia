@@ -611,7 +611,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 
 		// Retrieve the list of familiars which are available to
-		// the player, if they haven't opted to skip them.
+		// the player.
 
 		(new FamiliarRequest()).run();
 		if ( refusesContinue() )

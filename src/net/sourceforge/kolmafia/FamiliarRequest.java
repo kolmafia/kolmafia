@@ -97,10 +97,14 @@ public class FamiliarRequest extends KoLRequest
 	protected void processResults()
 	{
 		FamiliarData.registerFamiliarData( responseText );
-		KoLCharacter.updateEquipmentList( KoLCharacter.FAMILIAR );
-
 		if ( changeTo == null )
 			KoLmafia.updateDisplay( "Familiar data retrieved." );
+
+		if ( KoLCharacter.getFamiliar() == null )
+			KoLCharacter.setEquipment( KoLCharacter.FAMILIAR, EquipmentRequest.UNEQUIP );
+		else
+			KoLCharacter.setEquipment( KoLCharacter.FAMILIAR, KoLCharacter.getFamiliar().getItem() );
+
 	}
 
 	public String getCommandForm()

@@ -1325,7 +1325,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		else if ( formURLString.indexOf( "charpane.php" ) != -1 )
 		{
 			KoLCharacter.recalculateAdjustments();
-			KoLCharacter.updateEquipmentLists();
 			KoLCharacter.updateStatus();
 		}
 		else if ( !shouldIgnoreResults )
