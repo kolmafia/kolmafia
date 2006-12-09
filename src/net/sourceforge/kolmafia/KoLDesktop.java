@@ -180,9 +180,12 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 	public void dispose()
 	{
+		String setting = StaticEntity.getGlobalProperty( "initialDesktop" );
 		KoLFrame [] frames = StaticEntity.getExistingFrames();
+
 		for ( int i = 0; i < frames.length; ++i )
-			frames[i].dispose();
+			if ( setting.indexOf( frames[i].getFrameName() ) != -1 )
+				frames[i].dispose();
 
 		INSTANCE = null;
 		super.dispose();
