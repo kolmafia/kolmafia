@@ -242,6 +242,11 @@ public class KoLmafiaGUI extends KoLmafia
 			StaticEntity.getClient().startRelayServer();
 			return;
 		}
+		else if ( frameName.equals( "HagnkStorageFrame" ) )
+		{
+			if ( storage.isEmpty() )
+				return;
+		}
 		else if ( frameName.equals( "MoneyMakingGameFrame" ) )
 		{
 			if ( showAdventuringMessage() )

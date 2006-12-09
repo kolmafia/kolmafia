@@ -1093,6 +1093,10 @@ public abstract class KoLCharacter extends StaticEntity
 	{	return itemDropPercentAdjustment;
 	}
 
+	public static void setEquipment( int slot, AdventureResult item )
+	{	equipmentLists[ slot ].setSelectedItem( item );
+	}
+
 	/**
 	 * Accessor method to set the equipment the character is currently using.
 	 * This does not take into account the power of the item or anything of
@@ -1367,7 +1371,7 @@ public abstract class KoLCharacter extends StaticEntity
 			updateEquipmentList( i );
 	}
 
-	public static void updateEquipmentList( int listIndex )
+	private static void updateEquipmentList( int listIndex )
 	{
 		int consumeFilter = equipmentTypeToConsumeFilter( listIndex );
 		if ( consumeFilter == -1 )
@@ -1415,25 +1419,21 @@ public abstract class KoLCharacter extends StaticEntity
 		boolean dual = ( weaponHandedness() == 1 && hasSkill( "Double-Fisted Skull Smashing" ) );
 		boolean ranged = rangedWeapon();
 
-		// If we are looking for familiar items, but we don't
-		// have a familiar, then no familiar items can actually
-		// be equipped.  So, return the blank list now.
-
-		if ( filterId == ConsumeItemRequest.EQUIP_FAMILIAR && currentFamiliar == null )
-			return;
-
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			AdventureResult currentItem = (AdventureResult) inventory.get(i);
 			String currentItemName = currentItem.getName();
 
-			// Make sure we meet requirements -- these are the
-			// two most common checks so do them first.
-
-			if ( !EquipmentDatabase.canEquip( currentItemName ) )
-				continue;
-
 			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemId() );
+
+			// If we are equipping familiar items, make sure
+			// current familiar can use this one
+
+			if ( type == ConsumeItemRequest.EQUIP_FAMILIAR )
+			{
+				temporary.add( currentItem );
+				continue;
+			}
 
 			// If we want off-hand items and we can dual wield,
 			// allow one-handed weapons of same type
@@ -1460,17 +1460,6 @@ public abstract class KoLCharacter extends StaticEntity
 					continue;
 			}
 
-			// If we are equipping familiar items, make sure
-			// current familiar can use this one
-
-			if ( type == ConsumeItemRequest.EQUIP_FAMILIAR )
-			{
-				if ( currentFamiliar.canEquip( currentItem ) )
-					currentList.add( currentItem );
-
-				continue;
-			}
-
 			temporary.add( currentItem );
 		}
 
@@ -1484,11 +1473,7 @@ public abstract class KoLCharacter extends StaticEntity
 			familiars.toArray( familiarList );
 
 			for ( int i = 0; i < familiarList.length; ++i )
-			{
-				AdventureResult item = familiarList[i].getItem();
-				if ( item != null && !temporary.contains( item ) && currentFamiliar.canEquip( item ) )
-					temporary.add( item );
-			}
+				AdventureResult.addResultToList( temporary, familiarList[i].getItem() );
 		}
 
 		currentList.retainAll( temporary );
@@ -2318,13 +2303,21 @@ public abstract class KoLCharacter extends StaticEntity
 
 			if ( updateCalculatedLists )
 			{
-				int equipmentType = consumeFilterToEquipmentType( TradeableItemDatabase.getConsumptionType( result.getItemId() ) );
-				if ( equipmentType != -1 )
+				if ( TradeableItemDatabase.getConsumptionType( result.getItemId() ) == ConsumeItemRequest.EQUIP_ACCESSORY )
 				{
-					updateEquipmentList( equipmentType );
-					if ( EquipmentDatabase.getOutfitWithItem( result.getItemId() ) != -1 )
-						EquipmentDatabase.updateOutfits();
+					AdventureResult.addResultToList( equipmentLists[ ACCESSORY1 ], result );
+					AdventureResult.addResultToList( equipmentLists[ ACCESSORY2 ], result );
+					AdventureResult.addResultToList( equipmentLists[ ACCESSORY3 ], result );
 				}
+				else
+				{
+					int equipmentType = consumeFilterToEquipmentType( TradeableItemDatabase.getConsumptionType( result.getItemId() ) );
+					if ( equipmentType != -1 )
+						AdventureResult.addResultToList( equipmentLists[ equipmentType ], result );
+				}
+
+				if ( EquipmentDatabase.getOutfitWithItem( result.getItemId() ) != -1 )
+					EquipmentDatabase.updateOutfits();
 
 				if ( !ConcoctionsDatabase.getKnownUses( result ).isEmpty() )
 					ConcoctionsDatabase.refreshConcoctions();

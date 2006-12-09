@@ -637,7 +637,12 @@ public class AdventureResult implements Comparable, KoLConstants
 
 			if ( equipmentType == ConsumeItemRequest.EQUIP_FAMILIAR || ar.equals( EquipmentRequest.UNEQUIP ) )
 			{
-				stringForm = ar.getName();
+				if ( ar.equals( EquipmentRequest.UNEQUIP ) )
+					stringForm = ar.getName();
+				else if ( KoLCharacter.getFamiliar() != null && KoLCharacter.getFamiliar().canEquip( ar ) )
+					stringForm = ar.getName();
+				else
+					stringForm = "<html><font color=gray>" + ar.getName() + "</font></html>";
 			}
 			else
 			{
