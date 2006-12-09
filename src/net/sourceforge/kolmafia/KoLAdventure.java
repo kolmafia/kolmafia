@@ -406,7 +406,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// If the character has a S.O.C.K. or an intragalactic
 			// rowboat, they can get to the airship
 
-			if ( KoLCharacter.hasItem( SOCK ) || AdventureDatabase.retrieveItem( ROWBOAT ) )
+			if ( KoLCharacter.hasItem( SOCK ) || KoLCharacter.hasItem( ROWBOAT ) )
 			{
 				isValidAdventure = true;
 				return;
