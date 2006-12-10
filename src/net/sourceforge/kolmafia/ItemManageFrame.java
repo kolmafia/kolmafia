@@ -114,7 +114,7 @@ public class ItemManageFrame extends KoLFrame
 		if ( KoLCharacter.inMoxieSign() && !microbreweryItems.isEmpty() )
 		{
 			npcOfferings = new SpecialPanel( microbreweryItems );
-			tabs.add( "Microrewery Menu", npcOfferings );
+			tabs.add( "Microbrewery Menu", npcOfferings );
 		}
 
 		// Now a special panel which does nothing more than list
