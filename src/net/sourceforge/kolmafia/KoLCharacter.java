@@ -2491,6 +2491,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int HARE = 50;
 	private static final int HOBO = 52;
 	private static final int TICK = 58;
+	private static final int TROLL = 65;
 
 	// Familiars that modify Meat Drops
 	private static final int LEPRECHAUN = 2;
@@ -2745,6 +2746,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		case VOLLEYBALL:
 		case HOBO:
+		case TROLL:
 			// Full volleyball equivalent familiar
 			newFixedXPAdjustment += modifier / 4.0;
 			break;
