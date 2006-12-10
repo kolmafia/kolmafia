@@ -87,7 +87,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		return restoreCheckbox;
 	}
 
-	public static class MPRestoreItem
+	public static class MPRestoreItem implements Comparable
 	{
 		private String itemName;
 		private int mpPerUse;
@@ -106,6 +106,13 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 		public AdventureResult getItem()
 		{	return itemUsed;
+		}
+
+		public int compareTo( Object o )
+		{
+			float restoreAmount = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
+			float ratioDifference = (restoreAmount / ((float) getManaPerUse())) - (restoreAmount / ((float) ((MPRestoreItem)o).getManaPerUse()));
+			return ratioDifference > 0.0f ? 1 : ratioDifference < 0.0f ? -1 : 0;
 		}
 
 		public int getManaPerUse()

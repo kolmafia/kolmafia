@@ -1429,7 +1429,7 @@ public abstract class KoLCharacter extends StaticEntity
 			// If we are equipping familiar items, make sure
 			// current familiar can use this one
 
-			if ( type == ConsumeItemRequest.EQUIP_FAMILIAR )
+			if ( filterId == ConsumeItemRequest.EQUIP_FAMILIAR && type == ConsumeItemRequest.EQUIP_FAMILIAR )
 			{
 				temporary.add( currentItem );
 				continue;

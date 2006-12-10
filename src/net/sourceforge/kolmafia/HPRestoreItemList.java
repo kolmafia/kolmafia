@@ -87,21 +87,29 @@ public abstract class HPRestoreItemList extends StaticEntity
 		return restoreCheckbox;
 	}
 
-	public static class HPRestoreItem
+	public static class HPRestoreItem implements Comparable
 	{
-		private String itemName;
+		private String restoreName;
 		private int hpPerUse;
+
+		private int skillId;
 		private AdventureResult itemUsed;
 
-		public HPRestoreItem( String itemName, int hpPerUse )
+		public HPRestoreItem( String restoreName, int hpPerUse )
 		{
-			this.itemName = itemName;
+			this.restoreName = restoreName;
 			this.hpPerUse = hpPerUse;
 
-			if ( TradeableItemDatabase.contains( itemName ) )
-				this.itemUsed = new AdventureResult( itemName, 1, false );
+			if ( TradeableItemDatabase.contains( restoreName ) )
+			{
+				this.itemUsed = new AdventureResult( restoreName, 1, false );
+				this.skillId = -1;
+			}
 			else
+			{
 				this.itemUsed = null;
+				this.skillId = ClassSkillsDatabase.getSkillId( restoreName );
+			}
 		}
 
 		public AdventureResult getItem()
@@ -119,6 +127,35 @@ public abstract class HPRestoreItemList extends StaticEntity
 			}
 
 			return hpPerUse;
+		}
+
+		public int compareTo( Object o )
+		{
+			// Health restores are special because skills are preferred
+			// over items, so test for that first.
+
+			HPRestoreItem hpi = (HPRestoreItem) o;
+
+			if ( itemUsed == null && hpi.itemUsed != null )
+				return -1;
+			if ( itemUsed != null && hpi.itemUsed == null )
+				return 1;
+
+			float restoreAmount = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
+			float leftRatio = restoreAmount / ((float) getHealthPerUse());
+			float rightRatio = restoreAmount / ((float) hpi.getHealthPerUse());
+
+			// If you're comparing skills, then you compare MP cost for
+			// casting the skill, with more expensive skills coming later.
+
+			if ( itemUsed == null )
+			{
+				leftRatio = (float) (Math.ceil( leftRatio ) * (double) ClassSkillsDatabase.getMPConsumptionById( skillId ));
+				rightRatio = (float) (Math.ceil( rightRatio ) * (double) ClassSkillsDatabase.getMPConsumptionById( hpi.skillId ));
+			}
+
+			float ratioDifference = leftRatio - rightRatio;
+			return ratioDifference > 0.0f ? 1 : ratioDifference < 0.0f ? -1 : 0;
 		}
 
 		public void recoverHP( int needed, boolean purchase )
@@ -148,12 +185,12 @@ public abstract class HPRestoreItemList extends StaticEntity
 				return;
 			}
 
-			else if ( ClassSkillsDatabase.contains( itemName ) )
+			else if ( ClassSkillsDatabase.contains( restoreName ) )
 			{
-				if ( !KoLCharacter.hasSkill( itemName ) )
+				if ( !KoLCharacter.hasSkill( restoreName ) )
 					numberToUse = 0;
 			}
-			else if ( TradeableItemDatabase.contains( itemName ) )
+			else if ( TradeableItemDatabase.contains( restoreName ) )
 			{
 				// In certain instances, you are able to buy more of
 				// the given item from NPC stores, or from the mall.
@@ -176,14 +213,14 @@ public abstract class HPRestoreItemList extends StaticEntity
 			if ( numberToUse <= 0 )
 				return;
 
-			if ( ClassSkillsDatabase.contains( itemName ) )
-				getClient().makeRequest( UseSkillRequest.getInstance( itemName, "", numberToUse ) );
+			if ( ClassSkillsDatabase.contains( restoreName ) )
+				getClient().makeRequest( UseSkillRequest.getInstance( restoreName, "", numberToUse ) );
 			else
 				getClient().makeRequest( new ConsumeItemRequest( itemUsed.getInstance( numberToUse ) ) );
 		}
 
 		public String toString()
-		{	return itemName;
+		{	return restoreName;
 		}
 	}
 }

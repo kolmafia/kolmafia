@@ -1361,6 +1361,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static void addChoiceSpoilers( StringBuffer buffer )
 	{
+		// For the plus sign teleportitis adventure, replace the book
+		// message with a link to the plus sign.
+
+		StaticEntity.singleStringReplace( buffer, "It's actually a book. Read it.",
+			"It's actually a book.  <a href=\"inv_use.php?pwd=&which=3&whichitem=818\">Read it</a>." );
+
+		// For everything else, make sure that it's an actual choice adventure
 		Matcher choiceMatcher = CHOICE_PATTERN.matcher( buffer.toString() );
 		if ( !choiceMatcher.find() )
 			return;
