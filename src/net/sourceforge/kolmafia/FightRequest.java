@@ -135,7 +135,7 @@ public class FightRequest extends KoLRequest
 		// If the person wants to use their own script,
 		// then this is where it happens.
 
-		if ( action1.startsWith( "consult" ) )
+		if ( action1.startsWith( "consult" ) && !KoLCharacter.canInteract() )
 		{
 			isUsingConsultScript = true;
 
@@ -163,6 +163,13 @@ public class FightRequest extends KoLRequest
 		{
 			// If this is the first round, you do not
 			// submit extra data.
+		}
+		else if ( KoLCharacter.canInteract() && (action1.indexOf( "dictionary" ) != -1 || action1.indexOf( "Shake Hands" ) != -1) && isAcceptable( offenseModifier, defenseModifier ) )
+		{
+			// This should only occur if the person is
+			// using a custom combat script.
+
+			action1 = "attack";
 		}
 		else if ( action1.indexOf( "run" ) != -1 && action1.indexOf( "away" ) != -1 )
 		{
@@ -234,6 +241,11 @@ public class FightRequest extends KoLRequest
 				action1 = "attack";
 				addFormField( "action", action1 );
 			}
+			else if ( skillName.equals( "CLEESH" ) && currentRound != 0 )
+			{
+				action1 = "attack";
+				addFormField( "action", action1 );
+			}
 			else
 			{
 				addFormField( "action", "skill" );
@@ -264,7 +276,7 @@ public class FightRequest extends KoLRequest
 			if ( KoLmafia.runThresholdChecks() )
 			{
 				nextRound();
-				if ( !isUsingConsultScript && (action1 == null || !action1.equals( "abort") ) )
+				if ( !isUsingConsultScript && (action1 == null || !action1.equals( "abort" ) ) )
 				{
 					isInstanceRunning = true;
 					super.run();
