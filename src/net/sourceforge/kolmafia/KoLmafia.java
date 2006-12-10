@@ -57,6 +57,7 @@ import java.util.regex.Matcher;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import java.awt.Color;
 import javax.swing.JFrame;
@@ -1028,12 +1029,13 @@ public abstract class KoLmafia implements KoLConstants
 		// reflectio.  This methods.
 
 		String restoreSetting = StaticEntity.getProperty( settingName + "Items" ).trim().toLowerCase();
+		String currentTechniqueName;
 
 		// Iterate through every single restore item, checking to
 		// see if the settings wish to use this item.  If so, go ahead
 		// and process the item's usage.
 
-		String currentTechniqueName;
+		Arrays.sort( techniques );
 
 		for ( int i = 0; i < techniques.length && current <= threshold; ++i )
 		{
@@ -1053,11 +1055,6 @@ public abstract class KoLmafia implements KoLConstants
 					last = current;
 					recoverOnce( techniques[i], currentTechniqueName, needed, false );
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
-
-					// Do not allow seltzer to be used more than once,
-					// as this indicates MP changes due to outfits.
-					// Simply break the loop and move onto cola or soda
-					// water as the next restore.
 				}
 				while ( current <= threshold && last != current && !refusesContinue() );
 			}
@@ -1065,6 +1062,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		// If things are still not restored, try looking for items you
 		// don't have.
+
+		Arrays.sort( techniques );
 
 		for ( int i = 0; i < techniques.length && current <= threshold; ++i )
 		{
@@ -1079,8 +1078,6 @@ public abstract class KoLmafia implements KoLConstants
 
 					// Do not allow seltzer to be used more than once,
 					// as this indicates MP changes due to outfits.
-					// Simply break the loop and move onto cola or soda
-					// water as the next restore.
 				}
 				while ( techniques[i] != MPRestoreItemList.SELTZER && current <= threshold && last != current && !refusesContinue() );
 			}
