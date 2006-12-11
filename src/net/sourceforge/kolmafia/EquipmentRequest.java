@@ -528,7 +528,10 @@ public class EquipmentRequest extends PasswordHashRequest
 			// meat paste, then do so and then parse the combines
 			// page.  Otherwise, go to the equipment pages.
 
-			if ( KoLCharacter.inMuscleSign() || responseText.indexOf( "meat paste" ) != -1 )
+			int meatPasteIndex = responseText.indexOf( "meat paste" );
+			int takeItemIndex = responseText.indexOf( "<b>Take" );
+
+			if ( KoLCharacter.inMuscleSign() || (meatPasteIndex != -1 && meatPasteIndex < takeItemIndex) )
 			{
 				KoLRequest request = new KoLRequest( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
 				request.run();
