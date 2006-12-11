@@ -656,17 +656,21 @@ public class AdventureDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length > 5 )
+			if ( data.length > 4 )
 			{
 				if ( data[1].indexOf( "send" ) != -1 )
 					continue;
 
 				adventureTable[0].add( data[0] );
-				for ( int i = 1; i < 6; ++i )
-					adventureTable[i].add( data[i] );
+				String [] requirements = data[1].split( "/" );
+				adventureTable[1].add( requirements[0] );
+				adventureTable[2].add( requirements[1] );
 
-				if ( data.length == 7 )
-					conditionLookup.put( data[5], data[6] );
+				for ( int i = 2; i < 5; ++i )
+					adventureTable[i+1].add( data[i] );
+
+				if ( data.length == 6 )
+					conditionLookup.put( data[4], data[5] );
 			}
 		}
 
