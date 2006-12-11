@@ -556,7 +556,7 @@ public class BrowserLauncher {
 					executable = "C:\\Program Files\\Internet Explorer\\iexplore.exe";
 
 				process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
-					executable, url } );
+					"\"\"" + executable + "\" " + url + "\"" } );
 
 				// This avoids a memory leak on some versions of Java on Windows.
 				// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
@@ -612,16 +612,15 @@ public class BrowserLauncher {
 
 				if ( usingIE )
 				{
-					process = Runtime.getRuntime().exec(
-						new String[] { (String) browser, "/c", "C:\\Program Files\\Internet Explorer\\iexplore.exe", url } );
+					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
+						"\"\"C:\\Program Files\\Internet Explorer\\iexplore.exe\" " + url + "\"" } );
 				}
 				else
 				{
 					// Add quotes around the URL to allow ampersands and other special
 					// characters to work.
 
-					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
-						"start", "\"\"", url } );
+					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "start", "\"\"", url } );
 				}
 
 				// This avoids a memory leak on some versions of Java on Windows.
