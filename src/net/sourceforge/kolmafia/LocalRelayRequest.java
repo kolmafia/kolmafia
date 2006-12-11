@@ -97,19 +97,20 @@ public class LocalRelayRequest extends PasswordHashRequest
 	{	return isRunningCommand;
 	}
 
-	private static final boolean isJunkItem( int itemId, int price, int searchItemId )
+	private static final boolean isJunkItem( int itemId, int price )
 	{
-		if ( searchItemId != -1 )
-			return itemId == searchItemId;
+		if ( price > KoLCharacter.getAvailableMeat() )
+			return true;
 
-		boolean shouldIgnore = price > KoLCharacter.getAvailableMeat();
 		if ( NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemId ) ) )
-			shouldIgnore |= price == 100 || price > TradeableItemDatabase.getPriceById( itemId ) * 2;
+			if ( price == 100 || price > TradeableItemDatabase.getPriceById( itemId ) * 2 )
+				return true;
 
 		for ( int i = 0; i < junkItemList.size() && !shouldIgnore; ++i )
-			shouldIgnore |= ((AdventureResult)junkItemList.get(i)).getItemId() == itemId;
+			if ( ((AdventureResult)junkItemList.get(i)).getItemId() == itemId )
+				return true;
 
-		return shouldIgnore;
+		return false;
 	}
 
 	protected void processResponse()
@@ -145,7 +146,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 				int itemId = StaticEntity.parseInt( itemData.substring( 0, itemData.length() - 9 ) );
 				int price = StaticEntity.parseInt( itemData.substring( itemData.length() - 9 ) );
 
-				if ( itemId != searchItemId && isJunkItem( itemId, price, searchItemId ) )
+				if ( itemId != searchItemId && isJunkItem( itemId, price ) )
 					StaticEntity.singleStringDelete( responseBuffer, itemMatcher.group() );
 			}
 
