@@ -73,7 +73,6 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class GearChangeFrame extends KoLFrame
 {
-	private static AdventureResult [] pieces = new AdventureResult[9];
 	private static JButton outfitButton;
 
 	private static EquipPanel equip;
@@ -156,6 +155,16 @@ public class GearChangeFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
+			// Find out what changed.
+
+			AdventureResult [] pieces = new AdventureResult[9];
+			for ( int i = 0; i < equipment.length; ++i )
+			{
+				pieces[i] = (AdventureResult) equipment[i].getSelectedItem();
+				if ( KoLCharacter.getEquipment(i).equals( pieces[i] ) )
+					pieces[i] = null;
+			}
+
 			// If current offhand item is not compatible with new
 			// weapon, unequip it first.
 
@@ -247,16 +256,6 @@ public class GearChangeFrame extends KoLFrame
 				// In all other cases, simply re-validate what it is
 				// you need to equip.
 
-				for ( int i = 0; i < equipment.length; ++i )
-				{
-					if ( ChangeComboBox.this == equipment[i] )
-					{
-						pieces[i] = (AdventureResult) getSelectedItem();
-						if ( KoLCharacter.getEquipment(i).equals( pieces[i] ) )
-							pieces[i] = null;
-					}
-				}
-
 				ensureValidSelections();
 			}
 		}
@@ -266,7 +265,7 @@ public class GearChangeFrame extends KoLFrame
 	{
 		equipment[ KoLCharacter.SHIRT ].setEnabled( KoLCharacter.hasSkill( "Torso Awaregness" ) );
 
-		AdventureResult weaponItem = pieces[ KoLCharacter.WEAPON ];
+		AdventureResult weaponItem = (AdventureResult) equipment[ KoLCharacter.WEAPON ].getSelectedItem();
 		AdventureResult currentWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
 		if ( weaponItem == null )
 			weaponItem = currentWeapon;
@@ -279,12 +278,11 @@ public class GearChangeFrame extends KoLFrame
 		{
 			// Equipping 2 or more handed weapon: nothing in off-hand
 			equipment[ KoLCharacter.OFFHAND ].setSelectedItem( EquipmentRequest.UNEQUIP );
-			pieces[ KoLCharacter.OFFHAND ] = null;
 			equipment[ KoLCharacter.OFFHAND ].setEnabled( false );
 		}
 		else
 		{
-			AdventureResult offhandItem = pieces[ KoLCharacter.OFFHAND ];
+			AdventureResult offhandItem = (AdventureResult) equipment[ KoLCharacter.OFFHAND ].getSelectedItem();
 			AdventureResult currentOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 			if ( offhandItem == null )
 				offhandItem = currentOffhand;
@@ -294,23 +292,13 @@ public class GearChangeFrame extends KoLFrame
 				// Weapon in offhand. Must have compatible
 				// weapon in weapon hand
 				if ( weaponHands == 0 || EquipmentDatabase.isRanged( weaponItem.getName() ) != EquipmentDatabase.isRanged( offhandItem.getName() ) )
-				{
-					pieces[ KoLCharacter.OFFHAND ] = null;
 					offhandItem = EquipmentRequest.UNEQUIP;
-				}
 			}
 
 			List offhandItems = validOffhandItems( weaponItem, offhandItem );
 			updateEquipmentList( offhands, offhandItems, offhandItem );
 			equipment[ KoLCharacter.OFFHAND ].setEnabled( true );
 		}
-
-		boolean enableOutfits = true;
-		for ( int i = 0; i < equipment.length; ++i )
-			enableOutfits &= pieces[i] == null;
-
-		outfitSelect.setEnabled( enableOutfits );
-		outfitButton.setEnabled( enableOutfits );
 	}
 
 	private static List validWeaponItems( AdventureResult currentWeapon )
