@@ -71,7 +71,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// examined and float-referenced: once in the name-lookup,
 		// and again in the Id lookup.
 
-		BufferedReader reader = getReader( "tradeitems.dat" );
+		BufferedReader reader = getReader( "tradeitems.txt" );
 
 		String [] data;
 
@@ -108,7 +108,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			StaticEntity.printStackTrace( e );
 		}
 
-		reader = getReader( "itemdescs.dat" );
+		reader = getReader( "itemdescs.txt" );
 
 		while ( (data = readData( reader )) != null )
 		{
@@ -139,7 +139,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		// Next, retrieve the table of weird pluralizations
 
-		reader = getReader( "plurals.dat" );
+		reader = getReader( "plurals.txt" );
 
 		while ( (data = readData( reader )) != null )
 		{
@@ -170,7 +170,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		// Next, retrieve the table of inebriety
 
-		reader = getReader( "inebriety.dat" );
+		reader = getReader( "inebriety.txt" );
 
 		while ( (data = readData( reader )) != null )
 		{

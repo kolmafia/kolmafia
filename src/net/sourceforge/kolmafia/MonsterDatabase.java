@@ -79,7 +79,7 @@ public class MonsterDatabase extends KoLDatabase
 		MONSTER_DATA.clear();
 		MONSTER_NAMES.clear();
 
-		BufferedReader reader = getReader( "monsters.dat" );
+		BufferedReader reader = getReader( "monsters.txt" );
 		String [] data;
 
 		while ( (data = readData( reader )) != null )

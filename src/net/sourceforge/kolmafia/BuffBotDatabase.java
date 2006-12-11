@@ -48,11 +48,11 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 /**
  * A static class which handles the officially "supported" buffbots.
  *
- * Buffbots can have their buff normalOfferings statically listed in buffs.dat
+ * Buffbots can have their buff normalOfferings statically listed in buffs.txt
  *
  * Alternatively, if they keep their display case up-to-date with the current
  * price list - and use a "standard" format for listing prices, the bot is
- * listed in bots.dat and KoLmafia will read and parse the display case
+ * listed in bots.txt and KoLmafia will read and parse the display case
  */
 
 public class BuffBotDatabase extends KoLDatabase
@@ -129,7 +129,7 @@ public class BuffBotDatabase extends KoLDatabase
 		KoLmafia.updateDisplay( "Configuring dynamic buff prices..." );
 
 		String [] data = null;
-		BufferedReader reader = getReader( "buffbots.dat" );
+		BufferedReader reader = getReader( "buffbots.txt" );
 
 		while ( (data = readData( reader )) != null )
 			if ( data.length == 3 )
