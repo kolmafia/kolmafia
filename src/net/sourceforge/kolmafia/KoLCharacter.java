@@ -2630,6 +2630,17 @@ public abstract class KoLCharacter extends StaticEntity
 			// Arboreal Raiment
 			newStenchResistance += 10;
 		}
+		else if ( EquipmentDatabase.isWearingOutfit( 14 ) )
+		{
+			// Furry Suit
+			newMonsterLevelAdjustment += 5;
+		}
+
+		// Wearing a serpentine sword and a serpentine shield doubles
+		// the effect of the sword.
+
+		if ( getEquipment( WEAPON ).getName().equals( "serpentine sword" ) && getEquipment( OFFHAND ).getName().equals( "snake shield" ) )
+			newMonsterLevelAdjustment += 10;
 
 		// Because there are a limited number of passive skills,
 		// it is much more efficient to execute one check for
