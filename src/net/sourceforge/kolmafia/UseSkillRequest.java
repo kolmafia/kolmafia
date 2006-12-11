@@ -126,10 +126,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( this.skillName.equals( BREAKFAST_SKILLS[i][0] ) )
 				buffCount = Math.min( StaticEntity.parseInt( BREAKFAST_SKILLS[i][1] ), buffCount );
 
+		int maxPossible = (int) Math.floor( (float) KoLCharacter.getCurrentMP() / (float) ClassSkillsDatabase.getMPConsumptionById( skillId ) );
+
 		if ( buffCount < 1 )
-			buffCount = 1;
+			buffCount += maxPossible;
 		else if ( buffCount == Integer.MAX_VALUE )
-			buffCount = (int) (KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionById( skillId ));
+			buffCount = maxPossible;
 
 		this.buffCount = buffCount;
 	}
