@@ -649,22 +649,19 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Validate the adventure before running it.
 		// If it's invalid, return and do nothing.
 
-		if ( StaticEntity.getBooleanProperty( "areaValidation" ) )
+		if ( !meetsGeneralRequirements() )
 		{
-			if ( !meetsGeneralRequirements() )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, formSource.equals( "lair6.php" ) ? "Did you forget to equip something?" :
-					"Insufficient stats to adventure at " + adventureName + "." );
+			KoLmafia.updateDisplay( ERROR_STATE, formSource.equals( "lair6.php" ) ? "Did you forget to equip something?" :
+				"Insufficient stats to adventure at " + adventureName + "." );
 
-				return;
-			}
+			return;
+		}
 
-			validate( false );
-			if ( !isValidAdventure )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "That area is not available." );
-				return;
-			}
+		validate( false );
+		if ( !isValidAdventure )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "That area is not available." );
+			return;
 		}
 
 		if ( getFormSource().equals( "shore.php" ) && KoLCharacter.getAvailableMeat() < 500 )
@@ -771,7 +768,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( !StaticEntity.getProperty( "lastAdventure" ).equals( adventureName ) )
 		{
 			StaticEntity.setProperty( "lastAdventure", adventureName );
-			if ( StaticEntity.getBooleanProperty( "trackLocationChanges" ) && shouldRunFullCheck )
+			if ( shouldRunFullCheck )
 				AdventureFrame.updateSelectedAdventure( this );
 		}
 

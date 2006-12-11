@@ -173,7 +173,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			filters = new JCheckBox[4];
 			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
 			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
-			filters[2] = new JCheckBox( "Show junk", StaticEntity.getBooleanProperty( "showJunkItems" ) );
+			filters[2] = new JCheckBox( "Show junk", true );
 			filters[3] = new JCheckBox( "Show others", true );
 		}
 		else
@@ -183,7 +183,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
 			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
 			filters[2] = new JCheckBox( "Show equipment", true );
-			filters[3] = new JCheckBox( "Show junk", StaticEntity.getBooleanProperty( "showJunkItems" ) );
+			filters[3] = new JCheckBox( "Show junk", true );
 			filters[4] = new JCheckBox( "Show others", true );
 		}
 
@@ -378,7 +378,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 				food = true;
 				booze = true;
 				equip = true;
-				junk = StaticEntity.getBooleanProperty( "showJunkItems" );
+				junk = true;
 				other = true;
 			}
 			else
@@ -413,7 +413,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		protected class ConsumptionBasedFilter extends WordBasedFilter
 		{
 			public ConsumptionBasedFilter()
-			{	super( !StaticEntity.getBooleanProperty( "showJunkItems" ) );
+			{	super( false );
 			}
 
 			public boolean isVisible( Object element )

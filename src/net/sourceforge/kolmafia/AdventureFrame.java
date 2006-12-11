@@ -540,16 +540,14 @@ public class AdventureFrame extends KoLFrame
 				if ( conditionList.equalsIgnoreCase( "none" ) )
 					conditionList = "";
 
-				if ( !conditions.isEmpty() && StaticEntity.getBooleanProperty( "autoSetConditions" ) &&
-					request instanceof KoLAdventure && conditionList.equals( AdventureDatabase.getCondition( (KoLAdventure) request ) ) )
+				if ( !conditions.isEmpty() && conditionList.equals( AdventureDatabase.getCondition( (KoLAdventure) request ) ) )
 				{
 					conditionList = "";
 				}
 
 				if ( conditionList.length() > 0 )
 				{
-					boolean verifyConditions = StaticEntity.getBooleanProperty( "autoSetConditions" ) &&
-						conditionList.equals( AdventureDatabase.getCondition( request ) );
+					boolean verifyConditions = conditionList.equals( AdventureDatabase.getCondition( request ) );
 
 					boolean useDisjunction = false;
 					String [] splitConditions = conditionList.split( "\\s*,\\s*" );
@@ -605,8 +603,7 @@ public class AdventureFrame extends KoLFrame
 					if ( ((Integer)countField.getValue()).intValue() == 0 )
 						countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
 
-					if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
-						conditionField.setText( "" );
+					conditionField.setText( "" );
 				}
 			}
 		}
@@ -638,7 +635,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			public void valueChanged( ListSelectionEvent e )
 			{
-				if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) || KoLCharacter.canInteract() )
+				if ( KoLCharacter.canInteract() )
 					return;
 
 				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();

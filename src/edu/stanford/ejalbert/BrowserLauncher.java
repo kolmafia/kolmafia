@@ -577,41 +577,37 @@ public class BrowserLauncher {
 				// get a new window to open.
 
 		    	Process process = null;
-				boolean usingIE = System.getProperty( "ignoreHTMLAssocation" ) != null &&
-					System.getProperty( "ignoreHTMLAssocation" ).equals( "true" );
+				boolean usingIE = true;
 
 				// Wrap the URL inside of quotes.
 				url = "\"" + url + "\"";
 
-				if ( usingIE )
+				// Determine the file type for .html files.  On Windows, every other
+				// browser changes the association to something other than "htmlfile",
+				// so if it's htmlfile, you load IE in a new window.
+
+				process = Runtime.getRuntime().exec(
+					new String [] { (String) browser, "/c", "assoc", ".html" } );
+
+				try {
+					process.waitFor();
+					process.exitValue();
+				} catch (InterruptedException ie) {
+					throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
+				}
+
+				try
 				{
-					// Determine the file type for .html files.  On Windows, every other
-					// browser changes the association to something other than "htmlfile",
-					// so if it's htmlfile, you load IE in a new window.
+					// This avoids a memory leak on some versions of Java on Windows.
+					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
 
-					process = Runtime.getRuntime().exec(
-						new String [] { (String) browser, "/c", "assoc", ".html" } );
-
-					try {
-						process.waitFor();
-						process.exitValue();
-					} catch (InterruptedException ie) {
-						throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
-					}
-
-					try
-					{
-						// This avoids a memory leak on some versions of Java on Windows.
-						// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
-
-						BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-						usingIE = stream.readLine().indexOf( "htmlfile" ) != -1;
-					}
-					catch ( Exception e )
-					{
-						// If we can't determine the default browser, then assume
-						// that it's Internet Explorer, which is the default.
-					}
+					BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
+					usingIE = stream.readLine().indexOf( "htmlfile" ) != -1;
+				}
+				catch ( Exception e )
+				{
+					// If we can't determine the default browser, then assume
+					// that it's Internet Explorer, which is the default.
 				}
 
 				if ( usingIE )

@@ -211,8 +211,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemName == null )
 			return;
 
-		KoLmafia.updateDisplay( StaticEntity.getBooleanProperty( "abortOnUnknownItem" ) ? ABORT_STATE : CONTINUE_STATE,
-			"Unknown item found: <" + itemName + "> (#" + itemId + ")" );
+		KoLmafia.updateDisplay( "Unknown item found: " + itemName + " (#" + itemId + ")" );
 
 		useTypeById.set( itemId, 0 );
 		priceById.set( itemId, -1 );

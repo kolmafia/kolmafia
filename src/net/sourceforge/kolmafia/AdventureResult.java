@@ -220,8 +220,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 		else if ( StaticEntity.getClient() != null )
 		{
-			KoLmafia.updateDisplay( StaticEntity.getBooleanProperty( "abortOnUnknownItem" ) ? ABORT_STATE : CONTINUE_STATE,
-				"Unknown item found: " + name );
+			KoLmafia.updateDisplay( "Unknown item found: " + name );
 		}
 	}
 

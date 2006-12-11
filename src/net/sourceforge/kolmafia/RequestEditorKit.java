@@ -906,8 +906,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.indexOf( "charpane.php" ) != -1 && StaticEntity.getBooleanProperty( "relayAddsUpArrowLinks" ) )
 			addUpArrowLinks( buffer );
 
-		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
-			addUseLinks( location, buffer );
+		addUseLinks( location, buffer );
 
 		if ( location.indexOf( "fight.php" ) != -1 )
 			addFightModifiers( buffer );
@@ -1083,45 +1082,43 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static void addFightModifiers( StringBuffer buffer )
 	{
 		// Now, remove the runaway button and place it inside of the user's
-		// skill list, IF the preference is active.
+		// skill list.
 
-		if ( StaticEntity.getBooleanProperty( "relayRemovesRunaway" ) && buffer.indexOf( "You attempt to run away" ) == -1 )
+		int startIndex = buffer.indexOf( "<form name=runaway" );
+		int stopIndex = buffer.indexOf( "</form>", startIndex );
+		int insertIndex = buffer.lastIndexOf( "</select>" );
+
+		if ( startIndex != -1 && stopIndex != -1 && insertIndex != -1 )
 		{
-			int startIndex = buffer.indexOf( "<form name=runaway" );
-			int stopIndex = buffer.indexOf( "</form>", startIndex );
-			int insertIndex = buffer.lastIndexOf( "</select>" );
+			buffer.delete( startIndex, stopIndex );
 
-			if ( startIndex != -1 && stopIndex != -1 && insertIndex != -1 )
-			{
-				buffer.delete( startIndex, stopIndex );
+			StringBuffer runawayString = new StringBuffer( "<option value=\"runaway\"" );
 
-				StringBuffer runawayString = new StringBuffer( "<option value=\"runaway\">Run Away (0 " );
-				if ( KoLCharacter.isMuscleClass() )
-					runawayString.append( "Muscularity" );
-				else if ( KoLCharacter.isMysticalityClass() )
-					runawayString.append( "Mana" );
-				else
-					runawayString.append( "Mojo" );
-				runawayString.append( " Points)</option>" );
+			if ( buffer.indexOf( "You attempt to run away" ) != -1 )
+				runawayString.append( " selected" );
 
-				buffer.insert( insertIndex, runawayString.toString() );
-			}
+			runawayString.append( ">Run Away (0 " );
+			if ( KoLCharacter.isMuscleClass() )
+				runawayString.append( "Muscularity" );
+			else if ( KoLCharacter.isMysticalityClass() )
+				runawayString.append( "Mana" );
+			else
+				runawayString.append( "Mojo" );
+			runawayString.append( " Points)</option>" );
+
+			buffer.insert( insertIndex, runawayString.toString() );
 		}
 
 		// If the person opts to add a plinking link, check to see if it's
 		// a valid page to add plinking, and make sure the person hasn't
 		// already started plinking.
 
-		if ( StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) )
+		int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
+		if ( firstFormIndex > 6 )
 		{
-			int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
-			if ( firstFormIndex > 6 )
-			{
-				buffer.insert( firstFormIndex,
-					"<tr><td align=center><form action=fight.php method=\"GET\"><input type=hidden name=\"action\" value=\"script\"><input class=\"button\" type=\"submit\" value=\"Run Custom Combat Script\"></form></td></tr>" );
-			}
+			buffer.insert( firstFormIndex,
+				"<tr><td align=center><form action=fight.php method=\"GET\"><input type=hidden name=\"action\" value=\"script\"><input class=\"button\" type=\"submit\" value=\"Run Custom Combat Script\"></form></td></tr>" );
 		}
-
 	}
 
 	private static void addUseLinks( String location, StringBuffer buffer )
@@ -1667,7 +1664,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				buffer.append( "<tr>" );
 
-				if ( !KoLRequest.isCompactMode || !StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) || StaticEntity.getBooleanProperty( "relayTextualizationVerbose" ) )
+				if ( !KoLRequest.isCompactMode || !StaticEntity.getBooleanProperty( "relayTextualizesEffects" ) )
 				{
 					buffer.append( "<td><img src=\"" );
 					buffer.append( StatusEffectDatabase.getImage( effectId ) );
@@ -1682,7 +1679,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				{
 					buffer.append( "<td><font size=2>" );
 
-					if ( !KoLRequest.isCompactMode || StaticEntity.getBooleanProperty( "relayTextualizationVerbose" ) )
+					if ( !KoLRequest.isCompactMode )
 						buffer.append( currentEffect.getName() );
 					else
 						buffer.append( "<nobr>" + StatusEffectDatabase.getShortName( effectId ) + "</nobr>" );
@@ -1729,21 +1726,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 							buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
 							lastAppendIndex = nextAppendIndex + 6;
 
-							if ( StaticEntity.getBooleanProperty( "relayTextualizationVerbose" ) )
-							{
-								buffer.append( "></td><td><font size=2>" );
-								buffer.append( effectName );
-								buffer.append( "</font></td>" );
-							}
-							else
-							{
-								int deleteIndex = buffer.lastIndexOf( "<img" );
-								buffer.delete( deleteIndex, buffer.length() );
+							int deleteIndex = buffer.lastIndexOf( "<img" );
+							buffer.delete( deleteIndex, buffer.length() );
 
-								buffer.append( "<td align=right><nobr><font size=2>" );
-								buffer.append( StatusEffectDatabase.getShortName( effectId ) );
-								buffer.append( "</font></nobr></td>" );
-							}
+							buffer.append( "<td align=right><nobr><font size=2>" );
+							buffer.append( StatusEffectDatabase.getShortName( effectId ) );
+							buffer.append( "</font></nobr></td>" );
 						}
 					}
 
