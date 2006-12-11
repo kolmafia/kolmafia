@@ -597,7 +597,7 @@ public class KoLmafiaASH extends StaticEntity
 			String importString = getProperty( "commandLineNamespace" );
 			if ( importString.equals( "" ) )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "No available namespace with function <" + functionName + ">" );
+				KoLmafia.updateDisplay( ERROR_STATE, "No available namespace with function: " + functionName );
 				return;
 			}
 

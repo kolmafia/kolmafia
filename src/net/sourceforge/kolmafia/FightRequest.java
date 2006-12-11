@@ -112,15 +112,6 @@ public class FightRequest extends KoLRequest
 			if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
 				KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
 
-		// Alternatively, allow people to abort if there is
-		// an unknown monster.
-
-		if ( StaticEntity.getBooleanProperty( "abortOnUnknownMonster" ) && MonsterDatabase.findMonster( encounterLookup ) == null )
-		{
-			action1 = "abort";
-			return;
-		}
-
 		if ( currentRound == 0 )
 		{
 			action1 = StaticEntity.getProperty( "defaultAutoAttack" );

@@ -124,7 +124,6 @@ public class OptionsFrame extends KoLFrame
 		moodPanel.add( new MoodTriggerListPanel(), BorderLayout.CENTER );
 
 		addTab( "General", new GeneralOptionsPanel() );
-		addTab( "Items", new ItemOptionsPanel() );
 		addTab( "Relay", new RelayOptionsPanel() );
 		tabs.addTab( "Moods", moodPanel );
 		addTab( "Links", addonPanel );
@@ -203,20 +202,9 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "ignoreHTMLAssocation", "Ignore file association when choosing browser" },
-			{ "", "" },
-
-			{ "relayAddsUseLinks", "Add [use] links when acquiring items" },
-			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
-			{ "relayAddsCustomCombat", "Add custom combat button to fight page" },
-			{ "relayRemovesRunaway", "Move runaway button to skill usage dropdown" },
-
-			{ "", "" },
-
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add mood maintenance links to left side pane" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
-			{ "relayTextualizationVerbose", "Use full effect names when textualizing effects" },
 
 			{ "", "" },
 
@@ -227,13 +215,7 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
-			{ "trackLocationChanges", "Adventuring in browser changes selected location" },
-
-			{ "", "" },
-
-			{ "relayRemovesExpensiveItems", "Remove unaffordable items from stores in browser" },
-			{ "relayRemovesMinpricedItems", "Remove items priced at minimum from stores in browser" },
-			{ "relayRemovesUnrelatedItems", "Remove items unrelated to your search from stores in browser" },
+			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
 		};
 
 		/**
@@ -307,8 +289,6 @@ public class OptionsFrame extends KoLFrame
 				if ( !options[i][0].equals( "" ) )
 					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 			}
-
-			System.setProperty( "ignoreHTMLAssocation", StaticEntity.getProperty( "ignoreHTMLAssocation" ) );
 		}
 
 		public void actionCancelled()
@@ -330,22 +310,25 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
+			{ "sortAdventures", "Sort all areas adventure list by moxie rating" },
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
-			{ "ignoreGreenEvents", "Do not register special events (kmail, trade, etc)" },
-			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
-			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
+			{ "ignoreGreenEvents", "Enable green screen message protection" },
+			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
 
 			{ "", "" },
 
-			{ "autoSetConditions", "While in Ronin, automatically fill conditions field" },
-			{ "abortOnUnknownItem", "Abort automated adventuring when finding unknown item" },
-			{ "abortOnUnknownMonster", "Abort automated adventuring on unknown monster" },
 			{ "allowStasisTactics", "Allow stasis-type commands when using combat familiars" },
+			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
+			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
+			{ "cloverProtectActive", "Enable clover protection for automated adventures" },
+			{ "autoRetrieveScrewdriver", "Automatically do screwdriver quest, if needed" },
 
 			{ "", "" },
 
-			{ "areaValidation", "Enable stat checks before using adventures" },
-			{ "sortAdventures", "Sort adventure list display by moxie evade rating" }
+			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
+			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
+			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" },
+			{ "autoCheckpoint", "Enable outfit checkpointing during NPC purchases" },
 		};
 
 		/**
@@ -378,6 +361,7 @@ public class OptionsFrame extends KoLFrame
 
 			actionCancelled();
 			AdventureDatabase.refreshAdventureList();
+			ConcoctionsDatabase.refreshConcoctions();
 		}
 
 		public void actionCancelled()
@@ -385,75 +369,6 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < options.length; ++i )
 				if ( !options[i][0].equals( "" ) )
 					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
-		}
-	}
-
-	private class ItemOptionsPanel extends OptionsPanel
-	{
-		private JCheckBox [] optionBoxes;
-
-		private final String [][] options =
-		{
-			{ "showJunkItems", "Do not hide junk items from lists (show in gray)" },
-			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
-
-			{ "", "" },
-
-			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
-			{ "cloverProtectActive", "Enable clover protection for automated adventures" },
-			{ "autoRetrieveScrewdriver", "Automatically do screwdriver quest, if needed" },
-			{ "autoCheckpoint", "Enable outfit checkpointing during NPC purchases" },
-
-			{ "", "" },
-
-			{ "assumeInfiniteNPCItems", "Assume infinite NPC items for item creation" },
-			{ "createWithoutBoxServants", "Create without requiring a box servant" },
-			{ "autoRepairBoxes", "Create and install new box servant after explosion" },
-
-			{ "", "" },
-
-			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
-			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
-			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" }
-		};
-
-		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
-		 * place for the users to select their desired server and for them
-		 * to modify any applicable proxy settings.
-		 */
-
-		public ItemOptionsPanel()
-		{
-			super( "Item Options", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ options.length ];
-
-			optionBoxes = new JCheckBox[ options.length ];
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i] = new JCheckBox();
-
-			for ( int i = 0; i < options.length; ++i )
-				elements[i] = options[i][0].equals( "" ) ? new VerifiableElement() :
-					new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
-
-			setContent( elements );
-			actionCancelled();
-		}
-
-		public void actionConfirmed()
-		{
-			for ( int i = 0; i < options.length; ++i )
-				if ( !options[i][0].equals( "" ) )
-					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
-
-			actionCancelled();
-			ConcoctionsDatabase.refreshConcoctions();
-		}
-
-		public void actionCancelled()
-		{
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
 		}
 	}
 

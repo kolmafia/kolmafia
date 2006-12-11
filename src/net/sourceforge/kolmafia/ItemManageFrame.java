@@ -381,7 +381,7 @@ public class ItemManageFrame extends KoLFrame
 			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
 			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
 			filters[2] = new JCheckBox( "Show restoratives", true );
-			filters[3] = new JCheckBox( "Show junk", StaticEntity.getBooleanProperty( "showJunkItems" ) );
+			filters[3] = new JCheckBox( "Show junk", true );
 			filters[4] = new JCheckBox( "Show others", true );
 
 			for ( int i = 0; i < filters.length; ++i )
@@ -733,11 +733,12 @@ public class ItemManageFrame extends KoLFrame
 			super( ConcoctionsDatabase.getConcoctions() );
 			setButtons( new ActionListener [] { new CreateListener(), new CreateAndUseListener() } );
 
-			JCheckBox [] addedFilters = new JCheckBox[3];
+			JCheckBox [] addedFilters = new JCheckBox[4];
 
 			addedFilters[0] = new CreateSettingCheckbox( "Use oven/kit", "createWithoutBoxServants", "Create without requiring a box servant" );
 			addedFilters[1] = new CreateSettingCheckbox( "Allow closet", "showClosetIngredients", "List items creatable when adding the closet" );
 			addedFilters[2] = new CreateSettingCheckbox( "Allow stash", "showStashIngredients", "List items creatable when adding the clan stash" );
+			addedFilters[3] = new CreateSettingCheckbox( "Allow NPCs", "assumeInfiniteNPCItems", "Purchase items from NPC stores whenever needed" );
 
 			for ( int i = 0; i < addedFilters.length; ++i )
 				filterPanel.add( addedFilters[i] );

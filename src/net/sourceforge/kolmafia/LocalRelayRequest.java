@@ -97,96 +97,18 @@ public class LocalRelayRequest extends PasswordHashRequest
 	{	return isRunningCommand;
 	}
 
-	private static final boolean isJunkItem( int itemId, int price, int searchType, boolean ignoreExpensiveItems, boolean ignoreMinpricedItems, boolean ignoreUnrelatedItems )
+	private static final boolean isJunkItem( int itemId, int price, int searchItemId )
 	{
-		boolean shouldIgnore = false;
+		if ( searchItemId != -1 )
+			return itemId == searchItemId;
 
-		switch ( itemId )
-		{
-		case ItemCreationRequest.MEAT_PASTE:
-		case ItemCreationRequest.MEAT_STACK:
-		case ItemCreationRequest.DENSE_STACK:
-			shouldIgnore = true;
-		}
-
-		// Before you do any other searching, check to see if
-		// the item is relevant to what you're searching for.
-
-		if ( ignoreUnrelatedItems )
-		{
-			int useType = TradeableItemDatabase.getConsumptionType( itemId );
-			switch ( searchType )
-			{
-
-			// You can't really do added filtering on an item that
-			// isn't usable in any way, so leave it.
-
-			case ConsumeItemRequest.NO_CONSUME:
-				break;
-
-			// If the person is searching for a familiar or an item
-			// related to familiars, then go ahead and filter out
-			// everything else.
-
-			case ConsumeItemRequest.GROW_FAMILIAR:
-			case ConsumeItemRequest.EQUIP_FAMILIAR:
-				shouldIgnore = true;
-				break;
-
-			// If searching for a consumable item, then filter out
-			// any items which are not consumable.
-
-			case ConsumeItemRequest.CONSUME_EAT:
-			case ConsumeItemRequest.CONSUME_DRINK:
-			case ConsumeItemRequest.CONSUME_USE:
-			case ConsumeItemRequest.CONSUME_MULTIPLE:
-			case ConsumeItemRequest.CONSUME_RESTORE:
-
-				switch ( useType )
-				{
-				case ConsumeItemRequest.CONSUME_EAT:
-				case ConsumeItemRequest.CONSUME_DRINK:
-				case ConsumeItemRequest.CONSUME_USE:
-				case ConsumeItemRequest.CONSUME_MULTIPLE:
-				case ConsumeItemRequest.CONSUME_RESTORE:
-					break;
-				default:
-					shouldIgnore = true;
-				}
-
-			// Searching for equipment means filtering out anything
-			// which is not equipment.
-
-			case ConsumeItemRequest.EQUIP_ACCESSORY:
-			case ConsumeItemRequest.EQUIP_HAT:
-			case ConsumeItemRequest.EQUIP_PANTS:
-			case ConsumeItemRequest.EQUIP_SHIRT:
-			case ConsumeItemRequest.EQUIP_WEAPON:
-			case ConsumeItemRequest.EQUIP_OFFHAND:
-
-				switch ( useType )
-				{
-				case ConsumeItemRequest.EQUIP_ACCESSORY:
-				case ConsumeItemRequest.EQUIP_HAT:
-				case ConsumeItemRequest.EQUIP_PANTS:
-				case ConsumeItemRequest.EQUIP_SHIRT:
-				case ConsumeItemRequest.EQUIP_WEAPON:
-				case ConsumeItemRequest.EQUIP_OFFHAND:
-					break;
-				default:
-					shouldIgnore = true;
-				}
-			}
-		}
-
-		shouldIgnore |= ignoreExpensiveItems && price > KoLCharacter.getAvailableMeat();
-
+		boolean shouldIgnore = price > KoLCharacter.getAvailableMeat();
 		if ( NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemId ) ) )
-			shouldIgnore |= ignoreMinpricedItems || price == 100 || price > TradeableItemDatabase.getPriceById( itemId ) * 2;
-		else
-			shouldIgnore |= ignoreMinpricedItems && price <= TradeableItemDatabase.getPriceById( itemId ) * 2;
+			shouldIgnore |= price == 100 || price > TradeableItemDatabase.getPriceById( itemId ) * 2;
 
-		shouldIgnore |= ignoreMinpricedItems && price == 100;
+		for ( int i = 0; i < junkItemList.size() && !shouldIgnore; ++i )
+			shouldIgnore |= ((AdventureResult)junkItemList.get(i)).getItemId() == itemId;
+
 		return shouldIgnore;
 	}
 
@@ -206,21 +128,15 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			int searchItemId = -1;
 			int searchPrice = -1;
-			int searchType = ConsumeItemRequest.NO_CONSUME;
 
 			Matcher itemMatcher = SEARCHITEM_PATTERN.matcher( getURLString() );
 			if ( itemMatcher.find() )
 			{
 				searchItemId = StaticEntity.parseInt( itemMatcher.group(1) );
 				searchPrice = StaticEntity.parseInt( itemMatcher.group(2) );
-				searchType = TradeableItemDatabase.getConsumptionType( searchItemId );
 			}
 
 			itemMatcher = STORE_PATTERN.matcher( responseText );
-
-			boolean ignoreExpensiveItems = StaticEntity.getBooleanProperty( "relayRemovesExpensiveItems" );
-			boolean ignoreMinpricedItems = StaticEntity.getBooleanProperty( "relayRemovesMinpricedItems" );
-			boolean ignoreUnrelatedItems = StaticEntity.getBooleanProperty( "relayRemovesUnrelatedItems" );
 
 			while ( itemMatcher.find() )
 			{
@@ -229,7 +145,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 				int itemId = StaticEntity.parseInt( itemData.substring( 0, itemData.length() - 9 ) );
 				int price = StaticEntity.parseInt( itemData.substring( itemData.length() - 9 ) );
 
-				if ( itemId != searchItemId && isJunkItem( itemId, price, searchType, ignoreExpensiveItems, ignoreMinpricedItems, ignoreUnrelatedItems ) )
+				if ( itemId != searchItemId && isJunkItem( itemId, price, searchItemId ) )
 					StaticEntity.singleStringDelete( responseBuffer, itemMatcher.group() );
 			}
 

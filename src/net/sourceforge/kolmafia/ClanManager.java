@@ -499,8 +499,6 @@ public class ClanManager extends StaticEntity
 			// To make things less confusing, load the summary
 			// file inside of the default browser after completion.
 
-			System.setProperty( "ignoreHTMLAssocation", StaticEntity.getProperty( "ignoreHTMLAssocation" ) );
-
 			BrowserLauncher.openURL( standardFile.getAbsolutePath() );
 			BrowserLauncher.openURL( softcoreFile.getAbsolutePath() );
 			BrowserLauncher.openURL( hardcoreFile.getAbsolutePath() );

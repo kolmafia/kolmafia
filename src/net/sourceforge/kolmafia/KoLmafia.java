@@ -2854,7 +2854,6 @@ public abstract class KoLmafia implements KoLConstants
 		// worker threads have not been filled.
 
 		String baseURL = "http://127.0.0.1:" + LocalRelayServer.getPort() + "/";
-		System.setProperty( "ignoreHTMLAssocation", StaticEntity.getProperty( "ignoreHTMLAssocation" ) );
 
 		if ( KoLRequest.sessionId == null )
 			StaticEntity.openSystemBrowser( baseURL + "login.php" );
@@ -3106,14 +3105,6 @@ public abstract class KoLmafia implements KoLConstants
 		sessionStream.println();
 
 		enableDisplay();
-	}
-
-	public void loadPreferredBrowser()
-	{
-		if ( StaticEntity.getBooleanProperty( "defaultToRelayBrowser" ) )
-			startRelayServer();
-		else
-			SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class ) );
 	}
 
 	private static class ShutdownThread extends Thread

@@ -338,13 +338,10 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		// Do not initialize the maps more than once, as this
 		// would not serve any purpose.
 
-		CLIENT_SETTINGS.put( "abortOnUnknownItem", "false" );
-		CLIENT_SETTINGS.put( "abortOnUnknownMonster", "false" );
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
 		CLIENT_SETTINGS.put( "allowStasisTactics", "false" );
 		CLIENT_SETTINGS.put( "allowThiefShrugOff", "true" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
-		CLIENT_SETTINGS.put( "areaValidation", "true" );
 		CLIENT_SETTINGS.put( "assumeInfiniteNPCItems", "false" );
 		CLIENT_SETTINGS.put( "autoCheckpoint", "true" );
 		CLIENT_SETTINGS.put( "autoLogin", "" );
@@ -355,7 +352,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "autoSatisfyWithMall", "false" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithNPCs", "true" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithStash", "false" );
-		CLIENT_SETTINGS.put( "autoSetConditions", "true" );
 		CLIENT_SETTINGS.put( "breakfastSoftcore", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "breakfastHardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "browserBookmarks", "" );
@@ -369,7 +365,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "defaultDropdown2", "1" );
 		CLIENT_SETTINGS.put( "defaultLimit", "5" );
 		CLIENT_SETTINGS.put( "defaultLoginServer", "1" );
-		CLIENT_SETTINGS.put( "defaultToRelayBrowser", "true" );
 		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
 		CLIENT_SETTINGS.put( "fontSize", "3" );
 		CLIENT_SETTINGS.put( "guiUsesOneWindow", "false" );
@@ -379,7 +374,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "http.proxyUser", "" );
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
 		CLIENT_SETTINGS.put( "ignoreGreenEvents", "false" );
-		CLIENT_SETTINGS.put( "ignoreHTMLAssocation", "false" );
 		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "HagnkStorageFrame,EventsFrame" );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
@@ -400,20 +394,14 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 		CLIENT_SETTINGS.put( "previousNotifyList", "<>" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
-		CLIENT_SETTINGS.put( "relayAddsCustomCombat", "false" );
 		CLIENT_SETTINGS.put( "relayAddsGraphicalCLI", "false" );
 		CLIENT_SETTINGS.put( "relayAddsKoLSimulator", "false" );
 		CLIENT_SETTINGS.put( "relayAddsQuickScripts", "false" );
 		CLIENT_SETTINGS.put( "relayAddsRestoreLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsUpArrowLinks", "true" );
-		CLIENT_SETTINGS.put( "relayAddsUseLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAlwaysBuysGum", "true" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
-		CLIENT_SETTINGS.put( "relayRemovesExpensiveItems", "true" );
-		CLIENT_SETTINGS.put( "relayRemovesMinpricedItems", "true" );
-		CLIENT_SETTINGS.put( "relayRemovesUnrelatedItems", "true" );
 		CLIENT_SETTINGS.put( "relayTextualizesEffects", "false" );
-		CLIENT_SETTINGS.put( "relayTextualizationVerbose", "false" );
 		CLIENT_SETTINGS.put( "relayUsesIntegratedChat", "true" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
 		CLIENT_SETTINGS.put( "saveState", "" );
@@ -422,12 +410,10 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );
 		CLIENT_SETTINGS.put( "showClosetIngredients", "false" );
-		CLIENT_SETTINGS.put( "showJunkItems", "true" );
 		CLIENT_SETTINGS.put( "showStashIngredients", "false" );
 		CLIENT_SETTINGS.put( "sortAdventures", "false" );
 		CLIENT_SETTINGS.put( "swingLookAndFeel", "" );
 		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
-		CLIENT_SETTINGS.put( "trackLocationChanges", "false" );
 
 		CLIENT_SETTINGS.put( "useSystemTrayIcon", String.valueOf( System.getProperty( "os.name" ).startsWith( "Windows" ) ) );
 		CLIENT_SETTINGS.put( "usePopupContacts", "1" );
