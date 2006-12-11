@@ -79,7 +79,7 @@ public class FamiliarsDatabase extends KoLDatabase
 		// examined and float-referenced: once in the name-lookup,
 		// and again in the Id lookup.
 
-		BufferedReader reader = getReader( "familiars.dat" );
+		BufferedReader reader = getReader( "familiars.txt" );
 
 		String [] data;
 		Integer familiarId, familiarLarva;
@@ -296,7 +296,7 @@ public class FamiliarsDatabase extends KoLDatabase
 		{
 			(new File( "data" )).mkdirs();
 
-			File output = new File( "data/familiars.dat" );
+			File output = new File( "data/familiars.txt" );
 			if ( output.exists() )
 				output.delete();
 

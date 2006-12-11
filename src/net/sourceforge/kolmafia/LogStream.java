@@ -49,6 +49,17 @@ import java.io.IOException;
 public class LogStream extends PrintStream implements KoLConstants
 {
 	/**
+	 * Utility method which indicates whether or not the given filename
+	 * indicates that the log should be appended to or not.
+	 */
+
+	private static boolean shouldAppend( String fileName )
+	{
+		return (fileName.indexOf( "buffs" ) != -1 && fileName.indexOf( "_200" ) != -1) ||
+			fileName.indexOf( "sessions" ) != -1 || fileName.indexOf( "DEBUG" ) != -1;
+	}
+
+	/**
 	 * Constructs a new <code>LogStream</code> which will append all
 	 * log data to the file of the specified name.  Note that the
 	 * file must exist prior to calling this method.
@@ -58,7 +69,7 @@ public class LogStream extends PrintStream implements KoLConstants
 	 */
 
 	public LogStream( String fileName ) throws IOException
-	{	this( new File( fileName ), fileName.indexOf( "sessions" ) != -1 || fileName.indexOf( "DEBUG" ) != -1 );
+	{	this( new File( fileName ), shouldAppend( fileName ) );
 	}
 
 	/**
@@ -71,7 +82,7 @@ public class LogStream extends PrintStream implements KoLConstants
 	 */
 
 	public LogStream( File file ) throws IOException
-	{	this( file, file.getAbsolutePath().indexOf( "sessions" ) != -1 || file.getAbsolutePath().endsWith( ".log" ) );
+	{	this( file, shouldAppend( file.getAbsolutePath() ) );
 	}
 
 

@@ -91,7 +91,7 @@ public class BuffBotHome extends StaticEntity
 		// Create the text log file which shows only the buffs
 		// which have been requested in a comma-delimited format.
 
-		textLogStream = getPrintStream( ".log" );
+		textLogStream = getPrintStream( ".txt" );
 
 		// Create the standard HTML log which can be opened
 		// up to see all activity.

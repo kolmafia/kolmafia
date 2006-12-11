@@ -5118,6 +5118,10 @@ public class KoLmafiaASH extends StaticEntity
 				{
 					KoLmafia.updateDisplay( ABORT_STATE, "Could not locate remote file <" + filename + ">" );
 				}
+				else if ( filename.endsWith( ".dat" ) )
+				{
+					return readMap( filename.substring( 0, filename.length() - 4 ) + ".txt", result, compact );
+				}
 				else
 				{
 					DEFAULT_SHELL.printLine( "File not located: scripts/datamaps/" + filename );

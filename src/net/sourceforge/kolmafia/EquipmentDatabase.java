@@ -58,7 +58,7 @@ public class EquipmentDatabase extends KoLDatabase
 
 	static
 	{
-		BufferedReader reader = getReader( "equipment.dat" );
+		BufferedReader reader = getReader( "equipment.txt" );
 
 		String [] data;
 		int itemId;
@@ -101,7 +101,7 @@ public class EquipmentDatabase extends KoLDatabase
 			printStackTrace( e );
 		}
 
-		reader = getReader( "outfits.dat" );
+		reader = getReader( "outfits.txt" );
 		int outfitId;
 
 		while ( (data = readData( reader )) != null )

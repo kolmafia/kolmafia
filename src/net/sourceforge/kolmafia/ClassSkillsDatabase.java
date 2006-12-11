@@ -68,7 +68,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		// examined and float-referenced: once in the name-lookup,
 		// and again in the Id lookup.
 
-		BufferedReader reader = getReader( "classskills.dat" );
+		BufferedReader reader = getReader( "classskills.txt" );
 
 		String [] data;
 		Integer skillId, skillType, mpConsumption;

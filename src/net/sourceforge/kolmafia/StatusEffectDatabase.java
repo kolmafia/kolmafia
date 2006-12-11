@@ -62,7 +62,7 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	static
 	{
-		BufferedReader reader = getReader( "statuseffects.dat" );
+		BufferedReader reader = getReader( "statuseffects.txt" );
 		String [] data;
 
 		String name;
@@ -93,7 +93,7 @@ public class StatusEffectDatabase extends KoLDatabase
 			printStackTrace( e );
 		}
 
-		reader = getReader( "modifiers.dat" );
+		reader = getReader( "modifiers.txt" );
 		while ( (data = readData( reader )) != null )
 			if ( data.length == 2 )
 				modifierMap.put( data[0].toLowerCase(), data[1] );
