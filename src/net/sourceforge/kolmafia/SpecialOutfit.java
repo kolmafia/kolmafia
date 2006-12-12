@@ -48,6 +48,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class SpecialOutfit implements Comparable, KoLConstants
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
+	private static final AdventureResult [] CHECKPOINT = new AdventureResult[ KoLCharacter.FAMILIAR ];
 
 	private int outfitId;
 	private String outfitName;
@@ -55,7 +56,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	private static boolean hadImplicitChange = false;
 
-	public static SpecialOutfit CHECKPOINT = null;
 	public static final String NO_CHANGE = " - No Change - ";
 	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit();
 
@@ -70,10 +70,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	{
 		this.outfitId = outfitId;
 		this.outfitName = outfitName;
-
-		if ( this.outfitName.equals( "Custom: KoLmafia Checkpoint" ) )
-			CHECKPOINT = this;
-
 		this.pieces = new ArrayList();
 	}
 
@@ -146,7 +142,9 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		if ( hadImplicitChange )
 			return;
 
-		(new EquipmentRequest( "KoLmafia Checkpoint" )).run();
+		for ( int i = 0; i < CHECKPOINT.length; ++i )
+			CHECKPOINT[i] = KoLCharacter.getEquipment(i);
+
 		SpecialOutfit.hadImplicitChange = isImplicitChange;
 	}
 
@@ -163,32 +161,13 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		if ( KoLmafia.isRunningBetweenBattleChecks() )
 			return true;
 
-		if ( CHECKPOINT != null )
-		{
-			(new EquipmentRequest( CHECKPOINT )).run();
-			SpecialOutfit.deleteCheckpoint();
-		}
+		for ( int i = 0; i < CHECKPOINT.length; ++i )
+			if ( CHECKPOINT[i] != null && !KoLCharacter.getEquipment( i ).equals( CHECKPOINT[i] ) )
+				(new EquipmentRequest( CHECKPOINT[i], i )).run();
+
 
 		hadImplicitChange = false;
 		return true;
-	}
-
-	/**
-	 * Deletes the checkpoint outfit, if present.  This should
-	 * be called whenever KoLmafia is done using the checkpoint.
-	 */
-
-	public static void deleteCheckpoint()
-	{
-		if ( CHECKPOINT != null )
-		{
-			KoLRequest request = new KoLRequest( "account_manageoutfits.php?action=Yep.&delete" +
-				(0 - CHECKPOINT.getOutfitId()) + "=on", true );
-
-			request.run();
-			CHECKPOINT = null;
-			hadImplicitChange = false;
-		}
 	}
 
 	/**
@@ -203,7 +182,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		Matcher singleOutfitMatcher = OPTION_PATTERN.matcher( selectHTML );
 
 		int outfitId;
-		CHECKPOINT = null;
 		SortedListModel outfits = new SortedListModel();
 
 		while ( singleOutfitMatcher.find() )

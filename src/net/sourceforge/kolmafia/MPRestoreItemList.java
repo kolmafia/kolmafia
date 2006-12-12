@@ -174,8 +174,19 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			int numberAvailable = itemUsed.getCount( inventory );
 
-			if ( !NPCStoreDatabase.contains( this.toString() ) || !purchase )
-				numberToUse = Math.min( numberAvailable, numberToUse );
+			// For purchases, attempt to reduce the number of times
+			// you buy items by a factor of three.
+
+			if ( purchase && numberAvailable < numberToUse && NPCStoreDatabase.contains( itemUsed.getName() ) )
+			{
+				AdventureDatabase.retrieveItem( itemUsed.getInstance(
+					Math.min( KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( itemUsed.getItemId() ) * 2), numberToUse * 3 ) ) );
+			}
+
+			numberToUse = Math.min( numberAvailable, numberToUse );
+
+			// If you don't have any items to use, then return
+			// without doing anything.
 
 			if ( numberToUse <= 0 )
 				return;
