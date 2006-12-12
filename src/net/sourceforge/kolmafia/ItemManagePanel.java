@@ -351,7 +351,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	protected class FilterItemComboBox extends MutableComboBox
 	{
-		private boolean food, booze, equip, junk, other;
+		protected boolean food, booze, equip, junk, other;
 
 		public FilterItemComboBox()
 		{

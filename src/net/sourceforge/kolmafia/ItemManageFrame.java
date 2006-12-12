@@ -444,7 +444,7 @@ public class ItemManageFrame extends KoLFrame
 
 		private class ConsumableFilterComboBox extends FilterItemComboBox
 		{
-			private boolean food, booze, restores, junk, other;
+			private boolean restores;
 
 			public ConsumableFilterComboBox()
 			{	filter = new ConsumableFilter();
@@ -454,6 +454,8 @@ public class ItemManageFrame extends KoLFrame
 			{
 				food = filters[0].isSelected();
 				booze = filters[1].isSelected();
+				equip = false;
+
 				restores = filters[2].isSelected();
 				junk = filters[3].isSelected();
 				other = filters[4].isSelected();
@@ -472,26 +474,18 @@ public class ItemManageFrame extends KoLFrame
 					case ConsumeItemRequest.CONSUME_DRINK:
 					case ConsumeItemRequest.GROW_FAMILIAR:
 					case ConsumeItemRequest.CONSUME_ZAP:
-						break;
+						return super.isVisible( element );
 
 					case ConsumeItemRequest.CONSUME_RESTORE:
-						if ( !restores )
-							return false;
-
-						break;
+						return restores ? super.isVisible( element ) : false;
 
 					case ConsumeItemRequest.CONSUME_MULTIPLE:
 					case ConsumeItemRequest.CONSUME_USE:
-						if ( HPRestoreItemList.contains( (AdventureResult) element ) && !restores )
-							return false;
-
-						break;
+						return HPRestoreItemList.contains( (AdventureResult) element ) && restores ? super.isVisible( element ) : false;
 
 					default:
 						return false;
 					}
-
-					return super.isVisible( element );
 				}
 			}
 		}
