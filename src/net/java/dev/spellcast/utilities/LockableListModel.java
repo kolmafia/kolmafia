@@ -66,11 +66,11 @@ public class LockableListModel extends javax.swing.AbstractListModel
 {
 	private static final ListElementFilter NO_FILTER = new ListElementFilter();
 
-	private ArrayList actualElements;
-	private ArrayList visibleElements;
+	protected ArrayList actualElements;
+	protected ArrayList visibleElements;
 
-	private Object selectedValue;
-	private ListElementFilter currentFilter;
+	protected Object selectedValue;
+	protected ListElementFilter currentFilter;
 
 	/**
 	 * Constructs a new <code>LockableListModel</code>.
@@ -885,25 +885,11 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public LockableListModel getMirrorImage( ListElementFilter filter )
-	{
-		LockableListModel mirrorImage = (LockableListModel) clone();
-
-		mirrorImage.applyListFilter( filter );
-		addListDataListener( new MirrorImageListener( mirrorImage ) );
-		return mirrorImage;
+	{	return new MirrorImageModel( this );
 	}
 
-	/**
-	 * An internal listener class which is added whenever a mirror image is created.
-	 * The <code>MirrorImageListener</code> will respond to any changes in the
-	 * <code>LockableListModel</code> by changing the underlying data of the
-	 * mirror image(s) of the <code>LockableListModel</code>.
-	 */
-
-	private class MirrorImageListener implements ListDataListener
+	private class MirrorImageModel extends LockableListModel implements ListDataListener
 	{
-		private LockableListModel mirrorImage;
-
 		/**
 		 * Constructs a new <code>MirrorImageListener</code> which will respond
 		 * to changes in the class it's listening on by making changes to the
@@ -911,11 +897,15 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		 * given object is truly a copy of the original; thus, before creating a
 		 * listener, a mirror image must be created.
 		 *
-		 * @param	mirrorImage	the mirror image of this <code>LockableListModel</code>
+		 * @param	listToMirror	the mirror image of this <code>LockableListModel</code>
 		 */
 
-		public MirrorImageListener( LockableListModel mirrorImage )
-		{	this.mirrorImage = mirrorImage;
+		public MirrorImageModel( LockableListModel listToMirror )
+		{
+			this.actualElements = listToMirror.actualElements;
+			this.visibleElements = new ArrayList( listToMirror.visibleElements );
+
+			listToMirror.addListDataListener( this );
 		}
 
 		/**
@@ -926,28 +916,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		 */
 
 		public void intervalAdded( ListDataEvent e )
-		{
-			if ( e.getType() == ListDataEvent.INTERVAL_ADDED && e.getSource() instanceof LockableListModel )
-				intervalAdded( (LockableListModel) e.getSource(), e.getIndex0(), e.getIndex1() );
-		}
-
-		/**
-		 * Indicates that the given list has added elements.  This function then
-		 * proceeds to add the elements within the given index range to the mirror
-		 * image currently being stored.
-		 *
-		 * @param	source	the list that has changed
-		 * @param	index0	the lower index in the range
-		 * @param	index1	the upper index in the range
-		 */
-
-		private void intervalAdded( LockableListModel source, int index0, int index1 )
-		{
-			if ( index0 < 0 || index1 < 0 || index1 >= source.size() )
-				return;
-
-			for ( int i = index0; i <= index1; ++i )
-				mirrorImage.add( source.get(i) );
+		{	this.fireIntervalAdded( e.getSource(), e.getIndex0(), e.getIndex1() );
 		}
 
 		/**
@@ -958,27 +927,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		 */
 
 		public void intervalRemoved( ListDataEvent e )
-		{
-			if ( e.getType() == ListDataEvent.INTERVAL_REMOVED && e.getSource() instanceof LockableListModel )
-				intervalRemoved( (LockableListModel) e.getSource(), e.getIndex0(), e.getIndex1() );
-		}
-
-		/**
-		 * Indicates that the given list has removed elements.  This function then
-		 * proceeds to remove the elements within the given index range from the mirror
-		 * image currently being stored.
-		 *
-		 * @param	source	the list that has changed
-		 * @param	index0	the lower index in the range
-		 * @param	index1	the upper index in the range
-		 */
-
-		private void intervalRemoved( LockableListModel source, int index0, int index1 )
-		{
-			if ( index0 < 0 || index1 < 0 || index1 >= mirrorImage.size() )
-				return;
-
-			mirrorImage.retainAll( source );
+		{	this.fireIntervalRemoved( e.getSource(), e.getIndex0(), e.getIndex1() );
 		}
 
 		/**
@@ -989,31 +938,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		 */
 
 		public void contentsChanged( ListDataEvent e )
-		{
-			if ( e.getType() == ListDataEvent.CONTENTS_CHANGED && e.getSource() instanceof LockableListModel )
-				contentsChanged( (LockableListModel) e.getSource(), e.getIndex0(), e.getIndex1() );
-		}
-
-		/**
-		 * Indicates that the given list has changed its contents.  This function then
-		 * proceeds to change the elements within the given index range in the mirror
-		 * image currently being stored to match the ones in the original list.
-		 *
-		 * @param	source	the list that has changed
-		 * @param	index0	the lower index in the range
-		 * @param	index1	the upper index in the range
-		 */
-
-		private void contentsChanged( LockableListModel source, int index0, int index1 )
-		{
-			if ( index0 < 0 || index1 < 0 )
-				return;
-
-			for ( int i = index0; i <= index1 && i < mirrorImage.size(); ++i )
-				mirrorImage.set( i, source.get(i) );
-
-			for ( int i = mirrorImage.size(); i <= index1; ++i )
-				mirrorImage.add( i, source.get(i) );
+		{	this.fireContentsChanged( e.getSource(), e.getIndex0(), e.getIndex1() );
 		}
 	}
 }
