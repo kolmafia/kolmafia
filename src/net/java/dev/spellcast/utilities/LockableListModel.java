@@ -66,8 +66,9 @@ public class LockableListModel extends javax.swing.AbstractListModel
 {
 	private static final ListElementFilter NO_FILTER = new ListElementFilter();
 
-	protected ArrayList actualElements;
-	protected ArrayList visibleElements;
+	private ArrayList mirrorList;
+	private ArrayList actualElements;
+	private ArrayList visibleElements;
 
 	protected Object selectedValue;
 	protected ListElementFilter currentFilter;
@@ -83,6 +84,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		selectedValue = null;
 		currentFilter = NO_FILTER;
+		mirrorList = new ArrayList();
 	}
 
 	public LockableListModel( Collection c )
@@ -139,13 +141,23 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	public void add( int index, Object element )
 	{
 		actualElements.add( index, element );
+		addVisibleElement( index, element );
+	}
 
-		if ( currentFilter.isVisible( element ) )
+	private void addVisibleElement( int index, Object element )
+	{
+		addVisibleElement( this, index, element );
+		for ( int i = 0; i < mirrorList.size(); ++i )
+			addVisibleElement( (LockableListModel) mirrorList.get(i), index, element );
+	}
+
+	private static void addVisibleElement( LockableListModel model, int index, Object element )
+	{
+		if ( model.currentFilter.isVisible( element ) )
 		{
-			int visibleIndex = computeVisibleIndex( index );
-			visibleElements.add( visibleIndex, element );
-
-			fireIntervalAdded( this, visibleIndex, visibleIndex );
+			int visibleIndex = model.computeVisibleIndex( index );
+			model.visibleElements.add( visibleIndex, element );
+			model.fireIntervalAdded( model, visibleIndex, visibleIndex );
 		}
 	}
 
@@ -183,12 +195,9 @@ public class LockableListModel extends javax.swing.AbstractListModel
 				return false;
 
 			actualElements.addAll( 0, c );
-
 			for ( int i = 0; i < actualElements.size(); ++i )
-				if ( currentFilter.isVisible( actualElements.get(i) ) )
-					visibleElements.add( actualElements.get(i) );
+				addVisibleElement( i, actualElements.get(i) );
 
-			fireIntervalAdded( this, 0, getSize() - 1 );
 			return true;
 		}
 
@@ -214,17 +223,24 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public void clear()
 	{
-		int originalSize = getSize();
-
-		visibleElements.clear();
 		actualElements.clear();
+		clearVisibleElements();
+	}
 
-		// If the size of the list model is 0, then
-		// there's nothing to do.  Avoid misfiring
-		// the action listeners in this case.
+	private void clearVisibleElements()
+	{
+		clearVisibleElements( this );
+		for ( int i = 0; i < mirrorList.size(); ++i )
+			clearVisibleElements( (LockableListModel) mirrorList.get(i) );
+	}
+
+	private static void clearVisibleElements( LockableListModel model )
+	{
+		int originalSize = model.getSize();
+		model.visibleElements.clear();
 
 		if ( originalSize != 0 )
-			fireIntervalRemoved( this, 0, originalSize - 1 );
+			model.fireIntervalRemoved( model, 0, originalSize - 1 );
 	}
 
 	/**
@@ -432,16 +448,26 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			return null;
 
 		Object returnValue = actualElements.remove( index );
-
-		if ( currentFilter.isVisible( returnValue ) )
-		{
-			int visibleIndex = computeVisibleIndex( index );
-			visibleElements.remove( visibleIndex );
-
-			fireIntervalRemoved( this, visibleIndex, visibleIndex );
-		}
+		removeVisibleElement( index, returnValue );
 
 		return returnValue;
+	}
+
+	private void removeVisibleElement( int index, Object element )
+	{
+		removeVisibleElement( this, index, element );
+		for ( int i = 0; i < mirrorList.size(); ++i )
+			removeVisibleElement( (LockableListModel) mirrorList.get(i), index, element );
+	}
+
+	private static void removeVisibleElement( LockableListModel model, int index, Object element )
+	{
+		if ( model.currentFilter.isVisible( element ) )
+		{
+			int visibleIndex = model.computeVisibleIndex( index );
+			model.visibleElements.remove( visibleIndex );
+			model.fireIntervalRemoved( model, visibleIndex, visibleIndex );
+		}
 	}
 
 	/**
@@ -497,33 +523,45 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			return null;
 
 		Object returnValue = actualElements.set( index, element );
-		int visibleIndex = computeVisibleIndex( index );
+		setVisibleElement( index, element, returnValue );
 
-		if ( returnValue != null && currentFilter.isVisible( returnValue ) )
+		return returnValue;
+	}
+
+	private void setVisibleElement( int index, Object element, Object originalValue )
+	{
+		setVisibleElement( this, index, element, originalValue );
+		for ( int i = 0; i < mirrorList.size(); ++i )
+			setVisibleElement( (LockableListModel) mirrorList.get(i), index, element, originalValue );
+	}
+
+	private static void setVisibleElement( LockableListModel model, int index, Object element, Object originalValue )
+	{
+		int visibleIndex = model.computeVisibleIndex( index );
+
+		if ( originalValue != null && model.currentFilter.isVisible( originalValue ) )
 		{
-			if ( !currentFilter.isVisible( element ) )
+			if ( !model.currentFilter.isVisible( element ) )
 			{
-				visibleElements.remove( visibleIndex );
-				fireIntervalRemoved( this, visibleIndex, visibleIndex );
+				model.visibleElements.remove( visibleIndex );
+				model.fireIntervalRemoved( model, visibleIndex, visibleIndex );
 			}
-			else if ( visibleIndex == visibleElements.size() )
+			else if ( visibleIndex == model.visibleElements.size() )
 			{
-				visibleElements.add( visibleIndex, element );
-				fireIntervalAdded( this, visibleIndex, visibleIndex );
+				model.visibleElements.add( visibleIndex, element );
+				model.fireIntervalAdded( model, visibleIndex, visibleIndex );
 			}
 			else
 			{
-				visibleElements.set( visibleIndex, element );
-				fireContentsChanged( this, visibleIndex, visibleIndex );
+				model.visibleElements.set( visibleIndex, element );
+				model.fireContentsChanged( model, visibleIndex, visibleIndex );
 			}
 		}
-		else if ( currentFilter.isVisible( element ) )
+		else if ( model.currentFilter.isVisible( element ) )
 		{
-			visibleElements.add( visibleIndex, element );
-			fireIntervalAdded( this, visibleIndex, visibleIndex );
+			model.visibleElements.add( visibleIndex, element );
+			model.fireIntervalAdded( model, visibleIndex, visibleIndex );
 		}
-
-		return returnValue;
 	}
 
 	/**
@@ -885,60 +923,11 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public LockableListModel getMirrorImage( ListElementFilter filter )
-	{	return new MirrorImageModel( this );
-	}
-
-	private class MirrorImageModel extends LockableListModel implements ListDataListener
 	{
-		/**
-		 * Constructs a new <code>MirrorImageListener</code> which will respond
-		 * to changes in the class it's listening on by making changes to the
-		 * given mirror image.  Note that it does not check to ensure that the
-		 * given object is truly a copy of the original; thus, before creating a
-		 * listener, a mirror image must be created.
-		 *
-		 * @param	listToMirror	the mirror image of this <code>LockableListModel</code>
-		 */
+		LockableListModel mirrorImage = new LockableListModel();
+		mirrorImage.actualElements = this.actualElements;
+		mirrorImage.applyListFilter( filter );
 
-		public MirrorImageModel( LockableListModel listToMirror )
-		{
-			this.actualElements = listToMirror.actualElements;
-			this.visibleElements = new ArrayList( listToMirror.visibleElements );
-
-			listToMirror.addListDataListener( this );
-		}
-
-		/**
-		 * Called whenever contents have been added to the original list; a
-		 * function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
-		 */
-
-		public void intervalAdded( ListDataEvent e )
-		{	this.fireIntervalAdded( e.getSource(), e.getIndex0(), e.getIndex1() );
-		}
-
-		/**
-		 * Called whenever contents have been removed from the original list;
-		 * a function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
-		 */
-
-		public void intervalRemoved( ListDataEvent e )
-		{	this.fireIntervalRemoved( e.getSource(), e.getIndex0(), e.getIndex1() );
-		}
-
-		/**
-		 * Called whenever contents in the original list have changed; a
-		 * function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
-		 */
-
-		public void contentsChanged( ListDataEvent e )
-		{	this.fireContentsChanged( e.getSource(), e.getIndex0(), e.getIndex1() );
-		}
+		return mirrorImage;
 	}
 }
