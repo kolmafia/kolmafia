@@ -53,6 +53,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractSpinnerModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListDataEvent;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -385,6 +387,8 @@ public class AdventureFrame extends KoLFrame
 
 	private class AdventureSelectPanel extends JPanel
 	{
+		private boolean isHandlingConditions = false;
+
 		private ExecuteButton begin;
 		private JComboBox moodSelect;
 		private JComboBox actionSelect;
@@ -471,7 +475,10 @@ public class AdventureFrame extends KoLFrame
 			public void actionConfirmed()
 			{
 				if ( actionSelect.getSelectedItem() == null )
+				{
+					KoLmafia.updateDisplay( ERROR_STATE, "No adventure location selected." );
 					return;
+				}
 
 				KoLmafia.forceContinue();
 				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
@@ -523,7 +530,10 @@ public class AdventureFrame extends KoLFrame
 						conditions.add( stats );
 
 					lastAdventure = request;
+
+					isHandlingConditions = true;
 					handleConditions( request );
+					isHandlingConditions = false;
 				}
 
 				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
@@ -533,8 +543,22 @@ public class AdventureFrame extends KoLFrame
 				KoLmafia.enableDisplay();
 			}
 
+			private class WorthlessItemRequest implements Runnable
+			{
+				private int itemCount;
+
+				public WorthlessItemRequest( int itemCount )
+				{	this.itemCount = itemCount;
+				}
+
+				public void run()
+				{	DEFAULT_SHELL.executeLine( "acquire " + itemCount + " worthless item" );
+				}
+			}
+
 			private void handleConditions( KoLAdventure request )
 			{
+				conditions.clear();
 				String conditionList = conditionField.getText().trim().toLowerCase();
 
 				if ( conditionList.equalsIgnoreCase( "none" ) )
@@ -549,11 +573,21 @@ public class AdventureFrame extends KoLFrame
 				{
 					boolean verifyConditions = conditionList.equals( AdventureDatabase.getCondition( request ) );
 
+					int worthlessItemCount = 0;
 					boolean useDisjunction = false;
+
 					String [] splitConditions = conditionList.split( "\\s*,\\s*" );
 
 					for ( int i = 0; i < splitConditions.length; ++i )
 					{
+						if ( splitConditions[i].indexOf( "worthless" ) != -1 )
+						{
+							// You're looking for some number of
+							// worthless items
+
+							worthlessItemCount += Character.isDigit( splitConditions[i].charAt(0) ) ?
+								StaticEntity.parseInt( splitConditions[i].split( " " )[0] ) : 1;
+						}
 						if ( splitConditions[i].equals( "check" ) )
 						{
 							// Postpone verification of conditions
@@ -586,9 +620,12 @@ public class AdventureFrame extends KoLFrame
 						}
 					}
 
-					if ( verifyConditions )
+					if ( worthlessItemCount > 0 )
+						RequestThread.postRequest( new WorthlessItemRequest( worthlessItemCount ) );
+
+					if ( verifyConditions || worthlessItemCount > 0 )
 					{
-						DEFAULT_SHELL.executeConditionsCommand( "check" );
+						KoLmafia.checkRequirements( conditions, false );
 						if ( conditions.isEmpty() )
 						{
 							KoLmafia.updateDisplay( "All conditions already satisfied." );
@@ -631,18 +668,55 @@ public class AdventureFrame extends KoLFrame
 			}
 		}
 
-		private class ConditionChangeListener implements ListSelectionListener
+		private class ConditionChangeListener implements ListSelectionListener, ListDataListener
 		{
+			public ConditionChangeListener()
+			{	conditions.addListDataListener( this );
+			}
+
 			public void valueChanged( ListSelectionEvent e )
 			{
-				if ( KoLCharacter.canInteract() )
+				if ( KoLCharacter.getLevel() >= 11 )
 					return;
 
 				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();
 				if ( location == null )
 					return;
 
-				conditionField.setText( AdventureDatabase.getCondition( location ) );
+				if ( conditions.isEmpty() )
+					conditionField.setText( AdventureDatabase.getCondition( location ) );
+				else
+					populateConditions();
+			}
+
+			public void intervalAdded( ListDataEvent e )
+			{	populateConditions();
+			}
+
+			public void intervalRemoved( ListDataEvent e )
+			{	populateConditions();
+			}
+
+			public void contentsChanged( ListDataEvent e )
+			{	populateConditions();
+			}
+
+			public void populateConditions()
+			{
+				if ( isHandlingConditions )
+					return;
+
+				StringBuffer conditionString = new StringBuffer();
+
+				for ( int i = 0; i < conditions.size(); ++i )
+				{
+					if ( i > 0 )
+						conditionString.append( ", " );
+
+					conditionString.append( ((AdventureResult)conditions.get(i)).toConditionString() );
+				}
+
+				conditionField.setText( conditionString.toString() );
 			}
 		}
 

@@ -643,7 +643,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		forceContinue();
 
-		missingItems.clear();
 		encounterList.clear();
 		adventureList.clear();
 
@@ -2406,12 +2405,15 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public static boolean checkRequirements( List requirements )
+	{	return checkRequirements( requirements, true );
+	}
+
+	public static boolean checkRequirements( List requirements, boolean retrieveItem )
 	{
 		AdventureResult [] requirementsArray = new AdventureResult[ requirements.size() ];
 		requirements.toArray( requirementsArray );
 
-		int missingCount;
-		missingItems.clear();
+		int missingCount = 0;
 
 		// Check the items required for this quest,
 		// retrieving any items which might be inside
@@ -2424,43 +2426,40 @@ public abstract class KoLmafia implements KoLConstants
 
 			missingCount = 0;
 
+			if ( requirementsArray[i].isItem() && retrieveItem )
+				AdventureDatabase.retrieveItem( requirementsArray[i] );
+
 			if ( requirementsArray[i].isItem() )
 			{
-				AdventureDatabase.retrieveItem( requirementsArray[i] );
+				// Items are validated against the amount
+				// currently in inventory.
+
 				missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( inventory );
 			}
 			else if ( requirementsArray[i].isStatusEffect() )
 			{
 				// Status effects should be compared against
-				// the status effects list.  This is used to
-				// help people detect which effects they are
-				// missing (like in PVP).
+				// the status effects list.
 
 				missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( activeEffects );
 			}
 			else if ( requirementsArray[i].getName().equals( AdventureResult.MEAT ) )
 			{
 				// Currency is compared against the amount
-				// actually liquid -- amount in closet is
-				// ignored in this case.
+				// actually liquid.
 
 				missingCount = requirementsArray[i].getCount() - KoLCharacter.getAvailableMeat();
 			}
 
-			if ( missingCount > 0 )
-			{
-				// If there are any missing items, add
-				// them to the list of needed items.
-
-				missingItems.add( requirementsArray[i].getInstance( missingCount ) );
-			}
+			if ( missingCount <= 0 )
+				requirements.remove( requirementsArray[i] );
 		}
 
 		// If there are any missing requirements
 		// be sure to return false.  Otherwise,
 		// you managed to get everything.
 
-		return missingItems.isEmpty();
+		return requirements.isEmpty();
 	}
 
 	/**
