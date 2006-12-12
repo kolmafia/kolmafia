@@ -676,6 +676,26 @@ public class AdventureFrame extends KoLFrame
 
 			public void valueChanged( ListSelectionEvent e )
 			{
+				if ( conditions.isEmpty() )
+					fillDefaultConditions();
+				else
+					fillCurrentConditions();
+			}
+
+			public void intervalAdded( ListDataEvent e )
+			{	fillCurrentConditions();
+			}
+
+			public void intervalRemoved( ListDataEvent e )
+			{	fillCurrentConditions();
+			}
+
+			public void contentsChanged( ListDataEvent e )
+			{	fillCurrentConditions();
+			}
+
+			public void fillDefaultConditions()
+			{
 				if ( KoLCharacter.getLevel() >= 11 )
 					return;
 
@@ -683,27 +703,12 @@ public class AdventureFrame extends KoLFrame
 				if ( location == null )
 					return;
 
-				if ( conditions.isEmpty() )
-					conditionField.setText( AdventureDatabase.getCondition( location ) );
-				else
-					populateConditions();
+				conditionField.setText( AdventureDatabase.getCondition( location ) );
 			}
 
-			public void intervalAdded( ListDataEvent e )
-			{	populateConditions();
-			}
-
-			public void intervalRemoved( ListDataEvent e )
-			{	populateConditions();
-			}
-
-			public void contentsChanged( ListDataEvent e )
-			{	populateConditions();
-			}
-
-			public void populateConditions()
+			public void fillCurrentConditions()
 			{
-				if ( isHandlingConditions )
+				if ( isHandlingConditions || KoLmafia.isAdventuring() )
 					return;
 
 				StringBuffer conditionString = new StringBuffer();
@@ -716,7 +721,10 @@ public class AdventureFrame extends KoLFrame
 					conditionString.append( ((AdventureResult)conditions.get(i)).toConditionString() );
 				}
 
-				conditionField.setText( conditionString.toString() );
+				if ( conditionString.length() == 0 )
+					fillDefaultConditions();
+				else
+					conditionField.setText( conditionString.toString() );
 			}
 		}
 
