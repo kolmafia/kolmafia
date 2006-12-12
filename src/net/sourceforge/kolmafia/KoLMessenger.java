@@ -396,6 +396,8 @@ public abstract class KoLMessenger extends StaticEntity
 	{	return getNormalizedContent( originalContent, true );
 	}
 
+	private static final Pattern GREEN_PATTERN = Pattern.compile( "<font color=green><b>(.*?)</font></a></b> (.*?)</font>" );
+
 	public static final String getNormalizedContent( String originalContent, boolean isInternal )
 	{
 		String noImageContent = IMAGE_PATTERN.matcher( originalContent ).replaceAll( "" );
@@ -410,7 +412,8 @@ public abstract class KoLMessenger extends StaticEntity
 		String italicOrderedContent = StaticEntity.globalStringReplace( colonOrderedContent, "<b><i>", "<i><b>" );
 		italicOrderedContent = StaticEntity.globalStringReplace( italicOrderedContent, "</b></font></a>", "</font></a></b>" );
 
-		String leftAlignContent = StaticEntity.globalStringDelete( italicOrderedContent, "<center>" );
+		String fixedGreenContent = GREEN_PATTERN.matcher( italicOrderedContent ).replaceAll( "<font color=green><b>$1</b></font></a> $2</font>" );
+		String leftAlignContent = StaticEntity.globalStringDelete( fixedGreenContent, "<center>" );
 		leftAlignContent = StaticEntity.globalStringReplace( leftAlignContent, "</center>", "<br>" );
 
 		if ( !isInternal )
