@@ -392,18 +392,36 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 	}
 
-	private static final String getNormalizedContent( String originalContent )
+	public static final String getNormalizedContent( String originalContent )
+	{	return getNormalizedContent( originalContent, true );
+	}
+
+	public static final String getNormalizedContent( String originalContent, boolean isInternal )
 	{
 		String noImageContent = IMAGE_PATTERN.matcher( originalContent ).replaceAll( "" );
-		String condensedContent = EXPAND_PATTERN.matcher( noImageContent ).replaceAll( "<br>" );
-		String noColorContent = COLOR_PATTERN.matcher( condensedContent ).replaceAll( "" );
+		String normalBreaksContent = LINEBREAK_PATTERN.matcher( noImageContent ).replaceAll( "<br>" );
+		String condensedContent = EXPAND_PATTERN.matcher( noImageContent ).replaceAll( "<br><br>" );
 
-		String normalBreaksContent = LINEBREAK_PATTERN.matcher( noColorContent ).replaceAll( "<br>" );
-		String normalBoldsContent = StaticEntity.globalStringReplace( normalBreaksContent, "<br></b>", "</b><br>" );
-		String colonOrderedContent = StaticEntity.globalStringReplace( normalBoldsContent, ":</b></a>", "</b></a>:" );
+		String normalBoldsContent = StaticEntity.globalStringReplace( condensedContent, "<br></b>", "</b><br>" );
+		String colonOrderedContent = StaticEntity.globalStringReplace( normalBoldsContent, ":</b></a>", "</a></b>:" );
 		colonOrderedContent = StaticEntity.globalStringReplace( colonOrderedContent, "</a>:</b>", "</a></b>:" );
-		String noCommentsContent = COMMENT_PATTERN.matcher( colonOrderedContent ).replaceAll( "" );
+		colonOrderedContent = StaticEntity.globalStringReplace( colonOrderedContent, "</b></a>:", "</a></b>:" );
 
+		String italicOrderedContent = StaticEntity.globalStringReplace( colonOrderedContent, "<b><i>", "<i><b>" );
+		italicOrderedContent = StaticEntity.globalStringReplace( italicOrderedContent, "</b></font></a>", "</font></a></b>" );
+
+		String leftAlignContent = StaticEntity.globalStringDelete( italicOrderedContent, "<center>" );
+		leftAlignContent = StaticEntity.globalStringReplace( leftAlignContent, "</center>", "<br>" );
+
+		if ( !isInternal )
+		{
+			String normalPrivateContent = StaticEntity.globalStringReplace( leftAlignContent, "<font color=blue>private to ", "<font color=blue>private to</font></b> <b>" );
+			normalPrivateContent = StaticEntity.globalStringReplace( normalPrivateContent, "(private)</a></b>", "(private)</b></font></a><font color=blue>" );
+			return normalPrivateContent;
+		}
+
+		String noColorContent = COLOR_PATTERN.matcher( leftAlignContent ).replaceAll( "" );
+		String noCommentsContent = COMMENT_PATTERN.matcher( noColorContent ).replaceAll( "" );
 		return TABLE_PATTERN.matcher( noCommentsContent ).replaceAll( "" );
 	}
 
@@ -625,7 +643,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 			processChatMessage( currentChannel, message );
 		}
-		else if ( message.indexOf( "(private)</b></a>:" ) != -1 )
+		else if ( message.indexOf( "(private)<" ) != -1 )
 		{
 			String sender = ANYTAG_PATTERN.matcher( message.substring( 0, message.indexOf( " (" ) ) ).replaceAll( "" );
 			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerId( sender ) + "\"><b><font color=blue>" +
@@ -710,18 +728,10 @@ public abstract class KoLMessenger extends StaticEntity
 			String displayHTML = formatChatMessage( channel, message, bufferKey );
 
 			buffer.setActiveLogFile( getChatLogName( bufferKey ) );
-			boolean hasEvent = displayHTML.indexOf( "<font color=green>" ) != -1;
+			buffer.append( displayHTML );
 
-			if ( !BuffBotHome.isBuffBotActive() || !hasEvent )
-			{
-				buffer.append( displayHTML );
-				if ( useTabbedChat )
-					tabbedFrame.highlightTab( bufferKey );
-			}
-
-			if ( hasEvent )
-				eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( message ).replaceAll( "" ) );
-
+			if ( useTabbedChat )
+				tabbedFrame.highlightTab( bufferKey );
 		}
 		catch ( Exception e )
 		{
@@ -756,48 +766,60 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 		else if ( message.startsWith( "<a target=mainpane href=\"messages.php\">" ) )
 		{
-			if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+			if ( BuffBotHome.isBuffBotActive() || StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
 				return "";
+
+			eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML.toString() ).replaceAll( "" ) );
 
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font>" );
 		}
 		else if ( message.indexOf( "has proposed a trade" ) != -1 )
 		{
-			if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+			if ( BuffBotHome.isBuffBotActive() || StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
 				return "";
+
+			eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML.toString() ).replaceAll( "" ) );
 
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font>" );
 		}
 		else if ( message.indexOf( "has cancelled a trade" ) != -1 )
 		{
-			if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+			if ( BuffBotHome.isBuffBotActive() || StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
 				return "";
+
+			eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML.toString() ).replaceAll( "" ) );
 
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font>" );
 		}
 		else if ( message.indexOf( "has responded to a trade" ) != -1 )
 		{
-			if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+			if ( BuffBotHome.isBuffBotActive() || StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
 				return "";
+
+			eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML.toString() ).replaceAll( "" ) );
 
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font>" );
 		}
 		else if ( message.indexOf( "has declined a trade" ) != -1 )
 		{
-			if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+			if ( BuffBotHome.isBuffBotActive() || StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
 				return "";
+
+			eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML.toString() ).replaceAll( "" ) );
 
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font>" );
 		}
 		else if ( message.indexOf( "has accepted a trade" ) != -1 )
 		{
-			if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+			if ( BuffBotHome.isBuffBotActive() || StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
 				return "";
+
+			eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML.toString() ).replaceAll( "" ) );
 
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font>" );

@@ -1718,6 +1718,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		for ( int i = 0; i < events.length; ++i )
 		{
+			if ( events[i].indexOf( "logged" ) != -1 )
+				continue;
+
 			String event = events[i];
 
 			// The event may be marked up with color and links to
