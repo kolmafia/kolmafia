@@ -197,18 +197,40 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 				int numberAvailable = itemUsed.getCount( inventory );
 
-				if ( purchase )
+				if ( purchase && numberAvailable < numberToUse )
 				{
-					if ( this == HERBS )
-						numberAvailable = belowMax < 20 || !NPCStoreDatabase.contains( HERBS.toString() ) ? 0 : 1;
+					if ( this == HERBS && NPCStoreDatabase.contains( itemUsed.getName() ) )
+					{
+						// If you need to buy herbs, make sure you buy enough
+						// to fill your spleen.
+
+						AdventureDatabase.retrieveItem( itemUsed.getInstance(
+							Math.min( KoLCharacter.getAvailableMeat() / 100, KoLCharacter.hasSkill( "Spleen of Steel" ) ? 20 : 15 ) ) );
+					}
 					else if ( this == SCROLL && KoLCharacter.canInteract() )
-						numberAvailable = 1;
+					{
+						// If you're using scrolls of drastic healing, then
+						// make sure you have a little surplus.
+
+						AdventureDatabase.retrieveItem( itemUsed.getInstance( 10 ) );
+					}
 					else if ( this == OINTMENT )
-						numberAvailable = numberToUse;
+					{
+						// For ointment, attempt to reduce the number of times
+						// you buy ointment by a factor of three.
+
+						AdventureDatabase.retrieveItem( itemUsed.getInstance(
+							Math.min( KoLCharacter.getAvailableMeat() / 60, numberToUse * 3 ) ) );
+					}
+
+					numberAvailable = itemUsed.getCount( inventory );
 				}
 
 				numberToUse = Math.min( numberToUse, numberAvailable );
 			}
+
+			// If you don't have any items to use, then return
+			// without doing anything.
 
 			if ( numberToUse <= 0 )
 				return;
