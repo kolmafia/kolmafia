@@ -325,6 +325,7 @@ public abstract class KoLmafia implements KoLConstants
 				actualScript = actualScript.substring( 7 );
 
 			DEFAULT_SHELL.executeLine( "call " + actualScript );
+			enableDisplay();
 
 			if ( !useGUI )
 				DEFAULT_SHELL.listenForCommands();
