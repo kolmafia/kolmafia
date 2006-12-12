@@ -696,7 +696,7 @@ public class AdventureFrame extends KoLFrame
 
 			public void fillDefaultConditions()
 			{
-				if ( KoLCharacter.getLevel() >= 11 )
+				if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) || KoLCharacter.getLevel() >= 11 )
 					return;
 
 				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();

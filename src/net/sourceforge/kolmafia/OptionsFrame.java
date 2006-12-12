@@ -310,9 +310,13 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "sortAdventures", "Sort all areas adventure list by moxie rating" },
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
-			{ "ignoreGreenEvents", "Enable green screen message protection" },
+			{ "ignoreGreenEvents", "Enable green screen protection for KoLmafia chat" },
+
+			{ "", "" },
+
+			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
+			{ "autoSetConditions", "Automatically fill conditions field with defaults" },
 			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
 
 			{ "", "" },
@@ -360,7 +364,6 @@ public class OptionsFrame extends KoLFrame
 				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
 			actionCancelled();
-			AdventureDatabase.refreshAdventureList();
 			ConcoctionsDatabase.refreshConcoctions();
 		}
 

@@ -862,6 +862,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 					if ( !KoLCharacter.getUserName().equals( lastUsername ) )
 						chatLogger.setActiveLogFile( KoLMessenger.getChatLogName( "[ALL]" ) );
 
+					responseText = KoLMessenger.getNormalizedContent( responseText, false );
+System.out.println( responseText );
+
 					if ( responseText.length() > 0 && responseText.indexOf( "<img" ) == -1 )
 						chatLogger.append( StaticEntity.globalStringReplace( responseText, "<br>", "</font><br>" ) );
 				}
