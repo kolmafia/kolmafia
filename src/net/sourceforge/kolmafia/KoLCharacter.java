@@ -312,6 +312,23 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static String autosellMode = "";
 
+	public static void resetInventory()
+	{
+		inventory.clear();
+		ConcoctionsDatabase.getConcoctions().clear();
+
+		// Initialize the equipment lists inside
+		// of the character data
+
+		for ( int i = 0; i < 9; ++i )
+		{
+			equipmentLists[i].clear();
+			equipmentLists[i].add( EquipmentRequest.UNEQUIP );
+		}
+
+		GearChangeFrame.clearWeaponLists();
+	}
+
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
 	 * All fields are initialized to their default values (nothing),
@@ -360,12 +377,9 @@ public abstract class KoLCharacter extends StaticEntity
 		customOutfits.clear();
 		outfits.clear();
 
-		inventory.clear();
 		closet.clear();
 		storage.clear();
 		collection.clear();
-
-		ConcoctionsDatabase.getConcoctions().clear();
 
 		usableSkills.clear();
 		availableSkills.clear();
@@ -419,17 +433,6 @@ public abstract class KoLCharacter extends StaticEntity
 		mindControlLevel = 0;
 		autosellMode = "";
 
-		// Initialize the equipment lists inside
-		// of the character data
-
-		for ( int i = 0; i < 9; ++i )
-		{
-			equipmentLists[i].clear();
-			equipmentLists[i].add( EquipmentRequest.UNEQUIP );
-		}
-
-		GearChangeFrame.clearWeaponLists();
-
 		// Clear some of the standard lists so they don't
 		// carry over from player to player.
 
@@ -437,6 +440,8 @@ public abstract class KoLCharacter extends StaticEntity
 		eventHistory.clear();
 		recentEffects.clear();
 		activeEffects.clear();
+
+		resetInventory();
 	}
 
 	public static boolean isFallingDown()

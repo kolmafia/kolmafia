@@ -925,6 +925,8 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	public LockableListModel getMirrorImage( ListElementFilter filter )
 	{
 		LockableListModel mirrorImage = new LockableListModel();
+
+		mirrorList.add( mirrorImage );
 		mirrorImage.actualElements = this.actualElements;
 		mirrorImage.applyListFilter( filter );
 

@@ -542,7 +542,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 			else
 			{
-				inventory.clear();
+				KoLCharacter.resetInventory();
 				(new EquipmentRequest( EquipmentRequest.CONSUMABLES )).run();
 				(new EquipmentRequest( EquipmentRequest.MISCELLANEOUS )).run();
 			}
