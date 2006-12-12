@@ -2171,9 +2171,6 @@ public class KoLmafiaCLI extends KoLmafia
 		else if ( option.equals( "check" ) )
 		{
 			checkRequirements( conditions );
-			conditions.clear();
-			conditions.addAll( missingItems );
-
 			updateDisplay( "Conditions list validated against available items." );
 			return true;
 		}

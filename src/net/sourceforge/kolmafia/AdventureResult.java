@@ -34,21 +34,20 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
-import java.util.WeakHashMap;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.StringTokenizer;
-import java.text.ParseException;
-import java.text.DecimalFormat;
-import java.lang.ref.WeakReference;
-
 import java.awt.Color;
-import javax.swing.JLabel;
 import java.awt.Component;
+import javax.swing.JLabel;
 import javax.swing.JList;
 
 import javax.swing.DefaultListCellRenderer;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+import java.text.ParseException;
+import java.text.DecimalFormat;
+
+import java.lang.ref.WeakReference;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
@@ -416,6 +415,52 @@ public class AdventureResult implements Comparable, KoLConstants
 			return name;
 
 		return name + " (" + COMMA_FORMAT.format(count[0]) + ")";
+	}
+
+	public String toConditionString()
+	{
+		if ( name == null )
+			return "";
+
+		if ( name.equals(ADV) || name.equals(CHOICE) )
+			return count[0] + " choiceadv";
+
+		if ( name.equals(MEAT) )
+			return count[0] + " meat";
+
+		if ( name.equals(HP) )
+			return count[0] + " health";
+
+		if ( name.equals(MP) )
+			return count[0] + " mana";
+
+		if ( name.equals(SUBSTATS) )
+		{
+			StringBuffer stats = new StringBuffer();
+
+			if ( count[0] > 0 )
+				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() + count[0] ) + " muscle" );
+
+			if ( count[1] > 0 )
+			{
+				if ( count[0] > 0 )
+					stats.append( ", " );
+
+				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() + count[1] ) + " mysticality, " );
+			}
+
+			if ( count[2] > 0 )
+			{
+				if ( count[0] > 0 || count[1] > 0 )
+					stats.append( ", " );
+
+				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() + count[1] ) + " moxie" );
+			}
+
+			return stats.toString();
+		}
+
+		return count[0] + " " + name;
 	}
 
 	/**

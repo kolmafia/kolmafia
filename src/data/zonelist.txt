@@ -34,6 +34,8 @@ Unsorted	Unsorted	No Category
 Holiday	Unsorted	Holiday Zones
 Astral	Unsorted	Astral Plane
 Gyms	Unsorted	Clan/Signed Gyms
-Crimbo	Unsorted	Crimbo Zones	crimbo06.php
+Crimbo06	Unsorted	Christmas 2006	crimbo06.php
 
 Removed	Removed	Removed Areas
+Crimbo05	Removed	Christmas 2005
+WhiteWed	Removed	White Wednesday
