@@ -481,7 +481,8 @@ public class ItemManageFrame extends KoLFrame
 
 					case ConsumeItemRequest.CONSUME_MULTIPLE:
 					case ConsumeItemRequest.CONSUME_USE:
-						return HPRestoreItemList.contains( (AdventureResult) element ) && restores ? super.isVisible( element ) : false;
+						return HPRestoreItemList.contains( (AdventureResult) element ) ?
+							restores && super.isVisible( element ) : super.isVisible( element );
 
 					default:
 						return false;
