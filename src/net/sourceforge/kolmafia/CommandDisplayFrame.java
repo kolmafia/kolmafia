@@ -80,7 +80,6 @@ public class CommandDisplayFrame extends KoLFrame
 	public void dispose()
 	{
 		commandBuffer.setChatDisplay( null );
-		commandBuffer.clearBuffer();
 		super.dispose();
 	}
 

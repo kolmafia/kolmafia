@@ -4049,9 +4049,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		colorBuffer.append( LINE_BREAK );
 
-		if ( commandBuffer.hasChatDisplay() )
-			commandBuffer.append( colorBuffer.toString() );
-
+		commandBuffer.append( colorBuffer.toString() );
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 	}
 }
