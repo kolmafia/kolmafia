@@ -162,7 +162,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 			return true;
 
 		for ( int i = 0; i < CHECKPOINT.length; ++i )
-			if ( CHECKPOINT[i] != null && !KoLCharacter.getEquipment( i ).equals( CHECKPOINT[i] ) )
+			if ( CHECKPOINT[i] != null && !CHECKPOINT[i].equals( EquipmentRequest.UNEQUIP ) && !KoLCharacter.getEquipment( i ).equals( CHECKPOINT[i] ) )
 				(new EquipmentRequest( CHECKPOINT[i], i )).run();
 
 
