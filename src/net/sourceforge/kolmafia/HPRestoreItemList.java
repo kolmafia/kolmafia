@@ -206,6 +206,8 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 						AdventureDatabase.retrieveItem( itemUsed.getInstance(
 							Math.min( KoLCharacter.getAvailableMeat() / 100, KoLCharacter.hasSkill( "Spleen of Steel" ) ? 20 : 15 ) ) );
+
+						numberAvailable = itemUsed.getCount( inventory );
 					}
 					else if ( this == SCROLL && KoLCharacter.canInteract() )
 					{
@@ -213,6 +215,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 						// make sure you have a little surplus.
 
 						AdventureDatabase.retrieveItem( itemUsed.getInstance( 10 ) );
+						numberAvailable = itemUsed.getCount( inventory );
 					}
 					else if ( this == OINTMENT )
 					{
@@ -221,9 +224,9 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 						AdventureDatabase.retrieveItem( itemUsed.getInstance(
 							Math.min( KoLCharacter.getAvailableMeat() / 60, numberToUse * 3 ) ) );
-					}
 
-					numberAvailable = itemUsed.getCount( inventory );
+						numberAvailable = itemUsed.getCount( inventory );
+					}
 				}
 
 				numberToUse = Math.min( numberToUse, numberAvailable );

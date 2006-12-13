@@ -181,6 +181,8 @@ public abstract class MPRestoreItemList extends StaticEntity
 			{
 				AdventureDatabase.retrieveItem( itemUsed.getInstance(
 					Math.min( KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( itemUsed.getItemId() ) * 2), numberToUse * 3 ) ) );
+
+				numberAvailable = itemUsed.getCount( inventory );
 			}
 
 			numberToUse = Math.min( numberAvailable, numberToUse );
