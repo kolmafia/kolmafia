@@ -704,7 +704,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		// Look for a verbatim match
 		int itemId = TradeableItemDatabase.getItemId( result.trim() );
-		if ( itemId != -1 )
+		if ( itemId > 0 )
 			return new AdventureResult( itemId, 1 );
 
 		// Remove parenthesized number and match again.

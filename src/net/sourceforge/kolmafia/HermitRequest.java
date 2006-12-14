@@ -95,7 +95,7 @@ public class HermitRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( itemId != -1 && quantity <= 0 )
+		if ( itemId > 0 && quantity <= 0 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );
 			return;

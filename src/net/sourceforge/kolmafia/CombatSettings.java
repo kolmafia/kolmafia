@@ -563,7 +563,7 @@ public abstract class CombatSettings implements UtilityConstants, KoLConstants
 		int itemId = action.equals( "" ) ? -1 :
 			KoLmafiaCLI.getFirstMatchingItemId( TradeableItemDatabase.getMatchingNames( action ) );
 
-		if ( itemId != -1 )
+		if ( itemId > 0 )
 			return "item" + itemId;
 
 		return "attack";

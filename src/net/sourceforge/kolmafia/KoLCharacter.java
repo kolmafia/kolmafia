@@ -2301,6 +2301,8 @@ public abstract class KoLCharacter extends StaticEntity
 		// and add it to that list.
 
 		String resultName = result.getName();
+		if ( resultName == null )
+			return;
 
 		if ( result.isItem() )
 		{

@@ -106,7 +106,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 					AdventureResult item = AdventureResult.parseResult( data[0] );
 					int itemId = item.getItemId();
 
-					if ( itemId != -1 )
+					if ( itemId > 0 )
 					{
 						int mixingMethod = parseInt( data[1] );
 						Concoction concoction = new Concoction( item, mixingMethod );
