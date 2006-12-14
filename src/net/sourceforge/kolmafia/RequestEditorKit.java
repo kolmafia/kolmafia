@@ -1335,7 +1335,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					{
 						AdventureResult white = new AdventureResult( 459, 1 );
 						useType = String.valueOf( white.getCount( inventory ) + ItemCreationRequest.getInstance( 459 ).getQuantityPossible() ) + " white";
-						useLocation = "town_wrong.php?place=crackpot";
+						useLocation = "mystic.php";
 					}
 				}
 			}
