@@ -1099,7 +1099,11 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static void setEquipment( int slot, AdventureResult item )
-	{	equipmentLists[ slot ].setSelectedItem( item );
+	{
+		equipmentLists[ slot ].setSelectedItem( item );
+
+		if ( slot == WEAPON || slot == OFFHAND )
+			GearChangeFrame.updateWeapons();
 	}
 
 	/**
@@ -1131,6 +1135,7 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 		}
 
+		GearChangeFrame.updateWeapons();
 		if ( equipment.length > FAMILIAR && currentFamiliar != FamiliarData.NO_FAMILIAR )
 			currentFamiliar.setItem( equipment[FAMILIAR] );
 	}
