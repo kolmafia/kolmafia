@@ -46,6 +46,8 @@ import java.util.regex.Matcher;
 
 public class FightRequest extends KoLRequest
 {
+	private static final int SOLDIER = 1397;
+	private static final int MERCENARY = 2139;
 	private static final AdventureResult TEQUILA = new AdventureResult( 1004, -1 );
 	private static boolean isTrackingFights = false;
 	private static ArrayList trackedRounds = new ArrayList();
@@ -469,12 +471,23 @@ public class FightRequest extends KoLRequest
 
 			if ( hasActionCost( id1 ) )
 			{
-				if ( id1 == 1397 ) // If it's a toy soldier, then decrement tequila instead
+				if ( id1 == SOLDIER )
 				{
+					// A toy soldier consumes tequila.
 					if ( inventory.contains( TEQUILA ) )
 						StaticEntity.getClient().processResult( TEQUILA );
+					// Item is not consumed whether or not
+					// you can pay the cost.
+				}
+				else if ( id1 == MERCENARY )
+				{
+					// A toy mercenary consumes 5-10 meat
+
+					// Item is not consumed whether or not
+					// you can pay the cost.
 				}
 				else
+					// Anything else uses up the item.
 					StaticEntity.getClient().processResult( new AdventureResult( id1, -1 ) );
 			}
 
@@ -485,12 +498,23 @@ public class FightRequest extends KoLRequest
 
 			if ( hasActionCost( id2 ) )
 			{
-				if ( id2 == 1397 ) // If it's a toy soldier, then decrement tequila instead
+				if ( id2 == SOLDIER )
 				{
+					// A toy soldier consumes tequila.
 					if ( inventory.contains( TEQUILA ) )
 						StaticEntity.getClient().processResult( TEQUILA );
+					// Item is not consumed whether or not
+					// you can pay the cost.
+				}
+				else if ( id2 == MERCENARY )
+				{
+					// A toy mercenary consumes 5-10 meat
+
+					// Item is not consumed whether or not
+					// you can pay the cost.
 				}
 				else
+					// Anything else uses up the item.
 					StaticEntity.getClient().processResult( new AdventureResult( id2, -1 ) );
 			}
 
