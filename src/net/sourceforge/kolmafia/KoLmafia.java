@@ -108,8 +108,9 @@ public abstract class KoLmafia implements KoLConstants
 	private static final String [] OVERRIDE_DATA =
 	{
 		"adventures.txt", "buffbots.txt", "classskills.txt", "combats.txt", "concoctions.txt",
-		"equipment.txt", "familiars.txt", "itemdescs.txt", "monsters.txt", "npcstores.txt",
-		"outfits.txt", "packages.txt", "plurals.txt", "statuseffects.txt", "tradeitems.txt", "zonelist.txt"
+		"equipment.txt", "familiars.txt", "inbriety.txt", "itemdescs.txt", "modifiers.txt",
+		"monsters.txt", "npcstores.txt", "outfits.txt", "packages.txt", "plurals.txt",
+		"statuseffects.txt", "tradeitems.txt", "zonelist.txt"
 	};
 
 	public static final int SNOWCONE = 0;
@@ -2724,16 +2725,17 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		(new File( "data" )).mkdirs();
 
-		try
+		for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
 		{
-			for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
+			updateDisplay( "Downloading " + OVERRIDE_DATA[i] + "..." );
+
+			BufferedReader reader = KoLDatabase.getReader(
+				"http://svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIDE_DATA[i] );
+
+			File output = new File( "data/" + OVERRIDE_DATA[i] );
+
+			try
 			{
-				updateDisplay( "Downloading " + OVERRIDE_DATA[i] + "..." );
-
-				BufferedReader reader = KoLDatabase.getReader(
-					"http://svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIDE_DATA[i] );
-
-				File output = new File( "data/" + OVERRIDE_DATA[i] );
 				if ( output.exists() )
 					output.delete();
 
@@ -2748,15 +2750,17 @@ public abstract class KoLmafia implements KoLConstants
 				writer.close();
 				reader.close();
 			}
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
 
-			updateDisplay( ERROR_STATE, "Subversion service access failed.  Try again later." );
-			e.printStackTrace();
-			return;
+				updateDisplay( ERROR_STATE, "Subversion service access failed for " OVERRIDE_DATA[i] + "." );
+				e.printStackTrace();
+
+				output.delete();
+				return;
+			}
 		}
 
 		updateDisplay( "Please restart KoLmafia to complete the update." );
