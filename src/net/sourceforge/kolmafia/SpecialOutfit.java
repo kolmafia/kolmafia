@@ -161,9 +161,13 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		if ( KoLmafia.isRunningBetweenBattleChecks() )
 			return true;
 
+		AdventureResult equippedItem;
 		for ( int i = 0; i < CHECKPOINT.length; ++i )
-			if ( CHECKPOINT[i] != null && !CHECKPOINT[i].equals( EquipmentRequest.UNEQUIP ) && !KoLCharacter.getEquipment( i ).equals( CHECKPOINT[i] ) )
+		{
+			equippedItem = KoLCharacter.getEquipment( i );
+			if ( CHECKPOINT[i] != null && !CHECKPOINT[i].equals( EquipmentRequest.UNEQUIP ) && !equippedItem.equals( EquipmentRequest.UNEQUIP ) && !equippedItem.equals( CHECKPOINT[i] ) )
 				(new EquipmentRequest( CHECKPOINT[i], i )).run();
+		}
 
 
 		hadImplicitChange = false;

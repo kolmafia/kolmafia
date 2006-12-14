@@ -2755,7 +2755,7 @@ public abstract class KoLmafia implements KoLConstants
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				updateDisplay( ERROR_STATE, "Subversion service access failed for " OVERRIDE_DATA[i] + "." );
+				updateDisplay( ERROR_STATE, "Subversion service access failed for " + OVERRIDE_DATA[i] + "." );
 				e.printStackTrace();
 
 				output.delete();
