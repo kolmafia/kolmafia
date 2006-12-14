@@ -632,17 +632,16 @@ public abstract class KoLMessenger extends StaticEntity
 		else if ( message.startsWith( "Now listening to channel: " ) )
 		{
 			int startIndex = message.indexOf( ":" ) + 2;
-			String channel = "/" + message.substring( startIndex );
+			int dotIndex = message.indexOf( "." );
+			String channel = "/" + message.substring( startIndex, dotIndex == -1 ? message.length() : dotIndex );
 
 			processChatMessage( channel, message );
 		}
 		else if ( message.startsWith( "You are now talking in channel: " ) )
 		{
 			int startIndex = message.indexOf( ":" ) + 2;
-
-			currentChannel = "/" + message.substring( startIndex );
-			if ( currentChannel.endsWith( "." ) )
-				currentChannel = currentChannel.substring( 0, currentChannel.length() - 1 );
+			int dotIndex = message.indexOf( "." );
+			String channel = "/" + message.substring( startIndex, dotIndex == -1 ? message.length() : dotIndex );
 
 			processChatMessage( currentChannel, message );
 		}
