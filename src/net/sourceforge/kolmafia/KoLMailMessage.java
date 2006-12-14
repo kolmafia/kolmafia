@@ -43,17 +43,15 @@ public class KoLMailMessage implements Comparable
 {
 	private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat( "EEEE, MMMM dd, yyyy, hh:mmaa", Locale.US );
 
-	private String messageHTML;
 	private String messageId;
 	private String senderId;
 	private String senderName;
 	private String messageDate;
 	private Date timestamp;
+	private String messageHTML;
 
 	public KoLMailMessage( String message )
 	{
-		this.messageHTML = message.substring( message.indexOf( "\">" ) + 2 ).replaceAll( "(<[pP]>)+", "<br><br>" );
-
 		this.messageId = message.substring( message.indexOf( "name=" ) + 6, message.indexOf( "\">" ) );
 		StringTokenizer messageParser = new StringTokenizer( message, "<>" );
 
@@ -67,13 +65,15 @@ public class KoLMailMessage implements Comparable
 		while ( !messageParser.nextToken().startsWith( "Date" ) );
 		messageParser.nextToken();
 
+		this.messageDate = messageParser.nextToken().trim();
+		this.messageHTML = message.substring( message.indexOf( this.messageDate ) + messageDate.length() + 4 );
+
 		try
 		{
 			// This attempts to parse the date from
 			// the given string; note it may throw
 			// an exception (but probably not)
 
-			this.messageDate = messageParser.nextToken().trim();
 			this.timestamp = TIMESTAMP_FORMAT.parse( messageDate );
 		}
 		catch ( Exception e )
@@ -108,7 +108,7 @@ public class KoLMailMessage implements Comparable
 	}
 
 	public String getMessageHTML()
-	{	return messageHTML;
+	{	return messageHTML.toString();
 	}
 
 	public String getSenderName()
@@ -121,11 +121,7 @@ public class KoLMailMessage implements Comparable
 
 	public String getDisplayHTML()
 	{
-		String text = messageHTML;
-
 		// Blank lines are not displayed correctly
-		text = text.replaceAll( "<br><br>", "<br>&nbsp;<br>" );
-
-		return text;
+		return messageHTML.replaceAll( "<br><br>", "<br>&nbsp;<br>" );
 	}
 }
