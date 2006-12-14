@@ -202,6 +202,12 @@ public class GearChangeFrame extends KoLFrame
 		}
 	}
 
+	public static void updateWeapons()
+	{
+		weapons.setSelectedItem( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
+		offhands.setSelectedItem( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
+	}
+
 	public static void clearWeaponLists()
 	{
 		weapons.clear();
