@@ -435,6 +435,9 @@ public class EquipmentRequest extends PasswordHashRequest
 				(new EquipmentRequest( UNEQUIP, equipmentSlot )).run();
 		}
 
+		if ( requestType == REMOVE_ITEM && KoLCharacter.getEquipment( equipmentSlot ).equals( UNEQUIP ) )
+			return;
+
 		switch ( requestType )
 		{
 		case MISCELLANEOUS:
