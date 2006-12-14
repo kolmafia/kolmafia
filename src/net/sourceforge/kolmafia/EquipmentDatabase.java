@@ -69,7 +69,7 @@ public class EquipmentDatabase extends KoLDatabase
 			{
 				itemId = TradeableItemDatabase.getItemId( data[0] );
 
-				if ( itemId != -1 )
+				if ( itemId > 0 )
 				{
 					power.set( itemId, parseInt( data[1] ) );
 					requirement.set( itemId, data[2] );
@@ -123,8 +123,14 @@ public class EquipmentDatabase extends KoLDatabase
 
 	public static int getOutfitWithItem( int itemId )
 	{
-		String itemName = getCanonicalName( TradeableItemDatabase.getItemName( itemId ) );
-		Integer result = (Integer) outfitPieces.get( itemName );
+		if ( itemId < 0 )
+			return -1;
+
+		String itemName = TradeableItemDatabase.getItemName( itemId );
+		if ( itemName == null )
+			return -1;
+
+		Integer result = (Integer) outfitPieces.get( getCanonicalName( itemName ) );
 		return result == null ? -1 : result.intValue();
 	}
 
@@ -135,7 +141,7 @@ public class EquipmentDatabase extends KoLDatabase
 	public static boolean contains( String itemName )
 	{
 		int itemId = TradeableItemDatabase.getItemId( itemName );
-		return itemId != -1 && requirement.get( itemId ) != null;
+		return itemId > 0 && requirement.get( itemId ) != null;
 	}
 
 	public static boolean canEquip( String itemName )
