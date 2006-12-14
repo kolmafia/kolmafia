@@ -61,7 +61,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		super( "sendmessage.php", attachment );
 
 		this.recipient = recipient;
-		this.message = message;
+		this.message = RequestEditorKit.getUnicode( message );
 
 		addFormField( "action", "send" );
 		addFormField( "towho", this.recipient );
@@ -76,7 +76,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		super( "sendmessage.php", attachments );
 
 		this.recipient = recipient;
-		this.message = message;
+		this.message = RequestEditorKit.getUnicode( message );
 
 		addFormField( "action", "send" );
 		addFormField( "towho", this.recipient );

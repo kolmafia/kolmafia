@@ -658,8 +658,17 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			switch ( messageDisposalSetting )
 			{
 			case SAVEBOX:
-				queueIncomingMessage( message, message.getMessageHTML().trim().length() == 0 );
-				BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Saving non-buff message from [" + message.getSenderName() + "]" );
+
+				String messageText = message.getMessageHTML().replaceAll( "<.*?>", "" );
+				boolean willDelete = messageText.length() < 10;
+
+				queueIncomingMessage( message, willDelete );
+
+				if ( willDelete )
+					BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Deleting non-buff message from [" + message.getSenderName() + "]" );
+				else
+					BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Saving non-buff message from [" + message.getSenderName() + "]" );
+
 				break;
 
 			case DISPOSE:
