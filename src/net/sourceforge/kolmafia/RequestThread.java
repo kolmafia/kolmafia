@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia;
 
 import javax.swing.SwingUtilities;
 import net.sourceforge.foxtrot.Job;
+
+import net.sourceforge.foxtrot.Worker;
 import net.sourceforge.foxtrot.ConcurrentWorker;
 
 public abstract class RequestThread implements Runnable, KoLConstants
@@ -59,7 +61,14 @@ public abstract class RequestThread implements Runnable, KoLConstants
 		try
 		{
 			if ( SwingUtilities.isEventDispatchThread() )
-				ConcurrentWorker.post( runner );
+			{
+				if ( request instanceof KoLAdventure )
+					Worker.post( runner );
+				else if ( request instanceof KoLRequest && !((KoLRequest)request).isDelayExempt() )
+					Worker.post( runner );
+				else
+					ConcurrentWorker.post( runner );
+			}
 			else
 				runner.run();
 		}
