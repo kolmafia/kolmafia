@@ -33,6 +33,24 @@
 # Possessed Can of Cranberry Sauce
 # Stuffing Golem
 #
+# Flint-Scraping Cave Elf
+# Hunter-Gatherer Cave Elf
+# Rock-Banging Cave Elf
+# Sinew-Stretching Cave Elf
+#
+# Bow-making Mummy
+# Cookie-baking Thing from Beyond Time
+# Gift-wrapping Vampire
+# Skeletal Reindeer
+# Stocking-stuffing Zombie
+# Toy-making creature from the Gray Lagoon
+#
+# <s>Killer</s> Festive Arc-Welding Elfbot
+# <s>Killer</s> Festive Decal-Applying Elfbot
+# <s>Killer</s> Festive Laser-Calibrating Elfbot
+# <s>Killer</s> Festive Weapons-Assembly Elfbot
+# Rudolphus of Crimborg
+#
 # Item and Meat Drop percentage figures from Yiab's statistical data:
 #
 # http://kol.coldfront.net/thekolwiki/index.php/Parseable_Item_Statistics
