@@ -129,6 +129,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		this.areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
 	}
 
+	public boolean runsBetweenBattleScript()
+	{	return shouldRunFullCheck;
+	}
+
 	/**
 	 * Returns the form source for this adventure.
 	 */

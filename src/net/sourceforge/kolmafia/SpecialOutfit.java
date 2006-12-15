@@ -55,7 +55,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	private ArrayList pieces;
 
 	private static boolean hadImplicitChange = false;
-
 	public static final String NO_CHANGE = " - No Change - ";
 	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit();
 
@@ -167,6 +166,8 @@ public class SpecialOutfit implements Comparable, KoLConstants
 			equippedItem = KoLCharacter.getEquipment( i );
 			if ( CHECKPOINT[i] != null && !CHECKPOINT[i].equals( EquipmentRequest.UNEQUIP ) && !equippedItem.equals( EquipmentRequest.UNEQUIP ) && !equippedItem.equals( CHECKPOINT[i] ) )
 				(new EquipmentRequest( CHECKPOINT[i], i )).run();
+
+			CHECKPOINT[i] = null;
 		}
 
 

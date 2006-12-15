@@ -53,6 +53,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 // containers
 import javax.swing.JComponent;
@@ -216,6 +218,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
 			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
+			{ "relayMaintainsMoods", "Automatically maintain health, mana, and moods in browser" }
 		};
 
 		/**
@@ -702,7 +705,7 @@ public class OptionsFrame extends KoLFrame
 	 * BuffBot options management
 	 */
 
-	private class AddTriggerPanel extends KoLPanel
+	private class AddTriggerPanel extends KoLPanel implements ListSelectionListener
 	{
 		private LockableListModel EMPTY_MODEL = new LockableListModel();
 		private LockableListModel EFFECT_MODEL = new LockableListModel();
@@ -732,6 +735,30 @@ public class OptionsFrame extends KoLFrame
 			elements[2] = new VerifiableElement( "Command: ", commandField );
 
 			setContent( elements );
+		}
+
+		public void valueChanged( ListSelectionEvent e )
+		{
+			Object selected = moodList.getSelectedValue();
+			if ( selected == null )
+				return;
+
+			MoodSettings.MoodTrigger node = (MoodSettings.MoodTrigger) selected;
+			String type = node.getType();
+
+			// Update the selected type
+
+			if ( type.equals( "lose_effect" ) )
+				typeSelect.setSelectedIndex(0);
+			else if ( type.equals( "gain_effect" ) )
+				typeSelect.setSelectedIndex(1);
+			else if ( type.equals( "unconditional" ) )
+				typeSelect.setSelectedIndex(2);
+
+			// Update the selected effect
+
+			valueSelect.setSelectedItem( node.getName() );
+			commandField.setText( node.getAction() );
 		}
 
 		public void actionConfirmed()
@@ -812,35 +839,43 @@ public class OptionsFrame extends KoLFrame
 
 		public MoodTriggerListPanel()
 		{
-
-			super( "", "new list", "remove", new JList( MoodSettings.getTriggers() ) );
+			super( "", "edit casts", "remove", new JList( MoodSettings.getTriggers() ) );
 
 			moodSelect = new MoodComboBox();
 
-			CopyMoodButton moodCopy = new CopyMoodButton();
-			InvocationButton moodRemove = new InvocationButton( "delete list", MoodSettings.class, "deleteCurrentMood" );
-
-			actualPanel.add( moodSelect, BorderLayout.NORTH );
+			centerPanel.add( moodSelect, BorderLayout.NORTH );
 			moodList = (JList) scrollComponent;
 
-			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
-			extraButtons.add( moodRemove, BorderLayout.NORTH );
-			extraButtons.add( moodCopy, BorderLayout.SOUTH );
+			JPanel extraButtons = new JPanel( new GridLayout( 3, 1, 5, 5 ) );
+
+			extraButtons.add( new NewMoodButton() );
+			extraButtons.add( new DeleteMoodButton() );
+			extraButtons.add( new CopyMoodButton() );
 
 			buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
 		{
-			String name = JOptionPane.showInputDialog( "Give your list a name!" );
-			if ( name == null )
+			Integer [] levelArray = new Integer[11];
+			for ( int i = 0; i < 11; ++i )
+				levelArray[i] = new Integer( i + 1 );
+
+			Integer selectedLevel = (Integer) JOptionPane.showInputDialog(
+				null, "Pick a number?", "Choose 1 if you're not sure!",
+					JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[0] );
+
+			if ( selectedLevel == null )
 				return;
 
-			MoodSettings.setMood( name );
+			MoodSettings.addTriggers( moodList.getSelectedValues(), selectedLevel.intValue() );
+			MoodSettings.saveSettings();
 		}
 
 		public void actionCancelled()
-		{	MoodSettings.removeTriggers( moodList.getSelectedValues() );
+		{
+			MoodSettings.removeTriggers( moodList.getSelectedValues() );
+			MoodSettings.saveSettings();
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -858,6 +893,40 @@ public class OptionsFrame extends KoLFrame
 
 			public void actionPerformed( ActionEvent e )
 			{	MoodSettings.setMood( (String) getSelectedItem() );
+			}
+		}
+
+		private class NewMoodButton extends JButton implements ActionListener
+		{
+			public NewMoodButton()
+			{
+				super( "new list" );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				String name = JOptionPane.showInputDialog( "Give your list a name!" );
+				if ( name == null )
+					return;
+
+				MoodSettings.setMood( name );
+				MoodSettings.saveSettings();
+			}
+		}
+
+		private class DeleteMoodButton extends JButton implements ActionListener
+		{
+			public DeleteMoodButton()
+			{
+				super( "delete list" );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				MoodSettings.deleteCurrentMood();
+				MoodSettings.saveSettings();
 			}
 		}
 
