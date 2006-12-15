@@ -144,6 +144,47 @@ public abstract class MoodSettings implements KoLConstants
 	{	return displayList;
 	}
 
+	public static void addTriggers( Object [] nodes, int duration )
+	{
+		removeTriggers( nodes );
+		StringBuffer newAction = new StringBuffer();
+
+		for ( int i = 0; i < nodes.length; ++i )
+		{
+			MoodTrigger mt = (MoodTrigger) nodes[i];
+			String [] action = mt.getAction().split( " " );
+
+			newAction.setLength(0);
+			newAction.append( action[0] );
+
+			if ( action.length > 1 )
+			{
+				newAction.append( ' ' );
+				int startIndex = 2;
+
+				if ( action[1].charAt(0) == '*' )
+				{
+					newAction.append( '*' );
+				}
+				else
+				{
+					if ( !Character.isDigit( action[1].charAt(0) ) )
+						startIndex = 1;
+
+					newAction.append( duration );
+				}
+
+				for ( int j = startIndex; j < action.length; ++j )
+				{
+					newAction.append( ' ' );
+					newAction.append( action[j] );
+				}
+			}
+
+			addTrigger( mt.getType(), mt.getName(), newAction.toString() );
+		}
+	}
+
 	/**
 	 * Adds a trigger to the temporary mood settings.
 	 */
@@ -157,8 +198,11 @@ public abstract class MoodSettings implements KoLConstants
 		if ( node == null )
 			return;
 
-		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) || displayList.contains( node ) )
+		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
 			return;
+
+		if ( displayList.contains( node ) )
+			removeTrigger( node );
 
 		// Check to make sure that there are fewer than three thief
 		// displayList if this is a thief trigger.
@@ -190,15 +234,16 @@ public abstract class MoodSettings implements KoLConstants
 	public static void removeTriggers( Object [] toRemove )
 	{
 		for ( int i = 0; i < toRemove.length; ++i )
-		{
-			mappedList.remove( toRemove[i] );
-			displayList.remove( toRemove[i] );
+			removeTrigger( (MoodTrigger) toRemove[i] );
+	}
 
-			if ( thiefTriggers.contains( toRemove[i] ) )
-				thiefTriggers.remove( toRemove[i] );
-		}
+	private static void removeTrigger( MoodTrigger toRemove )
+	{
+		mappedList.remove( toRemove );
+		displayList.remove( toRemove );
 
-		MoodSettings.saveSettings();
+		if ( thiefTriggers.contains( toRemove ) )
+			thiefTriggers.remove( toRemove );
 	}
 
 	public static void autoFillTriggers()
@@ -342,7 +387,6 @@ public abstract class MoodSettings implements KoLConstants
 			displayList.clear();
 
 			setMood( "default" );
-			MoodSettings.saveSettings();
 			return;
 		}
 
@@ -351,7 +395,6 @@ public abstract class MoodSettings implements KoLConstants
 
 		availableMoods.setSelectedItem( "apathetic" );
 		setMood( "apathetic" );
-		MoodSettings.saveSettings();
 	}
 
 	/**
@@ -760,7 +803,7 @@ public abstract class MoodSettings implements KoLConstants
 	 * @param	settingsFile	The file to which the settings will be stored.
 	 */
 
-	private static class MoodTrigger implements Comparable
+	public static class MoodTrigger implements Comparable
 	{
 		private int skillId = -1;
 		private AdventureResult effect;
@@ -786,6 +829,18 @@ public abstract class MoodSettings implements KoLConstants
 					isThiefTrigger = skillId > 6000 && skillId < 7000;
 				}
 			}
+		}
+
+		public String getType()
+		{	return triggerType;
+		}
+
+		public String getName()
+		{	return triggerName;
+		}
+
+		public String getAction()
+		{	return action;
 		}
 
 		public String toString()

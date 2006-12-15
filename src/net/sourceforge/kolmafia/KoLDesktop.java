@@ -187,6 +187,13 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 			if ( setting.indexOf( frames[i].getFrameName() ) != -1 )
 				frames[i].dispose();
 
+		if ( setting.indexOf( "KoLMessenger" ) != -1 )
+		{
+			for ( int i = 0; i < frames.length; ++i )
+				if ( frames[i] instanceof ChatFrame )
+					frames[i].dispose();
+		}
+
 		INSTANCE = null;
 		super.dispose();
 	}

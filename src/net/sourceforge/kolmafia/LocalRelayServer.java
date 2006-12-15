@@ -48,6 +48,9 @@ public class LocalRelayServer implements Runnable
 {
 	private static final Pattern INVENTORY_COOKIE_PATTERN = Pattern.compile( "inventory=(\\d+)" );
 
+	private static String lastUsername = "";
+	private static int lastAdventureCount = 0;
+
 	private static long lastStatusMessage = 0;
 	private static Thread relayThread = null;
 	private static final LocalRelayServer INSTANCE = new LocalRelayServer();
@@ -442,8 +445,42 @@ public class LocalRelayServer implements Runnable
 						request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 					}
 				}
+				else if ( path.indexOf( "charpane.php" ) != -1 && StaticEntity.getBooleanProperty( "relayMaintainsMoods" ) )
+				{
+					request.run();
+
+					if ( KoLCharacter.getUserName().equals( lastUsername ) && KoLCharacter.getAdventuresLeft() < lastAdventureCount )
+					{
+						KoLAdventure adventure = AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) );
+						if ( adventure != null && adventure.runsBetweenBattleScript() )
+						{
+							StaticEntity.getClient().runBetweenBattleChecks( true );
+							KoLmafia.enableDisplay();
+							request.run();
+						}
+					}
+
+					lastUsername = KoLCharacter.getUserName();
+					lastAdventureCount = KoLCharacter.getAdventuresLeft();
+				}
 				else
 				{
+					if ( path.indexOf( "adventure.php" ) != -1 )
+					{
+						while ( KoLmafia.isRunningBetweenBattleChecks() )
+							KoLRequest.delay( 100 );
+
+						if ( StaticEntity.getBooleanProperty( "relayMaintainsMoods" ) )
+						{
+							KoLAdventure adventure = AdventureDatabase.getAdventureByURL( path );
+							if ( adventure != null && adventure.runsBetweenBattleScript() )
+							{
+								StaticEntity.getClient().runBetweenBattleChecks( true );
+								KoLmafia.enableDisplay();
+							}
+						}
+					}
+
 					request.run();
 				}
 

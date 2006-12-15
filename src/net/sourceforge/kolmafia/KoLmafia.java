@@ -1465,7 +1465,13 @@ public abstract class KoLmafia implements KoLConstants
 			executeRequest( request, iterations );
 
 			if ( request instanceof KoLAdventure && !wasAdventuring )
+			{
 				isAdventuring = false;
+
+				recoverHP();
+				recoverMP();
+				SpecialOutfit.restoreCheckpoint( true );
+			}
 		}
 		catch ( Exception e )
 		{
