@@ -1025,9 +1025,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// go ahead and add in all the missing data that players might want to
 		// look at to see which class to go for next.
 
-		buffer.append( "<center><div id=\"softskills\" style=\"display:none\"><h2>Unpermed Softcore Skills</h2>" );
+		buffer.append( "<center><div id=\"softskills\" style=\"display:none\"><h2>Unpermed Softcore Skills | <a href=\"javascript: document.getElementById(\'softskills\').style = 'none'; document.getElementById(\'hardskills\').style = '';\">Unpermed Hardcore Skills</a></h2>" );
 		createSkillTable( buffer, softSkills );
-		buffer.append( "</div><div id=\"hardskills\"><h2>Unpermed Hardcore Skills</h2>" );
+		buffer.append( "</div><div id=\"hardskills\"><h2><a href=\"javascript: document.getElementById(\'hardskills\').style = 'none'; document.getElementById(\'softskills\').style = '';\">Unpermed Softcore Skills</a> | Unpermed Hardcore Skills</h2>" );
 		createSkillTable( buffer, hardSkills );
 		buffer.append( "</div></center>" );
 
@@ -1637,9 +1637,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			buffer.append( "<br><font size=2 color=" );
 			buffer.append( fontColor );
-			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\" style=\"color:" );
-			buffer.append( fontColor );
-			buffer.append( "\">mood " +
+			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood " +
 				StaticEntity.getProperty( "currentMood" ) + "</a>]</font>" );
 
 			if ( effectIndex == -1 )
