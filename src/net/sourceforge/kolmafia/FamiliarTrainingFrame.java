@@ -356,9 +356,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				changer.setEnabled( isEnabled );
 			}
 
-			private class BaseListener extends ListeningRunnable
+			private class BaseListener implements ActionListener
 			{
-				public void run()
+				public void actionPerformed( ActionEvent e )
 				{
 					// Prompt for goal
 					int goal = getQuantity( "Train up to what base weight?", 20, 20 );
@@ -372,9 +372,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				}
 			}
 
-			private class BuffedListener extends ListeningRunnable
+			private class BuffedListener implements ActionListener
 			{
-				public void run()
+				public void actionPerformed( ActionEvent e )
 				{
 					// Prompt for goal
 					int goal = getQuantity( "Train up to what buffed weight?", 48, 20 );
@@ -388,9 +388,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				}
 			}
 
-			private class TurnsListener extends ListeningRunnable
+			private class TurnsListener implements ActionListener
 			{
-				public void run()
+				public void actionPerformed( ActionEvent e )
 				{
 					// Prompt for goal
 					int goal = getQuantity( "Train for how many turns?", Integer.MAX_VALUE, 1 );
@@ -439,9 +439,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				}
 			}
 
-			private class LearnListener extends ListeningRunnable
+			private class LearnListener implements ActionListener
 			{
-				public void run()
+				public void actionPerformed( ActionEvent e )
 				{
 					if ( familiar == FamiliarData.NO_FAMILIAR )
 						return;
@@ -455,9 +455,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Nag dialog
 					int turns = trials * 12;
-					if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-						"This will take up to " + turns + " adventures and cost up to " + COMMA_FORMAT.format( turns * 100 ) + " meat. Are you sure?",
-						"Familiar strength learner nag screen", JOptionPane.YES_NO_OPTION ) )
+					if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, "This will take up to " + turns + " adventures and cost up to " + COMMA_FORMAT.format( turns * 100 ) + " meat. Are you sure?", "Familiar strength learner nag screen", JOptionPane.YES_NO_OPTION ) )
 						return;
 
 					// Learn familiar parameters
@@ -476,20 +474,18 @@ public class FamiliarTrainingFrame extends KoLFrame
 								break;
 							}
 
-						if ( changed &&
-						     JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-								"Save arena parameters for the " + familiar.getRace() + "?",
-								"Save arena skills?", JOptionPane.YES_NO_OPTION ) )
+						if ( changed && JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null, "Save arena parameters for the " + familiar.getRace() + "?", "Save arena skills?", JOptionPane.YES_NO_OPTION ) )
 							FamiliarsDatabase.setFamiliarSkills( familiar.getRace(), skills );
+
 						KoLmafia.updateDisplay( CONTINUE_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
 
 					}
 				}
 			}
 
-			private class EquipAllListener extends ListeningRunnable
+			private class EquipAllListener implements ActionListener
 			{
-				public void run()
+				public void actionPerformed( ActionEvent e )
 				{
 					FamiliarData current = KoLCharacter.getFamiliar();
 
@@ -505,17 +501,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 							AdventureResult item = new AdventureResult( itemName, 1, false );
 							if ( KoLCharacter.hasItem( item ) )
 							{
-								KoLRequest request = new KoLRequest( "familiar.php?pwd&action=equip&whichfam=" +
-									familiars[i].getId() + "&whichitem=" + item.getItemId() );
+								KoLRequest request = new KoLRequest( "familiar.php?pwd&action=equip&whichfam=" + familiars[i].getId() + "&whichitem=" + item.getItemId() );
 
-								request.run();
-								(new FamiliarRequest( familiars[i] )).run();
-								(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
+								RequestThread.postRequest( request );
+								RequestThread.postRequest( new FamiliarRequest( familiars[i] ) );
+								RequestThread.postRequest( new EquipmentRequest( item, KoLCharacter.FAMILIAR ) );
 							}
 						}
 					}
 
-					(new FamiliarRequest( current )).run();
+					RequestThread.postRequest( new FamiliarRequest( current ) );
 				}
 			}
 
@@ -545,7 +540,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 		}
 
-		private class ChangeComboBox extends JComboBox implements Runnable
+		private class ChangeComboBox extends JComboBox
 		{
 			private boolean isChanging = false;
 			public ChangeComboBox( LockableListModel selector )
@@ -577,22 +572,17 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			public void executeChange()
 			{
-				FamiliarData selection = (FamiliarData)getSelectedItem();
+				FamiliarData selection = (FamiliarData) getSelectedItem();
 
 				if ( selection == null || selection == familiar )
 					return;
 
 				isChanging = true;
-				RequestThread.postRequest( this );
-			}
+				RequestThread.postRequest( new FamiliarRequest( selection ) );
+				isChanging = false;
 
-			public void run()
-			{
-				FamiliarData selection = (FamiliarData)getSelectedItem();
-				(new FamiliarRequest( selection )).run();
 				KoLmafia.updateDisplay( "Familiar changed." );
 				familiar = KoLCharacter.getFamiliar();
-				isChanging = false;
 			}
 		}
 	}
@@ -1207,7 +1197,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		// Run the match
 		KoLRequest request = new CakeArenaRequest( opponent.getId(), match );
-		request.run();
+		RequestThread.postRequest( request );
 
 		// Pass the response text to the FamiliarStatus to
 		// add familiar items and deduct a turn.
@@ -1824,14 +1814,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( current != null )
 			{
 				results.append( "Taking off " + current.getName() + "<br>" );
-				(new EquipmentRequest( EquipmentRequest.UNEQUIP, slot)).run();
+				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, slot ) );
 				setItem( slot, null );
 			}
 
 			if ( next == pumpkinBasket && pumpkinBasketOwner != null && pumpkinBasketOwner != familiar )
 			{
 				results.append( "Stealing pumpkin basket from " + pumpkinBasketOwner.getName() + " the " + pumpkinBasketOwner.getRace() + "<br>" );
-				(new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR )).run();
+				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
 				pumpkinBasketOwner = familiar;
 			}
 
@@ -1839,7 +1829,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next == leadNecklace && leadNecklaceOwner != null && leadNecklaceOwner != familiar )
 			{
 				results.append( "Stealing lead necklace from " + leadNecklaceOwner.getName() + " the " + leadNecklaceOwner.getRace() + "<br>" );
-				(new EquipmentRequest( LEAD_NECKLACE, KoLCharacter.FAMILIAR )).run();
+				RequestThread.postRequest( new EquipmentRequest( LEAD_NECKLACE, KoLCharacter.FAMILIAR ) );
 				leadNecklaceOwner = familiar;
 			}
 
@@ -1847,7 +1837,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next == ratHeadBalloon && ratHeadBalloonOwner != null && ratHeadBalloonOwner != familiar )
 			{
 				results.append( "Stealing rat head balloon from " + ratHeadBalloonOwner.getName() + " the " + ratHeadBalloonOwner.getRace() + "<br>" );
-				(new EquipmentRequest( RAT_HEAD_BALLOON, KoLCharacter.FAMILIAR )).run();
+				RequestThread.postRequest( new EquipmentRequest( RAT_HEAD_BALLOON, KoLCharacter.FAMILIAR ) );
 				ratHeadBalloonOwner = familiar;
 			}
 
@@ -1855,7 +1845,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next != null )
 			{
 				results.append( "Putting on " + next.getName() + "...<br>" );
-				(new EquipmentRequest( next, slot)).run();
+				RequestThread.postRequest( new EquipmentRequest( next, slot ) );
 				setItem( slot, next );
 			}
 		}
