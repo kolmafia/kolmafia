@@ -46,6 +46,7 @@ Castle in the Clouds in the Sky	75	Alphabet Giant	Goth Giant	Furry Giant	Possibi
 Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1
 Pre-Cyrpt Cemetary	100	Ghoul	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
 Crimbo Town Toy Factory	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf
+Crimborg Collective Factory	100	Killer Festive Arc-Welding Elfbot	Killer Festive Decal-Applying Elfbot	Killer Festive Laser-Calibrating Elfbot	Killer Festive Weapons-Assembly Elfbot	Rudolphus of Crimborg
 Daily Dungeon	-1	Dairy Ooze	Dodecapede	Giant Giant Moth	Mayonnaise Wasp	Pencil Golem	Sabre-Toothed Lime	Tonic Water Elemental	Vampire Clam
 Dark Elbow of the Woods	95	Demoninja	G Imp	L Imp
 Dark Heart of the Woods	95	Fallen Archfiend	G Imp	P Imp
@@ -91,11 +92,13 @@ Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Tac
 Penultimate Fantasy Airship	80	Burly Sidekick: 2	Irritating Series of Random Encounters: 3	MagiMechTech MechaMech: 2	Protagonist: 2	Quiet Healer: 2	Spunky Princess: 2
 Pirate Cove	60	Sassy Pirate	Shady Pirate	Shifty Pirate	Swarthy Pirate	Smarmy Pirate
 The Road to the White Citadel	-1	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orc
+Simple Tool-Making Cave	100	Flint-Scraping Cave Elf	Hunter-Gatherer Cave Elf	Rock-Banging Cave Elf	Sinew-Stretching Cave Elf
 Sleazy Back Alley	50	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo	Crazy Bastard: -1
 Sorceress' Hedge Maze	100	Topiary Golem
 South of the Border	50	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mariachi Calavera	Raging Bull
 Spectral Pickle Factory	75	Carnivorous Dill Plant	Ghostly Pickle Factory Worker	Vine Gar
 Spooky Forest	100	Bar	Spooky Mummy	Spooky Vampire	Triffid	Warwelf	Wolfman	Baiowulf: -1
+Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	Gift-wrapping Vampire	Skeletal Reindeer	Stocking-stuffing Zombie	Toy-making creature from the Gray Lagoon
 Spooky Gravy Barrow	80	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
 The Boss Bat's Lair	100	The Boss Bat
 The Dire Warren	100	Fluffy Bunny
