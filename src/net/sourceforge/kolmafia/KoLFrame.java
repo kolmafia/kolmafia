@@ -776,13 +776,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected abstract class ListeningRunnable implements ActionListener, Runnable
-	{
-		public void actionPerformed( ActionEvent e )
-		{	RequestThread.postRequest( this );
-		}
-	}
-
 	protected void processWindowEvent( WindowEvent e )
 	{
 		if ( isVisible() )
@@ -939,7 +932,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected class LoadScriptButton extends JButton implements Runnable, ActionListener
+	protected class LoadScriptButton extends ThreadedActionButton
 	{
 		private String scriptPath;
 
@@ -947,15 +940,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			super( String.valueOf( scriptId ) );
 
-			addActionListener( this );
 			this.scriptPath = scriptPath;
 			setToolTipText( scriptPath );
 
 			JComponentUtilities.setComponentSize( this, 30, 30 );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	RequestThread.postRequest( this );
 		}
 
 		public void run()
