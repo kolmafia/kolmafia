@@ -743,15 +743,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		int previousAdventures = KoLCharacter.getAdventuresLeft();
 		request.run();
 
-		if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() )
-		{
-			// If you need to run a between battle script after this request,
-			// this is where you would do it.  Note that fights should not have
-			// scripts invoked after them unless the fight is concluded.
-
-			StaticEntity.getClient().runBetweenBattleChecks( shouldRunFullCheck );
-		}
-
 		if ( previousAdventures == KoLCharacter.getAdventuresLeft() )
 		{
 			// Well, that was an interesting predicament.  If it
