@@ -48,6 +48,8 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class SpecialOutfit implements Comparable, KoLConstants
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
+
+	private static String lastCheckpoint = "";
 	private static final AdventureResult [] CHECKPOINT = new AdventureResult[ KoLCharacter.FAMILIAR ];
 
 	private int outfitId;
@@ -144,6 +146,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		for ( int i = 0; i < CHECKPOINT.length; ++i )
 			CHECKPOINT[i] = KoLCharacter.getEquipment(i);
 
+		SpecialOutfit.lastCheckpoint = KoLCharacter.getUserName();
 		SpecialOutfit.hadImplicitChange = isImplicitChange;
 	}
 
@@ -160,6 +163,9 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		if ( KoLmafia.isRunningBetweenBattleChecks() )
 			return true;
 
+		if ( !lastCheckpoint.equals( KoLCharacter.getUserName() ) )
+			return true;
+
 		AdventureResult equippedItem;
 		for ( int i = 0; i < CHECKPOINT.length; ++i )
 		{
@@ -169,7 +175,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 			CHECKPOINT[i] = null;
 		}
-
 
 		hadImplicitChange = false;
 		return true;
