@@ -516,26 +516,19 @@ public class EquipmentRequest extends PasswordHashRequest
 		// Fetch updated equipment
 		if ( requestType == CLOSET )
 		{
-			Matcher meatInClosetMatcher = MEAT_PATTERN.matcher( responseText );
-			if ( meatInClosetMatcher.find() )
-			{
-				String meatInCloset = meatInClosetMatcher.group();
-				KoLCharacter.setClosetMeat( StaticEntity.parseInt( meatInCloset ) );
-			}
+			parseCloset();
 
-			Matcher closetMatcher = INSIDECLOSET_PATTERN.matcher( responseText );
-			if ( closetMatcher.find() )
-				parseCloset( closetMatcher.group(), closet );
+			if ( !inventory.contains( PASTE ) && KoLCharacter.getAvailableMeat() >= 10 )
+				AdventureDatabase.retrieveItem( PASTE );
 
 			// If the person has meat paste, or is able to create
 			// meat paste, then do so and then parse the combines
 			// page.  Otherwise, go to the equipment pages.
 
-			int meatPasteIndex = responseText.indexOf( "meat paste" );
-			int takeItemIndex = responseText.indexOf( "<b>Take" );
-
-			if ( KoLCharacter.inMuscleSign() || (meatPasteIndex != -1 && meatPasteIndex < takeItemIndex) )
+			if ( KoLCharacter.inMuscleSign() || inventory.contains( PASTE ) )
 			{
+				KoLCharacter.resetInventory();
+
 				KoLRequest request = new KoLRequest( KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
 				request.run();
 
@@ -595,13 +588,38 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
+	private void parseCloset()
+	{
+		// Try to find how much meat is in your character's closet -
+		// this way, the program's meat manager frame auto-updates
+
+		Matcher meatInClosetMatcher = MEAT_PATTERN.matcher( responseText );
+
+		if ( meatInClosetMatcher.find() )
+		{
+			String meatInCloset = meatInClosetMatcher.group();
+			KoLCharacter.setClosetMeat( StaticEntity.parseInt( meatInCloset ) );
+		}
+
+		Matcher inventoryMatcher = OUTSIDECLOSET_PATTERN.matcher( responseText );
+		if ( inventoryMatcher.find() )
+			parseCloset( inventoryMatcher.group(), inventory );
+
+		Matcher closetMatcher = INSIDECLOSET_PATTERN.matcher( responseText );
+		if ( closetMatcher.find() )
+			parseCloset( closetMatcher.group(), closet );
+	}
+
 	private void parseCloset( String content, List resultList )
 	{
+		int lastFindIndex = 0;
 		Matcher optionMatcher = INVENTORYITEM_PATTERN.matcher( content );
-		ArrayList temporary = new ArrayList();
 
-		while ( optionMatcher.find() )
+		resultList.clear();
+
+		while ( optionMatcher.find( lastFindIndex ) )
 		{
+			lastFindIndex = optionMatcher.end();
 			int itemId = StaticEntity.parseInt( optionMatcher.group(1) );
 			String itemName = TradeableItemDatabase.getCanonicalName( TradeableItemDatabase.getItemName( itemId ) );
 			String realName = TradeableItemDatabase.getCanonicalName( optionMatcher.group(2).toLowerCase() );
@@ -609,19 +627,11 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( itemName == null || !realName.equals( itemName ) )
 				TradeableItemDatabase.registerItem( itemId, realName );
 
-			temporary.add( new AdventureResult( itemId, StaticEntity.parseInt( optionMatcher.group(3) ) ) );
-		}
-
-		resultList.retainAll( temporary );
-		AdventureResult currentItem;
-
-		for ( int i = 0; i < temporary.size(); ++i )
-		{
-			currentItem = (AdventureResult) temporary.get(i);
-			int count = currentItem.getCount() - currentItem.getCount( resultList );
-
-			if ( count != 0 )
-				AdventureResult.addResultToList( resultList, currentItem.getInstance( count ) );
+			AdventureResult result = new AdventureResult( itemId, StaticEntity.parseInt( optionMatcher.group(3) ) );
+			if ( resultList == inventory )
+				KoLCharacter.processResult( result, false );
+			else
+				AdventureResult.addResultToList( resultList, result );
 		}
 
 		if ( resultList == inventory )
