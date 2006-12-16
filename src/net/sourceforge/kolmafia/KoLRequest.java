@@ -68,15 +68,17 @@ import javax.swing.SwingUtilities;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
-	private static final byte [] CHAT_ARRAY = new byte[ 1024 ];
-	private static final byte [] LEFT_ARRAY = new byte[ 2048 ];
-	private static final byte [] BYTE_ARRAY = new byte[ 8096 ];
+	private static final byte [] CHATPANE_BYTES = new byte[ 1024 ];
+	private static final byte [] CHARPANE_BYTES = new byte[ 2048 ];
+	private static final byte [] RELAY_BYTES = new byte[ 8096 ];
+	private static final byte [] GENERAL_BYTES = new byte[ 8096 ];
 
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
 
-	private static final ByteArrayOutputStream CHAT_BUFFER = new ByteArrayOutputStream();
-	private static final ByteArrayOutputStream LEFT_BUFFER = new ByteArrayOutputStream();
-	private static final ByteArrayOutputStream BYTE_BUFFER = new ByteArrayOutputStream();
+	private static final ByteArrayOutputStream CHATPANE_BUFFER = new ByteArrayOutputStream();
+	private static final ByteArrayOutputStream CHARPANE_BUFFER = new ByteArrayOutputStream();
+	private static final ByteArrayOutputStream RELAY_BUFFER = new ByteArrayOutputStream();
+	private static final ByteArrayOutputStream GENERAL_BUFFER = new ByteArrayOutputStream();
 
 	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
@@ -1219,38 +1221,50 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( isChatRequest )
 		{
-			synchronized ( CHAT_BUFFER )
+			synchronized ( CHATPANE_BUFFER )
 			{
 				int availableBytes = 0;
-				while ( (availableBytes = istream.read( CHAT_ARRAY )) != -1 )
-					CHAT_BUFFER.write( CHAT_ARRAY, 0, availableBytes );
+				while ( (availableBytes = istream.read( CHATPANE_BYTES )) != -1 )
+					CHATPANE_BUFFER.write( CHATPANE_BYTES, 0, availableBytes );
 
-				this.responseText = CHAT_BUFFER.toString( "UTF-8" );
-				CHAT_BUFFER.reset();
+				this.responseText = CHATPANE_BUFFER.toString( "UTF-8" );
+				CHATPANE_BUFFER.reset();
 			}
 		}
 		else if ( formURLString.equals( "charpane.php" ) )
 		{
-			synchronized ( LEFT_BUFFER )
+			synchronized ( CHARPANE_BUFFER )
 			{
 				int availableBytes = 0;
-				while ( (availableBytes = istream.read( LEFT_ARRAY )) != -1 )
-					LEFT_BUFFER.write( LEFT_ARRAY, 0, availableBytes );
+				while ( (availableBytes = istream.read( CHARPANE_BYTES )) != -1 )
+					CHARPANE_BUFFER.write( CHARPANE_BYTES, 0, availableBytes );
 
-				this.responseText = LEFT_BUFFER.toString( "UTF-8" );
-				LEFT_BUFFER.reset();
+				this.responseText = CHARPANE_BUFFER.toString( "UTF-8" );
+				CHARPANE_BUFFER.reset();
+			}
+		}
+		else if ( this instanceof LocalRelayRequest )
+		{
+			synchronized ( RELAY_BUFFER )
+			{
+				int availableBytes = 0;
+				while ( (availableBytes = istream.read( RELAY_BYTES )) != -1 )
+					RELAY_BUFFER.write( RELAY_BYTES, 0, availableBytes );
+
+				this.responseText = RELAY_BUFFER.toString( "UTF-8" );
+				RELAY_BUFFER.reset();
 			}
 		}
 		else
 		{
-			synchronized ( BYTE_BUFFER )
+			synchronized ( GENERAL_BUFFER )
 			{
 				int availableBytes = 0;
-				while ( (availableBytes = istream.read( BYTE_ARRAY )) != -1 )
-					BYTE_BUFFER.write( BYTE_ARRAY, 0, availableBytes );
+				while ( (availableBytes = istream.read( GENERAL_BYTES )) != -1 )
+					GENERAL_BUFFER.write( GENERAL_BYTES, 0, availableBytes );
 
-				this.responseText = BYTE_BUFFER.toString( "UTF-8" );
-				BYTE_BUFFER.reset();
+				this.responseText = GENERAL_BUFFER.toString( "UTF-8" );
+				GENERAL_BUFFER.reset();
 			}
 		}
 
