@@ -1729,12 +1729,14 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		// Remove the events from the response text
 		responseText = eventMatcher.replaceFirst( "" );
+		boolean shouldLoadEventFrame = false;
 
 		for ( int i = 0; i < events.length; ++i )
 		{
 			if ( events[i].indexOf( "logged" ) != -1 )
 				continue;
 
+			shouldLoadEventFrame = true;
 			String event = events[i];
 
 			// The event may be marked up with color and links to
@@ -1776,6 +1778,8 @@ public class KoLRequest implements Runnable, KoLConstants
 				SystemTrayFrame.showBalloon( event );
 		}
 
+		shouldLoadEventFrame &= StaticEntity.getGlobalProperty( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
+
 		// If we're not a GUI and there are no GUI windows open
 		// (ie: the GUI loader command wasn't used), quit now.
 
@@ -1793,7 +1797,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			// that the restore options are properly reset before
 			// the frame reloads.
 
-			boolean shouldLoadEventFrame = StaticEntity.getGlobalProperty( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
 			shouldLoadEventFrame |= StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( "EventsFrame" ) != -1 &&
 				KoLDesktop.getInstance().isVisible();
 
