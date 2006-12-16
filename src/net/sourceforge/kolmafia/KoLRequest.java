@@ -612,7 +612,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				KoLmafia.enableDisplay();
 		}
 
-		if ( KoLmafia.refusesContinue() && !isDelayExempt )
+		if ( KoLmafia.refusesContinue() && (!isDelayExempt && !(this instanceof FightRequest)) )
 			return;
 
 		needsRefresh = false;
