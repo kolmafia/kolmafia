@@ -565,7 +565,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( instance == null )
 			return null;
 
-		instance.setTarget( target.equals( "" ) ? KoLCharacter.getUserName() : target );
+		instance.setTarget( target == null || target.equals( "" ) ? KoLCharacter.getUserName() : target );
 		instance.setBuffCount( buffCount );
 		return instance;
 	}
