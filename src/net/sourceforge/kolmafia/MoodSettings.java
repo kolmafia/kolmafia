@@ -941,32 +941,18 @@ public abstract class MoodSettings implements KoLConstants
 			else if ( triggerType.equals( "gain_effect" ) )
 			{
 				if ( otherTriggerType.equals( "unconditional" ) )
-				{
 					compareResult = 1;
-				}
 				else if ( otherTriggerType.equals( "gain_effect" ) )
-				{
 					compareResult = triggerName.compareToIgnoreCase( otherTriggerName );
-					if ( compareResult == 0 )
-						compareResult = action.compareToIgnoreCase( otherTriggerAction );
-				}
 				else
-				{
 					compareResult = -1;
-				}
 			}
 			else if ( triggerType.equals( "lose_effect" ) )
 			{
 				if ( otherTriggerType.equals( "lose_effect" ) )
-				{
 					compareResult = triggerName.compareToIgnoreCase( otherTriggerName );
-					if ( compareResult == 0 )
-						compareResult = action.compareToIgnoreCase( otherTriggerAction );
-				}
 				else
-				{
 					compareResult = 1;
-				}
 			}
 
 			return compareResult;
