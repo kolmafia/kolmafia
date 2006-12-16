@@ -259,6 +259,9 @@ public class LocalRelayServer implements Runnable
 				if ( lowercase.startsWith( "content-type" ) )
 					continue;
 
+				if ( lowercase.startsWith( "content-length" ) )
+					continue;
+
 				if ( lowercase.startsWith( "cache-control" ) )
 					continue;
 
@@ -287,6 +290,8 @@ public class LocalRelayServer implements Runnable
 					printStream.println( "Content-Type: " + request.contentType + ";charset=utf-8" );
 				else
 					printStream.println( "Content-Type: " + request.contentType );
+
+				printStream.println( "Content-Length: " + (request.rawByteBuffer == null ? request.responseText.length() : request.rawByteBuffer.length) );
 
 				if ( request.contentType.equals( "text/html" ) )
 				{

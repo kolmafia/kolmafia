@@ -390,7 +390,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 		else if ( status.indexOf( "200" ) != -1 )
 		{
-			headers.add( "Content-Length: " + (this.rawByteBuffer == null ? this.responseText.length() : this.rawByteBuffer.length) );
 			this.responseCode = 200;
 		}
 	}
@@ -849,9 +848,19 @@ public class LocalRelayRequest extends PasswordHashRequest
 			{
 				sendLocalImage( formURLString );
 			}
-			else if ( formURLString.indexOf( "lchat.php" ) != -1 && StaticEntity.getBooleanProperty( "relayUsesIntegratedChat" ) )
+			else if ( formURLString.indexOf( "lchat.php" ) != -1 )
 			{
-				sendSharedFile( "chat.html" );
+				if ( StaticEntity.getBooleanProperty( "relayUsesIntegratedChat" ) )
+				{
+					sendSharedFile( "chat.html" );
+				}
+				else
+				{
+					sendSharedFile( formURLString );
+					responseText = StaticEntity.globalStringReplace( responseText, "<p>", "<br><br>" );
+					responseText = StaticEntity.globalStringReplace( responseText, "<P>", "<br><br>" );
+					responseText = StaticEntity.singleStringDelete( responseText, "</span>" );
+				}
 			}
 			else
 			{
@@ -863,7 +872,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 						chatLogger.setActiveLogFile( KoLMessenger.getChatLogName( "[ALL]" ) );
 
 					responseText = KoLMessenger.getNormalizedContent( responseText, false );
-
 					if ( responseText.length() > 0 && responseText.indexOf( "<img" ) == -1 )
 						chatLogger.append( StaticEntity.globalStringReplace( responseText, "<br>", "</font><br>" ) );
 				}
