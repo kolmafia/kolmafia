@@ -3104,9 +3104,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected void handleAscension()
 	{
-		MoodSettings.setMood( "apathetic" );
-
-		KoLCharacter.reset( KoLCharacter.getUserName() );
+		KoLCharacter.resetInventory();
 
 		refreshSession();
 		resetSession();
