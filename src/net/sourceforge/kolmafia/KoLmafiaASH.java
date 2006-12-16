@@ -3220,6 +3220,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { SKILL_TYPE };
 		result.addElement( new ScriptExistingFunction( "mp_cost", INT_TYPE, params ) );
 
+		params = new ScriptType[] { SKILL_TYPE };
+		result.addElement( new ScriptExistingFunction( "turns_per_cast", INT_TYPE, params ) );
+
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "can_equip", BOOLEAN_TYPE, params ) );
 
@@ -5290,6 +5293,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue mp_cost( ScriptVariable skill )
 		{	return new ScriptValue( ClassSkillsDatabase.getMPConsumptionById( skill.intValue() ) );
+		}
+
+		public ScriptValue turns_per_cast( ScriptVariable skill )
+		{	return new ScriptValue( ClassSkillsDatabase.getEffectDuration( skill.intValue() ) );
 		}
 
 		public ScriptValue can_equip( ScriptVariable item )
