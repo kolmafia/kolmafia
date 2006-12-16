@@ -580,7 +580,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			ALL_SKILLS.put( skillName, new UseSkillRequest( skillName ) );
 
 		UseSkillRequest request = (UseSkillRequest) ALL_SKILLS.get( skillName );
-		request.setTarget( "" );
+		request.setTarget( KoLCharacter.getUserName() );
 		request.setBuffCount( 0 );
 		return request;
 	}
