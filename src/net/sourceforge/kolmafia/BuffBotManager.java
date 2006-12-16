@@ -852,7 +852,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		}
 
 		public boolean equals( Object o )
-		{	return o != null && o instanceof BuffBotCaster && buffId == ((BuffBotCaster)o).buffId;
+		{	return o != null && o instanceof BuffBotCaster && price == ((BuffBotCaster)o).price && buffId == ((BuffBotCaster)o).buffId;
 		}
 
 		public int compareTo( Object o )

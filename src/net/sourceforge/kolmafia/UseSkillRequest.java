@@ -102,10 +102,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( target == null || target.trim().length() == 0 || target.equals( String.valueOf( KoLCharacter.getUserId() ) ) || target.equals( KoLCharacter.getUserName() ) )
 			{
 				this.target = "yourself";
-				if ( KoLCharacter.getUserId() != 0 )
-					addFormField( "targetplayer", String.valueOf( KoLCharacter.getUserId() ) );
-				else
-					addFormField( "specificplayer", KoLCharacter.getUserName() );
+				addFormField( "specificplayer", KoLCharacter.getUserName() );
 			}
 			else
 			{
@@ -559,7 +556,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	}
 
 	public static UseSkillRequest getInstance( String skillName, int buffCount )
-	{	return getInstance( skillName, "", buffCount );
+	{	return getInstance( skillName, KoLCharacter.getUserName(), buffCount );
 	}
 
 	public static UseSkillRequest getInstance( String skillName, String target, int buffCount )
@@ -568,7 +565,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( instance == null )
 			return null;
 
-		instance.setTarget( target );
+		instance.setTarget( target.equals( "" ) ? KoLCharacter.getUserName() : target );
 		instance.setBuffCount( buffCount );
 		return instance;
 	}
