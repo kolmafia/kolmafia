@@ -122,8 +122,11 @@ public class OptionsFrame extends KoLFrame
 		addonPanel.add( new BookmarkManagePanel() );
 
 		JPanel moodPanel = new JPanel( new BorderLayout() );
-		moodPanel.add( new AddTriggerPanel(), BorderLayout.NORTH );
 		moodPanel.add( new MoodTriggerListPanel(), BorderLayout.CENTER );
+
+		AddTriggerPanel triggers = new AddTriggerPanel();
+		moodList.addListSelectionListener( triggers );
+		moodPanel.add( triggers, BorderLayout.NORTH );
 
 		addTab( "General", new GeneralOptionsPanel() );
 		addTab( "Relay", new RelayOptionsPanel() );
