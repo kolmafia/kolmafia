@@ -1,156 +1,159 @@
-1	0	0	Liver of Steel
-2	3	5	Chronic Indigestion
-3	2	5	The Smile of Mr. A.
-4	2	5	Arse Shoot
-5	0	0	Stomach of Steel
-6	0	0	Spleen of Steel
-10	0	0	Powers of Observatiogn
-11	0	0	Gnefarious Pickpocketing
-12	0	0	Torso Awaregness
-13	0	0	Gnomish Hardigness
-14	0	0	Cosmic Ugnderstanding
-15	3	10	CLEESH
-16	1	5	Summon Snowcone
-17	1	5	Summon Hilarious Objects
+1	0	0	0	Liver of Steel
+2	3	5	0	Chronic Indigestion
+3	2	5	0	The Smile of Mr. A.
+4	2	5	0	Arse Shoot
+5	0	0	0	Stomach of Steel
+6	0	0	0	Spleen of Steel
+10	0	0	0	Powers of Observatiogn
+11	0	0	0	Gnefarious Pickpocketing
+12	0	0	0	Torso Awaregness
+13	0	0	0	Gnomish Hardigness
+14	0	0	0	Cosmic Ugnderstanding
+15	3	10	0	CLEESH
+16	1	5	0	Summon Snowcone
+17	1	5	0	Summon Hilarious Objects
 
-7002	3	0	Shake Hands
-7003	3	5	Hot Breath
-7004	3	5	Cold Breath
-7005	3	5	Spooky Breath
-7006	3	5	Stinky Breath
-7007	3	5	Sleazy Breath
-7008	3	0	Moxious Maneuver
-7009	3	0	Magic Missile
+7002	3	0	0	Shake Hands
+7003	3	5	0	Hot Breath
+7004	3	5	0	Cold Breath
+7005	3	5	0	Spooky Breath
+7006	3	5	0	Stinky Breath
+7007	3	5	0	Sleazy Breath
+7008	3	0	0	Moxious Maneuver
+7009	3	0	0	Magic Missile
 
 # Skills available to Clubbers
 
-1000	1	1	Seal Clubbing Frenzy
-1003	3	3	Thrust-Smack
-1005	3	8	Lunging Thrust-Smack
-1006	0	0	Super-Advanced Meatsmithing
-1007	1	7	Tongue of the Otter
-1008	0	0	Hide of the Otter
-1009	0	0	Claws of the Otter
-1010	1	10	Tongue of the Walrus
-1011	0	0	Hide of the Walrus
-1012	0	0	Claws of the Walrus
-1014	0	0	Eye of the Stoat
-1015	1	10	Rage of the Reindeer
-1016	0	0	Pulverize
-1017	0	0	Double-Fisted Skull Smashing
-1018	0	0	Northern Exposure
-1019	1	10	Musk of the Moose
-1020	1	10	Snarl of the Timberwolf
+1000	1	1	5	Seal Clubbing Frenzy
+1003	3	3	0	Thrust-Smack
+1005	3	8	0	Lunging Thrust-Smack
+1006	0	0	0	Super-Advanced Meatsmithing
+1007	1	7	0	Tongue of the Otter
+1008	0	0	0	Hide of the Otter
+1009	0	0	0	Claws of the Otter
+1010	1	10	0	Tongue of the Walrus
+1011	0	0	0	Hide of the Walrus
+1012	0	0	0	Claws of the Walrus
+1014	0	0	0	Eye of the Stoat
+1015	1	10	5	Rage of the Reindeer
+1016	0	0	0	Pulverize
+1017	0	0	0	Double-Fisted Skull Smashing
+1018	0	0	0	Northern Exposure
+1019	1	10	5	Musk of the Moose
+1020	1	10	5	Snarl of the Timberwolf
 
 # Skills available to Turtle Tamers
 
-2000	1	1	Patience of the Tortoise
-2003	3	3	Headbutt
-2004	0	0	Skin of the Leatherback
-2014	0	0	Amphibian Sympathy
-2006	0	0	Armorcraftiness
-2007	2	6	Ghostly Shell
-2010	2	8	Tenacity of the Snapper
-2015	3	4	Kneebutt
-2009	2	15	Empathy of the Newt
-2008	2	10	Reptilian Fortitude
-2005	3	5	Shieldbutt
-2011	0	0	Wisdom of the Elder Tortoises
-2012	2	10	Astral Shell
-2016	0	0	Cold-Blooded Fearlessness
-2020	0	0	Hero of the Half-Shell
-2021	0	0	Tao of the Terrapin
-2022	3	20	Spectral Snapper
+2000	1	1	5	Patience of the Tortoise
+2003	3	3	0	Headbutt
+2004	0	0	0	Skin of the Leatherback
+2014	0	0	0	Amphibian Sympathy
+2006	0	0	0	Armorcraftiness
+2007	2	6	10	Ghostly Shell
+2010	2	8	10	Tenacity of the Snapper
+2015	3	4	0	Kneebutt
+2009	2	15	10	Empathy of the Newt
+2008	2	10	10	Reptilian Fortitude
+2005	3	5	0	Shieldbutt
+2011	0	0	0	Wisdom of the Elder Tortoises
+2012	2	10	10	Astral Shell
+2016	0	0	0	Cold-Blooded Fearlessness
+2020	0	0	0	Hero of the Half-Shell
+2021	0	0	0	Tao of the Terrapin
+2022	3	20	0	Spectral Snapper
 
-2103	3	8	Head + Knee Combo
-2105	3	9	Head + Shield Combo
-2106	3	10	Knee + Shield Combo
-2107	3	13	Head + Knee + Shield Combo
+2103	3	8	0	Head + Knee Combo
+2105	3	9	0	Head + Shield Combo
+2106	3	10	0	Knee + Shield Combo
+2107	3	13	0	Head + Knee + Shield Combo
 
 # Skills available to Pastamancers
 
-3000	1	1	Manicotti Meditation
-3003	3	4	Minor Ray of Something
-3004	3	3	Entangling Noodles
-3005	3	7	eXtreme Ray of Something
-3006	1	10	Pastamastery
-3007	3	19	Cone of Whatever
-3008	3	35	Weapon of the Pastalord
-3009	1	6	Lasagna Bandages
-3010	1	12	Leash of Linguini
-3011	0	0	Spirit of Rigatoni
-3012	1	20	Cannelloni Cocoon
-3014	0	0	Spirit of Ravioli
-3015	1	10	Springy Fusilli
-3016	0	0	Tolerance of the Kitchen
+3000	1	1	5	Manicotti Meditation
+3003	3	4	0	Minor Ray of Something
+3004	3	3	0	Entangling Noodles
+3005	3	7	0	eXtreme Ray of Something
+3006	1	10	0	Pastamastery
+3007	3	19	0	Cone of Whatever
+3008	3	35	0	Weapon of the Pastalord
+3009	1	6	0	Lasagna Bandages
+3010	1	12	10	Leash of Linguini
+3011	0	0	0	Spirit of Rigatoni
+3012	1	20	0	Cannelloni Cocoon
+3014	0	0	0	Spirit of Ravioli
+3015	1	10	10	Springy Fusilli
+3016	0	0	0	Tolerance of the Kitchen
+
 # The following is the skill which appears on the character sheet
-3017	0	0	Flavour of Magic
-3018	0	0	Transcendental Noodlecraft
-3019	3	35	Fearful Fettucini
+
+3017	0	0	0	Flavour of Magic
+3018	0	0	0	Transcendental Noodlecraft
+3019	3	35	0	Fearful Fettucini
 
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
-3101	1	10	Spirit of Cayenne
-3102	1	10	Spirit of Peppermint
-3103	1	10	Spirit of Garlic
-3104	1	10	Spirit of Wormwood
-3105	1	10	Spirit of Bacon Grease
+
+3101	1	10	40	Spirit of Cayenne
+3102	1	10	40	Spirit of Peppermint
+3103	1	10	40	Spirit of Garlic
+3104	1	10	40	Spirit of Wormwood
+3105	1	10	40	Spirit of Bacon Grease
 
 # Skills available to Saucerors
 
-4000	1	1	Sauce Contemplation
-4003	3	3	Stream of Sauce
-4004	0	0	Expert Panhandling
-4005	3	12	Saucestorm
-4006	1	10	Advanced Saucecrafting
-4007	2	10	Elemental Saucesphere
-4008	2	5	Jalape&ntilde;o Saucesphere
-4009	3	23	Wave of Sauce
-4010	0	0	Intrinsic Spiciness
-4011	2	10	Jaba&ntilde;ero Saucesphere
-4012	3	40	Saucegeyser
-4014	3	4	Saucy Salve
-4015	0	0	Impetuous Sauciness
-4016	0	0	Diminished Gag Reflex
-4017	0	0	Immaculate Seasoning
-4018	0	0	The Way of Sauce
-4019	2	10	Scarysauce
+4000	1	1	5	Sauce Contemplation
+4003	3	3	0	Stream of Sauce
+4004	0	0	0	Expert Panhandling
+4005	3	12	0	Saucestorm
+4006	1	10	0	Advanced Saucecrafting
+4007	2	10	10	Elemental Saucesphere
+4008	2	5	10	Jalape&ntilde;o Saucesphere
+4009	3	23	0	Wave of Sauce
+4010	0	0	0	Intrinsic Spiciness
+4011	2	10	10	Jaba&ntilde;ero Saucesphere
+4012	3	40	0	Saucegeyser
+4014	3	4	0	Saucy Salve
+4015	0	0	0	Impetuous Sauciness
+4016	0	0	0	Diminished Gag Reflex
+4017	0	0	0	Immaculate Seasoning
+4018	0	0	0	The Way of Sauce
+4019	2	10	10	Scarysauce
 
 # Skills available to Bandits
 
-5000	1	1	Disco Aerobics
-5003	3	3	Disco Eye-Poke
-5004	0	0	Nimble Fingers
-5005	3	5	Disco Dance of Doom
-5006	0	0	Mad Looting Skillz
-5007	1	8	Disco Nap
-5008	3	7	Disco Dance II: Electric Boogaloo
-5009	0	0	Crossbow Fever
-5010	0	0	Overdeveloped Sense of Self Preservation
-5011	1	12	Disco Power Nap
-5012	3	10	Disco Face Stab
-5014	1	10	Advanced Cocktailcrafting
-5015	0	0	Ambidextrous Funkslinging
-5016	0	0	Heart of Polyester
-5017	1	10	Smooth Movement
-5018	0	0	Superhuman Cocktailcrafting
-5019	3	8	Tango of Terror
+5000	1	1	5	Disco Aerobics
+5003	3	3	0	Disco Eye-Poke
+5004	0	0	0	Nimble Fingers
+5005	3	5	0	Disco Dance of Doom
+5006	0	0	0	Mad Looting Skillz
+5007	1	8	0	Disco Nap
+5008	3	7	0	Disco Dance II: Electric Boogaloo
+5009	0	0	0	Crossbow Fever
+5010	0	0	0	Overdeveloped Sense of Self Preservation
+5011	1	12	0	Disco Power Nap
+5012	3	10	0	Disco Face Stab
+5014	1	10	0	Advanced Cocktailcrafting
+5015	0	0	0	Ambidextrous Funkslinging
+5016	0	0	0	Heart of Polyester
+5017	1	10	10	Smooth Movement
+5018	0	0	0	Superhuman Cocktailcrafting
+5019	3	8	0	Tango of Terror
 
 # Skills available to Thieves
 
-6000	1	1	Moxie of the Mariachi
-6003	2	40	Aloysius' Antiphon of Aptitude
-6004	2	2	The Moxious Madrigal
-6005	2	4	Cletus's Canticle of Celerity
-6006	2	7	The Polka of Plenty
-6007	2	3	The Magical Mojomuscular Melody
-6008	2	5	The Power Ballad of the Arrowsmith
-6009	2	13	Brawnee's Anthem of Absorption
-6010	2	11	Fat Leon's Phat Loot Lyric
-6011	2	15	The Psalm of Pointiness
-6012	2	9	Jackasses' Symphony of Destruction
-6013	2	30	Stevedave's Shanty of Superiority
-6014	2	50	The Ode to Booze
-6015	2	20	The Sonata of Sneakiness
-6016	2	20	Carlweather's Cantata of Confrontation
-6017	2	30	Ur-Kel's Aria of Annoyance
-6018	2	9	Dirge of Dreadfulness
+6000	1	1	5	Moxie of the Mariachi
+6003	2	40	5	Aloysius' Antiphon of Aptitude
+6004	2	2	5	The Moxious Madrigal
+6005	2	4	5	Cletus's Canticle of Celerity
+6006	2	7	5	The Polka of Plenty
+6007	2	3	5	The Magical Mojomuscular Melody
+6008	2	5	5	The Power Ballad of the Arrowsmith
+6009	2	13	5	Brawnee's Anthem of Absorption
+6010	2	11	5	Fat Leon's Phat Loot Lyric
+6011	2	15	5	The Psalm of Pointiness
+6012	2	9	5	Jackasses' Symphony of Destruction
+6013	2	30	5	Stevedave's Shanty of Superiority
+6014	2	50	5	The Ode to Booze
+6015	2	20	5	The Sonata of Sneakiness
+6016	2	20	5	Carlweather's Cantata of Confrontation
+6017	2	30	5	Ur-Kel's Aria of Annoyance
+6018	2	9	5	Dirge of Dreadfulness

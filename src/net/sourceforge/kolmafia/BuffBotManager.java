@@ -822,11 +822,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			this.price = price;
 			this.castCount = castCount;
 
-			int multiplier = buffId == 3 ? 40 : buffId > 6000 && buffId < 7000 ? 15 : 10;
-			if ( KoLCharacter.hasItem( UseSkillRequest.WIZARD_HAT ) )
-				multiplier += 5;
-
-			this.turnCount = castCount * multiplier;
+			this.turnCount = this.castCount * ClassSkillsDatabase.getEffectDuration( this.buffId );
 			this.restricted = restricted;
 			this.philanthropic = philanthropic;
 

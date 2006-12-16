@@ -55,6 +55,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 	private static Map skillByName = new TreeMap();
 	private static Map mpConsumptionById = new TreeMap();
 	private static Map skillTypeById = new TreeMap();
+	private static Map durationById = new TreeMap();
 
 	public static final int PASSIVE = 0;
 	public static final int SKILL = 1;
@@ -71,21 +72,23 @@ public class ClassSkillsDatabase extends KoLDatabase
 		BufferedReader reader = getReader( "classskills.txt" );
 
 		String [] data;
-		Integer skillId, skillType, mpConsumption;
+		Integer skillId, skillType, mpConsumption, duration;
 		String skillName;
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 4 )
+			if ( data.length == 5 )
 			{
 				skillId = Integer.valueOf( data[0] );
 				skillType = Integer.valueOf( data[1] );
 				mpConsumption = Integer.valueOf( data[2] );
-				skillName = getDisplayName( data[3] );
+				duration = Integer.valueOf( data[3] );
+				skillName = getDisplayName( data[4] );
 
 				skillById.put( skillId, skillName );
-				skillByName.put( getCanonicalName( data[3] ), skillId );
+				skillByName.put( getCanonicalName( data[4] ), skillId );
 				mpConsumptionById.put( skillId, mpConsumption );
+				durationById.put( skillId, duration );
 				skillTypeById.put( skillId, skillType );
 			}
 		}
@@ -170,6 +173,33 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 		Object mpConsumption = mpConsumptionById.get( new Integer( skillId ) );
 		return mpConsumption == null ? 0 : Math.max( ((Integer)mpConsumption).intValue() + KoLCharacter.getManaCostModifier(), 1 );
+	}
+
+	/**
+	 * Returns how many rounds of buff are gained by using
+	 * the skill with the given Id.
+	 *
+	 * @param	skillId	The id of the skill to lookup
+	 * @return	The duration of effect the cast gives
+	 */
+
+	public static final int getEffectDuration( int skillId )
+	{
+		Object duration = durationById.get( new Integer( skillId ) );
+		if ( duration == null )
+			return 0;
+
+		int actualDuration = ((Integer)duration).intValue();
+		if ( actualDuration == 0 || getSkillType( skillId ) != BUFF )
+			return actualDuration;
+
+		if ( skillId > 6000 && skillId < 7000 && KoLCharacter.hasItem( UseSkillRequest.ROCKNROLL_LEGEND ) )
+			actualDuration += 10;
+
+		if ( KoLCharacter.hasItem( UseSkillRequest.WIZARD_HAT ) )
+			actualDuration += 5;
+
+		return actualDuration;
 	}
 
 	/**

@@ -766,14 +766,21 @@ public abstract class MoodSettings implements KoLConstants
 			// Finally, fall back on skills
 
 			String skillName = UneffectRequest.effectToSkill( name );
+
 			if ( KoLCharacter.hasSkill( skillName ) )
 			{
 				int skillId = ClassSkillsDatabase.getSkillId( skillName );
 
-				if ( skillId % 1000 == 0 || skillId == 1015 )
-					return "cast " + (3 * multiplier) + " " + skillName;
-				else if ( skillId != 3 )
-					return "cast " + multiplier + " " + skillName;
+				float duration = (float) ClassSkillsDatabase.getEffectDuration( skillId );
+				float floatMultiplier = (float) multiplier;
+
+				// Use number of rounds you'd get from Madrigal as a baseline
+				// for deciding how many casts to use.
+
+				float baseMultiplier = (float) ClassSkillsDatabase.getEffectDuration( 6001 );
+
+				int castCount = Math.max( (int) Math.floor( floatMultiplier * baseMultiplier / duration ), 1 );
+				return "cast " + castCount + " " + skillName;
 			}
 		}
 
