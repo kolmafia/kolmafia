@@ -2637,7 +2637,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		public String toString()
-		{	return stringform + " (" + encounterCount + ")";
+		{	return "<html>" + stringform + " (" + encounterCount + ")</html>";
 		}
 
 		public int compareTo( Object o )
