@@ -3087,6 +3087,10 @@ public abstract class KoLmafia implements KoLConstants
 		for ( int i = 0; i < items.length; ++i )
 		{
 			currentItem = (AdventureResult) items[i];
+
+			if ( currentItem.getItemId() == ItemCreationRequest.MEAT_PASTE )
+				continue;
+
 			itemCount = currentItem.getCount( inventory );
 			itemPower = EquipmentDatabase.getPower( currentItem.getItemId() );
 
