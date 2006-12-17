@@ -564,28 +564,25 @@ public class EquipmentRequest extends PasswordHashRequest
 			parseQuestItems( responseText );
 	}
 
-	private static void switchItem( AdventureResult oldItem, AdventureResult newItem )
+	private static boolean switchItem( AdventureResult oldItem, AdventureResult newItem )
 	{
-		// Determine the item which is being switched
-		// in and out.
-
-		int switchIn = newItem.equals( UNEQUIP ) ? -1 : newItem.getItemId();
-		int switchOut = oldItem.equals( UNEQUIP ) ? -1 : oldItem.getItemId();
-
 		// If the items are not equivalent, make sure
 		// the items should get switched out.
 
-		if ( switchIn != switchOut )
-		{
-			// Manually subtract item from inventory to avoid
-			// excessive list updating.
+		if ( newItem.getItemId() == oldItem.getItemId() )
+			return false;
 
-			if ( switchIn != -1 )
-				KoLCharacter.processResult( new AdventureResult( switchIn, -1 ), false );
+		// Manually subtract item from inventory to avoid
+		// excessive list updating.
 
-			if ( switchOut != -1 )
-				KoLCharacter.processResult( new AdventureResult( switchOut, 1 ), false );
-		}
+		if ( newItem != EquipmentRequest.UNEQUIP )
+			AdventureResult.addResultToList( inventory, newItem.getInstance(-1) );
+
+		if ( oldItem != EquipmentRequest.UNEQUIP )
+			AdventureResult.addResultToList( inventory, oldItem.getInstance(1) );
+
+		return !ConcoctionsDatabase.getKnownUses( oldItem ).isEmpty() ||
+			!ConcoctionsDatabase.getKnownUses( newItem ).isEmpty();
 	}
 
 	private void parseCloset()
@@ -816,32 +813,47 @@ public class EquipmentRequest extends PasswordHashRequest
 			index += 21;
 		}
 
+		// First, handle all of the equipment pre-processing,
+		// like inventory shuffling and the like.
+
+		boolean refreshCreations = false;
+
+		if ( !LoginRequest.isInstanceRunning() )
+		{
+			for ( int i = 0; i < KoLCharacter.FAMILIAR; ++i )
+				refreshCreations |= switchItem( oldEquipment[i], equipment[i] );
+
+			// Adjust inventory of fake hands
+
+			int newFakeHands = KoLCharacter.getFakeHands();
+			if ( oldFakeHands != newFakeHands )
+			{
+				AdventureResult.addResultToList( inventory, new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
+				KoLCharacter.setFakeHands( fakeHands );
+			}
+
+			CharpaneRequest.getInstance().run();
+		}
+
+		// Now update your equipment to make sure that selected
+		// items are properly selected in the dropdowns.
+
 		Matcher outfitsMatcher = OUTFITLIST_PATTERN.matcher( responseText );
 
 		LockableListModel outfits = outfitsMatcher.find() ?
 			SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
 
-		KoLCharacter.setFakeHands( fakeHands );
-
 		KoLCharacter.setEquipment( equipment );
 		KoLCharacter.setOutfits( outfits );
+
 		EquipmentDatabase.updateOutfits();
-
-		if ( !LoginRequest.isInstanceRunning() )
-		{
-			for ( int i = 0; i < KoLCharacter.FAMILIAR; ++i )
-				switchItem( oldEquipment[i], equipment[i] );
-
-			// Adjust inventory of fake hands
-			int newFakeHands = KoLCharacter.getFakeHands();
-			if ( oldFakeHands > newFakeHands )
-				AdventureResult.addResultToList( inventory, new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
-
-			CharpaneRequest.getInstance().run();
-		}
-
 		KoLCharacter.recalculateAdjustments();
-		ConcoctionsDatabase.refreshConcoctions();
+
+		// If you need to update your creatables list, do so at
+		// the end of the processing.
+
+		if ( refreshCreations )
+			ConcoctionsDatabase.refreshConcoctions();
 	}
 
 	public static int slotNumber( String name )
