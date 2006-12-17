@@ -581,10 +581,10 @@ public class EquipmentRequest extends PasswordHashRequest
 			// excessive list updating.
 
 			if ( switchIn != -1 )
-				KoLCharacter.processResult( new AdventureResult( switchIn, -1 ) );
+				KoLCharacter.processResult( new AdventureResult( switchIn, -1 ), false );
 
 			if ( switchOut != -1 )
-				KoLCharacter.processResult( new AdventureResult( switchOut, 1 ) );
+				KoLCharacter.processResult( new AdventureResult( switchOut, 1 ), false );
 		}
 	}
 
@@ -821,15 +821,16 @@ public class EquipmentRequest extends PasswordHashRequest
 		LockableListModel outfits = outfitsMatcher.find() ?
 			SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
 
+		KoLCharacter.setFakeHands( fakeHands );
+
 		KoLCharacter.setEquipment( equipment );
 		KoLCharacter.setOutfits( outfits );
 		EquipmentDatabase.updateOutfits();
-		KoLCharacter.setFakeHands( fakeHands );
 
 		if ( !LoginRequest.isInstanceRunning() )
 		{
 			for ( int i = 0; i < KoLCharacter.FAMILIAR; ++i )
-				switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
+				switchItem( oldEquipment[i], equipment[i] );
 
 			// Adjust inventory of fake hands
 			int newFakeHands = KoLCharacter.getFakeHands();
@@ -839,8 +840,8 @@ public class EquipmentRequest extends PasswordHashRequest
 			CharpaneRequest.getInstance().run();
 		}
 
-		// Skip past equipped gear
 		KoLCharacter.recalculateAdjustments();
+		ConcoctionsDatabase.refreshConcoctions();
 	}
 
 	public static int slotNumber( String name )
