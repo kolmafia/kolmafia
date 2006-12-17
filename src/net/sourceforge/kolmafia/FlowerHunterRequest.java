@@ -90,8 +90,17 @@ public class FlowerHunterRequest extends KoLRequest
 		addFormField( "who", opponent );
 		addFormField( "stance", String.valueOf( stance ) );
 		addFormField( "attacktype", mission );
-		addFormField( "winmessage", message );
-		addFormField( "losemessage", message );
+
+		if ( message.equals( "" ) || message.indexOf( "flower" ) != -1 )
+		{
+			addFormField( "winmessage", "NOOOO!  I was trying to derank!" );
+			addFormField( "losemessage", "Sigh, another powerleveling setback." );
+		}
+		else
+		{
+			addFormField( "winmessage", message );
+			addFormField( "losemessage", message );
+		}
 	}
 
 	public FlowerHunterRequest( String clanId )

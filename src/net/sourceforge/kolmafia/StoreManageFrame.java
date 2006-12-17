@@ -300,6 +300,7 @@ public class StoreManageFrame extends KoLPanelFrame
 				setValueAt( new Integer(0), 0, 3 );
 
 				RequestThread.postRequest( new AutoSellRequest( soldItem, price, limit ) );
+				KoLmafia.enableDisplay();
 			}
 		}
 
@@ -355,7 +356,9 @@ public class StoreManageFrame extends KoLPanelFrame
 			}
 
 			public void mouseReleased( MouseEvent e )
-			{	RequestThread.postRequest( new StoreManageRequest( itemId ) );
+			{
+				RequestThread.postRequest( new StoreManageRequest( itemId ) );
+				KoLmafia.enableDisplay();
 			}
 		}
 	}
