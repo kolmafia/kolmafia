@@ -114,6 +114,7 @@ public abstract class SorceressLair extends StaticEntity
 
 	// Items for the shadow battle
 
+	private static final AdventureResult MIRROR_SHARD = new AdventureResult( "huge mirror shard", 1, false );
 	private static final AdventureResult DOC_ELIXIR = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
 	private static final AdventureResult RED_POTION = new AdventureResult( "red pixel potion", 4 );
 	private static final AdventureResult PLASTIC_EGG = new AdventureResult( "red plastic oyster egg", 3 );
@@ -340,12 +341,13 @@ public abstract class SorceressLair extends StaticEntity
 		requirements.addAll( retrieveSqueezings() );
 		requirements.addAll( retrieveScubaGear() );
 
-		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
+		(new FamiliarRequest( originalFamiliar )).run();
 
 		if ( !KoLmafia.checkRequirements( requirements ) || KoLmafia.refusesContinue() )
 			return;
 
-		DEFAULT_SHELL.executeLine( "equip acc1 makeshift SCUBA gear" );
+		(new EquipmentRequest( SCUBA, KoLCharacter.ACCESSORY1 )).run();
+
 		KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
 		QUEST_HANDLER.constructURLString( "lair2.php?action=odor" ).run();
 
@@ -356,8 +358,8 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( percussion == BROKEN_SKULL )
 		{
-			DEFAULT_SHELL.executeLine( "untinker skeleton key" );
-			DEFAULT_SHELL.executeLine( "create bone rattle" );
+			(new UntinkerRequest( SKELETON.getItemId() )).run();
+			ItemCreationRequest.getInstance( BONE_RATTLE ).run();
 		}
 
 		// Finally, arm the stone mariachis with their
@@ -445,8 +447,8 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( QUEST_HANDLER.responseText.indexOf( "lair2.php" ) == -1 )
 		{
-			DEFAULT_SHELL.executeLine( "familiar none" );
-			DEFAULT_SHELL.executeLine( "outfit birthday suit" );
+			(new FamiliarRequest( FamiliarData.NO_FAMILIAR )).run();
+			(new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT )).run();
 
 			// We will need to re-equip
 
@@ -468,7 +470,7 @@ public abstract class SorceressLair extends StaticEntity
 			return requirements;
 
 		if ( !isItemAvailable( SKELETON ) && isItemAvailable( KEY_RING ) )
-			DEFAULT_SHELL.executeLine( "use skeleton key ring" );
+			(new ConsumeItemRequest( KEY_RING )).run();
 
 		if ( !AdventureDatabase.retrieveItem( SKELETON ) )
 			requirements.add( SKELETON );
@@ -619,9 +621,10 @@ public abstract class SorceressLair extends StaticEntity
 		// require you to re-equip your star weapon and
 		// a star buckler and switch to a starfish first.
 
-		DEFAULT_SHELL.executeLine( "equip weapon " + starWeapon.getName() );
-		DEFAULT_SHELL.executeLine( "equip hat star hat" );
-		DEFAULT_SHELL.executeLine( "familiar star starfish" );
+		(new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND )).run();
+		(new EquipmentRequest( starWeapon, KoLCharacter.WEAPON )).run();
+		(new EquipmentRequest( STAR_HAT, KoLCharacter.HAT )).run();
+		(new FamiliarRequest( new FamiliarData( 17 ) )).run();
 
 		KoLmafia.updateDisplay( "Inserting Richard's star key..." );
 		QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + RICHARD.getItemId() ).run();
@@ -1056,7 +1059,7 @@ public abstract class SorceressLair extends StaticEntity
 			++n;
 		}
 
-		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
+		(new FamiliarRequest( originalFamiliar )).run();
 		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
 		resetAutoAttack( previousAutoAttack );
 
@@ -1217,23 +1220,18 @@ public abstract class SorceressLair extends StaticEntity
 	private static void reflectEnergyBolt()
 	{
 		// Get current equipment
-		AdventureResult initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
-		AdventureResult initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
+		SpecialOutfit.createCheckpoint();
 
 		// Equip the huge mirror shard
-		DEFAULT_SHELL.executeLine( "equip weapon huge mirror shard" );
+		(new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND )).run();
+		(new EquipmentRequest( MIRROR_SHARD, KoLCharacter.WEAPON )).run();
 
 		// Reflect the energy bolt
 		KoLmafia.updateDisplay( "Reflecting energy bolt..." );
 		QUEST_HANDLER.constructURLString( "lair6.php?place=1" ).run();
 
-		// If we unequipped a weapon, equip it again
-		if ( initialWeapon != null && !initialOffhand.equals( EquipmentRequest.UNEQUIP ) )
-			DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon.getName() );
-
-		// If we unequipped an off-hand weapon, equip it again
-		if ( initialOffhand != null && !initialOffhand.equals( EquipmentRequest.UNEQUIP ) )
-			DEFAULT_SHELL.executeLine( "equip off-hand " + initialOffhand.getName() );
+		// If we unequipped anything, equip it again
+		SpecialOutfit.restoreCheckpoint();
 	}
 
 	private static int getShadowBattleHealth( int shadowDamage, int healAmount )

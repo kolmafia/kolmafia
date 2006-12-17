@@ -159,6 +159,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public static AdventureResult optimizeEquipment( int skillId )
 	{
 		AdventureResult songWeapon = null;
+		SpecialOutfit.createCheckpoint();
 
 		if ( skillId > 6000 && skillId < 7000 )
 		{
@@ -175,14 +176,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// Rock and Roll Legend in inventory is used to play the song
 
 			if ( songWeapon != ACCORDION && KoLCharacter.hasEquipped( ACCORDION ) )
-				DEFAULT_SHELL.executeLine( "unequip weapon" );
+				(new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.WEAPON )).run();
 
 			if ( songWeapon != null && songWeapon != ACCORDION && !KoLCharacter.hasEquipped( ROCKNROLL_LEGEND ) )
 				AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
 		}
 
 		if ( ClassSkillsDatabase.isBuff( skillId ) && skillId > 1000 && inventory.contains( WIZARD_HAT ) )
-			DEFAULT_SHELL.executeLine( "equip jewel-eyed wizard hat" );
+			(new EquipmentRequest( WIZARD_HAT, KoLCharacter.HAT )).run();
 
 		return songWeapon;
 	}
