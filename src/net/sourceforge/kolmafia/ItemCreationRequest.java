@@ -236,6 +236,16 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			addFormField( "action", "combine" );
 	}
 
+	public static ItemCreationRequest getInstance( AdventureResult item )
+	{
+		ItemCreationRequest ir = getInstance( item.getItemId(), true );
+		if ( ir == null )
+			return null;
+
+		ir.setQuantityNeeded( item.getCount() );
+		return ir;
+	}
+
 	public static ItemCreationRequest getInstance( int itemId )
 	{	return getInstance( itemId, true );
 	}

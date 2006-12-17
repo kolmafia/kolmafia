@@ -143,7 +143,10 @@ public class SpecialOutfit implements Comparable, KoLConstants
 			return;
 
 		for ( int i = 0; i < CHECKPOINT.length; ++i )
+		{
+			System.out.println( KoLCharacter.getEquipment(i) );
 			CHECKPOINT[i] = KoLCharacter.getEquipment(i);
+		}
 
 		SpecialOutfit.lastCheckpoint = KoLCharacter.getUserName();
 	}
@@ -155,6 +158,8 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void clearCheckpoint()
 	{
+		StaticEntity.printStackTrace();
+
 		for ( int i = 0; i < CHECKPOINT.length; ++i )
 			CHECKPOINT[i] = null;
 	}
@@ -172,6 +177,9 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		if ( CHECKPOINT[0] == null )
 			return true;
 
+		if ( !CHECKPOINT[KoLCharacter.OFFHAND].equals( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) )
+			(new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND )).run();
+
 		AdventureResult equippedItem;
 		for ( int i = 0; i < CHECKPOINT.length && lastCheckpoint.equals( KoLCharacter.getUserName() ); ++i )
 		{
@@ -181,7 +189,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 				if ( equippedItem.equals( UseSkillRequest.ROCKNROLL_LEGEND ) && !CHECKPOINT[i].equals( UseSkillRequest.ROCKNROLL_LEGEND ) )
 				{
 					UseSkillRequest.untinkerCloverWeapon( equippedItem );
-					DEFAULT_SHELL.executeLine( "create " + CHECKPOINT[i].getName() );
+					ItemCreationRequest.getInstance( CHECKPOINT[i].getInstance(1) ).run();
 				}
 
 				(new EquipmentRequest( CHECKPOINT[i], i )).run();
