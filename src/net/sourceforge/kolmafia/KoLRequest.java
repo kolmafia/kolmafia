@@ -581,6 +581,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
+		if ( sessionId == null && !(this instanceof LoginRequest || this instanceof LogoutRequest || this instanceof LocalRelayRequest) )
+			return;
+
 		if ( shouldPrintDebug() )
 			KoLmafia.getDebugStream().println( getClass() );
 
