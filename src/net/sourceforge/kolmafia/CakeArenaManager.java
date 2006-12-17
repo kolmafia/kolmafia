@@ -83,7 +83,7 @@ public class CakeArenaManager extends StaticEntity
 				for ( int j = 1; KoLmafia.permitsContinue() && j <= repeatCount; ++j )
 				{
 					KoLmafia.updateDisplay( "Arena battle, round " + j + " in progress..." );
-					RequestThread.postRequest( request, repeatCount );
+					RequestThread.postRequest( request );
 
 					victoryMatcher = victoryPattern.matcher( request.responseText );
 					StringBuffer text = new StringBuffer();
