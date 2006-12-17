@@ -65,6 +65,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 	protected static final int TAKE_ONE = 4;
 
 	protected JPanel eastPanel;
+	protected JPanel northPanel;
 	protected JPanel filterPanel;
 	protected LockableListModel elementModel;
 	protected ShowDescriptionList elementList;
@@ -155,7 +156,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		// are added.
 
 		filterPanel = new JPanel();
-		JPanel northPanel = new JPanel( new BorderLayout() );
+		northPanel = new JPanel( new BorderLayout() );
 
 		if ( !addFilterCheckboxes )
 		{

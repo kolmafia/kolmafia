@@ -553,7 +553,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private boolean autoRepairBoxServant()
 	{
-		if ( !KoLmafia.permitsContinue() )
+		if ( KoLmafia.refusesContinue() )
 			return false;
 
 		// If we are not cooking or mixing, or if we already have the
