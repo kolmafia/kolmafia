@@ -55,6 +55,8 @@ public class LogoutRequest extends KoLRequest
 	public void run()
 	{
 		KoLRequest.sessionId = null;
+
+		KoLmafia.declareWorldPeace();
 		StaticEntity.getClient().setCurrentRequest( null );
 
 		if ( instanceRunning )
