@@ -337,8 +337,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
-			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" },
-			{ "autoCheckpoint", "Enable outfit checkpointing during NPC purchases" },
+			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" }
 		};
 
 		/**

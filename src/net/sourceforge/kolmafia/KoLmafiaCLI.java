@@ -208,15 +208,16 @@ public class KoLmafiaCLI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String username, boolean isQuickLogin )
+	public void initialize( String username )
 	{
 		if ( StaticEntity.getClient() != this )
 		{
-			StaticEntity.getClient().initialize( username, isQuickLogin );
+			StaticEntity.getClient().initialize( username );
 			return;
 		}
 
-		super.initialize( username, isQuickLogin );
+		super.initialize( username );
+
 		printBlankLine();
 		executeCommand( "moons", "" );
 		printBlankLine();
@@ -1263,6 +1264,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "equip" ) || command.equals( "wear" ) || command.equals( "wield" ) )
 		{
+			SpecialOutfit.clearCheckpoint();
 			executeEquipCommand( parameters );
 			return;
 		}
@@ -1272,6 +1274,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "unequip" ) || command.equals( "remove" ) )
 		{
+			SpecialOutfit.clearCheckpoint();
 			executeUnequipCommand( parameters );
 			return;
 		}
@@ -1366,22 +1369,9 @@ public class KoLmafiaCLI extends KoLmafia
 				executePrintCommand( "outfits" );
 				return;
 			}
-			else if ( parameters.equalsIgnoreCase( "checkpoint" ) )
-			{
-				SpecialOutfit.restoreCheckpoint( false );
-				return;
-			}
 
+			SpecialOutfit.clearCheckpoint();
 			executeChangeOutfitCommand( parameters );
-			return;
-		}
-
-		// Another command involves saving the current
-		// gear into the KoLmafia checkpoint outfit.
-
-		if ( command.equals( "checkpoint" ) )
-		{
-			SpecialOutfit.createCheckpoint( false );
 			return;
 		}
 
@@ -1470,6 +1460,7 @@ public class KoLmafiaCLI extends KoLmafia
 				StaticEntity.getClient().recoverMP( (int) (setting * (float) KoLCharacter.getMaximumMP()) );
 			}
 
+			SpecialOutfit.restoreCheckpoint();
 			return;
 		}
 
@@ -1509,6 +1500,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				MoodSettings.autoFillTriggers();
 				MoodSettings.saveSettings();
+
 				printList( MoodSettings.getTriggers() );
 				return;
 			}
@@ -1516,6 +1508,8 @@ public class KoLmafiaCLI extends KoLmafia
 				MoodSettings.setMood( parameters );
 
 			MoodSettings.execute( true );
+			SpecialOutfit.restoreCheckpoint();
+
 			printLine( "Mood swing complete." );
 			return;
 		}
@@ -3411,17 +3405,10 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			ArrayList results = new ArrayList();
+
 			StoreManager.searchMall( '\"' + match.getName() + '\"', results, 10, false );
-
-			Object [] resultArray = results.toArray();
-			if ( resultArray.length > 0 )
-				revertToCheckpoint |= ((MallPurchaseRequest)resultArray[0]).ensureProperAttire();
-
-			StaticEntity.getClient().makePurchases( results, resultArray, match.getCount() );
+			StaticEntity.getClient().makePurchases( results, results.toArray(), match.getCount() );
 		}
-
-		if ( revertToCheckpoint )
-			SpecialOutfit.restoreCheckpoint( false );
 	}
 
 	/**

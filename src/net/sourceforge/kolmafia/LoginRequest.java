@@ -69,16 +69,9 @@ public class LoginRequest extends KoLRequest
 
 	private String username;
 	private String password;
-	private boolean isQuickLogin;
 	private boolean runCountdown;
 
 	public LoginRequest( String username, String password )
-	{
-		this( username, password, false );
-		StaticEntity.setProperty( "saveStateActive", "true" );
-	}
-
-	public LoginRequest( String username, String password, boolean isQuickLogin )
 	{
 		super( "login.php" );
 
@@ -86,7 +79,8 @@ public class LoginRequest extends KoLRequest
 		StaticEntity.setGlobalProperty( this.username, "displayName", this.username );
 
 		this.password = password;
-		this.isQuickLogin = isQuickLogin;
+		if ( StaticEntity.getClient() instanceof KoLmafiaCLI )
+			StaticEntity.setProperty( "saveStateActive", "true" );
 	}
 
 	/**
@@ -232,8 +226,7 @@ public class LoginRequest extends KoLRequest
 		sessionId = null;
 		waitTime = STANDARD_WAIT;
 
-		LoginRequest loginAttempt = new LoginRequest( lastUsername, lastPassword, false );
-		loginAttempt.run();
+		(new LoginRequest( lastUsername, lastPassword )).run();
 
 		if ( sessionId != null )
 			KoLmafia.updateDisplay( "Session timed-in." );
@@ -397,8 +390,7 @@ public class LoginRequest extends KoLRequest
 			if ( name.endsWith( "/q" ) )
 				name = name.substring( 0, name.length() - 2 ).trim();
 
-			StaticEntity.getClient().initialize( name,
-				request instanceof LoginRequest && ((LoginRequest) request).isQuickLogin );
+			StaticEntity.getClient().initialize( name );
 
 			if ( StaticEntity.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )
 				KoLmafia.addSaveState( lastUsername, lastPassword );

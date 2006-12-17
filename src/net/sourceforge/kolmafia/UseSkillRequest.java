@@ -194,51 +194,19 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		lastUpdate = "";
 
-		AdventureResult initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
-		AdventureResult initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
-		AdventureResult initialHat = KoLCharacter.getEquipment( KoLCharacter.HAT );
-
 		// Cast the skill as many times as needed
 
-		AdventureResult songWeapon = optimizeEquipment( skillId );
+		if ( !KoLmafia.isRunningBetweenBattleChecks() )
+			SpecialOutfit.createCheckpoint();
+
+		optimizeEquipment( skillId );
 		if ( !KoLmafia.permitsContinue() )
 			return;
 
 		useSkillLoop();
 
 		if ( !KoLmafia.isRunningBetweenBattleChecks() )
-			restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
-	}
-
-	public static void restoreEquipment( AdventureResult songWeapon, AdventureResult initialWeapon, AdventureResult initialOffhand, AdventureResult initialHat )
-	{
-		// If we untinkered a Clover Weapon and built a Rock and Roll
-		// Legend, undo it all.
-
-		if ( songWeapon != null && songWeapon != ACCORDION && songWeapon != ROCKNROLL_LEGEND )
-		{
-			// Untinker the Rock and Roll Legend we constructed and,
-			// rebuild the weapon we started with, but only if that
-			// weapon was equipped!
-
-			if ( initialWeapon != null && initialWeapon.equals( songWeapon ) )
-			{
-				untinkerCloverWeapon( ROCKNROLL_LEGEND );
-				DEFAULT_SHELL.executeLine( "create " + initialWeapon.getName() );
-			}
-		}
-
-		// If we unequipped a weapon, equip it again
-		if ( initialWeapon != null && !initialWeapon.equals( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) ) )
-			DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon.getName() );
-
-		// If we unequipped an off-hand weapon, equip it again
-		if ( initialOffhand != null && !initialOffhand.equals( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) )
-			DEFAULT_SHELL.executeLine( "equip off-hand " + initialOffhand.getName() );
-
-		// If we unequipped a hat, equip it again
-		if ( initialHat != null && !initialHat.equals( KoLCharacter.getEquipment( KoLCharacter.HAT ) ) )
-			DEFAULT_SHELL.executeLine( "equip hat " + initialHat.getName() );
+			SpecialOutfit.restoreCheckpoint();
 	}
 
 	private void useSkillLoop()

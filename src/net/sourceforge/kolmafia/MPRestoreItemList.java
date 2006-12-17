@@ -180,7 +180,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			if ( purchase && numberAvailable < numberToUse && NPCStoreDatabase.contains( itemUsed.getName() ) )
 			{
 				AdventureDatabase.retrieveItem( itemUsed.getInstance(
-					Math.min( KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( itemUsed.getItemId() ) * 2), numberToUse * 3 ) ) );
+					Math.min( KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( itemUsed.getItemId() ) * 2), numberToUse * 2 ) ) );
 
 				numberAvailable = itemUsed.getCount( inventory );
 			}

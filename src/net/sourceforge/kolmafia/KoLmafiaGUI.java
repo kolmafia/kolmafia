@@ -121,11 +121,12 @@ public class KoLmafiaGUI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String username, boolean isQuickLogin )
+	public void initialize( String username )
 	{
-		super.initialize( username, isQuickLogin );
+		String originalName = KoLCharacter.getUserName();
+		super.initialize( username );
 
-		if ( refusesContinue() || isQuickLogin )
+		if ( refusesContinue() || originalName.equalsIgnoreCase( username ) )
 			return;
 
 		if ( KoLRequest.passwordHash != null )

@@ -433,10 +433,12 @@ public abstract class KoLmafia implements KoLConstants
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String username, boolean isQuickLogin )
+	public void initialize( String username )
 	{
 		if ( refusesContinue() )
 			return;
+
+		String originalName = KoLCharacter.getUserName();
 
 		// Initialize the variables to their initial
 		// states to avoid null pointers getting thrown
@@ -447,19 +449,31 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return;
 
-		if ( isQuickLogin )
-		{
-			(new AccountRequest()).run();
-			(new CharsheetRequest()).run();
-			return;
-		}
-
 		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
 		StaticEntity.setProperty( "lastUsername", username );
 		StaticEntity.reloadSettings( username );
 
-		KoLCharacter.reset( username );
 		openSessionStream();
+
+		// Reset all per-player information when refreshing
+		// your session via login.
+
+		if ( originalName.equalsIgnoreCase( username ) )
+		{
+			KoLCharacter.reset();
+		}
+		else
+		{
+			KoLCharacter.reset( username );
+			CombatSettings.reset();
+			MoodSettings.reset();
+			KoLMailManager.reset();
+			StoreManager.reset();
+			MuseumManager.reset();
+			ClanManager.reset();
+		}
+
+		// Now actually reset the session.
 
 		refreshSession();
 		if ( refusesContinue() )
@@ -592,12 +606,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		VioletFog.reset();
 		Louvre.reset();
-		CombatSettings.reset();
-		MoodSettings.reset();
-		KoLMailManager.reset();
-		StoreManager.reset();
-		MuseumManager.reset();
-		ClanManager.reset();
 		MushroomPlot.reset();
 
 		// Retrieve the items which are available for consumption
@@ -1467,10 +1475,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( request instanceof KoLAdventure && !wasAdventuring )
 			{
 				isAdventuring = false;
-
-				recoverHP();
-				recoverMP();
-				SpecialOutfit.restoreCheckpoint( true );
+				runBetweenBattleChecks( false );
 			}
 		}
 		catch ( Exception e )
@@ -2826,16 +2831,13 @@ public abstract class KoLmafia implements KoLConstants
 		// any loose ends.
 
 		if ( isFullCheck )
-		{
 			MoodSettings.execute();
-			recoverHP();
-			recoverMP();
-		}
+
+		recoverHP();
+		recoverMP();
 
 		recoveryActive = false;
-
-		if ( isFullCheck )
-			SpecialOutfit.restoreCheckpoint( true );
+		SpecialOutfit.restoreCheckpoint();
 
 		if ( KoLCharacter.getCurrentHP() == 0 )
 			updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
@@ -3104,7 +3106,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected void handleAscension()
 	{
-		KoLCharacter.resetInventory();
+		KoLCharacter.reset();
 
 		refreshSession();
 		resetSession();

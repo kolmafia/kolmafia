@@ -188,6 +188,7 @@ public class GearChangeFrame extends KoLFrame
 				}
 			}
 
+			SpecialOutfit.clearCheckpoint();
 			KoLmafia.enableDisplay();
 		}
 
@@ -227,6 +228,10 @@ public class GearChangeFrame extends KoLFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
+				LockableListModel model = (LockableListModel) ChangeComboBox.this.getModel();
+				if ( model.isEmpty() )
+					return;
+
 				// If you're changing an outfit, then the change must
 				// occur right away.
 
@@ -237,9 +242,11 @@ public class GearChangeFrame extends KoLFrame
 						return;
 
 					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
-					KoLmafia.enableDisplay();
-					setSelectedItem( null );
 
+					SpecialOutfit.clearCheckpoint();
+					KoLmafia.enableDisplay();
+
+					setSelectedItem( null );
 					return;
 				}
 
@@ -322,7 +329,7 @@ public class GearChangeFrame extends KoLFrame
 				continue;
 
 			// Make sure we meet requirements
-			if ( !EquipmentDatabase.canEquip( currentItem.getName() ) )
+			if ( items.contains( currentItem ) || !EquipmentDatabase.canEquip( currentItem.getName() ) )
 				continue;
 
 			items.add( currentItem );
@@ -359,7 +366,7 @@ public class GearChangeFrame extends KoLFrame
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			AdventureResult currentItem = ((AdventureResult)inventory.get(i));
-			if ( validOffhandItem( currentItem, weapons, ranged ) )
+			if ( !items.contains( currentItem ) && validOffhandItem( currentItem, weapons, ranged ) )
 				items.add( currentItem );
 		}
 
@@ -400,13 +407,12 @@ public class GearChangeFrame extends KoLFrame
 		return false;
 	}
 
-	private void updateEquipmentList( LockableListModel currentList, List newItems, AdventureResult equippedItem )
+	private void updateEquipmentList( LockableListModel currentItems, List newItems, AdventureResult equippedItem )
 	{
-		if ( newItems.equals( currentList ) )
-			return;
+		currentItems.retainAll( newItems );
+		newItems.removeAll( currentItems );
+		currentItems.addAll( newItems );
 
-		currentList.clear();
-		currentList.addAll( newItems );
-		currentList.setSelectedItem( equippedItem );
+		currentItems.setSelectedItem( equippedItem );
 	}
 }
