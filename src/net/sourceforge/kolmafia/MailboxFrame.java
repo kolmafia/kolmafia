@@ -181,7 +181,10 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		if ( requestMailbox )
+		{
 			RequestThread.postRequest( new MailRefresher( currentTabName ) );
+			KoLmafia.enableDisplay();
+		}
 	}
 
 	private void refreshMailManager()
@@ -330,6 +333,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						return;
 
 			RequestThread.postRequest( this );
+			KoLmafia.enableDisplay();
 		}
 
 		public void run()
@@ -370,6 +374,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						return;
 
 			RequestThread.postRequest( this );
+			KoLmafia.enableDisplay();
 		}
 
 		public void run()
@@ -390,6 +395,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		{
 			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
 			RequestThread.postRequest( new MailRefresher( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName ) );
+			KoLmafia.enableDisplay();
 		}
 	}
 
