@@ -117,6 +117,9 @@ public class FamiliarData implements KoLConstants, Comparable
 			firstFamiliar = NO_FAMILIAR;
 
 		KoLCharacter.setFamiliar( firstFamiliar );
+		KoLCharacter.setEquipment( KoLCharacter.FAMILIAR, firstFamiliar.getItem() );
+
+
 		KoLCharacter.recalculateAdjustments();
 	}
 

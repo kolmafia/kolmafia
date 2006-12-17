@@ -56,7 +56,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	private String outfitName;
 	private ArrayList pieces;
 
-	private static boolean hadImplicitChange = false;
 	public static final String NO_CHANGE = " - No Change - ";
 	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit();
 
@@ -138,16 +137,26 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	 * the player needs an outfit marked to revert to.
 	 */
 
-	public static void createCheckpoint( boolean isImplicitChange )
+	public static void createCheckpoint()
 	{
-		if ( hadImplicitChange )
+		if ( CHECKPOINT[0] != null )
 			return;
 
 		for ( int i = 0; i < CHECKPOINT.length; ++i )
 			CHECKPOINT[i] = KoLCharacter.getEquipment(i);
 
 		SpecialOutfit.lastCheckpoint = KoLCharacter.getUserName();
-		SpecialOutfit.hadImplicitChange = isImplicitChange;
+	}
+
+	/**
+	 * Clears a checkpoint.  This should be called whenever a
+	 * checkpoint is no longer applicable.
+	 */
+
+	public static void clearCheckpoint()
+	{
+		for ( int i = 0; i < CHECKPOINT.length; ++i )
+			CHECKPOINT[i] = null;
 	}
 
 	/**
@@ -155,25 +164,31 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	 * the player needs to revert to their checkpointed outfit.
 	 */
 
-	public static boolean restoreCheckpoint( boolean isImplicitChange )
+	public static boolean restoreCheckpoint()
 	{
-		if ( isImplicitChange && !hadImplicitChange )
-			return false;
-
 		if ( KoLmafia.isRunningBetweenBattleChecks() )
 			return true;
 
+		if ( CHECKPOINT[0] == null )
+			return true;
+
 		AdventureResult equippedItem;
-		for ( int i = 0; i < CHECKPOINT.length && KoLRequest.sessionId != null && lastCheckpoint.equals( KoLCharacter.getUserName() ); ++i )
+		for ( int i = 0; i < CHECKPOINT.length && lastCheckpoint.equals( KoLCharacter.getUserName() ); ++i )
 		{
 			equippedItem = KoLCharacter.getEquipment( i );
 			if ( CHECKPOINT[i] != null && !CHECKPOINT[i].equals( EquipmentRequest.UNEQUIP ) && !equippedItem.equals( CHECKPOINT[i] ) )
-				(new EquipmentRequest( CHECKPOINT[i], i )).run();
+			{
+				if ( equippedItem.equals( UseSkillRequest.ROCKNROLL_LEGEND ) && !CHECKPOINT[i].equals( UseSkillRequest.ROCKNROLL_LEGEND ) )
+				{
+					UseSkillRequest.untinkerCloverWeapon( equippedItem );
+					DEFAULT_SHELL.executeLine( "create " + CHECKPOINT[i].getName() );
+				}
 
-			CHECKPOINT[i] = null;
+				(new EquipmentRequest( CHECKPOINT[i], i )).run();
+			}
 		}
 
-		hadImplicitChange = false;
+		clearCheckpoint();
 		return true;
 	}
 

@@ -223,7 +223,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 						// you buy ointment by a factor of three.
 
 						AdventureDatabase.retrieveItem( itemUsed.getInstance(
-							Math.min( KoLCharacter.getAvailableMeat() / 60, numberToUse * 3 ) ) );
+							Math.min( KoLCharacter.getAvailableMeat() / 60, numberToUse * 2 ) ) );
 
 						numberAvailable = itemUsed.getCount( inventory );
 					}

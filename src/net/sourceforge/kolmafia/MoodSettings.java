@@ -67,15 +67,14 @@ public abstract class MoodSettings implements KoLConstants
 		StaticEntity.renameDataFiles( "kms", "moods" );
 	}
 
+	private static String lastUsername = "";
 	private static int thiefTriggerLimit = 3;
 	private static final AdventureResult PENDANT = new AdventureResult( 1235, 1 );
 
 	private static File settingsFile = null;
 	private static TreeMap reference = new TreeMap();
 
-	private static AdventureResult songWeapon = null;
 	private static boolean isExecuting = false;
-
 	private static ArrayList thiefTriggers = new ArrayList();
 
 	private static SortedListModel mappedList = null;
@@ -435,11 +434,11 @@ public abstract class MoodSettings implements KoLConstants
 		if ( KoLmafia.refusesContinue() || !willExecute( isManualInvocation ) )
 			return;
 
+		SpecialOutfit.createCheckpoint();
 		isExecuting = true;
 
 		AdventureResult initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
 		AdventureResult initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
-		AdventureResult initialHat = KoLCharacter.getEquipment( KoLCharacter.HAT );
 
 		MoodTrigger current = null;
 
@@ -510,9 +509,6 @@ public abstract class MoodSettings implements KoLConstants
 			if ( current.skillId == -1 )
 				current.execute( isManualInvocation );
 		}
-
-		if ( !SpecialOutfit.restoreCheckpoint( !isManualInvocation ) )
-			UseSkillRequest.restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
 
 		isExecuting = false;
 	}
@@ -880,10 +876,7 @@ public abstract class MoodSettings implements KoLConstants
 		{
 			if ( shouldExecute( isManualInvocation ) )
 			{
-				if ( skillId != -1 && songWeapon == null )
-					songWeapon = UseSkillRequest.optimizeEquipment( skillId );
-
-				if ( isThiefTrigger() && songWeapon == null )
+				if ( isThiefTrigger() && UseSkillRequest.optimizeEquipment( skillId ) == null )
 					return;
 
 				DEFAULT_SHELL.executeLine( action );

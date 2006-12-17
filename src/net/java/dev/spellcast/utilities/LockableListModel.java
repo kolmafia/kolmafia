@@ -664,7 +664,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
      */
 
     public Object getSelectedItem()
-    {	return selectedValue;
+    {	return contains( selectedValue ) ? selectedValue : null;
 	}
 
 	/**
@@ -691,7 +691,9 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			return;
 
 		selectedValue = o;
-		fireContentsChanged( this, -1, -1 );
+
+		if ( selectedValue != null && contains( selectedValue ) )
+			fireContentsChanged( this, -1, -1 );
 	}
 
 	/**

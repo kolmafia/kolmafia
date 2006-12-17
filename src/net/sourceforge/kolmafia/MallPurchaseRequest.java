@@ -315,11 +315,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Check to make sure that the person is wearing the appropriate
 		// outfit for making the purchase.
 
-		boolean attireChanged = false;
 		canPurchase &= KoLCharacter.getAvailableMeat() >= limit * price;
 
 		if ( canPurchase() )
-			attireChanged = ensureProperAttire();
+			ensureProperAttire();
 
 		if ( !canPurchase() )
 			return;
@@ -329,9 +328,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemId ) + " (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( price ) + ")..." );
 		super.run();
-
-		if ( attireChanged )
-			SpecialOutfit.restoreCheckpoint( false );
 	}
 
 	public int compareTo( Object o )
@@ -368,10 +364,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		return shopName.compareToIgnoreCase( mpr.shopName );
 	}
 
-	public boolean ensureProperAttire()
+	public void ensureProperAttire()
 	{
 		if ( !isNPCStore )
-			return false;
+			return;
 
 		int neededOutfit = 0;
 
@@ -385,27 +381,22 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			neededOutfit = 2;
 
 		if ( neededOutfit == 0 )
-			return false;
+			return;
 
 		// Only switch outfits if the person is not
 		// currently wearing the outfit.
 
 		if ( EquipmentDatabase.isWearingOutfit( neededOutfit ) )
-			return false;
+			return;
 
 		if ( !EquipmentDatabase.hasOutfit( neededOutfit ) )
 		{
 			canPurchase = false;
-			return false;
+			return;
 		}
 
-		boolean checkpointing = StaticEntity.getBooleanProperty( "autoCheckpoint" );
-
-		if ( checkpointing )
-			SpecialOutfit.createCheckpoint( true );
-
+		SpecialOutfit.createCheckpoint();
 		(new EquipmentRequest( EquipmentDatabase.getOutfit( neededOutfit ) )).run();
-		return checkpointing;
 	}
 
 	protected void processResults()

@@ -284,7 +284,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !checkPrerequisites( 1, 2 ) )
 			return;
 
-		SpecialOutfit.createCheckpoint( true );
+		SpecialOutfit.createCheckpoint();
 
 		// If you couldn't complete the gateway, then return
 		// from this method call.
@@ -348,7 +348,8 @@ public abstract class SorceressLair extends StaticEntity
 		DEFAULT_SHELL.executeLine( "equip acc1 makeshift SCUBA gear" );
 		KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
 		QUEST_HANDLER.constructURLString( "lair2.php?action=odor" ).run();
-		SpecialOutfit.restoreCheckpoint( true );
+
+		SpecialOutfit.restoreCheckpoint();
 
 		// If you decided to use a broken skull because
 		// you had no other items, untinker the key.
