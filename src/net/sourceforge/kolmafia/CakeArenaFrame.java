@@ -152,62 +152,27 @@ public class CakeArenaFrame extends KoLFrame
 		}
 	}
 
-	/**
-	 * Utility class used to forward events to JButtons enclosed inside
-	 * of a JTable object.
-	 */
-
-	protected class ButtonEventListener extends MouseAdapter
-	{
-		private JTable table;
-
-		public ButtonEventListener( JTable table )
-		{	this.table = table;
-		}
-
-		public void mouseReleased( MouseEvent e )
-		{
-		    TableColumnModel columnModel = table.getColumnModel();
-
-		    int row = e.getY() / table.getRowHeight();
-		    int column = columnModel.getColumnIndexAtX( e.getX() );
-
-			if ( row >= 0 && row < table.getRowCount() && column >= 0 && column < table.getColumnCount() )
-			{
-				Object value = table.getValueAt( row, column );
-
-				if ( value instanceof JButton )
-				{
-					((JButton) value).dispatchEvent( SwingUtilities.convertMouseEvent( table, e, (JButton) value ) );
-					table.repaint();
-				}
-			}
-		}
-	}
-
 	private class OpponentButton extends NestedInsideTableButton implements MouseListener
 	{
 		private int row, column;
-		private String skill;
+		private String opponentSkill;
 
 		public OpponentButton( int row, int column, Integer skill )
 		{
 			super( JComponentUtilities.getImage( (skill == null ? "0" : skill.toString()) + "star.gif" ) );
-			addMouseListener( this );
 
 			this.row = row;
 			this.column = column;
-			this.skill = skill.intValue() == 1 ? "1 star (opponent)" : skill + " stars (opponent)";
+			this.opponentSkill = skill.intValue() == 1 ? "1 star (opponent)" : skill + " stars (opponent)";
 		}
 
 		public void mouseReleased( MouseEvent e )
 		{
-			FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
-			int currentSkillValue = FamiliarsDatabase.getFamiliarSkill( currentFamiliar.getRace(), column ).intValue();
-			String currentSkill = currentSkillValue == 1 ? "1 star (yours)" : currentSkillValue + " stars (yours)";
+			int yourSkillValue = FamiliarsDatabase.getFamiliarSkill( KoLCharacter.getFamiliar().getRace(), column ).intValue();
+			String yourSkill = yourSkillValue == 1 ? "1 star (yours)" : yourSkillValue + " stars (yours)";
 
 			int battleCount = StaticEntity.parseInt( JOptionPane.showInputDialog( "<html>" + opponents.get( row ).toString() + ", " +
-				CakeArenaManager.getEvent( column ) + "<br>" + currentSkill + " vs. " + skill + "</html>" ) );
+				CakeArenaManager.getEvent( column ) + "<br>" + yourSkill + " vs. " + opponentSkill + "</html>" ) );
 
 			if ( battleCount > 0 )
 				CakeArenaManager.fightOpponent( opponents.get( row ).toString(), column, battleCount );

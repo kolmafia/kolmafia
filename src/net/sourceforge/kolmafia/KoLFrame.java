@@ -977,7 +977,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 				if ( value instanceof JButton )
 				{
-					((JButton) value).dispatchEvent( SwingUtilities.convertMouseEvent( table, e, (JButton) value ) );
+					MouseEvent event = SwingUtilities.convertMouseEvent( table, e, (JButton) value );
+					((JButton)value).dispatchEvent( event );
 					table.repaint();
 				}
 			}
