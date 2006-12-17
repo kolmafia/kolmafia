@@ -179,8 +179,16 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			if ( purchase && numberAvailable < numberToUse && NPCStoreDatabase.contains( itemUsed.getName() ) )
 			{
+				int numberToBuy = numberToUse * 2;
+
+				if ( KoLmafia.isRunningBetweenBattleChecks() )
+				{
+					mpShort = MoodSettings.getMaintenanceCost() - KoLCharacter.getCurrentMP();
+					numberToBuy = Math.max( numberToBuy, (int) Math.ceil( (float) mpShort / (float) getManaPerUse() ) );
+				}
+
 				AdventureDatabase.retrieveItem( itemUsed.getInstance(
-					Math.min( KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( itemUsed.getItemId() ) * 2), numberToUse * 2 ) ) );
+					Math.min( KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( itemUsed.getItemId() ) * 2), numberToBuy ) ) );
 
 				numberAvailable = itemUsed.getCount( inventory );
 			}

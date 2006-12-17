@@ -538,11 +538,56 @@ public abstract class MoodSettings implements KoLConstants
 		for ( int i = 0; i < displayList.size(); ++i )
 		{
 			MoodTrigger current = (MoodTrigger) displayList.get(i);
-			if ( current.triggerType.equals( "lose_effect" ) && !activeEffects.contains( current.effect ) )
+			if ( current.getType().equals( "lose_effect" ) && !activeEffects.contains( current.effect ) )
 				missing.add( current.effect );
 		}
 
 		return missing;
+	}
+
+	public static int getMaintenanceCost()
+	{
+		if ( displayList.isEmpty() )
+			return 0;
+
+		int runningTally = 0;
+		for ( int i = 0; i < displayList.size(); ++i )
+		{
+			MoodTrigger current = (MoodTrigger) displayList.get(i);
+			if ( !current.getType().equals( "lose_effect" ) || !current.shouldExecute( true ) )
+				continue;
+
+			String action = current.getAction();
+			if ( !action.startsWith( "cast" ) && !action.startsWith( "buff" ) )
+				continue;
+
+			int spaceIndex = action.indexOf( " " );
+			if ( spaceIndex == -1 )
+				continue;
+
+			action = action.substring( spaceIndex + 1 );
+
+			int multiplier = 1;
+
+			if ( Character.isDigit( action.charAt(0) ) )
+			{
+				spaceIndex = action.indexOf( " " );
+				multiplier = StaticEntity.parseInt( action.substring( 0, spaceIndex ) );
+
+				action = action.substring( spaceIndex + 1 );
+			}
+
+			String skillName = KoLmafiaCLI.getSkillName( action );
+			if ( skillName == null )
+				continue;
+
+			runningTally += ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) ) * multiplier;
+		}
+
+		// Running tally calculated, return the amount of
+		// MP required to sustain this mood.
+
+		return runningTally;
 	}
 
 	/**
@@ -681,7 +726,7 @@ public abstract class MoodSettings implements KoLConstants
 		for ( int i = 0; i < displayList.size(); ++i )
 		{
 			MoodTrigger current = (MoodTrigger) displayList.get(i);
-			if ( current.triggerType.equals( type ) && current.triggerName.equals( name ) )
+			if ( current.getType().equals( type ) && current.name.equals( name ) )
 				return current.action;
 		}
 
@@ -811,19 +856,19 @@ public abstract class MoodSettings implements KoLConstants
 		private int skillId = -1;
 		private AdventureResult effect;
 		private boolean isThiefTrigger = false;
-		private String stringForm, triggerType, triggerName, action;
+		private String stringForm, type, name, action;
 
-		public MoodTrigger( String stringForm, String triggerType, String triggerName, String action )
+		public MoodTrigger( String stringForm, String type, String name, String action )
 		{
 			this.stringForm = stringForm;
-			this.triggerType = triggerType;
+			this.type = type;
 
-			this.triggerName = triggerName;
+			this.name = name;
 			this.action = action;
 
-			this.effect = triggerName == null ? null : new AdventureResult( triggerName, 1, true );
+			this.effect = name == null ? null : new AdventureResult( name, 1, true );
 
-			if ( triggerType != null && triggerType.equals( "lose_effect" ) && effect != null )
+			if ( type != null && type.equals( "lose_effect" ) && effect != null )
 			{
 				String skillName = UneffectRequest.effectToSkill( effect.getName() );
 				if ( ClassSkillsDatabase.contains( skillName ) )
@@ -835,11 +880,11 @@ public abstract class MoodSettings implements KoLConstants
 		}
 
 		public String getType()
-		{	return triggerType;
+		{	return type;
 		}
 
 		public String getName()
-		{	return triggerName;
+		{	return name;
 		}
 
 		public String getAction()
@@ -851,7 +896,7 @@ public abstract class MoodSettings implements KoLConstants
 		}
 
 		public String toSetting()
-		{	return effect == null ? triggerType + " => " + action : triggerType + " " + triggerName + " => " + action;
+		{	return effect == null ? type + " => " + action : type + " " + name + " => " + action;
 		}
 
 		public boolean equals( Object o )
@@ -860,16 +905,16 @@ public abstract class MoodSettings implements KoLConstants
 				return false;
 
 			MoodTrigger mt = (MoodTrigger) o;
-			if ( !triggerType.equals( mt.triggerType ) )
+			if ( !type.equals( mt.getType() ) )
 				return false;
 
-			if ( triggerName == null )
-				return mt.triggerName == null;
+			if ( name == null )
+				return mt.name == null;
 
-			if ( mt.triggerType == null )
+			if ( mt.getType() == null )
 				return false;
 
-			return triggerName.equals( mt.triggerName );
+			return name.equals( mt.name );
 		}
 
 		public void execute( boolean isManualInvocation )
@@ -894,16 +939,16 @@ public abstract class MoodSettings implements KoLConstants
 			{
 				shouldExecute = true;
 			}
-			else if ( triggerType.equals( "gain_effect" ) )
+			else if ( type.equals( "gain_effect" ) )
 			{
 				shouldExecute = activeEffects.contains( effect );
 			}
-			else if ( triggerType.equals( "lose_effect" ) )
+			else if ( type.equals( "lose_effect" ) )
 			{
 				shouldExecute = action.indexOf( "cupcake" ) != -1 || action.indexOf( "snowcone" ) != -1 || action.indexOf( "mushroom" ) != -1 ?
 					!activeEffects.contains( effect ) : effect.getCount( activeEffects ) <= (isManualInvocation ? 5 : 1);
 
-				shouldExecute &= !triggerName.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
+				shouldExecute &= !name.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
 			}
 
 			return shouldExecute;
@@ -918,32 +963,32 @@ public abstract class MoodSettings implements KoLConstants
 			if ( o == null || !(o instanceof MoodTrigger) )
 				return -1;
 
-			String otherTriggerType = ((MoodTrigger)o).triggerType;
-			String otherTriggerName = ((MoodTrigger)o).triggerName;
+			String othertype = ((MoodTrigger)o).getType();
+			String othername = ((MoodTrigger)o).name;
 			String otherTriggerAction = ((MoodTrigger)o).action;
 
 			int compareResult = 0;
 
-			if ( triggerType.equals( "unconditional" ) )
+			if ( type.equals( "unconditional" ) )
 			{
-				if ( otherTriggerType.equals( "unconditional" ) )
+				if ( othertype.equals( "unconditional" ) )
 					compareResult = action.compareToIgnoreCase( otherTriggerAction );
 				else
 					compareResult = -1;
 			}
-			else if ( triggerType.equals( "gain_effect" ) )
+			else if ( type.equals( "gain_effect" ) )
 			{
-				if ( otherTriggerType.equals( "unconditional" ) )
+				if ( othertype.equals( "unconditional" ) )
 					compareResult = 1;
-				else if ( otherTriggerType.equals( "gain_effect" ) )
-					compareResult = triggerName.compareToIgnoreCase( otherTriggerName );
+				else if ( othertype.equals( "gain_effect" ) )
+					compareResult = name.compareToIgnoreCase( othername );
 				else
 					compareResult = -1;
 			}
-			else if ( triggerType.equals( "lose_effect" ) )
+			else if ( type.equals( "lose_effect" ) )
 			{
-				if ( otherTriggerType.equals( "lose_effect" ) )
-					compareResult = triggerName.compareToIgnoreCase( otherTriggerName );
+				if ( othertype.equals( "lose_effect" ) )
+					compareResult = name.compareToIgnoreCase( othername );
 				else
 					compareResult = 1;
 			}
