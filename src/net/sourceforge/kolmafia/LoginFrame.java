@@ -137,7 +137,7 @@ public class LoginFrame extends KoLFrame
 
 	public void dispose()
 	{
-		if ( KoLRequest.sessionId == null )
+		if ( KoLRequest.sessionId == null || !KoLDesktop.instanceExists() )
 			System.exit(0);
 
 		super.dispose();
