@@ -143,10 +143,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 			return;
 
 		for ( int i = 0; i < CHECKPOINT.length; ++i )
-		{
-			System.out.println( KoLCharacter.getEquipment(i) );
 			CHECKPOINT[i] = KoLCharacter.getEquipment(i);
-		}
 
 		SpecialOutfit.lastCheckpoint = KoLCharacter.getUserName();
 	}
@@ -158,8 +155,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void clearCheckpoint()
 	{
-		StaticEntity.printStackTrace();
-
 		for ( int i = 0; i < CHECKPOINT.length; ++i )
 			CHECKPOINT[i] = null;
 	}
