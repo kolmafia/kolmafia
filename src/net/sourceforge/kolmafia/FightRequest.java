@@ -275,6 +275,7 @@ public class FightRequest extends KoLRequest
 			if ( KoLmafia.runThresholdChecks() )
 			{
 				nextRound();
+
 				if ( !isUsingConsultScript && (action1 == null || !action1.equals( "abort" ) ) )
 				{
 					isInstanceRunning = true;
@@ -282,7 +283,7 @@ public class FightRequest extends KoLRequest
 					isInstanceRunning = false;
 				}
 
-				if ( action1 != null && action1.equals( "abort" ) )
+				if ( action1 == null || action1.equals( "abort" ) )
 				{
 					if ( currentRound != 0 )
 					{
@@ -298,7 +299,7 @@ public class FightRequest extends KoLRequest
 				}
 			}
 		}
-		while ( responseCode == 200 && KoLmafia.permitsContinue() && currentRound != 0 );
+		while ( responseCode == 200 && action1 != null && !action1.equals( "abort" ) && currentRound != 0 );
 	}
 
 	private boolean isAcceptable( int offenseModifier, int defenseModifier )

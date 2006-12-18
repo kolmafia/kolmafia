@@ -252,6 +252,9 @@ public class FamiliarData implements KoLConstants, Comparable
 
 	public boolean canEquip( AdventureResult item )
 	{
+		if ( item == null )
+			return false;
+
 		switch ( item.getItemId() )
 		{
 		case -1:
@@ -268,7 +271,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			return true;
 
 		default:
-			return item.getName().equals( FamiliarsDatabase.getFamiliarItem( id ) );
+			return !item.equals( EquipmentRequest.UNEQUIP ) && item.getName().equals( FamiliarsDatabase.getFamiliarItem( id ) );
 		}
 	}
 
