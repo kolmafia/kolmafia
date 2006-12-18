@@ -2196,7 +2196,7 @@
 2196	gingerbread horror	1	all	25
 2197	fancy but probably evil chocolate	3	all	0
 2198
-2199
+2199	skull-shaped Crimboween cookie	1	all	50
 2200
 2201
 2202
