@@ -159,9 +159,7 @@ public class BuffBotFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{
-			BuffBotHome.setBuffBotActive( false );
-			BuffBotHome.updateStatus( "BuffBot stopped by user." );
+		{	BuffBotHome.setBuffBotActive( false );
 		}
 	}
 
@@ -200,7 +198,7 @@ public class BuffBotFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Price (in meat): ", priceField );
 			elements[2] = new VerifiableElement( "# of casts: ", countField );
 			elements[3] = new VerifiableElement( "White listed?", restrictBox );
-			elements[4] = new VerifiableElement( "Philanthropic?", singletonBox );
+			elements[4] = new VerifiableElement( "Once per day?", singletonBox );
 			setContent( elements );
 		}
 
