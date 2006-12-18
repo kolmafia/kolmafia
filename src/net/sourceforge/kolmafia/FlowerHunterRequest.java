@@ -93,7 +93,7 @@ public class FlowerHunterRequest extends KoLRequest
 		if ( message.equals( "" ) || message.indexOf( "flower" ) != -1 )
 		{
 			addFormField( "winmessage", "NOOOO!  I was trying to derank!" );
-			addFormField( "losemessage", "Sigh, another powerleveling setback." );
+			addFormField( "losemessage", "I aimed for a pansy and hit myself.  *tear*" );
 		}
 		else
 		{
