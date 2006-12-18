@@ -819,7 +819,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( !LoginRequest.isInstanceRunning() )
 		{
-			for ( int i = 0; i < KoLCharacter.FAMILIAR; ++i )
+			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 				refreshCreations |= switchItem( oldEquipment[i], equipment[i] );
 
 			// Adjust inventory of fake hands
