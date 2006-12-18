@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -51,7 +50,6 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.JEditorPane;
 
 // utilities
 import java.util.Arrays;
@@ -526,13 +524,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private class ResultsPanel extends JPanel
 		{
-			JEditorPane resultsDisplay;
+			RequestPane resultsDisplay;
 
 			public ResultsPanel()
 			{
 				setLayout( new BorderLayout( 10, 10 ) );
 
-				JEditorPane resultsDisplay = new JEditorPane();
+				RequestPane resultsDisplay = new RequestPane();
 				JScrollPane scroller = results.setChatDisplay( resultsDisplay );
 				JComponentUtilities.setComponentSize( scroller, 400, 400 );
 
@@ -2459,7 +2457,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * for the duration of the current session.
 	 */
 
-	protected class LocalSettingChanger extends JButton implements ActionListener
+	public class LocalSettingChanger extends JButton implements ActionListener
 	{
 		private String title;
 		private String property;

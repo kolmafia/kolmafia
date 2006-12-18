@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -69,17 +68,17 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class KoLMenuBar extends JMenuBar implements KoLConstants
 {
-	protected ScriptMenu scriptMenu;
-	protected BookmarkMenu bookmarkMenu;
-	protected JMenuItem debugMenuItem = new ToggleDebugMenuItem();
+	public ScriptMenu scriptMenu;
+	public BookmarkMenu bookmarkMenu;
+	public JMenuItem debugMenuItem = new ToggleDebugMenuItem();
 
 	private static final String [] LICENSE_FILENAME = {
-		"kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm", "foxtrot-license.txt", "sungraphics-license.txt", "jline-license.txt" };
+		"kolmafia-license.txt", "spellcast-license.txt", "browserlauncher-license.htm", "foxtrot-license.txt", "sungraphics-license.txt", "jline-license.txt" };
 
 	private static final String [] LICENSE_NAME = {
 		"KoLmafia", "Spellcast", "BrowserLauncher", "Foxtrot", "Sun Graphics", "JLine" };
 
-	protected KoLMenuBar()
+	public KoLMenuBar()
 	{
 		// Add general features.
 
@@ -244,7 +243,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * of the current frame.
 	 */
 
-	protected class DisplayRequestMenuItem extends JMenuItem implements ActionListener
+	public class DisplayRequestMenuItem extends JMenuItem implements ActionListener
 	{
 		private String location;
 
@@ -270,7 +269,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 	}
 
-	protected class WindowMenu extends MenuItemList
+	public class WindowMenu extends MenuItemList
 	{
 		public WindowMenu()
 		{	super( "Window", existingFrames );
@@ -335,7 +334,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * This class also synchronizes with the list of available bookmarks.
 	 */
 
-	protected class BookmarkMenu extends MenuItemList
+	public class BookmarkMenu extends MenuItemList
 	{
 		public BookmarkMenu()
 		{	super( "Bookmarks", bookmarks );
@@ -385,7 +384,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 	}
 
-	protected abstract class ThreadedMenuItem extends JMenuItem implements ActionListener, Runnable
+	public abstract class ThreadedMenuItem extends JMenuItem implements ActionListener, Runnable
 	{
 		public ThreadedMenuItem( String title )
 		{
@@ -461,7 +460,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * the request for viewing frames.
 	 */
 
-	protected class DisplayFrameMenuItem extends ThreadedMenuItem
+	public class DisplayFrameMenuItem extends ThreadedMenuItem
 	{
 		private String frameClass;
 
@@ -495,7 +494,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * browser to the given location.
 	 */
 
-	protected class DisplayPageMenuItem extends JMenuItem implements ActionListener
+	public class DisplayPageMenuItem extends JMenuItem implements ActionListener
 	{
 		private String location;
 
@@ -523,7 +522,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * of an additional class is unnecessary.
 	 */
 
-	protected class InvocationMenuItem extends ThreadedMenuItem
+	public class InvocationMenuItem extends ThreadedMenuItem
 	{
 		private Object object;
 		private Method method;
@@ -583,7 +582,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * using a local panel inside of the adventure frame.
 	 */
 
-	protected class KoLPanelFrameMenuItem extends ThreadedMenuItem
+	public class KoLPanelFrameMenuItem extends ThreadedMenuItem
 	{
 		private CreateFrameRunnable creator;
 

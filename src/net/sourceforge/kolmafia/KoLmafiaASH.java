@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -3649,7 +3648,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptSymbol implements Comparable
 	{
-		protected String name;
+		public String name;
 
 		public ScriptSymbol()
 		{
@@ -3723,9 +3722,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static abstract class ScriptFunction extends ScriptSymbol
 	{
-		protected ScriptType type;
-		protected ScriptVariableReferenceList variableReferences;
-		protected ScriptValue [] values;
+		public ScriptType type;
+		public ScriptVariableReferenceList variableReferences;
+		public ScriptValue [] values;
 
 		public ScriptFunction( String name, ScriptType type, ScriptVariableReferenceList variableReferences )
 		{
@@ -3773,7 +3772,7 @@ public class KoLmafiaASH extends StaticEntity
 				((ScriptVariableReference)variableReferences.get(i)).forceValue( values[i] );
 		}
 
-		protected void printDisabledMessage()
+		public void printDisabledMessage()
 		{
 			try
 			{
@@ -5542,7 +5541,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptVariableReference extends ScriptValue
 	{
-		protected ScriptVariable target;
+		public ScriptVariable target;
 
 		public ScriptVariableReference( ScriptVariable target )
 		{	this.target = target;
@@ -5936,7 +5935,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private class ScriptConditional extends ScriptCommand
 	{
-		protected ScriptScope scope;
+		public ScriptScope scope;
 		private ScriptExpression condition;
 
 		public ScriptConditional( ScriptScope scope, ScriptExpression condition ) throws AdvancedScriptException
@@ -6099,7 +6098,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private class ScriptLoop extends ScriptCommand
 	{
-		protected ScriptScope scope;
+		public ScriptScope scope;
 
 		public ScriptLoop( ScriptScope scope ) throws AdvancedScriptException
 		{
@@ -6694,7 +6693,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptType extends ScriptSymbol
 	{
-		protected boolean primitive;
+		public boolean primitive;
 		private int type;
 
 		public ScriptType( String name, int type )
@@ -7072,7 +7071,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptTypeInitializer extends ScriptValue
 	{
-		protected ScriptType type;
+		public ScriptType type;
 
 		public ScriptTypeInitializer( ScriptType type )
 		{	this.type = type;
@@ -7112,12 +7111,12 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptValue extends ScriptExpression implements Comparable
 	{
-		protected ScriptType type;
+		public ScriptType type;
 
-		protected int contentInt = 0;
-		protected float contentFloat = 0.0f;
-		protected String contentString = null;
-		protected Object content = null;
+		public int contentInt = 0;
+		public float contentFloat = 0.0f;
+		public String contentString = null;
+		public Object content = null;
 
 		public ScriptValue()
 		{	this.type = VOID_TYPE;

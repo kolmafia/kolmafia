@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -100,13 +99,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 {
 	public static final TradeableItemFilter TRADE_FILTER = new TradeableItemFilter();
 
-	protected JTabbedPane tabs = null;
-	protected String lastTitle;
-	protected String frameName;
-	protected JPanel framePanel;
+	public JTabbedPane tabs = null;
+	public String lastTitle;
+	public String frameName;
+	public JPanel framePanel;
 
-	protected StatusRefresher refresher = null;
-	protected KoLCharacterAdapter refreshListener = null;
+	public StatusRefresher refresher = null;
+	public KoLCharacterAdapter refreshListener = null;
 
 	static
 	{
@@ -119,7 +118,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * to be associated with the given StaticEntity.getClient().
 	 */
 
-	protected KoLFrame()
+	public KoLFrame()
 	{
 		this( "" );
 	}
@@ -129,7 +128,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * to be associated with the given StaticEntity.getClient().
 	 */
 
-	protected KoLFrame( String title )
+	public KoLFrame( String title )
 	{
 		setTitle( title );
 
@@ -149,7 +148,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			existingFrames.add( this );
 	}
 
-	protected final void addTab( String name, JComponent panel )
+	public final void addTab( String name, JComponent panel )
 	{
 		if ( tabs == null )
 			return;
@@ -182,7 +181,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 	}
 
-	protected final JToolBar getToolbar()
+	public final JToolBar getToolbar()
 	{
 		JToolBar toolbarPanel = null;
 
@@ -294,7 +293,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		getContentPane().add( refresher.getCompactPane(), BorderLayout.WEST );
 	}
 
-	protected static class StatusRefresher implements Runnable
+	public static class StatusRefresher implements Runnable
 	{
 		private JPanel compactPane;
 		private JPanel levelPanel;
@@ -402,7 +401,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			compactPane.add( refreshPanel, BorderLayout.SOUTH );
 		}
 
-		protected String getStatText( int adjusted, int base )
+		public String getStatText( int adjusted, int base )
 		{
 			return adjusted == base ? "<html>" + Integer.toString( base ) :
 				adjusted >  base ? "<html><font color=blue>" + Integer.toString( adjusted ) + "</font> (" + Integer.toString( base ) + ")" :
@@ -469,7 +468,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		protected JPanel getCompactPane()
+		public JPanel getCompactPane()
 		{	return compactPane;
 		}
 	}
@@ -530,7 +529,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * the request for viewing frames.
 	 */
 
-	protected static class DisplayFrameButton extends ThreadedActionButton
+	public static class DisplayFrameButton extends ThreadedActionButton
 	{
 		private String frameClass;
 
@@ -554,7 +553,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected static abstract class ThreadedActionButton extends JButton implements ActionListener, Runnable
+	public static abstract class ThreadedActionButton extends JButton implements ActionListener, Runnable
 	{
 		public ThreadedActionButton( String text )
 		{
@@ -585,10 +584,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * of an additional class is unnecessary.
 	 */
 
-	protected static class InvocationButton extends ThreadedActionButton
+	public static class InvocationButton extends ThreadedActionButton
 	{
-		protected Object object;
-		protected Method method;
+		public Object object;
+		public Method method;
 
 		public InvocationButton( String text, Object object, String methodName )
 		{
@@ -620,7 +619,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			completeConstruction( c, methodName );
 		}
 
-		protected void completeConstruction( Class c, String methodName )
+		public void completeConstruction( Class c, String methodName )
 		{
 			try
 			{
@@ -657,9 +656,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * using a local panel inside of the adventure frame.
 	 */
 
-	protected static class KoLPanelFrameButton extends ThreadedActionButton
+	public static class KoLPanelFrameButton extends ThreadedActionButton
 	{
-		protected Object [] parameters;
+		public Object [] parameters;
 
 		public KoLPanelFrameButton( String tooltip, String icon, ActionPanel panel )
 		{
@@ -677,9 +676,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected static class RequestButton extends ThreadedActionButton
+	public static class RequestButton extends ThreadedActionButton
 	{
-		protected KoLRequest request;
+		public KoLRequest request;
 
 		public RequestButton( String title, KoLRequest request )
 		{
@@ -705,7 +704,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * value, the number "0" is returned instead.
 	 */
 
-	protected static final int getValue( JTextField field )
+	public static final int getValue( JTextField field )
 	{	return getValue( field, 0 );
 	}
 
@@ -715,7 +714,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * value, the default value provided will be returned instead.
 	 */
 
-	protected static final int getValue( JTextField field, int defaultValue )
+	public static final int getValue( JTextField field, int defaultValue )
 	{
 		String currentValue = field.getText();
 
@@ -728,7 +727,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		return StaticEntity.parseInt( field.getText().trim() );
 	}
 
-	protected static final int getValue( JSpinner field, int defaultValue )
+	public static final int getValue( JSpinner field, int defaultValue )
 	{
 		if ( !(field.getValue() instanceof Integer) )
 			return defaultValue;
@@ -736,7 +735,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		return ((Integer) field.getValue()).intValue();
 	}
 
-	protected static final int getQuantity( String title, int maximumValue, int defaultValue )
+	public static final int getQuantity( String title, int maximumValue, int defaultValue )
 	{
 		// Check parameters; avoid programmer error.
 		if ( defaultValue > maximumValue )
@@ -756,11 +755,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		return desiredValue <= 0 ? maximumValue - desiredValue : Math.min( desiredValue, maximumValue );
 	}
 
-	protected static final int getQuantity( String title, int maximumValue )
+	public static final int getQuantity( String title, int maximumValue )
 	{	return getQuantity( title, maximumValue, maximumValue );
 	}
 
-	protected static class UnanimatedLabel extends JLabel
+	public static class UnanimatedLabel extends JLabel
 	{
 		public UnanimatedLabel()
 		{	super( " ", null, CENTER );
@@ -776,7 +775,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected void processWindowEvent( WindowEvent e )
+	public void processWindowEvent( WindowEvent e )
 	{
 		if ( isVisible() )
 			rememberPosition();
@@ -800,9 +799,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected class KoLHyperlinkAdapter extends HyperlinkAdapter
+	public class KoLHyperlinkAdapter extends HyperlinkAdapter
 	{
-		protected void handleInternalLink( String location )
+		public void handleInternalLink( String location )
 		{
 			if ( location.startsWith( "desc" ) || location.startsWith( "doc" ) || location.startsWith( "searchp" ) )
 			{
@@ -835,7 +834,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected String getSettingString( JCheckBox [] restoreCheckbox )
+	public String getSettingString( JCheckBox [] restoreCheckbox )
 	{
 		StringBuffer restoreSetting = new StringBuffer();
 
@@ -853,7 +852,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		return restoreSetting.toString();
 	}
 
-	protected SimpleScrollPane constructScroller( JCheckBox [] restoreCheckbox )
+	public SimpleScrollPane constructScroller( JCheckBox [] restoreCheckbox )
 	{
 		JPanel checkboxPanel = new JPanel( new GridLayout( restoreCheckbox.length, 1 ) );
 		for ( int i = 0; i < restoreCheckbox.length; ++i )
@@ -905,7 +904,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * also retrieves a reference to the StaticEntity.getClient()'s current settings.
 	 */
 
-	protected abstract class OptionsPanel extends LabeledKoLPanel
+	public abstract class OptionsPanel extends LabeledKoLPanel
 	{
 		public OptionsPanel()
 		{	this( new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
@@ -932,7 +931,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected class LoadScriptButton extends ThreadedActionButton
+	public class LoadScriptButton extends ThreadedActionButton
 	{
 		private String scriptPath;
 
@@ -956,7 +955,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * of a JTable object.
 	 */
 
-	protected class ButtonEventListener extends MouseAdapter
+	public class ButtonEventListener extends MouseAdapter
 	{
 		private JTable table;
 
@@ -985,7 +984,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected abstract class NestedInsideTableButton extends JButton implements MouseListener
+	public abstract class NestedInsideTableButton extends JButton implements MouseListener
 	{
 		public NestedInsideTableButton( ImageIcon icon )
 		{
@@ -1012,7 +1011,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected abstract class ListWrapperTableModel extends DefaultTableModel implements ListDataListener
+	public abstract class ListWrapperTableModel extends DefaultTableModel implements ListDataListener
 	{
 		private String [] headers;
 		private Class [] types;
@@ -1040,7 +1039,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{	return column < 0 || column >= types.length ? Object.class : types[ column ];
 		}
 
-		protected abstract Vector constructVector( Object o );
+		public abstract Vector constructVector( Object o );
 
 		public boolean isCellEditable( int row, int column )
 		{	return column < 0 || column >= editable.length ? false : editable[ column ];
@@ -1116,7 +1115,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected class TransparentTable extends JTable
+	public class TransparentTable extends JTable
 	{
 		public TransparentTable( TableModel t )
 		{	super( t );
@@ -1144,7 +1143,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected class IntegerRenderer extends DefaultTableCellRenderer
+	public class IntegerRenderer extends DefaultTableCellRenderer
 	{
 		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column )
 		{
@@ -1158,7 +1157,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected class ButtonRenderer implements TableCellRenderer
+	public class ButtonRenderer implements TableCellRenderer
 	{
 		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column )
 		{
@@ -1172,7 +1171,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected boolean finalizeTable( JTable table )
+	public boolean finalizeTable( JTable table )
 	{
 		if ( table.isEditing() )
 		{
@@ -1190,11 +1189,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		return true;
 	}
 
-	protected static void createDisplay( Class frameClass )
+	public static void createDisplay( Class frameClass )
 	{	createDisplay( frameClass, NOPARAMS );
 	}
 
-	protected static void createDisplay( Class frameClass, Object [] parameters )
+	public static void createDisplay( Class frameClass, Object [] parameters )
 	{	SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );
 	}
 
@@ -1242,7 +1241,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * file.  This should be called after every update.
 	 */
 
-	protected static void saveBookmarks()
+	public static void saveBookmarks()
 	{
 		StringBuffer bookmarkData = new StringBuffer();
 
@@ -1261,7 +1260,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * current settings.
 	 */
 
-	protected static void compileBookmarks()
+	public static void compileBookmarks()
 	{
 		bookmarks.clear();
 		String [] bookmarkData = StaticEntity.getProperty( "browserBookmarks" ).split( "\\|" );
@@ -1283,7 +1282,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	protected class InventoryManagePanel extends ItemManagePanel
+	public class InventoryManagePanel extends ItemManagePanel
 	{
 		public InventoryManagePanel( LockableListModel elementModel )
 		{
@@ -1362,7 +1361,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		protected class PutInClosetListener extends TransferListener
+		public class PutInClosetListener extends TransferListener
 		{
 			public PutInClosetListener( boolean retrieveFromClosetFirst )
 			{	super( retrieveFromClosetFirst ? "Bagging" : "Closeting", retrieveFromClosetFirst );
@@ -1385,7 +1384,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		protected class AutoSellListener extends TransferListener
+		public class AutoSellListener extends TransferListener
 		{
 			private int sellType;
 
@@ -1426,7 +1425,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		protected class GiveToClanListener extends TransferListener
+		public class GiveToClanListener extends TransferListener
 		{
 			public GiveToClanListener( boolean retrieveFromClosetFirst )
 			{	super( "Stashing", retrieveFromClosetFirst );
@@ -1447,7 +1446,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		protected class PutOnDisplayListener extends TransferListener
+		public class PutOnDisplayListener extends TransferListener
 		{
 			public PutOnDisplayListener( boolean retrieveFromClosetFirst )
 			{	super( "Showcasing", retrieveFromClosetFirst );
@@ -1474,7 +1473,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		protected class PulverizeListener extends TransferListener
+		public class PulverizeListener extends TransferListener
 		{
 			public PulverizeListener( boolean retrieveFromClosetFirst )
 			{	super( "Smashing", retrieveFromClosetFirst );

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -64,7 +63,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 import javax.swing.SwingUtilities;
-import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -81,12 +79,12 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLmafia implements KoLConstants
 {
-	protected static boolean isAdventuring = false;
-	protected static PrintStream sessionStream = NullStream.INSTANCE;
-	protected static PrintStream debugStream = NullStream.INSTANCE;
-	protected static PrintStream outputStream = NullStream.INSTANCE;
-	protected static PrintStream mirrorStream = NullStream.INSTANCE;
-	protected static PrintStream echoStream = NullStream.INSTANCE;
+	public static boolean isAdventuring = false;
+	public static PrintStream sessionStream = NullStream.INSTANCE;
+	public static PrintStream debugStream = NullStream.INSTANCE;
+	public static PrintStream outputStream = NullStream.INSTANCE;
+	public static PrintStream mirrorStream = NullStream.INSTANCE;
+	public static PrintStream echoStream = NullStream.INSTANCE;
 
 	static
 	{
@@ -94,7 +92,7 @@ public abstract class KoLmafia implements KoLConstants
 		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
 
-		JEditorPane.registerEditorKitForContentType( "text/html", RequestEditorKit.class.getName() );
+		RequestPane.registerEditorKitForContentType( "text/html", RequestEditorKit.class.getName() );
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
 
@@ -122,15 +120,15 @@ public abstract class KoLmafia implements KoLConstants
 	private static boolean recoveryActive = false;
 	private static String currentIterationString = "";
 
-	protected static boolean isMakingRequest = false;
-	protected static KoLRequest currentRequest = null;
-	protected static int continuationState = CONTINUE_STATE;
+	public static boolean isMakingRequest = false;
+	public static KoLRequest currentRequest = null;
+	public static int continuationState = CONTINUE_STATE;
 
-	protected static int [] initialStats = new int[3];
-	protected static int [] fullStatGain = new int[3];
+	public static int [] initialStats = new int[3];
+	public static int [] fullStatGain = new int[3];
 
-	protected static boolean executedLogin = false;
-	protected static boolean useDisjunction = false;
+	public static boolean executedLogin = false;
+	public static boolean useDisjunction = false;
 
 	private static final Pattern FUMBLE_PATTERN = Pattern.compile( "You drop your .*? on your .*?, doing ([\\d,]+) damage" );
 	private static final Pattern STABBAT_PATTERN = Pattern.compile( " stabs you for ([\\d,]+) damage" );
@@ -1122,7 +1120,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * the user has specified this in their settings).
 	 */
 
-	protected final boolean recoverHP()
+	public final boolean recoverHP()
 	{	return recoverHP( 0 );
 	}
 
@@ -1184,7 +1182,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * the user has specified this in their settings).
 	 */
 
-	protected final boolean recoverMP()
+	public final boolean recoverMP()
 	{	return recoverMP( 0 );
 	}
 
@@ -2245,7 +2243,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * and closes the original stream, if needed.
 	 */
 
-	protected static final PrintStream openStream( String filename, PrintStream originalStream, boolean hasStaticLocation )
+	public static final PrintStream openStream( String filename, PrintStream originalStream, boolean hasStaticLocation )
 	{
 		if ( !hasStaticLocation && KoLCharacter.getUserName().equals( "" ) )
 			return NullStream.INSTANCE;
@@ -2491,7 +2489,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * stream, simply pass the output stream to thi.  This method.
 	 */
 
-	protected void printList( List printing )
+	public void printList( List printing )
 	{
 		Object [] elements = new Object[ printing.size() ];
 		printing.toArray( elements );
@@ -3114,7 +3112,7 @@ public abstract class KoLmafia implements KoLConstants
 			(new AutoSellRequest( sellList.toArray(), AutoSellRequest.AUTOSELL )).run();
 	}
 
-	protected void handleAscension()
+	public void handleAscension()
 	{
 		KoLCharacter.reset();
 

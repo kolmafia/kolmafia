@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -48,8 +47,8 @@ import java.util.regex.Matcher;
 public class ItemCreationRequest extends KoLRequest implements Comparable
 {
 	private static final CreationRequestArray ALL_CREATIONS = new CreationRequestArray();
-	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
-	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
+	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
+	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 
 	public static final int MEAT_PASTE = 25;
 	public static final int MEAT_STACK = 88;
@@ -105,10 +104,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
 	private static final AdventureResult CLOCKWORK_BARTENDER = new AdventureResult( 1111, 1 );
 
-	protected String name;
-	protected AdventureResult createdItem;
-	protected boolean shouldRerun = false;
-	protected int itemId, beforeQuantity, mixingMethod;
+	public String name;
+	public AdventureResult createdItem;
+	public boolean shouldRerun = false;
+	public int itemId, beforeQuantity, mixingMethod;
 
 	private int quantityNeeded, quantityPossible;
 
@@ -133,7 +132,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 * @param	itemId	The item ID for the item to be handled
 	 */
 
-	protected ItemCreationRequest( String formSource, int itemId )
+	public ItemCreationRequest( String formSource, int itemId )
 	{	this( formSource, itemId, SUBCLASS );
 	}
 
@@ -158,7 +157,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		this.createdItem = new AdventureResult( itemId, 1 );
 	}
 
-	protected void reconstructFields()
+	public void reconstructFields()
 	{
 		String formSource = "";
 
@@ -387,7 +386,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		while ( shouldRerun && KoLmafia.permitsContinue() );
 	}
 
-	protected void makeDough()
+	public void makeDough()
 	{
 		AdventureResult input = null;
 		AdventureResult tool = null;
@@ -490,7 +489,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		super.run();
 	}
 
-	protected void processResults()
+	public void processResults()
 	{
 		// Figure out how many items were created
 
@@ -689,7 +688,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		return servant == CHEF ? KoLCharacter.hasChef() : KoLCharacter.hasBartender();
 	}
 
-	protected boolean makeIngredients()
+	public boolean makeIngredients()
 	{
 		KoLmafia.updateDisplay( "Verifying ingredients for " + name + "..." );
 

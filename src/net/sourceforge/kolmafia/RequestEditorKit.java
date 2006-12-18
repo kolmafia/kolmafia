@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -710,7 +709,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	/**
 	 * Utility method which converts the given text into a form which
-	 * can be displayed properly in a <code>JEditorPane</code>.  This
+	 * can be displayed properly in a <code>RequestPane</code>.  This
 	 * method is necessary primarily due to the bad HTML which is used
 	 * but can still be properly rendered by post-3.2 browsers.
 	 */
@@ -1894,7 +1893,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{	super( elem );
 		}
 
-		protected Component createComponent()
+		public Component createComponent()
 		{
 			Component c = super.createComponent();
 
@@ -1904,7 +1903,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			return c;
 		}
 
-		protected void submitData( String data )
+		public void submitData( String data )
 		{
 			// Get the element
 
@@ -2056,7 +2055,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	 * should be sent, given the appropriate location.
 	 */
 
-	protected static KoLRequest extractRequest( String location )
+	public static KoLRequest extractRequest( String location )
 	{
 		if ( location.indexOf( "pics.communityofloathing.com" ) != -1 )
 		{

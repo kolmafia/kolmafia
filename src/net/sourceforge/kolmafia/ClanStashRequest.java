@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -99,15 +98,15 @@ public class ClanStashRequest extends SendMessageRequest
 
 	}
 
-	protected String getItemField()
+	public String getItemField()
 	{	return moveType == ITEMS_TO_STASH ? "item" : "whichitem";
 	}
 
-	protected String getQuantityField()
+	public String getQuantityField()
 	{	return moveType == ITEMS_TO_STASH ? "qty" : "quantity";
 	}
 
-	protected String getMeatField()
+	public String getMeatField()
 	{	return "howmuch";
 	}
 
@@ -129,19 +128,19 @@ public class ClanStashRequest extends SendMessageRequest
 		return itemList;
 	}
 
-	protected int getCapacity()
+	public int getCapacity()
 	{	return moveType == STASH_TO_ITEMS ? 1 : 11;
 	}
 
-	protected SendMessageRequest getSubInstance( Object [] attachments )
+	public SendMessageRequest getSubInstance( Object [] attachments )
 	{	return new ClanStashRequest( attachments, moveType );
 	}
 
-	protected String getSuccessMessage()
+	public String getSuccessMessage()
 	{	return moveType == STASH_TO_ITEMS ? "You acquire" : "to the Goodies Hoard";
 	}
 
-	protected void processResults()
+	public void processResults()
 	{
 		super.processResults();
 
@@ -268,7 +267,7 @@ public class ClanStashRequest extends SendMessageRequest
 		return commandString.toString();
 	}
 
-	protected String getStatusMessage()
+	public String getStatusMessage()
 	{
 		return moveType == ITEMS_TO_STASH ? "Dropping items into stash" : moveType == STASH_TO_ITEMS ? "Pulling items from stash" :
 			"Donating meat to stash";

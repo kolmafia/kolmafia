@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -57,9 +56,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ShowDescriptionList extends JList implements KoLConstants
 {
-	protected int lastSelectIndex;
-	protected JPopupMenu contextMenu;
-	protected LockableListModel.ListElementFilter filter;
+	public int lastSelectIndex;
+	public JPopupMenu contextMenu;
+	public LockableListModel.ListElementFilter filter;
 
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
@@ -111,7 +110,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	 * all it does is show it -- the VM will handle hiding it.
 	 */
 
-	protected class PopupListener extends MouseAdapter
+	public class PopupListener extends MouseAdapter
 	{
 		public void mousePressed( MouseEvent e )
 		{	maybeShowPopup( e );
@@ -192,8 +191,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 	private abstract class ThreadedMenuItem extends JMenuItem implements ActionListener, Runnable
 	{
-		protected int index;
-		protected Object item;
+		public int index;
+		public Object item;
 
 		public ThreadedMenuItem( String title )
 		{

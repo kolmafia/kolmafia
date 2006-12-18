@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -4012,20 +4011,32 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( message.indexOf( "<" ) != -1 && message.indexOf( "\n" ) != -1 )
 				message = StaticEntity.globalStringReplace( message, "<", "&lt;" );
 
+			boolean addedColor = false;
+
 			if ( state == ERROR_STATE || state == ABORT_STATE )
+			{
+				addedColor = true;
 				colorBuffer.append( "<font color=red>" );
+			}
 			else if ( message.startsWith( " > QUEUED" ) )
+			{
+				addedColor = true;
 				colorBuffer.append( "<font color=olive><b>" );
+			}
 			else if ( message.startsWith( " > " ) )
+			{
+				addedColor = true;
 				colorBuffer.append( "<font color=olive>" );
-			else
-				colorBuffer.append( "<font color=black>" );
+			}
 
 			colorBuffer.append( wordWrappedLine.toString().replaceAll( "[" + LINE_BREAK + "]+", "<br>" ) );
 			if ( message.startsWith( " > QUEUED" ) )
 				colorBuffer.append( "</b>" );
 
-			colorBuffer.append( "</font><br>" );
+			if ( addedColor )
+				colorBuffer.append( "</font><br>" );
+			else
+				colorBuffer.append( "<br>" );
 
 			if ( message.indexOf( "<" ) == -1 && message.indexOf( LINE_BREAK ) != -1 )
 				colorBuffer.append( "</pre>" );

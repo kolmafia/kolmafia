@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -40,7 +39,6 @@ import java.awt.BorderLayout;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JComboBox;
@@ -72,8 +70,8 @@ public class RequestFrame extends KoLFrame
 	private LimitedSizeChatBuffer mainBuffer;
 	private LimitedSizeChatBuffer sideBuffer;
 
-	protected JEditorPane sideDisplay;
-	protected JEditorPane mainDisplay;
+	public RequestPane sideDisplay;
+	public RequestPane mainDisplay;
 
 	private JComboBox scriptSelect;
 	private BrowserComboBox functionSelect, gotoSelect;
@@ -101,7 +99,7 @@ public class RequestFrame extends KoLFrame
 		this.parent = parent;
 
 		setCurrentRequest( request );
-		this.mainDisplay = new JEditorPane();
+		this.mainDisplay = new RequestPane();
 
 		if ( !(this instanceof PendingTradesFrame) )
 			this.mainDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
@@ -122,7 +120,7 @@ public class RequestFrame extends KoLFrame
 		}
 		else
 		{
-			this.sideDisplay = new JEditorPane();
+			this.sideDisplay = new RequestPane();
 			this.sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
 			this.sideBuffer = new LimitedSizeChatBuffer( false );
@@ -314,7 +312,7 @@ public class RequestFrame extends KoLFrame
 	{	this.currentRequest = request;
 	}
 
-	protected String getDisplayHTML( String responseText )
+	public String getDisplayHTML( String responseText )
 	{	return RequestEditorKit.getDisplayHTML( currentRequest.getURLString(), responseText );
 	}
 

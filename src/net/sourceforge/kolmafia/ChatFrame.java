@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -50,7 +49,6 @@ import javax.swing.JToolBar;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.JEditorPane;
 import javax.swing.JComboBox;
 
 // other imports
@@ -166,7 +164,7 @@ public class ChatFrame extends KoLFrame
 	 * of initializing the content of the frame be needed.
 	 */
 
-	protected void initialize( String associatedContact )
+	public void initialize( String associatedContact )
 	{
 		this.mainPanel = new ChatPanel( associatedContact );
 		framePanel.add( mainPanel, BorderLayout.CENTER );
@@ -175,20 +173,20 @@ public class ChatFrame extends KoLFrame
 	/**
 	 * Utility method for creating a single panel containing the
 	 * chat display and the entry area.  Note that calling this
-	 * method changes the <code>JEditorPane</code> returned by
+	 * method changes the <code>RequestPane</code> returned by
 	 * calling the <code>getChatDisplay()</code> method.
 	 */
 
 	public class ChatPanel extends JPanel
 	{
 		private JTextField entryField;
-		private JEditorPane chatDisplay;
+		private RequestPane chatDisplay;
 		private String associatedContact;
 
 		public ChatPanel( String associatedContact )
 		{
 			super( new BorderLayout() );
-			chatDisplay = new JEditorPane();
+			chatDisplay = new RequestPane();
 			chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
 			this.associatedContact = associatedContact;
 
@@ -379,7 +377,7 @@ public class ChatFrame extends KoLFrame
 
 	private class ChatLinkClickedListener extends KoLHyperlinkAdapter
 	{
-		protected void handleInternalLink( String location )
+		public void handleInternalLink( String location )
 		{
 			if ( location.startsWith( "makeoffer.php" ) )
 			{

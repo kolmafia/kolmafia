@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -41,7 +40,6 @@ import javax.swing.JList;
 import javax.swing.JToolBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JEditorPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
@@ -71,7 +69,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class MailboxFrame extends KoLFrame implements ChangeListener
 {
 	private KoLMailMessage displayed;
-	private JEditorPane messageContent;
+	private RequestPane messageContent;
 	private JTabbedPane tabbedListDisplay;
 	private LimitedSizeChatBuffer mailBuffer;
 
@@ -107,7 +105,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		tabbedListDisplay.setMinimumSize( new Dimension( 0, 150 ) );
 
-		this.messageContent = new JEditorPane();
+		this.messageContent = new RequestPane();
 		messageContent.addHyperlinkListener( new MailLinkClickedListener() );
 
 		this.mailBuffer = new LimitedSizeChatBuffer( false );
@@ -407,7 +405,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	private class MailLinkClickedListener extends KoLHyperlinkAdapter
 	{
-		protected void handleInternalLink( String location )
+		public void handleInternalLink( String location )
 		{
 			// If you click on the player name:
 			//     showplayer.php?who=<playerid>

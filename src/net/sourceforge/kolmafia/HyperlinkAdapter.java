@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,7 +34,6 @@
 package net.sourceforge.kolmafia;
 
 import javax.swing.JOptionPane;
-import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
 
@@ -46,7 +44,7 @@ import java.util.regex.Matcher;
 
 /**
  * Action listener responsible for handling links clicked
- * inside of a <code>JEditorPane</code>.
+ * inside of a <code>RequestPane</code>.
  */
 
 public abstract class HyperlinkAdapter implements HyperlinkListener
@@ -113,7 +111,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 				String [] locationSplit = location.split( "\\." );
 				String formId = "\"" + locationSplit[ locationSplit.length - 2 ] + "\"";
 
-				String editorText = ((JEditorPane)e.getSource()).getText();
+				String editorText = ((RequestPane)e.getSource()).getText();
 				int formIndex =  editorText.indexOf( formId );
 
 				String locationText = editorText.substring( editorText.lastIndexOf( "<form", formIndex ),
@@ -192,5 +190,5 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 		}
 	}
 
-	protected abstract void handleInternalLink( String location );
+	public abstract void handleInternalLink( String location );
 }

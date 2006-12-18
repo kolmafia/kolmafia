@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -80,42 +79,42 @@ public class MuseumRequest extends SendMessageRequest
 		isManagement = true;
 	}
 
-	protected int getCapacity()
+	public int getCapacity()
 	{	return 11;
 	}
 
-	protected SendMessageRequest getSubInstance( Object [] attachments )
+	public SendMessageRequest getSubInstance( Object [] attachments )
 	{	return new MuseumRequest( attachments, isDeposit );
 	}
 
-	protected String getSuccessMessage()
+	public String getSuccessMessage()
 	{	return "";
 	}
 
-	protected String getItemField()
+	public String getItemField()
 	{	return "whichitem";
 	}
 
-	protected String getQuantityField()
+	public String getQuantityField()
 	{	return "howmany";
 	}
 
-	protected String getMeatField()
+	public String getMeatField()
 	{	return "";
 	}
 
-	protected void processResults()
+	public void processResults()
 	{
 		super.processResults();
 		if ( !isManagement )
 			MuseumManager.update( responseText );
 	}
 
-	protected boolean allowUngiftableTransfer()
+	public boolean allowUngiftableTransfer()
 	{	return true;
 	}
 
-	protected String getStatusMessage()
+	public String getStatusMessage()
 	{	return isDeposit ? "Placing items in display case" : "Removing items from display case";
 	}
 }
