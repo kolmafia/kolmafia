@@ -2204,9 +2204,9 @@
 2195	477569162	ancient unspeakable fruitcake
 2196	826206193	gingerbread horror
 2197	226241729	fancy but probably evil chocolate
-2198
+2198	927768763	bat-shaped Crimboween cookie
 2199	929258629	skull-shaped Crimboween cookie
-2200
+2200	871330717	tombstone-shaped Crimboween cookie
 2201
 2202
 2203
