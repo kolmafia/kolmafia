@@ -717,7 +717,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		if ( receivedBuffs && gavePhilanthropicBuff )
 			BuffBotHome.addToRecipientList( meatSent, message.getSenderName() );
 
-		if ( !receivedBuffs || gavePhilanthropicBuff )
+		if ( !receivedBuffs )
 		{
 			++failureCount;
 			BuffBotHome.addToRecipientList( 0, message.getSenderName() );
@@ -738,12 +738,9 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// send a notification that they will no longer be
 			// refunded for buffs cast today.
 
-			BuffBotHome.updateStatus( "Refund/philanthropy threshold reached for " + message.getSenderName() + "." );
-
 			sendRefund( message.getSenderName(), "This message is to provide notification that you have already sent " + REFUND_THRESHOLD + " " +
-				"unique messages which did not correspond to a buff that can be cast more than once per day.  " +
-				"In order to preserve the integrity of this buffbot, from now until the next rollover begins, " +
-				"all requests which do not correspond to a buff that can be cast more than once per day will be treated as donations.", 0 );
+				"buff requests which resulted in a refund to your account.  In order to preserve the integrity of this buffbot, from now until the next rollover begins, " +
+				"all requests for once-per-day buffs and all buffs which which might result in a refund will instead be treated as donations.", 0 );
 		}
 		else if ( failureCount < REFUND_THRESHOLD )
 		{

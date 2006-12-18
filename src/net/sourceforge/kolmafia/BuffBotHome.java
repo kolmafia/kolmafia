@@ -336,17 +336,6 @@ public class BuffBotHome extends StaticEntity
 	}
 
 	/**
-	 * An internal function used to display changes to system status
-	 * while the buffbot is running.
-	 */
-
-	public static void updateStatus( String statusMessage )
-	{
-		if ( frame != null )
-			frame.setTitle( VERSION_NAME + ": Buffbot - " + statusMessage );
-	}
-
-	/**
 	 * Sets the current active state for the buffbot.  Note that
 	 * this does not affect whether or not the buffbot continues
 	 * logging events - it merely affects whether or not the the

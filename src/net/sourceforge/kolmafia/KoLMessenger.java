@@ -709,13 +709,13 @@ public abstract class KoLMessenger extends StaticEntity
 
 			if ( message.endsWith( "logoff" ) )
 			{
-				BuffBotHome.updateStatus( "Logoff requested by " + channel );
+				BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Logoff requested by " + channel );
 				String [] members = ClanManager.retrieveClanList();
 				for ( int i = 0; i < members.length; ++i )
 					if ( members[i].equalsIgnoreCase( channel ) )
 						System.exit(0);
 
-				BuffBotHome.updateStatus( channel + " added to ignore list" );
+				BuffBotHome.update( BuffBotHome.ERRORCOLOR, channel + " added to ignore list" );
 				(new ChatRequest( channel, "/baleet" )).run();
 			}
 
