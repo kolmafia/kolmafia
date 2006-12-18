@@ -181,7 +181,6 @@ public abstract class KoLmafia implements KoLConstants
 		// are present in your save state list.
 
 		StaticEntity.reloadSettings( "" );
-		StaticEntity.setProperty( "defaultLoginServer", "1" );
 
 		String actualName;
 		String [] pastUsers;
@@ -1039,6 +1038,17 @@ public abstract class KoLmafia implements KoLConstants
 
 		String restoreSetting = StaticEntity.getProperty( settingName + "Items" ).trim().toLowerCase();
 		String currentTechniqueName;
+
+		// In addition to this, also check for beaten up, if the
+		// person has tongue as an option.
+
+		if ( restoreSetting.indexOf( "tongue" ) != -1 && activeEffects.contains( KoLAdventure.BEATEN_UP ) )
+		{
+			if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
+				UseSkillRequest.getInstance( "Tongue of the Walrus", 1 ).run();
+			else if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
+				UseSkillRequest.getInstance( "Tongue of the Otter", 1 ).run();
+		}
 
 		// Iterate through every single restore item, checking to
 		// see if the settings wish to use this item.  If so, go ahead
