@@ -181,6 +181,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1928:	// tuning fork
 		case 2084:	// can of starch
 		case 2147:	// evil teddy bear sewing kit
+		case 2191:	// giant book of ancient carols
 			return 0;
 
 		case 865:	// lead necklace
@@ -254,6 +255,9 @@ public class FamiliarData implements KoLConstants, Comparable
 	{
 		if ( item == null )
 			return false;
+
+		if ( item == EquipmentRequest.UNEQUIP )
+			return true;
 
 		switch ( item.getItemId() )
 		{
