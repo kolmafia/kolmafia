@@ -52,7 +52,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem []
 	{
-		CAMPGROUND, GALAKTIK, HERBS, SCROLL, new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE ),
+		SOFA, CAMPGROUND, GALAKTIK, HERBS, SCROLL, new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE ),
 		new HPRestoreItem( "phonics down", 48 ), new HPRestoreItem( "Disco Power Nap", 40 ), WALRUS,
 		new HPRestoreItem( "red paisley oyster egg", 33 ), new HPRestoreItem( "red polka-dot oyster egg", 33 ),
 		new HPRestoreItem( "red striped oyster egg", 33 ), new HPRestoreItem( "red pixel potion", 27 ),
