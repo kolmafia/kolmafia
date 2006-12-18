@@ -450,8 +450,6 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.setProperty( "lastUsername", username );
 		StaticEntity.reloadSettings( username );
 
-		openSessionStream();
-
 		// Reset all per-player information when refreshing
 		// your session via login.
 
@@ -473,6 +471,8 @@ public abstract class KoLmafia implements KoLConstants
 		// Now actually reset the session.
 
 		refreshSession();
+		openSessionStream();
+
 		if ( refusesContinue() )
 			return;
 
