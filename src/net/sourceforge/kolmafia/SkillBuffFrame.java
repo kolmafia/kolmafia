@@ -150,12 +150,19 @@ public class SkillBuffFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			RequestThread.postRequest( new UneffectRequest( (AdventureResult) ((ShowDescriptionList)scrollComponent).getSelectedValue() ) );
+			Object [] values = ((ShowDescriptionList)scrollComponent).getSelectedValues();
+
+			for ( int i = 0; i < values.length; ++i )
+				RequestThread.postRequest( new UneffectRequest( (AdventureResult) values[i] ) );
+
 			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
-		{	FightFrame.showLocation( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectId( ((AdventureResult)  ((ShowDescriptionList)scrollComponent).getSelectedValue()).getName() ) );
+		{
+			Object [] values = ((ShowDescriptionList)scrollComponent).getSelectedValues();
+			for ( int i = 0; i < values.length; ++i )
+				StaticEntity.openRequestFrame( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectId( ((AdventureResult) values[i]).getName() ) );
 		}
 	}
 }
