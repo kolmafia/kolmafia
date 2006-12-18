@@ -72,6 +72,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class LoginFrame extends KoLFrame
 {
+	private JComboBox servers;
 	private JComponent usernameField;
 	private JTextField proxyHost;
 	private JTextField proxyPort;
@@ -360,6 +361,11 @@ public class LoginFrame extends KoLFrame
 					LoginPanel.this.setEnabled( true );
 					return;
 				}
+
+				if ( servers != null && servers.getSelectedIndex() == 0 )
+					if ( StaticEntity.getProperty( "loginServerName" ).indexOf( "dev" ) != -1 )
+						if ( !currentMatch.equals( StaticEntity.getProperty( "lastUsername" ) ) )
+							servers.setSelectedIndex(1);
 
 				String password = KoLmafia.getSaveState( currentMatch );
 				if ( password == null )
@@ -763,8 +769,6 @@ public class LoginFrame extends KoLFrame
 			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" }
 		};
 
-		private JComboBox servers;
-
 		public ConnectionOptionsPanel()
 		{
 			super( "Connection Options", new Dimension( 20, 20 ), new Dimension( 380, 20 ) );
@@ -793,14 +797,11 @@ public class LoginFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
-			StaticEntity.setProperty( "defaultLoginServer", String.valueOf( servers.getSelectedIndex() ) );
+		{	StaticEntity.setProperty( "defaultLoginServer", String.valueOf( servers.getSelectedIndex() ) );
 		}
 
 		public void actionCancelled()
-		{
-			int defaultServer = StaticEntity.getIntegerProperty( "defaultLoginServer" );
-			servers.setSelectedIndex( defaultServer == 0 ? 1 : defaultServer );
+		{	servers.setSelectedIndex( StaticEntity.getIntegerProperty( "defaultLoginServer" ) );
 		}
 	}
 
