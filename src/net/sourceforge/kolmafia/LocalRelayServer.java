@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,7 +13,7 @@
  *	  notice, this list of conditions and the following disclaimer in
  *	  the documentation and/or other materials provided with the
  *	  distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
+ *  [3] Neither the name "KoLmafia" nor the names of
  *	  its contributors may be used to endorse or promote products
  *	  derived from this software without specific prior written
  *	  permission.
@@ -58,7 +58,7 @@ public class LocalRelayServer implements Runnable
 	private static final int MAX_AGENT_THREADS = 9;
 	private static final int TIMEOUT = 5000;
 
-	protected static Vector agentThreads = new Vector();
+	public static Vector agentThreads = new Vector();
 	private ServerSocket serverSocket = null;
 	private static int port = 60080;
 	private static boolean listening = false;
@@ -199,7 +199,7 @@ public class LocalRelayServer implements Runnable
 
 	private class RelayAgent implements Runnable
 	{
-		protected Socket socket = null;
+		public Socket socket = null;
 
 		boolean isWaiting()
 		{	return socket == null;
@@ -244,7 +244,7 @@ public class LocalRelayServer implements Runnable
 			}
 		}
 
-		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request ) throws IOException
+		public void sendHeaders( PrintStream printStream, LocalRelayRequest request ) throws IOException
 		{
 			String header = null;
 			String lowercase = null;
@@ -303,7 +303,7 @@ public class LocalRelayServer implements Runnable
 			printStream.println( "Connection: close" );
 		}
 
-		protected void performRelay()
+		public void performRelay()
 		{
 			if ( socket == null )
 				return;

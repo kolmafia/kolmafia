@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -53,7 +52,7 @@ public class AdventureRequest extends KoLRequest
 	private String adventureName;
 	private String formSource;
 	private String adventureId;
-	protected int adventuresUsed;
+	public int adventuresUsed;
 
 	public static final AdventureResult ABRIdGED = new AdventureResult( 534, -1 );
 	public static final AdventureResult BRIdGE = new AdventureResult( 535, -1 );
@@ -164,7 +163,7 @@ public class AdventureRequest extends KoLRequest
 		super.run();
 	}
 
-	protected void processResults()
+	public void processResults()
 	{
 		// Sometimes, there's no response from the server.
 		// In this case, skip and continue onto the next one.

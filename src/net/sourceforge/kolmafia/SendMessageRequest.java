@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -46,27 +45,27 @@ import java.util.regex.Matcher;
 
 public abstract class SendMessageRequest extends KoLRequest
 {
-	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item[^=]*\\d*=(\\d+)" );
-	protected static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany\\d*=(\\d+)" );
-	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity\\d*=([\\d,]+)" );
-	protected static final Pattern RECIPIENT_PATTERN = Pattern.compile( "towho=([^=&]+)" );
+	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item[^=]*\\d*=(\\d+)" );
+	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany\\d*=(\\d+)" );
+	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity\\d*=([\\d,]+)" );
+	public static final Pattern RECIPIENT_PATTERN = Pattern.compile( "towho=([^=&]+)" );
 
 	private static boolean hadSendMessageFailure = false;
 	private static boolean updateDisplayOnFailure = true;
 
-	protected Object [] attachments;
-	protected List source = inventory;
-	protected List destination = new ArrayList();
-	protected boolean isSubInstance = false;
+	public Object [] attachments;
+	public List source = inventory;
+	public List destination = new ArrayList();
+	public boolean isSubInstance = false;
 
-	protected SendMessageRequest( String formSource )
+	public SendMessageRequest( String formSource )
 	{
 		super( formSource );
 		addFormField( "pwd" );
 		this.attachments = new Object[0];
 	}
 
-	protected SendMessageRequest( String formSource, AdventureResult attachment )
+	public SendMessageRequest( String formSource, AdventureResult attachment )
 	{
 		this( formSource );
 
@@ -74,13 +73,13 @@ public abstract class SendMessageRequest extends KoLRequest
 		this.attachments[0] = attachment;
 	}
 
-	protected SendMessageRequest( String formSource, Object [] attachments )
+	public SendMessageRequest( String formSource, Object [] attachments )
 	{
 		this( formSource );
 		this.attachments = attachments;
 	}
 
-	protected void attachItem( AdventureResult item, int index )
+	public void attachItem( AdventureResult item, int index )
 	{
 		String which, quantity;
 
@@ -104,18 +103,18 @@ public abstract class SendMessageRequest extends KoLRequest
 		addFormField( quantity, String.valueOf( item.getCount() ) );
 	}
 
-	protected boolean alwaysIndex()
+	public boolean alwaysIndex()
 	{	return false;
 	}
 
-	protected abstract String getItemField();
-	protected abstract String getQuantityField();
-	protected abstract String getMeatField();
+	public abstract String getItemField();
+	public abstract String getQuantityField();
+	public abstract String getMeatField();
 
-	protected abstract int getCapacity();
-	protected abstract SendMessageRequest getSubInstance( Object [] attachments );
-	protected abstract String getSuccessMessage();
-	protected abstract String getStatusMessage();
+	public abstract int getCapacity();
+	public abstract SendMessageRequest getSubInstance( Object [] attachments );
+	public abstract String getSuccessMessage();
+	public abstract String getStatusMessage();
 
 	private void runSubInstances()
 	{
@@ -254,7 +253,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		super.run();
 	}
 
-	protected void processResults()
+	public void processResults()
 	{
 		// Make sure that the message was actually sent -
 		// the person could have input an invalid player Id
@@ -307,15 +306,15 @@ public abstract class SendMessageRequest extends KoLRequest
 	{	updateDisplayOnFailure = shouldUpdate;
 	}
 
-	protected boolean allowUngiftableTransfer()
+	public boolean allowUngiftableTransfer()
 	{	return false;
 	}
 
-	protected boolean allowUntradeableTransfer()
+	public boolean allowUntradeableTransfer()
 	{	return true;
 	}
 
-	protected boolean tallyItemTransfer()
+	public boolean tallyItemTransfer()
 	{	return true;
 	}
 

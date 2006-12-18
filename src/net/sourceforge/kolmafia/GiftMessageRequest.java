@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -121,31 +120,31 @@ public class GiftMessageRequest extends SendMessageRequest
 		}
 	}
 
-	protected int getCapacity()
+	public int getCapacity()
 	{	return maxCapacity;
 	}
 
-	protected boolean alwaysIndex()
+	public boolean alwaysIndex()
 	{	return true;
 	}
 
-	protected SendMessageRequest getSubInstance( Object [] attachments )
+	public SendMessageRequest getSubInstance( Object [] attachments )
 	{	return new GiftMessageRequest( recipient, outsideMessage, insideMessage, desiredCapacity, attachments, this.source == storage );
 	}
 
-	protected String getSuccessMessage()
+	public String getSuccessMessage()
 	{	return "<td>Package sent.</td>";
 	}
 
-	protected String getItemField()
+	public String getItemField()
 	{	return source == storage ? "hagnks_whichitem" : "whichitem";
 	}
 
-	protected String getQuantityField()
+	public String getQuantityField()
 	{	return source == storage ? "hagnks_howmany" : "howmany";
 	}
 
-	protected String getMeatField()
+	public String getMeatField()
 	{	return source == storage ? "hagnks_sendmeat" : "sendmeat";
 	}
 
@@ -163,7 +162,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		return packages;
 	}
 
-	protected void processResults()
+	public void processResults()
 	{
 		super.processResults();
 		if ( responseText.indexOf( getSuccessMessage() ) != -1 && materialCost > 0 )
@@ -178,7 +177,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		return processRequest( "send", urlString, inventory, 0 );
 	}
 
-	protected String getStatusMessage()
+	public String getStatusMessage()
 	{	return "Sending package to " + KoLmafia.getPlayerName( getFormField( "towho" ) );
 	}
 }

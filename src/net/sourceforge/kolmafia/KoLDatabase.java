@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -47,19 +46,19 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class KoLDatabase extends StaticEntity
 {
-	protected static BufferedReader getReader( String filename )
+	public static BufferedReader getReader( String filename )
 	{	return DataUtilities.getReader( filename );
 	}
 
-	protected static BufferedReader getReader( File file )
+	public static BufferedReader getReader( File file )
 	{	return DataUtilities.getReader( file );
 	}
 
-	protected static BufferedReader getReader( InputStream istream )
+	public static BufferedReader getReader( InputStream istream )
 	{	return DataUtilities.getReader( istream );
 	}
 
-	protected static String [] readData( BufferedReader reader )
+	public static String [] readData( BufferedReader reader )
 	{
 		if ( reader == null )
 			return null;
@@ -320,7 +319,7 @@ public class KoLDatabase extends StaticEntity
 	 * we get backwards compatibility.
 	 */
 
-	protected static class BooleanArray
+	public static class BooleanArray
 	{
 		private ArrayList internalList = new ArrayList();
 
@@ -344,7 +343,7 @@ public class KoLDatabase extends StaticEntity
 	 * we get backwards compatibility.
 	 */
 
-	protected static class IntegerArray
+	public static class IntegerArray
 	{
 		private ArrayList internalList = new ArrayList();
 
@@ -368,7 +367,7 @@ public class KoLDatabase extends StaticEntity
 	 * we get backwards compatibility.
 	 */
 
-	protected static class StringArray
+	public static class StringArray
 	{
 		private ArrayList internalList = new ArrayList();
 

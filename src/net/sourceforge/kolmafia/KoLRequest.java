@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -85,20 +84,20 @@ public class KoLRequest implements Runnable, KoLConstants
 	private static final Pattern CHOICE_DECISION_PATTERN = Pattern.compile( "whichchoice=(\\d+).*?option=(\\d+)" );
 	private static final Pattern EVENT_PATTERN = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
 
-	protected static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
+	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
 
-	protected static String sessionId = null;
-	protected static String passwordHash = null;
+	public static String sessionId = null;
+	public static String passwordHash = null;
 	private static boolean wasLastRequestSimple = false;
 
-	protected static boolean isRatQuest = false;
-	protected static int lastChoice = 0;
-	protected static int lastDecision = 0;
+	public static boolean isRatQuest = false;
+	public static int lastChoice = 0;
+	public static int lastDecision = 0;
 
-	protected String encounter = "";
+	public String encounter = "";
 	private boolean shouldIgnoreResults;
 
-	protected static boolean isCompactMode = false;
+	public static boolean isCompactMode = false;
 
 	private static final String [][] SERVERS =
 	{
@@ -115,28 +114,28 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public static final int SERVER_COUNT = 8;
 
-	protected static String KOL_HOST = SERVERS[1][0];
-	protected static String KOL_ROOT = "http://" + SERVERS[1][1] + "/";
+	public static String KOL_HOST = SERVERS[1][0];
+	public static String KOL_ROOT = "http://" + SERVERS[1][1] + "/";
 
-	protected URL formURL;
-	protected boolean followRedirects;
-	protected String formURLString;
-	protected String dataString = null;
+	public URL formURL;
+	public boolean followRedirects;
+	public String formURLString;
+	public String dataString = null;
 
-	protected boolean isChatRequest = false;
-	protected boolean isEquipResult = false;
-	protected boolean isConsumeRequest = false;
+	public boolean isChatRequest = false;
+	public boolean isEquipResult = false;
+	public boolean isConsumeRequest = false;
 
 	private List data;
 
-	protected boolean needsRefresh;
-	protected boolean statusChanged;
+	public boolean needsRefresh;
+	public boolean statusChanged;
 
 	private boolean isDelayExempt;
-	protected int responseCode;
-	protected String responseText;
-	protected HttpURLConnection formConnection;
-	protected String redirectLocation;
+	public int responseCode;
+	public String responseText;
+	public HttpURLConnection formConnection;
+	public String redirectLocation;
 
 	/**
 	 * Static method called when <code>KoLRequest</code> is first
@@ -265,7 +264,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * @param	formURLString	The form to be used in posting data
 	 */
 
-	protected KoLRequest( String formURLString )
+	public KoLRequest( String formURLString )
 	{	this( formURLString, false );
 	}
 
@@ -278,7 +277,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * @param	followRedirects	<code>true</code> if redirects are to be followed
 	 */
 
-	protected KoLRequest( String formURLString, boolean followRedirects )
+	public KoLRequest( String formURLString, boolean followRedirects )
 	{
 		this.data = new ArrayList();
 		this.followRedirects = followRedirects;
@@ -293,15 +292,15 @@ public class KoLRequest implements Runnable, KoLConstants
 			this instanceof ChatRequest || this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
 	}
 
-	protected boolean isDelayExempt()
+	public boolean isDelayExempt()
 	{	return isDelayExempt;
 	}
 
-	protected KoLRequest constructURLString( String newURLString )
+	public KoLRequest constructURLString( String newURLString )
 	{	return constructURLString( newURLString, true );
 	}
 
-	protected KoLRequest constructURLString( String newURLString, boolean usePostMethod )
+	public KoLRequest constructURLString( String newURLString, boolean usePostMethod )
 	{
 		this.data.clear();
 		if ( newURLString.startsWith( "/" ) )
@@ -334,7 +333,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * it's ever needed/forgotten.
 	 */
 
-	protected String getURLString()
+	public String getURLString()
 	{	return data.isEmpty() ? formURLString : formURLString + "?" + getDataString( false );
 	}
 
@@ -345,7 +344,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * reused.
 	 */
 
-	protected void clearDataFields()
+	public void clearDataFields()
 	{	this.data.clear();
 	}
 
@@ -360,7 +359,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * @param	allowDuplicates	true if duplicate names are OK
 	 */
 
-	protected void addFormField( String name, String value, boolean allowDuplicates )
+	public void addFormField( String name, String value, boolean allowDuplicates )
 	{
 		if ( name.equals( "pwd" ) || name.equals( "phash" ) )
 		{
@@ -405,7 +404,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		data.add( encodedName + encodedValue );
 	}
 
-	protected void addFormField( String name, String value )
+	public void addFormField( String name, String value )
 	{	addFormField( name, value, false );
 	}
 
@@ -414,7 +413,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * @param	element	The field to be added
 	 */
 
-	protected void addFormField( String element )
+	public void addFormField( String element )
 	{
 		int equalIndex = element.indexOf( "=" );
 		if ( equalIndex == -1 )
@@ -451,7 +450,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * @param	element	The field to be added
 	 */
 
-	protected void addEncodedFormField( String element )
+	public void addEncodedFormField( String element )
 	{
 		// Just decode it first
 		String decoded = element;
@@ -472,7 +471,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		addFormField( decoded );
 	}
 
-	protected void addEncodedFormFields( String fields )
+	public void addEncodedFormFields( String fields )
 	{
 		if ( fields.indexOf( "&" ) == -1 )
 		{
@@ -490,7 +489,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 	}
 
-	protected String getFormField( String key )
+	public String getFormField( String key )
 	{
 		String [] fields = null;
 
@@ -742,7 +741,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	{	return lastDecision;
 	}
 
-	protected void registerRequest()
+	public void registerRequest()
 	{
 		// If this is part of the login sequence, then there is no need
 		// to register the request.
@@ -902,7 +901,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * reduced.
 	 */
 
-	protected static boolean delay( long milliseconds )
+	public static boolean delay( long milliseconds )
 	{
 		if ( milliseconds == 0 )
 			return true;
@@ -1280,7 +1279,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * server response.
 	 */
 
-	protected void processResponse()
+	public void processResponse()
 	{
 		if ( responseText == null )
 			return;
@@ -1360,7 +1359,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * @param	tokenCount	The number of tokens to skip
 	 */
 
-	protected static final void skipTokens( StringTokenizer st, int tokenCount )
+	public static final void skipTokens( StringTokenizer st, int tokenCount )
 	{
 		for ( int i = 0; i < tokenCount; ++i )
 			st.nextToken();
@@ -1376,7 +1375,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * @return	The integer token, if it exists, or 0, if the token was not a number
 	 */
 
-	protected static final int intToken( StringTokenizer st )
+	public static final int intToken( StringTokenizer st )
 	{	return intToken( st, 0 );
 	}
 
@@ -1393,7 +1392,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * @return	The integer token, if it exists, or 0, if the token was not a number
 	 */
 
-	protected static final int intToken( StringTokenizer st, int fromStart )
+	public static final int intToken( StringTokenizer st, int fromStart )
 	{
 		String token = st.nextToken().substring( fromStart );
 		return StaticEntity.parseInt( token );
@@ -1413,7 +1412,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * @return	The integer token, if it exists, or 0, if the token was not a number
 	 */
 
-	protected static final int intToken( StringTokenizer st, int fromStart, int fromEnd )
+	public static final int intToken( StringTokenizer st, int fromStart, int fromEnd )
 	{
 		String token = st.nextToken();
 		token = token.substring( fromStart, token.length() - fromEnd );
@@ -1434,7 +1433,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	{	return formURLString.indexOf( "choice.php" ) != -1 ? 1 : 0;
 	}
 
-	protected void parseResults()
+	public void parseResults()
 	{
 		// If this is a lucky adventure, then remove a clover
 		// from the player's inventory -- this will occur when
@@ -1467,7 +1466,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 	}
 
-	protected void processResults()
+	public void processResults()
 	{
 	}
 
@@ -1690,7 +1689,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * If we are finishing, show only exceptional requests
 	 */
 
-	protected void showInBrowser( boolean exceptional )
+	public void showInBrowser( boolean exceptional )
 	{
 		// Check to see if this request should be showed
 		// in a browser.  If you're using a command-line
@@ -1818,7 +1817,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 	}
 
-	protected final void loadResponseFromFile( String filename )
+	public final void loadResponseFromFile( String filename )
 	{
 		try
 		{
@@ -1843,7 +1842,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	{	return getURLString();
 	}
 
-	protected void printRequestProperties()
+	public void printRequestProperties()
 	{
 		KoLmafia.getDebugStream().println();
 		KoLmafia.getDebugStream().println( "Requesting: http://" + KOL_HOST + "/" + getURLString() );
@@ -1862,7 +1861,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		KoLmafia.getDebugStream().println();
 	}
 
-	protected void printHeaderFields()
+	public void printHeaderFields()
 	{
 		KoLmafia.getDebugStream().println();
 		KoLmafia.getDebugStream().println( "Retrieved: http://" + KOL_HOST + "/" + getURLString() );

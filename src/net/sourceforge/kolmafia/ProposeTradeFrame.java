@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -70,17 +69,17 @@ public abstract class ProposeTradeFrame extends KoLFrame
 {
 	// Source of meat & attachments
 
-	protected static boolean usingStorage = false;
+	public static boolean usingStorage = false;
 
 	private String offerId;
-	protected JPanel messagePanel;
-	protected JComboBox recipientEntry;
-	protected JTextArea [] messageEntry;
-	protected JButton sendMessageButton;
+	public JPanel messagePanel;
+	public JComboBox recipientEntry;
+	public JTextArea [] messageEntry;
+	public JButton sendMessageButton;
 
-	protected ShowDescriptionList attachmentList;
-	protected JTextField attachedMeat;
-	protected LockableListModel attachments;
+	public ShowDescriptionList attachmentList;
+	public JTextField attachedMeat;
+	public LockableListModel attachments;
 
 	public ProposeTradeFrame()
 	{	this( "", null );
@@ -164,7 +163,7 @@ public abstract class ProposeTradeFrame extends KoLFrame
 			recipientEntry.setEnabled( false );
 	}
 
-	protected JPanel constructWestPanel()
+	public JPanel constructWestPanel()
 	{
 		String [] entryHeaders = getEntryHeaders();
 
@@ -231,26 +230,26 @@ public abstract class ProposeTradeFrame extends KoLFrame
 		return westPanel;
 	}
 
-	protected String [] getEntryHeaders()
+	public String [] getEntryHeaders()
 	{	return new String[] { "Send this note:" };
 	}
 
-	protected String [] getWestHeaders()
+	public String [] getWestHeaders()
 	{	return new String[0];
 	}
 
-	protected Component [] getWestComponents()
+	public Component [] getWestComponents()
 	{	return new Component[0];
 	}
 
-	protected JPanel getLabelPanel( String text )
+	public JPanel getLabelPanel( String text )
 	{
 		JPanel label = new JPanel( new GridLayout( 1, 1 ) );
 		label.add( new JLabel( text, JLabel.LEFT ) );
 		return label;
 	}
 
-	protected boolean sendMessage( String recipient, String [] messages )
+	public boolean sendMessage( String recipient, String [] messages )
 	{
 		// Close all pending trades frames first
 
@@ -345,7 +344,7 @@ public abstract class ProposeTradeFrame extends KoLFrame
 		sendMessageButton.setEnabled( isEnabled );
 	}
 
-	protected Object [] getAttachedItems()
+	public Object [] getAttachedItems()
 	{
 		int meatAttachment = getValue( attachedMeat );
 		if ( meatAttachment > 0 )

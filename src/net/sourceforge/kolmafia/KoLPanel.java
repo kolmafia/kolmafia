@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -67,83 +66,83 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 {
 	private VerifiableElement [] elements;
 
-	protected JPanel southContainer;
-	protected JPanel actionStatusPanel;
-	protected StatusLabel actionStatusLabel;
+	public JPanel southContainer;
+	public JPanel actionStatusPanel;
+	public StatusLabel actionStatusLabel;
 
-	protected KoLPanel( Dimension left, Dimension right )
+	public KoLPanel( Dimension left, Dimension right )
 	{
 		super( left, right );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( Dimension left, Dimension right, boolean isCenterPanel )
+	public KoLPanel( Dimension left, Dimension right, boolean isCenterPanel )
 	{
 		super( left, right, isCenterPanel );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText )
+	public KoLPanel( String confirmedText )
 	{
 		super( confirmedText );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, boolean isCenterPanel )
+	public KoLPanel( String confirmedText, boolean isCenterPanel )
 	{
 		super( confirmedText, isCenterPanel );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, String cancelledText )
+	public KoLPanel( String confirmedText, String cancelledText )
 	{
 		super( confirmedText, cancelledText );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, String cancelledText, boolean isCenterPanel )
+	public KoLPanel( String confirmedText, String cancelledText, boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText, isCenterPanel );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, Dimension left, Dimension right, boolean isCenterPanel )
+	public KoLPanel( String confirmedText, Dimension left, Dimension right, boolean isCenterPanel )
 	{
 		super( confirmedText, left, right, isCenterPanel );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2 )
+	public KoLPanel( String confirmedText, String cancelledText1, String cancelledText2 )
 	{
 		super( confirmedText, cancelledText1, cancelledText2 );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, String cancelledText, Dimension left, Dimension right )
+	public KoLPanel( String confirmedText, String cancelledText, Dimension left, Dimension right )
 	{
 		super( confirmedText, cancelledText, left, right );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension left, Dimension right )
+	public KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension left, Dimension right )
 	{
 		super( confirmedText, cancelledText1, cancelledText2, left, right );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, String cancelledText, Dimension left, Dimension right, boolean isCenterPanel )
+	public KoLPanel( String confirmedText, String cancelledText, Dimension left, Dimension right, boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText, left, right, isCenterPanel );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension left, Dimension right, boolean isCenterPanel )
+	public KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension left, Dimension right, boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText1, cancelledText2, left, right, isCenterPanel );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean bothDisabledOnClick )
+	public void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean bothDisabledOnClick )
 	{
 		super.setContent( elements, mainPanel, eastPanel, bothDisabledOnClick );
 
@@ -222,7 +221,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		}
 	}
 
-	protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+	public boolean shouldAddStatusLabel( VerifiableElement [] elements )
 	{
 		boolean shouldAddStatusLabel = elements != null && elements.length != 0;
 		for ( int i = 0; shouldAddStatusLabel && i < elements.length; ++i )
@@ -236,7 +235,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	 * a script using the file dialog.
 	 */
 
-	protected class ScriptSelectPanel extends JPanel implements ActionListener
+	public class ScriptSelectPanel extends JPanel implements ActionListener
 	{
 		private JTextField scriptField;
 		private JButton scriptButton;
@@ -291,7 +290,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			actionStatusLabel.setStatusMessage( displayState, s.trim() );
 	}
 
-	protected class ActionConfirmListener extends KeyAdapter implements Runnable
+	public class ActionConfirmListener extends KeyAdapter implements Runnable
 	{
 		public void keyReleased( KeyEvent e )
 		{

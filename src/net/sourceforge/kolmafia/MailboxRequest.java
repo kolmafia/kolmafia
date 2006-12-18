@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -86,7 +85,7 @@ public class MailboxRequest extends KoLRequest
 		super.run();
 	}
 
-	protected void processResults()
+	public void processResults()
 	{
 		// Determine how many messages there are, and how many there
 		// are left to go.  This will cause a lot of server load for
@@ -173,7 +172,7 @@ public class MailboxRequest extends KoLRequest
 				currentMessage = responseText.substring( lastMessageIndex, nextMessageIndex );
 
 				// This replaces all of the HTML contained within the message to something
-				// that can be rendered with the default JEditorPane, and also be subject
+				// that can be rendered with the default RequestPane, and also be subject
 				// to the custom font sizes provided by LimitedSizeChatBuffer.
 
 				currentMessage = currentMessage.replaceAll( "<br />" , "<br>" ).

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -70,19 +69,19 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class SendMessageFrame extends KoLFrame
 {
-	protected boolean usingStorage;
-	protected JPanel messagePanel;
-	protected JComboBox recipientEntry;
-	protected JTextArea messageEntry;
-	protected JButton sendMessageButton;
+	public boolean usingStorage;
+	public JPanel messagePanel;
+	public JComboBox recipientEntry;
+	public JTextArea messageEntry;
+	public JButton sendMessageButton;
 
-	protected LockableListModel messageTypes;
-	protected JTextField attachedMeat;
-	protected SortedListModel attachments;
+	public LockableListModel messageTypes;
+	public JTextField attachedMeat;
+	public SortedListModel attachments;
 
-	protected ItemManagePanel attachmentPanel;
-	protected ItemManagePanel inventoryPanel;
-	protected ItemManagePanel storagePanel;
+	public ItemManagePanel attachmentPanel;
+	public ItemManagePanel inventoryPanel;
+	public ItemManagePanel storagePanel;
 
 	public SendMessageFrame()
 	{	this( "" );
@@ -128,7 +127,7 @@ public class SendMessageFrame extends KoLFrame
 		framePanel.add( messagePanel, "" );
 	}
 
-	protected JTabbedPane constructAttachmentPanel()
+	public JTabbedPane constructAttachmentPanel()
 	{
 		JTabbedPane attachTabs = new JTabbedPane();
 
@@ -175,7 +174,7 @@ public class SendMessageFrame extends KoLFrame
 		return attachTabs;
 	}
 
-	protected JPanel constructWestPanel()
+	public JPanel constructWestPanel()
 	{
 		// The kind of box you're sending it with.
 
@@ -234,14 +233,14 @@ public class SendMessageFrame extends KoLFrame
 		return westPanel;
 	}
 
-	protected JPanel getLabelPanel( String text )
+	public JPanel getLabelPanel( String text )
 	{
 		JPanel label = new JPanel( new GridLayout( 1, 1 ) );
 		label.add( new JLabel( text, JLabel.LEFT ) );
 		return label;
 	}
 
-	protected boolean sendMessage( String recipient, String message )
+	public boolean sendMessage( String recipient, String message )
 	{
 		KoLmafia.forceContinue();
 
@@ -289,7 +288,7 @@ public class SendMessageFrame extends KoLFrame
 
 	private abstract class ThreadedMenuItem extends JMenuItem implements ActionListener, Runnable
 	{
-		protected ItemManagePanel elementPanel;
+		public ItemManagePanel elementPanel;
 
 		public ThreadedMenuItem( String title, ItemManagePanel elementPanel )
 		{
@@ -416,7 +415,7 @@ public class SendMessageFrame extends KoLFrame
 		sendMessageButton.setEnabled( isEnabled );
 	}
 
-	protected Object [] getAttachedItems()
+	public Object [] getAttachedItems()
 	{
 		AdventureResult meatAttachment = new AdventureResult( AdventureResult.MEAT, getValue( attachedMeat ) );
 		attachments.remove( meatAttachment );

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -152,11 +151,11 @@ public abstract class KoLMessenger extends StaticEntity
 		return key.equals( "[ALL]" ) ? filename + ".html" : filename + "_" + key + ".html";
 	}
 
-	protected static final boolean usingTabbedChat()
+	public static final boolean usingTabbedChat()
 	{	return useTabbedChat;
 	}
 
-	protected static void setColor( String channel, int colorIndex )
+	public static void setColor( String channel, int colorIndex )
 	{
 		if ( colorIndex == 0 )
 			colors.put( channel, channel.startsWith( "chat" ) ? "black" : "green" );
@@ -378,7 +377,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * list.  This is used after every call to /friends or /who.
 	 */
 
-	protected static void updateContactList( String [] contactList )
+	public static void updateContactList( String [] contactList )
 	{
 		onlineContacts.clear();
 

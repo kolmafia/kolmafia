@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,22 +58,22 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ItemManagePanel extends LabeledScrollPanel
 {
-	protected static final int TAKE_ALL = 1;
-	protected static final int TAKE_ALL_BUT_ONE = 2;
-	protected static final int TAKE_MULTIPLE = 3;
-	protected static final int TAKE_ONE = 4;
+	public static final int TAKE_ALL = 1;
+	public static final int TAKE_ALL_BUT_ONE = 2;
+	public static final int TAKE_MULTIPLE = 3;
+	public static final int TAKE_ONE = 4;
 
-	protected JPanel eastPanel;
-	protected JPanel northPanel;
-	protected JPanel filterPanel;
-	protected LockableListModel elementModel;
-	protected ShowDescriptionList elementList;
-	protected int baseFilter = ConsumeItemRequest.CONSUME_MULTIPLE;
+	public JPanel eastPanel;
+	public JPanel northPanel;
+	public JPanel filterPanel;
+	public LockableListModel elementModel;
+	public ShowDescriptionList elementList;
+	public int baseFilter = ConsumeItemRequest.CONSUME_MULTIPLE;
 
-	protected JButton [] buttons;
-	protected JCheckBox [] filters;
-	protected JRadioButton [] movers;
-	protected FilterItemComboBox wordfilter;
+	public JButton [] buttons;
+	public JCheckBox [] filters;
+	public JRadioButton [] movers;
+	public FilterItemComboBox wordfilter;
 
 
 	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements )
@@ -244,14 +243,14 @@ public class ItemManagePanel extends LabeledScrollPanel
 			buttons[i].setEnabled( isEnabled );
 	}
 
-	protected AdventureResult [] getDesiredItems( String message )
+	public AdventureResult [] getDesiredItems( String message )
 	{
 		return getDesiredItems( message, movers == null ? TAKE_MULTIPLE :
 			movers[0].isSelected() ? TAKE_ALL : movers[1].isSelected() ? TAKE_ALL_BUT_ONE :
 			movers[2].isSelected() ? TAKE_MULTIPLE : TAKE_ONE );
 	}
 
-	protected AdventureResult [] getDesiredItems( String message, int quantityType )
+	public AdventureResult [] getDesiredItems( String message, int quantityType )
 	{
 		Object [] items = elementList.getSelectedValues();
 		if ( items.length == 0 )
@@ -310,17 +309,17 @@ public class ItemManagePanel extends LabeledScrollPanel
 		return desiredItems;
 	}
 
-	protected class UpdateFilterListener implements ActionListener
+	public class UpdateFilterListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
 		{	wordfilter.filterItems();
 		}
 	}
 
-	protected abstract class TransferListener implements ActionListener
+	public abstract class TransferListener implements ActionListener
 	{
-		protected String description;
-		protected boolean retrieveFromClosetFirst;
+		public String description;
+		public boolean retrieveFromClosetFirst;
 
 		public TransferListener( String description, boolean retrieveFromClosetFirst )
 		{
@@ -350,9 +349,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 	 * key events of a JComboBox to allow you to catch key events.
 	 */
 
-	protected class FilterItemComboBox extends MutableComboBox
+	public class FilterItemComboBox extends MutableComboBox
 	{
-		protected boolean food, booze, equip, junk, other;
+		public boolean food, booze, equip, junk, other;
 
 		public FilterItemComboBox()
 		{
@@ -366,13 +365,13 @@ public class ItemManagePanel extends LabeledScrollPanel
 			filterItems();
 		}
 
-		protected void findMatch( int keyCode )
+		public void findMatch( int keyCode )
 		{
 			super.findMatch( keyCode );
 			filterItems();
 		}
 
-		protected void filterItems()
+		public void filterItems()
 		{
 			if ( filters == null )
 			{
@@ -411,7 +410,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			elementList.applyFilter( filter );
 		}
 
-		protected class ConsumptionBasedFilter extends WordBasedFilter
+		public class ConsumptionBasedFilter extends WordBasedFilter
 		{
 			public ConsumptionBasedFilter()
 			{	super( false );

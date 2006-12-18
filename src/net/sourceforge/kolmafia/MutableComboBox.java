@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -49,11 +48,11 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MutableComboBox extends JComboBox implements KoLConstants
 {
-	protected String currentName;
-	protected String currentMatch;
-	protected LockableListModel model;
-	protected boolean allowAdditions;
-	protected WordBasedFilter filter;
+	public String currentName;
+	public String currentMatch;
+	public LockableListModel model;
+	public boolean allowAdditions;
+	public WordBasedFilter filter;
 
 	public MutableComboBox( LockableListModel model, boolean allowAdditions )
 	{
@@ -90,7 +89,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 			currentName = (String) anObject;
 	}
 
-	protected synchronized void findMatch( int keyCode )
+	public synchronized void findMatch( int keyCode )
 	{
 		// If it wasn't the enter key that was being released,
 		// then make sure that the current name is stored
@@ -183,9 +182,9 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		}
 	}
 
-	protected class WordBasedFilter extends LockableListModel.ListElementFilter
+	public class WordBasedFilter extends LockableListModel.ListElementFilter
 	{
-		protected boolean shouldHideJunkItems;
+		public boolean shouldHideJunkItems;
 
 		public WordBasedFilter( boolean shouldHideJunkItems )
 		{	this.shouldHideJunkItems = shouldHideJunkItems;
@@ -243,7 +242,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 			return currentName == null || currentName.length() == 0 || KoLDatabase.fuzzyMatches( name, currentName );
 		}
 
-		protected final boolean isNonResult( Object element )
+		public final boolean isNonResult( Object element )
 		{
 			if ( !(element instanceof AdventureResult) && !(element instanceof ItemCreationRequest) )
 				return true;

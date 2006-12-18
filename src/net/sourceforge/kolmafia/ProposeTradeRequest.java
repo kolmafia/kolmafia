@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -43,8 +42,8 @@ import java.util.regex.Matcher;
 
 public class ProposeTradeRequest extends SendMessageRequest
 {
-	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d+=(\\d+)" );
-	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "howmany\\d+=(\\d+)" );
+	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d+=(\\d+)" );
+	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "howmany\\d+=(\\d+)" );
 
 	private int offerId;
 	private boolean isCounterOffer;
@@ -80,41 +79,41 @@ public class ProposeTradeRequest extends SendMessageRequest
 		this.recipient = KoLmafia.getPlayerId( recipient );
 	}
 
-	protected int getCapacity()
+	public int getCapacity()
 	{	return 11;
 	}
 
-	protected SendMessageRequest getSubInstance( Object [] attachments )
+	public SendMessageRequest getSubInstance( Object [] attachments )
 	{
 		return isCounterOffer ? new ProposeTradeRequest( offerId, message, attachments ) :
 			new ProposeTradeRequest( recipient, message, attachments );
 	}
 
-	protected String getSuccessMessage()
+	public String getSuccessMessage()
 	{	return "";
 	}
 
-	protected boolean allowUntradeableTransfer()
+	public boolean allowUntradeableTransfer()
 	{	return false;
 	}
 
-	protected void processResults()
+	public void processResults()
 	{	responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "[Mm]eat:", "Please respond with " );
 	}
 
-	protected String getStatusMessage()
+	public String getStatusMessage()
 	{	return "Placing items in KoL escrow";
 	}
 
-	protected String getItemField()
+	public String getItemField()
 	{	return "whichitem";
 	}
 
-	protected String getQuantityField()
+	public String getQuantityField()
 	{	return "howmany";
 	}
 
-	protected String getMeatField()
+	public String getMeatField()
 	{	return "offermeat";
 	}
 

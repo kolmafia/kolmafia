@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -65,9 +64,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 	private static String lastUsername = "";
 	private static LimitedSizeChatBuffer chatLogger = new LimitedSizeChatBuffer( true );
 
-	protected List headers = new ArrayList();
-	protected byte [] rawByteBuffer = null;
-	protected String contentType = null;
+	public List headers = new ArrayList();
+	public byte [] rawByteBuffer = null;
+	public String contentType = null;
 
 	public LocalRelayRequest( String formURLString )
 	{
@@ -113,7 +112,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		return false;
 	}
 
-	protected void processResponse()
+	public void processResponse()
 	{
 		super.processResponse();
 
@@ -366,7 +365,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		return index >= headers.size() ? null : (String) headers.get( index );
 	}
 
-	protected void pseudoResponse( String status, String responseText )
+	public void pseudoResponse( String status, String responseText )
 	{
 		this.responseText = StaticEntity.globalStringReplace( responseText, "<!--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
 		if ( responseText.length() == 0 )
@@ -672,19 +671,19 @@ public class LocalRelayRequest extends PasswordHashRequest
 		StaticEntity.globalStringReplace( scriptBuffer, "/*minimoonPhase*/", String.valueOf( MoonPhaseDatabase.getHamburglarPosition( new Date() ) ) );
 	}
 
-	protected void submitCommand()
+	public void submitCommand()
 	{
 		runCommand( getFormField( "cmd" ) );
 		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 	}
 
-	protected void executeCommand()
+	public void executeCommand()
 	{
 		runCommand( getFormField( "cmd" ) );
 		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 	}
 
-	protected void sideCommand()
+	public void sideCommand()
 	{
 		KoLmafia.forceContinue();
 		if ( commandQueue.isEmpty() )
@@ -718,7 +717,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			(new CommandRunnable()).run();
 	}
 
-	protected void sendNotFound()
+	public void sendNotFound()
 	{
 		pseudoResponse( "HTTP/1.1 404 Not Found", "" );
 		this.responseCode = 404;

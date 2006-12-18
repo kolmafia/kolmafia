@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005, KoLmafia development team
+ * Copyright (c) 2005-2006, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -13,10 +13,9 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "KoLmafia development team" nor the names of
- *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
- *      permission.
+ *  [3] Neither the name "KoLmafia" nor the names of its contributors may
+ *      be used to endorse or promote products derived from this software
+ *      without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -82,15 +81,15 @@ public class AutoSellRequest extends SendMessageRequest
 		}
 	}
 
-	protected String getItemField()
+	public String getItemField()
 	{	return "whichitem";
 	}
 
-	protected String getQuantityField()
+	public String getQuantityField()
 	{	return "qty";
 	}
 
-	protected String getMeatField()
+	public String getMeatField()
 	{	return "sendmeat";
 	}
 
@@ -110,7 +109,7 @@ public class AutoSellRequest extends SendMessageRequest
 		return "sellstuff.php";
 	}
 
-	protected void attachItem( AdventureResult item, int index )
+	public void attachItem( AdventureResult item, int index )
 	{
 		if ( sellType == AUTOMALL )
 		{
@@ -175,7 +174,7 @@ public class AutoSellRequest extends SendMessageRequest
 		}
 	}
 
-	protected int getCapacity()
+	public int getCapacity()
 	{
 		// If you are attempting to send things to the mall,
 		// the capacity is one.
@@ -258,7 +257,7 @@ public class AutoSellRequest extends SendMessageRequest
 		return Integer.MAX_VALUE;
 	}
 
-	protected SendMessageRequest getSubInstance( Object [] attachments )
+	public SendMessageRequest getSubInstance( Object [] attachments )
 	{
 		int [] prices = new int[ this.prices.length == 0 ? 0 : attachments.length ];
 		int [] limits = new int[ this.prices.length == 0 ? 0 : attachments.length ];
@@ -276,7 +275,7 @@ public class AutoSellRequest extends SendMessageRequest
 		return new AutoSellRequest( attachments, prices, limits, sellType );
 	}
 
-	protected void processResults()
+	public void processResults()
 	{
 		super.processResults();
 
@@ -339,15 +338,15 @@ public class AutoSellRequest extends SendMessageRequest
 		return processRequest( "autosell", urlString, itemPattern, null, inventory, quantity );
 	}
 
-	protected String getSuccessMessage()
+	public String getSuccessMessage()
 	{	return "";
 	}
 
-	protected boolean allowUntradeableTransfer()
+	public boolean allowUntradeableTransfer()
 	{	return sellType == AUTOSELL;
 	}
 
-	protected boolean allowUngiftableTransfer()
+	public boolean allowUngiftableTransfer()
 	{	return sellType == AUTOSELL;
 	}
 
@@ -405,7 +404,7 @@ public class AutoSellRequest extends SendMessageRequest
 		return buffer.toString();
 	}
 
-	protected String getStatusMessage()
+	public String getStatusMessage()
 	{	return sellType == AUTOMALL ? "Transfering items to store" : "Autoselling items to NPCs";
 	}
 }
