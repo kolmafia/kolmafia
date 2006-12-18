@@ -288,6 +288,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static SortedListModel familiars = new SortedListModel();
 	private static boolean isUsingStabBat = false;
+	private static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
+
 	private static int arenaWins = 0;
 	private static int stillsAvailable = 0;
 
@@ -1107,7 +1109,7 @@ public abstract class KoLCharacter extends StaticEntity
 			GearChangeFrame.updateWeapons();
 
 		if ( slot == FAMILIAR )
-			getFamiliar().setItem( item );
+			currentFamiliar.setItem( item );
 	}
 
 	/**
@@ -1140,8 +1142,8 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 
 		GearChangeFrame.updateWeapons();
-		if ( equipment.length > FAMILIAR && getFamiliar() != FamiliarData.NO_FAMILIAR )
-			getFamiliar().setItem( equipment[FAMILIAR] );
+		if ( equipment.length > FAMILIAR && currentFamiliar != FamiliarData.NO_FAMILIAR )
+			currentFamiliar.setItem( equipment[FAMILIAR] );
 	}
 
 	public static void setOutfits( List newOutfits )
@@ -1162,7 +1164,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static AdventureResult getFamiliarItem()
-	{	return getFamiliar() == null ? EquipmentRequest.UNEQUIP : getFamiliar().getItem();
+	{	return currentFamiliar == null ? EquipmentRequest.UNEQUIP : currentFamiliar.getItem();
 	}
 
 	/**
@@ -2113,7 +2115,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static FamiliarData getFamiliar()
-	{	return familiars.getSelectedItem() == null ? FamiliarData.NO_FAMILIAR : (FamiliarData) familiars.getSelectedItem();
+	{	return currentFamiliar == null ? FamiliarData.NO_FAMILIAR : currentFamiliar;
 	}
 
 	public static boolean isUsingStabBat()
@@ -2202,9 +2204,15 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void setFamiliar( FamiliarData familiar )
 	{
-		familiars.setSelectedItem( addFamiliar( familiar ) );
-		updateEquipmentList( ConsumeItemRequest.EQUIP_FAMILIAR, equipmentLists[FAMILIAR] );
-		isUsingStabBat = familiar.getRace().equals( "Stab Bat" ) || familiar.getRace().equals( "Scary Death Orb" );
+		currentFamiliar = addFamiliar( familiar );
+
+		familiars.setSelectedItem( currentFamiliar );
+
+		if ( !equipmentLists[FAMILIAR].contains( currentFamiliar.getItem() ) )
+			equipmentLists[FAMILIAR].add( currentFamiliar.getItem() );
+
+		equipmentLists[FAMILIAR].setSelectedItem( currentFamiliar.getItem() );
+		isUsingStabBat = currentFamiliar.equals( "Stab Bat" ) || currentFamiliar.equals( "Scary Death Orb" );
 		updateStatus();
 	}
 
@@ -2215,8 +2223,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void incrementFamilarWeight()
 	{
-		if ( getFamiliar() != null )
-			getFamiliar().setWeight( getFamiliar().getWeight() + 1 );
+		if ( currentFamiliar != null )
+			currentFamiliar.setWeight( currentFamiliar.getWeight() + 1 );
 	}
 
 	/**
@@ -2556,7 +2564,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		int taoFactor = hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
-		int familiarId = getFamiliar().getId();
+		int familiarId = currentFamiliar.getId();
 
 		// Look at mind control level
 		newMonsterLevelAdjustment += getMindControlLevel();
@@ -2739,7 +2747,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// Now that we have calculated the familiar weight adjustment,
 		// look at familiar.
 
-		float modifier = (float)( getFamiliar().getWeight() + newFamiliarWeightAdjustment + newFamiliarItemWeightAdjustment );
+		float modifier = (float)( currentFamiliar.getWeight() + newFamiliarWeightAdjustment + newFamiliarItemWeightAdjustment );
 		switch ( familiarId )
 		{
 		case BABY_GRAVY_FAIRY:

@@ -72,6 +72,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class GearChangeFrame extends KoLFrame
 {
+	private boolean isEnabled;
 	private static JButton outfitButton;
 
 	private static EquipPanel equip;
@@ -146,6 +147,8 @@ public class GearChangeFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
+			GearChangeFrame.this.isEnabled = isEnabled;
+
 			outfitButton.setEnabled( isEnabled );
 
 			if ( isEnabled )
@@ -156,8 +159,8 @@ public class GearChangeFrame extends KoLFrame
 		{
 			// Find out what changed.
 
-			AdventureResult [] pieces = new AdventureResult[9];
-			for ( int i = 0; i < equipment.length; ++i )
+			AdventureResult [] pieces = new AdventureResult[8];
+			for ( int i = 0; i < pieces.length; ++i )
 			{
 				pieces[i] = (AdventureResult) equipment[i].getSelectedItem();
 				if ( KoLCharacter.getEquipment(i).equals( pieces[i] ) )
@@ -186,6 +189,10 @@ public class GearChangeFrame extends KoLFrame
 					pieces[i] = null;
 				}
 			}
+
+			AdventureResult famitem = (AdventureResult) equipment[KoLCharacter.FAMILIAR].getSelectedItem();
+			if ( KoLCharacter.getFamiliar().canEquip( famitem ) && !KoLCharacter.getFamiliar().getItem().equals( famitem ) )
+				RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
 
 			SpecialOutfit.clearCheckpoint();
 			KoLmafia.enableDisplay();
@@ -261,6 +268,10 @@ public class GearChangeFrame extends KoLFrame
 					if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
 						RequestThread.postRequest( new FamiliarRequest( familiar ) );
 
+					AdventureResult famitem = (AdventureResult) equipment[KoLCharacter.FAMILIAR].getSelectedItem();
+					if ( KoLCharacter.getFamiliar().canEquip( famitem ) && !KoLCharacter.getFamiliar().getItem().equals( famitem ) )
+						RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
+
 					KoLmafia.enableDisplay();
 					return;
 				}
@@ -275,7 +286,7 @@ public class GearChangeFrame extends KoLFrame
 
 	private void ensureValidSelections()
 	{
-		equipment[ KoLCharacter.SHIRT ].setEnabled( KoLCharacter.hasSkill( "Torso Awaregness" ) );
+		equipment[ KoLCharacter.SHIRT ].setEnabled( isEnabled && KoLCharacter.hasSkill( "Torso Awaregness" ) );
 
 		AdventureResult weaponItem = (AdventureResult) equipment[ KoLCharacter.WEAPON ].getSelectedItem();
 		AdventureResult currentWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
@@ -309,7 +320,7 @@ public class GearChangeFrame extends KoLFrame
 
 			List offhandItems = validOffhandItems( weaponItem, offhandItem );
 			updateEquipmentList( offhands, offhandItems, offhandItem );
-			equipment[ KoLCharacter.OFFHAND ].setEnabled( true );
+			equipment[ KoLCharacter.OFFHAND ].setEnabled( isEnabled );
 		}
 	}
 

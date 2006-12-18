@@ -73,7 +73,9 @@ public class FamiliarRequest extends KoLRequest
 			EquipmentRequest.UNEQUIP;
 
 		if ( changeTo == null )
+		{
 			KoLmafia.updateDisplay( "Retrieving familiar data..." );
+		}
 		else
 		{
 			FamiliarData familiar = KoLCharacter.getFamiliar();
@@ -89,7 +91,12 @@ public class FamiliarRequest extends KoLRequest
 
 		super.run();
 
-		if ( changeTo != null && changeTo != FamiliarData.NO_FAMILIAR && changeTo.canEquip( item ) && FamiliarData.itemWeightModifier( changeTo.getItem().getItemId() ) <= FamiliarData.itemWeightModifier( item.getItemId() ) )
+		if ( changeTo == null || changeTo == FamiliarData.NO_FAMILIAR || item == EquipmentRequest.UNEQUIP || !changeTo.canEquip( item ) )
+			return;
+
+		if ( changeTo.getItem() == null )
+			(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
+		else if ( FamiliarData.itemWeightModifier( changeTo.getItem().getItemId() ) > FamiliarData.itemWeightModifier( item.getItemId() ) )
 			(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
 	}
 
@@ -99,11 +106,8 @@ public class FamiliarRequest extends KoLRequest
 		if ( changeTo == null )
 			KoLmafia.updateDisplay( "Familiar data retrieved." );
 
-		if ( KoLCharacter.getFamiliar() == null )
+		if ( KoLCharacter.getFamiliar() == null || KoLCharacter.getFamiliar() == FamiliarData.NO_FAMILIAR )
 			KoLCharacter.setEquipment( KoLCharacter.FAMILIAR, EquipmentRequest.UNEQUIP );
-		else
-			KoLCharacter.setEquipment( KoLCharacter.FAMILIAR, KoLCharacter.getFamiliar().getItem() );
-
 	}
 
 	public String getCommandForm()
