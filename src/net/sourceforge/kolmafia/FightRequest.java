@@ -149,7 +149,7 @@ public class FightRequest extends KoLRequest
 		if ( action1.startsWith( "delevel" ) )
 			action1 = getMonsterWeakenAction();
 
-		if ( action1 == null || action1.equals( "abort" ) || !KoLmafia.permitsContinue() )
+		if ( action1 == null || action1.equals( "abort" ) )
 		{
 			// If the user has chosen to abort combat, flag it.
 			action1 = "abort";
