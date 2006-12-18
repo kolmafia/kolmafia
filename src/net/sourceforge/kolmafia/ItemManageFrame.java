@@ -740,6 +740,7 @@ public class ItemManageFrame extends KoLFrame
 			for ( int i = 0; i < addedFilters.length; ++i )
 				addedPanel.add( addedFilters[i] );
 
+			ConcoctionsDatabase.getConcoctions().applyListFilters();
 			northPanel.add( addedPanel, BorderLayout.SOUTH );
 		}
 

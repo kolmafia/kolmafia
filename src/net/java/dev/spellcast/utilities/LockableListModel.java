@@ -600,6 +600,18 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	{	return actualElements.toArray(a);
 	}
 
+	public void applyListFilters()
+	{
+		applyListFilter( this.currentFilter );
+
+		LockableListModel model;
+		for ( int i = 0; i < mirrorList.size(); ++i )
+		{
+			model = (LockableListModel) mirrorList.get(i);
+			model.applyListFilter( model.currentFilter );
+		}
+	}
+
 	/**
 	 * Filters the current list using the provided filter.
 	 */
