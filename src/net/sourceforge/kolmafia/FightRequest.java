@@ -130,7 +130,7 @@ public class FightRequest extends KoLRequest
 		// If the person wants to use their own script,
 		// then this is where it happens.
 
-		if ( action1.startsWith( "consult" ) && !KoLCharacter.canInteract() )
+		if ( action1.startsWith( "consult" ) )
 		{
 			isUsingConsultScript = true;
 
