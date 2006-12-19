@@ -1128,7 +1128,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			// Do nothing, you're going to close the input stream
 			// and nullify it in the next section.
 
-			e.printStackTrace();
 			return true;
 		}
 
