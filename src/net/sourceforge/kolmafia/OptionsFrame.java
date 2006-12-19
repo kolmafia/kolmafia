@@ -209,6 +209,7 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add mood maintenance links to left side pane" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
+			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
 
 			{ "", "" },
 
