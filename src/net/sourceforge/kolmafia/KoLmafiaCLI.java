@@ -1381,6 +1381,9 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "buy" ) || command.equals( "mallbuy" ) )
 		{
 			executeBuyCommand( parameters );
+			if ( !KoLmafia.isRunningBetweenBattleChecks() )
+				SpecialOutfit.restoreCheckpoint();
+
 			return;
 		}
 
@@ -3390,7 +3393,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void executeBuyCommand( String parameters )
 	{
-		boolean revertToCheckpoint = false;
 		Object [] matches = getMatchingItemList( parameters );
 
 		for ( int i = 0; i < matches.length; ++i )
