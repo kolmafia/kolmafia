@@ -56,6 +56,8 @@ import java.util.Map;
 import java.util.Iterator;
 import javax.swing.SwingUtilities;
 
+import com.velocityreviews.forums.HttpTimeoutHandler;
+
 /**
  * Most aspects of Kingdom of Loathing are accomplished by submitting
  * forms and their accompanying data.  This abstract class is designed
@@ -953,7 +955,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			// connection and directly cast it into an HttpURLConnection
 
 			this.formURL = this.formURLString.startsWith( "http:" ) ?
-				new URL( this.formURLString ) : new URL( KOL_ROOT + this.formURLString );
+				new URL( null, this.formURLString, HttpTimeoutHandler.getInstance() ) :
+				new URL( null, KOL_ROOT + this.formURLString, HttpTimeoutHandler.getInstance() );
 
 			formConnection = (HttpURLConnection) formURL.openConnection();
 		}
