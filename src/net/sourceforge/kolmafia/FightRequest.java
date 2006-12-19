@@ -112,8 +112,14 @@ public class FightRequest extends KoLRequest
 		action2 = null;
 
 		for ( int i = 0; i < RARE_MONSTERS.length; ++i )
+		{
 			if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
+			{
 				KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
+				action1 = "abort";
+				return;
+			}
+		}
 
 		if ( currentRound == 0 )
 		{
@@ -138,6 +144,9 @@ public class FightRequest extends KoLRequest
 
 			DEFAULT_SHELL.executeCommand( "call", action1.substring( "consult".length() ).trim() + " (" + currentRound +
 				", \"" + encounterLookup + "\", \"" + responseText + "\" )" );
+
+			if ( KoLmafia.refusesContinue() )
+				action1 = "abort";
 
 			return;
 		}
