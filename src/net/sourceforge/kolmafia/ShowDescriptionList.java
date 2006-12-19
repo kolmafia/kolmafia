@@ -42,6 +42,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -92,7 +94,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		if ( model == junkItemList )
 		{
 			setModel( inventory.getMirrorImage() );
-			applyFilter( new JunkListFilter() );
+			applyFilter( new JunkListFilter( (LockableListModel) getModel() ) );
 		}
 
 		setVisibleRowCount( 4 );
@@ -352,8 +354,16 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private class JunkListFilter extends LockableListModel.ListElementFilter
+	private class JunkListFilter extends LockableListModel.ListElementFilter implements ListDataListener
 	{
+		private LockableListModel model;
+
+		public JunkListFilter( LockableListModel model )
+		{
+			this.model = model;
+			junkItemList.addListDataListener( this );
+		}
+
 		public boolean isVisible( Object element )
 		{
 			if ( element instanceof AdventureResult )
@@ -368,6 +378,18 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			}
 
 			return false;
+		}
+
+		public void intervalAdded( ListDataEvent e )
+		{	model.applyListFilters();
+		}
+
+		public void intervalRemoved( ListDataEvent e )
+		{	model.applyListFilters();
+		}
+
+		public void contentsChanged( ListDataEvent e )
+		{	model.applyListFilters();
 		}
 	}
 }
