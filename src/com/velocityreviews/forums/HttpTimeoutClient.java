@@ -11,14 +11,14 @@ import sun.net.www.http.HttpClient;
 
 /**
  * Need to override any function in HttpURLConnection that create a new HttpClient
- * and create a HttpTimeoutClient instead.  This source code was originally found
- * at: http://www.velocityreviews.com/forums/t130657-httpurlconnection-timeout-solution.html
+ * and create a HttpTimeoutClient instead.  This source code was originally found at:
+ * http://www.velocityreviews.com/forums/t130657-httpurlconnection-timeout-solution.html
  * It has been modified to have timeout be non-configurable for added encapsulation.
  */
 
 public class HttpTimeoutClient extends HttpClient
 {
-	private static final int TIMEOUT = 2000;
+	private static final int TIMEOUT = 10000;
 
 	public HttpTimeoutClient( URL location ) throws IOException
 	{	super( location, (String) null, -1 );
