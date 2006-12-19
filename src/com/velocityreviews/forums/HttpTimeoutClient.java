@@ -21,7 +21,7 @@ public class HttpTimeoutClient extends HttpClient
 	private static final int TIMEOUT = 2000;
 
 	public HttpTimeoutClient( URL location ) throws IOException
-	{	super( location, null, -1 );
+	{	super( location, (String) null, -1 );
 	}
 
 	public HttpTimeoutClient( URL location, String proxy, int proxyPort ) throws IOException
