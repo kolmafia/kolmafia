@@ -370,7 +370,7 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { null, null, "564" } ),
 
 		// Malice in Chains
-		new ChoiceAdventure( "Town", "choiceAdventure111", "Outskirts of The Knob",
+		new ChoiceAdventure( "Knob", "choiceAdventure111", "Outskirts of The Knob",
 		  new String [] { "muscle substats", "muscle substats", "enter combat" } ),
 
 		// Please, Hammer
