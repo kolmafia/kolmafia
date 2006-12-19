@@ -98,6 +98,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	private static final boolean isJunkItem( int itemId, int price )
 	{
+		if ( !StaticEntity.getBooleanProperty( "relayHidesJunkMallItems" ) )
+			return false;
+
 		if ( price > KoLCharacter.getAvailableMeat() )
 			return true;
 
