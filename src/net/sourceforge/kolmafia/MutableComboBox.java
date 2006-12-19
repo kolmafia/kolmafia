@@ -59,7 +59,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		super( model );
 
 		this.model = model;
-		this.filter = new WordBasedFilter( false );
+		this.filter = new WordBasedFilter();
 		this.setEditable( true );
 
 		this.allowAdditions = allowAdditions;
@@ -184,40 +184,8 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 	public class WordBasedFilter extends LockableListModel.ListElementFilter
 	{
-		public boolean shouldHideJunkItems;
-
-		public WordBasedFilter( boolean shouldHideJunkItems )
-		{	this.shouldHideJunkItems = shouldHideJunkItems;
-		}
-
 		public boolean isVisible( Object element )
 		{
-			if ( shouldHideJunkItems )
-			{
-				if ( element instanceof AdventureResult )
-				{
-					if ( junkItemList.contains( element ) )
-						return false;
-				}
-				else if ( element instanceof ItemCreationRequest )
-				{
-					ItemCreationRequest irequest = (ItemCreationRequest) element;
-
-					switch ( irequest.getItemId() )
-					{
-					case ItemCreationRequest.MEAT_PASTE:
-					case ItemCreationRequest.MEAT_STACK:
-					case ItemCreationRequest.DENSE_STACK:
-						break;
-
-					default:
-						if ( junkItemList.contains( irequest.createdItem ) )
-							return false;
-					}
-
-				}
-			}
-
 			// If it's not a result, then check to see if you need to
 			// filter based on its string form.
 

@@ -161,30 +161,21 @@ public class ItemManagePanel extends LabeledScrollPanel
 		{
 			filters = null;
 		}
-		else if ( buttonListeners == null )
+		else if ( buttonListeners == null || elementModel == ConcoctionsDatabase.getConcoctions() )
 		{
 			filters = new JCheckBox[3];
 			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
 			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
 			filters[2] = new JCheckBox( "Show others", true );
 		}
-		else if ( elementModel == ConcoctionsDatabase.getConcoctions() )
-		{
-			filters = new JCheckBox[4];
-			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
-			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
-			filters[2] = new JCheckBox( "Show junk", true );
-			filters[3] = new JCheckBox( "Show others", true );
-		}
 		else
 		{
-			filters = new JCheckBox[5];
+			filters = new JCheckBox[4];
 
 			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
 			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
 			filters[2] = new JCheckBox( "Show equipment", true );
-			filters[3] = new JCheckBox( "Show junk", true );
-			filters[4] = new JCheckBox( "Show others", true );
+			filters[3] = new JCheckBox( "Show others", true );
 		}
 
 		if ( filters != null )
@@ -351,7 +342,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public class FilterItemComboBox extends MutableComboBox
 	{
-		public boolean food, booze, equip, junk, other;
+		public boolean food, booze, equip, other;
 
 		public FilterItemComboBox()
 		{
@@ -378,7 +369,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 				food = true;
 				booze = true;
 				equip = true;
-				junk = true;
 				other = true;
 			}
 			else
@@ -388,34 +378,21 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 				if ( filters.length == 3 )
 				{
-					junk = true;
 					other = filters[2].isSelected();
-					equip = other;
-				}
-				else if ( filters.length == 4 )
-				{
-					junk = filters[2].isSelected();
-					other = filters[3].isSelected();
 					equip = other;
 				}
 				else
 				{
 					equip = filters[2].isSelected();
-					junk = filters[3].isSelected();
-					other = filters[4].isSelected();
+					other = filters[3].isSelected();
 				}
 			}
 
-			filter.shouldHideJunkItems = !junk;
 			elementList.applyFilter( filter );
 		}
 
 		public class ConsumptionBasedFilter extends WordBasedFilter
 		{
-			public ConsumptionBasedFilter()
-			{	super( false );
-			}
-
 			public boolean isVisible( Object element )
 			{
 				if ( isNonResult( element ) )

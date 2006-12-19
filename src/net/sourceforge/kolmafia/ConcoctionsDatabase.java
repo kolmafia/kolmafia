@@ -401,7 +401,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// mixture before doing the calculation.
 
 		for ( int i = 1; i < concoctions.size(); ++i )
-			if ( concoctions.get(i).toString() != null )
+			if ( concoctions.get(i).toString() != null && concoctions.get(i).creatable > -1 )
 				concoctions.get(i).calculate( availableIngredients );
 
 		// Now, to update the list of creatables without removing
