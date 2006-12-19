@@ -295,17 +295,11 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 
 			public void filterItems()
-			{
-				filter.shouldHideJunkItems = false;
-				elementList.applyFilter( filter );
+			{	elementList.applyFilter( filter );
 			}
 
 			private class EquipmentFilter extends WordBasedFilter
 			{
-				public EquipmentFilter()
-				{	super( false );
-				}
-
 				public boolean isVisible( Object element )
 				{
 					boolean isVisibleWithFilter = true;
