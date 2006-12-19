@@ -7,8 +7,8 @@ import sun.net.www.protocol.http.Handler;
 
 /**
  * Need to override any function in HttpURLConnection that create a new HttpClient
- * and create a HttpTimeoutClient instead.  This source code was originally found
- * at: http://www.velocityreviews.com/forums/t130657-httpurlconnection-timeout-solution.html
+ * and create a HttpTimeoutClient instead.  This source code was originally found at:
+ * http://www.velocityreviews.com/forums/t130657-httpurlconnection-timeout-solution.html
  * It has been modified to have timeout be non-configurable for added encapsulation.
  */
 
