@@ -36,7 +36,6 @@
 
 package jline;
 
-
 /**
  *	Synbolic constants for Console operations and virtual key bindings.
  *
@@ -285,4 +284,9 @@ public interface ConsoleOperations
 	 */
 	final short PASTE				= -60;
 }
+
+
+
+
+
 

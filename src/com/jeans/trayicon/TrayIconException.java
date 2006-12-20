@@ -48,3 +48,6 @@ public class TrayIconException extends Exception {
 	}
 
 }
+
+
+

@@ -40,7 +40,8 @@
 
 package com.jeans.trayicon;
 
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Vector;
 
 // Class for Tray Icon popup menu (shown when user right clicks Tray Icon)
 // Used for main popup menu and it's submenus

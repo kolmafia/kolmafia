@@ -35,7 +35,8 @@
  */
 package jline;
 
-import java.io.*;
+import java.io.InputStream;
+import java.io.IOException;
 
 /**
  *  Representation of the input terminal for a platform. Handles

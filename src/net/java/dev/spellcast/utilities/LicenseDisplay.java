@@ -34,12 +34,21 @@
 
 package net.java.dev.spellcast.utilities;
 
-// containers
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.SystemColor;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 public class LicenseDisplay extends javax.swing.JFrame

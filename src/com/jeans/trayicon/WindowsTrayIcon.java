@@ -40,10 +40,21 @@
 
 package com.jeans.trayicon;
 
-import java.awt.image.*;
-import java.awt.event.*;
-import java.awt.*;
-import java.util.*;
+import java.awt.Component;
+import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Window;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import java.awt.image.ImageObserver;
+import java.awt.image.PixelGrabber;
+
+import java.util.Enumeration;
+import java.util.Vector;
 
 /**
  * WindowsTrayIcon

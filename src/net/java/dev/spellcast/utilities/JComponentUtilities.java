@@ -34,22 +34,19 @@
 
 package net.java.dev.spellcast.utilities;
 
-// layout
 import java.awt.Color;
 import java.awt.Dimension;
 
-// file-related I/O
 import java.io.File;
 import java.net.URL;
 
-// components
-import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
  * Formed after the same idea as <code>SwingUtilities</code>, this contains common

@@ -35,7 +35,14 @@
  */
 package jline;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 // TODO: handle arrow keys, which might require completely implementing the
@@ -279,7 +286,7 @@ public class WindowsTerminal
 	}
 
 
-	/** 
+	/**
 	 *  Windows doesn't support ANSI codes by default; disable them.
 	 */
 	public boolean isANSISupported ()
@@ -316,7 +323,7 @@ public class WindowsTerminal
 	}
 
 
-	/** 
+	/**
 	 *  No-op for exceptions we want to silently consume.
 	 */
 	private void consumeException (final Throwable e)
@@ -324,7 +331,7 @@ public class WindowsTerminal
 	}
 
 
-	/** 
+	/**
 	 *  Whether or not to allow the use of the JNI console interaction.
 	 */
 	public void setDirectConsole (Boolean directConsole)
@@ -333,7 +340,7 @@ public class WindowsTerminal
 	}
 
 
-	/** 
+	/**
 	 *  Whether or not to allow the use of the JNI console interaction.
 	 */
 	public Boolean getDirectConsole ()

@@ -35,8 +35,9 @@
  */
 package jline;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+
+import java.util.List;
 
 /**
  *	Handler for dealing with candidates for tab-completion.

@@ -35,7 +35,7 @@
  */
 package jline;
 
-import java.util.*;
+import java.util.List;
 
 /**
  *	<p>

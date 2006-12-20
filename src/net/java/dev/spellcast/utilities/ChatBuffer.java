@@ -67,18 +67,22 @@
 
 package net.java.dev.spellcast.utilities;
 
-import javax.swing.JScrollPane;
-import javax.swing.JEditorPane;
-import javax.swing.SwingUtilities;
-import javax.swing.text.Element;
-import javax.swing.text.html.HTMLDocument;
-
 import java.io.File;
-import java.io.PrintWriter;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
+
+import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+
+import javax.swing.text.Document;
+import javax.swing.text.Element;
+
+import javax.swing.text.html.HTMLDocument;
 
 /**
  * A multi-purpose message buffer which stores all sorts of the messages

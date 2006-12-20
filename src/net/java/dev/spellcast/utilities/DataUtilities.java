@@ -34,19 +34,17 @@
 
 package net.java.dev.spellcast.utilities;
 
-// layout
 import java.awt.Color;
 
-// file-related I/O
-import java.io.File;
-import java.net.URL;
-import java.io.InputStream;
-import java.io.FileInputStream;
-import java.net.URLConnection;
-
-// readers
-import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Formed after the same idea as <code>SwingUtilities</code>, this contains common

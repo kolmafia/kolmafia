@@ -8,8 +8,8 @@
 
 package net.sourceforge.foxtrot.workers;
 
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 import net.sourceforge.foxtrot.Task;
 

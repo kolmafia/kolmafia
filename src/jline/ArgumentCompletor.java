@@ -35,8 +35,8 @@
  */
 package jline;
 
-import java.util.*;
-
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *  A {@link Completor} implementation that invokes a child completor

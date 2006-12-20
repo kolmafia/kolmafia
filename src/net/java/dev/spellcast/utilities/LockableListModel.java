@@ -34,14 +34,23 @@
 
 package net.java.dev.spellcast.utilities;
 
-// list-related imports
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.Comparator;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+import javax.swing.AbstractListModel;
+import javax.swing.ComboBoxModel;
+import javax.swing.ListModel;
+import javax.swing.MutableComboBoxModel;
+
+import javax.swing.event.EventListenerList;
 
 /**
  * <p>Lockable aspects of this class have been removed due to incompatibilities with Swing;

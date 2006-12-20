@@ -107,3 +107,6 @@ public class TrayIconPopupCheckItem extends TrayIconPopupSimpleItem {
 		m_TrayIcon = trayicon;
 	}
 }
+
+
+

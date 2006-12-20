@@ -40,8 +40,11 @@
 
 package com.jeans.trayicon;
 
-import java.util.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.util.Enumeration;
+import java.util.Vector;
 
 // Menu item for Tray Icon
 public class TrayIconPopupSimpleItem implements TrayIconPopupItem {

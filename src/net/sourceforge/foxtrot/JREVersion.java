@@ -8,6 +8,8 @@
 
 package net.sourceforge.foxtrot;
 
+import java.lang.reflect.Method;
+
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 

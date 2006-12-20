@@ -35,9 +35,10 @@
  */
 package jline;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
 
+import java.util.Collections;
+import java.util.List;
 
 /**
  *  A file name completor takes the buffer and issues a list of
@@ -94,12 +95,12 @@ public class FileNameCompletor
 		File f = new File (translated);
 
 		final File dir;
-		
+
 		if (translated.endsWith (File.separator))
 			dir = f;
 		else
 			dir = f.getParentFile ();
-		
+
 		final File [] entries = dir == null ? new File [0] : dir.listFiles ();
 
 		try
@@ -126,10 +127,10 @@ public class FileNameCompletor
 	 *  can be overridden in a subclass that wants to do more
 	 *  sophisticated file name completion.
 	 *
-	 *  @param	buffer		the untranslated buffer	
-	 *  @param	translated	the buffer with common characters replaced	
-	 *  @param	entries		the list of files to match	
-	 *  @param	candidates	the list of candidates to populate	
+	 *  @param	buffer		the untranslated buffer
+	 *  @param	translated	the buffer with common characters replaced
+	 *  @param	entries		the list of files to match
+	 *  @param	candidates	the list of candidates to populate
 	 *
 	 *  @return  the offset of the match
 	 */

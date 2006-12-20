@@ -1,8 +1,10 @@
 package com.velocityreviews.forums;
 
+import java.io.IOException;
+
 import java.net.URL;
 import java.net.URLConnection;
-import java.io.IOException;
+
 import sun.net.www.protocol.http.Handler;
 
 /**
