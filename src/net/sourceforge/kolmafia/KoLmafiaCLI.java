@@ -67,6 +67,8 @@ public class KoLmafiaCLI extends KoLmafia
 	private static final Pattern ASHNAME_PATTERN = Pattern.compile( "\\.ash", Pattern.CASE_INSENSITIVE );
 	private static final Pattern STATDAY_PATTERN = Pattern.compile( "(today|tomorrow) is (.*?) day" );
 	private static final Pattern MEAT_PATTERN = Pattern.compile( "[\\d,]+ meat" );
+	private static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
+	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
 
 	public static final int NOWHERE = 1;
 	public static final int CREATION = 2;
@@ -1618,6 +1620,9 @@ public class KoLmafiaCLI extends KoLmafia
 		// that is printed.
 
 		displayText = displayText.replaceAll( "\n\n\n+", "\n\n" );
+		displayText = SCRIPT_PATTERN.matcher( displayText ).replaceAll( "" );
+		displayText = COMMENT_PATTERN.matcher( displayText ).replaceAll( "" );
+
 		printLine( displayText.trim() );
 	}
 
