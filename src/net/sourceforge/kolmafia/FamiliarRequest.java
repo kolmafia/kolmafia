@@ -91,13 +91,41 @@ public class FamiliarRequest extends KoLRequest
 
 		super.run();
 
+		// If you're not equipping a familiar, or your old familiar wasn't
+		// wearing something, or your old familiar can't equip the new item,
+		// then do nothing further.
+
 		if ( changeTo == null || changeTo == FamiliarData.NO_FAMILIAR || item == EquipmentRequest.UNEQUIP || !changeTo.canEquip( item ) )
 			return;
 
-		if ( changeTo.getItem() == null )
+		// If your new familiar is wearing nothing, then a switch is definitely
+		// in order -- go ahead and do so.
+
+		if ( changeTo.getItem() == null || changeTo.getItem().equals( EquipmentRequest.UNEQUIP ) )
+		{
 			(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
-		else if ( FamiliarData.itemWeightModifier( changeTo.getItem().getItemId() ) > FamiliarData.itemWeightModifier( item.getItemId() ) )
-			(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
+			return;
+		}
+
+		// If the new familiar's item is better than the item you could switch to
+		// (such as a lead necklace vs. a pumpkin basket), do nothing.
+
+		int oldModifier = FamiliarData.itemWeightModifier( item.getItemId() );
+		int newModifier = FamiliarData.itemWeightModifier( changeTo.getItem().getItemId() );
+
+		if ( newModifier > oldModifier )
+			return;
+
+		// If the familiar is already wearing its default item, and the item does
+		// not give five weight, it's also probably better not to switch.
+
+		if ( newModifier != 5 && changeTo.getItem().getName().equals( FamiliarsDatabase.getFamiliarItem( changeTo.getId() ) ) )
+			return;
+
+		// In all other cases, a switch is probably in order.  Go ahead and make
+		// the item switch.
+
+		(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
 	}
 
 	public void processResults()
