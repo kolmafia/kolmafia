@@ -798,7 +798,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( equipmentMatcher.find() )
 			{
 				name = equipmentMatcher.group(1).trim();
-				if ( EquipmentDatabase.contains( name ) )
+				if ( TradeableItemDatabase.contains( name ) )
 					equipment[ KoLCharacter.FAMILIAR ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 
 				KoLmafia.getDebugStream().println( "Familiar: " + equipment[ KoLCharacter.FAMILIAR ] );
