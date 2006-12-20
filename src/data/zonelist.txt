@@ -10,7 +10,7 @@ Rift	Plains	Temporal Rift
 
 BatHole	BatHole	Bat Hole	plains.php	bathole.php
 
-Knob	Knob	Cobb's Knob	plains.php	knob.php
+Knob	Knob	Cobb's Knob
 Lab	Knob	Knob Cobb's Knob Lab	plains.php	knob.php	knob2.php
 
 Cyrpt	Cyrpt	Defiled Cyrpt	plains.php	cyrpt.php

@@ -418,12 +418,6 @@ public class EquipmentRequest extends PasswordHashRequest
 
 			if ( !AdventureDatabase.retrieveItem( changeItem ) )
 				return;
-
-			// If we are changing familiar equipment, first we must
-			// remove the old one in the slot.
-
-			if ( equipmentSlot == KoLCharacter.FAMILIAR && !KoLCharacter.getEquipment( equipmentSlot ).equals( UNEQUIP ) )
-				(new EquipmentRequest( UNEQUIP, equipmentSlot )).run();
 		}
 
 		if ( requestType == REMOVE_ITEM && KoLCharacter.getEquipment( equipmentSlot ).equals( UNEQUIP ) )
