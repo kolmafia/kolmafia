@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.regex.Matcher;
+
 public class PixelRequest extends ItemCreationRequest
 {
 	public PixelRequest( int itemId )
@@ -63,7 +65,23 @@ public class PixelRequest extends ItemCreationRequest
 	}
 
 	public static boolean processRequest( String urlString )
-	{	return true;
+	{
+		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+			return false;
+
+		int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
+		int quantity = 1;
+
+		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
+		if ( quantityMatcher.find() )
+			quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+		for ( int i = 0; i < ingredients.length; ++i )
+			StaticEntity.getClient().processResult( ingredients[i].getInstance( -1 * ingredients[i].getCount() * quantity ) );
+
+		return true;
 	}
 }
 

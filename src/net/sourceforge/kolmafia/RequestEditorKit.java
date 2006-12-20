@@ -1324,11 +1324,18 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				default:
 
+					// Hedge maze puzzle and hedge maze key have a link to the maze
+					// for easy access.
+
 					if ( itemId == SorceressLair.HEDGE_KEY.getItemId() || itemId == SorceressLair.PUZZLE_PIECE.getItemId() )
 					{
 						useType = "maze";
 						useLocation = "hedgepuzzle.php";
 					}
+
+					// The different kinds of ores will only have a link if they're
+					// the ones applicable to the trapper quest.
+
 					else if ( (itemId == 363 || itemId == 364 || itemId == 365) )
 					{
 						AdventureResult ore = new AdventureResult( StaticEntity.getProperty( "trapperOre" ), itemCount, false );
@@ -1339,11 +1346,24 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 							useLocation = "trapper.php";
 						}
 					}
+
+					// Pixels have handy links indicating how many white pixels are
+					// present in the player's inventory.
+
 					else if ( itemId == 459 || itemId == 461 || itemId == 462 || itemId == 463 )
 					{
 						AdventureResult white = new AdventureResult( 459, 1 );
 						useType = String.valueOf( white.getCount( inventory ) + ItemCreationRequest.getInstance( 459 ).getQuantityPossible() ) + " white";
 						useLocation = "mystic.php";
+					}
+
+					// Disintegrating sheet music gets a link which lets you sing it
+					// to yourself.  We'll call it "hum" for now.
+
+					else if ( itemId == 2192 )
+					{
+						useType = "sing";
+						useLocation = "curse.php?action=use&pwd&whichitem=2192&targetplayer=" + KoLCharacter.getUserName();
 					}
 				}
 			}
