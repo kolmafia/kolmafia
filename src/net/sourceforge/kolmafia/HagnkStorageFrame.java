@@ -345,6 +345,7 @@ public class HagnkStorageFrame extends KoLFrame
 					return;
 
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
+				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -362,6 +363,7 @@ public class HagnkStorageFrame extends KoLFrame
 
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -380,6 +382,7 @@ public class HagnkStorageFrame extends KoLFrame
 				}
 
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) );
+				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -397,6 +400,7 @@ public class HagnkStorageFrame extends KoLFrame
 
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) );
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
