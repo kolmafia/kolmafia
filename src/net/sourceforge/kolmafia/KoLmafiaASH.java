@@ -5121,7 +5121,7 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				if ( filename.startsWith( "http:" ) )
 				{
-					KoLmafia.updateDisplay( ABORT_STATE, "Could not locate remote file <" + filename + ">" );
+					KoLmafia.updateDisplay( ERROR_STATE, "Could not locate remote file <" + filename + ">" );
 				}
 				else if ( filename.endsWith( ".dat" ) )
 				{
@@ -5134,7 +5134,7 @@ public class KoLmafiaASH extends StaticEntity
 					DEFAULT_SHELL.printLine( "File not located: data/" + filename );
 					DEFAULT_SHELL.printLine( "File not located: " + filename );
 
-					KoLmafia.updateDisplay( ABORT_STATE, "Could not locate local file <" + filename + ">" );
+					KoLmafia.updateDisplay( ERROR_STATE, "Could not locate local file <" + filename + ">" );
 				}
 
 				return FALSE_VALUE;

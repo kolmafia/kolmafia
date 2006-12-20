@@ -591,7 +591,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( visitedCouncil )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "This adventure is not yet unlocked." );
+			KoLmafia.updateDisplay( ERROR_STATE, "This adventure is not yet unlocked." );
 			return;
 		}
 
@@ -711,7 +711,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			if ( !allowStasis || !KoLCharacter.getFamiliar().isCombatFamiliar() )
 			{
-				KoLmafia.updateDisplay( ABORT_STATE, "You can't hit anything there." );
+				KoLmafia.updateDisplay( ERROR_STATE, "You can't hit anything there." );
 				return;
 			}
 		}
@@ -719,7 +719,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) &&
 			EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Thrust smacks are useless with ranged weapons." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Thrust smacks are useless with ranged weapons." );
 			return;
 		}
 
@@ -727,7 +727,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			EquipmentDatabase.isStaff( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) &&
 			KoLCharacter.hasSkill( "Spirit of Rigatoni" ) && KoLCharacter.hasSkill( "Eye of the Stoat" ) )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Thrust smacks are useless with staves and Spirit of Rigatoni." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Thrust smacks are useless with staves and Spirit of Rigatoni." );
 			return;
 		}
 

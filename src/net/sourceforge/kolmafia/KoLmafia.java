@@ -1482,6 +1482,8 @@ public abstract class KoLmafia implements KoLConstants
 	private void executeRequest( Runnable request, int iterations )
 	{
 		hadPendingState = false;
+		forceContinue();
+
 		boolean isCheckExempt = !(request instanceof KoLAdventure) || ((KoLAdventure)request).getRequest() instanceof CampgroundRequest ||
 			KoLCharacter.getInebriety() > 25 || ((KoLAdventure)request).getZone().equals( "Holiday" );
 

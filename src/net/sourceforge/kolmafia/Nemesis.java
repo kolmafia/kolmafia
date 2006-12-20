@@ -87,7 +87,7 @@ public abstract class Nemesis extends StaticEntity
 
 		if ( QUEST_HANDLER.responseText == null )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Unable to find quest." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Unable to find quest." );
 			return;
 		}
 

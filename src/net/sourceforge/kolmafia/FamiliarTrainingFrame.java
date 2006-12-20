@@ -1094,6 +1094,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				poundsNeeded -= status.familiarItemWeight;
 				String familiarItem = status.familiarItem.getName();
+
 				DEFAULT_SHELL.executeBuyCommand( "1 " + familiarItem );
 				status.updateStatus();
 			}
@@ -1120,19 +1121,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( !hasTongue && greenTongueActive == 0 )
 			{
-				DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
+				DEFAULT_SHELL.executeBuyCommand( "1 green snowcone" );
+				status.updateStatus();
 				poundsNeeded -= 5;
 			}
 
-			if ( poundsNeeded <= 0 )
-				return true;
+			// That's all that can be done.  Return whether or not
+			// your goal is achievable.
 
-			// Finally, if they need empathy, tell them that they
-			// should consider requesting it from a buffbot.
-
-			stop = true;
-			statusMessage( ABORT_STATE, "Ask a buffbot for empathy?" );
-			return false;
+			return poundsNeeded <= 0;
 		}
 
 		case TURNS:
