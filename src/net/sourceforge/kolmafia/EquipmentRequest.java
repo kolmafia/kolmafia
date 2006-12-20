@@ -38,13 +38,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-/**
- * An extension of <code>KoLRequest</code> which retrieves a list of
- * the character's equipment from the server.  At the current time,
- * there is no support for actually equipping items, so only the items
- * which are currently equipped are retrieved.
- */
-
 public class EquipmentRequest extends PasswordHashRequest
 {
 	private static final Pattern CELL_PATTERN = Pattern.compile( "<td>(.*?)</td>" );

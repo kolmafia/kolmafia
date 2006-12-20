@@ -33,11 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-/**
- * An extension of the generic <code>KoLRequest</code> class which handles
- * adventures in the Kingdom of Loathing sewer.
- */
-
 public class SewerRequest extends KoLRequest
 {
 	public static final AdventureResult POSITIVE_CLOVER = new AdventureResult( "ten-leaf clover", 1 );
@@ -152,3 +147,4 @@ public class SewerRequest extends KoLRequest
 	{	return responseCode == 200 && responseText.indexOf( "You acquire" ) != -1 ? 1 : 0;
 	}
 }
+

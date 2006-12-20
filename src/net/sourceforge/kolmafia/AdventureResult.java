@@ -34,22 +34,14 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Component;
-import javax.swing.JLabel;
-import javax.swing.JList;
 
-import javax.swing.DefaultListCellRenderer;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
-/**
- * A container class which encapsulates the results from an adventure and
- * handles the transformation of these results into a string.  At the
- * current time, only monetary gains, stat gains and item gains (and losses)
- * can be encapsulated; hit point, mana point and adventure gains/losses
- * will be encapsulated at a later date.
- */
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JLabel;
+import javax.swing.JList;
 
 public class AdventureResult implements Comparable, KoLConstants
 {

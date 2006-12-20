@@ -155,3 +155,4 @@ public class NullStream extends java.io.PrintStream
 	{
 	}
 }
+

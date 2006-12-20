@@ -33,33 +33,34 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-import javax.swing.Box;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.BoxLayout;
-import javax.swing.JScrollPane;
-import javax.swing.JFileChooser;
-
-import java.awt.Dimension;
-import java.awt.BorderLayout;
+import java.io.File;
 
 import java.lang.ref.WeakReference;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 
-/**
- * An internal class used as the basis for content panels.  This
- * class builds upon the <code>ActionVerifyPanel</code> by adding
- * a <code>setStatusMessage()</code> method.
- */
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
+import net.java.dev.spellcast.utilities.ActionVerifyPanel;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 {

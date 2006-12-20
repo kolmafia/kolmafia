@@ -33,11 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-/**
- * An extension of the generic <code>KoLRequest</code> class which handles
- * adventures involving trading with the trapper.
- */
-
 public class TrapperRequest extends KoLRequest
 {
 	private int quantity;
@@ -83,3 +78,4 @@ public class TrapperRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Trapper has been looted." );
 	}
 }
+

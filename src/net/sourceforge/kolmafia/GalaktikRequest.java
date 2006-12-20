@@ -32,6 +32,8 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class GalaktikRequest extends KoLRequest

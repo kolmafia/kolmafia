@@ -33,24 +33,29 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.CardLayout;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+
+import java.util.List;
 
 import javax.swing.Box;
-import javax.swing.JList;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class MallSearchFrame extends KoLPanelFrame
 {

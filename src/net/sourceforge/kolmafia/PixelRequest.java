@@ -66,3 +66,4 @@ public class PixelRequest extends ItemCreationRequest
 	{	return true;
 	}
 }
+

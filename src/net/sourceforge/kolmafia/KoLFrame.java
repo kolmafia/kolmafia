@@ -33,41 +33,15 @@
 
 package net.sourceforge.kolmafia;
 
-// containers
-import java.awt.Image;
-import javax.swing.JComponent;
-import javax.swing.JToolBar;
-import javax.swing.JFrame;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.Box;
-import javax.swing.JProgressBar;
-import javax.swing.JSpinner;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
-import javax.swing.table.TableModel;
-
-// layout
-import java.awt.Component;
-import java.awt.Point;
-import java.awt.Dimension;
-import java.awt.CardLayout;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumnModel;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Point;
 
-// event listeners
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -75,18 +49,44 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 
-// basic utilities
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Vector;
 
-// other stuff
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
-// spellcast imports
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
+import net.sourceforge.kolmafia.ItemManagePanel.TransferListener;
 
 /**
  * An extended <code>JFrame</code> which provides all the frames in

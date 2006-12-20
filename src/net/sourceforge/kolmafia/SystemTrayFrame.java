@@ -33,17 +33,20 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.File;
+import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import com.jeans.trayicon.WindowsTrayIcon;
+import java.io.File;
+
 import com.jeans.trayicon.TrayIconPopup;
 import com.jeans.trayicon.TrayIconPopupSimpleItem;
+import com.jeans.trayicon.WindowsTrayIcon;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 

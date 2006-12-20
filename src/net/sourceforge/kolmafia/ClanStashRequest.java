@@ -33,10 +33,12 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ClanStashRequest extends SendMessageRequest

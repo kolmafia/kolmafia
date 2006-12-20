@@ -33,11 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-/**
- * An extension of a <code>KoLRequest</code> which specifically handles
- * donating to the Hall of the Legends of the Times of Old.
- */
-
 public class GreenMessageRequest extends SendMessageRequest
 {
 	private String recipient, message;
@@ -124,3 +119,4 @@ public class GreenMessageRequest extends SendMessageRequest
 		return processRequest( "send", urlString, inventory, 0 );
 	}
 }
+

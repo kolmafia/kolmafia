@@ -33,21 +33,27 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Color;
+
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.TreeMap;
 import java.util.Calendar;
 import java.util.Date;
-import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
+import java.util.Set;
+import java.util.TreeMap;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import java.awt.Color;
 import javax.swing.JOptionPane;
-
 import javax.swing.SwingUtilities;
-import net.java.dev.spellcast.utilities.SortedListModel;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLMessenger extends StaticEntity
 {

@@ -34,14 +34,10 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.util.List;
 
-/**
- * An extension of <code>KoLRequest</code> designed to handle all the
- * item creation requests.  At the current time, it is only made to
- * handle items which use meat paste and are tradeable in-game.
- */
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ItemCreationRequest extends KoLRequest implements Comparable
 {

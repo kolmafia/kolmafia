@@ -33,24 +33,19 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Color;
-import java.awt.CardLayout;
 import java.awt.BorderLayout;
-
-import javax.swing.JLabel;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
 
 import java.lang.ref.WeakReference;
+
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-/**
- * An internal class which creates a panel which displays
- * a generic scroll pane.  Note that the code for this
- * frame was lifted from the ActionVerifyPanel found in
- * the Spellcast package.
- */
 
 public abstract class LabeledScrollPanel extends ActionPanel implements KoLConstants
 {

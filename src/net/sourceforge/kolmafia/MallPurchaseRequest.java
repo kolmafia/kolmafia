@@ -33,13 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
-/**
- * An extension of <code>KoLRequest</code> which handles the purchase of
- * items from the Mall of Loathing.
- */
+import java.util.regex.Pattern;
 
 public class MallPurchaseRequest extends KoLRequest implements Comparable
 {

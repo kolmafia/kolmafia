@@ -36,13 +36,6 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * A special class used to determine the current moon phase.
- * Theoretically, the calculations are simple enough to be
- * an internal class elsewhere, but because it makes everything
- * cleaner to do things this way, so it goes.
- */
-
 public class MoonPhaseRequest extends KoLRequest
 {
 	private static final Pattern MOONS_PATTERN = Pattern.compile( "moon(.)[ab]?\\.gif.*moon(.)[ab]?\\.gif" );

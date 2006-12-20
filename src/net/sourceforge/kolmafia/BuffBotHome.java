@@ -35,26 +35,23 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Component;
-import javax.swing.JList;
-import javax.swing.JLabel;
-import javax.swing.DefaultListCellRenderer;
 
 import java.io.File;
 import java.io.PrintStream;
 
+import java.text.DateFormat;
+
+import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
-import java.util.Date;
-import java.text.DateFormat;
+
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JLabel;
+import javax.swing.JList;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-
-/**
- * Holder for the BuffBot log (which should survive outside of
- * the BuffBot frame)
- */
 
 public class BuffBotHome extends StaticEntity
 {

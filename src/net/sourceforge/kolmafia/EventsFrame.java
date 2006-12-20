@@ -33,10 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-/**
- * A class which displays the list of events that arrived this session
- */
-
 public class EventsFrame extends KoLPanelFrame
 {
 	public EventsFrame()
@@ -68,3 +64,4 @@ public class EventsFrame extends KoLPanelFrame
 		}
 	}
 }
+

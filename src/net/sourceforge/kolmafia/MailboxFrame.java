@@ -33,36 +33,34 @@
 
 package net.sourceforge.kolmafia;
 
-// layout and containers
+import java.awt.Component;
 import java.awt.Dimension;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JToolBar;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.JTabbedPane;
-import javax.swing.JOptionPane;
 
-// event listeners
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.event.KeyListener;
 
-// other imports
 import java.util.StringTokenizer;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-/**
- * An extension of <code>KoLFrame</code> used to display the current
- * mailbox contents.  This updates whenever the user wishes to retrieve
- * more mail from their mailbox but otherwise does nothing.
- */
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MailboxFrame extends KoLFrame implements ChangeListener
 {

@@ -32,16 +32,9 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.ArrayList;
 
-/**
- * An auxiliary class which stores runnable adventures so that they
- * can be created directly from a database.  Encapsulates the nature
- * of the adventure so that they can be easily listed inside of a
- * <code>ListModel</code>, with the potential to be extended to fit
- * other requests to the Kingdom of Loathing which need to be stored
- * within a database.
- */
+import java.util.ArrayList;
+import java.util.List;
 
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {

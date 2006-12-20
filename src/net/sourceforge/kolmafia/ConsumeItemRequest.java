@@ -34,9 +34,15 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Date;
-import javax.swing.JOptionPane;
-import java.util.regex.Pattern;
+import java.util.List;
+
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.JOptionPane;
+
+import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
+import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 
 public class ConsumeItemRequest extends KoLRequest
 {

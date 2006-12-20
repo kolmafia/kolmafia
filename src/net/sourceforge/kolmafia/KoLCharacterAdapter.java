@@ -33,13 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-/**
- * Following the listener model, the <code>KoLCharacterAdapter</code>
- * implements the <code>KoLCharacterListener</code> interface, providing
- * blank method bodies for all the methods in that interface.  Thus, any
- * class can simply override the methods it needs.
- */
-
 public class KoLCharacterAdapter implements KoLCharacterListener
 {
 	private Runnable statusUpdater;
@@ -66,3 +59,4 @@ public class KoLCharacterAdapter implements KoLCharacterListener
 	{	return statusUpdater != null;
 	}
 }
+

@@ -33,13 +33,14 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.io.BufferedReader;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

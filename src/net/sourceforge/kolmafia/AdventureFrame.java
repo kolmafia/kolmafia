@@ -33,60 +33,56 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.CardLayout;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 
-// event listeners
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListDataListener;
-import javax.swing.event.ListDataEvent;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.tree.DefaultTreeModel;
+import java.awt.event.ActionListener;
 
-// containers
-import javax.swing.JList;
-import javax.swing.JTree;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JComponent;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JFileChooser;
-import javax.swing.JTabbedPane;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-import javax.swing.Box;
-import javax.swing.JSpinner;
-import javax.swing.JProgressBar;
-import javax.swing.JSplitPane;
+import java.io.BufferedReader;
+import java.io.File;
 
-// utilities
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
-import java.io.File;
-import java.io.BufferedReader;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JSpinner;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.ListModel;
 
-// other imports
-import net.java.dev.spellcast.utilities.LockableListModel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import javax.swing.filechooser.FileFilter;
+
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-/**
- * An extended <code>KoLFrame</code> which presents the user with the ability to
- * adventure in the Kingdom of Loathing.  As the class is developed, it will also
- * provide other adventure-related functionality, such as inventoryManage management
- * and mall purchases.  Its content panel will also change, pending the activity
- * executed at that moment.
- */
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureFrame extends KoLFrame
 {

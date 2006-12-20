@@ -33,19 +33,10 @@
 
 package net.sourceforge.kolmafia;
 
-import java.text.SimpleDateFormat;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
-
-/**
- * An extension of <code>KoLRequest</code> which handles logins.
- * A new instance is created and started for every login attempt,
- * and in the event that it is successful, theprovided
- * at construction time will be notified of the success.
- */
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LoginRequest extends KoLRequest
 {

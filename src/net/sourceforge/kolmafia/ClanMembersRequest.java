@@ -34,8 +34,8 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ClanMembersRequest extends KoLRequest
 {

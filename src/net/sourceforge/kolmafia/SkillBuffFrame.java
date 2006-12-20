@@ -33,10 +33,11 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Dimension;
 import java.awt.BorderLayout;
-import javax.swing.JTextField;
+import java.awt.Component;
+import java.awt.Dimension;
 import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 

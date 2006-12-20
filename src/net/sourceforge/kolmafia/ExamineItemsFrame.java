@@ -33,32 +33,31 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
 import java.awt.CardLayout;
-import javax.swing.DefaultListCellRenderer;
+import java.awt.Component;
+import java.awt.Point;
 
-// events
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenuItem;
+import javax.swing.JTabbedPane;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
-// containers
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import java.awt.Component;
-import javax.swing.JList;
-import javax.swing.JTabbedPane;
-
-// utilities
-import java.util.Map;
-import java.util.Comparator;
 import net.java.dev.spellcast.utilities.LockableListModel;
-
-/**
- * A Frame to examine item descriptions
- */
 
 public class ExamineItemsFrame extends KoLFrame
 {

@@ -33,20 +33,18 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Date;
-import java.util.Locale;
-import java.util.TreeMap;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 import java.text.SimpleDateFormat;
 
-import net.java.dev.spellcast.utilities.SortedListModel;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Set;
+import java.util.TreeMap;
 
-/**
- * An extension of the generic <code>KoLRequest</code> class which handles
- * placing bets at the Money Making Game
- */
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class MoneyMakingGameRequest extends KoLRequest
 {

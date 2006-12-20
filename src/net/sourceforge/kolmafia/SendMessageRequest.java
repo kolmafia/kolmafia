@@ -33,15 +33,10 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
+import java.util.List;
 import java.util.regex.Matcher;
-
-/**
- * An extension of a <code>KoLRequest</code> which specifically handles
- * donating to the Hall of the Legends of the Times of Old.
- */
+import java.util.regex.Pattern;
 
 public abstract class SendMessageRequest extends KoLRequest
 {

@@ -33,37 +33,30 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import java.awt.Dimension;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
-// event listeners
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-// containers
-import javax.swing.Box;
-import javax.swing.JToolBar;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-
-// other imports
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Locale;
 import java.text.SimpleDateFormat;
 
-/**
- * An extension of <code>KoLFrame</code> used to display the current
- * chat contents.  This updates according to the refresh rate specified
- * in <code>ChatRequest</code> and allows users to both read what has
- * already happened in chat and to log their conversations.
- */
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
+
+import javax.swing.event.HyperlinkListener;
 
 public class ChatFrame extends KoLFrame
 {

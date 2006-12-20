@@ -33,33 +33,32 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import javax.swing.BoxLayout;
-
-import java.awt.Dimension;
-import java.awt.CardLayout;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 
-// event listeners
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-// containers
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-import javax.swing.JTabbedPane;
-import javax.swing.JOptionPane;
-
-import javax.swing.JTable;
-import com.sun.java.forums.TableSorter;
-
-// other imports
-import java.util.Vector;
 import java.util.ArrayList;
+import java.util.Vector;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
+import javax.swing.table.TableModel;
+import com.sun.java.forums.TableSorter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**

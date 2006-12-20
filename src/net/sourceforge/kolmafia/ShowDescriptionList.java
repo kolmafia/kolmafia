@@ -33,28 +33,31 @@
 
 package net.sourceforge.kolmafia;
 
-import javax.swing.JList;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
+import java.awt.Component;
+import java.awt.Point;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.JList;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.ListModel;
+import javax.swing.SwingUtilities;
+
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-
-/**
- * A special class which displays an item's description after you float
- * click on the JList.
- */
 
 public class ShowDescriptionList extends JList implements KoLConstants
 {

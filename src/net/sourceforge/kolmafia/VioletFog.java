@@ -33,23 +33,21 @@
 
 package net.sourceforge.kolmafia;
 
-// utilities
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.java.dev.spellcast.utilities.UtilityConstants;
-
-public class VioletFog implements UtilityConstants
+public class VioletFog
 {
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 
-	// The various locations within the violet fog
-
 	// Range of choice numbers within the fog
+
 	private static final int FIRST_CHOICE = 48;
 	private static final int LAST_CHOICE = 70;
+
+	// The various locations within the violet fog
 
 	private static final String FogLocationNames [] =
 	{
@@ -110,6 +108,7 @@ public class VioletFog implements UtilityConstants
 	// One row for each fog location (48 - 70)
 	// Each row contains one tuple for each possible fog destination (49 - 70)
 	// Each tuple contains the Next Hop and the Hop Count to get there
+
 	private static int FogRoutingTable [][][];
 
 	private static int [] routingTuple( int source, int destination )
@@ -221,7 +220,7 @@ public class VioletFog implements UtilityConstants
 	{
 		try
 		{
-			PrintStream stream = new LogStream( DATA_DIRECTORY + "VioletFogRoutingTable.html" );
+			PrintStream stream = new LogStream( "VioletFogRoutingTable.html" );
 			printRoutingTable( stream );
 			stream.close();
 		}

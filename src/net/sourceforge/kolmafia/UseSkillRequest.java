@@ -32,9 +32,10 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.util.TreeMap;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UseSkillRequest extends KoLRequest implements Comparable
 {

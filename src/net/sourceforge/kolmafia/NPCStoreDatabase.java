@@ -36,11 +36,6 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 
-/**
- * A static class which retrieves all the NPC stores currently
- * available to <code>KoLmafia</code>.
- */
-
 public class NPCStoreDatabase extends KoLDatabase
 {
 	private static final ArrayList NPC_ITEMS = new ArrayList();

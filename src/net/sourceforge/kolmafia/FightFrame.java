@@ -33,10 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-/**
- * A class which allows the user to finish up a fight or choice.
- */
-
 public class FightFrame extends RequestFrame
 {
 	private static FightFrame INSTANCE = null;
@@ -90,3 +86,4 @@ public class FightFrame extends RequestFrame
 		}
 	}
 }
+

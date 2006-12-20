@@ -35,14 +35,19 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintStream;
-import java.net.Socket;
-import java.net.ServerSocket;
+
 import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import java.util.Vector;
-import java.util.regex.Pattern;
+
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LocalRelayServer implements Runnable
 {

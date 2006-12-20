@@ -34,16 +34,10 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-/**
- * An extension of {@link java.io.PrintStream} which handles the
- * special cases of <code>Exception</code>s.  All logs generated
- * by this class will be appended to provided files.
- */
+import java.io.OutputStream;
+import java.io.PrintStream;
 
 public class LogStream extends PrintStream implements KoLConstants
 {

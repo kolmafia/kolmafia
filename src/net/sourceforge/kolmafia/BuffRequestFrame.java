@@ -33,31 +33,29 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-
-// containers
-import javax.swing.Box;
-import javax.swing.JLabel;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
+import java.awt.Component;
+import java.awt.Container;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// utilities
-import java.util.TreeMap;
 import java.util.ArrayList;
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
+import java.util.TreeMap;
 
-/**
- * A frame to provide access to supported buffbots
- */
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.BuffBotDatabase.Offering;
 
 public class BuffRequestFrame extends KoLFrame
 {

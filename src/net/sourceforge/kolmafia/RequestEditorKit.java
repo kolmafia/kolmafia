@@ -35,43 +35,48 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Component;
-import javax.swing.JButton;
-import javax.swing.JRadioButton;
-import javax.swing.JCheckBox;
 
-import javax.swing.text.View;
-import javax.swing.text.Element;
-import javax.swing.text.ViewFactory;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.html.HTML;
-import javax.swing.text.html.FormView;
-import javax.swing.text.html.ImageView;
-import javax.swing.text.html.HTMLEditorKit;
-
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.net.URLDecoder;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-import net.java.dev.spellcast.utilities.SortedListModel;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+
+import javax.swing.text.Element;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.View;
+import javax.swing.text.ViewFactory;
+
+import javax.swing.text.html.FormView;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.ImageView;
+import javax.swing.text.html.HTML.Attribute;
+import javax.swing.text.html.HTML.Tag;
+import javax.swing.text.html.HTMLEditorKit.HTMLFactory;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-/**
- * An extension of a standard <code>HTMLEditorKit</code> which overrides the
- * <code>getViewFactory()</code> method in order to return a different factory
- * instance which properly handles data submission requests.
- */
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 {

@@ -32,12 +32,9 @@
  */
 
 package net.sourceforge.kolmafia;
-import javax.swing.JCheckBox;
 
-/**
- * A special class used as a holder class to hold all of the
- * items which are available for use as HP buffers.
- */
+import java.util.List;
+import javax.swing.JCheckBox;
 
 public abstract class HPRestoreItemList extends StaticEntity
 {

@@ -33,7 +33,10 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Component;
+
 import java.util.ArrayList;
+
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JSeparator;
@@ -42,12 +45,6 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-
-
-/**
- * A special class which renders the menu holding the list of menu items
- * listening to a lockable list model.
- */
 
 public abstract class MenuItemList extends JMenu implements ListDataListener
 {

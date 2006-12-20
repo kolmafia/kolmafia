@@ -33,12 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
-// utilities
 import java.util.List;
-
-/**
- * Xylpher's familiar training tool
- */
+import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 
 public class FamiliarTool
 {

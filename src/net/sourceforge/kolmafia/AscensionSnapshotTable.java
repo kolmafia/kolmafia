@@ -33,13 +33,16 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
-import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.AscensionDataRequest.AscensionDataField;
 
 public class AscensionSnapshotTable extends KoLDatabase
 {

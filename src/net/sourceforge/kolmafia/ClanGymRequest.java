@@ -33,11 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-/**
- * An extension of a <code>KoLRequest</code> which specifically handles
- * exercising in the clan gym.
- */
-
 public class ClanGymRequest extends KoLRequest
 {
 	private static final int BREAKFAST = -1;
@@ -273,3 +268,4 @@ public class ClanGymRequest extends KoLRequest
 	{	return turnCount;
 	}
 }
+

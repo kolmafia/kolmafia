@@ -33,11 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-/**
- * An extension of a <code>KoLRequest</code> which specifically handles
- * donating to the Hall of the Legends of the Times of Old.
- */
-
 public class HeroDonationRequest extends KoLRequest
 {
 	public static final int BORIS = 1;
@@ -111,3 +106,4 @@ public class HeroDonationRequest extends KoLRequest
 	{	return "donate " + amount + " " + statue;
 	}
 }
+

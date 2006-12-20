@@ -33,33 +33,21 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import java.awt.Dimension;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 
-// containers
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-
-// event listeners
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// utilities
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-
-/**
- * An extension of <code>KoLFrame</code> used to display the character
- * sheet for the current user.  Note that this can only be instantiated
- * when the character is logged in; if the character has logged out,
- * this method will contain blank data.  Note also that the avatar that
- * is currently displayed will be the default avatar from the class and
- * will not reflect outfits or customizations.
- */
 
 public class GearChangeFrame extends KoLFrame
 {

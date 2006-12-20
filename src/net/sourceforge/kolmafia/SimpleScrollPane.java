@@ -34,9 +34,8 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Component;
-import javax.swing.JScrollPane;
-
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.text.JTextComponent;
 
 public class SimpleScrollPane extends JScrollPane

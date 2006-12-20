@@ -33,17 +33,11 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.util.List;
 
-/**
- * A special request used specifically to search the mall for items and retrieve the
- * stores which sell them, the prices at which the items are being sold, and the
- * number of items which are currently available for purchase.  All values are
- * subsequently added directly to the provided list.
- */
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SearchMallRequest extends KoLRequest
 {

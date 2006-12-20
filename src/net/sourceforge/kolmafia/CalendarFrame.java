@@ -33,31 +33,32 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+
+import java.text.SimpleDateFormat;
+
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.Calendar;
-import java.text.SimpleDateFormat;
 
-import java.awt.Color;
-import java.awt.BorderLayout;
-
-import javax.swing.JTable;
+import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import ca.bcit.geekkit.JCalendar;
-import ca.bcit.geekkit.CalendarTableModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 
-/**
- * A class which displays the calendar image to be used for today's
- * moon phases and today's calendar.
- */
+import ca.bcit.geekkit.CalendarTableModel;
+import ca.bcit.geekkit.JCalendar;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CalendarFrame extends KoLFrame implements ListSelectionListener
 {

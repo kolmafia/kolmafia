@@ -33,24 +33,27 @@
 
 package net.sourceforge.kolmafia;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-
-import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+
+import java.util.List;
+import java.util.Vector;
+
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ToolTipManager;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import javax.swing.ToolTipManager;
 import javax.swing.table.DefaultTableModel;
-
-import java.util.Vector;
+import javax.swing.table.TableModel;
 import com.sun.java.forums.TableSorter;
 
 public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener

@@ -33,18 +33,12 @@
 
 package net.sourceforge.kolmafia;
 
-import javax.swing.JOptionPane;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.event.HyperlinkEvent;
-
 import java.net.URLEncoder;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
-/**
- * Action listener responsible for handling links clicked
- * inside of a <code>RequestPane</code>.
- */
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
 public abstract class HyperlinkAdapter implements HyperlinkListener
 {

@@ -32,13 +32,8 @@
  */
 
 package net.sourceforge.kolmafia;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
-/**
- * An extension of a <code>KoLRequest</code> which specifically handles
- * buffing the clan.  Note that this does not calculate how many members
- * will be buffed - this is determined by the server.
- */
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ClanBuffRequest extends KoLRequest
 {

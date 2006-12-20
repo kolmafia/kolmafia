@@ -32,14 +32,9 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
-/**
- * Responsible for handling all requests related to the Kingdom of Loathing
- * chat.  Note that once this thread is started, it will only stop if the
- * chat buffer on theis set to null.
- */
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChatRequest extends KoLRequest
 {
