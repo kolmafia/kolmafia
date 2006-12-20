@@ -888,6 +888,12 @@ public class AdventureFrame extends KoLFrame
 
 			reader.close();
 			reader = null;
+
+			// If the buffer is empty, add in the default settings.
+
+			if ( buffer.length() == 0 )
+				buffer.append( "[ default ]\n1: attack with weapon" );
+
 			combatEditor.setText( buffer.toString() );
 		}
 		catch ( Exception e )
@@ -911,6 +917,9 @@ public class AdventureFrame extends KoLFrame
 		CombatSettings.reset();
 		combatModel.setRoot( CombatSettings.getRoot() );
 		combatTree.setRootVisible( false );
+
+		for ( int i = 0; i < combatTree.getRowCount(); ++i )
+			combatTree.expandRow( i );
 	}
 
 	/**
