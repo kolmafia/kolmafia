@@ -65,7 +65,7 @@ public class UneffectRequest extends KoLRequest
 		}
 	}
 
-	private static final boolean isShruggable( String effectName )
+	public static final boolean isShruggable( String effectName )
 	{
 		int id = ClassSkillsDatabase.getSkillId( effectToSkill( effectName ) );
 		return id != -1 && ClassSkillsDatabase.isBuff( id  );
@@ -165,13 +165,12 @@ public class UneffectRequest extends KoLRequest
 		{
 			activeEffects.remove( effect );
 
-
 			if ( isShruggable )
 				CharsheetRequest.parseStatus( responseText );
 			else
 				StaticEntity.getClient().processResult( REMEDY.getNegation() );
 
-			KoLmafia.updateDisplay( "Effect removed." );
+			KoLmafia.updateDisplay( effect.getName() + " removed." );
 
 			if ( RequestFrame.willRefreshStatus() )
 				RequestFrame.refreshStatus();
@@ -179,6 +178,6 @@ public class UneffectRequest extends KoLRequest
 				CharpaneRequest.getInstance().run();
 		}
 		else if ( !isShruggable )
-			KoLmafia.updateDisplay( "Effect removal failed." );
+			KoLmafia.updateDisplay( "Failed to remove " + effect.getName() + "." );
 	}
 }

@@ -145,13 +145,15 @@ public class AdventureDatabase extends KoLDatabase
 		}
 	}
 
-	public static final ChoiceAdventure [] CHOICE_ADVS =
-	{
-		// Lucky sewer options
+	// Lucky sewer options
+	public static final ChoiceAdventure LUCKY_SEWER =
 		new ChoiceAdventure( "Town", "luckySewerAdventure", "Sewer Gnomes",
 		  new String [] { "seal-clubbing club", "seal tooth", "helmet turtle", "scroll of turtle summoning", "pasta spoon", "ravioli hat",
-		    "saucepan", "disco mask", "disco ball", "stolen accordion", "mariachi pants" } ),
+		    "saucepan", "disco mask", "disco ball", "stolen accordion", "mariachi pants" } );
 
+
+	public static final ChoiceAdventure [] CHOICE_ADVS =
+	{
 		// Choice 1 is unknown
 
 		// Denim Axes Examined

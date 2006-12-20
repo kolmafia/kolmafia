@@ -3705,9 +3705,30 @@ public class KoLmafiaCLI extends KoLmafia
 		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
 		activeEffects.toArray( effects );
 
+		// First, search for a buff that can be shrugged off, as that is
+		// what the user is mostly likely looking for.
+
+		for ( int i = 0; i < effects.length; ++i )
+			if ( effects[i].getName().toLowerCase().indexOf( parameters ) != -1 && UneffectRequest.isShruggable( effects[i].getName() ) )
+			{
+				StaticEntity.getClient().makeRequest( new UneffectRequest( effects[i] ) );
+				return;
+			}
+
+		// Okay, now you know it's not a shrugged buff.  Go for a buff that
+		// is not shruggable.
+
 		for ( int i = 0; i < effects.length; ++i )
 			if ( effects[i].getName().toLowerCase().indexOf( parameters ) != -1 )
+			{
 				StaticEntity.getClient().makeRequest( new UneffectRequest( effects[i] ) );
+				return;
+			}
+
+		// No available effect matched.  Report this error to the user, since
+		// they might have made a typo.
+
+		updateDisplay( ERROR_STATE, "No effect matched " + parameters );
 	}
 
 	/**

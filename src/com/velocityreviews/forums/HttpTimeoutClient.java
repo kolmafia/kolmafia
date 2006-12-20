@@ -37,7 +37,6 @@ public class HttpTimeoutClient extends HttpClient
 		else
 			client.url = location;
 
-		kac.put( location, client );
 		return client;
 	}
 

@@ -273,6 +273,8 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
+		boolean shouldRunRequest = true;
+
 		do
 		{
 			clearDataFields();
@@ -285,7 +287,10 @@ public class FightRequest extends KoLRequest
 			{
 				nextRound();
 
-				if ( !isUsingConsultScript && (action1 == null || !action1.equals( "abort" ) ) )
+				shouldRunRequest = !isUsingConsultScript && (action1 == null || !action1.equals( "abort" ));
+				shouldRunRequest |= responseText == null || responseText.equals( "" );
+
+				if ( shouldRunRequest )
 				{
 					isInstanceRunning = true;
 					super.run();
@@ -296,12 +301,12 @@ public class FightRequest extends KoLRequest
 				{
 					if ( currentRound != 0 )
 					{
-						showInBrowser( true );
 						KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
+						showInBrowser( true );
 					}
 					else
 					{
-						KoLmafia.updateDisplay( ABORT_STATE, "Battle properly terminated." );
+						KoLmafia.updateDisplay( ABORT_STATE, "Battle terminated." );
 					}
 
 					return;
