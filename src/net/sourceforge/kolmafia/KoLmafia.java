@@ -2434,7 +2434,7 @@ public abstract class KoLmafia implements KoLConstants
 		AdventureResult [] requirementsArray = new AdventureResult[ requirements.size() ];
 		requirements.toArray( requirementsArray );
 
-		int missingCount = 0;
+		int actualCount = 0;
 
 		// Check the items required for this quest,
 		// retrieving any items which might be inside
@@ -2445,8 +2445,6 @@ public abstract class KoLmafia implements KoLConstants
 			if ( requirementsArray[i] == null )
 				continue;
 
-			missingCount = 0;
-
 			if ( requirementsArray[i].isItem() && retrieveItem )
 				AdventureDatabase.retrieveItem( requirementsArray[i] );
 
@@ -2455,25 +2453,27 @@ public abstract class KoLmafia implements KoLConstants
 				// Items are validated against the amount
 				// currently in inventory.
 
-				missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( inventory );
+				actualCount = requirementsArray[i].getCount( inventory );
 			}
 			else if ( requirementsArray[i].isStatusEffect() )
 			{
 				// Status effects should be compared against
 				// the status effects list.
 
-				missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( activeEffects );
+				actualCount = requirementsArray[i].getCount( activeEffects );
 			}
 			else if ( requirementsArray[i].getName().equals( AdventureResult.MEAT ) )
 			{
 				// Currency is compared against the amount
 				// actually liquid.
 
-				missingCount = requirementsArray[i].getCount() - KoLCharacter.getAvailableMeat();
+				actualCount = KoLCharacter.getAvailableMeat();
 			}
 
-			if ( missingCount <= 0 )
+			if ( actualCount >= requirementsArray[i].getCount() )
 				requirements.remove( requirementsArray[i] );
+			else if ( actualCount > 0 )
+				AdventureResult.addResultToList( requirements, requirementsArray[i].getInstance( 0 - actualCount ) );
 		}
 
 		// If there are any missing requirements
