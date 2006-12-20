@@ -59,3 +59,4 @@ public interface PanelListCell
 
 	public void updateDisplay( PanelList list, Object value, int index );
 }
+

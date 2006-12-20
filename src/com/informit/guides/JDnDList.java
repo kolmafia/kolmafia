@@ -4,12 +4,34 @@
 
 package com.informit.guides;
 
-import javax.swing.JList;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 
-import java.io.*;
-import java.util.*;
-import java.awt.dnd.*;
-import java.awt.datatransfer.*;
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragGestureRecognizer;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceDragEvent;
+import java.awt.dnd.DragSourceDropEvent;
+import java.awt.dnd.DragSourceEvent;
+import java.awt.dnd.DragSourceListener;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetContext;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
+import java.awt.dnd.DnDConstants;
+
+import java.io.IOException;
+
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+import javax.swing.JList;
+import javax.swing.ListModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 

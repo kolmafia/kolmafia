@@ -8,10 +8,11 @@
 
 package net.sourceforge.foxtrot;
 
+import java.io.InterruptedIOException;
+
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import java.io.InterruptedIOException;
 
 /**
  * Partial implementation of the WorkerThread interface.

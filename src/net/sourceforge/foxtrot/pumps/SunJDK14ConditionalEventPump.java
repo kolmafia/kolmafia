@@ -11,6 +11,8 @@ package net.sourceforge.foxtrot.pumps;
 import java.awt.AWTEvent;
 import java.awt.EventQueue;
 
+import sun.awt.SunToolkit;
+
 /**
  * Specialized ConditionalEventPump for Sun's JDK 1.4 and 5.0.
  * It fixes what I think is a misbehavior of {@link java.awt.EventQueue#peekEvent()},

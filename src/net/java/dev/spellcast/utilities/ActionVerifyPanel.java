@@ -34,33 +34,34 @@
 
 package net.java.dev.spellcast.utilities;
 
-// layout
-import java.awt.Dimension;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import java.awt.CardLayout;
-import java.awt.BorderLayout;
-
-import javax.swing.JScrollPane;
-import javax.swing.SpringLayout;
 import com.sun.java.forums.SpringUtilities;
 
-// event listeners
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
-// containers
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import java.lang.reflect.Method;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 
 public abstract class ActionVerifyPanel extends ActionPanel implements ActionListener, FocusListener
 {

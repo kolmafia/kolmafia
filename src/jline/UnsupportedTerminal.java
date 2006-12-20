@@ -35,7 +35,6 @@
  */
 package jline;
 
-
 /**
  *  A no-op unsupported terminal.
  *
@@ -79,4 +78,9 @@ public class UnsupportedTerminal
 		return false;
 	}
 }
+
+
+
+
+
 

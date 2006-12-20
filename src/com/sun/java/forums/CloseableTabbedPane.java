@@ -1,8 +1,5 @@
 package com.sun.java.forums;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FontMetrics;
@@ -14,6 +11,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import java.util.EventListener;
+
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
@@ -21,7 +23,12 @@ import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
 import javax.swing.event.EventListenerList;
+
+import javax.swing.plaf.TabbedPaneUI;
+
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
+
+import javax.swing.text.View;
 
 /**
  * <p>A <code>JTabbedPane</code> which has a close ('X') icon on each tab.</p>

@@ -35,8 +35,9 @@
  */
 package jline;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+
+import java.util.List;
 
 /**
  *	<p>

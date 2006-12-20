@@ -35,8 +35,14 @@
  */
 package jline;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+
+import java.lang.reflect.Method;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  *	<p>
@@ -49,21 +55,21 @@ import java.util.*;
 public class ConsoleRunner
 {
 	public static final String property = "jline.history";
-	
+
 	public static void main (final String[] args)
 		throws Exception
 	{
 		String historyFileName = null;
-		
+
 		List argList = new ArrayList (Arrays.asList (args));
 		if (argList.size () == 0)
-		{			
+		{
 			usage ();
 			return;
 		}
-		
+
 		historyFileName = System.getProperty(ConsoleRunner.property, null);
-		
+
 		// invoke the main() method
 		String mainClass = (String)argList.remove (0);
 
@@ -75,13 +81,13 @@ public class ConsoleRunner
 					System.getProperty ("user.home"), ".jline-" + mainClass
 					+ "." + historyFileName + ".history")));
 		}
-		else 
+		else
 		{
 			reader.setHistory (new History (new File (
 				System.getProperty ("user.home"), ".jline-" + mainClass
 					+ ".history")));
 		}
-		
+
 		String completors = System.getProperty (ConsoleRunner.class.getName ()
 			+ ".completors", "");
 		List completorList = new ArrayList ();
@@ -113,7 +119,7 @@ public class ConsoleRunner
 	private static void usage ()
 	{
 		System.out.println ("Usage: \n   java "
-			+ "[-Djline.history='name'] " 
+			+ "[-Djline.history='name'] "
 			+ ConsoleRunner.class.getName ()
 			+ " <target class name> [args]"
 			+ "\n\nThe -Djline.history option will avoid history"

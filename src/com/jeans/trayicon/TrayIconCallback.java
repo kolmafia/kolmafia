@@ -46,3 +46,6 @@ public interface TrayIconCallback {
 	public int callback(int param);
 
 }
+
+
+

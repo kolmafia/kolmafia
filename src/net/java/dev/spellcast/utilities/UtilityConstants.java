@@ -50,3 +50,4 @@ public interface UtilityConstants
 	public static final String DATA_DIRECTORY = "data/";
 	public static final String IMAGE_DIRECTORY = "images/";
 }
+

@@ -37,12 +37,12 @@ package net.java.dev.spellcast.utilities;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JRootPane;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
 
 public abstract class ActionPanel extends JRootPane
 {

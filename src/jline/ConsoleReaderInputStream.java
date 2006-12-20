@@ -35,9 +35,11 @@
  */
 package jline;
 
-import java.io.*;
-import java.util.*;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.SequenceInputStream;
 
+import java.util.Enumeration;
 
 /**
  *	An {@link InputStream} implementation that wraps a {@link ConsoleReader}.
@@ -119,7 +121,7 @@ public class ConsoleReaderInputStream
 
 			return next != null;
 		}
-	}	
+	}
 
 
 	private static class ConsoleLineInputStream

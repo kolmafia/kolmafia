@@ -72,3 +72,6 @@ interface TrayIconPopupItem {
 	public void setTrayIcon(WindowsTrayIcon trayicon, int id, int level);
 
 }
+
+
+

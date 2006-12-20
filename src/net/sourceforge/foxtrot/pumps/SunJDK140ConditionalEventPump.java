@@ -9,9 +9,12 @@
 package net.sourceforge.foxtrot.pumps;
 
 import java.awt.AWTEvent;
+
 import java.lang.reflect.Field;
+
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
+
 import java.util.LinkedList;
 
 /**

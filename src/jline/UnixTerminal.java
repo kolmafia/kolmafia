@@ -35,9 +35,12 @@
  */
 package jline;
 
-import java.io.*;
-import java.util.*;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.IOException;
 
+import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  *  <p>
@@ -152,7 +155,7 @@ public class UnixTerminal
 	}
 
 
-	/** 
+	/**
 	 *  No-op for exceptions we want to silently consume.
 	 */
 	private void consumeException (Throwable e)
@@ -289,7 +292,7 @@ public class UnixTerminal
 		Process p = Runtime.getRuntime ().exec (cmd);
 		int c;
 		InputStream in;
-			
+
 		in = p.getInputStream ();
 		while ((c = in.read ()) != -1)
 			bout.write (c);
