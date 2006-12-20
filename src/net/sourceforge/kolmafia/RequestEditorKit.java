@@ -991,11 +991,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		String suffix = buffer.toString().substring( endIndex + 7 );
 		buffer.delete( buffer.indexOf( "<form" ), buffer.length() );
 
+		String toggleScript = "if ( document.getElementById('skillsview').options[0].selected ) { document.getElementById('hardskills').style.display = 'none'; document.getElementById('softskills').style.display = ''; } else { document.getElementById('hardskills').style.display = ''; document.getElementById('softskills').style.display = 'none'; } void(0);";
+
 		buffer.append( "<form action=valhalla.php method=post>" );
 		buffer.append( "<input type=hidden name=action value=\"resurrect\"><input type=hidden name=pwd value=\"\">" );
 
 		buffer.append( "<center><table><tr><td align=right><b>New Class:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=whichclass><option value=0>- select a class -</option><option value=1>Seal Clubber</option><option value=2>Turtle Tamer</option><option value=3>Pastamancer</option><option value=4>Sauceror</option><option value=5>Disco Bandit</option><option value=6>Accordion Thief</option></select>" );
+		buffer.append( "<select style=\"width: 250px\" name=\"whichclass\"><option value=0>- select a class -</option><option value=1>Seal Clubber</option><option value=2>Turtle Tamer</option><option value=3>Pastamancer</option><option value=4>Sauceror</option><option value=5>Disco Bandit</option><option value=6>Accordion Thief</option></select>" );
 		buffer.append( "</td></tr><tr><td align=right><b>Gender:</b>&nbsp;</td><td>" );
 		buffer.append( "<select style=\"width: 250px\" name=gender><option value=1>Male</option><option value=2>Female</option></select>" );
 		buffer.append( "</td></tr><tr><td align=right><b>Skill to Keep:</b>&nbsp;</td><td>" );
@@ -1017,21 +1019,23 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 
 		buffer.append( "</select></td></tr><tr><td align=right><b>Moon Sign:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=whichsign><option value=0>- Muscle Signs -</option><option value=1>The Mongoose</option><option value=2>The Wallaby</option><option value=3>The Vole</option><option value=0>- Mysticality Signs -</option><option value=4>The Platypus</option><option value=5>The Opossum</option><option value=6>The Marmot</option><option value=0>- Moxie Signs -</option><option value=7>The Wombat</option><option value=8>The Blender</option><option value=9>The Packrat</option></select>" );
-		buffer.append( "</td></tr><tr><td align=right><b>Hardcore:</b>&nbsp;</td><td><input type=checkbox id=hardcore name=hardcore checked onClick=\"var softstyle = document.getElementById(\'softskills\').style; var hardstyle = document.getElementById(\'hardskills\').style; if ( document.getElementById('hardcore').checked ) { softstyle.display = 'none'; hardstyle.display = ''; } else { hardstyle.display = 'none'; softstyle.display = ''; } return true;\"></td></tr>" );
+		buffer.append( "<select style=\"width: 250px\" name=\"whichsign\"><option value=0>- Muscle Signs -</option><option value=1>The Mongoose</option><option value=2>The Wallaby</option><option value=3>The Vole</option><option value=0>- Mysticality Signs -</option><option value=4>The Platypus</option><option value=5>The Opossum</option><option value=6>The Marmot</option><option value=0>- Moxie Signs -</option><option value=7>The Wombat</option><option value=8>The Blender</option><option value=9>The Packrat</option></select>" );
+		buffer.append( "</td></tr><tr><td align=right><b>Hardcore:</b>&nbsp;</td><td><input type=checkbox id=\"hardcore\" name=\"hardcore\" checked onClick=\"if ( document.getElementById('hardcore').checked ) { document.getElementById('skillsview').options[1].selected = true; } else { document.getElementById('skillsview').options[0].selected = true; } " + toggleScript + "\"></td></tr>" );
 		buffer.append( "<tr><td align=right><b>Restrictions:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=whichpath><option value=0>No dietary restrictions</option><option value=1>Boozetafarian</option><option value=2>Teetotaler</option><option value=3>Oxygenarian</option></select></td></tr>" );
+		buffer.append( "<select style=\"width: 250px\" name=\"whichpath\"><option value=0>No dietary restrictions</option><option value=1>Boozetafarian</option><option value=2>Teetotaler</option><option value=3>Oxygenarian</option></select></td></tr>" );
 
 		buffer.append( "<tr><td colspan=2>&nbsp;</td></tr><tr><td>&nbsp;</td><td>" );
-		buffer.append( "<input class=button type=submit value=\"Resurrect\"> <input type=checkbox name=confirm> (confirm)</td></tr></table></center></form>" );
+		buffer.append( "<input class=button type=submit value=\"Resurrect\"> <input type=checkbox name=\"confirm\"> (confirm)</td></tr></table></center></form>" );
 
 		// Finished with adding all the data in a more compact form.  Now, we
 		// go ahead and add in all the missing data that players might want to
 		// look at to see which class to go for next.
 
-		buffer.append( "<center><div id=\"softskills\" style=\"display:none\"><h2>Unpermed Softcore Skills | <a href=\"javascript: document.getElementById(\'softskills\').style = 'none'; document.getElementById(\'hardskills\').style = '';\">Unpermed Hardcore Skills</a></h2>" );
+		buffer.append( "<center><br><br><select id=\"skillsview\" onChange=\"" + toggleScript + "\"><option>Unpermed Softcore Skills</option><option selected>Unpermed Hardcore Skills</option></select>" );
+
+		buffer.append( "<br><br><div id=\"softskills\" style=\"display:none\">" );
 		createSkillTable( buffer, softSkills );
-		buffer.append( "</div><div id=\"hardskills\"><h2><a href=\"javascript: document.getElementById(\'hardskills\').style = 'none'; document.getElementById(\'softskills\').style = '';\">Unpermed Softcore Skills</a> | Unpermed Hardcore Skills</h2>" );
+		buffer.append( "</div><div id=\"hardskills\">" );
 		createSkillTable( buffer, hardSkills );
 		buffer.append( "</div></center>" );
 
@@ -1041,15 +1045,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static void createSkillTable( StringBuffer buffer, ArrayList skillList )
 	{
 		buffer.append( "<table width=\"80%\"><tr>" );
-		buffer.append( "<td valign=\"top\" bgcolor=\"#ffcccc\"><table><tr><th style=\"font-size: 120%; text-decoration: underline; text-align: left;\">Muscle Skills</th></tr><tr><td>" );
+		buffer.append( "<td valign=\"top\" bgcolor=\"#ffcccc\"><table><tr><th style=\"font-size: 100%; text-decoration: underline; text-align: left;\">Muscle Skills</th></tr><tr><td style=\"font-size: 90%\">" );
 		listPermanentSkills( buffer, skillList, 1000 );
 		listPermanentSkills( buffer, skillList, 2000 );
 		buffer.append( "</td></tr></table></td>" );
-		buffer.append( "<td valign=\"top\" bgcolor=\"#ccccff\"><table><tr><th style=\"font-size: 120%; text-decoration: underline; text-align: left;\">Mysticality Skills</th></tr><tr><td>" );
+		buffer.append( "<td valign=\"top\" bgcolor=\"#ccccff\"><table><tr><th style=\"font-size: 100%; text-decoration: underline; text-align: left;\">Mysticality Skills</th></tr><tr><td style=\"font-size: 90%\">" );
 		listPermanentSkills( buffer, skillList, 3000 );
 		listPermanentSkills( buffer, skillList, 4000 );
 		buffer.append( "</td></tr></table></td>" );
-		buffer.append( "<td valign=\"top\" bgcolor=\"#ccffcc\"><table><tr><th style=\"font-size: 120%; text-decoration: underline; text-align: left;\">Moxie Skills</th></tr><tr><td>" );
+		buffer.append( "<td valign=\"top\" bgcolor=\"#ccffcc\"><table><tr><th style=\"font-size: 100%; text-decoration: underline; text-align: left;\">Moxie Skills</th></tr><tr><td style=\"font-size: 90%\">" );
 		listPermanentSkills( buffer, skillList, 5000 );
 		listPermanentSkills( buffer, skillList, 6000 );
 		buffer.append( "</td></tr></table></td>" );
