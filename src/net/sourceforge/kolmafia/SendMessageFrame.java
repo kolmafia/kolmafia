@@ -235,8 +235,6 @@ public class SendMessageFrame extends KoLFrame
 
 	public boolean sendMessage( String recipient, String message )
 	{
-		KoLmafia.forceContinue();
-
 		if ( messageTypes.getSelectedIndex() == 0 )
 		{
 			setEnabled( false );
@@ -360,8 +358,6 @@ public class SendMessageFrame extends KoLFrame
 
 		public void run()
 		{
-			KoLmafia.forceContinue();
-
 			String [] recipients = StaticEntity.getClient().extractTargets( (String) recipientEntry.getSelectedItem() );
 			if ( recipients.length == 0 || recipients[0].equals( "" ) )
 			{
@@ -386,6 +382,7 @@ public class SendMessageFrame extends KoLFrame
 			// If one of them fails, however, immediately stop
 			// and notify the user that there was failure.
 
+			KoLmafia.forceContinue();
 			for ( int i = 0; i < recipients.length && KoLmafia.permitsContinue(); ++i )
 				if ( !sendMessage( recipients[i], message ) )
 					return;

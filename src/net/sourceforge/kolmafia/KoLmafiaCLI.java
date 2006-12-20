@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2005-2006, KoLmafia development team
- * http://kolmafia.sourceforge.net/
+ * http://sourceforge.net/
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -90,7 +90,7 @@ public class KoLmafiaCLI extends KoLmafia
 		System.out.println();
 
 		StaticEntity.setClient( DEFAULT_SHELL );
-		KoLmafia.outputStream = System.out;
+		outputStream = System.out;
 
 		try
 		{
@@ -224,6 +224,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void listenForCommands()
 	{
+		forceContinue();
+
 		if ( StaticEntity.getClient() == this )
 		{
 			isPrompting = true;
@@ -571,6 +573,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "abort" ) )
 		{
+			commandQueue.clear();
 			updateDisplay( ABORT_STATE, parameters.length() == 0 ? "Script abort." : parameters );
 			return;
 		}
@@ -680,11 +683,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "login" ) )
 		{
-			forceContinue();
-
 			(new LogoutRequest()).run();
-			KoLmafia.forceContinue();
-
 			String password = getSaveState( parameters );
 
 			if ( password != null )
@@ -714,7 +713,6 @@ public class KoLmafiaCLI extends KoLmafia
 				KoLFrame.createDisplay( LoginFrame.class );
 
 			(new LogoutRequest()).run();
-			forceContinue();
 
 			if ( StaticEntity.getClient() == DEFAULT_SHELL )
 				DEFAULT_SHELL.attemptLogin();
@@ -737,7 +735,7 @@ public class KoLmafiaCLI extends KoLmafia
 			// Validate the script first.
 
 			executeCommand( "validate", parameters );
-			if ( !KoLmafia.permitsContinue() )
+			if ( !permitsContinue() )
 				return;
 
 			String namespace = StaticEntity.getProperty( "commandLineNamespace" );
@@ -1373,7 +1371,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "buy" ) || command.equals( "mallbuy" ) )
 		{
 			executeBuyCommand( parameters );
-			if ( !KoLmafia.isRunningBetweenBattleChecks() )
+			if ( !isRunningBetweenBattleChecks() )
 				SpecialOutfit.restoreCheckpoint();
 
 			return;
@@ -1540,7 +1538,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "send" ) || command.equals( "kmail" ) )
 		{
-			if ( KoLmafia.isRunningBetweenBattleChecks() )
+			if ( isRunningBetweenBattleChecks() )
 			{
 				printLine( "Send request \"" + parameters + "\" ignored in between-battle execution." );
 				return;
@@ -1754,7 +1752,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( scriptFile.isDirectory() )
 			{
-				KoLmafia.updateDisplay( scriptFile.getAbsolutePath() + " is a directory." );
+				updateDisplay( scriptFile.getAbsolutePath() + " is a directory." );
 				return;
 			}
 
@@ -2406,7 +2404,7 @@ public class KoLmafiaCLI extends KoLmafia
 		String skillName = getUsableSkillName( skillNameString );
 		if ( skillName == null )
 		{
-			KoLmafia.updateDisplay( "You don't have a skill matching \"" + parameters + "\"" );
+			updateDisplay( "You don't have a skill matching \"" + parameters + "\"" );
 			return;
 		}
 
@@ -2709,7 +2707,7 @@ public class KoLmafiaCLI extends KoLmafia
 		String list = spaceIndex == -1 ? parameters : parameters.substring( 0, spaceIndex ).trim();
 		String filter = spaceIndex == -1 ? "" : parameters.substring( spaceIndex ).trim();
 
-		PrintStream desiredOutputStream = KoLmafia.outputStream;
+		PrintStream desiredOutputStream = outputStream;
 
 		if ( !filter.equals( "" ) &&
 			(parameters.startsWith( "summary" ) || parameters.startsWith( "session" ) || parameters.startsWith( "stat" ) || parameters.startsWith( "equip" ) || parameters.startsWith( "encounters" )) )
@@ -2755,8 +2753,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executePrintCommand( String desiredData, String filter, PrintStream outputStream )
 	{
-		PrintStream originalStream = KoLmafia.outputStream;
-		KoLmafia.outputStream = outputStream;
+		PrintStream originalStream = outputStream;
+		outputStream = outputStream;
 
 		KoLmafiaCLI.printBlankLine();
 
@@ -2867,7 +2865,7 @@ public class KoLmafiaCLI extends KoLmafia
 			outputStream.close();
 		}
 
-		KoLmafia.outputStream = originalStream;
+		outputStream = originalStream;
 	}
 
 	private static String getStatString( int base, int adjusted, int tnp )

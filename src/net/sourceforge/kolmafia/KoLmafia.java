@@ -565,8 +565,6 @@ public abstract class KoLmafia implements KoLConstants
 					getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i][0], StaticEntity.parseInt( UseSkillRequest.BREAKFAST_SKILLS[i][1] ) );
 			}
 		}
-
-		forceContinue();
 	}
 
 	public void getBreakfast( String skillname, int standardCast )
@@ -642,8 +640,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void resetSession()
 	{
-		forceContinue();
-
 		encounterList.clear();
 		adventureList.clear();
 
@@ -1437,8 +1433,6 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( refusesContinue() )
 				return;
-
-			forceContinue();
 
 			boolean wasAdventuring = isAdventuring;
 

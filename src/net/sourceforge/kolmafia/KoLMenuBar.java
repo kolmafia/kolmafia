@@ -388,11 +388,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( makesRequest() )
-				KoLmafia.forceContinue();
-
 			RequestThread.postRequest( this );
-
 			if ( makesRequest() )
 				KoLmafia.enableDisplay();
 		}

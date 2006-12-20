@@ -693,7 +693,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	public void sideCommand()
 	{
-		KoLmafia.forceContinue();
 		if ( commandQueue.isEmpty() )
 		{
 			commandQueue.add( getFormField( "cmd" ) );
