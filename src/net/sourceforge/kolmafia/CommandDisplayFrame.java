@@ -177,10 +177,7 @@ public class CommandDisplayFrame extends KoLFrame
 			public void run()
 			{
 				while ( !commandQueue.isEmpty() )
-				{
-					KoLmafia.forceContinue();
 					executeQueuedCommand();
-				}
 
 				KoLmafia.enableDisplay();
 			}
@@ -193,6 +190,8 @@ public class CommandDisplayFrame extends KoLFrame
 					KoLmafiaCLI.printBlankLine();
 					KoLmafiaCLI.printLine( " > " + command );
 					KoLmafiaCLI.printBlankLine();
+
+					KoLmafia.forceContinue();
 					DEFAULT_SHELL.executeLine( command );
 				}
 				catch ( Exception e )

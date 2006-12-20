@@ -462,7 +462,6 @@ public class AdventureFrame extends KoLFrame
 					return;
 				}
 
-				KoLmafia.forceContinue();
 				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
 				MoodSettings.setMood( (String) moodSelect.getSelectedItem() );
 			}

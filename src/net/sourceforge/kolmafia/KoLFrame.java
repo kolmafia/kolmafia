@@ -88,12 +88,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.ItemManagePanel.TransferListener;
 
-/**
- * An extended <code>JFrame</code> which provides all the frames in
- * KoLmafia the ability to update their displays, given some integer
- * value and the message to use for updating.
- */
-
 public abstract class KoLFrame extends JFrame implements KoLConstants
 {
 	public static final TradeableItemFilter TRADE_FILTER = new TradeableItemFilter();
@@ -256,7 +250,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			if ( !KoLmafia.executedLogin() || StaticEntity.getIntegerProperty( "closeLastFrameAction" ) == 1 )
 				System.exit(0);
 
-			KoLmafia.forceContinue();
 			createDisplay( LoginFrame.class );
 			(new LogoutRequest()).run();
 		}
@@ -410,7 +403,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		public void run()
 		{
 			levelLabel.setText( "Level " + KoLCharacter.getLevel() );
-			roninLabel.setText( KoLCharacter.isHardcore() ? "(Hardcore)" : KoLCharacter.canInteract() ? "(Ronin Clear)" :
+			roninLabel.setText( KoLCharacter.isHardcore() ? "(Hardcore)" : KoLCharacter.getTotalTurnsUsed() >= 600 ? "(Ronin Clear)" :
 				"(Ronin for " + (600 - KoLCharacter.getTotalTurnsUsed()) + ")" );
 
 			mcdLabel.setText( "MCD @ " + KoLCharacter.getMindControlLevel() );
@@ -568,7 +561,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void actionPerformed( ActionEvent e )
 		{
-			KoLmafia.forceContinue();
 			RequestThread.postRequest( this );
 			KoLmafia.enableDisplay();
 		}

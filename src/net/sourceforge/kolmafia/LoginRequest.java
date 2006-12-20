@@ -171,8 +171,7 @@ public class LoginRequest extends KoLRequest
 		runCountdown = true;
 		StaticEntity.getClient().setCurrentRequest( null );
 
-		if ( !KoLmafia.refusesContinue() )
-			KoLmafia.forceContinue();
+		KoLmafia.forceContinue();
 
 		instanceRunning = true;
 		lastUsername = username;

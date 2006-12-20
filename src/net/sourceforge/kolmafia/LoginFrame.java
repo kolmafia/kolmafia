@@ -273,7 +273,6 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.setGlobalProperty( username, "loginScript", scriptField.getText() );
 			StaticEntity.setGlobalProperty( username, "getBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
-			KoLmafia.forceContinue();
 			RequestThread.postRequest( new LoginRequest( username, password ) );
 			KoLmafia.enableDisplay();
 		}
