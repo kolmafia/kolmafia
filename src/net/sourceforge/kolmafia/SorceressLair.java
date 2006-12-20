@@ -986,7 +986,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( n < 0 )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Server-side change detected.  Script aborted." );
 			resetAutoAttack( previousAutoAttack );
 			return -1;
 		}
@@ -1130,7 +1130,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Shouldn't get here.
 
-		KoLmafia.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
+		KoLmafia.updateDisplay( ERROR_STATE, "Server-side change detected.  Script aborted." );
 		return new AdventureResult( 666, 1 );
 	}
 
@@ -1290,7 +1290,7 @@ public abstract class SorceressLair extends StaticEntity
 		requirements.add( option );
 		if ( !KoLmafia.checkRequirements( requirements ) )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Could not determine items to use to fight shadow." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Could not determine items to use to fight shadow." );
 			return;
 		}
 

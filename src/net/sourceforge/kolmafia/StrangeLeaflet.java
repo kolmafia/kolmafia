@@ -304,7 +304,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 			break;
 
 		default:
-			KoLmafia.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Server-side change detected.  Script aborted." );
 			break;
 		}
 	}
