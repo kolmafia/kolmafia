@@ -35,24 +35,17 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 
-import java.util.TreeMap;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.regex.Pattern;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeMap;
+
 import java.util.regex.Matcher;
-
+import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
-
-/**
- * A static class which handles the officially "supported" buffbots.
- *
- * Buffbots can have their buff normalOfferings statically listed in buffs.txt
- *
- * Alternatively, if they keep their display case up-to-date with the current
- * price list - and use a "standard" format for listing prices, the bot is
- * listed in bots.txt and KoLmafia will read and parse the display case
- */
 
 public class BuffBotDatabase extends KoLDatabase
 {

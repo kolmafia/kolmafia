@@ -33,14 +33,14 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
  * A container class representing the <code>KoLCharacter</code>.  This

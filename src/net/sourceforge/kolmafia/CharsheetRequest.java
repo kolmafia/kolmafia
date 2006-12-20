@@ -33,20 +33,12 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
 import java.util.ArrayList;
-
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.util.List;
 import java.util.StringTokenizer;
 
-/**
- * An extension of <code>KoLRequest</code> which retrieves the KoLCharacter's
- * information from the server.  Note that this request only retrieves the
- * KoLCharacter's statistics at the current time; skills and effects will be
- * retrieved at a later date.  Equipment retrieval takes place through a
- * different request.
- */
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CharsheetRequest extends KoLRequest
 {

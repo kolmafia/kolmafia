@@ -38,15 +38,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.SwingUtilities;
 
-/**
- * The main class for the <code>KoLmafia</code> package.  This
- * class encapsulates most of the data relevant to any given
- * session of <code>Kingdom of Loathing</code> and currently
- * functions as the blackboard in the architecture.  When data
- * listeners are implemented, it will continue to manage most
- * of the interactions.
- */
-
 public class KoLmafiaGUI extends KoLmafia
 {
 	/**

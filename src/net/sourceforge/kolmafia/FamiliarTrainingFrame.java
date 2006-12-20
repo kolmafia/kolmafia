@@ -33,43 +33,44 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import java.awt.CardLayout;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 
-// events
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// containers
-import javax.swing.JFileChooser;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-
-// utilities
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.TreeSet;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
-import java.util.Collections;
 import java.lang.ref.WeakReference;
-import net.java.dev.spellcast.utilities.LockableListModel;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.TreeSet;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-/**
- * A Frame to provide access to Xylpher's familiar training tool
- */
+import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 
 public class FamiliarTrainingFrame extends KoLFrame
 {

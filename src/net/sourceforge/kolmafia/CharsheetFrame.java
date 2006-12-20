@@ -33,29 +33,22 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.CardLayout;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.GridLayout;
 
-// containers
 import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
-// utilities
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-/**
- * An extension of <code>KoLFrame</code> used to display the character
- * sheet for the current user.  Note that this can only be instantiated
- * when the character is logged in; if the character has logged out,
- * this method will contain blank data.
- */
 
 public class CharsheetFrame extends KoLFrame
 {

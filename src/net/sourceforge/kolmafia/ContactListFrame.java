@@ -34,25 +34,27 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridLayout;
-
-import javax.swing.JToolBar;
-import javax.swing.JDialog;
-import javax.swing.JTextArea;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JList;
+import java.awt.Point;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import net.java.dev.spellcast.utilities.SortedListModel;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JToolBar;
+import javax.swing.ListModel;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-/**
- * An extension of a generic <code>JFrame</code> which contains the buddy list
- * for this KoLmafia session.
- */
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ContactListFrame extends KoLFrame
 {

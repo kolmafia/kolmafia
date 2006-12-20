@@ -33,13 +33,16 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
-import java.util.Map;
-import java.util.List;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.io.BufferedReader;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 

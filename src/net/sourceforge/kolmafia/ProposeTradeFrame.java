@@ -33,31 +33,32 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import java.awt.Color;
-import java.awt.CardLayout;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
-
-// event listeners
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-// containers
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JComboBox;
+import java.awt.Font;
+import java.awt.GridLayout;
 
-// other imports
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.util.List;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListModel;
+
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class ProposeTradeFrame extends KoLFrame
 {

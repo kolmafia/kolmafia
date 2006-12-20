@@ -34,14 +34,10 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
+import java.util.List;
 import java.util.regex.Matcher;
-
-/**
- * An extension of <code>KoLRequest</code> which handles fights
- * and battles.  A new instance is created and started for every
- * round of battle.
- */
+import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 
 public class FightRequest extends KoLRequest
 {

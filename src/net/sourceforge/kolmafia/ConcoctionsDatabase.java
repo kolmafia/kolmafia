@@ -33,19 +33,10 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.io.BufferedReader;
+import java.util.ArrayList;
+import java.util.List;
 import net.java.dev.spellcast.utilities.SortedListModel;
-
-/**
- * A static class which retrieves all the concoctions available in
- * the Kingdom of Loathing.  This class technically uses up a lot
- * more memory than it needs to because it creates an array storing
- * all possible item combinations, but that's okay!  Because it's
- * only temporary.  Then again, this is supposedly true of all the
- * flow-control using exceptions, but that hasn't been changed.
- */
 
 public class ConcoctionsDatabase extends KoLDatabase
 {

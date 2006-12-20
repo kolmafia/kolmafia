@@ -33,12 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-/**
- * In order to be friendly to the server, this class is designed to request a logout whenever the user exits.
- * It also notifies the client that a logout request was sent so that the active frame can be switched back
- * to the <code>LoginFrame</code>.
- */
-
 public class LogoutRequest extends KoLRequest
 {
 	private static boolean instanceRunning = false;
@@ -81,3 +75,4 @@ public class LogoutRequest extends KoLRequest
 		instanceRunning = false;
 	}
 }
+

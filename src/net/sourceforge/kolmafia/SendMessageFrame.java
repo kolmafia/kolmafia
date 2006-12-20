@@ -33,31 +33,32 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import java.awt.CardLayout;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.GridLayout;
 
-// event listeners
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-// containers
-import javax.swing.JMenuItem;
+import java.util.List;
+
 import javax.swing.Box;
-import javax.swing.JLabel;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
-// other imports
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class SendMessageFrame extends KoLFrame
 {

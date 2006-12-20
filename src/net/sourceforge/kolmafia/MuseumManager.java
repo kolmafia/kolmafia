@@ -33,13 +33,15 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.util.Collection;
+import java.util.List;
 
-import net.java.dev.spellcast.utilities.SortedListModel;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class MuseumManager extends StaticEntity
 {

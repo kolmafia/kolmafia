@@ -33,18 +33,11 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.Calendar;
-import java.util.List;
 import java.util.ArrayList;
-
-/**
- * A special class used to determine the current moon phase.
- * Theoretically, the calculations are simple enough to be
- * an internal class elsewhere, but because it makes everything
- * cleaner to do things this way, so it goes.
- */
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 public class MoonPhaseDatabase extends StaticEntity
 {

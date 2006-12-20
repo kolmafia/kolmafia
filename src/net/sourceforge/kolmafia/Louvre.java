@@ -33,13 +33,11 @@
 
 package net.sourceforge.kolmafia;
 
-// utilities
-import net.java.dev.spellcast.utilities.UtilityConstants;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Louvre implements UtilityConstants
+public class Louvre
 {
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 
@@ -169,7 +167,7 @@ public class Louvre implements UtilityConstants
 	// 1 - 6	A goal
 	// X		A destination
 
-	private static int LouvreChoiceTable [][] = new int [ LAST_CHOICE - FIRST_CHOICE + 1][ 3 ];
+	private static int LouvreChoiceTable [][] = new int [ LAST_CHOICE - FIRST_CHOICE + 1 ][ 3 ];
 
 	private static int [] choiceTuple( int source )
 	{

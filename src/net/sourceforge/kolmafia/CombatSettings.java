@@ -33,20 +33,21 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.BufferedReader;
 import java.io.PrintStream;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
-import javax.swing.tree.TreeNode;
+
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
 
-import net.java.dev.spellcast.utilities.UtilityConstants;
-
-public abstract class CombatSettings implements UtilityConstants, KoLConstants
+public abstract class CombatSettings implements KoLConstants
 {
 	static
 	{

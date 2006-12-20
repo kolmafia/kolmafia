@@ -33,16 +33,18 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.io.BufferedReader;
+import java.io.File;
+
 import java.text.SimpleDateFormat;
 
-import java.io.File;
-import java.io.BufferedReader;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AscensionDataRequest extends KoLRequest implements Comparable
 {

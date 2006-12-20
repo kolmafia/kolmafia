@@ -33,27 +33,23 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Reader;
 
-import java.util.TreeMap;
 import java.util.Arrays;
 import java.util.Properties;
-import net.java.dev.spellcast.utilities.UtilityConstants;
+import java.util.Set;
+import java.util.TreeMap;
 
-/**
- * An extension of {@link java.util.Properties} which handles all the
- * user settings of <code>KoLmafia</code>.  In order to maintain issues
- * involving compatibility (J2SE 1.4 does not support XML output directly),
- * all data is written using {@link java.util.Properties#store(OutputStream,String)}.
- */
-
-public class KoLSettings extends Properties implements UtilityConstants, KoLConstants
+public class KoLSettings extends Properties implements KoLConstants
 {
 	private boolean initializingDefaults = false;
 

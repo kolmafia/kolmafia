@@ -104,3 +104,4 @@ public class StarChartRequest extends ItemCreationRequest
 	{	return true;
 	}
 }
+

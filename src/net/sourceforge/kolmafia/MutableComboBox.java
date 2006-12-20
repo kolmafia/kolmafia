@@ -33,16 +33,22 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Component;
+
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import java.util.Map;
+import java.util.Map.Entry;
+
 import javax.swing.JComboBox;
 import javax.swing.text.JTextComponent;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-
-import java.util.Map;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
 public class MutableComboBox extends JComboBox implements KoLConstants
 {

@@ -33,8 +33,9 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 
 public class AreaCombatData implements KoLConstants
 {

@@ -34,31 +34,31 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.CardLayout;
-
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
+import java.awt.Component;
+import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.JButton;
-
 import java.io.File;
-import java.lang.reflect.Method;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Method;
 
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
+
 import net.java.dev.spellcast.utilities.ActionPanel;
-import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LicenseDisplay;
 
 public class KoLMenuBar extends JMenuBar implements KoLConstants
 {

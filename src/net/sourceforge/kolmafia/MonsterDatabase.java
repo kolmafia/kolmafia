@@ -33,12 +33,14 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.StringTokenizer;
-import java.util.List;
-import java.util.ArrayList;
 import java.io.BufferedReader;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 public class MonsterDatabase extends KoLDatabase
 {

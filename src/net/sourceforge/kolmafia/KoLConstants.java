@@ -35,27 +35,29 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JTextField;
-
-import java.util.Vector;
-import java.util.Random;
-import java.util.Locale;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.text.DecimalFormatSymbols;
+import java.awt.Toolkit;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import javax.swing.JLabel;
-import java.awt.Toolkit;
 
-import java.util.TreeMap;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Random;
+import java.util.TreeMap;
+import java.util.Vector;
+
 import java.util.regex.Pattern;
 
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 public interface KoLConstants extends UtilityConstants
 {

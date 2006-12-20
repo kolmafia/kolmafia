@@ -34,19 +34,22 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import java.util.ArrayList;
 
 import javax.swing.Box;
+import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import java.util.ArrayList;
 
 public class KoLDesktop extends KoLFrame implements ChangeListener
 {

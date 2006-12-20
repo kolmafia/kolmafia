@@ -33,17 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
-/**
- * An interface that provides listener-based support for <code>KoLmafia</code>.
- * All classes which wish to be notified of changes of a character's state
- * register themselves as <code>KoLCharacterListener</code>s with the
- * appropriate <code>KoLCharacter</code> object.  This class intends to shift
- * the code of KoLmafia from a generic blackboard model to a listener-based
- * model, hopefully cleaning up implementation details to allow for greater
- * extensibility of the user interface.
- */
-
 public interface KoLCharacterListener
 {
 	public void updateStatus();
 }
+

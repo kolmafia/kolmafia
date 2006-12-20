@@ -88,3 +88,4 @@ public class ZapRequest extends KoLRequest
 		KoLmafia.updateDisplay( item.getName() + " has been transformed." );
 	}
 }
+

@@ -36,11 +36,6 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * An extension of the generic <code>KoLRequest</code> class which handles
- * adventures involving trading with the hermit.
- */
-
 public class HermitRequest extends KoLRequest
 {
 	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<tr><td.*?><input.*?value=(\\d*)>.*?<b>(.*?)</b>.*?</td></tr>" );

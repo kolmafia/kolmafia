@@ -33,41 +33,35 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import java.util.Date;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Dimension;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.util.Date;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import java.awt.CardLayout;
-import java.awt.BorderLayout;
-import javax.swing.SpringLayout;
-
-// event listeners
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-// containers
-import javax.swing.JTabbedPane;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
-import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 import javax.swing.UIManager;
 
-// other imports
+import javax.swing.UIManager.LookAndFeelInfo;
 import com.sun.java.forums.SpringUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-/**
- * An extended <code>KoLFrame</code> which presents the user with the ability to
- * login to the Kingdom of Loathing.  Essentially, this class is a modification
- * of the <code>LoginDialog</code> class from the Spellcast project.
- */
 
 public class LoginFrame extends KoLFrame
 {

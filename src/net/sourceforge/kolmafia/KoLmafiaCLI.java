@@ -33,33 +33,23 @@
 
 package net.sourceforge.kolmafia;
 
-// input and output
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 
-// utility imports
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.swing.SwingUtilities;
-
 import jline.ConsoleReader;
-
-/**
- * The main class for the <code>KoLmafia</code> package.  This
- * class encapsulates most of the data relevant to any given
- * session of <code>Kingdom of Loathing</code> and currently
- * functions as the blackboard in the architecture.  When data
- * listeners are implemented, it will continue to manage most
- * of the interactions.
- */
 
 public class KoLmafiaCLI extends KoLmafia
 {

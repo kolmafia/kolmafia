@@ -33,34 +33,30 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import java.awt.Dimension;
-import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 
-// containers
-import javax.swing.JCheckBox;
-import javax.swing.JList;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JComboBox;
-import javax.swing.JTabbedPane;
 import javax.swing.BorderFactory;
-
-// utilities
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
+import javax.swing.border.Border;
 
-/**
- * An extension of <code>KoLFrame</code> which acts as a buffbot in Kingdom of Loathing.
- * This retrieves all messages from the inbox, and, for those messages which are buff
- * requests, buffs the sender. It also maintains the MP level using phonics downs.
- */
+import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class BuffBotFrame extends KoLFrame
 {

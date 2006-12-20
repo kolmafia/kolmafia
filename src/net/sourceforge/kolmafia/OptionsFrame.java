@@ -33,62 +33,43 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.CardLayout;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
-// events
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import java.io.File;
+import java.util.Arrays;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-// containers
-import javax.swing.JFileChooser;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
-import javax.swing.JTabbedPane;
-import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-
-import java.util.Arrays;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-
-/**
- * <p>Handles all of the customizable user options in <code>KoLmafia</code>.
- * This class presents all of the options that the user can customize
- * in their adventuring and uses the appropriate <code>KoLSettings</code>
- * in order to display them.  This class also uses <code>KoLSettings</code>
- * to record the user's preferences for upcoming sessions.</p>
- *
- * <p>If this class is accessed before login, it will modify global settings
- * ONLY, and if the character already has settings, any modification of
- * global settings will not modify their own.  Accessing this class after
- * login will result in modification of the character's own settings ONLY,
- * and will not modify any global settings.</p>
- *
- * <p>Proxy settings are a special exception to this rule - because the
- * Java Virtual Machine requires the proxy settings to be specified at
- * a global level, though the settings are changed appropriately on disk,
- * only the most recently loaded settings will be active on the current
- * instance of the JVM.  If separate characters need separate proxies,
- * they cannot be run in the same JVM instance.</p>
- */
+import net.sourceforge.kolmafia.MoodSettings.MoodTrigger;
 
 public class OptionsFrame extends KoLFrame
 {

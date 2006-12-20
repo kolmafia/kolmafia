@@ -33,28 +33,22 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JPanel;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
-/**
- * An internal class which creates a panel which manages items.
- * This is done because most of the item management displays
- * are replicated.  Note that a lot of this code was borrowed
- * directly from the ActionVerifyPanel class in the utilities
- * package for Spellcast.
- */
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ItemManagePanel extends LabeledScrollPanel
 {

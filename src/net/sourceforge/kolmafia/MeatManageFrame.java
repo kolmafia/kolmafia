@@ -33,23 +33,15 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.GridLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JComboBox;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-
-/**
- * An extended <code>KoLFrame</code> which presents the user with the ability to
- * adventure in the Kingdom of Loathing.  As the class is developed, it will also
- * provide other adventure-related functionality, such as inventoryManage management
- * and mall purchases.  Its content panel will also change, pending the activity
- * executed at that moment.
- */
 
 public class MeatManageFrame extends KoLFrame
 {

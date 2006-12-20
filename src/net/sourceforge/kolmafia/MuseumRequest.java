@@ -33,13 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-/**
- * An extension of <code>KoLRequest</code> which retrieves a list of
- * the character's equipment from the server.  At the current time,
- * there is no support for actually equipping items, so only the items
- * which are currently equipped are retrieved.
- */
-
 public class MuseumRequest extends SendMessageRequest
 {
 	private boolean isDeposit;
@@ -113,3 +106,4 @@ public class MuseumRequest extends SendMessageRequest
 	{	return isDeposit ? "Placing items in display case" : "Removing items from display case";
 	}
 }
+

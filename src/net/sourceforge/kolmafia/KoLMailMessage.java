@@ -32,11 +32,11 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.StringTokenizer;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.text.SimpleDateFormat;
+import java.util.StringTokenizer;
 
 public class KoLMailMessage implements Comparable
 {

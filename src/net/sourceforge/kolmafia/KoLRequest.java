@@ -33,39 +33,40 @@
 
 package net.sourceforge.kolmafia;
 
-import java.net.URL;
-import java.net.URLEncoder;
-import java.net.URLDecoder;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
-import java.io.InputStream;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.BufferedReader;
-import java.io.UnsupportedEncodingException;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 import java.util.StringTokenizer;
+
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Map;
-import java.util.Iterator;
+
 import javax.swing.SwingUtilities;
 
 import com.velocityreviews.forums.HttpTimeoutHandler;
-
-/**
- * Most aspects of Kingdom of Loathing are accomplished by submitting
- * forms and their accompanying data.  This abstract class is designed
- * to encapsulate this behavior by providing all descendant classes
- * (which simulate specific aspects of Kingdom of Loathing) with the
- * <code>addFormField()</code> method.  Note that the actual information
- * is sent to the server through the <code>run()</code> method.
- */
+import net.sourceforge.kolmafia.AdventureDatabase.ChoiceAdventure;
+import sun.net.www.protocol.http.Handler;
 
 public class KoLRequest implements Runnable, KoLConstants
 {

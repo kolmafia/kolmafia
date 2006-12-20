@@ -33,29 +33,21 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GridLayout;
 
-// containers
-import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JComponent;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.ListModel;
 
-// other imports
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.PanelList;
 import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.java.dev.spellcast.utilities.LockableListModel;
-
-/**
- * An extension of <code>KoLFrame</code> which handles all the item
- * management functionality of Kingdom of Loathing.  This ranges from
- * basic transfer to and from the Display to item creation, cooking,
- * item use, and equipment.
- */
 
 public class MuseumFrame extends KoLFrame
 {

@@ -33,17 +33,14 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Arrays;
-import java.util.TreeMap;
-import java.util.ArrayList;
-
 import java.io.BufferedReader;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
-/**
- * A static class which retrieves all the adventures currently
- * available to <code>KoLmafia</code>.
- */
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.TreeMap;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureDatabase extends KoLDatabase
 {

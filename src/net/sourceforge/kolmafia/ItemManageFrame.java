@@ -33,46 +33,38 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import java.awt.Dimension;
-import java.awt.CardLayout;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 
-// event listeners
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-// containers
-import javax.swing.Box;
-import javax.swing.JSeparator;
-import javax.swing.ButtonGroup;
-import javax.swing.JList;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JCheckBox;
-import javax.swing.JRadioButton;
-import javax.swing.JTabbedPane;
-
-// other imports
-import java.util.List;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.sourceforge.kolmafia.ItemManagePanel.FilterItemComboBox;
-import net.sourceforge.kolmafia.ItemManagePanel.UpdateFilterListener;
-
-/**
- * An extension of <code>KoLFrame</code> which handles all the item
- * management functionality of Kingdom of Loathing.  This ranges from
- * basic transfer to and from the closet to item creation, cooking,
- * item use, and equipment.
- */
+import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 public class ItemManageFrame extends KoLFrame
 {

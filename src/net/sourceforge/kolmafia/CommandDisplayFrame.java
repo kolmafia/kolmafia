@@ -33,22 +33,23 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
 import java.awt.BorderLayout;
+import java.awt.Component;
 
-// event listeners
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-// containers
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CommandDisplayFrame extends KoLFrame

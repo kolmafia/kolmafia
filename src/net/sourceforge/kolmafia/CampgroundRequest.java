@@ -33,12 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-/**
- * A lot of information about the character can only be found out
- * by requesting the campground.  Things like bartender-in-the-boxes
- * and the toaster can only be discovered here.
- */
-
 public class CampgroundRequest extends KoLRequest
 {
 	private String action;
@@ -129,3 +123,4 @@ public class CampgroundRequest extends KoLRequest
 	{	return responseCode != 200 || (!action.equals( "rest" ) && !action.equals( "relax" )) ? 0 : 1;
 	}
 }
+

@@ -33,22 +33,24 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Component;
 import java.awt.BorderLayout;
+import java.awt.Component;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JTable;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
 import javax.swing.table.TableCellRenderer;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 
 public class CakeArenaFrame extends KoLFrame
 {

@@ -32,13 +32,8 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.regex.Matcher;
 
-/**
- * A special class made to create meat paste.  This class
- * accepts the appropriate meat type and creates the given
- * quantity by using the improved interface for paste creation.
- */
+import java.util.regex.Matcher;
 
 public class CombineMeatRequest extends ItemCreationRequest
 {

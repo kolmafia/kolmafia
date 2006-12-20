@@ -33,12 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.BorderLayout;
-
-/**
- * A class which displays what the council currently has to say to you.
- */
-
 public class CouncilFrame extends RequestFrame
 {
 	public CouncilFrame()

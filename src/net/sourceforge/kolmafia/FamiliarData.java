@@ -34,12 +34,15 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Component;
-import javax.swing.JList;
-import javax.swing.JLabel;
-import javax.swing.DefaultListCellRenderer;
 
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.Icon;
+import javax.swing.JLabel;
+import javax.swing.JList;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class FamiliarData implements KoLConstants, Comparable

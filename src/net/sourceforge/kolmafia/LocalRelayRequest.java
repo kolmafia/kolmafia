@@ -34,19 +34,24 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import java.util.List;
-import java.util.Date;
-import java.util.ArrayList;
-
+import java.net.URI;
+import java.net.URL;
 import java.net.URLEncoder;
-import java.util.regex.Pattern;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class LocalRelayRequest extends PasswordHashRequest

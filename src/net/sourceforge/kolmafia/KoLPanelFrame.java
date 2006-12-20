@@ -36,13 +36,6 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import net.java.dev.spellcast.utilities.ActionPanel;
 
-/**
- * A special frame which serves to display a single <code>KoLPanel</code>
- * with a 10 pixel border around the edges.  This is designed to eliminate
- * the need for nested KoLFrame classes in the event that only one panel
- * is to be displayed.
- */
-
 public class KoLPanelFrame extends KoLFrame
 {
 	/**

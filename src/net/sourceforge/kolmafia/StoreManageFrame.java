@@ -33,29 +33,37 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Color;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import java.util.List;
 import java.util.Vector;
 
-import javax.swing.Box;
-import javax.swing.JPanel;
-import javax.swing.JList;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
-import javax.swing.JButton;
 import javax.swing.BorderFactory;
-import javax.swing.JTabbedPane;
-import javax.swing.ListSelectionModel;
+import javax.swing.Box;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
-import com.sun.java.forums.TableSorter;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.ListModel;
 
-// spellcast-related imports
-import net.java.dev.spellcast.utilities.LockableListModel;
+import javax.swing.border.Border;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.TableModel;
+
+import com.sun.java.forums.TableSorter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class StoreManageFrame extends KoLPanelFrame
 {

@@ -33,16 +33,13 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
-import java.util.TreeMap;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.io.BufferedReader;
 
-/**
- * A static class which retrieves all the adventures currently
- * available to <code>KoLmafia</code>.
- */
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.TreeMap;
 
 public class EquipmentDatabase extends KoLDatabase
 {

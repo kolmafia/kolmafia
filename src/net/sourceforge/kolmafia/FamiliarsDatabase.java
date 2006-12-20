@@ -33,23 +33,16 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Set;
-import java.util.Map;
-import java.util.TreeMap;
-
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
-import java.io.BufferedReader;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
 import javax.swing.ImageIcon;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-/**
- * A static class which retrieves all the tradeable items available in
- * the Kingdom of Loathing and allows theto do item look-ups.
- * The item list being used is a parsed and resorted list found on
- * Ohayou's Kingdom of Loathing website.  In order to decrease server
- * load, this item list is stored within the JAR archive.
- */
 
 public class FamiliarsDatabase extends KoLDatabase
 {

@@ -34,15 +34,8 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
-/**
- * An extension of a <code>KoLRequest</code> that handles generic adventures,
- * such as those which involve fighting, vacations at the shore, or gambling
- * at the casino.  It will not handle trips to the hermit or to the sewers,
- * as these must be handled differently.
- */
+import java.util.regex.Pattern;
 
 public class AdventureRequest extends KoLRequest
 {

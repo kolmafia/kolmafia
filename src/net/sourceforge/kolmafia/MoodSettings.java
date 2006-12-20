@@ -33,25 +33,16 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.BufferedReader;
 import java.io.PrintStream;
 
-import java.util.TreeMap;
 import java.util.ArrayList;
-import net.java.dev.spellcast.utilities.SortedListModel;
+import java.util.List;
+import java.util.TreeMap;
 
-/**
- * An extension of {@link java.util.Properties} which handles all the
- * user settings of <code>KoLmafia</code>.  In order to maintain issues
- * involving compatibility (J2SE 1.4 does not support XML output directly),
- * all data is written using {@link java.util.Properties#store(OutputStream,String)}.
- * Files are named according to the following convention: a tilde (<code>~</code>)
- * preceeds the name of the character whose settings this object represents,
- * with the 'kcs' extension (KoLmafia Character Settings).  All global settings
- * are stored in <code>~.kcs</code>.
- */
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class MoodSettings implements KoLConstants
 {

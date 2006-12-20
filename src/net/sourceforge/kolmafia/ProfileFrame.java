@@ -47,3 +47,4 @@ public class ProfileFrame extends RequestFrame
 	{	return false;
 	}
 }
+

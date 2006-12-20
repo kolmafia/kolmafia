@@ -33,23 +33,18 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Dimension;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JTabbedPane;
-
 import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JRadioButton;
-
-/**
- * An extension of <code>KoLFrame</code> which handles all the clan
- * management functionality of Kingdom of Loathing.
- */
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 
 public class HagnkStorageFrame extends KoLFrame
 {

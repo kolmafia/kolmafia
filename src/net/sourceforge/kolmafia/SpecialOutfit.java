@@ -34,15 +34,11 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-
-/**
- * An encapsulation of a special outfit.  This includes
- * custom outfits as well as standard in-game outfits.
- */
 
 public class SpecialOutfit implements Comparable, KoLConstants
 {

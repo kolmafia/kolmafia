@@ -33,21 +33,15 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Color;
 import java.awt.BorderLayout;
-import javax.swing.SwingUtilities;
+import java.awt.Color;
 
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import com.sun.java.forums.CloseableTabbedPane;
 import com.sun.java.forums.CloseableTabbedPaneListener;
-
-/**
- * An extension of <code>ChatFrame</code> used to display the current
- * chat contents.  This form of the chat frame is tabbed, so those
- * users who want tabbed chat (rather than multiple windows) can
- * have that flexibility.
- */
 
 public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneListener, ChangeListener
 {

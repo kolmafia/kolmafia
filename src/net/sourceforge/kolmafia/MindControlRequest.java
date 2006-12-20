@@ -75,3 +75,4 @@ public class MindControlRequest extends KoLRequest
 		KoLCharacter.setMindControlLevel( level );
 	}
 }
+

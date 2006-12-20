@@ -181,3 +181,4 @@ public class UneffectRequest extends KoLRequest
 			KoLmafia.updateDisplay( "Failed to remove " + effect.getName() + "." );
 	}
 }
+

@@ -33,24 +33,20 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Arrays;
-
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
-import java.io.BufferedReader;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
-/**
- * Container class for <code>BuffBotManager</code>
- * Provides all aspects of BuffBot execution.
- */
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class BuffBotManager extends KoLMailManager implements KoLConstants
 {

@@ -33,21 +33,15 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 
-import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-/**
- * A generic panel which adds a label to the bottom of the KoLPanel
- * to update the panel's status.  It also provides a thread which is
- * guaranteed to be a daemon thread for updating the frame which
- * also retrieves a reference to the client's current settings.
- */
 
 public abstract class LabeledKoLPanel extends KoLPanel
 {
