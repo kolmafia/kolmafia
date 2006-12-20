@@ -99,7 +99,7 @@ public class HermitRequest extends KoLRequest
 			KoLmafia.updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );
 			return;
 		}
-		else if ( quantity > getWorthlessItemCount() )
+		else if ( getWorthlessItemCount() == 0 || quantity > getWorthlessItemCount() )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You do not have enough worthless items." );
 			return;

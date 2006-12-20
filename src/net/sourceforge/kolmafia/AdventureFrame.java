@@ -926,6 +926,7 @@ public class AdventureFrame extends KoLFrame
 
 		private JComboBox [] optionSelects;
 
+		private JComboBox sewerSelect;
 		private JComboBox castleWheelSelect;
 		private JComboBox spookyForestSelect;
 		private JComboBox violetFogSelect;
@@ -948,14 +949,21 @@ public class AdventureFrame extends KoLFrame
 			this.setLayout( choiceCards );
 			add( new JPanel(), "" );
 
+			String [] options;
+
 			optionSelects = new JComboBox[ AdventureDatabase.CHOICE_ADVS.length ];
 			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
 			{
 				optionSelects[i] = new JComboBox();
-				String [] options = AdventureDatabase.CHOICE_ADVS[i].getOptions();
+				options = AdventureDatabase.CHOICE_ADVS[i].getOptions();
 				for ( int j = 0; j < options.length; ++j )
 					optionSelects[i].addItem( options[j] );
 			}
+
+			sewerSelect = new JComboBox();
+			options = AdventureDatabase.LUCKY_SEWER.getOptions();
+			for ( int i = 0; i < options.length; ++i )
+				sewerSelect.addItem( options[i] );
 
 			castleWheelSelect = new JComboBox();
 			castleWheelSelect.addItem( "Turn to map quest position (via moxie)" );
@@ -1024,16 +1032,18 @@ public class AdventureFrame extends KoLFrame
 			addChoiceSelect( "Manor", "The Louvre", louvreSelect );
 			addChoiceSelect( "Manor", "The Maidens", maidenSelect );
 
+			addChoiceSelect( AdventureDatabase.LUCKY_SEWER.getZone(), AdventureDatabase.LUCKY_SEWER.getName(), sewerSelect );
+
 			for ( int i = 0; i < optionSelects.length; ++i )
 				addChoiceSelect( AdventureDatabase.CHOICE_ADVS[i].getZone(), AdventureDatabase.CHOICE_ADVS[i].getName(), optionSelects[i] );
 
-			ArrayList options;
+			ArrayList optionsList;
 			Object [] keys = choiceMap.keySet().toArray();
 
 			for ( int i = 0; i < keys.length; ++i )
 			{
-				options = (ArrayList) choiceMap.get( keys[i] );
-				add( new ChoicePanel( options ), (String) keys[i] );
+				optionsList = (ArrayList) choiceMap.get( keys[i] );
+				add( new ChoicePanel( optionsList ), (String) keys[i] );
 			}
 
 			actionCancelled();
@@ -1121,7 +1131,7 @@ public class AdventureFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			StaticEntity.setProperty( "violetFogGoal", String.valueOf( violetFogSelect.getSelectedIndex() ) );
-			StaticEntity.setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
+			StaticEntity.setProperty( "luckySewerAdventure", (String) sewerSelect.getSelectedItem() );
 			StaticEntity.setProperty( "choiceAdventure89", String.valueOf( maidenSelect.getSelectedIndex() ) );
 
 			int louvreGoal = louvreSelect.getSelectedIndex();
@@ -1330,7 +1340,26 @@ public class AdventureFrame extends KoLFrame
 				louvreSelect.setSelectedIndex( index );
 
 			maidenSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "choiceAdventure89" ) );
-			optionSelects[0].setSelectedItem( StaticEntity.getProperty( "luckySewerAdventure" ) );
+
+			boolean foundItem = false;
+			String sewerItem = StaticEntity.getProperty( "luckySewerAdventure" );
+
+			String [] sewerOptions = AdventureDatabase.LUCKY_SEWER.getOptions();
+			for ( int i = 0; i < sewerOptions.length; ++i )
+			{
+				if ( sewerOptions[i].equals( sewerItem ) )
+				{
+					foundItem = true;
+					sewerSelect.setSelectedItem( sewerItem );
+				}
+			}
+
+			if ( !foundItem )
+			{
+				StaticEntity.setProperty( "luckySewerAdventure", "stolen accordion" );
+				sewerSelect.setSelectedItem( "stolen accordion" );
+			}
+
 			for ( int i = 1; i < optionSelects.length; ++i )
 			{
 				index = StaticEntity.getIntegerProperty( AdventureDatabase.CHOICE_ADVS[i].getSetting() );
