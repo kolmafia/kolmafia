@@ -39,7 +39,6 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.regex.Pattern;
 import java.io.BufferedReader;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -330,9 +329,9 @@ public class KoLDatabase extends StaticEntity
 		public void set( int index, boolean value )
 		{
 			while ( index >= internalList.size() )
-				internalList.add( new Boolean( false ) );
+				internalList.add( Boolean.FALSE );
 
-			internalList.set( index, new Boolean( value ) );
+			internalList.set( index, value ? Boolean.TRUE : Boolean.FALSE );
 		}
 	}
 

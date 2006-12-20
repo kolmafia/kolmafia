@@ -38,9 +38,7 @@ import java.util.TreeMap;
 import java.util.StringTokenizer;
 import java.util.List;
 import java.util.ArrayList;
-
 import java.io.BufferedReader;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MonsterDatabase extends KoLDatabase
 {

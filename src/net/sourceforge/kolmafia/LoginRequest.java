@@ -33,9 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 import java.text.SimpleDateFormat;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;

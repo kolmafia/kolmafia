@@ -36,20 +36,15 @@ package net.java.dev.spellcast.utilities;
 
 // layout
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import javax.swing.BoxLayout;
-import javax.swing.SwingConstants;
 
 // Containers
 import javax.swing.JPanel;
-import javax.swing.Scrollable;
 
 // event listeners
-import javax.swing.SwingUtilities;
 import javax.swing.event.ListDataEvent;
 
 /**

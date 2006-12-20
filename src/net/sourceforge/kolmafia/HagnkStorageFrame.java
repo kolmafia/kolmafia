@@ -45,10 +45,6 @@ import javax.swing.JTabbedPane;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
-import javax.swing.ListSelectionModel;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * An extension of <code>KoLFrame</code> which handles all the clan

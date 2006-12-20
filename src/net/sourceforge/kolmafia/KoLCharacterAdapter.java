@@ -32,8 +32,6 @@
  */
 
 package net.sourceforge.kolmafia;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 
 /**
  * Following the listener model, the <code>KoLCharacterAdapter</code>

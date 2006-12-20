@@ -39,12 +39,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
-// event listeners
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 // containers
 import javax.swing.JCheckBox;
 import javax.swing.JList;
@@ -54,20 +48,12 @@ import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import javax.swing.JTabbedPane;
-import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JSeparator;
 
 // utilities
-import java.util.Date;
-import java.util.Properties;
-import java.text.ParseException;
 import javax.swing.ListSelectionModel;
 
-import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**

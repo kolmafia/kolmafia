@@ -33,11 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.BorderLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
-
 /**
  * A class which allows the user to finish up a fight or choice.
  */

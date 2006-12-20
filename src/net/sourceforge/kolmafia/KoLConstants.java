@@ -46,7 +46,6 @@ import java.text.DecimalFormatSymbols;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.Date;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
 

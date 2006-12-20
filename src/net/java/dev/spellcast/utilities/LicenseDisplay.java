@@ -37,7 +37,6 @@ package net.java.dev.spellcast.utilities;
 // containers
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JComponent;

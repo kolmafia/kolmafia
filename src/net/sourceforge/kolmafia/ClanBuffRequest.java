@@ -32,11 +32,6 @@
  */
 
 package net.sourceforge.kolmafia;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.ListIterator;
-
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**

@@ -38,8 +38,6 @@ import java.util.TreeMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.io.BufferedReader;
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
  * A static class which retrieves all the adventures currently

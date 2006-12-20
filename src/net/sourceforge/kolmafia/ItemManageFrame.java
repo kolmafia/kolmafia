@@ -56,7 +56,6 @@ import javax.swing.JPanel;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
-import javax.swing.JOptionPane;
 
 // other imports
 import java.util.List;
@@ -624,7 +623,6 @@ public class ItemManageFrame extends KoLFrame
 				}
 
 				KoLmafia.updateDisplay( ERROR_STATE, "No new item combinations were found." );
-				return;
 			}
 
 			private void combineThreeItems()
@@ -706,7 +704,6 @@ public class ItemManageFrame extends KoLFrame
 				}
 
 				KoLmafia.updateDisplay( ERROR_STATE, "No new item combinations were found." );
-				return;
 			}
 		}
 	}

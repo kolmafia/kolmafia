@@ -37,7 +37,6 @@ import javax.swing.JOptionPane;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
 
-import java.io.File;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;

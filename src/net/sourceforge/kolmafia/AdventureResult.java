@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -43,11 +42,6 @@ import javax.swing.DefaultListCellRenderer;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.text.ParseException;
-import java.text.DecimalFormat;
-
-import java.lang.ref.WeakReference;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * A container class which encapsulates the results from an adventure and

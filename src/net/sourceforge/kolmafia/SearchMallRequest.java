@@ -35,11 +35,8 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * A special request used specifically to search the mall for items and retrieve the

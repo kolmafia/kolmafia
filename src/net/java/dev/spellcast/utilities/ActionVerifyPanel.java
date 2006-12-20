@@ -53,7 +53,6 @@ import java.awt.event.ActionListener;
 
 // containers
 import javax.swing.JComponent;
-import javax.swing.JRootPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;

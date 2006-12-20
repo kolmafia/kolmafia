@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import javax.swing.JOptionPane;
 
 public abstract class StrangeLeaflet extends StaticEntity
 {

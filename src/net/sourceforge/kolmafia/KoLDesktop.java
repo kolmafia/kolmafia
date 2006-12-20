@@ -46,7 +46,6 @@ import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import java.util.Date;
 import java.util.ArrayList;
 
 public class KoLDesktop extends KoLFrame implements ChangeListener

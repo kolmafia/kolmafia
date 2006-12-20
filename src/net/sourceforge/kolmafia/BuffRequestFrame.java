@@ -36,14 +36,11 @@ package net.sourceforge.kolmafia;
 // layout
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.GridLayout;
-import java.awt.Color;
 
 // containers
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
-import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;

@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia;
 
 import javax.swing.JLabel;
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -52,8 +51,6 @@ import javax.swing.ToolTipManager;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.Vector;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 import com.sun.java.forums.TableSorter;
 
 public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener

@@ -33,11 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * An extension of <code>KoLRequest</code> which retrieves a list of
  * the character's equipment from the server.  At the current time,

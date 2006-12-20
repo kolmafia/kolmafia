@@ -32,7 +32,6 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.Date;
 
 /**
  * An extension of a <code>KoLRequest</code> which specifically handles

@@ -39,13 +39,10 @@ import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import javax.swing.BoxLayout;
 
 // events
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 
@@ -56,7 +53,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 // containers
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -70,10 +66,8 @@ import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
 import java.util.Arrays;
-import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * <p>Handles all of the customizable user options in <code>KoLmafia</code>.

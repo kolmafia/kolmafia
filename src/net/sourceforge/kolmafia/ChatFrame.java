@@ -57,7 +57,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
-import javax.swing.SwingUtilities;
 
 /**
  * An extension of <code>KoLFrame</code> used to display the current
