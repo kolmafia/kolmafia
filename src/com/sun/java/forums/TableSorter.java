@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -108,7 +107,7 @@ public class TableSorter extends AbstractTableModel {
     private MouseListener mouseListener;
     private TableModelListener tableModelListener;
     private Map columnComparators = new HashMap();
-    private List sortingColumns = new ArrayList();
+    private ArrayList sortingColumns = new ArrayList();
 
     public TableSorter() {
         this.mouseListener = new MouseHandler();
