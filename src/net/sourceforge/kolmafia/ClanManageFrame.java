@@ -47,7 +47,6 @@ import java.awt.event.MouseEvent;
 
 // containers
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -61,8 +60,6 @@ import com.sun.java.forums.TableSorter;
 // other imports
 import java.util.Vector;
 import java.util.ArrayList;
-
-import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**

@@ -42,8 +42,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MutableComboBox extends JComboBox implements KoLConstants

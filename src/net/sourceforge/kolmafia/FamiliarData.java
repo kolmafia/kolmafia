@@ -35,9 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Component;
 import javax.swing.JList;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 import javax.swing.DefaultListCellRenderer;
 
 import java.util.regex.Pattern;

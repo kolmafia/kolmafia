@@ -32,7 +32,6 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.StringTokenizer;
 
 /**
  * An extension of the generic <code>KoLRequest</code> class which handles

@@ -34,16 +34,9 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.CardLayout;
-import java.awt.BorderLayout;
-
 import javax.swing.JList;
-import javax.swing.JTabbedPane;
-import javax.swing.JOptionPane;
-
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MoneyMakingGameFrame extends KoLFrame
 {

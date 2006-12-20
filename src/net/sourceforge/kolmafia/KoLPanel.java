@@ -49,7 +49,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JFileChooser;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
 import java.lang.ref.WeakReference;

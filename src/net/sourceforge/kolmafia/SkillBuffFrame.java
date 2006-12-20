@@ -35,16 +35,9 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
-
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class SkillBuffFrame extends KoLFrame

@@ -239,7 +239,7 @@ public class StoreManageFrame extends KoLPanelFrame
 				value.add( new Integer(0) );
 				value.add( new Integer(0) );
 				value.add( new Integer(0) );
-				value.add( new Boolean( false ) );
+				value.add( Boolean.FALSE );
 				model.add( value );
 			}
 		}

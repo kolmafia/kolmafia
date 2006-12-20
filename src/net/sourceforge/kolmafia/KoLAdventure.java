@@ -32,9 +32,7 @@
  */
 
 package net.sourceforge.kolmafia;
-
 import java.util.ArrayList;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * An auxiliary class which stores runnable adventures so that they

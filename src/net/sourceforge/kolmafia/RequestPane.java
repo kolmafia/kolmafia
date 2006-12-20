@@ -34,11 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
-import java.awt.event.KeyEvent;
-
-import javax.swing.KeyStroke;
 import javax.swing.JEditorPane;
-import javax.swing.text.Keymap;
 
 public class RequestPane extends JEditorPane
 {

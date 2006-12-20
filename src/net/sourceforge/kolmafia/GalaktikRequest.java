@@ -32,9 +32,6 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class GalaktikRequest extends KoLRequest

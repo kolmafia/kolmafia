@@ -1,7 +1,6 @@
 package com.sun.java.forums;
 
 import javax.swing.*;
-import javax.swing.SpringLayout;
 import java.awt.*;
 
 /**

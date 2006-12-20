@@ -34,12 +34,10 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
-import java.text.SimpleDateFormat;
 
 /**
  * A special class used to determine the current moon phase.

@@ -37,8 +37,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.CardLayout;
 
-import javax.swing.JDialog;
-import javax.swing.JTextField;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JComponent;
@@ -47,13 +45,11 @@ import javax.swing.JFileChooser;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.io.FilenameFilter;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -62,8 +58,6 @@ import java.lang.ref.WeakReference;
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LicenseDisplay;
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class KoLMenuBar extends JMenuBar implements KoLConstants

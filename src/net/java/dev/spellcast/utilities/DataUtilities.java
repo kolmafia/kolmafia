@@ -43,7 +43,6 @@ import java.net.URL;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.net.URLConnection;
-import java.io.FileInputStream;
 
 // readers
 import java.io.InputStreamReader;

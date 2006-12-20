@@ -34,9 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import javax.swing.JFrame;
-import java.awt.Dimension;
 import javax.swing.SwingUtilities;
-import java.lang.reflect.Method;
 import java.lang.reflect.Constructor;
 
 /**

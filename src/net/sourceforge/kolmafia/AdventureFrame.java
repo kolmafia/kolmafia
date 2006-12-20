@@ -40,16 +40,10 @@ import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
-import javax.swing.BorderFactory;
-import javax.swing.SpringLayout;
-import com.sun.java.forums.SpringUtilities;
 
 // event listeners
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractSpinnerModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListDataListener;
@@ -67,27 +61,20 @@ import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JFileChooser;
-import javax.swing.ListSelectionModel;
 import javax.swing.JTabbedPane;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.Box;
 import javax.swing.JSpinner;
 import javax.swing.JProgressBar;
 import javax.swing.JSplitPane;
 
 // utilities
-import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.TreeMap;
 
 import java.io.File;
 import java.io.BufferedReader;
-import java.io.PrintStream;
-import java.io.FileOutputStream;
-import java.lang.ref.WeakReference;
 
 // other imports
 import net.java.dev.spellcast.utilities.LockableListModel;

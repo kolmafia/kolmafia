@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AreaCombatData implements KoLConstants
 {

@@ -34,29 +34,17 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseAdapter;
 
-import javax.swing.Box;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JOptionPane;
-
-import javax.swing.SwingUtilities;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableCellRenderer;
 
 import net.java.dev.spellcast.utilities.LockableListModel;

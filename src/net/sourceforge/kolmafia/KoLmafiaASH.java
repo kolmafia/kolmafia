@@ -42,8 +42,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import java.lang.IllegalArgumentException;
-import java.lang.NumberFormatException;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
 import java.io.UnsupportedEncodingException;

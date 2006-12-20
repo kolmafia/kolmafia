@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Component;
 import javax.swing.JScrollPane;
-import javax.swing.JScrollBar;
 
 import javax.swing.JList;
 import javax.swing.text.JTextComponent;

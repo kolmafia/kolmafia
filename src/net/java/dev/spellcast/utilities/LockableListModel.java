@@ -43,10 +43,6 @@ import java.util.Iterator;
 import java.util.Comparator;
 import java.util.Collections;
 
-// update components
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
-
 /**
  * <p>Lockable aspects of this class have been removed due to incompatibilities with Swing;
  * synchronization between two threads when one is the Swing thread turns out to have a lot

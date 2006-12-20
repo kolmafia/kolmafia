@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia;
 
 // layout
-import java.awt.Color;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
@@ -43,26 +42,19 @@ import javax.swing.BoxLayout;
 // event listeners
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 // containers
-import java.awt.Component;
 import javax.swing.JMenuItem;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
 // other imports
-import java.util.List;
-import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;

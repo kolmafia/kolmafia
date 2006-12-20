@@ -42,7 +42,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class StoreManager extends StaticEntity
 {
@@ -389,7 +388,7 @@ public abstract class StoreManager extends StaticEntity
 			super.add( new Integer( price ) );
 			super.add( new Integer( lowest ) );
 			super.add( new Integer( quantity ) );
-			super.add( new Boolean( limit != 0 ) );
+			super.add( limit != 0 ? Boolean.TRUE : Boolean.FALSE );
 		}
 
 		public int getItemId()

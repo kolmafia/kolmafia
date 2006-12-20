@@ -33,10 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import javax.swing.SwingUtilities;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
 public class PendingTradesFrame extends RequestFrame
 {
 	public PendingTradesFrame()

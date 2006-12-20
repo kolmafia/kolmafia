@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 import javax.swing.event.ListDataEvent;
