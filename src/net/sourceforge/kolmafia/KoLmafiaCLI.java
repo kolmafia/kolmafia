@@ -902,7 +902,7 @@ public class KoLmafiaCLI extends KoLmafia
 				StaticEntity.getClient().refreshSession();
 			else if ( parameters.equals( "status" ) || parameters.equals( "effects" ) )
 				CharpaneRequest.getInstance().run();
-			else if ( parameters.equals( "gear" ) || parameters.equals( "equipment" ) || parameters.equals( "outfit" ) )
+			else if ( parameters.equals( "gear" ) || parameters.startsWith( "equip" ) || parameters.equals( "outfit" ) )
 				(new EquipmentRequest( EquipmentRequest.EQUIPMENT )).run();
 			else if ( parameters.startsWith( "inv" ) )
 				(new EquipmentRequest( EquipmentRequest.CLOSET )).run();
@@ -2644,8 +2644,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		StaticEntity.getClient().makeRequest(
-			new EquipmentRequest( match, slot ) );
+		StaticEntity.getClient().makeRequest( new EquipmentRequest( match, slot ) );
 	}
 
 	/**
