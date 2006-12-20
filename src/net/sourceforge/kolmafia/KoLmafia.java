@@ -1045,8 +1045,6 @@ public abstract class KoLmafia implements KoLConstants
 		// see if the settings wish to use this item.  If so, go ahead
 		// and process the item's usage.
 
-		Arrays.sort( techniques );
-
 		for ( int i = 0; i < techniques.length && current <= threshold; ++i )
 		{
 			if ( techniques[i] instanceof HPRestoreItemList.HPRestoreItem )
@@ -1072,8 +1070,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		// If things are still not restored, try looking for items you
 		// don't have.
-
-		Arrays.sort( techniques );
 
 		for ( int i = 0; i < techniques.length && current <= threshold; ++i )
 		{
