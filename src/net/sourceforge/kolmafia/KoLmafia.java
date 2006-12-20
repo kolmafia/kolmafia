@@ -2297,7 +2297,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public static final PrintStream getSessionStream()
-	{	return sessionStream;
+	{	return BuffBotHome.isBuffBotActive() ? NullStream.INSTANCE : sessionStream;
 	}
 
 	/**

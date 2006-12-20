@@ -353,9 +353,15 @@ public class EquipmentRequest extends PasswordHashRequest
 			// If this is a birthday suit outfit, then remove everything.
 			if ( outfit == SpecialOutfit.BIRTHDAY_SUIT )
 			{
-				(new EquipmentRequest( UNEQUIP_ALL )).run();
-				(new EquipmentRequest( UNEQUIP, KoLCharacter.FAMILIAR )).run();
+				boolean unequipAllNeeded = false;
 
+				for ( int i = 0; i < KoLCharacter.FAMILIAR; ++i )
+					unequipAllNeeded |= !KoLCharacter.getEquipment(i).equals( UNEQUIP );
+
+				if ( unequipAllNeeded )
+					(new EquipmentRequest( UNEQUIP_ALL )).run();
+
+				(new EquipmentRequest( UNEQUIP, KoLCharacter.FAMILIAR )).run();
 				return;
 			}
 
