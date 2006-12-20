@@ -367,6 +367,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Level the familiar
 					levelFamiliar( goal, BASE );
+					KoLmafia.enableDisplay();
 				}
 			}
 
@@ -383,6 +384,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Level the familiar
 					levelFamiliar( goal, BUFFED );
+					KoLmafia.enableDisplay();
 				}
 			}
 
@@ -399,6 +401,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Level the familiar
 					levelFamiliar( goal, TURNS );
+					KoLmafia.enableDisplay();
 				}
 			}
 
@@ -476,8 +479,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 							FamiliarsDatabase.setFamiliarSkills( familiar.getRace(), skills );
 
 						KoLmafia.updateDisplay( CONTINUE_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
-
 					}
+
+					KoLmafia.enableDisplay();
 				}
 			}
 
@@ -509,6 +513,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					}
 
 					RequestThread.postRequest( new FamiliarRequest( current ) );
+					KoLmafia.enableDisplay();
 				}
 			}
 
