@@ -543,6 +543,10 @@ public class AdventureFrame extends KoLFrame
 				container.add( buttonWrapper, BorderLayout.SOUTH );
 			}
 
+			public boolean autoConfirmOnChange()
+			{	return false;
+			}
+
 			public void actionConfirmed()
 			{
 				KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
