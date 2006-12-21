@@ -130,8 +130,12 @@ public abstract class KoLmafia implements KoLConstants
 	private static final Pattern TAVERN_PATTERN = Pattern.compile( "where=(\\d+)" );
 	private static final Pattern GOURD_PATTERN = Pattern.compile( "Bring back (\\d+)" );
 
+	private static final AdventureResult CATNIP = new AdventureResult( 1486, 1 );
+	private static final AdventureResult GLIDER = new AdventureResult( 1487, 1 );
+	public static final AdventureResult SATCHEL = new AdventureResult( 1656, 1 );
+
 	/**
-	 * The mai.  This method.  Currently, it instantiates a single instance
+	 * The main method.  Currently, it instantiates a single instance
 	 * of the <code>KoLmafiaGUI</code>.
 	 */
 
@@ -785,6 +789,12 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		else if ( result.isItem() || resultName.equals( AdventureResult.SUBSTATS ) || resultName.equals( AdventureResult.MEAT ) )
 		{
+			// If you gain a sock, you lose all the immateria
+
+			if ( result.equals( KoLAdventure.SOCK ) && result.getCount() == 1 )
+				for ( int i = 0; i < KoLAdventure.IMMATERIA.length; ++i )
+					processResult( KoLAdventure.IMMATERIA[i] );
+
 			if ( shouldTally )
 				AdventureResult.addResultToList( tally, result );
 		}
@@ -2615,6 +2625,11 @@ public abstract class KoLmafia implements KoLConstants
 				return;
 			}
 		}
+
+		if ( encounterName.equalsIgnoreCase( "Cheetahs Never Lose" ) && KoLCharacter.hasItem( CATNIP ) )
+			processResult( CATNIP.getNegation() );
+		if ( encounterName.equalsIgnoreCase( "Summer Holiday" ) && KoLCharacter.hasItem( GLIDER ) )
+			processResult( GLIDER.getNegation() );
 
 		encounterList.add( new RegisteredEncounter( encounterType, encounterName ) );
 	}

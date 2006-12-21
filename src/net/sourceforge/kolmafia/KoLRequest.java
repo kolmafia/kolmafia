@@ -663,6 +663,12 @@ public class KoLRequest implements Runnable, KoLConstants
 				StaticEntity.getClient().processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
 		}
 
+		// The white citadel quest will also decrement your
+		// inventory once.
+
+		if ( KoLCharacter.hasItem( KoLmafia.SATCHEL ) && urlString.indexOf( "guild.php" ) != -1 && getFormField( "place" ) != null && getFormField( "place" ).equals( "paco" ) )
+			StaticEntity.getClient().processResult( KoLmafia.SATCHEL.getNegation() );
+
 		// If this is an equipment request, then reprint the
 		// player's current equipment information.
 
