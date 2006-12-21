@@ -102,8 +102,8 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		"adventures.txt", "buffbots.txt", "classskills.txt", "combats.txt", "concoctions.txt",
 		"equipment.txt", "familiars.txt", "inbriety.txt", "itemdescs.txt", "modifiers.txt",
-		"monsters.txt", "npcstores.txt", "outfits.txt", "packages.txt", "plurals.txt",
-		"statuseffects.txt", "tradeitems.txt", "zonelist.txt"
+		"monsters.txt", "npcstores.txt", "outfits.txt", "packages.txt", "statuseffects.txt",
+		"tradeitems.txt", "zonelist.txt"
 	};
 
 	public static final int SNOWCONE = 0;

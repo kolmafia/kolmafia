@@ -875,6 +875,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "wiki" ) )
+		{
+			TradeableItemDatabase.determineWikiData( parameters );
+			return;
+		}
+
 		if ( command.equals( "survival" ) || command.equals( "getdata" ) )
 		{
 			showHTML( AdventureDatabase.getAreaCombatData( AdventureDatabase.getAdventure( parameters ).toString() ).toString(), "Survival Lookup" );

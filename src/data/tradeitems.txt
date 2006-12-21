@@ -2198,7 +2198,7 @@
 2198	bat-shaped Crimboween cookie	1	all	50
 2199	skull-shaped Crimboween cookie	1	all	50
 2200	tombstone-shaped Crimboween cookie	1	all	50
-2201
+2201	tiny plastic gift-wrapping vampire	8	all	30
 2202
 2203
 2204

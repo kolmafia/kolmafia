@@ -44,6 +44,7 @@ import java.awt.event.MouseListener;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,7 +73,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		super( model );
 		contextMenu = new JPopupMenu();
 
-		boolean isEncyclopedia = model.get(0) instanceof Map.Entry;
+		boolean isEncyclopedia = model.get(0) instanceof Entry;
 
 		if ( model.size() == 0 || !isEncyclopedia )
 			contextMenu.add( new DescriptionMenuItem() );
@@ -254,8 +255,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				name = ((ItemCreationRequest)item).getName();
 			else if ( item instanceof String )
 				name = (String) item;
-			else if ( item instanceof Map.Entry )
-				name = (String) ((Map.Entry)item).getValue();
+			else if ( item instanceof Entry )
+				name = (String) ((Entry)item).getValue();
 
 			if ( name != null )
 				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
@@ -275,8 +276,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				junkItemList.add( items[i] );
 			else if ( items[i] instanceof String && TradeableItemDatabase.contains( (String) items[i] ) )
 				junkItemList.add( new AdventureResult( (String) items[i], 1, false ) );
-			else if ( items[i] instanceof Map.Entry && TradeableItemDatabase.contains( (String) ((Map.Entry)items[i]).getValue() ) )
-				junkItemList.add( new AdventureResult( (String) ((Map.Entry)items[i]).getValue(), 1, false ) );
+			else if ( items[i] instanceof Entry && TradeableItemDatabase.contains( (String) ((Entry)items[i]).getValue() ) )
+				junkItemList.add( new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false ) );
 		}
 
 		StaticEntity.saveJunkItemList();
@@ -297,8 +298,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				junkItemList.remove( items[i] );
 			else if ( items[i] instanceof String )
 				junkItemList.remove( new AdventureResult( (String) items[i], 1, false ) );
-			else if ( items[i] instanceof Map.Entry )
-				junkItemList.remove( new AdventureResult( (String) ((Map.Entry)items[i]).getValue(), 1, false ) );
+			else if ( items[i] instanceof Entry )
+				junkItemList.remove( new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false ) );
 		}
 
 		StaticEntity.saveJunkItemList();

@@ -38,9 +38,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TradeableItemDatabase extends KoLDatabase
 {
+	private static final Pattern WIKI_ITEMID_PATTERN = Pattern.compile( "Item number</a>:</b> (\\d+)<br />" );
+	private static final Pattern WIKI_DESCID_PATTERN = Pattern.compile( "<b>Description ID:</b> (\\d+)<br />" );
+	private static final Pattern WIKI_PLURAL_PATTERN = Pattern.compile( "\\(Plural: <i>(.*?)<\\/i>\\)", Pattern.DOTALL );
+
 	private static IntegerArray useTypeById = new IntegerArray();
 	private static IntegerArray priceById = new IntegerArray();
 
@@ -111,38 +117,12 @@ public class TradeableItemDatabase extends KoLDatabase
 						isDescriptionId = false;
 
 				if ( isDescriptionId )
-					descById.set( StaticEntity.parseInt( data[0].trim() ), data[1] );
-			}
-		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-
-		// Next, retrieve the table of weird pluralizations
-
-		reader = getReader( "plurals.txt" );
-
-		while ( (data = readData( reader )) != null )
-		{
-			if ( data.length == 2 )
-			{
-				Object itemId = itemIdByName.get( data[0] );
-				if ( itemId == null )
 				{
-					System.out.println( "Bad item name in plurals file: " + data[0] );
-					continue;
+					int itemId = StaticEntity.parseInt( data[0].trim() );
+					descById.set( itemId, data[1] );
+					if ( data.length == 4 )
+						itemIdByPlural.put( data[3], new Integer( itemId ) );
 				}
-
-				itemIdByPlural.put( data[1] , itemId );
 			}
 		}
 
@@ -187,6 +167,60 @@ public class TradeableItemDatabase extends KoLDatabase
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	/**
+	 * Takes an item name and constructs the likely Wiki equivalent
+	 * of that item name.
+	 */
+
+	private static String constructWikiName( String name )
+	{	return StaticEntity.globalStringReplace( Character.toUpperCase( name.charAt(0) ) + name.substring(1), " ", "_" );
+	}
+
+	/**
+	 * Utility method which searches for the plural version of
+	 * the item on the KoL wiki.
+	 */
+
+	public static void determineWikiData( String name )
+	{
+		String line = null;
+		StringBuffer wikiRecord = new StringBuffer();
+
+		try
+		{
+			BufferedReader reader = KoLDatabase.getReader( "http://kol.coldfront.net/thekolwiki/index.php/" + constructWikiName( name ) );
+			while ( (line = reader.readLine()) != null )
+				wikiRecord.append( line );
+
+			String wikiData = wikiRecord.toString();
+
+			Matcher itemMatcher = WIKI_ITEMID_PATTERN.matcher( wikiData );
+			if ( !itemMatcher.find() )
+			{
+				KoLmafiaCLI.printLine( name + " did not match a valid an item entry." );
+				return;
+			}
+
+			Matcher descMatcher = WIKI_DESCID_PATTERN.matcher( wikiData );
+			if ( !descMatcher.find() )
+			{
+				KoLmafiaCLI.printLine( name + " did not match a valid an item entry." );
+				return;
+			}
+
+			KoLmafiaCLI.printLine( "item: " + name + " (#" + itemMatcher.group(1) + ")" );
+			KoLmafiaCLI.printLine( "desc: " + descMatcher.group(1) );
+
+			Matcher pluralMatcher = WIKI_PLURAL_PATTERN.matcher( wikiData );
+			if ( pluralMatcher.find() )
+				KoLmafiaCLI.printLine( "plural: " + pluralMatcher.group(1) );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
 		}
 	}
 

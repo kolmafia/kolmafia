@@ -1859,7 +1859,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		Iterator iterator = requestProperties.entrySet().iterator();
 		while ( iterator.hasNext() )
 		{
-			Map.Entry entry = (Map.Entry)iterator.next();
+			Entry entry = (Entry)iterator.next();
 			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
 
@@ -1878,7 +1878,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		Iterator iterator = headerFields.entrySet().iterator();
 		while ( iterator.hasNext() )
 		{
-			Map.Entry entry = (Map.Entry)iterator.next();
+			Entry entry = (Entry)iterator.next();
 			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
 

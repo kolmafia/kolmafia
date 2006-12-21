@@ -198,9 +198,9 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 				if ( currentName == null || currentName.length() == 0 )
 					return true;
 
-				if ( element instanceof Map.Entry )
+				if ( element instanceof Entry )
 				{
-					Map.Entry entry = (Map.Entry) element;
+					Entry entry = (Entry) element;
 					return KoLDatabase.fuzzyMatches( entry.getValue().toString(), currentName );
 				}
 
