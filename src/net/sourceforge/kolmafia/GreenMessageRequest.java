@@ -49,6 +49,21 @@ public class GreenMessageRequest extends SendMessageRequest
 		addFormField( "message", this.message );
 	}
 
+	public GreenMessageRequest( String recipient, String message, boolean saveMessage )
+	{
+		super( "sendmessage.php" );
+
+		this.recipient = recipient;
+		this.message = RequestEditorKit.getUnicode( message );
+
+		addFormField( "action", "send" );
+		addFormField( "towho", this.recipient );
+		addFormField( "message", this.message );
+
+		if ( saveMessage )
+			addFormField( "savecopy", "on" );
+	}
+
 	public GreenMessageRequest( String recipient, String message, AdventureResult attachment )
 	{
 		super( "sendmessage.php", attachment );

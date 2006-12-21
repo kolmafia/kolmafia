@@ -75,6 +75,16 @@ public abstract class KoLMessenger extends StaticEntity
 	private static final String DEFAULT_TIMESTAMP_COLOR = "#7695B4";
 	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
 
+	private static final int ROLLING_LIMIT = 20;
+	private static int rollingIndex = 0;
+	private static ArrayList clanMessages = new ArrayList();
+
+	static
+	{
+		for ( int i = 0; i < ROLLING_LIMIT; ++i )
+			clanMessages.add( "" );
+	}
+
 	private static TreeMap colors = new TreeMap();
 
 	private static final String [] AVAILABLE_COLORS =
@@ -407,7 +417,7 @@ public abstract class KoLMessenger extends StaticEntity
 	{
 		String noImageContent = IMAGE_PATTERN.matcher( originalContent ).replaceAll( "" );
 		String normalBreaksContent = LINEBREAK_PATTERN.matcher( noImageContent ).replaceAll( "<br>" );
-		String condensedContent = EXPAND_PATTERN.matcher( noImageContent ).replaceAll( "<br><br>" );
+		String condensedContent = EXPAND_PATTERN.matcher( normalBreaksContent ).replaceAll( "<br><br>" );
 
 		String normalBoldsContent = StaticEntity.globalStringReplace( condensedContent, "<br></b>", "</b><br>" );
 		String colonOrderedContent = StaticEntity.globalStringReplace( normalBoldsContent, ":</b></a>", "</a></b>:" );
@@ -695,35 +705,86 @@ public abstract class KoLMessenger extends StaticEntity
 		processChatMessage( channel, message, bufferKey );
 		processChatMessage( channel, message, "[ALL]" );
 
-		// If it's a private message and the buffbot is currently running,
-		// then handle it as a buffbot command.
+		// If it's a private message, then it's possible the player wishes
+		// to run some command.
 
-		if ( BuffBotHome.isBuffBotActive() && !channel.startsWith( "/" ) )
+		if ( channel.equals( "/clan" ) )
 		{
-			if ( message.endsWith( "help" ) )
+			if ( rollingIndex == 20 )
+				rollingIndex = 0;
+
+			if ( message.indexOf( "<font color=green>" ) == -1 )
+				clanMessages.set( rollingIndex++, message );
+		}
+
+		if ( !channel.startsWith( "/" ) )
+		{
+			int colonIndex = message.indexOf( ":" );
+			if ( colonIndex != -1 )
+				message = (message.substring( colonIndex + 2 )).trim();
+
+			handleSpecialRequests( channel, message );
+		}
+	}
+
+	private static void handleSpecialRequests( String channel, String message )
+	{
+		// If a buffbot is running, certain commands become active, such
+		// as help, restores, and logoff.
+
+		if ( BuffBotHome.isBuffBotActive() )
+		{
+			if ( message.equalsIgnoreCase( "help" ) )
 			{
 				(new ChatRequest( channel, "Please check my profile." )).run();
 				return;
 			}
 
-			if ( message.endsWith( "restores" ) )
+			if ( message.equalsIgnoreCase( "restores" ) )
 			{
 				(new ChatRequest( channel, "I currently have " + KoLmafia.getRestoreCount() + " mana restores at my disposal." )).run();
 				return;
 			}
 
-			if ( message.endsWith( "logoff" ) )
+			if ( message.equalsIgnoreCase( "logoff" ) )
 			{
 				BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Logoff requested by " + channel );
-				String [] members = ClanManager.retrieveClanList();
-				for ( int i = 0; i < members.length; ++i )
-					if ( members[i].equalsIgnoreCase( channel ) )
-						System.exit(0);
+
+				if ( ClanManager.isMember( channel ) )
+					System.exit(0);
 
 				BuffBotHome.update( BuffBotHome.ERRORCOLOR, channel + " added to ignore list" );
 				(new ChatRequest( channel, "/baleet" )).run();
 			}
+		}
 
+		// Otherwise, sometimes clannies want to take advantage of KoLmafia's
+		// automatic chat logging.  In that case...
+
+		if ( message.equalsIgnoreCase( "update" ) )
+		{
+			if ( KoLmafia.isAdventuring() )
+			{
+				(new ChatRequest( channel, "Sorry, I'm adventuring right now." )).run();
+				return;
+			}
+
+			if ( !ClanManager.isMember( channel ) )
+			{
+				KoLmafia.enableDisplay();
+				return;
+			}
+
+			StringBuffer data = new StringBuffer();
+			for ( int i = 0; i < ROLLING_LIMIT; ++i )
+			{
+				data.append( ANYTAG_PATTERN.matcher( (String) clanMessages.get( (rollingIndex + i) % ROLLING_LIMIT ) ).replaceAll( "" ) );
+				data.append( "\n" );
+			}
+
+			String toSend = RequestEditorKit.getUnicode( data.toString().trim() );
+			(new GreenMessageRequest( channel, toSend, false )).run();
+			KoLmafia.enableDisplay();
 		}
 	}
 
