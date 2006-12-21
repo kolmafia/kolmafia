@@ -1594,7 +1594,7 @@
 1589	147855943	Knoll lo mein	plates of Knoll lo-mein
 1590	833636863	spooky lo mein	plates of spooky lo-mein
 1591	504475834	olive lo mein	plates of olive lo-mein
-1592	621831967	hot hi mein	hawt hi meins
+1592	621831967	hot hi mein	hot hi meins
 1593	732413017	cold hi mein	hi, hi meins (too cold, too cold)
 1594	793246154	spooky hi mein	bowls of spooky hi mein
 1595	594413308	stinky hi mein	stanky hi meins
