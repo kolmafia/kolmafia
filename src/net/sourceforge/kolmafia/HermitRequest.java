@@ -44,6 +44,7 @@ public class HermitRequest extends KoLRequest
 	public static final AdventureResult TRINKET = new AdventureResult( 43, 0 );
 	public static final AdventureResult GEWGAW = new AdventureResult( 44, 0 );
 	public static final AdventureResult KNICK_KNACK =  new AdventureResult( 45, 0 );
+	public static final AdventureResult SUMMON_SCROLL = new AdventureResult( "31337 scroll", 1 );
 
 	private int itemId, quantity;
 	private static boolean neededPermits = false;
@@ -94,7 +95,11 @@ public class HermitRequest extends KoLRequest
 			KoLmafia.updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );
 			return;
 		}
-		else if ( getWorthlessItemCount() == 0 || quantity > getWorthlessItemCount() )
+
+		while ( KoLCharacter.getLevel() >= 9 && getWorthlessItemCount() == 0 && KoLCharacter.hasItem( SUMMON_SCROLL ) )
+			(new ConsumeItemRequest( SUMMON_SCROLL )).run();
+
+		if ( quantity > getWorthlessItemCount() || (getWorthlessItemCount() == 0 && !StaticEntity.getBooleanProperty( "autoRetrieveWorthless" )) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You do not have enough worthless items." );
 			return;

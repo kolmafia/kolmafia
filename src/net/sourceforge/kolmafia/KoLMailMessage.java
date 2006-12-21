@@ -49,8 +49,12 @@ public class KoLMailMessage implements Comparable
 	private Date timestamp;
 	private String messageHTML;
 
+	private String completeHTML;
+
 	public KoLMailMessage( String message )
 	{
+		this.completeHTML = message;
+
 		this.messageId = message.substring( message.indexOf( "name=" ) + 6, message.indexOf( "\">" ) );
 		StringTokenizer messageParser = new StringTokenizer( message, "<>" );
 
@@ -104,6 +108,10 @@ public class KoLMailMessage implements Comparable
 
 	public String getMessageId()
 	{	return messageId;
+	}
+
+	public String getCompleteHTML()
+	{	return completeHTML;
 	}
 
 	public String getMessageHTML()

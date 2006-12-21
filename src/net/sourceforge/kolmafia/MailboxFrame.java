@@ -427,7 +427,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 			if ( parameters.length == 2 )
 			{
-				String rawText = displayed.getMessageHTML();
+				String rawText = displayed.getCompleteHTML();
 				int start = rawText.indexOf( "<br><br>" ) + 8;
 				String text =  rawText.substring( start );
 

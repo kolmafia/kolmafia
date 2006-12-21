@@ -305,8 +305,12 @@ public class OptionsFrame extends KoLFrame
 			{ "allowStasisTactics", "Allow stasis-type commands when using combat familiars" },
 			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
 			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
+
+			{ "", "" },
+
 			{ "cloverProtectActive", "Enable clover protection for automated adventures" },
 			{ "autoRetrieveScrewdriver", "Automatically do screwdriver quest, if needed" },
+			{ "autoRetrieveWorthless", "Search for worthless items when visiting the hermit" },
 
 			{ "", "" },
 
