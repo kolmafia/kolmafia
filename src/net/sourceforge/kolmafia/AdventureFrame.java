@@ -427,88 +427,86 @@ public class AdventureFrame extends KoLFrame
 
 		private void handleConditions( KoLAdventure request )
 		{
-			conditions.clear();
 			String conditionList = conditionField.getText().trim().toLowerCase();
 
 			if ( conditionList.equalsIgnoreCase( "none" ) )
-				conditionList = "";
-
-			if ( !conditions.isEmpty() && conditionList.equals( AdventureDatabase.getCondition( (KoLAdventure) request ) ) )
 			{
-				conditionList = "";
+				conditions.clear();
+				return;
 			}
 
-			if ( conditionList.length() > 0 )
+			if ( conditionList.length() == 0 )
+				return;
+
+			conditions.clear();
+			boolean verifyConditions = conditionList.equalsIgnoreCase( AdventureDatabase.getCondition( request ) );
+
+			int worthlessItemCount = 0;
+			boolean useDisjunction = false;
+
+			String [] splitConditions = conditionList.split( "\\s*,\\s*" );
+
+			for ( int i = 0; i < splitConditions.length; ++i )
 			{
-				boolean verifyConditions = conditionList.equals( AdventureDatabase.getCondition( request ) );
-
-				int worthlessItemCount = 0;
-				boolean useDisjunction = false;
-
-				String [] splitConditions = conditionList.split( "\\s*,\\s*" );
-
-				for ( int i = 0; i < splitConditions.length; ++i )
+				if ( splitConditions[i].indexOf( "worthless" ) != -1 )
 				{
-					if ( splitConditions[i].indexOf( "worthless" ) != -1 )
-					{
-						// You're looking for some number of
-						// worthless items
+					// You're looking for some number of
+					// worthless items
 
-						worthlessItemCount += Character.isDigit( splitConditions[i].charAt(0) ) ?
-							StaticEntity.parseInt( splitConditions[i].split( " " )[0] ) : 1;
-					}
-					if ( splitConditions[i].equals( "check" ) )
-					{
-						// Postpone verification of conditions
-						// until all other conditions added.
-
-						verifyConditions = true;
-					}
-					else if ( splitConditions[i].equals( "outfit" ) )
-					{
-						// Determine where you're adventuring and use
-						// that to determine which components make up
-						// the outfit pulled from that area.
-
-						if ( !(request instanceof KoLAdventure) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
-							return;
-
-						verifyConditions = true;
-					}
-					else if ( splitConditions[i].equals( "or" ) || splitConditions[i].equals( "and" ) || splitConditions[i].startsWith( "conjunction" ) || splitConditions[i].startsWith( "disjunction" ) )
-					{
-						useDisjunction = splitConditions[i].equals( "or" ) || splitConditions[i].startsWith( "disjunction" );
-					}
-					else
-					{
-						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i] ) )
-						{
-							KoLmafia.enableDisplay();
-							return;
-						}
-					}
+					worthlessItemCount += Character.isDigit( splitConditions[i].charAt(0) ) ?
+						StaticEntity.parseInt( splitConditions[i].split( " " )[0] ) : 1;
 				}
-
-				if ( worthlessItemCount > 0 )
-					RequestThread.postRequest( new WorthlessItemRequest( worthlessItemCount ) );
-
-				if ( verifyConditions || worthlessItemCount > 0 )
+				if ( splitConditions[i].equals( "check" ) )
 				{
-					KoLmafia.checkRequirements( conditions, false );
-					if ( conditions.isEmpty() )
+					// Postpone verification of conditions
+					// until all other conditions added.
+
+					verifyConditions = true;
+				}
+				else if ( splitConditions[i].equals( "outfit" ) )
+				{
+					// Determine where you're adventuring and use
+					// that to determine which components make up
+					// the outfit pulled from that area.
+
+					if ( !(request instanceof KoLAdventure) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
+						return;
+
+					verifyConditions = true;
+				}
+				else if ( splitConditions[i].equals( "or" ) || splitConditions[i].equals( "and" ) || splitConditions[i].startsWith( "conjunction" ) || splitConditions[i].startsWith( "disjunction" ) )
+				{
+					useDisjunction = splitConditions[i].equals( "or" ) || splitConditions[i].startsWith( "disjunction" );
+				}
+				else
+				{
+					if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i] ) )
 					{
-						KoLmafia.updateDisplay( "All conditions already satisfied." );
 						KoLmafia.enableDisplay();
 						return;
 					}
 				}
-
-				if ( conditions.size() > 1 )
-					DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
-
-				if ( ((Integer)countField.getValue()).intValue() == 0 )
-					countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
 			}
+
+			if ( worthlessItemCount > 0 )
+				RequestThread.postRequest( new WorthlessItemRequest( worthlessItemCount ) );
+
+			if ( verifyConditions || worthlessItemCount > 0 )
+			{
+				KoLmafia.checkRequirements( conditions, false );
+				if ( conditions.isEmpty() )
+				{
+					KoLmafia.updateDisplay( ABORT_STATE, "All conditions already satisfied." );
+					KoLmafia.enableDisplay();
+					return;
+				}
+			}
+
+			if ( conditions.size() > 1 )
+				DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
+
+			if ( ((Integer)countField.getValue()).intValue() == 0 )
+				countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
 		}
 
 		private class ObjectivesPanel extends KoLPanel
@@ -573,8 +571,14 @@ public class AdventureFrame extends KoLFrame
 					lastAdventure = request;
 
 					isHandlingConditions = true;
+
+					KoLmafia.forceContinue();
 					handleConditions( request );
+
 					isHandlingConditions = false;
+
+					if ( KoLmafia.refusesContinue() )
+						return;
 				}
 
 				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
@@ -653,19 +657,35 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			public void valueChanged( ListSelectionEvent e )
-			{	fillCurrentConditions();
+			{
+				if ( isHandlingConditions )
+					return;
+
+				fillCurrentConditions();
 			}
 
 			public void intervalAdded( ListDataEvent e )
-			{	fillCurrentConditions();
+			{
+				if ( isHandlingConditions )
+					return;
+
+				fillCurrentConditions();
 			}
 
 			public void intervalRemoved( ListDataEvent e )
-			{	fillCurrentConditions();
+			{
+				if ( isHandlingConditions )
+					return;
+
+				fillCurrentConditions();
 			}
 
 			public void contentsChanged( ListDataEvent e )
-			{	fillCurrentConditions();
+			{
+				if ( isHandlingConditions )
+					return;
+
+				fillCurrentConditions();
 			}
 
 			public void fillDefaultConditions()
@@ -682,9 +702,6 @@ public class AdventureFrame extends KoLFrame
 
 			public void fillCurrentConditions()
 			{
-				if ( isHandlingConditions )
-					return;
-
 				StringBuffer conditionString = new StringBuffer();
 
 				for ( int i = 0; i < conditions.size(); ++i )
