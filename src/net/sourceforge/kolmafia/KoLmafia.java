@@ -2079,7 +2079,7 @@ public abstract class KoLmafia implements KoLConstants
 		// for the location of the faucet (lowers the chance
 		// of bad results if the faucet is near the end).
 
-		while ( !foundFaucet && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 )
+		while ( KoLmafia.permitsContinue() && !foundFaucet && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 )
 		{
 			searchIndex = (Integer) searchList.remove( RNG.nextInt( searchList.size() ) );
 

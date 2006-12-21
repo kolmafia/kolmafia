@@ -232,7 +232,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "HagnkStorageFrame" ) )
 		{
-			if ( LoginRequest.isInstanceRunning() && (storage.isEmpty() || KoLCharacter.getPullsRemaining() < 1) )
+			if ( LoginRequest.isInstanceRunning() && (storage.isEmpty() || HagnkStorageFrame.getPullsRemaining() < 1) )
 				return;
 		}
 		else if ( frameName.equals( "MoneyMakingGameFrame" ) )
