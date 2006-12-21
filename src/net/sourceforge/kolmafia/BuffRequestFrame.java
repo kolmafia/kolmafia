@@ -147,7 +147,7 @@ public class BuffRequestFrame extends KoLFrame
 				RequestPanel panel = (RequestPanel) panelMap.get( getCardId() );
 
 				JCheckBox [] checkboxes = panel.checkboxes;
-				BuffBotDatabase.Offering [] offerings = panel.offerings;
+				Offering [] offerings = panel.offerings;
 
 				ArrayList requests = new ArrayList();
 				for ( int i = 0; i < checkboxes.length; ++i )
@@ -214,7 +214,7 @@ public class BuffRequestFrame extends KoLFrame
 		{
 			private String botName;
 			private JCheckBox [] checkboxes;
-			private BuffBotDatabase.Offering [] offerings;
+			private Offering [] offerings;
 
 			public RequestPanel( boolean isFree, String botName )
 			{
@@ -231,7 +231,7 @@ public class BuffRequestFrame extends KoLFrame
 				LockableListModel list = isFree ? BuffBotDatabase.getPhilanthropicOfferings( botName ) :
 					BuffBotDatabase.getStandardOfferings( botName );
 
-				offerings = new BuffBotDatabase.Offering[ list.size() ];
+				offerings = new Offering[ list.size() ];
 				list.toArray( offerings );
 
 				JPanel centerPanel = new JPanel();
@@ -352,7 +352,7 @@ public class BuffRequestFrame extends KoLFrame
 				RequestPanel panel = (RequestPanel) panelMap.get( getCardId() );
 
 				JCheckBox [] checkboxes = panel.checkboxes;
-				BuffBotDatabase.Offering [] offerings = panel.offerings;
+				Offering [] offerings = panel.offerings;
 
 				for ( int i = 0; i < checkboxes.length; ++i )
 				{

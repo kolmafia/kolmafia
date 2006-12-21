@@ -79,7 +79,7 @@ public class FightRequest extends KoLRequest
 
 	private static String action1 = null;
 	private static String action2 = null;
-	private static MonsterDatabase.Monster monsterData = null;
+	private static Monster monsterData = null;
 	private static String encounterLookup = "";
 
 	// Ultra-rare monsters

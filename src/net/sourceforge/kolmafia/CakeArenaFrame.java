@@ -115,7 +115,7 @@ public class CakeArenaFrame extends KoLFrame
 
 			for ( int i = 0; i < opponents.size(); ++i )
 			{
-				opponentRace = ((CakeArenaManager.ArenaOpponent)opponents.get(i)).getRace();
+				opponentRace = ((ArenaOpponent)opponents.get(i)).getRace();
 				opponentData[i][0] = opponents.get(i).toString();
 
 				for ( int j = 1; j <= 4; ++j )

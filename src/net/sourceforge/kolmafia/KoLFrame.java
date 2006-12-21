@@ -1261,7 +1261,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				bookmarks.add( bookmarkData[i] + "|" + bookmarkData[++i] + "|" + bookmarkData[++i] );
 	}
 
-	private static class TradeableItemFilter extends LockableListModel.ListElementFilter
+	private static class TradeableItemFilter extends ListElementFilter
 	{
 		public boolean isVisible( Object element )
 		{

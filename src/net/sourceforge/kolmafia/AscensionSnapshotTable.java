@@ -247,16 +247,16 @@ public class AscensionSnapshotTable extends KoLDatabase
 	{
 		StringBuffer strbuf = new StringBuffer();
 
-		AscensionDataRequest.AscensionDataField [] fields;
+		AscensionDataField [] fields;
 
 		if ( isSoftcore )
 		{
-			fields = new AscensionDataRequest.AscensionDataField[ softcoreAscensionList.size() ];
+			fields = new AscensionDataField[ softcoreAscensionList.size() ];
 			softcoreAscensionList.toArray( fields );
 		}
 		else
 		{
-			fields = new AscensionDataRequest.AscensionDataField[ hardcoreAscensionList.size() ];
+			fields = new AscensionDataField[ hardcoreAscensionList.size() ];
 			hardcoreAscensionList.toArray( fields );
 		}
 
@@ -276,7 +276,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		List leaderList = new ArrayList();
 		int leaderListSize = classFilter == NO_FILTER ? ( mainBoardSize == 0 ? 10 : mainBoardSize) : ( classBoardSize == 0 ? 5 : classBoardSize);
 
-		fields = new AscensionDataRequest.AscensionDataField[ resultsList.size() ];
+		fields = new AscensionDataField[ resultsList.size() ];
 		resultsList.toArray( fields );
 
 		for ( int i = 0; i < fields.length && leaderList.size() < leaderListSize; ++i )
@@ -376,14 +376,14 @@ public class AscensionSnapshotTable extends KoLDatabase
 		ascensionMap.keySet().toArray( names );
 
 		AscensionDataRequest request;
-		AscensionDataRequest.AscensionDataField [] fields;
+		AscensionDataField [] fields;
 
 		for ( int i = 0; i < names.length; ++i )
 		{
 			request = AscensionDataRequest.getInstance( names[i], KoLmafia.getPlayerId( names[i] ), (String) ascensionMap.get( names[i] ) );
 			ascensionDataList.add( request );
 
-			fields = new AscensionDataRequest.AscensionDataField[ request.getAscensionData().size() ];
+			fields = new AscensionDataField[ request.getAscensionData().size() ];
 			request.getAscensionData().toArray( fields );
 
 			for ( int j = 0; j < fields.length; ++j )

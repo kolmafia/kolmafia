@@ -100,7 +100,7 @@ Mountain	68/0	mountains=80	Bridge the Orc Chasm
 Mountain	68/0	adventure=80	Valley Beyond Orc Chasm	1 64735 scroll, 1 lowercase N
 
 Beanstalk	85/90	adventure=81	Penultimate Fantasy Airship	1 metallic A, 1 S.O.C.K.
-Beanstalk	85/95	adventure=82	Castle in the Clouds in the Sky	1 heavy D, 1 choiceadv
+Beanstalk	85/95	adventure=82	Castle in the Clouds in the Sky	1 heavy D, 1 thin black candle, 1 choiceadv
 Beanstalk	85/100	adventure=83	Hole in the Sky	1 Richard's star key, 1 star hat
 
 Sorceress	104/0	lair3=hedge	Sorceress' Hedge Maze	3 hedge maze puzzle

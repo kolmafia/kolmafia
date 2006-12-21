@@ -273,12 +273,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 				setLayout( new GridLayout( opponentCount, 1, 0, 20 ) );
 
 				for ( int i = 0; i < opponentCount; ++i )
-					add( new OpponentLabel( (CakeArenaManager.ArenaOpponent) opponents.get(i) ) );
+					add( new OpponentLabel( (ArenaOpponent) opponents.get(i) ) );
 			}
 
 			private class OpponentLabel extends JLabel
 			{
-				public OpponentLabel( CakeArenaManager.ArenaOpponent opponent )
+				public OpponentLabel( ArenaOpponent opponent )
 				{
 					super( "<html><center>" + opponent.getName() + "<br>" + "(" + opponent.getWeight() + " lbs)</center></html>",
 						FamiliarsDatabase.getFamiliarImage( opponent.getRace() ), JLabel.CENTER );
@@ -689,7 +689,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			// Choose next opponent
-			CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( familiar.getId(), weights );
+			ArenaOpponent opponent = tool.bestOpponent( familiar.getId(), weights );
 
 			if ( opponent == null )
 			{
@@ -831,7 +831,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					int [] weights = status.getWeights( false );
 
 					// Choose next opponent
-					CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( test, weights );
+					ArenaOpponent opponent = tool.bestOpponent( test, weights );
 
 					if ( opponent == null )
 					{
@@ -1016,7 +1016,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		int opponentCount = opponents.size();
 		for ( int i = 0; i < opponentCount; ++i )
 		{
-			CakeArenaManager.ArenaOpponent opponent = (CakeArenaManager.ArenaOpponent)opponents.get( i );
+			ArenaOpponent opponent = (ArenaOpponent) opponents.get( i );
 			String name = opponent.getName();
 			String race = opponent.getRace();
 			int weight = opponent.getWeight();
@@ -1157,7 +1157,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.append( text.toString() );
 	}
 
-	private static void printMatch( FamiliarStatus status, CakeArenaManager.ArenaOpponent opponent, FamiliarTool tool, int match )
+	private static void printMatch( FamiliarStatus status, ArenaOpponent opponent, FamiliarTool tool, int match )
 	{
 		FamiliarData familiar = status.getFamiliar();
 		int weight = tool.bestWeight();
@@ -1183,11 +1183,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 		KoLmafia.updateDisplay( "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
-	private static int fightMatch( FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent )
+	private static int fightMatch( FamiliarStatus status, FamiliarTool tool, ArenaOpponent opponent )
 	{	return fightMatch( status, tool, opponent, tool.bestMatch() );
 	}
 
-	private static int fightMatch( FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent, int match )
+	private static int fightMatch( FamiliarStatus status, FamiliarTool tool, ArenaOpponent opponent, int match )
 	{
 		// If user aborted, bail now
 		if ( KoLmafia.refusesContinue() )
@@ -2394,11 +2394,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static LockableListModel debugOpponents = new LockableListModel();
 	static
 	{
-		debugOpponents.add( new CakeArenaManager.ArenaOpponent( 1, "Dirty Pair", "Fuzzy Dice", 15 ) );
-		debugOpponents.add( new CakeArenaManager.ArenaOpponent( 2, "Radi O'Kol", "Leprechaun", 10 ) );
-		debugOpponents.add( new CakeArenaManager.ArenaOpponent( 3, "Captain Scapula", "Spooky Pirate Skeleton", 15 ) );
-		debugOpponents.add( new CakeArenaManager.ArenaOpponent( 4, "Queso Ardilla", "Hovering Sombrero", 10 ));
-		debugOpponents.add( new CakeArenaManager.ArenaOpponent( 5, "Optimus Pram", "MagiMechTech MicroMechaMech", 7 ) );
+		debugOpponents.add( new ArenaOpponent( 1, "Dirty Pair", "Fuzzy Dice", 15 ) );
+		debugOpponents.add( new ArenaOpponent( 2, "Radi O'Kol", "Leprechaun", 10 ) );
+		debugOpponents.add( new ArenaOpponent( 3, "Captain Scapula", "Spooky Pirate Skeleton", 15 ) );
+		debugOpponents.add( new ArenaOpponent( 4, "Queso Ardilla", "Hovering Sombrero", 10 ));
+		debugOpponents.add( new ArenaOpponent( 5, "Optimus Pram", "MagiMechTech MicroMechaMech", 7 ) );
 	}
 
 	private static FamiliarData debugFamiliar = new FamiliarData( 19, "Creepy", 2, "skewer-mounted razor blade" );
@@ -2444,7 +2444,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		int [] weights = status.getWeights( false );
 		printWeights( weights, false );
 
-		CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( debugFamiliar.getId(), weights );
+		ArenaOpponent opponent = tool.bestOpponent( debugFamiliar.getId(), weights );
 
 		printMatch( status, opponent, tool, tool.bestMatch() );
 

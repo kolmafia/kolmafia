@@ -74,7 +74,7 @@ public class AreaCombatData implements KoLConstants
 			name = name.substring( 0, colon );
 		}
 
-		MonsterDatabase.Monster monster = MonsterDatabase.findMonster( name );
+		Monster monster = MonsterDatabase.findMonster( name );
 		if ( monster == null )
 			return false;
 
@@ -111,8 +111,8 @@ public class AreaCombatData implements KoLConstants
 	{	return monsters.size();
 	}
 
-	public MonsterDatabase.Monster getMonster( int i )
-	{	return (MonsterDatabase.Monster) monsters.get(i);
+	public Monster getMonster( int i )
+	{	return (Monster) monsters.get(i);
 	}
 
 	public int getWeighting( int i )
@@ -202,7 +202,7 @@ public class AreaCombatData implements KoLConstants
 			if ( weighting < 1 )
 				continue;
 
-			MonsterDatabase.Monster monster = getMonster( i );
+			Monster monster = getMonster( i );
 			float weight = (float)weighting / (float)weights;
 			averageXP += weight * monster.getAdjustedXP( xpAdjustment, ml,  familiar );
 		}
@@ -293,7 +293,7 @@ public class AreaCombatData implements KoLConstants
 		return buffer.toString();
 	}
 
-	private String getMonsterString( MonsterDatabase.Monster monster, int moxie, int hitstat, int ml, int weighting, float combatFactor )
+	private String getMonsterString( Monster monster, int moxie, int hitstat, int ml, int weighting, float combatFactor )
 	{
 		// moxie and hitstat already adjusted for monster level
 
@@ -335,7 +335,7 @@ public class AreaCombatData implements KoLConstants
 		return buffer.toString();
 	}
 
-	private void appendMeatDrop( StringBuffer buffer, MonsterDatabase.Monster monster )
+	private void appendMeatDrop( StringBuffer buffer, Monster monster )
 	{
 		int minMeat = monster.getMinMeat();
 		int maxMeat = monster.getMaxMeat();

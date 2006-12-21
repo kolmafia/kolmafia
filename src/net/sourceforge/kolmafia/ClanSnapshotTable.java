@@ -389,7 +389,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		if ( ascensions.isEmpty() )
 			strbuf.append( memberLookup.getCreationAsString() );
 		else
-			strbuf.append( ((AscensionDataRequest.AscensionDataField)ascensions.get( ascensions.size() - 1 )).getDateAsString() );
+			strbuf.append( ((AscensionDataField)ascensions.get( ascensions.size() - 1 )).getDateAsString() );
 
 		strbuf.append( "</td><td align=center>" );
 		strbuf.append( memberLookup.getLastLoginAsString() );

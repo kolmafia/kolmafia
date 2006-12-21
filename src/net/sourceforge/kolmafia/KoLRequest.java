@@ -65,7 +65,6 @@ import java.util.regex.Pattern;
 import javax.swing.SwingUtilities;
 
 import com.velocityreviews.forums.HttpTimeoutHandler;
-import net.sourceforge.kolmafia.AdventureDatabase.ChoiceAdventure;
 import sun.net.www.protocol.http.Handler;
 
 public class KoLRequest implements Runnable, KoLConstants

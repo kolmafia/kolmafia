@@ -41,15 +41,16 @@ public abstract class HPRestoreItemList extends StaticEntity
 	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
 
 	private static final HPRestoreItem SOFA = new HPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE );
-	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", Integer.MAX_VALUE );
+	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", 40 );
 	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", Integer.MAX_VALUE );
 	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
 	private static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
 	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 );
+	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
 
 	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem []
 	{
-		SOFA, CAMPGROUND, GALAKTIK, HERBS, SCROLL, new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE ),
+		SOFA, CAMPGROUND, GALAKTIK, HERBS, SCROLL, COCOON,
 		new HPRestoreItem( "phonics down", 48 ), new HPRestoreItem( "Disco Power Nap", 40 ), WALRUS,
 		new HPRestoreItem( "red paisley oyster egg", 33 ), new HPRestoreItem( "red polka-dot oyster egg", 33 ),
 		new HPRestoreItem( "red striped oyster egg", 33 ), new HPRestoreItem( "red pixel potion", 27 ),
@@ -121,6 +122,13 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 				this.hpPerUse = (int) KoLCharacter.getLevel() * 5 + 1;
 			}
+			else if ( this == GALAKTIK || this == HERBS || this == SCROLL || this == COCOON )
+			{
+				// The restore rate on these is equal to the difference
+				// between your current and your maximum health.
+
+				this.hpPerUse = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
+			}
 
 			return hpPerUse;
 		}
@@ -144,7 +152,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 			// If you're comparing skills, then you compare MP cost for
 			// casting the skill, with more expensive skills coming later.
 
-			if ( itemUsed == null )
+			if ( itemUsed == null && skillId > 0 )
 			{
 				leftRatio = (float) (Math.ceil( leftRatio ) * (double) ClassSkillsDatabase.getMPConsumptionById( skillId ));
 				rightRatio = (float) (Math.ceil( rightRatio ) * (double) ClassSkillsDatabase.getMPConsumptionById( hpi.skillId ));

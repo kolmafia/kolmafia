@@ -724,7 +724,7 @@ public class OptionsFrame extends KoLFrame
 			if ( selected == null )
 				return;
 
-			MoodSettings.MoodTrigger node = (MoodSettings.MoodTrigger) selected;
+			MoodTrigger node = (MoodTrigger) selected;
 			String type = node.getType();
 
 			// Update the selected type
