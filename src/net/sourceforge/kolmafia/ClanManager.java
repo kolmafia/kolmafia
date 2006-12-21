@@ -168,6 +168,9 @@ public class ClanManager extends StaticEntity
 
 	private static void retrieveClanData()
 	{
+		if ( KoLmafia.isAdventuring() )
+			return;
+
 		if ( profileMap.isEmpty() )
 		{
 			ClanMembersRequest cmr = new ClanMembersRequest();

@@ -698,6 +698,16 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( !isRunning() || channel == null || message == null || channel.length() == 0 || message.length() == 0 )
 			return;
 
+		if ( !channel.startsWith( "/" ) )
+		{
+			int colonIndex = message.indexOf( ":" );
+			if ( colonIndex != -1 )
+				message = (message.substring( colonIndex + 2 )).trim();
+
+			if ( handleSpecialRequests( channel, message ) )
+				return;
+		}
+
 		String bufferKey = getBufferKey( channel );
 		if ( message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( bufferKey ) )
 			return;
@@ -716,18 +726,9 @@ public abstract class KoLMessenger extends StaticEntity
 			if ( message.indexOf( "<font color=green>" ) == -1 )
 				clanMessages.set( rollingIndex++, message );
 		}
-
-		if ( !channel.startsWith( "/" ) )
-		{
-			int colonIndex = message.indexOf( ":" );
-			if ( colonIndex != -1 )
-				message = (message.substring( colonIndex + 2 )).trim();
-
-			handleSpecialRequests( channel, message );
-		}
 	}
 
-	private static void handleSpecialRequests( String channel, String message )
+	private static boolean handleSpecialRequests( String channel, String message )
 	{
 		// If a buffbot is running, certain commands become active, such
 		// as help, restores, and logoff.
@@ -737,13 +738,13 @@ public abstract class KoLMessenger extends StaticEntity
 			if ( message.equalsIgnoreCase( "help" ) )
 			{
 				(new ChatRequest( channel, "Please check my profile." )).run();
-				return;
+				return true;
 			}
 
 			if ( message.equalsIgnoreCase( "restores" ) )
 			{
 				(new ChatRequest( channel, "I currently have " + KoLmafia.getRestoreCount() + " mana restores at my disposal." )).run();
-				return;
+				return true;
 			}
 
 			if ( message.equalsIgnoreCase( "logoff" ) )
@@ -755,6 +756,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 				BuffBotHome.update( BuffBotHome.ERRORCOLOR, channel + " added to ignore list" );
 				(new ChatRequest( channel, "/baleet" )).run();
+				return true;
 			}
 		}
 
@@ -763,16 +765,10 @@ public abstract class KoLMessenger extends StaticEntity
 
 		if ( message.equalsIgnoreCase( "update" ) )
 		{
-			if ( KoLmafia.isAdventuring() )
-			{
-				(new ChatRequest( channel, "Sorry, I'm adventuring right now." )).run();
-				return;
-			}
-
 			if ( !ClanManager.isMember( channel ) )
 			{
 				KoLmafia.enableDisplay();
-				return;
+				return true;
 			}
 
 			StringBuffer data = new StringBuffer();
@@ -785,7 +781,11 @@ public abstract class KoLMessenger extends StaticEntity
 			String toSend = RequestEditorKit.getUnicode( data.toString().trim() );
 			(new GreenMessageRequest( channel, toSend, false )).run();
 			KoLmafia.enableDisplay();
+			return true;
 		}
+
+		// Nothing happened.
+		return false;
 	}
 
 	private static void processChatMessage( String channel, String message, String bufferKey )
