@@ -420,6 +420,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "visitRumpusHardcore", "false" );
 		CLIENT_SETTINGS.put( "visitRumpusSoftcore", "false" );
 
+		PLAYER_SETTINGS.put( "autoRetrieveWorthless", "true" );
 		PLAYER_SETTINGS.put( "battleAction", "attack with weapon" );
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
 		PLAYER_SETTINGS.put( "buffBotCasting", "" );
