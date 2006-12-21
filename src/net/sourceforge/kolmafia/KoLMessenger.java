@@ -75,7 +75,7 @@ public abstract class KoLMessenger extends StaticEntity
 	private static final String DEFAULT_TIMESTAMP_COLOR = "#7695B4";
 	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
 
-	private static final int ROLLING_LIMIT = 20;
+	private static final int ROLLING_LIMIT = 25;
 	private static int rollingIndex = 0;
 	private static ArrayList clanMessages = new ArrayList();
 
