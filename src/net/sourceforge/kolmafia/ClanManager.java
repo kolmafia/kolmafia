@@ -42,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -284,7 +285,7 @@ public class ClanManager extends StaticEntity
 					profileString.append( LINE_BREAK );
 				}
 
-				profileMap.put( name, profileString.toString() );
+				profileMap.put( name.toLowerCase(), profileString.toString() );
 				istream.close();
 			}
 			catch ( Exception e )
@@ -846,6 +847,18 @@ public class ClanManager extends StaticEntity
 
 			responseText = entryMatcher.replaceAll( "" );
 		}
+	}
+
+	public static boolean isMember( String memberName )
+	{
+		retrieveClanData();
+		Iterator it = profileMap.keySet().iterator();
+
+		while ( it.hasNext() )
+			if ( memberName.equalsIgnoreCase( (String) it.next() ) )
+				return true;
+
+		return false;
 	}
 
 	/**
