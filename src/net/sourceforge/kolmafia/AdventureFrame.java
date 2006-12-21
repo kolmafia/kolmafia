@@ -549,6 +549,8 @@ public class AdventureFrame extends KoLFrame
 
 			public void actionConfirmed()
 			{
+				KoLmafia.updateDisplay( "Validating adventure sequence..." );
+
 				KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
 				if ( request == null )
 				{
