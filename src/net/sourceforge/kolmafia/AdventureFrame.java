@@ -371,7 +371,6 @@ public class AdventureFrame extends KoLFrame
 	{
 		private boolean isHandlingConditions = false;
 
-		private ExecuteButton begin;
 		private JComboBox moodSelect;
 		private JComboBox actionSelect;
 		private TreeMap zoneMap;
@@ -426,8 +425,98 @@ public class AdventureFrame extends KoLFrame
 			add( new ObjectivesPanel(), BorderLayout.CENTER );
 		}
 
+		private void handleConditions( KoLAdventure request )
+		{
+			conditions.clear();
+			String conditionList = conditionField.getText().trim().toLowerCase();
+
+			if ( conditionList.equalsIgnoreCase( "none" ) )
+				conditionList = "";
+
+			if ( !conditions.isEmpty() && conditionList.equals( AdventureDatabase.getCondition( (KoLAdventure) request ) ) )
+			{
+				conditionList = "";
+			}
+
+			if ( conditionList.length() > 0 )
+			{
+				boolean verifyConditions = conditionList.equals( AdventureDatabase.getCondition( request ) );
+
+				int worthlessItemCount = 0;
+				boolean useDisjunction = false;
+
+				String [] splitConditions = conditionList.split( "\\s*,\\s*" );
+
+				for ( int i = 0; i < splitConditions.length; ++i )
+				{
+					if ( splitConditions[i].indexOf( "worthless" ) != -1 )
+					{
+						// You're looking for some number of
+						// worthless items
+
+						worthlessItemCount += Character.isDigit( splitConditions[i].charAt(0) ) ?
+							StaticEntity.parseInt( splitConditions[i].split( " " )[0] ) : 1;
+					}
+					if ( splitConditions[i].equals( "check" ) )
+					{
+						// Postpone verification of conditions
+						// until all other conditions added.
+
+						verifyConditions = true;
+					}
+					else if ( splitConditions[i].equals( "outfit" ) )
+					{
+						// Determine where you're adventuring and use
+						// that to determine which components make up
+						// the outfit pulled from that area.
+
+						if ( !(request instanceof KoLAdventure) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
+							return;
+
+						verifyConditions = true;
+					}
+					else if ( splitConditions[i].equals( "or" ) || splitConditions[i].equals( "and" ) || splitConditions[i].startsWith( "conjunction" ) || splitConditions[i].startsWith( "disjunction" ) )
+					{
+						useDisjunction = splitConditions[i].equals( "or" ) || splitConditions[i].startsWith( "disjunction" );
+					}
+					else
+					{
+						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i] ) )
+						{
+							KoLmafia.enableDisplay();
+							return;
+						}
+					}
+				}
+
+				if ( worthlessItemCount > 0 )
+					RequestThread.postRequest( new WorthlessItemRequest( worthlessItemCount ) );
+
+				if ( verifyConditions || worthlessItemCount > 0 )
+				{
+					KoLmafia.checkRequirements( conditions, false );
+					if ( conditions.isEmpty() )
+					{
+						KoLmafia.updateDisplay( "All conditions already satisfied." );
+						KoLmafia.enableDisplay();
+						return;
+					}
+				}
+
+				if ( conditions.size() > 1 )
+					DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
+
+				if ( ((Integer)countField.getValue()).intValue() == 0 )
+					countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
+
+				conditionField.setText( "" );
+			}
+		}
+
 		private class ObjectivesPanel extends KoLPanel
 		{
+			private ExecuteButton begin;
+
 			public ObjectivesPanel()
 			{
 				super( new Dimension( 70, 20 ), new Dimension( 100, 20 ) );
@@ -445,6 +534,10 @@ public class AdventureFrame extends KoLFrame
 				JPanel buttonWrapper = new JPanel( new BorderLayout() );
 				buttonWrapper.add( buttonPanel, BorderLayout.EAST );
 
+				CombatActionChangeListener listener = new CombatActionChangeListener();
+				actionSelect.addActionListener( listener );
+				moodSelect.addActionListener( listener );
+
 				VerifiableElement [] elements = new VerifiableElement[3];
 				elements[0] = new VerifiableElement( "In Combat:  ", actionSelect );
 				elements[1] = new VerifiableElement( "Use Mood:  ", moodSelect );
@@ -456,43 +549,12 @@ public class AdventureFrame extends KoLFrame
 
 			public void actionConfirmed()
 			{
-				if ( actionSelect.getSelectedItem() == null )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, "No adventure location selected." );
-					return;
-				}
-
-				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
-				MoodSettings.setMood( (String) moodSelect.getSelectedItem() );
-			}
-
-			public void actionCancelled()
-			{
-			}
-
-			public boolean shouldAddStatusLabel( VerifiableElement [] elements )
-			{	return false;
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{	begin.setEnabled( isEnabled );
-			}
-		}
-
-		private class ExecuteButton extends JButton implements ActionListener
-		{
-			public ExecuteButton()
-			{
-				super( "begin" );
-				addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
 				KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
 				if ( request == null )
+				{
+					KoLmafia.updateDisplay( ERROR_STATE, "No location selected." );
 					return;
+				}
 
 				// If there are conditions in the condition field, be
 				// sure to process them.
@@ -524,105 +586,42 @@ public class AdventureFrame extends KoLFrame
 				KoLmafia.enableDisplay();
 			}
 
-			private class WorthlessItemRequest implements Runnable
+			public void actionCancelled()
 			{
-				private int itemCount;
-
-				public WorthlessItemRequest( int itemCount )
-				{	this.itemCount = itemCount;
-				}
-
-				public void run()
-				{	DEFAULT_SHELL.executeLine( "acquire " + itemCount + " worthless item" );
-				}
 			}
 
-			private void handleConditions( KoLAdventure request )
+			public boolean shouldAddStatusLabel( VerifiableElement [] elements )
+			{	return false;
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{	begin.setEnabled( isEnabled );
+			}
+
+			private class ExecuteButton extends JButton implements ActionListener
 			{
-				conditions.clear();
-				String conditionList = conditionField.getText().trim().toLowerCase();
-
-				if ( conditionList.equalsIgnoreCase( "none" ) )
-					conditionList = "";
-
-				if ( !conditions.isEmpty() && conditionList.equals( AdventureDatabase.getCondition( (KoLAdventure) request ) ) )
+				public ExecuteButton()
 				{
-					conditionList = "";
+					super( "begin" );
+					addActionListener( this );
 				}
 
-				if ( conditionList.length() > 0 )
-				{
-					boolean verifyConditions = conditionList.equals( AdventureDatabase.getCondition( request ) );
-
-					int worthlessItemCount = 0;
-					boolean useDisjunction = false;
-
-					String [] splitConditions = conditionList.split( "\\s*,\\s*" );
-
-					for ( int i = 0; i < splitConditions.length; ++i )
-					{
-						if ( splitConditions[i].indexOf( "worthless" ) != -1 )
-						{
-							// You're looking for some number of
-							// worthless items
-
-							worthlessItemCount += Character.isDigit( splitConditions[i].charAt(0) ) ?
-								StaticEntity.parseInt( splitConditions[i].split( " " )[0] ) : 1;
-						}
-						if ( splitConditions[i].equals( "check" ) )
-						{
-							// Postpone verification of conditions
-							// until all other conditions added.
-
-							verifyConditions = true;
-						}
-						else if ( splitConditions[i].equals( "outfit" ) )
-						{
-							// Determine where you're adventuring and use
-							// that to determine which components make up
-							// the outfit pulled from that area.
-
-							if ( !(request instanceof KoLAdventure) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
-								return;
-
-							verifyConditions = true;
-						}
-						else if ( splitConditions[i].equals( "or" ) || splitConditions[i].equals( "and" ) || splitConditions[i].startsWith( "conjunction" ) || splitConditions[i].startsWith( "disjunction" ) )
-						{
-							useDisjunction = splitConditions[i].equals( "or" ) || splitConditions[i].startsWith( "disjunction" );
-						}
-						else
-						{
-							if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i] ) )
-							{
-								KoLmafia.enableDisplay();
-								return;
-							}
-						}
-					}
-
-					if ( worthlessItemCount > 0 )
-						RequestThread.postRequest( new WorthlessItemRequest( worthlessItemCount ) );
-
-					if ( verifyConditions || worthlessItemCount > 0 )
-					{
-						KoLmafia.checkRequirements( conditions, false );
-						if ( conditions.isEmpty() )
-						{
-							KoLmafia.updateDisplay( "All conditions already satisfied." );
-							KoLmafia.enableDisplay();
-							return;
-						}
-					}
-
-					if ( conditions.size() > 1 )
-						DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
-
-					if ( ((Integer)countField.getValue()).intValue() == 0 )
-						countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
-
-					conditionField.setText( "" );
+				public void actionPerformed( ActionEvent e )
+				{	actionConfirmed();
 				}
+			}
+		}
+
+		private class WorthlessItemRequest implements Runnable
+		{
+			private int itemCount;
+
+			public WorthlessItemRequest( int itemCount )
+			{	this.itemCount = itemCount;
+			}
+
+			public void run()
+			{	DEFAULT_SHELL.executeLine( "acquire " + itemCount + " worthless item" );
 			}
 		}
 
@@ -706,6 +705,15 @@ public class AdventureFrame extends KoLFrame
 					fillDefaultConditions();
 				else
 					conditionField.setText( conditionString.toString() );
+			}
+		}
+
+		private class CombatActionChangeListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
+				MoodSettings.setMood( (String) moodSelect.getSelectedItem() );
 			}
 		}
 
