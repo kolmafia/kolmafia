@@ -366,13 +366,12 @@ public class ItemManageFrame extends KoLFrame
 
 			filterPanel = new JPanel();
 
-			filters = new JCheckBox[5];
+			filters = new JCheckBox[4];
 
 			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
 			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
 			filters[2] = new JCheckBox( "Show restoratives", true );
-			filters[3] = new JCheckBox( "Show junk", true );
-			filters[4] = new JCheckBox( "Show others", true );
+			filters[3] = new JCheckBox( "Show others", true );
 
 			for ( int i = 0; i < filters.length; ++i )
 			{
@@ -434,7 +433,7 @@ public class ItemManageFrame extends KoLFrame
 
 		private class ConsumableFilterComboBox extends FilterItemComboBox
 		{
-			private boolean restores;
+			private boolean food, booze, restores, other;
 
 			public ConsumableFilterComboBox()
 			{	filter = new ConsumableFilter();
@@ -444,24 +443,27 @@ public class ItemManageFrame extends KoLFrame
 			{
 				food = filters[0].isSelected();
 				booze = filters[1].isSelected();
-				equip = false;
-
 				restores = filters[2].isSelected();
 				other = filters[3].isSelected();
+
 				elementList.applyFilter( filter );
 			}
 
-			private class ConsumableFilter extends ConsumptionBasedFilter
+			private class ConsumableFilter extends WordBasedFilter
 			{
 				public boolean isVisible( Object element )
 				{
 					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
 					{
 					case ConsumeItemRequest.CONSUME_EAT:
+						return food && super.isVisible( element );
+
 					case ConsumeItemRequest.CONSUME_DRINK:
+						return booze && super.isVisible( element );
+
 					case ConsumeItemRequest.GROW_FAMILIAR:
 					case ConsumeItemRequest.CONSUME_ZAP:
-						return super.isVisible( element );
+						return other && super.isVisible( element );
 
 					case ConsumeItemRequest.CONSUME_RESTORE:
 						return restores ? super.isVisible( element ) : false;
@@ -469,7 +471,7 @@ public class ItemManageFrame extends KoLFrame
 					case ConsumeItemRequest.CONSUME_MULTIPLE:
 					case ConsumeItemRequest.CONSUME_USE:
 						return HPRestoreItemList.contains( (AdventureResult) element ) ?
-							restores && super.isVisible( element ) : super.isVisible( element );
+							restores && super.isVisible( element ) : other && super.isVisible( element );
 
 					default:
 						return false;
