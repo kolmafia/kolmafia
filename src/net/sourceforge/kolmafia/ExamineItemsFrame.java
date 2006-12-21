@@ -141,7 +141,7 @@ public class ExamineItemsFrame extends KoLFrame
 			}
 
 			public void actionPerformed( ActionEvent e )
-			{	showDescription( (Map.Entry) elementModel.get( elementList.lastSelectIndex ) );
+			{	showDescription( (Entry) elementModel.get( elementList.lastSelectIndex ) );
 			}
 		}
 
@@ -155,15 +155,15 @@ public class ExamineItemsFrame extends KoLFrame
 				int index = elementList.locationToIndex( e.getPoint() );
 				Object entry = elementList.getModel().getElementAt( index );
 
-				if ( !(entry instanceof Map.Entry ) )
+				if ( !(entry instanceof Entry ) )
 					return;
 
 				elementList.ensureIndexIsVisible( index );
-				showDescription( (Map.Entry) entry );
+				showDescription( (Entry) entry );
 			}
 		}
 
-		public void showDescription( Map.Entry entry )
+		public void showDescription( Entry entry )
 		{
 			String id = String.valueOf( ((Integer)entry.getKey()).intValue() );
 			StaticEntity.openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
@@ -176,7 +176,7 @@ public class ExamineItemsFrame extends KoLFrame
 		{	super( list, "Items", "item", "whichitem" );
 		}
 
-		public void showDescription( Map.Entry entry )
+		public void showDescription( Entry entry )
 		{
 			String id = TradeableItemDatabase.getDescriptionId( ((Integer)entry.getKey()).intValue() );
 			StaticEntity.openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
@@ -193,10 +193,10 @@ public class ExamineItemsFrame extends KoLFrame
 		{
 			Component defaultComponent = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 
-			if ( value == null || !(value instanceof Map.Entry ) )
+			if ( value == null || !(value instanceof Entry ) )
 				return defaultComponent;
 
-			Map.Entry entry = (Map.Entry) value;
+			Entry entry = (Entry) value;
 
 			StringBuffer stringForm = new StringBuffer();
 			stringForm.append( (String)entry.getValue() );
@@ -213,12 +213,12 @@ public class ExamineItemsFrame extends KoLFrame
 	{
 		public int compare( Object o1, Object o2 )
 		{
-			if ( !(o1 instanceof Map.Entry ) ||
-			     !(o2 instanceof Map.Entry ) )
+			if ( !(o1 instanceof Entry ) ||
+			     !(o2 instanceof Entry ) )
 				throw new ClassCastException();
 
-			int i1 = ((Integer)((Map.Entry)o1).getKey()).intValue();
-			int i2 = ((Integer)((Map.Entry)o2).getKey()).intValue();
+			int i1 = ((Integer)((Entry)o1).getKey()).intValue();
+			int i2 = ((Integer)((Entry)o2).getKey()).intValue();
 			return i1 - i2;
 		}
 	}
@@ -227,12 +227,12 @@ public class ExamineItemsFrame extends KoLFrame
 	{
 		public int compare( Object o1, Object o2 )
 		{
-			if ( !(o1 instanceof Map.Entry ) ||
-			     !(o2 instanceof Map.Entry ) )
+			if ( !(o1 instanceof Entry ) ||
+			     !(o2 instanceof Entry ) )
 				throw new ClassCastException();
 
-			String s1 = (String)((Map.Entry)o1).getValue();
-			String s2 = (String)((Map.Entry)o2).getValue();
+			String s1 = (String)((Entry)o1).getValue();
+			String s2 = (String)((Entry)o2).getValue();
 			return s1.compareToIgnoreCase( s2 );
 		}
 	}
