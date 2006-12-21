@@ -2154,13 +2154,13 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( option.equals( "clear" ) )
 		{
 			conditions.clear();
-			updateDisplay( "Conditions list cleared." );
+			printLine( "Conditions list cleared." );
 			return true;
 		}
 		else if ( option.equals( "check" ) )
 		{
 			checkRequirements( conditions );
-			updateDisplay( "Conditions list validated against available items." );
+			printLine( "Conditions list validated against available items." );
 			return true;
 		}
 		else if ( option.equals( "mode" ) )
@@ -2173,9 +2173,9 @@ public class KoLmafiaCLI extends KoLmafia
 				useDisjunction = true;
 
 			if ( useDisjunction )
-				updateDisplay( "All non-stat conditions will be ORed together." );
+				printLine( "All non-stat conditions will be ORed together." );
 			else
-				updateDisplay( "All non-stat conditions will be ANDed together." );
+				printLine( "All non-stat conditions will be ANDed together." );
 
 			return true;
 		}
@@ -2193,11 +2193,11 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( condition.getCount() > 0 )
 				{
 					AdventureResult.addResultToList( conditions, condition );
-					updateDisplay( "Condition added: " + condition );
+					printLine( "Condition added: " + condition );
 				}
 				else
 				{
-					updateDisplay( "Condition already met: " + condition );
+					printLine( "Condition already met: " + condition );
 				}
 			}
 
