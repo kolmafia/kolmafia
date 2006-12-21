@@ -701,10 +701,7 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( !channel.startsWith( "/" ) )
 		{
 			int colonIndex = message.indexOf( ":" );
-			if ( colonIndex != -1 )
-				message = (message.substring( colonIndex + 2 )).trim();
-
-			if ( handleSpecialRequests( channel, message ) )
+			if ( handleSpecialRequests( channel, colonIndex == -1 ? message : (message.substring( colonIndex + 2 )).trim() ) )
 				return;
 		}
 
