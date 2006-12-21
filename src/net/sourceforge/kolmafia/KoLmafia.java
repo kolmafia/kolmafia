@@ -51,6 +51,7 @@ import java.net.URLEncoder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -1048,52 +1049,91 @@ public abstract class KoLmafia implements KoLConstants
 				UseSkillRequest.getInstance( "Tongue of the Otter", 1 ).run();
 		}
 
-		// Iterate through every single restore item, checking to
-		// see if the settings wish to use this item.  If so, go ahead
-		// and process the item's usage.
+		// Determine all applicable items and skills for the restoration.
+		// This is a little bit memory intensive, but it allows for a lot
+		// more flexibility.
+
+		ArrayList possibleItems = new ArrayList();
+		ArrayList possibleSkills = new ArrayList();
 
 		for ( int i = 0; i < techniques.length && current <= threshold; ++i )
 		{
-			if ( techniques[i] instanceof HPRestoreItemList.HPRestoreItem )
-				if ( ((HPRestoreItemList.HPRestoreItem)techniques[i]).getItem() == null )
-					continue;
-
-			if ( techniques[i] instanceof MPRestoreItemList.MPRestoreItem )
-				if ( ((MPRestoreItemList.MPRestoreItem)techniques[i]).getItem() == null )
-					continue;
-
 			currentTechniqueName = techniques[i].toString().toLowerCase();
-			if ( restoreSetting.indexOf( currentTechniqueName ) != -1 )
+			if ( restoreSetting.indexOf( currentTechniqueName ) == -1 )
+				continue;
+
+			if ( techniques[i] instanceof HPRestoreItem )
 			{
-				do
-				{
-					last = current;
-					recoverOnce( techniques[i], currentTechniqueName, needed, false );
-					current = ((Number)currentMethod.invoke( null, empty )).intValue();
-				}
-				while ( current <= threshold && last != current && !refusesContinue() );
+				if ( ((HPRestoreItem)techniques[i]).getItem() == null )
+					possibleSkills.add( techniques[i] );
+				else
+					possibleItems.add( techniques[i] );
+			}
+
+			if ( techniques[i] instanceof MPRestoreItem )
+			{
+				if ( ((MPRestoreItem)techniques[i]).getItem() == null )
+					possibleSkills.add( techniques[i] );
+				else
+					possibleItems.add( techniques[i] );
 			}
 		}
+
+		if ( !possibleSkills.isEmpty() )
+			Collections.sort( possibleSkills );
+
+		// Iterate through every restore item which is already available
+		// in the player's inventory.
+
+		for ( int i = 0; i < possibleItems.size() && current <= threshold; ++i )
+		{
+			currentTechniqueName = possibleItems.get(i).toString().toLowerCase();
+			do
+			{
+				last = current;
+				recoverOnce( possibleItems.get(i), currentTechniqueName, needed, false );
+				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+			}
+			while ( current <= threshold && last != current && !refusesContinue() );
+		}
+
+		if ( current > threshold )
+			return true;
+
+		// Next, move onto things which are not items (skills), and
+		// prefer them over purchasing items.
+
+		for ( int i = 0; i < possibleSkills.size() && current <= threshold; ++i )
+		{
+			currentTechniqueName = possibleSkills.get(i).toString().toLowerCase();
+			do
+			{
+				last = current;
+				recoverOnce( possibleSkills.get(i), currentTechniqueName, needed, true );
+				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+			}
+			while ( current <= threshold && last != current && !refusesContinue() );
+		}
+
+		if ( current > threshold )
+			return true;
 
 		// If things are still not restored, try looking for items you
 		// don't have.
 
-		for ( int i = 0; i < techniques.length && current <= threshold; ++i )
+		for ( int i = 0; i < possibleItems.size() && current <= threshold; ++i )
 		{
-			currentTechniqueName = techniques[i].toString().toLowerCase();
-			if ( restoreSetting.indexOf( currentTechniqueName ) != -1 )
+			currentTechniqueName = possibleItems.get(i).toString().toLowerCase();
+			do
 			{
-				do
-				{
-					last = current;
-					recoverOnce( techniques[i], currentTechniqueName, needed, true );
-					current = ((Number)currentMethod.invoke( null, empty )).intValue();
+				last = current;
+				recoverOnce( possibleItems.get(i), currentTechniqueName, needed, true );
+				current = ((Number)currentMethod.invoke( null, empty )).intValue();
 
-					// Do not allow seltzer to be used more than once,
-					// as this indicates MP changes due to outfits.
-				}
-				while ( techniques[i] != MPRestoreItemList.SELTZER && current <= threshold && last != current && !refusesContinue() );
+				// Do not allow seltzer to be used more than once,
+				// as this indicates MP changes due to outfits.
 			}
+			while ( possibleItems.get(i) != MPRestoreItemList.SELTZER && current <= threshold && last != current && !refusesContinue() );
 		}
 
 		// Fall-through check, just in case you've reached the
@@ -1147,11 +1187,11 @@ public abstract class KoLmafia implements KoLConstants
 		// then don't bother with this item -- however, if it is the only item
 		// present, then rethink it.
 
-		if ( technique instanceof HPRestoreItemList.HPRestoreItem )
-			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( needed, purchase );
+		if ( technique instanceof HPRestoreItem )
+			((HPRestoreItem)technique).recoverHP( needed, purchase );
 
-		if ( technique instanceof MPRestoreItemList.MPRestoreItem )
-			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( needed, purchase );
+		if ( technique instanceof MPRestoreItem )
+			((MPRestoreItem)technique).recoverMP( needed, purchase );
 	}
 
 	/**
@@ -2163,7 +2203,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		(new StoreManageRequest()).run();
 
-		StoreManager.SoldItem [] sold = new StoreManager.SoldItem[ StoreManager.getSoldItemList().size() ];
+		SoldItem [] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
 		StoreManager.getSoldItemList().toArray( sold );
 
 		int [] itemId = new int[ sold.length ];
@@ -2921,7 +2961,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If the value of an item is currently 100,
 		// then remove the item from the store.
 
-		StoreManager.SoldItem [] sold = new StoreManager.SoldItem[ StoreManager.getSoldItemList().size() ];
+		SoldItem [] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
 		StoreManager.getSoldItemList().toArray( sold );
 
 		for ( int i = 0; i < sold.length && permitsContinue(); ++i )

@@ -383,7 +383,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( name.equalsIgnoreCase( "none" ) )
 			return MONSTER_INIT;
 
-		MonsterDatabase.Monster monster = MonsterDatabase.findMonster( name );
+		Monster monster = MonsterDatabase.findMonster( name );
 		if ( monster == null )
 			throw new IllegalArgumentException( "Bad monster name " + name );
 		return new ScriptValue( MONSTER_TYPE, name, (Object)monster );
@@ -4209,13 +4209,13 @@ public class KoLmafiaASH extends StaticEntity
 			(new StoreManageRequest()).run();
 
 			LockableListModel list = StoreManager.getSoldItemList();
-			StoreManager.SoldItem item = new StoreManager.SoldItem( arg.intValue(), 0, 0, 0, 0 );
+			SoldItem item = new SoldItem( arg.intValue(), 0, 0, 0, 0 );
 			int index = list.indexOf( item );
 
 			if ( index < 0 )
 				return new ScriptValue( 0 );
 
-			item = (StoreManager.SoldItem) list.get( index );
+			item = (SoldItem) list.get( index );
 			return new ScriptValue( item.getQuantity() );
 		}
 
@@ -4719,19 +4719,19 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue monster_base_attack( ScriptVariable arg )
 		{
-			MonsterDatabase.Monster monster = (MonsterDatabase.Monster)(arg.rawValue());
+			Monster monster = (Monster) arg.rawValue();
 			return new ScriptValue( monster.getAttack() );
 		}
 
 		public ScriptValue monster_base_defense( ScriptVariable arg )
 		{
-			MonsterDatabase.Monster monster = (MonsterDatabase.Monster)(arg.rawValue());
+			Monster monster = (Monster) arg.rawValue();
 			return new ScriptValue( monster.getDefense() );
 		}
 
 		public ScriptValue monster_base_hp( ScriptVariable arg )
 		{
-			MonsterDatabase.Monster monster = (MonsterDatabase.Monster)(arg.rawValue());
+			Monster monster = (Monster) arg.rawValue();
 			return new ScriptValue( monster.getHP() );
 		}
 

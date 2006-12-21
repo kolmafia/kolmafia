@@ -63,7 +63,7 @@ public class FamiliarTool
 		this.opponents = new Opponent[ opponentCount ];
 		for ( int i = 0; i < opponentCount; ++i )
 		{
-			CakeArenaManager.ArenaOpponent opponent = (CakeArenaManager.ArenaOpponent)opponents.get( i );
+			ArenaOpponent opponent = (ArenaOpponent)opponents.get( i );
 			this.opponents[i] = new Opponent( opponent );
 		}
 	}
@@ -74,7 +74,7 @@ public class FamiliarTool
 	 * @param	possibleOwnWeights	Array with all possibilities for familiar weight
 	 * @return	The Id number of the best opponent. Further information can be collected through other functions
 	 */
-	public CakeArenaManager.ArenaOpponent bestOpponent( int ownFamiliar, int [] possibleOwnWeights )
+	public ArenaOpponent bestOpponent( int ownFamiliar, int [] possibleOwnWeights )
 	{
 		int [] ownSkills = FamiliarsDatabase.getFamiliarSkills( ownFamiliar );
 		return bestOpponent( ownSkills, possibleOwnWeights );
@@ -86,7 +86,7 @@ public class FamiliarTool
 	 * @param	possibleOwnWeights	Array with all possibilities for familiar weight
 	 * @return	The Id number of the best opponent. Further information can be collected through other functions
 	 */
-	public CakeArenaManager.ArenaOpponent bestOpponent( int [] ownSkills, int [] possibleOwnWeights )
+	public ArenaOpponent bestOpponent( int [] ownSkills, int [] possibleOwnWeights )
 	{
 		int opponentCount = opponents.length;
 		int possibleWeights = possibleOwnWeights.length;
@@ -196,7 +196,7 @@ public class FamiliarTool
 	private class Opponent
 	{
 		// Cake Arena data structure
-		private CakeArenaManager.ArenaOpponent opponent;
+		private ArenaOpponent opponent;
 
 		// Familiar type
 		private int type;
@@ -207,7 +207,7 @@ public class FamiliarTool
 		// Arena parameters
 		private int [] arena = new int[4];
 
-		public Opponent( CakeArenaManager.ArenaOpponent opponent )
+		public Opponent( ArenaOpponent opponent )
 		{
 			this.opponent = opponent;
 			this.type = FamiliarsDatabase.getFamiliarId( opponent.getRace() );
@@ -215,7 +215,7 @@ public class FamiliarTool
 			this.arena = FamiliarsDatabase.getFamiliarSkills( type );
 		}
 
-		public CakeArenaManager.ArenaOpponent getOpponent()
+		public ArenaOpponent getOpponent()
 		{	return opponent;
 		}
 

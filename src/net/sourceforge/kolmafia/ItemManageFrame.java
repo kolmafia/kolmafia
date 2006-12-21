@@ -258,7 +258,7 @@ public class ItemManageFrame extends KoLFrame
 			{
 				(new StoreManageRequest()).run();
 
-				StoreManager.SoldItem [] sold = new StoreManager.SoldItem[ StoreManager.getSoldItemList().size() ];
+				SoldItem [] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
 				StoreManager.getSoldItemList().toArray( sold );
 
 				int itemCount;
