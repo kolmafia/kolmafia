@@ -101,7 +101,7 @@ public abstract class KoLmafia implements KoLConstants
 	private static final String [] OVERRIDE_DATA =
 	{
 		"adventures.txt", "buffbots.txt", "classskills.txt", "combats.txt", "concoctions.txt",
-		"equipment.txt", "familiars.txt", "inbriety.txt", "itemdescs.txt", "modifiers.txt",
+		"equipment.txt", "familiars.txt", "inebriety.txt", "itemdescs.txt", "modifiers.txt",
 		"monsters.txt", "npcstores.txt", "outfits.txt", "packages.txt", "statuseffects.txt",
 		"tradeitems.txt", "zonelist.txt"
 	};
