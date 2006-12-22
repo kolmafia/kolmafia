@@ -717,7 +717,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		if ( channel.equals( "/clan" ) )
 		{
-			if ( rollingIndex == 20 )
+			if ( rollingIndex == ROLLING_LIMIT )
 				rollingIndex = 0;
 
 			if ( message.indexOf( "<font color=green>" ) == -1 )
