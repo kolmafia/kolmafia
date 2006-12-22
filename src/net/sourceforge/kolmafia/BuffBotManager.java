@@ -101,11 +101,11 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				for ( int i = 0; i < soldBuffs.length; ++i )
 				{
 					currentBuff = soldBuffs[i].split( ":" );
-					if ( currentBuff.length == 1 )
+					if ( currentBuff.length < 3 )
 						continue;
 
-					addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ),
-						parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), currentBuff[4].equals( "true" ) );
+					addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ), parseInt( currentBuff[2] ),
+						currentBuff.length > 3 && currentBuff[3].equalsIgnoreCase( "true" ), currentBuff.length > 4 && currentBuff[4].equalsIgnoreCase( "true" ) );
 				}
 			}
 
@@ -115,8 +115,11 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		while ( (currentBuff = KoLDatabase.readData( reader )) != null )
 		{
-			addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ),
-				parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), currentBuff[4].equals( "true" ) );
+			if ( currentBuff.length < 3 )
+				continue;
+
+			addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ), parseInt( currentBuff[2] ),
+				currentBuff.length > 3 && currentBuff[3].equalsIgnoreCase( "true" ), currentBuff.length > 4 && currentBuff[4].equals( "true" ) );
 		}
 
 		try
