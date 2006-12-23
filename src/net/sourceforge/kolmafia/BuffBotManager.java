@@ -69,6 +69,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	private static String [] whiteListArray = new String[0];
 
 	public static final Pattern MEAT_PATTERN = Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat" );
+	public static final Pattern GIFT_PATTERN = Pattern.compile( "<a class=nounder style='color: blue' href='showplayer.php\\?who=(\\d+)' target=mainpane>" );
 
 	/**
 	 * Resets the buffbot's internal variables and reloads the
@@ -692,36 +693,51 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		boolean gavePhilanthropicBuff = false;
 		boolean lastBuffSuccessful = true;
 
-		int failureCount = BuffBotHome.getInstanceCount( 0, message.getSenderName() );
+		String requestor = message.getSenderName();
+		String recipient = requestor;
 
 		// If it's clear that the person is receiving a refund because they are
 		// restricted due to failure, ignore this request.
 
-		if ( !BuffBotHome.isPermitted( message.getSenderName() ) )
+		if ( !BuffBotHome.isPermitted( requestor ) )
 			return;
+
+		boolean isGiftBuff = false;
+
+		Matcher giftMatcher = GIFT_PATTERN.matcher( message.getMessageHTML() );
+		if ( giftMatcher.find() )
+		{
+			isGiftBuff = true;
+			recipient = giftMatcher.group(1);
+		}
+
+		int failureCount = BuffBotHome.getInstanceCount( 0, requestor );
 
 		for ( int i = 0; i < castList.size() && lastBuffSuccessful; ++i )
 		{
 			currentBuff = (BuffBotCaster) castList.get(i);
 
+			if ( currentBuff.philanthropic && isGiftBuff )
+				continue;
+
 			if ( failureCount < REFUND_THRESHOLD || !currentBuff.philanthropic )
 			{
-				lastBuffSuccessful = executeBuff( currentBuff, message, meatSent );
+				lastBuffSuccessful = executeBuff( currentBuff, recipient, meatSent );
 				receivedBuffs |= lastBuffSuccessful;
 				gavePhilanthropicBuff |= currentBuff.philanthropic;
 			}
 		}
 
 		if ( receivedBuffs && gavePhilanthropicBuff )
-			BuffBotHome.addToRecipientList( meatSent, message.getSenderName() );
+			BuffBotHome.addToRecipientList( meatSent, requestor );
 
 		if ( !receivedBuffs )
 		{
 			++failureCount;
-			BuffBotHome.addToRecipientList( 0, message.getSenderName() );
+			BuffBotHome.addToRecipientList( 0, requestor );
 
 			if ( UseSkillRequest.lastUpdate.startsWith( "Selected target cannot receive" ) )
-				BuffBotHome.denyFutureBuffs( message.getSenderName() );
+				BuffBotHome.denyFutureBuffs( requestor );
 		}
 
 		// Record the inability to buff inside of a separate
@@ -736,15 +752,15 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// send a notification that they will no longer be
 			// refunded for buffs cast today.
 
-			sendRefund( message.getSenderName(), "This message is to provide notification that you have already sent " + REFUND_THRESHOLD + " " +
+			sendRefund( requestor, "This message is to provide notification that you have already sent " + REFUND_THRESHOLD + " " +
 				"buff requests which resulted in a refund to your account.  In order to preserve the integrity of this buffbot, from now until the next rollover begins, " +
 				"all requests for once-per-day buffs and all buffs which which might result in a refund will instead be treated as donations.", 0 );
 		}
 		else if ( failureCount < REFUND_THRESHOLD )
 		{
-			if ( !BuffBotHome.isPermitted( message.getSenderName() ) )
+			if ( !BuffBotHome.isPermitted( requestor ) )
 			{
-				sendRefund( message.getSenderName(), "It has been determined that at some point during an attempt to buff you in the last 24 hours, you could not receive buffs.  " +
+				sendRefund( requestor, "It has been determined that at some point during an attempt to buff you in the last 24 hours, you could not receive buffs.  " +
 					"This could be either due to engaging in combat, having too many AT songs in your head, or ascending before receiving your buff.  As a result of this failure, " +
 					"all of your requests are being refunded rather than processed in order to maintain throughput.  Apologies for the inconvenience.", meatSent );
 			}
@@ -753,32 +769,32 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				// If the person sent something and received no buffs,
 				// then make sure they're refunded.
 
-				sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " + UseSkillRequest.lastUpdate +
+				sendRefund( requestor, "This buffbot was unable to process your request.  " + UseSkillRequest.lastUpdate +
 					"  Please try again later." + LINE_BREAK + LINE_BREAK + refundMessage, meatSent );
 			}
 		}
 	}
 
-	private static boolean executeBuff( BuffBotCaster buff, KoLMailMessage message, int meatSent )
+	private static boolean executeBuff( BuffBotCaster buff, String recipient, int meatSent )
 	{
-		if ( buff.restricted && !onWhiteList( message.getSenderName() ) )
+		if ( buff.restricted && !onWhiteList( recipient ) )
 		{
 			// This is a restricted buff for a non-allowed user.
 			// The user will not be buffed.
 
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Received white list request from un-whitelisted player" );
-			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + message.getSenderName() );
+			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + recipient );
 			UseSkillRequest.lastUpdate = COMMA_FORMAT.format( meatSent ) + " meat is not a valid buff price.";
 			return false;
 		}
-		else if ( buff.philanthropic && BuffBotHome.getInstanceCount( meatSent, message.getSenderName() ) > 0 )
+		else if ( buff.philanthropic && BuffBotHome.getInstanceCount( meatSent, recipient ) > 0 )
 		{
 			// This is a philanthropic buff and the user has already
 			// requested it the maximum number of times alotted.  The
 			// user will not be buffed.
 
-			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Philanthropy limit exceeded for " + message.getSenderName() );
-			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + message.getSenderName() );
+			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Philanthropy limit exceeded for " + recipient );
+			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + recipient );
 			UseSkillRequest.lastUpdate = "This buff may only be requested once per day.";
 			return false;
 		}
@@ -786,7 +802,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		// Under all other circumstances, you go ahead and
 		// process the buff request.
 
-		return buff.castOnTarget( message.getSenderName() );
+		return buff.castOnTarget( recipient );
 	}
 
 	/**
