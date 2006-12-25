@@ -151,7 +151,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 		this.elements = elements;
 
-		if ( elements != null )
+		if ( elements != null && autoConfirmOnChange() )
 		{
 			ActionConfirmListener listener = new ActionConfirmListener();
 
