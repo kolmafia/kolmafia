@@ -560,9 +560,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{
-			RequestThread.postRequest( this );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( this );
 		}
 
 		public abstract void run();
@@ -1343,8 +1341,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 						break;
 					}
 				}
-
-				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -1366,8 +1362,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 				if ( !retrieveFromClosetFirst )
 					RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
-
-				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -1393,12 +1387,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					return;
 				}
 
-				if ( sellType == AutoSellRequest.AUTOSELL && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+				if ( sellType == AutoSellRequest.AUTOSELL && JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
 					"Are you sure you would like to sell the selected items?",
 						"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 							return;
 
-				if ( sellType == AutoSellRequest.AUTOMALL && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+				if ( sellType == AutoSellRequest.AUTOMALL && JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
 					"Are you sure you would like to place the selected items in your store?",
 						"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 							return;
@@ -1408,7 +1402,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					return;
 
 				RequestThread.postRequest( new AutoSellRequest( items, sellType ) );
-				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -1429,7 +1422,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					return;
 
 				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
-				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -1456,7 +1448,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				}
 
 				RequestThread.postRequest( new MuseumRequest( items, true ) );
-				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -1485,8 +1476,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					if ( willSmash )
 						RequestThread.postRequest( new PulverizeRequest( items[i] ) );
 				}
-
-				KoLmafia.enableDisplay();
 			}
 
 			public String toString()

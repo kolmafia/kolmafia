@@ -187,9 +187,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
-			RequestThread.postRequest( (Runnable) buffField.getSelectedItem(), getValue( countField ) );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( (Runnable) buffField.getSelectedItem(), getValue( countField ) );
 		}
 
 		public void actionCancelled()
@@ -219,15 +217,11 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
-			RequestThread.postRequest( (Runnable) enemyList.getSelectedItem() );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( (Runnable) enemyList.getSelectedItem() );
 		}
 
 		public void actionCancelled()
-		{
-			RequestThread.postRequest( new ClanListRequest() );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( new ClanListRequest() );
 		}
 	}
 
@@ -260,9 +254,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
-			RequestThread.postRequest( new ClanMaterialsRequest() );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( new ClanMaterialsRequest() );
 		}
 
 		public void actionCancelled()
@@ -321,9 +313,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
-			RequestThread.postRequest( new ClanStashRequest( getValue( amountField ) ) );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( new ClanStashRequest( getValue( amountField ) ) );
 		}
 
 		public void actionCancelled()
@@ -455,9 +445,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
-			RequestThread.postRequest( new MemberSearcher() );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( new MemberSearcher() );
 		}
 
 		private class MemberSearcher implements Runnable
@@ -584,15 +572,11 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
-			RequestThread.postRequest( new SnapshotRunnable() );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( new SnapshotRunnable() );
 		}
 
 		public void actionCancelled()
-		{
-			RequestThread.postRequest( new StashLogRunnable() );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( new StashLogRunnable() );
 		}
 
 		private class StashLogRunnable implements Runnable

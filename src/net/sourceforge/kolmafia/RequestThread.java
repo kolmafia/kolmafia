@@ -40,6 +40,9 @@ import net.sourceforge.foxtrot.Worker;
 
 public abstract class RequestThread implements Runnable, KoLConstants
 {
+	private static Request queueHandler = new Request();
+	private static boolean isRunningRequest = false;
+
 	public static void postRequest( Runnable request )
 	{	execute( request, 1 );
 	}
@@ -58,31 +61,49 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 		try
 		{
-			if ( SwingUtilities.isEventDispatchThread() )
+			if ( request instanceof KoLAdventure || (request instanceof KoLRequest && !((KoLRequest)request).isDelayExempt()) )
 			{
-				if ( request instanceof KoLAdventure )
-					Worker.post( runner );
-				else if ( request instanceof KoLRequest && !((KoLRequest)request).isDelayExempt() )
-					Worker.post( runner );
+				pendingRequests.add( runner );
+				if ( isRunningRequest )
+					return;
+
+				if ( SwingUtilities.isEventDispatchThread() )
+					Worker.post( queueHandler );
 				else
-					ConcurrentWorker.post( runner );
+					queueHandler.run();
 			}
 			else
-				runner.run();
+			{
+				if ( SwingUtilities.isEventDispatchThread() )
+					ConcurrentWorker.post( runner );
+				else
+					runner.run();
+			}
 		}
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
 		}
+	}
 
-		if ( request instanceof KoLAdventure )
-			SystemTrayFrame.showBalloon( "Requests complete." );
+	public static void declareWorldPeace()
+	{
+		KoLmafia.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
+
+		commandQueue.clear();
+		pendingRequests.clear();
 	}
 
 	private static class Request extends Job
 	{
 		private Runnable runner;
 		private int repeatCount;
+
+		public Request()
+		{
+			runner = null;
+			repeatCount = 0;
+		}
 
 		public Request( Runnable runner, int repeatCount )
 		{
@@ -92,6 +113,21 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 		public Object run()
 		{
+			if ( runner == null )
+			{
+				isRunningRequest = true;
+
+				while ( !pendingRequests.isEmpty() )
+					((Request)pendingRequests.remove(0)).run();
+
+				isRunningRequest = false;
+
+				SystemTrayFrame.showBalloon( "Requests complete." );
+				KoLmafia.enableDisplay();
+				return null;
+			}
+
+
 			if ( (runner instanceof KoLRequest && !((KoLRequest)runner).isDelayExempt()) || runner instanceof KoLAdventure )
 			{
 				StaticEntity.getClient().makeRequest( runner, repeatCount );

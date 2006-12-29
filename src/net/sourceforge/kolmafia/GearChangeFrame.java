@@ -174,7 +174,6 @@ public class GearChangeFrame extends KoLFrame
 				RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
 
 			SpecialOutfit.clearCheckpoint();
-			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
@@ -184,7 +183,6 @@ public class GearChangeFrame extends KoLFrame
 				return;
 
 			RequestThread.postRequest( new EquipmentRequest( currentValue ) );
-			KoLmafia.enableDisplay();
 		}
 	}
 
@@ -227,10 +225,7 @@ public class GearChangeFrame extends KoLFrame
 						return;
 
 					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
-
 					SpecialOutfit.clearCheckpoint();
-					KoLmafia.enableDisplay();
-
 					setSelectedItem( null );
 					return;
 				}
@@ -251,7 +246,6 @@ public class GearChangeFrame extends KoLFrame
 					if ( KoLCharacter.getFamiliar().canEquip( famitem ) && !KoLCharacter.getFamiliar().getItem().equals( famitem ) )
 						RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
 
-					KoLmafia.enableDisplay();
 					return;
 				}
 

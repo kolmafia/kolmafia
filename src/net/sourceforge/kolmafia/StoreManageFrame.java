@@ -157,22 +157,16 @@ public class StoreManageFrame extends KoLPanelFrame
 			}
 
 			RequestThread.postRequest( new StoreManageRequest( itemId, prices, limits ) );
-			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
-		{
-			RequestThread.postRequest( this );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( this );
 		}
 
 		public void run()
 		{
-			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, UNDERCUT_MESSAGE + "Are you sure you wish to continue with this repricing?" ) )
-			{
-				KoLmafia.enableDisplay();
+			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, UNDERCUT_MESSAGE + "Are you sure you wish to continue with this repricing?" ) )
 				return;
-			}
 
 			StaticEntity.getClient().priceItemsAtLowestPrice();
 		}
@@ -307,7 +301,6 @@ public class StoreManageFrame extends KoLPanelFrame
 				setValueAt( new Integer(0), 0, 3 );
 
 				RequestThread.postRequest( new AutoSellRequest( soldItem, price, limit ) );
-				KoLmafia.enableDisplay();
 			}
 		}
 
@@ -363,9 +356,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			}
 
 			public void mouseReleased( MouseEvent e )
-			{
-				RequestThread.postRequest( new StoreManageRequest( itemId ) );
-				KoLmafia.enableDisplay();
+			{	RequestThread.postRequest( new StoreManageRequest( itemId ) );
 			}
 		}
 	}
@@ -384,14 +375,12 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOMALL ) );
 			RequestThread.postRequest( new StoreManageRequest( false ) );
-			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
 		{
 			Object [] items = getDesiredItems( "Autosell" );
 			RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOSELL ) );
-			KoLmafia.enableDisplay();
 		}
 	}
 
@@ -402,19 +391,16 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionConfirmed()
-		{
-			removeItems( false );
-			KoLmafia.enableDisplay();
+		{	removeItems( false );
 		}
 
 		public void actionCancelled()
 		{
-			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
 				"Are you sure you'd like to autosell the selected items?", "Clean up!", JOptionPane.YES_NO_OPTION ) )
 					return;
 
 			removeItems( true );
-			KoLmafia.enableDisplay();
 		}
 
 		public void removeItems( boolean autoSellAfter )
@@ -477,9 +463,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionConfirmed()
-		{
-			RequestThread.postRequest( new StoreManageRequest( true ) );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( new StoreManageRequest( true ) );
 		}
 
 		public void actionCancelled()

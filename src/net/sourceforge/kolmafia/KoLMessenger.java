@@ -776,8 +776,7 @@ public abstract class KoLMessenger extends StaticEntity
 			}
 
 			String toSend = RequestEditorKit.getUnicode( data.toString().trim() );
-			(new GreenMessageRequest( channel, toSend, false )).run();
-			KoLmafia.enableDisplay();
+			RequestThread.postRequest( new GreenMessageRequest( channel, toSend, false ) );
 			return true;
 		}
 

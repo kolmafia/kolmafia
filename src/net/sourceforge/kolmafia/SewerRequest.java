@@ -82,8 +82,8 @@ public class SewerRequest extends KoLRequest
 		// an error.
 
 		String thirdItemString = StaticEntity.getProperty( "luckySewerAdventure" );
-		int thirdItem = thirdItemString.indexOf( "random" ) != -1 ? RNG.nextInt( 11 ) + 1 :
-			TradeableItemDatabase.getItemId( thirdItemString );
+		int thirdItem = thirdItemString.indexOf( "random" ) != -1 ? RNG.nextInt( 11 ) + 1 : Character.isDigit( thirdItemString.charAt(0) ) ?
+			StaticEntity.parseInt( thirdItemString ) : TradeableItemDatabase.getItemId( thirdItemString );
 
 		if ( thirdItem < 1 || thirdItem > 12 )
 		{

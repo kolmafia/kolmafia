@@ -457,7 +457,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Nag dialog
 					int turns = trials * 12;
-					if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, "This will take up to " + turns + " adventures and cost up to " + COMMA_FORMAT.format( turns * 100 ) + " meat. Are you sure?", "Familiar strength learner nag screen", JOptionPane.YES_NO_OPTION ) )
+					if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "This will take up to " + turns + " adventures and cost up to " + COMMA_FORMAT.format( turns * 100 ) + " meat. Are you sure?", "Familiar strength learner nag screen", JOptionPane.YES_NO_OPTION ) )
 						return;
 
 					// Learn familiar parameters

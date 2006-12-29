@@ -175,10 +175,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		if ( requestMailbox )
-		{
 			RequestThread.postRequest( new MailRefresher( currentTabName ) );
-			KoLmafia.enableDisplay();
-		}
 	}
 
 	private void refreshMailManager()
@@ -269,30 +266,23 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					if ( messages.length == 0 )
 						return;
 
-					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+					if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-					{
-						KoLMailManager.deleteMessages( mailboxName, messages );
-						KoLmafia.enableDisplay();
-					}
+							return;
 
-					return;
+					KoLMailManager.deleteMessages( mailboxName, messages );
 				}
-
-				if ( e.getKeyCode() == KeyEvent.VK_S && mailboxName.equals( "Inbox" ) )
+				else if ( e.getKeyCode() == KeyEvent.VK_S && mailboxName.equals( "Inbox" ) )
 				{
 					Object [] messages = getSelectedValues();
 					if ( messages.length == 0 )
 						return;
 
-					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+					if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
 						"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-					{
-						KoLMailManager.saveMessages( messages );
-						KoLmafia.enableDisplay();
-					}
+							return;
 
-					return;
+					KoLMailManager.saveMessages( messages );
 				}
 			}
 		}
@@ -322,12 +312,11 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			if ( messages == null || messages.length == 0 )
 				return;
 
-			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
 					"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 						return;
 
 			RequestThread.postRequest( this );
-			KoLmafia.enableDisplay();
 		}
 
 		public void run()
@@ -363,12 +352,11 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			if ( messages ==  null || messages.length == 0 )
 				return;
 
-			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
 					"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 						return;
 
 			RequestThread.postRequest( this );
-			KoLmafia.enableDisplay();
 		}
 
 		public void run()
@@ -389,7 +377,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		{
 			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
 			RequestThread.postRequest( new MailRefresher( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName ) );
-			KoLmafia.enableDisplay();
 		}
 	}
 

@@ -155,7 +155,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 				if ( command.startsWith( "abort" ) )
 				{
-					KoLmafia.declareWorldPeace();
+					RequestThread.declareWorldPeace();
 					return;
 				}
 
@@ -178,8 +178,6 @@ public class CommandDisplayFrame extends KoLFrame
 			{
 				while ( !commandQueue.isEmpty() )
 					executeQueuedCommand();
-
-				KoLmafia.enableDisplay();
 			}
 
 			private void executeQueuedCommand()

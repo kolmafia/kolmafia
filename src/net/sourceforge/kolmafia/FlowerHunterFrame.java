@@ -194,14 +194,12 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		{
 			isSimple = true;
 			RequestThread.postRequest( this );
-			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
 		{
 			isSimple = false;
 			RequestThread.postRequest( this );
-			KoLmafia.enableDisplay();
 		}
 
 		public void run()
@@ -266,9 +264,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		}
 
 		public void actionConfirmed()
-		{
-			RequestThread.postRequest( this );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( this );
 		}
 
 		public void actionCancelled()
@@ -354,9 +350,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		}
 
 		public void actionConfirmed()
-		{
-			RequestThread.postRequest( this );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( this );
 		}
 
 		public void actionCancelled()

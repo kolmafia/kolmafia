@@ -303,8 +303,6 @@ public abstract class ProposeTradeFrame extends KoLFrame
 				recipientEntry.setSelectedIndex( -1 );
 				dispose();
 			}
-
-			KoLmafia.enableDisplay();
 		}
 	}
 

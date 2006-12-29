@@ -269,6 +269,7 @@ public interface KoLConstants extends UtilityConstants
 	// Locations where session information is displayed for the user.
 	// Include just the event history buffer and the command line buffer.
 
+	public static final ArrayList pendingRequests = new ArrayList();
 	public static final LockableListModel eventHistory = new LockableListModel();
 	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( true );
 }

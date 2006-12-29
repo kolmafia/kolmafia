@@ -4571,14 +4571,14 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue throw_item( ScriptVariable item )
 		{
-			KoLRequest request = new KoLRequest( "fight.php?action=item&whichitem=" + item.intValue() );
+			KoLRequest request = new KoLRequest( "fight.php?action=useitem&whichitem=" + item.intValue() );
 			request.run();
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
 
 		public ScriptValue throw_items( ScriptVariable item1, ScriptVariable item2 )
 		{
-			KoLRequest request = new KoLRequest( "fight.php?action=item&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
+			KoLRequest request = new KoLRequest( "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
 			request.run();
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
@@ -5146,10 +5146,7 @@ public class KoLmafiaASH extends StaticEntity
 			try
 			{
 				while ( (data = KoLDatabase.readData( reader )) != null )
-				{
-					int n = result.read( data, 0, compact );
-					// assert n == data.length
-				}
+					result.read( data, 0, compact );
 			}
 			catch ( Exception e )
 			{
@@ -7342,14 +7339,14 @@ public class KoLmafiaASH extends StaticEntity
 
 		public void dumpValue( PrintStream writer )
 		{
-                }
+		}
 
 		// Returns number of fields consumed
 		public int read( String [] data, int index, boolean compact ) throws AdvancedScriptException
 		{
 			// There must be a key and a value remaining
 			if ( data.length - index < 2 )
-				throw new RuntimeException( "Internal error: Insufficient fields in data" );
+				return 0;
 
 			ScriptCompositeType type = (ScriptCompositeType)this.type;
 			ScriptValue key = type.getKey( parseValue( type.getIndexType(), data[ index ] ) );

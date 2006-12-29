@@ -119,7 +119,6 @@ public class LoginFrame extends KoLFrame
 		}
 
 		setResizable( false );
-		KoLmafia.enableDisplay();
 	}
 
 	public void requestFocus()
@@ -274,11 +273,10 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.setGlobalProperty( username, "getBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
 			RequestThread.postRequest( new LoginRequest( username, password ) );
-			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
-		{	KoLmafia.declareWorldPeace();
+		{	RequestThread.declareWorldPeace();
 		}
 
 		private class AutoLoginListener implements ActionListener
@@ -295,9 +293,7 @@ public class LoginFrame extends KoLFrame
 		private class GetBreakfastListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
-			{
-				if ( LoginRequest.isInstanceRunning() )
-					StaticEntity.setGlobalProperty( username, "getBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
+			{	StaticEntity.setGlobalProperty( username, "getBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 			}
 		}
 

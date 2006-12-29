@@ -393,9 +393,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		battleSkillNames.add( "attack with weapon" );
 		battleSkillNames.add( "custom combat script" );
-
-		battleSkillNames.setSelectedIndex( 0 );
-
 		battleSkillNames.add( "delevel and plink" );
 
 		battleSkillNames.add( "item dictionary" );
@@ -445,6 +442,8 @@ public abstract class KoLCharacter extends StaticEntity
 		activeEffects.clear();
 
 		resetInventory();
+
+		battleSkillNames.setSelectedItem( StaticEntity.getProperty( "battleAction" ) );
 	}
 
 	public static boolean isFallingDown()
@@ -1922,10 +1921,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		// Add derived skills based on base skills
 		addDerivedSkills();
-
-		String originalAction = StaticEntity.getProperty( "battleAction" );
-		if ( battleSkillNames.contains( originalAction ) )
-			battleSkillNames.setSelectedItem( originalAction );
+		battleSkillNames.setSelectedItem( StaticEntity.getProperty( "battleAction" ) );
 	}
 
 	/**

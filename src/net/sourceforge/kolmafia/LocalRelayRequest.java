@@ -712,8 +712,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 	{
 		if ( command.equals( "abort" ) )
 		{
-			KoLmafia.declareWorldPeace();
-			commandQueue.clear();
+			RequestThread.declareWorldPeace();
 			return;
 		}
 

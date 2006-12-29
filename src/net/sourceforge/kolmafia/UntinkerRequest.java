@@ -159,7 +159,7 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( !existingFrames.isEmpty() && !StaticEntity.getBooleanProperty( "autoRetrieveScrewdriver" ) )
 		{
-			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, "KoLmafia thinks you haven't completed the screwdriver quest.\nWould you like to have KoLmafia automatically complete it now?",
+			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "KoLmafia thinks you haven't completed the screwdriver quest.\nWould you like to have KoLmafia automatically complete it now?",
 				"Think carefully before you answer...", JOptionPane.YES_NO_OPTION ) )
 					return false;
 		}
