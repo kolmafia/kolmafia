@@ -53,6 +53,9 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 	private static void execute( Runnable request, int repeatCount )
 	{
+		if ( KoLmafia.refusesContinue() )
+			return;
+
 		if ( request == null )
 			return;
 
