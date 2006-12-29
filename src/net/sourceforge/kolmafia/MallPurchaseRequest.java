@@ -389,7 +389,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			return;
 		}
 
-		SpecialOutfit.createCheckpoint();
+		SpecialOutfit.createImplicitCheckpoint();
 		(new EquipmentRequest( EquipmentDatabase.getOutfit( neededOutfit ) )).run();
 	}
 

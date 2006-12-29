@@ -421,7 +421,7 @@ public abstract class MoodSettings implements KoLConstants
 		if ( KoLmafia.refusesContinue() || !willExecute( isManualInvocation ) )
 			return;
 
-		SpecialOutfit.createCheckpoint();
+		SpecialOutfit.createImplicitCheckpoint();
 		isExecuting = true;
 
 		AdventureResult initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );

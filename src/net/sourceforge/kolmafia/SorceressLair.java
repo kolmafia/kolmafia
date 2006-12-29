@@ -284,7 +284,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !checkPrerequisites( 1, 2 ) )
 			return;
 
-		SpecialOutfit.createCheckpoint();
+		SpecialOutfit.createImplicitCheckpoint();
 
 		// If you couldn't complete the gateway, then return
 		// from this method call.
@@ -350,7 +350,7 @@ public abstract class SorceressLair extends StaticEntity
 		KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
 		QUEST_HANDLER.constructURLString( "lair2.php?action=odor" ).run();
 
-		SpecialOutfit.restoreCheckpoint();
+		SpecialOutfit.restoreImplicitCheckpoint();
 
 		// If you decided to use a broken skull because
 		// you had no other items, untinker the key.
@@ -1219,7 +1219,7 @@ public abstract class SorceressLair extends StaticEntity
 	private static void reflectEnergyBolt()
 	{
 		// Get current equipment
-		SpecialOutfit.createCheckpoint();
+		SpecialOutfit.createImplicitCheckpoint();
 
 		// Equip the huge mirror shard
 		(new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND )).run();
@@ -1230,7 +1230,7 @@ public abstract class SorceressLair extends StaticEntity
 		QUEST_HANDLER.constructURLString( "lair6.php?place=1" ).run();
 
 		// If we unequipped anything, equip it again
-		SpecialOutfit.restoreCheckpoint();
+		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	private static int getShadowBattleHealth( int shadowDamage, int healAmount )

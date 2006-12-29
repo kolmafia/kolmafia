@@ -1256,7 +1256,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "equip" ) || command.equals( "wear" ) || command.equals( "wield" ) )
 		{
-			SpecialOutfit.clearCheckpoint();
+			SpecialOutfit.clearImplicitCheckpoint();
 			executeEquipCommand( parameters );
 			return;
 		}
@@ -1266,7 +1266,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "unequip" ) || command.equals( "remove" ) )
 		{
-			SpecialOutfit.clearCheckpoint();
+			SpecialOutfit.clearImplicitCheckpoint();
 			executeUnequipCommand( parameters );
 			return;
 		}
@@ -1349,6 +1349,12 @@ public class KoLmafiaCLI extends KoLmafia
 		// Yet another popular command involves changing
 		// your outfit.
 
+		if ( command.equals( "checkpoint" ) )
+		{
+			SpecialOutfit.createExplicitCheckpoint();
+			return;
+		}
+
 		if ( command.equals( "outfit" ) )
 		{
 			if ( parameters.equals( "list" ) )
@@ -1361,8 +1367,13 @@ public class KoLmafiaCLI extends KoLmafia
 				executePrintCommand( "outfits" );
 				return;
 			}
+			else if ( parameters.equalsIgnoreCase( "checkpoint" ) )
+			{
+				SpecialOutfit.restoreExplicitCheckpoint();
+				return;
+			}
 
-			SpecialOutfit.clearCheckpoint();
+			SpecialOutfit.clearImplicitCheckpoint();
 			executeChangeOutfitCommand( parameters );
 			return;
 		}
@@ -1375,7 +1386,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			executeBuyCommand( parameters );
 			if ( !isRunningBetweenBattleChecks() )
-				SpecialOutfit.restoreCheckpoint();
+				SpecialOutfit.restoreImplicitCheckpoint();
 
 			return;
 		}
@@ -1455,7 +1466,7 @@ public class KoLmafiaCLI extends KoLmafia
 				StaticEntity.getClient().recoverMP( (int) (setting * (float) KoLCharacter.getMaximumMP()) );
 			}
 
-			SpecialOutfit.restoreCheckpoint();
+			SpecialOutfit.restoreImplicitCheckpoint();
 			return;
 		}
 
@@ -1503,7 +1514,7 @@ public class KoLmafiaCLI extends KoLmafia
 				MoodSettings.setMood( parameters );
 
 			MoodSettings.execute( true );
-			SpecialOutfit.restoreCheckpoint();
+			SpecialOutfit.restoreImplicitCheckpoint();
 
 			printLine( "Mood swing complete." );
 			return;
