@@ -53,23 +53,21 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 	private static void execute( Runnable request, int repeatCount )
 	{
-		if ( KoLmafia.refusesContinue() )
-			return;
-
 		if ( request == null )
 			return;
 
-		KoLmafia.forceContinue();
 		Request runner = new Request( request, repeatCount );
 
 		try
 		{
-			if ( request instanceof KoLAdventure || (request instanceof KoLRequest && !((KoLRequest)request).isDelayExempt()) )
+			if ( request instanceof KoLAdventure || !(request instanceof KoLRequest) || !((KoLRequest)request).isDelayExempt() )
 			{
 				pendingRequests.add( runner );
+
 				if ( isRunningRequest )
 					return;
 
+				KoLmafia.forceContinue();
 				if ( SwingUtilities.isEventDispatchThread() )
 					Worker.post( queueHandler );
 				else
@@ -127,6 +125,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 				SystemTrayFrame.showBalloon( "Requests complete." );
 				KoLmafia.enableDisplay();
+
 				return null;
 			}
 
