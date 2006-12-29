@@ -3445,6 +3445,7 @@ public class KoLmafiaCLI extends KoLmafia
 				else if ( !AdventureDatabase.retrieveItem( ItemCreationRequest.OVEN ) )
 					return;
 
+				irequest = ItemCreationRequest.getInstance( firstMatch.getItemId() );
 				break;
 
 			case ItemCreationRequest.MIX:
@@ -3456,12 +3457,13 @@ public class KoLmafiaCLI extends KoLmafia
 				else if ( AdventureDatabase.retrieveItem( ItemCreationRequest.KIT ) )
 					return;
 
+				irequest = ItemCreationRequest.getInstance( firstMatch.getItemId() );
 				break;
 
 			default:
 
 				updateDisplay( ERROR_STATE, "That item cannot be created." );
-				break;
+				return;
 			}
 		}
 
