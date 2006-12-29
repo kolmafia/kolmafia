@@ -293,7 +293,7 @@ public class FightRequest extends KoLRequest
 					isInstanceRunning = false;
 				}
 
-				if ( action1 != null && action1.equals( "abort" ) )
+				if ( KoLmafia.refusesContinue() || (action1 != null && action1.equals( "abort" )) )
 				{
 					if ( currentRound != 0 )
 					{
