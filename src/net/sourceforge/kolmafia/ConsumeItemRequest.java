@@ -243,7 +243,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public static boolean allowBoozeConsumption( int inebrietyBonus )
 	{
-		if ( !StaticEntity.getBooleanProperty( "protectAgainstOverdrink" ) )
+		if ( existingFrames.isEmpty() || !StaticEntity.getBooleanProperty( "protectAgainstOverdrink" ) )
 			return true;
 
 		if ( KoLCharacter.getAdventuresLeft() < 10 )
@@ -273,12 +273,6 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			StaticEntity.getClient().makeZapRequest();
 			return true;
-		}
-
-		if ( consumptionType == CONSUME_DRINK && StaticEntity.getClient() instanceof KoLmafiaGUI )
-		{
-			if ( !allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemUsed.getItemId() ) ) )
-				return false;
 		}
 
 		// Check to make sure the character has the item in their
@@ -367,10 +361,20 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 
 		if ( totalIterations == 1 )
+		{
 			KoLmafia.updateDisplay( useTypeAsString + " " + itemUsed.toString() + "..." );
+		}
 		else
+		{
 			KoLmafia.updateDisplay( useTypeAsString + " " + itemUsed.getName() +
 				" (" + currentIteration + " of " + totalIterations + ")..." );
+		}
+
+		// Run to see if booze consumption is permitted
+		// based on the user's current settings.
+
+		if ( consumptionType == CONSUME_DRINK && !allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemUsed.getItemId() ) ) )
+			return false;
 
 		super.run();
 		return true;
