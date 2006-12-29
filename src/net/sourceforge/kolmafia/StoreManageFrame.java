@@ -165,8 +165,9 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void run()
 		{
-			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, UNDERCUT_MESSAGE + "Are you sure you wish to continue with this repricing?" ) )
-				return;
+			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
+				UNDERCUT_MESSAGE + "Are you sure you wish to continue with this repricing?", "Think before you click.", JOptionPane.YES_NO_OPTION ) )
+					return;
 
 			StaticEntity.getClient().priceItemsAtLowestPrice();
 		}
