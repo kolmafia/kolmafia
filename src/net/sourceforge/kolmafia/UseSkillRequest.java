@@ -159,7 +159,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public static AdventureResult optimizeEquipment( int skillId )
 	{
 		AdventureResult songWeapon = null;
-		SpecialOutfit.createCheckpoint();
+		SpecialOutfit.createImplicitCheckpoint();
 
 		if ( skillId > 6000 && skillId < 7000 )
 		{
@@ -198,7 +198,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// Cast the skill as many times as needed
 
 		if ( !KoLmafia.isRunningBetweenBattleChecks() )
-			SpecialOutfit.createCheckpoint();
+			SpecialOutfit.createImplicitCheckpoint();
 
 		optimizeEquipment( skillId );
 		if ( !KoLmafia.permitsContinue() )
@@ -207,7 +207,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		useSkillLoop();
 
 		if ( !KoLmafia.isRunningBetweenBattleChecks() )
-			SpecialOutfit.restoreCheckpoint();
+			SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	private void useSkillLoop()

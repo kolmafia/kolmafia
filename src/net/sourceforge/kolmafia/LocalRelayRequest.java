@@ -813,7 +813,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		if ( formURLString.indexOf( "ascend.php" ) != -1 && getFormField( "action" ) != null )
 		{
 			(new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT )).run();
-			SpecialOutfit.clearCheckpoint();
+			SpecialOutfit.clearImplicitCheckpoint();
 			KoLmafia.enableDisplay();
 		}
 

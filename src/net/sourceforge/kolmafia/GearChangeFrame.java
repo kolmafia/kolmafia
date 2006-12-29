@@ -173,7 +173,7 @@ public class GearChangeFrame extends KoLFrame
 			if ( KoLCharacter.getFamiliar().canEquip( famitem ) && !KoLCharacter.getFamiliar().getItem().equals( famitem ) )
 				RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
 
-			SpecialOutfit.clearCheckpoint();
+			SpecialOutfit.clearImplicitCheckpoint();
 		}
 
 		public void actionCancelled()
@@ -225,7 +225,7 @@ public class GearChangeFrame extends KoLFrame
 						return;
 
 					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
-					SpecialOutfit.clearCheckpoint();
+					SpecialOutfit.clearImplicitCheckpoint();
 					setSelectedItem( null );
 					return;
 				}
