@@ -40,10 +40,10 @@ public class HermitRequest extends KoLRequest
 {
 	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<tr><td.*?><input.*?value=(\\d*)>.*?<b>(.*?)</b>.*?</td></tr>" );
 
-	public static final AdventureResult PERMIT =  new AdventureResult( 42, 0 );
-	public static final AdventureResult TRINKET = new AdventureResult( 43, 0 );
-	public static final AdventureResult GEWGAW = new AdventureResult( 44, 0 );
-	public static final AdventureResult KNICK_KNACK =  new AdventureResult( 45, 0 );
+	public static final AdventureResult PERMIT =  new AdventureResult( 42, 1 );
+	public static final AdventureResult TRINKET = new AdventureResult( 43, 1 );
+	public static final AdventureResult GEWGAW = new AdventureResult( 44, 1 );
+	public static final AdventureResult KNICK_KNACK =  new AdventureResult( 45, 1 );
 	public static final AdventureResult SUMMON_SCROLL = new AdventureResult( "31337 scroll", 1 );
 
 	private int itemId, quantity;
@@ -276,6 +276,9 @@ public class HermitRequest extends KoLRequest
 
 			// Subtract the worthless items in order of their priority;
 			// as far as we know, the priority is the item Id.
+
+			if ( PERMIT.getCount( inventory ) >= quantity )
+				StaticEntity.getClient().processResult( PERMIT.getInstance( 0 - quantity ) );
 
 			quantity -= subtractWorthlessItems( TRINKET, quantity );
 			quantity -= subtractWorthlessItems( GEWGAW, quantity );
