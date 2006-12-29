@@ -135,9 +135,7 @@ public class BuffRequestFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
-			RequestThread.postRequest( new BuffPurchaseRunnable() );
-			KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( new BuffPurchaseRunnable() );
 		}
 
 		private class BuffPurchaseRunnable implements Runnable

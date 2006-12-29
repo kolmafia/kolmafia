@@ -50,9 +50,7 @@ public class LoginRequest extends KoLRequest
 	private static int STANDARD_WAIT = 75;
 	private static int TOO_MANY_WAIT = 960;
 	private static int BAD_CHALLENGE_WAIT = 15;
-
 	private static int waitTime = STANDARD_WAIT;
-	private static boolean instanceRunning = false;
 
 	private String username;
 	private String password;
@@ -165,46 +163,31 @@ public class LoginRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( instanceRunning )
-			return;
-
 		runCountdown = true;
 		StaticEntity.getClient().setCurrentRequest( null );
 
 		KoLmafia.forceContinue();
 
-		instanceRunning = true;
 		lastUsername = username;
 		lastPassword = password;
 
-		if ( LogoutRequest.isInstanceRunning() )
-			KoLmafia.updateDisplay( "Waiting for logout request to complete..." );
-
-		synchronized ( LogoutRequest.class )
+		try
 		{
-			try
+			runCountdown = true;
+			if ( executeLogin() )
 			{
-				runCountdown = true;
-				if ( executeLogin() )
-				{
-					if ( runCountdown )
-						StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
-
-					if ( executeLogin() )
-						KoLmafia.enableDisplay();
-				}
-			}
-			catch ( Exception e )
-			{
-				// It's possible that all the login hangups are due
-				// to an exception in executeLogin().  Let's try to
-				// catch it.
-
-				StaticEntity.printStackTrace( e );
+				if ( runCountdown )
+					StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
 			}
 		}
+		catch ( Exception e )
+		{
+			// It's possible that all the login hangups are due
+			// to an exception in executeLogin().  Let's try to
+			// catch it.
 
-		instanceRunning = false;
+			StaticEntity.printStackTrace( e );
+		}
 	}
 
 	public static void executeTimeInRequest()
@@ -217,10 +200,6 @@ public class LoginRequest extends KoLRequest
 		if ( sessionId != null )
 			KoLmafia.updateDisplay( "Session timed-in." );
 
-	}
-
-	public static boolean isInstanceRunning()
-	{	return instanceRunning;
 	}
 
 	public boolean executeLogin()
@@ -356,10 +335,7 @@ public class LoginRequest extends KoLRequest
 		}
 
 		LoginRunner runner = new LoginRunner( request );
-		if ( request instanceof LoginRequest )
-			runner.run();
-		else
-			(new Thread( runner )).start();
+		RequestThread.postRequest( runner );
 	}
 
 	private static class LoginRunner implements Runnable
@@ -380,8 +356,6 @@ public class LoginRequest extends KoLRequest
 
 			if ( StaticEntity.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )
 				KoLmafia.addSaveState( lastUsername, lastPassword );
-
-			KoLmafia.enableDisplay();
 		}
 	}
 }

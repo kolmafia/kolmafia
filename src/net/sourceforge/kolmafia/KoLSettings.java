@@ -411,6 +411,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "showStashIngredients", "false" );
 		CLIENT_SETTINGS.put( "sortAdventures", "false" );
 		CLIENT_SETTINGS.put( "swingLookAndFeel", "" );
+		CLIENT_SETTINGS.put( "testSocketTimeout", "false" );
 		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
 
 		CLIENT_SETTINGS.put( "useSystemTrayIcon", String.valueOf( System.getProperty( "os.name" ).startsWith( "Windows" ) ) );

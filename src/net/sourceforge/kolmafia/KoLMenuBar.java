@@ -387,17 +387,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{
-			RequestThread.postRequest( this );
-			if ( makesRequest() )
-				KoLmafia.enableDisplay();
+		{	RequestThread.postRequest( this );
 		}
 
 		public abstract void run();
-
-		public boolean makesRequest()
-		{	return true;
-		}
 	}
 
 	/**
@@ -499,10 +492,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		public void actionPerformed( ActionEvent e )
 		{	StaticEntity.openSystemBrowser( location );
 		}
-
-		public boolean makesRequest()
-		{	return false;
-		}
 	}
 
 	/**
@@ -544,10 +533,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 				StaticEntity.printStackTrace( e );
 			}
-		}
-
-		public boolean makesRequest()
-		{	return !methodName.equals( "resetSession" );
 		}
 
 		public void run()
@@ -758,7 +743,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	KoLmafia.declareWorldPeace();
+		{	RequestThread.declareWorldPeace();
 		}
 	}
 }

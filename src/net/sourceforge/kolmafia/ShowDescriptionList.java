@@ -339,11 +339,10 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void run()
 		{
-			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, "Are you sure you would like to sell the selected items?", "Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
+			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you would like to sell the selected items?", "Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 				return;
 
 			(new AutoSellRequest( getSelectedValues(), AutoSellRequest.AUTOSELL )).run();
-			KoLmafia.enableDisplay();
 		}
 	}
 

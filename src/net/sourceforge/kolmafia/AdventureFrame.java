@@ -591,7 +591,6 @@ public class AdventureFrame extends KoLFrame
 				countField.setValue( new Integer( requestCount ) );
 
 				RequestThread.postRequest( request, requestCount );
-				KoLmafia.enableDisplay();
 			}
 
 			public void actionCancelled()
@@ -743,7 +742,7 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			public void actionPerformed( ActionEvent e )
-			{	KoLmafia.declareWorldPeace();
+			{	RequestThread.declareWorldPeace();
 			}
 		}
 

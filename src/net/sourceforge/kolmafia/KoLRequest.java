@@ -614,7 +614,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( formURLString.indexOf( "lair4.php" ) != -1 || formURLString.indexOf( "lair5.php" ) != -1 )
 		{
 			SorceressLair.makeGuardianItems();
-			if ( this instanceof LocalRelayRequest )
+			if ( isDelayExempt )
 				KoLmafia.enableDisplay();
 		}
 
@@ -696,7 +696,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( urlString.indexOf( "choice.php" ) != -1 )
 			saveLastChoice( urlString );
 
-		if ( !isDelayExempt && !LoginRequest.isInstanceRunning() )
+		if ( !isDelayExempt )
 			StaticEntity.getClient().setCurrentRequest( this );
 
 		// If you're about to fight the Naughty Sorceress,
@@ -751,10 +751,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		// If this is part of the login sequence, then there is no need
 		// to register the request.
 
-		if ( LoginRequest.isInstanceRunning() )
-			return;
-
 		String urlString = getURLString();
+		if ( urlString.indexOf( "login.php" ) != -1 )
+			return;
 
 		// Certain kinds of requests do not get processed.  These include
 		// pages without form data and player-interaction requests along
@@ -957,11 +956,24 @@ public class KoLRequest implements Runnable, KoLConstants
 			// For now, because there isn't HTTPS support, just open the
 			// connection and directly cast it into an HttpURLConnection
 
-			this.formURL = this.formURLString.startsWith( "http:" ) ?
-				new URL( null, this.formURLString, HttpTimeoutHandler.getInstance() ) :
-				new URL( null, KOL_ROOT + this.formURLString, HttpTimeoutHandler.getInstance() );
+			this.formURL = null;
 
-			formConnection = (HttpURLConnection) formURL.openConnection();
+			if ( StaticEntity.getBooleanProperty( "testSocketTimeout" ) )
+			{
+				if ( this.formURLString.startsWith( "http:" ) )
+					this.formURL = new URL( null, this.formURLString, HttpTimeoutHandler.getInstance() );
+				else
+					this.formURL = new URL( null, KOL_ROOT + this.formURLString, HttpTimeoutHandler.getInstance() );
+			}
+			else
+			{
+				if ( this.formURLString.startsWith( "http:" ) )
+					this.formURL = new URL( this.formURLString );
+				else
+					this.formURL = new URL( KOL_ROOT + this.formURLString );
+			}
+
+			this.formConnection = (HttpURLConnection) formURL.openConnection();
 		}
 		catch ( Exception e )
 		{

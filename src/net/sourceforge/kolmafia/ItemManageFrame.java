@@ -330,15 +330,11 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
-			handlePurchase( PURCHASE_ONE );
-			KoLmafia.enableDisplay();
+		{	handlePurchase( PURCHASE_ONE );
 		}
 
 		public void actionCancelled()
-		{
-			handlePurchase( PURCHASE_MULTIPLE );
-			KoLmafia.enableDisplay();
+		{	handlePurchase( PURCHASE_MULTIPLE );
 		}
 
 		private void handlePurchase( int purchaseType )
@@ -414,8 +410,6 @@ public class ItemManageFrame extends KoLFrame
 
 			for ( int i = 0; i < items.length; ++i )
 				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
-
-			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()
@@ -753,7 +747,6 @@ public class ItemManageFrame extends KoLFrame
 					KoLmafia.isAdventuring() && !ClanManager.isStashRetrieved() )
 				{
 					RequestThread.postRequest( new ClanStashRequest() );
-					KoLmafia.enableDisplay();
 				}
 
 				ConcoctionsDatabase.refreshConcoctions();
@@ -778,7 +771,6 @@ public class ItemManageFrame extends KoLFrame
 				selection.setQuantityNeeded( quantityDesired );
 
 				RequestThread.postRequest( selection );
-				KoLmafia.enableDisplay();
 			}
 
 			public String toString()
@@ -805,7 +797,6 @@ public class ItemManageFrame extends KoLFrame
 
 				RequestThread.postRequest( selection );
 				RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), selection.getQuantityNeeded() ) ) );
-				KoLmafia.enableDisplay();
 			}
 
 			public String toString()

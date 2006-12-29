@@ -35,44 +35,28 @@ package net.sourceforge.kolmafia;
 
 public class LogoutRequest extends KoLRequest
 {
-	private static boolean instanceRunning = false;
-
 	public LogoutRequest()
 	{	super( "logout.php", true );
-	}
-
-	public static boolean isInstanceRunning()
-	{	return instanceRunning;
 	}
 
 	public void run()
 	{
 		KoLRequest.sessionId = null;
 
-		KoLmafia.declareWorldPeace();
+		RequestThread.declareWorldPeace();
 		StaticEntity.getClient().setCurrentRequest( null );
 
-		if ( instanceRunning )
-			return;
+		KoLCharacter.reset( "" );
 
-		instanceRunning = true;
+		KoLMessenger.dispose();
+		BuffBotHome.setBuffBotActive( false );
 
-		synchronized ( LogoutRequest.class )
-		{
-			KoLCharacter.reset( "" );
+		super.run();
 
-			KoLMessenger.dispose();
-			BuffBotHome.setBuffBotActive( false );
+		if ( KoLDesktop.instanceExists() )
+			KoLDesktop.getInstance().dispose();
 
-			super.run();
-
-			if ( KoLDesktop.instanceExists() )
-				KoLDesktop.getInstance().dispose();
-
-			sessionId = null;
-		}
-
-		instanceRunning = false;
+		sessionId = null;
 	}
 }
 

@@ -172,7 +172,6 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		}
 
 		isInitializing = false;
-		KoLmafia.enableDisplay();
 	}
 
 	public static boolean isInitializing()

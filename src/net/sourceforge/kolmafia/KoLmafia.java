@@ -542,11 +542,17 @@ public abstract class KoLmafia implements KoLConstants
 			for ( int i = 0; i < 3 && permitsContinue(); ++i )
 				(new CampgroundRequest( "toast" )).run();
 
+		KoLmafia.forceContinue();
+
 		if ( KoLCharacter.hasArches() )
 			(new CampgroundRequest( "arches" )).run();
 
+		KoLmafia.forceContinue();
+
 		if ( StaticEntity.getBooleanProperty( "visitRumpus" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
 			(new ClanGymRequest( ClanGymRequest.SEARCH )).run();
+
+		KoLmafia.forceContinue();
 
 		boolean shouldCast = false;
 		String skillSetting = StaticEntity.getProperty( "breakfast" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
@@ -573,7 +579,9 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void getBreakfast( String skillname, int standardCast )
-	{	UseSkillRequest.getInstance( skillname, standardCast ).run();
+	{
+		KoLmafia.forceContinue();
+		UseSkillRequest.getInstance( skillname, standardCast ).run();
 	}
 
 	public final void refreshSession()
@@ -2943,12 +2951,6 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/KoLmafia/simulator/index.html" );
 	}
 
-	public static final void declareWorldPeace()
-	{
-		commandQueue.clear();
-		updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
-	}
-
 	public static boolean isAdventuring()
 	{	return isAdventuring;
 	}
@@ -2983,7 +2985,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+		if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
 			"Are you sure you'd like to host an end-of-run sale?", "MASSIVE SALE", JOptionPane.YES_NO_OPTION ) )
 				return;
 

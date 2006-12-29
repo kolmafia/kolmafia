@@ -18,7 +18,7 @@ import sun.net.www.http.HttpClient;
 
 public class HttpTimeoutClient extends HttpClient
 {
-	private static final int TIMEOUT = 10000;
+	private static final int TIMEOUT = 4000;
 
 	public HttpTimeoutClient( URL location ) throws IOException
 	{	super( location, (String) null, -1 );
@@ -33,9 +33,16 @@ public class HttpTimeoutClient extends HttpClient
 		HttpTimeoutClient client = (HttpTimeoutClient) kac.get( location );
 
 		if ( client == null )
-			client = new HttpTimeoutClient( location ); // CTOR called openServer()
+		{
+			if ( System.getProperty( "proxySet" ) != null && System.getProperty( "proxySet" ).equals( "true" ) )
+				client = new HttpTimeoutClient( location, System.getProperty( "http.proxyHost" ), Integer.parseInt( System.getProperty( "http.proxyPort" ) ) );
+			else
+				client = new HttpTimeoutClient( location ); // CTOR called openServer()
+		}
 		else
+		{
 			client.url = location;
+		}
 
 		return client;
 	}

@@ -488,14 +488,17 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 
 			KoLmafia.updateDisplay( "Equipment changed." );
+			CharpaneRequest.getInstance().run();
 			break;
 
 		case REMOVE_ITEM:
 			KoLmafia.updateDisplay( "Equipment changed." );
+			CharpaneRequest.getInstance().run();
 			break;
 
 		case UNEQUIP_ALL:
 			KoLmafia.updateDisplay( "Everything removed." );
+			CharpaneRequest.getInstance().run();
 			break;
 		}
 	}
@@ -809,21 +812,16 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		boolean refreshCreations = false;
 
-		if ( !LoginRequest.isInstanceRunning() )
+		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
+			refreshCreations |= switchItem( oldEquipment[i], equipment[i] );
+
+		// Adjust inventory of fake hands
+
+		int newFakeHands = KoLCharacter.getFakeHands();
+		if ( oldFakeHands != newFakeHands )
 		{
-			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
-				refreshCreations |= switchItem( oldEquipment[i], equipment[i] );
-
-			// Adjust inventory of fake hands
-
-			int newFakeHands = KoLCharacter.getFakeHands();
-			if ( oldFakeHands != newFakeHands )
-			{
-				AdventureResult.addResultToList( inventory, new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
-				KoLCharacter.setFakeHands( fakeHands );
-			}
-
-			CharpaneRequest.getInstance().run();
+			AdventureResult.addResultToList( inventory, new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
+			KoLCharacter.setFakeHands( fakeHands );
 		}
 
 		// Now update your equipment to make sure that selected

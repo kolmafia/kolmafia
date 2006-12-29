@@ -67,10 +67,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 			String password = getSaveState( autoLogin );
 			if ( password != null && !password.equals( "" ) )
-			{
-				(new LoginRequest( autoLogin, password )).run();
-				enableDisplay();
-			}
+				RequestThread.postRequest( new LoginRequest( autoLogin, password ) );
 		}
 	}
 
@@ -200,21 +197,17 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	public static void constructFrame( String frameName )
-	{
-		displayFrame( frameName );
-		enableDisplay();
+	{	displayFrame( frameName );
 	}
 
 	private static boolean showAdventuringMessage()
 	{
-		if ( isAdventuring() )
-		{
-			updateDisplay( "You are currently adventuring." );
-			enableDisplay();
-			return true;
-		}
+		if ( !isAdventuring() )
+			return false;
 
-		return false;
+		updateDisplay( "You are currently adventuring." );
+		enableDisplay();
+		return true;
 	}
 
 	private static void displayFrame( String frameName )
@@ -232,7 +225,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "HagnkStorageFrame" ) )
 		{
-			if ( LoginRequest.isInstanceRunning() && (storage.isEmpty() || HagnkStorageFrame.getPullsRemaining() < 1) )
+			if ( storage.isEmpty() || HagnkStorageFrame.getPullsRemaining() < 1 )
 				return;
 		}
 		else if ( frameName.equals( "MoneyMakingGameFrame" ) )
@@ -276,7 +269,7 @@ public class KoLmafiaGUI extends KoLmafia
 			(new MailboxRequest( "Inbox" )).run();
 			enableDisplay();
 
-			if ( LoginRequest.isInstanceRunning() && !KoLMailManager.hasNewMessages() )
+			if ( !KoLMailManager.hasNewMessages() )
 				return;
 		}
 		else if ( frameName.equals( "MuseumFrame" ) )

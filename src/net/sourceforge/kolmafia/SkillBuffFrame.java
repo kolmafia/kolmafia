@@ -99,15 +99,11 @@ public class SkillBuffFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
-			buff( false );
-			KoLmafia.enableDisplay();
+		{	buff( false );
 		}
 
 		public void actionCancelled()
-		{
-			buff( true );
-			KoLmafia.enableDisplay();
+		{	buff( true );
 		}
 
 		private void buff( boolean maxBuff )
@@ -147,8 +143,6 @@ public class SkillBuffFrame extends KoLFrame
 
 			for ( int i = 0; i < values.length; ++i )
 				RequestThread.postRequest( new UneffectRequest( (AdventureResult) values[i] ) );
-
-			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()

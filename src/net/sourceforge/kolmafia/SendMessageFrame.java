@@ -362,7 +362,6 @@ public class SendMessageFrame extends KoLFrame
 			if ( recipients.length == 0 || recipients[0].equals( "" ) )
 			{
 				KoLmafia.updateDisplay( "You didn't specify someone to send to." );
-				KoLmafia.enableDisplay();
 				return;
 			}
 
@@ -372,7 +371,6 @@ public class SendMessageFrame extends KoLFrame
 			if ( recipients.length > 11 )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Maximum number of users exceeded." );
-				KoLmafia.enableDisplay();
 				return;
 			}
 
@@ -386,8 +384,6 @@ public class SendMessageFrame extends KoLFrame
 			for ( int i = 0; i < recipients.length && KoLmafia.permitsContinue(); ++i )
 				if ( !sendMessage( recipients[i], message ) )
 					return;
-
-			KoLmafia.enableDisplay();
 		}
 	}
 
