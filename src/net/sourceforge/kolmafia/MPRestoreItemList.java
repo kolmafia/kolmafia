@@ -133,6 +133,9 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 		public void recoverMP( int needed, boolean purchase )
 		{
+			if ( KoLmafia.refusesContinue() )
+				return;
+
 			if ( this == BEANBAG )
 			{
 				(new CampgroundRequest( "relax" )).run();
@@ -170,16 +173,26 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			int numberAvailable = itemUsed.getCount( inventory );
 
-			// For purchases, attempt to reduce the number of times
-			// you buy items by a factor of three.
+			// If you need to purchase, then calculate a better
+			// purchasing strategy.
 
 			if ( purchase && numberAvailable < numberToUse && NPCStoreDatabase.contains( itemUsed.getName() ) )
 			{
-				int numberToBuy = numberToUse * 2;
+				int numberToBuy = numberToUse;
+
+				// Because seltzer often involves an outfit change,
+				// buy more seltzer than you actually need.
+
+				if ( this == SELTZER )
+					numberToBuy *= 2;
+
+				// For purchases involving between battle checks,
+				// buy at least as many as is needed to sustain
+				// the entire check.
 
 				if ( KoLmafia.isRunningBetweenBattleChecks() )
 				{
-					mpShort = MoodSettings.getMaintenanceCost() - KoLCharacter.getCurrentMP();
+					mpShort = Math.max( mpShort, MoodSettings.getMaintenanceCost() - KoLCharacter.getCurrentMP() );
 					numberToBuy = Math.max( numberToBuy, (int) Math.ceil( (float) mpShort / (float) getManaPerUse() ) );
 				}
 
@@ -194,7 +207,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			// If you don't have any items to use, then return
 			// without doing anything.
 
-			if ( numberToUse <= 0 )
+			if ( numberToUse <= 0 || KoLmafia.refusesContinue() )
 				return;
 
 			getClient().makeRequest( new ConsumeItemRequest( itemUsed.getInstance( numberToUse ) ) );
