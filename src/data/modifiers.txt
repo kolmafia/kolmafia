@@ -29,6 +29,7 @@ red traffic cone	Cold: +20
 spooky hockey mask	Spooky: +20
 stainless steel skullcap	DA: +60
 toy space helmet	Spooky: +30, Stench: +30,
+Tropical Crimbo Hat	Spooky: +10
 worn tophat	Init: +20.0
 yellow traffic cone	Sleaze: +20
 
@@ -39,6 +40,7 @@ bubble bauble bow	Item: +5.0
 can cannon	ML: +3
 can of maces	Sleaze: +10
 crowbarrr	Init: +10.0
+Crimbo Ukelele	Item: +10.0
 duck-on-a-string	Item: +5.0
 Frost&trade; brand sword	ML: +3
 giant discarded plastic fork	Init: -10.0
@@ -61,12 +63,14 @@ vampire duck-on-a-string	Item: +5.0
 1-ball		Init: +5.0
 7-ball		Meat: +5.0
 antique shield	Init: -10.0 DR: 15
+bobble-hip hula elf doll	Meat: +15.0
 box	Meat: +1.0
 box-in-the-box	Meat: +2.0
 box-in-the-box-in-the-box	Meat: +3.0
 chopsticks	Init: +20.0
 Cloaca-cola shield	DR: 4
 coffin lid	DR: 3, Spooky: +10
+deck of tropical cards	Exp: +1.0
 Dyspepsi-cola shield	DR: 4
 gnauga hide buckler	DR: 5
 hippo skin buckler	DR: 5
@@ -80,6 +84,8 @@ ricebowl	Item: +20.0
 snake shield	DR: 7
 snarling wolf shield	DR: 7
 star buckler	DR: 10
+Tiki lighter	Exp: +1.0
+tropical paperweight	Exp: +1.0
 White satin shield	DR: 5
 yakskin buckler	DR: 5
 
@@ -112,6 +118,7 @@ snowboarder pants	DA: +20
 stainless steel slacks	Init: +15.0, Meat: +20.0
 star pants	Init: +20.0
 Travoltan trousers	Init: +30.0
+Tropical Crimbo Shorts	Init: +30.0
 white satin pants	Sleaze: +10
 
 baconstone bracelet	Mana: -1

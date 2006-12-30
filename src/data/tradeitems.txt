@@ -2199,8 +2199,22 @@
 2199	skull-shaped Crimboween cookie	1	all	50
 2200	tombstone-shaped Crimboween cookie	1	all	50
 2201	tiny plastic gift-wrapping vampire	8	all	30
-2202
-2203
-2204
-2205
+2202	tiny plastic ancient yuletide troll	8	all	30
+2203	tiny plastic skeletal reindeer	8	all	30
+2204	tiny plastic Crimboween pentagram	8	all	30
+2205	tiny plastic Scream Queen	8	all	30
 2206	time sleigh	0	none	0
+2207	lucky Crimbo tiki necklace	8	all	0
+2208	bobble-hip hula elf doll	13	all	0
+2209	Crimbo ukelele	12	all	0
+2210	Tiki lighter	13	all	0
+2211	deck of tropical cards	13	all	0
+2212	tropical paperweight	13	all	0
+2213	tropical Crimbo pressie	0	none	0
+2214	tropical wrapping paper	0	all	0
+2215	Tropical Crimbo Hat	9	all	0
+2216	Tropical Crimbo Shorts	10	all	0
+2217
+2218
+2219	Tropical Crimbo Sword	12	all	0
+2220	orange and black Crimboween candy	4	all	15
