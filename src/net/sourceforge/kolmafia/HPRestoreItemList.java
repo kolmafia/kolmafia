@@ -208,9 +208,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 						// If you need to buy herbs, make sure you buy enough
 						// to fill your spleen.
 
-						AdventureDatabase.retrieveItem( itemUsed.getInstance(
-							Math.min( KoLCharacter.getAvailableMeat() / 100, KoLCharacter.hasSkill( "Spleen of Steel" ) ? 20 : 15 ) ) );
-
+						AdventureDatabase.retrieveItem( itemUsed.getInstance( Math.min( KoLCharacter.getAvailableMeat() / 100, 5 ) ) );
 						numberAvailable = itemUsed.getCount( inventory );
 					}
 					else if ( this == SCROLL && KoLCharacter.canInteract() )
@@ -226,9 +224,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 						// For ointment, attempt to reduce the number of times
 						// you buy ointment by a factor of three.
 
-						AdventureDatabase.retrieveItem( itemUsed.getInstance(
-							Math.min( KoLCharacter.getAvailableMeat() / 60, numberToUse * 2 ) ) );
-
+						AdventureDatabase.retrieveItem( itemUsed.getInstance( Math.min( KoLCharacter.getAvailableMeat() / 60, numberToUse ) ) );
 						numberAvailable = itemUsed.getCount( inventory );
 					}
 				}
