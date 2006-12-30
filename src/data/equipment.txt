@@ -97,6 +97,7 @@ The Colander of Em-er'il	50	Mys: 10
 The Scalp of Gorgolok	50	Mus: 10
 time helmet	100	Mox: 35
 toy space helmet	175	Mox: 72
+Tropical Crimbo Hat	100	Mox: 35
 viking helmet	20	none
 wolf mask	150	Mox: 60
 wooden salad bowl	120	Mox: 45
@@ -173,6 +174,7 @@ swashbuckling pants	80	Mox: 25
 time trousers	100	Mox: 35
 Travoltan trousers	100	none
 tree skirt	100	Mox: 35
+Tropical Crimbo Shorts	100	Mox: 35
 troutpiece	110	Mox: 40
 white satin pants	40	Mox: 5
 yakskin kilt	140	Mox: 55
@@ -267,6 +269,7 @@ cool whip	10	none	1-handed whip
 corn holder	20	none	1-handed utensil
 crazy bastard sword	75	Mus: 22	1-handed sword
 Crimbo sword	100	Mus: 35	2-handed sword
+Crimbo ukelele	100	Mox: 35	2-handed guitar
 crowbarrr	80	Mus: 25	2-handed staff
 curdflinger	45	Mox: 5	1-handed crossbow
 denim axe	120	Mus: 45	2-handed axe
@@ -419,6 +422,7 @@ tiny plastic sword	10	none	1-handed sword
 titanium assault umbrella	130	Mus: 50	1-handed umbrella
 Totally Gay Claymore	69	Mus: 19	2-handed sword
 toy ray gun	175	Mox: 72	1-handed pistol
+Tropical Crimbo Sword	100	Mus: 35	1-handed sword
 Turtleslinger	50	Mus: 10	2-handed slingshot
 two-handed depthsword	120	Mus: 45	2-handed sword
 Unionize The Elves sign	50	Mus: 10	1-handed club
@@ -446,6 +450,7 @@ anniversary balloon	0	none
 antique shield	0	Mus: 85
 arrow'd heart balloon	0	none
 basic meat foon	0	Mus: 10
+bobble-hip hula elf doll	0	none
 box	0	none
 box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
@@ -454,6 +459,7 @@ clockwork detective skull	0	Mox: 25
 Codex of Capsaicin Conjuration	0	none
 coffin lid	0	Mus: 10
 continuum transfunctioner	0	none
+deck of tropical cards	0	none
 defective skull	0	none
 detective skull	0	Mox: 15
 Dyspepsi-Cola shield	0	none
@@ -533,6 +539,8 @@ stuffed yeti	0	none
 stuffed yo-yo	0	none
 stuffed zmobie	0	none
 thought balloon	0	none
+Tiki lighter	0	none
+tropical paperweight	0	none
 voodoo doll	0	none
 wad of Crovacite	0	none
 white balloon	0	none
@@ -615,6 +623,7 @@ ladle of mystery	0	none
 left half of a heart necklace	0	none
 Lockenstock (TM) sandals	0	Mys: 10
 Lord Spookyraven's spectacles	0	none
+lucky Crimbo tiki necklace	0	none
 lucky rabbit's foot	0	none
 Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
@@ -681,6 +690,7 @@ Talisman of Bakula	0	none
 tap shoes	0	none
 the Amulet of Yendor	0	none
 tiny plastic accordion thief	0	none
+tiny plastic ancient yuletide troll	0	none
 tiny plastic angry goat	0	none
 tiny plastic baby gravy fairy	0	none
 tiny plastic barrrnacle	0	none
@@ -688,15 +698,17 @@ tiny plastic bitchin' meatcar	0	none
 tiny plastic blood-faced volleyball	0	none
 tiny plastic Boris	0	none
 tiny plastic Cheshire bat	0	none
+tiny plastic cocoabo	0	none
+tiny plastic coffee pixie	0	none
 tiny plastic Crimbo elf	0	none
 tiny plastic Crimbo reindeer	0	none
 tiny plastic Crimbo wreath	0	none
-tiny plastic cocoabo	0	none
-tiny plastic coffee pixie	0	none
+tiny plastic Crimboween pentagram	0	none
 tiny plastic disco bandit	0	none
 tiny plastic fuzzy dice	0	none
 tiny plastic ghost pickle on a stick	0	none
 tiny plastic ghuol whelp	0	none
+tiny plastic gift-wrapping vampire	0	none
 tiny plastic grue	0	none
 tiny plastic hermit	0	none
 tiny plastic howling balloon monkey	0	none
@@ -709,6 +721,8 @@ tiny plastic pastamancer	0	none
 tiny plastic sabre-toothed lime	0	none
 tiny plastic sauceror	0	none
 tiny plastic seal clubber	0	none
+tiny plastic Scream Queen	0	none
+tiny plastic skeletal reindeer	0	none
 tiny plastic Sneaky Pete	0	none
 tiny plastic spooky pirate skeleton	0	none
 tiny plastic stab bat	0	none

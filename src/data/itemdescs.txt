@@ -2204,8 +2204,22 @@
 2199	929258629	skull-shaped Crimboween cookie	skull-shaped Crimboween cookies
 2200	871330717	tombstone-shaped Crimboween cookie	tombstone-shaped Crimboween cookies
 2201	866389368	tiny plastic gift-wrapping vampire	tiny plastic gift-wrapping vampires
-2202
-2203
-2204
-2205
+2202	850753989	tiny plastic ancient yuletide troll
+2203	600411615	tiny plastic skeletal reindeer
+2204	296994539	tiny plastic Crimboween pentagram
+2205	172047016	tiny plastic Scream Queen
 2206	361244140	time sleigh
+2207	826928029	lucky Crimbo tiki necklace
+2208	784659271	bobble-hip hula elf doll
+2209	707103901	Crimbo ukelele
+2210	132311575	Tiki lighter
+2211	750777542	deck of tropical cards
+2212	811103172	tropical paperweight
+2213	694042705	tropical Crimbo pressie
+2214	291499297	tropical wrapping paper
+2215	839108326	Tropical Crimbo Hat
+2216	933344870	Tropical Crimbo Shorts
+2217
+2218
+2219	961494257	Tropical Crimbo Sword
+2220	962755728	orange and black Crimboween candy
