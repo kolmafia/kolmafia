@@ -164,6 +164,9 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 		public void recoverHP( int needed, boolean purchase )
 		{
+			if ( KoLmafia.refusesContinue() )
+				return;
+
 			if ( this == CAMPGROUND )
 			{
 				(new CampgroundRequest( "rest" )).run();
@@ -221,8 +224,8 @@ public abstract class HPRestoreItemList extends StaticEntity
 					}
 					else if ( this == OINTMENT )
 					{
-						// For ointment, attempt to reduce the number of times
-						// you buy ointment by a factor of three.
+						// Ointment is expensive, so use a minimalistic
+						// policy when deciding how many to buy.
 
 						AdventureDatabase.retrieveItem( itemUsed.getInstance( Math.min( KoLCharacter.getAvailableMeat() / 60, numberToUse ) ) );
 						numberAvailable = itemUsed.getCount( inventory );
@@ -235,7 +238,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 			// If you don't have any items to use, then return
 			// without doing anything.
 
-			if ( numberToUse <= 0 )
+			if ( numberToUse <= 0 || KoLmafia.refusesContinue() )
 				return;
 
 			if ( ClassSkillsDatabase.contains( restoreName ) )
