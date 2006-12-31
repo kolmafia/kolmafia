@@ -332,10 +332,10 @@ public class RequestFrame extends KoLFrame
 		if ( mainBuffer == null || request == null )
 			return;
 
+		currentLocation = request.getURLString();
 		if ( request instanceof FightRequest )
 			request = new KoLRequest( currentLocation );
 
-		currentLocation = request.getURLString();
 		mainBuffer.clearBuffer();
 
 		if ( request.responseText == null || request.responseText.length() == 0 )
