@@ -178,6 +178,8 @@ public class CommandDisplayFrame extends KoLFrame
 			{
 				while ( !commandQueue.isEmpty() )
 					executeQueuedCommand();
+
+				KoLmafia.enableDisplay();
 			}
 
 			private void executeQueuedCommand()
