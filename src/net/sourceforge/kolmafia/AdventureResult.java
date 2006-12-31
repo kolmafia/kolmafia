@@ -431,7 +431,7 @@ public class AdventureResult implements Comparable, KoLConstants
 				if ( count[0] > 0 )
 					stats.append( ", " );
 
-				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() + count[1] ) + " mysticality, " );
+				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() + count[1] ) + " mysticality" );
 			}
 
 			if ( count[2] > 0 )

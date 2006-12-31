@@ -614,7 +614,9 @@ public class AdventureFrame extends KoLFrame
 				}
 
 				public void actionPerformed( ActionEvent e )
-				{	actionConfirmed();
+				{
+					if ( !KoLmafia.isAdventuring() )
+						actionConfirmed();
 				}
 			}
 		}
@@ -1008,6 +1010,8 @@ public class AdventureFrame extends KoLFrame
 				louvreSelect.addItem( Louvre.LouvreGoals[i] );
 			for ( int i = Louvre.LouvreGoals.length - 3; i < Louvre.LouvreGoals.length; ++i )
 				louvreSelect.addItem( "Boost " + Louvre.LouvreGoals[i] );
+
+			louvreSelect.addItem( "Boost Prime Stat" );
 			louvreSelect.addItem( "Boost Lowest Stat" );
 
 			maidenSelect = new JComboBox();
@@ -1153,7 +1157,9 @@ public class AdventureFrame extends KoLFrame
 			StaticEntity.setProperty( "choiceAdventure91",  String.valueOf( louvreGoal > 0 ? "1" : "2" ) );
 
 			StaticEntity.setProperty( "louvreDesiredGoal", String.valueOf( louvreGoal ) );
-			StaticEntity.setProperty( "louvreBoostsLowestStat", String.valueOf( louvreGoal > Louvre.LouvreGoals.length ) );
+
+			StaticEntity.setProperty( "louvreBoostsPrimeStat", String.valueOf( louvreGoal == Louvre.LouvreGoals.length + 1 ) );
+			StaticEntity.setProperty( "louvreBoostsLowestStat", String.valueOf( louvreGoal == Louvre.LouvreGoals.length + 2 ) );
 
 			for ( int i = 1; i < optionSelects.length; ++i )
 			{
@@ -1350,7 +1356,13 @@ public class AdventureFrame extends KoLFrame
 			if ( index >= 0 )
 				violetFogSelect.setSelectedIndex( index );
 
-			index = StaticEntity.getIntegerProperty( "louvreDesiredGoal" );
+			if ( StaticEntity.getBooleanProperty( "louvreBoostsPrimeStat" ) )
+				index = Louvre.LouvreGoals.length + 1;
+			else if ( StaticEntity.getBooleanProperty( "louvreBoostsLowestStat" ) )
+				index = Louvre.LouvreGoals.length + 2;
+			else
+				index = StaticEntity.getIntegerProperty( "louvreDesiredGoal" );
+
 			if ( index >= 0 )
 				louvreSelect.setSelectedIndex( index );
 

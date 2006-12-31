@@ -465,7 +465,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		PLAYER_SETTINGS.put( "lastLouvreMap", "0" );
 		PLAYER_SETTINGS.put( "louvreLayout", "" );
-		PLAYER_SETTINGS.put( "louvreDesiredGoal", "0" );
+		PLAYER_SETTINGS.put( "louvreDesiredGoal", String.valueOf( Louvre.LouvreGoals.length + 1 ) );
 		PLAYER_SETTINGS.put( "louvreGoal", "0" );
 		PLAYER_SETTINGS.put( "louvreBoostsLowestStat", "false" );
 

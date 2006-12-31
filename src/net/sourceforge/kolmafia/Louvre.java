@@ -224,7 +224,16 @@ public class Louvre
 
 	private static void resetDecisions()
 	{
-		if ( StaticEntity.getBooleanProperty( "louvreBoostsLowestStat" ) )
+		if ( StaticEntity.getBooleanProperty( "louvreBoostsPrimeStat" ) )
+		{
+			if ( KoLCharacter.isMuscleClass() )
+				StaticEntity.setProperty( "louvreGoal", "4" );
+			else if ( KoLCharacter.isMysticalityClass() )
+				StaticEntity.setProperty( "louvreGoal", "5" );
+			else
+				StaticEntity.setProperty( "louvreGoal", "6" );
+		}
+		else if ( StaticEntity.getBooleanProperty( "louvreBoostsLowestStat" ) )
 		{
 			// Compare total subpoints acquired, rather than the
 			// non-raw, calculated value for comparing which stat
