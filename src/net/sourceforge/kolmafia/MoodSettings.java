@@ -538,10 +538,15 @@ public abstract class MoodSettings implements KoLConstants
 			return 0;
 
 		int runningTally = 0;
+
+		// Iterate over the entire list of applicable triggers,
+		// locate the ones which involve spellcasting, and add
+		// the MP cost for maintenance to the running tally.
+
 		for ( int i = 0; i < displayList.size(); ++i )
 		{
 			MoodTrigger current = (MoodTrigger) displayList.get(i);
-			if ( !current.getType().equals( "lose_effect" ) || !current.shouldExecute( true ) )
+			if ( !current.getType().equals( "lose_effect" ) || (KoLCharacter.canInteract() && !current.shouldExecute( true )) )
 				continue;
 
 			String action = current.getAction();
@@ -560,15 +565,25 @@ public abstract class MoodSettings implements KoLConstants
 			{
 				spaceIndex = action.indexOf( " " );
 				multiplier = StaticEntity.parseInt( action.substring( 0, spaceIndex ) );
-
 				action = action.substring( spaceIndex + 1 );
 			}
 
 			String skillName = KoLmafiaCLI.getSkillName( action );
+
 			if ( skillName == null )
 				continue;
 
-			runningTally += ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) ) * multiplier;
+			int skillId = ClassSkillsDatabase.getSkillId( skillName );
+			if ( KoLCharacter.canInteract() )
+			{
+				multiplier = (int) Math.ceil( (float) (KoLCharacter.getAdventuresLeft() - current.effect.getCount( activeEffects ) ) /
+					(float) ClassSkillsDatabase.getEffectDuration( skillId ) );
+
+				if ( multiplier < 0 )
+					continue;
+			}
+
+			runningTally += ClassSkillsDatabase.getMPConsumptionById( skillId ) * multiplier;
 		}
 
 		// Running tally calculated, return the amount of

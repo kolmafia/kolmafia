@@ -208,10 +208,12 @@ public abstract class HPRestoreItemList extends StaticEntity
 				{
 					if ( this == HERBS && NPCStoreDatabase.contains( itemUsed.getName() ) )
 					{
-						// If you need to buy herbs, make sure you buy enough
-						// to fill your spleen.
+						// If you need to buy herbs and you're high level,
+						// then buy some extras for later.
 
-						AdventureDatabase.retrieveItem( itemUsed.getInstance( Math.min( KoLCharacter.getAvailableMeat() / 100, 5 ) ) );
+						AdventureDatabase.retrieveItem( itemUsed.getInstance(
+							Math.min( KoLCharacter.getAvailableMeat() / 100, KoLCharacter.getLevel() <= 6 ? 1 : 5 ) ) );
+
 						numberAvailable = itemUsed.getCount( inventory );
 					}
 					else if ( this == SCROLL && KoLCharacter.canInteract() )

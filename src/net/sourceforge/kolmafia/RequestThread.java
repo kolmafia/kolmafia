@@ -60,7 +60,14 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 		try
 		{
-			if ( request instanceof KoLAdventure || !(request instanceof KoLRequest) || !((KoLRequest)request).isDelayExempt() )
+			if ( !(request instanceof KoLRequest || request instanceof KoLAdventure) )
+			{
+				if ( SwingUtilities.isEventDispatchThread() )
+					ConcurrentWorker.post( runner );
+				else
+					runner.run();
+			}
+			else if ( request instanceof KoLAdventure || !((KoLRequest)request).isDelayExempt() )
 			{
 				pendingRequests.add( runner );
 

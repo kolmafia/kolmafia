@@ -44,6 +44,8 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 	private static final MPRestoreItem GALAKTIK = new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", Integer.MAX_VALUE );
 	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
+	private static final MPRestoreItem SODA_WATER = new MPRestoreItem( "soda water", 4 );
+
 	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10 );
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
@@ -57,7 +59,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		new MPRestoreItem( "Blatantly Canadian", 23 ), new MPRestoreItem( "tiny house", 22 ),
 		new MPRestoreItem( "green pixel potion", 19 ), new MPRestoreItem( "Dyspepsi-Cola", 12 ),
 		new MPRestoreItem( "Cloaca-Cola", 12 ), new MPRestoreItem( "Mountain Stream soda", 8 ), MYSTERY_JUICE,
-		SELTZER, new MPRestoreItem( "Cherry Cloaca Cola", 8 ), new MPRestoreItem( "soda water", 4 )
+		SELTZER, new MPRestoreItem( "Cherry Cloaca Cola", 8 ), SODA_WATER
 	};
 
 	public static boolean contains( AdventureResult item )
@@ -179,26 +181,28 @@ public abstract class MPRestoreItemList extends StaticEntity
 			if ( purchase && numberAvailable < numberToUse && NPCStoreDatabase.contains( itemUsed.getName() ) )
 			{
 				int numberToBuy = numberToUse;
-
-				// Because seltzer often involves an outfit change,
-				// buy more seltzer than you actually need.
-
-				if ( this == SELTZER )
-					numberToBuy *= 2;
-
-				// For purchases involving between battle checks,
-				// buy at least as many as is needed to sustain
-				// the entire check.
+				int unitPrice = TradeableItemDatabase.getPriceById( itemUsed.getItemId() ) * 2;
 
 				if ( KoLmafia.isRunningBetweenBattleChecks() )
 				{
+					// For purchases involving between battle checks,
+					// buy at least as many as is needed to sustain
+					// the entire check.
+
 					mpShort = Math.max( mpShort, MoodSettings.getMaintenanceCost() - KoLCharacter.getCurrentMP() );
-					numberToBuy = Math.max( numberToBuy, (int) Math.ceil( (float) mpShort / (float) getManaPerUse() ) );
+					numberToBuy = (int) Math.ceil( (float) mpShort / (float) getManaPerUse() );
+				}
+				else if ( !KoLCharacter.isHardcore() || KoLCharacter.getLevel() > 6 )
+				{
+					// Buy more restores than you actually need when you
+					// have enough liquidity to support it.
+
+					int extraCount = (int) Math.ceil( (float) KoLCharacter.getMaximumMP() / (float) getManaPerUse() );
+					if ( KoLCharacter.getAvailableMeat() > unitPrice * (numberToBuy + extraCount) * 4 )
+						numberToBuy += extraCount;
 				}
 
-				AdventureDatabase.retrieveItem( itemUsed.getInstance(
-					Math.min( KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( itemUsed.getItemId() ) * 2), numberToBuy ) ) );
-
+				AdventureDatabase.retrieveItem( itemUsed.getInstance( Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToBuy ) ) );
 				numberAvailable = itemUsed.getCount( inventory );
 			}
 
