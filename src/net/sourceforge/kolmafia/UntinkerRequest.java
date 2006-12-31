@@ -102,14 +102,10 @@ public class UntinkerRequest extends KoLRequest
 			KoLRequest questCompleter = new KoLRequest( "town_right.php?place=untinker" );
 			questCompleter.run();
 
-			if ( responseText.indexOf( "Degrassi" ) != -1 )
-			{
-				if ( !completeQuest() )
-					return;
+			if ( !completeQuest() )
+				return;
 
-				questCompleter.run();
-			}
-
+			questCompleter.run();
 			super.run();
 		}
 
