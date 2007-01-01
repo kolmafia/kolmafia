@@ -66,6 +66,8 @@ public abstract class RequestThread implements Runnable, KoLConstants
 					ConcurrentWorker.post( runner );
 				else
 					runner.run();
+
+				KoLmafia.enableDisplay();
 			}
 			else if ( request instanceof KoLAdventure || !((KoLRequest)request).isDelayExempt() )
 			{
@@ -79,6 +81,8 @@ public abstract class RequestThread implements Runnable, KoLConstants
 					Worker.post( queueHandler );
 				else
 					queueHandler.run();
+
+				KoLmafia.enableDisplay();
 			}
 			else
 			{
@@ -129,10 +133,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 					((Request)pendingRequests.remove(0)).run();
 
 				isRunningRequest = false;
-
 				SystemTrayFrame.showBalloon( "Requests complete." );
-				KoLmafia.enableDisplay();
-
 				return null;
 			}
 
