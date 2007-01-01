@@ -467,7 +467,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "louvreLayout", "" );
 		PLAYER_SETTINGS.put( "louvreDesiredGoal", String.valueOf( Louvre.LouvreGoals.length + 1 ) );
 		PLAYER_SETTINGS.put( "louvreGoal", "0" );
-		PLAYER_SETTINGS.put( "louvreBoostsLowestStat", "false" );
 
 		// These are settings related to choice adventures.
 		// Ensure that they exist, and if they do not, load
@@ -526,7 +525,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "choiceAdventure88", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure89", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure90", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure91", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure91", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure105", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure106", "4" );
 		PLAYER_SETTINGS.put( "choiceAdventure107", "1" );
