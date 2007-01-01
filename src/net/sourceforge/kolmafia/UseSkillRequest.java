@@ -161,7 +161,28 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		AdventureResult songWeapon = null;
 		SpecialOutfit.createImplicitCheckpoint();
 
-		if ( skillId > 6000 && skillId < 7000 )
+		// Ode to Booze is usually cast as a single shot.  So,
+		// don't prepare a rock and roll legend.
+
+		if ( skillId == 6014 )
+		{
+			if ( KoLCharacter.hasItem( ACCORDION ) )
+				songWeapon = ACCORDION;
+			else if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND ) )
+				songWeapon = ROCKNROLL_LEGEND;
+
+			if ( songWeapon == null )
+			{
+				lastUpdate = "You need an accordion to play Accordion Thief songs.";
+				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
+				return null;
+			}
+		}
+
+		// All other accordion thief buffs should prepare a rock
+		// and roll legend.
+
+		else if ( skillId > 6000 && skillId < 7000 )
 		{
 			songWeapon = prepareAccordion();
 
@@ -182,7 +203,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
 		}
 
-		if ( ClassSkillsDatabase.isBuff( skillId ) && skillId > 1000 && inventory.contains( WIZARD_HAT ) )
+		// Ode to Booze is usually cast as a single shot.  So,
+		// don't equip the jewel-eyed wizard hat.
+
+		if ( ClassSkillsDatabase.isBuff( skillId ) && skillId > 1000 && skillId != 6014 && inventory.contains( WIZARD_HAT ) )
 			(new EquipmentRequest( WIZARD_HAT, KoLCharacter.HAT )).run();
 
 		return songWeapon;
