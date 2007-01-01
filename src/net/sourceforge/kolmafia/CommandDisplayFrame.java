@@ -55,8 +55,12 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class CommandDisplayFrame extends KoLFrame
 {
 	private JTextField entryField;
+
 	private static int lastCommandIndex = 0;
-	private static ArrayList commandHistory = new ArrayList();
+	private static boolean shouldQueueRequests = false;
+
+	private static final ArrayList commandHistory = new ArrayList();
+	private static final CommandQueueHandler queueHandler = new CommandQueueHandler();
 
 	public CommandDisplayFrame()
 	{
@@ -105,15 +109,7 @@ public class CommandDisplayFrame extends KoLFrame
 			add( entryPanel, BorderLayout.SOUTH );
 		}
 
-		/**
-		 * An action listener responsible for sending the text
-		 * contained within the entry panel to the KoL chat
-		 * server for processing.  This listener spawns a new
-		 * request to the server which then handles everything
-		 * that's needed.
-		 */
-
-		private class CommandEntryListener extends KeyAdapter implements ActionListener, Runnable
+		private class CommandEntryListener extends KeyAdapter implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
 			{	submitCommand();
@@ -159,57 +155,48 @@ public class CommandDisplayFrame extends KoLFrame
 					return;
 				}
 
-				commandQueue.add( command );
-				commandHistory.add( command );
-				lastCommandIndex = commandHistory.size();
+				synchronized ( commandQueue )
+				{
+					commandQueue.add( command );
 
-				if ( commandQueue.size() > 1 )
+					commandHistory.add( command );
+					lastCommandIndex = commandHistory.size();
+				}
+
+				if ( shouldQueueRequests )
 				{
 					KoLmafiaCLI.printBlankLine();
 					KoLmafiaCLI.printLine( " > QUEUED: " + command );
 					KoLmafiaCLI.printBlankLine();
+
 					return;
 				}
 
-				RequestThread.postRequest( this );
+				shouldQueueRequests = true;
+				RequestThread.postRequest( queueHandler );
 			}
+		}
+	}
 
-			public void run()
+	private static class CommandQueueHandler implements Runnable
+	{
+		public void run()
+		{
+			String command = null;
+
+			while ( shouldQueueRequests )
 			{
-				while ( !commandQueue.isEmpty() )
-					executeQueuedCommand();
+				command = (String) commandQueue.remove(0);
 
-				KoLmafia.enableDisplay();
-			}
+				KoLmafiaCLI.printBlankLine();
+				KoLmafiaCLI.printLine( " > " + command );
+				KoLmafiaCLI.printBlankLine();
 
-			private void executeQueuedCommand()
-			{
-				try
-				{
-					String command = (String) commandQueue.get(0);
-					KoLmafiaCLI.printBlankLine();
-					KoLmafiaCLI.printLine( " > " + command );
-					KoLmafiaCLI.printBlankLine();
+				DEFAULT_SHELL.executeLine( command );
 
-					KoLmafia.forceContinue();
-					DEFAULT_SHELL.executeLine( command );
-				}
-				catch ( Exception e )
+				synchronized ( commandQueue )
 				{
-					// This is usually a result of a user error.
-					// Therefore, fall through and remove the
-					// command to clear out the queue.
-				}
-
-				try
-				{
-					if ( !commandQueue.isEmpty() )
-						commandQueue.remove(0);
-				}
-				catch ( Exception e )
-				{
-					// This is only due to a race condition
-					// and should not happen.
+					shouldQueueRequests = !commandQueue.isEmpty();
 				}
 			}
 		}
