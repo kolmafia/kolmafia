@@ -515,7 +515,7 @@ public class AdventureFrame extends KoLFrame
 
 			public ObjectivesPanel()
 			{
-				super( new Dimension( 70, 20 ), new Dimension( 100, 20 ) );
+				super( new Dimension( 80, 20 ), new Dimension( 100, 20 ) );
 
 				actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
 				moodSelect = new JComboBox( MoodSettings.getAvailableMoods() );
