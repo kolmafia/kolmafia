@@ -69,17 +69,11 @@ import sun.net.www.protocol.http.Handler;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
-	private static final byte [] CHATPANE_BYTES = new byte[ 1024 ];
-	private static final byte [] CHARPANE_BYTES = new byte[ 2048 ];
-	private static final byte [] RELAY_BYTES = new byte[ 8096 ];
-	private static final byte [] GENERAL_BYTES = new byte[ 8096 ];
+	private static final ArrayList BYTEFLAGS = new ArrayList();
+	private static final ArrayList BYTEARRAYS = new ArrayList();
+	private static final ArrayList BYTESTREAMS = new ArrayList();
 
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
-
-	private static final ByteArrayOutputStream CHATPANE_BUFFER = new ByteArrayOutputStream();
-	private static final ByteArrayOutputStream CHARPANE_BUFFER = new ByteArrayOutputStream();
-	private static final ByteArrayOutputStream RELAY_BUFFER = new ByteArrayOutputStream();
-	private static final ByteArrayOutputStream GENERAL_BUFFER = new ByteArrayOutputStream();
 
 	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
@@ -1234,57 +1228,52 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean retrieveServerReply( InputStream istream ) throws Exception
 	{
-		// If you get this far, you know you've got a 200 response.  Therefore,
-		// read all the data into the static byte array output stream and then
+		// Find an available byte array in order to buffer the data.  Allow
+		// this to scale based on the number of incoming requests in order
+		// to reduce the probability that the program hangs.
+
+		int desiredIndex = -1;
+
+		synchronized ( BYTEFLAGS )
+		{
+			for ( int i = 0; desiredIndex == -1 && i < BYTEFLAGS.size(); ++i )
+				if ( BYTEFLAGS.get(i) == Boolean.FALSE )
+					desiredIndex = i;
+
+			if ( desiredIndex == -1 )
+			{
+				desiredIndex = BYTEFLAGS.size();
+
+				BYTEFLAGS.add( Boolean.TRUE );
+				BYTEARRAYS.add( new byte[ 8096 ] );
+				BYTESTREAMS.add( new ByteArrayOutputStream( 8096 ) );
+			}
+			else
+			{
+				BYTEFLAGS.set( desiredIndex, Boolean.TRUE );
+			}
+		}
+
+		// Read all the data into the static byte array output stream and then
 		// convert that string to UTF-8.
 
-		if ( isChatRequest )
-		{
-			synchronized ( CHATPANE_BUFFER )
-			{
-				int availableBytes = 0;
-				while ( (availableBytes = istream.read( CHATPANE_BYTES )) != -1 )
-					CHATPANE_BUFFER.write( CHATPANE_BYTES, 0, availableBytes );
+		byte [] array = (byte []) BYTEARRAYS.get( desiredIndex );
+		ByteArrayOutputStream stream = (ByteArrayOutputStream) BYTESTREAMS.get( desiredIndex );
 
-				this.responseText = CHATPANE_BUFFER.toString( "UTF-8" );
-				CHATPANE_BUFFER.reset();
-			}
-		}
-		else if ( formURLString.equals( "charpane.php" ) )
-		{
-			synchronized ( CHARPANE_BUFFER )
-			{
-				int availableBytes = 0;
-				while ( (availableBytes = istream.read( CHARPANE_BYTES )) != -1 )
-					CHARPANE_BUFFER.write( CHARPANE_BYTES, 0, availableBytes );
+		int availableBytes = 0;
+		while ( (availableBytes = istream.read( array )) != -1 )
+			stream.write( array, 0, availableBytes );
 
-				this.responseText = CHARPANE_BUFFER.toString( "UTF-8" );
-				CHARPANE_BUFFER.reset();
-			}
-		}
-		else if ( this instanceof LocalRelayRequest )
-		{
-			synchronized ( RELAY_BUFFER )
-			{
-				int availableBytes = 0;
-				while ( (availableBytes = istream.read( RELAY_BYTES )) != -1 )
-					RELAY_BUFFER.write( RELAY_BYTES, 0, availableBytes );
+		this.responseText = stream.toString( "UTF-8" );
+		stream.reset();
 
-				this.responseText = RELAY_BUFFER.toString( "UTF-8" );
-				RELAY_BUFFER.reset();
-			}
-		}
-		else
-		{
-			synchronized ( GENERAL_BUFFER )
-			{
-				int availableBytes = 0;
-				while ( (availableBytes = istream.read( GENERAL_BYTES )) != -1 )
-					GENERAL_BUFFER.write( GENERAL_BYTES, 0, availableBytes );
+		// You are now done with the array.  Go ahead and reset the value
+		// to false to let the program know the objects are available to
+		// be reused.
 
-				this.responseText = GENERAL_BUFFER.toString( "UTF-8" );
-				GENERAL_BUFFER.reset();
-			}
+		synchronized ( BYTEFLAGS )
+		{
+			BYTEFLAGS.set( desiredIndex, Boolean.FALSE );
 		}
 
 		processResponse();
