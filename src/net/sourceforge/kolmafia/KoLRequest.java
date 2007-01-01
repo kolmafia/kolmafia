@@ -1542,9 +1542,21 @@ public class KoLRequest implements Runnable, KoLConstants
 					if ( AdventureDatabase.WOODS_ITEMS[i].getCount( conditions ) > 0 )
 						decision = choice.equals( "26" ) ? String.valueOf( (i / 4) + 1 ) : String.valueOf( ((i % 4) / 2) + 1 );
 			}
-			if ( choice.equals( "7" ) )
+
+			// Certain choices should always be taken.  These
+			// choices are handled here.
+
+			else if ( choice.equals( "7" ) )
 			{
 				decision = "1";
+			}
+
+			// Sometimes, the choice adventure for the louvre
+			// loses track of whether to ignore the louvre or not.
+
+			else if ( choice.equals( "91" ) )
+			{
+				decision = StaticEntity.getIntegerProperty( "louvreDesiredGoal" ) != 0 ? "1" : "2";
 			}
 
 			// If there is no setting which determines the

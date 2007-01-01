@@ -1155,11 +1155,7 @@ public class AdventureFrame extends KoLFrame
 
 			int louvreGoal = louvreSelect.getSelectedIndex();
 			StaticEntity.setProperty( "choiceAdventure91",  String.valueOf( louvreGoal > 0 ? "1" : "2" ) );
-
 			StaticEntity.setProperty( "louvreDesiredGoal", String.valueOf( louvreGoal ) );
-
-			StaticEntity.setProperty( "louvreBoostsPrimeStat", String.valueOf( louvreGoal == Louvre.LouvreGoals.length + 1 ) );
-			StaticEntity.setProperty( "louvreBoostsLowestStat", String.valueOf( louvreGoal == Louvre.LouvreGoals.length + 2 ) );
 
 			for ( int i = 1; i < optionSelects.length; ++i )
 			{
@@ -1356,13 +1352,7 @@ public class AdventureFrame extends KoLFrame
 			if ( index >= 0 )
 				violetFogSelect.setSelectedIndex( index );
 
-			if ( StaticEntity.getBooleanProperty( "louvreBoostsPrimeStat" ) )
-				index = Louvre.LouvreGoals.length + 1;
-			else if ( StaticEntity.getBooleanProperty( "louvreBoostsLowestStat" ) )
-				index = Louvre.LouvreGoals.length + 2;
-			else
-				index = StaticEntity.getIntegerProperty( "louvreDesiredGoal" );
-
+			index = StaticEntity.getIntegerProperty( "louvreDesiredGoal" );
 			if ( index >= 0 )
 				louvreSelect.setSelectedIndex( index );
 
