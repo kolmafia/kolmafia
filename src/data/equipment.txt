@@ -148,6 +148,7 @@ Knob Goblin pants	25	none
 Knob Goblin Uberpants	45	Mox: 7
 leather chaps	130	Mox: 50
 leotarrrd	90	Mox: 30
+liar's pants	100	none
 los chinos	55	Mox: 12
 makeshift skirt	100	none
 mariachi pants	10	none
@@ -188,6 +189,7 @@ Ascension Souvenir T-Shirt	15	none
 clockwork trench coat	80	Mus: 25
 coconut bikini top	100	Mus: 35
 filthy hippy poncho	40	Mus: 5
+flaming pink shirt	100	none
 floral print shirt	100	Mus: 35
 frilly shirt	20	none
 gingham blouse	100	Mus: 35
@@ -295,6 +297,7 @@ fetus-smashing club	200	Mus: 85	2-handed club
 filthy pestle	60	Mus: 15	1-handed utensil
 flaming cardboard sword	70	Mus: 20	1-handed sword
 flaming crutch	60	Mus: 15	1-handed club
+flaming juggler's balls	100	Mox: 0	1-handed euphemisms
 flypaper staff	80	Mus: 20	2-handed staff
 Frost&trade; brand sword	70	Mus: 20	1-handed sword
 frozen nunchaku	80	Mus: 25	2-handed club
@@ -591,6 +594,7 @@ disbelief suspenders	0	Mys: 10
 disembodied smile	0	none
 Dyspepsi-Cola-issue canteen	0	none
 enchanted toothpick	0	Mys: 25
+evil flaming eyeball pendant	0	none
 exclusive ultra-rare item	0	none
 eXtreme mittens	0	Mys: 40
 eXtreme nose ring	0	Mys: 10
