@@ -550,7 +550,7 @@
 550	33398 scroll	0	all	57
 551	64067 scroll	0	all	101
 552	64735 scroll	3	none	0
-553	31337 scroll	3	none	0
+553	31337 scroll	4	none	0
 554	pr0n cocktail	1	all	144
 555	drywall axe	12	all	155
 556	Pine-Fresh air freshener	8	all	60
