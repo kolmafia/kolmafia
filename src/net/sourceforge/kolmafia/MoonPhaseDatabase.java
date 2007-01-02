@@ -557,7 +557,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	private static final int [] convertCalendarDayToArray( int calendarDay )
-	{	return new int [] { (calendarDay / 8) + 1, (calendarDay % 8) + 1 };
+	{	return new int [] { ((calendarDay / 8) % 12) + 1, (calendarDay % 8) + 1 };
 	}
 
 	/**
