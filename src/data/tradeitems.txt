@@ -2218,3 +2218,9 @@
 2218
 2219	Tropical Crimbo Sword	12	all	0
 2220	orange and black Crimboween candy	4	all	15
+2221	Great Ball of Frozen Fire	0	all	0
+2222	liar's pants	10	all	0
+2223	flaming juggler's balls	12	all	0
+2224	flaming pink shirt	11	all	0
+2225	flaming familiar doppelg&auml;nger	7	all	0
+2226	evil flaming eyeball pendant	8	all	0

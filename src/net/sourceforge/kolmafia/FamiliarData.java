@@ -165,7 +165,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		switch ( itemId )
 		{
 		case -1:	// bogus item id
-		case 0:     // another bogus item id
+		case 0:		// another bogus item id
 		case 856:	// shock collar
 		case 857:	// moonglasses
 		case 1040:	// lucky Tam O'Shanter
@@ -183,6 +183,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 2084:	// can of starch
 		case 2147:	// evil teddy bear sewing kit
 		case 2191:	// giant book of ancient carols
+		case 2225:	// flaming familiar doppelg&auml;nger
 			return 0;
 
 		case 865:	// lead necklace
@@ -273,10 +274,12 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1260:  // wax lips
 		case 1539:  // lucky Tam O'Shatner
 		case 1971:  // plastic pumpkin bucket
+		case 2225:  // flaming familiar doppelg&auml;nger
+			// Can these items be equipped by a Comma Chameleon?
 			return true;
 
 		default:
-			return !item.equals( EquipmentRequest.UNEQUIP ) && item.getName().equals( FamiliarsDatabase.getFamiliarItem( id ) );
+			return item.getName().equals( FamiliarsDatabase.getFamiliarItem( id ) );
 		}
 	}
 
