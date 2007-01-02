@@ -192,6 +192,7 @@ public class CommandDisplayFrame extends KoLFrame
 				KoLmafiaCLI.printLine( " > " + command );
 				KoLmafiaCLI.printBlankLine();
 
+				KoLmafia.forceContinue();
 				DEFAULT_SHELL.executeLine( command );
 
 				synchronized ( commandQueue )
