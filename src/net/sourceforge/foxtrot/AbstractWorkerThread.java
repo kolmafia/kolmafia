@@ -37,7 +37,8 @@ public abstract class AbstractWorkerThread implements WorkerThread
          {
             public Object run() throws Exception
             {
-               return task.run();
+               task.run();
+               return null;
             }
          }, task.getSecurityContext());
 

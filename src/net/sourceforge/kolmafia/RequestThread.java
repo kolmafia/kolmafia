@@ -42,7 +42,6 @@ import net.sourceforge.foxtrot.Worker;
 public abstract class RequestThread implements Runnable, KoLConstants
 {
 	private static int sequenceCount = 0;
-	private static final ArrayList pendingRequests = new ArrayList();
 
 	/**
 	 * Posts a single request one time without forcing concurrency.
@@ -56,7 +55,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 		try
 		{
-			executeRequest( new Request( request ), false );
+			executeRequest( request instanceof KoLRequest ? (Job) request : new Request( request ), false );
 		}
 		catch ( Exception e )
 		{
@@ -76,7 +75,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 		try
 		{
-			executeRequest( new Request( request ), forceConcurrency );
+			executeRequest( request instanceof KoLRequest ? (Job) request : new Request( request ), forceConcurrency );
 		}
 		catch ( Exception e )
 		{
@@ -109,12 +108,12 @@ public abstract class RequestThread implements Runnable, KoLConstants
 	 * This should be executed as a sub-component.
 	 */
 
-	private static void executeRequest( Request runner, boolean forceConcurrency ) throws Exception
+	private static void executeRequest( Job runner, boolean forceConcurrency ) throws Exception
 	{
 		if ( sequenceCount == 0 )
 			KoLmafia.forceContinue();
 
-		if ( forceConcurrency || (runner.request instanceof KoLRequest && ((KoLRequest)runner.request).isDelayExempt()) )
+		if ( forceConcurrency || (runner instanceof KoLRequest && ((KoLRequest)runner).isDelayExempt()) )
 		{
 			if ( SwingUtilities.isEventDispatchThread() )
 				ConcurrentWorker.post( runner );
@@ -125,14 +124,12 @@ public abstract class RequestThread implements Runnable, KoLConstants
 		}
 
 		openRequestSequence();
-		pendingRequests.add( runner );
 
 		if ( SwingUtilities.isEventDispatchThread() )
 			Worker.post( runner );
 		else
 			runner.run();
 
-		pendingRequests.remove( runner );
 		closeRequestSequence();
 	}
 
@@ -163,7 +160,6 @@ public abstract class RequestThread implements Runnable, KoLConstants
 		synchronized ( commandQueue )
 		{
 			commandQueue.clear();
-			pendingRequests.clear();
 		}
 	}
 
@@ -184,18 +180,19 @@ public abstract class RequestThread implements Runnable, KoLConstants
 			this.repeatCount = repeatCount;
 		}
 
-		public Object run()
+		public void run()
 		{
+			if ( KoLmafia.refusesContinue() )
+				return;
+
 			if ( (request instanceof KoLRequest && !((KoLRequest)request).isDelayExempt()) || request instanceof KoLAdventure )
 			{
 				StaticEntity.getClient().makeRequest( request, repeatCount );
-				return null;
+				return;
 			}
 
 			for ( int i = 0; i < repeatCount && !KoLmafia.refusesContinue(); ++i )
 				request.run();
-
-			return null;
 		}
 	}
 }
