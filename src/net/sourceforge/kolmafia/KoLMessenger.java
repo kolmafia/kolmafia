@@ -70,6 +70,9 @@ public abstract class KoLMessenger extends StaticEntity
 	private static final Pattern PARENTHESIS_PATTERN = Pattern.compile( " \\(.*?\\)" );
 	private static final Pattern MULTILINE_PATTERN = Pattern.compile( "\n+" );
 
+	private static final Pattern GREEN_PATTERN = Pattern.compile( "<font color=green><b>(.*?)</font></a></b> (.*?)</font>" );
+	private static final Pattern NESTED_LINKS_PATTERN = Pattern.compile( "<a target=mainpane href=\"(.*?)\"><font color=green>(.*?) <a[^>]+><font color=green>([^<]*?)</font></a>.</font></a>" );
+
 	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm a", Locale.US );
 
 	private static final String DEFAULT_TIMESTAMP_COLOR = "#7695B4";
@@ -411,8 +414,6 @@ public abstract class KoLMessenger extends StaticEntity
 	{	return getNormalizedContent( originalContent, true );
 	}
 
-	private static final Pattern GREEN_PATTERN = Pattern.compile( "<font color=green><b>(.*?)</font></a></b> (.*?)</font>" );
-
 	public static final String getNormalizedContent( String originalContent, boolean isInternal )
 	{
 		String noImageContent = IMAGE_PATTERN.matcher( originalContent ).replaceAll( "" );
@@ -428,6 +429,8 @@ public abstract class KoLMessenger extends StaticEntity
 		italicOrderedContent = StaticEntity.globalStringReplace( italicOrderedContent, "</b></font></a>", "</font></a></b>" );
 
 		String fixedGreenContent = GREEN_PATTERN.matcher( italicOrderedContent ).replaceAll( "<font color=green><b>$1</b></font></a> $2</font>" );
+		fixedGreenContent = NESTED_LINKS_PATTERN.matcher( fixedGreenContent ).replaceAll( "<a target=mainpane href=\"$1\"><font color=green>$2 $3</font></a>" );
+
 		String leftAlignContent = StaticEntity.globalStringDelete( fixedGreenContent, "<center>" );
 		leftAlignContent = StaticEntity.globalStringReplace( leftAlignContent, "</center>", "<br>" );
 
