@@ -320,10 +320,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// of the character data
 
 		for ( int i = 0; i < 9; ++i )
-		{
 			equipmentLists[i].clear();
-			equipmentLists[i].add( EquipmentRequest.UNEQUIP );
-		}
 
 		GearChangeFrame.clearWeaponLists();
 	}
