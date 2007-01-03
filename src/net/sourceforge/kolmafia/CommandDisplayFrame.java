@@ -139,43 +139,46 @@ public class CommandDisplayFrame extends KoLFrame
 			{
 				String command = entryField.getText().trim();
 				entryField.setText( "" );
-
-				if ( command.length() == 0 )
-					return;
-
-				if ( command.equalsIgnoreCase( "clear" ) || command.equalsIgnoreCase( "cls" ) )
-				{
-					KoLmafia.commandBuffer.clearBuffer();
-					return;
-				}
-
-				if ( command.startsWith( "abort" ) )
-				{
-					RequestThread.declareWorldPeace();
-					return;
-				}
-
-				synchronized ( commandQueue )
-				{
-					commandQueue.add( command );
-
-					commandHistory.add( command );
-					lastCommandIndex = commandHistory.size();
-				}
-
-				if ( shouldQueueRequests )
-				{
-					KoLmafiaCLI.printBlankLine();
-					KoLmafiaCLI.printLine( " > QUEUED: " + command );
-					KoLmafiaCLI.printBlankLine();
-
-					return;
-				}
-
-				shouldQueueRequests = true;
-				RequestThread.postRequest( queueHandler );
+				executeCommand( command );
 			}
 		}
+	}
+
+	public static void executeCommand( String command )
+	{
+		if ( command.length() == 0 )
+			return;
+
+		if ( command.equalsIgnoreCase( "clear" ) || command.equalsIgnoreCase( "cls" ) )
+		{
+			KoLmafia.commandBuffer.clearBuffer();
+			return;
+		}
+
+		if ( command.startsWith( "abort" ) )
+		{
+			RequestThread.declareWorldPeace();
+			return;
+		}
+
+		synchronized ( commandQueue )
+		{
+			commandQueue.add( command );
+			commandHistory.add( command );
+			lastCommandIndex = commandHistory.size();
+		}
+
+		if ( shouldQueueRequests )
+		{
+			KoLmafiaCLI.printBlankLine();
+			KoLmafiaCLI.printLine( " > QUEUED: " + command );
+			KoLmafiaCLI.printBlankLine();
+
+			return;
+		}
+
+		shouldQueueRequests = true;
+		RequestThread.postRequest( queueHandler );
 	}
 
 	private static class CommandQueueHandler implements Runnable
@@ -186,7 +189,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 			while ( shouldQueueRequests )
 			{
-				command = (String) commandQueue.remove(0);
+				command = (String) commandQueue.get(0);
 
 				KoLmafiaCLI.printBlankLine();
 				KoLmafiaCLI.printLine( " > " + command );
@@ -197,6 +200,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 				synchronized ( commandQueue )
 				{
+					commandQueue.remove(0);
 					shouldQueueRequests = !commandQueue.isEmpty();
 				}
 			}

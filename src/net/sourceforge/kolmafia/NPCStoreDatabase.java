@@ -124,7 +124,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		// Degrassi knoll bakery, so fallback on that when possible.
 
 		else if ( storeId.equals( "b" ) )
-			return EquipmentDatabase.hasOutfit( 1 );
+			return !KoLCharacter.canInteract() && EquipmentDatabase.hasOutfit( 1 );
 
 		// If the person is not in a muscle sign, then items from the
 		// Degrassi Knoll are not available.
@@ -143,14 +143,14 @@ public class NPCStoreDatabase extends KoLDatabase
 		// guard uniform, and not available if out of Ronin.
 
 		else if ( storeId.equals( "g" ) )
-			return EquipmentDatabase.hasOutfit( 5 );
+			return !KoLCharacter.canInteract() && EquipmentDatabase.hasOutfit( 5 );
 
 		// If the person is trying to get one of the items from the hippy
 		// store, then the item is not available if they don't have the
 		// hippy outfit.
 
 		else if ( storeId.equals( "h" ) )
-			return EquipmentDatabase.hasOutfit( 2 );
+			return !KoLCharacter.canInteract() && EquipmentDatabase.hasOutfit( 2 );
 
 		// Check for a lucky rabbit's foot when determining whether or not
 		// the person has access to the Citadel.

@@ -203,6 +203,10 @@ public abstract class MPRestoreItemList extends StaticEntity
 				}
 
 				AdventureDatabase.retrieveItem( itemUsed.getInstance( Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToBuy ) ) );
+
+				if ( this == SELTZER )
+					SpecialOutfit.restoreImplicitCheckpoint();
+
 				numberAvailable = itemUsed.getCount( inventory );
 			}
 
