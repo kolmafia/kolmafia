@@ -237,7 +237,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 			if ( adventureId.equals( "96" ) )
 				StaticEntity.setProperty( "choiceAdventure71", "1" );
-			else if ( adventureId.equals( "97" ) )
+			else if ( adventureId.equals( "98" ) )
 				StaticEntity.setProperty( "choiceAdventure71", "2" );
 			else
 				StaticEntity.setProperty( "choiceAdventure71", "3" );
