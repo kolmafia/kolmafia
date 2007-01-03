@@ -481,10 +481,7 @@ public class AdventureFrame extends KoLFrame
 				else
 				{
 					if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i] ) )
-					{
-						KoLmafia.enableDisplay();
 						return;
-					}
 				}
 			}
 
@@ -497,7 +494,6 @@ public class AdventureFrame extends KoLFrame
 				if ( conditions.isEmpty() )
 				{
 					KoLmafia.updateDisplay( ABORT_STATE, "All conditions already satisfied." );
-					KoLmafia.enableDisplay();
 					return;
 				}
 			}
@@ -578,8 +574,9 @@ public class AdventureFrame extends KoLFrame
 
 					isHandlingConditions = true;
 
-					KoLmafia.forceContinue();
+					RequestThread.openRequestSequence();
 					handleConditions( request );
+					RequestThread.closeRequestSequence();
 
 					isHandlingConditions = false;
 

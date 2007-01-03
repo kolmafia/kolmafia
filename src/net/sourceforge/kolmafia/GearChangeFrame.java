@@ -54,7 +54,6 @@ public class GearChangeFrame extends KoLFrame
 	private boolean isEnabled;
 	private static JButton outfitButton;
 
-	private static EquipPanel equip;
 	private static ChangeComboBox [] equipment;
 	private static SortedListModel weapons = new SortedListModel();
 	private static SortedListModel offhands = new SortedListModel();
@@ -85,7 +84,7 @@ public class GearChangeFrame extends KoLFrame
 		outfitSelect = new ChangeComboBox( KoLCharacter.getOutfits() );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( equip = new EquipPanel(), "" );
+		framePanel.add( new EquipPanel(), "" );
 		ensureValidSelections();
 	}
 
@@ -136,44 +135,9 @@ public class GearChangeFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			// Find out what changed.
-
-			AdventureResult [] pieces = new AdventureResult[8];
-			for ( int i = 0; i < pieces.length; ++i )
-			{
-				pieces[i] = (AdventureResult) equipment[i].getSelectedItem();
-				if ( KoLCharacter.getEquipment(i).equals( pieces[i] ) )
-					pieces[i] = null;
-			}
-
-			// If current offhand item is not compatible with new
-			// weapon, unequip it first.
-
-			AdventureResult offhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
-			if ( EquipmentDatabase.getHands( offhand.getName() ) == 1 )
-			{
-				AdventureResult weapon = pieces[ KoLCharacter.WEAPON ];
-				if ( weapon != null )
-				{
-					if ( EquipmentDatabase.getHands( weapon.getName() ) == 1 && EquipmentDatabase.isRanged( weapon.getName() ) != EquipmentDatabase.isRanged( offhand.getName() ) )
-						RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
-				}
-			}
-
-			for ( int i = 0; i < pieces.length; ++i )
-			{
-				if ( pieces[i] != null )
-				{
-					RequestThread.postRequest( new EquipmentRequest( pieces[i], i, true ) );
-					pieces[i] = null;
-				}
-			}
-
-			AdventureResult famitem = (AdventureResult) equipment[KoLCharacter.FAMILIAR].getSelectedItem();
-			if ( KoLCharacter.getFamiliar().canEquip( famitem ) && !KoLCharacter.getFamiliar().getItem().equals( famitem ) )
-				RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
-
-			SpecialOutfit.clearImplicitCheckpoint();
+			RequestThread.openRequestSequence();
+			changeItems();
+			RequestThread.closeRequestSequence();
 		}
 
 		public void actionCancelled()
@@ -184,6 +148,47 @@ public class GearChangeFrame extends KoLFrame
 
 			RequestThread.postRequest( new EquipmentRequest( currentValue ) );
 		}
+	}
+
+	public static void changeItems()
+	{
+		// Find out what changed.
+		AdventureResult [] pieces = new AdventureResult[8];
+		for ( int i = 0; i < pieces.length; ++i )
+		{
+			pieces[i] = (AdventureResult) equipment[i].getSelectedItem();
+			if ( KoLCharacter.getEquipment(i).equals( pieces[i] ) )
+				pieces[i] = null;
+		}
+
+		// If current offhand item is not compatible with new
+		// weapon, unequip it first.
+
+		AdventureResult offhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
+		if ( EquipmentDatabase.getHands( offhand.getName() ) == 1 )
+		{
+			AdventureResult weapon = pieces[ KoLCharacter.WEAPON ];
+			if ( weapon != null )
+			{
+				if ( EquipmentDatabase.getHands( weapon.getName() ) == 1 && EquipmentDatabase.isRanged( weapon.getName() ) != EquipmentDatabase.isRanged( offhand.getName() ) )
+					RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
+			}
+		}
+
+		for ( int i = 0; i < pieces.length; ++i )
+		{
+			if ( pieces[i] != null )
+			{
+				RequestThread.postRequest( new EquipmentRequest( pieces[i], i, true ) );
+				pieces[i] = null;
+			}
+		}
+
+		AdventureResult famitem = (AdventureResult) equipment[KoLCharacter.FAMILIAR].getSelectedItem();
+		if ( KoLCharacter.getFamiliar().canEquip( famitem ) && !KoLCharacter.getFamiliar().getItem().equals( famitem ) )
+			RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
+
+		SpecialOutfit.clearImplicitCheckpoint();
 	}
 
 	public static void updateWeapons()
@@ -236,7 +241,8 @@ public class GearChangeFrame extends KoLFrame
 
 				if ( ChangeComboBox.this == familiarSelect )
 				{
-					equip.actionConfirmed();
+					RequestThread.openRequestSequence();
+					changeItems();
 
 					FamiliarData familiar = (FamiliarData) familiarSelect.getSelectedItem();
 					if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
@@ -246,6 +252,7 @@ public class GearChangeFrame extends KoLFrame
 					if ( KoLCharacter.getFamiliar().canEquip( famitem ) && !KoLCharacter.getFamiliar().getItem().equals( famitem ) )
 						RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
 
+					RequestThread.closeRequestSequence();
 					return;
 				}
 

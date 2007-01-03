@@ -228,7 +228,7 @@ public class ItemManageFrame extends KoLFrame
 			{	super( "junk item script" );
 			}
 
-			public void run()
+			public void actionPerformed( ActionEvent e )
 			{	StaticEntity.getClient().makeJunkRemovalRequest();
 			}
 		}
@@ -241,7 +241,7 @@ public class ItemManageFrame extends KoLFrame
 				setEnabled( KoLCharacter.canInteract() );
 			}
 
-			public void run()
+			public void actionPerformed( ActionEvent e )
 			{	StaticEntity.getClient().makeEndOfRunSaleRequest();
 			}
 		}
@@ -254,9 +254,9 @@ public class ItemManageFrame extends KoLFrame
 				setEnabled( !KoLCharacter.isHardcore() );
 			}
 
-			public void run()
+			public void actionPerformed( ActionEvent e )
 			{
-				(new StoreManageRequest()).run();
+				RequestThread.postRequest( new StoreManageRequest() );
 
 				SoldItem [] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
 				StoreManager.getSoldItemList().toArray( sold );
@@ -277,7 +277,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( items.isEmpty() )
 					return;
 
-				(new AutoSellRequest( items.toArray(), AutoSellRequest.AUTOMALL )).run();
+				RequestThread.postRequest( new AutoSellRequest( items.toArray(), AutoSellRequest.AUTOMALL ) );
 			}
 		}
 
@@ -289,9 +289,9 @@ public class ItemManageFrame extends KoLFrame
 				setEnabled( !KoLCharacter.isHardcore() );
 			}
 
-			public void run()
+			public void actionPerformed( ActionEvent e )
 			{
-				(new MuseumRequest()).run();
+				RequestThread.postRequest( new MuseumRequest() );
 
 				AdventureResult [] display = new AdventureResult[ collection.size() ];
 				collection.toArray( display );
@@ -309,7 +309,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( items.isEmpty() )
 					return;
 
-				(new MuseumRequest( items.toArray(), true )).run();
+				RequestThread.postRequest( new MuseumRequest( items.toArray(), true ) );
 			}
 		}
 	}
@@ -489,7 +489,7 @@ public class ItemManageFrame extends KoLFrame
 		private final int NORMAL = 1;
 		private final int GNOMES = 2;
 
-		private class SearchListener implements ActionListener, Runnable
+		private class SearchListener implements ActionListener
 		{
 			private int searchType;
 			private KoLRequest request;
@@ -519,10 +519,6 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			public void actionPerformed( ActionEvent e )
-			{	RequestThread.postRequest( this );
-			}
-
-			public void run()
 			{
 				switch ( searchType )
 				{
@@ -539,7 +535,7 @@ public class ItemManageFrame extends KoLFrame
 			private void combineTwoItems()
 			{
 				AdventureDatabase.retrieveItem( new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 ) );
-				request.run();
+				RequestThread.postRequest( request );
 
 				// In order to ensure that you do not test items which
 				// are not available in the drop downs, go to the page
@@ -592,21 +588,7 @@ public class ItemManageFrame extends KoLFrame
 					{
 						currentTest[0] = coreArray[i];
 						currentTest[1] = availableArray[j];
-
-						if ( !ConcoctionsDatabase.isKnownCombination( currentTest ) )
-						{
-							KoLmafia.updateDisplay( "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
-							request.addFormField( "item1", String.valueOf( currentTest[0].getItemId() ) );
-							request.addFormField( "item2", String.valueOf( currentTest[1].getItemId() ) );
-
-							request.run();
-
-							if ( request.responseText.indexOf( "You acquire" ) != -1 )
-							{
-								KoLmafia.updateDisplay( "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
-								return;
-							}
-						}
+						testCombination( currentTest );
 					}
 				}
 
@@ -615,7 +597,7 @@ public class ItemManageFrame extends KoLFrame
 
 			private void combineThreeItems()
 			{
-				request.run();
+				RequestThread.postRequest( request );
 
 				// In order to ensure that you do not test items which
 				// are not available in the drop downs, go to the page
@@ -672,26 +654,33 @@ public class ItemManageFrame extends KoLFrame
 							currentTest[1] = availableArray[j];
 							currentTest[2] = availableArray[k];
 
-							if ( !ConcoctionsDatabase.isKnownCombination( currentTest ) )
-							{
-								KoLmafia.updateDisplay( "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
-								request.addFormField( "item1", String.valueOf( currentTest[0].getItemId() ) );
-								request.addFormField( "item2", String.valueOf( currentTest[1].getItemId() ) );
-								request.addFormField( "item3", String.valueOf( currentTest[1].getItemId() ) );
-
-								request.run();
-
-								if ( request.responseText.indexOf( "You acquire" ) != -1 )
-								{
-									KoLmafia.updateDisplay( "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
-									return;
-								}
-							}
+							testCombination( currentTest );
 						}
 					}
 				}
 
 				KoLmafia.updateDisplay( ERROR_STATE, "No new item combinations were found." );
+			}
+
+			private void testCombination( AdventureResult [] currentTest )
+			{
+				if ( !ConcoctionsDatabase.isKnownCombination( currentTest ) )
+				{
+					KoLmafia.updateDisplay( "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
+					request.addFormField( "item1", String.valueOf( currentTest[0].getItemId() ) );
+					request.addFormField( "item2", String.valueOf( currentTest[1].getItemId() ) );
+
+					if ( currentTest.length == 3 )
+						request.addFormField( "item3", String.valueOf( currentTest[2].getItemId() ) );
+
+					RequestThread.postRequest( request );
+
+					if ( request.responseText.indexOf( "You acquire" ) != -1 )
+					{
+						KoLmafia.updateDisplay( "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
+						return;
+					}
+				}
 			}
 		}
 	}
@@ -795,8 +784,10 @@ public class ItemManageFrame extends KoLFrame
 				KoLmafia.updateDisplay( "Verifying ingredients..." );
 				selection.setQuantityNeeded( quantityDesired );
 
+				RequestThread.openRequestSequence();
 				RequestThread.postRequest( selection );
 				RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), selection.getQuantityNeeded() ) ) );
+				RequestThread.closeRequestSequence();
 			}
 
 			public String toString()

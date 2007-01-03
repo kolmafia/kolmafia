@@ -139,8 +139,10 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		if ( checkpoint[0] == null )
 			return;
 
+		RequestThread.openRequestSequence();
+
 		if ( !checkpoint[KoLCharacter.OFFHAND].equals( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) )
-			(new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND )).run();
+			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
 
 		AdventureResult equippedItem;
 		for ( int i = 0; i < checkpoint.length && lastCheckpoint.equals( KoLCharacter.getUserName() ); ++i )
@@ -151,12 +153,14 @@ public class SpecialOutfit implements Comparable, KoLConstants
 				if ( equippedItem.equals( UseSkillRequest.ROCKNROLL_LEGEND ) && !checkpoint[i].equals( UseSkillRequest.ROCKNROLL_LEGEND ) )
 				{
 					UseSkillRequest.untinkerCloverWeapon( equippedItem );
-					ItemCreationRequest.getInstance( checkpoint[i].getInstance(1) ).run();
+					RequestThread.postRequest( ItemCreationRequest.getInstance( checkpoint[i].getInstance(1) ) );
 				}
 
-				(new EquipmentRequest( checkpoint[i], i )).run();
+				RequestThread.postRequest( new EquipmentRequest( checkpoint[i], i ) );
 			}
 		}
+
+		RequestThread.closeRequestSequence();
 	}
 
 	/**

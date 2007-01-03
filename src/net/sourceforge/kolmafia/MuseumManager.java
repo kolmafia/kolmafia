@@ -91,8 +91,11 @@ public class MuseumManager extends StaticEntity
 		// Save the lists to the server and update the display
 		// on theto reflect the change.
 
+		RequestThread.openRequestSequence();
 		save( MuseumManager.shelves );
+
 		KoLmafia.updateDisplay( "Display case updated." );
+		RequestThread.closeRequestSequence();
 	}
 
 	public static void reorder( String [] headers )
@@ -114,6 +117,7 @@ public class MuseumManager extends StaticEntity
 			containsDeletedShelf |= deleted[i];
 		}
 
+		RequestThread.openRequestSequence();
 		KoLRequest request = new KoLRequest( "managecollection.php" );
 
 		for ( int i = 0; i < deleted.length; ++i )
@@ -123,7 +127,7 @@ public class MuseumManager extends StaticEntity
 				request.addFormField( "action", "newshelf" );
 				request.addFormField( "pwd" );
 				request.addFormField( "shelfname", "Deleted Shelf " + i );
-				request.run();
+				RequestThread.postRequest( request );
 			}
 		}
 
@@ -154,9 +158,11 @@ public class MuseumManager extends StaticEntity
 				request.addFormField( "delete" + i, "on" );
 		}
 
-		request.run();
-		(new MuseumRequest()).run();
+		RequestThread.postRequest( request );
+		RequestThread.postRequest( new MuseumRequest() );
+
 		KoLmafia.updateDisplay( "Display case updated." );
+		RequestThread.closeRequestSequence();
 	}
 
 	private static void save( List shelfOrder )
@@ -188,7 +194,7 @@ public class MuseumManager extends StaticEntity
 		// Once the parallel arrays are properly initialized,
 		// send the update request to the server.
 
-		(new MuseumRequest( newItems, newShelves )).run();
+		RequestThread.postRequest( new MuseumRequest( newItems, newShelves ) );
 	}
 
 	public static void update( String data )

@@ -203,11 +203,13 @@ public class HagnkStorageFrame extends KoLFrame
 				break;
 			}
 
+			RequestThread.openRequestSequence();
 			RequestThread.postRequest( new ItemStorageRequest( transferType, amountToTransfer ) );
 			if ( fundTransferType == 3 )
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.MEAT_TO_CLOSET, amountToTransfer ) );
 
 			fundSource.setSelectedIndex( 0 );
+			RequestThread.closeRequestSequence();
 		}
 
 		public void actionCancelled()
@@ -359,8 +361,10 @@ public class HagnkStorageFrame extends KoLFrame
 				if ( items == null )
 					return;
 
+				RequestThread.openRequestSequence();
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+				RequestThread.closeRequestSequence();
 			}
 
 			public String toString()
@@ -394,8 +398,10 @@ public class HagnkStorageFrame extends KoLFrame
 				if ( items == null )
 					return;
 
+				RequestThread.openRequestSequence();
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) );
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+				RequestThread.closeRequestSequence();
 			}
 
 			public String toString()

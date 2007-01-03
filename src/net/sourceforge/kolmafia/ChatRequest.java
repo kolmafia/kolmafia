@@ -134,7 +134,6 @@ public class ChatRequest extends KoLRequest
 			return null;
 
 		DEFAULT_SHELL.executeLine( graf.substring( spaceIndex + 1 ) );
-		KoLmafia.enableDisplay();
 
 		return "<font color=\"blue\"><b><a target=\"mainpane\" href=\"showplayer.php?who=458968\" style=\"color:blue\">" +
 			VERSION_NAME + "</a> (private)</b>: " + KoLmafia.getLastMessage() + "</font><br>";

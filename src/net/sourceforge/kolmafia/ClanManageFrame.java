@@ -445,48 +445,34 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( new MemberSearcher() );
-		}
-
-		private class MemberSearcher implements Runnable
 		{
-			public void run()
-			{
-				ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, parameterSelect.getSelectedIndex(), valueField.getText() );
-				KoLmafia.updateDisplay( "Search results retrieved." );
-			}
+			ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, parameterSelect.getSelectedIndex(), valueField.getText() );
+			KoLmafia.updateDisplay( "Search results retrieved." );
 		}
 
 		public void actionCancelled()
-		{	RequestThread.postRequest( new MemberChanger() );
-		}
-
-		private class MemberChanger implements Runnable
 		{
-			public void run()
+			if ( !finalizeTable( members ) )
+				return;
+
+			KoLmafia.updateDisplay( "Determining changes..." );
+
+			ArrayList titleChange = new ArrayList();
+			ArrayList newTitles = new ArrayList();
+			ArrayList boots = new ArrayList();
+
+			for ( int i = 0; i < members.getRowCount(); ++i )
 			{
-				if ( !finalizeTable( members ) )
-					return;
+				if ( ((Boolean)members.getValueAt( i, 4 )).booleanValue() )
+					boots.add( members.getValueAt( i, 1 ) );
 
-				KoLmafia.updateDisplay( "Determining changes..." );
-
-				ArrayList titleChange = new ArrayList();
-				ArrayList newTitles = new ArrayList();
-				ArrayList boots = new ArrayList();
-
-				for ( int i = 0; i < members.getRowCount(); ++i )
-				{
-					if ( ((Boolean)members.getValueAt( i, 4 )).booleanValue() )
-						boots.add( members.getValueAt( i, 1 ) );
-
-					titleChange.add( members.getValueAt( i, 1 ) );
-					newTitles.add( members.getValueAt( i, 2 ) );
-				}
-
-				KoLmafia.updateDisplay( "Applying changes..." );
-				(new ClanMembersRequest( titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
-				KoLmafia.updateDisplay( "Changes have been applied." );
+				titleChange.add( members.getValueAt( i, 1 ) );
+				newTitles.add( members.getValueAt( i, 2 ) );
 			}
+
+			KoLmafia.updateDisplay( "Applying changes..." );
+			RequestThread.postRequest( new ClanMembersRequest( titleChange.toArray(), newTitles.toArray(), boots.toArray() ) );
+			KoLmafia.updateDisplay( "Changes have been applied." );
 		}
 	}
 
@@ -572,41 +558,26 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( new SnapshotRunnable() );
+		{
+			// Now that you've got everything, go ahead and
+			// generate the snapshot.
+
+			int mostAscensionsBoardSize = getValue( mostAscensionsBoardSizeField, Integer.MAX_VALUE );
+			int mainBoardSize = getValue( mainBoardSizeField, Integer.MAX_VALUE );
+			int classBoardSize = getValue( classBoardSizeField, Integer.MAX_VALUE );
+			int maxAge = getValue( maxAgeField, Integer.MAX_VALUE );
+
+			boolean playerMoreThanOnce = playerMoreThanOnceOption.isSelected();
+			boolean localProfileLink = localProfileOption.isSelected();
+
+			// Now that you've got everything, go ahead and
+			// generate the snapshot.
+
+			ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink );
 		}
 
 		public void actionCancelled()
-		{	RequestThread.postRequest( new StashLogRunnable() );
+		{	ClanManager.saveStashLog();
 		}
-
-		private class StashLogRunnable implements Runnable
-		{
-			public void run()
-			{	ClanManager.saveStashLog();
-			}
-		}
-
-		private class SnapshotRunnable implements Runnable
-		{
-			public void run()
-			{
-				// Now that you've got everything, go ahead and
-				// generate the snapshot.
-
-				int mostAscensionsBoardSize = getValue( mostAscensionsBoardSizeField, Integer.MAX_VALUE );
-				int mainBoardSize = getValue( mainBoardSizeField, Integer.MAX_VALUE );
-				int classBoardSize = getValue( classBoardSizeField, Integer.MAX_VALUE );
-				int maxAge = getValue( maxAgeField, Integer.MAX_VALUE );
-
-				boolean playerMoreThanOnce = playerMoreThanOnceOption.isSelected();
-				boolean localProfileLink = localProfileOption.isSelected();
-
-				// Now that you've got everything, go ahead and
-				// generate the snapshot.
-
-				ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink );
-			}
-		}
-
 	}
 }

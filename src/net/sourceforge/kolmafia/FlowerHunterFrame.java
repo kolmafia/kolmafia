@@ -168,7 +168,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				"<br>Attacks " + KoLCharacter.getAttacksLeft() + "</center></html>" );
 	}
 
-	private class SearchPanel extends KoLPanel implements Runnable
+	private class SearchPanel extends KoLPanel
 	{
 		private JTextField levelEntry;
 		private JTextField rankEntry;
@@ -193,16 +193,16 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		public void actionConfirmed()
 		{
 			isSimple = true;
-			RequestThread.postRequest( this );
+			executeSearch();
 		}
 
 		public void actionCancelled()
 		{
 			isSimple = false;
-			RequestThread.postRequest( this );
+			executeSearch();
 		}
 
-		public void run()
+		public void executeSearch()
 		{
 			int index = isSimple ? 0 : 1;
 			int resultLimit = getValue( limitEntry, 100 );
@@ -217,7 +217,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			}
 
 			FlowerHunterRequest search = new FlowerHunterRequest( levelEntry.getText(), rankEntry.getText() );
-			search.run();
+			RequestThread.postRequest( search );
 
 			results = new ProfileRequest[ search.getSearchResults().size() ];
 			search.getSearchResults().toArray( results );
@@ -247,7 +247,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		}
 	}
 
-	private class ClanPanel extends KoLPanel implements Runnable
+	private class ClanPanel extends KoLPanel
 	{
 		private JTextField clanId;
 
@@ -264,14 +264,6 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( this );
-		}
-
-		public void actionCancelled()
-		{
-		}
-
-		public void run()
 		{
 			isSimple = false;
 
@@ -285,7 +277,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			}
 
 			FlowerHunterRequest search = new FlowerHunterRequest( clanId.getText() );
-			search.run();
+			RequestThread.postRequest( search );
 
 			results = new ProfileRequest[ search.getSearchResults().size() ];
 			search.getSearchResults().toArray( results );
@@ -302,6 +294,10 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				KoLmafia.updateDisplay( ERROR_STATE, "Search halted." );
 		}
 
+		public void actionCancelled()
+		{
+		}
+
 		public Object [] getRow( ProfileRequest result )
 		{
 			KoLmafia.updateDisplay( "Retrieving profile for " + result.getPlayerName() + "..." );
@@ -311,7 +307,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		}
 	}
 
-	private class AttackPanel extends KoLPanel implements Runnable
+	private class AttackPanel extends KoLPanel
 	{
 		private JTextField message;
 		private JComboBox stanceSelect;
@@ -350,22 +346,6 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( this );
-		}
-
-		public void actionCancelled()
-		{
-			ProfileRequest [] selection = getSelection();
-			Object [] parameters = new Object[1];
-
-			for ( int i = 0; i < selection.length; ++i )
-			{
-				parameters[0] = selection[i];
-				createDisplay( ProfileFrame.class, parameters );
-			}
-		}
-
-		public void run()
 		{
 			ProfileRequest [] selection = getSelection();
 
@@ -385,18 +365,33 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				break;
 			}
 
+			RequestThread.openRequestSequence();
 			FlowerHunterRequest request = new FlowerHunterRequest( "",
-					stanceSelect.getSelectedIndex() + 1, mission, message.getText() );
+				stanceSelect.getSelectedIndex() + 1, mission, message.getText() );
 
 			for ( int i = 0; i < selection.length && !KoLmafia.refusesContinue(); ++i )
 			{
 				KoLmafia.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
-				request.setTarget( selection[i].getPlayerName() );  request.run();
+				request.setTarget( selection[i].getPlayerName() );
+				RequestThread.postRequest( request );
 
 				updateRank();
 			}
 
 			KoLmafia.updateDisplay( "Attacks completed." );
+			RequestThread.closeRequestSequence();
+		}
+
+		public void actionCancelled()
+		{
+			ProfileRequest [] selection = getSelection();
+			Object [] parameters = new Object[1];
+
+			for ( int i = 0; i < selection.length; ++i )
+			{
+				parameters[0] = selection[i];
+				createDisplay( ProfileFrame.class, parameters );
+			}
 		}
 
 		private ProfileRequest [] getSelection()

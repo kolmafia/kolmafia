@@ -101,7 +101,7 @@ public class BuffBotFrame extends KoLFrame
 	 * operating the buffbot.
 	 */
 
-	private class MainBuffPanel extends LabeledScrollPanel implements Runnable
+	private class MainBuffPanel extends LabeledScrollPanel
 	{
 		public MainBuffPanel()
 		{
@@ -129,11 +129,6 @@ public class BuffBotFrame extends KoLFrame
 			// data and current settings.
 
 			BuffBotHome.setBuffBotActive( true );
-			RequestThread.postRequest( this );
-		}
-
-		public void run()
-		{
 			CharpaneRequest.getInstance().run();
 			BuffBotManager.runBuffBot( Integer.MAX_VALUE );
 		}

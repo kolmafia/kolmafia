@@ -114,7 +114,7 @@ public class CakeArenaManager extends StaticEntity
 	public static LockableListModel getOpponentList()
 	{
 		if ( opponentList.isEmpty() )
-			(new CakeArenaRequest()).run();
+			RequestThread.postRequest( new CakeArenaRequest() );
 
 		return opponentList;
 	}

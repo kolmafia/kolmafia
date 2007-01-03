@@ -334,28 +334,13 @@ public class LoginRequest extends KoLRequest
 				KoLRequest.sessionId = "PHPSESSID=" + sessionMatcher.group(1) + "; path=/";
 		}
 
-		LoginRunner runner = new LoginRunner( request );
-		RequestThread.postRequest( runner );
-	}
+		String name = request.getFormField( "loginname" );
+		if ( name.endsWith( "/q" ) )
+			name = name.substring( 0, name.length() - 2 ).trim();
 
-	private static class LoginRunner implements Runnable
-	{
-		private KoLRequest request;
+		StaticEntity.getClient().initialize( name );
 
-		public LoginRunner( KoLRequest request )
-		{	this.request = request;
-		}
-
-		public void run()
-		{
-			String name = request.getFormField( "loginname" );
-			if ( name.endsWith( "/q" ) )
-				name = name.substring( 0, name.length() - 2 ).trim();
-
-			StaticEntity.getClient().initialize( name );
-
-			if ( StaticEntity.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )
-				KoLmafia.addSaveState( lastUsername, lastPassword );
-		}
+		if ( StaticEntity.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )
+			KoLmafia.addSaveState( lastUsername, lastPassword );
 	}
 }

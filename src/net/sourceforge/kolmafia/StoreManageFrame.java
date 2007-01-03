@@ -106,7 +106,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		super.dispose();
 	}
 
-	private class StoreManagePanel extends KoLPanel implements Runnable
+	private class StoreManagePanel extends KoLPanel
 	{
 		public StoreManagePanel()
 		{
@@ -160,10 +160,6 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionCancelled()
-		{	RequestThread.postRequest( this );
-		}
-
-		public void run()
 		{
 			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
 				UNDERCUT_MESSAGE + "Are you sure you wish to continue with this repricing?", "Think before you click.", JOptionPane.YES_NO_OPTION ) )
@@ -305,7 +301,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			}
 		}
 
-		private class SearchItemButton extends NestedInsideTableButton implements Runnable
+		private class SearchItemButton extends NestedInsideTableButton
 		{
 			private String itemName;
 
@@ -321,10 +317,6 @@ public class StoreManageFrame extends KoLPanelFrame
 			}
 
 			public void mouseReleased( MouseEvent e )
-			{	RequestThread.postRequest( this );
-			}
-
-			public void run()
 			{
 				String searchName = itemName;
 				if ( searchName == null )
@@ -336,12 +328,14 @@ public class StoreManageFrame extends KoLPanelFrame
 					searchName = item.getName();
 				}
 
+				RequestThread.openRequestSequence();
 				StoreManager.searchMall( searchName, priceSummary, 10, true );
+
 				searchLabel.setText( searchName );
 				resultsDisplay.updateUI();
 
 				KoLmafia.updateDisplay( "Price analysis complete." );
-				KoLmafia.enableDisplay();
+				RequestThread.closeRequestSequence();
 			}
 		}
 
@@ -374,8 +368,10 @@ public class StoreManageFrame extends KoLPanelFrame
 			if ( items == null || items.length == 0 )
 				return;
 
+			RequestThread.openRequestSequence();
 			RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOMALL ) );
 			RequestThread.postRequest( new StoreManageRequest( false ) );
+			RequestThread.closeRequestSequence();
 		}
 
 		public void actionCancelled()

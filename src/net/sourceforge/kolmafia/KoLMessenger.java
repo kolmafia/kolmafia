@@ -766,10 +766,7 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( message.equalsIgnoreCase( "update" ) )
 		{
 			if ( !ClanManager.isMember( channel ) )
-			{
-				KoLmafia.enableDisplay();
 				return true;
-			}
 
 			StringBuffer data = new StringBuffer();
 			for ( int i = 0; i < ROLLING_LIMIT; ++i )

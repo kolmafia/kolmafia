@@ -332,7 +332,8 @@ public abstract class StoreManager extends StaticEntity
 		// With the item name properly formatted, issue
 		// the search request.
 
-		(new SearchMallRequest( SearchMallRequest.getItemName( itemName ), maximumResults, results, true )).run();
+		RequestThread.postRequest( new SearchMallRequest( SearchMallRequest.getItemName( itemName ), maximumResults, results, true ) );
+
 		if ( !toString )
 		{
 			resultSummary.addAll( results );

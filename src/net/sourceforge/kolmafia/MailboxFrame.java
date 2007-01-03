@@ -288,7 +288,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
-	private class SaveAllButton extends JButton implements ActionListener, Runnable
+	private class SaveAllButton extends JButton implements ActionListener
 	{
 		private Object [] messages = null;
 
@@ -316,15 +316,11 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 						return;
 
-			RequestThread.postRequest( this );
-		}
-
-		public void run()
-		{	KoLMailManager.saveMessages( messages );
+			KoLMailManager.saveMessages( messages );
 		}
 	}
 
-	private class DeleteButton extends JButton implements ActionListener, Runnable
+	private class DeleteButton extends JButton implements ActionListener
 	{
 		private String currentTabName = null;
 		private Object [] messages = null;
@@ -356,11 +352,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 						return;
 
-			RequestThread.postRequest( this );
-		}
-
-		public void run()
-		{	KoLMailManager.deleteMessages( currentTabName, messages );
+			KoLMailManager.deleteMessages( currentTabName, messages );
 		}
 	}
 

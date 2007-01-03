@@ -186,9 +186,12 @@ public class MeatManageFrame extends KoLFrame
 				break;
 			}
 
+			RequestThread.openRequestSequence();
 			RequestThread.postRequest( new ItemStorageRequest( transferType, amountToTransfer ) );
 			if ( fundTransferType == 3 )
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.MEAT_TO_CLOSET, amountToTransfer ) );
+
+			RequestThread.closeRequestSequence();
 		}
 
 		public void actionCancelled()

@@ -124,9 +124,11 @@ public class SkillBuffFrame extends KoLFrame
 			}
 			else
 			{
+				RequestThread.openRequestSequence();
 				for ( int i = 0; i < targets.length && KoLmafia.permitsContinue(); ++i )
 					if ( targets[i] != null )
 						RequestThread.postRequest( UseSkillRequest.getInstance( buffName, targets[i], buffCount ) );
+				RequestThread.closeRequestSequence();
 			}
 		}
 	}
