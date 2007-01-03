@@ -342,7 +342,13 @@
 			if ( httpObject.responseText.length < 2 )
 				return;
 
-			display.innerHTML += ( httpObject.responseText );
+			var responseText = httpObject.responseText;
+			var commentIndex = responseText.indexOf( "<!--" );
+
+			if ( commentIndex != -1 )
+				responseText = responseText.substring( 0, commentIndex );
+
+			display.innerHTML += responseText;
 
 			if ( display.innerHTML.length > 30000 )
 			{

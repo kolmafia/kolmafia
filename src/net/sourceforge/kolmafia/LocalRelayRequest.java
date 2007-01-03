@@ -811,7 +811,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 					responseText = KoLMessenger.getNormalizedContent( responseText, false );
 					if ( responseText.length() > 0 && responseText.indexOf( "<img" ) == -1 )
-						chatLogger.append( StaticEntity.globalStringReplace( responseText, "<br>", "</font><br>" ) );
+						chatLogger.append( responseText );
 				}
 			}
 		}
