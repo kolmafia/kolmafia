@@ -228,8 +228,8 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public void clear()
 	{
-		clearVisibleElements();
 		actualElements.clear();
+		clearVisibleElements();
 	}
 
 	private void clearVisibleElements()
@@ -241,7 +241,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	private static void clearVisibleElements( LockableListModel model )
 	{
-		int originalSize = model.getSize();
+		int originalSize = model.visibleElements.size();
 		model.visibleElements.clear();
 
 		if ( originalSize != 0 )
