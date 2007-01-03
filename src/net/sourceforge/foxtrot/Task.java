@@ -33,7 +33,7 @@ import javax.swing.SwingUtilities;
  * @see ConcurrentWorker
  * @version $Revision: 1.13 $
  */
-public abstract class Task
+public abstract class Task implements Runnable
 {
    private Object result;
    private Throwable throwable;
@@ -53,7 +53,7 @@ public abstract class Task
     * It should NOT be synchronized or synchronize on this Task instance, otherwise the AWT Event Dispatch Thread
     * cannot efficiently test when this Task is completed.
     */
-   public abstract Object run() throws Exception;
+   public abstract void run();
 
    /**
     * Returns the result of this Task operation, as set by {@link #setResult}.

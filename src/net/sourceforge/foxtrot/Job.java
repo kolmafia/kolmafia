@@ -40,7 +40,7 @@ public abstract class Job extends Task
     * Overridden to remove the throws clause, so that users does not
     * have to catch unthrown exceptions.
     */
-   public abstract Object run();
+   public abstract void run();
 }
 
 
