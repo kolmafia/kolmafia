@@ -111,7 +111,10 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 	private static void executeRequest( Request runner, boolean forceConcurrency ) throws Exception
 	{
-		if ( forceConcurrency || (runner.request instanceof KoLRequest && !((KoLRequest)runner.request).isDelayExempt()) )
+		if ( sequenceCount == 0 )
+			KoLmafia.forceContinue();
+
+		if ( forceConcurrency || (runner.request instanceof KoLRequest && ((KoLRequest)runner.request).isDelayExempt()) )
 		{
 			if ( SwingUtilities.isEventDispatchThread() )
 				ConcurrentWorker.post( runner );
@@ -120,9 +123,6 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 			return;
 		}
-
-		if ( sequenceCount == 0 )
-			KoLmafia.forceContinue();
 
 		openRequestSequence();
 		pendingRequests.add( runner );
@@ -142,7 +142,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 	public static void closeRequestSequence()
 	{
-		if ( --sequenceCount != 0 )
+		if ( sequenceCount > 0 && --sequenceCount != 0 )
 			return;
 
 		KoLmafia.enableDisplay();
@@ -192,7 +192,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 				return null;
 			}
 
-			for ( int i = 0; i < repeatCount && !pendingRequests.isEmpty(); ++i )
+			for ( int i = 0; i < repeatCount && !KoLmafia.refusesContinue(); ++i )
 				request.run();
 
 			return null;
