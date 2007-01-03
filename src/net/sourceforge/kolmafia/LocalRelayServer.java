@@ -187,7 +187,7 @@ public class LocalRelayServer implements Runnable
 
 	public static void addStatusMessage( String message )
 	{
-		if ( LocalRelayRequest.isRunningCommand() )
+		if ( System.currentTimeMillis() - lastStatusMessage < 4000 )
 			statusMessages.append( message );
 		else
 			statusMessages.setLength(0);

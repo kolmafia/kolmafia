@@ -64,8 +64,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 	private static final Pattern SEARCHITEM_PATTERN = Pattern.compile( "searchitem=(\\d+)&searchprice=(\\d+)" );
 	private static final Pattern STORE_PATTERN = Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
-	private static boolean isRunningCommand = false;
-
 	private static String lastUsername = "";
 	private static LimitedSizeChatBuffer chatLogger = new LimitedSizeChatBuffer( true );
 
@@ -95,10 +93,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	public String getFullResponse()
 	{	return responseText;
-	}
-
-	public static boolean isRunningCommand()
-	{	return isRunningCommand;
 	}
 
 	private static final boolean isJunkItem( int itemId, int price )
@@ -259,8 +253,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		else if ( formURLString.indexOf( "charpane.php" ) != -1 )
 		{
-			if ( !isRunningCommand )
-				CharpaneRequest.processCharacterPane( responseText );
+			CharpaneRequest.processCharacterPane( responseText );
 		}
 
 		// Fix it a little more by making sure that familiar
@@ -681,93 +674,29 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	public void submitCommand()
 	{
-		runCommand( getFormField( "cmd" ) );
+		CommandDisplayFrame.executeCommand( getFormField( "cmd" ) );
 		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 	}
 
 	public void executeCommand()
 	{
-		runCommand( getFormField( "cmd" ) );
+		CommandDisplayFrame.executeCommand( getFormField( "cmd" ) );
 		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 	}
 
 	public void sideCommand()
 	{
-		if ( commandQueue.isEmpty() )
-		{
-			commandQueue.add( getFormField( "cmd" ) );
-			(new CommandRunnable()).run();
-		}
-		else
-		{
-			commandQueue.add( getFormField( "cmd" ) );
-			while ( !commandQueue.isEmpty() )
-				delay( 500 );
-		}
+		CommandDisplayFrame.executeCommand( getFormField( "cmd" ) );
+		while ( !commandQueue.isEmpty() )
+			delay( 500 );
 
 		pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
-	}
-
-	private void runCommand( String command )
-	{
-		if ( command.equals( "abort" ) )
-		{
-			RequestThread.declareWorldPeace();
-			return;
-		}
-
-		boolean shouldStartThread = commandQueue.isEmpty();
-		commandQueue.add( command );
-
-		if ( shouldStartThread )
-			(new CommandRunnable()).run();
 	}
 
 	public void sendNotFound()
 	{
 		pseudoResponse( "HTTP/1.1 404 Not Found", "" );
 		this.responseCode = 404;
-	}
-
-	private class CommandRunnable implements Runnable
-	{
-		public void run()
-		{
-			isRunningCommand = true;
-
-			while ( !commandQueue.isEmpty() )
-			{
-				String command = (String) commandQueue.get(0);
-				if ( command == null )
-					return;
-
-				try
-				{
-					KoLmafia.forceContinue();
-					DEFAULT_SHELL.executeLine( command );
-				}
-				catch ( Exception e )
-				{
-					// This is usually a result of a user error.
-					// Therefore, fall through.
-				}
-
-				try
-				{
-					if ( !commandQueue.isEmpty() )
-						commandQueue.remove(0);
-				}
-				catch ( Exception e )
-				{
-					// This is only due to a race condition
-					// and should not happen.
-				}
-			}
-
-			KoLmafia.enableDisplay();
-			isRunningCommand = false;
-		}
-
 	}
 
 	public void run()
@@ -820,13 +749,10 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// If you are in chat, and the person submitted a command
 		// via chat, check to see if it's a CLI command.
 
-		String graf = getFormField( "graf" );
-
-		if ( graf != null && graf.startsWith( "/run" ) )
+		String chatResponse = ChatRequest.executeChatCommand( getFormField( "graf" ) );
+		if ( chatResponse != null )
 		{
-			pseudoResponse( "HTTP/1.1 200 OK", "<br/><font color=olive> &gt; " + graf.substring( 5 ) + "</font><br/><br/>" );
-			runCommand( graf.substring( 5 ) );
-
+			pseudoResponse( "HTTP/1.1 200 OK", chatResponse );
 			return;
 		}
 

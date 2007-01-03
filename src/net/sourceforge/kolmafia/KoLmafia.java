@@ -75,6 +75,8 @@ import net.sourceforge.kolmafia.StoreManager.SoldItem;
 public abstract class KoLmafia implements KoLConstants
 {
 	public static boolean isAdventuring = false;
+	public static String lastMessage = "";
+
 	public static PrintStream sessionStream = NullStream.INSTANCE;
 	public static PrintStream debugStream = NullStream.INSTANCE;
 	public static PrintStream outputStream = NullStream.INSTANCE;
@@ -351,6 +353,10 @@ public abstract class KoLmafia implements KoLConstants
 	{	useDisjunction = false;
 	}
 
+	public static String getLastMessage()
+	{	return lastMessage;
+	}
+
 	/**
 	 * Updates the currently active display in the <code>KoLmafia</code>
 	 * session.
@@ -375,6 +381,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		KoLmafiaCLI.printLine( state, message );
 		message = message.trim();
+
+		lastMessage = message;
 
 		if ( !existingFrames.isEmpty() && message.indexOf( LINE_BREAK ) == -1 )
 			updateDisplayState( state, message );

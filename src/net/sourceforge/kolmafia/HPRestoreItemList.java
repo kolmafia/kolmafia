@@ -221,7 +221,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 						// If you're using scrolls of drastic healing, then
 						// make sure you have a little surplus.
 
-						AdventureDatabase.retrieveItem( itemUsed.getInstance( 10 ) );
+						AdventureDatabase.retrieveItem( itemUsed.getInstance( 20 ) );
 						numberAvailable = itemUsed.getCount( inventory );
 					}
 					else if ( this == OINTMENT )

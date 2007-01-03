@@ -261,7 +261,7 @@
 			if ( !isRefreshing && httpObject.responseText.indexOf("<!-- REFRESH -->") != -1 )
 				refreshSidebar();
 
-			timeout = setTimeout( getCLIUpdate, 8000 );
+			timeout = setTimeout( getCLIUpdate, 2000 );
 		}
 
 		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/getNewMessages" );
