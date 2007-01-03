@@ -251,7 +251,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				System.exit(0);
 
 			createDisplay( LoginFrame.class );
-			(new LogoutRequest()).run();
+			RequestThread.postRequest( new LogoutRequest() );
 		}
 	}
 
@@ -540,12 +540,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.frameClass = frameClass;
 		}
 
-		public void run()
+		public void actionPerformed( ActionEvent e )
 		{	KoLmafiaGUI.constructFrame( frameClass );
 		}
 	}
 
-	public static abstract class ThreadedActionButton extends JButton implements ActionListener, Runnable
+	public static abstract class ThreadedActionButton extends JButton implements ActionListener
 	{
 		public ThreadedActionButton( String text )
 		{
@@ -558,12 +558,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			super( icon );
 			addActionListener( this );
 		}
-
-		public void actionPerformed( ActionEvent e )
-		{	RequestThread.postRequest( this );
-		}
-
-		public abstract void run();
 	}
 
 	/**
@@ -623,19 +617,19 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		public void run()
+		public void actionPerformed( ActionEvent e )
 		{
 			try
 			{
 				if ( method != null )
 					method.invoke( object, null );
 			}
-			catch ( Exception e )
+			catch ( Exception e1 )
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e );
+				StaticEntity.printStackTrace( e1 );
 			}
 		}
 	}
@@ -660,7 +654,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			parameters[1] = panel;
 		}
 
-		public void run()
+		public void actionPerformed( ActionEvent e )
 		{	createDisplay( KoLPanelFrame.class, parameters );
 		}
 	}
@@ -682,8 +676,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.request = request;
 		}
 
-		public void run()
-		{	StaticEntity.getClient().makeRequest( request );
+		public void actionPerformed( ActionEvent e )
+		{	RequestThread.postRequest( request );
 		}
 	}
 
@@ -934,7 +928,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			JComponentUtilities.setComponentSize( this, 30, 30 );
 		}
 
-		public void run()
+		public void actionPerformed( ActionEvent e )
 		{	DEFAULT_SHELL.executeLine( scriptPath );
 		}
 	}
@@ -1301,9 +1295,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			{	super( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) );
 			}
 
-			public void run()
+			public void actionPerformed( ActionEvent e )
 			{
-				super.run();
+				super.actionPerformed( e );
 				refreshFilter();
 			}
 		}

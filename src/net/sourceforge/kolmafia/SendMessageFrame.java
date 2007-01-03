@@ -238,7 +238,7 @@ public class SendMessageFrame extends KoLFrame
 		if ( messageTypes.getSelectedIndex() == 0 )
 		{
 			setEnabled( false );
-			(new GreenMessageRequest( recipient, message, getAttachedItems() )).run();
+			RequestThread.postRequest( new GreenMessageRequest( recipient, message, getAttachedItems() ) );
 			setEnabled( true );
 
 			if ( !SendMessageRequest.hadSendMessageFailure() )
@@ -257,8 +257,8 @@ public class SendMessageFrame extends KoLFrame
 		else
 		{
 			setEnabled( false );
-			(new GiftMessageRequest( recipient, "It's a secret to everybody.", message,
-				messageTypes.getSelectedIndex() - 1, getAttachedItems(), usingStorage )).run();
+			RequestThread.postRequest( new GiftMessageRequest( recipient, "It's a secret to everybody.", message,
+				messageTypes.getSelectedIndex() - 1, getAttachedItems(), usingStorage ) );
 
 			setEnabled( true );
 
@@ -277,7 +277,7 @@ public class SendMessageFrame extends KoLFrame
 		}
 	}
 
-	private abstract class ThreadedMenuItem extends JMenuItem implements ActionListener, Runnable
+	private abstract class ThreadedMenuItem extends JMenuItem implements ActionListener
 	{
 		public ItemManagePanel elementPanel;
 
@@ -287,10 +287,6 @@ public class SendMessageFrame extends KoLFrame
 			addActionListener( this );
 			this.elementPanel = elementPanel;
 		}
-
-		public void actionPerformed( ActionEvent e )
-		{	RequestThread.postRequest( this );
-		}
 	}
 
 	private class AddAttachmentMenuItem extends ThreadedMenuItem
@@ -299,7 +295,7 @@ public class SendMessageFrame extends KoLFrame
 		{	super( "Attach to message", elementPanel );
 		}
 
-		public void run()
+		public void actionPerformed( ActionEvent e )
 		{
 			AdventureResult [] items = elementPanel.getDesiredItems( "Attaching" );
 			if ( items == null || items.length == 0 )
@@ -336,7 +332,7 @@ public class SendMessageFrame extends KoLFrame
 		{	super( "Remove attachment", attachmentPanel );
 		}
 
-		public void run()
+		public void actionPerformed( ActionEvent e )
 		{
 			Object [] items = attachmentPanel.elementList.getSelectedValues();
 			if ( items == null || items.length == 0 )
@@ -350,13 +346,9 @@ public class SendMessageFrame extends KoLFrame
 		}
 	}
 
-	private class SendMessageListener implements ActionListener, Runnable
+	private class SendMessageListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{	RequestThread.postRequest( this );
-		}
-
-		public void run()
 		{
 			String [] recipients = StaticEntity.getClient().extractTargets( (String) recipientEntry.getSelectedItem() );
 			if ( recipients.length == 0 || recipients[0].equals( "" ) )
@@ -422,7 +414,7 @@ public class SendMessageFrame extends KoLFrame
 
 	public void refreshContactList()
 	{
-		(new ContactListRequest()).run();
+		RequestThread.postRequest( new ContactListRequest() );
 		recipientEntry.setModel( (SortedListModel) contactList.clone() );
 	}
 }

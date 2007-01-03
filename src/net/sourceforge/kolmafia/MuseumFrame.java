@@ -135,8 +135,10 @@ public class MuseumFrame extends KoLFrame
 					return;
 				}
 
+				RequestThread.openRequestSequence();
 				RequestThread.postRequest( new MuseumRequest( getSelectedValues( elementList.getSelectedValues(), moveAll ), true ) );
 				RequestThread.postRequest( new MuseumRequest() );
+				RequestThread.closeRequestSequence();
 			}
 
 			public void actionConfirmed()
@@ -160,8 +162,10 @@ public class MuseumFrame extends KoLFrame
 
 			private void move( boolean moveAll )
 			{
+				RequestThread.openRequestSequence();
 				RequestThread.postRequest( new MuseumRequest( getSelectedValues( elementList.getSelectedValues(), moveAll ), false ) );
 				RequestThread.postRequest( new MuseumRequest() );
+				RequestThread.closeRequestSequence();
 			}
 
 			public void actionConfirmed()
@@ -191,7 +195,7 @@ public class MuseumFrame extends KoLFrame
 		}
 	}
 
-	public class MuseumShelfPanel extends LabeledScrollPanel implements PanelListCell, Runnable
+	public class MuseumShelfPanel extends LabeledScrollPanel implements PanelListCell
 	{
 		private int index;
 		private ShowDescriptionList elementList;
@@ -205,10 +209,6 @@ public class MuseumFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( this );
-		}
-
-		public void run()
 		{
 			Object [] headerArray = MuseumManager.getHeaders().toArray();
 
@@ -226,8 +226,10 @@ public class MuseumFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
+			RequestThread.openRequestSequence();
 			RequestThread.postRequest( new MuseumRequest( elementList.getSelectedValues(), false ) );
 			RequestThread.postRequest( new MuseumRequest() );
+			RequestThread.closeRequestSequence();
 		}
 
 		public void updateDisplay( PanelList list, Object value, int index )
@@ -235,7 +237,7 @@ public class MuseumFrame extends KoLFrame
 		}
 	}
 
-	private class OrderingPanel extends LabeledScrollPanel implements Runnable
+	private class OrderingPanel extends LabeledScrollPanel
 	{
 		private LockableListModel headers;
 		private JList elementList;
@@ -260,10 +262,6 @@ public class MuseumFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	RequestThread.postRequest( this );
-		}
-
-		public void run()
 		{
 			String [] headerArray = new String[ headers.size() ];
 			headers.toArray( headerArray );

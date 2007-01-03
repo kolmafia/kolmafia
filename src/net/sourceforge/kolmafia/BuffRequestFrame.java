@@ -135,37 +135,33 @@ public class BuffRequestFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( new BuffPurchaseRunnable() );
-		}
-
-		private class BuffPurchaseRunnable implements Runnable
 		{
-			public void run()
+			RequestPanel panel = (RequestPanel) panelMap.get( getCardId() );
+
+			JCheckBox [] checkboxes = panel.checkboxes;
+			Offering [] offerings = panel.offerings;
+
+			ArrayList requests = new ArrayList();
+			for ( int i = 0; i < checkboxes.length; ++i )
+				if ( checkboxes[i].isSelected() )
+					requests.add( offerings[i].toRequest() );
+
+			if ( requests.isEmpty() )
+				return;
+
+			Runnable [] runnables = new Runnable[ requests.size() ];
+			requests.toArray( runnables );
+
+			RequestThread.openRequestSequence();
+
+			for ( int i = 0; i < runnables.length; ++i )
 			{
-				RequestPanel panel = (RequestPanel) panelMap.get( getCardId() );
-
-				JCheckBox [] checkboxes = panel.checkboxes;
-				Offering [] offerings = panel.offerings;
-
-				ArrayList requests = new ArrayList();
-				for ( int i = 0; i < checkboxes.length; ++i )
-					if ( checkboxes[i].isSelected() )
-						requests.add( offerings[i].toRequest() );
-
-				if ( requests.isEmpty() )
-					return;
-
-				Runnable [] runnables = new Runnable[ requests.size() ];
-				requests.toArray( runnables );
-
-				for ( int i = 0; i < runnables.length; ++i )
-				{
-					KoLmafia.updateDisplay( "Submitting buff request " + (i+1) + " of " + runnables.length + " to " + botName + "..." );
-					runnables[i].run();
-				}
-
-				KoLmafia.updateDisplay( "Buff requests complete." );
+				KoLmafia.updateDisplay( "Submitting buff request " + (i+1) + " of " + runnables.length + " to " + botName + "..." );
+				RequestThread.postRequest( runnables[i] );
 			}
+
+			KoLmafia.updateDisplay( "Buff requests complete." );
+			RequestThread.closeRequestSequence();
 		}
 
 		public void actionCancelled()

@@ -245,7 +245,7 @@ public class RequestFrame extends KoLFrame
 		{	super( "exec" );
 		}
 
-		public void run()
+		public void actionPerformed( ActionEvent e )
 		{
 			String command = (String) scriptSelect.getSelectedItem();
 			if ( command == null )
@@ -488,7 +488,7 @@ public class RequestFrame extends KoLFrame
 		if ( !refreshStatusEnabled )
 			return;
 
-		RequestThread.postRequest( CharpaneRequest.getInstance() );
+		CharpaneRequest.getInstance().run();
 		refreshStatus( RequestEditorKit.getDisplayHTML( "", CharpaneRequest.getInstance().responseText ) );
 
 	}

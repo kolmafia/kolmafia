@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 import net.sourceforge.foxtrot.ConcurrentWorker;
 import net.sourceforge.foxtrot.Job;
@@ -40,65 +41,120 @@ import net.sourceforge.foxtrot.Worker;
 
 public abstract class RequestThread implements Runnable, KoLConstants
 {
-	private static Request queueHandler = new Request();
-	private static boolean isRunningRequest = false;
+	private static int sequenceCount = 0;
+	private static final ArrayList pendingRequests = new ArrayList();
+
+	/**
+	 * Posts a single request one time without forcing concurrency.
+	 * The display will be enabled if there is no sequence.
+	 */
 
 	public static void postRequest( Runnable request )
-	{	execute( request, 1 );
-	}
-
-	public static void postRequest( Runnable request, int repeatCount )
-	{	execute( request, repeatCount );
-	}
-
-	private static void execute( Runnable request, int repeatCount )
 	{
 		if ( request == null )
 			return;
 
-		Request runner = new Request( request, repeatCount );
-
 		try
 		{
-			if ( !(request instanceof KoLRequest || request instanceof KoLAdventure) )
-			{
-				KoLmafia.forceContinue();
-
-				if ( SwingUtilities.isEventDispatchThread() )
-					ConcurrentWorker.post( runner );
-				else
-					runner.run();
-
-				KoLmafia.enableDisplay();
-			}
-			else if ( request instanceof KoLAdventure || !((KoLRequest)request).isDelayExempt() )
-			{
-				KoLmafia.forceContinue();
-				pendingRequests.add( runner );
-
-				if ( isRunningRequest )
-					return;
-
-				if ( SwingUtilities.isEventDispatchThread() )
-					Worker.post( queueHandler );
-				else
-					queueHandler.run();
-
-				KoLmafia.enableDisplay();
-			}
-			else
-			{
-				if ( SwingUtilities.isEventDispatchThread() )
-					ConcurrentWorker.post( runner );
-				else
-					runner.run();
-			}
+			executeRequest( new Request( request ), false );
 		}
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
 		}
 	}
+
+	/**
+	 * Posts a single request one time possibly forcing concurrency.
+	 * The display will be enabled if there is no sequence.
+	 */
+
+	public static void postRequest( Runnable request, boolean forceConcurrency )
+	{
+		if ( request == null )
+			return;
+
+		try
+		{
+			executeRequest( new Request( request ), forceConcurrency );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	/**
+	 * Posts a single request as many times is specified without forcing
+	 * concurrency.  The display will be enabled if there is no sequence.
+	 */
+
+	public static void postRequest( Runnable request, int repeatCount )
+	{
+		if ( request == null )
+			return;
+
+		try
+		{
+			executeRequest( new Request( request, repeatCount ), false );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	/**
+	 * Executes a single queued request and also re-enables the display.
+	 * This should be executed as a sub-component.
+	 */
+
+	private static void executeRequest( Request runner, boolean forceConcurrency ) throws Exception
+	{
+		if ( forceConcurrency || (runner.request instanceof KoLRequest && !((KoLRequest)runner.request).isDelayExempt()) )
+		{
+			if ( SwingUtilities.isEventDispatchThread() )
+				ConcurrentWorker.post( runner );
+			else
+				runner.run();
+
+			return;
+		}
+
+		if ( sequenceCount == 0 )
+			KoLmafia.forceContinue();
+
+		openRequestSequence();
+		pendingRequests.add( runner );
+
+		if ( SwingUtilities.isEventDispatchThread() )
+			Worker.post( runner );
+		else
+			runner.run();
+
+		pendingRequests.remove( runner );
+		closeRequestSequence();
+	}
+
+	public static void openRequestSequence()
+	{	++sequenceCount;
+	}
+
+	public static void closeRequestSequence()
+	{
+		if ( --sequenceCount != 0 )
+			return;
+
+		KoLmafia.enableDisplay();
+		if ( pendingRequests.isEmpty() )
+			SystemTrayFrame.showBalloon( "Requests complete." );
+	}
+
+	/**
+	 * Declare world peace.  This causes all pending requests and queued
+	 * commands to be cleared, along with all currently running requests
+	 * to be notified that they should stop as soon as possible.
+	 */
 
 	public static void declareWorldPeace()
 	{
@@ -113,44 +169,31 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 	private static class Request extends Job
 	{
-		private Runnable runner;
+		private Runnable request;
 		private int repeatCount;
 
-		public Request()
+		public Request( Runnable request )
 		{
-			runner = null;
-			repeatCount = 0;
+			this.request = request;
+			this.repeatCount = 1;
 		}
 
-		public Request( Runnable runner, int repeatCount )
+		public Request( Runnable request, int repeatCount )
 		{
-			this.runner = runner;
+			this.request = request;
 			this.repeatCount = repeatCount;
 		}
 
 		public Object run()
 		{
-			if ( runner == null )
+			if ( (request instanceof KoLRequest && !((KoLRequest)request).isDelayExempt()) || request instanceof KoLAdventure )
 			{
-				isRunningRequest = true;
-
-				while ( !pendingRequests.isEmpty() )
-					((Request)pendingRequests.remove(0)).run();
-
-				isRunningRequest = false;
-				SystemTrayFrame.showBalloon( "Requests complete." );
+				StaticEntity.getClient().makeRequest( request, repeatCount );
 				return null;
 			}
 
-
-			if ( (runner instanceof KoLRequest && !((KoLRequest)runner).isDelayExempt()) || runner instanceof KoLAdventure )
-			{
-				StaticEntity.getClient().makeRequest( runner, repeatCount );
-				return null;
-			}
-
-			for ( int i = 0; i < repeatCount; ++i )
-				runner.run();
+			for ( int i = 0; i < repeatCount && !pendingRequests.isEmpty(); ++i )
+				request.run();
 
 			return null;
 		}

@@ -143,45 +143,38 @@ public class MallSearchFrame extends KoLPanelFrame
 		}
 
 		public void actionCancelled()
-		{	RequestThread.postRequest( new MallPurchaseRunnable() );
-		}
-
-		private class MallPurchaseRunnable implements Runnable
 		{
-			public void run()
+			if ( currentlyBuying )
 			{
-				if ( currentlyBuying )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, "Purchases stopped." );
-					return;
-				}
-
-				Object [] purchases = resultsList.getSelectedValues();
-				if ( purchases == null || purchases.length == 0 )
-				{
-					setStatusMessage( "Please select a store from which to purchase." );
-					return;
-				}
-
-				int defaultPurchases = 0;
-				for ( int i = 0; i < purchases.length; ++i )
-					defaultPurchases += ((MallPurchaseRequest) purchases[i]).getQuantity() == MallPurchaseRequest.MAX_QUANTITY ?
-						MallPurchaseRequest.MAX_QUANTITY : ((MallPurchaseRequest) purchases[i]).getLimit();
-
-				int count = limitPurchasesCheckBox.isSelected() || defaultPurchases >= 1000 ?
-					getQuantity( "Maximum number of items to purchase?", defaultPurchases, 1 ) : defaultPurchases;
-
-				if ( count == 0 )
-					return;
-
-				currentlyBuying = true;
-
-				KoLmafia.forceContinue();
-				StaticEntity.getClient().makePurchases( results, purchases, count );
-				currentlyBuying = false;
-
-				resultsList.updateUI();
+				KoLmafia.updateDisplay( ERROR_STATE, "Purchases stopped." );
+				return;
 			}
+
+			Object [] purchases = resultsList.getSelectedValues();
+			if ( purchases == null || purchases.length == 0 )
+			{
+				setStatusMessage( "Please select a store from which to purchase." );
+				return;
+			}
+
+			int defaultPurchases = 0;
+			for ( int i = 0; i < purchases.length; ++i )
+				defaultPurchases += ((MallPurchaseRequest) purchases[i]).getQuantity() == MallPurchaseRequest.MAX_QUANTITY ?
+					MallPurchaseRequest.MAX_QUANTITY : ((MallPurchaseRequest) purchases[i]).getLimit();
+
+			int count = limitPurchasesCheckBox.isSelected() || defaultPurchases >= 1000 ?
+				getQuantity( "Maximum number of items to purchase?", defaultPurchases, 1 ) : defaultPurchases;
+
+			if ( count == 0 )
+				return;
+
+			currentlyBuying = true;
+
+			KoLmafia.forceContinue();
+			StaticEntity.getClient().makePurchases( results, purchases, count );
+			currentlyBuying = false;
+
+			resultsList.updateUI();
 		}
 
 		public void requestFocus()

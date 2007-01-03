@@ -218,7 +218,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			if ( numberToUse <= 0 || KoLmafia.refusesContinue() )
 				return;
 
-			getClient().makeRequest( new ConsumeItemRequest( itemUsed.getInstance( numberToUse ) ) );
+			RequestThread.postRequest( new ConsumeItemRequest( itemUsed.getInstance( numberToUse ) ) );
 		}
 
 		public String toString()

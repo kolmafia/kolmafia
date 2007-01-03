@@ -134,7 +134,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		// roster for the clan, do so.
 
 		if ( request.responseText == null )
-			request.run();
+			RequestThread.postRequest( request );
 
 		filterList.clear();
 		ArrayList interimList = new ArrayList();
@@ -226,7 +226,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		// roster for the clan, do so.
 
 		if ( request.responseText == null )
-			request.run();
+			RequestThread.postRequest( request );
 
 		String [] members = new String[ profileMap.keySet().size() ];
 		profileMap.keySet().toArray( members );

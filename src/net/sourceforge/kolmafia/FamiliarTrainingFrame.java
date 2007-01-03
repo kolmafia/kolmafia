@@ -367,8 +367,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 						return;
 
 					// Level the familiar
+
+					RequestThread.openRequestSequence();
 					levelFamiliar( goal, BASE );
-					KoLmafia.enableDisplay();
+					RequestThread.closeRequestSequence();
 				}
 			}
 
@@ -384,8 +386,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 						return;
 
 					// Level the familiar
+
+					RequestThread.openRequestSequence();
 					levelFamiliar( goal, BUFFED );
-					KoLmafia.enableDisplay();
+					RequestThread.closeRequestSequence();
 				}
 			}
 
@@ -401,8 +405,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 						return;
 
 					// Level the familiar
+
+					RequestThread.openRequestSequence();
 					levelFamiliar( goal, TURNS );
-					KoLmafia.enableDisplay();
+					RequestThread.closeRequestSequence();
 				}
 			}
 
@@ -461,9 +467,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 						return;
 
 					// Learn familiar parameters
+
+					RequestThread.openRequestSequence();
 					int [] skills = learnFamiliarParameters( trials );
 
 					// Save familiar parameters
+
 					if ( skills != null )
 					{
 						int [] original = FamiliarsDatabase.getFamiliarSkills( familiar.getId() );
@@ -482,7 +491,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 						KoLmafia.updateDisplay( CONTINUE_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
 					}
 
-					KoLmafia.enableDisplay();
+					RequestThread.closeRequestSequence();
 				}
 			}
 
@@ -494,6 +503,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
 					KoLCharacter.getFamiliarList().toArray( familiars );
+
+					RequestThread.openRequestSequence();
 
 					for ( int i = 0; i < familiars.length; ++i )
 					{
@@ -514,7 +525,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					}
 
 					RequestThread.postRequest( new FamiliarRequest( current ) );
-					KoLmafia.enableDisplay();
+					RequestThread.closeRequestSequence();
 				}
 			}
 

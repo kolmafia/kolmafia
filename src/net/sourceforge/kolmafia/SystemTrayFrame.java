@@ -201,7 +201,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 	}
 
-	private static class LogoutPopupItem extends TrayIconPopupSimpleItem implements ActionListener, Runnable
+	private static class LogoutPopupItem extends TrayIconPopupSimpleItem implements ActionListener
 	{
 		public LogoutPopupItem()
 		{
@@ -210,10 +210,6 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	RequestThread.postRequest( this );
-		}
-
-		public void run()
 		{
 			if ( KoLDesktop.instanceExists() )
 				KoLDesktop.getInstance().setVisible( false );
@@ -223,7 +219,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 				frames[i].setVisible( false );
 
 			KoLFrame.createDisplay( LoginFrame.class );
-			(new LogoutRequest()).run();
+			RequestThread.postRequest( new LogoutRequest() );
 		}
 	}
 

@@ -58,9 +58,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 	private static int lastCommandIndex = 0;
 	private static boolean shouldQueueRequests = false;
-
 	private static final ArrayList commandHistory = new ArrayList();
-	private static final CommandQueueHandler queueHandler = new CommandQueueHandler();
 
 	public CommandDisplayFrame()
 	{
@@ -178,31 +176,22 @@ public class CommandDisplayFrame extends KoLFrame
 		}
 
 		shouldQueueRequests = true;
-		RequestThread.postRequest( queueHandler );
-	}
 
-	private static class CommandQueueHandler implements Runnable
-	{
-		public void run()
+		while ( shouldQueueRequests )
 		{
-			String command = null;
+			command = (String) commandQueue.get(0);
 
-			while ( shouldQueueRequests )
+			KoLmafiaCLI.printBlankLine();
+			KoLmafiaCLI.printLine( " > " + command );
+			KoLmafiaCLI.printBlankLine();
+
+			KoLmafia.forceContinue();
+			DEFAULT_SHELL.executeLine( command );
+
+			synchronized ( commandQueue )
 			{
-				command = (String) commandQueue.get(0);
-
-				KoLmafiaCLI.printBlankLine();
-				KoLmafiaCLI.printLine( " > " + command );
-				KoLmafiaCLI.printBlankLine();
-
-				KoLmafia.forceContinue();
-				DEFAULT_SHELL.executeLine( command );
-
-				synchronized ( commandQueue )
-				{
-					commandQueue.remove(0);
-					shouldQueueRequests = !commandQueue.isEmpty();
-				}
+				commandQueue.remove(0);
+				shouldQueueRequests = !commandQueue.isEmpty();
 			}
 		}
 	}

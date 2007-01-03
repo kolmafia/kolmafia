@@ -465,7 +465,6 @@ public class LocalRelayServer implements Runnable
 						if ( adventure != null && adventure.runsBetweenBattleScript() )
 						{
 							StaticEntity.getClient().runBetweenBattleChecks( true );
-							KoLmafia.enableDisplay();
 							request.run();
 						}
 					}
@@ -484,10 +483,7 @@ public class LocalRelayServer implements Runnable
 						{
 							KoLAdventure adventure = AdventureDatabase.getAdventureByURL( path );
 							if ( adventure != null && adventure.runsBetweenBattleScript() )
-							{
 								StaticEntity.getClient().runBetweenBattleChecks( true );
-								KoLmafia.enableDisplay();
-							}
 						}
 					}
 

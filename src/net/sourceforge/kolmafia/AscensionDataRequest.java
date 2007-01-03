@@ -343,7 +343,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	public void initialize()
 	{
 		if ( responseText == null )
-			this.run();
+			RequestThread.postRequest( this );
 	}
 
 	public List getAscensionData()

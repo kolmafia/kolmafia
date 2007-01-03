@@ -237,7 +237,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * of the current frame.
 	 */
 
-	public class DisplayRequestMenuItem extends JMenuItem implements ActionListener
+	public class DisplayRequestMenuItem extends ThreadedMenuItem
 	{
 		private String location;
 
@@ -245,7 +245,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		{
 			super( label );
 			this.location = location;
-			addActionListener( this );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -280,7 +279,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			return headers;
 		}
 
-		private class WindowDisplayMenuItem extends JMenuItem implements ActionListener
+		private class WindowDisplayMenuItem extends ThreadedMenuItem
 		{
 			private WeakReference frameReference;
 
@@ -288,7 +287,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			{
 				super( frame == null ? "Show All Displays" : frame.toString() );
 				frameReference = frame == null ? null : new WeakReference( frame );
-				addActionListener( this );
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -355,12 +353,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 	}
 
-	private class ToggleDebugMenuItem extends JMenuItem implements ActionListener
+	private class ToggleDebugMenuItem extends ThreadedMenuItem
 	{
 		public ToggleDebugMenuItem()
-		{
-			addActionListener( this );
-			setText( KoLmafia.getDebugStream() instanceof NullStream ? "Start Debug Log" : "Stop Debug Log" );
+		{	super( KoLmafia.getDebugStream() instanceof NullStream ? "Start Debug Log" : "Stop Debug Log" );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -378,19 +374,13 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 	}
 
-	public abstract class ThreadedMenuItem extends JMenuItem implements ActionListener, Runnable
+	public abstract class ThreadedMenuItem extends JMenuItem implements ActionListener
 	{
 		public ThreadedMenuItem( String title )
 		{
 			super( title );
 			addActionListener( this );
 		}
-
-		public void actionPerformed( ActionEvent e )
-		{	RequestThread.postRequest( this );
-		}
-
-		public abstract void run();
 	}
 
 	/**
@@ -413,7 +403,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			this.scriptPath = scriptPath;
 		}
 
-		public void run()
+		public void actionPerformed( ActionEvent e )
 		{
 			String executePath = scriptPath;
 
@@ -453,7 +443,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			this.frameClass = frameClass;
 		}
 
-		public void run()
+		public void actionPerformed( ActionEvent e )
 		{
 			if ( frameClass.equals( "LicenseDisplay" ) )
 			{
@@ -477,15 +467,13 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * browser to the given location.
 	 */
 
-	public class DisplayPageMenuItem extends JMenuItem implements ActionListener
+	public class DisplayPageMenuItem extends ThreadedMenuItem
 	{
 		private String location;
 
 		public DisplayPageMenuItem( String title, String location )
 		{
 			super( title );
-			addActionListener( this );
-
 			this.location = location;
 		}
 
@@ -535,19 +523,19 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			}
 		}
 
-		public void run()
+		public void actionPerformed( ActionEvent e )
 		{
 			try
 			{
 				if ( method != null )
 					method.invoke( object instanceof KoLmafia ? StaticEntity.getClient() : object, null );
 			}
-			catch ( Exception e )
+			catch ( Exception e1 )
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e );
+				StaticEntity.printStackTrace( e1 );
 			}
 		}
 	}
@@ -572,7 +560,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			creator = new CreateFrameRunnable( KoLPanelFrame.class, parameters );
 		}
 
-		public void run()
+		public void actionPerformed( ActionEvent e )
 		{	SwingUtilities.invokeLater( creator );
 		}
 	}
@@ -718,7 +706,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		return true;
 	}
 
-	private class RequestMenuItem extends JMenuItem implements ActionListener
+	private class RequestMenuItem extends ThreadedMenuItem
 	{
 		private KoLRequest request;
 
@@ -726,7 +714,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		{
 			super( title );
 			this.request = request;
-			addActionListener( this );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -734,12 +721,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 	}
 
-	private class StopEverythingItem extends JMenuItem implements ActionListener
+	private class StopEverythingItem extends ThreadedMenuItem
 	{
 		public StopEverythingItem()
-		{
-			super( "Stop Everything" );
-			addActionListener( this );
+		{	super( "Stop Everything" );
 		}
 
 		public void actionPerformed( ActionEvent e )

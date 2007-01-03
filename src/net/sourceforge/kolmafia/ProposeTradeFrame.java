@@ -256,7 +256,7 @@ public abstract class ProposeTradeFrame extends KoLFrame
 		// Send the offer / response
 
 		if ( offerId != null )
-			(new ProposeTradeRequest( StaticEntity.parseInt( offerId ), messages[0], getAttachedItems() )).run();
+			RequestThread.postRequest( new ProposeTradeRequest( StaticEntity.parseInt( offerId ), messages[0], getAttachedItems() ) );
 
 		Object [] parameters = new Object[1];
 		parameters[0] = offerId != null ? new ProposeTradeRequest() :
@@ -266,13 +266,9 @@ public abstract class ProposeTradeFrame extends KoLFrame
 		return true;
 	}
 
-	private class SendMessageListener implements ActionListener, Runnable
+	private class SendMessageListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{	RequestThread.postRequest( this );
-		}
-
-		public void run()
 		{
 			String [] recipients = StaticEntity.getClient().extractTargets( (String) recipientEntry.getSelectedItem() );
 
@@ -372,7 +368,7 @@ public abstract class ProposeTradeFrame extends KoLFrame
 
 	public void refreshContactList()
 	{
-		(new ContactListRequest()).run();
+		RequestThread.postRequest( new ContactListRequest() );
 		recipientEntry.setModel( (SortedListModel) contactList.clone() );
 	}
 

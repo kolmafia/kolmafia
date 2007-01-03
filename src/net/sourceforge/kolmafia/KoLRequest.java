@@ -585,19 +585,11 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( formURLString.indexOf( "sewer.php" ) != -1 )
 		{
 			if ( !isDelayExempt || StaticEntity.getBooleanProperty( "relayAlwaysBuysGum" ) )
-			{
 				AdventureDatabase.retrieveItem( "chewing gum on a string" );
-				if ( isDelayExempt )
-					KoLmafia.enableDisplay();
-			}
 		}
 
 		if ( formURLString.indexOf( "casino.php" ) != -1 )
-		{
 			AdventureDatabase.retrieveItem( "casino pass" );
-			if ( isDelayExempt )
-				KoLmafia.enableDisplay();
-		}
 
 		// To avoid wasting turns, buy a can of hair spray before
 		// climbing the tower.  Also, if the person has an NG,
@@ -606,11 +598,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// been constructed, pull them out.
 
 		if ( formURLString.indexOf( "lair4.php" ) != -1 || formURLString.indexOf( "lair5.php" ) != -1 )
-		{
 			SorceressLair.makeGuardianItems();
-			if ( isDelayExempt )
-				KoLmafia.enableDisplay();
-		}
 
 		needsRefresh = false;
 		String urlString = getURLString();
@@ -1325,11 +1313,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			mapCurrentChoice( responseText );
 
 		if ( responseText.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
-		{
 			DEFAULT_SHELL.executeLine( "use 1 ten-leaf clover" );
-			if ( isDelayExempt && !isChatRequest )
-				KoLmafia.enableDisplay();
-		}
 
 		needsRefresh &= !(getClass() == KoLRequest.class || this instanceof LocalRelayRequest || this instanceof FightRequest);
 		needsRefresh &= formURLString.indexOf( "charpane.php" ) == -1;
