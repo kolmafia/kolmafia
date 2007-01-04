@@ -598,7 +598,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.equalsIgnoreCase( "timestamp" ) )
 				parameters = MoonPhaseDatabase.getCalendarDayAsString( new Date() );
 
-			updateDisplay( parameters.replaceAll( "<", "&lt;" ) );
+			updateDisplay( ANYTAG_PATTERN.matcher( parameters ).replaceAll( "" ) );
 			echoStream.println( parameters );
 
 			return;
@@ -2391,7 +2391,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executeCampgroundRequest( String parameters )
 	{
 		String [] parameterList = parameters.split( " " );
-		RequestThread.postRequest( new CampgroundRequest( parameterList[0] ),
+		StaticEntity.getClient().makeRequest( new CampgroundRequest( parameterList[0] ),
 			parameterList.length == 1 ? 1 : StaticEntity.parseInt( parameterList[1] ) );
 	}
 
@@ -3636,7 +3636,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		RequestThread.postRequest( adventure, adventureCount );
+		StaticEntity.getClient().makeRequest( adventure, adventureCount );
 	}
 
 	/**

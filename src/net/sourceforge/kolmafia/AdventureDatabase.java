@@ -788,12 +788,12 @@ public class AdventureDatabase extends KoLDatabase
 
 		for ( int i = 1; isValidZone && i < validationRequests.size() - 1; ++i )
 		{
-			RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( (String) validationRequests.get(0) ) );
+			StaticEntity.getClient().makeRequest( ZONE_VALIDATOR.constructURLString( (String) validationRequests.get(0) ) );
 			isValidZone &= ZONE_VALIDATOR.responseText != null &&
 				ZONE_VALIDATOR.responseText.indexOf( (String) validationRequests.get(i) ) != -1;
 		}
 
-		RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( (String) validationRequests.get( validationRequests.size() - 1 ) ) );
+		StaticEntity.getClient().makeRequest( ZONE_VALIDATOR.constructURLString( (String) validationRequests.get( validationRequests.size() - 1 ) ) );
 
 		// Special handling of the bat zone.
 
@@ -819,7 +819,7 @@ public class AdventureDatabase extends KoLDatabase
 				sonarToUse = 1;
 
 			DEFAULT_SHELL.executeLine( "use " + Math.min( sonarToUse, sonarCount ) + " sonar-in-a-biscuit" );
-			RequestThread.postRequest( ZONE_VALIDATOR );
+			StaticEntity.getClient().makeRequest( ZONE_VALIDATOR );
 
 			return locationId.equals( "32" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1 ||
 				locationId.equals( "33" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockright.gif" ) == -1 ||
@@ -1008,7 +1008,7 @@ public class AdventureDatabase extends KoLDatabase
 		if ( missingCount > 0 )
 		{
 			irequest.setQuantityNeeded( missingCount );
-			RequestThread.postRequest( irequest );
+			StaticEntity.getClient().makeRequest( irequest );
 		}
 	}
 
@@ -1071,7 +1071,7 @@ public class AdventureDatabase extends KoLDatabase
 			if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 			{
 				if ( !ClanManager.isStashRetrieved() )
-					RequestThread.postRequest( new ClanStashRequest() );
+					StaticEntity.getClient().makeRequest( new ClanStashRequest() );
 
 				missingCount = retrieveItem( "stash take", ClanManager.getStash(), item, missingCount );
 				if ( missingCount <= 0 )
@@ -1109,7 +1109,7 @@ public class AdventureDatabase extends KoLDatabase
 			{
 				int worthlessItemCount = HermitRequest.getWorthlessItemCount();
 				if ( worthlessItemCount > 0 )
-					RequestThread.postRequest( new HermitRequest( item.getItemId(), Math.min( worthlessItemCount, missingCount ) ) );
+					StaticEntity.getClient().makeRequest( new HermitRequest( item.getItemId(), Math.min( worthlessItemCount, missingCount ) ) );
 
 				missingCount = item.getCount() - item.getCount( inventory );
 
@@ -1158,7 +1158,7 @@ public class AdventureDatabase extends KoLDatabase
 				default:
 
 					creator.setQuantityNeeded( missingCount );
-					RequestThread.postRequest( creator );
+					StaticEntity.getClient().makeRequest( creator );
 
 					return KoLCharacter.hasItem( item );
 				}

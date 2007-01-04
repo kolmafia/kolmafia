@@ -187,7 +187,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( (Runnable) buffField.getSelectedItem(), getValue( countField ) );
+		{	StaticEntity.getClient().makeRequest( (Runnable) buffField.getSelectedItem(), getValue( countField ) );
 		}
 
 		public void actionCancelled()
@@ -217,11 +217,11 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( (Runnable) enemyList.getSelectedItem() );
+		{	StaticEntity.getClient().makeRequest( (Runnable) enemyList.getSelectedItem() );
 		}
 
 		public void actionCancelled()
-		{	RequestThread.postRequest( new ClanListRequest() );
+		{	StaticEntity.getClient().makeRequest( new ClanListRequest() );
 		}
 	}
 
@@ -254,7 +254,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( new ClanMaterialsRequest() );
+		{	StaticEntity.getClient().makeRequest( new ClanMaterialsRequest() );
 		}
 
 		public void actionCancelled()
@@ -313,7 +313,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( new ClanStashRequest( getValue( amountField ) ) );
+		{	StaticEntity.getClient().makeRequest( new ClanStashRequest( getValue( amountField ) ) );
 		}
 
 		public void actionCancelled()
@@ -341,7 +341,7 @@ public class ClanManageFrame extends KoLFrame
 				if ( items.length == 0 )
 					return;
 
-				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
+				StaticEntity.getClient().makeRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
 			}
 
 			public String toString()
@@ -406,7 +406,7 @@ public class ClanManageFrame extends KoLFrame
 				if ( items == null || items.length == 0 )
 					return;
 
-				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.STASH_TO_ITEMS ) );
+				StaticEntity.getClient().makeRequest( new ClanStashRequest( items, ClanStashRequest.STASH_TO_ITEMS ) );
 			}
 
 			public String toString()
@@ -471,7 +471,7 @@ public class ClanManageFrame extends KoLFrame
 			}
 
 			KoLmafia.updateDisplay( "Applying changes..." );
-			RequestThread.postRequest( new ClanMembersRequest( titleChange.toArray(), newTitles.toArray(), boots.toArray() ) );
+			StaticEntity.getClient().makeRequest( new ClanMembersRequest( titleChange.toArray(), newTitles.toArray(), boots.toArray() ) );
 			KoLmafia.updateDisplay( "Changes have been applied." );
 		}
 	}

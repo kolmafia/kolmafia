@@ -453,7 +453,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	public static void runOnce()
 	{
 		getMessages( "Inbox" ).clear();
-		RequestThread.postRequest( new MailboxRequest( "Inbox" ) );
+		StaticEntity.getClient().makeRequest( new MailboxRequest( "Inbox" ) );
 
 		while ( !deleteList.isEmpty() || !saveList.isEmpty() )
 		{
@@ -538,7 +538,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		{
 			GreenMessageRequest sending = (GreenMessageRequest) sendList.get(0);
 			BuffBotHome.update( BuffBotHome.NOCOLOR, "Sending queued message to " + KoLmafia.getPlayerName( sending.getRecipient() ) + "..." );
-			RequestThread.postRequest( sending );
+			StaticEntity.getClient().makeRequest( sending );
 
 			sendList.clear();
 		}
@@ -901,7 +901,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			BuffBotHome.update( BuffBotHome.BUFFCOLOR, "Casting " + buffName + ", " + castCount + " times on " +
 				target + " for " + price + " meat... " );
 
-			RequestThread.postRequest( UseSkillRequest.getInstance( buffName, target, castCount ) );
+			StaticEntity.getClient().makeRequest( UseSkillRequest.getInstance( buffName, target, castCount ) );
 
 			if ( UseSkillRequest.lastUpdate.equals( "" ) )
 			{

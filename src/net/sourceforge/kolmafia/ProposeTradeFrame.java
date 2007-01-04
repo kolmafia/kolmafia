@@ -256,7 +256,7 @@ public abstract class ProposeTradeFrame extends KoLFrame
 		// Send the offer / response
 
 		if ( offerId != null )
-			RequestThread.postRequest( new ProposeTradeRequest( StaticEntity.parseInt( offerId ), messages[0], getAttachedItems() ) );
+			StaticEntity.getClient().makeRequest( new ProposeTradeRequest( StaticEntity.parseInt( offerId ), messages[0], getAttachedItems() ) );
 
 		Object [] parameters = new Object[1];
 		parameters[0] = offerId != null ? new ProposeTradeRequest() :
@@ -368,7 +368,7 @@ public abstract class ProposeTradeFrame extends KoLFrame
 
 	public void refreshContactList()
 	{
-		RequestThread.postRequest( new ContactListRequest() );
+		StaticEntity.getClient().makeRequest( new ContactListRequest() );
 		recipientEntry.setModel( (SortedListModel) contactList.clone() );
 	}
 

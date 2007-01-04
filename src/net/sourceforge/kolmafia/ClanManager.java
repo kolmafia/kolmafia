@@ -133,7 +133,7 @@ public class ClanManager extends StaticEntity
 	{
 		if ( !ranksRetrieved )
 		{
-			RequestThread.postRequest( new RankListRequest() );
+			StaticEntity.getClient().makeRequest( new RankListRequest() );
 			ranksRetrieved = true;
 		}
 
@@ -174,7 +174,7 @@ public class ClanManager extends StaticEntity
 		if ( profileMap.isEmpty() )
 		{
 			ClanMembersRequest cmr = new ClanMembersRequest();
-			RequestThread.postRequest( cmr );
+			StaticEntity.getClient().makeRequest( cmr );
 
 			clanId = cmr.getClanId();
 			clanName = cmr.getClanName();
@@ -572,7 +572,7 @@ public class ClanManager extends StaticEntity
 			}
 
 			KoLmafia.updateDisplay( "Retrieving clan stash log..." );
-			RequestThread.postRequest( new StashLogRequest() );
+			StaticEntity.getClient().makeRequest( new StashLogRequest() );
 			KoLmafia.updateDisplay( "Stash log retrieved." );
 
 			file.getParentFile().mkdirs();

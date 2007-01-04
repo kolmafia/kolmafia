@@ -342,7 +342,7 @@ public class ProfileRequest extends KoLRequest
 	public void initialize()
 	{
 		if ( responseText == null )
-			RequestThread.postRequest( this );
+			StaticEntity.getClient().makeRequest( this );
 	}
 
 	public boolean isHardcore()

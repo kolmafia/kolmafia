@@ -256,7 +256,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public void actionPerformed( ActionEvent e )
 			{
-				RequestThread.postRequest( new StoreManageRequest() );
+				StaticEntity.getClient().makeRequest( new StoreManageRequest() );
 
 				SoldItem [] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
 				StoreManager.getSoldItemList().toArray( sold );
@@ -277,7 +277,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( items.isEmpty() )
 					return;
 
-				RequestThread.postRequest( new AutoSellRequest( items.toArray(), AutoSellRequest.AUTOMALL ) );
+				StaticEntity.getClient().makeRequest( new AutoSellRequest( items.toArray(), AutoSellRequest.AUTOMALL ) );
 			}
 		}
 
@@ -291,7 +291,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public void actionPerformed( ActionEvent e )
 			{
-				RequestThread.postRequest( new MuseumRequest() );
+				StaticEntity.getClient().makeRequest( new MuseumRequest() );
 
 				AdventureResult [] display = new AdventureResult[ collection.size() ];
 				collection.toArray( display );
@@ -309,7 +309,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( items.isEmpty() )
 					return;
 
-				RequestThread.postRequest( new MuseumRequest( items.toArray(), true ) );
+				StaticEntity.getClient().makeRequest( new MuseumRequest( items.toArray(), true ) );
 			}
 		}
 	}
@@ -350,7 +350,7 @@ public class ItemManageFrame extends KoLFrame
 			Runnable request = elementList.getModel() == restaurantItems ?
 				(KoLRequest) (new RestaurantRequest( item )) : (KoLRequest) (new MicrobreweryRequest( item ));
 
-			RequestThread.postRequest( request, consumptionCount );
+			StaticEntity.getClient().makeRequest( request, consumptionCount );
 		}
 	}
 
@@ -409,7 +409,7 @@ public class ItemManageFrame extends KoLFrame
 				return;
 
 			for ( int i = 0; i < items.length; ++i )
-				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
+				StaticEntity.getClient().makeRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
 		}
 
 		public void actionCancelled()
@@ -535,7 +535,7 @@ public class ItemManageFrame extends KoLFrame
 			private void combineTwoItems()
 			{
 				AdventureDatabase.retrieveItem( new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 ) );
-				RequestThread.postRequest( request );
+				StaticEntity.getClient().makeRequest( request );
 
 				// In order to ensure that you do not test items which
 				// are not available in the drop downs, go to the page
@@ -597,7 +597,7 @@ public class ItemManageFrame extends KoLFrame
 
 			private void combineThreeItems()
 			{
-				RequestThread.postRequest( request );
+				StaticEntity.getClient().makeRequest( request );
 
 				// In order to ensure that you do not test items which
 				// are not available in the drop downs, go to the page
@@ -673,7 +673,7 @@ public class ItemManageFrame extends KoLFrame
 					if ( currentTest.length == 3 )
 						request.addFormField( "item3", String.valueOf( currentTest[2].getItemId() ) );
 
-					RequestThread.postRequest( request );
+					StaticEntity.getClient().makeRequest( request );
 
 					if ( request.responseText.indexOf( "You acquire" ) != -1 )
 					{
@@ -735,7 +735,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( setting.equals( "showStashIngredients" ) && KoLCharacter.hasClan() && isSelected() &&
 					KoLmafia.isAdventuring() && !ClanManager.isStashRetrieved() )
 				{
-					RequestThread.postRequest( new ClanStashRequest() );
+					StaticEntity.getClient().makeRequest( new ClanStashRequest() );
 				}
 
 				ConcoctionsDatabase.refreshConcoctions();
@@ -759,7 +759,7 @@ public class ItemManageFrame extends KoLFrame
 				KoLmafia.updateDisplay( "Verifying ingredients..." );
 				selection.setQuantityNeeded( quantityDesired );
 
-				RequestThread.postRequest( selection );
+				StaticEntity.getClient().makeRequest( selection );
 			}
 
 			public String toString()
@@ -785,8 +785,8 @@ public class ItemManageFrame extends KoLFrame
 				selection.setQuantityNeeded( quantityDesired );
 
 				RequestThread.openRequestSequence();
-				RequestThread.postRequest( selection );
-				RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), selection.getQuantityNeeded() ) ) );
+				StaticEntity.getClient().makeRequest( selection );
+				StaticEntity.getClient().makeRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), selection.getQuantityNeeded() ) ) );
 				RequestThread.closeRequestSequence();
 			}
 

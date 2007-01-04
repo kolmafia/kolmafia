@@ -64,7 +64,6 @@ public abstract class KoLMessenger extends StaticEntity
 	private static final Pattern COLOR_PATTERN = Pattern.compile( "</?font.*?>" );
 	private static final Pattern LINEBREAK_PATTERN = Pattern.compile( "</?br>", Pattern.CASE_INSENSITIVE );
 	private static final Pattern TABLE_PATTERN = Pattern.compile( "<table>.*?</table>" );
-	private static final Pattern ANYTAG_PATTERN = Pattern.compile( "<.*?>" );
 	private static final Pattern TABLECELL_PATTERN = Pattern.compile( "</?[tc].*?>" );
 	private static final Pattern PLAYERID_PATTERN = Pattern.compile( "showplayer\\.php\\?who\\=(\\d+)[\'\"][^>]*?>(.*?)</a>" );
 	private static final Pattern PARENTHESIS_PATTERN = Pattern.compile( " \\(.*?\\)" );
@@ -235,11 +234,11 @@ public abstract class KoLMessenger extends StaticEntity
 	}
 
 	public static void checkFriends()
-	{	RequestThread.postRequest( new ChatRequest( currentChannel, "/friends" ) );
+	{	StaticEntity.getClient().makeRequest( new ChatRequest( currentChannel, "/friends" ) );
 	}
 
 	public static void checkChannel()
-	{	RequestThread.postRequest( new ChatRequest( updateChannel, "/who" ) );
+	{	StaticEntity.getClient().makeRequest( new ChatRequest( updateChannel, "/who" ) );
 	}
 
 	/**
@@ -340,7 +339,7 @@ public abstract class KoLMessenger extends StaticEntity
 		else if ( contact.startsWith( "/" ) && currentlyActive.contains( contact ) )
 		{
 			currentlyActive.remove( contact );
-			RequestThread.postRequest( new ChatRequest( contact, "/listen " + contact.substring(1) ) );
+			StaticEntity.getClient().makeRequest( new ChatRequest( contact, "/listen " + contact.substring(1) ) );
 		}
 	}
 
@@ -365,7 +364,7 @@ public abstract class KoLMessenger extends StaticEntity
 		isRunning = false;
 
 		removeChat( currentChannel );
-		RequestThread.postRequest( new ChatRequest( currentChannel, "/exit" ) );
+		StaticEntity.getClient().makeRequest( new ChatRequest( currentChannel, "/exit" ) );
 
 		currentChannel = "";
 		updateChannel = "";
@@ -737,13 +736,13 @@ public abstract class KoLMessenger extends StaticEntity
 		{
 			if ( message.equalsIgnoreCase( "help" ) )
 			{
-				(new ChatRequest( channel, "Please check my profile." )).run();
+				StaticEntity.getClient().makeRequest( new ChatRequest( channel, "Please check my profile." ) );
 				return true;
 			}
 
 			if ( message.equalsIgnoreCase( "restores" ) )
 			{
-				(new ChatRequest( channel, "I currently have " + KoLmafia.getRestoreCount() + " mana restores at my disposal." )).run();
+				StaticEntity.getClient().makeRequest( new ChatRequest( channel, "I currently have " + KoLmafia.getRestoreCount() + " mana restores at my disposal." ) );
 				return true;
 			}
 
@@ -755,7 +754,7 @@ public abstract class KoLMessenger extends StaticEntity
 					System.exit(0);
 
 				BuffBotHome.update( BuffBotHome.ERRORCOLOR, channel + " added to ignore list" );
-				(new ChatRequest( channel, "/baleet" )).run();
+				StaticEntity.getClient().makeRequest( new ChatRequest( channel, "/baleet" ) );
 				return true;
 			}
 		}
@@ -776,7 +775,7 @@ public abstract class KoLMessenger extends StaticEntity
 			}
 
 			String toSend = RequestEditorKit.getUnicode( data.toString().trim() );
-			RequestThread.postRequest( new GreenMessageRequest( channel, toSend, false ) );
+			StaticEntity.getClient().makeRequest( new GreenMessageRequest( channel, toSend, false ) );
 			return true;
 		}
 
@@ -929,7 +928,7 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 
 		if ( displayHTML.indexOf( "<font color=green>" ) != -1 && displayHTML.indexOf( " has " ) != -1 )
-			CharpaneRequest.getInstance().run();
+			StaticEntity.getClient().makeRequest( CharpaneRequest.getInstance() );
 
 		// Add the appropriate eSolu scriptlet additions to the
 		// processed chat message.

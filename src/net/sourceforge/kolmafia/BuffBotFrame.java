@@ -129,7 +129,7 @@ public class BuffBotFrame extends KoLFrame
 			// data and current settings.
 
 			BuffBotHome.setBuffBotActive( true );
-			CharpaneRequest.getInstance().run();
+			StaticEntity.getClient().makeRequest( CharpaneRequest.getInstance() );
 			BuffBotManager.runBuffBot( Integer.MAX_VALUE );
 		}
 

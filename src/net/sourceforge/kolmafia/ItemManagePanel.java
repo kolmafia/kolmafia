@@ -319,7 +319,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 				return null;
 
 			if ( retrieveFromClosetFirst )
-				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items ) );
+				StaticEntity.getClient().makeRequest( new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items ) );
 
 			return items;
 		}

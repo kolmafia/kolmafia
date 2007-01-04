@@ -270,7 +270,7 @@ public class ChatFrame extends KoLFrame
 					// This is a standard-length message.  Send it
 					// without adding additional divisions.
 
-					RequestThread.postRequest( new ChatRequest( associatedContact, message ) );
+					StaticEntity.getClient().makeRequest( new ChatRequest( associatedContact, message ) );
 				}
 				else if ( message.length() < 1000 || associatedContact.equals( "/clan" ) )
 				{
@@ -303,7 +303,7 @@ public class ChatFrame extends KoLFrame
 					}
 
 					for ( int i = 0; i < splitMessages.size(); ++i )
-						RequestThread.postRequest( new ChatRequest( associatedContact, (String) splitMessages.get(i) ) );
+						StaticEntity.getClient().makeRequest( new ChatRequest( associatedContact, (String) splitMessages.get(i) ) );
 				}
 				else
 				{
@@ -312,7 +312,7 @@ public class ChatFrame extends KoLFrame
 					// the chat too quickly.  Automatically truncate in this
 					// case.
 
-					RequestThread.postRequest( new ChatRequest( associatedContact, message.substring( 0, 256 ) ) );
+					StaticEntity.getClient().makeRequest( new ChatRequest( associatedContact, message.substring( 0, 256 ) ) );
 				}
 			}
 		}
@@ -416,11 +416,11 @@ public class ChatFrame extends KoLFrame
 				return;
 
 			case 8:
-				RequestThread.postRequest( new ChatRequest( "/whois", (String) parameters[0] ) );
+				StaticEntity.getClient().makeRequest( new ChatRequest( "/whois", (String) parameters[0] ) );
 				return;
 
 			case 9:
-				RequestThread.postRequest( new ChatRequest( "/baleet", (String) parameters[0] ) );
+				StaticEntity.getClient().makeRequest( new ChatRequest( "/baleet", (String) parameters[0] ) );
 				return;
 
 			default:

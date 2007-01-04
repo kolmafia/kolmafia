@@ -67,7 +67,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 			String password = getSaveState( autoLogin );
 			if ( password != null && !password.equals( "" ) )
-				RequestThread.postRequest( new LoginRequest( autoLogin, password ) );
+				StaticEntity.getClient().makeRequest( new LoginRequest( autoLogin, password ) );
 		}
 	}
 
@@ -117,7 +117,7 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			if ( StaticEntity.getBooleanProperty( "retrieveContacts" ) )
 			{
-				RequestThread.postRequest( new ContactListRequest() );
+				StaticEntity.getClient().makeRequest( new ContactListRequest() );
 				StaticEntity.setProperty( "retrieveContacts", String.valueOf( !contactList.isEmpty() ) );
 			}
 		}
@@ -238,7 +238,7 @@ public class KoLmafiaGUI extends KoLmafia
 			RequestThread.openRequestSequence();
 
 			updateDisplay( "Retrieving MMG bet history..." );
-			RequestThread.postRequest( new MoneyMakingGameRequest() );
+			StaticEntity.getClient().makeRequest( new MoneyMakingGameRequest() );
 
 			if ( MoneyMakingGameRequest.getBetSummary().isEmpty() )
 			{
@@ -256,13 +256,13 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( !isAdventuring() )
 			{
 				updateDisplay( "Retrieving chat color preferences..." );
-				RequestThread.postRequest( new ChannelColorsRequest() );
+				StaticEntity.getClient().makeRequest( new ChannelColorsRequest() );
 			}
 
 			RequestThread.openRequestSequence();
 			KoLMessenger.initialize();
 
-			RequestThread.postRequest( new ChatRequest( null, "/listen" ) );
+			StaticEntity.getClient().makeRequest( new ChatRequest( null, "/listen" ) );
 			updateDisplay( "Color preferences retrieved.  Chat started." );
 
 			RequestThread.closeRequestSequence();
@@ -273,14 +273,16 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( showAdventuringMessage() )
 				return;
 
-			RequestThread.postRequest( new MailboxRequest( "Inbox" ) );
+			StaticEntity.getClient().makeRequest( new MailboxRequest( "Inbox" ) );
+			if ( LoginRequest.isInstanceRunning() )
+				return;
 		}
 		else if ( frameName.equals( "MuseumFrame" ) )
 		{
 			if ( showAdventuringMessage() )
 				return;
 
-			RequestThread.postRequest( new MuseumRequest() );
+			StaticEntity.getClient().makeRequest( new MuseumRequest() );
 		}
 		else if ( frameName.equals( "FlowerHunterFrame" ) )
 		{
@@ -288,7 +290,7 @@ public class KoLmafiaGUI extends KoLmafia
 				return;
 
 			KoLmafia.updateDisplay( "Determining number of attacks remaining..." );
-			RequestThread.postRequest( new FlowerHunterRequest() );
+			StaticEntity.getClient().makeRequest( new FlowerHunterRequest() );
 			KoLmafia.updateDisplay( "Attack count retrieved." );
 		}
 		else if ( frameName.equals( "BuffRequestFrame" ) )
@@ -324,7 +326,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 				if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
 					if ( restaurantItems.isEmpty() )
-						RequestThread.postRequest( new RestaurantRequest() );
+						StaticEntity.getClient().makeRequest( new RestaurantRequest() );
 
 				// If the person is in a moxie sign and they have completed
 				// the beach quest, then retrieve information from the
@@ -332,11 +334,11 @@ public class KoLmafiaGUI extends KoLmafia
 
 				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() )
 					if ( microbreweryItems.isEmpty() )
-						RequestThread.postRequest( new MicrobreweryRequest() );
+						StaticEntity.getClient().makeRequest( new MicrobreweryRequest() );
 
 				if ( StaticEntity.getBooleanProperty( "showStashIngredients" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 					if ( !ClanManager.isStashRetrieved() )
-						RequestThread.postRequest( new ClanStashRequest() );
+						StaticEntity.getClient().makeRequest( new ClanStashRequest() );
 			}
 		}
 		else if ( frameName.equals( "StoreManageFrame" ) )
@@ -350,8 +352,8 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( !isAdventuring() )
 			{
 				RequestThread.openRequestSequence();
-				RequestThread.postRequest( new StoreManageRequest( true ) );
-				RequestThread.postRequest( new StoreManageRequest( false ) );
+				StaticEntity.getClient().makeRequest( new StoreManageRequest( true ) );
+				StaticEntity.getClient().makeRequest( new StoreManageRequest( false ) );
 				RequestThread.closeRequestSequence();
 			}
 		}
