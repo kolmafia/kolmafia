@@ -717,7 +717,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	RequestThread.postRequest( request );
+		{	StaticEntity.getClient().makeRequest( request );
 		}
 	}
 

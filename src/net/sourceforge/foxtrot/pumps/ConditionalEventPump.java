@@ -120,36 +120,6 @@ public class ConditionalEventPump implements EventPump, EventFilterable
          System.err.println("[ConditionalEventPump] PANIC: uncaught exception in Foxtrot code");
          x.printStackTrace();
       }
-      finally
-      {
-         // We're not done. Because of bug #4531693 (see Conditional) pumpEvents() may have returned
-         // immediately, but the Task is not completed. Same may happen in case of buggy exception handler.
-         // Here wait until the Task is completed. Side effect is freeze of the GUI.
-         waitForTask(task);
-
-         if (debug) System.out.println("[ConditionalEventPump] Stop pumping events - Pump is " + this + " - Task is " + task);
-      }
-   }
-
-   private void waitForTask(Task task)
-   {
-      try
-      {
-         synchronized (task)
-         {
-            while (!task.isCompleted())
-            {
-               if (debug) System.out.println("[ConditionalEventPump] Waiting for Task " + task + " to complete (GUI freeze)");
-               task.wait();
-            }
-            if (debug) System.out.println("[ConditionalEventPump] Task " + task + " is completed");
-         }
-      }
-      catch (InterruptedException x)
-      {
-         // Someone interrupted the Event Dispatch Thread, re-interrupt
-         Thread.currentThread().interrupt();
-      }
    }
 
    /**

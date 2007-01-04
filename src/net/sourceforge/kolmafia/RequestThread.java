@@ -55,7 +55,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 		try
 		{
-			executeRequest( request instanceof KoLRequest ? (Job) request : new Request( request ), false );
+			executeRequest( request instanceof Job ? (Job) request : new Request( request ), false );
 		}
 		catch ( Exception e )
 		{
@@ -75,27 +75,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 		try
 		{
-			executeRequest( request instanceof KoLRequest ? (Job) request : new Request( request ), forceConcurrency );
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
-	/**
-	 * Posts a single request as many times is specified without forcing
-	 * concurrency.  The display will be enabled if there is no sequence.
-	 */
-
-	public static void postRequest( Runnable request, int repeatCount )
-	{
-		if ( request == null )
-			return;
-
-		try
-		{
-			executeRequest( new Request( request, repeatCount ), false );
+			executeRequest( request instanceof Job ? (Job) request : new Request( request ), forceConcurrency );
 		}
 		catch ( Exception e )
 		{
@@ -166,18 +146,9 @@ public abstract class RequestThread implements Runnable, KoLConstants
 	private static class Request extends Job
 	{
 		private Runnable request;
-		private int repeatCount;
 
 		public Request( Runnable request )
-		{
-			this.request = request;
-			this.repeatCount = 1;
-		}
-
-		public Request( Runnable request, int repeatCount )
-		{
-			this.request = request;
-			this.repeatCount = repeatCount;
+		{	this.request = request;
 		}
 
 		public void run()
@@ -185,14 +156,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 			if ( KoLmafia.refusesContinue() )
 				return;
 
-			if ( (request instanceof KoLRequest && !((KoLRequest)request).isDelayExempt()) || request instanceof KoLAdventure )
-			{
-				StaticEntity.getClient().makeRequest( request, repeatCount );
-				return;
-			}
-
-			for ( int i = 0; i < repeatCount && !KoLmafia.refusesContinue(); ++i )
-				request.run();
+			request.run();
 		}
 	}
 }

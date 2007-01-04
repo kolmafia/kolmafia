@@ -349,7 +349,7 @@ public class RequestFrame extends KoLFrame
 			String original = StaticEntity.getProperty( "showAllRequests" );
 			StaticEntity.setProperty( "showAllRequests", "false" );
 
-			RequestThread.postRequest( request );
+			StaticEntity.getClient().makeRequest( request );
 			StaticEntity.setProperty( "showAllRequests", original );
 		}
 
@@ -482,7 +482,7 @@ public class RequestFrame extends KoLFrame
 		if ( !refreshStatusEnabled )
 			return;
 
-		CharpaneRequest.getInstance().run();
+		StaticEntity.getClient().makeRequest( CharpaneRequest.getInstance() );
 		refreshStatus( RequestEditorKit.getDisplayHTML( "", CharpaneRequest.getInstance().responseText ) );
 
 	}

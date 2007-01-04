@@ -59,7 +59,7 @@ import net.sourceforge.kolmafia.BuffBotDatabase.Offering;
 
 public class BuffRequestFrame extends KoLFrame
 {
-	private static final KoLRequest ONLINE_VALIdATOR = new KoLRequest( "submitnewchat.php", true );
+	private static final KoLRequest ONLINE_VALIDATOR = new KoLRequest( "submitnewchat.php", true );
 
 	private JPanel requestContainer;
 	private CardLayout requestCards;
@@ -81,12 +81,13 @@ public class BuffRequestFrame extends KoLFrame
 
 	private void isBotOnline( String botName )
 	{
-		ONLINE_VALIdATOR.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
-		ONLINE_VALIdATOR.addFormField( "pwd" );
-		ONLINE_VALIdATOR.addFormField( "graf", "/whois " + botName );
-		ONLINE_VALIdATOR.run();
+		ONLINE_VALIDATOR.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
+		ONLINE_VALIDATOR.addFormField( "pwd" );
+		ONLINE_VALIDATOR.addFormField( "graf", "/whois " + botName );
 
-		if ( ONLINE_VALIdATOR.responseText != null && ONLINE_VALIdATOR.responseText.indexOf( "online" ) != -1 )
+		StaticEntity.getClient().makeRequest( ONLINE_VALIDATOR );
+
+		if ( ONLINE_VALIDATOR.responseText != null && ONLINE_VALIDATOR.responseText.indexOf( "online" ) != -1 )
 			JOptionPane.showMessageDialog( null, botName + " is online." );
 		else
 			JOptionPane.showMessageDialog( null, botName + " is probably not online." );
@@ -157,7 +158,7 @@ public class BuffRequestFrame extends KoLFrame
 			for ( int i = 0; i < runnables.length; ++i )
 			{
 				KoLmafia.updateDisplay( "Submitting buff request " + (i+1) + " of " + runnables.length + " to " + botName + "..." );
-				RequestThread.postRequest( runnables[i] );
+				StaticEntity.getClient().makeRequest( runnables[i] );
 			}
 
 			KoLmafia.updateDisplay( "Buff requests complete." );

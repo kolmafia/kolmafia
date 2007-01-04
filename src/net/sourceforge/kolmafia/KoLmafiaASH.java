@@ -631,7 +631,7 @@ public class KoLmafiaASH extends StaticEntity
 				StaticEntity.setProperty( "previousNotifyList", notifyList + currentScript );
 
 				GreenMessageRequest notifier = new GreenMessageRequest( notifyRecipient, currentScript );
-				notifier.run();
+				StaticEntity.getClient().makeRequest( notifier );
 			}
 
 			ScriptValue result = executeScope( global, functionName, parameters );
@@ -4199,16 +4199,18 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue museum_amount( ScriptVariable arg )
 		{
 			if ( collection.isEmpty() )
-				(new MuseumRequest()).run();
+				StaticEntity.getClient().makeRequest( new MuseumRequest() );
+
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 			return new ScriptValue( item.getCount( collection ) );
 		}
 
 		public ScriptValue shop_amount( ScriptVariable arg )
 		{
-			(new StoreManageRequest()).run();
-
 			LockableListModel list = StoreManager.getSoldItemList();
+			if ( list.isEmpty() )
+				StaticEntity.getClient().makeRequest( new StoreManageRequest() );
+
 			SoldItem item = new SoldItem( arg.intValue(), 0, 0, 0, 0 );
 			int index = list.indexOf( item );
 
@@ -4227,15 +4229,16 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue refresh_stash()
 		{
-			(new ClanStashRequest()).run();
+			StaticEntity.getClient().makeRequest( new ClanStashRequest() );
 			return continueValue();
 		}
 
 		public ScriptValue stash_amount( ScriptVariable arg )
 		{
 			List stash = ClanManager.getStash();
-			if ( stash.size() == 0 )
-				(new ClanStashRequest()).run();
+			if ( stash.isEmpty() )
+				StaticEntity.getClient().makeRequest( new ClanStashRequest() );
+
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 			return new ScriptValue( item.getCount( stash ) );
 		}
@@ -4527,7 +4530,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
 			{
 				KoLRequest request = new KoLRequest( "fight.php?action=skill&whichskill=" + skill.intValue() );
-				request.run();
+				StaticEntity.getClient().makeRequest( request );
 				return new ScriptValue( request.responseText == null ? "" : request.responseText );
 			}
 
@@ -4558,28 +4561,28 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue attack()
 		{
 			KoLRequest request = new KoLRequest( "fight.php?action=attack" );
-			request.run();
+			StaticEntity.getClient().makeRequest( request );
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
 
 		public ScriptValue runaway()
 		{
 			KoLRequest request = new KoLRequest( "fight.php?action=runaway" );
-			request.run();
+			StaticEntity.getClient().makeRequest( request );
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
 
 		public ScriptValue throw_item( ScriptVariable item )
 		{
 			KoLRequest request = new KoLRequest( "fight.php?action=useitem&whichitem=" + item.intValue() );
-			request.run();
+			StaticEntity.getClient().makeRequest( request );
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
 
 		public ScriptValue throw_items( ScriptVariable item1, ScriptVariable item2 )
 		{
 			KoLRequest request = new KoLRequest( "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
-			request.run();
+			StaticEntity.getClient().makeRequest( request );
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
 
@@ -4622,7 +4625,7 @@ public class KoLmafiaASH extends StaticEntity
 			String itemName = item.toStringValue().toString();
 
 			if ( hunterItems.isEmpty() )
-				(new BountyHunterRequest()).run();
+				StaticEntity.getClient().makeRequest( new BountyHunterRequest() );
 
 			for ( int i = 0; i < hunterItems.size(); ++i )
 				if ( ((String)hunterItems.get(i)).equalsIgnoreCase( itemName ) )
@@ -4942,7 +4945,7 @@ public class KoLmafiaASH extends StaticEntity
 				return STRING_INIT;
 
 			KoLRequest request = new KoLRequest( location, true );
-			request.run();
+			StaticEntity.getClient().makeRequest( request );
 
 			StaticEntity.externalUpdate( location, request.responseText );
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );

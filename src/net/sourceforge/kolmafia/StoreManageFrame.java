@@ -156,7 +156,7 @@ public class StoreManageFrame extends KoLPanelFrame
 				limits[i] = ((Boolean) manageTable.getValueAt( i, 4 )).booleanValue() ? 1 : 0;
 			}
 
-			RequestThread.postRequest( new StoreManageRequest( itemId, prices, limits ) );
+			StaticEntity.getClient().makeRequest( new StoreManageRequest( itemId, prices, limits ) );
 		}
 
 		public void actionCancelled()
@@ -297,7 +297,7 @@ public class StoreManageFrame extends KoLPanelFrame
 				setValueAt( new Integer(0), 0, 1 );
 				setValueAt( new Integer(0), 0, 3 );
 
-				RequestThread.postRequest( new AutoSellRequest( soldItem, price, limit ) );
+				StaticEntity.getClient().makeRequest( new AutoSellRequest( soldItem, price, limit ) );
 			}
 		}
 
@@ -351,7 +351,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			}
 
 			public void mouseReleased( MouseEvent e )
-			{	RequestThread.postRequest( new StoreManageRequest( itemId ) );
+			{	StaticEntity.getClient().makeRequest( new StoreManageRequest( itemId ) );
 			}
 		}
 	}
@@ -369,15 +369,15 @@ public class StoreManageFrame extends KoLPanelFrame
 				return;
 
 			RequestThread.openRequestSequence();
-			RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOMALL ) );
-			RequestThread.postRequest( new StoreManageRequest( false ) );
+			StaticEntity.getClient().makeRequest( new AutoSellRequest( items, AutoSellRequest.AUTOMALL ) );
+			StaticEntity.getClient().makeRequest( new StoreManageRequest( false ) );
 			RequestThread.closeRequestSequence();
 		}
 
 		public void actionCancelled()
 		{
 			Object [] items = getDesiredItems( "Autosell" );
-			RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOSELL ) );
+			StaticEntity.getClient().makeRequest( new AutoSellRequest( items, AutoSellRequest.AUTOSELL ) );
 		}
 	}
 
@@ -405,9 +405,9 @@ public class StoreManageFrame extends KoLPanelFrame
 			Object [] items = elementList.getSelectedValues();
 
 			for ( int i = 0; i < items.length; ++i )
-			 	RequestThread.postRequest( new StoreManageRequest( ((StoreManager.SoldItem)items[i]).getItemId() ) );
+			 	StaticEntity.getClient().makeRequest( new StoreManageRequest( ((StoreManager.SoldItem)items[i]).getItemId() ) );
 
-			RequestThread.postRequest( new StoreManageRequest() );
+			StaticEntity.getClient().makeRequest( new StoreManageRequest() );
 
 			if ( autoSellAfter )
 			{
@@ -415,7 +415,7 @@ public class StoreManageFrame extends KoLPanelFrame
 				for ( int i = 0; i < items.length; ++i )
 					itemsToSell[i] = new AdventureResult( ((StoreManager.SoldItem)items[i]).getItemId(), ((StoreManager.SoldItem)items[i]).getQuantity() );
 
-				RequestThread.postRequest( new AutoSellRequest( itemsToSell, AutoSellRequest.AUTOSELL ) );
+				StaticEntity.getClient().makeRequest( new AutoSellRequest( itemsToSell, AutoSellRequest.AUTOSELL ) );
 			}
 		}
 	}
@@ -460,7 +460,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( new StoreManageRequest( true ) );
+		{	StaticEntity.getClient().makeRequest( new StoreManageRequest( true ) );
 		}
 
 		public void actionCancelled()

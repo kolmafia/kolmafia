@@ -517,14 +517,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 							{
 								KoLRequest request = new KoLRequest( "familiar.php?pwd&action=equip&whichfam=" + familiars[i].getId() + "&whichitem=" + item.getItemId() );
 
-								RequestThread.postRequest( request );
-								RequestThread.postRequest( new FamiliarRequest( familiars[i] ) );
-								RequestThread.postRequest( new EquipmentRequest( item, KoLCharacter.FAMILIAR ) );
+								StaticEntity.getClient().makeRequest( request );
+								StaticEntity.getClient().makeRequest( new FamiliarRequest( familiars[i] ) );
+								StaticEntity.getClient().makeRequest( new EquipmentRequest( item, KoLCharacter.FAMILIAR ) );
 							}
 						}
 					}
 
-					RequestThread.postRequest( new FamiliarRequest( current ) );
+					StaticEntity.getClient().makeRequest( new FamiliarRequest( current ) );
 					RequestThread.closeRequestSequence();
 				}
 			}
@@ -597,7 +597,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					return;
 
 				isChanging = true;
-				RequestThread.postRequest( new FamiliarRequest( selection ) );
+				StaticEntity.getClient().makeRequest( new FamiliarRequest( selection ) );
 				isChanging = false;
 
 				KoLmafia.updateDisplay( "Familiar changed." );
@@ -1213,7 +1213,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		// Run the match
 		KoLRequest request = new CakeArenaRequest( opponent.getId(), match );
-		RequestThread.postRequest( request );
+		StaticEntity.getClient().makeRequest( request );
 
 		// Pass the response text to the FamiliarStatus to
 		// add familiar items and deduct a turn.
@@ -1830,14 +1830,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( current != null )
 			{
 				results.append( "Taking off " + current.getName() + "<br>" );
-				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, slot ) );
+				StaticEntity.getClient().makeRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, slot ) );
 				setItem( slot, null );
 			}
 
 			if ( next == pumpkinBasket && pumpkinBasketOwner != null && pumpkinBasketOwner != familiar )
 			{
 				results.append( "Stealing pumpkin basket from " + pumpkinBasketOwner.getName() + " the " + pumpkinBasketOwner.getRace() + "<br>" );
-				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
+				StaticEntity.getClient().makeRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
 				pumpkinBasketOwner = familiar;
 			}
 
@@ -1845,7 +1845,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next == leadNecklace && leadNecklaceOwner != null && leadNecklaceOwner != familiar )
 			{
 				results.append( "Stealing lead necklace from " + leadNecklaceOwner.getName() + " the " + leadNecklaceOwner.getRace() + "<br>" );
-				RequestThread.postRequest( new EquipmentRequest( LEAD_NECKLACE, KoLCharacter.FAMILIAR ) );
+				StaticEntity.getClient().makeRequest( new EquipmentRequest( LEAD_NECKLACE, KoLCharacter.FAMILIAR ) );
 				leadNecklaceOwner = familiar;
 			}
 
@@ -1853,7 +1853,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next == ratHeadBalloon && ratHeadBalloonOwner != null && ratHeadBalloonOwner != familiar )
 			{
 				results.append( "Stealing rat head balloon from " + ratHeadBalloonOwner.getName() + " the " + ratHeadBalloonOwner.getRace() + "<br>" );
-				RequestThread.postRequest( new EquipmentRequest( RAT_HEAD_BALLOON, KoLCharacter.FAMILIAR ) );
+				StaticEntity.getClient().makeRequest( new EquipmentRequest( RAT_HEAD_BALLOON, KoLCharacter.FAMILIAR ) );
 				ratHeadBalloonOwner = familiar;
 			}
 
@@ -1861,7 +1861,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next != null )
 			{
 				results.append( "Putting on " + next.getName() + "...<br>" );
-				RequestThread.postRequest( new EquipmentRequest( next, slot ) );
+				StaticEntity.getClient().makeRequest( new EquipmentRequest( next, slot ) );
 				setItem( slot, next );
 			}
 		}

@@ -136,8 +136,8 @@ public class MuseumFrame extends KoLFrame
 				}
 
 				RequestThread.openRequestSequence();
-				RequestThread.postRequest( new MuseumRequest( getSelectedValues( elementList.getSelectedValues(), moveAll ), true ) );
-				RequestThread.postRequest( new MuseumRequest() );
+				StaticEntity.getClient().makeRequest( new MuseumRequest( getSelectedValues( elementList.getSelectedValues(), moveAll ), true ) );
+				StaticEntity.getClient().makeRequest( new MuseumRequest() );
 				RequestThread.closeRequestSequence();
 			}
 
@@ -163,8 +163,8 @@ public class MuseumFrame extends KoLFrame
 			private void move( boolean moveAll )
 			{
 				RequestThread.openRequestSequence();
-				RequestThread.postRequest( new MuseumRequest( getSelectedValues( elementList.getSelectedValues(), moveAll ), false ) );
-				RequestThread.postRequest( new MuseumRequest() );
+				StaticEntity.getClient().makeRequest( new MuseumRequest( getSelectedValues( elementList.getSelectedValues(), moveAll ), false ) );
+				StaticEntity.getClient().makeRequest( new MuseumRequest() );
 				RequestThread.closeRequestSequence();
 			}
 
@@ -227,8 +227,8 @@ public class MuseumFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			RequestThread.openRequestSequence();
-			RequestThread.postRequest( new MuseumRequest( elementList.getSelectedValues(), false ) );
-			RequestThread.postRequest( new MuseumRequest() );
+			StaticEntity.getClient().makeRequest( new MuseumRequest( elementList.getSelectedValues(), false ) );
+			StaticEntity.getClient().makeRequest( new MuseumRequest() );
 			RequestThread.closeRequestSequence();
 		}
 

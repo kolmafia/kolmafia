@@ -238,7 +238,7 @@ public class SendMessageFrame extends KoLFrame
 		if ( messageTypes.getSelectedIndex() == 0 )
 		{
 			setEnabled( false );
-			RequestThread.postRequest( new GreenMessageRequest( recipient, message, getAttachedItems() ) );
+			StaticEntity.getClient().makeRequest( new GreenMessageRequest( recipient, message, getAttachedItems() ) );
 			setEnabled( true );
 
 			if ( !SendMessageRequest.hadSendMessageFailure() )
@@ -257,7 +257,7 @@ public class SendMessageFrame extends KoLFrame
 		else
 		{
 			setEnabled( false );
-			RequestThread.postRequest( new GiftMessageRequest( recipient, "It's a secret to everybody.", message,
+			StaticEntity.getClient().makeRequest( new GiftMessageRequest( recipient, "It's a secret to everybody.", message,
 				messageTypes.getSelectedIndex() - 1, getAttachedItems(), usingStorage ) );
 
 			setEnabled( true );
@@ -414,7 +414,7 @@ public class SendMessageFrame extends KoLFrame
 
 	public void refreshContactList()
 	{
-		RequestThread.postRequest( new ContactListRequest() );
+		StaticEntity.getClient().makeRequest( new ContactListRequest() );
 		recipientEntry.setModel( (SortedListModel) contactList.clone() );
 	}
 }

@@ -46,6 +46,7 @@ public class LoginRequest extends KoLRequest
 
 	private static String lastUsername;
 	private static String lastPassword;
+	private static boolean isLoggingIn;
 
 	private static int STANDARD_WAIT = 75;
 	private static int TOO_MANY_WAIT = 960;
@@ -314,6 +315,10 @@ public class LoginRequest extends KoLRequest
 		return true;
 	}
 
+	public static boolean isInstanceRunning()
+	{	return isLoggingIn;
+	}
+
 	public static void processLoginRequest( KoLRequest request )
 	{
 		if ( request.redirectLocation == null || request.redirectLocation.startsWith( "maint" ) || !request.redirectLocation.startsWith( "main" ) )
@@ -338,7 +343,9 @@ public class LoginRequest extends KoLRequest
 		if ( name.endsWith( "/q" ) )
 			name = name.substring( 0, name.length() - 2 ).trim();
 
+		isLoggingIn = true;
 		StaticEntity.getClient().initialize( name );
+		isLoggingIn = false;
 
 		if ( StaticEntity.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )
 			KoLmafia.addSaveState( lastUsername, lastPassword );

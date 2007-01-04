@@ -486,7 +486,7 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			if ( worthlessItemCount > 0 )
-				RequestThread.postRequest( new WorthlessItemRequest( worthlessItemCount ) );
+				StaticEntity.getClient().makeRequest( new WorthlessItemRequest( worthlessItemCount ) );
 
 			if ( verifyConditions || worthlessItemCount > 0 )
 			{
@@ -587,7 +587,7 @@ public class AdventureFrame extends KoLFrame
 				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
 				countField.setValue( new Integer( requestCount ) );
 
-				RequestThread.postRequest( request, requestCount );
+				StaticEntity.getClient().makeRequest( request, requestCount );
 			}
 
 			public void actionCancelled()
