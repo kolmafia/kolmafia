@@ -195,12 +195,12 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private abstract class ThreadedMenuItem extends JMenuItem implements ActionListener, Runnable
+	private abstract class ActionMenuItem extends JMenuItem implements ActionListener
 	{
 		public int index;
 		public Object item;
 
-		public ThreadedMenuItem( String title )
+		public ActionMenuItem( String title )
 		{
 			super( title );
 			addActionListener( this );
@@ -215,8 +215,10 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				return;
 
 			ensureIndexIsVisible( index );
-			this.run();
+			this.executeAction();
 		}
+
+		public abstract void executeAction();
 	}
 
 	/**
@@ -224,13 +226,13 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	 * which is currently selected.
 	 */
 
-	private class DescriptionMenuItem extends ThreadedMenuItem
+	private class DescriptionMenuItem extends ActionMenuItem
 	{
 		public DescriptionMenuItem()
 		{	super( "Game description" );
 		}
 
-		public void run()
+		public void executeAction()
 		{	showDescription( item );
 		}
 	}
@@ -240,13 +242,13 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	 * which is currently selected, as it appears on the wiki.
 	 */
 
-	private class WikiLookupMenuItem extends ThreadedMenuItem
+	private class WikiLookupMenuItem extends ActionMenuItem
 	{
 		public WikiLookupMenuItem()
 		{	super( "Wiki description" );
 		}
 
-		public void run()
+		public void executeAction()
 		{
 			String name = null;
 			if ( item instanceof AdventureResult )
@@ -306,24 +308,24 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		((LockableListModel)getModel()).applyListFilter( filter );
 	}
 
-	private class AddToJunkListMenuItem extends ThreadedMenuItem
+	private class AddToJunkListMenuItem extends ActionMenuItem
 	{
 		public AddToJunkListMenuItem()
 		{	super( "Add to junk list" );
 		}
 
-		public void run()
+		public void executeAction()
 		{	junkSelectedValues();
 		}
 	}
 
-	private class ZeroTallyMenuItem extends ThreadedMenuItem
+	private class ZeroTallyMenuItem extends ActionMenuItem
 	{
 		public ZeroTallyMenuItem()
 		{	super( "Zero out entries" );
 		}
 
-		public void run()
+		public void executeAction()
 		{
 			Object [] items = getSelectedValues();
 			for ( int i = 0; i < items.length; ++i )
@@ -331,28 +333,28 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private class AutoSellMenuItem extends ThreadedMenuItem
+	private class AutoSellMenuItem extends ActionMenuItem
 	{
 		public AutoSellMenuItem()
 		{	super( "Autosell selected" );
 		}
 
-		public void run()
+		public void executeAction()
 		{
 			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you would like to sell the selected items?", "Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 				return;
 
-			(new AutoSellRequest( getSelectedValues(), AutoSellRequest.AUTOSELL )).run();
+			RequestThread.postRequest( new AutoSellRequest( getSelectedValues(), AutoSellRequest.AUTOSELL ) );
 		}
 	}
 
-	private class RemoveFromJunkListMenuItem extends ThreadedMenuItem
+	private class RemoveFromJunkListMenuItem extends ActionMenuItem
 	{
 		public RemoveFromJunkListMenuItem()
 		{	super( "This is not junk" );
 		}
 
-		public void run()
+		public void executeAction()
 		{	unjunkSelectedValues();
 		}
 	}

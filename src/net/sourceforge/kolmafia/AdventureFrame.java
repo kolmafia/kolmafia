@@ -602,12 +602,10 @@ public class AdventureFrame extends KoLFrame
 			{	begin.setEnabled( isEnabled );
 			}
 
-			private class ExecuteButton extends JButton implements ActionListener
+			private class ExecuteButton extends ActionButton
 			{
 				public ExecuteButton()
-				{
-					super( "begin" );
-					addActionListener( this );
+				{	super( "begin" );
 				}
 
 				public void actionPerformed( ActionEvent e )
@@ -732,12 +730,10 @@ public class AdventureFrame extends KoLFrame
 			}
 		}
 
-		private class WorldPeaceButton extends JButton implements ActionListener
+		private class WorldPeaceButton extends ActionButton
 		{
 			public WorldPeaceButton()
-			{
-				super( "stop" );
-				addActionListener( this );
+			{	super( "stop" );
 			}
 
 			public void actionPerformed( ActionEvent e )

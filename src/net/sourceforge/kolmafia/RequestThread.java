@@ -113,7 +113,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 		if ( sequenceCount == 0 )
 			KoLmafia.forceContinue();
 
-		if ( forceConcurrency || (runner instanceof KoLRequest && ((KoLRequest)runner).isDelayExempt()) )
+		if ( forceConcurrency || (runner.getClass() == KoLRequest.class || runner.getClass() == ChatRequest.class) )
 		{
 			if ( SwingUtilities.isEventDispatchThread() )
 				ConcurrentWorker.post( runner );

@@ -142,7 +142,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		oracleTable.getColumnModel().getSelectionModel().addListSelectionListener( this );
 
 		framePanel.add( calendar, BorderLayout.EAST );
-		(new UpdateTabsThread()).start();
+		updateTabs();
 	}
 
 	/**
@@ -173,8 +173,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 					StaticEntity.parseInt( (String) calendar.getModel().getValueAt( selectedRow, selectedColumn ) ) );
 
 				calculatePhases( selectedDate.getTime() );
-
-				(new UpdateTabsThread()).start();
+				updateTabs();
 			}
 			catch ( Exception e1 )
 			{
@@ -535,21 +534,9 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		}
 	}
 
-	/**
-	 * Special thread which allows the daily page and predictions
-	 * page to be updated outside of the Swing thread -- this means
-	 * images can be downloaded without locking the UI.
-	 */
-
-	private class UpdateTabsThread extends Thread
+	public synchronized void updateTabs()
 	{
-		public void run()
-		{
-			synchronized ( UpdateTabsThread.class )
-			{
-				updateDailyPage();
-				updatePredictionsPage();
-			}
-		}
+		updateDailyPage();
+		updatePredictionsPage();
 	}
 }

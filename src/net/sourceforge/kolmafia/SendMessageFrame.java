@@ -277,11 +277,11 @@ public class SendMessageFrame extends KoLFrame
 		}
 	}
 
-	private abstract class ThreadedMenuItem extends JMenuItem implements ActionListener
+	private abstract class ActionMenuItem extends JMenuItem implements ActionListener
 	{
 		public ItemManagePanel elementPanel;
 
-		public ThreadedMenuItem( String title, ItemManagePanel elementPanel )
+		public ActionMenuItem( String title, ItemManagePanel elementPanel )
 		{
 			super( title );
 			addActionListener( this );
@@ -289,7 +289,7 @@ public class SendMessageFrame extends KoLFrame
 		}
 	}
 
-	private class AddAttachmentMenuItem extends ThreadedMenuItem
+	private class AddAttachmentMenuItem extends ActionMenuItem
 	{
 		public AddAttachmentMenuItem( ItemManagePanel elementPanel )
 		{	super( "Attach to message", elementPanel );
@@ -326,7 +326,7 @@ public class SendMessageFrame extends KoLFrame
 		}
 	}
 
-	private class RemoveAttachmentMenuItem extends ThreadedMenuItem
+	private class RemoveAttachmentMenuItem extends ActionMenuItem
 	{
 		public RemoveAttachmentMenuItem()
 		{	super( "Remove attachment", attachmentPanel );

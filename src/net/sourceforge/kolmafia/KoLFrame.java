@@ -521,7 +521,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * the request for viewing frames.
 	 */
 
-	public static class DisplayFrameButton extends ThreadedActionButton
+	public static class DisplayFrameButton extends ActionButton
 	{
 		private String frameClass;
 
@@ -545,15 +545,15 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	public static abstract class ThreadedActionButton extends JButton implements ActionListener
+	public static abstract class ActionButton extends JButton implements ActionListener
 	{
-		public ThreadedActionButton( String text )
+		public ActionButton( String text )
 		{
 			super( text );
 			addActionListener( this );
 		}
 
-		public ThreadedActionButton( ImageIcon icon )
+		public ActionButton( ImageIcon icon )
 		{
 			super( icon );
 			addActionListener( this );
@@ -567,7 +567,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * of an additional class is unnecessary.
 	 */
 
-	public static class InvocationButton extends ThreadedActionButton
+	public static class InvocationButton extends ActionButton
 	{
 		public Object object;
 		public Method method;
@@ -639,7 +639,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * using a local panel inside of the adventure frame.
 	 */
 
-	public static class KoLPanelFrameButton extends ThreadedActionButton
+	public static class KoLPanelFrameButton extends ActionButton
 	{
 		public Object [] parameters;
 
@@ -659,7 +659,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	public static class RequestButton extends ThreadedActionButton
+	public static class RequestButton extends ActionButton
 	{
 		public KoLRequest request;
 
@@ -914,7 +914,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	public class LoadScriptButton extends ThreadedActionButton
+	public class LoadScriptButton extends ActionButton
 	{
 		private String scriptPath;
 

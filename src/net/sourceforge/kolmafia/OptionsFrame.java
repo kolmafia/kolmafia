@@ -429,12 +429,10 @@ public class OptionsFrame extends KoLFrame
 			buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
-		private class AddScriptButton extends JButton implements ActionListener
+		private class AddScriptButton extends ActionButton
 		{
 			public AddScriptButton()
-			{
-				super( "script file" );
-				addActionListener( this );
+			{	super( "script file" );
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -457,12 +455,10 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		private class AddCommandButton extends JButton implements ActionListener
+		private class AddCommandButton extends ActionButton
 		{
 			public AddCommandButton()
-			{
-				super( "cli command" );
-				addActionListener( this );
+			{	super( "cli command" );
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -473,12 +469,10 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		private class DeleteListingButton extends JButton implements ActionListener
+		private class DeleteListingButton extends ActionButton
 		{
 			public DeleteListingButton()
-			{
-				super( "delete" );
-				addActionListener( this );
+			{	super( "delete" );
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -609,12 +603,10 @@ public class OptionsFrame extends KoLFrame
 		{	saveBookmarks();
 		}
 
-		private class AddBookmarkButton extends JButton implements ActionListener
+		private class AddBookmarkButton extends ActionButton
 		{
 			public AddBookmarkButton()
-			{
-				super( "new page" );
-				addActionListener( this );
+			{	super( "new page" );
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -627,12 +619,10 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		private class RenameBookmarkButton extends JButton implements ActionListener
+		private class RenameBookmarkButton extends ActionButton
 		{
 			public RenameBookmarkButton()
-			{
-				super( "rename" );
-				addActionListener( this );
+			{	super( "rename" );
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -661,12 +651,10 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		private class DeleteBookmarkButton extends JButton implements ActionListener
+		private class DeleteBookmarkButton extends ActionButton
 		{
 			public DeleteBookmarkButton()
-			{
-				super( "delete" );
-				addActionListener( this );
+			{	super( "delete" );
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -779,7 +767,7 @@ public class OptionsFrame extends KoLFrame
 				addItem( "When an effect is gained" );
 				addItem( "Unconditional trigger" );
 
-				addActionListener( this );
+				addActionListener( new TypeComboBoxListener() );
 			}
 
 			public String getSelectedType()
@@ -797,8 +785,11 @@ public class OptionsFrame extends KoLFrame
 				}
 			}
 
-			public void actionPerformed( ActionEvent e )
-			{	valueSelect.setModel( getSelectedIndex() == 2 ? EMPTY_MODEL : EFFECT_MODEL );
+			private class TypeComboBoxListener implements ActionListener
+			{
+				public void actionPerformed( ActionEvent e )
+				{	valueSelect.setModel( getSelectedIndex() == 2 ? EMPTY_MODEL : EFFECT_MODEL );
+				}
 			}
 		}
 	}
@@ -852,26 +843,27 @@ public class OptionsFrame extends KoLFrame
 		{
 		}
 
-		private class MoodComboBox extends JComboBox implements ActionListener
+		private class MoodComboBox extends JComboBox
 		{
 			public MoodComboBox()
 			{
 				super( MoodSettings.getAvailableMoods() );
 				setSelectedItem( StaticEntity.getProperty( "currentMood" ) );
-				addActionListener( this );
+				addActionListener( new MoodComboBoxListener() );
 			}
 
-			public void actionPerformed( ActionEvent e )
-			{	MoodSettings.setMood( (String) getSelectedItem() );
+			private class MoodComboBoxListener implements ActionListener
+			{
+				public void actionPerformed( ActionEvent e )
+				{	MoodSettings.setMood( (String) getSelectedItem() );
+				}
 			}
 		}
 
-		private class NewMoodButton extends JButton implements ActionListener
+		private class NewMoodButton extends ActionButton
 		{
 			public NewMoodButton()
-			{
-				super( "new list" );
-				addActionListener( this );
+			{	super( "new list" );
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -885,12 +877,10 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		private class DeleteMoodButton extends JButton implements ActionListener
+		private class DeleteMoodButton extends ActionButton
 		{
 			public DeleteMoodButton()
-			{
-				super( "delete list" );
-				addActionListener( this );
+			{	super( "delete list" );
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -900,12 +890,10 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		private class CopyMoodButton extends JButton implements ActionListener
+		private class CopyMoodButton extends ActionButton
 		{
 			public CopyMoodButton()
-			{
-				super( "copy list" );
-				addActionListener( this );
+			{	super( "copy list" );
 			}
 
 			public void actionPerformed( ActionEvent e )

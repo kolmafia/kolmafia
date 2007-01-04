@@ -20,47 +20,59 @@ import java.security.PrivilegedExceptionAction;
  */
 public abstract class AbstractWorkerThread implements WorkerThread
 {
-   /**
-    * Creates a new instance of this AbstractWorkerThread, called by subclasses.
-    */
-   protected AbstractWorkerThread()
-   {
-   }
+	/**
+	 * Creates a new instance of this AbstractWorkerThread, called by subclasses.
+	 */
 
-   public void runTask(final Task task)
-   {
-      if (AbstractWorker.debug) System.out.println("[AbstractWorkerThread] Executing task " + task);
+	protected AbstractWorkerThread()
+	{
+	}
 
-      try
-      {
-         Object obj = AccessController.doPrivileged(new PrivilegedExceptionAction()
-         {
-            public Object run() throws Exception
-            {
-               task.run();
-               return null;
-            }
-         }, task.getSecurityContext());
+	public void runTask( final Task task )
+	{
+		if ( AbstractWorker.debug )
+			System.out.println( "[AbstractWorkerThread] Executing task " + task );
 
-         task.setResult(obj);
-      }
-      catch (PrivilegedActionException x)
-      {
-         Exception xx = x.getException();
-         task.setThrowable(xx);
-         if (xx instanceof InterruptedException || xx instanceof InterruptedIOException) Thread.currentThread().interrupt();
-      }
-      catch (Throwable x)
-      {
-         task.setThrowable(x);
-      }
-      finally
-      {
-         // Mark the task as completed
-         task.setCompleted(true);
+		try
+		{
+			Object obj = AccessController.doPrivileged( new AbstractWorkerAction( task ), task.getSecurityContext() );
+			task.setResult(obj);
+		}
+		catch ( PrivilegedActionException x )
+		{
+			Exception xx = x.getException();
+			task.setThrowable(xx);
+			if (xx instanceof InterruptedException || xx instanceof InterruptedIOException)
+				Thread.currentThread().interrupt();
+		}
+		catch ( Throwable x )
+		{
+			task.setThrowable( x );
+		}
+		finally
+		{
+			// Mark the task as completed
+			task.setCompleted( true );
 
-         if (AbstractWorker.debug) System.out.println("[AbstractWorkerThread] Completing run for task " + task);
-         task.postRun();
-      }
-   }
+			if ( AbstractWorker.debug )
+				System.out.println("[AbstractWorkerThread] Completing run for task " + task);
+
+			task.postRun();
+		}
+	}
+
+	private class AbstractWorkerAction implements PrivilegedExceptionAction
+	{
+		private Task task;
+
+		public AbstractWorkerAction( Task task )
+		{	this.task = task;
+		}
+
+		public Object run() throws Exception
+		{
+			task.run();
+			return null;
+		}
+	}
 }

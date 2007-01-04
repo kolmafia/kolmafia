@@ -343,7 +343,7 @@ public class MushroomFrame extends KoLFrame
 		return panel;
 	}
 
-	private class MushroomButton extends JButton implements ActionListener
+	private class MushroomButton extends ActionButton
 	{
 		private int dayIndex;
 		private int loopIndex;
@@ -351,14 +351,14 @@ public class MushroomFrame extends KoLFrame
 
 		public MushroomButton( int dayIndex, int squareIndex )
 		{
+			super( JComponentUtilities.getImage( "itemimages/dirt1.gif" ) );
+
 			this.dayIndex = dayIndex;
 			this.loopIndex = 4;
 			this.squareIndex = squareIndex;
 
 			JComponentUtilities.setComponentSize( this, 30, 30 );
-
 			setOpaque( true );
-			addActionListener( this );
 		}
 
 		public void actionPerformed( ActionEvent e )

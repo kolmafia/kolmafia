@@ -212,24 +212,6 @@ public class WindowsTerminal
 				| ENABLE_PROCESSED_INPUT
 				| ENABLE_WINDOW_INPUT);
 		setConsoleMode (newMode);
-
-		// at exit, restore the original tty configuration (for JDK 1.3+)
-		try
-		{
-			Runtime.getRuntime ().addShutdownHook (new Thread ()
-			{
-				public void start ()
-				{
-					// restore the old console mode
-					setConsoleMode (originalMode);
-				}
-			});
-		}
-		catch (AbstractMethodError ame)
-		{
-			// JDK 1.3+ only method. Bummer.
-			consumeException (ame);
-		}
 	}
 
 
