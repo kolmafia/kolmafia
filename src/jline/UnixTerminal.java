@@ -94,30 +94,6 @@ public class UnixTerminal
 
 		// disable character echoing
 		stty ("-echo");
-
-		// at exit, restore the original tty configuration (for JDK 1.3+)
-		try
-		{
-			Runtime.getRuntime ().addShutdownHook (new Thread ()
-			{
-				public void start ()
-				{
-					try
-					{
-						stty (ttyConfig);
-					}
-					catch (Exception e)
-					{
-						consumeException (e);
-					}
-				}
-			});
-		}
-		catch (AbstractMethodError ame)
-		{
-			// JDK 1.3+ only method. Bummer.
-			consumeException (ame);
-		}
 	}
 
 

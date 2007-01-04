@@ -178,27 +178,33 @@ public class BuffRequestFrame extends KoLFrame
 		{	requestCards.show( requestContainer, getCardId() );
 		}
 
-		private class NameComboBox extends JComboBox implements ActionListener
+		private class NameComboBox extends JComboBox
 		{
 			public NameComboBox( Object [] data )
 			{
 				super( data );
-				addActionListener( this );
+				addActionListener( new NameComboBoxListener() );
 			}
+		}
 
+		private class NameComboBoxListener implements ActionListener
+		{
 			public void actionPerformed( ActionEvent e )
 			{	resetCard();
 			}
 		}
 
-		private class SetComboBox extends JComboBox implements ActionListener
+		private class SetComboBox extends JComboBox
 		{
 			public SetComboBox()
 			{
 				super( new String [] { "Once-per-day offerings", "Standard offerings" } );
-				addActionListener( this );
+				addActionListener( new SetComboBoxListener() );
 			}
+		}
 
+		private class SetComboBoxListener implements ActionListener
+		{
 			public void actionPerformed( ActionEvent e )
 			{	resetCard();
 			}

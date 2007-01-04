@@ -185,7 +185,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 
-		private void addButtonAndLabel( ThreadedActionButton button, String label )
+		private void addButtonAndLabel( ActionButton button, String label )
 		{
 			JPanel buttonPanel = new JPanel();
 			buttonPanel.add( button );
@@ -222,7 +222,7 @@ public class ItemManageFrame extends KoLFrame
 			container.add( Box.createVerticalStrut( 25 ) );
 		}
 
-		private class JunkItemsButton extends ThreadedActionButton
+		private class JunkItemsButton extends ActionButton
 		{
 			public JunkItemsButton()
 			{	super( "junk item script" );
@@ -233,7 +233,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 
-		private class EndOfRunSaleButton extends ThreadedActionButton
+		private class EndOfRunSaleButton extends ActionButton
 		{
 			public EndOfRunSaleButton()
 			{
@@ -246,7 +246,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 
-		private class MallRestockButton extends ThreadedActionButton
+		private class MallRestockButton extends ActionButton
 		{
 			public MallRestockButton()
 			{
@@ -281,7 +281,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 
-		private class DisplayCaseButton extends ThreadedActionButton
+		private class DisplayCaseButton extends ActionButton
 		{
 			public DisplayCaseButton()
 			{

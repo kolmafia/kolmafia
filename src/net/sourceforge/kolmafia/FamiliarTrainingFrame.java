@@ -558,21 +558,25 @@ public class FamiliarTrainingFrame extends KoLFrame
 		private class ChangeComboBox extends JComboBox
 		{
 			private boolean isChanging = false;
+
 			public ChangeComboBox( LockableListModel selector )
 			{
 				super( selector );
-				addActionListener( this );
+				addActionListener( new ChangeComboBoxListener() );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			private class ChangeComboBoxListener implements ActionListener
 			{
-				if ( !isShowing() || isChanging || !isEnabled() )
-					return;
+				public void actionPerformed( ActionEvent e )
+				{
+					if ( !isShowing() || isChanging || !isEnabled() )
+						return;
 
-				if ( e.paramString().endsWith( "=" ) )
-					return;
+					if ( e.paramString().endsWith( "=" ) )
+						return;
 
-				executeChange();
+					executeChange();
+				}
 			}
 
 			public void firePopupMenuWillBecomeInvisible()
@@ -2471,16 +2475,17 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * for the duration of the current session.
 	 */
 
-	public class LocalSettingChanger extends JButton implements ActionListener
+	public class LocalSettingChanger extends ActionButton
 	{
 		private String title;
 		private String property;
 
 		public LocalSettingChanger( String title, String property )
 		{
+			super( title );
+
 			this.title = title;
 			this.property = property;
-			addActionListener( this );
 
 			// Turn everything off and back on again
 			// so that it's off to start.

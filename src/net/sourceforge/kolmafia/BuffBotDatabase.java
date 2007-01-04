@@ -125,7 +125,7 @@ public class BuffBotDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 			if ( data.length == 3 )
-				(new Thread( new DynamicBotFetcher( data ) )).start();
+				(new DynamicBotFetcher( data )).start();
 
 		while ( buffBotsAvailable != buffBotsConfigured )
 			KoLRequest.delay( 500 );
@@ -134,7 +134,7 @@ public class BuffBotDatabase extends KoLDatabase
 		isInitialized = true;
 	}
 
-	private static class DynamicBotFetcher implements Runnable
+	private static class DynamicBotFetcher extends Thread
 	{
 		private String botName, location;
 

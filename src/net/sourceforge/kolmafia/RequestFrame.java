@@ -221,12 +221,15 @@ public class RequestFrame extends KoLFrame
 		displayRequest( request );
 	}
 
-	private class BrowserComboBox extends JComboBox implements ActionListener
+	private class BrowserComboBox extends JComboBox
 	{
 		public BrowserComboBox()
-		{	addActionListener( this );
+		{	addActionListener( new BrowserComboBoxListener() );
 		}
+	}
 
+	private class BrowserComboBoxListener implements ActionListener
+	{
 		public void actionPerformed( ActionEvent e )
 		{
 			BrowserComboBox source = (BrowserComboBox) e.getSource();
@@ -239,7 +242,7 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private class ExecuteScriptButton extends ThreadedActionButton
+	private class ExecuteScriptButton extends ActionButton
 	{
 		public ExecuteScriptButton()
 		{	super( "exec" );
@@ -391,12 +394,10 @@ public class RequestFrame extends KoLFrame
 			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
 	}
 
-	private class HomeButton extends JButton implements ActionListener
+	private class HomeButton extends ActionButton
 	{
 		public HomeButton()
-		{
-			super( JComponentUtilities.getImage( "home.gif" ) );
-			addActionListener( this );
+		{	super( JComponentUtilities.getImage( "home.gif" ) );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -404,12 +405,10 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private class BackButton extends JButton implements ActionListener
+	private class BackButton extends ActionButton
 	{
 		public BackButton()
-		{
-			super( JComponentUtilities.getImage( "back.gif" ) );
-			addActionListener( this );
+		{	super( JComponentUtilities.getImage( "back.gif" ) );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -424,12 +423,10 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private class ForwardButton extends JButton implements ActionListener
+	private class ForwardButton extends ActionButton
 	{
 		public ForwardButton()
-		{
-			super( JComponentUtilities.getImage( "forward.gif" ) );
-			addActionListener( this );
+		{	super( JComponentUtilities.getImage( "forward.gif" ) );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -444,12 +441,10 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private class ReloadButton extends JButton implements ActionListener
+	private class ReloadButton extends ActionButton
 	{
 		public ReloadButton()
-		{
-			super( JComponentUtilities.getImage( "reload.gif" ) );
-			addActionListener( this );
+		{	super( JComponentUtilities.getImage( "reload.gif" ) );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -457,12 +452,11 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private class GoButton extends JButton implements ActionListener
+	private class GoButton extends ActionButton
 	{
 		public GoButton()
 		{
 			super( "Go" );
-			addActionListener( this );
 			locationField.addKeyListener( new GoAdapter() );
 		}
 

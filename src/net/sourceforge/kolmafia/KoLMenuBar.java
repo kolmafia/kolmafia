@@ -237,7 +237,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * of the current frame.
 	 */
 
-	public class DisplayRequestMenuItem extends ThreadedMenuItem
+	public class DisplayRequestMenuItem extends ActionMenuItem
 	{
 		private String location;
 
@@ -279,7 +279,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			return headers;
 		}
 
-		private class WindowDisplayMenuItem extends ThreadedMenuItem
+		private class WindowDisplayMenuItem extends ActionMenuItem
 		{
 			private WeakReference frameReference;
 
@@ -353,7 +353,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 	}
 
-	private class ToggleDebugMenuItem extends ThreadedMenuItem
+	private class ToggleDebugMenuItem extends ActionMenuItem
 	{
 		public ToggleDebugMenuItem()
 		{	super( KoLmafia.getDebugStream() instanceof NullStream ? "Start Debug Log" : "Stop Debug Log" );
@@ -374,9 +374,9 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 	}
 
-	public abstract class ThreadedMenuItem extends JMenuItem implements ActionListener
+	public abstract class ActionMenuItem extends JMenuItem implements ActionListener
 	{
-		public ThreadedMenuItem( String title )
+		public ActionMenuItem( String title )
 		{
 			super( title );
 			addActionListener( this );
@@ -389,7 +389,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * the request for loading a script.
 	 */
 
-	private class LoadScriptMenuItem extends ThreadedMenuItem
+	private class LoadScriptMenuItem extends ActionMenuItem
 	{
 		private String scriptPath;
 
@@ -433,7 +433,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * the request for viewing frames.
 	 */
 
-	public class DisplayFrameMenuItem extends ThreadedMenuItem
+	public class DisplayFrameMenuItem extends ActionMenuItem
 	{
 		private String frameClass;
 
@@ -467,7 +467,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * browser to the given location.
 	 */
 
-	public class DisplayPageMenuItem extends ThreadedMenuItem
+	public class DisplayPageMenuItem extends ActionMenuItem
 	{
 		private String location;
 
@@ -489,7 +489,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * of an additional class is unnecessary.
 	 */
 
-	public class InvocationMenuItem extends ThreadedMenuItem
+	public class InvocationMenuItem extends ActionMenuItem
 	{
 		private Object object;
 		private Method method;
@@ -545,7 +545,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * using a local panel inside of the adventure frame.
 	 */
 
-	public class KoLPanelFrameMenuItem extends ThreadedMenuItem
+	public class KoLPanelFrameMenuItem extends ActionMenuItem
 	{
 		private CreateFrameRunnable creator;
 
@@ -706,7 +706,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		return true;
 	}
 
-	private class RequestMenuItem extends ThreadedMenuItem
+	private class RequestMenuItem extends ActionMenuItem
 	{
 		private KoLRequest request;
 
@@ -721,7 +721,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 	}
 
-	private class StopEverythingItem extends ThreadedMenuItem
+	private class StopEverythingItem extends ActionMenuItem
 	{
 		public StopEverythingItem()
 		{	super( "Stop Everything" );

@@ -44,7 +44,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,10 +60,8 @@ public class LocalRelayServer implements Runnable
 	private static Thread relayThread = null;
 	private static final LocalRelayServer INSTANCE = new LocalRelayServer();
 
-	private static final int MAX_AGENT_THREADS = 9;
-	private static final int TIMEOUT = 5000;
+	public static ArrayList agentThreads = new ArrayList();
 
-	public static Vector agentThreads = new Vector();
 	private ServerSocket serverSocket = null;
 	private static int port = 60080;
 	private static boolean listening = false;
@@ -100,16 +98,6 @@ public class LocalRelayServer implements Runnable
 		port = 60080;
 		while ( port <= 60090 && !openServerSocket() )
 			++port;
-
-		// Initialize all the agent threads first
-		// to ensure every request is caught.
-
-		for ( int i = 0; i < MAX_AGENT_THREADS; ++i )
-		{
-			RelayAgent agent = new RelayAgent();
-			(new Thread( agent )).start();
-			agentThreads.add( agent );
-		}
 
 		listening = true;
 		while ( listening )
@@ -162,11 +150,13 @@ public class LocalRelayServer implements Runnable
 
 	private void closeAgents()
 	{
-		while ( !agentThreads.isEmpty() )
+		synchronized ( agentThreads )
 		{
-			RelayAgent agent = (RelayAgent) agentThreads.elementAt( 0 );
-			agentThreads.removeElementAt( 0 );
-			agent.setSocket( null );
+			while ( !agentThreads.isEmpty() )
+			{
+				RelayAgent agent = (RelayAgent) agentThreads.remove( 0 );
+				agent.setSocket( null );
+			}
 		}
 	}
 
@@ -174,14 +164,24 @@ public class LocalRelayServer implements Runnable
 	{
 		RelayAgent agent = null;
 
-		for ( int i = 0; i < agentThreads.size(); ++i )
+		synchronized ( agentThreads )
 		{
-			agent = (RelayAgent) agentThreads.elementAt(i);
-			if ( agent.isWaiting() )
+			for ( int i = 0; i < agentThreads.size(); ++i )
 			{
-				agent.setSocket( socket );
-				return;
+				agent = (RelayAgent) agentThreads.get(i);
+
+				if ( agent.isWaiting() )
+				{
+					agent.setSocket( socket );
+					return;
+				}
 			}
+
+			agent = new RelayAgent();
+			agentThreads.add( agent );
+
+			agent.start();
+			agent.setSocket( socket );
 		}
 	}
 
@@ -202,7 +202,7 @@ public class LocalRelayServer implements Runnable
 		return newMessages;
 	}
 
-	private class RelayAgent implements Runnable
+	private class RelayAgent extends Thread
 	{
 		public Socket socket = null;
 
@@ -315,7 +315,6 @@ public class LocalRelayServer implements Runnable
 
 			try
 			{
-				socket.setSoTimeout( TIMEOUT );
 				socket.setTcpNoDelay( true );
 			}
 			catch ( Exception e )

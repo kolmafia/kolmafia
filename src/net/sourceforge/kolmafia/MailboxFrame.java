@@ -288,14 +288,13 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
-	private class SaveAllButton extends JButton implements ActionListener
+	private class SaveAllButton extends ActionButton
 	{
 		private Object [] messages = null;
 
 		public SaveAllButton()
 		{
 			super( JComponentUtilities.getImage( "saveall.gif" ) );
-			addActionListener( this );
 			setToolTipText( "Save Selected" );
 		}
 
@@ -320,7 +319,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
-	private class DeleteButton extends JButton implements ActionListener
+	private class DeleteButton extends ActionButton
 	{
 		private String currentTabName = null;
 		private Object [] messages = null;
@@ -328,7 +327,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		public DeleteButton()
 		{
 			super( JComponentUtilities.getImage( "delete.gif" ) );
-			addActionListener( this );
 			setToolTipText( "Delete Selected" );
 		}
 
@@ -356,12 +354,11 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
-	private class RefreshButton extends JButton implements ActionListener
+	private class RefreshButton extends ActionButton
 	{
 		public RefreshButton()
 		{
 			super( JComponentUtilities.getImage( "refresh.gif" ) );
-			addActionListener( this );
 			setToolTipText( "Refresh" );
 		}
 
