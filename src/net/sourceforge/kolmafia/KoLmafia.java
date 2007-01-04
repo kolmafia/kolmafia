@@ -1652,10 +1652,7 @@ public abstract class KoLmafia implements KoLConstants
 			// effect on the next iteration of the loop.
 
 			if ( request instanceof KoLAdventure && adventuresBeforeRequest == KoLCharacter.getAdventuresLeft() )
-			{
-				if ( ((KoLAdventure)request).getRequest().responseCode == 200 && ((KoLAdventure)request).getRequest().responseText.indexOf( "You acquire" ) != -1 )
 				--currentIteration;
-			}
 
 			// Prevent drunkenness adventures from occurring by
 			// testing inebriety levels after the request is run.

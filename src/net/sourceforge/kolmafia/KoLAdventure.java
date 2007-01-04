@@ -264,21 +264,20 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 
+			if ( !activeEffects.contains( PERFUME_EFFECT ) )
+			{
+				if ( !AdventureDatabase.retrieveItem( PERFUME_ITEM ) )
+					return;
+			}
+
 			if ( !EquipmentDatabase.isWearingOutfit( outfitId ) )
 			{
 				if ( !EquipmentDatabase.retrieveOutfit( outfitId ) )
 					return;
-
-				if ( !activeEffects.contains( PERFUME_EFFECT ) )
-				{
-					if ( !AdventureDatabase.retrieveItem( PERFUME_ITEM ) )
-						return;
-
-					(new ConsumeItemRequest( PERFUME_ITEM )).run();
-				}
-
-				(new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) )).run();
 			}
+
+			(new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) )).run();
+			(new ConsumeItemRequest( PERFUME_ITEM )).run();
 		}
 
 		if ( formSource.indexOf( "adventure.php" ) == -1 )
