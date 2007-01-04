@@ -2079,7 +2079,7 @@
 2079	makeshift turban	9	all	1000
 2080	makeshift cape	8	all	1000
 2081	makeshift skirt	10	all	1000
-2082
+2082	toothbrush	3	all	72
 2083	makeshift crane	5	all	1000
 2084	can of starch	7	all	75
 2085	bottle of ultravitamins	3	all	100
@@ -2224,3 +2224,6 @@
 2224	flaming pink shirt	11	all	0
 2225	flaming familiar doppelg&auml;nger	7	all	0
 2226	evil flaming eyeball pendant	8	all	0
+2227	arse-a'fire elixer	4	all	100
+2228	cosmic lemonade	4	all	100
+2229	powdered toad horn	4	all	100
