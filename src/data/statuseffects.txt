@@ -242,7 +242,7 @@
 242	Cough Syrup	The Q Is Talking To You	q.gif
 243	Broken Mirror	Bad Luck	bmirror,gif
 244
-245
+245		Looks Like the Raven
 246	Smugness	Smugness	happy.gif
 247	Good Karma	Good Karma	happy.gif
 248	Pumped Up	Pumped Up	strboost.gif
@@ -255,3 +255,8 @@
 255	Tomb Cookie	Crimbo Epiphany	tombcookie.gif
 256	Bat Cookie	Bells in the Batfry	batcookie.gif
 257	Skull Cookie	Carol of the Bones	skullcookie.gif
+258	Jet Pack	Get Me Off This Crazy Thing!	hernia.gif
+259	Toothbrush	Very Clean Teeth	goldfronts.gif
+260	Elixer	Arse-a'fire	pepper.gif
+261	Lemonade	Lemon Enlightenment	lemon.gif
+262	Toad Horn	Squirming Like a Toad	squashfrog.gif
