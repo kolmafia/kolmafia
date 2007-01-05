@@ -676,18 +676,34 @@ public class KoLmafiaASH extends StaticEntity
 
 			do
 			{
-				// Read a line from input, and break out of the do-while
-				// loop when you've read a valid line (which is a non-comment
-				// and a non-blank line ) or when you've reached EOF.
+				// Read a line from input, and break out of the
+				// do-while loop when you've read a valid line
+				// (which is a non-comment and a non-blank line
+				// ) or when you've reached EOF.
 
 				line = commandStream.readLine();
+
+				// Return null at end of file
+				if ( line == null )
+					return null;
+
+				// Remove in-line comment
+				int comment = line.indexOf( "//" );
+				if ( comment != -1 )
+					line = line.substring( 0, comment );
+
+				// Remove whitespace at front and end
+				line = line.trim();
+
+				// Ignore whole-line comments
+				if ( line.startsWith( "#" ) || line.startsWith( "\'" ) )
+					continue;
 			}
-			while ( line != null && (line.trim().length() == 0 || line.trim().startsWith( "#" ) || line.trim().startsWith( "//" ) || line.trim().startsWith( "\'" )) );
+			while ( line.length() == 0 );
 
-			// You will either have reached the end of file, or you will
-			// have a valid line -- return it.
+			// Found valid line - return it
 
-			return line == null ? null : line.trim();
+			return line;
 		}
 		catch ( IOException e )
 		{
