@@ -119,12 +119,22 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 	public static void closeRequestSequence()
 	{
-		if ( sequenceCount > 0 && --sequenceCount != 0 )
+		if ( sequenceCount <= 0 )
 			return;
 
-		KoLmafia.enableDisplay();
-		if ( pendingRequests.isEmpty() )
+		--sequenceCount;
+
+		if ( enableDisplayIfSequenceComplete() && pendingRequests.isEmpty() )
 			SystemTrayFrame.showBalloon( "Requests complete." );
+	}
+
+	public static boolean enableDisplayIfSequenceComplete()
+	{
+		if ( sequenceCount != 0 )
+			return false;
+
+		KoLmafia.enableDisplay();
+		return true;
 	}
 
 	/**
