@@ -6,6 +6,5 @@ Noblesse Oblige	594822	http://forums.kingdomofloathing.com/
 IocaineBot	792443	http://kolmods.com/aprocalypse/iocainebot/iocainebot.xml
 Niten	353078	http://www.hardcoreoxygenation.com/NitraMo/Buffbot/Niten.xml
 The Professor	725798	http://www.hardcoreoxygenation.com/Barkeep/theprofessor.xml
-FnBtrust	965199	http://www.freewebs.com/fireandbrimstone/fnbtrust.xml
 Dreadwing	125120	http://www.koladdict.com/buffbot/dreadwing.xml
 L00ki3	151958	http://www.koladdict.com/buffbot/l00ki3.xml
