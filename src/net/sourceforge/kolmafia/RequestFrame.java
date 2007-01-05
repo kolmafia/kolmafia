@@ -489,13 +489,16 @@ public class RequestFrame extends KoLFrame
 	private static void refreshStatus( String responseText )
 	{
 		KoLFrame [] frames = StaticEntity.getExistingFrames();
+		if ( frames == null )
+			return;
+
 		for ( int i = 0; i < frames.length; ++i )
 		{
-			if ( frames[i] instanceof RequestFrame && ((RequestFrame)frames[i]).hasSideBar() )
-			{
-				((RequestFrame)frames[i]).sideBuffer.clearBuffer();
-				((RequestFrame)frames[i]).sideBuffer.append( responseText );
-			}
+			if ( frames[i] == null || !(frames[i] instanceof RequestFrame) || ((RequestFrame)frames[i]).sideBuffer == null )
+				continue;
+
+			((RequestFrame)frames[i]).sideBuffer.clearBuffer();
+			((RequestFrame)frames[i]).sideBuffer.append( responseText );
 		}
 	}
 
@@ -510,6 +513,10 @@ public class RequestFrame extends KoLFrame
 	public static void setRefreshStatusEnabled( boolean isEnabled )
 	{
 		refreshStatusEnabled = isEnabled;
+
+		if ( isEnabled )
+			refreshStatus();
+		else
 			refreshStatus( "" );
 	}
 

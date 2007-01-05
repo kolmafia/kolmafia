@@ -55,7 +55,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 		try
 		{
-			executeRequest( request instanceof Job ? (Job) request : new Request( request ), false );
+			executeRequest( request, false );
 		}
 		catch ( Exception e )
 		{
@@ -75,7 +75,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 		try
 		{
-			executeRequest( request instanceof Job ? (Job) request : new Request( request ), forceConcurrency );
+			executeRequest( request, forceConcurrency );
 		}
 		catch ( Exception e )
 		{
@@ -88,25 +88,26 @@ public abstract class RequestThread implements Runnable, KoLConstants
 	 * This should be executed as a sub-component.
 	 */
 
-	private static void executeRequest( Job runner, boolean forceConcurrency ) throws Exception
+	private static void executeRequest( Runnable request, boolean forceConcurrency ) throws Exception
 	{
 		if ( sequenceCount == 0 )
 			KoLmafia.forceContinue();
 
-		if ( forceConcurrency || (runner.getClass() == KoLRequest.class || runner.getClass() == ChatRequest.class) )
-		{
-			if ( SwingUtilities.isEventDispatchThread() )
-				ConcurrentWorker.post( runner );
-			else
-				runner.run();
+		// If you're not in the event dispatch thread, you can run
+		// without posting to a separate thread.
 
-			return;
-		}
+		if ( !SwingUtilities.isEventDispatchThread() )
+			request.run();
 
-		if ( SwingUtilities.isEventDispatchThread() )
-			Worker.post( runner );
+		// Now you know you're in the event dispatch thread, either
+		// post concurrently or post in the handle thread based on
+		// the request type.
+
+		else if ( forceConcurrency || (request.getClass() == KoLRequest.class || request.getClass() == ChatRequest.class) )
+			ConcurrentWorker.post( request instanceof Job ? (Job) request : new Request( request ) );
+
 		else
-			runner.run();
+			Worker.post( request instanceof Job ? (Job) request : new Request( request ) );
 
 		enableDisplayIfSequenceComplete();
 	}

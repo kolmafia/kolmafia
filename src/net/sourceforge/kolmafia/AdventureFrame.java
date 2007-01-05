@@ -539,55 +539,8 @@ public class AdventureFrame extends KoLFrame
 				container.add( buttonWrapper, BorderLayout.SOUTH );
 			}
 
-			public boolean autoConfirmOnChange()
-			{	return false;
-			}
-
 			public void actionConfirmed()
 			{
-				KoLmafia.updateDisplay( "Validating adventure sequence..." );
-
-				KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
-				if ( request == null )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, "No location selected." );
-					return;
-				}
-
-				// If there are conditions in the condition field, be
-				// sure to process them.
-
-				if ( conditions.isEmpty() || (lastAdventure != null && lastAdventure != request) )
-				{
-					Object stats = null;
-					int substatIndex = conditions.indexOf( tally.get(2) );
-
-					if ( substatIndex != 0 )
-						stats = conditions.get( substatIndex );
-
-					conditions.clear();
-
-					if ( stats != null )
-						conditions.add( stats );
-
-					lastAdventure = request;
-
-					isHandlingConditions = true;
-
-					RequestThread.openRequestSequence();
-					handleConditions( request );
-					RequestThread.closeRequestSequence();
-
-					isHandlingConditions = false;
-
-					if ( KoLmafia.refusesContinue() )
-						return;
-				}
-
-				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
-				countField.setValue( new Integer( requestCount ) );
-
-				StaticEntity.getClient().makeRequest( request, requestCount );
 			}
 
 			public void actionCancelled()
@@ -609,9 +562,7 @@ public class AdventureFrame extends KoLFrame
 				}
 
 				public void actionPerformed( ActionEvent e )
-				{
-					if ( !KoLmafia.isAdventuring() )
-						actionConfirmed();
+				{	(new Thread( new AdventureRunnable() )).start();
 				}
 			}
 		}
@@ -738,6 +689,60 @@ public class AdventureFrame extends KoLFrame
 
 			public void actionPerformed( ActionEvent e )
 			{	RequestThread.declareWorldPeace();
+			}
+		}
+
+		private class AdventureRunnable implements Runnable
+		{
+			public void run()
+			{
+				if ( KoLmafia.isAdventuring() )
+					return;
+
+				KoLmafia.forceContinue();
+				KoLmafia.updateDisplay( "Validating adventure sequence..." );
+
+				KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
+				if ( request == null )
+				{
+					KoLmafia.updateDisplay( ERROR_STATE, "No location selected." );
+					return;
+				}
+
+				// If there are conditions in the condition field, be
+				// sure to process them.
+
+				if ( conditions.isEmpty() || (lastAdventure != null && lastAdventure != request) )
+				{
+					Object stats = null;
+					int substatIndex = conditions.indexOf( tally.get(2) );
+
+					if ( substatIndex != 0 )
+						stats = conditions.get( substatIndex );
+
+					conditions.clear();
+
+					if ( stats != null )
+						conditions.add( stats );
+
+					lastAdventure = request;
+
+					isHandlingConditions = true;
+
+					RequestThread.openRequestSequence();
+					handleConditions( request );
+					RequestThread.closeRequestSequence();
+
+					isHandlingConditions = false;
+
+					if ( KoLmafia.refusesContinue() )
+						return;
+				}
+
+				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
+				countField.setValue( new Integer( requestCount ) );
+
+				StaticEntity.getClient().makeRequest( request, requestCount );
 			}
 		}
 

@@ -697,7 +697,7 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 
 		statusChanged = false;
-		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() && !KoLmafia.refusesContinue() );
+		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
 	}
 
 	private void saveLastChoice( String url )

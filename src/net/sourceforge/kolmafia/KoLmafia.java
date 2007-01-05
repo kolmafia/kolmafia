@@ -1150,7 +1150,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( current > threshold )
 			return true;
 
-		updateDisplay( ERROR_STATE, "Autorecovery failed." );
+		updateDisplay( ABORT_STATE, "Autorecovery failed." );
 		return false;
 	}
 
@@ -1486,9 +1486,7 @@ public abstract class KoLmafia implements KoLConstants
 			// Before anything happens, make sure that you are in
 			// in a valid continuation state.
 
-			if ( refusesContinue() )
-				return;
-
+			forceContinue();
 			boolean wasAdventuring = isAdventuring;
 
 			// Handle the gym, which is the only adventure type
@@ -1539,8 +1537,6 @@ public abstract class KoLmafia implements KoLConstants
 	private void executeRequest( Runnable request, int iterations )
 	{
 		hadPendingState = false;
-		forceContinue();
-
 		boolean isCheckExempt = !(request instanceof KoLAdventure) || ((KoLAdventure)request).getRequest() instanceof CampgroundRequest ||
 			KoLCharacter.getInebriety() > 25 || ((KoLAdventure)request).getZone().equals( "Holiday" );
 
