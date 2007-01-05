@@ -619,6 +619,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void actionPerformed( ActionEvent e )
 		{
+			RequestThread.openRequestSequence();
+
 			try
 			{
 				if ( method != null )
@@ -631,6 +633,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 				StaticEntity.printStackTrace( e1 );
 			}
+
+			RequestThread.closeRequestSequence();
 		}
 	}
 

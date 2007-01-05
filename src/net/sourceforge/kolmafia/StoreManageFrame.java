@@ -328,14 +328,13 @@ public class StoreManageFrame extends KoLPanelFrame
 					searchName = item.getName();
 				}
 
-				RequestThread.openRequestSequence();
 				StoreManager.searchMall( searchName, priceSummary, 10, true );
 
 				searchLabel.setText( searchName );
 				resultsDisplay.updateUI();
 
 				KoLmafia.updateDisplay( "Price analysis complete." );
-				RequestThread.closeRequestSequence();
+				RequestThread.enableDisplayIfSequenceComplete();
 			}
 		}
 

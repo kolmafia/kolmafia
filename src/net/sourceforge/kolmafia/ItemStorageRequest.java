@@ -189,7 +189,7 @@ public class ItemStorageRequest extends SendMessageRequest
 			while ( !storage.isEmpty() )
 				StaticEntity.getClient().processResult( (AdventureResult) storage.remove(0) );
 
-			CharpaneRequest.getInstance().run();
+			RequestThread.postRequest( CharpaneRequest.getInstance() );
 			break;
 
 		case STORAGE_TO_INVENTORY:

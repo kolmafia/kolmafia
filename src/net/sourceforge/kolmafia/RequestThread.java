@@ -103,14 +103,12 @@ public abstract class RequestThread implements Runnable, KoLConstants
 			return;
 		}
 
-		openRequestSequence();
-
 		if ( SwingUtilities.isEventDispatchThread() )
 			Worker.post( runner );
 		else
 			runner.run();
 
-		closeRequestSequence();
+		enableDisplayIfSequenceComplete();
 	}
 
 	public static void openRequestSequence()
@@ -134,6 +132,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 			return false;
 
 		KoLmafia.enableDisplay();
+		System.out.println( "Display enabled." );
 		return true;
 	}
 

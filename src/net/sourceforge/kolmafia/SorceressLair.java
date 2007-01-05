@@ -871,7 +871,7 @@ public abstract class SorceressLair extends StaticEntity
 			if ( QUEST_HANDLER.responseText.indexOf( "You're out of adventures." ) != -1 )
 				KoLmafia.updateDisplay( ERROR_STATE, "Ran out of adventures." );
 			if ( !QUEST_HANDLER.needsRefresh )
-				StaticEntity.getClient().makeRequest( CharpaneRequest.getInstance() );
+				RequestThread.postRequest( CharpaneRequest.getInstance() );
 		}
 	}
 
@@ -895,7 +895,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			// Decrement adventure tally
 			if ( !QUEST_HANDLER.needsRefresh )
-				StaticEntity.getClient().makeRequest( CharpaneRequest.getInstance() );
+				RequestThread.postRequest( CharpaneRequest.getInstance() );
 		}
 	}
 
@@ -948,7 +948,7 @@ public abstract class SorceressLair extends StaticEntity
 		for ( int towerLevel = currentLevel; KoLCharacter.getAdventuresLeft() > 0 && KoLmafia.permitsContinue() && towerLevel <= 6; ++towerLevel )
 		{
 			requiredItemId = fightGuardian( towerLevel );
-			StaticEntity.getClient().makeRequest( CharpaneRequest.getInstance() );
+			RequestThread.postRequest( CharpaneRequest.getInstance() );
 
 			getClient().runBetweenBattleChecks( false );
 
@@ -999,7 +999,7 @@ public abstract class SorceressLair extends StaticEntity
 			// sometimes doesn't realize it and will complain
 			// "You're not tough enough to fight up here."
 
-			StaticEntity.getClient().makeRequest( CharpaneRequest.getInstance() );
+			RequestThread.postRequest( CharpaneRequest.getInstance() );
 		}
 
 		while ( n < 5 && KoLmafia.permitsContinue() )

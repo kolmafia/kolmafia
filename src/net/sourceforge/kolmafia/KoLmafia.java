@@ -448,7 +448,7 @@ public abstract class KoLmafia implements KoLConstants
 		// all over the place
 
 		executedLogin = true;
-		makeRequest( CharpaneRequest.getInstance() );
+		RequestThread.postRequest( CharpaneRequest.getInstance() );
 		if ( refusesContinue() )
 			return;
 
@@ -545,21 +545,19 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void getBreakfast( boolean checkSettings )
 	{
-		RequestThread.openRequestSequence();
-
 		if ( KoLCharacter.hasToaster() )
 			for ( int i = 0; i < 3 && permitsContinue(); ++i )
-				makeRequest( new CampgroundRequest( "toast" ) );
+				RequestThread.postRequest( new CampgroundRequest( "toast" ) );
 
 		KoLmafia.forceContinue();
 
 		if ( KoLCharacter.hasArches() )
-			makeRequest( new CampgroundRequest( "arches" ) );
+			RequestThread.postRequest( new CampgroundRequest( "arches" ) );
 
 		KoLmafia.forceContinue();
 
 		if ( StaticEntity.getBooleanProperty( "visitRumpus" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
-			makeRequest( new ClanGymRequest( ClanGymRequest.SEARCH ) );
+			RequestThread.postRequest( new ClanGymRequest( ClanGymRequest.SEARCH ) );
 
 		KoLmafia.forceContinue();
 
@@ -585,14 +583,12 @@ public abstract class KoLmafia implements KoLConstants
 					getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i][0], StaticEntity.parseInt( UseSkillRequest.BREAKFAST_SKILLS[i][1] ) );
 			}
 		}
-
-		RequestThread.closeRequestSequence();
 	}
 
 	public void getBreakfast( String skillname, int standardCast )
 	{
 		KoLmafia.forceContinue();
-		makeRequest( UseSkillRequest.getInstance( skillname, standardCast ) );
+		RequestThread.postRequest( UseSkillRequest.getInstance( skillname, standardCast ) );
 	}
 
 	public final void refreshSession()
@@ -600,17 +596,15 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return;
 
-		RequestThread.openRequestSequence();
-
 		// Get current moon phases
 
 		updateDisplay( "Refreshing session data..." );
-		makeRequest( new MoonPhaseRequest() );
+		RequestThread.postRequest( new MoonPhaseRequest() );
 
 		// Retrieve the character sheet first. It's necessary to do
 		// this before concoctions have a chance to get refreshed.
 
-		makeRequest( new CharsheetRequest() );
+		RequestThread.postRequest( new CharsheetRequest() );
 
 		// Clear the violet fog path table and everything
 		// else that changes on the player.
@@ -622,7 +616,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve the items which are available for consumption
 		// and item creation.
 
-		makeRequest( new EquipmentRequest( EquipmentRequest.CLOSET ) );
+		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.CLOSET ) );
 
 		// If the password hash is non-null, but is not available,
 		// then that means you might be mid-transition.
@@ -636,19 +630,18 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve the list of familiars which are available to
 		// the player.
 
-		makeRequest( new FamiliarRequest() );
+		RequestThread.postRequest( new FamiliarRequest() );
 
 		// Retrieve campground data to see if the user is able to
 		// cook, make drinks or make toast.
 
 		updateDisplay( "Retrieving campground data..." );
 
-		makeRequest( new CampgroundRequest() );
-		makeRequest( new ItemStorageRequest() );
+		RequestThread.postRequest( new CampgroundRequest() );
+		RequestThread.postRequest( new ItemStorageRequest() );
 
-		makeRequest( CharpaneRequest.getInstance() );
+		RequestThread.postRequest( CharpaneRequest.getInstance() );
 		updateDisplay( "Session data refreshed." );
-		RequestThread.closeRequestSequence();
 	}
 
 	/**
@@ -1056,9 +1049,9 @@ public abstract class KoLmafia implements KoLConstants
 		if ( restoreSetting.indexOf( "tongue" ) != -1 && activeEffects.contains( KoLAdventure.BEATEN_UP ) )
 		{
 			if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
-				makeRequest( UseSkillRequest.getInstance( "Tongue of the Walrus", 1 ) );
+				RequestThread.postRequest( UseSkillRequest.getInstance( "Tongue of the Walrus", 1 ) );
 			else if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
-				makeRequest( UseSkillRequest.getInstance( "Tongue of the Otter", 1 ) );
+				RequestThread.postRequest( UseSkillRequest.getInstance( "Tongue of the Otter", 1 ) );
 		}
 
 		// Determine all applicable items and skills for the restoration.
@@ -1507,7 +1500,7 @@ public abstract class KoLmafia implements KoLConstants
 
 				if ( adventure.getRequest() instanceof ClanGymRequest )
 				{
-					makeRequest( ((ClanGymRequest)adventure.getRequest()).setTurnCount( iterations ) );
+					RequestThread.postRequest( ((ClanGymRequest)adventure.getRequest()).setTurnCount( iterations ) );
 					return;
 				}
 				else if ( adventure.getRequest() instanceof SewerRequest )
@@ -1602,7 +1595,7 @@ public abstract class KoLmafia implements KoLConstants
 					if ( creatables[i] != null && creatables[i].getQuantityPossible() >= items[i].getCount() )
 					{
 						creatables[i].setQuantityNeeded( items[i].getCount() );
-						makeRequest( creatables[i] );
+						RequestThread.postRequest( creatables[i] );
 						creatables[i] = null;
 					}
 				}
@@ -1728,7 +1721,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( selectedValue == null )
 			return;
 
-		makeRequest( new ZapRequest( wand, (AdventureResult) selectedValue ) );
+		RequestThread.postRequest( new ZapRequest( wand, (AdventureResult) selectedValue ) );
 	}
 
 	/**
@@ -1740,7 +1733,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void makeHermitRequest()
 	{
 		if ( !hermitItems.contains( SewerRequest.CLOVER ) )
-			makeRequest( new HermitRequest() );
+			RequestThread.postRequest( new HermitRequest() );
 
 		if ( !permitsContinue() )
 			return;
@@ -1774,7 +1767,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( tradeCount == 0 )
 			return;
 
-		makeRequest( new HermitRequest( selected, tradeCount ) );
+		RequestThread.postRequest( new HermitRequest( selected, tradeCount ) );
 	}
 
 	/**
@@ -1816,7 +1809,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( tradeCount == 0 )
 			return;
 
-		makeRequest( new TrapperRequest( selected, tradeCount ) );
+		RequestThread.postRequest( new TrapperRequest( selected, tradeCount ) );
 	}
 
 	/**
@@ -1828,7 +1821,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void makeHunterRequest()
 	{
 		if ( hunterItems.isEmpty() )
-			makeRequest( new BountyHunterRequest() );
+			RequestThread.postRequest( new BountyHunterRequest() );
 
 		Object [] hunterItemArray = hunterItems.toArray();
 
@@ -1859,16 +1852,16 @@ public abstract class KoLmafia implements KoLConstants
 			items[0] = selected.getInstance( available - tradeCount );
 
 			if ( permitsContinue() )
-				makeRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
 
 			if ( permitsContinue() )
-				makeRequest( new BountyHunterRequest( selected.getItemId() ) );
+				RequestThread.postRequest( new BountyHunterRequest( selected.getItemId() ) );
 
 			if ( permitsContinue() )
-				makeRequest( new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items ) );
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items ) );
 		}
 		else
-			makeRequest( new BountyHunterRequest( TradeableItemDatabase.getItemId( selectedValue ) ) );
+			RequestThread.postRequest( new BountyHunterRequest( TradeableItemDatabase.getItemId( selectedValue ) ) );
 	}
 
 	/**
@@ -1900,7 +1893,7 @@ public abstract class KoLmafia implements KoLConstants
 		else
 			return;
 
-		makeRequest( new GalaktikRequest( type ) );
+		RequestThread.postRequest( new GalaktikRequest( type ) );
 	}
 
 	/**
@@ -1943,7 +1936,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( selectedValue == null )
 			return;
 
-		makeRequest( new UntinkerRequest( selectedValue.getItemId() ) );
+		RequestThread.postRequest( new UntinkerRequest( selectedValue.getItemId() ) );
 	}
 
 	/**
@@ -1963,7 +1956,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( selectedLevel == null )
 			return;
 
-		makeRequest( new MindControlRequest( StaticEntity.parseInt( selectedLevel.split( " " )[1] ) ) );
+		RequestThread.postRequest( new MindControlRequest( StaticEntity.parseInt( selectedLevel.split( " " )[1] ) ) );
 	}
 
 	public void makeCampgroundRestRequest()
@@ -2079,7 +2072,7 @@ public abstract class KoLmafia implements KoLConstants
 		DEFAULT_SHELL.executeLine( "council" );
 
 		updateDisplay( "Searching for faucet..." );
-		makeRequest( adventure );
+		RequestThread.postRequest( adventure );
 
 		// Random guess instead of straightforward search
 		// for the location of the faucet (lowers the chance
@@ -2091,7 +2084,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			adventure.getRequest().clearDataFields();
 			adventure.getRequest().addFormField( "where", searchIndex.toString() );
-			makeRequest( adventure );
+			RequestThread.postRequest( adventure );
 
 			foundFaucet = adventure.getRequest().responseText != null &&
 				adventure.getRequest().responseText.indexOf( "faucetoff" ) != -1;
@@ -2127,7 +2120,7 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( "Determining items needed..." );
 
 		KoLRequest request = new KoLRequest( "town_right.php?place=gourd", true );
-		makeRequest( request );
+		RequestThread.postRequest( request );
 
 		// For every class, it's the same -- the message reads, "Bring back"
 		// and then the number of the item needed.  Compare how many you need
@@ -2153,7 +2146,7 @@ public abstract class KoLmafia implements KoLConstants
 		while ( neededCount <= 25 && neededCount <= item.getCount( inventory ) )
 		{
 			updateDisplay( "Giving up " + neededCount + " " + item.getName() + "s..." );
-			makeRequest( request.constructURLString( "town_right.php?place=gourd&action=gourd" ) );
+			RequestThread.postRequest( request.constructURLString( "town_right.php?place=gourd&action=gourd" ) );
 			processResult( item.getInstance( 0 - neededCount++ ) );
 		}
 
@@ -2180,7 +2173,7 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( "Entering guild challenge area..." );
 		KoLRequest request = new KoLRequest( "guild.php?place=challenge", true );
 
-		makeRequest( request );
+		RequestThread.postRequest( request );
 
 		boolean success = stopAtPaco ? request.responseText.indexOf( "paco" ) != -1 :
 			request.responseText.indexOf( "store.php" ) != -1;
@@ -2189,7 +2182,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < 6 && !success && KoLCharacter.getAdventuresLeft() > 0 && permitsContinue(); ++i )
 		{
-			makeRequest( request.constructURLString( "guild.php?action=chal" ) );
+			RequestThread.postRequest( request.constructURLString( "guild.php?action=chal" ) );
 
 			if ( request.responseText != null )
 			{
@@ -2199,7 +2192,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		if ( success && KoLCharacter.getLevel() > 3 )
-			makeRequest( request.constructURLString( "guild.php?place=paco" ) );
+			RequestThread.postRequest( request.constructURLString( "guild.php?place=paco" ) );
 
 		if ( success && stopAtPaco )
 			updateDisplay( "You have unlocked the guild meatcar quest." );
@@ -2213,7 +2206,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void priceItemsAtLowestPrice()
 	{
-		makeRequest( new StoreManageRequest() );
+		RequestThread.postRequest( new StoreManageRequest() );
 
 		SoldItem [] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
 		StoreManager.getSoldItemList().toArray( sold );
@@ -2238,7 +2231,7 @@ public abstract class KoLmafia implements KoLConstants
 				prices[i] = sold[i].getPrice();
 		}
 
-		makeRequest( new StoreManageRequest( itemId, prices, limits ) );
+		RequestThread.postRequest( new StoreManageRequest( itemId, prices, limits ) );
 		updateDisplay( "Repricing complete." );
 	}
 
@@ -2594,7 +2587,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			previousLimit = currentRequest.getLimit();
 			currentRequest.setLimit( Math.min( previousLimit, desiredCount - currentCount ) );
-			makeRequest( currentRequest );
+			RequestThread.postRequest( currentRequest );
 
 			// Remove the purchase from the list!  Because you
 			// have already made a purchase from the store
@@ -2973,7 +2966,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void removeAllItemsFromStore()
 	{
 		RequestThread.openRequestSequence();
-		makeRequest( new StoreManageRequest() );
+		RequestThread.postRequest( new StoreManageRequest() );
 
 		// Now determine the desired prices on items.
 		// If the value of an item is currently 100,
@@ -2983,7 +2976,7 @@ public abstract class KoLmafia implements KoLConstants
 		StoreManager.getSoldItemList().toArray( sold );
 
 		for ( int i = 0; i < sold.length && permitsContinue(); ++i )
-			makeRequest( new StoreManageRequest( sold[i].getItemId() ) );
+			RequestThread.postRequest( new StoreManageRequest( sold[i].getItemId() ) );
 
 		updateDisplay( "Store emptying complete." );
 		RequestThread.closeRequestSequence();
@@ -3047,10 +3040,10 @@ public abstract class KoLmafia implements KoLConstants
 		// to determine the minimum price.
 
 		if ( autosell.size() > 0 && permitsContinue() )
-			makeRequest( new AutoSellRequest( autosell.toArray(), AutoSellRequest.AUTOSELL ) );
+			RequestThread.postRequest( new AutoSellRequest( autosell.toArray(), AutoSellRequest.AUTOSELL ) );
 
 		if ( automall.size() > 0 && permitsContinue() )
-			makeRequest( new AutoSellRequest( automall.toArray(), AutoSellRequest.AUTOMALL ) );
+			RequestThread.postRequest( new AutoSellRequest( automall.toArray(), AutoSellRequest.AUTOMALL ) );
 
 		// Now, remove all the items that you intended
 		// to remove from the store due to pricing issues.
@@ -3092,7 +3085,7 @@ public abstract class KoLmafia implements KoLConstants
 
 				if ( canUntinker && ConcoctionsDatabase.getMixingMethod( currentItem.getItemId() ) == ItemCreationRequest.COMBINE )
 				{
-					makeRequest( new UntinkerRequest( currentItem.getItemId() ) );
+					RequestThread.postRequest( new UntinkerRequest( currentItem.getItemId() ) );
 					madeUntinkerRequest = true;
 					continue;
 				}
@@ -3102,12 +3095,12 @@ public abstract class KoLmafia implements KoLConstants
 				case 184: // briefcase
 				case 533: // Gnollish toolbox
 				case 604: // Penultimate fantasy chest
-					makeRequest( new ConsumeItemRequest( currentItem.getInstance( itemCount ) ) );
+					RequestThread.postRequest( new ConsumeItemRequest( currentItem.getInstance( itemCount ) ) );
 					break;
 
 				case 621: // Warm Subject gift certificate
-					makeRequest( new ConsumeItemRequest( currentItem.getInstance(1) ) );
-					makeRequest( new ConsumeItemRequest( currentItem.getInstance( itemCount - 1 ) ) );
+					RequestThread.postRequest( new ConsumeItemRequest( currentItem.getInstance(1) ) );
+					RequestThread.postRequest( new ConsumeItemRequest( currentItem.getInstance( itemCount - 1 ) ) );
 					break;
 
 				}
@@ -3141,13 +3134,13 @@ public abstract class KoLmafia implements KoLConstants
 					case ConsumeItemRequest.EQUIP_OFFHAND:
 
 						if ( itemPower >= 100 || (hasMalusAccess && itemPower > 10) )
-							makeRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
+							RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
 
 						break;
 
 					case ConsumeItemRequest.EQUIP_FAMILIAR:
 					case ConsumeItemRequest.EQUIP_ACCESSORY:
-						makeRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
+						RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
 						break;
 					}
 				}
@@ -3174,7 +3167,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		if ( !sellList.isEmpty() )
-			makeRequest( new AutoSellRequest( sellList.toArray(), AutoSellRequest.AUTOSELL ) );
+			RequestThread.postRequest( new AutoSellRequest( sellList.toArray(), AutoSellRequest.AUTOSELL ) );
 
 		RequestThread.closeRequestSequence();
 	}
