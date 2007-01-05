@@ -136,7 +136,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	private static void restoreCheckpoint( AdventureResult [] checkpoint )
 	{
-		if ( checkpoint[0] == null )
+		if ( checkpoint[0] == null || lastCheckpoint.equals( KoLCharacter.getUserName() ) )
 			return;
 
 		RequestThread.openRequestSequence();
@@ -145,7 +145,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 			StaticEntity.getClient().makeRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
 
 		AdventureResult equippedItem;
-		for ( int i = 0; i < checkpoint.length && lastCheckpoint.equals( KoLCharacter.getUserName() ); ++i )
+		for ( int i = 0; i < checkpoint.length && !KoLmafia.refusesContinue(); ++i )
 		{
 			equippedItem = KoLCharacter.getEquipment( i );
 			if ( checkpoint[i] != null && !checkpoint[i].equals( EquipmentRequest.UNEQUIP ) && !equippedItem.equals( checkpoint[i] ) )

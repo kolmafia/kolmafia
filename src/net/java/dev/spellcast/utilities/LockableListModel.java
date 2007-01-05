@@ -145,8 +145,8 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public void add( int index, Object element )
 	{
-		addVisibleElement( index, element );
 		actualElements.add( index, element );
+		addVisibleElement( index, element );
 	}
 
 	private void addVisibleElement( int index, Object element )
@@ -452,9 +452,8 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		if ( index < 0 || index >= actualElements.size() )
 			return null;
 
-		Object returnValue = actualElements.get( index );
+		Object returnValue = actualElements.remove( index );
 		removeVisibleElement( index, returnValue );
-		actualElements.remove( index );
 
 		return returnValue;
 	}

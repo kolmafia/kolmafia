@@ -289,12 +289,8 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 
 	public void actionPerformed( ActionEvent e )
 	{
-		if ( buttonPanel == null && isValid() && autoConfirmOnChange() )
+		if ( buttonPanel == null && isValid() )
 			actionConfirmed();
-	}
-
-	public boolean autoConfirmOnChange()
-	{	return true;
 	}
 
 	private Object [] thisArray = { this };
