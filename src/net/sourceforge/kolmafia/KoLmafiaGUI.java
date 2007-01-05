@@ -162,7 +162,7 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			for ( int i = 0; i < frameArray.length; ++i )
 			{
-				if ( frameArray[i].equals( "HagnkStorageFrame" ) && (KoLCharacter.isHardcore() || HagnkStorageFrame.getPullsRemaining() == 0) )
+				if ( frameArray[i].equals( "HagnkStorageFrame" ) && KoLCharacter.isHardcore() )
 					continue;
 
 				if ( !initialFrameList.contains( frameArray[i] ) )
@@ -227,8 +227,12 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "HagnkStorageFrame" ) )
 		{
-			if ( storage.isEmpty() || HagnkStorageFrame.getPullsRemaining() < 1 )
+			if ( storage.isEmpty() )
+			{
+				KoLmafia.updateDisplay( "You have nothing in storage." );
+				RequestThread.enableDisplayIfSequenceComplete();
 				return;
+			}
 		}
 		else if ( frameName.equals( "MoneyMakingGameFrame" ) )
 		{
@@ -253,13 +257,14 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "KoLMessenger" ) )
 		{
+			RequestThread.openRequestSequence();
+
 			if ( !isAdventuring() )
 			{
 				updateDisplay( "Retrieving chat color preferences..." );
 				StaticEntity.getClient().makeRequest( new ChannelColorsRequest() );
 			}
 
-			RequestThread.openRequestSequence();
 			KoLMessenger.initialize();
 
 			StaticEntity.getClient().makeRequest( new ChatRequest( null, "/listen" ) );
@@ -289,9 +294,13 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( showAdventuringMessage() )
 				return;
 
+			RequestThread.openRequestSequence();
 			KoLmafia.updateDisplay( "Determining number of attacks remaining..." );
+
 			StaticEntity.getClient().makeRequest( new FlowerHunterRequest() );
 			KoLmafia.updateDisplay( "Attack count retrieved." );
+
+			RequestThread.closeRequestSequence();
 		}
 		else if ( frameName.equals( "BuffRequestFrame" ) )
 		{
@@ -345,7 +354,8 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			if ( !KoLCharacter.hasStore() )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a store." );
+				KoLmafia.updateDisplay( "You don't own a store in the Mall of Loathing." );
+				RequestThread.enableDisplayIfSequenceComplete();
 				return;
 			}
 
