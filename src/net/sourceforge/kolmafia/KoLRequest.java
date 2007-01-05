@@ -1309,9 +1309,7 @@ public class KoLRequest extends Job implements KoLConstants
 		processResults();
 
 		// Let the mappers do their work
-
-		if ( formURLString.indexOf( "choice.php" ) != -1 )
-			mapCurrentChoice( responseText );
+		mapCurrentChoice( responseText );
 
 		if ( responseText.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
 			DEFAULT_SHELL.executeLine( "use 1 ten-leaf clover" );
