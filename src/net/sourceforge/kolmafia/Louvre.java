@@ -209,7 +209,7 @@ public class Louvre
 		{
 			for ( int j = 0; j < LouvreChoiceTable[i].length; ++j )
 			{
-				if ( i != 0 || j != 0 )  map.append( ',' );
+				if ( i != 0 || j != 0 )	 map.append( ',' );
 				map.append( LouvreChoiceTable[i][j] );
 			}
 		}
@@ -326,7 +326,7 @@ public class Louvre
 				return false;
 
 			// Update the path table
-                        mapChoice( lastChoice, lastDecision, source);
+			mapChoice( lastChoice, lastDecision, source);
 			return true;
 		}
 
@@ -589,32 +589,32 @@ public class Louvre
 	//
 	//     http://www.feesher.com/louvre_mapper.php
 	//
-        // Gemelli says:
-        //
-        // Just like the Fog Mapper, each digit transforms from a base-16
-        // character to two base-4 characters. So after this transformation,
-        // you'll end up with a 48-character string containing digits from 0 to
-        // 3.
-        //
-        // The first 39 characters represent the paths from locations 0 through
-        // 12. 0=unmapped, 1=up, 2=down, and 3=sideways. The target locations
-        // are listed in numeric order. So the first three characters represent
-        // the paths from location 0 to locations 4, 5, and 6 in that order.
-        //
-        // For locations 4-12, the first two characters are used to capture the
-        // paths to the absolute locations, and the third character captures
-        // the path to the randomized location. Example: for location 4, the
-        // first character represents the path to location 7, the second to
-        // location 8, and the third to the randomized location.
-        //
-        // So that covers the first 39 characters. The final 9 characters then
-        // tell you the randomized locations accessible from locations 4-12. So
-        // let's say those characters are 021310021 ... this means:
-        //
-        // * the randomized paths from locations 4, 9, and 10 are unmapped
-        // * the randomized paths from locations 6, 8, and 12 connect to location 1
-        // * the randomized paths from locations 5 and 11 connect to location 2
-        // * the randomized path from location 7 connects to location 3
+	// Gemelli says:
+	//
+	// Just like the Fog Mapper, each digit transforms from a base-16
+	// character to two base-4 characters. So after this transformation,
+	// you'll end up with a 48-character string containing digits from 0 to
+	// 3.
+	//
+	// The first 39 characters represent the paths from locations 0 through
+	// 12. 0=unmapped, 1=up, 2=down, and 3=sideways. The target locations
+	// are listed in numeric order. So the first three characters represent
+	// the paths from location 0 to locations 4, 5, and 6 in that order.
+	//
+	// For locations 4-12, the first two characters are used to capture the
+	// paths to the absolute locations, and the third character captures
+	// the path to the randomized location. Example: for location 4, the
+	// first character represents the path to location 7, the second to
+	// location 8, and the third to the randomized location.
+	//
+	// So that covers the first 39 characters. The final 9 characters then
+	// tell you the randomized locations accessible from locations 4-12. So
+	// let's say those characters are 021310021 ... this means:
+	//
+	// * the randomized paths from locations 4, 9, and 10 are unmapped
+	// * the randomized paths from locations 6, 8, and 12 connect to location 1
+	// * the randomized paths from locations 5 and 11 connect to location 2
+	// * the randomized path from location 7 connects to location 3
 
 	public static String gemelliCode()
 	{
