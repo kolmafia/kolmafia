@@ -67,7 +67,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 			String password = getSaveState( autoLogin );
 			if ( password != null && !password.equals( "" ) )
-				StaticEntity.getClient().makeRequest( new LoginRequest( autoLogin, password ) );
+				RequestThread.postRequest( new LoginRequest( autoLogin, password ) );
 		}
 	}
 
@@ -117,7 +117,7 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			if ( StaticEntity.getBooleanProperty( "retrieveContacts" ) )
 			{
-				StaticEntity.getClient().makeRequest( new ContactListRequest() );
+				RequestThread.postRequest( new ContactListRequest() );
 				StaticEntity.setProperty( "retrieveContacts", String.valueOf( !contactList.isEmpty() ) );
 			}
 		}
@@ -205,9 +205,8 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( !isAdventuring() )
 			return false;
 
-		RequestThread.openRequestSequence();
 		updateDisplay( "You are currently adventuring." );
-		RequestThread.closeRequestSequence();
+		RequestThread.enableDisplayIfSequenceComplete();
 
 		return true;
 	}
@@ -242,7 +241,7 @@ public class KoLmafiaGUI extends KoLmafia
 			RequestThread.openRequestSequence();
 
 			updateDisplay( "Retrieving MMG bet history..." );
-			StaticEntity.getClient().makeRequest( new MoneyMakingGameRequest() );
+			RequestThread.postRequest( new MoneyMakingGameRequest() );
 
 			if ( MoneyMakingGameRequest.getBetSummary().isEmpty() )
 			{
@@ -262,12 +261,12 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( !isAdventuring() )
 			{
 				updateDisplay( "Retrieving chat color preferences..." );
-				StaticEntity.getClient().makeRequest( new ChannelColorsRequest() );
+				RequestThread.postRequest( new ChannelColorsRequest() );
 			}
 
 			KoLMessenger.initialize();
 
-			StaticEntity.getClient().makeRequest( new ChatRequest( null, "/listen" ) );
+			RequestThread.postRequest( new ChatRequest( null, "/listen" ) );
 			updateDisplay( "Color preferences retrieved.  Chat started." );
 
 			RequestThread.closeRequestSequence();
@@ -278,7 +277,7 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( showAdventuringMessage() )
 				return;
 
-			StaticEntity.getClient().makeRequest( new MailboxRequest( "Inbox" ) );
+			RequestThread.postRequest( new MailboxRequest( "Inbox" ) );
 			if ( LoginRequest.isInstanceRunning() )
 				return;
 		}
@@ -287,7 +286,7 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( showAdventuringMessage() )
 				return;
 
-			StaticEntity.getClient().makeRequest( new MuseumRequest() );
+			RequestThread.postRequest( new MuseumRequest() );
 		}
 		else if ( frameName.equals( "FlowerHunterFrame" ) )
 		{
@@ -297,22 +296,19 @@ public class KoLmafiaGUI extends KoLmafia
 			RequestThread.openRequestSequence();
 			KoLmafia.updateDisplay( "Determining number of attacks remaining..." );
 
-			StaticEntity.getClient().makeRequest( new FlowerHunterRequest() );
+			RequestThread.postRequest( new FlowerHunterRequest() );
 			KoLmafia.updateDisplay( "Attack count retrieved." );
 
 			RequestThread.closeRequestSequence();
 		}
 		else if ( frameName.equals( "BuffRequestFrame" ) )
 		{
-			RequestThread.openRequestSequence();
 			if ( !BuffBotDatabase.hasOfferings() )
 			{
 				updateDisplay( "No buffs found to purchase." );
-				RequestThread.closeRequestSequence();
+				RequestThread.enableDisplayIfSequenceComplete();
 				return;
 			}
-
-			RequestThread.closeRequestSequence();
 		}
 		else if ( frameName.equals( "CakeArenaFrame" ) || frameName.equals( "FamiliarTrainingFrame" ) )
 		{
@@ -328,6 +324,8 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "ItemManageFrame" ) )
 		{
+			RequestThread.openRequestSequence();
+
 			if ( !isAdventuring() )
 			{
 				// If the person is in a mysticality sign, make sure
@@ -335,7 +333,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 				if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
 					if ( restaurantItems.isEmpty() )
-						StaticEntity.getClient().makeRequest( new RestaurantRequest() );
+						RequestThread.postRequest( new RestaurantRequest() );
 
 				// If the person is in a moxie sign and they have completed
 				// the beach quest, then retrieve information from the
@@ -343,12 +341,14 @@ public class KoLmafiaGUI extends KoLmafia
 
 				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() )
 					if ( microbreweryItems.isEmpty() )
-						StaticEntity.getClient().makeRequest( new MicrobreweryRequest() );
+						RequestThread.postRequest( new MicrobreweryRequest() );
 
 				if ( StaticEntity.getBooleanProperty( "showStashIngredients" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 					if ( !ClanManager.isStashRetrieved() )
-						StaticEntity.getClient().makeRequest( new ClanStashRequest() );
+						RequestThread.postRequest( new ClanStashRequest() );
 			}
+
+			RequestThread.closeRequestSequence();
 		}
 		else if ( frameName.equals( "StoreManageFrame" ) )
 		{
@@ -362,8 +362,8 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( !isAdventuring() )
 			{
 				RequestThread.openRequestSequence();
-				StaticEntity.getClient().makeRequest( new StoreManageRequest( true ) );
-				StaticEntity.getClient().makeRequest( new StoreManageRequest( false ) );
+				RequestThread.postRequest( new StoreManageRequest( true ) );
+				RequestThread.postRequest( new StoreManageRequest( false ) );
 				RequestThread.closeRequestSequence();
 			}
 		}

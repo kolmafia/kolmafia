@@ -477,10 +477,7 @@ public abstract class StaticEntity implements KoLConstants
 		try
 		{
 			if ( shouldOpenStream )
-			{
 				KoLmafia.closeDebugStream();
-				BrowserLauncher.openURL( (new File( "DEBUG.txt" )).getAbsolutePath() );
-			}
 		}
 		catch ( Exception e )
 		{

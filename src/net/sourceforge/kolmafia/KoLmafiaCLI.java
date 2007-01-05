@@ -904,7 +904,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.equals( "all" ) )
 				StaticEntity.getClient().refreshSession();
 			else if ( parameters.equals( "status" ) || parameters.equals( "effects" ) )
-				CharpaneRequest.getInstance().run();
+				RequestThread.postRequest( CharpaneRequest.getInstance() );
 			else if ( parameters.equals( "gear" ) || parameters.startsWith( "equip" ) || parameters.equals( "outfit" ) )
 				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
 			else if ( parameters.startsWith( "inv" ) )

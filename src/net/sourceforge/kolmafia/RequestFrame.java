@@ -482,9 +482,8 @@ public class RequestFrame extends KoLFrame
 		if ( !refreshStatusEnabled )
 			return;
 
-		StaticEntity.getClient().makeRequest( CharpaneRequest.getInstance() );
+		RequestThread.postRequest( CharpaneRequest.getInstance() );
 		refreshStatus( RequestEditorKit.getDisplayHTML( "", CharpaneRequest.getInstance().responseText ) );
-
 	}
 
 	private static void refreshStatus( String responseText )

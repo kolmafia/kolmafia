@@ -488,17 +488,17 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 
 			KoLmafia.updateDisplay( "Equipment changed." );
-			CharpaneRequest.getInstance().run();
+			RequestThread.postRequest( CharpaneRequest.getInstance() );
 			break;
 
 		case REMOVE_ITEM:
 			KoLmafia.updateDisplay( "Equipment changed." );
-			CharpaneRequest.getInstance().run();
+			RequestThread.postRequest( CharpaneRequest.getInstance() );
 			break;
 
 		case UNEQUIP_ALL:
 			KoLmafia.updateDisplay( "Everything removed." );
-			CharpaneRequest.getInstance().run();
+			RequestThread.postRequest( CharpaneRequest.getInstance() );
 			break;
 		}
 	}
