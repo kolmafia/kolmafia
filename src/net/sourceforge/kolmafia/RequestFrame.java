@@ -483,11 +483,14 @@ public class RequestFrame extends KoLFrame
 			return;
 
 		RequestThread.postRequest( CharpaneRequest.getInstance() );
-		refreshStatus( RequestEditorKit.getDisplayHTML( "", CharpaneRequest.getInstance().responseText ) );
+		refreshStatus( CharpaneRequest.getInstance().responseText );
 	}
 
 	private static void refreshStatus( String responseText )
 	{
+		if ( responseText == null )
+			return;
+
 		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		if ( frames == null )
 			return;
@@ -498,7 +501,7 @@ public class RequestFrame extends KoLFrame
 				continue;
 
 			((RequestFrame)frames[i]).sideBuffer.clearBuffer();
-			((RequestFrame)frames[i]).sideBuffer.append( responseText );
+			((RequestFrame)frames[i]).sideBuffer.append( RequestEditorKit.getDisplayHTML( "charpane.php", responseText ) );
 		}
 	}
 

@@ -554,17 +554,6 @@ public class AdventureFrame extends KoLFrame
 			public void setEnabled( boolean isEnabled )
 			{	begin.setEnabled( isEnabled );
 			}
-
-			private class ExecuteButton extends ActionButton
-			{
-				public ExecuteButton()
-				{	super( "begin" );
-				}
-
-				public void actionPerformed( ActionEvent e )
-				{	(new Thread( new AdventureRunnable() )).start();
-				}
-			}
 		}
 
 		private class WorthlessItemRequest implements Runnable
@@ -681,20 +670,13 @@ public class AdventureFrame extends KoLFrame
 			}
 		}
 
-		private class WorldPeaceButton extends ActionButton
+		private class ExecuteButton extends ActionButton
 		{
-			public WorldPeaceButton()
-			{	super( "stop" );
+			public ExecuteButton()
+			{	super( "begin" );
 			}
 
 			public void actionPerformed( ActionEvent e )
-			{	RequestThread.declareWorldPeace();
-			}
-		}
-
-		private class AdventureRunnable implements Runnable
-		{
-			public void run()
 			{
 				if ( KoLmafia.isAdventuring() )
 					return;
@@ -743,6 +725,17 @@ public class AdventureFrame extends KoLFrame
 				countField.setValue( new Integer( requestCount ) );
 
 				StaticEntity.getClient().makeRequest( request, requestCount );
+			}
+		}
+
+		private class WorldPeaceButton extends ActionButton
+		{
+			public WorldPeaceButton()
+			{	super( "stop" );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{	RequestThread.declareWorldPeace();
 			}
 		}
 

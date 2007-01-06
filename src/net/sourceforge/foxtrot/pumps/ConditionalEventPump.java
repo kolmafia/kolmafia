@@ -232,6 +232,7 @@ public class ConditionalEventPump implements EventPump, EventFilterable
     */
    protected AWTEvent peekEvent(EventQueue queue)
    {
+      sun.awt.SunToolkit.flushPendingEvents();
       return queue.peekEvent();
    }
 

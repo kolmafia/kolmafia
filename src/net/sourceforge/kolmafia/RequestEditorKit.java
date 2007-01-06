@@ -721,6 +721,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static final String getDisplayHTML( String location, String responseText )
 	{
+		if ( responseText == null )
+			return "";
+
 		// Switch all the <BR> tags that are not understood
 		// by the default Java browser to an understood form,
 		// and remove all <HR> tags.
@@ -880,6 +883,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static String getFeatureRichHTML( String location, String text )
 	{
+		if ( text == null )
+			return "";
+
 		StringBuffer buffer = new StringBuffer( text );
 		getFeatureRichHTML( location, buffer );
 		return buffer.toString();
