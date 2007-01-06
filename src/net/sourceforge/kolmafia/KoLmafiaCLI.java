@@ -2950,9 +2950,8 @@ public class KoLmafiaCLI extends KoLmafia
 		String [] nameArray = new String[ nameList.size() ];
 		nameList.toArray( nameArray );
 
-		int shortestIndex = -1;
+		int lowestId = Integer.MAX_VALUE;
 		boolean npcStoreMatch = false;
-		int shortestLength = Integer.MAX_VALUE;
 
 		int itemId;
 
@@ -2966,27 +2965,17 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( NPCStoreDatabase.contains( nameArray[i], false ) )
 			{
-				if ( !npcStoreMatch )
-				{
-					npcStoreMatch = true;
-					shortestIndex = i;
-					shortestLength = nameArray[i].length();
-				}
-				else if ( nameArray[i].length() < shortestLength )
-				{
-					shortestIndex = i;
-					shortestLength = nameArray[i].length();
-				}
+				if ( !npcStoreMatch || itemId < lowestId )
+					lowestId = itemId;
+
+				npcStoreMatch = true;
 			}
 
-			if ( !npcStoreMatch && nameArray[i].length() < shortestLength )
-			{
-				shortestIndex = i;
-				shortestLength = nameArray[i].length();
-			}
+			if ( !npcStoreMatch && itemId < lowestId )
+				lowestId = itemId;
 		}
 
-		return shortestIndex == -1 ? -1 : TradeableItemDatabase.getItemId( nameArray[ shortestIndex ] );
+		return lowestId == Integer.MAX_VALUE ? -1 : lowestId;
 	}
 
 	/**
