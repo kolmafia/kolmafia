@@ -150,10 +150,10 @@ public abstract class CombatSettings implements KoLConstants
 
 					if ( Character.isDigit( line.charAt(0) ) )
 					{
-						String [] pieces = line.split( "\\s*:\\s*" );
-						int desiredIndex = StaticEntity.parseInt( pieces[0] );
+						int colonIndex = line.indexOf( ":" );
+						int desiredIndex = StaticEntity.parseInt( line.substring( 0, colonIndex ).trim() );
 
-						if ( pieces.length == 2 && desiredIndex >= currentList.getChildCount() )
+						if ( desiredIndex >= currentList.getChildCount() )
 						{
 							String action = currentList.getChildCount() > 0 ?
 								((CombatActionNode) currentList.getLastChild()).action : "attack with weapon";
@@ -161,7 +161,7 @@ public abstract class CombatSettings implements KoLConstants
 							while ( currentList.getChildCount() < desiredIndex - 1 )
 								currentList.add( new CombatActionNode( currentList.getChildCount() + 1, action ) );
 
-							currentList.add( new CombatActionNode( desiredIndex, pieces[1].trim() ) );
+							currentList.add( new CombatActionNode( desiredIndex, line.substring( colonIndex + 1 ).trim() ) );
 						}
 					}
 

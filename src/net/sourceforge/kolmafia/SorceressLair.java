@@ -343,7 +343,10 @@ public abstract class SorceressLair extends StaticEntity
 		StaticEntity.getClient().makeRequest( new FamiliarRequest( originalFamiliar ) );
 
 		if ( !KoLmafia.checkRequirements( requirements ) || KoLmafia.refusesContinue() )
+		{
+			SpecialOutfit.restoreImplicitCheckpoint();
 			return;
+		}
 
 		StaticEntity.getClient().makeRequest( new EquipmentRequest( SCUBA, KoLCharacter.ACCESSORY1 ) );
 
@@ -376,6 +379,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( QUEST_HANDLER.responseText.indexOf( "lair3.php" ) == -1 )
 		{
+			SpecialOutfit.restoreImplicitCheckpoint();
 			KoLmafia.updateDisplay( ERROR_STATE, "Failed to complete entryway." );
 			return;
 		}
@@ -398,6 +402,7 @@ public abstract class SorceressLair extends StaticEntity
 			StaticEntity.getClient().makeRequest( irequest );
 		}
 
+		SpecialOutfit.restoreImplicitCheckpoint();
 		KoLmafia.updateDisplay( "Sorceress entryway complete." );
 	}
 

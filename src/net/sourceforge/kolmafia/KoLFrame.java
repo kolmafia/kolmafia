@@ -711,7 +711,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( currentValue.equals( "*" ) )
 			return defaultValue;
 
-		return StaticEntity.parseInt( field.getText().trim() );
+		String text = field.getText().trim();
+		for ( int i = 0; i < text.length(); ++i )
+			if ( !Character.isDigit( text.charAt(i) ) )
+				return defaultValue;
+
+		return StaticEntity.parseInt( text );
 	}
 
 	public static final int getValue( JSpinner field, int defaultValue )
@@ -737,6 +742,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		if ( currentValue.equals( "*" ) )
 			return maximumValue;
+
+		for ( int i = 0; i < currentValue.length(); ++i )
+			if ( !Character.isDigit( currentValue.charAt(i) ) )
+				return 0;
 
 		int desiredValue = StaticEntity.parseInt( currentValue );
 		return desiredValue <= 0 ? maximumValue - desiredValue : Math.min( desiredValue, maximumValue );
