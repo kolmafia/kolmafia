@@ -438,6 +438,10 @@ public class LoginFrame extends KoLFrame
 			mushroomPlot.setSelected( StaticEntity.getBooleanProperty( "autoPlant" + breakfastType ) );
 			rumpusRoom.setSelected( StaticEntity.getBooleanProperty( "visitRumpus" + breakfastType ) );
 		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+		}
 	}
 
 	private class StartupFramesPanel extends LabeledKoLPanel
@@ -601,6 +605,10 @@ public class LoginFrame extends KoLFrame
 		{	return false;
 		}
 
+		public void setEnabled( boolean isEnabled )
+		{
+		}
+
 		private class InterfaceRadioButton extends JRadioButton implements ActionListener
 		{
 			public InterfaceRadioButton( String text )
@@ -687,6 +695,10 @@ public class LoginFrame extends KoLFrame
 			container.add( new InterfaceCheckboxPanel(), BorderLayout.SOUTH );
 		}
 
+		public void setEnabled( boolean isEnabled )
+		{
+		}
+
 		public void actionConfirmed()
 		{
 			String lookAndFeel = (String) looks.getSelectedItem();
@@ -745,6 +757,10 @@ public class LoginFrame extends KoLFrame
 				for ( int i = 0; i < options.length; ++i )
 					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
 			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+			}
 		}
 	}
 
@@ -790,6 +806,10 @@ public class LoginFrame extends KoLFrame
 
 		public void actionCancelled()
 		{	servers.setSelectedIndex( StaticEntity.getIntegerProperty( "defaultLoginServer" ) );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
 		}
 	}
 
@@ -854,6 +874,10 @@ public class LoginFrame extends KoLFrame
 			proxyPort.setText( StaticEntity.getProperty( "http.proxyPort" ) );
 			proxyLogin.setText( StaticEntity.getProperty( "http.proxyUser" ) );
 			proxyPassword.setText( StaticEntity.getProperty( "http.proxyPassword" ) );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
 		}
 	}
 }
