@@ -527,8 +527,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		{
 			try
 			{
+				RequestThread.openRequestSequence();
+
 				if ( method != null )
 					method.invoke( object instanceof KoLmafia ? StaticEntity.getClient() : object, null );
+
+				RequestThread.closeRequestSequence();
 			}
 			catch ( Exception e1 )
 			{
