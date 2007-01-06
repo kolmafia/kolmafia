@@ -1002,6 +1002,8 @@ public abstract class SorceressLair extends StaticEntity
 			RequestThread.postRequest( CharpaneRequest.getInstance() );
 		}
 
+		SpecialOutfit.createImplicitCheckpoint();
+
 		while ( n < 5 && KoLmafia.permitsContinue() )
 		{
 			switch ( n )
@@ -1059,6 +1061,8 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		StaticEntity.getClient().makeRequest( new FamiliarRequest( originalFamiliar ) );
+		SpecialOutfit.restoreImplicitCheckpoint();
+
 		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
 		resetAutoAttack( previousAutoAttack );
 
