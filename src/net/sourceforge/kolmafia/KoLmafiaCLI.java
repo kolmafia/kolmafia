@@ -1256,7 +1256,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "equip" ) || command.equals( "wear" ) || command.equals( "wield" ) )
 		{
-			SpecialOutfit.clearImplicitCheckpoint();
 			executeEquipCommand( parameters );
 			return;
 		}
@@ -1266,7 +1265,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "unequip" ) || command.equals( "remove" ) )
 		{
-			SpecialOutfit.clearImplicitCheckpoint();
 			executeUnequipCommand( parameters );
 			return;
 		}
@@ -1373,7 +1371,6 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			SpecialOutfit.clearImplicitCheckpoint();
 			executeChangeOutfitCommand( parameters );
 			return;
 		}
@@ -3388,6 +3385,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void executeBuyCommand( String parameters )
 	{
+		SpecialOutfit.createImplicitCheckpoint();
+
 		Object [] matches = getMatchingItemList( parameters );
 
 		for ( int i = 0; i < matches.length; ++i )
@@ -3405,6 +3404,8 @@ public class KoLmafiaCLI extends KoLmafia
 			StoreManager.searchMall( '\"' + match.getName() + '\"', results, 10, false );
 			StaticEntity.getClient().makePurchases( results, results.toArray(), match.getCount() );
 		}
+
+		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	/**

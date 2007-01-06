@@ -1591,7 +1591,7 @@ public class AdventureFrame extends KoLFrame
 			mpBalanceSelect = new JComboBox();
 			mpBalanceSelect.addItem( "Only auto-cast spells to sustain moods" );
 			for ( int i = 1; i <= 9; ++i )
-				mpBalanceSelect.addItem( "Auto-cast if extra mp would be " + (i*10) + "% above auto-recover threshold" );
+				mpBalanceSelect.addItem( "If effective mp " + (i*10) + "% above threshold" );
 
 			mpAutoRecoverSelect = new JComboBox();
 			mpAutoRecoverSelect.addItem( "Do not automatically recover mana" );
