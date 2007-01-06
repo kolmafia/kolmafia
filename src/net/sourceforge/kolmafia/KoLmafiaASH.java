@@ -694,12 +694,8 @@ public class KoLmafiaASH extends StaticEntity
 
 				// Remove whitespace at front and end
 				line = line.trim();
-
-				// Ignore whole-line comments
-				if ( line.startsWith( "#" ) || line.startsWith( "\'" ) )
-					continue;
 			}
-			while ( line.length() == 0 );
+			while ( line.length() == 0 || line.startsWith( "#" ) || line.startsWith( "\'" ) || line.startsWith( "//" ) );
 
 			// Found valid line - return it
 
