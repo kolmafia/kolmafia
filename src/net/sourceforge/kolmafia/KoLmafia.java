@@ -607,6 +607,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		RequestThread.postRequest( new CharsheetRequest() );
 
+		if ( KoLCharacter.isHardcore() )
+			StaticEntity.setProperty( "createWithoutBoxServants", "true" );
+
 		// Clear the violet fog path table and everything
 		// else that changes on the player.
 
