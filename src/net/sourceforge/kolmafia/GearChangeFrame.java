@@ -187,8 +187,6 @@ public class GearChangeFrame extends KoLFrame
 		AdventureResult famitem = (AdventureResult) equipment[KoLCharacter.FAMILIAR].getSelectedItem();
 		if ( KoLCharacter.getFamiliar().canEquip( famitem ) && !KoLCharacter.getFamiliar().getItem().equals( famitem ) )
 			StaticEntity.getClient().makeRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
-
-		SpecialOutfit.clearImplicitCheckpoint();
 	}
 
 	public static void updateWeapons()
@@ -230,7 +228,6 @@ public class GearChangeFrame extends KoLFrame
 						return;
 
 					StaticEntity.getClient().makeRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
-					SpecialOutfit.clearImplicitCheckpoint();
 					setSelectedItem( null );
 					return;
 				}

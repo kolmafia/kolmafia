@@ -136,7 +136,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	private static void restoreCheckpoint( AdventureResult [] checkpoint )
 	{
-		if ( checkpoint[0] == null || lastCheckpoint.equals( KoLCharacter.getUserName() ) )
+		if ( checkpoint[0] == null || !lastCheckpoint.equals( KoLCharacter.getUserName() ) )
 			return;
 
 		RequestThread.openRequestSequence();
