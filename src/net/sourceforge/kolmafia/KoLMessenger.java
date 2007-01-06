@@ -60,7 +60,7 @@ public abstract class KoLMessenger extends StaticEntity
 	private static final Pattern CHANNEL_PATTERN = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" );
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<img.*?>" );
-	private static final Pattern EXPAND_PATTERN = Pattern.compile( "(</?p>)+" );
+	private static final Pattern EXPAND_PATTERN = Pattern.compile( "</?p>" );
 	private static final Pattern COLOR_PATTERN = Pattern.compile( "</?font.*?>" );
 	private static final Pattern LINEBREAK_PATTERN = Pattern.compile( "</?br>", Pattern.CASE_INSENSITIVE );
 	private static final Pattern TABLE_PATTERN = Pattern.compile( "<table>.*?</table>" );
@@ -70,7 +70,8 @@ public abstract class KoLMessenger extends StaticEntity
 	private static final Pattern MULTILINE_PATTERN = Pattern.compile( "\n+" );
 
 	private static final Pattern GREEN_PATTERN = Pattern.compile( "<font color=green><b>(.*?)</font></a></b> (.*?)</font>" );
-	private static final Pattern NESTED_LINKS_PATTERN = Pattern.compile( "<a target=mainpane href=\"(.*?)\"><font color=green>(.*?) <a[^>]+><font color=green>([^<]*?)</font></a>.</font></a>" );
+	private static final Pattern NESTED_LINKS_PATTERN = Pattern.compile( "<a target=mainpane href=\"([^<]*?)\"><font color=green>(.*?) <a[^>]+><font color=green>([^<]*?)</font></a>.</font></a>" );
+	private static final Pattern WHOIS_PATTERN = Pattern.compile( "(<a [^>]*?>)<b><font color=green>([^>]*? \\(#\\d+\\))</b></a>([^<]*?)<br>" );
 
 	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm a", Locale.US );
 
@@ -417,7 +418,7 @@ public abstract class KoLMessenger extends StaticEntity
 	{
 		String noImageContent = IMAGE_PATTERN.matcher( originalContent ).replaceAll( "" );
 		String normalBreaksContent = LINEBREAK_PATTERN.matcher( noImageContent ).replaceAll( "<br>" );
-		String condensedContent = EXPAND_PATTERN.matcher( normalBreaksContent ).replaceAll( "<br><br>" );
+		String condensedContent = EXPAND_PATTERN.matcher( normalBreaksContent ).replaceAll( "<br>" );
 
 		String normalBoldsContent = StaticEntity.globalStringReplace( condensedContent, "<br></b>", "</b><br>" );
 		String colonOrderedContent = StaticEntity.globalStringReplace( normalBoldsContent, ":</b></a>", "</a></b>:" );
@@ -429,6 +430,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		String fixedGreenContent = GREEN_PATTERN.matcher( italicOrderedContent ).replaceAll( "<font color=green><b>$1</b></font></a> $2</font>" );
 		fixedGreenContent = NESTED_LINKS_PATTERN.matcher( fixedGreenContent ).replaceAll( "<a target=mainpane href=\"$1\"><font color=green>$2 $3</font></a>" );
+		fixedGreenContent = WHOIS_PATTERN.matcher( fixedGreenContent ).replaceAll( "$1<b><font color=green>$2</font></b></a><font color=green>$3</font><br>" );
 
 		String leftAlignContent = StaticEntity.globalStringDelete( fixedGreenContent, "<center>" );
 		leftAlignContent = StaticEntity.globalStringReplace( leftAlignContent, "</center>", "<br>" );
