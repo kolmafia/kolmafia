@@ -9,10 +9,7 @@
 package net.sourceforge.foxtrot;
 
 import javax.swing.SwingUtilities;
-
 import net.sourceforge.foxtrot.pumps.ConditionalEventPump;
-import net.sourceforge.foxtrot.pumps.QueueEventPump;
-import net.sourceforge.foxtrot.pumps.SunJDK14ConditionalEventPump;
 
 /**
  * Base class for Foxtrot workers that have synchronous behavior.
@@ -58,23 +55,7 @@ abstract class AbstractSyncWorker extends AbstractWorker
     */
    EventPump createDefaultEventPump()
    {
-      if (JREVersion.isJRE14())
-      {
-         // Handles also JDK 5.0
-         return new SunJDK14ConditionalEventPump();
-      }
-      else if (JREVersion.isJRE13())
-      {
-         return new ConditionalEventPump();
-      }
-      else if (JREVersion.isJRE12())
-      {
-         return new QueueEventPump();
-      }
-      else
-      {
-         throw new Error("The current JRE is not supported");
-      }
+	 return new ConditionalEventPump();
    }
 
    /**
