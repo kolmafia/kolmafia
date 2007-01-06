@@ -412,10 +412,60 @@ public abstract class MoodSettings implements KoLConstants
 	{	execute( false );
 	}
 
+	private static void burnExtraMana()
+	{
+		int starting = (int) (StaticEntity.getFloatProperty( "mpThreshold" ) * (float) KoLCharacter.getMaximumMP());
+		if ( starting <= 0 || KoLCharacter.getCurrentMP() < starting )
+			return;
+
+		int threshold = Math.max( (int) (StaticEntity.getFloatProperty( "mpAutoRecovery" ) * KoLCharacter.getMaximumMP()), 0 );
+		if ( KoLCharacter.getCurrentMP() < threshold )
+			return;
+
+		MoodTrigger currentTrigger, matchingTrigger;
+
+
+		do
+		{
+			matchingTrigger = null;
+
+			AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
+			activeEffects.toArray( effects );
+
+			for ( int i = 0; i < effects.length && matchingTrigger == null; ++i )
+			{
+				for ( int j = 0; j < displayList.size() && matchingTrigger == null; ++j )
+				{
+					currentTrigger = (MoodTrigger) displayList.get(j);
+					if ( currentTrigger.effect.equals( effects[i] ) && currentTrigger.command.startsWith( "cast" ) )
+						matchingTrigger = currentTrigger;
+				}
+			}
+
+			if ( matchingTrigger != null )
+			{
+				int skillId = ClassSkillsDatabase.getSkillId( matchingTrigger.parameters );
+				int castCount = (KoLCharacter.getCurrentMP() - threshold) / ClassSkillsDatabase.getMPConsumptionById( skillId );
+
+				if ( castCount > 0 )
+					DEFAULT_SHELL.executeLine( "cast " + castCount + " " + matchingTrigger.parameters );
+				else
+					matchingTrigger = null;
+			}
+		}
+		while ( matchingTrigger != null && KoLmafia.permitsContinue() );
+	}
+
 	public static void execute( boolean isManualInvocation )
 	{
-		if ( KoLmafia.refusesContinue() || !willExecute( isManualInvocation ) )
+		if ( KoLmafia.refusesContinue() )
 			return;
+
+		if ( !willExecute( isManualInvocation ) )
+		{
+			burnExtraMana();
+			return;
+		}
 
 		SpecialOutfit.createImplicitCheckpoint();
 		isExecuting = true;
@@ -493,6 +543,7 @@ public abstract class MoodSettings implements KoLConstants
 				current.execute( isManualInvocation );
 		}
 
+		burnExtraMana();
 		isExecuting = false;
 	}
 
@@ -844,15 +895,60 @@ public abstract class MoodSettings implements KoLConstants
 		private int skillId = -1;
 		private AdventureResult effect;
 		private boolean isThiefTrigger = false;
-		private String stringForm, type, name, action;
 
-		public MoodTrigger( String stringForm, String type, String name, String action )
+		private StringBuffer stringForm;
+
+		private String type, name;
+		private String action, command, count, parameters;
+
+		public MoodTrigger( String type, String name, String action )
 		{
-			this.stringForm = stringForm;
 			this.type = type;
-
 			this.name = name;
-			this.action = action;
+
+			if ( action.startsWith( "use " ) || action.startsWith( "cast " ) )
+			{
+				// Determine the command, the count amount,
+				// and the parameter's unambiguous form.
+
+				int spaceIndex = action.indexOf( " " );
+
+				this.command = action.substring( 0, spaceIndex );
+				this.parameters = action.substring( spaceIndex + 1 ).trim();
+
+				if ( this.command.equals( "use" ) )
+				{
+					AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( this.parameters );
+
+					this.count = String.valueOf( item.getCount() );
+					this.parameters = item.getName();
+				}
+				else
+				{
+					this.count = "1";
+
+					if ( Character.isDigit( this.parameters.charAt(0) ) )
+					{
+						spaceIndex = this.parameters.indexOf( " " );
+						this.count = this.parameters.substring( 0, spaceIndex );
+
+						this.parameters = this.parameters.substring( spaceIndex ).trim();
+
+						if ( !ClassSkillsDatabase.contains( this.parameters ) )
+							this.parameters = KoLmafiaCLI.getSkillName( this.parameters );
+					}
+				}
+
+				this.action = command + " " + count + " " + parameters;
+			}
+			else
+			{
+				this.command = action;
+				this.count = "";
+				this.parameters = "";
+
+				this.action = action;
+			}
 
 			this.effect = name == null ? null : new AdventureResult( name, 1, true );
 
@@ -865,6 +961,9 @@ public abstract class MoodSettings implements KoLConstants
 					isThiefTrigger = skillId > 6000 && skillId < 7000;
 				}
 			}
+
+			this.stringForm = new StringBuffer();
+			updateStringForm();
 		}
 
 		public String getType()
@@ -879,8 +978,12 @@ public abstract class MoodSettings implements KoLConstants
 		{	return action;
 		}
 
+		public String getCommand()
+		{	return command;
+		}
+
 		public String toString()
-		{	return stringForm;
+		{	return stringForm.toString();
 		}
 
 		public String toSetting()
@@ -987,36 +1090,16 @@ public abstract class MoodSettings implements KoLConstants
 			return compareResult;
 		}
 
-		public static MoodTrigger constructNode( String line )
+		public void updateStringForm()
 		{
-			String [] pieces = line.split( " => " );
-			if ( pieces.length != 2 )
-				return null;
+			stringForm.setLength(0);
 
-			StringBuffer stringForm = new StringBuffer();
-			String type = null;
-
-			if ( pieces[0].startsWith( "gain_effect" ) )
-			{
-				type = "gain_effect";
+			if ( type.equals( "gain_effect" ) )
 				stringForm.append( "When I get" );
-			}
-			else if ( pieces[0].startsWith( "lose_effect" ) )
-			{
-				type = "lose_effect";
+			else if ( type.equals( "lose_effect" ) )
 				stringForm.append( "When I run low on" );
-			}
-			else if ( pieces[0].startsWith( "unconditional" ) )
-			{
-				type = "unconditional";
+			else
 				stringForm.append( "Always" );
-			}
-
-			if ( type == null )
-				return null;
-
-			String name = type.equals( "unconditional" ) ? null :
-				pieces[0].substring( pieces[0].indexOf( " " ) ).trim();
 
 			if ( name != null )
 			{
@@ -1028,9 +1111,31 @@ public abstract class MoodSettings implements KoLConstants
 				stringForm.append( " and there's enough moonlight" );
 
 			stringForm.append( ", " );
-			stringForm.append( pieces[1] );
+			stringForm.append( action );
+		}
 
-			return new MoodTrigger( stringForm.toString(), type, name, pieces[1] );
+		public static MoodTrigger constructNode( String line )
+		{
+			String [] pieces = line.split( " => " );
+			if ( pieces.length != 2 )
+				return null;
+
+			String type = null;
+
+			if ( pieces[0].startsWith( "gain_effect" ) )
+				type = "gain_effect";
+			else if ( pieces[0].startsWith( "lose_effect" ) )
+				type = "lose_effect";
+			else if ( pieces[0].startsWith( "unconditional" ) )
+				type = "unconditional";
+
+			if ( type == null )
+				return null;
+
+			String name = type.equals( "unconditional" ) ? null :
+				pieces[0].substring( pieces[0].indexOf( " " ) ).trim();
+
+			return new MoodTrigger( type, name, pieces[1].trim() );
 		}
 	}
 }

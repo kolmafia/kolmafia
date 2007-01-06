@@ -461,7 +461,7 @@ public abstract class CombatSettings implements KoLConstants
 
 		else if ( action.startsWith( "item" ) )
 		{
-			AdventureResult item = DEFAULT_SHELL.getFirstMatchingItem( action.substring(4).trim() );
+			AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( action.substring(4).trim() );
 			if ( item != null )
 				return "item " + KoLDatabase.getCanonicalName( item.getName() );
 		}

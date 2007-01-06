@@ -2901,7 +2901,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * specify an effect duration before the string.
 	 */
 
-	public AdventureResult getFirstMatchingEffect( String parameters )
+	public static AdventureResult getFirstMatchingEffect( String parameters )
 	{
 		String effectName = null;
 		int duration = 0;
@@ -2995,7 +2995,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * specify an item quantity before the string.
 	 */
 
-	public AdventureResult getFirstMatchingItem( String parameters )
+	public static AdventureResult getFirstMatchingItem( String parameters )
 	{
 		int itemId = -1;
 		int itemCount = 1;

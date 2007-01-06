@@ -2859,17 +2859,6 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
-		autoStopValue = StaticEntity.getFloatProperty( "mpThreshold" );
-		if ( autoStopValue >= 0.0f )
-		{
-			autoStopValue *= ((float) KoLCharacter.getMaximumMP());
-			if ( KoLCharacter.getCurrentMP() <= autoStopValue )
-			{
-				KoLmafia.updateDisplay( ABORT_STATE, "Mana fell below " + ((int)autoStopValue) + ". Auto-abort triggered." );
-				return false;
-			}
-		}
-
 		return true;
 	}
 
