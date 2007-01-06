@@ -232,7 +232,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( !Character.isDigit( name.charAt(i) ) )
 			{
-				AdventureResult item = DEFAULT_SHELL.getFirstMatchingItem( name );
+				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( name );
 
 				// Otherwise, throw an IllegalArgumentException
 				// so that an unsuccessful parse happens before
@@ -344,7 +344,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( name.equalsIgnoreCase( "none" ) )
 			return EFFECT_INIT;
 
-		AdventureResult effect = DEFAULT_SHELL.getFirstMatchingEffect( name );
+		AdventureResult effect = KoLmafiaCLI.getFirstMatchingEffect( name );
 		if ( effect == null )
 			throw new IllegalArgumentException( "Effect " + name + " not found in database" );
 
