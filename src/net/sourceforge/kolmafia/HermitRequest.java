@@ -99,9 +99,9 @@ public class HermitRequest extends KoLRequest
 		while ( KoLCharacter.getLevel() >= 9 && getWorthlessItemCount() == 0 && KoLCharacter.hasItem( SUMMON_SCROLL ) )
 			(new ConsumeItemRequest( SUMMON_SCROLL )).run();
 
-		if ( quantity > getWorthlessItemCount() || (getWorthlessItemCount() == 0 && !StaticEntity.getBooleanProperty( "autoRetrieveWorthless" )) )
+		if ( getWorthlessItemCount() == 0 && !StaticEntity.getBooleanProperty( "autoRetrieveWorthless" ) )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You do not have enough worthless items." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Ran out of worthless junk." );
 			return;
 		}
 
