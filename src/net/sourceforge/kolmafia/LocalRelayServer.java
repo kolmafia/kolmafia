@@ -292,11 +292,15 @@ public class LocalRelayServer implements Runnable
 			if ( request.responseCode == 200 )
 			{
 				if ( request.contentType.startsWith( "text" ) )
+				{
 					printStream.println( "Content-Type: " + request.contentType + ";charset=utf-8" );
+					printStream.println( "Content-Type: " + request.getFullResponse().length() );
+				}
 				else
+				{
 					printStream.println( "Content-Type: " + request.contentType );
-
-				printStream.println( "Content-Length: " + (request.rawByteBuffer == null ? request.responseText.length() : request.rawByteBuffer.length) );
+					printStream.println( "Content-Length: " + request.rawByteBuffer.length );
+				}
 
 				if ( request.contentType.equals( "text/html" ) )
 				{
