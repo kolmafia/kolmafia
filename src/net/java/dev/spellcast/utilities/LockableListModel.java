@@ -527,9 +527,8 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		if ( element == null )
 			return null;
 
-		Object returnValue = actualElements.get( index );
+		Object returnValue = actualElements.set( index, element );
 		setVisibleElement( index, element, returnValue );
-		actualElements.set( index, element );
 
 		return returnValue;
 	}
@@ -705,13 +704,8 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public void setSelectedItem( Object o )
 	{
-		if ( o == selectedValue )
-			return;
-
 		selectedValue = o;
-
-		if ( selectedValue != null && contains( selectedValue ) )
-			fireContentsChanged( this, -1, -1 );
+		fireContentsChanged( this, -1, -1 );
 	}
 
 	/**

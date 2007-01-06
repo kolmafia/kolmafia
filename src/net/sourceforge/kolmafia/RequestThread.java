@@ -133,7 +133,6 @@ public abstract class RequestThread implements Runnable, KoLConstants
 			return false;
 
 		KoLmafia.enableDisplay();
-		System.out.println( "Display enabled." );
 		return true;
 	}
 

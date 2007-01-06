@@ -74,7 +74,9 @@ import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 public abstract class KoLmafia implements KoLConstants
 {
-	public static boolean isAdventuring = false;
+	private static boolean isRefreshing = false;
+	private static boolean isAdventuring = false;
+
 	public static String lastMessage = "";
 
 	public static PrintStream sessionStream = NullStream.INSTANCE;
@@ -593,8 +595,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void refreshSession()
 	{
-		if ( refusesContinue() )
-			return;
+		isRefreshing = true;
 
 		// Get current moon phases
 
@@ -642,6 +643,12 @@ public abstract class KoLmafia implements KoLConstants
 
 		RequestThread.postRequest( CharpaneRequest.getInstance() );
 		updateDisplay( "Session data refreshed." );
+
+		isRefreshing = false;
+	}
+
+	public static boolean isRefreshing()
+	{	return isRefreshing;
 	}
 
 	/**

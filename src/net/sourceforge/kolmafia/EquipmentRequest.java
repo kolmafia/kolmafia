@@ -61,6 +61,7 @@ public class EquipmentRequest extends PasswordHashRequest
 	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "whichoutfit=(\\d+)" );
 	private static final Pattern SLOT_PATTERN = Pattern.compile( "type=([a-z]+)" );
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+	private static final Pattern FAMILIAR_PATTERN = Pattern.compile( "famid=(\\d+)" );
 
 	public static final AdventureResult UNEQUIP = new AdventureResult( "(none)", 1, false );
 	private static final AdventureResult PASTE = new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 );
@@ -401,6 +402,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( !inventory.contains( changeItem ) && !closet.contains( changeItem ))
 				{
 					// Find first familiar with item
+
 					FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
 					KoLCharacter.getFamiliarList().toArray( familiars );
 					for ( int i = 0; i < familiars.length; ++i )
@@ -408,14 +410,7 @@ public class EquipmentRequest extends PasswordHashRequest
 						if ( familiars[i].getItem() != null && familiars[i].getItem().equals( changeItem ) )
 						{
 							KoLmafia.updateDisplay( "Stealing " + changeItem.getName() + " from " + familiars[i].getRace() + "..." );
-
-							KoLRequest request = new KoLRequest( "familiar.php?pwd=&action=unequip", true );
-							request.addFormField( "famid", String.valueOf( familiars[i].getId() ) );
-							request.run();
-
-							familiars[i].setItem( UNEQUIP );
-							StaticEntity.getClient().processResult( changeItem, false );
-
+							(new KoLRequest( "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getId(), true )).run();
 							break;
 						}
 					}
@@ -812,8 +807,9 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		boolean refreshCreations = false;
 
-		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
-			refreshCreations |= switchItem( oldEquipment[i], equipment[i] );
+		if ( !KoLmafia.isRefreshing() )
+			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
+				refreshCreations |= switchItem( oldEquipment[i], equipment[i] );
 
 		// Adjust inventory of fake hands
 
@@ -883,7 +879,30 @@ public class EquipmentRequest extends PasswordHashRequest
 	public static boolean processRequest( String urlString )
 	{
 		if ( urlString.indexOf( "inv_equip.php" ) == -1 )
-			return false;
+		{
+			if ( urlString.indexOf( "familiar.php" ) == -1 || urlString.indexOf( "action=unequip" ) == -1 )
+				return false;
+
+			Matcher idMatcher = FAMILIAR_PATTERN.matcher( urlString );
+			if ( !idMatcher.find() )
+				return false;
+
+			int id = StaticEntity.parseInt( idMatcher.group(1) );
+
+			FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
+			KoLCharacter.getFamiliarList().toArray( familiars );
+			for ( int i = 0; i < familiars.length; ++i )
+			{
+				if ( familiars[i].getId() == id )
+				{
+					AdventureResult.addResultToList( inventory, familiars[i].getItem() );
+					familiars[i].setItem( UNEQUIP );
+				}
+			}
+
+			return true;
+		}
+
 
 		Matcher outfitMatcher = OUTFIT_PATTERN.matcher( urlString );
 		if ( outfitMatcher.find() )
