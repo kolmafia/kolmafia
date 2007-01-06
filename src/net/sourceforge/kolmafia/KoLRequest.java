@@ -890,27 +890,49 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static boolean delay( long milliseconds )
 	{
-		if ( milliseconds == 0 )
-			return true;
+		DELAYER.setMilliseconds( milliseconds );
+		RequestThread.postRequest( DELAYER );
+		return true;
+	}
 
-		Object waitObject = new Object();
-		try
+	private static final DelayRunnable DELAYER = new DelayRunnable();
+
+	private static class DelayRunnable implements Runnable
+	{
+		private long milliseconds;
+		private Object waitObject;
+
+		public DelayRunnable()
 		{
-			synchronized ( waitObject )
+			this.waitObject = new Object();
+			this.milliseconds = 1000;
+		}
+
+		public void setMilliseconds( long milliseconds )
+		{	this.milliseconds = milliseconds;
+		}
+
+		public void run()
+		{
+			if ( milliseconds == 0 )
+				return;
+
+			try
 			{
-				waitObject.wait( milliseconds );
-				waitObject.notifyAll();
+				synchronized ( waitObject )
+				{
+					waitObject.wait( milliseconds );
+					waitObject.notifyAll();
+				}
+			}
+			catch ( InterruptedException e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
 			}
 		}
-		catch ( InterruptedException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-
-		return true;
 	}
 
 	/**
