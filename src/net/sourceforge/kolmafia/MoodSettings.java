@@ -414,46 +414,49 @@ public abstract class MoodSettings implements KoLConstants
 
 	private static void burnExtraMana()
 	{
+		// Rather than keeping a safety for the player, let the player
+		// make the mistake of burning below their auto-restore threshold.
+
 		int starting = (int) (StaticEntity.getFloatProperty( "mpThreshold" ) * (float) KoLCharacter.getMaximumMP());
 		if ( starting <= 0 || KoLCharacter.getCurrentMP() < starting )
 			return;
 
-		int threshold = Math.max( (int) (StaticEntity.getFloatProperty( "mpAutoRecovery" ) * KoLCharacter.getMaximumMP()), 0 );
-		if ( KoLCharacter.getCurrentMP() < threshold )
-			return;
+		String skillName = null;
+		int desiredDuration = 0;
+		boolean continueBuffing = true;
 
-		MoodTrigger currentTrigger, matchingTrigger;
+		// Rather than maintain mood-related buffs only, maintain
+		// any active effect that the character can auto-cast.  This
+		// makes the feature useful even for people who have never
+		// defined a mood.
 
+		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
+		activeEffects.toArray( effects );
 
-		do
+		for ( int i = 0; i < effects.length && continueBuffing && KoLmafia.permitsContinue(); ++i )
 		{
-			matchingTrigger = null;
+			skillName = UneffectRequest.effectToSkill( effects[i].getName() );
+			if ( !ClassSkillsDatabase.contains( skillName ) || !KoLCharacter.hasSkill( skillName ) )
+				continue;
 
-			AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
-			activeEffects.toArray( effects );
+			// Only cast if a matching skill was found.  Limit cast count
+			// to five in order to ensure that KoLmafia doesn't make the
+			// buff counts too far out of balance.
 
-			for ( int i = 0; i < effects.length && matchingTrigger == null; ++i )
-			{
-				for ( int j = 0; j < displayList.size() && matchingTrigger == null; ++j )
-				{
-					currentTrigger = (MoodTrigger) displayList.get(j);
-					if ( currentTrigger.effect.equals( effects[i] ) && currentTrigger.command.startsWith( "cast" ) )
-						matchingTrigger = currentTrigger;
-				}
-			}
+			if ( i + 1 < effects.length )
+				desiredDuration = effects[i+1].getCount() - effects[i].getCount();
 
-			if ( matchingTrigger != null )
-			{
-				int skillId = ClassSkillsDatabase.getSkillId( matchingTrigger.parameters );
-				int castCount = (KoLCharacter.getCurrentMP() - threshold) / ClassSkillsDatabase.getMPConsumptionById( skillId );
+			int skillId = ClassSkillsDatabase.getSkillId( skillName );
+			int castCount = KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionById( skillId );
 
-				if ( castCount > 0 )
-					DEFAULT_SHELL.executeLine( "cast " + castCount + " " + matchingTrigger.parameters );
-				else
-					matchingTrigger = null;
-			}
+			if ( ClassSkillsDatabase.getEffectDuration( skillId ) * castCount > desiredDuration )
+				castCount = Math.min( 3, castCount );
+
+			if ( castCount > 0 )
+				DEFAULT_SHELL.executeLine( "cast " + castCount + " " + skillName );
+			else
+				continueBuffing = false;
 		}
-		while ( matchingTrigger != null && KoLmafia.permitsContinue() );
 	}
 
 	public static void execute( boolean isManualInvocation )

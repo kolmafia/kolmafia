@@ -1589,9 +1589,9 @@ public class AdventureFrame extends KoLFrame
 		public ManaOptionsPanel()
 		{
 			mpBalanceSelect = new JComboBox();
-			mpBalanceSelect.addItem( "Only auto-cast spells to sustain moods" );
+			mpBalanceSelect.addItem( "Only auto-recast buffs to maintain moods" );
 			for ( int i = 1; i <= 9; ++i )
-				mpBalanceSelect.addItem( "If effective mp " + (i*10) + "% above threshold" );
+				mpBalanceSelect.addItem( "Burn down to " + (i*10) + "% mana for auto-recast" );
 
 			mpAutoRecoverSelect = new JComboBox();
 			mpAutoRecoverSelect.addItem( "Do not automatically recover mana" );
@@ -1606,7 +1606,7 @@ public class AdventureFrame extends KoLFrame
 			// Add the elements to the panel
 
 			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-			add( constructLabelPair( "Effect balancing: ", mpBalanceSelect ) );
+			add( constructLabelPair( "Burn extra mana: ", mpBalanceSelect ) );
 			add( Box.createVerticalStrut( 10 ) );
 
 			add( constructLabelPair( "Restore your mana: ", mpAutoRecoverSelect ) );

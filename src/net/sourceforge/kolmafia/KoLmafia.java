@@ -1645,12 +1645,9 @@ public abstract class KoLmafia implements KoLConstants
 				AdventureFrame.updateRequestMeter( currentIteration - 1, iterations );
 
 			RequestThread.postRequest( request );
-System.out.print( permitsContinue() + ":" );
 
 			if ( permitsContinue() && request instanceof KoLAdventure )
 				KoLmafiaCLI.printBlankLine();
-
-System.out.println( permitsContinue() );
 
 			// Decrement the counter to null out the increment
 			// effect on the next iteration of the loop.
