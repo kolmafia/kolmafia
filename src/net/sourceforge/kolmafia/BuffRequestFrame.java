@@ -85,7 +85,7 @@ public class BuffRequestFrame extends KoLFrame
 		ONLINE_VALIDATOR.addFormField( "pwd" );
 		ONLINE_VALIDATOR.addFormField( "graf", "/whois " + botName );
 
-		StaticEntity.getClient().makeRequest( ONLINE_VALIDATOR );
+		RequestThread.postRequest( ONLINE_VALIDATOR );
 
 		if ( ONLINE_VALIDATOR.responseText != null && ONLINE_VALIDATOR.responseText.indexOf( "online" ) != -1 )
 			JOptionPane.showMessageDialog( null, botName + " is online." );
@@ -158,7 +158,7 @@ public class BuffRequestFrame extends KoLFrame
 			for ( int i = 0; i < runnables.length; ++i )
 			{
 				KoLmafia.updateDisplay( "Submitting buff request " + (i+1) + " of " + runnables.length + " to " + botName + "..." );
-				StaticEntity.getClient().makeRequest( runnables[i] );
+				RequestThread.postRequest( runnables[i] );
 			}
 
 			KoLmafia.updateDisplay( "Buff requests complete." );

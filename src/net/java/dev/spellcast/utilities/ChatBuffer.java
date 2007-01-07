@@ -379,6 +379,9 @@ public class ChatBuffer
 			// This is really the only way to ensure that the
 			// screen does not flicker in later versions of Java.
 
+			if ( displayPane == null )
+				return;
+
 			HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
 			Element parentElement = currentHTML.getDefaultRootElement();
 

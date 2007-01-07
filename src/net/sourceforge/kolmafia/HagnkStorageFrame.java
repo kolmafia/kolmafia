@@ -204,9 +204,9 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 
 			RequestThread.openRequestSequence();
-			StaticEntity.getClient().makeRequest( new ItemStorageRequest( transferType, amountToTransfer ) );
+			RequestThread.postRequest( new ItemStorageRequest( transferType, amountToTransfer ) );
 			if ( fundTransferType == 3 )
-				StaticEntity.getClient().makeRequest( new ItemStorageRequest( ItemStorageRequest.MEAT_TO_CLOSET, amountToTransfer ) );
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.MEAT_TO_CLOSET, amountToTransfer ) );
 
 			fundSource.setSelectedIndex( 0 );
 			RequestThread.closeRequestSequence();
@@ -345,7 +345,7 @@ public class HagnkStorageFrame extends KoLFrame
 				if ( items == null )
 					return;
 
-				StaticEntity.getClient().makeRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
 			}
 
 			public String toString()
@@ -362,8 +362,8 @@ public class HagnkStorageFrame extends KoLFrame
 					return;
 
 				RequestThread.openRequestSequence();
-				StaticEntity.getClient().makeRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
-				StaticEntity.getClient().makeRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
 				RequestThread.closeRequestSequence();
 			}
 
@@ -382,7 +382,7 @@ public class HagnkStorageFrame extends KoLFrame
 					return;
 				}
 
-				StaticEntity.getClient().makeRequest( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) );
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) );
 			}
 
 			public String toString()
@@ -399,8 +399,8 @@ public class HagnkStorageFrame extends KoLFrame
 					return;
 
 				RequestThread.openRequestSequence();
-				StaticEntity.getClient().makeRequest( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) );
-				StaticEntity.getClient().makeRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) );
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
 				RequestThread.closeRequestSequence();
 			}
 

@@ -209,18 +209,7 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static void openSystemBrowser( String location )
-	{
-		try
-		{
-			BrowserLauncher.openURL( location );
-		}
-		catch ( java.io.IOException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			printStackTrace( e, "Failed to open system browser" );
-		}
+	{	BrowserLauncher.openURL( location );
 	}
 
 	/**

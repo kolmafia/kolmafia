@@ -175,11 +175,8 @@ public class LoginRequest extends KoLRequest
 		try
 		{
 			runCountdown = true;
-			if ( executeLogin() )
-			{
-				if ( runCountdown )
-					StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
-			}
+			while ( executeLogin() && runCountdown )
+				StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
 		}
 		catch ( Exception e )
 		{

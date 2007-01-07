@@ -349,7 +349,7 @@ public class RequestFrame extends KoLFrame
 			String original = StaticEntity.getProperty( "showAllRequests" );
 			StaticEntity.setProperty( "showAllRequests", "false" );
 
-			StaticEntity.getClient().makeRequest( request );
+			RequestThread.postRequest( request );
 			StaticEntity.setProperty( "showAllRequests", original );
 		}
 

@@ -140,13 +140,13 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			if ( this == BEANBAG )
 			{
-				StaticEntity.getClient().makeRequest( new CampgroundRequest( "relax" ) );
+				RequestThread.postRequest( new CampgroundRequest( "relax" ) );
 				return;
 			}
 
 			if ( this == CAMPGROUND )
 			{
-				StaticEntity.getClient().makeRequest( new CampgroundRequest( "rest" ) );
+				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
 				return;
 			}
 
@@ -169,7 +169,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			if ( this == SOFA )
 			{
-				StaticEntity.getClient().makeRequest( (new ClanGymRequest( ClanGymRequest.SOFA )).setTurnCount( numberToUse ) );
+				RequestThread.postRequest( (new ClanGymRequest( ClanGymRequest.SOFA )).setTurnCount( numberToUse ) );
 				return;
 			}
 
@@ -218,7 +218,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			if ( numberToUse <= 0 || KoLmafia.refusesContinue() )
 				return;
 
-			StaticEntity.getClient().makeRequest( new ConsumeItemRequest( itemUsed.getInstance( numberToUse ) ) );
+			RequestThread.postRequest( new ConsumeItemRequest( itemUsed.getInstance( numberToUse ) ) );
 		}
 
 		public String toString()

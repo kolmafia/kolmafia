@@ -1645,9 +1645,12 @@ public abstract class KoLmafia implements KoLConstants
 				AdventureFrame.updateRequestMeter( currentIteration - 1, iterations );
 
 			RequestThread.postRequest( request );
+System.out.print( permitsContinue() + ":" );
 
-			if ( request instanceof KoLAdventure )
+			if ( permitsContinue() && request instanceof KoLAdventure )
 				KoLmafiaCLI.printBlankLine();
+
+System.out.println( permitsContinue() );
 
 			// Decrement the counter to null out the increment
 			// effect on the next iteration of the loop.
@@ -2122,7 +2125,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void tradeGourdItems()
 	{
-		RequestThread.openRequestSequence();
 		updateDisplay( "Determining items needed..." );
 
 		KoLRequest request = new KoLRequest( "town_right.php?place=gourd", true );
@@ -2161,7 +2163,6 @@ public abstract class KoLmafia implements KoLConstants
 			totalProvided += i;
 
 		updateDisplay( "Gourd trading complete (" + totalProvided + " " + item.getName() + "s given so far)." );
-		RequestThread.closeRequestSequence();
 	}
 
 	public void unlockGuildStore()
@@ -2175,7 +2176,6 @@ public abstract class KoLmafia implements KoLConstants
 		// the person to attempt to unlock their store, regardless of
 		// their current stats.
 
-		RequestThread.openRequestSequence();
 		updateDisplay( "Entering guild challenge area..." );
 		KoLRequest request = new KoLRequest( "guild.php?place=challenge", true );
 
@@ -2206,12 +2206,11 @@ public abstract class KoLmafia implements KoLConstants
 			updateDisplay( "Guild store successfully unlocked." );
 		else
 			updateDisplay( "Guild store was not unlocked." );
-
-		RequestThread.closeRequestSequence();
 	}
 
 	public void priceItemsAtLowestPrice()
 	{
+		RequestThread.openRequestSequence();
 		RequestThread.postRequest( new StoreManageRequest() );
 
 		SoldItem [] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
@@ -2239,6 +2238,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		RequestThread.postRequest( new StoreManageRequest( itemId, prices, limits ) );
 		updateDisplay( "Repricing complete." );
+		RequestThread.closeRequestSequence();
 	}
 
 	/**
@@ -2799,13 +2799,10 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void downloadAdventureOverride()
 	{
-		RequestThread.openRequestSequence();
 		(new File( "data" )).mkdirs();
 
 		for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
 		{
-			updateDisplay( "Downloading " + OVERRIDE_DATA[i] + "..." );
-
 			BufferedReader reader = KoLDatabase.getReader(
 				"http://svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIDE_DATA[i] );
 
@@ -2842,7 +2839,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		updateDisplay( "Please restart KoLmafia to complete the update." );
-		RequestThread.closeRequestSequence();
+		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
 	public static boolean isRunningBetweenBattleChecks()
@@ -2879,7 +2876,6 @@ public abstract class KoLmafia implements KoLConstants
 		// user, which may make it so that none of the built
 		// in behavior needs to run.
 
-		RequestThread.openRequestSequence();
 		String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
 
 		if ( !scriptPath.equals( "" ) )
@@ -2905,8 +2901,6 @@ public abstract class KoLmafia implements KoLConstants
 			updateDisplay( currentIterationString );
 			currentIterationString = "";
 		}
-
-		RequestThread.closeRequestSequence();
 	}
 
 	public void startRelayServer()

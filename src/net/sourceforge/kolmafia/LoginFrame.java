@@ -272,7 +272,7 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.setGlobalProperty( username, "loginScript", scriptField.getText() );
 			StaticEntity.setGlobalProperty( username, "getBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
-			StaticEntity.getClient().makeRequest( new LoginRequest( username, password ) );
+			RequestThread.postRequest( new LoginRequest( username, password ) );
 		}
 
 		public void actionCancelled()

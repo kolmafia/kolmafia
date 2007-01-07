@@ -219,7 +219,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 				frames[i].setVisible( false );
 
 			KoLFrame.createDisplay( LoginFrame.class );
-			StaticEntity.getClient().makeRequest( new LogoutRequest() );
+			RequestThread.postRequest( new LogoutRequest() );
 		}
 	}
 

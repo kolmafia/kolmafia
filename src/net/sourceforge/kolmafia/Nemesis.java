@@ -62,7 +62,7 @@ public abstract class Nemesis extends StaticEntity
 		// Make sure the player has been given the quest
 
 		KoLRequest request = new KoLRequest( "mountains.php" );
-		StaticEntity.getClient().makeRequest( request );
+		RequestThread.postRequest( request );
 
 		if ( request.responseText.indexOf( "cave.php" ) == -1 )
 		{
@@ -83,7 +83,7 @@ public abstract class Nemesis extends StaticEntity
 		// See how far the player has gotten in this quest
 
 		QUEST_HANDLER.clearDataFields();
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER );
+		RequestThread.postRequest( QUEST_HANDLER );
 
 		if ( QUEST_HANDLER.responseText == null )
 		{
@@ -224,7 +224,7 @@ public abstract class Nemesis extends StaticEntity
 
 			QUEST_HANDLER.clearDataFields();
 			QUEST_HANDLER.addFormField( "action", action );
-			StaticEntity.getClient().makeRequest( QUEST_HANDLER );
+			RequestThread.postRequest( QUEST_HANDLER );
 
 			if ( QUEST_HANDLER.responseText != null && QUEST_HANDLER.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
 			{

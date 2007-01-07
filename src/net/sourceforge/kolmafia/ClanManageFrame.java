@@ -217,11 +217,11 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	StaticEntity.getClient().makeRequest( (Runnable) enemyList.getSelectedItem() );
+		{	RequestThread.postRequest( (Runnable) enemyList.getSelectedItem() );
 		}
 
 		public void actionCancelled()
-		{	StaticEntity.getClient().makeRequest( new ClanListRequest() );
+		{	RequestThread.postRequest( new ClanListRequest() );
 		}
 	}
 
@@ -254,7 +254,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	StaticEntity.getClient().makeRequest( new ClanMaterialsRequest() );
+		{	RequestThread.postRequest( new ClanMaterialsRequest() );
 		}
 
 		public void actionCancelled()
@@ -313,7 +313,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	StaticEntity.getClient().makeRequest( new ClanStashRequest( getValue( amountField ) ) );
+		{	RequestThread.postRequest( new ClanStashRequest( getValue( amountField ) ) );
 		}
 
 		public void actionCancelled()
@@ -341,7 +341,7 @@ public class ClanManageFrame extends KoLFrame
 				if ( items.length == 0 )
 					return;
 
-				StaticEntity.getClient().makeRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
+				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
 			}
 
 			public String toString()
@@ -406,7 +406,7 @@ public class ClanManageFrame extends KoLFrame
 				if ( items == null || items.length == 0 )
 					return;
 
-				StaticEntity.getClient().makeRequest( new ClanStashRequest( items, ClanStashRequest.STASH_TO_ITEMS ) );
+				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.STASH_TO_ITEMS ) );
 			}
 
 			public String toString()
@@ -471,7 +471,7 @@ public class ClanManageFrame extends KoLFrame
 			}
 
 			KoLmafia.updateDisplay( "Applying changes..." );
-			StaticEntity.getClient().makeRequest( new ClanMembersRequest( titleChange.toArray(), newTitles.toArray(), boots.toArray() ) );
+			RequestThread.postRequest( new ClanMembersRequest( titleChange.toArray(), newTitles.toArray(), boots.toArray() ) );
 			KoLmafia.updateDisplay( "Changes have been applied." );
 		}
 	}

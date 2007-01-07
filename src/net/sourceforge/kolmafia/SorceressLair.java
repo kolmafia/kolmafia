@@ -153,14 +153,14 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( !KoLCharacter.getFamiliarList().contains( STARFISH ) )
 		{
-			StaticEntity.getClient().makeRequest( new ConsumeItemRequest( STARFISH_ITEM ) );
+			RequestThread.postRequest( new ConsumeItemRequest( STARFISH_ITEM ) );
 			if ( !KoLmafia.permitsContinue() )
 				return false;
 		}
 
 		// Make sure he's been given the quest
 
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "main.php" ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "main.php" ) );
 
 		if ( QUEST_HANDLER.responseText.indexOf( "lair.php" ) == -1 )
 		{
@@ -177,7 +177,7 @@ public abstract class SorceressLair extends StaticEntity
 
 				DEFAULT_SHELL.executeLine( "council" );
 
-				StaticEntity.getClient().makeRequest( QUEST_HANDLER );
+				RequestThread.postRequest( QUEST_HANDLER );
 				unlockedQuest = QUEST_HANDLER.responseText.indexOf( "lair.php" ) != -1;
 			}
 
@@ -198,7 +198,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Map3 = lair1, lair3, lair4, lair5
 		// Map4 = lair1, lair3, lair4, lair5, lair6
 
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair.php" ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair.php" ) );
 		Matcher mapMatcher = MAP_PATTERN.matcher( QUEST_HANDLER.responseText );
 
 		if ( mapMatcher.find() )
@@ -313,7 +313,7 @@ public abstract class SorceressLair extends StaticEntity
 
 				ItemCreationRequest irequest = ItemCreationRequest.getInstance( STONE_BANJO.getItemId() );
 				irequest.setQuantityNeeded( 1 );
-				StaticEntity.getClient().makeRequest( irequest );
+				RequestThread.postRequest( irequest );
 			}
 		}
 
@@ -328,7 +328,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( isItemAvailable( BALLOON ) )
 		{
 			AdventureDatabase.retrieveItem( BALLOON );
-			StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + BALLOON.getItemId() ) );
+			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + BALLOON.getItemId() ) );
 		}
 
 		// Now, iterate through each of the completion steps;
@@ -340,7 +340,7 @@ public abstract class SorceressLair extends StaticEntity
 		requirements.addAll( retrieveSqueezings() );
 		requirements.addAll( retrieveScubaGear() );
 
-		StaticEntity.getClient().makeRequest( new FamiliarRequest( originalFamiliar ) );
+		RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
 
 		if ( !KoLmafia.checkRequirements( requirements ) || KoLmafia.refusesContinue() )
 		{
@@ -348,10 +348,10 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 		}
 
-		StaticEntity.getClient().makeRequest( new EquipmentRequest( SCUBA, KoLCharacter.ACCESSORY1 ) );
+		RequestThread.postRequest( new EquipmentRequest( SCUBA, KoLCharacter.ACCESSORY1 ) );
 
 		KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?action=odor" ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?action=odor" ) );
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 
@@ -360,15 +360,15 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( percussion == BROKEN_SKULL )
 		{
-			StaticEntity.getClient().makeRequest( new UntinkerRequest( SKELETON.getItemId() ) );
-			StaticEntity.getClient().makeRequest( ItemCreationRequest.getInstance( BONE_RATTLE ) );
+			RequestThread.postRequest( new UntinkerRequest( SKELETON.getItemId() ) );
+			RequestThread.postRequest( ItemCreationRequest.getInstance( BONE_RATTLE ) );
 		}
 
 		// Finally, arm the stone mariachis with their
 		// appropriate instruments.
 
 		KoLmafia.updateDisplay( "Arming stone mariachis..." );
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?action=statues" ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?action=statues" ) );
 
 		// "As the mariachis reach a dire crescendo (Hey, have you
 		// heard my new band, Dire Crescendo?) the gate behind the
@@ -395,11 +395,11 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( untinkerCloverWeapon )
 		{
-			StaticEntity.getClient().makeRequest( new UntinkerRequest( STONE_BANJO.getItemId() ) );
+			RequestThread.postRequest( new UntinkerRequest( STONE_BANJO.getItemId() ) );
 
 			ItemCreationRequest irequest = ItemCreationRequest.getInstance( cloverWeapon.getItemId() );
 			irequest.setQuantityNeeded( 1 );
-			StaticEntity.getClient().makeRequest( irequest );
+			RequestThread.postRequest( irequest );
 		}
 
 		SpecialOutfit.restoreImplicitCheckpoint();
@@ -417,7 +417,7 @@ public abstract class SorceressLair extends StaticEntity
 		// gates already.  If they haven't, then that's the
 		// only time you need the special effects.
 
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair1.php" ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair1.php" ) );
 
 		if ( QUEST_HANDLER.responseText.indexOf( "gatesdone" ) == -1 )
 		{
@@ -434,16 +434,16 @@ public abstract class SorceressLair extends StaticEntity
 			// and then cross through the first door.
 
 			if ( !activeEffects.contains( SUGAR ) )
-				StaticEntity.getClient().makeRequest( new ConsumeItemRequest( candy ) );
+				RequestThread.postRequest( new ConsumeItemRequest( candy ) );
 
 			if ( !activeEffects.contains( WUSSINESS ) )
-				StaticEntity.getClient().makeRequest( new ConsumeItemRequest( WUSSY_POTION ) );
+				RequestThread.postRequest( new ConsumeItemRequest( WUSSY_POTION ) );
 
 			if ( !activeEffects.contains( MIASMA ) )
-				StaticEntity.getClient().makeRequest( new ConsumeItemRequest( BLACK_CANDLE ) );
+				RequestThread.postRequest( new ConsumeItemRequest( BLACK_CANDLE ) );
 
 			KoLmafia.updateDisplay( "Crossing three door puzzle..." );
-			StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair1.php?action=gates" ) );
+			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair1.php?action=gates" ) );
 		}
 
 		// Now, unequip all of your equipment and cross through
@@ -451,13 +451,13 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( QUEST_HANDLER.responseText.indexOf( "lair2.php" ) == -1 )
 		{
-			StaticEntity.getClient().makeRequest( new FamiliarRequest( FamiliarData.NO_FAMILIAR ) );
-			StaticEntity.getClient().makeRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
+			RequestThread.postRequest( new FamiliarRequest( FamiliarData.NO_FAMILIAR ) );
+			RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
 
 			// We will need to re-equip
 
 			KoLmafia.updateDisplay( "Crossing mirror puzzle..." );
-			StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair1.php?action=mirror" ) );
+			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair1.php?action=mirror" ) );
 		}
 
 		return true;
@@ -474,7 +474,7 @@ public abstract class SorceressLair extends StaticEntity
 			return requirements;
 
 		if ( !isItemAvailable( SKELETON ) && isItemAvailable( KEY_RING ) )
-			StaticEntity.getClient().makeRequest( new ConsumeItemRequest( KEY_RING ) );
+			RequestThread.postRequest( new ConsumeItemRequest( KEY_RING ) );
 
 		if ( !AdventureDatabase.retrieveItem( SKELETON ) )
 			requirements.add( SKELETON );
@@ -511,11 +511,11 @@ public abstract class SorceressLair extends StaticEntity
 			// clover you had, so process it.
 
 			KoLmafia.updateDisplay( "Inserting skeleton key..." );
-			StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SKELETON.getItemId() ) );
+			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SKELETON.getItemId() ) );
 
 			if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 			{
-				StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=skel" ) );
+				RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=skel" ) );
 				if ( isItemAvailable( CLOVER ) )
 					getClient().processResult( CLOVER.getNegation() );
 			}
@@ -625,17 +625,17 @@ public abstract class SorceressLair extends StaticEntity
 		// require you to re-equip your star weapon and
 		// a star buckler and switch to a starfish first.
 
-		StaticEntity.getClient().makeRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
-		StaticEntity.getClient().makeRequest( new EquipmentRequest( starWeapon, KoLCharacter.WEAPON ) );
-		StaticEntity.getClient().makeRequest( new EquipmentRequest( STAR_HAT, KoLCharacter.HAT ) );
-		StaticEntity.getClient().makeRequest( new FamiliarRequest( new FamiliarData( 17 ) ) );
+		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
+		RequestThread.postRequest( new EquipmentRequest( starWeapon, KoLCharacter.WEAPON ) );
+		RequestThread.postRequest( new EquipmentRequest( STAR_HAT, KoLCharacter.HAT ) );
+		RequestThread.postRequest( new FamiliarRequest( new FamiliarData( 17 ) ) );
 
 		KoLmafia.updateDisplay( "Inserting Richard's star key..." );
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + RICHARD.getItemId() ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + RICHARD.getItemId() ) );
 
 		if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 		{
-			StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=starcage" ) );
+			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=starcage" ) );
 
 			// For unknown reasons, this doesn't always work
 			// Error check the possibilities
@@ -684,10 +684,10 @@ public abstract class SorceressLair extends StaticEntity
 		// the Squeezings of Woe.
 
 		KoLmafia.updateDisplay( "Inserting digital key..." );
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + DIGITAL.getItemId() ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + DIGITAL.getItemId() ) );
 
 		if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
-			StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sequence&seq1=up&seq2=up&seq3=down&seq4=down&seq5=left&seq6=right&seq7=left&seq8=right&seq9=b&seq10=a" ) );
+			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sequence&seq1=up&seq2=up&seq3=down&seq4=down&seq5=left&seq6=right&seq7=left&seq8=right&seq9=b&seq10=a" ) );
 
 		return requirements;
 	}
@@ -713,10 +713,10 @@ public abstract class SorceressLair extends StaticEntity
 			else
 			{
 				KoLmafia.updateDisplay( "Inserting Boris's key..." );
-				StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + BORIS.getItemId() ) );
+				RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + BORIS.getItemId() ) );
 
 				if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
-					StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sorcriddle1&answer=fish" ) );
+					RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sorcriddle1&answer=fish" ) );
 			}
 		}
 
@@ -729,10 +729,10 @@ public abstract class SorceressLair extends StaticEntity
 			else
 			{
 				KoLmafia.updateDisplay( "Inserting Jarlsberg's key..." );
-				StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + JARLSBERG.getItemId() ) );
+				RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + JARLSBERG.getItemId() ) );
 
 				if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
-					StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sorcriddle2&answer=phish" ) );
+					RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sorcriddle2&answer=phish" ) );
 			}
 		}
 
@@ -745,10 +745,10 @@ public abstract class SorceressLair extends StaticEntity
 			else
 			{
 				KoLmafia.updateDisplay( "Inserting Sneaky Pete's key..." );
-				StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SNEAKY_PETE.getItemId() ) );
+				RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SNEAKY_PETE.getItemId() ) );
 
 				if ( QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
-					StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sorcriddle3&answer=fsh" ) );
+					RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?prepreaction=sorcriddle3&answer=fsh" ) );
 			}
 		}
 
@@ -782,7 +782,7 @@ public abstract class SorceressLair extends StaticEntity
 		// to the hedge maze, and begin!
 
 		KoLmafia.updateDisplay( "Retrieving maze status..." );
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "hedgepuzzle.php" ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "hedgepuzzle.php" ) );
 
 		// First mission -- retrieve the key from the hedge
 		// maze puzzle.
@@ -802,7 +802,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Second mission -- rotate the hedge maze until
 		// the hedge path leads to the hedge door.
 
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "hedgepuzzle.php" ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "hedgepuzzle.php" ) );
 
 		if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) != -1 )
 		{
@@ -842,7 +842,7 @@ public abstract class SorceressLair extends StaticEntity
 			if ( QUEST_HANDLER.responseText.indexOf( "Click one" ) == -1 )
 				return;
 
-			StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "hedgepuzzle.php?action=" + hedgePiece ) );
+			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "hedgepuzzle.php?action=" + hedgePiece ) );
 
 			// If the topiary golem stole one of your hedge
 			// pieces, take it away.
@@ -872,7 +872,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( KoLmafia.permitsContinue() && QUEST_HANDLER.responseText.indexOf( "Click one" ) != -1 )
 		{
-			StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair3.php?action=hedge" ) );
+			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair3.php?action=hedge" ) );
 			if ( QUEST_HANDLER.responseText.indexOf( "You're out of adventures." ) != -1 )
 				KoLmafia.updateDisplay( ERROR_STATE, "Ran out of adventures." );
 			if ( !QUEST_HANDLER.needsRefresh )
@@ -893,7 +893,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( KoLmafia.permitsContinue() && QUEST_HANDLER.responseText.indexOf( "Click one" ) != -1 )
 		{
-			StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair3.php?action=hedge" ) );
+			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair3.php?action=hedge" ) );
 
 			if ( QUEST_HANDLER.responseText.indexOf( "You're out of adventures." ) != -1 )
 				KoLmafia.updateDisplay( ERROR_STATE, "Ran out of adventures." );
@@ -923,20 +923,20 @@ public abstract class SorceressLair extends StaticEntity
 		String previousAutoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
 
 		if ( !previousAutoAttack.equals( "0" ) )
-			StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "account.php?action=autoattack&whichattack=0" ) );
+			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "account.php?action=autoattack&whichattack=0" ) );
 
 		// Determine which level you actually need to start from.
 
 		KoLmafia.updateDisplay( "Climbing the tower..." );
 
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair4.php" ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair4.php" ) );
 		int currentLevel = 0;
 
 		if ( QUEST_HANDLER.responseText.indexOf( "lair5.php" ) != -1 )
 		{
 			// There is a link to higher in the tower.
 
-			StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair5.php" ) );
+			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair5.php" ) );
 			currentLevel = 3;
 		}
 
@@ -975,7 +975,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		// Figure out how far he's gotten into the Sorceress's Chamber
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair6.php" ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair6.php" ) );
 		if ( QUEST_HANDLER.responseText.indexOf( "ascend.php" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "You've already beaten Her Naughtiness." );
@@ -1065,7 +1065,7 @@ public abstract class SorceressLair extends StaticEntity
 			++n;
 		}
 
-		StaticEntity.getClient().makeRequest( new FamiliarRequest( originalFamiliar ) );
+		RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
 		SpecialOutfit.restoreImplicitCheckpoint();
 
 		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
@@ -1077,7 +1077,7 @@ public abstract class SorceressLair extends StaticEntity
 	private static void resetAutoAttack( String previousAutoAttack )
 	{
 		if ( !previousAutoAttack.equals( "0" ) )
-			StaticEntity.getClient().makeRequest( new KoLRequest( "account.php?action=autoattack&whichattack=" + previousAutoAttack ) );
+			RequestThread.postRequest( new KoLRequest( "account.php?action=autoattack&whichattack=" + previousAutoAttack ) );
 	}
 
 	private static int fightGuardian( int towerLevel )
@@ -1094,7 +1094,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		QUEST_HANDLER.constructURLString( towerLevel <= 3 ? "lair4.php" : "lair5.php" );
 		QUEST_HANDLER.addFormField( "action", "level" + ((towerLevel - 1) % 3 + 1) );
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER );
+		RequestThread.postRequest( QUEST_HANDLER );
 
 		if ( QUEST_HANDLER.responseText.indexOf( "You don't have time to mess around in the Tower." ) != -1 )
 		{
@@ -1115,7 +1115,7 @@ public abstract class SorceressLair extends StaticEntity
 		{
 			QUEST_HANDLER.addFormField( "action", "useitem" );
 			QUEST_HANDLER.addFormField( "whichitem", String.valueOf( guardianItem.getItemId() ) );
-			StaticEntity.getClient().makeRequest( QUEST_HANDLER );
+			RequestThread.postRequest( QUEST_HANDLER );
 
 			return -1;
 		}
@@ -1123,7 +1123,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Since we don't have the item, run away
 
 		QUEST_HANDLER.addFormField( "action", "runaway" );
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER );
+		RequestThread.postRequest( QUEST_HANDLER );
 
 		if ( AdventureDatabase.retrieveItem( guardianItem ) )
 			return fightGuardian( towerLevel );
@@ -1147,10 +1147,10 @@ public abstract class SorceressLair extends StaticEntity
 	{
 		// Enter the chamber
 		KoLmafia.updateDisplay( "Cracking door code..." );
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=0" ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=0" ) );
 
 		// Talk to the guards and crack the code
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=0&preaction=lightdoor" ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=0&preaction=lightdoor" ) );
 		String code = deduceCode( QUEST_HANDLER.responseText );
 
 		if ( code == null )
@@ -1160,7 +1160,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		// Check for success
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=0&action=doorcode&code=" + code ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=0&action=doorcode&code=" + code ) );
 		if ( QUEST_HANDLER.responseText.indexOf( "the door slides open" ) == -1 )
 			KoLmafia.updateDisplay( ERROR_STATE, "I used the wrong code. Sorry." );
 	}
@@ -1231,12 +1231,12 @@ public abstract class SorceressLair extends StaticEntity
 		SpecialOutfit.createImplicitCheckpoint();
 
 		// Equip the huge mirror shard
-		StaticEntity.getClient().makeRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
-		StaticEntity.getClient().makeRequest( new EquipmentRequest( MIRROR_SHARD, KoLCharacter.WEAPON ) );
+		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
+		RequestThread.postRequest( new EquipmentRequest( MIRROR_SHARD, KoLCharacter.WEAPON ) );
 
 		// Reflect the energy bolt
 		KoLmafia.updateDisplay( "Reflecting energy bolt..." );
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=1" ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=1" ) );
 
 		// If we unequipped anything, equip it again
 		SpecialOutfit.restoreImplicitCheckpoint();
@@ -1318,7 +1318,7 @@ public abstract class SorceressLair extends StaticEntity
 		setProperty( "battleAction", "item " + option.getName().toLowerCase() );
 
 		KoLRequest request = new KoLRequest( "lair6.php?place=2" );
-		StaticEntity.getClient().makeRequest( request );
+		RequestThread.postRequest( request );
 
 		if ( QUEST_HANDLER.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
 			KoLmafia.updateDisplay( ERROR_STATE, "You're out of adventures." );
@@ -1395,7 +1395,7 @@ public abstract class SorceressLair extends StaticEntity
 					familiar = KoLCharacter.findFamiliar( race );
 			}
 
-			StaticEntity.getClient().makeRequest( new FamiliarRequest( familiar ) );
+			RequestThread.postRequest( new FamiliarRequest( familiar ) );
 		}
 
 		// Make sure that the current familiar is at least twenty
@@ -1406,7 +1406,7 @@ public abstract class SorceressLair extends StaticEntity
 			FamiliarTrainingFrame.buffFamiliar( 20 );
 
 		KoLmafia.updateDisplay( "Facing giant familiar..." );
-		StaticEntity.getClient().makeRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=" + n ) );
+		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=" + n ) );
 
 		// If you do not successfully pass the familiar, you
 		// will get a "stomp off in a huff" message.
@@ -1437,7 +1437,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		// Switch to the required familiar
-		StaticEntity.getClient().makeRequest( new FamiliarRequest( familiar ) );
+		RequestThread.postRequest( new FamiliarRequest( familiar ) );
 
 		// If we can buff it to 20 pounds, try again.
 		if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) )

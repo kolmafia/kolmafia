@@ -235,11 +235,11 @@ public abstract class KoLMessenger extends StaticEntity
 	}
 
 	public static void checkFriends()
-	{	StaticEntity.getClient().makeRequest( new ChatRequest( currentChannel, "/friends" ) );
+	{	RequestThread.postRequest( new ChatRequest( currentChannel, "/friends" ) );
 	}
 
 	public static void checkChannel()
-	{	StaticEntity.getClient().makeRequest( new ChatRequest( updateChannel, "/who" ) );
+	{	RequestThread.postRequest( new ChatRequest( updateChannel, "/who" ) );
 	}
 
 	/**
@@ -340,7 +340,7 @@ public abstract class KoLMessenger extends StaticEntity
 		else if ( contact.startsWith( "/" ) && currentlyActive.contains( contact ) )
 		{
 			currentlyActive.remove( contact );
-			StaticEntity.getClient().makeRequest( new ChatRequest( contact, "/listen " + contact.substring(1) ) );
+			RequestThread.postRequest( new ChatRequest( contact, "/listen " + contact.substring(1) ) );
 		}
 	}
 
@@ -365,7 +365,7 @@ public abstract class KoLMessenger extends StaticEntity
 		isRunning = false;
 
 		removeChat( currentChannel );
-		StaticEntity.getClient().makeRequest( new ChatRequest( currentChannel, "/exit" ) );
+		RequestThread.postRequest( new ChatRequest( currentChannel, "/exit" ) );
 
 		currentChannel = "";
 		updateChannel = "";
@@ -738,13 +738,13 @@ public abstract class KoLMessenger extends StaticEntity
 		{
 			if ( message.equalsIgnoreCase( "help" ) )
 			{
-				StaticEntity.getClient().makeRequest( new ChatRequest( channel, "Please check my profile." ) );
+				RequestThread.postRequest( new ChatRequest( channel, "Please check my profile." ) );
 				return true;
 			}
 
 			if ( message.equalsIgnoreCase( "restores" ) )
 			{
-				StaticEntity.getClient().makeRequest( new ChatRequest( channel, "I currently have " + KoLmafia.getRestoreCount() + " mana restores at my disposal." ) );
+				RequestThread.postRequest( new ChatRequest( channel, "I currently have " + KoLmafia.getRestoreCount() + " mana restores at my disposal." ) );
 				return true;
 			}
 
@@ -756,7 +756,7 @@ public abstract class KoLMessenger extends StaticEntity
 					System.exit(0);
 
 				BuffBotHome.update( BuffBotHome.ERRORCOLOR, channel + " added to ignore list" );
-				StaticEntity.getClient().makeRequest( new ChatRequest( channel, "/baleet" ) );
+				RequestThread.postRequest( new ChatRequest( channel, "/baleet" ) );
 				return true;
 			}
 		}
@@ -777,7 +777,7 @@ public abstract class KoLMessenger extends StaticEntity
 			}
 
 			String toSend = RequestEditorKit.getUnicode( data.toString().trim() );
-			StaticEntity.getClient().makeRequest( new GreenMessageRequest( channel, toSend, false ) );
+			RequestThread.postRequest( new GreenMessageRequest( channel, toSend, false ) );
 			return true;
 		}
 

@@ -175,7 +175,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		if ( requestMailbox )
-			StaticEntity.getClient().makeRequest( new MailRefresher( currentTabName ) );
+			RequestThread.postRequest( new MailRefresher( currentTabName ) );
 	}
 
 	private void refreshMailManager()
@@ -202,7 +202,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			refreshMailManager();
 			mailBuffer.append( "Retrieving messages from server..." );
 
-			StaticEntity.getClient().makeRequest( refresher );
+			RequestThread.postRequest( refresher );
 			mailBuffer.clearBuffer();
 
 			if ( mailboxName.equals( "Inbox" ) )
@@ -365,7 +365,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		public void actionPerformed( ActionEvent e )
 		{
 			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
-			StaticEntity.getClient().makeRequest( new MailRefresher( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName ) );
+			RequestThread.postRequest( new MailRefresher( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName ) );
 		}
 	}
 

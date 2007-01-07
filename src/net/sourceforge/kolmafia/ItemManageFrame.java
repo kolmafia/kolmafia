@@ -256,7 +256,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public void actionPerformed( ActionEvent e )
 			{
-				StaticEntity.getClient().makeRequest( new StoreManageRequest() );
+				RequestThread.postRequest( new StoreManageRequest() );
 
 				SoldItem [] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
 				StoreManager.getSoldItemList().toArray( sold );
@@ -277,7 +277,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( items.isEmpty() )
 					return;
 
-				StaticEntity.getClient().makeRequest( new AutoSellRequest( items.toArray(), AutoSellRequest.AUTOMALL ) );
+				RequestThread.postRequest( new AutoSellRequest( items.toArray(), AutoSellRequest.AUTOMALL ) );
 			}
 		}
 
@@ -291,7 +291,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public void actionPerformed( ActionEvent e )
 			{
-				StaticEntity.getClient().makeRequest( new MuseumRequest() );
+				RequestThread.postRequest( new MuseumRequest() );
 
 				AdventureResult [] display = new AdventureResult[ collection.size() ];
 				collection.toArray( display );
@@ -309,7 +309,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( items.isEmpty() )
 					return;
 
-				StaticEntity.getClient().makeRequest( new MuseumRequest( items.toArray(), true ) );
+				RequestThread.postRequest( new MuseumRequest( items.toArray(), true ) );
 			}
 		}
 	}
@@ -409,7 +409,7 @@ public class ItemManageFrame extends KoLFrame
 				return;
 
 			for ( int i = 0; i < items.length; ++i )
-				StaticEntity.getClient().makeRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
+				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
 		}
 
 		public void actionCancelled()
@@ -535,7 +535,7 @@ public class ItemManageFrame extends KoLFrame
 			private void combineTwoItems()
 			{
 				AdventureDatabase.retrieveItem( new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 ) );
-				StaticEntity.getClient().makeRequest( request );
+				RequestThread.postRequest( request );
 
 				// In order to ensure that you do not test items which
 				// are not available in the drop downs, go to the page
@@ -597,7 +597,7 @@ public class ItemManageFrame extends KoLFrame
 
 			private void combineThreeItems()
 			{
-				StaticEntity.getClient().makeRequest( request );
+				RequestThread.postRequest( request );
 
 				// In order to ensure that you do not test items which
 				// are not available in the drop downs, go to the page
@@ -673,7 +673,7 @@ public class ItemManageFrame extends KoLFrame
 					if ( currentTest.length == 3 )
 						request.addFormField( "item3", String.valueOf( currentTest[2].getItemId() ) );
 
-					StaticEntity.getClient().makeRequest( request );
+					RequestThread.postRequest( request );
 
 					if ( request.responseText.indexOf( "You acquire" ) != -1 )
 					{
@@ -735,7 +735,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( setting.equals( "showStashIngredients" ) && KoLCharacter.hasClan() && isSelected() &&
 					KoLmafia.isAdventuring() && !ClanManager.isStashRetrieved() )
 				{
-					StaticEntity.getClient().makeRequest( new ClanStashRequest() );
+					RequestThread.postRequest( new ClanStashRequest() );
 				}
 
 				ConcoctionsDatabase.refreshConcoctions();
@@ -759,7 +759,7 @@ public class ItemManageFrame extends KoLFrame
 				KoLmafia.updateDisplay( "Verifying ingredients..." );
 				selection.setQuantityNeeded( quantityDesired );
 
-				StaticEntity.getClient().makeRequest( selection );
+				RequestThread.postRequest( selection );
 			}
 
 			public String toString()
@@ -785,8 +785,8 @@ public class ItemManageFrame extends KoLFrame
 				selection.setQuantityNeeded( quantityDesired );
 
 				RequestThread.openRequestSequence();
-				StaticEntity.getClient().makeRequest( selection );
-				StaticEntity.getClient().makeRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), selection.getQuantityNeeded() ) ) );
+				RequestThread.postRequest( selection );
+				RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), selection.getQuantityNeeded() ) ) );
 				RequestThread.closeRequestSequence();
 			}
 

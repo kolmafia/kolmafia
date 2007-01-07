@@ -419,7 +419,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		MushroomPlotRequest request = new MushroomPlotRequest( square, sporeIndex );
 		KoLmafia.updateDisplay( "Planting " + TradeableItemDatabase.getItemName( spore ) + " spore in square " + square + "..." );
-		StaticEntity.getClient().makeRequest( request );
+		RequestThread.postRequest( request );
 
 		// If it failed, bail.
 
@@ -492,7 +492,7 @@ public abstract class MushroomPlot extends StaticEntity
 		{
 			MushroomPlotRequest request = new MushroomPlotRequest( square );
 			KoLmafia.updateDisplay( "Picking square " + square + "..." );
-			StaticEntity.getClient().makeRequest( request );
+			RequestThread.postRequest( request );
 			KoLmafia.updateDisplay( "Square picked." );
 		}
 
@@ -528,7 +528,7 @@ public abstract class MushroomPlot extends StaticEntity
 		if ( ownsPlot )
 			return true;
 
-		StaticEntity.getClient().makeRequest( new MushroomPlotRequest() );
+		RequestThread.postRequest( new MushroomPlotRequest() );
 		return ownsPlot;
 	}
 

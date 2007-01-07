@@ -741,7 +741,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		if ( formURLString.indexOf( "ascend.php" ) != -1 && getFormField( "action" ) != null )
 		{
-			StaticEntity.getClient().makeRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
+			RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
 			SpecialOutfit.clearImplicitCheckpoint();
 		}
 

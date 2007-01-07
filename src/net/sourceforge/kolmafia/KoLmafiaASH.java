@@ -631,7 +631,7 @@ public class KoLmafiaASH extends StaticEntity
 				StaticEntity.setProperty( "previousNotifyList", notifyList + currentScript );
 
 				GreenMessageRequest notifier = new GreenMessageRequest( notifyRecipient, currentScript );
-				StaticEntity.getClient().makeRequest( notifier );
+				RequestThread.postRequest( notifier );
 			}
 
 			ScriptValue result = executeScope( global, functionName, parameters );
@@ -4211,7 +4211,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue museum_amount( ScriptVariable arg )
 		{
 			if ( collection.isEmpty() )
-				StaticEntity.getClient().makeRequest( new MuseumRequest() );
+				RequestThread.postRequest( new MuseumRequest() );
 
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 			return new ScriptValue( item.getCount( collection ) );
@@ -4221,7 +4221,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			LockableListModel list = StoreManager.getSoldItemList();
 			if ( list.isEmpty() )
-				StaticEntity.getClient().makeRequest( new StoreManageRequest() );
+				RequestThread.postRequest( new StoreManageRequest() );
 
 			SoldItem item = new SoldItem( arg.intValue(), 0, 0, 0, 0 );
 			int index = list.indexOf( item );
@@ -4241,7 +4241,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue refresh_stash()
 		{
-			StaticEntity.getClient().makeRequest( new ClanStashRequest() );
+			RequestThread.postRequest( new ClanStashRequest() );
 			return continueValue();
 		}
 
@@ -4249,7 +4249,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			List stash = ClanManager.getStash();
 			if ( stash.isEmpty() )
-				StaticEntity.getClient().makeRequest( new ClanStashRequest() );
+				RequestThread.postRequest( new ClanStashRequest() );
 
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 			return new ScriptValue( item.getCount( stash ) );
@@ -4542,7 +4542,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( ClassSkillsDatabase.isCombat( skill.intValue() ) )
 			{
 				KoLRequest request = new KoLRequest( "fight.php?action=skill&whichskill=" + skill.intValue() );
-				StaticEntity.getClient().makeRequest( request );
+				RequestThread.postRequest( request );
 				return new ScriptValue( request.responseText == null ? "" : request.responseText );
 			}
 
@@ -4573,28 +4573,28 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue attack()
 		{
 			KoLRequest request = new KoLRequest( "fight.php?action=attack" );
-			StaticEntity.getClient().makeRequest( request );
+			RequestThread.postRequest( request );
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
 
 		public ScriptValue runaway()
 		{
 			KoLRequest request = new KoLRequest( "fight.php?action=runaway" );
-			StaticEntity.getClient().makeRequest( request );
+			RequestThread.postRequest( request );
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
 
 		public ScriptValue throw_item( ScriptVariable item )
 		{
 			KoLRequest request = new KoLRequest( "fight.php?action=useitem&whichitem=" + item.intValue() );
-			StaticEntity.getClient().makeRequest( request );
+			RequestThread.postRequest( request );
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
 
 		public ScriptValue throw_items( ScriptVariable item1, ScriptVariable item2 )
 		{
 			KoLRequest request = new KoLRequest( "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
-			StaticEntity.getClient().makeRequest( request );
+			RequestThread.postRequest( request );
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
 
@@ -4637,7 +4637,7 @@ public class KoLmafiaASH extends StaticEntity
 			String itemName = item.toStringValue().toString();
 
 			if ( hunterItems.isEmpty() )
-				StaticEntity.getClient().makeRequest( new BountyHunterRequest() );
+				RequestThread.postRequest( new BountyHunterRequest() );
 
 			for ( int i = 0; i < hunterItems.size(); ++i )
 				if ( ((String)hunterItems.get(i)).equalsIgnoreCase( itemName ) )
@@ -4957,7 +4957,7 @@ public class KoLmafiaASH extends StaticEntity
 				return STRING_INIT;
 
 			KoLRequest request = new KoLRequest( location, true );
-			StaticEntity.getClient().makeRequest( request );
+			RequestThread.postRequest( request );
 
 			StaticEntity.externalUpdate( location, request.responseText );
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
