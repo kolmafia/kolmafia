@@ -440,9 +440,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void initialize( String username )
 	{
-		if ( refusesContinue() )
-			return;
-
 		String originalName = KoLCharacter.getUserName();
 
 		// Initialize the variables to their initial
@@ -451,8 +448,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		executedLogin = true;
 		RequestThread.postRequest( CharpaneRequest.getInstance() );
-		if ( refusesContinue() )
-			return;
 
 		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
 		StaticEntity.setProperty( "lastUsername", username );
@@ -480,10 +475,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		refreshSession();
 		openSessionStream();
-
-		if ( refusesContinue() )
-			return;
-
 		resetSession();
 
 		// If the password hash is non-null, then that means you
@@ -503,9 +494,6 @@ public abstract class KoLmafia implements KoLConstants
 				StaticEntity.setProperty( "lastBreakfast", String.valueOf( today ) );
 				getBreakfast( true );
 			}
-
-			if ( refusesContinue() )
-				return;
 		}
 
 		// A breakfast script might include loading an adventure
@@ -514,9 +502,6 @@ public abstract class KoLmafia implements KoLConstants
 		String scriptSetting = StaticEntity.getGlobalProperty( "loginScript" );
 		if ( !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
-
-		if ( refusesContinue() )
-			return;
 
 		// Also, do mushrooms, if a mushroom script has already
 		// been setup by the user.
@@ -527,9 +512,6 @@ public abstract class KoLmafia implements KoLConstants
 			if ( !currentLayout.equals( "" ) && KoLCharacter.inMuscleSign() && MushroomPlot.ownsPlot() )
 				DEFAULT_SHELL.executeLine( "call " + MushroomPlot.PLOT_DIRECTORY.getPath() + "/" + currentLayout + ".ash" );
 		}
-
-		if ( refusesContinue() )
-			return;
 	}
 
 	public void resetBreakfastSummonings()
