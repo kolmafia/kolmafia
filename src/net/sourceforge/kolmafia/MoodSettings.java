@@ -447,7 +447,7 @@ public abstract class MoodSettings implements KoLConstants
 				desiredDuration = effects[i+1].getCount() - effects[i].getCount();
 
 			int skillId = ClassSkillsDatabase.getSkillId( skillName );
-			int castCount = KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionById( skillId );
+			int castCount = (KoLCharacter.getCurrentMP() - starting) / ClassSkillsDatabase.getMPConsumptionById( skillId );
 
 			if ( ClassSkillsDatabase.getEffectDuration( skillId ) * castCount > desiredDuration )
 				castCount = Math.min( 3, castCount );
