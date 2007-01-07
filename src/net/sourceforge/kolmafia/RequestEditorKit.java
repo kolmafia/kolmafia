@@ -721,7 +721,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static final String getDisplayHTML( String location, String responseText )
 	{
-		if ( responseText == null )
+		if ( responseText == null || responseText.length() == 0 )
 			return "";
 
 		// Switch all the <BR> tags that are not understood
@@ -883,7 +883,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static String getFeatureRichHTML( String location, String text )
 	{
-		if ( text == null )
+		if ( text == null || text.length() == 0 )
 			return "";
 
 		StringBuffer buffer = new StringBuffer( text );
@@ -894,6 +894,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static void getFeatureRichHTML( String location, StringBuffer buffer )
 	{
+		if ( buffer.length() == 0 )
+			return;
+
 		// If you found a marmot clover, it would have
 		// automatically been disassembled.  Update
 		// the HTML to reflect this.
