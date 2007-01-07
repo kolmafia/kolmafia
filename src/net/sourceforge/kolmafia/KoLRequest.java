@@ -1008,6 +1008,8 @@ public class KoLRequest extends Job implements KoLConstants
 				formConnection.addRequestProperty( "Cookie", sessionId );
 		}
 
+		formConnection.setRequestProperty( "User-Agent", VERSION_NAME );
+
 		dataString = getDataString( true );
 		formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 

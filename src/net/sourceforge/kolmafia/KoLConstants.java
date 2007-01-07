@@ -65,7 +65,7 @@ public interface KoLConstants extends UtilityConstants
 	// Rendered in various locations and therefore made public.
 
 	public static final String VERSION_NAME = "KoLmafia v10.1";
-	public static final String VERSION_DATE = "Released on January 6, 2006";
+	public static final String VERSION_DATE = "Re-released on January 7, 2006";
 
 	// General constants used for calculations and formatting of
 	// strings, as well as for string parsing.
