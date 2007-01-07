@@ -119,6 +119,7 @@ public class LoginFrame extends KoLFrame
 		}
 
 		setResizable( false );
+		KoLmafia.enableDisplay();
 	}
 
 	public void requestFocus()
