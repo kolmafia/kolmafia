@@ -217,7 +217,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			}
 
 			FlowerHunterRequest search = new FlowerHunterRequest( levelEntry.getText(), rankEntry.getText() );
-			StaticEntity.getClient().makeRequest( search );
+			RequestThread.postRequest( search );
 
 			results = new ProfileRequest[ search.getSearchResults().size() ];
 			search.getSearchResults().toArray( results );
@@ -277,7 +277,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			}
 
 			FlowerHunterRequest search = new FlowerHunterRequest( clanId.getText() );
-			StaticEntity.getClient().makeRequest( search );
+			RequestThread.postRequest( search );
 
 			results = new ProfileRequest[ search.getSearchResults().size() ];
 			search.getSearchResults().toArray( results );
@@ -373,7 +373,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			{
 				KoLmafia.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
 				request.setTarget( selection[i].getPlayerName() );
-				StaticEntity.getClient().makeRequest( request );
+				RequestThread.postRequest( request );
 
 				updateRank();
 			}

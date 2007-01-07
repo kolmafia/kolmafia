@@ -251,7 +251,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				System.exit(0);
 
 			createDisplay( LoginFrame.class );
-			StaticEntity.getClient().makeRequest( new LogoutRequest() );
+			RequestThread.postRequest( new LogoutRequest() );
 		}
 	}
 
@@ -681,7 +681,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	StaticEntity.getClient().makeRequest( request );
+		{	RequestThread.postRequest( request );
 		}
 	}
 
@@ -1340,11 +1340,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					case ConsumeItemRequest.EQUIP_SHIRT:
 					case ConsumeItemRequest.EQUIP_WEAPON:
 					case ConsumeItemRequest.EQUIP_OFFHAND:
-						StaticEntity.getClient().makeRequest( new EquipmentRequest( (AdventureResult) items[i], KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
+						RequestThread.postRequest( new EquipmentRequest( (AdventureResult) items[i], KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
 						break;
 
 					default:
-						StaticEntity.getClient().makeRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
+						RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
 						break;
 					}
 				}
@@ -1368,7 +1368,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					return;
 
 				if ( !retrieveFromClosetFirst )
-					StaticEntity.getClient().makeRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+					RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
 			}
 
 			public String toString()
@@ -1408,7 +1408,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				if ( items == null )
 					return;
 
-				StaticEntity.getClient().makeRequest( new AutoSellRequest( items, sellType ) );
+				RequestThread.postRequest( new AutoSellRequest( items, sellType ) );
 			}
 
 			public String toString()
@@ -1428,7 +1428,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				if ( items == null )
 					return;
 
-				StaticEntity.getClient().makeRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
+				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
 			}
 
 			public String toString()
@@ -1454,7 +1454,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					return;
 				}
 
-				StaticEntity.getClient().makeRequest( new MuseumRequest( items, true ) );
+				RequestThread.postRequest( new MuseumRequest( items, true ) );
 			}
 
 			public String toString()
@@ -1481,7 +1481,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 							items[i].getName() + " is untradeable.  Are you sure?", "Smash request nag screen!", JOptionPane.YES_NO_OPTION );
 
 					if ( willSmash )
-						StaticEntity.getClient().makeRequest( new PulverizeRequest( items[i] ) );
+						RequestThread.postRequest( new PulverizeRequest( items[i] ) );
 				}
 			}
 

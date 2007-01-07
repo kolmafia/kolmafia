@@ -190,7 +190,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		INSTANCE.results.clear();
 		request.setResults( INSTANCE.results );
 
-		StaticEntity.getClient().makeRequest( request );
+		RequestThread.postRequest( request );
 	}
 
 	private String getPurchaseSummary( Object [] purchases )

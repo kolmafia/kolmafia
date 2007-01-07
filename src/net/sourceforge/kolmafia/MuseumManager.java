@@ -127,7 +127,7 @@ public class MuseumManager extends StaticEntity
 				request.addFormField( "action", "newshelf" );
 				request.addFormField( "pwd" );
 				request.addFormField( "shelfname", "Deleted Shelf " + i );
-				StaticEntity.getClient().makeRequest( request );
+				RequestThread.postRequest( request );
 			}
 		}
 
@@ -158,8 +158,8 @@ public class MuseumManager extends StaticEntity
 				request.addFormField( "delete" + i, "on" );
 		}
 
-		StaticEntity.getClient().makeRequest( request );
-		StaticEntity.getClient().makeRequest( new MuseumRequest() );
+		RequestThread.postRequest( request );
+		RequestThread.postRequest( new MuseumRequest() );
 
 		KoLmafia.updateDisplay( "Display case updated." );
 		RequestThread.closeRequestSequence();
@@ -194,7 +194,7 @@ public class MuseumManager extends StaticEntity
 		// Once the parallel arrays are properly initialized,
 		// send the update request to the server.
 
-		StaticEntity.getClient().makeRequest( new MuseumRequest( newItems, newShelves ) );
+		RequestThread.postRequest( new MuseumRequest( newItems, newShelves ) );
 	}
 
 	public static void update( String data )

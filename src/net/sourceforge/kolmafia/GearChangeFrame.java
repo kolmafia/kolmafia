@@ -146,7 +146,7 @@ public class GearChangeFrame extends KoLFrame
 			if ( currentValue == null )
 				return;
 
-			StaticEntity.getClient().makeRequest( new EquipmentRequest( currentValue ) );
+			RequestThread.postRequest( new EquipmentRequest( currentValue ) );
 		}
 	}
 
@@ -171,7 +171,7 @@ public class GearChangeFrame extends KoLFrame
 			if ( weapon != null )
 			{
 				if ( EquipmentDatabase.getHands( weapon.getName() ) == 1 && EquipmentDatabase.isRanged( weapon.getName() ) != EquipmentDatabase.isRanged( offhand.getName() ) )
-					StaticEntity.getClient().makeRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
+					RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
 			}
 		}
 
@@ -179,14 +179,14 @@ public class GearChangeFrame extends KoLFrame
 		{
 			if ( pieces[i] != null )
 			{
-				StaticEntity.getClient().makeRequest( new EquipmentRequest( pieces[i], i, true ) );
+				RequestThread.postRequest( new EquipmentRequest( pieces[i], i, true ) );
 				pieces[i] = null;
 			}
 		}
 
 		AdventureResult famitem = (AdventureResult) equipment[KoLCharacter.FAMILIAR].getSelectedItem();
 		if ( KoLCharacter.getFamiliar().canEquip( famitem ) && !KoLCharacter.getFamiliar().getItem().equals( famitem ) )
-			StaticEntity.getClient().makeRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
+			RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
 	}
 
 	public static void updateWeapons()
@@ -227,7 +227,7 @@ public class GearChangeFrame extends KoLFrame
 					if ( outfit == null || !(outfit instanceof SpecialOutfit) )
 						return;
 
-					StaticEntity.getClient().makeRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
+					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
 					setSelectedItem( null );
 					return;
 				}
@@ -243,11 +243,11 @@ public class GearChangeFrame extends KoLFrame
 
 					FamiliarData familiar = (FamiliarData) familiarSelect.getSelectedItem();
 					if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
-						StaticEntity.getClient().makeRequest( new FamiliarRequest( familiar ) );
+						RequestThread.postRequest( new FamiliarRequest( familiar ) );
 
 					AdventureResult famitem = (AdventureResult) equipment[KoLCharacter.FAMILIAR].getSelectedItem();
 					if ( KoLCharacter.getFamiliar().canEquip( famitem ) && !KoLCharacter.getFamiliar().getItem().equals( famitem ) )
-						StaticEntity.getClient().makeRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
+						RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
 
 					RequestThread.closeRequestSequence();
 					return;

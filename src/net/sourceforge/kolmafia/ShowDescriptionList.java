@@ -344,7 +344,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you would like to sell the selected items?", "Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 				return;
 
-			StaticEntity.getClient().makeRequest( new AutoSellRequest( getSelectedValues(), AutoSellRequest.AUTOSELL ) );
+			RequestThread.postRequest( new AutoSellRequest( getSelectedValues(), AutoSellRequest.AUTOSELL ) );
 		}
 	}
 

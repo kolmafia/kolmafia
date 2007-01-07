@@ -108,7 +108,7 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static void deleteMessage( String boxname, KoLMailMessage message )
 	{
-		StaticEntity.getClient().makeRequest( new MailboxRequest( boxname.equals( "PvP" ) ? "Inbox" : boxname, message, "delete" ) );
+		RequestThread.postRequest( new MailboxRequest( boxname.equals( "PvP" ) ? "Inbox" : boxname, message, "delete" ) );
 
 		SortedListModel mailbox = (SortedListModel) mailboxes.get( boxname );
 		int messageIndex = mailbox.indexOf( message );
@@ -123,7 +123,7 @@ public abstract class KoLMailManager extends StaticEntity
 		if ( messages.length == 0 )
 			return;
 
-		StaticEntity.getClient().makeRequest( new MailboxRequest( boxname.equals( "PvP" ) ? "Inbox" : boxname, messages, "delete" ) );
+		RequestThread.postRequest( new MailboxRequest( boxname.equals( "PvP" ) ? "Inbox" : boxname, messages, "delete" ) );
 
 		int messageIndex;
 		SortedListModel mailbox = (SortedListModel) mailboxes.get( boxname );
@@ -139,7 +139,7 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static void saveMessage( KoLMailMessage message )
 	{
-		StaticEntity.getClient().makeRequest( new MailboxRequest( "Inbox", message, "save" ) );
+		RequestThread.postRequest( new MailboxRequest( "Inbox", message, "save" ) );
 
 		SortedListModel mailbox = (SortedListModel) mailboxes.get( "Inbox" );
 		int messageIndex = mailbox.indexOf( message );
@@ -154,7 +154,7 @@ public abstract class KoLMailManager extends StaticEntity
 		if ( messages.length == 0 )
 			return;
 
-		StaticEntity.getClient().makeRequest( new MailboxRequest( "Inbox", messages, "save" ) );
+		RequestThread.postRequest( new MailboxRequest( "Inbox", messages, "save" ) );
 
 		int messageIndex;
 		SortedListModel mailbox = (SortedListModel) mailboxes.get( "Inbox" );

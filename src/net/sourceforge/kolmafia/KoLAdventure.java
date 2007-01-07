@@ -276,8 +276,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 					return;
 			}
 
-			StaticEntity.getClient().makeRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
-			StaticEntity.getClient().makeRequest( new ConsumeItemRequest( PERFUME_ITEM ) );
+			RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
+			RequestThread.postRequest( new ConsumeItemRequest( PERFUME_ITEM ) );
 		}
 
 		if ( formSource.indexOf( "adventure.php" ) == -1 )
@@ -296,7 +296,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				if ( !EquipmentDatabase.retrieveOutfit( outfitId ) )
 					return;
 
-				StaticEntity.getClient().makeRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
+				RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
 			}
 
 			// If it's the pirate quest in disguise, make sure
@@ -413,7 +413,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// "You have planted a Beanstalk in the Nearby Plains."
 
 			ZONE_VALIDATOR.constructURLString( "plains.php" );
-			StaticEntity.getClient().makeRequest( ZONE_VALIDATOR );
+			RequestThread.postRequest( ZONE_VALIDATOR );
 
 			if ( ZONE_VALIDATOR.responseText.indexOf( "beanstalk.php" ) == -1 )
 			{
@@ -450,7 +450,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			}
 
 			ZONE_VALIDATOR.constructURLString( "beanstalk.php" );
-			StaticEntity.getClient().makeRequest( ZONE_VALIDATOR );
+			RequestThread.postRequest( ZONE_VALIDATOR );
 
 			KoLCharacter.armBeanstalk();
 			isValidAdventure = true;
@@ -520,10 +520,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER ) )
 			{
-				StaticEntity.getClient().makeRequest( ZONE_VALIDATOR.constructURLString( "mystic.php" ) );
-				StaticEntity.getClient().makeRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes1" ) );
-				StaticEntity.getClient().makeRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes2" ) );
-				StaticEntity.getClient().makeRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes3" ) );
+				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php" ) );
+				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes1" ) );
+				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes2" ) );
+				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes3" ) );
 			}
 
 			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) > 1 )
@@ -582,7 +582,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// See if the trapper will give it to us
 
 			DEFAULT_SHELL.executeLine( "council" );
-			StaticEntity.getClient().makeRequest( ZONE_VALIDATOR.constructURLString( "trapper.php" ) );
+			RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "trapper.php" ) );
 
 			validate( true );
 			return;
@@ -737,7 +737,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// request (without spamming the server).
 
 		int previousAdventures = KoLCharacter.getAdventuresLeft();
-		StaticEntity.getClient().makeRequest( request );
+		RequestThread.postRequest( request );
 
 		if ( previousAdventures == KoLCharacter.getAdventuresLeft() )
 		{
@@ -746,7 +746,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// then you re-run the request.
 
 			while ( request.redirectLocation != null && request.redirectLocation.equals( "choice.php" ) )
-				StaticEntity.getClient().makeRequest( request );
+				RequestThread.postRequest( request );
 		}
 	}
 

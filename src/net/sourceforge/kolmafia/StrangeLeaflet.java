@@ -765,7 +765,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 	private static String executeCommand( String command )
 	{
 		LEAFLET_REQUEST.addFormField( "command", command );
-		StaticEntity.getClient().makeRequest( LEAFLET_REQUEST );
+		RequestThread.postRequest( LEAFLET_REQUEST );
 
 		// Figure out where we are
 		parseLocation( LEAFLET_REQUEST.responseText );
