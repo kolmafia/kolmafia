@@ -109,7 +109,8 @@ public abstract class RequestThread implements Runnable, KoLConstants
 		else
 			Worker.post( request instanceof Job ? (Job) request : new Request( request ) );
 
-		enableDisplayIfSequenceComplete();
+		if ( request instanceof KoLRequest )
+			enableDisplayIfSequenceComplete();
 	}
 
 	public static void openRequestSequence()
@@ -131,6 +132,9 @@ public abstract class RequestThread implements Runnable, KoLConstants
 	{
 		if ( sequenceCount != 0 )
 			return false;
+
+		if ( KoLmafia.getLastMessage().endsWith( "..." ) )
+			KoLmafia.updateDisplay( "Request completed." );
 
 		KoLmafia.enableDisplay();
 		return true;

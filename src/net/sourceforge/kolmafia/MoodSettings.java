@@ -863,6 +863,10 @@ public abstract class MoodSettings implements KoLConstants
 				int skillId = ClassSkillsDatabase.getSkillId( skillName );
 				int castCount = Math.max( neededTurns / ClassSkillsDatabase.getEffectDuration( skillId ), 1 );
 
+				if ( castCount == 0 )
+					return "";
+
+				castCount = Math.min( castCount, KoLCharacter.getMaximumMP() / ClassSkillsDatabase.getMPConsumptionById( skillId ) );
 				return "cast " + castCount + " " + skillName;
 			}
 		}
