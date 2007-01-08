@@ -392,6 +392,9 @@ public class ClanManageFrame extends KoLFrame
 					AdventureResult currentItem;
 					int quantity = getQuantity( "Maximum number of each item allowed in the stash?", 100 );
 
+					if ( quantity == 0 )
+						return;
+
 					for ( int i = 0; i < items.length; ++i )
 					{
 						currentItem = (AdventureResult) items[i];

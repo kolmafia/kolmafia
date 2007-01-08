@@ -485,46 +485,62 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static final Pattern BOOKSHELF_PATTERN = Pattern.compile( "onclick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 
 	private static void downloadFile( File local, String remote )
+	{	RequestThread.postRequest( new FileDownloader( local, remote ) );
+	}
+
+	private static class FileDownloader implements Runnable
 	{
-		try
+		private File local;
+		private String remote;
+
+		public FileDownloader( File local, String remote )
 		{
-			URLConnection connection = (new URL( remote )).openConnection();
-			if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
-			{
-				Matcher idMatcher = FILEID_PATTERN.matcher( local.getPath() );
-				if ( idMatcher.find() )
-					connection.setRequestProperty( "Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group(1)  );
-			}
-
-			BufferedInputStream in = new BufferedInputStream( connection.getInputStream() );
-			ByteArrayOutputStream outbytes = new ByteArrayOutputStream();
-
-			byte [] buffer = new byte[4096];
-
-			int offset;
-			while ((offset = in.read(buffer)) > 0)
-				outbytes.write(buffer, 0, offset);
-
-			in.close();
-
-			// If it's textual data, then go ahead and modify it so
-			// that all the variables point to KoLmafia.
-
-			if ( remote.endsWith( ".js" ) )
-			{
-				String text = outbytes.toString();
-				outbytes.reset();
-
-				text = StaticEntity.globalStringReplace( text, "location.hostname", "location.host" );
-				outbytes.write( text.getBytes() );
-			}
-
-			outbytes.writeTo( new FileOutputStream( local ) );
+			this.local = local;
+			this.remote = remote;
 		}
-		catch ( Exception e )
+
+		public void run()
 		{
-			// This can happen whenever there is bad internet
-			// or whenever the familiar is brand-new.
+			try
+			{
+				URLConnection connection = (new URL( remote )).openConnection();
+				if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
+				{
+					Matcher idMatcher = FILEID_PATTERN.matcher( local.getPath() );
+					if ( idMatcher.find() )
+						connection.setRequestProperty( "Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group(1)  );
+				}
+
+				BufferedInputStream in = new BufferedInputStream( connection.getInputStream() );
+				ByteArrayOutputStream outbytes = new ByteArrayOutputStream();
+
+				byte [] buffer = new byte[4096];
+
+				int offset;
+				while ((offset = in.read(buffer)) > 0)
+					outbytes.write(buffer, 0, offset);
+
+				in.close();
+
+				// If it's textual data, then go ahead and modify it so
+				// that all the variables point to KoLmafia.
+
+				if ( remote.endsWith( ".js" ) )
+				{
+					String text = outbytes.toString();
+					outbytes.reset();
+
+					text = StaticEntity.globalStringReplace( text, "location.hostname", "location.host" );
+					outbytes.write( text.getBytes() );
+				}
+
+				outbytes.writeTo( new FileOutputStream( local ) );
+			}
+			catch ( Exception e )
+			{
+				// This can happen whenever there is bad internet
+				// or whenever the familiar is brand-new.
+			}
 		}
 	}
 
