@@ -2125,7 +2125,7 @@
 2120	924268834	Grateful Undead T-shirt	Grateful Undead T-shirts
 2121
 2122	663313804	safety vest	safety vests
-2123	591323065	Xtreme Bi-Polar Fleece Vest	eXtreme Bi-Polar Fleece Vests
+2123	591323065	eXtreme Bi-Polar Fleece Vest	eXtreme Bi-Polar Fleece Vests
 2124
 2125	133155605	Ye Olde Navy Fleece	Ye Olde Navy Fleeces
 2126
