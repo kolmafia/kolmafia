@@ -108,6 +108,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final AdventureResult LEAD_NECKLACE = new AdventureResult( 865, 1 );
 	private static final AdventureResult RAT_HEAD_BALLOON = new AdventureResult( 1218, 1 );
 	private static final AdventureResult PUMPKIN_BASKET = new AdventureResult( 1971, 1 );
+	private static final AdventureResult DOPPELGANGER = new AdventureResult( 2225, 1 );
 
 	private static final AdventureResult GREEN_SNOWCONE = new AdventureResult( 1413, 1 );
 	private static final AdventureResult BLACK_SNOWCONE = new AdventureResult( 1417, 1 );
@@ -1313,6 +1314,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 		AdventureResult pumpkinBasket;
 		FamiliarData pumpkinBasketOwner;
 
+		AdventureResult doppelganger;
+		FamiliarData doppelgangerOwner;
+
 		int tpCount;
 		AdventureResult [] tp = new AdventureResult [3];
 
@@ -1488,6 +1492,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 					this.item = ratHeadBalloon = RAT_HEAD_BALLOON;
 					ratHeadBalloonOwner = familiar;
 				}
+				else if ( name.equals( DOPPELGANGER.getName() ) )
+				{
+					this.item = doppelganger = DOPPELGANGER;
+					doppelgangerOwner = familiar;
+				}
 			}
 
 			// Check accessories for tininess and plasticity
@@ -1529,9 +1538,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// If current familiar item is not the special item and
 			// such an item affects weight, search inventory
-			if ( familiarItem != item  &&
-			     familiarItemWeight != 0 &&
-			     familiarItem.getCount( inventory ) > 0 )
+			if ( familiarItem != item && familiarItemWeight != 0 && familiarItem.getCount( inventory ) > 0 )
 			{
 				specItem = familiarItem;
 				specWeight = familiarItemWeight;
@@ -1539,8 +1546,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// If current familiar is not wearing a pumpkin basket,
 			// search inventory
-			if ( pumpkinBasket == null && !KoLCharacter.isHardcore() &&
-			     PUMPKIN_BASKET.getCount( inventory ) > 0 )
+			if ( pumpkinBasket == null && !KoLCharacter.isHardcore() && PUMPKIN_BASKET.getCount( inventory ) > 0 )
 			{
 				pumpkinBasket = PUMPKIN_BASKET;
 				pumpkinBasketOwner = null;
@@ -1548,8 +1554,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// If current familiar is not wearing a lead necklace,
 			// search inventory
-			if ( leadNecklace == null &&
-			     LEAD_NECKLACE.getCount( inventory ) > 0 )
+			if ( leadNecklace == null && LEAD_NECKLACE.getCount( inventory ) > 0 )
 			{
 				leadNecklace = LEAD_NECKLACE;
 				leadNecklaceOwner = null;
@@ -1557,17 +1562,24 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// If current familiar is not wearing a rat head
 			// balloon, search inventory
-			if ( ratHeadBalloon == null &&
-			     RAT_HEAD_BALLOON.getCount( inventory ) > 0)
+			if ( ratHeadBalloon == null && RAT_HEAD_BALLOON.getCount( inventory ) > 0 )
 			{
 				ratHeadBalloon = RAT_HEAD_BALLOON;
 				ratHeadBalloonOwner = null;
 			}
 
+			// If current familiar is not wearing a doppel,
+			// search inventory
+			if ( doppelganger == null && !KoLCharacter.isHardcore() && DOPPELGANGER.getCount( inventory ) > 0 )
+			{
+				doppelganger = DOPPELGANGER;
+				doppelgangerOwner = null;
+			}
+
 			// If we don't have a lead necklace or a rat head
 			// balloon, search other familiars; we'll steal it from
 			// them if necessary
-			if ( leadNecklace == null || ratHeadBalloon == null || pumpkinBasket == null )
+			else if ( leadNecklace == null || ratHeadBalloon == null || pumpkinBasket == null )
 			{
 				// Find first familiar with item
 				LockableListModel familiars = KoLCharacter.getFamiliarList();
@@ -1698,21 +1710,25 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void getItemWeights( int weight )
 		{
-			// If familiar specific item adds weight, calculate
-			if ( specWeight != 0 )
-				getAccessoryWeights( weight + specWeight );
+			// Only consider familiar items if you have no doppelganger
+			if ( doppelganger == null )
+			{
+				// If familiar specific item adds weight, calculate
+				if ( specWeight != 0 )
+					getAccessoryWeights( weight + specWeight );
 
-			// If we have a pumpkin basket, use it
-			if ( pumpkinBasket != null )
-				getAccessoryWeights( weight + 5 );
+				// If we have a pumpkin basket, use it
+				if ( pumpkinBasket != null )
+					getAccessoryWeights( weight + 5 );
 
-			// If we have a lead necklace, use it
-			if ( leadNecklace != null )
-				getAccessoryWeights( weight + 3 );
+				// If we have a lead necklace, use it
+				if ( leadNecklace != null )
+					getAccessoryWeights( weight + 3 );
 
-			// If we have a rat head balloon, use it
-			if ( ratHeadBalloon != null )
-				getAccessoryWeights( weight - 3 );
+				// If we have a rat head balloon, use it
+				if ( ratHeadBalloon != null )
+					getAccessoryWeights( weight - 3 );
+			}
 
 			// Calculate Accessory Weights with no Familiar Items
 			getAccessoryWeights( weight );
@@ -1807,6 +1823,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		public void changeGear( GearSet current, GearSet next )
 		{
+			// Steal a doppelganger, always
+			if ( doppelgangerOwner != null && doppelgangerOwner != familiar )
+			{
+				RequestThread.postRequest( new EquipmentRequest( DOPPELGANGER, KoLCharacter.FAMILIAR ) );
+				doppelgangerOwner = familiar;
+			}
+
 			swapItem( current.hat, next.hat, KoLCharacter.HAT );
 			swapItem( current.item, next.item, KoLCharacter.FAMILIAR );
 			swapItem( current.acc1, next.acc1, KoLCharacter.ACCESSORY1 );
@@ -1827,6 +1850,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// weight. Luckily, EquipmentRequest will notice if
 			// something else is in the slot and will remove it
 			// first, if necessary
+
 			if ( current != null )
 			{
 				results.append( "Taking off " + current.getName() + "<br>" );
@@ -1834,27 +1858,28 @@ public class FamiliarTrainingFrame extends KoLFrame
 				setItem( slot, null );
 			}
 
+			// Steal a pumpkin basket, if needed
 			if ( next == pumpkinBasket && pumpkinBasketOwner != null && pumpkinBasketOwner != familiar )
 			{
-				results.append( "Stealing pumpkin basket from " + pumpkinBasketOwner.getName() + " the " + pumpkinBasketOwner.getRace() + "<br>" );
 				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
 				pumpkinBasketOwner = familiar;
+				return;
 			}
 
 			// Steal a lead necklace, if needed
 			if ( next == leadNecklace && leadNecklaceOwner != null && leadNecklaceOwner != familiar )
 			{
-				results.append( "Stealing lead necklace from " + leadNecklaceOwner.getName() + " the " + leadNecklaceOwner.getRace() + "<br>" );
 				RequestThread.postRequest( new EquipmentRequest( LEAD_NECKLACE, KoLCharacter.FAMILIAR ) );
 				leadNecklaceOwner = familiar;
+				return;
 			}
 
 			// Steal a rat head balloon necklace, if needed
 			if ( next == ratHeadBalloon && ratHeadBalloonOwner != null && ratHeadBalloonOwner != familiar )
 			{
-				results.append( "Stealing rat head balloon from " + ratHeadBalloonOwner.getName() + " the " + ratHeadBalloonOwner.getRace() + "<br>" );
 				RequestThread.postRequest( new EquipmentRequest( RAT_HEAD_BALLOON, KoLCharacter.FAMILIAR ) );
 				ratHeadBalloonOwner = familiar;
+				return;
 			}
 
 			// Finally, equip the new item
@@ -1980,14 +2005,21 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void getItemGearSets( int weight, AdventureResult hat, boolean leash, boolean empathy, boolean spray )
 		{
-			if ( specItem != null )
-				getAccessoryGearSets( weight, specItem, hat, leash, empathy, spray );
+			if ( doppelganger != null )
+			{
+				getAccessoryGearSets( weight, doppelganger, hat, leash, empathy, spray );
+				return;
+			}
+
 			if ( pumpkinBasket != null )
 				getAccessoryGearSets( weight, pumpkinBasket, hat, leash, empathy, spray );
+			if ( specItem != null )
+				getAccessoryGearSets( weight, specItem, hat, leash, empathy, spray );
 			if ( leadNecklace != null )
 				getAccessoryGearSets( weight, leadNecklace, hat, leash, empathy, spray );
 			if ( ratHeadBalloon != null )
 				getAccessoryGearSets( weight, ratHeadBalloon, hat, leash, empathy, spray );
+
 			getAccessoryGearSets( weight, null, hat, leash, empathy, spray );
 		}
 
@@ -2239,16 +2271,21 @@ public class FamiliarTrainingFrame extends KoLFrame
 			StringBuffer text = new StringBuffer();
 
 			text.append( "Current equipment:" );
+
 			if ( hat == PITH_HELMET )
 				text.append( " plexiglass pith helmet (+5)" );
-			if ( item == PUMPKIN_BASKET )
-				text.append( " plastic pumpkin basket (+5)" );
+
+			if ( item == DOPPELGANGER )
+				text.append( " " + DOPPELGANGER.getName() + " (+0)" );
+			else if ( item == PUMPKIN_BASKET )
+				text.append( " " + PUMPKIN_BASKET.getName() + " (+5)" );
 			else if ( item == LEAD_NECKLACE )
-				text.append( " lead necklace (+3)" );
+				text.append( " " + LEAD_NECKLACE.getName() + " (+3)" );
 			else if ( item == RAT_HEAD_BALLOON )
-				text.append( " rat head balloon (-3)" );
+				text.append( " " + RAT_HEAD_BALLOON.getName() + " (-3)" );
 			else if ( item != null )
 				text.append( " " + specItem.getName() + " (+" + specWeight + ")" );
+
 			for ( int i = 0; i < 3; ++i )
 				if ( acc[i] != null )
 					text.append( " " + acc[i].getName() + " (+1)" );
