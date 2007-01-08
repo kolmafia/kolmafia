@@ -115,23 +115,7 @@ public class BuffBotHome extends StaticEntity
 	private static final PrintStream getPrintStream( String extension )
 	{
 		File output = getFile( extension );
-
-		try
-		{
-			output.getParentFile().mkdirs();
-			if ( !output.exists() )
-				output.createNewFile();
-
-			return new LogStream( output );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			printStackTrace( e, "Failed to open <" + output.getAbsolutePath() + "> for output" );
-			return null;
-		}
+		return LogStream.openStream( output, false );
 	}
 
 	/**

@@ -41,28 +41,61 @@ import java.io.PrintStream;
 
 public class LogStream extends PrintStream implements KoLConstants
 {
-	/**
-	 * Utility method which indicates whether or not the given filename
-	 * indicates that the log should be appended to or not.
-	 */
-
-	private static boolean shouldAppend( String fileName )
-	{
-		return (fileName.indexOf( "buffs" ) != -1 && fileName.indexOf( "_200" ) != -1) ||
-			fileName.indexOf( "sessions" ) != -1 || fileName.indexOf( "DEBUG" ) != -1;
+	public static final LogStream openStream( String filename, boolean forceNewFile )
+	{	return openStream( new File( filename ), forceNewFile );
 	}
 
-	/**
-	 * Constructs a new <code>LogStream</code> which will append all
-	 * log data to the file of the specified name.  Note that the
-	 * file must exist prior to calling this method.
-	 *
-	 * @param	fileName	The name of the file used as a log
-	 * @throws	FileNotFoundException	The file does not exist
-	 */
+	public static final LogStream openStream( File file, boolean forceNewFile )
+	{
+		LogStream newStream = null;
 
-	public LogStream( String fileName ) throws IOException
-	{	this( new File( fileName ), shouldAppend( fileName ) );
+		try
+		{
+			if ( file.getParentFile() != null && !file.getParentFile().exists() )
+				file.getParentFile().mkdirs();
+
+			if ( forceNewFile && file.exists() )
+				file.delete();
+
+			if ( !file.exists() )
+				file.createNewFile();
+
+			newStream = new LogStream( file );
+
+			if ( file.getName().equals( "DEBUG.txt" ) )
+			{
+				newStream.println();
+				newStream.println();
+				newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+
+				StringBuffer versionData = new StringBuffer();
+				versionData.append( VERSION_NAME );
+				versionData.append( ", " );
+				versionData.append( System.getProperty( "os.name" ) );
+				versionData.append( ", Java " );
+				versionData.append( System.getProperty( "java.version" ) );
+
+				int leftIndent = (66 - versionData.length()) / 2;
+				for ( int i = 0; i < leftIndent; ++i )
+					versionData.insert( 0, ' ' );
+
+				newStream.println( versionData.toString() );
+
+				newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+				newStream.println( " Please note: do not post these logs in the KoLmafia thread.  If " );
+				newStream.println( " you would like us to look at the log, please instead email logs " );
+				newStream.println( " to holatuwol@hotmail.com using the subject \"KoLmafia Debug Log\" " );
+				newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+				newStream.println();
+				newStream.println();
+			}
+		}
+		catch ( IOException e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+
+		return newStream;
 	}
 
 	/**
@@ -74,44 +107,11 @@ public class LogStream extends PrintStream implements KoLConstants
 	 * @throws	FileNotFoundException	The file does not exist
 	 */
 
-	public LogStream( File file ) throws IOException
-	{	this( file, shouldAppend( file.getAbsolutePath() ) );
+	private LogStream( File file ) throws IOException
+	{	this( new FileOutputStream( file, true ) );
 	}
 
-
-	public LogStream( File file, boolean append ) throws IOException
-	{
-		this( new FileOutputStream( file, append ) );
-
-		if ( file.getName().endsWith( "log" ) || file.getParent() != null && file.getParent().indexOf( "sessions" ) != -1 )
-		{
-			println();
-			println();
-			println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-
-			StringBuffer versionData = new StringBuffer();
-			versionData.append( VERSION_NAME );
-			versionData.append( ", " );
-			versionData.append( System.getProperty( "os.name" ) );
-			versionData.append( ", Java " );
-			versionData.append( System.getProperty( "java.version" ) );
-
-			int leftIndent = (66 - versionData.length()) / 2;
-			for ( int i = 0; i < leftIndent; ++i )
-				versionData.insert( 0, ' ' );
-			println( versionData.toString() );
-
-			println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-			println( " Please note: do not post these logs in the KoLmafia thread.  If " );
-			println( " you would like us to look at the log, please instead email logs " );
-			println( " to holatuwol@hotmail.com using the subject \"KoLmafia Debug Log\" " );
-			println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-			println();
-			println();
-		}
-	}
-
-	public LogStream( OutputStream ostream ) throws IOException
+	private LogStream( OutputStream ostream ) throws IOException
 	{	super( ostream, true, "ISO-8859-1" );
 	}
 }

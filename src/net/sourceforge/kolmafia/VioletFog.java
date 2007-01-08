@@ -218,15 +218,9 @@ public class VioletFog
 
 	private static void printRoutingTable()
 	{
-		try
-		{
-			PrintStream stream = new LogStream( "VioletFogRoutingTable.html" );
-			printRoutingTable( stream );
-			stream.close();
-		}
-		catch ( Exception ex )
-		{
-		}
+		PrintStream stream = LogStream.openStream( "VioletFogRoutingTable.html", true );
+		printRoutingTable( stream );
+		stream.close();
 	}
 
 	private static void printRoutingTable( PrintStream stream )

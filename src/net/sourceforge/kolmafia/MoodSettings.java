@@ -649,35 +649,21 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void saveSettings()
 	{
-		try
+		PrintStream writer = LogStream.openStream( settingsFile, true );
+
+		SortedListModel triggerList;
+		for ( int i = 0; i < availableMoods.size(); ++i )
 		{
-			if ( settingsFile.exists() )
-				settingsFile.delete();
+			triggerList = (SortedListModel) reference.get( availableMoods.get(i) );
+			writer.println( "[ " + availableMoods.get(i) + " ]" );
 
-			settingsFile.createNewFile();
-			PrintStream writer = new LogStream( settingsFile );
+			for ( int j = 0; j < triggerList.size(); ++j )
+				writer.println( ((MoodTrigger)triggerList.get(j)).toSetting() );
 
-			SortedListModel triggerList;
-			for ( int i = 0; i < availableMoods.size(); ++i )
-			{
-				triggerList = (SortedListModel) reference.get( availableMoods.get(i) );
-				writer.println( "[ " + availableMoods.get(i) + " ]" );
-
-				for ( int j = 0; j < triggerList.size(); ++j )
-					writer.println( ((MoodTrigger)triggerList.get(j)).toSetting() );
-
-				writer.println();
-			}
-
-			writer.close();
+			writer.println();
 		}
-		catch ( IOException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
-		}
+		writer.close();
 	}
 
 	/**

@@ -284,52 +284,37 @@ public class FamiliarsDatabase extends KoLDatabase
 
 	private static void saveDataOverride()
 	{
-		try
+		File output = new File( "data/familiars.txt" );
+		PrintStream writer = LogStream.openStream( output, true );
+
+		writer.println( "# Original familiar arena stats from Vladjimir's arena data" );
+		writer.println( "# http://www.the-rye.dreamhosters.com/familiars/" );
+		writer.println();
+
+		Integer [] familiarIds = new Integer[ familiarById.keySet().size() ];
+		familiarById.keySet().toArray( familiarIds );
+
+		for ( int i = 0; i < familiarIds.length; ++i )
 		{
-			(new File( "data" )).mkdirs();
+			writer.print( familiarIds[i].intValue() );
+			writer.print( "\t" );
 
-			File output = new File( "data/familiars.txt" );
-			if ( output.exists() )
-				output.delete();
+			writer.print( familiarLarvaById.get( familiarIds[i] ) );
+			writer.print( "\t" );
 
-			PrintStream writer = new LogStream( output );
+			writer.print( getFamiliarName( familiarIds[i].intValue() ) );
+			writer.print( "\t" );
 
-			writer.println( "# Original familiar arena stats from Vladjimir's arena data" );
-			writer.println( "# http://www.the-rye.dreamhosters.com/familiars/" );
-			writer.println();
+			writer.print( getFamiliarItem( familiarIds[i].intValue() ) );
 
-			Integer [] familiarIds = new Integer[ familiarById.keySet().size() ];
-			familiarById.keySet().toArray( familiarIds );
-
-			for ( int i = 0; i < familiarIds.length; ++i )
+			int [] skills = getFamiliarSkills( familiarIds[i].intValue() );
+			for ( int j = 0; j < skills.length; ++j )
 			{
-				writer.print( familiarIds[i].intValue() );
 				writer.print( "\t" );
-
-				writer.print( familiarLarvaById.get( familiarIds[i] ) );
-				writer.print( "\t" );
-
-				writer.print( getFamiliarName( familiarIds[i].intValue() ) );
-				writer.print( "\t" );
-
-				writer.print( getFamiliarItem( familiarIds[i].intValue() ) );
-
-				int [] skills = getFamiliarSkills( familiarIds[i].intValue() );
-				for ( int j = 0; j < skills.length; ++j )
-				{
-					writer.print( "\t" );
-					writer.print( skills[j] );
-				}
-
-				writer.println();
+				writer.print( skills[j] );
 			}
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
 
-			printStackTrace( e, "Error in recording familiar data" );
+			writer.println();
 		}
 	}
 }

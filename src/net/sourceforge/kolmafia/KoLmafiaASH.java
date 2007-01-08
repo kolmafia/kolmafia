@@ -5210,44 +5210,28 @@ public class KoLmafiaASH extends StaticEntity
 
 			PrintStream writer = null;
 
-			try
-			{
-				File data = new File( "scripts/datamaps/" + filename );
-				if ( !data.exists() )
-					data = new File( filename );
-				if ( !data.exists() )
-					data = new File( "scripts/" + filename );
-				if ( !data.exists() )
-					data = new File( DATA_DIRECTORY + filename );
-				if ( !data.exists() )
-					data = new File( filename );
+			File data = new File( "scripts/datamaps/" + filename );
+			if ( !data.exists() )
+				data = new File( filename );
+			if ( !data.exists() )
+				data = new File( "scripts/" + filename );
+			if ( !data.exists() )
+				data = new File( DATA_DIRECTORY + filename );
+			if ( !data.exists() )
+				data = new File( filename );
 
-				// If the file is not found, then go full circle again
-				// and write to scripts/datamaps.
+			// If the file is not found, then go full circle again
+			// and write to scripts/datamaps.
 
-				if ( !data.exists() )
-					data = new File( "scripts/datamaps/" + filename );
+			if ( !data.exists() )
+				data = new File( "scripts/datamaps/" + filename );
 
-				if ( data.getParentFile() != null )
-					data.getParentFile().mkdirs();
+			writer = LogStream.openStream( data, true );
+			map_variable.dump( writer, "", compact );
+			writer.close();
 
-				if ( data.exists() )
-					data.delete();
-
-				writer = new LogStream( data );
-				map_variable.dump( writer, "", compact );
+			if ( writer != null )
 				writer.close();
-			}
-			catch ( Exception e )
-			{
-				printStackTrace( e );
-				return FALSE_VALUE;
-			}
-			finally
-			{
-				if ( writer != null )
-					writer.close();
-			}
 
 			return TRUE_VALUE;
 		}

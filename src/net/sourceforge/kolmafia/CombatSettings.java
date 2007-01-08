@@ -278,52 +278,38 @@ public abstract class CombatSettings implements KoLConstants
 
 	public static void saveSettings()
 	{
-		try
+		PrintStream writer = LogStream.openStream( settingsFile, true );
+
+		CombatSettingNode combatOptions;
+		for ( int i = 0; i < keys.length; ++i )
 		{
-			if ( settingsFile.exists() )
-				settingsFile.delete();
+			writer.println( "[ " + keys[i] + " ]" );
 
-			settingsFile.createNewFile();
-			PrintStream writer = new LogStream( settingsFile );
+			combatOptions = (CombatSettingNode) reference.get( keys[i] );
+			String action = null, newAction = null;
 
-			CombatSettingNode combatOptions;
-			for ( int i = 0; i < keys.length; ++i )
+			for ( int j = 0; j < combatOptions.getChildCount(); ++j )
 			{
-				writer.println( "[ " + keys[i] + " ]" );
-
-				combatOptions = (CombatSettingNode) reference.get( keys[i] );
-				String action = null, newAction = null;
-
-				for ( int j = 0; j < combatOptions.getChildCount(); ++j )
+				if ( action == null )
 				{
-					if ( action == null )
+					action = ((CombatActionNode)combatOptions.getChildAt(j)).getAction();
+					writer.println( combatOptions.getChildAt(j) );
+				}
+				else
+				{
+					newAction = ((CombatActionNode)combatOptions.getChildAt(j)).getAction();
+					if ( !action.equals( newAction ) )
 					{
-						action = ((CombatActionNode)combatOptions.getChildAt(j)).getAction();
+						action = newAction;
 						writer.println( combatOptions.getChildAt(j) );
 					}
-					else
-					{
-						newAction = ((CombatActionNode)combatOptions.getChildAt(j)).getAction();
-						if ( !action.equals( newAction ) )
-						{
-							action = newAction;
-							writer.println( combatOptions.getChildAt(j) );
-						}
-					}
 				}
-
-				writer.println();
 			}
 
-			writer.close();
+			writer.println();
 		}
-		catch ( IOException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
-		}
+		writer.close();
 	}
 
 	public static String getSetting( String encounter, int roundCount )
