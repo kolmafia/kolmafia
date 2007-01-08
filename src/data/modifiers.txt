@@ -95,7 +95,7 @@ flaming pink shirt	Item: +15.0
 goth kid t-shirt	ML: +5
 Grateful Undead T-shirt	Item: +5.0
 safety vest	DR: 3
-Xtreme Bi-Polar Fleece Vest	Cold: +20
+eXtreme Bi-Polar Fleece Vest	Cold: +20
 Ye Olde Navy Fleece	Meat: +10.0
 
 antique greaves	Init: -10.0
