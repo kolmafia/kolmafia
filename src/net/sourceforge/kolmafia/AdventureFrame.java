@@ -784,27 +784,17 @@ public class AdventureFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			try
-			{
-				File location = new File( CombatSettings.settingsFileName() );
-				if ( !location.exists() )
-					CombatSettings.reset();
+			File location = new File( CombatSettings.settingsFileName() );
+			if ( !location.exists() )
+				CombatSettings.reset();
 
-				LogStream writer = new LogStream( location );
-				writer.println( ((JTextArea)scrollComponent).getText() );
-				writer.close();
-				writer = null;
+			LogStream writer = LogStream.openStream( location, true );
+			writer.println( ((JTextArea)scrollComponent).getText() );
+			writer.close();
+			writer = null;
 
-				KoLCharacter.battleSkillNames.setSelectedItem( "custom combat script" );
-				StaticEntity.setProperty( "battleAction", "custom combat script" );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
+			KoLCharacter.battleSkillNames.setSelectedItem( "custom combat script" );
+			StaticEntity.setProperty( "battleAction", "custom combat script" );
 
 			// After storing all the data on disk, go ahead
 			// and reload the data inside of the tree.

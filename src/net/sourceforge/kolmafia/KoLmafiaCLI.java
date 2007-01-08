@@ -2726,28 +2726,7 @@ public class KoLmafiaCLI extends KoLmafia
 			filter = "";
 
 			outputFile = new File( outputFile.getAbsolutePath() );
-
-			// If the output file does not exist, create it first
-			// to avoid FileNotFoundExceptions being thrown.
-
-			try
-			{
-				if ( !outputFile.exists() )
-				{
-					outputFile.getParentFile().mkdirs();
-					outputFile.createNewFile();
-				}
-
-				desiredOutputStream = new LogStream( outputFile );
-			}
-			catch ( IOException e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e, "Error opening file for output." );
-				return;
-			}
+			desiredOutputStream = LogStream.openStream( outputFile, false );
 		}
 
 		executePrintCommand( list, filter, desiredOutputStream );
@@ -2761,10 +2740,10 @@ public class KoLmafiaCLI extends KoLmafia
 	 * Usually called by its counterpart to handle specific instances.
 	 */
 
-	private void executePrintCommand( String desiredData, String filter, PrintStream outputStream )
+	private void executePrintCommand( String desiredData, String filter, PrintStream desiredStream )
 	{
 		PrintStream originalStream = outputStream;
-		outputStream = outputStream;
+		outputStream = desiredStream;
 
 		KoLmafiaCLI.printBlankLine();
 

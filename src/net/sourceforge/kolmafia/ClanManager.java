@@ -317,22 +317,9 @@ public class ClanManager extends StaticEntity
 			// To avoid retrieving the file again, store the intermediate
 			// result in a local file.
 
-			try
-			{
-				profile.getParentFile().mkdirs();
-				PrintStream ostream = new LogStream( profile );
-				ostream.println( data );
-				ostream.close();
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				printStackTrace( e, "Failed to load cached profile" );
-				return;
-			}
-
+			PrintStream ostream = LogStream.openStream( profile, true );
+			ostream.println( data );
+			ostream.close();
 		}
 	}
 
@@ -385,22 +372,9 @@ public class ClanManager extends StaticEntity
 			// To avoid retrieving the file again, store the intermediate
 			// result in a local file.
 
-			try
-			{
-				ascension.getParentFile().mkdirs();
-				PrintStream ostream = new LogStream( ascension );
-				ostream.println( data );
-				ostream.close();
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				printStackTrace( e, "Failed to load cached ascension history" );
-				return;
-			}
-
+			PrintStream ostream = LogStream.openStream( ascension, true );
+			ostream.println( data );
+			ostream.close();
 		}
 	}
 
@@ -436,14 +410,6 @@ public class ClanManager extends StaticEntity
 		String header = getProperty( "clanRosterHeader" );
 
 		KoLRequest.delay( 1000 );
-		standardFile.getParentFile().mkdirs();
-
-		if ( standardFile != null && standardFile.exists() )
-			standardFile.delete();
-		if ( softcoreFile != null && softcoreFile.exists() )
-			softcoreFile.delete();
-		if ( hardcoreFile != null && hardcoreFile.exists() )
-			hardcoreFile.delete();
 
 		// If initialization was unsuccessful, then there isn't
 		// enough data to create a clan ClanSnapshotTable.
@@ -457,64 +423,46 @@ public class ClanManager extends StaticEntity
 		// Now, store the clan snapshot into the appropriate
 		// data folder.
 
+		KoLmafia.updateDisplay( "Storing clan snapshot..." );
+
+		PrintStream ostream = LogStream.openStream( standardFile, true );
+		ostream.println( ClanSnapshotTable.getStandardData( localProfileLink ) );
+		ostream.close();
+
+		String line;
+		BufferedReader script = DataUtilities.getReader( "html", "sorttable.js" );
+
 		try
 		{
-			PrintStream ostream;
-
-			KoLmafia.updateDisplay( "Storing clan snapshot..." );
-
-			ostream = new LogStream( standardFile );
-			ostream.println( ClanSnapshotTable.getStandardData( localProfileLink ) );
-			ostream.close();
-
-			String line;
-			BufferedReader script = DataUtilities.getReader( "html", "sorttable.js" );
-			ostream = new LogStream( sortingScript );
-
+			ostream = LogStream.openStream( sortingScript, true );
 			while ( (line = script.readLine()) != null )
 				ostream.println( line );
 
 			ostream.close();
-
-			KoLmafia.updateDisplay( "Storing ascension snapshot..." );
-
-			ostream = new LogStream( softcoreFile );
-			ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink ) );
-			ostream.close();
-
-			ostream = new LogStream( hardcoreFile );
-			ostream.println( AscensionSnapshotTable.getAscensionData( false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink ) );
-			ostream.close();
 		}
 		catch ( Exception e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			printStackTrace( e, "Clan snapshot generation failed" );
-			return;
+			StaticEntity.printStackTrace( e );
 		}
+
+		KoLmafia.updateDisplay( "Storing ascension snapshot..." );
+
+		ostream = LogStream.openStream( softcoreFile, true );
+		ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink ) );
+		ostream.close();
+
+		ostream = LogStream.openStream( hardcoreFile, true );
+		ostream.println( AscensionSnapshotTable.getAscensionData( false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink ) );
+		ostream.close();
 
 		KoLmafia.updateDisplay( "Snapshot generation completed." );
 
-		try
-		{
-			// To make things less confusing, load the summary
-			// file inside of the default browser after completion.
+		// To make things less confusing, load the summary
+		// file inside of the default browser after completion.
 
-			BrowserLauncher.openURL( standardFile.getAbsolutePath() );
-			BrowserLauncher.openURL( softcoreFile.getAbsolutePath() );
-			BrowserLauncher.openURL( hardcoreFile.getAbsolutePath() );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			printStackTrace( e, "Clan snapshot generation failed" );
-			return;
-		}
-
+		BrowserLauncher.openURL( standardFile.getAbsolutePath() );
+		BrowserLauncher.openURL( softcoreFile.getAbsolutePath() );
+		BrowserLauncher.openURL( hardcoreFile.getAbsolutePath() );
 	}
 
 	/**
@@ -529,12 +477,12 @@ public class ClanManager extends StaticEntity
 		retrieveClanData();
 		File file = new File( "clan/" + clanId + "/stashlog.htm" );
 
-		try
-		{
-			List entryList = null;
-			StashLogEntry entry = null;
+		List entryList = null;
+		StashLogEntry entry = null;
 
-			if ( file.exists() )
+		if ( file.exists() )
+		{
+			try
 			{
 				String currentMember = "";
 				BufferedReader istream = KoLDatabase.getReader( file );
@@ -568,69 +516,65 @@ public class ClanManager extends StaticEntity
 				}
 
 				istream.close();
-				file.delete();
 			}
-
-			KoLmafia.updateDisplay( "Retrieving clan stash log..." );
-			RequestThread.postRequest( new StashLogRequest() );
-			KoLmafia.updateDisplay( "Stash log retrieved." );
-
-			file.getParentFile().mkdirs();
-			file.createNewFile();
-
-			String [] members = new String[ stashMap.keySet().size() ];
-			stashMap.keySet().toArray( members );
-
-			PrintStream ostream = new LogStream( file );
-			Object [] entries;
-
-			ostream.println( "<html><head>" );
-			ostream.println( "<title>Clan Stash Log @ " + (new Date()).toString() + "</title>" );
-			ostream.println( "<style><!--" );
-			ostream.println();
-			ostream.println( "\tbody { font-family: Verdana; font-size: 9pt }" );
-			ostream.println();
-			ostream.println( "\t." + STASH_ADD + " { color: green }" );
-			ostream.println( "\t." + STASH_TAKE + " { color: olive }" );
-			ostream.println( "\t." + WAR_BATTLE + " { color: orange }" );
-			ostream.println( "\t." + CLAN_WHITELIST + " { color: blue }" );
-			ostream.println( "\t." + CLAN_ACCEPT + " { color: blue }" );
-			ostream.println( "\t." + CLAN_LEAVE + " { color: red }" );
-			ostream.println( "\t." + CLAN_BOOT + " { color: red }" );
-			ostream.println();
-			ostream.println( "--></style></head>" );
-
-			ostream.println();
-			ostream.println( "<body>" );
-			ostream.println();
-			ostream.println( "<!-- Begin Stash Log: Do Not Modify Beyond This Point -->" );
-
-			for ( int i = 0; i < members.length; ++i )
+			catch ( Exception e )
 			{
-				ostream.println( " " + members[i] + ":" );
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
 
-				entryList = (List) stashMap.get( members[i] );
-				Collections.sort( entryList );
-				entries = entryList.toArray();
-
-				ostream.println( "<ul>" );
-				for ( int j = 0; j < entries.length; ++j )
-					ostream.println( entries[j].toString() );
-				ostream.println( "</ul>" );
-
-				ostream.println();
+				printStackTrace( e );
 			}
-
-			ostream.println( "</body></html>" );
-			ostream.close();
 		}
-		catch ( Exception e )
+
+		KoLmafia.updateDisplay( "Retrieving clan stash log..." );
+		RequestThread.postRequest( new StashLogRequest() );
+		KoLmafia.updateDisplay( "Stash log retrieved." );
+
+		String [] members = new String[ stashMap.keySet().size() ];
+		stashMap.keySet().toArray( members );
+
+		PrintStream ostream = LogStream.openStream( file, true );
+		Object [] entries;
+
+		ostream.println( "<html><head>" );
+		ostream.println( "<title>Clan Stash Log @ " + (new Date()).toString() + "</title>" );
+		ostream.println( "<style><!--" );
+		ostream.println();
+		ostream.println( "\tbody { font-family: Verdana; font-size: 9pt }" );
+		ostream.println();
+		ostream.println( "\t." + STASH_ADD + " { color: green }" );
+		ostream.println( "\t." + STASH_TAKE + " { color: olive }" );
+		ostream.println( "\t." + WAR_BATTLE + " { color: orange }" );
+		ostream.println( "\t." + CLAN_WHITELIST + " { color: blue }" );
+		ostream.println( "\t." + CLAN_ACCEPT + " { color: blue }" );
+		ostream.println( "\t." + CLAN_LEAVE + " { color: red }" );
+		ostream.println( "\t." + CLAN_BOOT + " { color: red }" );
+		ostream.println();
+		ostream.println( "--></style></head>" );
+
+		ostream.println();
+		ostream.println( "<body>" );
+		ostream.println();
+		ostream.println( "<!-- Begin Stash Log: Do Not Modify Beyond This Point -->" );
+
+		for ( int i = 0; i < members.length; ++i )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
+			ostream.println( " " + members[i] + ":" );
 
-			printStackTrace( e, "Error opening <" + file.getAbsolutePath() + "> for output" );
+			entryList = (List) stashMap.get( members[i] );
+			Collections.sort( entryList );
+			entries = entryList.toArray();
+
+			ostream.println( "<ul>" );
+			for ( int j = 0; j < entries.length; ++j )
+				ostream.println( entries[j].toString() );
+			ostream.println( "</ul>" );
+
+			ostream.println();
 		}
+
+		ostream.println( "</body></html>" );
+		ostream.close();
 	}
 
 	private static class StashLogEntry implements Comparable

@@ -2265,41 +2265,18 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !hasStaticLocation && KoLCharacter.getUserName().equals( "" ) )
 			return NullStream.INSTANCE;
 
-		try
+		// Before doing anything, be sure to close the
+		// original stream.
+
+		if ( !(originalStream instanceof NullStream) )
 		{
-			// Before doing anything, be sure to close the
-			// original stream.
+			if ( hasStaticLocation )
+				return originalStream;
 
-			if ( !(originalStream instanceof NullStream) )
-			{
-				if ( hasStaticLocation )
-					return originalStream;
-
-				originalStream.close();
-			}
-
-			// Now, create the file and wrap a LogStream around
-			// it for output.
-
-			File f = new File( filename );
-
-			if ( !f.exists() )
-			{
-				if ( f.getParentFile() != null )
-					f.getParentFile().mkdirs();
-				f.createNewFile();
-			}
-
-			return new LogStream( f );
+			originalStream.close();
 		}
-		catch ( IOException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
-			return NullStream.INSTANCE;
-		}
+		return LogStream.openStream( filename, false );
 	}
 
 	/**
@@ -2769,8 +2746,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void downloadAdventureOverride()
 	{
-		(new File( "data" )).mkdirs();
-
 		for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
 		{
 			BufferedReader reader = KoLDatabase.getReader(
@@ -2780,13 +2755,8 @@ public abstract class KoLmafia implements KoLConstants
 
 			try
 			{
-				if ( output.exists() )
-					output.delete();
-
-				output.createNewFile();
-
 				String line;
-				PrintStream writer = new LogStream( output );
+				LogStream writer = LogStream.openStream( output, true );
 
 				while ( (line = reader.readLine()) != null )
 					writer.println( line );

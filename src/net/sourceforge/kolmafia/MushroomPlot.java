@@ -721,24 +721,9 @@ public abstract class MushroomPlot extends StaticEntity
 
 	public static void saveLayout( String filename, String [][] originalData, String [][] planningData )
 	{
-		LogStream textLayout = null;
-		LogStream htmlLayout = null;
-		LogStream plotScript = null;
-
-		if ( !PLOT_DIRECTORY.exists() )
-			PLOT_DIRECTORY.mkdirs();
-
-		try
-		{
-			textLayout = new LogStream( PLOT_DIRECTORY + "/" + filename + ".txt" );
-			htmlLayout = new LogStream( PLOT_DIRECTORY + "/" + filename + ".htm" );
-			plotScript = new LogStream( PLOT_DIRECTORY + "/" + filename + ".ash" );
-		}
-		catch ( Exception e )
-		{
-			printStackTrace( e );
-			return;
-		}
+		LogStream textLayout = LogStream.openStream( PLOT_DIRECTORY + "/" + filename + ".txt", true );
+		LogStream htmlLayout = LogStream.openStream( PLOT_DIRECTORY + "/" + filename + ".htm", true );
+		LogStream plotScript = LogStream.openStream( PLOT_DIRECTORY + "/" + filename + ".ash", true );
 
 		// The HTML file needs a little bit of header information
 		// to make it proper HTML.

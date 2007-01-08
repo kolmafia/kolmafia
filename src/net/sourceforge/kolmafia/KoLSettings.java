@@ -95,20 +95,6 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		initializeMaps();
 		StaticEntity.renameDataFiles( "kcs", "prefs" );
-
-		// Delete any temporary files that were created in the process
-		// of a bad exit.
-
-		if ( !SETTINGS_DIRECTORY.exists() )
-			SETTINGS_DIRECTORY.mkdirs();
-
-		if ( !SCRIPT_DIRECTORY.exists() )
-			SCRIPT_DIRECTORY.mkdirs();
-
-		File [] files = SETTINGS_DIRECTORY.listFiles();
-		for ( int i = 0; i < files.length; ++i )
-			if ( files[i].getPath().endsWith( ".tmp" ) )
-				files[i].delete();
 	}
 
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );
@@ -187,27 +173,16 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	public void saveJunkItemList()
 	{
-		if ( junkItemsFile.exists() )
-			junkItemsFile.delete();
-
 		if ( KoLCharacter.baseUserName().equals( "GLOBAL" )	)
 			return;
 
-		try
-		{
-			junkItemsFile.createNewFile();
-			LogStream ostream = new LogStream( junkItemsFile );
+		LogStream ostream = LogStream.openStream( junkItemsFile, true );
 
-			ostream.println( "[junk items]" );
-			for ( int i = 0; i < junkItemList.size(); ++i )
-				ostream.println( ((AdventureResult)junkItemList.get(i)).getName() );
+		ostream.println( "[junk items]" );
+		for ( int i = 0; i < junkItemList.size(); ++i )
+			ostream.println( ((AdventureResult)junkItemList.get(i)).getName() );
 
-			ostream.close();
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
+		ostream.close();
 	}
 
 	public void saveSettings()

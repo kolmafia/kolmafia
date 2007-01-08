@@ -210,30 +210,11 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	private static void saveBuffs()
 	{
-		PrintStream settings = null;
-		PrintStream document = null;
+		File datafile = new File( "buffs/" + KoLCharacter.baseUserName() + ".txt" );
+		File xmlfile = new File( "buffs/" + KoLCharacter.baseUserName() + ".xml" );
 
-		try
-		{
-			File datafile = new File( "buffs/" + KoLCharacter.baseUserName() + ".txt" );
-			File xmlfile = new File( "buffs/" + KoLCharacter.baseUserName() + ".xml" );
-
-			if ( datafile.exists() )
-				datafile.delete();
-
-			if ( xmlfile.exists() )
-				xmlfile.delete();
-
-			datafile.createNewFile();
-			xmlfile.createNewFile();
-
-			settings = new LogStream( datafile );
-			document = new LogStream( xmlfile );
-		}
-		catch ( Exception e )
-		{
-			printStackTrace( e );
-		}
+		PrintStream settings = LogStream.openStream( datafile, true );
+		PrintStream document = LogStream.openStream( xmlfile, true );
 
 		BuffBotCaster [] casters = new BuffBotCaster[ buffCostTable.size() ];
 		buffCostTable.toArray( casters );
