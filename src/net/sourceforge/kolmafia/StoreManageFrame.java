@@ -358,7 +358,9 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class StoreAddPanel extends ItemManagePanel
 	{
 		public StoreAddPanel()
-		{	super( "On-Hand Inventory", "put in", "auto sell", inventory );
+		{
+			super( "On-Hand Inventory", "put in", "auto sell", inventory );
+			elementModel.applyListFilter( TRADE_FILTER );
 		}
 
 		public void actionConfirmed()
