@@ -1643,7 +1643,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		ArrayList missingEffects = MoodSettings.getMissingEffects();
 
-		if ( MoodSettings.getTriggers().isEmpty() )
+		if ( MoodSettings.getTriggers().isEmpty() && StaticEntity.getFloatProperty( "mpThreshold" ) <= 0.0f )
 		{
 		}
 		else if ( KoLRequest.isCompactMode )
