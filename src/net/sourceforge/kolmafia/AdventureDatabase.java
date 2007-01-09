@@ -1013,19 +1013,23 @@ public class AdventureDatabase extends KoLDatabase
 	}
 
 	public static final boolean retrieveItem( String itemName )
-	{	return retrieveItem( new AdventureResult( itemName, 1, false ) );
+	{	return retrieveItem( new AdventureResult( itemName, 1, false ), false );
 	}
 
 	public static final boolean retrieveItem( AdventureResult item )
+	{	return retrieveItem( item, false );
+	}
+
+	public static final boolean retrieveItem( AdventureResult item, boolean force )
 	{
 		RequestThread.openRequestSequence();
-		boolean result = acquireItem( item );
+		boolean result = acquireItem( item, force );
 		RequestThread.closeRequestSequence();
 
 		return result;
 	}
 
-	private static final boolean acquireItem( AdventureResult item )
+	private static final boolean acquireItem( AdventureResult item, boolean force )
 	{
 		try
 		{
@@ -1056,11 +1060,12 @@ public class AdventureDatabase extends KoLDatabase
 
 			int price = TradeableItemDatabase.getPriceById( item.getItemId() );
 
-			boolean shouldUseMall = getBooleanProperty( "autoSatisfyWithMall" );
-			boolean shouldUseStash = getBooleanProperty( "autoSatisfyWithStash" ) || getBooleanProperty( "showStashIngredients" );
+			boolean shouldUseMall = force || getBooleanProperty( "autoSatisfyWithMall" );
+			boolean shouldUseStash = force || getBooleanProperty( "autoSatisfyWithStash" ) || getBooleanProperty( "showStashIngredients" );
 
 			boolean shouldPurchase = price != 0 || item.getName().indexOf( "clover" ) != -1;
-			boolean canUseNPCStore = getBooleanProperty( "autoSatisfyWithNPCs" ) && NPCStoreDatabase.contains( item.getName() );
+			boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
+			canUseNPCStore &= force || getBooleanProperty( "autoSatisfyWithNPCs" );
 
 			boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemId() );
 			shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( item.getItemId() ) == ItemCreationRequest.PIXEL;
