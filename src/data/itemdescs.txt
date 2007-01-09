@@ -2229,6 +2229,6 @@
 2224	127024117	flaming pink shirt
 2225	725079261	flaming familiar doppelg&auml;nger
 2226	365038732	evil flaming eyeball pendant
-2227	429364196	arse-a'fire elixer	arses-a'fire elixer
+2227	429364196	arse-a'fire elixir	arses-a'fire elixir
 2228	236855890	cosmic lemonade	glasses of cosmic lemonade
 2229	605575511	powdered toad horn	bags of powdered toad horn

@@ -2224,6 +2224,6 @@
 2224	flaming pink shirt	11	all	0
 2225	flaming familiar doppelg&auml;nger	7	all	0
 2226	evil flaming eyeball pendant	8	all	0
-2227	arse-a'fire elixer	4	all	100
+2227	arse-a'fire elixir	4	all	100
 2228	cosmic lemonade	4	all	100
 2229	powdered toad horn	3	all	100
