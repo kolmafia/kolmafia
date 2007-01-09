@@ -1085,7 +1085,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				AdventureResult item = getFirstMatchingItem( parameters );
 				if ( item != null )
-					AdventureDatabase.retrieveItem( item );
+					AdventureDatabase.retrieveItem( item, true );
 			}
 
 			return;
