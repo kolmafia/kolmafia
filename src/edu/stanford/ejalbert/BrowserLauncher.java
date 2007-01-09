@@ -580,11 +580,17 @@ public class BrowserLauncher {
 					// If you're still using IE, then make sure you give the full path
 					// to Internet Explorer to ensure that a browser gets opened.
 
+					alternative = new File( "C:\\Program Files\\Internet Explorer\\iexplore.exe" );
 					if ( usingIE )
-						executable = "C:\\Program Files\\Internet Explorer\\iexplore.exe";
+					{
+						if ( alternative.exists() )
+							executable = "C:\\Program Files\\Internet Explorer\\iexplore.exe";
+						else
+							executable = "explorer.exe";
+					}
 
 					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
-						"\"\"" + executable + "\" " + url + "\"" } );
+						"\"" + executable + "\" " + url } );
 
 					// This avoids a memory leak on some versions of Java on Windows.
 					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
@@ -640,8 +646,7 @@ public class BrowserLauncher {
 
 					if ( usingIE )
 					{
-						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
-							"\"\"C:\\Program Files\\Internet Explorer\\iexplore.exe\" " + url + "\"" } );
+						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "\"explorer.exe " + url + "\"" } );
 					}
 					else
 					{
