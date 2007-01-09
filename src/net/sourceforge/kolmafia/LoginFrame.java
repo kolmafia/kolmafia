@@ -131,6 +131,8 @@ public class LoginFrame extends KoLFrame
 
 	public void dispose()
 	{
+		honorProxySettings();
+
 		if ( KoLRequest.sessionId == null || !KoLDesktop.instanceExists() )
 			System.exit(0);
 
@@ -273,6 +275,7 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.setGlobalProperty( username, "loginScript", scriptField.getText() );
 			StaticEntity.setGlobalProperty( username, "getBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
+			honorProxySettings();
 			RequestThread.postRequest( new LoginRequest( username, password ) );
 		}
 
@@ -529,7 +532,6 @@ public class LoginFrame extends KoLFrame
 				autoLoginSetting = StaticEntity.getProperty( "lastUsername" );
 
 			usernameComboBox.setSelectedItem( autoLoginSetting.toLowerCase() );
-			usernameComboBox.addActionListener( new SettingsReloader() );
 
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Settings For:  ", usernameComboBox );
@@ -541,39 +543,7 @@ public class LoginFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
-			StringBuffer frameString = new StringBuffer();
-			StringBuffer desktopString = new StringBuffer();
-
-			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
-			{
-				if ( startupOptions[i].isSelected() )
-				{
-					if ( frameString.length() != 0 )
-						frameString.append( "," );
-					frameString.append( FRAME_OPTIONS[i][1] );
-				}
-
-				if ( interfaceOptions[i].isSelected() )
-				{
-					if ( desktopString.length() != 0 )
-						desktopString.append( "," );
-					desktopString.append( FRAME_OPTIONS[i][1] );
-				}
-			}
-
-			StaticEntity.setGlobalProperty( "", "initialFrames", frameString.toString() );
-			StaticEntity.setGlobalProperty( "", "initialDesktop", desktopString.toString() );
-
-			if ( saveStateNames.size() != 0 )
-			{
-				String username = (String) saveStateNames.getSelectedItem();
-				if ( username == null )
-					username = "";
-
-				StaticEntity.setGlobalProperty( username, "initialFrames", frameString.toString() );
-				StaticEntity.setGlobalProperty( username, "initialDesktop", desktopString.toString() );
-			}
+		{	actionCancelled();
 		}
 
 		public void actionCancelled()
@@ -619,14 +589,39 @@ public class LoginFrame extends KoLFrame
 			}
 
 			public void actionPerformed( ActionEvent e )
-			{	actionConfirmed();
-			}
-		}
+			{
+				StringBuffer frameString = new StringBuffer();
+				StringBuffer desktopString = new StringBuffer();
 
-		private class SettingsReloader implements ActionListener
-		{
-			public void actionPerformed( ActionEvent e )
-			{	actionCancelled();
+				for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
+				{
+					if ( startupOptions[i].isSelected() )
+					{
+						if ( frameString.length() != 0 )
+							frameString.append( "," );
+						frameString.append( FRAME_OPTIONS[i][1] );
+					}
+
+					if ( interfaceOptions[i].isSelected() )
+					{
+						if ( desktopString.length() != 0 )
+							desktopString.append( "," );
+						desktopString.append( FRAME_OPTIONS[i][1] );
+					}
+				}
+
+				StaticEntity.setGlobalProperty( "", "initialFrames", frameString.toString() );
+				StaticEntity.setGlobalProperty( "", "initialDesktop", desktopString.toString() );
+
+				if ( saveStateNames.size() != 0 )
+				{
+					String username = (String) saveStateNames.getSelectedItem();
+					if ( username == null )
+						username = "";
+
+					StaticEntity.setGlobalProperty( username, "initialFrames", frameString.toString() );
+					StaticEntity.setGlobalProperty( username, "initialDesktop", desktopString.toString() );
+				}
 			}
 		}
 	}
@@ -771,7 +766,8 @@ public class LoginFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" }
+			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" },
+			{ "testSocketTimeout", "Allow socket timeouts for unstable connections" },
 		};
 
 		public ConnectionOptionsPanel()
@@ -802,16 +798,33 @@ public class LoginFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	StaticEntity.setProperty( "defaultLoginServer", String.valueOf( servers.getSelectedIndex() ) );
+		{
+			StaticEntity.setProperty( "defaultLoginServer", String.valueOf( servers.getSelectedIndex() ) );
+			for ( int i = 0; i < options.length; ++i )
+				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 		}
 
 		public void actionCancelled()
-		{	servers.setSelectedIndex( StaticEntity.getIntegerProperty( "defaultLoginServer" ) );
+		{
+			servers.setSelectedIndex( StaticEntity.getIntegerProperty( "defaultLoginServer" ) );
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
 		}
+	}
+
+	public void honorProxySettings()
+	{
+		StaticEntity.setProperty( "proxySet", String.valueOf(
+				proxyHost.getText().trim().length() > 0 ) );
+
+		StaticEntity.setProperty( "http.proxyHost", proxyHost.getText() );
+		StaticEntity.setProperty( "http.proxyPort", proxyPort.getText() );
+		StaticEntity.setProperty( "http.proxyUser", proxyLogin.getText() );
+		StaticEntity.setProperty( "http.proxyPassword", proxyPassword.getText() );
 	}
 
 	/**
@@ -848,28 +861,11 @@ public class LoginFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "proxySet", String.valueOf( proxyHost.getText().trim().length() > 0 ) );
-			StaticEntity.setProperty( "http.proxyHost", proxyHost.getText() );
-			StaticEntity.setProperty( "http.proxyPort", proxyPort.getText() );
-			StaticEntity.setProperty( "http.proxyUser", proxyLogin.getText() );
-			StaticEntity.setProperty( "http.proxyPassword", proxyPassword.getText() );
-
-			boolean shouldEnable = StaticEntity.getBooleanProperty( "proxySet" );
-
-			proxyHost.setEnabled( shouldEnable );
-			proxyPort.setEnabled( shouldEnable );
-			proxyLogin.setEnabled( shouldEnable );
-			proxyPassword.setEnabled( shouldEnable );
 		}
 
 		public void actionCancelled()
 		{
 			boolean shouldEnable = StaticEntity.getBooleanProperty( "proxySet" );
-
-			proxyHost.setEnabled( shouldEnable );
-			proxyPort.setEnabled( shouldEnable );
-			proxyLogin.setEnabled( shouldEnable );
-			proxyPassword.setEnabled( shouldEnable );
 
 			proxyHost.setText( StaticEntity.getProperty( "http.proxyHost" ) );
 			proxyPort.setText( StaticEntity.getProperty( "http.proxyPort" ) );
