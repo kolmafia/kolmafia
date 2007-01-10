@@ -375,7 +375,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "relayMaintainsMoods", "false" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
 		CLIENT_SETTINGS.put( "relayTextualizesEffects", "false" );
-		CLIENT_SETTINGS.put( "relayUsesIntegratedChat", "true" );
+		CLIENT_SETTINGS.put( "relayUsesIntegratedChat", "false" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
 		CLIENT_SETTINGS.put( "saveState", "" );
 		CLIENT_SETTINGS.put( "saveStateActive", "" );
