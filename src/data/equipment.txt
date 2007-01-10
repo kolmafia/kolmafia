@@ -247,6 +247,7 @@ bubblewrap sword	60	Mus: 15	1-handed sword
 buffalo blade	120	Mus: 45	2-handed sword
 bugbear-smiting sword	150	Mus: 60	2-handed sword
 Bugfinder Blade	180	Mus: 75	2-handed sword
+calavera concertina	40	Mox: 8	2-handed accordion
 can cannon	75	Mox: 20	2-handed crossbow
 can of fake snow	100	Mox: 35	1-handed can
 can of maces	50	Mox: 10	1-handed club
@@ -369,6 +370,7 @@ projectile icemaker	125	Mox: 45	2-handed crossbow
 Radio Free Foil	150	Mus: 60	2-handed sword
 ram-battering staff	135	Mus: 52	2-handed staff
 ram stick	115	Mus: 42	2-handed staff
+ratarang	60	Mox: 15	1-handed boomerang
 repeating crossbow	65	Mox: 15	2-handed crossbow
 rib of the Bonerdagon	80	Mus: 25	2-handed staff
 ridiculously huge sword	140	Mus: 55	3-handed sword
@@ -646,6 +648,7 @@ Pine-Fresh air freshener	0	Mys: 10
 plexiglass pendant	0	Mys: 75
 plexiglass pinky ring	0	Mys: 75
 plexiglass pocketwatch	0	Mys: 75
+polka-dot bowtie	0	Mys: 10
 porquoise bracelet	0	Mys: 10
 porquoise eyebrow ring	0	Mys: 10
 porquoise necklace	0	Mys: 10
