@@ -59,7 +59,7 @@
 57	1967	Jitterbug	bottle of perfume	1	3	2	2
 58	1970	Nervous Tick	spoon!	1	3	2	2
 60	2083	Origami Towel Crane	can of starch	0	0	0	0
-61	2231	Ninja Snowflake	icicle katana	0	0	0	0
+61	2231	Ninja Snowflake	icicle katana	3	0	3	3
 62	2146	Evil Teddy Bear	evil teddy bear sewing kit	3	2	0	1
 63	2148	Toothsome Rock	pet rock "Groucho" disguise	0	0	0	0
 65	2190	Ancient Yuletide Troll	giant book of ancient carols	2	3	2	0
