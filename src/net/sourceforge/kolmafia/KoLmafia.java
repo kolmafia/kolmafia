@@ -1142,7 +1142,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( current > threshold )
 			return true;
 
-		updateDisplay( ABORT_STATE, "Autorecovery failed." );
+		updateDisplay( ERROR_STATE, "Autorecovery failed." );
 		return false;
 	}
 
