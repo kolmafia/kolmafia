@@ -1159,6 +1159,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( buffer.indexOf( "You acquire" ) == -1 )
 			return;
 
+		// No use link if you get the item via pickpocketing; you're still in battle
+		if ( buffer.indexOf( "deftly slip your fingers" ) != -1 )
+			return;
+
 		String text = buffer.toString();
 		buffer.setLength( 0 );
 
