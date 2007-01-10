@@ -260,8 +260,6 @@
 
 			if ( !isRefreshing && httpObject.responseText.indexOf("<!-- REFRESH -->") != -1 )
 				refreshSidebar();
-
-			timeout = setTimeout( getCLIUpdate, 2000 );
 		}
 
 		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/getNewMessages" );
@@ -363,8 +361,6 @@
 			var newlast = httpObject.responseText.substring( index + 9, index + 19 );
 			if ( newlast > 0 )
 				lastseen = newlast;
-
-			timeout = setTimeout( getChatUpdate, 8000 );
 		}
 
 		httpObject.open( "GET", "http://" + window.location.host + "/newchatmessages.php?lasttime=" + lastseen );
@@ -544,7 +540,7 @@
 </head>
 
 
- <body link=black alink=black vlink=black onLoad="getCLIUpdate(); switchToChat(); submitchat( '/channel' ); getChatUpdate();" onResize="initSizes();">
+ <body link=black alink=black vlink=black onLoad="switchToChat(); submitchat( '/channel' ); setInterval( getChatUpdate, 8000 ); setInterval( getCLIUpdate, 2000 );" onResize="initSizes();">
 
   <div id="ToggleDisplay" class=toggledisplay><center><nobr><a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
   <a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag"> gCLI</a> /
