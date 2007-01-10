@@ -123,9 +123,23 @@ public class FightRequest extends KoLRequest
 			if ( action1.equals( "" ) || action1.equals( "0" ) )
 				action1 = "attack";
 		}
-		else if ( action1.equals( "custom" ) )
+
+		if ( action1.equals( "custom" ) )
 		{
 			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 1 );
+		}
+
+		// Special handling when using a thief familiar.
+
+		if ( KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() && isAcceptable( offenseModifier, defenseModifier ) )
+		{
+			if ( action1.indexOf( "consult" ) != -1 || action1.indexOf( "dictionary" ) != -1 || action1.indexOf( "Shake Hands" ) != -1 )
+			{
+				// This should only occur if the person is
+				// using a custom combat script.
+
+				action1 = "attack";
+			}
 		}
 
 		// If the person wants to use their own script,
@@ -162,13 +176,6 @@ public class FightRequest extends KoLRequest
 		{
 			// If this is the first round, you do not
 			// submit extra data.
-		}
-		else if ( KoLCharacter.canInteract() && (action1.indexOf( "dictionary" ) != -1 || action1.indexOf( "Shake Hands" ) != -1) && isAcceptable( offenseModifier, defenseModifier ) )
-		{
-			// This should only occur if the person is
-			// using a custom combat script.
-
-			action1 = "attack";
 		}
 		else if ( action1.indexOf( "run" ) != -1 && action1.indexOf( "away" ) != -1 )
 		{
