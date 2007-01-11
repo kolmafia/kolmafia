@@ -338,6 +338,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		StaticEntity.globalStringReplace( responseBuffer, "http://pics.communityofloathing.com/albums", "/images" );
 
+		// If the user wishes to cache all images locally,
+		// then go ahead and do so.
+
+		if ( StaticEntity.getBooleanProperty( "relayUsesCachedImages" ) )
+			StaticEntity.globalStringReplace( responseBuffer, "http://69.16.150.201", "/images" );
+
 		// Remove the default frame busting script so that
 		// we can detach user interface elements.
 

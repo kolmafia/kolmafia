@@ -3888,10 +3888,9 @@ public class KoLmafiaASH extends StaticEntity
 			catch ( Exception e )
 			{
 				// This should not happen; it denotes a coding
-				// error that must be fixed before release. So,
-				// simply print the bogus function to stdout
+				// error that must be fixed before release.
 
-				System.out.println( "No method found for built-in function: " + name );
+				printStackTrace( e, "No method found for built-in function: " + name );
 			}
 		}
 
@@ -6821,7 +6820,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptCompositeType extends ScriptType
 	{
-		public ScriptCompositeType( String name, int type)
+		public ScriptCompositeType( String name, int type )
 		{
 			super( name, type );
 			this.primitive = false;
@@ -7318,7 +7317,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue initialValue( Object key )
-		{	return ((ScriptCompositeType)type).getDataType( key).initialValue();
+		{	return ((ScriptCompositeType)type).getDataType( key ).initialValue();
 		}
 
 		public void dump( PrintStream writer, String prefix, boolean compact )
@@ -7347,24 +7346,30 @@ public class KoLmafiaASH extends StaticEntity
 			if ( data.length - index < 2 )
 				return 0;
 
-			ScriptCompositeType type = (ScriptCompositeType)this.type;
-			ScriptValue key = type.getKey( parseValue( type.getIndexType(), data[ index ] ) );
+			ScriptCompositeType type = (ScriptCompositeType) this.type;
+			ScriptValue key = null;
+
+			if ( index < data.length )
+				key = type.getKey( parseValue( type.getIndexType(), data[ index ] ) );
+			else
+				key = type.getKey( parseValue( type.getIndexType(), "" ) );
 
 			// If there's only a key and a value, parse the value
 			// and store it in the composite
-			if ( data.length - index == 2 )
+
+			if ( !(type.getDataType( key ) instanceof ScriptCompositeType) )
 			{
 				aset( key, parseValue( type.getDataType( key ), data[ index + 1 ] ) );
 				return 2;
 			}
 
 			// Otherwise, recurse until we get the final slice
-			ScriptCompositeValue slice = (ScriptCompositeValue)aref( key );
+			ScriptCompositeValue slice = (ScriptCompositeValue) aref( key );
 
 			// Create missing intermediate slice
 			if ( slice == null )
 			{
-				slice = (ScriptCompositeValue)initialValue( key );
+				slice = (ScriptCompositeValue) initialValue( key );
 				aset( key, slice );
 			}
 

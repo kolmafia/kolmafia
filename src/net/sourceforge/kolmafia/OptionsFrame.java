@@ -195,6 +195,7 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
+			{ "relayUsesCachedImages", "Cache all images seen in relay browser" },
 			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
 			{ "relayMaintainsMoods", "Automatically maintain health, mana, and moods in browser" }
 		};
