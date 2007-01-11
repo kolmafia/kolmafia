@@ -117,6 +117,9 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
+		// First round, KoLmafia does not decide the action.
+		// Update accordingly.
+
 		if ( currentRound == 0 )
 		{
 			action1 = StaticEntity.getProperty( "defaultAutoAttack" );
@@ -124,23 +127,23 @@ public class FightRequest extends KoLRequest
 				action1 = "attack";
 		}
 
+		// When logging in and encountering a fight, always use the
+		// attack command to avoid abort problems.
+
+		if ( LoginRequest.isInstanceRunning() )
+			action1 = "attack";
+
+		// If the user wants a custom combat script, parse the desired
+		// action here.
+
 		if ( action1.equals( "custom" ) )
-		{
 			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 1 );
-		}
 
 		// Special handling when using a thief familiar.
 
 		if ( KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() && isAcceptable( offenseModifier, defenseModifier ) )
-		{
 			if ( action1.indexOf( "consult" ) != -1 || action1.indexOf( "dictionary" ) != -1 || action1.indexOf( "Shake Hands" ) != -1 )
-			{
-				// This should only occur if the person is
-				// using a custom combat script.
-
 				action1 = "attack";
-			}
-		}
 
 		// If the person wants to use their own script,
 		// then this is where it happens.
@@ -286,7 +289,7 @@ public class FightRequest extends KoLRequest
 			action1 = null;
 			action2 = null;
 
-			if ( KoLmafia.runThresholdChecks() )
+			if ( LoginRequest.isInstanceRunning() || KoLmafia.runThresholdChecks() )
 			{
 				nextRound();
 
