@@ -126,6 +126,12 @@ public class ChatRequest extends KoLRequest
 		graf = graf.trim();
 		String lgraf = graf.toLowerCase();
 
+		if ( lgraf.startsWith( "/msg 0 " ) )
+		{
+			DEFAULT_SHELL.executeLine( graf.substring(7).trim() );
+			return KoLmafia.getLastMessage();
+		}
+
 		if ( !lgraf.startsWith( "/do" ) && !lgraf.startsWith( "/run" ) && !lgraf.startsWith( "/cli" ) )
 			return null;
 
@@ -134,9 +140,7 @@ public class ChatRequest extends KoLRequest
 			return null;
 
 		DEFAULT_SHELL.executeLine( graf.substring( spaceIndex + 1 ) );
-
-		return "<font color=\"blue\"><b><a target=\"mainpane\" href=\"showplayer.php?who=458968\" style=\"color:blue\">" +
-			VERSION_NAME + "</a> (private)</b>: " + KoLmafia.getLastMessage() + "</font><br>";
+		return KoLmafia.getLastMessage();
 	}
 
 	public void run()
@@ -144,7 +148,8 @@ public class ChatRequest extends KoLRequest
 		String commandResult = executeChatCommand( getFormField( "graf" ) );
 		if ( commandResult != null )
 		{
-			KoLMessenger.updateChat( commandResult );
+			KoLmafia.registerPlayer( VERSION_NAME, "458968" );
+			KoLMessenger.processChatMessage( "<a target=mainpane href=\"showplayer.php?who=458968\"><b>" + VERSION_NAME + " (private)</b></a>: " + commandResult );
 			return;
 		}
 
