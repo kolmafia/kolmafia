@@ -8,22 +8,22 @@ Manor	Manor	Spookyraven Manor
 Plains	Plains	Nearby Plains	plains.php
 Rift	Plains	Temporal Rift
 
-BatHole	BatHole	Bat Hole	plains.php	bathole.php
+BatHole	BatHole	Bat Hole	bathole.php
 
 Knob	Knob	Cobb's Knob
-Lab	Knob	Knob Cobb's Knob Lab	plains.php	knob.php	knob2.php
+Lab	Knob	Knob Cobb's Knob Lab	knob2.php
 
-Cyrpt	Cyrpt	Defiled Cyrpt	plains.php	cyrpt.php
+Cyrpt	Cyrpt	Defiled Cyrpt	cyrpt.php
 
 Woods	Woods	Distant Woods	woods.php
 MusSign	Woods	Muscle Sign
 
-Friars	Friars	Deep Fat Friar's	woods.php	friars.php
+Friars	Friars	Deep Fat Friar's	friars.php
 
 Mountain	Mountain	Big Mountains
-McLarge	Mountain	Mt. McLargeHuge	mountains.php	mclargehuge.php
+McLarge	Mountain	Mt. McLargeHuge	mclargehuge.php
 
-Beach	Beach	Desert Beach	main.php	beach.php
+Beach	Beach	Desert Beach	beach.php
 MoxSign	Beach	Moxie Sign
 
 Island	Island	Mysterious Island
@@ -34,8 +34,8 @@ Unsorted	Unsorted	No Category
 Holiday	Unsorted	Holiday Zones
 Astral	Unsorted	Astral Plane
 Gyms	Unsorted	Clan/Signed Gyms
-Crimbo06	Unsorted	Christmas 2006	crimbo06.php
 
 Removed	Removed	Removed Areas
 Crimbo05	Removed	Christmas 2005
+Crimbo06	Removed	Christmas 2006
 WhiteWed	Removed	White Wednesday
