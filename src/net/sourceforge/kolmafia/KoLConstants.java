@@ -139,6 +139,8 @@ public interface KoLConstants extends UtilityConstants
 		{ "Big Mountains", "mountains.php" },
 		{ "Mt. McLargeHuge", "mclargehuge.php" },
 		{ "Nearby Plains", "plains.php" },
+		{ "Cobb's Knob", "knob.php" },
+		{ "Defiled Cyrpt", "cyrpt.php" },
 		{ "The Beanstalk", "beanstalk.php" },
 		{ "Sorceress' Lair", "lair.php" },
 		{ "Desert Beach", "beach.php" },

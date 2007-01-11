@@ -751,7 +751,10 @@ public class LocalRelayRequest extends PasswordHashRequest
 		String chatResponse = ChatRequest.executeChatCommand( getFormField( "graf" ) );
 		if ( chatResponse != null )
 		{
-			pseudoResponse( "HTTP/1.1 200 OK", chatResponse );
+			pseudoResponse( "HTTP/1.1 200 OK",
+				"<font color=\"blue\"><b><a target=\"mainpane\" href=\"showplayer.php?who=458968\" style=\"color:blue\">" +
+				VERSION_NAME + "</a> (private)</b>: " + chatResponse + "</font><br>" );
+
 			return;
 		}
 

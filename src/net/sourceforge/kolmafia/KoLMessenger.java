@@ -75,6 +75,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm a", Locale.US );
 
+	private static final String VERSION_ID = ">" + VERSION_NAME + " (private)<";
 	private static final String DEFAULT_TIMESTAMP_COLOR = "#7695B4";
 	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
 
@@ -697,7 +698,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * @param	message	The message that was sent to the channel
 	 */
 
-	private static void processChatMessage( String channel, String message )
+	public static void processChatMessage( String channel, String message )
 	{
 		if ( !isRunning() || channel == null || message == null || channel.length() == 0 || message.length() == 0 )
 			return;
@@ -906,6 +907,11 @@ public abstract class KoLMessenger extends StaticEntity
 		else if ( message.indexOf( ">Mod Warning<" ) != -1 || message.indexOf( ">System Message<" ) != -1 )
 		{
 			displayHTML.insert( 0, "<font color=red>" );
+			displayHTML.append( "</font>" );
+		}
+		else if ( message.indexOf( VERSION_ID ) != -1 )
+		{
+			displayHTML.insert( 0, "<font color=blue>" );
 			displayHTML.append( "</font>" );
 		}
 		else

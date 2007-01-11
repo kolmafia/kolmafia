@@ -1020,7 +1020,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Next, check against the restore target to see how
 		// far you need to go.
 
-		int threshold = initial == 0 ? needed - 1 : settingName.startsWith( "mp" ) ? current : needed - 1;
+		int threshold = Math.max( current, needed - 1 );
 		setting = StaticEntity.getFloatProperty( settingName + "Target" );
 
 		if ( needed == 0 && setting <= 0 )
@@ -1130,7 +1130,7 @@ public abstract class KoLmafia implements KoLConstants
 				// Do not allow seltzer to be used more than once,
 				// as this indicates MP changes due to outfits.
 			}
-			while ( possibleItems.get(i) != MPRestoreItemList.SELTZER && current <= threshold && last != current && !refusesContinue() );
+			while ( current <= threshold && last != current && !refusesContinue() );
 		}
 
 		// Fall-through check, just in case you've reached the
