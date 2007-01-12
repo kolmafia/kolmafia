@@ -1909,22 +1909,21 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptOperator parseOperator( String oper )
 	{
-		if ( oper == null )
+		if ( oper == null || !isOperator( oper ) )
 			return null;
-		if
-		(
-			oper.equals( "!" ) ||
+
+		return new ScriptOperator( oper );
+	}
+
+	private boolean isOperator( String oper )
+	{
+		return oper.equals( "!" ) ||
 			oper.equals( "*" ) || oper.equals( "^" ) || oper.equals( "/" ) || oper.equals( "%" ) ||
 			oper.equals( "+" ) || oper.equals( "-" ) ||
 			oper.equals( "<" ) || oper.equals( ">" ) || oper.equals( "<=" ) || oper.equals( ">=" ) ||
-			oper.equals( "==" ) || oper.equals( "!=" ) ||
+			oper.equals( "=" ) || oper.equals( "==" ) || oper.equals( "!=" ) ||
 			oper.equals( "||" ) || oper.equals( "&&" ) ||
-			oper.equals( "contains" ) || oper.equals( "remove" )
-		 )
-		{
-			return new ScriptOperator( oper );
-		}
-		return null;
+			oper.equals( "contains" ) || oper.equals( "remove" );
 	}
 
 	private ScriptVariableReference parseVariableReference( ScriptScope scope ) throws AdvancedScriptException
@@ -7804,7 +7803,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( operator.equals( "<" ) || operator.equals( ">" ) || operator.equals( "<=" ) || operator.equals( ">=" ) )
 				return 3;
 
-			if ( operator.equals( "==" ) || operator.equals( "!=" ) )
+			if ( operator.equals( "=" ) || operator.equals( "==" ) || operator.equals( "!=" ) )
 				return 2;
 
 			if ( operator.equals( "||" ) || operator.equals( "&&" ) )
@@ -7904,7 +7903,7 @@ public class KoLmafiaASH extends StaticEntity
 					return new ScriptValue( leftValue.toStringValue().toString() + rightValue.toStringValue().toString() );
 			}
 
-			if ( operator.equals( "==" ) )
+			if ( operator.equals( "=" ) || operator.equals( "==" ) )
 			{
 				if ( lhs.getType().equals( TYPE_STRING ) ||
 				     lhs.getType().equals( TYPE_LOCATION ) ||
@@ -8008,7 +8007,7 @@ public class KoLmafiaASH extends StaticEntity
 				return new ScriptValue( lfloat >= rfloat );
 			}
 
-			if ( operator.equals( "==" ) )
+			if ( operator.equals( "=" ) || operator.equals( "==" ) )
 			{
 				if ( isInt )
 					return new ScriptValue( lint == rint );
@@ -8023,7 +8022,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			// Unknown operator
-			throw new RuntimeException( "Internal error: illegal operator." );
+			throw new RuntimeException( "Internal error: illegal operator \"" + operator + "\"" );
 		}
 	}
 
