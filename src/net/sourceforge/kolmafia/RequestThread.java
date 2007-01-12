@@ -149,11 +149,6 @@ public abstract class RequestThread implements Runnable, KoLConstants
 	public static void declareWorldPeace()
 	{
 		KoLmafia.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
-
-		synchronized ( commandQueue )
-		{
-			commandQueue.clear();
-		}
 	}
 
 	private static class Request extends Job

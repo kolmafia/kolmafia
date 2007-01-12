@@ -151,7 +151,6 @@ public interface KoLConstants extends UtilityConstants
 	// Scripting-related constants.  Used throughout KoLmafia in
 	// order to ensure proper handling of scripts.
 
-	public static final Vector commandQueue = new Vector();
 	public static final LockableListModel scripts = new LockableListModel();
 	public static final LockableListModel bookmarks = new LockableListModel();
 

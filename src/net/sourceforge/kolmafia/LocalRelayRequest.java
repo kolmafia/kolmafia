@@ -693,7 +693,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 	public void sideCommand()
 	{
 		CommandDisplayFrame.executeCommand( getFormField( "cmd" ) );
-		while ( !commandQueue.isEmpty() )
+		while ( CommandDisplayFrame.hasQueuedCommands() )
 			delay( 500 );
 
 		pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
