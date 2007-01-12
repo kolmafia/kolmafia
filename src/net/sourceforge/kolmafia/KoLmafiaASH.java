@@ -7342,17 +7342,13 @@ public class KoLmafiaASH extends StaticEntity
 		// Returns number of fields consumed
 		public int read( String [] data, int index, boolean compact ) throws AdvancedScriptException
 		{
-			// There must be a key and a value remaining
-			if ( data.length - index < 2 )
-				return 0;
-
 			ScriptCompositeType type = (ScriptCompositeType) this.type;
 			ScriptValue key = null;
 
 			if ( index < data.length )
 				key = type.getKey( parseValue( type.getIndexType(), data[ index ] ) );
 			else
-				key = type.getKey( parseValue( type.getIndexType(), "" ) );
+				key = type.getKey( parseValue( type.getIndexType(), "none" ) );
 
 			// If there's only a key and a value, parse the value
 			// and store it in the composite
@@ -7644,16 +7640,14 @@ public class KoLmafiaASH extends StaticEntity
 				return super.read( data, index, compact );
 
 			ScriptType [] dataTypes = ((ScriptRecordType)this.type).getFieldTypes();
-			ScriptValue [] array = (ScriptValue [])content;
-			int size = dataTypes.length;
+			ScriptValue [] array = (ScriptValue []) content;
+
+			int size = Math.min( dataTypes.length, data.length - index );
 			int first = index;
 
 			// Consume remaining data values and store them
 			for ( int offset = 0; offset < size; ++offset )
 			{
-				if ( index == data.length )
-					throw new RuntimeException( "Internal error: field index out of bounds" );
-
 				ScriptType valType = dataTypes[offset];
 				if ( valType instanceof ScriptRecordType )
 				{
@@ -7666,6 +7660,9 @@ public class KoLmafiaASH extends StaticEntity
 					index += 1;
 				}
 			}
+
+			for ( int offset = size; offset < dataTypes.length; ++offset )
+				array[offset] = parseValue( dataTypes[offset], "none" );
 
 			// assert index == data.length
 			return index - first;
