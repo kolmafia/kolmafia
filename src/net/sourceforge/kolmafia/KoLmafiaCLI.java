@@ -570,7 +570,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "abort" ) )
 		{
-			commandQueue.clear();
 			updateDisplay( ABORT_STATE, parameters.length() == 0 ? "Script abort." : parameters );
 			return;
 		}

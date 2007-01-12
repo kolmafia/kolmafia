@@ -58,6 +58,8 @@ public class CommandDisplayFrame extends KoLFrame
 
 	private static int lastCommandIndex = 0;
 	private static boolean shouldQueueRequests = false;
+
+	private static final ArrayList commandQueue = new ArrayList();
 	private static final ArrayList commandHistory = new ArrayList();
 
 	public CommandDisplayFrame()
@@ -142,6 +144,10 @@ public class CommandDisplayFrame extends KoLFrame
 		}
 	}
 
+	public static boolean hasQueuedCommands()
+	{	return !commandQueue.isEmpty();
+	}
+
 	public static void executeCommand( String command )
 	{
 		if ( command.length() == 0 )
@@ -164,20 +170,18 @@ public class CommandDisplayFrame extends KoLFrame
 			commandQueue.add( command );
 			commandHistory.add( command );
 			lastCommandIndex = commandHistory.size();
+
+			if ( commandQueue.size() > 1 )
+			{
+				KoLmafiaCLI.printBlankLine();
+				KoLmafiaCLI.printLine( " > QUEUED: " + command );
+				KoLmafiaCLI.printBlankLine();
+
+				return;
+			}
 		}
 
-		if ( shouldQueueRequests )
-		{
-			KoLmafiaCLI.printBlankLine();
-			KoLmafiaCLI.printLine( " > QUEUED: " + command );
-			KoLmafiaCLI.printBlankLine();
-
-			return;
-		}
-
-		shouldQueueRequests = true;
-
-		while ( shouldQueueRequests )
+		do
 		{
 			command = (String) commandQueue.get(0);
 
@@ -191,8 +195,13 @@ public class CommandDisplayFrame extends KoLFrame
 			synchronized ( commandQueue )
 			{
 				commandQueue.remove(0);
-				shouldQueueRequests = !commandQueue.isEmpty();
 			}
+		}
+		while ( !KoLmafia.refusesContinue() && !commandQueue.isEmpty() );
+
+		synchronized ( commandQueue )
+		{
+			commandQueue.clear();
 		}
 	}
 }
