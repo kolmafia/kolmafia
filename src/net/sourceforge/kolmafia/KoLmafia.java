@@ -326,10 +326,20 @@ public abstract class KoLmafia implements KoLConstants
 				actualScript = actualScript.substring( 7 );
 
 			DEFAULT_SHELL.executeLine( "call " + actualScript );
-
-			if ( !useGUI )
-				DEFAULT_SHELL.listenForCommands();
 		}
+		else if ( !useGUI )
+		{
+			// If you're not using the GUI thread, make sure that
+			// you allow for an attempt to login.
+
+			DEFAULT_SHELL.attemptLogin();
+		}
+
+		// Always read input from the command line when you're not
+		// in GUI mode.
+
+		if ( !useGUI )
+			DEFAULT_SHELL.listenForCommands();
 	}
 
 	private static void deleteSimulator( File location )
@@ -979,27 +989,25 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return false;
 
+		// First, check against the restore trigger to see if
+		// any restoration needs to take place.
+
 		Object [] empty = new Object[0];
 		Method currentMethod, maximumMethod;
 
 		currentMethod = KoLCharacter.class.getMethod( currentName, new Class[0] );
 		maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[0] );
 
-		int initial = needed;
-		int maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
-
-		// First, check against the restore trigger to see if
-		// any restoration needs to take place.
-
 		float setting = StaticEntity.getFloatProperty( settingName );
-		if ( needed == 0 && setting < 0 )
+
+		if ( setting < 0 )
 			return true;
+
+		int current = ((Number)currentMethod.invoke( null, empty )).intValue();
+		int maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
 
 		if ( !BuffBotHome.isBuffBotActive() )
 			needed = Math.max( needed, (int) Math.max( setting * (float) maximum, (float) needed ) );
-
-		int last = -1;
-		int current = ((Number)currentMethod.invoke( null, empty )).intValue();
 
 		// If a buffbot is currently running, only restore MP to
 		// max when what you have is less than what you need.
@@ -1020,13 +1028,18 @@ public abstract class KoLmafia implements KoLConstants
 		// Next, check against the restore target to see how
 		// far you need to go.
 
+		int last = -1;
 		int threshold = Math.max( current, needed - 1 );
+
 		setting = StaticEntity.getFloatProperty( settingName + "Target" );
 
 		if ( needed == 0 && setting <= 0 )
 			return true;
 
 		needed = Math.max( (int) ( setting * (float) maximum ), needed );
+
+		if ( current > threshold || current >= needed )
+			return true;
 
 		// If it gets this far, then you should attempt to recover
 		// using the selected items.  This involves a few extra
@@ -1094,7 +1107,7 @@ public abstract class KoLmafia implements KoLConstants
 			while ( current <= threshold && last != current && !refusesContinue() );
 		}
 
-		if ( current > threshold )
+		if ( current > threshold || current >= needed )
 			return true;
 
 		// Next, move onto things which are not items (skills), and
@@ -1112,7 +1125,7 @@ public abstract class KoLmafia implements KoLConstants
 			while ( current <= threshold && last != current && !refusesContinue() );
 		}
 
-		if ( current > threshold )
+		if ( current > threshold || current >= needed )
 			return true;
 
 		// If things are still not restored, try looking for items you
@@ -1139,7 +1152,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return false;
 
-		if ( current > threshold )
+		if ( current > threshold || current >= needed )
 			return true;
 
 		updateDisplay( ERROR_STATE, "Autorecovery failed." );
@@ -1499,6 +1512,7 @@ public abstract class KoLmafia implements KoLConstants
 						return;
 				}
 
+				runBetweenBattleChecks( true, false );
 				isAdventuring = true;
 			}
 
@@ -2802,12 +2816,16 @@ public abstract class KoLmafia implements KoLConstants
 		return true;
 	}
 
-	public void runBetweenBattleChecks( boolean isFullCheck )
+	public void runBetweenBattleChecks( boolean runAutoRecovery )
+	{	runBetweenBattleChecks( runAutoRecovery, true );
+	}
+
+	public void runBetweenBattleChecks( boolean runAutoRecovery, boolean runThresholdCheck )
 	{
 		// Do not run between battle checks if you are in the middle
 		// of your checks or if you have aborted.
 
-		if ( recoveryActive || refusesContinue() || !runThresholdChecks() )
+		if ( recoveryActive || refusesContinue() || (runThresholdCheck && !runThresholdChecks()) )
 			return;
 
 		recoveryActive = true;
@@ -2824,11 +2842,13 @@ public abstract class KoLmafia implements KoLConstants
 		// Now, run the built-in behavior to take care of
 		// any loose ends.
 
-		if ( isFullCheck )
+		if ( runAutoRecovery )
+		{
 			MoodSettings.execute();
 
-		recoverHP();
-		recoverMP();
+			recoverHP();
+			recoverMP();
+		}
 
 		recoveryActive = false;
 		SpecialOutfit.restoreImplicitCheckpoint();
