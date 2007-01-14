@@ -99,10 +99,8 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		catch ( Exception e )
 		{
+			StaticEntity.printStackTrace( e );
 		}
-
-		DEFAULT_SHELL.attemptLogin();
-		DEFAULT_SHELL.listenForCommands();
 	}
 
 	/**
@@ -141,7 +139,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * for the user will automatically look up a password.
 	 */
 
-	private void attemptLogin()
+	public void attemptLogin()
 	{
 		try
 		{
