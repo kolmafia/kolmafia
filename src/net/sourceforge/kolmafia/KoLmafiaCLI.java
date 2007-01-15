@@ -3695,7 +3695,7 @@ public class KoLmafiaCLI extends KoLmafia
 		else if ( matchingEffects.size() > 1 )
 		{
 			// If there's only one shruggable buff on the list, then
-			// that's probably the one the player ones.
+			// that's probably the one the player wants.
 
 			int shruggableCount = 0;
 			AdventureResult buffToRemove = null;
@@ -3706,7 +3706,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( shruggableCount == 1 )
 			{
-				RequestThread.postRequest( new UneffectRequest( buffToRemove ) );
+				if ( activeEffects.contains( buffToRemove ) )
+					RequestThread.postRequest( new UneffectRequest( buffToRemove ) );
+
 				return;
 			}
 
