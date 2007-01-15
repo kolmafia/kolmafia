@@ -3694,6 +3694,22 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else if ( matchingEffects.size() > 1 )
 		{
+			// If there's only one shruggable buff on the list, then
+			// that's probably the one the player ones.
+
+			int shruggableCount = 0;
+			AdventureResult buffToRemove = null;
+
+			for ( int i = 0; i < matchingEffects.size(); ++i )
+				if ( UneffectRequest.isShruggable( ((AdventureResult)matchingEffects.get(i)).getName() ) )
+					++shruggableCount;
+
+			if ( shruggableCount == 1 )
+			{
+				RequestThread.postRequest( new UneffectRequest( buffToRemove ) );
+				return;
+			}
+
 			updateDisplay( ERROR_STATE, "Ambiguous effect name: " + parameters );
 
 			printLine( "This could match any of the following " + matchingEffects.size() + " effects: " );
