@@ -376,6 +376,26 @@ public class MonsterDatabase extends KoLDatabase
 		{	return items;
 		}
 
+		public boolean dropsNeededItem()
+		{
+			float itemModifier = AreaCombatData.getDropRateModifier();
+
+			for ( int i = 0; i < items.size(); ++i )
+			{
+				AdventureResult item = (AdventureResult) items.get(i);
+				if ( !conditions.contains( item ) )
+					continue;
+
+				float dropRate = ((float)item.getCount()) * itemModifier;
+				if ( dropRate >= 100.0f )
+					continue;
+
+				return true;
+			}
+
+			return false;
+		}
+
 		public void addItem( AdventureResult item )
 		{	items.add( item );
 		}

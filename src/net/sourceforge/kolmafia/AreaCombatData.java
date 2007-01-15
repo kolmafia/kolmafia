@@ -39,6 +39,9 @@ import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 
 public class AreaCombatData implements KoLConstants
 {
+	private static float lastDropModifier = 0.0f;
+	private static float lastDropMultiplier = 0.0f;
+
 	private int minHit;
 	private int maxHit;
 	private int minEvade;
@@ -353,14 +356,25 @@ public class AreaCombatData implements KoLConstants
 		if ( items.size() == 0 )
 			return;
 
-		float itemModifier = ( 100.0f + KoLCharacter.getItemDropPercentAdjustment() ) / 100.0f;
+		float itemModifier = getDropRateModifier();
 
 		for ( int i = 0; i < items.size(); ++i )
 		{
 			buffer.append( "<br> - Drops " );
 			AdventureResult item = (AdventureResult)items.get(i);
-			buffer.append( item.getName() + " (" + format( Math.min( (float)item.getCount() * itemModifier, 100.0f ) ) + "%)" );
+			buffer.append( item.getName() + " (" + format( Math.min( ((float)item.getCount()) * itemModifier, 100.0f ) ) + "%)" );
 		}
+	}
+
+	public static float getDropRateModifier()
+	{
+		if ( KoLCharacter.getItemDropPercentAdjustment() == lastDropModifier )
+			return lastDropMultiplier;
+
+		lastDropModifier = KoLCharacter.getItemDropPercentAdjustment();
+		lastDropMultiplier = ( 100.0f + lastDropModifier ) / 100.0f;
+
+		return lastDropMultiplier;
 	}
 
 	public static String elementColor( int element )
