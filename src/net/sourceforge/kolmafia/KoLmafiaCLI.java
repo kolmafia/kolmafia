@@ -1694,63 +1694,71 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeScriptCommand( String command, String parameters )
 	{
-		String [] arguments = null;
-
-		int paren = parameters.indexOf( "(" );
-		if ( paren != -1 )
-		{
-			arguments = parseScriptArguments( parameters.substring( paren + 1 ) );
-			if ( arguments == null )
-			{
-				updateDisplay( ERROR_STATE, "Failed to parse arguments" );
-				return;
-			}
-
-			parameters = parameters.substring( 0, paren );
-		}
-
-		parameters = parameters.trim();
-
 		try
 		{
-			// Locate the script file.  In order of preference,
-			// the script files will either have no extension
-			// and be in the scripts directory, have a ".txt"
-			// extension and be in the scripts directory...
-
 			int runCount = 1;
+			String [] arguments = null;
+
+			parameters = parameters.trim();
 			File scriptFile = findScriptFile( parameters );
+
+			// If still no script was found, perhaps it's the secret invocation
+			// of the "#x script" that allows a script to be run multiple times.
 
 			if ( scriptFile == null )
 			{
 				boolean hasMultipleRuns = true;
 				String runCountString = parameters.split( " " )[0];
 
-				for ( int i = 0; i < runCountString.length(); ++i )
+				for ( int i = 0; i < runCountString.length() - 1; ++i )
 					hasMultipleRuns &= Character.isDigit( runCountString.charAt(i) );
+
+				hasMultipleRuns &= runCountString.endsWith( "x" );
 
 				if ( hasMultipleRuns )
 				{
 					runCount = StaticEntity.parseInt( runCountString );
-					scriptFile = findScriptFile( parameters.substring( parameters.indexOf( " " ) ).trim() );
+					parameters = parameters.substring( parameters.indexOf( " " ) ).trim();
+					scriptFile = findScriptFile( parameters );
 				}
 			}
 
+			// If no script was found, perhaps there's parentheses indicating
+			// that this is an ASH script invocation.
+
 			if ( scriptFile == null )
 			{
-				// Maybe the definition of a custom command?
-				// Here you would attempt to invoke the advanced
-				// script handler to see what happens.
+				int paren = parameters.indexOf( "(" );
+				if ( paren != -1 )
+				{
+					arguments = parseScriptArguments( parameters.substring( paren + 1 ) );
+					if ( arguments == null )
+					{
+						updateDisplay( ERROR_STATE, "Failed to parse arguments" );
+						return;
+					}
 
+					parameters = parameters.substring( 0, paren ).trim();
+					scriptFile = findScriptFile( parameters );
+				}
+			}
+
+			// Maybe the more ambiguous invocation of an ASH script which does
+			// not use parentheses?
+
+			if ( scriptFile == null )
+			{
 				int spaceIndex = parameters.indexOf( " " );
 				if ( spaceIndex != -1 && arguments == null )
 				{
 					arguments = parseScriptArguments( parameters.substring( spaceIndex ).trim() );
 					parameters = parameters.substring( 0, spaceIndex );
+					scriptFile = findScriptFile( parameters );
 				}
-
-				scriptFile = findScriptFile( parameters );
 			}
+
+			// If not even that, perhaps it's the invocation of a function which
+			// is defined in the ASH namespace?
 
 			if ( scriptFile == null )
 			{
@@ -1758,9 +1766,12 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
+			// In theory, you could execute EVERY script in a directory, but instead,
+			// let's make it be an error state.
+
 			if ( scriptFile.isDirectory() )
 			{
-				updateDisplay( scriptFile.getAbsolutePath() + " is a directory." );
+				updateDisplay( ERROR_STATE, scriptFile.getAbsolutePath() + " is a directory." );
 				return;
 			}
 
@@ -3675,34 +3686,25 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void executeUneffectRequest( String parameters )
 	{
-		parameters = parameters.toLowerCase();
-		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
-		activeEffects.toArray( effects );
+		List matchingEffects = StatusEffectDatabase.getMatchingNames( parameters );
+		if ( matchingEffects.isEmpty() )
+		{
+			updateDisplay( ERROR_STATE, "Unknown effect: " + parameters );
+			return;
+		}
+		else if ( matchingEffects.size() > 1 )
+		{
+			updateDisplay( ERROR_STATE, "Ambiguous effect name: " + parameters );
 
-		// First, search for a buff that can be shrugged off, as that is
-		// what the user is mostly likely looking for.
+			printLine( "This could match any of the following " + matchingEffects.size() + " effects: " );
+			printList( matchingEffects );
 
-		for ( int i = 0; i < effects.length; ++i )
-			if ( effects[i].getName().toLowerCase().indexOf( parameters ) != -1 && UneffectRequest.isShruggable( effects[i].getName() ) )
-			{
-				RequestThread.postRequest( new UneffectRequest( effects[i] ) );
-				return;
-			}
+			return;
+		}
 
-		// Okay, now you know it's not a shrugged buff.  Go for a buff that
-		// is not shruggable.
-
-		for ( int i = 0; i < effects.length; ++i )
-			if ( effects[i].getName().toLowerCase().indexOf( parameters ) != -1 )
-			{
-				RequestThread.postRequest( new UneffectRequest( effects[i] ) );
-				return;
-			}
-
-		// No available effect matched.  Report this error to the user, since
-		// they might have made a typo.
-
-		updateDisplay( ERROR_STATE, "No effect matched " + parameters );
+		AdventureResult effect = new AdventureResult( parameters, 1, true );
+		if ( activeEffects.contains( effect ) )
+			RequestThread.postRequest( new UneffectRequest( effect ) );
 	}
 
 	/**

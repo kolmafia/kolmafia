@@ -706,14 +706,17 @@ public class FightRequest extends KoLRequest
 			if ( shouldLogAction )
 				KoLmafia.getSessionStream().println( KoLCharacter.getUserName() + " casts the spell of RETURN!" );
 		}
+		else if ( urlString.indexOf( "steal" ) != -1 )
+		{
+			action1 = "steal";
+			if ( shouldLogAction )
+				KoLmafia.getSessionStream().println( KoLCharacter.getUserName() + " tries to steal an item!" );
+		}
 		else
 		{
 			action1 = "attack";
 			if ( shouldLogAction )
-			{
-				KoLmafia.getSessionStream().println( KoLCharacter.getUserName() + " attacks with " +
-					"fear-inducing body language!" );
-			}
+				KoLmafia.getSessionStream().println( KoLCharacter.getUserName() + " attacks!" );
 		}
 
 		return true;
