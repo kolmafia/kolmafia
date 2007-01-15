@@ -70,8 +70,8 @@ public class FamiliarRequest extends KoLRequest
 
 	public void run()
 	{
-		AdventureResult item = KoLCharacter.getFamiliar() != null ? KoLCharacter.getFamiliar().getItem() :
-			EquipmentRequest.UNEQUIP;
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+		AdventureResult item = familiar != null ? familiar.getItem() : EquipmentRequest.UNEQUIP;
 
 		if ( changeTo == null )
 		{
@@ -79,7 +79,6 @@ public class FamiliarRequest extends KoLRequest
 		}
 		else
 		{
-			FamiliarData familiar = KoLCharacter.getFamiliar();
 			if ( familiar.getId() == changeTo.getId() )
 				return;
 
@@ -96,17 +95,14 @@ public class FamiliarRequest extends KoLRequest
 		// wearing something, or your old familiar can't equip the new item,
 		// then do nothing further.
 
-		if ( changeTo == null || changeTo == FamiliarData.NO_FAMILIAR || item == EquipmentRequest.UNEQUIP || !changeTo.canEquip( item ) )
+		if ( familiar == null || familiar == FamiliarData.NO_FAMILIAR )
 			return;
 
-		// If your new familiar is wearing nothing, then a switch is definitely
-		// in order -- go ahead and do so.
-
-		if ( changeTo.getItem() == null || changeTo.getItem().equals( EquipmentRequest.UNEQUIP ) )
-		{
-			(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
+		if ( changeTo == null || changeTo == FamiliarData.NO_FAMILIAR )
 			return;
-		}
+
+		if ( item == EquipmentRequest.UNEQUIP || !changeTo.canEquip( item ) )
+			return;
 
 		// If the new familiar's item is better than the item you could switch to
 		// (such as a lead necklace vs. a pumpkin basket), do nothing.
@@ -126,6 +122,7 @@ public class FamiliarRequest extends KoLRequest
 		// In all other cases, a switch is probably in order.  Go ahead and make
 		// the item switch.
 
+		KoLmafia.updateDisplay( familiar.getItem().getName() + " is better than " + changeTo.getItem().getName() + ".  Switching items..." );
 		(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
 	}
 
