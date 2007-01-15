@@ -142,8 +142,16 @@ public class FightRequest extends KoLRequest
 		// Special handling when using a thief familiar.
 
 		if ( KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() && isAcceptable( offenseModifier, defenseModifier ) )
-			if ( action1.indexOf( "consult" ) != -1 || action1.indexOf( "dictionary" ) != -1 || action1.indexOf( "Shake Hands" ) != -1 )
+			if ( action1.indexOf( "consult" ) != -1 || action1.indexOf( "item" ) != -1 || action1.indexOf( "Shake Hands" ) != -1 )
 				action1 = "attack";
+
+
+		// Conditional to handle pickpocketing whenever
+		// searching for conditions.
+
+		if ( StaticEntity.getBooleanProperty( "autoRoninPickpocket" ) && KoLCharacter.isMoxieClass() && !KoLCharacter.canInteract() )
+			if ( currentRound == 1 && monsterData != null && responseText.indexOf( "You get the jump" ) != -1 && monsterData.dropsNeededItem() )
+				action1 = "steal";
 
 		// If the person wants to use their own script,
 		// then this is where it happens.

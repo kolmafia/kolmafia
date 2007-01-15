@@ -293,28 +293,26 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
+			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
 			{ "ignoreGreenEvents", "Enable green screen protection for KoLmafia chat" },
 
 			{ "", "" },
 
-			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
-			{ "autoSetConditions", "Automatically fill conditions field with defaults" },
 			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
-
-			{ "", "" },
-
-			{ "allowStasisTactics", "Allow stasis-type commands when using combat familiars" },
-			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
+			{ "cloverProtectActive", "Enable clover protection for automated adventures" },
+			{ "allowStasisTactics", "Prevent accidental stasis when not using combat familiar" },
 			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
 
 			{ "", "" },
 
-			{ "cloverProtectActive", "Enable clover protection for automated adventures" },
+			{ "autoSetConditions", "Automatically fill conditions field with defaults" },
+			{ "autoRoninPickpocket", "Pickpocket to satisfy item conditions in Ronin" },
 			{ "autoRetrieveScrewdriver", "Automatically do screwdriver quest, if needed" },
 			{ "autoRetrieveWorthless", "Search for worthless items when visiting the hermit" },
 
 			{ "", "" },
 
+			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
 			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" }
