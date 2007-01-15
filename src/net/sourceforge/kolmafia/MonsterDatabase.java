@@ -376,22 +376,50 @@ public class MonsterDatabase extends KoLDatabase
 		{	return items;
 		}
 
-		public boolean dropsNeededItem()
+		public boolean shouldSteal()
 		{
-			float itemModifier = AreaCombatData.getDropRateModifier();
+			// If the player has an acceptable dodge rate, then steal anything.
+			// Otherwise, only steal from monsters that are dropping something
+			// on your conditions list.
 
-			for ( int i = 0; i < items.size(); ++i )
+			return shouldSteal( hasAcceptableDodgeRate( 0 ) ? items : conditions, AreaCombatData.getDropRateModifier() );
+		}
+
+		private boolean shouldSteal( List checklist, float dropModifier )
+		{
+			for ( int i = 0; i < checklist.size(); ++i )
+				if ( shouldStealItem( (AdventureResult) checklist.get(i), dropModifier ) )
+					return true;
+
+			return false;
+		}
+
+		private boolean shouldStealItem( AdventureResult item, float dropModifier )
+		{
+			int itemIndex = items.indexOf( item );
+
+			// If the monster drops this item, then return true
+			// when the drop rate is less than 100%.
+
+			if ( itemIndex != -1 )
 			{
-				AdventureResult item = (AdventureResult) items.get(i);
-				if ( !conditions.contains( item ) )
-					continue;
-
-				float dropRate = ((float)item.getCount()) * itemModifier;
-				if ( dropRate >= 100.0f )
-					continue;
-
-				return true;
+				item = (AdventureResult) items.get( itemIndex );
+				return ((float)item.getCount()) * dropModifier < 100.0f;
 			}
+
+			// If the item does not drop, check to see if maybe
+			// the monster drops one of its ingredients.
+
+			AdventureResult [] subitems = ConcoctionsDatabase.getStandardIngredients( item.getItemId() );
+			if ( subitems.length < 2 )
+				return false;
+
+			for ( int i = 0; i < subitems.length; ++i )
+				if ( shouldStealItem( subitems[i], dropModifier ) )
+					return true;
+
+			// The item doesn't drop the item or any of its
+			// ingredients.
 
 			return false;
 		}

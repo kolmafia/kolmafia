@@ -739,6 +739,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return ingredients;
 	}
 
+	public static AdventureResult [] getStandardIngredients( int itemId )
+	{	return concoctions.get( itemId ).getIngredients();
+	}
+
 	public static boolean hasAnyIngredient( int itemId )
 	{
 		boolean hasOneIngredient = false;

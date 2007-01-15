@@ -145,12 +145,11 @@ public class FightRequest extends KoLRequest
 			if ( action1.indexOf( "consult" ) != -1 || action1.indexOf( "item" ) != -1 || action1.indexOf( "Shake Hands" ) != -1 )
 				action1 = "attack";
 
-
 		// Conditional to handle pickpocketing whenever
 		// searching for conditions.
 
 		if ( StaticEntity.getBooleanProperty( "autoRoninPickpocket" ) && KoLCharacter.isMoxieClass() && !KoLCharacter.canInteract() )
-			if ( currentRound == 1 && monsterData != null && responseText.indexOf( "You get the jump" ) != -1 && monsterData.dropsNeededItem() )
+			if ( currentRound == 1 && monsterData != null && responseText.indexOf( "You get the jump" ) != -1 && monsterData.shouldSteal() )
 				action1 = "steal";
 
 		// If the person wants to use their own script,
