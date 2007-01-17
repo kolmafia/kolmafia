@@ -11,6 +11,7 @@
 2	Gouda's Grimoire and Grocery	Gazpacho's Glacial Grimoire	4000
 2	Gouda's Grimoire and Grocery	special sauce glove	5000
 
+3	The Smacketeria	turtle pheromones	50
 3	The Smacketeria	Medicinal Herb's medicinal herbs	100
 3	The Smacketeria	cheap wind-up clock	200
 3	The Smacketeria	blood of the Wereseal	500

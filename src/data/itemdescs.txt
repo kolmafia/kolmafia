@@ -2238,3 +2238,25 @@
 2233	620090169	polka-dot bowtie
 2234	458249860	calavera concertina
 2235	345804457	ratarang	ratarangs
+2236	542676786	turtle pheromones	vials of turtle pheromones
+2237
+2238
+2239
+2240
+2241
+2242
+2243
+2244
+2245	489535198	knobby helmet turtle	knobby helmet turtles
+2246	830985846	knobby kneepads	pairs of knobby kneepads
+2247	917862110	sewer turtle	sewer turtles
+2248	122533173	sebaceous shield	sebaceous shields
+2249	657504282	skeletortoise	skeletortoises
+2250
+2251	111154104	box turtle	box turtles
+2252	122533173	cardboard box turtle	cardboard box turtles
+2253	887729224	bottlecap turtle	bottlecap turtles
+2254
+2255	789152841	furry green turtle	furry green turtles
+2256	684854850	furry green earmuffs
+2257	415591001	reinforced furry underpants	pairs of reinforced furry underpants

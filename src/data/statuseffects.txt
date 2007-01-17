@@ -260,3 +260,4 @@
 260	Elixer	Arse-a'fire	pepper.gif
 261	Lemonade	Lemon Enlightenment	lemon.gif
 262	Toad Horn	Squirming Like a Toad	squashfrog.gif
+263	turtle pheromones	Eau D'tortue	stench.gif
