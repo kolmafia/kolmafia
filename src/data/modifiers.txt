@@ -68,6 +68,8 @@ bobble-hip hula elf doll	Meat: +15.0
 box	Meat: +1.0
 box-in-the-box	Meat: +2.0
 box-in-the-box-in-the-box	Meat: +3.0
+box turtle	DR: 3
+cardboard box turtle	DR: 4
 chopsticks	Init: +20.0
 Cloaca-cola shield	DR: 4
 coffin lid	DR: 3, Spooky: +10
@@ -82,6 +84,8 @@ penguin skin buckler	DR: 5
 pilgrim shield	Exp: +3.0
 pixel shield	DR: 3
 ricebowl	Item: +20.0
+sebaceous shield	DR: 2
+sewer turtle	DR: 1
 snake shield	DR: 7
 snarling wolf shield	DR: 7
 star buckler	DR: 10

@@ -42,6 +42,7 @@ filthy knitted dread sack	60	Mox: 15
 fire	10	none
 foolscap fool's cap	40	Mox: 5
 football helmet	150	Mox: 60
+furry green turtle	45	Mus: 7
 gasmask	50	Mox: 10
 giant discarded bottlecap	155	Mox: 62
 goat beard	60	Mox: 15
@@ -57,6 +58,7 @@ Kentucky-style derby	20	none
 Knob Goblin elite helm	60	Mox: 15
 Knob Goblin harem veil	10	none
 Knob Goblin visor	50	Mox: 10
+knobby helmet turtle	20	none
 KoL Con 3-D Glasses	10	none
 leather mask	60	Mox: 15
 lihc face	90	Mox: 30
@@ -86,6 +88,7 @@ ravioli hat	10	none
 red traffic cone	60	Mox: 15
 safarrri hat	90	Mox: 30
 sequined fez	80	Mox: 25
+skeletortoise	30	none
 snorkel	10	none
 Snow Queen Crown	115	Mox: 42
 Sombrero De Vida	50	Mox: 10
@@ -459,6 +462,8 @@ bobble-hip hula elf doll	0	none
 box	0	none
 box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
+box turtle	0	Mus: 10
+cardboard box turtle	0	Mus: 10
 Cloaca-Cola shield	0	none
 clockwork detective skull	0	Mox: 25
 Codex of Capsaicin Conjuration	0	none
@@ -512,6 +517,8 @@ rag doll	0	Mys: 40
 Raggedy Hippy doll	0	none
 red balloon	0	none
 rice bowl	0	none
+sebaceous shield	0	none
+sewer turtle	0	none
 snake shield	0	Mus: 42
 snarling wolf shield	0	Mus: 42
 sock monkey	0	Mys: 40
@@ -575,6 +582,7 @@ blue ribbon	0	none
 Bonerdagon necklace	0	Mys: 25
 Boris's ring	0	Mys: 25
 Boss Bat bling	0	Mys: 17
+bottlecap turtle	0	Mys: 12
 Cape of the Goblin King	0	Mys: 20
 Cat-Herding Prod	0	none
 cement shoes	0	Mys: 35
@@ -625,6 +633,7 @@ Item #13	0	none
 Jarlsberg's earring	0	Mys: 25
 Jekyllin hide belt	0	none
 Junior LAAAAME merit badge	0	none
+knobby kneepads	0	none
 ladle of mystery	0	none
 left half of a heart necklace	0	none
 Lockenstock (TM) sandals	0	Mys: 10
@@ -659,6 +668,7 @@ Radio KoL Flashlight	0	none
 Radio KoL Maracas	0	none
 Radio KoL Bottle Opener	0	none
 Radio KoL Patch	0	none
+reinforced furry underpants	0	none
 right half of a heart necklace	0	none
 ring of adornment	0	Mys: 25
 ring of aggravate monster	0	Mys: 25

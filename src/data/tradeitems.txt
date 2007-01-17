@@ -2233,3 +2233,25 @@
 2233	polka-dot bowtie	8	all	25
 2234	calavera concertina	12	all	45
 2235	ratarang	12	all	65
+2236	turtle pheromones	3	none	25
+2237
+2238
+2239
+2240
+2241
+2242
+2243
+2244
+2245	knobby helmet turtle	9	all	1
+2246	knobby kneepads	8	all	20
+2247	sewer turtle	13	all	25
+2248	sebaceous shield	13	all	40
+2249	skeletortoise	9	all	35
+2250
+2251	box turtle	13	all	55
+2252	cardboard box turtle	13	all	55
+2253	bottlecap turtle	8	all	60
+2254
+2255	furry green turtle	9	all	50
+2256	furry green earmuffs	8	all	50
+2257	reinforced furry underpants	8	all	35

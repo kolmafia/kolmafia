@@ -534,6 +534,11 @@ penguin skin buckler	14	penguin skin	buckler buckle
 yakskin buckler	14	yak skin	buckler buckle
 gnauga hide buckler	14	gnauga hide	buckler buckle
 
+# Things made of special turtles
+cardboard box turtle	14	cardboard ore	box turtle
+furry green earmuffs	14	furry green turtle	furry green turtle
+knobby kneepads	14	knobby helmet turtle	knobby helmet turtle
+
 eXtreme nose ring	1	stone of eXtreme power	piercing post
 spooky glove	2	spooky fairy gravy	small leather glove
 
