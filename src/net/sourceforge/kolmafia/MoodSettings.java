@@ -70,7 +70,7 @@ public abstract class MoodSettings implements KoLConstants
 	private static SortedListModel availableMoods = new SortedListModel();
 
 	public static final String settingsFileName()
-	{	return "settings/moods_" + KoLCharacter.baseUserName() + ".txt";
+	{	return "moods_" + KoLCharacter.baseUserName() + ".txt";
 	}
 
 	public static boolean isExecuting()
@@ -88,7 +88,7 @@ public abstract class MoodSettings implements KoLConstants
 		if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) || currentMood.equals( "" ) )
 			return;
 
-		settingsFile = new File( settingsFileName() );
+		settingsFile = new File( SETTINGS_DIRECTORY, settingsFileName() );
 		loadSettings();
 
 		setMood( currentMood );

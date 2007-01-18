@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.PrintStream;
+
 /**
  * A <code>NullStream</code> is the rough equivalent of redirecting
  * all output to <code>/dev/null</code> on some variants of *NIX.
@@ -43,7 +45,7 @@ package net.sourceforge.kolmafia;
  * debug functionality; this is merely a sub-optimal alternative.
  */
 
-public class NullStream extends java.io.PrintStream
+public class NullStream extends PrintStream
 {
 	private boolean errorState;
 

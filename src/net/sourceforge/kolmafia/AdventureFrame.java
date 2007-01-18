@@ -784,7 +784,7 @@ public class AdventureFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			File location = new File( CombatSettings.settingsFileName() );
+			File location = new File( SETTINGS_DIRECTORY, CombatSettings.settingsFileName() );
 			if ( !location.exists() )
 				CombatSettings.reset();
 
@@ -864,7 +864,7 @@ public class AdventureFrame extends KoLFrame
 		try
 		{
 			CombatSettings.reset();
-			BufferedReader reader = KoLDatabase.getReader( CombatSettings.settingsFileName() );
+			BufferedReader reader = KoLDatabase.getReader( "data" + File.separator + CombatSettings.settingsFileName() );
 
 			StringBuffer buffer = new StringBuffer();
 			String line;
