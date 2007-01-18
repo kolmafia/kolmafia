@@ -523,9 +523,6 @@ public abstract class StaticEntity implements KoLConstants
 			// in the system tray.  For now, this will be the old
 			// icon used by KoLmelion.
 
-			System.out.println( System.getProperty( "user.dir" ) );
-			System.out.println( IMAGE_DIRECTORY.getAbsolutePath() );
-
 			IMAGE_DIRECTORY.mkdirs();
 			File library = new File( IMAGE_DIRECTORY, filename );
 

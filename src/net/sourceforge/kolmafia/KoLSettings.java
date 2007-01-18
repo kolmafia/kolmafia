@@ -116,8 +116,6 @@ public class KoLSettings extends Properties implements KoLConstants
 	{
 		this.noExtensionName = KoLCharacter.baseUserName( characterName );
 
-System.out.println( System.getProperty( "user.dir" ) );
-
 		this.settingsFile = new File( SETTINGS_DIRECTORY, "prefs_" + noExtensionName + ".txt" );
 		this.junkItemsFile = new File( SETTINGS_DIRECTORY, "junk_" + noExtensionName + ".txt" );
 
