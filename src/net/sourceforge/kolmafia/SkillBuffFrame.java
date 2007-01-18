@@ -142,9 +142,8 @@ public class SkillBuffFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			Object [] values = ((ShowDescriptionList)scrollComponent).getSelectedValues();
-
 			for ( int i = 0; i < values.length; ++i )
-				RequestThread.postRequest( new UneffectRequest( (AdventureResult) values[i] ) );
+				DEFAULT_SHELL.executeLine( MoodSettings.getDefaultAction( "gain_effect", ((AdventureResult) values[i]).getName() ) );
 		}
 
 		public void actionCancelled()
