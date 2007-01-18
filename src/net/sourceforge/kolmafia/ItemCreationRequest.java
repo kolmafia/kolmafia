@@ -516,6 +516,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		// Check to see if box-servant was overworked and exploded.
 
+		KoLmafia.updateDisplay( "Successfully created " + createdQuantity + " " + getName() );
+
 		if ( responseText.indexOf( "Smoke" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "Your box servant has escaped!" );
@@ -538,10 +540,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				shouldRerun = quantityNeeded > 0;
 				break;
 			}
-		}
-		else
-		{
-			KoLmafia.updateDisplay( "Successfully created " + quantityNeeded + " " + getName() );
 		}
 	}
 
@@ -574,10 +572,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		case SMITH:
 
-			if ( !KoLCharacter.inMuscleSign() )
-				return AdventureDatabase.retrieveItem( ConcoctionsDatabase.HAMMER );
-
-			return true;
+			return KoLCharacter.inMuscleSign() ||
+				AdventureDatabase.retrieveItem( ConcoctionsDatabase.HAMMER );
 
 		case SMITH_WEAPON:
 		case SMITH_ARMOR:
