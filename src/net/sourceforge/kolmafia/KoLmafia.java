@@ -465,6 +465,9 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.setProperty( "lastUsername", username );
 		StaticEntity.reloadSettings( username );
 
+		StaticEntity.setProperty( "autoSatisfyWithStash", "false" );
+		StaticEntity.setProperty( "showStashIngredients", "false" );
+
 		// Reset all per-player information when refreshing
 		// your session via login.
 
@@ -488,6 +491,9 @@ public abstract class KoLmafia implements KoLConstants
 		refreshSession();
 		openSessionStream();
 		resetSession();
+
+		if ( !KoLCharacter.canInteract() )
+			StaticEntity.setProperty( "createWithoutBoxServants", "true" );
 
 		// If the password hash is non-null, then that means you
 		// might be mid-transition.
