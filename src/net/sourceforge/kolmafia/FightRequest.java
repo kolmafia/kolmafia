@@ -98,6 +98,28 @@ public class FightRequest extends KoLRequest
 
 	public void nextRound()
 	{
+		if ( LoginRequest.isInstanceRunning() )
+		{
+			action1 = "attack";
+			addFormField( "action", "attack" );
+			return;
+		}
+
+		if ( KoLmafia.refusesContinue() )
+		{
+			action1 = "abort";
+			return;
+		}
+
+		// First round, KoLmafia does not decide the action.
+		// Update accordingly.
+
+		if ( currentRound == 0 )
+		{
+			action1 = null;
+			return;
+		}
+
 		clearDataFields();
 		isUsingConsultScript = false;
 
@@ -115,16 +137,6 @@ public class FightRequest extends KoLRequest
 				action1 = "abort";
 				return;
 			}
-		}
-
-		// First round, KoLmafia does not decide the action.
-		// Update accordingly.
-
-		if ( currentRound == 0 )
-		{
-			action1 = StaticEntity.getProperty( "defaultAutoAttack" );
-			if ( action1.equals( "" ) || action1.equals( "0" ) )
-				action1 = "attack";
 		}
 
 		// When logging in and encountering a fight, always use the
@@ -286,8 +298,6 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
-		boolean shouldRunRequest = true;
-
 		do
 		{
 			clearDataFields();
@@ -296,37 +306,29 @@ public class FightRequest extends KoLRequest
 			action1 = null;
 			action2 = null;
 
-			if ( LoginRequest.isInstanceRunning() || KoLmafia.runThresholdChecks() )
+			nextRound();
+
+			if ( responseText == null || responseText.equals( "" ) || (!isUsingConsultScript && (action1 == null || !action1.equals( "abort" ))) )
 			{
-				nextRound();
+				isInstanceRunning = true;
+				super.run();
+				isInstanceRunning = false;
+			}
 
-				shouldRunRequest = !isUsingConsultScript && (action1 == null || !action1.equals( "abort" ));
-				shouldRunRequest |= responseText == null || responseText.equals( "" );
+			if ( KoLmafia.refusesContinue() || (action1 != null && action1.equals( "abort" )) )
+			{
+				KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
+				showInBrowser( true );
+				return;
+			}
 
-				if ( shouldRunRequest )
-				{
-					isInstanceRunning = true;
-					super.run();
-					isInstanceRunning = false;
-				}
-
-				if ( KoLmafia.refusesContinue() || (action1 != null && action1.equals( "abort" )) )
-				{
-					if ( currentRound != 0 )
-					{
-						KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
-						showInBrowser( true );
-					}
-					else
-					{
-						KoLmafia.updateDisplay( ABORT_STATE, "Battle terminated." );
-					}
-
-					return;
-				}
+			if ( responseCode == 302 )
+			{
+				currentRound = 0;
+				responseText = "";
 			}
 		}
-		while ( responseCode == 200 && (action1 == null || !action1.equals( "abort" )) && currentRound != 0 );
+		while ( currentRound != 0 );
 	}
 
 	private boolean isAcceptable( int offenseModifier, int defenseModifier )
@@ -391,6 +393,57 @@ public class FightRequest extends KoLRequest
 		return desiredSkill == 0 ? null : String.valueOf( desiredSkill );
 	}
 
+	private static void checkForInitiative( String responseText )
+	{
+		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
+
+		// Whether or not you get initiative is easy -- look for the
+		// text saying "You get the jump".
+
+		if ( responseText.indexOf( "You get the jump" ) == -1 )
+		{
+			if ( StaticEntity.getBooleanProperty( "logBattleAction" ) )
+				KoLmafia.getSessionStream().println( " - Round 0: " + KoLCharacter.getUserName() + " loses initiative!" );
+
+			return;
+		}
+
+		// Now that you've won initiative, figure out what actually
+		// happened in that first round based on player settings.
+
+		if ( shouldLogAction )
+			KoLmafia.getSessionStream().println( " - Round 0: " + KoLCharacter.getUserName() + " wins initiative!" );
+
+		action1 = StaticEntity.getProperty( "defaultAutoAttack" );
+
+		// If no default action is made by the player, then the round remains
+		// the same.  Simply report winning/losing initiative.
+
+		if ( action1.equals( "" ) || action1.equals( "0" ) )
+			return;
+
+		++currentRound;
+
+		if ( shouldLogAction )
+			KoLmafia.getSessionStream().print( " - Round 1: " + KoLCharacter.getUserName() + " " );
+
+		if ( action1.equals( "1" ) )
+		{
+			if ( shouldLogAction )
+				KoLmafia.getSessionStream().println( "attacks!" );
+
+			action1 = "attack";
+		}
+		else
+		{
+			if ( shouldLogAction )
+			{
+				KoLmafia.getSessionStream().println( "wins initiative and casts " +
+					ClassSkillsDatabase.getSkillName( Integer.parseInt( action1 ) ).toUpperCase() + "!" );
+			}
+		}
+	}
+
 	public static void updateCombatData( String encounter, String responseText )
 	{
 		if ( !isInstanceRunning )
@@ -404,7 +457,6 @@ public class FightRequest extends KoLRequest
 		// Spend MP and consume items
 
 		++currentRound;
-		payActionCost();
 
 		// If this is the first round, then register the opponent
 		// you are fighting against.
@@ -413,7 +465,10 @@ public class FightRequest extends KoLRequest
 		{
 			encounterLookup = CombatSettings.encounterKey( encounter );
 			monsterData = MonsterDatabase.findMonster( encounter );
+			checkForInitiative( responseText );
 		}
+
+		payActionCost();
 
 		// Reset round information.
 
@@ -493,7 +548,7 @@ public class FightRequest extends KoLRequest
 		if ( action1 == null || action1.equals( "" ) )
 			return;
 
-		if ( action1.equals( "attack" ) || action1.equals( "runaway" ) )
+		if ( action1.equals( "attack" ) || action1.equals( "runaway" ) || action1.equals( "steal" ) )
 			return;
 
 		if ( action1.startsWith( "item" ) )
@@ -637,7 +692,7 @@ public class FightRequest extends KoLRequest
 		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
 
 		if ( shouldLogAction )
-			KoLmafia.getSessionStream().print( " - Round " + currentRound + ": " );
+			KoLmafia.getSessionStream().print( " - Round " + currentRound + ": " + KoLCharacter.getUserName() + " " );
 
 		Matcher skillMatcher = SKILL_PATTERN.matcher( urlString );
 		if ( skillMatcher.find() )
@@ -646,13 +701,13 @@ public class FightRequest extends KoLRequest
 			if ( skill == null )
 			{
 				if ( shouldLogAction )
-					KoLmafia.getSessionStream().println( KoLCharacter.getUserName() + " casts the enchanted spell of CHANCE!" );
+					KoLmafia.getSessionStream().println( "casts CHANCE!" );
 			}
 			else
 			{
 				action1 = CombatSettings.getShortCombatOptionName( "skill " + skill );
 				if ( shouldLogAction )
-					KoLmafia.getSessionStream().println( KoLCharacter.getUserName() + " casts the enchanted spell of " + skill.toUpperCase() + "!" );
+					KoLmafia.getSessionStream().println( "casts " + skill.toUpperCase() + "!" );
 			}
 
 			return true;
@@ -665,13 +720,13 @@ public class FightRequest extends KoLRequest
 			if ( item == null )
 			{
 				if ( shouldLogAction )
-					KoLmafia.getSessionStream().print( KoLCharacter.getUserName() + " plays Garin's Harp" );
+					KoLmafia.getSessionStream().print( "plays Garin's Harp" );
 			}
 			else
 			{
 				action1 = CombatSettings.getShortCombatOptionName( "item " + item );
 				if ( shouldLogAction )
-					KoLmafia.getSessionStream().print( KoLCharacter.getUserName() + " uses the " + item );
+					KoLmafia.getSessionStream().print( "uses the " + item );
 			}
 
 			itemMatcher = ITEM2_PATTERN.matcher( urlString );
@@ -704,19 +759,24 @@ public class FightRequest extends KoLRequest
 		{
 			action1 = "runaway";
 			if ( shouldLogAction )
-				KoLmafia.getSessionStream().println( KoLCharacter.getUserName() + " casts the spell of RETURN!" );
+				KoLmafia.getSessionStream().println( "casts RETURN!" );
 		}
 		else if ( urlString.indexOf( "steal" ) != -1 )
 		{
 			action1 = "steal";
 			if ( shouldLogAction )
-				KoLmafia.getSessionStream().println( KoLCharacter.getUserName() + " tries to steal an item!" );
+				KoLmafia.getSessionStream().println( "tries to steal an item!" );
 		}
-		else
+		else if ( urlString.indexOf( "attack" ) != -1 )
 		{
 			action1 = "attack";
 			if ( shouldLogAction )
-				KoLmafia.getSessionStream().println( KoLCharacter.getUserName() + " attacks!" );
+				KoLmafia.getSessionStream().println( "attacks!" );
+		}
+		else
+		{
+			action1 = null;
+			KoLmafia.getSessionStream().println( "casts CHANCE!" );
 		}
 
 		return true;

@@ -294,8 +294,6 @@ public abstract class KoLmafia implements KoLConstants
 		// Now run the main routines for each, so that
 		// you have an interface.
 
-		updateDisplay( System.getProperty( "user.dir" ) );
-
 		if ( useGUI )
 			KoLmafiaGUI.main( args );
 		else

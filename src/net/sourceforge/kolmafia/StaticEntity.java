@@ -252,13 +252,8 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static void externalUpdate( String location, String responseText )
 	{
-		// If it's a drop-hardcore request, then drop hardcore.
-		if ( location.indexOf( "action=unhardcore" ) != -1 && location.indexOf( "confirm=on" ) != -1 )
-			KoLCharacter.setHardcore( false );
-
-		// If it's a drop-path request, then drop the path.
-		if ( location.indexOf( "action=unpath" ) != -1 && location.indexOf( "confirm=on" ) != -1 )
-			KoLCharacter.setConsumptionRestriction( AscensionSnapshotTable.NOPATH );
+		if ( location.indexOf( "account.php" ) != -1 )
+			AccountRequest.parseAccountData( responseText );
 
 		// Keep theupdated of your current equipment and
 		// familiars, if you visit the appropriate pages.
