@@ -52,7 +52,11 @@ public class AccountRequest extends PasswordHashRequest
 	public void processResults()
 	{
 		super.processResults();
+		parseAccountData( responseText );
+	}
 
+	public static void parseAccountData( String responseText )
+	{
 		// Parse response text -- make sure you
 		// aren't accidentally parsing profiles.
 
