@@ -538,6 +538,8 @@ gnauga hide buckler	14	gnauga hide	buckler buckle
 cardboard box turtle	14	cardboard ore	box turtle
 furry green earmuffs	14	furry green turtle	furry green turtle
 knobby kneepads	14	knobby helmet turtle	knobby helmet turtle
+reinforced furry underpants	14	bar skin	skeletortoise
+bubblewrap bottlecap turtleban	14	bubblewrap ore	bottlecap turtle
 
 eXtreme nose ring	1	stone of eXtreme power	piercing post
 spooky glove	2	spooky fairy gravy	small leather glove

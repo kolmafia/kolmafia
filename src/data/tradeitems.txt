@@ -2251,7 +2251,7 @@
 2251	box turtle	13	all	55
 2252	cardboard box turtle	13	all	55
 2253	bottlecap turtle	8	all	60
-2254
+2254	bubblewrap bottlecap turtleban	9	all	85	
 2255	furry green turtle	9	all	50
 2256	furry green earmuffs	8	all	50
 2257	reinforced furry underpants	8	all	35
