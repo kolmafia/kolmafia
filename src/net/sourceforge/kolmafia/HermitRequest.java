@@ -38,16 +38,17 @@ import java.util.regex.Pattern;
 
 public class HermitRequest extends KoLRequest
 {
-	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<tr><td.*?><input.*?value=(\\d*)>.*?<b>(.*?)</b>.*?</td></tr>" );
+	private static boolean checkedForClovers = false;
 
-	public static final AdventureResult PERMIT =  new AdventureResult( 42, 1 );
+	public static final AdventureResult PERMIT = new AdventureResult( 42, 1 );
 	public static final AdventureResult TRINKET = new AdventureResult( 43, 1 );
 	public static final AdventureResult GEWGAW = new AdventureResult( 44, 1 );
-	public static final AdventureResult KNICK_KNACK =  new AdventureResult( 45, 1 );
-	public static final AdventureResult SUMMON_SCROLL = new AdventureResult( "31337 scroll", 1 );
+	public static final AdventureResult KNICK_KNACK = new AdventureResult( 45, 1 );
+
+	private static final AdventureResult HACK_SCROLL = new AdventureResult( 567, 1 );
+	private static final AdventureResult SUMMON_SCROLL = new AdventureResult( 553, 1 );
 
 	private int itemId, quantity;
-	private static boolean neededPermits = false;
 
 	/**
 	 * Constructs a new <code>HermitRequest</code> that simply checks
@@ -96,8 +97,17 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
-		while ( KoLCharacter.getLevel() >= 9 && getWorthlessItemCount() == 0 && KoLCharacter.hasItem( SUMMON_SCROLL ) )
+		if ( KoLCharacter.getLevel() >= 9 && getWorthlessItemCount() == 0 && KoLCharacter.hasItem( SUMMON_SCROLL ) )
 			(new ConsumeItemRequest( SUMMON_SCROLL )).run();
+
+		if ( KoLCharacter.hasItem( HACK_SCROLL ) )
+			(new ConsumeItemRequest( HACK_SCROLL )).run();
+
+		if ( KoLCharacter.getLevel() >= 9 && getWorthlessItemCount() == 0 && KoLCharacter.hasItem( SUMMON_SCROLL ) )
+		{
+			int scrollCount = SUMMON_SCROLL.getCount( inventory );
+			(new ConsumeItemRequest( SUMMON_SCROLL.getInstance( scrollCount ) )).run();
+		}
 
 		if ( getWorthlessItemCount() == 0 && !StaticEntity.getBooleanProperty( "autoRetrieveWorthless" ) )
 		{
@@ -105,52 +115,25 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
+		if ( !AdventureDatabase.retrieveItem( PERMIT.getInstance( 1 ) ) )
+			return;
+
+		quantity = Math.min( quantity, getWorthlessItemCount() );
+
 		KoLmafia.updateDisplay( "Robbing the hermit..." );
 		super.run();
 	}
 
 	public void processResults()
 	{
-		parseHermitTrade( responseText );
-
-		if ( itemId == -1 )
+		if ( !parseHermitTrade( responseText ) )
 		{
-			// "You don't have a Hermit Permit, so you're not
-			// allowed to visit the Hermit."
-
-			if ( responseText.indexOf( "you're not allowed to visit" ) != -1 )
-			{
-				neededPermits = true;
-				if ( AdventureDatabase.retrieveItem( PERMIT.getInstance( 1 ) ) )
-					this.run();
-				else
-					KoLmafia.updateDisplay( ERROR_STATE, "You're not allowed to visit the Hermit." );
-
-				return;
-			}
-
-			// "The Hermit rummages through your sack, and with a
-			// disappointed look on his face, he sends you
-			// packing."
-
-			if ( responseText.indexOf( "sends you packing" ) != -1 )
-			{
-				// Automatically attempt to get a worthless item
-				// in order to determine what's available.
-
-				if ( KoLCharacter.getAdventuresLeft() > 0 )
-				{
-					DEFAULT_SHELL.executeLine( "retrieve worthless item" );
-					if ( getWorthlessItemCount() != 0 )
-						this.run();
-				}
-
-				return;
-			}
-
-
+			KoLmafia.updateDisplay( ERROR_STATE, "You're not allowed to visit the Hermit." );
 			return;
 		}
+
+		if ( itemId == -1 )
+			return;
 
 		// If you don't have enough Hermit Permits, then retrieve the
 		// number of hermit permits requested.
@@ -160,25 +143,6 @@ public class HermitRequest extends KoLRequest
 			if ( AdventureDatabase.retrieveItem( PERMIT.getInstance( quantity ) ) )
 				this.run();
 
-			return;
-		}
-
-		// If you don't have enough worthless items, scale back.
-
-		if ( responseText.indexOf( "You don't have enough stuff" ) != -1 )
-		{
-			// Figure out how many items you do have.
-
-			(new EquipmentRequest( EquipmentRequest.CLOSET )).run();
-			int actualQuantity = getWorthlessItemCount();
-
-			if ( actualQuantity > 0 )
-			{
-				(new HermitRequest( itemId, actualQuantity )).run();
-				return;
-			}
-
-			KoLmafia.updateDisplay( ERROR_STATE, "Ran out of worthless junk." );
 			return;
 		}
 
@@ -207,26 +171,19 @@ public class HermitRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Hermit successfully looted!" );
 	}
 
-	public static void parseHermitTrade( String responseText )
+	public static boolean parseHermitTrade( String responseText )
 	{
-		// Parse response and build list of items
+		// Only check for clovers.  All other items at the hermit
+		// are assumed to be static.
 
-		hermitItems.clear();
-		Matcher matcher = AVAILABLE_PATTERN.matcher( responseText );
+		hermitItems.remove( SewerRequest.POSITIVE_CLOVER );
 
-		while ( matcher.find() )
-			hermitItems.add( new AdventureResult( KoLDatabase.getDisplayName( matcher.group(2) ), 1, false ) );
+		Matcher cloverMatcher = Pattern.compile( "(\\d+) left in stock for today" ).matcher( responseText );
+		if ( cloverMatcher.find() )
+			hermitItems.add( SewerRequest.POSITIVE_CLOVER.getInstance( Integer.parseInt( cloverMatcher.group(1) ) ) );
 
-		int cloverIndex = hermitItems.indexOf( SewerRequest.POSITIVE_CLOVER );
-		if ( cloverIndex != -1 )
-		{
-			Matcher cloverMatcher = Pattern.compile( "(\\d+) left in stock for today" ).matcher( responseText );
-			if ( cloverMatcher.find() )
-				hermitItems.set( cloverIndex, SewerRequest.POSITIVE_CLOVER.getInstance( Integer.parseInt( cloverMatcher.group(1) ) ) );
-			else
-				hermitItems.remove( SewerRequest.POSITIVE_CLOVER );
-
-		}
+		checkedForClovers = true;
+		return true;
 	}
 
 	private static int subtractWorthlessItems( AdventureResult item, int total )
@@ -242,13 +199,9 @@ public class HermitRequest extends KoLRequest
 				GEWGAW.getCount( inventory ) + KNICK_KNACK.getCount( inventory );
 	}
 
-	public static boolean neededPermits()
-	{	return neededPermits;
-	}
-
 	public static final boolean isCloverDay()
 	{
-		if ( !hermitItems.contains( SewerRequest.CLOVER ) )
+		if ( !checkedForClovers )
 			(new HermitRequest()).run();
 
 		return hermitItems.contains( SewerRequest.CLOVER );

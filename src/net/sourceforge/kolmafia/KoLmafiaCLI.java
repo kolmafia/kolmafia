@@ -1229,15 +1229,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// To make it easier to run the spice loop in
-		// an optimal fashion, make it a command.
-
-		if ( command.equals( "spiceloop" ) )
-		{
-			executeSpiceLoop( parameters );
-			return;
-		}
-
 		// Donations get their own command and module,
 		// too, which handles hero donations and basic
 		// clan donations.
@@ -3526,50 +3517,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		RequestThread.postRequest(
 			new MuseumRequest( items, !parameters.startsWith( "take" ) ) );
-	}
-
-	private void executeSpiceLoop( String parameters )
-	{
-		int loopsToExecute = parameters.equals( "" ) ? 1 : StaticEntity.parseInt( parameters );
-		if ( loopsToExecute < 1 )
-			loopsToExecute += KoLCharacter.getAdventuresLeft();
-
-		if ( isLuckyCharacter() )
-		{
-			executeAdventureRequest( "sewer with clovers" );
-			--loopsToExecute;
-		}
-		else
-			executeLine( "acquire worthless item" );
-
-		if ( !HermitRequest.isCloverDay() )
-		{
-			updateDisplay( ERROR_STATE, "Today is not a clover day." );
-			return;
-		}
-
-		if ( HermitRequest.neededPermits() && !AdventureDatabase.retrieveItem( HermitRequest.PERMIT.getInstance( loopsToExecute ) ) )
-			return;
-
-		int itemCount = HermitRequest.getWorthlessItemCount();
-		int cloverCount = SewerRequest.CLOVER.getCount( inventory );
-
-		int loopsExecuted = 0;
-
-		while ( permitsContinue() && loopsExecuted < loopsToExecute )
-		{
-			itemCount = HermitRequest.getWorthlessItemCount();
-			if ( itemCount > 0 )
-				executeHermitRequest( itemCount + " ten-leaf clover" );
-
-			cloverCount = Math.min( loopsToExecute - loopsExecuted, SewerRequest.CLOVER.getCount( inventory ) );
-			executeAdventureRequest( cloverCount + " sewer with clovers" );
-			loopsExecuted += cloverCount;
-		}
-
-		itemCount = HermitRequest.getWorthlessItemCount();
-		if ( itemCount > 0 )
-			executeHermitRequest( itemCount + " ten-leaf clover" );
 	}
 
 	/**
