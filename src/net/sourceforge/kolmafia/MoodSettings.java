@@ -788,6 +788,7 @@ public abstract class MoodSettings implements KoLConstants
 				return "";
 			}
 
+			return "uneffect " + name;
 		}
 		else if ( type.equals( "lose_effect" ) )
 		{
