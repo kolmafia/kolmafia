@@ -1379,9 +1379,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "buy" ) || command.equals( "mallbuy" ) )
 		{
 			executeBuyCommand( parameters );
-			if ( !isRunningBetweenBattleChecks() )
-				SpecialOutfit.restoreImplicitCheckpoint();
-
 			return;
 		}
 

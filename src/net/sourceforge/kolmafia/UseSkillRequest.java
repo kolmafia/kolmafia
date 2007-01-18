@@ -221,17 +221,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		// Cast the skill as many times as needed
 
-		if ( !KoLmafia.isRunningBetweenBattleChecks() )
-			SpecialOutfit.createImplicitCheckpoint();
-
+		SpecialOutfit.createImplicitCheckpoint();
 		optimizeEquipment( skillId );
+
 		if ( !KoLmafia.permitsContinue() )
 			return;
 
 		useSkillLoop();
-
-		if ( !KoLmafia.isRunningBetweenBattleChecks() )
-			SpecialOutfit.restoreImplicitCheckpoint();
+		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	private void useSkillLoop()
