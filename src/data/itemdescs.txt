@@ -2256,7 +2256,7 @@
 2251	111154104	box turtle	box turtles
 2252	122533173	cardboard box turtle	cardboard box turtles
 2253	887729224	bottlecap turtle	bottlecap turtles
-2254
+2254	791897938	bubblewrap bottlecap turtleban	bubblewrap bottlecap turtlebans
 2255	789152841	furry green turtle	furry green turtles
 2256	684854850	furry green earmuffs
 2257	415591001	reinforced furry underpants	pairs of reinforced furry underpants

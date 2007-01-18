@@ -13,6 +13,7 @@ basic meat fez	45	Mox: 7
 basic meat helmet	40	Mox: 5
 blue traffic cone	60	Mox: 15
 bowler	100	Mox: 35
+bubblewrap bottlecap turtleban	70	Mys: 12
 bugbear beanie	30	none
 bum cheek	20	none
 Cerebral Cloche	90	Mox: 30
