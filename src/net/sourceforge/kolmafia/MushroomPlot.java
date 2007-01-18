@@ -698,7 +698,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 	private static void copyMushroomImage( String location )
 	{
-		File source = new File( "images/" + location );
+		File source = new File( IMAGE_DIRECTORY, location );
 		File destination = new File( PLOT_DIRECTORY + "/" + location );
 
 		if ( !destination.getParentFile().exists() )

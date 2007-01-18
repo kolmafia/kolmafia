@@ -1670,11 +1670,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private File findScriptFile( String filename )
 	{
-		File scriptFile = new File( "scripts/" + filename );
+		File scriptFile = new File( SCRIPT_DIRECTORY, filename );
 		if ( !scriptFile.exists() )
-			scriptFile = new File( "scripts/" + filename + ".txt" );
+			scriptFile = new File( SCRIPT_DIRECTORY, filename + ".txt" );
 		if ( !scriptFile.exists() )
-			scriptFile = new File( "scripts/" + filename + ".ash" );
+			scriptFile = new File( SCRIPT_DIRECTORY, filename + ".ash" );
 		if ( !scriptFile.exists() )
 			scriptFile = new File( filename );
 		if ( !scriptFile.exists() )

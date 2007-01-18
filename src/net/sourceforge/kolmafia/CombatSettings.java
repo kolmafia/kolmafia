@@ -70,7 +70,7 @@ public abstract class CombatSettings implements KoLConstants
 		if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) )
 			return;
 
-		settingsFile = new File( settingsFileName() );
+		settingsFile = new File( SETTINGS_DIRECTORY, settingsFileName() );
 
 		loadSettings();
 		ensureProperty( "default", "attack with weapon" );
@@ -78,7 +78,7 @@ public abstract class CombatSettings implements KoLConstants
 	}
 
 	public static final String settingsFileName()
-	{	return "settings/combat_" + KoLCharacter.baseUserName() + ".txt";
+	{	return "combat_" + KoLCharacter.baseUserName() + ".txt";
 	}
 
 	public static final TreeNode getRoot()

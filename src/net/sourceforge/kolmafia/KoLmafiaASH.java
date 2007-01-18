@@ -715,9 +715,9 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptScope result;
 		this.fileName = fileName;
 
-		File scriptFile = new File( "scripts/" + fileName );
+		File scriptFile = new File( SCRIPT_DIRECTORY, fileName );
 		if ( !scriptFile.exists() )
-			scriptFile = new File( "scripts/" + fileName + ".ash" );
+			scriptFile = new File( SCRIPT_DIRECTORY, fileName + ".ash" );
 
 		if ( scriptFile.exists() )
 		{
@@ -5137,7 +5137,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( reader == null )
 					reader = DataUtilities.getReader( "scripts", filename );
 				if ( reader == null )
-					reader = DataUtilities.getReader( DATA_DIRECTORY, filename );
+					reader = DataUtilities.getReader( "data", filename );
 				if ( reader == null )
 					reader = DataUtilities.getReader( "", filename );
 			}
@@ -5220,13 +5220,13 @@ public class KoLmafiaASH extends StaticEntity
 
 			PrintStream writer = null;
 
-			File data = new File( "scripts/datamaps/" + filename );
+			File data = new File( SCRIPT_DIRECTORY, "datamaps/" + filename );
 			if ( !data.exists() )
 				data = new File( filename );
 			if ( !data.exists() )
-				data = new File( "scripts/" + filename );
+				data = new File( SCRIPT_DIRECTORY, filename );
 			if ( !data.exists() )
-				data = new File( DATA_DIRECTORY + filename );
+				data = new File( DATA_DIRECTORY, filename );
 			if ( !data.exists() )
 				data = new File( filename );
 
@@ -5234,7 +5234,7 @@ public class KoLmafiaASH extends StaticEntity
 			// and write to scripts/datamaps.
 
 			if ( !data.exists() )
-				data = new File( "scripts/datamaps/" + filename );
+				data = new File( SCRIPT_DIRECTORY, "datamaps/" + filename );
 
 			writer = LogStream.openStream( data, true );
 			map_variable.dump( writer, "", compact );

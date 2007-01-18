@@ -115,8 +115,11 @@ public class KoLSettings extends Properties implements KoLConstants
 	public KoLSettings( String characterName )
 	{
 		this.noExtensionName = KoLCharacter.baseUserName( characterName );
-		this.settingsFile = new File( "settings/prefs_" + noExtensionName + ".txt" );
-		this.junkItemsFile = new File( "settings/junk_" + noExtensionName + ".txt" );
+
+System.out.println( System.getProperty( "user.dir" ) );
+
+		this.settingsFile = new File( SETTINGS_DIRECTORY, "prefs_" + noExtensionName + ".txt" );
+		this.junkItemsFile = new File( SETTINGS_DIRECTORY, "junk_" + noExtensionName + ".txt" );
 
 		loadSettings();
 		ensureDefaults();
@@ -189,6 +192,8 @@ public class KoLSettings extends Properties implements KoLConstants
 	{
 		if ( initializingDefaults )
 			return;
+
+		SETTINGS_DIRECTORY.mkdirs();
 
 		try
 		{
