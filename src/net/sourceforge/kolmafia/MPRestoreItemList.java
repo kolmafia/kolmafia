@@ -192,21 +192,17 @@ public abstract class MPRestoreItemList extends StaticEntity
 					mpShort = Math.max( mpShort, MoodSettings.getMaintenanceCost() - KoLCharacter.getCurrentMP() );
 					numberToBuy = (int) Math.ceil( (float) mpShort / (float) getManaPerUse() );
 				}
-				else if ( !KoLCharacter.isHardcore() || KoLCharacter.getLevel() > 6 )
+				else
 				{
 					// Buy more restores than you actually need when you
 					// have enough liquidity to support it.
 
-					int extraCount = (int) Math.ceil( (float) KoLCharacter.getMaximumMP() / (float) getManaPerUse() );
-					if ( KoLCharacter.getAvailableMeat() > unitPrice * (numberToBuy + extraCount) * 4 )
+					int extraCount = numberToBuy * 2;
+					if ( KoLCharacter.getAvailableMeat() > unitPrice * (numberToBuy + extraCount) * 5 )
 						numberToBuy += extraCount;
 				}
 
 				AdventureDatabase.retrieveItem( itemUsed.getInstance( Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToBuy ) ) );
-
-				if ( this == SELTZER )
-					SpecialOutfit.restoreImplicitCheckpoint();
-
 				numberAvailable = itemUsed.getCount( inventory );
 			}
 
