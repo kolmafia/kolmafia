@@ -378,7 +378,10 @@ public class MonsterDatabase extends KoLDatabase
 
 		public boolean shouldSteal()
 		{
-			if ( !KoLCharacter.isMoxieClass() || KoLCharacter.canInteract() )
+			if ( !KoLCharacter.isMoxieClass() )
+				return false;
+
+			if ( KoLCharacter.canInteract() )
 				return false;
 
 			// If the player has an acceptable dodge rate, then steal anything.
