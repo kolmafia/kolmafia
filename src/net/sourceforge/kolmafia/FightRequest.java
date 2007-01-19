@@ -98,6 +98,9 @@ public class FightRequest extends KoLRequest
 
 	public void nextRound()
 	{
+		// When logging in and encountering a fight, always use the
+		// attack command to avoid abort problems.
+
 		if ( LoginRequest.isInstanceRunning() )
 		{
 			action1 = "attack";
@@ -123,11 +126,10 @@ public class FightRequest extends KoLRequest
 		clearDataFields();
 		isUsingConsultScript = false;
 
-		// Now, to test if the user should run away from the
-		// battle - this is an HP test.
-
 		action1 = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
 		action2 = null;
+
+		// Always let the user see rare monsters
 
 		for ( int i = 0; i < RARE_MONSTERS.length; ++i )
 		{
@@ -139,11 +141,14 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
-		// When logging in and encountering a fight, always use the
-		// attack command to avoid abort problems.
+		// Automatically pickpocket when appropriate
 
-		if ( LoginRequest.isInstanceRunning() )
-			action1 = "attack";
+		if ( currentRound == 1 && monsterData != null && responseText.indexOf( "You get the jump" ) != -1 && monsterData.shouldSteal() )
+		{
+			action1 = "steal";
+			addFormField( "action", action1 );
+			return;
+		}
 
 		// If the user wants a custom combat script, parse the desired
 		// action here.
@@ -156,12 +161,6 @@ public class FightRequest extends KoLRequest
 		if ( KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() && isAcceptable( offenseModifier, defenseModifier ) )
 			if ( action1.indexOf( "consult" ) != -1 || action1.indexOf( "item" ) != -1 || action1.indexOf( "Shake Hands" ) != -1 )
 				action1 = "attack";
-
-		// Conditional to handle pickpocketing whenever
-		// searching for conditions.
-
-		if ( currentRound == 1 && monsterData != null && responseText.indexOf( "You get the jump" ) != -1 && monsterData.shouldSteal() )
-			action1 = "steal";
 
 		// If the person wants to use their own script,
 		// then this is where it happens.
@@ -191,25 +190,31 @@ public class FightRequest extends KoLRequest
 		{
 			// If the user has chosen to abort combat, flag it.
 			action1 = "abort";
+			return;
 		}
-		else if ( currentRound == 0 )
-		{
-			// If this is the first round, you do not
-			// submit extra data.
-		}
-		else if ( action1.indexOf( "run" ) != -1 && action1.indexOf( "away" ) != -1 )
+
+		// If this is the first round, you do not submit extra data.
+		if ( currentRound == 0 )
+			return;
+
+		// User wants to run away
+		if ( action1.indexOf( "run" ) != -1 && action1.indexOf( "away" ) != -1 )
 		{
 			action1 = "runaway";
 			addFormField( "action", action1 );
+			return;
 		}
-		else if ( action1.startsWith( "attack" ) )
+
+		// User wants a regular attack
+		if ( action1.startsWith( "attack" ) )
 		{
 			action1 = "attack";
 			addFormField( "action", action1 );
+			return;
 		}
 
 		// If the player wants to use an item, make sure he has one
-		else if ( action1.startsWith( "item" ) )
+		if ( action1.startsWith( "item" ) )
 		{
 			int itemId = StaticEntity.parseInt( action1.substring( 4 ) );
 			int itemCount = (new AdventureResult( itemId, 1 )).getCount( inventory );
@@ -218,71 +223,70 @@ public class FightRequest extends KoLRequest
 			{
 				action1 = "attack";
 				addFormField( "action", action1 );
+				return;
 			}
-			else
-			{
-				addFormField( "action", "useitem" );
-				addFormField( "whichitem", String.valueOf( itemId ) );
 
-				if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+			addFormField( "action", "useitem" );
+			addFormField( "whichitem", String.valueOf( itemId ) );
+
+			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+			{
+				if ( itemCount >= 2 && itemId != DICTIONARY1.getItemId() && itemId != DICTIONARY2.getItemId() )
 				{
-					if ( itemCount >= 2 && itemId != DICTIONARY1.getItemId() && itemId != DICTIONARY2.getItemId() )
-					{
-						action2 = action1;
-						addFormField( "whichitem2", String.valueOf( itemId ) );
-					}
-					else if ( MERCENARY.getCount( inventory ) > (action1.equals( MERCENARY_ACTION ) ? 1 : 0) )
-					{
-						action2 = MERCENARY_ACTION;
-						addFormField( "whichitem2", String.valueOf( MERCENARY.getItemId() ) );
-					}
-					else if ( TOOTH.getCount( inventory ) > (action1.equals( TOOTH_ACTION ) ? 1 : 0) )
-					{
-						action2 = TOOTH_ACTION;
-						addFormField( "whichitem2", String.valueOf( TOOTH.getItemId() ) );
-					}
-					else if ( TURTLE.getCount( inventory ) > (action1.equals( TURTLE_ACTION ) ? 1 : 0) )
-					{
-						action2 = TURTLE_ACTION;
-						addFormField( "whichitem2", String.valueOf( TURTLE.getItemId() ) );
-					}
-					else if ( SPICES.getCount( inventory ) > (action1.equals( SPICES_ACTION ) ? 1 : 0) )
-					{
-						action2 = SPICES_ACTION;
-						addFormField( "whichitem2", String.valueOf( SPICES.getItemId() ) );
-					}
+					action2 = action1;
+					addFormField( "whichitem2", String.valueOf( itemId ) );
+				}
+				else if ( MERCENARY.getCount( inventory ) > (action1.equals( MERCENARY_ACTION ) ? 1 : 0) )
+				{
+					action2 = MERCENARY_ACTION;
+					addFormField( "whichitem2", String.valueOf( MERCENARY.getItemId() ) );
+				}
+				else if ( TOOTH.getCount( inventory ) > (action1.equals( TOOTH_ACTION ) ? 1 : 0) )
+				{
+					action2 = TOOTH_ACTION;
+					addFormField( "whichitem2", String.valueOf( TOOTH.getItemId() ) );
+				}
+				else if ( TURTLE.getCount( inventory ) > (action1.equals( TURTLE_ACTION ) ? 1 : 0) )
+				{
+					action2 = TURTLE_ACTION;
+					addFormField( "whichitem2", String.valueOf( TURTLE.getItemId() ) );
+				}
+				else if ( SPICES.getCount( inventory ) > (action1.equals( SPICES_ACTION ) ? 1 : 0) )
+				{
+					action2 = SPICES_ACTION;
+					addFormField( "whichitem2", String.valueOf( SPICES.getItemId() ) );
 				}
 			}
+			return;
 		}
 
 		// Skills use MP. Make sure the character has enough
-		else if ( KoLCharacter.getCurrentMP() < getActionCost() && passwordHash != null )
+		if ( KoLCharacter.getCurrentMP() < getActionCost() && passwordHash != null )
 		{
 			action1 = "attack";
 			addFormField( "action", action1 );
+			return;
 		}
 
 		// If the player wants to use a skill, make sure he knows it
-		else
-		{
-			String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( action1 ) );
+		String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( action1 ) );
 
-			if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
-			{
-				action1 = "attack";
-				addFormField( "action", action1 );
-			}
-			else if ( skillName.equals( "CLEESH" ) && currentRound != 0 )
-			{
-				action1 = "attack";
-				addFormField( "action", action1 );
-			}
-			else
-			{
-				addFormField( "action", "skill" );
-				addFormField( "whichskill", action1 );
-			}
+		if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
+		{
+			action1 = "attack";
+			addFormField( "action", action1 );
+			return;
 		}
+
+		if ( skillName.equals( "CLEESH" ) && currentRound != 0 )
+		{
+			action1 = "attack";
+			addFormField( "action", action1 );
+			return;
+		}
+
+		addFormField( "action", "skill" );
+		addFormField( "whichskill", action1 );
 	}
 
 	/**
