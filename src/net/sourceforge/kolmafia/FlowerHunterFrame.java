@@ -232,6 +232,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				KoLmafia.updateDisplay( "Search completed." );
 			else
 				KoLmafia.updateDisplay( ERROR_STATE, "Search halted." );
+
+			RequestThread.enableDisplayIfSequenceComplete();
 		}
 
 		public Object [] getRow( ProfileRequest result, boolean isSimple )

@@ -39,7 +39,7 @@ import net.sourceforge.foxtrot.ConcurrentWorker;
 import net.sourceforge.foxtrot.Job;
 import net.sourceforge.foxtrot.Worker;
 
-public abstract class RequestThread implements Runnable, KoLConstants
+public abstract class RequestThread implements KoLConstants
 {
 	private static int sequenceCount = 0;
 
@@ -124,7 +124,7 @@ public abstract class RequestThread implements Runnable, KoLConstants
 
 		--sequenceCount;
 
-		if ( enableDisplayIfSequenceComplete() && pendingRequests.isEmpty() )
+		if ( enableDisplayIfSequenceComplete() )
 			SystemTrayFrame.showBalloon( "Requests complete." );
 	}
 
