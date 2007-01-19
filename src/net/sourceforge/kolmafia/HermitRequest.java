@@ -97,6 +97,9 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
+		if ( !AdventureDatabase.retrieveItem( PERMIT ) )
+			return;
+
 		if ( KoLCharacter.getLevel() >= 9 && getWorthlessItemCount() == 0 && KoLCharacter.hasItem( SUMMON_SCROLL ) )
 			(new ConsumeItemRequest( SUMMON_SCROLL )).run();
 
@@ -114,9 +117,6 @@ public class HermitRequest extends KoLRequest
 			KoLmafia.updateDisplay( ERROR_STATE, "Ran out of worthless junk." );
 			return;
 		}
-
-		if ( !AdventureDatabase.retrieveItem( PERMIT.getInstance( 1 ) ) )
-			return;
 
 		quantity = Math.min( quantity, getWorthlessItemCount() );
 
@@ -167,6 +167,10 @@ public class HermitRequest extends KoLRequest
 
 		if ( responseText.indexOf( "He looks confused for a moment." ) == -1 )
 			StaticEntity.getClient().processResult( new AdventureResult( 42, 0 - quantity ) );
+
+
+		if ( itemId == SewerRequest.POSITIVE_CLOVER.getItemId() )
+			(new ConsumeItemRequest( SewerRequest.POSITIVE_CLOVER.getInstance( quantity ) )).run();
 
 		KoLmafia.updateDisplay( "Hermit successfully looted!" );
 	}

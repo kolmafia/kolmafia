@@ -366,6 +366,7 @@ public class RequestFrame extends KoLFrame
 			request = new KoLRequest( currentLocation );
 
 		mainBuffer.clearBuffer();
+		mainBuffer.append( "Retrieving page..." );
 
 		if ( request.responseText == null || request.responseText.length() == 0 )
 		{
@@ -402,6 +403,10 @@ public class RequestFrame extends KoLFrame
 			locationField.setText( location );
 
 			locationIndex = shownHTML.size() - 1;
+
+			RequestEditorKit.downloadImages( renderText );
+
+			mainBuffer.clearBuffer();
 			mainBuffer.append( renderText );
 		}
 		else
