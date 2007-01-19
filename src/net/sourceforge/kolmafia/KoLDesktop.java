@@ -47,14 +47,18 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class KoLDesktop extends KoLFrame implements ChangeListener
 {
+	private static final DisplayDesktopRunnable DISPLAYER = new DisplayDesktopRunnable();
+
 	private static KoLDesktop INSTANCE = null;
 	private static boolean isInitializing = false;
+
 	private ArrayList tabListing = new ArrayList();
 
 	public JPanel compactPane;
@@ -229,6 +233,31 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		else
 		{
 			INSTANCE.tabs.setSelectedIndex( tabIndex );
+		}
+	}
+
+	public static void displayDesktop()
+	{
+		try
+		{
+			if ( SwingUtilities.isEventDispatchThread() )
+				DISPLAYER.run();
+			else
+				SwingUtilities.invokeAndWait( DISPLAYER );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	private static class DisplayDesktopRunnable implements Runnable
+	{
+		public void run()
+		{
+			KoLDesktop.getInstance().pack();
+			KoLDesktop.getInstance().setVisible( true );
+			KoLDesktop.getInstance().requestFocus();
 		}
 	}
 

@@ -196,7 +196,6 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
-			{ "relayUsesCachedImages", "Cache all images seen in relay browser" },
 			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
 			{ "relayMaintainsMoods", "Automatically maintain health, mana, and moods in browser" }
 		};
@@ -429,13 +428,13 @@ public class OptionsFrame extends KoLFrame
 			buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
-		private class AddScriptButton extends ActionButton
+		private class AddScriptButton extends ThreadedButton
 		{
 			public AddScriptButton()
 			{	super( "script file" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				String rootPath = SCRIPT_DIRECTORY.getAbsolutePath();
 				JFileChooser chooser = new JFileChooser( rootPath );
@@ -455,13 +454,13 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		private class AddCommandButton extends ActionButton
+		private class AddCommandButton extends ThreadedButton
 		{
 			public AddCommandButton()
 			{	super( "cli command" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				String currentValue = JOptionPane.showInputDialog( "CLI Command", "" );
 				if ( currentValue != null && currentValue.length() != 0 )
@@ -469,13 +468,13 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		private class DeleteListingButton extends ActionButton
+		private class DeleteListingButton extends ThreadedButton
 		{
 			public DeleteListingButton()
 			{	super( "delete" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				int index = elementList.getSelectedIndex();
 				if ( index == -1 )
@@ -603,13 +602,13 @@ public class OptionsFrame extends KoLFrame
 		{	saveBookmarks();
 		}
 
-		private class AddBookmarkButton extends ActionButton
+		private class AddBookmarkButton extends ThreadedButton
 		{
 			public AddBookmarkButton()
 			{	super( "new page" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				String newName = JOptionPane.showInputDialog( "Add a bookmark!", "http://www.google.com/" );
 				if ( newName == null )
@@ -619,13 +618,13 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		private class RenameBookmarkButton extends ActionButton
+		private class RenameBookmarkButton extends ThreadedButton
 		{
 			public RenameBookmarkButton()
 			{	super( "rename" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				int index = elementList.getSelectedIndex();
 				if ( index == -1 )
@@ -651,13 +650,13 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		private class DeleteBookmarkButton extends ActionButton
+		private class DeleteBookmarkButton extends ThreadedButton
 		{
 			public DeleteBookmarkButton()
 			{	super( "delete" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				int index = elementList.getSelectedIndex();
 				if ( index == -1 )
@@ -769,7 +768,7 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		private class TypeComboBox extends JComboBox implements ActionListener
+		private class TypeComboBox extends JComboBox
 		{
 			public TypeComboBox()
 			{
@@ -863,13 +862,13 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		private class NewMoodButton extends ActionButton
+		private class NewMoodButton extends ThreadedButton
 		{
 			public NewMoodButton()
 			{	super( "new list" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				String name = JOptionPane.showInputDialog( "Give your list a name!" );
 				if ( name == null )
@@ -880,26 +879,26 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		private class DeleteMoodButton extends ActionButton
+		private class DeleteMoodButton extends ThreadedButton
 		{
 			public DeleteMoodButton()
 			{	super( "delete list" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				MoodSettings.deleteCurrentMood();
 				MoodSettings.saveSettings();
 			}
 		}
 
-		private class CopyMoodButton extends ActionButton
+		private class CopyMoodButton extends ThreadedButton
 		{
 			public CopyMoodButton()
 			{	super( "copy list" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				String moodName = JOptionPane.showInputDialog( "Make a copy of current mood list called:" );
 				if ( moodName == null )

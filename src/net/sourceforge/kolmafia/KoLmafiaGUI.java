@@ -144,13 +144,8 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( !StaticEntity.getGlobalProperty( "initialDesktop" ).equals( "" ) )
 		{
 			KoLDesktop.getInstance().initializeTabs();
-
 			if ( !StaticEntity.getBooleanProperty( "relayBrowserOnly" ) )
-			{
-				KoLDesktop.getInstance().pack();
-				KoLDesktop.getInstance().setVisible( true );
-				KoLDesktop.getInstance().requestFocus();
-			}
+				KoLDesktop.displayDesktop();
 		}
 
 		String [] frameArray = frameSetting.split( "," );

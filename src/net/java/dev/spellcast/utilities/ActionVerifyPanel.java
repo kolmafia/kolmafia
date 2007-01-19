@@ -281,16 +281,23 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 	{
 	}
 
+	private class ActionConfirmedThread extends Thread
+	{
+		public void run()
+		{	actionConfirmed();
+		}
+	}
+
 	public void focusLost( FocusEvent e )
 	{
 		if ( buttonPanel == null && isValid() )
-			actionConfirmed();
+			(new ActionConfirmedThread()).start();
 	}
 
 	public void actionPerformed( ActionEvent e )
 	{
 		if ( buttonPanel == null && isValid() )
-			actionConfirmed();
+			(new ActionConfirmedThread()).start();
 	}
 
 	private Object [] thisArray = { this };

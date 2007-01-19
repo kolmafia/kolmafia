@@ -343,7 +343,7 @@ public class MushroomFrame extends KoLFrame
 		return panel;
 	}
 
-	private class MushroomButton extends ActionButton
+	private class MushroomButton extends ThreadedButton
 	{
 		private int dayIndex;
 		private int loopIndex;
@@ -361,7 +361,7 @@ public class MushroomFrame extends KoLFrame
 			setOpaque( true );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			if ( dayIndex == currentForecast - 1 )
 				return;

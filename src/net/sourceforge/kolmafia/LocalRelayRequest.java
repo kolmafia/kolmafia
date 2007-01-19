@@ -330,19 +330,15 @@ public class LocalRelayRequest extends PasswordHashRequest
 			StaticEntity.printStackTrace( e );
 		}
 
-		// Load script files locally.
-		StaticEntity.globalStringReplace( responseBuffer, "http://69.16.150.201/scripts/", "/images/scripts/" );
+		// Load script files locally to reduce bandwidth
+		// and improve mini-browser performance.
+
+		StaticEntity.globalStringReplace( responseBuffer, "http://69.16.150.201", "/images" );
 
 		// Download and link to any Players of Loathing
 		// picture pages locally.
 
 		StaticEntity.globalStringReplace( responseBuffer, "http://pics.communityofloathing.com/albums", "/images" );
-
-		// If the user wishes to cache all images locally,
-		// then go ahead and do so.
-
-		if ( StaticEntity.getBooleanProperty( "relayUsesCachedImages" ) )
-			StaticEntity.globalStringReplace( responseBuffer, "http://69.16.150.201", "/images" );
 
 		// Remove the default frame busting script so that
 		// we can detach user interface elements.

@@ -210,9 +210,9 @@ public class GearChangeFrame extends KoLFrame
 			addActionListener( new ChangeItemListener() );
 		}
 
-		private class ChangeItemListener implements ActionListener
+		private class ChangeItemListener extends ThreadedListener
 		{
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				LockableListModel model = (LockableListModel) ChangeComboBox.this.getModel();
 				if ( model.isEmpty() )

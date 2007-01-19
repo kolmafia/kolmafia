@@ -670,13 +670,13 @@ public class AdventureFrame extends KoLFrame
 			}
 		}
 
-		private class ExecuteButton extends ActionButton
+		private class ExecuteButton extends ThreadedButton
 		{
 			public ExecuteButton()
 			{	super( "begin" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				if ( KoLmafia.isAdventuring() )
 					return;
@@ -728,13 +728,13 @@ public class AdventureFrame extends KoLFrame
 			}
 		}
 
-		private class WorldPeaceButton extends ActionButton
+		private class WorldPeaceButton extends ThreadedButton
 		{
 			public WorldPeaceButton()
 			{	super( "stop" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{	RequestThread.declareWorldPeace();
 			}
 		}

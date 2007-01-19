@@ -174,7 +174,7 @@ public class LoginFrame extends KoLFrame
 
 		public LoginPanel()
 		{
-			super( "login", "" );
+			super( "login", "relay" );
 
 			usernameField = saveStateNames.isEmpty() ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
 			passwordField = new JPasswordField();
@@ -280,7 +280,7 @@ public class LoginFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{
+		{	StaticEntity.getClient().startRelayServer();
 		}
 
 		private class AutoLoginListener implements ActionListener

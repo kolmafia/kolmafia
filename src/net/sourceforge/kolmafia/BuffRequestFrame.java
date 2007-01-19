@@ -367,7 +367,7 @@ public class BuffRequestFrame extends KoLFrame
 				if ( sets.getSelectedIndex() == 0 && requestCount > BuffBotManager.REFUND_THRESHOLD )
 					setStatusMessage( "That's too many philanthropic buff requests." );
 				else
-					setStatusMessage( ENABLE_STATE, COMMA_FORMAT.format( price ) + " meat will be sent to " + botName );
+					setStatusMessage( COMMA_FORMAT.format( price ) + " meat will be sent to " + botName );
 			}
 		}
 	}

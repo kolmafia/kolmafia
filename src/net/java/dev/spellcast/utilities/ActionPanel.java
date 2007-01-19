@@ -106,16 +106,24 @@ public abstract class ActionPanel extends JRootPane
 		}
 	}
 
-	private class ConfirmedListener implements ActionListener
+	private class ConfirmedListener implements ActionListener, Runnable
 	{
 		public void actionPerformed( ActionEvent e )
+		{	(new Thread( this )).start();
+		}
+
+		public void run()
 		{	actionConfirmed();
 		}
 	}
 
-	private class CancelledListener implements ActionListener
+	private class CancelledListener implements ActionListener, Runnable
 	{
 		public void actionPerformed( ActionEvent e )
+		{	(new Thread( this )).start();
+		}
+
+		public void run()
 		{	actionCancelled();
 		}
 	}

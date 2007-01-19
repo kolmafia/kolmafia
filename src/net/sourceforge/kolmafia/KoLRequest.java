@@ -224,7 +224,7 @@ public class KoLRequest extends Job implements KoLConstants
 				KOL_ROOT = "http://" + SERVERS[i][1] + "/";
 
 				StaticEntity.setProperty( "loginServerName", KOL_HOST );
-				KoLmafia.updateDisplay( "Redirected to " + KOL_HOST + "..." );
+				DEFAULT_SHELL.printLine( "Redirected to " + KOL_HOST + "..." );
 				System.setProperty( "http.referer", "http://" + KOL_HOST + "/main.html" );
 			}
 		}
@@ -890,49 +890,28 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static boolean delay( long milliseconds )
 	{
-		DELAYER.setMilliseconds( milliseconds );
-		RequestThread.postRequest( DELAYER );
+		if ( milliseconds == 0 )
+			return true;
+
+		try
+		{
+			Object waitObject = new Object();
+
+			synchronized ( waitObject )
+			{
+				waitObject.wait( milliseconds );
+				waitObject.notifyAll();
+			}
+		}
+		catch ( InterruptedException e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+
 		return true;
-	}
-
-	private static final DelayRunnable DELAYER = new DelayRunnable();
-
-	private static class DelayRunnable implements Runnable
-	{
-		private long milliseconds;
-		private Object waitObject;
-
-		public DelayRunnable()
-		{
-			this.waitObject = new Object();
-			this.milliseconds = 1000;
-		}
-
-		public void setMilliseconds( long milliseconds )
-		{	this.milliseconds = milliseconds;
-		}
-
-		public void run()
-		{
-			if ( milliseconds == 0 )
-				return;
-
-			try
-			{
-				synchronized ( waitObject )
-				{
-					waitObject.wait( milliseconds );
-					waitObject.notifyAll();
-				}
-			}
-			catch ( InterruptedException e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
-		}
 	}
 
 	/**

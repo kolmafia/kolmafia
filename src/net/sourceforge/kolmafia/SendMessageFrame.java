@@ -277,25 +277,24 @@ public class SendMessageFrame extends KoLFrame
 		}
 	}
 
-	private abstract class ActionMenuItem extends JMenuItem implements ActionListener
+	private abstract class AttachmentMenuItem extends ThreadedMenuItem
 	{
 		public ItemManagePanel elementPanel;
 
-		public ActionMenuItem( String title, ItemManagePanel elementPanel )
+		public AttachmentMenuItem( String title, ItemManagePanel elementPanel )
 		{
 			super( title );
-			addActionListener( this );
 			this.elementPanel = elementPanel;
 		}
 	}
 
-	private class AddAttachmentMenuItem extends ActionMenuItem
+	private class AddAttachmentMenuItem extends AttachmentMenuItem
 	{
 		public AddAttachmentMenuItem( ItemManagePanel elementPanel )
 		{	super( "Attach to message", elementPanel );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			AdventureResult [] items = elementPanel.getDesiredItems( "Attaching" );
 			if ( items == null || items.length == 0 )
@@ -326,13 +325,13 @@ public class SendMessageFrame extends KoLFrame
 		}
 	}
 
-	private class RemoveAttachmentMenuItem extends ActionMenuItem
+	private class RemoveAttachmentMenuItem extends AttachmentMenuItem
 	{
 		public RemoveAttachmentMenuItem()
 		{	super( "Remove attachment", attachmentPanel );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			Object [] items = attachmentPanel.elementList.getSelectedValues();
 			if ( items == null || items.length == 0 )
@@ -346,9 +345,9 @@ public class SendMessageFrame extends KoLFrame
 		}
 	}
 
-	private class SendMessageListener implements ActionListener
+	private class SendMessageListener extends ThreadedListener
 	{
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			String [] recipients = StaticEntity.getClient().extractTargets( (String) recipientEntry.getSelectedItem() );
 			if ( recipients.length == 0 || recipients[0].equals( "" ) )

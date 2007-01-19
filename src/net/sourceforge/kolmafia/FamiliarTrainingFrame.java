@@ -356,9 +356,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				changer.setEnabled( isEnabled );
 			}
 
-			private class BaseListener implements ActionListener
+			private class BaseListener extends ThreadedListener
 			{
-				public void actionPerformed( ActionEvent e )
+				public void run()
 				{
 					// Prompt for goal
 					int goal = getQuantity( "Train up to what base weight?", 20, 20 );
@@ -375,9 +375,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				}
 			}
 
-			private class BuffedListener implements ActionListener
+			private class BuffedListener extends ThreadedListener
 			{
-				public void actionPerformed( ActionEvent e )
+				public void run()
 				{
 					// Prompt for goal
 					int goal = getQuantity( "Train up to what buffed weight?", 48, 20 );
@@ -394,9 +394,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				}
 			}
 
-			private class TurnsListener implements ActionListener
+			private class TurnsListener extends ThreadedListener
 			{
-				public void actionPerformed( ActionEvent e )
+				public void run()
 				{
 					// Prompt for goal
 					int goal = getQuantity( "Train for how many turns?", Integer.MAX_VALUE, 1 );
@@ -413,16 +413,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 				}
 			}
 
-			private class StopListener implements ActionListener
+			private class StopListener extends ThreadedListener
 			{
-				public void actionPerformed( ActionEvent e )
+				public void run()
 				{	FamiliarTrainingFrame.stop = true;
 				}
 			}
 
-			private class SaveListener implements ActionListener
+			private class SaveListener extends ThreadedListener
 			{
-				public void actionPerformed( ActionEvent e )
+				public void run()
 				{
 					JFileChooser chooser = new JFileChooser( "data" );
 					int returnVal = chooser.showSaveDialog( FamiliarTrainingFrame.this );
@@ -448,9 +448,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				}
 			}
 
-			private class LearnListener implements ActionListener
+			private class LearnListener extends ThreadedListener
 			{
-				public void actionPerformed( ActionEvent e )
+				public void run()
 				{
 					if ( familiar == FamiliarData.NO_FAMILIAR )
 						return;
@@ -496,9 +496,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				}
 			}
 
-			private class EquipAllListener implements ActionListener
+			private class EquipAllListener extends ThreadedListener
 			{
-				public void actionPerformed( ActionEvent e )
+				public void run()
 				{
 					FamiliarData current = KoLCharacter.getFamiliar();
 
@@ -531,9 +531,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			/*
-			private class DebugListener implements ActionListener
+			private class DebugListener extends ThreadedListener
 			{
-				public void actionPerformed( ActionEvent e )
+				public void run()
 				{	debug();
 				}
 			}
@@ -2512,7 +2512,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * for the duration of the current session.
 	 */
 
-	public class LocalSettingChanger extends ActionButton
+	public class LocalSettingChanger extends ThreadedButton
 	{
 		private String title;
 		private String property;
@@ -2531,7 +2531,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			actionPerformed( null );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			boolean toggleValue = StaticEntity.getBooleanProperty( property );
 			StaticEntity.setProperty( property, String.valueOf( toggleValue ) );

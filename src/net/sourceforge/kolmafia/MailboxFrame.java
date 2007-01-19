@@ -288,7 +288,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
-	private class SaveAllButton extends ActionButton
+	private class SaveAllButton extends ThreadedButton
 	{
 		private Object [] messages = null;
 
@@ -298,7 +298,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			setToolTipText( "Save Selected" );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			messages = null;
 			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
@@ -319,7 +319,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
-	private class DeleteButton extends ActionButton
+	private class DeleteButton extends ThreadedButton
 	{
 		private String currentTabName = null;
 		private Object [] messages = null;
@@ -330,7 +330,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			setToolTipText( "Delete Selected" );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			messages = null;
 			currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
@@ -354,7 +354,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
-	private class RefreshButton extends ActionButton
+	private class RefreshButton extends ThreadedButton
 	{
 		public RefreshButton()
 		{
@@ -362,7 +362,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			setToolTipText( "Refresh" );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
 			RequestThread.postRequest( new MailRefresher( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName ) );

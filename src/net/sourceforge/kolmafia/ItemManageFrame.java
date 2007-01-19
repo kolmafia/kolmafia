@@ -185,7 +185,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 
-		private void addButtonAndLabel( ActionButton button, String label )
+		private void addButtonAndLabel( ThreadedButton button, String label )
 		{
 			JPanel buttonPanel = new JPanel();
 			buttonPanel.add( button );
@@ -222,18 +222,18 @@ public class ItemManageFrame extends KoLFrame
 			container.add( Box.createVerticalStrut( 25 ) );
 		}
 
-		private class JunkItemsButton extends ActionButton
+		private class JunkItemsButton extends ThreadedButton
 		{
 			public JunkItemsButton()
 			{	super( "junk item script" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{	StaticEntity.getClient().makeJunkRemovalRequest();
 			}
 		}
 
-		private class EndOfRunSaleButton extends ActionButton
+		private class EndOfRunSaleButton extends ThreadedButton
 		{
 			public EndOfRunSaleButton()
 			{
@@ -241,12 +241,12 @@ public class ItemManageFrame extends KoLFrame
 				setEnabled( KoLCharacter.canInteract() );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{	StaticEntity.getClient().makeEndOfRunSaleRequest();
 			}
 		}
 
-		private class MallRestockButton extends ActionButton
+		private class MallRestockButton extends ThreadedButton
 		{
 			public MallRestockButton()
 			{
@@ -254,7 +254,7 @@ public class ItemManageFrame extends KoLFrame
 				setEnabled( !KoLCharacter.isHardcore() );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				RequestThread.postRequest( new StoreManageRequest() );
 
@@ -281,7 +281,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 
-		private class DisplayCaseButton extends ActionButton
+		private class DisplayCaseButton extends ThreadedButton
 		{
 			public DisplayCaseButton()
 			{
@@ -289,7 +289,7 @@ public class ItemManageFrame extends KoLFrame
 				setEnabled( !KoLCharacter.isHardcore() );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				RequestThread.postRequest( new MuseumRequest() );
 
@@ -489,7 +489,7 @@ public class ItemManageFrame extends KoLFrame
 		private final int NORMAL = 1;
 		private final int GNOMES = 2;
 
-		private class SearchListener implements ActionListener
+		private class SearchListener extends ThreadedListener
 		{
 			private int searchType;
 			private KoLRequest request;
@@ -518,7 +518,7 @@ public class ItemManageFrame extends KoLFrame
 			{	return request.formURLString;
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				switch ( searchType )
 				{
@@ -742,9 +742,9 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 
-		private class CreateListener implements ActionListener
+		private class CreateListener extends ThreadedListener
 		{
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				Object selected = elementList.getSelectedValue();
 
@@ -767,9 +767,9 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 
-		private class CreateAndUseListener implements ActionListener
+		private class CreateAndUseListener extends ThreadedListener
 		{
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				Object selected = elementList.getSelectedValue();
 

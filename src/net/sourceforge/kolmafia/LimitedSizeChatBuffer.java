@@ -171,7 +171,6 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		// by downloading them here.  Also convert everything
 		// into unicode, rather than character entities.
 
-		RequestEditorKit.downloadImages( message );
 		message = RequestEditorKit.getUnicode( message, false );
 
 		// In the event that there's a link to the player pics

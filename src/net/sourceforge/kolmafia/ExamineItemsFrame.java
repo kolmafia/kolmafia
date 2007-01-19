@@ -132,15 +132,13 @@ public class ExamineItemsFrame extends KoLFrame
 		 * which is currently selected.
 		 */
 
-		private class DescriptionMenuItem extends JMenuItem implements ActionListener
+		private class DescriptionMenuItem extends ThreadedMenuItem
 		{
 			public DescriptionMenuItem()
-			{
-				super( "Game description" );
-				addActionListener( this );
+			{	super( "Game description" );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{	showDescription( (Entry) elementModel.get( elementList.lastSelectIndex ) );
 			}
 		}

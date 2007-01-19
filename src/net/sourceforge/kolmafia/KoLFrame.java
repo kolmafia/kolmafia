@@ -521,7 +521,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * the request for viewing frames.
 	 */
 
-	public static class DisplayFrameButton extends ActionButton
+	public static class DisplayFrameButton extends ThreadedButton
 	{
 		private String frameClass;
 
@@ -540,23 +540,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.frameClass = frameClass;
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{	KoLmafiaGUI.constructFrame( frameClass );
-		}
-	}
-
-	public static abstract class ActionButton extends JButton implements ActionListener
-	{
-		public ActionButton( String text )
-		{
-			super( text );
-			addActionListener( this );
-		}
-
-		public ActionButton( ImageIcon icon )
-		{
-			super( icon );
-			addActionListener( this );
 		}
 	}
 
@@ -567,7 +552,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * of an additional class is unnecessary.
 	 */
 
-	public static class InvocationButton extends ActionButton
+	public static class InvocationButton extends ThreadedButton
 	{
 		public Object object;
 		public Method method;
@@ -617,7 +602,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			RequestThread.openRequestSequence();
 
@@ -643,7 +628,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * using a local panel inside of the adventure frame.
 	 */
 
-	public static class KoLPanelFrameButton extends ActionButton
+	public static class KoLPanelFrameButton extends ThreadedButton
 	{
 		public Object [] parameters;
 
@@ -658,12 +643,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			parameters[1] = panel;
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{	createDisplay( KoLPanelFrame.class, parameters );
 		}
 	}
 
-	public static class RequestButton extends ActionButton
+	public static class RequestButton extends ThreadedButton
 	{
 		public KoLRequest request;
 
@@ -680,7 +665,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.request = request;
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{	RequestThread.postRequest( request );
 		}
 	}
@@ -927,7 +912,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
-	public class LoadScriptButton extends ActionButton
+	public class LoadScriptButton extends ThreadedButton
 	{
 		private String scriptPath;
 
@@ -941,7 +926,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			JComponentUtilities.setComponentSize( this, 30, 30 );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{	DEFAULT_SHELL.executeLine( scriptPath );
 		}
 	}
@@ -1308,17 +1293,17 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			{	super( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
-				super.actionPerformed( e );
+				super.run();
 				refreshFilter();
 			}
 		}
 
 
-		private class ConsumeListener implements ActionListener
+		private class ConsumeListener extends ThreadedListener
 		{
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				Object [] items = getDesiredItems( "Consume" );
 				if ( items.length == 0 )
@@ -1361,7 +1346,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			{	super( retrieveFromClosetFirst ? "Bagging" : "Closeting", retrieveFromClosetFirst );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				AdventureResult [] items = initialSetup();
 				if ( items == null )
@@ -1386,7 +1371,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				this.sellType = sellType;
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				if ( sellType == AutoSellRequest.AUTOMALL && !KoLCharacter.hasStore() )
 				{
@@ -1422,7 +1407,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			{	super( "Stashing", retrieveFromClosetFirst );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				AdventureResult [] items = initialSetup();
 				if ( items == null )
@@ -1442,7 +1427,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			{	super( "Showcasing", retrieveFromClosetFirst );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				Object [] items = initialSetup();
 				if ( items == null )
@@ -1468,7 +1453,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			{	super( "Smashing", retrieveFromClosetFirst );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				AdventureResult [] items = initialSetup();
 				if ( items == null || items.length == 0 )
