@@ -51,6 +51,7 @@ import java.util.regex.Pattern;
 
 public class LocalRelayServer implements Runnable
 {
+	private static final int INITIAL_THREAD_COUNT = 5;
 	private static final Pattern INVENTORY_COOKIE_PATTERN = Pattern.compile( "inventory=(\\d+)" );
 
 	private static String lastUsername = "";
@@ -140,6 +141,10 @@ public class LocalRelayServer implements Runnable
 		try
 		{
 			serverSocket = new ServerSocket( port, 25, InetAddress.getByName( "127.0.0.1" ) );
+
+			while ( agentThreads.size() < INITIAL_THREAD_COUNT )
+				createAgent();
+
 			return true;
 		}
 		catch ( Exception e )
@@ -164,25 +169,27 @@ public class LocalRelayServer implements Runnable
 	{
 		RelayAgent agent = null;
 
-		synchronized ( agentThreads )
+		for ( int i = 0; i < agentThreads.size(); ++i )
 		{
-			for ( int i = 0; i < agentThreads.size(); ++i )
+			agent = (RelayAgent) agentThreads.get(i);
+
+			if ( agent.isWaiting() )
 			{
-				agent = (RelayAgent) agentThreads.get(i);
-
-				if ( agent.isWaiting() )
-				{
-					agent.setSocket( socket );
-					return;
-				}
+				agent.setSocket( socket );
+				return;
 			}
-
-			agent = new RelayAgent();
-			agentThreads.add( agent );
-
-			agent.start();
-			agent.setSocket( socket );
 		}
+
+		createAgent().setSocket( socket );
+	}
+
+	private RelayAgent createAgent()
+	{
+		RelayAgent agent = new RelayAgent();
+		agentThreads.add( agent );
+		agent.start();
+
+		return agent;
 	}
 
 	public static void addStatusMessage( String message )

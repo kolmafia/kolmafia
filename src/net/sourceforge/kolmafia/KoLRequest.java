@@ -70,9 +70,17 @@ import sun.net.www.protocol.http.Handler;
 
 public class KoLRequest extends Job implements KoLConstants
 {
+	private static final int INITIAL_CACHE_COUNT = 3;
+
 	private static final ArrayList BYTEFLAGS = new ArrayList();
 	private static final ArrayList BYTEARRAYS = new ArrayList();
 	private static final ArrayList BYTESTREAMS = new ArrayList();
+
+	static
+	{
+		for ( int i = 0; i < INITIAL_CACHE_COUNT; ++i )
+			addAdditionalCache();
+	}
 
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
 
@@ -1218,6 +1226,13 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 	}
 
+	private static void addAdditionalCache()
+	{
+		BYTEFLAGS.add( Boolean.TRUE );
+		BYTEARRAYS.add( new byte[ 8096 ] );
+		BYTESTREAMS.add( new ByteArrayOutputStream( 8096 ) );
+	}
+
 	private boolean retrieveServerReply( InputStream istream ) throws Exception
 	{
 		// Find an available byte array in order to buffer the data.  Allow
@@ -1235,10 +1250,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( desiredIndex == -1 )
 			{
 				desiredIndex = BYTEFLAGS.size();
-
-				BYTEFLAGS.add( Boolean.TRUE );
-				BYTEARRAYS.add( new byte[ 8096 ] );
-				BYTESTREAMS.add( new ByteArrayOutputStream( 8096 ) );
+				addAdditionalCache();
 			}
 			else
 			{
