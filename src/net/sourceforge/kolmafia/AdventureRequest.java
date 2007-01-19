@@ -186,6 +186,12 @@ public class AdventureRequest extends KoLRequest
 			return;
 		}
 
+		if ( formSource.equals( "dungeon.php" ) && responseText.indexOf( "You have reached the bottom of today's Dungeon" ) != -1 )
+		{
+			KoLmafia.updateDisplay( PENDING_STATE, "Daily dungeon completed." );
+			return;
+		}
+
 		// The sorceress fight should always result in you getting
 		// a fight redirect.
 

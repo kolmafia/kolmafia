@@ -1753,7 +1753,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 
-		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?\n" + message, maximumValue, 1 );
+		int tradeCount = KoLFrame.getQuantity( "How many " + ((AdventureResult)selectedValue).getName() + " to get?\n" + message, maximumValue, 1 );
 		if ( tradeCount == 0 )
 			return;
 

@@ -888,10 +888,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		StringBuffer buffer = new StringBuffer( text );
 		getFeatureRichHTML( location, buffer );
-
-		String resultText = buffer.toString();
-		downloadImages( resultText );
-		return resultText;
+		return buffer.toString();
 	}
 
 
