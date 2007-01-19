@@ -378,15 +378,26 @@ public class MonsterDatabase extends KoLDatabase
 
 		public boolean shouldSteal()
 		{
+			if ( !KoLCharacter.isMoxieClass() || KoLCharacter.canInteract() )
+				return false;
+
 			// If the player has an acceptable dodge rate, then steal anything.
 			// Otherwise, only steal from monsters that are dropping something
-			// on your conditions list.
+			// on your conditions list if the applicable setting is present.
 
-			return shouldSteal( hasAcceptableDodgeRate( 0 ) ? items : conditions, AreaCombatData.getDropRateModifier() );
+			if ( hasAcceptableDodgeRate( 0 ) )
+				return shouldSteal( items );
+
+			if ( !StaticEntity.getBooleanProperty( "autoRoninPickpocket" ) )
+				return false;
+
+			return shouldSteal( conditions );
 		}
 
-		private boolean shouldSteal( List checklist, float dropModifier )
+		private boolean shouldSteal( List checklist )
 		{
+			float dropModifier = AreaCombatData.getDropRateModifier();
+
 			for ( int i = 0; i < checklist.size(); ++i )
 				if ( shouldStealItem( (AdventureResult) checklist.get(i), dropModifier ) )
 					return true;
