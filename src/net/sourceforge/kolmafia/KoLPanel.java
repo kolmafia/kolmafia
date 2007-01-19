@@ -235,7 +235,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	 * a script using the file dialog.
 	 */
 
-	public class ScriptSelectPanel extends JPanel implements ActionListener
+	public class ScriptSelectPanel extends JPanel implements ActionListener, Runnable
 	{
 		private JTextField scriptField;
 		private JButton scriptButton;
@@ -269,6 +269,10 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
+		{	(new Thread( this )).start();
+		}
+
+		public void run()
 		{
 			JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
 			chooser.showOpenDialog( null );

@@ -165,42 +165,43 @@ public class CommandDisplayFrame extends KoLFrame
 			return;
 		}
 
-		synchronized ( commandQueue )
+		commandQueue.add( command );
+		commandHistory.add( command );
+		lastCommandIndex = commandHistory.size();
+
+		if ( commandQueue.size() == 1 )
 		{
-			commandQueue.add( command );
-			commandHistory.add( command );
-			lastCommandIndex = commandHistory.size();
-
-			if ( commandQueue.size() > 1 )
-			{
-				KoLmafiaCLI.printBlankLine();
-				KoLmafiaCLI.printLine( " > QUEUED: " + command );
-				KoLmafiaCLI.printBlankLine();
-
-				return;
-			}
+			(new CommandQueueThread()).start();
+			return;
 		}
 
-		do
+		KoLmafiaCLI.printBlankLine();
+		KoLmafiaCLI.printLine( " > QUEUED: " + command );
+		KoLmafiaCLI.printBlankLine();
+	}
+
+	private static class CommandQueueThread extends Thread
+	{
+		public void run()
 		{
-			command = (String) commandQueue.get(0);
-
-			KoLmafiaCLI.printBlankLine();
-			KoLmafiaCLI.printLine( " > " + command );
-			KoLmafiaCLI.printBlankLine();
-
-			KoLmafia.forceContinue();
-			DEFAULT_SHELL.executeLine( command );
-
-			synchronized ( commandQueue )
+			do
 			{
+				String command = (String) commandQueue.get(0);
+
+				KoLmafiaCLI.printBlankLine();
+				KoLmafiaCLI.printLine( " > " + command );
+				KoLmafiaCLI.printBlankLine();
+
+				KoLmafia.forceContinue();
+				DEFAULT_SHELL.executeLine( command );
+
 				commandQueue.remove(0);
 			}
-		}
-		while ( !KoLmafia.refusesContinue() && !commandQueue.isEmpty() );
+			while ( !KoLmafia.refusesContinue() && !commandQueue.isEmpty() );
 
-		synchronized ( commandQueue )
-		{
+			// Always clear the list of queued commands when
+			// you've finished some sequence of commands.
+
 			commandQueue.clear();
 		}
 	}

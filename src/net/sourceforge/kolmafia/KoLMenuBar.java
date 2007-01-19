@@ -237,7 +237,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * of the current frame.
 	 */
 
-	public class DisplayRequestMenuItem extends ActionMenuItem
+	public class DisplayRequestMenuItem extends ThreadedMenuItem
 	{
 		private String location;
 
@@ -247,7 +247,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			this.location = location;
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			if ( location.startsWith( "http" ) )
 				StaticEntity.openSystemBrowser( location );
@@ -279,7 +279,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			return headers;
 		}
 
-		private class WindowDisplayMenuItem extends ActionMenuItem
+		private class WindowDisplayMenuItem extends ThreadedMenuItem
 		{
 			private WeakReference frameReference;
 
@@ -289,7 +289,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				frameReference = frame == null ? null : new WeakReference( frame );
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				if ( frameReference == null )
 				{
@@ -353,13 +353,13 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 	}
 
-	private class ToggleDebugMenuItem extends ActionMenuItem
+	private class ToggleDebugMenuItem extends ThreadedMenuItem
 	{
 		public ToggleDebugMenuItem()
 		{	super( KoLmafia.getDebugStream() instanceof NullStream ? "Start Debug Log" : "Stop Debug Log" );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			if ( KoLmafia.getDebugStream() instanceof NullStream )
 			{
@@ -374,22 +374,13 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 	}
 
-	public abstract class ActionMenuItem extends JMenuItem implements ActionListener
-	{
-		public ActionMenuItem( String title )
-		{
-			super( title );
-			addActionListener( this );
-		}
-	}
-
 	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
 	 * the request for loading a script.
 	 */
 
-	private class LoadScriptMenuItem extends ActionMenuItem
+	private class LoadScriptMenuItem extends ThreadedMenuItem
 	{
 		private String scriptPath;
 
@@ -403,7 +394,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			this.scriptPath = scriptPath;
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			String executePath = scriptPath;
 
@@ -433,7 +424,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * the request for viewing frames.
 	 */
 
-	public class DisplayFrameMenuItem extends ActionMenuItem
+	public class DisplayFrameMenuItem extends ThreadedMenuItem
 	{
 		private String frameClass;
 
@@ -443,7 +434,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			this.frameClass = frameClass;
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			if ( frameClass.equals( "LicenseDisplay" ) )
 			{
@@ -467,7 +458,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * browser to the given location.
 	 */
 
-	public class DisplayPageMenuItem extends ActionMenuItem
+	public class DisplayPageMenuItem extends ThreadedMenuItem
 	{
 		private String location;
 
@@ -477,7 +468,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			this.location = location;
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{	StaticEntity.openSystemBrowser( location );
 		}
 	}
@@ -489,7 +480,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * of an additional class is unnecessary.
 	 */
 
-	public class InvocationMenuItem extends ActionMenuItem
+	public class InvocationMenuItem extends ThreadedMenuItem
 	{
 		private Object object;
 		private Method method;
@@ -523,7 +514,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			}
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			try
 			{
@@ -549,7 +540,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * using a local panel inside of the adventure frame.
 	 */
 
-	public class KoLPanelFrameMenuItem extends ActionMenuItem
+	public class KoLPanelFrameMenuItem extends ThreadedMenuItem
 	{
 		private CreateFrameRunnable creator;
 
@@ -564,7 +555,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			creator = new CreateFrameRunnable( KoLPanelFrame.class, parameters );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{	SwingUtilities.invokeLater( creator );
 		}
 	}
@@ -710,7 +701,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		return true;
 	}
 
-	private class RequestMenuItem extends ActionMenuItem
+	private class RequestMenuItem extends ThreadedMenuItem
 	{
 		private KoLRequest request;
 
@@ -720,18 +711,18 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			this.request = request;
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{	RequestThread.postRequest( request );
 		}
 	}
 
-	private class StopEverythingItem extends ActionMenuItem
+	private class StopEverythingItem extends ThreadedMenuItem
 	{
 		public StopEverythingItem()
 		{	super( "Stop Everything" );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{	RequestThread.declareWorldPeace();
 		}
 	}

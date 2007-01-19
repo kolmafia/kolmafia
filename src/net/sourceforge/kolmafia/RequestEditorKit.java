@@ -485,62 +485,46 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static final Pattern BOOKSHELF_PATTERN = Pattern.compile( "onclick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 
 	private static void downloadFile( File local, String remote )
-	{	RequestThread.postRequest( new FileDownloader( local, remote ) );
-	}
-
-	private static class FileDownloader implements Runnable
 	{
-		private File local;
-		private String remote;
-
-		public FileDownloader( File local, String remote )
+		try
 		{
-			this.local = local;
-			this.remote = remote;
+			URLConnection connection = (new URL( remote )).openConnection();
+			if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
+			{
+				Matcher idMatcher = FILEID_PATTERN.matcher( local.getPath() );
+				if ( idMatcher.find() )
+					connection.setRequestProperty( "Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group(1)  );
+			}
+
+			BufferedInputStream in = new BufferedInputStream( connection.getInputStream() );
+			ByteArrayOutputStream outbytes = new ByteArrayOutputStream();
+
+			byte [] buffer = new byte[4096];
+
+			int offset;
+			while ((offset = in.read(buffer)) > 0)
+				outbytes.write(buffer, 0, offset);
+
+			in.close();
+
+			// If it's textual data, then go ahead and modify it so
+			// that all the variables point to KoLmafia.
+
+			if ( remote.endsWith( ".js" ) )
+			{
+				String text = outbytes.toString();
+				outbytes.reset();
+
+				text = StaticEntity.globalStringReplace( text, "location.hostname", "location.host" );
+				outbytes.write( text.getBytes() );
+			}
+
+			outbytes.writeTo( new FileOutputStream( local ) );
 		}
-
-		public void run()
+		catch ( Exception e )
 		{
-			try
-			{
-				URLConnection connection = (new URL( remote )).openConnection();
-				if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
-				{
-					Matcher idMatcher = FILEID_PATTERN.matcher( local.getPath() );
-					if ( idMatcher.find() )
-						connection.setRequestProperty( "Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group(1)  );
-				}
-
-				BufferedInputStream in = new BufferedInputStream( connection.getInputStream() );
-				ByteArrayOutputStream outbytes = new ByteArrayOutputStream();
-
-				byte [] buffer = new byte[4096];
-
-				int offset;
-				while ((offset = in.read(buffer)) > 0)
-					outbytes.write(buffer, 0, offset);
-
-				in.close();
-
-				// If it's textual data, then go ahead and modify it so
-				// that all the variables point to KoLmafia.
-
-				if ( remote.endsWith( ".js" ) )
-				{
-					String text = outbytes.toString();
-					outbytes.reset();
-
-					text = StaticEntity.globalStringReplace( text, "location.hostname", "location.host" );
-					outbytes.write( text.getBytes() );
-				}
-
-				outbytes.writeTo( new FileOutputStream( local ) );
-			}
-			catch ( Exception e )
-			{
-				// This can happen whenever there is bad internet
-				// or whenever the familiar is brand-new.
-			}
+			// This can happen whenever there is bad internet
+			// or whenever the familiar is brand-new.
 		}
 	}
 
@@ -904,7 +888,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		StringBuffer buffer = new StringBuffer( text );
 		getFeatureRichHTML( location, buffer );
-		return buffer.toString();
+
+		String resultText = buffer.toString();
+		downloadImages( resultText );
+		return resultText;
 	}
 
 
@@ -1114,34 +1101,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static void addFightModifiers( StringBuffer buffer )
 	{
-		// Now, remove the runaway button and place it inside of the user's
-		// skill list.
-
-		int startIndex = buffer.indexOf( "<form name=runaway" );
-		int stopIndex = buffer.indexOf( "</form>", startIndex );
-		int insertIndex = buffer.lastIndexOf( "</select>" );
-
-		if ( startIndex != -1 && stopIndex != -1 && insertIndex != -1 )
-		{
-			buffer.delete( startIndex, stopIndex );
-
-			StringBuffer runawayString = new StringBuffer( "<option value=\"runaway\"" );
-
-			if ( buffer.indexOf( "You attempt to run away" ) != -1 )
-				runawayString.append( " selected" );
-
-			runawayString.append( ">Run Away (0 " );
-			if ( KoLCharacter.isMuscleClass() )
-				runawayString.append( "Muscularity" );
-			else if ( KoLCharacter.isMysticalityClass() )
-				runawayString.append( "Mana" );
-			else
-				runawayString.append( "Mojo" );
-			runawayString.append( " Points)</option>" );
-
-			buffer.insert( insertIndex, runawayString.toString() );
-		}
-
 		// If the person opts to add a plinking link, check to see if it's
 		// a valid page to add plinking, and make sure the person hasn't
 		// already started plinking.

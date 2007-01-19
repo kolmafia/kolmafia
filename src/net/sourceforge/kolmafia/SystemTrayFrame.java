@@ -173,45 +173,52 @@ public abstract class SystemTrayFrame implements KoLConstants
 		KoLDesktop.getInstance().setVisible( true );
 	}
 
-	private static class ShowMainWindowPopupItem extends TrayIconPopupSimpleItem implements ActionListener
+	private abstract static class ThreadedTrayIconPopupSimpleItem extends TrayIconPopupSimpleItem implements ActionListener, Runnable
 	{
-		public ShowMainWindowPopupItem()
+		public ThreadedTrayIconPopupSimpleItem( String title )
 		{
-			super( "Main Interface" );
+			super( title );
 			addActionListener( this );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public final void actionPerformed( ActionEvent e )
+		{	(new Thread( this )).start();
+		}
+	}
+
+	private static class ShowMainWindowPopupItem extends ThreadedTrayIconPopupSimpleItem
+	{
+		public ShowMainWindowPopupItem()
+		{	super( "Main Interface" );
+		}
+
+		public void run()
 		{	showDisplay();
 		}
 	}
 
-	private static class ConstructFramePopupItem extends TrayIconPopupSimpleItem implements ActionListener
+	private static class ConstructFramePopupItem extends ThreadedTrayIconPopupSimpleItem
 	{
 		private String frame;
 
 		public ConstructFramePopupItem( String title, String frame )
 		{
 			super( title );
-
 			this.frame = frame;
-			addActionListener( this );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{	KoLmafiaGUI.constructFrame( frame );
 		}
 	}
 
-	private static class LogoutPopupItem extends TrayIconPopupSimpleItem implements ActionListener
+	private static class LogoutPopupItem extends ThreadedTrayIconPopupSimpleItem
 	{
 		public LogoutPopupItem()
-		{
-			super( "Logout of KoL" );
-			addActionListener( this );
+		{	super( "Logout of KoL" );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			if ( KoLDesktop.instanceExists() )
 				KoLDesktop.getInstance().setVisible( false );
@@ -225,15 +232,13 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 	}
 
-	private static class EndSessionPopupItem extends TrayIconPopupSimpleItem implements ActionListener
+	private static class EndSessionPopupItem extends ThreadedTrayIconPopupSimpleItem
 	{
 		public EndSessionPopupItem()
-		{
-			super( "Exit KoLmafia" );
-			addActionListener( this );
+		{	super( "Exit KoLmafia" );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{	System.exit(0);
 		}
 	}

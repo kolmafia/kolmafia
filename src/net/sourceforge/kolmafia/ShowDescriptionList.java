@@ -195,18 +195,16 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private abstract class ActionMenuItem extends JMenuItem implements ActionListener
+	private abstract class ContextMenuItem extends ThreadedMenuItem
 	{
 		public int index;
 		public Object item;
 
-		public ActionMenuItem( String title )
-		{
-			super( title );
-			addActionListener( this );
+		public ContextMenuItem( String title )
+		{	super( title );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			this.index = lastSelectIndex == -1 ? getSelectedIndex() : lastSelectIndex;
 			this.item = ShowDescriptionList.this.getModel().getElementAt( index );
@@ -226,7 +224,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	 * which is currently selected.
 	 */
 
-	private class DescriptionMenuItem extends ActionMenuItem
+	private class DescriptionMenuItem extends ContextMenuItem
 	{
 		public DescriptionMenuItem()
 		{	super( "Game description" );
@@ -242,7 +240,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	 * which is currently selected, as it appears on the wiki.
 	 */
 
-	private class WikiLookupMenuItem extends ActionMenuItem
+	private class WikiLookupMenuItem extends ContextMenuItem
 	{
 		public WikiLookupMenuItem()
 		{	super( "Wiki description" );
@@ -308,7 +306,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		((LockableListModel)getModel()).applyListFilter( filter );
 	}
 
-	private class AddToJunkListMenuItem extends ActionMenuItem
+	private class AddToJunkListMenuItem extends ContextMenuItem
 	{
 		public AddToJunkListMenuItem()
 		{	super( "Add to junk list" );
@@ -319,7 +317,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private class ZeroTallyMenuItem extends ActionMenuItem
+	private class ZeroTallyMenuItem extends ContextMenuItem
 	{
 		public ZeroTallyMenuItem()
 		{	super( "Zero out entries" );
@@ -333,7 +331,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private class AutoSellMenuItem extends ActionMenuItem
+	private class AutoSellMenuItem extends ContextMenuItem
 	{
 		public AutoSellMenuItem()
 		{	super( "Autosell selected" );
@@ -348,7 +346,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private class RemoveFromJunkListMenuItem extends ActionMenuItem
+	private class RemoveFromJunkListMenuItem extends ContextMenuItem
 	{
 		public RemoveFromJunkListMenuItem()
 		{	super( "This is not junk" );

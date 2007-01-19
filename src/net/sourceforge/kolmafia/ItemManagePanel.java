@@ -301,7 +301,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		}
 	}
 
-	public abstract class TransferListener implements ActionListener
+	public abstract class TransferListener extends ThreadedListener
 	{
 		public String description;
 		public boolean retrieveFromClosetFirst;

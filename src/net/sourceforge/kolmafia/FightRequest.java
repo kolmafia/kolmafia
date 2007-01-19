@@ -170,11 +170,10 @@ public class FightRequest extends KoLRequest
 		{
 			isUsingConsultScript = true;
 
-			if ( !responseText.equals( "" ) )
-				responseText = StaticEntity.globalStringReplace( responseText, "\"", "\\\"" );
+			String escapedString = StaticEntity.globalStringReplace( responseText, "\"", "\\\"" );
 
 			DEFAULT_SHELL.executeCommand( "call", action1.substring( "consult".length() ).trim() + " (" + currentRound +
-				", \"" + encounterLookup + "\", \"" + responseText + "\" )" );
+				", \"" + encounterLookup + "\", \"" + escapedString + "\" )" );
 
 			if ( KoLmafia.refusesContinue() )
 				action1 = "abort";
@@ -300,31 +299,34 @@ public class FightRequest extends KoLRequest
 		do
 		{
 			clearDataFields();
-			responseText = "";
 
 			action1 = null;
 			action2 = null;
 
 			nextRound();
 
-			if ( responseText == null || responseText.equals( "" ) || (!isUsingConsultScript && (action1 == null || !action1.equals( "abort" ))) )
+			if ( currentRound == 0 || (action1 != null && !action1.equals( "abort" )) )
 			{
 				isInstanceRunning = true;
 				super.run();
 				isInstanceRunning = false;
+
+				if ( responseCode == 302 )
+				{
+					currentRound = 0;
+					return;
+				}
 			}
 
-			if ( KoLmafia.refusesContinue() || (action1 != null && action1.equals( "abort" )) )
+			if ( action1 != null && action1.equals( "abort" ) )
 			{
-				KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
-				showInBrowser( true );
+				if ( currentRound != 0 )
+				{
+					KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
+					showInBrowser( true );
+				}
+
 				return;
-			}
-
-			if ( responseCode == 302 )
-			{
-				currentRound = 0;
-				responseText = "";
 			}
 		}
 		while ( currentRound != 0 );

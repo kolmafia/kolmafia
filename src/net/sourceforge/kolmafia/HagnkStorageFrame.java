@@ -337,9 +337,9 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 		}
 
-		private class PullToInventoryListener implements ActionListener
+		private class PullToInventoryListener extends ThreadedListener
 		{
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				Object [] items = getDesiredItems( "Pulling" );
 				if ( items == null )
@@ -353,9 +353,9 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 		}
 
-		private class PullToClosetListener implements ActionListener
+		private class PullToClosetListener extends ThreadedListener
 		{
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				Object [] items = getDesiredItems( "Pulling" );
 				if ( items == null )
@@ -372,9 +372,9 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 		}
 
-		private class EmptyToInventoryListener implements ActionListener
+		private class EmptyToInventoryListener extends ThreadedListener
 		{
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				if ( !KoLCharacter.canInteract() )
 				{
@@ -390,9 +390,9 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 		}
 
-		private class EmptyToClosetListener implements ActionListener
+		private class EmptyToClosetListener extends ThreadedListener
 		{
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				Object [] items = storage.toArray();
 				if ( items == null )

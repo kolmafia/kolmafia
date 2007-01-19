@@ -441,10 +441,10 @@ public class ChatFrame extends KoLFrame
 		{	super( title, image, KoLMessenger.class, method );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			KoLMessenger.setUpdateChannel( getAssociatedContact() );
-			super.actionPerformed( e );
+			super.run();
 		}
 	}
 }

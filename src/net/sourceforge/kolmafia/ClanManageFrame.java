@@ -329,13 +329,9 @@ public class ClanManageFrame extends KoLFrame
 			setButtons( new ActionListener [] { new StorageListener(), new RequestButton( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) ) } );
 		}
 
-		private class StorageListener implements ActionListener
+		private class StorageListener extends ThreadedListener
 		{
-			public StorageListener()
-			{
-			}
-
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				Object [] items = getDesiredItems( "Deposit" );
 				if ( items.length == 0 )
@@ -365,7 +361,7 @@ public class ClanManageFrame extends KoLFrame
 			elementList.setCellRenderer( AdventureResult.getDefaultRenderer() );
 		}
 
-		private class WithdrawListener implements ActionListener
+		private class WithdrawListener extends ThreadedListener
 		{
 			private int moveType;
 
@@ -373,7 +369,7 @@ public class ClanManageFrame extends KoLFrame
 			{	this.moveType = moveType;
 			}
 
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				if ( !KoLCharacter.canInteract() )
 					return;

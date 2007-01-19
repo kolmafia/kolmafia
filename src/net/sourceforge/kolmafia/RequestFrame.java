@@ -56,6 +56,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
 
 import javax.swing.event.HyperlinkListener;
 import javax.swing.JToolBar.Separator;
@@ -67,6 +68,7 @@ public class RequestFrame extends KoLFrame
 	private static boolean refreshStatusEnabled = true;
 
 	private int locationIndex = 0;
+	private boolean isLoading = true;
 	private ArrayList history = new ArrayList();
 	private ArrayList shownHTML = new ArrayList();
 
@@ -103,6 +105,8 @@ public class RequestFrame extends KoLFrame
 	public RequestFrame( String title, RequestFrame parent, KoLRequest request )
 	{
 		super( title );
+
+		this.isLoading = true;
 		this.parent = parent;
 
 		setCurrentRequest( request );
@@ -219,6 +223,7 @@ public class RequestFrame extends KoLFrame
 			refreshStatus();
 
 		displayRequest( request );
+		this.isLoading = false;
 	}
 
 	private class BrowserComboBox extends JComboBox
@@ -242,13 +247,13 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private class ExecuteScriptButton extends ActionButton
+	private class ExecuteScriptButton extends ThreadedButton
 	{
 		public ExecuteScriptButton()
 		{	super( "exec" );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			String command = (String) scriptSelect.getSelectedItem();
 			if ( command == null )
@@ -326,6 +331,19 @@ public class RequestFrame extends KoLFrame
 	{	return RequestEditorKit.getDisplayHTML( currentRequest.getURLString(), responseText );
 	}
 
+	private class DisplayRequestThread extends Thread
+	{
+		private KoLRequest request;
+
+		public DisplayRequestThread( KoLRequest request )
+		{	this.request = request;
+		}
+
+		public void run()
+		{	dispatchRequest( this.request );
+		}
+	}
+
 	/**
 	 * Utility method which displays the given request.
 	 */
@@ -335,6 +353,14 @@ public class RequestFrame extends KoLFrame
 		if ( mainBuffer == null || request == null )
 			return;
 
+		if ( SwingUtilities.isEventDispatchThread() )
+			(new DisplayRequestThread( request )).start();
+		else
+			dispatchRequest( request );
+	}
+
+	private void dispatchRequest( KoLRequest request )
+	{
 		currentLocation = request.getURLString();
 		if ( request instanceof FightRequest )
 			request = new KoLRequest( currentLocation );
@@ -349,7 +375,7 @@ public class RequestFrame extends KoLFrame
 			String original = StaticEntity.getProperty( "showAllRequests" );
 			StaticEntity.setProperty( "showAllRequests", "false" );
 
-			RequestThread.postRequest( request );
+			request.run();
 			StaticEntity.setProperty( "showAllRequests", original );
 		}
 
@@ -371,10 +397,9 @@ public class RequestFrame extends KoLFrame
 			}
 
 			String location = request.getURLString();
-			location = location.substring( location.lastIndexOf( "/" ) + 1 );
 
+			location = location.substring( location.lastIndexOf( "/" ) + 1 );
 			locationField.setText( location );
-			locationField.setCaretPosition( 0 );
 
 			locationIndex = shownHTML.size() - 1;
 			mainBuffer.append( renderText );
@@ -394,24 +419,24 @@ public class RequestFrame extends KoLFrame
 			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
 	}
 
-	private class HomeButton extends ActionButton
+	private class HomeButton extends ThreadedButton
 	{
 		public HomeButton()
 		{	super( JComponentUtilities.getImage( "home.gif" ) );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{	refresh( new KoLRequest( "main.php", true ) );
 		}
 	}
 
-	private class BackButton extends ActionButton
+	private class BackButton extends ThreadedButton
 	{
 		public BackButton()
 		{	super( JComponentUtilities.getImage( "back.gif" ) );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			if ( locationIndex > 0 )
 			{
@@ -423,13 +448,13 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private class ForwardButton extends ActionButton
+	private class ForwardButton extends ThreadedButton
 	{
 		public ForwardButton()
 		{	super( JComponentUtilities.getImage( "forward.gif" ) );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			if ( locationIndex + 1 < shownHTML.size() )
 			{
@@ -441,18 +466,18 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private class ReloadButton extends ActionButton
+	private class ReloadButton extends ThreadedButton
 	{
 		public ReloadButton()
 		{	super( JComponentUtilities.getImage( "reload.gif" ) );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{	refresh( new KoLRequest( currentLocation, true ) );
 		}
 	}
 
-	private class GoButton extends ActionButton
+	private class GoButton extends ThreadedButton
 	{
 		public GoButton()
 		{
@@ -460,7 +485,7 @@ public class RequestFrame extends KoLFrame
 			locationField.addKeyListener( new GoAdapter() );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			KoLAdventure adventure = AdventureDatabase.getAdventure( locationField.getText() );
 			KoLRequest request = RequestEditorKit.extractRequest( adventure == null ? locationField.getText() : adventure.getRequest().getURLString() );

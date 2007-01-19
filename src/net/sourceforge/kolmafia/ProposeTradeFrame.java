@@ -266,9 +266,9 @@ public abstract class ProposeTradeFrame extends KoLFrame
 		return true;
 	}
 
-	private class SendMessageListener implements ActionListener
+	private class SendMessageListener extends ThreadedListener
 	{
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			String [] recipients = StaticEntity.getClient().extractTargets( (String) recipientEntry.getSelectedItem() );
 
@@ -416,6 +416,8 @@ public abstract class ProposeTradeFrame extends KoLFrame
 				super( storage == null ? "Inside Inventory" : "", " > > > ", " < < < ", available );
 				source = available;
 
+				sourceSelect.addActionListener( new SourceChangeListener() );
+
 				// Remove items from our cloned list that are
 				// already on the attachments list
 				for ( int i = 0; i < attachments.size(); ++i )
@@ -426,14 +428,17 @@ public abstract class ProposeTradeFrame extends KoLFrame
 			{
 				public void actionPerformed( ActionEvent e )
 				{
+					if ( source == available )
+						return;
+
 					// Put back old attachments
-					LockableListModel oldSource = source;
+					usingStorage = (available == storage);
+
+					while ( !attachments.isEmpty() )
+						AdventureResult.addResultToList( source, (AdventureResult) attachments.remove( 0 ) );
+
 					source = available;
-					usingStorage = (source == storage );
 					elementList.setModel( source );
-					if ( oldSource != source )
-						while ( !attachments.isEmpty() )
-							AdventureResult.addResultToList( oldSource, (AdventureResult) attachments.remove( 0 ) );
 				}
 			}
 
