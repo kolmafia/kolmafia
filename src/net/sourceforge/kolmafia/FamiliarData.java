@@ -290,6 +290,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 16: // Cocoabo
 		case 27: // Hanukkimbo Dreidl
 		case 48: // Ninja Pirate Zombie Robot
+		case 54: // Comma Chameleon
 			return true;
 
 		default:
@@ -336,6 +337,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 54: // Comma Chameleon
 		case 55: // Misshapen Animal Skeleton
 		case 56: // Scary Death Orb
+		case 61: // Ninja Snowflake
 			return true;
 
 		default:
