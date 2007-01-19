@@ -232,11 +232,37 @@ public abstract class MoodSettings implements KoLConstants
 			thiefTriggers.remove( toRemove );
 	}
 
+	public static void minimalSet()
+	{
+		// Beaten-up removal, as a demo of how to handle beaten-up
+		// and poisoned statuses.
+
+		addTrigger( "gain_effect", "Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
+
+		String beatenUpAction = getDefaultAction( "gain_effect", "Beaten Up" );
+		if ( KoLCharacter.canInteract() || beatenUpAction.startsWith( "cast" ) )
+			addTrigger( "gain_effect", "Beaten Up", beatenUpAction );
+
+		// If there's any effects the player currently has and there
+		// is a known way to re-acquire it (internally known, anyway),
+		// make sure to add those as well.
+
+		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
+		activeEffects.toArray( effects );
+
+		for ( int i = 0; i < effects.length; ++i )
+		{
+			String action = getDefaultAction( "lose_effect", effects[i].getName() );
+			if ( action != null && !action.equals( "" ) && !action.startsWith( "cast" ) )
+				addTrigger( "lose_effect", effects[i].getName(), action );
+		}
+	}
+
 	/**
 	 * Fills up the trigger list automatically.
 	 */
 
-	public static void autoFillTriggers()
+	public static void maximalSet()
 	{
 		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
 			return;
@@ -318,10 +344,6 @@ public abstract class MoodSettings implements KoLConstants
 			}
 		}
 
-		if ( KoLCharacter.isHardcore() )
-			addTrigger( "lose_effect", "Butt-Rock Hair", getDefaultAction( "lose_effect", "Butt-Rock Hair" ) );
-
-
 		// Muscle class characters are rather special when it comes
 		// to their default displayList.
 
@@ -330,28 +352,10 @@ public abstract class MoodSettings implements KoLConstants
 		if ( NPCStoreDatabase.contains( "blood of the wereseal" ) )
 			addTrigger( "lose_effect", "Temporary Lycanthropy", getDefaultAction( "lose_effect", "Temporary Lycanthropy" ) );
 
-		// Beaten-up removal, as a demo of how to handle beaten-up
-		// and poisoned statuses.
+		// Now add in all the buffs from the minimal buff set, as those
+		// are included here.
 
-		addTrigger( "gain_effect", "Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
-
-		String beatenUpAction = getDefaultAction( "gain_effect", "Beaten Up" );
-		if ( KoLCharacter.canInteract() || beatenUpAction.startsWith( "cast" ) )
-			addTrigger( "gain_effect", "Beaten Up", beatenUpAction );
-
-		// If there's any effects the player currently has and there
-		// is a known way to re-acquire it (internally known, anyway),
-		// make sure to add those as well.
-
-		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
-		activeEffects.toArray( effects );
-
-		for ( int i = 0; i < effects.length; ++i )
-		{
-			String action = getDefaultAction( "lose_effect", effects[i].getName() );
-			if ( action != null && !action.equals( "" ) && !action.startsWith( "cast" ) )
-				addTrigger( "lose_effect", effects[i].getName(), action );
-		}
+		minimalSet();
 	}
 
 	/**
@@ -412,30 +416,40 @@ public abstract class MoodSettings implements KoLConstants
 	{	execute( false );
 	}
 
-	private static void burnExtraMana()
+	public static void burnExtraMana()
+	{
+		String nextBurnCast;
+
+		while ( (nextBurnCast = getNextBurnCast()) != null )
+			DEFAULT_SHELL.executeLine( nextBurnCast );
+	}
+
+	public static String getNextBurnCast()
 	{
 		// Rather than keeping a safety for the player, let the player
 		// make the mistake of burning below their auto-restore threshold.
 
 		int starting = (int) (StaticEntity.getFloatProperty( "mpThreshold" ) * (float) KoLCharacter.getMaximumMP());
 		if ( starting <= 0 || KoLCharacter.getCurrentMP() < starting )
-			return;
+			return null;
 
 		String skillName = null;
 		int desiredDuration = 0;
-		boolean continueBuffing = true;
 
 		// Rather than maintain mood-related buffs only, maintain
 		// any active effect that the character can auto-cast.  This
 		// makes the feature useful even for people who have never
 		// defined a mood.
 
-		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
-		activeEffects.toArray( effects );
+		AdventureResult currentEffect;
+		AdventureResult nextEffect;
 
-		for ( int i = 0; i < effects.length && continueBuffing && KoLmafia.permitsContinue(); ++i )
+		for ( int i = 0; i < activeEffects.size() && KoLmafia.permitsContinue(); ++i )
 		{
-			skillName = UneffectRequest.effectToSkill( effects[i].getName() );
+			currentEffect = (AdventureResult) activeEffects.get(i);
+			nextEffect = i + 1 >= activeEffects.size() ? null : (AdventureResult) activeEffects.get( i + 1 );
+
+			skillName = UneffectRequest.effectToSkill( currentEffect.getName() );
 			if ( !ClassSkillsDatabase.contains( skillName ) || !KoLCharacter.hasSkill( skillName ) )
 				continue;
 
@@ -443,8 +457,8 @@ public abstract class MoodSettings implements KoLConstants
 			// to five in order to ensure that KoLmafia doesn't make the
 			// buff counts too far out of balance.
 
-			if ( i + 1 < effects.length )
-				desiredDuration = effects[i+1].getCount() - effects[i].getCount();
+			if ( nextEffect != null )
+				desiredDuration = nextEffect.getCount() - currentEffect.getCount();
 
 			int skillId = ClassSkillsDatabase.getSkillId( skillName );
 			int castCount = (KoLCharacter.getCurrentMP() - starting) / ClassSkillsDatabase.getMPConsumptionById( skillId );
@@ -453,10 +467,12 @@ public abstract class MoodSettings implements KoLConstants
 				castCount = Math.min( 3, castCount );
 
 			if ( castCount > 0 )
-				DEFAULT_SHELL.executeLine( "cast " + castCount + " " + skillName );
+				return "cast " + castCount + " " + skillName;
 			else
-				continueBuffing = false;
+				return null;
 		}
+
+		return null;
 	}
 
 	public static void execute( boolean isManualInvocation )

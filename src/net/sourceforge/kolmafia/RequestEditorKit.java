@@ -1637,18 +1637,47 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		int startingIndex = 0;
 		int lastAppendIndex = 0;
 
-		// First, add in a mood-execute link, in the event that the person
-		// has a non-empty list of triggers.
+		// First, add in a link to the sidepane which matches the player's
+		// current situation.
 
-		String fontColor = MoodSettings.willExecute( true ) ? "black" : "gray";
+		String fontColor = null;
+		String moodText = null;
 
-		// Insert any effects which are in your maintenance list which
-		// have already run out.
-
-		ArrayList missingEffects = MoodSettings.getMissingEffects();
-
-		if ( MoodSettings.getTriggers().isEmpty() && StaticEntity.getFloatProperty( "mpThreshold" ) <= 0.0f )
+		if ( MoodSettings.willExecute( true ) )
 		{
+			fontColor = "black";
+			moodText = "mood " + StaticEntity.getProperty( "currentMood" );
+		}
+		else if ( MoodSettings.getNextBurnCast() != null )
+		{
+			fontColor = "black";
+			moodText = "burn extra mp";
+		}
+		else if ( !MoodSettings.getTriggers().isEmpty() )
+		{
+			fontColor = "gray";
+			moodText = "mood " + StaticEntity.getProperty( "currentMood" );
+		}
+		else
+		{
+			AdventureResult currentEffect;
+
+			for ( int i = 0; i < activeEffects.size() && moodText == null; ++i )
+			{
+				currentEffect = (AdventureResult) activeEffects.get(i);
+				if ( !MoodSettings.getDefaultAction( "lose_effect", currentEffect.getName() ).equals( "" ) )
+				{
+					fontColor = "black";
+					moodText = "save as mood";
+				}
+			}
+		}
+
+		if ( moodText == null )
+		{
+			// In this case, do nothing, since there aren't any effects
+			// that will get saved to a mood, and there's nothing that
+			// can be maintained.
 		}
 		else if ( KoLRequest.isCompactMode )
 		{
@@ -1668,9 +1697,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			buffer.append( "<font size=2 color=" );
 			buffer.append( fontColor );
-			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\" style=\"color:" );
-			buffer.append( "\">mood " +
-				StaticEntity.getProperty( "currentMood" ) + "</a>]</font><br><br>" );
+
+			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=" );
+			buffer.append( StaticEntity.globalStringReplace( moodText, " ", "+" ) );
+			buffer.append( "\" style=\"color:" );
+			buffer.append( fontColor );
+			buffer.append( "\">" );
+
+			buffer.append( moodText );
+			buffer.append( "</a>]</font><br><br>" );
 		}
 		else
 		{
@@ -1701,10 +1736,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				buffer.append( "</p></center>" );
 		}
 
+		// Insert any effects which are in your maintenance list which
+		// have already run out.
+
+		ArrayList missingEffects = MoodSettings.getMissingEffects();
+
 		// If the player has at least one effect, then go ahead and add
 		// all of their missing effects.
 
-		if ( !activeEffects.isEmpty() && !missingEffects.isEmpty() )
+		if ( StaticEntity.getBooleanProperty( "relayAddsMissingEffects" ) && !activeEffects.isEmpty() && !missingEffects.isEmpty() )
 		{
 			startingIndex = text.indexOf( "<tr>", lastAppendIndex );
 			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
