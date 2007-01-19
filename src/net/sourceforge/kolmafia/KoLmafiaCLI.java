@@ -320,11 +320,13 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Trim the line, replace all float spaces with
+		// Trim the line, replace all double spaces with
 		// single spaces and compare the result against
 		// commands which are no longer allowed.
 
 		line = line.replaceAll( "\\s+", " " ).trim();
+		if ( line.length() == 0 )
+			return;
 
 		// Win game sanity check.  This will find its
 		// way back into the GUI ... one day.
@@ -346,8 +348,24 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( line.length() == 0 )
+		// Maybe a request to burn excess MP, as generated
+		// by the gCLI or the relay browser?
+
+		if ( line.equalsIgnoreCase( "save as mood" ) )
+		{
+			MoodSettings.minimalSet();
+			MoodSettings.saveSettings();
 			return;
+		}
+
+		if ( line.equalsIgnoreCase( "burn extra mp" ) )
+		{
+			MoodSettings.burnExtraMana();
+			return;
+		}
+
+		// Not a special full-line command.  Go ahead and
+		// split the command into extra pieces.
 
 		String command = line.trim().split( " " )[0].toLowerCase().trim();
 		String parameters = line.substring( command.length() ).trim();
@@ -362,9 +380,10 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		RequestThread.openRequestSequence();
-		executeCommand( command, parameters );
-		RequestThread.closeRequestSequence();
 
+		executeCommand( command, parameters );
+
+		RequestThread.closeRequestSequence();
 		isExecutingCheckOnlyCommand = false;
 	}
 
@@ -1461,7 +1480,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else if ( parameters.equals( "autofill" ) )
 			{
-				MoodSettings.autoFillTriggers();
+				MoodSettings.maximalSet();
 				MoodSettings.saveSettings();
 			}
 
@@ -1486,7 +1505,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else if ( parameters.equals( "autofill" ) )
 			{
-				MoodSettings.autoFillTriggers();
+				MoodSettings.maximalSet();
 				MoodSettings.saveSettings();
 
 				printList( MoodSettings.getTriggers() );

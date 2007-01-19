@@ -183,6 +183,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add mood maintenance links to left side pane" },
+			{ "relayAddsMissingEffects", "Display mood trigger buffs with zero duration" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
 			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
 
@@ -737,7 +738,17 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			MoodSettings.autoFillTriggers();
+			String [] autoFillTypes = new String [] { "maximal set (all castable buffs)", "minimal set (current active buffs)" };
+
+			String desiredType = (String) JOptionPane.showInputDialog(
+				null, "Which kind of buff set would you like to use?", "Decide!",
+					JOptionPane.INFORMATION_MESSAGE, null, autoFillTypes, activeEffects.isEmpty() ? autoFillTypes[0] : autoFillTypes[1] );
+
+			if ( desiredType == autoFillTypes[0] )
+				MoodSettings.maximalSet();
+			else
+				MoodSettings.minimalSet();
+
 			MoodSettings.saveSettings();
 		}
 
@@ -817,18 +828,11 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			Integer [] levelArray = new Integer[11];
-			for ( int i = 0; i < 11; ++i )
-				levelArray[i] = new Integer( i + 1 );
-
-			Integer selectedLevel = (Integer) JOptionPane.showInputDialog(
-				null, "Pick a number?", "Choose 1 if you're not sure!",
-					JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[0] );
-
-			if ( selectedLevel == null )
+			String desiredLevel = JOptionPane.showInputDialog( null, "TURN CHANGE!", "Set to how many turns?" );
+			if ( desiredLevel == null )
 				return;
 
-			MoodSettings.addTriggers( moodList.getSelectedValues(), selectedLevel.intValue() );
+			MoodSettings.addTriggers( moodList.getSelectedValues(), StaticEntity.parseInt( desiredLevel ) );
 			MoodSettings.saveSettings();
 		}
 
