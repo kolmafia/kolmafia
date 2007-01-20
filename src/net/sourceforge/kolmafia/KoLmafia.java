@@ -1022,7 +1022,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		float setting = StaticEntity.getFloatProperty( settingName );
 
-		if ( setting < 0.0f )
+		if ( setting < 0.0f && needed == 0 )
 			return true;
 
 		int current = ((Number)currentMethod.invoke( null, empty )).intValue();
@@ -1030,17 +1030,13 @@ public abstract class KoLmafia implements KoLConstants
 
 		int trigger = (int) Math.max( needed, setting * ((float) maximum) );
 
-		if ( current > trigger )
+		if ( current > trigger && needed == 0 )
 			return true;
 
 		// Next, check against the restore target to see how
 		// far you need to go.
 
 		setting = StaticEntity.getFloatProperty( settingName + "Target" );
-
-		if ( setting <= 0.0f )
-			return true;
-
 		needed = Math.max( needed, (int) (setting * ((float) maximum)) );
 
 		if ( BuffBotHome.isBuffBotActive() || needed > maximum )
