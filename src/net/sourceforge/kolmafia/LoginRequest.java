@@ -88,6 +88,10 @@ public class LoginRequest extends KoLRequest
 			setLoginServer( "dev.kingdomofloathing.com" );
 
 		clearDataFields();
+
+		if ( StaticEntity.getBooleanProperty( "ignoreLoadBalancer" ) )
+			constructURLString( "main.php" );
+
 		super.run();
 
 		// If the pattern is not found, then do not submit
