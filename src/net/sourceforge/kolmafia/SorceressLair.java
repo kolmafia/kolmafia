@@ -348,8 +348,8 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 		}
 
-		if ( KoLCharacter.hasItem( HOSE_BOWL ) && KoLCharacter.hasItem( FISH_TANK ) )
-			(new UntinkerRequest( HOSE_BOWL )).run();
+		if ( KoLCharacter.hasItem( HOSE_BOWL ) && KoLCharacter.hasItem( TANK ) )
+			(new UntinkerRequest( HOSE_BOWL.getItemId() )).run();
 
 		RequestThread.postRequest( new EquipmentRequest( SCUBA, KoLCharacter.ACCESSORY1 ) );
 
