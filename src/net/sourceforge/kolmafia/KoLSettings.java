@@ -361,6 +361,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "http.proxyPort", "" );
 		CLIENT_SETTINGS.put( "http.proxyUser", "" );
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
+		CLIENT_SETTINGS.put( "ignoreLoadBalancer", "false" );
 
 		CLIENT_SETTINGS.put( "previousNotifyList", "<>" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );

@@ -76,6 +76,8 @@ public class LoginFrame extends KoLFrame
 	{
 		super( VERSION_NAME + ": Login" );
 
+		KoLRequest.chooseRandomServer();
+
 		tabs = new JTabbedPane();
 		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
 
@@ -357,11 +359,6 @@ public class LoginFrame extends KoLFrame
 					LoginPanel.this.setEnabled( true );
 					return;
 				}
-
-				if ( servers != null && servers.getSelectedIndex() == 0 )
-					if ( StaticEntity.getProperty( "loginServerName" ).indexOf( "dev" ) != -1 )
-						if ( !currentMatch.equals( StaticEntity.getProperty( "lastUsername" ) ) )
-							servers.setSelectedIndex(1);
 
 				String password = KoLmafia.getSaveState( currentMatch );
 				if ( password == null )
@@ -770,7 +767,8 @@ public class LoginFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" },
-			{ "testSocketTimeout", "Allow socket timeouts for unstable connections" },
+			{ "ignoreLoadBalancer", "Ignore the KoL load balancer when trying to login" },
+			{ "testSocketTimeout", "Allow socket timeouts for unstable connections" }
 		};
 
 		public ConnectionOptionsPanel()

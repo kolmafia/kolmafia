@@ -104,7 +104,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static boolean isCompactMode = false;
 
-	private static final String [][] SERVERS =
+	public static final String [][] SERVERS =
 	{
 		{ "dev.kingdomofloathing.com", "69.16.150.202" },
 		{ "www.kingdomofloathing.com", "69.16.150.196" },
@@ -211,6 +211,12 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 	}
 
+	public static void chooseRandomServer()
+	{
+		StaticEntity.setProperty( "defaultLoginServer", String.valueOf( 1 + RNG.nextInt( KoLRequest.SERVER_COUNT ) ) );
+		applySettings();
+	}
+
 	/**
 	 * Static method used to manually set the server to be used as
 	 * the root for all requests by all KoLmafia clients running
@@ -232,8 +238,9 @@ public class KoLRequest extends Job implements KoLConstants
 				KOL_ROOT = "http://" + SERVERS[i][1] + "/";
 
 				StaticEntity.setProperty( "loginServerName", KOL_HOST );
+
 				DEFAULT_SHELL.printLine( "Redirected to " + KOL_HOST + "..." );
-				System.setProperty( "http.referer", "http://" + KOL_HOST + "/main.html" );
+				System.setProperty( "http.referer", "http://" + KOL_HOST + "/main.php" );
 			}
 		}
 	}
