@@ -456,15 +456,21 @@ public class AdventureRequest extends KoLRequest
 				return "";
 
 			int endBoldIndex = request.responseText.indexOf( "</b>", boldIndex );
+
 			if ( endBoldIndex == -1 )
 				return "";
 
 			String encounter = request.responseText.substring( boldIndex, endBoldIndex );
+			if ( encounter.equals( "" ) )
+				return "";
+
 			KoLmafiaCLI.printLine( "Encounter: " + encounter );
 			KoLmafia.getSessionStream().println( "Encounter: " + encounter );
 
 			if ( !urlString.startsWith( "choice.php" ) || urlString.indexOf( "option" ) == -1 )
 				StaticEntity.getClient().registerEncounter( encounter, "Noncombat" );
+			else
+				StaticEntity.getClient().recognizeEncounter( encounter );
 
 			return encounter;
 		}

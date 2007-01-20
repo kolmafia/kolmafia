@@ -348,6 +348,9 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 		}
 
+		if ( KoLCharacter.hasItem( HOSE_BOWL ) && KoLCharacter.hasItem( FISH_TANK ) )
+			(new UntinkerRequest( HOSE_BOWL )).run();
+
 		RequestThread.postRequest( new EquipmentRequest( SCUBA, KoLCharacter.ACCESSORY1 ) );
 
 		KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
