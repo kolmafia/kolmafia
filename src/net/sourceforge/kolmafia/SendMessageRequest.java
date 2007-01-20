@@ -313,11 +313,11 @@ public abstract class SendMessageRequest extends KoLRequest
 	{	return true;
 	}
 
-	public static boolean processRequest( String command, String urlString, List source, int defaultQuantity )
-	{	return processRequest( command, urlString, ITEMID_PATTERN, HOWMANY_PATTERN, source, defaultQuantity );
+	public static boolean registerRequest( String command, String urlString, List source, int defaultQuantity )
+	{	return registerRequest( command, urlString, ITEMID_PATTERN, HOWMANY_PATTERN, source, defaultQuantity );
 	}
 
-	public static boolean processRequest( String command, String urlString, Pattern itemPattern, Pattern quantityPattern, List source, int defaultQuantity )
+	public static boolean registerRequest( String command, String urlString, Pattern itemPattern, Pattern quantityPattern, List source, int defaultQuantity )
 	{
 		ArrayList itemList = new ArrayList();
 		StringBuffer itemListBuffer = new StringBuffer();

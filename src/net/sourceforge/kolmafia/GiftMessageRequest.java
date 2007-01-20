@@ -171,12 +171,12 @@ public class GiftMessageRequest extends SendMessageRequest
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - materialCost ) );
 	}
 
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		if ( urlString.indexOf( "town_sendgift.php" ) == -1 )
 			return false;
 
-		return processRequest( "send", urlString, inventory, 0 );
+		return registerRequest( "send", urlString, inventory, 0 );
 	}
 
 	public String getStatusMessage()

@@ -757,6 +757,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				AdventureFrame.updateSelectedAdventure( this );
 		}
 
+		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( "[" + getAdventureCount() + "] " + getAdventureName() );
 		StaticEntity.getClient().registerAdventure( this );
 
@@ -766,6 +767,20 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	public static boolean recordToSession( String urlString )
 	{
+		// In the event that this is an adventure, assume "snarfblat"
+		// instead of "adv" in order to determine the location.
+
+		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( StaticEntity.singleStringReplace( urlString, "adv=", "snarfblat=" ) );
+
+		if ( matchingLocation != null )
+		{
+			matchingLocation.recordToSession();
+			return true;
+		}
+
+		// Not an internal location.  Perhaps it's something related
+		// to another common request?
+
 		String location = null;
 
 		if ( urlString.indexOf( "dungeon.php" ) != -1 )

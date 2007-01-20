@@ -204,7 +204,7 @@ public class HermitRequest extends KoLRequest
 		return hermitItems.contains( SewerRequest.CLOVER );
 	}
 
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "hermit.php?" ) )
 			return false;

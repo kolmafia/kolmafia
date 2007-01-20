@@ -101,9 +101,5 @@ public class HeroDonationRequest extends KoLRequest
 		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
 		KoLmafia.updateDisplay( "Donation complete." );
 	}
-
-	public String getCommandForm()
-	{	return "donate " + amount + " " + statue;
-	}
 }
 

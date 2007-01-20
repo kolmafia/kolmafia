@@ -78,7 +78,7 @@ public class TinkerRequest extends ItemCreationRequest
 		super.run();
 	}
 
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{	return true;
 	}
 }

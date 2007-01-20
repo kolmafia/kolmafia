@@ -126,12 +126,12 @@ public class GreenMessageRequest extends SendMessageRequest
 	{	return "sendmeat";
 	}
 
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		if ( urlString.indexOf( "sendmessage.php" ) == -1 )
 			return false;
 
-		return processRequest( "send", urlString, inventory, 0 );
+		return registerRequest( "send", urlString, inventory, 0 );
 	}
 }
 

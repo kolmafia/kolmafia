@@ -786,10 +786,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	{	return getName() + " (" + getQuantityPossible() + ")";
 	}
 
-	public String getCommandForm()
-	{	return "create " + getQuantityNeeded() + " \"" + getName() + "\"";
-	}
-
 	/**
 	 * An alternative method to doing adventure calculation is determining
 	 * how many adventures are used by the given request, and subtract
@@ -830,21 +826,21 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		return 0;
 	}
 
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		// First, delegate subclasses, if it's a subclass request.
 
 		if ( urlString.indexOf( "starchart.php" ) != -1 )
-			return StarChartRequest.processRequest( urlString );
+			return StarChartRequest.registerRequest( urlString );
 
 		if ( urlString.indexOf( "action=makepixel" ) != -1 )
-			return PixelRequest.processRequest( urlString );
+			return PixelRequest.registerRequest( urlString );
 
 		if ( urlString.indexOf( "action=tinksomething" ) != -1 )
-			return TinkerRequest.processRequest( urlString );
+			return TinkerRequest.registerRequest( urlString );
 
 		if ( urlString.indexOf( "action=makepaste" ) != -1 )
-			return CombineMeatRequest.processRequest( urlString );
+			return CombineMeatRequest.registerRequest( urlString );
 
 		// Now that we know it's not a special subclass instance,
 		// all we do is parse out the ingredients which were used

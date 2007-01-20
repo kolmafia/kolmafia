@@ -136,13 +136,7 @@ public class FamiliarRequest extends KoLRequest
 			KoLCharacter.setEquipment( KoLCharacter.FAMILIAR, EquipmentRequest.UNEQUIP );
 	}
 
-	public String getCommandForm()
-	{
-		String familiarName = getFamiliarChange();
-		return familiarName == null ? "" : "familiar " + familiarName;
-	}
-
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		if ( urlString.indexOf( "familiar.php?" ) == -1 )
 			return false;

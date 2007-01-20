@@ -108,7 +108,7 @@ public class PulverizeRequest extends KoLRequest
 		KoLmafia.updateDisplay( item + " smashed." );
 	}
 
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "smith.php" ) || urlString.indexOf( "action=pulverize" ) == -1 )
 			return false;

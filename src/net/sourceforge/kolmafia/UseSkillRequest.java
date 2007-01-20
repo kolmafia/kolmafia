@@ -517,30 +517,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	{	return o != null && o instanceof UseSkillRequest && getSkillName().equals( ((UseSkillRequest)o).getSkillName() );
 	}
 
-	public String getCommandForm()
-	{	return "cast " + buffCount + " " + skillName;
-	}
-
-	public static boolean processRequest( String urlString )
-	{
-		if ( urlString.indexOf( "skills.php" ) == -1 )
-			return false;
-
-		Matcher skillMatcher = SKILLID_PATTERN.matcher( urlString );
-		if ( !skillMatcher.find() )
-			return false;
-
-		String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
-		Matcher countMatcher = COUNT_PATTERN.matcher( urlString );
-
-		int count = countMatcher.find() || countMatcher.group(2).equals( "" ) ? 1 :
-			StaticEntity.parseInt( countMatcher.group(2) );
-
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( "cast " + count + " " + skillName );
-		return true;
-	}
-
 	public static UseSkillRequest getInstance( int skillId )
 	{	return getInstance( ClassSkillsDatabase.getSkillName( skillId ) );
 	}
@@ -573,5 +549,25 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		request.setTarget( KoLCharacter.getUserName() );
 		request.setBuffCount( 0 );
 		return request;
+	}
+
+	public static boolean registerRequest( String urlString )
+	{
+		if ( urlString.indexOf( "skills.php" ) == -1 )
+			return false;
+
+		Matcher skillMatcher = SKILLID_PATTERN.matcher( urlString );
+		if ( !skillMatcher.find() )
+			return false;
+
+		String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
+		Matcher countMatcher = COUNT_PATTERN.matcher( urlString );
+
+		int count = countMatcher.find() || countMatcher.group(2).equals( "" ) ? 1 :
+			StaticEntity.parseInt( countMatcher.group(2) );
+
+		KoLmafia.getSessionStream().println();
+		KoLmafia.getSessionStream().println( "cast " + count + " " + skillName );
+		return true;
 	}
 }

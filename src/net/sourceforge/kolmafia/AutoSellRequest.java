@@ -301,7 +301,7 @@ public class AutoSellRequest extends SendMessageRequest
 		KoLCharacter.updateStatus();
 	}
 
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		Pattern itemPattern = null;
 		int quantity = 1;
@@ -336,7 +336,7 @@ public class AutoSellRequest extends SendMessageRequest
 		if ( itemPattern == null )
 			return false;
 
-		return processRequest( "autosell", urlString, itemPattern, null, inventory, quantity );
+		return registerRequest( "autosell", urlString, itemPattern, null, inventory, quantity );
 	}
 
 	public String getSuccessMessage()
@@ -349,60 +349,6 @@ public class AutoSellRequest extends SendMessageRequest
 
 	public boolean allowUngiftableTransfer()
 	{	return sellType == AUTOSELL;
-	}
-
-	public String getCommandForm()
-	{
-		if ( sellType == AUTOMALL || isSubInstance )
-			return "";
-
-		int quantity = StaticEntity.parseInt( getFormField( "howmany" ) );
-
-		if ( formURLString.startsWith( "sellstuff.php" ) )
-		{
-			String mode = getFormField( "type" );
-
-			if ( mode == null );
-			else if ( mode.equals( "allbutone" ) )
-				quantity = -1;
-			else if ( mode.equals( "all" ) )
-				quantity = 0;
-		}
-		else
-		{
-			String mode = getFormField( "mode" );
-
-			if ( mode == null );
-			else if ( mode.equals( "1" ) )
-				quantity = 0;
-			else if ( mode.equals( "2" ) )
-				quantity = -1;
-		}
-
-		StringBuffer buffer = new StringBuffer();
-		for ( int i = 0; i < attachments.length; ++i )
-		{
-			if ( attachments[i] == null )
-				continue;
-
-			buffer.append( buffer.length() == 0 ? "autosell " : ", " );
-			buffer.append( quantity == 0 ? "*" : String.valueOf( quantity ) );
-			buffer.append( " " );
-
-			AdventureResult item = (AdventureResult) attachments[i];
-			int inventoryAmount = item.getCount( inventory );
-
-			int sellQuantity = quantity;
-
-			if ( sellQuantity < 1 )
-				sellQuantity += inventoryAmount;
-			else
-				sellQuantity = Math.min( quantity, inventoryAmount );
-
-			buffer.append( item.getName() );
-		}
-
-		return buffer.toString();
 	}
 
 	public String getStatusMessage()

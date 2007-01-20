@@ -858,25 +858,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			requestType == REMOVE_ITEM || requestType == UNEQUIP_ALL;
 	}
 
-
-	public String getCommandForm()
-	{
-		if ( !isChangeRequest() || requestType == UNEQUIP_ALL )
-			return "";
-
-		String outfitName = getOutfitName();
-
-		if ( outfitName != null )
-			return "outfit " + outfitName;
-
-		if ( requestType == REMOVE_ITEM )
-			return "unequip " + slotNames[ equipmentSlot ];
-
-		return equipmentSlot == -1 ? "equip " + changeItem.getName() :
-			"equip " + slotNames[ equipmentSlot ] + " " + changeItem.getName();
-	}
-
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		if ( urlString.indexOf( "inv_equip.php" ) == -1 )
 		{
