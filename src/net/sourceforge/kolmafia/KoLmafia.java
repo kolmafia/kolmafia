@@ -2629,7 +2629,10 @@ public abstract class KoLmafia implements KoLConstants
 	public void recognizeEncounter( String encounterName )
 	{
 		if ( conditions.isEmpty() && stopEncounters.contains( encounterName ) )
+		{
 			KoLmafia.updateDisplay( PENDING_STATE, encounterName );
+			RequestThread.enableDisplayIfSequenceComplete();
+		}
 	}
 
 	/**
