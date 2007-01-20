@@ -38,7 +38,9 @@ import java.util.regex.Pattern;
 
 public class MallPurchaseRequest extends KoLRequest implements Comparable
 {
+	private static final AdventureResult TROUSERS = new AdventureResult( 1792, 1 );
 	private static final Pattern YIELD_PATTERN = Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
+
 	private static boolean usePriceComparison;
 
 	// In order to prevent overflows from happening, make
@@ -375,7 +377,18 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			neededOutfit = 2;
 
 		if ( neededOutfit == 0 )
+		{
+			// Maybe you can put on some Travoltan Trousers to decrease the
+			// cost of the purchase.
+
+			if ( !KoLCharacter.isHardcore() && !KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( TROUSERS ) && KoLCharacter.hasItem( TROUSERS ) )
+			{
+				SpecialOutfit.createImplicitCheckpoint();
+				(new EquipmentRequest( TROUSERS, KoLCharacter.PANTS )).run();
+			}
+
 			return;
+		}
 
 		// Only switch outfits if the person is not
 		// currently wearing the outfit.
