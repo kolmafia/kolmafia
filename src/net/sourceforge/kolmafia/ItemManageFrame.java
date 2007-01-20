@@ -83,6 +83,7 @@ public class ItemManageFrame extends KoLFrame
 		LabeledScrollPanel npcOfferings = null;
 
 		tabs.addTab( "Usable Items", new ConsumeItemPanel() );
+		tabs.addTab( "Recent Items", new InventoryManagePanel( tally ) );
 		tabs.addTab( "Inventory Items", new InventoryManagePanel( inventory ) );
 		tabs.addTab( "Closeted Items", new InventoryManagePanel( closet ) );
 		tabs.addTab( "Creatable Items", new CreateItemPanel() );

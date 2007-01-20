@@ -97,7 +97,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int TOASTER = 637;
 	private static final int GIANT_CASTLE_MAP = 667;
 	private static final int YETI_PROTEST_SIGN = 775;
-	private static final int ANTIdOTE = 829;
+	private static final int ANTIDOTE = 829;
 	private static final int TEARS = 869;
 	private static final int ROLLING_PIN = 873;
 	private static final int UNROLLING_PIN = 874;
@@ -113,8 +113,10 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int BLACK = 1417;
 	private static final int HILARIOUS_TOME = 1498;
 	private static final int ASTRAL_MUSHROOM = 1622;
+	private static final int MILK_OF_MAGNESIUM = 1650;
 	private static final int DUSTY_ANIMAL_SKULL = 1799;
 	private static final int QUILL_PEN = 1957;
+	private static final int DANCE_CARD = 1963;
 	private static final int MEMO = 1973;
 
 	private static final int GIFT1 = 1167;
@@ -152,6 +154,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int CRIMBOWEEN_MEMO = 2089;
 
 	private static final AdventureResult POISON = new AdventureResult( "Poisoned", 1, true );
+	private static final AdventureResult GOT_MILK = new AdventureResult( "Got Milk", 1, true );
+
 	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
 	private static final AdventureResult FERTILIZER = new AdventureResult( 76, -1 );
 	private static final AdventureResult PLANKS = new AdventureResult( 140, -1 );
@@ -207,6 +211,12 @@ public class ConsumeItemRequest extends KoLRequest
 			SorceressLair.completeHedgeMaze();
 			return;
 		}
+
+		if ( itemUsed.getItemId() == MILK_OF_MAGNESIUM )
+			itemUsed = itemUsed.getInstance( activeEffects.contains( GOT_MILK ) ? 0 : 1 );
+
+		if ( itemUsed.getItemId() == DANCE_CARD && itemUsed.getCount() > 1 )
+			itemUsed = itemUsed.getInstance(1);
 
 		if ( itemUsed.getCount() < 1 )
 			return;
@@ -640,7 +650,7 @@ public class ConsumeItemRequest extends KoLRequest
 			activeEffects.remove( KoLAdventure.BEATEN_UP );
 			return;
 
-		case ANTIdOTE:
+		case ANTIDOTE:
 
 			activeEffects.remove( POISON );
 			return;

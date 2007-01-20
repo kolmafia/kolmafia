@@ -53,7 +53,12 @@ public class KoLMailMessage implements Comparable
 
 	public KoLMailMessage( String message )
 	{
-		this.completeHTML = message;
+		// Blank lines are not displayed correctly
+		this.completeHTML = StaticEntity.globalStringReplace( message, "<br><br>", "<br>&nbsp;<br>" );
+
+		this.completeHTML = this.completeHTML.substring( this.completeHTML.indexOf( ">" ) + 1,
+			this.completeHTML.indexOf( "reply</a>]" ) + 10 ) + this.completeHTML.substring( this.completeHTML.indexOf( "<br>" ) );
+
 
 		this.messageId = message.substring( message.indexOf( "name=" ) + 6, message.indexOf( "\">" ) );
 		StringTokenizer messageParser = new StringTokenizer( message, "<>" );
@@ -127,8 +132,6 @@ public class KoLMailMessage implements Comparable
 	}
 
 	public String getDisplayHTML()
-	{
-		// Blank lines are not displayed correctly
-		return messageHTML.replaceAll( "<br><br>", "<br>&nbsp;<br>" );
+	{	return completeHTML;
 	}
 }
