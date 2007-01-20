@@ -185,7 +185,7 @@ public class GearChangeFrame extends KoLFrame
 		}
 
 		AdventureResult famitem = (AdventureResult) equipment[KoLCharacter.FAMILIAR].getSelectedItem();
-		if ( KoLCharacter.getFamiliar().canEquip( famitem ) && !KoLCharacter.getFamiliar().getItem().equals( famitem ) )
+		if ( KoLCharacter.getFamiliar().canEquip( famitem ) )
 			RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
 	}
 
@@ -239,17 +239,14 @@ public class GearChangeFrame extends KoLFrame
 				if ( ChangeComboBox.this == familiarSelect )
 				{
 					RequestThread.openRequestSequence();
-					changeItems();
 
 					FamiliarData familiar = (FamiliarData) familiarSelect.getSelectedItem();
 					if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
 						RequestThread.postRequest( new FamiliarRequest( familiar ) );
 
-					AdventureResult famitem = (AdventureResult) equipment[KoLCharacter.FAMILIAR].getSelectedItem();
-					if ( KoLCharacter.getFamiliar().canEquip( famitem ) && !KoLCharacter.getFamiliar().getItem().equals( famitem ) )
-						RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
-
+					changeItems();
 					RequestThread.closeRequestSequence();
+
 					return;
 				}
 
