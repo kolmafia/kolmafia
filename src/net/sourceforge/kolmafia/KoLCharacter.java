@@ -2203,13 +2203,10 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		currentFamiliar = addFamiliar( familiar );
 
+		equipmentLists[FAMILIAR].setSelectedItem( currentFamiliar.getItem() );
 		familiars.setSelectedItem( currentFamiliar );
 
-		if ( !equipmentLists[FAMILIAR].contains( currentFamiliar.getItem() ) )
-			equipmentLists[FAMILIAR].add( currentFamiliar.getItem() );
-
-		equipmentLists[FAMILIAR].setSelectedItem( currentFamiliar.getItem() );
-		isUsingStabBat = currentFamiliar.equals( "Stab Bat" ) || currentFamiliar.equals( "Scary Death Orb" );
+		isUsingStabBat = currentFamiliar.getRace().equals( "Stab Bat" ) || currentFamiliar.getRace().equals( "Scary Death Orb" );
 
 		recalculateAdjustments();
 		updateStatus();
