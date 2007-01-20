@@ -3542,53 +3542,75 @@ public class KoLmafiaASH extends StaticEntity
 			return false;
 		}
 
+		private boolean isMatchingFunction( ScriptUserDefinedFunction current, ScriptUserDefinedFunction f ) throws AdvancedScriptException
+		{
+			// The existing function must be a forward
+			// reference.  Thus, already-defined functions
+			// need to be skipped.
+
+			boolean avoidExactMatch = current.getScope() != null;
+
+			// The types of the new function's parameters
+			// must exactly match the types of the existing
+			// function's parameters
+
+			ScriptVariableReference p1 = current.getFirstParam();
+			ScriptVariableReference p2 = f.getFirstParam();
+			int paramCount = 1;
+
+			while ( p1 != null && p2 != null )
+			{
+				if ( !p1.getType().equals( p2.getType() ) )
+					return false;
+
+				p1 = current.getNextParam();
+				p2 = f.getNextParam();
+				++paramCount;
+			}
+
+			// There must be the same number of parameters
+
+			if ( p1 != null )
+				return false;
+
+			if ( p2 != null )
+				return false;
+
+			// Unfortunately, if it's an exact match and you're avoiding
+			// exact matches, you need to throw an exception.
+
+			if ( avoidExactMatch )
+				throw new AdvancedScriptException( "Function '" + f.getName() + "' already defined " + getLineAndFile() );
+
+			return true;
+		}
+
 		public ScriptUserDefinedFunction replaceFunction( ScriptUserDefinedFunction f ) throws AdvancedScriptException
 		{
 			String functionName = f.getName();
-			ScriptUserDefinedFunction current = (ScriptUserDefinedFunction) functions.findFunction( functionName );
-			if ( current != null )
+			int currentIndex = functions.indexOf( functionName, 0 );
+
+			while ( currentIndex != -1 )
 			{
-				// The existing function must be a forward
-				// reference.
+				ScriptUserDefinedFunction current = (ScriptUserDefinedFunction) functions.findFunction( functionName, currentIndex );
+				currentIndex = functions.indexOf( functionName, currentIndex + 1 );
 
-				if ( current.getScope() != null )
-					throw new AdvancedScriptException( "Function '" + functionName + "' already defined " + getLineAndFile() );
-
-				// The types of the new function's parameters
-				// must exactly match the types of the existing
-				// function's parameters
-
-				ScriptVariableReference p1 = current.getFirstParam();
-				ScriptVariableReference p2 = f.getFirstParam();
-				int paramCount = 1;
-				while ( p1 != null && p2 != null )
-				{
-					if ( !p1.getType().equals( p2.getType() ) )
-						throw new AdvancedScriptException( "Function '" + functionName + "' parameter #" + paramCount + " previously declared to have type " + p1.getType().toString() + " " + getLineAndFile() );
-					p1 = current.getNextParam();
-					p2 = f.getNextParam();
-					++paramCount;
-				}
-
-				// There must be the same number of parameters
-
-				if ( p1 != null )
-					throw new AdvancedScriptException( "Function '" + functionName + "' previously declared to have more parameters " + getLineAndFile() );
-
-				if ( p2 != null )
-					throw new AdvancedScriptException( "Function '" + functionName + "' previously declared to have fewer parameters " + getLineAndFile() );
-
-				current.setVariableReferences( f.getVariableReferences() );
-				return current;
+				if ( isMatchingFunction( current, f ) )
+					return current;
 			}
+
 			addFunction( f );
 			return f;
 		}
 
-		public ScriptFunction findFunction( String name, ScriptExpressionList params ) throws AdvancedScriptException
+		private ScriptFunction findFunction( String name, ScriptExpressionList params, boolean isExactMatch ) throws AdvancedScriptException
 		{
 			String errorMessage = null;
 			int currentIndex = functions.indexOf( name, 0 );
+
+			// First, try to find an exact match on parameter types.
+			// This allows strict matches to take precedence.
+
 			while ( currentIndex != -1 )
 			{
 				errorMessage = null;
@@ -3604,7 +3626,13 @@ public class KoLmafiaASH extends StaticEntity
 
 				while ( errorMessage == null && currentParam != null && currentValue != null )
 				{
-					if ( !validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
+					if ( isExactMatch )
+					{
+						if ( currentParam.getType() != currentValue.getType() )
+							errorMessage = "Illegal parameter #" + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile();
+
+					}
+					else if ( !validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
 						errorMessage = "Illegal parameter #" + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile();
 
 					++paramIndex;
@@ -3619,13 +3647,19 @@ public class KoLmafiaASH extends StaticEntity
 					return current;
 			}
 
-			if ( errorMessage != null )
+			if ( !isExactMatch && errorMessage != null )
 				throw new AdvancedScriptException( errorMessage );
 
-			if ( parentScope != null )
+			if ( !isExactMatch && parentScope != null )
 				return parentScope.findFunction( name, params );
 
 			return null;
+		}
+
+		public ScriptFunction findFunction( String name, ScriptExpressionList params ) throws AdvancedScriptException
+		{
+			ScriptFunction result = findFunction( name, params, true );
+			return result != null ? result : findFunction( name, params, false );
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
