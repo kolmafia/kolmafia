@@ -60,7 +60,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public abstract class ProposeTradeFrame extends KoLFrame
+public class ProposeTradeFrame extends KoLFrame
 {
 	// Source of meat & attachments
 
@@ -77,11 +77,11 @@ public abstract class ProposeTradeFrame extends KoLFrame
 	public LockableListModel attachments;
 
 	public ProposeTradeFrame()
-	{	this( "", null );
+	{	this( "", "" );
 	}
 
 	public ProposeTradeFrame( String recipient )
-	{	this( recipient, null );
+	{	this( recipient, "" );
 	}
 
 	public ProposeTradeFrame( String recipient, String offerId )
@@ -131,7 +131,6 @@ public abstract class ProposeTradeFrame extends KoLFrame
 		meatPanel.add( Box.createHorizontalStrut( 40 ) );
 
 		attachmentPanel.add( meatPanel, BorderLayout.SOUTH );
-
 		centerPanel.add( attachmentPanel, BorderLayout.EAST );
 
 		mainPanel.add( centerPanel );
@@ -154,7 +153,7 @@ public abstract class ProposeTradeFrame extends KoLFrame
 
 		this.offerId = offerId;
 
-		if ( this.offerId != null )
+		if ( isTradeResponse() )
 			recipientEntry.setEnabled( false );
 	}
 
@@ -244,6 +243,10 @@ public abstract class ProposeTradeFrame extends KoLFrame
 		return label;
 	}
 
+	private boolean isTradeResponse()
+	{	return offerId != null && !offerId.equals( "" );
+	}
+
 	public boolean sendMessage( String recipient, String [] messages )
 	{
 		// Close all pending trades frames first
@@ -255,11 +258,11 @@ public abstract class ProposeTradeFrame extends KoLFrame
 
 		// Send the offer / response
 
-		if ( offerId != null )
+		if ( isTradeResponse() )
 			RequestThread.postRequest( new ProposeTradeRequest( StaticEntity.parseInt( offerId ), messages[0], getAttachedItems() ) );
 
 		Object [] parameters = new Object[1];
-		parameters[0] = offerId != null ? new ProposeTradeRequest() :
+		parameters[0] = isTradeResponse() ? new ProposeTradeRequest() :
 			new ProposeTradeRequest( recipient, messages[0], getAttachedItems() );
 
 		createDisplay( PendingTradesFrame.class, parameters );
@@ -327,7 +330,7 @@ public abstract class ProposeTradeFrame extends KoLFrame
 
 		super.setEnabled( isEnabled );
 
-		if ( this.offerId != null )
+		if ( this.isTradeResponse() )
 			recipientEntry.setEnabled( false );
 
 		sendMessageButton.setEnabled( isEnabled );

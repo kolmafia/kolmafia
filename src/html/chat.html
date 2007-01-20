@@ -326,6 +326,9 @@
 	{
 		var display = document.getElementById( "ChatWindow" );
 		var httpObject = getHttpObject();
+
+		var mylastseen = lastseen;
+
 		if ( !httpObject )
 			return true;
 
@@ -338,6 +341,9 @@
 				return;
 
 			if ( httpObject.responseText.length < 2 )
+				return;
+
+			if ( mylastseen != lastseen )
 				return;
 
 			var responseText = httpObject.responseText;

@@ -45,6 +45,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	{
 		ChatFrame.class,
 		ProfileFrame.class,
+		ProposeTradeFrame.class,
 		SendMessageFrame.class
 	};
 

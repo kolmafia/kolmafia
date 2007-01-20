@@ -52,6 +52,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -780,6 +782,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 	}
 
+	private static final Pattern TOID_PATTERN = Pattern.compile( "toid=(\\d+)" );
+
 	public class KoLHyperlinkAdapter extends HyperlinkAdapter
 	{
 		public void handleInternalLink( String location )
@@ -794,7 +798,27 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 			else if ( location.equals( "lchat.php" ) )
 			{
+				// Chat should load up KoLmafia's internal chat
+				// engine -- the mini-browser has no hope.
+
 				KoLMessenger.initialize();
+			}
+			else if ( location.startsWith( "makeoffer.php" ) )
+			{
+				// Attempts to do trading should open up KoLmafia's
+				// internal trade handler.
+
+				createDisplay( PendingTradesFrame.class );
+			}
+			else if ( location.startsWith( "sendmessage.php" ) || location.startsWith( "town_sendgift.php" ) )
+			{
+				// Attempts to send a message should open up
+				// KoLmafia's built-in message sender.
+
+				Matcher idMatcher = TOID_PATTERN.matcher( location );
+
+				String [] parameters = new String [] { idMatcher.find() ? idMatcher.group(1) : "" };
+				createDisplay( SendMessageFrame.class, parameters );
 			}
 			else if ( KoLFrame.this instanceof RequestFrame )
 			{

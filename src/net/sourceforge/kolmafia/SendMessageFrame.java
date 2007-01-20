@@ -375,6 +375,8 @@ public class SendMessageFrame extends KoLFrame
 			for ( int i = 0; i < recipients.length && KoLmafia.permitsContinue(); ++i )
 				if ( !sendMessage( recipients[i], message ) )
 					return;
+
+			dispose();
 		}
 	}
 
