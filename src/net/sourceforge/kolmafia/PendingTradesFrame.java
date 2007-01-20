@@ -73,6 +73,7 @@ public class PendingTradesFrame extends RequestFrame
 			parameters[0] = "Offer Id # " + offerId;
 			parameters[1] = offerId;
 
+			(new CreateFrameRunnable( ProposeTradeFrame.class, parameters )).run();
 			dispose();
 		}
 	}

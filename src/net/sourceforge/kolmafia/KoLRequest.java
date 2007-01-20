@@ -213,6 +213,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static void chooseRandomServer()
 	{
+		if ( StaticEntity.getIntegerProperty( "defaultLoginServer" ) == 0 )
+			return;
+
 		StaticEntity.setProperty( "defaultLoginServer", String.valueOf( 1 + RNG.nextInt( KoLRequest.SERVER_COUNT ) ) );
 		applySettings();
 	}

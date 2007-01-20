@@ -2210,6 +2210,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 		equipmentLists[FAMILIAR].setSelectedItem( currentFamiliar.getItem() );
 		isUsingStabBat = currentFamiliar.equals( "Stab Bat" ) || currentFamiliar.equals( "Scary Death Orb" );
+
+		recalculateAdjustments();
 		updateStatus();
 	}
 
