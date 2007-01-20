@@ -112,14 +112,7 @@ public class HermitRequest extends KoLRequest
 			(new ConsumeItemRequest( SUMMON_SCROLL.getInstance( scrollCount ) )).run();
 		}
 
-		if ( getWorthlessItemCount() == 0 && !StaticEntity.getBooleanProperty( "autoRetrieveWorthless" ) )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Ran out of worthless junk." );
-			return;
-		}
-
 		quantity = Math.min( quantity, getWorthlessItemCount() );
-
 		KoLmafia.updateDisplay( "Robbing the hermit..." );
 		super.run();
 	}

@@ -182,6 +182,7 @@ public abstract class KoLmafia implements KoLConstants
 		// are present in your save state list.
 
 		StaticEntity.reloadSettings( "" );
+		StaticEntity.setProperty( "relayBrowserOnly", "false" );
 
 		String actualName;
 		String [] pastUsers;
@@ -460,10 +461,9 @@ public abstract class KoLmafia implements KoLConstants
 		RequestThread.postRequest( CharpaneRequest.getInstance() );
 
 		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );
+
 		StaticEntity.setProperty( "lastUsername", username );
 		StaticEntity.reloadSettings( username );
-
-		StaticEntity.setProperty( "autoSatisfyWithStash", "false" );
 		StaticEntity.setProperty( "showStashIngredients", "false" );
 
 		// Reset all per-player information when refreshing

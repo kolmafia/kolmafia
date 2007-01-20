@@ -312,7 +312,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		// would not serve any purpose.
 
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
-		CLIENT_SETTINGS.put( "allowStasisTactics", "false" );
 		CLIENT_SETTINGS.put( "allowThiefShrugOff", "true" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
 		CLIENT_SETTINGS.put( "assumeInfiniteNPCItems", "false" );
@@ -320,17 +319,15 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "autoPlantHardcore", "false" );
 		CLIENT_SETTINGS.put( "autoPlantSoftcore", "false" );
 		CLIENT_SETTINGS.put( "autoRepairBoxes", "false" );
-		CLIENT_SETTINGS.put( "autoRetrieveScrewdriver", "false" );
+		CLIENT_SETTINGS.put( "autoRoninPickpocket", "false" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithMall", "true" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithNPCs", "true" );
-		CLIENT_SETTINGS.put( "autoSatisfyWithStash", "false" );
 		CLIENT_SETTINGS.put( "autoSetConditions", "true" );
 		CLIENT_SETTINGS.put( "breakfastSoftcore", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "breakfastHardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "browserBookmarks", "" );
 		CLIENT_SETTINGS.put( "chatStyle", "0" );
 		CLIENT_SETTINGS.put( "closeLastFrameAction", "0" );
-		CLIENT_SETTINGS.put( "cloverProtectActive", "false" );
 		CLIENT_SETTINGS.put( "commandLineNamespace", "" );
 		CLIENT_SETTINGS.put( "createWithoutBoxServants", "false" );
 		CLIENT_SETTINGS.put( "defaultBorderColor", "blue" );
@@ -346,7 +343,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "http.proxyPort", "" );
 		CLIENT_SETTINGS.put( "http.proxyUser", "" );
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
-		CLIENT_SETTINGS.put( "ignoreGreenEvents", "false" );
 		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame,HagnkStorageFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "LocalRelayServer,CommandDisplayFrame,EventsFrame" );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
@@ -380,6 +376,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "relayMaintainsMoods", "false" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
 		CLIENT_SETTINGS.put( "relayTextualizesEffects", "false" );
+		CLIENT_SETTINGS.put( "relayUsesCachedImages", "false" );
 		CLIENT_SETTINGS.put( "relayUsesIntegratedChat", "false" );
 		CLIENT_SETTINGS.put( "saveState", "" );
 		CLIENT_SETTINGS.put( "saveStateActive", "" );
@@ -400,8 +397,9 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "visitRumpusHardcore", "false" );
 		CLIENT_SETTINGS.put( "visitRumpusSoftcore", "false" );
 
-		PLAYER_SETTINGS.put( "autoRetrieveWorthless", "true" );
-		PLAYER_SETTINGS.put( "autoRoninPickpocket", "false" );
+		// Individual player settings which are not set on
+		// a global level.
+
 		PLAYER_SETTINGS.put( "battleAction", "attack with weapon" );
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
 		PLAYER_SETTINGS.put( "buffBotCasting", "" );

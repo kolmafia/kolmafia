@@ -147,12 +147,6 @@ public class AdventureRequest extends KoLRequest
 			}
 		}
 
-		// Disassemble any clovers that the player has before running
-		// the request.
-
-		if ( StaticEntity.getClient().isLuckyCharacter() && StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
-			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
-
 		super.run();
 	}
 

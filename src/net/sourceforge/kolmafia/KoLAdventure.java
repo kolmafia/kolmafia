@@ -689,8 +689,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		boolean allowStasis = StaticEntity.getBooleanProperty( "allowStasisTactics" );
-
 		// Check for dictionaries as a battle strategy, if the
 		// person is not adventuring at the chasm.
 
@@ -699,7 +697,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// Only allow damage-dealing familiars when using
 			// stasis techniques.
 
-			if ( !allowStasis || !KoLCharacter.getFamiliar().isCombatFamiliar() )
+			if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
 				return;
@@ -711,7 +709,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( action.startsWith( "attack" ) && areaSummary != null && !areaSummary.willHitSomething() )
 		{
-			if ( !allowStasis || !KoLCharacter.getFamiliar().isCombatFamiliar() )
+			if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "You can't hit anything there." );
 				return;

@@ -341,10 +341,6 @@ public class FamiliarData implements KoLConstants, Comparable
 			return true;
 
 		default:
-
-			// pumpkin basket makes a non-combat familiar
-			// into a combat familiar.
-
 			return false;
 		}
 	}

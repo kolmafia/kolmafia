@@ -65,8 +65,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 	private static final Pattern STORE_PATTERN = Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
 	private static String lastUsername = "";
-	private static LimitedSizeChatBuffer chatLogger = new LimitedSizeChatBuffer( true );
-
 	public List headers = new ArrayList();
 	public byte [] rawByteBuffer = null;
 	public String contentType = null;
@@ -330,10 +328,13 @@ public class LocalRelayRequest extends PasswordHashRequest
 			StaticEntity.printStackTrace( e );
 		}
 
-		// Load script files locally to reduce bandwidth
+		// Load image files locally to reduce bandwidth
 		// and improve mini-browser performance.
 
-		StaticEntity.globalStringReplace( responseBuffer, "http://69.16.150.201", "/images" );
+		if ( StaticEntity.getBooleanProperty( "relayUsesCachedImages" ) )
+			StaticEntity.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
+		else
+			StaticEntity.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
 
 		// Download and link to any Players of Loathing
 		// picture pages locally.
@@ -373,8 +374,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 		this.responseText = StaticEntity.globalStringReplace( responseText, "<!--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
 		if ( responseText.length() == 0 )
 			this.responseText = " ";
-
-		this.responseText = StaticEntity.globalStringReplace( this.responseText, "images.kingdomofloathing.com", IMAGE_SERVER );
 
 		if ( formURLString.indexOf( "fight.php" ) != -1 )
 			this.responseText = StaticEntity.singleStringReplace( this.responseText, "</html>", "<!-- KoLmafia --></html>" );
@@ -810,12 +809,16 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 				if ( isChatRequest )
 				{
-					if ( !KoLCharacter.getUserName().equals( lastUsername ) )
-						chatLogger.setActiveLogFile( KoLMessenger.getChatLogName( "[ALL]" ) );
+					try
+					{
+						KoLMessenger.updateChat( responseText );
+					}
+					catch ( Exception e )
+					{
+						StaticEntity.printStackTrace( e );
+					}
 
 					responseText = KoLMessenger.getNormalizedContent( responseText, false );
-					if ( responseText.length() > 0 && responseText.indexOf( "<img" ) == -1 )
-						chatLogger.append( responseText );
 				}
 			}
 		}
