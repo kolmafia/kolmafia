@@ -143,9 +143,10 @@ public abstract class KoLmafia implements KoLConstants
 
 	static
 	{
-		stopEncounters.add( "The Manor in Which You're Accustomed" );
 		stopEncounters.add( "History is Fun!" );
 		stopEncounters.add( "It's A Sign!" );
+		stopEncounters.add( "The Manor in Which You're Accustomed" );
+		stopEncounters.add( "Under the Knife" );
 	}
 
 	/**
@@ -2627,7 +2628,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void recognizeEncounter( String encounterName )
 	{
-		if ( stopEncounters.contains( encounterName ) )
+		if ( conditions.isEmpty() && stopEncounters.contains( encounterName ) )
 			KoLmafia.updateDisplay( PENDING_STATE, encounterName );
 	}
 
