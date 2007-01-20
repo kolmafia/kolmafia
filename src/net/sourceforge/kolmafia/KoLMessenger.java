@@ -117,8 +117,8 @@ public abstract class KoLMessenger extends StaticEntity
 	};
 
 	private static boolean isRunning = false;
-	private static String currentChannel = "";
-	private static String updateChannel = "";
+	private static String currentChannel = "/clan";
+	private static String updateChannel = "/clan";
 	private static ContactListFrame contactsFrame = null;
 	private static TabbedChatFrame tabbedFrame = null;
 
@@ -142,11 +142,6 @@ public abstract class KoLMessenger extends StaticEntity
 		onlineContacts.clear();
 		instantMessageBuffers.clear();
 
-		chattingStyle = parseInt( getProperty( "chatStyle" ) );
-		enableMonitor = chattingStyle == 4 || chattingStyle == 5;
-		channelsSeparate = chattingStyle == 0 || chattingStyle == 1 || chattingStyle == 4 || chattingStyle == 5;
-		privateSeparate = chattingStyle == 0 || chattingStyle == 2 || chattingStyle == 4;
-
 		contactsFrame = new ContactListFrame( onlineContacts );
 		useTabbedChat = getProperty( "useTabbedChat" ).equals( "1" );
 
@@ -156,10 +151,14 @@ public abstract class KoLMessenger extends StaticEntity
 			creator.run();
 			tabbedFrame = (TabbedChatFrame) creator.getCreation();
 		}
+	}
 
-		Object [] keys = instantMessageBuffers.keySet().toArray();
-		for ( int i = 0; i < keys.length; ++i )
-			getChatBuffer( (String) keys[i] ).setActiveLogFile( getChatLogName( (String) keys[i] ) );
+	private static void updateSettings()
+	{
+		chattingStyle = parseInt( getProperty( "chatStyle" ) );
+		enableMonitor = chattingStyle == 4 || chattingStyle == 5;
+		channelsSeparate = chattingStyle == 0 || chattingStyle == 1 || chattingStyle == 4 || chattingStyle == 5;
+		privateSeparate = chattingStyle == 0 || chattingStyle == 2 || chattingStyle == 4;
 	}
 
 	public static String getChatLogName( String key )
@@ -368,8 +367,8 @@ public abstract class KoLMessenger extends StaticEntity
 		removeChat( currentChannel );
 		RequestThread.postRequest( new ChatRequest( currentChannel, "/exit" ) );
 
-		currentChannel = "";
-		updateChannel = "";
+		currentChannel = "/clan";
+		updateChannel = "/clan";
 
 		if ( contactsFrame != null )
 		{
@@ -399,6 +398,9 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void updateContactList( String [] contactList )
 	{
+		if ( contactsFrame == null )
+			return;
+
 		onlineContacts.clear();
 
 		for ( int i = 1; i < contactList.length; ++i )
@@ -567,24 +569,17 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void updateChat( String content )
 	{
-		if ( !isRunning() )
-			return;
+		updateSettings();
 
 		// Now, extract the contact list and update KoLMessenger to indicate
 		// the contact list found in the last /friends update
 
 		handleTableContent( content );
 
-		if ( !isRunning() )
-			return;
-
 		// Extract player Ids from the most recent chat content, since it
 		// can prove useful at a later time.
 
 		handlePlayerData( content );
-
-		if ( !isRunning() )
-			return;
 
 		// Now, that all the pre-processing is done, go ahead and handle
 		// all of the individual chat data.
@@ -600,9 +595,6 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void stopConversation()
 	{
-		if ( !isRunning() )
-			return;
-
 		if ( !currentChannel.equals( "" ) )
 			currentlyActive.remove( currentChannel );
 	}
@@ -614,9 +606,6 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void processChatMessage( String message )
 	{
-		if ( !isRunning() )
-			return;
-
 		// Empty messages do not need to be processed; therefore,
 		// return if one was retrieved.
 
@@ -700,7 +689,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void processChatMessage( String channel, String message )
 	{
-		if ( !isRunning() || channel == null || message == null || channel.length() == 0 || message.length() == 0 )
+		if ( channel == null || message == null || channel.length() == 0 || message.length() == 0 )
 			return;
 
 		if ( !channel.startsWith( "/" ) )
@@ -715,7 +704,8 @@ public abstract class KoLMessenger extends StaticEntity
 			return;
 
 		processChatMessage( channel, message, bufferKey );
-		processChatMessage( channel, message, "[ALL]" );
+		if ( !bufferKey.equals( "[ALL]" ) )
+			processChatMessage( channel, message, "[ALL]" );
 
 		// If it's a private message, then it's possible the player wishes
 		// to run some command.
@@ -820,70 +810,29 @@ public abstract class KoLMessenger extends StaticEntity
 		// There are a bunch of messages that are supposed to be
 		// formatted in green.  These are all handled first.
 
-		if ( message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "<a class=nounder" ) )
+		boolean isWhoMessage = message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 ||
+			message.startsWith( "<a class=nounder" ) || message.startsWith( "<a target=mainpane href=\'" );
+
+		boolean isGreenMessage = message.startsWith( "<a target=mainpane href=\"messages.php\">" ) ||
+			message.indexOf( "has proposed a trade" ) != -1 || message.indexOf( "has cancelled a trade" ) != -1 ||
+			message.indexOf( "has responded to a trade" ) != -1 || message.indexOf( "has declined a trade" ) != -1 ||
+			message.indexOf( "has accepted a trade" ) != -1;
+
+		if ( isWhoMessage )
 		{
 			displayHTML.insert( 0, "<font color=green>" );
 			displayHTML.append( "</font>" );
 		}
-		else if ( message.startsWith( "<a target=mainpane href=\'" ) )
+		else if ( isGreenMessage )
 		{
-			displayHTML.insert( 0, "<font color=green>" );
-			displayHTML.append( "</font>" );
-		}
-		else if ( message.startsWith( "<a target=mainpane href=\"messages.php\">" ) )
-		{
-			if ( BuffBotHome.isBuffBotActive() || StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+			if ( BuffBotHome.isBuffBotActive() )
 				return "";
 
-			eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML.toString() ).replaceAll( "" ) );
-
-			displayHTML.insert( 0, "<font color=green>" );
-			displayHTML.append( "</font>" );
-		}
-		else if ( message.indexOf( "has proposed a trade" ) != -1 )
-		{
-			if ( BuffBotHome.isBuffBotActive() || StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
+			if ( !bufferKey.equals( "[events]" ) )
+			{
+				processChatMessage( channel, message, "[events]" );
 				return "";
-
-			eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML.toString() ).replaceAll( "" ) );
-
-			displayHTML.insert( 0, "<font color=green>" );
-			displayHTML.append( "</font>" );
-		}
-		else if ( message.indexOf( "has cancelled a trade" ) != -1 )
-		{
-			if ( BuffBotHome.isBuffBotActive() || StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
-				return "";
-
-			eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML.toString() ).replaceAll( "" ) );
-
-			displayHTML.insert( 0, "<font color=green>" );
-			displayHTML.append( "</font>" );
-		}
-		else if ( message.indexOf( "has responded to a trade" ) != -1 )
-		{
-			if ( BuffBotHome.isBuffBotActive() || StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
-				return "";
-
-			eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML.toString() ).replaceAll( "" ) );
-
-			displayHTML.insert( 0, "<font color=green>" );
-			displayHTML.append( "</font>" );
-		}
-		else if ( message.indexOf( "has declined a trade" ) != -1 )
-		{
-			if ( BuffBotHome.isBuffBotActive() || StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
-				return "";
-
-			eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML.toString() ).replaceAll( "" ) );
-
-			displayHTML.insert( 0, "<font color=green>" );
-			displayHTML.append( "</font>" );
-		}
-		else if ( message.indexOf( "has accepted a trade" ) != -1 )
-		{
-			if ( BuffBotHome.isBuffBotActive() || StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
-				return "";
+			}
 
 			eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML.toString() ).replaceAll( "" ) );
 
@@ -1012,13 +961,16 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( channel.startsWith( "/" ) )
 			return "green";
 
-		if ( channel.equalsIgnoreCase( KoLCharacter.getUserName() ) )
+		if ( channel.equalsIgnoreCase( KoLCharacter.getUserName() ) && colors.containsKey( "chatcolorself" ) )
 			return (String) colors.get( "chatcolorself" );
 
-		if ( contactList.contains( channel.toLowerCase() ) )
+		if ( contactList.contains( channel.toLowerCase() ) && colors.containsKey( "chatcolorcontacts" ) )
 			return (String) colors.get( "chatcolorcontacts" );
 
-		return (String) colors.get( "chatcolorothers" );
+		if ( colors.containsKey( "chatcolorothers" ) )
+			return (String) colors.get( "chatcolorothers" );
+
+		return "black";
 	}
 
 	/**
@@ -1030,6 +982,8 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void openInstantMessage( String channel, boolean shouldOpenWindow )
 	{
+		shouldOpenWindow &= isRunning;
+
 		// If the window exists, don't open another one as it
 		// just confuses the disposal issue
 
@@ -1038,9 +992,6 @@ public abstract class KoLMessenger extends StaticEntity
 
 		try
 		{
-			if ( !isRunning )
-				return;
-
 			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUserName() + ": " +
 				channel + " - Started " + Calendar.getInstance().getTime().toString(), true, true );
 

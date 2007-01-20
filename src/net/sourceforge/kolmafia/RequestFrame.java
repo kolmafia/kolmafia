@@ -45,6 +45,8 @@ import java.awt.event.KeyListener;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -65,6 +67,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
+	private static final Pattern IMAGESERVER_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\">]+" );
 	private static boolean refreshStatusEnabled = true;
 
 	private int locationIndex = 0;
@@ -404,7 +407,9 @@ public class RequestFrame extends KoLFrame
 
 			locationIndex = shownHTML.size() - 1;
 
-			RequestEditorKit.downloadImages( renderText );
+			Matcher imageMatcher = IMAGESERVER_PATTERN.matcher( renderText );
+			while ( imageMatcher.find() )
+				RequestEditorKit.downloadImage( imageMatcher.group() );
 
 			mainBuffer.clearBuffer();
 			mainBuffer.append( renderText );

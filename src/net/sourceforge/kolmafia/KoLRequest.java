@@ -1729,9 +1729,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private void checkForNewEvents()
 	{
-		if ( StaticEntity.getBooleanProperty( "ignoreGreenEvents" ) )
-			return;
-
 		if ( responseText.indexOf( "bgcolor=orange><b>New Events:</b>") == -1 )
 			return;
 

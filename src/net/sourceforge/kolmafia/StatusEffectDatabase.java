@@ -144,7 +144,7 @@ public class StatusEffectDatabase extends KoLDatabase
 	public static final String getImage( int effectId )
 	{
 		Object imageName = effectId == -1 ? null : imageById.get( new Integer( effectId ) );
-		return imageName == null ? "/images/debug.gif" : "http://" + IMAGE_SERVER + "/itemimages/" + imageName;
+		return imageName == null ? "/images/debug.gif" : "http://images.kingdomofloathing.com/itemimages/" + imageName;
 	}
 
 	/**

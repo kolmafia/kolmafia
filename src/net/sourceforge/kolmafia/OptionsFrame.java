@@ -104,7 +104,9 @@ public class OptionsFrame extends KoLFrame
 
 		addTab( "General", new GeneralOptionsPanel() );
 		addTab( "Relay", new RelayOptionsPanel() );
+
 		tabs.addTab( "Moods", moodPanel );
+
 		addTab( "Links", addonPanel );
 		addTab( "Logs", new SessionLogOptionsPanel() );
 		addTab( "Chat", new ChatOptionsPanel() );
@@ -182,7 +184,7 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
-			{ "relayAddsUpArrowLinks", "Add mood maintenance links to left side pane" },
+			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
 			{ "relayAddsMissingEffects", "Display mood trigger buffs with zero duration" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
 			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
@@ -196,6 +198,7 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
+			{ "relayUsesCachedImages", "Save images from KoL to conserve bandwidth" },
 			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
 			{ "relayMaintainsMoods", "Automatically maintain health, mana, and moods in browser" }
 		};
@@ -294,28 +297,19 @@ public class OptionsFrame extends KoLFrame
 		{
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
 			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
-			{ "ignoreGreenEvents", "Enable green screen protection for KoLmafia chat" },
-
-			{ "", "" },
-
-			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
-			{ "cloverProtectActive", "Enable clover protection for automated adventures" },
-			{ "allowStasisTactics", "Prevent accidental stasis when not using combat familiar" },
 			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
 
 			{ "", "" },
 
+			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
 			{ "autoSetConditions", "Automatically fill conditions field with defaults" },
 			{ "autoRoninPickpocket", "Pickpocket to satisfy item conditions in Ronin" },
-			{ "autoRetrieveScrewdriver", "Automatically do screwdriver quest, if needed" },
-			{ "autoRetrieveWorthless", "Search for worthless items when visiting the hermit" },
 
 			{ "", "" },
 
 			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
-			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
-			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" }
+			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" }
 		};
 
 		/**

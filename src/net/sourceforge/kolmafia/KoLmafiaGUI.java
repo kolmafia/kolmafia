@@ -51,10 +51,7 @@ public class KoLmafiaGUI extends KoLmafia
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
 
-		if ( StaticEntity.getBooleanProperty( "relayBrowserOnly" ) )
-			StaticEntity.getClient().startRelayServer();
-		else
-			(new CreateFrameRunnable( LoginFrame.class )).run();
+		(new CreateFrameRunnable( LoginFrame.class )).run();
 
 		// All that completed, check to see if there is an auto-login
 		// which should occur.

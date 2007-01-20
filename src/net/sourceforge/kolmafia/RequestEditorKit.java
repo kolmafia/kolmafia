@@ -476,7 +476,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	}
 
 	private static final Pattern FILEID_PATTERN = Pattern.compile( "(\\d+)\\." );
-	private static final Pattern IMAGESERVER_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\">]+" );
 	private static final Pattern COLOR_PATTERN = Pattern.compile( "(color|class)=\"?\'?([^\"\'>]*)" );
 
 	private static final Pattern ACQUIRE_PATTERN = Pattern.compile( "You acquire([^<]*?<b>.*?</b>.*?)</td>", Pattern.DOTALL );
@@ -529,18 +528,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	}
 
 	/**
-	 * Allow mass download of images so that you are always
-	 * using a local image cache.
-	 */
-
-	public static void downloadImages( String text )
-	{
-		Matcher imageMatcher = IMAGESERVER_PATTERN.matcher( text );
-		while ( imageMatcher.find() )
-			downloadImage( imageMatcher.group() );
-	}
-
-	/**
 	 * Downloads the given file from the KoL images server
 	 * and stores it locally.
 	 */
@@ -553,9 +540,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		String localname = filename.substring( filename.indexOf( "/", "http://".length() ) + 1 );
 		if ( localname.startsWith( "albums/" ) )
 			localname = localname.substring( "albums/".length() );
-
-		if ( filename.indexOf( "images.kingdomofloathing.com" ) != -1 )
-			filename = filename.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
 
 		File localfile = new File( IMAGE_DIRECTORY, localname );
 		File parentfile = new File( IMAGE_DIRECTORY, localname.substring( 0, localname.lastIndexOf( "/" ) + 1 ) );
@@ -947,8 +931,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			StaticEntity.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
 			StaticEntity.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
 		}
-
-		StaticEntity.globalStringReplace( buffer, "images.kingdomofloathing.com", IMAGE_SERVER );
 	}
 
 	private static void addAscensionReminders( String location, StringBuffer buffer )

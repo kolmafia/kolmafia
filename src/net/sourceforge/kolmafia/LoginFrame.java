@@ -248,6 +248,7 @@ public class LoginFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
+			StaticEntity.setProperty( "relayBrowserOnly", "false" );
 			StaticEntity.setProperty( "alwaysGetBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
 			this.username = null;
@@ -280,7 +281,10 @@ public class LoginFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	StaticEntity.getClient().startRelayServer();
+		{
+			StaticEntity.setProperty( "relayBrowserOnly", "true" );
+			StaticEntity.getClient().startRelayServer();
+			LoginFrame.this.setVisible( false );
 		}
 
 		private class AutoLoginListener implements ActionListener
@@ -636,7 +640,6 @@ public class LoginFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "relayBrowserOnly", "Use KoL's login page for the login process" },
 			{ "guiUsesOneWindow", "Restrict interface to a single window" },
 			{ "useSystemTrayIcon", "Minimize to system tray (Windows only)" }
 		};
