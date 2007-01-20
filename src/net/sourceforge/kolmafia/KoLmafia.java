@@ -139,6 +139,15 @@ public abstract class KoLmafia implements KoLConstants
 	private static final AdventureResult GLIDER = new AdventureResult( 1487, 1 );
 	public static final AdventureResult SATCHEL = new AdventureResult( 1656, 1 );
 
+	private static final ArrayList stopEncounters = new ArrayList();
+
+	static
+	{
+		stopEncounters.add( "The Manor in Which You're Accustomed" );
+		stopEncounters.add( "History is Fun!" );
+		stopEncounters.add( "It's A Sign!" );
+	}
+
 	/**
 	 * The main method.  Currently, it instantiates a single instance
 	 * of the <code>KoLmafiaGUI</code>.
@@ -2602,6 +2611,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( adventureName == null )
 			return;
 
+		recognizeEncounter( adventureName );
 		RegisteredEncounter previousAdventure = (RegisteredEncounter) adventureList.lastElement();
 
 		if ( previousAdventure != null && previousAdventure.name.equals( adventureName ) )
@@ -2615,6 +2625,12 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
+	public void recognizeEncounter( String encounterName )
+	{
+		if ( stopEncounters.contains( encounterName ) )
+			KoLmafia.updateDisplay( PENDING_STATE, encounterName );
+	}
+
 	/**
 	 * Utilit.  This method used to register a given encounter in
 	 * the running adventure summary.
@@ -2623,6 +2639,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void registerEncounter( String encounterName, String encounterType )
 	{
 		encounterName = encounterName.trim();
+		recognizeEncounter( encounterName );
 
 		RegisteredEncounter [] encounters = new RegisteredEncounter[ encounterList.size() ];
 		encounterList.toArray( encounters );

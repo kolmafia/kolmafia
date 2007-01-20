@@ -23,6 +23,7 @@ full meat tank	1	empty meat tank	meat stack
 Harold's hammer	1	Harold's hammer head	Harold's hammer handle
 heavy metal sonata	1	chrome ore	drab sonata
 heavy metal thunderrr guitarrr	1	acoustic guitarrr	chrome ore
+hosed bowl	1	fishbowl	fish hose
 hosed tank	1	fishtank	fish hose
 intragalactic rowboat	1	S.O.C.K.	quantum egg
 makeshift SCUBA gear	1	hosed tank	fishbowl
