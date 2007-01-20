@@ -36,9 +36,21 @@ package net.sourceforge.kolmafia;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JComboBox;
+
 public abstract class ThreadedListener implements ActionListener, Runnable
 {
 	public void actionPerformed( ActionEvent e )
-	{	(new Thread( this )).start();
+	{
+		if ( isValidEvent( e ) )
+			(new Thread( this )).start();
+	}
+
+	protected boolean isValidEvent( ActionEvent e )
+	{
+		if ( e.getSource() instanceof JComboBox )
+			return ((JComboBox)e.getSource()).isPopupVisible();
+
+		return true;
 	}
 }
