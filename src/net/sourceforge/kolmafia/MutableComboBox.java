@@ -216,13 +216,16 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 		public final boolean isNonResult( Object element )
 		{
-			if ( !(element instanceof AdventureResult) && !(element instanceof ItemCreationRequest) )
-				return true;
-
 			if ( element instanceof ItemCreationRequest )
 				return false;
 
-			if ( ((AdventureResult)element).isItem() || ((AdventureResult)element).isStatusEffect() )
+			if ( !(element instanceof AdventureResult) )
+				return true;
+
+			if ( ((AdventureResult)element).isItem() )
+				return ((AdventureResult)element).getCount() > 0;
+
+			if ( ((AdventureResult)element).isStatusEffect() )
 				return false;
 
 			return true;

@@ -70,7 +70,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 	public ShowDescriptionList( LockableListModel model )
 	{
-		super( model );
 		contextMenu = new JPopupMenu();
 
 		boolean isEncyclopedia = model.get(0) instanceof Entry;
@@ -99,6 +98,10 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		{
 			setModel( inventory.getMirrorImage() );
 			applyFilter( new JunkListFilter( (LockableListModel) getModel() ) );
+		}
+		else
+		{
+			setModel( model.getMirrorImage() );
 		}
 
 		setVisibleRowCount( 4 );
@@ -263,49 +266,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	public void junkSelectedValues()
-	{
-		Object [] items = getSelectedValues();
-		ShowDescriptionList.this.clearSelection();
-
-		for ( int i = 0; i < items.length; ++i )
-		{
-			if ( items[i] instanceof ItemCreationRequest )
-				junkItemList.add( ((ItemCreationRequest)items[i]).createdItem );
-			else if ( items[i] instanceof AdventureResult && ((AdventureResult)items[i]).isItem() )
-				junkItemList.add( items[i] );
-			else if ( items[i] instanceof String && TradeableItemDatabase.contains( (String) items[i] ) )
-				junkItemList.add( new AdventureResult( (String) items[i], 1, false ) );
-			else if ( items[i] instanceof Entry && TradeableItemDatabase.contains( (String) ((Entry)items[i]).getValue() ) )
-				junkItemList.add( new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false ) );
-		}
-
-		StaticEntity.saveJunkItemList();
-		if ( filter != null )
-			((LockableListModel)getModel()).applyListFilter( filter );
-	}
-
-	public void unjunkSelectedValues()
-	{
-		Object [] items = getSelectedValues();
-		ShowDescriptionList.this.clearSelection();
-
-		for ( int i = 0; i < items.length; ++i )
-		{
-			if ( items[i] instanceof ItemCreationRequest )
-				junkItemList.remove( ((ItemCreationRequest)items[i]).createdItem );
-			else if ( items[i] instanceof AdventureResult )
-				junkItemList.remove( items[i] );
-			else if ( items[i] instanceof String )
-				junkItemList.remove( new AdventureResult( (String) items[i], 1, false ) );
-			else if ( items[i] instanceof Entry )
-				junkItemList.remove( new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false ) );
-		}
-
-		StaticEntity.saveJunkItemList();
-		((LockableListModel)getModel()).applyListFilter( filter );
-	}
-
 	private class AddToJunkListMenuItem extends ContextMenuItem
 	{
 		public AddToJunkListMenuItem()
@@ -313,7 +273,25 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 
 		public void executeAction()
-		{	junkSelectedValues();
+		{
+			Object [] items = getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				if ( items[i] instanceof ItemCreationRequest )
+					junkItemList.add( ((ItemCreationRequest)items[i]).createdItem );
+				else if ( items[i] instanceof AdventureResult && ((AdventureResult)items[i]).isItem() )
+					junkItemList.add( items[i] );
+				else if ( items[i] instanceof String && TradeableItemDatabase.contains( (String) items[i] ) )
+					junkItemList.add( new AdventureResult( (String) items[i], 1, false ) );
+				else if ( items[i] instanceof Entry && TradeableItemDatabase.contains( (String) ((Entry)items[i]).getValue() ) )
+					junkItemList.add( new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false ) );
+			}
+
+			StaticEntity.saveJunkItemList();
+			if ( filter != null )
+				((LockableListModel)getModel()).applyListFilter( filter );
 		}
 	}
 
@@ -353,7 +331,25 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 
 		public void executeAction()
-		{	unjunkSelectedValues();
+		{
+			Object [] items = getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				if ( items[i] instanceof ItemCreationRequest )
+					junkItemList.remove( ((ItemCreationRequest)items[i]).createdItem );
+				else if ( items[i] instanceof AdventureResult )
+					junkItemList.remove( items[i] );
+				else if ( items[i] instanceof String )
+					junkItemList.remove( new AdventureResult( (String) items[i], 1, false ) );
+				else if ( items[i] instanceof Entry )
+					junkItemList.remove( new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false ) );
+			}
+
+			StaticEntity.saveJunkItemList();
+			((LockableListModel)getModel()).applyListFilter( filter );
+
 		}
 	}
 
