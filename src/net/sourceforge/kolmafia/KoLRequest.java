@@ -100,7 +100,7 @@ public class KoLRequest extends Job implements KoLConstants
 	public static int lastDecision = 0;
 
 	public String encounter = "";
-	private boolean shouldIgnoreResults;
+	private boolean shouldIgnoreResult;
 
 	public static boolean isCompactMode = false;
 
@@ -128,8 +128,6 @@ public class KoLRequest extends Job implements KoLConstants
 	public String dataString = null;
 
 	public boolean isChatRequest = false;
-	public boolean isEquipResult = false;
-	public boolean isConsumeRequest = false;
 
 	private List data;
 
@@ -301,7 +299,6 @@ public class KoLRequest extends Job implements KoLConstants
 			formURLString = formURLString.substring(1);
 
 		constructURLString( formURLString );
-		this.isConsumeRequest = this instanceof ConsumeItemRequest;
 
 		this.isDelayExempt = getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof LogoutRequest ||
 			this instanceof ChatRequest || this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
@@ -336,11 +333,15 @@ public class KoLRequest extends Job implements KoLConstants
 		this.isChatRequest = this.formURLString.indexOf( "chat" ) != -1 && this.formURLString.indexOf( "chatlaunch.php" ) == -1 &&
 			this.formURLString.indexOf( "lchat.php" ) == -1;
 
-		this.shouldIgnoreResults = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "search" ) ||
+		this.shouldIgnoreResult = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "search" ) ||
 			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) ||
 			formURLString.startsWith( "doc" ) || (formURLString.startsWith( "clan" ) && !(this instanceof ClanGymRequest));
 
 		return this;
+	}
+
+	public boolean ignoreResult()
+	{	return shouldIgnoreResult;
 	}
 
 	/**
@@ -672,9 +673,6 @@ public class KoLRequest extends Job implements KoLConstants
 		// If this is an equipment request, then reprint the
 		// player's current equipment information.
 
-		if ( isEquipResult )
-			DEFAULT_SHELL.executeLine( "equip" );
-
 		if ( urlString.equals( "main.php?refreshtop=true&noobmessage=true" ) )
 			StaticEntity.getClient().handleAscension();
 	}
@@ -691,8 +689,10 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( isRatQuest )
 			KoLmafia.addTavernLocation( this );
 
-		registerRequest();
 		String urlString = getURLString();
+
+		if ( !shouldIgnoreResult && !shouldIgnore( urlString ) )
+			RequestLogger.registerRequest( urlString );
 
 		if ( urlString.indexOf( "choice.php" ) != -1 )
 			saveLastChoice( urlString );
@@ -745,153 +745,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static int getLastDecision()
 	{	return lastDecision;
-	}
-
-	public void registerRequest()
-	{
-		// If this is part of the login sequence, then there is no need
-		// to register the request.
-
-		String urlString = getURLString();
-		if ( urlString.indexOf( "login.php" ) != -1 )
-			return;
-
-		// Certain kinds of requests do not get processed.  These include
-		// pages without form data and player-interaction requests along
-		// with the side pane.  The sewer is an example of a page that should
-		// get logged without form data, though.
-
-		if ( shouldIgnoreResults )
-			return;
-
-		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php" ) == -1 )
-			return;
-
-		String equivalentCommand = getCommandForm();
-		if ( !equivalentCommand.equals( "" ) )
-		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( equivalentCommand );
-			return;
-		}
-
-		// If it's a runaway command, then make sure you register it
-		// as the correct type of runaway.
-
-		if ( urlString.indexOf( "fight.php" ) != -1 )
-		{
-			if ( urlString.indexOf( "runaway" ) != -1 )
-				constructURLString( "fight.php?action=runaway" );
-
-			FightRequest.processRequest( urlString );
-			wasLastRequestSimple = false;
-			return;
-		}
-
-		// In the event that this is an adventure, assume "snarfblat"
-		// instead of "adv" in order to determine the location.
-
-		if ( urlString.indexOf( "adv=" ) != -1 )
-			urlString = urlString.replaceFirst( "adv=", "snarfblat=" );
-
-		isEquipResult = urlString.indexOf( "which=2" ) != -1 && urlString.indexOf( "action=message" ) != -1;
-
-		// First, try to match everything to an adventure, and print
-		// the appropriate turn count information.
-
-		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( urlString );
-
-		if ( matchingLocation != null )
-		{
-			wasLastRequestSimple = false;
-			KoLmafia.getSessionStream().println();
-			matchingLocation.recordToSession();
-		}
-		else if ( KoLAdventure.recordToSession( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-
-		// Now for the more standard requests, like item consumption
-		// or item creation or skill casting.
-
-		else if ( ConsumeItemRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-			isConsumeRequest = true;
-		}
-		else if ( ItemCreationRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( UseSkillRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( PulverizeRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-
-		// Otherwise, see if it matches one of the standard "changeup"
-		// requests, like a familiar request or an equipment request.
-
-		else if ( FamiliarRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( EquipmentRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-
-		// Now, all the instances where items are transferred between
-		// different locations.
-
-		else if ( this instanceof SendMessageRequest )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( ItemStorageRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( AutoSellRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( ClanStashRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( GreenMessageRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( GiftMessageRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( ProposeTradeRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( HermitRequest.processRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-
-		// For all other requests, log the URL of the location which
-		// was visited.
-
-		else if ( urlString.indexOf( "inventory" ) == -1 )
-		{
-			if ( !wasLastRequestSimple )
-				KoLmafia.getSessionStream().println();
-
-			wasLastRequestSimple = true;
-			KoLmafia.getSessionStream().println( urlString );
-		}
 	}
 
 	public static boolean shouldIgnore( String formURLString )
@@ -1319,7 +1172,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		encounter = AdventureRequest.registerEncounter( this );
 
-		if ( !shouldIgnoreResults )
+		if ( !shouldIgnoreResult )
 			parseResults();
 
 		if ( formURLString.indexOf( "fight.php" ) != -1 )
@@ -1357,7 +1210,7 @@ public class KoLRequest extends Job implements KoLConstants
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 		}
-		else if ( !shouldIgnoreResults )
+		else if ( !shouldIgnoreResult )
 		{
 			KoLCharacter.updateStatus();
 		}
@@ -1455,7 +1308,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// ten-leaf clover" (shorten to "our ten-leaf clover"
 		// for substring matching)
 
-		if ( !isConsumeRequest && responseText.indexOf( "our ten-leaf clover" ) != -1 && responseText.indexOf( "puff of smoke" ) != -1 )
+		if ( responseText.indexOf( "our ten-leaf clover" ) != -1 && responseText.indexOf( "puff of smoke" ) != -1 )
 			StaticEntity.getClient().processResult( SewerRequest.CLOVER );
 
 		if ( formURLString.indexOf( "sewer.php" ) != -1 && responseText.indexOf( "You acquire" ) != -1 )
@@ -1731,10 +1584,6 @@ public class KoLRequest extends Job implements KoLConstants
 		// 200 (not a redirect or error).
 
 		FightFrame.showRequest( this );
-	}
-
-	public String getCommandForm()
-	{	return "";
 	}
 
 	private void checkForNewEvents()

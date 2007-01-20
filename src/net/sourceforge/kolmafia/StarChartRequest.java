@@ -100,7 +100,7 @@ public class StarChartRequest extends ItemCreationRequest
 		StaticEntity.getClient().processResult( CHART );
 	}
 
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{	return true;
 	}
 }

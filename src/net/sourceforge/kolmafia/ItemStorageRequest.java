@@ -275,67 +275,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		}
 	}
 
-	public String getCommandForm()
-	{
-		StringBuffer commandString = new StringBuffer();
-
-		AdventureResult [] items = new AdventureResult[ getItems().size() ];
-		getItems().toArray( items );
-
-		// If this is not a handled command form, then
-		// return the empty string.
-
-		switch ( moveType )
-		{
-		case ItemStorageRequest.INVENTORY_TO_CLOSET:
-		case ItemStorageRequest.CLOSET_TO_INVENTORY:
-		case ItemStorageRequest.STORAGE_TO_INVENTORY:
-			break;
-
-		default:
-			return "";
-		}
-
-		// Otherwise, because commands cannot be strung
-		// together on one line, print out one line at
-		// a time to the buffered string.
-
-		switch ( moveType )
-		{
-		case ItemStorageRequest.INVENTORY_TO_CLOSET:
-			commandString.append( "closet put " );
-			break;
-
-		case ItemStorageRequest.CLOSET_TO_INVENTORY:
-			commandString.append( "closet take " );
-			break;
-
-		case ItemStorageRequest.STORAGE_TO_INVENTORY:
-			commandString.append( "pull " );
-			break;
-		}
-
-		boolean needsComma = false;
-
-		for ( int i = 0; i < items.length; ++i )
-		{
-			if ( items[i] == null )
-				continue;
-
-			if ( needsComma )
-				commandString.append( ", " );
-
-			commandString.append( items[i].getCount() );
-			commandString.append( " \"" );
-			commandString.append( items[i].getName() );
-			commandString.append( '\"' );
-			needsComma = true;
-		}
-
-		return commandString.toString();
-	}
-
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		if ( urlString.indexOf( "storage.php" ) == -1 || urlString.indexOf( "action=takemeat" ) != -1 )
 			return false;
@@ -349,7 +289,7 @@ public class ItemStorageRequest extends SendMessageRequest
 			return true;
 		}
 
-		return processRequest( "pull", urlString, storage, 0 );
+		return registerRequest( "pull", urlString, storage, 0 );
 	}
 
 	public boolean allowUngiftableTransfer()

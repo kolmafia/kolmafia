@@ -232,40 +232,15 @@ public class ClanStashRequest extends SendMessageRequest
 		}
 	}
 
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		if ( urlString.indexOf( "clan_stash.php" ) == -1 || urlString.indexOf( "pwd" ) == -1 || urlString.indexOf( "contribute" ) != -1 )
 			return false;
 
 		boolean isWithdrawal = urlString.indexOf( "take" ) != -1;
 
-		return processRequest( "stash " + (isWithdrawal ? "take" : "put"), urlString, ITEMID_PATTERN, QUANTITY_PATTERN,
+		return registerRequest( "stash " + (isWithdrawal ? "take" : "put"), urlString, ITEMID_PATTERN, QUANTITY_PATTERN,
 			isWithdrawal ? ClanManager.getStash() : inventory, 0 );
-	}
-
-	public String getCommandForm()
-	{
-		StringBuffer commandString = new StringBuffer();
-
-		AdventureResult [] items = new AdventureResult[ getItems().size() ];
-		getItems().toArray( items );
-
-		if ( moveType == ClanStashRequest.ITEMS_TO_STASH )
-		{
-			for ( int i = 0; i < items.length; ++i )
-			{
-				if ( i != 0 )
-					commandString.append( LINE_BREAK );
-
-				commandString.append( "stash " );
-
-				commandString.append( '\"' );
-				commandString.append( items[i].getName() );
-				commandString.append( '\"' );
-			}
-		}
-
-		return commandString.toString();
 	}
 
 	public String getStatusMessage()

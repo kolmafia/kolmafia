@@ -113,23 +113,11 @@ public class ProposeTradeRequest extends SendMessageRequest
 	{	return "offermeat";
 	}
 
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "makeoffer.php" ) && !urlString.startsWith( "counteroffer.php" ) )
 			return false;
 
-		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
-		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
-
-		while ( itemMatcher.find() && quantityMatcher.find() )
-		{
-			int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
-			int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
-
-			if ( TradeableItemDatabase.getItemName( itemId ) != null )
-				StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
-		}
-
-		return true;
+		return registerRequest( "trade", urlString, inventory, 0 );
 	}
 }

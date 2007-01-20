@@ -72,7 +72,7 @@ public class CombineMeatRequest extends ItemCreationRequest
 	{	StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, costToMake * getQuantityNeeded() ) );
 	}
 
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
@@ -81,7 +81,7 @@ public class CombineMeatRequest extends ItemCreationRequest
 		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
 		int quantity = quantityMatcher.find() ? StaticEntity.parseInt( quantityMatcher.group(1) ) : 1;
 
-		KoLmafia.getSessionStream().println( "Make " + quantity + " " +
+		KoLmafia.getSessionStream().println( "create " + quantity + " " +
 			TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) ) );
 
 		return true;

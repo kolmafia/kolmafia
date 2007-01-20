@@ -64,7 +64,7 @@ public class PixelRequest extends ItemCreationRequest
 		super.run();
 	}
 
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )

@@ -1017,31 +1017,6 @@ public class ConsumeItemRequest extends KoLRequest
 		return text;
 	}
 
-	public String getCommandForm()
-	{
-		StringBuffer commandString = new StringBuffer();
-
-		switch ( getConsumptionType() )
-		{
-		case ConsumeItemRequest.CONSUME_EAT:
-			commandString.append( "eat " );
-			break;
-
-		case ConsumeItemRequest.CONSUME_DRINK:
-			commandString.append( "drink " );
-			break;
-
-		default:
-			commandString.append( "use " );
-			break;
-		}
-
-		commandString.append( itemUsed.getCount() );
-		commandString.append( ' ' );
-		commandString.append( itemUsed.getName() );
-		return commandString.toString();
-	}
-
 	private static AdventureResult extractItem( String urlString )
 	{
 		if ( urlString.indexOf( "inv_eat.php" ) != -1 );
@@ -1076,7 +1051,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 	private static AdventureResult lastItemUsed = null;
 
-	public static boolean processRequest( String urlString )
+	public static boolean registerRequest( String urlString )
 	{
 		if ( urlString.indexOf( "action=message" ) != -1 )
 			return true;

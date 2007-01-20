@@ -512,8 +512,4 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		return o == null || !(o instanceof MallPurchaseRequest) ? false :
 			shopName.equals( ((MallPurchaseRequest)o).shopName ) && itemId == ((MallPurchaseRequest)o).itemId;
 	}
-
-	public String getCommandForm()
-	{	return "buy " + limit + " " + itemName;
-	}
 }

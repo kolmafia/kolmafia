@@ -45,6 +45,7 @@ public class FightRequest extends KoLRequest
 	private static final AdventureResult MERCENARY = new AdventureResult( 2139, 1 );
 	private static final AdventureResult TEQUILA = new AdventureResult( 1004, -1 );
 
+	private static String lastResult = "";
 	private static boolean isTrackingFights = false;
 	private static ArrayList trackedRounds = new ArrayList();
 
@@ -686,11 +687,57 @@ public class FightRequest extends KoLRequest
 	{	return responseText == null || responseText.equals( "" ) || responseText.indexOf( "fight.php" ) != -1 ? 0 : 1;
 	}
 
-	public static boolean processRequest( String urlString )
+	public static String getNextTrackedRound()
 	{
-		if ( urlString.indexOf( "fight.php?" ) == -1 )
-			return urlString.indexOf( "fight.php" ) != -1;
+		if ( !isTrackingFights )
+			return lastResult;
 
+		for ( int i = 0; trackedRounds.isEmpty() && i < 50; ++i )
+			delay( 200 );
+
+		if ( trackedRounds.isEmpty() )
+		{
+			isTrackingFights = false;
+			return lastResult;
+		}
+
+		lastResult = (String) trackedRounds.remove(0);
+
+		if ( trackedRounds.isEmpty() && currentRound == 0 )
+		{
+			isTrackingFights = false;
+
+			StringBuffer resultBuffer = new StringBuffer();
+			resultBuffer.append( lastResult );
+
+			try
+			{
+				RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", resultBuffer );
+				lastResult = resultBuffer.toString();
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
+		}
+
+		return lastResult;
+	}
+
+	public static void beginTrackingFights()
+	{	isTrackingFights = true;
+	}
+
+	public static boolean isTrackingFights()
+	{	return isTrackingFights;
+	}
+
+	public static String getLastMonster()
+	{	return encounterLookup == null ? "" : encounterLookup;
+	}
+
+	public static boolean registerRequest( String urlString )
+	{
 		action1 = null;
 		action2 = null;
 
@@ -785,56 +832,5 @@ public class FightRequest extends KoLRequest
 		}
 
 		return true;
-	}
-
-	private static String lastResult = "";
-
-	public static String getNextTrackedRound()
-	{
-		if ( !isTrackingFights )
-			return lastResult;
-
-		for ( int i = 0; trackedRounds.isEmpty() && i < 50; ++i )
-			delay( 200 );
-
-		if ( trackedRounds.isEmpty() )
-		{
-			isTrackingFights = false;
-			return lastResult;
-		}
-
-		lastResult = (String) trackedRounds.remove(0);
-
-		if ( trackedRounds.isEmpty() && currentRound == 0 )
-		{
-			isTrackingFights = false;
-
-			StringBuffer resultBuffer = new StringBuffer();
-			resultBuffer.append( lastResult );
-
-			try
-			{
-				RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", resultBuffer );
-				lastResult = resultBuffer.toString();
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
-		}
-
-		return lastResult;
-	}
-
-	public static void beginTrackingFights()
-	{	isTrackingFights = true;
-	}
-
-	public static boolean isTrackingFights()
-	{	return isTrackingFights;
-	}
-
-	public static String getLastMonster()
-	{	return encounterLookup == null ? "" : encounterLookup;
 	}
 }
