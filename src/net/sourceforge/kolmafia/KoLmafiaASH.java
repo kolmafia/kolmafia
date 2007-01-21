@@ -581,8 +581,12 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
+	private static boolean isRunningScript = false;
+
 	public void execute( File scriptFile, String functionName, String [] parameters ) throws IOException
 	{
+		boolean wasRunningScript = isRunningScript;
+
 		// Before you do anything, validate the script, if one
 		// is provided.  One will not be provided in the event
 		// that we are using a global namespace.
@@ -595,7 +599,8 @@ public class KoLmafiaASH extends StaticEntity
 		}
 		else
 		{
-			imports.clear();
+			if ( !isRunningScript )
+				imports.clear();
 
 			String importString = getProperty( "commandLineNamespace" );
 			if ( importString.equals( "" ) )
@@ -621,6 +626,8 @@ public class KoLmafiaASH extends StaticEntity
 			}
 		}
 
+		isRunningScript = true;
+
 		try
 		{
 			String currentScript = scriptFile == null ? "<>" : "<" + scriptFile.getPath() + ">";
@@ -635,6 +642,10 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			ScriptValue result = executeScope( global, functionName, parameters );
+
+			if ( !wasRunningScript )
+				isRunningScript = false;
+
 			notifyRecipient = null;
 
 			if ( !KoLmafia.permitsContinue() || result == null || result.getType() == null )
@@ -2499,13 +2510,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		// First execute top-level commands;
 
-		if ( functionName.equals( "main" ) )
-		{
-			trace( "Executing top-level commands" );
-			result = topScope.execute();
-			if ( currentState == STATE_EXIT )
-				return result;
-		}
+		trace( "Executing top-level commands" );
+		result = topScope.execute();
+		if ( currentState == STATE_EXIT )
+			return result;
 
 		// Now execute main function, if any
 		if ( main != null )

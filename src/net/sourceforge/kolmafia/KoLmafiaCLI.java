@@ -239,7 +239,6 @@ public class KoLmafiaCLI extends KoLmafia
 				printBlankLine();
 			}
 
-			forceContinue();
 			executeLine( line );
 
 			if ( StaticEntity.getClient() == this )
@@ -306,6 +305,8 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		if ( refusesContinue() || line.trim().length() == 0 )
 			return;
+
+		forceContinue();
 
 		// If it gets this far, that means the continue
 		// state can be reset.
