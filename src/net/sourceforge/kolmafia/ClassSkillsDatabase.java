@@ -49,6 +49,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 	private static Map skillTypeById = new TreeMap();
 	private static Map durationById = new TreeMap();
 
+	public static final int CASTABLE = -1;
 	public static final int PASSIVE = 0;
 	public static final int SKILL = 1;
 	public static final int BUFF = 2;
@@ -255,10 +256,21 @@ public class ClassSkillsDatabase extends KoLDatabase
 	{
 		ArrayList list = new ArrayList();
 
+		boolean shouldAdd = false;
 		Object [] keys = skillTypeById.keySet().toArray();
+
 		for ( int i = 0; i < keys.length; ++i )
-			if ( isType( ((Integer)keys[i]).intValue(), type ) )
+		{
+			shouldAdd = false;
+
+			if ( type == CASTABLE )
+				shouldAdd = isType( ((Integer)keys[i]).intValue(), SKILL ) || isType( ((Integer)keys[i]).intValue(), BUFF );
+			else
+				shouldAdd = isType( ((Integer)keys[i]).intValue(), type );
+
+			if ( shouldAdd )
 				list.add( UseSkillRequest.getInstance( ((Integer)keys[i]).intValue() ) );
+		}
 
 		return list;
 	}

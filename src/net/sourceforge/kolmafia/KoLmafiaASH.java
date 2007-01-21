@@ -76,7 +76,7 @@ public class KoLmafiaASH extends StaticEntity
 	public final static char [] tokenList = { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
 	public final static String [] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&" };
 
-	public static final int TYPE_VOId = 0;
+	public static final int TYPE_VOID = 0;
 	public static final int TYPE_BOOLEAN = 1;
 	public static final int TYPE_INT = 2;
 	public static final int TYPE_FLOAT = 3;
@@ -112,7 +112,7 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int STATE_CONTINUE = 4;
 	public static final int STATE_EXIT = 5;
 
-	private static final ScriptType VOID_TYPE = new ScriptType( "void", TYPE_VOId );
+	private static final ScriptType VOID_TYPE = new ScriptType( "void", TYPE_VOID );
 	private static final ScriptType BOOLEAN_TYPE = new ScriptType( "boolean", TYPE_BOOLEAN );
 	private static final ScriptType INT_TYPE = new ScriptType( "int", TYPE_INT );
 	private static final ScriptType FLOAT_TYPE = new ScriptType( "float", TYPE_FLOAT );
@@ -402,7 +402,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( ELEMENT_TYPE, num, name );
 	}
 
-	private static ScriptValue parseValue( ScriptType type, String name ) throws AdvancedScriptException
+	private static ScriptValue parseValue( ScriptType type, String name )
 	{
 		try
 		{
@@ -619,7 +619,6 @@ public class KoLmafiaASH extends StaticEntity
 				printStackTrace( e, e.getMessage() );
 				return;
 			}
-
 		}
 
 		try
@@ -639,12 +638,9 @@ public class KoLmafiaASH extends StaticEntity
 			notifyRecipient = null;
 
 			if ( !KoLmafia.permitsContinue() || result == null || result.getType() == null )
-			{
-				KoLmafiaCLI.printLine( "Script aborted!" );
 				return;
-			}
 
-			if ( result.getType().equals( TYPE_VOId ) )
+			if ( result.getType().equals( TYPE_VOID ) )
 				KoLmafiaCLI.printLine( !KoLmafia.permitsContinue() ? "Script failed!" : "Script succeeded!" );
 			else if ( result.getType().equals( TYPE_BOOLEAN ) )
 				KoLmafiaCLI.printLine( result.intValue() == 0 ? "Script failed!" : "Script succeeded!" );
@@ -710,7 +706,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private ScriptScope parseFile( String fileName, ScriptScope startScope, ScriptScope parentScope ) throws AdvancedScriptException, java.io.FileNotFoundException
+	private ScriptScope parseFile( String fileName, ScriptScope startScope, ScriptScope parentScope ) throws FileNotFoundException
 	{
 		ScriptScope result;
 		this.fileName = fileName;
@@ -749,7 +745,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private ScriptScope parseScope( ScriptScope startScope, ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop ) throws AdvancedScriptException
+	private ScriptScope parseScope( ScriptScope startScope, ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop )
 	{
 		ScriptScope result;
 		String importString;
@@ -830,7 +826,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private ScriptType parseRecord( ScriptScope parentScope ) throws AdvancedScriptException
+	private ScriptType parseRecord( ScriptScope parentScope )
 	{
 		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "record" ) )
 			return null;
@@ -923,7 +919,7 @@ public class KoLmafiaASH extends StaticEntity
 		return rec;
 	}
 
-	private ScriptFunction parseFunction( ScriptType functionType, ScriptScope parentScope ) throws AdvancedScriptException
+	private ScriptFunction parseFunction( ScriptType functionType, ScriptScope parentScope )
 	{
 		if ( !parseIdentifier( currentToken() ) )
 			return null;
@@ -1001,7 +997,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		result.setScope( scope );
-		if ( !result.assertReturn() && !functionType.equals( TYPE_VOId )
+		if ( !result.assertReturn() && !functionType.equals( TYPE_VOID )
 		     // The following clause can't be correct. I think it
 		     // depends on the various conditional & loop constructs
 		     // returning a boolean. Or something. But without it,
@@ -1012,7 +1008,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private ScriptVariable parseVariable( ScriptType t, ScriptScope scope ) throws AdvancedScriptException
+	private ScriptVariable parseVariable( ScriptType t, ScriptScope scope )
 	{
 		if ( !parseIdentifier( currentToken() ) )
 			return null;
@@ -1051,7 +1047,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private ScriptCommand parseCommand( ScriptType functionType, ScriptScope scope, boolean noElse, boolean whileLoop ) throws AdvancedScriptException
+	private ScriptCommand parseCommand( ScriptType functionType, ScriptScope scope, boolean noElse, boolean whileLoop )
 	{
 		ScriptCommand result;
 
@@ -1115,7 +1111,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private ScriptType parseType( ScriptScope scope, boolean aggregates, boolean records ) throws AdvancedScriptException
+	private ScriptType parseType( ScriptScope scope, boolean aggregates, boolean records )
 	{
 		if ( currentToken() == null )
 			return null;
@@ -1147,7 +1143,7 @@ public class KoLmafiaASH extends StaticEntity
 		return valType;
 	}
 
-	private ScriptType parseAggregateType( ScriptType dataType, ScriptScope scope ) throws AdvancedScriptException
+	private ScriptType parseAggregateType( ScriptType dataType, ScriptScope scope )
 	{
 		readToken();	// [ or ,
 		if ( currentToken() == null )
@@ -1208,7 +1204,7 @@ public class KoLmafiaASH extends StaticEntity
 		return true;
 	}
 
-	private ScriptReturn parseReturn( ScriptType expectedType, ScriptScope parentScope ) throws AdvancedScriptException
+	private ScriptReturn parseReturn( ScriptType expectedType, ScriptScope parentScope )
 	{
 		ScriptExpression expression = null;
 
@@ -1219,7 +1215,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( currentToken() != null && currentToken().equals( ";" ) )
 		{
-			if ( expectedType != null && expectedType.equals( TYPE_VOId ) )
+			if ( expectedType != null && expectedType.equals( TYPE_VOID ) )
 				return new ScriptReturn( null, VOID_TYPE );
 
 			throw new AdvancedScriptException( "Return needs value " + getLineAndFile() );
@@ -1233,7 +1229,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private ScriptConditional parseConditional( ScriptType functionType, ScriptScope parentScope, boolean noElse, boolean loop ) throws AdvancedScriptException
+	private ScriptConditional parseConditional( ScriptType functionType, ScriptScope parentScope, boolean noElse, boolean loop )
 	{
 		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "if" ) )
 			return null;
@@ -1320,7 +1316,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private ScriptWhile parseWhile( ScriptType functionType, ScriptScope parentScope ) throws AdvancedScriptException
+	private ScriptWhile parseWhile( ScriptType functionType, ScriptScope parentScope )
 	{
 		if ( currentToken() == null )
 			return null;
@@ -1345,7 +1341,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptWhile( scope, expression );
 	}
 
-	private ScriptRepeat parseRepeat( ScriptType functionType, ScriptScope parentScope ) throws AdvancedScriptException
+	private ScriptRepeat parseRepeat( ScriptType functionType, ScriptScope parentScope )
 	{
 		if ( currentToken() == null )
 			return null;
@@ -1374,7 +1370,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptRepeat( scope, expression );
 	}
 
-	private ScriptForeach parseForeach( ScriptType functionType, ScriptScope parentScope ) throws AdvancedScriptException
+	private ScriptForeach parseForeach( ScriptType functionType, ScriptScope parentScope )
 	{
 		// foreach key [, key ... ] in aggregate { scope }
 
@@ -1448,7 +1444,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptForeach( scope, variableReferences, aggregate );
 	}
 
-	private ScriptFor parseFor( ScriptType functionType, ScriptScope parentScope ) throws AdvancedScriptException
+	private ScriptFor parseFor( ScriptType functionType, ScriptScope parentScope )
 	{
 		// foreach key in aggregate {scope }
 
@@ -1508,7 +1504,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptFor( scope, new ScriptVariableReference( indexvar ), initial, last, increment, up );
 	}
 
-	private ScriptScope parseLoopScope( ScriptType functionType, ScriptVariableList varList, ScriptScope parentScope ) throws AdvancedScriptException
+	private ScriptScope parseLoopScope( ScriptType functionType, ScriptVariableList varList, ScriptScope parentScope )
 	{
 		ScriptScope scope;
 
@@ -1534,7 +1530,7 @@ public class KoLmafiaASH extends StaticEntity
 		return scope;
 	}
 
-	private ScriptCall parseCall( ScriptScope scope ) throws AdvancedScriptException
+	private ScriptCall parseCall( ScriptScope scope )
 	{
 		if ( nextToken() == null || !nextToken().equals( "(" ) )
 			return null;
@@ -1575,7 +1571,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptCall( name, scope, params );
 	}
 
-	private ScriptAssignment parseAssignment( ScriptScope scope ) throws AdvancedScriptException
+	private ScriptAssignment parseAssignment( ScriptScope scope )
 	{
 		if ( nextToken() == null )
 			return null;
@@ -1600,7 +1596,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptAssignment( lhs, rhs );
 	}
 
-	private ScriptExpression parseRemove( ScriptScope scope ) throws AdvancedScriptException
+	private ScriptExpression parseRemove( ScriptScope scope )
 	{
 		if ( currentToken() == null || !currentToken().equals( "remove" ) )
 			return null;
@@ -1613,12 +1609,12 @@ public class KoLmafiaASH extends StaticEntity
 		return lhs;
 	}
 
-	private ScriptExpression parseExpression( ScriptScope scope ) throws AdvancedScriptException
+	private ScriptExpression parseExpression( ScriptScope scope )
 	{
 		return parseExpression( scope, null );
 	}
 
-	private ScriptExpression parseExpression( ScriptScope scope, ScriptOperator previousOper ) throws AdvancedScriptException
+	private ScriptExpression parseExpression( ScriptScope scope, ScriptOperator previousOper )
 	{
 		if ( currentToken() == null )
 			return null;
@@ -1690,7 +1686,7 @@ public class KoLmafiaASH extends StaticEntity
 		while ( true );
 	}
 
-	private ScriptExpression parseValue( ScriptScope scope ) throws AdvancedScriptException
+	private ScriptExpression parseValue( ScriptScope scope )
 	{
 		if ( currentToken() == null )
 			return null;
@@ -1747,7 +1743,7 @@ public class KoLmafiaASH extends StaticEntity
 		return null;
 	}
 
-	private ScriptValue parseNumber() throws AdvancedScriptException
+	private ScriptValue parseNumber()
 	{
 		if ( currentToken() == null )
 			return null;
@@ -1810,7 +1806,7 @@ public class KoLmafiaASH extends StaticEntity
 		return true;
 	}
 
-	private ScriptValue parseString() throws AdvancedScriptException
+	private ScriptValue parseString()
 	{
 		// Directly work with currentLine - ignore any "tokens" you meet until
 		// the string is closed
@@ -1879,7 +1875,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private ScriptValue parseTypedConstant( ScriptScope scope ) throws AdvancedScriptException
+	private ScriptValue parseTypedConstant( ScriptScope scope )
 	{
 		readToken();    // read $
 
@@ -1934,7 +1930,7 @@ public class KoLmafiaASH extends StaticEntity
 			oper.equals( "contains" ) || oper.equals( "remove" );
 	}
 
-	private ScriptVariableReference parseVariableReference( ScriptScope scope ) throws AdvancedScriptException
+	private ScriptVariableReference parseVariableReference( ScriptScope scope )
 	{
 		if ( currentToken() == null || !parseIdentifier( currentToken() ) )
 			return null;
@@ -2021,7 +2017,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptCompositeReference( var, indices );
 	}
 
-	private String parseDirective( String directive ) throws AdvancedScriptException
+	private String parseDirective( String directive )
 	{
 		if ( currentToken() == null || !currentToken().equalsIgnoreCase( directive ) )
 			return null;
@@ -2065,14 +2061,14 @@ public class KoLmafiaASH extends StaticEntity
 		return resultString;
 	}
 
-	private void parseNotify() throws AdvancedScriptException
+	private void parseNotify()
 	{
 		String resultString = parseDirective( "notify" );
 		if ( notifyRecipient == null )
 			notifyRecipient = resultString;
 	}
 
-	private String parseImport() throws AdvancedScriptException
+	private String parseImport()
 	{	return parseDirective( "import" );
 	}
 
@@ -2309,7 +2305,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		indentLine( indent );
 		KoLmafia.getDebugStream().println( "<RETURN " + ret.getType() + ">" );
-		if ( !ret.getType().equals( TYPE_VOId ) )
+		if ( !ret.getType().equals( TYPE_VOID ) )
 			printExpression( ret.getExpression(), indent + 1 );
 	}
 
@@ -2488,7 +2484,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private ScriptValue executeScope( ScriptScope topScope, String functionName, String [] parameters ) throws AdvancedScriptException
+	private ScriptValue executeScope( ScriptScope topScope, String functionName, String [] parameters )
 	{
 		ScriptFunction main;
 		ScriptValue result = null;
@@ -2523,7 +2519,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private boolean requestUserParams( ScriptFunction targetFunction, String [] parameters ) throws AdvancedScriptException
+	private boolean requestUserParams( ScriptFunction targetFunction, String [] parameters )
 	{
 		int args = ( parameters == null ) ? 0 : parameters.length;
 		ScriptVariableReference	param;
@@ -2599,8 +2595,10 @@ public class KoLmafiaASH extends StaticEntity
 				AdventureDatabase.getAdventure( getProperty( "lastAdventure" ) ) )).getAdventureName();
 
 		case TYPE_SKILL:
+
+			List castableSkills = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.CASTABLE );
 			return ((UseSkillRequest) JOptionPane.showInputDialog( null, message, "Input Variable",
-				JOptionPane.INFORMATION_MESSAGE, null, availableSkills.toArray(), availableSkills.get(0) )).getSkillName();
+				JOptionPane.INFORMATION_MESSAGE, null, castableSkills.toArray(), castableSkills.get(0) )).getSkillName();
 
 		case TYPE_FAMILIAR:
 			return ((FamiliarData) JOptionPane.showInputDialog( null, message, "Input Variable",
@@ -2639,12 +2637,15 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	public void parseError( String expected, String actual ) throws AdvancedScriptException
+	public void parseError( String expected, String actual )
 	{	throw new AdvancedScriptException( "Expected " + expected + ", found " + actual + " " + getLineAndFile() );
 	}
 
 	public String getLineAndFile()
 	{
+		if ( fileName == null )
+			return "(" + StaticEntity.getProperty( "commandLineNamespace" ) + ")";
+
 		String partialName = fileName.substring( fileName.lastIndexOf( File.separator ) + 1 );
 		return "(" + partialName + ", line " + lineNumber + ")";
 	}
@@ -3542,7 +3543,7 @@ public class KoLmafiaASH extends StaticEntity
 			return false;
 		}
 
-		private boolean isMatchingFunction( ScriptUserDefinedFunction current, ScriptUserDefinedFunction f ) throws AdvancedScriptException
+		private boolean isMatchingFunction( ScriptUserDefinedFunction current, ScriptUserDefinedFunction f )
 		{
 			// The existing function must be a forward
 			// reference.  Thus, already-defined functions
@@ -3585,7 +3586,7 @@ public class KoLmafiaASH extends StaticEntity
 			return true;
 		}
 
-		public ScriptUserDefinedFunction replaceFunction( ScriptUserDefinedFunction f ) throws AdvancedScriptException
+		public ScriptUserDefinedFunction replaceFunction( ScriptUserDefinedFunction f )
 		{
 			String functionName = f.getName();
 			int currentIndex = functions.indexOf( functionName, 0 );
@@ -3603,7 +3604,7 @@ public class KoLmafiaASH extends StaticEntity
 			return f;
 		}
 
-		private ScriptFunction findFunction( String name, ScriptExpressionList params, boolean isExactMatch ) throws AdvancedScriptException
+		private ScriptFunction findFunction( String name, ScriptExpressionList params, boolean isExactMatch )
 		{
 			String errorMessage = null;
 			int currentIndex = functions.indexOf( name, 0 );
@@ -3656,13 +3657,13 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 		}
 
-		public ScriptFunction findFunction( String name, ScriptExpressionList params ) throws AdvancedScriptException
+		public ScriptFunction findFunction( String name, ScriptExpressionList params )
 		{
 			ScriptFunction result = findFunction( name, params, true );
 			return result != null ? result : findFunction( name, params, false );
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			ScriptCommand current;
 			ScriptValue result = null;
@@ -3818,7 +3819,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return (ScriptVariableReference)variableReferences.getNextElement();
 		}
 
-		public void saveBindings() throws AdvancedScriptException
+		public void saveBindings()
 		{
 			// Save current parameter value bindings
 			for ( int i = 0; i < values.length; ++i )
@@ -3861,7 +3862,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 		}
 
-		public abstract ScriptValue execute() throws AdvancedScriptException;
+		public abstract ScriptValue execute() ;
 	}
 
 	private class ScriptUserDefinedFunction extends ScriptFunction
@@ -3882,7 +3883,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return scope;
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			if ( StaticEntity.isDisabled( getName() ) )
 			{
@@ -5614,11 +5615,11 @@ public class KoLmafiaASH extends StaticEntity
 		{	return target.getName().compareTo( ((ScriptVariableReference)o).target.getName() );
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{	return target.getValue();
 		}
 
-		public ScriptValue getValue() throws AdvancedScriptException
+		public ScriptValue getValue()
 		{	return target.getValue();
 		}
 
@@ -5626,7 +5627,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	target.forceValue( targetValue );
 		}
 
-		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
+		public void setValue( ScriptValue targetValue )
 		{	target.setValue( targetValue );
 		}
 
@@ -5665,7 +5666,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return indices;
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{	return getValue();
 		}
 
@@ -5674,7 +5675,7 @@ public class KoLmafiaASH extends StaticEntity
 		// When done, this.slice has the final slice and this.index has
 		// the final evaluated index.
 
-		private boolean getSlice() throws AdvancedScriptException
+		private boolean getSlice()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -5731,7 +5732,7 @@ public class KoLmafiaASH extends StaticEntity
 			return true;
 		}
 
-		public ScriptValue getValue() throws AdvancedScriptException
+		public ScriptValue getValue()
 		{
 			// Iterate through indices to final slice
 			if ( getSlice() )
@@ -5754,7 +5755,7 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 		}
 
-		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
+		public void setValue( ScriptValue targetValue )
 		{
 			// Iterate through indices to final slice
 			if ( getSlice() )
@@ -5766,7 +5767,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 		}
 
-		public ScriptValue removeKey() throws AdvancedScriptException
+		public ScriptValue removeKey()
 		{
 			// Iterate through indices to final slice
 			if ( getSlice() )
@@ -5782,7 +5783,7 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 		}
 
-		public boolean contains( ScriptValue index ) throws AdvancedScriptException
+		public boolean contains( ScriptValue index )
 		{
 			boolean result = false;
 			// Iterate through indices to final slice
@@ -5828,7 +5829,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptCommand
 	{
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			return null;
 		}
@@ -5838,7 +5839,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		int command;
 
-		public ScriptFlowControl( String command ) throws AdvancedScriptException
+		public ScriptFlowControl( String command )
 		{
 			if ( command.equalsIgnoreCase( "break" ) )
 				this.command = COMMAND_BREAK;
@@ -5868,7 +5869,7 @@ public class KoLmafiaASH extends StaticEntity
 			return "unknown command";
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			traceIndent();
 			trace( toString() );
@@ -5903,7 +5904,7 @@ public class KoLmafiaASH extends StaticEntity
 		private ScriptExpression returnValue;
 		private ScriptType expectedType;
 
-		public ScriptReturn( ScriptExpression returnValue, ScriptType expectedType ) throws AdvancedScriptException
+		public ScriptReturn( ScriptExpression returnValue, ScriptType expectedType )
 		{
 			this.returnValue = returnValue;
 
@@ -5931,7 +5932,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return returnValue;
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 				currentState = STATE_EXIT;
@@ -5981,7 +5982,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptScope scope;
 		private ScriptExpression condition;
 
-		public ScriptConditional( ScriptScope scope, ScriptExpression condition ) throws AdvancedScriptException
+		public ScriptConditional( ScriptScope scope, ScriptExpression condition )
 		{
 			this.scope = scope;
 			this.condition = condition;
@@ -5997,7 +5998,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return condition;
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -6042,7 +6043,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		private ScriptConditionalList elseLoops;
 
-		public ScriptIf( ScriptScope scope, ScriptExpression condition ) throws AdvancedScriptException
+		public ScriptIf( ScriptScope scope, ScriptExpression condition )
 		{
 			super( scope, condition );
 			elseLoops = new ScriptConditionalList();
@@ -6056,12 +6057,12 @@ public class KoLmafiaASH extends StaticEntity
 		{	return (ScriptConditional)elseLoops.getNextElement();
 		}
 
-		public void addElseLoop( ScriptConditional elseLoop ) throws AdvancedScriptException
+		public void addElseLoop( ScriptConditional elseLoop )
 		{
 			elseLoops.addElement( elseLoop );
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			ScriptValue result = super.execute();
 			if ( currentState != STATE_NORMAL || result == TRUE_VALUE )
@@ -6085,7 +6086,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private class ScriptElseIf extends ScriptConditional
 	{
-		public ScriptElseIf( ScriptScope scope, ScriptExpression condition ) throws AdvancedScriptException
+		public ScriptElseIf( ScriptScope scope, ScriptExpression condition )
 		{	super( scope, condition );
 		}
 
@@ -6096,11 +6097,11 @@ public class KoLmafiaASH extends StaticEntity
 
 	private class ScriptElse extends ScriptConditional
 	{
-		public ScriptElse( ScriptScope scope, ScriptExpression condition ) throws AdvancedScriptException
+		public ScriptElse( ScriptScope scope, ScriptExpression condition )
 		{	super( scope, condition );
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -6143,7 +6144,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		public ScriptScope scope;
 
-		public ScriptLoop( ScriptScope scope ) throws AdvancedScriptException
+		public ScriptLoop( ScriptScope scope )
 		{
 			this.scope = scope;
 		}
@@ -6152,7 +6153,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return scope;
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			ScriptValue result = scope.execute();
 
@@ -6190,7 +6191,7 @@ public class KoLmafiaASH extends StaticEntity
 		private ScriptVariableReferenceList variableReferences;
 		private ScriptVariableReference aggregate;
 
-		public ScriptForeach( ScriptScope scope, ScriptVariableReferenceList variableReferences, ScriptVariableReference aggregate ) throws AdvancedScriptException
+		public ScriptForeach( ScriptScope scope, ScriptVariableReferenceList variableReferences, ScriptVariableReference aggregate )
 		{
 			super( scope );
 			this.variableReferences = variableReferences;
@@ -6213,7 +6214,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return aggregate;
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -6235,7 +6236,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		}
 
-		private ScriptValue executeSlice( ScriptAggregateValue slice, ScriptVariableReference variable ) throws AdvancedScriptException
+		private ScriptValue executeSlice( ScriptAggregateValue slice, ScriptVariableReference variable )
 		{
 			// Get an array of keys for the slice
 			ScriptValue [] keys = slice.keys();
@@ -6293,7 +6294,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		private ScriptExpression condition;
 
-		public ScriptWhile( ScriptScope scope, ScriptExpression condition ) throws AdvancedScriptException
+		public ScriptWhile( ScriptScope scope, ScriptExpression condition )
 		{
 			super( scope );
 			this.condition = condition;
@@ -6306,7 +6307,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return condition;
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -6364,7 +6365,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		private ScriptExpression condition;
 
-		public ScriptRepeat( ScriptScope scope, ScriptExpression condition ) throws AdvancedScriptException
+		public ScriptRepeat( ScriptScope scope, ScriptExpression condition )
 		{
 			super( scope );
 			this.condition = condition;
@@ -6377,7 +6378,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return condition;
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -6439,7 +6440,7 @@ public class KoLmafiaASH extends StaticEntity
 		private ScriptExpression increment;
 		private boolean up;
 
-		public ScriptFor( ScriptScope scope, ScriptVariableReference variable, ScriptExpression initial, ScriptExpression last, ScriptExpression increment, boolean up ) throws AdvancedScriptException
+		public ScriptFor( ScriptScope scope, ScriptVariableReference variable, ScriptExpression initial, ScriptExpression last, ScriptExpression increment, boolean up )
 		{
 			super( scope );
 			this.variable = variable;
@@ -6469,7 +6470,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return up;
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -6566,7 +6567,7 @@ public class KoLmafiaASH extends StaticEntity
 		private ScriptFunction target;
 		private ScriptExpressionList params;
 
-		public ScriptCall( String functionName, ScriptScope scope, ScriptExpressionList params ) throws AdvancedScriptException
+		public ScriptCall( String functionName, ScriptScope scope, ScriptExpressionList params )
 		{
 			target = findFunction( functionName, scope, params );
 			if ( target == null )
@@ -6574,7 +6575,7 @@ public class KoLmafiaASH extends StaticEntity
 			this.params = params;
 		}
 
-		private ScriptFunction findFunction( String name, ScriptScope scope, ScriptExpressionList params ) throws AdvancedScriptException
+		private ScriptFunction findFunction( String name, ScriptScope scope, ScriptExpressionList params )
 		{
 			if ( scope == null )
 				return null;
@@ -6597,7 +6598,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return target.getType();
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -6673,7 +6674,7 @@ public class KoLmafiaASH extends StaticEntity
 		private ScriptVariableReference lhs;
 		private ScriptExpression rhs;
 
-		public ScriptAssignment( ScriptVariableReference lhs, ScriptExpression rhs ) throws AdvancedScriptException
+		public ScriptAssignment( ScriptVariableReference lhs, ScriptExpression rhs )
 		{
 			this.lhs = lhs;
 			this.rhs = rhs;
@@ -6697,7 +6698,7 @@ public class KoLmafiaASH extends StaticEntity
 			return lhs.getType();
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -6780,7 +6781,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			switch ( type )
 			{
-			case TYPE_VOId:
+			case TYPE_VOID:
 				return VOID_VALUE;
 			case TYPE_BOOLEAN:
 				return BOOLEAN_INIT;
@@ -6816,7 +6817,7 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 		}
 
-		public ScriptValue parseValue( String name ) throws AdvancedScriptException
+		public ScriptValue parseValue( String name )
 		{
 			switch ( type )
 			{
@@ -7124,7 +7125,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return type;
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{	return type.initialValue();
 		}
 
@@ -7240,7 +7241,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String toString()
 		{
-			if ( type.equals( TYPE_VOId ) )
+			if ( type.equals( TYPE_VOID ) )
 				return "void";
 
 			if ( contentString != null )
@@ -7282,7 +7283,7 @@ public class KoLmafiaASH extends StaticEntity
 			return contentFloat;
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			return this;
 		}
@@ -7314,7 +7315,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 		}
 
-		public boolean contains( ScriptValue index ) throws AdvancedScriptException
+		public boolean contains( ScriptValue index )
 		{	return false;
 		}
 
@@ -7385,7 +7386,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		// Returns number of fields consumed
-		public int read( String [] data, int index, boolean compact ) throws AdvancedScriptException
+		public int read( String [] data, int index, boolean compact )
 		{
 			ScriptCompositeType type = (ScriptCompositeType) this.type;
 			ScriptValue key = null;
@@ -7679,7 +7680,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 		}
 
-		public int read( String [] data, int index, boolean compact ) throws AdvancedScriptException
+		public int read( String [] data, int index, boolean compact )
 		{
 			if ( !compact || type.containsAggregate() )
 				return super.read( data, index, compact );
@@ -7728,7 +7729,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 		}
 
-		public ScriptExpression( ScriptExpression lhs, ScriptExpression rhs, ScriptOperator oper ) throws AdvancedScriptException
+		public ScriptExpression( ScriptExpression lhs, ScriptExpression rhs, ScriptOperator oper )
 		{
 			this.lhs = lhs;
 			this.rhs = rhs;
@@ -7776,7 +7777,7 @@ public class KoLmafiaASH extends StaticEntity
 			return oper;
 		}
 
-		public ScriptValue execute() throws AdvancedScriptException
+		public ScriptValue execute()
 		{
 			try
 			{
@@ -7871,7 +7872,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return operator;
 		}
 
-		public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs ) throws AdvancedScriptException
+		public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs )
 		{
 			// Unary operator with special evaluation of argument
 			if ( operator.equals( "remove" ) )
@@ -8104,7 +8105,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private static class AdvancedScriptException extends Exception
+	public static class AdvancedScriptException extends RuntimeException
 	{
 		AdvancedScriptException( String s )
 		{	super( s );
