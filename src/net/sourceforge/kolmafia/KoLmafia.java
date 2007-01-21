@@ -3158,6 +3158,8 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		public void run()
 		{
+			CustomItemDatabase.saveItemData();
+
 			SystemTrayFrame.removeTrayIcon();
 			LocalRelayServer.stop();
 
