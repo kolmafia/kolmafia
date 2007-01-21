@@ -738,6 +738,9 @@ public class FightRequest extends KoLRequest
 
 	public static boolean registerRequest( String urlString )
 	{
+		if ( urlString.indexOf( "fight.php?" ) == -1 )
+			return urlString.indexOf( "fight.php" ) != -1;
+
 		action1 = null;
 		action2 = null;
 
