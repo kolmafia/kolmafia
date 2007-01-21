@@ -186,7 +186,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		}
 	}
 
-	public class WordBasedFilter extends LockableListModel.ListElementFilter
+	public class WordBasedFilter extends ListElementFilter
 	{
 		public boolean isVisible( Object element )
 		{
@@ -223,7 +223,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 				return true;
 
 			if ( ((AdventureResult)element).isItem() )
-				return ((AdventureResult)element).getCount() > 0;
+				return ((AdventureResult)element).getCount() <= 0;
 
 			if ( ((AdventureResult)element).isStatusEffect() )
 				return false;

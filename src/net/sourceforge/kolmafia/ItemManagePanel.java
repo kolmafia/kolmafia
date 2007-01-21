@@ -70,25 +70,19 @@ public class ItemManagePanel extends LabeledScrollPanel
 	public JRadioButton [] movers;
 	public FilterItemComboBox wordfilter;
 
-
-	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements )
+	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elementModel )
 	{
-		super( title, confirmedText, cancelledText, new ShowDescriptionList( elements ), false );
+		super( title, confirmedText, cancelledText, new ShowDescriptionList( elementModel ), false );
 
-		elementList = (ShowDescriptionList) scrollComponent;
-		elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-		elementList.setVisibleRowCount( 8 );
-
-		elementModel = elements;
-
-		if ( elementModel == inventory )
-		{
-			elementModel = inventory.getMirrorImage();
-			elementList.setModel( elementModel );
-		}
+		this.elementModel = elementModel;
+		this.elementList = (ShowDescriptionList) scrollComponent;
+		this.elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+		this.elementList.setVisibleRowCount( 8 );
 
 		wordfilter = new FilterItemComboBox();
 		centerPanel.add( wordfilter, BorderLayout.NORTH );
+
+		this.wordfilter.filterItems();
 	}
 
 	public ItemManagePanel( LockableListModel elementModel )
@@ -98,10 +92,10 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.elementModel = elementModel;
 		this.elementList = (ShowDescriptionList) scrollComponent;
 
-		wordfilter = new FilterItemComboBox();
+		this.wordfilter = new FilterItemComboBox();
 		centerPanel.add( wordfilter, BorderLayout.NORTH );
 
-		wordfilter.filterItems();
+		this.wordfilter.filterItems();
 	}
 
 	public void actionConfirmed()
@@ -565,7 +559,10 @@ public class ItemManagePanel extends LabeledScrollPanel
 			public boolean isVisible( Object element )
 			{
 				if ( isNonResult( element ) )
+				{
+					System.out.println( element );
 					return false;
+				}
 
 				boolean isItem = element instanceof ItemCreationRequest;
 				isItem |= element instanceof AdventureResult && ((AdventureResult)element).isItem();
