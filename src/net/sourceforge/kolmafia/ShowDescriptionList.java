@@ -59,12 +59,13 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
 public class ShowDescriptionList extends JList implements KoLConstants
 {
 	public int lastSelectIndex;
 	public JPopupMenu contextMenu;
-	public LockableListModel.ListElementFilter filter;
+	public ListElementFilter filter;
 
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
@@ -353,7 +354,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private class JunkListFilter extends LockableListModel.ListElementFilter implements ListDataListener
+	private class JunkListFilter extends ListElementFilter implements ListDataListener
 	{
 		private LockableListModel model;
 
