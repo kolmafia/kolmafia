@@ -651,14 +651,10 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !KoLmafia.permitsContinue() || result == null || result.getType() == null )
 				return;
 
-			if ( result.getType().equals( TYPE_VOID ) )
-				KoLmafiaCLI.printLine( !KoLmafia.permitsContinue() ? "Script failed!" : "Script succeeded!" );
-			else if ( result.getType().equals( TYPE_BOOLEAN ) )
-				KoLmafiaCLI.printLine( result.intValue() == 0 ? "Script failed!" : "Script succeeded!" );
-			else if ( result.getType().equals( TYPE_STRING ) )
+			if ( result.getType().equals( TYPE_STRING ) )
 				KoLmafiaCLI.printLine( result.toString() );
-			else
-				KoLmafiaCLI.printLine(  "Script returned value " + result );
+			else if ( !result.getType().equals( TYPE_VOID ) && !result.getType().equals( TYPE_BOOLEAN ) )
+				KoLmafiaCLI.printLine( result.toStringValue().toString() );
 
 		}
 		catch ( AdvancedScriptException e )
