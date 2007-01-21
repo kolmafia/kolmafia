@@ -532,34 +532,6 @@ public abstract class MushroomPlot extends StaticEntity
 		return ownsPlot;
 	}
 
-	private static class MushroomPlotRequest extends KoLRequest
-	{
-		public MushroomPlotRequest()
-		{	super( "knoll_mushrooms.php", true );
-		}
-
-		public MushroomPlotRequest( int square )
-		{
-			this();
-			addFormField( "action", "click" );
-			addFormField( "pos", String.valueOf( square - 1 ) );
-		}
-
-		public MushroomPlotRequest( int square, int spore )
-		{
-			this();
-			addFormField( "action", "plant" );
-			addFormField( "pos", String.valueOf( square - 1 ) );
-			addFormField( "whichspore", String.valueOf( spore ) );
-		}
-
-		public void run()
-		{
-			super.run();
-			parsePlot( responseText );
-		}
-	}
-
 	public static void parsePlot( String text )
 	{
 		// Pretend all of the sections on the plot are empty

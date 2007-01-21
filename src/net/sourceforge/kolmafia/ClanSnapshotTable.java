@@ -50,9 +50,6 @@ import net.sourceforge.kolmafia.AscensionDataRequest.AscensionDataField;
 
 public class ClanSnapshotTable extends KoLDatabase
 {
-	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>(.*?)</tr>" );
-	private static final Pattern CELL_PATTERN = Pattern.compile( "<td.*?>(.*?)</td>" );
-
 	public static final int EXACT_MATCH = 0;
 	public static final int BELOW_MATCH = -1;
 	public static final int ABOVE_MATCH = 1;
@@ -74,7 +71,7 @@ public class ClanSnapshotTable extends KoLDatabase
 	private static Map rosterMap = new TreeMap();
 
 	private static LockableListModel filterList = new LockableListModel();
-	private static DetailRosterRequest request = null;
+	private static ClanRosterRequest request = null;
 
 	public static void reset()
 	{
@@ -89,7 +86,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		// Next, retrieve a detailed copy of the clan
 		// roster to complete initialization.
 
-		request = new DetailRosterRequest();
+		request = new ClanRosterRequest();
 	}
 
 	public static Map getProfileMap()
@@ -654,45 +651,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		return "<td>Rank</td><td>Favorite Food</td><td>Favorite Drink</td><td>Created</td>";
 	}
 
-	private static class DetailRosterRequest extends KoLRequest
-	{
-		public DetailRosterRequest()
-		{	super( "clan_detailedroster.php" );
-		}
-
-		public void run()
-		{
-			KoLmafia.updateDisplay( "Retrieving detailed roster..." );
-			super.run();
-
-			Matcher rowMatcher = ROW_PATTERN.matcher( responseText.substring( responseText.indexOf( "clan_detailedroster.php" ) ) );
-			rowMatcher.find();
-
-			String currentRow;
-			String currentName;
-			Matcher dataMatcher;
-
-			int lastRowIndex = 0;
-			while ( rowMatcher.find( lastRowIndex ) )
-			{
-				lastRowIndex = rowMatcher.end();
-				currentRow = rowMatcher.group(1);
-
-				if ( !currentRow.equals( "<td height=4></td>" ) )
-				{
-					dataMatcher = CELL_PATTERN.matcher( currentRow );
-
-					// The name of the player occurs in the first
-					// field of the table.  Use this to index the
-					// roster map.
-
-					dataMatcher.find();
-					currentName = dataMatcher.group(1).toLowerCase();
-					rosterMap.put( currentName, currentRow );
-				}
-			}
-
-			KoLmafia.updateDisplay( "Detail roster retrieved." );
-		}
+	public static void addToRoster( String name, String row )
+	{	rosterMap.put( name, row );
 	}
 }
