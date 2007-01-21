@@ -641,21 +641,13 @@ public class KoLmafiaASH extends StaticEntity
 				RequestThread.postRequest( notifier );
 			}
 
-			ScriptValue result = executeScope( global, functionName, parameters );
+			executeScope( global, functionName, parameters );
 
 			if ( !wasRunningScript )
+			{
 				isRunningScript = false;
-
-			notifyRecipient = null;
-
-			if ( !KoLmafia.permitsContinue() || result == null || result.getType() == null )
-				return;
-
-			if ( result.getType().equals( TYPE_STRING ) )
-				KoLmafiaCLI.printLine( result.toString() );
-			else if ( !result.getType().equals( TYPE_VOID ) && !result.getType().equals( TYPE_BOOLEAN ) )
-				KoLmafiaCLI.printLine( result.toStringValue().toString() );
-
+				notifyRecipient = null;
+			}
 		}
 		catch ( AdvancedScriptException e )
 		{
@@ -1423,9 +1415,9 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		// Get an aggregate reference
-		ScriptVariableReference aggregate = parseVariableReference( parentScope );
+		ScriptExpression aggregate = parseVariableReference( parentScope );
 
-		if ( aggregate == null || !( aggregate.getType() instanceof ScriptAggregateType ) )
+		if ( aggregate == null || !(aggregate instanceof ScriptVariableReference) || !(aggregate.getType() instanceof ScriptAggregateType) )
 			throw new AdvancedScriptException( "Aggregate reference expected " + getLineAndFile() );
 
 		// Define key variables of appropriate type
@@ -1448,7 +1440,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptScope scope = parseLoopScope( functionType, varList, parentScope );
 
 		// Add the foreach node with the list of varRefs
-		return new ScriptForeach( scope, variableReferences, aggregate );
+		return new ScriptForeach( scope, variableReferences, (ScriptVariableReference) aggregate );
 	}
 
 	private ScriptFor parseFor( ScriptType functionType, ScriptScope parentScope )
@@ -1538,6 +1530,10 @@ public class KoLmafiaASH extends StaticEntity
 	}
 
 	private ScriptCall parseCall( ScriptScope scope )
+	{	return parseCall( scope, null );
+	}
+
+	private ScriptCall parseCall( ScriptScope scope, ScriptExpression firstParam )
 	{
 		if ( nextToken() == null || !nextToken().equals( "(" ) )
 			return null;
@@ -1551,6 +1547,9 @@ public class KoLmafiaASH extends StaticEntity
 		readToken(); //(
 
 		ScriptExpressionList params = new ScriptExpressionList();
+		if ( firstParam != null )
+			params.addElement( firstParam );
+
 		while ( currentToken() != null && !currentToken().equals( ")" ) )
 		{
 			ScriptExpression val = parseExpression( scope );
@@ -1578,20 +1577,22 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptCall( name, scope, params );
 	}
 
-	private ScriptAssignment parseAssignment( ScriptScope scope )
+	private ScriptCommand parseAssignment( ScriptScope scope )
 	{
 		if ( nextToken() == null )
 			return null;
 
-		if ( !nextToken().equals( "=" ) && !nextToken().equals( "["  ) && !nextToken().equals( "." ) )
+		if ( !nextToken().equals( "=" ) && !nextToken().equals( "[" ) && !nextToken().equals( "." ) )
 			return null;
 
 		if ( !parseIdentifier( currentToken() ) )
 			return null;
 
-		ScriptVariableReference lhs = parseVariableReference( scope );
+		ScriptExpression lhs = parseVariableReference( scope );
+		if ( lhs instanceof ScriptCall )
+			return lhs;
 
-                if ( lhs == null )
+		if ( lhs == null || !(lhs instanceof ScriptVariableReference) )
 			throw new AdvancedScriptException( "Variable reference expected " + getLineAndFile() );
 
 		if ( !currentToken().equals( "=" ) )
@@ -1600,7 +1601,7 @@ public class KoLmafiaASH extends StaticEntity
 		readToken(); //=
 
 		ScriptExpression rhs = parseExpression( scope );
-		return new ScriptAssignment( lhs, rhs );
+		return new ScriptAssignment( (ScriptVariableReference) lhs, rhs );
 	}
 
 	private ScriptExpression parseRemove( ScriptScope scope )
@@ -1659,7 +1660,7 @@ public class KoLmafiaASH extends StaticEntity
 			readToken(); // remove
 
 			lhs = parseVariableReference( scope );
-                        if ( lhs == null || !( lhs instanceof ScriptCompositeReference ) )
+			if ( lhs == null || !(lhs instanceof ScriptCompositeReference) )
 				throw new AdvancedScriptException( "Aggregate reference expected " + getLineAndFile() );
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
@@ -1698,9 +1699,9 @@ public class KoLmafiaASH extends StaticEntity
 		if ( currentToken() == null )
 			return null;
 
-		ScriptExpression result;
+		ScriptExpression result = null;
 
-                // Parse parenthesized expressions
+		// Parse parenthesized expressions
 		if ( currentToken().equals( "(" ) )
 		{
 			readToken();	// (
@@ -1713,38 +1714,39 @@ public class KoLmafiaASH extends StaticEntity
 			return result;
 		}
 
-                // Parse constant values
+		// Parse constant values
 		// true and false are reserved words
+
 		if ( currentToken().equalsIgnoreCase( "true" ) )
 		{
 			readToken();
 			return TRUE_VALUE;
 		}
 
-		if ( currentToken().equalsIgnoreCase( "false" ) )
+		else if ( currentToken().equalsIgnoreCase( "false" ) )
 		{
 			readToken();
 			return FALSE_VALUE;
 		}
 
-                // numbers
-		if ( (result = parseNumber()) != null )
+		// numbers
+		else if ( (result = parseNumber()) != null )
 			return result;
 
-                // strings
-		if ( currentToken().equals( "\"" ) )
-                        return parseString();
+		// strings
+		else if ( currentToken().equals( "\"" ) )
+			return parseString();
 
-                // typed constants
-		if ( currentToken().equals( "$" ) )
-                        return parseTypedConstant( scope );
+		// typed constants
+		else if ( currentToken().equals( "$" ) )
+			return parseTypedConstant( scope );
 
-                // Function calls
-		if ( (result = parseCall( scope )) != null )
+		// Function calls
+		else if ( (result = parseCall( scope, result )) != null )
 			return result;
 
-                // Variable and aggregate references
-		if ( (result = parseVariableReference( scope )) != null )
+		// Variable and aggregate references
+		else if ( (result = parseVariableReference( scope )) != null )
 			return result;
 
 		return null;
@@ -1764,7 +1766,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( next == null )
 				return null;
 
-			if ( !next.equals( ".") && !readIntegerToken( next ) )
+			if ( !next.equals( "." ) && !readIntegerToken( next ) )
 				// Unary minus
 				return null;
 
@@ -1776,6 +1778,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			readToken();
 			String fraction = currentToken();
+
 			if ( !readIntegerToken( fraction ) )
 				parseError( "numeric value", fraction );
 
@@ -1786,6 +1789,7 @@ public class KoLmafiaASH extends StaticEntity
 		String integer = currentToken();
 		if ( !readIntegerToken( integer ) )
 			return null;
+
 		readToken();	// integer
 
 		if ( currentToken().equals( "." ) )
@@ -1937,7 +1941,7 @@ public class KoLmafiaASH extends StaticEntity
 			oper.equals( "contains" ) || oper.equals( "remove" );
 	}
 
-	private ScriptVariableReference parseVariableReference( ScriptScope scope )
+	private ScriptExpression parseVariableReference( ScriptScope scope )
 	{
 		if ( currentToken() == null || !parseIdentifier( currentToken() ) )
 			return null;
@@ -1948,6 +1952,11 @@ public class KoLmafiaASH extends StaticEntity
 		if ( var == null )
 			throw new AdvancedScriptException( "Unknown variable '" + name + "' " + getLineAndFile() );
 
+		return parseVariableReference( scope, var );
+	}
+
+	private ScriptExpression parseVariableReference( ScriptScope scope, ScriptVariable var )
+	{
 		readToken(); // read name
 
 		if ( currentToken() == null || (!currentToken().equals( "[" ) && !currentToken().equals( "." ) ) )
@@ -1957,7 +1966,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptExpressionList indices = new ScriptExpressionList();
 		boolean aggregate = currentToken().equals( "[" );
 
-		while ( true )
+		while ( currentToken() != null && (currentToken().equals( "[" ) || currentToken().equals( "." )) )
 		{
 			readToken(); // read [ or . or ,
 
@@ -1968,12 +1977,12 @@ public class KoLmafiaASH extends StaticEntity
 				if ( !(type instanceof ScriptAggregateType) )
 				{
 					if ( indices.isEmpty() )
-						throw new AdvancedScriptException( "Variable '" + name + "' cannot be indexed " + getLineAndFile() );
+						throw new AdvancedScriptException( "Variable '" + var.getName() + "' cannot be indexed " + getLineAndFile() );
 					else
 						throw new AdvancedScriptException( "Too many keys " + getLineAndFile() );
 				}
 
-				ScriptAggregateType atype = (ScriptAggregateType)type;
+				ScriptAggregateType atype = (ScriptAggregateType) type;
 				index = parseExpression( scope );
 				if ( index == null )
 					throw new AdvancedScriptException( "Index expression expected " + getLineAndFile() );
@@ -1984,8 +1993,14 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			else
 			{
-				if ( !( type instanceof ScriptRecordType ) )
+				// Maybe it's a function call with an implied "this" parameter.
+
+				if ( nextToken().equals( "(" ) )
+					return parseCall( scope, indices.isEmpty() ? new ScriptVariableReference( var ) : new ScriptCompositeReference( var, indices ) );
+
+				if ( !(type instanceof ScriptRecordType) )
 					throw new AdvancedScriptException( "Record expected " + getLineAndFile() );
+
 				ScriptRecordType rtype = (ScriptRecordType)type;
 
 				String field = currentToken();
@@ -2015,10 +2030,7 @@ public class KoLmafiaASH extends StaticEntity
 				aggregate = false;
 			}
 
-			if ( currentToken() == null || ( !currentToken().equals( "[" ) && !currentToken().equals( "." ) ) )
-				break;
-
-			aggregate = currentToken().equals( "[" );
+			aggregate = currentToken() != null && currentToken().equals( "[" );
 		}
 
 		return new ScriptCompositeReference( var, indices );
@@ -3608,10 +3620,10 @@ public class KoLmafiaASH extends StaticEntity
 			return f;
 		}
 
-		private ScriptFunction findFunction( String name, ScriptExpressionList params, boolean isExactMatch )
+		private ScriptFunction findFunction( ScriptFunctionList source, String name, ScriptExpressionList params, boolean isExactMatch )
 		{
 			String errorMessage = null;
-			int currentIndex = functions.indexOf( name, 0 );
+			int currentIndex = source.indexOf( name, 0 );
 
 			// First, try to find an exact match on parameter types.
 			// This allows strict matches to take precedence.
@@ -3619,8 +3631,8 @@ public class KoLmafiaASH extends StaticEntity
 			while ( currentIndex != -1 )
 			{
 				errorMessage = null;
-				ScriptFunction current = functions.findFunction( name, currentIndex );
-				currentIndex = functions.indexOf( name, currentIndex + 1 );
+				ScriptFunction current = source.findFunction( name, currentIndex );
+				currentIndex = source.indexOf( name, currentIndex + 1 );
 
 				if ( params == null )
 					return current;
@@ -3652,7 +3664,7 @@ public class KoLmafiaASH extends StaticEntity
 					return current;
 			}
 
-			if ( !isExactMatch && errorMessage != null )
+			if ( !isExactMatch && source == existingFunctions && errorMessage != null )
 				throw new AdvancedScriptException( errorMessage );
 
 			if ( !isExactMatch && parentScope != null )
@@ -3663,8 +3675,16 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptFunction findFunction( String name, ScriptExpressionList params )
 		{
-			ScriptFunction result = findFunction( name, params, true );
-			return result != null ? result : findFunction( name, params, false );
+			ScriptFunction result = findFunction( functions, name, params, true );
+
+			if ( result == null )
+				result = findFunction( existingFunctions, name, params, true );
+			if ( result == null )
+				result = findFunction( functions, name, params, false );
+			if ( result == null )
+				result = findFunction( existingFunctions, name, params, false );
+
+			return result;
 		}
 
 		public ScriptValue execute()
@@ -5837,7 +5857,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			return null;
 		}
-        }
+	}
 
 	private class ScriptFlowControl extends ScriptCommand
 	{

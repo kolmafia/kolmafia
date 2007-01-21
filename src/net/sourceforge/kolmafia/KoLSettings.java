@@ -379,6 +379,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "relayTextualizesEffects", "false" );
 		CLIENT_SETTINGS.put( "relayUsesCachedImages", "false" );
 		CLIENT_SETTINGS.put( "relayUsesIntegratedChat", "false" );
+		CLIENT_SETTINGS.put( "relayViewsCustomItems", "false" );
 		CLIENT_SETTINGS.put( "saveState", "" );
 		CLIENT_SETTINGS.put( "saveStateActive", "" );
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );

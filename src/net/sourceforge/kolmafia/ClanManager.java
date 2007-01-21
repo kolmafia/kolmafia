@@ -59,8 +59,6 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ClanManager extends StaticEntity
 {
-	private static final SimpleDateFormat DIRECTORY_FORMAT = new SimpleDateFormat( "yyyyMM_'w'W", Locale.US );
-
 	private static String SNAPSHOT_DIRECTORY = "clan/";
 
 	private static String clanId;
@@ -134,7 +132,7 @@ public class ClanManager extends StaticEntity
 			clanId = cmr.getClanId();
 			clanName = cmr.getClanName();
 
-			SNAPSHOT_DIRECTORY = "clan/" + clanId + "/" + DIRECTORY_FORMAT.format( new Date() ) + "/";
+			SNAPSHOT_DIRECTORY = "clan/" + clanId + "/" + WEEKLY_FORMAT.format( new Date() ) + "/";
 			KoLmafia.updateDisplay( "Clan data retrieved." );
 		}
 	}
