@@ -119,7 +119,7 @@ public class HermitRequest extends KoLRequest
 
 	public void processResults()
 	{
-		if ( !parseHermitTrade( responseText ) )
+		if ( !parseHermitTrade( getURLString(), responseText ) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You're not allowed to visit the Hermit." );
 			return;
@@ -155,21 +155,20 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
-		// "He looks confused for a moment.  &quot;I already took your
-		// Hermit Permit, right?&quot;" or "your Hermit Permits"
-
-		if ( responseText.indexOf( "He looks confused for a moment." ) == -1 )
-			StaticEntity.getClient().processResult( new AdventureResult( 42, 0 - quantity ) );
-
-
 		if ( itemId == SewerRequest.POSITIVE_CLOVER.getItemId() )
 			(new ConsumeItemRequest( SewerRequest.POSITIVE_CLOVER.getInstance( quantity ) )).run();
 
 		KoLmafia.updateDisplay( "Hermit successfully looted!" );
 	}
 
-	public static boolean parseHermitTrade( String responseText )
+	public static boolean parseHermitTrade( String urlString, String responseText )
 	{
+		// There should be a form, or an indication of item receipt,
+		// for all valid hermit requests.
+
+		if ( responseText.indexOf( "hermit.php" ) == -1 && responseText.indexOf( "You acquire" ) == -1 )
+			return false;
+
 		// Only check for clovers.  All other items at the hermit
 		// are assumed to be static.
 
@@ -180,6 +179,36 @@ public class HermitRequest extends KoLRequest
 			hermitItems.add( SewerRequest.POSITIVE_CLOVER.getInstance( Integer.parseInt( cloverMatcher.group(1) ) ) );
 
 		checkedForClovers = true;
+
+		if ( !urlString.startsWith( "hermit.php?" ) )
+			return true;
+
+		int quantity = 1;
+		Matcher quantityMatcher = SendMessageRequest.QUANTITY_PATTERN.matcher( urlString );
+
+		if ( quantityMatcher.find() )
+			quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+
+		if ( quantity <= getWorthlessItemCount() )
+		{
+			Matcher itemMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
+			if ( !itemMatcher.find() )
+				return true;
+
+			KoLmafia.getSessionStream().println();
+			KoLmafia.getSessionStream().println( "hermit " + quantity + " " + TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) ) );
+
+			// Subtract the worthless items in order of their priority;
+			// as far as we know, the priority is the item Id.
+
+			if ( responseText.indexOf( "looks confused for a moment" ) == -1 )
+				StaticEntity.getClient().processResult( PERMIT.getInstance( 0 - quantity ) );
+
+			quantity -= subtractWorthlessItems( TRINKET, quantity );
+			quantity -= subtractWorthlessItems( GEWGAW, quantity );
+			subtractWorthlessItems( KNICK_KNACK, quantity );
+		}
+
 		return true;
 	}
 
@@ -202,39 +231,5 @@ public class HermitRequest extends KoLRequest
 			(new HermitRequest()).run();
 
 		return hermitItems.contains( SewerRequest.CLOVER );
-	}
-
-	public static boolean registerRequest( String urlString )
-	{
-		if ( !urlString.startsWith( "hermit.php?" ) )
-			return false;
-
-		int quantity = 1;
-		Matcher quantityMatcher = SendMessageRequest.QUANTITY_PATTERN.matcher( urlString );
-
-		if ( quantityMatcher.find() )
-			quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
-
-		if ( quantity <= getWorthlessItemCount() )
-		{
-			Matcher itemMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
-			if ( !itemMatcher.find() )
-				return true;
-
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "hermit " + quantity + " " + TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) ) );
-
-			// Subtract the worthless items in order of their priority;
-			// as far as we know, the priority is the item Id.
-
-			if ( PERMIT.getCount( inventory ) >= quantity )
-				StaticEntity.getClient().processResult( PERMIT.getInstance( 0 - quantity ) );
-
-			quantity -= subtractWorthlessItems( TRINKET, quantity );
-			quantity -= subtractWorthlessItems( GEWGAW, quantity );
-			subtractWorthlessItems( KNICK_KNACK, quantity );
-		}
-
-		return true;
 	}
 }
