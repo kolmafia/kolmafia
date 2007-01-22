@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2006, KoLmafia development team
+ * Copyright (c) 2005-2007, KoLmafia development team
  * http://sourceforge.net/
  * All rights reserved.
  *
@@ -503,7 +503,7 @@ public abstract class KoLmafia implements KoLConstants
 		openSessionStream();
 		resetSession();
 
-		if ( !KoLCharacter.canInteract() )
+		if ( !KoLCharacter.canInteract() && KoLCharacter.getLevel() < 11 )
 			StaticEntity.setProperty( "createWithoutBoxServants", "true" );
 
 		// If the password hash is non-null, then that means you
@@ -617,9 +617,6 @@ public abstract class KoLmafia implements KoLConstants
 		// this before concoctions have a chance to get refreshed.
 
 		RequestThread.postRequest( new CharsheetRequest() );
-
-		if ( KoLCharacter.isHardcore() )
-			StaticEntity.setProperty( "createWithoutBoxServants", "true" );
 
 		// Clear the violet fog path table and everything
 		// else that changes on the player.
