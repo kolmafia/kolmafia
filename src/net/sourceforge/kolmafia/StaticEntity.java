@@ -286,7 +286,7 @@ public abstract class StaticEntity implements KoLConstants
 		if ( (location.indexOf( "multiuse.php" ) != -1 || location.indexOf( "skills.php" ) != -1) && location.indexOf( "useitem" ) != -1 )
 			ConsumeItemRequest.parseConsumption( responseText, false );
 		if ( location.indexOf( "hermit.php" ) != -1 )
-			HermitRequest.parseHermitTrade( responseText );
+			HermitRequest.parseHermitTrade( location, responseText );
 
 		// See if the person learned a new skill from using a
 		// mini-browser frame.

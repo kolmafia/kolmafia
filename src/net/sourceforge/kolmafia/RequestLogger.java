@@ -105,12 +105,6 @@ public class RequestLogger
 			return;
 		}
 
-		if ( HermitRequest.registerRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-			return;
-		}
-
 		if ( ItemCreationRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
