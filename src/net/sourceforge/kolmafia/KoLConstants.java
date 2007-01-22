@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2006, KoLmafia development team
+ * Copyright (c) 2005-2007, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -63,8 +63,8 @@ public interface KoLConstants
 	// Version information for the current version of KoLmafia.
 	// Rendered in various locations and therefore made public.
 
-	public static final String VERSION_NAME = "KoLmafia v10.1";
-	public static final String VERSION_DATE = "Re-released on January 7, 2006";
+	public static final String VERSION_NAME = "KoLmafia v10.2";
+	public static final String VERSION_DATE = "Re-released on January 22, 2007";
 
 	// General constants used for calculations and formatting of
 	// strings, as well as for string parsing.
