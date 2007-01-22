@@ -67,7 +67,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
-	private static final Pattern IMAGESERVER_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\">]+" );
+	private static final Pattern IMAGE_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\"\'>]+" );
 	private static boolean refreshStatusEnabled = true;
 
 	private int locationIndex = 0;
@@ -407,7 +407,7 @@ public class RequestFrame extends KoLFrame
 
 			locationIndex = shownHTML.size() - 1;
 
-			Matcher imageMatcher = IMAGESERVER_PATTERN.matcher( renderText );
+			Matcher imageMatcher = IMAGE_PATTERN.matcher( renderText );
 			while ( imageMatcher.find() )
 				RequestEditorKit.downloadImage( imageMatcher.group() );
 
