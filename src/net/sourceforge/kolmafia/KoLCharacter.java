@@ -249,6 +249,8 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int adventuresLeft = 0;
 	private static int totalTurnsUsed = 0;
 
+	private static boolean spleenLimitReached = false;
+
 	// Status pane data which is rendered whenever
 	// the user changes equipment, effects, and familiar
 
@@ -420,6 +422,7 @@ public abstract class KoLCharacter extends StaticEntity
 		arenaWins = 0;
 		isUsingStabBat = false;
 
+		spleenLimitReached = false;
 		stillsAvailable = -1;
 		beanstalkArmed = false;
 
@@ -441,6 +444,14 @@ public abstract class KoLCharacter extends StaticEntity
 		resetInventory();
 
 		battleSkillNames.setSelectedItem( StaticEntity.getProperty( "battleAction" ) );
+	}
+
+	public static boolean spleenLimitReached()
+	{	return spleenLimitReached;
+	}
+
+	public static void setSpleenLimitReached()
+	{	spleenLimitReached = false;
 	}
 
 	public static boolean isFallingDown()

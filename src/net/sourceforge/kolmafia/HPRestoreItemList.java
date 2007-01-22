@@ -206,7 +206,12 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 				if ( purchase && numberAvailable < numberToUse )
 				{
-					if ( this == HERBS && NPCStoreDatabase.contains( itemUsed.getName() ) )
+					if ( this == HERBS && KoLCharacter.spleenLimitReached() )
+					{
+						numberToUse = 0;
+						numberAvailable = 0;
+					}
+					else if ( this == HERBS && NPCStoreDatabase.contains( itemUsed.getName() ) )
 					{
 						// If you need to buy herbs and you're high level,
 						// then buy some extras for later.
