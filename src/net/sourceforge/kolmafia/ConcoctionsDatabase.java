@@ -573,7 +573,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		// It's possible to ask Ugh Crimbo to make toys
 
-		PERMIT_METHOD[ ItemCreationRequest.UGH ] = true;
+		PERMIT_METHOD[ ItemCreationRequest.UGH ] = false;
 		ADVENTURE_USAGE[ ItemCreationRequest.UGH ] = 0;
 
 		// Next, increment through all the box servant creation methods.
