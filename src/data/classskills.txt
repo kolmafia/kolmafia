@@ -39,7 +39,7 @@
 1016	0	0	0	Pulverize
 1017	0	0	0	Double-Fisted Skull Smashing
 1018	0	0	0	Northern Exposure
-1019	1	10	5	Musk of the Moose
+1019	1	10	10	Musk of the Moose
 1020	1	10	5	Snarl of the Timberwolf
 
 # Skills available to Turtle Tamers
