@@ -1653,29 +1653,28 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( !SendMessageRequest.hadSendMessageFailure() )
 		{
 			updateDisplay( "Message sent to " + splitParameters[1] );
+			return;
 		}
+
+		List availablePackages = GiftMessageRequest.getPackages();
+		int desiredPackageIndex = Math.min( Math.min( availablePackages.size() - 1, attachments.length ), 5 );
+
+		if ( MoonPhaseDatabase.getHoliday( new Date() ).startsWith( "Valentine's" ) )
+			desiredPackageIndex = 0;
+
+		// Clear the error state for continuation on the
+		// message sending attempt.
+
+		if ( !refusesContinue() )
+			forceContinue();
+
+		RequestThread.postRequest( new GiftMessageRequest( splitParameters[1], "You were in Ronin, so I'm sending you a package!",
+			"For your collection.", desiredPackageIndex, attachments ) );
+
+		if ( permitsContinue() )
+			updateDisplay( "Gift sent to " + splitParameters[1] );
 		else
-		{
-			List availablePackages = GiftMessageRequest.getPackages();
-			int desiredPackageIndex = Math.min( Math.min( availablePackages.size() - 1, attachments.length ), 5 );
-
-			if ( MoonPhaseDatabase.getHoliday( new Date() ).startsWith( "Valentine's" ) )
-				desiredPackageIndex = 0;
-
-			// Clear the error state for continuation on the
-			// message sending attempt.
-
-			if ( !refusesContinue() )
-				forceContinue();
-
-			RequestThread.postRequest( new GiftMessageRequest( splitParameters[1], "You were in Ronin, so I'm sending you a package!",
-				"For your collection.", desiredPackageIndex, attachments ) );
-
-			if ( permitsContinue() )
-				updateDisplay( "Gift sent to " + splitParameters[1] );
-			else
-				updateDisplay( ERROR_STATE, "Failed to send message to " + splitParameters[1] );
-		}
+			updateDisplay( ERROR_STATE, "Failed to send message to " + splitParameters[1] );
 	}
 
 	private File findScriptFile( String filename )
