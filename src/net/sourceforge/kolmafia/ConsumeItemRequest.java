@@ -443,6 +443,10 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
 			lastUpdate = "Your spleen might go kabooie.";
+
+			if ( lastItemUsed.getCount() == 1 )
+				KoLCharacter.setSpleenLimitReached();
+
 			KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 			StaticEntity.getClient().processResult( lastItemUsed );
 			return;
