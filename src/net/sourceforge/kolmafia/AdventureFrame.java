@@ -67,6 +67,7 @@ import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ListModel;
@@ -77,6 +78,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import javax.swing.filechooser.FileFilter;
+
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
@@ -315,13 +320,12 @@ public class AdventureFrame extends KoLFrame
 
 	private class SafetyField extends JPanel implements Runnable, ListSelectionListener
 	{
-		private JLabel safetyText = new JLabel( " " );
+		private JTextPane safetyText = new JTextPane();
 		private String savedText = " ";
 
 		public SafetyField()
 		{
 			super( new BorderLayout() );
-			safetyText.setVerticalAlignment( JLabel.TOP );
 
 			SimpleScrollPane textScroller = new SimpleScrollPane( safetyText, SimpleScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
 			JComponentUtilities.setComponentSize( textScroller, 100, 100 );
@@ -330,6 +334,8 @@ public class AdventureFrame extends KoLFrame
 			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( this ) );
 			locationSelect.addListSelectionListener( this );
 
+			safetyText.setContentType( "text/html" );
+			safetyText.setEditable( false );
 			setSafetyString();
 		}
 
@@ -358,6 +364,19 @@ public class AdventureFrame extends KoLFrame
 			{
 				savedText = text;
 				safetyText.setText( text );
+
+				// Change the font for the JEditorPane to the
+				// same ones used in a JLabel.
+
+				MutableAttributeSet fonts = safetyText.getInputAttributes();
+
+				StyleConstants.setFontSize( fonts, DEFAULT_FONT.getSize() );
+				StyleConstants.setFontFamily( fonts, DEFAULT_FONT.getFamily() );
+
+				StyledDocument html = safetyText.getStyledDocument();
+				html.setCharacterAttributes( 0, html.getLength() + 1, fonts, false );
+
+				safetyText.setCaretPosition( 0 );
 			}
 		}
 	}
