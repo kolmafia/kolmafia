@@ -607,11 +607,16 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( location.indexOf( "sewer.php" ) != -1 )
 		{
-			if ( !isDelayExempt || StaticEntity.getBooleanProperty( "relayAlwaysBuysGum" ) )
+			if ( StaticEntity.getBooleanProperty( "relayAlwaysBuysGum" ) )
 				AdventureDatabase.retrieveItem( "chewing gum on a string" );
 		}
+		else if ( location.indexOf( "hermit.php" ) != -1 && location.indexOf( "whichitem=140" ) != -1 )
+		{
+			AdventureDatabase.retrieveItem( "hermit permit" );
+			AdventureDatabase.retrieveItem( "worthless item" );
+		}
 
-		if ( location.indexOf( "casino.php" ) != -1 )
+		else if ( location.indexOf( "casino.php" ) != -1 )
 			AdventureDatabase.retrieveItem( "casino pass" );
 
 		// To avoid wasting turns, buy a can of hair spray before
