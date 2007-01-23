@@ -66,8 +66,7 @@ import javax.swing.event.EventListenerList;
  * of data can be maintained - synchronization of data, in a sense.</p>
  */
 
-public class LockableListModel extends javax.swing.AbstractListModel
-	implements Cloneable, java.util.List, javax.swing.ListModel, javax.swing.ComboBoxModel, javax.swing.MutableComboBoxModel
+public class LockableListModel extends AbstractListModel implements Cloneable, List, ListModel, ComboBoxModel, MutableComboBoxModel
 {
 	private static final ListElementFilter NO_FILTER = new ListElementFilter();
 
@@ -100,10 +99,18 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public void sort()
 	{
-		Collections.sort( visibleElements );
 		Collections.sort( actualElements );
 
+		Collections.sort( visibleElements );
 		fireContentsChanged( this, 0, getSize() - 1 );
+
+		LockableListModel current;
+		for ( int i = 0; i < mirrorList.size(); ++i )
+		{
+			current = (LockableListModel) mirrorList.get(i);
+			Collections.sort( current.visibleElements );
+			current.fireContentsChanged( current, 0, current.getSize() - 1 );
+		}
 	}
 
 	public void sort( Comparator c )
@@ -112,6 +119,14 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		Collections.sort( actualElements, c );
 
 		fireContentsChanged( this, 0, getSize() - 1 );
+
+		LockableListModel current;
+		for ( int i = 0; i < mirrorList.size(); ++i )
+		{
+			current = (LockableListModel) mirrorList.get(i);
+			Collections.sort( current.visibleElements, c );
+			current.fireContentsChanged( current, 0, current.getSize() - 1 );
+		}
 	}
 
 	public void fireContentsChanged( Object source, int index0, int index1 )
