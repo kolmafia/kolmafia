@@ -90,7 +90,7 @@ public abstract class RequestThread implements KoLConstants
 
 	private static void executeRequest( Runnable request, boolean forceConcurrency ) throws Exception
 	{
-		if ( sequenceCount == 0 )
+		if ( sequenceCount == 0 && (!(request instanceof KoLRequest) || !((KoLRequest)request).isDelayExempt()) )
 			KoLmafia.forceContinue();
 
 		// If you're not in the event dispatch thread, you can run
