@@ -780,9 +780,18 @@ public abstract class KoLMessenger extends StaticEntity
 	{
 		try
 		{
-			LimitedSizeChatBuffer buffer = getChatBuffer( bufferKey );
 			String displayHTML = formatChatMessage( channel, message, bufferKey );
 
+			if ( displayHTML.startsWith( "<!-- EVENT -->" ) )
+			{
+				if ( BuffBotHome.isBuffBotActive() )
+					return;
+
+				bufferKey = "[events]";
+				eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML ).replaceAll( "" ) );
+			}
+
+			LimitedSizeChatBuffer buffer = getChatBuffer( bufferKey );
 			buffer.setActiveLogFile( getChatLogName( bufferKey ) );
 			buffer.append( displayHTML );
 
@@ -816,7 +825,10 @@ public abstract class KoLMessenger extends StaticEntity
 		boolean isGreenMessage = message.startsWith( "<a target=mainpane href=\"messages.php\">" ) ||
 			message.indexOf( "has proposed a trade" ) != -1 || message.indexOf( "has cancelled a trade" ) != -1 ||
 			message.indexOf( "has responded to a trade" ) != -1 || message.indexOf( "has declined a trade" ) != -1 ||
-			message.indexOf( "has accepted a trade" ) != -1;
+			message.indexOf( "has accepted a trade" ) != -1 || message.indexOf( "logged on." ) != -1 || message.indexOf( "logged off." ) != -1 ||
+			message.indexOf( "has given you a box of sunshine." ) != -1 || message.indexOf( "has played" ) != -1 ||
+			message.indexOf( "has littered toilet paper" ) != -1 || message.indexOf( "with a brick." ) != -1 ||
+			message.indexOf( "has hit you in the face with a cream pie" ) != -1;
 
 		if ( isWhoMessage )
 		{
@@ -825,19 +837,10 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 		else if ( isGreenMessage )
 		{
-			if ( BuffBotHome.isBuffBotActive() )
-				return "";
-
-			if ( !bufferKey.equals( "[events]" ) )
-			{
-				processChatMessage( channel, message, "[events]" );
-				return "";
-			}
-
-			eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML.toString() ).replaceAll( "" ) );
-
-			displayHTML.insert( 0, "<font color=green>" );
+			displayHTML.insert( 0, "<!-- EVENT --><font color=green>" );
 			displayHTML.append( "</font>" );
+
+			return displayHTML.toString();
 		}
 
 		// Then, private messages resulting from a /last command
