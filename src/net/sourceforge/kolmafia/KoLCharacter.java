@@ -316,9 +316,6 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void resetInventory()
 	{
 		inventory.clear();
-		closet.clear();
-		storage.clear();
-
 		ConcoctionsDatabase.refreshConcoctions();
 
 		// Initialize the equipment lists inside
