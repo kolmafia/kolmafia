@@ -345,7 +345,7 @@ public class AutoSellRequest extends SendMessageRequest
 		if ( itemPattern == null )
 			return false;
 
-		return registerRequest( sellType, urlString, itemPattern, null, inventory, quantity );
+		return registerRequest( sellType, urlString, itemPattern, null, inventory, null, quantity );
 	}
 
 	public String getSuccessMessage()

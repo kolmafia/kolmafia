@@ -118,6 +118,6 @@ public class ProposeTradeRequest extends SendMessageRequest
 		if ( !urlString.startsWith( "makeoffer.php" ) && !urlString.startsWith( "counteroffer.php" ) )
 			return false;
 
-		return registerRequest( "offer trade", urlString, inventory, 0 );
+		return registerRequest( "offer trade", urlString, inventory, null, 0 );
 	}
 }

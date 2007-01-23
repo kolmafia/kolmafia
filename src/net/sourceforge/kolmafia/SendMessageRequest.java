@@ -292,11 +292,11 @@ public abstract class SendMessageRequest extends KoLRequest
 	{	return true;
 	}
 
-	public static boolean registerRequest( String command, String urlString, List source, int defaultQuantity )
-	{	return registerRequest( command, urlString, ITEMID_PATTERN, HOWMANY_PATTERN, source, defaultQuantity );
+	public static boolean registerRequest( String command, String urlString, List source, List destination, int defaultQuantity )
+	{	return registerRequest( command, urlString, ITEMID_PATTERN, HOWMANY_PATTERN, source, destination, defaultQuantity );
 	}
 
-	public static boolean registerRequest( String command, String urlString, Pattern itemPattern, Pattern quantityPattern, List source, int defaultQuantity )
+	public static boolean registerRequest( String command, String urlString, Pattern itemPattern, Pattern quantityPattern, List source, List destination, int defaultQuantity )
 	{
 		ArrayList itemList = new ArrayList();
 		StringBuffer itemListBuffer = new StringBuffer();
@@ -335,7 +335,7 @@ public abstract class SendMessageRequest extends KoLRequest
 			if ( itemListBuffer.length() > 0 )
 				itemListBuffer.append( ", " );
 
-			itemList.add( item.getInstance( source == inventory ? 0 - quantity : quantity ) );
+			itemList.add( item );
 
 			itemListBuffer.append( quantity );
 			itemListBuffer.append( " " );
@@ -348,8 +348,27 @@ public abstract class SendMessageRequest extends KoLRequest
 		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( itemListBuffer.toString() );
 
-		for ( int i = 0; i < itemList.size(); ++i )
-			StaticEntity.getClient().processResult( (AdventureResult) itemList.get(i) );
+		if ( source == inventory )
+		{
+			for ( int i = 0; i < itemList.size(); ++i )
+				StaticEntity.getClient().processResult( ((AdventureResult) itemList.get(i)).getNegation() );
+		}
+		else if ( source != null )
+		{
+			for ( int i = 0; i < itemList.size(); ++i )
+				AdventureResult.addResultToList( source, ((AdventureResult) itemList.get(i)).getNegation() );
+		}
+
+		if ( destination == inventory )
+		{
+			for ( int i = 0; i < itemList.size(); ++i )
+				StaticEntity.getClient().processResult( (AdventureResult) itemList.get(i) );
+		}
+		else if ( destination != null )
+		{
+			for ( int i = 0; i < itemList.size(); ++i )
+				AdventureResult.addResultToList( destination, (AdventureResult) itemList.get(i) );
+		}
 
 		return true;
 	}
