@@ -74,7 +74,7 @@ public class KoLmafiaASH extends StaticEntity
 	/* Variables for Advanced Scripting */
 
 	public final static char [] tokenList = { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
-	public final static String [] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&" };
+	public final static String [] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&", "/*", "*/" };
 
 	public static final int TYPE_VOID = 0;
 	public static final int TYPE_BOOLEAN = 1;
@@ -1966,7 +1966,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptExpressionList indices = new ScriptExpressionList();
 		boolean aggregate = currentToken().equals( "[" );
 
-		while ( currentToken() != null && (currentToken().equals( "[" ) || currentToken().equals( "." )) )
+		while ( currentToken() != null && (currentToken().equals( "[" ) || currentToken().equals( "." ) || currentToken().equals( "," )) )
 		{
 			readToken(); // read [ or . or ,
 
@@ -1995,8 +1995,8 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				// Maybe it's a function call with an implied "this" parameter.
 
-				if ( nextToken().equals( "(" ) )
-					return parseCall( scope, indices.isEmpty() ? new ScriptVariableReference( var ) : new ScriptCompositeReference( var, indices ) );
+//				if ( nextToken().equals( "(" ) )
+//					return parseCall( scope, indices.isEmpty() ? new ScriptVariableReference( var ) : new ScriptCompositeReference( var, indices ) );
 
 				if ( !(type instanceof ScriptRecordType) )
 					throw new AdvancedScriptException( "Record expected " + getLineAndFile() );
@@ -2139,7 +2139,27 @@ public class KoLmafiaASH extends StaticEntity
 		fixLines();
 		if ( currentLine == null )
 			return null;
-		return currentLine.substring( 0, tokenLength( currentLine ) );
+
+		String token = currentLine.substring( 0, tokenLength( currentLine ) );
+
+		if ( !token.equals( "/*" ) )
+			return token;
+
+		while ( !token.equals( "*/" ) )
+		{
+			readToken();
+
+			if ( currentLine == null )
+				return null;
+
+			token = currentLine.substring( 0, tokenLength( currentLine ) );
+		}
+
+		if ( currentLine == null )
+			return null;
+
+		readToken();
+		return currentToken();
 	}
 
 	private String nextToken()
@@ -2172,10 +2192,11 @@ public class KoLmafiaASH extends StaticEntity
 
 	private void readToken()
 	{
+		fixLines();
+
 		if ( currentLine == null )
 			return;
 
-		fixLines();
 		currentLine = currentLine.substring( tokenLength( currentLine ) );
 	}
 
@@ -2241,6 +2262,7 @@ public class KoLmafiaASH extends StaticEntity
 			for ( int i = 0; i < multiCharTokenList.length; ++i )
 				if ( s.equalsIgnoreCase( multiCharTokenList[i] ) )
 					return true;
+
 			return false;
 		}
 	}
@@ -2249,6 +2271,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	private void printScope( ScriptScope scope, int indent )
 	{
+		if ( scope == null )
+			return;
+
 		indentLine( indent );
 		KoLmafia.getDebugStream().println( "<SCOPE>" );
 
