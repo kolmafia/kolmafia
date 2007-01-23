@@ -911,14 +911,11 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static void applyEffects()
 	{
-		if ( recentEffects.isEmpty() )
-			return;
-
 		for ( int j = 0; j < recentEffects.size(); ++j )
 			AdventureResult.addResultToList( activeEffects, (AdventureResult) recentEffects.get(j) );
 
-		activeEffects.sort();
 		recentEffects.clear();
+		activeEffects.sort();
 	}
 
 	/**
