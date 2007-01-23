@@ -356,14 +356,14 @@ public abstract class CombatSettings implements KoLConstants
 		}
 
 		if ( longestMatch == -1 )
-			return encounter == null || encounter.equals( "default" ) ? "attack with weapon" : getSetting( "default", roundCount );
+			return encounter == null || encounter.equals( "default" ) ? "attack" : getSetting( "default", roundCount );
 
 		// Otherwise, you have a tactic for this round against
 		// the given monster.  Return that tactic.
 
 		CombatSettingNode match = (CombatSettingNode) reference.get( keys[ longestMatch ] );
 		if ( match.getChildCount() == 0 )
-			return "attack with weapon";
+			return "attack";
 
 		CombatActionNode setting = (CombatActionNode) match.getChildAt(
 			roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
