@@ -40,6 +40,8 @@ import java.util.regex.Pattern;
 public class AdventureRequest extends KoLRequest
 {
 	private static final KoLRequest ZONE_VALIDATOR = AdventureDatabase.ZONE_VALIDATOR;
+	private static final AdventureResult BIG_ROCK = new AdventureResult( 30, 1 );
+
 	public static final Pattern STEEL_PATTERN = Pattern.compile( "emerge with a (.*?) of Steel" );
 
 	private String adventureName;
@@ -47,8 +49,8 @@ public class AdventureRequest extends KoLRequest
 	private String adventureId;
 	public int adventuresUsed;
 
-	public static final AdventureResult ABRIdGED = new AdventureResult( 534, -1 );
-	public static final AdventureResult BRIdGE = new AdventureResult( 535, -1 );
+	public static final AdventureResult ABRIDGED = new AdventureResult( 534, -1 );
+	public static final AdventureResult BRIDGE = new AdventureResult( 535, -1 );
 	public static final AdventureResult DODECAGRAM = new AdventureResult( 479, -1 );
 	public static final AdventureResult CANDLES = new AdventureResult( 480, -1 );
 	public static final AdventureResult BUTTERKNIFE = new AdventureResult( 481, -1 );
@@ -142,12 +144,20 @@ public class AdventureRequest extends KoLRequest
 			ZONE_VALIDATOR.constructURLString( "mountains.php" ).run();
 			if ( ZONE_VALIDATOR.responseText.indexOf( "value=80" ) != -1 )
 			{
-				KoLmafia.updateDisplay( PENDING_STATE, "The Orc Chasm has already been bridged." );
+				KoLmafia.updateDisplay( PENDING_STATE, "The Orc Chasm has already been brIDGED." );
 				return;
 			}
 		}
 
+		if ( formSource.equals( "casino.php" ) && adventureId.equals( "11" ) && !KoLCharacter.hasItem( BIG_ROCK ) && !KoLCharacter.hasItem( SewerRequest.POSITIVE_CLOVER ) )
+			DEFAULT_SHELL.executeLine( "use 1 disassembled clover" );
+		else if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+
 		super.run();
+
+		if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 	}
 
 	public void processResults()
@@ -204,7 +214,7 @@ public class AdventureRequest extends KoLRequest
 			temporary.addAll( conditions );
 			conditions.clear();
 
-			DEFAULT_SHELL.executeLine( "adventure 1 Bridge the Orc Chasm" );
+			DEFAULT_SHELL.executeLine( "adventure 1 BrIDGE the Orc Chasm" );
 
 			conditions.addAll( temporary );
 			if ( KoLmafia.permitsContinue() )
@@ -310,22 +320,22 @@ public class AdventureRequest extends KoLRequest
 			return;
 		}
 
-		// The Orc Chasm (pre-bridge)
+		// The Orc Chasm (pre-brIDGE)
 
 		if ( formSource.equals( "mountains.php" ) )
 		{
 			// If there's no link to the valley beyond, put down a
-			// bridge
+			// brIDGE
 
 			if ( responseText.indexOf( "value=80" ) == -1 )
 			{
-				// If you have an unabridged dictionary in your
+				// If you have an unabrIDGED dictionary in your
 				// inventory, visit the untinkerer
 				// automatically and repeat the request.
 
-				if ( KoLCharacter.hasItem( ABRIdGED ) )
+				if ( KoLCharacter.hasItem( ABRIDGED ) )
 				{
-					(new UntinkerRequest( ABRIdGED.getItemId() )).run();
+					(new UntinkerRequest( ABRIDGED.getItemId() )).run();
 					this.run();
 					return;
 				}
@@ -339,8 +349,8 @@ public class AdventureRequest extends KoLRequest
 
 			if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
 			{
-				KoLmafia.updateDisplay( PENDING_STATE, "You have bridged the Orc Chasm." );
-				StaticEntity.getClient().processResult( BRIdGE );
+				KoLmafia.updateDisplay( PENDING_STATE, "You have brIDGED the Orc Chasm." );
+				StaticEntity.getClient().processResult( BRIDGE );
 			}
 
 			return;

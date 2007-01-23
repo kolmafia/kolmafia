@@ -705,7 +705,7 @@ public class ItemManageFrame extends KoLFrame
 			addedFilters[1] = new CreateSettingCheckbox( "Use oven/kit", "createWithoutBoxServants", "Create without requiring a box servant" );
 			addedFilters[2] = new CreateSettingCheckbox( "Allow closet", "showClosetIngredients", "List items creatable when adding the closet" );
 			addedFilters[3] = new CreateSettingCheckbox( "Allow stash", "showStashIngredients", "List items creatable when adding the clan stash" );
-			addedFilters[4] = new CreateSettingCheckbox( "Allow NPCs", "assumeInfiniteNPCItems", "Purchase items from NPC stores whenever needed" );
+			addedFilters[4] = new CreateSettingCheckbox( "Infinite NPC", "assumeInfiniteNPCItems", "Purchase items from NPC stores whenever needed" );
 
 			JPanel addedPanel = new JPanel();
 

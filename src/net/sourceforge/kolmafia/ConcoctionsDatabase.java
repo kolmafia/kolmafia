@@ -302,6 +302,19 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return availableIngredients;
 	}
 
+	private static void setBetterIngredient( AdventureResult item1, AdventureResult item2, ArrayList availableIngredients )
+	{
+		int available = getBetterIngredient( item1, item2, availableIngredients ).getCount( availableIngredients );
+
+		concoctions.get( item1.getItemId() ).initial = available;
+		concoctions.get( item1.getItemId() ).creatable = 0;
+		concoctions.get( item1.getItemId() ).total = available;
+
+		concoctions.get( item2.getItemId() ).initial = available;
+		concoctions.get( item2.getItemId() ).creatable = 0;
+		concoctions.get( item2.getItemId() ).total = available;
+	}
+
 	/**
 	 * Returns the concoctions which are available given the list of
 	 * ingredients.  The list returned contains formal requests for
@@ -357,35 +370,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// purposes of calculation, we assume that they will use the
 		// ingredient which is present in the greatest quantity.
 
-		int availableSoda = getBetterIngredient( DYSPEPSI, CLOACA, availableIngredients ).getCount( availableIngredients );
 
-		concoctions.get( DYSPEPSI.getItemId() ).initial = availableSoda;
-		concoctions.get( DYSPEPSI.getItemId() ).creatable = 0;
-		concoctions.get( DYSPEPSI.getItemId() ).total = availableSoda;
-
-		concoctions.get( CLOACA.getItemId() ).initial = availableSoda;
-		concoctions.get( CLOACA.getItemId() ).creatable = 0;
-		concoctions.get( CLOACA.getItemId() ).total = availableSoda;
-
-		int availableBeer = getBetterIngredient( SCHLITZ, WILLER, availableIngredients ).getCount( availableIngredients );
-
-		concoctions.get( SCHLITZ.getItemId() ).initial = availableBeer;
-		concoctions.get( SCHLITZ.getItemId() ).creatable = 0;
-		concoctions.get( SCHLITZ.getItemId() ).total = availableBeer;
-
-		concoctions.get( WILLER.getItemId() ).initial = availableBeer;
-		concoctions.get( WILLER.getItemId() ).creatable = 0;
-		concoctions.get( WILLER.getItemId() ).total = availableBeer;
-
-		int availableKetchup = getBetterIngredient( KETCHUP, CATSUP, availableIngredients ).getCount( availableIngredients );
-
-		concoctions.get( KETCHUP.getItemId() ).initial = availableKetchup;
-		concoctions.get( KETCHUP.getItemId() ).creatable = 0;
-		concoctions.get( KETCHUP.getItemId() ).total = availableKetchup;
-
-		concoctions.get( CATSUP.getItemId() ).initial = availableKetchup;
-		concoctions.get( CATSUP.getItemId() ).creatable = 0;
-		concoctions.get( CATSUP.getItemId() ).total = availableKetchup;
+		setBetterIngredient( DYSPEPSI, CLOACA, availableIngredients );
+		setBetterIngredient( SCHLITZ, WILLER, availableIngredients );
+		setBetterIngredient( KETCHUP, CATSUP, availableIngredients );
 
 		// Finally, increment through all of the things which are
 		// created any other way, making sure that it's a permitted
@@ -589,7 +577,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Cooking is permitted, so long as the person has a chef
 		// or they don't need a box servant and have an oven.
 
-		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF, CLOCKWORK_CHEF );
+		PERMIT_METHOD[ ItemCreationRequest.COOK ] = KoLCharacter.hasChef() || isAvailable( CHEF, CLOCKWORK_CHEF );
 
 		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded )
 		{
@@ -615,7 +603,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Mixing is possible whenever the person has a bartender
 		// or they don't need a box servant and have a kit.
 
-		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER, CLOCKWORK_BARTENDER );
+		PERMIT_METHOD[ ItemCreationRequest.MIX ] = KoLCharacter.hasBartender() || isAvailable( BARTENDER, CLOCKWORK_BARTENDER );
 
 		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded )
 		{
@@ -673,14 +661,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static boolean isAvailable( int servantId, int clockworkId )
 	{
-		// If it's a base case, return whether or not the
-		// servant is already available at the camp.
-
-		if ( servantId == CHEF && KoLCharacter.hasChef() )
-			return true;
-		if ( servantId == BARTENDER && KoLCharacter.hasBartender() )
-			return true;
-
 		// If the user did not wish to repair their boxes
 		// on explosion, then the box servant is not available
 
