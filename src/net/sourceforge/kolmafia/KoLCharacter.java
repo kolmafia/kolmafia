@@ -2368,7 +2368,7 @@ public abstract class KoLCharacter extends StaticEntity
 				for ( int i = effectsArray.length - 1; i >= 0; --i )
 				{
 					AdventureResult effect = effectsArray[i];
-					if ( effect.getCount() <= 0 - result.getCount() )
+					if ( effect.getCount() + result.getCount() <= 0 )
 						activeEffects.remove( i );
 					else
 						activeEffects.set( i, effect.getInstance( effect.getCount() + result.getCount() ) );

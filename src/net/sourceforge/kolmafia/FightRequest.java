@@ -97,6 +97,20 @@ public class FightRequest extends KoLRequest
 	{	super( "fight.php" );
 	}
 
+	private static boolean isLikelyStasisAction( String action )
+	{
+		if ( action.indexOf( "consult" ) != -1 || action.equals( "7002" ) )
+			return true;
+
+		if ( !action.startsWith( "item" ) )
+			return false;
+
+		int itemId = StaticEntity.parseInt( action1.substring( 4 ) );
+
+		return itemId == DICTIONARY1.getItemId() || itemId == DICTIONARY2.getItemId() ||
+			itemId == TOOTH.getItemId() || itemId == TURTLE.getItemId() || itemId == SPICES.getItemId();
+	}
+
 	public void nextRound()
 	{
 		// When logging in and encountering a fight, always use the
@@ -160,7 +174,7 @@ public class FightRequest extends KoLRequest
 		// Special handling when using a thief familiar.
 
 		if ( KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() && isAcceptable( offenseModifier, defenseModifier ) )
-			if ( action1.indexOf( "consult" ) != -1 || action1.indexOf( "item" ) != -1 || action1.indexOf( "Shake Hands" ) != -1 )
+			if ( isLikelyStasisAction( action1 ) )
 				action1 = "attack";
 
 		// If the person wants to use their own script,
@@ -187,7 +201,9 @@ public class FightRequest extends KoLRequest
 		if ( action1.startsWith( "delevel" ) )
 			action1 = getMonsterWeakenAction();
 
-		if ( action1 == null || action1.equals( "abort" ) )
+		action1 = CombatSettings.getShortCombatOptionName( action1 );
+
+		if ( action1.equals( "abort" ) )
 		{
 			// If the user has chosen to abort combat, flag it.
 			action1 = "abort";
@@ -396,7 +412,7 @@ public class FightRequest extends KoLRequest
 			isAcceptable = isAcceptable( -1 - Math.min( 5, KoLCharacter.getAdjustedMysticality() / 8 ), 0 );
 		}
 
-		return desiredSkill == 0 ? null : String.valueOf( desiredSkill );
+		return desiredSkill == 0 ? "attack" : String.valueOf( desiredSkill );
 	}
 
 	private static void checkForInitiative( String responseText )
