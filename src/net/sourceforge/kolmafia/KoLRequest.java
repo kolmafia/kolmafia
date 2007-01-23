@@ -622,6 +622,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		needsRefresh = false;
 		String urlString = getURLString();
+
 		execute();
 
 		// If this is the trapper page, make sure to check to
@@ -677,6 +678,10 @@ public class KoLRequest extends Job implements KoLConstants
 			StaticEntity.getClient().handleAscension();
 	}
 
+	public boolean hasExplicitHandle()
+	{	return false;
+	}
+
 	public void execute()
 	{
 		// If this is the rat quest, then go ahead and pre-set the data
@@ -691,7 +696,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		String urlString = getURLString();
 
-		if ( !shouldIgnoreResult && !shouldIgnore( urlString ) )
+		if ( !shouldIgnoreResult && !shouldIgnore( urlString ) && !hasExplicitHandle() )
 			RequestLogger.registerRequest( urlString );
 
 		if ( urlString.indexOf( "choice.php" ) != -1 )
@@ -1189,8 +1194,8 @@ public class KoLRequest extends Job implements KoLConstants
 		// Let the mappers do their work
 		mapCurrentChoice( responseText );
 
-		if ( responseText.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
-			DEFAULT_SHELL.executeLine( "use 1 ten-leaf clover" );
+		if ( getURLString().indexOf( "adventure.php" ) != -1 && responseText.indexOf( "notice a ten-leaf clover" ) != -1 )
+			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 
 		needsRefresh &= !(getClass() == KoLRequest.class || this instanceof LocalRelayRequest || this instanceof FightRequest);
 		needsRefresh &= formURLString.indexOf( "charpane.php" ) == -1;
@@ -1203,7 +1208,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( RequestFrame.willRefreshStatus() )
 				RequestFrame.refreshStatus();
 			else
-				RequestThread.postRequest( CharpaneRequest.getInstance() );
+				CharpaneRequest.getInstance().run();
 		}
 		else if ( formURLString.indexOf( "charpane.php" ) != -1 )
 		{

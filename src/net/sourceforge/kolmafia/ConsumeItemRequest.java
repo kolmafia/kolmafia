@@ -236,10 +236,15 @@ public class ConsumeItemRequest extends KoLRequest
 			(consumptionType == CONSUME_DRINK) ? "Drinking" : "Using";
 
 		String originalURLString = getURLString();
+		int adventuresBanked = KoLCharacter.getAdventuresLeft();
 
-		for ( int i = 1; KoLmafia.permitsContinue() && i <= iterations; ++i )
+		for ( int i = 1; i <= iterations; ++i )
 		{
 			constructURLString( originalURLString );
+
+			if ( adventuresBanked == 0 && consumptionType == CONSUME_DRINK && !allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemUsed.getItemId() ) ) )
+				return;
+
 			if ( !useOnce( i, iterations, useTypeAsString ) )
 				return;
 		}
@@ -383,11 +388,8 @@ public class ConsumeItemRequest extends KoLRequest
 		// Run to see if booze consumption is permitted
 		// based on the user's current settings.
 
-		if ( consumptionType == CONSUME_DRINK && !allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemUsed.getItemId() ) ) )
-			return false;
-
 		super.run();
-		return true;
+		return KoLmafia.permitsContinue();
 	}
 
 	public void processResults()
