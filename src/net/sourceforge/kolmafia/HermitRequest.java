@@ -112,6 +112,15 @@ public class HermitRequest extends KoLRequest
 			(new ConsumeItemRequest( SUMMON_SCROLL.getInstance( scrollCount ) )).run();
 		}
 
+		if ( getWorthlessItemCount() == 0 )
+			DEFAULT_SHELL.executeLine( "acquire 1 worthless item" );
+
+		if ( getWorthlessItemCount() == 0 )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't have any worthless items." );
+			return;
+		}
+
 		quantity = Math.min( quantity, getWorthlessItemCount() );
 		KoLmafia.updateDisplay( "Robbing the hermit..." );
 		super.run();
@@ -181,6 +190,22 @@ public class HermitRequest extends KoLRequest
 		checkedForClovers = true;
 
 		if ( !urlString.startsWith( "hermit.php?" ) )
+			return true;
+
+		// If you don't have enough Hermit Permits, then failure,
+		// so don't subtract anything.
+
+		if ( responseText.indexOf( "You don't have enough Hermit Permits" ) != -1 )
+			return true;
+
+		// If the item is unavailable, assume he was asking for clover
+
+		if ( responseText.indexOf( "doesn't have that item." ) != -1 )
+			return true;
+
+		// If you still didn't acquire items, what went wrong?
+
+		if ( responseText.indexOf( "You acquire" ) == -1 )
 			return true;
 
 		int quantity = 1;

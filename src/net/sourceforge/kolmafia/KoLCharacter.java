@@ -319,7 +319,7 @@ public abstract class KoLCharacter extends StaticEntity
 		closet.clear();
 		storage.clear();
 
-		ConcoctionsDatabase.getConcoctions().clear();
+		ConcoctionsDatabase.refreshConcoctions();
 
 		// Initialize the equipment lists inside
 		// of the character data
