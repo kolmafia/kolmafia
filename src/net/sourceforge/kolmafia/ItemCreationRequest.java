@@ -543,6 +543,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		}
 	}
 
+	public boolean hasExplicitHandle()
+	{	return true;
+	}
+
 	private boolean autoRepairBoxServant()
 	{
 		if ( KoLmafia.refusesContinue() )

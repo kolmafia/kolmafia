@@ -517,7 +517,7 @@ public class RequestFrame extends KoLFrame
 		if ( !refreshStatusEnabled )
 			return;
 
-		RequestThread.postRequest( CharpaneRequest.getInstance() );
+		CharpaneRequest.getInstance().run();
 		refreshStatus( CharpaneRequest.getInstance().responseText );
 	}
 
@@ -541,7 +541,19 @@ public class RequestFrame extends KoLFrame
 	}
 
 	public static boolean willRefreshStatus()
-	{	return refreshStatusEnabled;
+	{
+		if ( !refreshStatusEnabled )
+			return false;
+
+		KoLFrame [] frames = StaticEntity.getExistingFrames();
+		if ( frames == null )
+			return false;
+
+		for ( int i = 0; i < frames.length; ++i )
+			if ( frames[i] != null && frames[i] instanceof RequestFrame && ((RequestFrame)frames[i]).sideBuffer != null )
+				return true;
+
+		return false;
 	}
 
 	public static boolean isRefreshStatusEnabled()
