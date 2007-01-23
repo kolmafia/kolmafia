@@ -1256,9 +1256,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				case ConsumeItemRequest.CONSUME_USE:
 
-					useType = "use";
-					useLocation = itemId == UneffectRequest.REMEDY.getItemId() ? "uneffect.php" :
-						"inv_use.php?pwd=&which=3&whichitem=";
+					if ( itemId == 146 )
+					{
+						useType = "hermit";
+						useLocation = "hermit.php?action=trade&pwd&quantity=1&whichitem=140";
+					}
+					else
+					{
+						useType = "use";
+						useLocation = itemId == UneffectRequest.REMEDY.getItemId() ? "uneffect.php" :
+							"inv_use.php?pwd=&which=3&whichitem=";
+					}
 
 					break;
 
@@ -1331,6 +1339,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					{
 						useType = "sing";
 						useLocation = "curse.php?action=use&pwd&whichitem=2192&targetplayer=" + KoLCharacter.getUserName();
+					}
+
+					// Link which uses the plans when you acquire the planks.
+
+					else if ( itemId == 140 )
+					{
+						useType = "plans";
+						useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+						itemId = 146;
 					}
 				}
 			}
