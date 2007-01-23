@@ -277,6 +277,16 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	public static boolean registerRequest( String urlString )
 	{
+		if ( urlString.indexOf( "closet.php" ) != -1 && urlString.indexOf( "action=take" ) != -1 )
+			return registerRequest( "take from closet", urlString, closet, inventory, 0 );
+
+		if ( urlString.indexOf( "closet.php" ) != -1 && urlString.indexOf( "action=put" ) != -1 )
+			return registerRequest( "add to closet", urlString, inventory, closet, 0 );
+
+		// Only other option is storage transfers.  Therefore,
+		// if it's clearly not handling of item transfers in
+		// storage, return.
+
 		if ( urlString.indexOf( "storage.php" ) == -1 || urlString.indexOf( "action=takemeat" ) != -1 )
 			return false;
 
@@ -289,7 +299,7 @@ public class ItemStorageRequest extends SendMessageRequest
 			return true;
 		}
 
-		return registerRequest( "pull", urlString, storage, 0 );
+		return registerRequest( "pull", urlString, storage, inventory, 0 );
 	}
 
 	public boolean allowUngiftableTransfer()

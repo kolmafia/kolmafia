@@ -112,9 +112,9 @@ public class MuseumRequest extends SendMessageRequest
 			return false;
 
 		if ( urlString.indexOf( "action=take" ) != -1 )
-			return registerRequest( "remove from museum: ", urlString, collection, 0 );
+			return registerRequest( "remove from museum", urlString, collection, inventory, 0 );
 
-		return registerRequest( "take from museum: ", urlString, inventory, 0 );
+		return registerRequest( "take from museum", urlString, inventory, collection, 0 );
 	}
 }
 
