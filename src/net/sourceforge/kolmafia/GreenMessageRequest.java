@@ -131,7 +131,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		if ( urlString.indexOf( "sendmessage.php" ) == -1 )
 			return false;
 
-		return registerRequest( "send", urlString, inventory, 0 );
+		return registerRequest( "send a kmail", urlString, inventory, 0 );
 	}
 }
 
