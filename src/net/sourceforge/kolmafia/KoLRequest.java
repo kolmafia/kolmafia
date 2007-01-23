@@ -88,6 +88,7 @@ public class KoLRequest extends Job implements KoLConstants
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern CHOICE_DECISION_PATTERN = Pattern.compile( "whichchoice=(\\d+).*?option=(\\d+)" );
 	private static final Pattern EVENT_PATTERN = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
+	private static final Pattern STEEL_PATTERN = Pattern.compile( "emerge with a (.*?) of Steel" );
 
 	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/login\\.php", Pattern.DOTALL );
 
@@ -599,16 +600,18 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( sessionId == null && !(this instanceof LoginRequest || this instanceof LogoutRequest || this instanceof LocalRelayRequest) )
 			return;
 
+		String location = getURLString();
+
 		if ( shouldPrintDebug() )
 			KoLmafia.getDebugStream().println( getClass() );
 
-		if ( formURLString.indexOf( "sewer.php" ) != -1 )
+		if ( location.indexOf( "sewer.php" ) != -1 )
 		{
 			if ( !isDelayExempt || StaticEntity.getBooleanProperty( "relayAlwaysBuysGum" ) )
 				AdventureDatabase.retrieveItem( "chewing gum on a string" );
 		}
 
-		if ( formURLString.indexOf( "casino.php" ) != -1 )
+		if ( location.indexOf( "casino.php" ) != -1 )
 			AdventureDatabase.retrieveItem( "casino pass" );
 
 		// To avoid wasting turns, buy a can of hair spray before
@@ -617,24 +620,23 @@ public class KoLRequest extends Job implements KoLConstants
 		// tower items sitting in the closet or that have not
 		// been constructed, pull them out.
 
-		if ( formURLString.indexOf( "lair4.php" ) != -1 || formURLString.indexOf( "lair5.php" ) != -1 )
+		if ( location.indexOf( "lair4.php" ) != -1 || location.indexOf( "lair5.php" ) != -1 )
 			SorceressLair.makeGuardianItems();
 
 		needsRefresh = false;
-		String urlString = getURLString();
-
 		execute();
 
 		// If this is the trapper page, make sure to check to
 		// see if there's any changes to your inventory.
 
-		if ( urlString.indexOf( "trapper.php" ) != -1 )
+		if ( location.indexOf( "trapper.php" ) != -1 )
 		{
 			Matcher oreMatcher = ORE_PATTERN.matcher( responseText );
 			if ( oreMatcher.find() )
-			{
 				StaticEntity.setProperty( "trapperOre", oreMatcher.group(1) + " ore" );
-			}
+
+			// If you receive items from the trapper, then you
+			// lose some items already in your inventory.
 
 			if ( responseText.indexOf( "You acquire" ) != -1 )
 			{
@@ -654,10 +656,30 @@ public class KoLRequest extends Job implements KoLConstants
 			}
 		}
 
+		// The Deep Fat Friars' Ceremony Location
+
+		if ( location.equals( "friars.php" ) )
+		{
+			// "The infernal creatures who have tainted the Friar's
+			// copse stream back into the gate, hooting and
+			// shrieking."
+
+			if ( responseText.indexOf( "hooting and shrieking" ) != -1 )
+			{
+				StaticEntity.getClient().processResult( AdventureRequest.DODECAGRAM );
+				StaticEntity.getClient().processResult( AdventureRequest.CANDLES );
+				StaticEntity.getClient().processResult( AdventureRequest.BUTTERKNIFE );
+
+				Matcher learnedMatcher = STEEL_PATTERN.matcher( responseText );
+				if ( learnedMatcher.find() )
+					KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( learnedMatcher.group(1) + " of Steel" ) );
+			}
+		}
+
 		// There are requests to the council which will also
 		// decrement your inventory.
 
-		if ( urlString.indexOf( "council.php" ) != -1 )
+		if ( location.indexOf( "council.php" ) != -1 )
 		{
 			if ( responseText.indexOf( "500" ) != -1 )
 				StaticEntity.getClient().processResult( new AdventureResult( "mosquito larva", -1, false ) );
@@ -668,13 +690,13 @@ public class KoLRequest extends Job implements KoLConstants
 		// The white citadel quest will also decrement your
 		// inventory once.
 
-		if ( KoLCharacter.hasItem( KoLmafia.SATCHEL ) && urlString.indexOf( "guild.php" ) != -1 && getFormField( "place" ) != null && getFormField( "place" ).equals( "paco" ) )
+		if ( KoLCharacter.hasItem( KoLmafia.SATCHEL ) && location.indexOf( "guild.php" ) != -1 && location.indexOf( "place=paco" ) != -1 )
 			StaticEntity.getClient().processResult( KoLmafia.SATCHEL.getNegation() );
 
 		// If this is an equipment request, then reprint the
 		// player's current equipment information.
 
-		if ( urlString.equals( "main.php?refreshtop=true&noobmessage=true" ) )
+		if ( location.equals( "main.php?refreshtop=true&noobmessage=true" ) )
 			StaticEntity.getClient().handleAscension();
 	}
 

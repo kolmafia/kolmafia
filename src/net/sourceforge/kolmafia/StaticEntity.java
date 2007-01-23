@@ -300,10 +300,6 @@ public abstract class StaticEntity implements KoLConstants
 			KoLCharacter.addDerivedSkills();
 		}
 
-		learnedMatcher = AdventureRequest.STEEL_PATTERN.matcher( responseText );
-		if ( learnedMatcher.find() )
-			KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( learnedMatcher.group(1) + " of Steel" ) );
-
 		// Unfortunately, if you learn a new skill from Frank
 		// the Regnaissance Gnome at the Gnomish Gnomads
 		// Camp, it doesn't tell you the name of the skill.
