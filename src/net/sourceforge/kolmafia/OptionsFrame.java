@@ -297,6 +297,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
 			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
+			{ "cloverProtectActive", "Protect against automated clover adventures" },
 			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
 
 			{ "", "" },

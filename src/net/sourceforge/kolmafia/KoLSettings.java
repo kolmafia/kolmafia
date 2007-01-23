@@ -328,6 +328,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "browserBookmarks", "" );
 		CLIENT_SETTINGS.put( "chatStyle", "0" );
 		CLIENT_SETTINGS.put( "closeLastFrameAction", "0" );
+		CLIENT_SETTINGS.put( "cloverProtectActive", "true" );
 		CLIENT_SETTINGS.put( "commandLineNamespace", "" );
 		CLIENT_SETTINGS.put( "createWithoutBoxServants", "false" );
 		CLIENT_SETTINGS.put( "defaultBorderColor", "blue" );
@@ -365,6 +366,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		CLIENT_SETTINGS.put( "previousNotifyList", "<>" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
+		CLIENT_SETTINGS.put( "protectAgainstOverdrink", "true" );
 		CLIENT_SETTINGS.put( "relayAddsGraphicalCLI", "false" );
 		CLIENT_SETTINGS.put( "relayAddsKoLSimulator", "false" );
 		CLIENT_SETTINGS.put( "relayAddsMissingEffects", "true" );
@@ -426,7 +428,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "plantingDate", "" );
 		PLAYER_SETTINGS.put( "plantingLength", "" );
 		PLAYER_SETTINGS.put( "plantingScript", "" );
-		PLAYER_SETTINGS.put( "protectAgainstOverdrink", "true" );
 		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
 		PLAYER_SETTINGS.put( "thanksMessage", "Thank you for the donation!" );
 		PLAYER_SETTINGS.put( "trapperOre", "chrome ore" );
