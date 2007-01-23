@@ -42,12 +42,10 @@ public class AdventureRequest extends KoLRequest
 	private static final KoLRequest ZONE_VALIDATOR = AdventureDatabase.ZONE_VALIDATOR;
 	private static final AdventureResult BIG_ROCK = new AdventureResult( 30, 1 );
 
-	public static final Pattern STEEL_PATTERN = Pattern.compile( "emerge with a (.*?) of Steel" );
-
 	private String adventureName;
 	private String formSource;
 	private String adventureId;
-	public int adventuresUsed;
+	private int adventuresUsed;
 
 	public static final AdventureResult ABRIDGED = new AdventureResult( 534, -1 );
 	public static final AdventureResult BRIDGE = new AdventureResult( 535, -1 );
@@ -214,7 +212,7 @@ public class AdventureRequest extends KoLRequest
 			temporary.addAll( conditions );
 			conditions.clear();
 
-			DEFAULT_SHELL.executeLine( "adventure 1 BrIDGE the Orc Chasm" );
+			DEFAULT_SHELL.executeLine( "adventure 1 Bridge the Orc Chasm" );
 
 			conditions.addAll( temporary );
 			if ( KoLmafia.permitsContinue() )
@@ -320,7 +318,7 @@ public class AdventureRequest extends KoLRequest
 			return;
 		}
 
-		// The Orc Chasm (pre-brIDGE)
+		// The Orc Chasm (pre-bridge)
 
 		if ( formSource.equals( "mountains.php" ) )
 		{
@@ -329,7 +327,7 @@ public class AdventureRequest extends KoLRequest
 
 			if ( responseText.indexOf( "value=80" ) == -1 )
 			{
-				// If you have an unabrIDGED dictionary in your
+				// If you have an unabridged dictionary in your
 				// inventory, visit the untinkerer
 				// automatically and repeat the request.
 
@@ -364,25 +362,9 @@ public class AdventureRequest extends KoLRequest
 			// copse stream back into the gate, hooting and
 			// shrieking."
 
-			if ( responseText.indexOf( "hooting and shrieking" ) != -1 )
-			{
-				StaticEntity.getClient().processResult( DODECAGRAM );
-				StaticEntity.getClient().processResult( CANDLES );
-				StaticEntity.getClient().processResult( BUTTERKNIFE );
+			if ( responseText.indexOf( "hooting and shrieking" ) == -1 )
+				KoLmafia.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
 
-				Matcher learnedMatcher = STEEL_PATTERN.matcher( responseText );
-				if ( learnedMatcher.find() )
-					KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( learnedMatcher.group(1) + " of Steel" ) );
-
-				KoLmafia.updateDisplay( PENDING_STATE, "Taint cleansed." );
-				return;
-			}
-
-			// Even after you've performed the ritual:
-			// "You don't appear to have all of the elements
-			// necessary to perform the ritual."
-
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
 			return;
 		}
 
