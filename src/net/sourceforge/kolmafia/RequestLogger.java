@@ -117,6 +117,12 @@ public class RequestLogger
 			return;
 		}
 
+		if ( MuseumRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( ProposeTradeRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;

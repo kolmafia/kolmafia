@@ -885,7 +885,6 @@ public class EquipmentRequest extends PasswordHashRequest
 			return true;
 		}
 
-
 		Matcher outfitMatcher = OUTFIT_PATTERN.matcher( urlString );
 		if ( outfitMatcher.find() )
 		{

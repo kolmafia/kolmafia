@@ -253,31 +253,14 @@ public abstract class SendMessageRequest extends KoLRequest
 		// Make sure that the message was actually sent -
 		// the person could have input an invalid player Id
 
-		if ( tallyItemTransfer() && (getSuccessMessage().equals( "" ) || responseText.indexOf( getSuccessMessage() ) != -1) )
-		{
-			// With that done, theneeds to be updated
-			// to note that the items were sent.
-
-			for ( int i = 0; i < attachments.length; ++i )
-			{
-				if ( attachments[i] == null )
-					continue;
-
-				if ( source == inventory )
-					StaticEntity.getClient().processResult( ((AdventureResult)attachments[i]).getNegation() );
-				else
-					AdventureResult.addResultToList( source, ((AdventureResult)attachments[i]).getNegation() );
-
-				if ( destination == inventory )
-					StaticEntity.getClient().processResult( (AdventureResult) attachments[i] );
-				else
-					AdventureResult.addResultToList( destination, (AdventureResult) attachments[i] );
-			}
-		}
-		else
+		if ( !getSuccessMessage().equals( "" ) && responseText.indexOf( getSuccessMessage() ) == -1 )
 		{
 			hadSendMessageFailure = true;
-			if ( tallyItemTransfer() && willUpdateDisplayOnFailure() )
+
+			for ( int i = 0; i < attachments.length; ++i )
+				StaticEntity.getClient().processResult( (AdventureResult) attachments[i] );
+
+			if ( willUpdateDisplayOnFailure() )
 			{
 				for ( int i = 0; i < attachments.length; ++i )
 					KoLmafia.updateDisplay( ERROR_STATE, "Transfer failed for " + attachments[i].toString() );
@@ -309,10 +292,6 @@ public abstract class SendMessageRequest extends KoLRequest
 	{	return true;
 	}
 
-	public boolean tallyItemTransfer()
-	{	return true;
-	}
-
 	public static boolean registerRequest( String command, String urlString, List source, int defaultQuantity )
 	{	return registerRequest( command, urlString, ITEMID_PATTERN, HOWMANY_PATTERN, source, defaultQuantity );
 	}
@@ -324,6 +303,17 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		Matcher itemMatcher = itemPattern.matcher( urlString );
 		Matcher quantityMatcher = quantityPattern == null ? null : quantityPattern.matcher( urlString );
+
+		itemListBuffer.append( command );
+
+		Matcher recipientMatcher = RECIPIENT_PATTERN.matcher( urlString );
+		if ( recipientMatcher.find() )
+		{
+			itemListBuffer.append( " to " );
+			itemListBuffer.append( KoLmafia.getPlayerName( recipientMatcher.group(1) ) );
+		}
+
+		itemListBuffer.append( ": " );
 
 		while ( itemMatcher.find() && (quantityMatcher == null || quantityMatcher.find()) )
 		{
@@ -352,18 +342,11 @@ public abstract class SendMessageRequest extends KoLRequest
 			itemListBuffer.append( name );
 		}
 
-		Matcher recipientMatcher = RECIPIENT_PATTERN.matcher( urlString );
-		if ( recipientMatcher.find() )
-		{
-			itemListBuffer.append( " to " );
-			itemListBuffer.append( KoLmafia.getPlayerName( recipientMatcher.group(1) ) );
-		}
-
 		if ( itemList.isEmpty() )
 			return true;
 
 		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( command + " " + itemListBuffer.toString() );
+		KoLmafia.getSessionStream().println( itemListBuffer.toString() );
 
 		for ( int i = 0; i < itemList.size(); ++i )
 			StaticEntity.getClient().processResult( (AdventureResult) itemList.get(i) );

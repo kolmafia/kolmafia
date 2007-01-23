@@ -306,6 +306,8 @@ public class AutoSellRequest extends SendMessageRequest
 		Pattern itemPattern = null;
 		int quantity = 1;
 
+		String sellType = null;
+
 		if ( urlString.startsWith( "sellstuff.php" ) )
 		{
 			Matcher quantityMatcher = HOWMANY_PATTERN.matcher( urlString );
@@ -318,6 +320,7 @@ public class AutoSellRequest extends SendMessageRequest
 				quantity = 0;
 
 			itemPattern = ITEMID_PATTERN;
+			sellType = "autosell";
 		}
 		else if ( urlString.startsWith( "sellstuff_ugly.php" ) )
 		{
@@ -331,12 +334,18 @@ public class AutoSellRequest extends SendMessageRequest
 				quantity = -1;
 
 			itemPattern = EMBEDDED_ID_PATTERN;
+			sellType = "autosell";
+		}
+		else if ( urlString.startsWith( "managestore.php" ) && urlString.indexOf( "action=additem" ) != -1 )
+		{
+			itemPattern = ITEMID_PATTERN;
+			sellType = "place in store";
 		}
 
 		if ( itemPattern == null )
 			return false;
 
-		return registerRequest( "autosell", urlString, itemPattern, null, inventory, quantity );
+		return registerRequest( sellType, urlString, itemPattern, null, inventory, quantity );
 	}
 
 	public String getSuccessMessage()

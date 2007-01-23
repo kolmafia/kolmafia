@@ -239,7 +239,7 @@ public class ClanStashRequest extends SendMessageRequest
 
 		boolean isWithdrawal = urlString.indexOf( "take" ) != -1;
 
-		return registerRequest( "stash " + (isWithdrawal ? "take" : "put"), urlString, ITEMID_PATTERN, QUANTITY_PATTERN,
+		return registerRequest( (isWithdrawal ? "remove from " : "add to ") + " stash", urlString, ITEMID_PATTERN, QUANTITY_PATTERN,
 			isWithdrawal ? ClanManager.getStash() : inventory, 0 );
 	}
 

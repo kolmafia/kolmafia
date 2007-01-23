@@ -105,5 +105,16 @@ public class MuseumRequest extends SendMessageRequest
 	public String getStatusMessage()
 	{	return isDeposit ? "Placing items in display case" : "Removing items from display case";
 	}
+
+	public static boolean registerRequest( String urlString )
+	{
+		if ( urlString.indexOf( "managecollection.php" ) == -1)
+			return false;
+
+		if ( urlString.indexOf( "action=take" ) != -1 )
+			return registerRequest( "remove from museum: ", urlString, collection, 0 );
+
+		return registerRequest( "take from museum: ", urlString, inventory, 0 );
+	}
 }
 

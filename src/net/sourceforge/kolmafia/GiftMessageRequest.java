@@ -176,7 +176,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		if ( urlString.indexOf( "town_sendgift.php" ) == -1 )
 			return false;
 
-		return registerRequest( "send", urlString, inventory, 0 );
+		return registerRequest( "send a gift", urlString, inventory, 0 );
 	}
 
 	public String getStatusMessage()
