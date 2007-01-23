@@ -1087,7 +1087,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// pet-buffing spray, empathy and a green snowcone, which will
 			// boost you straight to 20 pounds without any skills.
 
-			int poundsNeeded = goal - maxBuffedWeight;
+			int poundsNeeded = goal - status.familiar.getModifiedWeight();
 
 			// If you're out of Ronin, pet-buffing spray is still
 			// available in the mall.  Check this option first.
@@ -1096,22 +1096,25 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				poundsNeeded -= 5;
 				heavyPettingAvailable = true;
-				DEFAULT_SHELL.executeBuyCommand( "1 Knob Goblin pet-buffing spray" );
+				DEFAULT_SHELL.executeLine( "acquire 1 Knob Goblin pet-buffing spray" );
 			}
 
 			if ( poundsNeeded <= 0 )
 				return true;
 
-			// First, check their current familiar's
-			// item. If it affects weight (positively) and
-			// they don't have one, buy one in the mall
+			// First, check their current familiar's item. If it affects
+			// weight (positively) and their current item does not impact
+			// weight by as much, try to grab it.
 
-			if ( status.familiarItem != null && status.specItem != status.familiarItem && status.familiarItemWeight > 0 )
+			int desiredItemWeight = status.familiarItem == null ? 0 : FamiliarData.itemWeightModifier( status.familiarItem.getItemId() );
+			int currentItemWeight = FamiliarData.itemWeightModifier( status.familiar.getItem().getItemId() );
+
+			if ( currentItemWeight < desiredItemWeight )
 			{
-				poundsNeeded -= status.familiarItemWeight;
+				poundsNeeded -= desiredItemWeight - currentItemWeight;
 				String familiarItem = status.familiarItem.getName();
 
-				DEFAULT_SHELL.executeBuyCommand( "1 " + familiarItem );
+				DEFAULT_SHELL.executeLine( "acquire 1 " + familiarItem );
 				status.updateStatus();
 			}
 
@@ -1126,7 +1129,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				String plasticItem = TradeableItemDatabase.getItemName(
 					firstTinyPlastic + RNG.nextInt( lastTinyPlastic - firstTinyPlastic ) );
 
-				DEFAULT_SHELL.executeBuyCommand( poundsNeeded + " " + plasticItem );
+				DEFAULT_SHELL.executeLine( "acquire " + poundsNeeded + " " + plasticItem );
 				status.updateStatus();
 				return true;
 			}
@@ -1137,7 +1140,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( !hasTongue && greenTongueActive == 0 )
 			{
-				DEFAULT_SHELL.executeBuyCommand( "1 green snowcone" );
+				DEFAULT_SHELL.executeLine( " acquire 1 green snowcone" );
 				status.updateStatus();
 				poundsNeeded -= 5;
 			}
