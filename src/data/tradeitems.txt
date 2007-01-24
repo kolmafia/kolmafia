@@ -2255,3 +2255,28 @@
 2255	furry green turtle	9	all	50
 2256	furry green earmuffs	8	all	50
 2257	reinforced furry underpants	8	all	35
+2258	
+2259	
+2260	
+2261	
+2262	
+2263	
+2264	
+2265	
+2266	
+2267	
+2268	
+2269	
+2270	
+2271	
+2272	
+2273	
+2274	
+2275	
+2276	
+2277	Fernswarthy's key	0	none	0
+2278	Fernswarthy's letter	3	none	0
+2279	dusty old book	0	none	0
+2280	Manual of Labor	3	none	0
+2281	Manual of Transmission	3	none	0
+2282	Manual of Dexterity	3	none	0
