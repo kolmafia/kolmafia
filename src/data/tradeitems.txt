@@ -2004,7 +2004,7 @@
 2004	Chori Zo trading card	3	all	50
 2005	Morbidda trading card	3	all	50
 2006	Poison Oak trading card	3	all	50
-2007	Princess Rutabega trading card	3	all	50
+2007	Princess Rutabaga trading card	3	all	50
 2008	Roo trading card	3	all	50
 2009	Woldo trading card	3	all	50
 2010	The Snake trading card	3	all	50
