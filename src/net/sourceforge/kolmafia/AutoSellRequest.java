@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 public class AutoSellRequest extends SendMessageRequest
 {
 	public static final Pattern AUTOSELL_PATTERN = Pattern.compile( "for ([\\d,]+) [Mm]eat" );
+	private static final Pattern QTY_PATTERN = Pattern.compile( "qty\\d+=([\\d,]+)" );
 	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=([\\d,]+)" );
 	private static final Pattern EMBEDDED_ID_PATTERN = Pattern.compile( "item(\\d+)" );
 
@@ -304,6 +305,8 @@ public class AutoSellRequest extends SendMessageRequest
 	public static boolean registerRequest( String urlString )
 	{
 		Pattern itemPattern = null;
+		Pattern quantityPattern = null;
+
 		int quantity = 1;
 
 		String sellType = null;
@@ -339,13 +342,14 @@ public class AutoSellRequest extends SendMessageRequest
 		else if ( urlString.startsWith( "managestore.php" ) && urlString.indexOf( "action=additem" ) != -1 )
 		{
 			itemPattern = ITEMID_PATTERN;
+			quantityPattern = QTY_PATTERN;
 			sellType = "place in store";
 		}
 
 		if ( itemPattern == null )
 			return false;
 
-		return registerRequest( sellType, urlString, itemPattern, null, inventory, null, quantity );
+		return registerRequest( sellType, urlString, itemPattern, quantityPattern, inventory, null, quantity );
 	}
 
 	public String getSuccessMessage()
