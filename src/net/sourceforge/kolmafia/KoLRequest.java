@@ -724,7 +724,7 @@ public class KoLRequest extends Job implements KoLConstants
 		String urlString = getURLString();
 
 		if ( !shouldIgnoreResult && !shouldIgnore( urlString ) && !hasExplicitHandle() )
-			RequestLogger.registerRequest( urlString );
+			RequestLogger.registerRequest( this, urlString );
 
 		if ( urlString.indexOf( "choice.php" ) != -1 )
 			saveLastChoice( urlString );

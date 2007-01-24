@@ -37,12 +37,20 @@ public class RequestLogger
 {
 	private static boolean wasLastRequestSimple = false;
 
-	public static void registerRequest( String urlString )
+	public static void registerRequest( KoLRequest request, String urlString )
 	{
+		boolean isExternal = request.getClass() == KoLRequest.class || request instanceof LocalRelayRequest;
+
 		// There are some adventures which do not post any
 		// form fields, so handle them first.
 
 		if ( KoLAdventure.recordToSession( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( (request instanceof FightRequest || isExternal) && FightRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
@@ -57,85 +65,79 @@ public class RequestLogger
 		// The following lists all the remaining requests in
 		// alphabetical order.
 
-		if ( AutoSellRequest.registerRequest( urlString ) )
+		if ( (request instanceof AutoSellRequest || isExternal) && AutoSellRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( ClanStashRequest.registerRequest( urlString ) )
+		if ( (request instanceof ClanStashRequest || isExternal) && ClanStashRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( ConsumeItemRequest.registerRequest( urlString ) )
+		if ( (request instanceof ConsumeItemRequest || isExternal) && ConsumeItemRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( EquipmentRequest.registerRequest( urlString ) )
+		if ( (request instanceof EquipmentRequest || isExternal) && EquipmentRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( FamiliarRequest.registerRequest( urlString ) )
+		if ( (request instanceof FamiliarRequest || isExternal) && FamiliarRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( FightRequest.registerRequest( urlString ) )
+		if ( (request instanceof GiftMessageRequest || isExternal) && GiftMessageRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( GiftMessageRequest.registerRequest( urlString ) )
+		if ( (request instanceof GreenMessageRequest || isExternal) && GreenMessageRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( GreenMessageRequest.registerRequest( urlString ) )
+		if ( (request instanceof ItemCreationRequest || isExternal) && ItemCreationRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( ItemCreationRequest.registerRequest( urlString ) )
+		if ( (request instanceof ItemStorageRequest || isExternal) && ItemStorageRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( ItemStorageRequest.registerRequest( urlString ) )
+		if ( (request instanceof MuseumRequest || isExternal) && MuseumRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( MuseumRequest.registerRequest( urlString ) )
+		if ( (request instanceof ProposeTradeRequest || isExternal) && ProposeTradeRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( ProposeTradeRequest.registerRequest( urlString ) )
+		if ( (request instanceof PulverizeRequest || isExternal) && PulverizeRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
 		}
 
-		if ( PulverizeRequest.registerRequest( urlString ) )
-		{
-			wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( UseSkillRequest.registerRequest( urlString ) )
+		if ( (request instanceof UseSkillRequest || isExternal) && UseSkillRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
