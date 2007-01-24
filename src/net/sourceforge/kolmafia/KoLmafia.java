@@ -322,12 +322,7 @@ public abstract class KoLmafia implements KoLConstants
 		for ( int i = 0; i < args.length; ++i )
 		{
 			if ( args[i].equalsIgnoreCase( "--CLI" ) )
-			{
-				if ( args.length == 0 )
-					continue;
-
-				break;
-			}
+				continue;
 
 			initialScript.append( args[i] );
 			initialScript.append( " " );
