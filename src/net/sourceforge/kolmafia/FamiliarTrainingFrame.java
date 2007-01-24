@@ -566,43 +566,21 @@ public class FamiliarTrainingFrame extends KoLFrame
 				addActionListener( new ChangeComboBoxListener() );
 			}
 
-			private class ChangeComboBoxListener implements ActionListener
+			private class ChangeComboBoxListener extends ThreadedListener
 			{
-				public void actionPerformed( ActionEvent e )
+				public void run()
 				{
-					if ( !isShowing() || isChanging || !isEnabled() )
+					FamiliarData selection = (FamiliarData) getSelectedItem();
+
+					if ( selection == null || selection == familiar )
 						return;
 
-					if ( e.paramString().endsWith( "=" ) )
-						return;
+					isChanging = true;
+					RequestThread.postRequest( new FamiliarRequest( selection ) );
+					isChanging = false;
 
-					executeChange();
+					familiar = KoLCharacter.getFamiliar();
 				}
-			}
-
-			public void firePopupMenuWillBecomeInvisible()
-			{
-				super.firePopupMenuWillBecomeInvisible();
-
-				if ( !isShowing() || isChanging || !isEnabled() )
-					return;
-
-				executeChange();
-			}
-
-			public void executeChange()
-			{
-				FamiliarData selection = (FamiliarData) getSelectedItem();
-
-				if ( selection == null || selection == familiar )
-					return;
-
-				isChanging = true;
-				RequestThread.postRequest( new FamiliarRequest( selection ) );
-				isChanging = false;
-
-				KoLmafia.updateDisplay( "Familiar changed." );
-				familiar = KoLCharacter.getFamiliar();
 			}
 		}
 	}

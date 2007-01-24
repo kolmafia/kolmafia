@@ -38,6 +38,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 public abstract class ThreadedButton extends JButton implements ActionListener, Runnable
 {
@@ -54,6 +55,16 @@ public abstract class ThreadedButton extends JButton implements ActionListener, 
 	}
 
 	public void actionPerformed( ActionEvent e )
-	{	(new Thread( this )).start();
+	{
+		if ( isValidEvent( e ) )
+			this.run();
+	}
+
+	protected boolean isValidEvent( ActionEvent e )
+	{
+		if ( e.getSource() instanceof JComboBox )
+			return ((JComboBox)e.getSource()).isPopupVisible();
+
+		return true;
 	}
 }
