@@ -1743,7 +1743,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					buffer.append( "<td><font size=2>" );
 
 				buffer.append( " (0)</font>&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
-				buffer.append( MoodSettings.getDefaultAction( "lose_effect", currentEffect.getName() ) );
+				buffer.append( StaticEntity.globalStringReplace( MoodSettings.getDefaultAction( "lose_effect", currentEffect.getName() ), " ", "+" ) );
 
 				buffer.append( "\" title=\"Increase rounds of " );
 				buffer.append( currentEffect.getName() );

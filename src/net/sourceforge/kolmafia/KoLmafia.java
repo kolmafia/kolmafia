@@ -598,10 +598,17 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public void getBreakfast( String skillname, int standardCast )
+	public void getBreakfast( String skillName, int standardCast )
 	{
 		KoLmafia.forceContinue();
-		RequestThread.postRequest( UseSkillRequest.getInstance( skillname, standardCast ) );
+
+		if ( KoLCharacter.isHardcore() && !NPCStoreDatabase.contains( "magical mystery juice" ) && !NPCStoreDatabase.contains( "Knob Goblin seltzer" ) && !NPCStoreDatabase.contains( "Cherry Cloaca Cola" ) )
+		{
+			int mpCost = ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) );
+			standardCast = Math.min( standardCast, KoLCharacter.getCurrentMP() / mpCost );
+		}
+
+		RequestThread.postRequest( UseSkillRequest.getInstance( skillName, standardCast ) );
 	}
 
 	public final void refreshSession()
