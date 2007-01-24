@@ -43,7 +43,7 @@ public abstract class ThreadedListener implements ActionListener, Runnable
 	public void actionPerformed( ActionEvent e )
 	{
 		if ( isValidEvent( e ) )
-			(new Thread( this )).start();
+			this.run();
 	}
 
 	protected boolean isValidEvent( ActionEvent e )
