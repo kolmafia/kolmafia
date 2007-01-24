@@ -60,6 +60,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class MallSearchFrame extends KoLPanelFrame
 {
 	private static MallSearchFrame INSTANCE = null;
+	private static SortedListModel pastSearches = new SortedListModel();
 
 	private boolean currentlyBuying;
 	private SortedListModel results;
@@ -89,7 +90,7 @@ public class MallSearchFrame extends KoLPanelFrame
 
 	private class MallSearchPanel extends KoLPanel
 	{
-		private JTextField searchField;
+		private MutableComboBox searchField;
 		private JTextField countField;
 
 		private JCheckBox forceSortingCheckBox;
@@ -99,7 +100,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		{
 			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
-			searchField = new JTextField();
+			searchField = new MutableComboBox( pastSearches, true );
 			countField = new JTextField();
 
 			forceSortingCheckBox = new JCheckBox();
@@ -139,7 +140,7 @@ public class MallSearchFrame extends KoLPanelFrame
 				StaticEntity.setProperty( "defaultLimit", String.valueOf( searchCount ) );
 
 			MallPurchaseRequest.setUsePriceComparison( forceSortingCheckBox.isSelected() );
-			searchMall( new SearchMallRequest( searchField.getText(), searchCount, results, false ) );
+			searchMall( new SearchMallRequest( (String) searchField.getSelectedItem(), searchCount, results, false ) );
 		}
 
 		public void actionCancelled()
