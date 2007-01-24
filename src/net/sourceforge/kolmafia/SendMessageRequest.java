@@ -314,6 +314,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		}
 
 		itemListBuffer.append( ": " );
+		boolean addedItem = false;
 
 		while ( itemMatcher.find() && (quantityMatcher == null || quantityMatcher.find()) )
 		{
@@ -332,10 +333,11 @@ public abstract class SendMessageRequest extends KoLRequest
 			if ( quantity < 1 )
 				quantity = quantity + item.getCount( source );
 
-			if ( itemListBuffer.length() > 0 )
+			if ( addedItem )
 				itemListBuffer.append( ", " );
 
-			itemList.add( item );
+			itemList.add( item.getInstance( quantity ) );
+			addedItem = true;
 
 			itemListBuffer.append( quantity );
 			itemListBuffer.append( " " );
