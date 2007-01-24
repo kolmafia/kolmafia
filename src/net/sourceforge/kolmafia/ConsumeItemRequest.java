@@ -236,13 +236,12 @@ public class ConsumeItemRequest extends KoLRequest
 			(consumptionType == CONSUME_DRINK) ? "Drinking" : "Using";
 
 		String originalURLString = getURLString();
-		int adventuresBanked = KoLCharacter.getAdventuresLeft();
 
 		for ( int i = 1; i <= iterations; ++i )
 		{
 			constructURLString( originalURLString );
 
-			if ( adventuresBanked == 0 && consumptionType == CONSUME_DRINK && !allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemUsed.getItemId() ) ) )
+			if ( consumptionType == CONSUME_DRINK && !allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemUsed.getItemId() ) ) )
 				return;
 
 			if ( !useOnce( i, iterations, useTypeAsString ) )
@@ -258,6 +257,9 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public static boolean allowBoozeConsumption( int inebrietyBonus )
 	{
+		if ( KoLCharacter.getInebriety() >= KoLCharacter.getInebrietyLimit() )
+			return false;
+
 		if ( existingFrames.isEmpty() || !StaticEntity.getBooleanProperty( "protectAgainstOverdrink" ) )
 			return true;
 
