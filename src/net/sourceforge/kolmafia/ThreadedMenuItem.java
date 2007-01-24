@@ -47,6 +47,6 @@ public abstract class ThreadedMenuItem extends JMenuItem implements ActionListen
 	}
 
 	public void actionPerformed( ActionEvent e )
-	{	(new Thread( this )).start();
+	{	this.run();
 	}
 }
