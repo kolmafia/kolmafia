@@ -419,30 +419,11 @@ public class ProposeTradeFrame extends KoLFrame
 				super( storage == null ? "Inside Inventory" : "", " > > > ", " < < < ", available );
 				source = available;
 
-				sourceSelect.addActionListener( new SourceChangeListener() );
-
 				// Remove items from our cloned list that are
 				// already on the attachments list
+
 				for ( int i = 0; i < attachments.size(); ++i )
 					AdventureResult.addResultToList( source, ((AdventureResult)attachments.get( i )).getNegation() );
-			}
-
-			private class SourceChangeListener implements ActionListener
-			{
-				public void actionPerformed( ActionEvent e )
-				{
-					if ( source == available )
-						return;
-
-					// Put back old attachments
-					usingStorage = (available == storage);
-
-					while ( !attachments.isEmpty() )
-						AdventureResult.addResultToList( source, (AdventureResult) attachments.remove( 0 ) );
-
-					source = available;
-					elementList.setModel( source );
-				}
 			}
 
 			public void actionConfirmed()
