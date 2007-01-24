@@ -194,6 +194,7 @@ public class OptionsFrame extends KoLFrame
 			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
 			{ "relayAddsGraphicalCLI", "Add link to command-line interface to right side pane" },
 			{ "relayAddsKoLSimulator", "Add link to Ayvuir's Simulator of Loathing to right side pane" },
+			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Teh Kilt script" },
 
 			{ "", "" },
 

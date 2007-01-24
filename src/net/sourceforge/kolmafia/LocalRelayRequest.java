@@ -346,6 +346,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		StaticEntity.singleStringReplace( responseBuffer, "frames.length == 0", "frames.length == -1" );
 		responseText = responseBuffer.toString();
+
+		CustomItemDatabase.linkCustomItem( this );
 	}
 
 	public String getHeader( int index )
@@ -710,6 +712,16 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			sendNotFound();
 			return;
+		}
+
+		if ( formURLString.equals( "desc_item.php" ) )
+		{
+			String item = getFormField( "whichitem" );
+			if ( item != null && item.startsWith( "custom" ) )
+			{
+				pseudoResponse( "HTTP/1.1 200 OK", CustomItemDatabase.retrieveCustomItem( item.substring(6) ) );
+				return;
+			}
 		}
 
 		// Abort request if the person is attempting to stasis
