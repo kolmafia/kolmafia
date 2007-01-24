@@ -433,6 +433,8 @@ public abstract class MoodSettings implements KoLConstants
 		if ( starting <= 0 || KoLCharacter.getCurrentMP() < starting )
 			return null;
 
+		int minimum = Math.max( 0, (int) (StaticEntity.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP()) );
+
 		String skillName = null;
 		int desiredDuration = 0;
 
@@ -461,7 +463,7 @@ public abstract class MoodSettings implements KoLConstants
 				desiredDuration = nextEffect.getCount() - currentEffect.getCount();
 
 			int skillId = ClassSkillsDatabase.getSkillId( skillName );
-			int castCount = (KoLCharacter.getCurrentMP() - starting) / ClassSkillsDatabase.getMPConsumptionById( skillId );
+			int castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
 
 			if ( ClassSkillsDatabase.getEffectDuration( skillId ) * castCount > desiredDuration )
 				castCount = Math.min( 3, castCount );
