@@ -344,7 +344,11 @@ public class LoginRequest extends KoLRequest
 			name = name.substring( 0, name.length() - 2 ).trim();
 
 		isLoggingIn = true;
+
+		RequestThread.openRequestSequence();
 		StaticEntity.getClient().initialize( name );
+		RequestThread.closeRequestSequence();
+
 		isLoggingIn = false;
 
 		if ( StaticEntity.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )

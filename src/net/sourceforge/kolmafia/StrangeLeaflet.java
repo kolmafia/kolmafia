@@ -168,6 +168,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		// Deduce location and status of items and actions
 		// by initializing the leaflet variables.
 
+		KoLmafia.updateDisplay( "Determining current leaflet progress..." );
 		initialize();
 
 		if ( !KoLmafia.permitsContinue() )
