@@ -181,6 +181,8 @@
 			if ( httpObject.readyState != 4 )
 				return;
 
+			setTimeout( getNewMessages, 2000 );
+
 			if ( httpObject.responseText == null )
 				parent.location.href = "http://www.kingdomofloathing.com/login.php?results=Session timed out.";
 
@@ -354,7 +356,7 @@
 </head>
 
 
- <body link=black alink=black vlink=black onLoad='initSizes(); setInterval( getNewMessages, 2000 );' onResize='initSizes();'>
+ <body link=black alink=black vlink=black onLoad='initSizes(); setTimeout( getNewMessages, 2000 );' onResize='initSizes();'>
 
   <div id="ToggleDisplay" class=toggledisplay><center><b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]</center></div>
   <div id="CmdWindow" class=cmddisplay></div>

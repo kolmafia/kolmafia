@@ -395,7 +395,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "testSocketTimeout", "false" );
 		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
 
-		CLIENT_SETTINGS.put( "useSystemTrayIcon", String.valueOf( System.getProperty( "os.name" ).startsWith( "Windows" ) ) );
+		CLIENT_SETTINGS.put( "useSystemTrayIcon", "false" );
 		CLIENT_SETTINGS.put( "usePopupContacts", "1" );
 		CLIENT_SETTINGS.put( "useTabbedChat", "1" );
 		CLIENT_SETTINGS.put( "useToolbars", "true" );
