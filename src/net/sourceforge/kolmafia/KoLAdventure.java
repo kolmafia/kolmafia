@@ -178,6 +178,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	private boolean meetsGeneralRequirements()
 	{
+		if ( !(request instanceof AdventureRequest) )
+		{
+			isValidAdventure = true;
+			return true;
+		}
+
 		if ( formSource.equals( "lair6.php" ) )
 		{
 			isValidAdventure = KoLCharacter.hasEquipped( SorceressLair.NAGAMAR );
@@ -260,6 +266,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 
 		// Fighting the Goblin King requires effects
+
 		if ( formSource.equals( "knob.php" ) )
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
@@ -277,7 +284,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			}
 
 			RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
-			RequestThread.postRequest( new ConsumeItemRequest( PERFUME_ITEM ) );
+			if ( !activeEffects.contains( PERFUME_EFFECT ) )
+				RequestThread.postRequest( new ConsumeItemRequest( PERFUME_ITEM ) );
 		}
 
 		if ( formSource.indexOf( "adventure.php" ) == -1 )
@@ -668,10 +676,13 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		String action = StaticEntity.getProperty( "battleAction" );
 
-		if ( action.indexOf( "dictionary" ) != -1 && ( FightRequest.DICTIONARY1.getCount( inventory ) < 1 && FightRequest.DICTIONARY2.getCount( inventory ) < 1) )
+		if ( request instanceof AdventureRequest )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
-			return;
+			if ( action.indexOf( "dictionary" ) != -1 && ( FightRequest.DICTIONARY1.getCount( inventory ) < 1 && FightRequest.DICTIONARY2.getCount( inventory ) < 1) )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
+				return;
+			}
 		}
 
 		if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() )
@@ -689,46 +700,49 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		// Check for dictionaries as a battle strategy, if the
-		// person is not adventuring at the chasm.
-
-		if ( !adventureId.equals( "80" ) && request instanceof AdventureRequest && request.getAdventuresUsed() == 1 && action.indexOf( "dictionary" ) != -1 )
+		if ( request instanceof AdventureRequest )
 		{
-			// Only allow damage-dealing familiars when using
-			// stasis techniques.
+			// Check for dictionaries as a battle strategy, if the
+			// person is not adventuring at the chasm.
 
-			if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
+			if ( !adventureId.equals( "80" ) && request.getAdventuresUsed() == 1 && action.indexOf( "dictionary" ) != -1 )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
+				// Only allow damage-dealing familiars when using
+				// stasis techniques.
+
+				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
+				{
+					KoLmafia.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
+					return;
+				}
+			}
+
+			// If the person doesn't stand a chance of surviving,
+			// automatically quit and tell them so.
+
+			if ( action.startsWith( "attack" ) && areaSummary != null && !areaSummary.willHitSomething() )
+			{
+				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
+				{
+					KoLmafia.updateDisplay( ERROR_STATE, "You can't hit anything there." );
+					return;
+				}
+			}
+
+			if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) &&
+				EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "Thrust smacks are useless with ranged weapons." );
 				return;
 			}
-		}
 
-		// If the person doesn't stand a chance of surviving,
-		// automatically quit and tell them so.
-
-		if ( action.startsWith( "attack" ) && areaSummary != null && !areaSummary.willHitSomething() )
-		{
-			if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
+			if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) &&
+				EquipmentDatabase.isStaff( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) &&
+				KoLCharacter.hasSkill( "Spirit of Rigatoni" ) && KoLCharacter.hasSkill( "Eye of the Stoat" ) )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You can't hit anything there." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Thrust smacks are useless with staves and Spirit of Rigatoni." );
 				return;
 			}
-		}
-
-		if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) &&
-			EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Thrust smacks are useless with ranged weapons." );
-			return;
-		}
-
-		if ( ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) ) &&
-			EquipmentDatabase.isStaff( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) &&
-			KoLCharacter.hasSkill( "Spirit of Rigatoni" ) && KoLCharacter.hasSkill( "Eye of the Stoat" ) )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Thrust smacks are useless with staves and Spirit of Rigatoni." );
-			return;
 		}
 
 		// If the test is successful, then it is safe to run the

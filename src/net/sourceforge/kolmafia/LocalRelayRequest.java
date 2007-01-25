@@ -65,9 +65,11 @@ public class LocalRelayRequest extends PasswordHashRequest
 	private static final Pattern STORE_PATTERN = Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
 	private static String lastUsername = "";
+
 	public List headers = new ArrayList();
 	public byte [] rawByteBuffer = null;
 	public String contentType = null;
+	public String statusLine = "HTTP/1.1 200 OK";
 
 	public LocalRelayRequest( String formURLString )
 	{
@@ -376,7 +378,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 			this.responseText = StaticEntity.singleStringReplace( this.responseText, "</html>", "<!-- KoLmafia --></html>" );
 
 		headers.clear();
-		headers.add( status );
+		this.statusLine = status;
+
 		headers.add( "Date: " + ( new Date() ) );
 		headers.add( "Server: " + VERSION_NAME );
 
