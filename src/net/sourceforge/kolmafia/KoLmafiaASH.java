@@ -2040,7 +2040,7 @@ public class KoLmafiaASH extends StaticEntity
 				aggregate = false;
 			}
 
-			aggregate = currentToken() != null && currentToken().equals( "[" );
+			aggregate = currentToken() != null && (currentToken().equals( "[" ) || currentToken().equals( "," ));
 		}
 
 		return new ScriptCompositeReference( var, indices );
