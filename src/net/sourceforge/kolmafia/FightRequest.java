@@ -328,16 +328,19 @@ public class FightRequest extends KoLRequest
 
 			nextRound();
 
-			if ( currentRound == 0 || (action1 != null && !action1.equals( "abort" )) )
+			if ( !isUsingConsultScript )
 			{
-				isInstanceRunning = true;
-				super.run();
-				isInstanceRunning = false;
-
-				if ( responseCode == 302 )
+				if ( currentRound == 0 || (action1 != null && !action1.equals( "abort" )) )
 				{
-					currentRound = 0;
-					return;
+					isInstanceRunning = true;
+					super.run();
+					isInstanceRunning = false;
+
+					if ( responseCode == 302 )
+					{
+						currentRound = 0;
+						return;
+					}
 				}
 			}
 
