@@ -113,7 +113,18 @@ public class RequestLogger
 			return;
 		}
 
-		if ( (request instanceof ItemCreationRequest || isExternal) && ItemCreationRequest.registerRequest( urlString ) )
+		if ( request instanceof ItemCreationRequest )
+		{
+			ItemCreationRequest irequest = (ItemCreationRequest) request;
+
+			KoLmafia.getSessionStream().println();
+			KoLmafia.getSessionStream().println( "make " + irequest.getQuantityNeeded() + " " + irequest.getName() );
+
+			wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( isExternal && ItemCreationRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
