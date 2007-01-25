@@ -366,7 +366,10 @@ public class RequestFrame extends KoLFrame
 	{
 		currentLocation = request.getURLString();
 		if ( request instanceof FightRequest )
+		{
 			request = new KoLRequest( currentLocation );
+			request.responseText = FightRequest.INSTANCE.responseText;
+		}
 
 		mainBuffer.clearBuffer();
 		mainBuffer.append( "Retrieving page..." );

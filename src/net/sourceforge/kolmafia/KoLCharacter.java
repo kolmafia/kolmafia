@@ -2344,7 +2344,18 @@ public abstract class KoLCharacter extends StaticEntity
 				if ( EquipmentDatabase.getOutfitWithItem( result.getItemId() ) != -1 )
 					EquipmentDatabase.updateOutfits();
 
-				if ( !ConcoctionsDatabase.getKnownUses( result ).isEmpty() )
+				boolean shouldRefresh = false;
+				int useMethod = ItemCreationRequest.NOCREATE;
+
+				List uses = ConcoctionsDatabase.getKnownUses( result );
+
+				for ( int i = 0; i < uses.size() && !shouldRefresh; ++i )
+				{
+					useMethod = ConcoctionsDatabase.getMixingMethod( ((AdventureResult)uses.get(i)).getItemId() );
+					shouldRefresh = ConcoctionsDatabase.isPermittedMethod( useMethod );
+				}
+
+				if ( shouldRefresh )
 					ConcoctionsDatabase.refreshConcoctions();
 			}
 		}
