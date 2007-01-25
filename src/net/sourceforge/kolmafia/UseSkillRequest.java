@@ -553,12 +553,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public static boolean registerRequest( String urlString )
 	{
-		if ( urlString.indexOf( "skills.php" ) == -1 )
+		if ( !urlString.startsWith( "skills.php" ) )
 			return false;
 
 		Matcher skillMatcher = SKILLID_PATTERN.matcher( urlString );
 		if ( !skillMatcher.find() )
-			return false;
+			return true;
 
 		String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
 		Matcher countMatcher = COUNT_PATTERN.matcher( urlString );

@@ -138,7 +138,7 @@ public class FamiliarRequest extends KoLRequest
 
 	public static boolean registerRequest( String urlString )
 	{
-		if ( urlString.indexOf( "familiar.php?" ) == -1 )
+		if ( !urlString.startsWith( "familiar.php?" ) )
 			return false;
 
 		if ( urlString.indexOf( "action=putback" ) != -1 )

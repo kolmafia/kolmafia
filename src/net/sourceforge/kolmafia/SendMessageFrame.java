@@ -377,6 +377,7 @@ public class SendMessageFrame extends KoLFrame
 					return;
 
 			dispose();
+			RequestThread.enableDisplayIfSequenceComplete();
 		}
 	}
 

@@ -512,4 +512,30 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		return o == null || !(o instanceof MallPurchaseRequest) ? false :
 			shopName.equals( ((MallPurchaseRequest)o).shopName ) && itemId == ((MallPurchaseRequest)o).itemId;
 	}
+
+	public static boolean registerRequest( String urlString )
+	{
+		if ( !urlString.startsWith( "mallstore.php" ) && !urlString.startsWith( "store.php" ) && !urlString.startsWith( "galaktik.php" ) && !urlString.startsWith( "town_giftshop.php" ) )
+			return false;
+
+		String itemName = null;
+
+		Matcher itemMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+			return true;
+
+		Matcher quantityMatcher = null;
+		itemName = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
+
+		if ( urlString.startsWith( "mall" ) )
+			quantityMatcher = SendMessageRequest.QUANTITY_PATTERN.matcher( urlString );
+		else
+			quantityMatcher = SendMessageRequest.HOWMANY_PATTERN.matcher( urlString );
+
+		int quantity = !quantityMatcher.find() ? 1 : StaticEntity.parseInt( quantityMatcher.group(1) );
+
+		KoLmafia.getSessionStream().println();
+		KoLmafia.getSessionStream().println( "buy " + quantity + " " + itemName );
+		return true;
+	}
 }

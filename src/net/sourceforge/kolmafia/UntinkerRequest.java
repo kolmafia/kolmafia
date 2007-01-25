@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import javax.swing.JOptionPane;
 
 public class UntinkerRequest extends KoLRequest
@@ -195,9 +196,31 @@ public class UntinkerRequest extends KoLRequest
 		return questCompleter.responseText.indexOf( "Degrassi Knoll" ) == -1;
 	}
 
-	public void processResults()
+	public static boolean registerRequest( String urlString )
 	{
-		if ( responseText.indexOf( "You acquire" ) != -1 )
-			StaticEntity.getClient().processResult( new AdventureResult( itemId, -1 ) );
+		if ( !urlString.startsWith( "town_right.php" ) || urlString.indexOf( "action=untinker" ) == -1 )
+			return false;
+
+		Matcher itemMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+			return true;
+
+		int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
+		AdventureResult result = new AdventureResult( itemId, -1 );
+
+		KoLmafia.getSessionStream().println();
+
+		if ( urlString.indexOf( "untinkerall=on" ) != -1 )
+		{
+			result = result.getInstance( 0 - result.getCount( inventory ) );
+			KoLmafia.getSessionStream().println( "untinker * " + result.getName() );
+		}
+		else
+		{
+			KoLmafia.getSessionStream().println( "untinker 1 " + result.getName() );
+		}
+
+		StaticEntity.getClient().processResult( result );
+		return true;
 	}
 }

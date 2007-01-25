@@ -77,9 +77,5 @@ public class TinkerRequest extends ItemCreationRequest
 		addFormField( "qty", String.valueOf( getQuantityNeeded() ) );
 		super.run();
 	}
-
-	public static boolean registerRequest( String urlString )
-	{	return true;
-	}
 }
 

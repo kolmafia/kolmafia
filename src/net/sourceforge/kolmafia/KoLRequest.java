@@ -331,12 +331,12 @@ public class KoLRequest extends Job implements KoLConstants
 			addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
 		}
 
-		this.isChatRequest = this.formURLString.indexOf( "chat" ) != -1 && this.formURLString.indexOf( "chatlaunch.php" ) == -1 &&
-			this.formURLString.indexOf( "lchat.php" ) == -1;
+		this.isChatRequest = this.formURLString.indexOf( "chat" ) != -1 && !this.formURLString.startsWith( "chatlaunch.php" ) &&
+			!this.formURLString.startsWith( "lchat.php" );
 
 		this.shouldIgnoreResult = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "search" ) ||
 			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) ||
-			formURLString.startsWith( "doc" ) || (formURLString.startsWith( "clan" ) && !(this instanceof ClanGymRequest));
+			formURLString.startsWith( "doc" ) || (formURLString.startsWith( "clan" ) && (getClass() == KoLRequest.class || this instanceof LocalRelayRequest));
 
 		return this;
 	}
@@ -723,7 +723,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		String urlString = getURLString();
 
-		if ( !shouldIgnoreResult && !shouldIgnore( urlString ) && !hasExplicitHandle() )
+		if ( !shouldIgnoreResult && !hasExplicitHandle() )
 			RequestLogger.registerRequest( this, urlString );
 
 		if ( urlString.indexOf( "choice.php" ) != -1 )
@@ -780,9 +780,7 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	public static boolean shouldIgnore( String formURLString )
-	{
-		return formURLString.indexOf( "search" ) != -1  || formURLString.indexOf( "chat" ) != -1 || formURLString.indexOf( "clan" ) != -1 ||
-			formURLString.indexOf( "snarfblat=101" ) != -1 || formURLString.indexOf( "adv=101" ) != -1 || formURLString.indexOf( "flea" ) != -1;
+	{	return formURLString.indexOf( "mall" ) != -1 || formURLString.indexOf( "chat" ) != -1;
 	}
 
 	/**

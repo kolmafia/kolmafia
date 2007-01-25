@@ -39,8 +39,6 @@ import java.util.regex.Pattern;
 public class AutoSellRequest extends SendMessageRequest
 {
 	public static final Pattern AUTOSELL_PATTERN = Pattern.compile( "for ([\\d,]+) [Mm]eat" );
-	private static final Pattern QTY_PATTERN = Pattern.compile( "qty\\d+=([\\d,]+)" );
-	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=([\\d,]+)" );
 	private static final Pattern EMBEDDED_ID_PATTERN = Pattern.compile( "item(\\d+)" );
 
 	private int sellType;

@@ -76,7 +76,7 @@ public class CombineMeatRequest extends ItemCreationRequest
 	{
 		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
-			return false;
+			return true;
 
 		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
 		int quantity = quantityMatcher.find() ? StaticEntity.parseInt( quantityMatcher.group(1) ) : 1;
