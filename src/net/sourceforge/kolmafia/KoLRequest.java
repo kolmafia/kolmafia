@@ -705,10 +705,6 @@ public class KoLRequest extends Job implements KoLConstants
 			StaticEntity.getClient().handleAscension();
 	}
 
-	public boolean hasExplicitHandle()
-	{	return false;
-	}
-
 	public void execute()
 	{
 		// If this is the rat quest, then go ahead and pre-set the data
@@ -723,7 +719,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		String urlString = getURLString();
 
-		if ( !shouldIgnoreResult && !hasExplicitHandle() )
+		if ( !shouldIgnoreResult )
 			RequestLogger.registerRequest( this, urlString );
 
 		if ( urlString.indexOf( "choice.php" ) != -1 )
