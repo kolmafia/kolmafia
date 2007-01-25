@@ -1593,7 +1593,19 @@ public class KoLmafiaASH extends StaticEntity
 
 		readToken(); // )
 
-		return new ScriptCall( name, scope, params );
+		ScriptCall recent = new ScriptCall( name, scope, params );
+
+		if ( currentToken().equals( "." ) )
+		{
+			readToken(); // .
+
+			if ( nextToken() == null || !nextToken().equals( "(" ) )
+				parseError( nextToken(), "(" );
+
+			return parseCall( scope, recent );
+		}
+
+		return recent;
 	}
 
 	private ScriptCommand parseAssignment( ScriptScope scope )
