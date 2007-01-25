@@ -69,7 +69,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 	public List headers = new ArrayList();
 	public byte [] rawByteBuffer = null;
 	public String contentType = null;
-	public String statusLine = "HTTP/1.1 200 OK";
+	public String statusLine = "HTTP/1.1 302 Found";
 
 	public LocalRelayRequest( String formURLString )
 	{
@@ -116,6 +116,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	public void processResponse()
 	{
+		this.statusLine = "HTTP/1.1 200 OK";
 		super.processResponse();
 
 		if ( formURLString.startsWith( "http" ) )
@@ -368,7 +369,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	public void pseudoResponse( String status, String responseText )
 	{
-		this.contentType = "text/html";
+		this.statusLine = status;
 		this.responseText = StaticEntity.globalStringReplace( responseText, "<!--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
 
 		if ( responseText.length() == 0 )
@@ -378,8 +379,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 			this.responseText = StaticEntity.singleStringReplace( this.responseText, "</html>", "<!-- KoLmafia --></html>" );
 
 		headers.clear();
-		this.statusLine = status;
-
 		headers.add( "Date: " + ( new Date() ) );
 		headers.add( "Server: " + VERSION_NAME );
 
@@ -502,8 +501,16 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 				super.run();
 
-				if ( responseCode != 200 )
+				if ( responseCode == 302 )
+				{
+					pseudoResponse( "HTTP/1.1 302 Found", redirectLocation );
 					return;
+				}
+				else if ( responseCode != 200 )
+				{
+					sendNotFound();
+					return;
+				}
 			}
 			else
 			{
