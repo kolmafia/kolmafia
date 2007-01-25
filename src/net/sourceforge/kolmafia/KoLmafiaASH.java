@@ -169,16 +169,17 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static ArrayList imports = new ArrayList();
 
-	public LineNumberReader commandStream;
-	public String fileName;
+	private String fileName;
 	private String fullLine;
 	private String currentLine;
 	private String nextLine;
+
 	private int lineNumber;
+	private LineNumberReader commandStream;
 
 	// Variables used during execution
 	private ScriptScope global;
-	public int currentState = STATE_NORMAL;
+	private int currentState = STATE_NORMAL;
 
 	// Feature control;
 
@@ -550,19 +551,19 @@ public class KoLmafiaASH extends StaticEntity
 
 	// **************** Parsing *****************
 
-	public void validate( File scriptFile ) throws IOException
+	public void validate( File scriptFile )
 	{
-		this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
-		this.fileName = scriptFile.getPath();
-
-		imports.clear();
-
-		this.currentLine = getNextLine();
-		this.lineNumber = commandStream.getLineNumber();
-		this.nextLine = getNextLine();
-
 		try
 		{
+			this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
+			this.fileName = scriptFile.getPath();
+
+			imports.clear();
+
+			this.currentLine = getNextLine();
+			this.lineNumber = commandStream.getLineNumber();
+			this.nextLine = getNextLine();
+
 			this.global = parseScope( null, null, new ScriptVariableList(), getExistingFunctionScope(), false );
 
 			if ( this.currentLine != null )
@@ -571,19 +572,28 @@ public class KoLmafiaASH extends StaticEntity
 			this.commandStream.close();
 			printScope( global, 0 );
 		}
-		catch ( AdvancedScriptException e )
+		catch ( Exception e1 )
 		{
-			this.commandStream.close();
-			this.commandStream = null;
+			try
+			{
+				this.commandStream.close();
+			}
+			catch ( Exception e2 )
+			{
+				// The command stream is already closed.  No error
+				// message need be printed.
+			}
 
 			// Only error message, not stack trace, for a parse error
-			KoLmafia.updateDisplay( e.getMessage() );
+
+			this.commandStream = null;
+			KoLmafia.updateDisplay( e1.getMessage() );
 		}
 	}
 
 	private static boolean isRunningScript = false;
 
-	public void execute( File scriptFile, String functionName, String [] parameters ) throws IOException
+	public void execute( File scriptFile, String functionName, String [] parameters )
 	{
 		boolean wasRunningScript = isRunningScript;
 

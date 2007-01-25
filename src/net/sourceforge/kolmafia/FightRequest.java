@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -183,15 +184,20 @@ public class FightRequest extends KoLRequest
 		if ( action1.startsWith( "consult" ) )
 		{
 			isUsingConsultScript = true;
+			String scriptName = action1.substring( "consult".length() ).trim();
 
-			String escapedString = StaticEntity.globalStringReplace( responseText, "\"", "\\\"" );
+			File consultScript = KoLmafiaCLI.findScriptFile( scriptName );
+			if ( consultScript != null )
+			{
+				DEFAULT_INTERPRETER.execute( consultScript, "main", new String [] { String.valueOf( currentRound ), encounterLookup, responseText } );
+				if ( KoLmafia.refusesContinue() )
+					action1 = "abort";
 
-			DEFAULT_SHELL.executeCommand( "call", action1.substring( "consult".length() ).trim() + " (" + currentRound +
-				", \"" + encounterLookup + "\", \"" + escapedString + "\" )" );
+				return;
+			}
 
-			if ( KoLmafia.refusesContinue() )
-				action1 = "abort";
-
+			KoLmafia.updateDisplay( ABORT_STATE, "Consult script '" + scriptName + "' not found." );
+			action1 = "abort";
 			return;
 		}
 
