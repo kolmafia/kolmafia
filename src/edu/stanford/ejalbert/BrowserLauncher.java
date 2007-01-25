@@ -546,51 +546,14 @@ public class BrowserLauncher {
 				}
 				case WINDOWS_9x:
 				{
-					// Determine whether or not Internet Explorer is flagged as the
-					// default browser -- if it is, invoke it manually in order to
-					// get a new window to open.
-
 					Process process = null;
 					boolean usingIE = true;
 					String executable = "";
 
 					// Wrap the URL inside of quotes.
+
 					url = "\"" + url + "\"";
-
-					// Usually, if the person has installed Firefox, then they probably
-					// want to use it.
-
-					File alternative = new File( "C:\\Program Files\\Mozilla Firefox\\firefox.exe" );
-					if ( alternative.exists() )
-					{
-						usingIE = false;
-						executable = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-					}
-
-					// Because the person who has modified the original BrowserLauncher
-					// likes Opera, it will override Firefox if it is installed.
-
-					alternative = new File( "C:\\Program Files\\Opera\\Opera.exe" );
-					if ( alternative.exists() )
-					{
-						usingIE = false;
-						executable = "C:\\Program Files\\Opera\\Opera.exe";
-					}
-
-					// If you're still using IE, then make sure you give the full path
-					// to Internet Explorer to ensure that a browser gets opened.
-
-					alternative = new File( "C:\\Program Files\\Internet Explorer\\iexplore.exe" );
-					if ( usingIE )
-					{
-						if ( alternative.exists() )
-							executable = "C:\\Program Files\\Internet Explorer\\iexplore.exe";
-						else
-							executable = "explorer.exe";
-					}
-
-					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
-						"\"" + executable + "\" " + url } );
+					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "explorer.exe " + url } );
 
 					// This avoids a memory leak on some versions of Java on Windows.
 					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
@@ -646,7 +609,7 @@ public class BrowserLauncher {
 
 					if ( usingIE )
 					{
-						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "\"explorer.exe " + url + "\"" } );
+						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "explorer.exe " + url } );
 					}
 					else
 					{

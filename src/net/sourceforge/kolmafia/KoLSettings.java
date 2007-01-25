@@ -364,6 +364,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
 		CLIENT_SETTINGS.put( "ignoreLoadBalancer", "false" );
 
+		CLIENT_SETTINGS.put( "overPurchaseRestores", "true" );
 		CLIENT_SETTINGS.put( "previousNotifyList", "<>" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
 		CLIENT_SETTINGS.put( "protectAgainstOverdrink", "true" );

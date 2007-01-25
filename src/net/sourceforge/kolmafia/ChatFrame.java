@@ -400,7 +400,7 @@ public class ChatFrame extends KoLFrame
 				break;
 
 			case 4:
-				frameClass = SendMessageFrame.class;
+				frameClass = ProposeTradeFrame.class;
 				break;
 
 			case 5:
