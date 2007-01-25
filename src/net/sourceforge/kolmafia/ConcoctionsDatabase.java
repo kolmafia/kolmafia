@@ -731,7 +731,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		if ( !isPermittedMethod( getMixingMethod( itemId ) ) )
 			return false;
 
-		boolean hasOneIngredient = false;
 		AdventureResult [] ingredients = concoctions.get( itemId ).getIngredients();
 
 		if ( ingredients.length == 0 )
@@ -739,13 +738,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			hasOneIngredient |= inventory.contains( ingredients[i] );
-			hasOneIngredient |= closet.contains( ingredients[i] );
-			hasOneIngredient |= i > 0 && hasAnyIngredient( ingredients[i].getItemId() );
-			hasOneIngredient |= NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemId ) );
+			if ( inventory.contains( ingredients[i] ) || closet.contains( ingredients[i] ) )
+				return true;
+			if ( NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemId ) ) )
+				return true;
+			if ( i > 0 && hasAnyIngredient( ingredients[i].getItemId() ) )
+				return true;
 		}
 
-		return hasOneIngredient;
+		return false;
 	}
 
 	private static AdventureResult getBetterIngredient( AdventureResult ingredient1, AdventureResult ingredient2, List availableIngredients )
