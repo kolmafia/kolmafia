@@ -74,7 +74,11 @@ public class SortedListModel extends LockableListModel
      */
 
 	public void add( int index, Object element )
-	{	this.add( element );
+	{
+		if ( element == null )
+			return;
+
+		this.add( element );
 	}
 
     /**
@@ -189,7 +193,7 @@ public class SortedListModel extends LockableListModel
 
 	private int compare( Comparable left, Comparable right )
 	{
-		return left instanceof String && right instanceof String ? ((String)left).compareToIgnoreCase( (String) right ) :
-			left instanceof String ? 0 - right.compareTo( left ) : left.compareTo( right );
+		return left == null ? -1 : right == null ? 1 : left instanceof String && right instanceof String ? ((String)left).compareToIgnoreCase( (String) right ) :
+			left instanceof String || right instanceof String ? left.toString().compareToIgnoreCase( right.toString() ) : left.compareTo( right );
 	}
 }

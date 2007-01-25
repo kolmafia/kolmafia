@@ -160,6 +160,9 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	public void add( int index, Object element )
 	{
+		if ( element == null )
+			return;
+
 		actualElements.add( index, element );
 		addVisibleElement( index, element );
 	}
@@ -188,6 +191,9 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	public boolean add( Object o )
 	{
+		if ( o == null )
+			return false;
+
 		int originalSize = actualElements.size();
 		add( originalSize, o );
 		return originalSize != actualElements.size();
@@ -214,9 +220,10 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 			if ( c.isEmpty() )
 				return false;
 
-			actualElements.addAll( 0, c );
-			for ( int i = 0; i < actualElements.size(); ++i )
-				addVisibleElement( i, actualElements.get(i) );
+			Iterator myIterator = c.iterator();
+
+			while ( myIterator.hasNext() )
+				add( myIterator.next() );
 
 			return true;
 		}
@@ -269,7 +276,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 */
 
 	public boolean contains( Object o )
-	{	return actualElements.contains( o );
+	{	return o == null ? false : actualElements.contains( o );
 	}
 
 	/**
@@ -318,7 +325,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 */
 
 	public int indexOf( Object o )
-	{	return actualElements.indexOf( o );
+	{	return o == null ? -1 : actualElements.indexOf( o );
 	}
 
 	/**
@@ -435,7 +442,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 */
 
 	public int lastIndexOf( Object o )
-	{	return indexOf( o );
+	{	return o == null ? -1 : indexOf( o );
 	}
 
 	/**
@@ -496,7 +503,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 */
 
 	public boolean remove( Object o )
-	{	return remove( indexOf( o ) ) != null;
+	{	return o == null ? false : remove( indexOf( o ) ) != null;
 	}
 
 	/**
@@ -508,9 +515,15 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	{
 		int originalSize = actualElements.size();
 
+		Object current;
 		Iterator it = c.iterator();
+
 		while ( it.hasNext() )
-			remove( it.next() );
+		{
+			current = it.next();
+			if ( current != null )
+				remove( current );
+		}
 
 		return originalSize != actualElements.size();
 	}
