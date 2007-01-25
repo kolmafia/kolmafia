@@ -1194,7 +1194,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				switch ( mixingMethod )
 				{
 				case ItemCreationRequest.STARCHART:
-					useType = "chart";
+					useType = StarChartRequest.CHART.getCount( inventory ) + "," + StarChartRequest.STARS.getCount( inventory ) + "," + StarChartRequest.LINES.getCount( inventory );
 					useLocation = "starchart.php";
 					break;
 
@@ -1302,12 +1302,26 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					break;
 
+				case ConsumeItemRequest.CONSUME_ZAP:
+					useType = "zap";
+					useLocation = "wand.php";
+					break;
+
 				default:
+
+					// Special handling for star charts, lines, and stars, where
+					// KoLmafia shows you how many of each you have.
+
+					if ( itemId == StarChartRequest.CHART.getItemId() || itemId == StarChartRequest.STARS.getItemId() || itemId == StarChartRequest.LINES.getItemId() )
+					{
+						useType = StarChartRequest.CHART.getCount( inventory ) + "," + StarChartRequest.STARS.getCount( inventory ) + "," + StarChartRequest.LINES.getCount( inventory );
+						useLocation = "starchart.php";
+					}
 
 					// Hedge maze puzzle and hedge maze key have a link to the maze
 					// for easy access.
 
-					if ( itemId == SorceressLair.HEDGE_KEY.getItemId() || itemId == SorceressLair.PUZZLE_PIECE.getItemId() )
+					else if ( itemId == SorceressLair.HEDGE_KEY.getItemId() || itemId == SorceressLair.PUZZLE_PIECE.getItemId() )
 					{
 						useType = "maze";
 						useLocation = "hedgepuzzle.php";
@@ -1387,7 +1401,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// message with a link to the plus sign.
 
 		StaticEntity.singleStringReplace( buffer, "It's actually a book. Read it.",
-			"It's actually a book.  <a href=\"inv_use.php?pwd=&which=3&whichitem=818\">Read it</a>." );
+			"It's actually a book. <font size=1>[<a href=\"inv_use.php?pwd=&which=3&whichitem=818\">read it</a>]</font>" );
 
 		// For everything else, make sure that it's an actual choice adventure
 		Matcher choiceMatcher = CHOICE_PATTERN.matcher( buffer.toString() );

@@ -37,7 +37,10 @@ public class StarChartRequest extends ItemCreationRequest
 {
 	public static final int STAR = 654;
 	public static final int LINE = 655;
-	private static final AdventureResult CHART = new AdventureResult( "star chart", -1 );
+
+	public static final AdventureResult CHART = new AdventureResult( "star chart", -1 );
+	public static final AdventureResult STARS = new AdventureResult( "star", -1 );
+	public static final AdventureResult LINES = new AdventureResult( "line", -1 );
 
 	private int stars, lines;
 
