@@ -108,7 +108,7 @@ public class MuseumRequest extends SendMessageRequest
 
 	public static boolean registerRequest( String urlString )
 	{
-		if ( urlString.indexOf( "managecollection.php" ) == -1)
+		if ( !urlString.startsWith( "managecollection.php" ) )
 			return false;
 
 		if ( urlString.indexOf( "action=take" ) != -1 )

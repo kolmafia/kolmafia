@@ -1022,12 +1022,12 @@ public class ConsumeItemRequest extends KoLRequest
 
 	private static AdventureResult extractItem( String urlString )
 	{
-		if ( urlString.indexOf( "inv_eat.php" ) != -1 );
-		else if ( urlString.indexOf( "inv_booze.php" ) != -1 );
-		else if ( urlString.indexOf( "multiuse.php" ) != -1 );
-		else if ( urlString.indexOf( "skills.php" ) != -1 );
-		else if ( urlString.indexOf( "inv_familiar.php" ) != -1 );
-		else if ( urlString.indexOf( "inv_use.php" ) != -1 );
+		if ( urlString.startsWith( "inv_eat.php" ) );
+		else if ( urlString.startsWith( "inv_booze.php" ) );
+		else if ( urlString.startsWith( "multiuse.php" ) );
+		else if ( urlString.startsWith( "skills.php" ) );
+		else if ( urlString.startsWith( "inv_familiar.php" ) );
+		else if ( urlString.startsWith( "inv_use.php" ) );
 		else
 			return null;
 
@@ -1056,9 +1056,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public static boolean registerRequest( String urlString )
 	{
-		if ( urlString.indexOf( "action=message" ) != -1 )
-			return true;
-
 		lastItemUsed = extractItem( urlString );
 		if ( lastItemUsed == null )
 			return false;

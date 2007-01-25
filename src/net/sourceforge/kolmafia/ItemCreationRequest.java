@@ -755,8 +755,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 */
 
 	public void setQuantityNeeded( int quantityNeeded )
-	{
-		this.quantityNeeded = quantityNeeded;
+	{	this.quantityNeeded = quantityNeeded;
 	}
 
 	/**
@@ -834,14 +833,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	{
 		// First, delegate subclasses, if it's a subclass request.
 
-		if ( urlString.indexOf( "starchart.php" ) != -1 )
+		if ( urlString.startsWith( "starchart.php" ) )
 			return StarChartRequest.registerRequest( urlString );
 
-		if ( urlString.indexOf( "action=makepixel" ) != -1 )
+		if ( urlString.startsWith( "mystic.php" ) )
 			return PixelRequest.registerRequest( urlString );
-
-		if ( urlString.indexOf( "action=tinksomething" ) != -1 )
-			return TinkerRequest.registerRequest( urlString );
 
 		if ( urlString.indexOf( "action=makepaste" ) != -1 )
 			return CombineMeatRequest.registerRequest( urlString );
@@ -857,30 +853,30 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
 		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
 
-		if ( urlString.indexOf( "combine.php" ) != -1 )
+		if ( urlString.startsWith( "combine.php" ) )
 		{
 			isCreationURL = true;
 			command.append( "Combine " );
 		}
-		else if ( urlString.indexOf( "cocktail.php" ) != -1 )
+		else if ( urlString.startsWith( "cocktail.php" ) )
 		{
 			isCreationURL = true;
 			command.append( "Mix " );
 			usesTurns = !KoLCharacter.hasBartender();
 		}
-		else if ( urlString.indexOf( "cook.php" ) != -1 )
+		else if ( urlString.startsWith( "cook.php" ) )
 		{
 			isCreationURL = true;
 			command.append( "Cook " );
 			usesTurns = !KoLCharacter.hasChef();
 		}
-		else if ( urlString.indexOf( "smith.php" ) != -1 )
+		else if ( urlString.startsWith( "smith.php" ) )
 		{
 			isCreationURL = urlString.indexOf( "action=pulverize" ) == -1;
 			command.append( "Smith " );
 			usesTurns = urlString.indexOf( "action=pulverize" ) == -1;
 		}
-		else if ( urlString.indexOf( "jewelry.php" ) != -1 )
+		else if ( urlString.startsWith( "jewelry.php" ) )
 		{
 			isCreationURL = true;
 			command.append( "Ply " );
@@ -890,6 +886,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		{
 			isCreationURL = true;
 			command.append( "Distill " );
+			usesTurns = false;
+		}
+		else if ( urlString.startsWith( "gnomes.php" ) )
+		{
+			isCreationURL = true;
+			command.append( "Tinker " );
 			usesTurns = false;
 		}
 		else if ( urlString.indexOf( "action=wokcook" ) != -1 )
@@ -930,12 +932,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			needsPlus = true;
 		}
 
-		if ( urlString.indexOf( "combine.php" ) != -1 )
+		if ( urlString.startsWith( "combine.php" ) )
 			StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, 0 - quantity ) );
 
 		if ( usesTurns )
 			command.insert( 0, "[" + KoLCharacter.getTotalTurnsUsed() + "] " );
 
+		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( command.toString() );
 		return true;
 	}

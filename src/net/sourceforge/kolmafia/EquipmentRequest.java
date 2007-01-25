@@ -861,9 +861,9 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public static boolean registerRequest( String urlString )
 	{
-		if ( urlString.indexOf( "inv_equip.php" ) == -1 )
+		if ( !urlString.startsWith( "inv_equip.php" ) )
 		{
-			if ( urlString.indexOf( "familiar.php" ) == -1 || urlString.indexOf( "action=unequip" ) == -1 )
+			if ( !urlString.startsWith( "familiar.php" ) || urlString.indexOf( "action=unequip" ) == -1 )
 				return false;
 
 			Matcher idMatcher = FAMILIAR_PATTERN.matcher( urlString );
@@ -916,7 +916,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
-			return false;
+			return true;
 
 		String itemName = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
 		if ( itemName == null )

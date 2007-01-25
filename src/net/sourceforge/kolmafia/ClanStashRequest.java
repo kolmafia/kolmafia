@@ -234,13 +234,13 @@ public class ClanStashRequest extends SendMessageRequest
 
 	public static boolean registerRequest( String urlString )
 	{
-		if ( urlString.indexOf( "clan_stash.php" ) == -1 || urlString.indexOf( "pwd" ) == -1 || urlString.indexOf( "contribute" ) != -1 )
+		if ( !urlString.startsWith( "clan_stash.php" ) )
 			return false;
 
-		boolean isWithdrawal = urlString.indexOf( "take" ) != -1;
+		if ( urlString.indexOf( "take" ) != -1 )
+			return registerRequest( "remove from stash", urlString, ITEMID_PATTERN, QUANTITY_PATTERN, ClanManager.getStash(), inventory, 0 );
 
-		return registerRequest( (isWithdrawal ? "remove from " : "add to ") + " stash", urlString, ITEMID_PATTERN, QUANTITY_PATTERN,
-			isWithdrawal ? ClanManager.getStash() : inventory, isWithdrawal ? inventory : null, 0 );
+		return registerRequest( "add to stash", urlString, ITEMID_PATTERN, QTY_PATTERN, inventory, null, 0 );
 	}
 
 	public String getStatusMessage()

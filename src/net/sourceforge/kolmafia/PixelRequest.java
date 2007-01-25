@@ -34,9 +34,12 @@
 package net.sourceforge.kolmafia;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PixelRequest extends ItemCreationRequest
 {
+	private static final Pattern WHICH_PATTERN = Pattern.compile( "makewhich=(\\d+)" );
+
 	public PixelRequest( int itemId )
 	{
 		super( "mystic.php", itemId );
@@ -66,20 +69,30 @@ public class PixelRequest extends ItemCreationRequest
 
 	public static boolean registerRequest( String urlString )
 	{
-		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
+		Matcher itemMatcher = WHICH_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
-			return false;
+			return true;
 
 		int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
 		int quantity = 1;
 
-		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
-		if ( quantityMatcher.find() )
-			quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+		if ( urlString.indexOf( "makemax=on" ) != -1 )
+		{
+			quantity = getInstance( itemId ).getQuantityPossible();
+		}
+		else
+		{
+			Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
+			if ( quantityMatcher.find() )
+				quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+		}
 
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
 		for ( int i = 0; i < ingredients.length; ++i )
 			StaticEntity.getClient().processResult( ingredients[i].getInstance( -1 * ingredients[i].getCount() * quantity ) );
+
+		KoLmafia.getSessionStream().println();
+		KoLmafia.getSessionStream().println( "make " + quantity + " " + TradeableItemDatabase.getItemName( itemId ) );
 
 		return true;
 	}

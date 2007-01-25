@@ -173,7 +173,7 @@ public class GiftMessageRequest extends SendMessageRequest
 
 	public static boolean registerRequest( String urlString )
 	{
-		if ( urlString.indexOf( "town_sendgift.php" ) == -1 )
+		if ( !urlString.startsWith( "town_sendgift.php" ) )
 			return false;
 
 		return registerRequest( "send a gift", urlString, urlString.indexOf( "fromwhere=1" ) != -1 ? storage : inventory, null, 0 );

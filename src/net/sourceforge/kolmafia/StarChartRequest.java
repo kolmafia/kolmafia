@@ -33,6 +33,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class StarChartRequest extends ItemCreationRequest
 {
 	public static final int STAR = 654;
@@ -41,6 +44,9 @@ public class StarChartRequest extends ItemCreationRequest
 	public static final AdventureResult CHART = new AdventureResult( "star chart", -1 );
 	public static final AdventureResult STARS = new AdventureResult( "star", -1 );
 	public static final AdventureResult LINES = new AdventureResult( "line", -1 );
+
+	private static final Pattern STAR_PATTERN = Pattern.compile( "numstars=(\\d+)" );
+	private static final Pattern LINE_PATTERN = Pattern.compile( "numlines=(\\d+)" );
 
 	private int stars, lines;
 
@@ -104,7 +110,24 @@ public class StarChartRequest extends ItemCreationRequest
 	}
 
 	public static boolean registerRequest( String urlString )
-	{	return true;
+	{
+		Matcher starMatcher = STAR_PATTERN.matcher( urlString );
+		Matcher lineMatcher = LINE_PATTERN.matcher( urlString );
+
+		if ( !starMatcher.find() || !lineMatcher.find() )
+			return true;
+
+		int stars = StaticEntity.parseInt( starMatcher.group(1) );
+		int lines = StaticEntity.parseInt( lineMatcher.group(1) );
+
+		KoLmafia.getSessionStream().println();
+		KoLmafia.getSessionStream().println( "Star chart " + stars + " stars with " + lines + " lines" );
+
+		StaticEntity.getClient().processResult( new AdventureResult( STAR, 0 - stars ) );
+		StaticEntity.getClient().processResult( new AdventureResult( LINE, 0 - lines ) );
+		StaticEntity.getClient().processResult( CHART );
+
+		return true;
 	}
 }
 

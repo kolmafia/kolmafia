@@ -128,7 +128,7 @@ public class GreenMessageRequest extends SendMessageRequest
 
 	public static boolean registerRequest( String urlString )
 	{
-		if ( urlString.indexOf( "sendmessage.php" ) == -1 )
+		if ( !urlString.startsWith( "sendmessage.php" ) )
 			return false;
 
 		return registerRequest( "send a kmail", urlString, inventory, null, 0 );

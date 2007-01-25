@@ -39,6 +39,12 @@ public class RequestLogger
 
 	public static void registerRequest( KoLRequest request, String urlString )
 	{
+		// Some general URLs which never need to be registered
+		// because they don't do anything.
+
+		if ( urlString.startsWith( "inventory.php?which" ) || urlString.equals( "knoll.php?place=paster" ) || urlString.equals( "town_right.php?place=untinker" ) )
+			return;
+
 		boolean isExternal = request.getClass() == KoLRequest.class || request instanceof LocalRelayRequest;
 
 		// There are some adventures which do not post any
@@ -119,6 +125,12 @@ public class RequestLogger
 			return;
 		}
 
+		if ( (request instanceof MallPurchaseRequest || isExternal) && MallPurchaseRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( (request instanceof MuseumRequest || isExternal) && MuseumRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
@@ -137,17 +149,17 @@ public class RequestLogger
 			return;
 		}
 
-		if ( (request instanceof UseSkillRequest || isExternal) && UseSkillRequest.registerRequest( urlString ) )
+		if ( (request instanceof UntinkerRequest || isExternal) && UntinkerRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
 		}
 
-		// If it's an inventory page request that wasn't processed
-		// in one of the above steps, pretend it doesn't exist.
-
-		if ( urlString.indexOf( "inventory" ) != -1 )
+		if ( (request instanceof UseSkillRequest || isExternal) && UseSkillRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
 			return;
+		}
 
 		// Otherwise, make sure to print the raw URL so that it's
 		// at least mentioned in the session log.
