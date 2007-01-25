@@ -608,16 +608,16 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( location.indexOf( "sewer.php" ) != -1 )
 		{
 			if ( StaticEntity.getBooleanProperty( "relayAlwaysBuysGum" ) )
-				AdventureDatabase.retrieveItem( "chewing gum on a string" );
+				DEFAULT_SHELL.executeLine( "acquire chewing gum on a string" );
 		}
 		else if ( location.indexOf( "hermit.php" ) != -1 && location.indexOf( "whichitem=140" ) != -1 )
 		{
-			AdventureDatabase.retrieveItem( "hermit permit" );
-			AdventureDatabase.retrieveItem( "worthless item" );
+			DEFAULT_SHELL.executeLine( "acquire hermit permit" );
+			DEFAULT_SHELL.executeLine( "acquire worthless item" );
 		}
 
 		else if ( location.indexOf( "casino.php" ) != -1 )
-			AdventureDatabase.retrieveItem( "casino pass" );
+			DEFAULT_SHELL.executeLine( "acquire casino pass" );
 
 		// To avoid wasting turns, buy a can of hair spray before
 		// climbing the tower.  Also, if the person has an NG,

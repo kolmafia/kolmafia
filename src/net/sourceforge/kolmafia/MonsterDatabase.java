@@ -381,9 +381,6 @@ public class MonsterDatabase extends KoLDatabase
 			if ( !KoLCharacter.isMoxieClass() )
 				return false;
 
-			if ( KoLCharacter.canInteract() )
-				return false;
-
 			// If the player has an acceptable dodge rate, then steal anything.
 			// Otherwise, only steal from monsters that are dropping something
 			// on your conditions list if the applicable setting is present.
