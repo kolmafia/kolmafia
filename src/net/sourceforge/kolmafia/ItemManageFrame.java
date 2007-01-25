@@ -230,7 +230,9 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			public void run()
-			{	StaticEntity.getClient().makeJunkRemovalRequest();
+			{
+				KoLmafia.updateDisplay( "Gathering data..." );
+				StaticEntity.getClient().makeJunkRemovalRequest();
 			}
 		}
 
@@ -243,7 +245,9 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			public void run()
-			{	StaticEntity.getClient().makeEndOfRunSaleRequest();
+			{
+				KoLmafia.updateDisplay( "Gathering data..." );
+				StaticEntity.getClient().makeEndOfRunSaleRequest();
 			}
 		}
 
@@ -257,6 +261,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public void run()
 			{
+				KoLmafia.updateDisplay( "Gathering data..." );
 				RequestThread.postRequest( new StoreManageRequest() );
 
 				SoldItem [] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
@@ -292,6 +297,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public void run()
 			{
+				KoLmafia.updateDisplay( "Gathering data..." );
 				RequestThread.postRequest( new MuseumRequest() );
 
 				AdventureResult [] display = new AdventureResult[ collection.size() ];
