@@ -784,7 +784,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// In the event that this is an adventure, assume "snarfblat"
 		// instead of "adv" in order to determine the location.
 
-		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( StaticEntity.singleStringReplace( urlString, "adv=", "snarfblat=" ) );
+		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( urlString );
 
 		if ( matchingLocation != null )
 		{
@@ -797,29 +797,29 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		String location = null;
 
-		if ( urlString.indexOf( "dungeon.php" ) != -1 )
+		if ( urlString.startsWith( "dungeon.php" ) )
 			location = "Daily Dungeon";
-		else if ( urlString.indexOf( "rats.php" ) != -1 )
+		else if ( urlString.startsWith( "rats.php" ) )
 			location = "Typical Tavern Quest";
-		else if ( urlString.indexOf( "barrels.php" ) != -1 )
+		else if ( urlString.startsWith( "barrels.php" ) )
 			location = "Barrel Full of Barrels";
-		else if ( urlString.indexOf( "arena.php" ) != -1 && urlString.indexOf( "action" ) != -1 )
+		else if ( urlString.startsWith( "arena.php" ) && urlString.indexOf( "action" ) != -1 )
 			location = "Cake-Shaped Arena";
-		else if ( urlString.indexOf( "lair4.php" ) != -1 && urlString.indexOf( "level1" ) != -1 )
+		else if ( urlString.startsWith( "lair4.php?action=level1" ) )
 			location = "Sorceress Tower: Level 1";
-		else if ( urlString.indexOf( "lair4.php" ) != -1 && urlString.indexOf( "level2" ) != -1 )
+		else if ( urlString.startsWith( "lair4.php?action=level2" ) )
 			location = "Sorceress Tower: Level 2";
-		else if ( urlString.indexOf( "lair4.php" ) != -1 && urlString.indexOf( "level3" ) != -1 )
+		else if ( urlString.startsWith( "lair4.php?action=level3" ) )
 			location = "Sorceress Tower: Level 3";
-		else if ( urlString.indexOf( "lair5.php" ) != -1 && urlString.indexOf( "level1" ) != -1 )
+		else if ( urlString.startsWith( "lair5.php?action=level1" ) )
 			location = "Sorceress Tower: Level 4";
-		else if ( urlString.indexOf( "lair5.php" ) != -1 && urlString.indexOf( "level2" ) != -1 )
+		else if ( urlString.startsWith( "lair5.php?action=level2" ) )
 			location = "Sorceress Tower: Level 5";
-		else if ( urlString.indexOf( "lair5.php" ) != -1 && urlString.indexOf( "level3" ) != -1 )
+		else if ( urlString.startsWith( "lair5.php?action=level3" ) )
 			location = "Sorceress Tower: Level 6";
-		else if ( urlString.indexOf( "lair6.php" ) != -1 && urlString.indexOf( "place=0" ) != -1 )
+		else if ( urlString.startsWith( "lair6.php?place=0" ) )
 			location = "Sorceress Tower: Door Puzzles";
-		else if ( urlString.indexOf( "lair6.php" ) != -1 && urlString.indexOf( "place=2" ) != -1 )
+		else if ( urlString.startsWith( "lair6.php?place=2" ) )
 			location = "Sorceress Tower: Shadow Fight";
 
 		if ( location == null )

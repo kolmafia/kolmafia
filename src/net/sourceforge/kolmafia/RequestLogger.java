@@ -42,12 +42,6 @@ public class RequestLogger
 		if ( LoginRequest.isInstanceRunning() )
 			return;
 
-		// Some general URLs which never need to be registered
-		// because they don't do anything.
-
-		if ( urlString.startsWith( "inventory.php?which" ) || urlString.equals( "knoll.php?place=paster" ) || urlString.equals( "town_right.php?place=untinker" ) )
-			return;
-
 		boolean isExternal = request.getClass() == KoLRequest.class || request instanceof LocalRelayRequest;
 
 		// There are some adventures which do not post any
@@ -69,6 +63,15 @@ public class RequestLogger
 		// should not be registered.
 
 		if ( urlString.indexOf( "?" ) == -1 )
+			return;
+
+		// Some general URLs which never need to be registered
+		// because they don't do anything.
+
+		if ( urlString.startsWith( "leaflet.php" ) || urlString.startsWith( "cave.php" ) || urlString.startsWith( "lair" ) )
+			return;
+
+		if ( urlString.startsWith( "inventory.php?which" ) || urlString.equals( "knoll.php?place=paster" ) || urlString.equals( "town_right.php?place=untinker" ) )
 			return;
 
 		// The following lists all the remaining requests in
