@@ -77,7 +77,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private static boolean isPrompting = false;
 	private static boolean isExecutingCheckOnlyCommand = false;
-	private static KoLmafiaASH advancedHandler = new KoLmafiaASH();
 	private static ConsoleReader CONSOLE = null;
 
 	public static void main( String [] args )
@@ -1690,7 +1689,7 @@ public class KoLmafiaCLI extends KoLmafia
 			updateDisplay( ERROR_STATE, "Failed to send message to " + splitParameters[1] );
 	}
 
-	private File findScriptFile( String filename )
+	public static File findScriptFile( String filename )
 	{
 		File scriptFile = new File( SCRIPT_DIRECTORY, filename );
 		if ( !scriptFile.exists() )
@@ -1784,7 +1783,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( scriptFile == null )
 			{
-				advancedHandler.execute( null, parameters, arguments );
+				DEFAULT_INTERPRETER.execute( null, parameters, arguments );
 				return;
 			}
 
@@ -1807,7 +1806,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 				if ( command.equals( "validate" ) || command.equals( "verify" ) )
 				{
-					advancedHandler.validate( scriptFile );
+					DEFAULT_INTERPRETER.validate( scriptFile );
                     printLine( "Script verification complete." );
 					return;
 				}
@@ -1816,7 +1815,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// used, then be sure to switch.
 
 				for ( int i = 0; i < runCount && permitsContinue(); ++i )
-					advancedHandler.execute( scriptFile, "main", arguments );
+					DEFAULT_INTERPRETER.execute( scriptFile, "main", arguments );
 			}
 			else
 			{

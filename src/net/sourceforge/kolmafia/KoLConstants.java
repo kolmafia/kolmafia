@@ -164,6 +164,7 @@ public interface KoLConstants
 	public static final File SETTINGS_DIRECTORY = new File( "settings" );
 
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
+	public static final KoLmafiaASH DEFAULT_INTERPRETER = new KoLmafiaASH();
 
 	// Different states of KoLmafia.  Used in order to determine
 	// what is still permitted.
