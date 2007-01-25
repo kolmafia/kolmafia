@@ -555,7 +555,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			public boolean isVisible( Object element )
 			{
 				if ( isNonResult( element ) )
-					return false;
+					return filters == null;
 
 				boolean isItem = element instanceof ItemCreationRequest;
 				isItem |= element instanceof AdventureResult && ((AdventureResult)element).isItem();

@@ -246,6 +246,8 @@
 			if ( httpObject.readyState != 4 )
 				return;
 
+			setTimeout( getCLIUpdate, 2000 )
+
 			if ( httpObject.responseText.length > 2 )
 				display.innerHTML += ( httpObject.responseText );
 
@@ -327,8 +329,6 @@
 		var display = document.getElementById( "ChatWindow" );
 		var httpObject = getHttpObject();
 
-		var mylastseen = lastseen;
-
 		if ( !httpObject )
 			return true;
 
@@ -337,13 +337,12 @@
 			if ( httpObject.readyState != 4 )
 				return;
 
+			setTimeout( getChatUpdate, 8000 );
+
 			if ( httpObject.responseText == null )
 				return;
 
 			if ( httpObject.responseText.length < 2 )
-				return;
-
-			if ( mylastseen != lastseen )
 				return;
 
 			var responseText = httpObject.responseText;
@@ -546,7 +545,7 @@
 </head>
 
 
- <body link=black alink=black vlink=black onLoad="switchToChat(); submitchat( '/channel' ); setInterval( getChatUpdate, 8000 ); setInterval( getCLIUpdate, 2000 );" onResize="initSizes();">
+ <body link=black alink=black vlink=black onLoad="switchToChat(); submitchat( '/channel' ); setTimeout( getChatUpdate, 8000 ); setTimeout( getCLIUpdate, 2000 );" onResize="initSizes();">
 
   <div id="ToggleDisplay" class=toggledisplay><center><nobr><a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
   <a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag"> gCLI</a> /
