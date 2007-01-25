@@ -321,7 +321,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// Initialize the equipment lists inside
 		// of the character data
 
-		for ( int i = 0; i < 9; ++i )
+		for ( int i = 0; i < equipmentLists.length; ++i )
 			equipmentLists[i].clear();
 
 		GearChangeFrame.clearWeaponLists();
@@ -1398,7 +1398,7 @@ public abstract class KoLCharacter extends StaticEntity
 			updateEquipmentList( i );
 	}
 
-	private static void updateEquipmentList( int listIndex )
+	public static void updateEquipmentList( int listIndex )
 	{
 		int consumeFilter = equipmentTypeToConsumeFilter( listIndex );
 		if ( consumeFilter == -1 )
@@ -1430,6 +1430,19 @@ public abstract class KoLCharacter extends StaticEntity
 				equipmentLists[ listIndex ].add( equippedItem );
 		}
 
+		// If we are looking at familiar items, include those which can
+		// be universally equipped, but are currently on another
+		// familiar.
+
+		if ( listIndex == FAMILIAR )
+		{
+			FamiliarData [] familiarList = new FamiliarData[ familiars.size() ];
+			familiars.toArray( familiarList );
+
+			for ( int i = 0; i < familiarList.length; ++i )
+				if ( !familiarList[i].getItem().equals( EquipmentRequest.UNEQUIP ) )
+					AdventureResult.addResultToList( equipmentLists[ FAMILIAR ], familiarList[i].getItem() );
+		}
 
 		equipmentLists[ listIndex ].setSelectedItem( equippedItem );
 	}
@@ -1488,19 +1501,6 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 
 			temporary.add( currentItem );
-		}
-
-		// If we are looking at familiar items, include those which can
-		// be universally equipped, but are currently on another
-		// familiar.
-
-		if ( filterId == ConsumeItemRequest.EQUIP_FAMILIAR )
-		{
-			FamiliarData [] familiarList = new FamiliarData[ familiars.size() ];
-			familiars.toArray( familiarList );
-
-			for ( int i = 0; i < familiarList.length; ++i )
-				AdventureResult.addResultToList( temporary, familiarList[i].getItem() );
 		}
 
 		currentList.retainAll( temporary );
@@ -2214,8 +2214,8 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		currentFamiliar = addFamiliar( familiar );
 
-		equipmentLists[FAMILIAR].setSelectedItem( currentFamiliar.getItem() );
 		familiars.setSelectedItem( currentFamiliar );
+		equipmentLists[FAMILIAR].setSelectedItem( currentFamiliar.getItem() );
 
 		isUsingStabBat = currentFamiliar.getRace().equals( "Stab Bat" ) || currentFamiliar.getRace().equals( "Scary Death Orb" );
 
@@ -2241,14 +2241,17 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static FamiliarData addFamiliar( FamiliarData familiar )
 	{
-		if ( familiar != null )
-		{
-			int index = familiars.indexOf( familiar );
-			if ( index >= 0)
-				familiar = (FamiliarData) familiars.get( index );
-			else
-				familiars.add( familiar );
-		}
+		if ( familiar == null )
+			return null;
+
+		int index = familiars.indexOf( familiar );
+		if ( index >= 0 )
+			return (FamiliarData) familiars.get( index );
+
+		familiars.add( familiar );
+		if ( !familiar.getItem().equals( EquipmentRequest.UNEQUIP ) )
+			AdventureResult.addResultToList( equipmentLists[ FAMILIAR ], familiar.getItem() );
+
 		return familiar;
 	}
 

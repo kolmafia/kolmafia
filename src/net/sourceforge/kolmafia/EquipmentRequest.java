@@ -621,9 +621,10 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 
 		if ( resultList == inventory )
+		{
 			KoLCharacter.updateEquipmentLists();
-
-		ConcoctionsDatabase.refreshConcoctions();
+			ConcoctionsDatabase.refreshConcoctions();
+		}
 	}
 
 	private static void parseQuestItems( String text )
