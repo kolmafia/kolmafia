@@ -71,6 +71,7 @@ import sun.net.www.protocol.http.Handler;
 public class KoLRequest extends Job implements KoLConstants
 {
 	private static final int INITIAL_CACHE_COUNT = 3;
+	private static final Object WAIT_OBJECT = new Object();
 
 	private static final ArrayList BYTEFLAGS = new ArrayList();
 	private static final ArrayList BYTEARRAYS = new ArrayList();
@@ -792,12 +793,10 @@ public class KoLRequest extends Job implements KoLConstants
 
 		try
 		{
-			Object waitObject = new Object();
-
-			synchronized ( waitObject )
+			synchronized ( WAIT_OBJECT )
 			{
-				waitObject.wait( milliseconds );
-				waitObject.notifyAll();
+				WAIT_OBJECT.wait( milliseconds );
+				WAIT_OBJECT.notifyAll();
 			}
 		}
 		catch ( InterruptedException e )
@@ -1196,7 +1195,8 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( isRatQuest )
 			KoLmafia.addTavernLocation( this );
 
-		encounter = AdventureRequest.registerEncounter( this );
+		if ( !formURLString.equals( "fight.php" ) || data.isEmpty() )
+			encounter = AdventureRequest.registerEncounter( this );
 
 		if ( !shouldIgnoreResult )
 			parseResults();

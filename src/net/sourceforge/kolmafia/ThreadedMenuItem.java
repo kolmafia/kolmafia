@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
 
 public abstract class ThreadedMenuItem extends JMenuItem implements ActionListener, Runnable
@@ -47,6 +48,14 @@ public abstract class ThreadedMenuItem extends JMenuItem implements ActionListen
 	}
 
 	public void actionPerformed( ActionEvent e )
-	{	this.run();
+	{	(new Thread( this )).start();
+	}
+
+	protected boolean isValidEvent( ActionEvent e )
+	{
+		if ( e.getSource() instanceof JComboBox )
+			return ((JComboBox)e.getSource()).isPopupVisible();
+
+		return true;
 	}
 }

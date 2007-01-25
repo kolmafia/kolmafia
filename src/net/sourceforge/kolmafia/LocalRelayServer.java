@@ -51,7 +51,7 @@ import java.util.regex.Pattern;
 
 public class LocalRelayServer implements Runnable
 {
-	private static final int INITIAL_THREAD_COUNT = 8;
+	private static final int INITIAL_THREAD_COUNT = 4;
 	private static final Pattern INVENTORY_COOKIE_PATTERN = Pattern.compile( "inventory=(\\d+)" );
 
 	private static String lastUsername = "";
@@ -180,12 +180,12 @@ public class LocalRelayServer implements Runnable
 			}
 		}
 
-		createAgent().setSocket( socket );
+		createAgent().start();
 	}
 
 	private RelayAgent createAgent()
 	{
-		RelayAgent agent = new RelayAgent();
+		RelayAgent agent = new RelayAgent( agentThreads.size() );
 		agentThreads.add( agent );
 		agent.start();
 
@@ -211,7 +211,12 @@ public class LocalRelayServer implements Runnable
 
 	private class RelayAgent extends Thread
 	{
+		private int id;
 		public Socket socket = null;
+
+		public RelayAgent( int id )
+		{	this.id = id;
+		}
 
 		boolean isWaiting()
 		{	return socket == null;

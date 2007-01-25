@@ -57,7 +57,7 @@ public abstract class ThreadedButton extends JButton implements ActionListener, 
 	public void actionPerformed( ActionEvent e )
 	{
 		if ( isValidEvent( e ) )
-			this.run();
+			(new Thread( this )).start();
 	}
 
 	protected boolean isValidEvent( ActionEvent e )
