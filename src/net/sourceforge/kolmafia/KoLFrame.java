@@ -1316,12 +1316,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			public RefreshButton()
 			{	super( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) );
 			}
-
-			public void run()
-			{
-				super.run();
-				refreshFilter();
-			}
 		}
 	}
 }

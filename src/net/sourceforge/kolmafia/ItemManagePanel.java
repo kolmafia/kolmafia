@@ -320,10 +320,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 		}
 	}
 
-	public void refreshFilter()
-	{	elementModel.applyListFilter( wordfilter.filter );
-	}
-
 	public class ConsumeListener extends ThreadedListener
 	{
 		public void run()
