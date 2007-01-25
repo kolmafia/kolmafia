@@ -404,9 +404,6 @@ public class AdventureRequest extends KoLRequest
 
 	public static String registerEncounter( KoLRequest request )
 	{
-		if ( request.responseText.indexOf( "campground.php" ) != -1 )
-			return "";
-
 		String urlString = request.getURLString();
 		if ( !(request instanceof AdventureRequest) && !containsEncounter( urlString, request.responseText ) )
 			return "";
@@ -470,15 +467,12 @@ public class AdventureRequest extends KoLRequest
 
 	private static boolean containsEncounter( String formSource, String responseText )
 	{
-		if ( responseText.indexOf( "campground.php" ) != -1 )
-			return false;
-
 		// The first round is unique in that there is no
 		// data fields.  Therefore, it will equal fight.php
 		// exactly every single time.
 
 		if ( formSource.startsWith( "fight.php" ) )
-			return true;
+			return formSource.indexOf( "?" ) == -1;
 
 		// All other adventures can be identified via their
 		// form data and the place they point to.

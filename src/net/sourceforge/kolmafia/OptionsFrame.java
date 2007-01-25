@@ -199,9 +199,9 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
-			{ "relayUsesCachedImages", "Save images from KoL to conserve bandwidth" },
 			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
-			{ "relayMaintainsMoods", "Automatically maintain health, mana, and moods in browser" }
+			{ "relayMaintainsMoods", "Automatically maintain health, mana, and moods in browser" },
+			{ "relayUsesCachedImages", "Cache KoL images to conserve local bandwidth (extremely slow)" }
 		};
 
 		/**

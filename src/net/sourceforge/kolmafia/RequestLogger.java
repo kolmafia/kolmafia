@@ -39,6 +39,9 @@ public class RequestLogger
 
 	public static void registerRequest( KoLRequest request, String urlString )
 	{
+		if ( LoginRequest.isInstanceRunning() )
+			return;
+
 		// Some general URLs which never need to be registered
 		// because they don't do anything.
 

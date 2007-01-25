@@ -210,10 +210,6 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
-		// If this is the first round, you do not submit extra data.
-		if ( currentRound == 0 )
-			return;
-
 		// User wants to run away
 		if ( action1.indexOf( "run" ) != -1 && action1.indexOf( "away" ) != -1 )
 		{
