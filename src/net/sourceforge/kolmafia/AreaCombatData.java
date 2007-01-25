@@ -368,7 +368,7 @@ public class AreaCombatData implements KoLConstants
 
 	public static float getDropRateModifier()
 	{
-		if ( KoLCharacter.getItemDropPercentAdjustment() == lastDropModifier )
+		if ( lastDropMultiplier != 0.0f && KoLCharacter.getItemDropPercentAdjustment() == lastDropModifier )
 			return lastDropMultiplier;
 
 		lastDropModifier = KoLCharacter.getItemDropPercentAdjustment();
