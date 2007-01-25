@@ -5609,11 +5609,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue getValue()
 		{
-			if ( content == null )
-			{
+			if ( expression != null )
 				content = expression.execute();
-				expression = null;
-			}
 
 			return content;
 		}
