@@ -1162,19 +1162,24 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			int size = parseInt( currentToken() );
 			readToken(); // integer
+
 			if ( currentToken() == null )
 				parseError( "]", currentToken() );
 
 			if ( currentToken().equals( "]" ) )
 			{
 				readToken();	// ]
+
+				if ( currentToken().equals( "[" ) )
+					return new ScriptAggregateType( parseAggregateType( dataType, scope ) , size );
+
 				return new ScriptAggregateType( dataType, size );
 			}
 
 			if ( currentToken().equals( "," ) )
 				return new ScriptAggregateType( parseAggregateType( dataType, scope ) , size );
 
-			parseError( ", or ]", currentToken() );
+			parseError( "]", currentToken() );
 		}
 
 		ScriptType indexType = scope.findType( currentToken() );
@@ -1191,6 +1196,10 @@ public class KoLmafiaASH extends StaticEntity
 		if ( currentToken().equals( "]" ) )
 		{
 			readToken();	// ]
+
+			if ( currentToken().equals( "[" ) )
+				return new ScriptAggregateType( parseAggregateType( dataType, scope ) , indexType );
+
 			return new ScriptAggregateType( dataType, indexType );
 		}
 
@@ -1974,16 +1983,18 @@ public class KoLmafiaASH extends StaticEntity
 
 		ScriptType type = var.getType();
 		ScriptExpressionList indices = new ScriptExpressionList();
-		boolean aggregate = currentToken().equals( "[" );
 
-		while ( currentToken() != null && (currentToken().equals( "[" ) || currentToken().equals( "." ) || currentToken().equals( "," )) )
+		boolean parseAggregate = currentToken().equals( "[" );
+
+		while ( currentToken() != null && (currentToken().equals( "[" ) || currentToken().equals( "." ) || (parseAggregate && currentToken().equals( "," ))) )
 		{
-			readToken(); // read [ or . or ,
-
 			ScriptExpression index;
 
-			if ( aggregate )
+			if ( currentToken().equals( "[" ) || currentToken().equals( "," ) )
 			{
+				readToken(); // read [ or . or ,
+				parseAggregate = true;
+
 				if ( !(type instanceof ScriptAggregateType) )
 				{
 					if ( indices.isEmpty() )
@@ -2003,10 +2014,12 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			else
 			{
+				readToken(); // read [ or . or ,
+
 				// Maybe it's a function call with an implied "this" parameter.
 
-//				if ( nextToken().equals( "(" ) )
-//					return parseCall( scope, indices.isEmpty() ? new ScriptVariableReference( var ) : new ScriptCompositeReference( var, indices ) );
+				if ( nextToken().equals( "(" ) )
+					return parseCall( scope, indices.isEmpty() ? new ScriptVariableReference( var ) : new ScriptCompositeReference( var, indices ) );
 
 				if ( !(type instanceof ScriptRecordType) )
 					throw new AdvancedScriptException( "Record expected " + getLineAndFile() );
@@ -2026,22 +2039,18 @@ public class KoLmafiaASH extends StaticEntity
 
 			indices.addElement( index );
 
-			if ( aggregate )
+			if ( parseAggregate && currentToken() != null )
 			{
-				if ( currentToken() == null )
-					parseError( "]", currentToken() );
-				if ( currentToken().equals( "," ) )
-					continue;
-
-				if ( !currentToken().equals( "]" ) )
-					parseError( "]", currentToken() );
-
-				readToken(); // read ]
-				aggregate = false;
+				if ( currentToken().equals( "]" ) )
+				{
+					readToken(); // read ]
+					parseAggregate = false;
+				}
 			}
-
-			aggregate = currentToken() != null && (currentToken().equals( "[" ) || currentToken().equals( "," ));
 		}
+
+		if ( parseAggregate )
+			parseError( currentToken(), "]" );
 
 		return new ScriptCompositeReference( var, indices );
 	}
