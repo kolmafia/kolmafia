@@ -1110,6 +1110,8 @@ public class KoLmafiaASH extends StaticEntity
 			;
 		else if ( (result = parseRemove( scope )) != null )
 			;
+		else if ( (result = parseValue( scope )) != null )
+			;
 		else
 			return null;
 
@@ -1548,11 +1550,11 @@ public class KoLmafiaASH extends StaticEntity
 		return scope;
 	}
 
-	private ScriptCall parseCall( ScriptScope scope )
+	private ScriptExpression parseCall( ScriptScope scope )
 	{	return parseCall( scope, null );
 	}
 
-	private ScriptCall parseCall( ScriptScope scope, ScriptExpression firstParam )
+	private ScriptExpression parseCall( ScriptScope scope, ScriptExpression firstParam )
 	{
 		if ( nextToken() == null || !nextToken().equals( "(" ) )
 			return null;
@@ -1593,19 +1595,18 @@ public class KoLmafiaASH extends StaticEntity
 
 		readToken(); // )
 
-		ScriptCall recent = new ScriptCall( name, scope, params );
+		ScriptExpression result = new ScriptCall( name, scope, params );
 
-		if ( currentToken().equals( "." ) )
+		ScriptVariable current;
+		while ( result != null && currentToken() != null && currentToken().equals( "." ) )
 		{
-			readToken(); // .
+			current = new ScriptVariable( result.getType() );
+			current.setExpression( result );
 
-			if ( nextToken() == null || !nextToken().equals( "(" ) )
-				parseError( nextToken(), "(" );
-
-			return parseCall( scope, recent );
+			result = parseVariableReference( scope, current );
 		}
 
-		return recent;
+		return result;
 	}
 
 	private ScriptCommand parseAssignment( ScriptScope scope )
@@ -1741,46 +1742,54 @@ public class KoLmafiaASH extends StaticEntity
 			if ( currentToken() == null || !currentToken().equals( ")" ) )
 				parseError( ")", currentToken() );
 
-			readToken();// )
-			return result;
+			readToken();    // )
 		}
 
 		// Parse constant values
 		// true and false are reserved words
 
-		if ( currentToken().equalsIgnoreCase( "true" ) )
+		else if ( currentToken().equalsIgnoreCase( "true" ) )
 		{
 			readToken();
-			return TRUE_VALUE;
+			result = TRUE_VALUE;
 		}
 
 		else if ( currentToken().equalsIgnoreCase( "false" ) )
 		{
 			readToken();
-			return FALSE_VALUE;
+			result = FALSE_VALUE;
 		}
 
 		// numbers
 		else if ( (result = parseNumber()) != null )
-			return result;
+			;
 
 		// strings
 		else if ( currentToken().equals( "\"" ) )
-			return parseString();
+			result = parseString();
 
 		// typed constants
 		else if ( currentToken().equals( "$" ) )
-			return parseTypedConstant( scope );
+			result = parseTypedConstant( scope );
 
 		// Function calls
 		else if ( (result = parseCall( scope, result )) != null )
-			return result;
+			;
 
 		// Variable and aggregate references
 		else if ( (result = parseVariableReference( scope )) != null )
-			return result;
+			;
 
-		return null;
+		ScriptVariable current;
+		while ( result != null && currentToken() != null && currentToken().equals( "." ) )
+		{
+			current = new ScriptVariable( result.getType() );
+			current.setExpression( result );
+
+			result = parseVariableReference( scope, current );
+		}
+
+		return result;
 	}
 
 	private ScriptValue parseNumber()
@@ -1825,11 +1834,13 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( currentToken().equals( "." ) )
 		{
-			readToken();	// .
-			String fraction = currentToken();
+			String fraction = nextToken();
 			if ( !readIntegerToken( fraction ) )
-				return new ScriptValue( sign * parseFloat( integer ) );
+				return new ScriptValue( sign * parseInt( integer ) );
+
+			readToken();	// .
 			readToken();	// fraction
+
 			return new ScriptValue( sign * parseFloat( integer + "." + fraction ) );
 		}
 
@@ -1983,16 +1994,16 @@ public class KoLmafiaASH extends StaticEntity
 		if ( var == null )
 			throw new AdvancedScriptException( "Unknown variable '" + name + "' " + getLineAndFile() );
 
-		return parseVariableReference( scope, var );
-	}
-
-	private ScriptExpression parseVariableReference( ScriptScope scope, ScriptVariable var )
-	{
 		readToken(); // read name
 
 		if ( currentToken() == null || (!currentToken().equals( "[" ) && !currentToken().equals( "." ) ) )
 			return new ScriptVariableReference( var );
 
+		return parseVariableReference( scope, var );
+	}
+
+	private ScriptExpression parseVariableReference( ScriptScope scope, ScriptVariable var )
+	{
 		ScriptType type = var.getType();
 		ScriptExpressionList indices = new ScriptExpressionList();
 
@@ -5578,6 +5589,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static class ScriptVariable extends ScriptSymbol
 	{
 		ScriptValue	content;
+		ScriptExpression expression = null;
 
 		public ScriptVariable( ScriptType type )
 		{
@@ -5592,31 +5604,46 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptType getType()
-		{	return content.getType();
+		{	return content == null ? expression.getType() : content.getType();
 		}
 
 		public ScriptValue getValue()
-		{	return content;
+		{
+			if ( content == null )
+			{
+				content = expression.execute();
+				expression = null;
+			}
+
+			return content;
 		}
 
 		public Object rawValue()
-		{	return content.rawValue();
+		{	return getValue().rawValue();
 		}
 
 		public int intValue()
-		{	return content.intValue();
+		{	return getValue().intValue();
 		}
 
 		public ScriptValue toStringValue()
-		{	return content.toStringValue();
+		{	return getValue().toStringValue();
 		}
 
 		public float floatValue()
-		{	return content.floatValue();
+		{	return getValue().floatValue();
+		}
+
+		public void setExpression( ScriptExpression targetExpression )
+		{
+			content = null;
+			expression = targetExpression;
 		}
 
 		public void forceValue( ScriptValue targetValue )
-		{	content = targetValue;
+		{
+			content = targetValue;
+			expression = null;
 		}
 
 		public void setValue( ScriptValue targetValue )
@@ -5624,18 +5651,22 @@ public class KoLmafiaASH extends StaticEntity
 			if ( getType().equals( targetValue.getType() ) )
 			{
 				content = targetValue;
+				expression = null;
 			}
 			else if ( getType().equals( TYPE_STRING ) )
 			{
 				content = targetValue.toStringValue();
+				expression = null;
 			}
 			else if ( getType().equals( TYPE_INT ) && targetValue.getType().equals( TYPE_FLOAT ) )
 			{
 				content = targetValue.toIntValue();
+				expression = null;
 			}
 			else if ( getType().equals( TYPE_FLOAT ) && targetValue.getType().equals( TYPE_INT ) )
 			{
 				content = targetValue.toFloatValue();
+				expression = null;
 			}
 			else
 			{
