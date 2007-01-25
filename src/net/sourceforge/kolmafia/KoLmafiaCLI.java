@@ -1646,6 +1646,19 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( attachments.length == 0 )
 			return;
 
+		if ( attachments.length == 1 && ((AdventureResult)attachments[0]).getName().equals( AdventureResult.MEAT ) )
+		{
+			int amount = BuffBotDatabase.getNonPhilanthropicOffering( splitParameters[1], ((AdventureResult)attachments[0]).getCount() );
+			if ( amount == 0 )
+				return;
+
+			attachments[0] = new AdventureResult( AdventureResult.MEAT, amount );
+		}
+
+		// Validate their attachments.  If they happen to be
+		// scripting a philanthropic buff request, then figure
+		// out if there's a corresponding full-price buff.
+
 		SendMessageRequest.setUpdateDisplayOnFailure( false );
 		RequestThread.postRequest( new GreenMessageRequest( splitParameters[1], DEFAULT_KMAIL, attachments ) );
 		SendMessageRequest.setUpdateDisplayOnFailure( true );

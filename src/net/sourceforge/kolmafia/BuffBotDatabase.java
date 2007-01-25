@@ -57,7 +57,12 @@ public class BuffBotDatabase extends KoLDatabase
 	private static final Pattern TURN_PATTERN = Pattern.compile( "<turns>(.*?)</turns>", Pattern.DOTALL );
 	private static final Pattern FREE_PATTERN = Pattern.compile( "<philanthropic>(.*?)</philanthropic>", Pattern.DOTALL );
 
+	private static boolean hasNameList = false;
 	private static boolean isInitialized = false;
+
+	private static ArrayList nameList = new ArrayList();
+	private static TreeMap buffDataMap = new TreeMap();
+
 	private static TreeMap normalOfferings = new TreeMap();
 	private static TreeMap freeOfferings = new TreeMap();
 
@@ -68,6 +73,131 @@ public class BuffBotDatabase extends KoLDatabase
 	private static int buffBotsConfigured = 0;
 
 	private static final CaseInsensitiveComparator NAME_COMPARATOR = new CaseInsensitiveComparator();
+
+	public static int getNonPhilanthropicOffering( String name, int amount )
+	{
+		// If you have no idea what the names present in
+		// the database are, go ahead and refresh it.
+
+		if ( !hasNameList )
+		{
+			String [] data;
+			BufferedReader reader = getReader( "buffbots.txt" );
+
+			while ( (data = readData( reader )) != null )
+			{
+				KoLmafia.registerPlayer( data[0], data[1] );
+
+				nameList.add( data[0].toLowerCase() );
+				buffDataMap.put( data[0].toLowerCase(), data );
+			}
+
+			try
+			{
+				reader.close();
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
+		}
+
+		// If the player is not a known buffbot, go ahead
+		// and allow the amount.
+
+		name = KoLmafia.getPlayerName( name ).toLowerCase();
+		if ( !nameList.contains( name ) )
+			return amount;
+
+		// Otherwise, retrieve the information for the buffbot
+		// to see if there are non-philanthropic offerings.
+
+		String [] data = (String []) buffDataMap.get( name );
+
+		if ( data[2].equals( OPTOUT_URL ) )
+		{
+			KoLmafia.updateDisplay( data[0] + " has requested to be excluded from scripted requests." );
+			return 0;
+		}
+
+		(new DynamicBotFetcher( data )).run();
+
+		// If this is clearly not a philanthropic buff, then
+		// no alternative amount needs to be sent.
+
+		LockableListModel possibles = getPhilanthropicOfferings( data[0] );
+		if ( possibles.isEmpty() )
+			return amount;
+
+		Offering current = null;
+		boolean foundMatch = false;
+
+		for ( int i = 0; i < possibles.size() && !foundMatch; ++i )
+		{
+			current = (Offering) possibles.get(i);
+			if ( current.getPrice() == amount )
+				foundMatch = true;
+		}
+
+		if ( !foundMatch || current == null )
+			return amount;
+
+		// If this offers more than 300 turns, chances are it's not
+		// a philanthropic buff.  Buff packs are also not protected
+		// because the logic is complicated.
+
+		if ( current.turns[0] > 300 || current.buffs.length > 1 )
+			return amount;
+
+		// If no alternative exists, go ahead and return the
+		// original amount.
+
+		LockableListModel alternatives = getStandardOfferings( data[0] );
+		if ( alternatives.isEmpty() )
+			return amount;
+
+		String matchBuff = current.buffs[0];
+		int matchTurns = current.turns[0];
+
+		String [] testBuffs = null;
+		int testTurns = 0;
+
+		boolean hasBuff = false;
+		Offering bestMatch = null;
+		int bestTurns = 0;
+
+		// Search for the best match, which is defined as the
+		// buff which provides the closest number of turns.
+
+		for ( int i = 0; i < alternatives.size(); ++i )
+		{
+			current = (Offering) alternatives.get(i);
+
+			testBuffs = current.buffs;
+			testTurns = current.turns[0];
+
+			hasBuff = false;
+			for ( int j = 0; j < testBuffs.length; ++j )
+				hasBuff |= matchBuff.equals( testBuffs[j] );
+
+			if ( !hasBuff )
+				continue;
+
+			if ( bestMatch == null || (testTurns >= matchTurns && testTurns < bestTurns) )
+			{
+				bestMatch = current;
+				bestTurns = testTurns;
+			}
+		}
+
+		// If the closest number of turns is very large, then
+		// forget it -- ask for the philanthropic amount.
+
+		if ( bestTurns - matchTurns > 1000 )
+			return amount;
+
+		return bestMatch == null ? amount : bestMatch.getPrice();
+	}
 
 	public static boolean hasOfferings()
 	{
@@ -127,6 +257,15 @@ public class BuffBotDatabase extends KoLDatabase
 			if ( data.length == 3 )
 				(new DynamicBotFetcher( data )).start();
 
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+
 		while ( buffBotsAvailable != buffBotsConfigured )
 			KoLRequest.delay( 500 );
 
@@ -149,6 +288,9 @@ public class BuffBotDatabase extends KoLDatabase
 
 		public void run()
 		{
+			if ( freeOfferings.containsKey( botName ) || normalOfferings.containsKey( botName ) )
+				return;
+
 			if ( location.equals( OPTOUT_URL ) )
 			{
 				freeOfferings.put( botName, new LockableListModel() );
@@ -166,6 +308,8 @@ public class BuffBotDatabase extends KoLDatabase
 				String line;
 				while ( (line = reader.readLine()) != null )
 					dataBuffer.append( line );
+
+				reader.close();
 			}
 			catch ( Exception e )
 			{
