@@ -2984,6 +2984,27 @@ public class KoLmafiaCLI extends KoLmafia
 		return lowestId == Integer.MAX_VALUE ? -1 : lowestId;
 	}
 
+	private static List getMatchingItemNames( String itemName )
+	{
+		int itemId = TradeableItemDatabase.getItemId( itemName, 1 );
+		if ( itemId != -1 )
+		{
+			ArrayList matchingNames = new ArrayList();
+			matchingNames.add( TradeableItemDatabase.getItemName( itemId ) );
+			return matchingNames;
+		}
+
+		itemId = TradeableItemDatabase.getItemId( itemName, 2 );
+		if ( itemId != -1 )
+		{
+			ArrayList matchingNames = new ArrayList();
+			matchingNames.add( TradeableItemDatabase.getItemName( itemId ) );
+			return matchingNames;
+		}
+
+		return TradeableItemDatabase.getMatchingNames( itemName );
+	}
+
 	/**
 	 * Utility method which determines the first item which matches
 	 * the given parameter string.  Note that the string may also
@@ -2998,45 +3019,33 @@ public class KoLmafiaCLI extends KoLmafia
 		// First, allow for the person to type without specifying
 		// the amount, if the amount is 1.
 
-		List matchingNames = new ArrayList();
-		matchingNames.addAll( TradeableItemDatabase.getMatchingNames( parameters ) );
-		if ( !matchingNames.isEmpty() )
+		if ( parameters.indexOf( " " ) != -1 )
 		{
-			String itemName = (String) matchingNames.get(0);
-			if ( itemName.indexOf( parameters ) == -1 )
-				matchingNames.clear();
-		}
-
-		if ( matchingNames.isEmpty() && parameters.indexOf( " " ) != -1 )
-		{
-			boolean isNumeric = parameters.charAt(0) == '-' || Character.isDigit( parameters.charAt(0) );
-			for ( int i = 1; i < parameters.length() && parameters.charAt(i) != ' '; ++i )
-				isNumeric &= Character.isDigit( parameters.charAt(i) );
-
-			if ( isNumeric )
-			{
-				itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
-				String itemName = parameters.substring( parameters.indexOf( " " ) ).trim();
-				matchingNames.addAll( TradeableItemDatabase.getMatchingNames( itemName ) );
-
-				if ( matchingNames.isEmpty() )
-					itemId = TradeableItemDatabase.getItemId( itemName, itemCount );
-			}
-			else if ( parameters.charAt(0) == '*' )
+			if ( parameters.charAt(0) == '*' )
 			{
 				itemCount = 0;
-				matchingNames.addAll( TradeableItemDatabase.getMatchingNames( parameters.substring(1).trim() ) );
+				parameters = parameters.substring(1).trim();
 			}
 			else
-				matchingNames.addAll( TradeableItemDatabase.getMatchingNames( parameters ) );
+			{
+				boolean isNumeric = parameters.charAt(0) == '-' || Character.isDigit( parameters.charAt(0) );
+				for ( int i = 1; i < parameters.length() && parameters.charAt(i) != ' '; ++i )
+					isNumeric &= Character.isDigit( parameters.charAt(i) );
+
+				if ( isNumeric )
+				{
+					itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
+					parameters = parameters.substring( parameters.indexOf( " " ) + 1 ).trim();
+				}
+			}
 		}
-		else
-			matchingNames.addAll( TradeableItemDatabase.getMatchingNames( parameters ) );
+
+		List matchingNames = getMatchingItemNames( parameters );
 
 		// Next, check to see if any of the items matching appear
 		// in an NPC store.  If so, automatically default to it.
 
-		if ( !matchingNames.isEmpty() && itemId == -1 )
+		if ( !matchingNames.isEmpty() )
 			itemId = getFirstMatchingItemId( matchingNames );
 
 		if ( itemId == -1 )
