@@ -475,7 +475,7 @@ public class AdventureFrame extends KoLFrame
 					worthlessItemCount += Character.isDigit( splitConditions[i].charAt(0) ) ?
 						StaticEntity.parseInt( splitConditions[i].split( " " )[0] ) : 1;
 				}
-				if ( splitConditions[i].equals( "check" ) )
+				else if ( splitConditions[i].equals( "check" ) )
 				{
 					// Postpone verification of conditions
 					// until all other conditions added.

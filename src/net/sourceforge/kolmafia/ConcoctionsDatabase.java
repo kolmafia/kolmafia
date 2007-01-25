@@ -725,6 +725,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	public static boolean hasAnyIngredient( int itemId )
 	{
+		if ( itemId < 0 )
+			return false;
+
 		boolean hasOneIngredient = false;
 		AdventureResult [] ingredients = concoctions.get( itemId ).getIngredients();
 

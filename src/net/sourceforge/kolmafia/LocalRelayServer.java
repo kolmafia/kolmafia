@@ -300,8 +300,9 @@ public class LocalRelayServer implements Runnable
 			{
 				if ( request.contentType.startsWith( "text" ) )
 				{
+
 					printStream.println( "Content-Type: " + request.contentType + ";charset=utf-8" );
-					printStream.println( "Content-Type: " + request.getFullResponse().length() );
+					printStream.println( "Content-Length: " + request.getFullResponse().length() );
 				}
 				else
 				{

@@ -355,17 +355,10 @@ public class LocalRelayRequest extends PasswordHashRequest
 		if ( headers.isEmpty() )
 		{
 			// This request was relayed to the server. Respond with those headers.
-			headers.add( formConnection.getHeaderField( 0 ) );
-			for ( int i = 1; formConnection.getHeaderFieldKey( i ) != null; ++i )
-			{
-				if ( formConnection.getHeaderFieldKey( i ).equals( "Content-Length" ) )
-				{
-					if ( this.responseText != null )
-						headers.add( "Content-Length: " + this.responseText.length() );
-				}
-				else if ( !formConnection.getHeaderFieldKey( i ).equals( "Transfer-Encoding" ) )
+
+			for ( int i = 0; formConnection.getHeaderFieldKey( i ) != null; ++i )
+				if ( !formConnection.getHeaderFieldKey( i ).equals( "Transfer-Encoding" ) )
 					headers.add( formConnection.getHeaderFieldKey( i ) + ": " + formConnection.getHeaderField( i ) );
-			}
 		}
 
 		return index >= headers.size() ? null : (String) headers.get( index );
@@ -373,7 +366,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	public void pseudoResponse( String status, String responseText )
 	{
+		this.contentType = "text/html";
 		this.responseText = StaticEntity.globalStringReplace( responseText, "<!--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
+
 		if ( responseText.length() == 0 )
 			this.responseText = " ";
 

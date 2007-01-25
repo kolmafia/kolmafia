@@ -1354,6 +1354,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						useLocation = "inv_use.php?pwd=&which=3&whichitem=";
 						itemId = 146;
 					}
+
+					// Link to the guild upon completion of the Citadel quest.
+
+					else if ( itemId == 1656 )
+					{
+						useType = "guild";
+						useLocation = "guild.php?place=paco";
+					}
 				}
 			}
 
