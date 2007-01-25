@@ -378,14 +378,9 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 
 		if ( totalIterations == 1 )
-		{
-			KoLmafia.updateDisplay( useTypeAsString + " " + itemUsed.toString() + "..." );
-		}
+			KoLmafia.updateDisplay( useTypeAsString + " " + itemUsed.getCount() + " " + itemUsed.getName() + "..." );
 		else
-		{
-			KoLmafia.updateDisplay( useTypeAsString + " " + itemUsed.getName() +
-				" (" + currentIteration + " of " + totalIterations + ")..." );
-		}
+			KoLmafia.updateDisplay( useTypeAsString + " " + itemUsed.getName() + " (" + currentIteration + " of " + totalIterations + ")..." );
 
 		// Run to see if booze consumption is permitted
 		// based on the user's current settings.

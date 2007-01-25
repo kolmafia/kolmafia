@@ -298,16 +298,15 @@ public class LocalRelayServer implements Runnable
 
 			if ( request.responseCode == 200 )
 			{
-				if ( request.contentType.startsWith( "text" ) )
-				{
-
-					printStream.println( "Content-Type: " + request.contentType + "; charset=utf-8" );
-					printStream.println( "Content-Length: " + request.getFullResponse().length() );
-				}
-				else
+				if ( request.rawByteBuffer != null )
 				{
 					printStream.println( "Content-Type: " + request.contentType );
 					printStream.println( "Content-Length: " + request.rawByteBuffer.length );
+				}
+				else
+				{
+					printStream.println( "Content-Type: " + request.contentType + "; charset=utf-8" );
+					printStream.println( "Content-Length: " + request.getFullResponse().length() );
 				}
 
 				if ( request.contentType.equals( "text/html" ) )
@@ -501,7 +500,7 @@ public class LocalRelayServer implements Runnable
 					request.run();
 				}
 
-				writer.println( request.statusLine == null ? "HTTP/1.1 200 OK" : request.statusLine );
+				writer.println( request.statusLine );
 				sendHeaders( writer, request );
 				writer.println();
 
