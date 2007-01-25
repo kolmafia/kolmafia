@@ -281,7 +281,10 @@ public class ItemManageFrame extends KoLFrame
 				}
 
 				if ( items.isEmpty() )
+				{
+					RequestThread.enableDisplayIfSequenceComplete();
 					return;
+				}
 
 				RequestThread.postRequest( new AutoSellRequest( items.toArray(), AutoSellRequest.AUTOMALL ) );
 			}
@@ -314,7 +317,10 @@ public class ItemManageFrame extends KoLFrame
 				}
 
 				if ( items.isEmpty() )
+				{
+					RequestThread.enableDisplayIfSequenceComplete();
 					return;
+				}
 
 				RequestThread.postRequest( new MuseumRequest( items.toArray(), true ) );
 			}

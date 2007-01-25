@@ -2971,6 +2971,7 @@ public abstract class KoLmafia implements KoLConstants
 		ArrayList automall = new ArrayList();
 
 		RequestThread.openRequestSequence();
+		makeJunkRemovalRequest();
 
 		// Only place items in the mall which are not
 		// sold in NPC stores -- everything else, make
