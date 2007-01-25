@@ -1263,10 +1263,16 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					if ( itemId == 146 )
 					{
-						useType = "hermit";
-						useLocation = "hermit.php?action=trade&pwd&quantity=1&whichitem=140";
+						AdventureResult planks = new AdventureResult( 140, 1 );
+						if ( !KoLCharacter.hasItem( planks ) )
+						{
+							useType = "planks";
+							useLocation = "hermit.php?action=trade&pwd&quantity=1&whichitem=140";
+						}
+
 					}
-					else
+
+					if ( useType == null )
 					{
 						useType = "use";
 						useLocation = itemId == UneffectRequest.REMEDY.getItemId() ? "uneffect.php" :
@@ -1364,9 +1370,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					else if ( itemId == 140 )
 					{
-						useType = "plans";
-						useLocation = "inv_use.php?pwd=&which=3&whichitem=";
-						itemId = 146;
+						AdventureResult plans = new AdventureResult( 146, 1 );
+						if ( KoLCharacter.hasItem( plans ) )
+						{
+							useType = "plans";
+							useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+							itemId = 146;
+						}
 					}
 
 					// Link to the guild upon completion of the Citadel quest.
