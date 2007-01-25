@@ -304,6 +304,7 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
+			{ "overPurchaseRestores", "Allow over-purchase of non soda water mp restores" },
 			{ "autoSetConditions", "Automatically fill conditions field with defaults" },
 			{ "autoRoninPickpocket", "Pickpocket to satisfy item conditions in Ronin" },
 

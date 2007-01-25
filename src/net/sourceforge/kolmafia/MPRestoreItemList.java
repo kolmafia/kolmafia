@@ -192,7 +192,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 					mpShort = Math.max( mpShort, MoodSettings.getMaintenanceCost() - KoLCharacter.getCurrentMP() );
 					numberToBuy = (int) Math.ceil( (float) mpShort / (float) getManaPerUse() );
 				}
-				else
+				else if ( StaticEntity.getBooleanProperty( "overPurchaseRestores" ) && this != SODA_WATER )
 				{
 					// Buy more restores than you actually need when you
 					// have enough liquidity to support it.
