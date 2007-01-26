@@ -335,7 +335,7 @@ public class KoLRequest extends Job implements KoLConstants
 		this.isChatRequest = this.formURLString.indexOf( "chat" ) != -1 && !this.formURLString.startsWith( "chatlaunch.php" ) &&
 			!this.formURLString.startsWith( "lchat.php" );
 
-		this.shouldIgnoreResult = !this.formURLString.endsWith( ".php" ) || isChatRequest || formURLString.startsWith( "message" ) ||
+		this.shouldIgnoreResult = isChatRequest || formURLString.startsWith( "message" ) ||
 			formURLString.startsWith( "search" ) || formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) ||
 			formURLString.startsWith( "doc" ) || (formURLString.startsWith( "clan" ) && (getClass() == KoLRequest.class || this instanceof LocalRelayRequest));
 
