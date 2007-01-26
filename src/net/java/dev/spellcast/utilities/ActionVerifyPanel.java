@@ -66,7 +66,6 @@ import javax.swing.SpringLayout;
 public abstract class ActionVerifyPanel extends ActionPanel implements ActionListener, FocusListener
 {
 	protected JPanel container;
-
 	private boolean contentSet;
 	private boolean isCenterPanel;
 	private JComponent eastContainer;
@@ -281,23 +280,16 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 	{
 	}
 
-	private class ActionConfirmedThread extends Thread
-	{
-		public void run()
-		{	actionConfirmed();
-		}
-	}
-
 	public void focusLost( FocusEvent e )
 	{
 		if ( buttonPanel == null && isValid() )
-			(new ActionConfirmedThread()).start();
+			actionConfirmed();
 	}
 
 	public void actionPerformed( ActionEvent e )
 	{
 		if ( buttonPanel == null && isValid() )
-			(new ActionConfirmedThread()).start();
+			actionConfirmed();
 	}
 
 	private Object [] thisArray = { this };

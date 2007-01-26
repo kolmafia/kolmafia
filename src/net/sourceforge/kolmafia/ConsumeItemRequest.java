@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -113,7 +114,6 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int BLACK = 1417;
 	private static final int HILARIOUS_TOME = 1498;
 	private static final int ASTRAL_MUSHROOM = 1622;
-	private static final int MILK_OF_MAGNESIUM = 1650;
 	private static final int DUSTY_ANIMAL_SKULL = 1799;
 	private static final int QUILL_PEN = 1957;
 	private static final int DANCE_CARD = 1963;
@@ -154,7 +154,6 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int CRIMBOWEEN_MEMO = 2089;
 
 	private static final AdventureResult POISON = new AdventureResult( "Poisoned", 1, true );
-	private static final AdventureResult GOT_MILK = new AdventureResult( "Got Milk", 1, true );
 
 	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
 	private static final AdventureResult FERTILIZER = new AdventureResult( 76, -1 );
@@ -202,6 +201,41 @@ public class ConsumeItemRequest extends KoLRequest
 	{	return itemUsed;
 	}
 
+	private static final TreeMap LIMITED_USES = new TreeMap();
+
+	static
+	{
+		LIMITED_USES.put( new Integer( 1412 ), new AdventureResult( "Purple Tongue", 1, true ) );
+		LIMITED_USES.put( new Integer( 1413 ), new AdventureResult( "Green Tongue", 1, true ) );
+		LIMITED_USES.put( new Integer( 1414 ), new AdventureResult( "Orange Tongue", 1, true ) );
+		LIMITED_USES.put( new Integer( 1415 ), new AdventureResult( "Red Tongue", 1, true ) );
+		LIMITED_USES.put( new Integer( 1416 ), new AdventureResult( "Blue Tongue", 1, true ) );
+		LIMITED_USES.put( new Integer( 1417 ), new AdventureResult( "Black Tongue", 1, true ) );
+
+		LIMITED_USES.put( new Integer( 1622 ), new AdventureResult( "Half-Astral", 1, true ) );
+
+		LIMITED_USES.put( new Integer( 1624 ), new AdventureResult( "Cupcake of Choice", 1, true ) );
+		LIMITED_USES.put( new Integer( 1625 ), new AdventureResult( "The Cupcake of Wrath", 1, true ) );
+		LIMITED_USES.put( new Integer( 1626 ), new AdventureResult( "Shiny Happy Cupcake", 1, true ) );
+		LIMITED_USES.put( new Integer( 1627 ), new AdventureResult( "Tiny Bubbles in the Cupcake", 1, true ) );
+		LIMITED_USES.put( new Integer( 1628 ), new AdventureResult( "Your Cupcake Senses Are Tingling", 1, true ) );
+
+		LIMITED_USES.put( new Integer( 1650 ), new AdventureResult( "Got Milk", 1, true ) );
+	}
+
+	public static int maximumUses( int itemId )
+	{
+		Integer key = new Integer( itemId );
+
+		if ( !LIMITED_USES.containsKey( key ) )
+			return Integer.MAX_VALUE;
+
+		if ( activeEffects.contains( LIMITED_USES.get( key ) ) )
+			return 0;
+
+		return 1;
+	}
+
 	public void run()
 	{
 		lastUpdate = "";
@@ -212,11 +246,9 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
-		if ( itemUsed.getItemId() == MILK_OF_MAGNESIUM )
-			itemUsed = itemUsed.getInstance( activeEffects.contains( GOT_MILK ) ? 0 : 1 );
-
-		if ( itemUsed.getItemId() == DANCE_CARD && itemUsed.getCount() > 1 )
-			itemUsed = itemUsed.getInstance(1);
+		int maximumUses = maximumUses( itemUsed.getItemId() );
+		if ( maximumUses < itemUsed.getCount() )
+			itemUsed = itemUsed.getInstance( maximumUses );
 
 		if ( itemUsed.getCount() < 1 )
 			return;
