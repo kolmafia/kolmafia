@@ -1598,13 +1598,21 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				boolean shouldCreate = false;
 
-				shouldCreate = false;
 				for ( int i = 0; i < creatables.length && !shouldCreate; ++i )
 					shouldCreate |= creatables[i] != null && creatables[i].getQuantityPossible() >= items[i].getCount();
 
+				// In theory, you could do a real validation by doing a full
+				// dependency search.  While that's technically better, it's
+				// also not very useful.
+
 				if ( !useDisjunction )
+				{
 					for ( int i = 0; i < creatables.length && shouldCreate; ++i )
 						shouldCreate &= creatables[i] == null || creatables[i].getQuantityPossible() >= items[i].getCount();
+				}
+
+				// Create any items which are creatable.  If you're only doing
+				// a disjunction of the conditions, stop after making one.
 
 				for ( int i = 0; i < creatables.length && shouldCreate; ++i )
 				{
