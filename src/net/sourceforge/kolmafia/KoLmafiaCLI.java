@@ -628,14 +628,14 @@ public class KoLmafiaCLI extends KoLmafia
 			int splitIndex = parameters.indexOf( "=" );
 			if ( splitIndex == -1 )
 			{
-				if ( !parameters.startsWith( "saveState" ) && !parameters.startsWith( "stasisFarmingAccounts" ) )
+				if ( !parameters.startsWith( "saveState" ) && !parameters.startsWith( "stasisFarmingAccount" ) )
 					printLine( StaticEntity.getProperty( parameters ) );
 
 				return;
 			}
 
 			String name = parameters.substring( 0, splitIndex ).trim();
-			if ( name.startsWith( "saveState" ) || parameters.startsWith( "stasisFarmingAccounts" ) )
+			if ( name.startsWith( "saveState" ) || parameters.startsWith( "stasisFarmingAccount" ) )
 				return;
 
 			String value = parameters.substring( splitIndex + 1 ).trim();
