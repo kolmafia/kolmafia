@@ -5604,7 +5604,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptType getType()
-		{	return content == null ? expression.getType() : content.getType();
+		{	return content.getType();
 		}
 
 		public ScriptValue getValue()
@@ -5632,9 +5632,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public void setExpression( ScriptExpression targetExpression )
-		{
-			content = null;
-			expression = targetExpression;
+		{	expression = targetExpression;
 		}
 
 		public void forceValue( ScriptValue targetValue )

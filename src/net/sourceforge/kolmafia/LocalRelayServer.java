@@ -51,7 +51,7 @@ import java.util.regex.Pattern;
 
 public class LocalRelayServer implements Runnable
 {
-	private static final int INITIAL_THREAD_COUNT = 4;
+	private static final int INITIAL_THREAD_COUNT = 6;
 	private static final Pattern INVENTORY_COOKIE_PATTERN = Pattern.compile( "inventory=(\\d+)" );
 
 	private static String lastUsername = "";
@@ -173,10 +173,13 @@ public class LocalRelayServer implements Runnable
 		{
 			agent = (RelayAgent) agentThreads.get(i);
 
-			if ( agent.isWaiting() )
+			synchronized ( agent )
 			{
-				agent.setSocket( socket );
-				return;
+				if ( agent.isWaiting() )
+				{
+					agent.setSocket( socket );
+					return;
+				}
 			}
 		}
 
@@ -314,7 +317,7 @@ public class LocalRelayServer implements Runnable
 					printStream.println( "Content-Length: " + request.getFullResponse().length() );
 				}
 
-				if ( request.contentType.equals( "text/html" ) )
+				if ( request.formURLString.indexOf( ".php" ) != -1 )
 				{
 					printStream.println( "Cache-Control: no-cache, must-revalidate" );
 					printStream.println( "Pragma: no-cache" );
@@ -328,19 +331,6 @@ public class LocalRelayServer implements Runnable
 		{
 			if ( socket == null )
 				return;
-
-			try
-			{
-				socket.setTcpNoDelay( true );
-			}
-			catch ( Exception e )
-			{
-				// If there's a problem setting up the socket,
-				// then close the socket and return.
-
-				closeRelay( socket, null, null );
-				return;
-			}
 
 			BufferedReader reader = null;
 			PrintStream writer = System.out;
