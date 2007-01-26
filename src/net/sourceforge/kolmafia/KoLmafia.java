@@ -1596,13 +1596,25 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( request instanceof KoLAdventure )
 			{
-				for ( int i = 0; i < creatables.length; ++i )
+				boolean shouldCreate = false;
+
+				shouldCreate = false;
+				for ( int i = 0; i < creatables.length && !shouldCreate; ++i )
+					shouldCreate |= creatables[i] != null && creatables[i].getQuantityPossible() >= items[i].getCount();
+
+				if ( !useDisjunction )
+					for ( int i = 0; i < creatables.length && shouldCreate; ++i )
+						shouldCreate &= creatables[i] == null || creatables[i].getQuantityPossible() >= items[i].getCount();
+
+				for ( int i = 0; i < creatables.length && shouldCreate; ++i )
 				{
 					if ( creatables[i] != null && creatables[i].getQuantityPossible() >= items[i].getCount() )
 					{
 						creatables[i].setQuantityNeeded( items[i].getCount() );
 						RequestThread.postRequest( creatables[i] );
+
 						creatables[i] = null;
+						shouldCreate = !useDisjunction;
 					}
 				}
 			}
