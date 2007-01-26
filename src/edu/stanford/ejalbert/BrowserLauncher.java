@@ -547,13 +547,14 @@ public class BrowserLauncher {
 				case WINDOWS_9x:
 				{
 					Process process = null;
-					boolean usingIE = true;
-					String executable = "";
+					String executable = "explorer.exe";
+
+					if ( url.startsWith( "http" ) )
+						executable = "url.dll,FileProtocolHandler";
 
 					// Wrap the URL inside of quotes.
 
-					url = "\"" + url + "\"";
-					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "explorer.exe " + url } );
+					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, url } );
 
 					// This avoids a memory leak on some versions of Java on Windows.
 					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
@@ -575,9 +576,6 @@ public class BrowserLauncher {
 
 					Process process = null;
 					boolean usingIE = true;
-
-					// Wrap the URL inside of quotes.
-					url = "\"" + url + "\"";
 
 					// Determine the file type for .html files.  On Windows, every other
 					// browser changes the association to something other than "htmlfile",
@@ -609,7 +607,7 @@ public class BrowserLauncher {
 
 					if ( usingIE )
 					{
-						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "explorer.exe " + url } );
+						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "explorer.exe", url } );
 					}
 					else
 					{
