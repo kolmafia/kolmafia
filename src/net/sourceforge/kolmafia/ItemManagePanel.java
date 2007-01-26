@@ -265,6 +265,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 				case CONSUME_MULTIPLE:
 					int maximum = ConsumeItemRequest.maximumUses( currentItem.getItemId() );
 					quantity = maximum < 2 ? maximum : KoLFrame.getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() );
+					break;
 
 				default:
 					quantity = 1;
