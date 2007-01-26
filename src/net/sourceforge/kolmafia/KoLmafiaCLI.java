@@ -1066,8 +1066,16 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.indexOf( "worthless item" ) != -1 )
 			{
 				int itemCount = 1;
+				int maximumCount = KoLCharacter.getAdventuresLeft();
 
-				if ( !parameters.equals( "worthless item" ) )
+				if ( parameters.indexOf( " in " ) != -1 )
+				{
+					maximumCount = StaticEntity.parseInt( parameters.substring( parameters.lastIndexOf( " " ) ) );
+					if ( maximumCount < 0 )
+						maximumCount += KoLCharacter.getAdventuresLeft();
+				}
+
+				if ( !parameters.startsWith( "worthless item" ) )
 					itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
 
 				ArrayList temporary = new ArrayList();
@@ -1084,8 +1092,12 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 				else
 				{
-					while ( KoLCharacter.getAdventuresLeft() > 0 && HermitRequest.getWorthlessItemCount() < itemCount && permitsContinue() )
-						executeLine( "adventure " + (itemCount - HermitRequest.getWorthlessItemCount()) + " unlucky sewer" );
+					while ( maximumCount > 0 && HermitRequest.getWorthlessItemCount() < itemCount && permitsContinue() )
+					{
+						int adventuresToUse = Math.min( maximumCount, itemCount - HermitRequest.getWorthlessItemCount() );
+						executeLine( "adventure " + adventuresToUse + " unlucky sewer" );
+						maximumCount -= adventuresToUse;
+					}
 				}
 
 				conditions.addAll( temporary );
