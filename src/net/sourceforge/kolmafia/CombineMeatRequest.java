@@ -51,6 +51,16 @@ public class CombineMeatRequest extends ItemCreationRequest
 		this.costToMake = meatType == MEAT_PASTE ? -10 : meatType == MEAT_STACK ? -100 : -1000;
 	}
 
+	public int getQuantityPossible()
+	{
+		switch ( meatType )
+		{
+		case MEAT_PASTE:	return KoLCharacter.getAvailableMeat() / 10;
+		case MEAT_STACK:	return KoLCharacter.getAvailableMeat() / 100;
+		default:	return KoLCharacter.getAvailableMeat() / 1000;
+		}
+	}
+
 	public void reconstructFields()
 	{
 	}

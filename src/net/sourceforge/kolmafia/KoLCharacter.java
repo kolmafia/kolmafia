@@ -723,9 +723,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setAvailableMeat( int availableMeat )
-	{
-		KoLCharacter.availableMeat = availableMeat;
-		ConcoctionsDatabase.refreshConcoctions();
+	{	KoLCharacter.availableMeat = availableMeat;
 	}
 
 	/**
