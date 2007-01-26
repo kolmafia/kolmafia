@@ -5,7 +5,7 @@ Dungeon	Town	Seaside Dungeon
 
 Manor	Manor	Spookyraven Manor
 
-Plains	Plains	Nearby Plains	plains.php
+Plains	Plains	Nearby Plains
 Rift	Plains	Temporal Rift
 
 BatHole	BatHole	Bat Hole	bathole.php

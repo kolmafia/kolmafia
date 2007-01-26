@@ -147,6 +147,8 @@ public abstract class KoLmafia implements KoLConstants
 		stopEncounters.add( "It's A Sign!" );
 		stopEncounters.add( "The Manor in Which You're Accustomed" );
 		stopEncounters.add( "Under the Knife" );
+		stopEncounters.add( "A Grave Situation" );
+		stopEncounters.add( "Take a Dusty Look!" );
 	}
 
 	/**
