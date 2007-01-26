@@ -172,11 +172,27 @@ public class FightRequest extends KoLRequest
 		if ( action1.equals( "custom" ) )
 			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 1 );
 
-		// Special handling when using a thief familiar.
+		// Special handling when using a thief familiar.  To encourage
+		// people to upgrade to be less impactful on the community, two
+		// accounts will be permitted to "spade" thief familiars.
 
 		if ( KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() && isAcceptable( offenseModifier, defenseModifier ) )
+		{
 			if ( isLikelyStasisAction( action1 ) )
-				action1 = "attack";
+			{
+				String playerId = KoLCharacter.getPlayerId();
+				String stasisAccounts = StaticEntity.getProperty( "stasisFarmingAccounts" );
+
+				if ( stasisAccounts.equals( "" ) )
+					StaticEntity.setProperty( "stasisFarmingAccounts", playerId );
+				else if ( stasisAccounts.indexOf( "," ) == -1 )
+					StaticEntity.setProperty( "stasisFarmingAccounts", stasisAccounts + "," + playerId );
+
+				if ( stasisAccounts.indexOf( playerId ) == -1 )
+					action1 = "attack";
+			}
+		}
+
 
 		// If the person wants to use their own script,
 		// then this is where it happens.

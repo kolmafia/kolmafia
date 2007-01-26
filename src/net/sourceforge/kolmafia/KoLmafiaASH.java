@@ -5211,7 +5211,7 @@ public class KoLmafiaASH extends StaticEntity
 			// In order to avoid code duplication for combat
 			// related settings, use the shell.
 
-			DEFAULT_SHELL.executeLine( "set " + name.toStringValue().toString() + "=" + value.toStringValue().toString() );
+			DEFAULT_SHELL.executeCommand( "set", name.toStringValue().toString() + "=" + value.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
