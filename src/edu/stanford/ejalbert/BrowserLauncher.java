@@ -449,223 +449,250 @@ public class BrowserLauncher {
 	/**
 	 * Attempts to open the default web browser to the given URL.
 	 * @param url The URL to open
-	 * @throws IOException If the web browser could not be located or does not run
 	 */
-	public static void openURL(String url) {
-		(new BrowserThread( url )).start();
-	}
 
-	private static class BrowserThread extends Thread
+	public static void openURL( String url )
 	{
-		private String url;
-
-		public BrowserThread( String url )
-		{	this.url = url;
+		if (!loadedWithoutErrors)
+		{
+			System.err.println("Exception in finding browser: " + errorMessage);
+			return;
+		}
+		Object browser = locateBrowser();
+		if (browser == null)
+		{
+			System.err.println("Unable to locate browser: " + errorMessage);
+			return;
 		}
 
-		public void run()
+		switch (jvm)
 		{
-			try
+			case MRJ_2_0:
 			{
-				loadURL();
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace();
-			}
-		}
-
-		public void loadURL() throws IOException
-		{
-			if (!loadedWithoutErrors) {
-				throw new IOException("Exception in finding browser: " + errorMessage);
-			}
-			Object browser = locateBrowser();
-			if (browser == null) {
-				throw new IOException("Unable to locate browser: " + errorMessage);
-			}
-
-			switch (jvm) {
-				case MRJ_2_0:
+				Object aeDesc = null;
+				try
 				{
-					Object aeDesc = null;
-					try {
-						aeDesc = aeDescConstructor.newInstance(new Object[] { url });
-						putParameter.invoke(browser, new Object[] { keyDirectObject, aeDesc });
-						sendNoReply.invoke(browser, new Object[] { });
-					} catch (InvocationTargetException ite) {
-						throw new IOException("InvocationTargetException while creating AEDesc: " + ite.getMessage());
-					} catch (IllegalAccessException iae) {
-						throw new IOException("IllegalAccessException while building AppleEvent: " + iae.getMessage());
-					} catch (InstantiationException ie) {
-						throw new IOException("InstantiationException while creating AEDesc: " + ie.getMessage());
-					} finally {
-						aeDesc = null;	// Encourage it to get disposed if it was created
-						browser = null;	// Ditto
-					}
-					break;
+					aeDesc = aeDescConstructor.newInstance(new Object[] { url });
+					putParameter.invoke(browser, new Object[] { keyDirectObject, aeDesc });
+					sendNoReply.invoke(browser, new Object[] { });
 				}
-				case MRJ_2_1:
+				catch (InvocationTargetException ite)
+				{
+					System.err.println("InvocationTargetException while creating AEDesc: " + ite.getMessage());
+				}
+				catch (IllegalAccessException iae)
+				{
+					System.err.println("IllegalAccessException while building AppleEvent: " + iae.getMessage());
+				}
+				catch (InstantiationException ie)
+				{
+					System.err.println("InstantiationException while creating AEDesc: " + ie.getMessage());
+				}
+				finally
+				{
+					aeDesc = null;	// Encourage it to get disposed if it was created
+					browser = null;	// Ditto
+				}
+
+				break;
+			}
+			case MRJ_2_1:
+			{
+				try
 				{
 					Runtime.getRuntime().exec(new String[] { (String) browser, url } );
-					break;
 				}
-				case MRJ_3_0:
+				catch (IOException e)
 				{
-					int[] instance = new int[1];
-					int result = ICStart(instance, 0);
-					if (result == 0) {
-						int[] selectionStart = new int[] { 0 };
-						byte[] urlBytes = url.getBytes();
-						int[] selectionEnd = new int[] { urlBytes.length };
-						result = ICLaunchURL(instance[0], new byte[] { 0 }, urlBytes,
-												urlBytes.length, selectionStart,
-												selectionEnd);
-						if (result == 0) {
-							// Ignore the return value; the URL was launched successfully
-							// regardless of what happens here.
-							ICStop(instance);
-						} else {
-							throw new IOException("Unable to launch URL: " + result);
-						}
-					} else {
-						throw new IOException("Unable to create an Internet Config instance: " + result);
+					System.err.println("Error loading browser: " + e.getMessage());
+				}
+
+				break;
+			}
+			case MRJ_3_0:
+			{
+				int[] instance = new int[1];
+				int result = ICStart(instance, 0);
+				if (result == 0)
+				{
+					int[] selectionStart = new int[] { 0 };
+					byte[] urlBytes = url.getBytes();
+					int[] selectionEnd = new int[] { urlBytes.length };
+					result = ICLaunchURL(instance[0], new byte[] { 0 }, urlBytes,
+											urlBytes.length, selectionStart,
+											selectionEnd);
+					if (result == 0)
+					{
+						// Ignore the return value; the URL was launched successfully
+						// regardless of what happens here.
+						ICStop(instance);
 					}
-					break;
-				}
-				case MRJ_3_1:
-				{
-					try {
-						openURL.invoke(null, new Object[] { url });
-					} catch (InvocationTargetException ite) {
-						throw new IOException("InvocationTargetException while calling openURL: " + ite.getMessage());
-					} catch (IllegalAccessException iae) {
-						throw new IOException("IllegalAccessException while calling openURL: " + iae.getMessage());
+					else
+					{
+						System.err.println("Unable to launch URL: " + result);
 					}
-					break;
 				}
-				case WINDOWS_9x:
+				else
 				{
-					Process process = null;
-					String executable = "explorer.exe";
+					System.err.println("Unable to create an Internet Config instance: " + result);
+				}
 
-					if ( url.startsWith( "http" ) )
-						executable = "url.dll,FileProtocolHandler";
+				break;
+			}
+			case MRJ_3_1:
+			{
+				try
+				{
+					openURL.invoke(null, new Object[] { url });
+				}
+				catch (InvocationTargetException ite)
+				{
+					System.err.println("InvocationTargetException while calling openURL: " + ite.getMessage());
+				}
+				catch (IllegalAccessException iae)
+				{
+					System.err.println("IllegalAccessException while calling openURL: " + iae.getMessage());
+				}
 
-					// Wrap the URL inside of quotes.
+				break;
+			}
+			case WINDOWS_9x:
+			{
+				Process process = null;
+				String executable = "explorer.exe";
 
+				if ( url.startsWith( "http" ) )
+				{
+					browser = "rundll32.exe";
+					executable = "url.dll,FileProtocolHandler";
+				}
+
+				// Add quotes around the URL to allow ampersands and other special
+				// characters to work.
+				url = '"' + url + '"';
+
+				try
+				{
 					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, url } );
 
 					// This avoids a memory leak on some versions of Java on Windows.
 					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
 
-					try {
-						process.waitFor();
-						process.exitValue();
-					} catch (InterruptedException ie) {
-						throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
-					}
-
-					break;
+					process.waitFor();
+					process.exitValue();
 				}
-				case WINDOWS_NT:
+				catch (InterruptedException ie)
 				{
-					// Determine whether or not Internet Explorer is flagged as the
-					// default browser -- if it is, invoke it manually in order to
-					// get a new window to open.
+					System.err.println("InterruptedException while launching browser: " + ie.getMessage());
+				}
+				catch (IOException e)
+				{
+					System.err.println("Error loading browser: " + e.getMessage());
+					return;
+				}
 
-					Process process = null;
-					boolean usingIE = true;
+				break;
+			}
+			case WINDOWS_NT:
+			{
+				// Determine whether or not Internet Explorer is flagged as the
+				// default browser -- if it is, invoke it manually in order to
+				// get a new window to open.
 
-					// Determine the file type for .html files.  On Windows, every other
-					// browser changes the association to something other than "htmlfile",
-					// so if it's htmlfile, you load IE in a new window.
+				Process process = null;
+				boolean usingIE = true;
 
+				// Determine the file type for .html files.  On Windows, every other
+				// browser changes the association to something other than "htmlfile",
+				// so if it's htmlfile, you load IE in a new window.
+
+				try
+				{
 					process = Runtime.getRuntime().exec(
 						new String [] { (String) browser, "/c", "assoc", ".html" } );
-
-					try {
-						process.waitFor();
-						process.exitValue();
-					} catch (InterruptedException ie) {
-						throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
-					}
-
-					try
-					{
-						// This avoids a memory leak on some versions of Java on Windows.
-						// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
-
-						BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-						usingIE = stream.readLine().indexOf( "htmlfile" ) != -1;
-					}
-					catch ( Exception e )
-					{
-						// If we can't determine the default browser, then assume
-						// that it's Internet Explorer, which is the default.
-					}
-
-					if ( usingIE )
-					{
-						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "explorer.exe", url } );
-					}
-					else
-					{
-						// Add quotes around the URL to allow ampersands and other special
-						// characters to work.
-
-						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "start", "\"\"", url } );
-					}
 
 					// This avoids a memory leak on some versions of Java on Windows.
 					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
 
-					try {
-						process.waitFor();
-						process.exitValue();
-					} catch (InterruptedException ie) {
-						throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
-					}
-
-					break;
+					process.waitFor();
+					process.exitValue();
 				}
-				default:
+				catch (InterruptedException ie)
 				{
-					// Determine whether or not Netscape exists on this system.
-					// If it does, use it.
+					System.err.println("InterruptedException while launching browser: " + ie.getMessage());
+				}
+				catch (IOException e)
+				{
+					System.err.println("Error while determining default browser: " + e.getMessage());
+				}
 
-					String [] browsers = { "firefox", "mozilla", "netscape" };
-					browser = null;
+				try
+				{
+					BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
+					usingIE = stream.readLine().indexOf( "htmlfile" ) != -1;
+				}
+				catch (IOException e)
+				{
+					// If we can't determine the default browser, then assume
+					// that it's Internet Explorer, which is the default.
 
-					for ( int i = 0; i < browsers.length && browser == null; ++i )
+					System.err.println("Error while determining default browser: " + e.getMessage());
+				}
+
+				try
+				{
+					// Add quotes around the URL to allow ampersands and other special
+					// characters to work.
+
+					url = '"' + url + '"';
+
+					if ( usingIE )
+						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "explorer.exe", url } );
+					else
+						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "start", "\"\"", url } );
+
+					// This avoids a memory leak on some versions of Java on Windows.
+					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
+
+					process.waitFor();
+					process.exitValue();
+				}
+				catch (InterruptedException ie)
+				{
+					System.err.println("InterruptedException while launching browser: " + ie.getMessage());
+				}
+				catch (IOException e)
+				{
+					System.err.println("Error loading browser: " + e.getMessage());
+				}
+
+				break;
+			}
+			default:
+			{
+				// Determine whether or not Netscape exists on this system.
+				// If it does, use it.
+
+				String [] browsers = { "opera", "firefox", "mozilla", "netscape" };
+
+				for ( int i = 0; i < browsers.length && browser == null; ++i )
+				{
+					try
 					{
 						Process process = Runtime.getRuntime().exec( new String [] { "which", browsers[i] } );
 
-						try
-						{
-							BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-							if ( stream.readLine().indexOf( " " ) == -1 )
-								browser = browsers[i];
-
-							try {
-								process.waitFor();
-								process.exitValue();
-							} catch (InterruptedException ie) {
-								throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
-							}
-						}
-						catch ( Exception e )
-						{
-							// If we can't determine the default browser, then just
-							// move onto the next iteration of the loop.
-						}
+						BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
+						if ( stream.readLine().indexOf( " " ) == -1 )
+							Runtime.getRuntime().exec( new String[] { (String) browsers[i], url, "&" } );
 					}
-
-					if ( browser != null )
-						Runtime.getRuntime().exec( new String[] { (String) browser, url, "&" } );
-
-					break;
+					catch (IOException e)
+					{
+						// If we can't determine the default browser, then just
+						// move onto the next iteration of the loop.
+					}
 				}
+
+				break;
 			}
 		}
 	}
