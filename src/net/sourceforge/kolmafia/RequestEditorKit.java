@@ -1410,7 +1410,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// For the plus sign teleportitis adventure, replace the book
 		// message with a link to the plus sign.
 
-		StaticEntity.singleStringReplace( buffer, "It's actually a book. Read it.",
+		StaticEntity.singleStringReplace( buffer, "It's actually a book.  Read it.",
 			"It's actually a book. <font size=1>[<a href=\"inv_use.php?pwd=&which=3&whichitem=818\">read it</a>]</font>" );
 
 		// For everything else, make sure that it's an actual choice adventure
