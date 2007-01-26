@@ -588,7 +588,6 @@ public class BrowserLauncher {
 				catch (IOException e)
 				{
 					System.err.println("Error loading browser: " + e.getMessage());
-					return;
 				}
 
 				break;
@@ -683,7 +682,10 @@ public class BrowserLauncher {
 
 						BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
 						if ( stream.readLine().indexOf( " " ) == -1 )
+						{
 							Runtime.getRuntime().exec( new String[] { (String) browsers[i], url, "&" } );
+							return;
+						}
 					}
 					catch (IOException e)
 					{
