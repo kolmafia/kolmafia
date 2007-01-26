@@ -444,18 +444,21 @@ public class AdventureFrame extends KoLFrame
 			add( new ObjectivesPanel(), BorderLayout.CENTER );
 		}
 
-		private void handleConditions( KoLAdventure request )
+		private boolean handleConditions( KoLAdventure request )
 		{
+			if ( KoLmafia.isAdventuring() )
+				return false;
+
 			String conditionList = conditionField.getText().trim().toLowerCase();
 
 			if ( conditionList.equalsIgnoreCase( "none" ) )
 			{
 				conditions.clear();
-				return;
+				return true;
 			}
 
 			if ( conditionList.length() == 0 )
-				return;
+				return true;
 
 			conditions.clear();
 			boolean verifyConditions = conditionList.equalsIgnoreCase( AdventureDatabase.getCondition( request ) );
@@ -489,7 +492,7 @@ public class AdventureFrame extends KoLFrame
 					// the outfit pulled from that area.
 
 					if ( !(request instanceof KoLAdventure) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
-						return;
+						return true;
 
 					verifyConditions = true;
 				}
@@ -500,20 +503,23 @@ public class AdventureFrame extends KoLFrame
 				else
 				{
 					if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i] ) )
-						return;
+						return false;
 				}
 			}
 
 			if ( worthlessItemCount > 0 )
+			{
 				StaticEntity.getClient().makeRequest( new WorthlessItemRequest( worthlessItemCount ) );
+				return false;
+			}
 
-			if ( verifyConditions || worthlessItemCount > 0 )
+			if ( verifyConditions )
 			{
 				KoLmafia.checkRequirements( conditions, false );
 				if ( conditions.isEmpty() )
 				{
-					KoLmafia.updateDisplay( ABORT_STATE, "All conditions already satisfied." );
-					return;
+					KoLmafia.updateDisplay( "All conditions already satisfied." );
+					return false;
 				}
 			}
 
@@ -522,6 +528,8 @@ public class AdventureFrame extends KoLFrame
 
 			if ( ((Integer)countField.getValue()).intValue() == 0 )
 				countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
+
+			return true;
 		}
 
 		private class ObjectivesPanel extends KoLPanel
@@ -584,7 +592,7 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			public void run()
-			{	DEFAULT_SHELL.executeLine( "acquire " + itemCount + " worthless item" );
+			{	DEFAULT_SHELL.executeLine( "acquire " + itemCount + " worthless item in " + ((Integer)countField.getValue()).intValue() );
 			}
 		}
 
@@ -731,12 +739,11 @@ public class AdventureFrame extends KoLFrame
 					isHandlingConditions = true;
 
 					RequestThread.openRequestSequence();
-					handleConditions( request );
+					boolean shouldAdventure = handleConditions( request );
 					RequestThread.closeRequestSequence();
-
 					isHandlingConditions = false;
 
-					if ( KoLmafia.refusesContinue() )
+					if ( !shouldAdventure )
 						return;
 				}
 
