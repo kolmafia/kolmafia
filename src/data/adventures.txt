@@ -54,8 +54,8 @@ Rift	13/0	adventure=87	Battlefield (Dyspepsi Uniform)
 
 Plains	0/10	adventure=18	Degrassi Knoll	1 gnollish toolbox, 1 tires
 Plains	15/0	adventure=20	Fun House	1 disease
-Plains	18/0	adventure=21	Pre-Cyrpt Cemetary	1 smart skull
-Plains	12/0	adventure=22	Fernswarthy's Tower	1 disembodied brain
+Plains	11/0	adventure=21	Pre-Cyrpt Cemetary	1 smart skull
+Plains	18/0	adventure=22	Fernswarthy's Tower	1 disembodied brain
 Plains	40/0	adventure=58	Post-Cyrpt Cemetary
 Plains	0/65	adventure=78	Palindome
 

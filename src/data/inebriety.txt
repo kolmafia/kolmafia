@@ -74,6 +74,7 @@ salty slug	3
 sangria	3
 screwdriver	3
 spiced rum	3
+spooky eggnog	3
 spooky mushroom wine	3
 stinky mushroom wine	3
 strawberry daiquiri	3
