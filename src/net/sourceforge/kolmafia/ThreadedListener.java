@@ -42,8 +42,13 @@ public abstract class ThreadedListener implements ActionListener, Runnable
 {
 	public void actionPerformed( ActionEvent e )
 	{
-		if ( isValidEvent( e ) )
+		if ( !isValidEvent( e ) )
+			return;
+
+		if ( StaticEntity.getBooleanProperty( "interleaveRequests" ) )
 			this.run();
+		else
+			(new Thread( this )).start();
 	}
 
 	protected boolean isValidEvent( ActionEvent e )

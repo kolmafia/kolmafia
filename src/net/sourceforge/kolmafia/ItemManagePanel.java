@@ -53,6 +53,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ItemManagePanel extends LabeledScrollPanel
 {
+	public static final int CONSUME_MULTIPLE = 0;
+
 	public static final int TAKE_ALL = 1;
 	public static final int TAKE_ALL_BUT_ONE = 2;
 	public static final int TAKE_MULTIPLE = 3;
@@ -225,9 +227,13 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public AdventureResult [] getDesiredItems( String message )
 	{
-		return getDesiredItems( message, movers == null ? TAKE_MULTIPLE :
-			movers[0].isSelected() ? TAKE_ALL : movers[1].isSelected() ? TAKE_ALL_BUT_ONE :
-			movers[2].isSelected() ? TAKE_MULTIPLE : TAKE_ONE );
+		if ( movers == null )
+			return getDesiredItems( message, message.equals( "Consume" ) ? CONSUME_MULTIPLE : TAKE_MULTIPLE );
+
+		if ( movers[2].isSelected() )
+			return getDesiredItems( message, message.equals( "Consume" ) ? CONSUME_MULTIPLE : TAKE_MULTIPLE );
+
+		return getDesiredItems( message, movers[0].isSelected() ? TAKE_ALL : movers[1].isSelected() ? TAKE_ALL_BUT_ONE : TAKE_ONE );
 	}
 
 	public AdventureResult [] getDesiredItems( String message, int quantityType )
@@ -255,6 +261,11 @@ public class ItemManagePanel extends LabeledScrollPanel
 				case TAKE_MULTIPLE:
 					quantity = KoLFrame.getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() );
 					break;
+
+				case CONSUME_MULTIPLE:
+					int maximum = ConsumeItemRequest.maximumUses( currentItem.getItemId() );
+					quantity = maximum < 2 ? maximum : KoLFrame.getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() );
+
 				default:
 					quantity = 1;
 					break;

@@ -771,7 +771,6 @@ public class ItemManageFrame extends KoLFrame
 
 				KoLmafia.updateDisplay( "Verifying ingredients..." );
 				selection.setQuantityNeeded( quantityDesired );
-
 				RequestThread.postRequest( selection );
 			}
 
@@ -790,7 +789,10 @@ public class ItemManageFrame extends KoLFrame
 					return;
 
 				ItemCreationRequest selection = (ItemCreationRequest) selected;
-				int quantityDesired = getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() );
+
+				int maximum = ConsumeItemRequest.maximumUses( selection.getItemId() );
+				int quantityDesired = maximum < 2 ? maximum : getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() );
+
 				if ( quantityDesired < 1 )
 					return;
 

@@ -297,6 +297,7 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
+			{ "interleaveRequests", "Allow for request interleave (may lock UI)" },
 			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
 			{ "cloverProtectActive", "Protect against automated clover adventures" },
 			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
