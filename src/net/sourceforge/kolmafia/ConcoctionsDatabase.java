@@ -728,13 +728,20 @@ public class ConcoctionsDatabase extends KoLDatabase
 		if ( itemId < 0 )
 			return false;
 
+		switch ( itemId )
+		{
+		case ItemCreationRequest.MEAT_PASTE:
+			return KoLCharacter.getAvailableMeat() >= 10;
+		case ItemCreationRequest.MEAT_STACK:
+			return KoLCharacter.getAvailableMeat() >= 100;
+		case ItemCreationRequest.DENSE_STACK:
+			return KoLCharacter.getAvailableMeat() >= 1000;
+		}
+
 		if ( !isPermittedMethod( getMixingMethod( itemId ) ) )
 			return false;
 
 		AdventureResult [] ingredients = concoctions.get( itemId ).getIngredients();
-
-		if ( ingredients.length == 0 )
-			return true;
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{

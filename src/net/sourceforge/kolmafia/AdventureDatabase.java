@@ -1070,19 +1070,6 @@ public class AdventureDatabase extends KoLDatabase
 			boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemId() );
 			shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( item.getItemId() ) == ItemCreationRequest.PIXEL;
 
-			// See if the item can be retrieved from the clan stash.  If it can,
-			// go ahead and pull as many items as possible from there.
-
-			if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
-			{
-				if ( !ClanManager.isStashRetrieved() )
-					RequestThread.postRequest( new ClanStashRequest() );
-
-				missingCount = retrieveItem( "stash take", ClanManager.getStash(), item, missingCount );
-				if ( missingCount <= 0 )
-					return true;
-			}
-
 			// First, attempt to pull the item from the closet.
 			// If this is successful, return from the method.
 
@@ -1130,6 +1117,19 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( missingCount <= 0 )
 				return true;
+
+			// See if the item can be retrieved from the clan stash.  If it can,
+			// go ahead and pull as many items as possible from there.
+
+			if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+			{
+				if ( !ClanManager.isStashRetrieved() )
+					RequestThread.postRequest( new ClanStashRequest() );
+
+				missingCount = retrieveItem( "stash take", ClanManager.getStash(), item, missingCount );
+				if ( missingCount <= 0 )
+					return true;
+			}
 
 			// If the item should be bought early, go ahead and purchase it now,
 			// after having checked the clan stash.
