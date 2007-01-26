@@ -488,7 +488,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !requirements.isEmpty() )
 			return requirements;
 
-		while ( KoLmafia.permitsContinue() && !isItemAvailable( RHYTHM ) )
+		do
 		{
 			// The character needs to have at least 50 HP, or 25% of
 			// maximum HP (whichever is greater) in order to play
@@ -523,6 +523,10 @@ public abstract class SorceressLair extends StaticEntity
 					getClient().processResult( CLOVER.getNegation() );
 			}
 		}
+		while ( QUEST_HANDLER.responseText.indexOf( "looks like I owe you a beating" ) != -1 );
+
+		if ( !isItemAvailable( RHYTHM ) )
+			requirements.add( RHYTHM );
 
 		return requirements;
 	}
