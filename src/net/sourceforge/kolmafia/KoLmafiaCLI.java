@@ -310,7 +310,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// If it gets this far, that means the continue
 		// state can be reset.
 
-		if ( line.indexOf( ";" ) != -1 && !line.startsWith( "set" ) )
+		if ( line.indexOf( ";" ) != -1 )
 		{
 			String [] separateLines = line.split( ";" );
 			for ( int i = 0; i < separateLines.length && permitsContinue(); ++i )
@@ -628,14 +628,14 @@ public class KoLmafiaCLI extends KoLmafia
 			int splitIndex = parameters.indexOf( "=" );
 			if ( splitIndex == -1 )
 			{
-				if ( !parameters.startsWith( "saveState" ) )
+				if ( !parameters.startsWith( "saveState" ) && !parameters.startsWith( "stasisFarmingAccounts" ) )
 					printLine( StaticEntity.getProperty( parameters ) );
 
 				return;
 			}
 
 			String name = parameters.substring( 0, splitIndex ).trim();
-			if ( name.startsWith( "saveState" ) )
+			if ( name.startsWith( "saveState" ) || parameters.startsWith( "stasisFarmingAccounts" ) )
 				return;
 
 			String value = parameters.substring( splitIndex + 1 ).trim();

@@ -209,6 +209,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static String username = "";
 	private static String avatar = "";
 	private static int userId = 0;
+	private static String playerId = "0";
 	private static String classname = "";
 	private static String classtype = "";
 
@@ -487,7 +488,18 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setUserId( int userId )
-	{	KoLCharacter.userId = userId;
+	{
+		KoLCharacter.userId = userId;
+		KoLCharacter.playerId = String.valueOf( userId );
+	}
+
+	/**
+	 * Accessor method to retrieve the user Id associated with this character.
+	 * @return	The user Id associated with this character
+	 */
+
+	public static String getPlayerId()
+	{	return playerId;
 	}
 
 	/**
