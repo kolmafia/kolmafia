@@ -53,6 +53,28 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 
+	private static final TreeMap LIMITED_USES = new TreeMap();
+
+	static
+	{
+		LIMITED_USES.put( new Integer( 1412 ), new AdventureResult( "Purple Tongue", 1, true ) );
+		LIMITED_USES.put( new Integer( 1413 ), new AdventureResult( "Green Tongue", 1, true ) );
+		LIMITED_USES.put( new Integer( 1414 ), new AdventureResult( "Orange Tongue", 1, true ) );
+		LIMITED_USES.put( new Integer( 1415 ), new AdventureResult( "Red Tongue", 1, true ) );
+		LIMITED_USES.put( new Integer( 1416 ), new AdventureResult( "Blue Tongue", 1, true ) );
+		LIMITED_USES.put( new Integer( 1417 ), new AdventureResult( "Black Tongue", 1, true ) );
+
+		LIMITED_USES.put( new Integer( 1622 ), new AdventureResult( "Half-Astral", 1, true ) );
+
+		LIMITED_USES.put( new Integer( 1624 ), new AdventureResult( "Cupcake of Choice", 1, true ) );
+		LIMITED_USES.put( new Integer( 1625 ), new AdventureResult( "The Cupcake of Wrath", 1, true ) );
+		LIMITED_USES.put( new Integer( 1626 ), new AdventureResult( "Shiny Happy Cupcake", 1, true ) );
+		LIMITED_USES.put( new Integer( 1627 ), new AdventureResult( "Tiny Bubbles in the Cupcake", 1, true ) );
+		LIMITED_USES.put( new Integer( 1628 ), new AdventureResult( "Your Cupcake Senses Are Tingling", 1, true ) );
+
+		LIMITED_USES.put( new Integer( 1650 ), new AdventureResult( "Got Milk", 1, true ) );
+	}
+
 	public static String lastUpdate = "";
 
 	public static final int NO_CONSUME = 0;
@@ -201,39 +223,14 @@ public class ConsumeItemRequest extends KoLRequest
 	{	return itemUsed;
 	}
 
-	private static final TreeMap LIMITED_USES = new TreeMap();
-
-	static
-	{
-		LIMITED_USES.put( new Integer( 1412 ), new AdventureResult( "Purple Tongue", 1, true ) );
-		LIMITED_USES.put( new Integer( 1413 ), new AdventureResult( "Green Tongue", 1, true ) );
-		LIMITED_USES.put( new Integer( 1414 ), new AdventureResult( "Orange Tongue", 1, true ) );
-		LIMITED_USES.put( new Integer( 1415 ), new AdventureResult( "Red Tongue", 1, true ) );
-		LIMITED_USES.put( new Integer( 1416 ), new AdventureResult( "Blue Tongue", 1, true ) );
-		LIMITED_USES.put( new Integer( 1417 ), new AdventureResult( "Black Tongue", 1, true ) );
-
-		LIMITED_USES.put( new Integer( 1622 ), new AdventureResult( "Half-Astral", 1, true ) );
-
-		LIMITED_USES.put( new Integer( 1624 ), new AdventureResult( "Cupcake of Choice", 1, true ) );
-		LIMITED_USES.put( new Integer( 1625 ), new AdventureResult( "The Cupcake of Wrath", 1, true ) );
-		LIMITED_USES.put( new Integer( 1626 ), new AdventureResult( "Shiny Happy Cupcake", 1, true ) );
-		LIMITED_USES.put( new Integer( 1627 ), new AdventureResult( "Tiny Bubbles in the Cupcake", 1, true ) );
-		LIMITED_USES.put( new Integer( 1628 ), new AdventureResult( "Your Cupcake Senses Are Tingling", 1, true ) );
-
-		LIMITED_USES.put( new Integer( 1650 ), new AdventureResult( "Got Milk", 1, true ) );
-	}
-
 	public static int maximumUses( int itemId )
 	{
 		Integer key = new Integer( itemId );
 
-		if ( !LIMITED_USES.containsKey( key ) )
-			return Integer.MAX_VALUE;
+		if ( LIMITED_USES.containsKey( key ) )
+			return activeEffects.contains( LIMITED_USES.get( key ) ) ? 0 : 1;
 
-		if ( activeEffects.contains( LIMITED_USES.get( key ) ) )
-			return 0;
-
-		return 1;
+		return Integer.MAX_VALUE;
 	}
 
 	public void run()
@@ -258,6 +255,7 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 
 		int iterations = 1;
+
 		if ( itemUsed.getCount() != 1 && consumptionType != ConsumeItemRequest.CONSUME_MULTIPLE && consumptionType != ConsumeItemRequest.CONSUME_RESTORE )
 		{
 			iterations = itemUsed.getCount();
@@ -269,15 +267,14 @@ public class ConsumeItemRequest extends KoLRequest
 
 		String originalURLString = getURLString();
 
-		for ( int i = 1; i <= iterations; ++i )
+		for ( int i = 1; i <= iterations && KoLmafia.permitsContinue(); ++i )
 		{
 			constructURLString( originalURLString );
 
 			if ( consumptionType == CONSUME_DRINK && !allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemUsed.getItemId() ) ) )
 				return;
 
-			if ( !useOnce( i, iterations, useTypeAsString ) )
-				return;
+			useOnce( i, iterations, useTypeAsString );
 		}
 
 		if ( KoLmafia.permitsContinue() )
@@ -308,20 +305,20 @@ public class ConsumeItemRequest extends KoLRequest
 			"Think carefully before you answer...", JOptionPane.YES_NO_OPTION );
 	}
 
-	public boolean useOnce( int currentIteration, int totalIterations, String useTypeAsString )
+	public void useOnce( int currentIteration, int totalIterations, String useTypeAsString )
 	{
 		lastUpdate = "";
 
 		if ( itemUsed.getItemId() == UneffectRequest.REMEDY.getItemId() )
 		{
 			DEFAULT_SHELL.executeLine( "uneffect beaten up" );
-			return true;
+			return;
 		}
 
 		if ( consumptionType == CONSUME_ZAP )
 		{
 			StaticEntity.getClient().makeZapRequest();
-			return true;
+			return;
 		}
 
 		// Check to make sure the character has the item in their
@@ -331,7 +328,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( !AdventureDatabase.retrieveItem( itemUsed ) )
 		{
 			lastUpdate = "Insufficient items to use.";
-			return false;
+			return;
 		}
 
 		float hpRestored, mpRestored;
@@ -418,7 +415,6 @@ public class ConsumeItemRequest extends KoLRequest
 		// based on the user's current settings.
 
 		super.run();
-		return KoLmafia.permitsContinue();
 	}
 
 	public void processResults()
