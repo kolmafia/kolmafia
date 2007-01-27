@@ -384,15 +384,14 @@ public class MonsterDatabase extends KoLDatabase
 			if ( !KoLCharacter.isMoxieClass() )
 				return false;
 
-			// If the player has an acceptable dodge rate, then steal anything.
-			// Otherwise, only steal from monsters that are dropping something
-			// on your conditions list if the applicable setting is present.
+			// If the player has an acceptable dodge rate or
+			// they're likely to survive, then steal anything.
 
-			if ( hasAcceptableDodgeRate( 0 ) )
+			if ( hasAcceptableDodgeRate( 0 ) || expectedDamage() * 2 < KoLCharacter.getCurrentHP() )
 				return shouldSteal( items );
 
-			if ( expectedDamage() >= KoLCharacter.getCurrentHP() )
-				return false;
+			// Otherwise, only steal from monsters that drop
+			// something on your conditions list.
 
 			return shouldSteal( conditions );
 		}
