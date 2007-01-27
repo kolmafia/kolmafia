@@ -44,6 +44,9 @@ import java.util.TreeMap;
 
 public class MonsterDatabase extends KoLDatabase
 {
+	private static int damageAbsorption = 0;
+	private static float damageMultiplier = 0.0f;
+
 	private static final Map MONSTER_NAMES = new TreeMap();
 	private static final Map MONSTER_DATA = new TreeMap();
 
@@ -388,7 +391,7 @@ public class MonsterDatabase extends KoLDatabase
 			if ( hasAcceptableDodgeRate( 0 ) )
 				return shouldSteal( items );
 
-			if ( !StaticEntity.getBooleanProperty( "autoRoninPickpocket" ) )
+			if ( expectedDamage() >= KoLCharacter.getCurrentHP() )
 				return false;
 
 			return shouldSteal( conditions );
@@ -445,14 +448,16 @@ public class MonsterDatabase extends KoLDatabase
 
 		public float getAdjustedXP( float modifier, int ml, FamiliarData familiar )
 		{
+			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=218
 			// +1 ML adds +1 health, +1 Attack, +1 Defense
-			// Monster statGain = ( attack + defense ) / 10
-			float adjustedML = ((float) (attack + ml + defense + ml)) / 2.0f;
-			statGain =  adjustedML / 5.0f;
-			// Add constant statGain from items, effects, and familiars
-			statGain += modifier;
-			// Add variable statGain from familiars
-			statGain += sombreroXPAdjustment( adjustedML, familiar );
+
+			float adjustedML = (float) (attack + ml);
+
+			// Base stat gain = attack / 5 (not average of attack and defense)
+			// Add constant stat gain from items, effects, and familiars
+			// Add variable stat gain from familiars
+
+			statGain = adjustedML / 5.0f + modifier + sombreroXPAdjustment( adjustedML, familiar );
 			return Math.max( 1.0f, statGain );
 		}
 
@@ -477,6 +482,25 @@ public class MonsterDatabase extends KoLDatabase
 			int ml = KoLCharacter.getMonsterLevelAdjustment() + offenseModifier;
 			int dodgeRate = KoLCharacter.getAdjustedMoxie() - (attack + ml) - 6;
 			return dodgeRate > 0;
+		}
+
+		private int expectedDamage()
+		{
+			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=2945
+
+			// Base damage goes first, followed by damage absorption, then
+			// damage reduction.  The maximum value for monster base damage:
+			// 0.25 * Monster Attack + Max(0, Monster Attack - Player Moxie)
+
+			if ( damageAbsorption != KoLCharacter.getDamageAbsorption() )
+			{
+				damageAbsorption = KoLCharacter.getDamageAbsorption();
+				damageMultiplier = 1.0f - (float) (( Math.sqrt( damageAbsorption / 10.0 ) - 1.0 ) / 10.0);
+			}
+
+			int adjustedAttack = getAttack() + KoLCharacter.getMonsterLevelAdjustment();
+			int baseDamage = adjustedAttack / 4 + Math.max( 0, adjustedAttack - KoLCharacter.getAdjustedMoxie() );
+			return (int) (baseDamage * damageMultiplier) - KoLCharacter.getDamageReduction();
 		}
 
 		public boolean willAlwaysMiss( int defenseModifier )
