@@ -110,7 +110,7 @@ public class MonsterDatabase extends KoLDatabase
 				if ( !bad )
 				{
 					MONSTER_DATA.put( data[0], monster );
-					MONSTER_NAMES.put( CombatSettings.encounterKey( data[0] ).toLowerCase(), data[0] );
+					MONSTER_NAMES.put( CombatSettings.encounterKey( data[0], true ), data[0] );
 				}
 			}
 		}
@@ -134,7 +134,7 @@ public class MonsterDatabase extends KoLDatabase
 
 	public static Monster findMonster( String name, boolean trySubstrings )
 	{
-		String keyName = CombatSettings.encounterKey( name ).toLowerCase();
+		String keyName = CombatSettings.encounterKey( name, true );
 		String realName = (String) MONSTER_NAMES.get( keyName );
 
 		// If no monster with that name exists, maybe it's
