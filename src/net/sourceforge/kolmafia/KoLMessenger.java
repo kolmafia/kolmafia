@@ -327,7 +327,7 @@ public abstract class KoLMessenger extends StaticEntity
 			// When you exit chat, you go ahead and remove all
 			// of the chat pannels from the listener lists.
 
-			String [] channels = new String[ instantMessageBuffers.keySet().size() ];
+			String [] channels = new String[ instantMessageBuffers.size() ];
 			instantMessageBuffers.keySet().toArray( channels );
 
 			for ( int i = 0; i < channels.length; ++i )

@@ -179,7 +179,7 @@ public class FamiliarsDatabase extends KoLDatabase
 	{
 		String searchString = substring.toLowerCase();
 
-		String [] familiarNames = new String[ familiarByName.keySet().size() ];
+		String [] familiarNames = new String[ familiarByName.size() ];
 		familiarByName.keySet().toArray( familiarNames );
 
 		for ( int i = 0; i < familiarNames.length; ++i )
@@ -291,7 +291,7 @@ public class FamiliarsDatabase extends KoLDatabase
 		writer.println( "# http://www.the-rye.dreamhosters.com/familiars/" );
 		writer.println();
 
-		Integer [] familiarIds = new Integer[ familiarById.keySet().size() ];
+		Integer [] familiarIds = new Integer[ familiarById.size() ];
 		familiarById.keySet().toArray( familiarIds );
 
 		for ( int i = 0; i < familiarIds.length; ++i )

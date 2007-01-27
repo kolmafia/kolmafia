@@ -148,7 +148,7 @@ public class ClanManager extends StaticEntity
 		File profile, ascensionData;
 		String currentProfile, currentAscensionData;
 
-		String [] names = new String[ profileMap.keySet().size() ];
+		String [] names = new String[ profileMap.size() ];
 		profileMap.keySet().toArray( names );
 
 		for ( int i = 0; i < names.length; ++i )
@@ -452,7 +452,7 @@ public class ClanManager extends StaticEntity
 	{
 		retrieveClanData();
 
-		String [] members = new String[ profileMap.keySet().size() ];
+		String [] members = new String[ profileMap.size() ];
 		profileMap.keySet().toArray( members );
 
 		return members;

@@ -372,7 +372,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// If the lists are not initialized, then go ahead and
 		// load the appropriate data into them.
 
-		String [] names = new String[ ascensionMap.keySet().size() ];
+		String [] names = new String[ ascensionMap.size() ];
 		ascensionMap.keySet().toArray( names );
 
 		AscensionDataRequest request;

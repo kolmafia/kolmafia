@@ -136,7 +136,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		filterList.clear();
 		ArrayList interimList = new ArrayList();
 
-		String [] names = new String[ profileMap.keySet().size() ];
+		String [] names = new String[ profileMap.size() ];
 		profileMap.keySet().toArray( names );
 
 		try
@@ -225,7 +225,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		if ( request.responseText == null )
 			RequestThread.postRequest( request );
 
-		String [] members = new String[ profileMap.keySet().size() ];
+		String [] members = new String[ profileMap.size() ];
 		profileMap.keySet().toArray( members );
 
 		StringBuffer strbuf = new StringBuffer();

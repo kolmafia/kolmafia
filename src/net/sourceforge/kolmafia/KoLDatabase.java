@@ -151,7 +151,7 @@ public class KoLDatabase extends StaticEntity
 		}
 		else
 		{
-			String [] names = new String[ nameMap.keySet().size() ];
+			String [] names = new String[ nameMap.size() ];
 			nameMap.keySet().toArray( names );
 
 			for ( int i = 0; i < names.length; ++i )
@@ -180,7 +180,7 @@ public class KoLDatabase extends StaticEntity
 		if ( substring.length() == 0 )
 			return substringList;
 
-		String [] names = new String[ nameMap.keySet().size() ];
+		String [] names = new String[ nameMap.size() ];
 		nameMap.keySet().toArray( names );
 
 		substring = substring.toLowerCase();
