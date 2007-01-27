@@ -443,7 +443,7 @@ public class FightRequest extends KoLRequest
 		if ( responseText.indexOf( "You get the jump" ) == -1 )
 		{
 			if ( StaticEntity.getBooleanProperty( "logBattleAction" ) )
-				KoLmafia.getSessionStream().println( " - Round 0: " + KoLCharacter.getUserName() + " loses initiative!" );
+				KoLmafia.getSessionStream().println( "Round 0: " + KoLCharacter.getUserName() + " loses initiative!" );
 
 			return;
 		}
@@ -452,7 +452,7 @@ public class FightRequest extends KoLRequest
 		// happened in that first round based on player settings.
 
 		if ( shouldLogAction )
-			KoLmafia.getSessionStream().println( " - Round 0: " + KoLCharacter.getUserName() + " wins initiative!" );
+			KoLmafia.getSessionStream().println( "Round 0: " + KoLCharacter.getUserName() + " wins initiative!" );
 
 		action1 = StaticEntity.getProperty( "defaultAutoAttack" );
 
@@ -465,7 +465,7 @@ public class FightRequest extends KoLRequest
 		++currentRound;
 
 		if ( shouldLogAction )
-			KoLmafia.getSessionStream().print( " - Round 1: " + KoLCharacter.getUserName() + " " );
+			KoLmafia.getSessionStream().print( "Round 1: " + KoLCharacter.getUserName() + " " );
 
 		if ( action1.equals( "1" ) )
 		{
@@ -478,7 +478,7 @@ public class FightRequest extends KoLRequest
 		{
 			if ( shouldLogAction )
 			{
-				KoLmafia.getSessionStream().println( "wins initiative and casts " +
+				KoLmafia.getSessionStream().println( "casts " +
 					ClassSkillsDatabase.getSkillName( Integer.parseInt( action1 ) ).toUpperCase() + "!" );
 			}
 		}
@@ -785,7 +785,7 @@ public class FightRequest extends KoLRequest
 		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
 
 		if ( shouldLogAction )
-			KoLmafia.getSessionStream().print( " - Round " + currentRound + ": " + KoLCharacter.getUserName() + " " );
+			KoLmafia.getSessionStream().print( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " " );
 
 		Matcher skillMatcher = SKILL_PATTERN.matcher( urlString );
 		if ( skillMatcher.find() )

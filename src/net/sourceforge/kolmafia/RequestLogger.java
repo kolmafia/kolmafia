@@ -68,7 +68,10 @@ public class RequestLogger
 		// Some general URLs which never need to be registered
 		// because they don't do anything.
 
-		if ( urlString.startsWith( "leaflet.php" ) || urlString.startsWith( "cave.php" ) || urlString.startsWith( "lair" ) )
+		if ( urlString.startsWith( "login" ) || urlString.startsWith( "choice" ) )
+			return;
+
+		if ( urlString.startsWith( "leaflet" ) || urlString.startsWith( "cave" ) || urlString.startsWith( "lair" ) )
 			return;
 
 		if ( urlString.startsWith( "inventory.php?which" ) || urlString.equals( "knoll.php?place=paster" ) || urlString.equals( "town_right.php?place=untinker" ) )
@@ -102,6 +105,12 @@ public class RequestLogger
 		}
 
 		if ( (request instanceof FamiliarRequest || isExternal) && FamiliarRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( (request instanceof FlowerHunterRequest || isExternal) && FlowerHunterRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;

@@ -189,4 +189,24 @@ public class FlowerHunterRequest extends KoLRequest
 		int index = responseText.indexOf( "<p>Player to attack" );
 		responseText = responseText.substring( 0, index == -1 ? responseText.length() : index );
 	}
+
+	public static boolean registerRequest( String urlString )
+	{
+		if ( !urlString.startsWith( "pvp.php" ) )
+			return false;
+
+		int whoIndex = urlString.indexOf( "who=" );
+		if ( whoIndex == -1 )
+			return true;
+
+		String target = urlString.substring( whoIndex + 4 );
+		whoIndex = target.indexOf( "&" );
+
+		if ( whoIndex != -1 )
+			target = target.substring( 0, whoIndex );
+
+		KoLmafia.getSessionStream().println();
+		KoLmafia.getSessionStream().println( "pvp " + target );
+		return true;
+	}
 }
