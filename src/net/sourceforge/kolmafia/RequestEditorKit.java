@@ -1310,7 +1310,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				case ConsumeItemRequest.CONSUME_ZAP:
 					useType = "zap";
-					useLocation = "wand.php";
+					useLocation = "wand.php?whichwand=";
 					break;
 
 				default:
