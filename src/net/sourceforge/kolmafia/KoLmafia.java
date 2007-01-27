@@ -2986,46 +2986,34 @@ public abstract class KoLmafia implements KoLConstants
 		// Find all tradeable items.  Tradeable items
 		// are marked by an autosell value of nonzero.
 
-		AdventureResult [] items = new AdventureResult[ inventory.size() ];
-		inventory.toArray( items );
-
-		ArrayList autosell = new ArrayList();
-		ArrayList automall = new ArrayList();
-
 		RequestThread.openRequestSequence();
 		makeJunkRemovalRequest();
 
 		// Only place items in the mall which are not
-		// sold in NPC stores -- everything else, make
-		// sure you autosell.
+		// sold in NPC stores and can be autosold.
+
+		AdventureResult [] items = new AdventureResult[ inventory.size() ];
+		inventory.toArray( items );
+
+		ArrayList automall = new ArrayList();
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			switch ( items[i].getItemId() )
-			{
-			case ItemCreationRequest.MEAT_PASTE:
-			case ItemCreationRequest.MEAT_STACK:
-			case ItemCreationRequest.DENSE_STACK:
-				autosell.add( items[i] );
+			if ( !TradeableItemDatabase.isTradeable( items[i].getItemId() ) )
+				continue;
 
-			default:
+			if ( TradeableItemDatabase.getPriceById( items[i].getItemId() ) == 0 )
+				continue;
 
-				if ( TradeableItemDatabase.isTradeable( items[i].getItemId() ) )
-				{
-					if ( NPCStoreDatabase.contains( items[i].getName(), false ) )
-						autosell.add( items[i] );
-					else
-						automall.add( items[i] );
-				}
-			}
+			if ( NPCStoreDatabase.contains( items[i].getName(), false ) )
+				continue;
+
+			automall.add( items[i] );
 		}
 
 		// Now, place all the items in the mall at the
 		// maximum possible price.  This allows KoLmafia
 		// to determine the minimum price.
-
-		if ( autosell.size() > 0 && permitsContinue() )
-			RequestThread.postRequest( new AutoSellRequest( autosell.toArray(), AutoSellRequest.AUTOSELL ) );
 
 		if ( automall.size() > 0 && permitsContinue() )
 			RequestThread.postRequest( new AutoSellRequest( automall.toArray(), AutoSellRequest.AUTOMALL ) );
