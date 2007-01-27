@@ -680,6 +680,9 @@ public class BrowserLauncher {
 					{
 						Process process = Runtime.getRuntime().exec( new String [] { "which", browsers[i] } );
 
+						process.waitFor();
+						process.exitValue();
+
 						BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
 						if ( stream.readLine().indexOf( " " ) == -1 )
 						{
@@ -687,7 +690,7 @@ public class BrowserLauncher {
 							return;
 						}
 					}
-					catch (IOException e)
+					catch (Exception e)
 					{
 						// If we can't determine the default browser, then just
 						// move onto the next iteration of the loop.
