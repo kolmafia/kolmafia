@@ -100,7 +100,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		{
 			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
-			searchField = !System.getProperty( "os.name" ).equals( "Windows XP" ) ? (JComponent) new JTextField() :
+			searchField = StaticEntity.getBooleanProperty( "cacheMallSearches" ) ? (JComponent) new JTextField() :
 				(JComponent) new MutableComboBox( pastSearches, true );
 
 			countField = new JTextField();

@@ -260,12 +260,10 @@ public class ProposeTradeFrame extends KoLFrame
 
 		if ( isTradeResponse() )
 			RequestThread.postRequest( new ProposeTradeRequest( StaticEntity.parseInt( offerId ), messages[0], getAttachedItems() ) );
+		else
+			RequestThread.postRequest( new ProposeTradeRequest( recipient, messages[0], getAttachedItems() ) );
 
-		Object [] parameters = new Object[1];
-		parameters[0] = isTradeResponse() ? new ProposeTradeRequest() :
-			new ProposeTradeRequest( recipient, messages[0], getAttachedItems() );
-
-		createDisplay( PendingTradesFrame.class, parameters );
+		createDisplay( PendingTradesFrame.class );
 		return true;
 	}
 

@@ -803,7 +803,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 				KoLMessenger.initialize();
 			}
-			else if ( location.startsWith( "makeoffer.php" ) )
+			else if ( location.startsWith( "makeoffer.php" ) && location.indexOf( "accept" ) == -1 && location.indexOf( "decline" ) == -1 && location.indexOf( "cancel" ) == -1 )
 			{
 				// Attempts to do trading should open up KoLmafia's
 				// internal trade handler.

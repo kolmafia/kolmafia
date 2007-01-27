@@ -298,6 +298,9 @@ public class OptionsFrame extends KoLFrame
 		{
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
 			{ "interleaveRequests", "Allow for request interleave (may lock UI)" },
+
+			{ "", "" },
+
 			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
 			{ "cloverProtectActive", "Protect against automated clover adventures" },
 			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
@@ -306,6 +309,10 @@ public class OptionsFrame extends KoLFrame
 
 			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
 			{ "overPurchaseRestores", "Allow over-purchase of non soda water mp restores" },
+
+			{ "", "" },
+
+			{ "cacheMallSearches", "Cache mall searches (does not work on all OSes)" },
 			{ "autoSetConditions", "Automatically fill conditions field with defaults" },
 
 			{ "", "" },
