@@ -139,9 +139,6 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
-		clearDataFields();
-		isUsingConsultScript = false;
-
 		action1 = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
 		action2 = null;
 
@@ -338,6 +335,9 @@ public class FightRequest extends KoLRequest
 
 			action1 = null;
 			action2 = null;
+
+			clearDataFields();
+			isUsingConsultScript = false;
 
 			nextRound();
 
