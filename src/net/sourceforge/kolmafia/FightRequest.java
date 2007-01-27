@@ -497,34 +497,7 @@ public class FightRequest extends KoLRequest
 		// Spend MP and consume items
 
 		++currentRound;
-
-		// If this is the first round, then register the opponent
-		// you are fighting against.
-
-		if ( currentRound == 1 )
-		{
-			encounterLookup = CombatSettings.encounterKey( encounter );
-			monsterData = MonsterDatabase.findMonster( encounter );
-			checkForInitiative( responseText );
-		}
-
 		payActionCost();
-
-		// Reset round information.
-
-		if ( responseText.indexOf( "fight.php" ) == -1 )
-		{
-			encounter = "";
-			encounterLookup = "";
-			monsterData = null;
-
-			currentRound = 0;
-			offenseModifier = 0;
-			defenseModifier = 0;
-
-			action1 = null;
-			action2 = null;
-		}
 
 		// Check for antique breakage; only run the string search if
 		// the player is equipped with the applicable item.
@@ -551,6 +524,37 @@ public class FightRequest extends KoLRequest
 		{
 			KoLCharacter.setEquipment( KoLCharacter.PANTS, EquipmentRequest.UNEQUIP );
 			KoLCharacter.processResult( BROKEN_GREAVES );
+		}
+
+		// Reset round information if the battle is complete.
+		// This is recognized when fight.php has no data.
+
+		if ( currentRound == 1 )
+			checkForInitiative( responseText );
+
+		if ( responseText.indexOf( "fight.php" ) == -1 )
+		{
+			encounter = "";
+			encounterLookup = "";
+			monsterData = null;
+
+			currentRound = 0;
+			offenseModifier = 0;
+			defenseModifier = 0;
+
+			action1 = null;
+			action2 = null;
+
+			return;
+		}
+
+		// If this is the first round, then register the opponent
+		// you are fighting against.
+
+		if ( currentRound == 1 )
+		{
+			encounterLookup = CombatSettings.encounterKey( encounter );
+			monsterData = MonsterDatabase.findMonster( encounter );
 		}
 	}
 
