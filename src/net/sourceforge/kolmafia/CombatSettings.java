@@ -119,7 +119,7 @@ public abstract class CombatSettings implements KoLConstants
 			{
 				settingsFile.createNewFile();
 
-				keys = new String[ reference.keySet().size() ];
+				keys = new String[ reference.size() ];
 				reference.keySet().toArray( keys );
 
 				return;
@@ -181,7 +181,7 @@ public abstract class CombatSettings implements KoLConstants
 			reader.close();
 			reader = null;
 
-			keys = new String[ reference.keySet().size() ];
+			keys = new String[ reference.size() ];
 			reference.keySet().toArray( keys );
 		}
 		catch ( IOException e1 )

@@ -168,7 +168,7 @@ public class ClanStashLogRequest extends KoLRequest
 
 	private void saveCurrentData( File file )
 	{
-		String [] members = new String[ stashMap.keySet().size() ];
+		String [] members = new String[ stashMap.size() ];
 		stashMap.keySet().toArray( members );
 
 		PrintStream ostream = LogStream.openStream( file, true );

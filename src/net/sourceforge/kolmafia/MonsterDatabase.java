@@ -50,6 +50,8 @@ public class MonsterDatabase extends KoLDatabase
 	private static final Map MONSTER_NAMES = new TreeMap();
 	private static final Map MONSTER_DATA = new TreeMap();
 
+	private static String [] MONSTER_STRINGS = null;
+
 	// Elements
 	public static final int NONE = 0;
 	public static final int COLD = 1;
@@ -108,7 +110,7 @@ public class MonsterDatabase extends KoLDatabase
 				if ( !bad )
 				{
 					MONSTER_DATA.put( data[0], monster );
-					MONSTER_NAMES.put( CombatSettings.encounterKey( data[0] ), data[0] );
+					MONSTER_NAMES.put( CombatSettings.encounterKey( data[0] ).toLowerCase(), data[0] );
 				}
 			}
 		}
@@ -132,7 +134,7 @@ public class MonsterDatabase extends KoLDatabase
 
 	public static Monster findMonster( String name, boolean trySubstrings )
 	{
-		String keyName = CombatSettings.encounterKey( name );
+		String keyName = CombatSettings.encounterKey( name ).toLowerCase();
 		String realName = (String) MONSTER_NAMES.get( keyName );
 
 		// If no monster with that name exists, maybe it's
@@ -140,10 +142,15 @@ public class MonsterDatabase extends KoLDatabase
 
 		if ( realName == null && trySubstrings )
 		{
-			Object [] possibleNames = MONSTER_NAMES.keySet().toArray();
-			for ( int i = 0; realName == null && i < possibleNames.length; ++i )
-				if ( ((String)possibleNames[i]).indexOf( keyName ) != -1 )
-					realName = (String) MONSTER_NAMES.get( possibleNames[i] );
+			if ( MONSTER_STRINGS == null )
+			{
+				MONSTER_STRINGS = new String[ MONSTER_NAMES.size() ];
+				MONSTER_NAMES.keySet().toArray( MONSTER_STRINGS );
+			}
+
+			for ( int i = 0; realName == null && i < MONSTER_STRINGS.length; ++i )
+				if ( MONSTER_STRINGS[i].indexOf( keyName ) != -1 )
+					realName = (String) MONSTER_NAMES.get( MONSTER_STRINGS[i] );
 		}
 
 		return realName == null ? null : (Monster) MONSTER_DATA.get( realName );

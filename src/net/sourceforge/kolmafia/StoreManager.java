@@ -357,7 +357,7 @@ public abstract class StoreManager extends StaticEntity
 				prices.put( currentPrice, new Integer( currentQuantity.intValue() + resultsArray[i].getLimit() ) );
 		}
 
-		Integer [] priceArray = new Integer[ prices.keySet().size() ];
+		Integer [] priceArray = new Integer[ prices.size() ];
 		prices.keySet().toArray( priceArray );
 
 		for ( int i = 0; i < priceArray.length; ++i )
