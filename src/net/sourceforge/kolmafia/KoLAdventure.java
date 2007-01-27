@@ -771,8 +771,15 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				AdventureFrame.updateSelectedAdventure( this );
 		}
 
+		if ( !KoLmafia.isAdventuring() )
+		{
+			KoLmafiaCLI.printBlankLine();
+			KoLmafiaCLI.printLine( "[" + getAdventureCount() + "] " + getAdventureName() );
+		}
+
 		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( "[" + getAdventureCount() + "] " + getAdventureName() );
+
 		StaticEntity.getClient().registerAdventure( this );
 
 		if ( request instanceof CampgroundRequest || request instanceof SewerRequest )
@@ -824,6 +831,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( location == null )
 			return false;
+
+		if ( !KoLmafia.isAdventuring() )
+		{
+			KoLmafiaCLI.printBlankLine();
+			KoLmafiaCLI.printLine( "[" + getAdventureCount() + "] " + location );
+		}
 
 		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( "[" + getAdventureCount() + "] " + location );

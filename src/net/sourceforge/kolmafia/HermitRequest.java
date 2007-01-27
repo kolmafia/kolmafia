@@ -97,9 +97,6 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
-		if ( !AdventureDatabase.retrieveItem( PERMIT ) )
-			return;
-
 		if ( KoLCharacter.getLevel() >= 9 && getWorthlessItemCount() == 0 && KoLCharacter.hasItem( SUMMON_SCROLL ) )
 			(new ConsumeItemRequest( SUMMON_SCROLL )).run();
 
@@ -130,6 +127,14 @@ public class HermitRequest extends KoLRequest
 	{
 		if ( !parseHermitTrade( getURLString(), responseText ) )
 		{
+			if ( !KoLCharacter.hasItem( PERMIT ) )
+			{
+				if ( AdventureDatabase.retrieveItem( PERMIT ) )
+					this.run();
+
+				return;
+			}
+
 			KoLmafia.updateDisplay( ERROR_STATE, "You're not allowed to visit the Hermit." );
 			return;
 		}
