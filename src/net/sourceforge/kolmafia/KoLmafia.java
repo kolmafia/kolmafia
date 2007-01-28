@@ -441,7 +441,7 @@ public abstract class KoLmafia implements KoLConstants
 	public static void enableDisplay()
 	{
 		updateDisplayState( continuationState == ABORT_STATE || continuationState == ERROR_STATE ? ERROR_STATE : ENABLE_STATE, "" );
-		continuationState = ENABLE_STATE;
+		continuationState = CONTINUE_STATE;
 	}
 
 	public static boolean executedLogin()
