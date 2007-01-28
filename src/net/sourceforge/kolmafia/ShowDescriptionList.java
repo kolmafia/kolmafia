@@ -66,33 +66,34 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	public int lastSelectIndex;
 	public JPopupMenu contextMenu;
 	public ListElementFilter filter;
+	private LockableListModel listModel;
 
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
-	public ShowDescriptionList( LockableListModel model )
+	public ShowDescriptionList( LockableListModel listModel )
 	{
 		contextMenu = new JPopupMenu();
 
-		boolean isEncyclopedia = model.get(0) instanceof Entry;
+		boolean isEncyclopedia = listModel.get(0) instanceof Entry;
 
-		if ( model.size() == 0 || !isEncyclopedia )
+		if ( listModel.size() == 0 || !isEncyclopedia )
 			contextMenu.add( new DescriptionMenuItem() );
 
 		contextMenu.add( new WikiLookupMenuItem() );
 
-		if ( model == junkItemList )
+		if ( listModel == junkItemList )
 			contextMenu.add( new RemoveFromJunkListMenuItem() );
 
-		if ( model == mementoList )
+		if ( listModel == mementoList )
 			contextMenu.add( new RemoveFromMementoListMenuItem() );
 
-		if ( model == tally )
+		if ( listModel == tally )
 			contextMenu.add( new ZeroTallyMenuItem() );
 
-		if ( model == tally || model == inventory )
+		if ( listModel == tally || listModel == inventory )
 			contextMenu.add( new AutoSellMenuItem() );
 
-		if ( model == tally || model == inventory || isEncyclopedia || model == ConcoctionsDatabase.getConcoctions() )
+		if ( listModel == tally || listModel == inventory || isEncyclopedia || listModel == ConcoctionsDatabase.getConcoctions() )
 		{
 			contextMenu.add( new AddToJunkListMenuItem() );
 			contextMenu.add( new AddToMementoListMenuItem() );
@@ -101,24 +102,27 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		addMouseListener( new PopupListener() );
 		addMouseListener( new ShowDescriptionAdapter() );
 
-		if ( model == junkItemList )
+		if ( listModel == junkItemList )
 		{
-			setModel( inventory.getMirrorImage() );
-			applyFilter( new JunkListFilter( (LockableListModel) getModel() ) );
+			this.listModel = inventory.getMirrorImage();
+
+			setModel( listModel );
+			applyFilter( new JunkListFilter() );
 		}
 		else
 		{
-			setModel( model.getMirrorImage() );
+			this.listModel = listModel.getMirrorImage();
+			setModel( listModel );
 		}
 
 		setVisibleRowCount( 4 );
 		setCellRenderer( AdventureResult.getDefaultRenderer() );
 	}
 
-	public void applyFilter( LockableListModel.ListElementFilter filter )
+	public void applyFilter( ListElementFilter filter )
 	{
 		this.filter = filter;
-		((LockableListModel)getModel()).applyListFilter( filter );
+		listModel.applyListFilter( filter );
 	}
 
 	/**
@@ -297,7 +301,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			}
 
 			StaticEntity.saveFlaggedItemList();
-			((LockableListModel)getModel()).applyListFilter( filter );
+			listModel.applyListFilter( filter );
 		}
 	}
 
@@ -395,12 +399,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 	private class JunkListFilter extends ListElementFilter implements ListDataListener
 	{
-		private LockableListModel model;
-
-		public JunkListFilter( LockableListModel model )
-		{
-			this.model = model;
-			junkItemList.addListDataListener( this );
+		public JunkListFilter()
+		{	junkItemList.addListDataListener( this );
 		}
 
 		public boolean isVisible( Object element )
@@ -420,15 +420,15 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 
 		public void intervalAdded( ListDataEvent e )
-		{	model.applyListFilters();
+		{	listModel.applyListFilters();
 		}
 
 		public void intervalRemoved( ListDataEvent e )
-		{	model.applyListFilters();
+		{	listModel.applyListFilters();
 		}
 
 		public void contentsChanged( ListDataEvent e )
-		{	model.applyListFilters();
+		{	listModel.applyListFilters();
 		}
 	}
 }

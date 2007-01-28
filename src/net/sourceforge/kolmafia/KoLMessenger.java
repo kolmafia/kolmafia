@@ -825,10 +825,9 @@ public abstract class KoLMessenger extends StaticEntity
 		boolean isGreenMessage = message.startsWith( "<a target=mainpane href=\"messages.php\">" ) ||
 			message.indexOf( "has proposed a trade" ) != -1 || message.indexOf( "has cancelled a trade" ) != -1 ||
 			message.indexOf( "has responded to a trade" ) != -1 || message.indexOf( "has declined a trade" ) != -1 ||
-			message.indexOf( "has accepted a trade" ) != -1 || message.indexOf( "logged on." ) != -1 || message.indexOf( "logged off." ) != -1 ||
-			message.indexOf( "has given you a box of sunshine." ) != -1 || message.indexOf( "has played" ) != -1 ||
-			message.indexOf( "has littered toilet paper" ) != -1 || message.indexOf( "with a brick." ) != -1 ||
-			message.indexOf( "has hit you in the face with a cream pie" ) != -1;
+			message.indexOf( "has accepted a trade" ) != -1 || message.indexOf( "has given you a box of sunshine." ) != -1 ||
+			message.indexOf( "has played" ) != -1 || message.indexOf( "has littered toilet paper" ) != -1 ||
+			message.indexOf( "with a brick." ) != -1 || message.indexOf( "has hit you in the face with a cream pie" ) != -1;
 
 		if ( isWhoMessage )
 		{
@@ -838,7 +837,7 @@ public abstract class KoLMessenger extends StaticEntity
 		else if ( isGreenMessage )
 		{
 			displayHTML.insert( 0, "<!-- EVENT --><font color=green>" );
-			displayHTML.append( "</font>" );
+			displayHTML.append( "</font><br>" );
 
 			return displayHTML.toString();
 		}
