@@ -63,8 +63,8 @@ public interface KoLConstants
 	// Version information for the current version of KoLmafia.
 	// Rendered in various locations and therefore made public.
 
-	public static final String VERSION_NAME = "KoLmafia v10.3";
-	public static final String VERSION_DATE = "Released on January 26, 2007";
+	public static final String VERSION_NAME = "KoLmafia v10.4";
+	public static final String VERSION_DATE = "Released on January 28, 2007";
 
 	// General constants used for calculations and formatting of
 	// strings, as well as for string parsing.
@@ -157,6 +157,7 @@ public interface KoLConstants
 
 	public static final ArrayList disabledScripts = new ArrayList();
 	public static final SortedListModel junkItemList = new SortedListModel();
+	public static final SortedListModel mementoList = new SortedListModel();
 
 	public static final File DATA_DIRECTORY = new File( "data" );
 	public static final File IMAGE_DIRECTORY = new File( "images" );

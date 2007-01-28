@@ -130,6 +130,7 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		boolean allowNoTrade = allowUntradeableTransfer();
 		boolean allowNoGift = allowUngiftableTransfer();
+		boolean allowMemento = allowMementoTransfer();
 
 		while ( index1 < attachments.length )
 		{
@@ -149,6 +150,9 @@ public abstract class SendMessageRequest extends KoLRequest
 					continue;
 
 				else if ( !allowNoTrade && !TradeableItemDatabase.isTradeable( item.getItemId() ) )
+					continue;
+
+				else if ( !allowMemento && mementoList.contains( item ) )
 					continue;
 
 				availableCount = item.getCount( source );
@@ -285,6 +289,10 @@ public abstract class SendMessageRequest extends KoLRequest
 
 	public static void setUpdateDisplayOnFailure( boolean shouldUpdate )
 	{	updateDisplayOnFailure = shouldUpdate;
+	}
+
+	public boolean allowMementoTransfer()
+	{	return true;
 	}
 
 	public boolean allowUngiftableTransfer()

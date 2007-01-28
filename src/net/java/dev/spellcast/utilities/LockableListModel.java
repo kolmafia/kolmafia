@@ -651,6 +651,9 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	public void applyListFilter( ListElementFilter newFilter )
 	{
+		if ( newFilter == null )
+			return;
+
 		Object element;
 		visibleElements.clear();
 

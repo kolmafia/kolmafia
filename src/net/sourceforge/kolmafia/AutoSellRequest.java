@@ -93,6 +93,9 @@ public class AutoSellRequest extends SendMessageRequest
 	{	return "sendmeat";
 	}
 
+	public boolean allowMementoTransfer()
+	{	return false;
+	}
 
 	private static String getSellPage( int sellType )
 	{
