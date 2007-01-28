@@ -3037,6 +3037,10 @@ public class KoLmafiaCLI extends KoLmafia
 				itemCount = 0;
 				parameters = parameters.substring(1).trim();
 			}
+			else if ( TradeableItemDatabase.contains( parameters ) )
+			{
+				itemCount = 1;
+			}
 			else
 			{
 				boolean isNumeric = parameters.charAt(0) == '-' || Character.isDigit( parameters.charAt(0) );
