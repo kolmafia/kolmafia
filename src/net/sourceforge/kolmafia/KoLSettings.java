@@ -416,7 +416,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "defaultAutoAttack", "0" );
 		PLAYER_SETTINGS.put( "hpAutoRecovery", "-0.1" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );
-		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages" );
+		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment" );
 		PLAYER_SETTINGS.put( "hpThreshold", "-0.1" );
 		PLAYER_SETTINGS.put( "invalidBuffMessage", "You sent an amount which does not correspond to a valid buff amount." );
 		PLAYER_SETTINGS.put( "lastAdventure", "" );
@@ -425,7 +425,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
 		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0" );
 		PLAYER_SETTINGS.put( "mpAutoRecoveryTarget", "0.3" );
-		PLAYER_SETTINGS.put( "mpAutoRecoveryItems", "phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;soda water" );
+		PLAYER_SETTINGS.put( "mpAutoRecoveryItems", "phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water" );
 		PLAYER_SETTINGS.put( "mpThreshold", "-0.1" );
 		PLAYER_SETTINGS.put( "plantingDay", "-1" );
 		PLAYER_SETTINGS.put( "plantingDate", "" );
