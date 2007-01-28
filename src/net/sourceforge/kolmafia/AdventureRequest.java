@@ -356,11 +356,9 @@ public class AdventureRequest extends KoLRequest
 
 		if ( formSource.equals( "friars.php" ) )
 		{
-			// "The infernal creatures who have tainted the Friar's
-			// copse stream back into the gate, hooting and
-			// shrieking."
+			// "Thank you, Adventurer."
 
-			if ( responseText.indexOf( "hooting and shrieking" ) == -1 )
+			if ( responseText.indexOf( "Thank you" ) == -1 )
 				KoLmafia.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
 
 			return;

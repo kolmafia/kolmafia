@@ -666,11 +666,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( location.equals( "friars.php" ) )
 		{
-			// "The infernal creatures who have tainted the Friar's
-			// copse stream back into the gate, hooting and
-			// shrieking."
+			// "Thank you, Adventurer."
 
-			if ( responseText.indexOf( "hooting and shrieking" ) != -1 )
+			if ( responseText.indexOf( "Thank you" ) != -1 )
 			{
 				StaticEntity.getClient().processResult( AdventureRequest.DODECAGRAM );
 				StaticEntity.getClient().processResult( AdventureRequest.CANDLES );
