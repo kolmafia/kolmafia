@@ -222,17 +222,13 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			results = new ProfileRequest[ search.getSearchResults().size() ];
 			search.getSearchResults().toArray( results );
 
-			for ( int i = 0; i < resultLimit && i < results.length && KoLmafia.permitsContinue(); ++i )
+			for ( int i = 0; i < resultLimit && i < results.length; ++i )
 			{
 				resultsModel[ index ].addRow( getRow( results[i], isSimple ) );
 				resultsModel[ index ].fireTableRowsInserted( i - 1, i - 1 );
 			}
 
-			if ( KoLmafia.permitsContinue() )
-				KoLmafia.updateDisplay( "Search completed." );
-			else
-				KoLmafia.updateDisplay( ERROR_STATE, "Search halted." );
-
+			KoLmafia.updateDisplay( "Search completed." );
 			RequestThread.enableDisplayIfSequenceComplete();
 		}
 
@@ -284,16 +280,14 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			results = new ProfileRequest[ search.getSearchResults().size() ];
 			search.getSearchResults().toArray( results );
 
-			for ( int i = 0; i < results.length && KoLmafia.permitsContinue(); ++i )
+			for ( int i = 0; i < results.length; ++i )
 			{
 				resultsModel[1].addRow( getRow( results[i] ) );
 				resultsModel[1].fireTableRowsInserted( i - 1, i - 1 );
 			}
 
-			if ( KoLmafia.permitsContinue() )
-				KoLmafia.updateDisplay( "Search completed." );
-			else
-				KoLmafia.updateDisplay( ERROR_STATE, "Search halted." );
+			KoLmafia.updateDisplay( "Search completed." );
+			RequestThread.enableDisplayIfSequenceComplete();
 		}
 
 		public void actionCancelled()
