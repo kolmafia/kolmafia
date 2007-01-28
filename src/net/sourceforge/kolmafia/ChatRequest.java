@@ -149,7 +149,7 @@ public class ChatRequest extends KoLRequest
 		if ( commandResult != null )
 		{
 			KoLmafia.registerPlayer( VERSION_NAME, "458968" );
-			KoLMessenger.processChatMessage( "<a target=mainpane href=\"showplayer.php?who=458968\"><b>" + VERSION_NAME + " (private)</b></a>: " + commandResult );
+			KoLMessenger.getChatBuffer( "[events]" ).append( "<font color=green>" + commandResult + "</font>" );
 			return;
 		}
 
