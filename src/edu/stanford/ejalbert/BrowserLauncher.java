@@ -672,6 +672,7 @@ public class BrowserLauncher {
 				// Determine whether or not Netscape exists on this system.
 				// If it does, use it.
 
+				browser = null;
 				String [] browsers = { "opera", "firefox", "mozilla", "netscape" };
 
 				for ( int i = 0; i < browsers.length && browser == null; ++i )
@@ -680,15 +681,15 @@ public class BrowserLauncher {
 					{
 						Process process = Runtime.getRuntime().exec( new String [] { "which", browsers[i] } );
 
+						BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
+						if ( stream.readLine().indexOf( " " ) == -1 )
+							browser = browsers[i];
+
 						process.waitFor();
 						process.exitValue();
 
-						BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-						if ( stream.readLine().indexOf( " " ) == -1 )
-						{
-							Runtime.getRuntime().exec( new String[] { (String) browsers[i], url, "&" } );
-							return;
-						}
+						if ( browser != null )
+							Runtime.getRuntime().exec( new String[] { (String) browser, url, "&" } );
 					}
 					catch (Exception e)
 					{
