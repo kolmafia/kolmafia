@@ -99,7 +99,6 @@ public abstract class KoLmafia implements KoLConstants
 		MoodSettings.reset();
 	}
 
-	private static boolean isEnabled = true;
 	private static boolean hadPendingState = false;
 
 	private static final String [] OVERRIDE_DATA =
@@ -143,6 +142,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	static
 	{
+		stopEncounters.add( "Cobbs Knob lab key" );
 		stopEncounters.add( "History is Fun!" );
 		stopEncounters.add( "It's A Sign!" );
 		stopEncounters.add( "The Manor in Which You're Accustomed" );
@@ -398,7 +398,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( continuationState == ABORT_STATE && message.equals( "" ) )
 			return;
 
-		if ( continuationState != ABORT_STATE )
+		if ( continuationState != ABORT_STATE && continuationState != PENDING_STATE )
 			continuationState = state;
 
 		KoLmafiaCLI.printLine( state, message );
@@ -436,16 +436,12 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( KoLDesktop.instanceExists() )
 			KoLDesktop.getInstance().updateDisplayState( state );
-
-		isEnabled = (state == ERROR_STATE || state == ENABLE_STATE);
 	}
 
 	public static void enableDisplay()
 	{
-		if ( isEnabled )
-			return;
-
 		updateDisplayState( continuationState == ABORT_STATE || continuationState == ERROR_STATE ? ERROR_STATE : ENABLE_STATE, "" );
+		continuationState = ENABLE_STATE;
 	}
 
 	public static boolean executedLogin()
@@ -1003,9 +999,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	private final boolean recover( int needed, String settingName, String currentName, String maximumName, Object [] techniques ) throws Exception
 	{
-		if ( refusesContinue() )
-			return false;
-
 		// First, check for beaten up, if the person has tongue as an
 		// auto-heal option.  This takes precedence over all other checks.
 
@@ -1159,7 +1152,6 @@ public abstract class KoLmafia implements KoLConstants
 			return false;
 		}
 
-		forceContinue();
 		return true;
 	}
 
@@ -1495,7 +1487,6 @@ public abstract class KoLmafia implements KoLConstants
 			// Before anything happens, make sure that you are in
 			// in a valid continuation state.
 
-			forceContinue();
 			boolean wasAdventuring = isAdventuring;
 
 			// Handle the gym, which is the only adventure type
@@ -1526,7 +1517,10 @@ public abstract class KoLmafia implements KoLConstants
 			// been manipulated internally by
 
 			RequestThread.openRequestSequence();
+
+			KoLmafiaCLI.printBlankLine();
 			executeRequest( request, iterations );
+
 			RequestThread.closeRequestSequence();
 
 			if ( request instanceof KoLAdventure && !wasAdventuring )
@@ -1547,6 +1541,7 @@ public abstract class KoLmafia implements KoLConstants
 	private void executeRequest( Runnable request, int iterations )
 	{
 		hadPendingState = false;
+
 		boolean isCheckExempt = !(request instanceof KoLAdventure) || ((KoLAdventure)request).getRequest() instanceof CampgroundRequest ||
 			KoLCharacter.getInebriety() > 25 || ((KoLAdventure)request).getZone().equals( "Holiday" );
 
@@ -1579,6 +1574,8 @@ public abstract class KoLmafia implements KoLConstants
 			items[i] = (AdventureResult) conditions.get(i);
 			creatables[i] = ItemCreationRequest.getInstance( items[i].getItemId() );
 		}
+
+		forceContinue();
 
 		while ( permitsContinue() && ++currentIteration <= iterations )
 		{
@@ -1635,8 +1632,8 @@ public abstract class KoLmafia implements KoLConstants
 				if ( conditions.size() == 0 || useDisjunction )
 				{
 					conditions.clear();
-					remainingConditions = 0;
-					break;
+					updateDisplay( PENDING_STATE, "Conditions satisfied after " + (currentIteration - 1) +
+						((currentIteration == 2) ? " request." : " requests.") );
 				}
 			}
 
@@ -1664,10 +1661,24 @@ public abstract class KoLmafia implements KoLConstants
 			if ( request instanceof KoLAdventure )
 				AdventureFrame.updateRequestMeter( currentIteration - 1, iterations );
 
+			KoLmafiaCLI.printBlankLine();
 			RequestThread.postRequest( request );
+			KoLmafiaCLI.printBlankLine();
 
-			if ( permitsContinue() && request instanceof KoLAdventure )
-				KoLmafiaCLI.printBlankLine();
+			// If the conditions existed and have been satisfied,
+			// then you should stop.
+
+			if ( conditions.size() < remainingConditions )
+			{
+				if ( conditions.size() == 0 || useDisjunction )
+				{
+					conditions.clear();
+					updateDisplay( PENDING_STATE, "Conditions satisfied after " + currentIteration  +
+						((currentIteration == 1) ? " request." : " requests.") );
+				}
+			}
+
+			remainingConditions = conditions.size();
 
 			// Decrement the counter to null out the increment
 			// effect on the next iteration of the loop.
@@ -1703,15 +1714,10 @@ public abstract class KoLmafia implements KoLConstants
 		if ( permitsContinue() && !isRunningBetweenBattleChecks() )
 		{
 			if ( request instanceof KoLAdventure && !conditions.isEmpty() )
+			{
 				updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
 					((currentIteration == 2) ? " adventure." : " adventures.") );
-
-			else if ( initialConditions != 0 && conditions.isEmpty() )
-				updateDisplay( "Conditions satisfied after " + (currentIteration - 1) +
-					((currentIteration == 2) ? " request." : " requests.") );
-
-			else if ( request instanceof KoLAdventure )
-				updateDisplay( "Adventuring completed." );
+			}
 		}
 		else if ( continuationState == PENDING_STATE )
 		{
@@ -2648,7 +2654,10 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		if ( conditions.isEmpty() && stopEncounters.contains( encounterName ) )
 		{
+			KoLmafiaCLI.printBlankLine();
 			KoLmafia.updateDisplay( PENDING_STATE, encounterName );
+			KoLmafiaCLI.printBlankLine();
+
 			RequestThread.enableDisplayIfSequenceComplete();
 		}
 	}
@@ -2860,7 +2869,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Do not run between battle checks if you are in the middle
 		// of your checks or if you have aborted.
 
-		if ( recoveryActive || refusesContinue() || (runThresholdCheck && !runThresholdChecks()) )
+		if ( recoveryActive || continuationState == PENDING_STATE || refusesContinue() || (runThresholdCheck && !runThresholdChecks()) )
 			return;
 
 		recoveryActive = true;
@@ -2893,6 +2902,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( permitsContinue() && currentIterationString.length() > 0 )
 		{
+			KoLmafiaCLI.printBlankLine();
 			updateDisplay( currentIterationString );
 			currentIterationString = "";
 		}

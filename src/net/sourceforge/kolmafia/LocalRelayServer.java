@@ -435,7 +435,6 @@ public class LocalRelayServer implements Runnable
 					{
 						StaticEntity.setProperty( "battleAction", "custom combat script" );
 
-						KoLmafia.forceContinue();
 						FightRequest.beginTrackingFights();
 						(new Thread( FightRequest.INSTANCE )).start();
 					}
@@ -493,6 +492,12 @@ public class LocalRelayServer implements Runnable
 					}
 
 					request.run();
+
+					if ( path.endsWith( "noobmessage=true" ) )
+					{
+						request.responseText = StaticEntity.singleStringReplace( request.responseText, "</html>",
+							"<script language=\"Javascript\"> function visitTootOriole() { document.location = \"mtnoob.php?action=toot\"; return 0; } setTimeout( visitTootOriole, 4000 ); </script></html>" );
+					}
 				}
 
 				writer.println( request.statusLine );

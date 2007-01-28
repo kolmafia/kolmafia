@@ -708,7 +708,6 @@ public class AdventureFrame extends KoLFrame
 				if ( KoLmafia.isAdventuring() )
 					return;
 
-				KoLmafia.forceContinue();
 				KoLmafia.updateDisplay( "Validating adventure sequence..." );
 
 				KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();

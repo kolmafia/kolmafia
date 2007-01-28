@@ -107,21 +107,7 @@ public class LoginFrame extends KoLFrame
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
 
-		try
-		{
-			String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
-			KoLmafia.updateDisplay( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-
 		setResizable( false );
-		KoLmafia.enableDisplay();
 	}
 
 	public void requestFocus()
@@ -231,6 +217,19 @@ public class LoginFrame extends KoLFrame
 
 			autoLoginCheckBox.addActionListener( new AutoLoginListener() );
 			savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
+
+			try
+			{
+				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
+				setStatusMessage( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
 		}
 
 		public void setEnabled( boolean isEnabled )
