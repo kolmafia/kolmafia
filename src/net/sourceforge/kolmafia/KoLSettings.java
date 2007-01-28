@@ -88,6 +88,46 @@ public class KoLSettings extends Properties implements KoLConstants
 		"Warm Subject gift certificate", "disturbing fanfic", "probability potion", "procrastination potion", "Mick's IcyVapoHotness Rub"
 	};
 
+	public static final String [] COMMON_MEMENTOS =
+	{
+		// Things which are generally used during a softcore ascension should not
+		// be placed on the junk list, unless they're easy to find.
+
+		"Boris's key", "Jarlsberg's key", "Sneaky Pete's key", "Richard's star key", "digital key",
+		"baseball", "disease", "barbed-wire fence", "razor-sharp can lid", "meat vortex", "frigid ninja stars",
+		"chaos butterfly", "photoprotoneutron torpedo", "spider web", "Wand of Nagamar", "Rock and Roll Legend",
+
+		// Crimbo 2005/2006 accessories, if they're still around, probably shouldn't
+		// be placed in the player's store.
+
+		"tiny plastic Crimbo wreath", "tiny plastic Uncle Crimbo", "tiny plastic Crimbo elf",
+		"tiny plastic sweet nutcracker", "tiny plastic Crimbo reindeer",
+		"wreath-shaped Crimbo cookie", "bell-shaped Crimbo cookie", "tree-shaped Crimbo cookie",
+
+		"candy stake", "spooky eggnog", "ancient unspeakable fruitcake", "gingerbread horror",
+		"bat-shaped Crimboween cookie", "skull-shaped Crimboween cookie", "tombstone-shaped Crimboween cookie",
+
+		"tiny plastic gift-wrapping vampire", "tiny plastic ancient yuletide troll",
+		"tiny plastic skeletal reindeer", "tiny plastic Crimboween pentagram", "tiny plastic Scream Queen",
+		"orange and black Crimboween candy",
+
+		// Certain items tend to be used throughout an ascension, so they probably
+		// shouldn't get sold, either.
+
+		"sword behind inappropriate prepositions", "toy mercenary",
+
+		// Collectible items should probably be sent to other players rather than
+		// be autosold for no good reason.
+
+		"stuffed cocoabo", "stuffed baby gravy fairy", "stuffed flaming gravy fairy",
+		"stuffed frozen gravy fairy", "stuffed stinky gravy fairy", "stuffed spooky gravy fairy",
+		"stuffed sleazy gravy fairy", "stuffed astral badger", "stuffed MagiMechTech MicroMechaMech",
+		"stuffed hand turkey", "stuffed snowy owl", "stuffed scary death orb", "stuffed mind flayer",
+		"stuffed undead elbow macaroni", "stuffed angry cow", "stuffed Cheshire bitten",
+		"stuffed yo-yo", "rubber WWJD? bracelet", "rubber WWBD? bracelet", "rubber WWSPD? bracelet",
+		"rubber WWtNSD? bracelet", "heart necklace", "spade necklace", "diamond necklace", "club necklace",
+	};
+
 	static
 	{
 		// Renaming data files to make then easier to find for most
@@ -101,6 +141,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	private File settingsFile;
 	private File junkItemsFile;
+	private File mementoFile;
 	private String noExtensionName;
 
 	/**
@@ -117,7 +158,8 @@ public class KoLSettings extends Properties implements KoLConstants
 		this.noExtensionName = KoLCharacter.baseUserName( characterName );
 
 		this.settingsFile = new File( SETTINGS_DIRECTORY, "prefs_" + noExtensionName + ".txt" );
-		this.junkItemsFile = new File( SETTINGS_DIRECTORY, "junk_" + noExtensionName + ".txt" );
+		this.junkItemsFile = new File( SETTINGS_DIRECTORY, "junk_GLOBAL.txt" );
+		this.mementoFile = new File( SETTINGS_DIRECTORY, "memento_GLOBAL.txt" );
 
 		loadSettings();
 		ensureDefaults();
@@ -172,16 +214,17 @@ public class KoLSettings extends Properties implements KoLConstants
 		return oldValue == null ? "" : oldValue;
 	}
 
-	public void saveJunkItemList()
+	public void saveFlaggedItemList()
 	{
-		if ( KoLCharacter.baseUserName().equals( "GLOBAL" )	)
-			return;
-
 		LogStream ostream = LogStream.openStream( junkItemsFile, true );
-
-		ostream.println( "[junk items]" );
 		for ( int i = 0; i < junkItemList.size(); ++i )
 			ostream.println( ((AdventureResult)junkItemList.get(i)).getName() );
+
+		ostream.close();
+
+		ostream = LogStream.openStream( mementoFile, true );
+		for ( int i = 0; i < mementoList.size(); ++i )
+			ostream.println( ((AdventureResult)mementoList.get(i)).getName() );
 
 		ostream.close();
 	}
@@ -267,26 +310,51 @@ public class KoLSettings extends Properties implements KoLConstants
 			{
 				for ( int i = 0; i < COMMON_JUNK.length; ++i )
 					junkItemList.add( new AdventureResult( COMMON_JUNK[i], 1, false ) );
-
-				saveJunkItemList();
-				return;
 			}
-
-			istream = new FileInputStream( junkItemsFile );
-			BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
-
-			String line;
-
-			while ( (line = reader.readLine()) != null && !line.equals( "[junk items]" ) );
-			while ( line != null && (line = reader.readLine()) != null )
+			else
 			{
-				if ( line.equals( "" ) )
-					continue;
+				istream = new FileInputStream( junkItemsFile );
+				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
 
-				junkItemList.add( new AdventureResult( line, 1, false ) );
+				String line;
+
+				while ( (line = reader.readLine()) != null )
+				{
+					if ( line.equals( "" ) || line.startsWith( "[" ) )
+						continue;
+
+					junkItemList.add( new AdventureResult( line, 1, false ) );
+				}
+
+				reader.close();
 			}
 
-			reader.close();
+			mementoList.clear();
+
+			if ( !mementoFile.exists() )
+			{
+				for ( int i = 0; i < COMMON_MEMENTOS.length; ++i )
+					mementoList.add( new AdventureResult( COMMON_MEMENTOS[i], 1, false ) );
+			}
+			else
+			{
+				istream = new FileInputStream( mementoFile );
+				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
+
+				String line;
+
+				while ( (line = reader.readLine()) != null )
+				{
+					if ( line.equals( "" ) || line.startsWith( "[" ) )
+						continue;
+
+					mementoList.add( new AdventureResult( line, 1, false ) );
+				}
+
+				reader.close();
+			}
+
+			saveFlaggedItemList();
 		}
 		catch ( IOException e1 )
 		{

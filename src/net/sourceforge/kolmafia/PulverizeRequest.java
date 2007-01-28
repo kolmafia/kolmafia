@@ -58,6 +58,9 @@ public class PulverizeRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( mementoList.contains( item ) )
+			return;
+
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
 		case ConsumeItemRequest.EQUIP_FAMILIAR:

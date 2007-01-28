@@ -3103,6 +3103,10 @@ public abstract class KoLmafia implements KoLConstants
 			for ( int i = 0; i < items.length; ++i )
 			{
 				currentItem = (AdventureResult) items[i];
+
+				if ( mementoList.contains( currentItem ) )
+					continue;
+
 				itemCount = currentItem.getCount( inventory );
 				itemPower = EquipmentDatabase.getPower( currentItem.getItemId() );
 

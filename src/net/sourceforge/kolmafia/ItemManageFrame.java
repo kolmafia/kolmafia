@@ -68,6 +68,8 @@ import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 public class ItemManageFrame extends KoLFrame
 {
+	private static final Dimension MAX_WIDTH = new Dimension( 500, Integer.MAX_VALUE );
+
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
 	 * of the necessary panels into a tabular layout for accessibility.
@@ -82,12 +84,12 @@ public class ItemManageFrame extends KoLFrame
 
 		LabeledScrollPanel npcOfferings = null;
 
-		tabs.addTab( "Usable Items", new ConsumeItemPanel() );
-		tabs.addTab( "Recent Items", new InventoryManagePanel( tally ) );
-		tabs.addTab( "Inventory Items", new InventoryManagePanel( inventory ) );
-		tabs.addTab( "Closeted Items", new InventoryManagePanel( closet ) );
-		tabs.addTab( "Creatable Items", new CreateItemPanel() );
-//		tabs.addTab( "Recipe Finder", new InventPanel() );
+		tabs.addTab( "Usable", new ConsumeItemPanel() );
+		tabs.addTab( "Recent", new InventoryManagePanel( tally ) );
+		tabs.addTab( "Inventory", new InventoryManagePanel( inventory ) );
+		tabs.addTab( "Closet", new InventoryManagePanel( closet ) );
+		tabs.addTab( "Creations", new CreateItemPanel() );
+//		tabs.addTab( "Finder", new InventPanel() );
 
 		// If the person is in a mysticality sign, make sure
 		// you retrieve information from the restaurant.
@@ -95,7 +97,7 @@ public class ItemManageFrame extends KoLFrame
 		if ( KoLCharacter.inMysticalitySign() && !restaurantItems.isEmpty() )
 		{
 			npcOfferings = new SpecialPanel( restaurantItems );
-			tabs.add( "Restaurant Menu", npcOfferings );
+			tabs.add( "Restaurant", npcOfferings );
 		}
 
 		// If the person is in a moxie sign and they have completed
@@ -105,14 +107,94 @@ public class ItemManageFrame extends KoLFrame
 		if ( KoLCharacter.inMoxieSign() && !microbreweryItems.isEmpty() )
 		{
 			npcOfferings = new SpecialPanel( microbreweryItems );
-			tabs.add( "Microbrewery Menu", npcOfferings );
+			tabs.add( "Microbrewery", npcOfferings );
 		}
 
 		// Now a special panel which does nothing more than list
 		// some common actions and some descriptions.
 
-		addTab( "Scripted Actions", new CommonActionsPanel() );
+		addTab( "Filters", new FlaggedItemsPanel() );
+		addTab( "Scripts", new CommonActionsPanel() );
 		framePanel.add( tabs, BorderLayout.CENTER );
+	}
+
+	private class FlaggedItemsPanel extends JPanel
+	{
+		private JPanel container;
+
+		public FlaggedItemsPanel()
+		{
+			container = new JPanel();
+			container.setLayout( new BoxLayout( container, BoxLayout.Y_AXIS ) );
+
+			// Memento list.
+
+			JLabel description = new JLabel( "<html>The following items are flagged as \"mementos\".  KoLmafia will never autosell these items, place them in the mall, or pulverize them, even if they are flagged as junk.  Furthermore, any item which cannot be autosold in game will be avoided by the end of run sale script and need not be added here to take effect.  The only way to bypass this restriction is to use the relay browser, which does not use this list.</html>" );
+
+			description.setMaximumSize( MAX_WIDTH );
+			description.setVerticalAlignment( JLabel.TOP );
+			description.setAlignmentX( LEFT_ALIGNMENT );
+			container.add( description );
+			container.add( Box.createVerticalStrut( 10 ) );
+
+			SimpleScrollPane scroller = new SimpleScrollPane( new ShowDescriptionList( mementoList ) );
+			scroller.setMaximumSize( MAX_WIDTH );
+			scroller.setAlignmentX( LEFT_ALIGNMENT );
+			container.add( scroller );
+
+			container.add( Box.createVerticalStrut( 30 ) );
+
+			// Junk item list.
+
+			description = new JLabel( "<html>The following items are the items in your inventory which are flagged as \"junk\".  On many areas of KoLmafia's interface, these items will be flagged with a gray color.  In addition, there is a junk item script available in the scripts tab of this item manager which sells all of these items at once.</html>" );
+
+			description.setMaximumSize( MAX_WIDTH );
+			description.setVerticalAlignment( JLabel.TOP );
+			description.setAlignmentX( LEFT_ALIGNMENT );
+			container.add( description );
+			container.add( Box.createVerticalStrut( 10 ) );
+
+			scroller = new SimpleScrollPane( new ShowDescriptionList( junkItemList ) );
+			scroller.setMaximumSize( MAX_WIDTH );
+			scroller.setAlignmentX( LEFT_ALIGNMENT );
+			container.add( scroller );
+
+			setLayout( new CardLayout( 10, 10 ) );
+			add( container, "" );
+		}
+	}
+
+	private class JunkDetailsLabel extends JLabel implements ListDataListener
+	{
+		public void intervalRemoved( ListDataEvent e )
+		{	updateText();
+		}
+
+		public void intervalAdded( ListDataEvent e )
+		{	updateText();
+		}
+
+		public void contentsChanged( ListDataEvent e )
+		{	updateText();
+		}
+
+		public void updateText()
+		{
+			int totalValue = 0;
+
+			AdventureResult currentItem;
+			Object [] items = junkItemList.toArray();
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				currentItem = (AdventureResult) items[i];
+				totalValue += currentItem.getCount( inventory ) * TradeableItemDatabase.getPriceById( currentItem.getItemId() );
+			}
+
+			setText( "<html>Gnollish toolboxes, briefcases, warm subject gift certificates, and Penultimate Fantasy chests, if flagged as junk, will be used. " +
+				"If you have the Pulverize and a tenderizing hammer, then items will be pulverized if you have malus access or they are weapons, armor, or pants with power greater than or equal to 100. " +
+				"All other items flagged as junk will be autosold.  The current autosell value of items to be handled in this script is " + COMMA_FORMAT.format( totalValue ) + " meat.</html>" );
+		}
 	}
 
 	private class CommonActionsPanel extends JPanel
@@ -126,16 +208,17 @@ public class ItemManageFrame extends KoLFrame
 			container = new JPanel();
 			container.setLayout( new BoxLayout( container, BoxLayout.Y_AXIS ) );
 
-			// End-user warning
-
 			addButtonAndLabel( new JunkItemsButton(), "" );
 			label.updateText();
+
+			inventory.addListDataListener( label );
+			junkItemList.addListDataListener( label );
 
 			container.add( new JSeparator() );
 			container.add( Box.createVerticalStrut( 15 ) );
 
 			addButtonAndLabel( new EndOfRunSaleButton(),
-				"All items which are available in NPC stores will be autosold.  KoLmafia will then place all items into your store at their existing price, if they already exist in your store, or at 999,999,999 meat, if the item is not currently in your store. " + StoreManageFrame.UNDERCUT_MESSAGE );
+				"All items flagged as junk will be handled as described above.  KoLmafia will then place all items into your store at their existing price, if they already exist in your store, or at 999,999,999 meat, if the item is not currently in your store. " + StoreManageFrame.UNDERCUT_MESSAGE );
 
 			container.add( new JSeparator() );
 			container.add( Box.createVerticalStrut( 15 ) );
@@ -153,39 +236,6 @@ public class ItemManageFrame extends KoLFrame
 			add( container, "" );
 		}
 
-		private class JunkDetailsLabel extends JLabel implements ListDataListener
-		{
-			public void intervalRemoved( ListDataEvent e )
-			{	updateText();
-			}
-
-			public void intervalAdded( ListDataEvent e )
-			{	updateText();
-			}
-
-			public void contentsChanged( ListDataEvent e )
-			{	updateText();
-			}
-
-			public void updateText()
-			{
-				int totalValue = 0;
-
-				AdventureResult currentItem;
-				Object [] items = junkItemList.toArray();
-
-				for ( int i = 0; i < items.length; ++i )
-				{
-					currentItem = (AdventureResult) items[i];
-					totalValue += currentItem.getCount( inventory ) * TradeableItemDatabase.getPriceById( currentItem.getItemId() );
-				}
-
-				setText( "<html>Gnollish toolboxes, briefcases, warm subject gift certificates, and Penultimate Fantasy chests, if flagged as junk, will be used. " +
-					"If you have the Pulverize and a tenderizing hammer, then items will be pulverized if you have malus access or they are weapons, armor, or pants with power greater than or equal to 100. " +
-					"All other items flagged as junk will be autosold.  All applicable junk items are listed above.  The current autosell value of items to be handled in this script is " + COMMA_FORMAT.format( totalValue ) + " meat.</html>" );
-			}
-		}
-
 		private void addButtonAndLabel( ThreadedButton button, String label )
 		{
 			JPanel buttonPanel = new JPanel();
@@ -197,19 +247,6 @@ public class ItemManageFrame extends KoLFrame
 			container.add( Box.createVerticalStrut( 5 ) );
 
 			JLabel description = button instanceof JunkItemsButton ? new JunkDetailsLabel() : new JLabel( "<html>" + label + "</html>" );
-
-			if ( button instanceof JunkItemsButton )
-			{
-				ShowDescriptionList list = new ShowDescriptionList( junkItemList );
-				list.getModel().addListDataListener( (JunkDetailsLabel) description );
-
-				SimpleScrollPane scroller = new SimpleScrollPane( list );
-				scroller.setMaximumSize( MAX_WIDTH );
-				scroller.setAlignmentX( LEFT_ALIGNMENT );
-				container.add( scroller );
-
-				container.add( Box.createVerticalStrut( 10 ) );
-			}
 
 			description.setMaximumSize( MAX_WIDTH );
 			description.setVerticalAlignment( JLabel.TOP );

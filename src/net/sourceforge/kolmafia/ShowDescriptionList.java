@@ -83,6 +83,9 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		if ( model == junkItemList )
 			contextMenu.add( new RemoveFromJunkListMenuItem() );
 
+		if ( model == mementoList )
+			contextMenu.add( new RemoveFromMementoListMenuItem() );
+
 		if ( model == tally )
 			contextMenu.add( new ZeroTallyMenuItem() );
 
@@ -90,7 +93,10 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			contextMenu.add( new AutoSellMenuItem() );
 
 		if ( model == tally || model == inventory || isEncyclopedia || model == ConcoctionsDatabase.getConcoctions() )
+		{
 			contextMenu.add( new AddToJunkListMenuItem() );
+			contextMenu.add( new AddToMementoListMenuItem() );
+		}
 
 		addMouseListener( new PopupListener() );
 		addMouseListener( new ShowDescriptionAdapter() );
@@ -290,9 +296,35 @@ public class ShowDescriptionList extends JList implements KoLConstants
 					junkItemList.add( new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false ) );
 			}
 
-			StaticEntity.saveJunkItemList();
-			if ( filter != null )
-				((LockableListModel)getModel()).applyListFilter( filter );
+			StaticEntity.saveFlaggedItemList();
+			((LockableListModel)getModel()).applyListFilter( filter );
+		}
+	}
+
+	private class AddToMementoListMenuItem extends ContextMenuItem
+	{
+		public AddToMementoListMenuItem()
+		{	super( "Add to memento list" );
+		}
+
+		public void executeAction()
+		{
+			Object [] items = getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				if ( items[i] instanceof ItemCreationRequest )
+					mementoList.add( ((ItemCreationRequest)items[i]).createdItem );
+				else if ( items[i] instanceof AdventureResult && ((AdventureResult)items[i]).isItem() )
+					mementoList.add( items[i] );
+				else if ( items[i] instanceof String && TradeableItemDatabase.contains( (String) items[i] ) )
+					mementoList.add( new AdventureResult( (String) items[i], 1, false ) );
+				else if ( items[i] instanceof Entry && TradeableItemDatabase.contains( (String) ((Entry)items[i]).getValue() ) )
+					mementoList.add( new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false ) );
+			}
+
+			StaticEntity.saveFlaggedItemList();
 		}
 	}
 
@@ -337,20 +369,27 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			ShowDescriptionList.this.clearSelection();
 
 			for ( int i = 0; i < items.length; ++i )
-			{
-				if ( items[i] instanceof ItemCreationRequest )
-					junkItemList.remove( ((ItemCreationRequest)items[i]).createdItem );
-				else if ( items[i] instanceof AdventureResult )
-					junkItemList.remove( items[i] );
-				else if ( items[i] instanceof String )
-					junkItemList.remove( new AdventureResult( (String) items[i], 1, false ) );
-				else if ( items[i] instanceof Entry )
-					junkItemList.remove( new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false ) );
-			}
+				junkItemList.remove( items[i] );
 
-			StaticEntity.saveJunkItemList();
-			((LockableListModel)getModel()).applyListFilter( filter );
+			StaticEntity.saveFlaggedItemList();
+		}
+	}
 
+	private class RemoveFromMementoListMenuItem extends ContextMenuItem
+	{
+		public RemoveFromMementoListMenuItem()
+		{	super( "This is not sacred" );
+		}
+
+		public void executeAction()
+		{
+			Object [] items = getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			for ( int i = 0; i < items.length; ++i )
+				mementoList.remove( items[i] );
+
+			StaticEntity.saveFlaggedItemList();
 		}
 	}
 
