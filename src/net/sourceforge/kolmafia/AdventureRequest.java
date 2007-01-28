@@ -179,7 +179,6 @@ public class AdventureRequest extends KoLRequest
 			if ( KoLCharacter.hasItem( SorceressLair.HEDGE_KEY ) && KoLCharacter.hasItem( SorceressLair.PUZZLE_PIECE ) )
 			{
 				SorceressLair.completeHedgeMaze();
-				KoLmafia.forceContinue();
 				super.run();
 			}
 			else
@@ -224,7 +223,7 @@ public class AdventureRequest extends KoLRequest
 		// We're missing an item, haven't been given a quest yet, or otherwise
 		// trying to go somewhere not allowed.
 
-		if ( responseText.indexOf( "You shouldn't be here." ) != -1 || responseText.indexOf( "not yet be accessible" ) != -1 || responseText.indexOf( "You can't get there." ) != -1 || responseText.indexOf( "Seriously.  It's locked." ) != -1 )
+		if ( responseText.indexOf( "You shouldn't be here" ) != -1 || responseText.indexOf( "not yet be accessible" ) != -1 || responseText.indexOf( "You can't get there" ) != -1 || responseText.indexOf( "Seriously.  It's locked." ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You can't get to that area yet." );
 			return;
@@ -273,8 +272,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.indexOf( "No adventure data exists for this location" ) != -1 )
 		{
-			KoLmafia.updateDisplay( "Server error.  Repeating request..." );
-			this.run();
+			KoLmafia.updateDisplay( ERROR_STATE, "Server error.  Please wait and try again." );
 			return;
 		}
 

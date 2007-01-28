@@ -315,7 +315,6 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static final boolean executeCountdown( String message, int seconds )
 	{
-		KoLmafia.forceContinue();
 		StringBuffer actualMessage = new StringBuffer( message );
 
 		for ( int i = seconds; i > 0 && KoLmafia.permitsContinue(); --i )

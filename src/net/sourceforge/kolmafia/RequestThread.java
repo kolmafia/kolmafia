@@ -93,6 +93,8 @@ public abstract class RequestThread implements KoLConstants
 		if ( sequenceCount == 0 && (!(request instanceof KoLRequest) || !((KoLRequest)request).isDelayExempt()) )
 			KoLmafia.forceContinue();
 
+		++sequenceCount;
+
 		// If you're not in the event dispatch thread, you can run
 		// without posting to a separate thread.
 
@@ -108,6 +110,8 @@ public abstract class RequestThread implements KoLConstants
 
 		else
 			Worker.post( request instanceof Job ? (Job) request : new Request( request ) );
+
+		--sequenceCount;
 
 		if ( request instanceof KoLRequest )
 			enableDisplayIfSequenceComplete();
@@ -134,7 +138,10 @@ public abstract class RequestThread implements KoLConstants
 			return false;
 
 		if ( KoLmafia.getLastMessage().endsWith( "..." ) )
+		{
 			KoLmafia.updateDisplay( "Request completed." );
+			KoLmafiaCLI.printBlankLine();
+		}
 
 		if ( KoLmafia.permitsContinue() || KoLmafia.refusesContinue() )
 			KoLmafia.enableDisplay();

@@ -520,7 +520,7 @@ public class RequestFrame extends KoLFrame
 		if ( !refreshStatusEnabled )
 			return;
 
-		CharpaneRequest.getInstance().run();
+		RequestThread.postRequest( CharpaneRequest.getInstance() );
 		refreshStatus( CharpaneRequest.getInstance().responseText );
 	}
 

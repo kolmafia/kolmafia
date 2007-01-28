@@ -177,8 +177,6 @@ public class MallSearchFrame extends KoLPanelFrame
 
 			currentlyBuying = true;
 
-			KoLmafia.forceContinue();
-
 			StaticEntity.getClient().makePurchases( results, purchases, count );
 			SpecialOutfit.restoreImplicitCheckpoint();
 
