@@ -63,9 +63,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 	public JPanel eastPanel;
 	public JPanel northPanel;
 	public JPanel filterPanel;
+
 	public LockableListModel elementModel;
 	public ShowDescriptionList elementList;
-	public int baseFilter = ConsumeItemRequest.CONSUME_MULTIPLE;
 
 	public JButton [] buttons;
 	public JCheckBox [] filters;
@@ -76,8 +76,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 	{
 		super( title, confirmedText, cancelledText, new ShowDescriptionList( elementModel ), false );
 
-		this.elementModel = elementModel;
 		this.elementList = (ShowDescriptionList) scrollComponent;
+		this.elementModel = (LockableListModel) elementList.getModel();
+
 		this.elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 		this.elementList.setVisibleRowCount( 8 );
 
@@ -91,8 +92,8 @@ public class ItemManagePanel extends LabeledScrollPanel
 	{
 		super( "", null, null, new ShowDescriptionList( elementModel ), false );
 
-		this.elementModel = elementModel;
 		this.elementList = (ShowDescriptionList) scrollComponent;
+		this.elementModel = (LockableListModel) elementList.getModel();
 
 		this.wordfilter = new FilterItemComboBox();
 		centerPanel.add( wordfilter, BorderLayout.NORTH );
