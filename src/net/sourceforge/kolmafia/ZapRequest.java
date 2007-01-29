@@ -35,26 +35,26 @@ package net.sourceforge.kolmafia;
 
 public class ZapRequest extends KoLRequest
 {
-	private AdventureResult wand;
 	private AdventureResult item;
 
-	public ZapRequest( AdventureResult wand, AdventureResult item )
+	public ZapRequest( AdventureResult item )
 	{
 		super( "wand.php" );
 		addFormField( "action", "zap" );
 
-		this.wand = wand;
-		addFormField( "whichwand", String.valueOf( wand.getItemId() ) );
+		addFormField( "whichwand", String.valueOf( KoLCharacter.getZapper().getItemId() ) );
 
 		this.item = item;
 		addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 	}
 
+
+
 	public void run()
 	{
-		if ( !inventory.contains( wand ) )
+		if ( KoLCharacter.getZapper() == null )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + wand.getName() + "." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a wand." );
 			return;
 		}
 
@@ -81,7 +81,7 @@ public class ZapRequest extends KoLRequest
 
 		// If it blew up, remove wand
 		if ( responseText.indexOf( "abruptly explodes" ) != -1 )
-		     StaticEntity.getClient().processResult( wand.getNegation() );
+		     StaticEntity.getClient().processResult( KoLCharacter.getZapper().getNegation() );
 
 		// Remove old item and notify the user of success.
 		StaticEntity.getClient().processResult( item.getInstance( -1 ) );

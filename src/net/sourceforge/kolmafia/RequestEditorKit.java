@@ -908,7 +908,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.indexOf( "charpane.php" ) != -1 && StaticEntity.getBooleanProperty( "relayAddsUpArrowLinks" ) )
 			addUpArrowLinks( buffer );
 
-		addUseLinks( location, buffer );
+		if ( location.startsWith( "inventory.php" ) )
+		{
+			AdventureResult wand = KoLCharacter.getZapper();
+			if ( wand != null )
+				StaticEntity.singleStringReplace( buffer, "</font>", "&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font>" );
+		}
+		else
+			addUseLinks( location, buffer );
 
 		if ( location.indexOf( "fight.php" ) != -1 )
 			addFightModifiers( buffer );

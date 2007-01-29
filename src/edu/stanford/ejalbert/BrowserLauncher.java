@@ -558,17 +558,47 @@ public class BrowserLauncher {
 			}
 			case WINDOWS_9x:
 			{
+				// By default, if it's a file on the local system, Explorer should
+				// be able to figure out what to do.  But, maybe explorer doesn't
+				// like being invoked indirectly.  So, what we do is search for the
+				// most common browsers and invoke them.
+
 				Process process = null;
-				String executable = "explorer.exe";
+
+				String executable = null;
+				boolean foundBrowser = false;
+				String [] browsers = { "Opera\\Opera.exe", "Mozilla Firefox\\firefox.exe", "Internet Explorer\\iexplore.exe" };
 
 				if ( url.startsWith( "http" ) )
 				{
-					browser = "rundll32.exe";
-					executable = "url.dll,FileProtocolHandler";
+					for ( char drive = 'C'; drive <= 'Z' && !foundBrowser; ++drive )
+					{
+						for ( int i = 0; i < browsers.length && !foundBrowser; ++i )
+						{
+							executable = drive + ":\\Program Files\\" + browsers[i];
+							File alternative = new File( executable );
+
+							if ( alternative.exists() )
+							{
+								foundBrowser = true;
+								executable = "\"" + executable + "\"";
+							}
+						}
+					}
+
+					// If you still can't find your browser, let the operating
+					// system try to figure it out.
+
+					if ( foundBrowser )
+					{
+						browser = "rundll32.exe";
+						executable = "url.dll,FileProtocolHandler";
+					}
 				}
 
 				// Add quotes around the URL to allow ampersands and other special
 				// characters to work.
+
 				url = '"' + url + '"';
 
 				try
