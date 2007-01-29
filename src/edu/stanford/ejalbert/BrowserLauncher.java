@@ -589,11 +589,8 @@ public class BrowserLauncher {
 					// If you still can't find your browser, let the operating
 					// system try to figure it out.
 
-					if ( foundBrowser )
-					{
-						browser = "rundll32.exe";
-						executable = "url.dll,FileProtocolHandler";
-					}
+					if ( !foundBrowser )
+						executable = "rundll32.exe";
 				}
 
 				// Add quotes around the URL to allow ampersands and other special
@@ -603,7 +600,12 @@ public class BrowserLauncher {
 
 				try
 				{
-					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, url } );
+					if ( executable.endsWith( "firefox.exe" ) )
+						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, "-new-tab", url } );
+					else if ( executable.equals( "rundll32.exe" ) )
+						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, "url.dll,FileProtocolHandler", url } );
+					else
+						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, url } );
 
 					// This avoids a memory leak on some versions of Java on Windows.
 					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
@@ -643,6 +645,9 @@ public class BrowserLauncher {
 					// This avoids a memory leak on some versions of Java on Windows.
 					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
 
+					BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
+					usingIE = stream.readLine().indexOf( "htmlfile" ) != -1;
+
 					process.waitFor();
 					process.exitValue();
 				}
@@ -652,19 +657,6 @@ public class BrowserLauncher {
 				}
 				catch (IOException e)
 				{
-					System.err.println("Error while determining default browser: " + e.getMessage());
-				}
-
-				try
-				{
-					BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-					usingIE = stream.readLine().indexOf( "htmlfile" ) != -1;
-				}
-				catch (IOException e)
-				{
-					// If we can't determine the default browser, then assume
-					// that it's Internet Explorer, which is the default.
-
 					System.err.println("Error while determining default browser: " + e.getMessage());
 				}
 
