@@ -106,13 +106,13 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		{
 			this.listModel = inventory.getMirrorImage();
 
-			setModel( listModel );
+			setModel( this.listModel );
 			applyFilter( new JunkListFilter() );
 		}
 		else
 		{
 			this.listModel = listModel.getMirrorImage();
-			setModel( listModel );
+			setModel( this.listModel );
 		}
 
 		setVisibleRowCount( 4 );
