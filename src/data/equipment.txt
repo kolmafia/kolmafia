@@ -616,6 +616,7 @@ glowing red eye	0	Mys: 60
 gnatwing earring	0	Mys: 20
 gnoll-tooth necklace	0	Mys: 25
 Golden Mr. Accessory	0	none
+green glowstick	0	none
 Grimacite galoshes	0	Mys: 17
 Grimacite garter	0	Mys: 17
 Grimacite gorget	0	Mys: 17

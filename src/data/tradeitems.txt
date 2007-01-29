@@ -2280,3 +2280,8 @@
 2280	Manual of Labor	3	none	0
 2281	Manual of Transmission	3	none	0
 2282	Manual of Dexterity	3	none	0
+2283
+2284
+2285
+2286
+2287	green glowstick	8	none	0
