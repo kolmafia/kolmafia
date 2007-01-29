@@ -1732,9 +1732,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void makeZapRequest()
 	{
-		AdventureResult wand = KoLCharacter.getZapper();
-
-		if ( wand == null )
+		if ( KoLCharacter.getZapper() == null )
 			return;
 
 		Object selectedValue = JOptionPane.showInputDialog(
@@ -1744,7 +1742,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( selectedValue == null )
 			return;
 
-		RequestThread.postRequest( new ZapRequest( wand, (AdventureResult) selectedValue ) );
+		RequestThread.postRequest( new ZapRequest( (AdventureResult) selectedValue ) );
 	}
 
 	/**

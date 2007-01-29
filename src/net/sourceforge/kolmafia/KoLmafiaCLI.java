@@ -3737,14 +3737,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( !previousLine.startsWith( "zap" ) || previousLine.indexOf( " " ) == -1 )
 			return;
 
-		AdventureResult wand = KoLCharacter.getZapper();
-
-		if ( wand == null )
-		{
-			updateDisplay( ERROR_STATE, "You don't have an appropriate wand." );
-			return;
-		}
-
 		String command = previousLine.split( " " )[0];
 		String parameters = previousLine.substring( command.length() ).trim();
 		if ( parameters.length() == 0 )
@@ -3757,7 +3749,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( item == null )
 			return;
 
-		RequestThread.postRequest( new ZapRequest( wand, item ) );
+		RequestThread.postRequest( new ZapRequest( item ) );
 	}
 
 	/**
