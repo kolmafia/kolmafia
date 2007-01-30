@@ -612,7 +612,12 @@ public class AdventureResult implements Comparable, KoLConstants
 				stringForm.append( ")" );
 			}
 
-			if ( junkItemList.contains( ar ) )
+			if ( mementoList.contains( ar ) )
+			{
+				stringForm.insert( 0, "<html><font color=olive>" );
+				stringForm.append( "</font></html>" );
+			}
+			else if ( junkItemList.contains( ar ) )
 			{
 				stringForm.insert( 0, "<html><font color=gray>" );
 				stringForm.append( "</font></html>" );

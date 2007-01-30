@@ -317,13 +317,16 @@ public class KoLSettings extends Properties implements KoLConstants
 				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
 
 				String line;
+				AdventureResult data;
 
 				while ( (line = reader.readLine()) != null )
 				{
 					if ( line.equals( "" ) || line.startsWith( "[" ) )
 						continue;
 
-					junkItemList.add( new AdventureResult( line, 1, false ) );
+					data = new AdventureResult( line, 1, false );
+					if ( !junkItemList.contains( data ) )
+						junkItemList.add( data );
 				}
 
 				reader.close();
@@ -342,13 +345,16 @@ public class KoLSettings extends Properties implements KoLConstants
 				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
 
 				String line;
+				AdventureResult data;
 
 				while ( (line = reader.readLine()) != null )
 				{
 					if ( line.equals( "" ) || line.startsWith( "[" ) )
 						continue;
 
-					mementoList.add( new AdventureResult( line, 1, false ) );
+					data = new AdventureResult( line, 1, false );
+					if ( !mementoList.contains( data ) )
+						mementoList.add( data );
 				}
 
 				reader.close();

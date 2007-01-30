@@ -66,11 +66,17 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	public int lastSelectIndex;
 	public JPopupMenu contextMenu;
 	public ListElementFilter filter;
+
 	private LockableListModel listModel;
+	private LockableListModel filterModel;
 
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
 	public ShowDescriptionList( LockableListModel listModel )
+	{	this( listModel, null, null );
+	}
+
+	public ShowDescriptionList( LockableListModel listModel, LockableListModel filterModel, ListElementFilter filter )
 	{
 		contextMenu = new JPopupMenu();
 
@@ -93,7 +99,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		if ( listModel == tally || listModel == inventory )
 			contextMenu.add( new AutoSellMenuItem() );
 
-		if ( listModel == tally || listModel == inventory || isEncyclopedia || listModel == ConcoctionsDatabase.getConcoctions() )
+		if ( listModel == tally || listModel == inventory || listModel == closet || isEncyclopedia || listModel == ConcoctionsDatabase.getConcoctions() )
 		{
 			contextMenu.add( new AddToJunkListMenuItem() );
 			contextMenu.add( new AddToMementoListMenuItem() );
@@ -102,18 +108,11 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		addMouseListener( new PopupListener() );
 		addMouseListener( new ShowDescriptionAdapter() );
 
-		if ( listModel == junkItemList )
-		{
-			this.listModel = inventory.getMirrorImage();
+		this.listModel = listModel.getMirrorImage();
+		setModel( this.listModel );
 
-			setModel( this.listModel );
-			applyFilter( new JunkListFilter() );
-		}
-		else
-		{
-			this.listModel = listModel.getMirrorImage();
-			setModel( this.listModel );
-		}
+		if ( filter != null )
+			applyFilter( new ListeningFilter( listModel, filterModel, filter ) );
 
 		setVisibleRowCount( 4 );
 		setCellRenderer( AdventureResult.getDefaultRenderer() );
@@ -209,16 +208,18 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private abstract class ContextMenuItem extends ThreadedMenuItem
+	private abstract class ContextMenuItem extends JMenuItem implements ActionListener
 	{
 		public int index;
 		public Object item;
 
 		public ContextMenuItem( String title )
-		{	super( title );
+		{
+			super( title );
+			addActionListener( this );
 		}
 
-		public void run()
+		public void actionPerformed( ActionEvent e )
 		{
 			this.index = lastSelectIndex == -1 ? getSelectedIndex() : lastSelectIndex;
 			this.item = ShowDescriptionList.this.getModel().getElementAt( index );
@@ -288,16 +289,23 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			Object [] items = getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
+			AdventureResult data;
+
 			for ( int i = 0; i < items.length; ++i )
 			{
+				data = null;
+
 				if ( items[i] instanceof ItemCreationRequest )
-					junkItemList.add( ((ItemCreationRequest)items[i]).createdItem );
+					data = ((ItemCreationRequest)items[i]).createdItem;
 				else if ( items[i] instanceof AdventureResult && ((AdventureResult)items[i]).isItem() )
-					junkItemList.add( items[i] );
+					data = (AdventureResult) items[i];
 				else if ( items[i] instanceof String && TradeableItemDatabase.contains( (String) items[i] ) )
-					junkItemList.add( new AdventureResult( (String) items[i], 1, false ) );
+					data = new AdventureResult( (String) items[i], 1, false );
 				else if ( items[i] instanceof Entry && TradeableItemDatabase.contains( (String) ((Entry)items[i]).getValue() ) )
-					junkItemList.add( new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false ) );
+					data = new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false );
+
+				if ( data != null && !junkItemList.contains( data ) )
+					junkItemList.add( data );
 			}
 
 			StaticEntity.saveFlaggedItemList();
@@ -316,16 +324,23 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			Object [] items = getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
+			AdventureResult data;
+
 			for ( int i = 0; i < items.length; ++i )
 			{
+				data = null;
+
 				if ( items[i] instanceof ItemCreationRequest )
-					mementoList.add( ((ItemCreationRequest)items[i]).createdItem );
+					data = ((ItemCreationRequest)items[i]).createdItem;
 				else if ( items[i] instanceof AdventureResult && ((AdventureResult)items[i]).isItem() )
-					mementoList.add( items[i] );
+					data = (AdventureResult) items[i];
 				else if ( items[i] instanceof String && TradeableItemDatabase.contains( (String) items[i] ) )
-					mementoList.add( new AdventureResult( (String) items[i], 1, false ) );
+					data = new AdventureResult( (String) items[i], 1, false );
 				else if ( items[i] instanceof Entry && TradeableItemDatabase.contains( (String) ((Entry)items[i]).getValue() ) )
-					mementoList.add( new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false ) );
+					data = new AdventureResult( (String) ((Entry)items[i]).getValue(), 1, false );
+
+				if ( data != null && !mementoList.contains( data ) )
+					mementoList.add( data );
 			}
 
 			StaticEntity.saveFlaggedItemList();
@@ -397,38 +412,34 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private class JunkListFilter extends ListElementFilter implements ListDataListener
+	private class ListeningFilter extends ListElementFilter implements ListDataListener
 	{
-		public JunkListFilter()
-		{	junkItemList.addListDataListener( this );
+		private ListElementFilter filter;
+		private LockableListModel listener, speaker;
+
+		public ListeningFilter( LockableListModel listener, LockableListModel speaker, ListElementFilter filter )
+		{
+			this.listener = listener;
+			this.speaker = speaker;
+			this.filter = filter;
+
+			this.speaker.addListDataListener( this );
 		}
 
 		public boolean isVisible( Object element )
-		{
-			if ( element instanceof AdventureResult )
-			{
-				if ( junkItemList.contains( element ) )
-					return true;
-			}
-			else if ( element instanceof ItemCreationRequest )
-			{
-				if ( junkItemList.contains( ((ItemCreationRequest) element).createdItem ) )
-					return true;
-			}
-
-			return false;
+		{	return filter.isVisible( element );
 		}
 
 		public void intervalAdded( ListDataEvent e )
-		{	listModel.applyListFilters();
+		{	listener.applyListFilters();
 		}
 
 		public void intervalRemoved( ListDataEvent e )
-		{	listModel.applyListFilters();
+		{	listener.applyListFilters();
 		}
 
 		public void contentsChanged( ListDataEvent e )
-		{	listModel.applyListFilters();
+		{	listener.applyListFilters();
 		}
 	}
 }
