@@ -1414,7 +1414,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					buffer.append( itemId );
 					buffer.append( "\"><form method=post action=" );
 
-					if ( consumeMethod == CONSUME_RESTORE )
+					if ( consumeMethod == ConsumeItemRequest.CONSUME_RESTORE )
 						buffer.append( "skills.php" );
 					else
 						buffer.append( "multiuse.php" );
@@ -1423,7 +1423,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					buffer.append( itemId );
 					buffer.append( "><input type=text size=3 name=" );
 
-					if ( consumeMethod == CONSUME_RESTORE )
+					if ( consumeMethod == ConsumeItemRequest.CONSUME_RESTORE )
 						buffer.append( "item" );
 
 					buffer.append( "quantity value=" );
