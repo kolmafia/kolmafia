@@ -309,7 +309,7 @@ public class GearChangeFrame extends KoLFrame
 			AdventureResult currentItem = (AdventureResult) inventory.get(i);
 			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemId() );
 
-			if ( type != ConsumeItemRequest.EQUIP_WEAPON )
+			if ( type != EQUIP_WEAPON )
 				continue;
 
 			// Make sure we meet requirements
@@ -374,7 +374,7 @@ public class GearChangeFrame extends KoLFrame
 	{
 		switch ( TradeableItemDatabase.getConsumptionType( currentItem.getItemId() ) )
 		{
-		case ConsumeItemRequest.EQUIP_WEAPON:
+		case EQUIP_WEAPON:
 			if ( !weapons )
 				return false;
 			if ( EquipmentDatabase.getHands( currentItem.getName() ) != 1 )
@@ -382,7 +382,7 @@ public class GearChangeFrame extends KoLFrame
 			if ( ranged != EquipmentDatabase.isRanged( currentItem.getName() ) )
 				return false;
 			// Fall through
-		case ConsumeItemRequest.EQUIP_OFFHAND:
+		case EQUIP_OFFHAND:
 			// Make sure we meet requirements
 			if ( EquipmentDatabase.canEquip( currentItem.getName() ) )
 				return true;

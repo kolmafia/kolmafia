@@ -227,9 +227,9 @@ public class ProfileRequest extends KoLRequest
 			{
 				switch ( TradeableItemDatabase.getConsumptionType( currentItem ) )
 				{
-				case ConsumeItemRequest.EQUIP_HAT:
-				case ConsumeItemRequest.EQUIP_PANTS:
-				case ConsumeItemRequest.EQUIP_SHIRT:
+				case EQUIP_HAT:
+				case EQUIP_PANTS:
+				case EQUIP_SHIRT:
 
 					this.equipmentPower += EquipmentDatabase.getPower( currentItem );
 					break;

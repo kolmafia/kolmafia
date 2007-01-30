@@ -297,31 +297,31 @@ public class HagnkStorageFrame extends KoLFrame
 					boolean isVisibleWithFilter = true;
 					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
 					{
-					case ConsumeItemRequest.EQUIP_FAMILIAR:
+					case EQUIP_FAMILIAR:
 						isVisibleWithFilter = equipmentFilters[6].isSelected();
 						break;
 
-					case ConsumeItemRequest.EQUIP_ACCESSORY:
+					case EQUIP_ACCESSORY:
 						isVisibleWithFilter = equipmentFilters[5].isSelected();
 						break;
 
-					case ConsumeItemRequest.EQUIP_HAT:
+					case EQUIP_HAT:
 						isVisibleWithFilter = equipmentFilters[2].isSelected();
 						break;
 
-					case ConsumeItemRequest.EQUIP_PANTS:
+					case EQUIP_PANTS:
 						isVisibleWithFilter = equipmentFilters[4].isSelected();
 						break;
 
-					case ConsumeItemRequest.EQUIP_SHIRT:
+					case EQUIP_SHIRT:
 						isVisibleWithFilter = equipmentFilters[3].isSelected();
 						break;
 
-					case ConsumeItemRequest.EQUIP_WEAPON:
+					case EQUIP_WEAPON:
 						isVisibleWithFilter = equipmentFilters[0].isSelected();
 						break;
 
-					case ConsumeItemRequest.EQUIP_OFFHAND:
+					case EQUIP_OFFHAND:
 						isVisibleWithFilter = equipmentFilters[1].isSelected();
 						break;
 

@@ -517,13 +517,13 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		switch ( useTypeById.get( itemId ) )
 		{
-		case ConsumeItemRequest.CONSUME_EAT:
-		case ConsumeItemRequest.CONSUME_DRINK:
-		case ConsumeItemRequest.CONSUME_USE:
-		case ConsumeItemRequest.CONSUME_MULTIPLE:
-		case ConsumeItemRequest.GROW_FAMILIAR:
-		case ConsumeItemRequest.CONSUME_ZAP:
-		case ConsumeItemRequest.CONSUME_RESTORE:
+		case CONSUME_EAT:
+		case CONSUME_DRINK:
+		case CONSUME_USE:
+		case CONSUME_MULTIPLE:
+		case GROW_FAMILIAR:
+		case CONSUME_ZAP:
+		case CONSUME_RESTORE:
 			return true;
 		default:
 			return false;
@@ -537,7 +537,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final int getConsumptionType( int itemId )
-	{	return itemId <= 0 ? ConsumeItemRequest.NO_CONSUME : useTypeById.get( itemId );
+	{	return itemId <= 0 ? NO_CONSUME : useTypeById.get( itemId );
 	}
 
 	public static final int getConsumptionType( String itemName )

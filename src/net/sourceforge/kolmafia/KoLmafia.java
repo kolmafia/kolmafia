@@ -1933,11 +1933,11 @@ public abstract class KoLmafia implements KoLConstants
 			int itemId = currentItem.getItemId();
 
 			// Ignore silly fairy gravy + meat from yesterday recipe
-			if ( itemId == ItemCreationRequest.MEAT_STACK )
+			if ( itemId == MEAT_STACK )
 				continue;
 
 			// Otherwise, accept any COMBINE recipe
-			if ( ConcoctionsDatabase.getMixingMethod( itemId ) == ItemCreationRequest.COMBINE )
+			if ( ConcoctionsDatabase.getMixingMethod( itemId ) == COMBINE )
 				untinkerItems.add( currentItem );
 		}
 
@@ -3064,7 +3064,7 @@ public abstract class KoLmafia implements KoLConstants
 				if ( itemCount == 0 )
 					continue;
 
-				if ( canUntinker && ConcoctionsDatabase.getMixingMethod( currentItem.getItemId() ) == ItemCreationRequest.COMBINE )
+				if ( canUntinker && ConcoctionsDatabase.getMixingMethod( currentItem.getItemId() ) == COMBINE )
 				{
 					RequestThread.postRequest( new UntinkerRequest( currentItem.getItemId() ) );
 					madeUntinkerRequest = true;
@@ -3112,19 +3112,19 @@ public abstract class KoLmafia implements KoLConstants
 				{
 					switch ( TradeableItemDatabase.getConsumptionType( currentItem.getItemId() ) )
 					{
-					case ConsumeItemRequest.EQUIP_HAT:
-					case ConsumeItemRequest.EQUIP_PANTS:
-					case ConsumeItemRequest.EQUIP_SHIRT:
-					case ConsumeItemRequest.EQUIP_WEAPON:
-					case ConsumeItemRequest.EQUIP_OFFHAND:
+					case EQUIP_HAT:
+					case EQUIP_PANTS:
+					case EQUIP_SHIRT:
+					case EQUIP_WEAPON:
+					case EQUIP_OFFHAND:
 
 						if ( itemPower >= 100 || (hasMalusAccess && itemPower > 10) )
 							RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
 
 						break;
 
-					case ConsumeItemRequest.EQUIP_FAMILIAR:
-					case ConsumeItemRequest.EQUIP_ACCESSORY:
+					case EQUIP_FAMILIAR:
+					case EQUIP_ACCESSORY:
 						RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
 						break;
 					}
@@ -3141,7 +3141,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			currentItem = (AdventureResult) items[i];
 
-			if ( currentItem.getItemId() == ItemCreationRequest.MEAT_PASTE )
+			if ( currentItem.getItemId() == MEAT_PASTE )
 				continue;
 
 			itemCount = currentItem.getCount( inventory );

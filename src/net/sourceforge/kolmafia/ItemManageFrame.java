@@ -499,21 +499,21 @@ public class ItemManageFrame extends KoLFrame
 				{
 					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
 					{
-					case ConsumeItemRequest.CONSUME_EAT:
+					case CONSUME_EAT:
 						return food && super.isVisible( element );
 
-					case ConsumeItemRequest.CONSUME_DRINK:
+					case CONSUME_DRINK:
 						return booze && super.isVisible( element );
 
-					case ConsumeItemRequest.GROW_FAMILIAR:
-					case ConsumeItemRequest.CONSUME_ZAP:
+					case GROW_FAMILIAR:
+					case CONSUME_ZAP:
 						return other && super.isVisible( element );
 
-					case ConsumeItemRequest.CONSUME_RESTORE:
+					case CONSUME_RESTORE:
 						return restores ? super.isVisible( element ) : false;
 
-					case ConsumeItemRequest.CONSUME_MULTIPLE:
-					case ConsumeItemRequest.CONSUME_USE:
+					case CONSUME_MULTIPLE:
+					case CONSUME_USE:
 						return HPRestoreItemList.contains( (AdventureResult) element ) ?
 							restores && super.isVisible( element ) : other && super.isVisible( element );
 
@@ -584,7 +584,7 @@ public class ItemManageFrame extends KoLFrame
 
 			private void combineTwoItems()
 			{
-				AdventureDatabase.retrieveItem( new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 ) );
+				AdventureDatabase.retrieveItem( new AdventureResult( MEAT_PASTE, 1 ) );
 				RequestThread.postRequest( request );
 
 				// In order to ensure that you do not test items which
@@ -828,7 +828,8 @@ public class ItemManageFrame extends KoLFrame
 				ItemCreationRequest selection = (ItemCreationRequest) selected;
 
 				int maximum = ConsumeItemRequest.maximumUses( selection.getItemId() );
-				int quantityDesired = maximum < 2 ? maximum : getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() );
+				int quantityDesired = maximum < 2 ? maximum : getQuantity( "Creating multiple " + selection.getName() + "...",
+					Math.min( maximum, selection.getQuantityPossible() ) );
 
 				if ( quantityDesired < 1 )
 					return;

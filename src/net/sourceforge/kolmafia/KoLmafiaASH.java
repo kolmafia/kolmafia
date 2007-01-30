@@ -4835,19 +4835,19 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			switch ( TradeableItemDatabase.getConsumptionType( slot.intValue() ) )
 			{
-			case ConsumeItemRequest.EQUIP_HAT:
+			case EQUIP_HAT:
 				return parseSlotValue( "hat" );
-			case ConsumeItemRequest.EQUIP_WEAPON:
+			case EQUIP_WEAPON:
 				return parseSlotValue( "weapon" );
-			case ConsumeItemRequest.EQUIP_OFFHAND:
+			case EQUIP_OFFHAND:
 				return parseSlotValue( "off-hand" );
-			case ConsumeItemRequest.EQUIP_SHIRT:
+			case EQUIP_SHIRT:
 				return parseSlotValue( "shirt" );
-			case ConsumeItemRequest.EQUIP_PANTS:
+			case EQUIP_PANTS:
 				return parseSlotValue( "pants" );
-			case ConsumeItemRequest.EQUIP_FAMILIAR:
+			case EQUIP_FAMILIAR:
 				return parseSlotValue( "familiar" );
-			case ConsumeItemRequest.EQUIP_ACCESSORY:
+			case EQUIP_ACCESSORY:
 				return parseSlotValue( "acc1" );
 			default:
 				return parseSlotValue( "none" );

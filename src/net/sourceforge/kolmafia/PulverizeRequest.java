@@ -63,13 +63,13 @@ public class PulverizeRequest extends KoLRequest
 
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
-		case ConsumeItemRequest.EQUIP_FAMILIAR:
-		case ConsumeItemRequest.EQUIP_ACCESSORY:
-		case ConsumeItemRequest.EQUIP_HAT:
-		case ConsumeItemRequest.EQUIP_PANTS:
-		case ConsumeItemRequest.EQUIP_SHIRT:
-		case ConsumeItemRequest.EQUIP_WEAPON:
-		case ConsumeItemRequest.EQUIP_OFFHAND:
+		case EQUIP_FAMILIAR:
+		case EQUIP_ACCESSORY:
+		case EQUIP_HAT:
+		case EQUIP_PANTS:
+		case EQUIP_SHIRT:
+		case EQUIP_WEAPON:
+		case EQUIP_OFFHAND:
 			break;
 
 		default:

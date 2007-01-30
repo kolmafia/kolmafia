@@ -1068,7 +1068,7 @@ public class AdventureDatabase extends KoLDatabase
 			canUseNPCStore &= force || getBooleanProperty( "autoSatisfyWithNPCs" );
 
 			boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemId() );
-			shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( item.getItemId() ) == ItemCreationRequest.PIXEL;
+			shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( item.getItemId() ) == PIXEL;
 
 			// First, attempt to pull the item from the closet.
 			// If this is successful, return from the method.
@@ -1148,7 +1148,7 @@ public class AdventureDatabase extends KoLDatabase
 			// clovers or dough, which causes infinite recursion.  Also don't do this
 			// for white pixels, as that causes confusion.
 
-			if ( creator != null && ConcoctionsDatabase.getMixingMethod( item.getItemId() ) != ItemCreationRequest.NOCREATE )
+			if ( creator != null && ConcoctionsDatabase.getMixingMethod( item.getItemId() ) != NOCREATE )
 			{
 				switch ( item.getItemId() )
 				{

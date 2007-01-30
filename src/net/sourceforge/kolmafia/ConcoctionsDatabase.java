@@ -43,13 +43,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static final SortedListModel EMPTY_LIST = new SortedListModel();
 	public static final SortedListModel concoctionsList = new SortedListModel();
 
-	private static Concoction stillsLimit = new Concoction( null, ItemCreationRequest.NOCREATE );
-	private static Concoction adventureLimit = new Concoction( null, ItemCreationRequest.NOCREATE );
+	private static Concoction stillsLimit = new Concoction( null, NOCREATE );
+	private static Concoction adventureLimit = new Concoction( null, NOCREATE );
 
 	private static ConcoctionArray concoctions = new ConcoctionArray();
 	private static SortedListModelArray knownUses = new SortedListModelArray();
 
-	public static final int METHOD_COUNT = ItemCreationRequest.METHOD_COUNT;
 	private static boolean [] PERMIT_METHOD = new boolean[ METHOD_COUNT ];
 	private static int [] ADVENTURE_USAGE = new int[ METHOD_COUNT ];
 
@@ -63,9 +62,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static final AdventureResult HAMMER = new AdventureResult( 338, 1 );
 	private static final AdventureResult PLIERS = new AdventureResult( 709, 1 );
 
-	private static final AdventureResult PASTE = new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 );
-	private static final AdventureResult STACK = new AdventureResult( ItemCreationRequest.MEAT_STACK, 1 );
-	private static final AdventureResult DENSE = new AdventureResult( ItemCreationRequest.DENSE_STACK, 1 );
+	private static final AdventureResult PASTE = new AdventureResult( MEAT_PASTE, 1 );
+	private static final AdventureResult STACK = new AdventureResult( MEAT_STACK, 1 );
+	private static final AdventureResult DENSE = new AdventureResult( DENSE_STACK, 1 );
 
 	private static final int TOMATO = 246;
 	private static final int FLAT_DOUGH = 301;
@@ -483,86 +482,86 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// NOCREATE, and it is always possible to create items
 		// through meat paste combination.
 
-		PERMIT_METHOD[ ItemCreationRequest.NOCREATE ] = false;
-		ADVENTURE_USAGE[ ItemCreationRequest.NOCREATE ] = 0;
+		PERMIT_METHOD[ NOCREATE ] = false;
+		ADVENTURE_USAGE[ NOCREATE ] = 0;
 
-		PERMIT_METHOD[ ItemCreationRequest.COMBINE ] = true;
-		ADVENTURE_USAGE[ ItemCreationRequest.COMBINE ] = 0;
+		PERMIT_METHOD[ COMBINE ] = true;
+		ADVENTURE_USAGE[ COMBINE ] = 0;
 
-		PERMIT_METHOD[ ItemCreationRequest.CLOVER ] = true;
-		ADVENTURE_USAGE[ ItemCreationRequest.CLOVER ] = 0;
+		PERMIT_METHOD[ CLOVER ] = true;
+		ADVENTURE_USAGE[ CLOVER ] = 0;
 
-		PERMIT_METHOD[ ItemCreationRequest.CATALYST ] = true;
-		ADVENTURE_USAGE[ ItemCreationRequest.CATALYST ] = 0;
+		PERMIT_METHOD[ CATALYST ] = true;
+		ADVENTURE_USAGE[ CATALYST ] = 0;
 
 		// The gnomish tinkerer is available if the person is in a
 		// moxie sign and they have a bitchin' meat car.
 
-		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = KoLCharacter.inMoxieSign();
-		ADVENTURE_USAGE[ ItemCreationRequest.TINKER ] = 0;
+		PERMIT_METHOD[ TINKER ] = KoLCharacter.inMoxieSign();
+		ADVENTURE_USAGE[ TINKER ] = 0;
 
 		// Smithing of items is possible whenever the person
 		// has a hammer.
 
-		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = (inventory.contains( HAMMER ) || KoLCharacter.getAvailableMeat() >= 1000) &&
+		PERMIT_METHOD[ SMITH ] = (inventory.contains( HAMMER ) || KoLCharacter.getAvailableMeat() >= 1000) &&
 			KoLCharacter.getAdventuresLeft() > 0;
 
 		// Advanced smithing is available whenever the person can
 		// smith and has access to the appropriate skill.
 
-		PERMIT_METHOD[ ItemCreationRequest.SMITH_WEAPON ] = PERMIT_METHOD[ ItemCreationRequest.SMITH ] &&
+		PERMIT_METHOD[ SMITH_WEAPON ] = PERMIT_METHOD[ SMITH ] &&
 			KoLCharacter.canSmithWeapons() && KoLCharacter.getAdventuresLeft() > 0;
-		ADVENTURE_USAGE[ ItemCreationRequest.SMITH_WEAPON ] = 1;
+		ADVENTURE_USAGE[ SMITH_WEAPON ] = 1;
 
-		PERMIT_METHOD[ ItemCreationRequest.SMITH_ARMOR ] = PERMIT_METHOD[ ItemCreationRequest.SMITH ] &&
+		PERMIT_METHOD[ SMITH_ARMOR ] = PERMIT_METHOD[ SMITH ] &&
 			KoLCharacter.canSmithArmor() && KoLCharacter.getAdventuresLeft() > 0;
-		ADVENTURE_USAGE[ ItemCreationRequest.SMITH_ARMOR ] = 1;
+		ADVENTURE_USAGE[ SMITH_ARMOR ] = 1;
 
 		// Standard smithing is also possible if the person is in
 		// a muscle sign.
 
 		if ( KoLCharacter.inMuscleSign() )
 		{
-			PERMIT_METHOD[ ItemCreationRequest.SMITH ] = true;
-			ADVENTURE_USAGE[ ItemCreationRequest.SMITH ] = 0;
+			PERMIT_METHOD[ SMITH ] = true;
+			ADVENTURE_USAGE[ SMITH ] = 0;
 		}
 		else
 		{
-			ADVENTURE_USAGE[ ItemCreationRequest.SMITH ] = 1;
+			ADVENTURE_USAGE[ SMITH ] = 1;
 		}
 
 		// Jewelry making is possible as long as the person has the
 		// appropriate pliers.
 
-		PERMIT_METHOD[ ItemCreationRequest.JEWELRY ] = inventory.contains( PLIERS ) &&
+		PERMIT_METHOD[ JEWELRY ] = inventory.contains( PLIERS ) &&
 			KoLCharacter.getAdventuresLeft() > 2;
-		ADVENTURE_USAGE[ ItemCreationRequest.JEWELRY ] = 3;
+		ADVENTURE_USAGE[ JEWELRY ] = 3;
 
 		// Star charts and pixel chart recipes are available to all
 		// players at all times.
 
-		PERMIT_METHOD[ ItemCreationRequest.STARCHART ] = true;
-		ADVENTURE_USAGE[ ItemCreationRequest.STARCHART ] = 0;
+		PERMIT_METHOD[ STARCHART ] = true;
+		ADVENTURE_USAGE[ STARCHART ] = 0;
 
-		PERMIT_METHOD[ ItemCreationRequest.PIXEL ] = true;
-		ADVENTURE_USAGE[ ItemCreationRequest.PIXEL ] = 0;
+		PERMIT_METHOD[ PIXEL ] = true;
+		ADVENTURE_USAGE[ PIXEL ] = 0;
 
 		// A rolling pin or unrolling pin can be always used in item
 		// creation because we can get the same effect even without the
 		// tool.
 
-		PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] = true;
-		ADVENTURE_USAGE[ ItemCreationRequest.ROLLING_PIN ] = 0;
+		PERMIT_METHOD[ ROLLING_PIN ] = true;
+		ADVENTURE_USAGE[ ROLLING_PIN ] = 0;
 
 		// It's not possible to ask Uncle Crimbo to make toys
 
-		PERMIT_METHOD[ ItemCreationRequest.TOY ] = false;
-		ADVENTURE_USAGE[ ItemCreationRequest.TOY ] = 0;
+		PERMIT_METHOD[ TOY ] = false;
+		ADVENTURE_USAGE[ TOY ] = 0;
 
 		// It's possible to ask Ugh Crimbo to make toys
 
-		PERMIT_METHOD[ ItemCreationRequest.UGH ] = false;
-		ADVENTURE_USAGE[ ItemCreationRequest.UGH ] = 0;
+		PERMIT_METHOD[ UGH ] = false;
+		ADVENTURE_USAGE[ UGH ] = 0;
 
 		// Next, increment through all the box servant creation methods.
 		// This allows future appropriate calculation for cooking/drinking.
@@ -577,78 +576,78 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Cooking is permitted, so long as the person has a chef
 		// or they don't need a box servant and have an oven.
 
-		PERMIT_METHOD[ ItemCreationRequest.COOK ] = KoLCharacter.hasChef() || isAvailable( CHEF, CLOCKWORK_CHEF );
+		PERMIT_METHOD[ COOK ] = KoLCharacter.hasChef() || isAvailable( CHEF, CLOCKWORK_CHEF );
 
-		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded )
+		if ( !PERMIT_METHOD[ COOK ] && noServantNeeded )
 		{
-			PERMIT_METHOD[ ItemCreationRequest.COOK ] = (inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000)
+			PERMIT_METHOD[ COOK ] = (inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000)
 				&& KoLCharacter.getAdventuresLeft() > 0;
-			ADVENTURE_USAGE[ ItemCreationRequest.COOK ] = 1;
+			ADVENTURE_USAGE[ COOK ] = 1;
 		}
 		else
-			ADVENTURE_USAGE[ ItemCreationRequest.COOK ] = 0;
+			ADVENTURE_USAGE[ COOK ] = 0;
 
 		// Cooking of reagents and noodles is possible whenever
 		// the person can cook and has the appropriate skill.
 
-		PERMIT_METHOD[ ItemCreationRequest.COOK_REAGENT ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.canSummonReagent();
-		ADVENTURE_USAGE[ ItemCreationRequest.COOK_REAGENT ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
+		PERMIT_METHOD[ COOK_REAGENT ] = PERMIT_METHOD[ COOK ] && KoLCharacter.canSummonReagent();
+		ADVENTURE_USAGE[ COOK_REAGENT ] = ADVENTURE_USAGE[ COOK ];
 
-		PERMIT_METHOD[ ItemCreationRequest.SUPER_REAGENT ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.hasSkill( "The Way of Sauce" );
-		ADVENTURE_USAGE[ ItemCreationRequest.SUPER_REAGENT ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
+		PERMIT_METHOD[ SUPER_REAGENT ] = PERMIT_METHOD[ COOK ] && KoLCharacter.hasSkill( "The Way of Sauce" );
+		ADVENTURE_USAGE[ SUPER_REAGENT ] = ADVENTURE_USAGE[ COOK ];
 
-		PERMIT_METHOD[ ItemCreationRequest.COOK_PASTA ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.canSummonNoodles();
-		ADVENTURE_USAGE[ ItemCreationRequest.COOK_PASTA ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
+		PERMIT_METHOD[ COOK_PASTA ] = PERMIT_METHOD[ COOK ] && KoLCharacter.canSummonNoodles();
+		ADVENTURE_USAGE[ COOK_PASTA ] = ADVENTURE_USAGE[ COOK ];
 
 		// Mixing is possible whenever the person has a bartender
 		// or they don't need a box servant and have a kit.
 
-		PERMIT_METHOD[ ItemCreationRequest.MIX ] = KoLCharacter.hasBartender() || isAvailable( BARTENDER, CLOCKWORK_BARTENDER );
+		PERMIT_METHOD[ MIX ] = KoLCharacter.hasBartender() || isAvailable( BARTENDER, CLOCKWORK_BARTENDER );
 
-		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded )
+		if ( !PERMIT_METHOD[ MIX ] && noServantNeeded )
 		{
-			PERMIT_METHOD[ ItemCreationRequest.MIX ] = ( inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000) &&
+			PERMIT_METHOD[ MIX ] = ( inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000) &&
 				KoLCharacter.getAdventuresLeft() > 0;
-			ADVENTURE_USAGE[ ItemCreationRequest.MIX ] = 1;
+			ADVENTURE_USAGE[ MIX ] = 1;
 		}
 		else
-			ADVENTURE_USAGE[ ItemCreationRequest.MIX ] = 0;
+			ADVENTURE_USAGE[ MIX ] = 0;
 
 		// Mixing of advanced drinks is possible whenever the
 		// person can mix drinks and has the appropriate skill.
 
-		PERMIT_METHOD[ ItemCreationRequest.MIX_SPECIAL ] = PERMIT_METHOD[ ItemCreationRequest.MIX ] && KoLCharacter.canSummonShore();
-		ADVENTURE_USAGE[ ItemCreationRequest.MIX_SPECIAL ] = ADVENTURE_USAGE[ ItemCreationRequest.MIX ];
+		PERMIT_METHOD[ MIX_SPECIAL ] = PERMIT_METHOD[ MIX ] && KoLCharacter.canSummonShore();
+		ADVENTURE_USAGE[ MIX_SPECIAL ] = ADVENTURE_USAGE[ MIX ];
 
 		// Mixing of super-special drinks is possible whenever the
 		// person can mix drinks and has the appropriate skill.
 
-		PERMIT_METHOD[ ItemCreationRequest.MIX_SUPER ] = PERMIT_METHOD[ ItemCreationRequest.MIX ] && KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" );
-		ADVENTURE_USAGE[ ItemCreationRequest.MIX_SUPER ] = ADVENTURE_USAGE[ ItemCreationRequest.MIX ];
+		PERMIT_METHOD[ MIX_SUPER ] = PERMIT_METHOD[ MIX ] && KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" );
+		ADVENTURE_USAGE[ MIX_SUPER ] = ADVENTURE_USAGE[ MIX ];
 
 		// Using Crosby Nash's Still is possible if the person has
 		// Superhuman Cocktailcrafting and is a Moxie class character.
 
 		boolean hasStillsAvailable = stillsLimit.total > 0;
-		PERMIT_METHOD[ ItemCreationRequest.STILL_MIXER ] = hasStillsAvailable;
-		ADVENTURE_USAGE[ ItemCreationRequest.STILL_MIXER ] = 0;
+		PERMIT_METHOD[ STILL_MIXER ] = hasStillsAvailable;
+		ADVENTURE_USAGE[ STILL_MIXER ] = 0;
 
-		PERMIT_METHOD[ ItemCreationRequest.STILL_BOOZE ] = hasStillsAvailable;
-		ADVENTURE_USAGE[ ItemCreationRequest.STILL_BOOZE ] = 0;
+		PERMIT_METHOD[ STILL_BOOZE ] = hasStillsAvailable;
+		ADVENTURE_USAGE[ STILL_BOOZE ] = 0;
 
 		// Using the Wok of Ages is possible if the person has
 		// Transcendental Noodlecraft and is a Mysticality class
 		// character.
 
-		PERMIT_METHOD[ ItemCreationRequest.WOK ] = KoLCharacter.canUseWok() &&
+		PERMIT_METHOD[ WOK ] = KoLCharacter.canUseWok() &&
 			KoLCharacter.getAdventuresLeft() > 0;
-		ADVENTURE_USAGE[ ItemCreationRequest.WOK ] = 1;
+		ADVENTURE_USAGE[ WOK ] = 1;
 
 		// Using the Malus of Forethought is possible if the person has
 		// Pulverize and is a Muscle class character.
 
-		PERMIT_METHOD[ ItemCreationRequest.MALUS ] = KoLCharacter.canUseMalus();
-		ADVENTURE_USAGE[ ItemCreationRequest.MALUS ] = 0;
+		PERMIT_METHOD[ MALUS ] = KoLCharacter.canUseMalus();
+		ADVENTURE_USAGE[ MALUS ] = 0;
 
 		// Now, go through all the cached adventure usage values and if
 		// the number of adventures left is zero and the request requires
@@ -679,7 +678,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 */
 
 	public static int getMixingMethod( int itemId )
-	{	return concoctions.get( itemId ) != null ? concoctions.get( itemId ).getMixingMethod() : ItemCreationRequest.NOCREATE;
+	{	return concoctions.get( itemId ) != null ? concoctions.get( itemId ).getMixingMethod() : NOCREATE;
 	}
 
 	/**
@@ -730,11 +729,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		switch ( itemId )
 		{
-		case ItemCreationRequest.MEAT_PASTE:
+		case MEAT_PASTE:
 			return KoLCharacter.getAvailableMeat() >= 10;
-		case ItemCreationRequest.MEAT_STACK:
+		case MEAT_STACK:
 			return KoLCharacter.getAvailableMeat() >= 100;
-		case ItemCreationRequest.DENSE_STACK:
+		case DENSE_STACK:
 			return KoLCharacter.getAvailableMeat() >= 1000;
 		}
 
@@ -884,7 +883,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// the quantity creatable by solving the set of
 			// linear inequalities.
 
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER )
+			if ( mixingMethod == ROLLING_PIN || mixingMethod == CLOVER )
 			{
 				// If there's only one ingredient, then the
 				// quantity depends entirely on it.
@@ -901,7 +900,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				if ( ADVENTURE_USAGE[ mixingMethod ] != 0 )
 					this.total = Math.min( this.total, adventureLimit.quantity() );
 
-				if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
+				if ( mixingMethod == STILL_MIXER || mixingMethod == STILL_BOOZE )
 					this.total = Math.min( this.total, stillsLimit.quantity() );
 
 				// The total available for other creations is equal
@@ -938,7 +937,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			// Avoid mutual recursion.
 
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER || !isPermittedMethod( mixingMethod ) )
+			if ( mixingMethod == ROLLING_PIN || mixingMethod == CLOVER || !isPermittedMethod( mixingMethod ) )
 				return quantity;
 
 			// The true value is affected by the maximum value for
@@ -959,7 +958,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			// Still uses are also considered an ingredient.
 
-			if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
+			if ( mixingMethod == STILL_MIXER || mixingMethod == STILL_BOOZE )
 				quantity = Math.min( quantity, stillsLimit.quantity() );
 
 			// The true value is now calculated.  Return this
@@ -980,7 +979,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			// Avoid mutual recursion
 
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER || !isPermittedMethod( mixingMethod ) )
+			if ( mixingMethod == ROLLING_PIN || mixingMethod == CLOVER || !isPermittedMethod( mixingMethod ) )
 				return;
 
 			// Mark all the ingredients, being sure to multiply
@@ -1016,7 +1015,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				adventureLimit.mark( (this.modifier + this.initial) * ADVENTURE_USAGE[ mixingMethod ],
 					this.multiplier * ADVENTURE_USAGE[ mixingMethod ] );
 
-			if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
+			if ( mixingMethod == STILL_MIXER || mixingMethod == STILL_BOOZE )
 				stillsLimit.mark( (this.modifier + this.initial), this.multiplier );
 		}
 
@@ -1039,7 +1038,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( ADVENTURE_USAGE[ mixingMethod ] != 0 )
 				adventureLimit.unmark();
 
-			if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
+			if ( mixingMethod == STILL_MIXER || mixingMethod == STILL_BOOZE )
 				stillsLimit.unmark();
 		}
 
@@ -1047,7 +1046,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{
 			// Avoid mutual recursion.
 
-			if ( mixingMethod != ItemCreationRequest.COMBINE || KoLCharacter.inMuscleSign() )
+			if ( mixingMethod != COMBINE || KoLCharacter.inMuscleSign() )
 				return 0;
 
 			// Count all the meat paste from the different
@@ -1122,7 +1121,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			for ( int i = internalList.size(); i <= index; ++i )
 			{
 				internalList.add( new Concoction( TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
-					ItemCreationRequest.NOCREATE ) );
+					NOCREATE ) );
 			}
 
 			return (Concoction) internalList.get( index );
@@ -1133,7 +1132,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			for ( int i = internalList.size(); i <= index; ++i )
 			{
 				internalList.add( new Concoction( TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
-					ItemCreationRequest.NOCREATE ) );
+					NOCREATE ) );
 			}
 
 			internalList.set( index, value );

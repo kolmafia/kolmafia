@@ -2974,8 +2974,8 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			itemId = TradeableItemDatabase.getItemId( nameArray[i] );
 
-			if ( isCreationMatch && ConcoctionsDatabase.getMixingMethod( itemId ) == ItemCreationRequest.NOCREATE &&
-				itemId != ItemCreationRequest.MEAT_PASTE && itemId != ItemCreationRequest.MEAT_STACK && itemId != ItemCreationRequest.DENSE_STACK )
+			if ( isCreationMatch && ConcoctionsDatabase.getMixingMethod( itemId ) == NOCREATE &&
+				itemId != MEAT_PASTE && itemId != MEAT_STACK && itemId != DENSE_STACK )
 					continue;
 
 			if ( NPCStoreDatabase.contains( nameArray[i], false ) )
@@ -3467,10 +3467,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 			switch ( ConcoctionsDatabase.getMixingMethod( firstMatch.getItemId() ) )
 			{
-			case ItemCreationRequest.COOK:
-			case ItemCreationRequest.COOK_REAGENT:
-			case ItemCreationRequest.SUPER_REAGENT:
-			case ItemCreationRequest.COOK_PASTA:
+			case COOK:
+			case COOK_REAGENT:
+			case SUPER_REAGENT:
+			case COOK_PASTA:
 
 				if ( needServant )
 					updateDisplay( ERROR_STATE, "You cannot cook without a chef-in-the-box." );
@@ -3480,9 +3480,9 @@ public class KoLmafiaCLI extends KoLmafia
 				irequest = ItemCreationRequest.getInstance( firstMatch.getItemId() );
 				break;
 
-			case ItemCreationRequest.MIX:
-			case ItemCreationRequest.MIX_SPECIAL:
-			case ItemCreationRequest.MIX_SUPER:
+			case MIX:
+			case MIX_SPECIAL:
+			case MIX_SUPER:
 
 				if ( needServant )
 					updateDisplay( ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
@@ -3525,7 +3525,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( previousLine.startsWith( "eat" ) )
 		{
-			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) != ConsumeItemRequest.CONSUME_EAT )
+			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) != CONSUME_EAT )
 			{
 				updateDisplay( ERROR_STATE, firstMatch.getName() + " cannot be consumed." );
 				return;
@@ -3534,7 +3534,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( previousLine.startsWith( "drink" ) || previousLine.startsWith( "hobodrink" ) )
 		{
-			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) != ConsumeItemRequest.CONSUME_DRINK )
+			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) != CONSUME_DRINK )
 			{
 				updateDisplay( ERROR_STATE, firstMatch.getName() + " is not an alcoholic beverage." );
 				return;
@@ -3545,17 +3545,17 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			switch ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) )
 			{
-			case ConsumeItemRequest.CONSUME_EAT:
+			case CONSUME_EAT:
 				updateDisplay( ERROR_STATE, firstMatch.getName() + " must be eaten." );
 				return;
-			case ConsumeItemRequest.CONSUME_DRINK:
+			case CONSUME_DRINK:
 				updateDisplay( ERROR_STATE, firstMatch.getName() + " is an alcoholic beverage." );
 				return;
 			}
 		}
 
 		ConsumeItemRequest request = !previousLine.startsWith( "hobodrink" ) ? new ConsumeItemRequest( firstMatch ) :
-			new ConsumeItemRequest( ConsumeItemRequest.CONSUME_HOBO, firstMatch );
+			new ConsumeItemRequest( CONSUME_HOBO, firstMatch );
 
 		RequestThread.postRequest( request );
 	}
