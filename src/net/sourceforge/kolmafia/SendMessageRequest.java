@@ -186,6 +186,8 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		if ( requests.length > 1 )
 		{
+			RequestThread.openRequestSequence();
+
 			if ( meatAttachment > 0 )
 				requests[0].addFormField( getMeatField(), String.valueOf( meatAttachment ) );
 
@@ -194,6 +196,8 @@ public abstract class SendMessageRequest extends KoLRequest
 				KoLmafia.updateDisplay( getStatusMessage() + " (request " + (i+1) + " of " + requests.length + ")..." );
 				requests[i].run();
 			}
+
+			RequestThread.closeRequestSequence();
 		}
 		else if ( requests.length == 1 )
 		{

@@ -201,6 +201,9 @@ public class AutoSellRequest extends SendMessageRequest
 			currentAttachment = (AdventureResult) attachments[i];
 
 			inventoryCount = currentAttachment.getCount( inventory );
+			if ( inventoryCount == 0 )
+				continue;
+
 			attachmentCount = currentAttachment.getCount();
 
 			if ( mode == 0 )

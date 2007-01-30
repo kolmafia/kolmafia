@@ -64,6 +64,7 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 public class ItemManageFrame extends KoLFrame
@@ -197,6 +198,44 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
+	private class JunkOnlyFilter extends ListElementFilter
+	{
+		public boolean isVisible( Object element )
+		{
+			if ( element instanceof AdventureResult )
+			{
+				if ( junkItemList.contains( element ) )
+					return true;
+			}
+			else if ( element instanceof ItemCreationRequest )
+			{
+				if ( junkItemList.contains( ((ItemCreationRequest) element).createdItem ) )
+					return true;
+			}
+
+			return false;
+
+		}
+	}
+
+	private class ExcludeMementoFilter extends ListElementFilter
+	{
+		public boolean isVisible( Object element )
+		{
+			AdventureResult data = null;
+
+			if ( element instanceof AdventureResult )
+				data = (AdventureResult) element;
+			else if ( element instanceof ItemCreationRequest )
+				data = ((ItemCreationRequest) element).createdItem;
+
+			if ( data == null )
+				return false;
+
+			return !mementoList.contains( data ) && TradeableItemDatabase.getPriceById( data.getItemId() ) > 0;
+		}
+	}
+
 	private class CommonActionsPanel extends JPanel
 	{
 		private JPanel container;
@@ -208,7 +247,7 @@ public class ItemManageFrame extends KoLFrame
 			container = new JPanel();
 			container.setLayout( new BoxLayout( container, BoxLayout.Y_AXIS ) );
 
-			addButtonAndLabel( new JunkItemsButton(), "" );
+			addButtonLabelList( new JunkItemsButton(), "", new ShowDescriptionList( inventory, junkItemList, new JunkOnlyFilter() ) );
 			label.updateText();
 
 			inventory.addListDataListener( label );
@@ -217,8 +256,9 @@ public class ItemManageFrame extends KoLFrame
 			container.add( new JSeparator() );
 			container.add( Box.createVerticalStrut( 15 ) );
 
-			addButtonAndLabel( new EndOfRunSaleButton(),
-				"All items flagged as junk will be handled as described above.  KoLmafia will then place all items into your store at their existing price, if they already exist in your store, or at 999,999,999 meat, if the item is not currently in your store. " + StoreManageFrame.UNDERCUT_MESSAGE );
+			addButtonLabelList( new EndOfRunSaleButton(),
+				"All items flagged as junk will be \"junked\" (see above script for more information).  KoLmafia will then place all items which are not already in your store at 999,999,999 meat, except for items flagged as \"mementos\" (see Filters tab for more details). " + StoreManageFrame.UNDERCUT_MESSAGE,
+				new ShowDescriptionList( inventory, mementoList, new ExcludeMementoFilter() ) );
 
 			container.add( new JSeparator() );
 			container.add( Box.createVerticalStrut( 15 ) );
@@ -237,6 +277,10 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		private void addButtonAndLabel( ThreadedButton button, String label )
+		{	addButtonLabelList( button, label, null );
+		}
+
+		private void addButtonLabelList( ThreadedButton button, String label, ShowDescriptionList list )
 		{
 			JPanel buttonPanel = new JPanel();
 			buttonPanel.add( button );
@@ -245,6 +289,16 @@ public class ItemManageFrame extends KoLFrame
 
 			container.add( buttonPanel );
 			container.add( Box.createVerticalStrut( 5 ) );
+
+			if ( list != null )
+			{
+				SimpleScrollPane scroller = new SimpleScrollPane( list );
+				scroller.setMaximumSize( MAX_WIDTH );
+				scroller.setAlignmentX( LEFT_ALIGNMENT );
+
+				container.add( scroller );
+				container.add( Box.createVerticalStrut( 15 ) );
+			}
 
 			JLabel description = button instanceof JunkItemsButton ? new JunkDetailsLabel() : new JLabel( "<html>" + label + "</html>" );
 

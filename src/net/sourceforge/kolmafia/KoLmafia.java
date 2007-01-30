@@ -3003,6 +3003,7 @@ public abstract class KoLmafia implements KoLConstants
 		AdventureResult [] items = new AdventureResult[ inventory.size() ];
 		inventory.toArray( items );
 
+		ArrayList autosell = new ArrayList();
 		ArrayList automall = new ArrayList();
 
 		for ( int i = 0; i < items.length; ++i )
@@ -3010,18 +3011,21 @@ public abstract class KoLmafia implements KoLConstants
 			if ( !TradeableItemDatabase.isTradeable( items[i].getItemId() ) )
 				continue;
 
-			if ( TradeableItemDatabase.getPriceById( items[i].getItemId() ) == 0 )
+			if ( TradeableItemDatabase.getPriceById( items[i].getItemId() ) <= 0 )
 				continue;
 
 			if ( NPCStoreDatabase.contains( items[i].getName(), false ) )
-				continue;
-
-			automall.add( items[i] );
+				autosell.add( items[i] );
+			else
+				automall.add( items[i] );
 		}
 
 		// Now, place all the items in the mall at the
 		// maximum possible price.  This allows KoLmafia
 		// to determine the minimum price.
+
+		if ( autosell.size() > 0 && permitsContinue() )
+			RequestThread.postRequest( new AutoSellRequest( autosell.toArray(), AutoSellRequest.AUTOSELL ) );
 
 		if ( automall.size() > 0 && permitsContinue() )
 			RequestThread.postRequest( new AutoSellRequest( automall.toArray(), AutoSellRequest.AUTOMALL ) );
