@@ -142,7 +142,7 @@ public class AdventureRequest extends KoLRequest
 			ZONE_VALIDATOR.constructURLString( "mountains.php" ).run();
 			if ( ZONE_VALIDATOR.responseText.indexOf( "value=80" ) != -1 )
 			{
-				KoLmafia.updateDisplay( PENDING_STATE, "The Orc Chasm has already been brIDGED." );
+				KoLmafia.updateDisplay( PENDING_STATE, "The Orc Chasm has already been bridged." );
 				return;
 			}
 		}

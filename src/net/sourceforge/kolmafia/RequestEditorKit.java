@@ -51,6 +51,7 @@ import java.net.URLEncoder;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -958,6 +959,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( buffer.indexOf( "<form" ) == -1 )
 			return;
 
+
+
+
 		// What we're going to do is kill the standard form and replace it with
 		// one that requires a lot less scrolling while still retaining all of
 		// the form fields.  But first, extract needed information from it.
@@ -987,6 +991,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				recentSkills.add( skillMatcher.group(1) );
 		}
 
+
 		// Now we begin replacing the standard Valhalla form with one that is much
 		// more compact.
 
@@ -995,6 +1000,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.delete( buffer.indexOf( "<form" ), buffer.length() );
 
 		String toggleScript = "if ( document.getElementById('skillsview').options[0].selected ) { document.getElementById('hardskills').style.display = 'none'; document.getElementById('softskills').style.display = ''; } else { document.getElementById('hardskills').style.display = ''; document.getElementById('softskills').style.display = 'none'; } void(0);";
+
+		// Add some holiday predictions to the page to make things more useful,
+		// since people sometimes forget KoLmafia has a calendar.
+
+		int introIndex = buffer.indexOf( "<centeR>" ) + 8;
+
+		buffer.append( "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>" );
+		MoonPhaseDatabase.addPredictionHTML( buffer, new Date(), MoonPhaseDatabase.getPhaseStep() );
+		buffer.append( "</td></tr><tr><td colspan=3><br><br>" );
 
 		buffer.append( "<form action=valhalla.php method=post>" );
 		buffer.append( "<input type=hidden name=action value=\"resurrect\"><input type=hidden name=pwd value=\"\">" );
@@ -1077,9 +1091,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( alreadyPermed )
 				buffer.append( "<font color=darkgray><s>" );
 
-			buffer.append( "<a onClick='javascript:window.open(\"desc_skill.php?whichskill=" );
+			buffer.append( "<a onClick=\"skill('" );
 			buffer.append( startingPoint + i );
-			buffer.append( "\",\"\",\"height=350,width=300\");'>" );
+			buffer.append( "');\">" );
 			buffer.append( skillName );
 			buffer.append( "</a>" );
 
