@@ -1006,19 +1006,30 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		int introIndex = buffer.indexOf( "<centeR>" ) + 8;
 
-		buffer.append( "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>" );
+		buffer.append( "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
+		buffer.append( LINE_BREAK );
+
+		buffer.append( "<td><div style=\"background-color: #ffffcc; padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px\"><font size=-1>" );
 		MoonPhaseDatabase.addPredictionHTML( buffer, new Date(), MoonPhaseDatabase.getPhaseStep() );
-		buffer.append( "</td></tr><tr><td colspan=3><br><br>" );
+		buffer.append( "</font></div></td></tr><tr><td colspan=3><br><br>" );
+		buffer.append( LINE_BREAK );
+		buffer.append( LINE_BREAK );
 
 		buffer.append( "<form action=valhalla.php method=post>" );
-		buffer.append( "<input type=hidden name=action value=\"resurrect\"><input type=hidden name=pwd value=\"\">" );
+		buffer.append( "<input type=hidden name=action value=\"resurrect\"><input type=hidden name=pwd value=\"\"><center><table>" );
+		buffer.append( LINE_BREAK );
 
-		buffer.append( "<center><table><tr><td align=right><b>New Class:</b>&nbsp;</td><td>" );
+		buffer.append( "<tr><td align=right><b>New Class:</b>&nbsp;</td><td>" );
 		buffer.append( "<select style=\"width: 250px\" name=\"whichclass\"><option value=0>- select a class -</option><option value=1>Seal Clubber</option><option value=2>Turtle Tamer</option><option value=3>Pastamancer</option><option value=4>Sauceror</option><option value=5>Disco Bandit</option><option value=6>Accordion Thief</option></select>" );
-		buffer.append( "</td></tr><tr><td align=right><b>Gender:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=gender><option value=1>Male</option><option value=2>Female</option></select>" );
-		buffer.append( "</td></tr><tr><td align=right><b>Skill to Keep:</b>&nbsp;</td><td>" );
+		buffer.append( "</td></tr>" );
+		buffer.append( LINE_BREAK );
 
+		buffer.append( "<tr><td align=right><b>Gender:</b>&nbsp;</td><td>" );
+		buffer.append( "<select style=\"width: 250px\" name=gender><option value=1>Male</option><option value=2>Female</option></select>" );
+		buffer.append( "</td></tr>" );
+		buffer.append( LINE_BREAK );
+
+		buffer.append( "<tr><td align=right><b>Skill to Keep:</b>&nbsp;</td><td>" );
 		buffer.append( "<select style=\"width: 250px\" name=keepskill><option value=9999 selected>- select a skill -</option><option value=0>(no skill)</option>" );
 
 		int skillId;
@@ -1035,26 +1046,45 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			buffer.append( "</option>" );
 		}
 
-		buffer.append( "</select></td></tr><tr><td align=right><b>Moon Sign:</b>&nbsp;</td><td>" );
+		buffer.append( "</select></td></tr>" );
+		buffer.append( LINE_BREAK );
+
+		buffer.append( "<tr><td align=right><b>Moon Sign:</b>&nbsp;</td><td>" );
 		buffer.append( "<select style=\"width: 250px\" name=\"whichsign\"><option value=0>- Muscle Signs -</option><option value=1>The Mongoose</option><option value=2>The Wallaby</option><option value=3>The Vole</option><option value=0>- Mysticality Signs -</option><option value=4>The Platypus</option><option value=5>The Opossum</option><option value=6>The Marmot</option><option value=0>- Moxie Signs -</option><option value=7>The Wombat</option><option value=8>The Blender</option><option value=9>The Packrat</option></select>" );
-		buffer.append( "</td></tr><tr><td align=right><b>Hardcore:</b>&nbsp;</td><td><input type=checkbox id=\"hardcore\" name=\"hardcore\" checked onClick=\"if ( document.getElementById('hardcore').checked ) { document.getElementById('skillsview').options[1].selected = true; } else { document.getElementById('skillsview').options[0].selected = true; } " + toggleScript + "\"></td></tr>" );
+		buffer.append( "</td></tr>" );
+		buffer.append( LINE_BREAK );
+
+		buffer.append( "<tr><td align=right><b>Hardcore:</b>&nbsp;</td><td><input type=checkbox id=\"hardcore\" name=\"hardcore\" checked onClick=\"if ( document.getElementById('hardcore').checked ) { document.getElementById('skillsview').options[1].selected = true; } else { document.getElementById('skillsview').options[0].selected = true; } " + toggleScript + "\"></td></tr>" );
+		buffer.append( LINE_BREAK );
+
 		buffer.append( "<tr><td align=right><b>Restrictions:</b>&nbsp;</td><td>" );
 		buffer.append( "<select style=\"width: 250px\" name=\"whichpath\"><option value=0>No dietary restrictions</option><option value=1>Boozetafarian</option><option value=2>Teetotaler</option><option value=3>Oxygenarian</option></select></td></tr>" );
+		buffer.append( LINE_BREAK );
 
 		buffer.append( "<tr><td colspan=2>&nbsp;</td></tr><tr><td>&nbsp;</td><td>" );
 		buffer.append( "<input class=button type=submit value=\"Resurrect\"> <input type=checkbox name=\"confirm\"> (confirm)</td></tr></table></center></form>" );
+		buffer.append( LINE_BREAK );
+		buffer.append( LINE_BREAK );
 
 		// Finished with adding all the data in a more compact form.  Now, we
 		// go ahead and add in all the missing data that players might want to
 		// look at to see which class to go for next.
 
 		buffer.append( "<center><br><br><select id=\"skillsview\" onChange=\"" + toggleScript + "\"><option>Unpermed Softcore Skills</option><option selected>Unpermed Hardcore Skills</option></select>" );
+		buffer.append( LINE_BREAK );
 
 		buffer.append( "<br><br><div id=\"softskills\" style=\"display:none\">" );
+		buffer.append( LINE_BREAK );
 		createSkillTable( buffer, softSkills );
+		buffer.append( LINE_BREAK );
+
 		buffer.append( "</div><div id=\"hardskills\">" );
+		buffer.append( LINE_BREAK );
 		createSkillTable( buffer, hardSkills );
+		buffer.append( LINE_BREAK );
 		buffer.append( "</div></center>" );
+		buffer.append( LINE_BREAK );
+		buffer.append( LINE_BREAK );
 
 		buffer.append( suffix );
 	}
