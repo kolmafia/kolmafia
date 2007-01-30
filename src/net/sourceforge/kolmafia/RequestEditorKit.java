@@ -1136,6 +1136,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static void addFightModifiers( StringBuffer buffer )
 	{
+		if ( buffer.indexOf( "fight.php" ) == -1 )
+			return;
+
 		// If the person opts to add a plinking link, check to see if it's
 		// a valid page to add plinking, and make sure the person hasn't
 		// already started plinking.
