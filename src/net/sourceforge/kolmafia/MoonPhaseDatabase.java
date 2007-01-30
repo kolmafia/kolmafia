@@ -807,4 +807,32 @@ public class MoonPhaseDatabase extends StaticEntity
 		return null;
 	}
 
+	public static final void addPredictionHTML( StringBuffer displayHTML, Date today, int phaseStep )
+	{
+		// Next display the upcoming stat days.
+
+		displayHTML.append( "<nobr><b>Muscle Day</b>:&nbsp;" );
+		displayHTML.append( getDayCountAsString( Math.min( (24 - phaseStep) % 16, (25 - phaseStep) % 16 ) ) );
+		displayHTML.append( "</nobr><br>" );
+
+		displayHTML.append( "<nobr><b>Mysticality Day</b>:&nbsp;" );
+		displayHTML.append( getDayCountAsString( Math.min( (20 - phaseStep) % 16, (28 - phaseStep) % 16 ) ) );
+		displayHTML.append( "</nobr><br>" );
+
+		displayHTML.append( "<nobr><b>Moxie Day</b>:&nbsp;" );
+		displayHTML.append( getDayCountAsString( Math.min( (16 - phaseStep) % 16, (31 - phaseStep) % 16 ) ) );
+		displayHTML.append( "</nobr><br>&nbsp;<br>" );
+
+		// Next display the upcoming holidays.  This is done
+		// through loop calculations in order to minimize the
+		// amount of code done to handle individual holidays.
+
+		String [] holidayPredictions = getHolidayPredictions( today );
+		for ( int i = 0; i < holidayPredictions.length; ++i )
+		{
+			displayHTML.append( "<nobr><b>" );
+			displayHTML.append( holidayPredictions[i].replaceAll( ":", ":</b>&nbsp;" ) );
+			displayHTML.append( "</nobr><br>" );
+		}
+	}
 }

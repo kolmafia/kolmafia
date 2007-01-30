@@ -370,44 +370,12 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( selectedDate.getTime() ) );
 		displayHTML.append( "</i><br>&nbsp;<br>" );
 
-		// Next display the upcoming stat days.
-
-		displayHTML.append( "<b>Muscle Day</b>:&nbsp;" );
-		displayHTML.append( MoonPhaseDatabase.getDayCountAsString(
-			Math.min( (24 - phaseStep) % 16, (25 - phaseStep) % 16 ) ) );
-		displayHTML.append( "<br>" );
-
-		displayHTML.append( "<b>Mysticality Day</b>:&nbsp;" );
-		displayHTML.append( MoonPhaseDatabase.getDayCountAsString(
-			Math.min( (20 - phaseStep) % 16, (28 - phaseStep) % 16 ) ) );
-		displayHTML.append( "<br>" );
-
-		displayHTML.append( "<b>Moxie Day</b>:&nbsp;" );
-		displayHTML.append( MoonPhaseDatabase.getDayCountAsString(
-			Math.min( (16 - phaseStep) % 16, (31 - phaseStep) % 16 ) ) );
-		displayHTML.append( "<br>&nbsp;<br>" );
-
-		// Next display the upcoming holidays.  This is done
-		// through loop calculations in order to minimize the
-		// amount of code done to handle individual holidays.
-
-		String [] holidayPredictions = MoonPhaseDatabase.getHolidayPredictions( selectedDate.getTime() );
-		for ( int i = 0; i < holidayPredictions.length; ++i )
-		{
-			displayHTML.append( "<b>" );
-			displayHTML.append( holidayPredictions[i].replaceAll( ":", ":</b>&nbsp;" ) );
-			displayHTML.append( "<br>" );
-		}
-
-		displayHTML.append( "</p>" );
-
-		// Now that the HTML has been completely
-		// constructed, clear the display dailyBuffer
-		// and append the appropriate text.
+		MoonPhaseDatabase.addPredictionHTML( displayHTML, selectedDate.getTime(), phaseStep );
 
 		predictBuffer.clearBuffer();
 		predictBuffer.append( displayHTML.toString() );
 	}
+
 
 	/**
 	 * Utility method which appends the given percentage to
