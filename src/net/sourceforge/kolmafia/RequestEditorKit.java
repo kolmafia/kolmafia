@@ -1257,14 +1257,16 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					break;
 
 				case ConsumeItemRequest.CONSUME_MULTIPLE:
-					useType = "use";
-					useLocation = itemCount != 1 ? "multiuse.php?passitem=" : "inv_use.php?pwd=&which=1&whichitem=";
-					break;
-
 				case ConsumeItemRequest.CONSUME_RESTORE:
+
+					AdventureResult result = new AdventureResult( itemId, 1 );
+					itemCount = result.getCount( inventory );
+
 					useType = "use";
-					useLocation = "multiuse.php?passitem=";
-					break;
+					useLocation = "inv_use.php?pwd=&which=1&whichitem=";
+
+					if ( itemCount > 1 )
+						useLocation = "javascript: document.getElementById('multiuse" + itemId + "').style = 'display:'; void(0);";
 
 				case ConsumeItemRequest.CONSUME_USE:
 
@@ -1398,10 +1400,38 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			if ( useType != null && useLocation != null )
 			{
-				useLinkMatcher.appendReplacement( buffer,
-					"You acquire$1 <font size=1>[<a href=\"" + useLocation.toString() +
-					(useLocation.endsWith( "=" ) ? String.valueOf( itemId ) : "") +
-					"\">" + useType + "</a>]</font></td>" );
+				if ( useLocation.endsWith( "=" ) )
+					useLocation += itemId;
+
+				useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"" + useLocation.toString() + "\">" + useType + "</a>]</font>" );
+
+				// Append a multi-use field rather than forcing
+				// an additional page load.
+
+				if ( useLocation.startsWith( "javascript:" ) )
+				{
+					buffer.append( "</td></tr><tr><td colspan=2 align=center><div style=\"display:none\" id=\"multiuse" );
+					buffer.append( itemId );
+					buffer.append( "\"><form method=post action=" );
+
+					if ( consumeMethod == CONSUME_RESTORE )
+						buffer.append( "skills.php" );
+					else
+						buffer.append( "multiuse.php" );
+
+					buffer.append( "><input type=hidden name=pwd value=\"\"><input type=hidden name=action value=useitem><input type=hidden name=whichitem value=" );
+					buffer.append( itemId );
+					buffer.append( "><input type=text size=3 name=" );
+
+					if ( consumeMethod == CONSUME_RESTORE )
+						buffer.append( "item" );
+
+					buffer.append( "quantity value=" );
+					buffer.append( Math.min( itemCount, ConsumeItemRequest.maximumUses( itemId ) ) );
+					buffer.append( ">&nbsp;<input type=submit class=button value=\"Use\"></form></div>" );
+				}
+
+				buffer.append( "</td>" );
 			}
 			else
 			{
