@@ -64,7 +64,7 @@ public class EquipmentRequest extends PasswordHashRequest
 	private static final Pattern FAMILIAR_PATTERN = Pattern.compile( "famid=(\\d+)" );
 
 	public static final AdventureResult UNEQUIP = new AdventureResult( "(none)", 1, false );
-	private static final AdventureResult PASTE = new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 );
+	private static final AdventureResult PASTE = new AdventureResult( MEAT_PASTE, 1 );
 
 	public static final int CLOSET = 1;
 	public static final int MISCELLANEOUS = 2;
@@ -216,35 +216,35 @@ public class EquipmentRequest extends PasswordHashRequest
 		switch ( equipmentSlot )
 		{
 		case KoLCharacter.HAT:
-			if ( equipmentType == ConsumeItemRequest.EQUIP_HAT )
+			if ( equipmentType == EQUIP_HAT )
 				return "equip";
 			break;
 
 		case KoLCharacter.WEAPON:
-			if ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON )
+			if ( equipmentType == EQUIP_WEAPON )
 				return "equip";
 			break;
 
 		case KoLCharacter.OFFHAND:
-			if ( equipmentType == ConsumeItemRequest.EQUIP_OFFHAND )
+			if ( equipmentType == EQUIP_OFFHAND )
 				return "equip";
 
-			if ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON )
+			if ( equipmentType == EQUIP_WEAPON )
 				return "dualwield";
 			break;
 
 		case KoLCharacter.SHIRT:
-			if ( equipmentType == ConsumeItemRequest.EQUIP_SHIRT )
+			if ( equipmentType == EQUIP_SHIRT )
 				return "equip";
 			break;
 
 		case KoLCharacter.PANTS:
-			if ( equipmentType == ConsumeItemRequest.EQUIP_PANTS )
+			if ( equipmentType == EQUIP_PANTS )
 				return "equip";
 			break;
 
 		case KoLCharacter.ACCESSORY1:
-			if ( equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY )
+			if ( equipmentType == EQUIP_ACCESSORY )
 			{
 				addFormField( "slot", "1" );
 				return "equip";
@@ -252,7 +252,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			break;
 
 		case KoLCharacter.ACCESSORY2:
-			if ( equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY )
+			if ( equipmentType == EQUIP_ACCESSORY )
 			{
 				addFormField( "slot", "2" );
 				return "equip";
@@ -260,7 +260,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			break;
 
 		case KoLCharacter.ACCESSORY3:
-			if ( equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY )
+			if ( equipmentType == EQUIP_ACCESSORY )
 			{
 				addFormField( "slot", "3" );
 				return "equip";
@@ -268,7 +268,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			break;
 
 		case KoLCharacter.FAMILIAR:
-			if ( equipmentType == ConsumeItemRequest.EQUIP_FAMILIAR )
+			if ( equipmentType == EQUIP_FAMILIAR )
 				return "equip";
 			break;
 
@@ -286,25 +286,25 @@ public class EquipmentRequest extends PasswordHashRequest
 	{
 		switch ( equipmentType )
 		{
-		case ConsumeItemRequest.EQUIP_HAT:
+		case EQUIP_HAT:
 			return KoLCharacter.HAT;
 
-		case ConsumeItemRequest.EQUIP_WEAPON:
+		case EQUIP_WEAPON:
 			return KoLCharacter.WEAPON;
 
-		case ConsumeItemRequest.EQUIP_OFFHAND:
+		case EQUIP_OFFHAND:
 			return KoLCharacter.OFFHAND;
 
-		case ConsumeItemRequest.EQUIP_SHIRT:
+		case EQUIP_SHIRT:
 			return KoLCharacter.SHIRT;
 
-		case ConsumeItemRequest.EQUIP_PANTS:
+		case EQUIP_PANTS:
 			return KoLCharacter.PANTS;
 
-		case ConsumeItemRequest.EQUIP_FAMILIAR:
+		case EQUIP_FAMILIAR:
 			return KoLCharacter.FAMILIAR;
 
-		case ConsumeItemRequest.EQUIP_ACCESSORY:
+		case EQUIP_ACCESSORY:
 		{
 			AdventureResult test = KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 );
 			if ( test == null || test.equals( UNEQUIP ) )

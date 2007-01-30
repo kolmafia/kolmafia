@@ -1357,19 +1357,19 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		switch ( consumeFilter )
 		{
-		case ConsumeItemRequest.EQUIP_HAT:
+		case EQUIP_HAT:
 			return HAT;
-		case ConsumeItemRequest.EQUIP_WEAPON:
+		case EQUIP_WEAPON:
 			return WEAPON;
-		case ConsumeItemRequest.EQUIP_OFFHAND:
+		case EQUIP_OFFHAND:
 			return OFFHAND;
-		case ConsumeItemRequest.EQUIP_SHIRT:
+		case EQUIP_SHIRT:
 			return SHIRT;
-		case ConsumeItemRequest.EQUIP_PANTS:
+		case EQUIP_PANTS:
 			return PANTS;
-		case ConsumeItemRequest.EQUIP_ACCESSORY:
+		case EQUIP_ACCESSORY:
 			return ACCESSORY1;
-		case ConsumeItemRequest.EQUIP_FAMILIAR:
+		case EQUIP_FAMILIAR:
 			return FAMILIAR;
 		default:
 			return -1;
@@ -1381,21 +1381,21 @@ public abstract class KoLCharacter extends StaticEntity
 		switch ( equipmentType )
 		{
 		case HAT:
-			return ConsumeItemRequest.EQUIP_HAT;
+			return EQUIP_HAT;
 		case WEAPON:
-			return ConsumeItemRequest.EQUIP_WEAPON;
+			return EQUIP_WEAPON;
 		case OFFHAND:
-			return ConsumeItemRequest.EQUIP_OFFHAND;
+			return EQUIP_OFFHAND;
 		case SHIRT:
-			return ConsumeItemRequest.EQUIP_SHIRT;
+			return EQUIP_SHIRT;
 		case PANTS:
-			return ConsumeItemRequest.EQUIP_PANTS;
+			return EQUIP_PANTS;
 		case ACCESSORY1:
 		case ACCESSORY2:
 		case ACCESSORY3:
-			return ConsumeItemRequest.EQUIP_ACCESSORY;
+			return EQUIP_ACCESSORY;
 		case FAMILIAR:
-			return ConsumeItemRequest.EQUIP_FAMILIAR;
+			return EQUIP_FAMILIAR;
 		default:
 			return -1;
 		}
@@ -1479,7 +1479,7 @@ public abstract class KoLCharacter extends StaticEntity
 			// If we are equipping familiar items, make sure
 			// current familiar can use this one
 
-			if ( filterId == ConsumeItemRequest.EQUIP_FAMILIAR && type == ConsumeItemRequest.EQUIP_FAMILIAR )
+			if ( filterId == EQUIP_FAMILIAR && type == EQUIP_FAMILIAR )
 			{
 				temporary.add( currentItem );
 				continue;
@@ -1488,7 +1488,7 @@ public abstract class KoLCharacter extends StaticEntity
 			// If we want off-hand items and we can dual wield,
 			// allow one-handed weapons of same type
 
-			if ( filterId == ConsumeItemRequest.EQUIP_OFFHAND && type == ConsumeItemRequest.EQUIP_WEAPON && dual )
+			if ( filterId == EQUIP_OFFHAND && type == EQUIP_WEAPON && dual )
 			{
 				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.isRanged( currentItemName ) != ranged )
 					continue;
@@ -1504,7 +1504,7 @@ public abstract class KoLCharacter extends StaticEntity
 			// Two-handed ranged weapons are also allowed since
 			// they will remove both weapons when equipped
 
-			else if ( filterId == ConsumeItemRequest.EQUIP_WEAPON && dual )
+			else if ( filterId == EQUIP_WEAPON && dual )
 			{
 				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.isRanged( currentItemName ) != ranged )
 					continue;
@@ -2338,7 +2338,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 			if ( updateCalculatedLists )
 			{
-				if ( TradeableItemDatabase.getConsumptionType( result.getItemId() ) == ConsumeItemRequest.EQUIP_ACCESSORY )
+				if ( TradeableItemDatabase.getConsumptionType( result.getItemId() ) == EQUIP_ACCESSORY )
 				{
 					AdventureResult.addResultToList( equipmentLists[ ACCESSORY1 ], result );
 					AdventureResult.addResultToList( equipmentLists[ ACCESSORY2 ], result );
@@ -2355,7 +2355,7 @@ public abstract class KoLCharacter extends StaticEntity
 					EquipmentDatabase.updateOutfits();
 
 				boolean shouldRefresh = false;
-				int useMethod = ItemCreationRequest.NOCREATE;
+				int useMethod = NOCREATE;
 
 				List uses = ConcoctionsDatabase.getKnownUses( result );
 
@@ -2432,7 +2432,7 @@ public abstract class KoLCharacter extends StaticEntity
 		inventory.toArray( items );
 
 		for ( int i = 0; i < items.length; ++i )
-			if ( TradeableItemDatabase.getConsumptionType( items[i].getItemId() ) == ConsumeItemRequest.CONSUME_ZAP )
+			if ( TradeableItemDatabase.getConsumptionType( items[i].getItemId() ) == CONSUME_ZAP )
 				return items[i];
 
 		// No wand
@@ -2451,19 +2451,19 @@ public abstract class KoLCharacter extends StaticEntity
 		int count = item.getCount( inventory ) + item.getCount( closet );
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
-		case ConsumeItemRequest.EQUIP_HAT:
-		case ConsumeItemRequest.EQUIP_PANTS:
-		case ConsumeItemRequest.EQUIP_FAMILIAR:
-		case ConsumeItemRequest.EQUIP_OFFHAND:
+		case EQUIP_HAT:
+		case EQUIP_PANTS:
+		case EQUIP_FAMILIAR:
+		case EQUIP_OFFHAND:
 			if ( hasEquipped( item ) )  ++count;
 			break;
 
-		case ConsumeItemRequest.EQUIP_WEAPON:
+		case EQUIP_WEAPON:
 			if ( hasEquipped( item.getName(), WEAPON ) )  ++count;
 			if ( hasEquipped( item.getName(), OFFHAND ) )  ++count;
 			break;
 
-		case ConsumeItemRequest.EQUIP_ACCESSORY:
+		case EQUIP_ACCESSORY:
 			if ( hasEquipped( item.getName(), ACCESSORY1 ) )  ++count;
 			if ( hasEquipped( item.getName(), ACCESSORY2 ) )  ++count;
 			if ( hasEquipped( item.getName(), ACCESSORY3 ) )  ++count;
@@ -2491,25 +2491,25 @@ public abstract class KoLCharacter extends StaticEntity
 		String name = item.getName();
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
-		case ConsumeItemRequest.EQUIP_WEAPON:
+		case EQUIP_WEAPON:
 			return hasEquipped( name, WEAPON ) || hasEquipped( name, OFFHAND );
 
-		case ConsumeItemRequest.EQUIP_OFFHAND:
+		case EQUIP_OFFHAND:
 			return hasEquipped( name, OFFHAND );
 
-		case ConsumeItemRequest.EQUIP_HAT:
+		case EQUIP_HAT:
 			return hasEquipped( name, HAT );
 
-		case ConsumeItemRequest.EQUIP_SHIRT:
+		case EQUIP_SHIRT:
 			return hasEquipped( name, SHIRT );
 
-		case ConsumeItemRequest.EQUIP_PANTS:
+		case EQUIP_PANTS:
 			return hasEquipped( name, PANTS );
 
-		case ConsumeItemRequest.EQUIP_ACCESSORY:
+		case EQUIP_ACCESSORY:
 			return hasEquipped( name, ACCESSORY1 ) || hasEquipped( name, ACCESSORY2 ) || hasEquipped( name, ACCESSORY3 );
 
-		case ConsumeItemRequest.EQUIP_FAMILIAR:
+		case EQUIP_FAMILIAR:
 			return hasEquipped( name, FAMILIAR );
 		}
 

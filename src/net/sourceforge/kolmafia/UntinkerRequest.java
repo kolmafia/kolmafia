@@ -74,7 +74,7 @@ public class UntinkerRequest extends KoLRequest
 		// paste, and only execute the request if it is known to be
 		// creatable through combination.
 
-		if ( ConcoctionsDatabase.getMixingMethod( itemId ) != ItemCreationRequest.COMBINE )
+		if ( ConcoctionsDatabase.getMixingMethod( itemId ) != COMBINE )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You cannot untinker that item." );
 			return;

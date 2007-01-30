@@ -265,7 +265,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 				case CONSUME_MULTIPLE:
 					int maximum = ConsumeItemRequest.maximumUses( currentItem.getItemId() );
-					quantity = maximum < 2 ? maximum : KoLFrame.getQuantity( message + " " + currentItem.getName() + "...", Math.min( maximum, currentItem.getCount() ) );
+					quantity = maximum < 2 ? maximum : KoLFrame.getQuantity( message + " " + currentItem.getName() + "...",
+						Math.min( maximum, currentItem.getCount() ) );
+
 					break;
 
 				default:
@@ -347,16 +349,16 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 				switch ( usageType )
 				{
-				case ConsumeItemRequest.NO_CONSUME:
+				case NO_CONSUME:
 					break;
 
-				case ConsumeItemRequest.EQUIP_FAMILIAR:
-				case ConsumeItemRequest.EQUIP_ACCESSORY:
-				case ConsumeItemRequest.EQUIP_HAT:
-				case ConsumeItemRequest.EQUIP_PANTS:
-				case ConsumeItemRequest.EQUIP_SHIRT:
-				case ConsumeItemRequest.EQUIP_WEAPON:
-				case ConsumeItemRequest.EQUIP_OFFHAND:
+				case EQUIP_FAMILIAR:
+				case EQUIP_ACCESSORY:
+				case EQUIP_HAT:
+				case EQUIP_PANTS:
+				case EQUIP_SHIRT:
+				case EQUIP_WEAPON:
+				case EQUIP_OFFHAND:
 					RequestThread.postRequest( new EquipmentRequest( (AdventureResult) items[i], KoLCharacter.consumeFilterToEquipmentType( usageType ) ) );
 					break;
 
@@ -582,21 +584,21 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 				{
-				case ConsumeItemRequest.CONSUME_EAT:
+				case CONSUME_EAT:
 					isVisibleWithFilter = food;
 					break;
 
-				case ConsumeItemRequest.CONSUME_DRINK:
+				case CONSUME_DRINK:
 					isVisibleWithFilter = booze;
 					break;
 
-				case ConsumeItemRequest.EQUIP_HAT:
-				case ConsumeItemRequest.EQUIP_SHIRT:
-				case ConsumeItemRequest.EQUIP_WEAPON:
-				case ConsumeItemRequest.EQUIP_OFFHAND:
-				case ConsumeItemRequest.EQUIP_PANTS:
-				case ConsumeItemRequest.EQUIP_ACCESSORY:
-				case ConsumeItemRequest.EQUIP_FAMILIAR:
+				case EQUIP_HAT:
+				case EQUIP_SHIRT:
+				case EQUIP_WEAPON:
+				case EQUIP_OFFHAND:
+				case EQUIP_PANTS:
+				case EQUIP_ACCESSORY:
+				case EQUIP_FAMILIAR:
 					isVisibleWithFilter = equip;
 					break;
 
@@ -615,21 +617,21 @@ public class ItemManagePanel extends LabeledScrollPanel
 					{
 						switch ( ConcoctionsDatabase.getMixingMethod( itemId ) )
 						{
-						case ItemCreationRequest.COOK:
-						case ItemCreationRequest.COOK_REAGENT:
-						case ItemCreationRequest.SUPER_REAGENT:
+						case COOK:
+						case COOK_REAGENT:
+						case SUPER_REAGENT:
 							isVisibleWithFilter = food || other;
 							break;
 
-						case ItemCreationRequest.COOK_PASTA:
-						case ItemCreationRequest.WOK:
+						case COOK_PASTA:
+						case WOK:
 							isVisibleWithFilter = food;
 							break;
 
-						case ItemCreationRequest.MIX:
-						case ItemCreationRequest.MIX_SPECIAL:
-						case ItemCreationRequest.STILL_BOOZE:
-						case ItemCreationRequest.MIX_SUPER:
+						case MIX:
+						case MIX_SPECIAL:
+						case STILL_BOOZE:
+						case MIX_SUPER:
 							isVisibleWithFilter = booze;
 							break;
 

@@ -42,48 +42,8 @@ import java.util.regex.Pattern;
 public class ItemCreationRequest extends KoLRequest implements Comparable
 {
 	private static final CreationRequestArray ALL_CREATIONS = new CreationRequestArray();
-	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
-	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
-
-	public static final int MEAT_PASTE = 25;
-	public static final int MEAT_STACK = 88;
-	public static final int DENSE_STACK = 258;
-
-	public static final int METHOD_COUNT = 25;
-	public static final int SUBCLASS = Integer.MAX_VALUE;
-
-	public static final int NOCREATE = 0;
-	public static final int COMBINE = 1;
-	public static final int COOK = 2;
-	public static final int MIX = 3;
-	public static final int SMITH = 4;
-
-	public static final int COOK_REAGENT = 5;
-	public static final int COOK_PASTA = 6;
-	public static final int MIX_SPECIAL = 7;
-
-	public static final int JEWELRY = 8;
-	public static final int STARCHART = 9;
-	public static final int PIXEL = 10;
-	public static final int ROLLING_PIN = 11;
-
-	public static final int TINKER = 12;
-	public static final int SMITH_WEAPON = 13;
-	public static final int SMITH_ARMOR = 14;
-
-	public static final int TOY = 15;
-	public static final int CLOVER = 16;
-
-	public static final int STILL_BOOZE = 17;
-	public static final int STILL_MIXER = 18;
-	public static final int MIX_SUPER = 19;
-
-	public static final int CATALYST = 20;
-	public static final int SUPER_REAGENT = 21;
-	public static final int WOK = 22;
-	public static final int MALUS = 23;
-
-	public static final int UGH = 24;
+	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
+	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 
 	public static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	public static final AdventureResult KIT = new AdventureResult( 236, 1 );

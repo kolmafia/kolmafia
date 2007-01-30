@@ -77,23 +77,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public static String lastUpdate = "";
 
-	public static final int NO_CONSUME = 0;
-	public static final int CONSUME_EAT = 1;
-	public static final int CONSUME_DRINK = 2;
-	public static final int CONSUME_USE = 3;
-	public static final int CONSUME_MULTIPLE = 4;
-	public static final int GROW_FAMILIAR = 5;
-	public static final int CONSUME_ZAP = 6;
-	public static final int EQUIP_FAMILIAR = 7;
-	public static final int EQUIP_ACCESSORY = 8;
-	public static final int EQUIP_HAT = 9;
-	public static final int EQUIP_PANTS = 10;
-	public static final int EQUIP_SHIRT = 11;
-	public static final int EQUIP_WEAPON = 12;
-	public static final int EQUIP_OFFHAND = 13;
-	public static final int CONSUME_RESTORE = 14;
-	public static final int CONSUME_HOBO = 15;
-
 	private static final int SEAL_TOOTH = 2;
 	private static final int DOLPHIN_KING_MAP = 26;
 	private static final int FORTUNE_COOKIE = 61;
@@ -296,7 +279,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		int iterations = 1;
 
-		if ( itemUsed.getCount() != 1 && consumptionType != ConsumeItemRequest.CONSUME_MULTIPLE && consumptionType != ConsumeItemRequest.CONSUME_RESTORE )
+		if ( itemUsed.getCount() != 1 && consumptionType != CONSUME_MULTIPLE && consumptionType != CONSUME_RESTORE )
 		{
 			iterations = itemUsed.getCount();
 			itemUsed = itemUsed.getInstance( 1 );
@@ -1081,8 +1064,8 @@ public class ConsumeItemRequest extends KoLRequest
 			return false;
 
 		int consumptionType = TradeableItemDatabase.getConsumptionType( lastItemUsed.getItemId() );
-		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "eat " :
-			(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "drink " : "use ";
+		String useTypeAsString = (consumptionType == CONSUME_EAT) ? "eat " :
+			(consumptionType == CONSUME_DRINK) ? "drink " : "use ";
 
 		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( useTypeAsString + lastItemUsed.getCount() + " " + lastItemUsed.getName() );

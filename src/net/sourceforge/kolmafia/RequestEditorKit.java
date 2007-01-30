@@ -1145,7 +1145,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			AdventureResult creation = null;
 			ItemCreationRequest irequest = null;
 
-			int mixingMethod = ItemCreationRequest.NOCREATE;
+			int mixingMethod = NOCREATE;
 			SortedListModel creations = ConcoctionsDatabase.getKnownUses( itemId );
 
 			// If you find goat cheese, let the trapper link handle it.
@@ -1157,7 +1157,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			addCreateLink &= !creations.isEmpty() && itemId != 322;
 			addCreateLink &= itemId != KoLAdventure.BEAN.getItemId() || KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT );
-			addCreateLink &= consumeMethod != ConsumeItemRequest.CONSUME_MULTIPLE && consumeMethod != ConsumeItemRequest.CONSUME_RESTORE;
+			addCreateLink &= consumeMethod != CONSUME_MULTIPLE && consumeMethod != CONSUME_RESTORE;
 
 			if ( addCreateLink )
 			{
@@ -1173,17 +1173,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					switch ( mixingMethod )
 					{
-					case ItemCreationRequest.NOCREATE:
-					case ItemCreationRequest.PIXEL:
-					case ItemCreationRequest.ROLLING_PIN:
-					case ItemCreationRequest.TOY:
-					case ItemCreationRequest.CLOVER:
-					case ItemCreationRequest.STILL_BOOZE:
-					case ItemCreationRequest.STILL_MIXER:
-					case ItemCreationRequest.SMITH:
-					case ItemCreationRequest.SMITH_WEAPON:
-					case ItemCreationRequest.SMITH_ARMOR:
-					case ItemCreationRequest.CATALYST:
+					case NOCREATE:
+					case PIXEL:
+					case ROLLING_PIN:
+					case TOY:
+					case CLOVER:
+					case STILL_BOOZE:
+					case STILL_MIXER:
+					case SMITH:
+					case SMITH_WEAPON:
+					case SMITH_ARMOR:
+					case CATALYST:
 						continue;
 					}
 
@@ -1200,32 +1200,32 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			{
 				switch ( mixingMethod )
 				{
-				case ItemCreationRequest.STARCHART:
+				case STARCHART:
 					useType = StarChartRequest.CHART.getCount( inventory ) + "," + StarChartRequest.STARS.getCount( inventory ) + "," + StarChartRequest.LINES.getCount( inventory );
 					useLocation = "starchart.php";
 					break;
 
-				case ItemCreationRequest.COMBINE:
+				case COMBINE:
 					useType = "combine";
 					useLocation = KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php";
 					break;
 
-				case ItemCreationRequest.MIX:
-				case ItemCreationRequest.MIX_SPECIAL:
-				case ItemCreationRequest.MIX_SUPER:
+				case MIX:
+				case MIX_SPECIAL:
+				case MIX_SUPER:
 					useType = "mix";
 					useLocation = "cocktail.php";
 					break;
 
-				case ItemCreationRequest.COOK:
-				case ItemCreationRequest.COOK_REAGENT:
-				case ItemCreationRequest.SUPER_REAGENT:
-				case ItemCreationRequest.COOK_PASTA:
+				case COOK:
+				case COOK_REAGENT:
+				case SUPER_REAGENT:
+				case COOK_PASTA:
 					useType = "cook";
 					useLocation = "cook.php";
 					break;
 
-				case ItemCreationRequest.JEWELRY:
+				case JEWELRY:
 					useType = "jewelry";
 					useLocation = "jewelry.php";
 					break;
@@ -1235,7 +1235,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			{
 				switch ( consumeMethod )
 				{
-				case ConsumeItemRequest.CONSUME_EAT:
+				case CONSUME_EAT:
 
 					if ( itemId == 322 )
 					{
@@ -1251,13 +1251,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					break;
 
-				case ConsumeItemRequest.CONSUME_DRINK:
+				case CONSUME_DRINK:
 					useType = KoLCharacter.canDrink() ? "drink" : null;
 					useLocation = "inv_booze.php?pwd=&which=1&whichitem=";
 					break;
 
-				case ConsumeItemRequest.CONSUME_MULTIPLE:
-				case ConsumeItemRequest.CONSUME_RESTORE:
+				case CONSUME_MULTIPLE:
+				case CONSUME_RESTORE:
 
 					AdventureResult result = new AdventureResult( itemId, 1 );
 					itemCount = result.getCount( inventory );
@@ -1268,7 +1268,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					if ( itemCount > 1 )
 						useLocation = "javascript: document.getElementById('multiuse" + itemId + "').style = 'display:'; void(0);";
 
-				case ConsumeItemRequest.CONSUME_USE:
+				case CONSUME_USE:
 
 					if ( itemId == 146 )
 					{
@@ -1290,12 +1290,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					break;
 
-				case ConsumeItemRequest.EQUIP_HAT:
-				case ConsumeItemRequest.EQUIP_PANTS:
-				case ConsumeItemRequest.EQUIP_SHIRT:
-				case ConsumeItemRequest.EQUIP_OFFHAND:
-				case ConsumeItemRequest.EQUIP_ACCESSORY:
-				case ConsumeItemRequest.EQUIP_FAMILIAR:
+				case EQUIP_HAT:
+				case EQUIP_PANTS:
+				case EQUIP_SHIRT:
+				case EQUIP_OFFHAND:
+				case EQUIP_ACCESSORY:
+				case EQUIP_FAMILIAR:
 
 					useType = null;
 					int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
@@ -1317,7 +1317,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					break;
 
-				case ConsumeItemRequest.CONSUME_ZAP:
+				case CONSUME_ZAP:
 					useType = "zap";
 					useLocation = "wand.php?whichwand=";
 					break;
@@ -1414,7 +1414,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					buffer.append( itemId );
 					buffer.append( "\"><form method=post action=" );
 
-					if ( consumeMethod == ConsumeItemRequest.CONSUME_RESTORE )
+					if ( consumeMethod == CONSUME_RESTORE )
 						buffer.append( "skills.php" );
 					else
 						buffer.append( "multiuse.php" );
@@ -1423,7 +1423,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					buffer.append( itemId );
 					buffer.append( "><input type=text size=3 name=" );
 
-					if ( consumeMethod == ConsumeItemRequest.CONSUME_RESTORE )
+					if ( consumeMethod == CONSUME_RESTORE )
 						buffer.append( "item" );
 
 					buffer.append( "quantity value=" );

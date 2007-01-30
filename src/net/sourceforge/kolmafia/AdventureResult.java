@@ -666,7 +666,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			int power = EquipmentDatabase.getPower( ar.getName() );
 			String stringForm = null;
 
-			if ( equipmentType == ConsumeItemRequest.EQUIP_FAMILIAR || ar.equals( EquipmentRequest.UNEQUIP ) )
+			if ( equipmentType == EQUIP_FAMILIAR || ar.equals( EquipmentRequest.UNEQUIP ) )
 			{
 				if ( ar.equals( EquipmentRequest.UNEQUIP ) )
 					stringForm = ar.getName();
@@ -677,7 +677,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			}
 			else
 			{
-				if ( equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY )
+				if ( equipmentType == EQUIP_ACCESSORY )
 				{
 					int count = ar.getCount( inventory );
 					if ( ar.equals( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) ) )
