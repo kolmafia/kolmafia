@@ -230,6 +230,46 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( LIMITED_USES.containsKey( key ) )
 			return activeEffects.contains( LIMITED_USES.get( key ) ) ? 0 : 1;
 
+		float hpRestored = 0.0f;
+
+		for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
+			if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemId )
+				hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
+
+		if ( hpRestored != 0.0f )
+		{
+			float belowMax = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
+			return (int) Math.ceil( belowMax / hpRestored );
+		}
+
+		float mpRestored = 0.0f;
+
+		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
+			if ( MPRestoreItemList.CONFIGURES[i].getItem() != null && MPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemId )
+				mpRestored = (float) MPRestoreItemList.CONFIGURES[i].getManaPerUse();
+
+		if ( mpRestored != 0.0f )
+		{
+			float belowMax = (float) (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
+			int maximumSuggested = (int) Math.ceil( belowMax / mpRestored );
+
+			// Phonics down is a special case.  You also look at how much HP it
+			// restores when taking an upper limit.
+
+			if ( itemId == PHONICS )
+			{
+				hpRestored = 0.0f;
+				for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
+					if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemId )
+						hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
+
+				belowMax = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
+				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / hpRestored ) );
+			}
+
+			return maximumSuggested;
+		}
+
 		return Integer.MAX_VALUE;
 	}
 
@@ -331,62 +371,14 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
-		float hpRestored, mpRestored;
-
 		switch ( consumptionType )
 		{
 		case CONSUME_MULTIPLE:
-
-			hpRestored = 0.0f;
-
-			for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
-				if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemUsed.getItemId() )
-					hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
-
-			if ( hpRestored != 0.0f )
-			{
-				float belowMax = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
-				int maximumSuggested = (int) Math.ceil( belowMax / hpRestored );
-
-				if ( itemUsed.getCount() > maximumSuggested )
-					itemUsed = itemUsed.getInstance( maximumSuggested );
-			}
-
 			addFormField( "action", "useitem" );
 			addFormField( "quantity", String.valueOf( itemUsed.getCount() ) );
 			break;
 
 		case CONSUME_RESTORE:
-
-			mpRestored = 0.0f;
-
-			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
-				if ( MPRestoreItemList.CONFIGURES[i].getItem() != null && MPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemUsed.getItemId() )
-					mpRestored = (float) MPRestoreItemList.CONFIGURES[i].getManaPerUse();
-
-			if ( mpRestored != 0.0f )
-			{
-				float belowMax = (float) (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
-				int maximumSuggested = (int) Math.ceil( belowMax / mpRestored );
-
-				// Phonics down is a special case.  You also look at how much HP it
-				// restores when taking an upper limit.
-
-				if ( itemUsed.getItemId() == PHONICS )
-				{
-					hpRestored = 0.0f;
-					for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
-						if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemUsed.getItemId() )
-							hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
-
-					belowMax = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
-					maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / hpRestored ) );
-				}
-
-				if ( itemUsed.getCount() > maximumSuggested )
-					itemUsed = itemUsed.getInstance( maximumSuggested );
-			}
-
 			addFormField( "action", "useitem" );
 			addFormField( "itemquantity", String.valueOf( itemUsed.getCount() ) );
 			break;
