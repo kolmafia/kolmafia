@@ -1524,7 +1524,10 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 			else if ( !parameters.equals( "" ) && !parameters.startsWith( "exec" ) )
+			{
 				MoodSettings.setMood( parameters );
+				return;
+			}
 
 			MoodSettings.execute( true );
 			SpecialOutfit.restoreImplicitCheckpoint();

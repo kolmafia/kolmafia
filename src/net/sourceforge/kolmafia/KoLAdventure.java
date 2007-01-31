@@ -810,6 +810,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			location = "Typical Tavern Quest";
 		else if ( urlString.startsWith( "barrels.php" ) )
 			location = "Barrel Full of Barrels";
+		else if ( urlString.startsWith( "mining.php" ) )
+			location = "Itznotyerzitz Mine (In Disguise)";
 		else if ( urlString.startsWith( "arena.php" ) && urlString.indexOf( "action" ) != -1 )
 			location = "Cake-Shaped Arena";
 		else if ( urlString.startsWith( "lair4.php?action=level1" ) )
