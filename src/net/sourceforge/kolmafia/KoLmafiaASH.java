@@ -4509,11 +4509,9 @@ public class KoLmafiaASH extends StaticEntity
 			return VOID_VALUE;
 		}
 
-		public ScriptValue print( ScriptVariable string, ScriptVariable color )
+		public ScriptValue print_html( ScriptVariable string )
 		{
-			KoLmafia.updateDisplay( "<font color=\"" + color.toStringValue().toString() + "\">" +
-				string.toStringValue().toString().replaceAll( "<", "&lt;" ) + "</font>" );
-
+			KoLmafia.updateDisplay( string.toStringValue().toString() );
 			KoLmafia.echoStream.println( string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
