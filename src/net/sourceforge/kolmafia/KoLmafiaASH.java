@@ -7549,8 +7549,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String toString()
 		{	return "aggregate " + type.toString();
-                }
-        }
+		}
+	}
 
 	private static class ScriptArray extends ScriptAggregateValue
 	{
@@ -7581,7 +7581,17 @@ public class KoLmafiaASH extends StaticEntity
 			int index = key.intValue();
 			if ( index < 0 || index > array.length )
 				throw new RuntimeException( "Array index out of bounds" );
-			array[ index ] = val;
+
+			if ( array[ index ].getType().equals( val.getType() ) )
+				array[ index ] = val;
+			else if ( array[ index ].getType().equals( TYPE_STRING ) )
+				array[ index ] = val.toStringValue();
+			else if ( array[ index ].getType().equals( TYPE_INT ) && val.getType().equals( TYPE_FLOAT ) )
+				array[ index ] = val.toIntValue();
+			else if ( array[ index ].getType().equals( TYPE_FLOAT ) && val.getType().equals( TYPE_INT ) )
+				array[ index ] = val.toFloatValue();
+			else
+				throw new RuntimeException( "Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
 		}
 
 		public ScriptValue remove( ScriptValue key )
@@ -7639,9 +7649,20 @@ public class KoLmafiaASH extends StaticEntity
 			return (ScriptValue)map.get( key );
 		}
 
-		public void aset( ScriptValue key,  ScriptValue val )
+		public void aset( ScriptValue key, ScriptValue val )
 		{
 			TreeMap map = (TreeMap)content;
+
+			if ( !getDataType().equals( val.getType() ) )
+			{
+				if ( getDataType().equals( TYPE_STRING ) )
+					val = val.toStringValue();
+				else if ( getDataType().equals( TYPE_INT ) && val.getType().equals( TYPE_FLOAT ) )
+					val = val.toIntValue();
+				else if ( getDataType().equals( TYPE_FLOAT ) && val.getType().equals( TYPE_INT ) )
+					val = val.toFloatValue();
+			}
+
 			map.put( key, val );
 		}
 
@@ -7724,8 +7745,8 @@ public class KoLmafiaASH extends StaticEntity
 			int index = ((ScriptRecordType)type).indexOf( key );
 			if ( index < 0 )
 				throw new RuntimeException( "Internal error: field index out of bounds" );
-			ScriptValue [] array = (ScriptValue [])content;
-			array[ index ] = val;
+
+			aset( index, val );
 		}
 
 		public void aset( int index, ScriptValue val )
@@ -7734,8 +7755,19 @@ public class KoLmafiaASH extends StaticEntity
 			int size = type.fieldCount();
 			if ( index < 0 || index >= size )
 				throw new RuntimeException( "Internal error: field index out of bounds" );
-			ScriptValue [] array = (ScriptValue [])content;
-			array[ index ] = val;
+
+			ScriptValue [] array = (ScriptValue []) content;
+
+			if ( array[ index ].getType().equals( val.getType() ) )
+				array[ index ] = val;
+			else if ( array[ index ].getType().equals( TYPE_STRING ) )
+				array[ index ] = val.toStringValue();
+			else if ( array[ index ].getType().equals( TYPE_INT ) && val.getType().equals( TYPE_FLOAT ) )
+				array[ index ] = val.toIntValue();
+			else if ( array[ index ].getType().equals( TYPE_FLOAT ) && val.getType().equals( TYPE_INT ) )
+				array[ index ] = val.toFloatValue();
+			else
+				throw new RuntimeException( "Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
 		}
 
 		public ScriptValue remove( ScriptValue key )
