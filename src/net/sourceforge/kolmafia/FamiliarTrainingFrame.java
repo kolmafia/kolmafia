@@ -101,6 +101,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final AdventureResult GREEN_TONGUE = new AdventureResult( "Green Tongue", 0, true );
 	private static final AdventureResult BLACK_TONGUE = new AdventureResult( "Black Tongue", 0, true );
 	private static final AdventureResult HEAVY_PETTING = new AdventureResult( "Heavy Petting", 0, true );
+	private static final AdventureResult GREEN_HEART = new AdventureResult( "Heart of Green", 0, true );
 
 	// Familiar buffing items
 	private static final AdventureResult BUFFING_SPRAY = new AdventureResult( 1512, 1 );
@@ -130,6 +131,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static int greenTongueActive;
 	private static int blackTongueActive;
 	private static int heavyPettingActive;
+	private static int greenHeartActive;
 
 	public FamiliarTrainingFrame()
 	{
@@ -1378,6 +1380,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			this.greenTongueActive = 0;
 			this.blackTongueActive = 0;
 			this.heavyPettingActive = 0;
+			this.greenHeartActive = 0;
 
 			// Check current equipment
 			checkCurrentEquipment( hat, item, acc1, acc2, acc3 );
@@ -1411,6 +1414,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			greenTongueActive = GREEN_TONGUE.getCount( active );
 			blackTongueActive = BLACK_TONGUE.getCount( active );
 			heavyPettingActive = HEAVY_PETTING.getCount( active );
+			greenHeartActive = GREEN_HEART.getCount( active );
 		}
 
 		private void checkCurrentEquipment()
@@ -1651,6 +1655,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( heavyPettingActive > 0 )
 				weight += 5;
+
+			if ( greenHeartActive > 0 )
+				weight += 3;
 
 			// Start with buffs
 			getBuffWeights( weight, buffs );
@@ -2071,6 +2078,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( greenTongueActive > 0 || blackTongueActive > 0 )
 				weight += 5;
 
+			if ( greenHeartActive > 0 )
+				weight += 3;
+
 			if ( hat == PITH_HELMET )
 				weight += 5;
 
@@ -2156,6 +2166,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 				blackTongueActive--;
 			if ( heavyPettingActive > 0 )
 				heavyPettingActive--;
+			if ( greenHeartActive > 0 )
+				greenHeartActive--;
 		}
 
 		public FamiliarData getFamiliar()
@@ -2240,7 +2252,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				text.append( " Black Tongue (+5 for " + blackTongueActive + " turns)" );
 			if ( heavyPettingActive > 0 )
 				text.append( " Heavy Petting (+5 for " + heavyPettingActive + " turns)" );
-			if ( !sympathyAvailable && empathyActive == 0 && leashActive == 0 && greenTongueActive == 0 && blackTongueActive == 0 && heavyPettingActive == 0 )
+			if ( greenHeartActive > 0 )
+				text.append( " Heart of Green (+3 for " + greenHeartActive + " turns)" );
+			if ( !sympathyAvailable && empathyActive == 0 && leashActive == 0 && greenTongueActive == 0 && blackTongueActive == 0 && heavyPettingActive == 0 && greenHeartActive == 0 )
 				text.append( " None" );
 			text.append( "<br>" );
 
