@@ -367,6 +367,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		// Make sure that the buffbot is wearing the best
 		// equipment they have available.
 
+		RequestThread.openRequestSequence();
 		OneSecondDelay delay = new OneSecondDelay();
 		UseSkillRequest.optimizeEquipment( 6003 );
 
@@ -443,6 +444,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
 		RequestThread.enableDisplayIfSequenceComplete();
 		BuffBotHome.setBuffBotActive( false );
+		RequestThread.closeRequestSequence();
 	}
 
 	public static void runOnce()
