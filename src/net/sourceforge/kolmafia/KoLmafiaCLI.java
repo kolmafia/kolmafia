@@ -4022,7 +4022,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public static void printLine( int state, String message )
 	{
-		if ( message == null || message.length() == 0 || (message.trim().length() == 0 && previousUpdateString.length() == 0) )
+		if ( message == null || (message.trim().length() == 0 && previousUpdateString.length() == 0) )
 			return;
 
 		previousUpdateString = message.trim();
