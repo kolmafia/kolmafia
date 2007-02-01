@@ -57,6 +57,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	private static int initialRestores = 0;
 	public static final int REFUND_THRESHOLD = 4;
+	private static boolean isInitializing = false;
 
 	private static ArrayList saveList = new ArrayList();
 	private static ArrayList deleteList = new ArrayList();
@@ -78,9 +79,10 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * appropriate variables from memory.
 	 */
 
-	public static void reset()
+	public static void loadSettings()
 	{
-		KoLMailManager.reset();
+		isInitializing = true;
+		KoLMailManager.clearMailboxes();
 
 		buffCostMap.clear();
 		buffCostTable.clear();
@@ -113,6 +115,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			}
 
 			StaticEntity.removeProperty( "buffBotCasting" );
+			isInitializing = false;
 			return;
 		}
 
@@ -133,6 +136,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		{
 			StaticEntity.printStackTrace( e );
 		}
+
+		isInitializing = false;
 	}
 
 	/**
@@ -193,8 +198,14 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		List castList;
 		BuffBotCaster toRemove;
 
+		boolean removedOne = false;
+
 		for ( int i = 0; i < buffs.length; ++i )
 		{
+			if ( !buffCostTable.contains( buffs[i] ) )
+				continue;
+
+			removedOne = true;
 			toRemove = (BuffBotCaster) buffs[i];
 			buffCostTable.remove( toRemove );
 
@@ -202,7 +213,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			castList.remove( toRemove );
 		}
 
-		saveBuffs();
+		if ( removedOne )
+			saveBuffs();
 	}
 
 	/**
@@ -212,6 +224,9 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	private static void saveBuffs()
 	{
+		if ( isInitializing )
+			return;
+
 		File datafile = new File( "buffs/" + KoLCharacter.baseUserName() + ".txt" );
 		File xmlfile = new File( "buffs/" + KoLCharacter.baseUserName() + ".xml" );
 
@@ -250,7 +265,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// Don't print the cast to the XML tree if it happens
 			// to be restricted.
 
-			if ( casters[i].restricted || document == null )
+			if ( casters[i].restricted )
 				continue;
 
 			if ( casters[i].philanthropic )
@@ -356,8 +371,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		UseSkillRequest.optimizeEquipment( 6003 );
 
 		BuffBotHome.setBuffBotActive( true );
-		KoLmafia.updateDisplay( "Buffbot started." );
-		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
+		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot started." );
+
 		messageDisposalSetting = parseInt( getProperty( "buffBotMessageDisposal" ) );
 
 		String whiteListString = getProperty( "whiteList" ).toLowerCase();
@@ -369,7 +384,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		refundMessage = getProperty( "invalidBuffMessage" );
 		thanksMessage = getProperty( "thanksMessage" );
-		initialRestores = KoLmafia.getRestoreCount();
+		initialRestores = Math.max( KoLmafia.getRestoreCount(), 100 );
 
 		String restoreItems = getProperty( "mpAutoRecoveryItems" );
 		boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1 || restoreItems.indexOf( "relax" ) != -1;
@@ -386,12 +401,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			{
 				if ( !usingAdventures || KoLCharacter.getAdventuresLeft() == 0 )
 				{
-					if ( initialRestores == 0 )
-					{
-						BuffBotHome.setBuffBotActive( false );
-						BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Unable to continue processing buff messages." );
-					}
-					else if ( NPCStoreDatabase.contains( "magical mystery juice" ) )
+					if ( NPCStoreDatabase.contains( "magical mystery juice" ) )
 					{
 						AdventureResult restores = new AdventureResult( "magical mystery juice", initialRestores );
 						BuffBotHome.setBuffBotActive( AdventureDatabase.retrieveItem( restores ) );
@@ -431,6 +441,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		// to reset the continue state.
 
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
+		RequestThread.enableDisplayIfSequenceComplete();
 		BuffBotHome.setBuffBotActive( false );
 	}
 
@@ -445,7 +456,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			{
 				Object [] messages = deleteList.toArray();
 				deleteList.clear();
-
 				deleteMessages( "Inbox", messages );
 			}
 
@@ -453,7 +463,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			{
 				Object [] messages = saveList.toArray();
 				saveList.clear();
-
 				saveMessages( messages );
 			}
 		}

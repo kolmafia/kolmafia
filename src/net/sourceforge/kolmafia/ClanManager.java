@@ -73,10 +73,10 @@ public class ClanManager extends StaticEntity
 	private static LockableListModel rankList = new LockableListModel();
 	private static SortedListModel stashContents = new SortedListModel();
 
-	public static void reset()
+	public static void clearCache()
 	{
-		ClanSnapshotTable.reset();
-		AscensionSnapshotTable.reset();
+		ClanSnapshotTable.clearCache();
+		AscensionSnapshotTable.clearCache();
 
 		stashRetrieved = false;
 		ranksRetrieved = false;

@@ -95,8 +95,8 @@ public abstract class KoLmafia implements KoLConstants
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
 
-		CombatSettings.reset();
-		MoodSettings.reset();
+		CombatSettings.restoreDefaults();
+		MoodSettings.restoreDefaults();
 	}
 
 	private static boolean hadPendingState = false;
@@ -482,12 +482,16 @@ public abstract class KoLmafia implements KoLConstants
 		else
 		{
 			KoLCharacter.reset( username );
-			CombatSettings.reset();
-			MoodSettings.reset();
-			KoLMailManager.reset();
-			StoreManager.reset();
-			MuseumManager.reset();
-			ClanManager.reset();
+
+			CombatSettings.restoreDefaults();
+			MoodSettings.restoreDefaults();
+			KoLMailManager.clearMailboxes();
+			StoreManager.clearCache();
+			MuseumManager.clearCache();
+			ClanManager.clearCache();
+
+			BuffBotHome.loadSettings();
+			BuffBotManager.loadSettings();
 		}
 
 		// Now actually reset the session.

@@ -67,7 +67,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 
 	private static final Pattern LINK_PATTERN = Pattern.compile( "</?a[^>]+>" );
 
-	public static void reset()
+	public static void clearCache()
 	{
 		// First, initialize all of the lists and
 		// arrays which are used by the request.

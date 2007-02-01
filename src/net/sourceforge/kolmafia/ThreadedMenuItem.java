@@ -53,6 +53,7 @@ public abstract class ThreadedMenuItem extends JMenuItem implements ActionListen
 			return;
 
 		this.run();
+		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
 	protected boolean isValidEvent( ActionEvent e )

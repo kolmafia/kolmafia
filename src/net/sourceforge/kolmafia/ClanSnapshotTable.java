@@ -73,7 +73,7 @@ public class ClanSnapshotTable extends KoLDatabase
 	private static LockableListModel filterList = new LockableListModel();
 	private static ClanRosterRequest request = null;
 
-	public static void reset()
+	public static void clearCache()
 	{
 		// First, initialize all of the lists and
 		// arrays which are used by the request.

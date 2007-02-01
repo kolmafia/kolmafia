@@ -46,6 +46,7 @@ public abstract class ThreadedListener implements ActionListener, Runnable
 			return;
 
 		this.run();
+		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
 	protected boolean isValidEvent( ActionEvent e )

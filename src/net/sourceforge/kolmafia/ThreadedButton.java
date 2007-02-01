@@ -60,6 +60,7 @@ public abstract class ThreadedButton extends JButton implements ActionListener, 
 			return;
 
 		this.run();
+		RequestThread.enableDisplayIfSequenceComplete();
 	}
 
 	protected boolean isValidEvent( ActionEvent e )

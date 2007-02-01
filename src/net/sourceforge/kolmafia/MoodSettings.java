@@ -77,7 +77,7 @@ public abstract class MoodSettings implements KoLConstants
 	{	return isExecuting;
 	}
 
-	public static final void reset()
+	public static final void restoreDefaults()
 	{
 		reference.clear();
 		thiefTriggers.clear();

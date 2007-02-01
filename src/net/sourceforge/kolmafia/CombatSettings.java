@@ -62,7 +62,7 @@ public abstract class CombatSettings implements KoLConstants
 	private static TreeMap reference = new TreeMap();
 	private static CombatSettingNode root = new CombatSettingNode();
 
-	public static final void reset()
+	public static final void restoreDefaults()
 	{
 		root.removeAllChildren();
 		reference.clear();

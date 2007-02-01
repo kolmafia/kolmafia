@@ -53,7 +53,7 @@ public class MuseumManager extends StaticEntity
 	private static LockableListModel headers = new LockableListModel();
 	private static LockableListModel shelves = new LockableListModel();
 
-	public static void reset()
+	public static void clearCache()
 	{
 		collection.clear();
 		headers.clear();
@@ -231,7 +231,7 @@ public class MuseumManager extends StaticEntity
 
 	private static void updateShelves( String data )
 	{
-		MuseumManager.reset();
+		clearCache();
 
 		Matcher selectMatcher = SELECT_PATTERN.matcher( data );
 		if ( selectMatcher.find() )
