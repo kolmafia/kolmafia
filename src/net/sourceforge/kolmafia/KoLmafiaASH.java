@@ -2982,6 +2982,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
+
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "print_html", VOID_TYPE, params ) );
 
@@ -4506,6 +4509,16 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue print( ScriptVariable string )
 		{
 			DEFAULT_SHELL.executeCommand( "echo", string.toStringValue().toString() );
+			return VOID_VALUE;
+		}
+
+		public ScriptValue print( ScriptVariable string, ScriptVariable color )
+		{
+			String colorString = color.toStringValue().toString().replaceAll( "[\">", "" );
+
+			KoLmafia.updateDisplay( "<font color=\"" + colorString + "\">" + string.toStringValue().toString() + "</font>" );
+			KoLmafia.echoStream.println( string.toStringValue().toString() );
+
 			return VOID_VALUE;
 		}
 

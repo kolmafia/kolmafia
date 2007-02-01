@@ -46,6 +46,8 @@ import java.util.TreeMap;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.sourceforge.foxtrot.Job;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class BuffBotManager extends KoLMailManager implements KoLConstants
@@ -346,103 +348,90 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 */
 
 	public static void runBuffBot( int iterations )
-	{	(new Thread( new BuffBotRunner( iterations ) )).start();
-	}
-
-
-	private static class BuffBotRunner implements Runnable
 	{
-		private int iterations;
+		// Make sure that the buffbot is wearing the best
+		// equipment they have available.
 
-		public BuffBotRunner( int interations )
-		{	this.iterations = iterations;
-		}
+		OneSecondDelay delay = new OneSecondDelay();
+		UseSkillRequest.optimizeEquipment( 6003 );
 
-		public void run()
+		BuffBotHome.setBuffBotActive( true );
+		KoLmafia.updateDisplay( "Buffbot started." );
+		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
+		messageDisposalSetting = parseInt( getProperty( "buffBotMessageDisposal" ) );
+
+		String whiteListString = getProperty( "whiteList" ).toLowerCase();
+		if ( whiteListString.indexOf( "$clan" ) != -1 )
+			whiteListString = whiteListString.replaceFirst( "\\$clan", ClanManager.retrieveClanListAsCDL() );
+
+		whiteListArray = whiteListString.split( "\\s*,\\s*" );
+		Arrays.sort( whiteListArray );
+
+		refundMessage = getProperty( "invalidBuffMessage" );
+		thanksMessage = getProperty( "thanksMessage" );
+		initialRestores = KoLmafia.getRestoreCount();
+
+		String restoreItems = getProperty( "mpAutoRecoveryItems" );
+		boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1 || restoreItems.indexOf( "relax" ) != -1;
+
+		// The outer loop goes until user cancels, or
+		// for however many iterations are needed.
+
+		for ( int i = iterations; BuffBotHome.isBuffBotActive() && i > 0; --i )
 		{
-			// Make sure that the buffbot is wearing the best
-			// equipment they have available.
+			// If you run out of adventures and/or restores, then
+			// check to see if you need to abort.
 
-			UseSkillRequest.optimizeEquipment( 6003 );
-
-			BuffBotHome.setBuffBotActive( true );
-			KoLmafia.updateDisplay( "Buffbot started." );
-			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
-			messageDisposalSetting = parseInt( getProperty( "buffBotMessageDisposal" ) );
-
-			String whiteListString = getProperty( "whiteList" ).toLowerCase();
-			if ( whiteListString.indexOf( "$clan" ) != -1 )
-				whiteListString = whiteListString.replaceFirst( "\\$clan", ClanManager.retrieveClanListAsCDL() );
-
-			whiteListArray = whiteListString.split( "\\s*,\\s*" );
-			Arrays.sort( whiteListArray );
-
-			refundMessage = getProperty( "invalidBuffMessage" );
-			thanksMessage = getProperty( "thanksMessage" );
-			initialRestores = KoLmafia.getRestoreCount();
-
-			String restoreItems = getProperty( "mpAutoRecoveryItems" );
-			boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1 || restoreItems.indexOf( "relax" ) != -1;
-
-			// The outer loop goes until user cancels, or
-			// for however many iterations are needed.
-
-			for ( int i = iterations; BuffBotHome.isBuffBotActive() && i > 0; --i )
+			if ( KoLmafia.getRestoreCount() == 0 )
 			{
-				// If you run out of adventures and/or restores, then
-				// check to see if you need to abort.
-
-				if ( KoLmafia.getRestoreCount() == 0 )
+				if ( !usingAdventures || KoLCharacter.getAdventuresLeft() == 0 )
 				{
-					if ( !usingAdventures || KoLCharacter.getAdventuresLeft() == 0 )
+					if ( initialRestores == 0 )
 					{
-						if ( initialRestores == 0 )
-						{
-							BuffBotHome.setBuffBotActive( false );
-							BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Unable to continue processing buff messages." );
-						}
-						else if ( NPCStoreDatabase.contains( "magical mystery juice" ) )
-						{
-							AdventureResult restores = new AdventureResult( "magical mystery juice", initialRestores );
-							BuffBotHome.setBuffBotActive( AdventureDatabase.retrieveItem( restores ) );
-						}
-						else
-						{
-							AdventureResult restores = new AdventureResult( "phonics down", initialRestores );
-							BuffBotHome.setBuffBotActive( AdventureDatabase.retrieveItem( restores ) );
-						}
+						BuffBotHome.setBuffBotActive( false );
+						BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Unable to continue processing buff messages." );
 					}
-				}
-
-				// If no abort happened due to lack of restores, then you
-				// can proceed with the next iteration.
-
-				if ( BuffBotHome.isBuffBotActive() )
-				{
-					BuffBotManager.runOnce();
-
-					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
-					if ( initialRestores > 0 )
-						BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + KoLmafia.getRestoreCount() + " mana restores remaining)" );
-					else if ( usingAdventures )
-						BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + KoLCharacter.getAdventuresLeft() + " adventures remaining)" );
-
-					// Sleep for a while and then try again (don't go
-					// away for more than 1 second at a time to avoid
-					// automatic re-enabling problems).
-
-					for ( int j = 0; i != 1 && j < 60; ++j )
-						if ( BuffBotHome.isBuffBotActive() )
-							KoLRequest.delay( 1000 );
+					else if ( NPCStoreDatabase.contains( "magical mystery juice" ) )
+					{
+						AdventureResult restores = new AdventureResult( "magical mystery juice", initialRestores );
+						BuffBotHome.setBuffBotActive( AdventureDatabase.retrieveItem( restores ) );
+					}
+					else
+					{
+						AdventureResult restores = new AdventureResult( "phonics down", initialRestores );
+						BuffBotHome.setBuffBotActive( AdventureDatabase.retrieveItem( restores ) );
+					}
 				}
 			}
 
-			// After the buffbot is finished running, make sure
-			// to reset the continue state.
+			// If no abort happened due to lack of restores, then you
+			// can proceed with the next iteration.
 
-			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
-			BuffBotHome.setBuffBotActive( false );
+			if ( BuffBotHome.isBuffBotActive() )
+			{
+				BuffBotManager.runOnce();
+
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
+				if ( initialRestores > 0 )
+					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + KoLmafia.getRestoreCount() + " mana restores remaining)" );
+				else if ( usingAdventures )
+					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + KoLCharacter.getAdventuresLeft() + " adventures remaining)" );
+
+				// Sleep for a while and then try again (don't go
+				// away for more than 1 second at a time to avoid
+				// automatic re-enabling problems).
+
+				for ( int j = 0; i != 1 && j < 60; ++j )
+					if ( BuffBotHome.isBuffBotActive() )
+						RequestThread.postRequest( delay );
+			}
 		}
+
+		// After the buffbot is finished running, make sure
+		// to reset the continue state.
+
+		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
+		BuffBotHome.setBuffBotActive( false );
 	}
 
 	public static void runOnce()

@@ -59,10 +59,7 @@ public abstract class ThreadedButton extends JButton implements ActionListener, 
 		if ( !isValidEvent( e ) )
 			return;
 
-		if ( StaticEntity.getBooleanProperty( "interleaveRequests" ) )
-			this.run();
-		else
-			(new Thread( this )).start();
+		this.run();
 	}
 
 	protected boolean isValidEvent( ActionEvent e )
