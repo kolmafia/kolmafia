@@ -219,9 +219,11 @@ Flame-Retardent Trousers	Hot: +20
 Fresh Scent	Combat: -5
 Ghostly Shell	DA: +80
 Green Tongue	Weight: +5
+Heart of Green	Weight: +3
 Heart of Lavender	Item: +0.0
 Heart of Pink	Meat: +0.0
 Heart of White	Exp: +1.0
+Heart of Yellow	Init: +20.0
 Heavy Petting	Weight: +5
 Hippy Stench	Combat: +5
 Hombre Muerto Caminando	Spooky: +10
