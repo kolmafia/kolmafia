@@ -2982,8 +2982,8 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "print_html", VOID_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_name", STRING_TYPE, params ) );
