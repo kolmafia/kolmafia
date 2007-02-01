@@ -4514,11 +4514,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue print( ScriptVariable string, ScriptVariable color )
 		{
-			String colorString = color.toStringValue().toString().replaceAll( "[\">", "" );
-
-			KoLmafia.updateDisplay( "<font color=\"" + colorString + "\">" + string.toStringValue().toString() + "</font>" );
-			KoLmafia.echoStream.println( string.toStringValue().toString() );
-
+			DEFAULT_SHELL.executeCommand( "colorecho", color.toStringValue().toString() + " " + string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 

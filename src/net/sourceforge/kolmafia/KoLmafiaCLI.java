@@ -607,6 +607,20 @@ public class KoLmafiaCLI extends KoLmafia
 		// Adding the requested echo command.  I guess this is
 		// useful for people who want to echo things...
 
+		if ( command.equals( "cecho" ) || command.equals( "colorecho" ) )
+		{
+			int spaceIndex = parameters.indexOf( " " );
+			String color = "#000000";
+
+			if ( spaceIndex != -1 )
+				color = parameters.substring( 0, spaceIndex ).replaceAll( "[\">]", "" );
+
+			parameters = parameters.substring( spaceIndex + 1 );
+			updateDisplay( "<font color=\"" + color + "\">" + parameters + "</font>" );
+
+			return;
+		}
+
 		if ( command.equals( "echo" ) )
 		{
 			if ( parameters.equalsIgnoreCase( "timestamp" ) )
