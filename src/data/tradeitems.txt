@@ -2285,3 +2285,25 @@
 2285
 2286
 2287	green glowstick	8	none	0
+2288
+2289
+2290
+2291
+2292
+2293
+2294
+2295
+2296
+2297
+2298
+2299
+2300
+2301
+2302
+2303	libram of candy heart summoning	3	all	0
+2304	white candy heart	3	all	5
+2305	pink candy heart	3	all	5
+2306	orange candy heart	3	all	5
+2307	lavender candy heart	3	all	5
+2308	yellow candy heart	3	all	5
+2309	green candy heart	3	all	5

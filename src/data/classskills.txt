@@ -12,6 +12,7 @@
 15	3	10	0	CLEESH
 16	1	5	0	Summon Snowcone
 17	1	5	0	Summon Hilarious Objects
+18	1	0	0	Summon Candy Hearts
 
 7002	3	0	0	Shake Hands
 7003	3	5	0	Hot Breath

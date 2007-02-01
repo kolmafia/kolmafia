@@ -261,3 +261,14 @@
 261	Lemonade	Lemon Enlightenment	lemon.gif
 262	Toad Horn	Squirming Like a Toad	squashfrog.gif
 263	turtle pheromones	Eau D'tortue	stench.gif
+264
+265
+266
+267
+268
+269	white candy heart	Heart of White	candyheart.gif
+270	pink candy heart	Heart of Pink	candyheart.gif
+271	orange candy heart	Heart of Orange	candyheart.gif
+272	lavender candy heart	Heart of Lavender	candyheart.gif
+273	yellow candy heart	Heart of Yellow	candyheart.gif
+274	green candy heart	Heart of Green	candyheart.gif

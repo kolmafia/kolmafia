@@ -2290,3 +2290,25 @@
 2285
 2286
 2287	642392529	green glowstick	green glowstyx
+2288
+2289
+2290
+2291
+2292
+2293
+2294
+2295
+2296
+2297
+2298
+2299
+2300
+2301
+2302
+2303	336455814	libram of candy heart summoning
+2304	175228086	white candy heart	white candy hearts
+2305	192902326	pink candy heart	pink candy hearts
+2306	451194816	orange candy heart	orange candy hearts
+2307	627903592	lavender candy heart	lavender candy hearts
+2308
+2309
