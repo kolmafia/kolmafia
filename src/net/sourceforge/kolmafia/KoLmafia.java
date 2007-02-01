@@ -1506,8 +1506,11 @@ public abstract class KoLmafia implements KoLConstants
 					if ( conditions.isEmpty() && !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) ) )
 						return;
 				}
+				else
+				{
+					runBetweenBattleChecks( true, false );
+				}
 
-				runBetweenBattleChecks( true, false );
 				isAdventuring = true;
 			}
 
@@ -1519,7 +1522,7 @@ public abstract class KoLmafia implements KoLConstants
 			RequestThread.openRequestSequence();
 
 			KoLmafiaCLI.printBlankLine();
-			executeRequest( request, iterations );
+			executeRequest( request, iterations, wasAdventuring );
 
 			RequestThread.closeRequestSequence();
 
@@ -1538,7 +1541,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	private void executeRequest( Runnable request, int iterations )
+	private void executeRequest( Runnable request, int iterations, boolean wasAdventuring )
 	{
 		hadPendingState = false;
 
@@ -1650,7 +1653,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( refusesContinue() )
 			{
-				if ( request instanceof KoLAdventure )
+				if ( request instanceof KoLAdventure && !wasAdventuring )
 					AdventureFrame.updateRequestMeter( 1, 1 );
 
 				return;
@@ -1658,7 +1661,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			adventuresBeforeRequest = KoLCharacter.getAdventuresLeft();
 
-			if ( request instanceof KoLAdventure )
+			if ( request instanceof KoLAdventure && !wasAdventuring )
 				AdventureFrame.updateRequestMeter( currentIteration - 1, iterations );
 
 			KoLmafiaCLI.printBlankLine();
