@@ -208,18 +208,16 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private abstract class ContextMenuItem extends JMenuItem implements ActionListener
+	private abstract class ContextMenuItem extends ThreadedMenuItem
 	{
 		public int index;
 		public Object item;
 
 		public ContextMenuItem( String title )
-		{
-			super( title );
-			addActionListener( this );
+		{	super( title );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{
 			this.index = lastSelectIndex == -1 ? getSelectedIndex() : lastSelectIndex;
 			this.item = ShowDescriptionList.this.getModel().getElementAt( index );

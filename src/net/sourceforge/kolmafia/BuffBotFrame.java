@@ -71,9 +71,6 @@ public class BuffBotFrame extends KoLFrame
 	{
 		super( "BuffBot Manager" );
 
-		BuffBotHome.reset();
-		BuffBotManager.reset();
-
 		// Initialize the display log buffer and the file log
 
 		tabs = new JTabbedPane();

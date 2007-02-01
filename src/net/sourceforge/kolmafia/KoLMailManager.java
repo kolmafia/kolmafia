@@ -48,7 +48,7 @@ public abstract class KoLMailManager extends StaticEntity
 		mailboxes.put( "Saved", new SortedListModel() );
 	}
 
-	public static void reset()
+	public static void clearMailboxes()
 	{
 		getMessages( "Inbox" ).clear();
 		getMessages( "PvP" ).clear();

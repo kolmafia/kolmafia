@@ -78,7 +78,7 @@ public class BuffBotHome extends StaticEntity
 	 * content to be displayed.
 	 */
 
-	public static void reset()
+	public static void loadSettings()
 	{
 		messages.clear();
 		pastRecipients.clear();

@@ -809,11 +809,9 @@ public class AdventureFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			File location = new File( SETTINGS_DIRECTORY, CombatSettings.settingsFileName() );
-			if ( !location.exists() )
-				CombatSettings.reset();
-
+			File location = new File( "settings" + File.separator + CombatSettings.settingsFileName() );
 			LogStream writer = LogStream.openStream( location, true );
+
 			writer.println( ((JTextArea)scrollComponent).getText() );
 			writer.close();
 			writer = null;
@@ -888,7 +886,7 @@ public class AdventureFrame extends KoLFrame
 
 		try
 		{
-			CombatSettings.reset();
+			CombatSettings.restoreDefaults();
 			BufferedReader reader = KoLDatabase.getReader( "settings" + File.separator + CombatSettings.settingsFileName() );
 
 			StringBuffer buffer = new StringBuffer();
@@ -928,7 +926,7 @@ public class AdventureFrame extends KoLFrame
 
 	private void refreshCombatTree()
 	{
-		CombatSettings.reset();
+		CombatSettings.restoreDefaults();
 		combatModel.setRoot( CombatSettings.getRoot() );
 		combatTree.setRootVisible( false );
 

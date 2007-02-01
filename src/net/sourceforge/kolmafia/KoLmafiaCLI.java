@@ -662,7 +662,7 @@ public class KoLmafiaCLI extends KoLmafia
 				printList( CombatSettings.getDefaultAction() );
 
 			if ( name.equals( "buffBotCasting" ) )
-				BuffBotManager.reset();
+				BuffBotManager.loadSettings();
 
 			return;
 		}
@@ -1704,21 +1704,59 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public static File findScriptFile( String filename )
 	{
-		File scriptFile = new File( SCRIPT_DIRECTORY, filename );
-		if ( !scriptFile.exists() )
-			scriptFile = new File( SCRIPT_DIRECTORY, filename + ".txt" );
-		if ( !scriptFile.exists() )
-			scriptFile = new File( SCRIPT_DIRECTORY, filename + ".ash" );
-		if ( !scriptFile.exists() )
-			scriptFile = new File( filename );
-		if ( !scriptFile.exists() )
-			scriptFile = new File( filename + ".txt" );
-		if ( !scriptFile.exists() )
-			scriptFile = new File( filename + ".ash" );
-		if ( !scriptFile.exists() )
+		File scriptFile = findScriptFile( new File( "scripts" ), filename );
+		if ( scriptFile != null )
+			return scriptFile;
+
+		scriptFile = new File( filename );
+		return scriptFile.exists() ? scriptFile : null;
+	}
+
+	public static File findScriptFile( File directory, String filename )
+	{
+		File scriptFile = new File( directory, filename );
+		if ( scriptFile.exists() )
+			return scriptFile;
+
+		scriptFile = new File( directory, filename );
+		if ( scriptFile.exists() )
+			return scriptFile;
+
+		if ( filename.indexOf( "." ) != -1 || filename.indexOf( "~" ) != -1 )
 			return null;
 
-		return scriptFile;
+		scriptFile = findScriptFile( directory, filename + ".txt" );
+		if ( scriptFile != null )
+			return scriptFile;
+
+		scriptFile = findScriptFile( directory, filename + ".ash" );
+		if ( scriptFile != null )
+			return scriptFile;
+
+		scriptFile = findScriptFile( directory, filename + "~" );
+		if ( scriptFile != null )
+			return scriptFile;
+
+		scriptFile = findScriptFile( directory, filename + ".txt~" );
+		if ( scriptFile != null )
+			return scriptFile;
+
+		scriptFile = findScriptFile( directory, filename + ".ash~" );
+		if ( scriptFile != null )
+			return scriptFile;
+
+		File [] contents = directory.listFiles();
+		for ( int i = 0; i < contents.length; ++i )
+		{
+			if ( contents[i].isDirectory() )
+			{
+				scriptFile = findScriptFile( contents[i], filename );
+				if ( scriptFile != null )
+					return scriptFile;
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -3667,8 +3705,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeBuffBotCommand( String parameters )
 	{
-		BuffBotHome.reset();
-		BuffBotManager.reset();
+		BuffBotHome.loadSettings();
+		BuffBotManager.loadSettings();
 
 		if ( BuffBotManager.getBuffCostTable().isEmpty() )
 		{

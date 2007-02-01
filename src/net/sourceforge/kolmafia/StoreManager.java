@@ -63,7 +63,7 @@ public abstract class StoreManager extends StaticEntity
 	private static LockableListModel soldItemList = new LockableListModel();
 	private static LockableListModel sortedSoldItemList = new LockableListModel();
 
-	public static void reset()
+	public static void clearCache()
 	{
 		potentialEarnings = 0;
 		soldItemList.clear();
