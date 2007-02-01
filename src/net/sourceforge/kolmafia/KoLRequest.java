@@ -1601,7 +1601,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( existingFrames.isEmpty() )
 			return;
 
-		if ( !exceptional && !StaticEntity.getBooleanProperty( "showAllRequests" ) )
+		if ( !exceptional && !RequestFrame.willRefreshStatus() )
 			return;
 
 		// Only show the request if the response code is

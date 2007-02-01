@@ -48,6 +48,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.SwingUtilities;
 import edu.stanford.ejalbert.BrowserLauncher;
+
+import net.sourceforge.foxtrot.Job;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 public abstract class StaticEntity implements KoLConstants
@@ -315,6 +317,7 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static final boolean executeCountdown( String message, int seconds )
 	{
+		OneSecondDelay delay = new OneSecondDelay();
 		StringBuffer actualMessage = new StringBuffer( message );
 
 		for ( int i = seconds; i > 0 && KoLmafia.permitsContinue(); --i )
@@ -396,7 +399,7 @@ public abstract class StaticEntity implements KoLConstants
 				KoLmafia.updateDisplay( actualMessage.toString() );
 			}
 
-			KoLRequest.delay( 1000 );
+			RequestThread.postRequest( delay );
 		}
 
 		return KoLmafia.permitsContinue();
@@ -712,5 +715,12 @@ public abstract class StaticEntity implements KoLConstants
 			return false;
 
 		return disabledScripts.contains( "all" ) || disabledScripts.contains( name );
+	}
+
+	public static class OneSecondDelay extends Job
+	{
+		public void run()
+		{	KoLRequest.delay( 1000 );
+		}
 	}
 }

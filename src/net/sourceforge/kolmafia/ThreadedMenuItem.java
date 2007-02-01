@@ -52,10 +52,7 @@ public abstract class ThreadedMenuItem extends JMenuItem implements ActionListen
 		if ( !isValidEvent( e ) )
 			return;
 
-		if ( StaticEntity.getBooleanProperty( "interleaveRequests" ) )
-			this.run();
-		else
-			(new Thread( this )).start();
+		this.run();
 	}
 
 	protected boolean isValidEvent( ActionEvent e )
