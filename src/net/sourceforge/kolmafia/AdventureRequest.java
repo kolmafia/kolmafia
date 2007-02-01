@@ -345,7 +345,7 @@ public class AdventureRequest extends KoLRequest
 
 			if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
 			{
-				KoLmafia.updateDisplay( PENDING_STATE, "You have brIDGED the Orc Chasm." );
+				KoLmafia.updateDisplay( PENDING_STATE, "You have bridged the Orc Chasm." );
 				StaticEntity.getClient().processResult( BRIDGE );
 			}
 
