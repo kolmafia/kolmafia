@@ -366,7 +366,7 @@ public class AdventureDatabase extends KoLDatabase
 		// The Entertainer
 		new ChoiceAdventure( "Town", "choiceAdventure110", "Sleazy Back Alley",
 		  new String [] { "moxie substats", "moxie and muscle", "small meat boost", "skip adventure" },
-		  new String [] { null, null, "564" } ),
+		  new String [] { null, null, null, null } ),
 
 		// Malice in Chains
 		new ChoiceAdventure( "Knob", "choiceAdventure111", "Outskirts of The Knob",
