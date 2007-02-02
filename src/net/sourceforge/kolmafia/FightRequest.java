@@ -154,15 +154,6 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
-		// Automatically pickpocket when appropriate
-
-		if ( currentRound == 1 && monsterData != null && responseText.indexOf( "You get the jump" ) != -1 && monsterData.shouldSteal() )
-		{
-			action1 = "steal";
-			addFormField( "action", action1 );
-			return;
-		}
-
 		// If the user wants a custom combat script, parse the desired
 		// action here.
 
@@ -187,7 +178,6 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
-
 		// If the person wants to use their own script,
 		// then this is where it happens.
 
@@ -208,6 +198,15 @@ public class FightRequest extends KoLRequest
 
 			KoLmafia.updateDisplay( ABORT_STATE, "Consult script '" + scriptName + "' not found." );
 			action1 = "abort";
+			return;
+		}
+
+		// Automatically pickpocket when appropriate
+
+		if ( currentRound == 1 && monsterData != null && responseText.indexOf( "You get the jump" ) != -1 && monsterData.shouldSteal() )
+		{
+			action1 = "steal";
+			addFormField( "action", action1 );
 			return;
 		}
 
