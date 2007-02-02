@@ -959,9 +959,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( buffer.indexOf( "<form" ) == -1 )
 			return;
 
-
-
-
 		// What we're going to do is kill the standard form and replace it with
 		// one that requires a lot less scrolling while still retaining all of
 		// the form fields.  But first, extract needed information from it.
@@ -999,7 +996,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		String suffix = buffer.toString().substring( endIndex + 7 );
 		buffer.delete( buffer.indexOf( "<form" ), buffer.length() );
 
-		String toggleScript = "if ( document.getElementById('skillsview').options[0].selected ) { document.getElementById('hardskills').style.display = 'none'; document.getElementById('softskills').style.display = ''; } else { document.getElementById('hardskills').style.display = ''; document.getElementById('softskills').style.display = 'none'; } void(0);";
+		String toggleScript = "if ( document.getElementById('skillsview').options[0].selected ) { document.getElementById('hardskills').style.display = 'none'; document.getElementById('softskills').style.display = 'inline'; } else { document.getElementById('hardskills').style.display = 'inline'; document.getElementById('softskills').style.display = 'none'; } void(0);";
 
 		// Add some holiday predictions to the page to make things more useful,
 		// since people sometimes forget KoLmafia has a calendar.
@@ -1078,7 +1075,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		createSkillTable( buffer, softSkills );
 		buffer.append( LINE_BREAK );
 
-		buffer.append( "</div><div id=\"hardskills\">" );
+		buffer.append( "</div><div id=\"hardskills\" style=\"display:inline\">" );
 		buffer.append( LINE_BREAK );
 		createSkillTable( buffer, hardSkills );
 		buffer.append( LINE_BREAK );
@@ -1313,7 +1310,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					useLocation = "inv_use.php?pwd=&which=1&whichitem=";
 
 					if ( itemCount > 1 )
-						useLocation = "javascript: document.getElementById('multiuse" + itemId + "').style = 'display:'; void(0);";
+						useLocation = "javascript:document.getElementById('multiuse" + itemId + "').style.display='inline';void(0);";
 
 				case CONSUME_USE:
 
