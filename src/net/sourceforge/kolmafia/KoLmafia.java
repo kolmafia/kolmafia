@@ -1618,7 +1618,7 @@ public abstract class KoLmafia implements KoLConstants
 				// Create any items which are creatable.  If you're only doing
 				// a disjunction of the conditions, stop after making one.
 
-				for ( int i = 0; i < creatables.length && shouldCreate; ++i )
+				for ( int i = creatables.length - 1; i >= 0; --i )
 				{
 					if ( creatables[i] != null && creatables[i].getQuantityPossible() >= items[i].getCount() )
 					{
