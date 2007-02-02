@@ -357,17 +357,12 @@ public class FightRequest extends KoLRequest
 			}
 
 			if ( action1 != null && action1.equals( "abort" ) )
-			{
-				if ( currentRound != 0 )
-				{
-					KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
-					showInBrowser( true );
-				}
-
-				return;
-			}
+				KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
 		}
-		while ( currentRound != 0 );
+		while ( currentRound != 0 && !KoLmafia.refusesContinue() );
+
+		if ( currentRound != 0 )
+			showInBrowser( true );
 	}
 
 	private boolean isAcceptable( int offenseModifier, int defenseModifier )
