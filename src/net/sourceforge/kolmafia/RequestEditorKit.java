@@ -1304,13 +1304,20 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				case CONSUME_RESTORE:
 
 					AdventureResult result = new AdventureResult( itemId, 1 );
-					itemCount = result.getCount( inventory );
+					itemCount = Math.min( ConsumeItemRequest.maximumUses( itemId ), result.getCount( inventory ) );
 
-					useType = "use";
-					useLocation = "inv_use.php?pwd=&which=1&whichitem=";
-
-					if ( itemCount > 1 )
+					if ( itemCount == 1 )
+					{
+						useType = "use";
+						useLocation = "inv_use.php?pwd=&which=1&whichitem=";
+					}
+					else if ( itemCount > 1 )
+					{
+						useType = "use";
 						useLocation = "javascript:document.getElementById('multiuse" + itemId + "').style.display='inline';void(0);";
+					}
+
+					break;
 
 				case CONSUME_USE:
 
@@ -1335,25 +1342,22 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					break;
 
 				case EQUIP_HAT:
-				case EQUIP_PANTS:
-				case EQUIP_SHIRT:
+				case EQUIP_WEAPON:
 				case EQUIP_OFFHAND:
+				case EQUIP_SHIRT:
+				case EQUIP_PANTS:
 				case EQUIP_ACCESSORY:
 				case EQUIP_FAMILIAR:
 
 					useType = null;
 					int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
 
-					if ( outfit != -1 )
+					if ( outfit != -1 && EquipmentDatabase.hasOutfit( outfit ) )
 					{
-						if ( EquipmentDatabase.hasOutfit( outfit ) )
-						{
-							useType = "outfit";
-							useLocation = "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit;
-						}
+						useType = "outfit";
+						useLocation = "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit;
 					}
-
-					if ( useType == null )
+					else
 					{
 						useType = "equip";
 						useLocation = "inv_equip.php?pwd=&which=2&action=equip&whichitem=";
