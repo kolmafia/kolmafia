@@ -524,7 +524,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		if ( !itemMatcher.find() )
 			return true;
 
-
 		int itemId = StaticEntity.parseInt( urlString.startsWith( "mall" ) ? itemMatcher.group(1).substring( 0, 4 ) : itemMatcher.group(1) );
 		itemName = TradeableItemDatabase.getItemName( itemId );
 

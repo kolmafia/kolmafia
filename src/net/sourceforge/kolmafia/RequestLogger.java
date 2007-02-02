@@ -39,6 +39,18 @@ public class RequestLogger
 
 	public static void registerRequest( KoLRequest request, String urlString )
 	{
+		try
+		{
+			doRegister( request, urlString );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	private static void doRegister( KoLRequest request, String urlString )
+	{
 		if ( LoginRequest.isInstanceRunning() )
 			return;
 

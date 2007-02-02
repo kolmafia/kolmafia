@@ -94,7 +94,7 @@ public class FlowerHunterRequest extends KoLRequest
 		if ( message.equals( "" ) || message.indexOf( "flower" ) != -1 )
 		{
 			addFormField( "winmessage", "NOOOO!  I was trying to derank!" );
-			addFormField( "losemessage", "I aimed for a pansy and hit myself.  *tear*" );
+			addFormField( "losemessage", "YOU WILL NEVER HAVE MY DIGNITY!" );
 		}
 		else
 		{
