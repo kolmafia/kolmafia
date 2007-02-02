@@ -913,10 +913,11 @@ public abstract class MoodSettings implements KoLConstants
 		private String type, name;
 		private String action, command, count, parameters;
 
-		public MoodTrigger( String type, String name, String action )
+		public MoodTrigger( String type, AdventureResult effect, String action )
 		{
 			this.type = type;
-			this.name = name;
+			this.effect = effect;
+			this.name = effect == null ? null : effect.getName();
 
 			if ( action.startsWith( "use " ) || action.startsWith( "cast " ) )
 			{
@@ -961,8 +962,6 @@ public abstract class MoodSettings implements KoLConstants
 
 				this.action = action;
 			}
-
-			this.effect = name == null ? null : new AdventureResult( name, 1, true );
 
 			if ( type != null && type.equals( "lose_effect" ) && effect != null )
 			{
@@ -1148,7 +1147,15 @@ public abstract class MoodSettings implements KoLConstants
 			String name = type.equals( "unconditional" ) ? null :
 				pieces[0].substring( pieces[0].indexOf( " " ) ).trim();
 
-			return new MoodTrigger( type, name, pieces[1].trim() );
+			AdventureResult effect = null;
+			if ( !type.equals( "unconditional" ) )
+			{
+				effect = KoLmafiaCLI.getFirstMatchingEffect( name );
+				if ( effect == null )
+					return null;
+			}
+
+			return new MoodTrigger( type, effect, pieces[1].trim() );
 		}
 	}
 }

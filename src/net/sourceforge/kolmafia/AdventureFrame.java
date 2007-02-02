@@ -461,7 +461,6 @@ public class AdventureFrame extends KoLFrame
 				return true;
 
 			conditions.clear();
-			boolean verifyConditions = conditionList.equalsIgnoreCase( AdventureDatabase.getCondition( request ) );
 
 			int worthlessItemCount = 0;
 			boolean useDisjunction = false;
@@ -482,8 +481,6 @@ public class AdventureFrame extends KoLFrame
 				{
 					// Postpone verification of conditions
 					// until all other conditions added.
-
-					verifyConditions = true;
 				}
 				else if ( splitConditions[i].equals( "outfit" ) )
 				{
@@ -493,8 +490,6 @@ public class AdventureFrame extends KoLFrame
 
 					if ( !(request instanceof KoLAdventure) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
 						return true;
-
-					verifyConditions = true;
 				}
 				else if ( splitConditions[i].equals( "or" ) || splitConditions[i].equals( "and" ) || splitConditions[i].startsWith( "conjunction" ) || splitConditions[i].startsWith( "disjunction" ) )
 				{
@@ -513,14 +508,11 @@ public class AdventureFrame extends KoLFrame
 				return false;
 			}
 
-			if ( verifyConditions )
+			KoLmafia.checkRequirements( conditions, false );
+			if ( conditions.isEmpty() )
 			{
-				KoLmafia.checkRequirements( conditions, false );
-				if ( conditions.isEmpty() )
-				{
-					KoLmafia.updateDisplay( "All conditions already satisfied." );
-					return false;
-				}
+				KoLmafia.updateDisplay( "All conditions already satisfied." );
+				return false;
 			}
 
 			if ( conditions.size() > 1 )
