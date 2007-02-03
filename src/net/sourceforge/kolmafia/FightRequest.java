@@ -85,7 +85,7 @@ public class FightRequest extends KoLRequest
 	private static String encounterLookup = "";
 
 	// Ultra-rare monsters
-	private static final String [] RARE_MONSTERS = { "baiowulf", "crazy bastard", "hockey elemental", "hypnotist of hey deze", "infinite meat bug", "master of thieves" };
+	private static final String [] RARE_MONSTERS = { "baiowulf", "crazy bastard", "hockey elemental", "hypnotist of hey deze", "infinite meat bug", "master of thieves", "temporal bandit" };
 
 	/**
 	 * Constructs a new <code>FightRequest</code>.  Theprovided will

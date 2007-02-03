@@ -156,8 +156,10 @@ public interface KoLConstants
 	public static final LockableListModel bookmarks = new LockableListModel();
 
 	public static final ArrayList disabledScripts = new ArrayList();
+
 	public static final SortedListModel junkItemList = new SortedListModel();
 	public static final SortedListModel mementoList = new SortedListModel();
+	public static final SortedListModel ascensionCheckList = new SortedListModel();
 
 	public static final File DATA_DIRECTORY = new File( "data" );
 	public static final File IMAGE_DIRECTORY = new File( "images" );

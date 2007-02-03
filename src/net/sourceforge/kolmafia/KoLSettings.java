@@ -56,6 +56,11 @@ public class KoLSettings extends Properties implements KoLConstants
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
 
+	public static final String [] COMMON_CHECKLIST =
+	{
+		"1 dope wheels", "1 Meat maid", "1 chef-in-the-box", "1 bartender-in-the-box"
+	};
+
 	public static final String [] COMMON_JUNK =
 	{
 		// Items which usually get autosold by people, regardless of the situation.
@@ -140,8 +145,11 @@ public class KoLSettings extends Properties implements KoLConstants
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );
 
 	private File settingsFile;
+
 	private File junkItemsFile;
 	private File mementoFile;
+	private File checklistFile;
+
 	private String noExtensionName;
 
 	/**
@@ -160,6 +168,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		this.settingsFile = new File( SETTINGS_DIRECTORY, "prefs_" + noExtensionName + ".txt" );
 		this.junkItemsFile = new File( SETTINGS_DIRECTORY, "junk_GLOBAL.txt" );
 		this.mementoFile = new File( SETTINGS_DIRECTORY, "memento_GLOBAL.txt" );
+		this.checklistFile = new File( SETTINGS_DIRECTORY, "checklist_GLOBAL.txt" );
 
 		loadSettings();
 		ensureDefaults();
@@ -216,15 +225,32 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	public void saveFlaggedItemList()
 	{
+		AdventureResult item;
+
 		LogStream ostream = LogStream.openStream( junkItemsFile, true );
 		for ( int i = 0; i < junkItemList.size(); ++i )
-			ostream.println( ((AdventureResult)junkItemList.get(i)).getName() );
+		{
+			item = (AdventureResult) junkItemList.get(i);
+			ostream.println( item.getName() );
+		}
 
 		ostream.close();
 
 		ostream = LogStream.openStream( mementoFile, true );
 		for ( int i = 0; i < mementoList.size(); ++i )
-			ostream.println( ((AdventureResult)mementoList.get(i)).getName() );
+		{
+			item = (AdventureResult)mementoList.get(i);
+			ostream.println( item.getName() );
+		}
+
+		ostream.close();
+
+		ostream = LogStream.openStream( checklistFile, true );
+		for ( int i = 0; i < ascensionCheckList.size(); ++i )
+		{
+			item = (AdventureResult) ascensionCheckList.get(i);
+			ostream.println( item.getCount() + " " + item.getName() );
+		}
 
 		ostream.close();
 	}
@@ -355,6 +381,34 @@ public class KoLSettings extends Properties implements KoLConstants
 					data = new AdventureResult( line, 1, false );
 					if ( !mementoList.contains( data ) )
 						mementoList.add( data );
+				}
+
+				reader.close();
+			}
+
+			ascensionCheckList.clear();
+
+			if ( !checklistFile.exists() )
+			{
+				for ( int i = 0; i < COMMON_CHECKLIST.length; ++i )
+					ascensionCheckList.add( KoLmafiaCLI.getFirstMatchingItem( COMMON_CHECKLIST[i] ) );
+			}
+			else
+			{
+				istream = new FileInputStream( checklistFile );
+				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
+
+				String line;
+				AdventureResult data;
+
+				while ( (line = reader.readLine()) != null )
+				{
+					if ( line.equals( "" ) || line.startsWith( "[" ) )
+						continue;
+
+					data = KoLmafiaCLI.getFirstMatchingItem( line );
+					if ( !ascensionCheckList.contains( data ) )
+						ascensionCheckList.add( data );
 				}
 
 				reader.close();

@@ -520,13 +520,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		String itemName = null;
 
-		Matcher itemMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
-		if ( !itemMatcher.find() )
-			return true;
-
-		int itemId = StaticEntity.parseInt( urlString.startsWith( "mall" ) ? itemMatcher.group(1).substring( 0, 4 ) : itemMatcher.group(1) );
-		itemName = TradeableItemDatabase.getItemName( itemId );
-
 		Matcher quantityMatcher = null;
 
 		if ( urlString.startsWith( "mall" ) )
@@ -534,7 +527,19 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		else
 			quantityMatcher = SendMessageRequest.HOWMANY_PATTERN.matcher( urlString );
 
-		int quantity = !quantityMatcher.find() ? 1 : StaticEntity.parseInt( quantityMatcher.group(1) );
+		if ( !quantityMatcher.find() )
+			return true;
+
+		int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+		if ( quantity == 0 )
+			quantity = 1;
+
+		Matcher itemMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+			return true;
+
+		int itemId = StaticEntity.parseInt( urlString.startsWith( "mall" ) ? itemMatcher.group(1).substring( 0, 4 ) : itemMatcher.group(1) );
+		itemName = TradeableItemDatabase.getItemName( itemId );
 
 		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( "buy " + quantity + " " + itemName );
