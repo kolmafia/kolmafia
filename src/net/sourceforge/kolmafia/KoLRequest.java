@@ -664,7 +664,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		// The Deep Fat Friars' Ceremony Location
 
-		if ( location.equals( "friars.php" ) )
+		if ( location.indexOf( "friars.php" ) != -1 )
 		{
 			// "Thank you, Adventurer."
 

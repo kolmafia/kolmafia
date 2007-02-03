@@ -352,18 +352,6 @@ public class AdventureRequest extends KoLRequest
 			return;
 		}
 
-		// The Deep Fat Friars' Ceremony Location
-
-		if ( formSource.equals( "friars.php" ) )
-		{
-			// "Thank you, Adventurer."
-
-			if ( responseText.indexOf( "Thank you" ) == -1 )
-				KoLmafia.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
-
-			return;
-		}
-
 		// If you're at the casino, each of the different slot
 		// machines deducts meat from your tally
 
