@@ -2310,5 +2310,11 @@
 2305	192902326	pink candy heart	pink candy hearts
 2306	451194816	orange candy heart	orange candy hearts
 2307	627903592	lavender candy heart	lavender candy hearts
-2308
-2309
+2308	382862191	yellow candy heart	yellow candy hearts
+2309	937993740	green candy heart	green candy hearts
+2310	641781556	white candygram
+2311	900821807	pink candygram
+2312	411906758	orange candygram
+2313	434753247	lavender candygram
+2314	862173261	yellow candygram
+2315	112246014	green candygram
