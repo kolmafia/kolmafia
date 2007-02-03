@@ -50,6 +50,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	private static final AdventureResult GALLERY_KEY = new AdventureResult( 1765, 1 );
 	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
 
+	public static final AdventureResult MEATCAR = new AdventureResult( 134, 1 );
 	public static final AdventureResult BEAN = new AdventureResult( 186, 1 );
 	public static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
 
@@ -569,7 +570,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 			visitedCouncil = true;
 
-			if ( AdventureDatabase.retrieveItem( "bitchin' meatcar" ) )
+			if ( AdventureDatabase.retrieveItem( MEATCAR ) )
 			{
 				StaticEntity.getClient().unlockGuildStore( true );
 				isValidAdventure = KoLmafia.permitsContinue();

@@ -49,6 +49,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class BuffBotDatabase extends KoLDatabase
 {
+	public static final int OVERPRICE_DIFFERENCE = 1000;
 	public static final String OPTOUT_URL = "http://forums.kingdomofloathing.com/";
 
 	private static final Pattern BUFFDATA_PATTERN = Pattern.compile( "<buffdata>(.*?)</buffdata>", Pattern.DOTALL );
@@ -146,7 +147,7 @@ public class BuffBotDatabase extends KoLDatabase
 		// a philanthropic buff.  Buff packs are also not protected
 		// because the logic is complicated.
 
-		if ( current.turns[0] > 300 || current.buffs.length > 1 )
+		if ( current.buffs.length > 1 )
 			return amount;
 
 		// If no alternative exists, go ahead and return the
@@ -159,10 +160,9 @@ public class BuffBotDatabase extends KoLDatabase
 		String matchBuff = current.buffs[0];
 		int matchTurns = current.turns[0];
 
-		String [] testBuffs = null;
+		String testBuff = null;
 		int testTurns = 0;
 
-		boolean hasBuff = false;
 		Offering bestMatch = null;
 		int bestTurns = 0;
 
@@ -173,14 +173,13 @@ public class BuffBotDatabase extends KoLDatabase
 		{
 			current = (Offering) alternatives.get(i);
 
-			testBuffs = current.buffs;
+			if ( current.buffs.length > 1 )
+				continue;
+
+			testBuff = current.buffs[0];
 			testTurns = current.turns[0];
 
-			hasBuff = false;
-			for ( int j = 0; j < testBuffs.length; ++j )
-				hasBuff |= matchBuff.equals( testBuffs[j] );
-
-			if ( !hasBuff )
+			if ( !matchBuff.equals( testBuff ) )
 				continue;
 
 			if ( bestMatch == null || (testTurns >= matchTurns && testTurns < bestTurns) )
@@ -190,13 +189,11 @@ public class BuffBotDatabase extends KoLDatabase
 			}
 		}
 
-		// If the closest number of turns is very large, then
-		// forget it -- ask for the philanthropic amount.
+		// Check for a price difference to reduce the impact
+		// from bulk buffs.
 
-		if ( bestTurns - matchTurns > 1000 )
-			return amount;
-
-		return bestMatch == null ? amount : bestMatch.getPrice();
+		return bestMatch == null || bestMatch.getPrice() - amount > OVERPRICE_DIFFERENCE ? amount :
+			bestMatch.getPrice();
 	}
 
 	public static boolean hasOfferings()

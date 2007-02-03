@@ -558,6 +558,18 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "checklist" ) )
+		{
+			if ( KoLCharacter.hasItem( KoLAdventure.MEATCAR ) )
+				RequestThread.postRequest( new UntinkerRequest( KoLAdventure.MEATCAR.getItemId() ) );
+
+			conditions.clear();
+			conditions.addAll( ascensionCheckList );
+
+			executeConditionsCommand( "check" );
+			return;
+		}
+
 		// Preconditions kickass, so they're handled right
 		// after the wait command.  (Right)
 

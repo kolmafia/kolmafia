@@ -950,9 +950,84 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	{
 		if ( location.indexOf( "ascend.php" ) != -1 )
 		{
-			StaticEntity.singleStringReplace( buffer,
-				"<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)",
-				"<table><tr><td align=left valign=center><input type=submit class=button value=\"Ascend\">&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=left><input type=checkbox name=confirm> I remembered to buy the skill I wanted.<br><input type=checkbox name=confirm2> I remembered to stock up for my next ascension.</td></tr></table>" );
+			StringBuffer reminders = new StringBuffer();
+			reminders.append( "<table><tr><td valign=center><input type=submit class=button value=\"Ascend\"></td><td valign=top><table><tr>" );
+			reminders.append( "<td align=left><input type=checkbox name=confirm></td><td>&nbsp;</td>" );
+			reminders.append( "<td align=left>I remember to buy the skill I wanted" );
+
+			if ( KoLCharacter.getLevel() >= 30 )
+				reminders.append( " and my L30 trophy" );
+
+			reminders.append( "." );
+			reminders.append( "</td></tr><tr><td align=left><input type=checkbox name=confirm2></td><td>&nbsp;</td>" );
+			reminders.append( "<td>I remembered to stock up for my next ascension.</td></tr></table></td></tr></table>" );
+
+			StaticEntity.singleStringReplace( buffer, "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)", reminders.toString() );
+
+			int startPoint = 0;
+			StringBuffer skills = new StringBuffer();
+
+			if ( KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER ) )
+				startPoint = 1000;
+			else if ( KoLCharacter.getClassType().equals( KoLCharacter.TURTLE_TAMER ) )
+				startPoint = 2000;
+			else if ( KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER ) )
+				startPoint = 3000;
+			else if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+				startPoint = 4000;
+			else if ( KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF ) )
+				startPoint = 5000;
+			else if ( KoLCharacter.getClassType().equals( KoLCharacter.DISCO_BANDIT ) )
+				startPoint = 6000;
+
+			skills.append( "<table cellspacing=10 cellpadding=10><tr>" );
+			skills.append( "<td bgcolor=\"#eeffee\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Skills You Didn't Buy</th></tr><tr><td align=center><font size=\"-1\">" );
+
+			ArrayList skillList = new ArrayList();
+			for ( int i = 0; i < availableSkills.size(); ++i )
+				skillList.add( String.valueOf( ((UseSkillRequest)availableSkills.get(i)).getSkillId() ) );
+
+			listPermanentSkills( skills, skillList, startPoint );
+
+			skills.append( "</font></td></tr></table></td>" );
+			skills.append( "<td bgcolor=\"#eeeeff\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Common Stuff You Didn't Do</th></tr><tr><td align=center><font size=\"-1\">" );
+
+			AdventureResult item;
+			for ( int i = 0; i < ascensionCheckList.size(); ++i )
+			{
+				item = (AdventureResult) ascensionCheckList.get(i);
+				if ( !KoLCharacter.hasItem( item ) )
+				{
+					skills.append( "<nobr>" );
+
+					if ( item.getItemId() == 137 )
+					{
+						skills.append( "untinker your meatcar" );
+					}
+					else
+					{
+						skills.append( "buy " );
+						skills.append( item.getCount() == 1 ? "a" : String.valueOf( item.getCount() ) );
+						skills.append( " " );
+						skills.append( item.getName().toLowerCase() );
+					}
+
+					skills.append( "</nobr><br>" );
+				}
+			}
+
+			if ( KoLCharacter.hasChef() )
+				skills.append( "<nobr>blow up your chef</nobr><br>" );
+
+			if ( KoLCharacter.hasBartender() )
+				skills.append( "<nobr>blow up your bartender</nobr><br>" );
+
+			skills.append( "</font></td></tr></table></td>" );
+
+			skills.append( "</tr></table>" );
+			skills.append( "<br><br><a href=\"main.php\">" );
+
+			StaticEntity.singleStringReplace( buffer, "<a href=\"main.php\">", skills.toString() );
 			return;
 		}
 
@@ -1089,18 +1164,18 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static void createSkillTable( StringBuffer buffer, ArrayList skillList )
 	{
 		buffer.append( "<table width=\"80%\"><tr>" );
-		buffer.append( "<td valign=\"top\" bgcolor=\"#ffcccc\"><table><tr><th style=\"font-size: 100%; text-decoration: underline; text-align: left;\">Muscle Skills</th></tr><tr><td style=\"font-size: 90%\">" );
+		buffer.append( "<td valign=\"top\" bgcolor=\"#ffcccc\"><table><tr><th style=\"text-decoration: underline; text-align: left;\">Muscle Skills</th></tr><tr><td><font size=\"-1\">" );
 		listPermanentSkills( buffer, skillList, 1000 );
 		listPermanentSkills( buffer, skillList, 2000 );
-		buffer.append( "</td></tr></table></td>" );
-		buffer.append( "<td valign=\"top\" bgcolor=\"#ccccff\"><table><tr><th style=\"font-size: 100%; text-decoration: underline; text-align: left;\">Mysticality Skills</th></tr><tr><td style=\"font-size: 90%\">" );
+		buffer.append( "</font></td></tr></table></td>" );
+		buffer.append( "<td valign=\"top\" bgcolor=\"#ccccff\"><table><tr><th style=\"text-decoration: underline; text-align: left;\">Mysticality Skills</th></tr><tr><td><font size=\"-1\">" );
 		listPermanentSkills( buffer, skillList, 3000 );
 		listPermanentSkills( buffer, skillList, 4000 );
-		buffer.append( "</td></tr></table></td>" );
-		buffer.append( "<td valign=\"top\" bgcolor=\"#ccffcc\"><table><tr><th style=\"font-size: 100%; text-decoration: underline; text-align: left;\">Moxie Skills</th></tr><tr><td style=\"font-size: 90%\">" );
+		buffer.append( "</font></td></tr></table></td>" );
+		buffer.append( "<td valign=\"top\" bgcolor=\"#ccffcc\"><table><tr><th style=\"text-decoration: underline; text-align: left;\">Moxie Skills</th></tr><tr><td><font size=\"-1\">" );
 		listPermanentSkills( buffer, skillList, 5000 );
 		listPermanentSkills( buffer, skillList, 6000 );
-		buffer.append( "</td></tr></table></td>" );
+		buffer.append( "</font></td></tr></table></td>" );
 		buffer.append( "</tr></table>" );
 	}
 
