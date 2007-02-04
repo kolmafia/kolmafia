@@ -5367,7 +5367,12 @@ public class KoLmafiaASH extends StaticEntity
 			// and write to scripts/datamaps.
 
 			if ( !data.exists() )
-				data = new File( SCRIPT_DIRECTORY, "datamaps/" + filename );
+			{
+				if ( filename.indexOf( "/" ) != -1 && filename.indexOf( ".." ) == -1 )
+					data = new File( filename );
+				else
+					data = new File( SCRIPT_DIRECTORY, "datamaps/" + filename );
+			}
 
 			writer = LogStream.openStream( data, true );
 			map_variable.dump( writer, "", compact );
