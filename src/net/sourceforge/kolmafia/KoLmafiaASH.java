@@ -3162,6 +3162,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "ranged_weapon", BOOLEAN_TYPE, params ) );
 
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "get_power", INT_TYPE, params ) );
+
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "council", VOID_TYPE, params ) );
 
@@ -4905,6 +4908,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue ranged_weapon( ScriptVariable item )
 		{	return new ScriptValue( EquipmentDatabase.isRanged( item.intValue() ) );
+		}
+
+		public ScriptValue get_power( ScriptVariable item )
+		{	return new ScriptValue( EquipmentDatabase.getPower( item.intValue() ) );
 		}
 
 		public ScriptValue equip_familiar( ScriptVariable familiar )
