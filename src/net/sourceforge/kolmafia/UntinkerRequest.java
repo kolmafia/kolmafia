@@ -100,13 +100,19 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( responseText.indexOf( "You acquire" ) == -1 )
 		{
+			StaticEntity.getClient().processResult( new AdventureResult( itemId, 1 ) );
+
 			KoLRequest questCompleter = new KoLRequest( "town_right.php?place=untinker" );
 			questCompleter.run();
 
-			if ( !completeQuest() )
-				return;
+			if ( questCompleter.responseText.indexOf( "<select" ) == -1 )
+			{
+				if ( !completeQuest() )
+					return;
 
-			questCompleter.run();
+				questCompleter.run();
+			}
+
 			super.run();
 		}
 
