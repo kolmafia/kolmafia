@@ -268,9 +268,6 @@ public abstract class SendMessageRequest extends KoLRequest
 		{
 			hadSendMessageFailure = true;
 
-			for ( int i = 0; i < attachments.length; ++i )
-				StaticEntity.getClient().processResult( (AdventureResult) attachments[i] );
-
 			if ( willUpdateDisplayOnFailure() )
 			{
 				for ( int i = 0; i < attachments.length; ++i )
