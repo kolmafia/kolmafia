@@ -41,6 +41,22 @@ import java.util.regex.Pattern;
 
 public class FlowerHunterRequest extends KoLRequest
 {
+	public static final String [] WIN_MESSAGES = new String []
+	{
+		"50 CHARACTER LIMIT BREAK!",
+		"HERE'S YOUR CHEETO, MOTHER!*$#ER.",
+		"If you want it back, I'll be in my tent.",
+		"PWNED LIKE CRAPSTORM."
+	};
+
+	public static final String [] LOSE_MESSAGES = new String []
+	{
+		"OMG HAX H4X H5X!!",
+		"Please return my pants.",
+		"How do you like my Crotch-To-Your-Foot style?",
+		"PWNED LIKE CRAPSTORM."
+	};
+
 	private static final int RANKVIEW = 0;
 	private static final int ATTACK = 1;
 	private static final int PLAYER_SEARCH = 2;
@@ -93,8 +109,8 @@ public class FlowerHunterRequest extends KoLRequest
 
 		if ( message.equals( "" ) || message.indexOf( "flower" ) != -1 )
 		{
-			addFormField( "winmessage", "NOOOO!  I was trying to derank!" );
-			addFormField( "losemessage", "YOU WILL NEVER HAVE MY DIGNITY!" );
+			addFormField( "winmessage", WIN_MESSAGES[ RNG.nextInt( WIN_MESSAGES.length ) ] );
+			addFormField( "losemessage", LOSE_MESSAGES[ RNG.nextInt( LOSE_MESSAGES.length ) ] );
 		}
 		else
 		{
