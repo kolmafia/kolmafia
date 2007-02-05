@@ -44,6 +44,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -357,21 +358,28 @@ public class ProposeTradeFrame extends KoLFrame
 			public void actionConfirmed()
 			{
 				Object [] items = elementList.getSelectedValues();
+				ArrayList actual = new ArrayList();
+
+				AdventureResult currentItem;
 
 				for ( int i = 0; i < items.length; ++i )
 				{
-					AdventureResult currentItem = (AdventureResult) items[i];
+					currentItem = (AdventureResult) items[i];
 
 					// Skip filtered items
 					if ( !TradeableItemDatabase.isTradeable( currentItem.getItemId() ) )
 						continue;
 
-					int attachmentCount = getQuantity( "Attaching " + currentItem.getName() + "...",
-									   currentItem.getCount( source ) );
+					int attachmentCount = getQuantity( "Attaching " + currentItem.getName() + "...", currentItem.getCount( source ) );
 					if ( attachmentCount == 0 )
 						continue;
 
-					currentItem = currentItem.getInstance( attachmentCount );
+					actual.add( currentItem.getInstance( attachmentCount ) );
+				}
+
+				for ( int i = 0; i < actual.size(); ++i )
+				{
+					currentItem = (AdventureResult) actual.get(i);
 					AdventureResult.addResultToList( attachments, currentItem );
 					AdventureResult.addResultToList( source, currentItem.getNegation() );
 				}
