@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,22 +43,29 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class GearChangeFrame extends KoLFrame
 {
-	private boolean isEnabled;
-	private static JButton outfitButton;
+	private static GearChangeFrame INSTANCE = null;
 
-	private static ChangeComboBox [] equipment;
-	private static SortedListModel weapons = new SortedListModel();
-	private static SortedListModel offhands = new SortedListModel();
-	private static ChangeComboBox outfitSelect, familiarSelect;
+	private boolean isEnabled;
+	private JButton outfitButton;
+
+	private JRadioButton [] weaponTypes;
+	private ChangeComboBox [] equipment;
+	private SortedListModel weapons = new SortedListModel();
+	private SortedListModel offhands = new SortedListModel();
+	private ChangeComboBox outfitSelect, familiarSelect;
 
 	public GearChangeFrame()
 	{
@@ -94,28 +102,50 @@ public class GearChangeFrame extends KoLFrame
 		{
 			super( "change gear", "save as outfit", new Dimension( 120, 20 ), new Dimension( 300, 20 ) );
 
-			VerifiableElement [] elements = new VerifiableElement[14];
+			VerifiableElement [] elements = new VerifiableElement[15];
 
 			elements[0] = new VerifiableElement( "Hat: ", equipment[0] );
 			elements[1] = new VerifiableElement( "Weapon: ", equipment[1] );
-			elements[2] = new VerifiableElement( "Off-Hand: ", equipment[2] );
-			elements[3] = new VerifiableElement( "Shirt: ", equipment[3] );
-			elements[4] = new VerifiableElement( "Pants: ", equipment[4] );
 
-			elements[5] = new VerifiableElement();
+			JPanel radioPanel = new JPanel( new GridLayout( 1, 4 ) );
+			ButtonGroup radioGroup = new ButtonGroup();
+			weaponTypes = new JRadioButton[3];
 
-			elements[6] = new VerifiableElement( "Accessory: ", equipment[5] );
-			elements[7] = new VerifiableElement( "Accessory: ", equipment[6] );
-			elements[8] = new VerifiableElement( "Accessory: ", equipment[7] );
+			weaponTypes[0] = new JRadioButton( "both", true );
 
-			elements[9] = new VerifiableElement();
+			weaponTypes[1] = new JRadioButton( "melee" );
+			weaponTypes[2] = new JRadioButton( "ranged" );
 
-			elements[10] = new VerifiableElement( "Familiar: ", familiarSelect );
-			elements[11] = new VerifiableElement( "Fam Item: ", equipment[8] );
+			for ( int i = 0; i < 3; ++i )
+			{
+				if ( i == 1 )
+					radioPanel.add( new JLabel( " " ) );
 
-			elements[12] = new VerifiableElement();
+				radioGroup.add( weaponTypes[i] );
+				radioPanel.add( weaponTypes[i] );
+				weaponTypes[i].addActionListener( new RefilterListener() );
+			}
 
-			elements[13] = new VerifiableElement( "Outfit: ", outfitSelect );
+			elements[2] = new VerifiableElement( "", radioPanel );
+
+			elements[3] = new VerifiableElement( "Off-Hand: ", equipment[2] );
+			elements[4] = new VerifiableElement( "Shirt: ", equipment[3] );
+			elements[5] = new VerifiableElement( "Pants: ", equipment[4] );
+
+			elements[6] = new VerifiableElement();
+
+			elements[7] = new VerifiableElement( "Accessory: ", equipment[5] );
+			elements[8] = new VerifiableElement( "Accessory: ", equipment[6] );
+			elements[9] = new VerifiableElement( "Accessory: ", equipment[7] );
+
+			elements[10] = new VerifiableElement();
+
+			elements[11] = new VerifiableElement( "Familiar: ", familiarSelect );
+			elements[12] = new VerifiableElement( "Fam Item: ", equipment[8] );
+
+			elements[13] = new VerifiableElement();
+
+			elements[14] = new VerifiableElement( "Outfit: ", outfitSelect );
 
 			setContent( elements );
 			outfitButton = cancelledButton;
@@ -150,7 +180,7 @@ public class GearChangeFrame extends KoLFrame
 		}
 	}
 
-	public static void changeItems()
+	private void changeItems()
 	{
 		// Find out what changed.
 		AdventureResult [] pieces = new AdventureResult[8];
@@ -191,14 +221,26 @@ public class GearChangeFrame extends KoLFrame
 
 	public static void updateWeapons()
 	{
-		weapons.setSelectedItem( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
-		offhands.setSelectedItem( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
+		if ( INSTANCE == null )
+			return;
+
+		INSTANCE.weapons.setSelectedItem( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
+		INSTANCE.offhands.setSelectedItem( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
 	}
 
 	public static void clearWeaponLists()
 	{
-		weapons.clear();
-		offhands.clear();
+		if ( INSTANCE == null )
+			return;
+
+		INSTANCE.weapons.clear();
+		INSTANCE.offhands.clear();
+	}
+
+	public void dispose()
+	{
+		INSTANCE = null;
+		super.dispose();
 	}
 
 	private class ChangeComboBox extends JComboBox
@@ -258,6 +300,13 @@ public class GearChangeFrame extends KoLFrame
 		}
 	}
 
+	private class RefilterListener extends ThreadedListener
+	{
+		public void run()
+		{	ensureValidSelections();
+		}
+	}
+
 	private void ensureValidSelections()
 	{
 		equipment[ KoLCharacter.SHIRT ].setEnabled( isEnabled && KoLCharacter.hasSkill( "Torso Awaregness" ) );
@@ -298,7 +347,7 @@ public class GearChangeFrame extends KoLFrame
 		}
 	}
 
-	private static List validWeaponItems( AdventureResult currentWeapon )
+	private List validWeaponItems( AdventureResult currentWeapon )
 	{
 		List items = new ArrayList();
 
@@ -316,12 +365,19 @@ public class GearChangeFrame extends KoLFrame
 			if ( items.contains( currentItem ) || !EquipmentDatabase.canEquip( currentItem.getName() ) )
 				continue;
 
-			items.add( currentItem );
+			boolean ranged = EquipmentDatabase.isRanged( currentItem.getName() );
+
+			if ( weaponTypes[0].isSelected() || (weaponTypes[1].isSelected() && !ranged) || (weaponTypes[2].isSelected() && ranged) )
+				items.add( currentItem );
 		}
 
 		// Add the current weapon
+
+		boolean ranged = EquipmentDatabase.isRanged( currentWeapon.getName() );
+
 		if ( !items.contains( currentWeapon ) )
-			items.add( currentWeapon );
+			if ( weaponTypes[0].isSelected() || (weaponTypes[1].isSelected() && !ranged) || (weaponTypes[2].isSelected() && ranged) )
+				items.add( currentWeapon );
 
 		// Add "(none)"
 		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
@@ -330,7 +386,7 @@ public class GearChangeFrame extends KoLFrame
 		return items;
 	}
 
-	private static List validOffhandItems( AdventureResult weapon, AdventureResult offhandItem )
+	private List validOffhandItems( AdventureResult weapon, AdventureResult offhandItem )
 	{
 		List items = new ArrayList();
 
@@ -370,7 +426,7 @@ public class GearChangeFrame extends KoLFrame
 		return items;
 	}
 
-	private static boolean validOffhandItem( AdventureResult currentItem, boolean weapons, boolean ranged )
+	private boolean validOffhandItem( AdventureResult currentItem, boolean weapons, boolean ranged )
 	{
 		switch ( TradeableItemDatabase.getConsumptionType( currentItem.getItemId() ) )
 		{
