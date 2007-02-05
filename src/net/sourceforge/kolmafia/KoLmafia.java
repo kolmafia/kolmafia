@@ -2939,6 +2939,14 @@ public abstract class KoLmafia implements KoLConstants
 			StaticEntity.openSystemBrowser( baseURL + "main.html" );
 	}
 
+	public void launchRadioKoL()
+	{
+		if ( StaticEntity.getBooleanProperty( "useLowBandwidthRadio" ) )
+			StaticEntity.openSystemBrowser( "http://209.9.238.5:8792/listen.pls" );
+		else
+			StaticEntity.openSystemBrowser( "http://209.9.238.5:8794/listen.pls" );
+	}
+
 	public void launchSimulator()
 	{
 		LocalRelayServer.startThread();
