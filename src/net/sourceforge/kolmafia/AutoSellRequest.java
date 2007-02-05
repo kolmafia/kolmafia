@@ -364,10 +364,6 @@ public class AutoSellRequest extends SendMessageRequest
 	{	return sellType == AUTOSELL;
 	}
 
-	public boolean allowUngiftableTransfer()
-	{	return false;
-	}
-
 	public String getStatusMessage()
 	{	return sellType == AUTOMALL ? "Transfering items to store" : "Autoselling items to NPCs";
 	}

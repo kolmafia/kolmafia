@@ -134,10 +134,6 @@ public class GreenMessageRequest extends SendMessageRequest
 	{	return true;
 	}
 
-	public boolean allowUngiftableTransfer()
-	{	return false;
-	}
-
 	public static boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "sendmessage.php" ) )

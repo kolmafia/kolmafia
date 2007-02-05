@@ -306,12 +306,12 @@ public class ItemStorageRequest extends SendMessageRequest
 	{	return true;
 	}
 
-	public boolean allowUngiftableTransfer()
-	{	return moveType == STORAGE_TO_INVENTORY;
-	}
-
 	public boolean allowUntradeableTransfer()
 	{	return true;
+	}
+
+	public boolean allowUngiftableTransfer()
+	{	return moveType == STORAGE_TO_INVENTORY;
 	}
 
 	public String getStatusMessage()

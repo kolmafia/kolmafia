@@ -128,8 +128,8 @@ public abstract class SendMessageRequest extends KoLRequest
 		ArrayList nextAttachments = new ArrayList();
 		SendMessageRequest subinstance = null;
 
-		boolean allowNoTrade = allowUntradeableTransfer();
 		boolean allowNoGift = allowUngiftableTransfer();
+		boolean allowNoTrade = allowUntradeableTransfer();
 		boolean allowMemento = allowMementoTransfer();
 
 		while ( index1 < attachments.length )
@@ -146,7 +146,10 @@ public abstract class SendMessageRequest extends KoLRequest
 					continue;
 				}
 
-				if ( !allowNoGift && !TradeableItemDatabase.isGiftable( item.getItemId() ) )
+				if ( !TradeableItemDatabase.isDisplayable( item.getItemId() ) )
+					continue;
+
+				else if ( !allowNoGift && !TradeableItemDatabase.isGiftable( item.getItemId() ) )
 					continue;
 
 				else if ( !allowNoTrade && !TradeableItemDatabase.isTradeable( item.getItemId() ) )
@@ -293,8 +296,11 @@ public abstract class SendMessageRequest extends KoLRequest
 	}
 
 	public abstract boolean allowMementoTransfer();
-	public abstract boolean allowUngiftableTransfer();
 	public abstract boolean allowUntradeableTransfer();
+
+	public boolean allowUngiftableTransfer()
+	{	return false;
+	}
 
 	public static boolean registerRequest( String command, String urlString, List source, List destination, String meatField, int defaultQuantity )
 	{	return registerRequest( command, urlString, ITEMID_PATTERN, HOWMANY_PATTERN, source, destination, meatField, defaultQuantity );

@@ -40,9 +40,9 @@
 40	casino pass	0	all	50
 41	ice-cold Sir Schlitz	2	all	30
 42	hermit permit	0	all	50
-43	worthless trinket	0	none	0
-44	worthless gewgaw	0	none	0
-45	worthless knick-knack	0	none	0
+43	worthless trinket	0	display	0
+44	worthless gewgaw	0	display	0
+45	worthless knick-knack	0	display	0
 46	wooden figurine	0	all	100
 47	hot buttered roll	1	all	100
 48	heart of rock and roll	0	all	101
@@ -113,7 +113,7 @@
 113	dripping meat sword	12	all	150
 114	dripping meat staff	12	all	150
 115	dripping meat crossbow	12	all	150
-116	Bugfinder Blade	12	none	0
+116	Bugfinder Blade	12	display	0
 117	Gnollish plunger	12	all	40
 118	spring	0	all	10
 119	sprocket	0	all	10
@@ -147,12 +147,12 @@
 147	eXtreme meat sword	12	all	160
 148	eXtreme meat staff	12	all	160
 149	eXtreme meat crossbow	12	all	160
-150	The Scalp of Gorgolok	9	none	0
-151	Elder Turtle Shell	9	none	0
-152	The Colander of Em-er'il	9	none	0
-153	Ancient Saucehelm	9	none	0
-154	Disco 'Fro Pick	9	none	0
-155	El Sombrero De Lopez	9	none	0
+150	The Scalp of Gorgolok	9	display	0
+151	Elder Turtle Shell	9	display	0
+152	The Colander of Em-er'il	9	display	0
+153	Ancient Saucehelm	9	display	0
+154	Disco 'Fro Pick	9	display	0
+155	El Sombrero De Lopez	9	display	0
 156	guild application	0	none	0
 157	E-Z Cook Oven&trade;	0	all	500
 158	Gnollish pie tin	0	all	15
@@ -232,7 +232,7 @@
 232	Doc Galaktik's Ailment Ointment	4	all	30
 233	Doc Galaktik's Restorative Balm	4	all	60
 234	Doc Galaktik's Homeopathic Elixir	4	all	120
-235	Bigger Bugfinder Blade	12	none	0
+235	Bigger Bugfinder Blade	12	display	0
 236	cocktailcrafting kit	0	all	500
 237	bottle of gin	2	all	35
 238	bottle of vodka	2	all	35
@@ -634,7 +634,7 @@
 634	cool whip	12	all	25
 635	little paper umbrella	12	all	35
 636	meat globe	3	none	0
-637	cheap toaster	3	none	0
+637	cheap toaster	3	display	0
 638	asshat	9	all	45
 639	abominable snowcone	1	all	30
 640	Ent cider	1	all	33
@@ -674,7 +674,7 @@
 674	whiskey sour	2	all	65
 675	skull of the Bonerdagon	0	none	0
 676	dragonbone belt buckle	0	none	0
-677	badass belt	8	none	0
+677	badass belt	8	display	0
 678	chest of the Bonerdagon	3	none	0
 679	roll in the hay	2	all	115
 680	slap and tickle	2	all	115
@@ -704,7 +704,7 @@
 704	hamethyst	0	all	500
 705	baconstone	0	all	500
 706	porquoise	0	all	500
-707	pork elf goodies sack	3	none	100
+707	pork elf goodies sack	3	display	100
 708	ring setting	0	all	100
 709	jewelry-making pliers	0	none	500
 710
@@ -772,7 +772,7 @@
 772	foon	13	all	35
 773	basic meat spork	12	all	140
 774	basic meat foon	13	all	140
-775	Yeti Protest Sign	3	none	0
+775	Yeti Protest Sign	3	display	0
 776	kneecapping stick	12	all	95
 777	iron pasta spoon	12	all	115
 778	support cummerbund	8	all	105
@@ -842,7 +842,7 @@
 842	beertini	2	all	60
 843	salty slug	2	all	65
 844	papaya slung	2	all	57
-845	MAHI fez	9	none	0
+845	MAHI fez	9	display	0
 846	especially homoerotic frat-paddle	12	all	90
 847	heteroerotic frat-paddle	12	all	75
 848	hypodermic needle	7	all	75
@@ -867,7 +867,7 @@
 867	pine tar	4	all	31
 868
 869	forest tears	4	all	33
-870	fetus-smashing club	12	none	0
+870	fetus-smashing club	12	display	0
 871	meatcar model	7	all	75
 872	Time Juice	0	none	0
 873	rolling pin	3	all	250
@@ -876,7 +876,7 @@
 876	incredibly dense meat gem	8	all	0
 877	Talisman of Baio	8	all	0
 878	hypnodisk	13	all	0
-879	goofballs	3	none	0
+879	goofballs	3	display	0
 880	disbelief suspenders	8	all	95
 881	supportive bra	11	all	55
 882	Blatantly Canadian	14	all	75
@@ -888,8 +888,8 @@
 888	maple leaf	5	all	0
 889	balaclava	9	all	55
 890	balaclava baklava	1	all	65
-891	Warehouse 23 bling	8	none	0
-892	bugbear-smiting sword	12	none	0
+891	Warehouse 23 bling	8	display	0
+892	bugbear-smiting sword	12	display	0
 893	lumbering jack	2	all	90
 894	Dark Jill-O-Lantern	5	all	0
 895	Ms. Accessory	8	all	0
@@ -913,7 +913,7 @@
 913	candied kobold	4	all	0
 914	hand turkey outline	5	all	0
 915	candied yam pinky ring	7	all	75
-916	intergalactic pom poms	8	none	0
+916	intergalactic pom poms	8	display	0
 917	Mob Penguin protection contract	0	none	0
 918	Radio Free Baseball Cap	9	all	0
 919	Radio Free Pants	10	all	0
@@ -925,8 +925,8 @@
 925	dental pliers	7	all	75
 926	Hawking's Elixir of Brilliance	4	all	38
 927	Ferita Del Petto Zinfandel	2	all	0
-928	fuzzy bracelets	8	none	0
-929	arse-shooting crossbow	12	none	0
+928	fuzzy bracelets	8	display	0
+929	arse-shooting crossbow	12	display	0
 930
 931	spiced rum	2	all	35
 932	eggnog	2	all	49
@@ -999,7 +999,7 @@
 999	maid head	0	all	70
 1000	Meat maid	3	all	220
 1001
-1002	Xlyinia's notebook	0	none	0
+1002	Xlyinia's notebook	0	display	0
 1003	soda water	14	all	35
 1004	bottle of tequila	2	all	35
 1005	boxed wine	2	all	35
@@ -1043,7 +1043,7 @@
 1043	string of blue beads	8	all	75
 1044	string of green beads	8	all	75
 1045	cheap plastic bottle opener	12	all	50
-1046	orange traffic cone	9	all	000
+1046	orange traffic cone	9	display	000
 1047	N. O. Beer	0	all	0
 1048	red striped oyster egg	3	all	50
 1049	red polka-dot oyster egg	3	all	50
@@ -1114,7 +1114,7 @@
 1114	tisket	0	all	70
 1115	tasket	0	all	70
 1116	annoying pitchfork	7	all	75
-1117	Stupid University Diploma	0	none	0
+1117	Stupid University Diploma	0	display	0
 1118	pregnant flaming mushroom	5	none	0
 1119	pregnant frozen mushroom	5	none	0
 1120	pregnant stinky mushroom	5	none	0
@@ -1221,18 +1221,18 @@
 1221	red balloon	13	gift	50000
 1222	Mr. Eh?	8	all	0
 1223
-1224	stainless steel shillelagh	12	none	0
-1225	stainless steel skullcap	9	none	0
-1226	stainless steel solitaire	8	none	0
-1227	stainless steel scarf	8	none	0
-1228	stainless steel slacks	10	none	0
-1229	stainless steel suspenders	8	none	0
-1230	plexiglass pike pike	12	none	0
-1231	plexiglass pith helmet	9	none	0
-1232	plexiglass pocketwatch	8	none	0
-1233	plexiglass pinky ring	8	none	0
-1234	plexiglass pants	10	none	0
-1235	plexiglass pendant	8	none	0
+1224	stainless steel shillelagh	12	display	0
+1225	stainless steel skullcap	9	display	0
+1226	stainless steel solitaire	8	display	0
+1227	stainless steel scarf	8	display	0
+1228	stainless steel slacks	10	display	0
+1229	stainless steel suspenders	8	display	0
+1230	plexiglass pike pike	12	display	0
+1231	plexiglass pith helmet	9	display	0
+1232	plexiglass pocketwatch	8	display	0
+1233	plexiglass pinky ring	8	display	0
+1234	plexiglass pants	10	display	0
+1235	plexiglass pendant	8	display	0
 1236	hockey stick of furious angry rage	8	all	0
 1237	tapped black lotus	0	gift	50000
 1238	flaming glowsticks	7	all	70
@@ -1241,13 +1241,13 @@
 1241	miniature carton of clove cigarettes	7	all	0
 1242	deflated inflatable dodecapede	5	all	0
 1243	toy six-seater hovercraft	7	all	70
-1244	Glass Balls of the Goblin King	13	none	0
-1245	Cape of the Goblin King	8	none	0
-1246	rib of the Bonerdagon	12	none	0
-1247	vertebra of the Bonerdagon	0	none	0
-1248	Bonerdagon necklace	8	none	0
-1249	Boss Bat britches	10	none	0
-1250	Boss Bat bling	8	none	0
+1244	Glass Balls of the Goblin King	13	display	0
+1245	Cape of the Goblin King	8	display	0
+1246	rib of the Bonerdagon	12	display	0
+1247	vertebra of the Bonerdagon	0	display	0
+1248	Bonerdagon necklace	8	display	0
+1249	Boss Bat britches	10	display	0
+1250	Boss Bat bling	8	display	0
 1251	Knob shroomkabob	1	all	30
 1252	spooky shroomkabob	1	all	30
 1253	pile of jumping beans	0	all	23
@@ -1256,13 +1256,13 @@
 1256	insanely spicy jumping bean burrito	1	all	90
 1257	rat scrapple	1	all	40
 1258	pail of pretentious paint	0	none	0
-1259	yellow traffic cone	9	all	000
+1259	yellow traffic cone	9	display	000
 1260	wax lips	7	all	0
 1261	Hatorade	4	all	250
 1262	off-hand balloon	13	all	50
 1263	pygmy bugbear shaman	5	all	0
 1264	tiny nose-bone fetish	7	all	75
-1265	box of sunshine	3	none	0
+1265	box of sunshine	3	display	0
 1266	gloomy black mushroom	0	all	050
 1267	dead mimic	3	none	0
 1268	pine wand	6	none	0
@@ -1296,23 +1296,23 @@
 1296	ring of cold resistance	8	all	90
 1297	ring of fire resistance	8	all	90
 1298	ring of conflict	8	all	90
-1299	pirate hook	13	none	0
+1299	pirate hook	13	display	0
 1300	monster bait	8	all	50
 1301	deodorant	4	all	65
 1302	reodorant	4	all	65
-1303	Mjolnir Jr.	12	none	0
+1303	Mjolnir Jr.	12	display	0
 1304	doppelshifter egg	5	all	0
 1305	tiny makeup kit	7	all	75
-1306	red traffic cone	9	all	000
+1306	red traffic cone	9	display	000
 1307	calm attention-deficit demon	5	all	0
 1308	unwound cymbal-playing monkey	5	all	0
 1309	attention spanner	7	all	75
 1310	funky brass fez	7	all	75
 1311	comfy blanket	0	all	0
-1312	Baron Von Ratsworth's monocle	8	none	0
-1313	Baron Von Ratsworth's money clip	8	none	0
-1314	Baron Von Ratsworth's tophat	9	none	0
-1315	rose-colored glasses	8	none	0
+1312	Baron Von Ratsworth's monocle	8	display	0
+1313	Baron Von Ratsworth's money clip	8	display	0
+1314	Baron Von Ratsworth's tophat	9	display	0
+1315	rose-colored glasses	8	display	0
 1316	facsimile dictionary	0	all	21337
 1317	blood flower	0	all	75
 1318	lovecat tail	0	all	50
@@ -1350,7 +1350,7 @@
 1350	1.21 jigawatts	7	all	75
 1351	giant pinky ring	8	all	100
 1352	redrum	2	all	35
-1353	ninja pirate zombie robot	5	none	0
+1353	ninja pirate zombie robot	5	display	0
 1354	pile of shiny pebbles	0	none	0
 1355	bowl of oriole's nest soup	1	none	0
 1356	bunny liver	0	none	0
@@ -1406,7 +1406,7 @@
 1406	wreath-shaped Crimbo cookie	1	all	50
 1407	bell-shaped Crimbo cookie	1	all	50
 1408	tree-shaped Crimbo cookie	1	all	50
-1409	Unionize The Elves sign	12	none	0
+1409	Unionize The Elves sign	12	display	0
 1410	sleeping snowy owl	5	all	0
 1411	tome of snowcone summoning	3	all	0
 1412	purple snowcone	3	all	30
@@ -1417,9 +1417,9 @@
 1417	black snowcone	3	all	30
 1418	Pretty Predator Clawicure Kit	7	all	75
 1419	teddy bear sewing kit	7	all	75
-1420	green traffic cone	9	none	0
-1421	Scandalously Skimpy Bikini	8	none	0
-1422	Sombrero De Vida	9	none	0
+1420	green traffic cone	9	display	0
+1421	Scandalously Skimpy Bikini	8	display	0
+1422	Sombrero De Vida	9	display	0
 1423	iceberglet	0	all	0
 1424	ice sickle	12	all	0
 1425	ice baby	13	all	0
@@ -1492,7 +1492,7 @@
 1492	ninja mop	12	all	112
 1493	ridiculously overelaborate ninja weapon	12	all	120
 1494	sugar-coated pine cone	4	all	10
-1495	blue traffic cone	9	none	0
+1495	blue traffic cone	9	display	0
 1496	gloomy mushroom wine	2	all	90
 1497	oily mushroom wine	2	all	90
 1498	McPhee's Grimoire of Hilarious Object Summoning	3	all	0
@@ -1519,7 +1519,7 @@
 1519	Talisman of Bakula	8	all	0
 1520	Radio KoL Coffee Mug	0	all	0
 1521	Frank Gorshin trophy	0	none	0
-1522	Radio Free Jersey	11	none	0
+1522	Radio Free Jersey	11	all	0
 1523	bottle of used blood	4	none	0
 1524	wind-up chattering teeth	5	gift	5
 1525	joybuzzer	13	gift	5
@@ -1531,11 +1531,11 @@
 1531	grass skirt	10	all	0
 1532	grass hat	9	all	0
 1533	grass blade	12	all	0
-1534	raffle prize box	3	none	0
+1534	raffle prize box	3	display	0
 1535
 1536	homeless hobo spirit	5	all	0
 1537	weegee sqouija	7	all	75
-1538	sparkly engagement ring	8	none	0
+1538	sparkly engagement ring	8	display	0
 1539	lucky Tam O'Shatner	7	all	0
 1540	Grimacite goggles	9	all	0
 1541	Grimacite glaive	12	all	0
@@ -1547,7 +1547,7 @@
 1547	Codex of Capsaicin Conjuration	13	all	2000
 1548	Gazpacho's Glacial Grimoire	13	all	2000
 1549	MSG	0	all	500
-1550	second-hand knockoff engagement ring	8	none	0
+1550	second-hand knockoff engagement ring	8	display	0
 1551	bottle of Domesticated Turkey	2	all	70
 1552	bottle of Definit	2	all	70
 1553	bottle of Calcutta Emerald	2	all	70
@@ -1594,14 +1594,14 @@
 1594	spooky hi mein	1	all	144
 1595	stinky hi mein	1	all	144
 1596	sleazy hi mein	1	all	144
-1597	Junior LAAAAME merit badge	8	none	0
-1598	Senior LAAAAME merit badge	8	none	0
+1597	Junior LAAAAME merit badge	8	display	0
+1598	Senior LAAAAME merit badge	8	display	0
 1599	jazz soap	3	gift	5
 1600	tangarita with a fly in it	0	gift	130
 1601	mandarina colada with a fly in it	0	gift	130
 1602	prussian cathouse with a fly in it	0	gift	130
 1603	Mae West with a fly in it	0	gift	130
-1604	astronaut ice-cream	3	none	0
+1604	astronaut ice-cream	3	display	0
 1605	delectable catalyst	4	all	500
 1606	ultimate wad	3	all	0
 1607	libation of liveliness	4	all	36
@@ -1633,7 +1633,7 @@
 1633	Spanish fly	0	none	0
 1634	around the world	2	none	0
 1635	scrumdiddlyumptious solution	0	all	0
-1636	Toddler-sized Dragon Costume	7	none	0
+1636	Toddler-sized Dragon Costume	7	display	0
 1637	phial of hotness	4	all	0
 1638	phial of coldness	4	all	0
 1639	phial of spookiness	4	all	0
@@ -1646,12 +1646,12 @@
 1646	spooky and sour sauce	0	all	100
 1647	stench and sour sauce	0	all	100
 1648	sleazy and sour sauce	0	all	100
-1649	brick	0	none	0
+1649	brick	0	display	0
 1650	milk of magnesium	3	all	36
 1651	foie gras	1	all	30
 1652	candy brain	4	all	54
 1653	jewel-eyed wizard hat	9	all	0
-1654	wad of Crovacite	13	none	0
+1654	wad of Crovacite	13	display	0
 1655	white collar	8	all	60
 1656	White Citadel Satisfaction Satchel	0	none	0
 1657	onion shurikens	0	all	40
@@ -1664,7 +1664,7 @@
 1664	Radio KoL Maracas	8	all	0
 1665	Radio KoL Bottle Opener	8	all	0
 1666	Radio KoL Patch	8	all	0
-1667	Cat-Herding Prod	8	none	0
+1667	Cat-Herding Prod	8	display	0
 1668	star boomerang	12	all	165
 1669	star stiletto	12	all	165
 1670	fraudwort	0	none	0
@@ -1686,7 +1686,7 @@
 1686	styrofoam crossbow	12	all	65
 1687	Platinum Yendorian Express Card	0	all	0
 1688	cardboard crossbow	12	all	65
-1689	blue ribbon	8	none	0
+1689	blue ribbon	8	display	0
 1690	giant discarded bottlecap	9	all	205
 1691	giant discarded torn-up glove	10	all	205
 1692	salamander slurry	4	all	5
@@ -1794,7 +1794,7 @@
 1794	handful of hand chalk	4	all	30
 1795
 1796	bone collar	7	all	75
-1797	misshapen animal skeleton	5	none	0
+1797	misshapen animal skeleton	5	display	0
 1798	pile of dusty animal bones	4	all	32
 1799	dusty animal skull	3	all	30
 1800	dusty animal cranium	0	all	10
@@ -1952,7 +1952,7 @@
 1952	desiccated apricot	1	all	48
 1953	flute of flat champagne	2	all	86
 1954	dehydrated caviar	1	all	150
-1955	styrofoam peanuts	0	none	0
+1955	styrofoam peanuts	0	display	0
 1956	snifter of thoroughly aged brandy	2	all	34
 1957	disintegrating quill pen	3	all	45
 1958	inkwell	0	all	45
@@ -1993,8 +1993,8 @@
 1993	rubber WWSPD? bracelet	8	gift	5
 1994	rubber WWtNSD? bracelet	8	gift	5
 1995	heart necklace		gift	10
-1996	right half of a heart necklace	8	none	0
-1997	left half of a heart necklace	8	none	0
+1996	right half of a heart necklace	8	gift	0
+1997	left half of a heart necklace	8	gift	0
 1998	pack of KWE trading card	3	all	50
 1999	stick of &quot;gum&quot;	3	all	5
 2000	Das &Uuml;berk&uuml;hlraum trading card	3	all	50
@@ -2032,10 +2032,10 @@
 2032
 2033
 2034
-2035	Marquis de Poivre soda	13	none	30
-2036	radium-flavored potato chips	4	none	30
-2037	wintergreen-flavored potato chips	4	none	30
-2038	ennui-flavored potato chips	4	none	30
+2035	Marquis de Poivre soda	13	display	30
+2036	radium-flavored potato chips	4	display	30
+2037	wintergreen-flavored potato chips	4	display	30
+2038	ennui-flavored potato chips	4	display	30
 2039	x-ray specs	8	gift	5
 2040
 2041
@@ -2069,8 +2069,8 @@
 2069
 2070
 2071
-2072	flashing novelty button	8	none	0
-2073	orange glowstick	8	none	0
+2072	flashing novelty button	8	display	0
+2073	orange glowstick	8	display	0
 2074
 2075
 2076
@@ -2210,7 +2210,7 @@
 2210	Tiki lighter	13	all	0
 2211	deck of tropical cards	13	all	0
 2212	tropical paperweight	13	all	0
-2213	tropical Crimbo pressie	0	none	0
+2213	tropical Crimbo pressie	0	display	0
 2214	tropical wrapping paper	0	all	0
 2215	Tropical Crimbo Hat	9	all	0
 2216	Tropical Crimbo Shorts	10	all	0
@@ -2284,7 +2284,7 @@
 2284
 2285
 2286
-2287	green glowstick	8	none	0
+2287	green glowstick	8	display	0
 2288
 2289
 2290

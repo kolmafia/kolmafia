@@ -187,10 +187,6 @@ public class GiftMessageRequest extends SendMessageRequest
 	{	return true;
 	}
 
-	public boolean allowUngiftableTransfer()
-	{	return false;
-	}
-
 	public String getStatusMessage()
 	{	return "Sending package to " + KoLmafia.getPlayerName( getFormField( "towho" ) );
 	}
