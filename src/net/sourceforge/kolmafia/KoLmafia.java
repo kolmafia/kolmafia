@@ -555,6 +555,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void getBreakfast( boolean checkSettings )
 	{
+		SpecialOutfit.createImplicitCheckpoint();
+
 		if ( KoLCharacter.hasToaster() )
 			for ( int i = 0; i < 3 && permitsContinue(); ++i )
 				RequestThread.postRequest( new CampgroundRequest( "toast" ) );
@@ -593,6 +595,8 @@ public abstract class KoLmafia implements KoLConstants
 					getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i][0], StaticEntity.parseInt( UseSkillRequest.BREAKFAST_SKILLS[i][1] ) );
 			}
 		}
+
+		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	public void getBreakfast( String skillName, int standardCast )
@@ -615,7 +619,10 @@ public abstract class KoLmafia implements KoLConstants
 		// Get current moon phases
 
 		updateDisplay( "Refreshing session data..." );
+
 		RequestThread.postRequest( new MoonPhaseRequest() );
+		RequestThread.postRequest( new AccountRequest() );
+
 
 		// Retrieve the character sheet first. It's necessary to do
 		// this before concoctions have a chance to get refreshed.

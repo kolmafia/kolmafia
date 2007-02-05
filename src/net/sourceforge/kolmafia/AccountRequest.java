@@ -42,7 +42,7 @@ public class AccountRequest extends PasswordHashRequest
 	private static final Pattern TIMEZONE_PATTERN = Pattern.compile( "<select name=timezone>.*?</select>", Pattern.DOTALL );
 	private static final Pattern SELECTED1_PATTERN = Pattern.compile( "selected>(-?\\d*?)</option>" );
 
-	private static final Pattern AUTOATTACK_PATTERN = Pattern.compile( "<select class=small name=whichattack>.*?</select>" );
+	private static final Pattern AUTOATTACK_PATTERN = Pattern.compile( "<select class=small name=whichattack>.*?</select>", Pattern.DOTALL );
 	private static final Pattern SELECTED2_PATTERN = Pattern.compile( "selected value=(\\d+)>" );
 
 	public AccountRequest()
@@ -109,6 +109,12 @@ public class AccountRequest extends PasswordHashRequest
 			Matcher optionMatcher = SELECTED2_PATTERN.matcher( selectMatcher.group() );
 			if ( optionMatcher.find() )
 				StaticEntity.setProperty( "defaultAutoAttack", optionMatcher.group(1) );
+			else
+				StaticEntity.setProperty( "defaultAutoAttack", "0" );
+		}
+		else
+		{
+			StaticEntity.setProperty( "defaultAutoAttack", "0" );
 		}
 	}
 }
