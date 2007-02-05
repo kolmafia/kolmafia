@@ -333,7 +333,7 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 
 		this.isChatRequest = this.formURLString.indexOf( "chat" ) != -1 && !this.formURLString.startsWith( "chatlaunch.php" ) &&
-			!this.formURLString.startsWith( "lchat.php" );
+			!this.formURLString.startsWith( "lchat.php" ) && !this.formURLString.startsWith( "devchat.php" );
 
 		this.shouldIgnoreResult = isChatRequest || formURLString.startsWith( "message" ) ||
 			formURLString.startsWith( "search" ) || formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) ||

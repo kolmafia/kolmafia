@@ -297,6 +297,10 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
+			{ "useLowBandwidthRadio", "Use lower bandwidth server for KoL Radio" },
+
+			{ "", "" },
+
 			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
 			{ "cloverProtectActive", "Protect against automated clover adventures" },
 			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
@@ -305,9 +309,6 @@ public class OptionsFrame extends KoLFrame
 
 			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
 			{ "overPurchaseRestores", "Allow over-purchase of non soda water mp restores" },
-
-			{ "", "" },
-
 			{ "cacheMallSearches", "Cache mall searches (does not work on all OSes)" },
 			{ "autoSetConditions", "Automatically fill conditions field with defaults" },
 
