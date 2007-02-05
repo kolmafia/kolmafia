@@ -3880,17 +3880,41 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		AdventureResult item = getFirstMatchingItem( parameters );
-		if ( item == null )
-			return;
+		int count = 1;
 
-		if ( !hermitItems.contains( item ) )
+		if ( Character.isDigit( parameters.charAt( 0 ) ) )
+		{
+			int spaceIndex = parameters.indexOf( " " );
+			count = StaticEntity.parseInt( parameters.substring( 0, spaceIndex ) );
+			parameters = parameters.substring( spaceIndex ).trim();
+		}
+		else if ( parameters.charAt( 0 ) == '*' )
+		{
+			int spaceIndex = parameters.indexOf( " " );
+			count = HermitRequest.getWorthlessItemCount();
+			parameters = parameters.substring( spaceIndex ).trim();
+		}
+
+		int itemId = -1;
+		parameters = parameters.toLowerCase();
+
+		for ( int i = 0; i < hermitItems.size() && itemId == -1; ++i )
+		{
+			if ( hermitItems.get(i).toString().toLowerCase().indexOf( parameters ) != -1 )
+			{
+				itemId = ((AdventureResult)hermitItems.get(i)).getItemId();
+				if ( itemId == SewerRequest.POSITIVE_CLOVER.getItemId() && count != 1 )
+					count = Math.min( count, ((AdventureResult)hermitItems.get(i)).getCount() );
+			}
+		}
+
+		if ( itemId == -1 )
 		{
 			updateDisplay( ERROR_STATE, "You can't get " + parameters + " from the hermit today." );
 			return;
 		}
 
-		RequestThread.postRequest( new HermitRequest( item.getItemId(), item.getCount() ) );
+		RequestThread.postRequest( new HermitRequest( itemId, count ) );
 	}
 
 	/**
