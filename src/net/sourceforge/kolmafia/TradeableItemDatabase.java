@@ -121,7 +121,7 @@ public class TradeableItemDatabase extends KoLDatabase
 					int itemId = StaticEntity.parseInt( data[0].trim() );
 					descById.set( itemId, data[1] );
 					if ( data.length == 4 )
-						itemIdByPlural.put( data[3], new Integer( itemId ) );
+						itemIdByPlural.put( getCanonicalName( data[3] ), new Integer( itemId ) );
 				}
 			}
 		}
