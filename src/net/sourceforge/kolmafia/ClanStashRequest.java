@@ -240,10 +240,6 @@ public class ClanStashRequest extends SendMessageRequest
 	{	return false;
 	}
 
-	public boolean allowUngiftableTransfer()
-	{	return false;
-	}
-
 	public static boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "clan_stash.php" ) )

@@ -59,6 +59,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static Map inebrietyById = new TreeMap();
 	private static BooleanArray tradeableById = new BooleanArray();
 	private static BooleanArray giftableById = new BooleanArray();
+	private static BooleanArray displayableById = new BooleanArray();
 
 	static
 	{
@@ -86,6 +87,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 				tradeableById.set( itemId, data[3].equals( "all" ) );
 				giftableById.set( itemId, data[3].equals( "all" ) || data[3].equals( "gift" ) );
+				displayableById.set( itemId, data[3].equals( "all" ) || data[3].equals( "gift" ) || data[3].equals( "display" ) );
 			}
 		}
 
@@ -461,12 +463,21 @@ public class TradeableItemDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns true if the item is tradeable, otherwise false
+	 * Returns true if the item is giftable, otherwise false
 	 * @return	true if item is tradeable
 	 */
 
 	public static final boolean isGiftable( int itemId )
 	{	return giftableById.get( itemId );
+	}
+
+	/**
+	 * Returns true if the item is giftable, otherwise false
+	 * @return	true if item is tradeable
+	 */
+
+	public static final boolean isDisplayable( int itemId )
+	{	return displayableById.get( itemId );
 	}
 
 	/**

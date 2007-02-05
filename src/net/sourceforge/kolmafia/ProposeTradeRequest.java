@@ -117,10 +117,6 @@ public class ProposeTradeRequest extends SendMessageRequest
 	{	return false;
 	}
 
-	public boolean allowUngiftableTransfer()
-	{	return false;
-	}
-
 	public static boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "makeoffer.php" ) && !urlString.startsWith( "counteroffer.php" ) )
