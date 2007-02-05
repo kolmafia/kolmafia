@@ -1202,7 +1202,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( formURLString.indexOf( "fight.php" ) != -1 )
 			FightRequest.updateCombatData( encounter, responseText );
 
-		if ( !isDelayExempt && formURLString.indexOf( "search" ) == -1 )
+		if ( !LoginRequest.isInstanceRunning() && !(this instanceof LocalRelayRequest) && !(this instanceof CharpaneRequest) && !isChatRequest && formURLString.indexOf( "search" ) == -1 )
 			showInBrowser( false );
 
 		// Now let the main method of result processing for
@@ -1224,7 +1224,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( needsRefresh || statusChanged )
 		{
-			if ( RequestFrame.willRefreshStatus() )
+			if ( RequestFrame.instanceExists() )
 				RequestFrame.refreshStatus();
 			else
 				CharpaneRequest.getInstance().run();
@@ -1601,11 +1601,12 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( existingFrames.isEmpty() )
 			return;
 
-		if ( !exceptional && !RequestFrame.willRefreshStatus() )
+		if ( !exceptional && !StaticEntity.getBooleanProperty( "showAllRequests" ) )
 			return;
 
 		// Only show the request if the response code is
 		// 200 (not a redirect or error).
+
 
 		FightFrame.showRequest( this );
 	}

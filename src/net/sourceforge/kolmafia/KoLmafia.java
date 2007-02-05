@@ -1588,8 +1588,6 @@ public abstract class KoLmafia implements KoLConstants
 		// process (whichever is applicable).
 
 		int currentIteration = 0;
-		boolean shouldEnableRefreshStatus = RequestFrame.isRefreshStatusEnabled();
-		RequestFrame.setRefreshStatusEnabled( false );
 
 		AdventureResult [] items = new AdventureResult[ conditions.size() ];
 		ItemCreationRequest [] creatables = new ItemCreationRequest[ conditions.size() ];
@@ -1723,12 +1721,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( request instanceof KoLAdventure )
 			currentIterationString = "";
-
-		if ( shouldEnableRefreshStatus )
-		{
-			RequestFrame.setRefreshStatusEnabled( true );
-			RequestFrame.refreshStatus();
-		}
 
 		if ( request instanceof KoLAdventure )
 			AdventureFrame.updateRequestMeter( 1, 1 );

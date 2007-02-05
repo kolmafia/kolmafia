@@ -672,7 +672,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( name.equals( "battleAction" ) )
 			{
-				if ( value.indexOf( ";" ) != -1 )
+				if ( value.indexOf( ";" ) != -1 || value.startsWith( "consult" ) )
 				{
 					CombatSettings.setDefaultAction( value );
 					value = "custom combat script";
