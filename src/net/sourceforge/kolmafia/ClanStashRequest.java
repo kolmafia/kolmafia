@@ -232,15 +232,27 @@ public class ClanStashRequest extends SendMessageRequest
 		}
 	}
 
+	public boolean allowMementoTransfer()
+	{	return true;
+	}
+
+	public boolean allowUntradeableTransfer()
+	{	return false;
+	}
+
+	public boolean allowUngiftableTransfer()
+	{	return false;
+	}
+
 	public static boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "clan_stash.php" ) )
 			return false;
 
 		if ( urlString.indexOf( "take" ) != -1 )
-			return registerRequest( "remove from stash", urlString, ITEMID_PATTERN, QUANTITY_PATTERN, ClanManager.getStash(), inventory, 0 );
+			return registerRequest( "remove from stash", urlString, ITEMID_PATTERN, QUANTITY_PATTERN, ClanManager.getStash(), inventory, "howmuch", 0 );
 
-		return registerRequest( "add to stash", urlString, ITEMID_PATTERN, QTY_PATTERN, inventory, null, 0 );
+		return registerRequest( "add to stash", urlString, ITEMID_PATTERN, QTY_PATTERN, inventory, null, "howmuch", 0 );
 	}
 
 	public String getStatusMessage()

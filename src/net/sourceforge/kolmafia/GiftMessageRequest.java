@@ -176,7 +176,19 @@ public class GiftMessageRequest extends SendMessageRequest
 		if ( !urlString.startsWith( "town_sendgift.php" ) )
 			return false;
 
-		return registerRequest( "send a gift", urlString, urlString.indexOf( "fromwhere=1" ) != -1 ? storage : inventory, null, 0 );
+		return registerRequest( "send a gift", urlString, urlString.indexOf( "fromwhere=1" ) != -1 ? storage : inventory, null, "sendmeat", 0 );
+	}
+
+	public boolean allowMementoTransfer()
+	{	return true;
+	}
+
+	public boolean allowUntradeableTransfer()
+	{	return true;
+	}
+
+	public boolean allowUngiftableTransfer()
+	{	return false;
 	}
 
 	public String getStatusMessage()

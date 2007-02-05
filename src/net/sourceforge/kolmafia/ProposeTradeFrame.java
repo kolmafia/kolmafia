@@ -44,8 +44,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.util.List;
-import java.util.ArrayList;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -358,15 +356,12 @@ public class ProposeTradeFrame extends KoLFrame
 			public void actionConfirmed()
 			{
 				Object [] items = elementList.getSelectedValues();
-				ArrayList actual = new ArrayList();
-
 				AdventureResult currentItem;
 
 				for ( int i = 0; i < items.length; ++i )
 				{
 					currentItem = (AdventureResult) items[i];
 
-					// Skip filtered items
 					if ( !TradeableItemDatabase.isTradeable( currentItem.getItemId() ) )
 						continue;
 
@@ -374,14 +369,7 @@ public class ProposeTradeFrame extends KoLFrame
 					if ( attachmentCount == 0 )
 						continue;
 
-					actual.add( currentItem.getInstance( attachmentCount ) );
-				}
-
-				for ( int i = 0; i < actual.size(); ++i )
-				{
-					currentItem = (AdventureResult) actual.get(i);
-					AdventureResult.addResultToList( attachments, currentItem );
-					AdventureResult.addResultToList( source, currentItem.getNegation() );
+					AdventureResult.addResultToList( attachments, currentItem.getInstance( attachmentCount ) );
 				}
 			}
 
@@ -390,10 +378,7 @@ public class ProposeTradeFrame extends KoLFrame
 				Object [] items = newAttachments.getSelectedValues();
 
 				for ( int i = 0; i < items.length; ++i )
-				{
 					AdventureResult.addResultToList( attachments, ((AdventureResult) items[i]).getNegation() );
-					AdventureResult.addResultToList( source, (AdventureResult) items[i] );
-				}
 			}
 		}
 	}

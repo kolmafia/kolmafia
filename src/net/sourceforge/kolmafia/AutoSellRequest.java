@@ -93,10 +93,6 @@ public class AutoSellRequest extends SendMessageRequest
 	{	return "sendmeat";
 	}
 
-	public boolean allowMementoTransfer()
-	{	return false;
-	}
-
 	private static String getSellPage( int sellType )
 	{
 		if ( sellType == AUTOMALL )
@@ -353,11 +349,15 @@ public class AutoSellRequest extends SendMessageRequest
 		if ( itemPattern == null )
 			return false;
 
-		return registerRequest( sellType, urlString, itemPattern, quantityPattern, inventory, null, quantity );
+		return registerRequest( sellType, urlString, itemPattern, quantityPattern, inventory, null, null, quantity );
 	}
 
 	public String getSuccessMessage()
 	{	return "";
+	}
+
+	public boolean allowMementoTransfer()
+	{	return false;
 	}
 
 	public boolean allowUntradeableTransfer()
@@ -365,7 +365,7 @@ public class AutoSellRequest extends SendMessageRequest
 	}
 
 	public boolean allowUngiftableTransfer()
-	{	return sellType == AUTOSELL;
+	{	return false;
 	}
 
 	public String getStatusMessage()

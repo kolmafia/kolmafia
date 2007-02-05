@@ -89,10 +89,6 @@ public class ProposeTradeRequest extends SendMessageRequest
 	{	return "";
 	}
 
-	public boolean allowUntradeableTransfer()
-	{	return false;
-	}
-
 	public void processResults()
 	{	responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "[Mm]eat:", "Please respond with " );
 	}
@@ -113,11 +109,23 @@ public class ProposeTradeRequest extends SendMessageRequest
 	{	return "offermeat";
 	}
 
+	public boolean allowMementoTransfer()
+	{	return true;
+	}
+
+	public boolean allowUntradeableTransfer()
+	{	return false;
+	}
+
+	public boolean allowUngiftableTransfer()
+	{	return false;
+	}
+
 	public static boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "makeoffer.php" ) && !urlString.startsWith( "counteroffer.php" ) )
 			return false;
 
-		return registerRequest( "offer trade", urlString, inventory, null, 0 );
+		return registerRequest( "offer trade", urlString, inventory, null, "offermeat", 0 );
 	}
 }

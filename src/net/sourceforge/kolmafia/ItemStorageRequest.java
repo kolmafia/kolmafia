@@ -278,10 +278,10 @@ public class ItemStorageRequest extends SendMessageRequest
 	public static boolean registerRequest( String urlString )
 	{
 		if ( urlString.startsWith( "closet.php" ) && urlString.indexOf( "action=take" ) != -1 )
-			return registerRequest( "take from closet", urlString, closet, inventory, 0 );
+			return registerRequest( "take from closet", urlString, closet, inventory, "amt", 0 );
 
 		if ( urlString.startsWith( "closet.php" ) && urlString.indexOf( "action=put" ) != -1 )
-			return registerRequest( "add to closet", urlString, inventory, closet, 0 );
+			return registerRequest( "add to closet", urlString, inventory, closet, "amt", 0 );
 
 		// Only other option is storage transfers.  Therefore,
 		// if it's clearly not handling of item transfers in
@@ -299,7 +299,11 @@ public class ItemStorageRequest extends SendMessageRequest
 			return true;
 		}
 
-		return registerRequest( "pull", urlString, storage, inventory, 0 );
+		return registerRequest( "pull", urlString, storage, inventory, "amt", 0 );
+	}
+
+	public boolean allowMementoTransfer()
+	{	return true;
 	}
 
 	public boolean allowUngiftableTransfer()

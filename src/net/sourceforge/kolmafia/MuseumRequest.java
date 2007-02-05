@@ -98,6 +98,14 @@ public class MuseumRequest extends SendMessageRequest
 			MuseumManager.update( responseText );
 	}
 
+	public boolean allowMementoTransfer()
+	{	return true;
+	}
+
+	public boolean allowUntradeableTransfer()
+	{	return true;
+	}
+
 	public boolean allowUngiftableTransfer()
 	{	return true;
 	}
@@ -112,9 +120,9 @@ public class MuseumRequest extends SendMessageRequest
 			return false;
 
 		if ( urlString.indexOf( "action=take" ) != -1 )
-			return registerRequest( "remove from display case", urlString, collection, inventory, 0 );
+			return registerRequest( "remove from display case", urlString, collection, inventory, null, 0 );
 
-		return registerRequest( "put in display case", urlString, inventory, collection, 0 );
+		return registerRequest( "put in display case", urlString, inventory, collection, null, 0 );
 	}
 }
 

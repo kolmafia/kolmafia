@@ -118,7 +118,11 @@ public abstract class RequestThread implements KoLConstants
 	}
 
 	public static void openRequestSequence()
-	{	++sequenceCount;
+	{
+		if ( sequenceCount == 0 )
+			KoLmafia.forceContinue();
+
+		++sequenceCount;
 	}
 
 	public static void closeRequestSequence()
