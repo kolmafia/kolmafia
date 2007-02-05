@@ -1615,7 +1615,19 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			executeSendRequest( parameters );
+			executeSendRequest( parameters, false );
+			return;
+		}
+
+		if ( command.equals( "csend" ) )
+		{
+			if ( isRunningBetweenBattleChecks() )
+			{
+				printLine( "Send request \"" + parameters + "\" ignored in between-battle execution." );
+				return;
+			}
+
+			executeSendRequest( parameters, true );
 			return;
 		}
 
@@ -1685,7 +1697,7 @@ public class KoLmafiaCLI extends KoLmafia
 		printLine( displayText.trim() );
 	}
 
-	private void executeSendRequest( String parameters )
+	private void executeSendRequest( String parameters, boolean isConvertible )
 	{
 		String [] splitParameters = parameters.replaceFirst( " [tT][oO] ", "\n" ).split( "\n" );
 
@@ -1701,7 +1713,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( attachments.length == 1 && ((AdventureResult)attachments[0]).getName().equals( AdventureResult.MEAT ) )
 		{
-			int amount = BuffBotDatabase.getNonPhilanthropicOffering( splitParameters[1], ((AdventureResult)attachments[0]).getCount() );
+			int amount = BuffBotDatabase.getNonPhilanthropicOffering( splitParameters[1], ((AdventureResult)attachments[0]).getCount(), isConvertible );
 			if ( amount == 0 )
 				return;
 
