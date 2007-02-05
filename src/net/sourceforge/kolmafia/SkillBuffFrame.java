@@ -118,18 +118,22 @@ public class SkillBuffFrame extends KoLFrame
 			if ( buffCount == 0 )
 				return;
 
+			RequestThread.openRequestSequence();
+			SpecialOutfit.createImplicitCheckpoint();
+
 			if ( targets.length == 0 )
 			{
 				RequestThread.postRequest( UseSkillRequest.getInstance( buffName, KoLCharacter.getUserName(), buffCount ) );
 			}
 			else
 			{
-				RequestThread.openRequestSequence();
 				for ( int i = 0; i < targets.length && KoLmafia.permitsContinue(); ++i )
 					if ( targets[i] != null )
 						RequestThread.postRequest( UseSkillRequest.getInstance( buffName, targets[i], buffCount ) );
-				RequestThread.closeRequestSequence();
 			}
+
+			SpecialOutfit.restoreImplicitCheckpoint();
+			RequestThread.closeRequestSequence();
 		}
 	}
 

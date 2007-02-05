@@ -382,10 +382,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			// cost of the purchase.
 
 			if ( !KoLCharacter.isHardcore() && !KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( TROUSERS ) && KoLCharacter.hasItem( TROUSERS ) )
-			{
-				SpecialOutfit.createImplicitCheckpoint();
 				(new EquipmentRequest( TROUSERS, KoLCharacter.PANTS )).run();
-			}
 
 			return;
 		}
@@ -402,7 +399,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			return;
 		}
 
-		SpecialOutfit.createImplicitCheckpoint();
 		(new EquipmentRequest( EquipmentDatabase.getOutfit( neededOutfit ) )).run();
 	}
 

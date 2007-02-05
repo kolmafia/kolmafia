@@ -1071,7 +1071,9 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( parameters.length() > 0 )
 			{
+				SpecialOutfit.createImplicitCheckpoint();
 				executeCastBuffRequest( parameters );
+				SpecialOutfit.restoreImplicitCheckpoint();
 				return;
 			}
 		}
@@ -1432,7 +1434,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "buy" ) || command.equals( "mallbuy" ) )
 		{
+			SpecialOutfit.createImplicitCheckpoint();
 			executeBuyCommand( parameters );
+			SpecialOutfit.restoreImplicitCheckpoint();
 			return;
 		}
 
@@ -1498,8 +1502,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "restore" ) || command.startsWith( "recover" ) || command.startsWith( "check" ) )
 		{
+			SpecialOutfit.createImplicitCheckpoint();
+
 			if ( parameters.equals( "" ) )
+			{
 				StaticEntity.getClient().runBetweenBattleChecks( false );
+			}
 			else if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
 			{
 				float setting = StaticEntity.getFloatProperty( "hpAutoRecoveryTarget" );
@@ -1561,6 +1569,7 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
+			SpecialOutfit.createImplicitCheckpoint();
 			MoodSettings.execute( true );
 			SpecialOutfit.restoreImplicitCheckpoint();
 
@@ -3487,10 +3496,8 @@ public class KoLmafiaCLI extends KoLmafia
 	 * given quantity of items.
 	 */
 
-	public void executeBuyCommand( String parameters )
+	private void executeBuyCommand( String parameters )
 	{
-		SpecialOutfit.createImplicitCheckpoint();
-
 		Object [] matches = getMatchingItemList( parameters );
 
 		for ( int i = 0; i < matches.length; ++i )
@@ -3508,8 +3515,6 @@ public class KoLmafiaCLI extends KoLmafia
 			StoreManager.searchMall( '\"' + match.getName() + '\"', results, 10, false );
 			StaticEntity.getClient().makePurchases( results, results.toArray(), match.getCount() );
 		}
-
-		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	/**

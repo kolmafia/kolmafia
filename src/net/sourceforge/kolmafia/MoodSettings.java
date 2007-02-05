@@ -488,7 +488,6 @@ public abstract class MoodSettings implements KoLConstants
 			return;
 		}
 
-		SpecialOutfit.createImplicitCheckpoint();
 		isExecuting = true;
 
 		AdventureResult initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );

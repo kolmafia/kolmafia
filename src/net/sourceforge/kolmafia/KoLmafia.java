@@ -1525,8 +1525,19 @@ public abstract class KoLmafia implements KoLConstants
 
 			RequestThread.openRequestSequence();
 
+			boolean restoreOutfit = false;
 			KoLmafiaCLI.printBlankLine();
+
+			if ( request instanceof KoLAdventure )
+			{
+				restoreOutfit = true;
+				SpecialOutfit.createImplicitCheckpoint();
+			}
+
 			executeRequest( request, iterations, wasAdventuring );
+
+			if ( restoreOutfit )
+				SpecialOutfit.restoreImplicitCheckpoint();
 
 			RequestThread.closeRequestSequence();
 
@@ -2884,6 +2895,7 @@ public abstract class KoLmafia implements KoLConstants
 		// in behavior needs to run.
 
 		RequestThread.openRequestSequence();
+		SpecialOutfit.createImplicitCheckpoint();
 
 		String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
 
@@ -2901,10 +2913,10 @@ public abstract class KoLmafia implements KoLConstants
 			recoverMP();
 		}
 
+		SpecialOutfit.restoreImplicitCheckpoint();
 		RequestThread.closeRequestSequence();
 
 		recoveryActive = false;
-		SpecialOutfit.restoreImplicitCheckpoint();
 
 		if ( KoLCharacter.getCurrentHP() == 0 )
 			updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
