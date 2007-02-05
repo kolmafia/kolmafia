@@ -143,8 +143,17 @@ public class MallSearchFrame extends KoLPanelFrame
 
 			MallPurchaseRequest.setUsePriceComparison( forceSortingCheckBox.isSelected() );
 
-			String searchText = searchField instanceof JTextField ? ((JTextField)searchField).getText() :
-				(String) ((MutableComboBox)searchField).getSelectedItem();
+			String searchText = null;
+
+			if ( searchField instanceof JTextField )
+			{
+				searchText = ((JTextField)searchField).getText();
+			}
+			else
+			{
+				((MutableComboBox)searchField).forceAddition();
+				searchText = (String) ((MutableComboBox)searchField).getSelectedItem();
+			}
 
 			searchMall( new SearchMallRequest( searchText, searchCount, results, false ) );
 		}

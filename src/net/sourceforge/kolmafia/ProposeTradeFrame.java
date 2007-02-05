@@ -69,7 +69,7 @@ public class ProposeTradeFrame extends KoLFrame
 	private String offerId;
 	public JPanel messagePanel;
 	public JComboBox recipientEntry;
-	public JTextArea [] messageEntry;
+	public JTextArea messageEntry;
 	public JButton sendMessageButton;
 
 	public ShowDescriptionList attachmentList;
@@ -159,26 +159,18 @@ public class ProposeTradeFrame extends KoLFrame
 
 	public JPanel constructWestPanel()
 	{
-		String [] entryHeaders = getEntryHeaders();
-
 		recipientEntry = new MutableComboBox( (SortedListModel) contactList.clone(), true );
 		recipientEntry.setEditable( true );
 
 		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );
 
-		messageEntry = new JTextArea[ entryHeaders.length ];
-		SimpleScrollPane [] scrollArea = new SimpleScrollPane[ entryHeaders.length ];
+		messageEntry = new JTextArea();
+		messageEntry.setFont( DEFAULT_FONT );
+		messageEntry.setRows( 7 );
+		messageEntry.setLineWrap( true );
+		messageEntry.setWrapStyleWord( true );
 
-		for ( int i = 0; i < messageEntry.length; ++i )
-		{
-			messageEntry[i] = new JTextArea();
-
-			messageEntry[i].setFont( DEFAULT_FONT );
-			messageEntry[i].setRows( 7 );
-			messageEntry[i].setLineWrap( true );
-			messageEntry[i].setWrapStyleWord( true );
-			scrollArea[i] = new SimpleScrollPane( messageEntry[i] );
-		}
+		SimpleScrollPane scrollArea = new SimpleScrollPane( messageEntry );
 
 		JPanel recipientPanel = new JPanel();
 		recipientPanel.setLayout( new BoxLayout( recipientPanel, BoxLayout.Y_AXIS ) );
@@ -194,46 +186,15 @@ public class ProposeTradeFrame extends KoLFrame
 		recipientPanel.add( contactsPanel );
 		recipientPanel.add( Box.createVerticalStrut( 20 ) );
 
-		String [] westHeaders = getWestHeaders();
-		Component [] westComponents = getWestComponents();
-
-		for ( int i = 0; i < westHeaders.length; ++i )
-		{
-			recipientPanel.add( getLabelPanel( westHeaders[i] ) );
-			recipientPanel.add( Box.createVerticalStrut( 4 ) );
-			recipientPanel.add( westComponents[i] );
-			recipientPanel.add( Box.createVerticalStrut( 20 ) );
-		}
-
-		JPanel entryPanel = new JPanel( new GridLayout( entryHeaders.length, 1 ) );
-
-		JPanel holderPanel;
-		for ( int i = 0; i < entryHeaders.length; ++i )
-		{
-			holderPanel = new JPanel( new BorderLayout( 5, 5 ) );
-			holderPanel.add( getLabelPanel( entryHeaders[i] ), BorderLayout.NORTH );
-			holderPanel.add( scrollArea[i], BorderLayout.CENTER );
-
-			entryPanel.add( holderPanel );
-		}
+		JPanel entryPanel = new JPanel( new BorderLayout( 5, 5 ) );
+		entryPanel.add( getLabelPanel( "Send this note:" ), BorderLayout.NORTH );
+		entryPanel.add( scrollArea, BorderLayout.CENTER );
 
 		JPanel westPanel = new JPanel( new BorderLayout() );
 		westPanel.add( recipientPanel, BorderLayout.NORTH );
 		westPanel.add( entryPanel, BorderLayout.CENTER );
 
 		return westPanel;
-	}
-
-	public String [] getEntryHeaders()
-	{	return new String[] { "Send this note:" };
-	}
-
-	public String [] getWestHeaders()
-	{	return new String[0];
-	}
-
-	public Component [] getWestComponents()
-	{	return new Component[0];
 	}
 
 	public JPanel getLabelPanel( String text )
@@ -247,59 +208,28 @@ public class ProposeTradeFrame extends KoLFrame
 	{	return offerId != null && !offerId.equals( "" );
 	}
 
-	public boolean sendMessage( String recipient, String [] messages )
-	{
-		// Close all pending trades frames first
-
-		KoLFrame [] frames = StaticEntity.getExistingFrames();
-		for ( int i = 0; i < frames.length; ++i )
-			if ( frames[i] instanceof PendingTradesFrame )
-				((PendingTradesFrame)frames[i]).dispose();
-
-		// Send the offer / response
-
-		if ( isTradeResponse() )
-			RequestThread.postRequest( new ProposeTradeRequest( StaticEntity.parseInt( offerId ), messages[0], getAttachedItems() ) );
-		else
-			RequestThread.postRequest( new ProposeTradeRequest( recipient, messages[0], getAttachedItems() ) );
-
-		createDisplay( PendingTradesFrame.class );
-		return true;
-	}
-
 	private class SendMessageListener extends ThreadedListener
 	{
 		public void run()
 		{
-			String [] recipients = StaticEntity.getClient().extractTargets( (String) recipientEntry.getSelectedItem() );
+			String recipient = (String) recipientEntry.getSelectedItem();
 
-			// Limit the number of messages which can be sent
-			// to just eleven, as was the case with KoLmelion.
+			// Close all pending trades frames first
 
-			if ( recipients.length > 11 )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Maximum number of users exceeded." );
-				return;
-			}
+			KoLFrame [] frames = StaticEntity.getExistingFrames();
+			for ( int i = 0; i < frames.length; ++i )
+				if ( frames[i] instanceof PendingTradesFrame )
+					((PendingTradesFrame)frames[i]).dispose();
 
-			String [] messages = new String[ messageEntry.length ];
+			// Send the offer / response
 
-			for ( int i = 0; i < messageEntry.length; ++i )
-				messages[i] = messageEntry[i].getText();
+			RequestThread.postRequest( isTradeResponse() ?
+				new ProposeTradeRequest( StaticEntity.parseInt( offerId ), messageEntry.getText(), getAttachedItems() ) :
+				new ProposeTradeRequest( recipient, messageEntry.getText(), getAttachedItems() ) );
 
-			// Send the message to all recipients on the list.
-			// If one of them fails, however, immediately stop
-			// and notify the user that there was failure.
-
-			for ( int i = 0; i < recipients.length && KoLmafia.permitsContinue(); ++i )
-				if ( !sendMessage( recipients[i], messages ) )
-					return;
-
-			if ( KoLmafia.permitsContinue() )
-			{
-				recipientEntry.setSelectedIndex( -1 );
-				dispose();
-			}
+			createDisplay( PendingTradesFrame.class );
+			recipientEntry.setSelectedIndex( -1 );
+			dispose();
 		}
 	}
 
