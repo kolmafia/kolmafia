@@ -371,13 +371,13 @@ public class SendMessageFrame extends KoLFrame
 			// If one of them fails, however, immediately stop
 			// and notify the user that there was failure.
 
-			KoLmafia.forceContinue();
+			RequestThread.openRequestSequence();
 			for ( int i = 0; i < recipients.length && KoLmafia.permitsContinue(); ++i )
 				if ( !sendMessage( recipients[i], message ) )
 					return;
 
 			dispose();
-			RequestThread.enableDisplayIfSequenceComplete();
+			RequestThread.closeRequestSequence();
 		}
 	}
 

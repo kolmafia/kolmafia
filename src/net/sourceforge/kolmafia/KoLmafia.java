@@ -2883,6 +2883,8 @@ public abstract class KoLmafia implements KoLConstants
 		// user, which may make it so that none of the built
 		// in behavior needs to run.
 
+		RequestThread.openRequestSequence();
+
 		String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
 
 		if ( !scriptPath.equals( "" ) )
@@ -2898,6 +2900,8 @@ public abstract class KoLmafia implements KoLConstants
 			recoverHP();
 			recoverMP();
 		}
+
+		RequestThread.closeRequestSequence();
 
 		recoveryActive = false;
 		SpecialOutfit.restoreImplicitCheckpoint();
