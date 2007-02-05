@@ -75,7 +75,7 @@ public class BuffBotDatabase extends KoLDatabase
 
 	private static final CaseInsensitiveComparator NAME_COMPARATOR = new CaseInsensitiveComparator();
 
-	public static int getNonPhilanthropicOffering( String name, int amount )
+	public static int getNonPhilanthropicOffering( String name, int amount, boolean autoReject )
 	{
 		// If you have no idea what the names present in
 		// the database are, go ahead and refresh it.
@@ -117,7 +117,7 @@ public class BuffBotDatabase extends KoLDatabase
 
 		if ( data[2].equals( OPTOUT_URL ) )
 		{
-			KoLmafia.updateDisplay( data[0] + " has requested to be excluded from scripted requests." );
+			KoLmafia.updateDisplay( ABORT_STATE, data[0] + " has requested to be excluded from scripted requests." );
 			return 0;
 		}
 
@@ -129,6 +129,7 @@ public class BuffBotDatabase extends KoLDatabase
 		LockableListModel possibles = getPhilanthropicOfferings( data[0] );
 		if ( possibles.isEmpty() )
 			return amount;
+
 
 		Offering current = null;
 		boolean foundMatch = false;
@@ -142,6 +143,12 @@ public class BuffBotDatabase extends KoLDatabase
 
 		if ( !foundMatch || current == null )
 			return amount;
+
+		if ( autoReject )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Philanthropic buffs should not be scripted.  Use 'csend' instead." );
+			return 0;
+		}
 
 		// If this offers more than 300 turns, chances are it's not
 		// a philanthropic buff.  Buff packs are also not protected
