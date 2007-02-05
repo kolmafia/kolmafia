@@ -39,6 +39,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import java.util.Date;
+
 public class LogStream extends PrintStream implements KoLConstants
 {
 	public static final LogStream openStream( String filename, boolean forceNewFile )
@@ -85,6 +87,8 @@ public class LogStream extends PrintStream implements KoLConstants
 				newStream.println( " Please note: do not post these logs in the KoLmafia thread.  If " );
 				newStream.println( " you would like us to look at the log, please instead email logs " );
 				newStream.println( " to holatuwol@hotmail.com using the subject \"KoLmafia Debug Log\" " );
+				newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+				newStream.println( " Timestamp: " + (new Date()).toString() );
 				newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 				newStream.println();
 				newStream.println();
