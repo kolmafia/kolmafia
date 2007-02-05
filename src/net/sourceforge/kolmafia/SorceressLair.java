@@ -272,19 +272,23 @@ public abstract class SorceressLair extends StaticEntity
 	}
 
 	public static void completeCloveredEntryway()
-	{	completeEntryway( true );
+	{
+		SpecialOutfit.createImplicitCheckpoint();
+		completeEntryway( true );
+		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	public static void completeCloverlessEntryway()
-	{	completeEntryway( false );
+	{
+		SpecialOutfit.createImplicitCheckpoint();
+		completeEntryway( false );
+		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
-	public static void completeEntryway( boolean useCloverForSkeleton )
+	private static void completeEntryway( boolean useCloverForSkeleton )
 	{
 		if ( !checkPrerequisites( 1, 2 ) )
 			return;
-
-		SpecialOutfit.createImplicitCheckpoint();
 
 		// If you couldn't complete the gateway, then return
 		// from this method call.
@@ -343,10 +347,7 @@ public abstract class SorceressLair extends StaticEntity
 		RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
 
 		if ( !KoLmafia.checkRequirements( requirements ) || KoLmafia.refusesContinue() )
-		{
-			SpecialOutfit.restoreImplicitCheckpoint();
 			return;
-		}
 
 		if ( KoLCharacter.hasItem( HOSE_BOWL ) && KoLCharacter.hasItem( TANK ) )
 			(new UntinkerRequest( HOSE_BOWL.getItemId() )).run();
@@ -355,8 +356,6 @@ public abstract class SorceressLair extends StaticEntity
 
 		KoLmafia.updateDisplay( "Pressing switch beyond odor..." );
 		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair2.php?action=odor" ) );
-
-		SpecialOutfit.restoreImplicitCheckpoint();
 
 		// If you decided to use a broken skull because
 		// you had no other items, untinker the key.
@@ -382,7 +381,6 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( QUEST_HANDLER.responseText.indexOf( "lair3.php" ) == -1 )
 		{
-			SpecialOutfit.restoreImplicitCheckpoint();
 			KoLmafia.updateDisplay( ERROR_STATE, "Failed to complete entryway." );
 			return;
 		}
@@ -405,7 +403,6 @@ public abstract class SorceressLair extends StaticEntity
 			RequestThread.postRequest( irequest );
 		}
 
-		SpecialOutfit.restoreImplicitCheckpoint();
 		KoLmafia.updateDisplay( "Sorceress entryway complete." );
 	}
 
@@ -1014,8 +1011,6 @@ public abstract class SorceressLair extends StaticEntity
 			RequestThread.postRequest( CharpaneRequest.getInstance() );
 		}
 
-		SpecialOutfit.createImplicitCheckpoint();
-
 		while ( n < 5 && KoLmafia.permitsContinue() )
 		{
 			switch ( n )
@@ -1073,8 +1068,6 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
-		SpecialOutfit.restoreImplicitCheckpoint();
-
 		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
 		resetAutoAttack( previousAutoAttack );
 

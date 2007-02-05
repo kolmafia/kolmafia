@@ -43,8 +43,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class SpecialOutfit implements Comparable, KoLConstants
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
-
-	private static String lastCheckpoint = "";
+	private static int implicitNestingDepth = 0;
 
 	private static final AdventureResult [] IMPLICIT = new AdventureResult[ KoLCharacter.FAMILIAR ];
 	private static final AdventureResult [] EXPLICIT = new AdventureResult[ KoLCharacter.FAMILIAR ];
@@ -136,7 +135,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	private static void restoreCheckpoint( AdventureResult [] checkpoint )
 	{
-		if ( checkpoint[0] == null || !lastCheckpoint.equals( KoLCharacter.getUserName() ) )
+		if ( checkpoint[0] == null )
 			return;
 
 		RequestThread.openRequestSequence();
@@ -172,8 +171,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	{
 		for ( int i = 0; i < IMPLICIT.length; ++i )
 			EXPLICIT[i] = KoLCharacter.getEquipment(i);
-
-		SpecialOutfit.lastCheckpoint = KoLCharacter.getUserName();
 	}
 
 	/**
@@ -192,13 +189,12 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void createImplicitCheckpoint()
 	{
-		if ( IMPLICIT[0] != null )
+		++implicitNestingDepth;
+		if ( implicitNestingDepth != 1 )
 			return;
 
 		for ( int i = 0; i < IMPLICIT.length; ++i )
 			IMPLICIT[i] = KoLCharacter.getEquipment(i);
-
-		SpecialOutfit.lastCheckpoint = KoLCharacter.getUserName();
 	}
 
 	/**
@@ -206,7 +202,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	 * checkpoint is no longer applicable.
 	 */
 
-	public static void clearImplicitCheckpoint()
+	private static void clearImplicitCheckpoint()
 	{
 		for ( int i = 0; i < IMPLICIT.length; ++i )
 			IMPLICIT[i] = null;
@@ -219,7 +215,8 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void restoreImplicitCheckpoint()
 	{
-		if ( KoLmafia.isRunningBetweenBattleChecks() )
+		--implicitNestingDepth;
+		if ( implicitNestingDepth != 0 )
 			return;
 
 		restoreCheckpoint( IMPLICIT );

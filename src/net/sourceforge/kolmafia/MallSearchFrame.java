@@ -177,6 +177,7 @@ public class MallSearchFrame extends KoLPanelFrame
 
 			currentlyBuying = true;
 
+			SpecialOutfit.createImplicitCheckpoint();
 			StaticEntity.getClient().makePurchases( results, purchases, count );
 			SpecialOutfit.restoreImplicitCheckpoint();
 

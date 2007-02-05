@@ -758,10 +758,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 
 		if ( formURLString.indexOf( "ascend.php" ) != -1 && getFormField( "action" ) != null )
-		{
 			RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
-			SpecialOutfit.clearImplicitCheckpoint();
-		}
 
 		// If you are in chat, and the person submitted a command
 		// via chat, check to see if it's a CLI command.

@@ -159,7 +159,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public static AdventureResult optimizeEquipment( int skillId )
 	{
 		AdventureResult songWeapon = null;
-		SpecialOutfit.createImplicitCheckpoint();
 
 		// Ode to Booze is usually cast as a single shot.  So,
 		// don't prepare a rock and roll legend.
@@ -221,14 +220,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		// Cast the skill as many times as needed
 
-		SpecialOutfit.createImplicitCheckpoint();
 		optimizeEquipment( skillId );
 
 		if ( !KoLmafia.permitsContinue() )
 			return;
 
 		useSkillLoop();
-		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	private void useSkillLoop()
