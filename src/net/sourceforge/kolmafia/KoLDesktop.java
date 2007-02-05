@@ -225,7 +225,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 			INSTANCE.tabListing.add( content );
 			INSTANCE.tabs.addTab( content.lastTitle, content.getContentPane() );
 
-			if ( content.tabs != null && !(content instanceof AdventureFrame) )
+			if ( content.tabs != null && !isInversionExempt( content ) )
 				content.tabs.setTabPlacement( JTabbedPane.BOTTOM );
 
 			INSTANCE.tabs.setSelectedIndex( 0 );
@@ -234,6 +234,12 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		{
 			INSTANCE.tabs.setSelectedIndex( tabIndex );
 		}
+	}
+
+	public static boolean isInversionExempt( KoLFrame content )
+	{
+		return StaticEntity.getBooleanProperty( "avoidInvertingTabs" ) ||
+			content instanceof AdventureFrame || content instanceof FlowerHunterFrame;
 	}
 
 	public static void displayDesktop()

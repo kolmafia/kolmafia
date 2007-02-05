@@ -301,16 +301,17 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
+			{ "avoidInvertingTabs", "Do not invert nested tabs in tabbed frame" },
 			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
-			{ "cloverProtectActive", "Protect against automated clover adventures" },
-			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
+			{ "cacheMallSearches", "Cache mall searches (does not work on all OSes)" },
+			{ "autoSetConditions", "Automatically fill conditions field with defaults" },
 
 			{ "", "" },
 
-			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
+			{ "cloverProtectActive", "Protect against automated clover adventures" },
+			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
 			{ "overPurchaseRestores", "Allow over-purchase of non soda water mp restores" },
-			{ "cacheMallSearches", "Cache mall searches (does not work on all OSes)" },
-			{ "autoSetConditions", "Automatically fill conditions field with defaults" },
+			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
 
 			{ "", "" },
 

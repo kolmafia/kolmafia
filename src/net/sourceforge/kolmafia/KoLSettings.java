@@ -450,6 +450,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "autoSatisfyWithMall", "true" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithNPCs", "true" );
 		CLIENT_SETTINGS.put( "autoSetConditions", "true" );
+		CLIENT_SETTINGS.put( "avoidInvertingTabs", "false" );
 		CLIENT_SETTINGS.put( "breakfastSoftcore", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "breakfastHardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "browserBookmarks", "" );
