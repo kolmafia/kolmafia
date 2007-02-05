@@ -296,12 +296,12 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "showAllRequests", "Show requests synchronously in mini-browser" },
+			{ "showAllRequests", "Show all requests in a mini-browser window" },
 			{ "useLowBandwidthRadio", "Use lower bandwidth server for KoL Radio" },
 
 			{ "", "" },
 
-			{ "avoidInvertingTabs", "Do not invert nested tabs in tabbed frame" },
+			{ "avoidInvertingTabs", "Do not invert nested tabs in main window" },
 			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
 			{ "cacheMallSearches", "Cache mall searches (does not work on all OSes)" },
 			{ "autoSetConditions", "Automatically fill conditions field with defaults" },

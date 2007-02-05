@@ -58,6 +58,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import net.sourceforge.kolmafia.StoreManager.SoldItem;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
@@ -103,6 +104,10 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		{
 			contextMenu.add( new AddToJunkListMenuItem() );
 			contextMenu.add( new AddToMementoListMenuItem() );
+		}
+		else if ( listModel == StoreManager.getSortedSoldItemList() )
+		{
+			contextMenu.add( new AddToJunkListMenuItem() );
 		}
 
 		addMouseListener( new PopupListener() );
@@ -266,6 +271,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				name = ((AdventureResult)item).getName();
 			else if ( item instanceof ItemCreationRequest )
 				name = ((ItemCreationRequest)item).getName();
+			else if ( item instanceof SoldItem )
+				name = ((SoldItem) item).getItemName();
 			else if ( item instanceof String )
 				name = (String) item;
 			else if ( item instanceof Entry )
@@ -297,6 +304,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 					data = ((ItemCreationRequest)items[i]).createdItem;
 				else if ( items[i] instanceof AdventureResult && ((AdventureResult)items[i]).isItem() )
 					data = (AdventureResult) items[i];
+				else if ( item instanceof SoldItem )
+					data = new AdventureResult( ((SoldItem) item).getItemId(), 1 );
 				else if ( items[i] instanceof String && TradeableItemDatabase.contains( (String) items[i] ) )
 					data = new AdventureResult( (String) items[i], 1, false );
 				else if ( items[i] instanceof Entry && TradeableItemDatabase.contains( (String) ((Entry)items[i]).getValue() ) )

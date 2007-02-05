@@ -68,7 +68,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class RequestFrame extends KoLFrame
 {
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\"\'>]+" );
-	private static boolean refreshStatusEnabled = true;
 
 	private int locationIndex = 0;
 	private boolean isLoading = true;
@@ -517,9 +516,6 @@ public class RequestFrame extends KoLFrame
 
 	public static void refreshStatus()
 	{
-		if ( !refreshStatusEnabled )
-			return;
-
 		RequestThread.postRequest( CharpaneRequest.getInstance() );
 		refreshStatus( CharpaneRequest.getInstance().responseText );
 	}
@@ -543,11 +539,8 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	public static boolean willRefreshStatus()
+	public static boolean instanceExists()
 	{
-		if ( !refreshStatusEnabled )
-			return false;
-
 		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		if ( frames == null )
 			return false;
@@ -557,20 +550,6 @@ public class RequestFrame extends KoLFrame
 				return true;
 
 		return false;
-	}
-
-	public static boolean isRefreshStatusEnabled()
-	{	return refreshStatusEnabled;
-	}
-
-	public static void setRefreshStatusEnabled( boolean isEnabled )
-	{
-		refreshStatusEnabled = isEnabled;
-
-		if ( isEnabled )
-			refreshStatus();
-		else
-			refreshStatus( "" );
 	}
 
 	public void dispose()

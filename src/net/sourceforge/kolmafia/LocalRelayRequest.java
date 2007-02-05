@@ -660,7 +660,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		for ( int i = 0; i < effects.length; ++i )
 		{
 			activeEffects.append( "\"" );
-			activeEffects.append( WHITESPACE_PATTERN.matcher( effects[i].getName() ).replaceAll( "" ).toLowerCase() );
+			activeEffects.append( WHITESPACE_PATTERN.matcher( effects[i].getName() ).replaceAll( "" ).replaceAll( "\u00f1", "n" ).toLowerCase() );
 			activeEffects.append( "\"," );
 		}
 
