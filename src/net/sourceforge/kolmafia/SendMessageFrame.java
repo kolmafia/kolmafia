@@ -148,7 +148,7 @@ public class SendMessageFrame extends KoLFrame
 
 		// Add in the inventory panel
 
-		inventoryPanel = new ItemManagePanel( (SortedListModel) inventory.clone() );
+		inventoryPanel = new ItemManagePanel( inventory );
 		inventoryPanel.elementList.setVisibleRowCount( 11 );
 		inventoryPanel.setButtons( null );
 		attachTabs.addTab( "Inventory", inventoryPanel );
@@ -157,7 +157,7 @@ public class SendMessageFrame extends KoLFrame
 
 		// Add in the storage panel
 
-		storagePanel = new ItemManagePanel( (SortedListModel) storage.clone() );
+		storagePanel = new ItemManagePanel( storage );
 		storagePanel.elementList.setVisibleRowCount( 11 );
 		storagePanel.setButtons( null );
 		attachTabs.addTab( "In Storage", storagePanel );
@@ -303,25 +303,16 @@ public class SendMessageFrame extends KoLFrame
 			if ( !usingStorage && elementPanel == storagePanel )
 			{
 				usingStorage = true;
-				for ( int i = 0; i < attachments.size(); ++i )
-					AdventureResult.addResultToList( inventoryPanel.elementModel, (AdventureResult) attachments.get(i) );
-
 				attachments.clear();
 			}
 			else if ( usingStorage && elementPanel != storagePanel )
 			{
 				usingStorage = false;
-				for ( int i = 0; i < attachments.size(); ++i )
-					AdventureResult.addResultToList( storagePanel.elementModel, (AdventureResult) attachments.get(i) );
-
 				attachments.clear();
 			}
 
 			for ( int i = 0; i < items.length; ++i )
-			{
 				AdventureResult.addResultToList( attachments, items[i] );
-				AdventureResult.addResultToList( elementPanel.elementModel, items[i].getNegation() );
-			}
 		}
 	}
 
@@ -338,10 +329,7 @@ public class SendMessageFrame extends KoLFrame
 				return;
 
 			for ( int i = 0; i < items.length; ++i )
-			{
 				attachments.remove( items[i] );
-				AdventureResult.addResultToList( usingStorage ? storagePanel.elementModel : inventoryPanel.elementModel, (AdventureResult) items[i] );
-			}
 		}
 	}
 
@@ -371,13 +359,15 @@ public class SendMessageFrame extends KoLFrame
 			// If one of them fails, however, immediately stop
 			// and notify the user that there was failure.
 
-			RequestThread.openRequestSequence();
-			for ( int i = 0; i < recipients.length && KoLmafia.permitsContinue(); ++i )
-				if ( !sendMessage( recipients[i], message ) )
-					return;
+			boolean success = true;
 
-			dispose();
+			RequestThread.openRequestSequence();
+			for ( int i = 0; i < recipients.length; ++i )
+				success &= sendMessage( recipients[i], message );
 			RequestThread.closeRequestSequence();
+
+			if ( success )
+				dispose();
 		}
 	}
 

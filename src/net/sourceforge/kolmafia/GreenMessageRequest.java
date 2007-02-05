@@ -126,12 +126,24 @@ public class GreenMessageRequest extends SendMessageRequest
 	{	return "sendmeat";
 	}
 
+	public boolean allowMementoTransfer()
+	{	return true;
+	}
+
+	public boolean allowUntradeableTransfer()
+	{	return true;
+	}
+
+	public boolean allowUngiftableTransfer()
+	{	return false;
+	}
+
 	public static boolean registerRequest( String urlString )
 	{
 		if ( !urlString.startsWith( "sendmessage.php" ) )
 			return false;
 
-		return registerRequest( "send a kmail", urlString, inventory, null, 0 );
+		return registerRequest( "send a kmail", urlString, inventory, null, "sendmeat", 0 );
 	}
 }
 

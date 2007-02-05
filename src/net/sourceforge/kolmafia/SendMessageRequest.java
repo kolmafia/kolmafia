@@ -43,8 +43,8 @@ public abstract class SendMessageRequest extends KoLRequest
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item[^=]*\\d*=(\\d+)" );
 
 	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany\\d*=(\\d+)" );
-	public static final Pattern QTY_PATTERN = Pattern.compile( "qty\\d+=([\\d,]+)" );
-	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity\\d*=([\\d,]+)" );
+	public static final Pattern QTY_PATTERN = Pattern.compile( "qty\\d+=([\\d]+)" );
+	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity\\d*=([\\d,])" );
 
 	public static final Pattern RECIPIENT_PATTERN = Pattern.compile( "towho=([^=&]+)" );
 
@@ -292,23 +292,15 @@ public abstract class SendMessageRequest extends KoLRequest
 	{	updateDisplayOnFailure = shouldUpdate;
 	}
 
-	public boolean allowMementoTransfer()
-	{	return true;
+	public abstract boolean allowMementoTransfer();
+	public abstract boolean allowUngiftableTransfer();
+	public abstract boolean allowUntradeableTransfer();
+
+	public static boolean registerRequest( String command, String urlString, List source, List destination, String meatField, int defaultQuantity )
+	{	return registerRequest( command, urlString, ITEMID_PATTERN, HOWMANY_PATTERN, source, destination, meatField, defaultQuantity );
 	}
 
-	public boolean allowUngiftableTransfer()
-	{	return false;
-	}
-
-	public boolean allowUntradeableTransfer()
-	{	return true;
-	}
-
-	public static boolean registerRequest( String command, String urlString, List source, List destination, int defaultQuantity )
-	{	return registerRequest( command, urlString, ITEMID_PATTERN, HOWMANY_PATTERN, source, destination, defaultQuantity );
-	}
-
-	public static boolean registerRequest( String command, String urlString, Pattern itemPattern, Pattern quantityPattern, List source, List destination, int defaultQuantity )
+	public static boolean registerRequest( String command, String urlString, Pattern itemPattern, Pattern quantityPattern, List source, List destination, String meatField, int defaultQuantity )
 	{
 		ArrayList itemList = new ArrayList();
 		StringBuffer itemListBuffer = new StringBuffer();

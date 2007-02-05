@@ -23,7 +23,7 @@
 23	chewing gum on a string	0	all	15
 24	ten-leaf clover	4	all	0
 25	meat paste	0	all	10
-26	Dolphin King's map	3	all	0
+26	Dolphin King's map	3	none	0
 27	spider web	0	all	3
 28	really sticky spider web	0	all	5
 29	really really sticky spider web	0	all	9
@@ -704,7 +704,7 @@
 704	hamethyst	0	all	500
 705	baconstone	0	all	500
 706	porquoise	0	all	500
-707	pork elf goodies sack	3	all	100
+707	pork elf goodies sack	3	none	100
 708	ring setting	0	all	100
 709	jewelry-making pliers	0	none	500
 710
@@ -2032,10 +2032,10 @@
 2032
 2033
 2034
-2035	Marquis de Poivre soda	13	all	30
-2036	radium-flavored potato chips	4	all	30
-2037	wintergreen-flavored potato chips	4	all	30
-2038	ennui-flavored potato chips	4	all	30
+2035	Marquis de Poivre soda	13	none	30
+2036	radium-flavored potato chips	4	none	30
+2037	wintergreen-flavored potato chips	4	none	30
+2038	ennui-flavored potato chips	4	none	30
 2039	x-ray specs	8	gift	5
 2040
 2041
