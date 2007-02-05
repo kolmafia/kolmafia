@@ -523,6 +523,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "testSocketTimeout", "false" );
 		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
 
+		CLIENT_SETTINGS.put( "useLowBandwidthRadio", "false" );
 		CLIENT_SETTINGS.put( "useSystemTrayIcon", "false" );
 		CLIENT_SETTINGS.put( "usePopupContacts", "1" );
 		CLIENT_SETTINGS.put( "useTabbedChat", "1" );

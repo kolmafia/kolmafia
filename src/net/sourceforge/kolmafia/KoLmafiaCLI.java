@@ -495,6 +495,12 @@ public class KoLmafiaCLI extends KoLmafia
 				KoLmafiaGUI.constructFrame( "FlowerHunterFrame" );
 				return;
 			}
+
+			if ( command.equals( "radio" ) )
+			{
+				launchRadioKoL();
+				return;
+			}
 		}
 
 		// Maybe the person is trying to load a raw URL
