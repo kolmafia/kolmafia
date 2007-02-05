@@ -248,15 +248,10 @@ public abstract class HPRestoreItemList extends StaticEntity
 			if ( numberToUse <= 0 || KoLmafia.refusesContinue() )
 				return;
 
-			KoLmafia.forceContinue();
-
 			if ( ClassSkillsDatabase.contains( restoreName ) )
 				RequestThread.postRequest( UseSkillRequest.getInstance( restoreName, "", numberToUse ) );
 			else
 				RequestThread.postRequest( new ConsumeItemRequest( itemUsed.getInstance( numberToUse ) ) );
-
-			if ( !KoLmafia.refusesContinue() )
-				KoLmafia.forceContinue();
 		}
 
 		public String toString()
