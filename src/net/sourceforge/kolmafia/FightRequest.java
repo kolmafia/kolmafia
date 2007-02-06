@@ -178,6 +178,19 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
+		// Automatically pickpocket when appropriate, if the
+		// player trusts KoLmafia knows the right thing to do.
+
+		if ( StaticEntity.getBooleanProperty( "allowUnsafePickpocket" ) )
+		{
+			if ( currentRound == 1 && monsterData != null && responseText.indexOf( "You get the jump" ) != -1 && monsterData.shouldSteal() )
+			{
+				action1 = "steal";
+				addFormField( "action", action1 );
+				return;
+			}
+		}
+
 		// If the person wants to use their own script,
 		// then this is where it happens.
 
@@ -201,7 +214,8 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
-		// Automatically pickpocket when appropriate
+		// Otherwise, if the player doesn't trust KoLmafia, only do so
+		// if the player is not using consult scripts.
 
 		if ( currentRound == 1 && monsterData != null && responseText.indexOf( "You get the jump" ) != -1 && monsterData.shouldSteal() )
 		{
