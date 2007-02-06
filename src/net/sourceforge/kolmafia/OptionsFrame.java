@@ -297,6 +297,7 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "showAllRequests", "Show all requests in a mini-browser window" },
+			{ "allowUnsafePickpocket", "Allow unconditional pickpocket with suboptimal dodge" },
 			{ "useLowBandwidthRadio", "Use lower bandwidth server for KoL Radio" },
 
 			{ "", "" },

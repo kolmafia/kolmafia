@@ -441,6 +441,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
 		CLIENT_SETTINGS.put( "allowThiefShrugOff", "true" );
+		CLIENT_SETTINGS.put( "allowUnsafePickpocket", "false" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
 		CLIENT_SETTINGS.put( "assumeInfiniteNPCItems", "false" );
 		CLIENT_SETTINGS.put( "autoLogin", "" );
