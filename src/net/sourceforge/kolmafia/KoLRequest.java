@@ -674,6 +674,9 @@ public class KoLRequest extends Job implements KoLConstants
 				StaticEntity.getClient().processResult( AdventureRequest.CANDLES );
 				StaticEntity.getClient().processResult( AdventureRequest.BUTTERKNIFE );
 
+				if ( this instanceof AdventureRequest )
+					KoLmafia.updateDisplay( PENDING_STATE, "Taint cleansed." );
+
 				Matcher learnedMatcher = STEEL_PATTERN.matcher( responseText );
 				if ( learnedMatcher.find() )
 					KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( learnedMatcher.group(1) + " of Steel" ) );
