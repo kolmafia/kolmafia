@@ -825,7 +825,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 				{
 					try
 					{
-						KoLMessenger.updateChat( responseText );
+						if ( !KoLMessenger.isRunning() || formURLString.indexOf( "submitnewchat.php" ) != -1 )
+							KoLMessenger.updateChat( responseText );
 					}
 					catch ( Exception e )
 					{
