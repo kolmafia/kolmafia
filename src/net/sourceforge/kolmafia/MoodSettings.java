@@ -636,21 +636,8 @@ public abstract class MoodSettings implements KoLConstants
 			}
 
 			String skillName = KoLmafiaCLI.getSkillName( action );
-
-			if ( skillName == null )
-				continue;
-
-			int skillId = ClassSkillsDatabase.getSkillId( skillName );
-			if ( KoLCharacter.canInteract() )
-			{
-				multiplier = (int) Math.ceil( (float) (KoLCharacter.getAdventuresLeft() - current.effect.getCount( activeEffects ) ) /
-					(float) ClassSkillsDatabase.getEffectDuration( skillId ) );
-
-				if ( multiplier < 0 )
-					continue;
-			}
-
-			runningTally += ClassSkillsDatabase.getMPConsumptionById( skillId ) * multiplier;
+			if ( skillName != null )
+				runningTally += ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) ) * multiplier;
 		}
 
 		// Running tally calculated, return the amount of
