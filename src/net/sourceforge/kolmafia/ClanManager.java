@@ -151,6 +151,8 @@ public class ClanManager extends StaticEntity
 		String [] names = new String[ profileMap.size() ];
 		profileMap.keySet().toArray( names );
 
+		RequestThread.openRequestSequence();
+
 		for ( int i = 0; i < names.length; ++i )
 		{
 			currentProfile = (String) profileMap.get( names[i] );
@@ -179,6 +181,8 @@ public class ClanManager extends StaticEntity
 			}
 		}
 
+		RequestThread.closeRequestSequence();
+
 		// If all the member profiles have already been retrieved, then
 		// you won't need to look up any profiles, so it takes no time.
 		// No need to confirm with the user.  Therefore, return.
@@ -190,6 +194,7 @@ public class ClanManager extends StaticEntity
 		// you begin initializing all the data.
 
 		KoLmafia.updateDisplay( "Processing request..." );
+		RequestThread.openRequestSequence();
 
 		// Create a special HTML file for each of the
 		// players in the ClanSnapshotTable so that it can be
@@ -209,6 +214,7 @@ public class ClanManager extends StaticEntity
 				initializeAscensionData( names[i] );
 		}
 
+		RequestThread.closeRequestSequence();
 		return true;
 	}
 
