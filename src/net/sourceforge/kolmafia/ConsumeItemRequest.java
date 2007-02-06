@@ -158,6 +158,10 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int STUFFED_ANGRY_COW = 1988;
 	private static final int CRIMBOWEEN_MEMO = 2089;
 
+	private static final int MANUAL_OF_LABOR = 2280;
+	private static final int MANUAL_OF_TRANSMISSION = 2281;
+	private static final int MANUAL_OF_DEXTERITY = 2282;
+
 	private static final AdventureResult POISON = new AdventureResult( "Poisoned", 1, true );
 
 	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
@@ -489,6 +493,9 @@ public class ConsumeItemRequest extends KoLRequest
 		case FOUNTAIN:
 		case MEMO:
 		case AWFUL_POETRY:
+		case MANUAL_OF_LABOR:
+		case MANUAL_OF_TRANSMISSION:
+		case MANUAL_OF_DEXTERITY:
 
 			StaticEntity.getClient().processResult( lastItemUsed );
 			return;
