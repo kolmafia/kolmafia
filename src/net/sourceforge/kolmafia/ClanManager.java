@@ -359,6 +359,7 @@ public class ClanManager extends StaticEntity
 
 	public static void takeSnapshot( int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce, boolean localProfileLink )
 	{
+		RequestThread.openRequestSequence();
 		retrieveClanData();
 
 		File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
@@ -368,14 +369,13 @@ public class ClanManager extends StaticEntity
 
 		String header = getProperty( "clanRosterHeader" );
 
-		KoLRequest.delay( 1000 );
-
 		// If initialization was unsuccessful, then there isn't
 		// enough data to create a clan ClanSnapshotTable.
 
 		if ( !retrieveMemberData( true, true ) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Initialization failed." );
+			RequestThread.closeRequestSequence();
 			return;
 		}
 
@@ -415,6 +415,7 @@ public class ClanManager extends StaticEntity
 		ostream.close();
 
 		KoLmafia.updateDisplay( "Snapshot generation completed." );
+		RequestThread.closeRequestSequence();
 
 		// To make things less confusing, load the summary
 		// file inside of the default browser after completion.
