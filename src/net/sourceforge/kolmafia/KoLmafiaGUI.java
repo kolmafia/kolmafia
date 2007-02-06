@@ -225,7 +225,10 @@ public class KoLmafiaGUI extends KoLmafia
 		else if ( frameName.equals( "ClanManageFrame" ) )
 		{
 			if ( ClanManager.getStash().isEmpty() )
+			{
+				KoLmafia.updateDisplay( "Retrieving clan stash contents..." );
 				RequestThread.postRequest( new ClanStashRequest() );
+			}
 		}
 		else if ( frameName.equals( "FamiliarTrainingFrame" ) )
 		{
