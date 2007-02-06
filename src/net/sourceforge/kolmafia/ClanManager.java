@@ -359,7 +359,6 @@ public class ClanManager extends StaticEntity
 
 	public static void takeSnapshot( int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce, boolean localProfileLink )
 	{
-		RequestThread.openRequestSequence();
 		retrieveClanData();
 
 		File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
@@ -367,52 +366,50 @@ public class ClanManager extends StaticEntity
 		File hardcoreFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
 		File sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
 
-		String header = getProperty( "clanRosterHeader" );
-
 		// If initialization was unsuccessful, then there isn't
 		// enough data to create a clan ClanSnapshotTable.
 
 		if ( !retrieveMemberData( true, true ) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Initialization failed." );
-			RequestThread.closeRequestSequence();
 			return;
 		}
 
 		// Now, store the clan snapshot into the appropriate
 		// data folder.
 
+		RequestThread.openRequestSequence();
 		KoLmafia.updateDisplay( "Storing clan snapshot..." );
-
-		PrintStream ostream = LogStream.openStream( standardFile, true );
-		ostream.println( ClanSnapshotTable.getStandardData( localProfileLink ) );
-		ostream.close();
-
-		String line;
-		BufferedReader script = DataUtilities.getReader( "html", "sorttable.js" );
 
 		try
 		{
+			PrintStream ostream = LogStream.openStream( standardFile, true );
+			ostream.println( ClanSnapshotTable.getStandardData( localProfileLink ) );
+			ostream.close();
+
+			String line;
+			BufferedReader script = DataUtilities.getReader( "html", "sorttable.js" );
+
 			ostream = LogStream.openStream( sortingScript, true );
 			while ( (line = script.readLine()) != null )
 				ostream.println( line );
 
+			ostream.close();
+
+			KoLmafia.updateDisplay( "Storing ascension snapshot..." );
+
+			ostream = LogStream.openStream( softcoreFile, true );
+			ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink ) );
+			ostream.close();
+
+			ostream = LogStream.openStream( hardcoreFile, true );
+			ostream.println( AscensionSnapshotTable.getAscensionData( false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink ) );
 			ostream.close();
 		}
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
 		}
-
-		KoLmafia.updateDisplay( "Storing ascension snapshot..." );
-
-		ostream = LogStream.openStream( softcoreFile, true );
-		ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink ) );
-		ostream.close();
-
-		ostream = LogStream.openStream( hardcoreFile, true );
-		ostream.println( AscensionSnapshotTable.getAscensionData( false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink ) );
-		ostream.close();
 
 		KoLmafia.updateDisplay( "Snapshot generation completed." );
 		RequestThread.closeRequestSequence();
