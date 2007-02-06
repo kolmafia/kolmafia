@@ -2183,6 +2183,15 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( left.equals( "inebriety") || left.equals( "drunkenness" ) || left.equals( "drunkness" ) )
 			return KoLCharacter.getInebriety();
 
+		if ( left.equals( "muscle" ) )
+			return KoLCharacter.getBaseMuscle();
+
+		if ( left.equals( "mysticality" ) )
+			return KoLCharacter.getBaseMysticality();
+
+		if ( left.equals( "moxie" ) )
+			return KoLCharacter.getBaseMoxie();
+
 		AdventureResult item = itemParameter( left );
 		AdventureResult effect = effectParameter( left );
 
