@@ -3198,6 +3198,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		refreshSession();
 		resetSession();
+		enableDisplay();
 
 		sessionStream.println();
 		sessionStream.println();
