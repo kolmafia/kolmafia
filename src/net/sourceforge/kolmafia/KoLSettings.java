@@ -439,8 +439,8 @@ public class KoLSettings extends Properties implements KoLConstants
 		// Do not initialize the maps more than once, as this
 		// would not serve any purpose.
 
+		CLIENT_SETTINGS.put( "allowEncounterRateBurning", "true" );
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
-		CLIENT_SETTINGS.put( "allowNonMoodExpiration", "false" );
 		CLIENT_SETTINGS.put( "allowThiefShrugOff", "true" );
 		CLIENT_SETTINGS.put( "allowUnsafePickpocket", "false" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
