@@ -455,6 +455,22 @@ public abstract class MoodSettings implements KoLConstants
 			if ( !ClassSkillsDatabase.contains( skillName ) || !KoLCharacter.hasSkill( skillName ) )
 				continue;
 
+			if ( StaticEntity.getBooleanProperty( "allowNonMoodExpiration" ) )
+			{
+				MoodTrigger current;
+				boolean shouldCast = false;
+
+				for ( int j = 0; j < displayList.size() && !shouldCast; ++j )
+				{
+					current = (MoodTrigger) displayList.get(j);
+					if ( current.effect.equals( currentEffect ) )
+						shouldCast = true;
+				}
+
+				if ( !shouldCast )
+					continue;
+			}
+
 			// Only cast if a matching skill was found.  Limit cast count
 			// to five in order to ensure that KoLmafia doesn't make the
 			// buff counts too far out of balance.
