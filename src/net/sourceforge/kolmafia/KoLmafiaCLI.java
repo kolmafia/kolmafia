@@ -687,6 +687,29 @@ public class KoLmafiaCLI extends KoLmafia
 					KoLCharacter.getBattleSkillNames().setSelectedItem( value );
 			}
 
+			if ( name.equals( "defaultAutoAttack" ) )
+			{
+				if ( value.equals( "disabled" ) )
+				{
+					value = "0";
+				}
+				else if ( value.equals( "attack" ) )
+				{
+					value = "1";
+				}
+				else if ( !Character.isDigit( value.charAt(0) ) )
+				{
+					String skillName = getSkillName( value, ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.COMBAT ) );
+					if ( skillName == null )
+						return;
+
+					value = String.valueOf( ClassSkillsDatabase.getSkillId( skillName ) );
+				}
+
+				if ( !StaticEntity.getProperty( "defaultAutoAttack" ).equals( value ) )
+					RequestThread.postRequest( new KoLRequest( "account.php?action=autoattack&whichattack=" + value ) );
+			}
+
 			printLine( name + " => " + value );
 			StaticEntity.setProperty( name, value );
 
@@ -1707,6 +1730,18 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		String message = DEFAULT_KMAIL;
+
+		int separatorIndex = splitParameters[1].indexOf( "||" );
+		if ( separatorIndex != -1 )
+		{
+			message = splitParameters[1].substring( separatorIndex + 2 ).trim();
+			splitParameters[1] = splitParameters[1].substring( 0, separatorIndex );
+		}
+
+		splitParameters[0] = splitParameters[0].trim();
+		splitParameters[1] = splitParameters[1].trim();
+
 		Object [] attachments = getMatchingItemList( splitParameters[0] );
 		if ( attachments.length == 0 )
 			return;
@@ -1725,7 +1760,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// out if there's a corresponding full-price buff.
 
 		SendMessageRequest.setUpdateDisplayOnFailure( false );
-		RequestThread.postRequest( new GreenMessageRequest( splitParameters[1], DEFAULT_KMAIL, attachments ) );
+		RequestThread.postRequest( new GreenMessageRequest( splitParameters[1], message, attachments ) );
 		SendMessageRequest.setUpdateDisplayOnFailure( true );
 
 		if ( !SendMessageRequest.hadSendMessageFailure() )
@@ -1746,8 +1781,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( !refusesContinue() )
 			forceContinue();
 
-		RequestThread.postRequest( new GiftMessageRequest( splitParameters[1], "You were in Ronin, so I'm sending you a package!",
-			"For your collection.", desiredPackageIndex, attachments ) );
+		RequestThread.postRequest( new GiftMessageRequest( splitParameters[1], message, message, desiredPackageIndex, attachments ) );
 
 		if ( permitsContinue() )
 			updateDisplay( "Gift sent to " + splitParameters[1] );
