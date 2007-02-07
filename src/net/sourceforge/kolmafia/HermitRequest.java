@@ -97,19 +97,24 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
-		if ( KoLCharacter.getLevel() >= 9 && getWorthlessItemCount() == 0 && KoLCharacter.hasItem( SUMMON_SCROLL ) )
-			(new ConsumeItemRequest( SUMMON_SCROLL )).run();
-
 		if ( KoLCharacter.hasItem( HACK_SCROLL ) )
 			(new ConsumeItemRequest( HACK_SCROLL )).run();
 
-		if ( KoLCharacter.getLevel() >= 9 && getWorthlessItemCount() == 0 && KoLCharacter.hasItem( SUMMON_SCROLL ) )
+		if ( KoLCharacter.getLevel() >= 9 && KoLCharacter.hasItem( SUMMON_SCROLL ) )
 		{
-			int scrollCount = SUMMON_SCROLL.getCount( inventory );
-			(new ConsumeItemRequest( SUMMON_SCROLL.getInstance( scrollCount ) )).run();
+			int itemCount = SUMMON_SCROLL.getCount( inventory );
+			(new ConsumeItemRequest( SUMMON_SCROLL.getInstance( itemCount ) )).run();
+
+			if ( KoLCharacter.hasItem( HACK_SCROLL ) )
+			{
+				(new ConsumeItemRequest( HACK_SCROLL )).run();
+				(new ConsumeItemRequest( SUMMON_SCROLL.getInstance( itemCount - 1 ) )).run();
+			}
 		}
 
-		if ( getWorthlessItemCount() == 0 )
+		if ( getWorthlessItemCount() < quantity )
+			DEFAULT_SHELL.executeLine( "acquire " + quantity + " worthless item" );
+		else if ( getWorthlessItemCount() == 0 )
 			DEFAULT_SHELL.executeLine( "acquire 1 worthless item" );
 
 		if ( getWorthlessItemCount() == 0 )

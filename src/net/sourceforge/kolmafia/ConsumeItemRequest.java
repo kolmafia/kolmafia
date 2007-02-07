@@ -92,6 +92,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int ARCHES = 504;
 	private static final int HEY_DEZE_MAP = 516;
 	private static final int GATES_SCROLL = 552;
+	private static final int HACK_SCROLL = 553;
 	private static final int LUCIFER = 571;
 	private static final int TINY_HOUSE = 592;
 	private static final int PHONICS = 593;
@@ -592,6 +593,15 @@ public class ConsumeItemRequest extends KoLRequest
 				StaticEntity.getClient().processResult( lastItemUsed );
 			else
 				StaticEntity.getClient().processResult( FightRequest.DICTIONARY1.getNegation() );
+
+			return;
+
+		case HACK_SCROLL:
+
+			// "The UB3r 31337 HaX0R stands before you."
+
+			if ( responseText.indexOf( "The UB3r 31337 HaX0R stands before you." ) != -1 )
+				StaticEntity.getClient().processResult( lastItemUsed.getInstance( lastItemUsed.getCount() - 1 ) );
 
 			return;
 
