@@ -2285,7 +2285,7 @@
 2285
 2286
 2287	green glowstick	8	display	0
-2288
+2288	encoder ring	8	gift	5
 2289
 2290
 2291

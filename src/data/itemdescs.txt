@@ -2290,7 +2290,7 @@
 2285
 2286
 2287	642392529	green glowstick	green glowstyx
-2288
+2288	643487866	encoder ring
 2289
 2290
 2291
