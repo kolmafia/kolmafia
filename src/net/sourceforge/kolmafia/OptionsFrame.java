@@ -317,7 +317,7 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
-			{ "allowNonMoodExpiration", "Allow buffs not in a mood to expire during conditional recast" },
+			{ "allowEncounterRateBurning", "Allow combat-rate modifying buffs in conditional recast" },
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" }
 		};
