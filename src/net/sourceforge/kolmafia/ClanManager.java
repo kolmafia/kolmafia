@@ -155,6 +155,8 @@ public class ClanManager extends StaticEntity
 
 		for ( int i = 0; i < names.length; ++i )
 		{
+			KoLmafia.updateDisplay( "Cache data lookup for member " + (i+1) + " of " + names.length + "..." );
+
 			currentProfile = (String) profileMap.get( names[i] );
 			currentAscensionData = (String) ascensionMap.get( names[i] );
 
@@ -193,7 +195,6 @@ public class ClanManager extends StaticEntity
 		// Now that it's known what the user wishes to continue,
 		// you begin initializing all the data.
 
-		KoLmafia.updateDisplay( "Processing request..." );
 		RequestThread.openRequestSequence();
 
 		// Create a special HTML file for each of the
@@ -202,7 +203,7 @@ public class ClanManager extends StaticEntity
 
 		for ( int i = 0; i < names.length && KoLmafia.permitsContinue(); ++i )
 		{
-			KoLmafia.updateDisplay( "Examining member " + (i+1) + " of " + names.length + "..." );
+			KoLmafia.updateDisplay( "Loading profile for member " + (i+1) + " of " + names.length + "..." );
 
 			currentProfile = (String) profileMap.get( names[i] );
 			currentAscensionData = (String) ascensionMap.get( names[i] );
