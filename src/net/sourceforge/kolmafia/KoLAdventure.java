@@ -263,9 +263,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		if ( isValidAdventure )
-			return;
-
 		// Fighting the Goblin King requires effects
 
 		if ( formSource.equals( "knob.php" ) )
@@ -289,23 +286,19 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				RequestThread.postRequest( new ConsumeItemRequest( PERFUME_ITEM ) );
 		}
 
-		if ( formSource.indexOf( "adventure.php" ) == -1 )
-		{
-			isValidAdventure = true;
-			return;
-		}
-
 		// Disguise zones require outfits
-		if ( adventureName.indexOf( "In Disguise" ) != -1 || adventureName.indexOf( "Cloaca Uniform" ) != -1 || adventureName.indexOf( "Dyspepsi Uniform" ) != -1 )
+		if ( adventureName.indexOf( "Disguise" ) != -1 || adventureName.indexOf( "Uniform" ) != -1 )
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 
 			if ( !EquipmentDatabase.isWearingOutfit( outfitId ) )
 			{
+				isValidAdventure = false;
 				if ( !EquipmentDatabase.retrieveOutfit( outfitId ) )
 					return;
 
 				RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
+				isValidAdventure = true;
 			}
 
 			// If it's the pirate quest in disguise, make sure
@@ -314,6 +307,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			if ( adventureName.indexOf( "Pirate" ) != -1 )
 				DEFAULT_SHELL.executeLine( "council" );
 		}
+
+		if ( formSource.indexOf( "adventure.php" ) == -1 )
+			isValidAdventure = true;
+
+		if ( isValidAdventure )
+			return;
 
 		// If we're trying to take a trip, make sure it's the right one
 		if ( adventureId.equals( "96" ) || adventureId.equals( "97" ) || adventureId.equals( "98" ) )
