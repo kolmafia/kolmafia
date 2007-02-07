@@ -927,7 +927,7 @@ public abstract class SorceressLair extends StaticEntity
 		String previousAutoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
 
 		if ( !previousAutoAttack.equals( "0" ) )
-			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "account.php?action=autoattack&whichattack=0" ) );
+			DEFAULT_SHELL.executeLine( "set defaultAutoAttack=0" );
 
 		// Determine which level you actually need to start from.
 
@@ -963,7 +963,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( requiredItemId != -1 )
 			{
-				resetAutoAttack( previousAutoAttack );
+				DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
 				return requiredItemId;
 			}
 		}
@@ -974,7 +974,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( KoLCharacter.getBaseMuscle() < 70 || KoLCharacter.getBaseMysticality() < 70 || KoLCharacter.getBaseMoxie() < 70 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You can't enter the chamber unless all base stats are 70 or higher." );
-			resetAutoAttack( previousAutoAttack );
+			DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
 			return -1;
 		}
 
@@ -996,7 +996,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( n < 0 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Server-side change detected.  Script aborted." );
-			resetAutoAttack( previousAutoAttack );
+			DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
 			return -1;
 		}
 
@@ -1026,7 +1026,7 @@ public abstract class SorceressLair extends StaticEntity
 				if ( !fightFamiliarGuardians )
 				{
 					KoLmafia.updateDisplay( "Path to shadow cleared." );
-					resetAutoAttack( previousAutoAttack );
+					DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
 					return -1;
 				}
 
@@ -1038,7 +1038,7 @@ public abstract class SorceressLair extends StaticEntity
 				if ( !fightFamiliarGuardians )
 				{
 					KoLmafia.updateDisplay( "Path to shadow cleared." );
-					resetAutoAttack( previousAutoAttack );
+					DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
 					return -1;
 				}
 
@@ -1050,7 +1050,7 @@ public abstract class SorceressLair extends StaticEntity
 				if ( !fightFamiliarGuardians )
 				{
 					KoLmafia.updateDisplay( "Path to shadow cleared." );
-					resetAutoAttack( previousAutoAttack );
+					DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
 					return -1;
 				}
 
@@ -1060,7 +1060,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( !KoLmafia.permitsContinue() )
 			{
-				resetAutoAttack( previousAutoAttack );
+				DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
 				return -1;
 			}
 
@@ -1069,15 +1069,9 @@ public abstract class SorceressLair extends StaticEntity
 
 		RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
 		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
-		resetAutoAttack( previousAutoAttack );
+		DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
 
 		return -1;
-	}
-
-	private static void resetAutoAttack( String previousAutoAttack )
-	{
-		if ( !previousAutoAttack.equals( "0" ) )
-			RequestThread.postRequest( new KoLRequest( "account.php?action=autoattack&whichattack=" + previousAutoAttack ) );
 	}
 
 	private static int fightGuardian( int towerLevel )
