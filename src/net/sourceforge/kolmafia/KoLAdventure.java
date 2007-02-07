@@ -299,13 +299,13 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 				RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
 				isValidAdventure = true;
+
+				// If it's the pirate quest in disguise, make sure
+				// you visit the council beforehand.
+
+				if ( adventureName.indexOf( "Pirate" ) != -1 )
+					DEFAULT_SHELL.executeLine( "council" );
 			}
-
-			// If it's the pirate quest in disguise, make sure
-			// you visit the council beforehand.
-
-			if ( adventureName.indexOf( "Pirate" ) != -1 )
-				DEFAULT_SHELL.executeLine( "council" );
 		}
 
 		if ( formSource.indexOf( "adventure.php" ) == -1 )
