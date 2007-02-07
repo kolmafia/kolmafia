@@ -387,7 +387,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		Monster monster = MonsterDatabase.findMonster( name );
 		if ( monster == null )
-			throw new IllegalArgumentException( "Bad monster name " + name );
+			return MONSTER_INIT;
+
 		return new ScriptValue( MONSTER_TYPE, name, (Object)monster );
 	}
 
