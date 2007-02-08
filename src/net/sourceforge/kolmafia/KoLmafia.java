@@ -1038,8 +1038,14 @@ public abstract class KoLmafia implements KoLConstants
 			return true;
 
 		int current = ((Number)currentMethod.invoke( null, empty )).intValue();
-		int maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
 
+		// If you've already reached the needed value, don't
+		// bother restoring.
+
+		if ( needed != 0 && current >= needed )
+			return true;
+
+		int maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
 		int trigger = (int) Math.max( needed, setting * ((float) maximum) );
 
 		if ( current > trigger && needed == 0 )
