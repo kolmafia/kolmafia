@@ -43,9 +43,8 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class SpecialOutfit implements Comparable, KoLConstants
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
-	private static int implicitNestingDepth = 0;
 
-	private static final AdventureResult [] IMPLICIT = new AdventureResult[ KoLCharacter.FAMILIAR ];
+	private static final ArrayList IMPLICIT = new ArrayList();
 	private static final AdventureResult [] EXPLICIT = new AdventureResult[ KoLCharacter.FAMILIAR ];
 
 	private int outfitId;
@@ -169,7 +168,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void createExplicitCheckpoint()
 	{
-		for ( int i = 0; i < IMPLICIT.length; ++i )
+		for ( int i = 0; i < EXPLICIT.length; ++i )
 			EXPLICIT[i] = KoLCharacter.getEquipment(i);
 	}
 
@@ -189,23 +188,24 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void createImplicitCheckpoint()
 	{
-		++implicitNestingDepth;
-		if ( implicitNestingDepth != 1 )
-			return;
+		if ( !IMPLICIT.isEmpty() )
+		{
+			AdventureResult [] lastpoint = (AdventureResult []) IMPLICIT.get( IMPLICIT.size() - 1 );
 
-		for ( int i = 0; i < IMPLICIT.length; ++i )
-			IMPLICIT[i] = KoLCharacter.getEquipment(i);
-	}
+			boolean shouldSave = false;
+			for ( int i = 0; i < lastpoint.length; ++i )
+				if ( !lastpoint[i].equals( KoLCharacter.getEquipment(i) ) )
+					shouldSave = true;
 
-	/**
-	 * Clears a checkpoint.  This should be called whenever a
-	 * checkpoint is no longer applicable.
-	 */
+			if ( !shouldSave )
+				return;
+		}
 
-	private static void clearImplicitCheckpoint()
-	{
-		for ( int i = 0; i < IMPLICIT.length; ++i )
-			IMPLICIT[i] = null;
+		AdventureResult [] checkpoint = new AdventureResult[ KoLCharacter.FAMILIAR ];
+		for ( int i = 0; i < checkpoint.length; ++i )
+			checkpoint[i] = KoLCharacter.getEquipment(i);
+
+		IMPLICIT.add( checkpoint );
 	}
 
 	/**
@@ -215,13 +215,11 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void restoreImplicitCheckpoint()
 	{
-		--implicitNestingDepth;
-		if ( implicitNestingDepth != 0 )
+		if ( IMPLICIT.isEmpty() )
 			return;
 
-		restoreCheckpoint( IMPLICIT );
-		clearImplicitCheckpoint();
-		return;
+		int index = IMPLICIT.size() - 1;
+		restoreCheckpoint( (AdventureResult []) IMPLICIT.remove( index ) );
 	}
 
 	/**
