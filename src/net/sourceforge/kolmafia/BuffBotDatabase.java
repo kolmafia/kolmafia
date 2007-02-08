@@ -146,7 +146,7 @@ public class BuffBotDatabase extends KoLDatabase
 
 		if ( autoReject )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Philanthropic buffs should not be scripted.  Use 'csend' instead." );
+			KoLmafia.updateDisplay( ABORT_STATE, "Request rejected.  Use 'csend' if you need to make a buff request." );
 			return 0;
 		}
 
