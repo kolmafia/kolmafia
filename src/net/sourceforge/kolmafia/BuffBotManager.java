@@ -72,7 +72,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	private static String [] whiteListArray = new String[0];
 
 	public static final Pattern MEAT_PATTERN = Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat" );
-	public static final Pattern GIFT_PATTERN = Pattern.compile( "<a class=nounder style='color: blue' href='showplayer.php\\?who=(\\d+)' target=mainpane>" );
+	public static final Pattern GIFT1_PATTERN = Pattern.compile( "<a class=nounder style='color: blue' href='showplayer.php\\?who=(\\d+)' target=mainpane>" );
+	public static final Pattern GIFT2_PATTERN = Pattern.compile( "&gt;&gt;([^<]+)" );
 
 	/**
 	 * Resets the buffbot's internal variables and reloads the
@@ -699,11 +700,20 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		boolean isGiftBuff = false;
 
-		Matcher giftMatcher = GIFT_PATTERN.matcher( message.getMessageHTML() );
+		Matcher giftMatcher = GIFT1_PATTERN.matcher( message.getMessageHTML() );
 		if ( giftMatcher.find() )
 		{
 			isGiftBuff = true;
 			recipient = giftMatcher.group(1);
+		}
+		else
+		{
+			giftMatcher = GIFT2_PATTERN.matcher( message.getMessageHTML() );
+			if ( giftMatcher.find() )
+			{
+				isGiftBuff = true;
+				recipient = giftMatcher.group(1).trim();
+			}
 		}
 
 		int failureCount = BuffBotHome.getInstanceCount( 0, requestor );
