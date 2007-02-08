@@ -348,6 +348,7 @@ public class Louvre
 	{
 		int choices[] = choiceTuple( choice );
 		choices[ decision ] = destination;
+		saveMap();
 
 		// If 2 choices have been discovered, 3rd might be knowable.
 		int unknownIndex = -1;
@@ -359,10 +360,6 @@ public class Louvre
 				return;
 			unknownIndex = i;
 		}
-
-		// You now know something -- go ahead and save the map right
-		// away so you can find out what it looks like for debugging.
-		saveMap();
 
 		// Done if all three destinations are known.
 		if ( unknownIndex == -1 )
@@ -391,6 +388,7 @@ public class Louvre
 			if ( !found )
 			{
 				choices[ unknownIndex ] = exit;
+				saveMap();
 				return;
 			}
 		}
