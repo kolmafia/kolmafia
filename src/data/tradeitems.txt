@@ -147,9 +147,9 @@
 147	eXtreme meat sword	12	all	160
 148	eXtreme meat staff	12	all	160
 149	eXtreme meat crossbow	12	all	160
-150	The Scalp of Gorgolok	9	display	0
+150	Scalp of Gorgolok	9	display	0
 151	Elder Turtle Shell	9	display	0
-152	The Colander of Em-er'il	9	display	0
+152	Colander of Em-er'il	9	display	0
 153	Ancient Saucehelm	9	display	0
 154	Disco 'Fro Pick	9	display	0
 155	El Sombrero De Lopez	9	display	0
