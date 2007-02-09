@@ -66,9 +66,6 @@ public class MuseumFrame extends KoLFrame
 		shelves = new MuseumShelfList();
 		ordering = new OrderingPanel();
 
-		tabs = new CloseTabbedPane();
-		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
-
 		addTab( "General", general );
 		addTab( "Shelves", shelves );
 		tabs.addTab( "Ordering", ordering );

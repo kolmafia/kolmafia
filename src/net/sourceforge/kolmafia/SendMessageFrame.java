@@ -99,7 +99,8 @@ public class SendMessageFrame extends KoLFrame
 			recipientEntry.setSelectedItem( recipient );
 		}
 
-		centerPanel.add( constructAttachmentPanel(), BorderLayout.CENTER );
+		constructAttachmentPanel();
+		centerPanel.add( tabs, BorderLayout.CENTER );
 
 		mainPanel.add( centerPanel );
 		mainPanel.add( Box.createVerticalStrut( 18 ) );
@@ -120,10 +121,8 @@ public class SendMessageFrame extends KoLFrame
 		framePanel.add( messagePanel, "" );
 	}
 
-	public CloseTabbedPane constructAttachmentPanel()
+	public void constructAttachmentPanel()
 	{
-		CloseTabbedPane attachTabs = new CloseTabbedPane();
-
 		// Add in the attachments section
 
 		attachments = new SortedListModel();
@@ -144,14 +143,14 @@ public class SendMessageFrame extends KoLFrame
 		attachmentPanel.actualPanel.add( meatPanel, BorderLayout.SOUTH );
 		attachmentPanel.elementList.contextMenu.add( new RemoveAttachmentMenuItem() );
 
-		attachTabs.addTab( "Attachments", attachmentPanel );
+		tabs.addTab( "Attachments", attachmentPanel );
 
 		// Add in the inventory panel
 
 		inventoryPanel = new ItemManagePanel( inventory );
 		inventoryPanel.elementList.setVisibleRowCount( 11 );
 		inventoryPanel.setButtons( null );
-		attachTabs.addTab( "Inventory", inventoryPanel );
+		tabs.addTab( "Inventory", inventoryPanel );
 
 		inventoryPanel.elementList.contextMenu.add( new AddAttachmentMenuItem( inventoryPanel ) );
 
@@ -160,11 +159,9 @@ public class SendMessageFrame extends KoLFrame
 		storagePanel = new ItemManagePanel( storage );
 		storagePanel.elementList.setVisibleRowCount( 11 );
 		storagePanel.setButtons( null );
-		attachTabs.addTab( "In Storage", storagePanel );
+		tabs.addTab( "In Storage", storagePanel );
 
 		storagePanel.elementList.contextMenu.add( new AddAttachmentMenuItem( storagePanel ) );
-
-		return attachTabs;
 	}
 
 	public JPanel constructWestPanel()

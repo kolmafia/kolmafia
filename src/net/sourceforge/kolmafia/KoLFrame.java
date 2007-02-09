@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -61,6 +62,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -88,6 +90,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import tab.CloseTabbedPane;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.ItemManagePanel.TransferListener;
 
@@ -142,6 +145,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		if ( shouldAddFrame )
 			existingFrames.add( this );
+
+		this.tabs = new CloseTabbedPane();
+		this.tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
 	}
 
 	public final void addTab( String name, JComponent panel )
@@ -1319,6 +1325,49 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			public RefreshButton()
 			{	super( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) );
 			}
+		}
+	}
+
+	protected class LabelColorChanger extends JLabel implements MouseListener
+	{
+		protected String property;
+
+		public LabelColorChanger( String property )
+		{
+			this.property = property;
+			setOpaque( true );
+			addMouseListener( this );
+		}
+
+		public void mousePressed( MouseEvent e )
+		{
+			Color c = JColorChooser.showDialog( null, "Choose a color:", getBackground() );
+			if ( c == null )
+				return;
+
+			StaticEntity.setProperty( property, DataUtilities.toHexString( c ) );
+			setBackground( c );
+			applyChanges();
+		}
+
+		public void mouseReleased( MouseEvent e )
+		{
+		}
+
+		public void mouseClicked( MouseEvent e )
+		{
+		}
+
+		public void mouseEntered( MouseEvent e )
+		{
+		}
+
+		public void mouseExited( MouseEvent e )
+		{
+		}
+
+		public void applyChanges()
+		{
 		}
 	}
 }
