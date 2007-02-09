@@ -56,7 +56,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
+import tab.CloseTabbedPane;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
@@ -80,8 +80,8 @@ public class ItemManageFrame extends KoLFrame
 	{
 		super( "Item Manager" );
 
-		tabs = new JTabbedPane();
-		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+		tabs = new CloseTabbedPane();
+		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
 
 		LabeledScrollPanel npcOfferings = null;
 

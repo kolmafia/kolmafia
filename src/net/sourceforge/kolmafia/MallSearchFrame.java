@@ -240,7 +240,7 @@ public class MallSearchFrame extends KoLPanelFrame
 	{
 		public SearchResultsPanel()
 		{
-			setLayout( new CardLayout( 10, 10 ) );
+			super( new BorderLayout() );
 
 			JPanel resultsPanel = new JPanel( new BorderLayout() );
 			resultsPanel.add( JComponentUtilities.createLabel( "Search Results", JLabel.CENTER,
@@ -252,9 +252,7 @@ public class MallSearchFrame extends KoLPanelFrame
 			resultsList.setVisibleRowCount( 11 );
 
 			resultsList.addListSelectionListener( new PurchaseSelectListener() );
-			resultsPanel.add( new SimpleScrollPane( resultsList ), BorderLayout.CENTER );
-
-			add( resultsPanel, "" );
+			add( new SimpleScrollPane( resultsList ), BorderLayout.CENTER );
 		}
 
 		/**

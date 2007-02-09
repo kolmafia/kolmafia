@@ -52,7 +52,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import tab.CloseTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -120,9 +120,9 @@ public class SendMessageFrame extends KoLFrame
 		framePanel.add( messagePanel, "" );
 	}
 
-	public JTabbedPane constructAttachmentPanel()
+	public CloseTabbedPane constructAttachmentPanel()
 	{
-		JTabbedPane attachTabs = new JTabbedPane();
+		CloseTabbedPane attachTabs = new CloseTabbedPane();
 
 		// Add in the attachments section
 

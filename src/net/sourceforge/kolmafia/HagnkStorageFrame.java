@@ -43,7 +43,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
-import javax.swing.JTabbedPane;
+import tab.CloseTabbedPane;
 import javax.swing.JTextField;
 
 public class HagnkStorageFrame extends KoLFrame
@@ -59,7 +59,7 @@ public class HagnkStorageFrame extends KoLFrame
 		INSTANCE = this;
 		setPullsRemaining( pullsRemaining );
 
-		JTabbedPane filterTabs = new JTabbedPane();
+		CloseTabbedPane filterTabs = new CloseTabbedPane();
 		filterTabs.addTab( "Ancestral Items", new HagnkStoragePanel( false ) );
 		filterTabs.addTab( "Closeted Items", new InventoryManagePanel( closet ) );
 		filterTabs.addTab( "Equipment in Storage", new HagnkStoragePanel( true ) );

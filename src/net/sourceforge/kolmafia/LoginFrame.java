@@ -54,7 +54,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
-import javax.swing.JTabbedPane;
+import tab.CloseTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.UIManager;
@@ -78,8 +78,8 @@ public class LoginFrame extends KoLFrame
 
 		KoLRequest.chooseRandomServer();
 
-		tabs = new JTabbedPane();
-		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+		tabs = new CloseTabbedPane();
+		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
 
 		tabs.addTab( "KoL Login", constructLoginPanel() );
 

@@ -53,7 +53,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import tab.CloseTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -96,8 +96,8 @@ public class ClanManageFrame extends KoLFrame
 		this.search = new MemberSearchPanel();
 		this.warfare = new WarfarePanel();
 
-		this.tabs = new JTabbedPane();
-		this.tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+		this.tabs = new CloseTabbedPane();
+		this.tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
 
 		JPanel adminPanel = new JPanel();
 		adminPanel.setLayout( new BoxLayout( adminPanel, BoxLayout.Y_AXIS ) );
