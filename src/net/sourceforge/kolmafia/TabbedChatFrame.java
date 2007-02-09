@@ -36,15 +36,37 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
+import java.awt.event.MouseEvent;
+
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import com.sun.java.forums.CloseableTabbedPane;
-import com.sun.java.forums.CloseableTabbedPaneListener;
+import tab.CloseTabbedPane;
+import tab.CloseListener;
 
-public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneListener, ChangeListener
+public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseListener
 {
+	private static boolean instanceExists = false;
+
+	/**
+	 * Utility method called to initialize the frame.  This
+	 * method should be overridden, should a different means
+	 * of initializing the content of the frame be needed.
+	 */
+
+	public void initialize( String associatedContact )
+	{
+		instanceExists = true;
+
+		tabs = new CloseTabbedPane();
+		((CloseTabbedPane)tabs).setCloseIcon( true );
+
+		tabs.addChangeListener( this );
+		((CloseTabbedPane)tabs).addCloseListener( this );
+		framePanel.add( tabs, BorderLayout.CENTER );
+	}
+
 	public void stateChanged( ChangeEvent e )
 	{
 		int selectedIndex = tabs.getSelectedIndex();
@@ -58,19 +80,13 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 		}
 	}
 
-	/**
-	 * Utility method called to initialize the frame.  This
-	 * method should be overridden, should a different means
-	 * of initializing the content of the frame be needed.
-	 */
-
-	public void initialize( String associatedContact )
+	public void closeOperation( MouseEvent e, int overTabIndex )
 	{
-		tabs = new CloseableTabbedPane();
-		tabs.addChangeListener( this );
+		if ( overTabIndex == -1 || !instanceExists )
+			return;
 
-		((CloseableTabbedPane)tabs).addCloseableTabbedPaneListener( this );
-		framePanel.add( tabs, BorderLayout.CENTER );
+		KoLMessenger.removeChat( tabs.getTitleAt( overTabIndex ) );
+		tabs.removeTabAt( overTabIndex );
 	}
 
 	/**
@@ -88,23 +104,25 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 		SwingUtilities.invokeLater( new TabAdder( tabName ) );
 	}
 
-	public boolean closeTab( int tabIndexToClose )
-	{
-		KoLMessenger.removeChat( tabs.getTitleAt( tabIndexToClose ).trim() );
-		return true;
-	}
-
 	public void highlightTab( String tabName )
 	{
 		if ( tabName == null )
 			return;
 
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
+		{
 			if ( tabName.equals( tabs.getTitleAt(i).trim() ) )
 			{
 				SwingUtilities.invokeLater( new TabHighlighter( i ) );
 				return;
 			}
+		}
+	}
+
+	public void dispose()
+	{
+		instanceExists = false;
+		super.dispose();
 	}
 
 	private class TabAdder implements Runnable
@@ -123,7 +141,7 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 			// Add a little bit of whitespace to make the
 			// chat tab larger and easier to click.
 
-			tabs.addTab( "  " + tabName + "           ", createdPanel );
+			tabs.addTab( tabName, createdPanel );
 			createdPanel.requestFocus();
 		}
 	}
@@ -141,8 +159,7 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 			if ( tabs.getSelectedIndex() == tabIndex )
 				return;
 
-			tabs.setBackgroundAt( tabIndex, new Color( 0, 0, 128 ) );
-			tabs.setForegroundAt( tabIndex, Color.white );
+			((CloseTabbedPane)tabs).highlightTab( tabIndex );
 		}
 	}
 }

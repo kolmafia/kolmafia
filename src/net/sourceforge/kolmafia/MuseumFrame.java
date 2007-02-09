@@ -41,7 +41,7 @@ import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import tab.CloseTabbedPane;
 import javax.swing.ListModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -66,8 +66,8 @@ public class MuseumFrame extends KoLFrame
 		shelves = new MuseumShelfList();
 		ordering = new OrderingPanel();
 
-		tabs = new JTabbedPane();
-		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+		tabs = new CloseTabbedPane();
+		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
 
 		addTab( "General", general );
 		addTab( "Shelves", shelves );

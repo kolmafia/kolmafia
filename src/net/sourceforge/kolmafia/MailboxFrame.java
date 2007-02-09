@@ -50,7 +50,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
+import tab.CloseTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 
@@ -66,7 +66,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 {
 	private KoLMailMessage displayed;
 	private RequestPane messageContent;
-	private JTabbedPane tabbedListDisplay;
+	private CloseTabbedPane tabbedListDisplay;
 	private LimitedSizeChatBuffer mailBuffer;
 
 	private MailSelectList messageListInbox;
@@ -90,8 +90,8 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		this.messageListSaved = new MailSelectList( "Saved" );
 		SimpleScrollPane messageListSavedDisplay = new SimpleScrollPane( messageListSaved );
 
-		this.tabbedListDisplay = new JTabbedPane();
-		this.tabbedListDisplay.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+		this.tabbedListDisplay = new CloseTabbedPane();
+		this.tabbedListDisplay.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
 
 		tabbedListDisplay.addTab( "Inbox", messageListInboxDisplay );
 		tabbedListDisplay.addTab( "PvP", messageListPvpDisplay );

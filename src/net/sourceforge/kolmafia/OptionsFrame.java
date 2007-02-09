@@ -57,7 +57,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import tab.CloseTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
@@ -88,8 +88,8 @@ public class OptionsFrame extends KoLFrame
 	{
 		super( "Preferences" );
 
-		tabs = new JTabbedPane();
-		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+		tabs = new CloseTabbedPane();
+		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
 
 		JPanel addonPanel = new JPanel( new GridLayout( 2, 1, 10, 10 ) );
 		addonPanel.add( new ScriptButtonPanel() );

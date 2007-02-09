@@ -45,7 +45,7 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import tab.CloseTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
@@ -86,9 +86,9 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 		getContentPane().setLayout( new BorderLayout() );
 
-		tabs = new JTabbedPane();
-		tabs.setTabPlacement( JTabbedPane.TOP );
-		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+		tabs = new CloseTabbedPane();
+		tabs.setTabPlacement( CloseTabbedPane.TOP );
+		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		addCompactPane();
@@ -226,7 +226,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 			INSTANCE.tabs.addTab( content.lastTitle, content.getContentPane() );
 
 			if ( content.tabs != null && !isInversionExempt( content ) )
-				content.tabs.setTabPlacement( JTabbedPane.BOTTOM );
+				content.tabs.setTabPlacement( CloseTabbedPane.BOTTOM );
 
 			INSTANCE.tabs.setSelectedIndex( 0 );
 		}

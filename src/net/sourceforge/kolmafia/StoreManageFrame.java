@@ -53,7 +53,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import tab.CloseTabbedPane;
 import javax.swing.JTable;
 import javax.swing.ListModel;
 
@@ -80,8 +80,8 @@ public class StoreManageFrame extends KoLPanelFrame
 		super( "Store Manager" );
 		INSTANCE = this;
 
-		tabs = new JTabbedPane();
-		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+		tabs = new CloseTabbedPane();
+		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
 
 		tabs.add( "Price Setup", new StoreManagePanel() );
 		tabs.add( "Additions", new StoreAddPanel() );

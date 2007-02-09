@@ -86,6 +86,7 @@ import javax.swing.text.StyledDocument;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 
+import tab.CloseTabbedPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -192,8 +193,8 @@ public class AdventureFrame extends KoLFrame
 
 	private JTabbedPane getSouthernTabs()
 	{
-		tabs = new JTabbedPane();
-		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+		tabs = new CloseTabbedPane();
+		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
 
 		// Handle everything that might appear inside of the
 		// session tally.
