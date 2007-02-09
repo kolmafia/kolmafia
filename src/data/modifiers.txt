@@ -28,7 +28,7 @@ raspberry beret	Hot: +20
 red traffic cone	Cold: +20
 spooky hockey mask	Spooky: +20
 stainless steel skullcap	DA: +60
-toy space helmet	Spooky: +30, Stench: +30,
+toy space helmet	Spooky: +30, Stench: +30
 Tropical Crimbo Hat	Spooky: +10
 worn tophat	Init: +20.0
 yellow traffic cone	Sleaze: +20
@@ -61,8 +61,8 @@ styrofoam sword	ML: +3
 titanium assault umbrella	Sleaze: +10, Spooky: +10
 vampire duck-on-a-string	Item: +5.0
 
-1-ball		Init: +5.0
-7-ball		Meat: +5.0
+1-ball	Init: +5.0
+7-ball	Meat: +5.0
 antique shield	Init: -10.0 DR: 15
 bobble-hip hula elf doll	Meat: +15.0
 box	Meat: +1.0
@@ -148,7 +148,7 @@ monster bait	Combat: +5.0
 Mr. Accessory Jr.	Item: +25.0
 penguin whip	Meat: +3.0
 Pine-Fresh air freshener	Stench: +10
-plexiglass pinky ring	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30,
+plexiglass pinky ring	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30
 plexiglass pocketwatch	Mana: -3
 porquoise necklace	Meat: +10.0
 ring of aggravate monster	ML: +5
@@ -197,7 +197,7 @@ miniature gravy-covered maypole	Item: +25.0
 wax lips	Exp: +2.5
 
 Aloysius' Antiphon of Aptitude	Exp: +3.0
-Astral Shell	DA: +80, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10,
+Astral Shell	DA: +80, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
 Blue Tongue	Item: +30.0
 Big Veiny Brain	Exp: +2.0, Meat: -20.0
 Black Tongue	Weight: +5, Exp: +3.0, Item: +30.0, Meat: +30.0
@@ -209,7 +209,7 @@ Cupcake of Choice	Item: +30.0
 Dreams and Lights	Mana: -3
 Egg-stortionary Tactics	Meat: +50.0
 Eggs-tra Sensory Perception	Item: +50.0
-Elemental Saucesphere	Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20,
+Elemental Saucesphere	Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20
 Empathy	Weight: +5
 Eau D'enmity	ML: +5
 Extreme Muscle Relaxation	Init: -25.0
