@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -45,14 +46,16 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import tab.CloseTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
+
+import tab.CloseListener;
+import tab.CloseTabbedPane;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class KoLDesktop extends KoLFrame implements ChangeListener
+public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListener
 {
 	private static final DisplayDesktopRunnable DISPLAYER = new DisplayDesktopRunnable();
 
@@ -76,6 +79,10 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	public KoLDesktop( String title )
 	{
 		super( "Main Interface" );
+
+		((CloseTabbedPane)tabs).setCloseIcon( true );
+		((CloseTabbedPane)tabs).addCloseListener( this );
+
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		if ( StaticEntity.usesSystemTray() && StaticEntity.getIntegerProperty( "closeLastFrameAction" ) == 2 )
@@ -152,6 +159,15 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		int selectedIndex = tabs.getSelectedIndex();
 		if ( selectedIndex != -1 && selectedIndex < tabListing.size() )
 			((KoLFrame) tabListing.get( selectedIndex )).requestFocus();
+	}
+
+	public void closeOperation( MouseEvent e, int overTabIndex )
+	{
+		if ( overTabIndex == -1 )
+			return;
+
+		tabListing.remove( overTabIndex );
+		tabs.removeTabAt( overTabIndex );
 	}
 
 	public void initializeTabs()

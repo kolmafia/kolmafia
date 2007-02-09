@@ -37,6 +37,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +54,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
+import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.UIManager;
@@ -61,10 +62,16 @@ import javax.swing.UIManager;
 import tab.CloseTabbedPane;
 import tab.CloseTabPaneEnhancedUI;
 
+import com.informit.guides.JDnDList;
 import com.sun.java.forums.SpringUtilities;
+
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import javax.swing.UIManager.LookAndFeelInfo;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class LoginFrame extends KoLFrame
 {
@@ -449,7 +456,7 @@ public class LoginFrame extends KoLFrame
 		}
 	}
 
-	private class StartupFramesPanel extends LabeledKoLPanel
+	private class StartupFramesPanel extends LabeledKoLPanel implements ListDataListener
 	{
 		private final String [][] FRAME_OPTIONS =
 		{
@@ -490,41 +497,16 @@ public class LoginFrame extends KoLFrame
 			{ "Preferences", "OptionsFrame" }
 		};
 
+		private boolean isRefreshing = false;
 		private JComboBox usernameComboBox;
-		private InterfaceRadioButton [] nullOptions;
-		private InterfaceRadioButton [] startupOptions;
-		private InterfaceRadioButton [] interfaceOptions;
+
+		private LockableListModel completeList = new LockableListModel();
+		private LockableListModel startupList = new LockableListModel();
+		private LockableListModel desktopList = new LockableListModel();
 
 		public StartupFramesPanel()
 		{
 			super( "Startup Windows", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
-
-			nullOptions = new InterfaceRadioButton[ FRAME_OPTIONS.length ];
-			startupOptions = new InterfaceRadioButton[ FRAME_OPTIONS.length ];
-			interfaceOptions = new InterfaceRadioButton[ FRAME_OPTIONS.length ];
-
-			JPanel contentPanel = new JPanel( new SpringLayout() );
-
-			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
-			{
-				nullOptions[i] = new InterfaceRadioButton( "manual" );
-				startupOptions[i] = new InterfaceRadioButton( "startup" );
-				interfaceOptions[i] = new InterfaceRadioButton( "as tab" );
-
-				ButtonGroup holder = new ButtonGroup();
-				holder.add( nullOptions[i] );
-				holder.add( startupOptions[i] );
-				holder.add( interfaceOptions[i] );
-
-				contentPanel.add( new JLabel( FRAME_OPTIONS[i][0] + ": ", JLabel.RIGHT ) );
-				contentPanel.add( nullOptions[i] );
-				contentPanel.add( startupOptions[i] );
-
-				if ( FRAME_OPTIONS[i][1].equals( "LocalRelayServer" ) )
-					interfaceOptions[i].setEnabled( false );
-
-				contentPanel.add( interfaceOptions[i] );
-			}
 
 			usernameComboBox = new JComboBox( saveStateNames );
 
@@ -534,13 +516,23 @@ public class LoginFrame extends KoLFrame
 
 			usernameComboBox.setSelectedItem( autoLoginSetting.toLowerCase() );
 
-			VerifiableElement [] elements = new VerifiableElement[1];
+			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Settings For:  ", usernameComboBox );
+			elements[1] = new VerifiableElement();
 
 			setContent( elements );
-			SpringUtilities.makeCompactGrid( contentPanel, FRAME_OPTIONS.length, 4, 5, 5, 5, 5 );
-			container.add( contentPanel, BorderLayout.SOUTH );
+
+			JPanel southPanel = new JPanel( new GridLayout( 1, 3, 10, 10 ) );
+			southPanel.add( new LabeledScrollPanel( "Complete List", new JDnDList( completeList, false ) ) );
+			southPanel.add( new LabeledScrollPanel( "Startup as Window", new JDnDList( startupList ) ) );
+			southPanel.add( new LabeledScrollPanel( "Startup in Tabs", new JDnDList( desktopList ) ) );
+
+			container.add( southPanel, BorderLayout.SOUTH );
 			actionCancelled();
+
+			completeList.addListDataListener( this );
+			startupList.addListDataListener( this );
+			desktopList.addListDataListener( this );
 		}
 
 		public void actionConfirmed()
@@ -549,9 +541,18 @@ public class LoginFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
+			isRefreshing = true;
+
 			String username = (String) saveStateNames.getSelectedItem();
 			if ( username == null )
 				username = "";
+
+			completeList.clear();
+			startupList.clear();
+			desktopList.clear();
+
+			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
+				completeList.add( FRAME_OPTIONS[i][0] );
 
 			String frameString = StaticEntity.getGlobalProperty( username, "initialFrames" );
 			String desktopString = StaticEntity.getGlobalProperty( username, "initialDesktop" );
@@ -562,15 +563,27 @@ public class LoginFrame extends KoLFrame
 				desktopString = StaticEntity.getGlobalProperty( "", "initialDesktop" );
 			}
 
-			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
-			{
-				if ( frameString.indexOf( FRAME_OPTIONS[i][1] ) != -1 )
-					startupOptions[i].setSelected( true );
-				else if ( desktopString.indexOf( FRAME_OPTIONS[i][1] ) != -1 )
-					interfaceOptions[i].setSelected( true );
-				else
-					nullOptions[i].setSelected( true );
-			}
+			String [] pieces;
+
+			pieces = frameString.split( "," );
+			for ( int i = 0; i < pieces.length; ++i )
+				for ( int j = 0; j < FRAME_OPTIONS.length; ++j )
+					if ( !startupList.contains( FRAME_OPTIONS[j][0] ) && FRAME_OPTIONS[j][1].equals( pieces[i] ) )
+					{
+						completeList.remove( FRAME_OPTIONS[j][0] );
+						startupList.add( FRAME_OPTIONS[j][0] );
+					}
+
+			pieces = desktopString.split( "," );
+			for ( int i = 0; i < pieces.length; ++i )
+				for ( int j = 0; j < FRAME_OPTIONS.length; ++j )
+					if ( !desktopList.contains( FRAME_OPTIONS[j][0] ) && FRAME_OPTIONS[j][1].equals( pieces[i] ) )
+					{
+						completeList.remove( FRAME_OPTIONS[j][0] );
+						desktopList.add( FRAME_OPTIONS[j][0] );
+					}
+
+			isRefreshing = false;
 		}
 
 		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
@@ -581,48 +594,60 @@ public class LoginFrame extends KoLFrame
 		{
 		}
 
-		private class InterfaceRadioButton extends JRadioButton implements ActionListener
+		public void intervalAdded( ListDataEvent e )
 		{
-			public InterfaceRadioButton( String text )
-			{
-				super( text );
-				addActionListener( this );
-			}
+			if ( e.getSource() == startupList )
+				desktopList.removeAll( startupList );
 
-			public void actionPerformed( ActionEvent e )
-			{
-				StringBuffer frameString = new StringBuffer();
-				StringBuffer desktopString = new StringBuffer();
+			if ( e.getSource() == desktopList )
+				startupList.removeAll( desktopList );
 
-				for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
-				{
-					if ( startupOptions[i].isSelected() )
+			saveLayoutSettings();
+		}
+
+		public void intervalRemoved( ListDataEvent e )
+		{	saveLayoutSettings();
+		}
+
+		public void contentsChanged( ListDataEvent e )
+		{
+		}
+
+		public void saveLayoutSettings()
+		{
+			if ( isRefreshing )
+				return;
+
+			StringBuffer frameString = new StringBuffer();
+			StringBuffer desktopString = new StringBuffer();
+
+			for ( int i = 0; i < startupList.size(); ++i )
+				for ( int j = 0; j < FRAME_OPTIONS.length; ++j )
+					if ( startupList.get(i).equals( FRAME_OPTIONS[j][0] ) )
 					{
-						if ( frameString.length() != 0 )
-							frameString.append( "," );
-						frameString.append( FRAME_OPTIONS[i][1] );
+						if ( frameString.length() != 0 ) frameString.append( "," );
+						frameString.append( FRAME_OPTIONS[j][1] );
 					}
 
-					if ( interfaceOptions[i].isSelected() )
+			for ( int i = 0; i < desktopList.size(); ++i )
+				for ( int j = 0; j < FRAME_OPTIONS.length; ++j )
+					if ( desktopList.get(i).equals( FRAME_OPTIONS[j][0] ) )
 					{
-						if ( desktopString.length() != 0 )
-							desktopString.append( "," );
-						desktopString.append( FRAME_OPTIONS[i][1] );
+						if ( desktopString.length() != 0 ) desktopString.append( "," );
+						desktopString.append( FRAME_OPTIONS[j][1] );
 					}
-				}
 
-				StaticEntity.setGlobalProperty( "", "initialFrames", frameString.toString() );
-				StaticEntity.setGlobalProperty( "", "initialDesktop", desktopString.toString() );
+			StaticEntity.setGlobalProperty( "", "initialFrames", frameString.toString() );
+			StaticEntity.setGlobalProperty( "", "initialDesktop", desktopString.toString() );
 
-				if ( saveStateNames.size() != 0 )
-				{
-					String username = (String) saveStateNames.getSelectedItem();
-					if ( username == null )
-						username = "";
+			if ( saveStateNames.size() != 0 )
+			{
+				String username = (String) saveStateNames.getSelectedItem();
+				if ( username == null )
+					username = "";
 
-					StaticEntity.setGlobalProperty( username, "initialFrames", frameString.toString() );
-					StaticEntity.setGlobalProperty( username, "initialDesktop", desktopString.toString() );
-				}
+				StaticEntity.setGlobalProperty( username, "initialFrames", frameString.toString() );
+				StaticEntity.setGlobalProperty( username, "initialDesktop", desktopString.toString() );
 			}
 		}
 	}
@@ -720,7 +745,7 @@ public class LoginFrame extends KoLFrame
 			private JLabel innerGradient, outerGradient;
 
 			/**
-			 * Constructs a new <code>StartupOptionsPanel</code>, containing a
+			 * Constructs a new <code>windowsPanel</code>, containing a
 			 * place for the users to select their desired server and for them
 			 * to modify any applicable proxy settings.
 			 */

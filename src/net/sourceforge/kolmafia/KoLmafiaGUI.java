@@ -138,7 +138,7 @@ public class KoLmafiaGUI extends KoLmafia
 		// Instantiate the appropriate instance of the
 		// frame that should be loaded based on the mode.
 
-		if ( !StaticEntity.getGlobalProperty( "initialDesktop" ).equals( "" ) )
+		if ( !desktopSetting.equals( "" ) )
 		{
 			KoLDesktop.getInstance().initializeTabs();
 			if ( !StaticEntity.getBooleanProperty( "relayBrowserOnly" ) )
