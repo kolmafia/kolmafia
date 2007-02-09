@@ -63,7 +63,7 @@ vampire duck-on-a-string	Item: +5.0
 
 1-ball	Init: +5.0
 7-ball	Meat: +5.0
-antique shield	Init: -10.0 DR: 15
+antique shield	Init: -10.0, DR: 15
 bobble-hip hula elf doll	Meat: +15.0
 box	Meat: +1.0
 box-in-the-box	Meat: +2.0
@@ -77,7 +77,7 @@ deck of tropical cards	Exp: +1.0
 Dyspepsi-cola shield	DR: 4
 gnauga hide buckler	DR: 5
 hippo skin buckler	DR: 5
-hors d'oeuvre tray	DR: 7 Init: +20.0
+hors d'oeuvre tray	DR: 7, Init: +20.0
 hypnodisk	Item: +25.0
 ice baby	Exp: +1.0
 penguin skin buckler	DR: 5
@@ -160,7 +160,7 @@ stainless steel scarf	ML: +20
 stainless steel solitaire	Mana: -2
 stainless steel suspenders	DA: +60
 tap shoes	Init: -20.0
-the Amulet of Yendor	Init: -10.0 Mana: +3
+the Amulet of Yendor	Init: -10.0, Mana: +3
 tiny plastic angry goat	Weight: +1
 tiny plastic baby gravy fairy	Weight: +1
 tiny plastic barrrnacle	Weight: +1
