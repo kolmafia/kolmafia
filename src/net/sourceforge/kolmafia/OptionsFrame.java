@@ -57,7 +57,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import tab.CloseTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
@@ -66,6 +65,9 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import tab.CloseTabbedPane;
+import tab.CloseTabPaneEnhancedUI;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -225,47 +227,12 @@ public class OptionsFrame extends KoLFrame
 					new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 			}
 
-			colorChanger = new BorderColorChanger();
+			colorChanger = new LabelColorChanger( "defaultBorderColor" );
 			elements[ options.length ] = new VerifiableElement( "Change the color for tables in the browser interface",
 				JLabel.LEFT, colorChanger );
 
 			setContent( elements );
 			actionCancelled();
-		}
-
-		private class BorderColorChanger extends JLabel implements MouseListener
-		{
-			public BorderColorChanger()
-			{
-				setOpaque( true );
-				addMouseListener( this );
-			}
-
-			public void mousePressed( MouseEvent e )
-			{
-				Color c = JColorChooser.showDialog( null, "Choose a border color:", getBackground() );
-				if ( c == null )
-					return;
-
-				StaticEntity.setProperty( "defaultBorderColor", DataUtilities.toHexString( c ) );
-				setBackground( c );
-			}
-
-			public void mouseReleased( MouseEvent e )
-			{
-			}
-
-			public void mouseClicked( MouseEvent e )
-			{
-			}
-
-			public void mouseEntered( MouseEvent e )
-			{
-			}
-
-			public void mouseExited( MouseEvent e )
-			{
-			}
 		}
 
 		public void actionConfirmed()
@@ -512,48 +479,55 @@ public class OptionsFrame extends KoLFrame
 
 	private class ChatOptionsPanel extends OptionsPanel
 	{
-		private JComboBox fontSizeSelect;
-		private JComboBox chatStyleSelect;
-		private JComboBox useTabSelect;
-		private JComboBox popupSelect;
-		private JComboBox eSoluSelect;
+		private JCheckBox useLargeFontSize;
+		private JCheckBox useTabOption;
+		private JCheckBox popupWhoOption;
+
+		private JCheckBox useChatMonitor, useSeparateChannel, useSeparatePrivate;
+		private JCheckBox eSoluActiveOption, eSoluColorlessOption;
+
+		private JLabel innerGradient, outerGradient;
 
 		public ChatOptionsPanel()
 		{
-			super( "" );
+			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 
-			fontSizeSelect = new JComboBox();
-			for ( int i = 1; i <= 7; ++i )
-				fontSizeSelect.addItem( String.valueOf( i ) );
+			useLargeFontSize = new JCheckBox();
+			useTabOption = new JCheckBox();
+			popupWhoOption = new JCheckBox();
 
-			chatStyleSelect = new JComboBox();
-			chatStyleSelect.addItem( "No monitor, individual channels, individual blues" );
-			chatStyleSelect.addItem( "No monitor, individual channels, combined blues" );
-			chatStyleSelect.addItem( "No monitor, combined channels, individual blues" );
-			chatStyleSelect.addItem( "No monitor, combined channels, combined blues" );
-			chatStyleSelect.addItem( "Global monitor, individual channels, individual blues" );
-			chatStyleSelect.addItem( "Global monitor, individual channels, combined blues" );
-			chatStyleSelect.addItem( "Standard KoL style (no monitor, everything combined)" );
+			useChatMonitor = new JCheckBox();
+			useSeparateChannel = new JCheckBox();
+			useSeparatePrivate = new JCheckBox();
 
-			useTabSelect = new JComboBox();
-			useTabSelect.addItem( "Use windowed chat interface" );
-			useTabSelect.addItem( "Use tabbed chat interface" );
+			eSoluActiveOption = new JCheckBox();
+			eSoluColorlessOption = new JCheckBox();
 
-			popupSelect = new JComboBox();
-			popupSelect.addItem( "Display /friends and /who in chat display" );
-			popupSelect.addItem( "Popup a window for /friends and /who" );
+			VerifiableElement [] elements = new VerifiableElement[13];
+			elements[0] = new VerifiableElement( "Use larger font size for HTML displays", JLabel.LEFT, useLargeFontSize );
+			elements[1] = new VerifiableElement( "Use tabbed, rather than multi-window, chat", JLabel.LEFT, useTabOption );
+			elements[2] = new VerifiableElement( "Use a popup window for /friends and /who", JLabel.LEFT, popupWhoOption );
 
-			eSoluSelect = new JComboBox();
-			eSoluSelect.addItem( "Nameclick select bar only" );
-			eSoluSelect.addItem( "eSolu scriptlet chat links (color)" );
-			eSoluSelect.addItem( "eSolu scriptlet chat links (gray)" );
+			elements[3] = new VerifiableElement();
 
-			VerifiableElement [] elements = new VerifiableElement[5];
-			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
-			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
-			elements[2] = new VerifiableElement( "Tabbed Chat: ", useTabSelect );
-			elements[3] = new VerifiableElement( "Contact List: ", popupSelect );
-			elements[4] = new VerifiableElement( "eSolu Script: ", eSoluSelect );
+			elements[4] = new VerifiableElement( "Add an \"as KoL would show it\" display", JLabel.LEFT, useChatMonitor );
+			elements[5] = new VerifiableElement( "Put different channels into separate displays", JLabel.LEFT, useSeparateChannel );
+			elements[6] = new VerifiableElement( "Put different private messages into separate displays", JLabel.LEFT, useSeparatePrivate );
+
+			elements[7] = new VerifiableElement();
+
+			elements[8] = new VerifiableElement( "Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, eSoluActiveOption );
+			elements[9] = new VerifiableElement( "Switch eSolu scriptlet to colorless mode", JLabel.LEFT, eSoluColorlessOption );
+
+			elements[10] = new VerifiableElement();
+
+			outerGradient = new TabColorChanger( "outerChatColor" );
+			elements[11] = new VerifiableElement( "Change the outer portion of highlighted tab gradient",
+				JLabel.LEFT, outerGradient );
+
+			innerGradient = new TabColorChanger( "innerChatColor" );
+			elements[12] = new VerifiableElement( "Change the inner portion of highlighted tab gradient",
+				JLabel.LEFT, innerGradient );
 
 			setContent( elements );
 			actionCancelled();
@@ -561,26 +535,56 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "fontSize", (String) fontSizeSelect.getSelectedItem() );
-			LimitedSizeChatBuffer.setFontSize( StaticEntity.parseInt( (String) fontSizeSelect.getSelectedItem() ) );
+			StaticEntity.setProperty( "fontSize", useLargeFontSize.isSelected() ? "3" : "4" );
+			LimitedSizeChatBuffer.setFontSize( StaticEntity.getIntegerProperty( "fontSize" ) );
+			StaticEntity.setProperty( "useTabbedChat", useTabOption.isSelected() ? "1" : "0" );
+			StaticEntity.setProperty( "usePopupContacts", popupWhoOption.isSelected() ? "1" : "0" );
 
-			StaticEntity.setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
-			StaticEntity.setProperty( "useTabbedChat", String.valueOf( useTabSelect.getSelectedIndex() ) );
-			StaticEntity.setProperty( "usePopupContacts", String.valueOf( popupSelect.getSelectedIndex() ) );
-			StaticEntity.setProperty( "eSoluScriptType", String.valueOf( eSoluSelect.getSelectedIndex() ) );
+			int chatStyle = 0;
+			if ( useChatMonitor.isSelected() )  chatStyle += 4;
+			if ( !useSeparateChannel.isSelected() )  chatStyle += 2;
+			if ( !useSeparatePrivate.isSelected() )  chatStyle += 1;
+
+			StaticEntity.setProperty( "chatStyle", String.valueOf( chatStyle ) );
+			StaticEntity.setProperty( "eSoluScriptType", eSoluActiveOption.isSelected() ?
+				(eSoluColorlessOption.isSelected() ? "2" : "1") : "0" );
 
 			super.actionConfirmed();
 		}
 
 		public void actionCancelled()
 		{
-			fontSizeSelect.setSelectedItem( StaticEntity.getProperty( "fontSize" ) );
+			useLargeFontSize.setSelected( StaticEntity.getProperty( "fontSize" ).equals( "4" ) );
 			LimitedSizeChatBuffer.setFontSize( StaticEntity.getIntegerProperty( "fontSize" ) );
 
-			chatStyleSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "chatStyle" ) );
-			useTabSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "useTabbedChat" ) );
-			popupSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "usePopupContacts" ) );
-			eSoluSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "eSoluScriptType" ) );
+			useTabOption.setSelected( StaticEntity.getIntegerProperty( "useTabbedChat" ) == 1 );
+			popupWhoOption.setSelected( StaticEntity.getIntegerProperty( "usePopupContacts" ) == 1 );
+
+			int chatStyle = StaticEntity.getIntegerProperty( "chatStyle" );
+			useChatMonitor.setSelected( chatStyle / 4 != 0 );
+			useSeparateChannel.setSelected( chatStyle % 4 < 2 );
+			useSeparatePrivate.setSelected( chatStyle % 2 < 1 );
+
+			eSoluActiveOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 0 );
+			eSoluColorlessOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 1 );
+
+			innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedA );
+			outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedB );
+		}
+
+		private class TabColorChanger extends LabelColorChanger
+		{
+			public TabColorChanger( String property )
+			{	super( property );
+			}
+
+			public void applyChanges()
+			{
+				if ( property.equals( "innerChatColor" ) )
+					CloseTabPaneEnhancedUI.notifiedA = innerGradient.getBackground();
+				else
+					CloseTabPaneEnhancedUI.notifiedB = outerGradient.getBackground();
+			}
 		}
 	}
 

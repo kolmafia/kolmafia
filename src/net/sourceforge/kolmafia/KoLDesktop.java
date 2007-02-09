@@ -86,10 +86,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 		getContentPane().setLayout( new BorderLayout() );
 
-		tabs = new CloseTabbedPane();
 		tabs.setTabPlacement( CloseTabbedPane.TOP );
-		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
-
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		addCompactPane();
 
@@ -238,8 +235,8 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 	public static boolean isInversionExempt( KoLFrame content )
 	{
-		return StaticEntity.getBooleanProperty( "avoidInvertingTabs" ) ||
-			content instanceof AdventureFrame || content instanceof FlowerHunterFrame;
+		return StaticEntity.getBooleanProperty( "avoidInvertingTabs" ) || content instanceof AdventureFrame || content instanceof FlowerHunterFrame ||
+			content instanceof HagnkStorageFrame || content instanceof MailboxFrame || content instanceof SendMessageFrame;
 	}
 
 	public static void displayDesktop()

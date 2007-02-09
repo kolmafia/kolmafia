@@ -34,17 +34,17 @@ import javax.swing.text.View;
 public class CloseTabPaneEnhancedUI extends CloseTabPaneUI {
 
 
-    private static final Color whiteColor = Color.white;
-    private static final Color transparent = new Color(0x184EB6);//0, 0, 0, 0);
-    private static final Color nearBlack = new Color(0, 0, 0, 80);
+    private static Color whiteColor = Color.white;
+    private static Color transparent = new Color(0x184EB6);
 
-    private static final Color lightRed = new Color(0xFFA98C);
-    private static final Color lightBlue = new Color(0x8CA9FF);//70, 150, 200, 50);
+    private static Color nearBlack = new Color(0, 0, 0, 80);
+    private static Color lightWhite = new Color(150, 150, 150, 50);
 
-    private static final Color lightWhite = new Color(150, 150, 150, 50);
+    public static Color notifiedA = new Color(0xFFA98C);
+    public static Color notifiedB = new Color(180, 70, 15);
 
-    private static final Color darkRed = new Color(180, 70, 15);
-    private static final Color darkBlue = new Color(15, 70, 180);
+    public static Color selectedA = new Color(0x8CA9FF);
+    public static Color selectedB = new Color(15, 70, 180);
 
     public static ComponentUI createUI(JComponent c) {
         return new CloseTabPaneEnhancedUI();
@@ -141,10 +141,10 @@ public class CloseTabPaneEnhancedUI extends CloseTabPaneUI {
 				tabStates.set( tabIndex, Boolean.FALSE );
 
             Color fadeFromColor = (tabStates.size() > tabIndex && tabStates.get( tabIndex ) == Boolean.TRUE) ?
-            	darkRed : darkBlue;
+            	notifiedB : selectedB;
 
             Color fadeToColor = (tabStates.size() > tabIndex && tabStates.get( tabIndex ) == Boolean.TRUE) ?
-            	lightRed : lightBlue;
+            	notifiedA : selectedA;
 
             if (tabPane.isEnabledAt(tabIndex)) {
                 leftGradient = new GradientPaint(x, y, fadeFromColor,
@@ -167,7 +167,7 @@ public class CloseTabPaneEnhancedUI extends CloseTabPaneUI {
             g2.fillRect(x + 2, y + 2, w / 2, h - 2);
             g2.setPaint(rightGradient);
             //g2.setPaintMode();
-            //g2.setColor(lightBlue);
+            //g2.setColor(selectedA);
             g2.fillRect(x + 2 + w / 2, y + 2, w / 2 - delta2, h - 2);
         }
     }

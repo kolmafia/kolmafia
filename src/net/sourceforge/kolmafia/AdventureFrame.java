@@ -193,9 +193,6 @@ public class AdventureFrame extends KoLFrame
 
 	private JTabbedPane getSouthernTabs()
 	{
-		tabs = new CloseTabbedPane();
-		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
-
 		// Handle everything that might appear inside of the
 		// session tally.
 

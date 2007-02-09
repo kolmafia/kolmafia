@@ -66,7 +66,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 {
 	private KoLMailMessage displayed;
 	private RequestPane messageContent;
-	private CloseTabbedPane tabbedListDisplay;
 	private LimitedSizeChatBuffer mailBuffer;
 
 	private MailSelectList messageListInbox;
@@ -78,28 +77,13 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	{
 		super( "IcePenguin Express" );
 
-		this.messageListInbox = new MailSelectList( "Inbox" );
-		SimpleScrollPane messageListInboxDisplay = new SimpleScrollPane( messageListInbox );
+		addTab( "Inbox", this.messageListInbox = new MailSelectList( "Inbox" ) );
+		addTab( "PvP", this.messageListPvp = new MailSelectList( "PvP" ) );
+		addTab( "Outbox", this.messageListOutbox = new MailSelectList( "Outbox" ) );
+		addTab( "Saved", this.messageListSaved = new MailSelectList( "Saved" ) );
 
-		this.messageListPvp = new MailSelectList( "PvP" );
-		SimpleScrollPane messageListPvpDisplay = new SimpleScrollPane( messageListPvp );
-
-		this.messageListOutbox = new MailSelectList( "Outbox" );
-		SimpleScrollPane messageListOutboxDisplay = new SimpleScrollPane( messageListOutbox );
-
-		this.messageListSaved = new MailSelectList( "Saved" );
-		SimpleScrollPane messageListSavedDisplay = new SimpleScrollPane( messageListSaved );
-
-		this.tabbedListDisplay = new CloseTabbedPane();
-		this.tabbedListDisplay.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
-
-		tabbedListDisplay.addTab( "Inbox", messageListInboxDisplay );
-		tabbedListDisplay.addTab( "PvP", messageListPvpDisplay );
-		tabbedListDisplay.addTab( "Outbox", messageListOutboxDisplay );
-		tabbedListDisplay.addTab( "Saved", messageListSavedDisplay );
-		tabbedListDisplay.addChangeListener( this );
-
-		tabbedListDisplay.setMinimumSize( new Dimension( 0, 150 ) );
+		tabs.addChangeListener( this );
+		tabs.setMinimumSize( new Dimension( 0, 150 ) );
 
 		this.messageContent = new RequestPane();
 		messageContent.addHyperlinkListener( new MailLinkClickedListener() );
@@ -109,7 +93,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		messageContentDisplay.setMinimumSize( new Dimension( 0, 150 ) );
 
 		JSplitPane splitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, true,
-			tabbedListDisplay, messageContentDisplay );
+			tabs, messageContentDisplay );
 
 		splitPane.setOneTouchExpandable( true );
 		JComponentUtilities.setComponentSize( splitPane, 500, 300 );
@@ -127,11 +111,11 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( tabbedListDisplay == null || messageListInbox == null || messageListPvp == null || messageListOutbox == null || messageListSaved == null )
+		if ( tabs == null || messageListInbox == null || messageListPvp == null || messageListOutbox == null || messageListSaved == null )
 			return;
 
-		for ( int i = 0; i < tabbedListDisplay.getTabCount(); ++i )
-			tabbedListDisplay.setEnabledAt( i, isEnabled );
+		for ( int i = 0; i < tabs.getTabCount(); ++i )
+			tabs.setEnabledAt( i, isEnabled );
 
 		messageListInbox.setEnabled( isEnabled );
 		messageListPvp.setEnabled( isEnabled );
@@ -151,7 +135,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		mailBuffer.clearBuffer();
 
 		boolean requestMailbox;
-		String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
+		String currentTabName = tabs.getTitleAt( tabs.getSelectedIndex() );
 		if ( currentTabName.equals( "PvP" ) )
 			return;
 
@@ -301,7 +285,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		public void run()
 		{
 			messages = null;
-			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
+			String currentTabName = tabs.getTitleAt( tabs.getSelectedIndex() );
 
 			if ( currentTabName.equals( "Inbox" ) )
 				messages = messageListInbox.getSelectedValues();
@@ -333,7 +317,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		public void run()
 		{
 			messages = null;
-			currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
+			currentTabName = tabs.getTitleAt( tabs.getSelectedIndex() );
 			if ( currentTabName.equals( "Inbox" ) )
 				messages = messageListInbox.getSelectedValues();
 			else if ( currentTabName.equals( "PvP" ) )
@@ -364,7 +348,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public void run()
 		{
-			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
+			String currentTabName = tabs.getTitleAt( tabs.getSelectedIndex() );
 			RequestThread.postRequest( new MailRefresher( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName ) );
 		}
 	}

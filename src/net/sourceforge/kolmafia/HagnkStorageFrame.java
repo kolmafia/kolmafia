@@ -59,13 +59,12 @@ public class HagnkStorageFrame extends KoLFrame
 		INSTANCE = this;
 		setPullsRemaining( pullsRemaining );
 
-		CloseTabbedPane filterTabs = new CloseTabbedPane();
-		filterTabs.addTab( "Ancestral Items", new HagnkStoragePanel( false ) );
-		filterTabs.addTab( "Closeted Items", new InventoryManagePanel( closet ) );
-		filterTabs.addTab( "Equipment in Storage", new HagnkStoragePanel( true ) );
+		tabs.addTab( "Ancestral Items", new HagnkStoragePanel( false ) );
+		tabs.addTab( "Closeted Items", new InventoryManagePanel( closet ) );
+		tabs.addTab( "Equipment in Storage", new HagnkStoragePanel( true ) );
 
 		framePanel.add( new MeatStoragePanel(), BorderLayout.NORTH );
-		framePanel.add( filterTabs, BorderLayout.CENTER );
+		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
 	public static int getPullsRemaining()

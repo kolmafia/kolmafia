@@ -54,13 +54,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
-import tab.CloseTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.UIManager;
 
-import javax.swing.UIManager.LookAndFeelInfo;
+import tab.CloseTabbedPane;
+import tab.CloseTabPaneEnhancedUI;
+
 import com.sun.java.forums.SpringUtilities;
+import javax.swing.UIManager.LookAndFeelInfo;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class LoginFrame extends KoLFrame
@@ -77,10 +80,6 @@ public class LoginFrame extends KoLFrame
 		super( VERSION_NAME + ": Login" );
 
 		KoLRequest.chooseRandomServer();
-
-		tabs = new CloseTabbedPane();
-		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
-
 		tabs.addTab( "KoL Login", constructLoginPanel() );
 
 		JPanel breakfastPanel = new JPanel();
@@ -718,6 +717,8 @@ public class LoginFrame extends KoLFrame
 
 		private class InterfaceCheckboxPanel extends OptionsPanel
 		{
+			private JLabel innerGradient, outerGradient;
+
 			/**
 			 * Constructs a new <code>StartupOptionsPanel</code>, containing a
 			 * place for the users to select their desired server and for them
@@ -727,15 +728,24 @@ public class LoginFrame extends KoLFrame
 			public InterfaceCheckboxPanel()
 			{
 				super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-				VerifiableElement [] elements = new VerifiableElement[ options.length ];
+				VerifiableElement [] elements = new VerifiableElement[ options.length + 3 ];
 
 				optionBoxes = new JCheckBox[ options.length ];
 				for ( int i = 0; i < options.length; ++i )
 					optionBoxes[i] = new JCheckBox();
 
-
 				for ( int i = 0; i < options.length; ++i )
 					elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+
+				elements[ options.length ] = new VerifiableElement();
+
+				outerGradient = new TabColorChanger( "outerTabColor" );
+				elements[ options.length + 1 ] = new VerifiableElement( "Change the outer portion of the tab gradient",
+					JLabel.LEFT, outerGradient );
+
+				innerGradient = new TabColorChanger( "innerTabColor" );
+				elements[ options.length + 2 ] = new VerifiableElement( "Change the inner portion of the tab gradient",
+					JLabel.LEFT, innerGradient );
 
 				setContent( elements );
 				actionCancelled();
@@ -753,10 +763,30 @@ public class LoginFrame extends KoLFrame
 			{
 				for ( int i = 0; i < options.length; ++i )
 					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
+
+				innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedA );
+				outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedB );
 			}
 
 			public void setEnabled( boolean isEnabled )
 			{
+			}
+
+			private class TabColorChanger extends LabelColorChanger
+			{
+				public TabColorChanger( String property )
+				{	super( property );
+				}
+
+				public void applyChanges()
+				{
+					if ( property.equals( "innerTabColor" ) )
+						CloseTabPaneEnhancedUI.selectedA = innerGradient.getBackground();
+					else
+						CloseTabPaneEnhancedUI.selectedB = outerGradient.getBackground();
+
+					tabs.repaint();
+				}
 			}
 		}
 	}

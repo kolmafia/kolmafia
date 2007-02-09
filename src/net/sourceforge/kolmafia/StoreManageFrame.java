@@ -80,9 +80,6 @@ public class StoreManageFrame extends KoLPanelFrame
 		super( "Store Manager" );
 		INSTANCE = this;
 
-		tabs = new CloseTabbedPane();
-		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
-
 		tabs.add( "Price Setup", new StoreManagePanel() );
 		tabs.add( "Additions", new StoreAddPanel() );
 		tabs.add( "Removals", new StoreRemovePanel() );

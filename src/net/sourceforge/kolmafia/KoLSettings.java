@@ -527,6 +527,11 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "testSocketTimeout", "false" );
 		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
 
+		CLIENT_SETTINGS.put( "innerTabColor", "#8ca9ff" );
+		CLIENT_SETTINGS.put( "outerTabColor", "#0f46b4" );
+		CLIENT_SETTINGS.put( "innerChatColor", "#ffa98c" );
+		CLIENT_SETTINGS.put( "outerChatColor", "#b4460f" );
+
 		CLIENT_SETTINGS.put( "useLowBandwidthRadio", "false" );
 		CLIENT_SETTINGS.put( "useSystemTrayIcon", "false" );
 		CLIENT_SETTINGS.put( "usePopupContacts", "1" );

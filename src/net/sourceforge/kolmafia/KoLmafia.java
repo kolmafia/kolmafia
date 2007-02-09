@@ -68,6 +68,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import javax.swing.UIManager.LookAndFeelInfo;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
@@ -294,18 +295,17 @@ public abstract class KoLmafia implements KoLConstants
 
 		StaticEntity.setProperty( "swingLookAndFeel", lookAndFeel );
 
-		// Change the look of the progress bar if you're not on a
-		// Macintosh (let Aqua decide it for Macs) since you're
-		// going to put text in most of them.
+		UIManager.put( "ProgressBar.foreground", Color.black );
+		UIManager.put( "ProgressBar.selectionForeground", Color.lightGray );
 
-		if ( !System.getProperty( "os.name" ).startsWith( "Mac" ) )
-		{
-			UIManager.put( "ProgressBar.foreground", Color.black );
-			UIManager.put( "ProgressBar.selectionForeground", Color.lightGray );
+		UIManager.put( "ProgressBar.background", Color.lightGray );
+		UIManager.put( "ProgressBar.selectionBackground", Color.black );
 
-			UIManager.put( "ProgressBar.background", Color.lightGray );
-			UIManager.put( "ProgressBar.selectionBackground", Color.black );
-		}
+		tab.CloseTabPaneEnhancedUI.selectedA = DataUtilities.toColor( StaticEntity.getProperty( "innerTabColor" ) );
+		tab.CloseTabPaneEnhancedUI.selectedB = DataUtilities.toColor( StaticEntity.getProperty( "outerTabColor" ) );
+
+		tab.CloseTabPaneEnhancedUI.notifiedA = DataUtilities.toColor( StaticEntity.getProperty( "innerChatColor" ) );
+		tab.CloseTabPaneEnhancedUI.notifiedB = DataUtilities.toColor( StaticEntity.getProperty( "outerChatColor" ) );
 
 		// Now run the main routines for each, so that
 		// you have an interface.

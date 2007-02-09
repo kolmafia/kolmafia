@@ -80,9 +80,6 @@ public class ItemManageFrame extends KoLFrame
 	{
 		super( "Item Manager" );
 
-		tabs = new CloseTabbedPane();
-		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
-
 		LabeledScrollPanel npcOfferings = null;
 
 		tabs.addTab( "Usable", new ConsumeItemPanel() );
