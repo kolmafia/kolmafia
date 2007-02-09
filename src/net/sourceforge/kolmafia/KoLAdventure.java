@@ -286,6 +286,22 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				RequestThread.postRequest( new ConsumeItemRequest( PERFUME_ITEM ) );
 		}
 
+		// Pirate cove should not be visited before level 9.
+		if ( adventureId.equals( "67" ) )
+		{
+			if ( KoLCharacter.getLevel() < 9 )
+			{
+				KoLmafia.updateDisplay( ABORT_STATE, "The dictionary won't drop right now." );
+				return;
+			}
+
+			// If it's the pirate quest in disguise, make sure
+			// you visit the council beforehand.
+
+			if ( adventureName.indexOf( "Pirate" ) != -1 )
+				DEFAULT_SHELL.executeLine( "council" );
+		}
+
 		// Disguise zones require outfits
 		if ( adventureName.indexOf( "Disguise" ) != -1 || adventureName.indexOf( "Uniform" ) != -1 )
 		{
@@ -299,12 +315,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 				RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
 				isValidAdventure = true;
-
-				// If it's the pirate quest in disguise, make sure
-				// you visit the council beforehand.
-
-				if ( adventureName.indexOf( "Pirate" ) != -1 )
-					DEFAULT_SHELL.executeLine( "council" );
 			}
 		}
 
