@@ -3130,15 +3130,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private static List getMatchingItemNames( String itemName )
 	{
-		int itemId = TradeableItemDatabase.getItemId( itemName, 1 );
-		if ( itemId != -1 )
-		{
-			ArrayList matchingNames = new ArrayList();
-			matchingNames.add( TradeableItemDatabase.getItemName( itemId ) );
-			return matchingNames;
-		}
-
-		itemId = TradeableItemDatabase.getItemId( itemName, 2 );
+		int itemId = TradeableItemDatabase.getItemId( itemName );
 		if ( itemId != -1 )
 		{
 			ArrayList matchingNames = new ArrayList();

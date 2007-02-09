@@ -885,7 +885,12 @@ public abstract class KoLmafia implements KoLConstants
 
 				int [] substats = new int[3];
 				for ( int i = 0; i < 3; ++i )
+				{
+					if ( condition.getCount(i) == 0 )
+						continue;
+
 					substats[i] = Math.max( 0, condition.getCount(i) - result.getCount(i) );
+				}
 
 				condition = new AdventureResult( substats );
 
