@@ -169,8 +169,13 @@ public abstract class SystemTrayFrame implements KoLConstants
 			return;
 		}
 
-		KoLDesktop.getInstance().pack();
-		KoLDesktop.getInstance().setVisible( true );
+		if ( !KoLDesktop.instanceExists() )
+		{
+			KoLmafiaGUI.checkFrameSettings();
+			KoLDesktop.getInstance().initializeTabs();
+		}
+
+		KoLDesktop.displayDesktop();
 	}
 
 	private abstract static class ThreadedTrayIconPopupSimpleItem extends TrayIconPopupSimpleItem implements ActionListener, Runnable
