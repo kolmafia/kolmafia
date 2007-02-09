@@ -152,9 +152,9 @@
 147	465841131	eXtreme meat sword	eXtreme meat swords
 148	885693427	eXtreme meat staff	eXtreme meat staves
 149	274998600	eXtreme meat crossbow	eXtreme meat crossbows
-150	889496681	The Scalp of Gorgolok	The Scalp of Gorgoloks
+150	889496681	Scalp of Gorgolok	The Scalp of Gorgoloks
 151	602920283	Elder Turtle Shell	Elder Turtle Shells
-152	135642556	The Colander of Em-er'il	The Colander of Em-er'ils
+152	135642556	Colander of Em-er'il	The Colander of Em-er'ils
 153	225252938	Ancient Saucehelm	Ancient Saucehelms
 154	674402305	Disco 'Fro Pick	Disco 'Fro Picks
 155	156097981	El Sombrero De Lopez	El Sombrero De Lopezs
