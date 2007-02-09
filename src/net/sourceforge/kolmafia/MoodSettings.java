@@ -54,9 +54,11 @@ public abstract class MoodSettings implements KoLConstants
 		StaticEntity.renameDataFiles( "kms", "moods" );
 	}
 
-	private static String lastUsername = "";
-	private static int thiefTriggerLimit = 3;
 	private static final AdventureResult PENDANT = new AdventureResult( 1235, 1 );
+
+	private static String lastUsername = "";
+	private static AdventureResult songWeapon = null;
+	private static int thiefTriggerLimit = 3;
 
 	private static File settingsFile = null;
 	private static TreeMap reference = new TreeMap();
@@ -570,6 +572,9 @@ public abstract class MoodSettings implements KoLConstants
 
 		burnExtraMana();
 		isExecuting = false;
+
+		if ( songWeapon != null )
+			UseSkillRequest.untinkerCloverWeapon( UseSkillRequest.ROCKNROLL_LEGEND );
 	}
 
 	public static boolean willExecute( boolean isManualInvocation )
@@ -1014,8 +1019,13 @@ public abstract class MoodSettings implements KoLConstants
 		{
 			if ( shouldExecute( isManualInvocation ) )
 			{
-				if ( isThiefTrigger() && UseSkillRequest.optimizeEquipment( skillId ) == null )
+				songWeapon = UseSkillRequest.optimizeEquipment( skillId );
+
+				if ( isThiefTrigger() && songWeapon == null )
 					return;
+
+				if ( songWeapon == UseSkillRequest.ACCORDION || songWeapon == UseSkillRequest.ROCKNROLL_LEGEND )
+					songWeapon = null;
 
 				if ( type.equals( "lose_effect" ) && KoLCharacter.canInteract() && (action.startsWith( "use 1" ) || action.startsWith( "cast 1" )) )
 					DEFAULT_SHELL.executeLine( getDefaultAction( "lose_effect", effect.getName() ) );
