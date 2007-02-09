@@ -67,6 +67,7 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 		this.scrollComponent = scrollComponent;
 
 		centerPanel = new JPanel( new BorderLayout() );
+		centerPanel.setOpaque( true );
 
 		if ( !title.equals( "" ) )
 			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
@@ -74,6 +75,7 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 		centerPanel.add( new SimpleScrollPane( scrollComponent ), BorderLayout.CENTER );
 		actualPanel = new JPanel( new BorderLayout( 20, 10 ) );
 		actualPanel.add( centerPanel, BorderLayout.CENTER );
+		actualPanel.setOpaque( true );
 
 		if ( confirmedText != null )
 		{
@@ -84,21 +86,15 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 
 		if ( isRootPane )
 		{
-			if ( requiresPadding() )
-				getContentPane().setLayout( new CardLayout( 10, 10 ) );
-			else
-				getContentPane().setLayout( new CardLayout() );
-
-			getContentPane().add( actualPanel, "" );
+			getContentPane().setLayout( new BorderLayout() );
+			((JPanel)getContentPane()).setOpaque( true );
+			getContentPane().add( actualPanel, BorderLayout.CENTER );
 		}
 		else
 		{
-			if ( requiresPadding() )
-				setLayout( new CardLayout( 10, 10 ) );
-			else
-				setLayout( new CardLayout() );
-
-			add( actualPanel, "" );
+			setLayout( new BorderLayout() );
+			setOpaque( true );
+			add( actualPanel, BorderLayout.CENTER );
 		}
 
 		existingPanels.add( new WeakReference( this ) );

@@ -358,7 +358,6 @@ public class MushroomFrame extends KoLFrame
 			this.squareIndex = squareIndex;
 
 			JComponentUtilities.setComponentSize( this, 30, 30 );
-			setOpaque( true );
 		}
 
 		public void run()

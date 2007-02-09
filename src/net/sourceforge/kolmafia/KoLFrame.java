@@ -149,6 +149,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( tabs == null )
 			return;
 
+		tabs.setOpaque( true );
+
 		SimpleScrollPane scroller = new SimpleScrollPane( panel );
 		JComponentUtilities.setComponentSize( scroller, 560, 400 );
 		tabs.add( name, scroller );

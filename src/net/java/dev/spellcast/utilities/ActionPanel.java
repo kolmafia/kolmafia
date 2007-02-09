@@ -67,10 +67,17 @@ public abstract class ActionPanel extends JRootPane
 		public VerifyButtonPanel( String confirmedText, String cancelledText1, String cancelledText2 )
 		{
  			setLayout( new BorderLayout() );
+
+			setOpaque( true );
+			if ( getContentPane() instanceof JPanel )
+				((JPanel)getContentPane()).setOpaque( true );
+
  			this.cancelledText1 = cancelledText1;
  			this.cancelledText2 = cancelledText2;
 
 			JPanel containerPanel = new JPanel( new GridLayout( cancelledText1 == null ? 1 : 2, 1, 5, 5 ) );
+
+			containerPanel.setOpaque( true );
 			add( containerPanel, BorderLayout.NORTH );
 
 			// add the "confirmed" button
@@ -106,24 +113,16 @@ public abstract class ActionPanel extends JRootPane
 		}
 	}
 
-	private class ConfirmedListener implements ActionListener, Runnable
+	private class ConfirmedListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
-		}
-
-		public void run()
 		{	actionConfirmed();
 		}
 	}
 
-	private class CancelledListener implements ActionListener, Runnable
+	private class CancelledListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
-		}
-
-		public void run()
 		{	actionCancelled();
 		}
 	}

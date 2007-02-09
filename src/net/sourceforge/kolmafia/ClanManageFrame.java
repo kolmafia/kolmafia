@@ -145,7 +145,6 @@ public class ClanManageFrame extends KoLFrame
 		SimpleScrollPane results = new SimpleScrollPane( members );
 		JComponentUtilities.setComponentSize( results, 400, 300 );
 
-		results.setOpaque( false );
 		JPanel searchPanel = new JPanel( new BorderLayout() );
 		searchPanel.add( search, BorderLayout.NORTH );
 

@@ -51,6 +51,7 @@ public class SimpleScrollPane extends JScrollPane
 	public SimpleScrollPane( Component view, int vsbPolicy, int hsbPolicy )
 	{
 		super( view, vsbPolicy, hsbPolicy );
+		setOpaque( true );
 
 		if ( !(view instanceof JList || view instanceof JTextComponent) )
 			this.getVerticalScrollBar().setUnitIncrement( 30 );
