@@ -439,6 +439,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		// Do not initialize the maps more than once, as this
 		// would not serve any purpose.
 
+		CLIENT_SETTINGS.put( "addStopToSidePane", "false" );
 		CLIENT_SETTINGS.put( "allowEncounterRateBurning", "true" );
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
 		CLIENT_SETTINGS.put( "allowThiefShrugOff", "true" );
@@ -471,12 +472,14 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "fontSize", "3" );
 		CLIENT_SETTINGS.put( "guiUsesOneWindow", "false" );
 		CLIENT_SETTINGS.put( "highlightList", "" );
+
 		CLIENT_SETTINGS.put( "http.proxyHost", "" );
 		CLIENT_SETTINGS.put( "http.proxyPort", "" );
 		CLIENT_SETTINGS.put( "http.proxyUser", "" );
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
+		CLIENT_SETTINGS.put( "proxySet", "false" );
+		CLIENT_SETTINGS.put( "ignoreLoadBalancer", "false" );
 
-		CLIENT_SETTINGS.put( "delayedDesktop", "" );
 		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame,HagnkStorageFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "LocalRelayServer,EventsFrame" );
 
@@ -491,13 +494,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "logStatGains", "true" );
 		CLIENT_SETTINGS.put( "logStatusEffects", "false" );
 
-		CLIENT_SETTINGS.put( "proxySet", "false" );
-		CLIENT_SETTINGS.put( "http.proxyHost", "" );
-		CLIENT_SETTINGS.put( "http.proxyPort", "" );
-		CLIENT_SETTINGS.put( "http.proxyUser", "" );
-		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
-		CLIENT_SETTINGS.put( "ignoreLoadBalancer", "false" );
-
+		CLIENT_SETTINGS.put( "mapLoadsMiniBrowser", "false" );
 		CLIENT_SETTINGS.put( "overPurchaseRestores", "true" );
 		CLIENT_SETTINGS.put( "previousNotifyList", "<>" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
