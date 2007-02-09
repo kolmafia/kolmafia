@@ -338,7 +338,12 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
 			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", "CouncilFrame" ) );
-			toolbarPanel.add( new InvocationButton( "Load in Browser", "browser.gif", StaticEntity.getClient(), "startRelayServer" ) );
+
+			if ( StaticEntity.getBooleanProperty( "mapLoadsMiniBrowser" ) )
+				toolbarPanel.add( new DisplayFrameButton( "Load in Mini Browser", "browser.gif", "RequestFrame" ) );
+			else
+				toolbarPanel.add( new InvocationButton( "Load in Web Browser", "browser.gif", StaticEntity.getClient(), "startRelayServer" ) );
+
 			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", "CommandDisplayFrame" ) );
 
 			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );

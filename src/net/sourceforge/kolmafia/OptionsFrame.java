@@ -270,6 +270,11 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "avoidInvertingTabs", "Do not invert nested tabs in main window" },
+			{ "addStopToSidePane", "Add a stop button instead of a refresh button to the side pane" },
+			{ "mapLoadsMiniBrowser", "Map button loads mini browser instead of relay browser" },
+
+			{ "", "" },
+
 			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
 			{ "cacheMallSearches", "Cache mall searches (does not work on all OSes)" },
 			{ "autoSetConditions", "Automatically fill conditions field with defaults" },
@@ -297,7 +302,7 @@ public class OptionsFrame extends KoLFrame
 
 		public GeneralOptionsPanel()
 		{
-			super( "General Options", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
+			super( "General Options (May Require Restart to Take Effect!)", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ options.length ];
 
 			optionBoxes = new JCheckBox[ options.length ];
