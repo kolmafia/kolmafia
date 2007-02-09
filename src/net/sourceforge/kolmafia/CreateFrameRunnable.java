@@ -197,12 +197,12 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		try
 		{
-			String tabSetting = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
+			String initialString = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
+
 			String searchString = ChatFrame.class.isAssignableFrom( creationType ) ? "KoLMessenger" :
 				KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
 
-			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) &&
-				tabSetting.indexOf( "," + searchString + "," ) != -1;
+			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) && initialString.indexOf( "," + searchString + "," ) != -1;
 
 			if ( creationType != LoginFrame.class && StaticEntity.getBooleanProperty( "guiUsesOneWindow" ) )
 			{
@@ -223,12 +223,16 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// If the gui is limited to one frame, then make this frame
 			// a tab and remove any extra tabs created this way perviouly.
 
-			if ( appearsInTab && !KoLDesktop.instanceExists() )
+			boolean showDesktop = !KoLDesktop.instanceExists();
+
+			if ( appearsInTab && showDesktop )
 			{
 				KoLDesktop.getInstance().initializeTabs();
-				KoLDesktop.getInstance().pack();
-				KoLDesktop.getInstance().setVisible( true );
-				return;
+				if ( loadPreviousFrame() )
+				{
+					KoLDesktop.displayDesktop();
+					return;
+				}
 			}
 
 			if ( this.creation == null )
@@ -266,7 +270,11 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// visibility on screen and request focus.
 
 			if ( appearsInTab )
+			{
 				KoLDesktop.addTab( (KoLFrame) this.creation );
+				if ( showDesktop )
+					KoLDesktop.displayDesktop();
+			}
 			else
 				this.creation.setVisible( true );
 

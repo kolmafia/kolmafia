@@ -47,7 +47,7 @@ import javax.swing.JPanel;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public abstract class LabeledScrollPanel extends ActionPanel implements KoLConstants
+public class LabeledScrollPanel extends ActionPanel implements KoLConstants
 {
 	public JPanel actualPanel;
 	public JPanel centerPanel;
@@ -111,5 +111,13 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 
 	public boolean requiresPadding()
 	{	return true;
+	}
+
+	public void actionConfirmed()
+	{
+	}
+
+	public void actionCancelled()
+	{
 	}
 }

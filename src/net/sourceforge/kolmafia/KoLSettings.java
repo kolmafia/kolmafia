@@ -475,8 +475,11 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "http.proxyPort", "" );
 		CLIENT_SETTINGS.put( "http.proxyUser", "" );
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
+
+		CLIENT_SETTINGS.put( "delayedDesktop", "" );
 		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame,HagnkStorageFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "LocalRelayServer,EventsFrame" );
+
 		CLIENT_SETTINGS.put( "lastUsername", "" );
 		CLIENT_SETTINGS.put( "loginServerName", "" );
 		CLIENT_SETTINGS.put( "loginWindowLogo", "lantern.jpg" );

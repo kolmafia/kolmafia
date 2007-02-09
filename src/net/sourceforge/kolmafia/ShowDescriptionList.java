@@ -134,7 +134,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	 * all it does is show it -- the VM will handle hiding it.
 	 */
 
-	public class PopupListener extends MouseAdapter
+	private class PopupListener extends MouseAdapter
 	{
 		public void mousePressed( MouseEvent e )
 		{	maybeShowPopup( e );

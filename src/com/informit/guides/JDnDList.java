@@ -4,6 +4,10 @@
 
 package com.informit.guides;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
@@ -31,23 +35,39 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import javax.swing.JList;
+import javax.swing.JPopupMenu;
 import javax.swing.ListModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.ThreadedMenuItem;
 
 public class JDnDList extends JList
 	implements DragSourceListener, DragGestureListener, DropTargetListener
 {
+	private boolean acceptsDrops;
 	private int overIndex;
 	private boolean dragging;
 	private int [] selectedIndices;
 
+	private JPopupMenu contextMenu;
 	private DragSource dragSource;
 	private DropTarget dropTarget;
 
 	public JDnDList( LockableListModel model )
+	{	this( model, true );
+	}
+
+	public JDnDList( LockableListModel model, boolean acceptsDrops )
 	{
 		super( model );
+
+		this.acceptsDrops = acceptsDrops;
+		setPrototypeCellValue( "1234567890" );
+
+		contextMenu = new JPopupMenu();
+		contextMenu.add( new DeleteSelectedMenuItem() );
+
+		addMouseListener( new PopupListener() );
 
 		// Configure ourselves to be a drag source
 		dragSource = new DragSource();
@@ -57,6 +77,53 @@ public class JDnDList extends JList
 		dropTarget = new DropTarget( this, this );
 	}
 
+	/**
+	 * Shows and hides the applicable context menu item.  Actually
+	 * all it does is show it -- the VM will handle hiding it.
+	 */
+
+	public class PopupListener extends MouseAdapter
+	{
+		public void mousePressed( MouseEvent e )
+		{	maybeShowPopup( e );
+		}
+
+		public void mouseReleased( MouseEvent e )
+		{	maybeShowPopup( e );
+		}
+
+		private void maybeShowPopup( MouseEvent e )
+		{
+			if ( e.isPopupTrigger() )
+			{
+				int index = locationToIndex( e.getPoint() );
+
+				if ( !isSelectedIndex( index ) )
+				{
+					clearSelection();
+					addSelectionInterval( index, index );
+				}
+
+				contextMenu.show( e.getComponent(), e.getX(), e.getY() );
+			}
+		}
+    }
+
+	private class DeleteSelectedMenuItem extends ThreadedMenuItem
+	{
+		public DeleteSelectedMenuItem()
+		{	super( "remove from list" );
+		}
+
+		public void run()
+		{
+			LockableListModel model = (LockableListModel) JDnDList.this.getModel();
+			Object[] selectedObjects = getSelectedValues();
+			for ( int i = 0; i < selectedObjects.length; ++i )
+				model.remove( selectedObjects[i] );
+		}
+	}
+
 	public void dragGestureRecognized(DragGestureEvent dge)
 	{
 		this.selectedIndices = this.getSelectedIndices();
@@ -64,6 +131,8 @@ public class JDnDList extends JList
 		if ( selectedObjects.length > 0 )
 		{
 			StringBuffer sb = new StringBuffer();
+			LockableListModel model = (LockableListModel) getModel();
+
 			for( int i=0; i<selectedObjects.length; i++ )
 				sb.append( selectedObjects[ i ].toString() + "\n" );
 
@@ -86,20 +155,15 @@ public class JDnDList extends JList
 	}
 
 	public void dragExit(DropTargetEvent dte)
-	{
-		this.overIndex = -1;
+	{	this.overIndex = -1;
 	}
 
 	public void dragEnter(DragSourceDragEvent dsde)
-	{
-		this.overIndex = this.locationToIndex( dsde.getLocation() );
-		this.setSelectedIndex( this.overIndex );
+	{	this.overIndex = this.locationToIndex( dsde.getLocation() );
 	}
 
 	public void dragEnter(DropTargetDragEvent dtde)
-	{
-		this.overIndex = this.locationToIndex( dtde.getLocation() );
-		this.setSelectedIndex( this.overIndex );
+	{	this.overIndex = this.locationToIndex( dtde.getLocation() );
 	}
 
 	public void dragOver(DragSourceDragEvent dsde)
@@ -130,6 +194,9 @@ public class JDnDList extends JList
 
 	public void drop(DropTargetDropEvent dtde)
 	{
+		if ( !acceptsDrops )
+			return;
+
 		try
 		{
 			Transferable transferable = dtde.getTransferable();
@@ -159,14 +226,8 @@ public class JDnDList extends JList
 						model.remove( this.selectedIndices[i] );
 				}
 
+				model.removeAll( items );
 				model.addAll( newIndex, items );
-
-				// Update the selected indicies
-				int[] newIndicies = new int[ items.size() ];
-				for( int i=0; i < items.size(); i++ )
-					 newIndicies[ i ] = newIndex + i;
-
-				this.setSelectedIndices( newIndicies );
 
 				// Reset the over index
 				this.overIndex = -1;
