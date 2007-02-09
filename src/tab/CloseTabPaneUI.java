@@ -232,7 +232,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 				delta += BUTTONSIZE + WIDTHDELTA;
 		}
 
-		return super.calculateTabWidth(tabPlacement, tabIndex, metrics) + delta + (isCloseButtonEnabled ? 40 : 20);
+		return super.calculateTabWidth(tabPlacement, tabIndex, metrics) + delta + (isCloseButtonEnabled ? 40 : 5);
 	}
 
 	protected int calculateTabHeight(int tabPlacement, int tabIndex,
