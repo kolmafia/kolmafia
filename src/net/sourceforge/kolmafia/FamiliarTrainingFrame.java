@@ -114,10 +114,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final AdventureResult GREEN_SNOWCONE = new AdventureResult( 1413, 1 );
 	private static final AdventureResult BLACK_SNOWCONE = new AdventureResult( 1417, 1 );
 
-	private static final int firstTinyPlastic = 969;
-	private static final int lastTinyPlastic = 988;
-	private static final int firstTinyPlasticCrimbo = 1377;
-	private static final int lastTinyPlasticCrimbo = 1378;
+	private static final int [] tinyPlasticNormal = new int [] { 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988 };
+	private static final int [] tinyPlasticCrimbo = new int [] { 1377, 1378, 2201, 2202 };
 
 	// Available skills which affect weight
 	private static boolean sympathyAvailable;
@@ -1082,6 +1080,27 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( poundsNeeded <= 0 )
 				return true;
 
+			// Consider green candy hearts and green snowcones, since they
+			// add +8 to familiar weight when used together, which, when
+			// combined with buffing spray, yields +13.
+
+			if ( greenHeartActive == 0 )
+			{
+				DEFAULT_SHELL.executeLine( " acquire 1 green candy heart" );
+				status.updateStatus();
+				poundsNeeded -= 3;
+			}
+
+			if ( poundsNeeded <= 0 )
+				return true;
+
+			if ( !hasTongue && greenTongueActive == 0 )
+			{
+				DEFAULT_SHELL.executeLine( " acquire 1 green snowcone" );
+				status.updateStatus();
+				poundsNeeded -= 5;
+			}
+
 			// First, check their current familiar's item. If it affects
 			// weight (positively) and their current item does not impact
 			// weight by as much, try to grab it.
@@ -1104,26 +1123,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Acquire tiny plastic items from the mall.  Randomly
 			// choose one of the items using a random number generator.
 
-			if ( poundsNeeded <= 3 - status.tpCount )
-			{
-				String plasticItem = TradeableItemDatabase.getItemName(
-					firstTinyPlastic + RNG.nextInt( lastTinyPlastic - firstTinyPlastic ) );
-
-				DEFAULT_SHELL.executeLine( "acquire " + poundsNeeded + " " + plasticItem );
-				status.updateStatus();
-				return true;
-			}
-
-			// Otherwise, if it gets this far, you definitely need
-			// a snowcone; any other circumstance and you would have
-			// had enough to get by.
-
-			if ( !hasTongue && greenTongueActive == 0 )
-			{
-				DEFAULT_SHELL.executeLine( " acquire 1 green snowcone" );
-				status.updateStatus();
-				poundsNeeded -= 5;
-			}
+			String plasticItem = TradeableItemDatabase.getItemName( tinyPlasticNormal[ RNG.nextInt( tinyPlasticNormal.length ) ] );
+			DEFAULT_SHELL.executeLine( "acquire " + poundsNeeded + " " + plasticItem );
+			status.updateStatus();
 
 			// That's all that can be done.  Return whether or not
 			// your goal is achievable.
@@ -1501,15 +1503,18 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		public boolean isTinyPlasticItem( AdventureResult ar )
 		{
-			if ( ar != null )
-			{
-				int id = ar.getItemId();
-				if ( id >= firstTinyPlastic && id <= lastTinyPlastic )
-					return true;
-				if ( id >= firstTinyPlasticCrimbo && id <= lastTinyPlasticCrimbo )
-					return true;
+			if ( ar == null )
 				return false;
-			}
+
+			int id = ar.getItemId();
+			for ( int i = 0; i < tinyPlasticNormal.length; ++i )
+				if ( id == tinyPlasticNormal[i] )
+					return true;
+
+			for ( int i = 0; i < tinyPlasticCrimbo.length; ++i )
+				if ( id == tinyPlasticCrimbo[i] )
+					return true;
+
 			return false;
 		}
 
@@ -1609,12 +1614,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// If equipped with fewer than three tiny plastic items
 			// equipped, search inventory for more
-			for ( int i = firstTinyPlastic; i <= lastTinyPlastic; ++i )
-				addTinyPlastic( i, inventory );
+			for ( int i = 0; i < tinyPlasticNormal.length; ++i )
+				addTinyPlastic( tinyPlasticNormal[i], inventory );
 
 			// Check Tiny Plastic Crimbo objects
-			for ( int i = firstTinyPlasticCrimbo; i <= lastTinyPlasticCrimbo; ++i )
-				addTinyPlastic( i, inventory );
+			for ( int i = 0; i < tinyPlasticCrimbo.length; ++i )
+				addTinyPlastic( tinyPlasticCrimbo[i], inventory );
 		}
 
 		private void addTinyPlastic( int id, LockableListModel inventory )
