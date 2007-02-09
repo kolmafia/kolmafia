@@ -454,6 +454,7 @@ yak whip	20	none	1-handed whip
 4-ball	0	none
 5-ball	0	none
 6-ball	0	none
+7-ball	0	none
 9-ball	0	none
 anniversary balloon	0	none
 antique shield	0	Mus: 85
