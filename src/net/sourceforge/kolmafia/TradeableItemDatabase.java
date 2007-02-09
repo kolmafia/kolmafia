@@ -303,6 +303,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( !possibilities.isEmpty() )
 			return KoLmafiaCLI.getFirstMatchingItemId( possibilities );
 
+		// Abort if it's clearly not going to be a plural,
+		// since this might kill off multi-item detection.
+
+		if ( count < 2 )
+			return -1;
+
 		// Or maybe it's a standard plural where they just add a letter
 		// to the end.
 
