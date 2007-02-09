@@ -1086,7 +1086,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( greenHeartActive == 0 )
 			{
-				DEFAULT_SHELL.executeLine( " acquire 1 green candy heart" );
+				DEFAULT_SHELL.executeLine( "acquire 1 green candy heart" );
 				status.updateStatus();
 				poundsNeeded -= 3;
 			}
@@ -1096,10 +1096,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( !hasTongue && greenTongueActive == 0 )
 			{
-				DEFAULT_SHELL.executeLine( " acquire 1 green snowcone" );
+				DEFAULT_SHELL.executeLine( "acquire 1 green snowcone" );
 				status.updateStatus();
 				poundsNeeded -= 5;
 			}
+
+			if ( poundsNeeded <= 0 )
+				return true;
 
 			// First, check their current familiar's item. If it affects
 			// weight (positively) and their current item does not impact
@@ -1130,7 +1133,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// That's all that can be done.  Return whether or not
 			// your goal is achievable.
 
-			return poundsNeeded <= 0;
+			return true;
 		}
 
 		case TURNS:
@@ -1410,13 +1413,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 			heavyPettingAvailable = inventory.contains( BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
 
 			// Look at effects to decide which ones are active;
-			LockableListModel active = activeEffects;
-			empathyActive = EMPATHY.getCount( active );
-			leashActive = LEASH.getCount( active );
-			greenTongueActive = GREEN_TONGUE.getCount( active );
-			blackTongueActive = BLACK_TONGUE.getCount( active );
-			heavyPettingActive = HEAVY_PETTING.getCount( active );
-			greenHeartActive = GREEN_HEART.getCount( active );
+			empathyActive = EMPATHY.getCount( activeEffects );
+			leashActive = LEASH.getCount( activeEffects );
+			greenTongueActive = GREEN_TONGUE.getCount( activeEffects );
+			blackTongueActive = BLACK_TONGUE.getCount( activeEffects );
+			heavyPettingActive = HEAVY_PETTING.getCount( activeEffects );
+			greenHeartActive = GREEN_HEART.getCount( activeEffects );
 		}
 
 		private void checkCurrentEquipment()
