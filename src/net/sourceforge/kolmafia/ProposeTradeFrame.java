@@ -328,12 +328,9 @@ public class ProposeTradeFrame extends KoLFrame
 			labeledArea.add( JComponentUtilities.createLabel( "Currently Attached", JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 			labeledArea.add( attachmentArea, BorderLayout.CENTER );
 
-			JPanel eastPanel = new JPanel( new CardLayout( 10, 10 ) );
-			eastPanel.add( labeledArea, "" );
-
 			framePanel.setLayout( new BorderLayout() );
 			framePanel.add( new SourcePanel(), BorderLayout.CENTER );
-			framePanel.add( eastPanel, BorderLayout.EAST );
+			framePanel.add( labeledArea, BorderLayout.EAST );
 		}
 
 		private class SourcePanel extends ItemManagePanel
