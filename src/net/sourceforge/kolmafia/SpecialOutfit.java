@@ -44,7 +44,11 @@ public class SpecialOutfit implements Comparable, KoLConstants
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
 
+	private static int currentSkip = 0;
+	private static final ArrayList skipQueue = new ArrayList();
+
 	private static final ArrayList IMPLICIT = new ArrayList();
+
 	private static final AdventureResult [] EXPLICIT = new AdventureResult[ KoLCharacter.FAMILIAR ];
 
 	private int outfitId;
@@ -198,7 +202,16 @@ public class SpecialOutfit implements Comparable, KoLConstants
 					shouldSave = true;
 
 			if ( !shouldSave )
+			{
+				++currentSkip;
 				return;
+			}
+		}
+
+		if ( currentSkip != 0 )
+		{
+			skipQueue.add( new Integer( currentSkip ) );
+			currentSkip = 0;
 		}
 
 		AdventureResult [] checkpoint = new AdventureResult[ KoLCharacter.FAMILIAR ];
@@ -218,8 +231,20 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		if ( IMPLICIT.isEmpty() )
 			return;
 
+		if ( currentSkip != 0 )
+		{
+			--currentSkip;
+			return;
+		}
+
 		int index = IMPLICIT.size() - 1;
 		restoreCheckpoint( (AdventureResult []) IMPLICIT.remove( index ) );
+
+		if ( !skipQueue.isEmpty() )
+		{
+			index = skipQueue.size() - 1;
+			currentSkip = ((Integer)skipQueue.remove( index )).intValue();
+		}
 	}
 
 	/**
