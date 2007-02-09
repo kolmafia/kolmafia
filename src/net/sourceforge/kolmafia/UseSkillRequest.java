@@ -62,7 +62,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private int buffCount;
 	private String countFieldId;
 
-	private static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
+	public static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
 	public static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
 	public static final AdventureResult WIZARD_HAT = new AdventureResult( 1653, 1 );
 
@@ -220,12 +220,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		// Cast the skill as many times as needed
 
-		optimizeEquipment( skillId );
+		AdventureResult item = optimizeEquipment( skillId );
 
 		if ( !KoLmafia.permitsContinue() )
 			return;
 
 		useSkillLoop();
+
+		if ( item != null && item != ACCORDION && item != ROCKNROLL_LEGEND )
+			untinkerCloverWeapon( item );
 	}
 
 	private void useSkillLoop()
