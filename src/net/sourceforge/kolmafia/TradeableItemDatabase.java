@@ -288,16 +288,20 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "less-than-three- shaped box" ) )
 			return 1168;
 
-		// If there's no more than one, don't deal with pluralization
-		if ( count < 2 )
-			return -1;
-
 		// See if it's a weird pluralization with a pattern we can't
 		// guess.
 
 		itemId = itemIdByPlural.get( canonicalName );
 		if ( itemId != null )
 			return ((Integer)itemId).intValue();
+
+		// It's possible that you're looking for a substring.  In
+		// that case, prefer complete versions containing the substring
+		// over truncated versions which are plurals.
+
+		List possibilities = getMatchingNames( itemIdByName, canonicalName );
+		if ( !possibilities.isEmpty() )
+			return KoLmafiaCLI.getFirstMatchingItemId( possibilities );
 
 		// Or maybe it's a standard plural where they just add a letter
 		// to the end.
