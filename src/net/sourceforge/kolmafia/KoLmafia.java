@@ -2901,14 +2901,14 @@ public abstract class KoLmafia implements KoLConstants
 		if ( recoveryActive || continuationState == PENDING_STATE || refusesContinue() || (runThresholdCheck && !runThresholdChecks()) )
 			return;
 
-		recoveryActive = true;
-
 		// First, run the between battle script defined by the
 		// user, which may make it so that none of the built
 		// in behavior needs to run.
 
 		RequestThread.openRequestSequence();
 		SpecialOutfit.createImplicitCheckpoint();
+
+		recoveryActive = true;
 
 		String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
 
@@ -2926,10 +2926,10 @@ public abstract class KoLmafia implements KoLConstants
 		if ( runAutoRecovery )
 			recoverMP();
 
+		recoveryActive = false;
+
 		SpecialOutfit.restoreImplicitCheckpoint();
 		RequestThread.closeRequestSequence();
-
-		recoveryActive = false;
 
 		if ( runAutoRecovery && KoLCharacter.getCurrentHP() == 0 )
 			updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
