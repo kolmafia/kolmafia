@@ -579,9 +579,6 @@ public class KoLRequest extends Job implements KoLConstants
 				dataBuffer.append( elements[i] );
 		}
 
-		if ( dataBuffer.indexOf( "whichskill=moxman" ) != -1 )
-			return "action=moxman";
-
 		return dataBuffer.toString();
 	}
 
@@ -606,12 +603,12 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( shouldPrintDebug() )
 			KoLmafia.getDebugStream().println( getClass() );
 
-		if ( location.indexOf( "sewer.php" ) != -1 )
+		if ( location.startsWith( "sewer.php" ) )
 		{
 			if ( StaticEntity.getBooleanProperty( "relayAlwaysBuysGum" ) )
 				DEFAULT_SHELL.executeLine( "acquire chewing gum on a string" );
 		}
-		else if ( location.indexOf( "hermit.php" ) != -1 && location.indexOf( "whichitem=140" ) != -1 )
+		else if ( location.startsWith( "hermit.php" ) && location.indexOf( "whichitem=140" ) != -1 )
 		{
 			DEFAULT_SHELL.executeLine( "acquire hermit permit" );
 			DEFAULT_SHELL.executeLine( "acquire worthless item" );
@@ -626,7 +623,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// tower items sitting in the closet or that have not
 		// been constructed, pull them out.
 
-		if ( location.indexOf( "lair4.php" ) != -1 || location.indexOf( "lair5.php" ) != -1 )
+		if ( location.startsWith( "lair4.php" ) || location.startsWith( "lair5.php" ) )
 			SorceressLair.makeGuardianItems();
 
 		needsRefresh = false;
@@ -635,7 +632,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// If this is the trapper page, make sure to check to
 		// see if there's any changes to your inventory.
 
-		if ( location.indexOf( "trapper.php" ) != -1 )
+		if ( location.startsWith( "trapper.php" ) )
 		{
 			Matcher oreMatcher = ORE_PATTERN.matcher( responseText );
 			if ( oreMatcher.find() )
@@ -664,7 +661,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		// The Deep Fat Friars' Ceremony Location
 
-		if ( location.indexOf( "friars.php" ) != -1 )
+		if ( location.startsWith( "friars.php" ) )
 		{
 			// "Thank you, Adventurer."
 
@@ -686,7 +683,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// There are requests to the council which will also
 		// decrement your inventory.
 
-		if ( location.indexOf( "council.php" ) != -1 )
+		if ( location.startsWith( "council.php" ) )
 		{
 			if ( responseText.indexOf( "500" ) != -1 )
 				StaticEntity.getClient().processResult( new AdventureResult( "mosquito larva", -1, false ) );
@@ -697,7 +694,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// The white citadel quest will also decrement your
 		// inventory once.
 
-		if ( KoLCharacter.hasItem( KoLmafia.SATCHEL ) && location.indexOf( "guild.php" ) != -1 && location.indexOf( "place=paco" ) != -1 )
+		if ( KoLCharacter.hasItem( KoLmafia.SATCHEL ) && location.startsWith( "guild.php" ) && location.indexOf( "place=paco" ) != -1 )
 			StaticEntity.getClient().processResult( KoLmafia.SATCHEL.getNegation() );
 
 		// If this is an equipment request, then reprint the
@@ -712,19 +709,19 @@ public class KoLRequest extends Job implements KoLConstants
 		// If this is the rat quest, then go ahead and pre-set the data
 		// to reflect a fight sequence (mini-browser compatibility).
 
-		isRatQuest |= formURLString.indexOf( "rats.php" ) != -1;
-		if ( !isChatRequest && formURLString.indexOf( "charpane" ) == -1 && formURLString.indexOf( "rats.php" ) == -1 )
-			isRatQuest &= formURLString.indexOf( "fight.php" ) != -1;
+		String urlString = getURLString();
+
+		isRatQuest |= urlString.startsWith( "rats.php" );
+		if ( !isChatRequest && !urlString.startsWith( "charpane.php" ) && !urlString.startsWith( "rats.php" ) )
+			isRatQuest &= urlString.startsWith( "fight.php" );
 
 		if ( isRatQuest )
 			KoLmafia.addTavernLocation( this );
 
-		String urlString = getURLString();
-
 		if ( !shouldIgnoreResult )
 			RequestLogger.registerRequest( this, urlString );
 
-		if ( urlString.indexOf( "choice.php" ) != -1 )
+		if ( urlString.startsWith( "choice.php" ) )
 			saveLastChoice( urlString );
 
 		if ( !isDelayExempt )
@@ -733,13 +730,13 @@ public class KoLRequest extends Job implements KoLConstants
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
 
-		if ( urlString.indexOf( "lair6.php?place=5" ) != 1 )
+		if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=5" ) != -1 )
 		{
 			activeEffects.clear();
 			needsRefresh = true;
 		}
 
-		if ( urlString.indexOf( "lair6.php?place=6" ) != 1 )
+		if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=6" ) != -1 )
 		{
 			KoLCharacter.setHardcore( false );
 			needsRefresh = true;
@@ -879,7 +876,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( sessionId != null )
 		{
-			if ( formURLString.indexOf( "inventory.php" ) != -1 && !StaticEntity.getProperty( "visibleBrowserInventory" ).equals( "" ) )
+			if ( formURLString.startsWith( "inventory.php" ) && !StaticEntity.getProperty( "visibleBrowserInventory" ).equals( "" ) )
 				formConnection.addRequestProperty( "Cookie", StaticEntity.getProperty( "visibleBrowserInventory" ) + "; " + sessionId );
 			else
 				formConnection.addRequestProperty( "Cookie", sessionId );
@@ -1203,7 +1200,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( !shouldIgnoreResult )
 			parseResults();
 
-		if ( formURLString.indexOf( "fight.php" ) != -1 )
+		if ( formURLString.startsWith( "fight.php" ) )
 			FightRequest.updateCombatData( encounter, responseText );
 
 		if ( !LoginRequest.isInstanceRunning() && !(this instanceof LocalRelayRequest) && !(this instanceof CharpaneRequest) && !isChatRequest && formURLString.indexOf( "search" ) == -1 )
@@ -1217,13 +1214,13 @@ public class KoLRequest extends Job implements KoLConstants
 		// Let the mappers do their work
 		mapCurrentChoice( responseText );
 
-		if ( getURLString().indexOf( "adventure.php" ) != -1 && responseText.indexOf( "notice a ten-leaf clover" ) != -1 )
+		if ( formURLString.startsWith( "adventure.php" ) && responseText.indexOf( "notice a ten-leaf clover" ) != -1 )
 			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 
 		needsRefresh &= !(getClass() == KoLRequest.class || this instanceof LocalRelayRequest || this instanceof FightRequest);
-		needsRefresh &= formURLString.indexOf( "charpane.php" ) == -1;
+		needsRefresh &= formURLString.startsWith( "charpane.php" );
 
-		statusChanged &= formURLString.indexOf( "charpane.php" ) == -1;
+		statusChanged &= formURLString.startsWith( "charpane.php" );
 		KoLmafia.applyEffects();
 
 		if ( needsRefresh || statusChanged )
@@ -1233,7 +1230,7 @@ public class KoLRequest extends Job implements KoLConstants
 			else
 				CharpaneRequest.getInstance().run();
 		}
-		else if ( formURLString.indexOf( "charpane.php" ) != -1 )
+		else if ( formURLString.startsWith( "charpane.php" ) )
 		{
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
@@ -1325,7 +1322,7 @@ public class KoLRequest extends Job implements KoLConstants
 	 */
 
 	public int getAdventuresUsed()
-	{	return formURLString.indexOf( "choice.php" ) != -1 ? 1 : 0;
+	{	return formURLString.startsWith( "choice.php" ) ? 1 : 0;
 	}
 
 	public void parseResults()
@@ -1339,7 +1336,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( responseText.indexOf( "our ten-leaf clover" ) != -1 && responseText.indexOf( "puff of smoke" ) != -1 )
 			StaticEntity.getClient().processResult( SewerRequest.CLOVER );
 
-		if ( formURLString.indexOf( "sewer.php" ) != -1 && responseText.indexOf( "You acquire" ) != -1 )
+		if ( formURLString.startsWith( "sewer.php" ) && responseText.indexOf( "You acquire" ) != -1 )
 			StaticEntity.getClient().processResult( SewerRequest.GUM );
 
 		int previousHP = KoLCharacter.getCurrentHP();
