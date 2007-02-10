@@ -669,21 +669,11 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	private int computeVisibleIndex( int actualIndex )
 	{
 		int visibleIndex = actualIndex;
-		for ( int i = actualIndex; i >= 0; --i )
+		for ( int i = actualIndex - 1; i >= 0; --i )
 			if ( !currentFilter.isVisible( actualElements.get(i) ) )
 				--visibleIndex;
 
 		return visibleIndex;
-	}
-
-	private int computeActualIndex( int visibleIndex )
-	{
-		int actualIndex = visibleIndex;
-		for ( int i = 0; i <= actualIndex; ++i )
-			if ( !currentFilter.isVisible( actualElements.get(i) ) )
-				++actualIndex;
-
-		return actualIndex;
 	}
 
 	/**
@@ -780,7 +770,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
      */
 
 	public void removeElementAt( int index )
-	{	remove( computeActualIndex( index ) );
+	{	remove( visibleElements.get( index ) );
 	}
 
 	/**
