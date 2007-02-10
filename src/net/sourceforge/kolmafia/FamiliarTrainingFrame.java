@@ -1826,13 +1826,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		public void changeGear( GearSet current, GearSet next )
 		{
-			// Steal a doppelganger, always
-			if ( doppelgangerOwner != familiar )
-			{
-				RequestThread.postRequest( new EquipmentRequest( DOPPELGANGER, KoLCharacter.FAMILIAR ) );
-				doppelgangerOwner = familiar;
-			}
-
 			swapItem( current.hat, next.hat, KoLCharacter.HAT );
 			swapItem( current.item, next.item, KoLCharacter.FAMILIAR );
 			swapItem( current.acc1, next.acc1, KoLCharacter.ACCESSORY1 );
@@ -1854,15 +1847,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// something else is in the slot and will remove it
 			// first, if necessary
 
-			if ( current != null )
-			{
-				results.append( "Taking off " + current.getName() + "<br>" );
-				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, slot ) );
-				setItem( slot, null );
-			}
-
 			// Steal a pumpkin basket, if needed
-			if ( next == pumpkinBasket && pumpkinBasketOwner != null && pumpkinBasketOwner != familiar )
+			if ( next == pumpkinBasket && pumpkinBasketOwner != familiar )
 			{
 				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
 				pumpkinBasketOwner = familiar;
@@ -1870,7 +1856,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			// Steal a lead necklace, if needed
-			if ( next == leadNecklace && leadNecklaceOwner != null && leadNecklaceOwner != familiar )
+			if ( next == leadNecklace && leadNecklaceOwner != familiar )
 			{
 				RequestThread.postRequest( new EquipmentRequest( LEAD_NECKLACE, KoLCharacter.FAMILIAR ) );
 				leadNecklaceOwner = familiar;
@@ -1878,7 +1864,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			// Steal a rat head balloon necklace, if needed
-			if ( next == ratHeadBalloon && ratHeadBalloonOwner != null && ratHeadBalloonOwner != familiar )
+			if ( next == ratHeadBalloon && ratHeadBalloonOwner != familiar )
 			{
 				RequestThread.postRequest( new EquipmentRequest( RAT_HEAD_BALLOON, KoLCharacter.FAMILIAR ) );
 				ratHeadBalloonOwner = familiar;
@@ -1891,6 +1877,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 				results.append( "Putting on " + next.getName() + "...<br>" );
 				RequestThread.postRequest( new EquipmentRequest( next, slot ) );
 				setItem( slot, next );
+			}
+			else if ( current != null )
+			{
+				results.append( "Taking off " + current.getName() + "<br>" );
+				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, slot ) );
+				setItem( slot, null );
 			}
 		}
 
@@ -1957,7 +1949,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Iterate over all the GearSets and choose the first
 			// one which is closest to the current GearSet
 			if ( gearSets.isEmpty() && buffs )
-				getBuffGearSets( weight, buffs );
+				getBuffGearSets( weight, true );
 
 			Collections.sort( gearSets );
 			return gearSets.isEmpty() ? null : (GearSet) gearSets.get(0);
