@@ -574,6 +574,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "junk" ) || command.equals( "cleanup" ) )
+		{
+			makeJunkRemovalRequest();
+			return;
+		}
+
 		// Preconditions kickass, so they're handled right
 		// after the wait command.  (Right)
 
