@@ -208,11 +208,8 @@ public class SpecialOutfit implements Comparable, KoLConstants
 			}
 		}
 
-		if ( currentSkip != 0 )
-		{
-			skipQueue.add( new Integer( currentSkip ) );
-			currentSkip = 0;
-		}
+		skipQueue.add( new Integer( currentSkip ) );
+		currentSkip = 0;
 
 		AdventureResult [] checkpoint = new AdventureResult[ KoLCharacter.FAMILIAR ];
 		for ( int i = 0; i < checkpoint.length; ++i )
@@ -228,14 +225,14 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void restoreImplicitCheckpoint()
 	{
-		if ( IMPLICIT.isEmpty() )
-			return;
-
 		if ( currentSkip != 0 )
 		{
 			--currentSkip;
 			return;
 		}
+
+		if ( IMPLICIT.isEmpty() )
+			return;
 
 		int index = IMPLICIT.size() - 1;
 		restoreCheckpoint( (AdventureResult []) IMPLICIT.remove( index ) );

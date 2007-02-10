@@ -2919,19 +2919,19 @@ public abstract class KoLmafia implements KoLConstants
 		// any loose ends.
 
 		if ( runAutoRecovery )
-		{
 			MoodSettings.execute();
 
-			recoverHP();
+		recoverHP();
+
+		if ( runAutoRecovery )
 			recoverMP();
-		}
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 		RequestThread.closeRequestSequence();
 
 		recoveryActive = false;
 
-		if ( KoLCharacter.getCurrentHP() == 0 )
+		if ( runAutoRecovery && KoLCharacter.getCurrentHP() == 0 )
 			updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
 
 		if ( permitsContinue() && currentIterationString.length() > 0 )

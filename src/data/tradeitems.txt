@@ -706,7 +706,7 @@
 706	porquoise	0	all	500
 707	pork elf goodies sack	3	display	100
 708	ring setting	0	all	100
-709	jewelry-making pliers	0	none	500
+709	jewelry-making pliers	0	all	500
 710
 711	hamethyst earring	8	all	250
 712	hamethyst necklace	8	all	250
