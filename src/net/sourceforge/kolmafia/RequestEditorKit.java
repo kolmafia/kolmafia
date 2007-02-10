@@ -975,9 +975,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				startPoint = 3000;
 			else if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
 				startPoint = 4000;
-			else if ( KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF ) )
-				startPoint = 5000;
 			else if ( KoLCharacter.getClassType().equals( KoLCharacter.DISCO_BANDIT ) )
+				startPoint = 5000;
+			else if ( KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF ) )
 				startPoint = 6000;
 
 			skills.append( "<table cellspacing=10 cellpadding=10><tr>" );
