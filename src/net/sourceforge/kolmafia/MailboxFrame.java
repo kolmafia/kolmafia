@@ -159,7 +159,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		if ( requestMailbox )
-			RequestThread.postRequest( new MailRefresher( currentTabName ) );
+			(new MailRefresher( currentTabName )).run();
 	}
 
 	private void refreshMailManager()
@@ -349,7 +349,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		public void run()
 		{
 			String currentTabName = tabs.getTitleAt( tabs.getSelectedIndex() );
-			RequestThread.postRequest( new MailRefresher( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName ) );
+			(new MailRefresher( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName )).run();
 		}
 	}
 
