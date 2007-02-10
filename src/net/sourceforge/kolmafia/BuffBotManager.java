@@ -83,7 +83,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	public static void loadSettings()
 	{
 		isInitializing = true;
-		KoLMailManager.clearMailboxes();
+		clearMailboxes();
 
 		buffCostMap.clear();
 		buffCostTable.clear();
@@ -101,44 +101,50 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		if ( reader == null )
 		{
-			String [] soldBuffs = getProperty( "buffBotCasting" ).split( ";" );
-			if ( soldBuffs[0].length() > 0 )
-			{
-				for ( int i = 0; i < soldBuffs.length; ++i )
-				{
-					currentBuff = soldBuffs[i].split( ":" );
-					if ( currentBuff.length < 3 )
-						continue;
+			String oldList = getProperty( "buffBotCasting" );
 
-					addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ), parseInt( currentBuff[2] ),
-						currentBuff.length > 3 && currentBuff[3].equalsIgnoreCase( "true" ), currentBuff.length > 4 && currentBuff[4].equalsIgnoreCase( "true" ) );
-				}
+			if ( oldList.equals( "" ) )
+				return;
+
+			String [] soldBuffs = oldList.split( ";" );
+
+			for ( int i = 0; i < soldBuffs.length; ++i )
+			{
+				currentBuff = soldBuffs[i].split( ":" );
+				System.out.println( soldBuffs[i] );
+
+				if ( currentBuff.length < 3 )
+					continue;
+
+				addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ), parseInt( currentBuff[2] ),
+					currentBuff.length > 3 && currentBuff[3].equalsIgnoreCase( "true" ), currentBuff.length > 4 && currentBuff[4].equalsIgnoreCase( "true" ) );
 			}
 
-			StaticEntity.removeProperty( "buffBotCasting" );
-			isInitializing = false;
-			return;
+			removeProperty( "buffBotCasting" );
 		}
-
-		while ( (currentBuff = KoLDatabase.readData( reader )) != null )
+		else
 		{
-			if ( currentBuff.length < 3 )
-				continue;
+			while ( (currentBuff = KoLDatabase.readData( reader )) != null )
+			{
+				if ( currentBuff.length < 3 )
+					continue;
 
-			addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ), parseInt( currentBuff[2] ),
-				currentBuff.length > 3 && currentBuff[3].equalsIgnoreCase( "true" ), currentBuff.length > 4 && currentBuff[4].equals( "true" ) );
-		}
+				addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ), parseInt( currentBuff[2] ),
+					currentBuff.length > 3 && currentBuff[3].equalsIgnoreCase( "true" ), currentBuff.length > 4 && currentBuff[4].equals( "true" ) );
+			}
 
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
+			try
+			{
+				reader.close();
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
 		}
 
 		isInitializing = false;
+		saveBuffs();
 	}
 
 	/**
@@ -365,6 +371,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	public static void runBuffBot( int iterations )
 	{
+		BuffBotHome.loadSettings();
+
 		// Make sure that the buffbot is wearing the best
 		// equipment they have available.
 
