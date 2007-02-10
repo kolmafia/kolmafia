@@ -69,6 +69,7 @@ public class ContactListFrame extends KoLFrame
 	{
 		super( "Contact List" );
 		this.contacts = contacts;
+
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( new ContactListPanel(), "" );
 

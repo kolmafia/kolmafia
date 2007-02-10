@@ -132,7 +132,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		setTitle( title );
 
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+
+		this.tabs = new CloseTabbedPane();
 		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
+
 		getContentPane().add( this.framePanel, BorderLayout.CENTER );
 
 		this.frameName = getClass().getName();
@@ -145,9 +148,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		if ( shouldAddFrame )
 			existingFrames.add( this );
-
-		this.tabs = new CloseTabbedPane();
-		this.tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
 	}
 
 	public final void addTab( String name, JComponent panel )
