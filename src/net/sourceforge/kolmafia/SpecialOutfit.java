@@ -235,7 +235,11 @@ public class SpecialOutfit implements Comparable, KoLConstants
 			return;
 
 		int index = IMPLICIT.size() - 1;
-		restoreCheckpoint( (AdventureResult []) IMPLICIT.remove( index ) );
+
+		AdventureResult [] changeup = (AdventureResult []) IMPLICIT.remove( index );
+
+		if ( !KoLmafia.isRunningBetweenBattleChecks() )
+			restoreCheckpoint( changeup );
 
 		if ( !skipQueue.isEmpty() )
 		{
