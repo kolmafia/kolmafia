@@ -73,9 +73,6 @@ public class ExamineItemsFrame extends KoLFrame
 	{
 		super( "Internal Database" );
 
-		tabs = new JTabbedPane();
-		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
-
 		items = new ExamineItemsPanel( allItems );
 		tabs.addTab( "Items", items );
 

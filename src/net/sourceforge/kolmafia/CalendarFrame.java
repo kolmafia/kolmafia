@@ -128,9 +128,6 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		JComponentUtilities.setComponentSize( predictDisplay, 400, 300 );
 		predictBuffer.setChatDisplay( predictDisplay );
 
-		tabs = new JTabbedPane();
-		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
-
 		tabs.addTab( "KoL One-a-Day", dailyDisplay );
 		tabs.addTab( "Upcoming Events", predictDisplay );
 

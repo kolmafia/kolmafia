@@ -295,11 +295,14 @@ public abstract class KoLmafia implements KoLConstants
 
 		StaticEntity.setProperty( "swingLookAndFeel", lookAndFeel );
 
-		UIManager.put( "ProgressBar.foreground", Color.black );
-		UIManager.put( "ProgressBar.selectionForeground", Color.lightGray );
+		if ( lookAndFeel.equals( UIManager.getCrossPlatformLookAndFeelClassName() ) )
+		{
+			UIManager.put( "ProgressBar.foreground", Color.black );
+			UIManager.put( "ProgressBar.selectionForeground", Color.lightGray );
 
-		UIManager.put( "ProgressBar.background", Color.lightGray );
-		UIManager.put( "ProgressBar.selectionBackground", Color.black );
+			UIManager.put( "ProgressBar.background", Color.lightGray );
+			UIManager.put( "ProgressBar.selectionBackground", Color.black );
+		}
 
 		tab.CloseTabPaneEnhancedUI.selectedA = DataUtilities.toColor( StaticEntity.getProperty( "innerTabColor" ) );
 		tab.CloseTabPaneEnhancedUI.selectedB = DataUtilities.toColor( StaticEntity.getProperty( "outerTabColor" ) );

@@ -90,9 +90,6 @@ public class OptionsFrame extends KoLFrame
 	{
 		super( "Preferences" );
 
-		tabs = new CloseTabbedPane();
-		tabs.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
-
 		JPanel addonPanel = new JPanel( new GridLayout( 2, 1, 10, 10 ) );
 		addonPanel.add( new ScriptButtonPanel() );
 		addonPanel.add( new BookmarkManagePanel() );
