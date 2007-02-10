@@ -691,6 +691,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 				return false;
 			}
 
+// BREAKPOINT HERE SEARCH FOR ME.
+
 			// Change into appropriate gear
 			status.changeGear( tool.bestWeight(), buffs );
 			if ( !KoLmafia.permitsContinue() )
@@ -1760,6 +1762,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Make a GearSet describing what we have now
 			GearSet current = new GearSet();
 
+			if ( doppelgangerOwner != familiar )
+			{
+				RequestThread.postRequest( new EquipmentRequest( DOPPELGANGER, KoLCharacter.FAMILIAR ) );
+				doppelgangerOwner = familiar;
+			}
+
 			// If we are already suitably equipped, stop now
 			if ( weight == current.weight() )
 				return;
@@ -1819,7 +1827,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		public void changeGear( GearSet current, GearSet next )
 		{
 			// Steal a doppelganger, always
-			if ( doppelgangerOwner != null && doppelgangerOwner != familiar )
+			if ( doppelgangerOwner != familiar )
 			{
 				RequestThread.postRequest( new EquipmentRequest( DOPPELGANGER, KoLCharacter.FAMILIAR ) );
 				doppelgangerOwner = familiar;
@@ -2301,6 +2309,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			StringBuffer text = new StringBuffer();
 
 			text.append( "Available equipment:" );
+			if ( doppelganger != null )
+				text.append( " flaming familiar doppelg&auml;nger (+0)" );
 			if ( pithHelmet != null )
 				text.append( " plexiglass pith helmet (+5)" );
 			if ( specItem != null )
