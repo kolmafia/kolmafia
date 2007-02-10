@@ -391,7 +391,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			// Do not submit a request if the item matches what you
 			// want to equip on the character.
 
-			if ( KoLCharacter.hasEquipped( changeItem.getName(), equipmentSlot ) )
+			if ( KoLCharacter.getEquipment( equipmentSlot ).equals( changeItem ) )
 				return;
 
 			// If we are requesting another familiar's equipment,
