@@ -3793,7 +3793,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeBuffBotCommand( String parameters )
 	{
-		BuffBotHome.loadSettings();
 		BuffBotManager.loadSettings();
 
 		if ( BuffBotManager.getBuffCostTable().isEmpty() )

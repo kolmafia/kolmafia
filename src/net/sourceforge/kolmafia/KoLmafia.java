@@ -492,9 +492,6 @@ public abstract class KoLmafia implements KoLConstants
 			StoreManager.clearCache();
 			MuseumManager.clearCache();
 			ClanManager.clearCache();
-
-			BuffBotHome.loadSettings();
-			BuffBotManager.loadSettings();
 		}
 
 		// Now actually reset the session.

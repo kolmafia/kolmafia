@@ -160,24 +160,6 @@ public class FightRequest extends KoLRequest
 		if ( action1.equals( "custom" ) )
 			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 1 );
 
-		// Special handling when using a thief familiar.  To encourage
-		// people to upgrade to be less impactful on the community, one
-		// account will be permitted to "spade" thief familiars.
-
-		if ( KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() && isAcceptable( offenseModifier, defenseModifier ) )
-		{
-			if ( isLikelyStasisAction( action1 ) )
-			{
-				String playerId = KoLCharacter.getPlayerId();
-				String stasisAccount = StaticEntity.getProperty( "stasisFarmingAccount" );
-
-				if ( stasisAccount.equals( "" ) )
-					StaticEntity.setProperty( "stasisFarmingAccount", playerId );
-				else if ( !stasisAccount.equals( playerId ) )
-					action1 = "attack";
-			}
-		}
-
 		// Automatically pickpocket when appropriate, if the
 		// player trusts KoLmafia knows the right thing to do.
 

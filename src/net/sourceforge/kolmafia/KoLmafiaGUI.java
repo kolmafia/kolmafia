@@ -200,7 +200,11 @@ public class KoLmafiaGUI extends KoLmafia
 		// Now, test to see if any requests need to be run before
 		// you fall into the event dispatch thread.
 
-		if ( frameName.equals( "BuffRequestFrame" ) )
+		if ( frameName.equals( "BuffBotFrame" ) )
+		{
+			BuffBotManager.loadSettings();
+		}
+		else if ( frameName.equals( "BuffRequestFrame" ) )
 		{
 			if ( !BuffBotDatabase.hasOfferings() )
 			{
