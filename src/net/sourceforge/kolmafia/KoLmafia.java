@@ -1696,7 +1696,12 @@ public abstract class KoLmafia implements KoLConstants
 				AdventureFrame.updateRequestMeter( currentIteration - 1, iterations );
 
 			KoLmafiaCLI.printBlankLine();
-			RequestThread.postRequest( request );
+
+			if ( request instanceof KoLRequest )
+				RequestThread.postRequest( (KoLRequest) request );
+			else
+				request.run();
+
 			KoLmafiaCLI.printBlankLine();
 
 			// If the conditions existed and have been satisfied,
@@ -2121,7 +2126,7 @@ public abstract class KoLmafia implements KoLConstants
 		DEFAULT_SHELL.executeLine( "council" );
 
 		updateDisplay( "Searching for faucet..." );
-		RequestThread.postRequest( adventure );
+		adventure.run();
 
 		// Random guess instead of straightforward search
 		// for the location of the faucet (lowers the chance
@@ -2131,9 +2136,8 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			searchIndex = (Integer) searchList.remove( RNG.nextInt( searchList.size() ) );
 
-			adventure.getRequest().clearDataFields();
 			adventure.getRequest().addFormField( "where", searchIndex.toString() );
-			RequestThread.postRequest( adventure );
+			adventure.run();
 
 			foundFaucet = adventure.getRequest().responseText != null &&
 				adventure.getRequest().responseText.indexOf( "faucetoff" ) != -1;

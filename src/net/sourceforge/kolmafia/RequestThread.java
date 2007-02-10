@@ -42,13 +42,14 @@ import net.sourceforge.foxtrot.Worker;
 public abstract class RequestThread implements KoLConstants
 {
 	private static int sequenceCount = 0;
+	private static final OneSecondDelay ONE_SECOND_DELAY = new OneSecondDelay();
 
 	/**
 	 * Posts a single request one time without forcing concurrency.
 	 * The display will be enabled if there is no sequence.
 	 */
 
-	public static void postRequest( Runnable request )
+	public static void postRequest( KoLRequest request )
 	{
 		if ( request == null )
 			return;
@@ -68,19 +69,12 @@ public abstract class RequestThread implements KoLConstants
 	 * The display will be enabled if there is no sequence.
 	 */
 
-	public static void postRequest( Runnable request, boolean forceConcurrency )
+	public static void postRequest( KoLRequest request, boolean forceConcurrency )
 	{
 		if ( request == null )
 			return;
 
-		try
-		{
-			executeRequest( request, forceConcurrency );
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
+		executeRequest( request, forceConcurrency );
 	}
 
 	/**
@@ -88,9 +82,9 @@ public abstract class RequestThread implements KoLConstants
 	 * This should be executed as a sub-component.
 	 */
 
-	private static void executeRequest( Runnable request, boolean forceConcurrency ) throws Exception
+	private static void executeRequest( KoLRequest request, boolean forceConcurrency )
 	{
-		if ( sequenceCount == 0 && (!(request instanceof KoLRequest) || !((KoLRequest)request).isDelayExempt()) )
+		if ( sequenceCount == 0 && !request.isDelayExempt() )
 			KoLmafia.forceContinue();
 
 		++sequenceCount;
@@ -98,18 +92,25 @@ public abstract class RequestThread implements KoLConstants
 		// If you're not in the event dispatch thread, you can run
 		// without posting to a separate thread.
 
-		if ( !SwingUtilities.isEventDispatchThread() )
-			request.run();
+		try
+		{
+			if ( !SwingUtilities.isEventDispatchThread() )
+				request.run();
 
-		// Now you know you're in the event dispatch thread, either
-		// post concurrently or post in the handle thread based on
-		// the request type.
+			// Now you know you're in the event dispatch thread, either
+			// post concurrently or post in the handle thread based on
+			// the request type.
 
-		else if ( forceConcurrency || (request.getClass() == KoLRequest.class || request.getClass() == ChatRequest.class) )
-			ConcurrentWorker.post( request instanceof Job ? (Job) request : new Request( request ) );
+			else if ( forceConcurrency || (request.getClass() == KoLRequest.class || request.getClass() == ChatRequest.class) )
+				ConcurrentWorker.post( request );
 
-		else
-			Worker.post( request instanceof Job ? (Job) request : new Request( request ) );
+			else
+				Worker.post( request );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
 
 		--sequenceCount;
 
@@ -131,9 +132,6 @@ public abstract class RequestThread implements KoLConstants
 			return;
 
 		--sequenceCount;
-
-		if ( enableDisplayIfSequenceComplete() )
-			SystemTrayFrame.showBalloon( "Requests complete." );
 	}
 
 	public static boolean enableDisplayIfSequenceComplete()
@@ -150,6 +148,7 @@ public abstract class RequestThread implements KoLConstants
 		if ( KoLmafia.permitsContinue() || KoLmafia.refusesContinue() )
 			KoLmafia.enableDisplay();
 
+		SystemTrayFrame.showBalloon( "Requests complete." );
 		return true;
 	}
 
@@ -164,20 +163,26 @@ public abstract class RequestThread implements KoLConstants
 		KoLmafia.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
 	}
 
-	private static class Request extends Job
+	public static void waitOneSecond()
 	{
-		private Runnable request;
-
-		public Request( Runnable request )
-		{	this.request = request;
+		try
+		{
+			ConcurrentWorker.post( ONE_SECOND_DELAY );
 		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+	}
 
+	private static class OneSecondDelay extends Job
+	{
 		public void run()
 		{
 			if ( KoLmafia.refusesContinue() )
 				return;
 
-			request.run();
+			KoLRequest.delay( 1000 );
 		}
 	}
 }

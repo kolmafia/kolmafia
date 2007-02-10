@@ -213,7 +213,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	RequestThread.postRequest( (Runnable) enemyList.getSelectedItem() );
+		{	RequestThread.postRequest( (ClanAttackRequest) enemyList.getSelectedItem() );
 		}
 
 		public void actionCancelled()

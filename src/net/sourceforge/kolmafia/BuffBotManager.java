@@ -377,7 +377,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		// equipment they have available.
 
 		RequestThread.openRequestSequence();
-		OneSecondDelay delay = new OneSecondDelay();
 		UseSkillRequest.optimizeEquipment( 6003 );
 
 		BuffBotHome.setBuffBotActive( true );
@@ -443,7 +442,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 				for ( int j = 0; i != 1 && j < 60; ++j )
 					if ( BuffBotHome.isBuffBotActive() )
-						RequestThread.postRequest( delay );
+						RequestThread.waitOneSecond();
 			}
 		}
 

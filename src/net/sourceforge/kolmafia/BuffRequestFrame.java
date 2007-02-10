@@ -150,7 +150,7 @@ public class BuffRequestFrame extends KoLFrame
 			if ( requests.isEmpty() )
 				return;
 
-			Runnable [] runnables = new Runnable[ requests.size() ];
+			GreenMessageRequest [] runnables = new GreenMessageRequest[ requests.size() ];
 			requests.toArray( runnables );
 
 			RequestThread.openRequestSequence();
