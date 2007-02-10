@@ -585,7 +585,7 @@
 585	gnocchetti di Nietzsche	1	all	61
 586	ridiculously huge sword	12	all	155
 587	super-spikey hair gel	4	all	112
-588	soft green echo eyedrop antidote	3	all	118
+588	soft green echo eyedrop antidote	0	all	118
 589	cocoa eggshell fragment	1	all	114
 590	large cocoa eggshell fragment	1	all	214
 591	cocoa egg	5	all	403
