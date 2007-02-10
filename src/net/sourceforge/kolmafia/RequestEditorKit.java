@@ -1389,7 +1389,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					else if ( itemCount > 1 )
 					{
 						useType = "use";
-						useLocation = "javascript:document.getElementById('multiuse" + itemId + "').style.display='inline';void(0);";
+						useLocation = "# showObject('multiuse" + itemId + "')";
 					}
 
 					break;
@@ -1526,32 +1526,40 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( useLocation.endsWith( "=" ) )
 					useLocation += itemId;
 
-				useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"" + useLocation.toString() + "\">" + useType + "</a>]</font>" );
+				if ( useLocation.startsWith( "#" ) )
+				{
+					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font id=\"link" + itemId + "\" size=1>[<a href=\"#\" onClick=\"" +
+						useLocation.substring(1).trim() + "; void(0);\">" + useType + "</a>]</font>" );
+				}
+				else
+				{
+					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font id=\"link" + itemId + "\" size=1>[<a href=\"#\" onClick=\"" +
+						"singleUse('" + useLocation.toString() + "'); void(0);\">" + useType + "</a>]</font>" );
+				}
 
 				// Append a multi-use field rather than forcing
 				// an additional page load.
 
-				if ( useLocation.startsWith( "javascript:" ) )
+				if ( useLocation.startsWith( "#" ) )
 				{
 					buffer.append( "</td></tr><tr><td colspan=2 align=center><div style=\"display:none\" id=\"multiuse" );
 					buffer.append( itemId );
-					buffer.append( "\"><form method=post action=" );
+					buffer.append( "\">" );
+
+					buffer.append( "<form><input type=text size=3 id=\"quantity" );
+					buffer.append( itemId );
+					buffer.append( "\" value=" );
+					buffer.append( Math.min( itemCount, ConsumeItemRequest.maximumUses( itemId ) ) );
+					buffer.append( ">&nbsp;<input type=button class=button value=\"Use\" onClick=\"multiUse('" );
 
 					if ( consumeMethod == CONSUME_RESTORE )
 						buffer.append( "skills.php" );
 					else
 						buffer.append( "multiuse.php" );
 
-					buffer.append( "><input type=hidden name=pwd value=\"\"><input type=hidden name=action value=useitem><input type=hidden name=whichitem value=" );
+					buffer.append( "', " );
 					buffer.append( itemId );
-					buffer.append( "><input type=text size=3 name=" );
-
-					if ( consumeMethod == CONSUME_RESTORE )
-						buffer.append( "item" );
-
-					buffer.append( "quantity value=" );
-					buffer.append( Math.min( itemCount, ConsumeItemRequest.maximumUses( itemId ) ) );
-					buffer.append( ">&nbsp;<input type=submit class=button value=\"Use\"></form></div>" );
+					buffer.append( "); void(0);\"></form></div>" );
 				}
 
 				buffer.append( "</td>" );

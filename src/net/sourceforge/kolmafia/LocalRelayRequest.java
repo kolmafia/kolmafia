@@ -348,6 +348,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// we can detach user interface elements.
 
 		StaticEntity.singleStringReplace( responseBuffer, "frames.length == 0", "frames.length == -1" );
+		StaticEntity.singleStringReplace( responseBuffer, "<head>", "<head><script language=\"Javascript\" src=\"/basics.js\"></script>" );
+
 		responseText = responseBuffer.toString();
 
 		CustomItemDatabase.linkCustomItem( this );
@@ -370,7 +372,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 	public void pseudoResponse( String status, String responseText )
 	{
 		this.statusLine = status;
-		this.responseText = StaticEntity.globalStringReplace( responseText, "<!--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
+		this.responseText = StaticEntity.singleStringReplace( responseText, "<head>", "<head><script language=\"Javascript\" src=\"/basics.js\"></script>" );
 
 		if ( responseText.length() == 0 )
 			this.responseText = " ";
