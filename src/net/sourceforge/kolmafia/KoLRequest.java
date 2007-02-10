@@ -1218,9 +1218,9 @@ public class KoLRequest extends Job implements KoLConstants
 			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 
 		needsRefresh &= !(getClass() == KoLRequest.class || this instanceof LocalRelayRequest || this instanceof FightRequest);
-		needsRefresh &= formURLString.startsWith( "charpane.php" );
+		needsRefresh &= !formURLString.startsWith( "charpane.php" );
 
-		statusChanged &= formURLString.startsWith( "charpane.php" );
+		statusChanged &= !formURLString.startsWith( "charpane.php" );
 		KoLmafia.applyEffects();
 
 		if ( needsRefresh || statusChanged )
