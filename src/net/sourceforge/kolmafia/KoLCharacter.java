@@ -1708,18 +1708,8 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static boolean canInteract()
-	{	return canInteract;
+	{	return !isHardcore && totalTurnsUsed >= 600;
 	}
-
-	/**
-	 * Accessor method which tells you if the character can interact
-	 * with other players (Ronin or Hardcore players cannot).
-	 */
-
-	public static void setInteraction( boolean canInteract )
-	{	KoLCharacter.canInteract = canInteract;
-	}
-
 
 	/**
 	 * Returns whether or not the character is currently in hardcore.
@@ -2399,8 +2389,6 @@ public abstract class KoLCharacter extends StaticEntity
 				}
 
 				setTotalTurnsUsed( getTotalTurnsUsed() - result.getCount() );
-				if ( getTotalTurnsUsed() >= 600 && !isHardcore() )
-					setInteraction( true );
 			}
 		}
 		else if ( resultName.equals( AdventureResult.DRUNK ) )

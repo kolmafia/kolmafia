@@ -204,8 +204,6 @@ public class CharsheetRequest extends KoLRequest
 		}
 
 		KoLCharacter.setHardcore( responseText.indexOf( "You are in Hardcore mode" ) != -1 );
-		KoLCharacter.setInteraction( responseText.indexOf( "You may not receive items from other players" ) == -1 &&
-				responseText.indexOf( "You are in Hardcore mode" ) == -1 );
 
 		// Determine the current consumption restrictions
 		// the player possesses.

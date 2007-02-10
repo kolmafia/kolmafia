@@ -733,15 +733,16 @@ public class KoLRequest extends Job implements KoLConstants
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
 
-		if ( urlString.endsWith( "lair6.php?place=5" ) )
+		if ( urlString.indexOf( "lair6.php?place=5" ) != 1 )
 		{
 			activeEffects.clear();
 			needsRefresh = true;
 		}
-		if ( urlString.endsWith( "lair6.php?place=6" ) )
+
+		if ( urlString.indexOf( "lair6.php?place=6" ) != 1 )
 		{
 			KoLCharacter.setHardcore( false );
-			KoLCharacter.setInteraction( KoLCharacter.getTotalTurnsUsed() >= 600 );
+			needsRefresh = true;
 		}
 
 		statusChanged = false;
