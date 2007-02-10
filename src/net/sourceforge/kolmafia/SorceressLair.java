@@ -243,7 +243,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( reached > max )
 			{
-				KoLmafia.updateDisplay( PENDING_STATE, "You're already past this script." );
+				KoLmafia.updateDisplay( "You're already past this script." );
 				return false;
 			}
 		}
@@ -919,7 +919,7 @@ public abstract class SorceressLair extends StaticEntity
 	public static int fightTowerGuardians( boolean fightFamiliarGuardians )
 	{
 		if ( !checkPrerequisites( 4, 6 ) )
-			return 0;
+			return -1;
 
 		// Make sure that auto-attack is deactivated for the
 		// shadow fight, otherwise it will fail.
@@ -1011,7 +1011,7 @@ public abstract class SorceressLair extends StaticEntity
 			RequestThread.postRequest( CharpaneRequest.getInstance() );
 		}
 
-		while ( n < 5 && KoLmafia.permitsContinue() )
+		for ( ; n < 5 && KoLmafia.permitsContinue(); ++n )
 		{
 			switch ( n )
 			{
@@ -1063,13 +1063,13 @@ public abstract class SorceressLair extends StaticEntity
 				DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
 				return -1;
 			}
-
-			++n;
 		}
 
 		RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
-		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
 		DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
+
+		if ( KoLmafia.permitsContinue() )
+			KoLmafia.updateDisplay( "Her Naughtiness awaits." );
 
 		return -1;
 	}
