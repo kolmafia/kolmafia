@@ -442,6 +442,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "addStopToSidePane", "false" );
 		CLIENT_SETTINGS.put( "allowEncounterRateBurning", "true" );
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
+		CLIENT_SETTINGS.put( "allowRequestQueueing", "false" );
 		CLIENT_SETTINGS.put( "allowThiefShrugOff", "true" );
 		CLIENT_SETTINGS.put( "allowUnsafePickpocket", "false" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
@@ -527,6 +528,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "testSocketTimeout", "false" );
 		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
 
+		CLIENT_SETTINGS.put( "useDecoratedTabs", "true" );
 		CLIENT_SETTINGS.put( "innerTabColor", "#8ca9ff" );
 		CLIENT_SETTINGS.put( "outerTabColor", "#0f46b4" );
 		CLIENT_SETTINGS.put( "innerChatColor", "#ffa98c" );

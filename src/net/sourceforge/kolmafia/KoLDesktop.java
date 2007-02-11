@@ -80,8 +80,11 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 	{
 		super( "Main Interface" );
 
-		((CloseTabbedPane)tabs).setCloseIcon( true );
-		((CloseTabbedPane)tabs).addCloseListener( this );
+		if ( tabs instanceof CloseTabbedPane )
+		{
+			((CloseTabbedPane)tabs).setCloseIcon( true );
+			((CloseTabbedPane)tabs).addCloseListener( this );
+		}
 
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
@@ -184,8 +187,15 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			String [] interfaceArray = interfaceSetting.split( "," );
 
 			if ( !interfaceSetting.equals( "" ) )
+			{
 				for ( int i = 0; i < interfaceArray.length; ++i )
+				{
+					if ( interfaceArray[i].equals( "HagnkStorageFrame" ) && KoLCharacter.isHardcore() )
+						continue;
+
 					KoLmafiaGUI.constructFrame( interfaceArray[i] );
+				}
+			}
 		}
 
 		isInitializing = false;

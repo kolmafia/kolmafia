@@ -56,7 +56,7 @@ public abstract class RequestThread implements KoLConstants
 
 		try
 		{
-			executeRequest( request, false );
+			executeRequest( request, !StaticEntity.getBooleanProperty( "allowRequestQueueing" ) );
 		}
 		catch ( Exception e )
 		{
@@ -101,7 +101,7 @@ public abstract class RequestThread implements KoLConstants
 			// post concurrently or post in the handle thread based on
 			// the request type.
 
-			else if ( forceConcurrency || (request.getClass() == KoLRequest.class || request.getClass() == ChatRequest.class) )
+			else if ( forceConcurrency || request.isDelayExempt() )
 				ConcurrentWorker.post( request );
 
 			else
@@ -113,9 +113,7 @@ public abstract class RequestThread implements KoLConstants
 		}
 
 		--sequenceCount;
-
-		if ( request instanceof KoLRequest )
-			enableDisplayIfSequenceComplete();
+		enableDisplayIfSequenceComplete();
 	}
 
 	public static void openRequestSequence()
@@ -132,6 +130,7 @@ public abstract class RequestThread implements KoLConstants
 			return;
 
 		--sequenceCount;
+		enableDisplayIfSequenceComplete();
 	}
 
 	public static boolean enableDisplayIfSequenceComplete()

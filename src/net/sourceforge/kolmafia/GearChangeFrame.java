@@ -270,6 +270,8 @@ public class GearChangeFrame extends KoLFrame
 						return;
 
 					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
+					RequestThread.enableDisplayIfSequenceComplete();
+
 					setSelectedItem( null );
 					return;
 				}

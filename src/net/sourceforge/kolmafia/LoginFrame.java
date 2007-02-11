@@ -666,6 +666,7 @@ public class LoginFrame extends KoLFrame
 			{ "useSystemTrayIcon", "Minimize to system tray (Windows only)" }
 		};
 
+		private JCheckBox decorateCheckbox;
 		private JComboBox looks, closes, toolbars, scripts;
 
 		public UserInterfacePanel()
@@ -753,7 +754,7 @@ public class LoginFrame extends KoLFrame
 			public InterfaceCheckboxPanel()
 			{
 				super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-				VerifiableElement [] elements = new VerifiableElement[ options.length + 3 ];
+				VerifiableElement [] elements = new VerifiableElement[ options.length + 4 ];
 
 				optionBoxes = new JCheckBox[ options.length ];
 				for ( int i = 0; i < options.length; ++i )
@@ -764,12 +765,16 @@ public class LoginFrame extends KoLFrame
 
 				elements[ options.length ] = new VerifiableElement();
 
+				decorateCheckbox = new JCheckBox();
+				elements[ options.length + 1 ] = new VerifiableElement( "Use shiny decorated tabs instead of OS default",
+					JLabel.LEFT, decorateCheckbox );
+
 				outerGradient = new TabColorChanger( "outerTabColor" );
-				elements[ options.length + 1 ] = new VerifiableElement( "Change the outer portion of the tab gradient",
+				elements[ options.length + 2 ] = new VerifiableElement( "Change the outer portion of the tab gradient",
 					JLabel.LEFT, outerGradient );
 
 				innerGradient = new TabColorChanger( "innerTabColor" );
-				elements[ options.length + 2 ] = new VerifiableElement( "Change the inner portion of the tab gradient",
+				elements[ options.length + 3 ] = new VerifiableElement( "Change the inner portion of the tab gradient",
 					JLabel.LEFT, innerGradient );
 
 				setContent( elements );
@@ -781,6 +786,7 @@ public class LoginFrame extends KoLFrame
 				for ( int i = 0; i < options.length; ++i )
 					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
+				StaticEntity.setProperty( "useDecoratedTabs", String.valueOf( decorateCheckbox.isSelected() ) );
 				super.actionConfirmed();
 			}
 
@@ -789,6 +795,7 @@ public class LoginFrame extends KoLFrame
 				for ( int i = 0; i < options.length; ++i )
 					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
 
+				decorateCheckbox.setSelected( StaticEntity.getBooleanProperty( "useDecoratedTabs" ) );
 				innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedA );
 				outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedB );
 			}

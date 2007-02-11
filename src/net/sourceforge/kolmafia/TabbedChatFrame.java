@@ -45,7 +45,10 @@ import javax.swing.event.ChangeListener;
 import tab.CloseTabbedPane;
 import tab.CloseListener;
 
-public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseListener
+import com.sun.java.forums.CloseableTabbedPane;
+import com.sun.java.forums.CloseableTabbedPaneListener;
+
+public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseListener, CloseableTabbedPaneListener
 {
 	private static boolean instanceExists = false;
 
@@ -59,11 +62,18 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 	{
 		instanceExists = true;
 
-		tabs = new CloseTabbedPane();
-		((CloseTabbedPane)tabs).setCloseIcon( true );
+		if ( tabs instanceof CloseTabbedPane )
+		{
+			((CloseTabbedPane)tabs).setCloseIcon( true );
+			((CloseTabbedPane)tabs).addCloseListener( this );
+		}
+		else
+		{
+			tabs = new CloseableTabbedPane();
+			((CloseableTabbedPane)tabs).addCloseableTabbedPaneListener( this );
+		}
 
 		tabs.addChangeListener( this );
-		((CloseTabbedPane)tabs).addCloseListener( this );
 		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
@@ -102,6 +112,12 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 				return;
 
 		SwingUtilities.invokeLater( new TabAdder( tabName ) );
+	}
+
+	public boolean closeTab( int tabIndexToClose )
+	{
+		KoLMessenger.removeChat( tabs.getTitleAt( tabIndexToClose ).trim() );
+		return true;
 	}
 
 	public void highlightTab( String tabName )
@@ -159,7 +175,15 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 			if ( tabs.getSelectedIndex() == tabIndex )
 				return;
 
-			((CloseTabbedPane)tabs).highlightTab( tabIndex );
+			if ( tabs instanceof CloseTabbedPane )
+			{
+				((CloseTabbedPane)tabs).highlightTab( tabIndex );
+			}
+			else
+			{
+				tabs.setBackgroundAt( tabIndex, new Color( 0, 0, 128 ) );
+				tabs.setForegroundAt( tabIndex, Color.white );
+			}
 		}
 	}
 }

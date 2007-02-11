@@ -261,6 +261,7 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "showAllRequests", "Show all requests in a mini-browser window" },
+			{ "allowRequestQueueing", "Enable request queueing (may cause hanging)" },
 			{ "allowUnsafePickpocket", "Allow unconditional pickpocket with suboptimal dodge" },
 			{ "useLowBandwidthRadio", "Use lower bandwidth server for KoL Radio" },
 
