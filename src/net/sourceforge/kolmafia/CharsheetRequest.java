@@ -192,6 +192,13 @@ public class CharsheetRequest extends KoLRequest
 
 			KoLCharacter.setTotalTurnsUsed( intToken( cleanContent ) );
 		}
+		else
+		{
+			while ( !token.startsWith( "Turns" ) )
+				token = cleanContent.nextToken();
+
+			KoLCharacter.setTotalTurnsUsed( intToken( cleanContent ) );
+		}
 
 		// Determine the player's zodiac sign, if any.  We
 		// could read the path in next, but it's easier to
