@@ -52,6 +52,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import edu.stanford.ejalbert.BrowserLauncher;
+
 public class LicenseDisplay extends javax.swing.JFrame
 {
 	public static final int DATA_FILE  = 0;
@@ -134,14 +138,20 @@ public class LicenseDisplay extends javax.swing.JFrame
 
 				if ( fileNames[ index ].endsWith( ".txt" ) )
 				{
-					licenseText.insert( 0, "<pre>" );
-					licenseText.append( "</pre>" );
+					licenseText.insert( 0, "<blockquote><pre style=\"font-family: serif; font-size: small\">" );
+					licenseText.append( "</pre></blockquote>" );
+				}
+				else
+				{
+					licenseText.insert( 0, "<blockquote style=\"font-family: serif; font-size: small\">" );
+					licenseText.append( "</blockquote>" );
 				}
 
 				((JEditorPane)licenseDisplay).setContentType( "text/html" );
 				((JEditorPane)licenseDisplay).setText( licenseText.toString() );
 				((JEditorPane)licenseDisplay).setCaretPosition( 0 );
 				((JEditorPane)licenseDisplay).setEditable( false );
+				((JEditorPane)licenseDisplay).addHyperlinkListener( new HyperlinkAdapter() );
 
 				break;
 			}
@@ -173,4 +183,17 @@ public class LicenseDisplay extends javax.swing.JFrame
 			java.awt.SystemColor.activeCaption, java.awt.Color.white );
 		return noLicenseNotice;
 	}
+
+	private class HyperlinkAdapter implements HyperlinkListener
+	{
+		public void hyperlinkUpdate( HyperlinkEvent e )
+		{
+			if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED )
+			{
+				String location = e.getDescription();
+				BrowserLauncher.openURL( location );
+			}
+		}
+	}
+
 }

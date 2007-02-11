@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.Stack;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,12 +45,11 @@ public class SpecialOutfit implements Comparable, KoLConstants
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
 
-	private static int currentSkip = 0;
-	private static final ArrayList skipQueue = new ArrayList();
+	private static Stack implicitPoints = new Stack();
+	private static Stack explicitPoints = new Stack();
 
-	private static final ArrayList IMPLICIT = new ArrayList();
-
-	private static final AdventureResult [] EXPLICIT = new AdventureResult[ KoLCharacter.FAMILIAR ];
+	private static AdventureResult [] implicit = new AdventureResult[ KoLCharacter.FAMILIAR ];
+	private static AdventureResult [] explicit = new AdventureResult[ KoLCharacter.FAMILIAR ];
 
 	private int outfitId;
 	private String outfitName;
@@ -172,8 +172,11 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void createExplicitCheckpoint()
 	{
-		for ( int i = 0; i < EXPLICIT.length; ++i )
-			EXPLICIT[i] = KoLCharacter.getEquipment(i);
+		explicitPoints.push( explicit );
+		explicit = new AdventureResult[ KoLCharacter.FAMILIAR ];
+
+		for ( int i = 0; i < explicit.length; ++i )
+			explicit[i] = KoLCharacter.getEquipment(i);
 	}
 
 	/**
@@ -182,7 +185,10 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	 */
 
 	public static void restoreExplicitCheckpoint()
-	{	restoreCheckpoint( EXPLICIT );
+	{
+		restoreCheckpoint( explicit );
+		if ( !explicitPoints.isEmpty() )
+			explicit = (AdventureResult []) explicitPoints.pop();
 	}
 
 	/**
@@ -192,30 +198,14 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void createImplicitCheckpoint()
 	{
-		if ( !IMPLICIT.isEmpty() )
-		{
-			AdventureResult [] lastpoint = (AdventureResult []) IMPLICIT.get( IMPLICIT.size() - 1 );
+		if ( KoLmafia.isRunningBetweenBattleChecks() || MoodSettings.isExecuting() )
+			return;
 
-			boolean shouldSave = false;
-			for ( int i = 0; i < lastpoint.length; ++i )
-				if ( !lastpoint[i].equals( KoLCharacter.getEquipment(i) ) )
-					shouldSave = true;
+		implicitPoints.push( implicit );
+		implicit = new AdventureResult[ KoLCharacter.FAMILIAR ];
 
-			if ( !shouldSave )
-			{
-				++currentSkip;
-				return;
-			}
-		}
-
-		skipQueue.add( new Integer( currentSkip ) );
-		currentSkip = 0;
-
-		AdventureResult [] checkpoint = new AdventureResult[ KoLCharacter.FAMILIAR ];
-		for ( int i = 0; i < checkpoint.length; ++i )
-			checkpoint[i] = KoLCharacter.getEquipment(i);
-
-		IMPLICIT.add( checkpoint );
+		for ( int i = 0; i < implicit.length; ++i )
+			implicit[i] = KoLCharacter.getEquipment(i);
 	}
 
 	/**
@@ -225,27 +215,12 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void restoreImplicitCheckpoint()
 	{
-		if ( currentSkip != 0 )
-		{
-			--currentSkip;
-			return;
-		}
-
-		if ( IMPLICIT.isEmpty() )
+		if ( KoLmafia.isRunningBetweenBattleChecks() || MoodSettings.isExecuting() )
 			return;
 
-		int index = IMPLICIT.size() - 1;
-
-		AdventureResult [] changeup = (AdventureResult []) IMPLICIT.remove( index );
-
-		if ( !KoLmafia.isRunningBetweenBattleChecks() )
-			restoreCheckpoint( changeup );
-
-		if ( !skipQueue.isEmpty() )
-		{
-			index = skipQueue.size() - 1;
-			currentSkip = ((Integer)skipQueue.remove( index )).intValue();
-		}
+		restoreCheckpoint( implicit );
+		if ( !implicitPoints.isEmpty() )
+			implicit = (AdventureResult []) implicitPoints.pop();
 	}
 
 	/**
