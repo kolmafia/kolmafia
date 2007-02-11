@@ -302,7 +302,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		private JPanel levelPanel;
 		private JProgressBar levelMeter;
 		private JLabel levelLabel, roninLabel, mcdLabel;
-		private JLabel musLabel, mysLabel, moxLabel, drunkLabel;
+		private JLabel musLabel, mysLabel, moxLabel;
+		private JLabel fullLabel, drunkLabel, spleenLabel;
 		private JLabel hpLabel, mpLabel, meatLabel, advLabel;
 		private JLabel familiarLabel;
 		private JLabel mlLabel, combatLabel, initLabel;
@@ -310,7 +311,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public StatusRefresher()
 		{
-			JPanel [] panels = new JPanel[5];
+			JPanel [] panels = new JPanel[6];
 			int panelCount = -1;
 
 			panels[ ++panelCount ] = new JPanel( new BorderLayout() );
@@ -331,15 +332,21 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			holderPanel.setOpaque( false );
 			panels[ panelCount ].add( holderPanel, BorderLayout.SOUTH );
 
-			panels[ ++panelCount ] = new JPanel( new GridLayout( 4, 2 ) );
+			panels[ ++panelCount ] = new JPanel( new GridLayout( 3, 2 ) );
 			panels[ panelCount ].add( new JLabel( "Mus: ", JLabel.RIGHT ) );
 			panels[ panelCount ].add( musLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Mys: ", JLabel.RIGHT ) );
 			panels[ panelCount ].add( mysLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Mox: ", JLabel.RIGHT ) );
 			panels[ panelCount ].add( moxLabel = new JLabel( " ", JLabel.LEFT ) );
+
+			panels[ ++panelCount ] = new JPanel( new GridLayout( 3, 2 ) );
+			panels[ panelCount ].add( new JLabel( "Full: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( fullLabel = new JLabel( " ", JLabel.LEFT) );
 			panels[ panelCount ].add( new JLabel( "Drunk: ", JLabel.RIGHT ) );
 			panels[ panelCount ].add( drunkLabel = new JLabel( " ", JLabel.LEFT) );
+			panels[ panelCount ].add( new JLabel( "Spleen: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( spleenLabel = new JLabel( " ", JLabel.LEFT) );
 
 			panels[ ++panelCount ] = new JPanel( new BorderLayout() );
 			panels[ panelCount ].setOpaque( false );
@@ -427,7 +434,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			mysLabel.setText( getStatText( KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality() ) );
 			moxLabel.setText( getStatText( KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie() ) );
 
-			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
+			int maxFull = KoLCharacter.hasSkill( "Stomach of Steel" ) ? 20 : KoLCharacter.canEat() ? 15 : 0;
+			int maxDrunk = KoLCharacter.hasSkill( "Liver of Steel" ) ? 19 : KoLCharacter.canDrink() ? 14 : 0;
+			int maxSpleen = KoLCharacter.hasSkill( "Spleen of Steel" ) ? 20 : 15;
+
+			fullLabel.setText( StaticEntity.getProperty( "currentFullness" ) + " / " + maxFull );
+			drunkLabel.setText( KoLCharacter.getInebriety() + " / " + maxDrunk );
+			spleenLabel.setText( StaticEntity.getProperty( "currentSpleenUse" ) + " / " + maxSpleen );
 
 			hpLabel.setText( COMMA_FORMAT.format( KoLCharacter.getCurrentHP() ) + "/" + COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
 			mpLabel.setText( COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + "/" + COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );

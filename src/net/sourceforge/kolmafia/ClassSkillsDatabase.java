@@ -153,6 +153,13 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 	public static final int getMPConsumptionById( int skillId )
 	{
+		// Summon Candy Hearts has a special mana cost.
+		if ( skillId == 18 )
+		{
+			int count = StaticEntity.getIntegerProperty( "candyHeartSummons" );
+			return Math.max( (count * (count + 1)) / 2 + KoLCharacter.getManaCostModifier(), 1 );
+		}
+
 		// Moxious Maneuver has a special mana cost.
 		if ( skillId == 7008 )
 			return Math.max( KoLCharacter.getLevel() + KoLCharacter.getManaCostModifier(), 1 );

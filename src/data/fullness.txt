@@ -1,0 +1,215 @@
+# Fullness values taken from the KoL Wiki
+# http://kol.coldfront.net/thekolwiki/index.php/Food_by_fullness
+
+asparagus stir-fry	1
+bowl of lucky charms	1
+candy cane	1
+candy stake	1
+carob chunks	1
+catsup	1
+cherry	1
+chorizo taco	1
+cocktail onion	1
+cocoa eggshell fragment	1
+cranberries	1
+crazy little Turkish delight	1
+dehydrated caviar	1
+desiccated apricot	1
+foie gras	1
+fortune cookie	1
+ghuol egg	1
+gingerbread bugbear	1
+gingerbread horror	1
+glass of goat's milk	1
+gr8ps	1
+grapefruit	1
+grapes	1
+hippy herbal tea	1
+hot buttered roll	1
+hot wing	1
+Jumbo Dr. Lucifer	1
+jumbo olive	1
+jumping bean taco	1
+ketchup	1
+kiwi	1
+kumquat	1
+large cocoa eggshell fragment	1
+lemon	1
+lime	1
+Lucky Surprise Egg	1
+maple syrup	1
+mugcake	1
+olive	1
+olive stir-fry	1
+orange	1
+papaya	1
+papaya taco	1
+plate of franks and beans	1
+radio button candy	1
+raspberry	1
+royal jelly	1
+royal jelly taco	1
+stalk of asparagus	1
+strawberry	1
+t8r tots	1
+tangerine	1
+toast	1
+tofu stir-fry	1
+tofu taco	1
+tomato	1
+uncooked chorizo	1
+wedge of gray cheese	1
+white chocolate chips	1
+
+abominable snowcone	2
+babycakes	2
+balaclava baklava	2
+bat haggis	2
+bat wing kabob	2
+bat-shaped Crimboween cookie	2
+bell-shaped Crimbo cookie	2
+bowl of cottage cheese	2
+carob brownies	2
+carob chunk cookies	2
+catgut taco	2
+cool mushroom	2
+cream of pointy mushroom soup	2
+Ent cider	2
+ghost cucumber	2
+ghuol-ear kabob	2
+goat cheese	2
+goat cheese taco	2
+herb brownies	2
+Knob mushroom	2
+Knob sausage	2
+Knob shroomkabob	2
+Knob stir-fry	2
+Knoll mushroom	2
+Knoll shroomkabob	2
+Knoll stir-fry	2
+Manetwich	2
+menudo	2
+piece of wedding cake	2
+plain pizza	2
+pointy mushroom	2
+poutine	2
+pr0n cocktail	2
+pr0n stir-fry	2
+pr0n taco	2
+rat appendix kabob	2
+rat scrapple	2
+skewered cat appendix	2
+skull-shaped Crimboween cookie	2
+Spam Witch sammich	2
+spooky mushroom	2
+spooky shroomkabob	2
+spooky stir-fry	2
+tofurkey gravy	2
+tombstone-shaped Crimboween cookie	2
+tree-shaped Crimbo cookie	2
+Trollhouse cookies	2
+urinal cake	2
+warm mushroom	2
+White Citadel burger	2
+White Citadel fries	2
+white chocolate chip cookies	2
+wreath-shaped Crimbo cookie	2
+
+ancient unspeakable fruitcake	3
+angel-food cake	3
+asparagus lo mein	3
+ballroom blintz	3
+bat wing stir-fry	3
+bean burrito	3
+birthday party jellybean cheesecake	3
+blue velvet cake	3
+boring spaghetti	3
+bowl of oriole's nest soup	3
+Brimstone Chicken Sandwich	3
+can-shaped gelatinous cranberry sauce	3
+candied yams	3
+carob chunk noodles	3
+cherry pie	3
+chorizo brownies	3
+congratulatory cake	3
+delicious noodles	3
+delicious spicy noodles	3
+devil's-food cake	3
+Double Bacon Beelzeburger	3
+dwarf bread	3
+Elfin shortbread	3
+enchanted bean burrito	3
+flaming mushroom	3
+flower petal pie	3
+fricasseed brains	3
+frozen mushroom	3
+fruitcake	3
+ghuol egg quiche	3
+ghuol guolash	3
+goat cheese pizza	3
+Happy Birthday, Claude! cake	3
+insanely spicy bean burrito	3
+insanely spicy enchanted bean burrito	3
+insanely spicy jumping bean burrito	3
+jumping bean burrito	3
+Knob sausage stir-fry	3
+lemon meringue pie	3
+Lord of the Flies-sized fries	3
+mushroom pizza	3
+olive lo mein	3
+painful penne pasta	3
+personalized birthday cake	3
+purple pixel pie	3
+questionable taco	3
+rat appendix stir-fry	3
+ravioli della hippy	3
+Retenez L'Herbe Paté	3
+sausage pizza	3
+spicy bean burrito	3
+spicy enchanted bean burrito	3
+spicy jumping bean burrito	3
+spicy mushroom quesadilla	3
+spicy noodles	3
+stale baguette	3
+stinky mushroom	3
+strawberry pie	3
+stuffed spooky mushroom	3
+tofu casserole	3
+tofu chow mein	3
+tofurkey leg	3
+Valentine's Day cake	3
+white chocolate and tomato pizza	3
+
+ancient frozen dinner	4
+Boris's key lime pie	4
+cool mushroom casserole	4
+grue egg omelette	4
+Hell broth	4
+herbal stuffing	4
+Jarlsberg's key lime pie	4
+Knob lo mein	4
+Knoll lo mein	4
+lihc eye pie	4
+pr0n chow mein	4
+pr0n m4nic0tti	4
+Sneaky Pete's key lime pie	4
+spectral pickle	4
+spooky lo mein	4
+
+bat wing chow mein	5
+brains casserole	5
+cold hi mein	5
+hot hi mein	5
+Knob sausage chow mein	5
+mind flayer corpse	5
+rat appendix chow mein	5
+sleazy hi mein	5
+spooky hi mein	5
+stinky hi mein	5
+
+fettucini Inconnu	6
+gnocchetti di Nietzsche	6
+Hell ramen	6
+spaghetti with Skullheads	6
+
+three-tiered wedding cake	35

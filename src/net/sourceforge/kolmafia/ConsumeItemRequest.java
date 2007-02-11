@@ -1084,6 +1084,19 @@ public class ConsumeItemRequest extends KoLRequest
 		String useTypeAsString = (consumptionType == CONSUME_EAT) ? "eat " :
 			(consumptionType == CONSUME_DRINK) ? "drink " : "use ";
 
+		if ( consumptionType == CONSUME_EAT )
+		{
+			int fullness = TradeableItemDatabase.getFullness( lastItemUsed.getItemId() );
+			if ( fullness > 0 )
+				StaticEntity.setProperty( "currentFullness", String.valueOf( StaticEntity.getIntegerProperty( "currentFullness" ) + fullness ) );
+		}
+		else
+		{
+			int spleenHit = TradeableItemDatabase.getSpleenHit( lastItemUsed.getItemId() );
+			if ( spleenHit > 0 )
+				StaticEntity.setProperty( "currentSpleenUse", String.valueOf( StaticEntity.getIntegerProperty( "currentSpleenUse" ) + spleenHit ) );
+		}
+
 		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( useTypeAsString + lastItemUsed.getCount() + " " + lastItemUsed.getName() );
 		return true;

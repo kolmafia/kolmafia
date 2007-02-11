@@ -56,7 +56,10 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static Map itemIdByName = new TreeMap();
 	private static Map itemIdByPlural = new TreeMap();
 
+	private static Map fullnessById = new TreeMap();
 	private static Map inebrietyById = new TreeMap();
+	private static Map spleenHitById = new TreeMap();
+
 	private static BooleanArray tradeableById = new BooleanArray();
 	private static BooleanArray giftableById = new BooleanArray();
 	private static BooleanArray displayableById = new BooleanArray();
@@ -140,6 +143,37 @@ public class TradeableItemDatabase extends KoLDatabase
 			StaticEntity.printStackTrace( e );
 		}
 
+		// Next, retrieve the table of fullness
+
+		reader = getReader( "fullness.txt" );
+
+		while ( (data = readData( reader )) != null )
+		{
+			if ( data.length == 2 )
+			{
+				Object itemId = itemIdByName.get( getCanonicalName( data[0] ) );
+				if ( itemId == null )
+				{
+					System.out.println( "Bad item name in fullness file: " + data[0] );
+					continue;
+				}
+
+				fullnessById.put( itemId, Integer.valueOf( data[1] ) );
+			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+
 		// Next, retrieve the table of inebriety
 
 		reader = getReader( "inebriety.txt" );
@@ -156,6 +190,37 @@ public class TradeableItemDatabase extends KoLDatabase
 				}
 
 				inebrietyById.put( itemId, Integer.valueOf( data[1] ) );
+			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+
+		// Next, retrieve the table of spleen hits
+
+		reader = getReader( "spleenhit.txt" );
+
+		while ( (data = readData( reader )) != null )
+		{
+			if ( data.length == 2 )
+			{
+				Object itemId = itemIdByName.get( getCanonicalName( data[0] ) );
+				if ( itemId == null )
+				{
+					System.out.println( "Bad item name in spleen hit file: " + data[0] );
+					continue;
+				}
+
+				spleenHitById.put( itemId, Integer.valueOf( data[1] ) );
 			}
 		}
 
@@ -448,10 +513,22 @@ public class TradeableItemDatabase extends KoLDatabase
 		return lastSpaceIndex != -1 ? getItemId( canonicalName.substring( lastSpaceIndex ).trim(), count ) : -1;
 	}
 
+	public static final int getFullness( int itemId )
+	{
+		Integer fullness = (Integer) fullnessById.get( new Integer( itemId ) );
+		return fullness == null ? 0 : fullness.intValue();
+	}
+
 	public static final int getInebriety( int itemId )
 	{
 		Integer inebriety = (Integer) inebrietyById.get( new Integer( itemId ) );
 		return inebriety == null ? 0 : inebriety.intValue();
+	}
+
+	public static final int getSpleenHit( int itemId )
+	{
+		Integer spleenhit = (Integer) spleenHitById.get( new Integer( itemId ) );
+		return spleenhit == null ? 0 : spleenhit.intValue();
 	}
 
 	/**
