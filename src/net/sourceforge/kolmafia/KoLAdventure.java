@@ -807,11 +807,17 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		String location = null;
 
-		if ( urlString.startsWith( "dungeon.php" ) )
+		if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=1" ) != -1 )
+			location = "Muscle Vacation";
+		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=2" ) != -1 )
+			location = "Mysticality Vacation";
+		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=3" ) != -1 )
+			location = "Moxie Vacation";
+		else if ( urlString.startsWith( "dungeon.php" ) )
 			location = "Daily Dungeon";
 		else if ( urlString.startsWith( "rats.php" ) )
 			location = "Typical Tavern Quest";
-		else if ( urlString.startsWith( "barrels.php" ) )
+		else if ( urlString.startsWith( "barrel.php" ) )
 			location = "Barrel Full of Barrels";
 		else if ( urlString.startsWith( "mining.php" ) )
 			location = "Itznotyerzitz Mine (In Disguise)";
@@ -836,6 +842,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( location == null )
 			return false;
+
+		if ( urlString.indexOf( "?" ) == -1 )
+			return true;
 
 		if ( !KoLmafia.isAdventuring() )
 		{
