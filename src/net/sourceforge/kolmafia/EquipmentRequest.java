@@ -847,6 +847,11 @@ public class EquipmentRequest extends PasswordHashRequest
 		for ( int i = 0; i < slotNames.length; ++i )
 			if ( name.equalsIgnoreCase( slotNames[i] ) )
 				return i;
+
+		for ( int i = 0; i < phpSlotNames.length; ++i )
+			if ( name.equalsIgnoreCase( phpSlotNames[i] ) )
+				return i;
+
 		return -1;
 	}
 
