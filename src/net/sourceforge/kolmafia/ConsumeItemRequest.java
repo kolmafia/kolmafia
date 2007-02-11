@@ -258,6 +258,14 @@ public class ConsumeItemRequest extends KoLRequest
 			return maximumSuggested;
 		}
 
+		int fullness = TradeableItemDatabase.getFullness( lastItemUsed.getItemId() );
+		if ( fullness > 0 )
+			return (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
+
+		int spleenHit = TradeableItemDatabase.getSpleenHit( lastItemUsed.getItemId() ) * lastItemUsed.getCount();
+		if ( spleenHit > 0 )
+			return (KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse()) / spleenHit;
+
 		return Integer.MAX_VALUE;
 	}
 
@@ -314,7 +322,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public static boolean allowBoozeConsumption( int inebrietyBonus )
 	{
-		if ( KoLCharacter.getInebriety() >= KoLCharacter.getInebrietyLimit() )
+		if ( KoLCharacter.isFallingDown() )
 			return false;
 
 		if ( existingFrames.isEmpty() || !StaticEntity.getBooleanProperty( "protectAgainstOverdrink" ) )
@@ -323,7 +331,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( KoLCharacter.getAdventuresLeft() < 10 )
 			return true;
 
-		if ( KoLCharacter.getInebrietyLimit() > KoLCharacter.getInebriety() + inebrietyBonus )
+		if ( KoLCharacter.getInebrietyLimit() >= KoLCharacter.getInebriety() + inebrietyBonus )
 			return true;
 
 		if ( MoonPhaseDatabase.getHoliday( new Date() ).indexOf( "Sneaky Pete" ) != -1 )
@@ -450,10 +458,6 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
 			lastUpdate = "Your spleen might go kabooie.";
-
-			if ( lastItemUsed.getCount() == 1 )
-				KoLCharacter.setSpleenLimitReached();
-
 			KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
 			StaticEntity.getClient().processResult( lastItemUsed );
 			return;
@@ -1087,14 +1091,14 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( consumptionType == CONSUME_EAT )
 		{
 			int fullness = TradeableItemDatabase.getFullness( lastItemUsed.getItemId() );
-			if ( fullness > 0 )
-				StaticEntity.setProperty( "currentFullness", String.valueOf( StaticEntity.getIntegerProperty( "currentFullness" ) + fullness ) );
+			if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
+				StaticEntity.setProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
 		}
 		else
 		{
 			int spleenHit = TradeableItemDatabase.getSpleenHit( lastItemUsed.getItemId() ) * lastItemUsed.getCount();
-			if ( spleenHit > 0 )
-				StaticEntity.setProperty( "currentSpleenUse", String.valueOf( StaticEntity.getIntegerProperty( "currentSpleenUse" ) + spleenHit ) );
+			if ( spleenHit > 0 && KoLCharacter.getSpleenUse() + spleenHit <= KoLCharacter.getSpleenLimit() )
+				StaticEntity.setProperty( "currentSpleenUse", String.valueOf( KoLCharacter.getSpleenUse() + spleenHit ) );
 		}
 
 		KoLmafia.getSessionStream().println();

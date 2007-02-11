@@ -206,7 +206,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 				if ( purchase && numberAvailable < numberToUse )
 				{
-					if ( this == HERBS && KoLCharacter.spleenLimitReached() )
+					if ( this == HERBS && KoLCharacter.getSpleenUse() >= KoLCharacter.getSpleenLimit() )
 					{
 						numberToUse = 0;
 						numberAvailable = 0;
