@@ -1092,7 +1092,7 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 		else
 		{
-			int spleenHit = TradeableItemDatabase.getSpleenHit( lastItemUsed.getItemId() );
+			int spleenHit = TradeableItemDatabase.getSpleenHit( lastItemUsed.getItemId() ) * lastItemUsed.getCount();
 			if ( spleenHit > 0 )
 				StaticEntity.setProperty( "currentSpleenUse", String.valueOf( StaticEntity.getIntegerProperty( "currentSpleenUse" ) + spleenHit ) );
 		}
