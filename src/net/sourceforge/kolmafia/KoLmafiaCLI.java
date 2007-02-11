@@ -1813,28 +1813,28 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( scriptFile.exists() )
 			return scriptFile;
 
-		if ( filename.indexOf( "." ) != -1 || filename.indexOf( "~" ) != -1 )
-			return null;
+		if ( filename.indexOf( "." ) == -1 && filename.indexOf( "~" ) == -1 )
+		{
+			scriptFile = findScriptFile( directory, filename + ".txt" );
+			if ( scriptFile != null )
+				return scriptFile;
 
-		scriptFile = findScriptFile( directory, filename + ".txt" );
-		if ( scriptFile != null )
-			return scriptFile;
+			scriptFile = findScriptFile( directory, filename + ".ash" );
+			if ( scriptFile != null )
+				return scriptFile;
 
-		scriptFile = findScriptFile( directory, filename + ".ash" );
-		if ( scriptFile != null )
-			return scriptFile;
+			scriptFile = findScriptFile( directory, filename + "~" );
+			if ( scriptFile != null )
+				return scriptFile;
 
-		scriptFile = findScriptFile( directory, filename + "~" );
-		if ( scriptFile != null )
-			return scriptFile;
+			scriptFile = findScriptFile( directory, filename + ".txt~" );
+			if ( scriptFile != null )
+				return scriptFile;
 
-		scriptFile = findScriptFile( directory, filename + ".txt~" );
-		if ( scriptFile != null )
-			return scriptFile;
-
-		scriptFile = findScriptFile( directory, filename + ".ash~" );
-		if ( scriptFile != null )
-			return scriptFile;
+			scriptFile = findScriptFile( directory, filename + ".ash~" );
+			if ( scriptFile != null )
+				return scriptFile;
+		}
 
 		File [] contents = directory.listFiles();
 		for ( int i = 0; i < contents.length; ++i )

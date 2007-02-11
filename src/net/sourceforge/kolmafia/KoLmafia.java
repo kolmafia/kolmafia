@@ -3124,6 +3124,7 @@ public abstract class KoLmafia implements KoLConstants
 				{
 				case 184: // briefcase
 				case 533: // Gnollish toolbox
+				case 553: // 31337 scroll
 				case 604: // Penultimate fantasy chest
 					RequestThread.postRequest( new ConsumeItemRequest( currentItem.getInstance( itemCount ) ) );
 					break;
@@ -3132,7 +3133,6 @@ public abstract class KoLmafia implements KoLConstants
 					RequestThread.postRequest( new ConsumeItemRequest( currentItem.getInstance(1) ) );
 					RequestThread.postRequest( new ConsumeItemRequest( currentItem.getInstance( itemCount - 1 ) ) );
 					break;
-
 				}
 			}
 		}

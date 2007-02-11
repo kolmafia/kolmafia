@@ -66,8 +66,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	private String zone, parentZone, adventureId, formSource, adventureName;
 	private KoLRequest request;
 	private AreaCombatData areaSummary;
-
-	private boolean shouldRunCheck;
 	private boolean shouldRunFullCheck;
 
 	/**
@@ -91,31 +89,26 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( formSource.equals( "sewer.php" ) )
 		{
-			shouldRunCheck = true;
 			shouldRunFullCheck = false;
 			this.request = new SewerRequest( false );
 		}
 		else if ( formSource.equals( "luckysewer.php" ) )
 		{
-			shouldRunCheck = true;
 			shouldRunFullCheck = false;
 			this.request = new SewerRequest( true );
 		}
 		else if ( formSource.equals( "campground.php" ) )
 		{
-			shouldRunCheck = false;
 			shouldRunFullCheck = false;
 			this.request = new CampgroundRequest( adventureId );
 		}
 		else if ( formSource.equals( "clan_gym.php" ) )
 		{
-			shouldRunCheck = false;
 			shouldRunFullCheck = false;
 			this.request = new ClanGymRequest( StaticEntity.parseInt( adventureId ) );
 		}
 		else
 		{
-			shouldRunCheck = true;
 			shouldRunFullCheck = formSource.indexOf( "lair6.php" ) == -1 && formSource.indexOf( "shore.php" ) == -1;
 			this.request = new AdventureRequest( adventureName, formSource, adventureId );
 		}
@@ -695,7 +688,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			}
 		}
 
-		if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() )
+		if ( !formSource.equals( "campground.php" ) && !KoLmafia.isRunningBetweenBattleChecks() )
 			StaticEntity.getClient().runBetweenBattleChecks( shouldRunFullCheck );
 
 		if ( !KoLmafia.permitsContinue() )

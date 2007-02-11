@@ -133,7 +133,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
-		this.tabs = new CloseTabbedPane();
+		this.tabs = StaticEntity.getBooleanProperty( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();
 		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
 
 		getContentPane().add( this.framePanel, BorderLayout.CENTER );

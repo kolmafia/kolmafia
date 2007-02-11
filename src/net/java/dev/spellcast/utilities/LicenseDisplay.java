@@ -41,6 +41,8 @@ import java.awt.SystemColor;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import tab.CloseTabbedPane;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -49,7 +51,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 
 public class LicenseDisplay extends javax.swing.JFrame
 {
@@ -78,8 +79,8 @@ public class LicenseDisplay extends javax.swing.JFrame
 		this.tabNames = tabNames;
 
 		JPanel contentPanel = (JPanel) getContentPane();
-		JTabbedPane tabbedPane = new JTabbedPane();
-		tabbedPane.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
+		CloseTabbedPane tabbedPane = new CloseTabbedPane();
+		tabbedPane.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
 
 		if ( versionData != null )
 		{
