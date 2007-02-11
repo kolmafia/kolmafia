@@ -1340,6 +1340,11 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "second" ) || command.equals( "hold" ) || command.equals( "dualwield" ) )
+		{
+			executeEquipCommand( "off-hand " + parameters );
+			return;
+		}
 
 		// You can remove a specific piece of equipment.
 
