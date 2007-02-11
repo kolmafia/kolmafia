@@ -133,6 +133,9 @@ public class CloseableTabbedPane extends JTabbedPane implements MouseListener,
   public void addTab(String title, Component component, Icon extraIcon) {
     boolean doPaintCloseIcon = true;
     try {
+
+	  title = "    " + title + "        ";
+
       Object prop = null;
       if ((prop = ((JComponent) component).
                     getClientProperty("isClosable")) != null) {

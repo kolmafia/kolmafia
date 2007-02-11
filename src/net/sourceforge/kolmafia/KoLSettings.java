@@ -440,6 +440,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		// would not serve any purpose.
 
 		CLIENT_SETTINGS.put( "addStopToSidePane", "false" );
+		CLIENT_SETTINGS.put( "allowCloseableDesktopTabs", "false" );
 		CLIENT_SETTINGS.put( "allowEncounterRateBurning", "true" );
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
 		CLIENT_SETTINGS.put( "allowRequestQueueing", "false" );

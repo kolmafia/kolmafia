@@ -55,7 +55,10 @@ import tab.CloseTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListener
+import com.sun.java.forums.CloseableTabbedPane;
+import com.sun.java.forums.CloseableTabbedPaneListener;
+
+public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListener, CloseableTabbedPaneListener
 {
 	private static final DisplayDesktopRunnable DISPLAYER = new DisplayDesktopRunnable();
 
@@ -80,10 +83,15 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 	{
 		super( "Main Interface" );
 
-		if ( tabs instanceof CloseTabbedPane )
+		if ( tabs instanceof CloseTabbedPane && StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) )
 		{
 			((CloseTabbedPane)tabs).setCloseIcon( true );
 			((CloseTabbedPane)tabs).addCloseListener( this );
+		}
+		else if ( StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) )
+		{
+			tabs = new CloseableTabbedPane();
+			((CloseableTabbedPane)tabs).addCloseableTabbedPaneListener( this );
 		}
 
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
@@ -162,6 +170,15 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		int selectedIndex = tabs.getSelectedIndex();
 		if ( selectedIndex != -1 && selectedIndex < tabListing.size() )
 			((KoLFrame) tabListing.get( selectedIndex )).requestFocus();
+	}
+
+	public boolean closeTab( int tabIndexToClose )
+	{
+		if ( tabIndexToClose == -1 )
+			return true;
+
+		tabListing.remove( tabIndexToClose );
+		return true;
 	}
 
 	public void closeOperation( MouseEvent e, int overTabIndex )
