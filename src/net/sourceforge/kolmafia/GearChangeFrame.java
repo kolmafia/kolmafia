@@ -172,11 +172,15 @@ public class GearChangeFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			String currentValue = JOptionPane.showInputDialog( "Name your outfit!", "KoLmafia Checkpoint" );
-			if ( currentValue == null )
-				return;
+			RequestThread.openRequestSequence();
 
-			RequestThread.postRequest( new EquipmentRequest( currentValue ) );
+			changeItems();
+
+			String currentValue = JOptionPane.showInputDialog( "Name your outfit!", "KoLmafia Checkpoint" );
+			if ( currentValue != null )
+				RequestThread.postRequest( new EquipmentRequest( currentValue ) );
+
+			RequestThread.closeRequestSequence();
 		}
 	}
 
