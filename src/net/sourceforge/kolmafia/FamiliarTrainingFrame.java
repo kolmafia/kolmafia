@@ -1762,7 +1762,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Make a GearSet describing what we have now
 			GearSet current = new GearSet();
 
-			if ( doppelgangerOwner != familiar )
+			if ( doppelganger != null && doppelgangerOwner != familiar )
 			{
 				RequestThread.postRequest( new EquipmentRequest( DOPPELGANGER, KoLCharacter.FAMILIAR ) );
 				doppelgangerOwner = familiar;
