@@ -258,11 +258,11 @@ public class ConsumeItemRequest extends KoLRequest
 			return maximumSuggested;
 		}
 
-		int fullness = TradeableItemDatabase.getFullness( lastItemUsed.getItemId() );
+		int fullness = TradeableItemDatabase.getFullness( itemId );
 		if ( fullness > 0 )
 			return (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
 
-		int spleenHit = TradeableItemDatabase.getSpleenHit( lastItemUsed.getItemId() ) * lastItemUsed.getCount();
+		int spleenHit = TradeableItemDatabase.getSpleenHit( itemId );
 		if ( spleenHit > 0 )
 			return (KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse()) / spleenHit;
 
