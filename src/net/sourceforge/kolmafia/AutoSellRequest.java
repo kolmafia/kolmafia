@@ -233,8 +233,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 				// Switch to "quantity" mode
 				addFormField( "mode", "3" );
-				if ( lastAttachmentCount != attachmentCount )
-					return 1;
+				return 1;
 			}
 
 			// We are in detailed "all but one" mode. This item had
@@ -248,13 +247,14 @@ public class AutoSellRequest extends SendMessageRequest
 			}
 
 			// We continue in "all but one" mode
-			lastAttachmentCount = attachmentCount;
 		}
 
 		// We can sell all the items with the same mode.
 		if ( mode > 0 )
+		{
 			// Add detailed "mode" field
 			addFormField( "mode", String.valueOf( mode ) );
+		}
 
 		return Integer.MAX_VALUE;
 	}
