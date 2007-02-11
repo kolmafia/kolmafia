@@ -1386,10 +1386,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						useType = "use";
 						useLocation = "inv_use.php?pwd=&which=1&whichitem=";
 					}
-					else if ( itemCount > 1 )
+					else if ( StaticEntity.getBooleanProperty( "relayUsesInlineLinks" ) )
 					{
 						useType = "use";
 						useLocation = "# showObject('multiuse" + itemId + "')";
+					}
+					else
+					{
+						useType = "use";
+						useLocation = "multiuse.php?passitem=";
 					}
 
 					break;
@@ -1526,7 +1531,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( useLocation.endsWith( "=" ) )
 					useLocation += itemId;
 
-				if ( useLocation.startsWith( "#" ) )
+				if ( !StaticEntity.getBooleanProperty( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
+				{
+					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"" +
+						useLocation.trim() + "\">" + useType + "</a>]</font>" );
+				}
+				else if ( useLocation.startsWith( "#" ) )
 				{
 					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font id=\"link" + itemId + "\" size=1>[<a href=\"#\" onClick=\"" +
 						useLocation.substring(1).trim() + "; void(0);\">" + useType + "</a>]</font>" );

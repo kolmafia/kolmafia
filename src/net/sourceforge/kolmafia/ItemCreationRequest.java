@@ -892,7 +892,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, 0 - quantity ) );
 
 		if ( usesTurns )
-			command.insert( 0, "[" + KoLCharacter.getAdventureCount() + "] " );
+			command.insert( 0, "[" + KoLAdventure.getAdventureCount() + "] " );
 
 		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( command.toString() );

@@ -80,7 +80,7 @@ public class RequestLogger
 		// Some general URLs which never need to be registered
 		// because they don't do anything.
 
-		if ( urlString.startsWith( "login" ) || urlString.startsWith( "choice" ) )
+		if ( urlString.startsWith( "login" ) || urlString.startsWith( "logout" ) || urlString.startsWith( "choice" ) )
 			return;
 
 		if ( urlString.startsWith( "leaflet" ) || urlString.startsWith( "cave" ) || urlString.startsWith( "lair" ) )
