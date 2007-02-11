@@ -1968,7 +1968,7 @@
 1963	223939661	dance card	dance cards
 1964	924188020	opera mask	opera masks
 1965	342791125	bottle of Monsieur Bubble	bottles of Monsieur Bubble
-1966	596602044	the Amulet of Yendor	Amulets of Yendor
+1966	596602044	Amulet of Yendor	Amulets of Yendor
 1967	634197201	nervous tick egg	nervous tick eggs
 1968	989079292	bottle of perfume	bottles of perfume
 1969	143708125	spoon!	spoons!
