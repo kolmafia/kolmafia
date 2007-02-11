@@ -1963,7 +1963,7 @@
 1963	dance card	3	all	55
 1964	opera mask	9	all	37
 1965	bottle of Monsieur Bubble	4	all	50
-1966	the Amulet of Yendor	8	gift	5
+1966	Amulet of Yendor	8	gift	5
 1967	jitterbug larva	5	all	0
 1968	bottle of perfume	7	all	75
 1969	spoon!	7	all	75
