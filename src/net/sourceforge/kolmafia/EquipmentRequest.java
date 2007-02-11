@@ -136,18 +136,10 @@ public class EquipmentRequest extends PasswordHashRequest
 	{
 		super( "inv_equip.php", true );
 
-		if ( TradeableItemDatabase.contains( changeName ) )
-		{
-			initializeChangeData( new AdventureResult( changeName, 1, false ),
-				chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( changeName ) ), false );
-		}
-		else
-		{
-			addFormField( "which", "2" );
-			addFormField( "action", "customoutfit" );
-			addFormField( "outfitname", changeName );
-			requestType = SAVE_OUTFIT;
-		}
+		addFormField( "which", "2" );
+		addFormField( "action", "customoutfit" );
+		addFormField( "outfitname", changeName );
+		requestType = SAVE_OUTFIT;
 	}
 
 	public EquipmentRequest( AdventureResult changeItem, int equipmentSlot )
