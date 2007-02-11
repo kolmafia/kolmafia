@@ -186,20 +186,24 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
 			{ "relayAddsMissingEffects", "Display mood trigger buffs with zero duration" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
-			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
+			{ "relayMaintainsMoods", "Maintain health, mana, and moods during manual adventuring" },
 
 			{ "", "" },
 
+			{ "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
 			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
 			{ "relayAddsGraphicalCLI", "Add link to command-line interface to right side pane" },
 			{ "relayAddsKoLSimulator", "Add link to Ayvuir's Simulator of Loathing to right side pane" },
+
+			{ "", "" },
+
+			{ "relayUsesInlineLinks", "Use AJAX rather than page loads for [use] links" },
+			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
 			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Teh Kilt script" },
 
 			{ "", "" },
 
-			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
 			{ "relayAlwaysBuysGum", "Automatically buy gum when visiting the sewer" },
-			{ "relayMaintainsMoods", "Automatically maintain health, mana, and moods in browser" },
 			{ "relayUsesCachedImages", "Cache KoL images to conserve local bandwidth (extremely slow)" }
 		};
 
