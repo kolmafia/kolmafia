@@ -311,7 +311,7 @@ public interface KoLConstants
 	public static final SortedListModel storage = new SortedListModel();
 	public static final SortedListModel collection = new SortedListModel();
 
-	public static final SortedListModel usableSkills = new SortedListModel();
+	public static final LockableListModel usableSkills = new LockableListModel();
 	public static final LockableListModel availableSkills = new LockableListModel();
 	public static final LockableListModel combatSkills = new LockableListModel();
 

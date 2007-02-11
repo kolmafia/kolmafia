@@ -1952,6 +1952,7 @@ public abstract class KoLCharacter extends StaticEntity
 				usableSkills.add( UseSkillRequest.getInstance( "Spirit of Garlic" ) );
 				usableSkills.add( UseSkillRequest.getInstance( "Spirit of Wormwood" ) );
 				usableSkills.add( UseSkillRequest.getInstance( "Spirit of Bacon Grease" ) );
+				usableSkills.sort();
 			}
 
 			break;
@@ -1960,6 +1961,7 @@ public abstract class KoLCharacter extends StaticEntity
 		case ClassSkillsDatabase.BUFF:
 
 			usableSkills.add( skill );
+			usableSkills.sort();
 			break;
 
 		case ClassSkillsDatabase.COMBAT:
