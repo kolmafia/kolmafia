@@ -1076,7 +1076,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// notified that they should try again later.
 
 			KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
-			return false;
+			return true;
 		}
 		else if ( followRedirects )
 		{
