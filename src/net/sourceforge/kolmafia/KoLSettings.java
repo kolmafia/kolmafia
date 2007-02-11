@@ -447,11 +447,9 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "allowThiefShrugOff", "true" );
 		CLIENT_SETTINGS.put( "allowUnsafePickpocket", "false" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
-		CLIENT_SETTINGS.put( "assumeInfiniteNPCItems", "false" );
 		CLIENT_SETTINGS.put( "autoLogin", "" );
 		CLIENT_SETTINGS.put( "autoPlantHardcore", "false" );
 		CLIENT_SETTINGS.put( "autoPlantSoftcore", "false" );
-		CLIENT_SETTINGS.put( "autoRepairBoxes", "false" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithMall", "true" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithNPCs", "true" );
 		CLIENT_SETTINGS.put( "autoSetConditions", "true" );
@@ -464,7 +462,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "closeLastFrameAction", "0" );
 		CLIENT_SETTINGS.put( "cloverProtectActive", "true" );
 		CLIENT_SETTINGS.put( "commandLineNamespace", "" );
-		CLIENT_SETTINGS.put( "createWithoutBoxServants", "false" );
 		CLIENT_SETTINGS.put( "defaultBorderColor", "blue" );
 		CLIENT_SETTINGS.put( "defaultDropdown1", "0" );
 		CLIENT_SETTINGS.put( "defaultDropdown2", "1" );
@@ -521,8 +518,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
 		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );
-		CLIENT_SETTINGS.put( "showClosetIngredients", "false" );
-		CLIENT_SETTINGS.put( "showStashIngredients", "false" );
 		CLIENT_SETTINGS.put( "sortAdventures", "false" );
 		CLIENT_SETTINGS.put( "stasisFarmingAccount", "" );
 		CLIENT_SETTINGS.put( "swingLookAndFeel", "" );
@@ -546,12 +541,15 @@ public class KoLSettings extends Properties implements KoLConstants
 		// Individual player settings which are not set on
 		// a global level.
 
+		PLAYER_SETTINGS.put( "assumeInfiniteNPCItems", "false" );
+		PLAYER_SETTINGS.put( "autoRepairBoxes", "false" );
 		PLAYER_SETTINGS.put( "battleAction", "attack with weapon" );
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
 		PLAYER_SETTINGS.put( "buffBotCasting", "" );
 		PLAYER_SETTINGS.put( "buffBotMessageDisposal", "0" );
 		PLAYER_SETTINGS.put( "candyHeartSummons", "0" );
 		PLAYER_SETTINGS.put( "chosenTrip", "" );
+		PLAYER_SETTINGS.put( "createWithoutBoxServants", "false" );
 		PLAYER_SETTINGS.put( "currentFullness", "0" );
 		PLAYER_SETTINGS.put( "currentMood", "default" );
 		PLAYER_SETTINGS.put( "currentSpleenUse", "0" );
@@ -575,6 +573,8 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "plantingLength", "" );
 		PLAYER_SETTINGS.put( "plantingScript", "" );
 		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
+		PLAYER_SETTINGS.put( "showClosetIngredients", "false" );
+		PLAYER_SETTINGS.put( "showStashIngredients", "false" );
 		PLAYER_SETTINGS.put( "thanksMessage", "Thank you for the donation!" );
 		PLAYER_SETTINGS.put( "trapperOre", "chrome ore" );
 		PLAYER_SETTINGS.put( "violetFogGoal", "0" );
