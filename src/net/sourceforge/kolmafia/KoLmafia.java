@@ -500,9 +500,6 @@ public abstract class KoLmafia implements KoLConstants
 		openSessionStream();
 		resetSession();
 
-		if ( !KoLCharacter.canInteract() && KoLCharacter.getLevel() < 11 )
-			StaticEntity.setProperty( "createWithoutBoxServants", "true" );
-
 		// If the password hash is non-null, then that means you
 		// might be mid-transition.
 
@@ -3225,6 +3222,9 @@ public abstract class KoLmafia implements KoLConstants
 		refreshSession();
 		resetSession();
 		enableDisplay();
+
+		StaticEntity.setProperty( "autoRepairBoxes", "false" );
+		StaticEntity.setProperty( "createWithoutBoxServants", "true" );
 
 		sessionStream.println();
 		sessionStream.println();
