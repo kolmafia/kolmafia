@@ -90,6 +90,12 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 		}
 	}
 
+	public boolean closeTab( int tabIndexToClose )
+	{
+		KoLMessenger.removeChat( tabs.getTitleAt( tabIndexToClose ).trim() );
+		return true;
+	}
+
 	public void closeOperation( MouseEvent e, int overTabIndex )
 	{
 		if ( overTabIndex == -1 || !instanceExists )
@@ -112,12 +118,6 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 				return;
 
 		SwingUtilities.invokeLater( new TabAdder( tabName ) );
-	}
-
-	public boolean closeTab( int tabIndexToClose )
-	{
-		KoLMessenger.removeChat( tabs.getTitleAt( tabIndexToClose ).trim() );
-		return true;
 	}
 
 	public void highlightTab( String tabName )
