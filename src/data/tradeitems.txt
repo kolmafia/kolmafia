@@ -384,7 +384,7 @@
 384	chrome sword	12	all	180
 385	chrome staff	12	all	180
 386	chrome crossbow	12	all	180
-387	fuzzy dice	5	none	0
+387	fuzzy dice	5	display	0
 388	yeti fur	0	all	92
 389	meaty helmet turtle	9	all	65
 390	asbestos helmet turtle	9	all	101
@@ -515,14 +515,14 @@
 515	Sneaky Pete's key lime pie	1	all	123
 516	Hey Deze map	3	none	0
 517	bejeweled accordion strap	8	all	1000
-518	magical mystery juice	14	none	50
+518	magical mystery juice	14	display	50
 519	moxie magnet	13	all	1500
 520	strange leaflet	0	none	0
 521	kickback cookbook	13	all	2000
 522	one-winged stab bat	0	all	140
 523	rewinged stab bat	5	all	148
 524	papaya sling	2	all	57
-525	grue egg	5	none	0
+525	grue egg	5	display	0
 526	Frobozz Real-Estate Company Instant House (TM)	3	none	0
 527	volleyball	3	all	100
 528	blood-faced volleyball	5	all	101
@@ -684,7 +684,7 @@
 684	pink pony	2	all	115
 685	Mr. Shirt	11	all	35
 686	enchanted brass knuckles	13	all	500
-687	blood of the Wereseal	4	none	250
+687	blood of the Wereseal	4	display	250
 688	pixel hat	9	all	45
 689	pixel pants	10	all	45
 690	pixel sword	12	all	65
@@ -732,7 +732,7 @@
 732	hosed tank	0	none	0
 733	hosed fishbowl	0	none	0
 734	makeshift SCUBA gear	8	none	0
-735	easter egg balloon	13	none	0
+735	easter egg balloon	13	display	0
 736	stone tablet (Sinister Strumming)	0	none	0
 737	stone tablet (Squeezings of Woe)	0	none	0
 738	stone tablet (Really Evil Rhythm)	0	none	0
@@ -869,7 +869,7 @@
 869	forest tears	4	all	33
 870	fetus-smashing club	12	display	0
 871	meatcar model	7	all	75
-872	Time Juice	0	none	0
+872	Time Juice	0	display	0
 873	rolling pin	3	all	250
 874	unrolling pin	3	all	250
 875	crazy bastard sword	12	all	0
@@ -914,7 +914,7 @@
 914	hand turkey outline	5	all	0
 915	candied yam pinky ring	7	all	75
 916	intergalactic pom poms	8	display	0
-917	Mob Penguin protection contract	0	none	0
+917	Mob Penguin protection contract	0	display	0
 918	Radio Free Baseball Cap	9	all	0
 919	Radio Free Pants	10	all	0
 920	Radio Free Foil	12	all	0
@@ -1263,7 +1263,7 @@
 1263	pygmy bugbear shaman	5	all	0
 1264	tiny nose-bone fetish	7	all	75
 1265	box of sunshine	3	display	0
-1266	gloomy black mushroom	0	all	050
+1266	gloomy black mushroom	0	display	050
 1267	dead mimic	3	none	0
 1268	pine wand	6	none	0
 1269	ebony wand	6	none	0
@@ -1271,7 +1271,7 @@
 1271	aluminum wand	6	none	0
 1272	marble wand	6	none	0
 1273	magic lamp	13	all	25
-1274	Medicinal Herb's medicinal herbs	3	none	50
+1274	Medicinal Herb's medicinal herbs	3	display	50
 1275	basic meat skirt	10	all	140
 1276	Otorian Battle Scar	0	all	0
 1277	basic meat kilt	10	all	140
@@ -1425,11 +1425,11 @@
 1425	ice baby	13	all	0
 1426	ice pick	9	all	0
 1427	ice skates	8	all	0
-1428	grue egg omelette	1	none	0
+1428	grue egg omelette	1	display	0
 1429	roll of drink tickets	4	all	90
-1430	pregnant gloomy black mushroom	5	none	0
-1431	pregnant oily golden mushroom	5	none	0
-1432	oily golden mushroom	0	none	50
+1430	pregnant gloomy black mushroom	5	display	0
+1431	pregnant oily golden mushroom	5	display	0
+1432	oily golden mushroom	0	display	50
 1433	fruit bowl	4	all	200
 1434	fruit basket	4	all	400
 1435	hot pink lipstick	7	all	0
@@ -1671,7 +1671,7 @@
 1671	shysterweed	0	none	0
 1672	swindleblossom	0	none	0
 1673	grave robbing shovel	12	all	40
-1674	superhero mask	9	none	0
+1674	superhero mask	9	display	0
 1675	cardboard ore	0	all	50
 1676	styrofoam ore	0	all	50
 1677	bubblewrap ore	0	all	50
@@ -1923,7 +1923,7 @@
 1923	roll of toilet paper	0	all	0
 1924	tattered wolf standard	0	none	0
 1925	tattered snake standard	0	none	0
-1926	KoL Con 3-D Glasses	9	none	0
+1926	KoL Con 3-D Glasses	9	display	0
 1927	scary death orb	5	all	148
 1928	tuning fork	7	all	75
 1929	antique greaves	10	all	160
@@ -2203,7 +2203,7 @@
 2203	tiny plastic skeletal reindeer	8	all	30
 2204	tiny plastic Crimboween pentagram	8	all	30
 2205	tiny plastic Scream Queen	8	all	30
-2206	time sleigh	0	none	0
+2206	time sleigh	0	display	0
 2207	lucky Crimbo tiki necklace	8	all	0
 2208	bobble-hip hula elf doll	13	all	0
 2209	Crimbo ukelele	12	all	0
@@ -2233,7 +2233,7 @@
 2233	polka-dot bowtie	8	all	25
 2234	calavera concertina	12	all	45
 2235	ratarang	12	all	65
-2236	turtle pheromones	3	none	25
+2236	turtle pheromones	3	display	25
 2237
 2238
 2239
