@@ -138,15 +138,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( o == null || !(o instanceof UseSkillRequest) )
 			return -1;
 
-		// Summon Candy Hearts shouldn't move around
-		// all the time, so push it to the top.
-
-		if ( skillId == 18 )
-			return -1;
-
-		if ( ((UseSkillRequest)o).skillId == 18 )
-			return 1;
-
 		int mpDifference = ClassSkillsDatabase.getMPConsumptionById( skillId ) -
 			ClassSkillsDatabase.getMPConsumptionById( ((UseSkillRequest)o).skillId );
 
@@ -255,7 +246,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			return;
 
 		int currentCast = 0;
-		int maximumCast = maximumMP / mpPerCast;
+		int maximumCast = skillId == 18 ? 1 : maximumMP / mpPerCast;
 
 		while ( !KoLmafia.refusesContinue() && castsRemaining > 0 )
 		{
@@ -271,7 +262,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			// Find out how many times we can cast with current MP
 
-			currentCast = Math.min( castsRemaining, skillId == 18 ? 1 : KoLCharacter.getCurrentMP() / mpPerCast );
+			currentCast = Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast );
 
 			// If none, attempt to recover MP in order to cast;
 			// take auto-recovery into account.
@@ -301,6 +292,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				lastUpdate = "Error encountered during cast attempt.";
 				return;
 			}
+
+			currentCast = Math.min( currentCast, maximumCast );
 
 			if ( currentCast > 0 )
 			{
@@ -582,7 +575,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		KoLmafia.getSessionStream().println( "cast " + count + " " + skillName );
 
 		if ( urlString.indexOf( "whichskill=18" ) != -1 )
-			StaticEntity.setProperty( "candyHeartSummons", String.valueOf( StaticEntity.getIntegerProperty( "candyHeartSummons" ) + 1 ) );
+		{
+			int mpCost = ClassSkillsDatabase.getMPConsumptionById( 18 );
+			if ( mpCost <= KoLCharacter.getCurrentMP() )
+			{
+				StaticEntity.setProperty( "candyHeartSummons", String.valueOf( StaticEntity.getIntegerProperty( "candyHeartSummons" ) + 1 ) );
+				usableSkills.sort();
+			}
+		}
 
 		return true;
 	}

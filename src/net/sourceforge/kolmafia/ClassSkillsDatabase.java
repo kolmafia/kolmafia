@@ -157,7 +157,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		if ( skillId == 18 )
 		{
 			int count = StaticEntity.getIntegerProperty( "candyHeartSummons" );
-			return Math.max( (count * (count + 1)) / 2 + KoLCharacter.getManaCostModifier(), 1 );
+			return Math.max( ((count + 1) * (count + 2)) / 2 + KoLCharacter.getManaCostModifier(), 1 );
 		}
 
 		// Moxious Maneuver has a special mana cost.
