@@ -721,17 +721,14 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptScope result;
 		this.fileName = fileName;
 
-		File scriptFile = new File( SCRIPT_DIRECTORY, fileName );
-		if ( !scriptFile.exists() )
-			scriptFile = new File( SCRIPT_DIRECTORY, fileName + ".ash" );
+		File scriptFile = KoLmafiaCLI.findScriptFile( SCRIPT_DIRECTORY, fileName );
+		if ( scriptFile == null || !scriptFile.exists() )
+			throw new FileNotFoundException( fileName + " could not be found" );
 
-		if ( scriptFile.exists() )
-		{
-			String name = scriptFile.toString();
-			if ( imports.contains( name ) )
-				return startScope;
-			imports.add( name );
-		}
+		String name = scriptFile.toString();
+		if ( imports.contains( name ) )
+			return startScope;
+		imports.add( name );
 
 		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
 
