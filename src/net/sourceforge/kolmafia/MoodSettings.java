@@ -186,9 +186,6 @@ public abstract class MoodSettings implements KoLConstants
 		if ( node == null )
 			return;
 
-		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
-			return;
-
 		if ( displayList.contains( node ) )
 			removeTrigger( node );
 
@@ -213,6 +210,10 @@ public abstract class MoodSettings implements KoLConstants
 
 		if ( node.isThiefTrigger() )
 			thiefTriggers.add( node );
+
+		SortedListModel apathy = (SortedListModel) reference.get( "apathetic" );
+		if ( apathy != null )
+			apathy.clear();
 	}
 
 	/**
@@ -494,6 +495,9 @@ public abstract class MoodSettings implements KoLConstants
 			burnExtraMana();
 			return;
 		}
+
+		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
+			return;
 
 		isExecuting = true;
 
