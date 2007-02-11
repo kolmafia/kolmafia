@@ -423,8 +423,12 @@ public abstract class MoodSettings implements KoLConstants
 	{
 		String nextBurnCast;
 
+		isExecuting = true;
+
 		while ( (nextBurnCast = getNextBurnCast()) != null )
 			DEFAULT_SHELL.executeLine( nextBurnCast );
+
+		isExecuting = false;
 	}
 
 	public static String getNextBurnCast()
@@ -574,8 +578,8 @@ public abstract class MoodSettings implements KoLConstants
 				current.execute( isManualInvocation );
 		}
 
-		burnExtraMana();
 		isExecuting = false;
+		burnExtraMana();
 
 		if ( songWeapon != null )
 			UseSkillRequest.untinkerCloverWeapon( UseSkillRequest.ROCKNROLL_LEGEND );

@@ -138,6 +138,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( o == null || !(o instanceof UseSkillRequest) )
 			return -1;
 
+		// Summon Candy Hearts shouldn't move around
+		// all the time, so push it to the top.
+
+		if ( skillId == 18 )
+			return -1;
+
+		if ( ((UseSkillRequest)o).skillId == 18 )
+			return 1;
+
 		int mpDifference = ClassSkillsDatabase.getMPConsumptionById( skillId ) -
 			ClassSkillsDatabase.getMPConsumptionById( ((UseSkillRequest)o).skillId );
 
@@ -245,13 +254,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( KoLmafia.refusesContinue() )
 			return;
 
-		if ( maximumMP < mpPerCast )
-		{
-			lastUpdate = "Your maximum mana is too low to cast " + skillName + ".";
-			KoLmafia.updateDisplay( lastUpdate );
-			return;
-		}
-
 		int currentCast = 0;
 		int maximumCast = maximumMP / mpPerCast;
 
@@ -259,6 +261,13 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		{
 			if ( skillId == 18 )
 				mpPerCast = ClassSkillsDatabase.getMPConsumptionById( skillId );
+
+			if ( maximumMP < mpPerCast )
+			{
+				lastUpdate = "Your maximum mana is too low to cast " + skillName + ".";
+				KoLmafia.updateDisplay( lastUpdate );
+				return;
+			}
 
 			// Find out how many times we can cast with current MP
 
