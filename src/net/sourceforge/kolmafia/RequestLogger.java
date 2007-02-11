@@ -145,7 +145,11 @@ public class RequestLogger
 			ItemCreationRequest irequest = (ItemCreationRequest) request;
 
 			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "make " + irequest.getQuantityNeeded() + " " + irequest.getName() );
+
+			if ( irequest.getAdventuresUsed() == 0 )
+				KoLmafia.getSessionStream().println( "make " + irequest.getQuantityNeeded() + " " + irequest.getName() );
+			else
+				KoLmafia.getSessionStream().println( "[" + KoLAdventure.getAdventureCount() + "] Create " + irequest.getQuantityNeeded() + " " + irequest.getName() );
 
 			wasLastRequestSimple = false;
 			return;
