@@ -1868,9 +1868,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			buffer.append( "<font size=2 color=" );
 			buffer.append( fontColor );
 
-			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=" );
-			buffer.append( StaticEntity.globalStringReplace( moodText, " ", "+" ) );
-			buffer.append( "\" style=\"color:" );
+			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\" style=\"color:" );
 			buffer.append( fontColor );
 			buffer.append( "\">" );
 
