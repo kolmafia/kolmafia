@@ -447,20 +447,36 @@ public abstract class KoLCharacter extends StaticEntity
 		battleSkillNames.setSelectedItem( StaticEntity.getProperty( "battleAction" ) );
 	}
 
-	public static boolean spleenLimitReached()
-	{	return spleenLimitReached;
+	public static int getFullness()
+	{	return StaticEntity.getIntegerProperty( "currentFullness" );
 	}
 
-	public static void setSpleenLimitReached()
-	{	spleenLimitReached = false;
+	public static int getFullnessLimit()
+	{	return hasSkill( "Stomach of Steel" ) ? 20 : canEat() ? 15 : 0;
 	}
 
-	public static boolean isFallingDown()
-	{	return getInebriety() >= getInebrietyLimit();
+	public static void setInebriety( int inebriety )
+	{	KoLCharacter.inebriety = inebriety;
+	}
+
+	public static int getInebriety()
+	{	return inebriety;
 	}
 
 	public static int getInebrietyLimit()
-	{	return (hasSkill( "Liver of Steel" ) ? 20 : 15);
+	{	return hasSkill( "Liver of Steel" ) ? 19 : canDrink() ? 14 : 0;
+	}
+
+	public static boolean isFallingDown()
+	{	return getInebriety() > getInebrietyLimit();
+	}
+
+	public static int getSpleenUse()
+	{	return StaticEntity.getIntegerProperty( "currentSpleenUse" );
+	}
+
+	public static int getSpleenLimit()
+	{	return hasSkill( "Spleen of Steel" ) ? 20 : 15;
 	}
 
 	/**
@@ -959,28 +975,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static int getAdjustedMoxie()
 	{	return adjustedStats[2];
-	}
-
-	/**
-	 * Accessor method to set the character's current inebriety (also known as
-	 * drunkenness, tipsiness, and various other names).
-	 *
-	 * @param	inebriety	The character's current inebriety level
-	 */
-
-	public static void setInebriety( int inebriety )
-	{	KoLCharacter.inebriety = inebriety;
-	}
-
-	/**
-	 * Accessor method to retrieve the character's current inebriety (also known as
-	 * drunkenness, tipsiness, and various other names).
-	 *
-	 * @return	The character's current inebriety level
-	 */
-
-	public static int getInebriety()
-	{	return inebriety;
 	}
 
 	/**

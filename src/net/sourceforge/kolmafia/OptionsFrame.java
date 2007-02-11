@@ -842,7 +842,7 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			String desiredLevel = JOptionPane.showInputDialog( null, "TURN CHANGE!", "Set to how many turns?" );
+			String desiredLevel = JOptionPane.showInputDialog( null, "TURN CHANGE!", "15" );
 			if ( desiredLevel == null )
 				return;
 

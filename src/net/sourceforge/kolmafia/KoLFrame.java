@@ -460,13 +460,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			mysLabel.setText( getStatText( KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality() ) );
 			moxLabel.setText( getStatText( KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie() ) );
 
-			int maxFull = KoLCharacter.hasSkill( "Stomach of Steel" ) ? 20 : KoLCharacter.canEat() ? 15 : 0;
-			int maxDrunk = KoLCharacter.hasSkill( "Liver of Steel" ) ? 19 : KoLCharacter.canDrink() ? 14 : 0;
-			int maxSpleen = KoLCharacter.hasSkill( "Spleen of Steel" ) ? 20 : 15;
-
-			fullLabel.setText( StaticEntity.getIntegerProperty( "currentFullness" ) + " / " + maxFull );
-			drunkLabel.setText( KoLCharacter.getInebriety() + " / " + maxDrunk );
-			spleenLabel.setText( StaticEntity.getIntegerProperty( "currentSpleenUse" ) + " / " + maxSpleen );
+			fullLabel.setText( KoLCharacter.getFullness() + " / " + KoLCharacter.getFullnessLimit() );
+			drunkLabel.setText( KoLCharacter.getInebriety() + " / " + KoLCharacter.getInebrietyLimit() );
+			spleenLabel.setText( KoLCharacter.getSpleenUse() + " / " + KoLCharacter.getSpleenLimit() );
 
 			hpLabel.setText( COMMA_FORMAT.format( KoLCharacter.getCurrentHP() ) + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
 			mpLabel.setText( COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
