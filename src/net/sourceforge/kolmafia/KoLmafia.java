@@ -509,17 +509,25 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLRequest.passwordHash != null && KoLRequest.passwordHash.equals( "" ) )
 			return;
 
+		int today = MoonPhaseDatabase.getPhaseStep();
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserId() ) );
 
 		if ( StaticEntity.getGlobalProperty( username, "getBreakfast" ).equals( "true" ) )
 		{
-			int today = MoonPhaseDatabase.getPhaseStep();
-
 			if ( StaticEntity.getIntegerProperty( "lastBreakfast" ) != today )
 			{
 				StaticEntity.setProperty( "lastBreakfast", String.valueOf( today ) );
 				getBreakfast( true );
 			}
+		}
+
+		if ( StaticEntity.getIntegerProperty( "lastCounterDay" ) != today )
+		{
+			StaticEntity.setProperty( "lastCounterDay", String.valueOf( today ) );
+
+			StaticEntity.setProperty( "currentFullness", "0" );
+			StaticEntity.setProperty( "currentSpleenUse", "0" );
+			StaticEntity.setProperty( "candyHeartSummons", "0" );
 		}
 
 		// A breakfast script might include loading an adventure

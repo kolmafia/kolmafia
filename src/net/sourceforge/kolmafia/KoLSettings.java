@@ -549,8 +549,11 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
 		PLAYER_SETTINGS.put( "buffBotCasting", "" );
 		PLAYER_SETTINGS.put( "buffBotMessageDisposal", "0" );
+		PLAYER_SETTINGS.put( "candyHeartSummons", "0" );
 		PLAYER_SETTINGS.put( "chosenTrip", "" );
+		PLAYER_SETTINGS.put( "currentFullness", "0" );
 		PLAYER_SETTINGS.put( "currentMood", "default" );
+		PLAYER_SETTINGS.put( "currentSpleenUse", "0" );
 		PLAYER_SETTINGS.put( "defaultAutoAttack", "0" );
 		PLAYER_SETTINGS.put( "hpAutoRecovery", "-0.1" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );
@@ -558,7 +561,8 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "hpThreshold", "-0.1" );
 		PLAYER_SETTINGS.put( "invalidBuffMessage", "You sent an amount which does not correspond to a valid buff amount." );
 		PLAYER_SETTINGS.put( "lastAdventure", "" );
-		PLAYER_SETTINGS.put( "lastBreakfast", "19691231" );
+		PLAYER_SETTINGS.put( "lastBreakfast", "-1" );
+		PLAYER_SETTINGS.put( "lastCounterDay", "-1" );
 		PLAYER_SETTINGS.put( "lastMessageId", "" );
 		PLAYER_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
 		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0" );

@@ -257,9 +257,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		while ( !KoLmafia.refusesContinue() && castsRemaining > 0 )
 		{
+			if ( skillId == 18 )
+				mpPerCast = ClassSkillsDatabase.getMPConsumptionById( skillId );
+
 			// Find out how many times we can cast with current MP
 
-			currentCast = Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast );
+			currentCast = Math.min( castsRemaining, skillId == 18 ? 1 : KoLCharacter.getCurrentMP() / mpPerCast );
 
 			// If none, attempt to recover MP in order to cast;
 			// take auto-recovery into account.
@@ -568,6 +571,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( "cast " + count + " " + skillName );
+
+		if ( urlString.indexOf( "whichskill=18" ) != -1 )
+			StaticEntity.setProperty( "candyHeartSummons", String.valueOf( StaticEntity.getIntegerProperty( "candyHeartSummons" ) + 1 ) );
+
 		return true;
 	}
 }

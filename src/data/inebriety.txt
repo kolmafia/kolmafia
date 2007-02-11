@@ -1,3 +1,6 @@
+# Inebriety values taken from the KoL Wiki
+# http://kol.coldfront.net/thekolwiki/index.php/Category:Booze_(By_Drunkenness)
+
 Acqua del Piatto Merlot	1
 Acque Luride Grezze Cabernet	1
 bloody beer	1

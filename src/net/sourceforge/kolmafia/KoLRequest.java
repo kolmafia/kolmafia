@@ -739,6 +739,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=6" ) != -1 )
 		{
 			KoLCharacter.setHardcore( false );
+			KoLCharacter.setConsumptionRestriction( AscensionSnapshotTable.NOPATH );
 			needsRefresh = true;
 		}
 
