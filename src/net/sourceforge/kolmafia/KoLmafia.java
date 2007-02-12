@@ -69,6 +69,7 @@ import javax.swing.UIManager;
 
 import javax.swing.UIManager.LookAndFeelInfo;
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
@@ -3218,6 +3219,10 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.setProperty( "currentSpleenUse", "0" );
 
 		KoLCharacter.reset();
+
+		LockableListModel familiars = KoLCharacter.getFamiliarList();
+		for ( int i = 0; i < familiars.size(); ++i )
+			((FamiliarData)familiars.get(i)).setItem( EquipmentRequest.UNEQUIP );
 
 		refreshSession();
 		resetSession();
