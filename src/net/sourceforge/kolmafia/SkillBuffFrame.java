@@ -56,7 +56,7 @@ public class SkillBuffFrame extends KoLFrame
 		super( "Skill Casting" );
 
 		framePanel.add( new SkillBuffPanel(), BorderLayout.NORTH );
-		framePanel.add( new UneffectPanel(), BorderLayout.CENTER );
+		framePanel.add( new SimpleScrollPane( new ShowDescriptionList( activeEffects, 12 ) ), BorderLayout.CENTER );
 
 		if ( !recipient.equals( "" ) )
 			setRecipient( recipient );
@@ -134,27 +134,6 @@ public class SkillBuffFrame extends KoLFrame
 
 			SpecialOutfit.restoreImplicitCheckpoint();
 			RequestThread.closeRequestSequence();
-		}
-	}
-
-	private class UneffectPanel extends LabeledScrollPanel
-	{
-		public UneffectPanel()
-		{	super( "Status Effects", "uneffect", "describe", new ShowDescriptionList( activeEffects ) );
-		}
-
-		public void actionConfirmed()
-		{
-			Object [] values = ((ShowDescriptionList)scrollComponent).getSelectedValues();
-			for ( int i = 0; i < values.length; ++i )
-				DEFAULT_SHELL.executeLine( MoodSettings.getDefaultAction( "gain_effect", ((AdventureResult) values[i]).getName() ) );
-		}
-
-		public void actionCancelled()
-		{
-			Object [] values = ((ShowDescriptionList)scrollComponent).getSelectedValues();
-			for ( int i = 0; i < values.length; ++i )
-				StaticEntity.openRequestFrame( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectId( ((AdventureResult) values[i]).getName() ) );
 		}
 	}
 }
