@@ -78,8 +78,8 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( frameSetting.equals( "" ) && desktopSetting.equals( "" ) )
 		{
-			StaticEntity.setGlobalProperty( "initialFrames", StaticEntity.getGlobalProperty( "initialFrames" ) );
-			StaticEntity.setGlobalProperty( "initialDesktop", StaticEntity.getGlobalProperty( "initialDesktop" ) );
+			StaticEntity.setGlobalProperty( "initialFrames", StaticEntity.getGlobalProperty( "", "initialFrames" ) );
+			StaticEntity.setGlobalProperty( "initialDesktop", StaticEntity.getGlobalProperty( "", "initialDesktop" ) );
 
 			frameSetting = StaticEntity.getGlobalProperty( "initialFrames" );
 			desktopSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
@@ -125,6 +125,9 @@ public class KoLmafiaGUI extends KoLmafia
 		for ( int i = 0; i < frames.length; ++i )
 			if ( frames[i] instanceof LoginFrame )
 				login = (LoginFrame) frames[i];
+
+		if ( login != null )
+			login.setVisible( false );
 
 		checkFrameSettings();
 		String frameSetting = StaticEntity.getGlobalProperty( "initialFrames" );
@@ -179,10 +182,7 @@ public class KoLmafiaGUI extends KoLmafia
 		// used -- account for minimalist loadings.
 
 		if ( login != null )
-		{
-			login.setVisible( false );
 			login.dispose();
-		}
 
 		if ( KoLMailManager.hasNewMessages() )
 			KoLmafia.updateDisplay( "You have new mail." );
@@ -288,8 +288,6 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "LocalRelayServer" ) )
 		{
-			StaticEntity.printStackTrace( new Exception() );
-
 			StaticEntity.getClient().startRelayServer();
 			return;
 		}
