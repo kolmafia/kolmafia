@@ -1805,21 +1805,21 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// first, if necessary
 
 			// Steal a pumpkin basket, if needed
-			if ( next == pumpkinBasket )
+			if ( next == PUMPKIN_BASKET )
 			{
 				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
 				return;
 			}
 
 			// Steal a lead necklace, if needed
-			if ( next == leadNecklace )
+			if ( next == LEAD_NECKLACE )
 			{
 				RequestThread.postRequest( new EquipmentRequest( LEAD_NECKLACE, KoLCharacter.FAMILIAR ) );
 				return;
 			}
 
 			// Steal a rat head balloon necklace, if needed
-			if ( next == ratHeadBalloon )
+			if ( next == RAT_HEAD_BALLOON )
 			{
 				RequestThread.postRequest( new EquipmentRequest( RAT_HEAD_BALLOON, KoLCharacter.FAMILIAR ) );
 				return;
