@@ -227,6 +227,11 @@ public abstract class CombatSettings implements KoLConstants
 			key = key.substring( 4 );
 			line = line.substring( 4 );
 		}
+		else if ( key.startsWith( "some " ) )
+		{
+			key = key.substring( 5 );
+			line = line.substring( 5 );
+		}
 
 		return changeCase ? key : line;
     }
