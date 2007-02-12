@@ -74,10 +74,18 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
 	public ShowDescriptionList( LockableListModel listModel )
-	{	this( listModel, null, null );
+	{	this( listModel, null, null, 4 );
+	}
+
+	public ShowDescriptionList( LockableListModel listModel, int visibleRowCount )
+	{	this( listModel, null, null, visibleRowCount );
 	}
 
 	public ShowDescriptionList( LockableListModel listModel, LockableListModel filterModel, ListElementFilter filter )
+	{	this( listModel, filterModel, filter, 4 );
+	}
+
+	public ShowDescriptionList( LockableListModel listModel, LockableListModel filterModel, ListElementFilter filter, int visibleRowCount )
 	{
 		contextMenu = new JPopupMenu();
 
@@ -87,6 +95,9 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			contextMenu.add( new DescriptionMenuItem() );
 
 		contextMenu.add( new WikiLookupMenuItem() );
+
+		if ( listModel == activeEffects )
+			contextMenu.add( new ShrugOffMenuItem() );
 
 		if ( listModel == junkItemList )
 			contextMenu.add( new RemoveFromJunkListMenuItem() );
@@ -119,7 +130,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		if ( filter != null )
 			applyFilter( new ListeningFilter( listModel, filterModel, filter ) );
 
-		setVisibleRowCount( 4 );
+		setVisibleRowCount( visibleRowCount );
 		setCellRenderer( AdventureResult.getDefaultRenderer() );
 	}
 
@@ -280,6 +291,22 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 			if ( name != null )
 				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
+		}
+	}
+
+	private class ShrugOffMenuItem extends ContextMenuItem
+	{
+		public ShrugOffMenuItem()
+		{	super( "Remove this effect" );
+		}
+
+		public void executeAction()
+		{
+			Object [] effects = getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			for ( int i = 0; i < effects.length; ++i )
+				RequestThread.postRequest( new UneffectRequest( (AdventureResult) effects[i] ) );
 		}
 	}
 
