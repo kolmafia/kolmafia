@@ -664,7 +664,7 @@ public class LoginFrame extends KoLFrame
 		{
 			{ "guiUsesOneWindow", "Restrict interface to a single window" },
 			{ "useSystemTrayIcon", "Minimize to system tray (Windows only)" },
-			{ "", "" },
+			{},
 			{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
 			{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
 		};
@@ -763,7 +763,12 @@ public class LoginFrame extends KoLFrame
 					optionBoxes[i] = new JCheckBox();
 
 				for ( int i = 0; i < options.length; ++i )
-					elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+				{
+					if ( options[i].length == 0 )
+						elements[i] = new VerifiableElement();
+					else
+						elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+				}
 
 				elements[ options.length ] = new VerifiableElement();
 
@@ -782,7 +787,8 @@ public class LoginFrame extends KoLFrame
 			public void actionConfirmed()
 			{
 				for ( int i = 0; i < options.length; ++i )
-					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+					if ( options[i].length > 0 )
+						StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
 				super.actionConfirmed();
 			}
@@ -790,7 +796,8 @@ public class LoginFrame extends KoLFrame
 			public void actionCancelled()
 			{
 				for ( int i = 0; i < options.length; ++i )
-					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
+					if ( options[i].length > 0 )
+						optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
 
 				innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedA );
 				outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedB );
