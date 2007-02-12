@@ -691,8 +691,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 				return false;
 			}
 
-// BREAKPOINT HERE SEARCH FOR ME.
-
 			// Change into appropriate gear
 			status.changeGear( tool.bestWeight(), buffs );
 			if ( !KoLmafia.permitsContinue() )
@@ -1296,16 +1294,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 		int specWeight;
 
 		AdventureResult leadNecklace;
-		FamiliarData leadNecklaceOwner;
-
 		AdventureResult ratHeadBalloon;
-		FamiliarData ratHeadBalloonOwner;
-
 		AdventureResult pumpkinBasket;
-		FamiliarData pumpkinBasketOwner;
-
 		AdventureResult doppelganger;
-		FamiliarData doppelgangerOwner;
 
 		int tpCount;
 		AdventureResult [] tp = new AdventureResult [3];
@@ -1447,11 +1438,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			specWeight = 0;
 
 			leadNecklace = null;
-			leadNecklaceOwner = null;
 			ratHeadBalloon = null;
-			ratHeadBalloonOwner = null;
 			pumpkinBasket = null;
-			pumpkinBasketOwner = null;
+			doppelganger = null;
 
 			tpCount = 0;
 
@@ -1464,30 +1453,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				String name = item.getName();
 				if ( name.equals( familiarItem.getName() ) )
-				{
 					this.item = specItem = familiarItem;
-					specWeight = familiarItemWeight;
-				}
 				else if ( name.equals( PUMPKIN_BASKET.getName() ) )
-				{
 					this.item = pumpkinBasket = PUMPKIN_BASKET;
-					pumpkinBasketOwner = familiar;
-				}
 				else if ( name.equals( LEAD_NECKLACE.getName() ) )
-				{
 					this.item = leadNecklace = LEAD_NECKLACE;
-					leadNecklaceOwner = familiar;
-				}
 				else if ( name.equals( RAT_HEAD_BALLOON.getName() ) )
-				{
 					this.item = ratHeadBalloon = RAT_HEAD_BALLOON;
-					ratHeadBalloonOwner = familiar;
-				}
 				else if ( name.equals( DOPPELGANGER.getName() ) )
-				{
 					this.item = doppelganger = DOPPELGANGER;
-					doppelgangerOwner = familiar;
-				}
 			}
 
 			// Check accessories for tininess and plasticity
@@ -1541,34 +1515,22 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// If current familiar is not wearing a pumpkin basket,
 			// search inventory
 			if ( pumpkinBasket == null && !KoLCharacter.isHardcore() && PUMPKIN_BASKET.getCount( inventory ) > 0 )
-			{
 				pumpkinBasket = PUMPKIN_BASKET;
-				pumpkinBasketOwner = null;
-			}
 
 			// If current familiar is not wearing a lead necklace,
 			// search inventory
 			if ( leadNecklace == null && LEAD_NECKLACE.getCount( inventory ) > 0 )
-			{
 				leadNecklace = LEAD_NECKLACE;
-				leadNecklaceOwner = null;
-			}
 
 			// If current familiar is not wearing a rat head
 			// balloon, search inventory
 			if ( ratHeadBalloon == null && RAT_HEAD_BALLOON.getCount( inventory ) > 0 )
-			{
 				ratHeadBalloon = RAT_HEAD_BALLOON;
-				ratHeadBalloonOwner = null;
-			}
 
 			// If current familiar is not wearing a doppel,
 			// search inventory
 			if ( doppelganger == null && !KoLCharacter.isHardcore() && DOPPELGANGER.getCount( inventory ) > 0 )
-			{
 				doppelganger = DOPPELGANGER;
-				doppelgangerOwner = null;
-			}
 
 			// If we don't have a lead necklace or a rat head
 			// balloon, search other familiars; we'll steal it from
@@ -1588,30 +1550,28 @@ public class FamiliarTrainingFrame extends KoLFrame
 					{
 						// We found a lead necklace
 						if ( leadNecklace == null )
-						{
 							leadNecklace = LEAD_NECKLACE;
-							leadNecklaceOwner = familiar;
-						}
 					}
 
 					if ( item.equals( RAT_HEAD_BALLOON ) )
 					{
 						// We found a balloon
 						if ( ratHeadBalloon == null )
-						{
 							ratHeadBalloon = RAT_HEAD_BALLOON;
-							ratHeadBalloonOwner = familiar;
-						}
 					}
 
 					if ( item.equals( PUMPKIN_BASKET ) )
 					{
 						// We found a plastic pumpkin basket
 						if ( pumpkinBasket == null )
-						{
 							pumpkinBasket = PUMPKIN_BASKET;
-							pumpkinBasketOwner = familiar;
-						}
+					}
+
+					if ( item.equals( DOPPELGANGER ) )
+					{
+						// We found a plastic pumpkin basket
+						if ( doppelganger == null )
+							doppelganger = DOPPELGANGER;
 					}
 				}
 			}
@@ -1762,11 +1722,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Make a GearSet describing what we have now
 			GearSet current = new GearSet();
 
-			if ( doppelganger != null && doppelgangerOwner != familiar )
-			{
+			if ( doppelganger != null )
 				RequestThread.postRequest( new EquipmentRequest( DOPPELGANGER, KoLCharacter.FAMILIAR ) );
-				doppelgangerOwner = familiar;
-			}
 
 			// If we are already suitably equipped, stop now
 			if ( weight == current.weight() )
@@ -1848,26 +1805,23 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// first, if necessary
 
 			// Steal a pumpkin basket, if needed
-			if ( next == pumpkinBasket && pumpkinBasketOwner != familiar )
+			if ( next == pumpkinBasket )
 			{
 				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
-				pumpkinBasketOwner = familiar;
 				return;
 			}
 
 			// Steal a lead necklace, if needed
-			if ( next == leadNecklace && leadNecklaceOwner != familiar )
+			if ( next == leadNecklace )
 			{
 				RequestThread.postRequest( new EquipmentRequest( LEAD_NECKLACE, KoLCharacter.FAMILIAR ) );
-				leadNecklaceOwner = familiar;
 				return;
 			}
 
 			// Steal a rat head balloon necklace, if needed
-			if ( next == ratHeadBalloon && ratHeadBalloonOwner != familiar )
+			if ( next == ratHeadBalloon )
 			{
 				RequestThread.postRequest( new EquipmentRequest( RAT_HEAD_BALLOON, KoLCharacter.FAMILIAR ) );
-				ratHeadBalloonOwner = familiar;
 				return;
 			}
 
@@ -2143,11 +2097,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				statusMessage( CONTINUE_STATE, "You win a prize: " + prize + "." );
 				if ( prize.equals( LEAD_NECKLACE.getName() ) )
 				{
-					if ( leadNecklace == null )
-					{
-						leadNecklace = LEAD_NECKLACE;
-						leadNecklaceOwner = familiar;
-					}
+					leadNecklace = LEAD_NECKLACE;
 				}
 				else if ( familiarItemWeight > 0 )
 				{
