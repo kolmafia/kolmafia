@@ -915,7 +915,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( wand != null )
 				StaticEntity.singleStringReplace( buffer, "</font>", "&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font>" );
 		}
-		else if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
+
+		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
 			addUseLinks( location, buffer );
 
 		if ( location.indexOf( "fight.php" ) != -1 )
@@ -1237,6 +1238,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		Matcher useLinkMatcher = ACQUIRE_PATTERN.matcher( text );
 
+		int specialLinkId = 0;
+		String specialLinkText = null;
+
 		while ( useLinkMatcher.find() )
 		{
 			String itemName = useLinkMatcher.group(1);
@@ -1311,6 +1315,43 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				}
 			}
 
+			// Certain items get use special links to minimize the amount
+			// of scrolling to find the item again.
+
+			switch ( itemId )
+			{
+			case 1423:
+			case 1424:
+			case 1425:
+			case 1426:
+			case 1427:
+
+				specialLinkId = itemId;
+				specialLinkText = "squeeze";
+				break;
+
+			case 2079:
+			case 2080:
+			case 2081:
+			case 2083:
+			case 2095:
+
+				specialLinkId = itemId;
+				specialLinkText = "fold";
+				break;
+
+			case 2221:
+			case 2222:
+			case 2223:
+			case 2224:
+			case 2225:
+			case 2226:
+
+				// specialLinkId = itemId;
+				// specialLinkText = "melt";
+				break;
+			}
+
 			// If you can add a creation link, then add one instead.
 			// That way, the player can click and KoLmafia will save
 			// the player a click or two (well, if they trust it).
@@ -1354,6 +1395,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			{
 				switch ( consumeMethod )
 				{
+				case GROW_FAMILIAR:
+
+					useType = "terrarium";
+					useLocation = "inv_familiar.php?pwd&which=3&whichitem=";
+					break;
+
 				case CONSUME_EAT:
 
 					if ( itemId == 322 )
@@ -1581,6 +1628,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 
 		useLinkMatcher.appendTail( buffer );
+
+		if ( specialLinkText != null )
+		{
+			StaticEntity.singleStringReplace( buffer, "</center></blockquote>", "<p><center><a href=\"inv_use.php?pwd&which=2&whichitem=" + specialLinkId + "\">[" +
+				specialLinkText + " it again]</a></center></blockquote>" );
+		}
 	}
 
 	private static void addChoiceSpoilers( StringBuffer buffer )
