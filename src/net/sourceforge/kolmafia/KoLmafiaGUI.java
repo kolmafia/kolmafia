@@ -78,8 +78,8 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( frameSetting.equals( "" ) && desktopSetting.equals( "" ) )
 		{
-			StaticEntity.setGlobalProperty( "initialFrames", StaticEntity.getGlobalProperty( "", "initialFrames" ) );
-			StaticEntity.setGlobalProperty( "initialDesktop", StaticEntity.getGlobalProperty( "", "initialDesktop" ) );
+			StaticEntity.setGlobalProperty( "initialFrames", StaticEntity.getGlobalProperty( "initialFrames" ) );
+			StaticEntity.setGlobalProperty( "initialDesktop", StaticEntity.getGlobalProperty( "initialDesktop" ) );
 
 			frameSetting = StaticEntity.getGlobalProperty( "initialFrames" );
 			desktopSetting = StaticEntity.getGlobalProperty( "initialDesktop" );
@@ -288,6 +288,8 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "LocalRelayServer" ) )
 		{
+			StaticEntity.printStackTrace( new Exception() );
+
 			StaticEntity.getClient().startRelayServer();
 			return;
 		}
