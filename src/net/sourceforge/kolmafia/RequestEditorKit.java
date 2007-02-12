@@ -915,7 +915,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( wand != null )
 				StaticEntity.singleStringReplace( buffer, "</font>", "&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font>" );
 		}
-		else
+		else if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
 			addUseLinks( location, buffer );
 
 		if ( location.indexOf( "fight.php" ) != -1 )

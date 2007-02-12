@@ -559,7 +559,8 @@ public class KoLmafiaASH extends StaticEntity
 			this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
 			this.fileName = scriptFile.getPath();
 
-			imports.clear();
+			if ( !isRunningScript )
+				imports.clear();
 
 			this.currentLine = getNextLine();
 			this.lineNumber = commandStream.getLineNumber();
