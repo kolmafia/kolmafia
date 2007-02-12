@@ -3596,7 +3596,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( firstMatch == null )
 			return;
 
-
 		ItemCreationRequest irequest = ItemCreationRequest.getInstance( firstMatch.getItemId() );
 		if ( irequest == null )
 		{
@@ -3610,8 +3609,12 @@ public class KoLmafiaCLI extends KoLmafia
 			case COOK_PASTA:
 
 				if ( needServant )
+				{
 					updateDisplay( ERROR_STATE, "You cannot cook without a chef-in-the-box." );
-				else if ( !AdventureDatabase.retrieveItem( ItemCreationRequest.OVEN ) )
+					return;
+				}
+
+				if ( !AdventureDatabase.retrieveItem( ItemCreationRequest.OVEN ) )
 					return;
 
 				irequest = ItemCreationRequest.getInstance( firstMatch.getItemId() );
@@ -3622,8 +3625,12 @@ public class KoLmafiaCLI extends KoLmafia
 			case MIX_SUPER:
 
 				if ( needServant )
+				{
 					updateDisplay( ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
-				else if ( AdventureDatabase.retrieveItem( ItemCreationRequest.KIT ) )
+					return;
+				}
+
+				if ( AdventureDatabase.retrieveItem( ItemCreationRequest.KIT ) )
 					return;
 
 				irequest = ItemCreationRequest.getInstance( firstMatch.getItemId() );
