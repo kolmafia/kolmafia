@@ -1318,38 +1318,41 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// Certain items get use special links to minimize the amount
 			// of scrolling to find the item again.
 
-			switch ( itemId )
+			if ( location.startsWith( "inventory.php" ) )
 			{
-			case 1423:
-			case 1424:
-			case 1425:
-			case 1426:
-			case 1427:
+				switch ( itemId )
+				{
+				case 1423:
+				case 1424:
+				case 1425:
+				case 1426:
+				case 1427:
 
-				specialLinkId = itemId;
-				specialLinkText = "squeeze";
-				break;
+					specialLinkId = itemId;
+					specialLinkText = "squeeze";
+					break;
 
-			case 2079:
-			case 2080:
-			case 2081:
-			case 2083:
-			case 2095:
+				case 2079:
+				case 2080:
+				case 2081:
+				case 2083:
+				case 2095:
 
-				specialLinkId = itemId;
-				specialLinkText = "fold";
-				break;
+					specialLinkId = itemId;
+					specialLinkText = "fold";
+					break;
 
-			case 2221:
-			case 2222:
-			case 2223:
-			case 2224:
-			case 2225:
-			case 2226:
+				case 2221:
+				case 2222:
+				case 2223:
+				case 2224:
+				case 2225:
+				case 2226:
 
-				// specialLinkId = itemId;
-				// specialLinkText = "melt";
-				break;
+					// specialLinkId = itemId;
+					// specialLinkText = "melt";
+					break;
+				}
 			}
 
 			// If you can add a creation link, then add one instead.
@@ -1461,9 +1464,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					if ( useType == null )
 					{
-						useType = "use";
-						useLocation = itemId == UneffectRequest.REMEDY.getItemId() ? "uneffect.php" :
-							"inv_use.php?pwd=&which=3&whichitem=";
+						useType = itemId == 2095 ? "fold" : "use";
+						useLocation = "inv_use.php?pwd=&which=3&whichitem=";
 					}
 
 					break;
@@ -1499,10 +1501,18 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				default:
 
+					// Soft green echo eyedrop antidote gets an uneffect link
+
+					if ( itemId == UneffectRequest.REMEDY.getItemId() )
+					{
+						useType = "use";
+						useLocation = "uneffect.php";
+					}
+
 					// Special handling for star charts, lines, and stars, where
 					// KoLmafia shows you how many of each you have.
 
-					if ( itemId == StarChartRequest.CHART.getItemId() || itemId == StarChartRequest.STARS.getItemId() || itemId == StarChartRequest.LINES.getItemId() )
+					else if ( itemId == StarChartRequest.CHART.getItemId() || itemId == StarChartRequest.STARS.getItemId() || itemId == StarChartRequest.LINES.getItemId() )
 					{
 						useType = StarChartRequest.CHART.getCount( inventory ) + "," + StarChartRequest.STARS.getCount( inventory ) + "," + StarChartRequest.LINES.getCount( inventory );
 						useLocation = "starchart.php";
