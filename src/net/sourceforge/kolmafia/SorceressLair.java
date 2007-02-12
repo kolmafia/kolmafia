@@ -1437,7 +1437,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) )
 		{
 			// We can't buff it high enough. Train it.
-			if ( !FamiliarTrainingFrame.levelFamiliar( 20, FamiliarTrainingFrame.BUFFED, false, false ) )
+			if ( !FamiliarTrainingFrame.levelFamiliar( 20, FamiliarTrainingFrame.BUFFED, false ) )
 				return;
 		}
 

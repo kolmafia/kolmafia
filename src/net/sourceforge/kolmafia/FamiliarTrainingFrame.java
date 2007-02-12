@@ -113,6 +113,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	private static final AdventureResult GREEN_SNOWCONE = new AdventureResult( 1413, 1 );
 	private static final AdventureResult BLACK_SNOWCONE = new AdventureResult( 1417, 1 );
+	private static final AdventureResult GREEN_CANDY = new AdventureResult( 1417, 1 );
 
 	private static final int [] tinyPlasticNormal = new int [] { 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988 };
 	private static final int [] tinyPlasticCrimbo = new int [] { 1377, 1378, 2201, 2202 };
@@ -121,7 +122,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static boolean sympathyAvailable;
 	private static boolean leashAvailable;
 	private static boolean empathyAvailable;
+
+	// Available effects which affect weight
 	private static boolean heavyPettingAvailable;
+	private static boolean blackConeAvailable;
+	private static boolean greenConeAvailable;
+	private static boolean greenHeartAvailable;
 
 	// Active effects which affect weight
 	private static int leashActive;
@@ -586,7 +592,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	}
 
 	private static boolean levelFamiliar( int goal, int type )
-	{	return levelFamiliar( goal, type, type == BUFFED, StaticEntity.getBooleanProperty( "debugFamiliarTraining" ) );
+	{	return levelFamiliar( goal, type, StaticEntity.getBooleanProperty( "debugFamiliarTraining" ) );
 	}
 
 	/**
@@ -599,7 +605,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * @param	debug	true if we are debugging
 	 */
 
-	public static boolean levelFamiliar( int goal, int type, boolean buffs, boolean debug )
+	public static boolean levelFamiliar( int goal, int type, boolean debug )
 	{
 		// Clear the output
 		results.clearBuffer();
@@ -674,13 +680,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			// Choose possible weights
-			int [] weights = status.getWeights( buffs );
-
-			if ( debug )
-			{
-				statusMessage( CONTINUE_STATE, "Assuming buffs: " + buffs );
-				printWeights( weights, buffs );
-			}
+			int [] weights = status.getWeights();
 
 			// Choose next opponent
 			ArenaOpponent opponent = tool.bestOpponent( familiar.getId(), weights );
@@ -692,16 +692,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			// Change into appropriate gear
-			status.changeGear( tool.bestWeight(), buffs );
+			status.changeGear( tool.bestWeight() );
 			if ( !KoLmafia.permitsContinue() )
 			{
-				if ( buffs )
-				{
-					results.append( "Trying again without considering buffs...<br>" );
-					buffs = false;
-					continue;
-				}
-
 				statusMessage( ERROR_STATE, "Training stopped: internal error." );
 				return false;
 			}
@@ -713,8 +706,17 @@ public class FamiliarTrainingFrame extends KoLFrame
 			fightMatch( status, tool, opponent );
 		}
 
+		if ( KoLCharacter.hasItem( PUMPKIN_BASKET ) )
+			RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
+		else if ( status.familiarItemWeight != 0 && KoLCharacter.hasItem( status.familiarItem ) )
+			RequestThread.postRequest( new EquipmentRequest( status.familiarItem, KoLCharacter.FAMILIAR ) );
+		else if ( KoLCharacter.hasItem( LEAD_NECKLACE ) )
+			RequestThread.postRequest( new EquipmentRequest( LEAD_NECKLACE, KoLCharacter.FAMILIAR ) );
+
+		boolean result = type == BUFFED ? buffFamiliar( goal ) : true;
+
 		statusMessage( CONTINUE_STATE, "Training session completed." );
-		return buffs ? buffFamiliar( goal ) : true;
+		return result;
 	}
 
 	/**
@@ -822,7 +824,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					statusMessage( CONTINUE_STATE, CakeArenaManager.getEvent( contest + 1) + " rank " + ( rank + 1 ) + ": trial " + ( trial + 1 ) );
 
 					// Choose possible weights
-					int [] weights = status.getWeights( false );
+					int [] weights = status.getWeights();
 
 					// Choose next opponent
 					ArenaOpponent opponent = tool.bestOpponent( test, weights );
@@ -843,7 +845,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					}
 
 					// Change into appropriate gear
-					status.changeGear( tool.bestWeight(), false );
+					status.changeGear( tool.bestWeight() );
 					if ( !KoLmafia.permitsContinue() )
 					{
 						statusMessage( ERROR_STATE, "Training stopped: internal error." );
@@ -936,34 +938,65 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return true;
 
 		FamiliarStatus status = new FamiliarStatus();
-		boolean needBuffs = false;
-		int goal = 0;
+		int [] weights = status.getWeights();
+		Arrays.sort( weights );
 
-		while ( goal < weight )
+		status.changeGear( weights[ weights.length - 1 ] );
+		if ( familiar.getModifiedWeight() >= weight )
+			return true;
+
+		if ( !KoLCharacter.hasItem( PUMPKIN_BASKET ) && status.familiarItemWeight != 0 && !KoLCharacter.hasItem( status.familiarItem ) && KoLCharacter.canInteract() )
 		{
-			// Calculate possible weights
-			int [] weights = status.getWeights( needBuffs );
-			Arrays.sort( weights );
+			DEFAULT_SHELL.executeLine( "buy 1 " + status.familiarItem.getName() );
+			DEFAULT_SHELL.executeLine( "equip " + status.familiarItem.getName() );
 
-			// Find the first one which meets or exceeds goal
-			for ( int i = 0; goal < weight && i < weights.length; ++i )
-				goal = Math.max( goal, weights[i] );
+			if ( familiar.getModifiedWeight() >= weight )
+				return true;
+		}
 
-			// If we found one, use it
-			if ( goal >= weight )
-			{
-				// Change gear and buff up
-				status.changeGear( goal, needBuffs );
-				if ( familiar.getModifiedWeight() >= weight )
-					return true;
-			}
+		if ( leashAvailable && leashActive == 0 )
+		{
+			DEFAULT_SHELL.executeLine( "cast 1 leash of linguini" );
+			if ( familiar.getModifiedWeight() >= weight )
+				return true;
+		}
 
-			// If we've already tried using buffs, give up now
-			if ( needBuffs )
-				break;
+		if ( empathyAvailable && empathyActive == 0 )
+		{
+			DEFAULT_SHELL.executeLine( "cast 1 empathy of the newt" );
+			if ( familiar.getModifiedWeight() >= weight )
+				return true;
+		}
 
-			// Try again with buffs
-			needBuffs = true;
+		// Add on a green heart first, if you know the difference is
+		// less than three.
+
+		if ( greenHeartAvailable && greenHeartActive == 0 && (weight - familiar.getModifiedWeight()) % 5 <= 3 )
+		{
+			DEFAULT_SHELL.executeLine( "use 1 green candy heart" );
+			if ( familiar.getModifiedWeight() >= weight )
+				return true;
+		}
+
+		if ( greenConeAvailable && greenTongueActive == 0 )
+		{
+			DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
+			if ( familiar.getModifiedWeight() >= weight )
+				return true;
+		}
+
+		if ( !greenConeAvailable && greenTongueActive == 0 && blackConeAvailable && blackTongueActive == 0 )
+		{
+			DEFAULT_SHELL.executeLine( "use 1 black snowcone" );
+			if ( familiar.getModifiedWeight() >= weight )
+				return true;
+		}
+
+		if ( heavyPettingAvailable && heavyPettingActive == 0 )
+		{
+			DEFAULT_SHELL.executeLine( "use 1 Knob Goblin pet-buffing spray" );
+			if ( familiar.getModifiedWeight() >= weight )
+				return true;
 		}
 
 		KoLmafia.updateDisplay( ERROR_STATE, "Can't buff and equip familiar to reach " + weight + " lbs." );
@@ -1026,136 +1059,28 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return ( status.baseWeight() >= goal );
 
 		case BUFFED:
-		{
-			int maxBuffedWeight = status.maxBuffedWeight( true );
-			boolean goalReached = maxBuffedWeight >= goal;
-
-			if ( goal != 20 )
-				return goalReached;
-
-			boolean hasTongue = false;
-			for ( int i = 0; i < activeEffects.size(); ++i )
-				hasTongue |= ((AdventureResult)activeEffects.get(i)).getName().toLowerCase().endsWith( "tongue" );
-
-			if ( !hasTongue )
-			{
-				if ( maxBuffedWeight >= 15 && greenTongueActive == 0 && blackTongueActive == 0 )
-				{
-					if ( KoLCharacter.hasItem( GREEN_SNOWCONE ) )
-					{
-						DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
-						greenTongueActive = 20;
-						return true;
-					}
-
-					if ( KoLCharacter.hasItem( BLACK_SNOWCONE ) && blackTongueActive == 0 )
-					{
-						DEFAULT_SHELL.executeLine( "use 1 black snowcone" );
-						blackTongueActive = 20;
-						return true;
-					}
-				}
-			}
-
-			if ( goalReached || !KoLCharacter.canInteract() )
-				return goalReached;
-
-			// If the player is currently out of Ronin, then they have
-			// the option of automatically purchasing their familiar item,
-			// pet-buffing spray, empathy and a green snowcone, which will
-			// boost you straight to 20 pounds without any skills.
-
-			int poundsNeeded = goal - status.familiar.getModifiedWeight();
-
-			// If you're out of Ronin, pet-buffing spray is still
-			// available in the mall.  Check this option first.
-
-			if ( !heavyPettingAvailable && heavyPettingActive == 0 )
-			{
-				poundsNeeded -= 5;
-				heavyPettingAvailable = true;
-				DEFAULT_SHELL.executeLine( "acquire 1 Knob Goblin pet-buffing spray" );
-			}
-
-			if ( poundsNeeded <= 0 )
-				return true;
-
-			// Consider green candy hearts and green snowcones, since they
-			// add +8 to familiar weight when used together, which, when
-			// combined with buffing spray, yields +13.
-
-			if ( greenHeartActive == 0 )
-			{
-				DEFAULT_SHELL.executeLine( "acquire 1 green candy heart" );
-				status.updateStatus();
-				poundsNeeded -= 3;
-			}
-
-			if ( poundsNeeded <= 0 )
-				return true;
-
-			if ( !hasTongue && greenTongueActive == 0 )
-			{
-				DEFAULT_SHELL.executeLine( "acquire 1 green snowcone" );
-				status.updateStatus();
-				poundsNeeded -= 5;
-			}
-
-			if ( poundsNeeded <= 0 )
-				return true;
-
-			// First, check their current familiar's item. If it affects
-			// weight (positively) and their current item does not impact
-			// weight by as much, try to grab it.
-
-			int desiredItemWeight = status.familiarItem == null ? 0 : FamiliarData.itemWeightModifier( status.familiarItem.getItemId() );
-			int currentItemWeight = FamiliarData.itemWeightModifier( status.familiar.getItem().getItemId() );
-
-			if ( currentItemWeight < desiredItemWeight )
-			{
-				poundsNeeded -= desiredItemWeight - currentItemWeight;
-				String familiarItem = status.familiarItem.getName();
-
-				DEFAULT_SHELL.executeLine( "acquire 1 " + familiarItem );
-				status.updateStatus();
-			}
-
-			if ( poundsNeeded <= 0 )
-				return true;
-
-			// Acquire tiny plastic items from the mall.  Randomly
-			// choose one of the items using a random number generator.
-
-			String plasticItem = TradeableItemDatabase.getItemName( tinyPlasticNormal[ RNG.nextInt( tinyPlasticNormal.length ) ] );
-			DEFAULT_SHELL.executeLine( "acquire " + poundsNeeded + " " + plasticItem );
-			status.updateStatus();
-
-			// That's all that can be done.  Return whether or not
-			// your goal is achievable.
-
-			return true;
-		}
+			return status.maxWeight( true ) >= goal;
 
 		case TURNS:
-			return ( status.turnsUsed() >= goal );
+			return status.turnsUsed() >= goal;
 		}
 
 		return false;
 	}
 
-	private static void printWeights( int [] weights, boolean buffs )
+	private static void printWeights( int [] weights )
 	{
 		StringBuffer text = new StringBuffer();
 
 		text.append( "Possible familiar weights" );
-		if ( buffs )
-			text.append( " (including castable buffs)" );
 		text.append( ":");
+
 		for (int i = 0; i < weights.length; ++i )
 		{
 			text.append( ( i > 0 ) ? ", " : " ");
 			text.append( weights[i] );
 		}
+
 		text.append( "<br>");
 
 		results.append( text.toString() );
@@ -1403,7 +1328,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 			sympathyAvailable = KoLCharacter.hasAmphibianSympathy();
 			empathyAvailable = KoLCharacter.hasSkill( "Empathy of the Newt" );
 			leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
-			heavyPettingAvailable = inventory.contains( BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
+
+			heavyPettingAvailable = KoLCharacter.canInteract() || KoLCharacter.hasItem( BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
+			greenConeAvailable = KoLCharacter.canInteract() || KoLCharacter.hasItem( GREEN_SNOWCONE );
+			blackConeAvailable = KoLCharacter.canInteract() || KoLCharacter.hasItem( BLACK_SNOWCONE );
+			greenHeartAvailable = KoLCharacter.canInteract() || KoLCharacter.hasItem( GREEN_CANDY );
 
 			// Look at effects to decide which ones are active;
 			empathyActive = EMPATHY.getCount( activeEffects );
@@ -1601,7 +1530,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		/**************************************************************/
 
-		public int [] getWeights( boolean buffs )
+		public int [] getWeights()
 		{
 			// Clear the set of possible weights
 			weights.clear();
@@ -1628,8 +1557,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( greenHeartActive > 0 )
 				weight += 3;
 
-			// Start with buffs
-			getBuffWeights( weight, buffs );
+			getItemWeights( weight );
 
 			// Make an array to hold values
 			Object [] vals = weights.toArray();
@@ -1640,29 +1568,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 				value[i] = ((Integer)vals[i]).intValue();
 
 			return value;
-		}
-
-		private void getBuffWeights( int weight, boolean buffs )
-		{
-			if ( buffs )
-			{
-				int overallModifier = 0;
-
-				if ( empathyAvailable && empathyActive == 0 )
-					overallModifier += 5;
-
-				if ( leashAvailable && leashActive == 0 )
-					overallModifier += 5;
-
-				if ( heavyPettingAvailable && heavyPettingActive == 0 )
-					overallModifier += 5;
-
-				for ( int i = 5; i <= overallModifier; i += 5 )
-					getItemWeights( weight + i );
-			}
-
-			// Calculate item weights with no additional buffs
-			getItemWeights( weight );
 		}
 
 		private void getItemWeights( int weight )
@@ -1717,7 +1622,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		 * Change gear and cast buffs such that your familiar's
 		 * modified weight is as specified.
 		 */
-		public void changeGear( int weight, boolean buffs )
+		public void changeGear( int weight )
 		{
 			// Make a GearSet describing what we have now
 			GearSet current = new GearSet();
@@ -1730,7 +1635,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				return;
 
 			// Choose a new GearSet with desired weight
-			GearSet next = chooseGearSet( current, weight, buffs );
+			GearSet next = chooseGearSet( current, weight );
 
 			// If we couldn't pick one, that's an internal error
 			if ( next == null || weight < next.weight() )
@@ -1752,7 +1657,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		/*
 		 * Debug: choose and print desired GearSet
 		 */
-		public void chooseGear( int weight, boolean buffs )
+		public void chooseGear( int weight )
 		{
 			// Make a GearSet describing what we have now
 			GearSet current = new GearSet();
@@ -1765,7 +1670,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			// Choose a new GearSet with desired weight
-			GearSet next = chooseGearSet( current, weight, buffs );
+			GearSet next = chooseGearSet( current, weight );
 
 			if ( next == null )
 			{
@@ -1788,7 +1693,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 			swapItem( current.acc1, next.acc1, KoLCharacter.ACCESSORY1 );
 			swapItem( current.acc2, next.acc2, KoLCharacter.ACCESSORY2 );
 			swapItem( current.acc3, next.acc3, KoLCharacter.ACCESSORY3 );
-			castNeededBuffs( current, next );
 		}
 
 		private void swapItem( AdventureResult current, AdventureResult next, int slot )
@@ -1854,138 +1758,68 @@ public class FamiliarTrainingFrame extends KoLFrame
 				acc[2] = item;
 		}
 
-		private void castNeededBuffs( GearSet current, GearSet next )
-		{
-			if ( next.leash && !current.leash )
-			{
-				// Cast Leash. Bail if can't.
-
-				DEFAULT_SHELL.executeLine( "cast Leash of Linguini" );
-				if ( !UseSkillRequest.lastUpdate.equals( "" ) )
-					return;
-
-				// Remember it
-				leashActive += 10;
-			}
-
-			if ( next.empathy && !current.empathy )
-			{
-				// Cast Empathy. Bail if can't.
-				DEFAULT_SHELL.executeLine( "cast Empathy of the Newt" );
-				if ( !UseSkillRequest.lastUpdate.equals( "" ) )
-					return;
-
-				// Remember it
-				empathyActive += 10;
-			}
-
-			if ( next.spray && !current.spray )
-			{
-				DEFAULT_SHELL.executeLine( "use 1 Knob Goblin pet-buffing spray" );
-				heavyPettingActive += 10;
-			}
-		}
-
 		/*
 		 * Choose a GearSet that gives the current familiar the desired
 		 * weight. Of the (potentially many) possible such sets, return
 		 * the one that requires the smallest number of changes from
 		 * what is currently in effect.
 		 */
-		private GearSet chooseGearSet( GearSet current, int weight, boolean buffs )
+		private GearSet chooseGearSet( GearSet current, int weight )
 		{
 			// Clear out the accumulated list of GearSets
 			gearSets.clear();
 
-			// Start without buffs
-			getBuffGearSets( weight, false );
+			getHatGearSets( weight );
 
 			// Iterate over all the GearSets and choose the first
 			// one which is closest to the current GearSet
-			if ( gearSets.isEmpty() && buffs )
-				getBuffGearSets( weight, true );
 
 			Collections.sort( gearSets );
 			return gearSets.isEmpty() ? null : (GearSet) gearSets.get(0);
 		}
 
-		private void getBuffGearSets( int weight, boolean buffs )
-		{
-			// Handle base case of everything available right
-			// now with no additional casting.
-
-			getHatGearSets( weight, leashActive > 0, empathyActive > 0, heavyPettingActive > 0 );
-
-			// Handle situations where you are allowed to cast
-			// buffs on yourself during training.
-
-			if ( buffs )
-			{
-				boolean addLeash = leashAvailable && leashActive == 0;
-				boolean addEmpathy = empathyAvailable && empathyActive == 0;
-				boolean addSpray = heavyPettingAvailable && heavyPettingActive == 0;
-
-				if ( addLeash )
-					getHatGearSets( weight, addLeash, empathyActive > 0, heavyPettingActive > 0 );
-				if ( addEmpathy )
-					getHatGearSets( weight, leashActive > 0, addEmpathy, heavyPettingActive > 0 );
-				if ( addSpray )
-					getHatGearSets( weight, leashActive > 0, empathyActive > 0, addSpray );
-
-				if ( addLeash && addEmpathy )
-					getHatGearSets( weight, addLeash, addEmpathy, heavyPettingActive > 0 );
-				if ( addEmpathy && addSpray )
-					getHatGearSets( weight, leashActive > 0, addEmpathy, addSpray );
-				if ( addLeash && addSpray )
-					getHatGearSets( weight, addLeash, empathyActive > 0, addSpray );
-
-				if ( addLeash && addEmpathy && addSpray )
-					getHatGearSets( weight, addLeash, addEmpathy, addSpray );
-			}
-		}
-
-		private void getHatGearSets( int weight, boolean leash, boolean empathy, boolean spray )
+		private void getHatGearSets( int weight )
 		{
 			if ( pithHelmet != null )
-				getItemGearSets( weight, pithHelmet, leash, empathy, spray );
+				getItemGearSets( weight, pithHelmet );
 
-			getItemGearSets( weight, null, leash, empathy, spray );
+			getItemGearSets( weight, null );
 		}
 
-		private void getItemGearSets( int weight, AdventureResult hat, boolean leash, boolean empathy, boolean spray )
+		private void getItemGearSets( int weight, AdventureResult hat )
 		{
 			if ( doppelganger != null )
 			{
-				getAccessoryGearSets( weight, doppelganger, hat, leash, empathy, spray );
+				getAccessoryGearSets( weight, doppelganger, hat );
 				return;
 			}
 
 			if ( pumpkinBasket != null )
-				getAccessoryGearSets( weight, pumpkinBasket, hat, leash, empathy, spray );
+				getAccessoryGearSets( weight, pumpkinBasket, hat );
 			if ( specItem != null )
-				getAccessoryGearSets( weight, specItem, hat, leash, empathy, spray );
+				getAccessoryGearSets( weight, specItem, hat );
 			if ( leadNecklace != null )
-				getAccessoryGearSets( weight, leadNecklace, hat, leash, empathy, spray );
+				getAccessoryGearSets( weight, leadNecklace, hat );
 			if ( ratHeadBalloon != null )
-				getAccessoryGearSets( weight, ratHeadBalloon, hat, leash, empathy, spray );
+				getAccessoryGearSets( weight, ratHeadBalloon, hat );
 
-			getAccessoryGearSets( weight, null, hat, leash, empathy, spray );
+			getAccessoryGearSets( weight, null, hat );
 		}
 
-		private void getAccessoryGearSets( int weight, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy, boolean spray )
+		private void getAccessoryGearSets( int weight, AdventureResult item,  AdventureResult hat )
 		{
 			// No matter how many Tiny Plastic Objects we have, a
 			// configuration with none equipped is legal
-			addGearSet( weight, null, null, null, item, hat, leash, empathy, spray );
+			addGearSet( weight, null, null, null, item, hat );
 			if ( tpCount == 0 )
 				return;
 
 			// If we have at least one and it started out equipped,
 			// then it might be in any of the three accessory
 			// slots.
-			addGearSet( weight, tp[0], null, null, item, hat, leash, empathy, spray );
-			addGearSet( weight, null, tp[0], null, item, hat, leash, empathy, spray );
-			addGearSet( weight, null, null, tp[0], item, hat, leash, empathy, spray );
+			addGearSet( weight, tp[0], null, null, item, hat );
+			addGearSet( weight, null, tp[0], null, item, hat );
+			addGearSet( weight, null, null, tp[0], item, hat );
 			if ( tpCount == 1)
 				return;
 
@@ -1993,57 +1827,61 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// when we came in, they'll be in one of the following
 			// patterns.
 
-			addGearSet( weight, tp[0], tp[1], null, item, hat, leash, empathy, spray );
-			addGearSet( weight, tp[0], null, tp[1], item, hat, leash, empathy, spray );
-			addGearSet( weight, null, tp[0], tp[1], item, hat, leash, empathy, spray );
+			addGearSet( weight, tp[0], tp[1], null, item, hat );
+			addGearSet( weight, tp[0], null, tp[1], item, hat );
+			addGearSet( weight, null, tp[0], tp[1], item, hat );
 
 			// If one of the two was in the inventory, the first
 			// could have been in any of the three accessory
 			// slots. Add a pattern for where it was in the third
 			// slot.
 
-			addGearSet( weight, tp[1], null, tp[0], item, hat, leash, empathy, spray );
+			addGearSet( weight, tp[1], null, tp[0], item, hat );
 
 			if ( tpCount == 2 )
 				return;
 
 			// If we have three and they were all equipped when we
 			// came in, they'll be in the following pattern
-			addGearSet( weight, tp[0], tp[1], tp[2], item, hat, leash, empathy, spray );
+			addGearSet( weight, tp[0], tp[1], tp[2], item, hat );
 
 			// If two of them were equipped and the third was in
 			// the inventory, the following patterns are legal
-			addGearSet( weight, tp[0], tp[2], tp[1], item, hat, leash, empathy, spray );
-			addGearSet( weight, tp[2], tp[0], tp[1], item, hat, leash, empathy, spray );
+			addGearSet( weight, tp[0], tp[2], tp[1], item, hat );
+			addGearSet( weight, tp[2], tp[0], tp[1], item, hat );
 
 			// If only one was equipped, based on which
 			// two-accessory patterns are legal, the following
 			// three-accessory patterns are also legal
-			addGearSet( weight, tp[1], tp[2], tp[0], item, hat, leash, empathy, spray );
+			addGearSet( weight, tp[1], tp[2], tp[0], item, hat );
 		}
 
-		private void addGearSet( int weight, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy, boolean spray )
+		private void addGearSet( int weight, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat )
 		{
-			if ( weight == gearSetWeight( acc1, acc2, acc3, item, hat, leash, empathy, spray ) )
-				gearSets.add( new GearSet( hat, item, acc1, acc2, acc3, leash, empathy, spray ) );
+			if ( weight == gearSetWeight( acc1, acc2, acc3, item, hat ) )
+				gearSets.add( new GearSet( hat, item, acc1, acc2, acc3 ) );
 		}
 
-		private int gearSetWeight( AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy, boolean spray )
+		private int gearSetWeight( AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat )
 		{
 			int weight = familiar.getWeight();
+
+			if ( hat == PITH_HELMET )
+				weight += 5;
 
 			if ( sympathyAvailable )
 				weight += ( familiar.getId() == DODECAPEDE ) ? -5 : 5;
 
-			// One snowcone effect at a time
+			if ( leashActive > 0 )
+				weight += 5;
+			if ( empathyActive > 0 )
+				weight += 5;
+			if ( heavyPettingActive > 0 )
+				weight += 5;
 			if ( greenTongueActive > 0 || blackTongueActive > 0 )
 				weight += 5;
-
 			if ( greenHeartActive > 0 )
 				weight += 3;
-
-			if ( hat == PITH_HELMET )
-				weight += 5;
 
 			if ( item == specItem )
 				weight += specWeight;
@@ -2060,13 +1898,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 				weight += 1;
 			if ( isTinyPlasticItem( acc3 ) )
 				weight += 1;
-
-			if ( leash )
-				weight += 5;
-			if ( empathy )
-				weight += 5;
-			if ( spray )
-				weight += 5;
 
 			return Math.max( weight, 1 );
 		}
@@ -2139,7 +1970,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{	return familiar.getWeight();
 		}
 
-		public int maxBuffedWeight( boolean buffs )
+		public int maxWeight( boolean buffs )
 		{
 			// Start with current base weight of familiar
 			int weight = familiar.getWeight();
@@ -2156,6 +1987,23 @@ public class FamiliarTrainingFrame extends KoLFrame
 					weight += 5;
 				if ( heavyPettingAvailable || heavyPettingActive > 0 )
 					weight += 5;
+				if ( greenConeAvailable || greenTongueActive > 0 || blackConeAvailable || blackTongueActive > 0 )
+					weight += 5;
+				if ( greenHeartAvailable || greenHeartActive > 0 )
+					weight += 3;
+			}
+			else
+			{
+				if ( leashActive > 0 )
+					weight += 5;
+				if ( empathyActive > 0 )
+					weight += 5;
+				if ( heavyPettingActive > 0 )
+					weight += 5;
+				if ( greenTongueActive > 0 || blackTongueActive > 0 )
+					weight += 5;
+				if ( greenHeartActive > 0 )
+					weight += 3;
 			}
 
 			// Add available familiar items
@@ -2278,32 +2126,22 @@ public class FamiliarTrainingFrame extends KoLFrame
 			public AdventureResult acc2;
 			public AdventureResult acc3;
 
-			public boolean leash;
-			public boolean empathy;
-			public boolean spray;
+			public GearSet()
+			{	this( FamiliarStatus.this.hat, FamiliarStatus.this.item, acc[0], acc[1], acc[2] );
+			}
 
 			public GearSet( AdventureResult hat, AdventureResult item,
-				AdventureResult acc1, AdventureResult acc2, AdventureResult acc3,
-				boolean leash, boolean empathy, boolean spray )
+				AdventureResult acc1, AdventureResult acc2, AdventureResult acc3 )
 			{
 				this.hat = hat;
 				this.item = item;
 				this.acc1 = acc1;
 				this.acc2 = acc2;
 				this.acc3 = acc3;
-				this.leash = leash;
-				this.empathy = empathy;
-				this.spray = spray;
-			}
-
-			public GearSet()
-			{
-				this( FamiliarStatus.this.hat, FamiliarStatus.this.item, acc[0], acc[1], acc[2],
-					leashActive > 0, empathyActive > 0, heavyPettingActive > 0 );
 			}
 
 			public int weight()
-			{	return gearSetWeight( acc1, acc2, acc3, item, hat, leash, empathy, spray );
+			{	return gearSetWeight( acc1, acc2, acc3, item, hat );
 			}
 
 			public int compareTo( Object o )
@@ -2327,29 +2165,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 				if ( this.item != that.item )
 					changes += that.item == null ? 1 : that.item == pumpkinBasket ? 5 : that.item == leadNecklace ? 10 : 5;
 
-				// Tiny plastic accessory changes are preferred
-				// over buffs, because they don't require MP.
+				// Tiny plastic accessory changes are expensive
+				// because they involve huge changes.
 
 				if ( this.acc1 != that.acc1 )
-					changes += that.item == null ? 1 : 20;
+					changes += 20;
 				if ( this.acc2 != that.acc2 )
-					changes += that.item == null ? 1 : 20;
+					changes += 20;
 				if ( this.acc3 != that.acc3 )
-					changes += that.item == null ? 1 : 20;
-
-				// Leash and empathy are probably the only two
-				// buffs which are useful, so consider them next.
-
-				if ( this.leash != that.leash )
-					changes += that.item == null ? 1 : 80;
-				if ( this.empathy != that.empathy )
-					changes += that.item == null ? 1 : 80;
-
-				// Pet-buffing spray should be considered an
-				// absolute last resort, so make it last place.
-
-				if ( this.spray != that.spray )
-					changes += that.item == null ? 1 : 250;
+					changes += 20;
 
 				return changes;
 			}
@@ -2382,12 +2206,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					text.append( "null" );
 				else
 					text.append( acc3.getItemId() );
-				text.append( ", " );
-				text.append( leash );
-				text.append( ", " );
-				text.append( empathy );
-				text.append( ", " );
-				text.append( spray );
+
 				text.append( ")" );
 				return text.toString();
 			}
@@ -2409,7 +2228,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	private static FamiliarData debugFamiliar = new FamiliarData( 19, "Creepy", 2, "skewer-mounted razor blade" );
 
-	private static void debug( KoLmafia)
+	private static void debug()
 	{
 		inventory.add( new AdventureResult( "lead necklace", 1 ) );
 		inventory.add( new AdventureResult( "tiny plastic angry goat", 1 ) );

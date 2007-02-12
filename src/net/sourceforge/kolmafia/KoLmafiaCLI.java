@@ -3312,36 +3312,38 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void trainFamiliar( String parameters )
 	{
-		// train (base | buffed | turns) <goal> yes?
+		// train (base | buffed | turns) <goal>
 		String [] split = parameters.split( " " );
 
 		if ( split.length < 2 || split.length > 3 )
 		{
-			updateDisplay( ERROR_STATE, "Syntax: train type goal buff?" );
+			updateDisplay( ERROR_STATE, "Syntax: train type goal" );
 			return;
 		}
 
-		String typeString = split[0];
+		String typeString = split[0].toLowerCase();
+
 		int type;
 
 		if ( typeString.equals( "base" ) )
+		{
 			type = FamiliarTrainingFrame.BASE;
-		else if ( typeString.equals( "buffed" ) )
+		}
+		else if ( typeString.startsWith( "buff" ) )
+		{
 			type = FamiliarTrainingFrame.BUFFED;
+		}
 		else if ( typeString.equals( "turns" ) )
+		{
 			type = FamiliarTrainingFrame.TURNS;
+		}
 		else
 		{
 			updateDisplay( ERROR_STATE, "Unknown training type: " + typeString );
 			return;
 		}
 
-		String goalString = split[1];
-		int goal = StaticEntity.parseInt( goalString );
-
-		boolean buffs = ( split.length == 3 && split[2].equals( "yes" ) );
-
-		FamiliarTrainingFrame.levelFamiliar( goal, type, buffs, false );
+		FamiliarTrainingFrame.levelFamiliar( StaticEntity.parseInt( split[1] ), type, false );
 	}
 
 	/**
