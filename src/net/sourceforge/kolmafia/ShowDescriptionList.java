@@ -97,7 +97,10 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		contextMenu.add( new WikiLookupMenuItem() );
 
 		if ( listModel == activeEffects )
+		{
 			contextMenu.add( new ShrugOffMenuItem() );
+			contextMenu.add( new BoostEffectMenuItem() );
+		}
 
 		if ( listModel == junkItemList )
 			contextMenu.add( new RemoveFromJunkListMenuItem() );
@@ -291,6 +294,31 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 			if ( name != null )
 				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
+		}
+	}
+
+	private class BoostEffectMenuItem extends ContextMenuItem
+	{
+		public BoostEffectMenuItem()
+		{	super( "Add to current mood" );
+		}
+
+		public void executeAction()
+		{
+			Object [] effects = getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
+				StaticEntity.setProperty( "currentMood", "default" );
+
+			String action;
+
+			for ( int i = 0; i < effects.length; ++i )
+			{
+				action = MoodSettings.getDefaultAction( "lose_effect", ((AdventureResult) effects[i]).getName() );
+				if ( !action.equals( "" ) )
+					MoodSettings.addTrigger( "lose_effect", ((AdventureResult) effects[i]).getName(), action );
+			}
 		}
 	}
 
