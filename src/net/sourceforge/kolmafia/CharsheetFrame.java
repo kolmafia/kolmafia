@@ -44,7 +44,6 @@ import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
@@ -79,7 +78,7 @@ public class CharsheetFrame extends KoLFrame
 
 		JPanel entirePanel = new JPanel( new BorderLayout( 20, 20 ) );
 		entirePanel.add( northPanel, BorderLayout.NORTH );
-		entirePanel.add( new SimpleScrollPane( new JList( activeEffects ) ), BorderLayout.CENTER );
+		entirePanel.add( new SimpleScrollPane( new ShowDescriptionList( activeEffects, 12 ) ), BorderLayout.CENTER );
 
 		framePanel.add( entirePanel, "" );
 		statusRefresher = new KoLCharacterAdapter( new StatusRefreshRunnable() );
