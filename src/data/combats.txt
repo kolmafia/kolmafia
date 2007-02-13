@@ -39,6 +39,7 @@ Bat Hole Entryway	100	Albino Bat	Pine Bat	Regular Old Bat
 Batrat and Ratbat Burrow	100	Batrat	Ratbat
 Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier
 Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier
+Battlefield (No Uniform)	0	Time Bandit: -1
 Beanbat Chamber	100	Beanbat
 Bugbear Pens	100	An Angry Bugbear: 3	A Bugged Bugbear: 3	Mad Bugbears: 3	A Revolting Bugbear: 3	A Revolving Bugbear: 3	An Annoying Spooky Gravy Fairy: 2
 Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan	Hockey Elemental: -1
@@ -111,7 +112,6 @@ Whitey's Grove	75	Knight in White Satin	White Chocolate Golem	White Lion	Whitesn
 
 # Areas with no combat data - or no combats
 
-Battlefield (No Uniform)	0
 Bridge the Orc Chasm	0
 Enormous Greater-Than Sign	0
 Fight the Naughty Sorceress	0
