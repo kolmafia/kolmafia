@@ -64,6 +64,6 @@ public abstract class ThreadedListener implements ActionListener, Runnable
 	}
 
 	protected boolean forceNewThread()
-	{	return !StaticEntity.getProperty( "allowRequestQueueing" );
+	{	return StaticEntity.getProperty( "allowRequestQueueing" ) != null;
 	}
 }
