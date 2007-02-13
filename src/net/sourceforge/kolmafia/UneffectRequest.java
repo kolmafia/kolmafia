@@ -152,6 +152,14 @@ public class UneffectRequest extends KoLRequest
 			}
 		}
 
+		String action = MoodSettings.getDefaultAction( "gain_effect", effect.getName() );
+
+		if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) )
+		{
+			DEFAULT_SHELL.executeLine( action );
+			return;
+		}
+
 		KoLmafia.updateDisplay( isShruggable ? "Shrugging off your buff..." : "Using soft green whatever..." );
 		super.run();
 	}
