@@ -1438,6 +1438,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 		}
 
 		public void mousePressed(MouseEvent e) {
+
 			if (closeIndexStatus == OVER) {
 				closeIndexStatus = PRESSED;
 				tabScroller.tabPanel.repaint();
@@ -1450,18 +1451,22 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 				return;
 			}
 
+			if (closeIndexStatus == PRESSED || maxIndexStatus == PRESSED)
+				return;
+
+			super.mousePressed(e);
 		}
 
 		public void mouseClicked(MouseEvent e) {
+
 			super.mousePressed(e);
+
 			if (e.getClickCount() > 1 && overTabIndex != -1) {
 				((CloseTabbedPane) tabPane).fireDoubleClickTabEvent(e, overTabIndex);
 			}
 		}
 
 		public void mouseReleased(MouseEvent e) {
-
-			updateOverTab(e.getX(), e.getY());
 
 			if (overTabIndex == -1) {
 				if (e.isPopupTrigger())
