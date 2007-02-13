@@ -456,6 +456,7 @@ yak whip	20	none	1-handed whip
 6-ball	0	none
 7-ball	0	none
 9-ball	0	none
+17-ball	0	none
 anniversary balloon	0	none
 antique shield	0	Mus: 85
 arrow'd heart balloon	0	none
@@ -599,6 +600,7 @@ clown shoes	0	Mys: 10
 club necklace	100	none
 colored-light "necklace"	0	Mys: 35
 consolation ribbon	0	none
+Counterclockwise Watch	0	none
 dead guy's watch	0	Mys: 10
 diamond necklace	0	none
 dirty hobo gloves	0	none
