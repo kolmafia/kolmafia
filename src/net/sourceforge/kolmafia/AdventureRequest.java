@@ -177,12 +177,7 @@ public class AdventureRequest extends KoLRequest
 		if ( formSource.equals( "lair3.php" ) )
 		{
 			if ( KoLCharacter.hasItem( SorceressLair.HEDGE_KEY ) && KoLCharacter.hasItem( SorceressLair.PUZZLE_PIECE ) )
-			{
-				SorceressLair.completeHedgeMaze();
-				super.run();
-			}
-			else
-				KoLmafia.updateDisplay( PENDING_STATE, "Hedge maze already completed." );
+				KoLmafia.updateDisplay( PENDING_STATE, "Unexpected hedge maze puzzle state." );
 
 			return;
 		}
