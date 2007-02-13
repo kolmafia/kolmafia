@@ -71,6 +71,6 @@ public abstract class ThreadedMenuItem extends JMenuItem implements ActionListen
 	}
 
 	protected boolean forceNewThread()
-	{	return StaticEntity.getProperty( "allowRequestQueueing" ) != null;
+	{	return !StaticEntity.getBooleanProperty( "allowRequestQueueing" );
 	}
 }
