@@ -644,6 +644,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	public void run()
 	{
+		if ( !formSource.equals( "campground.php" ) && !KoLmafia.isRunningBetweenBattleChecks() )
+			StaticEntity.getClient().runBetweenBattleChecks( shouldRunFullCheck );
+
 		// Abort before adventure verification in the event that
 		// this person is stasis-mining.
 
@@ -687,9 +690,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				return;
 			}
 		}
-
-		if ( !formSource.equals( "campground.php" ) && !KoLmafia.isRunningBetweenBattleChecks() )
-			StaticEntity.getClient().runBetweenBattleChecks( shouldRunFullCheck );
 
 		if ( !KoLmafia.permitsContinue() )
 			return;
@@ -753,16 +753,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		int previousAdventures = KoLCharacter.getAdventuresLeft();
 		RequestThread.postRequest( request );
-
-		if ( previousAdventures == KoLCharacter.getAdventuresLeft() )
-		{
-			// Well, that was an interesting predicament.  If it
-			// had a choice adventure that didn't use adventures,
-			// then you re-run the request.
-
-			while ( request.redirectLocation != null && request.redirectLocation.equals( "choice.php" ) )
-				RequestThread.postRequest( request );
-		}
 	}
 
 	public void recordToSession()
