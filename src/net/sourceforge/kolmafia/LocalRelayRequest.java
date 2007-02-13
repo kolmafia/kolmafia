@@ -348,7 +348,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// we can detach user interface elements.
 
 		StaticEntity.singleStringReplace( responseBuffer, "frames.length == 0", "frames.length == -1" );
-		StaticEntity.singleStringReplace( responseBuffer, "<head>", "<head><script language=\"Javascript\" src=\"/basics.js\"></script>" );
+
+		if ( !formURLString.equals( "main.html" ) && !formURLString.equals( "main_c.html" ) )
+			StaticEntity.singleStringReplace( responseBuffer, "<head>", "<head><script language=\"Javascript\" src=\"/basics.js\"></script>" );
 
 		responseText = responseBuffer.toString();
 		CustomItemDatabase.linkCustomItem( this );
@@ -371,7 +373,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 	public void pseudoResponse( String status, String responseText )
 	{
 		this.statusLine = status;
-		this.responseText = StaticEntity.singleStringReplace( responseText, "<head>", "<head><script language=\"Javascript\" src=\"/basics.js\"></script>" );
+
+		if ( !formURLString.equals( "main.html" ) && !formURLString.equals( "main_c.html" ) )
+			this.responseText = StaticEntity.singleStringReplace( responseText, "<head>", "<head><script language=\"Javascript\" src=\"/basics.js\"></script>" );
 
 		if ( responseText.length() == 0 )
 			this.responseText = " ";
