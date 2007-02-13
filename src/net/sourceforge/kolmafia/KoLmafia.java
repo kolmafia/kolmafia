@@ -295,6 +295,7 @@ public abstract class KoLmafia implements KoLConstants
 			SystemTrayFrame.addTrayIcon();
 
 		StaticEntity.setProperty( "swingLookAndFeel", lookAndFeel );
+		System.setProperty( "spellcast.actionButtonsThreaded", StaticEntity.getProperty( "allowRequestQueueing" ) );
 
 		if ( lookAndFeel.equals( UIManager.getCrossPlatformLookAndFeelClassName() ) )
 		{
@@ -3224,6 +3225,7 @@ public abstract class KoLmafia implements KoLConstants
 		for ( int i = 0; i < familiars.size(); ++i )
 			((FamiliarData)familiars.get(i)).setItem( EquipmentRequest.UNEQUIP );
 
+		conditions.clear();
 		refreshSession();
 		resetSession();
 		enableDisplay();

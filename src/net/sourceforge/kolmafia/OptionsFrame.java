@@ -326,6 +326,7 @@ public class OptionsFrame extends KoLFrame
 				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
 			actionCancelled();
+			System.setProperty( "spellcast.actionButtonsThreaded", StaticEntity.getProperty( "allowRequestQueueing" ) );
 			ConcoctionsDatabase.refreshConcoctions();
 		}
 

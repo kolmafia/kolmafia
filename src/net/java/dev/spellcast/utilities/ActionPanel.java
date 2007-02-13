@@ -113,16 +113,32 @@ public abstract class ActionPanel extends JRootPane
 		}
 	}
 
-	private class ConfirmedListener implements ActionListener
+	private class ConfirmedListener implements ActionListener, Runnable
 	{
 		public void actionPerformed( ActionEvent e )
+		{
+			if ( System.getProperty( "spellcast.actionButtonsThreaded" ) == null || System.getProperty( "spellcast.actionButtonsThreaded" ).equals( "true" ) )
+				(new Thread( this )).start();
+			else
+				this.run();
+		}
+
+		public void run()
 		{	actionConfirmed();
 		}
 	}
 
-	private class CancelledListener implements ActionListener
+	private class CancelledListener implements ActionListener, Runnable
 	{
 		public void actionPerformed( ActionEvent e )
+		{
+			if ( System.getProperty( "spellcast.actionButtonsThreaded" ) == null || System.getProperty( "spellcast.actionButtonsThreaded" ).equals( "false" ) )
+				(new Thread( this )).start();
+			else
+				this.run();
+		}
+
+		public void run()
 		{	actionCancelled();
 		}
 	}
