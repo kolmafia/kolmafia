@@ -351,7 +351,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 		StaticEntity.singleStringReplace( responseBuffer, "<head>", "<head><script language=\"Javascript\" src=\"/basics.js\"></script>" );
 
 		responseText = responseBuffer.toString();
-
 		CustomItemDatabase.linkCustomItem( this );
 	}
 
