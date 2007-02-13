@@ -804,8 +804,10 @@ public abstract class MoodSettings implements KoLConstants
 					return "use forest tears";
 				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) )
 					return "use tiny house";
-				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) || KoLCharacter.canInteract() )
+				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
 					return "uneffect beaten up";
+				if ( KoLCharacter.canInteract() )
+					return "use tiny house";
 
 				return "";
 			}
