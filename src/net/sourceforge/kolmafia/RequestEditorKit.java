@@ -881,6 +881,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		return buffer.toString();
 	}
 
+	private static final String NO_HERMIT_TEXT = "<img src=\"http://images.kingdomofloathing.com/otherimages/mountains/mount4.gif\" width=100 height=100>";
+	private static final String YES_HERMIT_TEXT = "<a href=\"hermit.php\"><img src=\"http://images.kingdomofloathing.com/otherimages/mountains/hermitage.gif\" width=100 height=100 border=0></a>";
+	private static final String AUTO_HERMIT_TEXT = "<a href=\"hermit.php?autopermit=on\"><img src=\"http://images.kingdomofloathing.com/otherimages/mountains/hermitage.gif\" width=100 height=100 border=0></a>";
+
+	private static final String NO_PERMIT_TEXT = "<p>You don't have a Hermit Permit, so you're not allowed to visit the Hermit.<p><center>";
+	private static final String BUY_PERMIT_TEXT = NO_PERMIT_TEXT + "<a href=\"hermit.php?autopermit=on\">Buy a Hermit Permit</a></center></p><p><center>";
 
 	public static void getFeatureRichHTML( String location, StringBuffer buffer )
 	{
@@ -903,10 +909,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// if there's an item present, and if so, modify
 		// it so that you get a use link.
 
-		if ( location.indexOf( "charpane.php" ) != -1 && StaticEntity.getBooleanProperty( "relayAddsRestoreLinks" ) )
+		if ( location.startsWith( "charpane.php" ) && StaticEntity.getBooleanProperty( "relayAddsRestoreLinks" ) )
 			addRestoreLinks( buffer );
 
-		if ( location.indexOf( "charpane.php" ) != -1 && StaticEntity.getBooleanProperty( "relayAddsUpArrowLinks" ) )
+		if ( location.startsWith( "charpane.php" ) && StaticEntity.getBooleanProperty( "relayAddsUpArrowLinks" ) )
 			addUpArrowLinks( buffer );
 
 		if ( location.startsWith( "inventory.php" ) )
@@ -919,22 +925,34 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
 			addUseLinks( location, buffer );
 
-		if ( location.indexOf( "fight.php" ) != -1 )
+		if ( location.startsWith( "fight.php" ) )
 			addFightModifiers( buffer );
 
-		if ( location.indexOf( "choice.php" ) != -1 )
+		if ( location.startsWith( "choice.php" ) )
 			addChoiceSpoilers( buffer );
 
-		if ( location.indexOf( "rats.php" ) != -1 )
+		if ( location.startsWith( "rats.php" ) )
 			addTavernSpoilers( buffer );
 
-		if ( location.indexOf( "ascensionhistory.php" ) != -1 )
+		if ( location.startsWith( "ascensionhistory.php" ) )
 		{
 			StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\" src=\"/KoLmafia/sorttable.js\"></script></head>" );
 			StaticEntity.singleStringReplace( buffer, "<table><tr><td class=small>", "<table class=\"sortable\" id=\"history\"><tr><td class=small>" );
 			StaticEntity.globalStringReplace( buffer, "<tr><td colspan=9", "<tr class=\"sortbottom\" style=\"display:none\"><td colspan=9" );
 			StaticEntity.globalStringReplace( buffer, "<td></td>", "<td><img src=\"http://69.16.150.201/itemimages/confused.gif\" title=\"No Data\" alt=\"No Data\" height=30 width=30></td>" );
 		}
+
+		if ( location.startsWith( "mountains.php" ) )
+		{
+			if ( HermitRequest.getWorthlessItemCount() == 0 )
+				StaticEntity.singleStringReplace( buffer, YES_HERMIT_TEXT, NO_HERMIT_TEXT );
+			else if ( !KoLCharacter.hasItem( HermitRequest.PERMIT ) )
+				StaticEntity.singleStringReplace( buffer, NO_HERMIT_TEXT, AUTO_HERMIT_TEXT );
+		}
+
+		if ( location.startsWith( "hermit.php" ) )
+			StaticEntity.singleStringReplace( buffer, NO_PERMIT_TEXT, BUY_PERMIT_TEXT );
+
 
 		if ( location.indexOf( "ascend.php" ) != -1 || location.indexOf( "valhalla.php" ) != -1 )
 			addAscensionReminders( location, buffer );
@@ -1454,10 +1472,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					if ( itemId == 146 )
 					{
 						AdventureResult planks = new AdventureResult( 140, 1 );
-						if ( !KoLCharacter.hasItem( planks ) )
+						if ( !KoLCharacter.hasItem( planks ) && HermitRequest.getWorthlessItemCount() > 0 )
 						{
 							useType = "planks";
-							useLocation = "hermit.php?action=trade&pwd&quantity=1&whichitem=140";
+							useLocation = "hermit.php?autopermit=on&action=trade&pwd&quantity=1&whichitem=140";
 						}
 
 					}
@@ -1931,7 +1949,21 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			buffer.append( "<font size=2 color=" );
 			buffer.append( fontColor );
 
-			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\" style=\"color:" );
+			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=" );
+
+			try
+			{
+				if ( moodText.startsWith( "mood" ) )
+					buffer.append( "mood+execute" );
+				else
+					buffer.append( URLEncoder.encode( moodText, "UTF-8" ) );
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
+
+			buffer.append( "\" style=\"color:" );
 			buffer.append( fontColor );
 			buffer.append( "\">" );
 
@@ -1960,8 +1992,27 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			buffer.append( "<br><font size=2 color=" );
 			buffer.append( fontColor );
-			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood " +
-				StaticEntity.getProperty( "currentMood" ) + "</a>]</font>" );
+
+			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=" );
+
+			try
+			{
+				if ( moodText.startsWith( "mood" ) )
+					buffer.append( "mood+execute" );
+				else
+					buffer.append( URLEncoder.encode( moodText, "UTF-8" ) );
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
+
+			buffer.append( "\" style=\"color:" );
+			buffer.append( fontColor );
+			buffer.append( "\">" );
+
+			buffer.append( moodText );
+			buffer.append( "</a>]</font>" );
 
 			if ( effectIndex == -1 )
 				buffer.append( "</p></center>" );

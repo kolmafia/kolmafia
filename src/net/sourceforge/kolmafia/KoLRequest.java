@@ -608,14 +608,15 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( StaticEntity.getBooleanProperty( "relayAlwaysBuysGum" ) )
 				DEFAULT_SHELL.executeLine( "acquire chewing gum on a string" );
 		}
-		else if ( location.startsWith( "hermit.php" ) && location.indexOf( "whichitem=140" ) != -1 )
+		else if ( location.startsWith( "hermit.php?autopermit=on" ) )
 		{
 			DEFAULT_SHELL.executeLine( "acquire hermit permit" );
-			DEFAULT_SHELL.executeLine( "acquire worthless item" );
 		}
 
-		else if ( location.indexOf( "casino.php" ) != -1 )
+		else if ( location.startsWith( "casino.php" ) )
+		{
 			DEFAULT_SHELL.executeLine( "acquire casino pass" );
+		}
 
 		// To avoid wasting turns, buy a can of hair spray before
 		// climbing the tower.  Also, if the person has an NG,
