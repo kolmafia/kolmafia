@@ -15,6 +15,8 @@
 # Hockey Elemental
 # Hypnotist of Hey Deze
 # Infinite Meat Bug
+# The Master Of Thieves
+# Time Bandit
 #
 # Scaling monsters:
 #
@@ -70,8 +72,6 @@
 # Angry Raccoon Puppet
 # Business Hippy
 # eXtreme Sports Orc
-# Knott Yeti
-# Upgraded Ram
 #
 # Initiative data from the HCO Initiative Guide:
 #
@@ -251,7 +251,7 @@ Lumberjack Supervisor	HP: 40 Def: 40 Atk: 40 Meat: 25-38	balaclava (5)	balaclava
 Lumberjill	HP: 36 Def: 36 Atk: 36 Meat: 17-26	Blatantly Canadian (30)	maple syrup (30)
 Lumberjuan	HP: 35 Def: 35 Atk: 35 Meat: 17-26	los chinos (5)	leaflet (15)	wooden axe (5)
 Mad Bugbears	HP: 13 Def: 17 Atk: 15
-MagiMechTech MechaMech	HP: 100 Def: 120 Atk: 120	glowing red eye (20)	photoprotoneutron torpedo (30)	metallic A (30)
+MagiMechTech MechaMech	HP: 100 Def: 120 Atk: 120	photoprotoneutron torpedo (30)	metallic A (30)	glowing red eye (18)	oversized pizza cutter (7)
 Malevolent Hair Clog	HP: 95 Def: 90 Atk: 100 ED: spooky
 Man-Eating Plant	HP: 10 Def: 9 Atk: 9
 Mariachi Calavera	HP: 30 Def: 22 Atk: 22	bottle of tequila (30)	marzipan skull (30)
@@ -357,6 +357,7 @@ The Pork Sword	HP: 150 Def: 162 Atk: 162 E: sleaze	line (30)	star (30)	star (30)
 The Skinflute	HP: 150 Def: 158 Atk: 158 E: sleaze	star (30)	star (30)	line (30)	line (30)
 The Trouser Snake	HP: 150 Def: 153 Atk: 153 E: sleaze	line (30)	line (30)	line (30)
 The Twig and Berries	HP: 150 Def: 152 Atk: 152 E: sleaze	line (30)	star (30)	star (30)
+Time Bandit		Counterclockwise Watch (100)
 Toilet Papergeist	HP: 115 Def: 100 Atk: 76 ED: spooky	cardboard wakizashi (5)	roll of toilet paper (50)
 Tonic Water Elemental	HP: 14 Def: 18 Atk: 18
 Toothy Sklelton	HP: 50 Def: 58 Atk: 58  E: spooky	loose teeth (20)	loose teeth (20)	skeleton bone (20)
