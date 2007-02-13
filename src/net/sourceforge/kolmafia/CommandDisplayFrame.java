@@ -171,7 +171,12 @@ public class CommandDisplayFrame extends KoLFrame
 
 		if ( commandQueue.size() == 1 )
 		{
-			(new CommandQueueThread()).start();
+			CommandQueueThread handler = new CommandQueueThread();
+			if ( StaticEntity.getBooleanProperty( "allowRequestQueueing" ) )
+				handler.run();
+			else
+				handler.start();
+
 			return;
 		}
 
@@ -184,6 +189,8 @@ public class CommandDisplayFrame extends KoLFrame
 	{
 		public void run()
 		{
+			RequestThread.openRequestSequence();
+
 			do
 			{
 				String command = (String) commandQueue.get(0);
@@ -210,6 +217,7 @@ public class CommandDisplayFrame extends KoLFrame
 			// you've finished some sequence of commands.
 
 			commandQueue.clear();
+			RequestThread.closeRequestSequence();
 		}
 	}
 }
