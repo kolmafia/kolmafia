@@ -153,7 +153,7 @@ public class MuseumFrame extends KoLFrame
 
 			public InsideDisplayPanel()
 			{
-				super( "Display Case", "add all", "add some", new ShowDescriptionList( collection ) );
+				super( "Display Case", "take all", "take some", new ShowDescriptionList( collection ) );
 				elementList = (ShowDescriptionList) scrollComponent;
 			}
 
