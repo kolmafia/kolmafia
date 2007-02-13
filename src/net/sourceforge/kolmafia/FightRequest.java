@@ -413,13 +413,6 @@ public class FightRequest extends KoLRequest
 			isAcceptable = isAcceptable( -7, -7 );
 		}
 
-		// Entangling Noodles
-		if ( !isAcceptable && KoLCharacter.hasSkill( "Entangling Noodles" ) )
-		{
-			desiredSkill = 3004;
-			isAcceptable = isAcceptable( -1 - Math.min( 5, KoLCharacter.getAdjustedMysticality() / 8 ), 0 );
-		}
-
 		return desiredSkill == 0 ? "attack" : String.valueOf( desiredSkill );
 	}
 
@@ -666,10 +659,6 @@ public class FightRequest extends KoLRequest
 		case 2005: // Shieldbutt
 			offenseModifier -= 5;
 			defenseModifier -= 5;
-			break;
-
-		case 3004: // Entangling Noodles
-			offenseModifier -= 6;
 			break;
 
 		case 5003: // Disco Eye-Poke
