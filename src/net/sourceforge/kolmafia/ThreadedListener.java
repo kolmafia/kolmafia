@@ -48,6 +48,7 @@ public abstract class ThreadedListener implements ActionListener, Runnable
 		if ( forceNewThread() )
 		{
 			(new Thread( this )).start();
+			return;
 		}
 
 		this.run();
@@ -63,6 +64,6 @@ public abstract class ThreadedListener implements ActionListener, Runnable
 	}
 
 	protected boolean forceNewThread()
-	{	return false;
+	{	return !StaticEntity.getProperty( "allowRequestQueueing" );
 	}
 }
