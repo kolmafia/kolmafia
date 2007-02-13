@@ -3713,12 +3713,20 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeDisplayCaseRequest( String parameters )
 	{
+		if ( collection.isEmpty() )
+			RequestThread.postRequest( new MuseumRequest() );
+
+		if ( parameters.length() == 0 )
+		{
+			printList( collection );
+			return;
+		}
+
 		Object [] items = getMatchingItemList( parameters.substring(4).trim() );
 		if ( items.length == 0 )
 			return;
 
-		RequestThread.postRequest(
-			new MuseumRequest( items, !parameters.startsWith( "take" ) ) );
+		RequestThread.postRequest( new MuseumRequest( items, !parameters.startsWith( "take" ) ) );
 	}
 
 	/**
