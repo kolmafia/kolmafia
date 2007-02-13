@@ -1797,7 +1797,7 @@
 1792	782718578	Travoltan trousers	pairs of Travoltan trousers
 1793	267780536	pool cue	pool cues
 1794	715979035	handful of hand chalk	handsful of hand chalk
-1795
+1795	468875475	Counterclockwise Watch
 1796	594940885	bone collar	bone collars
 1797	480373949	misshapen animal skeleton	misshapen animal skeletons
 1798	848807849	pile of dusty animal bones	piles of dusty animal bones

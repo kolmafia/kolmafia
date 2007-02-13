@@ -1792,7 +1792,7 @@
 1792	Travoltan trousers	10	all	0
 1793	pool cue	12	all	45
 1794	handful of hand chalk	4	all	30
-1795
+1795	Counterclockwise Watch	8	all	0
 1796	bone collar	7	all	75
 1797	misshapen animal skeleton	5	display	0
 1798	pile of dusty animal bones	4	all	32
