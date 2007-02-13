@@ -80,6 +80,6 @@ public abstract class ThreadedButton extends JButton implements ActionListener, 
 	}
 
 	protected boolean forceNewThread()
-	{	return !StaticEntity.getProperty( "allowRequestQueueing" );
+	{	return StaticEntity.getProperty( "allowRequestQueueing" ) != null;
 	}
 }
