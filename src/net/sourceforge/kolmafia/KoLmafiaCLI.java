@@ -3826,7 +3826,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		BuffBotHome.setBuffBotActive( true );
 		BuffBotManager.runBuffBot( StaticEntity.parseInt( parameters ) );
 		updateDisplay( "Buffbot execution complete." );
 	}

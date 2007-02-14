@@ -103,21 +103,21 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		{
 			String oldList = getProperty( "buffBotCasting" );
 
-			if ( oldList.equals( "" ) )
-				return;
-
-			String [] soldBuffs = oldList.split( ";" );
-
-			for ( int i = 0; i < soldBuffs.length; ++i )
+			if ( !oldList.equals( "" ) )
 			{
-				currentBuff = soldBuffs[i].split( ":" );
-				System.out.println( soldBuffs[i] );
+				String [] soldBuffs = oldList.split( ";" );
 
-				if ( currentBuff.length < 3 )
-					continue;
+				for ( int i = 0; i < soldBuffs.length; ++i )
+				{
+					currentBuff = soldBuffs[i].split( ":" );
+					System.out.println( soldBuffs[i] );
 
-				addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ), parseInt( currentBuff[2] ),
-					currentBuff.length > 3 && currentBuff[3].equalsIgnoreCase( "true" ), currentBuff.length > 4 && currentBuff[4].equalsIgnoreCase( "true" ) );
+					if ( currentBuff.length < 3 )
+						continue;
+
+					addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ), parseInt( currentBuff[2] ),
+						currentBuff.length > 3 && currentBuff[3].equalsIgnoreCase( "true" ), currentBuff.length > 4 && currentBuff[4].equalsIgnoreCase( "true" ) );
+				}
 			}
 
 			removeProperty( "buffBotCasting" );
@@ -192,6 +192,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		buffCostTable.add( newCast );
 		buffCostTable.sort();
 
+System.out.println( "Saving buffs..." );
 		saveBuffs();
 	}
 
@@ -231,8 +232,12 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	private static void saveBuffs()
 	{
+System.out.println( "Saving buffs..." );
 		if ( isInitializing )
 			return;
+
+
+System.out.println( "Saved buffs." );
 
 		File datafile = new File( "buffs/" + KoLCharacter.baseUserName() + ".txt" );
 		File xmlfile = new File( "buffs/" + KoLCharacter.baseUserName() + ".xml" );
@@ -401,7 +406,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		// The outer loop goes until user cancels, or
 		// for however many iterations are needed.
 
-		for ( int i = iterations; BuffBotHome.isBuffBotActive() && i > 0; --i )
+		for ( int i = iterations; BuffBotHome.isBuffBotActive(); --i )
 		{
 			// If you run out of adventures and/or restores, then
 			// check to see if you need to abort.
@@ -426,24 +431,24 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// If no abort happened due to lack of restores, then you
 			// can proceed with the next iteration.
 
+			BuffBotManager.runOnce();
+
+			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
+			if ( initialRestores > 0 )
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + KoLmafia.getRestoreCount() + " mana restores remaining)" );
+			else if ( usingAdventures )
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + KoLCharacter.getAdventuresLeft() + " adventures remaining)" );
+
+			// Sleep for a while and then try again (don't go
+			// away for more than 1 second at a time to avoid
+			// automatic re-enabling problems).
+
+			for ( int j = 0; j < 60; ++j )
+				if ( BuffBotHome.isBuffBotActive() )
+					RequestThread.waitOneSecond();
+
 			if ( BuffBotHome.isBuffBotActive() )
-			{
-				BuffBotManager.runOnce();
-
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
-				if ( initialRestores > 0 )
-					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + KoLmafia.getRestoreCount() + " mana restores remaining)" );
-				else if ( usingAdventures )
-					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + KoLCharacter.getAdventuresLeft() + " adventures remaining)" );
-
-				// Sleep for a while and then try again (don't go
-				// away for more than 1 second at a time to avoid
-				// automatic re-enabling problems).
-
-				for ( int j = 0; i != 1 && j < 60; ++j )
-					if ( BuffBotHome.isBuffBotActive() )
-						RequestThread.waitOneSecond();
-			}
+				BuffBotHome.setBuffBotActive( i > 1 );
 		}
 
 		// After the buffbot is finished running, make sure
