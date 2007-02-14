@@ -439,7 +439,7 @@ public class AdventureResult implements Comparable, KoLConstants
 				if ( count[0] > 0 || count[1] > 0 )
 					stats.append( ", " );
 
-				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() + count[1] ) + " moxie" );
+				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() + count[1] ) + " moxie" );
 			}
 
 			return stats.toString();
