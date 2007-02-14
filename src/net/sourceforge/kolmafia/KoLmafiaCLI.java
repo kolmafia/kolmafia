@@ -1318,7 +1318,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// One of the largest commands is adventuring,
 		// which (as usual) gets its own module.
 
-		if ( command.equals( "adventure" ) )
+		if ( command.startsWith( "adv" ) )
 		{
 			executeAdventureRequest( parameters );
 			return;
