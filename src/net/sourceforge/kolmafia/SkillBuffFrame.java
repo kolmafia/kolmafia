@@ -39,6 +39,9 @@ import java.awt.Dimension;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class SkillBuffFrame extends KoLFrame
@@ -46,6 +49,7 @@ public class SkillBuffFrame extends KoLFrame
 	private JComboBox skillSelect;
 	private JTextField amountField;
 	private JComboBox targetSelect;
+	private ShowDescriptionList effectList;
 
 	public SkillBuffFrame()
 	{	this( "" );
@@ -56,7 +60,11 @@ public class SkillBuffFrame extends KoLFrame
 		super( "Skill Casting" );
 
 		framePanel.add( new SkillBuffPanel(), BorderLayout.NORTH );
-		framePanel.add( new SimpleScrollPane( new ShowDescriptionList( activeEffects, 12 ) ), BorderLayout.CENTER );
+
+		effectList = new ShowDescriptionList( activeEffects, 12 );
+		effectList.addListSelectionListener( new SkillReselector() );
+
+		framePanel.add( new SimpleScrollPane( effectList ), BorderLayout.CENTER );
 
 		if ( !recipient.equals( "" ) )
 			setRecipient( recipient );
@@ -67,6 +75,15 @@ public class SkillBuffFrame extends KoLFrame
 		targetSelect.addItem( recipient );
 		targetSelect.getEditor().setItem( recipient );
 		targetSelect.setSelectedItem( recipient );
+	}
+
+	private class SkillReselector implements ListSelectionListener
+	{
+		public void valueChanged( ListSelectionEvent e )
+		{
+			skillSelect.setSelectedItem( UseSkillRequest.getInstance(
+				UneffectRequest.effectToSkill( ((AdventureResult)effectList.getSelectedValue()).getName() ) ) );
+		}
 	}
 
 	private class SkillBuffPanel extends KoLPanel
