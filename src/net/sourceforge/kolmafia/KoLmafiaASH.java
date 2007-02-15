@@ -185,6 +185,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	// disabled until and if we choose to document the feature
 	private static String notifyRecipient = null;
+	private static String lastImportString = "";
 	private static boolean arrays = false;
 
 	// **************** Data Types *****************
@@ -559,8 +560,7 @@ public class KoLmafiaASH extends StaticEntity
 			this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
 			this.fileName = scriptFile.getPath();
 
-			if ( !isRunningScript )
-				imports.clear();
+			imports.clear();
 
 			this.currentLine = getNextLine();
 			this.lineNumber = commandStream.getLineNumber();
@@ -593,12 +593,8 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private static boolean isRunningScript = false;
-
 	public void execute( File scriptFile, String functionName, String [] parameters )
 	{
-		boolean wasRunningScript = isRunningScript;
-
 		// Before you do anything, validate the script, if one
 		// is provided.  One will not be provided in the event
 		// that we are using a global namespace.
@@ -609,10 +605,9 @@ public class KoLmafiaASH extends StaticEntity
 			if ( this.commandStream == null )
 				return;
 		}
-		else
+		else if ( this == NAMESPACE_INTERPRETER )
 		{
-			if ( !isRunningScript )
-				imports.clear();
+			imports.clear();
 
 			String importString = getProperty( "commandLineNamespace" );
 			if ( importString.equals( "" ) )
@@ -621,24 +616,33 @@ public class KoLmafiaASH extends StaticEntity
 				return;
 			}
 
-			this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
-			ScriptScope result = this.global;
-
-			String [] importList = importString.split( "," );
-
-			try
+			if ( !importString.equals( lastImportString ) )
 			{
-				for ( int i = 0; i < importList.length; ++i )
-					result = new KoLmafiaASH().parseFile( importList[i], result, this.global.parentScope );
-			}
-			catch ( Exception e )
-			{
-				printStackTrace( e, e.getMessage() );
-				return;
+				this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
+
+				ScriptScope result = this.global;
+				String [] importList = importString.split( "," );
+
+				try
+				{
+					for ( int i = 0; i < importList.length; ++i )
+						result = new KoLmafiaASH().parseFile( importList[i], result, this.global.parentScope );
+				}
+				catch ( Exception e )
+				{
+					printStackTrace( e, e.getMessage() );
+					return;
+				}
 			}
 		}
+		else
+		{
+			// Okay, something weird happened, so we'll go ahead and
+			// skip execution of the function after printing an error
+			// message to the screen.
 
-		isRunningScript = true;
+			throw new AdvancedScriptException( "Namespace function executed in wrong interpreter" );
+		}
 
 		try
 		{
@@ -654,12 +658,6 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			executeScope( global, functionName, parameters );
-
-			if ( !wasRunningScript )
-			{
-				isRunningScript = false;
-				notifyRecipient = null;
-			}
 		}
 		catch ( AdvancedScriptException e )
 		{
@@ -2580,12 +2578,25 @@ public class KoLmafiaASH extends StaticEntity
 		main = topScope.findFunction( functionName, null );
 
 		if ( main == null && topScope.getFirstCommand() == null )
-			throw new AdvancedScriptException( "No commands or main function found" );
+			throw new AdvancedScriptException( "Unable to invoke " + functionName );
 
 		// First execute top-level commands;
 
-		trace( "Executing top-level commands" );
-		result = topScope.execute();
+		boolean executeTopLevel = this != NAMESPACE_INTERPRETER;
+
+		if ( !executeTopLevel )
+		{
+			String importString = getProperty( "commandLineNamespace" );
+			executeTopLevel = !importString.equals( lastImportString );
+			lastImportString = importString;
+		}
+
+		if ( executeTopLevel )
+		{
+			trace( "Executing top-level commands" );
+			result = topScope.execute();
+		}
+
 		if ( currentState == STATE_EXIT )
 			return result;
 
@@ -2595,6 +2606,7 @@ public class KoLmafiaASH extends StaticEntity
 			trace( "Executing main function" );
 			if ( !requestUserParams( main, parameters ) )
 				return null;
+
 			result = main.execute();
 		}
 
