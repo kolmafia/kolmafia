@@ -290,8 +290,13 @@ public class FamiliarData implements KoLConstants, Comparable
 		switch ( id )
 		{
 		case 16: // Cocoabo
+		case 17: // Star Starfish
 		case 27: // Hanukkimbo Dreidl
+		case 29: // Feather Boa Constrictor
+		case 31: // Personal Raincloud
+		case 44: // Sweet Nutcracker
 		case 48: // Ninja Pirate Zombie Robot
+		case 52: // Spirit Hobo
 		case 54: // Comma Chameleon
 			return true;
 
