@@ -1604,11 +1604,15 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			SpecialOutfit.createImplicitCheckpoint();
-			MoodSettings.execute( true );
-			SpecialOutfit.restoreImplicitCheckpoint();
+			if ( !isRunningBetweenBattleChecks() )
+			{
+				SpecialOutfit.createImplicitCheckpoint();
+				MoodSettings.execute( true );
+				SpecialOutfit.restoreImplicitCheckpoint();
 
-			printLine( "Mood swing complete." );
+				printLine( "Mood swing complete." );
+			}
+
 			return;
 		}
 
