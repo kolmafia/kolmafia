@@ -2898,14 +2898,16 @@ public abstract class KoLmafia implements KoLConstants
 		// in behavior needs to run.
 
 		RequestThread.openRequestSequence();
-		SpecialOutfit.createImplicitCheckpoint();
 
 		recoveryActive = true;
-
 		String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
 
 		if ( !scriptPath.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptPath );
+
+		recoveryActive = false;
+		SpecialOutfit.createImplicitCheckpoint();
+		recoveryActive = true;
 
 		// Now, run the built-in behavior to take care of
 		// any loose ends.
