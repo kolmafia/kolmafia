@@ -187,7 +187,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 				return;
 
 			int belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
-			int numberToUse = Math.min( (int) Math.floor( (float) hpShort / (float) getHealthPerUse() ), 1 );
+			int numberToUse = Math.max( (int) Math.floor( (float) hpShort / (float) getHealthPerUse() ), 1 );
 
 			if ( this == SOFA )
 			{
