@@ -166,7 +166,10 @@ public abstract class RequestThread implements KoLConstants
 	{
 		try
 		{
-			Worker.post( ONE_SECOND_DELAY );
+			if ( SwingUtilities.isEventDispatchThread() )
+				Worker.post( ONE_SECOND_DELAY );
+			else
+				ONE_SECOND_DELAY.run();
 		}
 		catch ( Exception e )
 		{
