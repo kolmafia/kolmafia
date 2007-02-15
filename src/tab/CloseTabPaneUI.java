@@ -629,7 +629,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 					cropy);
 			g2.setClip(save);
 
-		} else if (isOver && !isSelected) {
+		} else if (isOver && !isSelected && (tabStates.size() <= tabIndex || tabStates.get( tabIndex ) != Boolean.TRUE) ) {
 
 			int dx = tabRect.x + tabRect.width - BUTTONSIZE - WIDTHDELTA;
 			int dy = (tabRect.y + tabRect.height) / 2 - 6;
@@ -1485,7 +1485,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 				return;
 			}
 
-			if (closeIndexStatus == PRESSED && tabPane.getSelectedIndex() != overTabIndex) {
+			if (closeIndexStatus == PRESSED && tabPane.getSelectedIndex() != overTabIndex && (tabStates.size() < overTabIndex || tabStates.get( overTabIndex ) != Boolean.TRUE) ) {
 				closeIndexStatus = OVER;
 				tabScroller.tabPanel.repaint();
 
