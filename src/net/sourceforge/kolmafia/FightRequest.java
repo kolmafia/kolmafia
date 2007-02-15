@@ -52,8 +52,6 @@ public class FightRequest extends KoLRequest
 	private static ArrayList trackedRounds = new ArrayList();
 
 	private static boolean isUsingConsultScript = false;
-	private static boolean isInstanceRunning = false;
-
 	public static final FightRequest INSTANCE = new FightRequest();
 
 	private static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
@@ -254,7 +252,7 @@ public class FightRequest extends KoLRequest
 			addFormField( "action", "useitem" );
 			addFormField( "whichitem", String.valueOf( itemId ) );
 
-			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) && !KoLCharacter.getFamiliar().isThiefFamiliar() )
 			{
 				if ( itemCount >= 2 && itemId != DICTIONARY1.getItemId() && itemId != DICTIONARY2.getItemId() )
 				{
@@ -282,6 +280,7 @@ public class FightRequest extends KoLRequest
 					addFormField( "whichitem2", String.valueOf( SPICES.getItemId() ) );
 				}
 			}
+
 			return;
 		}
 
@@ -325,14 +324,14 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
+		clearInstanceData();
+
 		do
 		{
 			clearDataFields();
 
 			action1 = null;
 			action2 = null;
-
-			clearDataFields();
 			isUsingConsultScript = false;
 
 			nextRound();
@@ -341,15 +340,10 @@ public class FightRequest extends KoLRequest
 			{
 				if ( currentRound == 0 || (action1 != null && !action1.equals( "abort" )) )
 				{
-					isInstanceRunning = true;
 					super.run();
-					isInstanceRunning = false;
 
 					if ( responseCode == 302 )
-					{
-						currentRound = 0;
-						return;
-					}
+						clearInstanceData();
 				}
 			}
 
@@ -470,8 +464,7 @@ public class FightRequest extends KoLRequest
 
 	public static void updateCombatData( String encounter, String responseText )
 	{
-		if ( !isInstanceRunning )
-			INSTANCE.responseText = responseText;
+		INSTANCE.responseText = responseText;
 
 		// Round tracker should include this data.
 
@@ -518,17 +511,7 @@ public class FightRequest extends KoLRequest
 
 		if ( responseText.indexOf( "fight.php" ) == -1 )
 		{
-			encounter = "";
-			encounterLookup = "";
-			monsterData = null;
-
-			currentRound = 0;
-			offenseModifier = 0;
-			defenseModifier = 0;
-
-			action1 = null;
-			action2 = null;
-
+			clearInstanceData();
 			return;
 		}
 
@@ -540,6 +523,22 @@ public class FightRequest extends KoLRequest
 			encounterLookup = CombatSettings.encounterKey( encounter );
 			monsterData = MonsterDatabase.findMonster( encounter );
 		}
+	}
+
+	private static void clearInstanceData()
+	{
+		INSTANCE.responseText = "";
+		INSTANCE.encounter = "";
+
+		encounterLookup = "";
+		monsterData = null;
+
+		currentRound = 0;
+		offenseModifier = 0;
+		defenseModifier = 0;
+
+		action1 = null;
+		action2 = null;
 	}
 
 	private static int getActionCost()

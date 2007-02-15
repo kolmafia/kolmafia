@@ -1007,17 +1007,21 @@ public class KoLRequest extends Job implements KoLConstants
 
 		try
 		{
-			if ( responseCode != 200 )
+			if ( redirectLocation != null )
 			{
 				// If the response code is not 200, then you've read all
 				// the information you need.  Close the input stream.
 
 				istream.close();
-				shouldStop = responseCode == 302 ? handleServerRedirect() : true;
+				shouldStop = handleServerRedirect();
+			}
+			else if ( responseCode == 200 )
+			{
+				shouldStop = retrieveServerReply( istream );
+				istream.close();
 			}
 			else
 			{
-				shouldStop = retrieveServerReply( istream );
 				istream.close();
 			}
 		}
@@ -1052,12 +1056,6 @@ public class KoLRequest extends Job implements KoLConstants
 			return false;
 		}
 
-		if ( sessionId == null && redirectLocation.indexOf( "login.php" ) != -1 )
-		{
-			constructURLString( redirectLocation, false );
-			return false;
-		}
-
 		if ( this instanceof LocalRelayRequest )
 		{
 			if ( formURLString.indexOf( "login.php" ) != -1 )
@@ -1066,20 +1064,7 @@ public class KoLRequest extends Job implements KoLConstants
 			return true;
 		}
 
-		if ( redirectLocation.indexOf( "login.php" ) != -1 )
-		{
-			LoginRequest.executeTimeInRequest();
-			return sessionId == null;
-		}
-		else if ( redirectLocation.indexOf( "maint.php" ) != -1 )
-		{
-			// If the system is down for maintenance, the user must be
-			// notified that they should try again later.
-
-			KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
-			return true;
-		}
-		else if ( followRedirects )
+		if ( followRedirects )
 		{
 			// Re-setup this request to follow the redirect
 			// desired and rerun the request.
@@ -1087,39 +1072,63 @@ public class KoLRequest extends Job implements KoLConstants
 			constructURLString( redirectLocation, false );
 			return false;
 		}
-		else if ( redirectLocation.indexOf( "choice.php" ) != -1 )
-		{
-			processChoiceAdventure();
-			return true;
-		}
-		else if ( redirectLocation.indexOf( "valhalla.php" ) != -1 )
-		{
-			passwordHash = "";
-			return true;
-		}
-		else if ( redirectLocation.indexOf( "fight.php" ) != -1 )
+
+		if ( redirectLocation.indexOf( "fight.php" ) != -1 )
 		{
 			// You have been redirected to a fight!  Here, you need
 			// to complete the fight before you can continue.
 
 			FightRequest.INSTANCE.run();
-			return this instanceof AdventureRequest || getClass() == KoLRequest.class ||
-				FightRequest.INSTANCE.getAdventuresUsed() == 0;
+			return this instanceof AdventureRequest;
 		}
-		else
-		{
-			if ( shouldPrintDebug() )
-				KoLmafia.getDebugStream().println( "Redirected: " + redirectLocation );
 
+		if ( sessionId == null && redirectLocation.indexOf( "login.php" ) != -1 )
+		{
+			constructURLString( redirectLocation, false );
+			return false;
+		}
+
+		if ( redirectLocation.indexOf( "login.php" ) != -1 )
+		{
+			LoginRequest.executeTimeInRequest();
+			return sessionId == null;
+		}
+
+		if ( redirectLocation.indexOf( "maint.php" ) != -1 )
+		{
+			// If the system is down for maintenance, the user must be
+			// notified that they should try again later.
+
+			KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
 			return true;
 		}
+
+		if ( redirectLocation.indexOf( "choice.php" ) != -1 )
+		{
+			processChoiceAdventure();
+			return true;
+		}
+
+		if ( redirectLocation.indexOf( "valhalla.php" ) != -1 )
+		{
+			passwordHash = "";
+			return true;
+		}
+
+		if ( shouldPrintDebug() )
+			KoLmafia.getDebugStream().println( "Redirected: " + redirectLocation );
+
+		return true;
 	}
 
 	private static void addAdditionalCache()
 	{
-		BYTEFLAGS.add( Boolean.TRUE );
-		BYTEARRAYS.add( new byte[ 8096 ] );
-		BYTESTREAMS.add( new ByteArrayOutputStream( 8096 ) );
+		synchronized ( BYTEFLAGS )
+		{
+			BYTEFLAGS.add( Boolean.TRUE );
+			BYTEARRAYS.add( new byte[ 8096 ] );
+			BYTESTREAMS.add( new ByteArrayOutputStream( 8096 ) );
+		}
 	}
 
 	private boolean retrieveServerReply( InputStream istream ) throws Exception
@@ -1135,16 +1144,16 @@ public class KoLRequest extends Job implements KoLConstants
 			for ( int i = 0; desiredIndex == -1 && i < BYTEFLAGS.size(); ++i )
 				if ( BYTEFLAGS.get(i) == Boolean.FALSE )
 					desiredIndex = i;
+		}
 
-			if ( desiredIndex == -1 )
-			{
-				desiredIndex = BYTEFLAGS.size();
-				addAdditionalCache();
-			}
-			else
-			{
-				BYTEFLAGS.set( desiredIndex, Boolean.TRUE );
-			}
+		if ( desiredIndex == -1 )
+		{
+			desiredIndex = BYTEFLAGS.size();
+			addAdditionalCache();
+		}
+		else
+		{
+			BYTEFLAGS.set( desiredIndex, Boolean.TRUE );
 		}
 
 		// Read all the data into the static byte array output stream and then
@@ -1164,12 +1173,9 @@ public class KoLRequest extends Job implements KoLConstants
 		// to false to let the program know the objects are available to
 		// be reused.
 
-		synchronized ( BYTEFLAGS )
-		{
-			BYTEFLAGS.set( desiredIndex, Boolean.FALSE );
-		}
-
+		BYTEFLAGS.set( desiredIndex, Boolean.FALSE );
 		processResponse();
+
 		return true;
 	}
 
