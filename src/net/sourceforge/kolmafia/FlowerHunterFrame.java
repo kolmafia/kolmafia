@@ -332,7 +332,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			setContent( elements, null, getRankLabel(), true );
 			if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
 				stanceSelect.setSelectedIndex( 0 );
-			if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
+			else if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
 				stanceSelect.setSelectedIndex( 1 );
 			else
 				stanceSelect.setSelectedIndex( 2 );

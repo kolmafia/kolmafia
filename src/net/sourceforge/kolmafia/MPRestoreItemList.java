@@ -165,7 +165,10 @@ public abstract class MPRestoreItemList extends StaticEntity
 			}
 
 			int mpShort = needed - KoLCharacter.getCurrentMP();
-			int numberToUse = (int) Math.ceil( (float) mpShort / (float) getManaPerUse() );
+			if ( mpShort <= 0 )
+				return;
+
+			int numberToUse = Math.max( (int) Math.floor( (float) mpShort / (float) getManaPerUse() ), 1 );
 
 			if ( this == SOFA )
 			{
