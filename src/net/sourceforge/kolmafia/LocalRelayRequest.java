@@ -374,7 +374,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 	{
 		this.statusLine = status;
 
-		if ( !formURLString.equals( "main.html" ) && !formURLString.equals( "main_c.html" ) )
+		if ( formURLString.indexOf( "main" ) != -1 )
 			this.responseText = StaticEntity.singleStringReplace( responseText, "<head>", "<head><script language=\"Javascript\" src=\"/basics.js\"></script>" );
 
 		if ( responseText.length() == 0 )
