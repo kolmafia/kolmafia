@@ -527,9 +527,6 @@ public class FightRequest extends KoLRequest
 
 	private static void clearInstanceData()
 	{
-		INSTANCE.responseText = "";
-		INSTANCE.encounter = "";
-
 		encounterLookup = "";
 		monsterData = null;
 
