@@ -475,7 +475,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		StaticEntity.setProperty( "lastUsername", username );
 		StaticEntity.reloadSettings( username );
-		StaticEntity.setProperty( "showStashIngredients", "false" );
 
 		// Reset all per-player information when refreshing
 		// your session via login.
