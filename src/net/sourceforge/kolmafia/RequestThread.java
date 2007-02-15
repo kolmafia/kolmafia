@@ -166,7 +166,7 @@ public abstract class RequestThread implements KoLConstants
 	{
 		try
 		{
-			ConcurrentWorker.post( ONE_SECOND_DELAY );
+			Worker.post( ONE_SECOND_DELAY );
 		}
 		catch ( Exception e )
 		{
