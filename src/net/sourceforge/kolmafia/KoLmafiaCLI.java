@@ -1933,7 +1933,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( scriptFile == null )
 			{
-				DEFAULT_INTERPRETER.execute( null, parameters, arguments );
+				NAMESPACE_INTERPRETER.execute( null, parameters, arguments );
 				return;
 			}
 
@@ -1956,7 +1956,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 				if ( command.equals( "validate" ) || command.equals( "verify" ) )
 				{
-					DEFAULT_INTERPRETER.validate( scriptFile );
+					new KoLmafiaASH().validate( scriptFile );
                     printLine( "Script verification complete." );
 					return;
 				}
@@ -1965,7 +1965,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// used, then be sure to switch.
 
 				for ( int i = 0; i < runCount && permitsContinue(); ++i )
-					DEFAULT_INTERPRETER.execute( scriptFile, "main", arguments );
+					new KoLmafiaASH().execute( scriptFile, "main", arguments );
 			}
 			else
 			{
