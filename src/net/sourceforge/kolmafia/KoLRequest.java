@@ -1007,22 +1007,18 @@ public class KoLRequest extends Job implements KoLConstants
 
 		try
 		{
-			if ( redirectLocation != null )
-			{
-				// If the response code is not 200, then you've read all
-				// the information you need.  Close the input stream.
-
-				istream.close();
-				shouldStop = handleServerRedirect();
-			}
-			else if ( responseCode == 200 )
+			if ( responseCode == 200 )
 			{
 				shouldStop = retrieveServerReply( istream );
 				istream.close();
 			}
 			else
 			{
+				// If the response code is not 200, then you've read all
+				// the information you need.  Close the input stream.
+
 				istream.close();
+				shouldStop = responseCode == 302 ? handleServerRedirect() : true;
 			}
 		}
 		catch ( Exception e )
@@ -1047,18 +1043,28 @@ public class KoLRequest extends Job implements KoLConstants
 		// change everything.
 
 		Matcher matcher = REDIRECT_PATTERN.matcher( redirectLocation );
+
+		int lastSlashIndex = redirectLocation.lastIndexOf( "/" );
+
+		if ( lastSlashIndex != -1 )
+			redirectLocation = redirectLocation.substring( lastSlashIndex + 1 );
+
 		if ( matcher.find() )
 		{
 			setLoginServer( matcher.group(1) );
-			redirectLocation = redirectLocation.substring( redirectLocation.lastIndexOf( "/" ) + 1 );
+			constructURLString( redirectLocation, false );
+			return false;
+		}
 
+		if ( sessionId == null && redirectLocation.startsWith( "login.php" ) )
+		{
 			constructURLString( redirectLocation, false );
 			return false;
 		}
 
 		if ( this instanceof LocalRelayRequest )
 		{
-			if ( formURLString.indexOf( "login.php" ) != -1 )
+			if ( formURLString.startsWith( "login.php" ) )
 				LoginRequest.processLoginRequest( this );
 
 			return true;
@@ -1073,7 +1079,7 @@ public class KoLRequest extends Job implements KoLConstants
 			return false;
 		}
 
-		if ( redirectLocation.indexOf( "fight.php" ) != -1 )
+		if ( redirectLocation.startsWith( "fight.php" ) )
 		{
 			// You have been redirected to a fight!  Here, you need
 			// to complete the fight before you can continue.
@@ -1082,19 +1088,13 @@ public class KoLRequest extends Job implements KoLConstants
 			return this instanceof AdventureRequest;
 		}
 
-		if ( sessionId == null && redirectLocation.indexOf( "login.php" ) != -1 )
-		{
-			constructURLString( redirectLocation, false );
-			return false;
-		}
-
-		if ( redirectLocation.indexOf( "login.php" ) != -1 )
+		if ( redirectLocation.startsWith( "login.php" ) )
 		{
 			LoginRequest.executeTimeInRequest();
 			return sessionId == null;
 		}
 
-		if ( redirectLocation.indexOf( "maint.php" ) != -1 )
+		if ( redirectLocation.startsWith( "maint.php" ) )
 		{
 			// If the system is down for maintenance, the user must be
 			// notified that they should try again later.
@@ -1103,13 +1103,13 @@ public class KoLRequest extends Job implements KoLConstants
 			return true;
 		}
 
-		if ( redirectLocation.indexOf( "choice.php" ) != -1 )
+		if ( redirectLocation.startsWith( "choice.php" ) )
 		{
 			processChoiceAdventure();
 			return true;
 		}
 
-		if ( redirectLocation.indexOf( "valhalla.php" ) != -1 )
+		if ( redirectLocation.startsWith( "valhalla.php" ) )
 		{
 			passwordHash = "";
 			return true;

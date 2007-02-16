@@ -324,8 +324,6 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
-		clearInstanceData();
-
 		do
 		{
 			clearDataFields();

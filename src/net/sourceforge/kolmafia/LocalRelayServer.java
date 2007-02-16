@@ -314,7 +314,7 @@ public class LocalRelayServer implements Runnable
 				else
 				{
 					printStream.println( "Content-Type: " + request.contentType + "; charset=utf-8" );
-					printStream.println( "Content-Length: " + request.getFullResponse().length() );
+					printStream.println( "Content-Length: " + request.responseText.length() );
 				}
 
 				if ( request.formURLString.indexOf( ".php" ) != -1 )
@@ -429,7 +429,7 @@ public class LocalRelayServer implements Runnable
 					request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 					request.responseCode = 304;
 				}
-				else if ( (path.indexOf( "fight.php" ) != -1 && FightRequest.isTrackingFights()) || path.indexOf( "fight.php?action=script" ) != -1 )
+				else if ( (path.indexOf( "fight.php" ) != -1 && FightRequest.isTrackingFights()) || path.indexOf( "action=script" ) != -1 )
 				{
 					if ( !FightRequest.isTrackingFights() )
 					{
@@ -440,6 +440,7 @@ public class LocalRelayServer implements Runnable
 					}
 
 					String fightResponse = FightRequest.getNextTrackedRound();
+
 					if ( fightResponse == null )
 					{
 						request.pseudoResponse( "HTTP/1.1 404 Not Found", "" );
@@ -507,7 +508,7 @@ public class LocalRelayServer implements Runnable
 				if ( request.rawByteBuffer != null )
 					writer.write( request.rawByteBuffer );
 				else
-					writer.print( request.getFullResponse() );
+					writer.print( request.responseText );
 
 				closeRelay( socket, reader, writer );
 			}
