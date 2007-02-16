@@ -1454,11 +1454,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						useType = "use";
 						useLocation = "inv_use.php?pwd=&which=1&whichitem=";
 					}
-					else if ( StaticEntity.getBooleanProperty( "relayUsesInlineLinks" ) )
-					{
-						useType = "use";
-						useLocation = "# showObject('multiuse" + itemId + "')";
-					}
 					else
 					{
 						useType = "use";
@@ -1606,48 +1601,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( useLocation.endsWith( "=" ) )
 					useLocation += itemId;
 
-				if ( !StaticEntity.getBooleanProperty( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
-				{
-					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"" +
-						useLocation.trim() + "\">" + useType + "</a>]</font>" );
-				}
-				else if ( useLocation.startsWith( "#" ) )
-				{
-					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font id=\"link" + itemId + "\" size=1>[<a href=\"#\" onClick=\"" +
-						useLocation.substring(1).trim() + "; void(0);\">" + useType + "</a>]</font>" );
-				}
-				else
-				{
-					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font id=\"link" + itemId + "\" size=1>[<a href=\"#\" onClick=\"" +
-						"singleUse('" + useLocation.toString() + "'); void(0);\">" + useType + "</a>]</font>" );
-				}
-
-				// Append a multi-use field rather than forcing
-				// an additional page load.
-
-				if ( useLocation.startsWith( "#" ) )
-				{
-					buffer.append( "</td></tr><tr><td colspan=2 align=center><div style=\"display:none\" id=\"multiuse" );
-					buffer.append( itemId );
-					buffer.append( "\">" );
-
-					buffer.append( "<form><input type=text size=3 id=\"quantity" );
-					buffer.append( itemId );
-					buffer.append( "\" value=" );
-					buffer.append( Math.min( itemCount, ConsumeItemRequest.maximumUses( itemId ) ) );
-					buffer.append( ">&nbsp;<input type=button class=button value=\"Use\" onClick=\"multiUse('" );
-
-					if ( consumeMethod == CONSUME_RESTORE )
-						buffer.append( "skills.php" );
-					else
-						buffer.append( "multiuse.php" );
-
-					buffer.append( "', " );
-					buffer.append( itemId );
-					buffer.append( "); void(0);\"></form></div>" );
-				}
-
-				buffer.append( "</td>" );
+				useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"" +
+					useLocation.trim() + "\">" + useType + "</a>]</font></td>" );
 			}
 			else
 			{

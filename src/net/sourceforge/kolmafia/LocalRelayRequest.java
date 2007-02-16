@@ -91,10 +91,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 			this.contentType = "text/html";
 	}
 
-	public String getFullResponse()
-	{	return responseText;
-	}
-
 	private static final boolean isJunkItem( int itemId, int price )
 	{
 		if ( !StaticEntity.getBooleanProperty( "relayHidesJunkMallItems" ) )
@@ -348,10 +344,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// we can detach user interface elements.
 
 		StaticEntity.singleStringReplace( responseBuffer, "frames.length == 0", "frames.length == -1" );
-
-		if ( !formURLString.equals( "main.html" ) && !formURLString.equals( "main_c.html" ) )
-			StaticEntity.singleStringReplace( responseBuffer, "<head>", "<head><script language=\"Javascript\" src=\"/basics.js\"></script>" );
-
 		responseText = responseBuffer.toString();
 		CustomItemDatabase.linkCustomItem( this );
 	}
@@ -372,16 +364,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	public void pseudoResponse( String status, String responseText )
 	{
+		this.rawByteBuffer = null;
 		this.statusLine = status;
-
-		if ( formURLString.indexOf( "main" ) != -1 )
-			this.responseText = StaticEntity.singleStringReplace( responseText, "<head>", "<head><script language=\"Javascript\" src=\"/basics.js\"></script>" );
-
-		if ( responseText.length() == 0 )
-			this.responseText = " ";
-
-		if ( formURLString.indexOf( "fight.php" ) != -1 )
-			this.responseText = StaticEntity.singleStringReplace( this.responseText, "</html>", "<!-- KoLmafia --></html>" );
 
 		headers.clear();
 		headers.add( "Date: " + ( new Date() ) );
@@ -390,12 +374,18 @@ public class LocalRelayRequest extends PasswordHashRequest
 		if ( status.indexOf( "302" ) != -1 )
 		{
 			headers.add( "Location: " + responseText );
+
 			this.responseCode = 302;
 			this.responseText = "";
 		}
 		else if ( status.indexOf( "200" ) != -1 )
 		{
 			this.responseCode = 200;
+
+			if ( responseText.length() == 0 )
+				this.responseText = " ";
+			else
+				this.responseText = responseText;
 		}
 	}
 

@@ -198,7 +198,6 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "relayAddsUseLinks", "Add decorator [use] links when receiving items" },
-			{ "relayUsesInlineLinks", "Use AJAX rather than page loads for [use] links" },
 			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
 			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Teh Kilt script" },
 
