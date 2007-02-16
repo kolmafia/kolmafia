@@ -2313,3 +2313,21 @@
 2313	lavender candygram	3	none	0
 2314	yellow candygram	3	none	0
 2315	green candygram	3	none	0
+2316
+2317
+2318
+2319
+2320
+2321
+2322
+2323
+2324
+2325
+2326
+2327
+2328
+2329
+2330	chocolate-covered diamond-studded roses	0	gift	10000
+2331	bouquet of circular saw blades	0	gift	2500
+2332	Better Than Cuddling Cake	1	gift	500
+2333	stuffed ninja snowman	0	gift	250
