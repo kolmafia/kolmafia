@@ -803,6 +803,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			location = "Mysticality Vacation";
 		else if ( urlString.startsWith( "shore.php" ) && urlString.indexOf( "whichtrip=3" ) != -1 )
 			location = "Moxie Vacation";
+		else if ( urlString.startsWith( "guild.php?action=chal" ) )
+			location = "Guild Challenge";
 		else if ( urlString.startsWith( "dungeon.php" ) )
 			location = "Daily Dungeon";
 		else if ( urlString.startsWith( "rats.php" ) )
