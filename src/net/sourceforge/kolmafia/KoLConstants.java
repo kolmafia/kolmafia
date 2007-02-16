@@ -37,6 +37,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FilenameFilter;
 
@@ -340,4 +342,29 @@ public interface KoLConstants
 
 	public static final LockableListModel eventHistory = new LockableListModel();
 	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( true );
+
+	/**
+	 * A special kind of ByteArrayOutputStream which provides access to the
+	 * buffer it uses.  This allows you to instantiate ByteArrayInputStream
+	 * objects without having to allocate too much memory.
+	 */
+
+	public static class ByteArrayStream extends ByteArrayOutputStream
+	{
+		public ByteArrayStream()
+		{
+		}
+
+		public ByteArrayStream( int size )
+		{	super( size );
+		}
+
+		public byte [] getCurrentBuffer()
+		{	return buf;
+		}
+
+		public ByteArrayInputStream getByteArrayInputStream()
+		{	return new ByteArrayInputStream( buf, 0, count );
+		}
+	}
 }
