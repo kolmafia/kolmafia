@@ -3205,6 +3205,7 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.setProperty( "lastBreakfast", "-1" );
 		StaticEntity.setProperty( "currentFullness", "0" );
 		StaticEntity.setProperty( "currentSpleenUse", "0" );
+		StaticEntity.setProperty( "candyHeartSummons", "0" );
 
 		KoLCharacter.reset();
 
