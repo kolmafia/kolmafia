@@ -250,8 +250,8 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	public void clear()
 	{
-		actualElements.clear();
 		clearVisibleElements();
+		actualElements.clear();
 	}
 
 	private void clearVisibleElements()
