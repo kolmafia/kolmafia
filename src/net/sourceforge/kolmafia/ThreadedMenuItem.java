@@ -52,12 +52,6 @@ public abstract class ThreadedMenuItem extends JMenuItem implements ActionListen
 		if ( !isValidEvent( e ) )
 			return;
 
-		if ( forceNewThread() )
-		{
-			(new Thread( this )).start();
-			return;
-		}
-
 		this.run();
 		RequestThread.enableDisplayIfSequenceComplete();
 	}
@@ -68,9 +62,5 @@ public abstract class ThreadedMenuItem extends JMenuItem implements ActionListen
 			return ((JComboBox)e.getSource()).isPopupVisible();
 
 		return true;
-	}
-
-	protected boolean forceNewThread()
-	{	return !StaticEntity.getBooleanProperty( "allowRequestQueueing" );
 	}
 }
