@@ -364,7 +364,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	public void pseudoResponse( String status, String responseText )
 	{
-		this.rawByteBuffer = null;
 		this.statusLine = status;
 
 		headers.clear();
@@ -383,9 +382,14 @@ public class LocalRelayRequest extends PasswordHashRequest
 			this.responseCode = 200;
 
 			if ( responseText.length() == 0 )
+			{
 				this.responseText = " ";
+			}
 			else
+			{
+				this.rawByteBuffer = null;
 				this.responseText = responseText;
+			}
 		}
 	}
 
