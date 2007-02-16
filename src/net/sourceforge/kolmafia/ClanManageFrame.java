@@ -505,7 +505,7 @@ public class ClanManageFrame extends KoLFrame
 
 		public SnapshotPanel()
 		{
-			super( "Clan Snapshot", "snapshot", "clan log", new Dimension( 250, 20 ), new Dimension( 50, 20 ) );
+			super( "Clan Snapshot", "snapshot", "activity log", new Dimension( 250, 20 ), new Dimension( 50, 20 ) );
 
 			VerifiableElement [] elements = new VerifiableElement[ 7 ];
 
@@ -525,7 +525,7 @@ public class ClanManageFrame extends KoLFrame
 			elements[5] = new VerifiableElement( "Add Internal Profile Links:  ", localProfileOption );
 			elements[6] = new VerifiableElement( "Allow Multiple Appearances:  ", playerMoreThanOnceOption );
 
-			setContent( elements );
+			setContent( elements, true );
 		}
 
 		public void actionConfirmed()

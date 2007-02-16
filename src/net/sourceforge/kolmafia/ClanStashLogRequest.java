@@ -64,6 +64,8 @@ public class ClanStashLogRequest extends KoLRequest
 	private static final String CLAN_BOOT = "boot";
 
 	private static final String TIME_REGEX = "(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M)";
+	private static final String PLAYER_REGEX = "<a class=nounder href='showplayer.php\\?who=\\d+'>([^<]*?) \\(#\\d+\\)</a>";
+
 	private static final Pattern WAR_PATTERN = Pattern.compile( TIME_REGEX + ": ([^<]*?) launched an attack against (.*?)\\.<br>" );
 	private static final Pattern LOGENTRY_PATTERN = Pattern.compile( "\t<li class=\"(.*?)\">(.*?): (.*?)</li>" );
 
@@ -218,13 +220,13 @@ public class ClanStashLogRequest extends KoLRequest
 		ostream.close();
 	}
 
+	private static final String ADD_REGEX = TIME_REGEX + ": " + PLAYER_REGEX + " added ([\\d,]+) (.*?)\\.<br>";
+	private static final String TAKE_REGEX = TIME_REGEX + ": " + PLAYER_REGEX + " took ([\\d,]+) (.*?)\\.<br>";
+
 	private void handleItems( boolean parseAdditions )
 	{
 		String handleType = parseAdditions ? STASH_ADD : STASH_TAKE;
-
-		String regex = parseAdditions ? TIME_REGEX + ": ([^<]*?) added ([\\d,]+) (.*?)\\.<br>" :
-			TIME_REGEX + ": ([^<]*?) took ([\\d,]+) (.*?)\\.<br>";
-
+		String regex = parseAdditions ? ADD_REGEX : TAKE_REGEX;
 		String suffixDescription = parseAdditions ? "added to stash" : "taken from stash";
 
 		int lastItemId;
@@ -235,7 +237,7 @@ public class ClanStashLogRequest extends KoLRequest
 
 		StashLogEntry entry;
 		StringBuffer entryBuffer = new StringBuffer();
-		Matcher entryMatcher = Pattern.compile( regex ).matcher( responseText );
+		Matcher entryMatcher = Pattern.compile( regex, Pattern.DOTALL ).matcher( responseText );
 
 		while ( entryMatcher.find() )
 		{
@@ -309,7 +311,7 @@ public class ClanStashLogRequest extends KoLRequest
 
 	private void handleAdmin( String entryType, String searchString, String suffixString, String descriptionString )
 	{
-		String regex = TIME_REGEX + ": ([^<]*?) " + searchString + "(.*?)" + suffixString + "\\.?<br>";
+		String regex = TIME_REGEX + ": ([^<]*?) \\(#\\d+\\) " + searchString + "(.*?)" + suffixString + "\\.?<br>";
 
 		List entryList;
 		String currentMember;
