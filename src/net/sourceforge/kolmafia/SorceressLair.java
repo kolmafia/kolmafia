@@ -69,6 +69,7 @@ public abstract class SorceressLair extends StaticEntity
 	private static final AdventureResult DISCO_BANJO = new AdventureResult( 54, 1 );
 	private static final AdventureResult ACOUSTIC_GUITAR = new AdventureResult( 404, 1 );
 	private static final AdventureResult HEAVY_METAL_GUITAR = new AdventureResult( 507, 1 );
+	private static final AdventureResult UKELELE = new AdventureResult( 2209, 1 );
 
 	private static final AdventureResult BROKEN_SKULL = new AdventureResult( 741, 1 );
 	private static final AdventureResult BONE_RATTLE = new AdventureResult( 168, 1 );
@@ -321,7 +322,7 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
-		requirements.add( pickOne( new AdventureResult [] { STONE_BANJO, ACOUSTIC_GUITAR, HEAVY_METAL_GUITAR, DISCO_BANJO } ) );
+		requirements.add( pickOne( new AdventureResult [] { STONE_BANJO, ACOUSTIC_GUITAR, HEAVY_METAL_GUITAR, DISCO_BANJO, UKELELE } ) );
 
 		AdventureResult percussion = pickOne( new AdventureResult [] { BONE_RATTLE, TAMBOURINE, BROKEN_SKULL } );
 		requirements.add( percussion );
