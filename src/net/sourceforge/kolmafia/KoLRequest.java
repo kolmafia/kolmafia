@@ -1070,6 +1070,12 @@ public class KoLRequest extends Job implements KoLConstants
 			return true;
 		}
 
+		if ( formURLString.startsWith( "fight.php" ) )
+		{
+			FightRequest.updateCombatData( encounter, "" );
+			return true;
+		}
+
 		if ( followRedirects )
 		{
 			// Re-setup this request to follow the redirect
