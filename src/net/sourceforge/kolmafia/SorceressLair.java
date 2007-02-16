@@ -305,12 +305,12 @@ public abstract class SorceressLair extends StaticEntity
 		// but no stringed instrument, but they have a banjo string,
 		// then dismantle the legend and construct the stone banjo.
 
-		AdventureResult stringed = pickOne( new AdventureResult [] { STONE_BANJO, ACOUSTIC_GUITAR, HEAVY_METAL_GUITAR, DISCO_BANJO, UKELELE, BANJO_STRING } );
+		AdventureResult stringed = pickOne( new AdventureResult [] { STONE_BANJO, ACOUSTIC_GUITAR, HEAVY_METAL_GUITAR, DISCO_BANJO, UKELELE } );
 
 		AdventureResult cloverWeapon = null;
 		boolean untinkerCloverWeapon = false;
 
-		if ( stringed == BANJO_STRING )
+		if ( stringed == STONE_BANJO && !isItemAvailable( STONE_BANJO ) )
 		{
 			cloverWeapon = pickOne( CLOVER_WEAPONS );
 
