@@ -142,6 +142,10 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		existingPanels.add( new WeakReference( this ) );
 	}
 
+	public void setContent( VerifiableElement [] elements, boolean bothDisabledOnClick )
+	{	setContent( elements, null, null, bothDisabledOnClick );
+	}
+
 	public void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean bothDisabledOnClick )
 	{
 		super.setContent( elements, mainPanel, eastPanel, bothDisabledOnClick );
