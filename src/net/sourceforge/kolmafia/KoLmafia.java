@@ -1059,15 +1059,13 @@ public abstract class KoLmafia implements KoLConstants
 		int maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
 		int needed = (int) Math.max( desired, setting * ((float) maximum) );
 
-		if ( current > needed && desired == 0 )
+		if ( desired == 0 && current > needed )
 			return true;
 
 		// Next, check against the restore target to see how
 		// far you need to go.
 
 		setting = StaticEntity.getFloatProperty( settingName + "Target" );
-
-		needed = Math.max( needed, desired );
 		desired = Math.max( desired, (int) (setting * ((float) maximum)) );
 
 		if ( BuffBotHome.isBuffBotActive() || desired > maximum )
@@ -1115,14 +1113,22 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !possibleSkills.isEmpty() )
 			Collections.sort( possibleSkills );
 
+		int last = -1;
+
 		// Iterate through every restore item which is already available
 		// in the player's inventory.
 
 		for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
 		{
-			currentTechniqueName = possibleItems.get(i).toString().toLowerCase();
-			recoverOnce( possibleItems.get(i), currentTechniqueName, desired, false );
-			current = ((Number)currentMethod.invoke( null, empty )).intValue();
+			do
+			{
+				last = current;
+				currentTechniqueName = possibleItems.get(i).toString().toLowerCase();
+
+				recoverOnce( possibleItems.get(i), currentTechniqueName, desired, false );
+				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+			}
+			while ( last != current && current < needed );
 		}
 
 		if ( refusesContinue() )
@@ -1133,10 +1139,15 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < possibleSkills.size() && current < needed; ++i )
 		{
-			currentTechniqueName = possibleSkills.get(i).toString().toLowerCase();
+			do
+			{
+				last = current;
+				currentTechniqueName = possibleSkills.get(i).toString().toLowerCase();
 
-			recoverOnce( possibleSkills.get(i), currentTechniqueName, desired, true );
-			current = ((Number)currentMethod.invoke( null, empty )).intValue();
+				recoverOnce( possibleSkills.get(i), currentTechniqueName, desired, true );
+				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+			}
+			while ( last != current && current < needed );
 		}
 
 		if ( refusesContinue() )
@@ -1147,10 +1158,15 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
 		{
-			currentTechniqueName = possibleItems.get(i).toString().toLowerCase();
+			do
+			{
+				last = current;
+				currentTechniqueName = possibleItems.get(i).toString().toLowerCase();
 
-			recoverOnce( possibleItems.get(i), currentTechniqueName, desired, true );
-			current = ((Number)currentMethod.invoke( null, empty )).intValue();
+				recoverOnce( possibleItems.get(i), currentTechniqueName, desired, true );
+				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+			}
+			while ( last != current && current < needed );
 		}
 
 		// Fall-through check, just in case you've reached the

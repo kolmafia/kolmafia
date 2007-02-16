@@ -219,40 +219,30 @@ public class ConsumeItemRequest extends KoLRequest
 			return activeEffects.contains( LIMITED_USES.get( key ) ) ? 0 : 1;
 
 		float hpRestored = 0.0f;
+		float mpRestored = 0.0f;
 
 		for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
 			if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemId )
 				hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
 
-		if ( hpRestored != 0.0f )
-		{
-			float belowMax = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
-			return (int) Math.ceil( belowMax / hpRestored );
-		}
-
-		float mpRestored = 0.0f;
-
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 			if ( MPRestoreItemList.CONFIGURES[i].getItem() != null && MPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemId )
 				mpRestored = (float) MPRestoreItemList.CONFIGURES[i].getManaPerUse();
 
-		if ( mpRestored != 0.0f )
+		if ( hpRestored != 0.0f || mpRestored != 0.0f )
 		{
-			float belowMax = (float) (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
-			int maximumSuggested = (int) Math.ceil( belowMax / mpRestored );
+			int maximumSuggested = 0;
 
-			// Phonics down is a special case.  You also look at how much HP it
-			// restores when taking an upper limit.
-
-			if ( itemId == PHONICS )
+			if ( hpRestored != 0.0f )
 			{
-				hpRestored = 0.0f;
-				for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
-					if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemId )
-						hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
-
-				belowMax = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
+				float belowMax = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
 				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / hpRestored ) );
+			}
+
+			if ( mpRestored != 0.0f )
+			{
+				float belowMax = (float) (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
+				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / mpRestored ) );
 			}
 
 			return maximumSuggested;

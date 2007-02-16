@@ -365,6 +365,43 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( line.equalsIgnoreCase( "<inline-ash-script>" ) )
+		{
+			ByteArrayStream ostream = new ByteArrayStream();
+
+			String currentLine = getNextLine();
+
+			while ( currentLine != null && !currentLine.equals( "</inline-ash-script>" ) )
+			{
+				try
+				{
+					ostream.write( currentLine.getBytes() );
+					ostream.write( LINE_BREAK.getBytes() );
+				}
+				catch ( Exception e )
+				{
+					// Byte array output streams do not throw errors,
+					// other than out of memory errors.
+
+					StaticEntity.printStackTrace( e );
+				}
+
+				currentLine = getNextLine();
+			}
+
+			if ( currentLine == null )
+			{
+				updateDisplay( ERROR_STATE, "Unterminated inline ASH script." );
+				return;
+			}
+
+			KoLmafiaASH interpreter = new KoLmafiaASH();
+			interpreter.validate( ostream.getByteArrayInputStream() );
+			interpreter.execute( "main", null );
+
+			return;
+		}
+
 		// Not a special full-line command.  Go ahead and
 		// split the command into extra pieces.
 

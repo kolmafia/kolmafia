@@ -555,10 +555,25 @@ public class KoLmafiaASH extends StaticEntity
 
 	public void validate( File scriptFile )
 	{
+		this.fileName = scriptFile.getPath();
+
 		try
 		{
-			this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
-			this.fileName = scriptFile.getPath();
+			validate( new FileInputStream( scriptFile ) );
+		}
+		catch ( Exception e1 )
+		{
+			// Only error message, not stack trace, for a parse error
+
+			KoLmafia.updateDisplay( e1.getMessage() );
+		}
+	}
+
+	public void validate( InputStream istream )
+	{
+		try
+		{
+			this.commandStream = new LineNumberReader( new InputStreamReader( istream ) );
 
 			imports.clear();
 
@@ -644,19 +659,24 @@ public class KoLmafiaASH extends StaticEntity
 			throw new AdvancedScriptException( "Namespace function executed in wrong interpreter" );
 		}
 
+		String currentScript = scriptFile == null ? "<>" : "<" + scriptFile.getPath() + ">";
+		String notifyList = StaticEntity.getProperty( "previousNotifyList" );
+
+		if ( notifyRecipient != null && notifyList.indexOf( currentScript ) == -1 )
+		{
+			StaticEntity.setProperty( "previousNotifyList", notifyList + currentScript );
+
+			GreenMessageRequest notifier = new GreenMessageRequest( notifyRecipient, currentScript );
+			RequestThread.postRequest( notifier );
+		}
+
+		execute( functionName, parameters );
+	}
+
+	public void execute( String functionName, String [] parameters )
+	{
 		try
 		{
-			String currentScript = scriptFile == null ? "<>" : "<" + scriptFile.getPath() + ">";
-			String notifyList = StaticEntity.getProperty( "previousNotifyList" );
-
-			if ( notifyRecipient != null && notifyList.indexOf( currentScript ) == -1 )
-			{
-				StaticEntity.setProperty( "previousNotifyList", notifyList + currentScript );
-
-				GreenMessageRequest notifier = new GreenMessageRequest( notifyRecipient, currentScript );
-				RequestThread.postRequest( notifier );
-			}
-
 			executeScope( global, functionName, parameters );
 		}
 		catch ( AdvancedScriptException e )
@@ -1087,28 +1107,42 @@ public class KoLmafiaASH extends StaticEntity
 
 		else if ( (result = parseReturn( functionType, scope )) != null )
 			;
+
+		else if ( (result = parseBasicScript()) != null )
+			// basic_script doesn't have a ; token
+			return result;
+
 		else if ( (result = parseWhile( functionType, scope )) != null )
 			// while doesn't have a ; token
 			return result;
+
 		else if ( (result = parseForeach( functionType, scope )) != null )
 			// foreach doesn't have a ; token
 			return result;
+
 		else if ( (result = parseFor( functionType, scope )) != null )
 			// for doesn't have a ; token
 			return result;
+
 		else if ( (result = parseRepeat( functionType, scope )) != null )
 			;
+
 		else if ( (result = parseConditional( functionType, scope, noElse, whileLoop )) != null )
 			// loop doesn't have a ; token
 			return result;
+
 		else if ( (result = parseCall( scope )) != null )
 			;
+
 		else if ( (result = parseAssignment( scope )) != null )
 			;
+
 		else if ( (result = parseRemove( scope )) != null )
 			;
+
 		else if ( (result = parseValue( scope )) != null )
 			;
+
 		else
 			return null;
 
@@ -1331,6 +1365,49 @@ public class KoLmafiaASH extends StaticEntity
 		while ( elseFound );
 
 		return result;
+	}
+
+	private ScriptBasicScript parseBasicScript()
+	{
+		if ( currentToken() == null )
+			return null;
+
+		if ( !currentToken().equalsIgnoreCase( "cli_execute" ) )
+			return null;
+
+		if ( nextToken() == null || !nextToken().equals( "{" ) )
+			return null;
+
+		readToken(); // while
+		readToken(); // {
+
+		ByteArrayStream ostream = new ByteArrayStream();
+
+		while ( currentToken() != null && !currentToken().equals( "}" ) )
+		{
+			try
+			{
+				ostream.write( currentLine.getBytes() );
+				ostream.write( LINE_BREAK.getBytes() );
+			}
+			catch ( Exception e )
+			{
+				// Byte array output streams do not throw errors,
+				// other than out of memory errors.
+
+				StaticEntity.printStackTrace( e );
+			}
+
+			currentLine = "";
+			fixLines();
+		}
+
+		if ( currentToken() == null )
+			parseError( "}", currentToken() );
+
+		readToken(); // }
+
+		return new ScriptBasicScript( ostream );
 	}
 
 	private ScriptWhile parseWhile( ScriptType functionType, ScriptScope parentScope )
@@ -6695,6 +6772,26 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String toString()
 		{	return "foreach";
+		}
+	}
+
+	private class ScriptBasicScript extends ScriptValue
+	{
+		private ByteArrayStream data;
+
+		public ScriptBasicScript( ByteArrayStream data )
+		{	this.data = data;
+		}
+
+		public ScriptType getType()
+		{	return VOID_TYPE;
+		}
+
+		public ScriptValue execute()
+		{
+			KoLmafiaCLI script = new KoLmafiaCLI( data.getByteArrayInputStream() );
+			script.listenForCommands();
+			return VOID_VALUE;
 		}
 	}
 
