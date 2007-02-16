@@ -139,6 +139,14 @@ public class UneffectRequest extends KoLRequest
 
 	public void run()
 	{
+		String action = MoodSettings.getDefaultAction( "gain_effect", effect.getName() );
+
+		if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) )
+		{
+			DEFAULT_SHELL.executeLine( action );
+			return;
+		}
+
 		if ( !isShruggable )
 		{
 			if ( KoLCharacter.canInteract() )
@@ -150,14 +158,6 @@ public class UneffectRequest extends KoLRequest
 				KoLmafia.updateDisplay( "You don't have any soft green fluffy martians." );
 				return;
 			}
-		}
-
-		String action = MoodSettings.getDefaultAction( "gain_effect", effect.getName() );
-
-		if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) )
-		{
-			DEFAULT_SHELL.executeLine( action );
-			return;
 		}
 
 		KoLmafia.updateDisplay( isShruggable ? "Shrugging off your buff..." : "Using soft green whatever..." );
