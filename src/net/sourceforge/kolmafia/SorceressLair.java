@@ -305,15 +305,18 @@ public abstract class SorceressLair extends StaticEntity
 		// but no stringed instrument, but they have a banjo string,
 		// then dismantle the legend and construct the stone banjo.
 
-		AdventureResult cloverWeapon = null;
-		boolean untinkerCloverWeapon = !isItemAvailable( ACOUSTIC_GUITAR ) && !isItemAvailable( HEAVY_METAL_GUITAR ) && !isItemAvailable( STONE_BANJO ) && !isItemAvailable( DISCO_BANJO ) && !isItemAvailable( UKELELE );
+		AdventureResult stringed = pickOne( new AdventureResult [] { STONE_BANJO, ACOUSTIC_GUITAR, HEAVY_METAL_GUITAR, DISCO_BANJO, UKELELE, BANJO_STRING } );
 
-		if ( untinkerCloverWeapon )
+		AdventureResult cloverWeapon = null;
+		boolean untinkerCloverWeapon = false;
+
+		if ( stringed == BANJO_STRING )
 		{
 			cloverWeapon = pickOne( CLOVER_WEAPONS );
 
 			if ( isItemAvailable( BANJO_STRING ) && isItemAvailable( cloverWeapon ) )
 			{
+				untinkerCloverWeapon = true;
 				UseSkillRequest.untinkerCloverWeapon( cloverWeapon );
 
 				ItemCreationRequest irequest = ItemCreationRequest.getInstance( STONE_BANJO.getItemId() );
@@ -322,7 +325,7 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
-		requirements.add( pickOne( new AdventureResult [] { STONE_BANJO, ACOUSTIC_GUITAR, HEAVY_METAL_GUITAR, DISCO_BANJO, UKELELE } ) );
+		requirements.add( stringed );
 
 		AdventureResult percussion = pickOne( new AdventureResult [] { BONE_RATTLE, TAMBOURINE, BROKEN_SKULL } );
 		requirements.add( percussion );
