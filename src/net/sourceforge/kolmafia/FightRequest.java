@@ -337,12 +337,7 @@ public class FightRequest extends KoLRequest
 			if ( !isUsingConsultScript )
 			{
 				if ( currentRound == 0 || (action1 != null && !action1.equals( "abort" )) )
-				{
 					super.run();
-
-					if ( responseCode == 302 )
-						clearInstanceData();
-				}
 			}
 
 			if ( action1 != null && action1.equals( "abort" ) )
