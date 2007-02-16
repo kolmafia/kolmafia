@@ -237,7 +237,7 @@ public class ClanStashRequest extends SendMessageRequest
 	}
 
 	public boolean allowUntradeableTransfer()
-	{	return false;
+	{	return true;
 	}
 
 	public static boolean registerRequest( String urlString )
