@@ -306,7 +306,7 @@ public abstract class SorceressLair extends StaticEntity
 		// then dismantle the legend and construct the stone banjo.
 
 		AdventureResult cloverWeapon = null;
-		boolean untinkerCloverWeapon = !isItemAvailable( ACOUSTIC_GUITAR ) && !isItemAvailable( HEAVY_METAL_GUITAR ) && !isItemAvailable( STONE_BANJO ) && !isItemAvailable( DISCO_BANJO );
+		boolean untinkerCloverWeapon = !isItemAvailable( ACOUSTIC_GUITAR ) && !isItemAvailable( HEAVY_METAL_GUITAR ) && !isItemAvailable( STONE_BANJO ) && !isItemAvailable( DISCO_BANJO ) && !isItemAvailable( UKELELE );
 
 		if ( untinkerCloverWeapon )
 		{
