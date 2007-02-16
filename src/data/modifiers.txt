@@ -161,6 +161,7 @@ stainless steel solitaire	Mana: -2
 stainless steel suspenders	DA: +60
 tap shoes	Init: -20.0
 the Amulet of Yendor	Init: -10.0, Mana: +3
+tiny plastic ancient yuletide troll	Weight: +1
 tiny plastic angry goat	Weight: +1
 tiny plastic baby gravy fairy	Weight: +1
 tiny plastic barrrnacle	Weight: +1
@@ -172,6 +173,7 @@ tiny plastic Crimbo elf	Weight: +1
 tiny plastic fuzzy dice	Weight: +1
 tiny plastic ghost pickle on a stick	Weight: +1
 tiny plastic ghuol whelp	Weight: +1
+tiny plastic gift-wrapping vampire	Weight: +1
 tiny plastic grue	Weight: +1
 tiny plastic hermit	Meat: +6.0
 tiny plastic howling balloon monkey	Weight: +1
