@@ -246,7 +246,7 @@ public class ClanStashRequest extends SendMessageRequest
 			return false;
 
 		if ( urlString.indexOf( "take" ) != -1 )
-			return registerRequest( "remove from stash", urlString, ITEMID_PATTERN, QUANTITY_PATTERN, ClanManager.getStash(), inventory, "howmuch", 0 );
+			return registerRequest( "remove from stash", urlString, ITEMID_PATTERN, QUANTITY_PATTERN, ClanManager.getStash(), null, "howmuch", 0 );
 
 		return registerRequest( "add to stash", urlString, ITEMID_PATTERN, QTY_PATTERN, inventory, null, "howmuch", 0 );
 	}

@@ -274,11 +274,19 @@ public abstract class SendMessageRequest extends KoLRequest
 			if ( willUpdateDisplayOnFailure() )
 			{
 				for ( int i = 0; i < attachments.length; ++i )
+				{
 					KoLmafia.updateDisplay( ERROR_STATE, "Transfer failed for " + attachments[i].toString() );
+					if ( source == inventory )
+						StaticEntity.getClient().processResult( (AdventureResult) attachments[i] );
+				}
 
 				int totalMeat = StaticEntity.parseInt( getFormField( getMeatField() ) );
 				if ( totalMeat != 0 )
+				{
 					KoLmafia.updateDisplay( ERROR_STATE, "Transfer failed for " + totalMeat + " meat" );
+					if ( source == inventory )
+						StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, totalMeat ) );
+				}
 			}
 		}
 	}
