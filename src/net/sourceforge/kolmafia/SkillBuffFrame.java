@@ -81,8 +81,11 @@ public class SkillBuffFrame extends KoLFrame
 	{
 		public void valueChanged( ListSelectionEvent e )
 		{
-			skillSelect.setSelectedItem( UseSkillRequest.getInstance(
-				UneffectRequest.effectToSkill( ((AdventureResult)effectList.getSelectedValue()).getName() ) ) );
+			AdventureResult effect = (AdventureResult) effectList.getSelectedValue();
+			if ( effect == null )
+				return;
+
+			skillSelect.setSelectedItem( UseSkillRequest.getInstance( UneffectRequest.effectToSkill( effect.getName() ) ) );
 		}
 	}
 
