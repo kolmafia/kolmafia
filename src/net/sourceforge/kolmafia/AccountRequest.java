@@ -43,7 +43,9 @@ public class AccountRequest extends PasswordHashRequest
 	private static final Pattern SELECTED1_PATTERN = Pattern.compile( "selected>(-?\\d*?)</option>" );
 
 	private static final Pattern AUTOATTACK_PATTERN = Pattern.compile( "<select class=small name=whichattack>.*?</select>", Pattern.DOTALL );
-	private static final Pattern SELECTED2_PATTERN = Pattern.compile( "selected value=(\\d+)>" );
+
+	private static final Pattern SELECTED2_PATTERN = Pattern.compile( "value=(\\d+) selected>" );
+	private static final Pattern SELECTED3_PATTERN = Pattern.compile( "selected value=(\\d+)>" );
 
 	public AccountRequest()
 	{	super( "account.php" );
@@ -106,11 +108,21 @@ public class AccountRequest extends PasswordHashRequest
 		Matcher selectMatcher = AUTOATTACK_PATTERN.matcher( responseText );
 		if ( selectMatcher.find() )
 		{
+			System.out.println( selectMatcher.group() );
+
 			Matcher optionMatcher = SELECTED2_PATTERN.matcher( selectMatcher.group() );
 			if ( optionMatcher.find() )
+			{
 				StaticEntity.setProperty( "defaultAutoAttack", optionMatcher.group(1) );
+			}
 			else
-				StaticEntity.setProperty( "defaultAutoAttack", "0" );
+			{
+				optionMatcher = SELECTED3_PATTERN.matcher( selectMatcher.group() );
+				if ( optionMatcher.find() )
+					StaticEntity.setProperty( "defaultAutoAttack", optionMatcher.group(1) );
+				else
+					StaticEntity.setProperty( "defaultAutoAttack", "0" );
+			}
 		}
 		else
 		{

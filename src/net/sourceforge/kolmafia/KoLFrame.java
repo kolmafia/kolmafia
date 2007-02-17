@@ -1070,7 +1070,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		private Class [] types;
 		private boolean [] editable;
 
-		public ListWrapperTableModel( String [] headers, Class [] types, boolean [] editable, LockableListModel list )
+		protected LockableListModel listModel;
+
+		public ListWrapperTableModel( String [] headers, Class [] types, boolean [] editable, LockableListModel listModel )
 		{
 			super( 0, headers.length );
 
@@ -1078,10 +1080,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.types = types;
 			this.editable = editable;
 
-			for ( int i = 0; i < list.size(); ++i )
-				insertRow( i, constructVector( list.get(i) ) );
+			for ( int i = 0; i < listModel.size(); ++i )
+				insertRow( i, constructVector( listModel.get(i) ) );
 
-			list.addListDataListener( this );
+			this.listModel = listModel;
+			listModel.addListDataListener( this );
 		}
 
 		public String getColumnName( int index )
