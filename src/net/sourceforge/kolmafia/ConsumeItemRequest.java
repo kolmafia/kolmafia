@@ -218,18 +218,31 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( LIMITED_USES.containsKey( key ) )
 			return activeEffects.contains( LIMITED_USES.get( key ) ) ? 0 : 1;
 
+		boolean restoresHP = false;
 		float hpRestored = 0.0f;
+
+		boolean restoresMP = false;
 		float mpRestored = 0.0f;
 
 		for ( int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i )
+		{
 			if ( HPRestoreItemList.CONFIGURES[i].getItem() != null && HPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemId )
+			{
+				restoresHP = true;
 				hpRestored = (float) HPRestoreItemList.CONFIGURES[i].getHealthPerUse();
+			}
+		}
 
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
+		{
 			if ( MPRestoreItemList.CONFIGURES[i].getItem() != null && MPRestoreItemList.CONFIGURES[i].getItem().getItemId() == itemId )
+			{
+				restoresMP = true;
 				mpRestored = (float) MPRestoreItemList.CONFIGURES[i].getManaPerUse();
+			}
+		}
 
-		if ( hpRestored != 0.0f || mpRestored != 0.0f )
+		if ( restoresHP || restoresMP )
 		{
 			int maximumSuggested = 0;
 
