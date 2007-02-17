@@ -578,16 +578,19 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		PERMIT_METHOD[ COOK ] = KoLCharacter.hasChef() || isAvailable( CHEF, CLOCKWORK_CHEF );
 
-		if ( !PERMIT_METHOD[ COOK ] && noServantNeeded )
+		if ( !PERMIT_METHOD[ COOK ] )
 		{
-			PERMIT_METHOD[ COOK ] = (inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000)
-				&& KoLCharacter.getAdventuresLeft() > 0;
-			ADVENTURE_USAGE[ COOK ] = 1;
-		}
-		else
-		{
-			PERMIT_METHOD[ COOK ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
-			ADVENTURE_USAGE[ COOK ] = 0;
+			if ( noServantNeeded )
+			{
+				PERMIT_METHOD[ COOK ] = (inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000)
+					&& KoLCharacter.getAdventuresLeft() > 0;
+				ADVENTURE_USAGE[ COOK ] = 1;
+			}
+			else
+			{
+				PERMIT_METHOD[ COOK ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
+				ADVENTURE_USAGE[ COOK ] = 0;
+			}
 		}
 
 		// Cooking of reagents and noodles is possible whenever
@@ -607,16 +610,19 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		PERMIT_METHOD[ MIX ] = KoLCharacter.hasBartender() || isAvailable( BARTENDER, CLOCKWORK_BARTENDER );
 
-		if ( !PERMIT_METHOD[ MIX ] && noServantNeeded )
+		if ( !PERMIT_METHOD[ MIX ] )
 		{
-			PERMIT_METHOD[ MIX ] = ( inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000) &&
-				KoLCharacter.getAdventuresLeft() > 0;
-			ADVENTURE_USAGE[ MIX ] = 1;
-		}
-		else
-		{
-			PERMIT_METHOD[ MIX ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
-			ADVENTURE_USAGE[ MIX ] = 0;
+			if ( noServantNeeded )
+			{
+				PERMIT_METHOD[ MIX ] = ( inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000) &&
+					KoLCharacter.getAdventuresLeft() > 0;
+				ADVENTURE_USAGE[ MIX ] = 1;
+			}
+			else
+			{
+				PERMIT_METHOD[ MIX ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
+				ADVENTURE_USAGE[ MIX ] = 0;
+			}
 		}
 
 		// Mixing of advanced drinks is possible whenever the
