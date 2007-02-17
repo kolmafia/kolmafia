@@ -61,12 +61,6 @@ public abstract class ThreadedButton extends JButton implements ActionListener, 
 		if ( !isValidEvent( e ) )
 			return;
 
-		if ( forceNewThread() )
-		{
-			(new Thread( this )).start();
-			return;
-		}
-
 		this.run();
 		RequestThread.enableDisplayIfSequenceComplete();
 	}
@@ -77,9 +71,5 @@ public abstract class ThreadedButton extends JButton implements ActionListener, 
 			return ((JComboBox)e.getSource()).isPopupVisible();
 
 		return true;
-	}
-
-	protected boolean forceNewThread()
-	{	return !StaticEntity.getBooleanProperty( "allowRequestQueueing" );
 	}
 }

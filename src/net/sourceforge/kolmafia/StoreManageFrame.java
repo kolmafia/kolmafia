@@ -330,6 +330,8 @@ public class StoreManageFrame extends KoLPanelFrame
 			searchLabel.setText( searchName );
 			StoreManager.searchMall( searchName, priceSummary, 10, true );
 
+			resultsDisplay.updateUI();
+
 			KoLmafia.updateDisplay( "Price analysis complete." );
 			RequestThread.enableDisplayIfSequenceComplete();
 		}

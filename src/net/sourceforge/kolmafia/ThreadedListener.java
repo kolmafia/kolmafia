@@ -45,12 +45,6 @@ public abstract class ThreadedListener implements ActionListener, Runnable
 		if ( !isValidEvent( e ) )
 			return;
 
-		if ( forceNewThread() )
-		{
-			(new Thread( this )).start();
-			return;
-		}
-
 		this.run();
 		RequestThread.enableDisplayIfSequenceComplete();
 	}
@@ -61,9 +55,5 @@ public abstract class ThreadedListener implements ActionListener, Runnable
 			return ((JComboBox)e.getSource()).isPopupVisible();
 
 		return true;
-	}
-
-	protected boolean forceNewThread()
-	{	return !StaticEntity.getBooleanProperty( "allowRequestQueueing" );
 	}
 }
