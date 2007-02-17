@@ -54,6 +54,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 
 	private static final TreeMap LIMITED_USES = new TreeMap();
+	private static final AdventureResult ODE_TO_BOOZE = new AdventureResult( "Ode to Booze", 1, true );
 
 	static
 	{
@@ -325,11 +326,21 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public static boolean allowBoozeConsumption( int inebrietyBonus )
 	{
-		if ( KoLCharacter.isFallingDown() )
-			return false;
+		if ( KoLCharacter.isFallingDown() || inebrietyBonus < 1 )
+			return true;
 
 		if ( existingFrames.isEmpty() || !StaticEntity.getBooleanProperty( "protectAgainstOverdrink" ) )
 			return true;
+
+		if ( !activeEffects.contains( ODE_TO_BOOZE ) )
+		{
+			if ( availableSkills.contains( UseSkillRequest.getInstance( "The Ode to Booze" ) ) )
+			{
+				if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you want to drink without ode?",
+					"Think carefully before you answer...", JOptionPane.YES_NO_OPTION ) )
+						return false;
+			}
+		}
 
 		if ( KoLCharacter.getAdventuresLeft() < 10 )
 			return true;
