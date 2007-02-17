@@ -1212,11 +1212,11 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( !formURLString.equals( "fight.php" ) || data.isEmpty() )
 			encounter = AdventureRequest.registerEncounter( this );
 
+		if ( formURLString.equals( "fight.php" ) )
+			FightRequest.updateCombatData( encounter, responseText );
+
 		if ( !shouldIgnoreResult )
 			parseResults();
-
-		if ( formURLString.startsWith( "fight.php" ) )
-			FightRequest.updateCombatData( encounter, responseText );
 
 		if ( !LoginRequest.isInstanceRunning() && !(this instanceof LocalRelayRequest) && !(this instanceof CharpaneRequest) && !isChatRequest && formURLString.indexOf( "search" ) == -1 )
 			showInBrowser( false );

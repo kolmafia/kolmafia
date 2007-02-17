@@ -481,6 +481,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		CLIENT_SETTINGS.put( "logAcquiredItems", "true" );
 		CLIENT_SETTINGS.put( "logBattleAction", "true" );
+		CLIENT_SETTINGS.put( "logFamiliarActions", "false" );
 		CLIENT_SETTINGS.put( "logGainMessages", "true" );
 		CLIENT_SETTINGS.put( "logReverseOrder", "false" );
 		CLIENT_SETTINGS.put( "logStatGains", "true" );
