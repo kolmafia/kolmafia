@@ -714,7 +714,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// and remove all <HR> tags.
 
 		KoLmafia.getDebugStream().println( "Rendering hypertext..." );
-		String displayHTML = getFeatureRichHTML( location, responseText );
+		String displayHTML = getFeatureRichHTML( location, responseText, false );
 
 		displayHTML = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
 			displayHTML ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ) ).replaceAll( "" ).replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" );
@@ -871,13 +871,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		return displayHTML;
 	}
 
-	public static String getFeatureRichHTML( String location, String text )
+	public static String getFeatureRichHTML( String location, String text, boolean addComplexFeatures )
 	{
 		if ( text == null || text.length() == 0 )
 			return "";
 
 		StringBuffer buffer = new StringBuffer( text );
-		getFeatureRichHTML( location, buffer );
+		getFeatureRichHTML( location, buffer, addComplexFeatures );
 		return buffer.toString();
 	}
 
@@ -888,7 +888,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static final String NO_PERMIT_TEXT = "<p>You don't have a Hermit Permit, so you're not allowed to visit the Hermit.<p><center>";
 	private static final String BUY_PERMIT_TEXT = NO_PERMIT_TEXT + "<a href=\"hermit.php?autopermit=on\">Buy a Hermit Permit</a></center></p><p><center>";
 
-	public static void getFeatureRichHTML( String location, StringBuffer buffer )
+	public static void getFeatureRichHTML( String location, StringBuffer buffer, boolean addComplexFeatures )
 	{
 		if ( buffer.length() == 0 )
 			return;
@@ -909,11 +909,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// if there's an item present, and if so, modify
 		// it so that you get a use link.
 
-		if ( location.startsWith( "charpane.php" ) && StaticEntity.getBooleanProperty( "relayAddsRestoreLinks" ) )
-			addRestoreLinks( buffer );
+		if ( addComplexFeatures )
+		{
+			if ( location.startsWith( "charpane.php" ) && StaticEntity.getBooleanProperty( "relayAddsRestoreLinks" ) )
+				addRestoreLinks( buffer );
 
-		if ( location.startsWith( "charpane.php" ) && StaticEntity.getBooleanProperty( "relayAddsUpArrowLinks" ) )
-			addUpArrowLinks( buffer );
+			if ( location.startsWith( "charpane.php" ) && StaticEntity.getBooleanProperty( "relayAddsUpArrowLinks" ) )
+				addUpArrowLinks( buffer );
+		}
 
 		if ( location.startsWith( "inventory.php" ) )
 		{
@@ -925,8 +928,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
 			addUseLinks( location, buffer );
 
-		if ( location.startsWith( "fight.php" ) )
-			addFightModifiers( buffer );
+		if ( addComplexFeatures )
+		{
+			if ( location.startsWith( "fight.php" ) )
+				addFightModifiers( buffer );
+		}
 
 		if ( location.startsWith( "choice.php" ) )
 			addChoiceSpoilers( buffer );
@@ -934,12 +940,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.startsWith( "rats.php" ) )
 			addTavernSpoilers( buffer );
 
-		if ( location.startsWith( "ascensionhistory.php" ) )
+		if ( addComplexFeatures )
 		{
-			StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\" src=\"/KoLmafia/sorttable.js\"></script></head>" );
-			StaticEntity.singleStringReplace( buffer, "<table><tr><td class=small>", "<table class=\"sortable\" id=\"history\"><tr><td class=small>" );
-			StaticEntity.globalStringReplace( buffer, "<tr><td colspan=9", "<tr class=\"sortbottom\" style=\"display:none\"><td colspan=9" );
-			StaticEntity.globalStringReplace( buffer, "<td></td>", "<td><img src=\"http://69.16.150.201/itemimages/confused.gif\" title=\"No Data\" alt=\"No Data\" height=30 width=30></td>" );
+			if ( location.startsWith( "ascensionhistory.php" ) )
+			{
+				StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\" src=\"/KoLmafia/sorttable.js\"></script></head>" );
+				StaticEntity.singleStringReplace( buffer, "<table><tr><td class=small>", "<table class=\"sortable\" id=\"history\"><tr><td class=small>" );
+				StaticEntity.globalStringReplace( buffer, "<tr><td colspan=9", "<tr class=\"sortbottom\" style=\"display:none\"><td colspan=9" );
+				StaticEntity.globalStringReplace( buffer, "<td></td>", "<td><img src=\"http://69.16.150.201/itemimages/confused.gif\" title=\"No Data\" alt=\"No Data\" height=30 width=30></td>" );
+			}
 		}
 
 		if ( location.startsWith( "mountains.php" ) )
@@ -953,9 +962,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.startsWith( "hermit.php" ) )
 			StaticEntity.singleStringReplace( buffer, NO_PERMIT_TEXT, BUY_PERMIT_TEXT );
 
-
-		if ( location.indexOf( "ascend.php" ) != -1 || location.indexOf( "valhalla.php" ) != -1 )
-			addAscensionReminders( location, buffer );
+		if ( addComplexFeatures )
+		{
+			if ( location.indexOf( "ascend.php" ) != -1 || location.indexOf( "valhalla.php" ) != -1 )
+				addAscensionReminders( location, buffer );
+		}
 
 		String defaultColor = StaticEntity.getProperty( "defaultBorderColor" );
 		if ( !defaultColor.equals( "blue" ) )

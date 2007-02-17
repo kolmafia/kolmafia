@@ -320,7 +320,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		try
 		{
-			RequestEditorKit.getFeatureRichHTML( formURLString.toString(), responseBuffer );
+			RequestEditorKit.getFeatureRichHTML( formURLString.toString(), responseBuffer, true );
 		}
 		catch ( Exception e )
 		{
