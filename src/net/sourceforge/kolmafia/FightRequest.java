@@ -719,7 +719,7 @@ public class FightRequest extends KoLRequest
 
 			try
 			{
-				RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", resultBuffer );
+				RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", resultBuffer, true );
 				lastResult = resultBuffer.toString();
 			}
 			catch ( Exception e )
