@@ -631,6 +631,12 @@ public class KoLRequest extends Job implements KoLConstants
 		needsRefresh = false;
 		execute();
 
+		// When following redirects, you will get different URL
+		// strings, so make sure you update.
+
+		if ( followRedirects )
+			location = getURLString();
+
 		// If this is the trapper page, make sure to check to
 		// see if there's any changes to your inventory.
 
