@@ -149,24 +149,19 @@ public abstract class SendMessageRequest extends KoLRequest
 				if ( !TradeableItemDatabase.isDisplayable( item.getItemId() ) )
 					continue;
 
-				else if ( !allowNoGift && !TradeableItemDatabase.isGiftable( item.getItemId() ) )
+				if ( !allowNoGift && !TradeableItemDatabase.isGiftable( item.getItemId() ) )
 					continue;
 
-				else if ( !allowNoTrade && !TradeableItemDatabase.isTradeable( item.getItemId() ) )
+				if ( !allowNoTrade && !TradeableItemDatabase.isTradeable( item.getItemId() ) )
 					continue;
 
-				else if ( !allowMemento && mementoList.contains( item ) )
+				if ( !allowMemento && mementoList.contains( item ) )
 					continue;
 
 				availableCount = item.getCount( source );
 
 				if ( availableCount > 0 )
-				{
-					if ( item.getCount() > availableCount )
-						item = item.getInstance( availableCount );
-
-					nextAttachments.add( item );
-				}
+					nextAttachments.add( item.getInstance( Math.min( item.getCount(), availableCount ) ) );
 			}
 			while ( index1 < attachments.length && nextAttachments.size() < capacity );
 
@@ -207,15 +202,13 @@ public abstract class SendMessageRequest extends KoLRequest
 			KoLmafia.updateDisplay( getStatusMessage() + "..." );
 			requests[0].run();
 		}
-		else if ( meatAttachment > 0 )
+		else if ( meatAttachment > 0 || attachments.length == 0 )
 		{
 			KoLmafia.updateDisplay( getStatusMessage() + "..." );
-			SendMessageRequest request = getSubInstance( new Object[0] );
-			request.addFormField( getMeatField(), String.valueOf( meatAttachment ) );
-			request.run();
-		}
-		else if ( subinstances.isEmpty() )
-		{
+
+			if ( meatAttachment > 0 )
+				addFormField( getMeatField(), String.valueOf( meatAttachment ) );
+
 			super.run();
 		}
 	}
@@ -231,27 +224,24 @@ public abstract class SendMessageRequest extends KoLRequest
 		// placed in the closet - if there's too many,
 		// then you'll need to break up the request
 
-		if ( attachments != null && attachments.length != 0 )
+		if ( !isSubInstance )
 		{
-			int capacity = getCapacity();
+			runSubInstances();
+			return;
+		}
 
-			if ( !isSubInstance )
-			{
-				runSubInstances();
-				return;
-			}
+		int capacity = getCapacity();
 
-			if ( capacity > 1 )
-			{
-				for ( int i = 1; i <= attachments.length; ++i )
-					if ( attachments[i-1] != null )
-						attachItem( (AdventureResult) attachments[i-1], i );
-			}
-			else if ( capacity == 1 )
-			{
-				if ( attachments[0] != null )
-					attachItem( (AdventureResult) attachments[0], 0 );
-			}
+		if ( capacity > 1 )
+		{
+			for ( int i = 1; i <= attachments.length; ++i )
+				if ( attachments[i-1] != null )
+					attachItem( (AdventureResult) attachments[i-1], i );
+		}
+		else if ( capacity == 1 )
+		{
+			if ( attachments[0] != null )
+				attachItem( (AdventureResult) attachments[0], 0 );
 		}
 
 		// Once all the form fields are broken up, this
