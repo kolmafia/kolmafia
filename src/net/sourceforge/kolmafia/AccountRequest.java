@@ -108,8 +108,6 @@ public class AccountRequest extends PasswordHashRequest
 		Matcher selectMatcher = AUTOATTACK_PATTERN.matcher( responseText );
 		if ( selectMatcher.find() )
 		{
-			System.out.println( selectMatcher.group() );
-
 			Matcher optionMatcher = SELECTED2_PATTERN.matcher( selectMatcher.group() );
 			if ( optionMatcher.find() )
 			{
