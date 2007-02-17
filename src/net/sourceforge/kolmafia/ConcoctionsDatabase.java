@@ -585,7 +585,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 			ADVENTURE_USAGE[ COOK ] = 1;
 		}
 		else
+		{
+			PERMIT_METHOD[ COOK ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
 			ADVENTURE_USAGE[ COOK ] = 0;
+		}
 
 		// Cooking of reagents and noodles is possible whenever
 		// the person can cook and has the appropriate skill.
@@ -611,7 +614,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 			ADVENTURE_USAGE[ MIX ] = 1;
 		}
 		else
+		{
+			PERMIT_METHOD[ MIX ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
 			ADVENTURE_USAGE[ MIX ] = 0;
+		}
 
 		// Mixing of advanced drinks is possible whenever the
 		// person can mix drinks and has the appropriate skill.
