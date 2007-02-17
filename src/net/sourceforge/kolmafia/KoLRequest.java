@@ -1389,6 +1389,8 @@ public class KoLRequest extends Job implements KoLConstants
 	 * the given choice adventure.
 	 */
 
+	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
+
 	public void processChoiceAdventure()
 	{
 		// You can no longer simply ignore a choice adventure.	One of
@@ -1431,6 +1433,13 @@ public class KoLRequest extends Job implements KoLConstants
 					if ( AdventureDatabase.WOODS_ITEMS[i].getCount( conditions ) > 0 )
 						decision = choice.equals( "26" ) ? String.valueOf( (i / 4) + 1 ) : String.valueOf( ((i % 4) / 2) + 1 );
 			}
+
+			// If the player is looking for the ballroom key,
+			// then update their preferences so that KoLmafia
+			// automatically switches things for them.
+
+			if ( choice.equals( "85" ) && conditions.contains( BALLROOM_KEY ) )
+				StaticEntity.setProperty( option, "2" );
 
 			// Certain choices should always be taken.  These
 			// choices are handled here.
