@@ -68,7 +68,10 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final int BOOZE = 5;
 
 	private static boolean isCreationMatch = false;
-	private String previousLine;
+
+	private String previousLine = null;
+	private String currentLine = null;
+	private boolean acceptCommands = true;
 	private BufferedReader commandStream;
 
 	private KoLmafiaCLI lastScript;
@@ -253,7 +256,7 @@ public class KoLmafiaCLI extends KoLmafia
 			try
 			{
 				commandStream.close();
-				previousLine = null;
+				currentLine = null;
 			}
 			catch ( IOException e )
 			{
@@ -301,20 +304,40 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	public void executeLine( String line )
+	{	executeLine( line, true );
+	}
+
+	private void executeLine( String line, boolean storeCurrentLine )
 	{
 		if ( refusesContinue() || line.trim().length() == 0 )
 			return;
 
+		if ( storeCurrentLine )
+			currentLine = line;
+
 		// If it gets this far, that means the continue
 		// state can be reset.
 
-		if ( line.indexOf( ";" ) != -1 )
-		{
-			String [] separateLines = line.split( ";" );
-			for ( int i = 0; i < separateLines.length && permitsContinue(); ++i )
-				executeLine( separateLines[i] );
+		int splitIndex = line.indexOf( ";" );
 
-			previousLine = line;
+		if ( splitIndex != -1 )
+		{
+			String lineToRun = line.substring( 0, splitIndex ).trim();
+			executeLine( lineToRun, false );
+
+			// Use recursion to execute lines instead
+			// of a loop to allow if-statements to appear
+			// on the same line.
+
+			if ( line.equals( currentLine ) )
+			{
+				String lineLeftOver = line.substring( splitIndex + 1 ).trim();
+				executeLine( lineLeftOver, false );
+			}
+
+			if ( storeCurrentLine )
+				previousLine = line;
+
 			return;
 		}
 
@@ -329,7 +352,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Win game sanity check.  This will find its
 		// way back into the GUI ... one day.
 
-		if ( line.equalsIgnoreCase( "win game" ) )
+		if ( line.equalsIgnoreCase( "win game" ) && acceptCommands )
 		{
 			String [] messages = WIN_GAME_TEXT[ RNG.nextInt( WIN_GAME_TEXT.length ) ];
 
@@ -349,14 +372,14 @@ public class KoLmafiaCLI extends KoLmafia
 		// Maybe a request to burn excess MP, as generated
 		// by the gCLI or the relay browser?
 
-		if ( line.equalsIgnoreCase( "save as mood" ) )
+		if ( line.equalsIgnoreCase( "save as mood" ) && acceptCommands )
 		{
 			MoodSettings.minimalSet();
 			MoodSettings.saveSettings();
 			return;
 		}
 
-		if ( line.equalsIgnoreCase( "burn extra mp" ) )
+		if ( line.equalsIgnoreCase( "burn extra mp" ) && acceptCommands )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
 			MoodSettings.burnExtraMana();
@@ -395,9 +418,12 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			KoLmafiaASH interpreter = new KoLmafiaASH();
-			interpreter.validate( ostream.getByteArrayInputStream() );
-			interpreter.execute( "main", null );
+			if ( acceptCommands )
+			{
+				KoLmafiaASH interpreter = new KoLmafiaASH();
+				interpreter.validate( ostream.getByteArrayInputStream() );
+				interpreter.execute( "main", null );
+			}
 
 			return;
 		}
@@ -408,9 +434,6 @@ public class KoLmafiaCLI extends KoLmafia
 		String command = line.trim().split( " " )[0].toLowerCase().trim();
 		String parameters = line.substring( command.length() ).trim();
 
-		if ( !command.equals( "repeat" ) )
-			previousLine = line;
-
 		if ( command.endsWith( "?" ) )
 		{
 			isExecutingCheckOnlyCommand = true;
@@ -418,10 +441,12 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		RequestThread.openRequestSequence();
-
 		executeCommand( command, parameters );
-
 		RequestThread.closeRequestSequence();
+
+		if ( !command.equals( "repeat" ) && storeCurrentLine )
+			previousLine = line;
+
 		isExecutingCheckOnlyCommand = false;
 	}
 
@@ -433,6 +458,25 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void executeCommand( String command, String parameters )
 	{
+		// Handle the if-statement and the while-statement.
+		// The while-statement will not get a separate comment
+		// because it is unloved.
+
+		if ( command.equals( "if" ) )
+		{
+			executeIfStatement( parameters );
+			return;
+		}
+
+		if ( command.equals( "while" ) )
+		{
+			executeWhileStatement( parameters );
+			return;
+		}
+
+		if ( !acceptCommands )
+			return;
+
 		// If the command has already been disabled, then return
 		// from this function.
 
@@ -547,10 +591,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "http:" ) || command.indexOf( ".php" ) != -1 )
 		{
-			if ( KoLRequest.shouldIgnore( previousLine ) )
+			if ( KoLRequest.shouldIgnore( currentLine ) )
 				return;
 
-			KoLRequest request = new KoLRequest( previousLine, true );
+			KoLRequest request = new KoLRequest( currentLine, true );
 			RequestThread.postRequest( request );
 
 			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
@@ -562,10 +606,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "text" ) )
 		{
-			if ( KoLRequest.shouldIgnore( previousLine ) )
+			if ( KoLRequest.shouldIgnore( currentLine ) )
 				return;
 
-			KoLRequest request = new KoLRequest( previousLine.substring(4).trim(), true );
+			KoLRequest request = new KoLRequest( currentLine.substring(4).trim(), true );
 			RequestThread.postRequest( request );
 
 			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
@@ -653,7 +697,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "continue" ) )
 		{
-			if ( lastScript != null && lastScript.previousLine != null && lastScript.previousLine.length() != 0 )
+			if ( lastScript != null && lastScript.currentLine != null && lastScript.currentLine.length() != 0 )
 			{
 				forceContinue();
 				lastScript.listenForCommands();
@@ -766,22 +810,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Handle the if-statement and the while-statement.
-		// The while-statement will not get a separate comment
-		// because it is unloved.
-
-		if ( command.equals( "if" ) )
-		{
-			executeIfStatement( parameters );
-			return;
-		}
-
-		if ( command.equals( "while" ) )
-		{
-			executeWhileStatement( parameters );
-			return;
-		}
-
 		// Next, handle any requests to login or relogin.
 		// This will be done by calling a utility method.
 
@@ -879,7 +907,7 @@ public class KoLmafiaCLI extends KoLmafia
 				int repeatCount = parameters.length() == 0 ? 1 : StaticEntity.parseInt( parameters );
 				for ( int i = 0; i < repeatCount && permitsContinue(); ++i )
 				{
-					printLine( "Repetition of [" + previousLine + "] (" + (i+1) + " of " + repeatCount + ")..." );
+					printLine( "Repetition " + (i+1) + " of " + repeatCount + "..." );
 					executeLine( previousLine );
 				}
 			}
@@ -1740,7 +1768,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// If all else fails, then assume that the
 		// person was trying to call a script.
 
-		executeScriptCommand( "call", previousLine );
+		executeScriptCommand( "call", currentLine );
 	}
 
 	public void showHTML( String text, String title )
@@ -2107,7 +2135,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	}
 
-
 	/**
 	 * Utility method to handle an if-statement.  You can now
 	 * nest if-statements.
@@ -2115,25 +2142,34 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeIfStatement( String parameters )
 	{
-		String statement = getNextLine();
+		String statement = null;
+		int splitIndex = currentLine.indexOf( ";" );
 
-		if ( statement == null )
-			return;
-
-		if ( testConditional( parameters ) )
+		if ( splitIndex != -1 )
 		{
-			executeLine( statement );
-			return;
+			currentLine = currentLine.substring( splitIndex + 1 ).trim();
+			if ( currentLine.length() > 0 )
+				statement = currentLine;
 		}
 
-		// Skip over every other statement which looks
-		// like an if-statement.  In addition to that,
-		// skip over the statement which is executed
-		// after all of the nesting.
+		if ( statement == null )
+		{
+			statement = getNextLine();
+			if ( statement == null )
+				return;
+		}
 
-		statement = statement.toLowerCase();
-		while ( statement != null && (statement.startsWith( "if" ) || statement.startsWith( "while" )) )
-			statement = getNextLine().toLowerCase();
+		boolean resetAcceptState = acceptCommands;
+
+		if ( resetAcceptState )
+			acceptCommands = testConditional( parameters );
+
+		executeLine( statement, false );
+
+		if ( resetAcceptState )
+			acceptCommands = true;
+
+		currentLine = "";
 	}
 
 	/**
@@ -2143,13 +2179,38 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeWhileStatement( String parameters )
 	{
-		String statement = getNextLine();
+		String statement = null;
+		int splitIndex = currentLine.indexOf( ";" );
+
+		if ( splitIndex != -1 )
+		{
+			currentLine = currentLine.substring( splitIndex + 1 ).trim();
+			if ( currentLine.length() > 0 )
+				statement = currentLine;
+		}
 
 		if ( statement == null )
-			return;
+		{
+			statement = getNextLine();
+			if ( statement == null )
+				return;
+		}
 
-		while ( testConditional( parameters ) )
-			executeLine( statement );
+		boolean resetAcceptState = acceptCommands;
+
+		do
+		{
+			if ( resetAcceptState && acceptCommands )
+				acceptCommands = testConditional( parameters );
+
+			executeLine( statement, false );
+		}
+		while ( acceptCommands );
+
+		if ( resetAcceptState )
+			acceptCommands = true;
+
+		currentLine = "";
 	}
 
 	/**
@@ -2359,6 +2420,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 				// If it is neither an item nor an effect, report
 				// the exception.
+
+				if ( i == 0 && right.charAt(0) == '-' )
+					continue;
 
 				updateDisplay( ERROR_STATE, "Invalid operand [" + right + "] on right side of operator" );
 			}
@@ -3705,10 +3769,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeConsumeItemRequest( String parameters )
 	{
-		if ( previousLine.startsWith( "eat" ) && makeRestaurantRequest( parameters ) )
+		if ( currentLine.startsWith( "eat" ) && makeRestaurantRequest( parameters ) )
 			return;
 
-		if ( previousLine.startsWith( "drink" ) && makeMicrobreweryRequest( parameters ) )
+		if ( currentLine.startsWith( "drink" ) && makeMicrobreweryRequest( parameters ) )
 			return;
 
 		// Now, handle the instance where the first item is actually
@@ -3718,7 +3782,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( firstMatch == null )
 			return;
 
-		if ( previousLine.startsWith( "eat" ) )
+		if ( currentLine.startsWith( "eat" ) )
 		{
 			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) != CONSUME_EAT )
 			{
@@ -3727,7 +3791,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		if ( previousLine.startsWith( "drink" ) || previousLine.startsWith( "hobodrink" ) )
+		if ( currentLine.startsWith( "drink" ) || currentLine.startsWith( "hobodrink" ) )
 		{
 			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) != CONSUME_DRINK )
 			{
@@ -3736,7 +3800,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		if ( previousLine.startsWith( "use" ) && !StaticEntity.getBooleanProperty( "allowGenericUse" ) )
+		if ( currentLine.startsWith( "use" ) && !StaticEntity.getBooleanProperty( "allowGenericUse" ) )
 		{
 			switch ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) )
 			{
@@ -3749,7 +3813,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		ConsumeItemRequest request = !previousLine.startsWith( "hobodrink" ) ? new ConsumeItemRequest( firstMatch ) :
+		ConsumeItemRequest request = !currentLine.startsWith( "hobodrink" ) ? new ConsumeItemRequest( firstMatch ) :
 			new ConsumeItemRequest( CONSUME_HOBO, firstMatch );
 
 		RequestThread.postRequest( request );
@@ -3932,14 +3996,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeZapRequest()
 	{
-		if ( previousLine == null )
+		if ( currentLine == null )
 			return;
 
-		if ( !previousLine.startsWith( "zap" ) || previousLine.indexOf( " " ) == -1 )
+		if ( !currentLine.startsWith( "zap" ) || currentLine.indexOf( " " ) == -1 )
 			return;
 
-		String command = previousLine.split( " " )[0];
-		String parameters = previousLine.substring( command.length() ).trim();
+		String command = currentLine.split( " " )[0];
+		String parameters = currentLine.substring( command.length() ).trim();
 		if ( parameters.length() == 0 )
 		{
 			updateDisplay( ERROR_STATE, "Zap what?" );
@@ -4121,10 +4185,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void executeGalaktikRequest( String parameters )
 	{
-		if ( previousLine == null )
+		if ( currentLine == null )
 			return;
 
-		if ( !previousLine.startsWith( "galaktik" ) )
+		if ( !currentLine.startsWith( "galaktik" ) )
 			return;
 
 		// Cure "HP" or "MP"
