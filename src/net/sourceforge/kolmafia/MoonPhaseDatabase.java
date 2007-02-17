@@ -290,94 +290,12 @@ public class MoonPhaseDatabase extends StaticEntity
 		return phaseStep == -1 ? "Could not determine moon phase." : STAT_EFFECT[ phaseStep ];
 	}
 
-	public static final int getRonaldMoonlight( int ronaldPhase, int hamburglarPosition )
-	{
-		//         6    5    4    3
-		//
-		//       /---\          /---\
-		//   7   | R |          | G |   2
-		//       \___/          \___/
-		//
-		//       8   9    10    0   1
-
-		int lightModifier = 0;
-		switch ( ronaldPhase )
-		{
-		case 0:
-			if ( hamburglarPosition == 8 || hamburglarPosition == 9 )
-				lightModifier = 1;
-			break;
-		case 1:
-			if ( hamburglarPosition == 8 )
-				lightModifier = -1;
-			if ( hamburglarPosition == 9 )
-				lightModifier = 1;
-			break;
-		case 2:
-			if ( hamburglarPosition == 9 )
-				lightModifier = 1;
-			break;
-		case 3:
-			if ( hamburglarPosition == 8 )
-				lightModifier = -1;
-			if ( hamburglarPosition == 9 )
-				lightModifier = 1;
-			break;
-		default:
-			if ( hamburglarPosition == 8 )
-				lightModifier = 1;
-			if ( hamburglarPosition == 9 )
-				lightModifier = -1;
-			break;
-		}
-
-		int baseLight = ronaldPhase > 4 ? 8 - ronaldPhase : ronaldPhase;
-		return baseLight + lightModifier;
+	public static final int getRonaldMoonlight( int ronaldPhase )
+	{	return ronaldPhase > 4 ? 8 - ronaldPhase : ronaldPhase;
 	}
 
-	public static final int getGrimaceMoonlight( int grimacePhase, int hamburglarPosition )
-	{
-		//         6    5    4    3
-		//
-		//       /---\          /---\
-		//   7   | R |          | G |   2
-		//       \___/          \___/
-		//
-		//       8   9    10    0   1
-
-		int lightModifier = 0;
-		switch ( grimacePhase )
-		{
-		case 0:
-			if ( hamburglarPosition == 0 || hamburglarPosition == 1 )
-				lightModifier = 1;
-			break;
-		case 1:
-			if ( hamburglarPosition == 0 )
-				lightModifier = -1;
-			if ( hamburglarPosition == 1 )
-				lightModifier = 1;
-			break;
-		case 2:
-			if ( hamburglarPosition == 1 )
-				lightModifier = 1;
-			break;
-		case 3:
-			if ( hamburglarPosition == 0 )
-				lightModifier = -1;
-			if ( hamburglarPosition == 1 )
-				lightModifier = 1;
-			break;
-		default:
-			if ( hamburglarPosition == 0 )
-				lightModifier = 1;
-			if ( hamburglarPosition == 1 )
-				lightModifier = -1;
-			break;
-		}
-
-		int baseLight = grimacePhase > 4 ? 8 - grimacePhase : grimacePhase;
-		return baseLight + lightModifier;
+	public static final int getGrimaceMoonlight( int grimacePhase )
+	{	return grimacePhase > 4 ? 8 - grimacePhase : grimacePhase;
 	}
 
 	/**
@@ -455,6 +373,19 @@ public class MoonPhaseDatabase extends StaticEntity
 	{	return getMoonlight( ronaldPhase, grimacePhase, hamburglarPosition ) * 10;
 	}
 
+	public static final int getGrimaciteEffect()
+	{	return getGrimaciteEffect( RONALD_PHASE, GRIMACE_PHASE, HAMBURGLAR_POSITION );
+	}
+
+	public static final int getGrimaciteEffect( int ronaldPhase, int grimacePhase, int hamburglarPosition )
+	{
+		int grimaceEffect = 4 - getGrimaceMoonlight( grimacePhase );
+		if ( getHamburglarLight( ronaldPhase, grimacePhase, hamburglarPosition ) != 1 )
+			++grimaceEffect;
+
+		return grimaceEffect * 10;
+	}
+
 	/**
 	 * Returns the effect of the Jekyllin, based on the current
 	 * moon phase information.
@@ -490,28 +421,76 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	private static final int getMoonlight( int ronaldPhase, int grimacePhase, int hamburglarPosition )
 	{
-		int ronaldLight = getRonaldMoonlight( ronaldPhase, hamburglarPosition );
-		int grimaceLight = getGrimaceMoonlight( grimacePhase, hamburglarPosition );
+		int ronaldLight = getRonaldMoonlight( ronaldPhase );
+		int grimaceLight = getGrimaceMoonlight( grimacePhase );
 		int hamburglarLight = getHamburglarLight( ronaldPhase, grimacePhase, hamburglarPosition );
 		return ronaldLight + grimaceLight + hamburglarLight;
 	}
 
 	public static int getHamburglarLight( int ronaldPhase, int grimacePhase, int hamburglarPosition )
 	{
+		//         6    5    4    3
+		//
+		//       /---\          /---\
+		//   7   | R |          | G |   2
+		//       \___/          \___/
+		//
+		//       8   9    10    0   1
+
 		switch ( hamburglarPosition )
 		{
+
+		case 0:
+			if ( grimacePhase > 0 && grimacePhase < 5 )
+				return -1;
+			return 1;
+
+		case 1:
+			if ( grimacePhase < 4 )
+				return 1;
+			return -1;
+
 		case 2:
-			return grimacePhase > 3 ? 1 : 0;
+			if ( grimacePhase > 3 )
+				return 1;
+			return 0;
+
 		case 4:
-			return grimacePhase > 0 && grimacePhase < 5 ? 1 : 0;
+			if ( grimacePhase > 0 && grimacePhase < 5 )
+				return 1;
+			return 0;
+
 		case 5:
-			return ronaldPhase > 3 ? 1 : 0;
+			if ( ronaldPhase > 3 )
+				return 1;
+			return 0;
+
 		case 7:
-			return ronaldPhase > 0 && ronaldPhase < 5 ? 1 : 0;
+			if ( ronaldPhase > 0 && ronaldPhase < 5 )
+				return 1;
+			return 0;
+
+		case 8:
+			if ( ronaldPhase > 0 && ronaldPhase < 5 )
+				return -1;
+			return 1;
+
+		case 9:
+			if ( ronaldPhase < 4 )
+				return 1;
+			return -1;
+
 		case 10:
-			return ronaldPhase > 3 || (grimacePhase > 0 && grimacePhase < 5) ? 1 : 0;
+			int totalEffect = 0;
+			if ( ronaldPhase > 3 )
+				++totalEffect;
+			if ( grimacePhase > 0 && grimacePhase < 5 )
+				++totalEffect;
+			return totalEffect;
+
 		default:
 			return 0;
+
 		}
 	}
 

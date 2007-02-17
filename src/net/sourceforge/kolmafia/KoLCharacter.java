@@ -2527,8 +2527,9 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int LEPRECHAUN = 2;
 	private static final int TURKEY = 25;
 
-	// Items that modify Item Drops
+	// Items that modify based on moon signs
 	private static final int JEKYLLIN = 1291;
+	private static final int GUAYABERA = 1546;
 
 	// KoLmafia does not support the "containers" slot.
 
@@ -2632,6 +2633,10 @@ public abstract class KoLCharacter extends StaticEntity
 
 			switch ( item.getItemId() )
 			{
+			case GUAYABERA:
+				newMonsterLevelAdjustment += MoonPhaseDatabase.getGrimaciteEffect();
+				break;
+
 			case JEKYLLIN:
 				newItemDropPercentAdjustment += 15 + MoonPhaseDatabase.getMoonlight() * 5;
 				break;
