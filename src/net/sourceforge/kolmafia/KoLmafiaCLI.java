@@ -1864,6 +1864,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( filename.indexOf( "." ) == -1 && filename.indexOf( "~" ) == -1 )
 		{
+			scriptFile = findScriptFile( directory, filename + ".cli" );
+			if ( scriptFile != null )
+				return scriptFile;
+
 			scriptFile = findScriptFile( directory, filename + ".txt" );
 			if ( scriptFile != null )
 				return scriptFile;
@@ -1873,6 +1877,10 @@ public class KoLmafiaCLI extends KoLmafia
 				return scriptFile;
 
 			scriptFile = findScriptFile( directory, filename + "~" );
+			if ( scriptFile != null )
+				return scriptFile;
+
+			scriptFile = findScriptFile( directory, filename + ".cli~" );
 			if ( scriptFile != null )
 				return scriptFile;
 

@@ -919,7 +919,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			AdventureResult wand = KoLCharacter.getZapper();
 			if ( wand != null )
-				StaticEntity.singleStringReplace( buffer, "</font>", "&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font>" );
+				StaticEntity.singleStringReplace( buffer, "]</a></font></td></tr></table></center>", "]</a>&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font></td></tr></table></center>" );
 		}
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
