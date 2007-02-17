@@ -34,8 +34,11 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.MonsterDatabase.Monster;
@@ -57,6 +60,8 @@ public class FightRequest extends KoLRequest
 	private static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ITEM2_PATTERN = Pattern.compile( "whichitem2=(\\d+)" );
+
+	private static final Pattern FAMILIAR_ACT_PATTERN = Pattern.compile( "<table><tr><td align=center.*?</table>", Pattern.DOTALL );
 
 	public static final AdventureResult DICTIONARY1 = new AdventureResult( 536, 1 );
 	public static final AdventureResult DICTIONARY2 = new AdventureResult( 1316, 1 );
@@ -468,6 +473,22 @@ public class FightRequest extends KoLRequest
 
 		++currentRound;
 		payActionCost();
+
+		if ( StaticEntity.getBooleanProperty( "logFamiliarActions" ) )
+		{
+			Matcher familiarActMatcher = FAMILIAR_ACT_PATTERN.matcher( responseText );
+			while ( familiarActMatcher.find() )
+			{
+				System.out.println( familiarActMatcher.group() );
+
+				StringTokenizer actions = new StringTokenizer( ANYTAG_PATTERN.matcher( familiarActMatcher.group() ).replaceAll( "\n" ), "\n" );
+				while ( actions.hasMoreTokens() )
+				{
+					KoLmafia.getSessionStream().print( "Round " + currentRound + ": " );
+					KoLmafia.getSessionStream().println( actions.nextToken() );
+				}
+			}
+		}
 
 		// Check for antique breakage; only run the string search if
 		// the player is equipped with the applicable item.

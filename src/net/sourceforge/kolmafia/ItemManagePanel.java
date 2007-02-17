@@ -261,6 +261,8 @@ public class ItemManagePanel extends LabeledScrollPanel
 					break;
 				case TAKE_MULTIPLE:
 					quantity = KoLFrame.getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() );
+					if ( currentItem.getCount() > 0 && quantity == 0 )
+						return new AdventureResult[0];
 					break;
 
 				case CONSUME_MULTIPLE:

@@ -136,7 +136,8 @@ public class OptionsFrame extends KoLFrame
 			{ "logAcquiredItems", "Session log records items acquired" },
 			{ "logStatusEffects", "Session log records status effects gained" },
 			{ "logGainMessages", "Session log records HP/MP/meat changes" },
-			{ "logBattleAction", "Session log records attacks for each round" }
+			{ "logBattleAction", "Session log records attacks for each round" },
+			{ "logFamiliarActions", "Session log records actions made by familiars" }
 		};
 
 		/**
