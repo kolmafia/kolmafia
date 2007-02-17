@@ -733,11 +733,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( name.equals( "defaultAutoAttack" ) )
 			{
-				if ( value.equals( "disabled" ) )
+				if ( value.indexOf( "disabled" ) != -1 )
 				{
 					value = "0";
 				}
-				else if ( value.equals( "attack" ) )
+				else if ( value.indexOf( "attack" ) != -1 )
 				{
 					value = "1";
 				}

@@ -70,6 +70,7 @@ public class GearChangeFrame extends KoLFrame
 	public GearChangeFrame()
 	{
 		super( "Gear Changer" );
+		INSTANCE = this;
 
 		equipment = new ChangeComboBox[9];
 
@@ -230,6 +231,8 @@ public class GearChangeFrame extends KoLFrame
 
 		INSTANCE.weapons.setSelectedItem( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
 		INSTANCE.offhands.setSelectedItem( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
+
+		INSTANCE.ensureValidSelections();
 	}
 
 	public static void clearWeaponLists()

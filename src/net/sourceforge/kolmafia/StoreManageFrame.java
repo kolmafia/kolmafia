@@ -68,10 +68,10 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class StoreManageFrame extends KoLPanelFrame
 {
 	private static StoreManageFrame INSTANCE = null;
+	private static JLabel searchLabel = JComponentUtilities.createLabel( "Mall Prices", JLabel.CENTER, Color.black, Color.white );
+	private static LockableListModel priceSummary = new LockableListModel();
 
-	private JLabel searchLabel;
-	private LockableListModel priceSummary;
-	private JPanel searchResults;
+	private JComboBox sellingList;
 	private JTable addTable, manageTable;
 	private JList resultsDisplay;
 
@@ -109,7 +109,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			super( "save changes to prices", "reprice recent adds", true );
 
-			addTable = new StoreListTable( new LockableListModel() );
+			addTable = new StoreListTable( null );
 			SimpleScrollPane addScroller = new SimpleScrollPane( addTable );
 
 			JComponentUtilities.setComponentSize( addScroller, 500, 50 );
@@ -129,7 +129,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			storePanel.add( addPanel, BorderLayout.NORTH );
 			storePanel.add( managePanel, BorderLayout.CENTER );
 
-			searchResults = new SearchResultsPanel();
+			JPanel searchResults = new SearchResultsPanel();
 			setContent( null, null, searchResults, true );
 			container.add( storePanel, BorderLayout.CENTER );
 		}
@@ -175,17 +175,12 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public StoreListTable( LockableListModel model )
 		{
-			super( new StoreManageTableModel( model ) );
+			super( model == null ? (ListWrapperTableModel) new StoreAddTableModel() : new StoreManageTableModel() );
 
-			if ( model != StoreManager.getSoldItemList() )
-			{
-				getColumnModel().getColumn(0).setCellEditor(
-					new DefaultCellEditor( ((StoreManageTableModel)getModel()).getSellingList() ) );
-			}
+			if ( model == null )
+				getColumnModel().getColumn(0).setCellEditor( new DefaultCellEditor( sellingList ) );
 			else
-			{
 				setModel( new TableSorter( getModel(), getTableHeader() ) );
-			}
 
 			getTableHeader().setReorderingAllowed( false );
 
@@ -213,35 +208,27 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
     }
 
-	private class StoreManageTableModel extends ListWrapperTableModel
+	private class StoreAddTableModel extends ListWrapperTableModel
 	{
-		private JComboBox sellingList = null;
-
-		public StoreManageTableModel( LockableListModel model )
+		public StoreAddTableModel()
 		{
-			super( new String [] { "Item Name", "Price", model == StoreManager.getSoldItemList() ? "Lowest" : " ", "Qty", "Lim", " ", " " },
+			super( new String [] { "Item Name", "Price", " ", "Qty", "Lim", " ", " " },
 					new Class [] { AdventureResult.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
-					new boolean [] { model != StoreManager.getSoldItemList(), true, false, model != StoreManager.getSoldItemList(), true, false, false }, model );
+					new boolean [] { true, true, false, true, true, false, false }, new LockableListModel() );
 
-			if ( model != StoreManager.getSoldItemList() )
-			{
-				LockableListModel dataModel = inventory.getMirrorImage();
-				dataModel.applyListFilter( TRADE_FILTER );
+			LockableListModel dataModel = inventory.getMirrorImage();
+			dataModel.applyListFilter( TRADE_FILTER );
 
-				sellingList = new JComboBox( dataModel );
+			sellingList = new JComboBox( dataModel );
 
-				Vector value = new Vector();
-				value.add( "- select an item -" );
-				value.add( new Integer(0) );
-				value.add( new Integer(0) );
-				value.add( new Integer(0) );
-				value.add( Boolean.FALSE );
-				model.add( value );
-			}
-		}
+			Vector value = new Vector();
+			value.add( "- select an item -" );
+			value.add( new Integer(0) );
+			value.add( new Integer(0) );
+			value.add( new Integer(0) );
+			value.add( Boolean.FALSE );
 
-		public JComboBox getSellingList()
-		{	return sellingList;
+			listModel.add( value );
 		}
 
 		public Vector constructVector( Object o )
@@ -249,106 +236,118 @@ public class StoreManageFrame extends KoLPanelFrame
 			Vector value = (Vector) o;
 			if ( value.size() < 7 )
 			{
-				if ( sellingList == null )
-				{
-					value.add( new RemoveItemButton( ((AdventureResult) value.get(0)).getName() ) );
-					value.add( new SearchItemButton( ((AdventureResult) value.get(0)).getName() ) );
-				}
-				else
-				{
-					value.add( new AddItemButton() );
-					value.add( new SearchItemButton() );
-				}
+				value.add( new AddItemButton() );
+				value.add( new SearchItemButton() );
 			}
 
 			return value;
 		}
+	}
 
-		private class AddItemButton extends NestedInsideTableButton
+	private class StoreManageTableModel extends ListWrapperTableModel
+	{
+		public StoreManageTableModel()
 		{
-			public AddItemButton()
-			{
-				super( JComponentUtilities.getImage( "icon_success_sml.gif" ) );
-				setToolTipText( "add selected item" );
-			}
-
-			public void mouseReleased( MouseEvent e )
-			{
-				if ( !finalizeTable( addTable ) )
-					return;
-
-				AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
-				if ( soldItem == null )
-					return;
-
-				int price = ((Integer) getValueAt( 0, 1 )).intValue();
-				int quantity = ((Integer) getValueAt( 0, 3 )).intValue();
-
-				if ( quantity <= 0 )
-					quantity = soldItem.getCount() - quantity;
-
-				int limit = ((Boolean) getValueAt( 0, 4 )).booleanValue() ? 1 : 0;
-				soldItem = new AdventureResult( soldItem.getItemId(), quantity );
-
-				setValueAt( new AdventureResult( "-select an item-", 1, false ), 0, 0 );
-				setValueAt( new Integer(0), 0, 1 );
-				setValueAt( new Integer(0), 0, 3 );
-
-				RequestThread.postRequest( new AutoSellRequest( soldItem, price, limit ) );
-			}
+			super( new String [] { "Item Name", "Price", "Lowest", "Qty", "Lim", " ", " " },
+					new Class [] { AdventureResult.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
+					new boolean [] { false, true, false, false, true, false, false }, StoreManager.getSoldItemList() );
 		}
 
-		private class SearchItemButton extends NestedInsideTableButton
+		public Vector constructVector( Object o )
 		{
-			private String itemName;
-
-			public SearchItemButton()
-			{	this( null );
-			}
-
-			public SearchItemButton( String itemName )
+			Vector value = (Vector) o;
+			if ( value.size() < 7 )
 			{
-				super( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
-				this.itemName = itemName;
-				setToolTipText( "price analysis" );
+				value.add( new RemoveItemButton( ((AdventureResult) value.get(0)).getName() ) );
+				value.add( new SearchItemButton( ((AdventureResult) value.get(0)).getName() ) );
 			}
 
-			public void mouseReleased( MouseEvent e )
-			{
-				String searchName = itemName;
-				if ( searchName == null )
-				{
-					AdventureResult item = (AdventureResult) sellingList.getSelectedItem();
-					if ( item == null )
-						return;
+			return value;
+		}
+	}
 
-					searchName = item.getName();
-				}
-
-				StoreManager.searchMall( searchName, priceSummary, 10, true );
-
-				searchLabel.setText( searchName );
-				resultsDisplay.updateUI();
-
-				KoLmafia.updateDisplay( "Price analysis complete." );
-				RequestThread.enableDisplayIfSequenceComplete();
-			}
+	private class AddItemButton extends NestedInsideTableButton
+	{
+		public AddItemButton()
+		{
+			super( JComponentUtilities.getImage( "icon_success_sml.gif" ) );
+			setToolTipText( "add selected item" );
 		}
 
-		private class RemoveItemButton extends NestedInsideTableButton
+		public void mouseReleased( MouseEvent e )
 		{
-			private int itemId;
+			if ( !finalizeTable( addTable ) )
+				return;
 
-			public RemoveItemButton( String itemName )
+			AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
+			if ( soldItem == null )
+				return;
+
+			int price = ((Integer) addTable.getValueAt( 0, 1 )).intValue();
+			int quantity = ((Integer) addTable.getValueAt( 0, 3 )).intValue();
+
+			if ( quantity <= 0 )
+				quantity = soldItem.getCount() - quantity;
+
+			int limit = ((Boolean) addTable.getValueAt( 0, 4 )).booleanValue() ? 1 : 0;
+			soldItem = new AdventureResult( soldItem.getItemId(), quantity );
+
+			addTable.setValueAt( new AdventureResult( "-select an item-", 1, false ), 0, 0 );
+			addTable.setValueAt( new Integer(0), 0, 1 );
+			addTable.setValueAt( new Integer(0), 0, 3 );
+
+			RequestThread.postRequest( new AutoSellRequest( soldItem, price, limit ) );
+		}
+	}
+
+	private class SearchItemButton extends NestedInsideTableButton
+	{
+		private String itemName;
+
+		public SearchItemButton()
+		{	this( null );
+		}
+
+		public SearchItemButton( String itemName )
+		{
+			super( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
+			this.itemName = itemName;
+			setToolTipText( "price analysis" );
+		}
+
+		public void mouseReleased( MouseEvent e )
+		{
+			String searchName = itemName;
+			if ( searchName == null )
 			{
-				super( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
-				this.itemId = TradeableItemDatabase.getItemId( itemName );
-				setToolTipText( "remove item from store" );
+				AdventureResult item = (AdventureResult) sellingList.getSelectedItem();
+				if ( item == null )
+					return;
+
+				searchName = item.getName();
 			}
 
-			public void mouseReleased( MouseEvent e )
-			{	RequestThread.postRequest( new StoreManageRequest( itemId ) );
-			}
+			searchLabel.setText( searchName );
+			StoreManager.searchMall( searchName, priceSummary, 10, true );
+
+			KoLmafia.updateDisplay( "Price analysis complete." );
+			RequestThread.enableDisplayIfSequenceComplete();
+		}
+	}
+
+	private class RemoveItemButton extends NestedInsideTableButton
+	{
+		private int itemId;
+
+		public RemoveItemButton( String itemName )
+		{
+			super( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
+			this.itemId = TradeableItemDatabase.getItemId( itemName );
+			setToolTipText( "remove item from store" );
+		}
+
+		public void mouseReleased( MouseEvent e )
+		{	RequestThread.postRequest( new StoreManageRequest( itemId ) );
 		}
 	}
 
@@ -433,13 +432,11 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			JPanel container = new JPanel( new BorderLayout() );
 			container.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-			searchLabel = JComponentUtilities.createLabel( "Mall Prices", JLabel.CENTER,
-				Color.black, Color.white );
 
 			container.add( searchLabel, BorderLayout.NORTH );
 			JComponentUtilities.setComponentSize( searchLabel, 150, 16 );
 
-			resultsDisplay = new JList( priceSummary = new LockableListModel() );
+			resultsDisplay = new JList( priceSummary );
 			resultsDisplay.setPrototypeCellValue( "1234567890ABCDEF" );
 			resultsDisplay.setVisibleRowCount( 11 );
 			resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
