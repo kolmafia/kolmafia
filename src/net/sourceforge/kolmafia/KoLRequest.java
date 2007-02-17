@@ -84,6 +84,7 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
+	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
 
 	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
@@ -1389,8 +1390,6 @@ public class KoLRequest extends Job implements KoLConstants
 	 * the given choice adventure.
 	 */
 
-	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
-
 	public void processChoiceAdventure()
 	{
 		// You can no longer simply ignore a choice adventure.	One of
@@ -1439,7 +1438,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// automatically switches things for them.
 
 			if ( choice.equals( "85" ) && conditions.contains( BALLROOM_KEY ) )
-				StaticEntity.setProperty( option, "2" );
+				StaticEntity.setProperty( option, decision.equals( "1" ) ? "2" : "1" );
 
 			// Certain choices should always be taken.  These
 			// choices are handled here.
