@@ -291,7 +291,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// If it's the pirate quest in disguise, make sure
 			// you visit the council beforehand.
 
-			if ( adventureName.indexOf( "Pirate" ) != -1 )
+			if ( !isValidAdventure )
 				DEFAULT_SHELL.executeLine( "council" );
 		}
 
