@@ -451,8 +451,15 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		public void run()
 		{
 			levelLabel.setText( "Level " + KoLCharacter.getLevel() );
-			roninLabel.setText( KoLCharacter.isHardcore() ? "(Hardcore)" : KoLCharacter.getTotalTurnsUsed() >= 600 ? "(Ronin Clear)" :
-				"(Ronin for " + (600 - KoLCharacter.getTotalTurnsUsed()) + ")" );
+
+			if ( KoLCharacter.isHardcore() )
+				roninLabel.setText( "(Hardcore)" );
+			else if ( KoLCharacter.getAscensions() == 0 )
+				roninLabel.setText( "(Unascended)" );
+			else if ( KoLCharacter.getTotalTurnsUsed() >= 600 )
+				roninLabel.setText( "(Ronin Clear)" );
+			else
+				roninLabel.setText( "(Ronin for " + (600 - KoLCharacter.getTotalTurnsUsed()) + ")" );
 
 			mcdLabel.setText( "MCD @ " + KoLCharacter.getMindControlLevel() );
 
