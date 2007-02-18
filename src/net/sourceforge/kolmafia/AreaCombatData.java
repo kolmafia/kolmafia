@@ -127,7 +127,7 @@ public class AreaCombatData implements KoLConstants
 	}
 
 	public int minHit()
-	{	return minHit;
+	{	return minHit == Integer.MAX_VALUE ? 0 : minHit;
 	}
 
 	public int maxHit()
@@ -135,7 +135,7 @@ public class AreaCombatData implements KoLConstants
 	}
 
 	public int minEvade()
-	{	return minEvade;
+	{	return minEvade == Integer.MAX_VALUE ? 0 : minEvade;
 	}
 
 	public int maxEvade()
@@ -152,7 +152,7 @@ public class AreaCombatData implements KoLConstants
 			hitstat = KoLCharacter.getAdjustedMysticality() - ml;
 		else
 			hitstat = KoLCharacter.getAdjustedMuscle() - ml;
-		return hitPercent( hitstat, minHit ) > 0.0f;
+		return hitPercent( hitstat, minHit() ) > 0.0f;
 	}
 
 	public String toString()
@@ -178,13 +178,13 @@ public class AreaCombatData implements KoLConstants
 			hitstat = KoLCharacter.getAdjustedMuscle() - ml;
 		}
 
-		float minHitPercent = hitPercent( hitstat, minHit );
+		float minHitPercent = hitPercent( hitstat, minHit() );
 		float maxHitPercent = hitPercent( hitstat, maxHit );
-		int minPerfectHit = perfectHit( hitstat, minHit );
+		int minPerfectHit = perfectHit( hitstat, minHit() );
 		int maxPerfectHit = perfectHit( hitstat, maxHit );
-		float minEvadePercent = hitPercent( moxie, minEvade );
+		float minEvadePercent = hitPercent( moxie, minEvade() );
 		float maxEvadePercent = hitPercent( moxie, maxEvade );
-		int minPerfectEvade = perfectHit( moxie, minEvade );
+		int minPerfectEvade = perfectHit( moxie, minEvade() );
 		int maxPerfectEvade = perfectHit( moxie, maxEvade );
 
 		// statGain constants
