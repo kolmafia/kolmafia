@@ -286,7 +286,6 @@ public class OptionsFrame extends KoLFrame
 
 			{ "cloverProtectActive", "Protect against automated clover adventures" },
 			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
-			{ "overPurchaseRestores", "Allow over-purchase of non soda water mp restores" },
 			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
 
 			{ "", "" },

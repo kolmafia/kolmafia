@@ -169,7 +169,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			if ( this == CAMPGROUND )
 			{
-				(new CampgroundRequest( "rest" )).run();
+				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
 				return;
 			}
 
@@ -191,7 +191,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			if ( this == SOFA )
 			{
-				(new ClanGymRequest( ClanGymRequest.SOFA )).setTurnCount( numberToUse ).run();
+				RequestThread.postRequest( (new ClanGymRequest( ClanGymRequest.SOFA )).setTurnCount( numberToUse ) );
 				return;
 			}
 
@@ -219,8 +219,13 @@ public abstract class HPRestoreItemList extends StaticEntity
 						// If you need to buy herbs and you're high level,
 						// then buy some extras for later.
 
-						AdventureDatabase.retrieveItem( itemUsed.getInstance(
-							Math.min( KoLCharacter.getAvailableMeat() / 100, KoLCharacter.getLevel() <= 6 ? 1 : 5 ) ) );
+						int toRetrieve = Math.min( KoLCharacter.getAvailableMeat() / 100, KoLCharacter.getLevel() <= 6 ? 1 : 3 );
+
+						if ( !AdventureDatabase.retrieveItem( itemUsed.getInstance( toRetrieve ) ) )
+						{
+							KoLmafia.forceContinue();
+							return;
+						}
 
 						numberAvailable = itemUsed.getCount( inventory );
 					}
@@ -229,7 +234,12 @@ public abstract class HPRestoreItemList extends StaticEntity
 						// If you're using scrolls of drastic healing, then
 						// make sure you have a little surplus.
 
-						AdventureDatabase.retrieveItem( itemUsed.getInstance( 20 ) );
+						if ( !AdventureDatabase.retrieveItem( itemUsed.getInstance( 20 ) ) )
+						{
+							KoLmafia.forceContinue();
+							return;
+						}
+
 						numberAvailable = itemUsed.getCount( inventory );
 					}
 					else if ( this == OINTMENT )
@@ -237,7 +247,12 @@ public abstract class HPRestoreItemList extends StaticEntity
 						// Ointment is expensive, so use a minimalistic
 						// policy when deciding how many to buy.
 
-						AdventureDatabase.retrieveItem( itemUsed.getInstance( Math.min( KoLCharacter.getAvailableMeat() / 60, numberToUse ) ) );
+						if ( !AdventureDatabase.retrieveItem( itemUsed.getInstance( Math.min( KoLCharacter.getAvailableMeat() / 60, numberToUse ) ) ) )
+						{
+							KoLmafia.forceContinue();
+							return;
+						}
+
 						numberAvailable = itemUsed.getCount( inventory );
 					}
 				}
