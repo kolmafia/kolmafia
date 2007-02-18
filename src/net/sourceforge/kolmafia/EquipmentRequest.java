@@ -376,6 +376,58 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( !KoLmafia.permitsContinue() )
 					return;
 			}
+			else if ( id == 0 )
+			{
+				// Return immediately if the character is already wearing the outfit
+				if ( EquipmentDatabase.isWearingOutfit( outfit ) )
+					return;
+
+				AdventureResult [] pieces = outfit.getPieces();
+
+				int equipmentType;
+
+				boolean usesWeapon = false;
+				boolean usesAccessories = false;
+
+				for ( int i = 0; i < pieces.length; ++i )
+				{
+					equipmentType = TradeableItemDatabase.getConsumptionType( pieces[i].getItemId() );
+
+					// If the item is an accessory, you will have to remove all
+					// other accessories to be consistent.
+
+					if ( equipmentType == EQUIP_ACCESSORY )
+					{
+						if ( !usesAccessories )
+						{
+							for ( int j = KoLCharacter.ACCESSORY1; j <= KoLCharacter.ACCESSORY3; ++j )
+								(new EquipmentRequest( UNEQUIP, j )).run();
+						}
+
+						usesAccessories = true;
+					}
+
+					int desiredSlot = chooseEquipmentSlot( equipmentType );
+
+					// If it's a weapon, sometimes it needs to go to the offhand
+					// slot when there's already a weapon equipped from the outfit.
+
+					if ( equipmentType == EQUIP_WEAPON )
+					{
+						if ( usesWeapon )
+							desiredSlot = KoLCharacter.OFFHAND;
+
+						usesWeapon = true;
+					}
+
+					// Now, execute the equipment change.  It will auto-detect
+					// if you already have the item equipped.
+
+					(new EquipmentRequest( pieces[i], desiredSlot )).run();
+				}
+
+				return;
+			}
 		}
 
 		if ( requestType == CHANGE_ITEM )

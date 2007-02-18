@@ -95,17 +95,12 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		return true;
 	}
 
-	public String [] getPieces()
+	public AdventureResult [] getPieces()
 	{
-		ArrayList piecesList = new ArrayList();
-		for ( int i = 0; i < pieces.size(); ++i )
-			piecesList.add( ((AdventureResult) pieces.get(i)).getName() );
-
-		String [] piecesArray = new String[ piecesList.size() ];
-		piecesList.toArray( piecesArray );
+		AdventureResult [] piecesArray = new AdventureResult[ pieces.size() ];
+		pieces.toArray( piecesArray );
 		return piecesArray;
 	}
-
 
 	public void addPiece( AdventureResult piece )
 	{	this.pieces.add( piece );
@@ -120,7 +115,14 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	}
 
 	public boolean equals( Object o )
-	{	return o != null && o instanceof SpecialOutfit && outfitId == ((SpecialOutfit)o).outfitId;
+	{
+		if ( o == null || !(o instanceof SpecialOutfit) )
+			return false;
+
+		if ( outfitId != ((SpecialOutfit)o).outfitId )
+			return false;
+
+		return outfitName.equalsIgnoreCase( ((SpecialOutfit)o).outfitName );
 	}
 
 	public int compareTo( Object o )

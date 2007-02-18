@@ -26,4 +26,9 @@
 28	Glad Bag Glad Rags	giant discarded plastic fork, giant discarded bottlecap, giant discarded torn-up glove
 29	Antique Arms and Armor	antique greaves, antique helmet, antique spear, antique shield
 30	Terrycloth Tackle	makeshift turban, makeshift skirt, makeshift cape
-#??	Terrifying Clown Suit	foolscap fool's cap, bloody clown pants, big red clown nose, polka-dot bowtie, clown shoes
+
+# Outfits for which KoL does not provide an outfit id,
+# and thus are given id #0 to tell KoLmafia to treat
+# it in a special way.
+
+0	Terrifying Clown Suit	foolscap fool's cap, bloody clown pants, big red clown nose, polka-dot bowtie, clown shoes

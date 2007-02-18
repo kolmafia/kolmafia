@@ -43,12 +43,14 @@ import java.util.TreeMap;
 
 public class EquipmentDatabase extends KoLDatabase
 {
-	private static TreeMap outfitPieces = new TreeMap();
 	private static IntegerArray power = new IntegerArray();
 	private static IntegerArray hands = new IntegerArray();
 	private static StringArray type = new StringArray();
 	private static StringArray requirement = new StringArray();
-	private static SpecialOutfitArray outfits = new SpecialOutfitArray();
+
+	private static TreeMap outfitPieces = new TreeMap();
+	private static SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
+	private static SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
 
 	static
 	{
@@ -96,20 +98,34 @@ public class EquipmentDatabase extends KoLDatabase
 		}
 
 		reader = getReader( "outfits.txt" );
-		int outfitId;
+
+		int outfitId, arrayIndex;
+		SpecialOutfitArray outfitList;
 
 		while ( (data = readData( reader )) != null )
 		{
 			if ( data.length == 3 )
 			{
 				outfitId = parseInt( data[0] );
-				outfits.set( outfitId, new SpecialOutfit( outfitId, data[1] ) );
+
+				if ( outfitId == 0 )
+				{
+					arrayIndex = weirdOutfits.size();
+					outfitList = weirdOutfits;
+				}
+				else
+				{
+					arrayIndex = outfitId;
+					outfitList = normalOutfits;
+				}
+
+				outfitList.set( arrayIndex, new SpecialOutfit( outfitId, data[1] ) );
 
 				String [] pieces = data[2].split( "\\s*,\\s*" );
 				for ( int i = 0; i < pieces.length; ++i )
 				{
 					outfitPieces.put( getCanonicalName( pieces[i] ), new Integer( outfitId ) );
-					outfits.get( outfitId ).addPiece( new AdventureResult( pieces[i], 1, false ) );
+					outfitList.get( arrayIndex ).addPiece( new AdventureResult( pieces[i], 1, false ) );
 				}
 			}
 		}
@@ -129,7 +145,7 @@ public class EquipmentDatabase extends KoLDatabase
 	}
 
 	public static int getOutfitCount()
-	{	return outfits.size();
+	{	return normalOutfits.size();
 	}
 
 	public static boolean contains( String itemName )
@@ -244,35 +260,37 @@ public class EquipmentDatabase extends KoLDatabase
 	}
 
 	public static boolean hasOutfit( int id )
-	{	return KoLCharacter.getOutfits().contains( outfits.get( id ) );
+	{	return KoLCharacter.getOutfits().contains( normalOutfits.get( id ) );
 	}
 
 	public static SpecialOutfit getOutfit( int id )
-	{	return outfits.get( id );
+	{	return normalOutfits.get( id );
 	}
 
 	public static void updateOutfits()
 	{
 		ArrayList available = new ArrayList();
-		for ( int i = 0; i < outfits.size(); ++i )
-			if ( outfits.get(i) != null && outfits.get(i).hasAllPieces() )
-				available.add( outfits.get(i) );
+
+		for ( int i = 0; i < normalOutfits.size(); ++i )
+			if ( normalOutfits.get(i) != null && normalOutfits.get(i).hasAllPieces() )
+				available.add( normalOutfits.get(i) );
+
+		for ( int i = 0; i < weirdOutfits.size(); ++i )
+			if ( weirdOutfits.get(i) != null && weirdOutfits.get(i).hasAllPieces() )
+				available.add( weirdOutfits.get(i) );
 
 		Collections.sort( available );
-
-		// Rebuild the list of outfits
-		List outfits = KoLCharacter.getOutfits();
-		outfits.clear();
+		KoLCharacter.getOutfits().clear();
 
 		// Start with the two constant outfits
-		outfits.add( SpecialOutfit.NO_CHANGE );
-		outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
+		KoLCharacter.getOutfits().add( SpecialOutfit.NO_CHANGE );
+		KoLCharacter.getOutfits().add( SpecialOutfit.BIRTHDAY_SUIT );
 
 		// Then any custom outfits
-		outfits.addAll( KoLCharacter.getCustomOutfits() );
+		KoLCharacter.getOutfits().addAll( KoLCharacter.getCustomOutfits() );
 
 		// Finally any standard outfits
-		outfits.addAll( available );
+		KoLCharacter.getOutfits().addAll( available );
 	}
 
 	/**
@@ -281,7 +299,16 @@ public class EquipmentDatabase extends KoLDatabase
 	 */
 
 	public static boolean isWearingOutfit( int outfitId )
-	{	return outfits.get( outfitId ) != null && outfits.get( outfitId ).isWearing();
+	{	return isWearingOutfit( normalOutfits.get( outfitId ) );
+	}
+
+	/**
+	 * Utility method which determines whether or not the equipment
+	 * corresponding to the given outfit is already equipped.
+	 */
+
+	public static boolean isWearingOutfit( SpecialOutfit outfit )
+	{	return outfit != null && outfit.isWearing();
 	}
 
 	public static int getOutfitId( KoLAdventure adventure )
@@ -344,16 +371,14 @@ public class EquipmentDatabase extends KoLDatabase
 
 	public static boolean retrieveOutfit( int outfitId )
 	{
-		AdventureResult currentPiece;
-		String [] pieces = outfits.get( outfitId ).getPieces();
+		AdventureResult [] pieces = normalOutfits.get( outfitId ).getPieces();
 
 		for ( int i = 0; i < pieces.length; ++i )
 		{
-			currentPiece = new AdventureResult( pieces[i], 1, false );
-			if ( !KoLCharacter.hasEquipped( currentPiece ) )
+			if ( !KoLCharacter.hasEquipped( pieces[i] ) )
 			{
-				DEFAULT_SHELL.executeLine( "acquire " + pieces[i] );
-				if ( !KoLCharacter.hasItem( currentPiece ) )
+				DEFAULT_SHELL.executeLine( "acquire " + pieces[i].getName() );
+				if ( !KoLCharacter.hasItem( pieces[i] ) )
 					return false;
 			}
 		}
@@ -366,13 +391,13 @@ public class EquipmentDatabase extends KoLDatabase
 		// Ignore custom outfits, since there's
 		// no way to know what they are (yet).
 
-		if ( outfitId < 1 )
+		if ( outfitId < 0 )
 			return;
 
-		String [] pieces = outfits.get( outfitId ).getPieces();
+		AdventureResult [] pieces = normalOutfits.get( outfitId ).getPieces();
 		for ( int i = 0; i < pieces.length; ++i )
-			if ( !KoLCharacter.hasEquipped( new AdventureResult( pieces[i], 1, false ) ) )
-				DEFAULT_SHELL.executeConditionsCommand( "add " + pieces[i] );
+			if ( !KoLCharacter.hasEquipped( pieces[i] ) )
+				DEFAULT_SHELL.executeConditionsCommand( "add " + pieces[i].getName() );
 	}
 
 	/**
