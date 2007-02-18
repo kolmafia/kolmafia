@@ -207,7 +207,20 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static void openSystemBrowser( String location )
-	{	BrowserLauncher.openURL( location );
+	{	(new SystemBrowserThread( location )).start();
+	}
+
+	private static class SystemBrowserThread extends Thread
+	{
+		private String location;
+
+		public SystemBrowserThread( String location )
+		{	this.location = location;
+		}
+
+		public void run()
+		{	BrowserLauncher.openURL( location );
+		}
 	}
 
 	/**
