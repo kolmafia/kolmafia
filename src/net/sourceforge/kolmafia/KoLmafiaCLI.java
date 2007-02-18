@@ -468,12 +468,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "while" ) )
-		{
-			executeWhileStatement( parameters );
-			return;
-		}
-
 		if ( !acceptCommands )
 			return;
 
@@ -2165,47 +2159,6 @@ public class KoLmafiaCLI extends KoLmafia
 			acceptCommands = testConditional( parameters );
 
 		executeLine( statement, false );
-
-		if ( resetAcceptState )
-			acceptCommands = true;
-
-		currentLine = "";
-	}
-
-	/**
-	 * Utility method to handle a while-statement.  While
-	 * statements cannot be nested.
-	 */
-
-	private void executeWhileStatement( String parameters )
-	{
-		String statement = null;
-		int splitIndex = currentLine.indexOf( ";" );
-
-		if ( splitIndex != -1 )
-		{
-			currentLine = currentLine.substring( splitIndex + 1 ).trim();
-			if ( currentLine.length() > 0 )
-				statement = currentLine;
-		}
-
-		if ( statement == null )
-		{
-			statement = getNextLine();
-			if ( statement == null )
-				return;
-		}
-
-		boolean resetAcceptState = acceptCommands;
-
-		do
-		{
-			if ( resetAcceptState && acceptCommands )
-				acceptCommands = testConditional( parameters );
-
-			executeLine( statement, false );
-		}
-		while ( acceptCommands );
 
 		if ( resetAcceptState )
 			acceptCommands = true;
