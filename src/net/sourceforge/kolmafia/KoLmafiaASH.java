@@ -2256,25 +2256,19 @@ public class KoLmafiaASH extends StaticEntity
 		if ( currentLine == null )
 			return null;
 
-		String token = currentLine.substring( 0, tokenLength( currentLine ) );
+		if ( !currentLine.trim().equals( "/*" ) )
+			return currentLine.substring( 0, tokenLength( currentLine ) );
 
-		if ( !token.equals( "/*" ) )
-			return token;
-
-		while ( !token.equals( "*/" ) )
+		while ( currentLine != null && !currentLine.trim().equals( "*/" ) )
 		{
-			readToken();
-
-			if ( currentLine == null )
-				return null;
-
-			token = currentLine.substring( 0, tokenLength( currentLine ) );
+			currentLine = "";
+			fixLines();
 		}
 
 		if ( currentLine == null )
 			return null;
 
-		readToken();
+		currentLine = "";
 		return currentToken();
 	}
 
