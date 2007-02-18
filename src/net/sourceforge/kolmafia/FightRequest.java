@@ -479,8 +479,6 @@ public class FightRequest extends KoLRequest
 			Matcher familiarActMatcher = FAMILIAR_ACT_PATTERN.matcher( responseText );
 			while ( familiarActMatcher.find() )
 			{
-				System.out.println( familiarActMatcher.group() );
-
 				StringTokenizer actions = new StringTokenizer( ANYTAG_PATTERN.matcher( familiarActMatcher.group() ).replaceAll( "\n" ), "\n" );
 				while ( actions.hasMoreTokens() )
 				{

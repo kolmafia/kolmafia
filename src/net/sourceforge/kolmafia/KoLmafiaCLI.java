@@ -323,6 +323,8 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( splitIndex != -1 )
 		{
 			String lineToRun = line.substring( 0, splitIndex ).trim();
+			String lineLeftOver = line.substring( splitIndex + 1 ).trim();
+
 			executeLine( lineToRun, false );
 
 			// Use recursion to execute lines instead
@@ -330,10 +332,7 @@ public class KoLmafiaCLI extends KoLmafia
 			// on the same line.
 
 			if ( line.equals( currentLine ) )
-			{
-				String lineLeftOver = line.substring( splitIndex + 1 ).trim();
 				executeLine( lineLeftOver, false );
-			}
 
 			if ( storeCurrentLine )
 				previousLine = line;
@@ -2158,7 +2157,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( resetAcceptState )
 			acceptCommands = testConditional( parameters );
 
-		executeLine( statement, false );
+		executeLine( statement );
 
 		if ( resetAcceptState )
 			acceptCommands = true;
