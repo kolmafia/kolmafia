@@ -695,6 +695,8 @@ public class BrowserLauncher {
 				// If it does, use it.
 
 				browser = null;
+				url = '"' + url + '"';
+
 				String [] browsers = { "opera", "firefox", "mozilla", "netscape" };
 
 				for ( int i = 0; i < browsers.length && browser == null; ++i )
