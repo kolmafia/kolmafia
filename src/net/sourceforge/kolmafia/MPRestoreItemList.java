@@ -195,17 +195,15 @@ public abstract class MPRestoreItemList extends StaticEntity
 					mpShort = Math.max( mpShort, MoodSettings.getMaintenanceCost() - KoLCharacter.getCurrentMP() );
 					numberToBuy = (int) Math.ceil( (float) mpShort / (float) getManaPerUse() );
 				}
-				else if ( StaticEntity.getBooleanProperty( "overPurchaseRestores" ) && this != SODA_WATER )
-				{
-					// Buy more restores than you actually need when you
-					// have enough liquidity to support it.
 
-					int extraCount = numberToBuy * 2;
-					if ( KoLCharacter.getAvailableMeat() > unitPrice * (numberToBuy + extraCount) * 5 )
-						numberToBuy += extraCount;
+				numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToBuy );
+
+				if ( !AdventureDatabase.retrieveItem( itemUsed.getInstance( numberToBuy ) ) )
+				{
+					KoLmafia.forceContinue();
+					return;
 				}
 
-				AdventureDatabase.retrieveItem( itemUsed.getInstance( Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToBuy ) ) );
 				numberAvailable = itemUsed.getCount( inventory );
 			}
 

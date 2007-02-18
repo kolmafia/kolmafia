@@ -109,7 +109,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		}
 		else
 		{
-			shouldRunFullCheck = formSource.indexOf( "lair6.php" ) == -1 && formSource.indexOf( "shore.php" ) == -1;
+			shouldRunFullCheck = formSource.equals( "adventure.php" ) || formSource.equals( "dungeon.php" ) ||
+				formSource.equals( "rats.php" ) || formSource.equals( "knob.php" ) || formSource.equals( "cyrpt.php" ) || formSource.equals( "lair3.php" );
+
 			this.request = new AdventureRequest( adventureName, formSource, adventureId );
 		}
 
@@ -684,7 +686,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( request instanceof AdventureRequest )
 		{
-			if ( action.indexOf( "dictionary" ) != -1 && ( FightRequest.DICTIONARY1.getCount( inventory ) < 1 && FightRequest.DICTIONARY2.getCount( inventory ) < 1) )
+			if ( shouldRunFullCheck && action.indexOf( "dictionary" ) != -1 && (FightRequest.DICTIONARY1.getCount( inventory ) < 1 && FightRequest.DICTIONARY2.getCount( inventory ) < 1) )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
 				return;
@@ -703,7 +705,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		if ( request instanceof AdventureRequest )
+		if ( shouldRunFullCheck && request instanceof AdventureRequest )
 		{
 			// Check for dictionaries as a battle strategy, if the
 			// person is not adventuring at the chasm.
