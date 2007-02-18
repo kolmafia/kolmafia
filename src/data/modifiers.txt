@@ -247,6 +247,7 @@ Springy Fusilli	Init: +40.0
 Spooky Demeanor	Spooky: +20
 Spookypants	Spooky: +20
 Stenchtastic	Stench: +20
+Sticky Fingers	Meat: +15.0
 Supafly	Sleaze: +20
 The Cupcake of Wrath	ML: +10
 The Sonata of Sneakiness	Combat: -5.0
