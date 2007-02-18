@@ -703,7 +703,7 @@ public class BrowserLauncher {
 				{
 					try
 					{
-						Process process = Runtime.getRuntime().exec( new String [] { "which", browsers[i] } );
+						Process process = Runtime.getRuntime().exec( "which " + browsers[i] );
 
 						BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
 						if ( stream.readLine().indexOf( " " ) == -1 )
@@ -713,7 +713,7 @@ public class BrowserLauncher {
 						process.exitValue();
 
 						if ( browser != null )
-							Runtime.getRuntime().exec( new String[] { (String) browser, url, "&" } );
+							Runtime.getRuntime().exec( browser + " " + url + " &" );
 					}
 					catch (Exception e)
 					{
