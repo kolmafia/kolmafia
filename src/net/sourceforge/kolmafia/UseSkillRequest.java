@@ -64,7 +64,11 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
 	public static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
+
 	public static final AdventureResult WIZARD_HAT = new AdventureResult( 1653, 1 );
+	public static final AdventureResult POCKETWATCH = new AdventureResult( 1232, 1 );
+	public static final AdventureResult SOLITAIRE = new AdventureResult( 1226, 1 );
+	public static final AdventureResult BRACELET = new AdventureResult( 717, 1 );
 
 	private static final AdventureResult ROLL = new AdventureResult( 47, 1 );
 	private static final AdventureResult BIG_ROCK = new AdventureResult( 30, 1 );
@@ -205,8 +209,17 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// Ode to Booze is usually cast as a single shot.  So,
 		// don't equip the jewel-eyed wizard hat.
 
-		if ( ClassSkillsDatabase.isBuff( skillId ) && skillId > 1000 && skillId != 6014 && inventory.contains( WIZARD_HAT ) )
+		if ( skillId != 6014 && inventory.contains( WIZARD_HAT ) )
 			(new EquipmentRequest( WIZARD_HAT, KoLCharacter.HAT )).run();
+
+		if ( KoLCharacter.getManaCostModifier() != -3 && !KoLCharacter.hasEquipped( POCKETWATCH ) && inventory.contains( POCKETWATCH ) )
+			(new EquipmentRequest( POCKETWATCH, KoLCharacter.ACCESSORY3 )).run();
+
+		if ( KoLCharacter.getManaCostModifier() != -3 && !KoLCharacter.hasEquipped( SOLITAIRE ) && inventory.contains( SOLITAIRE ) )
+			(new EquipmentRequest( SOLITAIRE, KoLCharacter.ACCESSORY3 )).run();
+
+		if ( KoLCharacter.getManaCostModifier() != -3 && !KoLCharacter.hasEquipped( BRACELET ) && inventory.contains( BRACELET ) )
+			(new EquipmentRequest( BRACELET, KoLCharacter.ACCESSORY2 )).run();
 
 		return songWeapon;
 	}
