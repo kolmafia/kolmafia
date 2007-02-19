@@ -170,7 +170,13 @@ public class UntinkerRequest extends KoLRequest
 		// Make sure that paco has been visited, or else
 		// the knoll won't be available.
 
+		String action = StaticEntity.getProperty( "battleAction" );
+		if ( action.indexOf( "dictionary" ) != -1 )
+			DEFAULT_SHELL.executeLine( "set battleAction=attack" );
+
 		DEFAULT_SHELL.executeLine( "adventure * degrassi" );
+		DEFAULT_SHELL.executeLine( "set battleAction=" + action );
+
 		if ( !conditions.isEmpty() )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Unable to complete untinkerer's quest." );

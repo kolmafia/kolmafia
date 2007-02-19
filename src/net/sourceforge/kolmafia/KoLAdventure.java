@@ -684,7 +684,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		String action = StaticEntity.getProperty( "battleAction" );
 
-		if ( request instanceof AdventureRequest )
+		if ( request instanceof AdventureRequest && !adventureId.equals( "80" ) )
 		{
 			if ( shouldRunFullCheck && action.indexOf( "dictionary" ) != -1 && (FightRequest.DICTIONARY1.getCount( inventory ) < 1 && FightRequest.DICTIONARY2.getCount( inventory ) < 1) )
 			{

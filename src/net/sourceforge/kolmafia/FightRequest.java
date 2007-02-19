@@ -247,6 +247,14 @@ public class FightRequest extends KoLRequest
 			int itemId = StaticEntity.parseInt( action1.substring( 4 ) );
 			int itemCount = (new AdventureResult( itemId, 1 )).getCount( inventory );
 
+			if ( (itemId == DICTIONARY1.getItemId() || itemId == DICTIONARY2.getItemId()) && itemCount < 1 )
+			{
+				KoLmafia.updateDisplay( ABORT_STATE, "Sorry, you don't have a dictionary." );
+				action1 = "abort";
+				return;
+			}
+
+
 			if ( itemCount == 0 )
 			{
 				action1 = "attack";
