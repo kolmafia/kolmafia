@@ -180,9 +180,9 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			limitEntry = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Level: ", levelEntry );
-			elements[1] = new VerifiableElement( "Rank: ", rankEntry );
-			elements[2] = new VerifiableElement( "Limit: ", limitEntry );
+			elements[0] = new VerifiableElement( "Player Level: ", levelEntry );
+			elements[1] = new VerifiableElement( "Max Rank: ", rankEntry );
+			elements[2] = new VerifiableElement( "Max Results: ", limitEntry );
 
 			setContent( elements, null, getRankLabel(), true );
 		}
@@ -302,7 +302,9 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 	private class AttackPanel extends KoLPanel
 	{
-		private JTextField message;
+		private JTextField winMessage;
+		private JTextField lossMessage;
+
 		private JComboBox stanceSelect;
 		private JComboBox victorySelect;
 
@@ -310,7 +312,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		{
 			super( "attack", "profile" );
 
-			message = new JTextField();
+			winMessage = new JTextField( StaticEntity.getProperty( "defaultFlowerWinMessage" ) );
+			lossMessage = new JTextField( StaticEntity.getProperty( "defaultFlowerLossMessage" ) );
 
 			stanceSelect = new JComboBox();
 			stanceSelect.addItem( "Bully your opponent" );
@@ -324,10 +327,12 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			if ( KoLCharacter.canInteract() )
 				victorySelect.addItem( "Nab yourself some dignity" );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
+			VerifiableElement [] elements = new VerifiableElement[5];
 			elements[0] = new VerifiableElement( "Tactic: ", stanceSelect );
 			elements[1] = new VerifiableElement( "Mission: ", victorySelect );
-			elements[2] = new VerifiableElement( "Message: ", message );
+			elements[2] = new VerifiableElement();
+			elements[3] = new VerifiableElement( "Win Message: ", winMessage );
+			elements[4] = new VerifiableElement( "Loss Message: ", lossMessage );
 
 			setContent( elements, null, getRankLabel(), true );
 			if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
@@ -360,7 +365,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 			RequestThread.openRequestSequence();
 			FlowerHunterRequest request = new FlowerHunterRequest( "",
-				stanceSelect.getSelectedIndex() + 1, mission, message.getText() );
+				stanceSelect.getSelectedIndex() + 1, mission, winMessage.getText(), lossMessage.getText() );
 
 			for ( int i = 0; i < selection.length && !KoLmafia.refusesContinue(); ++i )
 			{

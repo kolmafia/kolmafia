@@ -96,7 +96,7 @@ public class FlowerHunterRequest extends KoLRequest
 			addFormField( "hardcoreonly", "on" );
 	}
 
-	public FlowerHunterRequest( String opponent, int stance, String mission, String message )
+	public FlowerHunterRequest( String opponent, int stance, String mission, String win, String lose )
 	{
 		super( "pvp.php" );
 		this.hunterType = ATTACK;
@@ -107,16 +107,16 @@ public class FlowerHunterRequest extends KoLRequest
 		addFormField( "stance", String.valueOf( stance ) );
 		addFormField( "attacktype", mission );
 
-		if ( message.equals( "" ) || message.indexOf( "flower" ) != -1 )
-		{
-			addFormField( "winmessage", WIN_MESSAGES[ RNG.nextInt( WIN_MESSAGES.length ) ] );
-			addFormField( "losemessage", LOSE_MESSAGES[ RNG.nextInt( LOSE_MESSAGES.length ) ] );
-		}
-		else
-		{
-			addFormField( "winmessage", message );
-			addFormField( "losemessage", message );
-		}
+		if ( win.equals( "" ) )
+			win = WIN_MESSAGES[ RNG.nextInt( WIN_MESSAGES.length ) ];
+		if ( lose.equals( "" ) )
+			lose = LOSE_MESSAGES[ RNG.nextInt( LOSE_MESSAGES.length ) ];
+
+		addFormField( "winmessage", win );
+		addFormField( "losemessage", lose );
+
+		StaticEntity.setProperty( "defaultFlowerWinMessage", win );
+		StaticEntity.setProperty( "defaultFlowerLossMessage", lose );
 	}
 
 	public FlowerHunterRequest( String clanId )

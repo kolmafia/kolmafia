@@ -458,6 +458,8 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "defaultBorderColor", "blue" );
 		CLIENT_SETTINGS.put( "defaultDropdown1", "0" );
 		CLIENT_SETTINGS.put( "defaultDropdown2", "1" );
+		CLIENT_SETTINGS.put( "defaultFlowerLossMessage", "" );
+		CLIENT_SETTINGS.put( "defaultFlowerWinMessage", "" );
 		CLIENT_SETTINGS.put( "defaultLimit", "5" );
 		CLIENT_SETTINGS.put( "defaultLoginServer", "1" );
 		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
