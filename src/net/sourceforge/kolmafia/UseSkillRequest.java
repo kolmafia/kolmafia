@@ -209,14 +209,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// Ode to Booze is usually cast as a single shot.  So,
 		// don't equip the jewel-eyed wizard hat.
 
-		if ( skillId != 6014 && inventory.contains( WIZARD_HAT ) )
-			(new EquipmentRequest( WIZARD_HAT, KoLCharacter.HAT )).run();
-
 		if ( KoLCharacter.getManaCostModifier() != -3 && !KoLCharacter.hasEquipped( POCKETWATCH ) && inventory.contains( POCKETWATCH ) )
 			(new EquipmentRequest( POCKETWATCH, KoLCharacter.ACCESSORY3 )).run();
 
 		if ( KoLCharacter.getManaCostModifier() != -3 && !KoLCharacter.hasEquipped( SOLITAIRE ) && inventory.contains( SOLITAIRE ) )
 			(new EquipmentRequest( SOLITAIRE, KoLCharacter.ACCESSORY3 )).run();
+
+		if ( skillId > 1000 && skillId != 6014 && inventory.contains( WIZARD_HAT ) )
+			if ( KoLCharacter.getManaCostModifier() != -3 || ClassSkillsDatabase.isBuff( skillId ) )
+				(new EquipmentRequest( WIZARD_HAT, KoLCharacter.HAT )).run();
 
 		if ( KoLCharacter.getManaCostModifier() != -3 && !KoLCharacter.hasEquipped( BRACELET ) && inventory.contains( BRACELET ) )
 			(new EquipmentRequest( BRACELET, KoLCharacter.ACCESSORY2 )).run();
@@ -315,6 +316,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				// or not at least one cast was completed.
 
 				buffCount = currentCast;
+				optimizeEquipment( skillId );
+
 				addFormField( countFieldId, String.valueOf( currentCast ), false );
 
 				if ( target == null || target.trim().length() == 0 )
