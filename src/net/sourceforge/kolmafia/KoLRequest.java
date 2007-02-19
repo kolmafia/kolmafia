@@ -631,6 +631,9 @@ public class KoLRequest extends Job implements KoLConstants
 		needsRefresh = false;
 		execute();
 
+		if ( responseCode != 200 )
+			return;
+
 		// When following redirects, you will get different URL
 		// strings, so make sure you update.
 
@@ -685,6 +688,8 @@ public class KoLRequest extends Job implements KoLConstants
 				Matcher learnedMatcher = STEEL_PATTERN.matcher( responseText );
 				if ( learnedMatcher.find() )
 					KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( learnedMatcher.group(1) + " of Steel" ) );
+
+				statusChanged = true;
 			}
 		}
 
@@ -705,11 +710,31 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( KoLCharacter.hasItem( KoLmafia.SATCHEL ) && location.startsWith( "guild.php" ) && location.indexOf( "place=paco" ) != -1 )
 			StaticEntity.getClient().processResult( KoLmafia.SATCHEL.getNegation() );
 
-		// If this is an equipment request, then reprint the
-		// player's current equipment information.
+		// If this is an ascension, make sure to refresh the
+		// session, be it relay or mini-browser.
 
 		if ( location.equals( "main.php?refreshtop=true&noobmessage=true" ) )
 			StaticEntity.getClient().handleAscension();
+
+		// Once everything is complete, decide whether or not
+		// you should refresh your status.
+
+		if ( needsRefresh || statusChanged )
+		{
+			if ( RequestFrame.instanceExists() )
+				RequestFrame.refreshStatus();
+			else
+				CharpaneRequest.getInstance().run();
+		}
+		else if ( formURLString.startsWith( "charpane.php" ) )
+		{
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateStatus();
+		}
+		else if ( !shouldIgnoreResult )
+		{
+			KoLCharacter.updateStatus();
+		}
 	}
 
 	public void execute()
@@ -1243,23 +1268,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 		statusChanged &= !formURLString.startsWith( "charpane.php" );
 		KoLmafia.applyEffects();
-
-		if ( needsRefresh || statusChanged )
-		{
-			if ( RequestFrame.instanceExists() )
-				RequestFrame.refreshStatus();
-			else
-				CharpaneRequest.getInstance().run();
-		}
-		else if ( formURLString.startsWith( "charpane.php" ) )
-		{
-			KoLCharacter.recalculateAdjustments();
-			KoLCharacter.updateStatus();
-		}
-		else if ( !shouldIgnoreResult )
-		{
-			KoLCharacter.updateStatus();
-		}
 	}
 
 	/**
