@@ -130,7 +130,7 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		boolean allowNoGift = allowUngiftableTransfer();
 		boolean allowNoTrade = allowUntradeableTransfer();
-		boolean allowMemento = allowMementoTransfer();
+		boolean allowMemento = !StaticEntity.getBooleanProperty( "mementoListActive" ) || allowMementoTransfer();
 
 		while ( index1 < attachments.length )
 		{

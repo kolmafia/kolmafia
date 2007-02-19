@@ -127,7 +127,7 @@ public class ItemManageFrame extends KoLFrame
 
 			// Memento list.
 
-			JLabel description = new JLabel( "<html>The following items are flagged as \"mementos\".  KoLmafia will never autosell these items, place them in the mall, or pulverize them, even if they are flagged as junk.  Furthermore, any item which cannot be autosold in game will be avoided by the end of run sale script and need not be added here to take effect.  The only way to bypass this restriction is to use the relay browser, which does not use this list.</html>" );
+			JLabel description = new JLabel( "<html>The following items are flagged as \"mementos\".  IF YOU SET A PREFERENCE, KoLmafia will never autosell these items, place them in the mall, or pulverize them, even if they are flagged as junk.  Furthermore, any item which cannot be autosold in game will be avoided by the end of run sale script and need not be added here to take effect.  The only way to bypass this restriction is to use the relay browser, which does not use this list.</html>" );
 
 			description.setMaximumSize( MAX_WIDTH );
 			description.setVerticalAlignment( JLabel.TOP );

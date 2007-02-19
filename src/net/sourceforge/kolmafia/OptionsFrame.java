@@ -118,9 +118,9 @@ public class OptionsFrame extends KoLFrame
 			anyFrameVisible |= ((KoLFrame)existingFrames.get(i)).isVisible();
 
 		if ( !anyFrameVisible )
-			tabs.setSelectedIndex(2);
+			tabs.setSelectedIndex(1);
 		else if ( KoLDesktop.instanceExists() )
-			tabs.setSelectedIndex(3);
+			tabs.setSelectedIndex(2);
 		else
 			tabs.setSelectedIndex(0);
 	}
@@ -286,6 +286,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "cloverProtectActive", "Protect against automated clover adventures" },
 			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
+			{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
 			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
 
 			{ "", "" },
