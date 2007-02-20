@@ -299,8 +299,12 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
+			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
 			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
 			{ "allowEncounterRateBurning", "Allow combat-rate modifying buffs in conditional recast" },
+
+			{ "", "" },
+
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" }
 		};
@@ -331,7 +335,8 @@ public class OptionsFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			for ( int i = 0; i < options.length; ++i )
-				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+				if ( !options[i][0].equals( "" ) )
+					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
 			actionCancelled();
 			System.setProperty( "spellcast.actionButtonsThreaded", StaticEntity.getProperty( "allowRequestQueueing" ) );
