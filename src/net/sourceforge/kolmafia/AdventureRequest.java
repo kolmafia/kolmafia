@@ -451,7 +451,7 @@ public class AdventureRequest extends KoLRequest
 		// exactly every single time.
 
 		if ( formSource.startsWith( "fight.php" ) )
-			return formSource.indexOf( "?" ) == -1;
+			return FightRequest.getCurrentRound() == 0;
 
 		// All other adventures can be identified via their
 		// form data and the place they point to.

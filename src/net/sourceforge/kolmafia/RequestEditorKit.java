@@ -928,11 +928,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
 			addUseLinks( location, buffer );
 
-		if ( addComplexFeatures )
-		{
-			if ( location.startsWith( "fight.php" ) )
-				addFightModifiers( buffer );
-		}
+		if ( location.startsWith( "fight.php" ) )
+			addFightModifiers( buffer, addComplexFeatures );
 
 		if ( location.startsWith( "choice.php" ) )
 			addChoiceSpoilers( buffer );
@@ -1236,21 +1233,24 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
-	private static void addFightModifiers( StringBuffer buffer )
+	private static void addFightModifiers( StringBuffer buffer, boolean addComplexFeatures )
 	{
-		if ( buffer.indexOf( "fight.php" ) == -1 )
-			return;
-
 		// If the person opts to add a plinking link, check to see if it's
 		// a valid page to add plinking, and make sure the person hasn't
 		// already started plinking.
 
-		int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
-		if ( firstFormIndex > 6 )
+		if ( addComplexFeatures && buffer.indexOf( "fight.php" ) != -1 )
 		{
-			buffer.insert( firstFormIndex,
-				"<tr><td align=center><form action=fight.php method=\"GET\"><input type=hidden name=\"action\" value=\"script\"><input class=\"button\" type=\"submit\" value=\"Run Custom Combat Script\"></form></td></tr>" );
+			int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
+			if ( firstFormIndex > 6 )
+			{
+				buffer.insert( firstFormIndex,
+					"<tr><td align=center><form action=fight.php method=\"GET\"><input type=hidden name=\"action\" value=\"script\"><input class=\"button\" type=\"submit\" value=\"Run Custom Combat Script\"></form></td></tr>" );
+			}
 		}
+
+		if ( StaticEntity.getBooleanProperty( "relayAddsRoundNumber" ) )
+			StaticEntity.singleStringReplace( buffer, "<b>Combat!</b>", "<b>Combat: Round " + FightRequest.getCurrentRound() + "</b>" );
 	}
 
 	private static void addUseLinks( String location, StringBuffer buffer )

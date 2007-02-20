@@ -206,6 +206,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
+			{ "relayAddsRoundNumber", "Add current round number to fight pages" },
 			{ "relayAddsUseLinks", "Add decorator [use] links when receiving items" },
 			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
 			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Teh Kilt script" },
