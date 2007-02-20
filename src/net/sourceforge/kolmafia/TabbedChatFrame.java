@@ -101,8 +101,10 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 		if ( overTabIndex == -1 || !instanceExists )
 			return;
 
-		KoLMessenger.removeChat( tabs.getTitleAt( overTabIndex ) );
+		String toRemove = tabs.getTitleAt( overTabIndex );
+
 		tabs.removeTabAt( overTabIndex );
+		KoLMessenger.removeChat( toRemove );
 	}
 
 	/**
