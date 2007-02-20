@@ -542,11 +542,14 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "innerChatColor", "#ffa98c" );
 		CLIENT_SETTINGS.put( "outerChatColor", "#b4460f" );
 
+		CLIENT_SETTINGS.put( "useChatMonitor", "false" );
+		CLIENT_SETTINGS.put( "useContactsFrame", "true" );
 		CLIENT_SETTINGS.put( "useLargerFonts", "false" );
 		CLIENT_SETTINGS.put( "useLowBandwidthRadio", "false" );
+		CLIENT_SETTINGS.put( "useSeparateChannels", "true" );
+		CLIENT_SETTINGS.put( "useSeparatePrivates", "true" );
 		CLIENT_SETTINGS.put( "useSystemTrayIcon", "false" );
-		CLIENT_SETTINGS.put( "usePopupContacts", "1" );
-		CLIENT_SETTINGS.put( "useTabbedChat", "1" );
+		CLIENT_SETTINGS.put( "useTabbedChatFrame", "true" );
 		CLIENT_SETTINGS.put( "useToolbars", "true" );
 		CLIENT_SETTINGS.put( "visitRumpusHardcore", "false" );
 		CLIENT_SETTINGS.put( "visitRumpusSoftcore", "false" );

@@ -565,15 +565,13 @@ public class OptionsFrame extends KoLFrame
 			else
 				LimitedSizeChatBuffer.useSmallerFonts();
 
-			StaticEntity.setProperty( "useTabbedChat", useTabOption.isSelected() ? "1" : "0" );
-			StaticEntity.setProperty( "usePopupContacts", popupWhoOption.isSelected() ? "1" : "0" );
+			StaticEntity.setProperty( "useTabbedChatFrame", String.valueOf( useTabOption.isSelected() ) );
+			StaticEntity.setProperty( "useContactsFrame", String.valueOf( popupWhoOption.isSelected() ) );
 
-			int chatStyle = 0;
-			if ( useChatMonitor.isSelected() )  chatStyle += 4;
-			if ( !useSeparateChannel.isSelected() )  chatStyle += 2;
-			if ( !useSeparatePrivate.isSelected() )  chatStyle += 1;
+			StaticEntity.setProperty( "useChatMonitor", String.valueOf( useChatMonitor.isSelected() ) );
+			StaticEntity.setProperty( "useSeparateChannels", String.valueOf( useSeparateChannel.isSelected() ) );
+			StaticEntity.setProperty( "useSeparatePrivates", String.valueOf( useSeparatePrivate.isSelected() ) );
 
-			StaticEntity.setProperty( "chatStyle", String.valueOf( chatStyle ) );
 			StaticEntity.setProperty( "eSoluScriptType", eSoluActiveOption.isSelected() ?
 				(eSoluColorlessOption.isSelected() ? "2" : "1") : "0" );
 
@@ -583,13 +581,13 @@ public class OptionsFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			useLargeFontSize.setSelected( StaticEntity.getBooleanProperty( "useLargerFonts" ) );
-			useTabOption.setSelected( StaticEntity.getIntegerProperty( "useTabbedChat" ) == 1 );
-			popupWhoOption.setSelected( StaticEntity.getIntegerProperty( "usePopupContacts" ) == 1 );
+			useTabOption.setSelected( StaticEntity.getBooleanProperty( "useTabbedChatFrame" ) );
+			popupWhoOption.setSelected( StaticEntity.getBooleanProperty( "useContactsFrame" ) );
 
 			int chatStyle = StaticEntity.getIntegerProperty( "chatStyle" );
-			useChatMonitor.setSelected( chatStyle / 4 != 0 );
-			useSeparateChannel.setSelected( chatStyle % 4 < 2 );
-			useSeparatePrivate.setSelected( chatStyle % 2 < 1 );
+			useChatMonitor.setSelected( StaticEntity.getBooleanProperty( "useChatMonitor" ) );
+			useSeparateChannel.setSelected( StaticEntity.getBooleanProperty( "useSeparateChannels" ) );
+			useSeparatePrivate.setSelected( StaticEntity.getBooleanProperty( "useSeparatePrivates" ) );
 
 			eSoluActiveOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 0 );
 			eSoluColorlessOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 1 );

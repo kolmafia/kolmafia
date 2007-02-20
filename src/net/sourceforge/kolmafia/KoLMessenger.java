@@ -126,9 +126,6 @@ public abstract class KoLMessenger extends StaticEntity
 	private static TreeMap instantMessageBuffers = new TreeMap();
 	private static SortedListModel onlineContacts = new SortedListModel();
 
-	private static final int KOL_STYLE = 6;
-
-	private static int chattingStyle = 0;
 	private static boolean enableMonitor = false;
 	private static boolean channelsSeparate = false;
 	private static boolean privateSeparate = false;
@@ -143,7 +140,7 @@ public abstract class KoLMessenger extends StaticEntity
 		instantMessageBuffers.clear();
 
 		contactsFrame = new ContactListFrame( onlineContacts );
-		useTabbedChat = getProperty( "useTabbedChat" ).equals( "1" );
+		useTabbedChat = getBooleanProperty( "useTabbedChatFrame" );
 
 		if ( useTabbedChat )
 		{
@@ -155,10 +152,9 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static void updateSettings()
 	{
-		chattingStyle = parseInt( getProperty( "chatStyle" ) );
-		enableMonitor = chattingStyle == 4 || chattingStyle == 5;
-		channelsSeparate = chattingStyle == 0 || chattingStyle == 1 || chattingStyle == 4 || chattingStyle == 5;
-		privateSeparate = chattingStyle == 0 || chattingStyle == 2 || chattingStyle == 4;
+		enableMonitor = StaticEntity.getBooleanProperty( "useChatMonitor" );
+		channelsSeparate = StaticEntity.getBooleanProperty( "useSeparateChannels" );
+		privateSeparate = StaticEntity.getBooleanProperty( "useSeparatePrivates" );
 	}
 
 	public static String getChatLogName( String key )
@@ -282,7 +278,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static String getBufferKey( String contact )
 	{
-		return chattingStyle == KOL_STYLE ? "[ALL]" : contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
+		return contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
 			!privateSeparate && !contact.startsWith( "/" ) ? "[blues]" : !channelsSeparate && contact.startsWith( "/" ) ? "[ALL]" : contact;
 	}
 
@@ -406,7 +402,7 @@ public abstract class KoLMessenger extends StaticEntity
 		for ( int i = 1; i < contactList.length; ++i )
 			onlineContacts.add( contactList[i] );
 
-		if ( getIntegerProperty( "usePopupContacts" ) == 1 )
+		if ( getBooleanProperty( "useContactsFrame" ) )
 		{
 			contactsFrame.setTitle( contactList[0] );
 			contactsFrame.setVisible( true );
@@ -469,7 +465,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 			updateContactList( contactList );
 
-			if ( getIntegerProperty( "usePopupContacts" ) != 1 )
+			if ( !getBooleanProperty( "useContactsFrame" ) )
 			{
 				LimitedSizeChatBuffer currentChatBuffer = getChatBuffer( updateChannel );
 				currentChatBuffer.append( StaticEntity.singleStringReplace(
