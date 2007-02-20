@@ -990,7 +990,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( retrieveCount > 0 )
 		{
-			DEFAULT_SHELL.executeCommand( command, retrieveCount + " " + item.getName() );
+			DEFAULT_SHELL.executeLine( command + " " + retrieveCount + " " + item.getName() );
 			return item.getCount() - item.getCount( inventory );
 		}
 

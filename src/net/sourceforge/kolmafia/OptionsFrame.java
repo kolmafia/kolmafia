@@ -132,12 +132,13 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "logReverseOrder", "Log adventures left instead of adventures used" },
+			{ "logBattleAction", "Session log records attacks for each round" },
+			{ "logFamiliarActions", "Session log records actions made by familiars" },
+			{},
+			{ "logGainMessages", "Session log records HP/MP/meat changes" },
 			{ "logStatGains", "Session log records stat gains" },
 			{ "logAcquiredItems", "Session log records items acquired" },
-			{ "logStatusEffects", "Session log records status effects gained" },
-			{ "logGainMessages", "Session log records HP/MP/meat changes" },
-			{ "logBattleAction", "Session log records attacks for each round" },
-			{ "logFamiliarActions", "Session log records actions made by familiars" }
+			{ "logStatusEffects", "Session log records status effects gained" }
 		};
 
 		/**
@@ -156,7 +157,12 @@ public class OptionsFrame extends KoLFrame
 				optionBoxes[i] = new JCheckBox();
 
 			for ( int i = 0; i < options.length; ++i )
-				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+			{
+				if ( options[i].length == 0 )
+					elements[i] = new VerifiableElement();
+				else
+					elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+			}
 
 			setContent( elements );
 			actionCancelled();
@@ -165,13 +171,15 @@ public class OptionsFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			for ( int i = 0; i < options.length; ++i )
-				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+				if ( options[i].length != 0 )
+					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 		}
 
 		public void actionCancelled()
 		{
 			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
+				if ( options[i].length != 0 )
+					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
 		}
 	}
 
