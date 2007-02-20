@@ -44,6 +44,7 @@ public class UntinkerRequest extends KoLRequest
 
 	private int itemId;
 	private int iterationsNeeded;
+	private AdventureResult item;
 
 	public UntinkerRequest( int itemId )
 	{	this( itemId, Integer.MAX_VALUE );
@@ -59,8 +60,7 @@ public class UntinkerRequest extends KoLRequest
 
 		this.itemId = itemId;
 		this.iterationsNeeded = 1;
-
-		AdventureResult item = new AdventureResult( itemId, itemCount );
+		this.item = new AdventureResult( itemId, itemCount );
 
 		if ( itemCount > 5 || item.getCount( inventory ) == itemCount )
 			addFormField( "untinkerall", "on" );
@@ -86,7 +86,11 @@ public class UntinkerRequest extends KoLRequest
 		if ( inventory.contains( SCREWDRIVER ) )
 			StaticEntity.getClient().processResult( SCREWDRIVER );
 
+		if ( !AdventureDatabase.retrieveItem( item ) )
+			return;
+
 		KoLmafia.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemId ) + "..." );
+
 		super.run();
 
 		if ( responseText.indexOf( "You acquire" ) == -1 )
