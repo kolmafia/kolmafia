@@ -558,7 +558,7 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "fontSize", useLargeFontSize.isSelected() ? "3" : "4" );
+			StaticEntity.setProperty( "fontSize", useLargeFontSize.isSelected() ? "4" : "3" );
 			LimitedSizeChatBuffer.setFontSize( StaticEntity.getIntegerProperty( "fontSize" ) );
 			StaticEntity.setProperty( "useTabbedChat", useTabOption.isSelected() ? "1" : "0" );
 			StaticEntity.setProperty( "usePopupContacts", popupWhoOption.isSelected() ? "1" : "0" );
