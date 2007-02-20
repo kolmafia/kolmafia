@@ -146,9 +146,106 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	private File settingsFile;
 
-	private File junkItemsFile;
-	private File mementoFile;
-	private File checklistFile;
+	private static File junkItemsFile = new File( SETTINGS_DIRECTORY, "junk_GLOBAL.txt" );
+	private static File mementoFile = new File( SETTINGS_DIRECTORY, "memento_GLOBAL.txt" );
+	private static File checklistFile = new File( SETTINGS_DIRECTORY, "checklist_GLOBAL.txt" );
+
+	static
+	{
+		try
+		{
+			junkItemList.clear();
+
+			if ( !junkItemsFile.exists() )
+			{
+				for ( int i = 0; i < COMMON_JUNK.length; ++i )
+					junkItemList.add( new AdventureResult( COMMON_JUNK[i], 1, false ) );
+			}
+			else
+			{
+				FileInputStream istream = new FileInputStream( junkItemsFile );
+				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
+
+				String line;
+				AdventureResult data;
+
+				while ( (line = reader.readLine()) != null )
+				{
+					if ( line.equals( "" ) || line.startsWith( "[" ) )
+						continue;
+
+					data = new AdventureResult( line, 1, false );
+					if ( !junkItemList.contains( data ) )
+						junkItemList.add( data );
+				}
+
+				reader.close();
+			}
+
+			mementoList.clear();
+
+			if ( !mementoFile.exists() )
+			{
+				for ( int i = 0; i < COMMON_MEMENTOS.length; ++i )
+					mementoList.add( new AdventureResult( COMMON_MEMENTOS[i], 1, false ) );
+			}
+			else
+			{
+				FileInputStream istream = new FileInputStream( mementoFile );
+				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
+
+				String line;
+				AdventureResult data;
+
+				while ( (line = reader.readLine()) != null )
+				{
+					if ( line.equals( "" ) || line.startsWith( "[" ) )
+						continue;
+
+					data = new AdventureResult( line, 1, false );
+					if ( !mementoList.contains( data ) )
+						mementoList.add( data );
+				}
+
+				reader.close();
+			}
+
+			ascensionCheckList.clear();
+
+			if ( !checklistFile.exists() )
+			{
+				for ( int i = 0; i < COMMON_CHECKLIST.length; ++i )
+					ascensionCheckList.add( KoLmafiaCLI.getFirstMatchingItem( COMMON_CHECKLIST[i] ) );
+			}
+			else
+			{
+				FileInputStream istream = new FileInputStream( checklistFile );
+				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
+
+				String line;
+				AdventureResult data;
+
+				while ( (line = reader.readLine()) != null )
+				{
+					if ( line.equals( "" ) || line.startsWith( "[" ) )
+						continue;
+
+					data = KoLmafiaCLI.getFirstMatchingItem( line );
+					if ( !ascensionCheckList.contains( data ) )
+						ascensionCheckList.add( data );
+				}
+
+				reader.close();
+			}
+		}
+		catch ( IOException e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+	}
 
 	private String noExtensionName;
 
@@ -164,11 +261,7 @@ public class KoLSettings extends Properties implements KoLConstants
 	public KoLSettings( String characterName )
 	{
 		this.noExtensionName = KoLCharacter.baseUserName( characterName );
-
 		this.settingsFile = new File( SETTINGS_DIRECTORY, "prefs_" + noExtensionName + ".txt" );
-		this.junkItemsFile = new File( SETTINGS_DIRECTORY, "junk_GLOBAL.txt" );
-		this.mementoFile = new File( SETTINGS_DIRECTORY, "memento_GLOBAL.txt" );
-		this.checklistFile = new File( SETTINGS_DIRECTORY, "checklist_GLOBAL.txt" );
 
 		loadSettings();
 		ensureDefaults();
@@ -223,7 +316,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		return oldValue == null ? "" : oldValue;
 	}
 
-	public void saveFlaggedItemList()
+	public static void saveFlaggedItemList()
 	{
 		AdventureResult item;
 
@@ -326,95 +419,6 @@ public class KoLSettings extends Properties implements KoLConstants
 
 			istream.close();
 			istream = null;
-
-			if ( this == GLOBAL_SETTINGS )
-				return;
-
-			junkItemList.clear();
-
-			if ( !junkItemsFile.exists() )
-			{
-				for ( int i = 0; i < COMMON_JUNK.length; ++i )
-					junkItemList.add( new AdventureResult( COMMON_JUNK[i], 1, false ) );
-			}
-			else
-			{
-				istream = new FileInputStream( junkItemsFile );
-				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
-
-				String line;
-				AdventureResult data;
-
-				while ( (line = reader.readLine()) != null )
-				{
-					if ( line.equals( "" ) || line.startsWith( "[" ) )
-						continue;
-
-					data = new AdventureResult( line, 1, false );
-					if ( !junkItemList.contains( data ) )
-						junkItemList.add( data );
-				}
-
-				reader.close();
-			}
-
-			mementoList.clear();
-
-			if ( !mementoFile.exists() )
-			{
-				for ( int i = 0; i < COMMON_MEMENTOS.length; ++i )
-					mementoList.add( new AdventureResult( COMMON_MEMENTOS[i], 1, false ) );
-			}
-			else
-			{
-				istream = new FileInputStream( mementoFile );
-				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
-
-				String line;
-				AdventureResult data;
-
-				while ( (line = reader.readLine()) != null )
-				{
-					if ( line.equals( "" ) || line.startsWith( "[" ) )
-						continue;
-
-					data = new AdventureResult( line, 1, false );
-					if ( !mementoList.contains( data ) )
-						mementoList.add( data );
-				}
-
-				reader.close();
-			}
-
-			ascensionCheckList.clear();
-
-			if ( !checklistFile.exists() )
-			{
-				for ( int i = 0; i < COMMON_CHECKLIST.length; ++i )
-					ascensionCheckList.add( KoLmafiaCLI.getFirstMatchingItem( COMMON_CHECKLIST[i] ) );
-			}
-			else
-			{
-				istream = new FileInputStream( checklistFile );
-				BufferedReader reader = new BufferedReader( new InputStreamReader( istream ) );
-
-				String line;
-				AdventureResult data;
-
-				while ( (line = reader.readLine()) != null )
-				{
-					if ( line.equals( "" ) || line.startsWith( "[" ) )
-						continue;
-
-					data = KoLmafiaCLI.getFirstMatchingItem( line );
-					if ( !ascensionCheckList.contains( data ) )
-						ascensionCheckList.add( data );
-				}
-
-				reader.close();
-			}
-
-			saveFlaggedItemList();
 		}
 		catch ( IOException e1 )
 		{
