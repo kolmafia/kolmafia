@@ -769,13 +769,20 @@ public class FightRequest extends KoLRequest
 
 	public static boolean registerRequest( String urlString )
 	{
+		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
+
 		if ( urlString.indexOf( "fight.php?" ) == -1 )
-			return urlString.indexOf( "fight.php" ) != -1;
+		{
+			boolean isFight = urlString.indexOf( "fight.php" ) != -1;
+
+			if ( isFight && shouldLogAction && currentRound != 0 )
+				KoLmafia.getSessionStream().print( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " twiddles their thumbs" );
+
+			return isFight;
+		}
 
 		action1 = null;
 		action2 = null;
-
-		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
 
 		if ( shouldLogAction )
 			KoLmafia.getSessionStream().print( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " " );
