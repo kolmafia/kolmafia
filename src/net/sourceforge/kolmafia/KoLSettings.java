@@ -95,6 +95,13 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	public static final String [] COMMON_MEMENTOS =
 	{
+		// Things which are generally used during a softcore ascension should not
+		// be placed on the junk list, unless they're easy to find.
+
+		"Boris's key", "Jarlsberg's key", "Sneaky Pete's key", "Richard's star key", "digital key",
+		"baseball", "disease", "barbed-wire fence", "razor-sharp can lid", "meat vortex", "frigid ninja stars",
+		"chaos butterfly", "photoprotoneutron torpedo", "spider web", "Wand of Nagamar", "Rock and Roll Legend",
+
 		// Crimbo 2005/2006 accessories, if they're still around, probably shouldn't
 		// be placed in the player's store.
 
