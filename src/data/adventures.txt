@@ -48,9 +48,9 @@ BatHole	8/8	adventure=32	Batrat and Ratbat Burrow
 BatHole	8/8	adventure=33	Beanbat Chamber	1 enchanted bean
 BatHole	8/8	adventure=34	The Boss Bat's Lair
 
-Rift	13/0	adventure=85	Battlefield (No Uniform)	outfit
-Rift	13/0	adventure=86	Battlefield (Cloaca Uniform)
-Rift	13/0	adventure=87	Battlefield (Dyspepsi Uniform)
+Rift	0/0	adventure=85	Battlefield (No Uniform)	outfit
+Rift	0/0	adventure=86	Battlefield (Cloaca Uniform)
+Rift	0/0	adventure=87	Battlefield (Dyspepsi Uniform)
 
 Plains	0/10	adventure=18	Degrassi Knoll	1 gnollish toolbox, 1 tires
 Plains	15/0	adventure=20	Fun House	1 disease
