@@ -96,6 +96,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	public static final int TYPE_AGGREGATE = 1000;
 	public static final int TYPE_RECORD = 1001;
+	public static final int TYPE_TYPEDEF = 1002;
 
 	public static final String [] ZODIACS = { "none", "Wallaby", "Mongoose", "Vole", "Platypus", "Opossum", "Marmot", "Wombat", "Blender", "Packrat" };
 	public static final String [] CLASSES = { KoLCharacter.SEAL_CLUBBER, KoLCharacter.TURTLE_TAMER, KoLCharacter.PASTAMANCER, KoLCharacter.SAUCEROR, KoLCharacter.DISCO_BANDIT, KoLCharacter.ACCORDION_THIEF };
@@ -793,6 +794,15 @@ public class KoLmafiaASH extends StaticEntity
 
 		while ( true )
 		{
+			if ( parseTypedef( result ) )
+			{
+				if ( !currentToken().equals( ";" ) )
+					parseError( ";", currentToken() );
+
+				readToken(); //read ;
+				continue;
+			}
+
 			ScriptType t = parseType( result, true, true );
 
 			// If there is no data type, it's a command of some sort
@@ -1071,6 +1081,36 @@ public class KoLmafiaASH extends StaticEntity
 
 		scope.addCommand( new ScriptAssignment( lhs, rhs ) );
 		return result;
+	}
+
+	private boolean parseTypedef( ScriptScope parentScope )
+	{
+		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "typedef" ) )
+			return false;
+		readToken();	// read typedef
+
+		ScriptType t = parseType( parentScope, true, true );
+		if ( t == null )
+			throw new AdvancedScriptException( "Missing data type for typedef " + getLineAndFile() );
+
+		String typeName = currentToken();
+
+		if ( !parseIdentifier( typeName ) )
+			throw new AdvancedScriptException( "Invalid type name '" + typeName + "' " + getLineAndFile() );
+
+		if ( isReservedWord( typeName ) )
+			throw new AdvancedScriptException( "Reserved word '" + typeName + "' cannot be a type name " + getLineAndFile() );
+
+		if ( parentScope.findType( typeName ) != null )
+			throw new AdvancedScriptException( "Type name '" + typeName + "' is already defined " + getLineAndFile() );
+
+		readToken(); // read name
+
+		// Add the type to the type table
+		ScriptNamedType type = new ScriptNamedType( typeName, t );
+		parentScope.addType( type );
+
+		return true;
 	}
 
 	private ScriptCommand parseCommand( ScriptType functionType, ScriptScope scope, boolean noElse, boolean whileLoop )
@@ -1512,13 +1552,13 @@ public class KoLmafiaASH extends StaticEntity
 		// Get an aggregate reference
 		ScriptExpression aggregate = parseVariableReference( parentScope );
 
-		if ( aggregate == null || !(aggregate instanceof ScriptVariableReference) || !(aggregate.getType() instanceof ScriptAggregateType) )
+		if ( aggregate == null || !(aggregate instanceof ScriptVariableReference) || !(aggregate.getType().getBaseType() instanceof ScriptAggregateType) )
 			throw new AdvancedScriptException( "Aggregate reference expected " + getLineAndFile() );
 
 		// Define key variables of appropriate type
 		ScriptVariableList varList = new ScriptVariableList();
 		ScriptVariableReferenceList variableReferences = new ScriptVariableReferenceList();
-		ScriptType type = aggregate.getType();
+		ScriptType type = aggregate.getType().getBaseType();
 
 		for ( int i = 0; i < names.size(); ++i )
 		{
@@ -2087,6 +2127,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptExpression index;
 
+			type = type.getBaseType();
+
 			if ( currentToken().equals( "[" ) || currentToken().equals( "," ) )
 			{
 				readToken(); // read [ or . or ,
@@ -2209,6 +2251,10 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static boolean validCoercion( ScriptType lhs, ScriptType rhs, String oper )
 	{
+		// Resolve aliases
+		lhs = lhs.getBaseType();
+		rhs = rhs.getBaseType();
+
 		// "oper" is either a standard operator or is a special name:
 		//
 		// "parameter" - value used as a function parameter
@@ -3563,6 +3609,7 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptSymbol( "element" ) );
 
 		result.addElement( new ScriptSymbol( "record" ) );
+		result.addElement( new ScriptSymbol( "typedef" ) );
 
 		return result;
 	}
@@ -5859,9 +5906,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType getType()
 		{
-			ScriptType type = target.getType();
+			ScriptType type = target.getType().getBaseType();
 			for ( int i = 0; i < indices.size(); ++i )
-				type = ((ScriptCompositeType)type).getDataType( indices.get(i) );
+				type = ((ScriptCompositeType)type).getDataType( indices.get(i) ).getBaseType();
 			return type;
 		}
 
@@ -6978,6 +7025,10 @@ public class KoLmafiaASH extends StaticEntity
 		{	return type;
 		}
 
+		public ScriptType getBaseType()
+		{	return this;
+		}
+
 		public boolean isPrimitive()
 		{	return primitive;
 		}
@@ -7091,6 +7142,25 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
+	private static class ScriptNamedType extends ScriptType
+	{
+                ScriptType base;
+
+		public ScriptNamedType( String name, ScriptType base )
+		{
+			super( name, TYPE_TYPEDEF );
+			this.base = base;
+		}
+
+		public ScriptType getBaseType()
+		{	return base.getBaseType();
+		}
+
+		public ScriptExpression initialValueExpression()
+		{	return new ScriptTypeInitializer( base.getBaseType() );
+		}
+	}
+
 	private static class ScriptCompositeType extends ScriptType
 	{
 		public ScriptCompositeType( String name, int type )
@@ -7100,6 +7170,10 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptType getIndexType()
+		{	return null;
+		}
+
+		public ScriptType getDataType()
 		{	return null;
 		}
 
@@ -7463,7 +7537,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType getType()
 		{
-			return type;
+			return type.getBaseType();
 		}
 
 		public String toString()
