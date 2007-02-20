@@ -985,11 +985,12 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static void registerPlayer( String playerName, String playerId )
 	{
-		playerName = playerName.toLowerCase().replaceAll( "[^0-9A-Za-z_ ]", "" );
+		playerName = playerName.replaceAll( "[^0-9A-Za-z_ ]", "" );
+		String lowercase = playerName.toLowerCase();
 
-		if ( !seenPlayerIds.containsKey( playerName.toLowerCase() ) )
+		if ( !seenPlayerIds.containsKey( lowercase ) )
 		{
-			seenPlayerIds.put( playerName.toLowerCase(), playerId );
+			seenPlayerIds.put( lowercase, playerId );
 			seenPlayerNames.put( playerId, playerName );
 		}
 	}
