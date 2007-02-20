@@ -600,9 +600,7 @@ public class BrowserLauncher {
 
 				try
 				{
-					if ( executable.endsWith( "firefox.exe" ) )
-						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, "-new-tab", url } );
-					else if ( executable.equals( "rundll32.exe" ) )
+					if ( executable.equals( "rundll32.exe" ) )
 						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, "url.dll,FileProtocolHandler", url } );
 					else
 						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", executable, url } );
@@ -715,12 +713,7 @@ public class BrowserLauncher {
 						process.exitValue();
 
 						if ( browser != null )
-						{
-							if ( browser.equals( "firefox" ) || whichResult.indexOf( "firefox" ) != -1 )
-								Runtime.getRuntime().exec( browser + " -new-tab " + url + " &" );
-							else
-								Runtime.getRuntime().exec( browser + " " + url + " &" );
-						}
+							Runtime.getRuntime().exec( browser + " " + url + " &" );
 					}
 					catch (Exception e)
 					{
