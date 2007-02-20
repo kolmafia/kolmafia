@@ -558,8 +558,13 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "fontSize", useLargeFontSize.isSelected() ? "4" : "3" );
-			LimitedSizeChatBuffer.setFontSize( StaticEntity.getIntegerProperty( "fontSize" ) );
+			StaticEntity.setProperty( "useLargerFonts", String.valueOf( useLargeFontSize.isSelected() ) );
+
+			if ( useLargeFontSize.isSelected() )
+				LimitedSizeChatBuffer.useLargerFonts();
+			else
+				LimitedSizeChatBuffer.useSmallerFonts();
+
 			StaticEntity.setProperty( "useTabbedChat", useTabOption.isSelected() ? "1" : "0" );
 			StaticEntity.setProperty( "usePopupContacts", popupWhoOption.isSelected() ? "1" : "0" );
 
@@ -577,9 +582,7 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			useLargeFontSize.setSelected( StaticEntity.getProperty( "fontSize" ).equals( "4" ) );
-			LimitedSizeChatBuffer.setFontSize( StaticEntity.getIntegerProperty( "fontSize" ) );
-
+			useLargeFontSize.setSelected( StaticEntity.getBooleanProperty( "useLargerFonts" ) );
 			useTabOption.setSelected( StaticEntity.getIntegerProperty( "useTabbedChat" ) == 1 );
 			popupWhoOption.setSelected( StaticEntity.getIntegerProperty( "usePopupContacts" ) == 1 );
 
