@@ -528,13 +528,6 @@ public abstract class KoLmafia implements KoLConstants
 			StaticEntity.setProperty( "candyHeartSummons", "0" );
 		}
 
-		// A breakfast script might include loading an adventure
-		// area, so now go ahead and load the adventure table.
-
-		String scriptSetting = StaticEntity.getGlobalProperty( "loginScript" );
-		if ( !scriptSetting.equals( "" ) )
-			DEFAULT_SHELL.executeLine( scriptSetting );
-
 		// Also, do mushrooms, if a mushroom script has already
 		// been setup by the user.
 

@@ -327,12 +327,11 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			if ( KoLCharacter.canInteract() )
 				victorySelect.addItem( "Nab yourself some dignity" );
 
-			VerifiableElement [] elements = new VerifiableElement[5];
-			elements[0] = new VerifiableElement( "Tactic: ", stanceSelect );
-			elements[1] = new VerifiableElement( "Mission: ", victorySelect );
-			elements[2] = new VerifiableElement();
-			elements[3] = new VerifiableElement( "Win Message: ", winMessage );
-			elements[4] = new VerifiableElement( "Loss Message: ", lossMessage );
+			VerifiableElement [] elements = new VerifiableElement[4];
+			elements[0] = new VerifiableElement( "Fight Using: ", stanceSelect );
+			elements[1] = new VerifiableElement( "PvP Objective: ", victorySelect );
+			elements[2] = new VerifiableElement( "Win Message: ", winMessage );
+			elements[3] = new VerifiableElement( "Loss Message: ", lossMessage );
 
 			setContent( elements, null, getRankLabel(), true );
 			if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
