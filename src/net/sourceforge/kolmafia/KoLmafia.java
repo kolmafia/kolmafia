@@ -1050,7 +1050,7 @@ public abstract class KoLmafia implements KoLConstants
 			return true;
 
 		int maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
-		int needed = (int) Math.max( desired, setting * ((float) maximum) );
+		int needed = Math.min( maximum, Math.max( desired, (int) (setting * ((float) maximum)) ) );
 
 		if ( desired == 0 && current > needed )
 			return true;
@@ -1059,7 +1059,7 @@ public abstract class KoLmafia implements KoLConstants
 		// far you need to go.
 
 		setting = StaticEntity.getFloatProperty( settingName + "Target" );
-		desired = Math.max( desired, (int) (setting * ((float) maximum)) );
+		desired = Math.min( maximum, Math.max( desired, (int) (setting * ((float) maximum)) ) );
 
 		if ( BuffBotHome.isBuffBotActive() || desired > maximum )
 			desired = maximum;
@@ -1120,6 +1120,10 @@ public abstract class KoLmafia implements KoLConstants
 
 				recoverOnce( possibleItems.get(i), currentTechniqueName, desired, false );
 				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+
+				maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
+				desired = Math.min( maximum, desired );
+				needed = Math.min( maximum, needed );
 			}
 			while ( last != current && current < needed );
 		}
@@ -1139,6 +1143,10 @@ public abstract class KoLmafia implements KoLConstants
 
 				recoverOnce( possibleSkills.get(i), currentTechniqueName, desired, true );
 				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+
+				maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
+				desired = Math.min( maximum, desired );
+				needed = Math.min( maximum, needed );
 			}
 			while ( last != current && current < needed );
 		}
@@ -1158,6 +1166,10 @@ public abstract class KoLmafia implements KoLConstants
 
 				recoverOnce( possibleItems.get(i), currentTechniqueName, desired, true );
 				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+
+				maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
+				desired = Math.min( maximum, desired );
+				needed = Math.min( maximum, needed );
 			}
 			while ( last != current && current < needed );
 		}
