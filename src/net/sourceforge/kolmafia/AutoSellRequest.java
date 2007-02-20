@@ -67,17 +67,17 @@ public class AutoSellRequest extends SendMessageRequest
 
 		this.sellType = sellType;
 		this.prices = new int[ prices.length ];
-		this.limits = new int[ prices.length ];
+		this.limits = new int[ limits.length ];
 
 		if ( sellType == AUTOMALL )
 		{
 			addFormField( "action", "additem" );
 
 			for ( int i = 0; i < prices.length; ++i )
-			{
 				this.prices[i] = prices[i];
+
+			for ( int i = 0; i < limits.length; ++i )
 				this.limits[i] = limits[i];
-			}
 		}
 	}
 
@@ -115,16 +115,8 @@ public class AutoSellRequest extends SendMessageRequest
 			addFormField( "item" + index, String.valueOf( item.getItemId() ) );
 			addFormField( getQuantityField() + index, String.valueOf( item.getCount() ) );
 
-			if ( prices.length == 0 )
-			{
-				addFormField( "price" + index, "0" );
-				addFormField( "limit" + index, "0" );
-			}
-			else
-			{
-				addFormField( "price" + index, prices[ index - 1 ] == 0 ? "" : String.valueOf( prices[ index - 1 ] ) );
-				addFormField( "limit" + index, limits[ index - 1 ] == 0 ? "" : String.valueOf( limits[ index - 1 ] ) );
-			}
+			addFormField( "price" + index, index >= prices.length || prices[ index - 1 ] == 0 ? "" : String.valueOf( prices[ index - 1 ] ) );
+			addFormField( "limit" + index, index >= limits.length || limits[ index - 1 ] == 0 ? "" : String.valueOf( limits[ index - 1 ] ) );
 
 			return;
 		}

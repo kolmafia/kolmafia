@@ -64,6 +64,7 @@ import javax.swing.table.TableModel;
 import com.sun.java.forums.TableSorter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.StoreManager.SoldItem;
 
 public class StoreManageFrame extends KoLPanelFrame
 {
@@ -146,11 +147,26 @@ public class StoreManageFrame extends KoLPanelFrame
 			int [] prices = new int[ rowCount ];
 			int [] limits = new int[ rowCount ];
 
+			SoldItem [] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
+			StoreManager.getSoldItemList().toArray( sold );
+
 			for ( int i = 0; i < rowCount; ++i )
 			{
 				itemId[i] = ((AdventureResult)manageTable.getValueAt( i, 0 )).getItemId();
 				prices[i] = ((Integer) manageTable.getValueAt( i, 1 )).intValue();
-				limits[i] = ((Boolean) manageTable.getValueAt( i, 4 )).booleanValue() ? 1 : 0;
+
+				int oldLimit = 0;
+
+				for ( int j = 0; j < sold.length; ++j )
+				{
+					if ( sold[j].getItemId() == itemId[i] )
+					{
+						oldLimit = sold[j].getLimit();
+						break;
+					}
+				}
+
+				limits[i] = ((Boolean) manageTable.getValueAt( i, 4 )).booleanValue() ? Math.max( 1, oldLimit ) : 0;
 			}
 
 			RequestThread.postRequest( new StoreManageRequest( itemId, prices, limits ) );

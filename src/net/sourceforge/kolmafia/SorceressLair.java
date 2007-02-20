@@ -1329,6 +1329,9 @@ public abstract class SorceressLair extends StaticEntity
 
 	public static void makeGuardianItems()
 	{
+		if ( StaticEntity.getIntegerProperty( "lastTowerClimb" ) == KoLCharacter.getAscensions() )
+			return;
+
 		for ( int i = 0; i < GUARDIAN_DATA.length; ++i )
 		{
 			AdventureResult item = new AdventureResult( GUARDIAN_DATA[i][1], 1, false );
@@ -1338,6 +1341,8 @@ public abstract class SorceressLair extends StaticEntity
 					AdventureDatabase.retrieveItem( item );
 			}
 		}
+
+		StaticEntity.setProperty( "lastTowerClimb", String.valueOf( KoLCharacter.getAscensions() ) );
 	}
 
 	private static void familiarBattle( int n )
