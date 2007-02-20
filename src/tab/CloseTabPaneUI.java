@@ -1488,7 +1488,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 				return;
 			}
 
-			if (closeIndexStatus == PRESSED && tabPane.getSelectedIndex() != overTabIndex && (tabIndex >= tabStates.size() || tabStates.get( tabIndex ) == Boolean.FALSE) ) {
+			if (closeIndexStatus == PRESSED && tabPane.getSelectedIndex() != overTabIndex && (overTabIndex >= tabStates.size() || tabStates.get( overTabIndex ) == Boolean.FALSE) ) {
 				closeIndexStatus = OVER;
 				tabScroller.tabPanel.repaint();
 
