@@ -174,6 +174,9 @@ public class KoLSettings extends Properties implements KoLConstants
 					if ( line.equals( "" ) || line.startsWith( "[" ) )
 						continue;
 
+					if ( !TradeableItemDatabase.contains( line ) )
+						continue;
+
 					data = new AdventureResult( line, 1, false );
 					if ( !junkItemList.contains( data ) )
 						junkItemList.add( data );
@@ -200,6 +203,9 @@ public class KoLSettings extends Properties implements KoLConstants
 				while ( (line = reader.readLine()) != null )
 				{
 					if ( line.equals( "" ) || line.startsWith( "[" ) )
+						continue;
+
+					if ( !TradeableItemDatabase.contains( line ) )
 						continue;
 
 					data = new AdventureResult( line, 1, false );
@@ -231,6 +237,9 @@ public class KoLSettings extends Properties implements KoLConstants
 						continue;
 
 					data = KoLmafiaCLI.getFirstMatchingItem( line );
+					if ( data == null )
+						continue;
+
 					if ( !ascensionCheckList.contains( data ) )
 						ascensionCheckList.add( data );
 				}
