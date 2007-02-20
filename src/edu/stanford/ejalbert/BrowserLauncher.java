@@ -706,14 +706,21 @@ public class BrowserLauncher {
 						Process process = Runtime.getRuntime().exec( "which " + browsers[i] );
 
 						BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-						if ( stream.readLine().indexOf( " " ) == -1 )
+						String whichResult = stream.readLine();
+
+						if ( whichResult.indexOf( " " ) == -1 )
 							browser = browsers[i];
 
 						process.waitFor();
 						process.exitValue();
 
 						if ( browser != null )
-							Runtime.getRuntime().exec( browser + " " + url + " &" );
+						{
+							if ( browser.equals( "firefox" ) || whichResult.indexOf( "firefox" ) != -1 )
+								Runtime.getRuntime().exec( browser + " -new-tab " + url + " &" );
+							else
+								Runtime.getRuntime().exec( browser + " " + url + " &" );
+						}
 					}
 					catch (Exception e)
 					{
