@@ -150,4 +150,40 @@ public class MicrobreweryRequest extends KoLRequest
 
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
+
+	public static boolean registerRequest( String urlString )
+	{
+		if ( !urlString.startsWith( "brewery.php" ) )
+			return false;
+
+		Matcher idMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( idMatcher.find() )
+			return true;
+
+		int itemId = StaticEntity.parseInt( idMatcher.group(1) );
+		String itemName = "";
+
+		switch ( itemId )
+		{
+		case -1:
+			itemName = "Petite Porter";
+			break;
+
+		case -2:
+			itemName = "Scrawny Stout";
+			break;
+
+		case -3:
+			itemName = "Infinitesimal IPA";
+			break;
+
+		default:
+			itemName = TradeableItemDatabase.getItemName( itemId );
+			break;
+		}
+
+		KoLmafia.getSessionStream().println();
+		KoLmafia.getSessionStream().println( "drink 1 " + itemName );
+		return true;
+	}
 }

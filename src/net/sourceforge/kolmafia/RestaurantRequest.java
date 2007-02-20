@@ -73,11 +73,13 @@ public class RestaurantRequest extends KoLRequest
 
 			// Find the item in the menu
 			for ( int i = 0; i < 3; i++ )
+			{
 				if ( ((String)restaurantItems.get(i)).equals( name ) )
 				{
 					itemId = -1 - i;
 					break;
 				}
+			}
 
 			if ( itemId == 0 )
 				itemId = TradeableItemDatabase.getItemId( itemName );
@@ -148,5 +150,51 @@ public class RestaurantRequest extends KoLRequest
 			restaurantItems.add( purchaseMatcher.group(1) );
 
 		KoLmafia.updateDisplay( "Menu retrieved." );
+	}
+
+	public static boolean registerRequest( String urlString )
+	{
+		if ( !urlString.startsWith( "restaurant.php" ) )
+			return false;
+
+		Matcher idMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( idMatcher.find() )
+			return true;
+
+		int fullness = 0;
+
+		int itemId = StaticEntity.parseInt( idMatcher.group(1) );
+		String itemName = "";
+
+		switch ( itemId )
+		{
+		case -1:
+			fullness = 3;
+			itemName = "Peche a la Frog";
+			break;
+
+		case -2:
+			fullness = 4;
+			itemName = "Au Jus Gezund Heit";
+			break;
+
+		case -3:
+			fullness = 5;
+			itemName = "Bouillabaise Coucher Avec Moi";
+			break;
+
+		default:
+			fullness = TradeableItemDatabase.getFullness( itemId );
+			itemName = TradeableItemDatabase.getItemName( itemId );
+			break;
+		}
+
+		KoLmafia.getSessionStream().println();
+		KoLmafia.getSessionStream().println( "eat 1 " + itemName );
+
+		if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
+			StaticEntity.setProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
+
+		return true;
 	}
 }
