@@ -433,31 +433,37 @@ public abstract class CombatSettings implements KoLConstants
 
 	public static String getLongCombatOptionName( String action )
 	{
-		if ( action == null || action.length() == 0 || action.startsWith( "attack" ) )
+		if ( action == null )
 			return "attack with weapon";
 
 		action = action.trim();
 
+		if ( action.startsWith( "attack" ) || action.length() == 0 )
+			return "attack with weapon";
+
 		if ( action.startsWith( "default" ) || action.startsWith( "abort" ) || action.startsWith( "consult" ) )
 			return action;
 
-		else if ( action.startsWith( "delevel" ) )
-			return "delevel and plink";
-
-		else if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
-			return "try to run away";
-
-		else if ( action.startsWith( "custom" ) )
+		if ( action.startsWith( "custom" ) )
 			return "custom combat script";
 
-		else if ( action.startsWith( "item" ) )
+		if ( action.startsWith( "delevel" ) )
+			return "delevel and plink";
+
+		if ( action.startsWith( "twiddle" ) )
+			return "twiddle your thumbs";
+
+		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
+			return "try to run away";
+
+		if ( action.startsWith( "item" ) )
 		{
 			AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( action.substring(4).trim() );
 			if ( item != null )
 				return "item " + KoLDatabase.getCanonicalName( item.getName() );
 		}
 
-		else if ( action.startsWith( "skill" ) )
+		if ( action.startsWith( "skill" ) )
 		{
 			String potentialSkill = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
 			if ( potentialSkill != null )
@@ -486,16 +492,10 @@ public abstract class CombatSettings implements KoLConstants
 
 	public static String getShortCombatOptionName( String action )
 	{
-		if ( action == null || action.length() == 0 || action.startsWith( "attack" ) )
+		if ( action == null )
 			return "attack";
 
 		action = action.trim();
-
-		if ( action.startsWith( "consult" ) )
-			return action;
-
-		if ( action.startsWith( "attack" ) )
-			return "attack";
 
 		boolean isSkillNumber = true;
 		for ( int i = 0; i < action.length(); ++i )
@@ -504,26 +504,26 @@ public abstract class CombatSettings implements KoLConstants
 		if ( isSkillNumber )
 			return action;
 
+		if ( action.startsWith( "attack" ) || action.length() == 0 )
+			return "attack";
+
+		if ( action.startsWith( "abort" ) )
+			return "abort";
+
+		if ( action.startsWith( "consult" ) )
+			return action;
+
 		if ( action.startsWith( "custom" ) )
 			return "custom";
 
 		if ( action.startsWith( "delevel" ) )
 			return "delevel";
 
-		if ( action.startsWith( "abort" ) )
-			return "abort";
-
-		if ( action.startsWith( "attack with weapon" ) )
-			return "attack";
+		if ( action.startsWith( "twiddle" ) )
+			return "twiddle";
 
 		if ( action.indexOf( "run" ) != -1 && action.indexOf( "away" ) != -1 )
 			return "runaway";
-
-		if ( action.startsWith( "skill" ) )
-		{
-			String name = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
-			return name == null ? "attack with weapon" : String.valueOf( ClassSkillsDatabase.getSkillId( name ) );
-		}
 
 		if ( action.startsWith( "item" ) )
 		{
@@ -542,6 +542,12 @@ public abstract class CombatSettings implements KoLConstants
 				}
 
 			return action;
+		}
+
+		if ( action.startsWith( "skill" ) )
+		{
+			String name = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
+			return name == null ? "attack with weapon" : String.valueOf( ClassSkillsDatabase.getSkillId( name ) );
 		}
 
 		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );

@@ -167,14 +167,11 @@ public class FightRequest extends KoLRequest
 		// Automatically pickpocket when appropriate, if the
 		// player trusts KoLmafia knows the right thing to do.
 
-		if ( StaticEntity.getBooleanProperty( "allowUnsafePickpocket" ) )
+		if ( currentRound == 1 && monsterData != null && monsterData.shouldSteal() && responseText != null && responseText.indexOf( "You get the jump" ) != -1 )
 		{
-			if ( currentRound == 1 && monsterData != null && responseText.indexOf( "You get the jump" ) != -1 && monsterData.shouldSteal() )
-			{
-				action1 = "steal";
-				addFormField( "action", action1 );
-				return;
-			}
+			action1 = "steal";
+			addFormField( "action", action1 );
+			return;
 		}
 
 		// If the person wants to use their own script,
@@ -197,16 +194,6 @@ public class FightRequest extends KoLRequest
 
 			KoLmafia.updateDisplay( ABORT_STATE, "Consult script '" + scriptName + "' not found." );
 			action1 = "abort";
-			return;
-		}
-
-		// Otherwise, if the player doesn't trust KoLmafia, only do so
-		// if the player is not using consult scripts.
-
-		if ( currentRound == 1 && monsterData != null && responseText.indexOf( "You get the jump" ) != -1 && monsterData.shouldSteal() )
-		{
-			action1 = "steal";
-			addFormField( "action", action1 );
 			return;
 		}
 
@@ -238,6 +225,12 @@ public class FightRequest extends KoLRequest
 		{
 			action1 = "attack";
 			addFormField( "action", action1 );
+			return;
+		}
+
+		if ( action1.startsWith( "twiddle" ) )
+		{
+			action1 = null;
 			return;
 		}
 
@@ -756,6 +749,10 @@ public class FightRequest extends KoLRequest
 		}
 
 		return lastResult;
+	}
+
+	public static int getCurrentRound()
+	{	return currentRound;
 	}
 
 	public static void beginTrackingFights()
