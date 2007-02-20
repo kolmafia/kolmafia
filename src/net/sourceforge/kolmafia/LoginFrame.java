@@ -75,8 +75,11 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class LoginFrame extends KoLFrame
 {
+	private String username;
+
 	private JComboBox servers;
 	private JComponent usernameField;
+
 	private JTextField proxyHost;
 	private JTextField proxyPort;
 	private JTextField proxyLogin;
@@ -92,6 +95,7 @@ public class LoginFrame extends KoLFrame
 		JPanel breakfastPanel = new JPanel();
 		breakfastPanel.setLayout( new BoxLayout( breakfastPanel, BoxLayout.Y_AXIS ) );
 
+		breakfastPanel.add( new ScriptPanel() );
 		breakfastPanel.add( new BreakfastPanel( "Softcore Characters", "Softcore" ) );
 		breakfastPanel.add( new BreakfastPanel( "Hardcore Characters", "Hardcore" ) );
 		addTab( "Breakfast", breakfastPanel );
@@ -152,9 +156,8 @@ public class LoginFrame extends KoLFrame
 
 	private class LoginPanel extends KoLPanel
 	{
-		private String username;
 		private JPasswordField passwordField;
-		private ScriptSelectPanel scriptField;
+
 		private JCheckBox savePasswordCheckBox;
 		private JCheckBox autoLoginCheckBox;
 		private JCheckBox getBreakfastCheckBox;
@@ -172,7 +175,6 @@ public class LoginFrame extends KoLFrame
 
 			usernameField = saveStateNames.isEmpty() ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
 			passwordField = new JPasswordField();
-			scriptField = new ScriptSelectPanel( new JTextField() );
 
 			savePasswordCheckBox = new JCheckBox();
 
@@ -191,10 +193,9 @@ public class LoginFrame extends KoLFrame
 			checkBoxPanels.add( getBreakfastCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
+			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Login: ", usernameField );
 			elements[1] = new VerifiableElement( "Password: ", passwordField );
-			elements[2] = new VerifiableElement( "On Login: ", scriptField );
 
 			setContent( elements );
 
@@ -240,7 +241,7 @@ public class LoginFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{
-			if ( usernameField == null || passwordField == null || scriptField == null )
+			if ( usernameField == null || passwordField == null )
 				return;
 
 			if ( savePasswordCheckBox == null || autoLoginCheckBox == null || getBreakfastCheckBox == null )
@@ -250,7 +251,6 @@ public class LoginFrame extends KoLFrame
 
 			usernameField.setEnabled( isEnabled );
 			passwordField.setEnabled( isEnabled );
-			scriptField.setEnabled( isEnabled );
 		}
 
 		public void actionConfirmed()
@@ -258,14 +258,14 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.setProperty( "relayBrowserOnly", "false" );
 			StaticEntity.setProperty( "alwaysGetBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
-			this.username = null;
+			username = null;
 
 			if ( usernameField instanceof JTextField )
-				this.username = ((JTextField)usernameField).getText();
+				username = ((JTextField)usernameField).getText();
 			else if ( ((LoginNameComboBox)usernameField).currentMatch != null )
-				this.username = ((LoginNameComboBox)usernameField).currentMatch;
+				username = ((LoginNameComboBox)usernameField).currentMatch;
 			else
-				this.username = (String) ((LoginNameComboBox)usernameField).getSelectedItem();
+				username = (String) ((LoginNameComboBox)usernameField).getSelectedItem();
 
 			String password = new String( passwordField.getPassword() );
 
@@ -280,7 +280,6 @@ public class LoginFrame extends KoLFrame
 			else
 				StaticEntity.setProperty( "autoLogin", "" );
 
-			StaticEntity.setGlobalProperty( username, "loginScript", scriptField.getText() );
 			StaticEntity.setGlobalProperty( username, "getBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
 			honorProxySettings();
@@ -380,14 +379,48 @@ public class LoginFrame extends KoLFrame
 				passwordField.setText( password );
 				savePasswordCheckBox.setSelected( true );
 
-				String loginScript = StaticEntity.getGlobalProperty( currentMatch, "loginScript" );
 				boolean breakfastSetting = StaticEntity.getGlobalProperty( currentMatch, "getBreakfast" ).equals( "true" );
-
-				scriptField.setText( loginScript == null ? "" : loginScript );
 				getBreakfastCheckBox.setSelected( breakfastSetting );
 				LoginPanel.this.setEnabled( true );
 			}
 		}
+	}
+
+	private class ScriptPanel extends OptionsPanel
+	{
+		private ScriptSelectPanel loginScript;
+		private ScriptSelectPanel logoutScript;
+
+		public ScriptPanel()
+		{
+			super( "Miscellaneous Scripts" );
+
+			loginScript = new ScriptSelectPanel( new JTextField() );
+			logoutScript = new ScriptSelectPanel( new JTextField() );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "On Login: ", loginScript );
+			elements[1] = new VerifiableElement( "On Logout: ", logoutScript );
+			elements[2] = new VerifiableElement();
+
+			setContent( elements );
+		}
+
+		public void actionConfirmed()
+		{
+			StaticEntity.setProperty( "loginScript", loginScript.getText() );
+			StaticEntity.setProperty( "logoutScript", logoutScript.getText() );
+		}
+
+		public void actionCancelled()
+		{
+			String loginScript = StaticEntity.getProperty( "loginScript" );
+			this.loginScript.setText( loginScript );
+
+			String logoutScript = StaticEntity.getProperty( "logoutScript" );
+			this.logoutScript.setText( logoutScript );
+		}
+
 	}
 
 	private class BreakfastPanel extends LabeledKoLPanel

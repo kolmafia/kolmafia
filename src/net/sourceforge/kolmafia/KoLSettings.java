@@ -170,7 +170,7 @@ public class KoLSettings extends Properties implements KoLConstants
 	public static boolean isGlobalProperty( String name )
 	{
 		return CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" ) || name.startsWith( "displayName" ) ||
-			name.startsWith( "getBreakfast" ) || name.startsWith( "loginScript" ) || name.startsWith( "autoPlant" ) || name.startsWith( "visitRumpus" ) ||
+			name.startsWith( "getBreakfast" ) || name.startsWith( "autoPlant" ) || name.startsWith( "visitRumpus" ) ||
 			name.startsWith( "initialFrames" ) || name.startsWith( "initialDesktop" );
 	}
 
@@ -480,6 +480,9 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "lastUsername", "" );
 		CLIENT_SETTINGS.put( "loginServerName", "" );
 		CLIENT_SETTINGS.put( "loginWindowLogo", "lantern.jpg" );
+
+		CLIENT_SETTINGS.put( "loginScript", "" );
+		CLIENT_SETTINGS.put( "logoutScript", "" );
 
 		CLIENT_SETTINGS.put( "logAcquiredItems", "true" );
 		CLIENT_SETTINGS.put( "logBattleAction", "true" );

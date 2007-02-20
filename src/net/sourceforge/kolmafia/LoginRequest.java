@@ -346,7 +346,13 @@ public class LoginRequest extends KoLRequest
 		isLoggingIn = true;
 
 		RequestThread.openRequestSequence();
+
 		StaticEntity.getClient().initialize( name );
+
+		String scriptSetting = StaticEntity.getProperty( "loginScript" );
+		if ( !scriptSetting.equals( "" ) )
+			DEFAULT_SHELL.executeLine( scriptSetting );
+
 		RequestThread.closeRequestSequence();
 
 		isLoggingIn = false;
