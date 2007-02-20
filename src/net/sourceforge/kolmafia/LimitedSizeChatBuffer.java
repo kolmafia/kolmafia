@@ -55,17 +55,15 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	public static List dehighlights;
 	public static LimitedSizeChatBuffer highlightBuffer;
 
-	private int previousFontSize;
 	private boolean requiresTruncation;
 	private boolean affectsHighlightBuffer;
 
-	private static int fontSize = 3;
+	private static boolean useLargerFonts = false;
 	static
 	{
 		colors = new ArrayList();
 		highlights = new ArrayList();
 		dehighlights = new ArrayList();
-		setFontSize( fontSize );
 	}
 
 	public LimitedSizeChatBuffer( boolean requiresTruncation )
@@ -75,7 +73,6 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	public LimitedSizeChatBuffer( String title, boolean requiresTruncation, boolean affectsHighlightBuffer )
 	{
 		super( title );
-		previousFontSize = fontSize;
 		this.requiresTruncation = requiresTruncation;
 		this.affectsHighlightBuffer = affectsHighlightBuffer;
 	}
@@ -101,47 +98,16 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	 * this does not affect logging.
 	 */
 
-	public static void setFontSize( int fontSize )
+	public static void useLargerFonts()
 	{
-		LimitedSizeChatBuffer.fontSize = fontSize;
-		ChatBuffer.BUFFER_STYLE = "body { font-family: sans-serif; font-size: ";
+		useLargerFonts = true;
+		ChatBuffer.BUFFER_STYLE = "body { font-family: sans-serif; font-size: medium; } a { color: black; text-decoration: none; }";
+	}
 
-		switch ( fontSize )
-		{
-			case 7:
-				ChatBuffer.BUFFER_STYLE += "xx-large";
-				break;
-
-			case 6:
-				ChatBuffer.BUFFER_STYLE += "x-large";
-				break;
-
-			case 5:
-				ChatBuffer.BUFFER_STYLE += "large";
-				break;
-
-			case 4:
-				ChatBuffer.BUFFER_STYLE += "medium";
-				break;
-
-			case 3:
-				ChatBuffer.BUFFER_STYLE += "small";
-				break;
-
-			case 2:
-				ChatBuffer.BUFFER_STYLE += "x-small";
-				break;
-
-			case 1:
-				ChatBuffer.BUFFER_STYLE += "xx-small";
-				break;
-
-			default:
-				ChatBuffer.BUFFER_STYLE += "100%";
-				break;
-		}
-
-		ChatBuffer.BUFFER_STYLE += "; } a { color: black; text-decoration: none; }";
+	public static void useSmallerFonts()
+	{
+		useLargerFonts = false;
+		ChatBuffer.BUFFER_STYLE = "body { font-family: sans-serif; font-size: small; } a { color: black; text-decoration: none; }";
 	}
 
 	/**
@@ -172,14 +138,6 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		// into unicode, rather than character entities.
 
 		message = RequestEditorKit.getUnicode( message, false );
-
-		// In the event that there's a link to the player pics
-		// page, make it so the file links locally rather than
-		// remotely.
-
-		if ( previousFontSize != fontSize && fontSize < 0 )
-			fontSize = 0 - fontSize;
-
 		String highlightMessage = message;
 
 		if ( this != highlightBuffer )
@@ -203,8 +161,6 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		super.append( highlightMessage );
 		if ( affectsHighlightBuffer && message.compareToIgnoreCase( highlightMessage ) != 0 )
 			highlightBuffer.append( highlightMessage.replaceAll( "(<br>)+", "<br>" + LINE_BREAK ) );
-
-		previousFontSize = fontSize;
 	}
 
 	public static String addHighlight( String highlight, Color color )

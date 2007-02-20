@@ -474,7 +474,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "defaultLimit", "5" );
 		CLIENT_SETTINGS.put( "defaultLoginServer", "1" );
 		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
-		CLIENT_SETTINGS.put( "fontSize", "3" );
 		CLIENT_SETTINGS.put( "guiUsesOneWindow", "false" );
 		CLIENT_SETTINGS.put( "highlightList", "" );
 
@@ -543,6 +542,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "innerChatColor", "#ffa98c" );
 		CLIENT_SETTINGS.put( "outerChatColor", "#b4460f" );
 
+		CLIENT_SETTINGS.put( "useLargerFonts", "false" );
 		CLIENT_SETTINGS.put( "useLowBandwidthRadio", "false" );
 		CLIENT_SETTINGS.put( "useSystemTrayIcon", "false" );
 		CLIENT_SETTINGS.put( "usePopupContacts", "1" );

@@ -406,7 +406,7 @@ public abstract class KoLMessenger extends StaticEntity
 		for ( int i = 1; i < contactList.length; ++i )
 			onlineContacts.add( contactList[i] );
 
-		if ( getProperty( "usePopupContacts" ).equals( "1" ) )
+		if ( getIntegerProperty( "usePopupContacts" ) == 1 )
 		{
 			contactsFrame.setTitle( contactList[0] );
 			contactsFrame.setVisible( true );
@@ -469,7 +469,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 			updateContactList( contactList );
 
-			if ( !getProperty( "usePopupContacts" ).equals( "1" ) )
+			if ( getIntegerProperty( "usePopupContacts" ) != 1 )
 			{
 				LimitedSizeChatBuffer currentChatBuffer = getChatBuffer( updateChannel );
 				currentChatBuffer.append( StaticEntity.singleStringReplace(
