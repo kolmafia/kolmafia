@@ -370,7 +370,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 					junkItemList.add( data );
 			}
 
-			StaticEntity.saveFlaggedItemList();
+			KoLSettings.saveFlaggedItemList();
 			listModel.applyListFilter( filter );
 		}
 	}
@@ -405,7 +405,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 					mementoList.add( data );
 			}
 
-			StaticEntity.saveFlaggedItemList();
+			KoLSettings.saveFlaggedItemList();
 		}
 	}
 
@@ -452,7 +452,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			for ( int i = 0; i < items.length; ++i )
 				junkItemList.remove( items[i] );
 
-			StaticEntity.saveFlaggedItemList();
+			KoLSettings.saveFlaggedItemList();
 		}
 	}
 
@@ -470,7 +470,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			for ( int i = 0; i < items.length; ++i )
 				mementoList.remove( items[i] );
 
-			StaticEntity.saveFlaggedItemList();
+			KoLSettings.saveFlaggedItemList();
 		}
 	}
 
