@@ -173,6 +173,12 @@ public class RequestLogger
 			return;
 		}
 
+		if ( (request instanceof MicrobreweryRequest || isExternal) && MicrobreweryRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( (request instanceof MuseumRequest || isExternal) && MuseumRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
@@ -186,6 +192,12 @@ public class RequestLogger
 		}
 
 		if ( (request instanceof PulverizeRequest || isExternal) && PulverizeRequest.registerRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( (request instanceof RestaurantRequest || isExternal) && RestaurantRequest.registerRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			return;
