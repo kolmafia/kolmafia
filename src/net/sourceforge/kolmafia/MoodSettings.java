@@ -631,7 +631,7 @@ public abstract class MoodSettings implements KoLConstants
 		for ( int i = 0; i < displayList.size(); ++i )
 		{
 			MoodTrigger current = (MoodTrigger) displayList.get(i);
-			if ( !current.getType().equals( "lose_effect" ) || (KoLCharacter.canInteract() && !current.shouldExecute( true )) )
+			if ( !current.getType().equals( "lose_effect" ) || !current.shouldExecute( true ) )
 				continue;
 
 			String action = current.getAction();
