@@ -539,6 +539,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );
 		CLIENT_SETTINGS.put( "sortAdventures", "false" );
+		CLIENT_SETTINGS.put( "sortPvpResults", "false" );
 		CLIENT_SETTINGS.put( "stasisFarmingAccount", "" );
 		CLIENT_SETTINGS.put( "swingLookAndFeel", "" );
 		CLIENT_SETTINGS.put( "switchEquipmentForBuffs", "true" );
