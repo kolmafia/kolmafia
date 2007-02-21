@@ -53,6 +53,7 @@ import java.net.URLEncoder;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -187,6 +188,49 @@ public class KoLmafiaASH extends StaticEntity
 	private static String lastImportString = "";
 	private static String notifyRecipient = null;
 	private static boolean arrays = false;
+
+	private static final TreeMap TIMESTAMPS = new TreeMap();
+	private static final TreeMap INTERPRETERS = new TreeMap();
+
+	public static final KoLmafiaASH getInterpreter( File toExecute )
+	{
+		if ( toExecute == null )
+			return null;
+
+		KoLmafiaASH interpreter;
+		boolean createInterpreter = !TIMESTAMPS.containsKey( toExecute );
+
+		if ( !createInterpreter )
+			createInterpreter = ((Long)TIMESTAMPS.get( toExecute )).longValue() != toExecute.lastModified();
+
+		if ( !createInterpreter )
+		{
+			interpreter = (KoLmafiaASH) INTERPRETERS.get( toExecute );
+			Iterator it = interpreter.imports.keySet().iterator();
+
+			while ( it.hasNext() && !createInterpreter )
+			{
+				File file = (File) it.next();
+				createInterpreter = ((Long) interpreter.imports.get( file )).longValue() != file.lastModified();
+			}
+		}
+
+		if ( createInterpreter )
+		{
+System.out.println( "Instantiating new interpreter..." );
+			interpreter = new KoLmafiaASH();
+			interpreter.validate( toExecute );
+
+			if ( interpreter.commandStream == null )
+				return null;
+
+			TIMESTAMPS.put( toExecute, new Long( toExecute.lastModified() ) );
+			INTERPRETERS.put( toExecute, interpreter );
+		}
+
+		return (KoLmafiaASH) INTERPRETERS.get( toExecute );
+	}
+
 
 	// **************** Data Types *****************
 
@@ -575,8 +619,6 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			this.commandStream = new LineNumberReader( new InputStreamReader( istream ) );
 
-			imports.clear();
-
 			this.currentLine = getNextLine();
 			this.lineNumber = commandStream.getLineNumber();
 			this.nextLine = getNextLine();
@@ -608,19 +650,13 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	public void execute( File scriptFile, String functionName, String [] parameters )
+	public void execute( String functionName, String [] parameters )
 	{
 		// Before you do anything, validate the script, if one
 		// is provided.  One will not be provided in the event
 		// that we are using a global namespace.
 
-		if ( scriptFile != null )
-		{
-			validate( scriptFile );
-			if ( this.commandStream == null )
-				return;
-		}
-		else if ( this == NAMESPACE_INTERPRETER )
+		if ( this == NAMESPACE_INTERPRETER )
 		{
 			String importString = getProperty( "commandLineNamespace" );
 			if ( importString.equals( "" ) )
@@ -634,7 +670,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			for ( int i = 0; i < importList.length && !shouldRefresh; ++i )
 			{
-				scriptFile = KoLmafiaCLI.findScriptFile( SCRIPT_DIRECTORY, importList[i] );
+				File scriptFile = KoLmafiaCLI.findScriptFile( SCRIPT_DIRECTORY, importList[i] );
 				shouldRefresh = scriptFile == null || !imports.containsKey( scriptFile ) ||
 					((Long)imports.get( scriptFile )).longValue() != scriptFile.lastModified();
 			}
@@ -663,16 +699,8 @@ public class KoLmafiaASH extends StaticEntity
 				}
 			}
 		}
-		else
-		{
-			// Okay, something weird happened, so we'll go ahead and
-			// skip execution of the function after printing an error
-			// message to the screen.
 
-			throw new AdvancedScriptException( "Namespace function executed in wrong interpreter" );
-		}
-
-		String currentScript = scriptFile == null ? "<>" : "<" + scriptFile.getPath() + ">";
+		String currentScript = (fileName == null) ? "<>" : "<" + fileName + ">";
 		String notifyList = StaticEntity.getProperty( "previousNotifyList" );
 
 		if ( notifyRecipient != null && notifyList.indexOf( currentScript ) == -1 )
@@ -683,11 +711,6 @@ public class KoLmafiaASH extends StaticEntity
 			RequestThread.postRequest( notifier );
 		}
 
-		execute( functionName, parameters );
-	}
-
-	public void execute( String functionName, String [] parameters )
-	{
 		try
 		{
 			executeScope( global, functionName, parameters );

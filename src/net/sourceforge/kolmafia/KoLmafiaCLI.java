@@ -2003,7 +2003,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( scriptFile == null )
 			{
-				NAMESPACE_INTERPRETER.execute( null, parameters, arguments );
+				NAMESPACE_INTERPRETER.execute( parameters, arguments );
 				return;
 			}
 
@@ -2026,7 +2026,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 				if ( command.equals( "validate" ) || command.equals( "verify" ) )
 				{
-					new KoLmafiaASH().validate( scriptFile );
+					KoLmafiaASH.getInterpreter( scriptFile );
                     printLine( "Script verification complete." );
 					return;
 				}
@@ -2034,8 +2034,10 @@ public class KoLmafiaCLI extends KoLmafia
 				// If there's an alternate namespace being
 				// used, then be sure to switch.
 
-				for ( int i = 0; i < runCount && permitsContinue(); ++i )
-					new KoLmafiaASH().execute( scriptFile, "main", arguments );
+				KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( scriptFile );
+				if ( interpreter != null )
+					for ( int i = 0; i < runCount && permitsContinue(); ++i )
+						interpreter.execute( "main", arguments );
 			}
 			else
 			{
