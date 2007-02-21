@@ -193,7 +193,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 					// the entire check.
 
 					mpShort = Math.max( mpShort, MoodSettings.getMaintenanceCost() - KoLCharacter.getCurrentMP() );
-					numberToBuy = (int) Math.ceil( (float) mpShort / (float) getManaPerUse() );
+					numberToBuy = Math.max( (int) Math.floor( (float) mpShort / (float) getManaPerUse() ), 1 );
 				}
 
 				numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToBuy );
