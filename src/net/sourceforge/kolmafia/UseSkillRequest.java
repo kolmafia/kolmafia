@@ -211,17 +211,17 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) )
 		{
-			if ( KoLCharacter.getManaCostModifier() != -3 && !KoLCharacter.hasEquipped( POCKETWATCH ) && inventory.contains( POCKETWATCH ) )
+			if ( KoLCharacter.getManaCostModifier() != -3 && !KoLCharacter.hasEquipped( POCKETWATCH ) && EquipmentDatabase.canEquip( POCKETWATCH.getName() ) && KoLCharacter.hasItem( POCKETWATCH ) )
 				(new EquipmentRequest( POCKETWATCH, KoLCharacter.ACCESSORY3 )).run();
 
-			if ( KoLCharacter.getManaCostModifier() != -3 && !KoLCharacter.hasEquipped( SOLITAIRE ) && inventory.contains( SOLITAIRE ) )
+			if ( KoLCharacter.getManaCostModifier() != -3 && !KoLCharacter.hasEquipped( SOLITAIRE ) && EquipmentDatabase.canEquip( SOLITAIRE.getName() ) && KoLCharacter.hasItem( SOLITAIRE ) )
 				(new EquipmentRequest( SOLITAIRE, KoLCharacter.ACCESSORY3 )).run();
 
 			if ( skillId > 1000 && skillId != 6014 && inventory.contains( WIZARD_HAT ) )
 				if ( KoLCharacter.getManaCostModifier() != -3 || ClassSkillsDatabase.isBuff( skillId ) )
 					(new EquipmentRequest( WIZARD_HAT, KoLCharacter.HAT )).run();
 
-			if ( KoLCharacter.getManaCostModifier() != -3 && !KoLCharacter.hasEquipped( BRACELET ) && inventory.contains( BRACELET ) )
+			if ( KoLCharacter.getManaCostModifier() != -3 && !KoLCharacter.hasEquipped( BRACELET ) && EquipmentDatabase.canEquip( BRACELET.getName() ) && KoLCharacter.hasItem( BRACELET ) )
 				(new EquipmentRequest( BRACELET, KoLCharacter.ACCESSORY2 )).run();
 		}
 

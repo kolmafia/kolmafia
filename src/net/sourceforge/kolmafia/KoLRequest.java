@@ -1119,6 +1119,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( redirectLocation.startsWith( "fight.php" ) )
 		{
+			if ( this instanceof UseSkillRequest || this instanceof ConsumeItemRequest )
+				return true;
+
 			// You have been redirected to a fight!  Here, you need
 			// to complete the fight before you can continue.
 
@@ -1615,6 +1618,13 @@ public class KoLRequest extends Job implements KoLConstants
 					return String.valueOf( i + 1 );
 			}
 		}
+
+		// Choose a null choice if all components have already been
+		// gathered before.
+
+		for ( int i = 0; i < possibleDecisions.length; ++i )
+			if ( possibleDecisions[i] == null )
+				return String.valueOf( i + 1 );
 
 		// If they have everything and it's an ignore choice, then use
 		// the first choice no matter what.
