@@ -405,7 +405,16 @@ public class AdventureDatabase extends KoLDatabase
 		// Ennui is Wasted on the Young
 		new ChoiceAdventure( "Knob", "choiceAdventure120", "Outskirts of The Knob",
 		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "skip adventure" },
-		  new String [] { null, "41", "332", null } )
+		  new String [] { null, "41", "332", null } ),
+
+                // Sun at Noon, Tan Us
+		new ChoiceAdventure( "Plains", "choiceAdventure126", "Palindome",
+		  new String [] { "moxie", "more moxie", "even more moxie" } ),
+
+                // No sir, away!  A papaya war is on!
+		new ChoiceAdventure( "Plains", "choiceAdventure127", "Palindome",
+		  new String [] { "papayas", "random", "stats" }, 
+		  new String [] { "498", null, null } ),
 	};
 
 	static
