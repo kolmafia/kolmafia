@@ -1595,6 +1595,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "restore" ) || command.startsWith( "recover" ) || command.startsWith( "check" ) )
 		{
+			boolean wasRecoveryActive = KoLmafia.isRunningBetweenBattleChecks();
 			SpecialOutfit.createImplicitCheckpoint();
 
 			if ( parameters.equals( "" ) )
@@ -1603,13 +1604,26 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
 			{
+
+				SpecialOutfit.createImplicitCheckpoint();
+				recoveryActive = true;
+
 				float setting = StaticEntity.getFloatProperty( "hpAutoRecoveryTarget" );
 				StaticEntity.getClient().recoverHP( (int) (setting * (float) KoLCharacter.getMaximumHP()) );
+
+				recoveryActive = wasRecoveryActive;
+				SpecialOutfit.restoreImplicitCheckpoint();
 			}
 			else if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) )
 			{
+				SpecialOutfit.createImplicitCheckpoint();
+				recoveryActive = true;
+
 				float setting = StaticEntity.getFloatProperty( "mpAutoRecoveryTarget" );
 				StaticEntity.getClient().recoverMP( (int) (setting * (float) KoLCharacter.getMaximumMP()) );
+
+				recoveryActive = wasRecoveryActive;
+				SpecialOutfit.restoreImplicitCheckpoint();
 			}
 
 			SpecialOutfit.restoreImplicitCheckpoint();
