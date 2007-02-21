@@ -523,10 +523,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 							if ( KoLCharacter.hasItem( item ) )
 							{
 								KoLRequest request = new KoLRequest( "familiar.php?pwd&action=equip&whichfam=" + familiars[i].getId() + "&whichitem=" + item.getItemId() );
-
 								RequestThread.postRequest( request );
-								RequestThread.postRequest( new FamiliarRequest( familiars[i] ) );
-								RequestThread.postRequest( new EquipmentRequest( item, KoLCharacter.FAMILIAR ) );
 							}
 						}
 					}
