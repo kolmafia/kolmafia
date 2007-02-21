@@ -407,13 +407,13 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "muscle and Pumped Up", "ice cold Sir Schlitz", "moxie and lemon", "skip adventure" },
 		  new String [] { null, "41", "332", null } ),
 
-                // Sun at Noon, Tan Us
+		// Sun at Noon, Tan Us
 		new ChoiceAdventure( "Plains", "choiceAdventure126", "Palindome",
 		  new String [] { "moxie", "chance of more moxie", "sunburned" } ),
 
-                // No sir, away!  A papaya war is on!
+		// No sir, away!  A papaya war is on!
 		new ChoiceAdventure( "Plains", "choiceAdventure127", "Palindome",
-		  new String [] { "3 papayas", "trade 3 papayas for stats", "stats" }, 
+		  new String [] { "3 papayas", "trade 3 papayas for stats", "stats" },
 		  new String [] { "498", null, null } ),
 	};
 
@@ -588,18 +588,21 @@ public class AdventureDatabase extends KoLDatabase
 
 	// Some choice adventures have options that cost meat
 
-	public static final String [][] CHOICE_MEAT_COST =
+	public static final Object [][] CHOICE_COST =
 	{
 		// Finger-Lickin'... Death.
-		{ "choiceAdventure4", "1", "500" },
-		{ "choiceAdventure4", "2", "500" },
+		{ "choiceAdventure4", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
+		{ "choiceAdventure4", "2", new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Under the Knife
-		{ "choiceAdventure21", "1", "500" },
+		{ "choiceAdventure21", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Ouch! You bump into a door!
-		{ "choiceAdventure25", "1", "50" },
-		{ "choiceAdventure25", "2", "5000" }
+		{ "choiceAdventure25", "1", new AdventureResult( AdventureResult.MEAT, -50 ) },
+		{ "choiceAdventure25", "2", new AdventureResult( AdventureResult.MEAT, -5000 ) },
+
+		// No sir, away!  A papaya war is on!
+		{ "choiceAdventure127", "2", new AdventureResult( "papaya", -3 ) }
 	};
 
 	// Some adventures don't actually cost a turn
@@ -952,13 +955,13 @@ public class AdventureDatabase extends KoLDatabase
 		return true;
 	}
 
-	public static int consumesMeat( String choice, String decision )
+	public static AdventureResult getCost( String choice, String decision )
 	{
-		for ( int i = 0; i < CHOICE_MEAT_COST.length; ++i )
-			if ( choice.equals( CHOICE_MEAT_COST[i][0] ) &&
-			     decision.equals( CHOICE_MEAT_COST[i][1] ) )
-				return parseInt( CHOICE_MEAT_COST[i][2] );
-		return 0;
+		for ( int i = 0; i < CHOICE_COST.length; ++i )
+			if ( choice.equals( CHOICE_COST[i][0] ) && decision.equals( CHOICE_COST[i][1] ) )
+				return (AdventureResult) CHOICE_COST[i][2];
+
+		return null;
 	}
 
 	public static boolean freeAdventure( String text )
