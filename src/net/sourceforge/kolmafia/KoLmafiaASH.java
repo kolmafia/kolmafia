@@ -217,7 +217,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( createInterpreter )
 		{
-System.out.println( "Instantiating new interpreter..." );
 			interpreter = new KoLmafiaASH();
 			interpreter.validate( toExecute );
 
@@ -665,25 +664,31 @@ System.out.println( "Instantiating new interpreter..." );
 				return;
 			}
 
-			boolean shouldRefresh = false;
-			String [] importList = importString.split( "," );
+			boolean shouldRefresh = !lastImportString.equals( importString );
 
-			for ( int i = 0; i < importList.length && !shouldRefresh; ++i )
+			if ( !shouldRefresh )
 			{
-				File scriptFile = KoLmafiaCLI.findScriptFile( SCRIPT_DIRECTORY, importList[i] );
-				shouldRefresh = scriptFile == null || !imports.containsKey( scriptFile ) ||
-					((Long)imports.get( scriptFile )).longValue() != scriptFile.lastModified();
+				Iterator it = imports.keySet().iterator();
+
+				while ( it.hasNext() && !shouldRefresh )
+				{
+					File file = (File) it.next();
+					shouldRefresh = ((Long) imports.get( file )).longValue() != file.lastModified();
+				}
 			}
 
 			if ( shouldRefresh )
 			{
 				imports.clear();
-				this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
+				lastImportString = "";
 
+				this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
 				ScriptScope result = this.global;
 
 				try
 				{
+					String [] importList = importString.split( "," );
+
 					for ( int i = 0; i < importList.length; ++i )
 					{
 						KoLmafiaASH script = new KoLmafiaASH();
