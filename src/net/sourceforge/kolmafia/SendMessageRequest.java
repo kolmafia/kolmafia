@@ -159,7 +159,6 @@ public abstract class SendMessageRequest extends KoLRequest
 					continue;
 
 				availableCount = item.getCount( source );
-
 				if ( availableCount > 0 )
 					nextAttachments.add( item.getInstance( Math.min( item.getCount(), availableCount ) ) );
 			}
@@ -260,23 +259,23 @@ public abstract class SendMessageRequest extends KoLRequest
 		if ( !getSuccessMessage().equals( "" ) && responseText.indexOf( getSuccessMessage() ) == -1 )
 		{
 			hadSendMessageFailure = true;
+			boolean shouldUpdateDisplay = willUpdateDisplayOnFailure();
 
-			if ( willUpdateDisplayOnFailure() )
+			for ( int i = 0; i < attachments.length; ++i )
 			{
-				for ( int i = 0; i < attachments.length; ++i )
-				{
+				if ( shouldUpdateDisplay )
 					KoLmafia.updateDisplay( ERROR_STATE, "Transfer failed for " + attachments[i].toString() );
-					if ( source == inventory )
-						StaticEntity.getClient().processResult( (AdventureResult) attachments[i] );
-				}
+				if ( source == inventory )
+					StaticEntity.getClient().processResult( (AdventureResult) attachments[i] );
+			}
 
-				int totalMeat = StaticEntity.parseInt( getFormField( getMeatField() ) );
-				if ( totalMeat != 0 )
-				{
+			int totalMeat = StaticEntity.parseInt( getFormField( getMeatField() ) );
+			if ( totalMeat != 0 )
+			{
+				if ( shouldUpdateDisplay )
 					KoLmafia.updateDisplay( ERROR_STATE, "Transfer failed for " + totalMeat + " meat" );
-					if ( source == inventory )
-						StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, totalMeat ) );
-				}
+				if ( source == inventory )
+					StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, totalMeat ) );
 			}
 		}
 	}
