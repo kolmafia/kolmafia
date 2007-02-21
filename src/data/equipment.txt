@@ -237,7 +237,7 @@ basic meat crossbow	40	Mox: 5	2-handed crossbow
 basic meat spork	45	Mus: 7	1-handed utensil
 basic meat staff	40	Mus: 5	2-handed staff
 basic meat sword	40	Mus: 5	2-handed sword
-batblade	110	Mus: 40	1-handed knife
+batblade	145	Mus: 57	1-handed knife
 big stick	10	none	2-handed staff
 Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
 bill bec-de-bardiche glaive-guisarme	150	Mus: 60	2-handed polearm?
