@@ -1552,9 +1552,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 			// Certain choices cost meat when selected
 
-			int meat = AdventureDatabase.consumesMeat( option, decision );
-			if ( meat > 0 )
-				StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - meat ) );
+			AdventureResult cost = AdventureDatabase.getCost( option, decision );
+			if ( cost != null )
+				StaticEntity.getClient().processResult( cost );
 		}
 
 		// Manually process any adventure usage for choice adventures,
