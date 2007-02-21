@@ -38,6 +38,7 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -345,6 +346,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		public void actionConfirmed()
 		{
 			ProfileRequest [] selection = getSelection();
+			Arrays.sort( selection );
 
 			String mission = null;
 			switch ( victorySelect.getSelectedIndex() )

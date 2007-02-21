@@ -332,7 +332,7 @@ public class KoLmafiaCLI extends KoLmafia
 			// on the same line.
 
 			if ( line.equals( currentLine ) )
-				executeLine( lineLeftOver, false );
+				executeLine( lineLeftOver );
 
 			if ( storeCurrentLine )
 				previousLine = line;
