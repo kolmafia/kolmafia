@@ -693,7 +693,6 @@ public class BrowserLauncher {
 				// If it does, use it.
 
 				browser = null;
-				url = '"' + url + '"';
 
 				String [] browsers = { "opera", "firefox", "mozilla", "netscape" };
 
@@ -713,7 +712,7 @@ public class BrowserLauncher {
 						process.exitValue();
 
 						if ( browser != null )
-							Runtime.getRuntime().exec( browser + " " + url + " &" );
+							Runtime.getRuntime().exec( browser, url );
 					}
 					catch (Exception e)
 					{
