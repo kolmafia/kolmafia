@@ -268,7 +268,26 @@ public abstract class StaticEntity implements KoLConstants
 	public static void externalUpdate( String location, String responseText )
 	{
 		if ( location.indexOf( "account.php" ) != -1 )
+		{
+			boolean wasHardcore = KoLCharacter.isHardcore();
+			boolean hadRestrictions = !KoLCharacter.canEat() || !KoLCharacter.canDrink();
+
 			AccountRequest.parseAccountData( responseText );
+
+			if ( wasHardcore && !KoLCharacter.isHardcore() )
+			{
+				KoLmafia.getSessionStream().println();
+				KoLmafia.getSessionStream().println( "dropped hardcore" );
+				KoLmafia.getSessionStream().println();
+			}
+
+			if ( hadRestrictions && KoLCharacter.canEat() && KoLCharacter.canDrink() )
+			{
+				KoLmafia.getSessionStream().println();
+				KoLmafia.getSessionStream().println( "dropped consumption restrictions" );
+				KoLmafia.getSessionStream().println();
+			}
+		}
 
 		// Keep theupdated of your current equipment and
 		// familiars, if you visit the appropriate pages.

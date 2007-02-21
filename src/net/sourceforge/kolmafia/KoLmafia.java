@@ -3256,6 +3256,26 @@ public abstract class KoLmafia implements KoLConstants
 		sessionStream.println( "           Beginning New Ascension           " );
 		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 		sessionStream.println();
+
+		sessionStream.println( "Ascension #" + KoLCharacter.getAscensions() + ":" );
+
+		if ( KoLCharacter.isHardcore() )
+			sessionStream.print( "Hardcore " );
+		else
+			sessionStream.print( "Softcore " );
+
+		if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
+			sessionStream.print( "No-Path " );
+		else if ( KoLCharacter.canEat() )
+			sessionStream.print( "Teetotaler " );
+		else if ( KoLCharacter.canDrink() )
+			sessionStream.print( "Boozetafarian " );
+		else
+			sessionStream.print( "Oxygenarian " );
+
+		sessionStream.println( KoLCharacter.getClassType() );
+		sessionStream.println();
+		sessionStream.println();
 	}
 
 	private static class ShutdownThread extends Thread
