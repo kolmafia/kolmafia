@@ -45,7 +45,6 @@ import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 
 public class FightRequest extends KoLRequest
 {
-	private static final KoLmafiaASH CONSULT_INTERPRETER = new KoLmafiaASH();
 	private static final AdventureResult SOLDIER = new AdventureResult( 1397, 1 );
 	private static final AdventureResult MERCENARY = new AdventureResult( 2139, 1 );
 	private static final AdventureResult TEQUILA = new AdventureResult( 1004, -1 );
@@ -185,7 +184,7 @@ public class FightRequest extends KoLRequest
 			File consultScript = KoLmafiaCLI.findScriptFile( scriptName );
 			if ( consultScript != null )
 			{
-				CONSULT_INTERPRETER.execute( consultScript, "main", new String [] { String.valueOf( currentRound ), encounterLookup, responseText } );
+				new KoLmafiaASH().execute( consultScript, "main", new String [] { String.valueOf( currentRound ), encounterLookup, responseText } );
 				if ( KoLmafia.refusesContinue() )
 					action1 = "abort";
 
