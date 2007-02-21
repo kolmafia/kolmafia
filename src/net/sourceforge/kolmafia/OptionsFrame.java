@@ -288,6 +288,7 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
+			{ "sortPvpResults", "Sort flower hunter results in natural hitting order" },
 			{ "cacheMallSearches", "Cache mall searches (does not work on all OSes)" },
 			{ "autoSetConditions", "Automatically fill conditions field with defaults" },
 
