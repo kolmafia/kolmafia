@@ -89,6 +89,31 @@ public class Louvre
 		{ 0, 3, 5 },			// 104
 	};
 
+	private static final int LouvreGoalHops [][] =
+	{
+		{ 3, 3, 3, 3, 3, 3 },		// 92
+		{ 3, 3, 3, 3, 3, 3 },		// 93
+		{ 3, 3, 3, 3, 3, 3 },		// 94
+		{ 3, 3, 3, 3, 3, 3 },		// 95
+		{ 2, 4, 2, 4, 4, 2 },		// 96
+		{ 2, 2, 4, 2, 4, 4 },		// 97
+		{ 4, 2, 2, 4, 2, 4 },		// 98
+		{ 4, 4, 1, 4, 4, 1 },		// 99
+		{ 1, 4, 4, 4, 4, 1 },		// 100
+		{ 1, 4, 4, 1, 4, 4 },		// 101
+		{ 4, 1, 4, 1, 4, 4 },		// 102
+		{ 4, 1, 4, 4, 1, 4 },		// 103
+		{ 4, 4, 1, 4, 1, 4 },		// 104
+	};
+
+	private static int goalHops( int source, int goal )
+	{
+		if ( source < FIRST_CHOICE || source > LAST_CHOICE || goal < 1 || goal > 6 )
+			return Integer.MAX_VALUE;
+
+		return LouvreGoalHops[ source - FIRST_CHOICE][ goal - 1 ];
+	}
+
 	public static final String LouvreGoals [] =
 	{
 		"Manetwich",
@@ -109,54 +134,6 @@ public class Louvre
 		"new insight as to the nature of the universe.",
 		"Moxious!"
 	};
-
-	// The routing table.
-	//
-	// One row for each Louvre location (92 - 104)
-	// Each row contains one tuple for each goal
-	// Each tuple contains a directly accessible destination from the
-	// current location that leads efficiently to the destination
-
-	// 0		92, 93, 94, or 95
-	// 1 - 6	A goal
-	// X		A destination
-
-	private static final int LouvreRoutingTable [][][] =
-	{
-		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 92
-		  { 97 }, { 98 }, { 96 } },
-		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 93
-		  { 97 }, { 98 }, { 96 } },
-		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 94
-		  { 97 }, { 98 }, { 96 } },
-		{ { 96, 97 }, { 97, 98 }, { 96, 98 },	// 95
-		  { 97 }, { 98 }, { 96 } },
-		{ { 100 }, { 0 }, { 99 },		// 96
-		  { 0 }, { 0 }, { 99, 100 } },
-		{ { 101 }, { 102 }, { 0 },		// 97
-		  { 101, 102 }, { 0 }, { 0 } },
-		{ { 0 }, { 103 }, { 104 },		// 98
-		  { 0 }, { 103, 104 }, { 0 } },
-		{ { 0 }, { 0 }, { 3 },			// 99
-		  { 0 }, { 0 }, { 6 } },
-		{ { 1 }, { 0 }, { 0 },			// 100
-		  { 0 }, { 0 }, { 6 } },
-		{ { 1 }, { 0 }, { 0 },			// 101
-		  { 4 }, { 0 }, { 0 } },
-		{ { 0 }, { 2 }, { 0 },			// 102
-		  { 4 }, { 0 }, { 0 } },
-		{ { 0 }, { 2 }, { 0 },			// 103
-		  { 0 }, { 5 }, { 0 } },
-		{ { 0 }, { 0 }, { 3 },			// 104
-		  { 0 }, { 5 }, { 0 } },
-	};
-
-	private static int [] routingTuple( int source, int goal )
-	{
-		if ( source < FIRST_CHOICE || source > LAST_CHOICE || goal < 1 || goal > 6 )
-			return null;
-		return LouvreRoutingTable[ source - FIRST_CHOICE ][ goal - 1];
-	}
 
 	// The choice table.
 	//
@@ -267,38 +244,79 @@ public class Louvre
 		if ( !louvreChoice( source ) )
 			return "";
 
-		// Get the routing tuple for this choice/gaol
+		// Get the goal
 		int goal = StaticEntity.getIntegerProperty( "louvreGoal" );
-		int [] tuple = routingTuple( source, goal );
-		if ( tuple == null )
-			return "";
 
-		// Examine destinations and take one that we know about
+		// Pick the best choice
+		return pickExit( source, goal );
+	}
+
+	// Node marking to prevent loops
+	private static boolean NodeMarks [] = new boolean [ LAST_CHOICE - FIRST_CHOICE + 1 ];
+
+	private static String pickExit( int source, int goal )
+	{
+		// Examine destinations and take shortest known path to goal
 		int [] choices = choiceTuple( source );
-		for ( int i = 0; i < tuple.length; ++i )
+		int choice = 0;
+		int hops = Integer.MAX_VALUE;
+
+		for ( int i = 0; i < choices.length; ++i )
 		{
-			int option = tuple[i];
-			for ( int j = 0; j < choices.length; ++j )
+			// Clear marks on nodes
+			for ( int j = FIRST_CHOICE; j <= LAST_CHOICE; ++j )
+				NodeMarks[ j - FIRST_CHOICE ] = false;
+
+			// Mark this node
+			NodeMarks[ source - FIRST_CHOICE ] = true;
+
+			// Determine how far destination is from goal
+			int destination = choices[ i ];
+			int dist = hopsTo( 0, source, destination, goal );
+			if ( dist < hops )
 			{
-				int destination = choices[j];
-				// If routing table destination is 0, we any of
-				// 92 - 95 will do. Otherwise, need exact match
-				if ( ( option == 0 && ( destination >= 92 && destination <= 95 ) ) ||
-				     ( option != 0 && option == destination ) )
-					return String.valueOf( j + 1 );
+				choice = i;
+				hops = dist;
 			}
 		}
 
-		// We don't know how to get to the destination. Pick one we
-		// haven't explored.
-		for ( int j = 0; j < choices.length; ++j )
-		{
-			if ( choices[j] == 0 )
-				return String.valueOf( j + 1 );
-		}
+		return String.valueOf( choice + 1 );
+	}
 
-		// Shouldn't get here
-		return "";
+	private static int hopsTo( int hops, int source, int destination, int goal )
+	{
+		// If destination is the goal, we're there
+		if ( destination == goal )
+			return hops;
+
+		// If destination is another goal, can't there from here
+		if ( destination >= 1 && destination <= 6 )
+			return Integer.MAX_VALUE;
+
+		// If destination is unknown, guess based on source
+		// Add 10 so that a known route will be preferred
+		if ( !louvreChoice( destination ) )
+			return hops + goalHops( source, goal ) + 10;
+
+		// Known destination. If we've been here before, punt
+		if ( NodeMarks[ destination - FIRST_CHOICE ] )
+			return Integer.MAX_VALUE;
+
+		// Known destination visited for first time
+		NodeMarks[ destination - FIRST_CHOICE ] = true;
+
+		// Examine destinations and take shortest known path to goal
+		int [] choices = choiceTuple( destination );
+		int nextHops = Integer.MAX_VALUE;
+
+		for ( int i = 0; i < choices.length; ++i )
+		{
+			// Determine how far destination is from goal
+			int dist = hopsTo( hops + 1, destination, choices[ i ], goal );
+			if ( dist < nextHops )
+				nextHops = dist;
+		}
+		return nextHops;
 	}
 
 	public static boolean mapChoice( String text )
