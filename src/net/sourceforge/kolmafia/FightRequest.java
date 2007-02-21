@@ -181,10 +181,10 @@ public class FightRequest extends KoLRequest
 			isUsingConsultScript = true;
 			String scriptName = action1.substring( "consult".length() ).trim();
 
-			File consultScript = KoLmafiaCLI.findScriptFile( scriptName );
-			if ( consultScript != null )
+			KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
+			if ( interpreter != null )
 			{
-				new KoLmafiaASH().execute( consultScript, "main", new String [] { String.valueOf( currentRound ), encounterLookup, responseText } );
+				interpreter.execute( "main", new String [] { String.valueOf( currentRound ), encounterLookup, responseText } );
 				if ( KoLmafia.refusesContinue() )
 					action1 = "abort";
 
