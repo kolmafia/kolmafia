@@ -42,7 +42,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ProfileRequest extends KoLRequest
+public class ProfileRequest extends KoLRequest implements Comparable
 {
 	private static final Pattern DATA_PATTERN = Pattern.compile( "<td.*?>(.*?)</td>" );
 	private static final SimpleDateFormat INPUT_FORMAT = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
@@ -477,5 +477,18 @@ public class ProfileRequest extends KoLRequest
 	{
 		responseText.replaceFirst( "http://www[23]?\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)", "../ascensions/$1.htm" );
 		refreshFields();
+	}
+
+	public int compareTo( Object o )
+	{
+		if ( o == null || !(o instanceof ProfileRequest) )
+			return -1;
+
+		ProfileRequest pr = (ProfileRequest) o;
+
+		if ( getPvpRank().intValue() != pr.getPvpRank().intValue() )
+			return getPvpRank().intValue() - pr.getPvpRank().intValue();
+
+		return getPlayerLevel().intValue() - pr.getPlayerLevel().intValue();
 	}
 }

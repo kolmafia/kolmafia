@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -183,6 +184,8 @@ public class FlowerHunterRequest extends KoLRequest
 
 			searchResults.add( currentPlayer );
 		}
+
+		Collections.sort( searchResults );
 	}
 
 	private void parseAttack()
