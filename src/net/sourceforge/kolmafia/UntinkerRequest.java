@@ -62,6 +62,9 @@ public class UntinkerRequest extends KoLRequest
 		this.iterationsNeeded = 1;
 		this.item = new AdventureResult( itemId, itemCount );
 
+		if ( itemCount == Integer.MAX_VALUE )
+			this.item = this.item.getInstance( item.getCount( inventory ) );
+
 		if ( itemCount > 5 || item.getCount( inventory ) == itemCount )
 			addFormField( "untinkerall", "on" );
 		else
