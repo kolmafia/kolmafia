@@ -168,8 +168,6 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptTypeList simpleTypes = getSimpleTypes();
 	private static final ScriptSymbolTable reservedWords = getReservedWords();
 
-	private static ArrayList imports = new ArrayList();
-
 	private String fileName;
 	private String fullLine;
 	private String currentLine;
@@ -177,6 +175,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private int lineNumber;
 	private LineNumberReader commandStream;
+	private TreeMap imports = new TreeMap();
 
 	// Variables used during execution
 	private ScriptScope global;
@@ -185,8 +184,8 @@ public class KoLmafiaASH extends StaticEntity
 	// Feature control;
 
 	// disabled until and if we choose to document the feature
-	private static String notifyRecipient = null;
 	private static String lastImportString = "";
+	private static String notifyRecipient = null;
 	private static boolean arrays = false;
 
 	// **************** Data Types *****************
@@ -623,8 +622,6 @@ public class KoLmafiaASH extends StaticEntity
 		}
 		else if ( this == NAMESPACE_INTERPRETER )
 		{
-			imports.clear();
-
 			String importString = getProperty( "commandLineNamespace" );
 			if ( importString.equals( "" ) )
 			{
@@ -632,17 +629,32 @@ public class KoLmafiaASH extends StaticEntity
 				return;
 			}
 
-			if ( !importString.equals( lastImportString ) )
+			boolean shouldRefresh = false;
+			String [] importList = importString.split( "," );
+
+			for ( int i = 0; i < importList.length && !shouldRefresh; ++i )
 			{
+				scriptFile = KoLmafiaCLI.findScriptFile( SCRIPT_DIRECTORY, importList[i] );
+				shouldRefresh = scriptFile == null || !imports.containsKey( scriptFile ) ||
+					((Long)imports.get( scriptFile )).longValue() != scriptFile.lastModified();
+			}
+
+			if ( shouldRefresh )
+			{
+				imports.clear();
 				this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
 
 				ScriptScope result = this.global;
-				String [] importList = importString.split( "," );
 
 				try
 				{
 					for ( int i = 0; i < importList.length; ++i )
-						result = new KoLmafiaASH().parseFile( importList[i], result, this.global.parentScope );
+					{
+						KoLmafiaASH script = new KoLmafiaASH();
+						script.imports = this.imports;
+
+						result = script.parseFile( importList[i], result, this.global.parentScope );
+					}
 				}
 				catch ( Exception e )
 				{
@@ -745,11 +757,10 @@ public class KoLmafiaASH extends StaticEntity
 		if ( scriptFile == null || !scriptFile.exists() )
 			throw new FileNotFoundException( fileName + " could not be found" );
 
-		String name = scriptFile.toString();
-		if ( imports.contains( name ) )
+		if ( imports.containsKey( scriptFile ) )
 			return startScope;
-		imports.add( name );
 
+		imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
 		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
 
 		currentLine = getNextLine();
@@ -784,7 +795,10 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			try
 			{
-				result = new KoLmafiaASH().parseFile( importString, result, parentScope );
+				KoLmafiaASH script = new KoLmafiaASH();
+				script.imports = this.imports;
+
+				result = script.parseFile( importString, result, parentScope );
 			}
 			catch( java.io.FileNotFoundException e )
 			{
