@@ -409,11 +409,11 @@ public class AdventureDatabase extends KoLDatabase
 
                 // Sun at Noon, Tan Us
 		new ChoiceAdventure( "Plains", "choiceAdventure126", "Palindome",
-		  new String [] { "moxie", "more moxie", "even more moxie" } ),
+		  new String [] { "moxie", "chance of more moxie", "sunburned" } ),
 
                 // No sir, away!  A papaya war is on!
 		new ChoiceAdventure( "Plains", "choiceAdventure127", "Palindome",
-		  new String [] { "papayas", "random", "stats" }, 
+		  new String [] { "3 papayas", "trade 3 papayas for stats", "stats" }, 
 		  new String [] { "498", null, null } ),
 	};
 

@@ -215,7 +215,7 @@ star shirt	165	Mus: 67
 supportive bra	50	Mox: 10
 vampire cape	20	none
 eXtreme Bi-Polar Fleece Vest	90	none
-Ye Olde Navy Fleece	100	none
+Ye Olde Navy Fleece	100	Mus: 35
 
 # Weapon section.  This section includes all the items
 # which go in the "weapon" slot of the equipment menu.
