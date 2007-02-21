@@ -326,7 +326,7 @@
 326	mushroom pizza	1	all	86
 327	goat	5	all	47
 328	bottle of whiskey	2	all	35
-329	goat beard	9	all	45
+329	goat beard	9	all	65
 330	glass of goat's milk	1	all	23
 331	white Canadian	2	all	53
 332	lemon	1	all	35
@@ -345,7 +345,7 @@
 345	Knob Goblin superseltzer	14	all	49
 346	scrumptious reagent	0	all	1
 347	Dyspepsi-Cola	14	all	52
-348	cold ninja mask	9	all	75
+348	cold ninja mask	9	all	90
 349	icy katana hilt	0	all	64
 350	hot katana blade	0	all	35
 351	icy-hot katana	12	all	105
@@ -1324,9 +1324,9 @@
 1324	time trousers	10	all	0
 1325	time sword	12	all	0
 1326	Dyspepsi-Cola helmet	9	all	35
-1327	Cloaca-Cola shield	13	all	35
+1327	Cloaca-Cola shield	13	all	75
 1328	Cloaca-Cola fatigues	10	all	35
-1329	Dyspepsi-Cola shield	13	all	35
+1329	Dyspepsi-Cola shield	13	all	75
 1330	Dyspepsi-Cola fatigues	10	all	35
 1331	Cloaca-Cola helmet	9	all	35
 1332	Cloaca-Cola knapsack	3	all	200
