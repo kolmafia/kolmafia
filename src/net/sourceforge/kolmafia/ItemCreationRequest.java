@@ -367,7 +367,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return;
 		}
 
-		if ( AdventureDatabase.retrieveItem( input.getInstance( quantityNeeded ) ) )
+		if ( !AdventureDatabase.retrieveItem( input.getInstance( quantityNeeded ) ) )
 			return;
 
 		// If we don't have the correct tool, and the
