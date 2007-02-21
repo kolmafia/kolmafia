@@ -117,8 +117,8 @@ public abstract class KoLmafia implements KoLConstants
 	public static final int PASTAMASTERY = 3;
 	public static final int COCKTAILCRAFTING = 4;
 
-	private static boolean recoveryActive = false;
 	private static String currentIterationString = "";
+	protected static boolean recoveryActive = false;
 
 	public static boolean isMakingRequest = false;
 	public static KoLRequest currentRequest = null;
