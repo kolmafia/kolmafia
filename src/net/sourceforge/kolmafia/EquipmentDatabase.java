@@ -299,7 +299,14 @@ public class EquipmentDatabase extends KoLDatabase
 	 */
 
 	public static boolean isWearingOutfit( int outfitId )
-	{	return isWearingOutfit( normalOutfits.get( outfitId ) );
+	{
+		if ( outfitId < 0 )
+			return true;
+
+		if ( outfitId == 0 )
+			return false;
+
+		return isWearingOutfit( normalOutfits.get( outfitId ) );
 	}
 
 	/**
@@ -356,13 +363,13 @@ public class EquipmentDatabase extends KoLDatabase
 			return 24;
 
 		// No outfit existed for this area
-		return 0;
+		return -1;
 	}
 
 	public static boolean addOutfitConditions( KoLAdventure adventure )
 	{
 		int outfitId = getOutfitId( adventure );
-		if ( outfitId == 0 )
+		if ( outfitId <= 0 )
 			return false;
 
 		addOutfitConditions( outfitId );
@@ -371,6 +378,9 @@ public class EquipmentDatabase extends KoLDatabase
 
 	public static boolean retrieveOutfit( int outfitId )
 	{
+		if ( outfitId < 0 )
+			return true;
+
 		AdventureResult [] pieces = normalOutfits.get( outfitId ).getPieces();
 
 		for ( int i = 0; i < pieces.length; ++i )
