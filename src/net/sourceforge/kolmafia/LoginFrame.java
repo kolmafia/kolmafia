@@ -576,7 +576,7 @@ public class LoginFrame extends KoLFrame
 		{
 			isRefreshing = true;
 
-			String username = (String) saveStateNames.getSelectedItem();
+			username = (String) saveStateNames.getSelectedItem();
 			if ( username == null )
 				username = "";
 
