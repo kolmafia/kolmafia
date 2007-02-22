@@ -282,19 +282,15 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 
 	public void focusLost( FocusEvent e )
 	{
-		if ( buttonPanel == null && isValid() )
+		if ( buttonPanel == null )
 			actionConfirmed();
 	}
 
 	public void actionPerformed( ActionEvent e )
 	{
-		if ( buttonPanel == null && isValid() )
+		if ( buttonPanel == null )
 			actionConfirmed();
 	}
-
-	private Object [] thisArray = { this };
-	private static final Class [] ACTIONS = { ActionListener.class };
-	private static final Class [] FOCUSES = { FocusListener.class };
 
 	protected final class VerifiableElement implements Comparable
 	{
@@ -348,14 +344,28 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 				if ( c ==  null || c instanceof JLabel || c instanceof JButton )
 					return;
 
-				else if ( c instanceof JRadioButton || c instanceof JCheckBox || c instanceof JComboBox )
+				else if ( c instanceof JRadioButton )
 				{
-					c.getClass().getMethod( "addActionListener", ACTIONS ).invoke( c, thisArray );
+					((JRadioButton)c).addActionListener( ActionVerifyPanel.this );
 				}
 
-				else if ( c instanceof JTextField || c instanceof JPasswordField )
+				else if ( c instanceof JCheckBox )
 				{
-					c.getClass().getMethod( "addFocusListener", FOCUSES ).invoke( c, thisArray );
+					((JCheckBox)c).addActionListener( ActionVerifyPanel.this );
+				}
+
+				else if ( c instanceof JComboBox )
+				{
+					((JComboBox)c).addActionListener( ActionVerifyPanel.this );
+				}
+
+				else if ( c instanceof JTextField )
+				{
+					((JTextField)c).addFocusListener( ActionVerifyPanel.this );
+				}
+				else if ( c instanceof JPasswordField )
+				{
+					((JPasswordField)c).addFocusListener( ActionVerifyPanel.this );
 				}
 
 				else
