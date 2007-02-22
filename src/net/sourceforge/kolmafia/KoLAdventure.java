@@ -302,7 +302,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 
-			if ( !EquipmentDatabase.isWearingOutfit( outfitId ) )
+			if ( outfitId != -1 && !EquipmentDatabase.isWearingOutfit( outfitId ) )
 			{
 				isValidAdventure = false;
 				if ( !EquipmentDatabase.retrieveOutfit( outfitId ) )
@@ -311,6 +311,32 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
 				isValidAdventure = true;
 			}
+		}
+
+		// If the person has a continuum transfunctioner, then find
+		// some way of equipping it.  If they do not have one, then
+		// acquire one then try to equip it.  If the person has a two
+		// handed weapon, then report an error.
+
+		if ( adventureId.equals( "73" ) )
+		{
+			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER ) )
+			{
+				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php" ) );
+				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes1" ) );
+				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes2" ) );
+				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes3" ) );
+			}
+
+			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) > 1 )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "You need to free up a hand." );
+				return;
+			}
+
+			DEFAULT_SHELL.executeLine( "equip " + TRANSFUNCTIONER.getName() );
+			isValidAdventure = true;
+			return;
 		}
 
 		if ( formSource.indexOf( "adventure.php" ) == -1 )
@@ -520,32 +546,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( AdventureDatabase.validateZone( zone, adventureId ) )
 		{
-			isValidAdventure = true;
-			return;
-		}
-
-		// If the person has a continuum transfunctioner, then find
-		// some way of equipping it.  If they do not have one, then
-		// acquire one then try to equip it.  If the person has a two
-		// handed weapon, then report an error.
-
-		if ( adventureId.equals( "73" ) )
-		{
-			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER ) )
-			{
-				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php" ) );
-				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes1" ) );
-				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes2" ) );
-				RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "mystic.php?action=crackyes3" ) );
-			}
-
-			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) > 1 )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You need to free up a hand." );
-				return;
-			}
-
-			DEFAULT_SHELL.executeLine( "equip " + TRANSFUNCTIONER.getName() );
 			isValidAdventure = true;
 			return;
 		}
