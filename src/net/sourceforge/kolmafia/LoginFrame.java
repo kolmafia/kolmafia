@@ -173,11 +173,11 @@ public class LoginFrame extends KoLFrame
 		{
 			super( "login", "relay" );
 
-			usernameField = saveStateNames.isEmpty() ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
+			boolean useTextField = saveStateNames.isEmpty();
+			usernameField = useTextField ? (JComponent) new JTextField() : (JComponent) new LoginNameComboBox();
 			passwordField = new JPasswordField();
 
 			savePasswordCheckBox = new JCheckBox();
-
 			autoLoginCheckBox = new JCheckBox();
 			getBreakfastCheckBox = new JCheckBox();
 
@@ -220,10 +220,6 @@ public class LoginFrame extends KoLFrame
 			}
 
 			getBreakfastCheckBox.setSelected( StaticEntity.getBooleanProperty( "alwaysGetBreakfast" ) );
-			getBreakfastCheckBox.addActionListener( new GetBreakfastListener() );
-
-			autoLoginCheckBox.addActionListener( new AutoLoginListener() );
-			savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
 
 			try
 			{
@@ -237,6 +233,10 @@ public class LoginFrame extends KoLFrame
 
 				StaticEntity.printStackTrace( e );
 			}
+
+			getBreakfastCheckBox.addActionListener( new GetBreakfastListener() );
+			autoLoginCheckBox.addActionListener( new AutoLoginListener() );
+			savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -733,13 +733,14 @@ public class LoginFrame extends KoLFrame
 			scripts.addItem( "Put script bar along right of panel" );
 
 			VerifiableElement [] elements = new VerifiableElement[4];
+
 			elements[0] = new VerifiableElement( "Java L&F: ", looks );
 			elements[1] = new VerifiableElement( "Closing: ", closes );
 			elements[2] = new VerifiableElement( "Toolbar: ", toolbars );
 			elements[3] = new VerifiableElement( "Scripts: ", scripts );
 
-			setContent( elements );
 			actionCancelled();
+			setContent( elements );
 		}
 
 		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
@@ -813,8 +814,8 @@ public class LoginFrame extends KoLFrame
 				elements[ options.length + 2 ] = new VerifiableElement( "Change the inner portion of the tab gradient (shiny tabs)",
 					JLabel.LEFT, innerGradient );
 
-				setContent( elements );
 				actionCancelled();
+				setContent( elements );
 			}
 
 			public void actionConfirmed()
@@ -893,8 +894,8 @@ public class LoginFrame extends KoLFrame
 			for ( int i = 0; i < options.length; ++i )
 				elements[i+2] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
-			setContent( elements );
 			actionCancelled();
+			setContent( elements );
 		}
 
 		public void actionConfirmed()
@@ -957,8 +958,8 @@ public class LoginFrame extends KoLFrame
 			elements[2] = new VerifiableElement( "Login: ", proxyLogin );
 			elements[3] = new VerifiableElement( "Password: ", proxyPassword );
 
-			setContent( elements );
 			actionCancelled();
+			setContent( elements );
 		}
 
 		public void actionConfirmed()

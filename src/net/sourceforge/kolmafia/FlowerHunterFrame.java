@@ -334,13 +334,14 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			elements[2] = new VerifiableElement( "Win Message: ", winMessage );
 			elements[3] = new VerifiableElement( "Loss Message: ", lossMessage );
 
-			setContent( elements, null, getRankLabel(), true );
 			if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
 				stanceSelect.setSelectedIndex( 0 );
 			else if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
 				stanceSelect.setSelectedIndex( 1 );
 			else
 				stanceSelect.setSelectedIndex( 2 );
+
+			setContent( elements, null, getRankLabel(), true );
 		}
 
 		public void actionConfirmed()

@@ -129,8 +129,8 @@ public class HagnkStorageFrame extends KoLFrame
 			elements[0] = new VerifiableElement( "Transfer: ", fundSource );
 			elements[1] = new VerifiableElement( "Amount: ", amountField );
 			elements[2] = new VerifiableElement( "Available: ", closetField );
-			setContent( elements );
 
+			setContent( elements );
 			fundSource.addActionListener( new AvailableFundListener() );
 		}
 

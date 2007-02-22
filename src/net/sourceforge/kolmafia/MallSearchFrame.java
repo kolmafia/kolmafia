@@ -124,15 +124,13 @@ public class MallSearchFrame extends KoLPanelFrame
 			elements[1] = new VerifiableElement( "Search Limit: ", countField );
 			elements[2] = new VerifiableElement( " ", checkBoxPanels, false );
 
-			setContent( elements );
-
 			int searchCount = StaticEntity.getIntegerProperty( "defaultLimit" );
 			countField.setText( searchCount <= 0 ? "5" : String.valueOf( searchCount ) );
 
 			add( new SearchResultsPanel(), BorderLayout.CENTER );
-
 			currentlyBuying = false;
-			countField.setText( StaticEntity.getProperty( "defaultLimit" ) );
+
+			setContent( elements );
 		}
 
 		public void actionConfirmed()

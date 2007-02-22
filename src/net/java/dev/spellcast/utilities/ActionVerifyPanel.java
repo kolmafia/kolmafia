@@ -282,13 +282,13 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 
 	public void focusLost( FocusEvent e )
 	{
-		if ( buttonPanel == null )
+		if ( buttonPanel == null && contentSet )
 			actionConfirmed();
 	}
 
 	public void actionPerformed( ActionEvent e )
 	{
-		if ( buttonPanel == null )
+		if ( buttonPanel == null && contentSet )
 			actionConfirmed();
 	}
 
