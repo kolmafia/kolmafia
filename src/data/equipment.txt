@@ -70,7 +70,7 @@ makeshift turban	100	none
 meat cowboy hat	40	Mox: 5
 meatloaf helmet	55	Mox: 12
 meaty helmet turtle	70	Mox: 20
-mesh cap	130	Mox: 50
+mesh cap	165	Mox: 67
 miner's helmet	80	Mox: 25
 Mohawk wig	140	Mox: 55
 mullet wig	40	Mox: 5
@@ -150,7 +150,7 @@ Knob Goblin elite pants	60	Mox: 15
 Knob Goblin harem pants	10	none
 Knob Goblin pants	25	none
 Knob Goblin Uberpants	45	Mox: 7
-leather chaps	130	Mox: 50
+leather chaps	160	Mox: 65
 leotarrrd	90	Mox: 30
 liar's pants	100	none
 los chinos	55	Mox: 12
@@ -279,7 +279,7 @@ Crimbo sword	100	Mus: 35	2-handed sword
 Crimbo ukelele	100	Mox: 35	2-handed guitar
 crowbarrr	80	Mus: 25	2-handed staff
 curdflinger	45	Mox: 5	1-handed crossbow
-denim axe	120	Mus: 45	2-handed axe
+denim axe	170	Mus: 70	2-handed axe
 dense meat sword	60	Mus: 15	2-handed sword
 dense meat staff	60	Mus: 15	2-handed staff
 dense meat crossbow	60	Mox: 15	2-handed crossbow
