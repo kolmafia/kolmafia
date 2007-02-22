@@ -296,7 +296,8 @@ public class Louvre
 		int goal = StaticEntity.getIntegerProperty( "louvreGoal" );
 
 		// Pick the best choice
-		return KoLCharacter.getLevel() < 12 ? pickNewExit( source, goal ) : pickOldExit( source, goal );
+		return pickNewExit( source, goal );
+//		return KoLCharacter.getLevel() < 12 ? pickNewExit( source, goal ) : pickOldExit( source, goal );
 	}
 
 	// Node marking to prevent loops
