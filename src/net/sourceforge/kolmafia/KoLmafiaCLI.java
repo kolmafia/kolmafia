@@ -3567,6 +3567,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeClosetManageRequest( String parameters )
 	{
+		if ( parameters.length() <= 4 )
+		{
+			printList( closet );
+			return;
+		}
+
 		if ( !parameters.startsWith( "take" ) && !parameters.startsWith( "put" ) )
 		{
 			updateDisplay( ERROR_STATE, "Invalid closet command." );
@@ -3803,7 +3809,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( collection.isEmpty() )
 			RequestThread.postRequest( new MuseumRequest() );
 
-		if ( parameters.length() == 0 )
+		if ( parameters.length() <= 4 )
 		{
 			printList( collection );
 			return;
@@ -3978,6 +3984,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		String command = currentLine.split( " " )[0];
 		String parameters = currentLine.substring( command.length() ).trim();
+
 		if ( parameters.length() == 0 )
 		{
 			updateDisplay( ERROR_STATE, "Zap what?" );
