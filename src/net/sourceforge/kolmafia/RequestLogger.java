@@ -51,9 +51,6 @@ public class RequestLogger
 
 	private static void doRegister( KoLRequest request, String urlString )
 	{
-		if ( LoginRequest.isInstanceRunning() )
-			return;
-
 		boolean isExternal = request.getClass() == KoLRequest.class || request instanceof LocalRelayRequest;
 
 		// There are some adventures which do not post any

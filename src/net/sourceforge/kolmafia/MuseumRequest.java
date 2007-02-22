@@ -36,11 +36,15 @@ package net.sourceforge.kolmafia;
 public class MuseumRequest extends SendMessageRequest
 {
 	private boolean isDeposit;
+	private boolean isWithdrawal;
 	private boolean isManagement;
 
 	public MuseumRequest()
 	{
 		super( "managecollectionshelves.php" );
+
+		this.isDeposit = false;
+		this.isWithdrawal = false;
 		this.isManagement = false;
 	}
 
@@ -51,6 +55,7 @@ public class MuseumRequest extends SendMessageRequest
 
 		this.isManagement = true;
 		this.isDeposit = isDeposit;
+		this.isWithdrawal = !isDeposit;
 
 		this.source = isDeposit ? inventory : collection;
 		this.destination = isDeposit ? collection : inventory;
@@ -64,7 +69,9 @@ public class MuseumRequest extends SendMessageRequest
 		for ( int i = 0; i < items.length; ++i )
 			addFormField( "whichshelf" + items[i].getItemId(), String.valueOf( shelves[i] ) );
 
-		isManagement = true;
+		this.isDeposit = false;
+		this.isWithdrawal = false;
+		this.isManagement = true;
 	}
 
 	public int getCapacity()
@@ -111,7 +118,7 @@ public class MuseumRequest extends SendMessageRequest
 	}
 
 	public String getStatusMessage()
-	{	return isDeposit ? "Placing items in display case" : "Removing items from display case";
+	{	return isDeposit ? "Placing items in display case" : isWithdrawal ? "Removing items from display case" : "Updating display case";
 	}
 
 	public static boolean registerRequest( String urlString )
@@ -122,7 +129,10 @@ public class MuseumRequest extends SendMessageRequest
 		if ( urlString.indexOf( "action=take" ) != -1 )
 			return registerRequest( "remove from display case", urlString, collection, inventory, null, 0 );
 
-		return registerRequest( "put in display case", urlString, inventory, collection, null, 0 );
+		if ( urlString.indexOf( "action=put" ) != -1 )
+			return registerRequest( "put in display case", urlString, inventory, collection, null, 0 );
+
+		return true;
 	}
 }
 

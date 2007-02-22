@@ -311,7 +311,7 @@ public class ItemStorageRequest extends SendMessageRequest
 	}
 
 	public boolean allowUngiftableTransfer()
-	{	return moveType == STORAGE_TO_INVENTORY;
+	{	return true;
 	}
 
 	public String getStatusMessage()
