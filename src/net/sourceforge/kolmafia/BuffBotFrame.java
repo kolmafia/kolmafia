@@ -224,8 +224,8 @@ public class BuffBotFrame extends KoLFrame
 			elements[0] = new VerifiableElement( "Message disposal: ", messageDisposalSelect );
 			elements[1] = new VerifiableElement( "Mana restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) );
 
-			setContent( elements );
 			actionCancelled();
+			setContent( elements );
 		}
 
 		public void actionConfirmed()

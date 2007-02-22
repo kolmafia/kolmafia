@@ -164,8 +164,8 @@ public class OptionsFrame extends KoLFrame
 					elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 			}
 
-			setContent( elements );
 			actionCancelled();
+			setContent( elements );
 		}
 
 		public void actionConfirmed()
