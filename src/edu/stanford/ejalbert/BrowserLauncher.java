@@ -712,7 +712,11 @@ public class BrowserLauncher {
 						process.exitValue();
 
 						if ( browser != null )
-							Runtime.getRuntime().exec( new String [] { (String)browser, url } );
+						{
+							process = Runtime.getRuntime().exec( browser + " " + url + " &" );
+							process.waitFor();
+							process.exitValue();
+						}
 					}
 					catch (Exception e)
 					{
