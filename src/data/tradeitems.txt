@@ -496,7 +496,7 @@
 496	cat appendix	0	all	47
 497	gnatwing	0	all	52
 498	papaya	1	all	32
-499	denim axe	12	all	125
+499	denim axe	12	all	225
 500	Elf Farm Raffle ticket	3	all	48
 501	Elfin shortbread	1	all	49
 502	pagoda plans	0	none	0
