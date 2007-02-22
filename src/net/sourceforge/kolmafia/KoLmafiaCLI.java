@@ -457,6 +457,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void executeCommand( String command, String parameters )
 	{
+		if ( findScriptFile( command ) != null )
+		{
+			executeScriptCommand( "call", currentLine );
+			return;
+		}
+
 		// Handle the if-statement and the while-statement.
 		// The while-statement will not get a separate comment
 		// because it is unloved.
