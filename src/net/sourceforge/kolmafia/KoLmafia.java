@@ -2586,6 +2586,17 @@ public abstract class KoLmafia implements KoLConstants
 		if ( printing == availableSkills )
 		{
 			ClassSkillsDatabase.generateSkillList( buffer, false );
+
+			if ( ostream == System.out )
+			{
+				KoLmafiaCLI.printLine( buffer.toString(), false );
+
+				buffer.setLength(0);
+				ClassSkillsDatabase.generateSkillList( buffer, true );
+				commandBuffer.append( buffer.toString() );
+			}
+			else
+				ostream.println( buffer.toString() );
 		}
 		else
 		{
@@ -2597,12 +2608,12 @@ public abstract class KoLmafia implements KoLConstants
 				buffer.append( elements[i].toString() );
 				buffer.append( LINE_BREAK );
 			}
-		}
 
-		if ( ostream == System.out )
-			KoLmafiaCLI.printLine( buffer.toString() );
-		else
-			ostream.println( buffer.toString() );
+			if ( ostream == System.out )
+				KoLmafiaCLI.printLine( buffer.toString() );
+			else
+				ostream.println( buffer.toString() );
+		}
 	}
 
 	/**

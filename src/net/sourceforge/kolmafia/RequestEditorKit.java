@@ -996,8 +996,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		String remaining = buffer.toString().substring( endIndex );
 		buffer.delete( startIndex, buffer.length() );
 
+		buffer.append( "<br><center>" );
+
 		ClassSkillsDatabase.generateSkillList( buffer, true );
-		buffer.append( "</td></tr><tr><td colspan=2 height=1 bgcolor=black></td></tr>" );
+		buffer.append( "</center></td></tr><tr><td colspan=2 height=1 bgcolor=black></td></tr>" );
 		buffer.append( remaining );
 	}
 
