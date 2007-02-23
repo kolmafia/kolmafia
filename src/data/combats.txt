@@ -16,7 +16,6 @@
 # Missing Combat Percent Data (marked with -1):
 #
 # Road to the White Citadel
-# Icy Peak
 #
 # All monsters are usually equally likely to appear. For those areas
 # where some monsters are more heavily weighted than others, specify the
@@ -77,7 +76,7 @@ Haunted Library	-1	Banshee Librarian	Bookbat	Writing Desk
 Haunted Pantry	50	Possessed Can of Tomatoes: 3	Fiendish Can of Asparagus: 3	Flame-Broiled Meat Blob: 2	Undead Elbow Macaroni: 3
 Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
 Hole in the Sky	100	The Astronomer: 3	One-Eyed Willie: 2	The Burrowing Bishop: 2	The Family Jewels: 2	The Hooded Warrior: 2	The Junk: 2	The Pork Sword: 2	The Skinflute: 2	The Trouser Snake: 2	The Twig and Berries: 2
-Icy Peak	-1	Knott Yeti	Snow Queen	Upgraded Ram
+Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	Upgraded Ram: 2
 Itznotyerzitz Mine	75	7-Foot Dwarf (Moil)	7-Foot Dwarf (Royale)	7-Foot Dwarf Foreman
 Knob Goblin Harem	60	Knob Goblin Elite Guardsman: 1	Knob Goblin Harem Girl: 2
 Knob Goblin Kitchens	100	Knob Goblin Chef: 3	Knob Goblin Master Chef: 2
