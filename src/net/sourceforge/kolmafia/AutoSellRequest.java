@@ -115,8 +115,8 @@ public class AutoSellRequest extends SendMessageRequest
 			addFormField( "item" + index, String.valueOf( item.getItemId() ) );
 			addFormField( getQuantityField() + index, String.valueOf( item.getCount() ) );
 
-			addFormField( "price" + index, index >= prices.length || prices[ index - 1 ] == 0 ? "" : String.valueOf( prices[ index - 1 ] ) );
-			addFormField( "limit" + index, index >= limits.length || limits[ index - 1 ] == 0 ? "" : String.valueOf( limits[ index - 1 ] ) );
+			addFormField( "price" + index, index - 1 >= prices.length || prices[ index - 1 ] == 0 ? "" : String.valueOf( prices[ index - 1 ] ) );
+			addFormField( "limit" + index, index - 1 >= limits.length || limits[ index - 1 ] == 0 ? "" : String.valueOf( limits[ index - 1 ] ) );
 
 			return;
 		}
