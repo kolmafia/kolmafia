@@ -3256,6 +3256,10 @@ public class KoLmafiaCLI extends KoLmafia
 	 */
 
 	public static AdventureResult getFirstMatchingItem( String parameters )
+	{	return getFirstMatchingItem( parameters, true );
+	}
+
+	public static AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure )
 	{
 		int itemId = -1;
 		int itemCount = 1;
@@ -3298,7 +3302,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( itemId == -1 )
 		{
-			updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
+			if ( errorOnFailure )
+				updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
+
 			return null;
 		}
 
@@ -3618,22 +3624,47 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeAutoMallRequest( String parameters )
 	{
-		String [] tokens = parameters.split( " " );
-		StringBuffer itemName = new StringBuffer();
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, false );
+		int price = 0;
+		int limit = 0;
 
-		itemName.append( '*' );
-		for ( int i = 0; i < tokens.length - 2; ++i )
+		if ( firstMatch == null )
 		{
-			itemName.append( ' ' );
-			itemName.append( tokens[i] );
+			int spaceIndex = parameters.lastIndexOf( " " );
+			if ( spaceIndex == -1 )
+				return;
+
+			price = StaticEntity.parseInt( parameters.substring( spaceIndex + 1 ) );
+			parameters = parameters.substring( 0, spaceIndex ).trim();
+			firstMatch = getFirstMatchingItem( parameters, false );
 		}
 
-		AdventureResult firstMatch = getFirstMatchingItem( itemName.toString() );
+		if ( firstMatch == null )
+		{
+			int spaceIndex = parameters.lastIndexOf( " " );
+			if ( spaceIndex == -1 )
+				return;
+
+			limit = price;
+			price = StaticEntity.parseInt( parameters.substring( spaceIndex + 1 ) );
+			parameters = parameters.substring( 0, spaceIndex ).trim();
+
+			firstMatch = getFirstMatchingItem( parameters, false );
+		}
+
 		if ( firstMatch == null )
 			return;
 
-		RequestThread.postRequest( new AutoSellRequest( firstMatch,
-			StaticEntity.parseInt( tokens[ tokens.length - 2 ] ), StaticEntity.parseInt( tokens[ tokens.length - 1 ] ) ) );
+		int inventoryCount = firstMatch.getCount( inventory );
+
+		if ( firstMatch.getCount() == 1 && !parameters.startsWith( "1" ) )
+			firstMatch = firstMatch.getInstance( inventoryCount );
+		else if ( firstMatch.getCount() != inventoryCount )
+			firstMatch = firstMatch.getInstance( Math.min( firstMatch.getCount(), inventoryCount ) );
+
+System.out.println( firstMatch + " @ " + price + " limit " + limit );
+
+		RequestThread.postRequest( new AutoSellRequest( firstMatch, price, limit ) );
 	}
 
 	/**

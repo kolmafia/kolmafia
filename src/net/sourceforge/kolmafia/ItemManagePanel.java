@@ -153,31 +153,21 @@ public class ItemManagePanel extends LabeledScrollPanel
 		{
 			filters = null;
 		}
-		else if ( buttonListeners == null || elementModel == ConcoctionsDatabase.getConcoctions() )
-		{
-			filters = new JCheckBox[3];
-			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
-			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
-			filters[2] = new JCheckBox( "Show others", true );
-		}
 		else
 		{
-			filters = new JCheckBox[4];
+			filters = new JCheckBox[5];
 
 			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
 			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
 			filters[2] = new JCheckBox( "Show equipment", true );
 			filters[3] = new JCheckBox( "Show others", true );
-		}
+			filters[4] = new JCheckBox( "Show no-trade", true );
 
-		if ( filters != null )
-		{
-			for ( int i = 0; i < filters.length; ++i )
+			for ( int i = 0; i < 4; ++i )
 			{
 				filterPanel.add( filters[i] );
 				filters[i].addActionListener( new UpdateFilterListener() );
 			}
-
 		}
 
 		northPanel.add( filterPanel, BorderLayout.NORTH );
@@ -518,7 +508,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public class FilterItemComboBox extends MutableComboBox
 	{
-		public boolean food, booze, equip, other;
+		public boolean food, booze, equip, other, nosell, notrade;
 
 		public FilterItemComboBox()
 		{
@@ -546,22 +536,17 @@ public class ItemManagePanel extends LabeledScrollPanel
 				booze = true;
 				equip = true;
 				other = true;
+				nosell = true;
+				notrade = true;
 			}
 			else
 			{
 				food = filters[0].isSelected();
 				booze = filters[1].isSelected();
 
-				if ( filters.length == 3 )
-				{
-					other = filters[2].isSelected();
-					equip = other;
-				}
-				else
-				{
-					equip = filters[2].isSelected();
-					other = filters[3].isSelected();
-				}
+				equip = filters[2].isSelected();
+				other = filters[3].isSelected();
+				notrade = filters[4].isSelected();
 			}
 
 			elementList.applyFilter( filter );
@@ -580,9 +565,13 @@ public class ItemManagePanel extends LabeledScrollPanel
 				if ( !isItem )
 					return super.isVisible( element );
 
-				boolean isVisibleWithFilter = true;
 				String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() : ((ItemCreationRequest)element).getName();
 				int itemId = TradeableItemDatabase.getItemId( name );
+
+				if ( !notrade && !TradeableItemDatabase.isTradeable( itemId ) )
+					return false;
+
+				boolean isVisibleWithFilter = true;
 
 				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 				{
