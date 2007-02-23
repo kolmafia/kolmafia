@@ -2576,19 +2576,33 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public void printList( List printing )
-	{
-		Object [] elements = new Object[ printing.size() ];
-		printing.toArray( elements );
+	{	printList( printing, System.out );
+	}
 
+	private void printList( List printing, PrintStream ostream )
+	{
 		StringBuffer buffer = new StringBuffer();
 
-		for ( int i = 0; i < elements.length; ++i )
+		if ( printing == availableSkills )
 		{
-			buffer.append( elements[i].toString() );
-			buffer.append( LINE_BREAK );
+			ClassSkillsDatabase.generateSkillList( buffer, false );
+		}
+		else
+		{
+			Object [] elements = new Object[ printing.size() ];
+			printing.toArray( elements );
+
+			for ( int i = 0; i < elements.length; ++i )
+			{
+				buffer.append( elements[i].toString() );
+				buffer.append( LINE_BREAK );
+			}
 		}
 
-		KoLmafiaCLI.printLine( buffer.toString() );
+		if ( ostream == System.out )
+			KoLmafiaCLI.printLine( buffer.toString() );
+		else
+			ostream.println( buffer.toString() );
 	}
 
 	/**
@@ -3274,6 +3288,11 @@ public abstract class KoLmafia implements KoLConstants
 			sessionStream.print( "Oxygenarian " );
 
 		sessionStream.println( KoLCharacter.getClassType() );
+		sessionStream.println();
+		sessionStream.println();
+
+		printList( availableSkills, sessionStream );
+		sessionStream.println();
 		sessionStream.println();
 		sessionStream.println();
 	}

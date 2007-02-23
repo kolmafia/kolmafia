@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -47,6 +48,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 	private static Map skillByName = new TreeMap();
 	private static Map mpConsumptionById = new TreeMap();
 	private static Map skillTypeById = new TreeMap();
+	private static Map skillCategoryById = new TreeMap();
 	private static Map durationById = new TreeMap();
 
 	public static final int CASTABLE = -1;
@@ -54,6 +56,23 @@ public class ClassSkillsDatabase extends KoLDatabase
 	public static final int SKILL = 1;
 	public static final int BUFF = 2;
 	public static final int COMBAT = 3;
+
+	private static final String [] CATEGORIES = new String []
+	{
+		"",
+		"Item Creation",
+		"Defensive (Passive)",
+		"Defensive (Castable)",
+		"Bonus to Weapon Damage",
+		"Weapon-Based Attacks",
+		"Bonus to Spellslinging",
+		"Spellslinging Attacks",
+		"Monster Delevelers",
+		"Health Restoration",
+		"Buffed Stat Adjustment",
+		"RNG Hate Mitigation",
+		"Stat Gains Boosters"
+	};
 
 	static
 	{
@@ -65,24 +84,31 @@ public class ClassSkillsDatabase extends KoLDatabase
 		BufferedReader reader = getReader( "classskills.txt" );
 
 		String [] data;
-		Integer skillId, skillType, mpConsumption, duration;
+		Integer skillId, skillType, skillCategory;
+		Integer mpConsumption, duration;
 		String skillName;
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 5 )
+			if ( data.length == 6 )
 			{
 				skillId = Integer.valueOf( data[0] );
-				skillType = Integer.valueOf( data[1] );
-				mpConsumption = Integer.valueOf( data[2] );
-				duration = Integer.valueOf( data[3] );
-				skillName = getDisplayName( data[4] );
+				skillName = getDisplayName( data[1] );
+
+				skillType = Integer.valueOf( data[2] );
+				skillCategory = Integer.valueOf( data[3] );
+
+				mpConsumption = Integer.valueOf( data[4] );
+				duration = Integer.valueOf( data[5] );
 
 				skillById.put( skillId, skillName );
-				skillByName.put( getCanonicalName( data[4] ), skillId );
+				skillByName.put( getCanonicalName( skillName ), skillId );
+
+				skillTypeById.put( skillId, skillType );
+				skillCategoryById.put( skillId, skillCategory );
+
 				mpConsumptionById.put( skillId, mpConsumption );
 				durationById.put( skillId, duration );
-				skillTypeById.put( skillId, skillType );
 			}
 		}
 
@@ -129,6 +155,12 @@ public class ClassSkillsDatabase extends KoLDatabase
 	{
 		Object skillType = skillTypeById.get( new Integer( skillId ) );
 		return skillType == null ? -1 : ((Integer)skillType).intValue();
+	}
+
+	public static final int getCategory( int skillId )
+	{
+		Object skillCategory = skillCategoryById.get( new Integer( skillId ) );
+		return skillCategory == null ? 0 : ((Integer)skillCategory).intValue();
 	}
 
 	/**
@@ -301,5 +333,76 @@ public class ClassSkillsDatabase extends KoLDatabase
 	 */
 	public static Set entrySet()
 	{	return skillById.entrySet();
+	}
+
+	public static void generateSkillList( StringBuffer buffer, boolean appendHTML )
+	{
+		Object [] elements = new Object[ availableSkills.size() ];
+		availableSkills.toArray( elements );
+
+		ArrayList [] categories = new ArrayList[ CATEGORIES.length ];
+		for ( int i = 0; i < categories.length; ++i )
+			categories[i] = new ArrayList();
+
+		for ( int i = 0; i < elements.length; ++i )
+		{
+			int skillId = ((UseSkillRequest)elements[i]).getSkillId();
+
+			int categoryId = getCategory( skillId );
+			categories[ categoryId ].add( new Integer( skillId ) );
+		}
+
+		Integer currentSkill;
+		buffer.append( "<br><center>" );
+
+		for ( int i = 1; i < categories.length; ++i )
+		{
+			if ( categories[i].isEmpty() )
+				continue;
+
+			Collections.sort( categories[i] );
+
+			if ( appendHTML )
+				buffer.append( "<u><b>" );
+
+			buffer.append( CATEGORIES[i] );
+
+			if ( appendHTML )
+				buffer.append( "</b></u><br>" );
+			else
+				buffer.append( "<br>" );
+
+			buffer.append( LINE_BREAK );
+
+			for ( int j = 0; j < categories[i].size(); ++j )
+			{
+				currentSkill = (Integer) categories[i].get(j);
+
+				if ( appendHTML )
+				{
+					buffer.append( "<a onClick='javascript:skill(" );
+					buffer.append( currentSkill );
+					buffer.append( ")'>" );
+				}
+				else
+				{
+					buffer.append( " - " );
+				}
+
+				buffer.append( skillById.get( currentSkill ) );
+
+				if ( appendHTML )
+					buffer.append( "</a><br>" );
+
+				buffer.append( LINE_BREAK );
+			}
+
+			if ( appendHTML )
+				buffer.append( "<br>" );
+
+			buffer.append( LINE_BREAK );
+		}
+
+		buffer.append( "</center>" );
 	}
 }

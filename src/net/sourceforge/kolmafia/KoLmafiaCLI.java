@@ -1753,7 +1753,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// their own commands, but are actually commands
 		// which are derived from other commands.
 
-		if ( command.equals( "cast" ) || command.equals( "skill" ) )
+		if ( command.equals( "cast" ) || command.equals( "skill" ) || command.equals( "buffs" ) )
 			command = "skills";
 
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) || command.equals( "summary" ) ||
@@ -3103,22 +3103,29 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			List mainList = desiredData.equals( "closet" ) ? closet : desiredData.equals( "summary" ) ? tally :
 				desiredData.equals( "outfits" ) ? KoLCharacter.getOutfits() : desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
-				desiredData.equals( "effects" ) ? activeEffects : desiredData.equals( "skills" ) ? availableSkills :
-				desiredData.equals( "closet" ) ? closet : inventory;
+				desiredData.equals( "effects" ) ? activeEffects : desiredData.equals( "skills" ) ? availableSkills : desiredData.equals( "closet" ) ? closet : inventory;
 
-			String currentItem;
-			List resultList = new ArrayList();
-			Object [] items = new Object[ mainList.size() ];
-			mainList.toArray( items );
-
-			for ( int i = 0; i < items.length; ++i )
+			if ( filter.equals( "" ) )
 			{
-				currentItem = items[i].toString().toLowerCase();
-				if ( currentItem.indexOf( filter ) != -1 )
-					resultList.add( currentItem );
+				printList( mainList );
 			}
+			else
+			{
+				String currentItem;
+				List resultList = new ArrayList();
 
-			printList( resultList );
+				Object [] items = new Object[ mainList.size() ];
+				mainList.toArray( items );
+
+				for ( int i = 0; i < items.length; ++i )
+				{
+					currentItem = items[i].toString().toLowerCase();
+					if ( currentItem.indexOf( filter ) != -1 )
+						resultList.add( items[i] );
+				}
+
+				printList( resultList );
+			}
 		}
 
 		KoLmafiaCLI.printBlankLine();
@@ -4309,7 +4316,9 @@ public class KoLmafiaCLI extends KoLmafia
 				colorBuffer.append( "<font color=olive>" );
 			}
 
-			colorBuffer.append( wordWrappedLine.toString().replaceAll( "[" + LINE_BREAK + "]+", "<br>" ) );
+			StaticEntity.globalStringReplace( wordWrappedLine, "\n", "<br>" );
+
+			colorBuffer.append( wordWrappedLine.toString() );
 			if ( message.startsWith( " > QUEUED" ) )
 				colorBuffer.append( "</b>" );
 

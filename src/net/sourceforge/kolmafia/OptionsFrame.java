@@ -208,6 +208,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "relayAddsRoundNumber", "Add current round number to fight pages" },
 			{ "relayAddsUseLinks", "Add decorator [use] links when receiving items" },
+			{ "relayCategorizesSkills", "Use different ordering for skills on your character sheet" },
 			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
 			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Teh Kilt script" },
 
