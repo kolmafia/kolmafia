@@ -486,15 +486,15 @@
 486	Talisman o' Nam	8	all	102
 487	arrrgyle socks	8	all	48
 488	guitar pick	0	all	25
-489	drab sonata	0	all	52
+489	drab sonata	0	all	155
 490	mesh cap	9	all	135
-491	enormous belt buckle	0	all	59
+491	enormous belt buckle	0	all	125
 492	leather chaps	10	all	135
-493	ketchup hound	3	all	52
+493	ketchup hound	3	all	120
 494	batblade	12	all	115
 495	catgut	0	all	44
 496	cat appendix	0	all	47
-497	gnatwing	0	all	52
+497	gnatwing	0	all	118
 498	papaya	1	all	32
 499	denim axe	12	all	225
 500	Elf Farm Raffle ticket	3	all	48
