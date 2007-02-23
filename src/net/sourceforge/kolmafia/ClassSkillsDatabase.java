@@ -353,7 +353,6 @@ public class ClassSkillsDatabase extends KoLDatabase
 		}
 
 		Integer currentSkill;
-		buffer.append( "<br><center>" );
 
 		for ( int i = 1; i < categories.length; ++i )
 		{
@@ -370,9 +369,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 			if ( appendHTML )
 				buffer.append( "</b></u><br>" );
 			else
-				buffer.append( "<br>" );
-
-			buffer.append( LINE_BREAK );
+				buffer.append( LINE_BREAK );
 
 			for ( int j = 0; j < categories[i].size(); ++j )
 			{
@@ -380,9 +377,9 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 				if ( appendHTML )
 				{
-					buffer.append( "<a onClick='javascript:skill(" );
+					buffer.append( "<a onClick=\"javascript:skill(" );
 					buffer.append( currentSkill );
-					buffer.append( ")'>" );
+					buffer.append( ");\">" );
 				}
 				else
 				{
@@ -393,16 +390,14 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 				if ( appendHTML )
 					buffer.append( "</a><br>" );
-
-				buffer.append( LINE_BREAK );
+				else
+					buffer.append( LINE_BREAK );
 			}
 
 			if ( appendHTML )
 				buffer.append( "<br>" );
-
-			buffer.append( LINE_BREAK );
+			else
+				buffer.append( LINE_BREAK );
 		}
-
-		buffer.append( "</center>" );
 	}
 }

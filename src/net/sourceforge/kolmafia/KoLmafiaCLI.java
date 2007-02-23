@@ -4235,14 +4235,22 @@ public class KoLmafiaCLI extends KoLmafia
 	private static final int MAXIMUM_LINE_LENGTH = 96;
 
 	public static void printBlankLine()
-	{	printLine( CONTINUE_STATE, " " );
+	{	printLine( CONTINUE_STATE, " ", true );
 	}
 
 	public static void printLine( String message )
-	{	printLine( CONTINUE_STATE, message );
+	{	printLine( CONTINUE_STATE, message, true );
+	}
+
+	public static void printLine( String message, boolean addToBuffer )
+	{	printLine( CONTINUE_STATE, message, addToBuffer );
 	}
 
 	public static void printLine( int state, String message )
+	{	printLine( state, message, true );
+	}
+
+	public static void printLine( int state, String message, boolean addToBuffer )
 	{
 		if ( message == null || (message.trim().length() == 0 && previousUpdateString.length() == 0) )
 			return;
@@ -4286,6 +4294,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		mirrorStream.println( wordWrappedLine.toString() );
 		debugStream.println( wordWrappedLine.toString() );
+
+		if ( !addToBuffer )
+			return;
 
 		StringBuffer colorBuffer = new StringBuffer();
 
