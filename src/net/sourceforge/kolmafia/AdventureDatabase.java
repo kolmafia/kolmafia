@@ -867,7 +867,12 @@ public class AdventureDatabase extends KoLDatabase
 		if ( adventureURL.indexOf( "sewer.php" ) != -1 && adventureURL.indexOf( "doodit" ) != -1 )
 			return (KoLAdventure) adventureLookup.get( "sewer.php?doodit=1" );
 
-		return (KoLAdventure) adventureLookup.get( adventureURL.startsWith( "/" ) ? adventureURL.substring(1) : adventureURL );
+
+		if ( adventureURL.startsWith( "/" ) )
+			adventureURL = adventureURL.substring(1);
+
+		KoLAdventure location = (KoLAdventure) adventureLookup.get( adventureURL );
+		return location == null || location.getRequest() instanceof ClanGymRequest ? null : location;
 	}
 
 	public static KoLAdventure getAdventure( String adventureName )
