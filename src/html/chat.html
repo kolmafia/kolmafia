@@ -205,24 +205,10 @@
 				return;
 
 			setTimeout( getCLIUpdate, 2000 )
-
-			if ( httpObject.responseText.length > 2 )
-				display.innerHTML += ( httpObject.responseText );
-
-			if ( display.innerHTML.length > 30000 )
-			{
-				display.innerHTML = display.innerHTML.substring(
-					display.innerHTML.lastIndexOf( "<br>", 10000 ) + 4 );
-			}
-
-			display.style.width = initwidth;
-			display.scrollTop = display.scrollHeight;
-
-			if ( !isRefreshing && httpObject.responseText.indexOf("<!-- REFRESH -->") != -1 )
-				refreshSidebar();
+			updateDisplay( display, httpObject.responseText );
 		};
 
-		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/getNewMessages" );
+		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/getNewMessages?type=status" );
 		httpObject.send( null );
 	};
 
@@ -259,20 +245,7 @@
 				return;
 
 			executed = true;
-			if ( httpObject.responseText.length > 2 )
-				display.innerHTML += ( httpObject.responseText );
-
-			if ( display.innerHTML.length > 30000 )
-			{
-				display.innerHTML = display.innerHTML.substring(
-					display.innerHTML.lastIndexOf( "<br>", 10000 ) + 4 );
-			}
-
-			display.style.width = initwidth;
-			display.scrollTop = display.scrollHeight;
-
-			if ( !isRefreshing && httpObject.responseText.indexOf("<!-- REFRESH -->") != -1 )
-				refreshSidebar();
+			updateDisplay( display, httpObject.responseText );
 		}
 
 		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/submitCommand?cmd=" + URLEncode( command ) );
@@ -296,29 +269,7 @@
 				return;
 
 			setTimeout( getChatUpdate, 8000 );
-
-			if ( httpObject.responseText == null )
-				return;
-
-			if ( httpObject.responseText.length < 2 )
-				return;
-
-			var responseText = httpObject.responseText;
-			var commentIndex = responseText.indexOf( "<!--" );
-
-			if ( commentIndex != -1 )
-				responseText = responseText.substring( 0, commentIndex );
-
-			display.innerHTML += responseText;
-
-			if ( display.innerHTML.length > 30000 )
-			{
-				display.innerHTML = display.innerHTML.substring(
-					display.innerHTML.lastIndexOf( "<br>", 10000 ) + 4 );
-			}
-
-			display.style.width = initwidth;
-			display.scrollTop = display.scrollHeight;
+			updateDisplay( display, httpObject.responseText );
 
 			var index = httpObject.responseText.lastIndexOf( "lastseen" );
 			var newlast = httpObject.responseText.substring( index + 9, index + 19 );
@@ -381,22 +332,7 @@
 				return;
 
 			executed = true;
-			if ( httpObject.responseText == null )
-				parent.location.href = "http://www.kingdomofloathing.com/login.php?results=Session timed out.";
-
-			if ( httpObject.responseText.length < 2 )
-				return;
-
-			display.innerHTML += ( httpObject.responseText );
-
-			if ( display.innerHTML.length > 30000 )
-			{
-				display.innerHTML = display.innerHTML.substring(
-					display.innerHTML.lastIndexOf( "<br>", 10000 ) + 4 );
-			}
-
-			display.style.width = initwidth;
-			display.scrollTop = display.scrollHeight;
+			updateDisplay( display, httpObject.responseText );
 		}
 
 		httpObject.open( "GET", "http://" + window.location.host + "/submitnewchat.php?playerid=&pwd=&graf=" + URLEncode( postedgraf ) );
@@ -414,7 +350,7 @@
 </head>
 
 
- <body link=black alink=black vlink=black onLoad="switchToChat(); submitchat( '/channel' ); setTimeout( getChatUpdate, 8000 ); setTimeout( getCLIUpdate, 2000 );" onResize="initSizes();">
+ <body link=black alink=black vlink=black onLoad="switchToChat(); submitchat( '/channel' ); getChatUpdate(); getCLIUpdate();" onResize="initSizes();">
 
   <div id="ToggleDisplay" class=toggledisplay><center><nobr><a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
   <a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag"> gCLI</a> /
