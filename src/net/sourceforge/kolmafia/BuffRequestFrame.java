@@ -225,7 +225,7 @@ public class BuffRequestFrame extends KoLFrame
 					BuffBotDatabase.getStandardOfferings( botName ).isEmpty() )
 				{
 					add( new JLabel( "<html><center><b><font size=7>" + botName +
-					"<br>has specifically asked<br>not to be listed<br>in this buffbot price list.<br><br>Please stop asking.<br>Thank you! &lt;3</font><b></center></html>" ) );
+					"<br>has specifically asked<br>not to be listed<br>in this buffbot price list.</font><b></center></html>" ) );
 					return;
 				}
 

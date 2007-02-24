@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.SwingUtilities;
+import net.sourceforge.foxtrot.ConcurrentWorker;
+import net.sourceforge.foxtrot.Job;
 
 public class KoLmafiaGUI extends KoLmafia
 {
@@ -189,170 +191,13 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	public static void constructFrame( String frameName )
-	{	displayFrame( frameName );
-	}
-
-	private static void displayFrame( String frameName )
 	{
 		if ( frameName.equals( "" ) )
 			return;
 
-		// Now, test to see if any requests need to be run before
-		// you fall into the event dispatch thread.
-
-		if ( frameName.equals( "BuffBotFrame" ) )
-		{
-			BuffBotManager.loadSettings();
-		}
-		else if ( frameName.equals( "BuffRequestFrame" ) )
-		{
-			if ( !BuffBotDatabase.hasOfferings() )
-			{
-				updateDisplay( "No buffs found to purchase." );
-				RequestThread.enableDisplayIfSequenceComplete();
-				return;
-			}
-		}
-		else if ( frameName.equals( "CakeArenaFrame" ) )
-		{
-			CakeArenaManager.getOpponentList();
-		}
-		else if ( frameName.equals( "CalendarFrame" ) )
-		{
-			String base = "http://images.kingdomofloathing.com/otherimages/bikini/";
-			for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
-				RequestEditorKit.downloadImage( base + CalendarFrame.CALENDARS[i] + ".gif" );
-			base = "http://images.kingdomofloathing.com/otherimages/beefcake/";
-			for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
-				RequestEditorKit.downloadImage( base + CalendarFrame.CALENDARS[i] + ".gif" );
-		}
-		else if ( frameName.equals( "ClanManageFrame" ) )
-		{
-			if ( ClanManager.getStash().isEmpty() )
-			{
-				KoLmafia.updateDisplay( "Retrieving clan stash contents..." );
-				RequestThread.postRequest( new ClanStashRequest() );
-			}
-		}
-		else if ( frameName.equals( "FamiliarTrainingFrame" ) )
-		{
-			CakeArenaManager.getOpponentList();
-		}
-		else if ( frameName.equals( "FlowerHunterFrame" ) )
-		{
-			KoLmafia.updateDisplay( "Determining number of attacks remaining..." );
-			RequestThread.postRequest( new FlowerHunterRequest() );
-		}
-		else if ( frameName.equals( "HagnkStorageFrame" ) )
-		{
-			if ( storage.isEmpty() )
-			{
-				KoLmafia.updateDisplay( "You have nothing in storage." );
-				RequestThread.enableDisplayIfSequenceComplete();
-				return;
-			}
-		}
-		else if ( frameName.equals( "ItemManageFrame" ) )
-		{
-			// If the person is in a mysticality sign, make sure
-			// you retrieve information from the restaurant.
-
-			if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
-				if ( restaurantItems.isEmpty() )
-					RequestThread.postRequest( new RestaurantRequest() );
-
-			// If the person is in a moxie sign and they have completed
-			// the beach quest, then retrieve information from the
-			// microbrewery.
-
-			if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() )
-				if ( microbreweryItems.isEmpty() )
-					RequestThread.postRequest( new MicrobreweryRequest() );
-
-			if ( StaticEntity.getBooleanProperty( "showStashIngredients" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
-				if ( !ClanManager.isStashRetrieved() )
-					RequestThread.postRequest( new ClanStashRequest() );
-		}
-		else if ( frameName.equals( "KoLMessenger" ) )
-		{
-			updateDisplay( "Retrieving chat color preferences..." );
-			RequestThread.postRequest( new ChannelColorsRequest() );
-
-			KoLMessenger.initialize();
-
-			RequestThread.postRequest( new ChatRequest( null, "/listen" ) );
-			updateDisplay( "Color preferences retrieved.  Chat started." );
-			RequestThread.enableDisplayIfSequenceComplete();
-
-			return;
-		}
-		else if ( frameName.equals( "LocalRelayServer" ) )
-		{
-			StaticEntity.getClient().startRelayServer();
-			return;
-		}
-		else if ( frameName.equals( "MailboxFrame" ) )
-		{
-			RequestThread.postRequest( new MailboxRequest( "Inbox" ) );
-			if ( LoginRequest.isInstanceRunning() )
-				return;
-		}
-		else if ( frameName.equals( "MoneyMakingGameFrame" ) )
-		{
-			updateDisplay( "Retrieving MMG bet history..." );
-			RequestThread.postRequest( new MoneyMakingGameRequest() );
-
-			if ( MoneyMakingGameRequest.getBetSummary().isEmpty() )
-			{
-				updateDisplay( "You have no bet history to summarize." );
-				RequestThread.closeRequestSequence();
-
-				return;
-			}
-
-			updateDisplay( "MMG bet history retrieved." );
-			RequestThread.enableDisplayIfSequenceComplete();
-		}
-		else if ( frameName.equals( "MuseumFrame" ) )
-		{
-			RequestThread.postRequest( new MuseumRequest() );
-		}
-		else if ( frameName.equals( "MushroomFrame" ) )
-		{
-			for ( int i = 0; i < MushroomPlot.MUSHROOMS.length; ++i )
-				RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MushroomPlot.MUSHROOMS[i][1] );
-		}
-		else if ( frameName.equals( "RestoreOptionsFrame" ) )
-		{
-			frameName = "OptionsFrame";
-		}
-		else if ( frameName.equals( "StoreManageFrame" ) )
-		{
-			if ( !KoLCharacter.hasStore() )
-			{
-				KoLmafia.updateDisplay( "You don't own a store in the Mall of Loathing." );
-				RequestThread.enableDisplayIfSequenceComplete();
-				return;
-			}
-
-			RequestThread.openRequestSequence();
-
-			StoreManager.clearCache();
-			RequestThread.postRequest( new StoreManageRequest( true ) );
-			RequestThread.postRequest( new StoreManageRequest( false ) );
-
-			RequestThread.closeRequestSequence();
-		}
-
 		try
 		{
-			Class associatedClass = Class.forName( "net.sourceforge.kolmafia." + frameName );
-			Runnable creator = new CreateFrameRunnable( associatedClass );
-
-			if ( SwingUtilities.isEventDispatchThread() )
-				creator.run();
-			else
-				SwingUtilities.invokeAndWait( creator );
+			ConcurrentWorker.post( new FrameConstructor( frameName ) );
 		}
 		catch ( Exception e )
 		{
@@ -360,6 +205,177 @@ public class KoLmafiaGUI extends KoLmafia
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	private static class FrameConstructor extends Job
+	{
+		public String frameName;
+
+		public FrameConstructor( String frameName )
+		{	this.frameName = frameName;
+		}
+
+		public void run()
+		{
+			// Now, test to see if any requests need to be run before
+			// you fall into the event dispatch thread.
+
+			if ( frameName.equals( "BuffBotFrame" ) )
+			{
+				BuffBotManager.loadSettings();
+			}
+			else if ( frameName.equals( "BuffRequestFrame" ) )
+			{
+				if ( !BuffBotDatabase.hasOfferings() )
+				{
+					updateDisplay( "No buffs found to purchase." );
+					RequestThread.enableDisplayIfSequenceComplete();
+					return;
+				}
+			}
+			else if ( frameName.equals( "CakeArenaFrame" ) )
+			{
+				CakeArenaManager.getOpponentList();
+			}
+			else if ( frameName.equals( "CalendarFrame" ) )
+			{
+				String base = "http://images.kingdomofloathing.com/otherimages/bikini/";
+				for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
+					RequestEditorKit.downloadImage( base + CalendarFrame.CALENDARS[i] + ".gif" );
+				base = "http://images.kingdomofloathing.com/otherimages/beefcake/";
+				for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
+					RequestEditorKit.downloadImage( base + CalendarFrame.CALENDARS[i] + ".gif" );
+			}
+			else if ( frameName.equals( "ClanManageFrame" ) )
+			{
+				if ( ClanManager.getStash().isEmpty() )
+				{
+					KoLmafia.updateDisplay( "Retrieving clan stash contents..." );
+					RequestThread.postRequest( new ClanStashRequest() );
+				}
+			}
+			else if ( frameName.equals( "FamiliarTrainingFrame" ) )
+			{
+				CakeArenaManager.getOpponentList();
+			}
+			else if ( frameName.equals( "FlowerHunterFrame" ) )
+			{
+				KoLmafia.updateDisplay( "Determining number of attacks remaining..." );
+				RequestThread.postRequest( new FlowerHunterRequest() );
+			}
+			else if ( frameName.equals( "HagnkStorageFrame" ) )
+			{
+				if ( storage.isEmpty() )
+				{
+					KoLmafia.updateDisplay( "You have nothing in storage." );
+					RequestThread.enableDisplayIfSequenceComplete();
+					return;
+				}
+			}
+			else if ( frameName.equals( "ItemManageFrame" ) )
+			{
+				// If the person is in a mysticality sign, make sure
+				// you retrieve information from the restaurant.
+
+				if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
+					if ( restaurantItems.isEmpty() )
+						RequestThread.postRequest( new RestaurantRequest() );
+
+				// If the person is in a moxie sign and they have completed
+				// the beach quest, then retrieve information from the
+				// microbrewery.
+
+				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() )
+					if ( microbreweryItems.isEmpty() )
+						RequestThread.postRequest( new MicrobreweryRequest() );
+
+				if ( StaticEntity.getBooleanProperty( "showStashIngredients" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+					if ( !ClanManager.isStashRetrieved() )
+						RequestThread.postRequest( new ClanStashRequest() );
+			}
+			else if ( frameName.equals( "KoLMessenger" ) )
+			{
+				updateDisplay( "Retrieving chat color preferences..." );
+				RequestThread.postRequest( new ChannelColorsRequest() );
+
+				KoLMessenger.initialize();
+
+				RequestThread.postRequest( new ChatRequest( null, "/listen" ) );
+				updateDisplay( "Color preferences retrieved.  Chat started." );
+				RequestThread.enableDisplayIfSequenceComplete();
+
+				return;
+			}
+			else if ( frameName.equals( "LocalRelayServer" ) )
+			{
+				StaticEntity.getClient().startRelayServer();
+				return;
+			}
+			else if ( frameName.equals( "MailboxFrame" ) )
+			{
+				RequestThread.postRequest( new MailboxRequest( "Inbox" ) );
+				if ( LoginRequest.isInstanceRunning() )
+					return;
+			}
+			else if ( frameName.equals( "MoneyMakingGameFrame" ) )
+			{
+				updateDisplay( "Retrieving MMG bet history..." );
+				RequestThread.postRequest( new MoneyMakingGameRequest() );
+
+				if ( MoneyMakingGameRequest.getBetSummary().isEmpty() )
+				{
+					updateDisplay( "You have no bet history to summarize." );
+					RequestThread.closeRequestSequence();
+
+					return;
+				}
+
+				updateDisplay( "MMG bet history retrieved." );
+				RequestThread.enableDisplayIfSequenceComplete();
+			}
+			else if ( frameName.equals( "MuseumFrame" ) )
+			{
+				RequestThread.postRequest( new MuseumRequest() );
+			}
+			else if ( frameName.equals( "MushroomFrame" ) )
+			{
+				for ( int i = 0; i < MushroomPlot.MUSHROOMS.length; ++i )
+					RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MushroomPlot.MUSHROOMS[i][1] );
+			}
+			else if ( frameName.equals( "RestoreOptionsFrame" ) )
+			{
+				frameName = "OptionsFrame";
+			}
+			else if ( frameName.equals( "StoreManageFrame" ) )
+			{
+				if ( !KoLCharacter.hasStore() )
+				{
+					KoLmafia.updateDisplay( "You don't own a store in the Mall of Loathing." );
+					RequestThread.enableDisplayIfSequenceComplete();
+					return;
+				}
+
+				RequestThread.openRequestSequence();
+
+				StoreManager.clearCache();
+				RequestThread.postRequest( new StoreManageRequest( true ) );
+				RequestThread.postRequest( new StoreManageRequest( false ) );
+
+				RequestThread.closeRequestSequence();
+			}
+
+			try
+			{
+				(new CreateFrameRunnable( Class.forName( "net.sourceforge.kolmafia." + frameName ) )).run();
+			}
+			catch ( Exception e )
+			{
+				//should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
 		}
 	}
 
