@@ -245,6 +245,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int pvpRank = 0;
 	private static int attacksLeft = 0;
 	private static int availableMeat = 0;
+	private static int storageMeat = 0;
 	private static int closetMeat = 0;
 	private static int inebriety = 0;
 	private static int adventuresLeft = 0;
@@ -723,6 +724,14 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static int getBaseMaxMP()
 	{	return baseMaxMP;
+	}
+
+	public static void setStorageMeat( int storageMeat )
+	{	KoLCharacter.storageMeat = storageMeat;
+	}
+
+	public static int getStorageMeat()
+	{	return storageMeat;
 	}
 
 	/**
