@@ -104,7 +104,7 @@ public abstract class StoreManager extends StaticEntity
 
 			SoldItem oldItem = (SoldItem) soldItemList.get( itemIndex );
 
-			if ( oldItem.getQuantity() != newItem.getQuantity() || oldItem.getPrice() != newItem.getPrice() || oldItem.getLimit() != newItem.getLimit() || oldItem.getLowest() != newItem.getLowest() )
+			if ( oldItem.getQuantity() != quantity || oldItem.getPrice() != price || oldItem.getLimit() != limit || (lowest != 0 && oldItem.getLowest() != lowest) )
 			{
 				soldItemList.set( itemIndex, newItem );
 				sortedSoldItemList.set( sortedSoldItemList.indexOf( newItem ), newItem );
