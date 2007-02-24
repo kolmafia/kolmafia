@@ -189,12 +189,15 @@ public class GearChangeFrame extends KoLFrame
 	{
 		// Find out what changed.
 		AdventureResult [] pieces = new AdventureResult[8];
+
 		for ( int i = 0; i < pieces.length; ++i )
 		{
 			pieces[i] = (AdventureResult) equipment[i].getSelectedItem();
 			if ( KoLCharacter.getEquipment(i).equals( pieces[i] ) )
 				pieces[i] = null;
 		}
+
+		AdventureResult famitem = (AdventureResult) equipment[KoLCharacter.FAMILIAR].getSelectedItem();
 
 		// If current offhand item is not compatible with new
 		// weapon, unequip it first.
@@ -219,7 +222,6 @@ public class GearChangeFrame extends KoLFrame
 			}
 		}
 
-		AdventureResult famitem = (AdventureResult) equipment[KoLCharacter.FAMILIAR].getSelectedItem();
 		if ( KoLCharacter.getFamiliar().canEquip( famitem ) )
 			RequestThread.postRequest( new EquipmentRequest( famitem, KoLCharacter.FAMILIAR ) );
 	}

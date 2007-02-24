@@ -1753,8 +1753,14 @@ public class KoLmafiaCLI extends KoLmafia
 		// their own commands, but are actually commands
 		// which are derived from other commands.
 
-		if ( command.equals( "cast" ) || command.equals( "skill" ) || command.equals( "buffs" ) )
+		if ( command.startsWith( "skill" ) )
 			command = "skills";
+
+		if ( command.startsWith( "cast" ) || command.startsWith( "buff" ) || command.startsWith( "pass" ) || command.startsWith( "self" ) || command.startsWith( "combat" ) )
+		{
+			parameters = command;
+			command = "skills";
+		}
 
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) || command.equals( "summary" ) ||
 			command.equals( "effects" ) || command.equals( "status" ) || command.equals( "encounters" ) || command.equals( "skills" ) )
@@ -3103,7 +3109,63 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			List mainList = desiredData.equals( "closet" ) ? closet : desiredData.equals( "summary" ) ? tally :
 				desiredData.equals( "outfits" ) ? KoLCharacter.getOutfits() : desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
-				desiredData.equals( "effects" ) ? activeEffects : desiredData.equals( "skills" ) ? availableSkills : desiredData.equals( "closet" ) ? closet : inventory;
+				desiredData.equals( "effects" ) ? activeEffects : desiredData.equals( "closet" ) ? closet : inventory;
+
+			if ( desiredData.startsWith( "skills" ) )
+			{
+				mainList = availableSkills;
+				filter = filter.toLowerCase();
+
+				if ( filter.startsWith( "cast" ) )
+				{
+					mainList = new ArrayList();
+					mainList.addAll( availableSkills );
+
+					List intersect = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.CASTABLE );
+					mainList.retainAll( intersect );
+					filter = "";
+				}
+
+				if ( filter.startsWith( "pass" ) )
+				{
+					mainList = new ArrayList();
+					mainList.addAll( availableSkills );
+
+					List intersect = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.PASSIVE );
+					mainList.retainAll( intersect );
+					filter = "";
+				}
+
+				if ( filter.startsWith( "self" ) )
+				{
+					mainList = new ArrayList();
+					mainList.addAll( availableSkills );
+
+					List intersect = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.SKILL );
+					mainList.retainAll( intersect );
+					filter = "";
+				}
+
+				if ( filter.startsWith( "buff" ) )
+				{
+					mainList = new ArrayList();
+					mainList.addAll( availableSkills );
+
+					List intersect = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.BUFF );
+					mainList.retainAll( intersect );
+					filter = "";
+				}
+
+				if ( filter.startsWith( "combat" ) )
+				{
+					mainList = new ArrayList();
+					mainList.addAll( availableSkills );
+
+					List intersect = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.COMBAT );
+					mainList.retainAll( intersect );
+					filter = "";
+				}
+			}
 
 			if ( filter.equals( "" ) )
 			{
@@ -3661,8 +3723,6 @@ public class KoLmafiaCLI extends KoLmafia
 			firstMatch = firstMatch.getInstance( inventoryCount );
 		else if ( firstMatch.getCount() != inventoryCount )
 			firstMatch = firstMatch.getInstance( Math.min( firstMatch.getCount(), inventoryCount ) );
-
-System.out.println( firstMatch + " @ " + price + " limit " + limit );
 
 		RequestThread.postRequest( new AutoSellRequest( firstMatch, price, limit ) );
 	}
