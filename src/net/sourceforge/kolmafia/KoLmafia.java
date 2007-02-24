@@ -1717,6 +1717,8 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( request instanceof KoLRequest )
 				RequestThread.postRequest( (KoLRequest) request );
+			else if ( request instanceof KoLAdventure )
+				RequestThread.postRequest( (KoLAdventure) request );
 			else
 				request.run();
 
