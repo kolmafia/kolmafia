@@ -931,6 +931,7 @@ public class AdventureFrame extends KoLFrame
 
 	private class ChoiceOptionsPanel extends JPanel
 	{
+		private boolean isRefreshing = true;
 		private TreeMap choiceMap;
 		private TreeMap selectMap;
 		private CardLayout choiceCards;
@@ -1109,6 +1110,7 @@ public class AdventureFrame extends KoLFrame
 
 				VerifiableElement [] elements = new VerifiableElement[ elementList.size() ];
 				elementList.toArray( elements );
+
 				setContent( elements );
 			}
 
@@ -1143,6 +1145,9 @@ public class AdventureFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
+			if ( isRefreshing )
+				return;
+
 			StaticEntity.setProperty( "violetFogGoal", String.valueOf( violetFogSelect.getSelectedIndex() ) );
 			StaticEntity.setProperty( "luckySewerAdventure", (String) sewerSelect.getSelectedItem() );
 			StaticEntity.setProperty( "choiceAdventure89", String.valueOf( maidenSelect.getSelectedIndex() ) );
@@ -1342,6 +1347,8 @@ public class AdventureFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
+			isRefreshing = true;
+
 			int index = StaticEntity.getIntegerProperty( "violetFogGoal" );
 			if ( index >= 0 )
 				violetFogSelect.setSelectedIndex( index );
@@ -1511,6 +1518,8 @@ public class AdventureFrame extends KoLFrame
 				riseSelect.setSelectedIndex(3);
 			else
 				fallSelect.setSelectedIndex(2);
+
+			isRefreshing = false;
 		}
 	}
 

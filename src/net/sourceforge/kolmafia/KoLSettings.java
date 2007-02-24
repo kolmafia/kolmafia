@@ -620,7 +620,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		PLAYER_SETTINGS.put( "lastLouvreMap", "0" );
 		PLAYER_SETTINGS.put( "louvreLayout", "" );
-		PLAYER_SETTINGS.put( "louvreDesiredGoal", String.valueOf( Louvre.LouvreGoals.length + 1 ) );
+		PLAYER_SETTINGS.put( "louvreDesiredGoal", "7" );
 		PLAYER_SETTINGS.put( "louvreGoal", "0" );
 
 		// These are settings related to choice adventures.
@@ -634,7 +634,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "choiceAdventure6", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure7", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure8", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure9", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure9", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure10", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure11", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure12", "2" );
@@ -657,7 +657,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "choiceAdventure40", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure41", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure42", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure45", "0" );
+		PLAYER_SETTINGS.put( "choiceAdventure45", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure46", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure47", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure71", "1" );
@@ -665,25 +665,25 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "choiceAdventure73", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure74", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure75", "3" );
-		PLAYER_SETTINGS.put( "choiceAdventure76", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure76", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure77", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure78", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure79", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure80", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure81", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure80", "99" );
+		PLAYER_SETTINGS.put( "choiceAdventure81", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure82", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure83", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure84", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure84", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure85", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure86", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure87", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure88", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure89", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure90", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure89", "3" );
+		PLAYER_SETTINGS.put( "choiceAdventure90", "2" );
 		PLAYER_SETTINGS.put( "choiceAdventure91", "1" );
-		PLAYER_SETTINGS.put( "choiceAdventure105", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure105", "3" );
 		PLAYER_SETTINGS.put( "choiceAdventure106", "4" );
-		PLAYER_SETTINGS.put( "choiceAdventure107", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure107", "4" );
 		PLAYER_SETTINGS.put( "choiceAdventure108", "4" );
 		PLAYER_SETTINGS.put( "choiceAdventure109", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure110", "4" );
@@ -695,7 +695,9 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "choiceAdventure116", "4" );
 		PLAYER_SETTINGS.put( "choiceAdventure117", "1" );
 		PLAYER_SETTINGS.put( "choiceAdventure118", "2" );
-		PLAYER_SETTINGS.put( "choiceAdventure120", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure120", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure126", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure127", "1" );
 	}
 
 	/**
