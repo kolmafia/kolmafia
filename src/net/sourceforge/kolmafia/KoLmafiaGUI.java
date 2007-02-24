@@ -197,7 +197,12 @@ public class KoLmafiaGUI extends KoLmafia
 
 		try
 		{
-			ConcurrentWorker.post( new FrameConstructor( frameName ) );
+			FrameConstructor maker = new FrameConstructor( frameName );
+
+			if ( SwingUtilities.isEventDispatchThread() )
+				ConcurrentWorker.post( maker );
+			else
+				maker.run();
 		}
 		catch ( Exception e )
 		{
