@@ -127,10 +127,10 @@ public class MallSearchFrame extends KoLPanelFrame
 			int searchCount = StaticEntity.getIntegerProperty( "defaultLimit" );
 			countField.setText( searchCount <= 0 ? "5" : String.valueOf( searchCount ) );
 
-			add( new SearchResultsPanel(), BorderLayout.CENTER );
-			currentlyBuying = false;
-
 			setContent( elements );
+			add( new SearchResultsPanel(), BorderLayout.CENTER );
+
+			currentlyBuying = false;
 		}
 
 		public void actionConfirmed()

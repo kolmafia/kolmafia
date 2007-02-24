@@ -46,6 +46,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static final Pattern WIKI_ITEMID_PATTERN = Pattern.compile( "Item number</a>:</b> (\\d+)<br />" );
 	private static final Pattern WIKI_DESCID_PATTERN = Pattern.compile( "<b>Description ID:</b> (\\d+)<br />" );
 	private static final Pattern WIKI_PLURAL_PATTERN = Pattern.compile( "\\(Plural: <i>(.*?)<\\/i>\\)", Pattern.DOTALL );
+	private static final Pattern WIKI_AUTOSELL_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
 
 	private static IntegerArray useTypeById = new IntegerArray();
 	private static IntegerArray priceById = new IntegerArray();
@@ -284,6 +285,10 @@ public class TradeableItemDatabase extends KoLDatabase
 			Matcher pluralMatcher = WIKI_PLURAL_PATTERN.matcher( wikiData );
 			if ( pluralMatcher.find() )
 				KoLmafiaCLI.printLine( "plural: " + pluralMatcher.group(1) );
+
+			Matcher sellMatcher = WIKI_AUTOSELL_PATTERN.matcher( wikiData );
+			if ( sellMatcher.find() )
+				KoLmafiaCLI.printLine( "autosell: " + sellMatcher.group(1) );
 		}
 		catch ( Exception e )
 		{
