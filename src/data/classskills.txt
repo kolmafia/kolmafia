@@ -79,9 +79,9 @@
 3008	Weapon of the Pastalord	3	7	35	0
 3009	Lasagna Bandages	1	9	6	0
 3010	Leash of Linguini	1	12	12	10
-3011	Spirit of Rigatoni	0	2	0	0
+3011	Spirit of Rigatoni	0	4	0	0
 3012	Cannelloni Cocoon	1	9	20	0
-3014	Spirit of Ravioli	0	4	0	0
+3014	Spirit of Ravioli	0	2	0	0
 3015	Springy Fusilli	1	11	10	10
 3016	Tolerance of the Kitchen	0	2	0	0
 
