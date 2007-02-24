@@ -55,6 +55,30 @@ function refreshSidebar()
 }
 
 
+function updateDisplay( display, responseText )
+{
+	if ( responseText == null )
+		return;
+
+	if ( responseText.length < 2 )
+		return;
+
+	display.innerHTML += responseText;
+
+	if ( display.innerHTML.length > 30000 )
+	{
+		display.innerHTML = display.innerHTML.substring(
+			display.innerHTML.lastIndexOf( "<br>", 10000 ) + 4 );
+	}
+
+	display.style.width = initwidth;
+	display.scrollTop = display.scrollHeight;
+
+	if ( !isRefreshing && responseText.indexOf("<!-- REFRESH -->") != -1 )
+		refreshSidebar();
+}
+
+
 function inlineLoad( location, id )
 {
 	var httpObject = getHttpObject();

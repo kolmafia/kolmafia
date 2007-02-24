@@ -131,6 +131,7 @@
 	{
 		var display = document.getElementById( "CmdWindow" );
 		var httpObject = getHttpObject();
+
 		if ( !httpObject )
 			return true;
 
@@ -140,29 +141,10 @@
 				return;
 
 			setTimeout( getNewMessages, 2000 );
-
-			if ( httpObject.responseText == null )
-				parent.location.href = "http://www.kingdomofloathing.com/login.php?results=Session timed out.";
-
-			if ( httpObject.responseText.length < 2 )
-				return;
-
-			display.innerHTML += ( httpObject.responseText );
-
-			if ( display.innerHTML.length > 30000 )
-			{
-				display.innerHTML = display.innerHTML.substring(
-					display.innerHTML.lastIndexOf( "<br>", 10000 ) + 4 );
-			}
-
-			display.style.width = initwidth;
-			display.scrollTop = display.scrollHeight;
-
-			if ( !isRefreshing && httpObject.responseText.indexOf("<!-- REFRESH -->") != -1 )
-				refreshSidebar();
+			updateDisplay( display, httpObject.responseText );
 		};
 
-		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/getNewMessages" );
+		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/getNewMessages?type=status" );
 		httpObject.send( null );
 	};
 
@@ -199,18 +181,7 @@
 				return;
 
 			executed = true;
-			if ( httpObject.responseText == null )
-				parent.location.href = "http://forums.kingdomofloathing.com/";
-
-			if ( httpObject.responseText.length < 2 )
-				return;
-
-			display.innerHTML += ( httpObject.responseText );
-			display.style.width = initwidth;
-			display.scrollTop = display.scrollHeight;
-
-			if ( !isRefreshing && httpObject.responseText.indexOf("<!-- REFRESH -->") != -1 )
-				refreshSidebar();
+			updateDisplay( display, httpObject.responseText );
 		}
 
 		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/submitCommand?cmd=" + URLEncode( command ) );
@@ -225,7 +196,7 @@
 </head>
 
 
- <body link=black alink=black vlink=black onLoad='initSizes(); setTimeout( getNewMessages, 2000 );' onResize='initSizes();'>
+ <body link=black alink=black vlink=black onLoad="initSizes(); getNewMessages();" onResize="initSizes();">
 
   <div id="ToggleDisplay" class=toggledisplay><center><b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]</center></div>
   <div id="CmdWindow" class=cmddisplay></div>

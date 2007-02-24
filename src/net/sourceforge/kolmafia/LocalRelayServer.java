@@ -397,7 +397,8 @@ public class LocalRelayServer implements Runnable
 							StaticEntity.setProperty( "visibleBrowserInventory", "inventory=" + inventoryMatcher.group(1) );
 					}
 
-					isCheckingModified |= tokens[0].equals( "If-Modified-Since" );
+					if ( tokens[0].equals( "If-Modified-Since" ) )
+						isCheckingModified = true;
 				}
 
 				if ( method.equals( "POST" ) )
@@ -424,7 +425,7 @@ public class LocalRelayServer implements Runnable
 				// If not requesting a server-side page, then it is safe
 				// to assume that no changes have been made (save time).
 
-				if ( isCheckingModified && !request.contentType.equals( "text/html" ) )
+				if ( isCheckingModified && !request.contentType.startsWith( "text" ) )
 				{
 					request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 					request.responseCode = 304;
