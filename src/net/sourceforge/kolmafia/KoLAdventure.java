@@ -35,8 +35,9 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.sourceforge.foxtrot.Job;
 
-public class KoLAdventure implements Runnable, KoLConstants, Comparable
+public class KoLAdventure extends Job implements KoLConstants, Comparable
 {
 	private static final KoLRequest ZONE_VALIDATOR = AdventureDatabase.ZONE_VALIDATOR;
 

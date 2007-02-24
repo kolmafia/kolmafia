@@ -64,6 +64,30 @@ public abstract class RequestThread implements KoLConstants
 		}
 	}
 
+	public static void postRequest( KoLAdventure request )
+	{
+		if ( request == null )
+			return;
+
+		KoLmafia.forceContinue();
+		++sequenceCount;
+
+		try
+		{
+			if ( !SwingUtilities.isEventDispatchThread() )
+				request.run();
+			else
+				Worker.post( request );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+
+		--sequenceCount;
+		enableDisplayIfSequenceComplete();
+	}
+
 	/**
 	 * Posts a single request one time possibly forcing concurrency.
 	 * The display will be enabled if there is no sequence.
