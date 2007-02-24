@@ -42,6 +42,8 @@ import java.util.regex.Pattern;
 public class ItemStorageRequest extends SendMessageRequest
 {
 	private static final Pattern CLOSETMEAT_PATTERN = Pattern.compile( "<b>Your closet contains ([\\d,]+) meat\\.</b>" );
+	private static final Pattern STORAGEMEAT_PATTERN = Pattern.compile( "<b>You have ([\\d,]+) meat in long-term storage.</b>" );
+
 	private static final Pattern PULLS_PATTERN = Pattern.compile( "(\\d+) more" );
 	private static final Pattern STORAGE_PATTERN = Pattern.compile( "name=\"whichitem1\".*?</select>", Pattern.DOTALL );
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option[^>]* value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" );
@@ -195,11 +197,13 @@ public class ItemStorageRequest extends SendMessageRequest
 		case STORAGE_TO_INVENTORY:
 		case RETRIEVE_STORAGE:
 			parseStorage();
+			handleMeat();
 			break;
 
 		case PULL_MEAT_FROM_STORAGE:
 			parseStorage();
-			// Fall through and handle meat changes.
+			handleMeat();
+			break;
 
 		case MEAT_TO_CLOSET:
 		case MEAT_TO_INVENTORY:
@@ -210,8 +214,17 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	private void handleMeat()
 	{
-		if ( moveType == PULL_MEAT_FROM_STORAGE )
+		if ( moveType == PULL_MEAT_FROM_STORAGE || moveType == RETRIEVE_STORAGE || moveType == STORAGE_TO_INVENTORY )
+		{
+			Matcher meatInStorageMatcher = STORAGEMEAT_PATTERN.matcher( responseText );
+
+			if ( meatInStorageMatcher.find() )
+				KoLCharacter.setStorageMeat( StaticEntity.parseInt( meatInStorageMatcher.group(1) ) );
+			else
+				KoLCharacter.setStorageMeat( 0 );
+
 			return;
+		}
 
 		// Now, determine how much is left in your closet
 		// by locating "Your closet contains x meat" and

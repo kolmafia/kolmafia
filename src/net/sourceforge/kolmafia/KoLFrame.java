@@ -63,6 +63,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -1423,6 +1424,119 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void applyChanges()
 		{
+		}
+	}
+
+	/**
+	 * An internal class which represents the panel used for storing and
+	 * removing meat from the closet.
+	 */
+
+	protected class MeatStoragePanel extends KoLPanel
+	{
+		private JComboBox fundSource;
+		private JTextField amountField;
+		private JLabel closetField;
+
+		public MeatStoragePanel()
+		{
+			super( "transfer", "bedidall", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+
+ 			fundSource = new JComboBox();
+			fundSource.addItem( "From Inventory to Closet" );
+			fundSource.addItem( "From Closet to Inventory" );
+			fundSource.addItem( "From Hagnk's to Inventory" );
+			fundSource.addItem( "From Hagnk's to Closet" );
+
+			if ( KoLFrame.this.getClass() == HagnkStorageFrame.class )
+				fundSource.setSelectedIndex( 2 );
+
+			amountField = new JTextField();
+			closetField = new JLabel( COMMA_FORMAT.format( KoLCharacter.getStorageMeat() ) + " meat" );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Transfer: ", fundSource );
+			elements[1] = new VerifiableElement( "Amount: ", amountField );
+			elements[2] = new VerifiableElement( "Available: ", closetField );
+
+			setContent( elements );
+			fundSource.addActionListener( new AvailableFundListener() );
+		}
+
+		private class AvailableFundListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				switch ( fundSource.getSelectedIndex() )
+				{
+				case 0:
+					closetField.setText( COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) + " meat" );
+					break;
+
+				case 1:
+					closetField.setText( COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) + " meat" );
+					break;
+
+				default:
+					closetField.setText( COMMA_FORMAT.format( KoLCharacter.getStorageMeat() ) + " meat" );
+					break;
+				}
+			}
+		}
+
+		public void actionConfirmed()
+		{
+			int transferType = -1;
+			int fundTransferType = fundSource.getSelectedIndex();
+			int amountToTransfer = getValue( amountField );
+
+			switch ( fundTransferType )
+			{
+			case 0:
+				transferType = ItemStorageRequest.MEAT_TO_CLOSET;
+
+				if ( amountToTransfer <= 0 )
+					amountToTransfer = KoLCharacter.getAvailableMeat();
+
+				break;
+
+			case 1:
+				transferType = ItemStorageRequest.MEAT_TO_INVENTORY;
+
+				if ( amountToTransfer <= 0 )
+					amountToTransfer = KoLCharacter.getClosetMeat();
+
+				break;
+
+			case 2:
+			case 3:
+
+				transferType = ItemStorageRequest.PULL_MEAT_FROM_STORAGE;
+
+				if ( amountToTransfer <= 0 )
+				{
+					KoLmafia.updateDisplay( ERROR_STATE, "You must specify an amount to pull from Hagnk's." );
+					return;
+				}
+
+				break;
+			}
+
+			RequestThread.openRequestSequence();
+			RequestThread.postRequest( new ItemStorageRequest( transferType, amountToTransfer ) );
+			if ( fundTransferType == 3 )
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.MEAT_TO_CLOSET, amountToTransfer ) );
+
+			fundSource.setSelectedIndex( 0 );
+			RequestThread.closeRequestSequence();
+		}
+
+		public void actionCancelled()
+		{	KoLmafiaGUI.constructFrame( "MoneyMakingGameFrame" );
+		}
+
+		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
+		{	return false;
 		}
 	}
 }
