@@ -254,6 +254,6 @@ public class ClanStashRequest extends SendMessageRequest
 	public String getStatusMessage()
 	{
 		return moveType == ITEMS_TO_STASH ? "Dropping items into stash" : moveType == STASH_TO_ITEMS ? "Pulling items from stash" :
-			"Donating meat to stash";
+			moveType == MEAT_TO_STASH ? "Donating meat to stash" : "Refreshing stash contents";
 	}
 }

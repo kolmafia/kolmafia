@@ -52,6 +52,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -224,8 +225,24 @@ public class BuffRequestFrame extends KoLFrame
 				if ( !botName.equals( "" ) && BuffBotDatabase.getPhilanthropicOfferings( botName ).isEmpty() &&
 					BuffBotDatabase.getStandardOfferings( botName ).isEmpty() )
 				{
-					add( new JLabel( "<html><center><b><font size=7>" + botName +
-					"<br>has specifically asked<br>not to be listed<br>in this buffbot price list.</font><b></center></html>" ) );
+					setLayout( new BorderLayout() );
+
+					JTextArea message = new JTextArea(
+						"\nTo whom it may concern:\n\n" +
+						"At the frequent request of individuals wanting to see the name '" + botName + "' listed in KoLmafia's buff purchase interface, " + botName + " has been added to our internal buffbot database.\n\n" +
+						"However, at the request of the individuals responsible for maintaining " + botName + ", " + botName + "'s formal price list and buff offerings are not available directly through KoLmafia.\n\n" +
+						"You are welcome to use this interface to check whether or not " + botName + " is currently logged in to KoL.  However, we hope this message helps you understand why additional support was not added.\n\n\n" +
+						"Respectfully yours,\nThe KoLmafia development team" );
+
+					message.setColumns( 40 );
+					message.setLineWrap( true );
+					message.setWrapStyleWord( true );
+					message.setEditable( false );
+					message.setOpaque( false );
+					message.setFont( DEFAULT_FONT );
+
+					add( new SimpleScrollPane( message ), BorderLayout.CENTER );
+
 					return;
 				}
 
