@@ -280,9 +280,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	}
 
 	public boolean canPurchase()
-	{
-		canPurchase &= isNPCStore || KoLCharacter.getAvailableMeat() >= price;
-		return canPurchase;
+	{	return canPurchase && KoLCharacter.getAvailableMeat() >= price;
 	}
 
 	/**
@@ -311,12 +309,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Check to make sure that the person is wearing the appropriate
 		// outfit for making the purchase.
 
-		canPurchase &= KoLCharacter.getAvailableMeat() >= limit * price;
+		if ( KoLCharacter.getAvailableMeat() < limit * price )
+			return;
 
-		if ( canPurchase() )
-			ensureProperAttire();
-
-		if ( !canPurchase() )
+		if ( !ensureProperAttire() )
 			return;
 
 		// Now that everything's ensured, go ahead and execute the
@@ -360,10 +356,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		return shopName.compareToIgnoreCase( mpr.shopName );
 	}
 
-	public void ensureProperAttire()
+	public boolean ensureProperAttire()
 	{
 		if ( !isNPCStore )
-			return;
+			return true;
 
 		int neededOutfit = 0;
 
@@ -384,22 +380,20 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			if ( !KoLCharacter.isHardcore() && !KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( TROUSERS ) && KoLCharacter.hasItem( TROUSERS ) )
 				(new EquipmentRequest( TROUSERS, KoLCharacter.PANTS )).run();
 
-			return;
+			return true;
 		}
 
 		// Only switch outfits if the person is not
 		// currently wearing the outfit.
 
 		if ( EquipmentDatabase.isWearingOutfit( neededOutfit ) )
-			return;
+			return true;
 
 		if ( !EquipmentDatabase.hasOutfit( neededOutfit ) )
-		{
-			canPurchase = false;
-			return;
-		}
+			return false;
 
 		(new EquipmentRequest( EquipmentDatabase.getOutfit( neededOutfit ) )).run();
+		return true;
 	}
 
 	public void processResults()
