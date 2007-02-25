@@ -478,8 +478,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "defaultBorderColor", "blue" );
 		CLIENT_SETTINGS.put( "defaultDropdown1", "0" );
 		CLIENT_SETTINGS.put( "defaultDropdown2", "1" );
-		CLIENT_SETTINGS.put( "defaultFlowerLossMessage", "" );
-		CLIENT_SETTINGS.put( "defaultFlowerWinMessage", "" );
 		CLIENT_SETTINGS.put( "defaultLimit", "5" );
 		CLIENT_SETTINGS.put( "defaultLoginServer", "1" );
 		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
@@ -581,6 +579,8 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "currentMood", "default" );
 		PLAYER_SETTINGS.put( "currentSpleenUse", "0" );
 		PLAYER_SETTINGS.put( "defaultAutoAttack", "0" );
+		PLAYER_SETTINGS.put( "defaultFlowerLossMessage", "" );
+		PLAYER_SETTINGS.put( "defaultFlowerWinMessage", "" );
 		PLAYER_SETTINGS.put( "hpAutoRecovery", "-0.1" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment" );
