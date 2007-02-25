@@ -588,7 +588,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			}
 			else
 			{
-				PERMIT_METHOD[ COOK ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
+				PERMIT_METHOD[ COOK ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" ) && getBooleanProperty( "autoRepairBoxes" );
 				ADVENTURE_USAGE[ COOK ] = 0;
 			}
 		}
@@ -620,7 +620,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			}
 			else
 			{
-				PERMIT_METHOD[ MIX ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
+				PERMIT_METHOD[ MIX ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" ) && getBooleanProperty( "autoRepairBoxes" );
 				ADVENTURE_USAGE[ MIX ] = 0;
 			}
 		}
