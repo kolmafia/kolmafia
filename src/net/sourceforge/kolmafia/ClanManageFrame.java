@@ -419,6 +419,8 @@ public class ClanManageFrame extends KoLFrame
 		{
 			ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, parameterSelect.getSelectedIndex(), valueField.getText() );
 			KoLmafia.updateDisplay( "Search results retrieved." );
+
+			RequestThread.enableDisplayIfSequenceComplete();
 		}
 
 		public void actionCancelled()
@@ -444,6 +446,8 @@ public class ClanManageFrame extends KoLFrame
 			KoLmafia.updateDisplay( "Applying changes..." );
 			RequestThread.postRequest( new ClanMembersRequest( titleChange.toArray(), newTitles.toArray(), boots.toArray() ) );
 			KoLmafia.updateDisplay( "Changes have been applied." );
+
+			RequestThread.enableDisplayIfSequenceComplete();
 		}
 	}
 
