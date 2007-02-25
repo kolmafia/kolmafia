@@ -1041,13 +1041,16 @@ public abstract class MoodSettings implements KoLConstants
 		{
 			if ( shouldExecute( isManualInvocation ) )
 			{
-				songWeapon = UseSkillRequest.optimizeEquipment( skillId );
+				if ( isThiefTrigger() )
+				{
+					songWeapon = UseSkillRequest.optimizeEquipment( skillId );
 
-				if ( isThiefTrigger() && songWeapon == null )
-					return;
+					if ( songWeapon == null )
+						return;
 
-				if ( songWeapon == UseSkillRequest.ACCORDION || songWeapon == UseSkillRequest.ROCKNROLL_LEGEND )
-					songWeapon = null;
+					if ( songWeapon == UseSkillRequest.ACCORDION || songWeapon == UseSkillRequest.ROCKNROLL_LEGEND )
+						songWeapon = null;
+				}
 
 				if ( type.equals( "lose_effect" ) && KoLCharacter.canInteract() && (action.startsWith( "use 1" ) || action.startsWith( "cast 1" )) )
 					DEFAULT_SHELL.executeLine( getDefaultAction( "lose_effect", effect.getName() ) );
