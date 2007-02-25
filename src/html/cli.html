@@ -24,6 +24,7 @@
 	body
 	{
 		padding: 0px;
+		overflow: hidden;
 	}
 
 	a
@@ -60,6 +61,7 @@
 		left: 3px;
 		padding: 2px 2px;
 		border: none;
+		text-align: center;
 	}
 
 </style>
@@ -81,19 +83,14 @@
 		document.getElementById( "InputForm" ).style.width = initwidth;
 		document.getElementById( "ToggleDisplay" ).style.width = initwidth;
 
-		if ( window.opera )
+		if ( navigator.appName.indexOf( "Explorer" ) != -1 )
 		{
-			initheight = document.body.clientHeight - 12 -
-				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
-		}
-		else if ( navigator.appName.indexOf( "Explorer" ) != -1 )
-		{
-			initheight = document.body.clientHeight - 6 -
+			initheight = document.body.clientHeight + 10 -
 				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
 		}
 		else
 		{
-			initheight = document.body.clientHeight - 13 -
+			initheight = document.body.clientHeight -
 				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
 		}
 
@@ -192,7 +189,7 @@
 
  <body link=black alink=black vlink=black onLoad="initSizes(); getCLIUpdate();" onResize="initSizes();">
 
-  <div id="ToggleDisplay" class=toggledisplay><center><b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]</center></div>
+  <div id="ToggleDisplay" class=toggledisplay><b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]</div>
   <div id="CmdWindow" class=cmddisplay></div>
 
    <div id="InputForm" class=inputform><center><form name=cmdform onSubmit='return false;'>

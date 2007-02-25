@@ -24,6 +24,7 @@
 	body
 	{
 		padding: 0px;
+		overflow: hidden;
 	}
 
 	a
@@ -39,6 +40,7 @@
 		padding: 2px 2px;
 		font-size: 12px;
 		border: none;
+		text-align: center;
 	}
 
 	.cmddisplay, .chatdisplay
@@ -60,6 +62,7 @@
 		left: 2px;
 		padding: 2px 2px;
 		border: none;
+		text-align: center;
 	}
 
 	div.rcm
@@ -100,26 +103,21 @@
 		if ( navigator.appName.indexOf( "Explorer" ) != -1 )
 			initwidth = document.body.offsetWidth - 5;
 		else
-			initwidth = self.innerWidth - 20;
+			initwidth = self.innerWidth - 10;
 
 		document.getElementById( "ChatWindow" ).style.width = initwidth;
 		document.getElementById( "CmdWindow" ).style.width = initwidth;
 		document.getElementById( "InputForm" ).style.width = initwidth;
 		document.getElementById( "ToggleDisplay" ).style.width = initwidth;
 
-		if ( window.opera )
+		if ( navigator.appName.indexOf( "Explorer" ) != -1 )
 		{
-			initheight = document.body.clientHeight - 12 -
-				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
-		}
-		else if ( navigator.appName.indexOf( "Explorer" ) != -1 )
-		{
-			initheight = document.body.clientHeight - 6 -
+			initheight = document.body.clientHeight + 30 -
 				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
 		}
 		else
 		{
-			initheight = document.body.clientHeight - 13 -
+			initheight = document.body.clientHeight + 20 -
 				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
 		}
 
@@ -280,7 +278,7 @@
 		}
 
 		httpObject.open( "POST", "/newchatmessages.php" );
-		httpObject.send( "lasttime=" + lastseen" );
+		httpObject.send( "lasttime=" + lastseen );
 		return true;
 	};
 
@@ -351,16 +349,15 @@
 
  <body link=black alink=black vlink=black onLoad="switchToChat(); submitchat( '/channel' ); getChatUpdate(); getCLIUpdate();" onResize="initSizes();">
 
-  <div id="ToggleDisplay" class=toggledisplay><center><nobr><a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
+  <div id="ToggleDisplay" class=toggledisplay><a href="javascript:switchToChat(); document.inputform.data.focus();" id="ChatTag">Chat</a> /
   <a href="javascript:switchToCLI(); document.inputform.data.focus();" id="CmdTag"> gCLI</a> /
-  <a href="chatlaunch.php">Exit</a>
-  </nobr></center></div>
+  <a href="chatlaunch.php">Exit</a></div>
 
   <div id="ChatWindow" class=chatdisplay></div>
   <div id="CmdWindow" class=cmddisplay></div>
 
    <div id="InputForm" class=inputform><center><form name=inputform onSubmit='return false;'>
-     <input style="width: 70%" maxlength=200 class=text type=text size=12 name=data onKeyUp='checkForKeyEvent( event );' autocomplete="off">
+     <input style="width: 75%" maxlength=200 class=text type=text size=12 name=data onKeyUp='checkForKeyEvent( event );' autocomplete="off">
      <input class=button type=button onClick="submitEvent();" value="exec">
    </form></center></div>
 
