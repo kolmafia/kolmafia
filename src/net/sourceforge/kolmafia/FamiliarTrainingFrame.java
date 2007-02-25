@@ -82,6 +82,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final Pattern HIdELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\1.*?\\.<p>)\\1 manages to stay hidden" );
 
 	private static ChatBuffer results = new ChatBuffer( "Arena Tracker" );
+	private static int losses = 0;
 	private static boolean stop = false;
 
 	private FamiliarTrainingPanel training;
@@ -653,7 +654,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		KoLmafia.updateDisplay( "Starting training session..." );
 
 		// Iterate until we reach the goal
-		while ( !goalMet( status, goal, type ) )
+		while ( !goalMet( status, goal, type ) && losses < 5 )
 		{
 			// If user canceled, bail now
 			if ( stop || !KoLmafia.permitsContinue() )
@@ -700,7 +701,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 				break;
 
 			// Enter the contest
-			fightMatch( status, tool, opponent );
+			if ( fightMatch( status, tool, opponent ) <= 0 )
+				++losses;
+			else
+				losses = 0;
+		}
+
+		if ( losses >= 5 )
+		{
+			statusMessage( ERROR_STATE, "Too many consecutive losses." );
+			return false;
 		}
 
 		if ( KoLCharacter.hasItem( PUMPKIN_BASKET ) )
@@ -1132,7 +1142,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		status.processMatchResult( request.responseText, xp );
 
 		// Return the amount of XP the familiar earned
-		return badContest( request.responseText,match) ? -1 : xp;
+		return badContest( request.responseText, match ) ? -1 : xp;
 	}
 
 	private static int earnedXP( String response )

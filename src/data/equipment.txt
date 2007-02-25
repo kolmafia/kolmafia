@@ -445,6 +445,7 @@ wooden axe	60	Mus: 15	2-handed axe
 wooden stakes	25	none	2-handed spear
 yak whip	20	none	1-handed whip
 
+
 # Off-hand section.  This section includes all the items
 # which go in the "off-hand" slot of the equipment menu.
 
@@ -458,7 +459,7 @@ yak whip	20	none	1-handed whip
 9-ball	0	none
 17-ball	0	none
 anniversary balloon	0	none
-antique shield	0	Mus: 85
+antique shield	230	Mus: 85
 arrow'd heart balloon	0	none
 basic meat foon	0	Mus: 10
 bobble-hip hula elf doll	0	none
@@ -467,15 +468,15 @@ box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
 box turtle	0	Mus: 10
 cardboard box turtle	0	Mus: 10
-Cloaca-Cola shield	0	none
+Cloaca-Cola shield	75	none
 clockwork detective skull	0	Mox: 25
 Codex of Capsaicin Conjuration	0	none
-coffin lid	0	Mus: 10
+coffin lid	55	Mus: 10
 continuum transfunctioner	0	none
 deck of tropical cards	0	none
 defective skull	0	none
 detective skull	0	Mox: 15
-Dyspepsi-Cola shield	0	none
+Dyspepsi-Cola shield	75	none
 easter egg balloon	0	Mys: 35
 enchanted brass knuckles	0	Mys: 10
 fake hand	0	none
@@ -489,11 +490,11 @@ foon of fleshiness	0	Mus: 10
 Gazpacho's Glacial Grimoire	0	none
 giant stuffed bugbear	0	none
 Glass Balls of the Goblin King	0	Mys: 20
-gnauga hide buckler	0	Mys: 30
+gnauga hide buckler	95	Mys: 30
 green balloon	0	none
 heart-shaped balloon	0	none
-hippo skin buckler	0	Mys: 30
-hors d'oeuvre tray	0	Mus: 40
+hippo skin buckler	95	Mys: 30
+hors d'oeuvre tray	115	Mus: 40
 hypnodisk	0	none
 ice baby	0	none
 marionette	0	Mys: 40
@@ -512,21 +513,21 @@ Mr. Balloon	0	none
 Mylar balloon	0	none
 oyster basket	0	none
 off-hand balloon	0	none
-penguin skin buckler	0	Mys: 30
-pilgrim shield	0	none
+penguin skin buckler	95	Mys: 30
+pilgrim shield	240	none
 pirate hook	0	none
-pixel shield	0	Mus: 10
+pixel shield	55	Mus: 10
 rag doll	0	Mys: 40
 Raggedy Hippy doll	0	none
 red balloon	0	none
 rice bowl	0	none
 sebaceous shield	0	none
 sewer turtle	0	none
-snake shield	0	Mus: 42
-snarling wolf shield	0	Mus: 42
+snake shield	117	Mus: 42
+snarling wolf shield	117	Mus: 42
 sock monkey	0	Mys: 40
 Spanish fly trap	0	none
-star buckler	0	Mys: 67
+star buckler	165	Mys: 67
 steaming evil	0	Mus: 75
 stuffed Cheshire bitten	0	none
 stuffed MagiMechTech MicroMechaMech	0	none
@@ -559,8 +560,8 @@ tropical paperweight	0	none
 voodoo doll	0	none
 wad of Crovacite	0	none
 white balloon	0	none
-white satin shield	0	Mus: 25
-yakskin buckler	0	Mys: 30
+white satin shield	80	Mus: 25
+yakskin buckler	95	Mys: 30
 
 # Accessories section.  While Coldfront lists an item
 # power for each item, I have no idea where those values
