@@ -176,7 +176,6 @@ public abstract class KoLmafia implements KoLConstants
 		hermitItems.add( new AdventureResult( "banjo strings", 1, false ) );
 		hermitItems.add( new AdventureResult( "catsup", 1, false ) );
 		hermitItems.add( new AdventureResult( "dingy planks", 1, false ) );
-		hermitItems.add( new AdventureResult( "fortune cookie", 1, false ) );
 		hermitItems.add( new AdventureResult( "golden twig", 1, false ) );
 		hermitItems.add( new AdventureResult( "hot buttered roll", 1, false ) );
 		hermitItems.add( new AdventureResult( "jaba\u00f1ero pepper", 1, false ) );
