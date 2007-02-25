@@ -279,7 +279,7 @@
 				lastseen = newlast;
 		}
 
-		httpObject.open( "POST", "http://" + window.location.host + "/newchatmessages.php" );
+		httpObject.open( "POST", "/newchatmessages.php" );
 		httpObject.send( "lasttime=" + lastseen" );
 		return true;
 	};
@@ -337,7 +337,7 @@
 			updateDisplay( display, httpObject.responseText );
 		}
 
-		httpObject.open( "POST", "http://" + window.location.host + "/submitnewchat.php" );
+		httpObject.open( "POST", "/submitnewchat.php" );
 		httpObject.send( "playerid=&pwd=&graf=" + URLEncode( postedgraf ) );
 
 		document.inputform.data.focus();
