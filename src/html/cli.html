@@ -24,7 +24,6 @@
 	body
 	{
 		padding: 0px;
-		overflow-y: hidden;
 	}
 
 	a
@@ -37,7 +36,7 @@
 		position: absolute;
 		top: 2px;
 		left: 3px;
-		padding: 2px, 2px;
+		padding: 2px;
 		font-size: 12px;
 		border: none;
 	}
@@ -47,12 +46,10 @@
 		position: absolute;
 		top: 2px;
 		left: 3px;
-		padding: 2px, 2px;
+		padding: 2px 2px;
 		font-family: arial;
 		font-size: 12px;
 		border: 1px solid black;
-		overflow-y: scroll;
-		overflow-x: hidden;
 		overflow: auto;
 	}
 
@@ -61,7 +58,7 @@
 		position: absolute;
 		top: 2px;
 		left: 3px;
-		padding: 2px, 2px;
+		padding: 2px 2px;
 		border: none;
 	}
 
@@ -86,12 +83,17 @@
 
 		if ( window.opera )
 		{
-			initheight = document.body.clientHeight - 8 -
+			initheight = document.body.clientHeight - 12 -
+				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
+		}
+		else if ( navigator.appName.indexOf( "Explorer" ) != -1 )
+		{
+			initheight = document.body.clientHeight - 6 -
 				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
 		}
 		else
 		{
-			initheight = document.body.clientHeight + 5 -
+			initheight = document.body.clientHeight - 13 -
 				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
 		}
 
@@ -127,7 +129,7 @@
 			e.stopPropagation();
 	};
 
-	function getNewMessages()
+	function getCLIUpdate()
 	{
 		var display = document.getElementById( "CmdWindow" );
 		var httpObject = getHttpObject();
@@ -140,12 +142,13 @@
 			if ( httpObject.readyState != 4 )
 				return;
 
-			setTimeout( getNewMessages, 1000 );
 			updateDisplay( display, httpObject.responseText );
+			setTimeout( getCLIUpdate, 1000 );
 		};
 
-		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/getNewMessages?type=status" );
+		httpObject.open( "POST", "/KoLmafia/messageUpdate", true );
 		httpObject.send( null );
+		return true;
 	};
 
 
@@ -166,7 +169,6 @@
 			return true;
 		}
 
-		display.innerHTML += "<br><font color=olive> &gt; " + command + "</font><br><br>";
 		display.style.width = initwidth;
 		display.scrollTop = display.scrollHeight;
 
@@ -175,17 +177,9 @@
 			return true;
 
 		executed = false;
-		httpObject.onreadystatechange = function ()
-		{
-			if ( httpObject.readyState != 4 || executed )
-				return;
 
-			executed = true;
-			updateDisplay( display, httpObject.responseText );
-		}
-
-		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/submitCommand?cmd=" + URLEncode( command ) );
-		httpObject.send( null );
+		httpObject.open( "POST", "/KoLmafia/submitCommand", true );
+		httpObject.send( "cmd=" + URLEncode( command ) );
 
 		document.cmdform.cmd.focus();
 		return true;
@@ -196,7 +190,7 @@
 </head>
 
 
- <body link=black alink=black vlink=black onLoad="initSizes(); getNewMessages();" onResize="initSizes();">
+ <body link=black alink=black vlink=black onLoad="initSizes(); getCLIUpdate();" onResize="initSizes();">
 
   <div id="ToggleDisplay" class=toggledisplay><center><b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]</center></div>
   <div id="CmdWindow" class=cmddisplay></div>

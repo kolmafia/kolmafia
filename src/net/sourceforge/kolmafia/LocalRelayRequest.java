@@ -682,13 +682,13 @@ public class LocalRelayRequest extends PasswordHashRequest
 	public void submitCommand()
 	{
 		CommandDisplayFrame.executeCommand( getFormField( "cmd" ) );
-		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
+		pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
 
 	public void executeCommand()
 	{
 		CommandDisplayFrame.executeCommand( getFormField( "cmd" ) );
-		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
+		pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
 
 	public void sideCommand()
@@ -789,7 +789,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 				executeCommand();
 			else if ( formURLString.endsWith( "sideCommand" ) )
 				sideCommand();
-			else if ( formURLString.endsWith( "getNewMessages" ) )
+			else if ( formURLString.endsWith( "messageUpdate" ) )
 				pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 			else if ( formURLString.indexOf( "images/playerpics/" ) != -1 )
 			{

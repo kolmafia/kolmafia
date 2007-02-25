@@ -24,7 +24,6 @@
 	body
 	{
 		padding: 0px;
-		overflow-y: hidden;
 	}
 
 	a
@@ -37,7 +36,7 @@
 		position: absolute;
 		top: 2px;
 		left: 2px;
-		padding: 2px, 2px;
+		padding: 2px 2px;
 		font-size: 12px;
 		border: none;
 	}
@@ -47,12 +46,10 @@
 		position: absolute;
 		top: 2px;
 		left: 2px;
-		padding: 2px, 2px;
+		padding: 2px 2px;
 		font-family: arial;
 		font-size: 12px;
 		border: 1px solid black;
-		overflow-y: scroll;
-		overflow-x: hidden;
 		overflow: auto;
 	}
 
@@ -61,7 +58,7 @@
 		position: absolute;
 		top: 2px;
 		left: 2px;
-		padding: 2px, 2px;
+		padding: 2px 2px;
 		border: none;
 	}
 
@@ -112,12 +109,17 @@
 
 		if ( window.opera )
 		{
-			initheight = document.body.clientHeight - 8 -
+			initheight = document.body.clientHeight - 12 -
+				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
+		}
+		else if ( navigator.appName.indexOf( "Explorer" ) != -1 )
+		{
+			initheight = document.body.clientHeight - 6 -
 				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
 		}
 		else
 		{
-			initheight = document.body.clientHeight + 5 -
+			initheight = document.body.clientHeight - 13 -
 				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
 		}
 
@@ -208,8 +210,9 @@
 			updateDisplay( display, httpObject.responseText );
 		};
 
-		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/getNewMessages?type=status" );
+		httpObject.open( "POST", "/KoLmafia/messageUpdate", true );
 		httpObject.send( null );
+		return true;
 	};
 
 
@@ -230,7 +233,6 @@
 			return true;
 		}
 
-		display.innerHTML += "<br><font color=olive> &gt; " + command + "</font><br><br>";
 		display.style.width = initwidth;
 		display.scrollTop = display.scrollHeight;
 
@@ -248,8 +250,8 @@
 			updateDisplay( display, httpObject.responseText );
 		}
 
-		httpObject.open( "GET", "http://" + window.location.host + "/KoLmafia/submitCommand?cmd=" + URLEncode( command ) );
-		httpObject.send( null );
+		httpObject.open( "POST", "/KoLmafia/submitCommand", true );
+		httpObject.send( "cmd=" + URLEncode( command ) );
 
 		document.inputform.data.focus();
 		return true;
@@ -277,8 +279,8 @@
 				lastseen = newlast;
 		}
 
-		httpObject.open( "GET", "http://" + window.location.host + "/newchatmessages.php?lasttime=" + lastseen );
-		httpObject.send( null );
+		httpObject.open( "POST", "http://" + window.location.host + "/newchatmessages.php" );
+		httpObject.send( "lasttime=" + lastseen" );
 		return true;
 	};
 
@@ -335,19 +337,16 @@
 			updateDisplay( display, httpObject.responseText );
 		}
 
-		httpObject.open( "GET", "http://" + window.location.host + "/submitnewchat.php?playerid=&pwd=&graf=" + URLEncode( postedgraf ) );
-		httpObject.send( null );
+		httpObject.open( "POST", "http://" + window.location.host + "/submitnewchat.php" );
+		httpObject.send( "playerid=&pwd=&graf=" + URLEncode( postedgraf ) );
 
 		document.inputform.data.focus();
 		return true;
 	};
 
-	actions = { "sendmessage.php" : { "action" : 1, "title" : "Send Message", "arg" : "toid" }, "town_sendgift.php" : { "action" : 1, "title" : "Send Gift", "arg" : "towho" }, "makeoffer.php" : { "action" : 1, "title" : "Propose Trade", "arg" : "towho" }, "skills.php" : { "action" : 1, "title" : "Buff", "arg" : "towho" }, "mallstore.php" : { "action" : 1, "title" : "Mall Store", "arg" : "whichstore" }, "displaycollection.php" : { "action" : 1, "title" : "Display Case", "arg" : "who" }, "showfamiliars.php" : { "action" : 1, "title" : "View Familiars", "arg" : "who" }, "ascensionhistory.php" : { "action" : 1, "title" : "Ascension History", "arg" : "back=other&who" }, "/whois" : { "action" : 2, "useid" : false, "submit" : true}, "/msg" : { "action" : 3, "useid" : true, "query" : "Enter message to send to %:" }, "/friend" : { "action" : 2, "useid" : true, "submit" : true }, "/ignore" : { "action" : 2, "useid" : true, "submit" : true }};
 	notchat = false;
 
-</script><script language="Javascript" src="/images/scripts/rcm.js"></script>
-
-</head>
+</script></head>
 
 
  <body link=black alink=black vlink=black onLoad="switchToChat(); submitchat( '/channel' ); getChatUpdate(); getCLIUpdate();" onResize="initSizes();">
