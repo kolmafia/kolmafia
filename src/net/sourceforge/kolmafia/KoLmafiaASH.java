@@ -218,9 +218,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( createInterpreter )
 		{
 			interpreter = new KoLmafiaASH();
-			interpreter.validate( toExecute );
-
-			if ( interpreter.commandStream == null )
+			if ( !interpreter.validate( toExecute ) )
 				return null;
 
 			TIMESTAMPS.put( toExecute, new Long( toExecute.lastModified() ) );
@@ -234,17 +232,16 @@ public class KoLmafiaASH extends StaticEntity
 	// **************** Data Types *****************
 
 	// For each simple data type X, we supply:
-	//
 	// private static ScriptValue parseXValue( String name );
-	//    throws IllegalArgumentException if can't parse
 
-	private static ScriptValue parseBooleanValue( String name ) throws IllegalArgumentException
+	private static ScriptValue parseBooleanValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "true" ) )
 			return TRUE_VALUE;
 		if ( name.equalsIgnoreCase( "false" ) )
 			return FALSE_VALUE;
-		throw new IllegalArgumentException( "Can't interpret '" + name + "' as a boolean" );
+
+		throw new AdvancedScriptException( "Can't interpret '" + name + "' as a boolean" );
 	}
 
 	private static ScriptValue parseIntValue( String name ) throws NumberFormatException
@@ -259,9 +256,9 @@ public class KoLmafiaASH extends StaticEntity
 	{	return new ScriptValue( name );
 	}
 
-	private static ScriptValue parseItemValue( String name ) throws IllegalArgumentException
+	private static ScriptValue parseItemValue( String name )
 	{
-		if ( name.equalsIgnoreCase( "none" ) )
+		if ( name == null || name.equalsIgnoreCase( "none" ) )
 			return ITEM_INIT;
 
 		// Allow for an item number to be specified
@@ -278,15 +275,10 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( !Character.isDigit( name.charAt(i) ) )
 			{
-				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( name );
-
-				// Otherwise, throw an IllegalArgumentException
-				// so that an unsuccessful parse happens before
-				// the script gets executed (consistent with
-				// paradigm).
+				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( name, false );
 
 				if ( item == null )
-					throw new IllegalArgumentException( "Item " + name + " not found in database" );
+					throw new AdvancedScriptException( "Item " + name + " not found in database" );
 
 				itemId = item.getItemId();
 				name = TradeableItemDatabase.getItemName( itemId );
@@ -310,25 +302,27 @@ public class KoLmafiaASH extends StaticEntity
 		return -1;
 	}
 
-	private static ScriptValue parseZodiacValue( String name ) throws IllegalArgumentException
+	private static ScriptValue parseZodiacValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return ZODIAC_INIT;
 
 		int num = zodiacToInt( name );
 		if ( num < 0 )
-			throw new IllegalArgumentException( "Unknown zodiac " + name );
+			throw new AdvancedScriptException( "Unknown zodiac " + name );
+
 		return new ScriptValue( ZODIAC_TYPE, num, ZODIACS[num] );
 	}
 
-	private static ScriptValue parseLocationValue( String name ) throws IllegalArgumentException
+	private static ScriptValue parseLocationValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return LOCATION_INIT;
 
 		KoLAdventure content = AdventureDatabase.getAdventure( name );
 		if ( content == null )
-			throw new IllegalArgumentException( "Location " + name + " not found in database" );
+			throw new AdvancedScriptException( "Location " + name + " not found in database" );
+
 		return new ScriptValue( LOCATION_TYPE, name, (Object) content );
 	}
 
@@ -340,14 +334,15 @@ public class KoLmafiaASH extends StaticEntity
 		return -1;
 	}
 
-	private static ScriptValue parseClassValue( String name ) throws IllegalArgumentException
+	private static ScriptValue parseClassValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return CLASS_INIT;
 
 		int num = classToInt( name );
 		if ( num < 0 )
-			throw new IllegalArgumentException( "Unknown class " + name );
+			throw new AdvancedScriptException( "Unknown class " + name );
+
 		return new ScriptValue( CLASS_TYPE, num, CLASSES[num] );
 	}
 
@@ -359,18 +354,19 @@ public class KoLmafiaASH extends StaticEntity
 		return -1;
 	}
 
-	private static ScriptValue parseStatValue( String name ) throws IllegalArgumentException
+	private static ScriptValue parseStatValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return STAT_INIT;
 
 		int num = statToInt( name );
 		if ( num < 0 )
-			throw new IllegalArgumentException( "Unknown stat " + name );
+			throw new AdvancedScriptException( "Unknown stat " + name );
+
 		return new ScriptValue( STAT_TYPE, num, STATS[num] );
 	}
 
-	private static ScriptValue parseSkillValue( String name ) throws IllegalArgumentException
+	private static ScriptValue parseSkillValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return SKILL_INIT;
@@ -378,53 +374,54 @@ public class KoLmafiaASH extends StaticEntity
 		List skills = ClassSkillsDatabase.getMatchingNames( name );
 
 		if ( skills.isEmpty() )
-			throw new IllegalArgumentException( "Skill " + name + " not found in database" );
+			throw new AdvancedScriptException( "Skill " + name + " not found in database" );
 
 		int num = ClassSkillsDatabase.getSkillId( (String)skills.get(0) );
 		name = ClassSkillsDatabase.getSkillName( num );
 		return new ScriptValue( SKILL_TYPE, num, name );
 	}
 
-	private static ScriptValue parseEffectValue( String name ) throws IllegalArgumentException
+	private static ScriptValue parseEffectValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return EFFECT_INIT;
 
 		AdventureResult effect = KoLmafiaCLI.getFirstMatchingEffect( name );
 		if ( effect == null )
-			throw new IllegalArgumentException( "Effect " + name + " not found in database" );
+			throw new AdvancedScriptException( "Effect " + name + " not found in database" );
 
 		int num = StatusEffectDatabase.getEffectId( effect.getName() );
 		name = StatusEffectDatabase.getEffectName( num );
 		return new ScriptValue( EFFECT_TYPE, num, name );
 	}
 
-	private static ScriptValue parseFamiliarValue( String name ) throws IllegalArgumentException
+	private static ScriptValue parseFamiliarValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return FAMILIAR_INIT;
 
 		int num = FamiliarsDatabase.getFamiliarId( name );
 		if ( num == -1 )
-			throw new IllegalArgumentException( "Familiar " + name + " not found in database" );
+			throw new AdvancedScriptException( "Familiar " + name + " not found in database" );
 
 		name = FamiliarsDatabase.getFamiliarName( num );
 		return new ScriptValue( FAMILIAR_TYPE, num, name );
 	}
 
-	private static ScriptValue parseSlotValue( String name ) throws IllegalArgumentException
+	private static ScriptValue parseSlotValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return SLOT_INIT;
 
 		int num = EquipmentRequest.slotNumber( name );
 		if ( num == -1 )
-			throw new IllegalArgumentException( "Bad slot name " + name );
+			throw new AdvancedScriptException( "Bad slot name " + name );
+
 		name = EquipmentRequest.slotNames[ num ];
 		return new ScriptValue( SLOT_TYPE, num, name );
 	}
 
-	private static ScriptValue parseMonsterValue( String name ) throws IllegalArgumentException
+	private static ScriptValue parseMonsterValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return MONSTER_INIT;
@@ -436,28 +433,21 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( MONSTER_TYPE, name, (Object)monster );
 	}
 
-	private static ScriptValue parseElementValue( String name ) throws IllegalArgumentException
+	private static ScriptValue parseElementValue( String name )
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return ELEMENT_INIT;
 
 		int num = MonsterDatabase.elementNumber( name );
 		if ( num == -1 )
-			throw new IllegalArgumentException( "Bad element name " + name );
+			throw new AdvancedScriptException( "Bad element name " + name );
+
 		name = MonsterDatabase.elementNames[ num ];
 		return new ScriptValue( ELEMENT_TYPE, num, name );
 	}
 
 	private static ScriptValue parseValue( ScriptType type, String name )
-	{
-		try
-		{
-			return type.parseValue( name );
-		}
-		catch ( IllegalArgumentException e )
-		{
-			throw new AdvancedScriptException( e.getMessage() );
-		}
+	{	return type.parseValue( name );
 	}
 
 	// For data types which map to integers, also supply:
@@ -596,57 +586,55 @@ public class KoLmafiaASH extends StaticEntity
 
 	// **************** Parsing *****************
 
-	public void validate( File scriptFile )
+	public boolean validate( File scriptFile )
 	{
 		this.fileName = scriptFile.getPath();
 
 		try
 		{
-			validate( new FileInputStream( scriptFile ) );
+			return validate( new FileInputStream( scriptFile ) );
 		}
-		catch ( Exception e1 )
+		catch ( Exception e )
 		{
-			// Only error message, not stack trace, for a parse error
-
-			KoLmafia.updateDisplay( e1.getMessage() );
+			return false;
 		}
 	}
 
-	public void validate( InputStream istream )
+	public boolean validate( InputStream istream )
 	{
 		try
 		{
 			this.commandStream = new LineNumberReader( new InputStreamReader( istream ) );
-
-			this.currentLine = getNextLine();
-			this.lineNumber = commandStream.getLineNumber();
-			this.nextLine = getNextLine();
-
-			this.global = parseScope( null, null, new ScriptVariableList(), getExistingFunctionScope(), false );
-
-			if ( this.currentLine != null )
-				throw new AdvancedScriptException( "Script parsing error " + getLineAndFile() );
-
-			this.commandStream.close();
-			printScope( global, 0 );
 		}
-		catch ( Exception e1 )
+		catch ( Exception e )
 		{
-			try
-			{
-				this.commandStream.close();
-			}
-			catch ( Exception e2 )
-			{
-				// The command stream is already closed.  No error
-				// message need be printed.
-			}
-
-			// Only error message, not stack trace, for a parse error
-
 			this.commandStream = null;
-			KoLmafia.updateDisplay( e1.getMessage() );
+			return false;
 		}
+
+		this.currentLine = getNextLine();
+		this.lineNumber = commandStream.getLineNumber();
+		this.nextLine = getNextLine();
+
+		this.global = parseScope( null, null, new ScriptVariableList(), getExistingFunctionScope(), false );
+		printScope( global, 0 );
+
+		try
+		{
+			this.commandStream.close();
+		}
+		catch ( Exception e )
+		{
+			this.commandStream = null;
+			return false;
+		}
+
+		this.commandStream = null;
+
+		if ( this.currentLine != null )
+			throw new AdvancedScriptException( "Script parsing error " + getLineAndFile() );
+
+		return true;
 	}
 
 	public void execute( String functionName, String [] parameters )
@@ -685,22 +673,14 @@ public class KoLmafiaASH extends StaticEntity
 				this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
 				ScriptScope result = this.global;
 
-				try
-				{
-					String [] importList = importString.split( "," );
+				String [] importList = importString.split( "," );
 
-					for ( int i = 0; i < importList.length; ++i )
-					{
-						KoLmafiaASH script = new KoLmafiaASH();
-						script.imports = this.imports;
-
-						result = script.parseFile( importList[i], result, this.global.parentScope );
-					}
-				}
-				catch ( Exception e )
+				for ( int i = 0; i < importList.length; ++i )
 				{
-					printStackTrace( e, e.getMessage() );
-					return;
+					KoLmafiaASH script = new KoLmafiaASH();
+					script.imports = this.imports;
+
+					result = script.parseFile( importList[i], result, this.global.parentScope );
 				}
 			}
 		}
@@ -722,7 +702,8 @@ public class KoLmafiaASH extends StaticEntity
 		}
 		catch ( AdvancedScriptException e )
 		{
-			printStackTrace( e, e.getMessage() );
+			KoLmafia.updateDisplay( ERROR_STATE, e.getMessage() );
+			return;
 		}
 		catch ( RuntimeException e )
 		{
@@ -730,8 +711,7 @@ public class KoLmafiaASH extends StaticEntity
 			// a premature abort, which causes void
 			// values to be returned, ignore.
 
-			if ( !e.getMessage().startsWith( "Cannot" ) )
-				printStackTrace( e, e.getMessage() );
+			printStackTrace( e, e.getMessage() );
 		}
 	}
 
@@ -776,33 +756,34 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private ScriptScope parseFile( String fileName, ScriptScope startScope, ScriptScope parentScope ) throws FileNotFoundException
+	private ScriptScope parseFile( String fileName, ScriptScope startScope, ScriptScope parentScope )
 	{
 		ScriptScope result;
 		this.fileName = fileName;
 
 		File scriptFile = KoLmafiaCLI.findScriptFile( SCRIPT_DIRECTORY, fileName );
 		if ( scriptFile == null || !scriptFile.exists() )
-			throw new FileNotFoundException( fileName + " could not be found" );
+			throw new AdvancedScriptException( fileName + " could not be found" );
 
 		if ( imports.containsKey( scriptFile ) )
 			return startScope;
 
 		imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
-		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
-
-		currentLine = getNextLine();
-		lineNumber = commandStream.getLineNumber();
-		nextLine = getNextLine();
-
-		result = parseScope( startScope, null, new ScriptVariableList(), parentScope, false );
 
 		try
 		{
+			commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
+
+			currentLine = getNextLine();
+			lineNumber = commandStream.getLineNumber();
+			nextLine = getNextLine();
+
+			result = parseScope( startScope, null, new ScriptVariableList(), parentScope, false );
 			commandStream.close();
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
+			throw new AdvancedScriptException( e );
 		}
 
 		if ( currentLine != null )
@@ -821,17 +802,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		while ( (importString = parseImport()) != null )
 		{
-			try
-			{
-				KoLmafiaASH script = new KoLmafiaASH();
-				script.imports = this.imports;
+			KoLmafiaASH script = new KoLmafiaASH();
+			script.imports = this.imports;
 
-				result = script.parseFile( importString, result, parentScope );
-			}
-			catch( java.io.FileNotFoundException e )
-			{
-				throw new AdvancedScriptException( "File <" + importString + "> not found " + getLineAndFile() );
-			}
+			result = script.parseFile( importString, result, parentScope );
 		}
 
 		while ( true )
@@ -1477,7 +1451,7 @@ public class KoLmafiaASH extends StaticEntity
 				// Byte array output streams do not throw errors,
 				// other than out of memory errors.
 
-				StaticEntity.printStackTrace( e );
+				printStackTrace( e );
 			}
 
 			currentLine = "";
@@ -1606,6 +1580,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( !( type instanceof ScriptAggregateType ) )
 				throw new AdvancedScriptException( "Too many key variables specified " + getLineAndFile() );
+
 			ScriptType itype = ((ScriptAggregateType)type).getIndexType();
 			ScriptVariable keyvar = new ScriptVariable( (String)names.get( i ), itype );
 			varList.addElement( keyvar );
@@ -1875,7 +1850,7 @@ public class KoLmafiaASH extends StaticEntity
 				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
 
 			if ( !validCoercion( lhs.getType(), rhs.getType(), oper.toString() ) )
-					throw new AdvancedScriptException( "Cannot apply " + rhs.getType() + " to " + lhs + " " + getLineAndFile() );
+				throw new AdvancedScriptException( "Cannot apply " + rhs.getType() + " to " + lhs + " " + getLineAndFile() );
 
 			lhs = new ScriptExpression( lhs, rhs, oper );
 		}
@@ -4225,15 +4200,15 @@ public class KoLmafiaASH extends StaticEntity
 			try
 			{
 				// Invoke the method
-				return (ScriptValue)method.invoke(this, variables);
+
+				return (ScriptValue) method.invoke(this, variables);
 			}
 			catch ( Exception e )
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				printStackTrace( e, "Exception during call to " + getName() );
-				return null;
+				throw new AdvancedScriptException( e.getCause() == null ? e : e.getCause() );
 			}
 		}
 
@@ -4269,7 +4244,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue string_to_boolean( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_boolean( ScriptVariable val )
 		{	return parseBooleanValue( val.toStringValue().toString() );
 		}
 
@@ -4277,7 +4252,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue string_to_int( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_int( ScriptVariable val )
 		{	return parseIntValue( val.toStringValue().toString() );
 		}
 
@@ -4285,7 +4260,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue string_to_float( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_float( ScriptVariable val )
 		{	return parseFloatValue( val.toStringValue().toString() );
 		}
 
@@ -4293,7 +4268,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue string_to_item( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_item( ScriptVariable val )
 		{	return parseItemValue( val.toStringValue().toString() );
 		}
 
@@ -4301,7 +4276,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue string_to_zodiac( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_zodiac( ScriptVariable val )
 		{	return parseZodiacValue( val.toStringValue().toString() );
 		}
 
@@ -4315,7 +4290,7 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptValue( adventure.getRequest().getURLString() );
 		}
 
-		public ScriptValue string_to_location( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_location( ScriptVariable val )
 		{	return parseLocationValue( val.toStringValue().toString() );
 		}
 
@@ -4323,7 +4298,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue string_to_class( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_class( ScriptVariable val )
 		{	return parseClassValue( val.toStringValue().toString() );
 		}
 
@@ -4331,7 +4306,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue string_to_stat( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_stat( ScriptVariable val )
 		{	return parseStatValue( val.toStringValue().toString() );
 		}
 
@@ -4339,7 +4314,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue string_to_skill( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_skill( ScriptVariable val )
 		{	return parseSkillValue( val.toStringValue().toString() );
 		}
 
@@ -4347,7 +4322,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue string_to_effect( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_effect( ScriptVariable val )
 		{	return parseEffectValue( val.toStringValue().toString() );
 		}
 
@@ -4355,7 +4330,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue string_to_familiar( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_familiar( ScriptVariable val )
 		{	return parseFamiliarValue( val.toStringValue().toString() );
 		}
 
@@ -4363,7 +4338,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue string_to_slot( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_slot( ScriptVariable val )
 		{	return parseSlotValue( val.toStringValue().toString() );
 		}
 
@@ -4371,7 +4346,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue string_to_monster( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_monster( ScriptVariable val )
 		{	return parseMonsterValue( val.toStringValue().toString() );
 		}
 
@@ -4379,7 +4354,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue string_to_element( ScriptVariable val ) throws IllegalArgumentException
+		public ScriptValue string_to_element( ScriptVariable val )
 		{	return parseElementValue( val.toStringValue().toString() );
 		}
 
@@ -5493,7 +5468,7 @@ public class KoLmafiaASH extends StaticEntity
 				// a bad currentLine in the data file and print the
 				// stack trace.
 
-				StringBuffer buffer = new StringBuffer( "Invalid currentLine in data file:" );
+				StringBuffer buffer = new StringBuffer( "Invalid line in data file:" );
 				if ( data != null )
 				{
 					buffer.append( LINE_BREAK );
@@ -7332,7 +7307,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			super( name, TYPE_RECORD );
 			if ( fieldNames.length != fieldTypes.length )
-				throw new IllegalArgumentException( "Internal error: wrong number of field types" );
+				throw new AdvancedScriptException( "Internal error: wrong number of field types" );
+
 			this.fieldNames = fieldNames;
 			this.fieldTypes = fieldTypes;
 
@@ -8156,15 +8132,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue execute()
-		{
-			try
-			{
-				return oper.applyTo( lhs, rhs );
-			}
-			catch( AdvancedScriptException e )
-			{
-				throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing." );
-			}
+		{	return oper.applyTo( lhs, rhs );
 		}
 
 		public String toString()
@@ -8485,8 +8453,12 @@ public class KoLmafiaASH extends StaticEntity
 
 	public static class AdvancedScriptException extends RuntimeException
 	{
+		AdvancedScriptException( Throwable t )
+		{	this( t.getMessage() == null ? "" : t.getMessage() );
+		}
+
 		AdvancedScriptException( String s )
-		{	super( s );
+		{	super( s == null ? "" : s );
 		}
 	}
 }
