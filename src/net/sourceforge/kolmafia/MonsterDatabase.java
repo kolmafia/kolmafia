@@ -428,6 +428,9 @@ public class MonsterDatabase extends KoLDatabase
 
 		private boolean shouldStealItem( AdventureResult item, float dropModifier )
 		{
+			if ( !item.isItem() )
+				return false;
+
 			int itemIndex = items.indexOf( item );
 
 			// If the monster drops this item, then return true

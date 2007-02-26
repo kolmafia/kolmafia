@@ -166,7 +166,7 @@ public class FightRequest extends KoLRequest
 		// Automatically pickpocket when appropriate, if the
 		// player trusts KoLmafia knows the right thing to do.
 
-		if ( currentRound == 1 && monsterData != null && monsterData.shouldSteal() && responseText != null && responseText.indexOf( "You get the jump" ) != -1 )
+		if ( currentRound == 1 && responseText != null && responseText.indexOf( "You get the jump" ) != -1 && monsterData != null && monsterData.shouldSteal() )
 		{
 			action1 = "steal";
 			addFormField( "action", action1 );
@@ -474,6 +474,12 @@ public class FightRequest extends KoLRequest
 		++currentRound;
 		payActionCost();
 
+		if ( currentRound == 1 )
+			checkForInitiative( responseText );
+
+		// Log familiar actions, if the player wishes to include this
+		// information in their session logs.
+
 		if ( StaticEntity.getBooleanProperty( "logFamiliarActions" ) )
 		{
 			Matcher familiarActMatcher = FAMILIAR_ACT_PATTERN.matcher( responseText );
@@ -517,9 +523,6 @@ public class FightRequest extends KoLRequest
 
 		// Reset round information if the battle is complete.
 		// This is recognized when fight.php has no data.
-
-		if ( currentRound == 1 )
-			checkForInitiative( responseText );
 
 		if ( responseText.indexOf( "fight.php" ) == -1 )
 		{
