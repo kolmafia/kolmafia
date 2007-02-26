@@ -169,12 +169,12 @@ public class LocalRelayServer implements Runnable
 	{
 		RelayAgent agent = null;
 
-		for ( int i = 0; i < agentThreads.size(); ++i )
+		synchronized ( agentThreads )
 		{
-			agent = (RelayAgent) agentThreads.get(i);
-
-			synchronized ( agent )
+			for ( int i = 0; i < agentThreads.size(); ++i )
 			{
+				agent = (RelayAgent) agentThreads.get(i);
+
 				if ( agent.isWaiting() )
 				{
 					agent.setSocket( socket );
@@ -189,8 +189,12 @@ public class LocalRelayServer implements Runnable
 	private RelayAgent createAgent()
 	{
 		RelayAgent agent = new RelayAgent( agentThreads.size() );
-		agentThreads.add( agent );
-		agent.start();
+
+		synchronized ( agentThreads )
+		{
+			agentThreads.add( agent );
+			agent.start();
+		}
 
 		return agent;
 	}
