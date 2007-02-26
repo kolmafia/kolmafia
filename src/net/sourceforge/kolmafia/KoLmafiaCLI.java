@@ -4041,11 +4041,19 @@ public class KoLmafiaCLI extends KoLmafia
 			// that's probably the one the player wants.
 
 			int shruggableCount = 0;
+
+			String buffToCheck;
 			AdventureResult buffToRemove = null;
 
 			for ( int i = 0; i < matchingEffects.size(); ++i )
-				if ( UneffectRequest.isShruggable( ((AdventureResult)matchingEffects.get(i)).getName() ) )
+			{
+				buffToCheck = (String) matchingEffects.get(i);
+				if ( UneffectRequest.isShruggable( buffToCheck ) )
+				{
 					++shruggableCount;
+					buffToRemove = new AdventureResult( buffToCheck, 1, true );
+				}
+			}
 
 			if ( shruggableCount == 1 )
 			{

@@ -68,7 +68,7 @@ public class UneffectRequest extends KoLRequest
 	public static final boolean isShruggable( String effectName )
 	{
 		int id = ClassSkillsDatabase.getSkillId( effectToSkill( effectName ) );
-		return id != -1 && ClassSkillsDatabase.isBuff( id  );
+		return id != -1 && ClassSkillsDatabase.isBuff( id );
 	}
 
 	/**
@@ -81,28 +81,25 @@ public class UneffectRequest extends KoLRequest
 
 	public static String effectToSkill( String effectName )
 	{
-		if ( effectName.equals( "Polka of Plenty" ) ||
-			effectName.equals( "Power Ballad of the Arrowsmith" ) ||
-			effectName.equals( "Psalm of Pointiness" ) ||
-			effectName.equals( "Ode to Booze" ) )
-				return "The " + effectName;
+		if ( effectName.equalsIgnoreCase( "Polka of Plenty" ) || effectName.equalsIgnoreCase( "Power Ballad of the Arrowsmith" ) || effectName.equalsIgnoreCase( "Psalm of Pointiness" ) || effectName.equalsIgnoreCase( "Ode to Booze" ) )
+			return "The " + effectName;
 
-		if ( effectName.equals( "Empathy" ) )
+		if ( effectName.equalsIgnoreCase( "Empathy" ) )
 			return "Empathy of the Newt";
 
-		if ( effectName.equals( "Smooth Movements" ) )
+		if ( effectName.equalsIgnoreCase( "Smooth Movements" ) )
 			return "Smooth Movement";
 
-		if ( effectName.equals( "Pasta Oneness" ) )
+		if ( effectName.equalsIgnoreCase( "Pasta Oneness" ) )
 			return "Manicotti Meditation";
 
-		if ( effectName.equals( "Saucemastery" ) )
+		if ( effectName.equalsIgnoreCase( "Saucemastery" ) )
 			return "Sauce Contemplation";
 
-		if ( effectName.equals( "Disco State of Mind" ) )
+		if ( effectName.equalsIgnoreCase( "Disco State of Mind" ) )
 			return "Disco Aerobics";
 
-		if ( effectName.equals( "Mariachi Mood" ) )
+		if ( effectName.equalsIgnoreCase( "Mariachi Mood" ) )
 			return "Moxie of the Mariachi";
 
 		return effectName;
