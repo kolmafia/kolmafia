@@ -187,6 +187,7 @@ public class KoLmafiaASH extends StaticEntity
 	// disabled until and if we choose to document the feature
 	private static String lastImportString = "";
 	private static String notifyRecipient = null;
+	private static boolean isExecuting = false;
 	private static boolean arrays = false;
 
 	private static final TreeMap TIMESTAMPS = new TreeMap();
@@ -241,6 +242,9 @@ public class KoLmafiaASH extends StaticEntity
 		if ( name.equalsIgnoreCase( "false" ) )
 			return FALSE_VALUE;
 
+		if ( isExecuting )
+			return parseInt( name ) == 0 ? FALSE_VALUE : TRUE_VALUE;
+
 		throw new AdvancedScriptException( "Can't interpret '" + name + "' as a boolean" );
 	}
 
@@ -278,7 +282,12 @@ public class KoLmafiaASH extends StaticEntity
 				AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( name, false );
 
 				if ( item == null )
+				{
+					if ( isExecuting )
+						return ITEM_INIT;
+
 					throw new AdvancedScriptException( "Item " + name + " not found in database" );
+				}
 
 				itemId = item.getItemId();
 				name = TradeableItemDatabase.getItemName( itemId );
@@ -309,7 +318,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		int num = zodiacToInt( name );
 		if ( num < 0 )
+		{
+			if ( isExecuting )
+				return ZODIAC_INIT;
+
 			throw new AdvancedScriptException( "Unknown zodiac " + name );
+		}
 
 		return new ScriptValue( ZODIAC_TYPE, num, ZODIACS[num] );
 	}
@@ -321,7 +335,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		KoLAdventure content = AdventureDatabase.getAdventure( name );
 		if ( content == null )
+		{
+			if ( isExecuting )
+				return LOCATION_INIT;
+
 			throw new AdvancedScriptException( "Location " + name + " not found in database" );
+		}
 
 		return new ScriptValue( LOCATION_TYPE, name, (Object) content );
 	}
@@ -341,7 +360,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		int num = classToInt( name );
 		if ( num < 0 )
+		{
+			if ( isExecuting )
+				return CLASS_INIT;
+
 			throw new AdvancedScriptException( "Unknown class " + name );
+		}
 
 		return new ScriptValue( CLASS_TYPE, num, CLASSES[num] );
 	}
@@ -361,7 +385,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		int num = statToInt( name );
 		if ( num < 0 )
+		{
+			if ( isExecuting )
+				return STAT_INIT;
+
 			throw new AdvancedScriptException( "Unknown stat " + name );
+		}
 
 		return new ScriptValue( STAT_TYPE, num, STATS[num] );
 	}
@@ -374,7 +403,12 @@ public class KoLmafiaASH extends StaticEntity
 		List skills = ClassSkillsDatabase.getMatchingNames( name );
 
 		if ( skills.isEmpty() )
+		{
+			if ( isExecuting )
+				return SKILL_INIT;
+
 			throw new AdvancedScriptException( "Skill " + name + " not found in database" );
+		}
 
 		int num = ClassSkillsDatabase.getSkillId( (String)skills.get(0) );
 		name = ClassSkillsDatabase.getSkillName( num );
@@ -388,7 +422,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		AdventureResult effect = KoLmafiaCLI.getFirstMatchingEffect( name );
 		if ( effect == null )
+		{
+			if ( isExecuting )
+				return EFFECT_INIT;
+
 			throw new AdvancedScriptException( "Effect " + name + " not found in database" );
+		}
 
 		int num = StatusEffectDatabase.getEffectId( effect.getName() );
 		name = StatusEffectDatabase.getEffectName( num );
@@ -402,7 +441,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		int num = FamiliarsDatabase.getFamiliarId( name );
 		if ( num == -1 )
+		{
+			if ( isExecuting )
+				return FAMILIAR_INIT;
+
 			throw new AdvancedScriptException( "Familiar " + name + " not found in database" );
+		}
 
 		name = FamiliarsDatabase.getFamiliarName( num );
 		return new ScriptValue( FAMILIAR_TYPE, num, name );
@@ -415,7 +459,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		int num = EquipmentRequest.slotNumber( name );
 		if ( num == -1 )
+		{
+			if ( isExecuting )
+				return SLOT_INIT;
+
 			throw new AdvancedScriptException( "Bad slot name " + name );
+		}
 
 		name = EquipmentRequest.slotNames[ num ];
 		return new ScriptValue( SLOT_TYPE, num, name );
@@ -428,7 +477,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		Monster monster = MonsterDatabase.findMonster( name );
 		if ( monster == null )
-			return MONSTER_INIT;
+		{
+			if ( isExecuting )
+				return MONSTER_INIT;
+
+			throw new AdvancedScriptException( "Bad monster name " + name );
+		}
 
 		return new ScriptValue( MONSTER_TYPE, name, (Object)monster );
 	}
@@ -440,7 +494,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		int num = MonsterDatabase.elementNumber( name );
 		if ( num == -1 )
+		{
+			if ( isExecuting )
+				return ELEMENT_INIT;
+
 			throw new AdvancedScriptException( "Bad element name " + name );
+		}
 
 		name = MonsterDatabase.elementNames[ num ];
 		return new ScriptValue( ELEMENT_TYPE, num, name );
@@ -698,7 +757,11 @@ public class KoLmafiaASH extends StaticEntity
 
 		try
 		{
+			boolean wasExecuting = isExecuting;
+
+			isExecuting = true;
 			executeScope( global, functionName, parameters );
+			isExecuting = wasExecuting;
 		}
 		catch ( AdvancedScriptException e )
 		{
