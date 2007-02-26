@@ -2737,7 +2737,10 @@ public class KoLmafiaASH extends StaticEntity
 		main = topScope.findFunction( functionName, null );
 
 		if ( main == null && topScope.getFirstCommand() == null )
-			throw new AdvancedScriptException( "Unable to invoke " + functionName );
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "Unable to invoke " + functionName );
+			return VOID_VALUE;
+		}
 
 		// First execute top-level commands;
 
