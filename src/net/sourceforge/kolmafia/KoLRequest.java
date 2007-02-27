@@ -1263,8 +1263,8 @@ public class KoLRequest extends Job implements KoLConstants
 		// Let the mappers do their work
 		mapCurrentChoice( responseText );
 
-		if ( formURLString.startsWith( "adventure.php" ) && responseText.indexOf( "notice a ten-leaf clover" ) != -1 )
-			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+		if ( formURLString.startsWith( "adventure.php" ) && responseText.indexOf( "notice a ten-leaf clover" ) != -1 && responseText.indexOf( "our ten-leaf clover" ) == -1 && responseText.indexOf( "puff of smoke" ) == -1 )
+			DEFAULT_SHELL.executeLine( "use 1 ten-leaf clover" );
 
 		needsRefresh &= !(getClass() == KoLRequest.class || this instanceof LocalRelayRequest || this instanceof FightRequest);
 		needsRefresh &= !formURLString.startsWith( "charpane.php" );
