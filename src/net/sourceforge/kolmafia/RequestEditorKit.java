@@ -1328,17 +1328,21 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			ItemCreationRequest irequest = null;
 
 			int mixingMethod = NOCREATE;
+			int consumeMethod = TradeableItemDatabase.getConsumptionType( itemId );
+
+			// Retrieve the known ingredient uses for the item.
 			SortedListModel creations = ConcoctionsDatabase.getKnownUses( itemId );
 
 			// If you find goat cheese, let the trapper link handle it.
-			// Ore is skipped for now, so no need to check for it.  And,
-			// finally, enchanted beans are primarily use, as are any
-			// items which are multi-use or are mp restores.
-
-			int consumeMethod = TradeableItemDatabase.getConsumptionType( itemId );
-
 			addCreateLink &= !creations.isEmpty() && itemId != 322;
-			addCreateLink &= itemId != KoLAdventure.BEAN.getItemId() || KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT );
+
+			// Dictionaries and bridges should link to the chasm quest.
+			addCreateLink &= itemId != FightRequest.DICTIONARY1.getItemId() && itemId != AdventureRequest.BRIDGE.getItemId();
+
+			// Enchanted beans are primarily used for the beanstalk quest.
+			addCreateLink &= itemId != KoLAdventure.BEAN.getItemId() || KoLCharacter.getLevel() < 10 || KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT );
+
+			// Skip items which are multi-use or are mp restores.
 			addCreateLink &= consumeMethod != CONSUME_MULTIPLE && consumeMethod != CONSUME_RESTORE;
 
 			if ( addCreateLink )
@@ -1633,6 +1637,22 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					{
 						useType = "guild";
 						useLocation = "guild.php?place=paco";
+					}
+
+					// Link to the untinkerer if you find an abridged dictionary.
+
+					else if ( itemId == AdventureRequest.ABRIDGED.getItemId() )
+					{
+						useType = "untinker";
+						useLocation = "town_right.php?action=untinker&pwd&whichitem=";
+					}
+
+					// Link to the chasm if you just untinkered a dictionary.
+
+					else if ( itemId == FightRequest.DICTIONARY1.getItemId() || itemId == AdventureRequest.BRIDGE.getItemId() )
+					{
+						useType = "chasm";
+						useLocation = "mountains.php&pwd&orcs=1";
 					}
 				}
 			}
