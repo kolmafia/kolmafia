@@ -580,8 +580,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		String skillSetting = StaticEntity.getProperty( "breakfast" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
 
-		boolean shouldRestore = StaticEntity.getBooleanProperty( "loginRecovery" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
-		boolean pathedSummons = StaticEntity.getBooleanProperty( "pathedSummons" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
+		boolean allowRestore = !checkSettings || StaticEntity.getBooleanProperty( "loginRecovery" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
+		boolean pathedSummons = !checkSettings || StaticEntity.getBooleanProperty( "pathedSummons" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
 
 		if ( skillSetting != null )
 		{
@@ -599,19 +599,22 @@ public abstract class KoLmafia implements KoLConstants
 				}
 
 				if ( shouldCast )
-					getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i][0], StaticEntity.parseInt( UseSkillRequest.BREAKFAST_SKILLS[i][1] ), shouldRestore );
+					getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i][0], StaticEntity.parseInt( UseSkillRequest.BREAKFAST_SKILLS[i][1] ), allowRestore );
 			}
 		}
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
-	public void getBreakfast( String skillName, int standardCast, boolean autoRestore )
+	public void getBreakfast( String skillName, int standardCast, boolean allowRestore )
 	{
 		KoLmafia.forceContinue();
 
-		int mpCost = ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) );
-		standardCast = Math.min( standardCast, KoLCharacter.getCurrentMP() / mpCost );
+		if ( !allowRestore )
+		{
+			int mpCost = ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) );
+			standardCast = Math.min( standardCast, KoLCharacter.getCurrentMP() / mpCost );
+		}
 
 		RequestThread.postRequest( UseSkillRequest.getInstance( skillName, standardCast ) );
 	}
