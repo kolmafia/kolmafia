@@ -245,7 +245,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		useSkillLoop();
 
 		if ( item != null && item != ACCORDION && item != ROCKNROLL_LEGEND )
-			untinkerCloverWeapon( item );
+			untinkerCloverWeapon( ROCKNROLL_LEGEND );
 	}
 
 	private void useSkillLoop()
@@ -382,13 +382,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( !canUntinker() )
 			return ACCORDION;
 
-		// Get the clover weapon from the closet, if it is there
-		AdventureDatabase.retrieveItem( cloverWeapon );
-
-		// Otherwise, unequip it
-		if ( cloverWeapon.getCount( inventory ) < 1 )
-			DEFAULT_SHELL.executeLine( "unequip weapon" );
-
 		// Turn it into a big rock
 		untinkerCloverWeapon( cloverWeapon );
 
@@ -399,11 +392,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	private static boolean canUntinker()
 	{
-		// If you're too low level, don't even try
-
-		if ( KoLCharacter.getLevel() < 4 )
-			return false;
-
 		// If you're in a muscle sign, KoLmafia will finish the
 		// quest without problems.
 
@@ -414,7 +402,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// If he mentions Degrassi Knoll, you haven't given him
 		// his screwdriver yet.
 
-		return UntinkerRequest.completeQuest();
+		return UntinkerRequest.canUntinker();
 	}
 
 	public static void untinkerCloverWeapon( AdventureResult item )

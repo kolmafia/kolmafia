@@ -920,6 +920,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( location.startsWith( "inventory.php" ) )
 		{
+			if ( KoLCharacter.inMuscleSign() )
+				StaticEntity.globalStringReplace( buffer, "combine.php", "knoll.php?place=paster" );
+
 			AdventureResult wand = KoLCharacter.getZapper();
 			if ( wand != null )
 				StaticEntity.singleStringReplace( buffer, "]</a></font></td></tr></table></center>", "]</a>&nbsp;&nbsp;<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">[zap items]</a></font></td></tr></table></center>" );
