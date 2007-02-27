@@ -898,7 +898,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// the HTML to reflect this.
 
 		int cloverIndex = buffer.indexOf( "you look down and notice a ten-leaf clover" );
-		if ( cloverIndex != -1 )
+
+		if ( cloverIndex != -1 && buffer.indexOf( "our ten-leaf clover" ) == -1 && buffer.indexOf( "puff of smoke" ) == -1 )
 		{
 			StaticEntity.singleStringReplace( buffer, "<b>ten-leaf clover</b>", "<b>disassembled clover</b>" );
 			StaticEntity.singleStringReplace( buffer, "clover.gif", "disclover.gif" );
