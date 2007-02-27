@@ -483,21 +483,19 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
 		CLIENT_SETTINGS.put( "guiUsesOneWindow", "false" );
 		CLIENT_SETTINGS.put( "highlightList", "" );
-
 		CLIENT_SETTINGS.put( "http.proxyHost", "" );
 		CLIENT_SETTINGS.put( "http.proxyPort", "" );
 		CLIENT_SETTINGS.put( "http.proxyUser", "" );
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
 		CLIENT_SETTINGS.put( "proxySet", "false" );
 		CLIENT_SETTINGS.put( "ignoreLoadBalancer", "false" );
-
 		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame,HagnkStorageFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "LocalRelayServer,EventsFrame" );
-
 		CLIENT_SETTINGS.put( "lastUsername", "" );
 		CLIENT_SETTINGS.put( "loginServerName", "" );
 		CLIENT_SETTINGS.put( "loginWindowLogo", "lantern.jpg" );
-
+		CLIENT_SETTINGS.put( "loginRecoveryHardcore", "false" );
+		CLIENT_SETTINGS.put( "loginRecoverySoftcore", "true" );
 		CLIENT_SETTINGS.put( "loginScript", "" );
 		CLIENT_SETTINGS.put( "logoutScript", "" );
 
@@ -511,6 +509,8 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		CLIENT_SETTINGS.put( "mapLoadsMiniBrowser", "false" );
 		CLIENT_SETTINGS.put( "mementoListActive", "false" );
+		CLIENT_SETTINGS.put( "pathedSummonsHardcore", "true" );
+		CLIENT_SETTINGS.put( "pathedSummonsSoftcore", "false" );
 		CLIENT_SETTINGS.put( "previousNotifyList", "<>" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
 		CLIENT_SETTINGS.put( "protectAgainstOverdrink", "true" );
@@ -560,8 +560,8 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "useSystemTrayIcon", "false" );
 		CLIENT_SETTINGS.put( "useTabbedChatFrame", "true" );
 		CLIENT_SETTINGS.put( "useToolbars", "true" );
-		CLIENT_SETTINGS.put( "visitRumpusHardcore", "false" );
-		CLIENT_SETTINGS.put( "visitRumpusSoftcore", "false" );
+		CLIENT_SETTINGS.put( "visitRumpusHardcore", "true" );
+		CLIENT_SETTINGS.put( "visitRumpusSoftcore", "true" );
 
 		// Individual player settings which are not set on
 		// a global level.
