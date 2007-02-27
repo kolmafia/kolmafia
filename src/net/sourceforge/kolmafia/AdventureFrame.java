@@ -1530,7 +1530,7 @@ public class AdventureFrame extends KoLFrame
 		StaticEntity.setProperty( "hpAutoRecoveryTarget", String.valueOf( ((float)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "hpAutoRecoveryItems", getSettingString( hpRestoreCheckbox ) );
 
-		StaticEntity.setProperty( "mpThreshold", String.valueOf( ((float)(mpBalanceSelect.getSelectedIndex()) / 10.0f) ) );
+		StaticEntity.setProperty( "mpThreshold", String.valueOf( ((float)(mpBalanceSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "mpAutoRecovery", String.valueOf( ((float)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "mpAutoRecoveryTarget", String.valueOf( ((float)(mpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "mpAutoRecoveryItems", getSettingString( mpRestoreCheckbox ) );
@@ -1602,6 +1602,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			mpBalanceSelect = new JComboBox();
 			mpBalanceSelect.addItem( "Only recast buffs for mood swings" );
+			mpBalanceSelect.addItem( "Enable manual invocation of bulk recast" );
 			for ( int i = 1; i <= 9; ++i )
 				mpBalanceSelect.addItem( "Enable conditional recast at " + (i*10) + "%" );
 
@@ -1629,7 +1630,7 @@ public class AdventureFrame extends KoLFrame
 			add( Box.createVerticalStrut( 10 ) );
 			add( constructLabelPair( "Use these restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) ) );
 
-			mpBalanceSelect.setSelectedIndex( Math.max( (int)(StaticEntity.getFloatProperty( "mpThreshold" ) * 10), 0 ) );
+			mpBalanceSelect.setSelectedIndex( Math.max( (int)(StaticEntity.getFloatProperty( "mpThreshold" ) * 10) + 1, 0 ) );
 			mpAutoRecoverSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "mpAutoRecovery" ) * 10) + 1 );
 			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "mpAutoRecoveryTarget" ) * 10) + 1 );
 

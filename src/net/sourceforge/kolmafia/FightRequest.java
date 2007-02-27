@@ -45,6 +45,9 @@ import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 
 public class FightRequest extends KoLRequest
 {
+	private static final AdventureResult ANTIDOTE = new AdventureResult( 829, 1 );
+	private static final AdventureResult POISON = new AdventureResult( "Poisoned", 1, true );
+
 	private static final AdventureResult SOLDIER = new AdventureResult( 1397, 1 );
 	private static final AdventureResult MERCENARY = new AdventureResult( 2139, 1 );
 	private static final AdventureResult TEQUILA = new AdventureResult( 1004, -1 );
@@ -259,7 +262,10 @@ public class FightRequest extends KoLRequest
 
 			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) && !KoLCharacter.getFamiliar().isThiefFamiliar() )
 			{
-				if ( itemCount >= 2 && itemId != DICTIONARY1.getItemId() && itemId != DICTIONARY2.getItemId() )
+				if ( itemId == ANTIDOTE.getItemId() )
+				{
+				}
+				else if ( itemCount >= 2 && itemId != DICTIONARY1.getItemId() && itemId != DICTIONARY2.getItemId() )
 				{
 					action2 = action1;
 					addFormField( "whichitem2", String.valueOf( itemId ) );
@@ -575,6 +581,10 @@ public class FightRequest extends KoLRequest
 		case 1316:	// Dictionary 2
 
 			return false;
+
+		case 829:  // Anti-Anti-Antidote
+
+			return activeEffects.contains( POISON );
 
 		default:
 

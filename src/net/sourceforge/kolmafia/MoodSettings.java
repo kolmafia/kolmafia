@@ -419,25 +419,25 @@ public abstract class MoodSettings implements KoLConstants
 	{	execute( false );
 	}
 
-	public static void burnExtraMana()
+	public static void burnExtraMana( boolean isManualInvocation )
 	{
 		String nextBurnCast;
 
 		isExecuting = true;
 
-		while ( (nextBurnCast = getNextBurnCast()) != null )
+		while ( (nextBurnCast = getNextBurnCast( isManualInvocation )) != null )
 			DEFAULT_SHELL.executeLine( nextBurnCast );
 
 		isExecuting = false;
 	}
 
-	public static String getNextBurnCast()
+	public static String getNextBurnCast( boolean isManualInvocation )
 	{
 		// Rather than keeping a safety for the player, let the player
 		// make the mistake of burning below their auto-restore threshold.
 
 		int starting = (int) (StaticEntity.getFloatProperty( "mpThreshold" ) * (float) KoLCharacter.getMaximumMP());
-		if ( starting <= 0 || KoLCharacter.getCurrentMP() < starting )
+		if ( starting < 0 || (starting == 0 && !isManualInvocation) || KoLCharacter.getCurrentMP() < starting )
 			return null;
 
 		int minimum = Math.max( 0, (int) (StaticEntity.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP()) );
@@ -476,8 +476,11 @@ public abstract class MoodSettings implements KoLConstants
 					continue;
 
 			int castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
+			int duration = ClassSkillsDatabase.getEffectDuration( skillId );
 
-			if ( ClassSkillsDatabase.getEffectDuration( skillId ) * castCount > desiredDuration )
+			if ( castCount > 0 && duration > desiredDuration )
+				castCount = 1;
+			else if ( duration * castCount > desiredDuration )
 				castCount = Math.min( 3, castCount );
 
 			if ( castCount > 0 )
@@ -496,7 +499,7 @@ public abstract class MoodSettings implements KoLConstants
 
 		if ( !willExecute( isManualInvocation ) )
 		{
-			burnExtraMana();
+			burnExtraMana( isManualInvocation );
 			return;
 		}
 
@@ -579,7 +582,7 @@ public abstract class MoodSettings implements KoLConstants
 		}
 
 		isExecuting = false;
-		burnExtraMana();
+		burnExtraMana( isManualInvocation );
 
 		if ( songWeapon != null )
 			UseSkillRequest.untinkerCloverWeapon( UseSkillRequest.ROCKNROLL_LEGEND );

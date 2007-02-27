@@ -310,16 +310,8 @@ public class LocalRelayServer implements Runnable
 
 			if ( request.responseCode == 200 )
 			{
-				if ( request.rawByteBuffer != null )
-				{
-					printStream.println( "Content-Type: " + request.contentType );
-					printStream.println( "Content-Length: " + request.rawByteBuffer.length );
-				}
-				else
-				{
-					printStream.println( "Content-Type: " + request.contentType + "; charset=utf-8" );
-					printStream.println( "Content-Length: " + request.responseText.length() );
-				}
+				printStream.println( "Content-Type: " + request.contentType );
+				printStream.println( "Content-Length: " + request.rawByteBuffer.length );
 
 				if ( request.formURLString.indexOf( ".php" ) != -1 )
 				{
@@ -506,14 +498,24 @@ public class LocalRelayServer implements Runnable
 					}
 				}
 
+				if ( request.rawByteBuffer == null )
+				{
+					try
+					{
+						request.rawByteBuffer = request.responseText.getBytes( "UTF-8" );
+					}
+					catch ( Exception e )
+					{
+						// Should not happen, but prepare for it, just in case.
+						request.rawByteBuffer = request.responseText.getBytes();
+					}
+				}
+
 				writer.println( request.statusLine );
 				sendHeaders( writer, request );
-				writer.println();
 
-				if ( request.rawByteBuffer != null )
-					writer.write( request.rawByteBuffer );
-				else
-					writer.print( request.responseText );
+				writer.println();
+				writer.write( request.rawByteBuffer );
 
 				closeRelay( socket, reader, writer );
 			}
