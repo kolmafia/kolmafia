@@ -1918,7 +1918,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			fontColor = "black";
 			moodText = "mood " + StaticEntity.getProperty( "currentMood" );
 		}
-		else if ( MoodSettings.getNextBurnCast() != null )
+		else if ( MoodSettings.getNextBurnCast( true ) != null )
 		{
 			fontColor = "black";
 			moodText = "burn extra mp";

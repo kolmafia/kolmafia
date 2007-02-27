@@ -381,7 +381,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( line.equalsIgnoreCase( "burn extra mp" ) && acceptCommands )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
-			MoodSettings.burnExtraMana();
+			MoodSettings.burnExtraMana( true );
 			SpecialOutfit.restoreImplicitCheckpoint();
 
 			return;

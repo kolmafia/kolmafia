@@ -45,13 +45,13 @@ function refreshSidebar()
 			return;
 
 		top.charpane.document.getElementsByTagName( "body" )[0].innerHTML =
-			httpObject.responseText.replace( new RegExp( "<html>.*<body[^>]*>", "g" ), "" ).replace( new RegExp( "</body>.*</html>", "g" ), "" );
+			httpObject.responseText.replace( new RegExp( "<html>.*<center", "g" ), "<center" ).replace( new RegExp( "</body>.*</html>", "g" ), "" );
 
 		isRefreshing = false;
 	}
 
-	httpObject.open( "GET", "http://" + window.location.host + "/charpane.php" );
-	httpObject.send( null );
+	httpObject.open( "POST", "/charpane.php" );
+	httpObject.send( "" );
 }
 
 
