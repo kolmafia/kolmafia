@@ -82,6 +82,10 @@ public class HermitRequest extends KoLRequest
 		addFormField( "pwd" );
 	}
 
+	public static boolean useHermitClover( String location )
+	{	return StaticEntity.getBooleanProperty( "cloverProtectActive" ) && location.startsWith( "hermit.php" ) && location.indexOf( "whichitem=24" ) != -1;
+	}
+
 	/**
 	 * Executes the <code>HermitRequest</code>.  This will trade the item
 	 * specified in the character's <code>KoLSettings</code> for their
@@ -173,9 +177,6 @@ public class HermitRequest extends KoLRequest
 			KoLmafia.updateDisplay( ERROR_STATE, "The hermit kept his stuff." );
 			return;
 		}
-
-		if ( itemId == SewerRequest.POSITIVE_CLOVER.getItemId() )
-			(new ConsumeItemRequest( SewerRequest.POSITIVE_CLOVER.getInstance( quantity ) )).run();
 
 		KoLmafia.updateDisplay( "Hermit successfully looted!" );
 	}

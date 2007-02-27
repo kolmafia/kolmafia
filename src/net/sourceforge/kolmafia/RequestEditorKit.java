@@ -897,13 +897,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// automatically been disassembled.  Update
 		// the HTML to reflect this.
 
-		int cloverIndex = buffer.indexOf( "you look down and notice a ten-leaf clover" );
-
-		if ( cloverIndex != -1 && buffer.indexOf( "our ten-leaf clover" ) == -1 && buffer.indexOf( "puff of smoke" ) == -1 )
+		if ( AdventureRequest.useMarmotClover( location, buffer.toString() ) || HermitRequest.useHermitClover( location ) )
 		{
-			StaticEntity.singleStringReplace( buffer, "<b>ten-leaf clover</b>", "<b>disassembled clover</b>" );
-			StaticEntity.singleStringReplace( buffer, "clover.gif", "disclover.gif" );
-			StaticEntity.singleStringReplace( buffer, "370834526", "328909735" );
+			StaticEntity.globalStringReplace( buffer, "<b>ten-leaf clover</b>", "<b>disassembled clover</b>" );
+			StaticEntity.globalStringReplace( buffer, "clover.gif", "disclover.gif" );
+			StaticEntity.globalStringReplace( buffer, "370834526", "328909735" );
 		}
 
 		// Now, for a little fun HTML manipulation.  See
