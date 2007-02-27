@@ -577,7 +577,11 @@ public abstract class KoLmafia implements KoLConstants
 		KoLmafia.forceContinue();
 
 		boolean shouldCast = false;
+
 		String skillSetting = StaticEntity.getProperty( "breakfast" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
+
+		boolean shouldRestore = StaticEntity.getBooleanProperty( "loginRecovery" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
+		boolean pathedSummons = StaticEntity.getBooleanProperty( "pathedSummons" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
 
 		if ( skillSetting != null )
 		{
@@ -586,7 +590,7 @@ public abstract class KoLmafia implements KoLConstants
 				shouldCast = !checkSettings || skillSetting.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i][0] ) != -1;
 				shouldCast &= KoLCharacter.hasSkill( UseSkillRequest.BREAKFAST_SKILLS[i][0] );
 
-				if ( checkSettings && shouldCast && KoLCharacter.isHardcore() )
+				if ( checkSettings && pathedSummons && shouldCast && KoLCharacter.isHardcore() )
 				{
 					if ( UseSkillRequest.BREAKFAST_SKILLS[i][0].equals( "Pastamastery" ) && !KoLCharacter.canEat() )
 						shouldCast = false;
@@ -595,22 +599,19 @@ public abstract class KoLmafia implements KoLConstants
 				}
 
 				if ( shouldCast )
-					getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i][0], StaticEntity.parseInt( UseSkillRequest.BREAKFAST_SKILLS[i][1] ) );
+					getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i][0], StaticEntity.parseInt( UseSkillRequest.BREAKFAST_SKILLS[i][1] ), shouldRestore );
 			}
 		}
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
-	public void getBreakfast( String skillName, int standardCast )
+	public void getBreakfast( String skillName, int standardCast, boolean autoRestore )
 	{
 		KoLmafia.forceContinue();
 
-		if ( KoLCharacter.isHardcore() && !NPCStoreDatabase.contains( "magical mystery juice" ) && !NPCStoreDatabase.contains( "Knob Goblin seltzer" ) && !NPCStoreDatabase.contains( "Cherry Cloaca Cola" ) )
-		{
-			int mpCost = ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) );
-			standardCast = Math.min( standardCast, KoLCharacter.getCurrentMP() / mpCost );
-		}
+		int mpCost = ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) );
+		standardCast = Math.min( standardCast, KoLCharacter.getCurrentMP() / mpCost );
 
 		RequestThread.postRequest( UseSkillRequest.getInstance( skillName, standardCast ) );
 	}
