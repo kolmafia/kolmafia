@@ -824,16 +824,16 @@ public abstract class MoodSettings implements KoLConstants
 		}
 		else if ( type.equals( "lose_effect" ) )
 		{
-			int neededTurns = KoLCharacter.canInteract() ? 60 : 15;
+			int tenCount = KoLCharacter.canInteract() ? 6 : 1;
 
 			if ( name.equals( "Butt-Rock Hair" ) )
-				return "use " + (neededTurns / 3) + " can of hair spray";
+				return "use 5 can of hair spray";
 
 			if ( name.equals( "Ticking Clock" ) )
-				return "use " + (neededTurns / 10) + " cheap wind-up clock";
+				return "use " + tenCount + " cheap wind-up clock";
 
 			if ( name.equals( "Temporary Lycanthropy" ) )
-				return "use " + (neededTurns / 10) + " blood of the Wereseal";
+				return "use " + tenCount + " blood of the Wereseal";
 
 			if ( name.equals( "Half-Astral" ) )
 				return "use 1 astral mushroom";
@@ -859,19 +859,19 @@ public abstract class MoodSettings implements KoLConstants
 			// Laboratory effects
 
 			if ( name.equals( "Wasabi Sinuses" ) )
-				return "use " + (neededTurns / 10) + " Knob Goblin nasal spray";
+				return "use " + tenCount + " Knob Goblin nasal spray";
 
 			if ( name.equals( "Peeled Eyeballs" ) )
-				return "use " + (neededTurns / 10) + " Knob Goblin eyedrops";
+				return "use " + tenCount + " Knob Goblin eyedrops";
 
 			if ( name.equals( "Sharp Weapon" ) )
-				return "use " + (neededTurns / 10) + " Knob Goblin sharpening spray";
+				return "use " + tenCount + " Knob Goblin sharpening spray";
 
 			if ( name.equals( "Heavy Petting" ) )
-				return "use " + (neededTurns / 10) + " Knob Goblin pet-buffing spray";
+				return "use " + tenCount + " Knob Goblin pet-buffing spray";
 
 			if ( name.equals( "Big Veiny Brain" ) )
-				return "use " + (neededTurns / 10) + " Knob Goblin learning pill";
+				return "use " + tenCount + " Knob Goblin learning pill";
 
 			// Finally, fall back on skills
 
@@ -885,10 +885,7 @@ public abstract class MoodSettings implements KoLConstants
 				if ( duration == 0 )
 					return "";
 
-				int castCount = Math.max( neededTurns / duration, 1 );
-				if ( castCount == 0 )
-					return "";
-
+				int castCount = KoLCharacter.canInteract() ? 10 : 1;
 				int mpCost = ClassSkillsDatabase.getMPConsumptionById( skillId );
 				if ( mpCost > 0 )
 					castCount = Math.min( castCount, KoLCharacter.getMaximumMP() / mpCost );
