@@ -40,6 +40,9 @@ import javax.swing.JOptionPane;
 
 public class UntinkerRequest extends KoLRequest
 {
+	private static boolean canUntinker;
+	private static String lastUsername = "";
+
 	private static final AdventureResult SCREWDRIVER = new AdventureResult( 454, -1 );
 
 	private int itemId;
@@ -122,24 +125,26 @@ public class UntinkerRequest extends KoLRequest
 
 	public static final boolean canUntinker()
 	{
+		if ( lastUsername.equals( KoLCharacter.getUserName() ) )
+			return canUntinker;
+
+		lastUsername = KoLCharacter.getUserName();
+
 		// If the person does not have the accomplishment, visit
 		// the untinker to ensure that they get the quest.
 
 		KoLRequest questCompleter = new KoLRequest( "town_right.php?place=untinker" );
 		questCompleter.run();
 
+		System.out.println( questCompleter.responseText );
+
 		// "I can take apart anything that's put together with meat
 		// paste, but you don't have anything like that..."
 
-		if ( questCompleter.responseText.indexOf( "you don't have anything like that" ) != -1 )
-		{
-			// They've completed the quest but have nothing the
-			// Untinker is willing to work on.
+		canUntinker = questCompleter.responseText.indexOf( "you don't have anything like that" ) != -1 ||
+			questCompleter.responseText.indexOf( "<select name=whichitem>" ) != -1;
 
-			return true;
-		}
-
-		return questCompleter.responseText.indexOf( "<select name=whichitem>" ) != -1;
+		return canUntinker;
 	}
 
 	public static final boolean completeQuest()
