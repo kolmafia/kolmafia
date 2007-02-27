@@ -486,4 +486,11 @@ public class AdventureRequest extends KoLRequest
 	public String toString()
 	{	return adventureName;
 	}
+
+	public static boolean useMarmotClover( String location, String responseText )
+	{
+		return StaticEntity.getBooleanProperty( "cloverProtectActive" ) &&
+			location.startsWith( "adventure.php" ) && responseText.indexOf( "notice a ten-leaf clover" ) != -1 &&
+			responseText.indexOf( "our ten-leaf clover" ) == -1 && responseText.indexOf( "puff of smoke" ) == -1;
+	}
 }
