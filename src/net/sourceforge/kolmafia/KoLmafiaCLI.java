@@ -1271,6 +1271,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "logprint" ) )
+		{
+			executePrintCommand( parameters, true );
+			return;
+		}
+
 		// One command is an item usage request.  These
 		// requests are complicated, so delegate to the
 		// appropriate utility method.
@@ -2979,12 +2985,16 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 	}
 
+	private void executePrintCommand( String parameters )
+	{	executePrintCommand( parameters, false );
+	}
+
 	/**
 	 * A special module used specifically for properly printing out
 	 * data relevant to the current session.
 	 */
 
-	private void executePrintCommand( String parameters )
+	private void executePrintCommand( String parameters, boolean sessionPrint )
 	{
 		if ( parameters.length() == 0 )
 		{
@@ -2999,6 +3009,13 @@ public class KoLmafiaCLI extends KoLmafia
 		String filter = spaceIndex == -1 ? "" : parameters.substring( spaceIndex ).trim();
 
 		PrintStream desiredOutputStream = outputStream;
+
+		if ( sessionPrint )
+		{
+			sessionStream.println();
+			desiredOutputStream = sessionStream;
+		}
+
 
 		if ( !filter.equals( "" ) &&
 			(parameters.startsWith( "summary" ) || parameters.startsWith( "session" ) || parameters.startsWith( "stat" ) || parameters.startsWith( "equip" ) || parameters.startsWith( "encounters" )) )

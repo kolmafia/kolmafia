@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 
@@ -52,9 +53,10 @@ import javax.swing.ToolTipManager;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.DefaultTableCellRenderer;
+
 import com.sun.java.forums.TableSorter;
 
 public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
@@ -114,7 +116,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		resultsModel[ index ] = new SearchResultsTableModel( headers );
 
 		if ( resultsTable[ index ] == null )
-			resultsTable[ index ] = new JTable( resultsModel[ index ] );
+			resultsTable[ index ] = new SearchResultsTable( resultsModel[ index ] );
 		else
 			resultsTable[ index ].setModel( resultsModel[ index ] );
 
@@ -371,12 +373,19 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 			for ( int i = 0; i < selection.length && !KoLmafia.refusesContinue(); ++i )
 			{
-				if ( KoLCharacter.getPvpRank() - 50 > selection[i].getPvpRank().intValue() )
+				int preFightRank = KoLCharacter.getPvpRank();
+				if ( preFightRank - 50 > selection[i].getPvpRank().intValue() )
+					continue;
+
+				if ( StaticEntity.getProperty( "currentPvpVictories" ).indexOf( selection[i].getPlayerName() ) != -1 )
 					continue;
 
 				KoLmafia.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
 				request.setTarget( selection[i].getPlayerName() );
 				RequestThread.postRequest( request );
+
+				if ( preFightRank < KoLCharacter.getPvpRank() )
+					StaticEntity.setProperty( "currentPvpVictories", StaticEntity.getProperty( "currentPvpVictories" ) + selection[i].getPlayerName() + "," );
 
 				updateRank();
 			}
@@ -412,7 +421,30 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		}
 	}
 
-	private class SearchResultsTableModel extends DefaultTableModel
+	private static class SearchResultsTable extends JTable
+	{
+		public SearchResultsTable( DefaultTableModel model )
+		{	super( model );
+		}
+
+		public TableCellRenderer getCellRenderer( int row, int column )
+		{
+			if ( StaticEntity.getProperty( "currentPvpVictories" ).indexOf( (String) getValueAt( row, 0 ) ) != -1 )
+				return DISABLED_ROW_RENDERER;
+
+			return ENABLED_ROW_RENDERER;
+		}
+	}
+
+	private static final DefaultTableCellRenderer DISABLED_ROW_RENDERER = new DefaultTableCellRenderer();
+	private static final DefaultTableCellRenderer ENABLED_ROW_RENDERER = new DefaultTableCellRenderer();
+
+	static
+	{
+		DISABLED_ROW_RENDERER.setForeground( Color.gray );
+	}
+
+	private static class SearchResultsTableModel extends DefaultTableModel
 	{
 		public SearchResultsTableModel( Object [] headers )
 		{	super( headers, 0 );
@@ -423,7 +455,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		}
 
 		public boolean isCellEditable( int row, int col )
-		{	return col == getColumnCount() - 1;
+		{	return false;
 		}
 	}
 }

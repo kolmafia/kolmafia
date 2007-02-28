@@ -530,6 +530,7 @@ public abstract class KoLmafia implements KoLConstants
 			StaticEntity.setProperty( "currentFullness", "0" );
 			StaticEntity.setProperty( "currentSpleenUse", "0" );
 			StaticEntity.setProperty( "candyHeartSummons", "0" );
+			StaticEntity.setProperty( "currentPvpVictories", "" );
 		}
 
 		// Also, do mushrooms, if a mushroom script has already
