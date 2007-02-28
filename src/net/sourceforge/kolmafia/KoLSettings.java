@@ -577,6 +577,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "createWithoutBoxServants", "false" );
 		PLAYER_SETTINGS.put( "currentFullness", "0" );
 		PLAYER_SETTINGS.put( "currentMood", "default" );
+		PLAYER_SETTINGS.put( "currentPvpVictories", "" );
 		PLAYER_SETTINGS.put( "currentSpleenUse", "0" );
 		PLAYER_SETTINGS.put( "defaultAutoAttack", "0" );
 		PLAYER_SETTINGS.put( "defaultFlowerLossMessage", "" );
