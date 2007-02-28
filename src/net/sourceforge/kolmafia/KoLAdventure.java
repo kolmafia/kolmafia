@@ -791,6 +791,36 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( matchingLocation != null )
 		{
+			String locationId = matchingLocation.adventureId;
+
+			// Do some quick adventure validation, which allows you
+			// to unlock the bat zone.
+
+			if ( locationId.equals( "32" ) || locationId.equals( "33" ) || locationId.equals( "34" ) )
+				if ( !AdventureDatabase.validateZone( "BatHole", locationId ) )
+					return true;
+
+			// Make sure to visit the untinkerer before adventuring
+			// at Degrassi Knoll.
+
+			if ( locationId.equals( "18" ) && !matchingLocation.isValidAdventure )
+				UntinkerRequest.canUntinker();
+
+			// Check the council before you adventure at the pirates
+			// in disguise, if your last council visit was a long
+			// time ago.
+
+			if ( locationId.equals( "67" ) && StaticEntity.getIntegerProperty( "lastCouncilVisit" ) < 9 )
+				DEFAULT_SHELL.executeLine( "council" );
+
+			matchingLocation.isValidAdventure = true;
+
+			// Make sure you're wearing the appropriate equipment for
+			// the King's chamber in Cobb's knob.
+
+			if ( matchingLocation.formSource.equals( "knob.php" ) )
+				matchingLocation.validate( true );
+
 			matchingLocation.recordToSession();
 			return true;
 		}
