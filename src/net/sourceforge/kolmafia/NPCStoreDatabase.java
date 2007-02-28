@@ -39,6 +39,8 @@ import java.util.ArrayList;
 public class NPCStoreDatabase extends KoLDatabase
 {
 	private static final ArrayList NPC_ITEMS = new ArrayList();
+
+	private static final AdventureResult LAB_KEY = new AdventureResult( 339, 1 );
 	private static final AdventureResult RABBIT_FOOT = new AdventureResult( 1485, 1 );
 
 	static
@@ -143,7 +145,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		// guard uniform, and not available if out of Ronin.
 
 		else if ( storeId.equals( "g" ) )
-			return EquipmentDatabase.hasOutfit( 5 );
+			return KoLCharacter.hasItem( LAB_KEY ) && EquipmentDatabase.hasOutfit( 5 );
 
 		// If the person is trying to get one of the items from the hippy
 		// store, then the item is not available if they don't have the
