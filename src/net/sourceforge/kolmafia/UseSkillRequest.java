@@ -41,7 +41,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 {
 	private static final TreeMap ALL_SKILLS = new TreeMap();
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
-	private static final Pattern COUNT_PATTERN = Pattern.compile( "(bufftimes|quantity)=([\\d,]*)" );
+
+	private static final Pattern COUNT1_PATTERN = Pattern.compile( "bufftimes=([\\d,]+)" );
+	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\d,]+)" );
 
 	public static String [][] BREAKFAST_SKILLS =
 	{
@@ -576,10 +578,22 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			return true;
 
 		String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
-		Matcher countMatcher = COUNT_PATTERN.matcher( urlString );
 
-		int count = countMatcher.find() || countMatcher.group(2).equals( "" ) ? 1 :
-			StaticEntity.parseInt( countMatcher.group(2) );
+		int count = 1;
+		Matcher countMatcher = COUNT1_PATTERN.matcher( urlString );
+
+System.out.println( urlString );
+
+		if ( countMatcher.find() )
+		{
+			count = StaticEntity.parseInt( countMatcher.group(1) );
+		}
+		else
+		{
+			countMatcher = COUNT2_PATTERN.matcher( urlString );
+			if ( countMatcher.find() )
+				count = StaticEntity.parseInt( countMatcher.group(1) );
+		}
 
 		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( "cast " + count + " " + skillName );
