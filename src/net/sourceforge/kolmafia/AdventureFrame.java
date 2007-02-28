@@ -538,7 +538,7 @@ public class AdventureFrame extends KoLFrame
 
 				JPanel buttonPanel = new JPanel();
 				buttonPanel.add( begin = new ExecuteButton() );
-				buttonPanel.add( new WorldPeaceButton() );
+				buttonPanel.add( new InvocationButton( "Stop Everything", "stop.gif", RequestThread.class, "declareWorldPeace" ) );
 
 				JPanel buttonWrapper = new JPanel( new BorderLayout() );
 				buttonWrapper.add( buttonPanel, BorderLayout.EAST );
@@ -740,17 +740,6 @@ public class AdventureFrame extends KoLFrame
 				countField.setValue( new Integer( requestCount ) );
 
 				StaticEntity.getClient().makeRequest( request, requestCount );
-			}
-		}
-
-		private class WorldPeaceButton extends ThreadedButton
-		{
-			public WorldPeaceButton()
-			{	super( "stop" );
-			}
-
-			public void run()
-			{	RequestThread.declareWorldPeace();
 			}
 		}
 
