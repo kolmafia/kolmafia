@@ -276,3 +276,14 @@
 276	Disco Combo	Disco Inferno	discoball.gif
 277	Disco Combo	Disco Nirvana	discoball.gif
 278	Disco Combo	Disco Concentration	discoball.gif
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289	banana smoothie	Bananas!	banana.gif

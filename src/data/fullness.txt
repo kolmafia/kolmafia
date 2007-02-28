@@ -2,6 +2,7 @@
 # http://kol.coldfront.net/thekolwiki/index.php/Food_by_fullness
 
 asparagus stir-fry	1
+banana	1
 bowl of lucky charms	1
 candy cane	1
 candy stake	1
@@ -119,6 +120,7 @@ ancient unspeakable fruitcake	3
 angel-food cake	3
 asparagus lo mein	3
 ballroom blintz	3
+banana cream pie	3
 bat wing stir-fry	3
 bean burrito	3
 Better Than Cuddling Cake	3
