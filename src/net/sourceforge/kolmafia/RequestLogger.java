@@ -51,6 +51,12 @@ public class RequestLogger
 
 	private static void doRegister( KoLRequest request, String urlString )
 	{
+		if ( urlString.startsWith( "council" ) )
+		{
+			StaticEntity.setProperty( "lastCouncilVisit", String.valueOf( KoLCharacter.getLevel() ) );
+			return;
+		}
+
 		boolean isExternal = request.getClass() == KoLRequest.class || request instanceof LocalRelayRequest;
 
 		// There are some adventures which do not post any

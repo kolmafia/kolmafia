@@ -728,18 +728,32 @@ public class LocalRelayRequest extends PasswordHashRequest
 			}
 		}
 
-		// Abort request if the person is attempting to stasis
-		// mine, even if it's done manually.
+		// Special handling of adventuring locations before it's
+		// registered internally with KoLmafia.
 
-		if ( formURLString.indexOf( "aventure.php" ) != -1 && KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() )
+		if ( formURLString.indexOf( "aventure.php" ) != -1 )
 		{
 			String location = getFormField( "snarfblat" );
 			if ( location == null )
 				location = getFormField( "adv" );
 
-			if ( location != null && location.equals( "101" ) )
+			// Abort request if the person is attempting to stasis
+			// mine, even if it's done manually.
+
+			if ( location != null && location.equals( "101" ) && KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() )
 			{
-				pseudoResponse( "HTTP/1.1 200 OK", "<html><body><h1>Please reconsider your meat farming strategy.</h1></body></html>" );
+				pseudoResponse( "HTTP/1.1 200 OK", "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><blockquote>Please reconsider your meat farming strategy.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+
+				return;
+			}
+
+			// Special protection against adventuring in the pirates
+			// in disguise before level 9.
+
+			if ( location != null && location.equals( "67" ) && KoLCharacter.getLevel() < 9 )
+			{
+				pseudoResponse( "HTTP/1.1 200 OK", "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><blockquote>Adventuring here before level 9 is a really bad idea.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+
 				return;
 			}
 		}
@@ -752,6 +766,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) )
 			{
 				pseudoResponse( "HTTP/1.1 200 OK", "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center><img src=\"http://images.kingdomofloathing.com/itemimages/wand.gif\" width=30 height=30><br></center><blockquote>Hm, it's possible there is something very important you're forgetting.  Maybe you should <a href=\"inventory.php?which=2\">double-check</a> just to make sure.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+
 				return;
 			}
 		}

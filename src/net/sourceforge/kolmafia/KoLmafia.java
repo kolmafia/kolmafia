@@ -3249,6 +3249,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void handleAscension()
 	{
 		StaticEntity.setProperty( "lastBreakfast", "-1" );
+		StaticEntity.setProperty( "lastCouncilVisit", "0" );
 		StaticEntity.setProperty( "currentFullness", "0" );
 		StaticEntity.setProperty( "currentSpleenUse", "0" );
 		StaticEntity.setProperty( "candyHeartSummons", "0" );

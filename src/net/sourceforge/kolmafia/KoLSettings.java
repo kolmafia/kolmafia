@@ -588,6 +588,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "invalidBuffMessage", "You sent an amount which does not correspond to a valid buff amount." );
 		PLAYER_SETTINGS.put( "lastAdventure", "" );
 		PLAYER_SETTINGS.put( "lastBreakfast", "-1" );
+		PLAYER_SETTINGS.put( "lastCouncilVisit", "0" );
 		PLAYER_SETTINGS.put( "lastCounterDay", "-1" );
 		PLAYER_SETTINGS.put( "lastMessageId", "" );
 		PLAYER_SETTINGS.put( "lastTowerClimb", "-1" );

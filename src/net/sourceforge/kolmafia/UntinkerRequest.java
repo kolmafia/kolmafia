@@ -136,8 +136,6 @@ public class UntinkerRequest extends KoLRequest
 		KoLRequest questCompleter = new KoLRequest( "town_right.php?place=untinker" );
 		questCompleter.run();
 
-		System.out.println( questCompleter.responseText );
-
 		// "I can take apart anything that's put together with meat
 		// paste, but you don't have anything like that..."
 
