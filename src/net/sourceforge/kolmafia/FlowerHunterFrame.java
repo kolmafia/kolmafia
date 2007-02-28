@@ -371,6 +371,9 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 			for ( int i = 0; i < selection.length && !KoLmafia.refusesContinue(); ++i )
 			{
+				if ( KoLCharacter.getPvpRank() - 50 > selection[i].getPvpRank().intValue() )
+					continue;
+
 				KoLmafia.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
 				request.setTarget( selection[i].getPlayerName() );
 				RequestThread.postRequest( request );

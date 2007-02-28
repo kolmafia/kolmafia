@@ -231,12 +231,27 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static SortedListModel battleSkillNames = new SortedListModel();
-	private static SortedListModel [] equipmentLists = new SortedListModel[9];
+
+	private static LockableListModel accessories = new SortedListModel();
+	private static LockableListModel [] equipmentLists = new LockableListModel[9];
 
 	static
 	{
 		for ( int i = 0; i < 9; ++i )
-			equipmentLists[i] = new SortedListModel();
+		{
+			switch ( i )
+			{
+			case ACCESSORY1:
+			case ACCESSORY2:
+			case ACCESSORY3:
+				equipmentLists[i] = accessories.getMirrorImage();
+				break;
+
+			default:
+				equipmentLists[i] = new SortedListModel();
+				break;
+			}
+		}
 	}
 
 	// Status pane data which is rendered whenever
@@ -1425,36 +1440,36 @@ public abstract class KoLCharacter extends StaticEntity
 		case ACCESSORY2:
 		case ACCESSORY3:
 
-			updateEquipmentList( consumeFilter, equipmentLists[ ACCESSORY1 ] );
-			updateEquipmentList( consumeFilter, equipmentLists[ ACCESSORY2 ] );
-			updateEquipmentList( consumeFilter, equipmentLists[ ACCESSORY3 ] );
+			updateEquipmentList( consumeFilter, accessories );
+			if ( !accessories.contains( equippedItem ) )
+				accessories.add( equippedItem );
 
-			if ( !equipmentLists[ ACCESSORY1 ].contains( equippedItem ) )
-				equipmentLists[ ACCESSORY1 ].add( equippedItem );
-			if ( !equipmentLists[ ACCESSORY2 ].contains( equippedItem ) )
-				equipmentLists[ ACCESSORY2 ].add( equippedItem );
-			if ( !equipmentLists[ ACCESSORY3 ].contains( equippedItem ) )
-				equipmentLists[ ACCESSORY3 ].add( equippedItem );
+			break;
 
-		default:
+		case FAMILIAR:
+
+			// If we are looking at familiar items, include those which can
+			// be universally equipped, but are currently on another
+			// familiar.
 
 			updateEquipmentList( consumeFilter, equipmentLists[ listIndex ] );
-			if ( !equipmentLists[ listIndex ].contains( equippedItem ) )
-				equipmentLists[ listIndex ].add( equippedItem );
-		}
 
-		// If we are looking at familiar items, include those which can
-		// be universally equipped, but are currently on another
-		// familiar.
-
-		if ( listIndex == FAMILIAR )
-		{
 			FamiliarData [] familiarList = new FamiliarData[ familiars.size() ];
 			familiars.toArray( familiarList );
 
 			for ( int i = 0; i < familiarList.length; ++i )
 				if ( !familiarList[i].getItem().equals( EquipmentRequest.UNEQUIP ) )
 					AdventureResult.addResultToList( equipmentLists[ FAMILIAR ], familiarList[i].getItem() );
+
+			break;
+
+		default:
+
+			updateEquipmentList( consumeFilter, equipmentLists[ listIndex ] );
+			if ( !equipmentLists[ listIndex ].contains( equippedItem ) )
+				equipmentLists[ listIndex ].add( equippedItem );
+
+			break;
 		}
 
 		equipmentLists[ listIndex ].setSelectedItem( equippedItem );
