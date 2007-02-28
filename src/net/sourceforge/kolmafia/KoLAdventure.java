@@ -47,6 +47,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
 	private static final AdventureResult PLANS = new AdventureResult( 146, 1 );
 	private static final AdventureResult TRANSFUNCTIONER = new AdventureResult( 458, 1 );
+	private static final AdventureResult TALISMAN = new AdventureResult( 486, 1 );
 	private static final AdventureResult LIBRARY_KEY = new AdventureResult( 1764, 1 );
 	private static final AdventureResult GALLERY_KEY = new AdventureResult( 1765, 1 );
 	private static final AdventureResult BALLROOM_KEY = new AdventureResult( 1766, 1 );
@@ -336,6 +337,20 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			}
 
 			DEFAULT_SHELL.executeLine( "equip " + TRANSFUNCTIONER.getName() );
+			isValidAdventure = true;
+			return;
+		}
+
+		if ( adventureId.equals( "119" ) )
+		{
+			if ( !KoLCharacter.hasEquipped( TALISMAN ) )
+			{
+				if ( !AdventureDatabase.retrieveItem( TALISMAN ) )
+					return;
+
+				DEFAULT_SHELL.executeLine( "equip talisman o'nam" );
+			}
+
 			isValidAdventure = true;
 			return;
 		}
