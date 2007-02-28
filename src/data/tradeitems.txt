@@ -2331,3 +2331,49 @@
 2331	bouquet of circular saw blades	0	gift	2500
 2332	Better Than Cuddling Cake	1	gift	500
 2333	stuffed ninja snowman	0	gift	250
+2334
+2335
+2336
+2337
+2338
+2339
+2340
+2341
+2342
+2343
+2344
+2345
+2346
+2347
+2348
+2349
+2350
+2351
+2352
+2353
+2354
+2355
+2356
+2357
+2358
+2359
+2360
+2361
+2362
+2363
+2364
+2365
+2366
+2367
+2368
+2369
+2370
+2371
+2372	bunch of bananas	3	all	0
+2373	banana	1	all	0
+2374	banana peel	0	all	0
+2375	banana cream pie	1	all	0
+2376	banana daiquiri	2	all	0
+2377	bungle in the jungle	2	all	0
+2378	banana spritzer	3	all	0
+2379	banana smoothie	3	all	0

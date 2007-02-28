@@ -153,6 +153,8 @@ wang	1	WA	NG
 # because of their popularity.  Other really popular items, like spectral
 # pickles, are also included.
 
+banana cream pie	2	pie crust	banana
+banana spritzer	2	banana	soda water
 bean burrito	2	flat dough	hill of beans
 cherry pie	2	pie crust	cherry
 cream pie	2	pie crust	glass of goat's milk
@@ -241,6 +243,7 @@ green beer	3	ten-leaf clover	[41]
 # believed to be the best creatable drinks without buying a DB's skills or
 # using a tiny plastic sword.
 
+banana daiquiri	3	bottle of rum	banana
 extra-spicy bloody mary	3	bloody mary	spices
 especially salty dog	3	salty dog	brine
 margarita	3	bottle of tequila	lemon
@@ -291,6 +294,8 @@ slap and tickle	7	salty dog	magical ice cubes
 rockin' wagon	7	vodka martini	magical ice cubes
 perpendicular hula	7	strawberry daiquiri	magical ice cubes
 calle de miel	7	margarita	magical ice cubes
+
+bungle in the jungle	7	banana daiquiri	little paper umbrella
 
 # Beverages which can be made by Superhuman Cocktailcrafting
 
@@ -570,6 +575,7 @@ sleaze wad	23	sleaze nuggets (5)
 # Reagent potions.  Not to be confused with reagent broth mixtures
 # which can be combined with pasta by pastamancers.
 
+banana smoothie	5	scrumptious reagent	banana
 cordial of concentration	5	scrumptious reagent	soda water
 eyedrops of the ermine	5	scrumptious reagent	strawberry
 libation of liveliness	5	scrumptious reagent	grapes
