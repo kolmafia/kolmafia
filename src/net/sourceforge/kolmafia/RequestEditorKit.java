@@ -1654,7 +1654,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					else if ( itemId == FightRequest.DICTIONARY1.getItemId() || itemId == AdventureRequest.BRIDGE.getItemId() )
 					{
 						useType = "chasm";
-						useLocation = "mountains.php&pwd&orcs=1";
+						useLocation = "mountains.php?pwd&orcs=1";
 					}
 				}
 			}
