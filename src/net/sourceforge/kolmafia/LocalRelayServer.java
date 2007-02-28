@@ -51,7 +51,7 @@ import java.util.regex.Pattern;
 
 public class LocalRelayServer implements Runnable
 {
-	private static final int INITIAL_THREAD_COUNT = 6;
+	private static final int INITIAL_THREAD_COUNT = 10;
 	private static final Pattern INVENTORY_COOKIE_PATTERN = Pattern.compile( "inventory=(\\d+)" );
 
 	private static String lastUsername = "";
@@ -136,7 +136,7 @@ public class LocalRelayServer implements Runnable
 		relayThread = null;
 	}
 
-	private boolean openServerSocket()
+	private synchronized boolean openServerSocket()
 	{
 		try
 		{
@@ -153,48 +153,39 @@ public class LocalRelayServer implements Runnable
 		}
 	}
 
-	private void closeAgents()
+	private synchronized void closeAgents()
 	{
-		synchronized ( agentThreads )
+		while ( !agentThreads.isEmpty() )
 		{
-			while ( !agentThreads.isEmpty() )
-			{
-				RelayAgent agent = (RelayAgent) agentThreads.remove( 0 );
-				agent.setSocket( null );
-			}
+			RelayAgent agent = (RelayAgent) agentThreads.remove( 0 );
+			agent.setSocket( null );
 		}
 	}
 
-	private void dispatchAgent( Socket socket )
+	private synchronized void dispatchAgent( Socket socket )
 	{
 		RelayAgent agent = null;
 
-		synchronized ( agentThreads )
+		for ( int i = 0; i < agentThreads.size(); ++i )
 		{
-			for ( int i = 0; i < agentThreads.size(); ++i )
-			{
-				agent = (RelayAgent) agentThreads.get(i);
+			agent = (RelayAgent) agentThreads.get(i);
 
-				if ( agent.isWaiting() )
-				{
-					agent.setSocket( socket );
-					return;
-				}
+			if ( agent.isWaiting() )
+			{
+				agent.setSocket( socket );
+				return;
 			}
 		}
 
-		createAgent().start();
+		createAgent();
 	}
 
-	private RelayAgent createAgent()
+	private synchronized RelayAgent createAgent()
 	{
 		RelayAgent agent = new RelayAgent( agentThreads.size() );
 
-		synchronized ( agentThreads )
-		{
-			agentThreads.add( agent );
-			agent.start();
-		}
+		agentThreads.add( agent );
+		agent.start();
 
 		return agent;
 	}
