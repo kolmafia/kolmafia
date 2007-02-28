@@ -451,9 +451,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		AdventureResult createdItem = new AdventureResult( itemId, 0 );
 		int createdQuantity = createdItem.getCount( inventory ) - beforeQuantity;
 
-		if ( mixingMethod == STILL_MIXER || mixingMethod == STILL_BOOZE )
-			KoLCharacter.decrementStillsAvailable( createdQuantity );
-
 		// Check to make sure that the item creation did not fail.
 
 		if ( createdQuantity == 0 )
@@ -867,6 +864,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		boolean needsPlus = false;
 		int quantity = quantityMatcher.find() ? StaticEntity.parseInt( quantityMatcher.group(1) ) : 1;
+
+		if ( urlString.indexOf( "action=stillbooze" ) != -1 || urlString.indexOf( "action=stillfruit" ) != -1 )
+			KoLCharacter.decrementStillsAvailable( quantity );
 
 		while ( isCreationURL && itemMatcher.find() )
 		{
