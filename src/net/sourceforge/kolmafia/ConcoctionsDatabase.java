@@ -363,7 +363,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			if ( infiniteNPCStoreItems && NPCStoreDatabase.contains( concoction.getName() ) )
 			{
-				item.initial = KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( concoction.getItemId() ) * 2);
+				item.initial = concoction.getCount( availableIngredients ) + KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( concoction.getItemId() ) * 2);
 				item.creatable = 0;
 				item.total = item.initial;
 			}
@@ -728,17 +728,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	public static AdventureResult [] getIngredients( int itemId )
 	{
-		List availableIngredients = new ArrayList();
-		availableIngredients.addAll( inventory );
-
-		boolean showClosetDrivenCreations = getBooleanProperty( "showClosetDrivenCreations" );
-
-		if ( showClosetDrivenCreations )
-		{
-			List closetList = (List) closet;
-			for ( int i = 0; i < closetList.size(); ++i )
-				AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
-		}
+		List availableIngredients = getAvailableIngredients();
 
 		// Ensure that you're retrieving the same ingredients that
 		// were used in the calculations.  Usually this is the case,

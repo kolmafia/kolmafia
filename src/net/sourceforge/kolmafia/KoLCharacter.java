@@ -1681,8 +1681,11 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void setBartender( boolean hasBartender )
 	{
-		KoLCharacter.hasBartender = hasBartender;
-		ConcoctionsDatabase.refreshConcoctions();
+		if ( KoLCharacter.hasBartender != hasBartender )
+		{
+			KoLCharacter.hasBartender = hasBartender;
+			ConcoctionsDatabase.refreshConcoctions();
+		}
 	}
 
 	/**
@@ -1701,8 +1704,11 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void setChef( boolean hasChef )
 	{
-		KoLCharacter.hasChef = hasChef;
-		ConcoctionsDatabase.refreshConcoctions();
+		if ( KoLCharacter.hasChef != hasChef )
+		{
+			KoLCharacter.hasChef = hasChef;
+			ConcoctionsDatabase.refreshConcoctions();
+		}
 	}
 
 	/**
