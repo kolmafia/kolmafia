@@ -1689,6 +1689,8 @@ public abstract class KoLmafia implements KoLConstants
 					conditions.clear();
 					updateDisplay( PENDING_STATE, "Conditions satisfied after " + (currentIteration - 1) +
 						((currentIteration == 2) ? " request." : " requests.") );
+
+					continue;
 				}
 			}
 
@@ -1726,21 +1728,6 @@ public abstract class KoLmafia implements KoLConstants
 				request.run();
 
 			KoLmafiaCLI.printBlankLine();
-
-			// If the conditions existed and have been satisfied,
-			// then you should stop.
-
-			if ( conditions.size() < remainingConditions )
-			{
-				if ( conditions.size() == 0 || useDisjunction )
-				{
-					conditions.clear();
-					updateDisplay( PENDING_STATE, "Conditions satisfied after " + currentIteration  +
-						((currentIteration == 1) ? " request." : " requests.") );
-				}
-			}
-
-			remainingConditions = conditions.size();
 
 			// Decrement the counter to null out the increment
 			// effect on the next iteration of the loop.

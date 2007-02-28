@@ -75,7 +75,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		addFormField( "towho", this.recipient );
 		addFormField( "message", this.message );
 
-		if ( !message.equals( DEFAULT_KMAIL ) && !BuffBotHome.isBuffBotActive() )
+		if ( attachment.isItem() )
 			addFormField( "savecopy", "on" );
 	}
 
@@ -89,9 +89,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		addFormField( "action", "send" );
 		addFormField( "towho", this.recipient );
 		addFormField( "message", this.message );
-
-		if ( !message.equals( DEFAULT_KMAIL ) && !BuffBotHome.isBuffBotActive() )
-			addFormField( "savecopy", "on" );
+		addFormField( "savecopy", "on" );
 	}
 
 	public String getRecipient()
