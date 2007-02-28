@@ -82,7 +82,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		"hill of beans", "Knob Goblin love potion", "Knob Goblin steroids", "Imp Ale", "hot wing", "evil golden arch", "leather mask",
 		"necklace chain", "hemp bracelet", "piercing post", "phat turquoise bead", "carob chunks", "Feng Shui for Big Dumb Idiots", "homoerotic frat-paddle",
-		"crowbarrr", "sunken chest", "barrrnacle", "safarrri hat", "arrrgyle socks", "snakehead charrrm", "charrrm", "leotarrrd", "pirate pelvis",
+		"crowbarrr", "sunken chest", "barrrnacle", "safarrri hat", "arrrgyle socks", "charrrm", "leotarrrd", "pirate pelvis",
 		"grave robbing shovel", "ghuol ears", "ghuol egg", "ghuol guolash", "lihc eye",
 		"mind flayer corpse", "royal jelly", "goat beard", "sabre teeth", "t8r tots", "pail", "Trollhouse cookies", "Spam Witch sammich",
 		"white satin pants", "white chocolate chips", "catgut", "white snake skin", "mullet wig",
