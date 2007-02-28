@@ -83,7 +83,7 @@ public class HermitRequest extends KoLRequest
 	}
 
 	public static boolean useHermitClover( String location )
-	{	return StaticEntity.getBooleanProperty( "cloverProtectActive" ) && location.startsWith( "hermit.php" ) && location.indexOf( "whichitem=24" ) != -1;
+	{	return StaticEntity.getBooleanProperty( "cloverProtectActive" ) && location.startsWith( "hermit.php" );
 	}
 
 	/**
