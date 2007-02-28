@@ -199,7 +199,7 @@ public class AutoSellRequest extends SendMessageRequest
 				// We are in compact mode. If we are not
 				// selling everything, we must do it one item
 				// at a time
-				if ( attachmentCount != inventoryCount )
+				if ( attachmentCount < inventoryCount )
 					return 1;
 
 				// Otherwise, look at remaining items
@@ -209,7 +209,7 @@ public class AutoSellRequest extends SendMessageRequest
 			if ( mode == 1 )
 			{
 				// We are in detailed "sell all" mode.
-				if ( attachmentCount == inventoryCount )
+				if ( attachmentCount >= inventoryCount )
 					continue;
 
 				// ...but no longer
