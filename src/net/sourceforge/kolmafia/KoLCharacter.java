@@ -341,6 +341,7 @@ public abstract class KoLCharacter extends StaticEntity
 		for ( int i = 0; i < equipmentLists.length; ++i )
 			equipmentLists[i].clear();
 
+		accessories.clear();
 		GearChangeFrame.clearWeaponLists();
 	}
 
@@ -1169,10 +1170,19 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 			else
 			{
-				if ( !equipmentLists[i].contains( equipment[i] ) )
-					equipmentLists[i].add( equipment[i] );
-
 				KoLCharacter.equipment.set( i, equipment[i] );
+
+				if ( i != ACCESSORY1 && i != ACCESSORY2 && i != ACCESSORY3 )
+				{
+					if ( !equipmentLists[i].contains( equipment[i] ) )
+						equipmentLists[i].add( equipment[i] );
+				}
+				else
+				{
+					if ( !accessories.contains( equipment[i] ) )
+						accessories.add( equipment[i] );
+				}
+
 				equipmentLists[i].setSelectedItem( equipment[i] );
 			}
 		}
@@ -1214,7 +1224,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static AdventureResult getEquipment( int type )
 	{
-		if ( type >= HAT && type < FAMILIAR && type < equipment.size() )
+		if ( type >= 0 && type < equipment.size() )
 			return (AdventureResult) equipment.get( type );
 
 		if ( type == FAMILIAR )
@@ -1441,9 +1451,6 @@ public abstract class KoLCharacter extends StaticEntity
 		case ACCESSORY3:
 
 			updateEquipmentList( consumeFilter, accessories );
-			if ( !accessories.contains( equippedItem ) )
-				accessories.add( equippedItem );
-
 			break;
 
 		case FAMILIAR:
@@ -1529,6 +1536,16 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 
 			temporary.add( currentItem );
+		}
+
+		if ( currentList == accessories )
+		{
+			if ( !currentList.contains( getEquipment( ACCESSORY1 ) ) )
+				currentList.add( getEquipment( ACCESSORY1 ) );
+			if ( !currentList.contains( getEquipment( ACCESSORY2 ) ) )
+				currentList.add( getEquipment( ACCESSORY2 ) );
+			if ( !currentList.contains( getEquipment( ACCESSORY3 ) ) )
+				currentList.add( getEquipment( ACCESSORY3 ) );
 		}
 
 		currentList.retainAll( temporary );
