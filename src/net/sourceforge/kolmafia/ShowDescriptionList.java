@@ -42,6 +42,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import java.net.URLEncoder;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -293,7 +295,17 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				name = (String) ((Entry)item).getValue();
 
 			if ( name != null )
-				StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
+			{
+				try
+				{
+					name = URLEncoder.encode( name, "UTF-8" );
+					StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
+				}
+				catch ( Exception e )
+				{
+					StaticEntity.printStackTrace( e );
+				}
+			}
 		}
 	}
 
