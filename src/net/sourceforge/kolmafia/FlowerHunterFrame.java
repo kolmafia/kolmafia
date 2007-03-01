@@ -371,7 +371,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			FlowerHunterRequest request = new FlowerHunterRequest( "",
 				stanceSelect.getSelectedIndex() + 1, mission, winMessage.getText(), lossMessage.getText() );
 
-			for ( int i = 0; i < selection.length && !KoLmafia.refusesContinue(); ++i )
+			for ( int i = 0; i < selection.length && !KoLmafia.refusesContinue() && KoLCharacter.getAttacksLeft() > 0; ++i )
 			{
 				int preFightRank = KoLCharacter.getPvpRank();
 				if ( preFightRank - 50 > selection[i].getPvpRank().intValue() )
