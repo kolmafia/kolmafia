@@ -2382,3 +2382,5 @@
 2377	915439096	bungle in the jungle
 2378	605963144	banana spritzer
 2379	352126029	banana smoothie
+2380	970092410	dandy lion cub
+2381	984568569	woolen cravat	woolen cravats
