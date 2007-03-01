@@ -804,7 +804,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( urlString );
 
-		if ( matchingLocation != null )
+		if ( matchingLocation != null && !matchingLocation.isValidAdventure )
 		{
 			String locationId = matchingLocation.adventureId;
 
@@ -818,7 +818,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// Make sure to visit the untinkerer before adventuring
 			// at Degrassi Knoll.
 
-			if ( locationId.equals( "18" ) && !matchingLocation.isValidAdventure )
+			if ( locationId.equals( "18" ) )
 				UntinkerRequest.canUntinker();
 
 			// Check the council before you adventure at the pirates
