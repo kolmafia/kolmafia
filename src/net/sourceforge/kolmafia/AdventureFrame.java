@@ -538,7 +538,7 @@ public class AdventureFrame extends KoLFrame
 
 				JPanel buttonPanel = new JPanel();
 				buttonPanel.add( begin = new ExecuteButton() );
-				buttonPanel.add( new InvocationButton( "Stop Everything", "stop.gif", RequestThread.class, "declareWorldPeace" ) );
+				buttonPanel.add( new InvocationButton( "stop", RequestThread.class, "declareWorldPeace" ) );
 
 				JPanel buttonWrapper = new JPanel( new BorderLayout() );
 				buttonWrapper.add( buttonPanel, BorderLayout.EAST );
