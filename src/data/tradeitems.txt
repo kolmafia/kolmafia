@@ -2377,3 +2377,5 @@
 2377	bungle in the jungle	2	all	0
 2378	banana spritzer	3	all	0
 2379	banana smoothie	3	all	0
+2380	dandy lion cub	5	all	0
+2381	woolen cravat	7	all	75
