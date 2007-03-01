@@ -804,7 +804,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( urlString );
 
-		if ( matchingLocation != null && !matchingLocation.isValidAdventure )
+		if ( matchingLocation != null && matchingLocation.getRequest() instanceof AdventureRequest && !matchingLocation.isValidAdventure )
 		{
 			String locationId = matchingLocation.adventureId;
 
