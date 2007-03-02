@@ -120,8 +120,8 @@ public class StarChartRequest extends ItemCreationRequest
 		int stars = StaticEntity.parseInt( starMatcher.group(1) );
 		int lines = StaticEntity.parseInt( lineMatcher.group(1) );
 
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( "Star chart " + stars + " stars with " + lines + " lines" );
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "Star chart " + stars + " stars with " + lines + " lines" );
 
 		StaticEntity.getClient().processResult( new AdventureResult( STAR, 0 - stars ) );
 		StaticEntity.getClient().processResult( new AdventureResult( LINE, 0 - lines ) );

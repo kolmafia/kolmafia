@@ -227,8 +227,8 @@ public class FlowerHunterRequest extends KoLRequest
 		if ( whoIndex != -1 )
 			target = target.substring( 0, whoIndex );
 
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( "pvp " + target );
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "pvp " + target );
 		return true;
 	}
 }

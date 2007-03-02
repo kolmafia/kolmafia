@@ -531,8 +531,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		int itemId = StaticEntity.parseInt( urlString.startsWith( "mall" ) ? itemMatcher.group(1).substring( 0, 4 ) : itemMatcher.group(1) );
 		itemName = TradeableItemDatabase.getItemName( itemId );
 
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( "buy " + quantity + " " + itemName );
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName );
 		return true;
 	}
 }

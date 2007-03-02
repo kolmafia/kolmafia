@@ -354,8 +354,8 @@ public abstract class SendMessageRequest extends KoLRequest
 		if ( itemList.isEmpty() )
 			return true;
 
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( itemListBuffer.toString() );
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( itemListBuffer.toString() );
 
 		if ( source == inventory )
 		{

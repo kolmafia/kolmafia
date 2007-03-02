@@ -75,8 +75,6 @@ public class KoLmafiaCLI extends KoLmafia
 	private BufferedReader commandStream;
 
 	private KoLmafiaCLI lastScript;
-	private static String previousUpdateString = "";
-	private static boolean printToSession = false;
 
 	private static boolean isPrompting = false;
 	private static boolean isExecutingCheckOnlyCommand = false;
@@ -92,7 +90,7 @@ public class KoLmafiaCLI extends KoLmafia
 		System.out.println();
 
 		StaticEntity.setClient( DEFAULT_SHELL );
-		outputStream = System.out;
+		RequestLogger.openStandard();
 
 		try
 		{
@@ -149,14 +147,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( username == null || username.length() == 0 )
 			{
-				outputStream.println();
-				outputStream.print( "username: " );
+				System.out.println();
+				System.out.print( "username: " );
 				username = CONSOLE == null ? commandStream.readLine() : CONSOLE.readLine();
 			}
 
 			if ( username == null || username.length() == 0 )
 			{
-				outputStream.println( "Invalid login." );
+				System.out.println( "Invalid login." );
 				return;
 			}
 
@@ -167,17 +165,17 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( password == null )
 			{
-				outputStream.print( "password: " );
+				System.out.print( "password: " );
 				password = CONSOLE == null ? commandStream.readLine() : CONSOLE.readLine( new Character( '*' ) );
 			}
 
 			if ( password == null || password.length() == 0 )
 			{
-				outputStream.println( "Invalid password." );
+				System.out.println( "Invalid password." );
 				return;
 			}
 
-			outputStream.println();
+			System.out.println();
 			RequestThread.postRequest( new LoginRequest( username, password ) );
 		}
 		catch ( IOException e )
@@ -206,9 +204,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		super.initialize( username );
 
-		printBlankLine();
+		RequestLogger.printLine();
 		executeCommand( "moons", "" );
-		printBlankLine();
+		RequestLogger.printLine();
 
 		if ( StaticEntity.getGlobalProperty( "initialFrames" ).indexOf( "LocalRelayServer" ) != -1 )
 			KoLmafiaGUI.constructFrame( "LocalRelayServer" );
@@ -226,7 +224,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( StaticEntity.getClient() == this )
 		{
 			isPrompting = true;
-			outputStream.print( " > " );
+			System.out.print( " > " );
 		}
 
 		String line = null;
@@ -236,18 +234,15 @@ public class KoLmafiaCLI extends KoLmafia
 			isPrompting = false;
 
 			if ( StaticEntity.getClient() == this )
-			{
-				previousUpdateString = " > " + line;
-				printBlankLine();
-			}
+				RequestLogger.printLine();
 
 			executeLine( line );
 
 			if ( StaticEntity.getClient() == this )
 			{
-				printBlankLine();
+				RequestLogger.printLine();
 				isPrompting = true;
-				outputStream.print( " > " );
+				System.out.print( " > " );
 			}
 		}
 
@@ -287,9 +282,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 			// You will either have reached the end of file, or you will
 			// have a valid line -- return it.
-
-			if ( StaticEntity.getClient() == this && line != null && mirrorStream != null )
-				mirrorStream.println( " > " + line );
 
 			return line == null ? null : line.trim();
 		}
@@ -481,7 +473,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( StaticEntity.isDisabled( command ) )
 		{
-			printLine( "Called disabled command: " + command + " " + parameters );
+			RequestLogger.printLine( "Called disabled command: " + command + " " + parameters );
 			return;
 		}
 
@@ -703,7 +695,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else
 			{
-				printLine( "No script to continue." );
+				RequestLogger.printLine( "No script to continue." );
 			}
 
 			return;
@@ -732,8 +724,6 @@ public class KoLmafiaCLI extends KoLmafia
 				parameters = MoonPhaseDatabase.getCalendarDayAsString( new Date() );
 
 			updateDisplay( ANYTAG_PATTERN.matcher( parameters ).replaceAll( "" ) );
-			echoStream.println( parameters );
-
 			return;
 		}
 
@@ -746,7 +736,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( splitIndex == -1 )
 			{
 				if ( !parameters.startsWith( "saveState" ) && !parameters.startsWith( "stasisFarmingAccount" ) )
-					printLine( StaticEntity.getProperty( parameters ) );
+					RequestLogger.printLine( StaticEntity.getProperty( parameters ) );
 
 				return;
 			}
@@ -797,7 +787,7 @@ public class KoLmafiaCLI extends KoLmafia
 					RequestThread.postRequest( new KoLRequest( "account.php?action=autoattack&whichattack=" + value ) );
 			}
 
-			printLine( name + " => " + value );
+			RequestLogger.printLine( name + " => " + value );
 			StaticEntity.setProperty( name, value );
 
 			if ( name.equals( "battleAction" ) && value.equals( "custom combat script" ) )
@@ -906,7 +896,7 @@ public class KoLmafiaCLI extends KoLmafia
 				int repeatCount = parameters.length() == 0 ? 1 : StaticEntity.parseInt( parameters );
 				for ( int i = 0; i < repeatCount && permitsContinue(); ++i )
 				{
-					printLine( "Repetition " + (i+1) + " of " + repeatCount + "..." );
+					RequestLogger.printLine( "Repetition " + (i+1) + " of " + repeatCount + "..." );
 					executeLine( previousLine );
 				}
 			}
@@ -921,7 +911,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			updateDisplay( "Ronald: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
 			updateDisplay( "Grimace: " + MoonPhaseDatabase.getGrimacePhaseAsString() );
-			printBlankLine();
+			RequestLogger.printLine();
 
 			Date today = new Date();
 
@@ -942,10 +932,10 @@ public class KoLmafiaCLI extends KoLmafia
 			for ( int i = 0; i < holidayPredictions.length; ++i )
 				updateDisplay( holidayPredictions[i] );
 
-			printBlankLine();
+			RequestLogger.printLine();
 			updateDisplay( MoonPhaseDatabase.getHoliday( today ) );
 			updateDisplay( MoonPhaseDatabase.getMoonEffect() );
-			printBlankLine();
+			RequestLogger.printLine();
 
 			return;
 		}
@@ -956,9 +946,9 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "debug" ) )
 		{
 			if ( parameters.equals( "off" ) )
-				closeDebugStream();
+				RequestLogger.closeDebugLog();
 			else
-				openDebugStream();
+				RequestLogger.openDebugLog();
 
 			return;
 		}
@@ -971,12 +961,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( command.indexOf( "end" ) != -1 || command.indexOf( "stop" ) != -1 || command.indexOf( "close" ) != -1 ||
 				parameters.length() == 0 || parameters.equals( "end" ) || parameters.equals( "stop" ) || parameters.equals( "close" ) )
 			{
-				mirrorStream.close();
-				mirrorStream = NullStream.INSTANCE;
-
-				echoStream.close();
-				echoStream = NullStream.INSTANCE;
-
+				RequestLogger.closeMirror();
 				updateDisplay( "Mirror stream closed." );
 			}
 			else
@@ -984,8 +969,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( !parameters.endsWith( ".txt" ) )
 					parameters += ".txt";
 
-				mirrorStream = openStream( parameters, mirrorStream, true );
-				echoStream = openStream( parameters + ".echo", echoStream, true );
+				RequestLogger.openMirror( parameters );
 			}
 
 			return;
@@ -1601,7 +1585,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "mpitems" ) )
 		{
 			int restores = getRestoreCount();
-			printLine( restores + " mana restores remaining." );
+			RequestLogger.printLine( restores + " mana restores remaining." );
 			return;
 		}
 
@@ -1694,7 +1678,7 @@ public class KoLmafiaCLI extends KoLmafia
 				MoodSettings.execute( true );
 				SpecialOutfit.restoreImplicitCheckpoint();
 
-				printLine( "Mood swing complete." );
+				RequestLogger.printLine( "Mood swing complete." );
 			}
 
 			return;
@@ -1734,7 +1718,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( isRunningBetweenBattleChecks() )
 			{
-				printLine( "Send request \"" + parameters + "\" ignored in between-battle execution." );
+				RequestLogger.printLine( "Send request \"" + parameters + "\" ignored in between-battle execution." );
 				return;
 			}
 
@@ -1746,7 +1730,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( isRunningBetweenBattleChecks() )
 			{
-				printLine( "Send request \"" + parameters + "\" ignored in between-battle execution." );
+				RequestLogger.printLine( "Send request \"" + parameters + "\" ignored in between-battle execution." );
 				return;
 			}
 
@@ -1823,7 +1807,7 @@ public class KoLmafiaCLI extends KoLmafia
 		displayText = SCRIPT_PATTERN.matcher( displayText ).replaceAll( "" );
 		displayText = COMMENT_PATTERN.matcher( displayText ).replaceAll( "" );
 
-		printLine( displayText.trim() );
+		RequestLogger.printLine( displayText.trim() );
 	}
 
 	private void executeSendRequest( String parameters, boolean isConvertible )
@@ -2059,7 +2043,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( command.equals( "validate" ) || command.equals( "verify" ) )
 				{
 					KoLmafiaASH.getInterpreter( scriptFile );
-                    printLine( "Script verification complete." );
+                    RequestLogger.printLine( "Script verification complete." );
 					return;
 				}
 
@@ -2452,13 +2436,13 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( option.equals( "clear" ) )
 		{
 			conditions.clear();
-			printLine( "Conditions list cleared." );
+			RequestLogger.printLine( "Conditions list cleared." );
 			return true;
 		}
 		else if ( option.equals( "check" ) )
 		{
 			checkRequirements( conditions );
-			printLine( "Conditions list validated against available items." );
+			RequestLogger.printLine( "Conditions list validated against available items." );
 			return true;
 		}
 		else if ( option.equals( "mode" ) )
@@ -2471,9 +2455,9 @@ public class KoLmafiaCLI extends KoLmafia
 				useDisjunction = true;
 
 			if ( useDisjunction )
-				printLine( "All non-stat conditions will be ORed together." );
+				RequestLogger.printLine( "All non-stat conditions will be ORed together." );
 			else
-				printLine( "All non-stat conditions will be ANDed together." );
+				RequestLogger.printLine( "All non-stat conditions will be ANDed together." );
 
 			return true;
 		}
@@ -2491,11 +2475,11 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( condition.getCount() > 0 )
 				{
 					AdventureResult.addResultToList( conditions, condition );
-					printLine( "Condition added: " + condition );
+					RequestLogger.printLine( "Condition added: " + condition );
 				}
 				else
 				{
-					printLine( "Condition already met: " + condition );
+					RequestLogger.printLine( "Condition already met: " + condition );
 				}
 			}
 
@@ -3008,14 +2992,7 @@ public class KoLmafiaCLI extends KoLmafia
 		String list = spaceIndex == -1 ? parameters : parameters.substring( 0, spaceIndex ).trim();
 		String filter = spaceIndex == -1 ? "" : parameters.substring( spaceIndex ).trim();
 
-		PrintStream desiredOutputStream = outputStream;
-
-		if ( sessionPrint )
-		{
-			sessionStream.println();
-			desiredOutputStream = sessionStream;
-		}
-
+		PrintStream desiredOutputStream = sessionPrint ? RequestLogger.getSessionStream() : RequestLogger.INSTANCE;
 
 		if ( !filter.equals( "" ) &&
 			(parameters.startsWith( "summary" ) || parameters.startsWith( "session" ) || parameters.startsWith( "stat" ) || parameters.startsWith( "equip" ) || parameters.startsWith( "encounters" )) )
@@ -3040,87 +3017,75 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executePrintCommand( String desiredData, String filter, PrintStream desiredStream )
 	{
-		PrintStream originalStream = outputStream;
-		outputStream = desiredStream;
-
-		KoLmafiaCLI.printBlankLine();
+		desiredStream.println();
 
 		if ( desiredData.equals( "session" ) )
 		{
-			printLine( "Player: " + KoLCharacter.getUserName() );
-			printLine( "Session Id: " + KoLRequest.sessionId );
-			printLine( "Password Hash: " + KoLRequest.passwordHash );
-			printLine( "Current Server: " + KoLRequest.KOL_HOST );
+			desiredStream.println( "Player: " + KoLCharacter.getUserName() );
+			desiredStream.println( "Session Id: " + KoLRequest.sessionId );
+			desiredStream.println( "Password Hash: " + KoLRequest.passwordHash );
+			desiredStream.println( "Current Server: " + KoLRequest.KOL_HOST );
 		}
 		else if ( desiredData.startsWith( "stat" ) )
 		{
-			printToSession = true;
+			desiredStream.println( "Lv: " + KoLCharacter.getLevel() );
+			desiredStream.println( "HP: " + KoLCharacter.getCurrentHP() + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
+			desiredStream.println( "MP: " + KoLCharacter.getCurrentMP() + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
 
-			printLine( "Lv: " + KoLCharacter.getLevel() );
-			printLine( "HP: " + KoLCharacter.getCurrentHP() + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
-			printLine( "MP: " + KoLCharacter.getCurrentMP() + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
+			desiredStream.println();
 
-			printBlankLine();
+			desiredStream.println( "Mus: " + getStatString( KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() ) );
+			desiredStream.println( "Mys: " + getStatString( KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() ) );
+			desiredStream.println( "Mox: " + getStatString( KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() ) );
 
-			printLine( "Mus: " + getStatString( KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() ) );
-			printLine( "Mys: " + getStatString( KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() ) );
-			printLine( "Mox: " + getStatString( KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() ) );
+			desiredStream.println();
 
-			printBlankLine();
+			desiredStream.println( "Advs: " + KoLCharacter.getAdventuresLeft() );
+			desiredStream.println( "Meat: " + COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
+			desiredStream.println( "Drunk: " + KoLCharacter.getInebriety() );
 
-			printLine( "Advs: " + KoLCharacter.getAdventuresLeft() );
-			printLine( "Meat: " + COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
-			printLine( "Drunk: " + KoLCharacter.getInebriety() );
+			desiredStream.println();
 
-			printBlankLine();
-
-			printLine( "Pet: " + KoLCharacter.getFamiliar() );
-			printLine( "Item: " + KoLCharacter.getFamiliarItem() );
-
-			printToSession = false;
+			desiredStream.println( "Pet: " + KoLCharacter.getFamiliar() );
+			desiredStream.println( "Item: " + KoLCharacter.getFamiliarItem() );
 		}
 		else if ( desiredData.startsWith( "equip" ) )
 		{
-			printToSession = true;
-
-			printLine( "Hat: " + KoLCharacter.getEquipment( KoLCharacter.HAT ) );
-			printLine( "Weapon: " + KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
+			desiredStream.println( "Hat: " + KoLCharacter.getEquipment( KoLCharacter.HAT ) );
+			desiredStream.println( "Weapon: " + KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
 
 			if ( KoLCharacter.getFakeHands() > 0 )
-				printLine( "Fake Hands: " + KoLCharacter.getFakeHands() );
+				desiredStream.println( "Fake Hands: " + KoLCharacter.getFakeHands() );
 
-			printLine( "Off-hand: " + KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
-			printLine( "Shirt: " + KoLCharacter.getEquipment( KoLCharacter.SHIRT ) );
-			printLine( "Pants: " + KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
+			desiredStream.println( "Off-hand: " + KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
+			desiredStream.println( "Shirt: " + KoLCharacter.getEquipment( KoLCharacter.SHIRT ) );
+			desiredStream.println( "Pants: " + KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
 
-			printBlankLine();
+			desiredStream.println();
 
-			printLine( "Acc. 1: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
-			printLine( "Acc. 2: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
-			printLine( "Acc. 3: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
+			desiredStream.println( "Acc. 1: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
+			desiredStream.println( "Acc. 2: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
+			desiredStream.println( "Acc. 3: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
 
-			printBlankLine();
+			desiredStream.println();
 
-			printLine( "Pet: " + KoLCharacter.getFamiliar() );
-			printLine( "Item: " + KoLCharacter.getFamiliarItem() );
-
-			printToSession = false;
+			desiredStream.println( "Pet: " + KoLCharacter.getFamiliar() );
+			desiredStream.println( "Item: " + KoLCharacter.getFamiliarItem() );
 		}
 		else if ( desiredData.startsWith( "encounters" ) )
 		{
-			printLine( "Visited Locations: " );
-			printBlankLine();
+			desiredStream.println( "Visited Locations: " );
+			desiredStream.println();
 
-			printList( adventureList );
+			printList( adventureList, desiredStream );
 
-			printBlankLine();
-			printBlankLine();
+			desiredStream.println();
+			desiredStream.println();
 
-			updateDisplay( "Encounter Listing: " );
+			desiredStream.println( "Encounter Listing: " );
 
-			printBlankLine();
-
-			printList( encounterList );
+			desiredStream.println();
+			printList( encounterList, desiredStream );
 		}
 		else
 		{
@@ -3203,19 +3168,12 @@ public class KoLmafiaCLI extends KoLmafia
 						resultList.add( items[i] );
 				}
 
-				printList( resultList );
+				printList( resultList, desiredStream );
 			}
 		}
 
-		KoLmafiaCLI.printBlankLine();
-
-		if ( outputStream != originalStream )
-		{
-			KoLmafiaCLI.printBlankLine();
-			outputStream.close();
-		}
-
-		outputStream = originalStream;
+		desiredStream.println();
+		desiredStream.close();
 	}
 
 	private static String getStatString( int base, int adjusted, int tnp )
@@ -3414,7 +3372,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( isExecutingCheckOnlyCommand && firstMatch != null )
 		{
-			printLine( firstMatch.toString() );
+			RequestLogger.printLine( firstMatch.toString() );
 			return null;
 		}
 
@@ -3591,7 +3549,7 @@ public class KoLmafiaCLI extends KoLmafia
 			plotDetails.append( LINE_BREAK );
 			plotDetails.append( MushroomPlot.getForecastedPlot( false ) );
 			plotDetails.append( LINE_BREAK );
-			printLine( plotDetails.toString() );
+			RequestLogger.printLine( plotDetails.toString() );
 		}
 	}
 
@@ -3971,7 +3929,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( isExecutingCheckOnlyCommand )
 		{
-			printLine( adventure.toString() );
+			RequestLogger.printLine( adventure.toString() );
 			return;
 		}
 
@@ -4082,7 +4040,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			updateDisplay( ERROR_STATE, "Ambiguous effect name: " + parameters );
 
-			printLine( "This could match any of the following " + matchingEffects.size() + " effects: " );
+			RequestLogger.printLine( "This could match any of the following " + matchingEffects.size() + " effects: " );
 			printList( matchingEffects );
 
 			return;
@@ -4346,124 +4304,5 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		return false;
-	}
-
-	private static final int MAXIMUM_LINE_LENGTH = 96;
-
-	public static void printBlankLine()
-	{	printLine( CONTINUE_STATE, " ", true );
-	}
-
-	public static void printLine( String message )
-	{	printLine( CONTINUE_STATE, message, true );
-	}
-
-	public static void printLine( String message, boolean addToBuffer )
-	{	printLine( CONTINUE_STATE, message, addToBuffer );
-	}
-
-	public static void printLine( int state, String message )
-	{	printLine( state, message, true );
-	}
-
-	public static void printLine( int state, String message, boolean addToBuffer )
-	{
-		if ( message == null || (message.trim().length() == 0 && previousUpdateString.length() == 0) )
-			return;
-
-		previousUpdateString = message.trim();
-
-		if ( printToSession )
-			sessionStream.println( message );
-
-		StringBuffer wordWrappedLine = new StringBuffer();
-		StringTokenizer lineTokens = new StringTokenizer( message, LINE_BREAK, true );
-
-		while ( lineTokens.hasMoreTokens() )
-		{
-			String currentToken = lineTokens.nextToken();
-			String remainingString = currentToken;
-
-			while ( remainingString.length() > 0 )
-			{
-				if ( remainingString.indexOf( " " ) == -1 || remainingString.length() < MAXIMUM_LINE_LENGTH )
-				{
-					wordWrappedLine.append( remainingString );
-					remainingString = "";
-				}
-				else
-				{
-					int splitIndex = remainingString.lastIndexOf( " ", MAXIMUM_LINE_LENGTH );
-					if ( splitIndex == -1 )
-						splitIndex = remainingString.indexOf( " ", MAXIMUM_LINE_LENGTH );
-
-					wordWrappedLine.append( remainingString.substring( 0, splitIndex ) );
-					wordWrappedLine.append( LINE_BREAK );
-
-					remainingString = remainingString.substring( splitIndex + 1 );
-				}
-			}
-		}
-
-		if ( !isPrompting )
-			outputStream.println( wordWrappedLine.toString() );
-
-		mirrorStream.println( wordWrappedLine.toString() );
-		debugStream.println( wordWrappedLine.toString() );
-
-		if ( !addToBuffer )
-			return;
-
-		StringBuffer colorBuffer = new StringBuffer();
-
-		if ( message.trim().equals( "" ) )
-		{
-			colorBuffer.append( "<br>" );
-		}
-		else
-		{
-			if ( message.indexOf( "<" ) != -1 && message.indexOf( "\n" ) != -1 )
-				message = StaticEntity.globalStringReplace( message, "<", "&lt;" );
-
-			boolean addedColor = false;
-
-			if ( state == ERROR_STATE || state == ABORT_STATE )
-			{
-				addedColor = true;
-				colorBuffer.append( "<font color=red>" );
-			}
-			else if ( message.startsWith( " > QUEUED" ) )
-			{
-				addedColor = true;
-				colorBuffer.append( "<font color=olive><b>" );
-			}
-			else if ( message.startsWith( " > " ) )
-			{
-				addedColor = true;
-				colorBuffer.append( "<font color=olive>" );
-			}
-
-			StaticEntity.globalStringReplace( wordWrappedLine, "\n", "<br>" );
-
-			colorBuffer.append( wordWrappedLine.toString() );
-			if ( message.startsWith( " > QUEUED" ) )
-				colorBuffer.append( "</b>" );
-
-			if ( addedColor )
-				colorBuffer.append( "</font><br>" );
-			else
-				colorBuffer.append( "<br>" );
-
-			if ( message.indexOf( "<" ) == -1 && message.indexOf( LINE_BREAK ) != -1 )
-				colorBuffer.append( "</pre>" );
-
-			StaticEntity.globalStringDelete( colorBuffer, "<html>" );
-			StaticEntity.globalStringDelete( colorBuffer, "</html>" );
-		}
-
-		colorBuffer.append( LINE_BREAK );
-
-		commandBuffer.append( colorBuffer.toString() );
-		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 	}
 }

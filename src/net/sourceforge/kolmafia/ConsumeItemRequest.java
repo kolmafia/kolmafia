@@ -1115,8 +1115,8 @@ public class ConsumeItemRequest extends KoLRequest
 				StaticEntity.setProperty( "currentSpleenUse", String.valueOf( KoLCharacter.getSpleenUse() + spleenHit ) );
 		}
 
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( useTypeAsString + lastItemUsed.getCount() + " " + lastItemUsed.getName() );
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( useTypeAsString + lastItemUsed.getCount() + " " + lastItemUsed.getName() );
 		return true;
 	}
 }

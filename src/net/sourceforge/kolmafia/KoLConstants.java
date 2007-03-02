@@ -341,7 +341,6 @@ public interface KoLConstants
 	// Include just the event history buffer and the command line buffer.
 
 	public static final LockableListModel eventHistory = new LockableListModel();
-	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( true );
 
 	/**
 	 * A special kind of ByteArrayOutputStream which provides access to the
@@ -367,4 +366,9 @@ public interface KoLConstants
 		{	return new ByteArrayInputStream( buf, 0, count );
 		}
 	}
+
+	// Special output streams which are used to print things inside of
+	// KoLmafia to specific buffers.
+
+	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( true );
 }

@@ -277,7 +277,7 @@ public class BuffBotHome extends StaticEntity
 			hypertextLogStream.println( "<br><font color=" + DataUtilities.toHexString( c ) + ">" + entry + "</font>" );
 			hypertextLogStream.flush();
 
-			KoLmafiaCLI.printLine( entry );
+			RequestLogger.printLine( entry );
 			if ( messages.size() > 100 )
 				messages.remove( 100 );
 		}

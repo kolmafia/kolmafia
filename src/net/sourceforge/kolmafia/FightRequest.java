@@ -417,6 +417,7 @@ public class FightRequest extends KoLRequest
 
 	private static void checkForInitiative( String responseText )
 	{
+		StringBuffer action = new StringBuffer();
 		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
 
 		// Whether or not you get initiative is easy -- look for the
@@ -424,46 +425,47 @@ public class FightRequest extends KoLRequest
 
 		if ( responseText.indexOf( "You get the jump" ) == -1 )
 		{
-			if ( StaticEntity.getBooleanProperty( "logBattleAction" ) )
-				KoLmafia.getSessionStream().println( "Round 0: " + KoLCharacter.getUserName() + " loses initiative!" );
+			// If you lose initiative, there's nothing very interesting to
+			// print to the session log.
 
-			return;
-		}
-
-		// Now that you've won initiative, figure out what actually
-		// happened in that first round based on player settings.
-
-		if ( shouldLogAction )
-			KoLmafia.getSessionStream().println( "Round 0: " + KoLCharacter.getUserName() + " wins initiative!" );
-
-		action1 = StaticEntity.getProperty( "defaultAutoAttack" );
-
-		// If no default action is made by the player, then the round remains
-		// the same.  Simply report winning/losing initiative.
-
-		if ( action1.equals( "" ) || action1.equals( "0" ) )
-			return;
-
-		++currentRound;
-
-		if ( shouldLogAction )
-			KoLmafia.getSessionStream().print( "Round 1: " + KoLCharacter.getUserName() + " " );
-
-		if ( action1.equals( "1" ) )
-		{
-			if ( shouldLogAction )
-				KoLmafia.getSessionStream().println( "attacks!" );
-
-			action1 = "attack";
+			action.append( "Round 0: " + KoLCharacter.getUserName() + " loses initiative!" );
 		}
 		else
 		{
-			if ( shouldLogAction )
+			// Now that you've won initiative, figure out what actually
+			// happened in that first round based on player settings.
+
+			action.append( "Round 0: " + KoLCharacter.getUserName() + " wins initiative!" );
+			action.append( LINE_BREAK );
+
+			action1 = StaticEntity.getProperty( "defaultAutoAttack" );
+
+			// If no default action is made by the player, then the round remains
+			// the same.  Simply report winning/losing initiative.
+
+			if ( !action1.equals( "" ) && !action1.equals( "0" ) )
 			{
-				KoLmafia.getSessionStream().println( "casts " +
-					ClassSkillsDatabase.getSkillName( Integer.parseInt( action1 ) ).toUpperCase() + "!" );
+				++currentRound;
+				action.append( "Round 1: " + KoLCharacter.getUserName() + " " );
+
+				if ( action1.equals( "1" ) )
+				{
+					action.append( "attacks!" );
+					action1 = "attack";
+				}
+				else
+				{
+					action.append( "casts " +
+						ClassSkillsDatabase.getSkillName( Integer.parseInt( action1 ) ).toUpperCase() + "!" );
+				}
+
+				action.append( " (auto-attack)" );
 			}
 		}
+
+		RequestLogger.printLine( action.toString() );
+		if ( shouldLogAction )
+			RequestLogger.updateSessionLog( action.toString() );
 	}
 
 	public static void updateCombatData( String encounter, String responseText )
@@ -493,10 +495,7 @@ public class FightRequest extends KoLRequest
 			{
 				StringTokenizer actions = new StringTokenizer( ANYTAG_PATTERN.matcher( familiarActMatcher.group() ).replaceAll( "\n" ), "\n" );
 				while ( actions.hasMoreTokens() )
-				{
-					KoLmafia.getSessionStream().print( "Round " + currentRound + ": " );
-					KoLmafia.getSessionStream().println( actions.nextToken() );
-				}
+					RequestLogger.updateSessionLog( "Round " + currentRound + ": " + actions.nextToken() );
 			}
 		}
 
@@ -781,23 +780,30 @@ public class FightRequest extends KoLRequest
 
 	public static boolean registerRequest( String urlString )
 	{
-		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
-
-		if ( urlString.indexOf( "fight.php?" ) == -1 )
-		{
-			boolean isFight = urlString.indexOf( "fight.php" ) != -1;
-
-			if ( isFight && shouldLogAction && currentRound != 0 )
-				KoLmafia.getSessionStream().print( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " twiddles their thumbs" );
-
-			return isFight;
-		}
+		if ( urlString.indexOf( "fight.php" ) == -1 )
+			return false;
 
 		action1 = null;
 		action2 = null;
 
-		if ( shouldLogAction )
-			KoLmafia.getSessionStream().print( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " " );
+		StringBuffer action = new StringBuffer();
+		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
+
+		if ( urlString.indexOf( "fight.php?" ) == -1 )
+		{
+			if ( currentRound != 0 )
+			{
+				action.append( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " twiddles their thumbs" );
+
+				RequestLogger.printLine( action.toString() );
+				if ( shouldLogAction )
+					RequestLogger.updateSessionLog( action.toString() );
+			}
+
+			return true;
+		}
+
+		action.append( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " " );
 
 		Matcher skillMatcher = SKILL_PATTERN.matcher( urlString );
 		if ( skillMatcher.find() )
@@ -805,15 +811,17 @@ public class FightRequest extends KoLRequest
 			String skill = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
 			if ( skill == null )
 			{
-				if ( shouldLogAction )
-					KoLmafia.getSessionStream().println( "casts CHANCE!" );
+				action.append( "casts CHANCE!" );
 			}
 			else
 			{
 				action1 = CombatSettings.getShortCombatOptionName( "skill " + skill );
-				if ( shouldLogAction )
-					KoLmafia.getSessionStream().println( "casts " + skill.toUpperCase() + "!" );
+				action.append( "casts " + skill.toUpperCase() + "!" );
 			}
+
+			RequestLogger.printLine( action.toString() );
+			if ( shouldLogAction )
+				RequestLogger.updateSessionLog( action.toString() );
 
 			return true;
 		}
@@ -824,38 +832,30 @@ public class FightRequest extends KoLRequest
 			String item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
 			if ( item == null )
 			{
-				if ( shouldLogAction )
-					KoLmafia.getSessionStream().print( "plays Garin's Harp" );
+				action.append( "plays Garin's Harp" );
 			}
 			else
 			{
 				action1 = CombatSettings.getShortCombatOptionName( "item " + item );
-				if ( shouldLogAction )
-					KoLmafia.getSessionStream().print( "uses the " + item );
+				action.append( "uses the " + item );
 			}
 
 			itemMatcher = ITEM2_PATTERN.matcher( urlString );
 			if ( itemMatcher.find() )
 			{
-				if ( shouldLogAction )
-					KoLmafia.getSessionStream().print( " and " );
-
 				item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
-				if ( item == null )
-				{
-					if ( shouldLogAction )
-						KoLmafia.getSessionStream().print( "plays the Fairy Flute" );
-				}
-				else
+				if ( item != null )
 				{
 					action2 = CombatSettings.getShortCombatOptionName( "item " + item );
-					if ( shouldLogAction )
-						KoLmafia.getSessionStream().print( "uses the " + item );
+					action.append( "uses the " + item );
 				}
 			}
 
+			action.append( "!" );
+
+			RequestLogger.printLine( action.toString() );
 			if ( shouldLogAction )
-				KoLmafia.getSessionStream().println( "!" );
+				RequestLogger.updateSessionLog( action.toString() );
 
 			return true;
 		}
@@ -863,26 +863,27 @@ public class FightRequest extends KoLRequest
 		if ( urlString.indexOf( "runaway" ) != -1 )
 		{
 			action1 = "runaway";
-			if ( shouldLogAction )
-				KoLmafia.getSessionStream().println( "casts RETURN!" );
+			action.append( "casts RETURN!" );
 		}
 		else if ( urlString.indexOf( "steal" ) != -1 )
 		{
 			action1 = "steal";
-			if ( shouldLogAction )
-				KoLmafia.getSessionStream().println( "tries to steal an item!" );
+			action.append( "tries to steal an item!" );
 		}
 		else if ( urlString.indexOf( "attack" ) != -1 )
 		{
 			action1 = "attack";
-			if ( shouldLogAction )
-				KoLmafia.getSessionStream().println( "attacks!" );
+			action.append( "attacks!" );
 		}
 		else
 		{
 			action1 = null;
-			KoLmafia.getSessionStream().println( "casts CHANCE!" );
+			action.append( "casts CHANCE!" );
 		}
+
+		RequestLogger.printLine( action.toString() );
+		if ( shouldLogAction )
+			RequestLogger.updateSessionLog( action.toString() );
 
 		return true;
 	}

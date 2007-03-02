@@ -231,8 +231,8 @@ public class HermitRequest extends KoLRequest
 			if ( !itemMatcher.find() )
 				return true;
 
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "hermit " + quantity + " " + TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) ) );
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "hermit " + quantity + " " + TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) ) );
 
 			// Subtract the worthless items in order of their priority;
 			// as far as we know, the priority is the item Id.

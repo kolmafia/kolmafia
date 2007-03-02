@@ -602,8 +602,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				count = StaticEntity.parseInt( countMatcher.group(1) );
 		}
 
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( "cast " + count + " " + skillName );
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "cast " + count + " " + skillName );
 
 		if ( urlString.indexOf( "whichskill=18" ) != -1 )
 		{

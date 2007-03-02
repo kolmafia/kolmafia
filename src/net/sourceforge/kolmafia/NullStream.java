@@ -51,7 +51,7 @@ public class NullStream extends PrintStream
 
 	public static final NullStream INSTANCE = new NullStream();
 
-	private NullStream()
+	public NullStream()
 	{
 		super( System.out );
 		this.errorState = false;

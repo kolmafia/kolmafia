@@ -165,7 +165,7 @@ public abstract class RequestThread implements KoLConstants
 		if ( KoLmafia.getLastMessage().endsWith( "..." ) )
 		{
 			KoLmafia.updateDisplay( "Request completed." );
-			KoLmafiaCLI.printBlankLine();
+			RequestLogger.printLine();
 		}
 
 		if ( KoLmafia.permitsContinue() || KoLmafia.refusesContinue() )

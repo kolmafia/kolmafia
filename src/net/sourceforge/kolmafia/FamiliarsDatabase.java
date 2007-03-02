@@ -133,7 +133,7 @@ public class FamiliarsDatabase extends KoLDatabase
 		if ( familiarByName.containsKey( getCanonicalName( familiarName ) ) )
 			return;
 
-		KoLmafia.getDebugStream().println( "New familiar: \"" + familiarId + "\" (" + familiarName + ")" );
+		RequestLogger.updateDebugLog( "New familiar: \"" + familiarId + "\" (" + familiarName + ")" );
 
 		// Because I'm intelligent, assume that both the familiar item
 		// and the familiar larva are the steaming evil (for now).

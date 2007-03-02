@@ -243,7 +243,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 				StaticEntity.setProperty( "loginServerName", KOL_HOST );
 
-				DEFAULT_SHELL.printLine( "Redirected to " + KOL_HOST + "..." );
+				RequestLogger.printLine( "Redirected to " + KOL_HOST + "..." );
 				System.setProperty( "http.referer", "http://" + KOL_HOST + "/main.php" );
 			}
 		}
@@ -588,8 +588,8 @@ public class KoLRequest extends Job implements KoLConstants
 		return dataBuffer.toString();
 	}
 
-	private boolean shouldPrintDebug()
-	{	return !(KoLmafia.getDebugStream() instanceof NullStream || isChatRequest);
+	private boolean shouldUpdateDebugLog()
+	{	return !(RequestLogger.isDebugging() || isChatRequest);
 	}
 
 	/**
@@ -606,8 +606,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 		String location = getURLString();
 
-		if ( shouldPrintDebug() )
-			KoLmafia.getDebugStream().println( getClass() );
+		if ( shouldUpdateDebugLog() )
+			RequestLogger.updateDebugLog( getClass() );
 
 		if ( location.startsWith( "sewer.php" ) )
 		{
@@ -858,8 +858,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private boolean prepareConnection()
 	{
-		if ( shouldPrintDebug() )
-			KoLmafia.getDebugStream().println( "Connecting to " + formURLString + "..." );
+		if ( shouldUpdateDebugLog() )
+			RequestLogger.updateDebugLog( "Connecting to " + formURLString + "..." );
 
 		// Make sure that all variables are reset before you reopen
 		// the connection.
@@ -899,8 +899,8 @@ public class KoLRequest extends Job implements KoLConstants
 			// that there was a timeout; return false and let the loop
 			// attempt to connect again
 
-			if ( shouldPrintDebug() )
-				KoLmafia.getDebugStream().println( "Error opening connection.  Retrying..." );
+			if ( shouldUpdateDebugLog() )
+				RequestLogger.updateDebugLog( "Error opening connection.  Retrying..." );
 
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
@@ -962,12 +962,8 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			formConnection.setRequestMethod( "POST" );
 
-			if ( shouldPrintDebug() )
-			{
-				KoLmafia.getDebugStream().print( "Submitting data string: " );
-				KoLmafia.getDebugStream().write( dataString );
+			if ( shouldUpdateDebugLog() )
 				printRequestProperties();
-			}
 
 			OutputStream ostream = formConnection.getOutputStream();
 			ostream.write( dataString );
@@ -980,8 +976,8 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			if ( shouldPrintDebug() )
-				KoLmafia.getDebugStream().println( "Connection timed out during post.  Retrying..." );
+			if ( shouldUpdateDebugLog() )
+				RequestLogger.updateDebugLog( "Connection timed out during post.  Retrying..." );
 
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
@@ -1009,8 +1005,8 @@ public class KoLRequest extends Job implements KoLConstants
 		// one that results in something happening), or an error-type one
 		// (ie: maintenance).
 
-		if ( shouldPrintDebug() )
-			KoLmafia.getDebugStream().println( "Retrieving server reply..." );
+		if ( shouldUpdateDebugLog() )
+			RequestLogger.updateDebugLog( "Retrieving server reply..." );
 
 		responseText = "";
 		redirectLocation = "";
@@ -1023,8 +1019,8 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		catch ( Exception e1 )
 		{
-			if ( shouldPrintDebug() )
-				KoLmafia.getDebugStream().println( "Connection timed out during response.  Retrying..." );
+			if ( shouldUpdateDebugLog() )
+				RequestLogger.updateDebugLog( "Connection timed out during response.  Retrying..." );
 
 			try
 			{
@@ -1043,7 +1039,7 @@ public class KoLRequest extends Job implements KoLConstants
 			return formURLString.startsWith( "http://" );
 		}
 
-		if ( shouldPrintDebug() )
+		if ( shouldUpdateDebugLog() )
 			printHeaderFields();
 
 		boolean shouldStop = false;
@@ -1167,8 +1163,8 @@ public class KoLRequest extends Job implements KoLConstants
 			return true;
 		}
 
-		if ( shouldPrintDebug() )
-			KoLmafia.getDebugStream().println( "Redirected: " + redirectLocation );
+		if ( shouldUpdateDebugLog() )
+			RequestLogger.updateDebugLog( "Redirected: " + redirectLocation );
 
 		return true;
 	}
@@ -1241,8 +1237,8 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( responseText == null )
 			return;
 
-		if ( shouldPrintDebug() )
-			KoLmafia.getDebugStream().println( LINE_BREAK_PATTERN.matcher( responseText ).replaceAll( "" ) );
+		if ( shouldUpdateDebugLog() )
+			RequestLogger.updateDebugLog( LINE_BREAK_PATTERN.matcher( responseText ).replaceAll( "" ) );
 
 		statusChanged = responseText.indexOf( "charpane.php" ) != -1;
 		if ( statusChanged && !(this instanceof LocalRelayRequest) )
@@ -1726,7 +1722,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// Print everything to the default shell; this way, the
 			// graphical CLI is also notified of events.
 
-			KoLmafiaCLI.printLine( event );
+			RequestLogger.printLine( event );
 
 			// Balloon messages for whenever the person does not have
 			// focus on KoLmafia.
@@ -1799,39 +1795,39 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void printRequestProperties()
 	{
-		KoLmafia.getDebugStream().println();
-		KoLmafia.getDebugStream().println( "Requesting: http://" + KOL_HOST + "/" + getURLString() );
+		RequestLogger.updateDebugLog();
+		RequestLogger.updateDebugLog( "Requesting: http://" + KOL_HOST + "/" + getURLString() );
 
 		Map requestProperties = formConnection.getRequestProperties();
-		KoLmafia.getDebugStream().println( requestProperties.size() + " request properties" );
-		KoLmafia.getDebugStream().println();
+		RequestLogger.updateDebugLog( requestProperties.size() + " request properties" );
+		RequestLogger.updateDebugLog();
 
 		Iterator iterator = requestProperties.entrySet().iterator();
 		while ( iterator.hasNext() )
 		{
 			Entry entry = (Entry)iterator.next();
-			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
+			RequestLogger.updateDebugLog( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
 
-		KoLmafia.getDebugStream().println();
+		RequestLogger.updateDebugLog();
 	}
 
 	public void printHeaderFields()
 	{
-		KoLmafia.getDebugStream().println();
-		KoLmafia.getDebugStream().println( "Retrieved: http://" + KOL_HOST + "/" + getURLString() );
-		KoLmafia.getDebugStream().println();
+		RequestLogger.updateDebugLog();
+		RequestLogger.updateDebugLog( "Retrieved: http://" + KOL_HOST + "/" + getURLString() );
+		RequestLogger.updateDebugLog();
 
 		Map headerFields = formConnection.getHeaderFields();
-		KoLmafia.getDebugStream().println( headerFields.size() + " header fields" );
+		RequestLogger.updateDebugLog( headerFields.size() + " header fields" );
 
 		Iterator iterator = headerFields.entrySet().iterator();
 		while ( iterator.hasNext() )
 		{
 			Entry entry = (Entry)iterator.next();
-			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
+			RequestLogger.updateDebugLog( "Field: " + entry.getKey() + " = " + entry.getValue() );
 		}
 
-		KoLmafia.getDebugStream().println();
+		RequestLogger.updateDebugLog();
 	}
 }
