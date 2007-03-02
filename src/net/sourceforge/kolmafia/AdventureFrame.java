@@ -91,6 +91,7 @@ public class AdventureFrame extends KoLFrame
 	private static KoLAdventure lastAdventure = null;
 
 	private JTree combatTree;
+	private JSplitPane sessionGrid;
 	private JTextArea combatEditor;
 	private DefaultTreeModel combatModel;
 	private CardLayout combatCards;
@@ -229,12 +230,17 @@ public class AdventureFrame extends KoLFrame
 
 	private JSplitPane getAdventureSummary()
 	{
-		JSplitPane sessionGrid = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true,
+		this.sessionGrid = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true,
 			getAdventureSummary( "defaultDropdown1" ), getAdventureSummary( "defaultDropdown2" ) );
 
-		sessionGrid.setDividerLocation( 0.5 );
-		sessionGrid.setResizeWeight( 0.5 );
+		int location = StaticEntity.getIntegerProperty( "defaultDropdownSplit" );
 
+		if ( location == 0 )
+			sessionGrid.setDividerLocation( 0.5 );
+		else
+			sessionGrid.setDividerLocation( location );
+
+		sessionGrid.setResizeWeight( 0.5 );
 		return sessionGrid;
 	}
 
@@ -242,6 +248,12 @@ public class AdventureFrame extends KoLFrame
 	{
 		super.requestFocus();
 		locationSelect.requestFocus();
+	}
+
+	public void dispose()
+	{
+		StaticEntity.setProperty( "defaultDropdownSplit", String.valueOf( sessionGrid.getLastDividerLocation() ) );
+		super.dispose();
 	}
 
 	/**

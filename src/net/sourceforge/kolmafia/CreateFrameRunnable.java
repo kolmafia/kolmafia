@@ -248,7 +248,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			if ( !appearsInTab && this.creation instanceof KoLFrame )
 			{
 				((KoLFrame)this.creation).constructToolbar();
-				if ( ((KoLFrame)this.creation).useSidePane() )
+				if ( ((KoLFrame)this.creation).useSidePane() && StaticEntity.getBooleanProperty( "sidebarOnDetachedFrames" ) )
 					((KoLFrame)this.creation).addCompactPane();
 
 				this.creation.setJMenuBar( new KoLMenuBar() );

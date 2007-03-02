@@ -283,6 +283,7 @@ public class OptionsFrame extends KoLFrame
 			{ "", "" },
 
 			{ "avoidInvertingTabs", "Do not invert nested tabs in main window" },
+			{ "sidebarOnDetachedFrames", "Place a sidebar on selected detached frames" },
 			{ "addStopToSidePane", "Add a stop button instead of a refresh button to the side pane" },
 			{ "mapLoadsMiniBrowser", "Map button loads mini browser instead of relay browser" },
 

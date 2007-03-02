@@ -87,7 +87,13 @@ public class CharsheetFrame extends KoLFrame
 		JSplitPane southGrid = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true,
 			getAdventureSummary( "charsheetDropdown" ), getAdventureSummary( "charsheetDropdown2" ) );
 
-		southGrid.setDividerLocation( 0.5 );
+		int location = StaticEntity.getIntegerProperty( "charsheetDropdownSplit" );
+
+		if ( location == 0 )
+			southGrid.setDividerLocation( 0.5 );
+		else
+			southGrid.setDividerLocation( location );
+
 		southGrid.setResizeWeight( 0.5 );
 
 		framePanel.add( northPanel, BorderLayout.NORTH );

@@ -144,7 +144,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			if ( scriptButtons == 1 )
 			{
 				scriptBar = toolbarPanel;
-				scriptBar.addSeparator();
+				scriptBar.add( Box.createHorizontalStrut( 10 ) );
 			}
 			else
 			{
