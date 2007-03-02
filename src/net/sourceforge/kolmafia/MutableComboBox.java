@@ -53,7 +53,7 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 public class MutableComboBox extends JComboBox implements KoLConstants
 {
 	public String currentName;
-	public String currentMatch;
+	public Object currentMatch;
 	public LockableListModel model;
 	public boolean allowAdditions;
 	public WordBasedFilter filter;
@@ -87,10 +87,10 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 	public void setSelectedItem( Object anObject )
 	{
 		super.setSelectedItem( anObject );
-		currentMatch = (String) anObject;
+		currentMatch = anObject;
 
 		if ( anObject != null )
-			currentName = (String) anObject;
+			currentName = anObject.toString();
 	}
 
 	public synchronized void findMatch( int keyCode )
@@ -99,7 +99,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		// then make sure that the current name is stored
 		// before the key typed event is fired
 
-		currentName = (String) getEditor().getItem();
+		currentName = getEditor().getItem().toString();
 		JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
 
 		if ( model.contains( currentName ) )
@@ -137,10 +137,10 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		String lowercase = currentName.toLowerCase();
 		for ( int i = 0; i < currentNames.length; ++i )
 		{
-			if ( ((String) currentNames[i]).toLowerCase().startsWith( lowercase ) )
+			if ( currentNames[i].toString().toLowerCase().startsWith( lowercase ) )
 			{
 				++matchCount;
-				currentMatch = (String) currentNames[i];
+				currentMatch = currentNames[i];
 			}
 		}
 
@@ -154,8 +154,8 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		// Highlight the rest of the possible name.
 
 		getEditor().setItem( currentMatch );
-		editor.setSelectionStart( currentMatch.toLowerCase().indexOf( currentName.toLowerCase() ) + currentName.length() );
-		editor.setSelectionEnd( currentMatch.length() );
+		editor.setSelectionStart( currentMatch.toString().toLowerCase().indexOf( currentName.toLowerCase() ) + currentName.toString().length() );
+		editor.setSelectionEnd( currentMatch.toString().length() );
 	}
 
 	private class NameInputListener extends KeyAdapter implements FocusListener

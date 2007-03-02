@@ -38,8 +38,14 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.text.JTextComponent;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
+
 public class SimpleScrollPane extends JScrollPane
 {
+	public SimpleScrollPane( LockableListModel model )
+	{	this( new ShowDescriptionList( model, 8 ), VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_NEVER );
+	}
+
 	public SimpleScrollPane( Component view )
 	{	this( view, VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_NEVER );
 	}

@@ -262,10 +262,11 @@ public class LoginFrame extends KoLFrame
 
 			if ( usernameField instanceof JTextField )
 				username = ((JTextField)usernameField).getText();
-			else if ( ((LoginNameComboBox)usernameField).currentMatch != null )
-				username = ((LoginNameComboBox)usernameField).currentMatch;
-			else
+			else if ( ((LoginNameComboBox)usernameField).getSelectedItem() != null )
 				username = (String) ((LoginNameComboBox)usernameField).getSelectedItem();
+			else
+				username = (String) ((LoginNameComboBox)usernameField).currentMatch;
+
 
 			String password = new String( passwordField.getPassword() );
 
@@ -366,7 +367,7 @@ public class LoginFrame extends KoLFrame
 					return;
 				}
 
-				String password = KoLmafia.getSaveState( currentMatch );
+				String password = KoLmafia.getSaveState( (String) currentMatch );
 				if ( password == null )
 				{
 					passwordField.setText( "" );
@@ -379,7 +380,7 @@ public class LoginFrame extends KoLFrame
 				passwordField.setText( password );
 				savePasswordCheckBox.setSelected( true );
 
-				boolean breakfastSetting = StaticEntity.getGlobalProperty( currentMatch, "getBreakfast" ).equals( "true" );
+				boolean breakfastSetting = StaticEntity.getGlobalProperty( (String) currentMatch, "getBreakfast" ).equals( "true" );
 				getBreakfastCheckBox.setSelected( breakfastSetting );
 				LoginPanel.this.setEnabled( true );
 			}
