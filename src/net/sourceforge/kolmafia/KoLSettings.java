@@ -473,6 +473,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "cacheMallSearches", "false" );
 		CLIENT_SETTINGS.put( "charsheetDropdown1", "4" );
 		CLIENT_SETTINGS.put( "charsheetDropdown2", "1" );
+		CLIENT_SETTINGS.put( "charsheetDropdownSplit", "0" );
 		CLIENT_SETTINGS.put( "chatStyle", "0" );
 		CLIENT_SETTINGS.put( "closeLastFrameAction", "0" );
 		CLIENT_SETTINGS.put( "cloverProtectActive", "true" );
@@ -480,6 +481,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "defaultBorderColor", "blue" );
 		CLIENT_SETTINGS.put( "defaultDropdown1", "0" );
 		CLIENT_SETTINGS.put( "defaultDropdown2", "1" );
+		CLIENT_SETTINGS.put( "defaultDropdownSplit", "0" );
 		CLIENT_SETTINGS.put( "defaultLimit", "5" );
 		CLIENT_SETTINGS.put( "defaultLoginServer", "1" );
 		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
@@ -539,6 +541,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
 		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );
+		CLIENT_SETTINGS.put( "sidebarOnDetachedFrames", "true" );
 		CLIENT_SETTINGS.put( "sortAdventures", "false" );
 		CLIENT_SETTINGS.put( "sortPvpResults", "false" );
 		CLIENT_SETTINGS.put( "stasisFarmingAccount", "" );
