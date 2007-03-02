@@ -127,11 +127,12 @@ public class KoLRequest extends Job implements KoLConstants
 	public URL formURL;
 	public boolean followRedirects;
 	public String formURLString;
-	public byte [] dataString = null;
 
 	public boolean isChatRequest = false;
 
 	private List data;
+	private boolean dataChanged = true;
+	private byte [] dataString = null;
 
 	public boolean needsRefresh;
 	public boolean statusChanged;
@@ -311,12 +312,15 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	public KoLRequest constructURLString( String newURLString )
-	{	return constructURLString( newURLString, true );
+	{
+		return constructURLString( newURLString, true );
 	}
 
 	public KoLRequest constructURLString( String newURLString, boolean usePostMethod )
 	{
+		dataChanged = true;
 		this.data.clear();
+
 		if ( newURLString.startsWith( "/" ) )
 			newURLString = newURLString.substring(1);
 
@@ -379,6 +383,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void addFormField( String name, String value, boolean allowDuplicates )
 	{
+		dataChanged = true;
+
 		if ( name.equals( "pwd" ) || name.equals( "phash" ) )
 		{
 			data.add( name );
@@ -916,7 +922,12 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 
 		formConnection.setRequestProperty( "User-Agent", VERSION_NAME );
-		dataString = getDataString( true ).getBytes();
+
+		if ( dataChanged )
+		{
+			dataChanged = false;
+			dataString = getDataString( true ).getBytes();
+		}
 
 		formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 
