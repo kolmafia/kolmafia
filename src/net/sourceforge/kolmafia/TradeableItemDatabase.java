@@ -268,27 +268,27 @@ public class TradeableItemDatabase extends KoLDatabase
 			Matcher itemMatcher = WIKI_ITEMID_PATTERN.matcher( wikiData );
 			if ( !itemMatcher.find() )
 			{
-				KoLmafiaCLI.printLine( name + " did not match a valid an item entry." );
+				RequestLogger.printLine( name + " did not match a valid an item entry." );
 				return;
 			}
 
 			Matcher descMatcher = WIKI_DESCID_PATTERN.matcher( wikiData );
 			if ( !descMatcher.find() )
 			{
-				KoLmafiaCLI.printLine( name + " did not match a valid an item entry." );
+				RequestLogger.printLine( name + " did not match a valid an item entry." );
 				return;
 			}
 
-			KoLmafiaCLI.printLine( "item: " + name + " (#" + itemMatcher.group(1) + ")" );
-			KoLmafiaCLI.printLine( "desc: " + descMatcher.group(1) );
+			RequestLogger.printLine( "item: " + name + " (#" + itemMatcher.group(1) + ")" );
+			RequestLogger.printLine( "desc: " + descMatcher.group(1) );
 
 			Matcher pluralMatcher = WIKI_PLURAL_PATTERN.matcher( wikiData );
 			if ( pluralMatcher.find() )
-				KoLmafiaCLI.printLine( "plural: " + pluralMatcher.group(1) );
+				RequestLogger.printLine( "plural: " + pluralMatcher.group(1) );
 
 			Matcher sellMatcher = WIKI_AUTOSELL_PATTERN.matcher( wikiData );
 			if ( sellMatcher.find() )
-				KoLmafiaCLI.printLine( "autosell: " + sellMatcher.group(1) );
+				RequestLogger.printLine( "autosell: " + sellMatcher.group(1) );
 		}
 		catch ( Exception e )
 		{

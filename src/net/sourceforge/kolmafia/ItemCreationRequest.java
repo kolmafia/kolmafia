@@ -893,8 +893,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( usesTurns )
 			command.insert( 0, "[" + (KoLAdventure.getAdventureCount() + 1) + "] " );
 
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( command.toString() );
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( command.toString() );
 		return true;
 	}
 

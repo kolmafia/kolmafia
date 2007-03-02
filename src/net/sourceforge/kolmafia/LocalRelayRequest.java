@@ -857,7 +857,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// that means the browser is asking for a bad URL.
 			// Go ahead and return a 404 in this case.
 
-			e.printStackTrace( KoLmafia.getDebugStream() );
 			sendNotFound();
 		}
 	}
@@ -882,7 +881,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 			StaticEntity.globalStringReplace( contents, "images/", "http://sol.kolmafia.us/images/" );
 
-			PrintStream writer = KoLmafia.openStream( "html/simulator/" + filename, NullStream.INSTANCE, true );
+			PrintStream writer = RequestLogger.openStream( "html/simulator/" + filename, NullStream.INSTANCE, true );
 			writer.println( contents.toString() );
 			writer.close();
 		}

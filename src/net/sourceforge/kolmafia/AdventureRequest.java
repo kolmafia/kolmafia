@@ -408,8 +408,8 @@ public class AdventureRequest extends KoLRequest
 
 			if ( urlString.equals( "fight.php" ) )
 			{
-				KoLmafiaCLI.printLine( "Encounter: " + encounter );
-				KoLmafia.getSessionStream().println( "Encounter: " + encounter );
+				RequestLogger.printLine( "Encounter: " + encounter );
+				RequestLogger.updateSessionLog( "Encounter: " + encounter );
 				StaticEntity.getClient().registerEncounter( encounter, "Combat" );
 			}
 
@@ -432,8 +432,8 @@ public class AdventureRequest extends KoLRequest
 			if ( encounter.equals( "" ) )
 				return "";
 
-			KoLmafiaCLI.printLine( "Encounter: " + encounter );
-			KoLmafia.getSessionStream().println( "Encounter: " + encounter );
+			RequestLogger.printLine( "Encounter: " + encounter );
+			RequestLogger.updateSessionLog( "Encounter: " + encounter );
 
 			if ( !urlString.startsWith( "choice.php" ) || urlString.indexOf( "option" ) == -1 )
 				StaticEntity.getClient().registerEncounter( encounter, "Noncombat" );

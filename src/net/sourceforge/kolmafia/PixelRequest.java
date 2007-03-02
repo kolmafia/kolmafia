@@ -91,8 +91,8 @@ public class PixelRequest extends ItemCreationRequest
 		for ( int i = 0; i < ingredients.length; ++i )
 			StaticEntity.getClient().processResult( ingredients[i].getInstance( -1 * ingredients[i].getCount() * quantity ) );
 
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( "make " + quantity + " " + TradeableItemDatabase.getItemName( itemId ) );
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "make " + quantity + " " + TradeableItemDatabase.getItemName( itemId ) );
 
 		return true;
 	}

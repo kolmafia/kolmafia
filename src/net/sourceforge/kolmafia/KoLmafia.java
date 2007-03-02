@@ -81,12 +81,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static String lastMessage = "";
 
-	public static PrintStream sessionStream = NullStream.INSTANCE;
-	public static PrintStream debugStream = NullStream.INSTANCE;
-	public static PrintStream outputStream = NullStream.INSTANCE;
-	public static PrintStream mirrorStream = NullStream.INSTANCE;
-	public static PrintStream echoStream = NullStream.INSTANCE;
-
 	static
 	{
 		System.setProperty( "com.apple.mrj.application.apple.menu.about.name", "KoLmafia" );
@@ -410,7 +404,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( continuationState != ABORT_STATE && continuationState != PENDING_STATE )
 			continuationState = state;
 
-		KoLmafiaCLI.printLine( state, message );
+		RequestLogger.printLine( state, message );
 		message = message.trim();
 
 		lastMessage = message;
@@ -502,7 +496,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Now actually reset the session.
 
 		refreshSession();
-		openSessionStream();
+		RequestLogger.openSessionLog();
 		resetSession();
 
 		// If the password hash is non-null, then that means you
@@ -716,7 +710,7 @@ public abstract class KoLmafia implements KoLConstants
 	public AdventureResult parseResult( String result )
 	{
 		String trimResult = result.trim();
-		debugStream.println( "Parsing result: " + trimResult );
+		RequestLogger.updateDebugLog( "Parsing result: " + trimResult );
 
 		try
 		{
@@ -734,7 +728,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	private AdventureResult parseItem( String result )
 	{
-		debugStream.println( "Parsing item: " + result );
+		RequestLogger.updateDebugLog( "Parsing item: " + result );
 
 		// We do the following in order to not get confused by:
 		//
@@ -766,7 +760,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	private boolean parseEffect( String result )
 	{
-		debugStream.println( "Parsing effect: " + result );
+		RequestLogger.updateDebugLog( "Parsing effect: " + result );
 
 		StringTokenizer parsedEffect = new StringTokenizer( result, "()" );
 		String parsedEffectName = parsedEffect.nextToken().trim();
@@ -806,7 +800,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( result == null )
 			return false;
 
-		debugStream.println( "Processing result: " + result );
+		RequestLogger.updateDebugLog( "Processing result: " + result );
 		String resultName = result.getName();
 
 		// This should not happen, but check just in case and
@@ -1309,15 +1303,15 @@ public abstract class KoLmafia implements KoLConstants
 	public final boolean processResults( String results, ArrayList data )
 	{
 		if ( data == null )
-			debugStream.println( "Processing results..." );
+			RequestLogger.updateDebugLog( "Processing results..." );
 
 		if ( data == null && results.indexOf( "gains a pound" ) != -1 )
 		{
 			KoLCharacter.incrementFamilarWeight();
 
-			sessionStream.println();
-			sessionStream.println( "familiar " + KoLCharacter.getFamiliar() );
-			sessionStream.println();
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "familiar " + KoLCharacter.getFamiliar() );
+			RequestLogger.updateSessionLog();
 		}
 
 		String plainTextResult = results.replaceAll( "<.*?>", LINE_BREAK );
@@ -1335,10 +1329,10 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				String message = "You lose " + damageMatcher.group(1) + " hit points";
 
-				KoLmafiaCLI.printLine( message );
+				RequestLogger.printLine( message );
 
 				if ( StaticEntity.getBooleanProperty( "logGainMessages" ) )
-					sessionStream.println( message );
+					RequestLogger.updateSessionLog( message );
 
 				parseResult( message );
 			}
@@ -1349,10 +1343,10 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				String message = "You lose " + damageMatcher.group(1) + " hit points";
 
-				KoLmafiaCLI.printLine( message );
+				RequestLogger.printLine( message );
 
 				if ( StaticEntity.getBooleanProperty( "logGainMessages" ) )
-					sessionStream.println( message );
+					RequestLogger.updateSessionLog( message );
 
 				parseResult( message );
 			}
@@ -1366,10 +1360,10 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				String message = "You lose " + damageMatcher.group(1) + " hit points";
 
-				KoLmafiaCLI.printLine( message );
+				RequestLogger.printLine( message );
 
 				if ( StaticEntity.getBooleanProperty( "logGainMessages" ) )
-					sessionStream.println( message );
+					RequestLogger.updateSessionLog( message );
 
 				parseResult( message );
 			}
@@ -1396,9 +1390,9 @@ public abstract class KoLmafia implements KoLConstants
 					{
 						if ( data == null )
 						{
-							KoLmafiaCLI.printLine( acquisition + " " + item );
+							RequestLogger.printLine( acquisition + " " + item );
 							if ( StaticEntity.getBooleanProperty( "logAcquiredItems" ) )
-								sessionStream.println( acquisition + " " + item );
+								RequestLogger.updateSessionLog( acquisition + " " + item );
 						}
 
 						lastResult = parseItem( item );
@@ -1426,10 +1420,10 @@ public abstract class KoLmafia implements KoLConstants
 						else if ( itemName.equals( "evil golden arches" ) )
 							itemName = "evil golden arch";
 
-						KoLmafiaCLI.printLine( acquisition + " " + item );
+						RequestLogger.printLine( acquisition + " " + item );
 
 						if ( StaticEntity.getBooleanProperty( "logAcquiredItems" ) )
-							sessionStream.println( acquisition + " " + item );
+							RequestLogger.updateSessionLog( acquisition + " " + item );
 
 						lastResult = parseItem( itemName + " (" + countString + ")" );
 						if ( data == null )
@@ -1443,10 +1437,10 @@ public abstract class KoLmafia implements KoLConstants
 					String effectName = parsedResults.nextToken();
 					lastToken = parsedResults.nextToken();
 
-					KoLmafiaCLI.printLine( acquisition + " " + effectName + " " + lastToken );
+					RequestLogger.printLine( acquisition + " " + effectName + " " + lastToken );
 
 					if ( StaticEntity.getBooleanProperty( "logStatusEffects" ) )
-						sessionStream.println( acquisition + " " + effectName + " " + lastToken );
+						RequestLogger.updateSessionLog( acquisition + " " + effectName + " " + lastToken );
 
 					if ( lastToken.indexOf( "duration" ) == -1 )
 					{
@@ -1473,7 +1467,7 @@ public abstract class KoLmafia implements KoLConstants
 
 				if ( data == null && lastToken.indexOf( "level" ) == -1 )
 				{
-					KoLmafiaCLI.printLine( lastToken );
+					RequestLogger.printLine( lastToken );
 				}
 
 				// Because of the simplified parsing, there's a chance that
@@ -1491,17 +1485,17 @@ public abstract class KoLmafia implements KoLConstants
 						if ( lastResult.getName().equals( AdventureResult.SUBSTATS ) )
 						{
 							if ( StaticEntity.getBooleanProperty( "logStatGains" ) )
-								sessionStream.println( lastToken );
+								RequestLogger.updateSessionLog( lastToken );
 						}
 						else if ( StaticEntity.getBooleanProperty( "logGainMessages" ) )
-							sessionStream.println( lastToken );
+							RequestLogger.updateSessionLog( lastToken );
 
 					}
 					else if ( lastResult.getName().equals( AdventureResult.MEAT ) )
 					{
 						AdventureResult.addResultToList( data, lastResult );
 						if ( StaticEntity.getBooleanProperty( "logGainMessages" ) )
-							sessionStream.println( lastToken );
+							RequestLogger.updateSessionLog( lastToken );
 					}
 				}
 			}
@@ -1566,7 +1560,7 @@ public abstract class KoLmafia implements KoLConstants
 			RequestThread.openRequestSequence();
 
 			boolean restoreOutfit = false;
-			KoLmafiaCLI.printBlankLine();
+			RequestLogger.printLine();
 
 			if ( request instanceof KoLAdventure )
 			{
@@ -1719,7 +1713,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( request instanceof KoLAdventure && !wasAdventuring )
 				AdventureFrame.updateRequestMeter( currentIteration - 1, iterations );
 
-			KoLmafiaCLI.printBlankLine();
+			RequestLogger.printLine();
 
 			if ( request instanceof KoLRequest )
 				RequestThread.postRequest( (KoLRequest) request );
@@ -1728,7 +1722,7 @@ public abstract class KoLmafia implements KoLConstants
 			else
 				request.run();
 
-			KoLmafiaCLI.printBlankLine();
+			RequestLogger.printLine();
 
 			// Decrement the counter to null out the increment
 			// effect on the next iteration of the loop.
@@ -2341,77 +2335,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utilit.  This method which opens a stream to the given file
-	 * and closes the original stream, if needed.
-	 */
-
-	public static final PrintStream openStream( String filename, PrintStream originalStream, boolean hasStaticLocation )
-	{
-		if ( !hasStaticLocation && KoLCharacter.getUserName().equals( "" ) )
-			return NullStream.INSTANCE;
-
-		// Before doing anything, be sure to close the
-		// original stream.
-
-		if ( !(originalStream instanceof NullStream) )
-		{
-			if ( hasStaticLocation )
-				return originalStream;
-
-			originalStream.close();
-		}
-
-		return LogStream.openStream( filename, false );
-	}
-
-	/**
-	 * Initializes a stream for logging debugging information.  This
-	 .  This method creates a <code>log</code> file in the default
-	 * directory if one does not exist, or appends to the existing
-	 * log.  Thi.  This method should only be invoked if the user wishes to
-	 * assist in beta testing because the output is VERY verbose.
-	 */
-
-	public static final void openSessionStream()
-	{
-		sessionStream = openStream( "sessions/" + KoLCharacter.getUserName() + "_" +
-			DATED_FILENAME_FORMAT.format( new Date() ) + ".txt", sessionStream, false );
-	}
-
-	public static final void closeSessionStream()
-	{
-		sessionStream.close();
-		sessionStream = NullStream.INSTANCE;
-	}
-
-	/**
-	 * Retrieves the stream currently used for logging output for
-	 * the URL/session logger.
-	 */
-
-	public static final PrintStream getSessionStream()
-	{	return BuffBotHome.isBuffBotActive() ? NullStream.INSTANCE : sessionStream;
-	}
-
-	/**
-	 * Initializes the debug log stream.
-	 */
-
-	public static final void openDebugStream()
-	{	debugStream = openStream( "DEBUG.txt", debugStream, true );
-	}
-
-	public static final PrintStream getDebugStream()
-	{	return debugStream;
-	}
-
-	public static final void closeDebugStream()
-	{
-		debugStream.close();
-		debugStream = NullStream.INSTANCE;
-	}
-
-	/**
 	 * Utilit.  This method used to decode a saved password.
 	 * This should be called whenever a new password
 	 * intends to be stored in the global file.
@@ -2562,17 +2485,11 @@ public abstract class KoLmafia implements KoLConstants
 		return requirements.isEmpty();
 	}
 
-	/**
-	 * Utilit.  This method used to print a list to the given output
-	 * stream.  If there's a need to print to the current output
-	 * stream, simply pass the output stream to thi.  This method.
-	 */
-
 	public void printList( List printing )
-	{	printList( printing, System.out );
+	{	printList( printing, RequestLogger.INSTANCE );
 	}
 
-	private void printList( List printing, PrintStream ostream )
+	public void printList( List printing, PrintStream ostream )
 	{
 		StringBuffer buffer = new StringBuffer();
 
@@ -2580,9 +2497,9 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			ClassSkillsDatabase.generateSkillList( buffer, false );
 
-			if ( ostream == System.out )
+			if ( ostream == RequestLogger.INSTANCE )
 			{
-				KoLmafiaCLI.printLine( buffer.toString(), false );
+				RequestLogger.printLine( buffer.toString(), false );
 
 				buffer.setLength(0);
 				ClassSkillsDatabase.generateSkillList( buffer, true );
@@ -2602,10 +2519,7 @@ public abstract class KoLmafia implements KoLConstants
 				buffer.append( LINE_BREAK );
 			}
 
-			if ( ostream == System.out )
-				KoLmafiaCLI.printLine( buffer.toString() );
-			else
-				ostream.println( buffer.toString() );
+			ostream.println( buffer.toString() );
 		}
 	}
 
@@ -2720,9 +2634,9 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		if ( conditions.isEmpty() && stopEncounters.contains( encounterName ) )
 		{
-			KoLmafiaCLI.printBlankLine();
+			RequestLogger.printLine();
 			KoLmafia.updateDisplay( PENDING_STATE, encounterName );
-			KoLmafiaCLI.printBlankLine();
+			RequestLogger.printLine();
 
 			RequestThread.enableDisplayIfSequenceComplete();
 		}
@@ -2976,7 +2890,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( permitsContinue() && currentIterationString.length() > 0 )
 		{
-			KoLmafiaCLI.printBlankLine();
+			RequestLogger.printLine();
 			updateDisplay( currentIterationString );
 			currentIterationString = "";
 		}
@@ -3269,6 +3183,8 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.setProperty( "autoRepairBoxes", "false" );
 		StaticEntity.setProperty( "createWithoutBoxServants", "true" );
 
+		PrintStream sessionStream = RequestLogger.getSessionStream();
+
 		sessionStream.println();
 		sessionStream.println();
 		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
@@ -3311,17 +3227,9 @@ public abstract class KoLmafia implements KoLConstants
 			SystemTrayFrame.removeTrayIcon();
 			LocalRelayServer.stop();
 
-			sessionStream.close();
-			sessionStream = NullStream.INSTANCE;
-
-			debugStream.close();
-			debugStream = NullStream.INSTANCE;
-
-			mirrorStream.close();
-			mirrorStream = NullStream.INSTANCE;
-
-			echoStream.close();
-			echoStream = NullStream.INSTANCE;
+			RequestLogger.closeSessionLog();
+			RequestLogger.closeDebugLog();
+			RequestLogger.closeMirror();
 		}
 	}
 }

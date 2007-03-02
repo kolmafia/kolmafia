@@ -182,8 +182,8 @@ public class MicrobreweryRequest extends KoLRequest
 			break;
 		}
 
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( "drink 1 " + itemName );
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "drink 1 " + itemName );
 		return true;
 	}
 }

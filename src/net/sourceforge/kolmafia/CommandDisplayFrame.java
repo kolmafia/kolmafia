@@ -180,9 +180,9 @@ public class CommandDisplayFrame extends KoLFrame
 			return;
 		}
 
-		KoLmafiaCLI.printBlankLine();
-		KoLmafiaCLI.printLine( " > QUEUED: " + command );
-		KoLmafiaCLI.printBlankLine();
+		RequestLogger.printLine();
+		RequestLogger.printLine( " > QUEUED: " + command );
+		RequestLogger.printLine();
 	}
 
 	private static class CommandQueueThread extends Thread
@@ -195,9 +195,9 @@ public class CommandDisplayFrame extends KoLFrame
 			{
 				String command = (String) commandQueue.get(0);
 
-				KoLmafiaCLI.printBlankLine();
-				KoLmafiaCLI.printLine( " > " + command );
-				KoLmafiaCLI.printBlankLine();
+				RequestLogger.printLine();
+				RequestLogger.printLine( " > " + command );
+				RequestLogger.printLine();
 
 				try
 				{

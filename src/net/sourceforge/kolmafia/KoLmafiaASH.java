@@ -620,7 +620,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( tracing )
 		{
 			indentLine( traceIndentation );
-			KoLmafia.getDebugStream().println( string );
+			RequestLogger.updateDebugLog( string );
 		}
 	}
 
@@ -2511,25 +2511,25 @@ public class KoLmafiaASH extends StaticEntity
 			return;
 
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<SCOPE>" );
+		RequestLogger.updateDebugLog( "<SCOPE>" );
 
 		indentLine( indent + 1 );
-		KoLmafia.getDebugStream().println( "<TYPES>" );
+		RequestLogger.updateDebugLog( "<TYPES>" );
 		for ( ScriptType currentType = scope.getFirstType(); currentType != null; currentType = scope.getNextType() )
 			printType( currentType, indent + 2 );
 
 		indentLine( indent + 1 );
-		KoLmafia.getDebugStream().println( "<VARIABLES>" );
+		RequestLogger.updateDebugLog( "<VARIABLES>" );
 		for ( ScriptVariable currentVar = scope.getFirstVariable(); currentVar != null; currentVar = scope.getNextVariable() )
 			printVariable( currentVar, indent + 2 );
 
 		indentLine( indent + 1 );
-		KoLmafia.getDebugStream().println( "<FUNCTIONS>" );
+		RequestLogger.updateDebugLog( "<FUNCTIONS>" );
 		for ( ScriptFunction currentFunc = scope.getFirstFunction(); currentFunc != null; currentFunc = scope.getNextFunction() )
 			printFunction( currentFunc, indent + 2 );
 
 		indentLine( indent + 1 );
-		KoLmafia.getDebugStream().println( "<COMMANDS>" );
+		RequestLogger.updateDebugLog( "<COMMANDS>" );
 		for ( ScriptCommand currentCommand = scope.getFirstCommand(); currentCommand != null; currentCommand = scope.getNextCommand() )
 			printCommand( currentCommand, indent + 2 );
 	}
@@ -2537,19 +2537,19 @@ public class KoLmafiaASH extends StaticEntity
 	private void printType( ScriptType type, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<TYPE " + type + ">" );
+		RequestLogger.updateDebugLog( "<TYPE " + type + ">" );
 	}
 
 	private void printVariable( ScriptVariable var, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<VAR " + var.getType() + " " + var.getName() + ">" );
+		RequestLogger.updateDebugLog( "<VAR " + var.getType() + " " + var.getName() + ">" );
 	}
 
 	private void printFunction( ScriptFunction func, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<FUNC " + func.getType() + " " + func.getName() + ">" );
+		RequestLogger.updateDebugLog( "<FUNC " + func.getType() + " " + func.getName() + ">" );
 		for ( ScriptVariableReference current = func.getFirstParam(); current != null; current = func.getNextParam() )
 			printVariableReference( current, indent + 1 );
 		if ( func instanceof ScriptUserDefinedFunction )
@@ -2577,14 +2577,14 @@ public class KoLmafiaASH extends StaticEntity
 		else
 		{
 			indentLine( indent );
-			KoLmafia.getDebugStream().println( "<COMMAND " + command + ">" );
+			RequestLogger.updateDebugLog( "<COMMAND " + command + ">" );
 		}
 	}
 
 	private void printReturn( ScriptReturn ret, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<RETURN " + ret.getType() + ">" );
+		RequestLogger.updateDebugLog( "<RETURN " + ret.getType() + ">" );
 		if ( !ret.getType().equals( TYPE_VOID ) )
 			printExpression( ret.getExpression(), indent + 1 );
 	}
@@ -2595,7 +2595,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( command instanceof ScriptIf )
 		{
 			ScriptIf loop = (ScriptIf)command;
-			KoLmafia.getDebugStream().println( "<IF>" );
+			RequestLogger.updateDebugLog( "<IF>" );
 			printExpression( loop.getCondition(), indent + 1 );
 			printScope( loop.getScope(), indent + 1 );
 			for ( ScriptConditional currentElse = loop.getFirstElseLoop(); currentElse != null; currentElse = loop.getNextElseLoop() )
@@ -2604,14 +2604,14 @@ public class KoLmafiaASH extends StaticEntity
 		else if ( command instanceof ScriptElseIf )
 		{
 			ScriptElseIf loop = (ScriptElseIf)command;
-			KoLmafia.getDebugStream().println( "<ELSE IF>" );
+			RequestLogger.updateDebugLog( "<ELSE IF>" );
 			printExpression( loop.getCondition(), indent + 1 );
 			printScope( loop.getScope(), indent + 1 );
 		}
 		else if (command instanceof ScriptElse )
 		{
 			ScriptElse loop = (ScriptElse)command;
-			KoLmafia.getDebugStream().println( "<ELSE>" );
+			RequestLogger.updateDebugLog( "<ELSE>" );
 			printScope( loop.getScope(), indent + 1 );
 		}
 	}
@@ -2619,7 +2619,7 @@ public class KoLmafiaASH extends StaticEntity
 	private void printWhile( ScriptWhile loop, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<WHILE>" );
+		RequestLogger.updateDebugLog( "<WHILE>" );
 		printExpression( loop.getCondition(), indent + 1 );
 		printScope( loop.getScope(), indent + 1 );
 	}
@@ -2627,7 +2627,7 @@ public class KoLmafiaASH extends StaticEntity
 	private void printRepeat( ScriptRepeat loop, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<REPEAT>" );
+		RequestLogger.updateDebugLog( "<REPEAT>" );
 		printScope( loop.getScope(), indent + 1 );
 		printExpression( loop.getCondition(), indent + 1 );
 	}
@@ -2635,7 +2635,7 @@ public class KoLmafiaASH extends StaticEntity
 	private void printForeach( ScriptForeach loop, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<FOREACH>" );
+		RequestLogger.updateDebugLog( "<FOREACH>" );
 		for ( ScriptVariableReference current = loop.getFirstVariableReference(); current != null; current = loop.getNextVariableReference() )
 			printVariableReference( current, indent + 1 );
 		printVariableReference( loop.getAggregate(), indent + 1 );
@@ -2645,7 +2645,7 @@ public class KoLmafiaASH extends StaticEntity
 	private void printFor( ScriptFor loop, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<FOR " + ( loop.getUp() ? "upto" : "downto" ) + " >" );
+		RequestLogger.updateDebugLog( "<FOR " + ( loop.getUp() ? "upto" : "downto" ) + " >" );
 		printVariableReference( loop.getVariable(), indent + 1 );
 		printExpression( loop.getInitial(), indent + 1 );
 		printExpression( loop.getLast(), indent + 1 );
@@ -2656,7 +2656,7 @@ public class KoLmafiaASH extends StaticEntity
 	private void printCall( ScriptCall call, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<CALL " + call.getTarget().getName() + ">" );
+		RequestLogger.updateDebugLog( "<CALL " + call.getTarget().getName() + ">" );
 		for ( ScriptExpression current = call.getFirstParam(); current != null; current = call.getNextParam() )
 			printExpression( current, indent + 1 );
 	}
@@ -2665,7 +2665,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		indentLine( indent );
 		ScriptVariableReference lhs = assignment.getLeftHandSide();
-		KoLmafia.getDebugStream().println( "<ASSIGN " + lhs.getName() + ">" );
+		RequestLogger.updateDebugLog( "<ASSIGN " + lhs.getName() + ">" );
 		printIndices( lhs.getIndices(), indent + 1 );
 		printExpression( assignment.getRightHandSide(), indent + 1 );
 	}
@@ -2677,7 +2677,7 @@ public class KoLmafiaASH extends StaticEntity
 			for ( ScriptExpression current = indices.getFirstExpression(); current != null; current = indices.getNextExpression() )
 			{
 				indentLine( indent );
-				KoLmafia.getDebugStream().println( "<KEY>" );
+				RequestLogger.updateDebugLog( "<KEY>" );
 				printExpression( current, indent + 1 );
 			}
 		}
@@ -2705,20 +2705,20 @@ public class KoLmafiaASH extends StaticEntity
 		else
 		{
 			indentLine( indent );
-			KoLmafia.getDebugStream().println( "<VALUE " + value.getType() + " [" + value + "]>" );
+			RequestLogger.updateDebugLog( "<VALUE " + value.getType() + " [" + value + "]>" );
 		}
 	}
 
 	public void printOperator( ScriptOperator oper, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<OPER " + oper + ">" );
+		RequestLogger.updateDebugLog( "<OPER " + oper + ">" );
 	}
 
 	public void printCompositeReference( ScriptCompositeReference varRef, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<AGGREF " + varRef.getName() + ">" );
+		RequestLogger.updateDebugLog( "<AGGREF " + varRef.getName() + ">" );
 
 		printIndices( varRef.getIndices(), indent + 1 );
 	}
@@ -2730,14 +2730,15 @@ public class KoLmafiaASH extends StaticEntity
 			printCompositeReference( (ScriptCompositeReference)varRef, indent );
 			return;
 		}
+
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<VARREF> " + varRef.getName() );
+		RequestLogger.updateDebugLog( "<VARREF> " + varRef.getName() );
 	}
 
 	private static void indentLine( int indent )
 	{
 		for ( int i = 0; i < indent; ++i )
-			KoLmafia.getDebugStream().print( "   " );
+			RequestLogger.getDebugStream().print( "   " );
 	}
 
 	// **************** Execution *****************
@@ -2850,7 +2851,7 @@ public class KoLmafiaASH extends StaticEntity
 				}
 				catch ( AdvancedScriptException e )
 				{
-					KoLmafiaCLI.printLine( e.getMessage() );
+					RequestLogger.printLine( e.getMessage() );
 
 					// Punt if parameter came from the CLI
 					if ( index < args )
@@ -2864,7 +2865,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( index < args )
 		{
-			KoLmafiaCLI.printLine( "Too many arguments supplied" );
+			RequestLogger.printLine( "Too many arguments supplied" );
 			return false;
 		}
 
@@ -4162,7 +4163,7 @@ public class KoLmafiaASH extends StaticEntity
 				}
 
 				message.append( " )" );
-				DEFAULT_SHELL.printLine( message.toString() );
+				RequestLogger.printLine( message.toString() );
 			}
 			catch ( Exception e )
 			{
@@ -4736,7 +4737,6 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue print_html( ScriptVariable string )
 		{
 			KoLmafia.updateDisplay( string.toStringValue().toString() );
-			KoLmafia.echoStream.println( string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
@@ -5506,10 +5506,10 @@ public class KoLmafiaASH extends StaticEntity
 				}
 				else
 				{
-					DEFAULT_SHELL.printLine( "File not located: scripts/datamaps/" + filename );
-					DEFAULT_SHELL.printLine( "File not located: scripts/" + filename );
-					DEFAULT_SHELL.printLine( "File not located: data/" + filename );
-					DEFAULT_SHELL.printLine( "File not located: " + filename );
+					RequestLogger.printLine( "File not located: scripts/datamaps/" + filename );
+					RequestLogger.printLine( "File not located: scripts/" + filename );
+					RequestLogger.printLine( "File not located: data/" + filename );
+					RequestLogger.printLine( "File not located: " + filename );
 
 					KoLmafia.updateDisplay( ERROR_STATE, "Could not locate local file <" + filename + ">" );
 				}

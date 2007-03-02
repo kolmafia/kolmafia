@@ -713,7 +713,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// by the default Java browser to an understood form,
 		// and remove all <HR> tags.
 
-		KoLmafia.getDebugStream().println( "Rendering hypertext..." );
+		RequestLogger.updateDebugLog( "Rendering hypertext..." );
 		String displayHTML = getFeatureRichHTML( location, responseText, false );
 
 		displayHTML = LINE_BREAK_PATTERN.matcher( COMMENT_PATTERN.matcher( STYLE_PATTERN.matcher( SCRIPT_PATTERN.matcher(
@@ -867,7 +867,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// compiled string.  Print it to the debug log for
 		// reference purposes.
 
-		KoLmafia.getDebugStream().println( displayHTML );
+		RequestLogger.updateDebugLog( displayHTML );
 		return displayHTML;
 	}
 

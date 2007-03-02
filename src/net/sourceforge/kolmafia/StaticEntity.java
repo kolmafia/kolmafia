@@ -276,16 +276,16 @@ public abstract class StaticEntity implements KoLConstants
 
 			if ( wasHardcore && !KoLCharacter.isHardcore() )
 			{
-				KoLmafia.getSessionStream().println();
-				KoLmafia.getSessionStream().println( "dropped hardcore" );
-				KoLmafia.getSessionStream().println();
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "dropped hardcore" );
+				RequestLogger.updateSessionLog();
 			}
 
 			if ( hadRestrictions && KoLCharacter.canEat() && KoLCharacter.canDrink() )
 			{
-				KoLmafia.getSessionStream().println();
-				KoLmafia.getSessionStream().println( "dropped consumption restrictions" );
-				KoLmafia.getSessionStream().println();
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "dropped consumption restrictions" );
+				RequestLogger.updateSessionLog();
 			}
 		}
 
@@ -463,9 +463,9 @@ public abstract class StaticEntity implements KoLConstants
 			return;
 
 		printedStackTrace = true;
-		boolean shouldOpenStream = KoLmafia.getDebugStream() instanceof NullStream;
+		boolean shouldOpenStream = RequestLogger.isDebugging();
 		if ( shouldOpenStream )
-			KoLmafia.openDebugStream();
+			RequestLogger.openDebugLog();
 
 		KoLmafia.updateDisplay( message + ".  Debug log printed." );
 		for ( int i = 0; i < logAssistMessages.length; ++i )
@@ -473,11 +473,11 @@ public abstract class StaticEntity implements KoLConstants
 			if ( logAssistMessages[i] != null )
 			{
 				System.out.println( logAssistMessages[i] );
-				KoLmafia.getDebugStream().println( logAssistMessages[i] );
+				RequestLogger.updateDebugLog( logAssistMessages[i] );
 			}
 		}
 
-		t.printStackTrace( KoLmafia.getDebugStream() );
+		RequestLogger.updateDebugLog( t );
 		t.printStackTrace();
 
 		if ( client.getCurrentRequest() != null )
@@ -486,7 +486,7 @@ public abstract class StaticEntity implements KoLConstants
 		try
 		{
 			if ( shouldOpenStream )
-				KoLmafia.closeDebugStream();
+				RequestLogger.closeDebugLog();
 		}
 		catch ( Exception e )
 		{
@@ -497,28 +497,17 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static void printRequestData( KoLRequest request )
 	{
-		boolean shouldOpenStream = KoLmafia.getDebugStream() instanceof NullStream;
+		boolean shouldOpenStream = RequestLogger.isDebugging();
 		if ( shouldOpenStream )
-			KoLmafia.openDebugStream();
+			RequestLogger.openDebugLog();
 
-		KoLmafia.getDebugStream().println();
-		KoLmafia.getDebugStream().println( "" + request.getClass() );
-		KoLmafia.getDebugStream().println( LINE_BREAK_PATTERN.matcher( request.responseText ).replaceAll( "" ) );
-		KoLmafia.getDebugStream().println();
+		RequestLogger.updateDebugLog();
+		RequestLogger.updateDebugLog( "" + request.getClass() );
+		RequestLogger.updateDebugLog( LINE_BREAK_PATTERN.matcher( request.responseText ).replaceAll( "" ) );
+		RequestLogger.updateDebugLog();
 
-		try
-		{
-			if ( shouldOpenStream )
-			{
-				KoLmafia.closeDebugStream();
-				BrowserLauncher.openURL( (new File( "DEBUG.txt" )).getAbsolutePath() );
-			}
-		}
-		catch ( Exception e )
-		{
-			// Okay, since you're in the middle of handling an exception
-			// and got a new one, just return from here.
-		}
+		if ( shouldOpenStream )
+			RequestLogger.closeDebugLog();
 	}
 
 	public static final int parseInt( String string )
@@ -578,7 +567,7 @@ public abstract class StaticEntity implements KoLConstants
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 			return false;
 		}
 	}

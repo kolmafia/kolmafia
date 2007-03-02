@@ -33,9 +33,204 @@
 
 package net.sourceforge.kolmafia;
 
-public class RequestLogger
+import java.io.PrintStream;
+import java.util.Date;
+
+public class RequestLogger extends NullStream implements KoLConstants
 {
+	public static final RequestLogger INSTANCE = new RequestLogger();
+
+	private static PrintStream outputStream = NullStream.INSTANCE;
+	private static PrintStream mirrorStream = NullStream.INSTANCE;
+
+	private static PrintStream sessionStream = NullStream.INSTANCE;
+	private static PrintStream debugStream = NullStream.INSTANCE;
+
+	private static String previousUpdateString = "";
 	private static boolean wasLastRequestSimple = false;
+
+	private RequestLogger()
+	{
+	}
+
+	public void println()
+	{	printLine();
+	}
+
+	public void println( String line )
+	{	printLine( line );
+	}
+
+	public static void printLine()
+	{	printLine( CONTINUE_STATE, " ", true );
+	}
+
+	public static void printLine( String message )
+	{	printLine( CONTINUE_STATE, message, true );
+	}
+
+	public static void printLine( String message, boolean addToBuffer )
+	{	printLine( CONTINUE_STATE, message, addToBuffer );
+	}
+
+	public static void printLine( int state, String message )
+	{	printLine( state, message, true );
+	}
+
+	public static void printLine( int state, String message, boolean addToBuffer )
+	{
+		if ( message == null || (message.trim().length() == 0 && previousUpdateString.length() == 0) )
+			return;
+
+		previousUpdateString = message.trim();
+
+		outputStream.println( message );
+		mirrorStream.println( message );
+		debugStream.println( message );
+
+		if ( !addToBuffer )
+			return;
+
+		StringBuffer colorBuffer = new StringBuffer();
+
+		if ( message.trim().equals( "" ) )
+		{
+			colorBuffer.append( "<br>" );
+		}
+		else
+		{
+			if ( message.indexOf( "<" ) != -1 && message.indexOf( "\n" ) != -1 )
+				message = StaticEntity.globalStringReplace( message, "<", "&lt;" );
+
+			boolean addedColor = false;
+
+			if ( state == ERROR_STATE || state == ABORT_STATE )
+			{
+				addedColor = true;
+				colorBuffer.append( "<font color=red>" );
+			}
+			else if ( message.startsWith( " > QUEUED" ) )
+			{
+				addedColor = true;
+				colorBuffer.append( "<font color=olive><b>" );
+			}
+			else if ( message.startsWith( " > " ) )
+			{
+				addedColor = true;
+				colorBuffer.append( "<font color=olive>" );
+			}
+
+			colorBuffer.append( StaticEntity.globalStringReplace( message, "\n", "<br>" ) );
+			if ( message.startsWith( " > QUEUED" ) )
+				colorBuffer.append( "</b>" );
+
+			if ( addedColor )
+				colorBuffer.append( "</font><br>" );
+			else
+				colorBuffer.append( "<br>" );
+
+			if ( message.indexOf( "<" ) == -1 && message.indexOf( LINE_BREAK ) != -1 )
+				colorBuffer.append( "</pre>" );
+
+			StaticEntity.globalStringDelete( colorBuffer, "<html>" );
+			StaticEntity.globalStringDelete( colorBuffer, "</html>" );
+		}
+
+		colorBuffer.append( LINE_BREAK );
+		commandBuffer.append( colorBuffer.toString() );
+		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
+	}
+
+	public static final PrintStream openStream( String filename, PrintStream originalStream, boolean hasLocation )
+	{
+		if ( !hasLocation && KoLCharacter.getUserName().equals( "" ) )
+			return NullStream.INSTANCE;
+
+		// Before doing anything, be sure to close the
+		// original stream.
+
+		if ( !(originalStream instanceof NullStream) )
+		{
+			if ( hasLocation )
+				return originalStream;
+
+			originalStream.close();
+		}
+
+		return LogStream.openStream( filename, false );
+	}
+
+	public static void openStandard()
+	{	outputStream = System.out;
+	}
+
+	public static void openMirror( String location )
+	{	mirrorStream = openStream( location, mirrorStream, true );
+	}
+
+	public static void closeMirror()
+	{
+		mirrorStream.close();
+		mirrorStream = NullStream.INSTANCE;
+	}
+
+	public static PrintStream getSessionStream()
+	{	return sessionStream;
+	}
+
+	public static void openSessionLog()
+	{
+		sessionStream = openStream( "sessions/" + KoLCharacter.getUserName() + "_" +
+			DATED_FILENAME_FORMAT.format( new Date() ) + ".txt", sessionStream, false );
+	}
+
+	public static void closeSessionLog()
+	{
+		sessionStream.close();
+		sessionStream = NullStream.INSTANCE;
+	}
+
+	public static void updateSessionLog()
+	{	sessionStream.println();
+	}
+
+	public static void updateSessionLog( String line )
+	{	sessionStream.println( line );
+	}
+
+	public static boolean isDebugging()
+	{	return debugStream != NullStream.INSTANCE;
+	}
+
+	public static PrintStream getDebugStream()
+	{	return debugStream;
+	}
+
+	public static void openDebugLog()
+	{	debugStream = openStream( "DEBUG.txt", debugStream, true );
+	}
+
+	public static void closeDebugLog()
+	{
+		debugStream.close();
+		debugStream = NullStream.INSTANCE;
+	}
+
+	public static void updateDebugLog()
+	{	debugStream.println();
+	}
+
+	public static void updateDebugLog( String line )
+	{	debugStream.println( line );
+	}
+
+	public static void updateDebugLog( Throwable t )
+	{	t.printStackTrace( debugStream );
+	}
+
+	public static void updateDebugLog( Object o )
+	{	debugStream.println( o.toString() );
+	}
 
 	public static void registerRequest( KoLRequest request, String urlString )
 	{
@@ -147,12 +342,12 @@ public class RequestLogger
 		{
 			ItemCreationRequest irequest = (ItemCreationRequest) request;
 
-			KoLmafia.getSessionStream().println();
+			updateSessionLog();
 
 			if ( irequest.getAdventuresUsed() == 0 )
-				KoLmafia.getSessionStream().println( "make " + irequest.getQuantityNeeded() + " " + irequest.getName() );
+				updateSessionLog( "make " + irequest.getQuantityNeeded() + " " + irequest.getName() );
 			else
-				KoLmafia.getSessionStream().println( "[" + KoLAdventure.getAdventureCount() + "] Create " + irequest.getQuantityNeeded() + " " + irequest.getName() );
+				updateSessionLog( "[" + KoLAdventure.getAdventureCount() + "] Create " + irequest.getQuantityNeeded() + " " + irequest.getName() );
 
 			wasLastRequestSimple = false;
 			return;
@@ -222,9 +417,9 @@ public class RequestLogger
 		// at least mentioned in the session log.
 
 		if ( !wasLastRequestSimple )
-			KoLmafia.getSessionStream().println();
+			updateSessionLog();
 
 		wasLastRequestSimple = true;
-		KoLmafia.getSessionStream().println( urlString );
+		updateSessionLog( urlString );
 	}
 }

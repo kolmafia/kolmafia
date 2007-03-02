@@ -189,8 +189,8 @@ public class RestaurantRequest extends KoLRequest
 			break;
 		}
 
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( "eat 1 " + itemName );
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "eat 1 " + itemName );
 
 		if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
 			StaticEntity.setProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );

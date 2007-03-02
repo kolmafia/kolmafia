@@ -356,19 +356,19 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	private class ToggleDebugMenuItem extends ThreadedMenuItem
 	{
 		public ToggleDebugMenuItem()
-		{	super( KoLmafia.getDebugStream() instanceof NullStream ? "Start Debug Log" : "Stop Debug Log" );
+		{	super( RequestLogger.isDebugging() ? "Start Debug Log" : "Stop Debug Log" );
 		}
 
 		public void run()
 		{
-			if ( KoLmafia.getDebugStream() instanceof NullStream )
+			if ( RequestLogger.isDebugging() )
 			{
-				KoLmafia.openDebugStream();
+				RequestLogger.openDebugLog();
 				debugMenuItem.setText( "Stop Debug Log" );
 			}
 			else
 			{
-				KoLmafia.closeDebugStream();
+				RequestLogger.closeDebugLog();
 				debugMenuItem.setText( "Start Debug Log" );
 			}
 		}

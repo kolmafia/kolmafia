@@ -784,12 +784,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( !KoLmafia.isAdventuring() )
 		{
-			KoLmafiaCLI.printBlankLine();
-			KoLmafiaCLI.printLine( "[" + getAdventureCount() + "] " + getAdventureName() );
+			RequestLogger.printLine();
+			RequestLogger.printLine( "[" + getAdventureCount() + "] " + getAdventureName() );
 		}
 
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( "[" + getAdventureCount() + "] " + getAdventureName() );
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "[" + getAdventureCount() + "] " + getAdventureName() );
 
 		StaticEntity.getClient().registerAdventure( this );
 
@@ -888,12 +888,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( !KoLmafia.isAdventuring() )
 		{
-			KoLmafiaCLI.printBlankLine();
-			KoLmafiaCLI.printLine( "[" + getAdventureCount() + "] " + location );
+			RequestLogger.printLine();
+			RequestLogger.printLine( "[" + getAdventureCount() + "] " + location );
 		}
 
-		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( "[" + getAdventureCount() + "] " + location );
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "[" + getAdventureCount() + "] " + location );
 		return true;
 	}
 

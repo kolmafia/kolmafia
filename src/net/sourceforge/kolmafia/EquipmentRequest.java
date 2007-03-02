@@ -731,7 +731,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( EquipmentDatabase.contains( name ) )
 					equipment[ KoLCharacter.HAT ] = new AdventureResult( name, 1, false );
 
-				KoLmafia.getDebugStream().println( "Hat: " + equipment[ KoLCharacter.HAT ] );
+				RequestLogger.updateDebugLog( "Hat: " + equipment[ KoLCharacter.HAT ] );
 			}
 		}
 
@@ -744,7 +744,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( EquipmentDatabase.contains( name ) )
 					equipment[ KoLCharacter.WEAPON ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 
-				KoLmafia.getDebugStream().println( "Weapon: " + equipment[ KoLCharacter.WEAPON ] );
+				RequestLogger.updateDebugLog( "Weapon: " + equipment[ KoLCharacter.WEAPON ] );
 			}
 		}
 
@@ -757,7 +757,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( EquipmentDatabase.contains( name ) )
 					equipment[ KoLCharacter.OFFHAND ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 
-				KoLmafia.getDebugStream().println( "Off-hand: " + equipment[ KoLCharacter.OFFHAND ] );
+				RequestLogger.updateDebugLog( "Off-hand: " + equipment[ KoLCharacter.OFFHAND ] );
 			}
 		}
 
@@ -770,7 +770,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( EquipmentDatabase.contains( name ) )
 					equipment[ KoLCharacter.SHIRT ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 
-				KoLmafia.getDebugStream().println( "Shirt: " + equipment[ KoLCharacter.SHIRT ] );
+				RequestLogger.updateDebugLog( "Shirt: " + equipment[ KoLCharacter.SHIRT ] );
 			}
 		}
 
@@ -783,7 +783,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( EquipmentDatabase.contains( name ) )
 					equipment[ KoLCharacter.PANTS ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 
-				KoLmafia.getDebugStream().println( "Pants: " + equipment[ KoLCharacter.PANTS ] );
+				RequestLogger.updateDebugLog( "Pants: " + equipment[ KoLCharacter.PANTS ] );
 			}
 		}
 
@@ -796,7 +796,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( EquipmentDatabase.contains( name ) )
 					equipment[ KoLCharacter.ACCESSORY1 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 
-				KoLmafia.getDebugStream().println( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
+				RequestLogger.updateDebugLog( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
 			}
 		}
 
@@ -809,7 +809,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( EquipmentDatabase.contains( name ) )
 					equipment[ KoLCharacter.ACCESSORY2 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 
-				KoLmafia.getDebugStream().println( "Accessory 2: " + equipment[ KoLCharacter.ACCESSORY2 ] );
+				RequestLogger.updateDebugLog( "Accessory 2: " + equipment[ KoLCharacter.ACCESSORY2 ] );
 			}
 		}
 
@@ -822,7 +822,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( EquipmentDatabase.contains( name ) )
 					equipment[ KoLCharacter.ACCESSORY3 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 
-				KoLmafia.getDebugStream().println( "Accessory 3: " + equipment[ KoLCharacter.ACCESSORY3 ] );
+				RequestLogger.updateDebugLog( "Accessory 3: " + equipment[ KoLCharacter.ACCESSORY3 ] );
 			}
 
 		}
@@ -836,7 +836,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( TradeableItemDatabase.contains( name ) )
 					equipment[ KoLCharacter.FAMILIAR ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 
-				KoLmafia.getDebugStream().println( "Familiar: " + equipment[ KoLCharacter.FAMILIAR ] );
+				RequestLogger.updateDebugLog( "Familiar: " + equipment[ KoLCharacter.FAMILIAR ] );
 			}
 		}
 
@@ -941,12 +941,12 @@ public class EquipmentRequest extends PasswordHashRequest
 			int outfitId = StaticEntity.parseInt( outfitMatcher.group(1) );
 			if ( outfitId > 0 )
 			{
-				KoLmafia.getSessionStream().println( "outfit " + EquipmentDatabase.getOutfit( outfitId ) );
+				RequestLogger.updateSessionLog( "outfit " + EquipmentDatabase.getOutfit( outfitId ) );
 				return true;
 			}
 			else
 			{
-				KoLmafia.getSessionStream().println( "outfit [unknown custom outfit]" );
+				RequestLogger.updateSessionLog( "outfit [unknown custom outfit]" );
 				return true;
 			}
 		}
@@ -956,7 +956,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			Matcher slotMatcher = SLOT_PATTERN.matcher( urlString );
 			if ( slotMatcher.find() )
 			{
-				KoLmafia.getSessionStream().println( "unequip " + slotMatcher.group(1) );
+				RequestLogger.updateSessionLog( "unequip " + slotMatcher.group(1) );
 				return true;
 			}
 
@@ -973,13 +973,13 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( urlString.indexOf( "dualwield" ) != -1 )
 		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "equip off-hand " + itemName );
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "equip off-hand " + itemName );
 		}
 		else
 		{
-			KoLmafia.getSessionStream().println();
-			KoLmafia.getSessionStream().println( "equip " + itemName );
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "equip " + itemName );
 		}
 
 		return true;

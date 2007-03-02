@@ -130,7 +130,7 @@ public class PulverizeRequest extends KoLRequest
 			int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
 
 			StaticEntity.getClient().processResult( new AdventureResult( itemId, 0 - quantity ) );
-			KoLmafia.getSessionStream().println( "pulverize " + quantity + " " + name );
+			RequestLogger.updateSessionLog( "pulverize " + quantity + " " + name );
 		}
 
 		return true;

@@ -221,16 +221,16 @@ public class UntinkerRequest extends KoLRequest
 		int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
 		AdventureResult result = new AdventureResult( itemId, -1 );
 
-		KoLmafia.getSessionStream().println();
+		RequestLogger.updateSessionLog();
 
 		if ( urlString.indexOf( "untinkerall=on" ) != -1 )
 		{
 			result = result.getInstance( 0 - result.getCount( inventory ) );
-			KoLmafia.getSessionStream().println( "untinker * " + result.getName() );
+			RequestLogger.updateSessionLog( "untinker * " + result.getName() );
 		}
 		else
 		{
-			KoLmafia.getSessionStream().println( "untinker 1 " + result.getName() );
+			RequestLogger.updateSessionLog( "untinker 1 " + result.getName() );
 		}
 
 		StaticEntity.getClient().processResult( result );
