@@ -582,8 +582,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		int count = 1;
 		Matcher countMatcher = COUNT1_PATTERN.matcher( urlString );
 
-System.out.println( urlString );
-
 		if ( countMatcher.find() )
 		{
 			count = StaticEntity.parseInt( countMatcher.group(1) );
