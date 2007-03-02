@@ -53,6 +53,11 @@ public class FightRequest extends KoLRequest
 	private static final AdventureResult TEQUILA = new AdventureResult( 1004, -1 );
 
 	private static String lastResult = "";
+	private static String lastPlayer = "";
+
+	private static String lostInitiative = "";
+	private static String wonInitiative = "";
+
 	private static boolean isTrackingFights = false;
 	private static ArrayList trackedRounds = new ArrayList();
 
@@ -417,7 +422,13 @@ public class FightRequest extends KoLRequest
 
 	private static void checkForInitiative( String responseText )
 	{
-		StringBuffer action = new StringBuffer();
+		if ( !KoLCharacter.getUserName().equals( lastPlayer ) )
+		{
+			lastPlayer = KoLCharacter.getUserName();
+			lostInitiative = "Round 0: " + lastPlayer + " loses initiative!";
+			wonInitiative = "Round 0: " + lastPlayer + " wins initiative!";
+		}
+
 		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
 
 		// Whether or not you get initiative is easy -- look for the
@@ -428,44 +439,58 @@ public class FightRequest extends KoLRequest
 			// If you lose initiative, there's nothing very interesting to
 			// print to the session log.
 
-			action.append( "Round 0: " + KoLCharacter.getUserName() + " loses initiative!" );
-		}
-		else
-		{
-			// Now that you've won initiative, figure out what actually
-			// happened in that first round based on player settings.
-
-			action.append( "Round 0: " + KoLCharacter.getUserName() + " wins initiative!" );
-			action.append( LINE_BREAK );
-
-			action1 = StaticEntity.getProperty( "defaultAutoAttack" );
-
-			// If no default action is made by the player, then the round remains
-			// the same.  Simply report winning/losing initiative.
-
-			if ( !action1.equals( "" ) && !action1.equals( "0" ) )
+			if ( shouldLogAction )
 			{
-				++currentRound;
-				action.append( "Round 1: " + KoLCharacter.getUserName() + " " );
-
-				if ( action1.equals( "1" ) )
-				{
-					action.append( "attacks!" );
-					action1 = "attack";
-				}
-				else
-				{
-					action.append( "casts " +
-						ClassSkillsDatabase.getSkillName( Integer.parseInt( action1 ) ).toUpperCase() + "!" );
-				}
-
-				action.append( " (auto-attack)" );
+				RequestLogger.printLine( lostInitiative );
+				RequestLogger.updateSessionLog( lostInitiative );
 			}
+
+			return;
 		}
 
-		RequestLogger.printLine( action.toString() );
+		// Now that you've won initiative, figure out what actually
+		// happened in that first round based on player settings.
+
 		if ( shouldLogAction )
+		{
+			RequestLogger.printLine( wonInitiative );
+			RequestLogger.updateSessionLog( wonInitiative );
+		}
+
+		action1 = StaticEntity.getProperty( "defaultAutoAttack" );
+
+		// If no default action is made by the player, then the round remains
+		// the same.  Simply report winning/losing initiative.
+
+		if ( action1.equals( "" ) || action1.equals( "0" ) )
+			return;
+
+		StringBuffer action = new StringBuffer();
+
+		++currentRound;
+
+		if ( shouldLogAction )
+			action.append( "Round 1: " + KoLCharacter.getUserName() + " " );
+
+		if ( action1.equals( "1" ) )
+		{
+			if ( shouldLogAction )
+				action.append( "attacks!" );
+
+			action1 = "attack";
+		}
+		else if ( shouldLogAction )
+		{
+			action.append( "casts " +
+				ClassSkillsDatabase.getSkillName( Integer.parseInt( action1 ) ).toUpperCase() + "!" );
+		}
+
+		if ( shouldLogAction )
+		{
+			action.append( " (auto-attack)" );
+			RequestLogger.printLine( action.toString() );
 			RequestLogger.updateSessionLog( action.toString() );
+		}
 	}
 
 	public static void updateCombatData( String encounter, String responseText )
@@ -495,7 +520,11 @@ public class FightRequest extends KoLRequest
 			{
 				StringTokenizer actions = new StringTokenizer( ANYTAG_PATTERN.matcher( familiarActMatcher.group() ).replaceAll( "\n" ), "\n" );
 				while ( actions.hasMoreTokens() )
-					RequestLogger.updateSessionLog( "Round " + currentRound + ": " + actions.nextToken() );
+				{
+					String action = "Round " + currentRound + ": " + actions.nextToken();
+					RequestLogger.printLine( action );
+					RequestLogger.updateSessionLog( action );
+				}
 			}
 		}
 
@@ -786,24 +815,26 @@ public class FightRequest extends KoLRequest
 		action1 = null;
 		action2 = null;
 
-		StringBuffer action = new StringBuffer();
 		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
+		StringBuffer action = shouldLogAction ? new StringBuffer() : null;
 
 		if ( urlString.indexOf( "fight.php?" ) == -1 )
 		{
 			if ( currentRound != 0 )
 			{
-				action.append( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " twiddles their thumbs" );
-
-				RequestLogger.printLine( action.toString() );
 				if ( shouldLogAction )
+				{
+					action.append( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " twiddles their thumbs" );
+					RequestLogger.printLine( action.toString() );
 					RequestLogger.updateSessionLog( action.toString() );
+				}
 			}
 
 			return true;
 		}
 
-		action.append( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " " );
+		if ( shouldLogAction )
+			action.append( "Round " + currentRound + ": " + KoLCharacter.getUserName() + " " );
 
 		Matcher skillMatcher = SKILL_PATTERN.matcher( urlString );
 		if ( skillMatcher.find() )
@@ -811,17 +842,21 @@ public class FightRequest extends KoLRequest
 			String skill = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
 			if ( skill == null )
 			{
-				action.append( "casts CHANCE!" );
+				if ( shouldLogAction )
+					action.append( "casts CHANCE!" );
 			}
 			else
 			{
 				action1 = CombatSettings.getShortCombatOptionName( "skill " + skill );
-				action.append( "casts " + skill.toUpperCase() + "!" );
+				if ( shouldLogAction )
+					action.append( "casts " + skill.toUpperCase() + "!" );
 			}
 
-			RequestLogger.printLine( action.toString() );
 			if ( shouldLogAction )
+			{
+				RequestLogger.printLine( action.toString() );
 				RequestLogger.updateSessionLog( action.toString() );
+			}
 
 			return true;
 		}
@@ -832,12 +867,14 @@ public class FightRequest extends KoLRequest
 			String item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
 			if ( item == null )
 			{
-				action.append( "plays Garin's Harp" );
+				if ( shouldLogAction )
+					action.append( "plays Garin's Harp" );
 			}
 			else
 			{
 				action1 = CombatSettings.getShortCombatOptionName( "item " + item );
-				action.append( "uses the " + item );
+				if ( shouldLogAction )
+					action.append( "uses the " + item );
 			}
 
 			itemMatcher = ITEM2_PATTERN.matcher( urlString );
@@ -847,15 +884,17 @@ public class FightRequest extends KoLRequest
 				if ( item != null )
 				{
 					action2 = CombatSettings.getShortCombatOptionName( "item " + item );
-					action.append( "uses the " + item );
+					if ( shouldLogAction )
+						action.append( "and uses the " + item );
 				}
 			}
 
-			action.append( "!" );
-
-			RequestLogger.printLine( action.toString() );
 			if ( shouldLogAction )
+			{
+				action.append( "!" );
+				RequestLogger.printLine( action.toString() );
 				RequestLogger.updateSessionLog( action.toString() );
+			}
 
 			return true;
 		}
@@ -863,27 +902,33 @@ public class FightRequest extends KoLRequest
 		if ( urlString.indexOf( "runaway" ) != -1 )
 		{
 			action1 = "runaway";
-			action.append( "casts RETURN!" );
+			if ( shouldLogAction )
+				action.append( "casts RETURN!" );
 		}
 		else if ( urlString.indexOf( "steal" ) != -1 )
 		{
 			action1 = "steal";
-			action.append( "tries to steal an item!" );
+			if ( shouldLogAction )
+				action.append( "tries to steal an item!" );
 		}
 		else if ( urlString.indexOf( "attack" ) != -1 )
 		{
 			action1 = "attack";
-			action.append( "attacks!" );
+			if ( shouldLogAction )
+				action.append( "attacks!" );
 		}
 		else
 		{
 			action1 = null;
-			action.append( "casts CHANCE!" );
+			if ( shouldLogAction )
+				action.append( "casts CHANCE!" );
 		}
 
-		RequestLogger.printLine( action.toString() );
 		if ( shouldLogAction )
+		{
+			RequestLogger.printLine( action.toString() );
 			RequestLogger.updateSessionLog( action.toString() );
+		}
 
 		return true;
 	}
