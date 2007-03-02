@@ -91,7 +91,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	{
 		contextMenu = new JPopupMenu();
 
-		boolean isEncyclopedia = listModel.get(0) instanceof Entry;
+		boolean isEncyclopedia = !listModel.isEmpty() && listModel.get(0) instanceof Entry;
 
 		if ( listModel.size() == 0 || !isEncyclopedia )
 			contextMenu.add( new DescriptionMenuItem() );
@@ -102,6 +102,12 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		{
 			contextMenu.add( new ShrugOffMenuItem() );
 			contextMenu.add( new BoostEffectMenuItem() );
+		}
+
+		if ( listModel == usableSkills || listModel == availableSkills )
+		{
+			contextMenu.add( new CastSkillMenuItem() );
+			contextMenu.add( new BoostSkillMenuItem() );
 		}
 
 		if ( listModel == junkItemList )
@@ -182,7 +188,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
     }
 
-	private void showDescription( Object item )
+	public static void showGameDescription( Object item )
 	{
 		if ( item instanceof AdventureResult )
 		{
@@ -195,6 +201,10 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		{
 			FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((ItemCreationRequest)item).getItemId() ) );
 		}
+		else if ( item instanceof UseSkillRequest )
+		{
+			FightFrame.showLocation( "desc_skill.php?whichitem=" + ((UseSkillRequest)item).getSkillId() );
+		}
 		else if ( item instanceof String )
 		{
 			Matcher playerMatcher = PLAYERID_MATCHER.matcher( (String) item );
@@ -203,6 +213,37 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				Object [] parameters = new Object [] { "#" + playerMatcher.group(1) };
 				SwingUtilities.invokeLater( new CreateFrameRunnable( ProfileFrame.class, parameters ) );
 			}
+		}
+	}
+
+	public static void showWikiDescription( Object item )
+	{
+		String name = null;
+
+		if ( item instanceof AdventureResult )
+			name = ((AdventureResult)item).getName();
+		else if ( item instanceof ItemCreationRequest )
+			name = ((ItemCreationRequest)item).getName();
+		else if ( item instanceof SoldItem )
+			name = ((SoldItem) item).getItemName();
+		else if ( item instanceof UseSkillRequest )
+			name = ((UseSkillRequest) item).getSkillName();
+		else if ( item instanceof String )
+			name = (String) item;
+		else if ( item instanceof Entry )
+			name = (String) ((Entry)item).getValue();
+
+		if ( name == null )
+			return;
+
+		try
+		{
+			name = URLEncoder.encode( name, "UTF-8" );
+			StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -224,7 +265,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 					return;
 
 				ensureIndexIsVisible( index );
-				showDescription( item );
+				showGameDescription( item );
 			}
 		}
 	}
@@ -265,7 +306,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 
 		public void executeAction()
-		{	showDescription( item );
+		{	showGameDescription( item );
 		}
 	}
 
@@ -281,30 +322,58 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 
 		public void executeAction()
-		{
-			String name = null;
-			if ( item instanceof AdventureResult )
-				name = ((AdventureResult)item).getName();
-			else if ( item instanceof ItemCreationRequest )
-				name = ((ItemCreationRequest)item).getName();
-			else if ( item instanceof SoldItem )
-				name = ((SoldItem) item).getItemName();
-			else if ( item instanceof String )
-				name = (String) item;
-			else if ( item instanceof Entry )
-				name = (String) ((Entry)item).getValue();
+		{	showWikiDescription( item );
+		}
+	}
 
-			if ( name != null )
+	private class CastSkillMenuItem extends ContextMenuItem
+	{
+		public CastSkillMenuItem()
+		{	super( "Cast the skill once" );
+		}
+
+		public void executeAction()
+		{
+			Object [] skills = getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			UseSkillRequest request;
+
+			for ( int i = 0; i < skills.length; ++i )
 			{
-				try
-				{
-					name = URLEncoder.encode( name, "UTF-8" );
-					StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
-				}
-				catch ( Exception e )
-				{
-					StaticEntity.printStackTrace( e );
-				}
+				request = (UseSkillRequest) skills[i];
+
+				request.setTarget( null );
+				request.setBuffCount( 1 );
+
+				RequestThread.postRequest( request );
+			}
+		}
+	}
+
+	private class BoostSkillMenuItem extends ContextMenuItem
+	{
+		public BoostSkillMenuItem()
+		{	super( "Add to current mood" );
+		}
+
+		public void executeAction()
+		{
+			Object [] skills = getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
+				StaticEntity.setProperty( "currentMood", "default" );
+
+			String name, action;
+
+			for ( int i = 0; i < skills.length; ++i )
+			{
+				name = UneffectRequest.skillToEffect( ((UseSkillRequest) skills[i]).getSkillName() );
+
+				action = MoodSettings.getDefaultAction( "lose_effect", name );
+				if ( !action.equals( "" ) )
+					MoodSettings.addTrigger( "lose_effect", name, action );
 			}
 		}
 	}
@@ -323,13 +392,22 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
 				StaticEntity.setProperty( "currentMood", "default" );
 
-			String action;
+			String name, action;
 
 			for ( int i = 0; i < effects.length; ++i )
 			{
-				action = MoodSettings.getDefaultAction( "lose_effect", ((AdventureResult) effects[i]).getName() );
+				name = ((AdventureResult) effects[i]).getName();
+
+				action = MoodSettings.getDefaultAction( "lose_effect", name );
 				if ( !action.equals( "" ) )
-					MoodSettings.addTrigger( "lose_effect", ((AdventureResult) effects[i]).getName(), action );
+				{
+					MoodSettings.addTrigger( "lose_effect", name, action );
+					continue;
+				}
+
+				action = MoodSettings.getDefaultAction( "gain_effect", name );
+				if ( !action.equals( "" ) )
+					MoodSettings.addTrigger( "gain_effect", name, action );
 			}
 		}
 	}
@@ -343,8 +421,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		public void executeAction()
 		{
 			Object [] effects = getSelectedValues();
-			ShowDescriptionList.this.clearSelection();
-
 			for ( int i = 0; i < effects.length; ++i )
 				RequestThread.postRequest( new UneffectRequest( (AdventureResult) effects[i] ) );
 		}

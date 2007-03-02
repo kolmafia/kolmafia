@@ -64,6 +64,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private int buffCount;
 	private String countFieldId;
 
+	private int lastReduction = Integer.MAX_VALUE;
+	private String lastStringForm = "";
+
 	public static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
 	public static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
 
@@ -159,7 +162,13 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	}
 
 	public String toString()
-	{	return skillName + " (" + ClassSkillsDatabase.getMPConsumptionById( skillId ) + " mp)";
+	{
+		if ( lastReduction == KoLCharacter.getManaCostModifier() )
+			return lastStringForm;
+
+		lastReduction = KoLCharacter.getManaCostModifier();
+		lastStringForm = skillName + " (" + ClassSkillsDatabase.getMPConsumptionById( skillId ) + " mp)";
+		return lastStringForm;
 	}
 
 	public static AdventureResult optimizeEquipment( int skillId )

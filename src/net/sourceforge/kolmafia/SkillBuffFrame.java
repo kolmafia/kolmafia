@@ -64,7 +64,7 @@ public class SkillBuffFrame extends KoLFrame
 		effectList = new ShowDescriptionList( activeEffects, 12 );
 		effectList.addListSelectionListener( new SkillReselector() );
 
-		framePanel.add( new SimpleScrollPane( effectList ), BorderLayout.CENTER );
+		framePanel.add( new StatusEffectPanel(), BorderLayout.CENTER );
 
 		if ( !recipient.equals( "" ) )
 			setRecipient( recipient );
@@ -95,7 +95,7 @@ public class SkillBuffFrame extends KoLFrame
 		{
 			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			skillSelect = new JComboBox( usableSkills );
+			skillSelect = new MutableComboBox( usableSkills, false );
 			amountField = new JTextField();
 			targetSelect = new MutableComboBox( (SortedListModel) contactList.clone(), true );
 

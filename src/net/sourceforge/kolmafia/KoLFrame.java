@@ -67,6 +67,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -74,17 +75,24 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -98,8 +106,10 @@ import net.sourceforge.kolmafia.ItemManagePanel.TransferListener;
 public abstract class KoLFrame extends JFrame implements KoLConstants
 {
 	public static final TradeableItemFilter TRADE_FILTER = new TradeableItemFilter();
+	public static JList locationSelect = null;
 
 	public JTabbedPane tabs = null;
+
 	public String lastTitle;
 	public String frameName;
 	public JPanel framePanel;
@@ -571,6 +581,143 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	public void setEnabled( boolean isEnabled )
 	{
+	}
+
+	protected JPanel getAdventureSummary( String property )
+	{
+		int selectedIndex = StaticEntity.getIntegerProperty( property );
+
+		CardLayout resultCards = new CardLayout();
+		JPanel resultPanel = new JPanel( resultCards );
+		JComboBox resultSelect = new JComboBox();
+
+		resultSelect.addItem( "Session Results" );
+		resultPanel.add( new SimpleScrollPane( tally ), "0" );
+
+		if ( property.startsWith( "defaultDropdown" ) )
+		{
+			resultSelect.addItem( "Location Details" );
+			resultPanel.add( new SafetyField(), "1" );
+		}
+		else
+		{
+			resultSelect.addItem( "Castable Skills" );
+			resultPanel.add( new SimpleScrollPane( usableSkills ), "1" );
+		}
+
+		resultSelect.addItem( "Mood Summary" );
+		resultPanel.add( new SimpleScrollPane( MoodSettings.getTriggers() ), "2" );
+
+		resultSelect.addItem( "Conditions Left" );
+		resultPanel.add( new SimpleScrollPane( conditions ), "3" );
+
+		resultSelect.addItem( "Active Effects" );
+		resultPanel.add( new SimpleScrollPane( activeEffects ), "4" );
+
+		resultSelect.addItem( "Visited Locations" );
+		resultPanel.add( new SimpleScrollPane( adventureList ), "5" );
+
+		resultSelect.addItem( "Encounter Listing" );
+		resultPanel.add( new SimpleScrollPane( encounterList ), "6" );
+
+		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect, property ) );
+		resultSelect.setSelectedIndex( selectedIndex );
+
+		JPanel containerPanel = new JPanel( new BorderLayout() );
+		containerPanel.add( resultSelect, BorderLayout.NORTH );
+		containerPanel.add( resultPanel, BorderLayout.CENTER );
+
+		return containerPanel;
+	}
+
+	private class ResultSelectListener implements ActionListener
+	{
+		private String property;
+		private CardLayout resultCards;
+		private JPanel resultPanel;
+		private JComboBox resultSelect;
+
+		public ResultSelectListener( CardLayout resultCards, JPanel resultPanel, JComboBox resultSelect, String property )
+		{
+			this.resultCards = resultCards;
+			this.resultPanel = resultPanel;
+			this.resultSelect = resultSelect;
+			this.property = property;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			String index = String.valueOf( resultSelect.getSelectedIndex() );
+			resultCards.show( resultPanel, index );
+			StaticEntity.setProperty( property, index );
+
+		}
+	}
+
+	private class SafetyField extends JPanel implements Runnable, ListSelectionListener
+	{
+		private JTextPane safetyText = new JTextPane();
+		private String savedText = " ";
+
+		public SafetyField()
+		{
+			super( new BorderLayout() );
+
+			SimpleScrollPane textScroller = new SimpleScrollPane( safetyText, SimpleScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+			JComponentUtilities.setComponentSize( textScroller, 100, 100 );
+			add( textScroller, BorderLayout.CENTER );
+
+			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( this ) );
+			locationSelect.addListSelectionListener( this );
+
+			safetyText.setContentType( "text/html" );
+			safetyText.setEditable( false );
+			setSafetyString();
+		}
+
+		public void run()
+		{	setSafetyString();
+		}
+
+		public void valueChanged( ListSelectionEvent e )
+		{	setSafetyString();
+		}
+
+		private void setSafetyString()
+		{
+			if ( locationSelect == null )
+				return;
+
+			KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
+			if ( request == null )
+				return;
+
+			AreaCombatData combat = request.getAreaSummary();
+			String text = ( combat == null ) ? " " : combat.toString();
+
+			// Avoid rendering and screen flicker if no change.
+			// Compare with our own copy of what we set, since
+			// getText() returns a modified version.
+
+			if ( !text.equals( savedText ) )
+			{
+				savedText = text;
+				safetyText.setText( text );
+
+				// Change the font for the JEditorPane to the
+				// same ones used in a JLabel.
+
+				MutableAttributeSet fonts = safetyText.getInputAttributes();
+
+				StyleConstants.setFontSize( fonts, DEFAULT_FONT.getSize() );
+				StyleConstants.setFontFamily( fonts, DEFAULT_FONT.getFamily() );
+
+				StyledDocument html = safetyText.getStyledDocument();
+				html.setCharacterAttributes( 0, html.getLength() + 1, fonts, false );
+
+				safetyText.setCaretPosition( 0 );
+			}
+		}
 	}
 
 	/**
@@ -1424,6 +1571,86 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void applyChanges()
 		{
+		}
+	}
+
+	protected class StatusEffectPanel extends LabeledScrollPanel
+	{
+		private ShowDescriptionList elementList;
+
+		public StatusEffectPanel()
+		{
+			super( "Active Effects", "uneffect", "add to mood", new ShowDescriptionList( activeEffects ) );
+
+			elementList = (ShowDescriptionList) scrollComponent;
+			JPanel extraButtons = new JPanel( new GridLayout( 2, 1, 5, 5 ) );
+
+			extraButtons.add( new GameDescriptionButton() );
+			extraButtons.add( new WikiDescriptionButton() );
+
+			buttonPanel.add( extraButtons, BorderLayout.SOUTH );
+		}
+
+		public void actionConfirmed()
+		{
+			Object [] effects = elementList.getSelectedValues();
+			for ( int i = 0; i < effects.length; ++i )
+				RequestThread.postRequest( new UneffectRequest( (AdventureResult) effects[i] ) );
+		}
+
+		public void actionCancelled()
+		{
+			Object [] effects = elementList.getSelectedValues();
+			elementList.clearSelection();
+
+			if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
+				StaticEntity.setProperty( "currentMood", "default" );
+
+			String name, action;
+
+			for ( int i = 0; i < effects.length; ++i )
+			{
+				name = ((AdventureResult) effects[i]).getName();
+
+				action = MoodSettings.getDefaultAction( "lose_effect", name );
+				if ( !action.equals( "" ) )
+				{
+					MoodSettings.addTrigger( "lose_effect", name, action );
+					continue;
+				}
+
+				action = MoodSettings.getDefaultAction( "gain_effect", name );
+				if ( !action.equals( "" ) )
+					MoodSettings.addTrigger( "gain_effect", name, action );
+			}
+		}
+
+		private class GameDescriptionButton extends ThreadedButton
+		{
+			public GameDescriptionButton()
+			{	super( "game text" );
+			}
+
+			public void run()
+			{
+				Object [] effects = elementList.getSelectedValues();
+				for ( int i = 0; i < effects.length; ++i )
+					ShowDescriptionList.showGameDescription( effects[i] );
+			}
+		}
+
+		private class WikiDescriptionButton extends ThreadedButton
+		{
+			public WikiDescriptionButton()
+			{	super( "wiki text" );
+			}
+
+			public void run()
+			{
+				Object [] effects = elementList.getSelectedValues();
+				for ( int i = 0; i < effects.length; ++i )
+					ShowDescriptionList.showWikiDescription( effects[i] );
+			}
 		}
 	}
 

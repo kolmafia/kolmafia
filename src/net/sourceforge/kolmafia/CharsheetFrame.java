@@ -46,18 +46,16 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JSplitPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CharsheetFrame extends KoLFrame
 {
-	private JPanel levelPanel;
-	private JLabel levelLabel;
-
 	private JLabel avatar;
 	private JLabel [] statusLabel;
 	private JProgressBar [] tnpDisplay;
-	private JProgressBar levelMeter, hpMeter, mpMeter;
+	private JProgressBar levelMeter;
 
 	private KoLCharacterAdapter statusRefresher;
 
@@ -70,62 +68,45 @@ public class CharsheetFrame extends KoLFrame
 	{
 		super( "Player Status" );
 
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
+		framePanel.setLayout( new BorderLayout( 20, 20 ) );
+
+		JPanel statusPanel = new JPanel( new BorderLayout( 20, 20 ) );
+
+		this.avatar = new JLabel( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );
+
+		statusPanel.add( createStatusPanel(), BorderLayout.CENTER );
+		statusPanel.add( this.avatar, BorderLayout.WEST );
+
+		JPanel statusContainer = new JPanel( new CardLayout( 10, 10 ) );
+		statusContainer.add( statusPanel, "" );
+
 		JPanel northPanel = new JPanel( new BorderLayout( 20, 20 ) );
+		northPanel.add( statusContainer, BorderLayout.WEST );
+		northPanel.add( new ItemManagePanel( availableSkills ), BorderLayout.CENTER );
 
-		northPanel.add( createStatusPanel(), BorderLayout.CENTER );
-		northPanel.add( createImagePanel(), BorderLayout.WEST );
+		JSplitPane southGrid = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true,
+			getAdventureSummary( "charsheetDropdown" ), getAdventureSummary( "charsheetDropdown2" ) );
 
-		JPanel entirePanel = new JPanel( new BorderLayout( 20, 20 ) );
-		entirePanel.add( northPanel, BorderLayout.NORTH );
-		entirePanel.add( new SimpleScrollPane( new ShowDescriptionList( activeEffects, 12 ) ), BorderLayout.CENTER );
+		southGrid.setDividerLocation( 0.5 );
+		southGrid.setResizeWeight( 0.5 );
 
-		framePanel.add( entirePanel, "" );
+		framePanel.add( northPanel, BorderLayout.NORTH );
+		framePanel.add( southGrid, BorderLayout.CENTER );
+
 		statusRefresher = new KoLCharacterAdapter( new StatusRefreshRunnable() );
 		KoLCharacter.addCharacterListener( statusRefresher );
 
 		statusRefresher.updateStatus();
 	}
 
+	public boolean useSidePane()
+	{	return true;
+	}
+
 	public void dispose()
 	{
 		KoLCharacter.removeCharacterListener( statusRefresher );
 		super.dispose();
-	}
-
-	/**
-	 * Utility method used for creating a panel displaying the character's
-	 * avatar.
-	 *
-	 * @return	a <code>JPanel</code> displaying the class-specific avatar
-	 */
-
-	private JPanel createImagePanel()
-	{
-		JPanel imagePanel = new JPanel( new BorderLayout( 10, 10 ) );
-		JPanel namePanel = new JPanel( new GridLayout( 2, 1 ) );
-		namePanel.add( new JLabel( KoLCharacter.getUserName() + " (#" + KoLCharacter.getUserId() + ")", JLabel.CENTER ) );
-
-		this.levelLabel = new JLabel( "Level " + KoLCharacter.getLevel() + " " + KoLCharacter.getClassType(), JLabel.CENTER );
-		namePanel.add( levelLabel );
-
-		this.levelPanel = new JPanel( new BorderLayout() );
-		levelPanel.add( namePanel, BorderLayout.CENTER );
-
-		this.levelMeter = new JProgressBar();
-		levelMeter.setValue( 0 );
-		levelMeter.setStringPainted( true );
-		JComponentUtilities.setComponentSize( levelMeter, 40, 6 );
-
-		levelPanel.add( levelMeter, BorderLayout.SOUTH );
-		imagePanel.add( levelPanel, BorderLayout.NORTH );
-
-		this.avatar = new JLabel( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );
-		imagePanel.add( avatar, BorderLayout.CENTER );
-		imagePanel.add( new RequestButton( "Refresh Status", new CharsheetRequest() ), BorderLayout.SOUTH );
-
-
-		return imagePanel;
 	}
 
 	/**
@@ -190,34 +171,6 @@ public class CharsheetFrame extends KoLFrame
 		JPanel statusLabelPanel = new JPanel();
 		statusLabelPanel.setLayout( new BoxLayout( statusLabelPanel, BoxLayout.Y_AXIS ) );
 
-		hpMeter = new JProgressBar();
-		hpMeter.setValue( 0 );
-		hpMeter.setStringPainted( true );
-
-		JComponentUtilities.setComponentSize( hpMeter, 100, 20 );
-
-		mpMeter = new JProgressBar();
-		mpMeter.setValue( 0 );
-		mpMeter.setStringPainted( true );
-
-		JComponentUtilities.setComponentSize( mpMeter, 100, 20 );
-
-		JPanel hpPanel = new JPanel( new BorderLayout( 5, 5 ) );
-		hpPanel.add( new JLabel( JComponentUtilities.getImage( "hp.gif" ), JLabel.CENTER ), BorderLayout.CENTER );
-		hpPanel.add( hpMeter, BorderLayout.SOUTH );
-
-		JPanel mpPanel = new JPanel( new BorderLayout( 5, 5 ) );
-		mpPanel.add( new JLabel( JComponentUtilities.getImage( "mp.gif" ), JLabel.CENTER ), BorderLayout.CENTER );
-		mpPanel.add( mpMeter, BorderLayout.SOUTH );
-
-		JPanel basicPanel = new JPanel();
-		basicPanel.add( hpPanel );
-		basicPanel.add( Box.createHorizontalStrut( 20 ) );
-		basicPanel.add( mpPanel );
-
-		statusLabelPanel.add( basicPanel );
-		statusLabelPanel.add( Box.createVerticalStrut( 20 ) );
-
 		this.statusLabel = new JLabel[6];
 		for ( int i = 0; i < 6; ++i )
 			statusLabel[i] = new JLabel( " ", JLabel.CENTER );
@@ -244,30 +197,10 @@ public class CharsheetFrame extends KoLFrame
 		public void run()
 		{
 			StaticEntity.getClient().applyEffects();
-			levelLabel.setText( "Level " + KoLCharacter.getLevel() + " " + KoLCharacter.getClassName() );
-
-			hpMeter.setMaximum( KoLCharacter.getMaximumHP() );
-			hpMeter.setValue( KoLCharacter.getCurrentHP() );
-			hpMeter.setString( COMMA_FORMAT.format( KoLCharacter.getCurrentHP() ) + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
-
-			mpMeter.setMaximum( KoLCharacter.getMaximumMP() );
-			mpMeter.setValue( KoLCharacter.getCurrentMP() );
-			mpMeter.setString( COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
 
 			refreshValuePanel( 0, KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() );
 			refreshValuePanel( 1, KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() );
 			refreshValuePanel( 2, KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() );
-
-			int currentLevel = KoLCharacter.calculateLastLevel();
-			int nextLevel = KoLCharacter.calculateNextLevel();
-			int totalPrime = KoLCharacter.getTotalPrime();
-
-			levelMeter.setMaximum( nextLevel - currentLevel );
-			levelMeter.setValue( totalPrime - currentLevel );
-			levelMeter.setString( " " );
-
-			levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
-				COMMA_FORMAT.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
 
 			// Set the current avatar
 			avatar.setIcon( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );

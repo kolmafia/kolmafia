@@ -67,7 +67,6 @@ import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ListModel;
@@ -78,11 +77,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import javax.swing.filechooser.FileFilter;
-
-import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
-
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 
@@ -93,7 +87,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class AdventureFrame extends KoLFrame
 {
 	private static JComboBox zoneSelect = null;
-	private static JList locationSelect = null;
 	private static JProgressBar requestMeter = null;
 	private static KoLAdventure lastAdventure = null;
 
@@ -103,7 +96,6 @@ public class AdventureFrame extends KoLFrame
 	private CardLayout combatCards;
 	private JPanel combatPanel;
 
-	private JComboBox dropdown1, dropdown2;
 	private AdventureSelectPanel adventureSelect;
 
 	private JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect, hpHaltCombatSelect;
@@ -196,13 +188,7 @@ public class AdventureFrame extends KoLFrame
 		// Handle everything that might appear inside of the
 		// session tally.
 
-		JSplitPane sessionGrid = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true,
-			getAdventureSummary( StaticEntity.getIntegerProperty( "defaultDropdown1" ) ),
-			getAdventureSummary( StaticEntity.getIntegerProperty( "defaultDropdown2" ) ) );
-
-		sessionGrid.setDividerLocation( 0.5 );
-		sessionGrid.setResizeWeight( 0.5 );
-		tabs.addTab( "Normal Options", sessionGrid );
+		tabs.addTab( "Normal Options", getAdventureSummary() );
 
 		// Components of auto-restoration
 
@@ -241,142 +227,21 @@ public class AdventureFrame extends KoLFrame
 		return tabs;
 	}
 
-	private JPanel getAdventureSummary( int selectedIndex )
+	private JSplitPane getAdventureSummary()
 	{
-		CardLayout resultCards = new CardLayout();
-		JPanel resultPanel = new JPanel( resultCards );
-		JComboBox resultSelect = new JComboBox();
+		JSplitPane sessionGrid = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true,
+			getAdventureSummary( "defaultDropdown1" ), getAdventureSummary( "defaultDropdown2" ) );
 
-		resultSelect.addItem( "Session Results" );
-		resultPanel.add( new AdventureResultsPanel( tally ), "0" );
+		sessionGrid.setDividerLocation( 0.5 );
+		sessionGrid.setResizeWeight( 0.5 );
 
-		resultSelect.addItem( "Location Details" );
-		resultPanel.add( new SafetyField(), "1" );
-
-		resultSelect.addItem( "Mood Summary" );
-		resultPanel.add( new AdventureResultsPanel( MoodSettings.getTriggers() ), "2" );
-
-		resultSelect.addItem( "Conditions Left" );
-		resultPanel.add( new AdventureResultsPanel( conditions ), "3" );
-
-		resultSelect.addItem( "Active Effects" );
-		resultPanel.add( new AdventureResultsPanel( activeEffects ), "4" );
-
-		resultSelect.addItem( "Visited Locations" );
-		resultPanel.add( new AdventureResultsPanel( adventureList ), "5" );
-
-		resultSelect.addItem( "Encounter Listing" );
-		resultPanel.add( new AdventureResultsPanel( encounterList ), "6" );
-
-		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect ) );
-
-		JPanel containerPanel = new JPanel( new BorderLayout() );
-		containerPanel.add( resultSelect, BorderLayout.NORTH );
-		containerPanel.add( resultPanel, BorderLayout.CENTER );
-
-		if ( dropdown1 == null )
-		{
-			dropdown1 = resultSelect;
-			dropdown1.setSelectedIndex( selectedIndex );
-		}
-		else
-		{
-			dropdown2 = resultSelect;
-			dropdown2.setSelectedIndex( selectedIndex );
-		}
-
-		return containerPanel;
+		return sessionGrid;
 	}
 
 	public void requestFocus()
 	{
 		super.requestFocus();
 		locationSelect.requestFocus();
-	}
-
-	private class ResultSelectListener implements ActionListener
-	{
-		private CardLayout resultCards;
-		private JPanel resultPanel;
-		private JComboBox resultSelect;
-
-		public ResultSelectListener( CardLayout resultCards, JPanel resultPanel, JComboBox resultSelect )
-		{
-			this.resultCards = resultCards;
-			this.resultPanel = resultPanel;
-			this.resultSelect = resultSelect;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			String index = String.valueOf( resultSelect.getSelectedIndex() );
-			resultCards.show( resultPanel, index );
-			StaticEntity.setProperty( resultSelect == dropdown1 ? "defaultDropdown1" : "defaultDropdown2", index );
-
-		}
-	}
-
-	private class SafetyField extends JPanel implements Runnable, ListSelectionListener
-	{
-		private JTextPane safetyText = new JTextPane();
-		private String savedText = " ";
-
-		public SafetyField()
-		{
-			super( new BorderLayout() );
-
-			SimpleScrollPane textScroller = new SimpleScrollPane( safetyText, SimpleScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-			JComponentUtilities.setComponentSize( textScroller, 100, 100 );
-			add( textScroller, BorderLayout.CENTER );
-
-			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( this ) );
-			locationSelect.addListSelectionListener( this );
-
-			safetyText.setContentType( "text/html" );
-			safetyText.setEditable( false );
-			setSafetyString();
-		}
-
-		public void run()
-		{	setSafetyString();
-		}
-
-		public void valueChanged( ListSelectionEvent e )
-		{	setSafetyString();
-		}
-
-		private void setSafetyString()
-		{
-			KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
-			if ( request == null )
-				return;
-
-			AreaCombatData combat = request.getAreaSummary();
-			String text = ( combat == null ) ? " " : combat.toString();
-
-			// Avoid rendering and screen flicker if no change.
-			// Compare with our own copy of what we set, since
-			// getText() returns a modified version.
-
-			if ( !text.equals( savedText ) )
-			{
-				savedText = text;
-				safetyText.setText( text );
-
-				// Change the font for the JEditorPane to the
-				// same ones used in a JLabel.
-
-				MutableAttributeSet fonts = safetyText.getInputAttributes();
-
-				StyleConstants.setFontSize( fonts, DEFAULT_FONT.getSize() );
-				StyleConstants.setFontFamily( fonts, DEFAULT_FONT.getFamily() );
-
-				StyledDocument html = safetyText.getStyledDocument();
-				html.setCharacterAttributes( 0, html.getLength() + 1, fonts, false );
-
-				safetyText.setCaretPosition( 0 );
-			}
-		}
 	}
 
 	/**
@@ -745,34 +610,6 @@ public class AdventureFrame extends KoLFrame
 
 		public void requestFocus()
 		{	locationSelect.requestFocus();
-		}
-	}
-
-	/**
-	 * An internal class which represents the panel used for tallying the
-	 * results in the <code>AdventureFrame</code>.  Note that all of the
-	 * tallying functionality is handled by the <code>LockableListModel</code>
-	 * provided, so this functions as a container for that list model.
-	 */
-
-	private class AdventureResultsPanel extends JPanel
-	{
-		public AdventureResultsPanel( LockableListModel resultList )
-		{	this( null, resultList, 11 );
-		}
-
-		public AdventureResultsPanel( String header, LockableListModel resultList, int rowCount )
-		{
-			setLayout( new BorderLayout() );
-
-			ShowDescriptionList tallyDisplay = new ShowDescriptionList( resultList );
-			tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-			tallyDisplay.setVisibleRowCount( rowCount );
-
-			add( new SimpleScrollPane( tallyDisplay ), BorderLayout.CENTER );
-
-			if ( header != null )
-				add( JComponentUtilities.createLabel( header, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 		}
 	}
 

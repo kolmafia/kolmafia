@@ -135,7 +135,7 @@ public class ItemManageFrame extends KoLFrame
 			container.add( description );
 			container.add( Box.createVerticalStrut( 10 ) );
 
-			SimpleScrollPane scroller = new SimpleScrollPane( new ShowDescriptionList( mementoList ) );
+			SimpleScrollPane scroller = new SimpleScrollPane( mementoList );
 			scroller.setMaximumSize( MAX_WIDTH );
 			scroller.setAlignmentX( LEFT_ALIGNMENT );
 			container.add( scroller );
@@ -152,7 +152,7 @@ public class ItemManageFrame extends KoLFrame
 			container.add( description );
 			container.add( Box.createVerticalStrut( 10 ) );
 
-			scroller = new SimpleScrollPane( new ShowDescriptionList( junkItemList ) );
+			scroller = new SimpleScrollPane( junkItemList );
 			scroller.setMaximumSize( MAX_WIDTH );
 			scroller.setAlignmentX( LEFT_ALIGNMENT );
 			container.add( scroller );
