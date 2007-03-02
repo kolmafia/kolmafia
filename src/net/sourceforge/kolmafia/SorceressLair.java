@@ -448,6 +448,9 @@ public abstract class SorceressLair extends StaticEntity
 
 			KoLmafia.updateDisplay( "Crossing three door puzzle..." );
 			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair1.php?action=gates" ) );
+
+			if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) )
+				DEFAULT_SHELL.executeLine( "use tiny house" );
 		}
 
 		// Now, unequip all of your equipment and cross through

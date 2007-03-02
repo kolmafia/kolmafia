@@ -822,11 +822,9 @@ public abstract class MoodSettings implements KoLConstants
 					return "cast Tongue of the Otter";
 				if ( KoLCharacter.hasItem( UneffectRequest.FOREST_TEARS ) )
 					return "use forest tears";
-				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) )
-					return "use tiny house";
 				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
 					return "uneffect beaten up";
-				if ( KoLCharacter.canInteract() )
+				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) || KoLCharacter.canInteract() )
 					return "use tiny house";
 
 				return "";
