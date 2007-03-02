@@ -34,11 +34,10 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
@@ -128,7 +127,7 @@ public class KoLRequest extends Job implements KoLConstants
 	public URL formURL;
 	public boolean followRedirects;
 	public String formURLString;
-	public String dataString = null;
+	public byte [] dataString = null;
 
 	public boolean isChatRequest = false;
 
@@ -918,11 +917,19 @@ public class KoLRequest extends Job implements KoLConstants
 
 		formConnection.setRequestProperty( "User-Agent", VERSION_NAME );
 
-		dataString = getDataString( true );
+		try
+		{
+			dataString = getDataString( true ).getBytes( "UTF-8" );
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			dataString = getDataString( true ).getBytes();
+		}
+
 		formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 
 		if ( !data.isEmpty() )
-			formConnection.setRequestProperty( "Content-Length", String.valueOf( dataString.length() ) );
+			formConnection.setRequestProperty( "Content-Length", String.valueOf( dataString.length ) );
 		else
 			formConnection.setRequestProperty( "Content-Length", "0" );
 
@@ -954,17 +961,18 @@ public class KoLRequest extends Job implements KoLConstants
 
 			if ( shouldPrintDebug() )
 			{
-				KoLmafia.getDebugStream().println( "Submitting data string: " + dataString );
+				KoLmafia.getDebugStream().print( "Submitting data string: " );
+				KoLmafia.getDebugStream().write( dataString );
 				printRequestProperties();
 			}
 
-			BufferedWriter ostream = new BufferedWriter( new OutputStreamWriter( formConnection.getOutputStream() ) );
+			PrintStream ostream = new PrintStream( formConnection.getOutputStream() );
 			ostream.write( dataString );
 
 			ostream.flush();
 			ostream.close();
-			ostream = null;
 
+			ostream = null;
 			return true;
 		}
 		catch ( Exception e )

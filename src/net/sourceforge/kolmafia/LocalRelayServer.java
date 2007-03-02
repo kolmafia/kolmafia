@@ -301,7 +301,11 @@ public class LocalRelayServer implements Runnable
 
 			if ( request.responseCode == 200 )
 			{
-				printStream.println( "Content-Type: " + request.contentType );
+				if ( request.contentType.equals( "text/html" ) )
+					printStream.println( "Content-Type: text/html; charset=utf-8" );
+				else
+					printStream.println( "Content-Type: " + request.contentType );
+
 				printStream.println( "Content-Length: " + request.rawByteBuffer.length );
 
 				if ( request.formURLString.indexOf( ".php" ) != -1 )
