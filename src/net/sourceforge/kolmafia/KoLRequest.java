@@ -916,15 +916,7 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 
 		formConnection.setRequestProperty( "User-Agent", VERSION_NAME );
-
-		try
-		{
-			dataString = getDataString( true ).getBytes( "UTF-8" );
-		}
-		catch ( UnsupportedEncodingException e )
-		{
-			dataString = getDataString( true ).getBytes();
-		}
+		dataString = getDataString( true ).getBytes();
 
 		formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 
@@ -966,7 +958,7 @@ public class KoLRequest extends Job implements KoLConstants
 				printRequestProperties();
 			}
 
-			PrintStream ostream = new PrintStream( formConnection.getOutputStream() );
+			OutputStream ostream = formConnection.getOutputStream();
 			ostream.write( dataString );
 
 			ostream.flush();
