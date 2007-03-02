@@ -478,6 +478,18 @@ public abstract class MoodSettings implements KoLConstants
 			int castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
 			int duration = ClassSkillsDatabase.getEffectDuration( skillId );
 
+			// Cast 'Summon Candy Hearts' if available and your current
+			// turn count on your buffs is greater than 10, and make sure
+			// to reset your cast count afterwards.
+
+			if ( duration >= 10 && KoLCharacter.hasSkill( "Summon Candy Hearts" ) )
+			{
+				while ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() - minimum )
+					DEFAULT_SHELL.executeLine( "cast 1 summon candy hearts" );
+
+				castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
+			}
+
 			if ( castCount > 0 && duration > desiredDuration )
 				castCount = 1;
 			else if ( duration * castCount > desiredDuration )
