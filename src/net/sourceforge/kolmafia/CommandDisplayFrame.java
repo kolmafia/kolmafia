@@ -49,6 +49,11 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
+import net.sourceforge.foxtrot.ConcurrentWorker;
+import net.sourceforge.foxtrot.Job;
+import net.sourceforge.foxtrot.Worker;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -171,11 +176,21 @@ public class CommandDisplayFrame extends KoLFrame
 
 		if ( commandQueue.size() == 1 )
 		{
-			CommandQueueThread handler = new CommandQueueThread();
-			if ( StaticEntity.getBooleanProperty( "allowRequestQueueing" ) )
-				handler.run();
-			else
-				handler.start();
+			CommandQueueHandler handler = new CommandQueueHandler();
+
+			try
+			{
+				if ( !SwingUtilities.isEventDispatchThread() )
+					handler.run();
+				else if ( StaticEntity.getBooleanProperty( "allowRequestQueueing" ) )
+					Worker.post( handler );
+				else
+					ConcurrentWorker.post( handler );
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
 
 			return;
 		}
@@ -185,7 +200,7 @@ public class CommandDisplayFrame extends KoLFrame
 		RequestLogger.printLine();
 	}
 
-	private static class CommandQueueThread extends Thread
+	private static class CommandQueueHandler extends Job
 	{
 		public void run()
 		{

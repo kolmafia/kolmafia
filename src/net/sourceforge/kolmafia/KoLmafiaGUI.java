@@ -323,22 +323,6 @@ public class KoLmafiaGUI extends KoLmafia
 				if ( LoginRequest.isInstanceRunning() )
 					return;
 			}
-			else if ( frameName.equals( "MoneyMakingGameFrame" ) )
-			{
-				updateDisplay( "Retrieving MMG bet history..." );
-				RequestThread.postRequest( new MoneyMakingGameRequest() );
-
-				if ( MoneyMakingGameRequest.getBetSummary().isEmpty() )
-				{
-					updateDisplay( "You have no bet history to summarize." );
-					RequestThread.closeRequestSequence();
-
-					return;
-				}
-
-				updateDisplay( "MMG bet history retrieved." );
-				RequestThread.enableDisplayIfSequenceComplete();
-			}
 			else if ( frameName.equals( "MuseumFrame" ) )
 			{
 				RequestThread.postRequest( new MuseumRequest() );

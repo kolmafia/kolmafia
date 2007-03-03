@@ -55,15 +55,24 @@ public class MoneyMakingGameFrame extends KoLFrame
 	private class AnalysisPanel extends LabeledScrollPanel
 	{
 		public AnalysisPanel()
-		{	super( "Bet History", null, null, new JList( MoneyMakingGameRequest.getBetSummary() ) );
+		{	super( "Bet History", "refresh", "win game", new JList( MoneyMakingGameRequest.getBetSummary() ) );
 		}
 
 		public void actionConfirmed()
 		{
+			KoLmafia.updateDisplay( "Retrieving MMG bet history..." );
+			RequestThread.postRequest( new MoneyMakingGameRequest() );
+
+			if ( MoneyMakingGameRequest.getBetSummary().isEmpty() )
+				KoLmafia.updateDisplay( "You have not played the MMG in the last two weeks." );
+			else
+				KoLmafia.updateDisplay( "MMG bet history retrieved." );
+
+			RequestThread.enableDisplayIfSequenceComplete();
 		}
 
 		public void actionCancelled()
-		{
+		{	CommandDisplayFrame.executeCommand( "win game" );
 		}
 	}
 
