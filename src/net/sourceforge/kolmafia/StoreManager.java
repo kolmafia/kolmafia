@@ -66,6 +66,8 @@ public abstract class StoreManager extends StaticEntity
 	public static void clearCache()
 	{
 		potentialEarnings = 0;
+
+		storeLog.clear();
 		soldItemList.clear();
 		sortedSoldItemList.clear();
 	}
