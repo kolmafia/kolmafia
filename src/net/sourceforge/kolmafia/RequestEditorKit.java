@@ -1928,8 +1928,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 		else if ( !StaticEntity.getBooleanProperty( "relayAddsMoodRefreshLink" ) )
 		{
-			fontColor = null;
-			moodText = null;
+			fontColor = "gray";
+			moodText = "burn extra mp";
 		}
 		else if ( !MoodSettings.getTriggers().isEmpty() )
 		{
