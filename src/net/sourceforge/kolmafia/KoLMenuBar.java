@@ -414,7 +414,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				return;
 
 			KoLmafia.forceContinue();
-			DEFAULT_SHELL.executeLine( executePath );
+			CommandDisplayFrame.executeCommand( executePath );
 		}
 	}
 

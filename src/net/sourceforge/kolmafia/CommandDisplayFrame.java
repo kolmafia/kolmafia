@@ -60,7 +60,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class CommandDisplayFrame extends KoLFrame
 {
 	private JTextField entryField;
+	private RequestPane outputDisplay;
 
+	private static String lastPlayer = null;
 	private static int lastCommandIndex = 0;
 	private static boolean shouldQueueRequests = false;
 

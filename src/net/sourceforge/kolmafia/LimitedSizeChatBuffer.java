@@ -117,22 +117,6 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 	public void append( String message )
 	{
-
-		if ( requiresTruncation && displayBuffer.length() > MAXIMUM_SIZE )
-		{
-			int lineIndex = displayBuffer.indexOf( "<br>", DELETE_AMOUNT );
-			if ( lineIndex == -1 )
-				lineIndex = displayBuffer.lastIndexOf( "<br>", DELETE_AMOUNT );
-			if ( lineIndex == -1 )
-				lineIndex = DELETE_AMOUNT;
-
-			if ( lineIndex != -1 )
-			{
-				displayBuffer.delete( 0, lineIndex + 4 );
-				fireBufferChanged( DISPLAY_CHANGE, null );
-			}
-		}
-
 		// Download all the images outside of the Swing thread
 		// by downloading them here.  Also convert everything
 		// into unicode, rather than character entities.
@@ -159,6 +143,25 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		}
 
 		super.append( highlightMessage );
+
+		if ( requiresTruncation && displayBuffer.length() > MAXIMUM_SIZE )
+		{
+			int lineIndex = displayBuffer.indexOf( "<br>", DELETE_AMOUNT );
+			if ( lineIndex == -1 )
+				lineIndex = displayBuffer.lastIndexOf( "<br>", DELETE_AMOUNT );
+
+			if ( lineIndex == -1 )
+				lineIndex = DELETE_AMOUNT;
+			else
+				lineIndex = lineIndex + 4;
+
+			if ( lineIndex != -1 )
+			{
+				displayBuffer.delete( 0, lineIndex );
+				fireBufferChanged( DISPLAY_CHANGE, null );
+			}
+		}
+
 		if ( affectsHighlightBuffer && message.compareToIgnoreCase( highlightMessage ) != 0 )
 			highlightBuffer.append( highlightMessage.replaceAll( "(<br>)+", "<br>" + LINE_BREAK ) );
 	}
