@@ -730,7 +730,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Adding another undocumented property setting command
 		// so people can configure variables in scripts.
 
-		if ( command.equals( "set" ) )
+		if ( command.equals( "get" ) || command.equals( "set" ) )
 		{
 			int splitIndex = parameters.indexOf( "=" );
 			if ( splitIndex == -1 )
@@ -1004,7 +1004,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "survival" ) || command.equals( "getdata" ) )
+		if ( command.equals( "survival" ) || command.equals( "locdata" ) )
 		{
 			showHTML( AdventureDatabase.getAreaCombatData( AdventureDatabase.getAdventure( parameters ).toString() ).toString(), "Survival Lookup" );
 			return;
@@ -1172,7 +1172,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Add in item retrieval the way KoLmafia handles
 		// it internally.
 
-		if ( command.equals( "get" ) || command.equals( "find" ) || command.equals( "acquire" ) || command.equals( "retrieve" ) )
+		if ( command.equals( "find" ) || command.equals( "acquire" ) || command.equals( "retrieve" ) )
 		{
 			// Handle lucky and unlucky retrieval of
 			// worthless items via the sewer.
@@ -1201,7 +1201,7 @@ public class KoLmafiaCLI extends KoLmafia
 					if ( KoLCharacter.getAdventuresLeft() > 0 )
 					{
 						AdventureDatabase.retrieveItem( SewerRequest.CLOVER.getInstance( itemCount ) );
-						executeLine( "adventure " + itemCount + " sewer with clovers" );
+						executeAdventureRequest( itemCount + " sewer with clovers" );
 					}
 				}
 				else
@@ -1209,7 +1209,7 @@ public class KoLmafiaCLI extends KoLmafia
 					while ( maximumCount > 0 && HermitRequest.getWorthlessItemCount() < itemCount && permitsContinue() )
 					{
 						int adventuresToUse = Math.min( maximumCount, itemCount - HermitRequest.getWorthlessItemCount() );
-						executeLine( "adventure " + adventuresToUse + " unlucky sewer" );
+						executeAdventureRequest( adventuresToUse + " unlucky sewer" );
 						maximumCount -= adventuresToUse;
 					}
 				}
@@ -1217,7 +1217,9 @@ public class KoLmafiaCLI extends KoLmafia
 				conditions.addAll( temporary );
 				if ( HermitRequest.getWorthlessItemCount() < itemCount )
 				{
-					updateDisplay( ERROR_STATE, "Unable to acquire " + itemCount + " worthless items." );
+					if ( KoLmafia.permitsContinue() )
+						updateDisplay( ERROR_STATE, "Unable to acquire " + itemCount + " worthless items." );
+
 					return;
 				}
 			}
