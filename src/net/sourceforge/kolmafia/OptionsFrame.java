@@ -313,6 +313,7 @@ public class OptionsFrame extends KoLFrame
 			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
 			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
 			{ "allowEncounterRateBurning", "Allow combat-rate modifying buffs in conditional recast" },
+			{ "allowBreakfastBurning", "Allow casting of breakfast skills in conditional recast" },
 
 			{ "", "" },
 
