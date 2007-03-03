@@ -122,10 +122,7 @@ public class HermitRequest extends KoLRequest
 			DEFAULT_SHELL.executeLine( "acquire 1 worthless item" );
 
 		if ( getWorthlessItemCount() == 0 )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have any worthless items." );
 			return;
-		}
 
 		quantity = Math.min( quantity, getWorthlessItemCount() );
 		KoLmafia.updateDisplay( "Robbing the hermit..." );

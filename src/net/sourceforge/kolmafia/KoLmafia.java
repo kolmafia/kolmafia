@@ -1554,15 +1554,14 @@ public abstract class KoLmafia implements KoLConstants
 					RequestThread.postRequest( ((ClanGymRequest)adventure.getRequest()).setTurnCount( iterations ) );
 					return;
 				}
-				else if ( adventure.getRequest() instanceof SewerRequest )
-				{
-					if ( conditions.isEmpty() && !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) ) )
-						return;
-				}
-				else
-				{
-					runBetweenBattleChecks( true, false );
-				}
+
+				if ( adventure.getRequest() instanceof SewerRequest && !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) ) )
+					return;
+
+				runBetweenBattleChecks( true, false );
+
+				if ( !KoLmafia.permitsContinue() )
+					return;
 
 				isAdventuring = true;
 			}
@@ -2855,16 +2854,16 @@ public abstract class KoLmafia implements KoLConstants
 		return true;
 	}
 
-	public void runBetweenBattleChecks( boolean runAutoRecovery )
-	{	runBetweenBattleChecks( runAutoRecovery, true );
+	public void runBetweenBattleChecks( boolean isFullCheck )
+	{	runBetweenBattleChecks( isFullCheck, true );
 	}
 
-	public void runBetweenBattleChecks( boolean runAutoRecovery, boolean runThresholdCheck )
+	public void runBetweenBattleChecks( boolean isFullCheck, boolean isHealthCheck )
 	{
 		// Do not run between battle checks if you are in the middle
 		// of your checks or if you have aborted.
 
-		if ( recoveryActive || continuationState == PENDING_STATE || refusesContinue() || (runThresholdCheck && !runThresholdChecks()) )
+		if ( recoveryActive || refusesContinue() || !runThresholdChecks() )
 			return;
 
 		// First, run the between battle script defined by the
@@ -2887,19 +2886,21 @@ public abstract class KoLmafia implements KoLConstants
 		// Now, run the built-in behavior to take care of
 		// any loose ends.
 
-		if ( runAutoRecovery )
-		{
+		if ( isFullCheck )
 			MoodSettings.execute();
+
+		if ( isFullCheck || isHealthCheck )
 			recoverHP();
+
+		if ( isFullCheck )
 			recoverMP();
-		}
 
 		recoveryActive = false;
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 		RequestThread.closeRequestSequence();
 
-		if ( runAutoRecovery && KoLCharacter.getCurrentHP() == 0 )
+		if ( KoLCharacter.getCurrentHP() == 0 )
 			updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
 
 		if ( permitsContinue() && currentIterationString.length() > 0 )

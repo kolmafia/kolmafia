@@ -662,7 +662,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public void run()
 	{
-		if ( !formSource.equals( "campground.php" ) && !KoLmafia.isRunningBetweenBattleChecks() )
+		if ( !(request instanceof CampgroundRequest) && !KoLmafia.isRunningBetweenBattleChecks() )
 			StaticEntity.getClient().runBetweenBattleChecks( shouldRunFullCheck );
 
 		// Abort before adventure verification in the event that
@@ -804,8 +804,13 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( urlString );
 
-		if ( matchingLocation != null && matchingLocation.getRequest() instanceof AdventureRequest && !matchingLocation.isValidAdventure )
+		if ( matchingLocation != null )
 		{
+			matchingLocation.recordToSession();
+
+			if ( !(matchingLocation.getRequest() instanceof AdventureRequest) || matchingLocation.isValidAdventure )
+				return true;
+
 			String locationId = matchingLocation.adventureId;
 
 			// Do some quick adventure validation, which allows you
@@ -836,7 +841,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			if ( matchingLocation.formSource.equals( "knob.php" ) )
 				matchingLocation.validate( true );
 
-			matchingLocation.recordToSession();
 			return true;
 		}
 

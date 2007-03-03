@@ -154,6 +154,9 @@ public class AdventureRequest extends KoLRequest
 
 		super.run();
 
+		if ( formSource.equals( "dungeon.php" ) )
+			addFormField( "option", responseText.indexOf( "\"Move on\">" ) != -1 ? "2" : "1" );
+
 		if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
 			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 	}
