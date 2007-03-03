@@ -44,12 +44,31 @@ public class ChatRequest extends KoLRequest
 	private static String lastSeen = "";
 	private static ChatContinuationThread thread = null;
 
+	private boolean shouldUpdateChat;
+
 	/**
 	 * Constructs a new <code>ChatRequest</code>.
 	 */
 
 	public ChatRequest()
 	{	this( "1" );
+	}
+
+	/**
+	 * Constructs a new <code>ChatRequest</code> where the given parameter
+	 * will be passed to the PHP file to indicate where you left off.  Note
+	 * that this constructor is only available to the <code>ChatRequest</code>;
+	 * this is done because only the <code>ChatRequest</code> knows what the
+	 * appropriate value should be.
+	 */
+
+	private ChatRequest( String lastSeen )
+	{
+		super( "newchatmessages.php" );
+		addFormField( "lasttime", lastSeen );
+		ChatRequest.lastSeen = lastSeen;
+
+		this.shouldUpdateChat = true;
 	}
 
 	/**
@@ -61,6 +80,19 @@ public class ChatRequest extends KoLRequest
 	 */
 
 	public ChatRequest( String contact, String message )
+	{	this( contact, message, true );
+	}
+
+	/**
+	 * Constructs a new <code>ChatRequest</code> that will send the given
+	 * string to the server.
+	 *
+	 * @param	contact	The channel or player to which this message is to be sent
+	 * @param	message	The message to be sent
+	 * @param	shouldUpdateChat	Whether or not the response from the server should be printed
+	 */
+
+	public ChatRequest( String contact, String message, boolean shouldUpdateChat )
 	{
 		super( "submitnewchat.php" );
 		addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
@@ -101,21 +133,8 @@ public class ChatRequest extends KoLRequest
 
 		if ( actualMessage.equals( "/exit" ) )
 			KoLMessenger.dispose();
-	}
 
-	/**
-	 * Constructs a new <code>ChatRequest</code> where the given parameter
-	 * will be passed to the PHP file to indicate where you left off.  Note
-	 * that this constructor is only available to the <code>ChatRequest</code>;
-	 * this is done because only the <code>ChatRequest</code> knows what the
-	 * appropriate value should be.
-	 */
-
-	private ChatRequest( String lastSeen )
-	{
-		super( "newchatmessages.php" );
-		addFormField( "lasttime", lastSeen );
-		ChatRequest.lastSeen = lastSeen;
+		this.shouldUpdateChat = shouldUpdateChat;
 	}
 
 	public static String executeChatCommand( String graf )
@@ -171,7 +190,7 @@ public class ChatRequest extends KoLRequest
 
 		try
 		{
-			if ( KoLMessenger.isRunning() )
+			if ( shouldUpdateChat && KoLMessenger.isRunning() )
 				KoLMessenger.updateChat( responseText );
 		}
 		catch ( Exception e )

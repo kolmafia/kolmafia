@@ -35,6 +35,9 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 
+import java.io.BufferedReader;
+import java.io.File;
+
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -80,8 +83,10 @@ public abstract class KoLMessenger extends StaticEntity
 	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
 
 	private static final int ROLLING_LIMIT = 25;
+
 	private static int rollingIndex = 0;
 	private static ArrayList clanMessages = new ArrayList();
+	private static TreeMap specialRequests = new TreeMap();
 
 	static
 	{
@@ -133,6 +138,9 @@ public abstract class KoLMessenger extends StaticEntity
 	private static boolean useTabbedChat = false;
 	private static boolean highlighting = false;
 
+	private static String lastPlayer = "";
+	private static long chatbotModified = 0;
+
 	public static void reset()
 	{
 		isRunning = false;
@@ -148,6 +156,36 @@ public abstract class KoLMessenger extends StaticEntity
 			creator.run();
 			tabbedFrame = (TabbedChatFrame) creator.getCreation();
 		}
+
+		updateChatbot();
+	}
+
+	public static void updateChatbot()
+	{
+		long modified = 0;
+
+		File description = new File( SETTINGS_DIRECTORY, "chatbot_" + KoLCharacter.baseUserName() + ".txt" );
+		if ( !description.exists() )
+			description = new File( SETTINGS_DIRECTORY, "chatbot_GLOBAL.txt" );
+
+		if ( !description.exists() )
+			return;
+
+		long lastModified = description.lastModified();
+		if ( lastModified == chatbotModified )
+			return;
+
+		chatbotModified = lastModified;
+		specialRequests.clear();
+
+		String [] data;
+		BufferedReader chatbot = KoLDatabase.getReader( description );
+
+		while ( (data = KoLDatabase.readData( chatbot )) != null )
+		{
+			if ( data.length == 2 )
+				specialRequests.put( data[0].toLowerCase(), data[1] );
+		}
 	}
 
 	private static void updateSettings()
@@ -155,6 +193,8 @@ public abstract class KoLMessenger extends StaticEntity
 		enableMonitor = StaticEntity.getBooleanProperty( "useChatMonitor" );
 		channelsSeparate = StaticEntity.getBooleanProperty( "useSeparateChannels" );
 		privateSeparate = StaticEntity.getBooleanProperty( "useSeparatePrivates" );
+
+		updateChatbot();
 	}
 
 	public static String getChatLogName( String key )
@@ -653,10 +693,13 @@ public abstract class KoLMessenger extends StaticEntity
 		else if ( message.indexOf( "(private)<" ) != -1 )
 		{
 			String sender = ANYTAG_PATTERN.matcher( message.substring( 0, message.indexOf( " (" ) ) ).replaceAll( "" );
-			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerId( sender ) + "\"><b><font color=blue>" +
-				sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
+			String text = message.substring( message.indexOf( ":" ) + 1 ).trim();
 
-			processChatMessage( sender, cleanHTML );
+			if ( handleSpecialRequest( sender, text ) )
+				return;
+
+			processChatMessage( sender, "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerId( sender ) + "\"><b><font color=blue>" +
+				sender + "</font></b></a>: " + text );
 		}
 		else if ( message.startsWith( "<b>private to" ) )
 		{
@@ -688,13 +731,6 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( channel == null || message == null || channel.length() == 0 || message.length() == 0 )
 			return;
 
-		if ( !channel.startsWith( "/" ) )
-		{
-			int colonIndex = message.indexOf( ":" );
-			if ( handleSpecialRequests( channel, colonIndex == -1 ? message : (message.substring( colonIndex + 2 )).trim() ) )
-				return;
-		}
-
 		String bufferKey = getBufferKey( channel );
 		if ( message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( bufferKey ) )
 			return;
@@ -716,7 +752,7 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 	}
 
-	private static boolean handleSpecialRequests( String channel, String message )
+	private static boolean handleSpecialRequest( String channel, String message )
 	{
 		// If a buffbot is running, certain commands become active, such
 		// as help, restores, and logoff.
@@ -725,13 +761,13 @@ public abstract class KoLMessenger extends StaticEntity
 		{
 			if ( message.equalsIgnoreCase( "help" ) )
 			{
-				RequestThread.postRequest( new ChatRequest( channel, "Please check my profile." ) );
+				RequestThread.postRequest( new ChatRequest( channel, "Please check my profile.", false ) );
 				return true;
 			}
 
 			if ( message.equalsIgnoreCase( "restores" ) )
 			{
-				RequestThread.postRequest( new ChatRequest( channel, "I currently have " + KoLmafia.getRestoreCount() + " mana restores at my disposal." ) );
+				RequestThread.postRequest( new ChatRequest( channel, "I currently have " + KoLmafia.getRestoreCount() + " mana restores at my disposal.", false ) );
 				return true;
 			}
 
@@ -743,7 +779,7 @@ public abstract class KoLMessenger extends StaticEntity
 					System.exit(0);
 
 				BuffBotHome.update( BuffBotHome.ERRORCOLOR, channel + " added to ignore list" );
-				RequestThread.postRequest( new ChatRequest( channel, "/baleet" ) );
+				RequestThread.postRequest( new ChatRequest( channel, "/baleet", false ) );
 				return true;
 			}
 		}
@@ -768,8 +804,19 @@ public abstract class KoLMessenger extends StaticEntity
 			return true;
 		}
 
-		// Nothing happened.
-		return false;
+		String action = (String) specialRequests.get( message.toLowerCase() );
+
+		if ( action == null )
+			return false;
+
+		if ( action.startsWith( "reply" ) )
+		{
+			RequestThread.postRequest( new ChatRequest( channel, StaticEntity.globalStringReplace( action.substring(5).trim(), "%1", channel ), false ) );
+			return true;
+		}
+
+		CommandDisplayFrame.executeCommand( StaticEntity.globalStringReplace( action, "%1", channel ) );
+		return true;
 	}
 
 	private static void processChatMessage( String channel, String message, String bufferKey )
