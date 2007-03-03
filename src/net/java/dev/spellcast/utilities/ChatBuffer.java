@@ -33,7 +33,7 @@
  */
 
 /**
- * Copyright (c) 2005-2006, KoLmafia development team
+ * Copyright (c) 2005-2007, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -123,7 +123,7 @@ public class ChatBuffer
 
 	public ChatBuffer( String title )
 	{
-		this.displayBuffer = new StringBuffer( "<body>" );
+		this.displayBuffer = new StringBuffer();
 		this.title = title;
 		this.header = "<html><head>" + NEW_LINE + "<title>" + title + "</title>" + NEW_LINE;
 	}
@@ -215,9 +215,8 @@ public class ChatBuffer
 				if ( !shouldAppend )
 				{
 					updateLogFile( header );
-					updateLogFile( "<style>" );
-					updateLogFile( BUFFER_STYLE );
-					updateLogFile( "</style>" );
+					updateLogFile( "<style>" + BUFFER_STYLE + "</style>" );
+					updateLogFile( "<body>" );
 				}
 			}
 

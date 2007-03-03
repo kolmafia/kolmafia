@@ -807,18 +807,15 @@ public abstract class KoLMessenger extends StaticEntity
 	public static String formatChatMessage( String channel, String message, String bufferKey )
 	{
 		StringBuffer displayHTML = new StringBuffer( message );
-
-		// Figure out what the properly formatted HTML looks like
-		// first, based on who sent the message and whether or not
-		// there are supposed to be italics.
+		StaticEntity.singleStringDelete( displayHTML, "target=mainpane " );
 
 		// There are a bunch of messages that are supposed to be
 		// formatted in green.  These are all handled first.
 
 		boolean isWhoMessage = message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 ||
-			message.startsWith( "<a class=nounder" ) || message.startsWith( "<a target=mainpane href=\'" );
+			message.startsWith( "<a class=nounder" ) || message.startsWith( "<a href=\'" );
 
-		boolean isGreenMessage = message.startsWith( "<a target=mainpane href=\"messages.php\">" ) ||
+		boolean isGreenMessage = message.startsWith( "<a href=\"messages.php\">" ) ||
 			message.indexOf( "has proposed a trade" ) != -1 || message.indexOf( "has cancelled a trade" ) != -1 ||
 			message.indexOf( "has responded to a trade" ) != -1 || message.indexOf( "has declined a trade" ) != -1 ||
 			message.indexOf( "has accepted a trade" ) != -1 || message.indexOf( "has given you a box of sunshine." ) != -1 ||
