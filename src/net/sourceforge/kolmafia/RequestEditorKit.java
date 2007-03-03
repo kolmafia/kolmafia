@@ -1105,14 +1105,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			skills.append( "<td bgcolor=\"#eeeeff\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Common Stuff You Didn't Do</th></tr><tr><td align=center><font size=\"-1\">" );
 
 			AdventureResult item;
-			int neededCount = 0;
+			int currentCount;
 
 			for ( int i = 0; i < ascensionCheckList.size(); ++i )
 			{
 				item = (AdventureResult) ascensionCheckList.get(i);
-				neededCount = item.getCount() - (item.getCount( inventory ) + item.getCount( closet ) + item.getCount( storage ));
+				currentCount = item.getCount( inventory ) + item.getCount( closet ) + item.getCount( storage );
 
-				if ( neededCount > 0 )
+				if ( currentCount < item.getCount() )
 				{
 					skills.append( "<nobr>" );
 
@@ -1123,9 +1123,16 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					else
 					{
 						skills.append( "acquire " );
-						skills.append( String.valueOf( neededCount ) );
+						skills.append( String.valueOf( item.getCount() ) );
 						skills.append( " " );
 						skills.append( item.getName().toLowerCase() );
+
+						if ( item.getCount() > 1 )
+						{
+							skills.append( " (you have " );
+							skills.append( currentCount );
+							skills.append( ")" );
+						}
 					}
 
 					skills.append( "</nobr><br>" );
