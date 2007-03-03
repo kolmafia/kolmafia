@@ -518,13 +518,9 @@ public class FightRequest extends KoLRequest
 			Matcher familiarActMatcher = FAMILIAR_ACT_PATTERN.matcher( responseText );
 			while ( familiarActMatcher.find() )
 			{
-				StringTokenizer actions = new StringTokenizer( ANYTAG_PATTERN.matcher( familiarActMatcher.group() ).replaceAll( "\n" ), "\n" );
-				while ( actions.hasMoreTokens() )
-				{
-					String action = "Round " + currentRound + ": " + actions.nextToken();
-					RequestLogger.printLine( action );
-					RequestLogger.updateSessionLog( action );
-				}
+				String action = "Round " + currentRound + ": " + ANYTAG_PATTERN.matcher( familiarActMatcher.group() ).replaceAll( "" );
+				RequestLogger.printLine( action );
+				RequestLogger.updateSessionLog( action );
 			}
 		}
 
