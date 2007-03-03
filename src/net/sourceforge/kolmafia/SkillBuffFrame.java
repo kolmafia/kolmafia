@@ -48,7 +48,7 @@ public class SkillBuffFrame extends KoLFrame
 {
 	private JComboBox skillSelect;
 	private JTextField amountField;
-	private JComboBox targetSelect;
+	private JTextField targetSelect;
 	private ShowDescriptionList effectList;
 
 	public SkillBuffFrame()
@@ -71,10 +71,7 @@ public class SkillBuffFrame extends KoLFrame
 	}
 
 	public void setRecipient( String recipient )
-	{
-		targetSelect.addItem( recipient );
-		targetSelect.getEditor().setItem( recipient );
-		targetSelect.setSelectedItem( recipient );
+	{	targetSelect.setText( recipient );
 	}
 
 	private class SkillReselector implements ListSelectionListener
@@ -95,9 +92,9 @@ public class SkillBuffFrame extends KoLFrame
 		{
 			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			skillSelect = new MutableComboBox( usableSkills, false );
+			skillSelect = new JComboBox( usableSkills );
 			amountField = new JTextField();
-			targetSelect = new MutableComboBox( (SortedListModel) contactList.clone(), true );
+			targetSelect = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Skill Name: ", skillSelect );
@@ -132,7 +129,7 @@ public class SkillBuffFrame extends KoLFrame
 			if ( buffName == null )
 				return;
 
-			String [] targets = StaticEntity.getClient().extractTargets( (String) targetSelect.getSelectedItem() );
+			String [] targets = StaticEntity.getClient().extractTargets( targetSelect.getText() );
 
 			int buffCount = !maxBuff ? getValue( amountField, 1 ) : Integer.MAX_VALUE;
 			if ( buffCount == 0 )
