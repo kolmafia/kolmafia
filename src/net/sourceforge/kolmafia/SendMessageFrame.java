@@ -64,7 +64,7 @@ public class SendMessageFrame extends KoLFrame
 {
 	public boolean usingStorage;
 	public JPanel messagePanel;
-	public JComboBox recipientEntry;
+	public JTextField recipientEntry;
 	public JTextArea messageEntry;
 	public JButton sendMessageButton;
 
@@ -92,12 +92,7 @@ public class SendMessageFrame extends KoLFrame
 
 		centerPanel.add( constructWestPanel(), BorderLayout.WEST );
 
-		if ( !recipient.equals( "" ) )
-		{
-			recipientEntry.addItem( recipient );
-			recipientEntry.getEditor().setItem( recipient );
-			recipientEntry.setSelectedItem( recipient );
-		}
+		recipientEntry.setText( recipient );
 
 		constructAttachmentPanel();
 		centerPanel.add( tabs, BorderLayout.CENTER );
@@ -186,7 +181,7 @@ public class SendMessageFrame extends KoLFrame
 
 		// Also who you want to send it to.
 
-		recipientEntry = new MutableComboBox( (SortedListModel) contactList.clone(), true );
+		recipientEntry = new JTextField();
 		recipientEntry.setEditable( true );
 
 		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );
@@ -194,13 +189,7 @@ public class SendMessageFrame extends KoLFrame
 		overviewPanel.add( getLabelPanel( "I intend to send it to this person:" ) );
 		overviewPanel.add( Box.createVerticalStrut( 4 ) );
 
-		JPanel contactsPanel = new JPanel( new BorderLayout() );
-		contactsPanel.add( recipientEntry, BorderLayout.CENTER );
-
-		JButton refreshButton = new InvocationButton( "Refresh contact list", "reload.gif", this, "refreshContactList" );
-		JComponentUtilities.setComponentSize( refreshButton, 20, 20 );
-		contactsPanel.add( refreshButton, BorderLayout.EAST );
-		overviewPanel.add( contactsPanel );
+		overviewPanel.add( recipientEntry );
 		overviewPanel.add( Box.createVerticalStrut( 20 ) );
 
 		// And the message entry area.
@@ -334,7 +323,7 @@ public class SendMessageFrame extends KoLFrame
 	{
 		public void run()
 		{
-			String [] recipients = StaticEntity.getClient().extractTargets( (String) recipientEntry.getSelectedItem() );
+			String [] recipients = StaticEntity.getClient().extractTargets( recipientEntry.getText() );
 			if ( recipients.length == 0 || recipients[0].equals( "" ) )
 			{
 				KoLmafia.updateDisplay( "You didn't specify someone to send to." );
@@ -399,11 +388,5 @@ public class SendMessageFrame extends KoLFrame
 		}
 
 		return attachments.toArray();
-	}
-
-	public void refreshContactList()
-	{
-		RequestThread.postRequest( new ContactListRequest() );
-		recipientEntry.setModel( (SortedListModel) contactList.clone() );
 	}
 }

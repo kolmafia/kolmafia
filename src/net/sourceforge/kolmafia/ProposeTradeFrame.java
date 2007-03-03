@@ -67,7 +67,7 @@ public class ProposeTradeFrame extends KoLFrame
 
 	private String offerId;
 	public JPanel messagePanel;
-	public JComboBox recipientEntry;
+	public JTextField recipientEntry;
 	public JTextArea messageEntry;
 	public JButton sendMessageButton;
 
@@ -96,12 +96,7 @@ public class ProposeTradeFrame extends KoLFrame
 
 		centerPanel.add( constructWestPanel(), BorderLayout.WEST );
 
-		if ( !recipient.equals( "" ) )
-		{
-			recipientEntry.addItem( recipient );
-			recipientEntry.getEditor().setItem( recipient );
-			recipientEntry.setSelectedItem( recipient );
-		}
+		recipientEntry.setText( recipient );
 
 		JPanel attachmentPanel = new JPanel( new BorderLayout( 10, 10 ) );
 		JPanel enclosePanel = new JPanel( new BorderLayout() );
@@ -158,9 +153,7 @@ public class ProposeTradeFrame extends KoLFrame
 
 	public JPanel constructWestPanel()
 	{
-		recipientEntry = new MutableComboBox( (SortedListModel) contactList.clone(), true );
-		recipientEntry.setEditable( true );
-
+		recipientEntry = new JTextField();
 		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );
 
 		messageEntry = new JTextArea();
@@ -176,13 +169,7 @@ public class ProposeTradeFrame extends KoLFrame
 		recipientPanel.add( getLabelPanel( "Send to this person:" ) );
 		recipientPanel.add( Box.createVerticalStrut( 4 ) );
 
-		JPanel contactsPanel = new JPanel( new BorderLayout() );
-		contactsPanel.add( recipientEntry, BorderLayout.CENTER );
-
-		JButton refreshButton = new InvocationButton( "Refresh contact list", "reload.gif", this, "refreshContactList" );
-		JComponentUtilities.setComponentSize( refreshButton, 20, 20 );
-		contactsPanel.add( refreshButton, BorderLayout.EAST );
-		recipientPanel.add( contactsPanel );
+		recipientPanel.add( recipientEntry );
 		recipientPanel.add( Box.createVerticalStrut( 20 ) );
 
 		JPanel entryPanel = new JPanel( new BorderLayout( 5, 5 ) );
@@ -211,7 +198,7 @@ public class ProposeTradeFrame extends KoLFrame
 	{
 		public void run()
 		{
-			String recipient = (String) recipientEntry.getSelectedItem();
+			String recipient = recipientEntry.getText();
 
 			// Close all pending trades frames first
 
@@ -227,7 +214,6 @@ public class ProposeTradeFrame extends KoLFrame
 				new ProposeTradeRequest( recipient, messageEntry.getText(), getAttachedItems() ) );
 
 			createDisplay( PendingTradesFrame.class );
-			recipientEntry.setSelectedIndex( -1 );
 			dispose();
 		}
 	}
@@ -294,12 +280,6 @@ public class ProposeTradeFrame extends KoLFrame
 
 		frames = null;
 		super.dispose();
-	}
-
-	public void refreshContactList()
-	{
-		RequestThread.postRequest( new ContactListRequest() );
-		recipientEntry.setModel( (SortedListModel) contactList.clone() );
 	}
 
 	/**
