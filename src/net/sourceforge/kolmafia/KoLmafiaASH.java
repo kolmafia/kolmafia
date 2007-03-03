@@ -3437,6 +3437,15 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "group_string", REGEX_GROUP_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_lower_case", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_upper_case", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "chat_reply", VOID_TYPE, params ) );
+
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "bounty_hunter_wants", BOOLEAN_TYPE, params ) );
 
@@ -5304,6 +5313,23 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			return value;
+		}
+
+		public ScriptValue to_upper_case( ScriptVariable string )
+		{	return parseStringValue( string.toStringValue().toString().toUpperCase() );
+		}
+
+		public ScriptValue to_lower_case( ScriptVariable string )
+		{	return parseStringValue( string.toStringValue().toString().toLowerCase() );
+		}
+
+		public ScriptValue chat_reply( ScriptVariable string )
+		{
+			String recipient = KoLMessenger.lastBlueMessage();
+			if ( !recipient.equals( "" ) )
+				RequestThread.postRequest( new ChatRequest( recipient, string.toStringValue().toString(), false ) );
+
+			return VOID_VALUE;
 		}
 
 		public ScriptValue cli_execute( ScriptVariable string )
