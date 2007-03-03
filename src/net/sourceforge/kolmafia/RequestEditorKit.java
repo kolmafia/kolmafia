@@ -632,6 +632,56 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		return entityVersion.toString();
 	}
 
+	public static final String getStripped( String entityVersion )
+	{
+		int index = entityVersion.indexOf( "&" );
+
+		// If there are no character entities, return original string
+		if ( index < 0 )
+			return entityVersion;
+
+		// Otherwise, make a StringBuffer to create unicode version of input
+		StringBuffer strippedVersion = null;
+		int start = 0;
+
+		// Replace all entities
+		while ( index >= 0 )
+		{
+			// Find the end of the character entity
+			int semi = entityVersion.indexOf( ";", index + 1 );
+
+			// If no semicolon, bogus, but quit now
+			if ( semi < 0 )
+			{
+				index = entityVersion.indexOf( " ", index + 1 );
+				continue;
+			}
+
+			// If we don't have a string buffer, make one
+			if ( strippedVersion == null )
+				strippedVersion = new StringBuffer();
+
+			// Copy in prefix
+			if ( index > start )
+				strippedVersion.append( entityVersion.substring( start, index ) );
+
+			// Skip past entity
+			start = semi + 1;
+			index = entityVersion.indexOf( "&", start );
+		}
+
+		// If we never translated an entity, return the original string
+		if ( start == 0 )
+			return entityVersion;
+
+		// Append suffix
+		if ( start < entityVersion.length() )
+			strippedVersion.append( entityVersion.substring( start ) );
+
+		// Return the new string
+		return strippedVersion.toString();
+	}
+
 	public static final String getUnicode( String entityVersion )
 	{	return getUnicode( entityVersion, true );
 	}
@@ -656,7 +706,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			// If no semicolon, bogus, but quit now
 			if ( semi < 0 )
-				break;
+			{
+				index = entityVersion.indexOf( " ", index + 1 );
+				continue;
+			}
 
 			// Replace entity with unicode
 			String entity = entityVersion.substring( index, semi + 1 );
