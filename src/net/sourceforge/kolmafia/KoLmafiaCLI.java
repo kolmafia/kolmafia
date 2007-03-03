@@ -2652,6 +2652,13 @@ public class KoLmafiaCLI extends KoLmafia
 			// out which item or effect is desired and set that as the condition.
 
 			condition = getFirstMatchingItem( conditionString );
+			if ( condition == null )
+				return null;
+
+			int currentCount = condition.getCount( inventory );
+
+			if ( currentCount > 0 )
+				condition = condition.getInstance( condition.getCount() - currentCount );
 		}
 
 		return condition;
