@@ -184,7 +184,11 @@ public abstract class KoLMessenger extends StaticEntity
 		while ( (data = KoLDatabase.readData( chatbot )) != null )
 		{
 			if ( data.length == 2 )
-				specialRequests.put( data[0].toLowerCase(), data[1] );
+			{
+				String [] keys = data[0].toLowerCase().split( "[^0-9A-Za-z]+" );
+				for ( int i = 0; i < keys.length; ++i )
+					specialRequests.put( keys[i], data[1] );
+			}
 		}
 	}
 
@@ -804,19 +808,35 @@ public abstract class KoLMessenger extends StaticEntity
 			return true;
 		}
 
-		String action = (String) specialRequests.get( message.toLowerCase() );
-
-		if ( action == null )
+		if ( specialRequests.isEmpty() )
 			return false;
 
-		if ( action.startsWith( "reply" ) )
+		boolean hadOneAction = false;
+		ArrayList pastActions = new ArrayList();
+
+		String [] commands = message.split( "[^0-9A-Za-z]+" );
+
+		for ( int i = 0; i < commands.length; ++i )
 		{
-			RequestThread.postRequest( new ChatRequest( channel, StaticEntity.globalStringReplace( action.substring(5).trim(), "%1", channel ), false ) );
-			return true;
+			List actions = KoLDatabase.getMatchingNames( specialRequests, commands[i] );
+			if ( actions.isEmpty() )
+				continue;
+
+			String action = (String) actions.get(0);
+			if ( pastActions.contains( action ) )
+				continue;
+
+			pastActions.add( action );
+
+			if ( action.startsWith( "reply" ) )
+				RequestThread.postRequest( new ChatRequest( channel, StaticEntity.globalStringReplace( action.substring(5).trim(), "%1", channel ), false ) );
+			else
+				CommandDisplayFrame.executeCommand( StaticEntity.globalStringReplace( action, "%1", channel ) );
+
+			hadOneAction = true;
 		}
 
-		CommandDisplayFrame.executeCommand( StaticEntity.globalStringReplace( action, "%1", channel ) );
-		return true;
+		return hadOneAction;
 	}
 
 	private static void processChatMessage( String channel, String message, String bufferKey )
