@@ -452,7 +452,7 @@ public class LocalRelayServer implements Runnable
 						request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 					}
 				}
-				else if ( path.indexOf( "charpane.php" ) != -1 && StaticEntity.getBooleanProperty( "relayMaintainsMoods" ) )
+				else if ( path.indexOf( "charpane.php" ) != -1 )
 				{
 					request.run();
 
@@ -460,10 +460,8 @@ public class LocalRelayServer implements Runnable
 					{
 						KoLAdventure adventure = AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) );
 						if ( adventure != null && adventure.runsBetweenBattleScript() )
-						{
-							StaticEntity.getClient().runBetweenBattleChecks( true );
-							request.run();
-						}
+							if ( runBetweenBattleScripts() )
+								request.run();
 					}
 
 					lastUsername = KoLCharacter.getUserName();
@@ -476,12 +474,9 @@ public class LocalRelayServer implements Runnable
 						while ( KoLmafia.isRunningBetweenBattleChecks() )
 							KoLRequest.delay( 100 );
 
-						if ( StaticEntity.getBooleanProperty( "relayMaintainsMoods" ) )
-						{
-							KoLAdventure adventure = AdventureDatabase.getAdventureByURL( path );
-							if ( adventure != null && adventure.runsBetweenBattleScript() )
-								StaticEntity.getClient().runBetweenBattleChecks( true );
-						}
+						KoLAdventure adventure = AdventureDatabase.getAdventureByURL( path );
+						if ( adventure != null && adventure.runsBetweenBattleScript() )
+							runBetweenBattleScripts();
 					}
 
 					request.run();
@@ -559,6 +554,25 @@ public class LocalRelayServer implements Runnable
 				// socket is already closed.  Ignore.
 			}
 
+		}
+
+		private boolean runBetweenBattleScripts()
+		{
+			CharpaneRequest.createCheckpoint();
+
+			if ( StaticEntity.getBooleanProperty( "relayRunsBetweenScript" ) )
+				StaticEntity.getClient().runBetweenBattleChecks( false, false );
+
+			if ( StaticEntity.getBooleanProperty( "relayMaintainsMoods" ) )
+				MoodSettings.execute( true );
+
+			if ( StaticEntity.getBooleanProperty( "relayMaintainsHealth" ) )
+				StaticEntity.getClient().recoverHP();
+
+			if ( StaticEntity.getBooleanProperty( "relayMaintainsMana" ) )
+				StaticEntity.getClient().recoverMP();
+
+			return CharpaneRequest.clearedCheckpoint();
 		}
 	}
 }

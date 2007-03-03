@@ -194,8 +194,15 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
 			{ "relayAddsMissingEffects", "Display mood trigger buffs with zero duration" },
+			{ "relayAddsMoodRefreshLink", "Add mood link as needed (overrides MP burn link)" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
-			{ "relayMaintainsMoods", "Maintain health, mana, and moods during manual adventuring" },
+
+			{ "", "" },
+
+			{ "relayRunsBetweenScript", "Run override script during manual adventuring" },
+			{ "relayMaintainsMoods", "Maintain moods during manual adventuring" },
+			{ "relayMaintainsHealth", "Maintain health during manual adventuring" },
+			{ "relayMaintainsMana", "Maintain mana during manual adventuring" },
 
 			{ "", "" },
 

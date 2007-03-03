@@ -43,6 +43,7 @@ public class CharpaneRequest extends KoLRequest
 {
 	private static boolean isRunning = false;
 	private static boolean isProcessing = false;
+	private static boolean clearedCheckpoint = false;
 	private static final CharpaneRequest instance = new CharpaneRequest();
 
 	private CharpaneRequest()
@@ -58,6 +59,14 @@ public class CharpaneRequest extends KoLRequest
 	{	return instance;
 	}
 
+	public static void createCheckpoint()
+	{	clearedCheckpoint = false;
+	}
+
+	public static boolean clearedCheckpoint()
+	{	return clearedCheckpoint;
+	}
+
 	public void run()
 	{
 		if ( isRunning )
@@ -66,6 +75,8 @@ public class CharpaneRequest extends KoLRequest
 		isRunning = true;
 		super.run();
 		isRunning = false;
+
+		clearedCheckpoint = true;
 	}
 
 	public void processResults()
