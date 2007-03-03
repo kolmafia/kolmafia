@@ -885,7 +885,7 @@ public class FightRequest extends KoLRequest
 				{
 					action2 = CombatSettings.getShortCombatOptionName( "item " + item );
 					if ( shouldLogAction )
-						action.append( "and uses the " + item );
+						action.append( " and uses the " + item );
 				}
 			}
 
