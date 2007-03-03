@@ -3435,6 +3435,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "replace_string", STRING_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
+
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "split_string", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
 
@@ -4349,7 +4352,7 @@ public class KoLmafiaASH extends StaticEntity
 					while ( (line = reader.readLine()) != null )
 					{
 						contents.append( line );
-						contents.append( '\n' );
+						contents.append( LINE_BREAK );
 					}
 				}
 				catch ( Exception e )
@@ -4358,8 +4361,6 @@ public class KoLmafiaASH extends StaticEntity
 				}
 
 				value.aset( new ScriptValue( i ), parseStringValue( contents.toString() ) );
-
-System.out.println( contents.toString() );
 			}
 
 			return value;
@@ -5309,6 +5310,19 @@ System.out.println( contents.toString() );
 		{
 			return parseStringValue( StaticEntity.globalStringReplace( string.toStringValue().toString(),
 				search.toStringValue().toString(), replace.toStringValue().toString() ) );
+		}
+
+		public ScriptValue split_string( ScriptVariable string )
+		{
+			String [] pieces = string.toStringValue().toString().split( LINE_BREAK );
+
+			ScriptAggregateType type = new ScriptAggregateType( STRING_TYPE, pieces.length );
+			ScriptArray value = new ScriptArray( type );
+
+			for ( int i = 0; i < pieces.length; ++i )
+				value.aset( new ScriptValue( i ), parseStringValue( pieces[i] ) );
+
+			return value;
 		}
 
 		public ScriptValue split_string( ScriptVariable string, ScriptVariable regex )
