@@ -184,11 +184,7 @@ public abstract class KoLMessenger extends StaticEntity
 		while ( (data = KoLDatabase.readData( chatbot )) != null )
 		{
 			if ( data.length == 2 )
-			{
-				String [] keys = data[0].toLowerCase().split( "[^0-9A-Za-z]+" );
-				for ( int i = 0; i < keys.length; ++i )
-					specialRequests.put( keys[i], data[1] );
-			}
+				specialRequests.put( data[0], data[1] );
 		}
 	}
 
@@ -808,35 +804,33 @@ public abstract class KoLMessenger extends StaticEntity
 			return true;
 		}
 
-		if ( specialRequests.isEmpty() )
-			return false;
-
-		boolean hadOneAction = false;
-		ArrayList pastActions = new ArrayList();
-
-		String [] commands = message.split( "[^0-9A-Za-z]+" );
-
-		for ( int i = 0; i < commands.length; ++i )
+		if ( !specialRequests.isEmpty() )
 		{
-			List actions = KoLDatabase.getMatchingNames( specialRequests, commands[i] );
-			if ( actions.isEmpty() )
-				continue;
+			List actions = KoLDatabase.getMatchingNames( specialRequests, message );
+			if ( !actions.isEmpty() )
+			{
+				String action = (String) actions.get(0);
 
-			String action = (String) actions.get(0);
-			if ( pastActions.contains( action ) )
-				continue;
+				if ( action.startsWith( "reply" ) )
+					RequestThread.postRequest( new ChatRequest( channel, StaticEntity.globalStringReplace( action.substring(5).trim(), "%1", channel ), false ) );
+				else
+					CommandDisplayFrame.executeCommand( StaticEntity.globalStringReplace( action, "%1", channel ) );
 
-			pastActions.add( action );
-
-			if ( action.startsWith( "reply" ) )
-				RequestThread.postRequest( new ChatRequest( channel, StaticEntity.globalStringReplace( action.substring(5).trim(), "%1", channel ), false ) );
-			else
-				CommandDisplayFrame.executeCommand( StaticEntity.globalStringReplace( action, "%1", channel ) );
-
-			hadOneAction = true;
+				return true;
+			}
 		}
 
-		return hadOneAction;
+		String scriptName = StaticEntity.getProperty( "chatbotScript" );
+		if ( scriptName.equals( "" ) )
+			return false;
+
+		KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
+		if ( interpreter == null )
+			return false;
+
+		StaticEntity.setProperty( "chatbotScriptExecuted", "false" );
+		interpreter.execute( "main", new String [] { channel, message } );
+		return StaticEntity.getBooleanProperty( "chatbotScriptExecuted" );
 	}
 
 	private static void processChatMessage( String channel, String message, String bufferKey )

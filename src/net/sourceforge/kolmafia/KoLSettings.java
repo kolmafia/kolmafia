@@ -586,6 +586,8 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "buffBotCasting", "" );
 		PLAYER_SETTINGS.put( "buffBotMessageDisposal", "0" );
 		PLAYER_SETTINGS.put( "candyHeartSummons", "0" );
+		PLAYER_SETTINGS.put( "chatbotScript", "" );
+		PLAYER_SETTINGS.put( "chatbotScriptExecuted", "false" );
 		PLAYER_SETTINGS.put( "chosenTrip", "" );
 		PLAYER_SETTINGS.put( "cocktailSummons", "0" );
 		PLAYER_SETTINGS.put( "createWithoutBoxServants", "false" );
