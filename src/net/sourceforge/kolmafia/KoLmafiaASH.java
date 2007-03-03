@@ -52,6 +52,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -2969,6 +2970,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "today_to_string", STRING_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE, INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "session_logs", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
+
 		params = new ScriptType[] { BOOLEAN_TYPE };
 		result.addElement( new ScriptExistingFunction( "boolean_to_string", STRING_TYPE, params ) );
 
@@ -4311,6 +4315,54 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue today_to_string()
 		{	return parseStringValue( DATED_FILENAME_FORMAT.format( new Date() ) );
+		}
+
+		public ScriptValue session_logs( ScriptVariable player, ScriptVariable dayCount )
+		{
+			String [] files = new String[ dayCount.intValue() ];
+
+			Calendar timestamp = Calendar.getInstance();
+
+			ScriptAggregateType type = new ScriptAggregateType( STRING_TYPE, files.length );
+			ScriptArray value = new ScriptArray( type );
+
+			String filename;
+			BufferedReader reader;
+			StringBuffer contents = new StringBuffer();
+
+			for ( int i = 0; i < files.length; ++i )
+			{
+				contents.setLength(0);
+				filename = StaticEntity.globalStringReplace( player.toStringValue().toString(), " ", "_" ) + "_" +
+					DATED_FILENAME_FORMAT.format( timestamp.getTime() ) + ".txt";
+
+				reader = KoLDatabase.getReader( new File( "sessions", filename ) );
+				timestamp.add( Calendar.DATE, -1 );
+
+				if ( reader == null )
+					continue;
+
+				try
+				{
+					String line;
+
+					while ( (line = reader.readLine()) != null )
+					{
+						contents.append( line );
+						contents.append( '\n' );
+					}
+				}
+				catch ( Exception e )
+				{
+					printStackTrace( e );
+				}
+
+				value.aset( new ScriptValue( i ), parseStringValue( contents.toString() ) );
+
+System.out.println( contents.toString() );
+			}
+
+			return value;
 		}
 
 		public ScriptValue boolean_to_string( ScriptVariable val )

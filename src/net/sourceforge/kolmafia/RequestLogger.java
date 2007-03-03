@@ -180,7 +180,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 
 	public static void openSessionLog()
 	{
-		sessionStream = openStream( "sessions/" + KoLCharacter.getUserName() + "_" +
+		sessionStream = openStream( "sessions/" + StaticEntity.globalStringReplace( KoLCharacter.getUserName(), " ", "_" ) + "_" +
 			DATED_FILENAME_FORMAT.format( new Date() ) + ".txt", sessionStream, false );
 	}
 
