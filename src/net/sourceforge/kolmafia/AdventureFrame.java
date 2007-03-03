@@ -89,6 +89,7 @@ public class AdventureFrame extends KoLFrame
 	private static JComboBox zoneSelect = null;
 	private static JProgressBar requestMeter = null;
 	private static KoLAdventure lastAdventure = null;
+	private static boolean updateConditions = true;
 
 	private JTree combatTree;
 	private JSplitPane sessionGrid;
@@ -164,8 +165,10 @@ public class AdventureFrame extends KoLFrame
 		if ( location == null || zoneSelect == null || locationSelect == null )
 			return;
 
+		updateConditions = false;
 		zoneSelect.setSelectedItem( AdventureDatabase.ZONE_DESCRIPTIONS.get( location.getParentZone() ) );
 		locationSelect.setSelectedValue( location, true );
+		updateConditions = true;
 	}
 
 	public boolean useSidePane()
@@ -494,10 +497,15 @@ public class AdventureFrame extends KoLFrame
 
 			public void valueChanged( ListSelectionEvent e )
 			{
-				if ( isHandlingConditions )
-					return;
+				if ( updateConditions )
+				{
+					conditionField.setText( "" );
 
-				fillCurrentConditions();
+					if ( !conditions.isEmpty() )
+						conditions.clear();
+
+					fillCurrentConditions();
+				}
 			}
 
 			public void intervalAdded( ListDataEvent e )
@@ -602,12 +610,15 @@ public class AdventureFrame extends KoLFrame
 
 					lastAdventure = request;
 
+					updateConditions = false;
 					isHandlingConditions = true;
 
 					RequestThread.openRequestSequence();
 					boolean shouldAdventure = handleConditions( request );
 					RequestThread.closeRequestSequence();
+
 					isHandlingConditions = false;
+					updateConditions = true;
 
 					if ( !shouldAdventure )
 						return;
