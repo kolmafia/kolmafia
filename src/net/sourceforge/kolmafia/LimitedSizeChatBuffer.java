@@ -121,7 +121,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		// by downloading them here.  Also convert everything
 		// into unicode, rather than character entities.
 
-		message = RequestEditorKit.getUnicode( message, false );
+		message = RequestEditorKit.getStripped( RequestEditorKit.getEntities( message ) );
 		String highlightMessage = message;
 
 		if ( this != highlightBuffer )

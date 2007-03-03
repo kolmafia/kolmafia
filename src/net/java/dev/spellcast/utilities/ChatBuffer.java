@@ -170,9 +170,7 @@ public class ChatBuffer
 		displayPane.setContentType( "text/html" );
 		displayPane.setEditable( false );
 
-		displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
 		fireBufferChanged( DISPLAY_CHANGE, null );
-
 		return new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 	}
 
