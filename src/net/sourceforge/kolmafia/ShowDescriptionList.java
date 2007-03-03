@@ -143,6 +143,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		setVisibleRowCount( visibleRowCount );
 		setCellRenderer( AdventureResult.getDefaultRenderer() );
+		setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" );
 	}
 
 	public void applyFilter( ListElementFilter filter )
