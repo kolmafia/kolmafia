@@ -813,9 +813,9 @@ public abstract class KoLMessenger extends StaticEntity
 		// formatted in green.  These are all handled first.
 
 		boolean isWhoMessage = message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 ||
-			message.startsWith( "<a class=nounder" ) || message.startsWith( "<a href=\'" );
+			message.startsWith( "<a class=nounder" ) || message.startsWith( "<a target=mainpane href=\'" );
 
-		boolean isGreenMessage = message.startsWith( "<a href=\"messages.php\">" ) ||
+		boolean isGreenMessage = message.startsWith( "<a target=mainpane href=\"messages.php\">" ) ||
 			message.indexOf( "has proposed a trade" ) != -1 || message.indexOf( "has cancelled a trade" ) != -1 ||
 			message.indexOf( "has responded to a trade" ) != -1 || message.indexOf( "has declined a trade" ) != -1 ||
 			message.indexOf( "has accepted a trade" ) != -1 || message.indexOf( "has given you a box of sunshine." ) != -1 ||
