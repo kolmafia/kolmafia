@@ -2873,12 +2873,11 @@ public abstract class KoLmafia implements KoLConstants
 		// any loose ends.
 
 		if ( runAutoRecovery )
+		{
 			MoodSettings.execute();
-
-		recoverHP();
-
-		if ( runAutoRecovery )
+			recoverHP();
 			recoverMP();
+		}
 
 		recoveryActive = false;
 

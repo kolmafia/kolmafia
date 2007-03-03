@@ -518,9 +518,11 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "previousNotifyList", "<>" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
 		CLIENT_SETTINGS.put( "protectAgainstOverdrink", "true" );
+
 		CLIENT_SETTINGS.put( "relayAddsGraphicalCLI", "false" );
 		CLIENT_SETTINGS.put( "relayAddsKoLSimulator", "false" );
 		CLIENT_SETTINGS.put( "relayAddsMissingEffects", "true" );
+		CLIENT_SETTINGS.put( "relayAddsMoodRefreshLink", "true" );
 		CLIENT_SETTINGS.put( "relayAddsQuickScripts", "false" );
 		CLIENT_SETTINGS.put( "relayAddsRestoreLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsRoundNumber", "false" );
@@ -530,12 +532,16 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
 		CLIENT_SETTINGS.put( "relayCategorizesSkills", "false" );
 		CLIENT_SETTINGS.put( "relayHidesJunkMallItems", "true" );
+		CLIENT_SETTINGS.put( "relayMaintainsHealth", "true" );
+		CLIENT_SETTINGS.put( "relayMaintainsMana", "true" );
 		CLIENT_SETTINGS.put( "relayMaintainsMoods", "false" );
+		CLIENT_SETTINGS.put( "relayRunsBetweenScript", "false" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
 		CLIENT_SETTINGS.put( "relayTextualizesEffects", "false" );
 		CLIENT_SETTINGS.put( "relayUsesCachedImages", "false" );
 		CLIENT_SETTINGS.put( "relayUsesIntegratedChat", "false" );
 		CLIENT_SETTINGS.put( "relayViewsCustomItems", "false" );
+
 		CLIENT_SETTINGS.put( "saveState", "" );
 		CLIENT_SETTINGS.put( "saveStateActive", "" );
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );

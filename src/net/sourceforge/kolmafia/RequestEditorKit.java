@@ -1912,7 +1912,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		String fontColor = null;
 		String moodText = null;
 
-		if ( MoodSettings.willExecute( true ) )
+		if ( StaticEntity.getBooleanProperty( "relayAddsMoodRefreshLink" ) && MoodSettings.willExecute( true ) )
 		{
 			fontColor = "black";
 			moodText = "mood " + StaticEntity.getProperty( "currentMood" );
@@ -1921,6 +1921,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			fontColor = "black";
 			moodText = "burn extra mp";
+		}
+		else if ( !StaticEntity.getBooleanProperty( "relayAddsMoodRefreshLink" ) )
+		{
+			fontColor = null;
+			moodText = null;
 		}
 		else if ( !MoodSettings.getTriggers().isEmpty() )
 		{
