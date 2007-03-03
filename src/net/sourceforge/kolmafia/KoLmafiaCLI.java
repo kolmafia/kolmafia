@@ -1049,7 +1049,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "entryway" ) )
 		{
-			SorceressLair.completeCloveredEntryway();
+			if ( KoLCharacter.hasItem( SewerRequest.POSITIVE_CLOVER ) || KoLCharacter.canInteract() )
+				SorceressLair.completeCloveredEntryway();
+			else
+				SorceressLair.completeCloverlessEntryway();
+
 			return;
 		}
 
