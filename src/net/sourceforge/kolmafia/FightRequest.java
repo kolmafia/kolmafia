@@ -348,7 +348,8 @@ public class FightRequest extends KoLRequest
 			action2 = null;
 			isUsingConsultScript = false;
 
-			nextRound();
+			if ( !KoLmafia.refusesContinue() )
+				nextRound();
 
 			if ( !isUsingConsultScript )
 			{
