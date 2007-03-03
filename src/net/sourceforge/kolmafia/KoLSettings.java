@@ -453,6 +453,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		// would not serve any purpose.
 
 		CLIENT_SETTINGS.put( "addStopToSidePane", "false" );
+		CLIENT_SETTINGS.put( "allowBreakfastBurning", "true" );
 		CLIENT_SETTINGS.put( "allowCloseableDesktopTabs", "false" );
 		CLIENT_SETTINGS.put( "allowEncounterRateBurning", "true" );
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
@@ -533,7 +534,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "relayCategorizesSkills", "false" );
 		CLIENT_SETTINGS.put( "relayHidesJunkMallItems", "true" );
 		CLIENT_SETTINGS.put( "relayMaintainsHealth", "true" );
-		CLIENT_SETTINGS.put( "relayMaintainsMana", "true" );
+		CLIENT_SETTINGS.put( "relayMaintainsMana", "false" );
 		CLIENT_SETTINGS.put( "relayMaintainsMoods", "false" );
 		CLIENT_SETTINGS.put( "relayRunsBetweenScript", "false" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );

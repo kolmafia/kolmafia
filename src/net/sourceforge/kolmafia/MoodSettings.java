@@ -482,7 +482,7 @@ public abstract class MoodSettings implements KoLConstants
 			// turn count on your buffs is greater than 10, and make sure
 			// to reset your cast count afterwards.
 
-			if ( currentEffect.getCount() >= 10 )
+			if ( StaticEntity.getBooleanProperty( "allowBreakfastBurning" ) && currentEffect.getCount() >= 10 )
 			{
 				if ( !StaticEntity.getClient().castBreakfastSkills( true, false ) )
 					return "";
