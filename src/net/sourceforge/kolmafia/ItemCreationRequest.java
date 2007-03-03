@@ -865,10 +865,24 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		boolean needsPlus = false;
 		int quantity = quantityMatcher.find() ? StaticEntity.parseInt( quantityMatcher.group(1) ) : 1;
 
+		if ( urlString.indexOf( "makemax=on" ) != -1 )
+		{
+			quantity = Integer.MAX_VALUE;
+
+			while ( itemMatcher.find() )
+			{
+				int itemId = StaticEntity.parseInt( itemMatcher.group(1) );
+				AdventureResult item = new AdventureResult( itemId, 1 );
+				quantity = Math.min( item.getCount( inventory ), quantity );
+			}
+
+			itemMatcher = ITEMID_PATTERN.matcher( urlString );
+		}
+
 		if ( urlString.indexOf( "action=stillbooze" ) != -1 || urlString.indexOf( "action=stillfruit" ) != -1 )
 			KoLCharacter.decrementStillsAvailable( quantity );
 
-		while ( isCreationURL && itemMatcher.find() )
+		while ( itemMatcher.find() )
 		{
 			if ( needsPlus )
 				command.append( " + " );
