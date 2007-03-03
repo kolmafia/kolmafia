@@ -45,14 +45,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private static final Pattern COUNT1_PATTERN = Pattern.compile( "bufftimes=([\\d,]+)" );
 	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\d,]+)" );
 
-	public static String [][] BREAKFAST_SKILLS =
-	{
-		{ "Summon Snowcone", "1" },
-		{ "Summon Hilarious Objects", "1" },
-		{ "Advanced Saucecrafting", "3" },
-		{ "Pastamastery", "3" },
-		{ "Advanced Cocktailcrafting", "3" }
-	};
+	public static String [] BREAKFAST_SKILLS = { "Summon Snowcone", "Summon Hilarious Objects", "Advanced Saucecrafting", "Pastamastery", "Advanced Cocktailcrafting" };
 
 	private static final int OTTER_TONGUE = 1007;
 	private static final int WALRUS_TONGUE = 1010;
@@ -128,10 +121,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public void setBuffCount( int buffCount )
 	{
-		for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
-			if ( this.skillName.equals( BREAKFAST_SKILLS[i][0] ) )
-				buffCount = Math.min( StaticEntity.parseInt( BREAKFAST_SKILLS[i][1] ), buffCount );
-
 		int maxPossible = (int) Math.floor( (float) KoLCharacter.getCurrentMP() / (float) ClassSkillsDatabase.getMPConsumptionById( skillId ) );
 
 		if ( buffCount < 1 )
@@ -159,6 +148,67 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public String getSkillName()
 	{	return skillName;
+	}
+
+	public int getMaximumCast()
+	{
+		int maximumCast = Integer.MAX_VALUE;
+
+		switch ( skillId )
+		{
+
+		// Snowcones and grimoire items can only be summoned
+		// once per day.
+
+		case 16:
+
+			maximumCast = 1 - StaticEntity.getIntegerProperty( "snowconeSummons" );
+			break;
+
+		case 17:
+
+			maximumCast = 1 - StaticEntity.getIntegerProperty( "grimoireSummons" );
+			break;
+
+		// Transcendental Noodlecraft affects # of summons for
+		// Pastamastery
+
+		case 3006:
+
+			maximumCast = 3;
+			if ( KoLCharacter.hasSkill( "Transcendental Noodlecraft" ) )
+				maximumCast = 5;
+
+			maximumCast -= StaticEntity.getIntegerProperty( "noodleSummons" );
+			break;
+
+		// The Way of Sauce affects # of summons for
+		// Advanced Saucecrafting
+
+		case 4006:
+
+			maximumCast = 3;
+			if ( KoLCharacter.hasSkill( "The Way of Sauce" ) )
+				maximumCast = 5;
+
+			maximumCast -= StaticEntity.getIntegerProperty( "reagentSummons" );
+			break;
+
+		// Superhuman Cocktailcrafting affects # of summons for
+		// Advanced Cocktailcrafting
+
+		case 5014:
+
+			maximumCast = 3;
+			if ( KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) )
+				maximumCast = 5;
+
+			maximumCast -= StaticEntity.getIntegerProperty( "cocktailSummons" );
+			break;
+
+		}
+
+		return maximumCast;
 	}
 
 	public String toString()
@@ -253,6 +303,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( !KoLmafia.permitsContinue() )
 			return;
 
+		setBuffCount( Math.min( buffCount, getMaximumCast() ) );
 		useSkillLoop();
 
 		if ( item != null && item != ACCORDION && item != ROCKNROLL_LEGEND )
@@ -274,7 +325,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			return;
 
 		int currentCast = 0;
-		int maximumCast = skillId == 18 ? 1 : maximumMP / mpPerCast;
+		int maximumCast = maximumMP / mpPerCast;
 
 		while ( !KoLmafia.refusesContinue() && castsRemaining > 0 )
 		{
@@ -291,6 +342,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// Find out how many times we can cast with current MP
 
 			currentCast = Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast );
+
+			if ( skillId == 18 )
+				currentCast = Math.min( currentCast, 1 );
 
 			// If none, attempt to recover MP in order to cast;
 			// take auto-recovery into account.
@@ -605,6 +659,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "cast " + count + " " + skillName );
 
+		if ( urlString.indexOf( "whichskill=16" ) != -1 )
+			StaticEntity.setProperty( "snowconeSummons", String.valueOf( StaticEntity.getIntegerProperty( "snowconeSummons" ) + 1 ) );
+
+		if ( urlString.indexOf( "whichskill=17" ) != -1 )
+			StaticEntity.setProperty( "grimoireSummons", String.valueOf( StaticEntity.getIntegerProperty( "grimoireSummons" ) + 1 ) );
+
 		if ( urlString.indexOf( "whichskill=18" ) != -1 )
 		{
 			int mpCost = ClassSkillsDatabase.getMPConsumptionById( 18 );
@@ -614,6 +674,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				usableSkills.sort();
 			}
 		}
+
+		if ( urlString.indexOf( "whichskill=3006" ) != -1 )
+			StaticEntity.setProperty( "noodleSummons", String.valueOf( StaticEntity.getIntegerProperty( "noodleSummons" ) + count ) );
+
+		if ( urlString.indexOf( "whichskill=4006" ) != -1 )
+			StaticEntity.setProperty( "reagentSummons", String.valueOf( StaticEntity.getIntegerProperty( "reagentSummons" ) + count ) );
+
+		if ( urlString.indexOf( "whichskill=5014" ) != -1 )
+			StaticEntity.setProperty( "cocktailSummons", String.valueOf( StaticEntity.getIntegerProperty( "cocktailSummons" ) + count ) );
 
 		return true;
 	}

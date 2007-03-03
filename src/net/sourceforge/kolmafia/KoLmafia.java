@@ -105,12 +105,6 @@ public abstract class KoLmafia implements KoLConstants
 		"tradeitems.txt", "zonelist.txt"
 	};
 
-	public static final int SNOWCONE = 0;
-	public static final int HILARIOUS = 1;
-	public static final int SAUCECRAFTING = 2;
-	public static final int PASTAMASTERY = 3;
-	public static final int COCKTAILCRAFTING = 4;
-
 	private static String currentIterationString = "";
 	protected static boolean recoveryActive = false;
 
@@ -518,14 +512,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		if ( StaticEntity.getIntegerProperty( "lastCounterDay" ) != today )
-		{
-			StaticEntity.setProperty( "lastCounterDay", String.valueOf( today ) );
-
-			StaticEntity.setProperty( "currentFullness", "0" );
-			StaticEntity.setProperty( "currentSpleenUse", "0" );
-			StaticEntity.setProperty( "candyHeartSummons", "0" );
-			StaticEntity.setProperty( "currentPvpVictories", "" );
-		}
+			resetCounters();
 
 		// Also, do mushrooms, if a mushroom script has already
 		// been setup by the user.
@@ -538,17 +525,22 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public void resetBreakfastSummonings()
+	public static void resetCounters()
 	{
-		setBreakfastSummonings( SNOWCONE, 1 );
-		setBreakfastSummonings( HILARIOUS, 1 );
-		setBreakfastSummonings( SAUCECRAFTING, 3 );
-		setBreakfastSummonings( PASTAMASTERY, 3 );
-		setBreakfastSummonings( COCKTAILCRAFTING, 3 );
-	}
+		StaticEntity.setProperty( "lastCounterDay", String.valueOf( MoonPhaseDatabase.getPhaseStep() ) );
+		StaticEntity.setProperty( "breakfastCompleted", "false" );
 
-	public void setBreakfastSummonings( int index, int count )
-	{	UseSkillRequest.BREAKFAST_SKILLS[index][1] = String.valueOf( count );
+		StaticEntity.setProperty( "currentFullness", "0" );
+		StaticEntity.setProperty( "currentSpleenUse", "0" );
+		StaticEntity.setProperty( "currentPvpVictories", "" );
+
+		StaticEntity.setProperty( "snowconeSummons", "0" );
+		StaticEntity.setProperty( "grimoireSummons", "0" );
+		StaticEntity.setProperty( "candyHeartSummons", "0" );
+
+		StaticEntity.setProperty( "noodleSummons", "0" );
+		StaticEntity.setProperty( "reagentSummons", "0" );
+		StaticEntity.setProperty( "cocktailSummons", "0" );
 	}
 
 	public void getBreakfast( boolean checkSettings )
@@ -570,48 +562,71 @@ public abstract class KoLmafia implements KoLConstants
 			RequestThread.postRequest( new ClanGymRequest( ClanGymRequest.SEARCH ) );
 
 		KoLmafia.forceContinue();
+		castBreakfastSkills( checkSettings );
+		SpecialOutfit.restoreImplicitCheckpoint();
+	}
+
+	public void castBreakfastSkills( boolean checkSettings )
+	{
+		castBreakfastSkills( checkSettings,
+			!checkSettings || StaticEntity.getBooleanProperty( "loginRecovery" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) );
+	}
+
+	public boolean castBreakfastSkills( boolean checkSettings, boolean allowRestore )
+	{
+		if ( StaticEntity.getBooleanProperty( "breakfastCompleted" ) )
+			return true;
 
 		boolean shouldCast = false;
+		boolean limitExceeded = true;
 
 		String skillSetting = StaticEntity.getProperty( "breakfast" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
-
-		boolean allowRestore = !checkSettings || StaticEntity.getBooleanProperty( "loginRecovery" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
 		boolean pathedSummons = !checkSettings || StaticEntity.getBooleanProperty( "pathedSummons" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
 
 		if ( skillSetting != null )
 		{
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 			{
-				shouldCast = !checkSettings || skillSetting.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i][0] ) != -1;
-				shouldCast &= KoLCharacter.hasSkill( UseSkillRequest.BREAKFAST_SKILLS[i][0] );
+				shouldCast = !checkSettings || skillSetting.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i] ) != -1;
+				shouldCast &= KoLCharacter.hasSkill( UseSkillRequest.BREAKFAST_SKILLS[i] );
 
 				if ( checkSettings && pathedSummons && shouldCast && KoLCharacter.isHardcore() )
 				{
-					if ( UseSkillRequest.BREAKFAST_SKILLS[i][0].equals( "Pastamastery" ) && !KoLCharacter.canEat() )
+					if ( UseSkillRequest.BREAKFAST_SKILLS[i].equals( "Pastamastery" ) && !KoLCharacter.canEat() )
 						shouldCast = false;
-					if ( UseSkillRequest.BREAKFAST_SKILLS[i][0].equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
+					if ( UseSkillRequest.BREAKFAST_SKILLS[i].equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
 						shouldCast = false;
 				}
 
 				if ( shouldCast )
-					getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i][0], StaticEntity.parseInt( UseSkillRequest.BREAKFAST_SKILLS[i][1] ), allowRestore );
+					limitExceeded &= getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i], allowRestore );
 			}
 		}
 
-		SpecialOutfit.restoreImplicitCheckpoint();
+		StaticEntity.setProperty( "breakfastCompleted", String.valueOf( limitExceeded ) );
+		return limitExceeded;
 	}
 
-	public void getBreakfast( String skillName, int standardCast, boolean allowRestore )
+	public boolean getBreakfast( String skillName, boolean allowRestore )
 	{
 		KoLmafia.forceContinue();
 
-		if ( !allowRestore )
-		{
-			int mpCost = ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) );
-			standardCast = Math.min( standardCast, KoLCharacter.getCurrentMP() / mpCost );
-		}
+		UseSkillRequest summon = UseSkillRequest.getInstance( skillName );
+		int maximumCast = summon.getMaximumCast();
 
-		RequestThread.postRequest( UseSkillRequest.getInstance( skillName, standardCast ) );
+		if ( maximumCast == 0 )
+			return true;
+
+		int castCount = Math.min( maximumCast, allowRestore ? 5 :
+			KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) ) );
+
+		if ( castCount == 0 )
+			return true;
+
+		summon.setBuffCount( castCount );
+		RequestThread.postRequest( summon );
+
+		return castCount == maximumCast;
 	}
 
 	public final void refreshSession()
@@ -3164,10 +3179,8 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		StaticEntity.setProperty( "lastBreakfast", "-1" );
 		StaticEntity.setProperty( "lastCouncilVisit", "0" );
-		StaticEntity.setProperty( "currentFullness", "0" );
-		StaticEntity.setProperty( "currentSpleenUse", "0" );
-		StaticEntity.setProperty( "candyHeartSummons", "0" );
 
+		resetCounters();
 		KoLCharacter.reset();
 
 		LockableListModel familiars = KoLCharacter.getFamiliarList();
