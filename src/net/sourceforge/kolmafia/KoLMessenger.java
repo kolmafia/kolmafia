@@ -86,7 +86,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static int rollingIndex = 0;
 	private static ArrayList clanMessages = new ArrayList();
-	private static TreeMap specialRequests = new TreeMap();
+	private static String lastBlueMessage = "";
 
 	static
 	{
@@ -138,9 +138,6 @@ public abstract class KoLMessenger extends StaticEntity
 	private static boolean useTabbedChat = false;
 	private static boolean highlighting = false;
 
-	private static String lastPlayer = "";
-	private static long chatbotModified = 0;
-
 	public static void reset()
 	{
 		isRunning = false;
@@ -156,36 +153,6 @@ public abstract class KoLMessenger extends StaticEntity
 			creator.run();
 			tabbedFrame = (TabbedChatFrame) creator.getCreation();
 		}
-
-		updateChatbot();
-	}
-
-	public static void updateChatbot()
-	{
-		long modified = 0;
-
-		File description = new File( SETTINGS_DIRECTORY, "chatbot_" + KoLCharacter.baseUserName() + ".txt" );
-		if ( !description.exists() )
-			description = new File( SETTINGS_DIRECTORY, "chatbot_GLOBAL.txt" );
-
-		if ( !description.exists() )
-			return;
-
-		long lastModified = description.lastModified();
-		if ( lastModified == chatbotModified )
-			return;
-
-		chatbotModified = lastModified;
-		specialRequests.clear();
-
-		String [] data;
-		BufferedReader chatbot = KoLDatabase.getReader( description );
-
-		while ( (data = KoLDatabase.readData( chatbot )) != null )
-		{
-			if ( data.length == 2 )
-				specialRequests.put( data[0], data[1] );
-		}
 	}
 
 	private static void updateSettings()
@@ -193,8 +160,6 @@ public abstract class KoLMessenger extends StaticEntity
 		enableMonitor = StaticEntity.getBooleanProperty( "useChatMonitor" );
 		channelsSeparate = StaticEntity.getBooleanProperty( "useSeparateChannels" );
 		privateSeparate = StaticEntity.getBooleanProperty( "useSeparatePrivates" );
-
-		updateChatbot();
 	}
 
 	public static String getChatLogName( String key )
@@ -804,22 +769,6 @@ public abstract class KoLMessenger extends StaticEntity
 			return true;
 		}
 
-		if ( !specialRequests.isEmpty() )
-		{
-			List actions = KoLDatabase.getMatchingNames( specialRequests, message );
-			if ( !actions.isEmpty() )
-			{
-				String action = (String) actions.get(0);
-
-				if ( action.startsWith( "reply" ) )
-					RequestThread.postRequest( new ChatRequest( channel, StaticEntity.globalStringReplace( action.substring(5).trim(), "%1", channel ), false ) );
-				else
-					CommandDisplayFrame.executeCommand( StaticEntity.globalStringReplace( action, "%1", channel ) );
-
-				return true;
-			}
-		}
-
 		String scriptName = StaticEntity.getProperty( "chatbotScript" );
 		if ( scriptName.equals( "" ) )
 			return false;
@@ -828,9 +777,14 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( interpreter == null )
 			return false;
 
+		lastBlueMessage = channel;
 		StaticEntity.setProperty( "chatbotScriptExecuted", "false" );
 		interpreter.execute( "main", new String [] { channel, message } );
 		return StaticEntity.getBooleanProperty( "chatbotScriptExecuted" );
+	}
+
+	public static String lastBlueMessage()
+	{	return lastBlueMessage;
 	}
 
 	private static void processChatMessage( String channel, String message, String bufferKey )
