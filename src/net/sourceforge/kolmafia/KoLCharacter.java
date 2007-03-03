@@ -421,8 +421,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		battleSkillNames.add( "try to run away" );
 
-		getClient().resetBreakfastSummonings();
-
 		isHardcore = false;
 		canInteract = false;
 		hasStore = false;
@@ -1952,21 +1950,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		for ( int i = 0; i < newSkillSet.size(); ++i )
 			addAvailableSkill( (UseSkillRequest) newSkillSet.get(i) );
-
-		// Superhuman Cocktailcrafting affects # of summons for
-		// Advanced Cocktailcrafting
-		if ( hasSkill( "Superhuman Cocktailcrafting" ) )
-			getClient().setBreakfastSummonings( KoLmafia.COCKTAILCRAFTING, 5 );
-
-		// Transcendental Noodlecraft affects # of summons for
-		// Pastamastery
-		if ( hasSkill( "Transcendental Noodlecraft" ) )
-			getClient().setBreakfastSummonings( KoLmafia.PASTAMASTERY, 5 );
-
-		// The Way of Sauce affects # of summons for
-		// Advanced Saucecrafting
-		if ( hasSkill( "The Way of Sauce" ) )
-			getClient().setBreakfastSummonings( KoLmafia.SAUCECRAFTING, 5 );
 
 		// Add derived skills based on base skills
 		addDerivedSkills();

@@ -453,7 +453,7 @@ public class LoginFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Honor path restrictions", JLabel.LEFT, pathedSummons );
 
 			for ( int i = 0; i < skillOptions.length; ++i )
-				elements[i + 2] = new VerifiableElement( UseSkillRequest.BREAKFAST_SKILLS[i][0], JLabel.LEFT, skillOptions[i] );
+				elements[i + 2] = new VerifiableElement( UseSkillRequest.BREAKFAST_SKILLS[i], JLabel.LEFT, skillOptions[i] );
 
 			elements[ skillOptions.length + 2 ] = new VerifiableElement( "Plant mushrooms", JLabel.LEFT, mushroomPlot );
 			elements[ skillOptions.length + 3 ] = new VerifiableElement( "Clan rumpus room", JLabel.LEFT, rumpusRoom );
@@ -473,7 +473,7 @@ public class LoginFrame extends KoLFrame
 					if ( skillString.length() != 0 )
 						skillString.append( "," );
 
-					skillString.append( UseSkillRequest.BREAKFAST_SKILLS[i][0] );
+					skillString.append( UseSkillRequest.BREAKFAST_SKILLS[i] );
 				}
 			}
 
@@ -488,7 +488,7 @@ public class LoginFrame extends KoLFrame
 		{
 			String skillString = StaticEntity.getProperty( "breakfast" + breakfastType );
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
-				skillOptions[i].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i][0] ) != -1 );
+				skillOptions[i].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i] ) != -1 );
 
 			loginRecovery.setSelected( StaticEntity.getBooleanProperty( "loginRecovery" + breakfastType ) );
 			pathedSummons.setSelected( StaticEntity.getBooleanProperty( "pathedSummons" + breakfastType ) );

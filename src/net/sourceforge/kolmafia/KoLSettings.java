@@ -581,10 +581,12 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "autoRepairBoxes", "false" );
 		PLAYER_SETTINGS.put( "battleAction", "attack with weapon" );
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
+		PLAYER_SETTINGS.put( "breakfastCompleted", "false" );
 		PLAYER_SETTINGS.put( "buffBotCasting", "" );
 		PLAYER_SETTINGS.put( "buffBotMessageDisposal", "0" );
 		PLAYER_SETTINGS.put( "candyHeartSummons", "0" );
 		PLAYER_SETTINGS.put( "chosenTrip", "" );
+		PLAYER_SETTINGS.put( "cocktailSummons", "0" );
 		PLAYER_SETTINGS.put( "createWithoutBoxServants", "false" );
 		PLAYER_SETTINGS.put( "currentFullness", "0" );
 		PLAYER_SETTINGS.put( "currentMood", "default" );
@@ -593,6 +595,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "defaultAutoAttack", "0" );
 		PLAYER_SETTINGS.put( "defaultFlowerLossMessage", "" );
 		PLAYER_SETTINGS.put( "defaultFlowerWinMessage", "" );
+		PLAYER_SETTINGS.put( "grimoireSummons", "0" );
 		PLAYER_SETTINGS.put( "hpAutoRecovery", "-0.1" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment" );
@@ -609,13 +612,16 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "mpAutoRecoveryTarget", "0.3" );
 		PLAYER_SETTINGS.put( "mpAutoRecoveryItems", "phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water" );
 		PLAYER_SETTINGS.put( "mpThreshold", "-0.1" );
+		PLAYER_SETTINGS.put( "noodleSummons", "0" );
 		PLAYER_SETTINGS.put( "plantingDay", "-1" );
 		PLAYER_SETTINGS.put( "plantingDate", "" );
 		PLAYER_SETTINGS.put( "plantingLength", "" );
 		PLAYER_SETTINGS.put( "plantingScript", "" );
+		PLAYER_SETTINGS.put( "reagentSummons", "0" );
 		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
 		PLAYER_SETTINGS.put( "showClosetIngredients", "false" );
 		PLAYER_SETTINGS.put( "showStashIngredients", "false" );
+		PLAYER_SETTINGS.put( "snowconeSummons", "0" );
 		PLAYER_SETTINGS.put( "thanksMessage", "Thank you for the donation!" );
 		PLAYER_SETTINGS.put( "trapperOre", "chrome ore" );
 		PLAYER_SETTINGS.put( "violetFogGoal", "0" );
