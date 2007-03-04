@@ -610,8 +610,25 @@ public abstract class KoLmafia implements KoLConstants
 	public boolean getBreakfast( String skillName, boolean allowRestore )
 	{
 		KoLmafia.forceContinue();
-
 		UseSkillRequest summon = UseSkillRequest.getInstance( skillName );
+
+		// Special handling for candy heart summoning.  This skill
+		// can be extremely expensive, so rather than summoning to
+		// your limit, designated by maximum MP, it merely swallows
+		// all your current MP.
+
+		if ( summon.getSkillId() == 18 )
+		{
+			summon.setBuffCount( 1 );
+			while ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() )
+				RequestThread.postRequest( summon );
+
+			return true;
+		}
+
+		// For all other skills, if you don't need to cast them, then
+		// skip this step.
+
 		int maximumCast = summon.getMaximumCast();
 
 		if ( maximumCast == 0 )
