@@ -478,14 +478,16 @@ public abstract class MoodSettings implements KoLConstants
 			int castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
 			int duration = ClassSkillsDatabase.getEffectDuration( skillId );
 
-			// Cast 'Summon Candy Hearts' if available and your current
-			// turn count on your buffs is greater than 10, and make sure
-			// to reset your cast count afterwards.
+			// If the player opts in to allowing breakfast casting to burn
+			// off excess MP, rather than using auto-restore, do so.
 
 			if ( StaticEntity.getBooleanProperty( "allowBreakfastBurning" ) && currentEffect.getCount() >= 10 )
 			{
 				if ( !StaticEntity.getClient().castBreakfastSkills( true, false ) )
 					return null;
+
+				// Cast 'Summon Candy Hearts' if available and your current
+				// turn count on your buffs is greater than 10.
 
 				if ( KoLCharacter.hasSkill( "Summon Candy Hearts" ) )
 				{
