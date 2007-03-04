@@ -665,6 +665,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( index > start )
 				strippedVersion.append( entityVersion.substring( start, index ) );
 
+			String entity = entityVersion.substring( index, semi + 1 );
+			if ( entity.equals( "&nbsp;" ) )
+				strippedVersion.append( " " );
+
 			// Skip past entity
 			start = semi + 1;
 			index = entityVersion.indexOf( "&", start );
