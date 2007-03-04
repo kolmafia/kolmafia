@@ -412,8 +412,13 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// Can the rock and roll legend be acquired in some way
 		// right now?  If so, retrieve it.
 
-		if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND ) || KoLCharacter.canInteract() )
+		if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND, true ) || KoLCharacter.canInteract() )
+		{
+			if ( !KoLCharacter.hasEquipped( ROCKNROLL_LEGEND ) )
+				AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
+
 			return ROCKNROLL_LEGEND;
+		}
 
 		// He must have at least a stolen accordion
 
