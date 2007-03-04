@@ -49,6 +49,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	private String itemName, shopName;
 	private int itemId, shopId, quantity, price, limit;
 
+	private AdventureResult item;
+	private int initialCount;
+
 	private boolean isNPCStore;
 	private String npcStoreId;
 
@@ -91,6 +94,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.quantity = MAX_QUANTITY;
 		this.limit = quantity;
 		this.price = price;
+
+		this.item = new AdventureResult( this.itemId, 1 );
+		this.initialCount = this.item.getCount( inventory );
 
 		this.isNPCStore = true;
 		this.npcStoreId = storeId;
@@ -139,6 +145,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		addFormField( "buying", "Yep." );
 
 		addFormField( "whichitem", getStoreString( itemId, price ) );
+
+		this.item = new AdventureResult( this.itemId, 1 );
+		this.initialCount = this.item.getCount( inventory );
 	}
 
 	public static String getStoreString( int itemId, int price )
@@ -185,7 +194,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public int getPrice()
-	{	return price;
+	{	return !isNPCStore || !KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( TROUSERS ) ? price : (int) ((float) price * 0.95f);
 	}
 
 	/**
@@ -318,7 +327,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Now that everything's ensured, go ahead and execute the
 		// actual purchase request.
 
-		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemId ) + " (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( price ) + ")..." );
+		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemId ) + " (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( getPrice() ) + ")..." );
 		super.run();
 	}
 
@@ -398,6 +407,15 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public void processResults()
 	{
+		int quantityAcquired = item.getCount( inventory ) - initialCount;
+		if ( quantityAcquired > 0 )
+		{
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -1 * getPrice() * quantityAcquired ) );
+			KoLCharacter.updateStatus();
+
+			return;
+		}
+
 		int startIndex = responseText.indexOf( "<center>" );
 		int stopIndex = responseText.indexOf( "</table>" );
 
@@ -482,19 +500,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			canPurchase = false;
 			return;
 		}
-
-		// Otherwise, you managed to purchase something!  Here,
-		// you report to thewhatever you gained.
-
-		int quantityAcquired = responseText.indexOf( "You acquire an item: <b>" ) != -1 ? 1 : 0;
-		for ( int i = limit; i > 0 && quantityAcquired == 0; --i )
-			if ( responseText.indexOf( "acquire <b>" + COMMA_FORMAT.format( i ) ) != -1 )
-				quantityAcquired = i;
-
-		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -1 * price * quantityAcquired ) );
-
-		KoLCharacter.updateStatus();
-		RequestFrame.refreshStatus();
 	}
 
 	public boolean equals( Object o )
