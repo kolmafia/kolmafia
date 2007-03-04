@@ -2048,8 +2048,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 				if ( command.equals( "validate" ) || command.equals( "verify" ) )
 				{
-					KoLmafiaASH.getInterpreter( scriptFile );
-                    RequestLogger.printLine( "Script verification complete." );
+					KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( scriptFile );
+					if ( interpreter != null )
+	                    RequestLogger.printLine( "Script verification complete." );
+
 					return;
 				}
 
