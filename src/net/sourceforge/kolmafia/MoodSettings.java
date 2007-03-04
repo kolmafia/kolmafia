@@ -485,15 +485,15 @@ public abstract class MoodSettings implements KoLConstants
 			if ( StaticEntity.getBooleanProperty( "allowBreakfastBurning" ) && currentEffect.getCount() >= 10 )
 			{
 				if ( !StaticEntity.getClient().castBreakfastSkills( true, false ) )
-					return "";
+					return null;
 
 				if ( KoLCharacter.hasSkill( "Summon Candy Hearts" ) )
 				{
-					while ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() - minimum )
-						DEFAULT_SHELL.executeLine( "cast 1 summon candy hearts" );
+					if ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() - minimum )
+						return "cast 1 summon candy hearts";
 
 					if ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getMaximumMP() - minimum )
-						return "";
+						return null;
 				}
 
 				castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
