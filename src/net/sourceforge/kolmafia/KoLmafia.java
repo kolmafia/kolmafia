@@ -289,7 +289,7 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.setProperty( "swingLookAndFeel", lookAndFeel );
 		System.setProperty( "spellcast.actionButtonsThreaded", StaticEntity.getProperty( "allowRequestQueueing" ) );
 
-		if ( lookAndFeel.equals( UIManager.getCrossPlatformLookAndFeelClassName() ) )
+		if ( System.getProperty( "os.name" ).startsWith( "Win" ) || lookAndFeel.equals( UIManager.getCrossPlatformLookAndFeelClassName() ) )
 		{
 			UIManager.put( "ProgressBar.foreground", Color.black );
 			UIManager.put( "ProgressBar.selectionForeground", Color.lightGray );
@@ -2913,6 +2913,9 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void startRelayServer()
 	{
+		if ( LocalRelayServer.isRunning() )
+			return;
+
 		LocalRelayServer.startThread();
 
 		// Wait for 5 seconds before giving up
@@ -2923,6 +2926,11 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( !LocalRelayServer.isRunning() )
 			return;
+	}
+
+	public void openRelayBrowser()
+	{
+		startRelayServer();
 
 		// Even after the wait, sometimes, the
 		// worker threads have not been filled.

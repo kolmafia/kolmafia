@@ -314,7 +314,7 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 			else if ( frameName.equals( "LocalRelayServer" ) )
 			{
-				StaticEntity.getClient().startRelayServer();
+				StaticEntity.getClient().openRelayBrowser();
 				return;
 			}
 			else if ( frameName.equals( "MailboxFrame" ) )
