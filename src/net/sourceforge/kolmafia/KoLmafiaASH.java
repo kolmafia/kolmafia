@@ -656,6 +656,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 		catch ( Exception e )
 		{
+			KoLmafia.updateDisplay( ERROR_STATE, e.getMessage() );
 			return false;
 		}
 	}
@@ -2970,6 +2971,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "today_to_string", STRING_TYPE, params ) );
 
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "session_logs", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
+
 		params = new ScriptType[] { STRING_TYPE, INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "session_logs", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
 
@@ -4320,9 +4324,17 @@ public class KoLmafiaASH extends StaticEntity
 		{	return parseStringValue( DATED_FILENAME_FORMAT.format( new Date() ) );
 		}
 
+		public ScriptValue session_logs( ScriptVariable dayCount )
+		{	return getSessionLogs( KoLCharacter.getUserName(), dayCount.intValue() );
+		}
+
 		public ScriptValue session_logs( ScriptVariable player, ScriptVariable dayCount )
+		{	return getSessionLogs( player.toStringValue().toString(), dayCount.intValue() );
+		}
+
+		private ScriptValue getSessionLogs( String name, int dayCount )
 		{
-			String [] files = new String[ dayCount.intValue() ];
+			String [] files = new String[ dayCount ];
 
 			Calendar timestamp = Calendar.getInstance();
 
@@ -4336,7 +4348,7 @@ public class KoLmafiaASH extends StaticEntity
 			for ( int i = 0; i < files.length; ++i )
 			{
 				contents.setLength(0);
-				filename = StaticEntity.globalStringReplace( player.toStringValue().toString(), " ", "_" ) + "_" +
+				filename = StaticEntity.globalStringReplace( name, " ", "_" ) + "_" +
 					DATED_FILENAME_FORMAT.format( timestamp.getTime() ) + ".txt";
 
 				reader = KoLDatabase.getReader( new File( "sessions", filename ) );
