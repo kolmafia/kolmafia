@@ -292,7 +292,7 @@ public class LoginFrame extends KoLFrame
 			if ( !LoginRequest.isInstanceRunning() )
 				StaticEntity.setProperty( "relayBrowserOnly", "true" );
 
-			StaticEntity.getClient().startRelayServer();
+			StaticEntity.getClient().openRelayBrowser();
 			LoginFrame.this.setVisible( false );
 		}
 

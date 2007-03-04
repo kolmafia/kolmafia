@@ -210,6 +210,12 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 					if ( interfaceArray[i].equals( "HagnkStorageFrame" ) && KoLCharacter.isHardcore() )
 						continue;
 
+					if ( interfaceArray[i].equals( "LocalRelayServer" ) )
+					{
+						StaticEntity.getClient().startRelayServer();
+						continue;
+					}
+
 					KoLmafiaGUI.constructFrame( interfaceArray[i] );
 				}
 			}
@@ -369,7 +375,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			if ( StaticEntity.getBooleanProperty( "mapLoadsMiniBrowser" ) )
 				toolbarPanel.add( new DisplayFrameButton( "Load in Mini Browser", "browser.gif", "RequestFrame" ) );
 			else
-				toolbarPanel.add( new InvocationButton( "Load in Web Browser", "browser.gif", StaticEntity.getClient(), "startRelayServer" ) );
+				toolbarPanel.add( new InvocationButton( "Load in Web Browser", "browser.gif", StaticEntity.getClient(), "openRelayBrowser" ) );
 
 			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", "CommandDisplayFrame" ) );
 

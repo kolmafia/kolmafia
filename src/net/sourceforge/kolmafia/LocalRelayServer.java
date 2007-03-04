@@ -97,8 +97,13 @@ public class LocalRelayServer implements Runnable
 	public void run()
 	{
 		port = 60080;
-		while ( port <= 60090 && !openServerSocket() )
-			++port;
+		while ( !openServerSocket() )
+		{
+			if ( port <= 60089 )
+				++port;
+			else
+				System.exit(-1);
+		}
 
 		listening = true;
 

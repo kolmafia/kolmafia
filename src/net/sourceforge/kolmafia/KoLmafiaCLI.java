@@ -615,7 +615,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "relay" ) || command.equals( "serve" ) )
 		{
-			StaticEntity.getClient().startRelayServer();
+			StaticEntity.getClient().openRelayBrowser();
 			return;
 		}
 
