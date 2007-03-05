@@ -383,7 +383,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 // Because the browser can render quotes, go ahead and
 // leave them (changing them breaks forms).
 
-		{ "&quot;",	"\"" }, // quotation mark = APL quote, U+0022 ISOnum
+//		{ "&quot;",	"\"" }, // quotation mark = APL quote, U+0022 ISOnum
 
 // These entities are rendered correctly, but may appear
 // in markup -- therefore, don't change them.
@@ -593,14 +593,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	public static final String getEntities( String unicodeVersion )
 	{
 		// Iterate over all the characters in the string looking for unicode
-		int length = unicodeVersion.length();
+
 		StringBuffer entityVersion = null;
+
 		int start = 0;
+		int length = unicodeVersion.length();
 
 		for ( int i = 0; i < length; ++i )
 		{
-			Character unicode = new Character( unicodeVersion.charAt( i ) );
-			String entity = (String)entities.get( unicode );
+			String entity = (String) entities.get( new Character( unicodeVersion.charAt(i) ) );
 
 			// If we don't have a translation, move along in string
 			if ( entity == null )
@@ -666,8 +667,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				strippedVersion.append( entityVersion.substring( start, index ) );
 
 			String entity = entityVersion.substring( index, semi + 1 );
+
 			if ( entity.equals( "&nbsp;" ) )
 				strippedVersion.append( " " );
+			else if ( entity.equals( "&quot;" ) )
+				strippedVersion.append( "\"" );
+			else if ( entity.equals( "&amp;" ) || entity.equals( "&lt;" ) || entity.equals( "&gt;" ) )
+				strippedVersion.append( entity );
+			else if ( entity.equals( "&ntilde;" ) )
+				strippedVersion.append( "n" );
+			else if ( entity.equals( "&eacute;" ) )
+				strippedVersion.append( "e" );
 
 			// Skip past entity
 			start = semi + 1;
