@@ -59,7 +59,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 	private static final String [] CATEGORIES = new String []
 	{
-		"",
+		"Uncategorized",
 		"Item Creation",
 		"Defensive (Passive)",
 		"Defensive (Castable)",
@@ -354,7 +354,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 		Integer currentSkill;
 
-		for ( int i = 1; i < categories.length; ++i )
+		for ( int i = 0; i < categories.length; ++i )
 		{
 			if ( categories[i].isEmpty() )
 				continue;
