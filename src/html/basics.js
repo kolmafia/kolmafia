@@ -79,7 +79,7 @@ function updateDisplay( display, responseText )
 }
 
 
-function inlineLoad( location, id )
+function inlineLoad( location, fields, id )
 {
 	var httpObject = getHttpObject();
 	if ( !httpObject )
@@ -90,25 +90,58 @@ function inlineLoad( location, id )
 		if ( httpObject.readyState != 4 )
 			return;
 
-		var toRemove = getObject( "multiuse" + id );
-		if ( toRemove )
-			toRemove.style.display = "none";
+		// Remove the use link and the form so that players
+		// do not get confused.
 
-		toRemove = getObject( "link" + id )
-		if ( toRemove )
-			toRemove.style.display = "none";
+		if ( id )
+		{
+			var toRemove = getObject( "multiuse" + id );
+			if ( toRemove )
+				toRemove.style.display = "none";
+
+			toRemove = getObject( "link" + id )
+			if ( toRemove )
+				toRemove.style.display = "none";
+		}
 
 		refreshSidebar();
+
+		// Handle insertion of the data into the page.
+		// Steal KoL's divs for doing so.
+
+		var text = httpObject.responseText.substring(
+			httpObject.responseText.indexOf( "<body>" ) + 6, httpObject.responseText.indexOf( "</table><table" ) + 8 );
+
+		var div = top.mainpane.document.getElementById( "effdiv" );
+		if ( !div )
+		{
+			var container = top.mainpane.document.createElement( "DIV" );
+			container.setAttribute( "id", "effdiv" );
+			container.innerHTML = text;
+
+			var tags = top.mainpane.document.getElementsByTagName( "body" );
+			if ( tags.length > 0 )
+				tags[0].insertBefore( container, tags[0].firstChild );
+
+			container = div;
+		}
+		else
+		{
+			div.innerHTML = text;
+		}
+
+		div.style.display = "block";
+		top.mainpane.scrollTo( 0, 0 );
 	};
 
-	httpObject.open( "GET", "http://" + window.location.host + "/" + location );
-	httpObject.send( null );
+	httpObject.open( "POST", "http://" + window.location.host + "/" + location );
+	httpObject.send( fields );
 	return true;
 }
 
 
-function singleUse( location, id )
-{	return inlineLoad( location, id );
+function singleUse( location, fields )
+{	return inlineLoad( location, fields, false );
 }
 
 function multiUse( location, id )
@@ -118,7 +151,7 @@ function multiUse( location, id )
 		qfield = "itemquantity";
 
 	var qvalue = getObject( "quantity" + id ).value;
-	return inlineLoad( location + "?pwd&action=useitem&whichitem= " + id + "&" + qfield + "=" + qvalue, id );
+	return inlineLoad( location, "pwd=&action=useitem&whichitem= " + id + "&" + qfield + "=" + qvalue, id );
 }
 
 function showObject( id )

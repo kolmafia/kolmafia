@@ -123,6 +123,10 @@ public class FightRequest extends KoLRequest
 			itemId == TOOTH.getItemId() || itemId == TURTLE.getItemId() || itemId == SPICES.getItemId();
 	}
 
+	public static boolean wonInitiative()
+	{	return currentRound == 1 && INSTANCE.responseText != null && INSTANCE.responseText.indexOf( "You get the jump" ) != -1;
+	}
+
 	public void nextRound()
 	{
 		// When logging in and encountering a fight, always use the
@@ -169,12 +173,17 @@ public class FightRequest extends KoLRequest
 		// action here.
 
 		if ( action1.equals( "custom" ) )
+		{
 			action1 = CombatSettings.getSetting( encounterLookup, currentRound - 1 );
+
+			if ( action1.startsWith( "steal" ) && !wonInitiative() )
+				action1 = "attack";
+		}
 
 		// Automatically pickpocket when appropriate, if the
 		// player trusts KoLmafia knows the right thing to do.
 
-		if ( currentRound == 1 && responseText != null && responseText.indexOf( "You get the jump" ) != -1 && monsterData != null && monsterData.shouldSteal() )
+		else if ( wonInitiative() && monsterData != null && monsterData.shouldSteal() )
 		{
 			action1 = "steal";
 			addFormField( "action", action1 );

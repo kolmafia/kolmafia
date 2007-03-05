@@ -1370,6 +1370,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		Matcher useLinkMatcher = ACQUIRE_PATTERN.matcher( text );
 
 		int specialLinkId = 0;
+		boolean addedInlineLink = false;
+
 		String specialLinkText = null;
 
 		while ( useLinkMatcher.find() )
@@ -1571,6 +1573,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						useType = "use";
 						useLocation = "inv_use.php?pwd=&which=1&whichitem=";
 					}
+					else if ( StaticEntity.getBooleanProperty( "relayUsesInlineLinks" ) )
+					{
+						useType = "use";
+						useLocation = "# showObject('multiuse" + itemId + "')";
+					}
 					else
 					{
 						useType = "use";
@@ -1734,8 +1741,52 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( useLocation.endsWith( "=" ) )
 					useLocation += itemId;
 
-				useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"" +
-					useLocation.trim() + "\">" + useType + "</a>]</font></td>" );
+				if ( useLocation.startsWith( "#" ) )
+				{
+					addedInlineLink = true;
+					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font id=\"link" + itemId + "\" size=1>[<a href=\"#\" onClick=\"" +
+						useLocation.substring(1).trim() + "; void(0);\">" + useType + "</a>]</font>" );
+				}
+				else if ( !StaticEntity.getBooleanProperty( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
+				{
+					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"" +
+						useLocation.trim() + "\">" + useType + "</a>]</font>" );
+				}
+				else
+				{
+					addedInlineLink = true;
+					String [] pieces = useLocation.toString().split( "\\?" );
+
+					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font id=\"link" + itemId + "\" size=1>[<a href=\"#\" onClick=\"" +
+						"singleUse('" + pieces[0] + "', '" + pieces[1] + "'); void(0);\">" + useType + "</a>]</font>" );
+				}
+
+				// Append a multi-use field rather than forcing
+				// an additional page load.
+
+				if ( useLocation.startsWith( "#" ) )
+				{
+					buffer.append( "</td></tr><tr><td colspan=2 align=center><div style=\"display:none\" id=\"multiuse" );
+					buffer.append( itemId );
+					buffer.append( "\">" );
+
+					buffer.append( "<form><input type=text size=3 id=\"quantity" );
+					buffer.append( itemId );
+					buffer.append( "\" value=" );
+					buffer.append( Math.min( itemCount, ConsumeItemRequest.maximumUses( itemId ) ) );
+					buffer.append( ">&nbsp;<input type=button class=button value=\"Use\" onClick=\"multiUse('" );
+
+					if ( consumeMethod == CONSUME_RESTORE )
+						buffer.append( "skills.php" );
+					else
+						buffer.append( "multiuse.php" );
+
+					buffer.append( "', " );
+					buffer.append( itemId );
+					buffer.append( "); void(0);\"></form></div>" );
+				}
+
+				buffer.append( "</td>" );
 			}
 			else
 			{
@@ -1744,6 +1795,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 
 		useLinkMatcher.appendTail( buffer );
+
+		if ( addedInlineLink )
+			StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\" src=\"/basics.js\" /></head>" );
 
 		if ( specialLinkText != null )
 		{
