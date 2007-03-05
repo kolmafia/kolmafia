@@ -304,7 +304,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 
-			if ( outfitId != -1 && !EquipmentDatabase.isWearingOutfit( outfitId ) )
+			if ( outfitId > 0 && !EquipmentDatabase.isWearingOutfit( outfitId ) )
 			{
 				isValidAdventure = false;
 				if ( !EquipmentDatabase.retrieveOutfit( outfitId ) )
