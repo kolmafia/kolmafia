@@ -79,7 +79,12 @@ public class RequestLogger extends NullStream implements KoLConstants
 
 	public static void printLine( int state, String message, boolean addToBuffer )
 	{
-		if ( message == null || (message.length() == 0 && previousUpdateString.length() == 0) )
+		if ( message == null )
+			return;
+
+		message = message.trim();
+
+		if ( message.length() == 0 && previousUpdateString.length() == 0 )
 			return;
 
 		previousUpdateString = message;
