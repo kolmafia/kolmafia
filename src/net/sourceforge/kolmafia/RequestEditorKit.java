@@ -1744,7 +1744,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( useLocation.startsWith( "#" ) )
 				{
 					addedInlineLink = true;
-					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font id=\"link" + itemId + "\" size=1>[<a href=\"#\" onClick=\"" +
+					useLinkMatcher.appendReplacement( buffer, "You acquire$1 <font size=1>[<a href=\"#\" onClick=\"" +
 						useLocation.substring(1).trim() + "; void(0);\">" + useType + "</a>]</font>" );
 				}
 				else if ( !StaticEntity.getBooleanProperty( "relayUsesInlineLinks" ) || !useLocation.startsWith( "inv" ) )
