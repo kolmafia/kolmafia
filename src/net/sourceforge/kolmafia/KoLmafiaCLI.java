@@ -3918,7 +3918,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executeAdventureRequest( String parameters )
 	{
 		int adventureCount;
-		KoLAdventure adventure = AdventureDatabase.getAdventure( parameters );
+		KoLAdventure adventure = AdventureDatabase.getAdventure( parameters.equalsIgnoreCase( "last" ) ? StaticEntity.getProperty( "lastAdventure" ) : parameters );
 
 		if ( adventure != null )
 			adventureCount = 1;
