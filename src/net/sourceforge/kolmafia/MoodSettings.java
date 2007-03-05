@@ -501,8 +501,8 @@ public abstract class MoodSettings implements KoLConstants
 				castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
 			}
 
-			if ( castCount > 0 && duration > desiredDuration )
-				castCount = 1;
+			if ( castCount > 2 && duration > desiredDuration )
+				castCount = 2;
 			else if ( duration * castCount > desiredDuration )
 				castCount = Math.min( 3, castCount );
 
