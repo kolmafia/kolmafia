@@ -367,6 +367,12 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				break;
 			}
 
+			if ( KoLCharacter.isFallingDown() )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "You can't pick fights while drunk." );
+				return;
+			}
+
 			RequestThread.openRequestSequence();
 			FlowerHunterRequest request = new FlowerHunterRequest( "",
 				stanceSelect.getSelectedIndex() + 1, mission, winMessage.getText(), lossMessage.getText() );
