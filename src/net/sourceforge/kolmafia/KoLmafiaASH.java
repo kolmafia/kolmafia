@@ -2819,7 +2819,12 @@ public class KoLmafiaASH extends StaticEntity
 	private boolean requestUserParams( ScriptFunction targetFunction, String [] parameters )
 	{
 		int args = ( parameters == null ) ? 0 : parameters.length;
+
 		ScriptVariableReference	param;
+
+		ScriptType lastType = null;
+		ScriptVariableReference lastParam = null;
+
 		int index = 0;
 
 		for ( param = targetFunction.getFirstParam(); param != null; param = targetFunction.getNextParam() )
@@ -2862,13 +2867,21 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			param.setValue( value );
+
+			lastType = type;
+			lastParam = param;
+
 			index++;
 		}
 
 		if ( index < args )
 		{
-			RequestLogger.printLine( "Too many arguments supplied" );
-			return false;
+			StringBuffer inputs = new StringBuffer();
+			for ( int i = index - 1; i < args; ++i )
+				inputs.append( parameters[i] + " " );
+
+			ScriptValue value = parseValue( lastType, inputs.toString().trim() );
+			lastParam.setValue( value );
 		}
 
 		return true;
