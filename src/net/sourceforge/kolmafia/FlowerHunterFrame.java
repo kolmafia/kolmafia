@@ -66,6 +66,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 	private JPanel resultCardPanel;
 	private AttackPanel attackPanel;
 
+	private JTextField rankEntry;
+
 	private Vector rankLabels = new Vector();
 	private JTable [] resultsTable = new JTable[2];
 	private TableSorter [] sortedModel = new TableSorter[2];
@@ -166,12 +168,14 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		for ( int i = 0; i < rankLabels.length; ++i )
 			rankLabels[i].setText( "<html><center>Rank " + KoLCharacter.getPvpRank() + "<br>Fashion " + equipmentPower +
 				"<br>Attacks " + KoLCharacter.getAttacksLeft() + "</center></html>" );
+
+		rankEntry.setText( String.valueOf( Math.max( 10,
+			KoLCharacter.getPvpRank() - 50 + Math.min( 11, KoLCharacter.getAttacksLeft() ) ) ) );
 	}
 
 	private class SearchPanel extends KoLPanel
 	{
 		private JTextField levelEntry;
-		private JTextField rankEntry;
 		private JTextField limitEntry;
 
 		public SearchPanel()
@@ -348,6 +352,12 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		public void actionConfirmed()
 		{
+			if ( KoLCharacter.isFallingDown() )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "You can't pick fights while drunk." );
+				return;
+			}
+
 			ProfileRequest [] selection = getSelection();
 			Arrays.sort( selection );
 
@@ -365,12 +375,6 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			case 2:
 				mission = "dignity";
 				break;
-			}
-
-			if ( KoLCharacter.isFallingDown() )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You can't pick fights while drunk." );
-				return;
 			}
 
 			RequestThread.openRequestSequence();
