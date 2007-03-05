@@ -781,10 +781,10 @@ public class KoLRequest extends Job implements KoLConstants
 			needsRefresh = true;
 		}
 
-		if ( urlString.startsWith( "ascend.php" ) && KoLCharacter.hasItem( KoLAdventure.MEATCAR ) )
+		if ( urlString.startsWith( "ascend.php" ) )
 		{
-			(new UntinkerRequest( KoLAdventure.MEATCAR.getItemId() )).run();
-
+			if ( KoLCharacter.hasItem( KoLAdventure.MEATCAR ) )
+				(new UntinkerRequest( KoLAdventure.MEATCAR.getItemId() )).run();
 
 			ItemCreationRequest belt = ItemCreationRequest.getInstance( 677 );
 			if ( belt != null && belt.getQuantityPossible() > 0 )
