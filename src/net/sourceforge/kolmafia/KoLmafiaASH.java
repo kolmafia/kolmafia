@@ -3300,6 +3300,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "attack", STRING_TYPE, params ) );
 
 		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "steal", STRING_TYPE, params ) );
+
+		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "runaway", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { SKILL_TYPE };
@@ -5018,6 +5021,16 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue attack()
 		{
 			KoLRequest request = new KoLRequest( "fight.php?action=attack" );
+			RequestThread.postRequest( request );
+			return new ScriptValue( request.responseText == null ? "" : request.responseText );
+		}
+
+		public ScriptValue steal()
+		{
+			if ( !FightRequest.wonInitiative() )
+				return attack();
+
+			KoLRequest request = new KoLRequest( "fight.php?action=steal" );
 			RequestThread.postRequest( request );
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
