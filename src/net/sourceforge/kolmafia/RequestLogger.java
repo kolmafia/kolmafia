@@ -62,7 +62,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 	}
 
 	public static void printLine()
-	{	printLine( CONTINUE_STATE, " ", true );
+	{	printLine( CONTINUE_STATE, "", true );
 	}
 
 	public static void printLine( String message )
