@@ -213,7 +213,7 @@ public class CommandDisplayFrame extends KoLFrame
 				String command = (String) commandQueue.get(0);
 
 				RequestLogger.printLine();
-				RequestLogger.printLine( " > " + command );
+				RequestLogger.printLine( " > " + StaticEntity.globalStringReplace( command, "<", "&lt;" ) );
 				RequestLogger.printLine();
 
 				try

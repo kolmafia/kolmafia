@@ -392,19 +392,17 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static final void updateDisplay( int state, String message )
 	{
-		if ( continuationState == ABORT_STATE && message.equals( "" ) )
+		if ( continuationState == ABORT_STATE )
 			return;
 
-		if ( continuationState != ABORT_STATE && continuationState != PENDING_STATE )
+		if ( continuationState != PENDING_STATE )
 			continuationState = state;
 
 		RequestLogger.printLine( state, message );
-		message = message.trim();
-
 		lastMessage = message;
 
 		if ( !existingFrames.isEmpty() && message.indexOf( LINE_BREAK ) == -1 )
-			updateDisplayState( state, message );
+			updateDisplayState( state, RequestEditorKit.getStripped( message ) );
 	}
 
 	private static final void updateDisplayState( int state, String message )

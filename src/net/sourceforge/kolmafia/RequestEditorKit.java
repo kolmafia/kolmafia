@@ -380,17 +380,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// character set. Names are ISO 10646 names.
 		// C0 Controls and Basic Latin
 
-// Because the browser can render quotes, go ahead and
-// leave them (changing them breaks forms).
-
-//		{ "&quot;",	"\"" }, // quotation mark = APL quote, U+0022 ISOnum
-
-// These entities are rendered correctly, but may appear
-// in markup -- therefore, don't change them.
-
-//		{ "&amp;",	"\u0026" }, // ampersand, U+0026 ISOnum
-//		{ "&lt;",	"\u003c" }, // less-than sign, U+003C ISOnum
-//		{ "&gt;",	"\u003e" }, // greater-than sign, U+003E ISOnum
+		{ "&quot;",	"\"" }, // quotation mark = APL quote, U+0022 ISOnum
+		{ "&amp;",	"\u0026" }, // ampersand, U+0026 ISOnum
+		{ "&lt;",	"\u003c" }, // less-than sign, U+003C ISOnum
+		{ "&gt;",	"\u003e" }, // greater-than sign, U+003E ISOnum
 
 		// Latin Extended-A
 
@@ -596,12 +589,18 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		StringBuffer entityVersion = null;
 
+		char ch;
 		int start = 0;
 		int length = unicodeVersion.length();
 
 		for ( int i = 0; i < length; ++i )
 		{
-			String entity = (String) entities.get( new Character( unicodeVersion.charAt(i) ) );
+			ch = unicodeVersion.charAt(i);
+
+			if ( Character.isJavaIdentifierPart( ch ) || Character.isWhitespace( ch ) )
+				continue;
+
+			String entity = (String) entities.get( new Character( ch ) );
 
 			// If we don't have a translation, move along in string
 			if ( entity == null )
@@ -672,8 +671,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				strippedVersion.append( " " );
 			else if ( entity.equals( "&quot;" ) )
 				strippedVersion.append( "\"" );
-			else if ( entity.equals( "&amp;" ) || entity.equals( "&lt;" ) || entity.equals( "&gt;" ) )
-				strippedVersion.append( entity );
+			else if ( entity.equals( "&amp;" ) )
+				strippedVersion.append( "&" );
+			else if ( entity.equals( "&lt;" ) )
+				strippedVersion.append( "<" );
+			else if ( entity.equals( "&gt;" ) )
+				strippedVersion.append( ">" );
 			else if ( entity.equals( "&ntilde;" ) )
 				strippedVersion.append( "n" );
 			else if ( entity.equals( "&eacute;" ) )
@@ -697,10 +700,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	}
 
 	public static final String getUnicode( String entityVersion )
-	{	return getUnicode( entityVersion, true );
-	}
-
-	public static final String getUnicode( String entityVersion, boolean replaceQuotes )
 	{
 		int index = entityVersion.indexOf( "&" );
 
@@ -727,7 +726,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			// Replace entity with unicode
 			String entity = entityVersion.substring( index, semi + 1 );
-			Character unicode = !replaceQuotes && entity.equals( "&quot;" ) ? null : (Character)unicodes.get( entity );
+			Character unicode = (Character) unicodes.get( entity );
 
 			// If we don't have a translation, skip past entity
 			if ( unicode == null )

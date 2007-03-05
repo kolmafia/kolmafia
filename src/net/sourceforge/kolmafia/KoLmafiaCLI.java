@@ -713,7 +713,7 @@ public class KoLmafiaCLI extends KoLmafia
 				color = parameters.substring( 0, spaceIndex ).replaceAll( "[\">]", "" );
 
 			parameters = parameters.substring( spaceIndex + 1 );
-			updateDisplay( "<font color=\"" + color + "\">" + parameters + "</font>" );
+			updateDisplay( "<font color=\"" + color + "\">" + StaticEntity.globalStringReplace( parameters, "<", "&lt;" ) + "</font>" );
 
 			return;
 		}
@@ -723,7 +723,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.equalsIgnoreCase( "timestamp" ) )
 				parameters = MoonPhaseDatabase.getCalendarDayAsString( new Date() );
 
-			updateDisplay( ANYTAG_PATTERN.matcher( parameters ).replaceAll( "" ) );
+			updateDisplay( StaticEntity.globalStringReplace( parameters, "<", "&lt;" ) );
 			return;
 		}
 
