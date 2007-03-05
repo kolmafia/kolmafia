@@ -386,7 +386,6 @@ public class AdventureFrame extends KoLFrame
 				return false;
 			}
 
-			KoLmafia.checkRequirements( conditions, false );
 			if ( conditions.isEmpty() )
 			{
 				KoLmafia.updateDisplay( "All conditions already satisfied." );
