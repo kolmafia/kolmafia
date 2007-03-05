@@ -79,10 +79,10 @@ public class RequestLogger extends NullStream implements KoLConstants
 
 	public static void printLine( int state, String message, boolean addToBuffer )
 	{
-		if ( message == null || (message.trim().length() == 0 && previousUpdateString.length() == 0) )
+		if ( message == null || (message.length() == 0 && previousUpdateString.length() == 0) )
 			return;
 
-		previousUpdateString = message.trim();
+		previousUpdateString = message;
 
 		outputStream.println( message );
 		mirrorStream.println( message );
@@ -93,15 +93,12 @@ public class RequestLogger extends NullStream implements KoLConstants
 
 		StringBuffer colorBuffer = new StringBuffer();
 
-		if ( message.trim().equals( "" ) )
+		if ( message.equals( "" ) )
 		{
 			colorBuffer.append( "<br>" );
 		}
 		else
 		{
-			if ( message.indexOf( "<" ) != -1 && message.indexOf( "\n" ) != -1 )
-				message = StaticEntity.globalStringReplace( message, "<", "&lt;" );
-
 			boolean addedColor = false;
 
 			if ( state == ERROR_STATE || state == ABORT_STATE )
@@ -121,6 +118,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 			}
 
 			colorBuffer.append( StaticEntity.globalStringReplace( message, "\n", "<br>" ) );
+
 			if ( message.startsWith( " > QUEUED" ) )
 				colorBuffer.append( "</b>" );
 
