@@ -1129,23 +1129,16 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				{
 					skills.append( "<nobr>" );
 
-					if ( item.getItemId() == 137 )
-					{
-						skills.append( "untinker your meatcar" );
-					}
-					else
-					{
-						skills.append( "acquire " );
-						skills.append( String.valueOf( item.getCount() ) );
-						skills.append( " " );
-						skills.append( item.getName().toLowerCase() );
+					skills.append( "acquire " );
+					skills.append( String.valueOf( item.getCount() ) );
+					skills.append( " " );
+					skills.append( item.getName().toLowerCase() );
 
-						if ( item.getCount() > 1 )
-						{
-							skills.append( " (you have " );
-							skills.append( currentCount );
-							skills.append( ")" );
-						}
+					if ( item.getCount() > 1 )
+					{
+						skills.append( " (you have " );
+						skills.append( currentCount );
+						skills.append( ")" );
 					}
 
 					skills.append( "</nobr><br>" );
