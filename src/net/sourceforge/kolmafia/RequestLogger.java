@@ -111,20 +111,20 @@ public class RequestLogger extends NullStream implements KoLConstants
 				addedColor = true;
 				colorBuffer.append( "<font color=red>" );
 			}
-			else if ( message.startsWith( " > QUEUED" ) )
+			else if ( message.startsWith( "> QUEUED" ) )
 			{
 				addedColor = true;
-				colorBuffer.append( "<font color=olive><b>" );
+				colorBuffer.append( " <font color=olive><b>" );
 			}
-			else if ( message.startsWith( " > " ) )
+			else if ( message.startsWith( "> " ) )
 			{
 				addedColor = true;
-				colorBuffer.append( "<font color=olive>" );
+				colorBuffer.append( " <font color=olive>" );
 			}
 
 			colorBuffer.append( StaticEntity.globalStringReplace( message, "\n", "<br>" ) );
 
-			if ( message.startsWith( " > QUEUED" ) )
+			if ( message.startsWith( "> QUEUED" ) )
 				colorBuffer.append( "</b>" );
 
 			if ( addedColor )
