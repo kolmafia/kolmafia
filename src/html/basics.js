@@ -112,16 +112,16 @@ function inlineLoad( location, fields, id )
 		var text = httpObject.responseText.substring(
 			httpObject.responseText.indexOf( "<body>" ) + 6, httpObject.responseText.indexOf( "</table><table" ) + 8 );
 
-		var div = top.mainpane.document.getElementById( "effdiv" );
+		var main = top.mainpane.document;
+		var div = getObject( "effdiv" );
+
 		if ( !div )
 		{
-			var container = top.mainpane.document.createElement( "DIV" );
-			container.setAttribute( "id", "effdiv" );
-			container.innerHTML = text;
+			var container = main.createElement( "div" );
 
-			var tags = top.mainpane.document.getElementsByTagName( "body" );
-			if ( tags.length > 0 )
-				tags[0].insertBefore( container, tags[0].firstChild );
+			container.id = "effdiv";
+			container.innerHTML = text;
+			main.body.insertBefore( container, main.body.firstChild );
 
 			container = div;
 		}
