@@ -345,8 +345,25 @@ public class AdventureFrame extends KoLFrame
 
 			String [] splitConditions = conditionList.split( "\\s*,\\s*" );
 
+			// First, figure out whether or not you need to do a disjunction
+			// on the conditions, which changes how KoLmafia handles them.
+
 			for ( int i = 0; i < splitConditions.length; ++i )
 			{
+				if ( splitConditions[i].equals( "or" ) || splitConditions[i].equals( "and" ) || splitConditions[i].startsWith( "conjunction" ) || splitConditions[i].startsWith( "disjunction" ) )
+				{
+					useDisjunction = splitConditions[i].equals( "or" ) || splitConditions[i].startsWith( "disjunction" );
+					splitConditions[i] = null;
+				}
+			}
+
+			DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
+
+			for ( int i = 0; i < splitConditions.length; ++i )
+			{
+				if ( splitConditions[i] == null )
+					continue;
+
 				if ( splitConditions[i].indexOf( "worthless" ) != -1 )
 				{
 					// You're looking for some number of
@@ -369,10 +386,6 @@ public class AdventureFrame extends KoLFrame
 					if ( !(request instanceof KoLAdventure) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
 						return true;
 				}
-				else if ( splitConditions[i].equals( "or" ) || splitConditions[i].equals( "and" ) || splitConditions[i].startsWith( "conjunction" ) || splitConditions[i].startsWith( "disjunction" ) )
-				{
-					useDisjunction = splitConditions[i].equals( "or" ) || splitConditions[i].startsWith( "disjunction" );
-				}
 				else
 				{
 					if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i] ) )
@@ -391,9 +404,6 @@ public class AdventureFrame extends KoLFrame
 				KoLmafia.updateDisplay( "All conditions already satisfied." );
 				return false;
 			}
-
-			if ( conditions.size() > 1 )
-				DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 
 			if ( ((Integer)countField.getValue()).intValue() == 0 )
 				countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );

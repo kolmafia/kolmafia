@@ -2657,10 +2657,12 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( condition == null )
 				return null;
 
-			int currentCount = condition.getCount( inventory );
-
-			if ( currentCount > 0 )
-				condition = condition.getInstance( condition.getCount() - currentCount );
+			if ( !useDisjunction )
+			{
+				int currentCount = condition.getCount( inventory );
+				if ( currentCount > 0 )
+					condition = condition.getInstance( condition.getCount() - currentCount );
+			}
 		}
 
 		return condition;
