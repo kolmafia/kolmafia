@@ -98,10 +98,6 @@ function inlineLoad( location, fields, id )
 			var toRemove = getObject( "multiuse" + id );
 			if ( toRemove )
 				toRemove.style.display = "none";
-
-			toRemove = getObject( "link" + id )
-			if ( toRemove )
-				toRemove.style.display = "none";
 		}
 
 		refreshSidebar();
