@@ -25,12 +25,12 @@ Town	0/0	luckysewer=0	Sewer With Clovers
 Town	0/0	adventure=112	Sleazy Back Alley	1 spider web
 
 Manor	0/0	adventure=113	Haunted Pantry	1 razor-sharp can lid
-Manor	0/0	adventure=102	Haunted Kitchen
+Manor	0/0	adventure=102	Haunted Kitchen	1 chef's hat
 Manor	0/6	adventure=103	Haunted Conservatory
 Manor	0/40	adventure=104	Haunted Library
 Manor	0/10	adventure=105	Haunted Billiards Room	1 pool cue, 1 handful of hand chalk
 Manor	0/68	adventure=106	Haunted Gallery
-Manor	0/68	adventure=107	Haunted Bathroom
+Manor	0/68	adventure=107	Haunted Bathroom	1 Spookyraven ballroom key
 Manor	0/85	adventure=108	Haunted Bedroom
 Manor	0/68	adventure=109	Haunted Ballroom
 
@@ -100,8 +100,8 @@ Mountain	68/0	mountains=80	Bridge the Orc Chasm
 Mountain	68/0	adventure=80	Valley Beyond Orc Chasm	1 64735 scroll, 1 lowercase N
 
 Beanstalk	85/90	adventure=81	Penultimate Fantasy Airship	1 metallic A, 1 S.O.C.K.
-Beanstalk	85/95	adventure=82	Castle in the Clouds in the Sky	1 heavy D, 1 thin black candle, 1 choiceadv
-Beanstalk	85/100	adventure=83	Hole in the Sky	1 Richard's star key, 1 star hat
+Beanstalk	85/95	adventure=82	Castle in the Clouds in the Sky	1 heavy D, 1 thin black candle, 2 choiceadv
+Beanstalk	85/100	adventure=83	Hole in the Sky	1 Richard's star key, 1 star hat, 1 star crossbow
 
 Sorceress	104/0	lair3=hedge	Sorceress' Hedge Maze	3 hedge maze puzzle
 Sorceress	104/0	lair6=5	Fight the Naughty Sorceress

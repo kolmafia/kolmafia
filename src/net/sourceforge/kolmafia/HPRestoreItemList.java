@@ -164,7 +164,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 		public void recoverHP( int needed, boolean purchase )
 		{
-			if ( KoLmafia.refusesContinue() )
+			if ( !KoLmafia.permitsContinue() )
 				return;
 
 			if ( this == CAMPGROUND )
@@ -263,7 +263,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 			// If you don't have any items to use, then return
 			// without doing anything.
 
-			if ( numberToUse <= 0 || KoLmafia.refusesContinue() )
+			if ( numberToUse <= 0 || !KoLmafia.permitsContinue() )
 				return;
 
 			if ( ClassSkillsDatabase.contains( restoreName ) )

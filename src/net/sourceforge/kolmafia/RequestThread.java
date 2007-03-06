@@ -120,14 +120,8 @@ public abstract class RequestThread implements KoLConstants
 		{
 			if ( !SwingUtilities.isEventDispatchThread() )
 				request.run();
-
-			// Now you know you're in the event dispatch thread, either
-			// post concurrently or post in the handle thread based on
-			// the request type.
-
 			else if ( forceConcurrency || request.isDelayExempt() )
 				ConcurrentWorker.post( request );
-
 			else
 				Worker.post( request );
 		}

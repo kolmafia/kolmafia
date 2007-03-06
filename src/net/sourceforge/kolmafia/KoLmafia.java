@@ -1573,8 +1573,8 @@ public abstract class KoLmafia implements KoLConstants
 				if ( adventure.getRequest() instanceof SewerRequest && !AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) ) )
 					return;
 
-				if ( !(adventure.getRequest() instanceof CampgroundRequest) )
-					runBetweenBattleChecks( false, true );
+				if ( !(adventure.getRequest() instanceof CampgroundRequest) && KoLCharacter.getCurrentHP() == 0 )
+					recoverHP();
 
 				if ( !KoLmafia.permitsContinue() )
 					return;

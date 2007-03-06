@@ -59,6 +59,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CommandDisplayFrame extends KoLFrame
 {
+	private static final CommandQueueHandler handler = new CommandQueueHandler();
+
 	private JTextField entryField;
 	private RequestPane outputDisplay;
 
@@ -172,45 +174,63 @@ public class CommandDisplayFrame extends KoLFrame
 			return;
 		}
 
-		commandQueue.add( command );
-		commandHistory.add( command );
-		lastCommandIndex = commandHistory.size();
-
-		if ( commandQueue.size() == 1 )
+		synchronized ( commandQueue )
 		{
-			CommandQueueHandler handler = new CommandQueueHandler();
+			commandQueue.add( command );
+			commandHistory.add( command );
+			lastCommandIndex = commandHistory.size();
 
-			try
+			if ( handler.isRunning() )
 			{
-				if ( !SwingUtilities.isEventDispatchThread() )
-					handler.run();
-				else if ( StaticEntity.getBooleanProperty( "allowRequestQueueing" ) )
-					Worker.post( handler );
-				else
-					ConcurrentWorker.post( handler );
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
+				RequestLogger.printLine();
+				RequestLogger.printLine( " > QUEUED: " + command );
+				RequestLogger.printLine();
 
-			return;
+				return;
+			}
 		}
 
-		RequestLogger.printLine();
-		RequestLogger.printLine( " > QUEUED: " + command );
-		RequestLogger.printLine();
+		try
+		{
+			if ( !SwingUtilities.isEventDispatchThread() )
+				handler.run();
+			else if ( StaticEntity.getBooleanProperty( "allowRequestQueueing" ) )
+				Worker.post( handler );
+			else
+				ConcurrentWorker.post( handler );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+
+		return;
 	}
 
 	private static class CommandQueueHandler extends Job
 	{
+		private boolean isRunning = false;
+
+		public boolean isRunning()
+		{	return isRunning;
+		}
+
 		public void run()
 		{
+			if ( isRunning )
+				return;
+
+			isRunning = true;
 			RequestThread.openRequestSequence();
 
 			do
 			{
-				String command = (String) commandQueue.get(0);
+				String command;
+
+				synchronized ( commandQueue )
+				{
+					command = (String) commandQueue.get(0);
+				}
 
 				RequestLogger.printLine();
 				RequestLogger.printLine( " > " + StaticEntity.globalStringReplace( command, "<", "&lt;" ) );
@@ -226,7 +246,10 @@ public class CommandDisplayFrame extends KoLFrame
 					StaticEntity.printStackTrace( e );
 				}
 
-				commandQueue.remove(0);
+				synchronized ( commandQueue )
+				{
+					commandQueue.remove(0);
+				}
 			}
 			while ( !KoLmafia.refusesContinue() && !commandQueue.isEmpty() );
 
@@ -235,6 +258,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 			commandQueue.clear();
 			RequestThread.closeRequestSequence();
+			isRunning = false;
 		}
 	}
 }
