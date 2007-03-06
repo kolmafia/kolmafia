@@ -2523,34 +2523,31 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		StringBuffer buffer = new StringBuffer();
 
-		if ( printing == availableSkills )
+		if ( printing != availableSkills )
 		{
-			ClassSkillsDatabase.generateSkillList( buffer, false );
-
-			if ( ostream == RequestLogger.INSTANCE )
+			for ( int i = 0; i < printing.size(); ++i )
 			{
-				RequestLogger.printLine( buffer.toString(), false );
-
-				buffer.setLength(0);
-				ClassSkillsDatabase.generateSkillList( buffer, true );
-				commandBuffer.append( buffer.toString() );
-			}
-			else
-				ostream.println( buffer.toString() );
-		}
-		else
-		{
-			Object [] elements = new Object[ printing.size() ];
-			printing.toArray( elements );
-
-			for ( int i = 0; i < elements.length; ++i )
-			{
-				buffer.append( elements[i].toString() );
+				buffer.append( printing.get(i).toString() );
 				buffer.append( LINE_BREAK );
 			}
 
 			ostream.println( buffer.toString() );
+			return;
 		}
+
+		ClassSkillsDatabase.generateSkillList( buffer, false );
+
+		if ( ostream != RequestLogger.INSTANCE )
+		{
+			ostream.println( buffer.toString() );
+			return;
+		}
+
+		RequestLogger.printLine( buffer.toString(), false );
+
+		buffer.setLength(0);
+		ClassSkillsDatabase.generateSkillList( buffer, true );
+		commandBuffer.append( buffer.toString() );
 	}
 
 	/**
