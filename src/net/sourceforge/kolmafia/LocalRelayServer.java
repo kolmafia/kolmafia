@@ -459,6 +459,9 @@ public class LocalRelayServer implements Runnable
 				}
 				else if ( path.indexOf( "charpane.php" ) != -1 )
 				{
+					while ( KoLmafia.isRunningBetweenBattleChecks() )
+						KoLRequest.delay( 100 );
+
 					request.run();
 
 					if ( KoLCharacter.getUserName().equals( lastUsername ) && KoLCharacter.getAdventuresLeft() < lastAdventureCount )
@@ -474,6 +477,9 @@ public class LocalRelayServer implements Runnable
 				}
 				else
 				{
+					while ( KoLmafia.isRunningBetweenBattleChecks() )
+						KoLRequest.delay( 100 );
+
 					if ( path.indexOf( "adventure.php" ) != -1 )
 					{
 						KoLAdventure adventure = AdventureDatabase.getAdventureByURL( path );
@@ -560,9 +566,6 @@ public class LocalRelayServer implements Runnable
 
 		private boolean runBetweenBattleScripts()
 		{
-			while ( KoLmafia.isRunningBetweenBattleChecks() )
-				KoLRequest.delay( 100 );
-
 			CharpaneRequest.createCheckpoint();
 
 			if ( StaticEntity.getBooleanProperty( "relayRunsBetweenScript" ) )
