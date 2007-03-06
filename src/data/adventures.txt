@@ -30,8 +30,8 @@ Manor	0/6	adventure=103	Haunted Conservatory
 Manor	0/40	adventure=104	Haunted Library
 Manor	0/10	adventure=105	Haunted Billiards Room	1 pool cue, 1 handful of hand chalk
 Manor	0/68	adventure=106	Haunted Gallery
-Manor	0/68	adventure=107	Haunted Bathroom	1 Spookyraven ballroom key
-Manor	0/85	adventure=108	Haunted Bedroom
+Manor	0/68	adventure=107	Haunted Bathroom
+Manor	0/85	adventure=108	Haunted Bedroom	1 Spookyraven ballroom key
 Manor	0/68	adventure=109	Haunted Ballroom
 
 Woods	5/0	adventure=15	Spooky Forest	1 mosquito larva
