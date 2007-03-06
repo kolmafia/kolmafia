@@ -482,8 +482,8 @@ public class FightRequest extends KoLRequest
 
 		StringBuffer action = new StringBuffer();
 
-		++trackedRound;
 		++currentRound;
+		trackedRound = currentRound;
 
 		if ( shouldLogAction )
 			action.append( "Round 1: " + KoLCharacter.getUserName() + " " );
@@ -520,8 +520,8 @@ public class FightRequest extends KoLRequest
 
 		// Spend MP and consume items
 
-		++trackedRound;
 		++currentRound;
+		trackedRound = currentRound;
 
 		payActionCost();
 
@@ -806,9 +806,7 @@ public class FightRequest extends KoLRequest
 	}
 
 	public static void beginTrackingFights()
-	{
-		trackedRound = currentRound;
-		isTrackingFights = true;
+	{	isTrackingFights = true;
 	}
 
 	public static boolean isTrackingFights()
