@@ -90,7 +90,10 @@ public class UntinkerRequest extends KoLRequest
 		// screwdriver from the inventory.
 
 		if ( inventory.contains( SCREWDRIVER ) )
+		{
+			canUntinker = true;
 			StaticEntity.getClient().processResult( SCREWDRIVER );
+		}
 
 		if ( !AdventureDatabase.retrieveItem( item ) )
 			return;
@@ -108,7 +111,9 @@ public class UntinkerRequest extends KoLRequest
 
 			if ( questCompleter.responseText.indexOf( "<select" ) == -1 )
 			{
-				if ( !completeQuest() )
+				canUntinker = completeQuest();
+
+				if ( !canUntinker )
 					return;
 
 				questCompleter.run();
