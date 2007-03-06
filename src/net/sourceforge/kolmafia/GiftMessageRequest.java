@@ -47,7 +47,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class GiftMessageRequest extends SendMessageRequest
 {
 	private int desiredCapacity;
-	private String recipient, outsideMessage, insideMessage;
+	private String recipient, message;
 	private GiftWrapper wrappingType;
 	private int maxCapacity, materialCost;
 	private boolean isFromStorage;
@@ -86,20 +86,16 @@ public class GiftMessageRequest extends SendMessageRequest
 		}
 	}
 
-	public GiftMessageRequest( String recipient, String outsideMessage, String insideMessage,
-		int desiredCapacity, Object [] attachments )
-	{
-		this( recipient, outsideMessage, insideMessage, desiredCapacity, attachments, false );
+	public GiftMessageRequest( String recipient, String message, int desiredCapacity, Object [] attachments )
+	{	this( recipient, message, desiredCapacity, attachments, false );
 	}
 
-	public GiftMessageRequest( String recipient, String outsideMessage, String insideMessage,
-		int desiredCapacity, Object [] attachments, boolean isFromStorage )
+	public GiftMessageRequest( String recipient, String message, int desiredCapacity, Object [] attachments, boolean isFromStorage )
 	{
 		super( "town_sendgift.php", attachments );
 
 		this.recipient = recipient;
-		this.outsideMessage = RequestEditorKit.getUnicode( outsideMessage );
-		this.insideMessage = RequestEditorKit.getUnicode( insideMessage );
+		this.message = RequestEditorKit.getUnicode( message );
 		this.desiredCapacity = desiredCapacity;
 
 		this.wrappingType = (GiftWrapper) PACKAGES.get( desiredCapacity );
@@ -108,8 +104,8 @@ public class GiftMessageRequest extends SendMessageRequest
 
 		addFormField( "action", "Yep." );
 		addFormField( "towho", this.recipient );
-		addFormField( "note", this.outsideMessage );
-		addFormField( "insidenote", this.insideMessage );
+		addFormField( "note", this.message );
+		addFormField( "insidenote", this.message );
 		addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
 
 		// You can take from inventory (0) or Hagnks (1)
@@ -131,7 +127,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 	public SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new GiftMessageRequest( recipient, outsideMessage, insideMessage, desiredCapacity, attachments, this.source == storage );
+	{	return new GiftMessageRequest( recipient, message, desiredCapacity, attachments, this.source == storage );
 	}
 
 	public String getSuccessMessage()

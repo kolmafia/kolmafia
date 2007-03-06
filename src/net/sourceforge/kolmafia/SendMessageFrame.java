@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -52,9 +53,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import tab.CloseTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import tab.CloseTabbedPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -68,11 +70,10 @@ public class SendMessageFrame extends KoLFrame
 	public JTextArea messageEntry;
 	public JButton sendMessageButton;
 
-	public LockableListModel messageTypes;
 	public JTextField attachedMeat;
 	public SortedListModel attachments;
 
-	public ItemManagePanel attachmentPanel;
+	public ShowDescriptionList attachmentList;
 	public ItemManagePanel inventoryPanel;
 	public ItemManagePanel storagePanel;
 
@@ -90,107 +91,18 @@ public class SendMessageFrame extends KoLFrame
 		JPanel centerPanel = new JPanel( new BorderLayout( 20, 20 ) );
 		centerPanel.add( Box.createHorizontalStrut( 40 ), BorderLayout.CENTER );
 
-		centerPanel.add( constructWestPanel(), BorderLayout.WEST );
-
-		recipientEntry.setText( recipient );
-
-		constructAttachmentPanel();
-		centerPanel.add( tabs, BorderLayout.CENTER );
-
-		mainPanel.add( centerPanel );
-		mainPanel.add( Box.createVerticalStrut( 18 ) );
-
-		sendMessageButton = new JButton( "Send Message" );
-		sendMessageButton.addActionListener( new SendMessageListener() );
-
-		JPanel sendMessageButtonPanel = new JPanel();
-		sendMessageButtonPanel.add( sendMessageButton );
-
-		mainPanel.add( sendMessageButtonPanel );
-		mainPanel.add( Box.createVerticalStrut( 4 ) );
-
-		messagePanel = new JPanel( new BorderLayout() );
-		messagePanel.add( mainPanel, BorderLayout.CENTER );
-
-		framePanel.setLayout( new CardLayout( 20, 20 ) );
-		framePanel.add( messagePanel, "" );
-	}
-
-	public void constructAttachmentPanel()
-	{
-		// Add in the attachments section
-
-		attachments = new SortedListModel();
-		attachmentPanel = new ItemManagePanel( attachments );
-		attachmentPanel.elementList.setVisibleRowCount( 11 );
-		attachmentPanel.setButtons( null );
-
-		JPanel meatPanel = new JPanel();
-		meatPanel.setLayout( new BoxLayout( meatPanel, BoxLayout.X_AXIS ) );
-
-		attachedMeat = new JTextField( "0" );
-		JComponentUtilities.setComponentSize( attachedMeat, 120, 24 );
-		meatPanel.add( Box.createHorizontalStrut( 40 ) );
-		meatPanel.add( new JLabel( "Enclose meat:    " ) );
-		meatPanel.add( attachedMeat );
-		meatPanel.add( Box.createHorizontalStrut( 40 ) );
-
-		attachmentPanel.actualPanel.add( meatPanel, BorderLayout.SOUTH );
-		attachmentPanel.elementList.contextMenu.add( new RemoveAttachmentMenuItem() );
-
-		tabs.addTab( "Attachments", attachmentPanel );
-
-		// Add in the inventory panel
-
-		inventoryPanel = new ItemManagePanel( inventory );
-		inventoryPanel.elementList.setVisibleRowCount( 11 );
-		inventoryPanel.setButtons( null );
-		tabs.addTab( "Inventory", inventoryPanel );
-
-		inventoryPanel.elementList.contextMenu.add( new AddAttachmentMenuItem( inventoryPanel ) );
-
-		// Add in the storage panel
-
-		storagePanel = new ItemManagePanel( storage );
-		storagePanel.elementList.setVisibleRowCount( 11 );
-		storagePanel.setButtons( null );
-		tabs.addTab( "In Storage", storagePanel );
-
-		storagePanel.elementList.contextMenu.add( new AddAttachmentMenuItem( storagePanel ) );
-	}
-
-	public JPanel constructWestPanel()
-	{
-		// The kind of box you're sending it with.
-
-		messageTypes = new LockableListModel();
-		messageTypes.add( "Send it by kingdom mail for FREE" );
-		messageTypes.addAll( GiftMessageRequest.getPackages() );
-
-		JComboBox typeComboBox = new JComboBox( messageTypes );
-		typeComboBox.setSelectedIndex(0);
-
-		JComponentUtilities.setComponentSize( typeComboBox, 320, 20 );
-
-		JPanel overviewPanel = new JPanel();
-		overviewPanel.setLayout( new BoxLayout( overviewPanel, BoxLayout.Y_AXIS ) );
-		overviewPanel.add( getLabelPanel( "I'd like to use this sending option: " ) );
-		overviewPanel.add( Box.createVerticalStrut( 4 ) );
-		overviewPanel.add( typeComboBox );
-		overviewPanel.add( Box.createVerticalStrut( 20 ) );
-
-		// Also who you want to send it to.
+		// Who you want to send it to.
 
 		recipientEntry = new JTextField();
 		recipientEntry.setEditable( true );
+		JComponentUtilities.setComponentSize( recipientEntry, 250, 25 );
 
-		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );
+		JPanel recipientPanel = new JPanel();
+		recipientPanel.setLayout( new BoxLayout( recipientPanel, BoxLayout.Y_AXIS ) );
 
-		overviewPanel.add( getLabelPanel( "I intend to send it to this person:" ) );
-		overviewPanel.add( Box.createVerticalStrut( 4 ) );
-
-		overviewPanel.add( recipientEntry );
-		overviewPanel.add( Box.createVerticalStrut( 20 ) );
+		recipientPanel.add( getLabelPanel( "I intend to send it to this person:" ) );
+		recipientPanel.add( Box.createVerticalStrut( 4 ) );
+		recipientPanel.add( recipientEntry );
 
 		// And the message entry area.
 
@@ -199,17 +111,114 @@ public class SendMessageFrame extends KoLFrame
 		messageEntry.setRows( 7 );
 		messageEntry.setLineWrap( true );
 		messageEntry.setWrapStyleWord( true );
+
 		SimpleScrollPane scrollArea = new SimpleScrollPane( messageEntry );
 
 		JPanel entryPanel = new JPanel( new BorderLayout( 5, 5 ) );
 		entryPanel.add( getLabelPanel( "I'd like them to see this message: " ), BorderLayout.NORTH );
 		entryPanel.add( scrollArea, BorderLayout.CENTER );
 
-		JPanel westPanel = new JPanel( new BorderLayout() );
-		westPanel.add( overviewPanel, BorderLayout.NORTH );
-		westPanel.add( entryPanel, BorderLayout.CENTER );
+		// Add in the attachment panel.
 
-		return westPanel;
+		JPanel itemPanel = new JPanel( new BorderLayout( 5, 5 ) );
+
+		attachments = new SortedListModel();
+		attachmentList = new ShowDescriptionList( attachments );
+		attachmentList.contextMenu.add( new RemoveAttachmentMenuItem() );
+
+		itemPanel.add( getLabelPanel( "Attach these items to the message: " ), BorderLayout.NORTH );
+		itemPanel.add( new SimpleScrollPane( attachmentList ), BorderLayout.CENTER );
+
+		sendMessageButton = new JButton( "Send Message" );
+		sendMessageButton.addActionListener( new SendMessageListener() );
+
+		// Add in meat attachments.
+
+		attachedMeat = new JTextField( "0" );
+		JComponentUtilities.setComponentSize( attachedMeat, 250, 25 );
+
+		JPanel meatPanel = new JPanel();
+		meatPanel.setLayout( new BoxLayout( meatPanel, BoxLayout.Y_AXIS ) );
+
+		meatPanel.add( getLabelPanel( "I'd like to attach this much meat: " ) );
+		meatPanel.add( Box.createVerticalStrut( 4 ) );
+		meatPanel.add( attachedMeat );
+
+		// Add in the inventory panel
+
+		CloseTabbedPane sources = new CloseTabbedPane();
+
+		inventoryPanel = new ItemManagePanel( inventory );
+		inventoryPanel.elementList.setVisibleRowCount( 8 );
+		inventoryPanel.setButtons( null );
+		sources.addTab( "Inventory", inventoryPanel );
+
+		inventoryPanel.elementList.contextMenu.remove( 2 );
+		inventoryPanel.elementList.contextMenu.remove( 2 );
+
+		inventoryPanel.elementList.contextMenu.add( new AddAttachmentMenuItem( inventoryPanel ) );
+
+		// Add in the storage panel
+
+		storagePanel = new ItemManagePanel( storage );
+		storagePanel.elementList.setVisibleRowCount( 8 );
+		storagePanel.setButtons( null );
+		sources.addTab( "In Storage", storagePanel );
+
+		storagePanel.elementList.contextMenu.add( new AddAttachmentMenuItem( storagePanel ) );
+
+		// Construct the panels
+
+		JPanel dataPanel = new JPanel();
+		dataPanel.setLayout( new BoxLayout( dataPanel, BoxLayout.Y_AXIS ) );
+
+		dataPanel.add( recipientPanel );
+		dataPanel.add( Box.createVerticalStrut( 20 ) );
+		dataPanel.add( entryPanel );
+		dataPanel.add( Box.createVerticalStrut( 20 ) );
+		dataPanel.add( meatPanel );
+		dataPanel.add( Box.createVerticalStrut( 20 ) );
+
+		JPanel sendMessageButtonPanel = new JPanel();
+		sendMessageButtonPanel.add( sendMessageButton );
+
+		dataPanel.add( sendMessageButtonPanel );
+
+		JPanel dataHolder = new JPanel( new CardLayout( 10, 10 ) );
+		dataHolder.add( dataPanel, "" );
+		tabs.addTab( "Message", dataHolder );
+
+		JPanel attachmentPanel = new JPanel( new BorderLayout( 20, 20 ) );
+		attachmentPanel.add( itemPanel, BorderLayout.NORTH );
+		attachmentPanel.add( sources, BorderLayout.CENTER );
+
+		JPanel attachmentHolder = new JPanel( new CardLayout( 10, 10 ) );
+		attachmentHolder.add( attachmentPanel, "" );
+		tabs.addTab( "Attachments", attachmentHolder );
+
+		// Create a description message
+
+		JTextArea message = new JTextArea(
+			"\nIn order to add/remove items from your message, access the \"context menu\" (right-click on Windows and Linux, control-click on Macs).\n\n" +
+			"Items may only come from one source.  If your items are located in your inventory, messages will be sent as kmails.  If the kmail attempt fails, or your items are coming from storage, KoLmafia will send an appropriately-sized package.\n\nIf there are items from Hagnk's to be sent, meat will be sent from Hagnk's.  If no items are attached and there are insufficient funds on-hand, meat will be sent from Hagnk's.  However, if there are items attached which are coming from your inventory and you don't have enough meat on-hand, the meat amount takes precedence and your item attachments will be cleared." );
+
+		message.setColumns( 40 );
+		message.setLineWrap( true );
+		message.setWrapStyleWord( true );
+		message.setEditable( false );
+		message.setOpaque( false );
+		message.setFont( DEFAULT_FONT );
+
+		JPanel messageHolder = new JPanel( new CardLayout( 10, 10 ) );
+		messageHolder.add( message, "" );
+		tabs.addTab( "Layout Help", messageHolder );
+
+		recipientEntry.setText( recipient );
+
+		// A handy send message button
+
+		framePanel.setLayout( new CardLayout( 10, 10 ) );
+		framePanel.add( tabs, "" );
 	}
 
 	public JPanel getLabelPanel( String text )
@@ -219,49 +228,6 @@ public class SendMessageFrame extends KoLFrame
 		return label;
 	}
 
-	public boolean sendMessage( String recipient, String message )
-	{
-		if ( messageTypes.getSelectedIndex() == 0 )
-		{
-			setEnabled( false );
-			RequestThread.postRequest( new GreenMessageRequest( recipient, message, getAttachedItems() ) );
-			setEnabled( true );
-
-			if ( !SendMessageRequest.hadSendMessageFailure() )
-			{
-				KoLmafia.updateDisplay( "Message sent to " + recipient );
-				setTitle( "Message sent to " + recipient );
-				return true;
-			}
-			else
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Failed to send message to " + recipient );
-				setTitle( "Failed to send message to " + recipient );
-				return false;
-			}
-		}
-		else
-		{
-			setEnabled( false );
-			RequestThread.postRequest( new GiftMessageRequest( recipient, "It's a secret to everybody.", message,
-				messageTypes.getSelectedIndex() - 1, getAttachedItems(), usingStorage ) );
-
-			setEnabled( true );
-
-			if ( !SendMessageRequest.hadSendMessageFailure() )
-			{
-				KoLmafia.updateDisplay( "Gift sent to " + recipient );
-				setTitle( "Gift sent to " + recipient );
-				return true;
-			}
-			else
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Failed to send gift to " + recipient );
-				setTitle( "Failed to send gift to " + recipient );
-				return false;
-			}
-		}
-	}
 
 	private abstract class AttachmentMenuItem extends ThreadedMenuItem
 	{
@@ -305,12 +271,12 @@ public class SendMessageFrame extends KoLFrame
 	private class RemoveAttachmentMenuItem extends AttachmentMenuItem
 	{
 		public RemoveAttachmentMenuItem()
-		{	super( "Remove attachment", attachmentPanel );
+		{	super( "Remove attachment", null );
 		}
 
 		public void run()
 		{
-			Object [] items = attachmentPanel.elementList.getSelectedValues();
+			Object [] items = attachmentList.getSelectedValues();
 			if ( items == null || items.length == 0 )
 				return;
 
@@ -330,30 +296,19 @@ public class SendMessageFrame extends KoLFrame
 				return;
 			}
 
-			// Limit the number of messages which can be sent
-			// to just eleven, as was the case with KoLmelion.
-
-			if ( recipients.length > 11 )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Maximum number of users exceeded." );
-				return;
-			}
-
 			String message = messageEntry.getText();
 
 			// Send the message to all recipients on the list.
 			// If one of them fails, however, immediately stop
 			// and notify the user that there was failure.
 
-			boolean success = true;
-
 			RequestThread.openRequestSequence();
-			for ( int i = 0; i < recipients.length; ++i )
-				success &= sendMessage( recipients[i], message );
-			RequestThread.closeRequestSequence();
+			Object [] attachments = getAttachedItems();
 
-			if ( success )
-				dispose();
+			for ( int i = 0; i < recipients.length && KoLmafia.permitsContinue(); ++i )
+				DEFAULT_SHELL.executeSendRequest( recipients[i], message, attachments, usingStorage );
+
+			RequestThread.closeRequestSequence();
 		}
 	}
 
