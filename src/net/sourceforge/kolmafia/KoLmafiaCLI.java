@@ -73,8 +73,6 @@ public class KoLmafiaCLI extends KoLmafia
 	private String currentLine = null;
 	private BufferedReader commandStream;
 
-	private KoLmafiaCLI lastScript;
-
 	private static boolean isPrompting = false;
 	private static boolean isExecutingCheckOnlyCommand = false;
 	private static ConsoleReader CONSOLE = null;
@@ -228,7 +226,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		String line = null;
 
-		while ( (permitsContinue() || StaticEntity.getClient() == this) && (line = getNextLine()) != null )
+		while ( permitsContinue() && (line = getNextLine()) != null )
 		{
 			isPrompting = false;
 
@@ -243,6 +241,9 @@ public class KoLmafiaCLI extends KoLmafia
 				isPrompting = true;
 				System.out.print( " > " );
 			}
+
+			if ( StaticEntity.getClient() == this )
+				forceContinue();
 		}
 
 		if ( line == null || line.trim().length() == 0 )
@@ -394,7 +395,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// Handle multi-line sequences by executing them one after
 				// another.  This is ideal, but not always possible.
 
-				for ( int i = 0; i < sequence.length; ++i )
+				for ( int i = 0; i < sequence.length && permitsContinue(); ++i )
 					executeLine( sequence[i] );
 			}
 			else
@@ -407,7 +408,9 @@ public class KoLmafiaCLI extends KoLmafia
 				String part2 = line.substring( splitIndex + 1 ).trim();
 
 				executeLine( part1 );
-				executeLine( part2 );
+
+				if ( permitsContinue() )
+					executeLine( part2 );
 			}
 
 			previousLine = line;
@@ -741,21 +744,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "abort" ) )
 		{
 			updateDisplay( ABORT_STATE, parameters.length() == 0 ? "Script abort." : parameters );
-			return;
-		}
-
-		if ( command.equals( "continue" ) )
-		{
-			if ( lastScript != null && lastScript.currentLine != null && lastScript.currentLine.length() != 0 )
-			{
-				forceContinue();
-				lastScript.listenForCommands();
-			}
-			else
-			{
-				RequestLogger.printLine( "No script to continue." );
-			}
-
 			return;
 		}
 
@@ -2130,10 +2118,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 
 				for ( int i = 0; i < runCount && permitsContinue(); ++i )
-				{
-					lastScript = new KoLmafiaCLI( new FileInputStream( scriptFile ) );
-					lastScript.listenForCommands();
-				}
+					(new KoLmafiaCLI( new FileInputStream( scriptFile ) )).listenForCommands();
 			}
 		}
 		catch ( Exception e )
