@@ -45,19 +45,15 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MeatManageFrame extends KoLFrame
 {
-	private HeroDonationPanel heroDonation;
-	private MeatStoragePanel meatStorage;
-
 	public MeatManageFrame()
 	{
 		super( "Meat Manager" );
 
-		heroDonation = new HeroDonationPanel();
-		meatStorage = new MeatStoragePanel();
-
-		JPanel container = new JPanel( new GridLayout( 2, 1 ) );
-		container.add( heroDonation );
-		container.add( meatStorage );
+		JPanel container = new JPanel( new GridLayout( 4, 1 ) );
+		container.add( new HeroDonationPanel() );
+		container.add( new MeatTransferPanel( ItemStorageRequest.MEAT_TO_CLOSET ) );
+		container.add( new MeatTransferPanel( ItemStorageRequest.MEAT_TO_INVENTORY ) );
+		container.add( new MeatTransferPanel( ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( container, "" );

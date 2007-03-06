@@ -1657,102 +1657,63 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * removing meat from the closet.
 	 */
 
-	protected class MeatStoragePanel extends KoLPanel
+	protected class MeatTransferPanel extends LabeledKoLPanel
 	{
-		private JComboBox fundSource;
+		private int transferType;
 		private JTextField amountField;
 		private JLabel closetField;
 
-		public MeatStoragePanel()
+		public MeatTransferPanel( int transferType )
 		{
-			super( "transfer", "bedidall", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
-
- 			fundSource = new JComboBox();
-			fundSource.addItem( "From Inventory to Closet" );
-			fundSource.addItem( "From Closet to Inventory" );
-			fundSource.addItem( "From Hagnk's to Inventory" );
-			fundSource.addItem( "From Hagnk's to Closet" );
-
-			if ( KoLFrame.this.getClass() == HagnkStorageFrame.class )
-				fundSource.setSelectedIndex( 2 );
+			super(
+				transferType == ItemStorageRequest.MEAT_TO_CLOSET ? "Put Meat in Your Closet" :
+				transferType == ItemStorageRequest.MEAT_TO_INVENTORY ? "Take Meat from Your Closet" :
+				transferType == ItemStorageRequest.PULL_MEAT_FROM_STORAGE ? "Pull Meat from Hagnk's" :
+				"Unknown Transfer Type", "transfer", "bedidall", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			amountField = new JTextField();
-			closetField = new JLabel( COMMA_FORMAT.format( KoLCharacter.getStorageMeat() ) + " meat" );
+			closetField = new JLabel( " " );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Transfer: ", fundSource );
-			elements[1] = new VerifiableElement( "Amount: ", amountField );
-			elements[2] = new VerifiableElement( "Available: ", closetField );
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Amount: ", amountField );
+			elements[1] = new VerifiableElement( "Available: ", closetField );
 
 			setContent( elements );
-			fundSource.addActionListener( new AvailableFundListener() );
+
+			this.transferType = transferType;
+			refreshCurrentAmount();
+
+			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new AmountRefresher() ) );
 		}
 
-		private class AvailableFundListener implements ActionListener
+		private void refreshCurrentAmount()
 		{
-			public void actionPerformed( ActionEvent e )
+			switch ( transferType )
 			{
-				switch ( fundSource.getSelectedIndex() )
-				{
-				case 0:
-					closetField.setText( COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) + " meat" );
-					break;
+			case ItemStorageRequest.MEAT_TO_CLOSET:
+				closetField.setText( COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) + " meat" );
+				break;
 
-				case 1:
-					closetField.setText( COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) + " meat" );
-					break;
+			case ItemStorageRequest.MEAT_TO_INVENTORY:
+				closetField.setText( COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) + " meat" );
+				break;
 
-				default:
-					closetField.setText( COMMA_FORMAT.format( KoLCharacter.getStorageMeat() ) + " meat" );
-					break;
-				}
+			case ItemStorageRequest.PULL_MEAT_FROM_STORAGE:
+				closetField.setText( COMMA_FORMAT.format( KoLCharacter.getStorageMeat() ) + " meat" );
+				break;
+
+			default:
+				closetField.setText( "Information not available" );
+				break;
 			}
 		}
 
 		public void actionConfirmed()
 		{
-			int transferType = -1;
-			int fundTransferType = fundSource.getSelectedIndex();
 			int amountToTransfer = getValue( amountField );
-
-			switch ( fundTransferType )
-			{
-			case 0:
-				transferType = ItemStorageRequest.MEAT_TO_CLOSET;
-
-				if ( amountToTransfer <= 0 )
-					amountToTransfer = KoLCharacter.getAvailableMeat();
-
-				break;
-
-			case 1:
-				transferType = ItemStorageRequest.MEAT_TO_INVENTORY;
-
-				if ( amountToTransfer <= 0 )
-					amountToTransfer = KoLCharacter.getClosetMeat();
-
-				break;
-
-			case 2:
-			case 3:
-
-				transferType = ItemStorageRequest.PULL_MEAT_FROM_STORAGE;
-
-				if ( amountToTransfer <= 0 )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, "You must specify an amount to pull from Hagnk's." );
-					return;
-				}
-
-				break;
-			}
 
 			RequestThread.openRequestSequence();
 			RequestThread.postRequest( new ItemStorageRequest( transferType, amountToTransfer ) );
-			if ( fundTransferType == 3 )
-				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.MEAT_TO_CLOSET, amountToTransfer ) );
-
-			fundSource.setSelectedIndex( 0 );
 			RequestThread.closeRequestSequence();
 		}
 
@@ -1762,6 +1723,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
 		{	return false;
+		}
+
+		private class AmountRefresher implements Runnable
+		{
+			public void run()
+			{	refreshCurrentAmount();
+			}
 		}
 	}
 }

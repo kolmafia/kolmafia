@@ -3689,8 +3689,8 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( ((AdventureResult)itemList[i]).getName().equals( AdventureResult.MEAT ) )
 			{
-				RequestThread.postRequest( new ItemStorageRequest( ((AdventureResult)itemList[i]).getCount(),
-					parameters.startsWith( "take" ) ? ItemStorageRequest.MEAT_TO_INVENTORY : ItemStorageRequest.MEAT_TO_CLOSET ) );
+				RequestThread.postRequest( new ItemStorageRequest(
+					parameters.startsWith( "take" ) ? ItemStorageRequest.MEAT_TO_INVENTORY : ItemStorageRequest.MEAT_TO_CLOSET, ((AdventureResult)itemList[i]).getCount() ) );
 
 				itemList[i] = null;
 				++meatAttachmentCount;
