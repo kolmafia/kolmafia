@@ -549,18 +549,22 @@ public abstract class KoLmafia implements KoLConstants
 			for ( int i = 0; i < 3 && permitsContinue(); ++i )
 				RequestThread.postRequest( new CampgroundRequest( "toast" ) );
 
-		KoLmafia.forceContinue();
+		forceContinue();
 
 		if ( KoLCharacter.hasArches() )
 			RequestThread.postRequest( new CampgroundRequest( "arches" ) );
 
-		KoLmafia.forceContinue();
+		forceContinue();
 
 		if ( StaticEntity.getBooleanProperty( "visitRumpus" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
 			RequestThread.postRequest( new ClanGymRequest( ClanGymRequest.SEARCH ) );
 
-		KoLmafia.forceContinue();
+		forceContinue();
+
 		castBreakfastSkills( checkSettings );
+
+		forceContinue();
+
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
@@ -607,7 +611,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public boolean getBreakfast( String skillName, boolean allowRestore )
 	{
-		KoLmafia.forceContinue();
 		UseSkillRequest summon = UseSkillRequest.getInstance( skillName );
 
 		// Special handling for candy heart summoning.  This skill
