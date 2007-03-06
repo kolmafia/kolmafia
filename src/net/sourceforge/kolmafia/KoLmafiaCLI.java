@@ -3656,6 +3656,24 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( meatAttachmentCount == items.length )
 			return;
 
+		// Double check to make sure you have all items on hand
+		// since a failure to get something from Hagnk's is bad.
+
+		int storageCount;
+		AdventureResult item;
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			item = (AdventureResult) items[i];
+			storageCount = item.getCount( storage );
+
+			if ( items[i] != null && storageCount < item.getCount() )
+			{
+				updateDisplay( ERROR_STATE, "You only have " + storageCount + " " + item.getName() +
+					" in storage (you wanted " + item.getCount() + ")" );
+			}
+		}
+
 		RequestThread.postRequest( new ItemStorageRequest(
 			ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
 	}
