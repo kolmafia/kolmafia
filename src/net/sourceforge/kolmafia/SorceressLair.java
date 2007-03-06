@@ -116,6 +116,7 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static final AdventureResult MIRROR_SHARD = new AdventureResult( "huge mirror shard", 1, false );
 	private static final AdventureResult DOC_ELIXIR = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
+	private static final AdventureResult DOC_BALM = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
 	private static final AdventureResult RED_POTION = new AdventureResult( "red pixel potion", 4 );
 	private static final AdventureResult PLASTIC_EGG = new AdventureResult( "red plastic oyster egg", 3 );
 
@@ -1281,8 +1282,14 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 		{
-			option = DOC_ELIXIR;
-			neededHealth = getShadowBattleHealth( shadowDamage, 36 );
+			option = DOC_BALM;
+			neededHealth = getShadowBattleHealth( shadowDamage, 26 );
+
+			if ( neededHealth > KoLCharacter.getCurrentHP() || KoLCharacter.hasItem( DOC_ELIXIR ) )
+			{
+				option = DOC_ELIXIR;
+				neededHealth = getShadowBattleHealth( shadowDamage, 36 );
+			}
 		}
 
 		// Make sure you can get enough health for the shadow
