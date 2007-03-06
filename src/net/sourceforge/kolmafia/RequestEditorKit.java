@@ -997,7 +997,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			addUseLinks( location, buffer );
 
 		if ( location.startsWith( "fight.php" ) )
-			addFightModifiers( buffer, addComplexFeatures );
+			addFightModifiers( location, buffer, addComplexFeatures );
 
 		if ( location.startsWith( "choice.php" ) )
 			addChoiceSpoilers( buffer );
@@ -1338,13 +1338,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
-	private static void addFightModifiers( StringBuffer buffer, boolean addComplexFeatures )
+	private static void addFightModifiers( String location, StringBuffer buffer, boolean addComplexFeatures )
 	{
 		// If the person opts to add a plinking link, check to see if it's
 		// a valid page to add plinking, and make sure the person hasn't
 		// already started plinking.
 
-		if ( addComplexFeatures && buffer.indexOf( "fight.php" ) != -1 )
+		if ( addComplexFeatures && buffer.indexOf( "fight.php" ) != -1 && location.indexOf( "action=script" ) == -1 )
 		{
 			int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
 			if ( firstFormIndex > 6 )

@@ -57,6 +57,7 @@ public class FightRequest extends KoLRequest
 	private static String lostInitiative = "";
 	private static String wonInitiative = "";
 
+	private static int trackedRound = 0;
 	private static boolean isTrackingFights = false;
 	private static ArrayList trackedRounds = new ArrayList();
 
@@ -349,6 +350,7 @@ public class FightRequest extends KoLRequest
 	public void run()
 	{
 		RequestThread.openRequestSequence();
+		trackedRound = currentRound;
 
 		do
 		{
@@ -480,6 +482,7 @@ public class FightRequest extends KoLRequest
 
 		StringBuffer action = new StringBuffer();
 
+		++trackedRound;
 		++currentRound;
 
 		if ( shouldLogAction )
@@ -517,7 +520,9 @@ public class FightRequest extends KoLRequest
 
 		// Spend MP and consume items
 
+		++trackedRound;
 		++currentRound;
+
 		payActionCost();
 
 		if ( currentRound == 1 )
@@ -797,11 +802,13 @@ public class FightRequest extends KoLRequest
 	}
 
 	public static int getCurrentRound()
-	{	return currentRound;
+	{	return trackedRound;
 	}
 
 	public static void beginTrackingFights()
-	{	isTrackingFights = true;
+	{
+		trackedRound = currentRound;
+		isTrackingFights = true;
 	}
 
 	public static boolean isTrackingFights()
