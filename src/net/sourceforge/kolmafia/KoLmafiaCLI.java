@@ -4071,7 +4071,15 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( shruggableCount == 1 )
 			{
 				if ( activeEffects.contains( buffToRemove ) )
+				{
+					if ( isExecutingCheckOnlyCommand )
+					{
+						RequestLogger.printLine( buffToRemove.toString() );
+						return;
+					}
+
 					RequestThread.postRequest( new UneffectRequest( buffToRemove ) );
+				}
 
 				return;
 			}
@@ -4084,7 +4092,14 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		AdventureResult effect = new AdventureResult( parameters, 1, true );
+		AdventureResult effect = new AdventureResult( (String) matchingEffects.get(0), 1, true );
+
+		if ( isExecutingCheckOnlyCommand )
+		{
+			RequestLogger.printLine( effect.toString() );
+			return;
+		}
+
 		if ( activeEffects.contains( effect ) )
 			RequestThread.postRequest( new UneffectRequest( effect ) );
 	}
