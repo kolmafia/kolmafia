@@ -494,8 +494,8 @@ public class MonsterDatabase extends KoLDatabase
 			return ((float) Math.sqrt( ml )) * (float)familiar.getModifiedWeight() * sombreroFactor;
 		}
 
-		public boolean willAlwaysMiss()
-		{	return willAlwaysMiss( 0 );
+		public boolean willUsuallyMiss()
+		{	return willUsuallyMiss( 0 );
 		}
 
 		public boolean hasAcceptableDodgeRate( int offenseModifier )
@@ -524,7 +524,7 @@ public class MonsterDatabase extends KoLDatabase
 			return (int) (baseDamage * damageMultiplier) - KoLCharacter.getDamageReduction();
 		}
 
-		public boolean willAlwaysMiss( int defenseModifier )
+		public boolean willUsuallyMiss( int defenseModifier )
 		{
 			int ml = KoLCharacter.getMonsterLevelAdjustment() + defenseModifier;
 			int hitstat;
@@ -536,7 +536,7 @@ public class MonsterDatabase extends KoLDatabase
 			else
 				hitstat = KoLCharacter.getAdjustedMuscle() - ml;
 
-			return AreaCombatData.hitPercent( hitstat, defense ) <= 0.0f;
+			return AreaCombatData.hitPercent( hitstat, defense ) <= 50.0f;
 		}
 	}
 }
