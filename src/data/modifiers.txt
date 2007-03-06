@@ -214,7 +214,7 @@ Eggs-tra Sensory Perception	Item: +50.0
 Elemental Saucesphere	Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20
 Empathy	Weight: +5
 Eau D'enmity	ML: +5
-Extreme Muscle Relaxation	Init: -25.0
+Extreme Muscle Relaxation	Init: -50.0
 Eye of the Lihc	Spooky: +10
 Fat Leon's Phat Loot Lyric	Item: +20.0
 Flame-Retardent Trousers	Hot: +20
@@ -222,7 +222,7 @@ Fresh Scent	Combat: -5
 Ghostly Shell	DA: +80
 Green Tongue	Weight: +5
 Heart of Green	Weight: +3
-Heart of Lavender	Item: +0.0
+Heart of Lavender	Item: +10.0
 Heart of Pink	Meat: +0.0
 Heart of White	Exp: +1.0
 Heart of Yellow	Init: +20.0
@@ -238,7 +238,9 @@ Object Detection	Item: +12.5
 Orange Tongue	Exp: +3.0
 Peeled Eyeballs	Exp: -1.0, Item: +15.0, Meat: -16.0
 Polka of Plenty	Meat: +50.0
+Provocative Perkiness	Init: +20.0
 Red Tongue	Meat: +30.0
+Sugar Rush	Init: +20.0
 Shiny Happy Cupcake	Exp: +3.0
 Sleaze-Resistant Trousers	Sleaze: +20
 Smelly Pants	Stench: +20
