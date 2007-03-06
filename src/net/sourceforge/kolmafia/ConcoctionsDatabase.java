@@ -685,7 +685,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		for ( int i = 0; i < METHOD_COUNT; ++i )
 			if ( PERMIT_METHOD[i] && ADVENTURE_USAGE[i] > 0 )
-				PERMIT_METHOD[i] = ADVENTURE_USAGE[i] < KoLCharacter.getAdventuresLeft();
+				PERMIT_METHOD[i] = ADVENTURE_USAGE[i] <= KoLCharacter.getAdventuresLeft();
 	}
 
 	private static boolean isAvailable( int servantId, int clockworkId )
