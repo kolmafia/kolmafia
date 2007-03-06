@@ -327,6 +327,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Now that everything's ensured, go ahead and execute the
 		// actual purchase request.
 
+StaticEntity.printStackTrace();
+
 		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemId ) + " (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( getPrice() ) + ")..." );
 		super.run();
 	}

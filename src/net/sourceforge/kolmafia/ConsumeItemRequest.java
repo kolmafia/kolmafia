@@ -359,12 +359,6 @@ public class ConsumeItemRequest extends KoLRequest
 	{
 		lastUpdate = "";
 
-		if ( itemUsed.getItemId() == UneffectRequest.REMEDY.getItemId() )
-		{
-			DEFAULT_SHELL.executeLine( "uneffect beaten up" );
-			return;
-		}
-
 		if ( consumptionType == CONSUME_ZAP )
 		{
 			StaticEntity.getClient().makeZapRequest();

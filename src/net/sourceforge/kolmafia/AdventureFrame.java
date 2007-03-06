@@ -99,6 +99,7 @@ public class AdventureFrame extends KoLFrame
 	private JPanel combatPanel;
 
 	private AdventureSelectPanel adventureSelect;
+	private JTextField conditionField;
 
 	private JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect, hpHaltCombatSelect;
 	private JCheckBox [] hpRestoreCheckbox;
@@ -140,6 +141,8 @@ public class AdventureFrame extends KoLFrame
 		framePanel.add( getSouthernTabs(), BorderLayout.CENTER );
 
 		updateSelectedAdventure( AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) ) );
+		fillDefaultConditions();
+
 		JComponentUtilities.setComponentSize( framePanel, 640, 480 );
 	}
 
@@ -247,6 +250,36 @@ public class AdventureFrame extends KoLFrame
 		return sessionGrid;
 	}
 
+	private void fillDefaultConditions()
+	{
+		if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
+			return;
+
+		KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();
+		if ( location == null )
+			return;
+
+		conditionField.setText( AdventureDatabase.getCondition( location ) );
+	}
+
+	private void fillCurrentConditions()
+	{
+		StringBuffer conditionString = new StringBuffer();
+
+		for ( int i = 0; i < conditions.size(); ++i )
+		{
+			if ( i > 0 )
+				conditionString.append( ", " );
+
+			conditionString.append( ((AdventureResult)conditions.get(i)).toConditionString() );
+		}
+
+		if ( conditionString.length() == 0 )
+			fillDefaultConditions();
+		else
+			conditionField.setText( conditionString.toString() );
+	}
+
 	public void requestFocus()
 	{
 		super.requestFocus();
@@ -272,7 +305,6 @@ public class AdventureFrame extends KoLFrame
 		private JComboBox actionSelect;
 		private TreeMap zoneMap;
 		private JSpinner countField;
-		private JTextField conditionField;
 
 		public AdventureSelectPanel()
 		{
@@ -540,36 +572,6 @@ public class AdventureFrame extends KoLFrame
 
 				fillCurrentConditions();
 			}
-
-			public void fillDefaultConditions()
-			{
-				if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
-					return;
-
-				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();
-				if ( location == null )
-					return;
-
-				conditionField.setText( AdventureDatabase.getCondition( location ) );
-			}
-
-			public void fillCurrentConditions()
-			{
-				StringBuffer conditionString = new StringBuffer();
-
-				for ( int i = 0; i < conditions.size(); ++i )
-				{
-					if ( i > 0 )
-						conditionString.append( ", " );
-
-					conditionString.append( ((AdventureResult)conditions.get(i)).toConditionString() );
-				}
-
-				if ( conditionString.length() == 0 )
-					fillDefaultConditions();
-				else
-					conditionField.setText( conditionString.toString() );
-			}
 		}
 
 		private class CombatActionChangeListener implements ActionListener
@@ -583,21 +585,25 @@ public class AdventureFrame extends KoLFrame
 
 		private class ExecuteButton extends ThreadedButton
 		{
+			private boolean isProcessing = false;
+
 			public ExecuteButton()
 			{	super( "begin" );
 			}
 
 			public void run()
 			{
-				if ( KoLmafia.isAdventuring() )
+				if ( isProcessing )
 					return;
 
+				isProcessing = true;
 				KoLmafia.updateDisplay( "Validating adventure sequence..." );
 
 				KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
 				if ( request == null )
 				{
 					KoLmafia.updateDisplay( ERROR_STATE, "No location selected." );
+					isProcessing = false;
 					return;
 				}
 
@@ -630,13 +636,17 @@ public class AdventureFrame extends KoLFrame
 					updateConditions = true;
 
 					if ( !shouldAdventure )
+					{
+						isProcessing = false;
 						return;
+					}
 				}
 
 				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
 				countField.setValue( new Integer( requestCount ) );
 
 				StaticEntity.getClient().makeRequest( request, requestCount );
+				isProcessing = false;
 			}
 		}
 

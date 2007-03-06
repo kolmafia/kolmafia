@@ -135,7 +135,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 		public void recoverMP( int needed, boolean purchase )
 		{
-			if ( KoLmafia.refusesContinue() )
+			if ( !KoLmafia.permitsContinue() )
 				return;
 
 			if ( this == BEANBAG )
@@ -212,7 +212,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			// If you don't have any items to use, then return
 			// without doing anything.
 
-			if ( numberToUse <= 0 || KoLmafia.refusesContinue() )
+			if ( numberToUse <= 0 || !KoLmafia.permitsContinue() )
 				return;
 
 			RequestThread.postRequest( new ConsumeItemRequest( itemUsed.getInstance( numberToUse ) ) );
