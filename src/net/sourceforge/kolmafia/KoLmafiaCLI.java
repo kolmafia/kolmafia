@@ -71,7 +71,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private String previousLine = null;
 	private String currentLine = null;
-	private boolean acceptCommands = true;
 	private BufferedReader commandStream;
 
 	private KoLmafiaCLI lastScript;
@@ -296,54 +295,129 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	public void executeLine( String line )
-	{	executeLine( line, true );
-	}
-
-	private void executeLine( String line, boolean storeCurrentLine )
 	{
-		if ( refusesContinue() || line.trim().length() == 0 )
+		if ( line == null || refusesContinue() )
 			return;
-
-		if ( storeCurrentLine )
-			currentLine = line;
-
-		// If it gets this far, that means the continue
-		// state can be reset.
-
-		int splitIndex = line.indexOf( ";" );
-
-		if ( splitIndex != -1 )
-		{
-			String lineToRun = line.substring( 0, splitIndex ).trim();
-			String lineLeftOver = line.substring( splitIndex + 1 ).trim();
-
-			executeLine( lineToRun, false );
-
-			// Use recursion to execute lines instead
-			// of a loop to allow if-statements to appear
-			// on the same line.
-
-			if ( line.equals( currentLine ) )
-				executeLine( lineLeftOver );
-
-			if ( storeCurrentLine )
-				previousLine = line;
-
-			return;
-		}
-
-		// Trim the line, replace all double spaces with
-		// single spaces and compare the result against
-		// commands which are no longer allowed.
 
 		line = line.replaceAll( "\\s+", " " ).trim();
 		if ( line.length() == 0 )
 			return;
 
+		currentLine = line;
+
+		// Handle if-statements in a special way right
+		// here.  Nesting is handled explicitly by
+		// reading until the last statement in the line
+		// is no longer an if-statement.
+
+		if ( line.toLowerCase().startsWith( "if " ) )
+		{
+			int splitIndex = line.indexOf( ";" );
+
+			String condition;
+			StringBuffer statement = new StringBuffer();
+
+			// Attempt to construct the entire string which will be involved
+			// in the test.  All dangling 'if' statements at the end of a line
+			// are to include the entire next line be part of this line.
+
+			if ( splitIndex != -1 )
+			{
+				condition = line.substring( 0, splitIndex ).trim();
+				statement.append( line.substring( splitIndex + 1 ).trim() );
+			}
+			else
+			{
+				condition = line;
+				statement.append( getNextLine() );
+			}
+
+			String lastTest = "";
+
+			// Here, we search for dangling if-statements, and while they
+			// exist, we add them to the full statement.  Note, however,
+			// that users sometimes end lines with ";" for no good reason
+			// at all, even for if-statements, so acknowledge and find
+			// the real end statement in spite of this.
+
+			splitIndex = statement.lastIndexOf( ";" );
+			lastTest = statement.substring( splitIndex + 1 );
+
+			while ( lastTest.trim().length() == 0 )
+			{
+				statement.delete( splitIndex, statement.length() );
+				splitIndex = statement.lastIndexOf( ";" );
+				lastTest = statement.substring( splitIndex + 1 );
+			}
+
+			while ( lastTest.toLowerCase().startsWith( "if " ) )
+			{
+				statement.append( getNextLine() );
+				lastTest = statement.substring( statement.lastIndexOf( ";" ) + 1 );
+
+				while ( lastTest.trim().length() == 0 )
+				{
+					statement.delete( splitIndex, statement.length() );
+					splitIndex = statement.lastIndexOf( ";" );
+					lastTest = statement.substring( splitIndex + 1 );
+				}
+			}
+
+			// Now that we finally have the complete if-statement, we find
+			// the condition string, test for it, and execute the line if
+			// applicable.  Otherwise, we skip the entire line.
+
+			condition = condition.substring( condition.indexOf( " " ) + 1 );
+
+			if ( testConditional( condition ) )
+				executeLine( statement.toString() );
+
+			previousLine = condition + ";" + statement;
+			return;
+		}
+
+		// Check to see if it's possible to execute the line iteratively,
+		// which is possible whenever if-statements aren't involved.
+
+		int splitIndex = line.indexOf( ";" );
+
+		if ( splitIndex != -1 )
+		{
+			String [] sequence = line.split( "\\s*;\\s*" );
+			boolean canExecuteIteratively = true;
+
+			for ( int i = 0; canExecuteIteratively && i < sequence.length; ++i )
+				canExecuteIteratively = !sequence[i].toLowerCase().startsWith( "if " );
+
+			if ( canExecuteIteratively )
+			{
+				// Handle multi-line sequences by executing them one after
+				// another.  This is ideal, but not always possible.
+
+				for ( int i = 0; i < sequence.length; ++i )
+					executeLine( sequence[i] );
+			}
+			else
+			{
+				// Handle multi-line sequences by executing the first command
+				// and using recursion to execute the remainder of the line.
+				// This ensures that nested if-statements are preserved.
+
+				String part1 = line.substring( 0, splitIndex ).trim();
+				String part2 = line.substring( splitIndex + 1 ).trim();
+
+				executeLine( part1 );
+				executeLine( part2 );
+			}
+
+			previousLine = line;
+			return;
+		}
+
 		// Win game sanity check.  This will find its
 		// way back into the GUI ... one day.
 
-		if ( line.equalsIgnoreCase( "win game" ) && acceptCommands )
+		if ( line.equalsIgnoreCase( "win game" ) )
 		{
 			String [] messages = WIN_GAME_TEXT[ RNG.nextInt( WIN_GAME_TEXT.length ) ];
 
@@ -363,14 +437,14 @@ public class KoLmafiaCLI extends KoLmafia
 		// Maybe a request to burn excess MP, as generated
 		// by the gCLI or the relay browser?
 
-		if ( line.equalsIgnoreCase( "save as mood" ) && acceptCommands )
+		if ( line.equalsIgnoreCase( "save as mood" ) )
 		{
 			MoodSettings.minimalSet();
 			MoodSettings.saveSettings();
 			return;
 		}
 
-		if ( line.equalsIgnoreCase( "burn extra mp" ) && acceptCommands )
+		if ( line.equalsIgnoreCase( "burn extra mp" ) )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
 			MoodSettings.burnExtraMana( true );
@@ -409,12 +483,9 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			if ( acceptCommands )
-			{
-				KoLmafiaASH interpreter = new KoLmafiaASH();
-				interpreter.validate( ostream.getByteArrayInputStream() );
-				interpreter.execute( "main", null );
-			}
+			KoLmafiaASH interpreter = new KoLmafiaASH();
+			interpreter.validate( ostream.getByteArrayInputStream() );
+			interpreter.execute( "main", null );
 
 			return;
 		}
@@ -435,7 +506,7 @@ public class KoLmafiaCLI extends KoLmafia
 		executeCommand( command, parameters );
 		RequestThread.closeRequestSequence();
 
-		if ( !command.equals( "repeat" ) && storeCurrentLine )
+		if ( !command.equals( "repeat" ) )
 			previousLine = line;
 
 		isExecutingCheckOnlyCommand = false;
@@ -454,19 +525,6 @@ public class KoLmafiaCLI extends KoLmafia
 			executeScriptCommand( "call", currentLine );
 			return;
 		}
-
-		// Handle the if-statement and the while-statement.
-		// The while-statement will not get a separate comment
-		// because it is unloved.
-
-		if ( command.equals( "if" ) )
-		{
-			executeIfStatement( parameters );
-			return;
-		}
-
-		if ( !acceptCommands )
-			return;
 
 		// If the command has already been disabled, then return
 		// from this function.
@@ -2152,43 +2210,6 @@ public class KoLmafiaCLI extends KoLmafia
 		resultList.toArray( result );
 		return result;
 
-	}
-
-	/**
-	 * Utility method to handle an if-statement.  You can now
-	 * nest if-statements.
-	 */
-
-	private void executeIfStatement( String parameters )
-	{
-		String statement = null;
-		int splitIndex = currentLine.indexOf( ";" );
-
-		if ( splitIndex != -1 )
-		{
-			currentLine = currentLine.substring( splitIndex + 1 ).trim();
-			if ( currentLine.length() > 0 )
-				statement = currentLine;
-		}
-
-		if ( statement == null )
-		{
-			statement = getNextLine();
-			if ( statement == null )
-				return;
-		}
-
-		boolean resetAcceptState = acceptCommands;
-
-		if ( resetAcceptState )
-			acceptCommands = testConditional( parameters );
-
-		executeLine( statement );
-
-		if ( resetAcceptState )
-			acceptCommands = true;
-
-		currentLine = "";
 	}
 
 	/**
