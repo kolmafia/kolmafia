@@ -3414,6 +3414,12 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "have_bartender", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "abort", VOID_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "abort", VOID_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "cli_execute", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
@@ -5430,6 +5436,18 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !recipient.equals( "" ) )
 				RequestThread.postRequest( new ChatRequest( recipient, string.toStringValue().toString(), false ) );
 
+			return VOID_VALUE;
+		}
+
+		public ScriptValue abort()
+		{
+			RequestThread.declareWorldPeace();
+			return VOID_VALUE;
+		}
+
+		public ScriptValue abort( ScriptVariable string )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
