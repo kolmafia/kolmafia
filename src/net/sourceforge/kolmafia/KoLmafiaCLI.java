@@ -2719,6 +2719,12 @@ public class KoLmafiaCLI extends KoLmafia
 			buffCount = StaticEntity.parseInt( buffCountString );
 		}
 
+		if ( isExecutingCheckOnlyCommand )
+		{
+			RequestLogger.printLine( skillName + " (x" + buffCount + ")" );
+			return;
+		}
+
 		if ( buffCount > 0 )
 			RequestThread.postRequest( UseSkillRequest.getInstance( skillName, splitParameters[1], buffCount ) );
 	}
@@ -2870,13 +2876,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		AdventureResult match = getFirstMatchingItem( parameters );
 		if ( match == null )
-		{
-			// No item exists which matches the given
-			// substring - error out.
-
-			updateDisplay( ERROR_STATE, "No item matching substring \"" + parameters + "\"" );
 			return;
-		}
 
 		// If he didn't specify slot name, decide where this item goes.
 		if ( slot == -1 )
@@ -2937,8 +2937,8 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				if ( desiredHands == 1 && desiredType != currentType )
 				{
-				updateDisplay( ERROR_STATE, "You can't wield a " + ( desiredType ? "ranged" : "melee" ) + " weapon in your off-hand with a " + ( currentType ? "ranged" : "melee" ) + " weapon in your main hand." );
-				return;
+					updateDisplay( ERROR_STATE, "You can't wield a " + ( desiredType ? "ranged" : "melee" ) + " weapon in your off-hand with a " + ( currentType ? "ranged" : "melee" ) + " weapon in your main hand." );
+					return;
 				}
 			}
 		}
