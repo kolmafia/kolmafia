@@ -3387,9 +3387,9 @@ public class KoLmafiaCLI extends KoLmafia
 			firstMatch = firstMatch.getInstance( itemCount );
 		}
 
-		if ( isExecutingCheckOnlyCommand && firstMatch != null )
+		if ( isExecutingCheckOnlyCommand )
 		{
-			RequestLogger.printLine( firstMatch.toString() );
+			RequestLogger.printLine( firstMatch == null ? "No match" : firstMatch.toString() );
 			return null;
 		}
 
@@ -3418,14 +3418,14 @@ public class KoLmafiaCLI extends KoLmafia
 				parameters = parameters.substring( 3 ).trim();
 		}
 
-		Object [] items = getMatchingItemList( parameters );
-		if ( items.length == 0 )
+		Object [] itemList = getMatchingItemList( parameters );
+		if ( itemList.length == 0 )
 			return;
 
-		if ( ClanManager.getStash().isEmpty() )
+		if ( ClanManager.getStash().isEmpty() && isWithdraw )
 			RequestThread.postRequest( new ClanStashRequest() );
 
-		RequestThread.postRequest( new ClanStashRequest( items, isWithdraw ?
+		RequestThread.postRequest( new ClanStashRequest( itemList, isWithdraw ?
 			ClanStashRequest.STASH_TO_ITEMS : ClanStashRequest.ITEMS_TO_STASH ) );
 	}
 
@@ -3574,18 +3574,30 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		String [] itemNames = itemList.split( "\\s*,\\s*" );
 
+		boolean isMeatMatch = false;
 		AdventureResult firstMatch = null;
 		ArrayList items = new ArrayList();
 
 		for ( int i = 0; i < itemNames.length; ++i )
 		{
+			isMeatMatch = false;
+
 			if ( itemNames[i].endsWith( "meat" ) )
 			{
 				String amountString = itemNames[i].split( " " )[0];
-				int amount = amountString.equals( "*" ) ? 0 : StaticEntity.parseInt( amountString );
-				firstMatch = new AdventureResult( AdventureResult.MEAT, amount > 0 ? amount : KoLCharacter.getAvailableMeat() + amount );
+
+				isMeatMatch = amountString.charAt(0) == '*' || amountString.charAt(0) == '-' || Character.isDigit( amountString.charAt(0) );
+				for ( int j = 1; j < amountString.length() && isMeatMatch; ++j )
+					isMeatMatch &= Character.isDigit( amountString.charAt(j) );
+
+				if ( isMeatMatch )
+				{
+					int amount = amountString.equals( "*" ) ? 0 : StaticEntity.parseInt( amountString );
+					firstMatch = new AdventureResult( AdventureResult.MEAT, amount > 0 ? amount : KoLCharacter.getAvailableMeat() + amount );
+				}
 			}
-			else
+
+			if ( !isMeatMatch )
 				firstMatch = getFirstMatchingItem( itemNames[i] );
 
 			if ( firstMatch != null )
@@ -3646,29 +3658,29 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		Object [] items = getMatchingItemList( parameters.substring(4).trim() );
-		if ( items.length == 0 )
+		Object [] itemList = getMatchingItemList( parameters.substring(4).trim() );
+		if ( itemList.length == 0 )
 			return;
 
 		int meatAttachmentCount = 0;
 
-		for ( int i = 0; i < items.length; ++i )
+		for ( int i = 0; i < itemList.length; ++i )
 		{
-			if ( ((AdventureResult)items[i]).getName().equals( AdventureResult.MEAT ) )
+			if ( ((AdventureResult)itemList[i]).getName().equals( AdventureResult.MEAT ) )
 			{
-				RequestThread.postRequest( new ItemStorageRequest( ((AdventureResult)items[i]).getCount(),
+				RequestThread.postRequest( new ItemStorageRequest( ((AdventureResult)itemList[i]).getCount(),
 					parameters.startsWith( "take" ) ? ItemStorageRequest.MEAT_TO_INVENTORY : ItemStorageRequest.MEAT_TO_CLOSET ) );
 
-				items[i] = null;
+				itemList[i] = null;
 				++meatAttachmentCount;
 			}
 		}
 
-		if ( meatAttachmentCount == items.length )
+		if ( meatAttachmentCount == itemList.length )
 			return;
 
 		RequestThread.postRequest( new ItemStorageRequest(
-			parameters.startsWith( "take" ) ? ItemStorageRequest.CLOSET_TO_INVENTORY : ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+			parameters.startsWith( "take" ) ? ItemStorageRequest.CLOSET_TO_INVENTORY : ItemStorageRequest.INVENTORY_TO_CLOSET, itemList ) );
 	}
 
 	/**
@@ -3742,11 +3754,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeBuyCommand( String parameters )
 	{
-		Object [] matches = getMatchingItemList( parameters );
+		Object [] itemList = getMatchingItemList( parameters );
 
-		for ( int i = 0; i < matches.length; ++i )
+		for ( int i = 0; i < itemList.length; ++i )
 		{
-			AdventureResult match = (AdventureResult) matches[i];
+			AdventureResult match = (AdventureResult) itemList[i];
 
 			if ( !KoLCharacter.canInteract() && !NPCStoreDatabase.contains( match.getName() ) )
 			{
@@ -3775,61 +3787,66 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		isCreationMatch = true;
-		AdventureResult firstMatch = getFirstMatchingItem( parameters );
+		Object [] itemList = getMatchingItemList( parameters );
 		isCreationMatch = false;
 
-		if ( firstMatch == null )
-			return;
+		AdventureResult currentMatch;
+		ItemCreationRequest irequest;
 
-		ItemCreationRequest irequest = ItemCreationRequest.getInstance( firstMatch.getItemId() );
-		if ( irequest == null )
+		for ( int i = 0; i < itemList.length; ++i )
 		{
-			boolean needServant = !StaticEntity.getBooleanProperty( "createWithoutBoxServants" );
+			currentMatch = (AdventureResult) itemList[i];
+			irequest = ItemCreationRequest.getInstance( currentMatch.getItemId() );
 
-			switch ( ConcoctionsDatabase.getMixingMethod( firstMatch.getItemId() ) )
+			if ( irequest == null )
 			{
-			case COOK:
-			case COOK_REAGENT:
-			case SUPER_REAGENT:
-			case COOK_PASTA:
+				boolean needServant = !StaticEntity.getBooleanProperty( "createWithoutBoxServants" );
 
-				if ( needServant )
+				switch ( ConcoctionsDatabase.getMixingMethod( currentMatch.getItemId() ) )
 				{
-					updateDisplay( ERROR_STATE, "You cannot cook without a chef-in-the-box." );
+				case COOK:
+				case COOK_REAGENT:
+				case SUPER_REAGENT:
+				case COOK_PASTA:
+
+					if ( needServant )
+					{
+						updateDisplay( ERROR_STATE, "You cannot cook without a chef-in-the-box." );
+						return;
+					}
+
+					if ( !AdventureDatabase.retrieveItem( ItemCreationRequest.OVEN ) )
+						return;
+
+					irequest = ItemCreationRequest.getInstance( currentMatch.getItemId() );
+					break;
+
+				case MIX:
+				case MIX_SPECIAL:
+				case MIX_SUPER:
+
+					if ( needServant )
+					{
+						updateDisplay( ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
+						return;
+					}
+
+					if ( AdventureDatabase.retrieveItem( ItemCreationRequest.KIT ) )
+						return;
+
+					irequest = ItemCreationRequest.getInstance( currentMatch.getItemId() );
+					break;
+
+				default:
+
+					updateDisplay( ERROR_STATE, "That item cannot be created." );
 					return;
 				}
-
-				if ( !AdventureDatabase.retrieveItem( ItemCreationRequest.OVEN ) )
-					return;
-
-				irequest = ItemCreationRequest.getInstance( firstMatch.getItemId() );
-				break;
-
-			case MIX:
-			case MIX_SPECIAL:
-			case MIX_SUPER:
-
-				if ( needServant )
-				{
-					updateDisplay( ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
-					return;
-				}
-
-				if ( AdventureDatabase.retrieveItem( ItemCreationRequest.KIT ) )
-					return;
-
-				irequest = ItemCreationRequest.getInstance( firstMatch.getItemId() );
-				break;
-
-			default:
-
-				updateDisplay( ERROR_STATE, "That item cannot be created." );
-				return;
 			}
-		}
 
-		irequest.setQuantityNeeded( firstMatch.getCount() );
-		RequestThread.postRequest( irequest );
+			irequest.setQuantityNeeded( currentMatch.getCount() );
+			RequestThread.postRequest( irequest );
+		}
 	}
 
 	/**
@@ -3848,45 +3865,49 @@ public class KoLmafiaCLI extends KoLmafia
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
 
-		AdventureResult firstMatch = getFirstMatchingItem( parameters );
-		if ( firstMatch == null )
-			return;
+		AdventureResult currentMatch;
+		Object [] itemList = getMatchingItemList( parameters );
 
-		if ( currentLine.startsWith( "eat" ) )
+		for ( int i = 0; i < itemList.length; ++i )
 		{
-			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) != CONSUME_EAT )
+			currentMatch = (AdventureResult) itemList[i];
+
+			if ( currentLine.startsWith( "eat" ) )
 			{
-				updateDisplay( ERROR_STATE, firstMatch.getName() + " cannot be consumed." );
-				return;
+				if ( TradeableItemDatabase.getConsumptionType( currentMatch.getItemId() ) != CONSUME_EAT )
+				{
+					updateDisplay( ERROR_STATE, currentMatch.getName() + " cannot be consumed." );
+					return;
+				}
 			}
-		}
 
-		if ( currentLine.startsWith( "drink" ) || currentLine.startsWith( "hobodrink" ) )
-		{
-			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) != CONSUME_DRINK )
+			if ( currentLine.startsWith( "drink" ) || currentLine.startsWith( "hobodrink" ) )
 			{
-				updateDisplay( ERROR_STATE, firstMatch.getName() + " is not an alcoholic beverage." );
-				return;
+				if ( TradeableItemDatabase.getConsumptionType( currentMatch.getItemId() ) != CONSUME_DRINK )
+				{
+					updateDisplay( ERROR_STATE, currentMatch.getName() + " is not an alcoholic beverage." );
+					return;
+				}
 			}
-		}
 
-		if ( currentLine.startsWith( "use" ) && !StaticEntity.getBooleanProperty( "allowGenericUse" ) )
-		{
-			switch ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemId() ) )
+			if ( currentLine.startsWith( "use" ) && !StaticEntity.getBooleanProperty( "allowGenericUse" ) )
 			{
-			case CONSUME_EAT:
-				updateDisplay( ERROR_STATE, firstMatch.getName() + " must be eaten." );
-				return;
-			case CONSUME_DRINK:
-				updateDisplay( ERROR_STATE, firstMatch.getName() + " is an alcoholic beverage." );
-				return;
+				switch ( TradeableItemDatabase.getConsumptionType( currentMatch.getItemId() ) )
+				{
+				case CONSUME_EAT:
+					updateDisplay( ERROR_STATE, currentMatch.getName() + " must be eaten." );
+					return;
+				case CONSUME_DRINK:
+					updateDisplay( ERROR_STATE, currentMatch.getName() + " is an alcoholic beverage." );
+					return;
+				}
 			}
+
+			ConsumeItemRequest request = !currentLine.startsWith( "hobodrink" ) ? new ConsumeItemRequest( currentMatch ) :
+				new ConsumeItemRequest( CONSUME_HOBO, currentMatch );
+
+			RequestThread.postRequest( request );
 		}
-
-		ConsumeItemRequest request = !currentLine.startsWith( "hobodrink" ) ? new ConsumeItemRequest( firstMatch ) :
-			new ConsumeItemRequest( CONSUME_HOBO, firstMatch );
-
-		RequestThread.postRequest( request );
 	}
 
 	/**
@@ -4089,11 +4110,10 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		AdventureResult item = getFirstMatchingItem( parameters );
-		if ( item == null )
-			return;
+		Object [] itemList = getMatchingItemList( parameters );
 
-		RequestThread.postRequest( new ZapRequest( item ) );
+		for ( int i = 0; i < itemList.length; ++i )
+			RequestThread.postRequest( new ZapRequest( (AdventureResult) itemList[i] ) );
 	}
 
 	/**
@@ -4102,18 +4122,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makePulverizeRequest( String parameters )
 	{
-		AdventureResult item = getFirstMatchingItem( parameters );
-		if ( item == null )
-			return;
+		Object [] itemList = getMatchingItemList( parameters );
 
-		if ( !TradeableItemDatabase.isTradeable( item.getItemId() ) )
-		{
-			// Force him to confirm this, somehow? That doesn't
-			// work in a script...
-			return;
-		}
-
-		RequestThread.postRequest( new PulverizeRequest( item ) );
+		for ( int i = 0; i < itemList.length; ++i )
+			RequestThread.postRequest( new PulverizeRequest( (AdventureResult) itemList[i] ) );
 	}
 
 	/**
@@ -4156,6 +4168,12 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( hermitItems.get(i).toString().toLowerCase().indexOf( parameters ) != -1 )
 			{
+				if ( isExecutingCheckOnlyCommand )
+				{
+					RequestLogger.printLine( ((AdventureResult)hermitItems.get(i)).getName() );
+					return;
+				}
+
 				itemId = ((AdventureResult)hermitItems.get(i)).getItemId();
 				if ( itemId == SewerRequest.POSITIVE_CLOVER.getItemId() && count != 1 )
 					count = Math.min( count, ((AdventureResult)hermitItems.get(i)).getCount() );
@@ -4183,17 +4201,25 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( item == null )
 			return;
 
+		if ( isExecutingCheckOnlyCommand )
+		{
+			RequestLogger.printLine( item.getName() );
+			return;
+		}
+
 		int itemId = item.getItemId();
 		int tradeCount = Character.isDigit( parameters.charAt(0) ) ? item.getCount() :
 			TrapperRequest.YETI_FUR.getCount( inventory );
 
 		// Ensure that the requested item is available from the trapper
 		for ( int i = 0; i < trapperItemNumbers.length; ++i )
+		{
 			if ( trapperItemNumbers[i] == itemId )
 			{
 				RequestThread.postRequest( new TrapperRequest( itemId, tradeCount ) );
 				return;
 			}
+		}
 	}
 
 	/**
@@ -4215,8 +4241,18 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		for ( int i = 0; i < hunterItems.size(); ++i )
+		{
 			if ( ((String)hunterItems.get(i)).indexOf( parameters ) != -1 )
+			{
+				if ( isExecutingCheckOnlyCommand )
+				{
+					RequestLogger.printLine( (String) hunterItems.get(i) );
+					return;
+				}
+
 				RequestThread.postRequest( new BountyHunterRequest( TradeableItemDatabase.getItemId( (String) hunterItems.get(i) ) ) );
+			}
+		}
 	}
 
 	/**
@@ -4244,6 +4280,12 @@ public class KoLmafiaCLI extends KoLmafia
 			String name = (String) restaurantItems.get(i);
 			if ( name.toLowerCase().indexOf( nameString ) != -1 )
 			{
+				if ( isExecutingCheckOnlyCommand )
+				{
+					RequestLogger.printLine( name );
+					return true;
+				}
+
 				int count = countString == null || countString.length() == 0 ? 1 :
 					StaticEntity.parseInt( countString );
 
@@ -4311,6 +4353,12 @@ public class KoLmafiaCLI extends KoLmafia
 			String name = (String) microbreweryItems.get(i);
 			if ( name.toLowerCase().indexOf( nameString ) != -1 )
 			{
+				if ( isExecutingCheckOnlyCommand )
+				{
+					RequestLogger.printLine( name );
+					return true;
+				}
+
 				int count = countString == null || countString.length() == 0 ? 1 :
 					StaticEntity.parseInt( countString );
 
