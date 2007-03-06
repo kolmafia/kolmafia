@@ -1005,6 +1005,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( location.startsWith( "rats.php" ) )
 			addTavernSpoilers( buffer );
 
+		if ( location.startsWith( "bathole.php" ) )
+			StaticEntity.globalStringReplace( buffer, "action=bathole.php", "action=adventure.php" );
+
 		if ( addComplexFeatures )
 		{
 			if ( location.startsWith( "ascensionhistory.php" ) )

@@ -778,12 +778,9 @@ public class AdventureDatabase extends KoLDatabase
 		allAdventures.add( location );
 
 		String url = location.getRequest().getURLString();
-		adventureLookup.put( url, location );
 
-		if ( url.indexOf( "adv=" ) != -1 )
-			adventureLookup.put( singleStringReplace( url, "adv=", "snarfblat=" ), location );
-		else if ( url.indexOf( "snarfblat=" ) != -1 )
-			adventureLookup.put( singleStringReplace( url, "snarfblat=", "adv=" ), location );
+		adventureLookup.put( url, location );
+		adventureLookup.put( singleStringReplace( url, "snarfblat=", "adv=" ), location );
 	}
 
 	public static final boolean validateZone( String zoneName, String locationId )
@@ -866,7 +863,6 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( adventureURL.indexOf( "sewer.php" ) != -1 && adventureURL.indexOf( "doodit" ) != -1 )
 			return (KoLAdventure) adventureLookup.get( "sewer.php?doodit=1" );
-
 
 		if ( adventureURL.startsWith( "/" ) )
 			adventureURL = adventureURL.substring(1);
