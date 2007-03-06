@@ -463,7 +463,8 @@ public abstract class StaticEntity implements KoLConstants
 			return;
 
 		printedStackTrace = true;
-		boolean shouldOpenStream = RequestLogger.isDebugging();
+
+		boolean shouldOpenStream = !RequestLogger.isDebugging();
 		if ( shouldOpenStream )
 			RequestLogger.openDebugLog();
 
