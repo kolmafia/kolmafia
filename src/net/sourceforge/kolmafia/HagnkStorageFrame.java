@@ -63,7 +63,7 @@ public class HagnkStorageFrame extends KoLFrame
 		tabs.addTab( "Closeted Items", new InventoryManagePanel( closet ) );
 		tabs.addTab( "Equipment in Storage", new HagnkStoragePanel( true ) );
 
-		framePanel.add( new MeatStoragePanel(), BorderLayout.NORTH );
+		framePanel.add( new MeatTransferPanel( ItemStorageRequest.PULL_MEAT_FROM_STORAGE ), BorderLayout.NORTH );
 		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
