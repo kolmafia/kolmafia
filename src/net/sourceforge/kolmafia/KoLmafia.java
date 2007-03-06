@@ -224,7 +224,7 @@ public abstract class KoLmafia implements KoLConstants
 			StaticEntity.setProperty( "previousUpdateVersion", VERSION_NAME );
 			for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
 			{
-				File outdated = new File( DATA_DIRECTORY, OVERRIDE_DATA[i] );
+				File outdated = new File( DATA_LOCATION, OVERRIDE_DATA[i] );
 				if ( outdated.exists() )
 					outdated.delete();
 
@@ -2819,7 +2819,7 @@ public abstract class KoLmafia implements KoLConstants
 			BufferedReader reader = KoLDatabase.getReader(
 				"http://svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIDE_DATA[i] );
 
-			File output = new File( DATA_DIRECTORY, OVERRIDE_DATA[i] );
+			File output = new File( DATA_LOCATION, OVERRIDE_DATA[i] );
 
 			try
 			{

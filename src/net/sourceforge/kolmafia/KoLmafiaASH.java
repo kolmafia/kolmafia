@@ -826,7 +826,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptScope result;
 		this.fileName = fileName;
 
-		File scriptFile = KoLmafiaCLI.findScriptFile( SCRIPT_DIRECTORY, fileName );
+		File scriptFile = KoLmafiaCLI.findScriptFile( SCRIPT_LOCATION, fileName );
 		if ( scriptFile == null || !scriptFile.exists() )
 			throw new AdvancedScriptException( fileName + " could not be found" );
 
@@ -2760,11 +2760,8 @@ public class KoLmafiaASH extends StaticEntity
 		// Even if an error occurred, since we captured the result,
 		// permit further execution.
 
-		if ( !KoLmafia.refusesContinue() )
-		{
-			currentState = STATE_NORMAL;
-			KoLmafia.forceContinue();
-		}
+		currentState = STATE_NORMAL;
+		KoLmafia.forceContinue();
 	}
 
 	private ScriptValue executeScope( ScriptScope topScope, String functionName, String [] parameters )
@@ -5702,13 +5699,13 @@ public class KoLmafiaASH extends StaticEntity
 
 			PrintStream writer = null;
 
-			File data = new File( SCRIPT_DIRECTORY, "datamaps/" + filename );
+			File data = new File( SCRIPT_LOCATION, "datamaps/" + filename );
 			if ( !data.exists() )
 				data = new File( filename );
 			if ( !data.exists() )
-				data = new File( SCRIPT_DIRECTORY, filename );
+				data = new File( SCRIPT_LOCATION, filename );
 			if ( !data.exists() )
-				data = new File( DATA_DIRECTORY, filename );
+				data = new File( DATA_LOCATION, filename );
 			if ( !data.exists() )
 				data = new File( filename );
 
@@ -5720,7 +5717,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( filename.indexOf( "/" ) != -1 && filename.indexOf( ".." ) == -1 )
 					data = new File( filename );
 				else
-					data = new File( SCRIPT_DIRECTORY, "datamaps/" + filename );
+					data = new File( SCRIPT_LOCATION, "datamaps/" + filename );
 			}
 
 			writer = LogStream.openStream( data, true );

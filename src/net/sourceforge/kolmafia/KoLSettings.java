@@ -146,9 +146,9 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	private File settingsFile;
 
-	private static File junkItemsFile = new File( SETTINGS_DIRECTORY, "junk_GLOBAL.txt" );
-	private static File mementoFile = new File( SETTINGS_DIRECTORY, "memento_GLOBAL.txt" );
-	private static File checklistFile = new File( SETTINGS_DIRECTORY, "checklist_GLOBAL.txt" );
+	private static File junkItemsFile = new File( SETTINGS_LOCATION, "junk_GLOBAL.txt" );
+	private static File mementoFile = new File( SETTINGS_LOCATION, "memento_GLOBAL.txt" );
+	private static File checklistFile = new File( SETTINGS_LOCATION, "checklist_GLOBAL.txt" );
 
 	static
 	{
@@ -270,7 +270,7 @@ public class KoLSettings extends Properties implements KoLConstants
 	public KoLSettings( String characterName )
 	{
 		this.noExtensionName = KoLCharacter.baseUserName( characterName );
-		this.settingsFile = new File( SETTINGS_DIRECTORY, "prefs_" + noExtensionName + ".txt" );
+		this.settingsFile = new File( SETTINGS_LOCATION, "prefs_" + noExtensionName + ".txt" );
 
 		loadSettings();
 		ensureDefaults();
@@ -362,7 +362,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		if ( initializingDefaults )
 			return;
 
-		SETTINGS_DIRECTORY.mkdirs();
+		SETTINGS_LOCATION.mkdirs();
 
 		try
 		{

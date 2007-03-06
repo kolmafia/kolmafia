@@ -400,7 +400,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 			if ( scriptPath == null )
 			{
-				JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
+				JFileChooser chooser = new JFileChooser( SCRIPT_LOCATION.getAbsolutePath() );
 				int returnVal = chooser.showOpenDialog( null );
 
 				if ( chooser.getSelectedFile() == null )

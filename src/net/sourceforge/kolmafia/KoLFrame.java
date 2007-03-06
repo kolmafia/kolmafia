@@ -1411,10 +1411,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		scripts.clear();
 
 		// Get the list of files in the current directory
-		if ( !SCRIPT_DIRECTORY.exists() )
-			SCRIPT_DIRECTORY.mkdirs();
+		if ( !SCRIPT_LOCATION.exists() )
+			SCRIPT_LOCATION.mkdirs();
 
-		File [] scriptList = SCRIPT_DIRECTORY.listFiles( BACKUP_FILTER );
+		File [] scriptList = SCRIPT_LOCATION.listFiles( BACKUP_FILTER );
 
 		// Iterate through the files.  Do this in two
 		// passes to make sure that directories start

@@ -278,7 +278,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 		public void run()
 		{
-			JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
+			JFileChooser chooser = new JFileChooser( SCRIPT_LOCATION.getAbsolutePath() );
 			chooser.showOpenDialog( null );
 
 			if ( chooser.getSelectedFile() == null )

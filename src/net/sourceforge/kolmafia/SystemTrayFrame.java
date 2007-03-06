@@ -68,7 +68,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 			return;
 		}
 
-		File iconfile = new File( IMAGE_DIRECTORY, "TrayIcon12.dll" );
+		File iconfile = new File( IMAGE_LOCATION, "TrayIcon12.dll" );
 
 		System.load( iconfile.getAbsolutePath() );
 		WindowsTrayIcon.initTrayIcon( "KoLmafia" );

@@ -134,6 +134,32 @@ public abstract class RequestThread implements KoLConstants
 		enableDisplayIfSequenceComplete();
 	}
 
+	public static void postRequest( Runnable request )
+	{
+		if ( sequenceCount == 0 )
+			KoLmafia.forceContinue();
+
+		++sequenceCount;
+
+		// If you're not in the event dispatch thread, you can run
+		// without posting to a separate thread.
+
+		try
+		{
+			if ( !SwingUtilities.isEventDispatchThread() )
+				request.run();
+			else
+				Worker.post( new RunnableWrapper( request ) );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+
+		--sequenceCount;
+		enableDisplayIfSequenceComplete();
+	}
+
 	public static void openRequestSequence()
 	{
 		if ( sequenceCount == 0 )
@@ -192,6 +218,19 @@ public abstract class RequestThread implements KoLConstants
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	private static class RunnableWrapper extends Job
+	{
+		private Runnable wrapped;
+
+		public RunnableWrapper( Runnable wrapped )
+		{	this.wrapped = wrapped;
+		}
+
+		public void run()
+		{	wrapped.run();
 		}
 	}
 

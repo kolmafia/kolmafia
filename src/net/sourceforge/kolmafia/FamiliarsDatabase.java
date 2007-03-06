@@ -284,7 +284,7 @@ public class FamiliarsDatabase extends KoLDatabase
 
 	private static void saveDataOverride()
 	{
-		File output = new File( DATA_DIRECTORY, "familiars.txt" );
+		File output = new File( DATA_LOCATION, "familiars.txt" );
 		PrintStream writer = LogStream.openStream( output, true );
 
 		writer.println( "# Original familiar arena stats from Vladjimir's arena data" );
