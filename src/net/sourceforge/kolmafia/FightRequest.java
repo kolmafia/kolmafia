@@ -806,7 +806,9 @@ public class FightRequest extends KoLRequest
 	}
 
 	public static boolean isTrackingFights()
-	{	return isTrackingFights;
+	{
+		isTrackingFights &= KoLmafia.permitsContinue();
+		return isTrackingFights;
 	}
 
 	public static String getLastMonster()
