@@ -566,19 +566,13 @@ public class LocalRelayServer implements Runnable
 
 		private boolean runBetweenBattleScripts()
 		{
+			if ( KoLmafia.isRunningBetweenBattleChecks() )
+				return false;
+
 			CharpaneRequest.createCheckpoint();
 
-			if ( StaticEntity.getBooleanProperty( "relayRunsBetweenScript" ) )
-				StaticEntity.getClient().runBetweenBattleChecks( false, false );
-
-			if ( StaticEntity.getBooleanProperty( "relayMaintainsMoods" ) )
-				MoodSettings.execute( true );
-
-			if ( StaticEntity.getBooleanProperty( "relayMaintainsHealth" ) )
-				StaticEntity.getClient().recoverHP();
-
-			if ( StaticEntity.getBooleanProperty( "relayMaintainsMana" ) )
-				StaticEntity.getClient().recoverMP();
+			StaticEntity.getClient().runBetweenBattleChecks( StaticEntity.getBooleanProperty( "relayRunsBetweenScript" ),
+				StaticEntity.getBooleanProperty( "relayMaintainsMoods" ), StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
 
 			return CharpaneRequest.clearedCheckpoint();
 		}
