@@ -136,9 +136,9 @@ public abstract class StaticEntity implements KoLConstants
 
 		try
 		{
-			if ( DATA_DIRECTORY.exists() )
+			if ( DATA_LOCATION.exists() )
 			{
-				File [] files = DATA_DIRECTORY.listFiles();
+				File [] files = DATA_LOCATION.listFiles();
 
 				String location;
 				File destination;
@@ -151,7 +151,7 @@ public abstract class StaticEntity implements KoLConstants
 					if ( location.endsWith( oldExtension ) )
 					{
 						location = location.length() == 5 ? "GLOBAL" : location.substring( 1, location.length() - 4 );
-						destination = new File( SETTINGS_DIRECTORY, newPrefix + "_" + location + ".txt" );
+						destination = new File( SETTINGS_LOCATION, newPrefix + "_" + location + ".txt" );
 
 						if ( destination.exists() )
 							continue;
@@ -537,8 +537,8 @@ public abstract class StaticEntity implements KoLConstants
 			// in the system tray.  For now, this will be the old
 			// icon used by KoLmelion.
 
-			IMAGE_DIRECTORY.mkdirs();
-			File library = new File( IMAGE_DIRECTORY, filename );
+			IMAGE_LOCATION.mkdirs();
+			File library = new File( IMAGE_LOCATION, filename );
 
 			if ( !library.exists() )
 			{
@@ -683,10 +683,10 @@ public abstract class StaticEntity implements KoLConstants
 		Matcher pathMatcher = null;
 		ArrayList pastUserList = new ArrayList();
 
-		if ( !SETTINGS_DIRECTORY.exists() )
+		if ( !SETTINGS_LOCATION.exists() )
 			return new String[0];
 
-		File [] files = SETTINGS_DIRECTORY.listFiles();
+		File [] files = SETTINGS_LOCATION.listFiles();
 
 		for ( int i = 0; i < files.length; ++i )
 		{

@@ -445,7 +445,7 @@ public class OptionsFrame extends KoLFrame
 
 			public void run()
 			{
-				String rootPath = SCRIPT_DIRECTORY.getAbsolutePath();
+				String rootPath = SCRIPT_LOCATION.getAbsolutePath();
 				JFileChooser chooser = new JFileChooser( rootPath );
 				int returnVal = chooser.showOpenDialog( null );
 

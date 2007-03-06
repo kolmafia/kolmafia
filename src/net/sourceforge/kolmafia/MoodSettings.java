@@ -90,7 +90,7 @@ public abstract class MoodSettings implements KoLConstants
 		if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) || currentMood.equals( "" ) )
 			return;
 
-		settingsFile = new File( SETTINGS_DIRECTORY, settingsFileName() );
+		settingsFile = new File( SETTINGS_LOCATION, settingsFileName() );
 		loadSettings();
 
 		setMood( currentMood );

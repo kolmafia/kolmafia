@@ -51,7 +51,7 @@ import java.io.IOException;
 public class CustomItemDatabase extends Properties implements KoLConstants
 {
 	private static final CustomItemDatabase INSTANCE = new CustomItemDatabase();
-	private static final File KILT_FILE = new File( DATA_DIRECTORY, "tehkilt.txt" );
+	private static final File KILT_FILE = new File( DATA_LOCATION, "tehkilt.txt" );
 
 	private static final Pattern EQUIP_PATTERN = Pattern.compile( "<tr><td width=30 height=30><img src=\"[^\"]+\" class=hand onClick='descitem\\(\\d+\\)'></td><td valign=center><b>([^<]+)</b></td></tr>" );
 
@@ -454,7 +454,7 @@ public class CustomItemDatabase extends Properties implements KoLConstants
 		if ( INSTANCE.isEmpty() )
 			return;
 
-		DATA_DIRECTORY.mkdirs();
+		DATA_LOCATION.mkdirs();
 
 		try
 		{
