@@ -1537,8 +1537,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				{
 				case GROW_FAMILIAR:
 
-					useType = "terrarium";
-					useLocation = "inv_familiar.php?pwd&which=3&whichitem=";
+					if ( itemId == 275 )
+					{
+						useType = "council";
+						useLocation = "council.php";
+					}
+
 					break;
 
 				case CONSUME_EAT:
