@@ -52,7 +52,6 @@ public class FightRequest extends KoLRequest
 	private static final AdventureResult MERCENARY = new AdventureResult( 2139, 1 );
 	private static final AdventureResult TEQUILA = new AdventureResult( 1004, -1 );
 
-	private static String lastResult = "";
 	private static String lastPlayer = "";
 
 	private static String lostInitiative = "";
@@ -139,7 +138,7 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
-		if ( KoLmafia.refusesContinue() )
+		if ( !KoLmafia.permitsContinue() )
 		{
 			action1 = "abort";
 			return;
@@ -349,6 +348,8 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
+		RequestThread.openRequestSequence();
+
 		do
 		{
 			clearDataFields();
@@ -369,10 +370,12 @@ public class FightRequest extends KoLRequest
 			if ( action1 != null && action1.equals( "abort" ) )
 				KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
 		}
-		while ( currentRound != 0 && !KoLmafia.refusesContinue() );
+		while ( currentRound != 0 && KoLmafia.permitsContinue() );
 
-		if ( currentRound != 0 )
+		if ( !KoLmafia.permitsContinue() )
 			showInBrowser( true );
+
+		RequestThread.closeRequestSequence();
 	}
 
 	private boolean isAcceptable( int offenseModifier, int defenseModifier )
@@ -763,38 +766,34 @@ public class FightRequest extends KoLRequest
 	public static String getNextTrackedRound()
 	{
 		if ( !isTrackingFights )
-			return lastResult;
+			return FightRequest.INSTANCE.responseText;
 
-		for ( int i = 0; trackedRounds.isEmpty() && i < 50; ++i )
-			delay( 200 );
+		// Wait for about two seconds to get the next round to show
+		// up, but only if an abort hasn't happened.
+
+		if ( trackedRounds.isEmpty() && KoLmafia.permitsContinue() )
+			for ( int i = 0; trackedRounds.isEmpty() && i < 20; ++i )
+				delay( 100 );
 
 		if ( trackedRounds.isEmpty() )
 		{
 			isTrackingFights = false;
-			return lastResult;
+			return RequestEditorKit.getFeatureRichHTML( "fight.php", FightRequest.INSTANCE.responseText, true );
 		}
 
-		lastResult = (String) trackedRounds.remove(0);
-
+		String lastRound = (String) trackedRounds.remove(0);
 		if ( trackedRounds.isEmpty() && currentRound == 0 )
-		{
 			isTrackingFights = false;
 
-			StringBuffer resultBuffer = new StringBuffer();
-			resultBuffer.append( lastResult );
-
-			try
-			{
-				RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", resultBuffer, true );
-				lastResult = resultBuffer.toString();
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
+		try
+		{
+			return RequestEditorKit.getFeatureRichHTML( "fight.php?action=script", lastRound, true );
 		}
-
-		return lastResult;
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+			return lastRound;
+		}
 	}
 
 	public static int getCurrentRound()
@@ -806,9 +805,7 @@ public class FightRequest extends KoLRequest
 	}
 
 	public static boolean isTrackingFights()
-	{
-		isTrackingFights &= KoLmafia.permitsContinue();
-		return isTrackingFights;
+	{	return isTrackingFights;
 	}
 
 	public static String getLastMonster()

@@ -426,7 +426,7 @@ public class LocalRelayServer implements Runnable
 					request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 					request.responseCode = 304;
 				}
-				else if ( (path.indexOf( "fight.php" ) != -1 && FightRequest.isTrackingFights()) || path.indexOf( "action=script" ) != -1 )
+				else if ( path.indexOf( "fight.php" ) != -1 && (FightRequest.isTrackingFights() || path.indexOf( "action=script" ) != -1) )
 				{
 					if ( !FightRequest.isTrackingFights() )
 					{
