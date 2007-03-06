@@ -246,20 +246,17 @@ public class KoLmafiaCLI extends KoLmafia
 				forceContinue();
 		}
 
-		if ( line == null || line.trim().length() == 0 )
+		try
 		{
-			try
-			{
-				commandStream.close();
-				currentLine = null;
-			}
-			catch ( IOException e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
+			commandStream.close();
+			currentLine = null;
+		}
+		catch ( IOException e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e );
-			}
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
