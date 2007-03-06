@@ -381,7 +381,7 @@ public class FightRequest extends KoLRequest
 			return true;
 
 		return monsterData.hasAcceptableDodgeRate( FightRequest.offenseModifier + offenseModifier ) &&
-			!monsterData.willAlwaysMiss( FightRequest.defenseModifier + defenseModifier );
+			!monsterData.willUsuallyMiss( FightRequest.defenseModifier + defenseModifier );
 	}
 
 	private String getMonsterWeakenAction()
