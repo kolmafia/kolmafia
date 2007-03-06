@@ -2872,6 +2872,10 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void runBetweenBattleChecks( boolean isFullCheck, boolean isHealthCheck )
+	{	runBetweenBattleChecks( isFullCheck, isFullCheck, isHealthCheck || isFullCheck, isFullCheck );
+	}
+
+	public void runBetweenBattleChecks( boolean isScriptCheck, boolean isMoodCheck, boolean isHealthCheck, boolean isManaCheck )
 	{
 		// Do not run between battle checks if you are in the middle
 		// of your checks or if you have aborted.
@@ -2884,13 +2888,17 @@ public abstract class KoLmafia implements KoLConstants
 		// in behavior needs to run.
 
 		RequestThread.openRequestSequence();
-		String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
 
-		if ( !scriptPath.equals( "" ) )
+		if ( isScriptCheck )
 		{
-			recoveryActive = true;
-			DEFAULT_SHELL.executeLine( scriptPath );
-			recoveryActive = false;
+			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
+
+			if ( !scriptPath.equals( "" ) )
+			{
+				recoveryActive = true;
+				DEFAULT_SHELL.executeLine( scriptPath );
+				recoveryActive = false;
+			}
 		}
 
 		SpecialOutfit.createImplicitCheckpoint();
@@ -2899,13 +2907,13 @@ public abstract class KoLmafia implements KoLConstants
 		// Now, run the built-in behavior to take care of
 		// any loose ends.
 
-		if ( isFullCheck )
+		if ( isMoodCheck )
 			MoodSettings.execute();
 
-		if ( isFullCheck || isHealthCheck )
+		if ( isHealthCheck )
 			recoverHP();
 
-		if ( isFullCheck )
+		if ( isManaCheck )
 			recoverMP();
 
 		recoveryActive = false;
