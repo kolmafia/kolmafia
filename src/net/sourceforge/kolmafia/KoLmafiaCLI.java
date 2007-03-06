@@ -308,9 +308,12 @@ public class KoLmafiaCLI extends KoLmafia
 		// reading until the last statement in the line
 		// is no longer an if-statement.
 
-		if ( line.toLowerCase().startsWith( "if " ) )
+		String lowercase = line.toLowerCase();
+
+		if ( lowercase.startsWith( "if " ) || lowercase.startsWith( "while " ) )
 		{
 			int splitIndex = line.indexOf( ";" );
+			boolean isWhile = lowercase.startsWith( "while" );
 
 			String condition;
 			StringBuffer statement = new StringBuffer();
@@ -339,25 +342,25 @@ public class KoLmafiaCLI extends KoLmafia
 			// the real end statement in spite of this.
 
 			splitIndex = statement.lastIndexOf( ";" );
-			lastTest = statement.substring( splitIndex + 1 );
+			lastTest = statement.substring( splitIndex + 1 ).toLowerCase().trim();
 
-			while ( lastTest.trim().length() == 0 )
+			while ( lastTest.length() == 0 )
 			{
 				statement.delete( splitIndex, statement.length() );
 				splitIndex = statement.lastIndexOf( ";" );
-				lastTest = statement.substring( splitIndex + 1 );
+				lastTest = statement.substring( splitIndex + 1 ).toLowerCase().trim();
 			}
 
-			while ( lastTest.toLowerCase().startsWith( "if " ) )
+			while ( lastTest.startsWith( "if " ) || lastTest.startsWith( "while " ) )
 			{
 				statement.append( getNextLine() );
-				lastTest = statement.substring( statement.lastIndexOf( ";" ) + 1 );
+				lastTest = statement.substring( statement.lastIndexOf( ";" ) + 1 ).toLowerCase().trim();
 
-				while ( lastTest.trim().length() == 0 )
+				while ( lastTest.length() == 0 )
 				{
 					statement.delete( splitIndex, statement.length() );
 					splitIndex = statement.lastIndexOf( ";" );
-					lastTest = statement.substring( splitIndex + 1 );
+					lastTest = statement.substring( splitIndex + 1 ).toLowerCase().trim();
 				}
 			}
 
@@ -367,8 +370,16 @@ public class KoLmafiaCLI extends KoLmafia
 
 			condition = condition.substring( condition.indexOf( " " ) + 1 );
 
-			if ( testConditional( condition ) )
-				executeLine( statement.toString() );
+			if ( isWhile )
+			{
+				while ( testConditional( condition ) )
+					executeLine( statement.toString() );
+			}
+			else
+			{
+				if ( testConditional( condition ) )
+					executeLine( statement.toString() );
+			}
 
 			previousLine = condition + ";" + statement;
 			return;
