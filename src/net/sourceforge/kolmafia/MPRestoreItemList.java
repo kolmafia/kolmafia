@@ -199,10 +199,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 				numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToBuy );
 
 				if ( !AdventureDatabase.retrieveItem( itemUsed.getInstance( numberToBuy ) ) )
-				{
-					KoLmafia.forceContinue();
 					return;
-				}
 
 				numberAvailable = itemUsed.getCount( inventory );
 			}

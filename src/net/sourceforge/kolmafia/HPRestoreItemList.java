@@ -209,52 +209,20 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 				if ( purchase && numberAvailable < numberToUse )
 				{
-					if ( this == HERBS && KoLCharacter.getSpleenUse() >= KoLCharacter.getSpleenLimit() )
-					{
-						numberToUse = 0;
-						numberAvailable = 0;
-					}
-					else if ( this == HERBS && NPCStoreDatabase.contains( itemUsed.getName() ) )
-					{
-						// If you need to buy herbs and you're high level,
-						// then buy some extras for later.
+					int numberToBuy = numberToUse;
+					int unitPrice = TradeableItemDatabase.getPriceById( itemUsed.getItemId() ) * 2;
 
-						int toRetrieve = Math.min( KoLCharacter.getAvailableMeat() / 100, KoLCharacter.getLevel() <= 6 ? 1 : 3 );
-
-						if ( !AdventureDatabase.retrieveItem( itemUsed.getInstance( toRetrieve ) ) )
-						{
-							KoLmafia.forceContinue();
-							return;
-						}
-
-						numberAvailable = itemUsed.getCount( inventory );
-					}
+					if ( this == HERBS && NPCStoreDatabase.contains( itemUsed.getName() ) )
+						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, 3 );
+					else if ( NPCStoreDatabase.contains( itemUsed.getName() ) )
+						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToBuy );
 					else if ( this == SCROLL && KoLCharacter.canInteract() )
-					{
-						// If you're using scrolls of drastic healing, then
-						// make sure you have a little surplus.
+						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, 20 );
 
-						if ( !AdventureDatabase.retrieveItem( itemUsed.getInstance( 20 ) ) )
-						{
-							KoLmafia.forceContinue();
-							return;
-						}
+					if ( !AdventureDatabase.retrieveItem( itemUsed.getInstance( numberToBuy ) ) )
+						return;
 
-						numberAvailable = itemUsed.getCount( inventory );
-					}
-					else if ( this == OINTMENT )
-					{
-						// Ointment is expensive, so use a minimalistic
-						// policy when deciding how many to buy.
-
-						if ( !AdventureDatabase.retrieveItem( itemUsed.getInstance( Math.min( KoLCharacter.getAvailableMeat() / 60, numberToUse ) ) ) )
-						{
-							KoLmafia.forceContinue();
-							return;
-						}
-
-						numberAvailable = itemUsed.getCount( inventory );
-					}
+					numberAvailable = itemUsed.getCount( inventory );
 				}
 
 				numberToUse = Math.min( numberToUse, numberAvailable );
