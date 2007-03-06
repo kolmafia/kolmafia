@@ -48,6 +48,9 @@ public class LoginRequest extends KoLRequest
 	private static String lastPassword;
 	private static boolean isLoggingIn;
 
+	private static long lastLoginAttempt = 0;
+	private static long WAIT_THRESHOLD = 300000;
+
 	private static int STANDARD_WAIT = 75;
 	private static int TOO_MANY_WAIT = 960;
 	private static int BAD_CHALLENGE_WAIT = 15;
@@ -178,8 +181,13 @@ public class LoginRequest extends KoLRequest
 		try
 		{
 			runCountdown = true;
-			while ( executeLogin() && runCountdown && !KoLmafia.refusesContinue() )
+
+			if ( executeLogin() && runCountdown )
+			{
 				StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
+				if ( !KoLmafia.refusesContinue() && executeLogin() )
+					forceLoginAbort();
+			}
 		}
 		catch ( Exception e )
 		{
@@ -191,8 +199,17 @@ public class LoginRequest extends KoLRequest
 		}
 	}
 
+	private static void forceLoginAbort()
+	{
+		StaticEntity.printStackTrace( new Exception(), "Concurrent logins detected" );
+		System.exit(-1);
+	}
+
 	public static void executeTimeInRequest()
 	{
+		if ( System.currentTimeMillis() - lastLoginAttempt < WAIT_THRESHOLD )
+			forceLoginAbort();
+
 		sessionId = null;
 		waitTime = STANDARD_WAIT;
 
@@ -206,6 +223,7 @@ public class LoginRequest extends KoLRequest
 	public boolean executeLogin()
 	{
 		sessionId = null;
+		lastLoginAttempt = System.currentTimeMillis();
 
 		if ( waitTime == BAD_CHALLENGE_WAIT || !runCountdown || !detectChallenge() )
 		{
