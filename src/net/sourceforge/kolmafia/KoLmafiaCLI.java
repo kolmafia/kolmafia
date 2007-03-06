@@ -1896,6 +1896,10 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( attachments.length == 0 )
 			return;
 
+		// Validate their attachments.  If they happen to be
+		// scripting a philanthropic buff request, then figure
+		// out if there's a corresponding full-price buff.
+
 		if ( attachments.length == 1 && ((AdventureResult)attachments[0]).getName().equals( AdventureResult.MEAT ) )
 		{
 			int amount = BuffBotDatabase.getNonPhilanthropicOffering( splitParameters[1], ((AdventureResult)attachments[0]).getCount(), isConvertible );
@@ -1905,18 +1909,22 @@ public class KoLmafiaCLI extends KoLmafia
 			attachments[0] = new AdventureResult( AdventureResult.MEAT, amount );
 		}
 
-		// Validate their attachments.  If they happen to be
-		// scripting a philanthropic buff request, then figure
-		// out if there's a corresponding full-price buff.
+		executeSendRequest( splitParameters[1], message, attachments, false );
+	}
 
-		SendMessageRequest.setUpdateDisplayOnFailure( false );
-		RequestThread.postRequest( new GreenMessageRequest( splitParameters[1], message, attachments ) );
-		SendMessageRequest.setUpdateDisplayOnFailure( true );
-
-		if ( !SendMessageRequest.hadSendMessageFailure() )
+	public void executeSendRequest( String recipient, String message, Object [] attachments, boolean forceGift )
+	{
+		if ( !forceGift )
 		{
-			updateDisplay( "Message sent to " + splitParameters[1] );
-			return;
+			SendMessageRequest.setUpdateDisplayOnFailure( false );
+			RequestThread.postRequest( new GreenMessageRequest( recipient, message, attachments ) );
+			SendMessageRequest.setUpdateDisplayOnFailure( true );
+
+			if ( !SendMessageRequest.hadSendMessageFailure() )
+			{
+				updateDisplay( "Message sent to " + recipient );
+				return;
+			}
 		}
 
 		List availablePackages = GiftMessageRequest.getPackages();
@@ -1931,12 +1939,12 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( !refusesContinue() )
 			forceContinue();
 
-		RequestThread.postRequest( new GiftMessageRequest( splitParameters[1], message, message, desiredPackageIndex, attachments ) );
+		RequestThread.postRequest( new GiftMessageRequest( recipient, message, desiredPackageIndex, attachments ) );
 
 		if ( permitsContinue() )
-			updateDisplay( "Gift sent to " + splitParameters[1] );
+			updateDisplay( "Gift sent to " + recipient );
 		else
-			updateDisplay( ERROR_STATE, "Failed to send message to " + splitParameters[1] );
+			updateDisplay( ERROR_STATE, "Failed to send message to " + recipient );
 	}
 
 	public static File findScriptFile( String filename )

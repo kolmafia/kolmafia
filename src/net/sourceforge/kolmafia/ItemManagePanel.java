@@ -157,13 +157,24 @@ public class ItemManagePanel extends LabeledScrollPanel
 		{
 			filters = new JCheckBox[5];
 
-			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
-			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
-			filters[2] = new JCheckBox( "Show equipment", true );
-			filters[3] = new JCheckBox( "Show others", true );
-			filters[4] = new JCheckBox( "Show no-trade", true );
+			if ( buttonListeners == null )
+			{
+				filters[0] = new JCheckBox( "food", KoLCharacter.canEat() );
+				filters[1] = new JCheckBox( "booze", KoLCharacter.canDrink() );
+				filters[2] = new JCheckBox( "equip", true );
+				filters[3] = new JCheckBox( "others", true );
+				filters[4] = new JCheckBox( "no-trade", true );
+			}
+			else
+			{
+				filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
+				filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
+				filters[2] = new JCheckBox( "Show equipment", true );
+				filters[3] = new JCheckBox( "Show others", true );
+				filters[4] = new JCheckBox( "Show no-trade", true );
+			}
 
-			for ( int i = 0; i < 4; ++i )
+			for ( int i = 0; i < 5; ++i )
 			{
 				filterPanel.add( filters[i] );
 				filters[i].addActionListener( new UpdateFilterListener() );
