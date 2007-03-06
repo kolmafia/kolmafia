@@ -3796,12 +3796,13 @@ public class KoLmafiaCLI extends KoLmafia
 		for ( int i = 0; i < itemList.length; ++i )
 		{
 			currentMatch = (AdventureResult) itemList[i];
+			if ( itemList[i] == null )
+				continue;
+
 			irequest = ItemCreationRequest.getInstance( currentMatch.getItemId() );
 
 			if ( irequest == null )
 			{
-				boolean needServant = !StaticEntity.getBooleanProperty( "createWithoutBoxServants" );
-
 				switch ( ConcoctionsDatabase.getMixingMethod( currentMatch.getItemId() ) )
 				{
 				case COOK:
@@ -3809,33 +3810,15 @@ public class KoLmafiaCLI extends KoLmafia
 				case SUPER_REAGENT:
 				case COOK_PASTA:
 
-					if ( needServant )
-					{
-						updateDisplay( ERROR_STATE, "You cannot cook without a chef-in-the-box." );
-						return;
-					}
-
-					if ( !AdventureDatabase.retrieveItem( ItemCreationRequest.OVEN ) )
-						return;
-
-					irequest = ItemCreationRequest.getInstance( currentMatch.getItemId() );
-					break;
+					updateDisplay( ERROR_STATE, "You cannot cook without a chef-in-the-box." );
+					return;
 
 				case MIX:
 				case MIX_SPECIAL:
 				case MIX_SUPER:
 
-					if ( needServant )
-					{
-						updateDisplay( ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
-						return;
-					}
-
-					if ( AdventureDatabase.retrieveItem( ItemCreationRequest.KIT ) )
-						return;
-
-					irequest = ItemCreationRequest.getInstance( currentMatch.getItemId() );
-					break;
+					updateDisplay( ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
+					return;
 
 				default:
 

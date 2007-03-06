@@ -58,10 +58,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static final int BARTENDER = 440;
 	private static final int CLOCKWORK_BARTENDER = 1111;
 
-	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
-	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
+	public static final AdventureResult OVEN = new AdventureResult( 157, 1 );
+	public static final AdventureResult KIT = new AdventureResult( 236, 1 );
 	public static final AdventureResult HAMMER = new AdventureResult( 338, 1 );
-	private static final AdventureResult PLIERS = new AdventureResult( 709, 1 );
+	public static final AdventureResult PLIERS = new AdventureResult( 709, 1 );
 
 	private static final AdventureResult PASTE = new AdventureResult( MEAT_PASTE, 1 );
 	private static final AdventureResult STACK = new AdventureResult( MEAT_STACK, 1 );
@@ -528,8 +528,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Smithing of items is possible whenever the person
 		// has a hammer.
 
-		PERMIT_METHOD[ SMITH ] = (inventory.contains( HAMMER ) || KoLCharacter.getAvailableMeat() >= 1000) &&
-			KoLCharacter.getAdventuresLeft() > 0;
+		PERMIT_METHOD[ SMITH ] = inventory.contains( HAMMER ) || KoLCharacter.getAvailableMeat() >= 1000;
+		ADVENTURE_USAGE[ SMITH ] = 1;
 
 		// Advanced smithing is available whenever the person can
 		// smith and has access to the appropriate skill.
@@ -550,16 +550,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 			PERMIT_METHOD[ SMITH ] = true;
 			ADVENTURE_USAGE[ SMITH ] = 0;
 		}
-		else
-		{
-			ADVENTURE_USAGE[ SMITH ] = 1;
-		}
 
 		// Jewelry making is possible as long as the person has the
 		// appropriate pliers.
 
-		PERMIT_METHOD[ JEWELRY ] = inventory.contains( PLIERS ) &&
-			KoLCharacter.getAdventuresLeft() > 2;
+		PERMIT_METHOD[ JEWELRY ] = inventory.contains( PLIERS );
 		ADVENTURE_USAGE[ JEWELRY ] = 3;
 
 		// Star charts and pixel chart recipes are available to all
@@ -607,8 +602,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{
 			if ( noServantNeeded )
 			{
-				PERMIT_METHOD[ COOK ] = (inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000)
-					&& KoLCharacter.getAdventuresLeft() > 0;
+				PERMIT_METHOD[ COOK ] = inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000;
 				ADVENTURE_USAGE[ COOK ] = 1;
 			}
 			else
@@ -639,8 +633,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{
 			if ( noServantNeeded )
 			{
-				PERMIT_METHOD[ MIX ] = ( inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000) &&
-					KoLCharacter.getAdventuresLeft() > 0;
+				PERMIT_METHOD[ MIX ] = inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000;
 				ADVENTURE_USAGE[ MIX ] = 1;
 			}
 			else
