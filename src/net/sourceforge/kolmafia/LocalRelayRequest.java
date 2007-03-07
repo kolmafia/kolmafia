@@ -749,6 +749,26 @@ public class LocalRelayRequest extends PasswordHashRequest
 		pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
 	}
 
+	public void sendGeneralWarning( String image, String message )
+	{
+		StringBuffer warning = new StringBuffer();
+
+		warning.append( "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td>" );
+
+		if ( image != null && !image.equals( "" ) )
+		{
+			warning.append( "<center><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+			warning.append( image );
+			warning.append( "\" width=30 height=30><br></center>" );
+		}
+
+		warning.append( "<blockquote>" );
+		warning.append( message );
+		warning.append( "</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+
+		pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
+	}
+
 	public void run()
 	{
 		// If there is an attempt to view the error page, or if
@@ -774,7 +794,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Special handling of adventuring locations before it's
 		// registered internally with KoLmafia.
 
-		if ( formURLString.indexOf( "aventure.php" ) != -1 )
+		if ( formURLString.indexOf( "adventure.php" ) != -1 )
 		{
 			String location = getFormField( "snarfblat" );
 			if ( location == null )
@@ -785,8 +805,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 			if ( location != null && location.equals( "101" ) && KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() )
 			{
-				pseudoResponse( "HTTP/1.1 200 OK", "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><blockquote>Please reconsider your meat farming strategy.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
-
+				sendGeneralWarning( "", "Please reconsider your meat farming strategy." );
 				return;
 			}
 
@@ -795,18 +814,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 			if ( location != null && location.equals( "67" ) && KoLCharacter.getLevel() < 9 )
 			{
-				pseudoResponse( "HTTP/1.1 200 OK", "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><blockquote>Adventuring here before level 9 is a really bad idea.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
-
-				return;
-			}
-
-			// Sometimes, people want the MCD rewards from various boss
-			// monsters.  Let's help out.
-
-			if ( location != null && location.equals( "67" ) )
-			{
-				pseudoResponse( "HTTP/1.1 200 OK", "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><blockquote>Adventuring here before level 9 is a really bad idea.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
-
+				sendGeneralWarning( "", "Adventuring here before level 9 is a really bad idea." );
 				return;
 			}
 
@@ -870,7 +878,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) )
 			{
-				pseudoResponse( "HTTP/1.1 200 OK", "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center><img src=\"http://images.kingdomofloathing.com/itemimages/wand.gif\" width=30 height=30><br></center><blockquote>Hm, it's possible there is something very important you're forgetting.  Maybe you should <a href=\"inventory.php?which=2\">double-check</a> just to make sure.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+				sendGeneralWarning( "wand.gif", "Hm, it's possible there is something very important you're forgetting.  Maybe you should <a href=\"inventory.php?which=2\">double-check</a> just to make sure." );
 
 				return;
 			}
