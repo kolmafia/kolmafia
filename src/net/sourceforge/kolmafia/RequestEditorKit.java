@@ -1034,12 +1034,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			if ( location.indexOf( "ascend.php" ) != -1 || location.indexOf( "valhalla.php" ) != -1 )
 				addAscensionReminders( location, buffer );
-
-			if ( StaticEntity.getBooleanProperty( "relayCategorizesSkills" ) )
-			{
-				if ( location.indexOf( "charsheet.php" ) != -1 )
-					adjustSkillSummary( buffer );
-			}
 		}
 
 		String defaultColor = StaticEntity.getProperty( "defaultBorderColor" );
@@ -1048,30 +1042,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			StaticEntity.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
 			StaticEntity.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
 		}
-	}
-
-	private static void adjustSkillSummary( StringBuffer buffer )
-	{
-		int startIndex = buffer.indexOf( "<b><p>Skills:</b>" );
-		if ( startIndex == -1 )
-			return;
-
-		startIndex = buffer.indexOf( "<a", startIndex );
-		if ( startIndex == -1 )
-			return;
-
-		int endIndex = buffer.indexOf( "</table>", startIndex );
-		if ( endIndex == -1 )
-			return;
-
-		String remaining = buffer.toString().substring( endIndex );
-		buffer.delete( startIndex, buffer.length() );
-
-		buffer.append( "<br><center>" );
-
-		ClassSkillsDatabase.generateSkillList( buffer, true );
-		buffer.append( "</center></td></tr><tr><td colspan=2 height=1 bgcolor=black></td></tr>" );
-		buffer.append( remaining );
 	}
 
 	private static void addAscensionReminders( String location, StringBuffer buffer )

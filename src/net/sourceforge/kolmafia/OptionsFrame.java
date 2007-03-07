@@ -221,7 +221,6 @@ public class OptionsFrame extends KoLFrame
 
 			{ "relayAddsRoundNumber", "Add current round number to fight pages" },
 			{ "relayAddsBossReminders", "Always add mind-control reminder for boss fights" },
-			{ "relayCategorizesSkills", "Use experimental ordering for skills on your character sheet" },
 			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Teh Kilt script" },
 
 			{ "", "" },
