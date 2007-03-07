@@ -49,7 +49,7 @@ public abstract class StoreManager extends StaticEntity
 {
 	private static final Pattern LOGSPAN_PATTERN = Pattern.compile( "<span.*?</span>" );
 	private static final Pattern ADDER_PATTERN = Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td><td.*?(\\d+)" );
-	private static final Pattern PRICER_PATTERN = Pattern.compile( "<tr><td><b>(.*?)\\&nbsp;.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" );
+	private static final Pattern PRICER_PATTERN = Pattern.compile( "<tr><td><b>([^<]*?)\\&nbsp;.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" );
 
 	private static final int RECENT_FIRST = 1;
 	private static final int OLDEST_FIRST = 2;
@@ -389,7 +389,7 @@ public abstract class StoreManager extends StaticEntity
 			this.limit = limit;
 			this.lowest = lowest;
 
-			super.add( new AdventureResult( itemId, quantity ) );
+			super.add( itemName );
 			super.add( new Integer( price ) );
 			super.add( new Integer( lowest ) );
 			super.add( new Integer( quantity ) );
