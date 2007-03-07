@@ -706,6 +706,49 @@ public class LocalRelayRequest extends PasswordHashRequest
 		this.responseCode = 404;
 	}
 
+	public void sendBossWarning( String name, String image, String mcd1, String item1, String mcd2, String item2 )
+	{
+		StringBuffer warning = new StringBuffer();
+
+		warning.append( "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head>" );
+		warning.append( "<body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
+
+		warning.append( "<table><tr>" );
+
+		warning.append( "<td valign=center><a target=charpane href=\"/KoLmafia/sideCommand?cmd=mcd+" );
+		warning.append( mcd1 );
+		warning.append( "\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+		warning.append( item1 );
+		warning.append( "\" width=30 height=30></a></td>" );
+
+		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
+
+		warning.append( "<td valign=center><a href=\"" );
+		warning.append( getURLString() );
+		warning.append( "&override=on" );
+		warning.append( "\"><img src=\"http://images.kingdomofloathing.com/adventureimages/" );
+		warning.append( image );
+		warning.append( "\"></a></td>" );
+
+		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
+
+		warning.append( "<td valign=center><a target=charpane href=\"/KoLmafia/sideCommand?cmd=mcd+" );
+		warning.append( mcd2 );
+		warning.append( "\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+		warning.append( item2 );
+		warning.append( "\" width=30 height=30></a></td>" );
+
+		warning.append( "</tr></table></center><blockquote>The " );
+		warning.append( name );
+
+		warning.append( " drops special rewards based on your mind-control level.  If you'd like a special reward, click on one of the items above to set your mind-control device appropriately.  Click on the " );
+		warning.append( name );
+
+		warning.append( " once you've decided to proceed with your current mind-control device settings.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+
+		pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
+	}
+
 	public void run()
 	{
 		// If there is an attempt to view the error page, or if
@@ -754,6 +797,68 @@ public class LocalRelayRequest extends PasswordHashRequest
 			{
 				pseudoResponse( "HTTP/1.1 200 OK", "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><blockquote>Adventuring here before level 9 is a really bad idea.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
 
+				return;
+			}
+
+			// Sometimes, people want the MCD rewards from various boss
+			// monsters.  Let's help out.
+
+			if ( location != null && location.equals( "67" ) )
+			{
+				pseudoResponse( "HTTP/1.1 200 OK", "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><blockquote>Adventuring here before level 9 is a really bad idea.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+
+				return;
+			}
+
+			// Sometimes, people want the MCD rewards from various boss
+			// monsters.  Let's help out.  This one's for the Boss Bat,
+			// who has special items at 4 and 8.
+
+			if ( KoLCharacter.inMysticalitySign() && location != null && location.equals( "34" ) && getFormField( "override" ) == null )
+			{
+				switch ( KoLCharacter.getMindControlLevel() )
+				{
+				case 4:
+				case 8:
+					break;
+
+				default:
+					sendBossWarning( "Boss Bat", "bossbat.gif", "4", "batpants.gif", "8", "batbling.gif" );
+					return;
+				}
+			}
+		}
+
+		// More MCD rewards.  This one is for the Knob Goblin King,
+		// who has special items at 3 and 7.
+
+		if ( KoLCharacter.inMysticalitySign() && formURLString.indexOf( "knob.php" ) != -1 && getFormField( "king" ) != null && getFormField( "override" ) == null )
+		{
+			switch ( KoLCharacter.getMindControlLevel() )
+			{
+			case 3:
+			case 7:
+				break;
+
+			default:
+				sendBossWarning( "Knob Goblin King", "goblinking.gif", "3", "glassballs.gif", "7", "batcape.gif" );
+				return;
+			}
+		}
+
+		// More MCD rewards.  This one is for the Bonerdagon, who has
+		// special items at 5 and 10.
+
+		if ( KoLCharacter.inMysticalitySign() && formURLString.indexOf( "cyrpt.php" ) != -1 && getFormField( "action" ) != null && getFormField( "override" ) == null )
+		{
+			switch ( KoLCharacter.getMindControlLevel() )
+			{
+			case 5:
+			case 10:
+				break;
+
+			default:
+				sendBossWarning( "Bonerdagon", "bonedragon.gif", "5", "rib.gif", "10", "vertebra.gif" );
 				return;
 			}
 		}
