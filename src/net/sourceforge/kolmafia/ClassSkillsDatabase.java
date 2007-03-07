@@ -75,7 +75,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		"Monster Delevelers",
 		"Health Restoration",
 		"Buffed Stat Tweaks",
-		"Randomness Reduction",
+		"Rng Hate Mitigation",
 	};
 
 	static
@@ -465,6 +465,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 	 * Returns the set of skills keyed by name
 	 * @return	The set of skills keyed by name
 	 */
+
 	public static Set entrySet()
 	{	return skillById.entrySet();
 	}
@@ -474,59 +475,69 @@ public class ClassSkillsDatabase extends KoLDatabase
 		Object [] keys = skillsByCategory.keySet().toArray();
 		ArrayList [] categories = new ArrayList[ keys.length ];
 
+		ArrayList uncategorized = new ArrayList();
+		uncategorized.addAll( availableSkills );
+
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			categories[i] = new ArrayList();
 			categories[i].addAll( (ArrayList) skillsByCategory.get( keys[i] ) );
 			categories[i].retainAll( availableSkills );
+
+			uncategorized.removeAll( categories[i] );
 		}
+
+		appendSkillList( buffer, appendHTML, "Uncategorized", uncategorized );
+
+		for ( int i = 0; i < categories.length; ++i )
+			appendSkillList( buffer, appendHTML, toTitleCase( (String) keys[i] ), categories[i] );
+	}
+
+	private static void appendSkillList( StringBuffer buffer, boolean appendHTML, String listName, ArrayList list )
+	{
+		if ( list.isEmpty() )
+			return;
+
+		Collections.sort( list );
+
+		if ( appendHTML )
+			buffer.append( "<u><b>" );
+
+		buffer.append( toTitleCase( listName ) );
+
+		if ( appendHTML )
+			buffer.append( "</b></u><br>" );
+		else
+			buffer.append( LINE_BREAK );
 
 		UseSkillRequest currentSkill;
 
-		for ( int i = 0; i < categories.length; ++i )
+		for ( int j = 0; j < list.size(); ++j )
 		{
-			if ( categories[i].isEmpty() )
-				continue;
-
-			Collections.sort( categories[i] );
+			currentSkill = (UseSkillRequest) list.get(j);
 
 			if ( appendHTML )
-				buffer.append( "<u><b>" );
-
-			buffer.append( toTitleCase( (String) keys[i] ) );
-
-			if ( appendHTML )
-				buffer.append( "</b></u><br>" );
-			else
-				buffer.append( LINE_BREAK );
-
-			for ( int j = 0; j < categories[i].size(); ++j )
 			{
-				currentSkill = (UseSkillRequest) categories[i].get(j);
-
-				if ( appendHTML )
-				{
-					buffer.append( "<a onClick=\"javascript:skill(" );
-					buffer.append( currentSkill.getSkillId() );
-					buffer.append( ");\">" );
-				}
-				else
-				{
-					buffer.append( " - " );
-				}
-
-				buffer.append( currentSkill.getSkillName() );
-
-				if ( appendHTML )
-					buffer.append( "</a><br>" );
-				else
-					buffer.append( LINE_BREAK );
+				buffer.append( "<a onClick=\"javascript:skill(" );
+				buffer.append( currentSkill.getSkillId() );
+				buffer.append( ");\">" );
+			}
+			else
+			{
+				buffer.append( " - " );
 			}
 
+			buffer.append( currentSkill.getSkillName() );
+
 			if ( appendHTML )
-				buffer.append( "<br>" );
+				buffer.append( "</a><br>" );
 			else
 				buffer.append( LINE_BREAK );
 		}
+
+		if ( appendHTML )
+			buffer.append( "<br>" );
+		else
+			buffer.append( LINE_BREAK );
 	}
 }
