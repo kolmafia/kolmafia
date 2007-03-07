@@ -26,16 +26,16 @@
 26	AT Trivial	Mariachi Mood	happy.gif
 27	Wereseal	Temporary Lycanthropy	lycanth.gif
 28	Hair Spray	Butt-Rock Hair	buttrock.gif
-29	Dill	Contemptible Emanations	stench.gif
-30	Kiwi	Incredibly Hulking	strboost.gif
-31	Olive	Superhuman Sarcasm	wink.gif
-32	Tomato	Tomato Power	tomato.gif
-33	Lemon	Phorcefullness	strboost.gif
-34	Orange	Pronounced Potency	nicesword.gif
-35	Soda Water	Concentration	farout.gif
-36	Grapefruit	Mystically Oiled	potion4.gif
-37	Cherry	Expert Oiliness	potion4.gif
-38	Gr8tness	Gr8tness	grapes.gif
+29	Dill Potion	Contemptible Emanations	stench.gif
+30	Kiwi Potion	Incredibly Hulking	strboost.gif
+31	Olive Potion	Superhuman Sarcasm	wink.gif
+32	Tomato Potion	Tomato Power	tomato.gif
+33	Lemon Potion	Phorcefullness	strboost.gif
+34	Orange Potion	Pronounced Potency	nicesword.gif
+35	Soda Potion	Concentration	farout.gif
+36	Gfruit Potion	Mystically Oiled	potion4.gif
+37	Cherry Potion	Expert Oiliness	potion4.gif
+38	Gr8ps Potion	Gr8tness	grapes.gif
 39	Hernia	Hernia!	hernia.gif
 40	Red Neck	Red Neck	redneck.gif
 41	Chapped	Chapped Legs	legs.gif
@@ -260,18 +260,18 @@
 260	Elixer	Arse-a'fire	pepper.gif
 261	Lemonade	Lemon Enlightenment	lemon.gif
 262	Toad Horn	Squirming Like a Toad	squashfrog.gif
-263	turtle pheromones	Eau D'tortue	stench.gif
+263	Pheromones	Eau D'tortue	stench.gif
 264
 265
 266
 267
 268
-269	white candy heart	Heart of White	candyheart.gif
-270	pink candy heart	Heart of Pink	candyheart.gif
-271	orange candy heart	Heart of Orange	candyheart.gif
-272	lavender candy heart	Heart of Lavender	candyheart.gif
-273	yellow candy heart	Heart of Yellow	candyheart.gif
-274	green candy heart	Heart of Green	candyheart.gif
+269	White Heart	Heart of White	candyheart.gif
+270	Pink Heart	Heart of Pink	candyheart.gif
+271	Orange Heart	Heart of Orange	candyheart.gif
+272	Lavender Heart	Heart of Lavender	candyheart.gif
+273	Yellow Heart	Heart of Yellow	candyheart.gif
+274	Green Heart	Heart of Green	candyheart.gif
 275
 276	Disco Combo	Disco Inferno	discoball.gif
 277	Disco Combo	Disco Nirvana	discoball.gif
@@ -286,4 +286,8 @@
 286
 287
 288
-289	banana smoothie	Bananas!	banana.gif
+289	Banana Potion	Bananas!	banana.gif
+290	What's That Smell	What's That Smell?	stench.gif
+291	Mad at Science	Mad at Science	angry.gif
+292	Tetanus	Tetanus	disease.gif
+293	Half-Eaten Brain	Half-Eaten Brain	realbrain.gif
