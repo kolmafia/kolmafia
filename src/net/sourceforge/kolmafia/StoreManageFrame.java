@@ -152,7 +152,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			for ( int i = 0; i < rowCount; ++i )
 			{
-				itemId[i] = ((AdventureResult)manageTable.getValueAt( i, 0 )).getItemId();
+				itemId[i] = TradeableItemDatabase.getItemId( (String) manageTable.getValueAt( i, 0 ) );
 				prices[i] = ((Integer) manageTable.getValueAt( i, 1 )).intValue();
 
 				int oldLimit = 0;
@@ -229,7 +229,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		public StoreAddTableModel()
 		{
 			super( new String [] { "Item Name", "Price", " ", "Qty", "Lim", " ", " " },
-					new Class [] { AdventureResult.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
+					new Class [] { String.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
 					new boolean [] { true, true, false, true, true, false, false }, new LockableListModel() );
 
 			LockableListModel dataModel = inventory.getMirrorImage();
@@ -265,7 +265,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		public StoreManageTableModel()
 		{
 			super( new String [] { "Item Name", "Price", "Lowest", "Qty", "Lim", " ", " " },
-					new Class [] { AdventureResult.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
+					new Class [] { String.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
 					new boolean [] { false, true, false, false, true, false, false }, StoreManager.getSoldItemList() );
 		}
 
@@ -274,8 +274,8 @@ public class StoreManageFrame extends KoLPanelFrame
 			Vector value = (Vector) o;
 			if ( value.size() < 7 )
 			{
-				value.add( new RemoveItemButton( ((AdventureResult) value.get(0)).getName() ) );
-				value.add( new SearchItemButton( ((AdventureResult) value.get(0)).getName() ) );
+				value.add( new RemoveItemButton( (String) value.get(0) ) );
+				value.add( new SearchItemButton( (String) value.get(0) ) );
 			}
 
 			return value;
@@ -420,7 +420,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			Object [] items = elementList.getSelectedValues();
 
 			for ( int i = 0; i < items.length; ++i )
-			 	RequestThread.postRequest( new StoreManageRequest( ((StoreManager.SoldItem)items[i]).getItemId() ) );
+			 	RequestThread.postRequest( new StoreManageRequest( ((SoldItem)items[i]).getItemId() ) );
 
 			RequestThread.postRequest( new StoreManageRequest() );
 
@@ -428,7 +428,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			{
 				AdventureResult [] itemsToSell = new AdventureResult[ items.length ];
 				for ( int i = 0; i < items.length; ++i )
-					itemsToSell[i] = new AdventureResult( ((StoreManager.SoldItem)items[i]).getItemId(), ((StoreManager.SoldItem)items[i]).getQuantity() );
+					itemsToSell[i] = new AdventureResult( ((SoldItem)items[i]).getItemId(), ((SoldItem)items[i]).getQuantity() );
 
 				RequestThread.postRequest( new AutoSellRequest( itemsToSell, AutoSellRequest.AUTOSELL ) );
 			}
