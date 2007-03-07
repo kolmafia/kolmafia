@@ -45,6 +45,7 @@ import java.awt.Point;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -77,6 +78,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import javax.swing.event.ListDataEvent;
@@ -94,12 +96,12 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import tab.CloseTabbedPane;
+
 import net.java.dev.spellcast.utilities.ActionPanel;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-
-import tab.CloseTabbedPane;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.ItemManagePanel.TransferListener;
 
@@ -159,6 +161,18 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		if ( shouldAddFrame )
 			existingFrames.add( this );
+
+		JComponentUtilities.addGlobalHotKey( getRootPane(), KeyEvent.VK_F5, new RefreshKeyListener() );
+	}
+
+	private static class RefreshKeyListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			RequestThread.openRequestSequence();
+			StaticEntity.getClient().refreshSession();
+			RequestThread.closeRequestSequence();
+		}
 	}
 
 	public final void addTab( String name, JComponent panel )

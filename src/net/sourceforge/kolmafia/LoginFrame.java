@@ -41,6 +41,7 @@ import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import java.util.Date;
 
@@ -237,6 +238,8 @@ public class LoginFrame extends KoLFrame
 			getBreakfastCheckBox.addActionListener( new GetBreakfastListener() );
 			autoLoginCheckBox.addActionListener( new AutoLoginListener() );
 			savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
+
+			JComponentUtilities.addHotKey( usernameField, KeyEvent.VK_ENTER, CONFIRM_LISTENER );
 		}
 
 		public void setEnabled( boolean isEnabled )
