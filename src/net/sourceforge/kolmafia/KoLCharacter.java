@@ -1987,7 +1987,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 			break;
 
-		case ClassSkillsDatabase.SKILL:
+		case ClassSkillsDatabase.SELF_ONLY:
 		case ClassSkillsDatabase.BUFF:
 
 			usableSkills.add( skill );

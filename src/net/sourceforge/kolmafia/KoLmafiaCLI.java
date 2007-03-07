@@ -3162,7 +3162,7 @@ public class KoLmafiaCLI extends KoLmafia
 					mainList = new ArrayList();
 					mainList.addAll( availableSkills );
 
-					List intersect = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.SKILL );
+					List intersect = ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.SELF_ONLY );
 					mainList.retainAll( intersect );
 					filter = "";
 				}

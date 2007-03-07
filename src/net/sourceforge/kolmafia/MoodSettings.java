@@ -691,7 +691,7 @@ public abstract class MoodSettings implements KoLConstants
 	}
 
 	/**
-	 * Stores the settings maintained in this <code>KoLSettings</code>
+	 * Stores the settings maintained in this <code>MoodSettings</code>
 	 * object to disk for later retrieval.
 	 */
 

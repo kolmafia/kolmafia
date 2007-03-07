@@ -34,6 +34,9 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,30 +51,31 @@ public class ClassSkillsDatabase extends KoLDatabase
 	private static Map skillByName = new TreeMap();
 	private static Map mpConsumptionById = new TreeMap();
 	private static Map skillTypeById = new TreeMap();
-	private static Map skillCategoryById = new TreeMap();
 	private static Map durationById = new TreeMap();
+
+	private static final File categoriesFile = new File( SETTINGS_DIRECTORY, "skillsets_GLOBAL.txt" );
+	private static Map skillsByCategory = new TreeMap();
+	private static Map skillCategoryById = new TreeMap();
 
 	public static final int CASTABLE = -1;
 	public static final int PASSIVE = 0;
-	public static final int SKILL = 1;
+	public static final int SELF_ONLY = 1;
 	public static final int BUFF = 2;
 	public static final int COMBAT = 3;
 
 	private static final String [] CATEGORIES = new String []
 	{
-		"Uncategorized",
-		"Item Creation",
-		"Defensive (Passive)",
-		"Defensive (Castable)",
-		"Bonus to Weapon Damage",
-		"Weapon-Based Attacks",
-		"Bonus to Spellslinging",
-		"Spellslinging Attacks",
+		"",
+		"General Purpose",
+		"Passive Defense",
+		"Castable Defense",
+		"Damage Bonuses",
+		"Physical Attacks",
+		"Magical Attacks",
 		"Monster Delevelers",
 		"Health Restoration",
-		"Buffed Stat Adjustment",
-		"RNG Hate Mitigation",
-		"Stat Gains Boosters"
+		"Buffed Stat Tweaks",
+		"Randomness Reduction",
 	};
 
 	static
@@ -123,6 +127,121 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 			printStackTrace( e );
 		}
+
+		loadCategories();
+	}
+
+	public static void saveCategories()
+	{
+		PrintStream writer = LogStream.openStream( categoriesFile, true );
+		Object [] keys = skillsByCategory.keySet().toArray();
+		ArrayList currentList;
+
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			writer.println( "[ " + toTitleCase( (String) keys[i] ) + " ]" );
+			writer.println();
+
+			currentList = (ArrayList) skillsByCategory.get( keys[i] );
+
+			for ( int j = 0; j < currentList.size(); ++j )
+				writer.println( ((UseSkillRequest)currentList.get(j)).getSkillName() );
+
+			writer.println();
+			writer.println();
+		}
+
+		writer.close();
+	}
+
+	public static void createBaseCategories()
+	{
+		for ( int i = 1; i < CATEGORIES.length; ++i )
+			skillsByCategory.put( CATEGORIES[i].toLowerCase(), new ArrayList() );
+
+		Object [] keys = skillCategoryById.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			Object skillCategory = skillCategoryById.get( keys[i] );
+			ArrayList currentList = (ArrayList) skillsByCategory.get( CATEGORIES[ ((Integer)skillCategory).intValue() ].toLowerCase() );
+			currentList.add( UseSkillRequest.getInstance( ((Integer)keys[i]).intValue() ) );
+		}
+
+		saveCategories();
+	}
+
+	public static void loadCategories()
+	{
+		if ( !categoriesFile.exists() )
+		{
+			createBaseCategories();
+			return;
+		}
+
+		try
+		{
+			BufferedReader reader = KoLDatabase.getReader( categoriesFile );
+
+			String line;
+			String currentKey = "";
+
+			ArrayList currentList = null;
+			UseSkillRequest skill;
+
+			while ( (line = reader.readLine()) != null )
+			{
+				line = line.trim();
+				if ( line.startsWith( "[" ) )
+				{
+					currentKey = line.substring( 1, line.length() - 1 ).trim().toLowerCase();
+
+					if ( skillsByCategory.containsKey( currentKey ) )
+					{
+						currentList = (ArrayList) skillsByCategory.get( currentKey );
+					}
+					else
+					{
+						currentList = new ArrayList();
+						skillsByCategory.put( currentKey, currentList );
+					}
+				}
+				else if ( line.length() != 0 )
+				{
+					skill = UseSkillRequest.getInstance( line );
+					if ( skill != null )
+						currentList.add( skill );
+				}
+			}
+
+			reader.close();
+			reader = null;
+		}
+		catch ( IOException e1 )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e1 );
+		}
+		catch ( Exception e2 )
+		{
+			// Somehow, the settings were corrupted; this
+			// means that they will have to be created after
+			// the current file is deleted.
+
+			StaticEntity.printStackTrace( e2 );
+			categoriesFile.delete();
+			loadCategories();
+		}
+	}
+
+	public static final List getSkillsByCategory( String category )
+	{
+		if ( category == null )
+			return new ArrayList();
+
+		List skills = (List) skillsByCategory.get( category.trim().toLowerCase() );
+		return skills == null ? new ArrayList() : skills;
 	}
 
 	/**
@@ -155,12 +274,6 @@ public class ClassSkillsDatabase extends KoLDatabase
 	{
 		Object skillType = skillTypeById.get( new Integer( skillId ) );
 		return skillType == null ? -1 : ((Integer)skillType).intValue();
-	}
-
-	public static final int getCategory( int skillId )
-	{
-		Object skillCategory = skillCategoryById.get( new Integer( skillId ) );
-		return skillCategory == null ? 0 : ((Integer)skillCategory).intValue();
 	}
 
 	/**
@@ -242,7 +355,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 	 */
 
 	public static final boolean isNormal( int skillId )
-	{	return isType( skillId, SKILL );
+	{	return isType( skillId, SELF_ONLY );
 	}
 
 	/**
@@ -303,7 +416,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 			shouldAdd = false;
 
 			if ( type == CASTABLE )
-				shouldAdd = isType( ((Integer)keys[i]).intValue(), SKILL ) || isType( ((Integer)keys[i]).intValue(), BUFF );
+				shouldAdd = isType( ((Integer)keys[i]).intValue(), SELF_ONLY ) || isType( ((Integer)keys[i]).intValue(), BUFF );
 			else
 				shouldAdd = isType( ((Integer)keys[i]).intValue(), type );
 
@@ -312,6 +425,27 @@ public class ClassSkillsDatabase extends KoLDatabase
 		}
 
 		return list;
+	}
+
+	private static String toTitleCase( String s )
+	{
+		boolean found = false;
+		char [] chars = s.toLowerCase().toCharArray();
+
+		for ( int i = 0; i < chars.length; ++i )
+		{
+			if ( !found && Character.isLetter( chars[i] ) )
+			{
+				chars[i] = Character.toUpperCase( chars[i] );
+				found = true;
+			}
+			else if ( Character.isWhitespace( chars[i] ) )
+			{
+				found = false;
+			}
+		}
+
+		return String.valueOf( chars );
 	}
 
 	/**
@@ -337,22 +471,17 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 	public static void generateSkillList( StringBuffer buffer, boolean appendHTML )
 	{
-		Object [] elements = new Object[ availableSkills.size() ];
-		availableSkills.toArray( elements );
+		Object [] keys = skillsByCategory.keySet().toArray();
+		ArrayList [] categories = new ArrayList[ keys.length ];
 
-		ArrayList [] categories = new ArrayList[ CATEGORIES.length ];
-		for ( int i = 0; i < categories.length; ++i )
-			categories[i] = new ArrayList();
-
-		for ( int i = 0; i < elements.length; ++i )
+		for ( int i = 0; i < keys.length; ++i )
 		{
-			int skillId = ((UseSkillRequest)elements[i]).getSkillId();
-
-			int categoryId = getCategory( skillId );
-			categories[ categoryId ].add( new Integer( skillId ) );
+			categories[i] = new ArrayList();
+			categories[i].addAll( (ArrayList) skillsByCategory.get( keys[i] ) );
+			categories[i].retainAll( availableSkills );
 		}
 
-		Integer currentSkill;
+		UseSkillRequest currentSkill;
 
 		for ( int i = 0; i < categories.length; ++i )
 		{
@@ -364,7 +493,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 			if ( appendHTML )
 				buffer.append( "<u><b>" );
 
-			buffer.append( CATEGORIES[i] );
+			buffer.append( toTitleCase( (String) keys[i] ) );
 
 			if ( appendHTML )
 				buffer.append( "</b></u><br>" );
@@ -373,12 +502,12 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 			for ( int j = 0; j < categories[i].size(); ++j )
 			{
-				currentSkill = (Integer) categories[i].get(j);
+				currentSkill = (UseSkillRequest) categories[i].get(j);
 
 				if ( appendHTML )
 				{
 					buffer.append( "<a onClick=\"javascript:skill(" );
-					buffer.append( currentSkill );
+					buffer.append( currentSkill.getSkillId() );
 					buffer.append( ");\">" );
 				}
 				else
@@ -386,7 +515,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 					buffer.append( " - " );
 				}
 
-				buffer.append( skillById.get( currentSkill ) );
+				buffer.append( currentSkill.getSkillName() );
 
 				if ( appendHTML )
 					buffer.append( "</a><br>" );
