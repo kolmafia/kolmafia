@@ -533,7 +533,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "relayAddsUseLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAlwaysBuysGum", "true" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
-		CLIENT_SETTINGS.put( "relayCategorizesSkills", "false" );
 		CLIENT_SETTINGS.put( "relayHidesJunkMallItems", "true" );
 		CLIENT_SETTINGS.put( "relayMaintainsHealth", "true" );
 		CLIENT_SETTINGS.put( "relayMaintainsMana", "false" );
