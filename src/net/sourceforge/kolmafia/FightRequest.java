@@ -312,8 +312,14 @@ public class FightRequest extends KoLRequest
 		// Skills use MP. Make sure the character has enough
 		if ( KoLCharacter.getCurrentMP() < getActionCost() && passwordHash != null )
 		{
-			action1 = "attack";
-			addFormField( "action", action1 );
+			if ( isAcceptable( 0, 0 ) )
+			{
+				action1 = "attack";
+				addFormField( "action", action1 );
+				return;
+			}
+
+			action1 = "abort";
 			return;
 		}
 
@@ -322,8 +328,14 @@ public class FightRequest extends KoLRequest
 
 		if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
 		{
-			action1 = "attack";
-			addFormField( "action", action1 );
+			if ( isAcceptable( 0, 0 ) )
+			{
+				action1 = "attack";
+				addFormField( "action", action1 );
+				return;
+			}
+
+			action1 = "abort";
 			return;
 		}
 

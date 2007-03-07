@@ -589,7 +589,7 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	private boolean shouldUpdateDebugLog()
-	{	return !(RequestLogger.isDebugging() || isChatRequest);
+	{	return RequestLogger.isDebugging() && !isChatRequest;
 	}
 
 	/**

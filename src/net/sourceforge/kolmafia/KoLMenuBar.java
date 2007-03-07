@@ -363,13 +363,13 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		{
 			if ( RequestLogger.isDebugging() )
 			{
-				RequestLogger.openDebugLog();
-				debugMenuItem.setText( "Stop Debug Log" );
+				RequestLogger.closeDebugLog();
+				debugMenuItem.setText( "Start Debug Log" );
 			}
 			else
 			{
-				RequestLogger.closeDebugLog();
-				debugMenuItem.setText( "Start Debug Log" );
+				RequestLogger.openDebugLog();
+				debugMenuItem.setText( "Stop Debug Log" );
 			}
 		}
 	}
