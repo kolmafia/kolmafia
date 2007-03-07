@@ -461,6 +461,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "allowThiefShrugOff", "true" );
 		CLIENT_SETTINGS.put( "allowUnsafePickpocket", "false" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
+		CLIENT_SETTINGS.put( "autoBuyRestores", "true" );
 		CLIENT_SETTINGS.put( "autoLogin", "" );
 		CLIENT_SETTINGS.put( "autoPlantHardcore", "false" );
 		CLIENT_SETTINGS.put( "autoPlantSoftcore", "false" );

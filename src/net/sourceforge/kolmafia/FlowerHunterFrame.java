@@ -402,6 +402,22 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 			KoLmafia.updateDisplay( "Attacks completed." );
 			RequestThread.closeRequestSequence();
+
+			switchToSearch();
+		}
+
+		private void switchToSearch()
+		{
+			int index = isSimple ? 0 : 1;
+			boolean shouldSwitch = true;
+
+			int minimumRank = KoLCharacter.getPvpRank() - 50;
+
+			for ( int i = 0; i < results.length; ++i )
+				shouldSwitch &= minimumRank > results[ sortedModel[ index ].modelIndex( i ) ].getPvpRank().intValue();
+
+			if ( shouldSwitch )
+				tabs.setSelectedIndex(0);
 		}
 
 		public void actionCancelled()

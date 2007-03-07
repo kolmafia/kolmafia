@@ -1194,21 +1194,29 @@ public abstract class KoLmafia implements KoLConstants
 		// If things are still not restored, try looking for items you
 		// don't have.
 
-		for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
+		if ( StaticEntity.getBooleanProperty( "autoBuyRestores" ) )
 		{
-			do
+			for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
 			{
-				last = current;
-				currentTechniqueName = possibleItems.get(i).toString().toLowerCase();
+				do
+				{
+					last = current;
+					currentTechniqueName = possibleItems.get(i).toString().toLowerCase();
 
-				recoverOnce( possibleItems.get(i), currentTechniqueName, desired, true );
-				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+					recoverOnce( possibleItems.get(i), currentTechniqueName, desired, true );
+					current = ((Number)currentMethod.invoke( null, empty )).intValue();
 
-				maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
-				desired = Math.min( maximum, desired );
-				needed = Math.min( maximum, needed );
+					maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
+					desired = Math.min( maximum, desired );
+					needed = Math.min( maximum, needed );
+				}
+				while ( last != current && current < needed );
 			}
-			while ( last != current && current < needed );
+		}
+		else if ( current < needed )
+		{
+			updateDisplay( ERROR_STATE, "You ran out of restores" );
+			return false;
 		}
 
 		// Fall-through check, just in case you've reached the
