@@ -39,6 +39,7 @@ import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -46,7 +47,14 @@ import javax.swing.JRootPane;
 
 public abstract class ActionPanel extends JRootPane
 {
+	protected ConfirmedListener CONFIRM_LISTENER = new ConfirmedListener();
+	protected CancelledListener CANCEL_LISTENER = new CancelledListener();
+
 	protected JButton confirmedButton, cancelledButton;
+
+	public ActionPanel()
+	{	JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, CONFIRM_LISTENER );
+	}
 
 	public abstract void actionConfirmed();
 	public abstract void actionCancelled();
@@ -82,14 +90,14 @@ public abstract class ActionPanel extends JRootPane
 
 			// add the "confirmed" button
 			confirmedButton = new JButton( confirmedText );
-			confirmedButton.addActionListener( new ConfirmedListener() );
+			confirmedButton.addActionListener( CONFIRM_LISTENER );
 			containerPanel.add( confirmedButton );
 
 			// add the "cancelled" button
 			if ( cancelledText1 != null )
 			{
 				cancelledButton = new JButton( cancelledText1 );
-				cancelledButton.addActionListener( new CancelledListener() );
+				cancelledButton.addActionListener( CANCEL_LISTENER );
 				containerPanel.add( cancelledButton );
 			}
 			else

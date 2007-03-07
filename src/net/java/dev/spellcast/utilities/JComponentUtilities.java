@@ -40,6 +40,9 @@ import java.awt.Dimension;
 import java.io.File;
 import java.net.URL;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -47,6 +50,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 /**
  * Formed after the same idea as <code>SwingUtilities</code>, this contains common
@@ -174,5 +178,17 @@ public class JComponentUtilities implements UtilityConstants
 	{
 		URL filenameAsURL = loader.getResource( filename );
 		return filenameAsURL == null ? null : new ImageIcon( filenameAsURL );
+	}
+
+	public static void addHotKey( JComponent component, int event, ActionListener listener )
+	{
+		component.registerKeyboardAction( listener,
+			KeyStroke.getKeyStroke( event, 0 ), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT );
+	}
+
+	public static void addGlobalHotKey( JComponent component, int event, ActionListener listener )
+	{
+		component.registerKeyboardAction( listener,
+			KeyStroke.getKeyStroke( event, 0 ), JComponent.WHEN_IN_FOCUSED_WINDOW );
 	}
 }

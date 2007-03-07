@@ -43,6 +43,7 @@ import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -299,6 +300,7 @@ public class AdventureFrame extends KoLFrame
 
 	private class AdventureSelectPanel extends JPanel
 	{
+		private ExecuteButton begin;
 		private boolean isHandlingConditions = false;
 
 		private JComboBox moodSelect;
@@ -352,6 +354,9 @@ public class AdventureFrame extends KoLFrame
 
 			add( westPanel, BorderLayout.WEST );
 			add( new ObjectivesPanel(), BorderLayout.CENTER );
+
+			JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, begin );
+			((JSpinner.DefaultEditor)countField.getEditor()).getTextField().addKeyListener( begin );
 		}
 
 		private boolean handleConditions( KoLAdventure request )
@@ -445,8 +450,6 @@ public class AdventureFrame extends KoLFrame
 
 		private class ObjectivesPanel extends KoLPanel
 		{
-			private ExecuteButton begin;
-
 			public ObjectivesPanel()
 			{
 				super( new Dimension( 80, 20 ), new Dimension( 100, 20 ) );
@@ -475,6 +478,8 @@ public class AdventureFrame extends KoLFrame
 
 				setContent( elements );
 				container.add( buttonWrapper, BorderLayout.SOUTH );
+
+				JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, begin );
 			}
 
 			public void actionConfirmed()

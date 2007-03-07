@@ -35,12 +35,14 @@ package net.sourceforge.kolmafia;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-public abstract class ThreadedButton extends JButton implements ActionListener, Runnable
+public abstract class ThreadedButton extends JButton implements ActionListener, KeyListener, Runnable
 {
 	public ThreadedButton( String label )
 	{
@@ -71,5 +73,19 @@ public abstract class ThreadedButton extends JButton implements ActionListener, 
 			return ((JComboBox)e.getSource()).isPopupVisible();
 
 		return true;
+	}
+
+	public void keyPressed( KeyEvent e )
+	{
+	}
+
+	public void keyReleased( KeyEvent e )
+	{
+		if ( e.getKeyCode() == KeyEvent.VK_ENTER );
+			this.run();
+	}
+
+	public void keyTyped( KeyEvent e )
+	{
 	}
 }

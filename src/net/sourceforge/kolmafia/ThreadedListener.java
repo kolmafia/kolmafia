@@ -35,10 +35,12 @@ package net.sourceforge.kolmafia;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JComboBox;
 
-public abstract class ThreadedListener implements ActionListener, Runnable
+public abstract class ThreadedListener implements ActionListener, KeyListener, Runnable
 {
 	public void actionPerformed( ActionEvent e )
 	{
@@ -55,5 +57,19 @@ public abstract class ThreadedListener implements ActionListener, Runnable
 			return ((JComboBox)e.getSource()).isPopupVisible();
 
 		return true;
+	}
+
+	public void keyPressed( KeyEvent e )
+	{
+	}
+
+	public void keyReleased( KeyEvent e )
+	{
+		if ( e.getKeyCode() == KeyEvent.VK_ENTER );
+			this.run();
+	}
+
+	public void keyTyped( KeyEvent e )
+	{
 	}
 }
