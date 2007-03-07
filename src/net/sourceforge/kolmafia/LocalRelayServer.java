@@ -566,7 +566,7 @@ public class LocalRelayServer implements Runnable
 
 		private boolean runBetweenBattleScripts()
 		{
-			if ( KoLmafia.isRunningBetweenBattleChecks() )
+			if ( KoLmafia.isRunningBetweenBattleChecks() || KoLmafia.isAdventuring() )
 				return false;
 
 			CharpaneRequest.createCheckpoint();

@@ -209,13 +209,13 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 				if ( purchase && numberAvailable < numberToUse )
 				{
-					int numberToBuy = numberToUse;
+					int numberToBuy = numberAvailable;
 					int unitPrice = TradeableItemDatabase.getPriceById( itemUsed.getItemId() ) * 2;
 
 					if ( this == HERBS && NPCStoreDatabase.contains( itemUsed.getName() ) )
 						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, 3 );
 					else if ( NPCStoreDatabase.contains( itemUsed.getName() ) )
-						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToBuy );
+						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToUse );
 					else if ( this == SCROLL && KoLCharacter.canInteract() )
 						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, 20 );
 
