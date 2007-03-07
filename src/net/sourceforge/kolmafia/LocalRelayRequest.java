@@ -706,20 +706,45 @@ public class LocalRelayRequest extends PasswordHashRequest
 		this.responseCode = 404;
 	}
 
-	public void sendBossWarning( String name, String image, String mcd1, String item1, String mcd2, String item2 )
+	public void sendBossWarning( String name, String image, int mcd1, String item1, int mcd2, String item2 )
 	{
+		int mcd0 = KoLCharacter.getMindControlLevel();
+
 		StringBuffer warning = new StringBuffer();
 
-		warning.append( "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head>" );
+		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
+
+		warning.append( "<script language=Javascript> " );
+		warning.append( "var default0 = " + mcd0 + "; " );
+		warning.append( "var default1 = " + mcd1 + "; " );
+		warning.append( "var default2 = " + mcd2 + "; " );
+		warning.append( "var current = " + mcd0 + "; " );
+		warning.append( "function switchLinks( id ) { " );
+		warning.append( "if ( id == 'mcd1' ) { " );
+		warning.append( "current = (current == default0) ? default1 : default0; " );
+		warning.append( "} else { " );
+		warning.append( "current = (current == default0) ? default2 : default0; " );
+		warning.append( "} " );
+		warning.append( "getObject('mcd1').style.border = (current == default1) ? '1px dashed blue' : '1px dashed white'; " );
+		warning.append( "getObject('mcd2').style.border = (current == default2) ? '1px dashed blue' : '1px dashed white'; " );
+		warning.append( "top.charpane.location.href = '/KoLmafia/sideCommand?cmd=mcd+' + current; " );
+		warning.append( "} </script>" );
+
+		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head>" );
 		warning.append( "<body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
 
 		warning.append( "<table><tr>" );
 
-		warning.append( "<td valign=center><a target=charpane href=\"/KoLmafia/sideCommand?cmd=mcd+" );
-		warning.append( mcd1 );
-		warning.append( "\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+		warning.append( "<td align=center valign=center><div id=\"mcd1\" style=\"padding: 4px 4px 4px 4px" );
+
+		if ( mcd0 == mcd1 )
+			warning.append( "; border: 1px dashed blue" );
+
+		warning.append( "\"><a id=\"link1\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd1'); void(0);\" href=\"#\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
 		warning.append( item1 );
-		warning.append( "\" width=30 height=30></a></td>" );
+		warning.append( "\" width=30 height=30><br /><font size=1>MCD " );
+		warning.append( mcd1 );
+		warning.append( "</font></a></div></td>" );
 
 		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 
@@ -732,19 +757,24 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 
-		warning.append( "<td valign=center><a target=charpane href=\"/KoLmafia/sideCommand?cmd=mcd+" );
-		warning.append( mcd2 );
-		warning.append( "\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+		warning.append( "<td align=center valign=center><div id=\"mcd2\" style=\"padding: 4px 4px 4px 4px" );
+
+		if ( KoLCharacter.getMindControlLevel() == mcd2 )
+			warning.append( "; border: 1px dashed blue" );
+
+		warning.append( "\"><a id=\"link2\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd2'); void(0);\" href=\"#\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
 		warning.append( item2 );
-		warning.append( "\" width=30 height=30></a></td>" );
+		warning.append( "\" width=30 height=30><br /><font size=1>MCD " );
+		warning.append( mcd2 );
+		warning.append( "</font></a></div></td>" );
 
 		warning.append( "</tr></table></center><blockquote>The " );
 		warning.append( name );
 
-		warning.append( " drops special rewards based on your mind-control level.  If you'd like a special reward, click on one of the items above to set your mind-control device appropriately.  Click on the " );
+		warning.append( " drops special rewards based on your mind-control level.  If you'd like a special reward, click on one of the items above to set your mind-control device appropriately.  Click on it again to reset the MCD back to your old setting.  Click on the " );
 		warning.append( name );
 
-		warning.append( " once you've decided to proceed with your current mind-control device settings.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+		warning.append( " once you've decided to proceed.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
 
 		pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
 	}
@@ -828,10 +858,13 @@ public class LocalRelayRequest extends PasswordHashRequest
 				{
 				case 4:
 				case 8:
-					break;
+
+					if ( !StaticEntity.getBooleanProperty( "relayAddsBossReminders" ) )
+						break;
 
 				default:
-					sendBossWarning( "Boss Bat", "bossbat.gif", "4", "batpants.gif", "8", "batbling.gif" );
+
+					sendBossWarning( "Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
 					return;
 				}
 			}
@@ -846,10 +879,13 @@ public class LocalRelayRequest extends PasswordHashRequest
 			{
 			case 3:
 			case 7:
-				break;
+
+				if ( !StaticEntity.getBooleanProperty( "relayAddsBossReminders" ) )
+					break;
+
 
 			default:
-				sendBossWarning( "Knob Goblin King", "goblinking.gif", "3", "glassballs.gif", "7", "batcape.gif" );
+				sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
 				return;
 			}
 		}
@@ -863,10 +899,13 @@ public class LocalRelayRequest extends PasswordHashRequest
 			{
 			case 5:
 			case 10:
-				break;
+
+				if ( !StaticEntity.getBooleanProperty( "relayAddsBossReminders" ) )
+					break;
 
 			default:
-				sendBossWarning( "Bonerdagon", "bonedragon.gif", "5", "rib.gif", "10", "vertebra.gif" );
+
+				sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
 				return;
 			}
 		}
