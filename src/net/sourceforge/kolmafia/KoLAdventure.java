@@ -300,7 +300,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		}
 
 		// Disguise zones require outfits
-		if ( adventureName.indexOf( "Disguise" ) != -1 || adventureName.indexOf( "Uniform" ) != -1 )
+		if ( !adventureId.equals( "85" ) && (adventureName.indexOf( "Disguise" ) != -1 || adventureName.indexOf( "Uniform" ) != -1) )
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 

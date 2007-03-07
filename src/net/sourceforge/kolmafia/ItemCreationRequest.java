@@ -802,8 +802,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		boolean isCreationURL = false;
 
 		StringBuffer command = new StringBuffer();
-		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
-		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
 
 		if ( urlString.startsWith( "combine.php" ) )
 		{
@@ -861,6 +859,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( !isCreationURL )
 			return false;
+
+		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
+		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
 
 		boolean needsPlus = false;
 		int quantity = quantityMatcher.find() ? StaticEntity.parseInt( quantityMatcher.group(1) ) : 1;
