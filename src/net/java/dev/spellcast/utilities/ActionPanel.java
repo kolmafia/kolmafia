@@ -52,10 +52,6 @@ public abstract class ActionPanel extends JRootPane
 
 	protected JButton confirmedButton, cancelledButton;
 
-	public ActionPanel()
-	{	JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, CONFIRM_LISTENER );
-	}
-
 	public abstract void actionConfirmed();
 	public abstract void actionCancelled();
 

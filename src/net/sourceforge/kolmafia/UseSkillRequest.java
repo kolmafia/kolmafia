@@ -213,7 +213,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public String toString()
 	{
-		if ( lastReduction == KoLCharacter.getManaCostModifier() )
+		if ( lastReduction == KoLCharacter.getManaCostModifier() && skillId != 18 )
 			return lastStringForm;
 
 		lastReduction = KoLCharacter.getManaCostModifier();
