@@ -45,6 +45,7 @@ import java.awt.Point;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -162,16 +163,49 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( shouldAddFrame )
 			existingFrames.add( this );
 
-		JComponentUtilities.addGlobalHotKey( getRootPane(), KeyEvent.VK_F5, new RefreshKeyListener() );
+		addHotKeys();
 	}
 
-	private static class RefreshKeyListener implements ActionListener
+	public void addHotKeys()
 	{
-		public void actionPerformed( ActionEvent e )
+		JComponentUtilities.addGlobalHotKey( getRootPane(), KeyEvent.VK_ESCAPE, new WorldPeaceListener() );
+		JComponentUtilities.addGlobalHotKey( getRootPane(), KeyEvent.VK_F5, new RefreshKeyListener() );
+		JComponentUtilities.addGlobalHotKey( getRootPane(), KeyEvent.VK_F6, InputEvent.CTRL_MASK, new TabForwardListener() );
+		JComponentUtilities.addGlobalHotKey( getRootPane(), KeyEvent.VK_F6, InputEvent.CTRL_MASK + InputEvent.SHIFT_MASK, new TabBackwardListener() );
+	}
+
+	private class WorldPeaceListener extends ThreadedListener
+	{
+		public void run()
+		{	RequestThread.declareWorldPeace();
+		}
+	}
+
+	private class RefreshKeyListener extends ThreadedListener
+	{
+		public void run()
 		{
 			RequestThread.openRequestSequence();
 			StaticEntity.getClient().refreshSession();
 			RequestThread.closeRequestSequence();
+		}
+	}
+
+	private class TabForwardListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( tabs != null )
+				tabs.setSelectedIndex( (tabs.getSelectedIndex() + 1) % tabs.getTabCount() );
+		}
+	}
+
+	private class TabBackwardListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( tabs != null )
+				tabs.setSelectedIndex( tabs.getSelectedIndex() == 0 ? tabs.getTabCount() - 1 : tabs.getSelectedIndex() - 1 );
 		}
 	}
 

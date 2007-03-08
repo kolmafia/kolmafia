@@ -181,14 +181,22 @@ public class JComponentUtilities implements UtilityConstants
 	}
 
 	public static void addHotKey( JComponent component, int event, ActionListener listener )
+	{	addHotKey( component, event, 0, listener );
+	}
+
+	public static void addHotKey( JComponent component, int event, int modifier, ActionListener listener )
 	{
 		component.registerKeyboardAction( listener,
-			KeyStroke.getKeyStroke( event, 0 ), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT );
+			KeyStroke.getKeyStroke( event, modifier ), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT );
 	}
 
 	public static void addGlobalHotKey( JComponent component, int event, ActionListener listener )
+	{	addGlobalHotKey( component, event, 0, listener );
+	}
+
+	public static void addGlobalHotKey( JComponent component, int event, int modifier, ActionListener listener )
 	{
 		component.registerKeyboardAction( listener,
-			KeyStroke.getKeyStroke( event, 0 ), JComponent.WHEN_IN_FOCUSED_WINDOW );
+			KeyStroke.getKeyStroke( event, modifier ), JComponent.WHEN_IN_FOCUSED_WINDOW );
 	}
 }
