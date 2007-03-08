@@ -42,7 +42,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-public abstract class ThreadedButton extends JButton implements ActionListener, Runnable
+public abstract class ThreadedButton extends JButton implements ActionListener, KeyListener, Runnable
 {
 	public ThreadedButton( String label )
 	{
