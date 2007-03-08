@@ -42,7 +42,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-public abstract class ThreadedButton extends JButton implements ActionListener, KeyListener, Runnable
+public abstract class ThreadedButton extends JButton implements ActionListener, Runnable
 {
 	public ThreadedButton( String label )
 	{
@@ -81,7 +81,7 @@ public abstract class ThreadedButton extends JButton implements ActionListener, 
 
 	public void keyReleased( KeyEvent e )
 	{
-		if ( e.getKeyCode() == KeyEvent.VK_ENTER );
+		if ( e.getKeyCode() == KeyEvent.VK_ENTER )
 			this.run();
 	}
 
