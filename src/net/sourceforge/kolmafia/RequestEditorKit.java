@@ -1036,12 +1036,26 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				addAscensionReminders( location, buffer );
 		}
 
+		if ( addComplexFeatures )
+		{
+			if ( buffer.indexOf( "showplayer.php" ) != -1 && buffer.indexOf( "rcm.js" ) == -1 && buffer.indexOf( "rcm.2.js" ) == -1 )
+				addChatFeatures( buffer );
+		}
+
 		String defaultColor = StaticEntity.getProperty( "defaultBorderColor" );
 		if ( !defaultColor.equals( "blue" ) )
 		{
 			StaticEntity.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
 			StaticEntity.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
 		}
+	}
+
+	public static void addChatFeatures( StringBuffer buffer )
+	{
+		StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\"> var " + ChatRequest.getRightClickMenu() + " </script>" +
+			 "<script language=\"Javascript\" src=\"/images/scripts/rcm.2.js\"></script></head>" );
+
+		StaticEntity.singleStringReplace( buffer, "</body>", "<div id='menu' class='rcm'></div></body>" );
 	}
 
 	private static void addAscensionReminders( String location, StringBuffer buffer )
