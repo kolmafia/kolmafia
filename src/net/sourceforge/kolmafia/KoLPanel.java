@@ -298,10 +298,12 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			actionStatusLabel.setStatusMessage( displayState, s.trim() );
 	}
 
-	public class ActionConfirmListener extends ThreadedListener
+	public class ActionConfirmListener extends KeyAdapter
 	{
-		public void run()
-		{	actionConfirmed();
+		public void keyReleased( KeyEvent e )
+		{
+			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+				actionConfirmed();
 		}
 	}
 }
