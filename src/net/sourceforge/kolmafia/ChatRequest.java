@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 public class ChatRequest extends KoLRequest
 {
+	private static String rightClickMenu = "";
 	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "<!--lastseen:(\\d+)-->" );
 	private static final int CHAT_DELAY = 8000;
 
@@ -197,6 +198,21 @@ public class ChatRequest extends KoLRequest
 		{
 			StaticEntity.printStackTrace( e, "Chat error" );
 		}
+	}
+
+	public static String getRightClickMenu()
+	{
+		if ( rightClickMenu.equals( "" ) )
+		{
+			KoLRequest request = new KoLRequest( "lchat.php" );
+			RequestThread.postRequest( request );
+
+			int actionIndex = request.responseText.indexOf( "actions = {" );
+			if ( actionIndex != -1 )
+				rightClickMenu = request.responseText.substring( actionIndex, request.responseText.indexOf( ";", actionIndex ) + 1 );
+		}
+
+		return rightClickMenu;
 	}
 
 	/**

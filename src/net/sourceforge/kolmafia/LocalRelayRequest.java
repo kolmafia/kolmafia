@@ -566,6 +566,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 			if ( isChatRequest )
 				StaticEntity.globalStringReplace( replyBuffer, "<br>", "</font><br>" );
 
+			if ( filename.endsWith( "chat.html" ) )
+				RequestEditorKit.addChatFeatures( replyBuffer );
+
 			pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
 		}
 	}
