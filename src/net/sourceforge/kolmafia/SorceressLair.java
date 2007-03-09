@@ -1415,8 +1415,7 @@ public abstract class SorceressLair extends StaticEntity
 		// pounds, if it's one of the ones which can be used against
 		// the tower familiars; otherwise, it won't survive.
 
-		if ( !requiresHeal )
-			FamiliarTrainingFrame.buffFamiliar( 20 );
+		FamiliarTrainingFrame.buffFamiliar( 20 );
 
 		KoLmafia.updateDisplay( "Facing giant familiar..." );
 		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=" + n ) );
