@@ -132,11 +132,11 @@ public abstract class KoLmafia implements KoLConstants
 
 	static
 	{
-		stopEncounters.add( "Cobbs Knob lab key" );
 		stopEncounters.add( "History is Fun!" );
 		stopEncounters.add( "It's A Sign!" );
 		stopEncounters.add( "The Manor in Which You're Accustomed" );
 		stopEncounters.add( "Under the Knife" );
+		stopEncounters.add( "The Oracle Will See You Now" );
 		stopEncounters.add( "A Grave Situation" );
 		stopEncounters.add( "Take a Dusty Look!" );
 	}
