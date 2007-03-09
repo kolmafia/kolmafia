@@ -236,6 +236,14 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
+		// Actually steal if the action says to steal
+		if ( action1.startsWith( "steal" ) )
+		{
+			action1 = "steal";
+			addFormField( "action", action1 );
+			return;
+		}
+
 		// If the player wants to use an item, make sure he has one
 		if ( action1.startsWith( "item" ) )
 		{
