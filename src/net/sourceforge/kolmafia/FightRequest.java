@@ -109,20 +109,6 @@ public class FightRequest extends KoLRequest
 	{	super( "fight.php" );
 	}
 
-	private static boolean isLikelyStasisAction( String action )
-	{
-		if ( action.indexOf( "consult" ) != -1 || action.equals( "7002" ) )
-			return true;
-
-		if ( !action.startsWith( "item" ) )
-			return false;
-
-		int itemId = StaticEntity.parseInt( action1.substring( 4 ) );
-
-		return itemId == DICTIONARY1.getItemId() || itemId == DICTIONARY2.getItemId() ||
-			itemId == TOOTH.getItemId() || itemId == TURTLE.getItemId() || itemId == SPICES.getItemId();
-	}
-
 	public static boolean wonInitiative()
 	{	return currentRound == 1 && INSTANCE.responseText != null && INSTANCE.responseText.indexOf( "You get the jump" ) != -1;
 	}
@@ -274,9 +260,9 @@ public class FightRequest extends KoLRequest
 			addFormField( "action", "useitem" );
 			addFormField( "whichitem", String.valueOf( itemId ) );
 
-			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) && !KoLCharacter.getFamiliar().isThiefFamiliar() )
+			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 			{
-				if ( itemId == ANTIDOTE.getItemId() )
+				if ( KoLCharacter.getFamiliar().isThiefFamiliar() && !hasActionCost( itemId ) )
 				{
 				}
 				else if ( itemCount >= 2 && itemId != DICTIONARY1.getItemId() && itemId != DICTIONARY2.getItemId() )
