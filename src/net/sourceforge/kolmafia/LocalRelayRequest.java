@@ -448,8 +448,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		String name = filename.substring( index + 1 );
 		String directory = index <= 0 ? "html" : "html/" + filename.substring( 0, index );
 
-		reader = DataUtilities.getReader( directory, name );
-		if ( reader == null && filename.startsWith( "simulator" ) && !filename.endsWith( "index.js" ) )
+		if ( reader == null && filename.startsWith( "simulator" ) )
 		{
 			downloadSimulatorFile( name );
 			reader = DataUtilities.getReader( directory, name );
@@ -495,37 +494,24 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		if ( !name.endsWith( ".js" ) )
 		{
-			reader = DataUtilities.getReader( directory, name.substring( 0, name.lastIndexOf( "." ) ) + ".js" );
-			if ( reader != null )
+			if ( filename.endsWith( "simulator/index.html" ) )
 			{
-				// Initialize the reply buffer with the contents of
-				// the full response if you're a standard KoL request.
+				writePseudoResponse = true;
+				handleSimulatorIndex( replyBuffer );
+			}
+			else
+			{
+				String script = name.substring( 0, name.lastIndexOf( "." ) ) + ".js";
 
-				if ( isServerRequest )
+				if ( (new File( directory, script )).exists() )
 				{
-					replyBuffer.append( responseText );
-					writePseudoResponse = true;
-				}
+					if ( isServerRequest )
+					{
+						writePseudoResponse = true;
+						replyBuffer.append( this.responseText );
+					}
 
-				StringBuffer scriptBuffer = readContents( reader );
-				if ( filename.equals( "simulator/index.html" ) )
-					handleSimulatorIndex( replyBuffer, scriptBuffer );
-
-				int terminalIndex = replyBuffer.lastIndexOf( "</html>" );
-				if ( terminalIndex == -1 )
-				{
-					replyBuffer.append( scriptBuffer.toString() );
-					replyBuffer.append( "</html>" );
-				}
-				else
-				{
-					scriptBuffer.insert( 0, LINE_BREAK );
-					scriptBuffer.insert( 0, LINE_BREAK );
-					scriptBuffer.insert( 0, "<script language=\"Javascript\">" );
-					scriptBuffer.append( LINE_BREAK );
-					scriptBuffer.append( LINE_BREAK );
-					scriptBuffer.append( "</script>" );
-					replyBuffer.insert( terminalIndex, scriptBuffer.toString() );
+					insertAfterEnd( replyBuffer, "<script language=Javascript src=\"" + directory + "/" + script + "\"></script>" );
 				}
 			}
 		}
@@ -558,8 +544,10 @@ public class LocalRelayRequest extends PasswordHashRequest
 		return item.getName();
 	}
 
-	private void handleSimulatorIndex( StringBuffer replyBuffer, StringBuffer scriptBuffer ) throws IOException
+	private void handleSimulatorIndex( StringBuffer replyBuffer ) throws IOException
 	{
+		StringBuffer scriptBuffer = readContents( DataUtilities.getReader( "html/simulator", "index.js" ) );
+
 		// This is the simple Javascript which can be added
 		// arbitrarily to the end without having to modify
 		// the underlying HTML.
@@ -652,6 +640,29 @@ public class LocalRelayRequest extends PasswordHashRequest
 			+ Math.round( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f - Math.floor( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f ) )) );
 
 		StaticEntity.globalStringReplace( scriptBuffer, "/*minimoonPhase*/", String.valueOf( MoonPhaseDatabase.getHamburglarPosition( new Date() ) ) );
+
+		scriptBuffer.insert( 0, LINE_BREAK );
+		scriptBuffer.insert( 0, LINE_BREAK );
+		scriptBuffer.insert( 0, "<script language=\"Javascript\">" );
+		scriptBuffer.append( LINE_BREAK );
+		scriptBuffer.append( LINE_BREAK );
+		scriptBuffer.append( "</script>" );
+
+		insertAfterEnd( replyBuffer, scriptBuffer.toString() );
+	}
+
+	public void insertAfterEnd( StringBuffer replyBuffer, String contents )
+	{
+		int terminalIndex = replyBuffer.lastIndexOf( "</html>" );
+		if ( terminalIndex == -1 )
+		{
+			replyBuffer.append( contents );
+			replyBuffer.append( "</html>" );
+		}
+		else
+		{
+			replyBuffer.insert( terminalIndex, contents );
+		}
 	}
 
 	public void submitCommand()
