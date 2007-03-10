@@ -393,7 +393,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		}
 	}
 
-	private StringBuffer readContents( BufferedReader reader, String filename ) throws IOException
+	private StringBuffer readContents( BufferedReader reader ) throws IOException
 	{
 		String line = null;
 		StringBuffer contentBuffer = new StringBuffer();
@@ -403,33 +403,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		while ( (line = reader.readLine()) != null )
 		{
-			if ( !filename.endsWith( ".js" ) && line.indexOf( "<img" ) != -1 )
-			{
-				String directory = (new File( "html/" + filename )).getParent();
-				if ( !directory.endsWith( "/" ) )
-					directory += "/";
-
-				StringBuffer lineBuffer = new StringBuffer();
-
-				Matcher imageMatcher = IMAGE_PATTERN.matcher( line );
-				while ( imageMatcher.find() )
-				{
-					String location = imageMatcher.group(1);
-					if ( location.indexOf( "http://" ) == -1 )
-					{
-						imageMatcher.appendReplacement( lineBuffer,
-							"<img src=\"" + (new File( directory + location )).toURI().toURL().toString() + "\"" );
-					}
-					else
-					{
-						imageMatcher.appendReplacement( lineBuffer, "$0" );
-					}
-				}
-
-				imageMatcher.appendTail( lineBuffer );
-				line = lineBuffer.toString();
-			}
-
 			contentBuffer.append( line );
 			contentBuffer.append( LINE_BREAK );
 		}
@@ -471,13 +444,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		BufferedReader reader = null;
 		StringBuffer replyBuffer = new StringBuffer();
-		StringBuffer scriptBuffer = new StringBuffer();
 
 		String name = filename.substring( index + 1 );
-		String directory = index == -1 ? "html" : "html/" + filename.substring( 0, index );
+		String directory = index <= 0 ? "html" : "html/" + filename.substring( 0, index );
 
 		reader = DataUtilities.getReader( directory, name );
-		if ( reader == null && filename.startsWith( "simulator" ) )
+		if ( reader == null && filename.startsWith( "simulator" ) && !filename.endsWith( "index.js" ) )
 		{
 			downloadSimulatorFile( name );
 			reader = DataUtilities.getReader( directory, name );
@@ -488,7 +460,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// Now that you know the reader exists, read the
 			// contents of the reader.
 
-			replyBuffer = readContents( reader, filename );
+			replyBuffer = readContents( reader );
 			writePseudoResponse = true;
 		}
 		else
@@ -535,7 +507,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 					writePseudoResponse = true;
 				}
 
-				scriptBuffer = readContents( reader, filename.substring( 0, filename.lastIndexOf( "." ) ) + ".js" );
+				StringBuffer scriptBuffer = readContents( reader );
 				if ( filename.equals( "simulator/index.html" ) )
 					handleSimulatorIndex( replyBuffer, scriptBuffer );
 
