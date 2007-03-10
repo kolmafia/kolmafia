@@ -531,12 +531,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void executeCommand( String command, String parameters )
 	{
-		if ( findScriptFile( command ) != null )
-		{
-			executeScriptCommand( "call", currentLine );
-			return;
-		}
-
 		// If the command has already been disabled, then return
 		// from this function.
 
