@@ -148,7 +148,7 @@ public class UneffectRequest extends KoLRequest
 		{
 			if ( KoLCharacter.canInteract() )
 			{
-				DEFAULT_SHELL.executeLine( "acquire " + REMEDY.getName() );
+				AdventureDatabase.retrieveItem( REMEDY.getName() );
 			}
 			else if ( !inventory.contains( REMEDY ) )
 			{

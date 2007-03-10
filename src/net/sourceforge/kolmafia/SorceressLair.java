@@ -177,8 +177,7 @@ public abstract class SorceressLair extends StaticEntity
 				// HTML in the council request, but for now, use
 				// this inefficient workaround.
 
-				DEFAULT_SHELL.executeLine( "council" );
-
+				RequestThread.postRequest( new KoLRequest( "council.php" ) );
 				RequestThread.postRequest( QUEST_HANDLER );
 				unlockedQuest = QUEST_HANDLER.responseText.indexOf( "lair.php" ) != -1;
 			}
@@ -451,7 +450,7 @@ public abstract class SorceressLair extends StaticEntity
 			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair1.php?action=gates" ) );
 
 			if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) )
-				DEFAULT_SHELL.executeLine( "use tiny house" );
+				RequestThread.postRequest( new ConsumeItemRequest( UneffectRequest.TINY_HOUSE ) );
 		}
 
 		// Now, unequip all of your equipment and cross through
@@ -935,7 +934,7 @@ public abstract class SorceressLair extends StaticEntity
 		String previousAutoAttack = StaticEntity.getProperty( "defaultAutoAttack" );
 
 		if ( !previousAutoAttack.equals( "0" ) )
-			DEFAULT_SHELL.executeLine( "set defaultAutoAttack=0" );
+			DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=0" );
 
 		// Determine which level you actually need to start from.
 
@@ -971,7 +970,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( requiredItemId != -1 )
 			{
-				DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
+				DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 				return requiredItemId;
 			}
 		}
@@ -982,7 +981,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( KoLCharacter.getBaseMuscle() < 70 || KoLCharacter.getBaseMysticality() < 70 || KoLCharacter.getBaseMoxie() < 70 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You can't enter the chamber unless all base stats are 70 or higher." );
-			DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
+			DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 			return -1;
 		}
 
@@ -1004,7 +1003,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( n < 0 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Server-side change detected.  Script aborted." );
-			DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
+			DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 			return -1;
 		}
 
@@ -1034,7 +1033,7 @@ public abstract class SorceressLair extends StaticEntity
 				if ( !fightFamiliarGuardians )
 				{
 					KoLmafia.updateDisplay( "Path to shadow cleared." );
-					DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
+					DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 					return -1;
 				}
 
@@ -1046,7 +1045,7 @@ public abstract class SorceressLair extends StaticEntity
 				if ( !fightFamiliarGuardians )
 				{
 					KoLmafia.updateDisplay( "Path to shadow cleared." );
-					DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
+					DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 					return -1;
 				}
 
@@ -1058,7 +1057,7 @@ public abstract class SorceressLair extends StaticEntity
 				if ( !fightFamiliarGuardians )
 				{
 					KoLmafia.updateDisplay( "Path to shadow cleared." );
-					DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
+					DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 					return -1;
 				}
 
@@ -1068,13 +1067,13 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( !KoLmafia.permitsContinue() )
 			{
-				DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
+				DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 				return -1;
 			}
 		}
 
 		RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
-		DEFAULT_SHELL.executeLine( "set defaultAutoAttack=" + previousAutoAttack );
+		DEFAULT_SHELL.executeCommand( "set", "defaultAutoAttack=" + previousAutoAttack );
 
 		if ( KoLmafia.permitsContinue() )
 			KoLmafia.updateDisplay( "Her Naughtiness awaits." );

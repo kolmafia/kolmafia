@@ -187,10 +187,10 @@ public class UntinkerRequest extends KoLRequest
 
 		String action = StaticEntity.getProperty( "battleAction" );
 		if ( action.indexOf( "dictionary" ) != -1 )
-			DEFAULT_SHELL.executeLine( "set battleAction=attack" );
+			DEFAULT_SHELL.executeCommand( "set", "battleAction=attack" );
 
-		DEFAULT_SHELL.executeLine( "adventure * degrassi" );
-		DEFAULT_SHELL.executeLine( "set battleAction=" + action );
+		StaticEntity.getClient().makeRequest( AdventureDatabase.getAdventure( "degrassi" ), KoLCharacter.getAdventuresLeft() );
+		DEFAULT_SHELL.executeCommand( "set", "battleAction=" + action );
 
 		if ( !conditions.isEmpty() )
 		{

@@ -477,31 +477,27 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public static void untinkerCloverWeapon( AdventureResult item )
 	{
+		(new UntinkerRequest( item.getItemId(), 1 )).run();
+
 		switch ( item.getItemId() )
 		{
 		case 32:	// Bjorn's Hammer
-			DEFAULT_SHELL.executeLine( "untinker Bjorn's Hammer" );
-			DEFAULT_SHELL.executeLine( "untinker seal-toothed rock" );
+			RequestThread.postRequest( new UntinkerRequest( 31, 1 ) );
 			break;
 		case 50:	// Rock and Roll Legend
-			DEFAULT_SHELL.executeLine( "untinker Rock and Roll Legend" );
-			DEFAULT_SHELL.executeLine( "untinker heart of rock and roll" );
+			RequestThread.postRequest( new UntinkerRequest( 48, 1 ) );
 			break;
 		case 54:	// Disco Banjo
-			DEFAULT_SHELL.executeLine( "untinker Disco Banjo" );
-			DEFAULT_SHELL.executeLine( "untinker stone banjo" );
+			RequestThread.postRequest( new UntinkerRequest( 53, 1 ) );
 			break;
 		case 57:	// 5-Alarm Saucepan
-			DEFAULT_SHELL.executeLine( "untinker 5-Alarm Saucepan" );
-			DEFAULT_SHELL.executeLine( "untinker heavy hot sauce" );
+			RequestThread.postRequest( new UntinkerRequest( 56, 1 ) );
 			break;
 		case 60:	// Turtleslinger
-			DEFAULT_SHELL.executeLine( "untinker Turtleslinger" );
-			DEFAULT_SHELL.executeLine( "untinker turtle factory" );
+			RequestThread.postRequest( new UntinkerRequest( 58, 1 ) );
 			break;
 		case 68:	// Pasta of Peril
-			DEFAULT_SHELL.executeLine( "untinker Pasta of Peril" );
-			DEFAULT_SHELL.executeLine( "untinker spaghetti with rock-balls" );
+			RequestThread.postRequest( new UntinkerRequest( 67, 1 ) );
 			break;
 		}
 	}
