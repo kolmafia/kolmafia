@@ -1792,7 +1792,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		useLinkMatcher.appendTail( buffer );
 
 		if ( addedInlineLink )
-			StaticEntity.singleStringReplace( buffer, "</head>", "<script language=Javascript\" src=\"/basics.js\"></script></head>" );
+			StaticEntity.singleStringReplace( buffer, "</head>", "<script language=Javascript src=\"/basics.js\"></script></head>" );
 
 		if ( specialLinkText != null )
 		{
