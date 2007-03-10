@@ -111,7 +111,7 @@ public class SewerRequest extends KoLRequest
 	private void runUnluckySewer()
 	{
 		if ( StaticEntity.getClient().isLuckyCharacter() )
-			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+			(new ConsumeItemRequest( POSITIVE_CLOVER.getInstance( POSITIVE_CLOVER.getCount( inventory ) ) )).run();
 
 		super.run();
 

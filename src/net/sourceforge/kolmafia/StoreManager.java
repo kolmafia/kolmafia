@@ -318,6 +318,13 @@ public abstract class StoreManager extends StaticEntity
 		}
 	}
 
+	public static ArrayList searchMall( String itemName )
+	{
+		ArrayList results = new ArrayList();
+		searchMall( itemName, results, 10, false );
+		return results;
+	}
+
 	/**
 	 * Utility method used to search the mall for the
 	 * given item.

@@ -262,7 +262,7 @@ public class RequestFrame extends KoLFrame
 				return;
 
 			command = command.substring( command.indexOf( ":" ) + 1 ).trim();
-			DEFAULT_SHELL.executeLine( command );
+			CommandDisplayFrame.executeCommand( command );
 		}
 	}
 

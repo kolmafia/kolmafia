@@ -1112,6 +1112,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				item = (AdventureResult) ascensionCheckList.get(i);
 				currentCount = item.getCount( inventory ) + item.getCount( closet ) + item.getCount( storage );
 
+				for ( int j = KoLCharacter.HAT; j <= KoLCharacter.FAMILIAR; ++j )
+					if ( KoLCharacter.getEquipment( j ).equals( item ) )
+						++currentCount;
+
 				if ( currentCount < item.getCount() )
 				{
 					skills.append( "<nobr>" );

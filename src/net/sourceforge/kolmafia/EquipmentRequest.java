@@ -142,6 +142,10 @@ public class EquipmentRequest extends PasswordHashRequest
 		requestType = SAVE_OUTFIT;
 	}
 
+	public EquipmentRequest( AdventureResult changeItem )
+	{	this( changeItem, chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( changeItem.getItemId() ) ), false );
+	}
+
 	public EquipmentRequest( AdventureResult changeItem, int equipmentSlot )
 	{	this( changeItem, equipmentSlot, false );
 	}

@@ -177,6 +177,7 @@ public abstract class Nemesis extends StaticEntity
 				// Equip fly swatter, but only if it's
 				// not currently equipped
 
+				RequestThread.postRequest( new EquipmentRequest( FLY_SWATTER, KoLCharacter.WEAPON ) );
 				DEFAULT_SHELL.executeLine( "equip Gnollish flyswatter" );
 				action = "flies";
 				KoLmafia.updateDisplay( "Swatting flies..." );

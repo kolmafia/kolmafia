@@ -1837,7 +1837,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// If all else fails, then assume that the
 		// person was trying to call a script.
 
-		executeScriptCommand( "call", currentLine );
+		executeScript( currentLine );
 	}
 
 	public void showHTML( String text, String title )
@@ -2010,6 +2010,10 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		return null;
+	}
+
+	public void executeScript( String script )
+	{	executeScriptCommand( "call", script );
 	}
 
 	/**
@@ -2948,7 +2952,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( slot == KoLCharacter.WEAPON )
             {
             	if ( desiredHands < 2 && desiredType != currentType )
-            		executeLine( "unequip off-hand" );
+            		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
             }
 
             // If we are equipping an off-hand weapon, fail the

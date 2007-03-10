@@ -2561,8 +2561,12 @@ public abstract class KoLmafia implements KoLConstants
 		commandBuffer.append( buffer.toString() );
 	}
 
+	public void makePurchases( List results, int count )
+	{	makePurchases( results, results.toArray(), count );
+	}
+
 	/**
-	 * Utilit.  This method used to purchase the given number of items
+	 * Utility method used to purchase the given number of items
 	 * from the mall using the given purchase requests.
 	 */
 

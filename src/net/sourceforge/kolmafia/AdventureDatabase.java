@@ -826,7 +826,7 @@ public class AdventureDatabase extends KoLDatabase
 			else if ( ZONE_VALIDATOR.responseText.indexOf( "batrockbottom.gif" ) != -1 )
 				sonarToUse = 1;
 
-			DEFAULT_SHELL.executeLine( "use " + Math.min( sonarToUse, sonarCount ) + " sonar-in-a-biscuit" );
+			RequestThread.postRequest( new ConsumeItemRequest( SONAR.getInstance( Math.min( sonarToUse, sonarCount ) ) ) );
 			RequestThread.postRequest( ZONE_VALIDATOR );
 
 			return locationId.equals( "32" ) && ZONE_VALIDATOR.responseText.indexOf( "batrockleft.gif" ) == -1 ||
@@ -992,38 +992,6 @@ public class AdventureDatabase extends KoLDatabase
 		return (AreaCombatData) areaCombatData.get( area );
 	}
 
-	/**
-	 * Utility method which retrieves an item by calling a CLI
-	 * command, which is constructed based on the parameters.
-	 */
-
-	private static final int retrieveItem( String command, LockableListModel source, AdventureResult item, int missingCount )
-	{
-		int retrieveCount = source == null ? missingCount : Math.min( missingCount, item.getCount( source ) );
-
-		if ( retrieveCount > 0 )
-		{
-			DEFAULT_SHELL.executeLine( command + " " + retrieveCount + " " + item.getName() );
-			return item.getCount() - item.getCount( inventory );
-		}
-
-		return missingCount;
-	}
-
-	/**
-	 * Utility method which creates an item by invoking the
-	 * appropriate CLI command.
-	 */
-
-	private static final void retrieveItem( ItemCreationRequest irequest, int missingCount )
-	{
-		if ( missingCount > 0 )
-		{
-			irequest.setQuantityNeeded( missingCount );
-			RequestThread.postRequest( irequest );
-		}
-	}
-
 	public static final boolean retrieveItem( String itemName )
 	{	return retrieveItem( new AdventureResult( itemName, 1, false ), false );
 	}
@@ -1043,171 +1011,193 @@ public class AdventureDatabase extends KoLDatabase
 
 	private static final boolean acquireItem( AdventureResult item, boolean force )
 	{
-		try
+		int missingCount = item.getCount() - item.getCount( inventory );
+
+		// If you already have enough of the given item, then
+		// return from this method.
+
+		if ( missingCount <= 0 )
+			return true;
+
+		for ( int i = KoLCharacter.HAT; i <= KoLCharacter.FAMILIAR; ++i )
 		{
-			int missingCount = item.getCount() - item.getCount( inventory );
-
-			// If you already have enough of the given item, then
-			// return from this method.
-
-			if ( missingCount <= 0 )
-				return true;
-
-			// Next, if you have a piece of equipment, then
-			// assume this might be a check on equipment.
-			// in this case, return from this method.
-
-			if ( KoLCharacter.hasEquipped( item ) )
+			if ( KoLCharacter.getEquipment( i ).equals( item ) )
 			{
-				DEFAULT_SHELL.executeLine( "unequip " + item.getName() );
-				missingCount = item.getCount() - item.getCount( inventory );
+				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
+				--missingCount;
 			}
+		}
+
+		if ( missingCount <= 0 )
+			return true;
+
+		// Try to purchase the item from the mall, if the
+		// user wishes to autosatisfy through purchases,
+		// and the item is not creatable through combines.
+
+		int price = TradeableItemDatabase.getPriceById( item.getItemId() );
+
+		boolean shouldUseMall = force || getBooleanProperty( "autoSatisfyWithMall" );
+		boolean shouldUseStash = getBooleanProperty( "showStashIngredients" );
+
+		boolean shouldPurchase = price != 0 || item.getName().indexOf( "clover" ) != -1;
+		boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
+		canUseNPCStore &= force || getBooleanProperty( "autoSatisfyWithNPCs" );
+
+		boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemId() );
+		shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( item.getItemId() ) == PIXEL;
+
+		// First, attempt to pull the item from the closet.
+		// If this is successful, return from the method.
+
+		AdventureResult [] items = new AdventureResult [] { item };
+		items[0] = item.getInstance( Math.min( item.getCount( closet ), missingCount ) );
+
+		if ( items[0].getCount() > 0 )
+		{
+			RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items ) );
+			missingCount = item.getCount() - item.getCount( inventory );
 
 			if ( missingCount <= 0 )
 				return true;
+		}
 
-			// Try to purchase the item from the mall, if the
-			// user wishes to autosatisfy through purchases,
-			// and the item is not creatable through combines.
+		if ( missingCount <= 0 )
+			return true;
 
-			int price = TradeableItemDatabase.getPriceById( item.getItemId() );
+		// Next, attempt to create the item from existing
+		// ingredients (if possible).
 
-			boolean shouldUseMall = force || getBooleanProperty( "autoSatisfyWithMall" );
-			boolean shouldUseStash = getBooleanProperty( "showStashIngredients" );
-
-			boolean shouldPurchase = price != 0 || item.getName().indexOf( "clover" ) != -1;
-			boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
-			canUseNPCStore &= force || getBooleanProperty( "autoSatisfyWithNPCs" );
-
-			boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemId() );
-			shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( item.getItemId() ) == PIXEL;
-
-			// First, attempt to pull the item from the closet.
-			// If this is successful, return from the method.
-
-			missingCount = retrieveItem( "closet take", closet, item, missingCount );
-
-			if ( missingCount <= 0 )
-				return true;
-
-			// Next, attempt to create the item from existing
-			// ingredients (if possible).
-
-			ItemCreationRequest creator = ItemCreationRequest.getInstance( item.getItemId() );
-			if ( creator != null )
+		ItemCreationRequest creator = ItemCreationRequest.getInstance( item.getItemId() );
+		if ( creator != null )
+		{
+			if ( ConcoctionsDatabase.hasAnyIngredient( item.getItemId() ) )
 			{
-				if ( ConcoctionsDatabase.hasAnyIngredient( item.getItemId() ) )
-				{
-					retrieveItem( creator, Math.min( missingCount, creator.getQuantityPossible() ) );
-					missingCount = item.getCount() - item.getCount( inventory );
-
-					if ( missingCount <= 0 )
-						return true;
-				}
-			}
-
-			// Next, hermit item retrieval is possible when
-			// you have worthless items.  Use this method next.
-
-			if ( hermitItems.contains( item ) )
-			{
-				int worthlessItemCount = HermitRequest.getWorthlessItemCount();
-				if ( worthlessItemCount > 0 )
-					RequestThread.postRequest( new HermitRequest( item.getItemId(), Math.min( worthlessItemCount, missingCount ) ) );
-
+				creator.setQuantityNeeded( Math.min( missingCount, creator.getQuantityPossible() ) );
+				RequestThread.postRequest( creator );
 				missingCount = item.getCount() - item.getCount( inventory );
 
 				if ( missingCount <= 0 )
 					return true;
 			}
+		}
 
-			// Next, attempt to pull the items out of storage,
-			// if you are out of ronin.
+		// Next, hermit item retrieval is possible when
+		// you have worthless items.  Use this method next.
 
-			if ( KoLCharacter.canInteract() )
-				missingCount = retrieveItem( "hagnk", storage, item, missingCount );
-
-			if ( missingCount <= 0 )
-				return true;
-
-			// See if the item can be retrieved from the clan stash.  If it can,
-			// go ahead and pull as many items as possible from there.
-
-			if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+		if ( hermitItems.contains( item ) )
+		{
+			int worthlessItemCount = HermitRequest.getWorthlessItemCount();
+			if ( worthlessItemCount > 0 )
 			{
-				if ( !ClanManager.isStashRetrieved() )
-					RequestThread.postRequest( new ClanStashRequest() );
+				RequestThread.postRequest( new HermitRequest( item.getItemId(), Math.min( worthlessItemCount, missingCount ) ) );
+				missingCount = item.getCount() - item.getCount( inventory );
 
-				missingCount = retrieveItem( "stash take", ClanManager.getStash(), item, missingCount );
 				if ( missingCount <= 0 )
 					return true;
 			}
-
-			// If the item should be bought early, go ahead and purchase it now,
-			// after having checked the clan stash.
-
-			if ( shouldPurchase && shouldAutoSatisfyEarly )
-			{
-				if ( canUseNPCStore || (KoLCharacter.canInteract() && shouldUseMall) )
-					missingCount = retrieveItem( "buy", null, item, missingCount );
-			}
-
-			if ( missingCount <= 0 )
-				return true;
-
-			// If it's creatable, rather than seeing what main ingredient is missing,
-			// show what sub-ingredients are missing; but only do this if it's not
-			// clovers or dough, which causes infinite recursion.  Also don't do this
-			// for white pixels, as that causes confusion.
-
-			if ( creator != null && ConcoctionsDatabase.getMixingMethod( item.getItemId() ) != NOCREATE )
-			{
-				switch ( item.getItemId() )
-				{
-				case 24:	// ten-leaf clover
-				case 196:	// disassembled clover
-				case 159:	// wad of dough
-				case 301:	// flat dough
-				case 459:	// white pixel
-
-					break;
-
-				default:
-
-					creator.setQuantityNeeded( missingCount );
-					RequestThread.postRequest( creator );
-
-					return KoLCharacter.hasItem( item );
-				}
-			}
-
-			// Try to purchase the item from the mall, if the user wishes to allow
-			// purchases for item acquisition.
-
-			if ( shouldPurchase && !shouldAutoSatisfyEarly )
-			{
-				if ( KoLCharacter.canInteract() && shouldUseMall )
-					missingCount = retrieveItem( "buy", null, item, missingCount );
-			}
-
-			if ( missingCount <= 0 )
-				return true;
-
-			// If the item does not exist in sufficient quantities,
-			// then notify the user that there aren't enough items
-			// available to continue and cancel the request.
-
-			KoLmafia.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
-			return false;
 		}
-		catch ( Exception e )
+
+		// Next, attempt to pull the items out of storage,
+		// if you are out of ronin.
+
+		if ( KoLCharacter.canInteract() )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
+			items[0] = item.getInstance( Math.min( item.getCount( storage ), missingCount ) );
+			if ( items[0].getCount() > 0 )
+			{
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
+				missingCount = item.getCount() - item.getCount( inventory );
 
-			printStackTrace( e );
-			return false;
+				if ( missingCount <= 0 )
+					return true;
+			}
 		}
+
+		// See if the item can be retrieved from the clan stash.  If it can,
+		// go ahead and pull as many items as possible from there.
+
+		if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+		{
+			if ( !ClanManager.isStashRetrieved() )
+				RequestThread.postRequest( new ClanStashRequest() );
+
+			items[0] = item.getInstance( Math.min( item.getCount( ClanManager.getStash() ), missingCount ) );
+			if ( items[0].getCount() > 0 )
+			{
+				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.STASH_TO_ITEMS ) );
+				missingCount = item.getCount() - item.getCount( inventory );
+
+				if ( missingCount <= 0 )
+					return true;
+			}
+		}
+
+		// If the item should be bought early, go ahead and purchase it now,
+		// after having checked the clan stash.
+
+		if ( shouldPurchase && shouldAutoSatisfyEarly )
+		{
+			if ( canUseNPCStore || (KoLCharacter.canInteract() && shouldUseMall) )
+			{
+				StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), item.getCount() );
+				missingCount = item.getCount() - item.getCount( inventory );
+
+				if ( missingCount <= 0 )
+					return true;
+			}
+		}
+
+		// If it's creatable, rather than seeing what main ingredient is missing,
+		// show what sub-ingredients are missing; but only do this if it's not
+		// clovers or dough, which causes infinite recursion.  Also don't do this
+		// for white pixels, as that causes confusion.
+
+		if ( creator != null && ConcoctionsDatabase.getMixingMethod( item.getItemId() ) != NOCREATE )
+		{
+			switch ( item.getItemId() )
+			{
+			case 24:	// ten-leaf clover
+			case 196:	// disassembled clover
+			case 159:	// wad of dough
+			case 301:	// flat dough
+			case 459:	// white pixel
+
+				break;
+
+			default:
+
+				creator.setQuantityNeeded( missingCount );
+				RequestThread.postRequest( creator );
+
+				return KoLCharacter.hasItem( item );
+			}
+		}
+
+		// Try to purchase the item from the mall, if the user wishes to allow
+		// purchases for item acquisition.
+
+		if ( shouldPurchase && !shouldAutoSatisfyEarly )
+		{
+			if ( KoLCharacter.canInteract() && shouldUseMall )
+			{
+				StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), item.getCount() );
+				missingCount = item.getCount() - item.getCount( inventory );
+
+				if ( missingCount <= 0 )
+					return true;
+			}
+		}
+
+		if ( missingCount <= 0 )
+			return true;
+
+		// If the item does not exist in sufficient quantities,
+		// then notify the user that there aren't enough items
+		// available to continue and cancel the request.
+
+		KoLmafia.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
+		return false;
 	}
 
 	private static class AdventureArray

@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 public abstract class StrangeLeaflet extends StaticEntity
 {
 	private static final AdventureResult LEAFLET = new AdventureResult( 520, 1 );
+	private static final AdventureResult FROBOZZ = new AdventureResult( 526, 1 );
 	private static final Pattern FOREST_PATTERN = Pattern.compile( "Gaps in the dense, forbidding foliage lead (.*?)," );
 
 	// This script assumes that the leaflet can be in any state; the player
@@ -157,7 +158,9 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( !KoLCharacter.hasItem( LEAFLET ) )
 		{
 			if ( KoLCharacter.getLevel() >= 9 )
-				DEFAULT_SHELL.executeLine( "council" );
+			{
+				RequestThread.postRequest( new KoLRequest( "council.php" ) );
+			}
 			else
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "You are too low level for that quest." );
@@ -385,7 +388,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( !chest )
 		{
 			executeCommand( "open chest" );
-			DEFAULT_SHELL.executeLine( "use Frobozz Real-Estate Company Instant House (TM)" );
+			RequestThread.postRequest( new ConsumeItemRequest( FROBOZZ ) );
 		}
 	}
 
