@@ -158,7 +158,7 @@ public class RestaurantRequest extends KoLRequest
 			return false;
 
 		Matcher idMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
-		if ( idMatcher.find() )
+		if ( !idMatcher.find() )
 			return true;
 
 		int fullness = 0;
