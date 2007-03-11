@@ -157,7 +157,7 @@ public class MicrobreweryRequest extends KoLRequest
 			return false;
 
 		Matcher idMatcher = SendMessageRequest.ITEMID_PATTERN.matcher( urlString );
-		if ( idMatcher.find() )
+		if ( !idMatcher.find() )
 			return true;
 
 		int itemId = StaticEntity.parseInt( idMatcher.group(1) );
