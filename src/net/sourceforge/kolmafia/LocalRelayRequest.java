@@ -442,11 +442,11 @@ public class LocalRelayRequest extends PasswordHashRequest
 		int index = filename.indexOf( "/" );
 		boolean writePseudoResponse = !isServerRequest;
 
-		BufferedReader reader = null;
 		StringBuffer replyBuffer = new StringBuffer();
 
 		String name = filename.substring( index + 1 );
 		String directory = index <= 0 ? "html" : "html/" + filename.substring( 0, index );
+		BufferedReader reader = DataUtilities.getReader( directory, name );
 
 		if ( reader == null && filename.startsWith( "simulator" ) )
 		{
