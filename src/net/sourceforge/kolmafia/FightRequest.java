@@ -87,6 +87,7 @@ public class FightRequest extends KoLRequest
 	private static final String SPICES_ACTION = "item" + SPICES.getItemId();
 	private static final String MERCENARY_ACTION = "item" + MERCENARY.getItemId();
 
+	private static boolean castCleesh = false;
 	private static int currentRound = 0;
 	private static int offenseModifier = 0, defenseModifier = 0;
 
@@ -206,7 +207,11 @@ public class FightRequest extends KoLRequest
 			action1 = getMonsterWeakenAction();
 
 		action1 = CombatSettings.getShortCombatOptionName( action1 );
+		updateCurrentAction();
+	}
 
+	private void updateCurrentAction()
+	{
 		if ( action1.equals( "abort" ) )
 		{
 			// If the user has chosen to abort combat, flag it.
@@ -256,7 +261,6 @@ public class FightRequest extends KoLRequest
 				action1 = "abort";
 				return;
 			}
-
 
 			if ( itemCount == 0 )
 			{
@@ -329,15 +333,29 @@ public class FightRequest extends KoLRequest
 				return;
 			}
 
+			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
+			{
+				if ( inventory.contains( MPRestoreItemList.CONFIGURES[i].getItem() ) )
+				{
+					action1 = "item" + MPRestoreItemList.CONFIGURES[i].getItem().getItemId();
+					updateCurrentAction();
+				}
+			}
+
 			action1 = "abort";
 			return;
 		}
 
-		if ( skillName.equals( "CLEESH" ) && currentRound != 0 )
+		if ( skillName.equals( "CLEESH" ) )
 		{
-			action1 = "attack";
-			addFormField( "action", action1 );
-			return;
+			if ( castCleesh )
+			{
+				action1 = "attack";
+				addFormField( "action", action1 );
+				return;
+			}
+
+			castCleesh = true;
 		}
 
 		addFormField( "action", "skill" );
@@ -391,8 +409,13 @@ public class FightRequest extends KoLRequest
 		if ( monsterData == null )
 			return true;
 
-		return monsterData.hasAcceptableDodgeRate( FightRequest.offenseModifier + offenseModifier ) &&
-			!monsterData.willUsuallyMiss( FightRequest.defenseModifier + defenseModifier );
+		if ( monsterData.willUsuallyMiss( FightRequest.defenseModifier + defenseModifier ) )
+			return false;
+
+		if ( monsterData.hasAcceptableDodgeRate( FightRequest.offenseModifier + offenseModifier ) )
+			return true;
+
+		return KoLmafia.getRestoreCount() == 0;
 	}
 
 	private String getMonsterWeakenAction()
@@ -599,6 +622,7 @@ public class FightRequest extends KoLRequest
 		encounterLookup = "";
 		monsterData = null;
 
+		castCleesh = false;
 		currentRound = 0;
 		offenseModifier = 0;
 		defenseModifier = 0;

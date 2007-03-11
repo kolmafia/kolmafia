@@ -119,7 +119,7 @@ function inlineLoad( location, fields, id )
 			container.innerHTML = text;
 			main.body.insertBefore( container, main.body.firstChild );
 
-			container = div;
+			div = container;
 		}
 		else
 		{
