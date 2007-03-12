@@ -1917,7 +1917,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( !forceGift )
 		{
 			SendMessageRequest.setUpdateDisplayOnFailure( false );
-			RequestThread.postRequest( new GreenMessageRequest( recipient, message, attachments ) );
+			RequestThread.postRequest( new GreenMessageRequest( recipient, message, attachments, false ) );
 			SendMessageRequest.setUpdateDisplayOnFailure( true );
 
 			if ( !SendMessageRequest.hadSendMessageFailure() )
