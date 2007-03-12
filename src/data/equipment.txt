@@ -618,7 +618,7 @@ fuzzy bracelets	0	none
 giant pinky ring	0	Mys: 35
 glowing red eye	0	Mys: 60
 gnatwing earring	0	Mys: 20
-gnoll-tooth necklace	0	Mys: 25
+gnoll-tooth necklace	0	Mys: 10
 Golden Mr. Accessory	0	none
 green glowstick	0	none
 Grimacite galoshes	0	Mys: 17
