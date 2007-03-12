@@ -1496,8 +1496,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 			for ( int i = 0; i < familiars.size(); ++i )
 			{
-				if ( familiars.get(i).toString().toLowerCase().indexOf( lowerCaseName ) != -1 )
+				if ( KoLDatabase.fuzzyMatches( familiars.get(i).toString(), lowerCaseName ) )
 				{
+					if ( isExecutingCheckOnlyCommand )
+					{
+						RequestLogger.printLine( familiars.get(i).toString() );
+						return;
+					}
+
 					FamiliarData newFamiliar = (FamiliarData) familiars.get(i);
 					if ( KoLCharacter.getFamiliar() != null && KoLCharacter.getFamiliar().equals( newFamiliar ) )
 						return;
