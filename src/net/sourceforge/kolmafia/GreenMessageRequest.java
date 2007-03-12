@@ -80,6 +80,10 @@ public class GreenMessageRequest extends SendMessageRequest
 	}
 
 	public GreenMessageRequest( String recipient, String message, Object [] attachments )
+	{	this( recipient, message, attachments, true );
+	}
+
+	public GreenMessageRequest( String recipient, String message, Object [] attachments, boolean saveMessage )
 	{
 		super( "sendmessage.php", attachments );
 
@@ -89,7 +93,9 @@ public class GreenMessageRequest extends SendMessageRequest
 		addFormField( "action", "send" );
 		addFormField( "towho", this.recipient );
 		addFormField( "message", this.message );
-		addFormField( "savecopy", "on" );
+
+		if ( saveMessage )
+			addFormField( "savecopy", "on" );
 	}
 
 	public String getRecipient()
