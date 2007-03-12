@@ -141,11 +141,12 @@
 				return;
 
 			updateDisplay( display, httpObject.responseText );
-			setTimeout( getCLIUpdate, 1000 );
 		};
 
 		httpObject.open( "POST", "/KoLmafia/messageUpdate", true );
 		httpObject.send( null );
+
+		setTimeout( getCLIUpdate, 4000 );
 		return true;
 	};
 
