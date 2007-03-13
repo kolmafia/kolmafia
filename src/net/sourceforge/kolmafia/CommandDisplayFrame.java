@@ -148,6 +148,8 @@ public class CommandDisplayFrame extends KoLFrame
 			{
 				String command = entryField.getText().trim();
 				entryField.setText( "" );
+
+				commandHistory.add( command );
 				executeCommand( command );
 			}
 		}
@@ -177,7 +179,6 @@ public class CommandDisplayFrame extends KoLFrame
 		synchronized ( commandQueue )
 		{
 			commandQueue.add( command );
-			commandHistory.add( command );
 			lastCommandIndex = commandHistory.size();
 
 			if ( handler.isRunning() )
