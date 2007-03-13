@@ -441,6 +441,7 @@ public abstract class MoodSettings implements KoLConstants
 			return null;
 
 		int minimum = Math.max( 0, (int) (StaticEntity.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP()) );
+		minimum = Math.max( minimum, starting );
 
 		String skillName = null;
 		int desiredDuration = 0;
