@@ -391,10 +391,6 @@ public class AdventureRequest extends KoLRequest
 		if ( !(request instanceof AdventureRequest) && !containsEncounter( urlString, request.responseText ) )
 			return "";
 
-		// The first round is unique in that there is no
-		// data fields.  Therefore, it will equal fight.php
-		// exactly every single time.
-
 		if ( urlString.indexOf( "fight.php" ) != -1 )
 		{
 			int spanIndex = request.responseText.indexOf( "<span id='monname" ) + 1;
@@ -410,12 +406,9 @@ public class AdventureRequest extends KoLRequest
 			String encounter = request.responseText.substring( spanIndex, endSpanIndex );
 			encounter = CombatSettings.encounterKey( encounter, false );
 
-			if ( urlString.equals( "fight.php" ) )
-			{
-				RequestLogger.printLine( "Encounter: " + encounter );
-				RequestLogger.updateSessionLog( "Encounter: " + encounter );
-				StaticEntity.getClient().registerEncounter( encounter, "Combat" );
-			}
+			RequestLogger.printLine( "Encounter: " + encounter );
+			RequestLogger.updateSessionLog( "Encounter: " + encounter );
+			StaticEntity.getClient().registerEncounter( encounter, "Combat" );
 
 			return encounter;
 		}

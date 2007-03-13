@@ -85,7 +85,9 @@ public abstract class RequestThread implements KoLConstants
 		}
 
 		--sequenceCount;
-		enableDisplayIfSequenceComplete();
+
+		if ( enableDisplayIfSequenceComplete() )
+			SystemTrayFrame.showBalloon( "Requests complete." );
 	}
 
 	/**
@@ -191,7 +193,6 @@ public abstract class RequestThread implements KoLConstants
 		if ( KoLmafia.permitsContinue() || KoLmafia.refusesContinue() )
 			KoLmafia.enableDisplay();
 
-		SystemTrayFrame.showBalloon( "Requests complete." );
 		return true;
 	}
 
