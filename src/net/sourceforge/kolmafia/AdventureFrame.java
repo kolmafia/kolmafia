@@ -1177,6 +1177,7 @@ public class AdventureFrame extends KoLFrame
 			{
 			case 0: // Ignore this adventure
 				StaticEntity.setProperty( "choiceAdventure80", "4" );
+				break;
 
 			case 1: // Mysticality
 				StaticEntity.setProperty( "choiceAdventure80", "3" );
@@ -1206,6 +1207,7 @@ public class AdventureFrame extends KoLFrame
 
 			case 1: // Muscle
 				StaticEntity.setProperty( "choiceAdventure81", "3" );
+				break;
 
 			case 2: // Gallery Key
 				StaticEntity.setProperty( "choiceAdventure81", "1" );
@@ -1474,9 +1476,8 @@ public class AdventureFrame extends KoLFrame
 		public ManaOptionsPanel()
 		{
 			mpBalanceSelect = new JComboBox();
-			mpBalanceSelect.addItem( "Only recast buffs for mood swings" );
 			mpBalanceSelect.addItem( "Enable manual invocation of bulk recast" );
-			for ( int i = 1; i <= 9; ++i )
+			for ( int i = 0; i <= 9; ++i )
 				mpBalanceSelect.addItem( "Enable conditional recast at " + (i*10) + "%" );
 
 			mpAutoRecoverSelect = new JComboBox();
