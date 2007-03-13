@@ -1058,96 +1058,109 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		StaticEntity.singleStringReplace( buffer, "</body>", "<div id='menu' class='rcm'></div></body>" );
 	}
 
+	private static void addPreAscensionReminders( StringBuffer buffer )
+	{
+		buffer.delete( buffer.indexOf( "By" ), buffer.indexOf( "<p><center>" ) );
+
+		StringBuffer predictions = new StringBuffer();
+
+		predictions.append( "</center></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
+		predictions.append( "<td><div style=\"padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px\"><font size=-1>" );
+		MoonPhaseDatabase.addPredictionHTML( predictions, new Date(), MoonPhaseDatabase.getPhaseStep(), false );
+		predictions.append( "</font></div></td></tr><tr><td align=center colspan=3><br>" );
+		predictions.append( LINE_BREAK );
+		predictions.append( LINE_BREAK );
+
+		StaticEntity.singleStringReplace( buffer, "</center><p>", predictions.toString() );
+		StringBuffer reminders = new StringBuffer();
+
+		reminders.append( "<table><tr>" );
+		reminders.append( "<td align=right valign=center><img src=\"http://images.kingdomofloathing.com/" );
+		reminders.append( FamiliarsDatabase.getFamiliarImageLocation( KoLCharacter.getFamiliar().getId() ) );
+		reminders.append( "\"></td><td valign=center align=left><nobr>&nbsp;<b>" );
+		reminders.append( KoLCharacter.getFamiliar().getName() );
+		reminders.append( "</b>, the " );
+		reminders.append( KoLCharacter.getFamiliar().getWeight() );
+		reminders.append( "-pound " );
+		reminders.append( KoLCharacter.getFamiliar().getRace() );
+		reminders.append( "</nobr></td></tr></table>" );
+
+		int startPoint = 0;
+
+		if ( KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER ) )
+			startPoint = 1000;
+		else if ( KoLCharacter.getClassType().equals( KoLCharacter.TURTLE_TAMER ) )
+			startPoint = 2000;
+		else if ( KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER ) )
+			startPoint = 3000;
+		else if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+			startPoint = 4000;
+		else if ( KoLCharacter.getClassType().equals( KoLCharacter.DISCO_BANDIT ) )
+			startPoint = 5000;
+		else if ( KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF ) )
+			startPoint = 6000;
+
+		reminders.append( "<br><table cellspacing=10 cellpadding=10><tr>" );
+		reminders.append( "<td bgcolor=\"#eeffee\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Skills You Didn't Buy</th></tr><tr><td align=center><font size=\"-1\">" );
+
+		ArrayList skillList = new ArrayList();
+		for ( int i = 0; i < availableSkills.size(); ++i )
+			skillList.add( String.valueOf( ((UseSkillRequest)availableSkills.get(i)).getSkillId() ) );
+
+		listPermanentSkills( reminders, skillList, startPoint );
+		reminders.append( "</font></td></tr></table></td>" );
+		reminders.append( "<td bgcolor=\"#eeeeff\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Common Stuff You Didn't Do</th></tr><tr><td align=center><font size=\"-1\">" );
+
+		AdventureResult item;
+		int currentCount;
+
+		for ( int i = 0; i < ascensionCheckList.size(); ++i )
+		{
+			item = (AdventureResult) ascensionCheckList.get(i);
+			currentCount = item.getCount( inventory ) + item.getCount( closet ) + item.getCount( storage );
+
+			for ( int j = KoLCharacter.HAT; j <= KoLCharacter.FAMILIAR; ++j )
+				if ( KoLCharacter.getEquipment( j ).equals( item ) )
+					++currentCount;
+
+			if ( currentCount < item.getCount() )
+			{
+				reminders.append( "<nobr>" );
+
+				reminders.append( "acquire " );
+				reminders.append( String.valueOf( item.getCount() ) );
+				reminders.append( " " );
+				reminders.append( item.getName().toLowerCase() );
+
+				if ( item.getCount() > 1 )
+				{
+					reminders.append( " (you have " );
+					reminders.append( currentCount );
+					reminders.append( ")" );
+				}
+
+				reminders.append( "</nobr><br>" );
+			}
+		}
+
+		if ( KoLCharacter.hasChef() )
+			reminders.append( "<nobr>blow up your chef</nobr><br>" );
+
+		if ( KoLCharacter.hasBartender() )
+			reminders.append( "<nobr>blow up your bartender</nobr><br>" );
+
+		reminders.append( "</font></td></tr></table></td></tr></table>" );
+		reminders.append( "<br><input type=hidden name=confirm value=on><input type=hidden name=confirm2 value=on><input type=submit class=button value=\"I've Reviewed Everything.  Let Me Ascend!\"><br><br>" );
+
+		StaticEntity.singleStringReplace( buffer, "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)", reminders.toString() );
+		return;
+	}
+
 	private static void addAscensionReminders( String location, StringBuffer buffer )
 	{
 		if ( location.indexOf( "ascend.php" ) != -1 )
 		{
-			StringBuffer reminders = new StringBuffer();
-			reminders.append( "<table><tr><td valign=center><input type=submit class=button value=\"Ascend\"></td><td valign=top><table><tr>" );
-			reminders.append( "<td align=left><input type=checkbox name=confirm></td><td>&nbsp;</td>" );
-			reminders.append( "<td align=left>I remember to buy the skill I wanted" );
-
-			if ( KoLCharacter.getLevel() >= 30 )
-				reminders.append( " and my L30 trophy" );
-
-			reminders.append( "." );
-			reminders.append( "</td></tr><tr><td align=left><input type=checkbox name=confirm2></td><td>&nbsp;</td>" );
-			reminders.append( "<td>I remembered to stock up for my next ascension.</td></tr></table></td></tr></table>" );
-
-			StaticEntity.singleStringReplace( buffer, "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)", reminders.toString() );
-
-			int startPoint = 0;
-			StringBuffer skills = new StringBuffer();
-
-			if ( KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER ) )
-				startPoint = 1000;
-			else if ( KoLCharacter.getClassType().equals( KoLCharacter.TURTLE_TAMER ) )
-				startPoint = 2000;
-			else if ( KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER ) )
-				startPoint = 3000;
-			else if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
-				startPoint = 4000;
-			else if ( KoLCharacter.getClassType().equals( KoLCharacter.DISCO_BANDIT ) )
-				startPoint = 5000;
-			else if ( KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF ) )
-				startPoint = 6000;
-
-			skills.append( "<table cellspacing=10 cellpadding=10><tr>" );
-			skills.append( "<td bgcolor=\"#eeffee\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Skills You Didn't Buy</th></tr><tr><td align=center><font size=\"-1\">" );
-
-			ArrayList skillList = new ArrayList();
-			for ( int i = 0; i < availableSkills.size(); ++i )
-				skillList.add( String.valueOf( ((UseSkillRequest)availableSkills.get(i)).getSkillId() ) );
-
-			listPermanentSkills( skills, skillList, startPoint );
-
-			skills.append( "</font></td></tr></table></td>" );
-			skills.append( "<td bgcolor=\"#eeeeff\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Common Stuff You Didn't Do</th></tr><tr><td align=center><font size=\"-1\">" );
-
-			AdventureResult item;
-			int currentCount;
-
-			for ( int i = 0; i < ascensionCheckList.size(); ++i )
-			{
-				item = (AdventureResult) ascensionCheckList.get(i);
-				currentCount = item.getCount( inventory ) + item.getCount( closet ) + item.getCount( storage );
-
-				for ( int j = KoLCharacter.HAT; j <= KoLCharacter.FAMILIAR; ++j )
-					if ( KoLCharacter.getEquipment( j ).equals( item ) )
-						++currentCount;
-
-				if ( currentCount < item.getCount() )
-				{
-					skills.append( "<nobr>" );
-
-					skills.append( "acquire " );
-					skills.append( String.valueOf( item.getCount() ) );
-					skills.append( " " );
-					skills.append( item.getName().toLowerCase() );
-
-					if ( item.getCount() > 1 )
-					{
-						skills.append( " (you have " );
-						skills.append( currentCount );
-						skills.append( ")" );
-					}
-
-					skills.append( "</nobr><br>" );
-				}
-			}
-
-			if ( KoLCharacter.hasChef() )
-				skills.append( "<nobr>blow up your chef</nobr><br>" );
-
-			if ( KoLCharacter.hasBartender() )
-				skills.append( "<nobr>blow up your bartender</nobr><br>" );
-
-			skills.append( "</font></td></tr></table></td>" );
-
-			skills.append( "</tr></table>" );
-			skills.append( "<br><br><a href=\"main.php\">" );
-
-			StaticEntity.singleStringReplace( buffer, "<a href=\"main.php\">", skills.toString() );
+			addPreAscensionReminders( buffer );
 			return;
 		}
 
@@ -1235,6 +1248,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			buffer.append( skillId );
 			buffer.append( ">" );
 			buffer.append( ClassSkillsDatabase.getSkillName( skillId ) );
+
+			if ( skillId % 1000 == 0 )
+				buffer.append( " (Trivial)" );
+
 			buffer.append( "</option>" );
 		}
 
