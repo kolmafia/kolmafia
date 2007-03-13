@@ -104,13 +104,9 @@ public class HermitRequest extends KoLRequest
 		if ( KoLCharacter.hasItem( HACK_SCROLL ) )
 			(new ConsumeItemRequest( HACK_SCROLL )).run();
 
-		if ( KoLCharacter.getLevel() >= 9 && KoLCharacter.hasItem( SUMMON_SCROLL, KoLCharacter.canInteract() ) )
+		if ( KoLCharacter.getLevel() >= 9 && KoLCharacter.hasItem( SUMMON_SCROLL ) )
 		{
 			int itemCount = SUMMON_SCROLL.getCount( inventory );
-
-			if ( KoLCharacter.canInteract() )
-				ItemCreationRequest.getInstance( SUMMON_SCROLL.getItemId() ).getQuantityPossible();
-
 			(new ConsumeItemRequest( SUMMON_SCROLL.getInstance( itemCount ) )).run();
 
 			if ( KoLCharacter.hasItem( HACK_SCROLL ) )
