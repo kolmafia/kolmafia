@@ -13,7 +13,7 @@
 16	Summon Snowcone	1	1	5	0
 17	Summon Hilarious Objects	1	1	5	0
 18	Summon Candy Hearts	1	1	0	0
-					
+
 7002	Shake Hands	3	5	0	0
 7003	Hot Breath	3	6	5	0
 7004	Cold Breath	3	6	5	0
@@ -22,11 +22,12 @@
 7007	Sleazy Breath	3	6	5	0
 7008	Moxious Maneuver	3	5	0	0
 7009	Magic Missile	3	5	0	0
-					
-# Skills available to Clubbers					
-					
+
+# Skills available to Clubbers
+
 1000	Seal Clubbing Frenzy	1	9	1	5
 1003	Thrust-Smack	3	5	3	0
+1004	Lunge-Smack	3	5	5	0
 1005	Lunging Thrust-Smack	3	5	8	0
 1006	Super-Advanced Meatsmithing	0	1	0	0
 1007	Tongue of the Otter	1	8	7	0
@@ -42,9 +43,9 @@
 1018	Northern Exposure	0	2	0	0
 1019	Musk of the Moose	1	10	10	10
 1020	Snarl of the Timberwolf	1	4	10	5
-					
-# Skills available to Turtle Tamers					
-					
+
+# Skills available to Turtle Tamers
+
 2000	Patience of the Tortoise	1	9	1	5
 2003	Headbutt	3	5	3	0
 2004	Skin of the Leatherback	0	2	0	0
@@ -62,14 +63,14 @@
 2020	Hero of the Half-Shell	0	2	0	0
 2021	Tao of the Terrapin	0	2	0	0
 2022	Spectral Snapper	3	5	20	0
-					
+
 2103	Head + Knee Combo	3	1	8	0
 2105	Head + Shield Combo	3	1	9	0
 2106	Knee + Shield Combo	3	1	10	0
 2107	Head + Knee + Shield Combo	3	1	13	0
-					
-# Skills available to Pastamancers					
-					
+
+# Skills available to Pastamancers
+
 3000	Manicotti Meditation	1	9	1	5
 3003	Minor Ray of Something	3	6	4	0
 3004	Entangling Noodles	3	7	3	0
@@ -84,23 +85,23 @@
 3014	Spirit of Ravioli	0	2	0	0
 3015	Springy Fusilli	1	10	10	10
 3016	Tolerance of the Kitchen	0	2	0	0
-					
-# The following is the skill which appears on the character sheet					
-					
+
+# The following is the skill which appears on the character sheet
+
 3017	Flavour of Magic	0	1	0	0
 3018	Transcendental Noodlecraft	0	1	0	0
 3019	Fearful Fettucini	3	6	35	0
-					
-# The 5 sub-skills of Flavour of Magic usable from the Use Skills page:					
-					
+
+# The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
+
 3101	Spirit of Cayenne	1	4	10	40
 3102	Spirit of Peppermint	1	4	10	40
 3103	Spirit of Garlic	1	4	10	40
 3104	Spirit of Wormwood	1	4	10	40
 3105	Spirit of Bacon Grease	1	4	10	40
-					
-# Skills available to Saucerors					
-					
+
+# Skills available to Saucerors
+
 4000	Sauce Contemplation	1	9	1	5
 4003	Stream of Sauce	3	6	3	0
 4004	Expert Panhandling	0	10	0	0
@@ -118,9 +119,9 @@
 4017	Immaculate Seasoning	0	4	0	0
 4018	The Way of Sauce	0	1	0	0
 4019	Scarysauce	2	6	10	10
-					
-# Skills available to Bandits					
-					
+
+# Skills available to Bandits
+
 5000	Disco Aerobics	1	9	1	5
 5003	Disco Eye-Poke	3	7	3	0
 5004	Nimble Fingers	0	10	0	0
@@ -138,9 +139,9 @@
 5017	Smooth Movement	1	10	10	10
 5018	Superhuman Cocktailcrafting	0	1	0	0
 5019	Tango of Terror	3	7	8	0
-					
-# Skills available to Thieves					
-					
+
+# Skills available to Thieves
+
 6000	Moxie of the Mariachi	1	9	1	5
 6003	Aloysius' Antiphon of Aptitude	2	10	40	5
 6004	The Moxious Madrigal	2	9	2	5
