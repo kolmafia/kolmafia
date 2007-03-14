@@ -1399,7 +1399,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 
 		if ( StaticEntity.getBooleanProperty( "relayAddsRoundNumber" ) )
-			StaticEntity.singleStringReplace( buffer, "<b>Combat!</b>", "<b>Combat: Round " + FightRequest.getCurrentRound() + "</b>" );
+			StaticEntity.singleStringReplace( buffer, "<b>Combat!</b>", "<b>Combat: Round " + FightRequest.getDisplayRound() + "</b>" );
 	}
 
 	private static void addUseLinks( String location, StringBuffer buffer )
