@@ -1015,7 +1015,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				StaticEntity.singleStringReplace( buffer, "</head>", "<script language=\"Javascript\" src=\"/KoLmafia/sorttable.js\"></script></head>" );
 				StaticEntity.singleStringReplace( buffer, "<table><tr><td class=small>", "<table class=\"sortable\" id=\"history\"><tr><td class=small>" );
 				StaticEntity.globalStringReplace( buffer, "<tr><td colspan=9", "<tr class=\"sortbottom\" style=\"display:none\"><td colspan=9" );
-				StaticEntity.globalStringReplace( buffer, "<td></td>", "<td><img src=\"http://69.16.150.201/itemimages/confused.gif\" title=\"No Data\" alt=\"No Data\" height=30 width=30></td>" );
+				StaticEntity.globalStringReplace( buffer, "<td></td>", "<td><img src=\"http://images.kingdomofloathing.com/itemimages/confused.gif\" title=\"No Data\" alt=\"No Data\" height=30 width=30></td>" );
 			}
 		}
 
@@ -1060,45 +1060,84 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static void addPreAscensionReminders( StringBuffer buffer )
 	{
-		buffer.delete( buffer.indexOf( "By" ), buffer.indexOf( "<p><center>" ) );
+		buffer.delete( buffer.indexOf( "<p>Are you" ), buffer.indexOf( "<p><center>" ) );
+		StaticEntity.singleStringReplace( buffer, "<p>Please", " Please" );
 
 		StringBuffer predictions = new StringBuffer();
 
 		predictions.append( "</center></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 		predictions.append( "<td><div style=\"padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px\"><font size=-1>" );
 		MoonPhaseDatabase.addPredictionHTML( predictions, new Date(), MoonPhaseDatabase.getPhaseStep(), false );
-		predictions.append( "</font></div></td></tr><tr><td align=center colspan=3><br>" );
+		predictions.append( "</font></div></td></tr><tr><td colspan=3><br>" );
 		predictions.append( LINE_BREAK );
 		predictions.append( LINE_BREAK );
 
 		StaticEntity.singleStringReplace( buffer, "</center><p>", predictions.toString() );
-		StringBuffer reminders = new StringBuffer();
-
-		reminders.append( "<table><tr>" );
-		reminders.append( "<td align=right valign=center><img src=\"http://images.kingdomofloathing.com/" );
-		reminders.append( FamiliarsDatabase.getFamiliarImageLocation( KoLCharacter.getFamiliar().getId() ) );
-		reminders.append( "\"></td><td valign=center align=left><nobr>&nbsp;<b>" );
-		reminders.append( KoLCharacter.getFamiliar().getName() );
-		reminders.append( "</b>, the " );
-		reminders.append( KoLCharacter.getFamiliar().getWeight() );
-		reminders.append( "-pound " );
-		reminders.append( KoLCharacter.getFamiliar().getRace() );
-		reminders.append( "</nobr></td></tr></table>" );
 
 		int startPoint = 0;
+		String classImage = "http://images.kingdomofloathing.com/itemimages/confused.gif";
 
 		if ( KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER ) )
+		{
 			startPoint = 1000;
+			classImage = "http://images.kingdomofloathing.com/itemimages/club.gif";
+		}
 		else if ( KoLCharacter.getClassType().equals( KoLCharacter.TURTLE_TAMER ) )
+		{
 			startPoint = 2000;
+			classImage = "http://images.kingdomofloathing.com/itemimages/turtle.gif";
+		}
 		else if ( KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER ) )
+		{
 			startPoint = 3000;
+			classImage = "http://images.kingdomofloathing.com/itemimages/pastaspoon.gif";
+		}
 		else if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+		{
 			startPoint = 4000;
+			classImage = "http://images.kingdomofloathing.com/itemimages/saucepan.gif";
+		}
 		else if ( KoLCharacter.getClassType().equals( KoLCharacter.DISCO_BANDIT ) )
+		{
 			startPoint = 5000;
+			classImage = "http://images.kingdomofloathing.com/itemimages/discoball.gif";
+		}
 		else if ( KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF ) )
+		{
 			startPoint = 6000;
+			classImage = "http://images.kingdomofloathing.com/itemimages/accordion.gif";
+		}
+
+		StringBuffer reminders = new StringBuffer();
+		reminders.append( "<br><table>" );
+
+		reminders.append( "<tr><td><img id = 'current' src=\"http://images.kingdomofloathing.com/" );
+		reminders.append( FamiliarsDatabase.getFamiliarImageLocation( KoLCharacter.getFamiliar().getId() ) );
+		reminders.append( "\"></td><td><select id=\"familiar\" style=\"width: 250px\" onChange=\"var select = document.getElementById('familiar');  var option = select.options[select.selectedIndex]; top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=familiar+' + option.value; document.getElementById('current').src = 'http://images.kingdomofloathing.com/' + option.id; return true;\"><option value=\"none\">- No Familiar -</option>" );
+
+		Object [] familiars = KoLCharacter.getFamiliarList().toArray();
+
+		for ( int i = 1; i < familiars.length; ++i )
+		{
+			reminders.append( "<option id=\"" );
+			reminders.append( FamiliarsDatabase.getFamiliarImageLocation( ((FamiliarData)familiars[i]).getId() ) );
+			reminders.append( "\" value=\"" );
+			reminders.append( StaticEntity.globalStringReplace( ((FamiliarData)familiars[i]).getRace(), " ", "+" ) );
+			reminders.append( "\"" );
+
+			if ( familiars[i].equals( KoLCharacter.getFamiliar() ) )
+				reminders.append( " selected" );
+
+			reminders.append( ">" );
+			reminders.append( ((FamiliarData)familiars[i]).getRace() );
+			reminders.append( " (" );
+			reminders.append( ((FamiliarData)familiars[i]).getWeight() );
+			reminders.append( " lbs.)" );
+			reminders.append( "</option>" );
+		}
+
+		reminders.append( "</select></td><td><input type=submit class=button value=\"Ascend\"><input type=hidden name=confirm value=on><input type=hidden name=confirm2 value=on></td></tr>" );
+		reminders.append( "</table>" );
 
 		reminders.append( "<br><table cellspacing=10 cellpadding=10><tr>" );
 		reminders.append( "<td bgcolor=\"#eeffee\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Skills You Didn't Buy</th></tr><tr><td align=center><font size=\"-1\">" );
@@ -1150,8 +1189,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			reminders.append( "<nobr>blow up your bartender</nobr><br>" );
 
 		reminders.append( "</font></td></tr></table></td></tr></table>" );
-		reminders.append( "<br><input type=hidden name=confirm value=on><input type=hidden name=confirm2 value=on><input type=submit class=button value=\"I've Reviewed Everything.  Let Me Ascend!\"><br><br>" );
 
+		reminders.append( "<br><br>" );
 		StaticEntity.singleStringReplace( buffer, "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)", reminders.toString() );
 		return;
 	}
@@ -1271,7 +1310,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		buffer.append( LINE_BREAK );
 
 		buffer.append( "<tr><td colspan=2>&nbsp;</td></tr><tr><td>&nbsp;</td><td>" );
-		buffer.append( "<input class=button type=submit value=\"Resurrect\"> <input type=checkbox name=\"confirm\"> (confirm)</td></tr></table></center></form>" );
+		buffer.append( "<input class=button type=submit value=\"Resurrect\"><input type=hidden name=\"confirm\" value=on></td></tr></table></center></form>" );
 		buffer.append( LINE_BREAK );
 		buffer.append( LINE_BREAK );
 
