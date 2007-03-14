@@ -1263,8 +1263,7 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( isRatQuest )
 			KoLmafia.addTavernLocation( this );
 
-		if ( !formURLString.equals( "fight.php" ) || data.isEmpty() )
-			encounter = AdventureRequest.registerEncounter( this );
+		encounter = AdventureRequest.registerEncounter( this );
 
 		if ( formURLString.equals( "fight.php" ) )
 			FightRequest.updateCombatData( encounter, responseText );
