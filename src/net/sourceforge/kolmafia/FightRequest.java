@@ -831,7 +831,11 @@ public class FightRequest extends KoLRequest
 		}
 	}
 
-	public static int getCurrentRound()
+	public static int getActualRound()
+	{	return currentRound;
+	}
+
+	public static int getDisplayRound()
 	{	return trackedRound;
 	}
 
