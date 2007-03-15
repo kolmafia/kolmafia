@@ -74,8 +74,8 @@ import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
 
 public class FamiliarTrainingFrame extends KoLFrame
 {
-	private static final Pattern PRIZE_PATTERN = Pattern.compile( "You acquire an item: <b>(.*?)</b>" );
-
+	private static final Pattern PRIZE_PATTERN = Pattern.compile( "You've earned a prize from the Arena Goodies Sack!.*You acquire an item: <b>(.*?)</b>" );
+	private static final Pattern STEAL_PATTERN = Pattern.compile( "She also drops an item from her mouth.*You acquire an item: <b>(.*?)</b>" );
 	private static final Pattern CAGELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>(.*?\\1.*?\\.<p>)\\1 struggles for" );
 	private static final Pattern HUNTLOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in a Scavenger Hunt.<p>(.*?\\1.*?\\.<p>)\\1 finds" );
 	private static final Pattern COURSELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in an Obstacle Course race.<p>(.*?\\1.*?\\.<p>)\\1 makes it through the obstacle course" );
@@ -95,6 +95,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	// Familiars
 	private static final int DODECAPEDE = 38;
+	private static final int CHAMELEON = 54;
 
 	// Familiar buffing skills and effects
 	public static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0, true );
@@ -713,12 +714,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return false;
 		}
 
-		if ( KoLCharacter.hasItem( PUMPKIN_BASKET ) )
-			RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
-		else if ( status.familiarItemWeight != 0 && KoLCharacter.hasItem( status.familiarItem ) )
-			RequestThread.postRequest( new EquipmentRequest( status.familiarItem, KoLCharacter.FAMILIAR ) );
-		else if ( KoLCharacter.hasItem( LEAD_NECKLACE ) )
-			RequestThread.postRequest( new EquipmentRequest( LEAD_NECKLACE, KoLCharacter.FAMILIAR ) );
+		if ( familiar.getId() != CHAMELEON )
+		{
+			if ( KoLCharacter.hasItem( PUMPKIN_BASKET ) )
+				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
+			else if ( status.familiarItemWeight != 0 && KoLCharacter.hasItem( status.familiarItem ) )
+				RequestThread.postRequest( new EquipmentRequest( status.familiarItem, KoLCharacter.FAMILIAR ) );
+			else if ( KoLCharacter.hasItem( LEAD_NECKLACE ) )
+				RequestThread.postRequest( new EquipmentRequest( LEAD_NECKLACE, KoLCharacter.FAMILIAR ) );
+		}
 
 		boolean result = type == BUFFED ? buffFamiliar( goal ) : true;
 
@@ -1468,10 +1472,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( doppelganger == null && !KoLCharacter.isHardcore() && DOPPELGANGER.getCount( inventory ) > 0 )
 				doppelganger = DOPPELGANGER;
 
-			// If we don't have a lead necklace or a rat head
-			// balloon, search other familiars; we'll steal it from
-			// them if necessary
-			else if ( leadNecklace == null || ratHeadBalloon == null || pumpkinBasket == null )
+			// If we're not training a chameleon and we don't have
+			// a lead necklace or a rat head balloon, search other
+			// familiars; we'll steal it from them if necessary
+			else if ( familiar.getId() != CHAMELEON && ( leadNecklace == null || ratHeadBalloon == null || pumpkinBasket == null ) )
 			{
 				// Find first familiar with item
 				LockableListModel familiars = KoLCharacter.getFamiliarList();
@@ -1579,8 +1583,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void getItemWeights( int weight )
 		{
-			// Only consider familiar items if you have no doppelganger
-			if ( doppelganger == null )
+			// Get current familiar
+			FamiliarData familiar = KoLCharacter.getFamiliar();
+
+			// Only consider familiar items if current familiar is
+			// not a chameleon and you have no doppelganger
+			if ( familiar.getId() != CHAMELEON && doppelganger == null )
 			{
 				// If familiar specific item adds weight, calculate
 				if ( specWeight != 0 )
@@ -1795,7 +1803,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void getItemGearSets( int weight, AdventureResult hat )
 		{
-			if ( doppelganger != null )
+			// Get current familiar
+			FamiliarData familiar = KoLCharacter.getFamiliar();
+
+			// If it's a comma chameleon or we have a doppelganger,
+			// don't look at familiar items.
+			if ( familiar.getId() == CHAMELEON || doppelganger != null )
 			{
 				getAccessoryGearSets( weight, doppelganger, hat );
 				return;
@@ -1928,11 +1941,23 @@ public class FamiliarTrainingFrame extends KoLFrame
 			statusMessage( CONTINUE_STATE, message );
 
 			// If a prize was won, report it
-			Matcher matcher = PRIZE_PATTERN.matcher( response );
-			if ( matcher.find() )
+			Matcher prizeMatcher = PRIZE_PATTERN.matcher( response );
+			Matcher stealMatcher = STEAL_PATTERN.matcher( response );
+			String prize = null;
+
+			if ( prizeMatcher.find() )
 			{
-				String prize = matcher.group(1);
+				prize = prizeMatcher.group(1);
 				statusMessage( CONTINUE_STATE, "You win a prize: " + prize + "." );
+			}
+			else if ( stealMatcher.find() )
+			{
+				prize = stealMatcher.group(1);
+				statusMessage( CONTINUE_STATE, "Your familiar steals an item: " + prize + "." );
+			}
+
+			if ( prize != null) 
+			{
 				if ( prize.equals( LEAD_NECKLACE.getName() ) )
 				{
 					leadNecklace = LEAD_NECKLACE;
