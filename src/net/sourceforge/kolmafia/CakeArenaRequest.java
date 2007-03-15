@@ -97,7 +97,10 @@ public class CakeArenaRequest extends KoLRequest
 			// "Congratulations on your 590th arena win.  You've
 			// earned a prize from the Arena Goodies Sack!"
 
-			if ( responseText.indexOf( "Congratulations" ) != -1 )
+			// "Copycat Grrl is the winner, and gains 5 experience!"
+
+			if ( responseText.indexOf( "Congratulations" ) != -1 ||
+			     responseText.indexOf( "is the winner" ) != -1)
 				KoLCharacter.setArenaWins( KoLCharacter.getArenaWins() + 1 );
 			return;
 		}
