@@ -715,6 +715,21 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( KoLCharacter.hasItem( KoLmafia.SATCHEL ) && location.startsWith( "guild.php" ) && location.indexOf( "place=paco" ) != -1 )
 			StaticEntity.getClient().processResult( KoLmafia.SATCHEL.getNegation() );
 
+		// On SSPD you can trade a button for a glowstick
+
+		if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON ) &&
+			responseText.indexOf( "You hand him your button and take his glowstick" ) != -1 )
+		{
+			String name = KoLmafia.NOVELTY_BUTTON.getName();
+			if ( KoLCharacter.hasEquipped( name, KoLCharacter.ACCESSORY1 ) )
+				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY1, EquipmentRequest.UNEQUIP );
+			else if ( KoLCharacter.hasEquipped( name, KoLCharacter.ACCESSORY2 ) )
+				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY2, EquipmentRequest.UNEQUIP );
+			else
+				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY3, EquipmentRequest.UNEQUIP );
+			StaticEntity.getClient().processResult( KoLmafia.NOVELTY_BUTTON.getNegation() );
+		}
+
 		// If this is an ascension, make sure to refresh the
 		// session, be it relay or mini-browser.
 

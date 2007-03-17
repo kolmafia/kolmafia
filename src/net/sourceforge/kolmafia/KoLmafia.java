@@ -127,6 +127,7 @@ public abstract class KoLmafia implements KoLConstants
 	private static final AdventureResult CATNIP = new AdventureResult( 1486, 1 );
 	private static final AdventureResult GLIDER = new AdventureResult( 1487, 1 );
 	public static final AdventureResult SATCHEL = new AdventureResult( 1656, 1 );
+	public static final AdventureResult NOVELTY_BUTTON = new AdventureResult( 2072, 1 );
 
 	private static final ArrayList stopEncounters = new ArrayList();
 
