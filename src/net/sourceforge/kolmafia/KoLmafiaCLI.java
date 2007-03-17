@@ -2495,7 +2495,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			return true;
 		}
-		else if ( option.equals( "add" ) )
+		else if ( option.equals( "add" ) || option.equals( "set" ) )
 		{
 			AdventureResult condition;
 			String [] conditionsList = parameters.substring( option.length() ).toLowerCase().trim().split( "\\s*,\\s*" );
@@ -2506,7 +2506,25 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( condition == null )
 					continue;
 
-				if ( condition.getCount() > 0 )
+				if ( condition.isItem() && option.equals( "set" ) )
+				{
+					int inventoryAmount = condition.getCount( inventory );
+
+					if ( condition.getCount( conditions ) >= condition.getCount() )
+					{
+						RequestLogger.printLine( "Condition already exists: " + condition );
+					}
+					else if ( inventoryAmount >= condition.getCount() )
+					{
+						RequestLogger.printLine( "Condition already met: " + condition );
+					}
+					else
+					{
+						AdventureResult.addResultToList( conditions, condition.getInstance( condition.getCount() - inventoryAmount ) );
+						RequestLogger.printLine( "Condition set: " + condition );
+					}
+				}
+				else if ( condition.getCount() > 0 )
 				{
 					AdventureResult.addResultToList( conditions, condition );
 					RequestLogger.printLine( "Condition added: " + condition );
@@ -2556,67 +2574,27 @@ public class KoLmafiaCLI extends KoLmafia
 			String [] splitCondition = conditionString.split( "\\s+" );
 			int level = StaticEntity.parseInt( splitCondition[1] );
 
-			int [] subpoints = new int[3];
 			int primeIndex = KoLCharacter.getPrimeIndex();
 
-			subpoints[ primeIndex ] = KoLCharacter.calculateSubpoints( (level - 1) * (level - 1) + 4, 0 ) -
+			AdventureResult.CONDITION_SUBSTATS[ primeIndex ] = KoLCharacter.calculateSubpoints( (level - 1) * (level - 1) + 4, 0 ) -
 				KoLCharacter.getTotalPrime();
 
-			for ( int i = 0; i < subpoints.length; ++i )
-				subpoints[i] = Math.max( 0, subpoints[i] );
-
-			condition = new AdventureResult( subpoints );
-
-			// Make sure that if there was a previous substat condition,
-			// and it modifies the same stat as this condition, that the
-			// greater of the two remains and the two aren't added.
-
-			int previousIndex = conditions.indexOf( condition );
-			if ( previousIndex != -1 )
-			{
-				AdventureResult previousCondition = (AdventureResult) conditions.get( previousIndex );
-
-				for ( int i = 0; i < subpoints.length; ++i )
-					if ( subpoints[i] != 0 && previousCondition.getCount(i) != 0 )
-						subpoints[i] = Math.max( 0, subpoints[i] - previousCondition.getCount(i) );
-
-				condition = new AdventureResult( subpoints );
-			}
+			condition = AdventureResult.CONDITION_SUBSTATS_RESULT;
 		}
 		else if ( conditionString.endsWith( "mus" ) || conditionString.endsWith( "muscle" ) || conditionString.endsWith( "moxie" ) ||
 			conditionString.endsWith( "mys" ) || conditionString.endsWith( "myst" ) || conditionString.endsWith( "mox" ) || conditionString.endsWith( "mysticality" ) )
 		{
 			String [] splitCondition = conditionString.split( "\\s+" );
+
 			int points = StaticEntity.parseInt( splitCondition[0] );
-
-			int [] subpoints = new int[3];
 			int statIndex = conditionString.indexOf( "mus" ) != -1 ? 0 : conditionString.indexOf( "mys" ) != -1 ? 1 : 2;
-			subpoints[ statIndex ] = KoLCharacter.calculateSubpoints( points, 0 );
 
-			subpoints[ statIndex ] -= conditionString.indexOf( "mus" ) != -1 ? KoLCharacter.getTotalMuscle() :
-				conditionString.indexOf( "mys" ) != -1 ? KoLCharacter.getTotalMysticality() :
-				KoLCharacter.getTotalMoxie();
+			AdventureResult.CONDITION_SUBSTATS[ statIndex ] = KoLCharacter.calculateSubpoints( points, 0 );
+			AdventureResult.CONDITION_SUBSTATS[ statIndex ] = Math.max( 0, AdventureResult.CONDITION_SUBSTATS[ statIndex ] -
+				(conditionString.indexOf( "mus" ) != -1 ? KoLCharacter.getTotalMuscle() :
+				conditionString.indexOf( "mys" ) != -1 ? KoLCharacter.getTotalMysticality() : KoLCharacter.getTotalMoxie()) );
 
-			for ( int i = 0; i < subpoints.length; ++i )
-				subpoints[i] = Math.max( 0, subpoints[i] );
-
-			condition = new AdventureResult( subpoints );
-
-			// Make sure that if there was a previous substat condition,
-			// and it modifies the same stat as this condition, that the
-			// greater of the two remains and the two aren't added.
-
-			int previousIndex = conditions.indexOf( condition );
-			if ( previousIndex != -1 )
-			{
-				AdventureResult previousCondition = (AdventureResult) conditions.get( previousIndex );
-
-				for ( int i = 0; i < subpoints.length; ++i )
-					if ( subpoints[i] != 0 && previousCondition.getCount(i) != 0 )
-						subpoints[i] = Math.max( 0, subpoints[i] - previousCondition.getCount(i) );
-
-				condition = new AdventureResult( subpoints );
-			}
+			condition = AdventureResult.CONDITION_SUBSTATS_RESULT;
 		}
 		else if ( conditionString.endsWith( "health" ) || conditionString.endsWith( "mana" ) )
 		{
@@ -2682,13 +2660,6 @@ public class KoLmafiaCLI extends KoLmafia
 			condition = getFirstMatchingItem( conditionString );
 			if ( condition == null )
 				return null;
-
-			if ( !useDisjunction )
-			{
-				int currentCount = condition.getCount( inventory );
-				if ( currentCount > 0 )
-					condition = condition.getInstance( condition.getCount() - currentCount );
-			}
 		}
 
 		return condition;

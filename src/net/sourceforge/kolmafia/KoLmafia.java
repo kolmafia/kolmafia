@@ -113,7 +113,6 @@ public abstract class KoLmafia implements KoLConstants
 	public static int continuationState = CONTINUE_STATE;
 
 	public static int [] initialStats = new int[3];
-	public static int [] fullStatGain = new int[3];
 
 	public static boolean executedLogin = false;
 	public static boolean useDisjunction = false;
@@ -722,15 +721,15 @@ public abstract class KoLmafia implements KoLConstants
 		initialStats[1] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() );
 		initialStats[2] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() );
 
-		fullStatGain[0] = 0;
-		fullStatGain[1] = 0;
-		fullStatGain[2] = 0;
+		AdventureResult.SESSION_FULLSTATS[0] = 0;
+		AdventureResult.SESSION_FULLSTATS[1] = 0;
+		AdventureResult.SESSION_FULLSTATS[2] = 0;
 
 		tally.clear();
 		tally.add( new AdventureResult( AdventureResult.ADV ) );
 		tally.add( new AdventureResult( AdventureResult.MEAT ) );
-		tally.add( new AdventureResult( AdventureResult.SUBSTATS ) );
-		tally.add( new AdventureResult( AdventureResult.FULLSTATS ) );
+		tally.add( AdventureResult.SESSION_SUBSTATS_RESULT );
+		tally.add( AdventureResult.SESSION_FULLSTATS_RESULT );
 	}
 
 	/**
@@ -849,18 +848,15 @@ public abstract class KoLmafia implements KoLConstants
 			AdventureResult.addResultToList( tally, result );
 		}
 
-		int effectCount = activeEffects.size();
 		KoLCharacter.processResult( result );
-
-		shouldRefresh |= effectCount != activeEffects.size();
 		shouldRefresh |= result.getName().equals( AdventureResult.MEAT );
 
 		// Process the adventure result through the conditions
 		// list, removing it if the condition is satisfied.
 
-		int conditionsIndex = conditions.indexOf( result );
+		int conditionIndex = conditions.indexOf( result );
 
-		if ( conditionsIndex != -1 )
+		if ( conditionIndex != -1 )
 		{
 			if ( resultName.equals( AdventureResult.SUBSTATS ) )
 			{
@@ -869,23 +865,18 @@ public abstract class KoLmafia implements KoLConstants
 				// applicable, and remove the substat condition
 				// if the overall count dropped to zero.
 
-				AdventureResult condition = (AdventureResult) conditions.get( conditionsIndex );
-
-				int [] substats = new int[3];
 				for ( int i = 0; i < 3; ++i )
 				{
-					if ( condition.getCount(i) == 0 )
+					if ( AdventureResult.CONDITION_SUBSTATS[i] == 0 )
 						continue;
 
-					substats[i] = Math.max( 0, condition.getCount(i) - result.getCount(i) );
+					AdventureResult.CONDITION_SUBSTATS[i] = Math.max( 0, AdventureResult.CONDITION_SUBSTATS[i] - result.getCount(i) );
 				}
 
-				condition = new AdventureResult( substats );
-
-				if ( condition.getCount() == 0 )
-					conditions.remove( conditionsIndex );
+				if ( AdventureResult.CONDITION_SUBSTATS_RESULT.getCount() == 0 )
+					conditions.remove( conditionIndex );
 				else
-					conditions.set( conditionsIndex, condition );
+					conditions.fireContentsChanged( conditions, conditionIndex, conditionIndex );
 			}
 			else
 			{
@@ -903,22 +894,19 @@ public abstract class KoLmafia implements KoLConstants
 		if ( resultName.equals( AdventureResult.SUBSTATS ) && tally.size() >= 3 )
 		{
 			int currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() ) - initialStats[0];
-			shouldRefresh |= fullStatGain[0] != currentTest;
-			fullStatGain[0] = currentTest;
+			shouldRefresh |= AdventureResult.SESSION_FULLSTATS[0] != currentTest;
+			AdventureResult.SESSION_FULLSTATS[0] = currentTest;
 
 			currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() ) - initialStats[1];
-			shouldRefresh |= fullStatGain[1] != currentTest;
-			fullStatGain[1] = currentTest;
+			shouldRefresh |= AdventureResult.SESSION_FULLSTATS[1] != currentTest;
+			AdventureResult.SESSION_FULLSTATS[1] = currentTest;
 
 			currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() ) - initialStats[2];
-			shouldRefresh |= fullStatGain[2] != currentTest;
-			fullStatGain[2] = currentTest;
+			shouldRefresh |= AdventureResult.SESSION_FULLSTATS[2] != currentTest;
+			AdventureResult.SESSION_FULLSTATS[2] = currentTest;
 
 			if ( tally.size() > 3 )
-			{
-				AdventureResult stats = (AdventureResult) tally.get(3);
-				tally.set( 3, stats.getInstance( fullStatGain ) );
-			}
+				tally.fireContentsChanged( tally, 3, 3 );
 		}
 
 		return shouldRefresh;
