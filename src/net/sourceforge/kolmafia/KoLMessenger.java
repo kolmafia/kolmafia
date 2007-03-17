@@ -134,6 +134,7 @@ public abstract class KoLMessenger extends StaticEntity
 	private static boolean enableMonitor = false;
 	private static boolean channelsSeparate = false;
 	private static boolean privateSeparate = false;
+	private static boolean eventsIgnored = false;
 
 	private static boolean useTabbedChat = false;
 	private static boolean highlighting = false;
@@ -160,6 +161,7 @@ public abstract class KoLMessenger extends StaticEntity
 		enableMonitor = StaticEntity.getBooleanProperty( "useChatMonitor" );
 		channelsSeparate = StaticEntity.getBooleanProperty( "useSeparateChannels" );
 		privateSeparate = StaticEntity.getBooleanProperty( "useSeparatePrivates" );
+		eventsIgnored = StaticEntity.getBooleanProperty( "greenScreenProtection" );
 	}
 
 	public static String getChatLogName( String key )
@@ -700,9 +702,9 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( bufferKey ) )
 			return;
 
-		processChatMessage( channel, message, bufferKey );
+		processChatMessage( channel, message, bufferKey, eventsIgnored );
 		if ( !bufferKey.equals( "[ALL]" ) )
-			processChatMessage( channel, message, "[ALL]" );
+			processChatMessage( channel, message, "[ALL]", true );
 
 		// If it's a private message, then it's possible the player wishes
 		// to run some command.
@@ -787,7 +789,7 @@ public abstract class KoLMessenger extends StaticEntity
 	{	return lastBlueMessage;
 	}
 
-	private static void processChatMessage( String channel, String message, String bufferKey )
+	private static void processChatMessage( String channel, String message, String bufferKey, boolean ignoreEvents )
 	{
 		try
 		{
@@ -796,6 +798,9 @@ public abstract class KoLMessenger extends StaticEntity
 			if ( displayHTML.startsWith( "<!-- EVENT -->" ) )
 			{
 				if ( BuffBotHome.isBuffBotActive() )
+					return;
+
+				if ( ignoreEvents )
 					return;
 
 				bufferKey = "[events]";
@@ -1003,7 +1008,8 @@ public abstract class KoLMessenger extends StaticEntity
 		try
 		{
 			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUserName() + ": " +
-				channel + " - Started " + Calendar.getInstance().getTime().toString(), true, true );
+				channel + " - Started " + Calendar.getInstance().getTime().toString(), true,
+				isRunning && (!channel.equals( "[ALL]" ) || StaticEntity.getBooleanProperty( "useSeparateChannels" )) );
 
 			instantMessageBuffers.put( channel, buffer );
 			if ( channel.startsWith( "/" ) )

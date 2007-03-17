@@ -487,6 +487,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "defaultLimit", "5" );
 		CLIENT_SETTINGS.put( "defaultLoginServer", "1" );
 		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
+		CLIENT_SETTINGS.put( "greenScreenProtection", "false" );
 		CLIENT_SETTINGS.put( "guiUsesOneWindow", "false" );
 		CLIENT_SETTINGS.put( "highlightList", "" );
 		CLIENT_SETTINGS.put( "http.proxyHost", "" );
