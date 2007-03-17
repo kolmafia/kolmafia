@@ -45,6 +45,10 @@ import javax.swing.JList;
 
 public class AdventureResult implements Comparable, KoLConstants
 {
+	public static final int [] SESSION_SUBSTATS = new int[3];
+	public static final int [] SESSION_FULLSTATS = new int[3];
+	public static final int [] CONDITION_SUBSTATS = new int[3];
+
 	public static final String [] STAT_NAMES = { "muscle", "mysticality", "moxie" };
 
 	private int itemId;
@@ -80,6 +84,10 @@ public class AdventureResult implements Comparable, KoLConstants
 		MOX_SUBSTAT.add( "Cheek" );  MOX_SUBSTAT.add( "Chutzpah" );  MOX_SUBSTAT.add( "Roguishness" );  MOX_SUBSTAT.add( "Sarcasm" );  MOX_SUBSTAT.add( "Smarm" );
 	}
 
+	public static final AdventureResult SESSION_SUBSTATS_RESULT = new AdventureResult( SUBSTATS, SESSION_SUBSTATS );
+	public static final AdventureResult SESSION_FULLSTATS_RESULT = new AdventureResult( FULLSTATS, SESSION_FULLSTATS );
+	public static final AdventureResult CONDITION_SUBSTATS_RESULT = new AdventureResult( SUBSTATS, CONDITION_SUBSTATS );
+
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name.
 	 * The amount of gain will default to zero.  This constructor should
@@ -91,7 +99,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	public AdventureResult( String name )
 	{
 		this.name = name;
-		this.count = name.equals( SUBSTATS ) || name.equals( FULLSTATS ) ? new int[3] : new int[1];
+		this.count = new int[1];
 
 		this.priority = name.equals(ADV) ? ADV_PRIORITY : name.equals(MEAT) ? MEAT_PRIORITY :
 			name.equals(HP) || name.equals(MP) || name.equals(DRUNK) ? NO_PRIORITY :
@@ -152,12 +160,20 @@ public class AdventureResult implements Comparable, KoLConstants
 	 * and increase in stat gains.
 	 */
 
-	public AdventureResult( int [] count )
+	public AdventureResult( String name, int [] count )
 	{
-		this.name = SUBSTATS;
+		this.name = name;
 		this.count = count;
-		this.itemId = -1;
-		this.priority = SUBSTAT_PRIORITY;
+
+		this.priority = name.equals(ADV) ? ADV_PRIORITY : name.equals(MEAT) ? MEAT_PRIORITY :
+			name.equals(HP) || name.equals(MP) || name.equals(DRUNK) ? NO_PRIORITY :
+			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY : name.equals(FULLSTATS) ? FULLSTAT_PRIORITY :
+			StatusEffectDatabase.contains( name ) ? EFFECT_PRIORITY : ITEM_PRIORITY;
+
+		if ( this.priority == EFFECT_PRIORITY )
+			normalizeEffectName();
+		else if ( this.priority == ITEM_PRIORITY )
+			normalizeItemName();
 	}
 
 	/**
@@ -357,7 +373,7 @@ public class AdventureResult implements Comparable, KoLConstants
 					MOX_SUBSTAT.contains( statname ) ? modifier : 0
 				};
 
-				return new AdventureResult( gained );
+				return new AdventureResult( AdventureResult.SUBSTATS, gained );
 			}
 		}
 
@@ -521,6 +537,12 @@ public class AdventureResult implements Comparable, KoLConstants
 				sourceList.add( result );
 			return;
 		}
+
+		// These don't involve any addition -- ignore this entirely
+		// for now.
+
+		if ( result == SESSION_SUBSTATS_RESULT || result == SESSION_FULLSTATS_RESULT || result == CONDITION_SUBSTATS_RESULT )
+			return;
 
 		// Compute the sum of the existing adventure result and the
 		// current adventure result, and construct the sum.
@@ -741,7 +763,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			return getInstance( quantity[0] );
 
 		if ( this.priority == SUBSTAT_PRIORITY )
-			return new AdventureResult( quantity );
+			return new AdventureResult( SUBSTATS, quantity );
 
 		AdventureResult stats = new AdventureResult( FULLSTATS );
 		stats.count = quantity;

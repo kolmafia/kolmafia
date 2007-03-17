@@ -407,7 +407,7 @@ public class EquipmentDatabase extends KoLDatabase
 		AdventureResult [] pieces = normalOutfits.get( outfitId ).getPieces();
 		for ( int i = 0; i < pieces.length; ++i )
 			if ( !KoLCharacter.hasEquipped( pieces[i] ) )
-				DEFAULT_SHELL.executeConditionsCommand( "add " + pieces[i].getName() );
+				DEFAULT_SHELL.executeConditionsCommand( "set " + pieces[i].getName() );
 	}
 
 	/**

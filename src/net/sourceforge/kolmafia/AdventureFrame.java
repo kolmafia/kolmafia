@@ -425,8 +425,15 @@ public class AdventureFrame extends KoLFrame
 				}
 				else
 				{
-					if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i] ) )
+					if ( splitConditions[i].startsWith( "+" ) )
+					{
+						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i] ) )
+							return false;
+					}
+					else if ( !DEFAULT_SHELL.executeConditionsCommand( "set " + splitConditions[i] ) )
+					{
 						return false;
+					}
 				}
 			}
 
