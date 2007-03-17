@@ -727,6 +727,10 @@ public class KoLRequest extends Job implements KoLConstants
 				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY2, EquipmentRequest.UNEQUIP );
 			else
 				KoLCharacter.setEquipment( KoLCharacter.ACCESSORY3, EquipmentRequest.UNEQUIP );
+
+			// Maintain session tally: "unequip" the button and
+			// discard it.
+			AdventureResult.addResultToList( inventory, KoLmafia.NOVELTY_BUTTON );
 			StaticEntity.getClient().processResult( KoLmafia.NOVELTY_BUTTON.getNegation() );
 		}
 
