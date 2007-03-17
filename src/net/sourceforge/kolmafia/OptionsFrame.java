@@ -538,6 +538,7 @@ public class OptionsFrame extends KoLFrame
 			useChatMonitor = new JCheckBox();
 			useSeparateChannel = new JCheckBox();
 			useSeparatePrivate = new JCheckBox();
+			greenScreenProtection = new JCheckBox();
 
 			eSoluActiveOption = new JCheckBox();
 			eSoluColorlessOption = new JCheckBox();

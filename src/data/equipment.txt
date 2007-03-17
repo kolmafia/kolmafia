@@ -660,6 +660,7 @@ Ms. Accessory	0	none
 orange glowstick	0	none
 phat turquoise bracelet	0	Mys: 20
 Pine-Fresh air freshener	0	Mys: 10
+pink glowstick	0	none
 plexiglass pendant	0	Mys: 75
 plexiglass pinky ring	0	Mys: 75
 plexiglass pocketwatch	0	Mys: 75
