@@ -507,25 +507,25 @@ public class AdventureResult implements Comparable, KoLConstants
 	 * @param	result	The result to add to the tally
 	 */
 
-	public static void addResultToList( List tally, AdventureResult result )
+	public static void addResultToList( List sourceList, AdventureResult result )
 	{
-		int index = tally.indexOf( result );
+		int index = sourceList.indexOf( result );
 
 		// First, filter out things where it's a simple addition of an
 		// item, or something which may not result in a change in the
-		// state of the tally list.
+		// state of the sourceList list.
 
 		if ( index == -1 )
 		{
 			if ( !result.isItem() || result.getCount() != 0 )
-				tally.add( result );
+				sourceList.add( result );
 			return;
 		}
 
 		// Compute the sum of the existing adventure result and the
 		// current adventure result, and construct the sum.
 
-		AdventureResult current = (AdventureResult) tally.get( index );
+		AdventureResult current = (AdventureResult) sourceList.get( index );
 		AdventureResult sumResult;
 
 		if ( current.count.length == 1 )
@@ -544,7 +544,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		{
 			if ( sumResult.isItem() || sumResult.isStatusEffect() )
 			{
-				tally.remove( index );
+				sourceList.remove( index );
 				return;
 			}
 		}
@@ -552,12 +552,12 @@ public class AdventureResult implements Comparable, KoLConstants
 		{
 			if ( sumResult.isStatusEffect() )
 			{
-				tally.remove( index );
+				sourceList.remove( index );
 				return;
 			}
 		}
 
-		tally.set( index, sumResult );
+		sourceList.set( index, sumResult );
 	}
 
 	public static DefaultListCellRenderer getDefaultRenderer()

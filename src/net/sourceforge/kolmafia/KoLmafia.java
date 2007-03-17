@@ -812,20 +812,6 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public boolean processResult( AdventureResult result )
-	{	return processResult( result, true );
-	}
-
-	/**
-	 * Utilit.  This method used to process a result, and the user wishes to
-	 * specify whether or not the result should be added to the running
-	 * tally.  This is used whenever the nature of the result is already
-	 * known and no additional parsing is needed.
-	 *
-	 * @param	result	Result to add to the running tally of adventure results
-	 * @param	shouldTally	Whether or not the result should be added to the running tally
-	 */
-
-	public boolean processResult( AdventureResult result, boolean shouldTally )
 	{
 		// This should not happen, but check just in case and
 		// return if the result was null.
@@ -834,14 +820,8 @@ public abstract class KoLmafia implements KoLConstants
 			return false;
 
 		RequestLogger.updateDebugLog( "Processing result: " + result );
+
 		String resultName = result.getName();
-
-		// This should not happen, but check just in case and
-		// return if the result name was null.
-
-		if ( resultName == null )
-			return false;
-
 		boolean shouldRefresh = false;
 
 		// Process the adventure result in this section; if
@@ -850,8 +830,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( result.isStatusEffect() )
 		{
+			shouldRefresh |= !activeEffects.contains( result );
 			AdventureResult.addResultToList( recentEffects, result );
-			shouldRefresh |= !activeEffects.containsAll( recentEffects );
 		}
 		else if ( resultName.equals( AdventureResult.ADV ) && result.getCount() < 0 )
 		{
@@ -865,8 +845,7 @@ public abstract class KoLmafia implements KoLConstants
 				for ( int i = 0; i < KoLAdventure.IMMATERIA.length; ++i )
 					processResult( KoLAdventure.IMMATERIA[i] );
 
-			if ( shouldTally )
-				AdventureResult.addResultToList( tally, result );
+			AdventureResult.addResultToList( tally, result );
 		}
 
 		int effectCount = activeEffects.size();
@@ -874,33 +853,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		shouldRefresh |= effectCount != activeEffects.size();
 		shouldRefresh |= result.getName().equals( AdventureResult.MEAT );
-
-		if ( !shouldTally )
-			return shouldRefresh;
-
-		// Now, if it's an actual stat gain, be sure to update the
-		// list to reflect the current value of stats so far.
-
-		if ( resultName.equals( AdventureResult.SUBSTATS ) && tally.size() >= 3 )
-		{
-			int currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() ) - initialStats[0];
-			shouldRefresh |= fullStatGain[0] != currentTest;
-			fullStatGain[0] = currentTest;
-
-			currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() ) - initialStats[1];
-			shouldRefresh |= fullStatGain[1] != currentTest;
-			fullStatGain[1] = currentTest;
-
-			currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() ) - initialStats[2];
-			shouldRefresh |= fullStatGain[2] != currentTest;
-			fullStatGain[2] = currentTest;
-
-			if ( tally.size() > 3 )
-			{
-				AdventureResult stats = (AdventureResult) tally.get(3);
-				tally.set( 3, stats.getInstance( fullStatGain ) );
-			}
-		}
 
 		// Process the adventure result through the conditions
 		// list, removing it if the condition is satisfied.
@@ -934,20 +886,37 @@ public abstract class KoLmafia implements KoLConstants
 				else
 					conditions.set( conditionsIndex, condition );
 			}
-			else if ( result.getCount( conditions ) <= result.getCount() )
-			{
-				// If this results in the satisfaction of a
-				// condition, then remove it.
-
-				conditions.remove( conditionsIndex );
-			}
-			else if ( result.getCount() > 0 )
+			else
 			{
 				// Otherwise, this was a partial satisfaction
 				// of a condition.  Decrement the count by the
 				// negation of this result.
 
 				AdventureResult.addResultToList( conditions, result.getNegation() );
+			}
+		}
+
+		// Now, if it's an actual stat gain, be sure to update the
+		// list to reflect the current value of stats so far.
+
+		if ( resultName.equals( AdventureResult.SUBSTATS ) && tally.size() >= 3 )
+		{
+			int currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() ) - initialStats[0];
+			shouldRefresh |= fullStatGain[0] != currentTest;
+			fullStatGain[0] = currentTest;
+
+			currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() ) - initialStats[1];
+			shouldRefresh |= fullStatGain[1] != currentTest;
+			fullStatGain[1] = currentTest;
+
+			currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() ) - initialStats[2];
+			shouldRefresh |= fullStatGain[2] != currentTest;
+			fullStatGain[2] = currentTest;
+
+			if ( tally.size() > 3 )
+			{
+				AdventureResult stats = (AdventureResult) tally.get(3);
+				tally.set( 3, stats.getInstance( fullStatGain ) );
 			}
 		}
 
