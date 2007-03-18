@@ -151,7 +151,7 @@ public class ItemManageFrame extends KoLFrame
 		mainPanel.add( listHolder, BorderLayout.WEST );
 		mainPanel.add( managePanel, BorderLayout.CENTER );
 
-		addTab( "Items", mainPanel );
+		tabs.addTab( "Items", mainPanel );
 		addTab( "Filters", new FlaggedItemsPanel() );
 		addTab( "Scripts", new CommonActionsPanel() );
 //		addTab( "Recipes", new InventPanel() );
