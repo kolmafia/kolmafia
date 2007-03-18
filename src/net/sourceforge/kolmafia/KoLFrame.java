@@ -1546,12 +1546,16 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	public class InventoryManagePanel extends ItemManagePanel
 	{
 		public InventoryManagePanel( LockableListModel elementModel )
+		{	this( elementModel, true );
+		}
+
+		public InventoryManagePanel( LockableListModel elementModel, boolean addFilters )
 		{
 			super( elementModel );
 
 			boolean isCloset = (elementModel == closet);
 
-			setButtons( new ActionListener [] {
+			setButtons( addFilters, new ActionListener [] {
 
 				new ConsumeListener(),
 				new PutInClosetListener( isCloset ),
