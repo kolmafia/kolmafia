@@ -2993,6 +2993,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "disable", VOID_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "user_confirm", BOOLEAN_TYPE, params ) );
+
 		// All datatypes must supply xxx_to_string and string_to_xxx
 		// methods.
 
@@ -4350,6 +4353,12 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			StaticEntity.disable( name.toStringValue().toString().toLowerCase() );
 			return VOID_VALUE;
+		}
+
+		public ScriptValue user_confirm( ScriptVariable message )
+		{
+			return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null, message.toStringValue().toString(),
+				"Scripted User Confirmation Request", JOptionPane.YES_NO_OPTION ) ? TRUE_VALUE : FALSE_VALUE;
 		}
 
 		// Here are all the methods for built-in ASH functions
