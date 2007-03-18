@@ -228,10 +228,10 @@
 228	Kentucky-fried meat staff	12	all	180
 229	Kentucky-fried meat crossbow	12	all	180
 230	dead guy's watch	8	all	60
-231	Doc Galaktik's Pungent Unguent	4	all	15
-232	Doc Galaktik's Ailment Ointment	4	all	30
-233	Doc Galaktik's Restorative Balm	4	all	60
-234	Doc Galaktik's Homeopathic Elixir	4	all	120
+231	Doc Galaktik's Pungent Unguent	16	all	15
+232	Doc Galaktik's Ailment Ointment	16	all	30
+233	Doc Galaktik's Restorative Balm	16	all	60
+234	Doc Galaktik's Homeopathic Elixir	16	all	120
 235	Bigger Bugfinder Blade	12	display	0
 236	cocktailcrafting kit	0	all	500
 237	bottle of gin	2	all	35
@@ -461,7 +461,7 @@
 461	red pixel	0	all	25
 462	green pixel	0	all	25
 463	blue pixel	0	all	25
-464	red pixel potion	4	all	50
+464	red pixel potion	16	all	50
 465	blue pixel potion	14	all	50
 466	green pixel potion	14	all	50
 467	purple pixel pie	1	all	50
@@ -471,7 +471,7 @@
 471	hot wing	1	all	32
 472	diamond-studded cane	12	all	95
 473	flaming crutch	12	all	65
-474	cast	4	all	32
+474	cast	16	all	32
 475	leather mask	9	all	65
 476	hellion cube	0	all	37
 477	infernal insoles	8	all	65
@@ -592,7 +592,7 @@
 592	tiny house	14	all	107
 593	phonics down	14	all	115
 594	amulet of extreme plot significance	8	all	205
-595	scroll of drastic healing	3	all	107
+595	scroll of drastic healing	16	all	107
 596	titanium assault umbrella	12	all	155
 597	Mohawk wig	9	all	155
 598	the Slug Lord's map	3	none	0
@@ -866,7 +866,7 @@
 866	shaving cream	4	all	35
 867	pine tar	4	all	31
 868
-869	forest tears	4	all	33
+869	forest tears	16	all	33
 870	fetus-smashing club	12	display	0
 871	meatcar model	7	all	75
 872	Time Juice	0	display	0
@@ -1045,9 +1045,9 @@
 1045	cheap plastic bottle opener	12	all	50
 1046	orange traffic cone	9	display	000
 1047	N. O. Beer	0	all	0
-1048	red striped oyster egg	3	all	50
-1049	red polka-dot oyster egg	3	all	50
-1050	red paisley oyster egg	3	all	50
+1048	red striped oyster egg	16	all	50
+1049	red polka-dot oyster egg	16	all	50
+1050	red paisley oyster egg	16	all	50
 1051	red plastic oyster egg	0	all	50
 1052	blue striped oyster egg	3	all	50
 1053	blue polka-dot oyster egg	3	all	50
@@ -1271,7 +1271,7 @@
 1271	aluminum wand	6	none	0
 1272	marble wand	6	none	0
 1273	magic lamp	13	all	25
-1274	Medicinal Herb's medicinal herbs	3	display	50
+1274	Medicinal Herb's medicinal herbs	16	display	50
 1275	basic meat skirt	10	all	140
 1276	Otorian Battle Scar	0	all	0
 1277	basic meat kilt	10	all	140

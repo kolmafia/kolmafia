@@ -1464,7 +1464,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			addCreateLink &= itemId != KoLAdventure.BEAN.getItemId() || KoLCharacter.getLevel() < 10 || KoLCharacter.hasItem( KoLAdventure.SOCK ) || KoLCharacter.hasItem( KoLAdventure.ROWBOAT );
 
 			// Skip items which are multi-use or are mp restores.
-			addCreateLink &= consumeMethod != CONSUME_MULTIPLE && consumeMethod != CONSUME_RESTORE;
+			addCreateLink &= consumeMethod != CONSUME_MULTIPLE && consumeMethod != MP_RESTORE;
 
 			if ( addCreateLink )
 			{
@@ -1614,7 +1614,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					break;
 
 				case CONSUME_MULTIPLE:
-				case CONSUME_RESTORE:
+				case MP_RESTORE:
 
 					AdventureResult result = new AdventureResult( itemId, 1 );
 					itemCount = Math.min( ConsumeItemRequest.maximumUses( itemId ), result.getCount( inventory ) );
@@ -1827,7 +1827,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					buffer.append( Math.min( itemCount, ConsumeItemRequest.maximumUses( itemId ) ) );
 					buffer.append( ">&nbsp;<input type=button class=button value=\"Use\" onClick=\"multiUse('" );
 
-					if ( consumeMethod == CONSUME_RESTORE )
+					if ( consumeMethod == MP_RESTORE )
 						buffer.append( "skills.php" );
 					else
 						buffer.append( "multiuse.php" );

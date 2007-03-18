@@ -626,7 +626,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		case CONSUME_MULTIPLE:
 		case GROW_FAMILIAR:
 		case CONSUME_ZAP:
-		case CONSUME_RESTORE:
+		case MP_RESTORE:
 			return true;
 		default:
 			return false;
