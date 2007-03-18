@@ -53,10 +53,9 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import tab.CloseTabbedPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -66,7 +65,7 @@ public class SendMessageFrame extends KoLFrame
 {
 	public boolean usingStorage;
 	public JPanel messagePanel;
-	public JTextField recipientEntry;
+	public JComboBox recipientEntry;
 	public JTextArea messageEntry;
 	public JButton sendMessageButton;
 
@@ -93,16 +92,27 @@ public class SendMessageFrame extends KoLFrame
 
 		// Who you want to send it to.
 
-		recipientEntry = new JTextField();
-		recipientEntry.setEditable( true );
+		recipientEntry = new MutableComboBox( (LockableListModel) contactList.clone(), true );
+
+		JButton refreshButton = new InvocationButton( "Refresh contact list", "refresh.gif", this, "refreshContactList" );
 		JComponentUtilities.setComponentSize( recipientEntry, 250, 25 );
+		JComponentUtilities.setComponentSize( refreshButton, 20, 20 );
 
-		JPanel recipientPanel = new JPanel();
-		recipientPanel.setLayout( new BoxLayout( recipientPanel, BoxLayout.Y_AXIS ) );
+		if ( !recipient.equals( "" ) )
+		{
+			recipientEntry.addItem( recipient );
+			recipientEntry.getEditor().setItem( recipient );
+			recipientEntry.setSelectedItem( recipient );
+		}
 
-		recipientPanel.add( getLabelPanel( "I intend to send it to this person:" ) );
-		recipientPanel.add( Box.createVerticalStrut( 4 ) );
-		recipientPanel.add( recipientEntry );
+		JPanel contactsPanel = new JPanel( new BorderLayout( 5, 5 ) );
+		contactsPanel.add( recipientEntry, BorderLayout.CENTER );
+		contactsPanel.add( refreshButton, BorderLayout.EAST );
+
+		JPanel recipientPanel = new JPanel( new BorderLayout() );
+
+		recipientPanel.add( getLabelPanel( "I intend to send it to this person:" ), BorderLayout.CENTER );
+		recipientPanel.add( contactsPanel, BorderLayout.SOUTH );
 
 		// And the message entry area.
 
@@ -114,20 +124,9 @@ public class SendMessageFrame extends KoLFrame
 
 		SimpleScrollPane scrollArea = new SimpleScrollPane( messageEntry );
 
-		JPanel entryPanel = new JPanel( new BorderLayout( 5, 5 ) );
-		entryPanel.add( getLabelPanel( "I'd like them to see this message: " ), BorderLayout.NORTH );
-		entryPanel.add( scrollArea, BorderLayout.CENTER );
-
-		// Add in the attachment panel.
-
-		JPanel itemPanel = new JPanel( new BorderLayout( 5, 5 ) );
-
-		attachments = new SortedListModel();
-		attachmentList = new ShowDescriptionList( attachments );
-		attachmentList.contextMenu.add( new RemoveAttachmentMenuItem() );
-
-		itemPanel.add( getLabelPanel( "Attach these items to the message: " ), BorderLayout.NORTH );
-		itemPanel.add( new SimpleScrollPane( attachmentList ), BorderLayout.CENTER );
+		JPanel entryPanel = new JPanel( new BorderLayout() );
+		entryPanel.add( getLabelPanel( "I'd like them to see this message: " ), BorderLayout.CENTER );
+		entryPanel.add( scrollArea, BorderLayout.SOUTH );
 
 		sendMessageButton = new JButton( "Send Message" );
 		sendMessageButton.addActionListener( new SendMessageListener() );
@@ -137,16 +136,13 @@ public class SendMessageFrame extends KoLFrame
 		attachedMeat = new JTextField( "0" );
 		JComponentUtilities.setComponentSize( attachedMeat, 250, 25 );
 
-		JPanel meatPanel = new JPanel();
-		meatPanel.setLayout( new BoxLayout( meatPanel, BoxLayout.Y_AXIS ) );
-
-		meatPanel.add( getLabelPanel( "I'd like to attach this much meat: " ) );
-		meatPanel.add( Box.createVerticalStrut( 4 ) );
-		meatPanel.add( attachedMeat );
+		JPanel meatPanel = new JPanel( new BorderLayout() );
+		meatPanel.add( getLabelPanel( "I'd like to attach this much meat: " ), BorderLayout.CENTER );
+		meatPanel.add( attachedMeat, BorderLayout.SOUTH );
 
 		// Add in the inventory panel
 
-		CloseTabbedPane sources = new CloseTabbedPane();
+		JTabbedPane sources = getTabbedPane();
 
 		inventoryPanel = new ItemManagePanel( inventory );
 		inventoryPanel.elementList.setVisibleRowCount( 8 );
@@ -177,18 +173,31 @@ public class SendMessageFrame extends KoLFrame
 		dataPanel.add( entryPanel );
 		dataPanel.add( Box.createVerticalStrut( 20 ) );
 		dataPanel.add( meatPanel );
-		dataPanel.add( Box.createVerticalStrut( 20 ) );
+
+		dataPanel.add( Box.createVerticalStrut( 20) );
+		dataPanel.add( Box.createVerticalGlue() );
 
 		JPanel sendMessageButtonPanel = new JPanel();
 		sendMessageButtonPanel.add( sendMessageButton );
 
 		dataPanel.add( sendMessageButtonPanel );
+		dataPanel.add( Box.createVerticalGlue() );
 
 		JPanel dataHolder = new JPanel( new CardLayout( 10, 10 ) );
 		dataHolder.add( dataPanel, "" );
 		tabs.addTab( "Message", dataHolder );
 
 		JPanel attachmentPanel = new JPanel( new BorderLayout( 20, 20 ) );
+
+		JPanel itemPanel = new JPanel( new BorderLayout( 5, 5 ) );
+
+		attachments = new SortedListModel();
+		attachmentList = new ShowDescriptionList( attachments );
+		attachmentList.contextMenu.add( new RemoveAttachmentMenuItem() );
+
+		itemPanel.add( getLabelPanel( "Attach these items to the message: " ), BorderLayout.CENTER );
+		itemPanel.add( new SimpleScrollPane( attachmentList ), BorderLayout.SOUTH );
+
 		attachmentPanel.add( itemPanel, BorderLayout.NORTH );
 		attachmentPanel.add( sources, BorderLayout.CENTER );
 
@@ -212,8 +221,6 @@ public class SendMessageFrame extends KoLFrame
 		JPanel messageHolder = new JPanel( new CardLayout( 10, 10 ) );
 		messageHolder.add( message, "" );
 		tabs.addTab( "Layout Help", messageHolder );
-
-		recipientEntry.setText( recipient );
 
 		// A handy send message button
 
@@ -289,7 +296,7 @@ public class SendMessageFrame extends KoLFrame
 	{
 		public void run()
 		{
-			String [] recipients = StaticEntity.getClient().extractTargets( recipientEntry.getText() );
+			String [] recipients = StaticEntity.getClient().extractTargets( (String) recipientEntry.getSelectedItem() );
 			if ( recipients.length == 0 || recipients[0].equals( "" ) )
 			{
 				KoLmafia.updateDisplay( "You didn't specify someone to send to." );
@@ -343,5 +350,11 @@ public class SendMessageFrame extends KoLFrame
 		}
 
 		return attachments.toArray();
+	}
+
+	public void refreshContactList()
+	{
+		RequestThread.postRequest( new ContactListRequest() );
+		recipientEntry.setModel( (SortedListModel) contactList.clone() );
 	}
 }

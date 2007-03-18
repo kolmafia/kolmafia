@@ -427,7 +427,7 @@ public class AdventureFrame extends KoLFrame
 				{
 					if ( splitConditions[i].startsWith( "+" ) )
 					{
-						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i] ) )
+						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i].substring(1) ) )
 							return false;
 					}
 					else if ( !DEFAULT_SHELL.executeConditionsCommand( "set " + splitConditions[i] ) )
