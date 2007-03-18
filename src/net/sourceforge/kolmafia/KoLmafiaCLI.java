@@ -1893,6 +1893,8 @@ public class KoLmafiaCLI extends KoLmafia
 			String aliasLine = (String) ALIASES.get( command );
 			if ( aliasLine.indexOf( "%%" ) != -1 )
 				aliasLine = StaticEntity.singleStringReplace( aliasLine, "%%", parameters );
+			else if ( aliasLine.endsWith( "=" ) )
+				aliasLine += parameters;
 			else
 				aliasLine += " " + parameters;
 

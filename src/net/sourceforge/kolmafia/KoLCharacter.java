@@ -354,10 +354,12 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	newUsername	The name of the character this <code>KoLCharacter</code> represents
 	 */
 
-	public static final void reset( String newUsername )
+	public static final void reset( String newUserName )
 	{
-		username = newUsername;
-		KoLCharacter.reset();
+		username = newUserName;
+
+		if ( !newUserName.equals( "" ) )
+			KoLCharacter.reset();
 	}
 
 	public static void reset()
