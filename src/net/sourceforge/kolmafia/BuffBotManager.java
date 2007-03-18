@@ -192,7 +192,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		buffCostTable.add( newCast );
 		buffCostTable.sort();
 
-System.out.println( "Saving buffs..." );
 		saveBuffs();
 	}
 
@@ -232,12 +231,8 @@ System.out.println( "Saving buffs..." );
 
 	private static void saveBuffs()
 	{
-System.out.println( "Saving buffs..." );
 		if ( isInitializing )
 			return;
-
-
-System.out.println( "Saved buffs." );
 
 		File datafile = new File( "buffs/" + KoLCharacter.baseUserName() + ".txt" );
 		File xmlfile = new File( "buffs/" + KoLCharacter.baseUserName() + ".xml" );

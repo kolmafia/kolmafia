@@ -823,7 +823,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptScope parseFile( String fileName, ScriptScope startScope, ScriptScope parentScope )
 	{
-		ScriptScope result;
+		ScriptScope result = null;
 		this.fileName = fileName;
 
 		File scriptFile = KoLmafiaCLI.findScriptFile( SCRIPT_LOCATION, fileName );
@@ -834,22 +834,43 @@ public class KoLmafiaASH extends StaticEntity
 			return startScope;
 
 		imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
+		AdvancedScriptException error = null;
 
 		try
 		{
 			commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
+		}
+		catch ( Exception e )
+		{
+			throw new AdvancedScriptException( fileName + " could not be accessed" );
+		}
 
+		try
+		{
 			currentLine = getNextLine();
 			lineNumber = commandStream.getLineNumber();
 			nextLine = getNextLine();
 
 			result = parseScope( startScope, null, new ScriptVariableList(), parentScope, false );
-			commandStream.close();
 		}
 		catch ( Exception e )
 		{
-			throw new AdvancedScriptException( e );
+			error = new AdvancedScriptException( e );
 		}
+
+		try
+		{
+			if ( commandStream != null )
+				commandStream.close();
+		}
+		catch ( Exception e )
+		{
+			// Do nothing, because this means the stream somehow
+			// got closed anyway.
+		}
+
+		if ( error != null )
+			throw error;
 
 		if ( currentLine != null )
 			throw new AdvancedScriptException( "Script parsing error " + getLineAndFile() );
