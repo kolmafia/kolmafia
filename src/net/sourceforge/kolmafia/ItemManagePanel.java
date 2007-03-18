@@ -519,12 +519,15 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public class FilterItemComboBox extends MutableComboBox
 	{
-		public boolean food, booze, equip, other, nosell, notrade;
+		public boolean food, booze, equip, other, notrade;
 
 		public FilterItemComboBox()
 		{
 			super( new LockableListModel(), true );
 			filter = new ConsumptionBasedFilter();
+
+			food = true; booze = true; equip = true;
+			other = true; notrade = true;
 		}
 
 		public void setSelectedItem( Object anObject )
@@ -541,16 +544,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public void filterItems()
 		{
-			if ( filters == null )
-			{
-				food = true;
-				booze = true;
-				equip = true;
-				other = true;
-				nosell = true;
-				notrade = true;
-			}
-			else
+			if ( filters != null )
 			{
 				food = filters[0].isSelected();
 				booze = filters[1].isSelected();

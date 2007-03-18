@@ -35,9 +35,11 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -50,19 +52,24 @@ import java.util.regex.Pattern;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
-import tab.CloseTabbedPane;
+import javax.swing.JTabbedPane;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
@@ -70,6 +77,11 @@ import net.sourceforge.kolmafia.StoreManager.SoldItem;
 public class ItemManageFrame extends KoLFrame
 {
 	private static final Dimension MAX_WIDTH = new Dimension( 500, Integer.MAX_VALUE );
+
+	private LockableListModel itemPanelNames = new LockableListModel();
+	private JList itemPanelList = new JList( itemPanelNames );
+	private CardLayout itemPanelCards = new CardLayout();
+	private JPanel managePanel = new JPanel( itemPanelCards );
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -82,12 +94,25 @@ public class ItemManageFrame extends KoLFrame
 
 		LabeledScrollPanel npcOfferings = null;
 
-		tabs.addTab( "Usable", new ConsumeItemPanel() );
-		tabs.addTab( "Recent", new InventoryManagePanel( tally ) );
-		tabs.addTab( "Inventory", new InventoryManagePanel( inventory ) );
-		tabs.addTab( "Closet", new InventoryManagePanel( closet ) );
-		tabs.addTab( "Creations", new CreateItemPanel() );
-//		tabs.addTab( "Finder", new InventPanel() );
+		addPanel( "Usable Items", new ConsumeItemPanel( true, true, true, true ) );
+
+		addPanel( " - Food", new ConsumeItemPanel( true, false, false, false ) );
+		addPanel( " - Booze", new ConsumeItemPanel( false, true, false, false ) );
+		addPanel( " - Recovery", new ConsumeItemPanel( false, false, true, false ) );
+		addPanel( " - Other", new ConsumeItemPanel( false, false, false, true ) );
+
+		addSeparator();
+
+		addPanel( "Creatable Items", new CreateItemPanel( true, true, true, true ) );
+
+		addPanel( " - Food", new CreateItemPanel( true, false, false, false ) );
+		addPanel( " - Booze", new CreateItemPanel( false, true, false, false ) );
+		addPanel( " - Equipment", new CreateItemPanel( false, false, true, false ) );
+		addPanel( " - Other", new CreateItemPanel( false, false, false, true ) );
+
+		addSeparator();
+
+		addPanel( "Recent", new InventoryManagePanel( tally, false ) );
 
 		// If the person is in a mysticality sign, make sure
 		// you retrieve information from the restaurant.
@@ -95,7 +120,7 @@ public class ItemManageFrame extends KoLFrame
 		if ( KoLCharacter.inMysticalitySign() && !restaurantItems.isEmpty() )
 		{
 			npcOfferings = new SpecialPanel( restaurantItems );
-			tabs.add( "Restaurant", npcOfferings );
+			addPanel( "Restaurant", npcOfferings );
 		}
 
 		// If the person is in a moxie sign and they have completed
@@ -105,15 +130,66 @@ public class ItemManageFrame extends KoLFrame
 		if ( KoLCharacter.inMoxieSign() && !microbreweryItems.isEmpty() )
 		{
 			npcOfferings = new SpecialPanel( microbreweryItems );
-			tabs.add( "Microbrewery", npcOfferings );
+			addPanel( "Microbrewery", npcOfferings );
 		}
+
+		addPanel( "Inventory", new InventoryManagePanel( inventory, false ) );
+		addPanel( "Closet", new InventoryManagePanel( closet, false ) );
 
 		// Now a special panel which does nothing more than list
 		// some common actions and some descriptions.
 
+		itemPanelList.addListSelectionListener( new CardSwitchListener() );
+		itemPanelList.setPrototypeCellValue( "ABCDEFGHIJKLM" );
+		itemPanelList.setCellRenderer( new OptionRenderer() );
+
+		JPanel listHolder = new JPanel( new CardLayout( 10, 10 ) );
+		listHolder.add( new SimpleScrollPane( itemPanelList ), "" );
+
+		JPanel mainPanel = new JPanel( new BorderLayout() );
+
+		mainPanel.add( listHolder, BorderLayout.WEST );
+		mainPanel.add( managePanel, BorderLayout.CENTER );
+
+		addTab( "Items", mainPanel );
 		addTab( "Filters", new FlaggedItemsPanel() );
 		addTab( "Scripts", new CommonActionsPanel() );
-		framePanel.add( tabs, BorderLayout.CENTER );
+//		addTab( "Recipes", new InventPanel() );
+
+		JPanel tabHolder = new JPanel( new CardLayout( 10, 10 ) );
+		tabHolder.add( tabs, "" );
+
+		framePanel.add( tabHolder, BorderLayout.CENTER );
+	}
+
+	private void addPanel( String name, JComponent panel )
+	{
+		itemPanelNames.add( name );
+		managePanel.add( panel, String.valueOf( itemPanelNames.size() ) );
+	}
+
+	private void addSeparator()
+	{
+		JPanel separator = new JPanel();
+		separator.setOpaque( false );
+		separator.setLayout( new BoxLayout( separator, BoxLayout.Y_AXIS ) );
+
+		separator.add( Box.createVerticalGlue() );
+		separator.add( new JSeparator() );
+		itemPanelNames.add( separator );
+	}
+
+	private class CardSwitchListener implements ListSelectionListener
+	{
+		public void valueChanged( ListSelectionEvent e )
+		{
+			int cardIndex = itemPanelList.getSelectedIndex();
+
+			if ( itemPanelNames.get( cardIndex ) instanceof JComponent )
+				return;
+
+			itemPanelCards.show( managePanel, String.valueOf( cardIndex + 1 ) );
+		}
 	}
 
 	private class FlaggedItemsPanel extends JPanel
@@ -457,26 +533,18 @@ public class ItemManageFrame extends KoLFrame
 
 	private class ConsumeItemPanel extends ItemManagePanel
 	{
-		public ConsumeItemPanel()
+		private boolean food, booze, restores, other;
+
+		public ConsumeItemPanel( boolean food, boolean booze, boolean restores, boolean other )
 		{
 			super( "Use Items", "use item", "check wiki", inventory );
 
-			filterPanel = new JPanel();
-
-			filters = new JCheckBox[4];
-
-			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
-			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
-			filters[2] = new JCheckBox( "Show restoratives", true );
-			filters[3] = new JCheckBox( "Show others", true );
-
-			for ( int i = 0; i < filters.length; ++i )
-			{
-				filterPanel.add( filters[i] );
-				filters[i].addActionListener( new UpdateFilterListener() );
-			}
-
 			JPanel moverPanel = new JPanel();
+
+			this.food = food;
+			this.booze = booze;
+			this.restores = restores;
+			this.other = other;
 
 			movers = new JRadioButton[4];
 			movers[0] = new JRadioButton( "Move all" );
@@ -491,11 +559,7 @@ public class ItemManageFrame extends KoLFrame
 				moverPanel.add( movers[i] );
 			}
 
-			JPanel northPanel = new JPanel( new BorderLayout() );
-			northPanel.add( filterPanel, BorderLayout.NORTH );
-			northPanel.add( moverPanel, BorderLayout.SOUTH );
-
-			actualPanel.add( northPanel, BorderLayout.NORTH );
+			actualPanel.add( moverPanel, BorderLayout.NORTH );
 
 			wordfilter = new ConsumableFilterComboBox();
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
@@ -528,20 +592,12 @@ public class ItemManageFrame extends KoLFrame
 
 		private class ConsumableFilterComboBox extends FilterItemComboBox
 		{
-			private boolean food, booze, restores, other;
-
 			public ConsumableFilterComboBox()
 			{	filter = new ConsumableFilter();
 			}
 
 			public void filterItems()
-			{
-				food = filters[0].isSelected();
-				booze = filters[1].isSelected();
-				restores = filters[2].isSelected();
-				other = filters[3].isSelected();
-
-				elementList.applyFilter( filter );
+			{	elementList.applyFilter( filter );
 			}
 
 			private class ConsumableFilter extends WordBasedFilter
@@ -551,22 +607,22 @@ public class ItemManageFrame extends KoLFrame
 					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
 					{
 					case CONSUME_EAT:
-						return food && super.isVisible( element );
+						return ConsumeItemPanel.this.food && super.isVisible( element );
 
 					case CONSUME_DRINK:
-						return booze && super.isVisible( element );
+						return ConsumeItemPanel.this.booze && super.isVisible( element );
 
 					case GROW_FAMILIAR:
 					case CONSUME_ZAP:
-						return other && super.isVisible( element );
+						return ConsumeItemPanel.this.other && super.isVisible( element );
 
+					case HP_RESTORE:
 					case MP_RESTORE:
-						return restores ? super.isVisible( element ) : false;
+						return ConsumeItemPanel.this.restores && super.isVisible( element );
 
-					case CONSUME_MULTIPLE:
 					case CONSUME_USE:
-						return HPRestoreItemList.contains( (AdventureResult) element ) ?
-							restores && super.isVisible( element ) : other && super.isVisible( element );
+					case CONSUME_MULTIPLE:
+						return ConsumeItemPanel.this.other && super.isVisible( element );
 
 					default:
 						return false;
@@ -794,10 +850,16 @@ public class ItemManageFrame extends KoLFrame
 
 	private class CreateItemPanel extends ItemManagePanel
 	{
-		public CreateItemPanel()
+		public CreateItemPanel( boolean food, boolean booze, boolean equip, boolean other )
 		{
 			super( ConcoctionsDatabase.getConcoctions() );
-			setButtons( new ActionListener [] { new CreateListener(), new CreateAndUseListener() } );
+			setButtons( false, new ActionListener [] { new CreateListener(), new CreateAndUseListener() } );
+
+			wordfilter.food = food;
+			wordfilter.booze = booze;
+			wordfilter.equip = equip;
+			wordfilter.other = other;
+			wordfilter.notrade = true;
 
 			JCheckBox [] addedFilters = new JCheckBox[5];
 
@@ -897,6 +959,20 @@ public class ItemManageFrame extends KoLFrame
 			public String toString()
 			{	return "create & use";
 			}
+		}
+	}
+
+	private static class OptionRenderer extends DefaultListCellRenderer
+	{
+		public OptionRenderer()
+		{
+			setOpaque( true );
+		}
+
+		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
+		{
+			return value instanceof JComponent ? (Component) value :
+				super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 		}
 	}
 }

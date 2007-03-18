@@ -620,9 +620,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( parameters.equals( "" ) )
 		{
-			if ( findScriptFile( parameters ) != null )
+			if ( findScriptFile( command ) != null )
 			{
-				executeScript( parameters );
+				executeScript( command );
 				return;
 			}
 
