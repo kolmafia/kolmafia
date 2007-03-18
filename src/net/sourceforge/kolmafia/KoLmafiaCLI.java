@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -77,6 +78,29 @@ public class KoLmafiaCLI extends KoLmafia
 	private static boolean isPrompting = false;
 	private static boolean isExecutingCheckOnlyCommand = false;
 	private static ConsoleReader CONSOLE = null;
+
+	private static TreeMap ALIASES = new TreeMap();
+	static
+	{
+		String [] data;
+		BufferedReader reader = KoLDatabase.getReader( new File( SETTINGS_LOCATION, "aliases_GLOBAL.txt" ) );
+
+		if ( reader != null )
+		{
+			while ( (data = KoLDatabase.readData( reader )) != null )
+				if ( data.length >= 2 )
+					ALIASES.put( data[0].toLowerCase(), data[1] );
+
+			try
+			{
+				reader.close();
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
+		}
+	}
 
 	public static void main( String [] args )
 	{
@@ -553,6 +577,29 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "alias" ) )
+		{
+			int spaceIndex = parameters.indexOf( " " );
+			if ( spaceIndex != -1 )
+			{
+				LogStream aliasStream = LogStream.openStream( new File( SETTINGS_LOCATION, "aliases_GLOBAL.txt" ), false );
+
+				String aliasString = parameters.substring( 0, spaceIndex ).toLowerCase().trim();
+				String aliasCommand = parameters.substring( spaceIndex ).trim();
+
+				aliasStream.println( aliasString + "\t" + aliasCommand );
+				aliasStream.close();
+
+				updateDisplay( "Command successfully aliased." );
+			}
+			else
+			{
+				updateDisplay( ERROR_STATE, "That was not a valid aliasing." );
+			}
+
+			return;
+		}
+
 		// Insert random video game reference command to
 		// start things off.
 
@@ -573,6 +620,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( parameters.equals( "" ) )
 		{
+			if ( findScriptFile( parameters ) != null )
+			{
+				executeScript( parameters );
+				return;
+			}
+
 			if ( command.startsWith( "chat" ) )
 			{
 				KoLmafiaGUI.constructFrame( "KoLMessenger" );
@@ -1832,6 +1885,18 @@ public class KoLmafiaCLI extends KoLmafia
 				"adventure.php", parameters.substring( 0, spaceIndex ), parameters.substring( spaceIndex ).trim() );
 
 			AdventureDatabase.addAdventure( adventure );
+			return;
+		}
+
+		if ( ALIASES.containsKey( command ) )
+		{
+			String aliasLine = (String) ALIASES.get( command );
+			if ( aliasLine.indexOf( "%%" ) != -1 )
+				aliasLine = StaticEntity.singleStringReplace( aliasLine, "%%", parameters );
+			else
+				aliasLine += " " + parameters;
+
+			executeLine( aliasLine );
 			return;
 		}
 

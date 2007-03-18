@@ -58,6 +58,9 @@ public abstract class ThreadedMenuItem extends JMenuItem implements ActionListen
 
 	protected boolean isValidEvent( ActionEvent e )
 	{
+		if ( e == null || e.getSource() == null )
+			return true;
+
 		if ( e.getSource() instanceof JComboBox )
 			return ((JComboBox)e.getSource()).isPopupVisible();
 
