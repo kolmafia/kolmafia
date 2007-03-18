@@ -564,7 +564,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		if ( sumResult.getCount() == 0 )
 		{
-			if ( sumResult.isItem() || sumResult.isStatusEffect() )
+			if ( sumResult.isItem() || sumResult.isStatusEffect() || sumResult.getName().equals( CHOICE ) )
 			{
 				sourceList.remove( index );
 				return;
