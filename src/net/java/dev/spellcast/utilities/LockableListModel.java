@@ -163,22 +163,22 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		if ( element == null )
 			return;
 
-		actualElements.add( index, element );
 		addVisibleElement( index, element );
+		actualElements.add( index, element );
 	}
 
 	private void addVisibleElement( int index, Object element )
 	{
-		addVisibleElement( this, index, element, false );
+		addVisibleElement( this, index, element );
 		for ( int i = 0; i < mirrorList.size(); ++i )
-			addVisibleElement( (LockableListModel) mirrorList.get(i), index, element, true );
+			addVisibleElement( (LockableListModel) mirrorList.get(i), index, element );
 	}
 
-	private static void addVisibleElement( LockableListModel model, int index, Object element, boolean isMirror )
+	private static void addVisibleElement( LockableListModel model, int index, Object element )
 	{
 		if ( model.currentFilter.isVisible( element ) )
 		{
-			int visibleIndex = model.computeVisibleIndex( index, isMirror );
+			int visibleIndex = model.computeVisibleIndex( index );
 			model.visibleElements.add( visibleIndex, element );
 			model.fireIntervalAdded( model, visibleIndex, visibleIndex );
 		}
@@ -481,16 +481,16 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	private void removeVisibleElement( int index, Object element )
 	{
-		removeVisibleElement( this, index, element, false );
+		removeVisibleElement( this, index, element );
 		for ( int i = 0; i < mirrorList.size(); ++i )
-			removeVisibleElement( (LockableListModel) mirrorList.get(i), index, element, true );
+			removeVisibleElement( (LockableListModel) mirrorList.get(i), index, element );
 	}
 
-	private static void removeVisibleElement( LockableListModel model, int index, Object element, boolean isMirror )
+	private static void removeVisibleElement( LockableListModel model, int index, Object element )
 	{
 		if ( model.currentFilter.isVisible( element ) )
 		{
-			int visibleIndex = model.computeVisibleIndex( index, isMirror );
+			int visibleIndex = model.computeVisibleIndex( index );
 			model.visibleElements.remove( visibleIndex );
 			model.fireIntervalRemoved( model, visibleIndex, visibleIndex );
 		}
@@ -554,22 +554,23 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		if ( element == null )
 			return null;
 
-		Object returnValue = actualElements.set( index, element );
+		Object returnValue = actualElements.get( index );
 		setVisibleElement( index, element, returnValue );
+		actualElements.set( index, element );
 
 		return returnValue;
 	}
 
 	private void setVisibleElement( int index, Object element, Object originalValue )
 	{
-		setVisibleElement( this, index, element, originalValue, false );
+		setVisibleElement( this, index, element, originalValue );
 		for ( int i = 0; i < mirrorList.size(); ++i )
-			setVisibleElement( (LockableListModel) mirrorList.get(i), index, element, originalValue, true );
+			setVisibleElement( (LockableListModel) mirrorList.get(i), index, element, originalValue );
 	}
 
-	private static void setVisibleElement( LockableListModel model, int index, Object element, Object originalValue, boolean isMirror )
+	private static void setVisibleElement( LockableListModel model, int index, Object element, Object originalValue )
 	{
-		int visibleIndex = model.computeVisibleIndex( index, isMirror );
+		int visibleIndex = model.computeVisibleIndex( index );
 
 		if ( originalValue != null && model.currentFilter.isVisible( originalValue ) )
 		{
@@ -667,12 +668,11 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		fireContentsChanged( this, 0, actualElements.size() );
 	}
 
-	private int computeVisibleIndex( int actualIndex, boolean isMirror )
+	private int computeVisibleIndex( int actualIndex )
 	{
 		int visibleIndex = actualIndex;
-		int startIndex = isMirror ? actualIndex - 1 : actualIndex;
 
-		for ( int i = startIndex; i >= 0; --i )
+		for ( int i = actualIndex - 1; i >= 0; --i )
 			if ( !currentFilter.isVisible( actualElements.get(i) ) )
 				--visibleIndex;
 

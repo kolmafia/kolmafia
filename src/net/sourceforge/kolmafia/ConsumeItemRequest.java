@@ -187,9 +187,9 @@ public class ConsumeItemRequest extends KoLRequest
 	public ConsumeItemRequest( int consumptionType, AdventureResult item )
 	{
 		this( consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
-			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" :
-			consumptionType == CONSUME_RESTORE ? "skills.php" : consumptionType == CONSUME_HOBO ? "inventory.php" :
-			"inv_use.php", consumptionType, item );
+			consumptionType == GROW_FAMILIAR ? "inv_familiar.php" : consumptionType == MP_RESTORE ? "skills.php" :
+			consumptionType == CONSUME_HOBO ? "inventory.php" : consumptionType == CONSUME_MULTIPLE ? "multiuse.php" :
+			consumptionType == HP_RESTORE && item.getCount() > 1 ? "multiuse.php" : "inv_use.php", consumptionType, item );
 	}
 
 	private ConsumeItemRequest( String location, int consumptionType, AdventureResult item )
@@ -300,7 +300,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		int iterations = 1;
 
-		if ( itemUsed.getCount() != 1 && consumptionType != CONSUME_MULTIPLE && consumptionType != CONSUME_RESTORE )
+		if ( itemUsed.getCount() != 1 && consumptionType != CONSUME_MULTIPLE && consumptionType != MP_RESTORE )
 		{
 			iterations = itemUsed.getCount();
 			itemUsed = itemUsed.getInstance( 1 );
@@ -386,7 +386,7 @@ public class ConsumeItemRequest extends KoLRequest
 			addFormField( "quantity", String.valueOf( itemUsed.getCount() ) );
 			break;
 
-		case CONSUME_RESTORE:
+		case MP_RESTORE:
 			addFormField( "action", "useitem" );
 			addFormField( "itemquantity", String.valueOf( itemUsed.getCount() ) );
 			break;

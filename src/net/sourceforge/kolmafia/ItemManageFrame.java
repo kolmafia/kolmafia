@@ -560,7 +560,7 @@ public class ItemManageFrame extends KoLFrame
 					case CONSUME_ZAP:
 						return other && super.isVisible( element );
 
-					case CONSUME_RESTORE:
+					case MP_RESTORE:
 						return restores ? super.isVisible( element ) : false;
 
 					case CONSUME_MULTIPLE:

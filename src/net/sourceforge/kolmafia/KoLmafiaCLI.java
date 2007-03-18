@@ -67,6 +67,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final int FOOD = 4;
 	public static final int BOOZE = 5;
 
+	private static boolean isUsageMatch = false;
 	private static boolean isCreationMatch = false;
 
 	private String previousLine = null;
@@ -2770,14 +2771,22 @@ public class KoLmafiaCLI extends KoLmafia
 		list.toArray( skills );
 
 		String name = substring.toLowerCase();
+
+		int skillIndex = -1;
+		int substringIndex = Integer.MAX_VALUE;
+
+		int currentIndex;
+
 		for ( int i = 0; i < skills.length; ++i )
 		{
 			String skill = skills[i].getSkillName();
-			if ( skill.toLowerCase().indexOf( name ) != -1 )
-				return skill;
+			currentIndex = skill.toLowerCase().indexOf( name );
+
+			if ( currentIndex != -1 && currentIndex < substringIndex )
+				skillIndex = i;
 		}
 
-		return null;
+		return skillIndex == -1 ? null : skills[ skillIndex ].getSkillName();
 	}
 
 	/**
@@ -3256,32 +3265,64 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( nameList.isEmpty() )
 			return -1;
 
-		String [] nameArray = new String[ nameList.size() ];
-		nameList.toArray( nameArray );
+		if ( nameList.size() == 1 )
+			return TradeableItemDatabase.getItemId( (String) nameList.get(0) );
 
 		int lowestId = Integer.MAX_VALUE;
+
 		boolean npcStoreMatch = false;
+		boolean isRestoreMatch = false;
 
-		int itemId;
+		int itemId, useType;
+		MallPurchaseRequest npcstore;
 
-		for ( int i = 0; i < nameArray.length; ++i )
+		for ( int i = 0; i < nameList.size(); ++i )
 		{
-			itemId = TradeableItemDatabase.getItemId( nameArray[i] );
+			itemId = TradeableItemDatabase.getItemId( (String) nameList.get(i) );
+			useType = TradeableItemDatabase.getConsumptionType( itemId );
 
-			if ( isCreationMatch && ConcoctionsDatabase.getMixingMethod( itemId ) == NOCREATE &&
-				itemId != MEAT_PASTE && itemId != MEAT_STACK && itemId != DENSE_STACK )
+			if ( isUsageMatch && useType == NO_CONSUME )
+				continue;
+
+			if ( isCreationMatch && ConcoctionsDatabase.getMixingMethod( itemId ) == NOCREATE )
+				if ( itemId != MEAT_PASTE && itemId != MEAT_STACK && itemId != DENSE_STACK )
 					continue;
 
-			if ( NPCStoreDatabase.contains( nameArray[i], false ) )
+			npcstore = NPCStoreDatabase.getPurchaseRequest( (String) nameList.get( i ) );
+
+			if ( npcstore != null )
 			{
-				if ( !npcStoreMatch || itemId < lowestId )
-					lowestId = itemId;
+				if ( useType == MP_RESTORE )
+				{
+					if ( !isRestoreMatch || itemId < lowestId )
+						lowestId = itemId;
 
-				npcStoreMatch = true;
+					isRestoreMatch = true;
+					npcStoreMatch = true;
+				}
+				else if ( useType == HP_RESTORE )
+				{
+					if ( !isRestoreMatch || itemId < lowestId )
+						lowestId = itemId;
+
+					isRestoreMatch = true;
+					npcStoreMatch = true;
+				}
+				else if ( isRestoreMatch )
+				{
+				}
+				else if ( !npcstore.getURLString().startsWith( "town_gift" ) )
+				{
+					if ( !npcStoreMatch || TradeableItemDatabase.getPriceById( itemId ) < TradeableItemDatabase.getPriceById( lowestId ) )
+						lowestId = itemId;
+
+					npcStoreMatch = true;
+				}
 			}
-
-			if ( !npcStoreMatch && itemId < lowestId )
+			else if ( !npcStoreMatch && itemId < lowestId )
+			{
 				lowestId = itemId;
+			}
 		}
 
 		return lowestId == Integer.MAX_VALUE ? -1 : lowestId;
@@ -3864,7 +3905,10 @@ public class KoLmafiaCLI extends KoLmafia
 		// the quantity desired, and the next is the amount to use
 
 		AdventureResult currentMatch;
+
+		isUsageMatch = true;
 		Object [] itemList = getMatchingItemList( parameters );
+		isUsageMatch = false;
 
 		for ( int i = 0; i < itemList.length; ++i )
 		{

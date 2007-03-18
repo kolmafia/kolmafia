@@ -201,8 +201,9 @@ public interface KoLConstants
 	public static final int EQUIP_SHIRT = 11;
 	public static final int EQUIP_WEAPON = 12;
 	public static final int EQUIP_OFFHAND = 13;
-	public static final int CONSUME_RESTORE = 14;
+	public static final int MP_RESTORE = 14;
 	public static final int CONSUME_HOBO = 15;
+	public static final int HP_RESTORE = 16;
 
 	// Item creation types
 
