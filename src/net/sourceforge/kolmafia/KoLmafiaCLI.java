@@ -2850,7 +2850,10 @@ public class KoLmafiaCLI extends KoLmafia
 			currentIndex = skill.toLowerCase().indexOf( name );
 
 			if ( currentIndex != -1 && currentIndex < substringIndex )
+			{
 				skillIndex = i;
+				substringIndex = currentIndex;
+			}
 		}
 
 		return skillIndex == -1 ? null : skills[ skillIndex ].getSkillName();

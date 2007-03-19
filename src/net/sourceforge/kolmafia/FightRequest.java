@@ -317,6 +317,16 @@ public class FightRequest extends KoLRequest
 				return;
 			}
 
+			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
+			{
+				if ( inventory.contains( MPRestoreItemList.CONFIGURES[i].getItem() ) )
+				{
+					action1 = "item" + MPRestoreItemList.CONFIGURES[i].getItem().getItemId();
+					updateCurrentAction();
+					return;
+				}
+			}
+
 			action1 = "abort";
 			return;
 		}
@@ -331,15 +341,6 @@ public class FightRequest extends KoLRequest
 				action1 = "attack";
 				addFormField( "action", action1 );
 				return;
-			}
-
-			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
-			{
-				if ( inventory.contains( MPRestoreItemList.CONFIGURES[i].getItem() ) )
-				{
-					action1 = "item" + MPRestoreItemList.CONFIGURES[i].getItem().getItemId();
-					updateCurrentAction();
-				}
 			}
 
 			action1 = "abort";
