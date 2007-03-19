@@ -142,12 +142,6 @@ public class ContactListFrame extends KoLFrame
 		// Make sure there's only eleven players
 		// selected, since that's the kmail limit.
 
-		if ( getSelectedPlayers().length > 11 )
-		{
-			JOptionPane.showMessageDialog( null, "That's beyond ridiculous." );
-			return;
-		}
-
 		Object [] parameters = new Object[1];
 		parameters[0] = convertToCDL();
 
