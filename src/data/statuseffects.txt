@@ -5,7 +5,7 @@
 5	Far Out	Far Out	farout.gif
 6	Wings	Wings	wings.gif
 7	Beaten Up	Beaten Up	beatenup.gif
-8	Poisoned	Poisoned	poison.gif
+8	Poisoned	Hardly Poisoned at All	poison.gif
 9	Perfume	Knob Goblin Perfume	spraycan.gif
 10	Steroids	Steroid Boost	strboost.gif
 11	Love Potion	Knob Goblin Lust Frenzy	lovelips.gif
@@ -279,9 +279,9 @@
 279
 280
 281
-282
-283
-284
+282	Poisoned	A Little Bit Poisoned	poison.gif
+283	Poisoned	Somewhat Poisoned	poison.gif
+284	Poisoned	Really Quite Poisoned	poison.gif
 285
 286
 287

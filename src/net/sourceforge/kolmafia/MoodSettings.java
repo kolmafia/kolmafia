@@ -240,7 +240,10 @@ public abstract class MoodSettings implements KoLConstants
 		// Beaten-up removal, as a demo of how to handle beaten-up
 		// and poisoned statuses.
 
-		addTrigger( "gain_effect", "Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
+		addTrigger( "gain_effect", "Hardly Poisoned at All", getDefaultAction( "gain_effect", "Poisoned" ) );
+		addTrigger( "gain_effect", "A Little Bit Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
+		addTrigger( "gain_effect", "Somewhat Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
+		addTrigger( "gain_effect", "Really Quite Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
 
 		String beatenUpAction = getDefaultAction( "gain_effect", "Beaten Up" );
 		if ( KoLCharacter.canInteract() || beatenUpAction.startsWith( "cast" ) )
@@ -820,7 +823,7 @@ public abstract class MoodSettings implements KoLConstants
 		}
 		else if ( type.equals( "gain_effect" ) )
 		{
-			if ( name.equals( "Poisoned" ) )
+			if ( name.indexOf( "Poisoned" ) != -1 )
 			{
 				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) )
 					return "use tiny house";
