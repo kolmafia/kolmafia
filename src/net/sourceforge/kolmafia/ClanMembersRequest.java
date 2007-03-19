@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
 public class ClanMembersRequest extends KoLRequest
 {
 	private static final Pattern CLANID_PATTERN = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" );
-	private static final Pattern MEMBER_PATTERN = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">([^<]+)</a></b>&nbsp;</td><td class=small>[^<]*?</td><td class=small>(\\d+).*?</td>" );
+	private static final Pattern MEMBER_PATTERN = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">([^<]+)</a></b>&nbsp;</td><td class=small>([^<]*?)</td><td class=small>(\\d+).*?</td>" );
 
 	private String clanId;
 	private String clanName;
@@ -137,10 +137,12 @@ public class ClanMembersRequest extends KoLRequest
 
 				String playerId = memberMatcher.group(1);
 				String playerName = memberMatcher.group(2);
-				String playerLevel = memberMatcher.group(3);
+				String playerLevel = memberMatcher.group(4);
 
 				KoLmafia.registerPlayer( playerName, playerId );
 				ClanManager.registerMember( playerName, playerLevel );
+
+				String playerTitle = memberMatcher.group(3);
 			}
 		}
 	}

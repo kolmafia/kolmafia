@@ -93,8 +93,7 @@ public class FlowerHunterRequest extends KoLRequest
 		addFormField( "searchranking", rank );
 
 		addFormField( "pvponly", "on" );
-		if ( KoLCharacter.isHardcore() )
-			addFormField( "hardcoreonly", "on" );
+		addFormField( "hardcoreonly", KoLCharacter.isHardcore() ? "1" : "2" );
 	}
 
 	public FlowerHunterRequest( String opponent, int stance, String mission, String win, String lose )

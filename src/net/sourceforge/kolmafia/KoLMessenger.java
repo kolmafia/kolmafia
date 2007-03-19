@@ -949,14 +949,18 @@ public abstract class KoLMessenger extends StaticEntity
 		// Now that everything has been properly formatted,
 		// show the display HTML.
 
-		StringBuffer timestamp = new StringBuffer();
-		timestamp.append( "<font color=\"" );
-		timestamp.append( DEFAULT_TIMESTAMP_COLOR );
-		timestamp.append( "\">" );
-		timestamp.append( MESSAGE_TIMESTAMP.format( new Date() ) );
-		timestamp.append( "</font>" );
+		if ( !enableMonitor || !bufferKey.equals( "[ALL]" ) )
+		{
+			StringBuffer timestamp = new StringBuffer();
+			timestamp.append( "<font color=\"" );
+			timestamp.append( DEFAULT_TIMESTAMP_COLOR );
+			timestamp.append( "\">" );
+			timestamp.append( MESSAGE_TIMESTAMP.format( new Date() ) );
+			timestamp.append( "</font>" );
 
-		displayHTML.insert( 0, timestamp.toString() + "&nbsp;" );
+			displayHTML.insert( 0, timestamp.toString() + "&nbsp;" );
+		}
+
 		displayHTML.append( "<br>" );
 
 		return displayHTML.toString().replaceAll( "<([^>]*?<)", "&lt;$1" );

@@ -38,8 +38,8 @@ import java.util.regex.Pattern;
 
 public class ClanRosterRequest extends KoLRequest
 {
-	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>(.*?)</tr>" );
-	private static final Pattern CELL_PATTERN = Pattern.compile( "<td.*?>(.*?)</td>" );
+	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>(.*?)</tr>", Pattern.DOTALL );
+	private static final Pattern CELL_PATTERN = Pattern.compile( "<td.*?>(.*?)</td>", Pattern.DOTALL );
 
 	public ClanRosterRequest()
 	{	super( "clan_detailedroster.php" );
@@ -50,17 +50,14 @@ public class ClanRosterRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Retrieving detailed roster..." );
 		super.run();
 
-		Matcher rowMatcher = ROW_PATTERN.matcher( responseText.substring( responseText.indexOf( "clan_detailedroster.php" ) ) );
-		rowMatcher.find();
+		Matcher rowMatcher = ROW_PATTERN.matcher( responseText.substring( responseText.lastIndexOf( "clan_detailedroster.php" ) ) );
 
 		String currentRow;
 		String currentName;
 		Matcher dataMatcher;
 
-		int lastRowIndex = 0;
-		while ( rowMatcher.find( lastRowIndex ) )
+		while ( rowMatcher.find() )
 		{
-			lastRowIndex = rowMatcher.end();
 			currentRow = rowMatcher.group(1);
 
 			if ( !currentRow.equals( "<td height=4></td>" ) )
@@ -72,7 +69,7 @@ public class ClanRosterRequest extends KoLRequest
 				// roster map.
 
 				dataMatcher.find();
-				currentName = dataMatcher.group(1).toLowerCase();
+				currentName = StaticEntity.globalStringReplace( ANYTAG_PATTERN.matcher( dataMatcher.group(1) ).replaceAll( "" ).trim(), "&nbsp;", "" ).toLowerCase();
 				ClanSnapshotTable.addToRoster( currentName, currentRow );
 			}
 		}
