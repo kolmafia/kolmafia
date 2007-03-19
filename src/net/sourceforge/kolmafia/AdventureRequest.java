@@ -274,17 +274,6 @@ public class AdventureRequest extends KoLRequest
 			return;
 		}
 
-		// Nothing more to do in this area
-
-		if ( responseText.indexOf( "This part of the cyrpt is already undefiled" ) != -1 ||
-		     responseText.indexOf( "You've already found the Citadel." ) != -1 ||
-		     responseText.indexOf( "You can't repeat an adventure here." ) != -1 ||
-		     responseText.indexOf( "no longer be accessible" ) != -1 )
-		{
-			KoLmafia.updateDisplay( PENDING_STATE, "Nothing more to do here." );
-			return;
-		}
-
 		if ( responseText.indexOf( "You must have at least" ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Your stats are too low for this location." );
@@ -312,6 +301,14 @@ public class AdventureRequest extends KoLRequest
 		if ( responseText.indexOf( "already undefiled" ) != -1 )
 		{
 			KoLmafia.updateDisplay( PENDING_STATE, "Cyrpt area cleared." );
+			return;
+		}
+
+		// Nothing more to do in this area
+
+		if ( responseText.indexOf( "adventure.php" ) == -1 )
+		{
+			KoLmafia.updateDisplay( PENDING_STATE, "Nothing more to do here." );
 			return;
 		}
 
