@@ -300,7 +300,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		int iterations = 1;
 
-		if ( itemUsed.getCount() != 1 && consumptionType != CONSUME_MULTIPLE && consumptionType != MP_RESTORE )
+		if ( itemUsed.getCount() != 1 && consumptionType != CONSUME_MULTIPLE && consumptionType != HP_RESTORE && consumptionType != MP_RESTORE )
 		{
 			iterations = itemUsed.getCount();
 			itemUsed = itemUsed.getInstance( 1 );
@@ -381,6 +381,17 @@ public class ConsumeItemRequest extends KoLRequest
 
 		switch ( consumptionType )
 		{
+		case HP_RESTORE:
+			if ( itemUsed.getCount() > 1 )
+			{
+				addFormField( "action", "useitem" );
+				addFormField( "quantity", String.valueOf( itemUsed.getCount() ) );
+			}
+			else
+			{
+				addFormField( "which", "3" );
+			}
+
 		case CONSUME_MULTIPLE:
 			addFormField( "action", "useitem" );
 			addFormField( "quantity", String.valueOf( itemUsed.getCount() ) );
