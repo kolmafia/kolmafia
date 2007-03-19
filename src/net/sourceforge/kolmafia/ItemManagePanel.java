@@ -62,7 +62,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public JPanel eastPanel;
 	public JPanel northPanel;
-	public JPanel filterPanel;
 
 	public LockableListModel elementModel;
 	public ShowDescriptionList elementList;
@@ -146,7 +145,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 		// Handle filters along the top always, whenever buttons
 		// are added.
 
-		filterPanel = new JPanel();
 		northPanel = new JPanel( new BorderLayout() );
 
 		if ( !addFilterCheckboxes )
@@ -155,6 +153,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		}
 		else
 		{
+			JPanel filterPanel = new JPanel();
 			filters = new JCheckBox[5];
 
 			if ( buttonListeners == null )
@@ -179,9 +178,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 				filterPanel.add( filters[i] );
 				filters[i].addActionListener( new UpdateFilterListener() );
 			}
-		}
 
-		northPanel.add( filterPanel, BorderLayout.NORTH );
+			northPanel.add( filterPanel, BorderLayout.NORTH );
+		}
 
 		// If there are buttons, they likely need movers.  Therefore, add
 		// some movers to everything.

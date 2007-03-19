@@ -2007,7 +2007,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( !refusesContinue() )
 			forceContinue();
 
-		RequestThread.postRequest( new GiftMessageRequest( recipient, message, desiredPackageIndex, attachments ) );
+		RequestThread.postRequest( new GiftMessageRequest( recipient, message, desiredPackageIndex, attachments, forceGift ) );
 
 		if ( permitsContinue() )
 			updateDisplay( "Gift sent to " + recipient );
