@@ -3332,6 +3332,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public static int getFirstMatchingItemId( List nameList )
 	{
+		if ( nameList == null )
+			return -1;
+
 		if ( nameList.isEmpty() )
 			return -1;
 
@@ -3358,7 +3361,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( itemId != MEAT_PASTE && itemId != MEAT_STACK && itemId != DENSE_STACK )
 					continue;
 
-			npcstore = NPCStoreDatabase.getPurchaseRequest( (String) nameList.get( i ) );
+			npcstore = NPCStoreDatabase.getPurchaseRequest( (String) nameList.get(i) );
 
 			if ( npcstore != null )
 			{
@@ -3395,20 +3398,17 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		return lowestId == Integer.MAX_VALUE ? -1 : lowestId;
+		if ( lowestId == Integer.MAX_VALUE )
+			return -1;
+
+		if ( !npcStoreMatch )
+			return 0;
+
+		return lowestId;
 	}
 
 	private static List getMatchingItemNames( String itemName )
-	{
-		int itemId = TradeableItemDatabase.getItemId( itemName );
-		if ( itemId != -1 )
-		{
-			ArrayList matchingNames = new ArrayList();
-			matchingNames.add( TradeableItemDatabase.getItemName( itemId ) );
-			return matchingNames;
-		}
-
-		return TradeableItemDatabase.getMatchingNames( itemName );
+	{	return TradeableItemDatabase.getMatchingNames( itemName );
 	}
 
 	/**
@@ -3461,6 +3461,19 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( !matchingNames.isEmpty() )
 			itemId = getFirstMatchingItemId( matchingNames );
+
+		if ( itemId == 0 )
+		{
+			if ( errorOnFailure )
+			{
+				printList( matchingNames );
+				RequestLogger.printLine();
+
+				updateDisplay( ERROR_STATE, "[" + parameters + "] has too many matches." );
+			}
+
+			return null;
+		}
 
 		if ( itemId == -1 )
 		{

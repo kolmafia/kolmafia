@@ -150,7 +150,7 @@ public class KoLSettings extends Properties implements KoLConstants
 	private static File mementoFile = new File( SETTINGS_LOCATION, "memento_GLOBAL.txt" );
 	private static File checklistFile = new File( SETTINGS_LOCATION, "checklist_GLOBAL.txt" );
 
-	static
+	public static void initializeLists()
 	{
 		try
 		{

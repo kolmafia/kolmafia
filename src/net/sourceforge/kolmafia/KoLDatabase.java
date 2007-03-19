@@ -155,12 +155,15 @@ public class KoLDatabase extends StaticEntity
 			nameMap.keySet().toArray( names );
 
 			for ( int i = 0; i < names.length; ++i )
-				if ( names[i].toLowerCase().indexOf( searchString ) != -1 )
+			{
+				names[i] = names[i].toLowerCase();
+				if ( names[i].indexOf( searchString ) != -1 )
 					substringList.add( names[i] );
-		}
+			}
 
-		if ( substringList.isEmpty() )
-			substringList.addAll( getMatchingAbbreviations( nameMap, searchString ) );
+			if ( substringList.isEmpty() )
+				getMatchingAbbreviations( substringList, names, searchString );
+		}
 
 		return substringList;
 	}
@@ -173,23 +176,14 @@ public class KoLDatabase extends StaticEntity
 	 * @param	substring	The substring for which to search
 	 */
 
-	private static final List getMatchingAbbreviations( Map nameMap, String substring )
+	private static final void getMatchingAbbreviations( List substringList, String [] names, String searchString )
 	{
-		List substringList = new ArrayList();
-
-		if ( substring.length() == 0 )
-			return substringList;
-
-		String [] names = new String[ nameMap.size() ];
-		nameMap.keySet().toArray( names );
-
-		substring = substring.toLowerCase();
+		if ( searchString.length() == 0 )
+			return;
 
 		for ( int i = 0; i < names.length; ++i )
-			if ( fuzzyMatches( names[i], substring ) )
+			if ( fuzzyMatches( names[i], searchString ) )
 				substringList.add( names[i] );
-
-		return substringList;
 	}
 
 	public static boolean fuzzyMatches( String source, String substring )

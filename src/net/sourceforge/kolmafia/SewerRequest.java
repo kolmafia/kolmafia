@@ -63,7 +63,12 @@ public class SewerRequest extends KoLRequest
 			return;
 
 		if ( isLuckySewer )
-			runLuckySewer();
+		{
+			if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+				KoLmafia.updateDisplay( ERROR_STATE, "Turn off clover protection if you want to go here." );
+			else
+				runLuckySewer();
+		}
 		else
 			runUnluckySewer();
 	}
