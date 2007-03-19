@@ -2484,18 +2484,24 @@ public abstract class KoLmafia implements KoLConstants
 		return requirements.isEmpty();
 	}
 
-	public void printList( List printing )
+	public static void printList( List printing )
 	{	printList( printing, RequestLogger.INSTANCE );
 	}
 
-	public void printList( List printing, PrintStream ostream )
+	public static void printList( List printing, PrintStream ostream )
 	{
+		if ( printing == null || ostream == null )
+			return;
+
 		StringBuffer buffer = new StringBuffer();
 
 		if ( printing != availableSkills )
 		{
 			for ( int i = 0; i < printing.size(); ++i )
 			{
+				if ( printing.get(i) == null )
+					continue;
+
 				buffer.append( printing.get(i).toString() );
 				buffer.append( LINE_BREAK );
 			}

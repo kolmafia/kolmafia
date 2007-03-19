@@ -179,7 +179,9 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static void reloadSettings( String username )
-	{	settings = username.equals( "" ) ? KoLSettings.GLOBAL_SETTINGS : new KoLSettings( username );
+	{
+		settings = username.equals( "" ) ? KoLSettings.GLOBAL_SETTINGS : new KoLSettings( username );
+		KoLSettings.initializeLists();
 	}
 
 	public static final void setProperty( String name, String value )
