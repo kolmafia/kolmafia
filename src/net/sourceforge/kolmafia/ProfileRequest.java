@@ -276,13 +276,13 @@ public class ProfileRequest extends KoLRequest implements Comparable
 		// The player's three primary stats appear in
 		// the next three fields of the table.
 
-		dataMatcher.find( dataMatcher.end() );
+		dataMatcher.find();
 		instance.muscle = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
 
-		dataMatcher.find( dataMatcher.end() );
+		dataMatcher.find();
 		instance.mysticism = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
 
-		dataMatcher.find( dataMatcher.end() );
+		dataMatcher.find();
 		instance.moxie = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
 
 		// The next field contains the total power,
@@ -291,19 +291,28 @@ public class ProfileRequest extends KoLRequest implements Comparable
 
 		dataMatcher.find();
 
-		// The next two fields contain the title and
-		// rank within the clan for the player.
+		// The next three fields contain the ascension
+		// count, number of hardcore runs, and their
+		// pvp ranking.
 
-		dataMatcher.find( dataMatcher.end() );
-		instance.title = dataMatcher.group(1);
+		dataMatcher.find();
+		instance.ascensionCount = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
 
-		dataMatcher.find( dataMatcher.end() );
+		dataMatcher.find();
+
+		dataMatcher.find();
+		instance.pvpRank = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
+
+		// Next is the player's rank inside of this clan.
+		// Title was removed, so ... not visible here.
+
+		dataMatcher.find();
 		instance.rank = dataMatcher.group(1);
 
 		// The last field contains the total karma
 		// accumulated by this player.
 
-		dataMatcher.find( dataMatcher.end() );
+		dataMatcher.find();
 		instance.karma = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
 
 		return instance;
@@ -475,7 +484,7 @@ public class ProfileRequest extends KoLRequest implements Comparable
 
 	public void processResults()
 	{
-		responseText.replaceFirst( "http://www[23]?\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)", "../ascensions/$1.htm" );
+		responseText.replaceFirst( "http://www[2345678]?\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)", "../ascensions/$1.htm" );
 		refreshFields();
 	}
 
