@@ -67,9 +67,6 @@ public class FightFrame extends RequestFrame
 
 	public static void showRequest( KoLRequest request, String title )
 	{
-		if ( request.responseText == null || request.responseText.equals( "" ) )
-			RequestThread.postRequest( request );
-
 		StaticEntity.getClient().setCurrentRequest( request );
 
 		if ( title != null )
