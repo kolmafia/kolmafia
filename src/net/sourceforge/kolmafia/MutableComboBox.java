@@ -93,6 +93,18 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 			currentName = anObject.toString();
 	}
 
+	private void updateFilter()
+	{
+		filter.makeStrict();
+		model.applyListFilter( filter );
+
+		if ( model.getSize() == 0 )
+		{
+			filter.makeFuzzy();
+			model.applyListFilter( filter );
+		}
+	}
+
 	public synchronized void findMatch( int keyCode )
 	{
 		// If it wasn't the enter key that was being released,
@@ -105,7 +117,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		if ( model.contains( currentName ) )
 		{
 			if ( !allowAdditions )
-				model.applyListFilter( filter );
+				updateFilter();
 
 			setSelectedItem( currentName );
 			return;
@@ -118,7 +130,7 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 			if ( !isPopupVisible() )
 				showPopup();
 
-			model.applyListFilter( filter );
+			updateFilter();
 			getEditor().setItem( currentName );
 
 			editor.setSelectionStart( currentName.length() );
@@ -188,6 +200,16 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 	public class WordBasedFilter extends ListElementFilter
 	{
+		private boolean strict = true;
+
+		public void makeStrict()
+		{	strict = true;
+		}
+
+		public void makeFuzzy()
+		{	strict = false;
+		}
+
 		public boolean isVisible( Object element )
 		{
 			// If it's not a result, then check to see if you need to
@@ -201,17 +223,20 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 				if ( element instanceof Entry )
 				{
 					Entry entry = (Entry) element;
-					return KoLDatabase.fuzzyMatches( entry.getValue().toString(), currentName );
+					return strict ? entry.getValue().toString().toLowerCase().indexOf( currentName.toLowerCase() ) != -1 :
+						KoLDatabase.fuzzyMatches( entry.getValue().toString(), currentName );
 				}
 
-				return KoLDatabase.fuzzyMatches( element.toString(), currentName );
+				return strict ? element.toString().toLowerCase().indexOf( currentName.toLowerCase() ) != -1 :
+					KoLDatabase.fuzzyMatches( element.toString(), currentName );
 			}
 
 			// In all other cases, compare the item against the
 			// item name, so counts don't interfere.
 
 			String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() : ((ItemCreationRequest)element).getName();
-			return currentName == null || currentName.length() == 0 || KoLDatabase.fuzzyMatches( name, currentName );
+			return currentName == null || currentName.length() == 0 ||
+				(strict ? name.toLowerCase().indexOf( currentName.toLowerCase() ) != -1 : KoLDatabase.fuzzyMatches( name, currentName ));
 		}
 
 		public final boolean isNonResult( Object element )
