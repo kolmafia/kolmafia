@@ -42,8 +42,8 @@ import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import tab.CloseTabbedPane;
 import javax.swing.JTextField;
 
 public class HagnkStorageFrame extends KoLFrame
@@ -132,11 +132,15 @@ public class HagnkStorageFrame extends KoLFrame
 				equipmentFilters[6] = new FilterRadioButton( "familiar" );
 
 				ButtonGroup filterGroup = new ButtonGroup();
+				JPanel filterPanel = new JPanel();
+
 				for ( int i = 0; i < 7; ++i )
 				{
 					filterGroup.add( equipmentFilters[i] );
 					filterPanel.add( equipmentFilters[i] );
 				}
+
+				northPanel.add( filterPanel, BorderLayout.NORTH );
 
 				elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
 				wordfilter.filterItems();
