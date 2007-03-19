@@ -39,7 +39,7 @@ Woods	5/0	adventure=17	Hidden Temple
 Woods	5/0	adventure=25	Typical Tavern	beer goggles
 Woods	29/29	adventure=79	Deep Fat Friar's Gate
 Woods	0/20	adventure=73	8-Bit Realm	1 digital key
-Woods	35/0	adventure=100	Whitey's Grove	1 white picket fence
+Woods	35/0	adventure=100	Whitey's Grove
 Woods	35/0	adventure=99	The Road to the White Citadel
 
 BatHole	8/8	adventure=30	Bat Hole Entryway	1 Pine-Fresh air freshener
@@ -100,7 +100,7 @@ Mountain	68/0	mountains=80	Bridge the Orc Chasm
 Mountain	68/0	adventure=80	Valley Beyond Orc Chasm	1 64735 scroll, 2 lowercase N
 
 Beanstalk	85/90	adventure=81	Penultimate Fantasy Airship	1 metallic A, 1 S.O.C.K.
-Beanstalk	85/95	adventure=82	Castle in the Clouds in the Sky	1 heavy D, 1 thin black candle, 2 choiceadv
+Beanstalk	85/95	adventure=82	Castle in the Clouds in the Sky	castle items
 Beanstalk	85/100	adventure=83	Hole in the Sky	1 Richard's star key, 1 star hat, 1 star crossbow
 
 Sorceress	104/0	lair3=hedge	Sorceress' Hedge Maze	3 hedge maze puzzle
