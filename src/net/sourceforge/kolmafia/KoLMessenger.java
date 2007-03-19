@@ -170,7 +170,7 @@ public abstract class KoLMessenger extends StaticEntity
 			key = "[" + key.substring(1) + "]";
 
 		String filename = "chats/" + DATED_FILENAME_FORMAT.format( new Date() ) + "_" + KoLCharacter.baseUserName();
-		return key.equals( "[ALL]" ) ? filename + ".html" : filename + "_" + key + ".html";
+		return key.equals( "[main]" ) ? filename + ".html" : filename + "_" + key + ".html";
 	}
 
 	public static final boolean usingTabbedChat()
@@ -206,7 +206,7 @@ public abstract class KoLMessenger extends StaticEntity
 		reset();
 		isRunning = true;
 
-		openInstantMessage( "[ALL]", enableMonitor );
+		openInstantMessage( "[main]", enableMonitor );
 
 		// Clear the highlights and add all the ones which
 		// were saved from the last session.
@@ -217,7 +217,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		if ( highlights.length > 1 )
 		{
-			LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highs]" );
+			LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[high]" );
 			LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
 			for ( int i = 0; i < highlights.length; ++i )
@@ -286,7 +286,7 @@ public abstract class KoLMessenger extends StaticEntity
 	private static String getBufferKey( String contact )
 	{
 		return contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
-			!privateSeparate && !contact.startsWith( "/" ) ? "[blues]" : !channelsSeparate && contact.startsWith( "/" ) ? "[ALL]" : contact;
+			!privateSeparate && !contact.startsWith( "/" ) ? "[blues]" : !channelsSeparate && contact.startsWith( "/" ) ? "[main]" : contact;
 	}
 
 	/**
@@ -703,8 +703,8 @@ public abstract class KoLMessenger extends StaticEntity
 			return;
 
 		processChatMessage( channel, message, bufferKey, eventsIgnored );
-		if ( !bufferKey.equals( "[ALL]" ) )
-			processChatMessage( channel, message, "[ALL]", true );
+		if ( !bufferKey.equals( "[main]" ) )
+			processChatMessage( channel, message, "[main]", true );
 
 		// If it's a private message, then it's possible the player wishes
 		// to run some command.
@@ -949,7 +949,7 @@ public abstract class KoLMessenger extends StaticEntity
 		// Now that everything has been properly formatted,
 		// show the display HTML.
 
-		if ( !enableMonitor || !bufferKey.equals( "[ALL]" ) )
+		if ( !enableMonitor || !bufferKey.equals( "[main]" ) )
 		{
 			StringBuffer timestamp = new StringBuffer();
 			timestamp.append( "<font color=\"" );
@@ -1013,7 +1013,7 @@ public abstract class KoLMessenger extends StaticEntity
 		{
 			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUserName() + ": " +
 				channel + " - Started " + Calendar.getInstance().getTime().toString(), true,
-				isRunning && (!channel.equals( "[ALL]" ) || StaticEntity.getBooleanProperty( "useSeparateChannels" )) );
+				isRunning && (!channel.equals( "[main]" ) || StaticEntity.getBooleanProperty( "useSeparateChannels" )) );
 
 			instantMessageBuffers.put( channel, buffer );
 			if ( channel.startsWith( "/" ) )
@@ -1029,7 +1029,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 			buffer.setActiveLogFile( getChatLogName( channel ) );
 
-			if ( highlighting && !channel.equals( "[highs]" ) )
+			if ( highlighting && !channel.equals( "[high]" ) )
 				buffer.applyHighlights();
 		}
 		catch ( Exception e )
@@ -1085,7 +1085,7 @@ public abstract class KoLMessenger extends StaticEntity
 		highlighting = true;
 		Color color = getRandomColor();
 
-		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highs]" );
+		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[high]" );
 		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
 		StringBuffer newSetting = new StringBuffer();
@@ -1098,7 +1098,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
-			if ( !keys[i].equals( "[highs]" ) )
+			if ( !keys[i].equals( "[high]" ) )
 				getChatBuffer( (String) keys[i] ).applyHighlights();
 	}
 
@@ -1128,7 +1128,7 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( selectedValue == null )
 			return;
 
-		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highs]" );
+		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[high]" );
 		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
 		for ( int i = 0; i < patterns.length; ++i )
@@ -1154,7 +1154,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
-			if ( !keys[i].equals( "[highs]" ) )
+			if ( !keys[i].equals( "[high]" ) )
 				getChatBuffer( (String) keys[i] ).applyHighlights();
 	}
 }
