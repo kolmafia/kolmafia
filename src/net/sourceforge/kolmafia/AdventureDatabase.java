@@ -879,7 +879,7 @@ public class AdventureDatabase extends KoLDatabase
 		if ( adventureName == null || adventureName.equals( "" ) )
 			return null;
 
-		return allAdventures.find( adventureName );
+		return allAdventures.find( adventureName.equalsIgnoreCase( "sewer" ) ? "unlucky sewer" : adventureName );
 
 	}
 
