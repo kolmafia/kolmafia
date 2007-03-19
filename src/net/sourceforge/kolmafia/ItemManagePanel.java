@@ -554,7 +554,14 @@ public class ItemManagePanel extends LabeledScrollPanel
 				notrade = filters[4].isSelected();
 			}
 
+			filter.makeStrict();
 			elementList.applyFilter( filter );
+
+			if ( elementModel.getSize() == 0 )
+			{
+				filter.makeFuzzy();
+				elementList.applyFilter( filter );
+			}
 		}
 
 		public class ConsumptionBasedFilter extends WordBasedFilter
