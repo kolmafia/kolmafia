@@ -65,7 +65,6 @@ import javax.swing.SwingUtilities;
 
 import net.sourceforge.foxtrot.Job;
 import com.velocityreviews.forums.HttpTimeoutHandler;
-import sun.net.www.protocol.http.Handler;
 
 public class KoLRequest extends Job implements KoLConstants
 {
