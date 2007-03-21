@@ -130,7 +130,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 				this.mpPerUse = (int) (KoLCharacter.getLevel() * 1.5 + 4.0);
 			}
 
-			return mpPerUse;
+			return Math.min( mpPerUse, KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() );
 		}
 
 		public void recoverMP( int needed, boolean purchase )
