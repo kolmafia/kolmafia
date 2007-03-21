@@ -487,6 +487,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static void cachePermitted( List availableIngredients )
 	{
+		boolean noServantNeeded = getBooleanProperty( "createWithoutBoxServants" );
+		boolean willBuyServant = KoLCharacter.canInteract() && getBooleanProperty( "autoRepairBoxes" ) && getBooleanProperty( "autoSatisfyWithMall" );
+
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
 
@@ -586,8 +589,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Next, increment through all the box servant creation methods.
 		// This allows future appropriate calculation for cooking/drinking.
 
-		boolean noServantNeeded = getBooleanProperty( "createWithoutBoxServants" );
-
 		concoctions.get( CHEF ).calculate( availableIngredients );
 		concoctions.get( CLOCKWORK_CHEF ).calculate( availableIngredients );
 		concoctions.get( BARTENDER ).calculate( availableIngredients );
@@ -596,9 +597,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Cooking is permitted, so long as the person has a chef
 		// or they don't need a box servant and have an oven.
 
-		PERMIT_METHOD[ COOK ] = KoLCharacter.hasChef() || isAvailable( CHEF, CLOCKWORK_CHEF );
+		PERMIT_METHOD[ COOK ] = willBuyServant || KoLCharacter.hasChef() || isAvailable( CHEF, CLOCKWORK_CHEF );
 
-		if ( !PERMIT_METHOD[ COOK ] )
+		if ( PERMIT_METHOD[ COOK ] )
+		{
+			ADVENTURE_USAGE[ COOK ] = 0;
+		}
+		else
 		{
 			if ( noServantNeeded )
 			{
@@ -629,7 +634,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		PERMIT_METHOD[ MIX ] = KoLCharacter.hasBartender() || isAvailable( BARTENDER, CLOCKWORK_BARTENDER );
 
-		if ( !PERMIT_METHOD[ MIX ] )
+		if ( PERMIT_METHOD[ MIX ] )
+		{
+			ADVENTURE_USAGE[ MIX ] = 0;
+		}
+		else
 		{
 			if ( noServantNeeded )
 			{
