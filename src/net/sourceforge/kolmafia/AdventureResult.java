@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -606,6 +607,9 @@ public class AdventureResult implements Comparable, KoLConstants
 			if ( value instanceof ItemCreationRequest )
 				return getRenderer( defaultComponent, (ItemCreationRequest) value );
 
+			if ( value instanceof Concoction )
+				return getRenderer( defaultComponent, (Concoction) value );
+
 			return defaultComponent;
 		}
 
@@ -668,6 +672,24 @@ public class AdventureResult implements Comparable, KoLConstants
 			}
 
 			((JLabel) defaultComponent).setText( stringForm.toString() );
+			return defaultComponent;
+		}
+
+		public Component getRenderer( Component defaultComponent, Concoction c )
+		{
+			StringBuffer stringForm = new StringBuffer();
+			stringForm.append( c.toString() );
+			stringForm.append( " (" );
+			stringForm.append( c.getTotal() );
+			stringForm.append( ")" );
+
+			if ( junkItemList.contains( c.getItem() ) )
+			{
+				stringForm.insert( 0, "<html><font color=gray>" );
+				stringForm.append( "</font></html>" );
+			}
+
+			((JLabel)defaultComponent).setText( stringForm.toString() );
 			return defaultComponent;
 		}
 	}

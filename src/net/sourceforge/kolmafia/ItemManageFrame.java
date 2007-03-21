@@ -73,6 +73,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class ItemManageFrame extends KoLFrame
 {
@@ -93,6 +94,15 @@ public class ItemManageFrame extends KoLFrame
 		super( "Item Manager" );
 
 		LabeledScrollPanel npcOfferings = null;
+
+		addPanel( "Experimental", new ExperimentalPanel( true, true, true, true ) );
+
+		addPanel( " - Food", new ExperimentalPanel( true, false, false, false ) );
+		addPanel( " - Booze", new ExperimentalPanel( false, true, false, false ) );
+		addPanel( " - Recovery", new ExperimentalPanel( false, false, true, false ) );
+		addPanel( " - Other", new ExperimentalPanel( false, false, false, true ) );
+
+		addSeparator();
 
 		addPanel( "Usable Items", new ConsumeItemPanel( true, true, true, true ) );
 
@@ -528,6 +538,107 @@ public class ItemManageFrame extends KoLFrame
 				(KoLRequest) (new RestaurantRequest( item )) : (KoLRequest) (new MicrobreweryRequest( item ));
 
 			StaticEntity.getClient().makeRequest( request, consumptionCount );
+		}
+	}
+
+	private class ExperimentalPanel extends ItemManagePanel
+	{
+		private boolean food, booze, restores, other;
+
+		public ExperimentalPanel( boolean food, boolean booze, boolean restores, boolean other )
+		{
+			super( "Use Items", "use item", "check wiki", ConcoctionsDatabase.usableConcoctions );
+
+			JPanel moverPanel = new JPanel();
+
+			this.food = food;
+			this.booze = booze;
+			this.restores = restores;
+			this.other = other;
+
+			movers = new JRadioButton[4];
+			movers[0] = new JRadioButton( "Move all" );
+			movers[1] = new JRadioButton( "Move all but one" );
+			movers[2] = new JRadioButton( "Move multiple", true );
+			movers[3] = new JRadioButton( "Move exactly one" );
+
+			ButtonGroup moverGroup = new ButtonGroup();
+			for ( int i = 0; i < 4; ++i )
+			{
+				moverGroup.add( movers[i] );
+				moverPanel.add( movers[i] );
+			}
+
+			actualPanel.add( moverPanel, BorderLayout.NORTH );
+
+			wordfilter = new ConsumableFilterComboBox();
+			centerPanel.add( wordfilter, BorderLayout.NORTH );
+
+			wordfilter.filterItems();
+		}
+
+		public void actionConfirmed()
+		{
+			Object [] items = getDesiredItems( "Consume" );
+			if ( items.length == 0 )
+				return;
+
+			for ( int i = 0; i < items.length; ++i )
+				RequestThread.postRequest( new ConsumeItemRequest( ((Concoction)items[i]).getItem() ) );
+		}
+
+		public void actionCancelled()
+		{
+			String name;
+			Object [] values = elementList.getSelectedValues();
+
+			for ( int i = 0; i < values.length; ++i )
+			{
+				name = values[i].toString();
+				if ( name != null )
+					StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
+			}
+		}
+
+		private class ConsumableFilterComboBox extends FilterItemComboBox
+		{
+			public ConsumableFilterComboBox()
+			{	filter = new ConsumableFilter();
+			}
+
+			public void filterItems()
+			{	elementList.applyFilter( filter );
+			}
+
+			private class ConsumableFilter extends WordBasedFilter
+			{
+				public boolean isVisible( Object element )
+				{
+					switch ( TradeableItemDatabase.getConsumptionType( ((Concoction)element).getItemId() ) )
+					{
+					case CONSUME_EAT:
+						return ExperimentalPanel.this.food && super.isVisible( element );
+
+					case CONSUME_DRINK:
+						return ExperimentalPanel.this.booze && super.isVisible( element );
+
+					case GROW_FAMILIAR:
+					case CONSUME_ZAP:
+						return ExperimentalPanel.this.other && super.isVisible( element );
+
+					case HP_RESTORE:
+					case MP_RESTORE:
+						return ExperimentalPanel.this.restores && super.isVisible( element );
+
+					case CONSUME_USE:
+					case CONSUME_MULTIPLE:
+						return ExperimentalPanel.this.other && super.isVisible( element );
+
+					default:
+						return false;
+					}
+				}
+			}
 		}
 	}
 
