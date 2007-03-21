@@ -96,7 +96,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.price = price;
 
 		this.item = new AdventureResult( this.itemId, 1 );
-		this.initialCount = this.item.getCount( inventory );
 
 		this.isNPCStore = true;
 		this.npcStoreId = storeId;
@@ -147,7 +146,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		addFormField( "whichitem", getStoreString( itemId, price ) );
 
 		this.item = new AdventureResult( this.itemId, 1 );
-		this.initialCount = this.item.getCount( inventory );
 	}
 
 	public static String getStoreString( int itemId, int price )
@@ -328,6 +326,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// actual purchase request.
 
 		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemId ) + " (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( getPrice() ) + ")..." );
+
+		this.initialCount = this.item.getCount( inventory );
 		super.run();
 	}
 
