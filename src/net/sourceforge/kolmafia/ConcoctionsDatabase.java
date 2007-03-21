@@ -42,6 +42,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 {
 	private static final SortedListModel EMPTY_LIST = new SortedListModel();
 	public static final SortedListModel concoctionsList = new SortedListModel();
+	public static final SortedListModel usableConcoctions = new SortedListModel();
 
 	private static Concoction stillsLimit = new Concoction( null, NOCREATE );
 	private static Concoction adventureLimit = new Concoction( null, NOCREATE );
@@ -414,6 +415,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 				continue;
 
 			instance.setQuantityPossible( item.creatable );
+
+			if ( item.total == 0 && usableConcoctions.contains( item ) )
+				usableConcoctions.remove( item );
+
+			if ( item.total > 0 && !usableConcoctions.contains( item ) )
+				usableConcoctions.add( item );
 
 			if ( instance.getQuantityPossible() == 0 )
 			{
@@ -797,7 +804,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 * contains all the information needed to actually make the item.
 	 */
 
-	private static class Concoction
+	public static class Concoction implements Comparable
 	{
 		private AdventureResult concoction;
 		private int mixingMethod;
@@ -817,6 +824,37 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			this.ingredients = new ArrayList();
 			this.ingredientArray = new AdventureResult[0];
+		}
+
+		public int compareTo( Object o )
+		{
+			if ( o == null || !(o instanceof Concoction) )
+				return -1;
+
+			if ( concoction == null )
+				return -1;
+
+			return concoction.compareTo( ((Concoction)o).concoction );
+		}
+
+		public boolean equals( Object o )
+		{	return compareTo( o ) == 0;
+		}
+
+		public AdventureResult getItem()
+		{	return concoction;
+		}
+
+		public int getItemId()
+		{	return concoction == null ? -1 : concoction.getItemId();
+		}
+
+		public int getInitial()
+		{	return initial;
+		}
+
+		public int getTotal()
+		{	return total;
 		}
 
 		public void resetCalculations()
