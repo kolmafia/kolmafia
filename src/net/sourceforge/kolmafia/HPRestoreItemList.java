@@ -115,6 +115,15 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 		public int getHealthPerUse()
 		{
+			if ( this == GALAKTIK || this == HERBS || this == SCROLL || this == COCOON )
+			{
+				// The restore rate on these is equal to the difference
+				// between your current and your maximum health.
+
+				this.hpPerUse = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
+				return this.hpPerUse;
+			}
+
 			if ( this == SOFA )
 			{
 				// The restore rate on the rumpus room sofa changes
@@ -122,15 +131,8 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 				this.hpPerUse = (int) KoLCharacter.getLevel() * 5 + 1;
 			}
-			else if ( this == GALAKTIK || this == HERBS || this == SCROLL || this == COCOON )
-			{
-				// The restore rate on these is equal to the difference
-				// between your current and your maximum health.
 
-				this.hpPerUse = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
-			}
-
-			return hpPerUse;
+			return Math.min( hpPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
 		}
 
 		public int compareTo( Object o )
