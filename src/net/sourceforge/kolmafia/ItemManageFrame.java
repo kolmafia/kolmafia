@@ -618,7 +618,7 @@ public class ItemManageFrame extends KoLFrame
 					return;
 
 				StringBuffer itemdata = new StringBuffer();
-				itemdata.append( "<html>" );
+				itemdata.append( "<html><center>" );
 
 				if ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) == CONSUME_DRINK )
 				{
@@ -631,7 +631,10 @@ public class ItemManageFrame extends KoLFrame
 					itemdata.append( " fullness" );
 				}
 
-				itemdata.append( "<br>" );
+				itemdata.append( "<br><br>" );
+
+				itemdata.append( item.getItem().getCount( inventory ) );
+				itemdata.append( " on hand<br>" );
 
 				itemdata.append( item.getInitial() );
 				itemdata.append( " with retrieval<br>" );
@@ -639,7 +642,7 @@ public class ItemManageFrame extends KoLFrame
 				itemdata.append( item.getTotal() );
 				itemdata.append( " with creation" );
 
-				itemdata.append( "</html>" );
+				itemdata.append( "</center></html>" );
 				setText( itemdata.toString() );
 			}
 		}
