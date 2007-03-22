@@ -678,9 +678,22 @@ public class AdventureResult implements Comparable, KoLConstants
 		public Component getRenderer( Component defaultComponent, Concoction c )
 		{
 			StringBuffer stringForm = new StringBuffer();
+
 			stringForm.append( c.toString() );
+
 			stringForm.append( " (" );
-			stringForm.append( c.getItem().getCount( inventory ) );
+
+			if ( TradeableItemDatabase.getConsumptionType( c.getItemId() ) == CONSUME_DRINK )
+			{
+				stringForm.append( TradeableItemDatabase.getInebriety( c.getItemId() ) );
+				stringForm.append( " inebriety" );
+			}
+			else
+			{
+				stringForm.append( TradeableItemDatabase.getFullness( c.getItemId() ) );
+				stringForm.append( " fullness" );
+			}
+
 			stringForm.append( ")" );
 
 			if ( junkItemList.contains( c.getItem() ) )

@@ -620,27 +620,30 @@ public class ItemManageFrame extends KoLFrame
 				StringBuffer itemdata = new StringBuffer();
 				itemdata.append( "<html><center>" );
 
-				if ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) == CONSUME_DRINK )
+				int amount1 = item.getItem().getCount( inventory );
+
+				itemdata.append( amount1 );
+				itemdata.append( " on hand" );
+
+				int amount2 = item.getInitial();
+
+				if ( amount1 != amount2 )
 				{
-					itemdata.append( TradeableItemDatabase.getInebriety( item.getItemId() ) );
-					itemdata.append( " inebriety" );
+					itemdata.append( "<br>" );
+					itemdata.append( item.getInitial() );
+					itemdata.append( " retrievable" );
+
+					amount1 = amount2;
 				}
-				else
+
+				amount2 = item.getTotal();
+
+				if ( amount1 != amount2 )
 				{
-					itemdata.append( TradeableItemDatabase.getFullness( item.getItemId() ) );
-					itemdata.append( " fullness" );
+					itemdata.append( "<br>" );
+					itemdata.append( amount2 );
+					itemdata.append( " with creation" );
 				}
-
-				itemdata.append( "<br><br>" );
-
-				itemdata.append( item.getItem().getCount( inventory ) );
-				itemdata.append( " on hand<br>" );
-
-				itemdata.append( item.getInitial() );
-				itemdata.append( " with retrieval<br>" );
-
-				itemdata.append( item.getTotal() );
-				itemdata.append( " with creation" );
 
 				itemdata.append( "</center></html>" );
 				setText( itemdata.toString() );
