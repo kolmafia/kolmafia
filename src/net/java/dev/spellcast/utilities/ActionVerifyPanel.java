@@ -68,7 +68,6 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 	protected JPanel container;
 	private boolean contentSet;
 	private boolean isCenterPanel;
-	private JComponent eastContainer;
 	private VerifyButtonPanel buttonPanel;
 	private Dimension left, right;
 

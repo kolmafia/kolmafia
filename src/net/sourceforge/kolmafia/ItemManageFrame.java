@@ -115,8 +115,8 @@ public class ItemManageFrame extends KoLFrame
 
 		addPanel( "Creatable Items", new CreateItemPanel( true, true, true, true ) );
 
-		addPanel( " - Food", new CreateItemPanel( true, false, false, false ) );
-		addPanel( " - Booze", new CreateItemPanel( false, true, false, false ) );
+		addPanel( " - Cooked", new CreateItemPanel( true, false, false, false ) );
+		addPanel( " - Mixed", new CreateItemPanel( false, true, false, false ) );
 		addPanel( " - Equipment", new CreateItemPanel( false, false, true, false ) );
 		addPanel( " - Other", new CreateItemPanel( false, false, false, true ) );
 
@@ -578,6 +578,7 @@ public class ItemManageFrame extends KoLFrame
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
 
 			wordfilter.filterItems();
+			eastPanel.add( new UsageDataLabel(), BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
@@ -600,6 +601,46 @@ public class ItemManageFrame extends KoLFrame
 				name = values[i].toString();
 				if ( name != null )
 					StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
+			}
+		}
+
+		private class UsageDataLabel extends JLabel implements ListSelectionListener
+		{
+			public UsageDataLabel()
+			{
+				elementList.addListSelectionListener( this );
+			}
+
+			public void valueChanged( ListSelectionEvent e )
+			{
+				Concoction item = (Concoction) elementList.getSelectedValue();
+				if ( item == null )
+					return;
+
+				StringBuffer itemdata = new StringBuffer();
+				itemdata.append( "<html>" );
+
+				if ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) == CONSUME_DRINK )
+				{
+					itemdata.append( TradeableItemDatabase.getInebriety( item.getItemId() ) );
+					itemdata.append( " inebriety" );
+				}
+				else
+				{
+					itemdata.append( TradeableItemDatabase.getFullness( item.getItemId() ) );
+					itemdata.append( " fullness" );
+				}
+
+				itemdata.append( "<br>" );
+
+				itemdata.append( item.getInitial() );
+				itemdata.append( " with retrieval<br>" );
+
+				itemdata.append( item.getTotal() );
+				itemdata.append( " with creation" );
+
+				itemdata.append( "</html>" );
+				setText( itemdata.toString() );
 			}
 		}
 
@@ -635,7 +676,16 @@ public class ItemManageFrame extends KoLFrame
 
 					case CONSUME_USE:
 					case CONSUME_MULTIPLE:
-						return ExperimentalPanel.this.other && super.isVisible( element );
+
+						switch ( ((Concoction)element).getItemId() )
+						{
+						case 1619: // munchies pills
+						case 1650: // milk of magnesium
+							return ExperimentalPanel.this.food && super.isVisible( element );
+
+						default:
+							return ExperimentalPanel.this.other && super.isVisible( element );
+						}
 
 					default:
 						return false;

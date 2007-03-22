@@ -60,9 +60,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 	public static final int TAKE_MULTIPLE = 3;
 	public static final int TAKE_ONE = 4;
 
-	public JPanel eastPanel;
 	public JPanel northPanel;
-
 	public LockableListModel elementModel;
 	public ShowDescriptionList elementList;
 
@@ -116,8 +114,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 	{
 		// Handle buttons along the right hand side, if there are
 		// supposed to be buttons.
-
-		eastPanel = new JPanel( new BorderLayout() );
 
 		if ( buttonListeners != null )
 		{
@@ -612,7 +608,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 						// munchies pills; all others are marked as expected.
 
 						isVisibleWithFilter = other;
-						if ( name.equals( "milk of magnesium" ) || name.equals( "munchies pills" ) )
+						if ( name.equalsIgnoreCase( "milk of magnesium" ) || name.equalsIgnoreCase( "munchies pills" ) )
 							isVisibleWithFilter |= food;
 					}
 					else
