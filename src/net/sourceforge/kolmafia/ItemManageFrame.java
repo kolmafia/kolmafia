@@ -79,6 +79,8 @@ public class ItemManageFrame extends KoLFrame
 {
 	private static final Dimension MAX_WIDTH = new Dimension( 500, Integer.MAX_VALUE );
 
+	private ExperimentalPanel foodPanel, boozePanel;
+
 	private LockableListModel itemPanelNames = new LockableListModel();
 	private JList itemPanelList = new JList( itemPanelNames );
 	private CardLayout itemPanelCards = new CardLayout();
@@ -95,12 +97,10 @@ public class ItemManageFrame extends KoLFrame
 
 		LabeledScrollPanel npcOfferings = null;
 
-		addPanel( "Experimental", new ExperimentalPanel( true, true, true, true ) );
+		addPanel( "Experimental", new JPanel() );
 
-		addPanel( " - Food", new ExperimentalPanel( true, false, false, false ) );
-		addPanel( " - Booze", new ExperimentalPanel( false, true, false, false ) );
-		addPanel( " - Recovery", new ExperimentalPanel( false, false, true, false ) );
-		addPanel( " - Other", new ExperimentalPanel( false, false, false, true ) );
+		addPanel( " - Food", foodPanel = new ExperimentalPanel( true, false, false, false ) );
+		addPanel( " - Booze", boozePanel = new ExperimentalPanel( false, true, false, false ) );
 
 		addSeparator();
 
@@ -122,7 +122,9 @@ public class ItemManageFrame extends KoLFrame
 
 		addSeparator();
 
-		addPanel( "Recent", new InventoryManagePanel( tally, false ) );
+		addPanel( "Complete Lists", new JPanel() );
+
+		addPanel( " - Recent", new InventoryManagePanel( tally, true ) );
 
 		// If the person is in a mysticality sign, make sure
 		// you retrieve information from the restaurant.
@@ -130,7 +132,7 @@ public class ItemManageFrame extends KoLFrame
 		if ( KoLCharacter.inMysticalitySign() && !restaurantItems.isEmpty() )
 		{
 			npcOfferings = new SpecialPanel( restaurantItems );
-			addPanel( "Restaurant", npcOfferings );
+			foodPanel.add( npcOfferings, BorderLayout.SOUTH );
 		}
 
 		// If the person is in a moxie sign and they have completed
@@ -140,11 +142,12 @@ public class ItemManageFrame extends KoLFrame
 		if ( KoLCharacter.inMoxieSign() && !microbreweryItems.isEmpty() )
 		{
 			npcOfferings = new SpecialPanel( microbreweryItems );
-			addPanel( "Microbrewery", npcOfferings );
+			boozePanel.add( npcOfferings, BorderLayout.SOUTH );
 		}
 
-		addPanel( "Inventory", new InventoryManagePanel( inventory, false ) );
-		addPanel( "Closet", new InventoryManagePanel( closet, false ) );
+		addPanel( " - Inventory", new InventoryManagePanel( inventory, true ) );
+		addPanel( " - Closet", new InventoryManagePanel( closet, true ) );
+		addPanel( " - Hagnk's", new InventoryManagePanel( storage, true ) );
 
 		// Now a special panel which does nothing more than list
 		// some common actions and some descriptions.

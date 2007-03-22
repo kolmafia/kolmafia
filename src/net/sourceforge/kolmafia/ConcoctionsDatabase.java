@@ -410,17 +410,17 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( item == null )
 				continue;
 
-			instance = ItemCreationRequest.getInstance( i, false );
-			if ( instance == null || item.creatable == instance.getQuantityPossible() )
-				continue;
-
-			instance.setQuantityPossible( item.creatable );
-
 			if ( item.total == 0 && usableConcoctions.contains( item ) )
 				usableConcoctions.remove( item );
 
 			if ( item.total > 0 && !usableConcoctions.contains( item ) )
 				usableConcoctions.add( item );
+
+			instance = ItemCreationRequest.getInstance( i, false );
+			if ( instance == null || item.creatable == instance.getQuantityPossible() )
+				continue;
+
+			instance.setQuantityPossible( item.creatable );
 
 			if ( instance.getQuantityPossible() == 0 )
 			{
