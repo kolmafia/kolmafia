@@ -680,7 +680,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			StringBuffer stringForm = new StringBuffer();
 			stringForm.append( c.toString() );
 			stringForm.append( " (" );
-			stringForm.append( c.getTotal() );
+			stringForm.append( c.getInitial() );
 			stringForm.append( ")" );
 
 			if ( junkItemList.contains( c.getItem() ) )

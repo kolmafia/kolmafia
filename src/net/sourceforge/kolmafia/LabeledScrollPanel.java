@@ -51,6 +51,8 @@ public class LabeledScrollPanel extends ActionPanel implements KoLConstants
 {
 	public JPanel actualPanel;
 	public JPanel centerPanel;
+
+	public JPanel eastPanel;
 	public VerifyButtonPanel buttonPanel;
 	public JComponent scrollComponent;
 
@@ -75,11 +77,15 @@ public class LabeledScrollPanel extends ActionPanel implements KoLConstants
 		actualPanel = new JPanel( new BorderLayout( 20, 10 ) );
 		actualPanel.add( centerPanel, BorderLayout.CENTER );
 
+		eastPanel = new JPanel( new BorderLayout() );
+
 		if ( confirmedText != null )
 		{
 			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText, cancelledText );
 			buttonPanel.setBothDisabledOnClick( true );
-			actualPanel.add( buttonPanel, BorderLayout.EAST );
+
+			eastPanel.add( buttonPanel, BorderLayout.NORTH );
+			actualPanel.add( eastPanel, BorderLayout.EAST );
 		}
 
 		JPanel containerPanel = new JPanel( new CardLayout( 10, 10 ) );

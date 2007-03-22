@@ -2420,6 +2420,9 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( left.equals( "moxie" ) )
 			return KoLCharacter.getBaseMoxie();
 
+		if ( left.equals( "worthless item" ) )
+			return HermitRequest.getWorthlessItemCount();
+
 		AdventureResult item = itemParameter( left );
 		AdventureResult effect = effectParameter( left );
 
