@@ -485,22 +485,11 @@ public abstract class MoodSettings implements KoLConstants
 			// If the player opts in to allowing breakfast casting to burn
 			// off excess MP, rather than using auto-restore, do so.
 
-			if ( StaticEntity.getBooleanProperty( "allowBreakfastBurning" ) && currentEffect.getCount() >= 10 )
+			if ( currentEffect.getCount() >= 10 )
 			{
-				if ( !StaticEntity.getClient().castBreakfastSkills( true, false ) )
-					return null;
-
-				// Cast 'Summon Candy Hearts' if available and your current
-				// turn count on your buffs is greater than 10.
-
-				if ( KoLCharacter.hasSkill( "Summon Candy Hearts" ) )
-				{
-					if ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() - minimum )
-						return "cast 1 summon candy hearts";
-
-					if ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getMaximumMP() - minimum )
-						return null;
-				}
+				String breakfast = executeBreakfastBurning( minimum );
+				if ( breakfast != null )
+					return breakfast;
 
 				castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
 			}
@@ -513,8 +502,28 @@ public abstract class MoodSettings implements KoLConstants
 			if ( castCount > 0 )
 				return "cast " + castCount + " " + skillName;
 			else
-				return null;
+				return executeBreakfastBurning( minimum );
 		}
+
+		return executeBreakfastBurning( minimum );
+	}
+
+	private static String executeBreakfastBurning( int minimum )
+	{
+		if ( !StaticEntity.getBooleanProperty( "allowBreakfastBurning" ) )
+			return null;
+
+		if ( !StaticEntity.getClient().castBreakfastSkills( true, false ) )
+			return null;
+
+		// Cast 'Summon Candy Hearts' if available and your current
+		// turn count on your buffs is greater than 10.
+
+		if ( !KoLCharacter.hasSkill( "Summon Candy Hearts" ) )
+			return null;
+
+		if ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() - minimum )
+			return "cast 1 summon candy hearts";
 
 		return null;
 	}
