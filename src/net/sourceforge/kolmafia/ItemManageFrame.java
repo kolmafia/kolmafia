@@ -552,6 +552,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "Use Items", "use item", "check wiki", ConcoctionsDatabase.usableConcoctions );
 
+			elementList.setFixedCellHeight( 32 );
 			JPanel moverPanel = new JPanel();
 
 			this.food = food;
@@ -618,7 +619,7 @@ public class ItemManageFrame extends KoLFrame
 					return;
 
 				StringBuffer itemdata = new StringBuffer();
-				itemdata.append( "<html><center>" );
+				itemdata.append( "<html>" );
 
 				int amount1 = item.getItem().getCount( inventory );
 
@@ -645,7 +646,7 @@ public class ItemManageFrame extends KoLFrame
 					itemdata.append( " with creation" );
 				}
 
-				itemdata.append( "</center></html>" );
+				itemdata.append( "</center>" );
 				setText( itemdata.toString() );
 			}
 		}

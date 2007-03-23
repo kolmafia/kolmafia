@@ -675,31 +675,32 @@ public class AdventureResult implements Comparable, KoLConstants
 			return defaultComponent;
 		}
 
-		public Component getRenderer( Component defaultComponent, Concoction c )
+		public Component getRenderer( Component defaultComponent, Concoction item )
 		{
 			StringBuffer stringForm = new StringBuffer();
 
-			stringForm.append( c.toString() );
+			stringForm.append( "<html><b>" );
+			stringForm.append( item.toString() );
 
-			stringForm.append( " (" );
+			stringForm.append( "</b><br> " );
 
-			if ( TradeableItemDatabase.getConsumptionType( c.getItemId() ) == CONSUME_DRINK )
+			if ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) == CONSUME_DRINK )
 			{
-				stringForm.append( TradeableItemDatabase.getInebriety( c.getItemId() ) );
-				stringForm.append( " inebriety" );
+				stringForm.append( TradeableItemDatabase.getInebriety( item.getItemId() ) );
+				stringForm.append( " drunk" );
 			}
 			else
 			{
-				stringForm.append( TradeableItemDatabase.getFullness( c.getItemId() ) );
-				stringForm.append( " fullness" );
+				stringForm.append( TradeableItemDatabase.getFullness( item.getItemId() ) );
+				stringForm.append( " full" );
 			}
 
-			stringForm.append( ")" );
+			stringForm.append( ", +X advs, +Y mus, +Y mys, +Z mox" );
 
-			if ( junkItemList.contains( c.getItem() ) )
+			if ( junkItemList.contains( item.getItem() ) )
 			{
-				stringForm.insert( 0, "<html><font color=gray>" );
-				stringForm.append( "</font></html>" );
+				stringForm.insert( 6, "<font color=gray>" );
+				stringForm.append( "</font>" );
 			}
 
 			((JLabel)defaultComponent).setText( stringForm.toString() );
