@@ -2588,6 +2588,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int DEMON = 41;
 	private static final int JITTERBUG = 57;
 	private static final int CRIMBO_ELF = 26;
+	private static final int DANDY_LION = 66;
 
 	// Items and skills that make Mysticality the To-Hit stat
 	private static final int SAUCE_GLOVE = 531;
@@ -2817,6 +2818,7 @@ public abstract class KoLCharacter extends StaticEntity
 		case SPOOKY_GRAVY_FAIRY:
 		case SLEAZY_GRAVY_FAIRY:
 		case CRIMBO_ELF:
+		case DANDY_LION:
 			// Full gravy fairy equivalent familiar
 			newItemDropPercentAdjustment += modifier * 2.5;
 			break;
