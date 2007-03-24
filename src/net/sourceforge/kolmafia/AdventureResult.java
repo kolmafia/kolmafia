@@ -695,16 +695,24 @@ public class AdventureResult implements Comparable, KoLConstants
 				stringForm.append( " full" );
 			}
 
-			stringForm.append( ", +X advs, +Y mus, +Y mys, +Z mox" );
-
-			if ( junkItemList.contains( item.getItem() ) )
-			{
-				stringForm.insert( 6, "<font color=gray>" );
-				stringForm.append( "</font>" );
-			}
+			appendRange( stringForm, TradeableItemDatabase.getAdventureRange( item.getItemId() ), "adv" );
+			appendRange( stringForm, TradeableItemDatabase.getMuscleRange( item.getItemId() ), "mus" );
+			appendRange( stringForm, TradeableItemDatabase.getMysticalityRange( item.getItemId() ), "mys" );
+			appendRange( stringForm, TradeableItemDatabase.getMoxieRange( item.getItemId() ), "mox" );
 
 			((JLabel)defaultComponent).setText( stringForm.toString() );
 			return defaultComponent;
+		}
+
+		private void appendRange( StringBuffer stringForm, String range, String suffix )
+		{
+			if ( range.equals( "+0" ) )
+				return;
+
+			stringForm.append( ", " );
+			stringForm.append( range );
+			stringForm.append( " " );
+			stringForm.append( suffix );
 		}
 	}
 

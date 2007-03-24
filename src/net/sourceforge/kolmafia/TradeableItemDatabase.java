@@ -61,6 +61,11 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static Map inebrietyById = new TreeMap();
 	private static Map spleenHitById = new TreeMap();
 
+	private static Map adventuresById = new TreeMap();
+	private static Map muscleById = new TreeMap();
+	private static Map mysticalityById = new TreeMap();
+	private static Map moxieById = new TreeMap();
+
 	private static BooleanArray tradeableById = new BooleanArray();
 	private static BooleanArray giftableById = new BooleanArray();
 	private static BooleanArray displayableById = new BooleanArray();
@@ -150,7 +155,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 2 )
+			if ( data.length >= 2 )
 			{
 				Object itemId = itemIdByName.get( getCanonicalName( data[0] ) );
 				if ( itemId == null )
@@ -160,6 +165,14 @@ public class TradeableItemDatabase extends KoLDatabase
 				}
 
 				fullnessById.put( itemId, Integer.valueOf( data[1] ) );
+
+				if ( data.length > 2 )
+				{
+					adventuresById.put( itemId, extractRange( data[2] ) );
+					muscleById.put( itemId, extractRange( data[3] ) );
+					mysticalityById.put( itemId, extractRange( data[4] ) );
+					moxieById.put( itemId, extractRange( data[5] ) );
+				}
 			}
 		}
 
@@ -181,7 +194,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 2 )
+			if ( data.length >= 2 )
 			{
 				Object itemId = itemIdByName.get( getCanonicalName( data[0] ) );
 				if ( itemId == null )
@@ -191,6 +204,14 @@ public class TradeableItemDatabase extends KoLDatabase
 				}
 
 				inebrietyById.put( itemId, Integer.valueOf( data[1] ) );
+
+				if ( data.length > 2 )
+				{
+					adventuresById.put( itemId, extractRange( data[2] ) );
+					muscleById.put( itemId, extractRange( data[3] ) );
+					mysticalityById.put( itemId, extractRange( data[4] ) );
+					moxieById.put( itemId, extractRange( data[5] ) );
+				}
 			}
 		}
 
@@ -236,6 +257,31 @@ public class TradeableItemDatabase extends KoLDatabase
 
 			StaticEntity.printStackTrace( e );
 		}
+	}
+
+	private static String extractRange( String range )
+	{
+		range = range.trim();
+
+		boolean isNegative = range.startsWith( "-" );
+		if ( range.startsWith( "-" ) )
+		{
+			isNegative = true;
+			range = range.substring(1);
+		}
+
+		int dashIndex = range.indexOf( "-" );
+		int start = StaticEntity.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
+
+		if ( dashIndex == -1 )
+			return isNegative ? ("-" + start) : ("+" + start);
+
+		int end = StaticEntity.parseInt( range.substring( dashIndex + 1 ) );
+
+		if ( start == end )
+			return isNegative ? ("-" + start) : ("+" + start);
+
+		return isNegative ? ("-" + start + " to -" + end) : ("+" + start + " to +" + end);
 	}
 
 	/**
@@ -534,6 +580,30 @@ public class TradeableItemDatabase extends KoLDatabase
 	{
 		Integer spleenhit = (Integer) spleenHitById.get( new Integer( itemId ) );
 		return spleenhit == null ? 0 : spleenhit.intValue();
+	}
+
+	public static final String getAdventureRange( int itemId )
+	{
+		String range = (String) adventuresById.get( new Integer( itemId ) );
+		return range == null ? "unknown" : range;
+	}
+
+	public static final String getMuscleRange( int itemId )
+	{
+		String range = (String) muscleById.get( new Integer( itemId ) );
+		return range == null ? "unknown" : range;
+	}
+
+	public static final String getMysticalityRange( int itemId )
+	{
+		String range = (String) mysticalityById.get( new Integer( itemId ) );
+		return range == null ? "unknown" : range;
+	}
+
+	public static final String getMoxieRange( int itemId )
+	{
+		String range = (String) moxieById.get( new Integer( itemId ) );
+		return range == null ? "unknown" : range;
 	}
 
 	/**
