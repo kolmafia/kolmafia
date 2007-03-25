@@ -1081,15 +1081,12 @@ public class AdventureDatabase extends KoLDatabase
 		ItemCreationRequest creator = ItemCreationRequest.getInstance( item.getItemId() );
 		if ( creator != null )
 		{
-			if ( ConcoctionsDatabase.hasAnyIngredient( item.getItemId() ) )
-			{
-				creator.setQuantityNeeded( Math.min( missingCount, creator.getQuantityPossible() ) );
-				RequestThread.postRequest( creator );
-				missingCount = item.getCount() - item.getCount( inventory );
+			creator.setQuantityNeeded( Math.min( missingCount, creator.getQuantityPossible() ) );
+			RequestThread.postRequest( creator );
+			missingCount = item.getCount() - item.getCount( inventory );
 
-				if ( missingCount <= 0 )
-					return true;
-			}
+			if ( missingCount <= 0 )
+				return true;
 		}
 
 		// Next, hermit item retrieval is possible when
@@ -1177,10 +1174,13 @@ public class AdventureDatabase extends KoLDatabase
 
 			default:
 
-				creator.setQuantityNeeded( missingCount );
-				RequestThread.postRequest( creator );
+				if ( ConcoctionsDatabase.hasAnyIngredient( item.getItemId() ) )
+				{
+					creator.setQuantityNeeded( missingCount );
+					RequestThread.postRequest( creator );
 
-				return KoLCharacter.hasItem( item );
+					return KoLCharacter.hasItem( item );
+				}
 			}
 		}
 
