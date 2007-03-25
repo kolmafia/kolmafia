@@ -122,7 +122,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			contextMenu.add( new AutoSellMenuItem() );
 		}
 
-		if ( listModel == tally || listModel == inventory || listModel == closet || isEncyclopedia || listModel == ConcoctionsDatabase.getConcoctions() )
+		if ( listModel == inventory || listModel == closet || isEncyclopedia )
 		{
 			contextMenu.add( new AddToJunkListMenuItem() );
 			contextMenu.add( new AddToMementoListMenuItem() );
