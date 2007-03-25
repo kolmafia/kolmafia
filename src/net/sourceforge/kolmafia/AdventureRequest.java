@@ -200,6 +200,12 @@ public class AdventureRequest extends KoLRequest
 			return;
 		}
 
+		if ( formSource.equals( "cyrpt.php" ) )
+		{
+			KoLmafia.updateDisplay( PENDING_STATE, "You shouldn't be here." );
+			return;
+		}
+
 		// If you haven't unlocked the orc chasm yet,
 		// try doing so now.
 
