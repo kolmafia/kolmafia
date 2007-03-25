@@ -3457,33 +3457,38 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		List matchingNames = getMatchingItemNames( parameters );
-
-		// Next, check to see if any of the items matching appear
-		// in an NPC store.  If so, automatically default to it.
-
-		if ( !matchingNames.isEmpty() )
-			itemId = getFirstMatchingItemId( matchingNames );
-
-		if ( itemId == 0 )
-		{
-			if ( errorOnFailure )
-			{
-				printList( matchingNames );
-				RequestLogger.printLine();
-
-				updateDisplay( ERROR_STATE, "[" + parameters + "] has too many matches." );
-			}
-
-			return null;
-		}
+		itemId = TradeableItemDatabase.getItemId( parameters );
 
 		if ( itemId == -1 )
 		{
-			if ( errorOnFailure )
-				updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
+			List matchingNames = getMatchingItemNames( parameters );
 
-			return null;
+			// Next, check to see if any of the items matching appear
+			// in an NPC store.  If so, automatically default to it.
+
+			if ( !matchingNames.isEmpty() )
+				itemId = getFirstMatchingItemId( matchingNames );
+
+			if ( itemId == 0 )
+			{
+				if ( errorOnFailure )
+				{
+					printList( matchingNames );
+					RequestLogger.printLine();
+
+					updateDisplay( ERROR_STATE, "[" + parameters + "] has too many matches." );
+				}
+
+				return null;
+			}
+
+			if ( itemId == -1 )
+			{
+				if ( errorOnFailure )
+					updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
+
+				return null;
+			}
 		}
 
 		AdventureResult firstMatch = new AdventureResult( itemId, itemCount );
