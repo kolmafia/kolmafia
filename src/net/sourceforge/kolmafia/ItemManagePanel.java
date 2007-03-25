@@ -50,6 +50,7 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class ItemManagePanel extends LabeledScrollPanel
 {
@@ -244,7 +245,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			currentItem = (AdventureResult) items[i];
+			currentItem = items[i] instanceof Concoction ? ((Concoction) items[i]).getItem() : (AdventureResult) items[i];
 
 			int quantity = 0;
 			switch ( quantityType )
