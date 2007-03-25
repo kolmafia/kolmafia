@@ -569,9 +569,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void castBreakfastSkills( boolean checkSettings )
-	{
-		castBreakfastSkills( checkSettings,
-			!checkSettings || StaticEntity.getBooleanProperty( "loginRecovery" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) );
+	{	castBreakfastSkills( checkSettings, StaticEntity.getBooleanProperty( "loginRecovery" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) );
 	}
 
 	public boolean castBreakfastSkills( boolean checkSettings, boolean allowRestore )
@@ -583,7 +581,7 @@ public abstract class KoLmafia implements KoLConstants
 		boolean limitExceeded = true;
 
 		String skillSetting = StaticEntity.getProperty( "breakfast" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
-		boolean pathedSummons = !checkSettings || StaticEntity.getBooleanProperty( "pathedSummons" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
+		boolean pathedSummons = StaticEntity.getBooleanProperty( "pathedSummons" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
 
 		if ( skillSetting != null )
 		{
@@ -592,7 +590,7 @@ public abstract class KoLmafia implements KoLConstants
 				shouldCast = !checkSettings || skillSetting.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i] ) != -1;
 				shouldCast &= KoLCharacter.hasSkill( UseSkillRequest.BREAKFAST_SKILLS[i] );
 
-				if ( checkSettings && pathedSummons && shouldCast && KoLCharacter.isHardcore() )
+				if ( checkSettings && pathedSummons )
 				{
 					if ( UseSkillRequest.BREAKFAST_SKILLS[i].equals( "Pastamastery" ) && !KoLCharacter.canEat() )
 						shouldCast = false;
