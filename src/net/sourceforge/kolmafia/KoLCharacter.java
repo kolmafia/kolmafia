@@ -2356,7 +2356,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 			if ( updateCalculatedLists )
 			{
-				if ( TradeableItemDatabase.getConsumptionType( result.getItemId() ) == EQUIP_ACCESSORY )
+				int consumeType = TradeableItemDatabase.getConsumptionType( result.getItemId() );
+
+				if ( consumeType == EQUIP_ACCESSORY )
 				{
 					AdventureResult.addResultToList( equipmentLists[ ACCESSORY1 ], result );
 					AdventureResult.addResultToList( equipmentLists[ ACCESSORY2 ], result );
@@ -2364,7 +2366,7 @@ public abstract class KoLCharacter extends StaticEntity
 				}
 				else
 				{
-					int equipmentType = consumeFilterToEquipmentType( TradeableItemDatabase.getConsumptionType( result.getItemId() ) );
+					int equipmentType = consumeFilterToEquipmentType( consumeType );
 					if ( equipmentType != -1 )
 						AdventureResult.addResultToList( equipmentLists[ equipmentType ], result );
 				}
@@ -2372,16 +2374,11 @@ public abstract class KoLCharacter extends StaticEntity
 				if ( EquipmentDatabase.getOutfitWithItem( result.getItemId() ) != -1 )
 					EquipmentDatabase.updateOutfits();
 
-				boolean shouldRefresh = false;
-				int useMethod = NOCREATE;
-
+				boolean shouldRefresh = consumeType == CONSUME_EAT || consumeType == CONSUME_DRINK;
 				List uses = ConcoctionsDatabase.getKnownUses( result );
 
 				for ( int i = 0; i < uses.size() && !shouldRefresh; ++i )
-				{
-					useMethod = ConcoctionsDatabase.getMixingMethod( ((AdventureResult)uses.get(i)).getItemId() );
-					shouldRefresh = ConcoctionsDatabase.isPermittedMethod( useMethod );
-				}
+					shouldRefresh = ConcoctionsDatabase.isPermittedMethod( ConcoctionsDatabase.getMixingMethod( ((AdventureResult)uses.get(i)).getItemId() ) );
 
 				if ( shouldRefresh )
 					ConcoctionsDatabase.refreshConcoctions();
