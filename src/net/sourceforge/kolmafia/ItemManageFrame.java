@@ -99,8 +99,8 @@ public class ItemManageFrame extends KoLFrame
 
 		addPanel( "Experimental", new JPanel() );
 
-		addPanel( " - Food", foodPanel = new ExperimentalPanel( true, false, false, false ) );
-		addPanel( " - Booze", boozePanel = new ExperimentalPanel( false, true, false, false ) );
+		addPanel( " - Food", foodPanel = new ExperimentalPanel( true, false ) );
+		addPanel( " - Booze", boozePanel = new ExperimentalPanel( false, true ) );
 
 		addSeparator();
 
@@ -546,19 +546,17 @@ public class ItemManageFrame extends KoLFrame
 
 	private class ExperimentalPanel extends ItemManagePanel
 	{
-		private boolean food, booze, restores, other;
+		private boolean food, booze;
 
-		public ExperimentalPanel( boolean food, boolean booze, boolean restores, boolean other )
+		public ExperimentalPanel( boolean food, boolean booze )
 		{
-			super( "Use Items", "use item", "check wiki", ConcoctionsDatabase.usableConcoctions );
+			super( "Use Items", "use item", food ? "use milk" : "cast ode", ConcoctionsDatabase.usableConcoctions );
 
 			elementList.setFixedCellHeight( 32 );
 			JPanel moverPanel = new JPanel();
 
 			this.food = food;
 			this.booze = booze;
-			this.restores = restores;
-			this.other = other;
 
 			movers = new JRadioButton[4];
 			movers[0] = new JRadioButton( "Move all" );
@@ -585,24 +583,16 @@ public class ItemManageFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			Object [] items = getDesiredItems( "Consume" );
+
 			if ( items.length == 0 )
 				return;
 
 			for ( int i = 0; i < items.length; ++i )
-				RequestThread.postRequest( new ConsumeItemRequest( ((Concoction)items[i]).getItem() ) );
+				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
 		}
 
 		public void actionCancelled()
 		{
-			String name;
-			Object [] values = elementList.getSelectedValues();
-
-			for ( int i = 0; i < values.length; ++i )
-			{
-				name = values[i].toString();
-				if ( name != null )
-					StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
-			}
 		}
 
 		private class UsageDataLabel extends JLabel implements ListSelectionListener
@@ -672,27 +662,6 @@ public class ItemManageFrame extends KoLFrame
 
 					case CONSUME_DRINK:
 						return ExperimentalPanel.this.booze && super.isVisible( element );
-
-					case GROW_FAMILIAR:
-					case CONSUME_ZAP:
-						return ExperimentalPanel.this.other && super.isVisible( element );
-
-					case HP_RESTORE:
-					case MP_RESTORE:
-						return ExperimentalPanel.this.restores && super.isVisible( element );
-
-					case CONSUME_USE:
-					case CONSUME_MULTIPLE:
-
-						switch ( ((Concoction)element).getItemId() )
-						{
-						case 1619: // munchies pills
-						case 1650: // milk of magnesium
-							return ExperimentalPanel.this.food && super.isVisible( element );
-
-						default:
-							return ExperimentalPanel.this.other && super.isVisible( element );
-						}
 
 					default:
 						return false;
