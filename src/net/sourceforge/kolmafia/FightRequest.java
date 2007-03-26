@@ -804,12 +804,11 @@ public class FightRequest extends KoLRequest
 		if ( !isTrackingFights )
 			return FightRequest.INSTANCE.responseText;
 
-		// Wait for about two seconds to get the next round to show
-		// up, but only if an abort hasn't happened.
-
-		if ( trackedRounds.isEmpty() && KoLmafia.permitsContinue() )
-			for ( int i = 0; trackedRounds.isEmpty() && i < 20; ++i )
-				delay( 100 );
+		if ( trackedRounds.isEmpty() && !KoLmafia.refusesContinue() )
+		{
+			while ( trackedRounds.isEmpty() )
+				delay( 200 );
+		}
 
 		if ( trackedRounds.isEmpty() )
 		{
