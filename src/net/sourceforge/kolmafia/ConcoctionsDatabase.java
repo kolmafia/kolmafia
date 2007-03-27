@@ -810,7 +810,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static class Concoction implements Comparable
 	{
 		private AdventureResult concoction;
-		private int mixingMethod;
+		private int mixingMethod, sortOrder;
 		private boolean wasPossible;
 
 		private List ingredients;
@@ -827,6 +827,21 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			this.ingredients = new ArrayList();
 			this.ingredientArray = new AdventureResult[0];
+
+			int consumeType = concoction == null ? 0 : TradeableItemDatabase.getConsumptionType( concoction.getItemId() );
+
+			switch ( consumeType )
+			{
+			case CONSUME_EAT:
+				this.sortOrder = 1;
+				break;
+			case CONSUME_DRINK:
+				this.sortOrder = 2;
+				break;
+			default:
+				this.sortOrder = 3;
+				break;
+			}
 		}
 
 		public int compareTo( Object o )
@@ -835,7 +850,31 @@ public class ConcoctionsDatabase extends KoLDatabase
 				return -1;
 
 			if ( concoction == null )
+				return 1;
+
+			if ( ((Concoction)o).concoction == null )
 				return -1;
+
+			if ( sortOrder != ((Concoction)o).sortOrder )
+				return sortOrder - ((Concoction)o).sortOrder;
+
+			int fullness1 = TradeableItemDatabase.getFullness( concoction.getName() );
+			int fullness2 = TradeableItemDatabase.getFullness( ((Concoction)o).concoction.getName() );
+
+			if ( fullness1 != fullness2 )
+				return fullness1 > fullness2 ? -1 : 1;
+
+			int inebriety1 = TradeableItemDatabase.getInebriety( concoction.getName() );
+			int inebriety2 = TradeableItemDatabase.getInebriety( ((Concoction)o).concoction.getName() );
+
+			if ( inebriety1 != inebriety2 )
+				return inebriety1 > inebriety2 ? -1 : 1;
+
+			float adventures1 = parseFloat( TradeableItemDatabase.getAdventureRange( concoction.getName() ) );
+			float adventures2 = parseFloat( TradeableItemDatabase.getAdventureRange( ((Concoction)o).concoction.getName() ) );
+
+			if ( adventures1 != adventures2 )
+				return adventures1 > adventures2 ? -1 : 1;
 
 			return concoction.compareTo( ((Concoction)o).concoction );
 		}
@@ -850,6 +889,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		public int getItemId()
 		{	return concoction == null ? -1 : concoction.getItemId();
+		}
+
+		public String getName()
+		{	return concoction == null ? "unknown" : concoction.getName();
 		}
 
 		public int getInitial()

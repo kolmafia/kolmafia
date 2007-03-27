@@ -157,21 +157,15 @@ public class TradeableItemDatabase extends KoLDatabase
 		{
 			if ( data.length >= 2 )
 			{
-				Object itemId = itemIdByName.get( getCanonicalName( data[0] ) );
-				if ( itemId == null )
-				{
-					System.out.println( "Bad item name in fullness file: " + data[0] );
-					continue;
-				}
-
-				fullnessById.put( itemId, Integer.valueOf( data[1] ) );
+				String name = getCanonicalName( data[0] );
+				fullnessById.put( name, Integer.valueOf( data[1] ) );
 
 				if ( data.length > 2 )
 				{
-					adventuresById.put( itemId, extractRange( data[2] ) );
-					muscleById.put( itemId, extractRange( data[3] ) );
-					mysticalityById.put( itemId, extractRange( data[4] ) );
-					moxieById.put( itemId, extractRange( data[5] ) );
+					adventuresById.put( name, extractRange( data[2] ) );
+					muscleById.put( name, extractRange( data[3] ) );
+					mysticalityById.put( name, extractRange( data[4] ) );
+					moxieById.put( name, extractRange( data[5] ) );
 				}
 			}
 		}
@@ -196,21 +190,15 @@ public class TradeableItemDatabase extends KoLDatabase
 		{
 			if ( data.length >= 2 )
 			{
-				Object itemId = itemIdByName.get( getCanonicalName( data[0] ) );
-				if ( itemId == null )
-				{
-					System.out.println( "Bad item name in inebriety file: " + data[0] );
-					continue;
-				}
-
-				inebrietyById.put( itemId, Integer.valueOf( data[1] ) );
+				String name = getCanonicalName( data[0] );
+				inebrietyById.put( name, Integer.valueOf( data[1] ) );
 
 				if ( data.length > 2 )
 				{
-					adventuresById.put( itemId, extractRange( data[2] ) );
-					muscleById.put( itemId, extractRange( data[3] ) );
-					mysticalityById.put( itemId, extractRange( data[4] ) );
-					moxieById.put( itemId, extractRange( data[5] ) );
+					adventuresById.put( name, extractRange( data[2] ) );
+					muscleById.put( name, extractRange( data[3] ) );
+					mysticalityById.put( name, extractRange( data[4] ) );
+					moxieById.put( name, extractRange( data[5] ) );
 				}
 			}
 		}
@@ -235,14 +223,8 @@ public class TradeableItemDatabase extends KoLDatabase
 		{
 			if ( data.length == 2 )
 			{
-				Object itemId = itemIdByName.get( getCanonicalName( data[0] ) );
-				if ( itemId == null )
-				{
-					System.out.println( "Bad item name in spleen hit file: " + data[0] );
-					continue;
-				}
-
-				spleenHitById.put( itemId, Integer.valueOf( data[1] ) );
+				String name = getCanonicalName( data[0] );
+				spleenHitById.put( name, Integer.valueOf( data[1] ) );
 			}
 		}
 
@@ -274,14 +256,15 @@ public class TradeableItemDatabase extends KoLDatabase
 		int start = StaticEntity.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
 
 		if ( dashIndex == -1 )
-			return isNegative ? ("-" + start) : ("+" + start);
+			return isNegative ? ("-" + start + ".0") : ("+" + start + ".0");
 
 		int end = StaticEntity.parseInt( range.substring( dashIndex + 1 ) );
 
 		if ( start == end )
-			return isNegative ? ("-" + start) : ("+" + start);
+			return isNegative ? ("-" + start + ".0") : ("+" + start + ".0");
 
-		return isNegative ? ("-" + start + " to -" + end) : ("+" + start + " to +" + end);
+		int result = (start + end) * 10 / (isNegative ? -2 : 2);
+		return String.valueOf( (result >= 0 ? "+" : "") + (float) result / 10 );
 	}
 
 	/**
@@ -564,46 +547,46 @@ public class TradeableItemDatabase extends KoLDatabase
 		return lastSpaceIndex != -1 ? getItemId( canonicalName.substring( lastSpaceIndex ).trim(), count ) : -1;
 	}
 
-	public static final int getFullness( int itemId )
+	public static final int getFullness( String name )
 	{
-		Integer fullness = (Integer) fullnessById.get( new Integer( itemId ) );
+		Integer fullness = (Integer) fullnessById.get( getCanonicalName( name ) );
 		return fullness == null ? 0 : fullness.intValue();
 	}
 
-	public static final int getInebriety( int itemId )
+	public static final int getInebriety( String name )
 	{
-		Integer inebriety = (Integer) inebrietyById.get( new Integer( itemId ) );
+		Integer inebriety = (Integer) inebrietyById.get( getCanonicalName( name ) );
 		return inebriety == null ? 0 : inebriety.intValue();
 	}
 
-	public static final int getSpleenHit( int itemId )
+	public static final int getSpleenHit( String name )
 	{
-		Integer spleenhit = (Integer) spleenHitById.get( new Integer( itemId ) );
+		Integer spleenhit = (Integer) spleenHitById.get( getCanonicalName( name ) );
 		return spleenhit == null ? 0 : spleenhit.intValue();
 	}
 
-	public static final String getAdventureRange( int itemId )
+	public static final String getAdventureRange( String name )
 	{
-		String range = (String) adventuresById.get( new Integer( itemId ) );
-		return range == null ? "unknown" : range;
+		String range = (String) adventuresById.get( getCanonicalName( name ) );
+		return range == null ? "+0.0" : range;
 	}
 
-	public static final String getMuscleRange( int itemId )
+	public static final String getMuscleRange( String name )
 	{
-		String range = (String) muscleById.get( new Integer( itemId ) );
-		return range == null ? "unknown" : range;
+		String range = (String) muscleById.get( getCanonicalName( name ) );
+		return range == null ? "+0.0" : range;
 	}
 
-	public static final String getMysticalityRange( int itemId )
+	public static final String getMysticalityRange( String name )
 	{
-		String range = (String) mysticalityById.get( new Integer( itemId ) );
-		return range == null ? "unknown" : range;
+		String range = (String) mysticalityById.get( getCanonicalName( name ) );
+		return range == null ? "+0.0" : range;
 	}
 
-	public static final String getMoxieRange( int itemId )
+	public static final String getMoxieRange( String name )
 	{
-		String range = (String) moxieById.get( new Integer( itemId ) );
-		return range == null ? "unknown" : range;
+		String range = (String) moxieById.get( getCanonicalName( name ) );
+		return range == null ? "+0.0" : range;
 	}
 
 	/**
