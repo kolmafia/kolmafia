@@ -813,7 +813,13 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 
 		statusChanged = false;
-		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
+
+		do
+		{
+			if ( !prepareConnection() && KoLmafia.refusesContinue() )
+				break;
+		}
+		while ( !postClientData() || !retrieveServerReply() );
 	}
 
 	private void saveLastChoice( String url )
@@ -923,6 +929,13 @@ public class KoLRequest extends Job implements KoLConstants
 			}
 
 			this.formConnection = (HttpURLConnection) formURL.openConnection();
+
+			if ( System.getProperty( "proxySet" ).equals( "true" ) && !this.formConnection.usingProxy() )
+			{
+				responseCode = 404;
+				KoLmafia.updateDisplay( ABORT_STATE, "Failed to connect to proxy server" );
+				return false;
+			}
 		}
 		catch ( Exception e )
 		{
