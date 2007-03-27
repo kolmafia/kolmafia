@@ -77,6 +77,9 @@ import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class ItemManageFrame extends KoLFrame
 {
+	private static int pullsRemaining = 0;
+	private static JLabel pullsRemainingLabel = new JLabel( " " );
+
 	private static final Dimension MAX_WIDTH = new Dimension( 500, Integer.MAX_VALUE );
 
 	private ExperimentalPanel foodPanel, boozePanel;
@@ -147,7 +150,11 @@ public class ItemManageFrame extends KoLFrame
 
 		addPanel( " - Inventory", new InventoryManagePanel( inventory, true ) );
 		addPanel( " - Closet", new InventoryManagePanel( closet, true ) );
-		addPanel( " - Hagnk's", new InventoryManagePanel( storage, true ) );
+
+		addSeparator();
+
+		addPanel( "Hagnk's Storage", new HagnkStoragePanel( false ) );
+		addPanel( " - Equipment", new HagnkStoragePanel( true ) );
 
 		// Now a special panel which does nothing more than list
 		// some common actions and some descriptions.
@@ -173,6 +180,35 @@ public class ItemManageFrame extends KoLFrame
 		tabHolder.add( tabs, "" );
 
 		framePanel.add( tabHolder, BorderLayout.CENTER );
+	}
+
+	public static int getPullsRemaining()
+	{	return pullsRemaining;
+	}
+
+	public static void setPullsRemaining( int pullsRemaining )
+	{
+		ItemManageFrame.pullsRemaining = pullsRemaining;
+
+		if ( KoLCharacter.isHardcore() )
+		{
+			pullsRemainingLabel.setText( "In Hardcore" );
+			return;
+		}
+		else
+		{
+			switch ( pullsRemaining )
+			{
+			case 0:
+				pullsRemainingLabel.setText( "No Pulls Left" );
+				break;
+			case 1:
+				pullsRemainingLabel.setText( "1 Pull Left" );
+				break;
+			default:
+				pullsRemainingLabel.setText( pullsRemaining + " Pulls Left" );
+			}
+		}
 	}
 
 	private void addPanel( String name, JComponent panel )
@@ -1052,6 +1088,148 @@ public class ItemManageFrame extends KoLFrame
 		{
 			return value instanceof JComponent ? (Component) value :
 				super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+		}
+	}
+
+	private class HagnkStoragePanel extends ItemManagePanel
+	{
+		private FilterRadioButton [] equipmentFilters;
+
+		public HagnkStoragePanel( boolean isEquipment )
+		{
+			super( "", "pull item", "closet item", storage );
+
+			if ( !isEquipment )
+			{
+				setButtons( true, new ActionListener[0] );
+				return;
+			}
+
+			wordfilter = new EquipmentFilterComboBox();
+			centerPanel.add( wordfilter, BorderLayout.NORTH );
+
+			equipmentFilters = new FilterRadioButton[6];
+			equipmentFilters[0] = new FilterRadioButton( "weapons", true );
+			equipmentFilters[1] = new FilterRadioButton( "offhand" );
+			equipmentFilters[2] = new FilterRadioButton( "hats" );
+			equipmentFilters[3] = new FilterRadioButton( "shirts" );
+			equipmentFilters[4] = new FilterRadioButton( "pants" );
+			equipmentFilters[5] = new FilterRadioButton( "accessories" );
+
+			ButtonGroup filterGroup = new ButtonGroup();
+			JPanel filterPanel = new JPanel();
+
+			for ( int i = 0; i < 6; ++i )
+			{
+				filterGroup.add( equipmentFilters[i] );
+				filterPanel.add( equipmentFilters[i] );
+			}
+
+			eastPanel.add( pullsRemainingLabel, BorderLayout.SOUTH );
+			actualPanel.add( filterPanel, BorderLayout.NORTH );
+
+			elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
+			wordfilter.filterItems();
+		}
+
+		private class FilterRadioButton extends JRadioButton implements ActionListener
+		{
+			public FilterRadioButton( String label )
+			{	this( label, false );
+			}
+
+			public FilterRadioButton( String label, boolean isSelected )
+			{
+				super( label, isSelected );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{	wordfilter.filterItems();
+			}
+		}
+
+		private class EquipmentFilterComboBox extends FilterItemComboBox
+		{
+			public EquipmentFilterComboBox()
+			{	filter = new EquipmentFilter();
+			}
+
+			public void filterItems()
+			{	elementList.applyFilter( filter );
+			}
+
+			private class EquipmentFilter extends WordBasedFilter
+			{
+				public boolean isVisible( Object element )
+				{
+					boolean isVisibleWithFilter = true;
+					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
+					{
+					case EQUIP_ACCESSORY:
+						isVisibleWithFilter = equipmentFilters[5].isSelected();
+						break;
+
+					case EQUIP_HAT:
+						isVisibleWithFilter = equipmentFilters[2].isSelected();
+						break;
+
+					case EQUIP_PANTS:
+						isVisibleWithFilter = equipmentFilters[4].isSelected();
+						break;
+
+					case EQUIP_SHIRT:
+						isVisibleWithFilter = equipmentFilters[3].isSelected();
+						break;
+
+					case EQUIP_WEAPON:
+						isVisibleWithFilter = equipmentFilters[0].isSelected();
+						break;
+
+					case EQUIP_OFFHAND:
+						isVisibleWithFilter = equipmentFilters[1].isSelected();
+						break;
+
+					default:
+						return false;
+					}
+
+					if ( !isVisibleWithFilter )
+						return false;
+
+					return super.isVisible( element );
+				}
+			}
+		}
+
+		public void actionConfirmed()
+		{
+			Object [] items = getDesiredItems( "Pulling" );
+			if ( items == null )
+				return;
+
+			if ( items.length == storage.size() )
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) );
+			else
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
+		}
+
+		public void actionCancelled()
+		{
+			Object [] items = getDesiredItems( "Pulling" );
+			if ( items == null )
+				return;
+
+			RequestThread.openRequestSequence();
+
+			if ( items.length == storage.size() )
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.EMPTY_STORAGE ) );
+			else
+				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
+
+			RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
+
+			RequestThread.closeRequestSequence();
 		}
 	}
 }

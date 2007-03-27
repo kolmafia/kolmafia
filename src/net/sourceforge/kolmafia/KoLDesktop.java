@@ -207,9 +207,6 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			{
 				for ( int i = 0; i < interfaceArray.length; ++i )
 				{
-					if ( interfaceArray[i].equals( "HagnkStorageFrame" ) && KoLCharacter.isHardcore() )
-						continue;
-
 					if ( interfaceArray[i].equals( "LocalRelayServer" ) )
 					{
 						StaticEntity.getClient().startRelayServer();
@@ -285,7 +282,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 	public static boolean isInversionExempt( KoLFrame content )
 	{
 		return StaticEntity.getBooleanProperty( "avoidInvertingTabs" ) || content instanceof AdventureFrame || content instanceof FlowerHunterFrame ||
-			content instanceof HagnkStorageFrame || content instanceof MailboxFrame || content instanceof SendMessageFrame;
+			content instanceof MailboxFrame || content instanceof SendMessageFrame;
 	}
 
 	public static void displayDesktop()
@@ -391,7 +388,6 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", "ItemManageFrame" ) );
 			toolbarPanel.add( new DisplayFrameButton( "Equipment Manager", "equipment.gif", "GearChangeFrame" ) );
 			toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", "StoreManageFrame") );
-			toolbarPanel.add( new DisplayFrameButton( "Hagnk's Storage", "hagnk.gif", "HagnkStorageFrame" ) );
 
 			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 

@@ -4800,7 +4800,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue pulls_remaining()
-		{	return new ScriptValue( HagnkStorageFrame.getPullsRemaining() );
+		{	return new ScriptValue( ItemManageFrame.getPullsRemaining() );
 		}
 
 		public ScriptValue take_storage( ScriptVariable count, ScriptVariable item )
