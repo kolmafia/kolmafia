@@ -3349,22 +3349,38 @@ public class KoLmafiaCLI extends KoLmafia
 		boolean npcStoreMatch = false;
 		boolean isRestoreMatch = false;
 
+		String itemName;
 		int itemId, useType;
 		MallPurchaseRequest npcstore;
 
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
-			itemId = TradeableItemDatabase.getItemId( (String) nameList.get(i) );
+			itemName = (String) nameList.get(i);
+			itemId = TradeableItemDatabase.getItemId( itemName );
 			useType = TradeableItemDatabase.getConsumptionType( itemId );
 
-			if ( isUsageMatch && useType == NO_CONSUME )
-				continue;
+			if ( isUsageMatch )
+			{
+				switch ( useType )
+				{
+				case CONSUME_EAT:
+				case CONSUME_DRINK:
+				case CONSUME_USE:
+				case CONSUME_MULTIPLE:
+				case HP_RESTORE:
+				case MP_RESTORE:
+					break;
+
+				default:
+					continue;
+				}
+			}
 
 			if ( isCreationMatch && ConcoctionsDatabase.getMixingMethod( itemId ) == NOCREATE )
 				if ( itemId != MEAT_PASTE && itemId != MEAT_STACK && itemId != DENSE_STACK )
 					continue;
 
-			npcstore = NPCStoreDatabase.getPurchaseRequest( (String) nameList.get(i) );
+			npcstore = NPCStoreDatabase.getPurchaseRequest( itemName );
 
 			if ( npcstore != null )
 			{
@@ -3395,19 +3411,41 @@ public class KoLmafiaCLI extends KoLmafia
 					npcStoreMatch = true;
 				}
 			}
-			else if ( !npcStoreMatch && itemId < lowestId )
+			else if ( !npcStoreMatch )
 			{
-				lowestId = itemId;
+				if ( itemId < lowestId )
+					lowestId = itemId;
 			}
 		}
 
 		if ( lowestId == Integer.MAX_VALUE )
 			return -1;
 
-		if ( !npcStoreMatch )
-			return 0;
+		if ( npcStoreMatch )
+			return lowestId;
 
-		return lowestId;
+		for ( int i = 0; i < nameList.size(); ++i )
+		{
+			itemName = (String) nameList.get(i);
+			if ( !itemName.startsWith( "pix" ) && itemName.endsWith( "candy heart" ) )
+				return TradeableItemDatabase.getItemId( itemName );
+		}
+
+		for ( int i = 0; i < nameList.size(); ++i )
+		{
+			itemName = (String) nameList.get(i);
+			if ( !itemName.startsWith( "abo" ) && itemName.endsWith( "snowcone" ) )
+				return TradeableItemDatabase.getItemId( itemName );
+		}
+
+		for ( int i = 0; i < nameList.size(); ++i )
+		{
+			itemName = (String) nameList.get(i);
+			if ( itemName.endsWith( "cupcake" ) )
+				return TradeableItemDatabase.getItemId( itemName );
+		}
+
+		return 0;
 	}
 
 	private static List getMatchingItemNames( String itemName )
