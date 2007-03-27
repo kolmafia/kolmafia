@@ -176,13 +176,13 @@ public class ItemManagePanel extends LabeledScrollPanel
 				filters[i].addActionListener( new UpdateFilterListener() );
 			}
 
-			northPanel.add( filterPanel, BorderLayout.NORTH );
+			northPanel.add( filterPanel, BorderLayout.CENTER );
 		}
 
 		// If there are buttons, they likely need movers.  Therefore, add
 		// some movers to everything.
 
-		if ( buttonListeners != null )
+		if ( buttonListeners != null && buttonListeners.length != 0 )
 		{
 			JPanel moverPanel = new JPanel();
 

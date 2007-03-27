@@ -254,11 +254,11 @@ public class ItemStorageRequest extends SendMessageRequest
 		{
 			storageMatcher = PULLS_PATTERN.matcher( responseText );
 			if ( storageMatcher.find() )
-				HagnkStorageFrame.setPullsRemaining( StaticEntity.parseInt( storageMatcher.group(1) ) );
+				ItemManageFrame.setPullsRemaining( StaticEntity.parseInt( storageMatcher.group(1) ) );
 			else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
-				HagnkStorageFrame.setPullsRemaining( 0 );
+				ItemManageFrame.setPullsRemaining( 0 );
 			else
-				HagnkStorageFrame.setPullsRemaining( -1 );
+				ItemManageFrame.setPullsRemaining( -1 );
 		}
 
 		// Start with an empty list

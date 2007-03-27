@@ -114,7 +114,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", "MeatManageFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Store Manager", "StoreManageFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Museum Display", "MuseumFrame" ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Hagnk's Storage", "HagnkStorageFrame" ) );
 
 		toolsMenu.add( new JSeparator() );
 

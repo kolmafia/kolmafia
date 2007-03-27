@@ -521,7 +521,6 @@ public class LoginFrame extends KoLFrame
 
 			{ "Store Manager", "StoreManageFrame" },
 			{ "Museum Display", "MuseumFrame" },
-			{ "Hagnk's Storage", "HagnkStorageFrame" },
 
 			{ "Hall of Legends", "MeatManageFrame" },
 			{ "Skill Casting", "SkillBuffFrame" },
@@ -632,6 +631,7 @@ public class LoginFrame extends KoLFrame
 					}
 
 			isRefreshing = false;
+			saveLayoutSettings();
 		}
 
 		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
