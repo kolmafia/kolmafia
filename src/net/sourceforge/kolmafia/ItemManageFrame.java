@@ -942,13 +942,11 @@ public class ItemManageFrame extends KoLFrame
 			wordfilter.other = other;
 			wordfilter.notrade = true;
 
-			JCheckBox [] addedFilters = new JCheckBox[5];
+			JCheckBox [] addedFilters = new JCheckBox[3];
 
 			addedFilters[0] = new CreateSettingCheckbox( "Auto-repair", "autoRepairBoxes", "Auto-repair box servant on explosion" );
 			addedFilters[1] = new CreateSettingCheckbox( "Use oven/kit", "createWithoutBoxServants", "Create without requiring a box servant" );
-			addedFilters[2] = new CreateSettingCheckbox( "Allow closet", "showClosetIngredients", "List items creatable when adding the closet" );
-			addedFilters[3] = new CreateSettingCheckbox( "Allow stash", "showStashIngredients", "List items creatable when adding the clan stash" );
-			addedFilters[4] = new CreateSettingCheckbox( "Infinite NPC", "assumeInfiniteNPCItems", "Purchase items from NPC stores whenever needed" );
+			addedFilters[2] = new CreateSettingCheckbox( "Allow stash", "showStashIngredients", "List items creatable when adding the clan stash" );
 
 			JPanel addedPanel = new JPanel();
 
