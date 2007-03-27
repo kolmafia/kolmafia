@@ -356,7 +356,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	private class ToggleDebugMenuItem extends ThreadedMenuItem
 	{
 		public ToggleDebugMenuItem()
-		{	super( RequestLogger.isDebugging() ? "Start Debug Log" : "Stop Debug Log" );
+		{	super( RequestLogger.isDebugging() ? "Stop Debug Log" : "Start Debug Log" );
 		}
 
 		public void run()
