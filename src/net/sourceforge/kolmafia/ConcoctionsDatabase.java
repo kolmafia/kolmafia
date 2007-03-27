@@ -282,15 +282,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		ArrayList availableIngredients = new ArrayList();
 		availableIngredients.addAll( inventory );
 
-		if ( getBooleanProperty( "showClosetIngredients" ) )
-		{
-			AdventureResult [] items = new AdventureResult[ closet.size() ];
-			closet.toArray( items );
-
-			for ( int i = 0; i < items.length; ++i )
-				AdventureResult.addResultToList( availableIngredients, items[i] );
-		}
-
 		if ( getBooleanProperty( "showStashIngredients" ) && KoLCharacter.canInteract() )
 		{
 			AdventureResult [] items = new AdventureResult[ ClanManager.getStash().size() ];
@@ -347,7 +338,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// is not needed.
 
 		cachePermitted( availableIngredients );
-		boolean infiniteNPCStoreItems = getBooleanProperty( "assumeInfiniteNPCItems" );
 
 		// Next, do calculations on all mixing methods which cannot
 		// be created at this time.
@@ -362,7 +352,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( concoction == null )
 				continue;
 
-			if ( infiniteNPCStoreItems && NPCStoreDatabase.contains( concoction.getName() ) )
+			if ( NPCStoreDatabase.contains( concoction.getName() ) )
 			{
 				item.initial = concoction.getCount( availableIngredients ) + KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( concoction.getItemId() ) * 2);
 				item.creatable = 0;

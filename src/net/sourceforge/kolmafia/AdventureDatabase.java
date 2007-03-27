@@ -1052,7 +1052,6 @@ public class AdventureDatabase extends KoLDatabase
 
 		boolean shouldPurchase = price != 0 || item.getName().indexOf( "clover" ) != -1;
 		boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
-		canUseNPCStore &= force || getBooleanProperty( "autoSatisfyWithNPCs" );
 
 		boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemId() );
 		shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( item.getItemId() ) == PIXEL;
