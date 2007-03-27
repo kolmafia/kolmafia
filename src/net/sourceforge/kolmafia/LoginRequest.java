@@ -97,6 +97,9 @@ public class LoginRequest extends KoLRequest
 
 		super.run();
 
+		if ( KoLmafia.refusesContinue() )
+			return false;
+
 		// If the pattern is not found, then do not submit
 		// the challenge version.
 
@@ -246,6 +249,9 @@ public class LoginRequest extends KoLRequest
 
 		KoLmafia.updateDisplay( "Sending login request..." );
 		super.run();
+
+		if ( KoLmafia.refusesContinue() )
+			return false;
 
 		if ( responseCode == 302 && redirectLocation.equals( "maint.php" ) )
 		{
