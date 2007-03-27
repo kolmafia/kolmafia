@@ -399,8 +399,8 @@ public class TradeableItemDatabase extends KoLDatabase
 		// over truncated versions which are plurals.
 
 		List possibilities = getMatchingNames( itemIdByName, canonicalName );
-		if ( !possibilities.isEmpty() )
-			return KoLmafiaCLI.getFirstMatchingItemId( possibilities );
+		if ( possibilities.size() == 1 )
+			return getItemId( (String) possibilities.get(0), count );
 
 		// Abort if it's clearly not going to be a plural,
 		// since this might kill off multi-item detection.
