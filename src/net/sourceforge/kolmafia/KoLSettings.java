@@ -466,6 +466,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "autoPlantHardcore", "false" );
 		CLIENT_SETTINGS.put( "autoPlantSoftcore", "false" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithMall", "true" );
+		PLAYER_SETTINGS.put( "autoSatisfyWithStash", "false" );
 		CLIENT_SETTINGS.put( "autoSetConditions", "true" );
 		CLIENT_SETTINGS.put( "avoidInvertingTabs", "false" );
 		CLIENT_SETTINGS.put( "breakfastSoftcore", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
@@ -579,7 +580,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		// Individual player settings which are not set on
 		// a global level.
 
-		PLAYER_SETTINGS.put( "autoRepairBoxes", "false" );
 		PLAYER_SETTINGS.put( "battleAction", "attack with weapon" );
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
 		PLAYER_SETTINGS.put( "breakfastCompleted", "false" );
@@ -590,7 +590,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "chatbotScriptExecuted", "false" );
 		PLAYER_SETTINGS.put( "chosenTrip", "" );
 		PLAYER_SETTINGS.put( "cocktailSummons", "0" );
-		PLAYER_SETTINGS.put( "createWithoutBoxServants", "false" );
 		PLAYER_SETTINGS.put( "currentFullness", "0" );
 		PLAYER_SETTINGS.put( "currentMood", "default" );
 		PLAYER_SETTINGS.put( "currentPvpVictories", "" );
@@ -622,7 +621,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "plantingScript", "" );
 		PLAYER_SETTINGS.put( "reagentSummons", "0" );
 		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
-		PLAYER_SETTINGS.put( "showStashIngredients", "false" );
 		PLAYER_SETTINGS.put( "snowconeSummons", "0" );
 		PLAYER_SETTINGS.put( "thanksMessage", "Thank you for the donation!" );
 		PLAYER_SETTINGS.put( "trapperOre", "chrome ore" );

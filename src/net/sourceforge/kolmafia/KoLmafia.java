@@ -3201,9 +3201,6 @@ public abstract class KoLmafia implements KoLConstants
 		resetSession();
 		enableDisplay();
 
-		StaticEntity.setProperty( "autoRepairBoxes", "false" );
-		StaticEntity.setProperty( "createWithoutBoxServants", "true" );
-
 		PrintStream sessionStream = RequestLogger.getSessionStream();
 
 		sessionStream.println();

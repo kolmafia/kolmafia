@@ -323,7 +323,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "autoBuyRestores", "Automatically buy more hp/mp restores when needed" },
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
-			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" }
+			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" }
 		};
 
 		/**

@@ -663,21 +663,6 @@ public class ItemManageFrame extends KoLFrame
 			this.restores = restores;
 			this.other = other;
 
-			movers = new JRadioButton[4];
-			movers[0] = new JRadioButton( "Move all" );
-			movers[1] = new JRadioButton( "Move all but one" );
-			movers[2] = new JRadioButton( "Move multiple", true );
-			movers[3] = new JRadioButton( "Move exactly one" );
-
-			ButtonGroup moverGroup = new ButtonGroup();
-			for ( int i = 0; i < 4; ++i )
-			{
-				moverGroup.add( movers[i] );
-				moverPanel.add( movers[i] );
-			}
-
-			actualPanel.add( moverPanel, BorderLayout.NORTH );
-
 			wordfilter = new ConsumableFilterComboBox();
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
 
@@ -969,8 +954,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public CreateItemPanel( boolean food, boolean booze, boolean equip, boolean other )
 		{
-			super( ConcoctionsDatabase.getConcoctions() );
-			setButtons( false, new ActionListener [] { new CreateListener(), new CreateAndUseListener() } );
+			super( "", "create item", "create & use", ConcoctionsDatabase.getConcoctions() );
 
 			wordfilter.food = food;
 			wordfilter.booze = booze;
@@ -978,102 +962,49 @@ public class ItemManageFrame extends KoLFrame
 			wordfilter.other = other;
 			wordfilter.notrade = true;
 
-			JCheckBox [] addedFilters = new JCheckBox[3];
-
-			addedFilters[0] = new CreateSettingCheckbox( "Auto-repair", "autoRepairBoxes", "Auto-repair box servant on explosion" );
-			addedFilters[1] = new CreateSettingCheckbox( "Use oven/kit", "createWithoutBoxServants", "Create without requiring a box servant" );
-			addedFilters[2] = new CreateSettingCheckbox( "Allow stash", "showStashIngredients", "List items creatable when adding the clan stash" );
-
-			JPanel addedPanel = new JPanel();
-
-			for ( int i = 0; i < addedFilters.length; ++i )
-				addedPanel.add( addedFilters[i] );
-
 			ConcoctionsDatabase.getConcoctions().applyListFilters();
-			northPanel.add( addedPanel, BorderLayout.SOUTH );
 		}
 
-		private class CreateSettingCheckbox extends JCheckBox implements ActionListener
+		public void actionConfirmed()
 		{
-			private String setting;
+			Object selected = elementList.getSelectedValue();
 
-			public CreateSettingCheckbox( String title, String setting, String tooltip )
-			{
-				super( title, StaticEntity.getBooleanProperty( setting ) );
+			if ( selected == null )
+				return;
 
-				this.setting = setting;
-				setToolTipText( tooltip );
-				addActionListener( this );
-			}
+			ItemCreationRequest selection = (ItemCreationRequest) selected;
+			int quantityDesired = getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() );
+			if ( quantityDesired < 1 )
+				return;
 
-			public void actionPerformed( ActionEvent e )
-			{
-				StaticEntity.setProperty( setting, String.valueOf( isSelected() ) );
-
-				if ( setting.equals( "showStashIngredients" ) && KoLCharacter.hasClan() && isSelected() &&
-					KoLmafia.isAdventuring() && !ClanManager.isStashRetrieved() )
-				{
-					RequestThread.postRequest( new ClanStashRequest() );
-				}
-
-				ConcoctionsDatabase.refreshConcoctions();
-			}
+			KoLmafia.updateDisplay( "Verifying ingredients..." );
+			selection.setQuantityNeeded( quantityDesired );
+			RequestThread.postRequest( selection );
 		}
 
-		private class CreateListener extends ThreadedListener
+		public void actionCancelled()
 		{
-			public void run()
-			{
-				Object selected = elementList.getSelectedValue();
+			Object selected = elementList.getSelectedValue();
 
-				if ( selected == null )
-					return;
+			if ( selected == null )
+				return;
 
-				ItemCreationRequest selection = (ItemCreationRequest) selected;
-				int quantityDesired = getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityPossible() );
-				if ( quantityDesired < 1 )
-					return;
+			ItemCreationRequest selection = (ItemCreationRequest) selected;
 
-				KoLmafia.updateDisplay( "Verifying ingredients..." );
-				selection.setQuantityNeeded( quantityDesired );
-				RequestThread.postRequest( selection );
-			}
+			int maximum = ConsumeItemRequest.maximumUses( selection.getItemId() );
+			int quantityDesired = maximum < 2 ? maximum : getQuantity( "Creating multiple " + selection.getName() + "...",
+				Math.min( maximum, selection.getQuantityPossible() ) );
 
-			public String toString()
-			{	return "create item";
-			}
-		}
+			if ( quantityDesired < 1 )
+				return;
 
-		private class CreateAndUseListener extends ThreadedListener
-		{
-			public void run()
-			{
-				Object selected = elementList.getSelectedValue();
+			KoLmafia.updateDisplay( "Verifying ingredients..." );
+			selection.setQuantityNeeded( quantityDesired );
 
-				if ( selected == null )
-					return;
-
-				ItemCreationRequest selection = (ItemCreationRequest) selected;
-
-				int maximum = ConsumeItemRequest.maximumUses( selection.getItemId() );
-				int quantityDesired = maximum < 2 ? maximum : getQuantity( "Creating multiple " + selection.getName() + "...",
-					Math.min( maximum, selection.getQuantityPossible() ) );
-
-				if ( quantityDesired < 1 )
-					return;
-
-				KoLmafia.updateDisplay( "Verifying ingredients..." );
-				selection.setQuantityNeeded( quantityDesired );
-
-				RequestThread.openRequestSequence();
-				RequestThread.postRequest( selection );
-				RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), selection.getQuantityNeeded() ) ) );
-				RequestThread.closeRequestSequence();
-			}
-
-			public String toString()
-			{	return "create & use";
-			}
+			RequestThread.openRequestSequence();
+			RequestThread.postRequest( selection );
+			RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), selection.getQuantityNeeded() ) ) );
+			RequestThread.closeRequestSequence();
 		}
 	}
 

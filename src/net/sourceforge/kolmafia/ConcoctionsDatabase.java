@@ -282,7 +282,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		ArrayList availableIngredients = new ArrayList();
 		availableIngredients.addAll( inventory );
 
-		if ( getBooleanProperty( "showStashIngredients" ) && KoLCharacter.canInteract() )
+		if ( getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() )
 		{
 			AdventureResult [] items = new AdventureResult[ ClanManager.getStash().size() ];
 			ClanManager.getStash().toArray( items );
@@ -484,8 +484,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static void cachePermitted( List availableIngredients )
 	{
-		boolean noServantNeeded = getBooleanProperty( "createWithoutBoxServants" );
-		boolean willBuyServant = KoLCharacter.canInteract() && getBooleanProperty( "autoRepairBoxes" ) && getBooleanProperty( "autoSatisfyWithMall" );
+		boolean willBuyServant = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
 
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
@@ -595,22 +594,16 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// or they don't need a box servant and have an oven.
 
 		PERMIT_METHOD[ COOK ] = willBuyServant || KoLCharacter.hasChef() || isAvailable( CHEF, CLOCKWORK_CHEF );
+		ADVENTURE_USAGE[ COOK ] = 0;
 
-		if ( PERMIT_METHOD[ COOK ] )
+		if ( !PERMIT_METHOD[ COOK ] )
 		{
-			ADVENTURE_USAGE[ COOK ] = 0;
-		}
-		else
-		{
-			if ( noServantNeeded )
+			PERMIT_METHOD[ COOK ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
+
+			if ( !PERMIT_METHOD[ COOK ] )
 			{
 				PERMIT_METHOD[ COOK ] = inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000;
 				ADVENTURE_USAGE[ COOK ] = 1;
-			}
-			else
-			{
-				PERMIT_METHOD[ COOK ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" ) && getBooleanProperty( "autoRepairBoxes" );
-				ADVENTURE_USAGE[ COOK ] = 0;
 			}
 		}
 
@@ -630,22 +623,16 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// or they don't need a box servant and have a kit.
 
 		PERMIT_METHOD[ MIX ] = KoLCharacter.hasBartender() || isAvailable( BARTENDER, CLOCKWORK_BARTENDER );
+		ADVENTURE_USAGE[ MIX ] = 0;
 
-		if ( PERMIT_METHOD[ MIX ] )
+		if ( !PERMIT_METHOD[ MIX ] )
 		{
-			ADVENTURE_USAGE[ MIX ] = 0;
-		}
-		else
-		{
-			if ( noServantNeeded )
+			PERMIT_METHOD[ MIX ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
+
+			if ( !PERMIT_METHOD[ MIX ] )
 			{
 				PERMIT_METHOD[ MIX ] = inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000;
 				ADVENTURE_USAGE[ MIX ] = 1;
-			}
-			else
-			{
-				PERMIT_METHOD[ MIX ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" ) && getBooleanProperty( "autoRepairBoxes" );
-				ADVENTURE_USAGE[ MIX ] = 0;
 			}
 		}
 
@@ -695,18 +682,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	}
 
 	private static boolean isAvailable( int servantId, int clockworkId )
-	{
-		// If the user did not wish to repair their boxes
-		// on explosion, then the box servant is not available
-
-		if ( !getBooleanProperty( "autoRepairBoxes" ) )
-			return false;
-
-		// Otherwise, return whether or not the quantity possible for
-		// the given box servants is non-zero.	This works because
-		// cooking tests are made after item creation tests.
-
-		return concoctions.get( servantId ).total > 0 || concoctions.get( clockworkId ).total > 0;
+	{	return concoctions.get( servantId ).total > 0 || concoctions.get( clockworkId ).total > 0;
 	}
 
 	/**
