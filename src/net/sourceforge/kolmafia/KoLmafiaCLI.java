@@ -1606,6 +1606,9 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "checkpoint" ) )
 		{
 			SpecialOutfit.createExplicitCheckpoint();
+			KoLmafia.updateDisplay( "Internal checkpoint created." );
+			RequestThread.enableDisplayIfSequenceComplete();
+
 			return;
 		}
 
