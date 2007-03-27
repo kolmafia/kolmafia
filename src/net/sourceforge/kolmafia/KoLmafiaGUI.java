@@ -295,7 +295,7 @@ public class KoLmafiaGUI extends KoLmafia
 					if ( microbreweryItems.isEmpty() )
 						RequestThread.postRequest( new MicrobreweryRequest() );
 
-				if ( StaticEntity.getBooleanProperty( "showStashIngredients" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+				if ( StaticEntity.getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 					if ( !ClanManager.isStashRetrieved() )
 						RequestThread.postRequest( new ClanStashRequest() );
 			}

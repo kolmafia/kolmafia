@@ -575,28 +575,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// of creation.
 
 		AdventureResult usedServant = null;
-		boolean isBoxlessPermitted = StaticEntity.getBooleanProperty( "createWithoutBoxServants" );
 		boolean hasNoServantItem = inventory.contains( noServantItem ) || KoLCharacter.getAvailableMeat() >= 1000;
 
-		if ( !StaticEntity.getBooleanProperty( "autoRepairBoxes" ) )
-		{
-			if ( !isBoxlessPermitted )
-				return false;
-
-			if ( hasNoServantItem )
-				return AdventureDatabase.retrieveItem( noServantItem );
-
-			return hasNoServantItem;
-		}
-
-		if ( KoLCharacter.hasItem( clockworkServant, false ) )
+		if ( KoLCharacter.hasItem( clockworkServant, true ) )
 			usedServant = clockworkServant;
-
-		else if ( KoLCharacter.hasItem( clockworkServant, true ) )
-			usedServant = clockworkServant;
-
-		else if ( KoLCharacter.hasItem( servant, false ) )
-			usedServant = servant;
 
 		else if ( KoLCharacter.hasItem( servant, true ) )
 			usedServant = servant;
@@ -607,24 +589,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// more purchases, then do so.
 
 			if ( KoLCharacter.hasItem( boxedItem, true ) )
-			{
 				usedServant = servant;
-			}
-			else if ( KoLCharacter.inMuscleSign() )
-			{
-				if ( KoLCharacter.hasItem( skullItem, true ) && KoLCharacter.hasItem( BOX, false ) )
-					usedServant = servant;
-			}
-			else if ( isBoxlessPermitted )
-			{
-				return hasNoServantItem && AdventureDatabase.retrieveItem( noServantItem );
-			}
-
-			if ( !isBoxlessPermitted && KoLCharacter.canInteract() && StaticEntity.getBooleanProperty( "autoSatisfyWithMall" ) )
+			else if ( KoLCharacter.inMuscleSign() && KoLCharacter.hasItem( skullItem, true ) && KoLCharacter.hasItem( BOX, false ) )
+				usedServant = servant;
+			else if ( KoLCharacter.canInteract() && StaticEntity.getBooleanProperty( "autoSatisfyWithMall" ) )
 				usedServant = servant;
 
 			if ( usedServant == null )
-				return false;
+				return hasNoServantItem && AdventureDatabase.retrieveItem( noServantItem );
 		}
 
 		// Once you hit this point, you're guaranteed to

@@ -1048,7 +1048,7 @@ public class AdventureDatabase extends KoLDatabase
 		int price = TradeableItemDatabase.getPriceById( item.getItemId() );
 
 		boolean shouldUseMall = force || getBooleanProperty( "autoSatisfyWithMall" );
-		boolean shouldUseStash = getBooleanProperty( "showStashIngredients" );
+		boolean shouldUseStash = getBooleanProperty( "autoSatisfyWithStash" );
 
 		boolean shouldPurchase = price != 0 || item.getName().indexOf( "clover" ) != -1;
 		boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
