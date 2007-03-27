@@ -219,11 +219,11 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( LIMITED_USES.containsKey( key ) )
 			return activeEffects.contains( LIMITED_USES.get( key ) ) ? 0 : 1;
 
-		int fullness = TradeableItemDatabase.getFullness( itemId );
+		int fullness = TradeableItemDatabase.getFullness( TradeableItemDatabase.getItemName( itemId ) );
 		if ( fullness > 0 )
 			return (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
 
-		int spleenHit = TradeableItemDatabase.getSpleenHit( itemId );
+		int spleenHit = TradeableItemDatabase.getSpleenHit( TradeableItemDatabase.getItemName( itemId ) );
 
 		boolean restoresHP = false;
 		float hpRestored = 0.0f;
@@ -315,7 +315,7 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			constructURLString( originalURLString );
 
-			if ( consumptionType == CONSUME_DRINK && !allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemUsed.getItemId() ) ) )
+			if ( consumptionType == CONSUME_DRINK && !allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemUsed.getName() ) ) )
 				return;
 
 			useOnce( i, iterations, useTypeAsString );
@@ -1113,13 +1113,13 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( consumptionType == CONSUME_EAT )
 		{
-			int fullness = TradeableItemDatabase.getFullness( lastItemUsed.getItemId() );
+			int fullness = TradeableItemDatabase.getFullness( lastItemUsed.getName() );
 			if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
 				StaticEntity.setProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
 		}
 		else
 		{
-			int spleenHit = TradeableItemDatabase.getSpleenHit( lastItemUsed.getItemId() ) * lastItemUsed.getCount();
+			int spleenHit = TradeableItemDatabase.getSpleenHit( lastItemUsed.getName() ) * lastItemUsed.getCount();
 			if ( spleenHit > 0 && KoLCharacter.getSpleenUse() + spleenHit <= KoLCharacter.getSpleenLimit() )
 				StaticEntity.setProperty( "currentSpleenUse", String.valueOf( KoLCharacter.getSpleenUse() + spleenHit ) );
 		}

@@ -682,23 +682,27 @@ public class AdventureResult implements Comparable, KoLConstants
 			stringForm.append( "<html><b>" );
 			stringForm.append( item.toString() );
 
-			stringForm.append( "</b><br> " );
+			stringForm.append( " (" );
+			stringForm.append( item.getTotal() );
+			stringForm.append( ")" );
+
+			stringForm.append( "</b><br>&nbsp;" );
 
 			if ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) == CONSUME_DRINK )
 			{
-				stringForm.append( TradeableItemDatabase.getInebriety( item.getItemId() ) );
+				stringForm.append( TradeableItemDatabase.getInebriety( item.getName() ) );
 				stringForm.append( " drunk" );
 			}
 			else
 			{
-				stringForm.append( TradeableItemDatabase.getFullness( item.getItemId() ) );
+				stringForm.append( TradeableItemDatabase.getFullness( item.getName() ) );
 				stringForm.append( " full" );
 			}
 
-			appendRange( stringForm, TradeableItemDatabase.getAdventureRange( item.getItemId() ), "adv" );
-			appendRange( stringForm, TradeableItemDatabase.getMuscleRange( item.getItemId() ), "mus" );
-			appendRange( stringForm, TradeableItemDatabase.getMysticalityRange( item.getItemId() ), "mys" );
-			appendRange( stringForm, TradeableItemDatabase.getMoxieRange( item.getItemId() ), "mox" );
+			appendRange( stringForm, TradeableItemDatabase.getAdventureRange( item.getName() ), "adv" );
+			appendRange( stringForm, TradeableItemDatabase.getMuscleRange( item.getName() ), "mus" );
+			appendRange( stringForm, TradeableItemDatabase.getMysticalityRange( item.getName() ), "mys" );
+			appendRange( stringForm, TradeableItemDatabase.getMoxieRange( item.getName() ), "mox" );
 
 			((JLabel)defaultComponent).setText( stringForm.toString() );
 			return defaultComponent;
@@ -706,7 +710,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		private void appendRange( StringBuffer stringForm, String range, String suffix )
 		{
-			if ( range.equals( "+0" ) )
+			if ( range.equals( "+0.0" ) )
 				return;
 
 			stringForm.append( ", " );

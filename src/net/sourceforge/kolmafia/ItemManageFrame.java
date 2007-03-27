@@ -513,27 +513,19 @@ public class ItemManageFrame extends KoLFrame
 
 		public SpecialPanel( LockableListModel items )
 		{
-			super( "", "buy one", "buy multiple", new JList( items ) );
+			super( "", "purchase", "", new JList( items ) );
 
 			this.elementList = (JList) scrollComponent;
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 		}
 
 		public void actionConfirmed()
-		{	handlePurchase( PURCHASE_ONE );
-		}
-
-		public void actionCancelled()
-		{	handlePurchase( PURCHASE_MULTIPLE );
-		}
-
-		private void handlePurchase( int purchaseType )
 		{
 			String item = (String) elementList.getSelectedValue();
 			if ( item == null )
 				return;
 
-			int consumptionCount = purchaseType == PURCHASE_MULTIPLE ? getQuantity( "Buying multiple " + item + "...", Integer.MAX_VALUE, 1 ) : 1;
+			int consumptionCount = getQuantity( "Buying multiple " + item + "...", Integer.MAX_VALUE, 1 );
 			if ( consumptionCount == 0 )
 				return;
 
@@ -552,32 +544,18 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "Use Items", "use item", food ? "use milk" : "cast ode", ConcoctionsDatabase.usableConcoctions );
 
-			elementList.setFixedCellHeight( 32 );
 			JPanel moverPanel = new JPanel();
+
+			JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+			elementList.setFixedCellHeight( (int) (test.getPreferredSize().getHeight() * 2.5f) );
 
 			this.food = food;
 			this.booze = booze;
-
-			movers = new JRadioButton[4];
-			movers[0] = new JRadioButton( "Move all" );
-			movers[1] = new JRadioButton( "Move all but one" );
-			movers[2] = new JRadioButton( "Move multiple", true );
-			movers[3] = new JRadioButton( "Move exactly one" );
-
-			ButtonGroup moverGroup = new ButtonGroup();
-			for ( int i = 0; i < 4; ++i )
-			{
-				moverGroup.add( movers[i] );
-				moverPanel.add( movers[i] );
-			}
-
-			actualPanel.add( moverPanel, BorderLayout.NORTH );
 
 			wordfilter = new ConsumableFilterComboBox();
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
 
 			wordfilter.filterItems();
-			eastPanel.add( new UsageDataLabel(), BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
@@ -593,51 +571,14 @@ public class ItemManageFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-		}
-
-		private class UsageDataLabel extends JLabel implements ListSelectionListener
-		{
-			public UsageDataLabel()
+			if ( food )
 			{
-				elementList.addListSelectionListener( this );
+				RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( "milk of magnesium", 1 ) ) );
 			}
-
-			public void valueChanged( ListSelectionEvent e )
+			else
 			{
-				Concoction item = (Concoction) elementList.getSelectedValue();
-				if ( item == null )
-					return;
-
-				StringBuffer itemdata = new StringBuffer();
-				itemdata.append( "<html>" );
-
-				int amount1 = item.getItem().getCount( inventory );
-
-				itemdata.append( amount1 );
-				itemdata.append( " on hand" );
-
-				int amount2 = item.getInitial();
-
-				if ( amount1 != amount2 )
-				{
-					itemdata.append( "<br>" );
-					itemdata.append( item.getInitial() );
-					itemdata.append( " retrievable" );
-
-					amount1 = amount2;
-				}
-
-				amount2 = item.getTotal();
-
-				if ( amount1 != amount2 )
-				{
-					itemdata.append( "<br>" );
-					itemdata.append( amount2 );
-					itemdata.append( " with creation" );
-				}
-
-				itemdata.append( "</center>" );
-				setText( itemdata.toString() );
+				if ( !activeEffects.contains( new AdventureResult( "Ode to Booze", 1, true ) ) )
+					RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
 			}
 		}
 

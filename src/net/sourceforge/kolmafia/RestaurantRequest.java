@@ -73,13 +73,8 @@ public class RestaurantRequest extends KoLRequest
 
 			// Find the item in the menu
 			for ( int i = 0; i < 3; i++ )
-			{
 				if ( ((String)restaurantItems.get(i)).equals( name ) )
-				{
 					itemId = -1 - i;
-					break;
-				}
-			}
 
 			if ( itemId == 0 )
 				itemId = TradeableItemDatabase.getItemId( itemName );
@@ -169,23 +164,23 @@ public class RestaurantRequest extends KoLRequest
 		switch ( itemId )
 		{
 		case -1:
-			fullness = 3;
 			itemName = "Peche a la Frog";
+			fullness = 3;
 			break;
 
 		case -2:
-			fullness = 4;
 			itemName = "Au Jus Gezund Heit";
+			fullness = 4;
 			break;
 
 		case -3:
-			fullness = 5;
 			itemName = "Bouillabaise Coucher Avec Moi";
+			fullness = 5;
 			break;
 
 		default:
-			fullness = TradeableItemDatabase.getFullness( itemId );
 			itemName = TradeableItemDatabase.getItemName( itemId );
+			fullness = TradeableItemDatabase.getFullness( itemName );
 			break;
 		}
 
