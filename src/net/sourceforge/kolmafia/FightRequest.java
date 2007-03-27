@@ -525,6 +525,13 @@ public class FightRequest extends KoLRequest
 
 			action1 = "attack";
 		}
+		else if ( action1.equals( "3" ) )
+		{
+			if ( shouldLogAction )
+				action.append( "tries to steal an item!" );
+
+			action1 = "steal";
+		}
 		else if ( shouldLogAction )
 		{
 			action.append( "casts " +
