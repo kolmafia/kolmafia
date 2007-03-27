@@ -287,7 +287,17 @@
 287
 288
 289	Banana Potion	Bananas!	banana.gif
-290	What's That Smell	What's That Smell?	stench.gif
-291	Mad at Science	Mad at Science	angry.gif
-292	Tetanus	Tetanus	disease.gif
-293	Half-Eaten Brain	Half-Eaten Brain	realbrain.gif
+290	Fiendish Can of Asparagus	What's That Smell?	stench.gif
+291	Sub-Assistant Knob Mad Scientist	Mad at Science	angry.gif
+292	Empty Suit of Armor	Tetanus	disease.gif
+293	Zmobie	Half-Eaten Brain	realbrain.gif
+294	Ninja Snowman (Ricebowl)	Fearless	disease.gif
+295	Crusty Hippy	Socialismydia	disease.gif
+296	Lumberjack	Axe Wound	gash.gif
+297	Protagonist	Temporary Amnesia	confused.gif
+298	7-Foot Dwarf Foreman	Grilled	grilled.gif
+299	Disease-In-The-Box	"The Disease"	disease.gif
+300	BASIC Elemental	Infinite Loop	nopic.gif
+301	Procrastination Giant	Cunctatitis	disease.gif
+302	Warwelf	Mild Lycanthropy	moon2.gif
+303	Weremoose	Lycanthropy, Eh?	moon2.gif
