@@ -3459,6 +3459,9 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( npcStoreMatch || actualCount == 1 )
 			return lowestId;
 
+		if ( !isUsageMatch )
+			return 0;
+
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
 			itemName = (String) nameList.get(i);
