@@ -797,6 +797,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.name = name;
 			this.concoction = null;
 
+			if ( TradeableItemDatabase.contains( name ) )
+				this.concoction = new AdventureResult( name, 1, false );
+
 			this.mixingMethod = NOCREATE;
 			this.wasPossible = true;
 
@@ -931,9 +934,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 				int inebriety = TradeableItemDatabase.getInebriety( name );
 
 				if ( fullness > 0 )
-					this.initial = KoLCharacter.getFullnessLimit() / fullness;
+					this.initial = 30 / fullness;
 				else
-					this.initial = KoLCharacter.getInebrietyLimit() / inebriety + 1;
+					this.initial = 30 / inebriety;
 
 				this.creatable = 0;
 				this.total = this.initial;

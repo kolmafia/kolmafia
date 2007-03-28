@@ -618,21 +618,11 @@ public class ItemManageFrame extends KoLFrame
 					int inebriety = TradeableItemDatabase.getInebriety( ((Concoction)element).getName() );
 
 					if ( fullness > 0 )
-					{
-						return ExperimentalPanel.this.food &&
-							ConsumeItemRequest.maximumUses( itemId ) > 0 &&
-							super.isVisible( element );
-					}
+						return ExperimentalPanel.this.food && super.isVisible( element );
 					else if ( inebriety > 0 )
-					{
-						return ExperimentalPanel.this.booze &&
-							ConsumeItemRequest.maximumUses( itemId ) > 0 &&
-							super.isVisible( element );
-					}
+						return ExperimentalPanel.this.booze && super.isVisible( element );
 					else
-					{
 						return false;
-					}
 				}
 			}
 		}
