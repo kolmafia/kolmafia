@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -99,14 +100,10 @@ public class LoginFrame extends KoLFrame
 		breakfastPanel.add( new ScriptPanel() );
 		breakfastPanel.add( new BreakfastPanel( "Softcore Characters", "Softcore" ) );
 		breakfastPanel.add( new BreakfastPanel( "Hardcore Characters", "Hardcore" ) );
-		addTab( "Breakfast", breakfastPanel );
 
-		JPanel displayPanel = new JPanel();
-		displayPanel.setLayout( new BoxLayout( displayPanel, BoxLayout.Y_AXIS ) );
-		displayPanel.add( new UserInterfacePanel() );
-		displayPanel.add( new StartupFramesPanel() );
-
-		addTab( "Displays", displayPanel );
+		tabs.addTab( "Breakfast", breakfastPanel );
+		tabs.addTab( "Startup UI", new StartupFramesPanel() );
+		tabs.addTab( "Look & Feel", new UserInterfacePanel()  );
 
 		JPanel connectPanel = new JPanel();
 		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
@@ -427,7 +424,7 @@ public class LoginFrame extends KoLFrame
 
 	}
 
-	private class BreakfastPanel extends LabeledKoLPanel
+	private class BreakfastPanel extends JPanel implements ActionListener
 	{
 		private String breakfastType;
 		private JCheckBox [] skillOptions;
@@ -439,30 +436,54 @@ public class LoginFrame extends KoLFrame
 
 		public BreakfastPanel( String title, String breakfastType )
 		{
-			super( title, new Dimension( 20, 20 ), new Dimension( 380, 20 ) );
+			super( new BorderLayout() );
+
+			add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+
+			JPanel centerPanel = new JPanel( new GridLayout( 4, 3 ) );
+
+			loginRecovery = new JCheckBox( "Allow auto-recovery" );
+			loginRecovery.addActionListener( this );
+			centerPanel.add( loginRecovery );
+
+			pathedSummons = new JCheckBox( "Honor path restrictions" );
+			pathedSummons.addActionListener( this );
+			centerPanel.add( pathedSummons );
+
+			centerPanel.add( new JLabel() );
 
 			this.breakfastType = breakfastType;
 			skillOptions = new JCheckBox[ UseSkillRequest.BREAKFAST_SKILLS.length ];
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
-				skillOptions[i] = new JCheckBox();
+			{
+				skillOptions[i] = new JCheckBox( "Cast " + UseSkillRequest.BREAKFAST_SKILLS[i].toLowerCase() );
+				skillOptions[i].addActionListener( this );
+				centerPanel.add( skillOptions[i] );
+			}
 
-			mushroomPlot = new JCheckBox();
-			rumpusRoom = new JCheckBox();
-			loginRecovery = new JCheckBox();
-			pathedSummons = new JCheckBox();
+			mushroomPlot = new JCheckBox( "Plant mushrooms" );
+			mushroomPlot.addActionListener( this );
+			centerPanel.add( mushroomPlot );
 
-			VerifiableElement [] elements = new VerifiableElement[ skillOptions.length + 4 ];
-			elements[0] = new VerifiableElement( "Allow auto-recovery", JLabel.LEFT, loginRecovery );
-			elements[1] = new VerifiableElement( "Honor path restrictions", JLabel.LEFT, pathedSummons );
+			rumpusRoom = new JCheckBox( "Clan rumpus room" );
+			rumpusRoom.addActionListener( this );
+			centerPanel.add( rumpusRoom );
 
-			for ( int i = 0; i < skillOptions.length; ++i )
-				elements[i + 2] = new VerifiableElement( UseSkillRequest.BREAKFAST_SKILLS[i], JLabel.LEFT, skillOptions[i] );
+			centerPanel.add( new JLabel() );
 
-			elements[ skillOptions.length + 2 ] = new VerifiableElement( "Plant mushrooms", JLabel.LEFT, mushroomPlot );
-			elements[ skillOptions.length + 3 ] = new VerifiableElement( "Clan rumpus room", JLabel.LEFT, rumpusRoom );
+			JPanel centerHolder = new JPanel( new BorderLayout() );
+			centerHolder.add( centerPanel, BorderLayout.NORTH );
 
-			setContent( elements );
+			JPanel centerContainer = new JPanel( new CardLayout( 10, 10 ) );
+			centerContainer.add( centerHolder, "" );
+
+			add( centerContainer, BorderLayout.CENTER );
+
 			actionCancelled();
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	actionConfirmed();
 		}
 
 		public void actionConfirmed()
@@ -504,7 +525,7 @@ public class LoginFrame extends KoLFrame
 		}
 	}
 
-	private class StartupFramesPanel extends LabeledKoLPanel implements ListDataListener
+	private class StartupFramesPanel extends KoLPanel implements ListDataListener
 	{
 		private final String [][] FRAME_OPTIONS =
 		{
@@ -547,25 +568,23 @@ public class LoginFrame extends KoLFrame
 		private boolean isRefreshing = false;
 		private JComboBox usernameComboBox;
 
+		private ScriptSelectPanel loginScript;
+		private ScriptSelectPanel logoutScript;
+
 		private LockableListModel completeList = new LockableListModel();
 		private LockableListModel startupList = new LockableListModel();
 		private LockableListModel desktopList = new LockableListModel();
 
 		public StartupFramesPanel()
 		{
-			super( "Startup Windows", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+			super( new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			usernameComboBox = new JComboBox( saveStateNames );
+			loginScript = new ScriptSelectPanel( new JTextField() );
+			logoutScript = new ScriptSelectPanel( new JTextField() );
 
-			String autoLoginSetting = StaticEntity.getProperty( "autoLogin" );
-			if ( autoLoginSetting.equals( "" ) )
-				autoLoginSetting = StaticEntity.getProperty( "lastUsername" );
-
-			usernameComboBox.setSelectedItem( autoLoginSetting.toLowerCase() );
-
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Settings For:  ", usernameComboBox );
-			elements[1] = new VerifiableElement();
+			VerifiableElement [] elements = new VerifiableElement[1];
+			elements[0] = new VerifiableElement( "Settings:  ", usernameComboBox );
 
 			setContent( elements );
 
@@ -583,7 +602,11 @@ public class LoginFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	actionCancelled();
+		{
+			StaticEntity.setProperty( "loginScript", loginScript.getText() );
+			StaticEntity.setProperty( "logoutScript", logoutScript.getText() );
+
+			actionCancelled();
 		}
 
 		public void actionCancelled()
@@ -632,6 +655,9 @@ public class LoginFrame extends KoLFrame
 
 			isRefreshing = false;
 			saveLayoutSettings();
+
+			this.loginScript.setText( StaticEntity.getProperty( "loginScript" ) );
+			this.logoutScript.setText( StaticEntity.getProperty( "logoutScript" ) );
 		}
 
 		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
@@ -721,7 +747,7 @@ public class LoginFrame extends KoLFrame
 
 		public UserInterfacePanel()
 		{
-			super( "Look and Feel", new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
+			super( "", new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
 
 			UIManager.LookAndFeelInfo [] installed = UIManager.getInstalledLookAndFeels();
 			Object [] installedLooks = new Object[ installed.length ];
