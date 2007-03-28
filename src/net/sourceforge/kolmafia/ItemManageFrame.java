@@ -1032,7 +1032,10 @@ public class ItemManageFrame extends KoLFrame
 
 			if ( !isEquipment )
 			{
-				setButtons( true, new ActionListener[0] );
+				northPanel = new JPanel( new BorderLayout() );
+				addFilterCheckboxes( false );
+				actualPanel.add( northPanel, BorderLayout.NORTH );
+
 				return;
 			}
 

@@ -107,6 +107,37 @@ public class ItemManagePanel extends LabeledScrollPanel
 	{
 	}
 
+	protected final void addFilterCheckboxes( boolean isCompact )
+	{
+		JPanel filterPanel = new JPanel();
+		filters = new JCheckBox[5];
+
+		if ( isCompact )
+		{
+			filters[0] = new JCheckBox( "food", KoLCharacter.canEat() );
+			filters[1] = new JCheckBox( "booze", KoLCharacter.canDrink() );
+			filters[2] = new JCheckBox( "equip", true );
+			filters[3] = new JCheckBox( "others", true );
+			filters[4] = new JCheckBox( "no-trade", true );
+		}
+		else
+		{
+			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
+			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
+			filters[2] = new JCheckBox( "Show equipment", true );
+			filters[3] = new JCheckBox( "Show others", true );
+			filters[4] = new JCheckBox( "Show no-trade", true );
+		}
+
+		for ( int i = 0; i < 5; ++i )
+		{
+			filterPanel.add( filters[i] );
+			filters[i].addActionListener( new UpdateFilterListener() );
+		}
+
+		northPanel.add( filterPanel, BorderLayout.CENTER );
+	}
+
 	public void setButtons( ActionListener [] buttonListeners )
 	{	setButtons( true, buttonListeners );
 	}
@@ -145,39 +176,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 		northPanel = new JPanel( new BorderLayout() );
 
 		if ( !addFilterCheckboxes )
-		{
 			filters = null;
-		}
 		else
-		{
-			JPanel filterPanel = new JPanel();
-			filters = new JCheckBox[5];
-
-			if ( buttonListeners == null )
-			{
-				filters[0] = new JCheckBox( "food", KoLCharacter.canEat() );
-				filters[1] = new JCheckBox( "booze", KoLCharacter.canDrink() );
-				filters[2] = new JCheckBox( "equip", true );
-				filters[3] = new JCheckBox( "others", true );
-				filters[4] = new JCheckBox( "no-trade", true );
-			}
-			else
-			{
-				filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
-				filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
-				filters[2] = new JCheckBox( "Show equipment", true );
-				filters[3] = new JCheckBox( "Show others", true );
-				filters[4] = new JCheckBox( "Show no-trade", true );
-			}
-
-			for ( int i = 0; i < 5; ++i )
-			{
-				filterPanel.add( filters[i] );
-				filters[i].addActionListener( new UpdateFilterListener() );
-			}
-
-			northPanel.add( filterPanel, BorderLayout.CENTER );
-		}
+			addFilterCheckboxes( buttonListeners == null );
 
 		// If there are buttons, they likely need movers.  Therefore, add
 		// some movers to everything.
