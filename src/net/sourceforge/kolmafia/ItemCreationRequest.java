@@ -596,7 +596,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				usedServant = servant;
 
 			if ( usedServant == null )
-				return hasNoServantItem && AdventureDatabase.retrieveItem( noServantItem );
+				return !KoLCharacter.canInteract() && hasNoServantItem && AdventureDatabase.retrieveItem( noServantItem );
 		}
 
 		// Once you hit this point, you're guaranteed to

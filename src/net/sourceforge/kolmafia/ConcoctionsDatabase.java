@@ -352,7 +352,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( concoction == null )
 				continue;
 
-			if ( NPCStoreDatabase.contains( concoction.getName() ) )
+			if ( !KoLCharacter.canInteract() && NPCStoreDatabase.contains( concoction.getName() ) )
 			{
 				item.initial = concoction.getCount( availableIngredients ) + KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( concoction.getItemId() ) * 2);
 				item.creatable = 0;
@@ -602,7 +602,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			if ( !PERMIT_METHOD[ COOK ] )
 			{
-				PERMIT_METHOD[ COOK ] = inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000;
+				PERMIT_METHOD[ COOK ] = !KoLCharacter.canInteract() && (inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000);
 				ADVENTURE_USAGE[ COOK ] = 1;
 			}
 		}
@@ -631,7 +631,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			if ( !PERMIT_METHOD[ MIX ] )
 			{
-				PERMIT_METHOD[ MIX ] = inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000;
+				PERMIT_METHOD[ MIX ] = !KoLCharacter.canInteract() && (inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000);
 				ADVENTURE_USAGE[ MIX ] = 1;
 			}
 		}
