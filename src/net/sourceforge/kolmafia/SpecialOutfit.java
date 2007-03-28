@@ -140,28 +140,25 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	private static void restoreCheckpoint( AdventureResult [] checkpoint )
 	{
-		if ( checkpoint[0] == null )
-			return;
-
 		RequestThread.openRequestSequence();
-
-		if ( !checkpoint[KoLCharacter.OFFHAND].equals( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) )
-			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
 
 		AdventureResult equippedItem;
 		for ( int i = 0; i < checkpoint.length && !KoLmafia.refusesContinue(); ++i )
 		{
-			equippedItem = KoLCharacter.getEquipment( i );
-			if ( checkpoint[i] != null && !checkpoint[i].equals( EquipmentRequest.UNEQUIP ) && !equippedItem.equals( checkpoint[i] ) )
-			{
-				if ( equippedItem.equals( UseSkillRequest.ROCKNROLL_LEGEND ) && !checkpoint[i].equals( UseSkillRequest.ROCKNROLL_LEGEND ) )
-				{
-					UseSkillRequest.untinkerCloverWeapon( equippedItem );
-					RequestThread.postRequest( ItemCreationRequest.getInstance( checkpoint[i].getInstance(1) ) );
-				}
+			if ( checkpoint[i] == null )
+				continue;
 
-				RequestThread.postRequest( new EquipmentRequest( checkpoint[i], i ) );
+			equippedItem = KoLCharacter.getEquipment( i );
+			if ( checkpoint[i].equals( EquipmentRequest.UNEQUIP ) || equippedItem.equals( checkpoint[i] ) )
+				continue;
+
+			if ( equippedItem.equals( UseSkillRequest.ROCKNROLL_LEGEND ) && !checkpoint[i].equals( UseSkillRequest.ROCKNROLL_LEGEND ) )
+			{
+				UseSkillRequest.untinkerCloverWeapon( equippedItem );
+				RequestThread.postRequest( ItemCreationRequest.getInstance( checkpoint[i].getInstance(1) ) );
 			}
+
+			RequestThread.postRequest( new EquipmentRequest( checkpoint[i], i ) );
 		}
 
 		RequestThread.closeRequestSequence();
@@ -200,9 +197,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void createImplicitCheckpoint()
 	{
-		if ( KoLmafia.isRunningBetweenBattleChecks() || MoodSettings.isExecuting() )
-			return;
-
 		implicitPoints.push( implicit );
 		implicit = new AdventureResult[ KoLCharacter.FAMILIAR ];
 
@@ -217,10 +211,9 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void restoreImplicitCheckpoint()
 	{
-		if ( KoLmafia.isRunningBetweenBattleChecks() || MoodSettings.isExecuting() )
-			return;
+		if ( !KoLmafia.isRunningBetweenBattleChecks() && !MoodSettings.isExecuting() )
+			restoreCheckpoint( implicit );
 
-		restoreCheckpoint( implicit );
 		if ( !implicitPoints.isEmpty() )
 			implicit = (AdventureResult []) implicitPoints.pop();
 	}

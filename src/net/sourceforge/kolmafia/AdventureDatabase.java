@@ -1013,7 +1013,11 @@ public class AdventureDatabase extends KoLDatabase
 	public static final boolean retrieveItem( AdventureResult item, boolean force )
 	{
 		RequestThread.openRequestSequence();
+
+		SpecialOutfit.createImplicitCheckpoint();
 		boolean result = acquireItem( item, force );
+		SpecialOutfit.restoreImplicitCheckpoint();
+
 		RequestThread.closeRequestSequence();
 
 		return result;
