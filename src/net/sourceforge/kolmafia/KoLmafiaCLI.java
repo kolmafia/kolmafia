@@ -3472,7 +3472,7 @@ public class KoLmafiaCLI extends KoLmafia
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
 			itemName = (String) nameList.get(i);
-			if ( !itemName.startsWith( "abo" ) && itemName.endsWith( "snowcone" ) )
+			if ( !itemName.startsWith( "abo" ) && !itemName.startsWith( "yel" ) && itemName.endsWith( "snowcone" ) )
 				return TradeableItemDatabase.getItemId( itemName );
 		}
 
