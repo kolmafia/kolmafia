@@ -41,6 +41,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 {
 	private static final KoLRequest ZONE_VALIDATOR = AdventureDatabase.ZONE_VALIDATOR;
 
+	public static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, false );
 	private static final AdventureResult PERFUME_ITEM = new AdventureResult( 307, 1 );
 	private static final AdventureResult PERFUME_EFFECT = new AdventureResult( "Knob Goblin Perfume", 1, false );
 
@@ -741,11 +742,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// If the person doesn't stand a chance of surviving,
 			// automatically quit and tell them so.
 
-			if ( action.startsWith( "attack" ) && areaSummary != null && !areaSummary.willHitSomething() )
+			if ( (action.startsWith( "attack" ) || activeEffects.contains( AMNESIA )) && areaSummary != null && !areaSummary.willHitSomething() )
 			{
 				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 				{
-					KoLmafia.updateDisplay( ERROR_STATE, "You can't hit anything there." );
+					KoLmafia.updateDisplay( ERROR_STATE, activeEffects.contains( AMNESIA ) ? "You have amnesia." : "You can't hit anything there." );
 					return;
 				}
 			}
