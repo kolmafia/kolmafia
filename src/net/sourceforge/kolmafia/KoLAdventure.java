@@ -41,9 +41,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 {
 	private static final KoLRequest ZONE_VALIDATOR = AdventureDatabase.ZONE_VALIDATOR;
 
-	public static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, false );
+	public static final AdventureResult AMNESIA = new AdventureResult( "Amnesia", 1, true );
 	private static final AdventureResult PERFUME_ITEM = new AdventureResult( 307, 1 );
-	private static final AdventureResult PERFUME_EFFECT = new AdventureResult( "Knob Goblin Perfume", 1, false );
+	private static final AdventureResult PERFUME_EFFECT = new AdventureResult( "Knob Goblin Perfume", 1, true );
 
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
 	private static final AdventureResult PLANS = new AdventureResult( 146, 1 );

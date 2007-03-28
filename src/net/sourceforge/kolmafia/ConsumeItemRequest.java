@@ -219,11 +219,13 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( LIMITED_USES.containsKey( key ) )
 			return activeEffects.contains( LIMITED_USES.get( key ) ) ? 0 : 1;
 
-		int fullness = TradeableItemDatabase.getFullness( TradeableItemDatabase.getItemName( itemId ) );
+		String itemName = TradeableItemDatabase.getItemName( itemId );
+
+		int fullness = TradeableItemDatabase.getFullness( itemName );
 		if ( fullness > 0 )
 			return (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
 
-		int spleenHit = TradeableItemDatabase.getSpleenHit( TradeableItemDatabase.getItemName( itemId ) );
+		int spleenHit = TradeableItemDatabase.getSpleenHit( itemName );
 
 		boolean restoresHP = false;
 		float hpRestored = 0.0f;
@@ -273,6 +275,10 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( spleenHit > 0 )
 			return (KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse()) / spleenHit;
+
+		int inebrietyHit = TradeableItemDatabase.getInebriety( itemName );
+		if ( inebrietyHit > 0 )
+			return (KoLCharacter.getInebrietyLimit() + 1 - KoLCharacter.getInebriety()) / inebrietyHit + 1;
 
 		return Integer.MAX_VALUE;
 	}

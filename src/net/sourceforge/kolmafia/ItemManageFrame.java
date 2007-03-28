@@ -78,7 +78,8 @@ import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 public class ItemManageFrame extends KoLFrame
 {
 	private static int pullsRemaining = 0;
-	private static JLabel pullsRemainingLabel = new JLabel( " " );
+	private static JLabel pullsRemainingLabel1 = new JLabel( " " );
+	private static JLabel pullsRemainingLabel2 = new JLabel( " " );
 
 	private static final Dimension MAX_WIDTH = new Dimension( 500, Integer.MAX_VALUE );
 
@@ -100,28 +101,18 @@ public class ItemManageFrame extends KoLFrame
 
 		LabeledScrollPanel npcOfferings = null;
 
-		addPanel( "Experimental", new JPanel() );
-
+		addPanel( "Usable Items", new UsableItemPanel( false, true ) );
 		addPanel( " - Food", foodPanel = new ExperimentalPanel( true, false ) );
 		addPanel( " - Booze", boozePanel = new ExperimentalPanel( false, true ) );
+		addPanel( " - Restores", new UsableItemPanel( true, false ) );
 
 		addSeparator();
 
-		addPanel( "Usable Items", new ConsumeItemPanel( true, true, true, true ) );
+		addPanel( "Creatable Items", new CreateItemPanel( false, false, false, true ) );
 
-		addPanel( " - Food", new ConsumeItemPanel( true, false, false, false ) );
-		addPanel( " - Booze", new ConsumeItemPanel( false, true, false, false ) );
-		addPanel( " - Recovery", new ConsumeItemPanel( false, false, true, false ) );
-		addPanel( " - Other", new ConsumeItemPanel( false, false, false, true ) );
-
-		addSeparator();
-
-		addPanel( "Creatable Items", new CreateItemPanel( true, true, true, true ) );
-
-		addPanel( " - Cooked", new CreateItemPanel( true, false, false, false ) );
-		addPanel( " - Mixed", new CreateItemPanel( false, true, false, false ) );
+		addPanel( " - Cookable", new CreateItemPanel( true, false, false, false ) );
+		addPanel( " - Mixable", new CreateItemPanel( false, true, false, false ) );
 		addPanel( " - Equipment", new CreateItemPanel( false, false, true, false ) );
-		addPanel( " - Other", new CreateItemPanel( false, false, false, true ) );
 
 		addSeparator();
 
@@ -192,7 +183,8 @@ public class ItemManageFrame extends KoLFrame
 
 		if ( KoLCharacter.isHardcore() )
 		{
-			pullsRemainingLabel.setText( "In Hardcore" );
+			pullsRemainingLabel1.setText( "In Hardcore" );
+			pullsRemainingLabel2.setText( "In Hardcore" );
 			return;
 		}
 		else
@@ -200,13 +192,16 @@ public class ItemManageFrame extends KoLFrame
 			switch ( pullsRemaining )
 			{
 			case 0:
-				pullsRemainingLabel.setText( "No Pulls Left" );
+				pullsRemainingLabel1.setText( "No Pulls Left" );
+				pullsRemainingLabel2.setText( "No Pulls Left" );
 				break;
 			case 1:
-				pullsRemainingLabel.setText( "1 Pull Left" );
+				pullsRemainingLabel1.setText( "1 Pull Left" );
+				pullsRemainingLabel2.setText( "1 Pull Left" );
 				break;
 			default:
-				pullsRemainingLabel.setText( pullsRemaining + " Pulls Left" );
+				pullsRemainingLabel1.setText( pullsRemaining + " Pulls Left" );
+				pullsRemainingLabel2.setText( pullsRemaining + " Pulls Left" );
 			}
 		}
 	}
@@ -572,6 +567,8 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
+	private static final AdventureResult MAGNESIUM = new AdventureResult( "milk of magnesium", 1, false );
+
 	private class ExperimentalPanel extends ItemManagePanel
 	{
 		private boolean food, booze;
@@ -592,6 +589,22 @@ public class ItemManageFrame extends KoLFrame
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
 
 			wordfilter.filterItems();
+			setEnabled( true );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			if ( food )
+			{
+				cancelledButton.setEnabled( KoLCharacter.hasItem( MAGNESIUM, true ) );
+			}
+			else
+			{
+				cancelledButton.setEnabled( KoLCharacter.hasSkill( "The Ode to Booze" ) &&
+					KoLCharacter.getMaximumMP() >= ClassSkillsDatabase.getMPConsumptionById( 6014 ) );
+			}
+
+			super.setEnabled( isEnabled );
 		}
 
 		public void actionConfirmed()
@@ -609,7 +622,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			if ( food )
 			{
-				RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( "milk of magnesium", 1 ) ) );
+				RequestThread.postRequest( new ConsumeItemRequest( MAGNESIUM ) );
 			}
 			else
 			{
@@ -632,13 +645,19 @@ public class ItemManageFrame extends KoLFrame
 			{
 				public boolean isVisible( Object element )
 				{
-					switch ( TradeableItemDatabase.getConsumptionType( ((Concoction)element).getItemId() ) )
+					int itemId = ((Concoction)element).getItemId();
+
+					switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 					{
 					case CONSUME_EAT:
-						return ExperimentalPanel.this.food && super.isVisible( element );
+						return ExperimentalPanel.this.food &&
+							ConsumeItemRequest.maximumUses( itemId ) > 0 &&
+							super.isVisible( element );
 
 					case CONSUME_DRINK:
-						return ExperimentalPanel.this.booze && super.isVisible( element );
+						return ExperimentalPanel.this.booze &&
+							ConsumeItemRequest.maximumUses( itemId ) > 0 &&
+							super.isVisible( element );
 
 					default:
 						return false;
@@ -648,18 +667,16 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class ConsumeItemPanel extends ItemManagePanel
+	private class UsableItemPanel extends ItemManagePanel
 	{
-		private boolean food, booze, restores, other;
+		private boolean restores, other;
 
-		public ConsumeItemPanel( boolean food, boolean booze, boolean restores, boolean other )
+		public UsableItemPanel( boolean restores, boolean other )
 		{
 			super( "Use Items", "use item", "check wiki", inventory );
 
 			JPanel moverPanel = new JPanel();
 
-			this.food = food;
-			this.booze = booze;
 			this.restores = restores;
 			this.other = other;
 
@@ -708,23 +725,17 @@ public class ItemManageFrame extends KoLFrame
 				{
 					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
 					{
-					case CONSUME_EAT:
-						return ConsumeItemPanel.this.food && super.isVisible( element );
-
-					case CONSUME_DRINK:
-						return ConsumeItemPanel.this.booze && super.isVisible( element );
-
 					case GROW_FAMILIAR:
 					case CONSUME_ZAP:
-						return ConsumeItemPanel.this.other && super.isVisible( element );
+						return UsableItemPanel.this.other && super.isVisible( element );
 
 					case HP_RESTORE:
 					case MP_RESTORE:
-						return ConsumeItemPanel.this.restores && super.isVisible( element );
+						return UsableItemPanel.this.restores && super.isVisible( element );
 
 					case CONSUME_USE:
 					case CONSUME_MULTIPLE:
-						return ConsumeItemPanel.this.other && super.isVisible( element );
+						return UsableItemPanel.this.other && super.isVisible( element );
 
 					default:
 						return false;
@@ -1036,6 +1047,7 @@ public class ItemManageFrame extends KoLFrame
 				addFilterCheckboxes( false );
 				actualPanel.add( northPanel, BorderLayout.NORTH );
 
+				eastPanel.add( pullsRemainingLabel1, BorderLayout.SOUTH );
 				return;
 			}
 
@@ -1059,7 +1071,7 @@ public class ItemManageFrame extends KoLFrame
 				filterPanel.add( equipmentFilters[i] );
 			}
 
-			eastPanel.add( pullsRemainingLabel, BorderLayout.SOUTH );
+			eastPanel.add( pullsRemainingLabel2, BorderLayout.SOUTH );
 			actualPanel.add( filterPanel, BorderLayout.NORTH );
 
 			elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );

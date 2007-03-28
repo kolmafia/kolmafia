@@ -1566,22 +1566,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				new GiveToClanListener( isCloset )
 
 			} );
-
-			if ( !isCloset )
-				eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
-		}
-
-		private class RefreshButton extends RequestButton
-		{
-			public RefreshButton()
-			{	super( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) );
-			}
-
-			public void run()
-			{
-				super.run();
-				elementList.updateUI();
-			}
 		}
 	}
 
