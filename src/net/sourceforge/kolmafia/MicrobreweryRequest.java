@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class MicrobreweryRequest extends KoLRequest
 {
@@ -143,7 +144,17 @@ public class MicrobreweryRequest extends KoLRequest
 
 		Matcher purchaseMatcher = AVAILABLE_PATTERN.matcher( responseText );
 		while ( purchaseMatcher.find() )
-			microbreweryItems.add( purchaseMatcher.group(1) );
+		{
+			String name = purchaseMatcher.group(1);
+			microbreweryItems.add( name );
+
+			Matcher itemMatcher = COST_PATTERN.matcher( name );
+			itemMatcher.find();
+
+			Concoction brew = new Concoction( itemMatcher.group(1), StaticEntity.parseInt( itemMatcher.group(2) ) );
+			ConcoctionsDatabase.getUsables().remove( brew );
+			ConcoctionsDatabase.getUsables().add( brew );
+		}
 
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}

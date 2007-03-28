@@ -41,11 +41,11 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class ConcoctionsDatabase extends KoLDatabase
 {
 	private static final SortedListModel EMPTY_LIST = new SortedListModel();
-	public static final SortedListModel concoctionsList = new SortedListModel();
-	public static final SortedListModel usableConcoctions = new SortedListModel();
+	public static final SortedListModel creatableList = new SortedListModel();
+	public static final SortedListModel usableList = new SortedListModel();
 
-	private static Concoction stillsLimit = new Concoction( null, NOCREATE );
-	private static Concoction adventureLimit = new Concoction( null, NOCREATE );
+	private static Concoction stillsLimit = new Concoction( (AdventureResult) null, NOCREATE );
+	private static Concoction adventureLimit = new Concoction( (AdventureResult) null, NOCREATE );
 
 	private static ConcoctionArray concoctions = new ConcoctionArray();
 	private static SortedListModelArray knownUses = new SortedListModelArray();
@@ -273,8 +273,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return AdventureResult.parseResult( data );
 	}
 
-	public static SortedListModel getConcoctions()
-	{	return concoctionsList;
+	public static SortedListModel getUsables()
+	{	return usableList;
+	}
+
+	public static SortedListModel getCreatables()
+	{	return creatableList;
 	}
 
 	private static ArrayList getAvailableIngredients()
@@ -400,11 +404,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( item == null )
 				continue;
 
-			if ( item.total == 0 && usableConcoctions.contains( item ) )
-				usableConcoctions.remove( item );
+			if ( item.total == 0 && usableList.contains( item ) )
+				usableList.remove( item );
 
-			if ( item.total > 0 && !usableConcoctions.contains( item ) )
-				usableConcoctions.add( item );
+			if ( item.total > 0 && !usableList.contains( item ) )
+				usableList.add( item );
 
 			instance = ItemCreationRequest.getInstance( i, false );
 			if ( instance == null || item.creatable == instance.getQuantityPossible() )
@@ -418,7 +422,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 				if ( item.wasPossible() )
 				{
-					concoctionsList.remove( instance );
+					creatableList.remove( instance );
 					item.setPossible( false );
 				}
 			}
@@ -428,7 +432,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 				if ( !item.wasPossible() )
 				{
-					concoctionsList.add( instance );
+					creatableList.add( instance );
 					item.setPossible( true );
 				}
 			}
@@ -779,15 +783,52 @@ public class ConcoctionsDatabase extends KoLDatabase
 		private int mixingMethod, sortOrder;
 		private boolean wasPossible;
 
+		private String name;
+		private int price;
+
 		private List ingredients;
 		private AdventureResult [] ingredientArray;
 
 		private int modifier, multiplier;
 		private int initial, creatable, total;
 
+		public Concoction( String name, int price )
+		{
+			this.name = name;
+			this.concoction = null;
+
+			this.mixingMethod = NOCREATE;
+			this.wasPossible = true;
+
+			this.ingredients = new ArrayList();
+			this.ingredientArray = new AdventureResult[0];
+
+			int consumeType = TradeableItemDatabase.getFullness( name ) == 0 ? CONSUME_DRINK : CONSUME_EAT;
+
+			switch ( consumeType )
+			{
+			case CONSUME_EAT:
+				this.sortOrder = 1;
+				break;
+			case CONSUME_DRINK:
+				this.sortOrder = 2;
+				break;
+			default:
+				this.sortOrder = 3;
+				break;
+			}
+
+			this.price = price;
+			resetCalculations();
+		}
+
 		public Concoction( AdventureResult concoction, int mixingMethod )
 		{
 			this.concoction = concoction;
+
+			if ( concoction != null )
+				this.name = concoction.getName();
+
 			this.mixingMethod = mixingMethod;
 			this.wasPossible = false;
 
@@ -808,6 +849,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 				this.sortOrder = 3;
 				break;
 			}
+
+			this.price = price;
 		}
 
 		public int compareTo( Object o )
@@ -815,29 +858,29 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( o == null || !(o instanceof Concoction) )
 				return -1;
 
-			if ( concoction == null )
+			if ( name == null )
 				return 1;
 
-			if ( ((Concoction)o).concoction == null )
+			if ( ((Concoction)o).name == null )
 				return -1;
 
 			if ( sortOrder != ((Concoction)o).sortOrder )
 				return sortOrder - ((Concoction)o).sortOrder;
 
-			int fullness1 = TradeableItemDatabase.getFullness( concoction.getName() );
-			int fullness2 = TradeableItemDatabase.getFullness( ((Concoction)o).concoction.getName() );
+			int fullness1 = TradeableItemDatabase.getFullness( name );
+			int fullness2 = TradeableItemDatabase.getFullness( ((Concoction)o).name );
 
 			if ( fullness1 != fullness2 )
 				return fullness1 > fullness2 ? -1 : 1;
 
-			int inebriety1 = TradeableItemDatabase.getInebriety( concoction.getName() );
-			int inebriety2 = TradeableItemDatabase.getInebriety( ((Concoction)o).concoction.getName() );
+			int inebriety1 = TradeableItemDatabase.getInebriety( name );
+			int inebriety2 = TradeableItemDatabase.getInebriety( ((Concoction)o).name );
 
 			if ( inebriety1 != inebriety2 )
 				return inebriety1 > inebriety2 ? -1 : 1;
 
-			float adventures1 = parseFloat( TradeableItemDatabase.getAdventureRange( concoction.getName() ) );
-			float adventures2 = parseFloat( TradeableItemDatabase.getAdventureRange( ((Concoction)o).concoction.getName() ) );
+			float adventures1 = parseFloat( TradeableItemDatabase.getAdventureRange( name ) );
+			float adventures2 = parseFloat( TradeableItemDatabase.getAdventureRange( ((Concoction)o).name ) );
 
 			if ( adventures1 != adventures2 )
 				return adventures1 > adventures2 ? -1 : 1;
@@ -858,7 +901,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 
 		public String getName()
-		{	return concoction == null ? "unknown" : concoction.getName();
+		{	return name;
 		}
 
 		public int getInitial()
@@ -869,6 +912,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{	return total;
 		}
 
+		public int getPrice()
+		{	return price;
+		}
+
 		public void resetCalculations()
 		{
 			this.initial = -1;
@@ -877,6 +924,20 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			this.modifier = 0;
 			this.multiplier = 0;
+
+			if ( concoction == null && name != null )
+			{
+				int fullness = TradeableItemDatabase.getFullness( name );
+				int inebriety = TradeableItemDatabase.getInebriety( name );
+
+				if ( fullness > 0 )
+					this.initial = KoLCharacter.getFullnessLimit() / fullness;
+				else
+					this.initial = KoLCharacter.getInebrietyLimit() / inebriety + 1;
+
+				this.creatable = 0;
+				this.total = this.initial;
+			}
 		}
 
 		public void setPossible( boolean wasPossible )
@@ -939,11 +1000,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// If the item doesn't exist in the item table,
 			// then assume it can't be created.
 
-			if ( concoction.getName() == null )
-			{
-				this.initial = 0;
+			if ( concoction == null || name == null )
 				return;
-			}
 
 			// Determine how many were available initially in the
 			// available ingredient list.
@@ -1149,7 +1207,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		 */
 
 		public String toString()
-		{	return concoction == null ? null : concoction.getName();
+		{	return name;
 		}
 	}
 

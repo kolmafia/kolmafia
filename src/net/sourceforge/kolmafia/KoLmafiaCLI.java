@@ -4033,7 +4033,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		if ( parameters.equals( "" ) )
 		{
-			printList( ConcoctionsDatabase.getConcoctions() );
+			printList( ConcoctionsDatabase.getCreatables() );
 			return;
 		}
 

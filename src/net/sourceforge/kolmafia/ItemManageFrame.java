@@ -119,26 +119,6 @@ public class ItemManageFrame extends KoLFrame
 		addPanel( "Complete Lists", new JPanel() );
 
 		addPanel( " - Recent", new InventoryManagePanel( tally, true ) );
-
-		// If the person is in a mysticality sign, make sure
-		// you retrieve information from the restaurant.
-
-		if ( KoLCharacter.inMysticalitySign() && !restaurantItems.isEmpty() )
-		{
-			npcOfferings = new SpecialPanel( restaurantItems );
-			foodPanel.add( npcOfferings, BorderLayout.SOUTH );
-		}
-
-		// If the person is in a moxie sign and they have completed
-		// the beach quest, then retrieve information from the
-		// microbrewery.
-
-		if ( KoLCharacter.inMoxieSign() && !microbreweryItems.isEmpty() )
-		{
-			npcOfferings = new SpecialPanel( microbreweryItems );
-			boozePanel.add( npcOfferings, BorderLayout.SOUTH );
-		}
-
 		addPanel( " - Inventory", new InventoryManagePanel( inventory, true ) );
 		addPanel( " - Closet", new InventoryManagePanel( closet, true ) );
 
@@ -535,38 +515,6 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class SpecialPanel extends LabeledScrollPanel
-	{
-		private final int PURCHASE_ONE = 1;
-		private final int PURCHASE_MULTIPLE = 2;
-
-		private JList elementList;
-
-		public SpecialPanel( LockableListModel items )
-		{
-			super( "", "purchase", "", new JList( items ) );
-
-			this.elementList = (JList) scrollComponent;
-			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-		}
-
-		public void actionConfirmed()
-		{
-			String item = (String) elementList.getSelectedValue();
-			if ( item == null )
-				return;
-
-			int consumptionCount = getQuantity( "Buying multiple " + item + "...", Integer.MAX_VALUE, 1 );
-			if ( consumptionCount == 0 )
-				return;
-
-			Runnable request = elementList.getModel() == restaurantItems ?
-				(KoLRequest) (new RestaurantRequest( item )) : (KoLRequest) (new MicrobreweryRequest( item ));
-
-			StaticEntity.getClient().makeRequest( request, consumptionCount );
-		}
-	}
-
 	private static final AdventureResult MAGNESIUM = new AdventureResult( "milk of magnesium", 1, false );
 
 	private class ExperimentalPanel extends ItemManagePanel
@@ -575,12 +523,14 @@ public class ItemManageFrame extends KoLFrame
 
 		public ExperimentalPanel( boolean food, boolean booze )
 		{
-			super( "Use Items", "use item", food ? "use milk" : "cast ode", ConcoctionsDatabase.usableConcoctions );
+			super( "Use Items", "use item", food ? "use milk" : "cast ode", ConcoctionsDatabase.getUsables() );
 
 			JPanel moverPanel = new JPanel();
 
 			JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 			elementList.setFixedCellHeight( (int) (test.getPreferredSize().getHeight() * 2.5f) );
+
+			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 			this.food = food;
 			this.booze = booze;
@@ -611,11 +561,28 @@ public class ItemManageFrame extends KoLFrame
 		{
 			Object [] items = getDesiredItems( "Consume" );
 
-			if ( items.length == 0 )
+			if ( items.length != 1 )
 				return;
 
-			for ( int i = 0; i < items.length; ++i )
-				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
+
+			if ( items[0] instanceof AdventureResult )
+			{
+				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[0] ) );
+			}
+			else
+			{
+				String [] pieces = ((String)items[0]).split( " => " );
+				int repeat = StaticEntity.parseInt( pieces[1] );
+
+				KoLRequest request = food ? (KoLRequest) new RestaurantRequest( pieces[0] ) : new MicrobreweryRequest( pieces[0] );
+
+				RequestThread.openRequestSequence();
+
+				for ( int i = 0; i < repeat; ++i )
+					RequestThread.postRequest( request );
+
+				RequestThread.closeRequestSequence();
+			}
 		}
 
 		public void actionCancelled()
@@ -647,19 +614,23 @@ public class ItemManageFrame extends KoLFrame
 				{
 					int itemId = ((Concoction)element).getItemId();
 
-					switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
+					int fullness = TradeableItemDatabase.getFullness( ((Concoction)element).getName() );
+					int inebriety = TradeableItemDatabase.getInebriety( ((Concoction)element).getName() );
+
+					if ( fullness > 0 )
 					{
-					case CONSUME_EAT:
 						return ExperimentalPanel.this.food &&
 							ConsumeItemRequest.maximumUses( itemId ) > 0 &&
 							super.isVisible( element );
-
-					case CONSUME_DRINK:
+					}
+					else if ( inebriety > 0 )
+					{
 						return ExperimentalPanel.this.booze &&
 							ConsumeItemRequest.maximumUses( itemId ) > 0 &&
 							super.isVisible( element );
-
-					default:
+					}
+					else
+					{
 						return false;
 					}
 				}
@@ -965,7 +936,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public CreateItemPanel( boolean food, boolean booze, boolean equip, boolean other )
 		{
-			super( "", "create item", "create & use", ConcoctionsDatabase.getConcoctions() );
+			super( "", "create item", "create & use", ConcoctionsDatabase.getCreatables() );
 
 			wordfilter.food = food;
 			wordfilter.booze = booze;
@@ -973,7 +944,7 @@ public class ItemManageFrame extends KoLFrame
 			wordfilter.other = other;
 			wordfilter.notrade = true;
 
-			ConcoctionsDatabase.getConcoctions().applyListFilters();
+			ConcoctionsDatabase.getCreatables().applyListFilters();
 		}
 
 		public void actionConfirmed()

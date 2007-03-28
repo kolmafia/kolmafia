@@ -255,7 +255,7 @@ public class SendMessageFrame extends KoLFrame
 
 		public void run()
 		{
-			AdventureResult [] items = elementPanel.getDesiredItems( "Attaching" );
+			Object [] items = elementPanel.getDesiredItems( "Attaching" );
 			if ( items == null || items.length == 0 )
 				return;
 
@@ -271,7 +271,7 @@ public class SendMessageFrame extends KoLFrame
 			}
 
 			for ( int i = 0; i < items.length; ++i )
-				AdventureResult.addResultToList( attachments, items[i] );
+				AdventureResult.addResultToList( attachments, (AdventureResult) items[i] );
 		}
 	}
 

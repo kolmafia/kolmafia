@@ -87,7 +87,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.wordfilter.filterItems();
 
 		if ( elementModel == tally || elementModel == inventory || elementModel == closet ||
-			elementModel == ConcoctionsDatabase.getConcoctions() || elementModel == ConcoctionsDatabase.usableConcoctions )
+			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() )
 		{
 			eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
 		}
@@ -106,7 +106,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.wordfilter.filterItems();
 
 		if ( elementModel == tally || elementModel == inventory || elementModel == closet ||
-			elementModel == ConcoctionsDatabase.getConcoctions() || elementModel == ConcoctionsDatabase.usableConcoctions )
+			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() )
 		{
 			eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
 		}
@@ -237,7 +237,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			buttons[i].setEnabled( isEnabled );
 	}
 
-	public AdventureResult [] getDesiredItems( String message )
+	public Object [] getDesiredItems( String message )
 	{
 		if ( movers == null )
 			return getDesiredItems( message, message.equals( "Consume" ) ? CONSUME_MULTIPLE : TAKE_MULTIPLE );
@@ -248,40 +248,50 @@ public class ItemManagePanel extends LabeledScrollPanel
 		return getDesiredItems( message, movers[0].isSelected() ? TAKE_ALL : movers[1].isSelected() ? TAKE_ALL_BUT_ONE : TAKE_ONE );
 	}
 
-	public AdventureResult [] getDesiredItems( String message, int quantityType )
+	public Object [] getDesiredItems( String message, int quantityType )
 	{
 		Object [] items = elementList.getSelectedValues();
 		if ( items.length == 0 )
 			return null;
 
 		int neededSize = items.length;
-		AdventureResult currentItem;
+
+		String itemName;
+		int itemCount;
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			currentItem = items[i] instanceof AdventureResult ? (AdventureResult) items[i] :
-				((Concoction) items[i]).getItem().getInstance( ((Concoction) items[i]).getTotal() );
+			if ( items[i] instanceof AdventureResult )
+			{
+				itemName = ((AdventureResult) items[i]).getName();
+				itemCount = ((AdventureResult) items[i]).getCount();
+			}
+			else
+			{
+				itemName = ((Concoction) items[i]).getName();
+				itemCount = ((Concoction) items[i]).getTotal();
+			}
 
 			int quantity = 0;
 			switch ( quantityType )
 			{
 				case TAKE_ALL:
-					quantity = currentItem.getCount();
+					quantity = itemCount;
 					break;
 				case TAKE_ALL_BUT_ONE:
-					quantity = currentItem.getCount() - 1;
+					quantity = itemCount - 1;
 					break;
 				case TAKE_MULTIPLE:
-					quantity = KoLFrame.getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() );
-					if ( currentItem.getCount() > 0 && quantity == 0 )
-						return new AdventureResult[0];
+					quantity = KoLFrame.getQuantity( message + " " + itemName + "...", itemCount );
+					if ( itemCount > 0 && quantity == 0 )
+						return new Object[0];
 					break;
 
 				case CONSUME_MULTIPLE:
-					int maximum = ConsumeItemRequest.maximumUses( currentItem.getItemId() );
-					quantity = maximum < 2 ? maximum : KoLFrame.getQuantity( message + " " + currentItem.getName() + "...",
-						Math.min( maximum, currentItem.getCount() ) );
-
+					int maximum = ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ) );
+					quantity = maximum < 2 ? maximum : KoLFrame.getQuantity( message + " " + itemName + "...", Math.min( maximum, itemCount ) );
+					if ( itemCount > 0 && quantity == 0 )
+						return new Object[0];
 					break;
 
 				default:
@@ -289,7 +299,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 					break;
 			}
 
-			quantity = Math.min( quantity, currentItem.getCount() );
+			quantity = Math.min( quantity, itemCount );
 
 			// Otherwise, if it was not a manual entry, then reset
 			// the entry to null so that it can be re-processed.
@@ -301,19 +311,20 @@ public class ItemManagePanel extends LabeledScrollPanel
 			}
 			else
 			{
-				items[i] = currentItem.getInstance( quantity );
+				items[i] = items[i] instanceof AdventureResult ? (Object) ((AdventureResult)items[i]).getInstance( quantity ) :
+					(((Concoction)items[i]).getName() + " (" + ((Concoction)items[i]).getPrice() + " Meat) => " + quantity);
 			}
 		}
 
 		// Otherwise, shrink the array which will be
 		// returned so that it removes any nulled values.
 
-		AdventureResult [] desiredItems = new AdventureResult[ neededSize ];
+		Object [] desiredItems = new Object[ neededSize ];
 		neededSize = 0;
 
 		for ( int i = 0; i < items.length; ++i )
 			if ( items[i] != null )
-				desiredItems[ neededSize++ ] = (AdventureResult) items[i];
+				desiredItems[ neededSize++ ] = items[i];
 
 		return desiredItems;
 	}
@@ -336,9 +347,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 			this.retrieveFromClosetFirst = retrieveFromClosetFirst;
 		}
 
-		public AdventureResult [] initialSetup()
+		public Object [] initialSetup()
 		{
-			AdventureResult [] items = getDesiredItems( description );
+			Object [] items = getDesiredItems( description );
 			if (items == null )
 				return null;
 
@@ -396,7 +407,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public void run()
 		{
-			AdventureResult [] items = initialSetup();
+			Object [] items = initialSetup();
 			if ( items == null )
 				return;
 
@@ -437,7 +448,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 					"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 						return;
 
-			AdventureResult [] items = initialSetup();
+			Object [] items = initialSetup();
 			if ( items == null )
 				return;
 
@@ -457,7 +468,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public void run()
 		{
-			AdventureResult [] items = initialSetup();
+			Object [] items = initialSetup();
 			if ( items == null )
 				return;
 
@@ -503,19 +514,12 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public void run()
 		{
-			AdventureResult [] items = initialSetup();
+			Object [] items = initialSetup();
 			if ( items == null || items.length == 0 )
 				return;
 
 			for ( int i = 0; i < items.length; ++i )
-			{
-				boolean willSmash = TradeableItemDatabase.isTradeable( items[i].getItemId() ) ||
-					JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-						items[i].getName() + " is untradeable.  Are you sure?", "Smash request nag screen!", JOptionPane.YES_NO_OPTION );
-
-				if ( willSmash )
-					RequestThread.postRequest( new PulverizeRequest( items[i] ) );
-			}
+				RequestThread.postRequest( new PulverizeRequest( (AdventureResult) items[i] ) );
 		}
 
 		public String toString()
