@@ -637,7 +637,7 @@ public abstract class KoLmafia implements KoLConstants
 			KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) ) );
 
 		if ( castCount == 0 )
-			return true;
+			return false;
 
 		summon.setBuffCount( castCount );
 		RequestThread.postRequest( summon );
