@@ -3372,6 +3372,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( nameList.size() == 1 )
 			return TradeableItemDatabase.getItemId( (String) nameList.get(0) );
 
+		int actualCount = nameList.size();
 		int lowestId = Integer.MAX_VALUE;
 
 		boolean npcStoreMatch = false;
@@ -3400,13 +3401,19 @@ public class KoLmafiaCLI extends KoLmafia
 					break;
 
 				default:
+					--actualCount;
 					continue;
 				}
 			}
 
 			if ( isCreationMatch && ConcoctionsDatabase.getMixingMethod( itemId ) == NOCREATE )
+			{
 				if ( itemId != MEAT_PASTE && itemId != MEAT_STACK && itemId != DENSE_STACK )
+				{
+					--actualCount;
 					continue;
+				}
+			}
 
 			npcstore = NPCStoreDatabase.getPurchaseRequest( itemName );
 
@@ -3449,7 +3456,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( lowestId == Integer.MAX_VALUE )
 			return -1;
 
-		if ( npcStoreMatch )
+		if ( npcStoreMatch || actualCount == 1 )
 			return lowestId;
 
 		for ( int i = 0; i < nameList.size(); ++i )
