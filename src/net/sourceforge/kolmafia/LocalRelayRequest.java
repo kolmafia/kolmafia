@@ -819,9 +819,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// Abort request if the person is attempting to stasis
 			// mine, even if it's done manually.
 
-			if ( location != null && location.equals( "101" ) && KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() )
+			if ( KoLAdventure.isLikelyStasisFarming( location ) )
 			{
-				sendGeneralWarning( "", "Please reconsider your meat farming strategy." );
+				sendGeneralWarning( "", "Please reconsider your meat-farming strategy." );
 				return;
 			}
 

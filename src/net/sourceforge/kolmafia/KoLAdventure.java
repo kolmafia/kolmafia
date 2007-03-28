@@ -656,6 +656,21 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		return stringForm.toString();
 	}
 
+	public static boolean isLikelyStasisFarming( String adventureId )
+	{
+		if ( adventureId == null )
+			return false;
+
+		if ( !KoLCharacter.getFamiliar().isThiefFamiliar() )
+			return false;
+
+		if ( !KoLCharacter.canInteract() && KoLCharacter.getLevel() < 9 )
+			return false;
+
+		return adventureId.indexOf( "81" ) != -1 || adventureId.indexOf( "82" ) != -1 || adventureId.indexOf( "83" ) != -1 ||
+			adventureId.indexOf( "101" ) != -1;
+	}
+
 	/**
 	 * Executes the appropriate <code>KoLRequest</code> for the adventure
 	 * encapsulated by this <code>KoLAdventure</code>.
@@ -669,9 +684,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// Abort before adventure verification in the event that
 		// this person is stasis-mining.
 
-		if ( adventureId.indexOf( "101" ) != -1 && KoLCharacter.getFamiliar().isThiefFamiliar() && KoLCharacter.canInteract() )
+		if ( isLikelyStasisFarming( adventureId ) )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Please reconsider your meat farming strategy." );
+			KoLmafia.updateDisplay( ABORT_STATE, "Please reconsider your meat-farming strategy." );
 			return;
 		}
 
