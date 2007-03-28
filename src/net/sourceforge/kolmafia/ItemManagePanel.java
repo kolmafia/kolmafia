@@ -50,6 +50,7 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.KoLFrame.RequestButton;
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class ItemManagePanel extends LabeledScrollPanel
@@ -84,6 +85,12 @@ public class ItemManagePanel extends LabeledScrollPanel
 		centerPanel.add( wordfilter, BorderLayout.NORTH );
 
 		this.wordfilter.filterItems();
+
+		if ( elementModel == tally || elementModel == inventory || elementModel == closet ||
+			elementModel == ConcoctionsDatabase.getConcoctions() || elementModel == ConcoctionsDatabase.usableConcoctions )
+		{
+			eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
+		}
 	}
 
 	public ItemManagePanel( LockableListModel elementModel )
@@ -97,6 +104,12 @@ public class ItemManagePanel extends LabeledScrollPanel
 		centerPanel.add( wordfilter, BorderLayout.NORTH );
 
 		this.wordfilter.filterItems();
+
+		if ( elementModel == tally || elementModel == inventory || elementModel == closet ||
+			elementModel == ConcoctionsDatabase.getConcoctions() || elementModel == ConcoctionsDatabase.usableConcoctions )
+		{
+			eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
+		}
 	}
 
 	public void actionConfirmed()
@@ -246,7 +259,8 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			currentItem = items[i] instanceof Concoction ? ((Concoction) items[i]).getItem() : (AdventureResult) items[i];
+			currentItem = items[i] instanceof AdventureResult ? (AdventureResult) items[i] :
+				((Concoction) items[i]).getItem().getInstance( ((Concoction) items[i]).getTotal() );
 
 			int quantity = 0;
 			switch ( quantityType )
@@ -647,6 +661,19 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 				return super.isVisible( element );
 			}
+		}
+	}
+
+	private class RefreshButton extends RequestButton
+	{
+		public RefreshButton()
+		{	super( "refresh", new EquipmentRequest( EquipmentRequest.CLOSET ) );
+		}
+
+		public void run()
+		{
+			super.run();
+			elementList.updateUI();
 		}
 	}
 }
