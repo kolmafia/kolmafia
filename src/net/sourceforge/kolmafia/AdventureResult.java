@@ -680,7 +680,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			StringBuffer stringForm = new StringBuffer();
 
 			stringForm.append( "<html><b>" );
-			stringForm.append( item.toString() );
+			stringForm.append( item.getName() );
 
 			stringForm.append( " (" );
 			stringForm.append( item.getTotal() );
@@ -688,14 +688,17 @@ public class AdventureResult implements Comparable, KoLConstants
 
 			stringForm.append( "</b><br>&nbsp;" );
 
-			if ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) == CONSUME_DRINK )
+			int fullness = TradeableItemDatabase.getFullness( item.getName() );
+			int inebriety = TradeableItemDatabase.getInebriety( item.getName() );
+
+			if ( inebriety > 0 )
 			{
-				stringForm.append( TradeableItemDatabase.getInebriety( item.getName() ) );
+				stringForm.append( inebriety );
 				stringForm.append( " drunk" );
 			}
 			else
 			{
-				stringForm.append( TradeableItemDatabase.getFullness( item.getName() ) );
+				stringForm.append( fullness );
 				stringForm.append( " full" );
 			}
 
