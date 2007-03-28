@@ -241,6 +241,21 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
+		if ( activeEffects.contains( KoLAdventure.AMNESIA ) )
+		{
+			if ( monsterData == null || !monsterData.willUsuallyMiss( defenseModifier ) )
+			{
+				action1 = "attack";
+				addFormField( "action", action1 );
+				return;
+			}
+			else
+			{
+				action1 = "abort";
+				return;
+			}
+		}
+
 		// Actually steal if the action says to steal
 		if ( action1.startsWith( "steal" ) )
 		{
