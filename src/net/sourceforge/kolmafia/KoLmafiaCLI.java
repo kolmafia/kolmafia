@@ -1548,6 +1548,31 @@ public class KoLmafiaCLI extends KoLmafia
 			String lowerCaseName = parameters.toLowerCase();
 			List familiars = KoLCharacter.getFamiliarList();
 
+			// First, try substring matching against the list of
+			// familiars.
+
+			for ( int i = 0; i < familiars.size(); ++i )
+			{
+				if ( familiars.get(i).toString().indexOf( lowerCaseName ) != -1 )
+				{
+					if ( isExecutingCheckOnlyCommand )
+					{
+						RequestLogger.printLine( familiars.get(i).toString() );
+						return;
+					}
+
+					FamiliarData newFamiliar = (FamiliarData) familiars.get(i);
+					if ( KoLCharacter.getFamiliar() != null && KoLCharacter.getFamiliar().equals( newFamiliar ) )
+						return;
+
+					RequestThread.postRequest( new FamiliarRequest( newFamiliar ) );
+					return;
+				}
+			}
+
+			// Boo, no matches.  Now try fuzzy matching, because the
+			// end-user might be abbreviating.
+
 			for ( int i = 0; i < familiars.size(); ++i )
 			{
 				if ( KoLDatabase.fuzzyMatches( familiars.get(i).toString(), lowerCaseName ) )
