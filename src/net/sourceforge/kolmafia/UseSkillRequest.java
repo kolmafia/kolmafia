@@ -124,6 +124,26 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	{
 		int maxPossible = (int) Math.floor( (float) KoLCharacter.getCurrentMP() / (float) ClassSkillsDatabase.getMPConsumptionById( skillId ) );
 
+		// Candy hearts need to be calculated in
+		// a slightly different manner.
+
+		if ( skillId == 18 )
+		{
+			int mpRemaining = KoLCharacter.getCurrentMP();
+			int count = StaticEntity.getIntegerProperty( "candyHeartSummons" );
+
+			int mpCost = ClassSkillsDatabase.getMPConsumptionById( 18 );
+
+			while ( mpCost >= mpRemaining )
+			{
+				++count;
+				mpRemaining -= mpCost;
+				mpCost = Math.max( ((count + 1) * (count + 2)) / 2 + KoLCharacter.getManaCostModifier(), 1 );
+			}
+
+			maxPossible = count - StaticEntity.getIntegerProperty( "candyHeartSummons" );
+		}
+
 		if ( buffCount < 1 )
 			buffCount += maxPossible;
 		else if ( buffCount == Integer.MAX_VALUE )
@@ -163,12 +183,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		case 16:
 
-			maximumCast = 1 - StaticEntity.getIntegerProperty( "snowconeSummons" );
+			maximumCast = 1 - Math.max( StaticEntity.getIntegerProperty( "snowconeSummons" ), 0 );
 			break;
 
 		case 17:
 
-			maximumCast = 1 - StaticEntity.getIntegerProperty( "grimoireSummons" );
+			maximumCast = 1 - Math.max( StaticEntity.getIntegerProperty( "grimoireSummons" ), 0 );
 			break;
 
 		// Transcendental Noodlecraft affects # of summons for
@@ -180,7 +200,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( KoLCharacter.hasSkill( "Transcendental Noodlecraft" ) )
 				maximumCast = 5;
 
-			maximumCast -= StaticEntity.getIntegerProperty( "noodleSummons" );
+			maximumCast -= Math.max( StaticEntity.getIntegerProperty( "noodleSummons" ), 0 );
 			break;
 
 		// The Way of Sauce affects # of summons for
@@ -192,7 +212,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( KoLCharacter.hasSkill( "The Way of Sauce" ) )
 				maximumCast = 5;
 
-			maximumCast -= StaticEntity.getIntegerProperty( "reagentSummons" );
+			maximumCast -= Math.max( StaticEntity.getIntegerProperty( "reagentSummons" ), 0 );
 			break;
 
 		// Superhuman Cocktailcrafting affects # of summons for
@@ -204,7 +224,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) )
 				maximumCast = 5;
 
-			maximumCast -= StaticEntity.getIntegerProperty( "cocktailSummons" );
+			maximumCast -= Math.max( StaticEntity.getIntegerProperty( "cocktailSummons" ), 0 );
 			break;
 
 		}
