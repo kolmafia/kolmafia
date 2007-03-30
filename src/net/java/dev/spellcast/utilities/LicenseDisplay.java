@@ -34,6 +34,8 @@
 
 package net.java.dev.spellcast.utilities;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.SystemColor;
@@ -41,22 +43,24 @@ import java.awt.SystemColor;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import tab.CloseTabbedPane;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import edu.stanford.ejalbert.BrowserLauncher;
 
-public class LicenseDisplay extends javax.swing.JFrame
+public class LicenseDisplay extends JFrame
 {
 	public static final int DATA_FILE  = 0;
 	public static final int IMAGE_FILE = 1;
@@ -64,6 +68,10 @@ public class LicenseDisplay extends javax.swing.JFrame
 	private String [] fileNames;
 	private int [] fileTypes;
 	private String [] tabNames;
+
+	private CardLayout cards;
+	private JPanel content;
+	private JList listing;
 
 	public LicenseDisplay( String title, String [] fileNames, String [] tabNames )
 	{	this( title, null, fileNames, tabNames );
@@ -82,16 +90,21 @@ public class LicenseDisplay extends javax.swing.JFrame
 
 		this.tabNames = tabNames;
 
-		JPanel contentPanel = (JPanel) getContentPane();
-		CloseTabbedPane tabbedPane = new CloseTabbedPane();
-		tabbedPane.setTabLayoutPolicy( CloseTabbedPane.SCROLL_TAB_LAYOUT );
+		this.cards = new CardLayout( 5, 5 );
+		this.content = new JPanel( cards );
+
+		LockableListModel model = new LockableListModel();
+		this.listing = new JList( model );
 
 		if ( versionData != null )
 		{
 			JScrollPane scroller = new JScrollPane( versionData, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
 			JComponentUtilities.setComponentSize( scroller, 540, 400 );
-			tabbedPane.addTab( "Version Info", scroller );
+
+			model.add( "Version Info" );
+			content.add( scroller, "Version Info" );
 		}
 
 		for ( int i = 0; i < fileNames.length; ++i )
@@ -99,10 +112,30 @@ public class LicenseDisplay extends javax.swing.JFrame
 			JComponent nextLicense = new JScrollPane( getLicenseDisplay(i),
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 			JComponentUtilities.setComponentSize( nextLicense, 540, 400 );
-			tabbedPane.addTab( tabNames[i], nextLicense );
+
+			model.add( tabNames[i] );
+			content.add( nextLicense, tabNames[i] );
 		}
 
-		contentPanel.add( tabbedPane );
+		listing.addListSelectionListener( new CardSwitchListener() );
+
+		JPanel listHolder = new JPanel( new CardLayout( 5, 5 ) );
+		listHolder.add( new JScrollPane( listing, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), "" );
+
+		((JPanel) getContentPane()).setLayout( new BorderLayout( 0, 0 ) );
+		((JPanel) getContentPane()).add( listHolder, BorderLayout.WEST );
+		((JPanel) getContentPane()).add( this.content, BorderLayout.CENTER );
+	}
+
+	private class CardSwitchListener implements ListSelectionListener
+	{
+		public void valueChanged( ListSelectionEvent e )
+		{
+			String card = (String) listing.getSelectedValue();
+
+			if ( card != null )
+				cards.show( content, card );
+		}
 	}
 
 	private JComponent getLicenseDisplay( int index )
@@ -138,12 +171,12 @@ public class LicenseDisplay extends javax.swing.JFrame
 
 				if ( fileNames[ index ].endsWith( ".txt" ) )
 				{
-					licenseText.insert( 0, "<blockquote><pre style=\"font-family: serif; font-size: small\">" );
+					licenseText.insert( 0, "<blockquote><pre style=\"font-family: Verdana; font-size: small\">" );
 					licenseText.append( "</pre></blockquote>" );
 				}
 				else
 				{
-					licenseText.insert( 0, "<blockquote style=\"font-family: serif; font-size: small\">" );
+					licenseText.insert( 0, "<blockquote style=\"font-family: Verdana; font-size: small\">" );
 					licenseText.append( "</blockquote>" );
 				}
 

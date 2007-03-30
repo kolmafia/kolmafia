@@ -67,10 +67,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	public JMenuItem debugMenuItem = new ToggleDebugMenuItem();
 
 	private static final String [] LICENSE_FILENAME = {
-		"kolmafia-license.txt", "spellcast-license.txt", "browserlauncher-license.htm", "foxtrot-license.txt", "sungraphics-license.txt", "jline-license.txt", "unlicensed.htm" };
+		"kolmafia-license.txt", "spellcast-license.txt", "browserlauncher-license.htm", "sungraphics-license.txt", "foxtrot-license.txt", "jline-license.txt", "jsmooth-license.txt", "unlicensed.htm" };
 
 	private static final String [] LICENSE_NAME = {
-		"KoLmafia", "Spellcast", "BrowserLauncher", "Foxtrot", "Sun Graphics", "JLine", "Unlicensed" };
+		"KoLmafia", "Spellcast", "BrowserLauncher", "Sun Graphics", "Foxtrot", "Java Line", "JSmooth", "Unlicensed" };
 
 	public KoLMenuBar()
 	{
@@ -569,7 +569,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	{
 		private final String [] versionData = {
 			VERSION_NAME, VERSION_DATE, " ",
-			"Copyright © 2005 KoLmafia development team",
+			"Copyright © 2005-2007 KoLmafia development team",
 			"Berkeley Software Development (BSD) License",
 			"http://kolmafia.sourceforge.net/",
 			" ",
