@@ -309,10 +309,17 @@ public class ItemManagePanel extends LabeledScrollPanel
 				items[i] = null;
 				--neededSize;
 			}
+			else if ( items[i] instanceof AdventureResult )
+			{
+				items[i] = ((AdventureResult)items[i]).getInstance( quantity );
+			}
+			else if ( ((Concoction)items[i]).getItem() != null )
+			{
+				items[i] = ((Concoction)items[i]).getItem().getInstance( quantity );
+			}
 			else
 			{
-				items[i] = items[i] instanceof AdventureResult ? (Object) ((AdventureResult)items[i]).getInstance( quantity ) :
-					(((Concoction)items[i]).getName() + " (" + ((Concoction)items[i]).getPrice() + " Meat) => " + quantity);
+				items[i] = (((Concoction)items[i]).getName() + " (" + ((Concoction)items[i]).getPrice() + " Meat) => " + quantity);
 			}
 		}
 
