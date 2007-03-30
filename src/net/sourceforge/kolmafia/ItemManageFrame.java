@@ -101,18 +101,20 @@ public class ItemManageFrame extends KoLFrame
 
 		LabeledScrollPanel npcOfferings = null;
 
-		addPanel( "Usable Items", new UsableItemPanel( false, true ) );
+		addPanel( "Usable Items", new UsableItemPanel( true, true ) );
 		addPanel( " - Food", foodPanel = new ExperimentalPanel( true, false ) );
 		addPanel( " - Booze", boozePanel = new ExperimentalPanel( false, true ) );
 		addPanel( " - Restores", new UsableItemPanel( true, false ) );
+		addPanel( " - Others", new UsableItemPanel( false, true ) );
 
 		addSeparator();
 
-		addPanel( "Creatable Items", new CreateItemPanel( false, false, false, true ) );
+		addPanel( "Creatable Items", new CreateItemPanel( true, true, true, true ) );
 
 		addPanel( " - Cookable", new CreateItemPanel( true, false, false, false ) );
 		addPanel( " - Mixable", new CreateItemPanel( false, true, false, false ) );
 		addPanel( " - Equipment", new CreateItemPanel( false, false, true, false ) );
+		addPanel( " - Others", new CreateItemPanel( false, false, false, true ) );
 
 		addSeparator();
 
@@ -688,6 +690,10 @@ public class ItemManageFrame extends KoLFrame
 				{
 					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
 					{
+					case CONSUME_EAT:
+					case CONSUME_DRINK:
+						return UsableItemPanel.this.restores && UsableItemPanel.this.other && super.isVisible( element );
+
 					case GROW_FAMILIAR:
 					case CONSUME_ZAP:
 						return UsableItemPanel.this.other && super.isVisible( element );
