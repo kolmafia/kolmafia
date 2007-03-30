@@ -821,7 +821,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 			if ( KoLAdventure.isLikelyStasisFarming( location ) )
 			{
-				sendGeneralWarning( "", "Please reconsider your meat-farming strategy." );
+				sendGeneralWarning( "", "Your other familiars look a little bored." );
 				return;
 			}
 

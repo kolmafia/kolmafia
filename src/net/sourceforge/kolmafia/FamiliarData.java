@@ -277,11 +277,27 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1539:  // lucky Tam O'Shatner
 		case 1971:  // plastic pumpkin bucket
 		case 2225:  // flaming familiar doppelg&auml;nger
-			// Can these items be equipped by a Comma Chameleon?
-			return true;
+			return id != 54;
 
 		default:
 			return item.getName().equals( FamiliarsDatabase.getFamiliarItem( id ) );
+		}
+	}
+
+	public boolean isCombatRestoreFamiliar()
+	{
+		switch ( id )
+		{
+		case 16: // Cocoabo
+		case 17: // Star Starfish
+		case 31: // Personal Raincloud
+		case 48: // Ninja Pirate Zombie Robot
+		case 52: // Spirit Hobo
+		case 54: // Comma Chameleon
+			return true;
+
+		default:
+			return false;
 		}
 	}
 
@@ -290,14 +306,10 @@ public class FamiliarData implements KoLConstants, Comparable
 		switch ( id )
 		{
 		case 16: // Cocoabo
-		case 17: // Star Starfish
 		case 27: // Hanukkimbo Dreidl
 		case 29: // Feather Boa Constrictor
-		case 31: // Personal Raincloud
-		case 44: // Sweet Nutcracker
 		case 48: // Ninja Pirate Zombie Robot
 		case 52: // Spirit Hobo
-		case 54: // Comma Chameleon
 			return true;
 
 		default:
@@ -345,7 +357,12 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 55: // Misshapen Animal Skeleton
 		case 56: // Scary Death Orb
 		case 61: // Ninja Snowflake
+		case 62: // Evil Teddy Bear
 			return true;
+
+		case 66: // Dandy Lion
+			return KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName().endsWith( "whip" ) ||
+				KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).getName().endsWith( "whip" );
 
 		default:
 			return false;

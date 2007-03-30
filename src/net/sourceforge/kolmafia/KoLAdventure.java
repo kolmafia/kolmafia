@@ -664,11 +664,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		if ( !KoLCharacter.getFamiliar().isThiefFamiliar() )
 			return false;
 
-		if ( !KoLCharacter.canInteract() && KoLCharacter.getLevel() < 9 )
+		if ( !KoLCharacter.canInteract() )
 			return false;
 
 		return adventureId.indexOf( "81" ) != -1 || adventureId.indexOf( "82" ) != -1 || adventureId.indexOf( "83" ) != -1 ||
-			adventureId.indexOf( "101" ) != -1;
+			adventureId.indexOf( "101" ) != -1 || adventureId.indexOf( "106" ) != -1 || adventureId.indexOf( "110" ) != -1;
 	}
 
 	/**
@@ -680,15 +680,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	{
 		if ( !(request instanceof CampgroundRequest) && !KoLmafia.isRunningBetweenBattleChecks() )
 			StaticEntity.getClient().runBetweenBattleChecks( shouldRunFullCheck );
-
-		// Abort before adventure verification in the event that
-		// this person is stasis-mining.
-
-		if ( isLikelyStasisFarming( adventureId ) )
-		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Please reconsider your meat-farming strategy." );
-			return;
-		}
 
 		// Validate the adventure before running it.
 		// If it's invalid, return and do nothing.
@@ -791,6 +782,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public void recordToSession()
 	{
+		if ( isLikelyStasisFarming( adventureId ) )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Your other familiars look a little bored." );
+			return;
+		}
+
 		if ( !StaticEntity.getProperty( "lastAdventure" ).equals( adventureName ) )
 		{
 			StaticEntity.setProperty( "lastAdventure", adventureName );
