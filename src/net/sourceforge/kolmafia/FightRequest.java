@@ -289,7 +289,7 @@ public class FightRequest extends KoLRequest
 
 			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 			{
-				if ( KoLCharacter.getFamiliar().isThiefFamiliar() && !hasActionCost( itemId ) )
+				if ( KoLCharacter.getFamiliar().isCombatRestoreFamiliar() && !hasActionCost( itemId ) )
 				{
 				}
 				else if ( itemCount >= 2 && itemId != DICTIONARY1.getItemId() && itemId != DICTIONARY2.getItemId() )
