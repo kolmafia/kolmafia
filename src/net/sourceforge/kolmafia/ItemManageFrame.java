@@ -583,6 +583,8 @@ public class ItemManageFrame extends KoLFrame
 
 				RequestThread.closeRequestSequence();
 			}
+
+			elementList.updateUI();
 		}
 
 		public void actionCancelled()
