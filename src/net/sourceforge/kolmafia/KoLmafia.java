@@ -630,7 +630,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		int maximumCast = summon.getMaximumCast();
 
-		if ( maximumCast == 0 )
+		if ( maximumCast <= 0 )
 			return true;
 
 		int castCount = Math.min( maximumCast, allowRestore ? 5 :
