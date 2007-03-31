@@ -312,7 +312,7 @@ public class AdventureRequest extends KoLRequest
 
 		// Nothing more to do in this area
 
-		if ( formSource.equals( "adventure.php" ) && responseText.indexOf( "adventure.php" ) == -1 )
+		if ( formSource.equals( "adventure.php" ) && responseText.indexOf( "adventure.php" ) == -1 && responseText.indexOf( "You acquire" ) == -1 )
 		{
 			KoLmafia.updateDisplay( PENDING_STATE, "Nothing more to do here." );
 			return;
