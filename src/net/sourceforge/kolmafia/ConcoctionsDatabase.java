@@ -888,7 +888,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( adventures1 != adventures2 )
 				return adventures1 > adventures2 ? -1 : 1;
 
-			return concoction.compareTo( ((Concoction)o).concoction );
+			return name.compareToIgnoreCase( name );
 		}
 
 		public boolean equals( Object o )
