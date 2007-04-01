@@ -833,12 +833,7 @@ public abstract class MoodSettings implements KoLConstants
 		else if ( type.equals( "gain_effect" ) )
 		{
 			if ( name.indexOf( "Poisoned" ) != -1 )
-			{
-				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) )
-					return "use tiny house";
-
 				return "use anti-anti-antidote";
-			}
 
 			if ( name.equals( "Beaten Up" ) )
 			{
