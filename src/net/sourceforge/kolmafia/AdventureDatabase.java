@@ -309,6 +309,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Choice 78 is Broken
 		// Choice 79 is A Hustle Here, a Hustle There
 		// Choice 80 is Take a Look, it's in a Book!
+		// Choice 81 is Take a Look, it's in a Book!
 
 		// One NightStand (simple white)
 		new ChoiceAdventure( "Manor", "choiceAdventure82", "Haunted Bedroom",
@@ -557,6 +558,10 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Lording Over The Flies
 		{ "choiceAdventure72", "2" },
+
+		// Take a Look, it's in a Book!
+		{ "choiceAdventure80", "4" },
+		{ "choiceAdventure81", "4" },
 
 		// Curtains
 		{ "choiceAdventure90", "3" },
