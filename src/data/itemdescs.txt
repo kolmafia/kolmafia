@@ -2408,7 +2408,7 @@
 2403
 2404
 2405
-2406
+2406	523972566	Panda outfit
 2407
 2408
 2409
@@ -2446,3 +2446,13 @@
 2441
 2442
 2443	199035416	pink glowstick	pink glowstyx
+2444
+2445	980448847	Deactivated O. A. F.
+2446	481449606	hardware upgrade
+2447	840387110	bad penguin egg
+2448	476592435	tasteful black bowtie
+2449
+2450
+2451
+2452
+2453	892445942	Goodfella contract
