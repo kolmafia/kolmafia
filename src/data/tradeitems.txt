@@ -2403,7 +2403,7 @@
 2403
 2404
 2405
-2406
+2406	Panda outfit	7	none	0
 2407
 2408
 2409
@@ -2441,3 +2441,13 @@
 2441
 2442
 2443	pink glowstick	8	display	0
+2444
+2445	Deactivated O. A. F.	5	all	0
+2446	hardware upgrade	7	all	75
+2447	bad penguin egg	5	all	0
+2448	tasteful black bowtie	7	all	75
+2449
+2450
+2451
+2452
+2453	Goodfella contract	0	display	0
