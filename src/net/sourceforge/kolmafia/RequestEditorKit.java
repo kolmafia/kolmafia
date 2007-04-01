@@ -965,7 +965,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		if ( AdventureRequest.useMarmotClover( location, buffer.toString() ) || HermitRequest.useHermitClover( location ) )
 		{
-			StaticEntity.globalStringReplace( buffer, "<b>ten-leaf clover</b>", "<b>disassembled clover</b>" );
+			StaticEntity.globalStringReplace( buffer, "ten-leaf", "disassembled" );
 			StaticEntity.globalStringReplace( buffer, "clover.gif", "disclover.gif" );
 			StaticEntity.globalStringReplace( buffer, "370834526", "328909735" );
 		}

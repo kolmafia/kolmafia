@@ -139,6 +139,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			printStackTrace( e );
 		}
+
+		for ( int i = 0; i < concoctions.size(); ++i )
+			if ( concoctions.get(i) != null )
+				usableList.add( concoctions.get(i) );
 	}
 
 	public static final boolean isKnownCombination( AdventureResult [] ingredients )
@@ -356,7 +360,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( concoction == null )
 				continue;
 
-			if ( !KoLCharacter.canInteract() && NPCStoreDatabase.contains( concoction.getName() ) )
+			if ( NPCStoreDatabase.contains( concoction.getName() ) )
 			{
 				item.initial = concoction.getCount( availableIngredients ) + KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( concoction.getItemId() ) * 2);
 				item.creatable = 0;
@@ -403,12 +407,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 			item = concoctions.get(i);
 			if ( item == null )
 				continue;
-
-			if ( item.total == 0 && usableList.contains( item ) )
-				usableList.remove( item );
-
-			if ( item.total > 0 && !usableList.contains( item ) )
-				usableList.add( item );
 
 			instance = ItemCreationRequest.getInstance( i, false );
 			if ( instance == null || item.creatable == instance.getQuantityPossible() )
@@ -892,7 +890,17 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 
 		public boolean equals( Object o )
-		{	return compareTo( o ) == 0;
+		{
+			if ( o == null || !(o instanceof Concoction) )
+				return false;
+
+			if ( name == null )
+				return false;
+
+			if ( ((Concoction)o).name == null )
+				return false;
+
+			return name.equals( ((Concoction)o).name );
 		}
 
 		public AdventureResult getItem()

@@ -5,146 +5,146 @@
 
 # Drink	Drunk	Adv (per drunk)	Musc (per drunk)	Myst (per drunk)	Moxie (per drunk)
 
-a little sump'm sump'm	4	10-14 	0 	25-27 	08-10
-Acqua Del Piatto Merlot	1	06-10 	60 	60 	60
-Acque Luride Grezze Cabernet	1	06-10 	60 	60 	60
-around the world	4	10-14 	0-30 	0-30 	0-30
-banana daiquiri	3	06-11 	10-26 	10-26 	17-43
-beertini	3	04-08 	0 	10-12 	10-12
-bloody beer	1	01-02 	0 	0 	0
-bloody mary	3	03-06 	01-02 	01-02 	01-02
-bodyslam	6	22-26 	16-20 	0 	0
-bottle of Calcutta Emerald	3	04-08 	0 	0 	0
-bottle of Definit	3	04-08 	0 	0 	0
-bottle of Domesticated Turkey	3	04-08 	0 	0 	0
-bottle of gin	3	03 	0 	0 	0
-bottle of Jorge Sinsonte	3	04-08 	0 	0 	0
-bottle of Lieutenant Freeman	3	04-08 	0 	0 	0
-Bottle of Pinot Renoir	2	04-08 	30 	18 	0
-Bottle of Popskull	2	02-04 	0 	0 	0
-bottle of rum	3	03 	0 	0 	0
-bottle of single-barrel whiskey	3	13-20 	40-50 	40-50 	40-50
-bottle of tequila	3	03 	0 	0 	0
-bottle of vodka	3	03 	0 	0 	0
-bottle of whiskey	3	03 	0 	0 	0
-boxed champagne	3	04-08 	0 	0 	0
-boxed wine	3	03 	0 	0 	0
-braincracker sweet	5	10-15 	09-11 	09-11 	09-11
-bungle in the jungle	4	13-17 	40-99 	54-118 	31-122
-caipifruta	3	05-10 	16-20 	0 	0
-calle de miel	4	10-14 	08-10 	0 	25-27
-candycaine	4	07-10 	08-09 	08-09 	08-09
-cherry bomb	6	22-26 	0 	16-20 	0
-cool mushroom wine	3	10-14 	0 	08-10 	0
-dirty martini	6	22-26 	0 	0 	16-20
-Divine	4	14-18 	16-20 	25-27 	0
-dry martini	3	05-10 	0 	0 	08-10
-dry vodka martini	3	05-10 	0 	0 	08-10
-ducha de oro	4	10-14 	08-10 	25-27 	0
-ecto-nog	3	03-06 	05-06 	05-06 	05-06
-eggnog	3	05-10 	0 	17-30 	18-30
-eggnogtini	3	03-05 	05-07 	05-07 	05-07
-especially salty dog	4	09-15 	32-50 	32-50 	32-50
-extra-spicy bloody mary	3	04-10 	05-11 	05-11 	05-11
-Ferita Del Petto Zinfandel	1	06-10 	60 	60 	60
-fermented honey	3	03-06 	05-06 	05-06 	05-06
-fine wine	1	01-03 	0 	0 	03-05
-flaming mushroom wine	3	10-14 	12-15 	0 	0
-flask of peppermint schnapps	1	01 	0 	0 	0
-flat mushroom wine	3	10-14 	08-10 	0 	0
-flute of flat champagne	2	03-06 	0 	15 	0
-fuzzbump	4	10-14 	34-36 	0 	0
-gibson	3	05-10 	0 	0 	16-20
-gimlet	4	14-18 	0 	40-47 	0
-gin	5	10-15 	09-10 	09-10 	09-10
-gin and tonic	3	05-10 	0 	16-20 	0
-gloomy mushroom wine	3	13-17 	12-15 	13-15 	12-15
-Gordon Bennett	4	14-18 	16-20 	25-27 	0
-green beer	1	01-03 	0 	0 	0
-Grimacite Bock	1	06-10 	65 	64 	62
-grog	3	05-10 	08-10 	0 	0
-grogtini	6	22-26 	16-20 	0 	0
-horizontal tango	4	10-14 	0 	34-36 	0
-hot choculate	5	10-15 	09-10 	09-10 	09-10
-hot toady	4	06-10 	07-08 	07-08 	07-08
-ice-cold fotie	3	03 	0 	0 	0
-ice-cold Sir Schlitz	1	01 	0 	0 	0
-ice-cold Willer	1	01 	0 	0 	0
-icy mushroom wine	3	10-14 	0 	12-15 	0
-Imp Ale	1	01-02 	07-08 	0 	-5
-Infinitesimal IPA	3	03-09 	0 	0 	0
-knob mushroom wine	3	10-13 	0 	04-06 	0
-knoll mushroom wine	3	10-13 	04-06 	0 	0
-lumbering jack	3	03-08 	0 	11-14 	0
-Mad Train wine	3	03-04 	0 	0 	0
-Mae West	4	14-18 	0 	0 	40-47
-Maiali Sifilitici Pinot Noir	1	06-10 	60 	60 	60
-mandarina colada	4	14-18 	0 	16-20 	25-27
-margarita	3	03-06 	08-10 	0 	0
-martini	3	03-07 	0 	0 	08-10
-mimosette	3	05-10 	16-20 	0 	0
-Mon Tiki	4	14-18 	40-47 	0 	0
-monkey wrench	3	03-06 	0 	08-10 	0
-moons-shine	4	06-10 	07-08 	07-08 	07-08
-Mt. Noob Pale Ale	2	04-09 	0 	0 	0
-neuromancer	4	14-18 	25-27 	0 	16-20
-ocean motion	4	10-14 	25-27 	08-10 	0
-oily mushroom wine	3	12-17 	14-15 	12-15 	12-15
-old-fashioned	3	05-10 	0 	08-10 	0
-papaya sling	3	03-07 	16-30 	0 	0
-papaya slung	3	04-08 	11-15 	11-15 	11-15
-parisian cathouse	3	05-10 	0 	0 	16-20
-perpendicular hula	4	10-14 	0 	0 	34-36
-Petite Porter	3	03-05 	0 	0 	0
-pink pony	4	10-14 	25-27 	0 	08-10
-pointy mushroom wine	3	10-14 	0 	0 	08-10
-prussian cathouse	4	14-18 	0 	0 	40-47
-rabbit punch	3	05-10 	0 	0 	16-20
-Ram's Face Lager	1	01-04 	08-10 	0 	0
-redrum	3	03-06 	0 	15-30 	0
-rockin' wagon	4	10-14 	0 	0 	34-36
-roll in the hay	4	10-14 	0 	34-36 	0
-rum and cola	3	03-06 	0 	0 	10-12
-salty dog	3	03-08 	0 	08-10 	0
-salty slug	3	04-10 	0 	10-12 	10-12
-sangria	3	05-10 	0 	08-10 	0
-sangria del diablo	6	22-26 	0 	16-20 	0
-Scrawny Stout	3	03-06 	0 	0 	0
-screwdriver	3	03-06 	08-10 	0 	0
-shot of flower schnapps	1	01-03 	0 	0 	0
-shot of grapefruit schnapps	1	01-03 	0 	03-05 	0
-shot of orange schnapps	1	01-03 	03-05 	0 	0
-shot of tomato schnapps	1	01-03 	01-02 	01-02 	01-02
-slap and tickle	4	10-14 	0 	08-10 	25-27
-slip 'n' slide	4	10-14 	34-36 	0 	0
-snifter of thoroughly aged brandy	2	02-06 	0 	08-10 	0
-Spasmi Dolorosi Del Rene Champagne	1	06-10 	60 	60 	60
-spiced rum	3	04-09 	0 	0 	17-30
-spooky eggnog	3	05-10 	0 	16-30 	16-30
-spooky mushroom wine	3	10-14 	0 	0 	04-06
-stinky mushroom wine	3	10-14 	0 	0 	12-15
-strawberry daiquiri	3	03-06 	0 	0 	08-10
-strawberry wine	3	03-06 	0 	0 	08-10
-tangarita	4	14-18 	0 	16-20 	25-27
-teqiwila	3	05-10 	16-20 	0 	0
-teqiwila slammer	4	14-18 	40-47 	0 	0
-tequila sunrise	3	03-06 	08-10 	0 	0
-tequila sunset	3	05-10 	0 	16-20 	0
-tequila with training wheels	3	05-10 	08-09 	0 	0
-tomato daiquiri	3	04-08 	10-12 	0 	10-12
-Uovo Marcio Shiraz	1	06-10 	60 	60 	60
-vesper	6	22-26 	0 	0 	16-20
-vodka and cranberry	3	03-06 	0 	15-20 	0
-vodka and tonic	3	05-10 	0 	16-20 	0
-vodka gibson	3	05-10 	0 	0 	16-20
-vodka martini	3	03-06 	0 	0 	08-10
-vodka stratocaster	4	14-18 	25-27 	0 	16-20
-whiskey and cola	3	03-06 	0 	04-06 	04-06
-whiskey and soda	3	03-06 	0 	08-10 	0
-whiskey bittersweet	3	05-10 	16-20 	0 	0
-whiskey sour	3	03-06 	08-10 	0 	0
-white Canadian	3	03-06 	10-12 	0 	0
-white lightning	3	05-10 	0 	0 	0
-wine spritzer	3	03-06 	0 	08-10 	0
-yellow brick road	4	14-18 	0 	40-47 	0
-zmobie	3	05-10 	0 	16-20 	0
+a little sump'm sump'm	4	10-14	0	25-27	08-10
+Acqua Del Piatto Merlot	1	06-10	60	60	60
+Acque Luride Grezze Cabernet	1	06-10	60	60	60
+around the world	4	10-14	0-30	0-30	0-30
+banana daiquiri	3	06-11	10-26	10-26	17-43
+beertini	3	04-08	0	10-12	10-12
+bloody beer	1	01-02	0	0	0
+bloody mary	3	03-06	01-02	01-02	01-02
+bodyslam	6	22-26	16-20	0	0
+bottle of Calcutta Emerald	3	04-08	0	0	0
+bottle of Definit	3	04-08	0	0	0
+bottle of Domesticated Turkey	3	04-08	0	0	0
+bottle of gin	3	03	0	0	0
+bottle of Jorge Sinsonte	3	04-08	0	0	0
+bottle of Lieutenant Freeman	3	04-08	0	0	0
+Bottle of Pinot Renoir	2	04-08	30	18	0
+Bottle of Popskull	2	02-04	0	0	0
+bottle of rum	3	03	0	0	0
+bottle of single-barrel whiskey	3	13-20	40-50	40-50	40-50
+bottle of tequila	3	03	0	0	0
+bottle of vodka	3	03	0	0	0
+bottle of whiskey	3	03	0	0	0
+boxed champagne	3	04-08	0	0	0
+boxed wine	3	03	0	0	0
+braincracker sweet	5	10-15	09-11	09-11	09-11
+bungle in the jungle	4	13-17	40-99	54-118	31-122
+caipifruta	3	05-10	16-20	0	0
+calle de miel	4	10-14	08-10	0	25-27
+candycaine	4	07-10	08-09	08-09	08-09
+cherry bomb	6	22-26	0	16-20	0
+cool mushroom wine	3	10-14	0	08-10	0
+dirty martini	6	22-26	0	0	16-20
+Divine	4	14-18	16-20	25-27	0
+dry martini	3	05-10	0	0	08-10
+dry vodka martini	3	05-10	0	0	08-10
+ducha de oro	4	10-14	08-10	25-27	0
+ecto-nog	3	03-06	05-06	05-06	05-06
+eggnog	3	05-10	0	17-30	18-30
+eggnogtini	3	03-05	05-07	05-07	05-07
+especially salty dog	4	09-15	32-50	32-50	32-50
+extra-spicy bloody mary	3	04-10	05-11	05-11	05-11
+Ferita Del Petto Zinfandel	1	06-10	60	60	60
+fermented honey	3	03-06	05-06	05-06	05-06
+fine wine	1	01-03	0	0	03-05
+flaming mushroom wine	3	10-14	12-15	0	0
+flask of peppermint schnapps	1	01	0	0	0
+flat mushroom wine	3	10-14	08-10	0	0
+flute of flat champagne	2	03-06	0	15	0
+fuzzbump	4	10-14	34-36	0	0
+gibson	3	05-10	0	0	16-20
+gimlet	4	14-18	0	40-47	0
+gin	5	10-15	09-10	09-10	09-10
+gin and tonic	3	05-10	0	16-20	0
+gloomy mushroom wine	3	13-17	12-15	13-15	12-15
+Gordon Bennett	4	14-18	16-20	25-27	0
+green beer	1	01-03	0	0	0
+Grimacite Bock	1	06-10	65	64	62
+grog	3	05-10	08-10	0	0
+grogtini	6	22-26	16-20	0	0
+horizontal tango	4	10-14	0	34-36	0
+hot choculate	5	10-15	09-10	09-10	09-10
+hot toady	4	06-10	07-08	07-08	07-08
+ice-cold fotie	3	03	0	0	0
+ice-cold Sir Schlitz	1	01	0	0	0
+ice-cold Willer	1	01	0	0	0
+icy mushroom wine	3	10-14	0	12-15	0
+Imp Ale	1	01-02	07-08	0	-5
+Infinitesimal IPA	3	03-09	0	0	0
+knob mushroom wine	3	10-13	0	04-06	0
+knoll mushroom wine	3	10-13	04-06	0	0
+lumbering jack	3	03-08	0	11-14	0
+Mad Train wine	3	03-04	0	0	0
+Mae West	4	14-18	0	0	40-47
+Maiali Sifilitici Pinot Noir	1	06-10	60	60	60
+mandarina colada	4	14-18	0	16-20	25-27
+margarita	3	03-06	08-10	0	0
+martini	3	03-07	0	0	08-10
+mimosette	3	05-10	16-20	0	0
+Mon Tiki	4	14-18	40-47	0	0
+monkey wrench	3	03-06	0	08-10	0
+moons-shine	4	06-10	07-08	07-08	07-08
+Mt. Noob Pale Ale	2	04-09	0	0	0
+neuromancer	4	14-18	25-27	0	16-20
+ocean motion	4	10-14	25-27	08-10	0
+oily mushroom wine	3	12-17	14-15	12-15	12-15
+old-fashioned	3	05-10	0	08-10	0
+papaya sling	3	03-07	16-30	0	0
+papaya slung	3	04-08	11-15	11-15	11-15
+parisian cathouse	3	05-10	0	0	16-20
+perpendicular hula	4	10-14	0	0	34-36
+Petite Porter	3	03-05	0	0	0
+pink pony	4	10-14	25-27	0	08-10
+pointy mushroom wine	3	10-14	0	0	08-10
+prussian cathouse	4	14-18	0	0	40-47
+rabbit punch	3	05-10	0	0	16-20
+Ram's Face Lager	1	01-04	08-10	0	0
+redrum	3	03-06	0	15-30	0
+rockin' wagon	4	10-14	0	0	34-36
+roll in the hay	4	10-14	0	34-36	0
+rum and cola	3	03-06	0	0	10-12
+salty dog	3	03-08	0	08-10	0
+salty slug	3	04-10	0	10-12	10-12
+sangria	3	05-10	0	08-10	0
+sangria del diablo	6	22-26	0	16-20	0
+Scrawny Stout	3	03-06	0	0	0
+screwdriver	3	03-06	08-10	0	0
+shot of flower schnapps	1	01-03	0	0	0
+shot of grapefruit schnapps	1	01-03	0	03-05	0
+shot of orange schnapps	1	01-03	03-05	0	0
+shot of tomato schnapps	1	01-03	01-02	01-02	01-02
+slap and tickle	4	10-14	0	08-10	25-27
+slip 'n' slide	4	10-14	34-36	0	0
+snifter of thoroughly aged brandy	2	02-06	0	08-10	0
+Spasmi Dolorosi Del Rene Champagne	1	06-10	60	60	60
+spiced rum	3	04-09	0	0	17-30
+spooky eggnog	3	05-10	0	16-30	16-30
+spooky mushroom wine	3	10-14	0	0	04-06
+stinky mushroom wine	3	10-14	0	0	12-15
+strawberry daiquiri	3	03-06	0	0	08-10
+strawberry wine	3	03-06	0	0	08-10
+tangarita	4	14-18	0	16-20	25-27
+teqiwila	3	05-10	16-20	0	0
+teqiwila slammer	4	14-18	40-47	0	0
+tequila sunrise	3	03-06	08-10	0	0
+tequila sunset	3	05-10	0	16-20	0
+tequila with training wheels	3	05-10	08-09	0	0
+tomato daiquiri	3	04-08	10-12	0	10-12
+Uovo Marcio Shiraz	1	06-10	60	60	60
+vesper	6	22-26	0	0	16-20
+vodka and cranberry	3	03-06	0	15-20	0
+vodka and tonic	3	05-10	0	16-20	0
+vodka gibson	3	05-10	0	0	16-20
+vodka martini	3	03-06	0	0	08-10
+vodka stratocaster	4	14-18	25-27	0	16-20
+whiskey and cola	3	03-06	0	04-06	04-06
+whiskey and soda	3	03-06	0	08-10	0
+whiskey bittersweet	3	05-10	16-20	0	0
+whiskey sour	3	03-06	08-10	0	0
+white Canadian	3	03-06	10-12	0	0
+white lightning	3	05-10	0	0	0
+wine spritzer	3	03-06	0	08-10	0
+yellow brick road	4	14-18	0	40-47	0
+zmobie	3	05-10	0	16-20	0
