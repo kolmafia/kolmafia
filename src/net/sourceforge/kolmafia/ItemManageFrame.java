@@ -616,7 +616,8 @@ public class ItemManageFrame extends KoLFrame
 			{
 				public boolean isVisible( Object element )
 				{
-					int itemId = ((Concoction)element).getItemId();
+					if ( ((Concoction)element).getTotal() == 0 )
+						return false;
 
 					int fullness = TradeableItemDatabase.getFullness( ((Concoction)element).getName() );
 					int inebriety = TradeableItemDatabase.getInebriety( ((Concoction)element).getName() );

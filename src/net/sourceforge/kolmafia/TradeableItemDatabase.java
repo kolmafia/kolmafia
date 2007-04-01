@@ -549,42 +549,63 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static final int getFullness( String name )
 	{
+		if ( name == null )
+			return 0;
+
 		Integer fullness = (Integer) fullnessById.get( getCanonicalName( name ) );
 		return fullness == null ? 0 : fullness.intValue();
 	}
 
 	public static final int getInebriety( String name )
 	{
+		if ( name == null )
+			return 0;
+
 		Integer inebriety = (Integer) inebrietyById.get( getCanonicalName( name ) );
 		return inebriety == null ? 0 : inebriety.intValue();
 	}
 
 	public static final int getSpleenHit( String name )
 	{
+		if ( name == null )
+			return 0;
+
 		Integer spleenhit = (Integer) spleenHitById.get( getCanonicalName( name ) );
 		return spleenhit == null ? 0 : spleenhit.intValue();
 	}
 
 	public static final String getAdventureRange( String name )
 	{
+		if ( name == null )
+			return "+0.0";
+
 		String range = (String) adventuresById.get( getCanonicalName( name ) );
 		return range == null ? "+0.0" : range;
 	}
 
 	public static final String getMuscleRange( String name )
 	{
+		if ( name == null )
+			return "+0.0";
+
 		String range = (String) muscleById.get( getCanonicalName( name ) );
 		return range == null ? "+0.0" : range;
 	}
 
 	public static final String getMysticalityRange( String name )
 	{
+		if ( name == null )
+			return "+0.0";
+
 		String range = (String) mysticalityById.get( getCanonicalName( name ) );
 		return range == null ? "+0.0" : range;
 	}
 
 	public static final String getMoxieRange( String name )
 	{
+		if ( name == null )
+			return "+0.0";
+
 		String range = (String) moxieById.get( getCanonicalName( name ) );
 		return range == null ? "+0.0" : range;
 	}
