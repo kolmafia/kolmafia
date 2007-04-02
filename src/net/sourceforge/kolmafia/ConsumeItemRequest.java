@@ -479,7 +479,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// Pop up a window showing the result
 			KoLCharacter.addFamiliar( FamiliarsDatabase.growFamiliarLarva( lastItemUsed.getItemId() ) );
 
-			showItemUsage( showHTML, responseText, "Your new familiar", true );
+			showItemUsage( showHTML, responseText, true );
 			return;
 		}
 
@@ -571,8 +571,7 @@ public class ConsumeItemRequest extends KoLRequest
 				// what was in the gift.
 
 				Matcher matcher = GIFT_PATTERN.matcher( responseText );
-				title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
-				showItemUsage( true, responseText, title, true );
+				showItemUsage( true, responseText, true );
 			}
 
 			return;
@@ -596,28 +595,28 @@ public class ConsumeItemRequest extends KoLRequest
 		case TRADING_CARD15:
 		case TRADING_CARD16:
 
-			showItemUsage( showHTML, responseText, "Trading Card", false );
+			showItemUsage( showHTML, responseText, false );
 			return;
 
 		// If it's a memo from Uncle Crimbo, show it
 
 		case CRIMBOWEEN_MEMO:
 
-			showItemUsage( showHTML, responseText, "The Memo", false );
+			showItemUsage( showHTML, responseText, false );
 			return;
 
 		// If it's a stuffed angry cow, let the player beat the stuffing out of it
 
 		case STUFFED_ANGRY_COW:
 
-			showItemUsage( showHTML, responseText, "Aggression Relief", false );
+			showItemUsage( showHTML, responseText, false );
 			return;
 
 		// If it's a fortune cookie, get the fortune
 
 		case FORTUNE_COOKIE:
 
-			showItemUsage( showHTML, responseText, "Your fortune", true );
+			showItemUsage( showHTML, responseText, true );
 			return;
 
 		case GATES_SCROLL:
@@ -1055,10 +1054,10 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 	}
 
-	private static void showItemUsage( boolean showHTML, String text, String title, boolean consumed )
+	private static void showItemUsage( boolean showHTML, String text, boolean consumed )
 	{
 		if ( showHTML )
-			StaticEntity.getClient().showHTML( trimInventoryText( text ), title );
+			StaticEntity.getClient().showHTML( trimInventoryText( text ), null );
 
 		if ( !consumed )
 			StaticEntity.getClient().processResult( lastItemUsed );
