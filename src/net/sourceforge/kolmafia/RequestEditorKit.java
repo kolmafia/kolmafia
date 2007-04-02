@@ -948,7 +948,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	}
 
 	private static final String NO_HERMIT_TEXT = "<img src=\"http://images.kingdomofloathing.com/otherimages/mountains/mount4.gif\" width=100 height=100>";
-	private static final String YES_HERMIT_TEXT = "<a href=\"hermit.php\"><img src=\"http://images.kingdomofloathing.com/otherimages/mountains/hermitage.gif\" width=100 height=100 border=0></a>";
 	private static final String AUTO_HERMIT_TEXT = "<a href=\"hermit.php?autopermit=on\"><img src=\"http://images.kingdomofloathing.com/otherimages/mountains/hermitage.gif\" width=100 height=100 border=0></a>";
 
 	private static final String NO_PERMIT_TEXT = "<p>You don't have a Hermit Permit, so you're not allowed to visit the Hermit.<p><center>";
@@ -1019,13 +1018,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			}
 		}
 
-		if ( location.startsWith( "mountains.php" ) )
-		{
-			if ( HermitRequest.getWorthlessItemCount() == 0 )
-				StaticEntity.singleStringReplace( buffer, YES_HERMIT_TEXT, NO_HERMIT_TEXT );
-			else if ( !KoLCharacter.hasItem( HermitRequest.PERMIT ) )
-				StaticEntity.singleStringReplace( buffer, NO_HERMIT_TEXT, AUTO_HERMIT_TEXT );
-		}
+		if ( location.startsWith( "mountains.php" ) && !KoLCharacter.hasItem( HermitRequest.PERMIT ) )
+			StaticEntity.singleStringReplace( buffer, NO_HERMIT_TEXT, AUTO_HERMIT_TEXT );
 
 		if ( location.startsWith( "hermit.php" ) )
 			StaticEntity.singleStringReplace( buffer, NO_PERMIT_TEXT, BUY_PERMIT_TEXT );
