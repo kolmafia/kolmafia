@@ -668,7 +668,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			return false;
 
 		return adventureId.indexOf( "81" ) != -1 || adventureId.indexOf( "82" ) != -1 || adventureId.indexOf( "83" ) != -1 ||
-			adventureId.indexOf( "101" ) != -1 || adventureId.indexOf( "106" ) != -1 || adventureId.indexOf( "110" ) != -1;
+			adventureId.indexOf( "101" ) != -1 || adventureId.indexOf( "110" ) != -1;
 	}
 
 	/**
