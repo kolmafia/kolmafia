@@ -1566,6 +1566,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				new GiveToClanListener( isCloset )
 
 			} );
+
+			movers[0].setSelected( true );
 		}
 	}
 

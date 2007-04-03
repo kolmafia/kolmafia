@@ -942,9 +942,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 				int inebriety = TradeableItemDatabase.getInebriety( name );
 
 				if ( fullness > 0 )
-					this.initial = 30 / fullness;
+					this.initial = 40 / fullness;
 				else
-					this.initial = 30 / inebriety;
+					this.initial = 40 / inebriety;
 
 				this.creatable = 0;
 				this.total = this.initial;
