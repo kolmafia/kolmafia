@@ -652,16 +652,25 @@ public class ItemManageFrame extends KoLFrame
 							return false;
 
 					if ( filters[1].isSelected() )
-						if ( TradeableItemDatabase.getMuscleRange( creation.getName() ).equals( "+0.0" ) )
+					{
+						String range = TradeableItemDatabase.getMuscleRange( creation.getName() );
+						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 							return false;
+					}
 
 					if ( filters[2].isSelected() )
-						if ( TradeableItemDatabase.getMysticalityRange( creation.getName() ).equals( "+0.0" ) )
+					{
+						String range = TradeableItemDatabase.getMysticalityRange( creation.getName() );
+						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 							return false;
+					}
 
 					if ( filters[3].isSelected() )
-						if ( TradeableItemDatabase.getMoxieRange( creation.getName() ).equals( "+0.0" ) )
+					{
+						String range = TradeableItemDatabase.getMoxieRange( creation.getName() );
+						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 							return false;
+					}
 
 					int fullness = TradeableItemDatabase.getFullness( creation.getName() );
 					int inebriety = TradeableItemDatabase.getInebriety( creation.getName() );
