@@ -100,15 +100,17 @@ public class ItemManageFrame extends KoLFrame
 
 		LabeledScrollPanel npcOfferings = null;
 
-		addPanel( "Mealtime Items", new ExperimentalPanel( true, true ) );
+		addPanel( "Experimental", new ExperimentalPanel( true, true ) );
 		addPanel( " - Food", new ExperimentalPanel( true, false ) );
 		addPanel( " - Booze", new ExperimentalPanel( false, true ) );
 
 		addSeparator();
 
-		addPanel( "Usable Items", new UsableItemPanel( true, true ) );
-		addPanel( " - Restores", new UsableItemPanel( true, false ) );
-		addPanel( " - Others", new UsableItemPanel( false, true ) );
+		addPanel( "Usable Items", new UsableItemPanel( true, true, true, true ) );
+		addPanel( " - Food", new UsableItemPanel( true, false, false, false ) );
+		addPanel( " - Booze", new UsableItemPanel( false, true, false, false ) );
+		addPanel( " - Restores", new UsableItemPanel( false, false, true, false ) );
+		addPanel( " - Others", new UsableItemPanel( false, false, false, true ) );
 
 		addSeparator();
 
@@ -688,14 +690,16 @@ public class ItemManageFrame extends KoLFrame
 
 	private class UsableItemPanel extends ItemManagePanel
 	{
-		private boolean restores, other;
+		private boolean food, booze, restores, other;
 
-		public UsableItemPanel( boolean restores, boolean other )
+		public UsableItemPanel( boolean food, boolean booze, boolean restores, boolean other )
 		{
 			super( "Use Items", "use item", "check wiki", inventory );
 
 			JPanel moverPanel = new JPanel();
 
+			this.food = food;
+			this.booze = booze;
 			this.restores = restores;
 			this.other = other;
 
@@ -745,8 +749,10 @@ public class ItemManageFrame extends KoLFrame
 					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
 					{
 					case CONSUME_EAT:
+						return UsableItemPanel.this.food && super.isVisible( element );
+
 					case CONSUME_DRINK:
-						return UsableItemPanel.this.restores && UsableItemPanel.this.other && super.isVisible( element );
+						return UsableItemPanel.this.booze && super.isVisible( element );
 
 					case GROW_FAMILIAR:
 					case CONSUME_ZAP:
