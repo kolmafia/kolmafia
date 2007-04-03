@@ -61,6 +61,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
@@ -83,8 +84,6 @@ public class ItemManageFrame extends KoLFrame
 
 	private static final Dimension MAX_WIDTH = new Dimension( 500, Integer.MAX_VALUE );
 
-	private ExperimentalPanel foodPanel, boozePanel;
-
 	private LockableListModel itemPanelNames = new LockableListModel();
 	private JList itemPanelList = new JList( itemPanelNames );
 	private CardLayout itemPanelCards = new CardLayout();
@@ -101,9 +100,13 @@ public class ItemManageFrame extends KoLFrame
 
 		LabeledScrollPanel npcOfferings = null;
 
+		addPanel( "Mealtime Items", new ExperimentalPanel( true, true ) );
+		addPanel( " - Food", new ExperimentalPanel( true, false ) );
+		addPanel( " - Booze", new ExperimentalPanel( false, true ) );
+
+		addSeparator();
+
 		addPanel( "Usable Items", new UsableItemPanel( true, true ) );
-		addPanel( " - Food", foodPanel = new ExperimentalPanel( true, false ) );
-		addPanel( " - Booze", boozePanel = new ExperimentalPanel( false, true ) );
 		addPanel( " - Restores", new UsableItemPanel( true, false ) );
 		addPanel( " - Others", new UsableItemPanel( false, true ) );
 
@@ -522,12 +525,11 @@ public class ItemManageFrame extends KoLFrame
 	private class ExperimentalPanel extends ItemManagePanel
 	{
 		private boolean food, booze;
+		private JCheckBox [] filters;
 
 		public ExperimentalPanel( boolean food, boolean booze )
 		{
-			super( "Use Items", "use item", food ? "use milk" : "cast ode", ConcoctionsDatabase.getUsables() );
-
-			JPanel moverPanel = new JPanel();
+			super( "Use Items", "use item", food && booze ? "win game" : food ? "drink milk" : "cast ode", ConcoctionsDatabase.getUsables() );
 
 			JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 			elementList.setFixedCellHeight( (int) (test.getPreferredSize().getHeight() * 2.5f) );
@@ -540,13 +542,33 @@ public class ItemManageFrame extends KoLFrame
 			wordfilter = new ConsumableFilterComboBox();
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
 
+			filters = new JCheckBox[4];
+
+			filters[0] = new JCheckBox( "on-hand only" );
+			filters[1] = new JCheckBox( "+mus only" );
+			filters[2] = new JCheckBox( "+mys only" );
+			filters[3] = new JCheckBox( "+mox only" );
+
+			JPanel filterPanel = new JPanel();
+			for ( int i = 0; i < filters.length; ++i )
+			{
+				filterPanel.add( filters[i] );
+				filters[i].addActionListener( wordfilter );
+			}
+
 			wordfilter.filterItems();
 			setEnabled( true );
+
+			actualPanel.add( filterPanel, BorderLayout.NORTH );
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
-			if ( food )
+			if ( food && booze )
+			{
+				cancelledButton.setEnabled( false );
+			}
+			else if ( food )
 			{
 				cancelledButton.setEnabled( KoLCharacter.hasItem( MAGNESIUM, true ) );
 			}
@@ -565,7 +587,6 @@ public class ItemManageFrame extends KoLFrame
 
 			if ( items.length != 1 )
 				return;
-
 
 			if ( items[0] instanceof AdventureResult )
 			{
@@ -608,6 +629,10 @@ public class ItemManageFrame extends KoLFrame
 			{	filter = new ConsumableFilter();
 			}
 
+			public void actionPerformed( ActionEvent e )
+			{	filterItems();
+			}
+
 			public void filterItems()
 			{	elementList.applyFilter( filter );
 			}
@@ -616,11 +641,30 @@ public class ItemManageFrame extends KoLFrame
 			{
 				public boolean isVisible( Object element )
 				{
-					if ( ((Concoction)element).getTotal() == 0 )
+					Concoction creation = (Concoction) element;
+					AdventureResult item = creation.getItem();
+
+					if ( creation.getTotal() == 0 )
 						return false;
 
-					int fullness = TradeableItemDatabase.getFullness( ((Concoction)element).getName() );
-					int inebriety = TradeableItemDatabase.getInebriety( ((Concoction)element).getName() );
+					if ( filters[0].isSelected() )
+						if ( item == null || item.getCount( inventory ) == 0 )
+							return false;
+
+					if ( filters[1].isSelected() )
+						if ( TradeableItemDatabase.getMuscleRange( creation.getName() ).equals( "+0.0" ) )
+							return false;
+
+					if ( filters[2].isSelected() )
+						if ( TradeableItemDatabase.getMysticalityRange( creation.getName() ).equals( "+0.0" ) )
+							return false;
+
+					if ( filters[3].isSelected() )
+						if ( TradeableItemDatabase.getMoxieRange( creation.getName() ).equals( "+0.0" ) )
+							return false;
+
+					int fullness = TradeableItemDatabase.getFullness( creation.getName() );
+					int inebriety = TradeableItemDatabase.getInebriety( creation.getName() );
 
 					if ( fullness > 0 )
 						return ExperimentalPanel.this.food && super.isVisible( element );
