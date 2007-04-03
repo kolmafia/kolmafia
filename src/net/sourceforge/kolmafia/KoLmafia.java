@@ -3201,6 +3201,8 @@ public abstract class KoLmafia implements KoLConstants
 		resetSession();
 		enableDisplay();
 
+		MoodSettings.setMood( "apathetic" );
+
 		PrintStream sessionStream = RequestLogger.getSessionStream();
 
 		sessionStream.println();

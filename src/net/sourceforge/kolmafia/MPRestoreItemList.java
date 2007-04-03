@@ -186,7 +186,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 				int numberToBuy = numberToUse;
 				int unitPrice = TradeableItemDatabase.getPriceById( itemUsed.getItemId() ) * 2;
 
-				if ( KoLmafia.isRunningBetweenBattleChecks() )
+				if ( MoodSettings.isExecuting() )
 				{
 					// For purchases involving between battle checks,
 					// buy at least as many as is needed to sustain
