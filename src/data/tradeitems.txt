@@ -2307,12 +2307,12 @@
 2307	lavender candy heart	3	all	5
 2308	yellow candy heart	3	all	5
 2309	green candy heart	3	all	5
-2310	white candygram	3	none	0
-2311	pink candygram	3	none	0
-2312	orange candygram	3	none	0
-2313	lavender candygram	3	none	0
-2314	yellow candygram	3	none	0
-2315	green candygram	3	none	0
+2310	white candygram	4	none	0
+2311	pink candygram	4	none	0
+2312	orange candygram	4	none	0
+2313	lavender candygram	4	none	0
+2314	yellow candygram	4	none	0
+2315	green candygram	4	none	0
 2316
 2317
 2318

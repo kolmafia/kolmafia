@@ -883,6 +883,8 @@ public abstract class KoLmafia implements KoLConstants
 				// negation of this result.
 
 				AdventureResult.addResultToList( conditions, result.getNegation() );
+				if ( result.getCount( inventory ) <= 0 )
+					conditions.remove( result );
 			}
 		}
 
