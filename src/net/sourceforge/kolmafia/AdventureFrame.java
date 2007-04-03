@@ -72,6 +72,8 @@ import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ListModel;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
@@ -301,7 +303,7 @@ public class AdventureFrame extends KoLFrame
 	 * selection in the <code>AdventureFrame</code>.
 	 */
 
-	private class AdventureSelectPanel extends JPanel
+	private class AdventureSelectPanel extends JPanel implements ChangeListener
 	{
 		private ExecuteButton begin;
 		private boolean isHandlingConditions = false;
@@ -336,6 +338,7 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			countField = new JSpinner();
+			countField.addChangeListener( this );
 
 			JComponentUtilities.setComponentSize( countField, 50, 24 );
 			JComponentUtilities.setComponentSize( zoneSelect, 200, 24 );
@@ -360,6 +363,15 @@ public class AdventureFrame extends KoLFrame
 
 			JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, begin );
 			((JSpinner.DefaultEditor)countField.getEditor()).getTextField().addKeyListener( begin );
+		}
+
+		public void stateChanged( ChangeEvent e )
+		{
+			int desired = getValue( countField, KoLCharacter.getAdventuresLeft() );
+			if ( desired <= 0 )
+				countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
+			else if ( desired > KoLCharacter.getAdventuresLeft() )
+				countField.setValue( new Integer( 1 ) );
 		}
 
 		private boolean handleConditions( KoLAdventure request )
@@ -660,7 +672,13 @@ public class AdventureFrame extends KoLFrame
 				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
 				countField.setValue( new Integer( requestCount ) );
 
+				boolean resetCount = requestCount == KoLCharacter.getAdventuresLeft();
+
 				StaticEntity.getClient().makeRequest( request, requestCount );
+
+				if ( resetCount )
+					countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
+
 				isProcessing = false;
 			}
 		}
