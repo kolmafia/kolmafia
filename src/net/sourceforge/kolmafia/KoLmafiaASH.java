@@ -826,12 +826,15 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptScope result = null;
 		this.fileName = fileName;
 
-		File scriptFile = KoLmafiaCLI.findScriptFile( SCRIPT_LOCATION, fileName );
+		File scriptFile = KoLmafiaCLI.findScriptFile( fileName );
 		if ( scriptFile == null || !scriptFile.exists() )
 			throw new AdvancedScriptException( fileName + " could not be found" );
 
 		if ( imports.containsKey( scriptFile ) )
 			return startScope;
+
+		if ( getInterpreter( scriptFile ) == null )
+			throw new AdvancedScriptException( fileName + " could not be validated" );
 
 		imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
 		AdvancedScriptException error = null;

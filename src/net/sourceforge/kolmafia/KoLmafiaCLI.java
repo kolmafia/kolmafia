@@ -2045,21 +2045,16 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public static File findScriptFile( String filename )
 	{
-		File scriptFile = findScriptFile( new File( "scripts" ), filename );
-		if ( scriptFile != null )
+		File scriptFile = new File( filename );
+		if ( scriptFile.exists() )
 			return scriptFile;
 
-		scriptFile = new File( filename );
-		return scriptFile.exists() ? scriptFile : null;
+		return findScriptFile( SCRIPT_LOCATION, filename );
 	}
 
 	public static File findScriptFile( File directory, String filename )
 	{
 		File scriptFile = new File( directory, filename );
-		if ( scriptFile.exists() )
-			return scriptFile;
-
-		scriptFile = new File( directory, filename );
 		if ( scriptFile.exists() )
 			return scriptFile;
 
