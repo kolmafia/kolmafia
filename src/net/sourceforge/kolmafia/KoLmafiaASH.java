@@ -194,6 +194,34 @@ public class KoLmafiaASH extends StaticEntity
 	private static final TreeMap TIMESTAMPS = new TreeMap();
 	private static final TreeMap INTERPRETERS = new TreeMap();
 
+	public KoLmafiaASH()
+	{
+		this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
+	}
+
+	private KoLmafiaASH( KoLmafiaASH source, File scriptFile )
+	{
+		this.global = source.global;
+		this.imports = source.imports;
+		this.fileName = scriptFile.getPath();
+
+		try
+		{
+			this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
+
+			this.currentLine = getNextLine();
+			this.lineNumber = commandStream.getLineNumber();
+			this.nextLine = getNextLine();
+		}
+		catch ( Exception e )
+		{
+			// If any part of the initialization fails,
+			// then throw an exception.
+
+			throw new AdvancedScriptException( fileName + " could not be accessed" );
+		}
+	}
+
 	public static final KoLmafiaASH getInterpreter( File toExecute )
 	{
 		if ( toExecute == null )
@@ -737,14 +765,7 @@ public class KoLmafiaASH extends StaticEntity
 				String [] importList = importString.split( "," );
 
 				for ( int i = 0; i < importList.length; ++i )
-				{
-					KoLmafiaASH script = new KoLmafiaASH();
-
-					script.global = this.global;
-					script.imports = this.imports;
-
-					result = script.parseFile( importList[i], result, this.global.parentScope );
-				}
+					result = parseFile( importList[i] );
 			}
 		}
 
@@ -823,57 +844,37 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private ScriptScope parseFile( String fileName, ScriptScope startScope, ScriptScope parentScope )
+	private ScriptScope parseFile( String fileName )
 	{
-		ScriptScope result = null;
-
-		String oldName = this.fileName;
-		this.fileName = fileName;
-
 		File scriptFile = KoLmafiaCLI.findScriptFile( fileName );
 		if ( scriptFile == null || !scriptFile.exists() )
 			throw new AdvancedScriptException( fileName + " could not be found" );
 
 		if ( imports.containsKey( scriptFile ) )
-		{
-			this.fileName = oldName;
-			return startScope;
-		}
+			return this.global;
 
 		if ( getInterpreter( scriptFile ) == null )
 			throw new AdvancedScriptException( fileName + " could not be validated" );
 
 		imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
+
 		AdvancedScriptException error = null;
 
-		try
-		{
-			commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
-		}
-		catch ( Exception e )
-		{
-			throw new AdvancedScriptException( fileName + " could not be accessed" );
-		}
+		ScriptScope result = this.global;
+		KoLmafiaASH script = new KoLmafiaASH( this, scriptFile );
 
 		try
 		{
-			currentLine = getNextLine();
-			lineNumber = commandStream.getLineNumber();
-			nextLine = getNextLine();
-
-			result = parseScope( startScope, null, new ScriptVariableList(), parentScope, false );
+			result = script.parseScope( this.global, null, new ScriptVariableList(), this.global.parentScope, false );
 		}
 		catch ( Exception e )
 		{
 			error = new AdvancedScriptException( e );
 		}
 
-		this.fileName = oldName;
-
 		try
 		{
-			if ( commandStream != null )
-				commandStream.close();
+			script.commandStream.close();
 		}
 		catch ( Exception e )
 		{
@@ -884,8 +885,8 @@ public class KoLmafiaASH extends StaticEntity
 		if ( error != null )
 			throw error;
 
-		if ( currentLine != null )
-			throw new AdvancedScriptException( "Script parsing error " + getLineAndFile() );
+		if ( script.currentLine != null )
+			throw new AdvancedScriptException( "Script parsing error " + script.getLineAndFile() );
 
 		return result;
 	}
@@ -899,14 +900,7 @@ public class KoLmafiaASH extends StaticEntity
 		parseNotify();
 
 		while ( (importString = parseImport()) != null )
-		{
-			KoLmafiaASH script = new KoLmafiaASH();
-
-			script.global = this.global;
-			script.imports = this.imports;
-
-			result = script.parseFile( importString, result, parentScope );
-		}
+			result = parseFile( importString );
 
 		while ( true )
 		{
