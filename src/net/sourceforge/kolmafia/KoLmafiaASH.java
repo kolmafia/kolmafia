@@ -739,6 +739,8 @@ public class KoLmafiaASH extends StaticEntity
 				for ( int i = 0; i < importList.length; ++i )
 				{
 					KoLmafiaASH script = new KoLmafiaASH();
+
+					script.global = this.global;
 					script.imports = this.imports;
 
 					result = script.parseFile( importList[i], result, this.global.parentScope );
@@ -899,6 +901,8 @@ public class KoLmafiaASH extends StaticEntity
 		while ( (importString = parseImport()) != null )
 		{
 			KoLmafiaASH script = new KoLmafiaASH();
+
+			script.global = this.global;
 			script.imports = this.imports;
 
 			result = script.parseFile( importString, result, parentScope );
