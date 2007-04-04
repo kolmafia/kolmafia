@@ -574,6 +574,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			"http://kolmafia.sourceforge.net/",
 			" ",
 			"Current Running on " + System.getProperty( "os.name" ),
+			"Local Directory is " + System.getProperty( "user.dir" ),
 			"Using Java v" + System.getProperty( "java.runtime.version" )
 		};
 
