@@ -415,7 +415,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		int splitIndex = line.indexOf( ";" );
 
-		if ( splitIndex != -1 )
+		if ( !lowercase.startsWith( "set" ) && splitIndex != -1 )
 		{
 			String [] sequence = line.split( "\\s*;\\s*" );
 			boolean canExecuteIteratively = true;
@@ -4180,6 +4180,14 @@ public class KoLmafiaCLI extends KoLmafia
 		else
 		{
 			String adventureCountString = parameters.split( " " )[0];
+			adventureCount = adventureCountString.equals( "*" ) ? 0 : StaticEntity.parseInt( adventureCountString );
+
+			if ( adventureCount == 0 && !adventureCountString.equals( "0" ) && !adventureCountString.equals( "*" ) )
+			{
+				updateDisplay( ERROR_STATE, parameters + " does not exist in the adventure database." );
+				return;
+			}
+
 			String adventureName = parameters.substring( adventureCountString.length() ).trim();
 			adventure = AdventureDatabase.getAdventure( adventureName );
 
@@ -4188,8 +4196,6 @@ public class KoLmafiaCLI extends KoLmafia
 				updateDisplay( ERROR_STATE, parameters + " does not exist in the adventure database." );
 				return;
 			}
-
-			adventureCount = adventureCountString.equals( "*" ) ? 0 : StaticEntity.parseInt( adventureCountString );
 
 			if ( adventureCount <= 0 && adventure.getFormSource().equals( "shore.php" ) )
 				adventureCount += (int) Math.floor( KoLCharacter.getAdventuresLeft() / 3 );

@@ -1239,33 +1239,63 @@ public class AdventureDatabase extends KoLDatabase
 
 		public KoLAdventure find( String adventureName )
 		{
+			int matchCount = 0;
 			int adventureIndex = -1;
-
-			int length = -1;
-			int startIndex = -1;
-			int minimalLength = Integer.MAX_VALUE;
-			int minimalStartIndex = Integer.MAX_VALUE;
 
 			adventureName = getCanonicalName( adventureName );
 
+			// First, try substring matches when attempting to
+			// find the adventure location.
+
 			for ( int i = 0; i < size(); ++i )
 			{
-				startIndex = ((String)nameList.get(i)).indexOf( adventureName );
-				length = ((String)nameList.get(i)).length();
-
-				if ( startIndex != -1 )
+				if ( ((String)nameList.get(i)).indexOf( adventureName ) != -1 )
 				{
-					if ( startIndex < minimalStartIndex || (startIndex == minimalStartIndex && length < minimalLength) )
-					{
-						adventureIndex = i;
-						minimalLength = length;
-						minimalStartIndex = startIndex;
-					}
+					++matchCount;
+					adventureIndex = i;
 				}
 			}
 
-			return adventureIndex == -1 ? null : get( adventureIndex );
+			if ( matchCount > 1 )
+			{
+				for ( int i = 0; i < size(); ++i )
+					if ( ((String)nameList.get(i)).indexOf( adventureName ) != -1 )
+						RequestLogger.printLine( (String) nameList.get(i) );
 
+				KoLmafia.updateDisplay( ERROR_STATE, "Multiple matches against " + adventureName + "." );
+				return null;
+			}
+
+			if ( matchCount == 1 )
+				return get( adventureIndex );
+
+			// Next, try to do fuzzy matching.  If it matches
+			// exactly one area, use it.  Otherwise, if it
+			// matches more than once, do nothing.
+
+			for ( int i = 0; i < size(); ++i )
+			{
+				if ( fuzzyMatches( (String) nameList.get(i), adventureName ) )
+				{
+					++matchCount;
+					adventureIndex = i;
+				}
+			}
+
+			if ( matchCount > 1 )
+			{
+				for ( int i = 0; i < size(); ++i )
+					if ( fuzzyMatches( (String) nameList.get(i), adventureName ) )
+						RequestLogger.printLine( (String) nameList.get(i) );
+
+				KoLmafia.updateDisplay( ERROR_STATE, "Multiple matches against " + adventureName + "." );
+				return null;
+			}
+
+			if ( matchCount == 1 )
+				return get( adventureIndex );
+
+			return null;
 		}
 
 		public void clear()
