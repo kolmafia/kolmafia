@@ -824,6 +824,8 @@ public class KoLmafiaASH extends StaticEntity
 	private ScriptScope parseFile( String fileName, ScriptScope startScope, ScriptScope parentScope )
 	{
 		ScriptScope result = null;
+
+		String oldName = this.fileName;
 		this.fileName = fileName;
 
 		File scriptFile = KoLmafiaCLI.findScriptFile( fileName );
@@ -831,7 +833,10 @@ public class KoLmafiaASH extends StaticEntity
 			throw new AdvancedScriptException( fileName + " could not be found" );
 
 		if ( imports.containsKey( scriptFile ) )
+		{
+			this.fileName = oldName;
 			return startScope;
+		}
 
 		if ( getInterpreter( scriptFile ) == null )
 			throw new AdvancedScriptException( fileName + " could not be validated" );
@@ -860,6 +865,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			error = new AdvancedScriptException( e );
 		}
+
+		this.fileName = oldName;
 
 		try
 		{
