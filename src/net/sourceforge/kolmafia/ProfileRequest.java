@@ -296,12 +296,8 @@ public class ProfileRequest extends KoLRequest implements Comparable
 		// pvp ranking.
 
 		dataMatcher.find();
-		instance.ascensionCount = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
-
 		dataMatcher.find();
-
 		dataMatcher.find();
-		instance.pvpRank = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
 
 		// Next is the player's rank inside of this clan.
 		// Title was removed, so ... not visible here.
