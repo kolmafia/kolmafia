@@ -521,6 +521,7 @@ public class OptionsFrame extends KoLFrame
 		private JCheckBox useLargeFontSize;
 		private JCheckBox useTabOption;
 		private JCheckBox popupWhoOption;
+		private JCheckBox chatLogsEnabled;
 
 		private JCheckBox useChatMonitor, useSeparateChannel, useSeparatePrivate, greenScreenProtection;
 		private JCheckBox eSoluActiveOption, eSoluColorlessOption;
@@ -539,35 +540,40 @@ public class OptionsFrame extends KoLFrame
 			useSeparateChannel = new JCheckBox();
 			useSeparatePrivate = new JCheckBox();
 			greenScreenProtection = new JCheckBox();
+			chatLogsEnabled = new JCheckBox();
 
 			eSoluActiveOption = new JCheckBox();
 			eSoluColorlessOption = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[14];
+			VerifiableElement [] elements = new VerifiableElement[16];
+
 			elements[0] = new VerifiableElement( "Use larger font size for HTML displays", JLabel.LEFT, useLargeFontSize );
 			elements[1] = new VerifiableElement( "Use tabbed, rather than multi-window, chat", JLabel.LEFT, useTabOption );
 			elements[2] = new VerifiableElement( "Use a popup window for /friends and /who", JLabel.LEFT, popupWhoOption );
-			elements[3] = new VerifiableElement( "Ignore all event messages in KoLmafia chat", JLabel.LEFT, greenScreenProtection );
 
-			elements[4] = new VerifiableElement();
+			elements[3] = new VerifiableElement();
+			elements[4] = new VerifiableElement( "Ignore all event messages in KoLmafia chat", JLabel.LEFT, greenScreenProtection );
+			elements[5] = new VerifiableElement( "Log chats when using KoLmafia (requires restart)", JLabel.LEFT, chatLogsEnabled );
 
-			elements[5] = new VerifiableElement( "Add an \"as KoL would show it\" display", JLabel.LEFT, useChatMonitor );
-			elements[6] = new VerifiableElement( "Put different channels into separate displays", JLabel.LEFT, useSeparateChannel );
-			elements[7] = new VerifiableElement( "Put different private messages into separate displays", JLabel.LEFT, useSeparatePrivate );
+			elements[6] = new VerifiableElement();
 
-			elements[8] = new VerifiableElement();
+			elements[7] = new VerifiableElement( "Add an \"as KoL would show it\" display", JLabel.LEFT, useChatMonitor );
+			elements[8] = new VerifiableElement( "Put different channels into separate displays", JLabel.LEFT, useSeparateChannel );
+			elements[9] = new VerifiableElement( "Put different private messages into separate displays", JLabel.LEFT, useSeparatePrivate );
 
-			elements[9] = new VerifiableElement( "Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, eSoluActiveOption );
-			elements[10] = new VerifiableElement( "Switch eSolu scriptlet to colorless mode", JLabel.LEFT, eSoluColorlessOption );
+			elements[10] = new VerifiableElement();
 
-			elements[11] = new VerifiableElement();
+			elements[11] = new VerifiableElement( "Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, eSoluActiveOption );
+			elements[12] = new VerifiableElement( "Switch eSolu scriptlet to colorless mode", JLabel.LEFT, eSoluColorlessOption );
+
+			elements[13] = new VerifiableElement();
 
 			outerGradient = new TabColorChanger( "outerChatColor" );
-			elements[12] = new VerifiableElement( "Change the outer portion of highlighted tab gradient",
+			elements[14] = new VerifiableElement( "Change the outer portion of highlighted tab gradient",
 				JLabel.LEFT, outerGradient );
 
 			innerGradient = new TabColorChanger( "innerChatColor" );
-			elements[13] = new VerifiableElement( "Change the inner portion of highlighted tab gradient",
+			elements[15] = new VerifiableElement( "Change the inner portion of highlighted tab gradient",
 				JLabel.LEFT, innerGradient );
 
 			setContent( elements );
@@ -577,6 +583,7 @@ public class OptionsFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			StaticEntity.setProperty( "useLargerFonts", String.valueOf( useLargeFontSize.isSelected() ) );
+			StaticEntity.setProperty( "logChatMessages", String.valueOf( chatLogsEnabled.isSelected() ) );
 
 			if ( useLargeFontSize.isSelected() )
 				LimitedSizeChatBuffer.useLargerFonts();
@@ -601,6 +608,8 @@ public class OptionsFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			useLargeFontSize.setSelected( StaticEntity.getBooleanProperty( "useLargerFonts" ) );
+			chatLogsEnabled.setSelected( StaticEntity.getBooleanProperty( "logChatMessages" ) );
+
 			useTabOption.setSelected( StaticEntity.getBooleanProperty( "useTabbedChatFrame" ) );
 			popupWhoOption.setSelected( StaticEntity.getBooleanProperty( "useContactsFrame" ) );
 			greenScreenProtection.setSelected( StaticEntity.getBooleanProperty( "greenScreenProtection" ) );

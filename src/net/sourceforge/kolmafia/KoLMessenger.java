@@ -714,7 +714,7 @@ public abstract class KoLMessenger extends StaticEntity
 			if ( rollingIndex == ROLLING_LIMIT )
 				rollingIndex = 0;
 
-			if ( message.indexOf( "<font color=green>" ) == -1 )
+			if ( !isGreenMessage( message ) )
 				clanMessages.set( rollingIndex++, message );
 		}
 	}
@@ -808,7 +808,10 @@ public abstract class KoLMessenger extends StaticEntity
 			}
 
 			LimitedSizeChatBuffer buffer = getChatBuffer( bufferKey );
-			buffer.setActiveLogFile( getChatLogName( bufferKey ) );
+
+			if ( StaticEntity.getBooleanProperty( "logChatMessages" ) )
+				buffer.setActiveLogFile( getChatLogName( bufferKey ) );
+
 			buffer.append( displayHTML );
 
 			if ( useTabbedChat )
@@ -824,6 +827,16 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 	}
 
+	private static boolean isGreenMessage( String message )
+	{
+		return message.startsWith( "<a target=mainpane href=\"messages.php\">" ) ||
+			message.indexOf( "has proposed a trade" ) != -1 || message.indexOf( "has cancelled a trade" ) != -1 ||
+			message.indexOf( "has responded to a trade" ) != -1 || message.indexOf( "has declined a trade" ) != -1 ||
+			message.indexOf( "has accepted a trade" ) != -1 || message.indexOf( "has given you a box of sunshine." ) != -1 ||
+			message.indexOf( "has played" ) != -1 || message.indexOf( "has littered toilet paper" ) != -1 ||
+			message.indexOf( "with a brick." ) != -1 || message.indexOf( "has hit you in the face with a cream pie" ) != -1;
+	}
+
 	public static String formatChatMessage( String channel, String message, String bufferKey )
 	{
 		StringBuffer displayHTML = new StringBuffer( message );
@@ -835,12 +848,7 @@ public abstract class KoLMessenger extends StaticEntity
 		boolean isWhoMessage = message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 ||
 			message.startsWith( "<a class=nounder" ) || message.startsWith( "<a target=mainpane href=\'" );
 
-		boolean isGreenMessage = message.startsWith( "<a target=mainpane href=\"messages.php\">" ) ||
-			message.indexOf( "has proposed a trade" ) != -1 || message.indexOf( "has cancelled a trade" ) != -1 ||
-			message.indexOf( "has responded to a trade" ) != -1 || message.indexOf( "has declined a trade" ) != -1 ||
-			message.indexOf( "has accepted a trade" ) != -1 || message.indexOf( "has given you a box of sunshine." ) != -1 ||
-			message.indexOf( "has played" ) != -1 || message.indexOf( "has littered toilet paper" ) != -1 ||
-			message.indexOf( "with a brick." ) != -1 || message.indexOf( "has hit you in the face with a cream pie" ) != -1;
+		boolean isGreenMessage = isGreenMessage( message );
 
 		if ( isWhoMessage )
 		{
@@ -1027,7 +1035,8 @@ public abstract class KoLMessenger extends StaticEntity
 					SwingUtilities.invokeLater( new CreateFrameRunnable( ChatFrame.class, new String [] { channel } ) );
 			}
 
-			buffer.setActiveLogFile( getChatLogName( channel ) );
+			if ( StaticEntity.getBooleanProperty( "logChatMessages" ) )
+				buffer.setActiveLogFile( getChatLogName( channel ) );
 
 			if ( highlighting && !channel.equals( "[high]" ) )
 				buffer.applyHighlights();
