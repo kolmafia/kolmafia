@@ -2101,42 +2101,47 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( scriptFile.exists() )
 			return scriptFile.getAbsoluteFile();
 
-		return findScriptFile( SCRIPT_LOCATION, filename );
+		return findScriptFile( SCRIPT_LOCATION, filename, false );
 	}
 
-	public static File findScriptFile( File directory, String filename )
+	private static File findScriptFile( File directory, String filename )
+	{	return findScriptFile( directory, filename, false );
+	}
+
+	private static File findScriptFile( File directory, String filename, boolean isFallback )
 	{
 		File scriptFile = new File( directory, filename );
+
 		if ( scriptFile.exists() )
 			return scriptFile.getAbsoluteFile();
 
-		if ( filename.indexOf( "." ) == -1 && filename.indexOf( "~" ) == -1 )
+		if ( !isFallback )
 		{
-			scriptFile = findScriptFile( directory, filename + ".cli" );
+			scriptFile = findScriptFile( directory, filename + ".cli", true );
 			if ( scriptFile != null )
 				return scriptFile;
 
-			scriptFile = findScriptFile( directory, filename + ".txt" );
+			scriptFile = findScriptFile( directory, filename + ".txt", true );
 			if ( scriptFile != null )
 				return scriptFile;
 
-			scriptFile = findScriptFile( directory, filename + ".ash" );
+			scriptFile = findScriptFile( directory, filename + ".ash", true );
 			if ( scriptFile != null )
 				return scriptFile;
 
-			scriptFile = findScriptFile( directory, filename + "~" );
+			scriptFile = findScriptFile( directory, filename + "~", true );
 			if ( scriptFile != null )
 				return scriptFile;
 
-			scriptFile = findScriptFile( directory, filename + ".cli~" );
+			scriptFile = findScriptFile( directory, filename + ".cli~", true );
 			if ( scriptFile != null )
 				return scriptFile;
 
-			scriptFile = findScriptFile( directory, filename + ".txt~" );
+			scriptFile = findScriptFile( directory, filename + ".txt~", true );
 			if ( scriptFile != null )
 				return scriptFile;
 
-			scriptFile = findScriptFile( directory, filename + ".ash~" );
+			scriptFile = findScriptFile( directory, filename + ".ash~", true );
 			if ( scriptFile != null )
 				return scriptFile;
 		}
@@ -2146,7 +2151,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( contents[i].isDirectory() )
 			{
-				scriptFile = findScriptFile( contents[i], filename );
+				scriptFile = findScriptFile( contents[i], filename, false );
 				if ( scriptFile != null )
 					return scriptFile;
 			}
