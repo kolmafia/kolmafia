@@ -1249,6 +1249,9 @@ public class AdventureDatabase extends KoLDatabase
 
 			for ( int i = 0; i < size(); ++i )
 			{
+				if ( ((String)nameList.get(i)).equals( adventureName ) )
+					return get( i );
+
 				if ( ((String)nameList.get(i)).indexOf( adventureName ) != -1 )
 				{
 					++matchCount;
