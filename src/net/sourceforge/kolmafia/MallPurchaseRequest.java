@@ -373,20 +373,23 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		int neededOutfit = 0;
 
 		if ( npcStoreId.equals( "b" ) )
+		{
 			neededOutfit = 1;
-
-		if ( npcStoreId.equals( "g" ) )
+		}
+		else if ( npcStoreId.equals( "g" ) )
+		{
 			neededOutfit = 5;
-
-		if ( npcStoreId.equals( "h" ) )
+		}
+		else if ( npcStoreId.equals( "h" ) )
+		{
 			neededOutfit = 2;
-
-		if ( neededOutfit == 0 )
+		}
+		else
 		{
 			// Maybe you can put on some Travoltan Trousers to decrease the
 			// cost of the purchase.
 
-			if ( !KoLCharacter.isHardcore() && !KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( TROUSERS ) && KoLCharacter.hasItem( TROUSERS ) )
+			if ( !KoLCharacter.isHardcore() && !KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( TROUSERS ) && inventory.contains( TROUSERS ) )
 				(new EquipmentRequest( TROUSERS, KoLCharacter.PANTS )).run();
 
 			return true;
