@@ -415,39 +415,89 @@ public class KoLmafiaCLI extends KoLmafia
 
 		int splitIndex = line.indexOf( ";" );
 
-		if ( !lowercase.startsWith( "set" ) && splitIndex != -1 )
+		if ( splitIndex != -1 )
 		{
-			String [] sequence = line.split( "\\s*;\\s*" );
-			boolean canExecuteIteratively = true;
+			String current;
+			String remainder = line;
 
-			for ( int i = 0; canExecuteIteratively && i < sequence.length; ++i )
-				canExecuteIteratively = !sequence[i].toLowerCase().startsWith( "if " );
+			// Determine all the individual statements which need to be
+			// executed based on the existence of the 'set' command, which
+			// may wrap things in quotes.
 
-			if ( canExecuteIteratively )
+			ArrayList sequenceList = new ArrayList();
+
+			do
 			{
-				// Handle multi-line sequences by executing them one after
-				// another.  This is ideal, but not always possible.
+				current = remainder.toLowerCase();
 
-				for ( int i = 0; i < sequence.length && permitsContinue(); ++i )
-					executeLine( sequence[i] );
+				if ( current.startsWith( "set" ) )
+				{
+					int quoteIndex = lowercase.indexOf( "\"" );
+					if ( quoteIndex != -1 && quoteIndex < splitIndex )
+					{
+						quoteIndex = lowercase.indexOf( "\"", splitIndex );
+						if ( quoteIndex != -1 )
+							splitIndex = lowercase.indexOf( ";", quoteIndex );
+					}
+				}
+
+				current = remainder.substring( 0, splitIndex );
+
+				if ( current.length() > 0 )
+					sequenceList.add( current );
+
+				remainder = remainder.substring( splitIndex + 1 ).trim();
 			}
-			else
+			while ( remainder.length() > 0 );
+
+			// If there are multiple statements to be executed, then check if there
+			// are any conditional statements.  If there are, you will need to run
+			// everything recursively.  Otherwise, an iterative approach works best.
+
+			if ( sequenceList.size() > 1 )
 			{
-				// Handle multi-line sequences by executing the first command
-				// and using recursion to execute the remainder of the line.
-				// This ensures that nested if-statements are preserved.
+				String [] sequence = new String[ sequenceList.size() ];
+				sequenceList.toArray( sequence );
 
-				String part1 = line.substring( 0, splitIndex ).trim();
-				String part2 = line.substring( splitIndex + 1 ).trim();
+				boolean canExecuteIteratively = true;
 
-				executeLine( part1 );
+				for ( int i = 0; canExecuteIteratively && i < sequence.length; ++i )
+					canExecuteIteratively = !sequence[i].toLowerCase().startsWith( "if " ) && !sequence[i].toLowerCase().startsWith( "while " );
 
-				if ( permitsContinue() )
-					executeLine( part2 );
+				if ( canExecuteIteratively )
+				{
+					// Handle multi-line sequences by executing them one after
+					// another.  This is ideal, but not always possible.
+
+					for ( int i = 0; i < sequence.length && permitsContinue(); ++i )
+						executeLine( sequence[i] );
+				}
+				else
+				{
+					// Handle multi-line sequences by executing the first command
+					// and using recursion to execute the remainder of the line.
+					// This ensures that nested if-statements are preserved.
+
+					String part1 = line.substring( 0, sequence[0].length() ).trim();
+					String part2 = line.substring( sequence[0].length() + 1 ).trim();
+
+					executeLine( part1 );
+
+					if ( permitsContinue() )
+						executeLine( part2 );
+				}
+
+				previousLine = line;
+				return;
 			}
 
-			previousLine = line;
-			return;
+			// If there are zero or one, then you either do nothing or you
+			// continue on with the revised line.
+
+			if ( sequenceList.isEmpty() )
+				return;
+
+			line = (String) sequenceList.get(0);
 		}
 
 		// Win game sanity check.  This will find its
@@ -848,6 +898,8 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 
 			String value = parameters.substring( splitIndex + 1 ).trim();
+			if ( value.startsWith( "\"" ) )
+				value = value.substring( 1, value.endsWith( "\"" ) ? value.length() - 1 : value.length() );
 
 			if ( name.equals( "battleAction" ) )
 			{
