@@ -2099,7 +2099,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		File scriptFile = new File( filename );
 		if ( scriptFile.exists() )
-			return scriptFile;
+			return scriptFile.getAbsoluteFile();
 
 		return findScriptFile( SCRIPT_LOCATION, filename );
 	}
@@ -2108,7 +2108,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		File scriptFile = new File( directory, filename );
 		if ( scriptFile.exists() )
-			return scriptFile;
+			return scriptFile.getAbsoluteFile();
 
 		if ( filename.indexOf( "." ) == -1 && filename.indexOf( "~" ) == -1 )
 		{
