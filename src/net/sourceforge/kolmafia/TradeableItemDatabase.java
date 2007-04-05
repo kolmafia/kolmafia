@@ -65,7 +65,10 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static Map spleenHitById = new TreeMap();
 
 	private static Map baseAdvsByName = new TreeMap();
-	private static Map adjustedAdvsByName = new TreeMap();
+	private static Map zodiacAdvsByName = new TreeMap();
+	private static Map effectAdvsByName = new TreeMap();
+	private static Map optimalAdvsByName = new TreeMap();
+
 	private static Map muscleByName = new TreeMap();
 	private static Map mysticalityByName = new TreeMap();
 	private static Map moxieByName = new TreeMap();
@@ -255,7 +258,6 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		// Adventure gains from Ode/Milk based on information
 		// provided on the Hardcore Oxygenation forums.
-
 		// http://forums.hardcoreoxygenation.com/viewtopic.php?t=2321
 
 		int gainSum = 0;
@@ -292,14 +294,19 @@ public class TradeableItemDatabase extends KoLDatabase
 			}
 		}
 
-		// After calculating the adjusted value, put both values
-		// into the adventure map.
+		// Adventure gains from zodiac signs based on information
+		// provided on the Iocaine Powder forums.
+		// http://www.iocainepowder.org/forums/viewtopic.php?t=2742
 
 		int result = (start + end) * 10 / 2;
-		baseAdvsByName.put( name, String.valueOf( "+" + ((float) result / 10) ) );
+
+		baseAdvsByName.put( name, String.valueOf( "+" + (result / 10.0f) ) );
+		zodiacAdvsByName.put( name, String.valueOf( "+" + (result * 1.1f / 10.0f) ) );
 
 		result = (int) (((float) gainSum) * 10.0f / ((float) (end - start + 1)));
-		adjustedAdvsByName.put( name, String.valueOf( "+" + ((float) result / 10) ) );
+
+		effectAdvsByName.put( name, String.valueOf( "+" + (result / 10.0f) ) );
+		optimalAdvsByName.put( name, String.valueOf( "+" + (result * 1.1f / 10.0f) ) );
 	}
 
 	private static String extractRange( String range )
@@ -645,12 +652,34 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		String range = null;
 
-		if ( fullness > 0 && activeEffects.contains( GOT_MILK ) )
-			range = (String) adjustedAdvsByName.get( getCanonicalName( name ) );
-		else if ( inebriety > 0 && activeEffects.contains( ODE ) )
-			range = (String) adjustedAdvsByName.get( getCanonicalName( name ) );
-		else
-			range = (String) baseAdvsByName.get( getCanonicalName( name ) );
+		if ( fullness > 0 )
+		{
+			boolean hasMilk = activeEffects.contains( GOT_MILK );
+			boolean isOpossum = KoLCharacter.getSign().indexOf( "Opossum" ) != -1;
+
+			if ( hasMilk && isOpossum )
+				range = (String) optimalAdvsByName.get( getCanonicalName( name ) );
+			else if ( isOpossum )
+				range = (String) zodiacAdvsByName.get( getCanonicalName( name ) );
+			else if ( hasMilk )
+				range = (String) effectAdvsByName.get( getCanonicalName( name ) );
+			else
+				range = (String) baseAdvsByName.get( getCanonicalName( name ) );
+		}
+		else if ( inebriety > 0 )
+		{
+			boolean hasOde = activeEffects.contains( ODE );
+			boolean isBlender = KoLCharacter.getSign().indexOf( "Blender" ) != -1;
+
+			if ( hasOde && isBlender )
+				range = (String) optimalAdvsByName.get( getCanonicalName( name ) );
+			else if ( isBlender )
+				range = (String) zodiacAdvsByName.get( getCanonicalName( name ) );
+			else if ( hasOde )
+				range = (String) effectAdvsByName.get( getCanonicalName( name ) );
+			else
+				range = (String) baseAdvsByName.get( getCanonicalName( name ) );
+		}
 
 		return range == null ? "+0.0" : range;
 	}
