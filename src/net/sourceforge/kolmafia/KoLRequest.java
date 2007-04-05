@@ -929,13 +929,6 @@ public class KoLRequest extends Job implements KoLConstants
 			}
 
 			this.formConnection = (HttpURLConnection) formURL.openConnection();
-
-			if ( System.getProperty( "proxySet" ).equals( "true" ) && !this.formConnection.usingProxy() )
-			{
-				responseCode = 404;
-				KoLmafia.updateDisplay( ABORT_STATE, "Failed to connect to proxy server" );
-				return false;
-			}
 		}
 		catch ( Exception e )
 		{
