@@ -1034,7 +1034,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "verify" ) || command.equals( "validate" ) || command.equals( "using" ) || command.equals( "namespace" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
+		if ( command.equals( "verify" ) || command.equals( "validate" ) || command.equals( "check" ) || command.equals( "using" ) || command.equals( "namespace" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
 		{
 			executeScriptCommand( command, parameters );
 			return;
@@ -2260,7 +2260,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// If there's an alternate namespace being
 				// used, then be sure to switch.
 
-				if ( command.equals( "validate" ) || command.equals( "verify" ) )
+				if ( command.equals( "validate" ) || command.equals( "verify" ) || command.equals( "check" ) )
 				{
 					KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( scriptFile );
 					if ( interpreter != null )
