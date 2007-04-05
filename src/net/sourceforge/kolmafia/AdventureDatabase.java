@@ -1018,11 +1018,7 @@ public class AdventureDatabase extends KoLDatabase
 	public static final boolean retrieveItem( AdventureResult item, boolean force )
 	{
 		RequestThread.openRequestSequence();
-
-		SpecialOutfit.createImplicitCheckpoint();
 		boolean result = acquireItem( item, force );
-		SpecialOutfit.restoreImplicitCheckpoint();
-
 		RequestThread.closeRequestSequence();
 
 		return result;
@@ -1087,7 +1083,9 @@ public class AdventureDatabase extends KoLDatabase
 		// ingredients (if possible).
 
 		ItemCreationRequest creator = ItemCreationRequest.getInstance( item.getItemId() );
-		if ( creator != null )
+		boolean shouldCreate = creator != null && ConcoctionsDatabase.getMixingMethod( item.getItemId() ) != NOCREATE;
+
+		if ( shouldCreate )
 		{
 			creator.setQuantityNeeded( Math.min( missingCount, creator.getQuantityPossible() ) );
 			RequestThread.postRequest( creator );
@@ -1163,12 +1161,10 @@ public class AdventureDatabase extends KoLDatabase
 			}
 		}
 
-		// If it's creatable, rather than seeing what main ingredient is missing,
-		// show what sub-ingredients are missing; but only do this if it's not
-		// clovers or dough, which causes infinite recursion.  Also don't do this
-		// for white pixels, as that causes confusion.
+		// If it's creatable, and you have at least one ingredient, see if you
+		// can make it via recursion.
 
-		if ( creator != null && ConcoctionsDatabase.getMixingMethod( item.getItemId() ) != NOCREATE )
+		if ( shouldCreate && ConcoctionsDatabase.hasAnyIngredient( item.getItemId() ) )
 		{
 			switch ( item.getItemId() )
 			{
@@ -1182,13 +1178,9 @@ public class AdventureDatabase extends KoLDatabase
 
 			default:
 
-				if ( ConcoctionsDatabase.hasAnyIngredient( item.getItemId() ) )
-				{
-					creator.setQuantityNeeded( missingCount );
-					RequestThread.postRequest( creator );
-
-					return KoLCharacter.hasItem( item );
-				}
+				creator.setQuantityNeeded( missingCount );
+				RequestThread.postRequest( creator );
+				return KoLCharacter.hasItem( item );
 			}
 		}
 
@@ -1207,8 +1199,29 @@ public class AdventureDatabase extends KoLDatabase
 			}
 		}
 
-		if ( missingCount <= 0 )
-			return true;
+		// If it's creatable, rather than seeing what main ingredient is missing,
+		// show what sub-ingredients are missing.
+
+		if ( shouldCreate )
+		{
+			switch ( item.getItemId() )
+			{
+			case 24:	// ten-leaf clover
+			case 196:	// disassembled clover
+			case 159:	// wad of dough
+			case 301:	// flat dough
+			case 459:	// white pixel
+
+				break;
+
+			default:
+
+				creator.setQuantityNeeded( missingCount );
+				RequestThread.postRequest( creator );
+				return KoLCharacter.hasItem( item );
+			}
+		}
+
 
 		// If the item does not exist in sufficient quantities,
 		// then notify the user that there aren't enough items

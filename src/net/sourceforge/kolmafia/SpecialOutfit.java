@@ -48,9 +48,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	private static Stack implicitPoints = new Stack();
 	private static Stack explicitPoints = new Stack();
 
-	private static AdventureResult [] implicit = new AdventureResult[ KoLCharacter.FAMILIAR ];
-	private static AdventureResult [] explicit = new AdventureResult[ KoLCharacter.FAMILIAR ];
-
 	private int outfitId;
 	private String outfitName;
 	private ArrayList pieces;
@@ -171,11 +168,12 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void createExplicitCheckpoint()
 	{
-		explicitPoints.push( explicit );
-		explicit = new AdventureResult[ KoLCharacter.FAMILIAR ];
+		AdventureResult [] explicit = new AdventureResult[ KoLCharacter.FAMILIAR ];
 
 		for ( int i = 0; i < explicit.length; ++i )
 			explicit[i] = KoLCharacter.getEquipment(i);
+
+		explicitPoints.push( explicit );
 	}
 
 	/**
@@ -185,9 +183,10 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void restoreExplicitCheckpoint()
 	{
-		restoreCheckpoint( explicit );
-		if ( !explicitPoints.isEmpty() )
-			explicit = (AdventureResult []) explicitPoints.pop();
+		if ( explicitPoints.isEmpty() )
+			return;
+
+		restoreCheckpoint( (AdventureResult []) explicitPoints.pop() );
 	}
 
 	/**
@@ -197,11 +196,12 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void createImplicitCheckpoint()
 	{
-		implicitPoints.push( implicit );
-		implicit = new AdventureResult[ KoLCharacter.FAMILIAR ];
+		AdventureResult [] implicit = new AdventureResult[ KoLCharacter.FAMILIAR ];
 
 		for ( int i = 0; i < implicit.length; ++i )
 			implicit[i] = KoLCharacter.getEquipment(i);
+
+		implicitPoints.push( implicit );
 	}
 
 	/**
@@ -211,11 +211,13 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void restoreImplicitCheckpoint()
 	{
+		if ( implicitPoints.isEmpty() )
+			return;
+
+		AdventureResult [] implicit = (AdventureResult []) implicitPoints.pop();
+
 		if ( !KoLmafia.isRunningBetweenBattleChecks() && !MoodSettings.isExecuting() )
 			restoreCheckpoint( implicit );
-
-		if ( !implicitPoints.isEmpty() )
-			implicit = (AdventureResult []) implicitPoints.pop();
 	}
 
 	/**

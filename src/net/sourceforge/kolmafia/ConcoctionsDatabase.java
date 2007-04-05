@@ -750,9 +750,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		AdventureResult [] ingredients = getStandardIngredients( itemId );
 
-		if ( ingredients.length == 1 )
-			return false;
-
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			if ( inventory.contains( ingredients[i] ) || closet.contains( ingredients[i] ) )
