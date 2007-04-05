@@ -147,14 +147,6 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 	}
 
-	public void getBreakfast( boolean checkSettings )
-	{
-		if ( this == StaticEntity.getClient() )
-			super.getBreakfast( checkSettings );
-		else
-			StaticEntity.getClient().getBreakfast( checkSettings );
-	}
-
 	/**
 	 * Utility method used to prompt the user for their login and
 	 * password.  Later on, when profiles are added, prompting
@@ -1169,7 +1161,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "breakfast" ) )
 		{
-			getBreakfast( false );
+			StaticEntity.getClient().getBreakfast( false, true );
 			return;
 		}
 
