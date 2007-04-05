@@ -35,6 +35,7 @@ yellow traffic cone	Sleaze: +20
 
 acoustic guitarrr	Meat: +2.0
 antique spear	Init: -30.0
+bar whip	Weight: +2
 broken sword	Spooky: +10
 bubble bauble bow	Item: +5.0
 can cannon	ML: +3
@@ -64,6 +65,7 @@ vampire duck-on-a-string	Item: +5.0
 1-ball	Init: +5.0
 7-ball	Meat: +5.0
 antique shield	Init: -10.0, DR: 15
+barskin buckler	DR: 1
 bobble-hip hula elf doll	Meat: +15.0
 box	Meat: +1.0
 box-in-the-box	Meat: +2.0

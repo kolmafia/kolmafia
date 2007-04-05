@@ -403,6 +403,7 @@ hippo whip	13	hippopotamus skin	whip kit
 penguin whip	13	penguin skin	whip kit
 yak whip	13	yak skin	whip kit
 gnauga hide whip	13	gnauga hide	whip kit
+bar whip	13	bar skin	whip kit
 
 # Meat-smithing weapons.  These items are grouped based on the
 # type of base material used in their creation.
@@ -508,6 +509,7 @@ fez of etymology	4	basic meat fez	facsimile dictionary
 
 # Pants made of hides of various sorts.
 
+barskin loincloth	4	bar skin	pants kit
 furry pants	14	furry fur	pants kit
 hippopotamus pants	14	hippopotamus skin	pants kit
 penguin shorts	14	penguin skin	pants kit
@@ -539,6 +541,7 @@ hippo skin buckler	14	hippopotamus skin	buckler buckle
 penguin skin buckler	14	penguin skin	buckler buckle
 yakskin buckler	14	yak skin	buckler buckle
 gnauga hide buckler	14	gnauga hide	buckler buckle
+barskin buckler	14	bar skin	buckler buckle
 
 # Things made of special turtles
 cardboard box turtle	14	cardboard ore	box turtle
