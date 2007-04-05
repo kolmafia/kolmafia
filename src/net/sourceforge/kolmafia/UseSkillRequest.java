@@ -134,7 +134,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			int mpCost = ClassSkillsDatabase.getMPConsumptionById( 18 );
 
-			while ( mpCost >= mpRemaining )
+			while ( mpCost <= mpRemaining )
 			{
 				++count;
 				mpRemaining -= mpCost;
