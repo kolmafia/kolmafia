@@ -2847,11 +2847,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void runBetweenBattleChecks( boolean isFullCheck )
-	{	runBetweenBattleChecks( isFullCheck, true );
-	}
-
-	public void runBetweenBattleChecks( boolean isFullCheck, boolean isHealthCheck )
-	{	runBetweenBattleChecks( isFullCheck, isFullCheck, isHealthCheck || isFullCheck, isFullCheck );
+	{	runBetweenBattleChecks( isFullCheck, isFullCheck, isFullCheck, isFullCheck );
 	}
 
 	public void runBetweenBattleChecks( boolean isScriptCheck, boolean isMoodCheck, boolean isHealthCheck, boolean isManaCheck )
@@ -2889,7 +2885,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( isMoodCheck )
 			MoodSettings.execute();
 
-		if ( isHealthCheck )
+		if ( isHealthCheck || KoLCharacter.getCurrentHP() == 0 )
 			recoverHP();
 
 		if ( isManaCheck )
