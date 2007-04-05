@@ -92,8 +92,7 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static KoLMailMessage addMessage( String boxname, String message )
 	{
-		SortedListModel mailbox = (SortedListModel) mailboxes.get(
-			boxname.equals( "Inbox" ) && message.indexOf( "initiated a PvP attack against you" ) != -1 ? "PvP" : boxname );
+		SortedListModel mailbox = (SortedListModel) mailboxes.get( boxname );
 
 		KoLMailMessage toadd = new KoLMailMessage( message );
 
@@ -108,7 +107,7 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static void deleteMessage( String boxname, KoLMailMessage message )
 	{
-		RequestThread.postRequest( new MailboxRequest( boxname.equals( "PvP" ) ? "Inbox" : boxname, message, "delete" ) );
+		RequestThread.postRequest( new MailboxRequest( boxname, message, "delete" ) );
 
 		SortedListModel mailbox = (SortedListModel) mailboxes.get( boxname );
 		int messageIndex = mailbox.indexOf( message );
@@ -123,7 +122,7 @@ public abstract class KoLMailManager extends StaticEntity
 		if ( messages.length == 0 )
 			return;
 
-		RequestThread.postRequest( new MailboxRequest( boxname.equals( "PvP" ) ? "Inbox" : boxname, messages, "delete" ) );
+		RequestThread.postRequest( new MailboxRequest( boxname, messages, "delete" ) );
 
 		int messageIndex;
 		SortedListModel mailbox = (SortedListModel) mailboxes.get( boxname );
