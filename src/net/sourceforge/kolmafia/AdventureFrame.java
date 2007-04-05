@@ -174,10 +174,8 @@ public class AdventureFrame extends KoLFrame
 		if ( !conditions.isEmpty() )
 			return;
 
-		updateConditions = false;
 		zoneSelect.setSelectedItem( AdventureDatabase.ZONE_DESCRIPTIONS.get( location.getParentZone() ) );
 		locationSelect.setSelectedValue( location, true );
-		updateConditions = true;
 	}
 
 	public boolean useSidePane()
@@ -258,9 +256,6 @@ public class AdventureFrame extends KoLFrame
 
 	private void fillDefaultConditions()
 	{
-		if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
-			return;
-
 		KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();
 		if ( location == null )
 			return;

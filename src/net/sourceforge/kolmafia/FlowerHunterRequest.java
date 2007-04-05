@@ -185,9 +185,6 @@ public class FlowerHunterRequest extends KoLRequest
 		}
 
 		Collections.sort( searchResults );
-
-		if ( !StaticEntity.getBooleanProperty( "sortPvpResults" ) )
-			Collections.reverse( searchResults );
 	}
 
 	private void parseAttack()

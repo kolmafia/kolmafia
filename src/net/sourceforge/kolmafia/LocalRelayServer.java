@@ -572,8 +572,8 @@ public class LocalRelayServer implements Runnable
 			CharpaneRequest.createCheckpoint();
 			int initialMP = KoLCharacter.getCurrentMP();
 
-			StaticEntity.getClient().runBetweenBattleChecks( StaticEntity.getBooleanProperty( "relayRunsBetweenScript" ),
-				StaticEntity.getBooleanProperty( "relayMaintainsMoods" ), StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
+			StaticEntity.getClient().runBetweenBattleChecks( true, StaticEntity.getBooleanProperty( "relayMaintainsMoods" ),
+				StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
 
 			return CharpaneRequest.clearedCheckpoint() || initialMP != KoLCharacter.getCurrentMP();
 		}

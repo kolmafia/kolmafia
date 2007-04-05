@@ -134,7 +134,9 @@ public class OptionsFrame extends KoLFrame
 			{ "logReverseOrder", "Log adventures left instead of adventures used" },
 			{ "logBattleAction", "Session log records attacks for each round" },
 			{ "logFamiliarActions", "Session log records actions made by familiars" },
+
 			{},
+
 			{ "logGainMessages", "Session log records HP/MP/meat changes" },
 			{ "logStatGains", "Session log records stat gains" },
 			{ "logAcquiredItems", "Session log records items acquired" },
@@ -193,13 +195,15 @@ public class OptionsFrame extends KoLFrame
 		{
 			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
 			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
-			{ "relayAddsMissingEffects", "Display mood trigger buffs with zero duration" },
-			{ "relayAddsMoodRefreshLink", "Add mood link as needed (overrides MP burn link)" },
 			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
 
 			{ "", "" },
 
-			{ "relayRunsBetweenScript", "Run override script during manual adventuring" },
+			{ "relayAddsMissingEffects", "Display mood triggers with zero duration" },
+			{ "relayAddsMoodRefreshLink", "Add mood links (overrides MP burn links)" },
+
+			{ "", "" },
+
 			{ "relayMaintainsMoods", "Maintain moods during manual adventuring" },
 			{ "relayMaintainsHealth", "Maintain health during manual adventuring" },
 			{ "relayMaintainsMana", "Maintain mana during manual adventuring" },
@@ -288,36 +292,27 @@ public class OptionsFrame extends KoLFrame
 		{
 			{ "showAllRequests", "Show all requests in a mini-browser window" },
 			{ "allowRequestQueueing", "Enable request queueing (may cause hanging)" },
-			{ "allowUnsafePickpocket", "Allow unconditional pickpocket with suboptimal dodge" },
 			{ "useLowBandwidthRadio", "Use lower bandwidth server for KoL Radio" },
 
 			{ "", "" },
 
 			{ "avoidInvertingTabs", "Do not invert nested tabs in main window" },
-			{ "sidebarOnDetachedFrames", "Place a sidebar on selected detached frames" },
-			{ "addStopToSidePane", "Add a stop button instead of a refresh button to the side pane" },
 			{ "mapLoadsMiniBrowser", "Map button loads mini browser instead of relay browser" },
-
-			{ "", "" },
-
 			{ "sortAdventures", "Sort adventure lists by moxie evade rating" },
-			{ "sortPvpResults", "Sort flower hunter results in natural hitting order" },
 			{ "cacheMallSearches", "Cache mall searches (does not work on all OSes)" },
-			{ "autoSetConditions", "Automatically fill conditions field with defaults" },
 
 			{ "", "" },
 
 			{ "cloverProtectActive", "Protect against automated clover adventures" },
-			{ "protectAgainstOverdrink", "Protect against accidental overdrinking" },
 			{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
 			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
 
 			{ "", "" },
 
 			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
-			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
-			{ "allowEncounterRateBurning", "Allow combat-rate modifying buffs in conditional recast" },
-			{ "allowBreakfastBurning", "Allow casting of breakfast skills in conditional recast" },
+			{ "allowEncounterRateBurning", "Cast combat rate modifiers during conditional recast" },
+			{ "allowBreakfastBurning", "Cast breakfast skills during conditional recast" },
+			{ "allowNonMoodBurning", "Cast buffs not defined in moods during conditional recast" },
 
 			{ "", "" },
 

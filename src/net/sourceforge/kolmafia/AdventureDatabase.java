@@ -910,7 +910,7 @@ public class AdventureDatabase extends KoLDatabase
 			return "none";
 
 		if ( condition.equals( "castle items" ) )
-			condition = KoLCharacter.isHardcore() ? "2 choiceadv, 1 thin black candle, 1 heavy D, 1 awful poetry journal, 1 furry fur, 1 giant needle" : "1 choiceadv, 1 thin black candle, 1 heavy D";
+			condition = (KoLCharacter.isHardcore() ? "2 choiceadv" : "1 choiceadv") + ", 1 thin black candle, 1 heavy D";
 
 		return condition == null ? "none" : condition;
 	}
