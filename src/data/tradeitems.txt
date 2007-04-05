@@ -2451,3 +2451,8 @@
 2451
 2452
 2453	Goodfella contract	0	display	0
+2454
+2455	bar whip	12	all	15
+2456	barskin buckler	13	all	30
+2457
+2458	barskin loincloth	10	all	30

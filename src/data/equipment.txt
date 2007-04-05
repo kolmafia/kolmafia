@@ -116,6 +116,7 @@ yellow traffic cone	60	Mox: 15
 alpha-mail pants	140	Mox: 55
 antique greaves	200	Mus: 85
 astronaut pants	175	Mox: 72
+barskin loincloth	25	none
 basic meat kilt	40	Mox: 5
 basic meat pants	40	Mox: 5
 basic meat skirt	40	Mox: 5
@@ -233,6 +234,7 @@ asparagus knife	15	none	1-handed knife
 automatic catapult	150	Mox: 60	2-handed autopult
 balloon sword	50	Mus: 10	1-handed sword
 bamboo bokuto	100	Mus: 35	1-handed sword
+bar whip	10	none	1-handed whip
 basic meat crossbow	40	Mox: 5	2-handed crossbow
 basic meat spork	45	Mus: 7	1-handed utensil
 basic meat staff	40	Mus: 5	2-handed staff
@@ -461,6 +463,7 @@ yak whip	20	none	1-handed whip
 anniversary balloon	0	none
 antique shield	230	Mus: 85
 arrow'd heart balloon	0	none
+barskin buckler	0	none
 basic meat foon	0	Mus: 10
 bobble-hip hula elf doll	0	none
 box	0	none
