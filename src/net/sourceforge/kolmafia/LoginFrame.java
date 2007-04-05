@@ -431,6 +431,7 @@ public class LoginFrame extends KoLFrame
 
 		private JCheckBox mushroomPlot;
 		private JCheckBox rumpusRoom;
+		private JCheckBox readManual;
 		private JCheckBox loginRecovery;
 		private JCheckBox pathedSummons;
 
@@ -465,11 +466,13 @@ public class LoginFrame extends KoLFrame
 			mushroomPlot.addActionListener( this );
 			centerPanel.add( mushroomPlot );
 
-			rumpusRoom = new JCheckBox( "Clan rumpus room" );
+			rumpusRoom = new JCheckBox( "Visit your rumpus room" );
 			rumpusRoom.addActionListener( this );
 			centerPanel.add( rumpusRoom );
 
-			centerPanel.add( new JLabel() );
+			readManual = new JCheckBox( "Read the guild manual" );
+			readManual.addActionListener( this );
+			centerPanel.add( readManual );
 
 			JPanel centerHolder = new JPanel( new BorderLayout() );
 			centerHolder.add( centerPanel, BorderLayout.NORTH );
@@ -506,6 +509,7 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.setProperty( "pathedSummons" + breakfastType, String.valueOf( pathedSummons.isSelected() ) );
 			StaticEntity.setProperty( "autoPlant" + breakfastType, String.valueOf( mushroomPlot.isSelected() ) );
 			StaticEntity.setProperty( "visitRumpus" + breakfastType, String.valueOf( rumpusRoom.isSelected() ) );
+			StaticEntity.setProperty( "readManual" + breakfastType, String.valueOf( readManual.isSelected() ) );
 		}
 
 		public void actionCancelled()
@@ -518,6 +522,7 @@ public class LoginFrame extends KoLFrame
 			pathedSummons.setSelected( StaticEntity.getBooleanProperty( "pathedSummons" + breakfastType ) );
 			mushroomPlot.setSelected( StaticEntity.getBooleanProperty( "autoPlant" + breakfastType ) );
 			rumpusRoom.setSelected( StaticEntity.getBooleanProperty( "visitRumpus" + breakfastType ) );
+			readManual.setSelected( StaticEntity.getBooleanProperty( "readManual" + breakfastType ) );
 		}
 
 		public void setEnabled( boolean isEnabled )
