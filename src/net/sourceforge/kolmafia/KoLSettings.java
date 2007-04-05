@@ -496,6 +496,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,SkillBuffFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
+		CLIENT_SETTINGS.put( "logChatMessages", "true" );
 		CLIENT_SETTINGS.put( "loginServerName", "" );
 		CLIENT_SETTINGS.put( "loginWindowLogo", "lantern.jpg" );
 		CLIENT_SETTINGS.put( "loginRecoveryHardcore", "false" );
@@ -505,9 +506,9 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		CLIENT_SETTINGS.put( "logAcquiredItems", "true" );
 		CLIENT_SETTINGS.put( "logBattleAction", "true" );
-		CLIENT_SETTINGS.put( "logChatMessages", "true" );
 		CLIENT_SETTINGS.put( "logFamiliarActions", "false" );
 		CLIENT_SETTINGS.put( "logGainMessages", "true" );
+		CLIENT_SETTINGS.put( "logMonsterHealth", "false" );
 		CLIENT_SETTINGS.put( "logReverseOrder", "false" );
 		CLIENT_SETTINGS.put( "logStatGains", "true" );
 		CLIENT_SETTINGS.put( "logStatusEffects", "false" );

@@ -70,6 +70,21 @@ public class FightRequest extends KoLRequest
 
 	private static final Pattern FAMILIAR_ACT_PATTERN = Pattern.compile( "<table><tr><td align=center.*?</table>", Pattern.DOTALL );
 
+	private static final Pattern FUMBLE_PATTERN = Pattern.compile( "You drop your .*? on your .*?, doing [\\d,]+ damage" );
+	private static final Pattern ELEMENTAL_PATTERN = Pattern.compile( "<font color=[\"]?\\w+[\"]?><b>\\+?([\\d,]+)</b></font> (?:damage|points|HP worth)" );
+
+	// NOTE: All of the non-empty patterns that can match in the first group
+	// imply that the entire expression should be ignored.  If you add one
+	// and this is not the case, then correct the use of this Pattern below.
+
+	private static final Pattern PHYSICAL_PATTERN = Pattern.compile( "(your blood, to the tune of|stabs you for|sown|You lose|You gain|) (\\d[\\d,]*) (\\([^.]*\\) |)(?:\\w+ ){0,2}(?:damage|points?|notch(?:es)?|to your opponent|force damage)");
+	private static final Pattern SECONDARY_PATTERN = Pattern.compile( "<b>\\+([\\d,]+)</b>" );
+	private static final Pattern MOSQUITO_PATTERN = Pattern.compile( "sucks some blood out of your opponent and injects it into you.*?You gain ([\\d,]+) hit point" );
+	private static final Pattern BOSSBAT_PATTERN = Pattern.compile( "until he disengages, two goofy grins on his faces.*?You lose ([\\d,]+)" );
+	private static final Pattern GHUOL_HEAL = Pattern.compile( "feasts on a nearby corpse, and looks refreshed\\." );
+	private static final Pattern NS_HEAL = Pattern.compile( "The Sorceress pulls a tiny red vial out of the folds of her dress and quickly drinks it" );
+
+
 	public static final AdventureResult DICTIONARY1 = new AdventureResult( 536, 1 );
 	public static final AdventureResult DICTIONARY2 = new AdventureResult( 1316, 1 );
 
@@ -90,6 +105,7 @@ public class FightRequest extends KoLRequest
 	private static boolean castCleesh = false;
 	private static int currentRound = 0;
 	private static int offenseModifier = 0, defenseModifier = 0;
+	private static int healthModifier = 0;
 
 	private static String action1 = null;
 	private static String action2 = null;
@@ -648,6 +664,8 @@ public class FightRequest extends KoLRequest
 			KoLCharacter.processResult( BROKEN_GREAVES );
 		}
 
+		updateMonsterHealth( responseText );
+
 		// Reset round information if the battle is complete.
 		// This is recognized when fight.php has no data.
 
@@ -667,6 +685,117 @@ public class FightRequest extends KoLRequest
 		}
 	}
 
+	private static void updateMonsterHealth( String responseText )
+	{
+		if ( !StaticEntity.getBooleanProperty( "logMonsterHealth" ) )
+			return;
+
+		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
+
+		// Check if fumbled first, since that causes a special case later.
+
+		boolean fumbled = FUMBLE_PATTERN.matcher( responseText ).find();
+
+		// Monster damage is verbose, so accumulate in a single variable
+		// for the entire results and just show the total.
+
+		int damageThisRound = 0;
+
+		Matcher damageMatcher = ELEMENTAL_PATTERN.matcher( responseText );
+		while ( damageMatcher.find() )
+			damageThisRound += StaticEntity.parseInt( damageMatcher.group(1) );
+
+		damageMatcher = PHYSICAL_PATTERN.matcher( responseText );
+
+		for ( int i = 0; damageMatcher.find(); ++i )
+		{
+			// In a fumble, the first set of text indicates that there is
+			// no actual damage done to the monster.
+
+			if ( i == 0 && fumbled )
+				continue;
+
+			// Currently, all of the explicit attack messages that preceed
+			// the number all imply that this is not damage against the
+			// monster or is damage that should not count (reap/sow X damage.)
+
+			if ( !damageMatcher.group(1).equals( "" ) )
+				continue;
+
+			damageThisRound += StaticEntity.parseInt( damageMatcher.group(2) );
+
+			// The last string contains all of the extra damage
+			// from dual-wielding or elemental damage, e.g. "(+3) (+10)".
+
+			Matcher secondaryMatcher = SECONDARY_PATTERN.matcher( damageMatcher.group(3) );
+			while ( secondaryMatcher.find() )
+				damageThisRound += StaticEntity.parseInt( secondaryMatcher.group(1) );
+		}
+
+		// Mosquito and Boss Bat can muck with the monster's HP, but
+		// they don't have normal text.
+
+		if ( KoLCharacter.getFamiliar().getRace().equals( "Mosquito" ) )
+		{
+			damageMatcher = MOSQUITO_PATTERN.matcher( responseText );
+			if ( damageMatcher.find() )
+				damageThisRound += StaticEntity.parseInt( damageMatcher.group(1) );
+		}
+
+		damageMatcher = BOSSBAT_PATTERN.matcher( responseText );
+		if ( damageMatcher.find() )
+			damageThisRound += StaticEntity.parseInt( damageMatcher.group(1) );
+
+		// Done with all processing for monster damage, now handle responseText.
+
+		healthModifier += damageThisRound;
+		StringBuffer action = new StringBuffer();
+
+		if ( damageThisRound != 0 )
+		{
+			action.append( "Round " );
+			action.append( currentRound );
+			action.append( ": " );
+			action.append( encounterLookup );
+
+			if ( damageThisRound > 0 )
+			{
+				action.append( " takes " );
+				action.append( damageThisRound );
+				action.append( "damage." );
+			}
+			else
+			{
+				action.append( " heals " );
+				action.append( -1 * damageThisRound );
+				action.append( "hit points." );
+			}
+
+			RequestLogger.printLine( action.toString() );
+			if ( shouldLogAction )
+				RequestLogger.updateSessionLog( action.toString() );
+		}
+
+		// Even though we don't have an exact value, at least try to
+		// detect if the monster's HP has changed.  Once spaded, we can
+		// insert some minimal/maximal values here.
+
+		if ( GHUOL_HEAL.matcher( responseText ).find() || NS_HEAL.matcher( responseText ).find() )
+		{
+			action.setLength( 0 );
+			action.append( "Round " );
+			action.append( currentRound );
+			action.append( ": " );
+			action.append( encounterLookup );
+
+			action.append( " heals an unspaded amount of hit points." );
+
+			RequestLogger.printLine( action.toString() );
+			if ( shouldLogAction )
+				RequestLogger.updateSessionLog( action.toString() );
+		}
+	}
+
 	private static void clearInstanceData()
 	{
 		encounterLookup = "";
@@ -676,6 +805,7 @@ public class FightRequest extends KoLRequest
 		currentRound = 0;
 		offenseModifier = 0;
 		defenseModifier = 0;
+		healthModifier = 0;
 
 		action1 = null;
 		action2 = null;

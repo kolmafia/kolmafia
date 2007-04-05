@@ -694,7 +694,7 @@ public class BrowserLauncher {
 
 				browser = null;
 
-				String [] browsers = { "opera", "firefox", "mozilla", "netscape" };
+				String [] browsers = { "firefox", "mozilla", "opera", "netscape" };
 
 				for ( int i = 0; i < browsers.length && browser == null; ++i )
 				{
