@@ -374,8 +374,35 @@ public class FightRequest extends KoLRequest
 			castCleesh = true;
 		}
 
+		if ( isInvalidThrustSmack( action1 ) )
+		{
+			action1 = "abort";
+			return;
+		}
+
 		addFormField( "action", "skill" );
 		addFormField( "whichskill", action1 );
+	}
+
+	private static boolean isInvalidThrustSmack( String action1 )
+	{
+		if ( !action1.equals( "1003" ) && !action1.equals( "1005" ) )
+			return false;
+
+		if ( EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Thrust smacks are useless with ranged weapons." );
+			return true;
+		}
+
+		if ( EquipmentDatabase.isStaff( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemId() ) &&
+			KoLCharacter.hasSkill( "Spirit of Rigatoni" ) && KoLCharacter.hasSkill( "Eye of the Stoat" ) )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Thrust smacks are useless with staves and Spirit of Rigatoni." );
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -905,6 +932,9 @@ public class FightRequest extends KoLRequest
 		Matcher skillMatcher = SKILL_PATTERN.matcher( urlString );
 		if ( skillMatcher.find() )
 		{
+			if ( isInvalidThrustSmack( skillMatcher.group(1) ) )
+				return true;
+
 			String skill = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
 			if ( skill == null )
 			{
