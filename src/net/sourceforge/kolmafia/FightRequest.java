@@ -754,7 +754,7 @@ public class FightRequest extends KoLRequest
 		if ( damageThisRound != 0 )
 		{
 			action.append( "Round " );
-			action.append( currentRound );
+			action.append( currentRound - 1 );
 			action.append( ": " );
 			action.append( encounterLookup );
 
@@ -762,13 +762,13 @@ public class FightRequest extends KoLRequest
 			{
 				action.append( " takes " );
 				action.append( damageThisRound );
-				action.append( "damage." );
+				action.append( " damage." );
 			}
 			else
 			{
 				action.append( " heals " );
 				action.append( -1 * damageThisRound );
-				action.append( "hit points." );
+				action.append( " hit points." );
 			}
 
 			RequestLogger.printLine( action.toString() );
@@ -784,7 +784,7 @@ public class FightRequest extends KoLRequest
 		{
 			action.setLength( 0 );
 			action.append( "Round " );
-			action.append( currentRound );
+			action.append( currentRound - 1 );
 			action.append( ": " );
 			action.append( encounterLookup );
 
