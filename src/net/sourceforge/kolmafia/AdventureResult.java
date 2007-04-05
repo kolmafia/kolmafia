@@ -221,7 +221,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 		else if ( StaticEntity.getClient() != null )
 		{
-			KoLmafia.updateDisplay( "Unknown item found: " + name );
+			RequestLogger.printLine( "Unknown item found: " + name );
 		}
 	}
 

@@ -336,7 +336,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemName == null )
 			return;
 
-		KoLmafia.updateDisplay( "Unknown item found: " + itemName + " (#" + itemId + ")" );
+		RequestLogger.printLine( "Unknown item found: " + itemName + " (#" + itemId + ")" );
 
 		useTypeById.set( itemId, 0 );
 		priceById.set( itemId, -1 );
