@@ -130,6 +130,10 @@ public abstract class KoLmafia implements KoLConstants
 	public static final AdventureResult SATCHEL = new AdventureResult( 1656, 1 );
 	public static final AdventureResult NOVELTY_BUTTON = new AdventureResult( 2072, 1 );
 
+	private static final AdventureResult MANUAL_1 = new AdventureResult( 2280, 1 );
+	private static final AdventureResult MANUAL_2 = new AdventureResult( 2281, 1 );
+	private static final AdventureResult MANUAL_3 = new AdventureResult( 2282, 1 );
+
 	private static final ArrayList stopEncounters = new ArrayList();
 
 	static
@@ -559,6 +563,14 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( StaticEntity.getBooleanProperty( "visitRumpus" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
 				RequestThread.postRequest( new ClanGymRequest( ClanGymRequest.SEARCH ) );
+
+			forceContinue();
+
+			if ( StaticEntity.getBooleanProperty( "readManual" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
+			{
+				RequestThread.postRequest( new ConsumeItemRequest(
+					KoLCharacter.isMuscleClass() ? MANUAL_1 : KoLCharacter.isMysticalityClass() ? MANUAL_2 : MANUAL_3 ) );
+			}
 
 			forceContinue();
 		}
