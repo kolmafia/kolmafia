@@ -291,9 +291,14 @@ public class KoLmafiaGUI extends KoLmafia
 				// the beach quest, then retrieve information from the
 				// microbrewery.
 
-				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() )
-					if ( microbreweryItems.isEmpty() )
+				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && microbreweryItems.isEmpty() )
+				{
+					KoLRequest shore = new KoLRequest( "main.php" );
+					RequestThread.postRequest( shore );
+
+					if ( shore.responseText.indexOf( "beach.php" ) != -1 )
 						RequestThread.postRequest( new MicrobreweryRequest() );
+				}
 
 				if ( StaticEntity.getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 					if ( !ClanManager.isStashRetrieved() )
