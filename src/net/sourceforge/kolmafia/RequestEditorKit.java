@@ -907,9 +907,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			displayHTML = displayHTML.replaceAll( "<form(.*?)<tr><td([^>]*)>", "<tr><td$2><form$1" );
 			displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
-
-			displayHTML = sortItemList( "whichitem", displayHTML );
-			displayHTML = sortItemList( "whichitem2", displayHTML );
 		}
 
 		// Doc Galaktik's page is going to get completely
@@ -2409,55 +2406,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 
 		buffer.append( text.substring( lastAppendIndex ) );
-	}
-
-	private static String sortItemList( String select, String displayHTML )
-	{
-		Matcher selectMatcher = Pattern.compile( "<select name=" + select + ">.*?</select>" ).matcher( displayHTML );
-		if ( selectMatcher.find() )
-		{
-			ArrayList items = new ArrayList();
-			int selectedItem = -1;
-			Matcher itemMatcher = OPTION_PATTERN.matcher( selectMatcher.group() );
-
-			while ( itemMatcher.find() )
-			{
-				int id = StaticEntity.parseInt( itemMatcher.group(1) );
-				if ( id == 0 )
-					continue;
-
-				int count = StaticEntity.parseInt( itemMatcher.group(2) );
-				AdventureResult currentItem = new AdventureResult( id, count );
-				if ( itemMatcher.group().indexOf( "selected" ) != -1 )
-					selectedItem = id;
-
-				items.add( currentItem );
-			}
-
-			Collections.sort( items );
-			AdventureResult [] itemArray = new AdventureResult[ items.size() ];
-			items.toArray( itemArray );
-
-			StringBuffer itemString = new StringBuffer();
-			itemString.append( "<select name=whichitem><option value=0>(select an item)</option>" );
-
-			for ( int i = 0; i < itemArray.length; ++i )
-			{
-				itemString.append( "<option value=" );
-				itemString.append( itemArray[i].getItemId() );
-
-				if ( itemArray[i].getItemId() == selectedItem )
-					itemString.append( " selected" );
-
-				itemString.append( ">" );
-				itemString.append( itemArray[i].toString() );
-				itemString.append( "</option>" );
-			}
-
-			itemString.append( "</select>" );
-			displayHTML = displayHTML.replaceFirst( "<select name=whichitem>.*?</select>", itemString.toString() );
-		}
-		return displayHTML;
 	}
 
 	private static class KoLSubmitView extends FormView
