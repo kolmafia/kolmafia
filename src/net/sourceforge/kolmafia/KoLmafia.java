@@ -64,12 +64,14 @@ import java.util.regex.Pattern;
 
 import javax.swing.Icon;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import javax.swing.UIManager.LookAndFeelInfo;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
@@ -1772,19 +1774,23 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLCharacter.getZapper() == null )
 			return;
 
-		Object selectedValue = JOptionPane.showInputDialog(
-			null, "I want to zap this item...", "Zzzzzzzzzap!", JOptionPane.INFORMATION_MESSAGE, null,
-			inventory.toArray(), inventory.get(0) );
-
+		AdventureResult selectedValue = getSelectedValue( "Let's explodey my wand!", inventory );
 		if ( selectedValue == null )
 			return;
 
-		RequestThread.postRequest( new ZapRequest( (AdventureResult) selectedValue ) );
+		RequestThread.postRequest( new ZapRequest( selectedValue ) );
+	}
+
+	private static AdventureResult getSelectedValue( String message, LockableListModel list )
+	{
+		JList selector = new JList( list );
+		int option = JOptionPane.showConfirmDialog( null, new SimpleScrollPane( selector ), message, JOptionPane.OK_CANCEL_OPTION );
+		return option == JOptionPane.CANCEL_OPTION ? null : (AdventureResult) selector.getSelectedValue();
 	}
 
 	/**
 	 * Makes a request to the hermit, looking for the given number of
-	 * items.  Thi.  This method should prompt the user to determine which
+	 * items.  This method should prompt the user to determine which
 	 * item to retrieve the hermit.
 	 */
 
@@ -1796,15 +1802,11 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 			return;
 
-		Object [] hermitItemArray = hermitItems.toArray();
-		Object selectedValue = JOptionPane.showInputDialog(
-			null, "I want this from the hermit...", "Mugging Hermit for...", JOptionPane.INFORMATION_MESSAGE, null,
-			hermitItemArray, null );
-
+		AdventureResult selectedValue = getSelectedValue( "I have worthless items!", hermitItems );
 		if ( selectedValue == null )
 			return;
 
-		int selected = ((AdventureResult)selectedValue).getItemId();
+		int selected = selectedValue.getItemId();
 
 		String message = "(You have " + HermitRequest.getWorthlessItemCount() + " worthless items)";
 		int maximumValue = HermitRequest.getWorthlessItemCount();
@@ -1819,7 +1821,6 @@ public abstract class KoLmafia implements KoLConstants
 				maximumValue = cloverCount;
 			}
 		}
-
 
 		int tradeCount = KoLFrame.getQuantity( "How many " + ((AdventureResult)selectedValue).getName() + " to get?\n" + message, maximumValue, 1 );
 		if ( tradeCount == 0 )
@@ -1872,7 +1873,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	/**
 	 * Makes a request to the hunter, looking to sell a given type of
-	 * item.  Thi.  This method should prompt the user to determine which
+	 * item.  This method should prompt the user to determine which
 	 * item to sell to the hunter.
 	 */
 
@@ -1962,7 +1963,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void makeUntinkerRequest()
 	{
-		List untinkerItems = new ArrayList();
+		SortedListModel untinkerItems = new SortedListModel();
 
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
@@ -1984,13 +1985,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		Object [] untinkerItemArray = untinkerItems.toArray();
-		Arrays.sort( untinkerItemArray );
-
-		AdventureResult selectedValue = (AdventureResult) JOptionPane.showInputDialog(
-			null, "I want to untinker an item...", "You can unscrew meat paste?", JOptionPane.INFORMATION_MESSAGE, null,
-			untinkerItemArray, untinkerItemArray[0] );
-
+		AdventureResult selectedValue = getSelectedValue( "You can unscrew meat paste?", untinkerItems );
 		if ( selectedValue == null )
 			return;
 
