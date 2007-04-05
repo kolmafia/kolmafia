@@ -1608,6 +1608,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					break;
 
 				case CONSUME_MULTIPLE:
+				case HP_RESTORE:
 				case MP_RESTORE:
 
 					AdventureResult result = new AdventureResult( itemId, 1 );
