@@ -573,11 +573,11 @@ public class ItemManageFrame extends KoLFrame
 			}
 			else if ( food )
 			{
-				cancelledButton.setEnabled( KoLCharacter.hasItem( MAGNESIUM, true ) );
+				cancelledButton.setEnabled( KoLCharacter.hasItem( MAGNESIUM, true ) && !activeEffects.contains( TradeableItemDatabase.GOT_MILK ) );
 			}
 			else
 			{
-				cancelledButton.setEnabled( KoLCharacter.hasSkill( "The Ode to Booze" ) &&
+				cancelledButton.setEnabled( KoLCharacter.hasSkill( "The Ode to Booze" ) && !activeEffects.contains( TradeableItemDatabase.ODE ) &&
 					KoLCharacter.getMaximumMP() >= ClassSkillsDatabase.getMPConsumptionById( 6014 ) );
 			}
 
@@ -624,6 +624,8 @@ public class ItemManageFrame extends KoLFrame
 				if ( !activeEffects.contains( new AdventureResult( "Ode to Booze", 1, true ) ) )
 					RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
 			}
+
+			elementList.updateUI();
 		}
 
 		private class ConsumableFilterComboBox extends FilterItemComboBox

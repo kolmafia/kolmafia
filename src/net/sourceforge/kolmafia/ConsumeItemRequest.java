@@ -73,7 +73,7 @@ public class ConsumeItemRequest extends KoLRequest
 		LIMITED_USES.put( new Integer( 1627 ), new AdventureResult( "Tiny Bubbles in the Cupcake", 1, true ) );
 		LIMITED_USES.put( new Integer( 1628 ), new AdventureResult( "Your Cupcake Senses Are Tingling", 1, true ) );
 
-		LIMITED_USES.put( new Integer( 1650 ), new AdventureResult( "Got Milk", 1, true ) );
+		LIMITED_USES.put( new Integer( 1650 ), TradeableItemDatabase.GOT_MILK );
 	}
 
 	public static String lastUpdate = "";
