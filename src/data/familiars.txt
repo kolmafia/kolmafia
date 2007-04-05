@@ -65,4 +65,4 @@
 65	2190	Ancient Yuletide Troll	giant book of ancient carols	2	3	1	0
 66	2380	Dandy Lion	woolen cravat	0	3	2	1
 67	2445	O.A.F.	hardware upgrade	0	0	0	0
-68	2447	Penguin Goodfella	tasteful black bowtie	0	0	0	0
+68	2447	Penguin Goodfella	tasteful black bowtie	3	2	1	0
