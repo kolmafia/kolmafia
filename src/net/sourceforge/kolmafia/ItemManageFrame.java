@@ -544,12 +544,13 @@ public class ItemManageFrame extends KoLFrame
 			wordfilter = new ConsumableFilterComboBox();
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
 
-			filters = new JCheckBox[4];
+			filters = new JCheckBox[5];
 
 			filters[0] = new JCheckBox( "on-hand only" );
-			filters[1] = new JCheckBox( "+mus only" );
-			filters[2] = new JCheckBox( "+mys only" );
-			filters[3] = new JCheckBox( "+mox only" );
+			filters[1] = new JCheckBox( "npc " + (food && booze ? "stuff" : food ? "food" : "booze") );
+			filters[2] = new JCheckBox( "+mus only" );
+			filters[3] = new JCheckBox( "+mys only" );
+			filters[4] = new JCheckBox( "+mox only" );
 
 			JPanel filterPanel = new JPanel();
 			for ( int i = 0; i < filters.length; ++i )
@@ -653,21 +654,25 @@ public class ItemManageFrame extends KoLFrame
 						if ( item == null || item.getCount( inventory ) == 0 )
 							return false;
 
-					if ( filters[1].isSelected() )
+					if ( !filters[1].isSelected() )
+						if ( NPCStoreDatabase.contains( creation.getName(), false ) )
+							return false;
+
+					if ( filters[2].isSelected() )
 					{
 						String range = TradeableItemDatabase.getMuscleRange( creation.getName() );
 						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 							return false;
 					}
 
-					if ( filters[2].isSelected() )
+					if ( filters[3].isSelected() )
 					{
 						String range = TradeableItemDatabase.getMysticalityRange( creation.getName() );
 						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 							return false;
 					}
 
-					if ( filters[3].isSelected() )
+					if ( filters[4].isSelected() )
 					{
 						String range = TradeableItemDatabase.getMoxieRange( creation.getName() );
 						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
