@@ -754,7 +754,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( !skillMatcher.find() )
 			return true;
 
-		String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
+		int skillId = StaticEntity.parseInt( skillMatcher.group(1) );
+		String skillName = ClassSkillsDatabase.getSkillName( skillId );
 
 		int count = 1;
 		Matcher countMatcher = COUNT1_PATTERN.matcher( urlString );
@@ -773,30 +774,35 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "cast " + count + " " + skillName );
 
-		if ( urlString.indexOf( "whichskill=16" ) != -1 )
-			StaticEntity.setProperty( "snowconeSummons", String.valueOf( StaticEntity.getIntegerProperty( "snowconeSummons" ) + 1 ) );
-
-		if ( urlString.indexOf( "whichskill=17" ) != -1 )
-			StaticEntity.setProperty( "grimoireSummons", String.valueOf( StaticEntity.getIntegerProperty( "grimoireSummons" ) + 1 ) );
-
-		if ( urlString.indexOf( "whichskill=18" ) != -1 )
+		switch ( skillId )
 		{
-			int mpCost = ClassSkillsDatabase.getMPConsumptionById( 18 );
-			if ( mpCost <= KoLCharacter.getCurrentMP() )
-			{
+		case 16:
+			StaticEntity.setProperty( "snowconeSummons", String.valueOf( StaticEntity.getIntegerProperty( "snowconeSummons" ) + 1 ) );
+			break;
+
+		case 17:
+			StaticEntity.setProperty( "grimoireSummons", String.valueOf( StaticEntity.getIntegerProperty( "grimoireSummons" ) + 1 ) );
+			break;
+
+		case 18:
+			if ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() )
 				StaticEntity.setProperty( "candyHeartSummons", String.valueOf( StaticEntity.getIntegerProperty( "candyHeartSummons" ) + 1 ) );
-				usableSkills.sort();
-			}
-		}
 
-		if ( urlString.indexOf( "whichskill=3006" ) != -1 )
+			usableSkills.sort();
+			break;
+
+		case 3006:
 			StaticEntity.setProperty( "noodleSummons", String.valueOf( StaticEntity.getIntegerProperty( "noodleSummons" ) + count ) );
+			break;
 
-		if ( urlString.indexOf( "whichskill=4006" ) != -1 )
+		case 4006:
 			StaticEntity.setProperty( "reagentSummons", String.valueOf( StaticEntity.getIntegerProperty( "reagentSummons" ) + count ) );
+			break;
 
-		if ( urlString.indexOf( "whichskill=5014" ) != -1 )
+		case 5014:
 			StaticEntity.setProperty( "cocktailSummons", String.valueOf( StaticEntity.getIntegerProperty( "cocktailSummons" ) + count ) );
+			break;
+		}
 
 		return true;
 	}
