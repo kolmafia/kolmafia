@@ -2050,7 +2050,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( attachments.length == 1 && ((AdventureResult)attachments[0]).getName().equals( AdventureResult.MEAT ) )
 		{
-			int amount = BuffBotDatabase.getNonPhilanthropicOffering( splitParameters[1], ((AdventureResult)attachments[0]).getCount(), isConvertible );
+			int amount = BuffBotDatabase.getNonPhilanthropicOffering( splitParameters[1], ((AdventureResult)attachments[0]).getCount(), !isConvertible );
 			if ( amount == 0 )
 				return;
 
