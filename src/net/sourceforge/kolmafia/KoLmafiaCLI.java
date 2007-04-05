@@ -2660,6 +2660,9 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( condition.isItem() && option.equals( "set" ) )
 				{
 					int inventoryAmount = condition.getCount( inventory );
+					for ( int j = 0; j < KoLCharacter.FAMILIAR; ++j )
+						if ( KoLCharacter.getEquipment( j ).equals( condition ) )
+							++inventoryAmount;
 
 					if ( condition.getCount( conditions ) >= condition.getCount() )
 					{
