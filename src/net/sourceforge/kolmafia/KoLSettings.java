@@ -452,22 +452,19 @@ public class KoLSettings extends Properties implements KoLConstants
 		// Do not initialize the maps more than once, as this
 		// would not serve any purpose.
 
-		CLIENT_SETTINGS.put( "addStopToSidePane", "false" );
 		CLIENT_SETTINGS.put( "allowBreakfastBurning", "false" );
 		CLIENT_SETTINGS.put( "allowCloseableDesktopTabs", "false" );
 		CLIENT_SETTINGS.put( "allowEncounterRateBurning", "true" );
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
+		CLIENT_SETTINGS.put( "allowNonMoodBurning", "true" );
 		CLIENT_SETTINGS.put( "allowRequestQueueing", "false" );
-		CLIENT_SETTINGS.put( "allowThiefShrugOff", "true" );
-		CLIENT_SETTINGS.put( "allowUnsafePickpocket", "false" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
 		CLIENT_SETTINGS.put( "autoBuyRestores", "true" );
 		CLIENT_SETTINGS.put( "autoLogin", "" );
 		CLIENT_SETTINGS.put( "autoPlantHardcore", "false" );
 		CLIENT_SETTINGS.put( "autoPlantSoftcore", "false" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithMall", "true" );
-		PLAYER_SETTINGS.put( "autoSatisfyWithStash", "false" );
-		CLIENT_SETTINGS.put( "autoSetConditions", "true" );
+		CLIENT_SETTINGS.put( "autoSatisfyWithStash", "false" );
 		CLIENT_SETTINGS.put( "avoidInvertingTabs", "false" );
 		CLIENT_SETTINGS.put( "breakfastSoftcore", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "breakfastHardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
@@ -539,7 +536,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "relayMaintainsHealth", "true" );
 		CLIENT_SETTINGS.put( "relayMaintainsMana", "false" );
 		CLIENT_SETTINGS.put( "relayMaintainsMoods", "false" );
-		CLIENT_SETTINGS.put( "relayRunsBetweenScript", "false" );
 		CLIENT_SETTINGS.put( "relayBrowserOnly", "false" );
 		CLIENT_SETTINGS.put( "relayTextualizesEffects", "false" );
 		CLIENT_SETTINGS.put( "relayUsesCachedImages", "false" );
@@ -552,7 +548,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
 		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );
-		CLIENT_SETTINGS.put( "sidebarOnDetachedFrames", "true" );
 		CLIENT_SETTINGS.put( "sortAdventures", "false" );
 		CLIENT_SETTINGS.put( "sortPvpResults", "false" );
 		CLIENT_SETTINGS.put( "swingLookAndFeel", "" );

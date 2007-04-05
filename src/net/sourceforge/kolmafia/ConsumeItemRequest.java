@@ -54,7 +54,6 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 
 	private static final TreeMap LIMITED_USES = new TreeMap();
-	private static final AdventureResult ODE_TO_BOOZE = new AdventureResult( "Ode to Booze", 1, true );
 
 	static
 	{
@@ -77,6 +76,7 @@ public class ConsumeItemRequest extends KoLRequest
 	}
 
 	public static String lastUpdate = "";
+	private static String askedAboutOde = "";
 
 	private static final int SEAL_TOOTH = 2;
 	private static final int DOLPHIN_KING_MAP = 26;
@@ -163,8 +163,6 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int MANUAL_OF_LABOR = 2280;
 	private static final int MANUAL_OF_TRANSMISSION = 2281;
 	private static final int MANUAL_OF_DEXTERITY = 2282;
-
-	private static final AdventureResult POISON = new AdventureResult( "Poisoned", 1, true );
 
 	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
 	private static final AdventureResult FERTILIZER = new AdventureResult( 76, -1 );
@@ -345,13 +343,14 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( KoLCharacter.isFallingDown() || inebrietyBonus < 1 )
 			return true;
 
-		if ( existingFrames.isEmpty() || !StaticEntity.getBooleanProperty( "protectAgainstOverdrink" ) )
+		if ( existingFrames.isEmpty() )
 			return true;
 
-		if ( !activeEffects.contains( ODE_TO_BOOZE ) )
+		if ( !activeEffects.contains( TradeableItemDatabase.ODE ) )
 		{
-			if ( availableSkills.contains( UseSkillRequest.getInstance( "The Ode to Booze" ) ) )
+			if ( availableSkills.contains( UseSkillRequest.getInstance( "The Ode to Booze" ) ) && !askedAboutOde.equals( KoLCharacter.getUserName() ) )
 			{
+				askedAboutOde = KoLCharacter.getUserName();
 				if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you want to drink without ode?",
 					"Think carefully before you answer...", JOptionPane.YES_NO_OPTION ) )
 						return false;
@@ -713,7 +712,13 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case ANTIDOTE:
 
-			activeEffects.remove( POISON );
+			AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
+			activeEffects.toArray( effects );
+
+			for ( int i = 0; i < effects.length; ++i )
+				if ( effects[i].getName().toLowerCase().indexOf( "poison" ) != -1 )
+					activeEffects.remove( effects[i] );
+
 			return;
 
 		case TINY_HOUSE:

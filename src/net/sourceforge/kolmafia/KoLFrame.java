@@ -493,11 +493,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			JPanel refreshPanel = new JPanel();
 			refreshPanel.setOpaque( false );
-
-			if ( StaticEntity.getBooleanProperty( "addStopToSidePane" ) )
-				refreshPanel.add( new InvocationButton( "Stop Everything", "stop.gif", RequestThread.class, "declareWorldPeace" ) );
-			else
-				refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", CharpaneRequest.getInstance() ) );
+			refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", CharpaneRequest.getInstance() ) );
 
 			compactPane = new JPanel( new BorderLayout() );
 			compactPane.add( compactCard, BorderLayout.NORTH );

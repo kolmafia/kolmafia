@@ -66,7 +66,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		this.parameters = parameters;
 		this.ranRequests = false;
 
-		Class [] parameterTypes= new Class[ parameters.length ];
+		Class [] parameterTypes = new Class[ parameters.length ];
 		for ( int i = 0; i < parameters.length; ++i )
 			parameterTypes[i] = parameters[i] == null ? null : parameters[i].getClass();
 
@@ -248,7 +248,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			if ( !appearsInTab && this.creation instanceof KoLFrame )
 			{
 				((KoLFrame)this.creation).constructToolbar();
-				if ( ((KoLFrame)this.creation).useSidePane() && StaticEntity.getBooleanProperty( "sidebarOnDetachedFrames" ) )
+				if ( ((KoLFrame)this.creation).useSidePane() )
 					((KoLFrame)this.creation).addCompactPane();
 
 				this.creation.setJMenuBar( new KoLMenuBar() );

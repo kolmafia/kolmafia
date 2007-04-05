@@ -400,18 +400,6 @@ public class MonsterDatabase extends KoLDatabase
 			// Otherwise, only steal from monsters that drop
 			// something on your conditions list.
 
-			if ( !StaticEntity.getBooleanProperty( "allowUnsafePickpocket" ) )
-				return shouldSteal( conditions );
-
-			// If they're likely to survive, then go ahead
-			// and steal anything.
-
-			if ( expectedDamage() * 2 < KoLCharacter.getCurrentHP() )
-				return shouldSteal( items );
-
-			// Otherwise, only steal from monsters that drop
-			// something on your conditions list.
-
 			return shouldSteal( conditions );
 		}
 
