@@ -161,7 +161,7 @@ public class SearchMallRequest extends KoLRequest
 				int autoSellPrice = TradeableItemDatabase.getPriceById( itemId );
 
 				canAvoidSearch &= !TradeableItemDatabase.isTradeable( itemId ) ||
-					(NPCStoreDatabase.contains( (String) itemNames.get(i) ) && (!KoLCharacter.canInteract() || autoSellPrice < 100));
+					(NPCStoreDatabase.contains( (String) itemNames.get(i) ) && (!KoLCharacter.canInteract() || autoSellPrice < 50));
 			}
 
 			if ( canAvoidSearch )

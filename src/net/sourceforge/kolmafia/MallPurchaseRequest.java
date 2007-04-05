@@ -325,7 +325,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Now that everything's ensured, go ahead and execute the
 		// actual purchase request.
 
-		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemId ) + " (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( getPrice() ) + ")..." );
+		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemId ) +
+			" (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( getPrice() ) + ")..." );
 
 		this.initialCount = this.item.getCount( inventory );
 		super.run();
