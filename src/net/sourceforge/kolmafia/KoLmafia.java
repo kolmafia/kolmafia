@@ -507,11 +507,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( StaticEntity.getGlobalProperty( username, "getBreakfast" ).equals( "true" ) )
 		{
-			if ( StaticEntity.getIntegerProperty( "lastBreakfast" ) != today )
-			{
-				StaticEntity.setProperty( "lastBreakfast", String.valueOf( today ) );
-				getBreakfast( true );
-			}
+			getBreakfast( true, StaticEntity.getIntegerProperty( "lastBreakfast" ) != today );
+			StaticEntity.setProperty( "lastBreakfast", String.valueOf( today ) );
 		}
 
 		// Also, do mushrooms, if a mushroom script has already
@@ -543,28 +540,30 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.setProperty( "cocktailSummons", "0" );
 	}
 
-	public void getBreakfast( boolean checkSettings )
+	public void getBreakfast( boolean checkSettings, boolean checkCampground )
 	{
 		SpecialOutfit.createImplicitCheckpoint();
 
-		if ( KoLCharacter.hasToaster() )
-			for ( int i = 0; i < 3 && permitsContinue(); ++i )
-				RequestThread.postRequest( new CampgroundRequest( "toast" ) );
+		if ( checkCampground )
+		{
+			if ( KoLCharacter.hasToaster() )
+				for ( int i = 0; i < 3 && permitsContinue(); ++i )
+					RequestThread.postRequest( new CampgroundRequest( "toast" ) );
 
-		forceContinue();
+			forceContinue();
 
-		if ( KoLCharacter.hasArches() )
-			RequestThread.postRequest( new CampgroundRequest( "arches" ) );
+			if ( KoLCharacter.hasArches() )
+				RequestThread.postRequest( new CampgroundRequest( "arches" ) );
 
-		forceContinue();
+			forceContinue();
 
-		if ( StaticEntity.getBooleanProperty( "visitRumpus" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
-			RequestThread.postRequest( new ClanGymRequest( ClanGymRequest.SEARCH ) );
+			if ( StaticEntity.getBooleanProperty( "visitRumpus" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
+				RequestThread.postRequest( new ClanGymRequest( ClanGymRequest.SEARCH ) );
 
-		forceContinue();
+			forceContinue();
+		}
 
 		castBreakfastSkills( checkSettings );
-
 		forceContinue();
 
 		SpecialOutfit.restoreImplicitCheckpoint();
