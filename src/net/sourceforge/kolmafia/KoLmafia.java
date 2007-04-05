@@ -500,6 +500,9 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 
 		int today = MoonPhaseDatabase.getPhaseStep();
+		if ( StaticEntity.getIntegerProperty( "lastCounterDay" ) != today )
+			resetCounters();
+
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserId() ) );
 
 		if ( StaticEntity.getGlobalProperty( username, "getBreakfast" ).equals( "true" ) )
@@ -510,9 +513,6 @@ public abstract class KoLmafia implements KoLConstants
 				getBreakfast( true );
 			}
 		}
-
-		if ( StaticEntity.getIntegerProperty( "lastCounterDay" ) != today )
-			resetCounters();
 
 		// Also, do mushrooms, if a mushroom script has already
 		// been setup by the user.
