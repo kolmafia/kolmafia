@@ -2115,6 +2115,38 @@ public abstract class KoLmafia implements KoLConstants
 		for ( int i = 1; i <= 25; ++i )
 			searchList.add( new Integer(i) );
 
+		String visited = StaticEntity.getProperty( "tavernLayout" );
+		for ( int i = visited.length() - 1; i >= 0; --i )
+		{
+			switch ( visited.charAt(i) )
+			{
+				case '0':
+					break;
+				case '1':
+				case '2':
+					searchList.remove(i);
+					break;
+
+				case '3':
+				{
+					int faucetRow = ((int) (i / 5)) + 1;
+					int faucetColumn = i % 5 + 1;
+
+					updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
+					return i + 1;
+				}
+
+				case '4':
+				{
+					int baronRow = ((int) (i / 5)) + 1;
+					int baronColumn = i % 5 + 1;
+
+					updateDisplay( "Baron found in row " + baronRow + ", column " + baronColumn );
+					return i + 1;
+				}
+			}
+		}
+
 		// If the faucet has not yet been found, then go through
 		// the process of trying to locate it.
 
