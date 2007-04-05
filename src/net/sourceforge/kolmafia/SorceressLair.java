@@ -1361,28 +1361,11 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static void familiarBattle( int n, boolean requiresHeal )
 	{
-		// Make sure that the familiar is at least twenty pounds.
-		// Otherwise, it's a wasted QUEST_HANDLER.
-
-		boolean isPotentialFamiliar = false;
-		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
-
 		// Ensure that the player has more than 50 HP, since
 		// you cannot enter the familiar chamber with less.
 
 		String race = null;
 		FamiliarData familiar = null;
-
-		for ( int i = 0; i < FAMILIAR_DATA.length; ++i )
-			isPotentialFamiliar |= KoLCharacter.findFamiliar( FAMILIAR_DATA[i][1] ) != null;
-
-		if ( !isPotentialFamiliar )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have any tower familiars in your terrarium." );
-			return;
-		}
-
-		isPotentialFamiliar = false;
 
 		if ( requiresHeal )
 		{
@@ -1403,7 +1386,7 @@ public abstract class SorceressLair extends StaticEntity
 			while ( familiar == null )
 			{
 				race = FAMILIAR_DATA[ RNG.nextInt( FAMILIAR_DATA.length )][1];
-				if ( !race.equals( originalFamiliar.getRace() ) )
+				if ( !race.equals( KoLCharacter.getFamiliar().getRace() ) )
 					familiar = KoLCharacter.findFamiliar( race );
 			}
 
