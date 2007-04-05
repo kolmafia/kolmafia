@@ -570,11 +570,12 @@ public class LocalRelayServer implements Runnable
 				return false;
 
 			CharpaneRequest.createCheckpoint();
+			int initialMP = KoLCharacter.getCurrentMP();
 
 			StaticEntity.getClient().runBetweenBattleChecks( StaticEntity.getBooleanProperty( "relayRunsBetweenScript" ),
 				StaticEntity.getBooleanProperty( "relayMaintainsMoods" ), StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
 
-			return CharpaneRequest.clearedCheckpoint();
+			return CharpaneRequest.clearedCheckpoint() || initialMP != KoLCharacter.getCurrentMP();
 		}
 	}
 }

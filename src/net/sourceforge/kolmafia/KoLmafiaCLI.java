@@ -2858,14 +2858,9 @@ public class KoLmafiaCLI extends KoLmafia
 		int buffCount = 1;
 
 		if ( buffCountString != null && buffCountString.equals( "*" ) )
-		{
-			buffCount = (int) ( KoLCharacter.getCurrentMP() /
-				ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) ) );
-		}
+			buffCount = 0;
 		else if ( buffCountString != null )
-		{
 			buffCount = StaticEntity.parseInt( buffCountString );
-		}
 
 		if ( isExecutingCheckOnlyCommand )
 		{
@@ -2873,8 +2868,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( buffCount > 0 )
-			RequestThread.postRequest( UseSkillRequest.getInstance( skillName, splitParameters[1], buffCount ) );
+		RequestThread.postRequest( UseSkillRequest.getInstance( skillName, splitParameters[1], buffCount ) );
 	}
 
 	private String [] splitCountAndName( String parameters )
