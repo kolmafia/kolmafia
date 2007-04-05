@@ -43,6 +43,9 @@ import java.util.regex.Pattern;
 
 public class TradeableItemDatabase extends KoLDatabase
 {
+	public static final AdventureResult ODE = new AdventureResult( "Ode to Booze", 1, true );
+	public static final AdventureResult GOT_MILK = new AdventureResult( "Got Milk", 1, true );
+
 	private static final Pattern WIKI_ITEMID_PATTERN = Pattern.compile( "Item number</a>:</b> (\\d+)<br />" );
 	private static final Pattern WIKI_DESCID_PATTERN = Pattern.compile( "<b>Description ID:</b> (\\d+)<br />" );
 	private static final Pattern WIKI_PLURAL_PATTERN = Pattern.compile( "\\(Plural: <i>(.*?)<\\/i>\\)", Pattern.DOTALL );
@@ -61,10 +64,11 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static Map inebrietyById = new TreeMap();
 	private static Map spleenHitById = new TreeMap();
 
-	private static Map adventuresById = new TreeMap();
-	private static Map muscleById = new TreeMap();
-	private static Map mysticalityById = new TreeMap();
-	private static Map moxieById = new TreeMap();
+	private static Map baseAdvsByName = new TreeMap();
+	private static Map adjustedAdvsByName = new TreeMap();
+	private static Map muscleByName = new TreeMap();
+	private static Map mysticalityByName = new TreeMap();
+	private static Map moxieByName = new TreeMap();
 
 	private static BooleanArray tradeableById = new BooleanArray();
 	private static BooleanArray giftableById = new BooleanArray();
@@ -162,10 +166,10 @@ public class TradeableItemDatabase extends KoLDatabase
 
 				if ( data.length > 2 )
 				{
-					adventuresById.put( name, extractRange( data[2] ) );
-					muscleById.put( name, extractRange( data[3] ) );
-					mysticalityById.put( name, extractRange( data[4] ) );
-					moxieById.put( name, extractRange( data[5] ) );
+					addAdventureRange( name, data[2] );
+					muscleByName.put( name, extractRange( data[3] ) );
+					mysticalityByName.put( name, extractRange( data[4] ) );
+					moxieByName.put( name, extractRange( data[5] ) );
 				}
 			}
 		}
@@ -195,10 +199,10 @@ public class TradeableItemDatabase extends KoLDatabase
 
 				if ( data.length > 2 )
 				{
-					adventuresById.put( name, extractRange( data[2] ) );
-					muscleById.put( name, extractRange( data[3] ) );
-					mysticalityById.put( name, extractRange( data[4] ) );
-					moxieById.put( name, extractRange( data[5] ) );
+					addAdventureRange( name, data[2] );
+					muscleByName.put( name, extractRange( data[3] ) );
+					mysticalityByName.put( name, extractRange( data[4] ) );
+					moxieByName.put( name, extractRange( data[5] ) );
 				}
 			}
 		}
@@ -241,6 +245,63 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 	}
 
+	private static void addAdventureRange( String name, String range )
+	{
+		range = range.trim();
+
+		int dashIndex = range.indexOf( "-" );
+		int start = StaticEntity.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
+		int end = dashIndex == -1 ? start : StaticEntity.parseInt( range.substring( dashIndex + 1 ) );
+
+		// Adventure gains from Ode/Milk based on information
+		// provided on the Hardcore Oxygenation forums.
+
+		// http://forums.hardcoreoxygenation.com/viewtopic.php?t=2321
+
+		int gainSum = 0;
+
+		for ( int i = start; i <= end; ++i )
+		{
+			switch ( i )
+			{
+			case 0:
+				break;
+
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+				gainSum += i + 1;
+				break;
+
+			case 5:
+			case 6:
+			case 7:
+				gainSum += i + 2;
+				break;
+
+			case 8:
+			case 9:
+			case 10:
+				gainSum += i + 3;
+				break;
+
+			default:
+				gainSum += i + 4;
+				break;
+			}
+		}
+
+		// After calculating the adjusted value, put both values
+		// into the adventure map.
+
+		int result = (start + end) * 10 / 2;
+		baseAdvsByName.put( name, String.valueOf( "+" + ((float) result / 10) ) );
+
+		result = (int) (((float) gainSum) * 10.0f / ((float) (end - start + 1)));
+		adjustedAdvsByName.put( name, String.valueOf( "+" + ((float) result / 10) ) );
+	}
+
 	private static String extractRange( String range )
 	{
 		range = range.trim();
@@ -264,7 +325,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			return isNegative ? ("-" + start + ".0") : ("+" + start + ".0");
 
 		int result = (start + end) * 10 / (isNegative ? -2 : 2);
-		return String.valueOf( (result >= 0 ? "+" : "") + (float) result / 10 );
+		return String.valueOf( (result >= 0 ? "+" : "") + ((float) result / 10) );
 	}
 
 	/**
@@ -579,7 +640,18 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( name == null )
 			return "+0.0";
 
-		String range = (String) adventuresById.get( getCanonicalName( name ) );
+		int fullness = getFullness( name );
+		int inebriety = getInebriety( name );
+
+		String range = null;
+
+		if ( fullness > 0 && activeEffects.contains( GOT_MILK ) )
+			range = (String) adjustedAdvsByName.get( getCanonicalName( name ) );
+		else if ( inebriety > 0 && activeEffects.contains( ODE ) )
+			range = (String) adjustedAdvsByName.get( getCanonicalName( name ) );
+		else
+			range = (String) baseAdvsByName.get( getCanonicalName( name ) );
+
 		return range == null ? "+0.0" : range;
 	}
 
@@ -588,7 +660,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( name == null )
 			return "+0.0";
 
-		String range = (String) muscleById.get( getCanonicalName( name ) );
+		String range = (String) muscleByName.get( getCanonicalName( name ) );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -597,7 +669,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( name == null )
 			return "+0.0";
 
-		String range = (String) mysticalityById.get( getCanonicalName( name ) );
+		String range = (String) mysticalityByName.get( getCanonicalName( name ) );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -606,7 +678,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( name == null )
 			return "+0.0";
 
-		String range = (String) moxieById.get( getCanonicalName( name ) );
+		String range = (String) moxieByName.get( getCanonicalName( name ) );
 		return range == null ? "+0.0" : range;
 	}
 
