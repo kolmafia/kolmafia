@@ -421,6 +421,7 @@ public class KoLmafiaCLI extends KoLmafia
 			do
 			{
 				current = remainder.toLowerCase();
+				splitIndex = line.indexOf( ";" );
 
 				if ( current.startsWith( "set" ) )
 				{
