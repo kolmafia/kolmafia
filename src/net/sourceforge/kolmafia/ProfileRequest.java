@@ -478,9 +478,14 @@ public class ProfileRequest extends KoLRequest implements Comparable
 		return ascensionCount;
 	}
 
+	private static final Pattern GOBACK_PATTERN = Pattern.compile( "http://www[2345678]?\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)" );
+
 	public void processResults()
 	{
-		responseText.replaceFirst( "http://www[2345678]?\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)", "../ascensions/$1.htm" );
+		Matcher dataMatcher = GOBACK_PATTERN.matcher( responseText );
+		if ( dataMatcher.find() )
+			responseText = dataMatcher.replaceFirst( "../ascensions/" + ClanManager.getURLName( KoLmafia.getPlayerName( dataMatcher.group(1) ) ) );
+
 		refreshFields();
 	}
 

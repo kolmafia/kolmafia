@@ -78,7 +78,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	public String toString()
 	{
 		StringBuffer stringForm = new StringBuffer();
-		stringForm.append( "<tr><td><a href=\"ascensions/" + this.playerId + ".htm\"><b>" );
+		stringForm.append( "<tr><td><a href=\"ascensions/" + ClanManager.getURLName( this.playerName ) + "\"><b>" );
 
 		String name = KoLmafia.getPlayerName( this.playerId );
 		stringForm.append( name.equals( this.playerId ) ? this.playerName : name );
