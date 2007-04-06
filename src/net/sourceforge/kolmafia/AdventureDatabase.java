@@ -1085,7 +1085,7 @@ public class AdventureDatabase extends KoLDatabase
 		ItemCreationRequest creator = ItemCreationRequest.getInstance( item.getItemId() );
 		boolean shouldCreate = creator != null && ConcoctionsDatabase.getMixingMethod( item.getItemId() ) != NOCREATE;
 
-		if ( shouldCreate )
+		if ( creator != null )
 		{
 			creator.setQuantityNeeded( Math.min( missingCount, creator.getQuantityPossible() ) );
 			RequestThread.postRequest( creator );
