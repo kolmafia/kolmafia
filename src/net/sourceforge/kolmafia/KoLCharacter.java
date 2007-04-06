@@ -357,9 +357,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static final void reset( String newUserName )
 	{
 		username = newUserName;
-
-		if ( !newUserName.equals( "" ) )
-			KoLCharacter.reset();
+		KoLCharacter.reset();
 	}
 
 	public static void reset()
@@ -461,7 +459,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 		resetInventory();
 
-		battleSkillNames.setSelectedItem( StaticEntity.getProperty( "battleAction" ) );
+		int battleIndex = battleSkillNames.indexOf( StaticEntity.getProperty( "battleAction" ) );
+		battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
 	}
 
 	public static int getFullness()
