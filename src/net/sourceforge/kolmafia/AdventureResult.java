@@ -719,6 +719,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			appendRange( stringForm, TradeableItemDatabase.getMysticalityRange( item.getName() ), "mys" );
 			appendRange( stringForm, TradeableItemDatabase.getMoxieRange( item.getName() ), "mox" );
 
+			defaultComponent.setFont( DEFAULT_FONT );
 			((JLabel)defaultComponent).setText( stringForm.toString() );
 			return defaultComponent;
 		}
