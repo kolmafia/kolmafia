@@ -484,10 +484,6 @@ public class AdventureFrame extends KoLFrame
 				JPanel buttonWrapper = new JPanel( new BorderLayout() );
 				buttonWrapper.add( buttonPanel, BorderLayout.EAST );
 
-				CombatActionChangeListener listener = new CombatActionChangeListener();
-				actionSelect.addActionListener( listener );
-				moodSelect.addActionListener( listener );
-
 				VerifiableElement [] elements = new VerifiableElement[3];
 				elements[0] = new VerifiableElement( "In Combat:  ", actionSelect );
 				elements[1] = new VerifiableElement( "Use Mood:  ", moodSelect );
@@ -501,6 +497,8 @@ public class AdventureFrame extends KoLFrame
 
 			public void actionConfirmed()
 			{
+				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
+				MoodSettings.setMood( (String) moodSelect.getSelectedItem() );
 			}
 
 			public void actionCancelled()
@@ -593,15 +591,6 @@ public class AdventureFrame extends KoLFrame
 					return;
 
 				fillCurrentConditions();
-			}
-		}
-
-		private class CombatActionChangeListener implements ActionListener
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
-				MoodSettings.setMood( (String) moodSelect.getSelectedItem() );
 			}
 		}
 

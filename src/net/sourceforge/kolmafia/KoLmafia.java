@@ -189,6 +189,8 @@ public abstract class KoLmafia implements KoLConstants
 		// are present in your save state list.
 
 		StaticEntity.reloadSettings( "" );
+		KoLCharacter.reset();
+
 		KoLRequest.chooseRandomServer();
 
 		StaticEntity.setProperty( "ignoreLoadBalancer", "false" );
