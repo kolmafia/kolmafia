@@ -424,12 +424,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 				if ( current.startsWith( "set" ) )
 				{
-					int quoteIndex = lowercase.indexOf( "\"" );
+					int quoteIndex = current.indexOf( "\"" );
 					if ( quoteIndex != -1 && quoteIndex < splitIndex )
 					{
-						quoteIndex = lowercase.indexOf( "\"", splitIndex );
+						quoteIndex = current.indexOf( "\"", splitIndex );
 						if ( quoteIndex != -1 )
-							splitIndex = lowercase.indexOf( ";", quoteIndex );
+							splitIndex = current.indexOf( ";", quoteIndex );
 					}
 				}
 
