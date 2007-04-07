@@ -5730,6 +5730,14 @@ public class KoLmafiaASH extends StaticEntity
 				return FALSE_VALUE;
 			}
 
+			try
+			{
+				reader.close();
+			}
+			catch ( Exception e )
+			{
+			}
+
 			return TRUE_VALUE;
 		}
 

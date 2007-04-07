@@ -95,7 +95,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		super( "town_sendgift.php", attachments );
 
 		this.recipient = recipient;
-		this.message = RequestEditorKit.getUnicode( message );
+		this.message = RequestEditorKit.getUnicode( message + "\n\n" );
 		this.desiredCapacity = desiredCapacity;
 
 		this.wrappingType = (GiftWrapper) PACKAGES.get( desiredCapacity );
