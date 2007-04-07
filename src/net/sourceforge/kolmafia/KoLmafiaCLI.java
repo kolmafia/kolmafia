@@ -402,50 +402,56 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Check to see if it's possible to execute the line iteratively,
-		// which is possible whenever if-statements aren't involved.
+		// Check to see if we can execute the line iteratively, which
+		// is possible whenever if-statements aren't involved.
 
 		int splitIndex = line.indexOf( ";" );
 
 		if ( splitIndex != -1 )
 		{
-			String current;
-			String remainder = line;
-
-			// Determine all the individual statements which need to be
-			// executed based on the existence of the 'set' command, which
-			// may wrap things in quotes.
+			// Determine all the individual statements which need
+			// to be executed based on the existence of the 'set'
+			// command, which may wrap things in quotes.
 
 			ArrayList sequenceList = new ArrayList();
+			String remainder = line.trim();
 
 			do
 			{
-				current = remainder.toLowerCase();
-				splitIndex = line.indexOf( ";" );
+				String current = remainder.toLowerCase();
+
+				// Allow argument to "set" command to be a
+				// quoted string
 
 				if ( current.startsWith( "set" ) )
 				{
 					int quoteIndex = current.indexOf( "\"" );
 					if ( quoteIndex != -1 && quoteIndex < splitIndex )
 					{
-						quoteIndex = current.indexOf( "\"", splitIndex );
+						quoteIndex = current.indexOf( "\"", quoteIndex + 1 );
 						if ( quoteIndex != -1 )
 							splitIndex = current.indexOf( ";", quoteIndex );
 					}
 				}
 
-				current = remainder.substring( 0, splitIndex );
-
-				if ( current.length() > 0 )
-					sequenceList.add( current );
-
-				remainder = remainder.substring( splitIndex + 1 ).trim();
+				if ( splitIndex != -1 )
+				{
+					current = remainder.substring( 0, splitIndex ).trim();
+					if ( current.length() > 0 )
+						sequenceList.add( current );
+					remainder = remainder.substring( splitIndex + 1 ).trim();
+                                        splitIndex = remainder.indexOf( ";" );
+				}
 			}
-			while ( remainder.length() > 0 );
+			while ( splitIndex != -1 );
 
-			// If there are multiple statements to be executed, then check if there
-			// are any conditional statements.  If there are, you will need to run
-			// everything recursively.  Otherwise, an iterative approach works best.
+			sequenceList.add( remainder );
+
+			// If there are multiple statements to be executed,
+			// then check if there are any conditional statements.
+			// If there are, you will need to run everything
+			// recursively.	 Otherwise, an iterative approach works
+			// best.
 
 			if ( sequenceList.size() > 1 )
 			{
