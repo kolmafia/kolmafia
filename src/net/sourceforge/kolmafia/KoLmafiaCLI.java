@@ -314,7 +314,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( line == null || refusesContinue() )
 			return;
 
-		line = line.replaceAll( "\\s+", " " ).trim();
+		line = line.replaceAll( "[ \t]+", " " ).trim();
 		if ( line.length() == 0 )
 			return;
 
@@ -2013,7 +2013,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeSendRequest( String parameters, boolean isConvertible )
 	{
-		String [] splitParameters = parameters.replaceFirst( " [tT][oO] ", "\n" ).split( "\n" );
+		String [] splitParameters = parameters.replaceFirst( " [tT][oO] ", " => " ).split( " => " );
 
 		if ( splitParameters.length != 2 )
 		{
@@ -2831,7 +2831,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCastBuffRequest( String parameters )
 	{
-		String [] splitParameters = parameters.replaceFirst( " [oO][nN] ", "\n" ).split( "\n" );
+		String [] splitParameters = parameters.replaceFirst( " [oO][nN] ", " => " ).split( " => " );
 
 		if ( splitParameters.length == 1 )
 		{
