@@ -639,7 +639,9 @@ public class KoLmafiaCLI extends KoLmafia
 				aliasStream.println( aliasString + "\t" + aliasCommand );
 				aliasStream.close();
 
-				updateDisplay( "Command successfully aliased." );
+				ALIASES.put( aliasString, aliasCommand );
+				RequestLogger.printLine( "Command successfully aliased." );
+				RequestLogger.printLine( aliasString + " => " + aliasCommand );
 			}
 			else
 			{
