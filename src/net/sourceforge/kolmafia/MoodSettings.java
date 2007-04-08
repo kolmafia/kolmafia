@@ -572,46 +572,41 @@ public abstract class MoodSettings implements KoLConstants
 		// your displayList, then shrug off your extra buffs, but
 		// only if the user allows for this.
 
-		boolean allowThiefShrugOff = StaticEntity.getBooleanProperty( "allowThiefShrugOff" );
+		// First we determine which buffs are already affecting the
+		// character in question.
 
-		if ( allowThiefShrugOff )
+		ArrayList thiefBuffs = new ArrayList();
+		for ( int i = 0; i < effects.length; ++i )
 		{
-			// First we determine which buffs are already affecting the
-			// character in question.
-
-			ArrayList thiefBuffs = new ArrayList();
-			for ( int i = 0; i < effects.length; ++i )
+			String skillName = UneffectRequest.effectToSkill( effects[i].getName() );
+			if ( ClassSkillsDatabase.contains( skillName ) )
 			{
-				String skillName = UneffectRequest.effectToSkill( effects[i].getName() );
-				if ( ClassSkillsDatabase.contains( skillName ) )
-				{
-					int skillId = ClassSkillsDatabase.getSkillId( skillName );
-					if ( skillId > 6000 && skillId < 7000 )
-						thiefBuffs.add( effects[i] );
-				}
+				int skillId = ClassSkillsDatabase.getSkillId( skillName );
+				if ( skillId > 6000 && skillId < 7000 )
+					thiefBuffs.add( effects[i] );
 			}
-
-			// Then, we determine the displayList which are thief skills, and
-			// thereby would be cast at this time.
-
-			ArrayList thiefSkills = new ArrayList();
-			for ( int i = 0; i < displayList.size(); ++i )
-			{
-				current = (MoodTrigger) displayList.get(i);
-				if ( current.isThiefTrigger() )
-					thiefSkills.add( current.effect );
-			}
-
-			// We then remove the displayList which will be used from the pool of
-			// effects which could be removed.  Then we compute how many we
-			// need to remove and remove them.
-
-			thiefBuffs.removeAll( thiefSkills );
-			int buffsToRemove = thiefBuffs.size() + thiefSkills.size() - thiefTriggerLimit;
-
-			for ( int i = 0; i < buffsToRemove; ++i )
-				DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.get(i)).getName() );
 		}
+
+		// Then, we determine the displayList which are thief skills, and
+		// thereby would be cast at this time.
+
+		ArrayList thiefSkills = new ArrayList();
+		for ( int i = 0; i < displayList.size(); ++i )
+		{
+			current = (MoodTrigger) displayList.get(i);
+			if ( current.isThiefTrigger() )
+				thiefSkills.add( current.effect );
+		}
+
+		// We then remove the displayList which will be used from the pool of
+		// effects which could be removed.  Then we compute how many we
+		// need to remove and remove them.
+
+		thiefBuffs.removeAll( thiefSkills );
+		int buffsToRemove = thiefBuffs.size() + thiefSkills.size() - thiefTriggerLimit;
+
+		for ( int i = 0; i < buffsToRemove; ++i )
+			DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.get(i)).getName() );
 
 		// Now that everything is prepared, go ahead and execute
 		// the displayList which have been set.  First, start out
