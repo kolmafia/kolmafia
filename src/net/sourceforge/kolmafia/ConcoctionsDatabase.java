@@ -346,6 +346,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// is not needed.
 
 		cachePermitted( availableIngredients );
+		boolean infiniteNPCStoreItems = getBooleanProperty( "assumeInfiniteNPCItems" );
 
 		// Next, do calculations on all mixing methods which cannot
 		// be created at this time.
@@ -360,7 +361,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( concoction == null )
 				continue;
 
-			if ( NPCStoreDatabase.contains( concoction.getName() ) )
+			if ( infiniteNPCStoreItems && NPCStoreDatabase.contains( concoction.getName() ) )
 			{
 				item.initial = concoction.getCount( availableIngredients ) + KoLCharacter.getAvailableMeat() / (TradeableItemDatabase.getPriceById( concoction.getItemId() ) * 2);
 				item.creatable = 0;
@@ -684,7 +685,18 @@ public class ConcoctionsDatabase extends KoLDatabase
 	}
 
 	private static boolean isAvailable( int servantId, int clockworkId )
-	{	return concoctions.get( servantId ).total > 0 || concoctions.get( clockworkId ).total > 0;
+	{
+		// If the user did not wish to repair their boxes
+		// on explosion, then the box servant is not available
+
+		if ( !getBooleanProperty( "autoRepairBoxes" ) )
+			return false;
+
+		// Otherwise, return whether or not the quantity possible for
+		// the given box servants is non-zero.	This works because
+		// cooking tests are made after item creation tests.
+
+		return concoctions.get( servantId ).total > 0 || concoctions.get( clockworkId ).total > 0;
 	}
 
 	/**

@@ -459,10 +459,13 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "allowNonMoodBurning", "true" );
 		CLIENT_SETTINGS.put( "allowRequestQueueing", "false" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
+		CLIENT_SETTINGS.put( "assumeInfiniteNPCItems", "true" );
 		CLIENT_SETTINGS.put( "autoBuyRestores", "true" );
+		CLIENT_SETTINGS.put( "autoRepairBoxes", "true" );
 		CLIENT_SETTINGS.put( "autoLogin", "" );
 		CLIENT_SETTINGS.put( "autoPlantHardcore", "false" );
 		CLIENT_SETTINGS.put( "autoPlantSoftcore", "false" );
+		CLIENT_SETTINGS.put( "autoSatisfyWithNPCs", "true" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithMall", "true" );
 		CLIENT_SETTINGS.put( "autoSatisfyWithStash", "false" );
 		CLIENT_SETTINGS.put( "avoidInvertingTabs", "false" );
@@ -476,6 +479,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "chatStyle", "0" );
 		CLIENT_SETTINGS.put( "closeLastFrameAction", "0" );
 		CLIENT_SETTINGS.put( "cloverProtectActive", "true" );
+		CLIENT_SETTINGS.put( "createWithoutBoxServants", "false" );
 		CLIENT_SETTINGS.put( "commandLineNamespace", "" );
 		CLIENT_SETTINGS.put( "defaultBorderColor", "blue" );
 		CLIENT_SETTINGS.put( "defaultDropdown1", "0" );
