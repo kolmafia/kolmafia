@@ -1379,7 +1379,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// a valid page to add plinking, and make sure the person hasn't
 		// already started plinking.
 
-		if ( addComplexFeatures && buffer.indexOf( "fight.php" ) != -1 && location.indexOf( "action=script" ) == -1 )
+		if ( addComplexFeatures && StaticEntity.getBooleanProperty( "relayAddsCustomCombat" ) &&
+			buffer.indexOf( "fight.php" ) != -1 && location.indexOf( "action=script" ) == -1 )
 		{
 			int firstFormIndex = buffer.indexOf( "</form>" ) + 7;
 			if ( firstFormIndex > 6 )

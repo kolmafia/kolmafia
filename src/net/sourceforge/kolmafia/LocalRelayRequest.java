@@ -819,11 +819,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// Abort request if the person is attempting to stasis
 			// mine, even if it's done manually.
 
-			if ( KoLAdventure.isLikelyStasisFarming( location ) )
-			{
-				sendGeneralWarning( "", "Your other familiars look a little bored." );
-				return;
-			}
+			StaticEntity.setProperty( "relayAddsCustomCombat", String.valueOf( KoLAdventure.isLikelyStasisFarming( location ) ) );
 
 			// Special protection against adventuring in the pirates
 			// in disguise before level 9.

@@ -690,6 +690,8 @@ public class AdventureDatabase extends KoLDatabase
 
 				if ( data.length == 5 )
 					conditionLookup.put( data[3], data[4] );
+				else
+					conditionLookup.put( data[3], "none" );
 			}
 		}
 
@@ -903,16 +905,10 @@ public class AdventureDatabase extends KoLDatabase
 
 		String condition = (String) conditionLookup.get( location.getAdventureName() );
 
-		if ( condition == null )
-			return "none";
+		if ( !condition.equals( "castle items" ) )
+			return condition;
 
-		if ( KoLCharacter.canInteract() && !condition.equals( "castle items" ) )
-			return "none";
-
-		if ( condition.equals( "castle items" ) )
-			condition = (KoLCharacter.isHardcore() ? "2 choiceadv" : "1 choiceadv") + ", 1 thin black candle, 1 heavy D";
-
-		return condition == null ? "none" : condition;
+		return (KoLCharacter.isHardcore() ? "2 choiceadv" : "1 choiceadv") + ", 1 thin black candle, 1 heavy D";
 	}
 
 	public static String [][] choiceSpoilers( int choice )
