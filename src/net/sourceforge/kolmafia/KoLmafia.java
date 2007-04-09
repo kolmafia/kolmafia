@@ -2925,7 +2925,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( isMoodCheck )
 			MoodSettings.execute();
 
-		if ( isHealthCheck || KoLCharacter.getCurrentHP() == 0 )
+		if ( isHealthCheck )
 			recoverHP();
 
 		if ( isManaCheck )
