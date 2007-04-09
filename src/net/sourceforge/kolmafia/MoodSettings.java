@@ -424,6 +424,9 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void burnExtraMana( boolean isManualInvocation )
 	{
+		if ( !isManualInvocation && KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
+			return;
+
 		String nextBurnCast;
 
 		isExecuting = true;
@@ -440,7 +443,7 @@ public abstract class MoodSettings implements KoLConstants
 		// make the mistake of burning below their auto-restore threshold.
 
 		int starting = (int) (StaticEntity.getFloatProperty( "mpThreshold" ) * (float) KoLCharacter.getMaximumMP());
-		if ( (starting < 0 && !isManualInvocation) || KoLCharacter.getCurrentMP() < starting )
+		if ( starting < 0 && !isManualInvocation )
 			return null;
 
 		int minimum = Math.max( 0, (int) (StaticEntity.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP()) );
@@ -461,6 +464,9 @@ public abstract class MoodSettings implements KoLConstants
 		{
 			currentEffect = (AdventureResult) activeEffects.get(i);
 			nextEffect = i + 1 >= activeEffects.size() ? null : (AdventureResult) activeEffects.get( i + 1 );
+
+			if ( currentEffect.getCount() >= 200 )
+				return null;
 
 			skillName = UneffectRequest.effectToSkill( currentEffect.getName() );
 			if ( !ClassSkillsDatabase.contains( skillName ) || !KoLCharacter.hasSkill( skillName ) )

@@ -178,6 +178,9 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			int numberAvailable = itemUsed.getCount( inventory );
 
+			if ( !purchase && NPCStoreDatabase.contains( itemUsed.getName() ) )
+				return;
+
 			// If you need to purchase, then calculate a better
 			// purchasing strategy.
 
