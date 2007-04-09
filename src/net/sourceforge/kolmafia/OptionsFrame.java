@@ -320,7 +320,14 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
+			{ "autoRepairBoxes", "Automatically repair innaboxes on explosion" },
+			{ "createWithoutBoxServants", "Allow item creation without innaboxes" },
+			{ "assumeInfiniteNPCItems", "Assume NPC items are used in item creation" },
+
+			{ "", "" },
+
 			{ "autoBuyRestores", "Automatically buy more hp/mp restores when needed" },
+			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
 			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
 			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" }
 		};
