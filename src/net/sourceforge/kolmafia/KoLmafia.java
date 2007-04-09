@@ -548,8 +548,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void getBreakfast( boolean checkSettings, boolean checkCampground )
 	{
-		SpecialOutfit.createImplicitCheckpoint();
-
 		if ( checkCampground )
 		{
 			if ( KoLCharacter.hasToaster() )
@@ -579,8 +577,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		castBreakfastSkills( checkSettings );
 		forceContinue();
-
-		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	public void castBreakfastSkills( boolean checkSettings )
@@ -1572,21 +1568,7 @@ public abstract class KoLmafia implements KoLConstants
 			// been manipulated internally by
 
 			RequestThread.openRequestSequence();
-
-			boolean restoreOutfit = false;
-			RequestLogger.printLine();
-
-			if ( request instanceof KoLAdventure )
-			{
-				restoreOutfit = true;
-				SpecialOutfit.createImplicitCheckpoint();
-			}
-
 			executeRequest( request, iterations, wasAdventuring );
-
-			if ( restoreOutfit )
-				SpecialOutfit.restoreImplicitCheckpoint();
-
 			RequestThread.closeRequestSequence();
 
 			if ( request instanceof KoLAdventure && !wasAdventuring )
@@ -2903,19 +2885,16 @@ public abstract class KoLmafia implements KoLConstants
 		// in behavior needs to run.
 
 		RequestThread.openRequestSequence();
+		recoveryActive = true;
 
 		if ( isScriptCheck )
 		{
 			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
-
 			if ( !scriptPath.equals( "" ) )
-			{
-				recoveryActive = true;
 				DEFAULT_SHELL.executeLine( scriptPath );
-				recoveryActive = false;
-			}
 		}
 
+		recoveryActive = false;
 		SpecialOutfit.createImplicitCheckpoint();
 		recoveryActive = true;
 
@@ -2932,7 +2911,6 @@ public abstract class KoLmafia implements KoLConstants
 			recoverMP();
 
 		recoveryActive = false;
-
 		SpecialOutfit.restoreImplicitCheckpoint();
 		RequestThread.closeRequestSequence();
 

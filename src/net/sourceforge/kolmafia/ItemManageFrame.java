@@ -591,6 +591,9 @@ public class ItemManageFrame extends KoLFrame
 			if ( items.length != 1 )
 				return;
 
+			RequestThread.openRequestSequence();
+			SpecialOutfit.createImplicitCheckpoint();
+
 			if ( items[0] instanceof AdventureResult )
 			{
 				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[0] ) );
@@ -601,15 +604,12 @@ public class ItemManageFrame extends KoLFrame
 				int repeat = StaticEntity.parseInt( pieces[1] );
 
 				KoLRequest request = food ? (KoLRequest) new RestaurantRequest( pieces[0] ) : new MicrobreweryRequest( pieces[0] );
-
-				RequestThread.openRequestSequence();
-
 				for ( int i = 0; i < repeat; ++i )
 					RequestThread.postRequest( request );
-
-				RequestThread.closeRequestSequence();
 			}
 
+			SpecialOutfit.restoreImplicitCheckpoint();
+			RequestThread.closeRequestSequence();
 			elementList.updateUI();
 		}
 
