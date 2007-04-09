@@ -1428,7 +1428,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) || command.equals( "hobodrink" ) )
 		{
+			SpecialOutfit.createImplicitCheckpoint();
 			executeConsumeItemRequest( parameters );
+			SpecialOutfit.restoreImplicitCheckpoint();
 			return;
 		}
 
