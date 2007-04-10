@@ -757,18 +757,26 @@ public class ConcoctionsDatabase extends KoLDatabase
 			return KoLCharacter.getAvailableMeat() >= 1000;
 		}
 
-		if ( !isPermittedMethod( getMixingMethod( itemId ) ) )
+		int mixingMethod = getMixingMethod( itemId );
+
+		if ( !isPermittedMethod( mixingMethod ) )
 			return false;
 
 		AdventureResult [] ingredients = getStandardIngredients( itemId );
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
+			// An item is immediately available if it is in your inventory,
+			// in your closet, in an NPC store, or you have the ingredients
+			// for a substep.  But, be careful of infinite recursion.
+
 			if ( inventory.contains( ingredients[i] ) || closet.contains( ingredients[i] ) )
 				return true;
+
 			if ( NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemId ) ) )
 				return true;
-			if ( i > 0 && hasAnyIngredient( ingredients[i].getItemId() ) )
+
+			if ( mixingMethod != ROLLING_PIN && mixingMethod != CLOVER && hasAnyIngredient( ingredients[i].getItemId() ) )
 				return true;
 		}
 
