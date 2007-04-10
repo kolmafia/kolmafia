@@ -207,7 +207,7 @@ public abstract class KoLCharacter extends StaticEntity
 	// General static variables
 
 	private static String username = "";
-	private static String avatar = "";
+	private static String avatar = "otherimages/discobandit_f.gif";
 	private static int userId = 0;
 	private static String playerId = "0";
 	private static String classname = "";

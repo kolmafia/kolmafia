@@ -94,20 +94,11 @@ public class AdventureFrame extends KoLFrame
 	private static KoLAdventure lastAdventure = null;
 	private static boolean updateConditions = true;
 
-	private JTree combatTree;
-	private JSplitPane sessionGrid;
-	private JTextArea combatEditor;
-	private DefaultTreeModel combatModel;
-	private CardLayout combatCards;
-	private JPanel combatPanel;
+	private static JCheckBox autoSetCheckBox = new AutoSetCheckBox();
+	private static JTextField conditionField = new JTextField();
 
-	private AdventureSelectPanel adventureSelect;
-	private JTextField conditionField;
-
-	private JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect, hpHaltCombatSelect;
-	private JCheckBox [] hpRestoreCheckbox;
-	private JComboBox mpAutoRecoverSelect, mpAutoRecoverTargetSelect, mpBalanceSelect;
-	private JCheckBox [] mpRestoreCheckbox;
+	private static JSplitPane sessionGrid;
+	private static AdventureSelectPanel adventureSelect;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -205,36 +196,7 @@ public class AdventureFrame extends KoLFrame
 
 		JPanel restorePanel = new JPanel( new GridLayout( 1, 2, 10, 10 ) );
 
-		JPanel healthPanel = new JPanel();
-		healthPanel.add( new HealthOptionsPanel() );
-
-		JPanel manaPanel = new JPanel();
-		manaPanel.add( new ManaOptionsPanel() );
-
-		restorePanel.add( healthPanel );
-		restorePanel.add( manaPanel );
-
-		CheckboxListener listener = new CheckboxListener();
-		for ( int i = 0; i < hpRestoreCheckbox.length; ++i )
-			hpRestoreCheckbox[i].addActionListener( listener );
-		for ( int i = 0; i < mpRestoreCheckbox.length; ++i )
-			mpRestoreCheckbox[i].addActionListener( listener );
-
-		// Components of custom combat and choice adventuring,
-		// combined into one friendly panel.
-
-		combatTree = new JTree();
-		combatModel = (DefaultTreeModel) combatTree.getModel();
-
-		combatCards = new CardLayout();
-		combatPanel = new JPanel( combatCards );
-		combatPanel.add( "tree", new CustomCombatTreePanel() );
-		combatPanel.add( "editor", new CustomCombatPanel() );
-
 		addTab( "Choice Adventures", new ChoiceOptionsPanel() );
-		tabs.addTab( "Combat Adventures", combatPanel );
-		addTab( "Auto Recovery", restorePanel );
-
 		return tabs;
 	}
 
@@ -254,8 +216,93 @@ public class AdventureFrame extends KoLFrame
 		return sessionGrid;
 	}
 
-	private void fillDefaultConditions()
+	protected JPanel getAdventureSummary( String property )
 	{
+		int selectedIndex = StaticEntity.getIntegerProperty( property );
+
+		CardLayout resultCards = new CardLayout();
+		JPanel resultPanel = new JPanel( resultCards );
+		JComboBox resultSelect = new JComboBox();
+
+		int cardCount = 0;
+
+		resultSelect.addItem( "Session Results" );
+		resultPanel.add( new SimpleScrollPane( tally ), String.valueOf( cardCount++ ) );
+
+		resultSelect.addItem( "Location Details" );
+		resultPanel.add( new SafetyField(), "1" );
+
+		resultSelect.addItem( "Conditions Left" );
+		resultPanel.add( new SimpleScrollPane( conditions ), String.valueOf( cardCount++ ) );
+
+		resultSelect.addItem( "Active Effects" );
+		resultPanel.add( new SimpleScrollPane( activeEffects ), String.valueOf( cardCount++ ) );
+
+		resultSelect.addItem( "Encounter Listing" );
+		resultPanel.add( new SimpleScrollPane( encounterList ), String.valueOf( cardCount++ ) );
+
+		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect, property ) );
+		resultSelect.setSelectedIndex( selectedIndex );
+
+		JPanel containerPanel = new JPanel( new BorderLayout() );
+		containerPanel.add( resultSelect, BorderLayout.NORTH );
+		containerPanel.add( resultPanel, BorderLayout.CENTER );
+
+		return containerPanel;
+	}
+
+	private class ResultSelectListener implements ActionListener
+	{
+		private String property;
+		private CardLayout resultCards;
+		private JPanel resultPanel;
+		private JComboBox resultSelect;
+
+		public ResultSelectListener( CardLayout resultCards, JPanel resultPanel, JComboBox resultSelect, String property )
+		{
+			this.resultCards = resultCards;
+			this.resultPanel = resultPanel;
+			this.resultSelect = resultSelect;
+			this.property = property;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			String index = String.valueOf( resultSelect.getSelectedIndex() );
+			resultCards.show( resultPanel, index );
+			StaticEntity.setProperty( property, index );
+
+		}
+	}
+
+	private static class AutoSetCheckBox extends JCheckBox implements ActionListener
+	{
+		public AutoSetCheckBox()
+		{	addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			StaticEntity.setProperty( "autoSetConditions", String.valueOf( isSelected() ) );
+
+			if ( isSelected() )
+			{
+				if ( conditionField.getText().equals( "none" ) )
+					fillDefaultConditions();
+			}
+			else
+				conditionField.setText( "none" );
+		}
+	}
+
+	private static void fillDefaultConditions()
+	{
+		if ( !autoSetCheckBox.isSelected() )
+		{
+			conditionField.setText( "none" );
+			return;
+		}
+
 		KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();
 		if ( location == null )
 			return;
@@ -263,7 +310,7 @@ public class AdventureFrame extends KoLFrame
 		conditionField.setText( AdventureDatabase.getCondition( location ) );
 	}
 
-	private void fillCurrentConditions()
+	private static void fillCurrentConditions()
 	{
 		StringBuffer conditionString = new StringBuffer();
 
@@ -374,6 +421,9 @@ public class AdventureFrame extends KoLFrame
 			if ( KoLmafia.isAdventuring() )
 				return false;
 
+			if ( !autoSetCheckBox.isSelected() )
+				return false;
+
 			String conditionList = conditionField.getText().trim().toLowerCase();
 
 			if ( conditionList.equalsIgnoreCase( "none" ) )
@@ -474,8 +524,13 @@ public class AdventureFrame extends KoLFrame
 				actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
 				moodSelect = new JComboBox( MoodSettings.getAvailableMoods() );
 
-				conditionField = new JTextField();
 				locationSelect.addListSelectionListener( new ConditionChangeListener() );
+
+				JPanel conditionPanel = new JPanel( new BorderLayout( 5, 5 ) );
+				conditionPanel.add( conditionField, BorderLayout.CENTER );
+				conditionPanel.add( autoSetCheckBox, BorderLayout.EAST );
+
+				autoSetCheckBox.setSelected( StaticEntity.getBooleanProperty( "autoSetConditions" ) );
 
 				JPanel buttonPanel = new JPanel();
 				buttonPanel.add( begin = new ExecuteButton() );
@@ -487,7 +542,7 @@ public class AdventureFrame extends KoLFrame
 				VerifiableElement [] elements = new VerifiableElement[3];
 				elements[0] = new VerifiableElement( "In Combat:  ", actionSelect );
 				elements[1] = new VerifiableElement( "Use Mood:  ", moodSelect );
-				elements[2] = new VerifiableElement( "Objectives:  ", conditionField );
+				elements[2] = new VerifiableElement( "Objectives:  ", conditionPanel );
 
 				setContent( elements );
 				container.add( buttonWrapper, BorderLayout.SOUTH );
@@ -670,143 +725,6 @@ public class AdventureFrame extends KoLFrame
 		public void requestFocus()
 		{	locationSelect.requestFocus();
 		}
-	}
-
-	private class CustomCombatPanel extends LabeledScrollPanel
-	{
-		public CustomCombatPanel()
-		{
-			super( "Editor", "save", "help", new JTextArea() );
-			combatEditor = (JTextArea) scrollComponent;
-			combatEditor.setFont( DEFAULT_FONT );
-			refreshCombatSettings();
-		}
-
-		public void actionConfirmed()
-		{
-			File location = new File( "settings" + File.separator + CombatSettings.settingsFileName() );
-			LogStream writer = LogStream.openStream( location, true );
-
-			writer.println( ((JTextArea)scrollComponent).getText() );
-			writer.close();
-			writer = null;
-
-			KoLCharacter.battleSkillNames.setSelectedItem( "custom combat script" );
-			StaticEntity.setProperty( "battleAction", "custom combat script" );
-
-			// After storing all the data on disk, go ahead
-			// and reload the data inside of the tree.
-
-			refreshCombatTree();
-			combatCards.show( combatPanel, "tree" );
-		}
-
-		public void actionCancelled()
-		{	StaticEntity.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-		}
-	}
-
-	private class CustomCombatTreePanel extends LabeledScrollPanel
-	{
-		public CustomCombatTreePanel()
-		{	super( "Custom Combat", "edit", "load", combatTree );
-		}
-
-		public void actionConfirmed()
-		{
-			refreshCombatSettings();
-			combatCards.show( combatPanel, "editor" );
-		}
-
-		public void actionCancelled()
-		{
-			JFileChooser chooser = new JFileChooser( (new File( "settings" )).getAbsolutePath() );
-			chooser.setFileFilter( CCS_FILTER );
-
-			int returnVal = chooser.showOpenDialog( null );
-
-			if ( chooser.getSelectedFile() == null || returnVal != JFileChooser.APPROVE_OPTION )
-				return;
-
-			CombatSettings.loadSettings( chooser.getSelectedFile() );
-			refreshCombatSettings();
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-		}
-	}
-
-	private static final FileFilter CCS_FILTER = new FileFilter()
-	{
-		public boolean accept( File file )
-		{
-			String name = file.getName();
-			return !name.startsWith( "." ) && name.startsWith( "combat_" );
-		}
-
-		public String getDescription()
-		{	return "Custom Combat Settings";
-		}
-	};
-
-	private void refreshCombatSettings()
-	{
-		if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) )
-			return;
-
-		try
-		{
-			CombatSettings.restoreDefaults();
-			BufferedReader reader = KoLDatabase.getReader( "settings" + File.separator + CombatSettings.settingsFileName() );
-
-			StringBuffer buffer = new StringBuffer();
-			String line;
-
-			while ( (line = reader.readLine()) != null )
-			{
-				buffer.append( line );
-				buffer.append( System.getProperty( "line.separator" ) );
-			}
-
-			reader.close();
-			reader = null;
-
-			// If the buffer is empty, add in the default settings.
-
-			if ( buffer.length() == 0 )
-				buffer.append( "[ default ]\n1: attack with weapon" );
-
-			combatEditor.setText( buffer.toString() );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-
-		refreshCombatTree();
-	}
-
-	/**
-	 * Internal class used to handle everything related to
-	 * displaying custom combat.
-	 */
-
-	private void refreshCombatTree()
-	{
-		CombatSettings.restoreDefaults();
-		combatModel.setRoot( CombatSettings.getRoot() );
-		combatTree.setRootVisible( false );
-
-		for ( int i = 0; i < combatTree.getRowCount(); ++i )
-			combatTree.expandRow( i );
 	}
 
 	/**
@@ -1407,129 +1325,6 @@ public class AdventureFrame extends KoLFrame
 				fallSelect.setSelectedIndex(2);
 
 			isRefreshing = false;
-		}
-	}
-
-	private void saveRestoreSettings()
-	{
-		StaticEntity.setProperty( "hpThreshold", String.valueOf( ((float)(hpHaltCombatSelect.getSelectedIndex() - 1) / 10.0f) ) );
-		StaticEntity.setProperty( "hpAutoRecovery", String.valueOf( ((float)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0f) ) );
-		StaticEntity.setProperty( "hpAutoRecoveryTarget", String.valueOf( ((float)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0f) ) );
-		StaticEntity.setProperty( "hpAutoRecoveryItems", getSettingString( hpRestoreCheckbox ) );
-
-		StaticEntity.setProperty( "mpThreshold", String.valueOf( ((float)(mpBalanceSelect.getSelectedIndex() - 1) / 10.0f) ) );
-		StaticEntity.setProperty( "mpAutoRecovery", String.valueOf( ((float)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0f) ) );
-		StaticEntity.setProperty( "mpAutoRecoveryTarget", String.valueOf( ((float)(mpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0f) ) );
-		StaticEntity.setProperty( "mpAutoRecoveryItems", getSettingString( mpRestoreCheckbox ) );
-	}
-
-	private class CheckboxListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	saveRestoreSettings();
-		}
-	}
-
-	private class HealthOptionsPanel extends JPanel implements ActionListener
-	{
-		private boolean refreshSoon = false;
-
-		public HealthOptionsPanel()
-		{
-			hpHaltCombatSelect = new JComboBox();
-			hpHaltCombatSelect.addItem( "Stop automation if auto-recovery fails" );
-			for ( int i = 0; i <= 10; ++i )
-				hpHaltCombatSelect.addItem( "Stop automation if health at " + (i*10) + "%" );
-
-			hpAutoRecoverSelect = new JComboBox();
-			hpAutoRecoverSelect.addItem( "Do not autorecover health" );
-			for ( int i = 0; i <= 10; ++i )
-				hpAutoRecoverSelect.addItem( "Auto-recover health at " + (i*10) + "%" );
-
-			hpAutoRecoverTargetSelect = new JComboBox();
-			hpAutoRecoverTargetSelect.addItem( "Do not automatically recover health" );
-			for ( int i = 0; i <= 10; ++i )
-				hpAutoRecoverTargetSelect.addItem( "Try to recover up to " + (i*10) + "% health" );
-
-			// Add the elements to the panel
-
-			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-			add( constructLabelPair( "Stop automation: ", hpHaltCombatSelect ) );
-			add( Box.createVerticalStrut( 10 ) );
-
-			add( constructLabelPair( "Restore your health: ", hpAutoRecoverSelect ) );
-			add( Box.createVerticalStrut( 5 ) );
-
-			JComponentUtilities.setComponentSize( hpAutoRecoverTargetSelect, 240, 20 );
-			add( hpAutoRecoverTargetSelect );
-			add( Box.createVerticalStrut( 10 ) );
-
-			add( constructLabelPair( "Use these restores: ", constructScroller( hpRestoreCheckbox = HPRestoreItemList.getCheckboxes() ) ) );
-
-			hpHaltCombatSelect.setSelectedIndex( Math.max( (int)(StaticEntity.getFloatProperty( "hpThreshold" ) * 10) + 1, 0 ) );
-			hpAutoRecoverSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "hpAutoRecovery" ) * 10) + 1 );
-			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "hpAutoRecoveryTarget" ) * 10) + 1 );
-
-			hpHaltCombatSelect.addActionListener( this );
-			hpAutoRecoverSelect.addActionListener( this );
-			hpAutoRecoverTargetSelect.addActionListener( this );
-
-			for ( int i = 0; i < hpRestoreCheckbox.length; ++i )
-				hpRestoreCheckbox[i].addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	saveRestoreSettings();
-		}
-	}
-
-	private class ManaOptionsPanel extends JPanel implements ActionListener
-	{
-		public ManaOptionsPanel()
-		{
-			mpBalanceSelect = new JComboBox();
-			mpBalanceSelect.addItem( "Enable manual invocation of bulk recast" );
-			for ( int i = 0; i <= 9; ++i )
-				mpBalanceSelect.addItem( "Enable conditional recast at " + (i*10) + "%" );
-
-			mpAutoRecoverSelect = new JComboBox();
-			mpAutoRecoverSelect.addItem( "Do not automatically recover mana" );
-			for ( int i = 0; i <= 10; ++i )
-				mpAutoRecoverSelect.addItem( "Auto-recover mana at " + (i*10) + "%" );
-
-			mpAutoRecoverTargetSelect = new JComboBox();
-			mpAutoRecoverTargetSelect.addItem( "Do not automatically recover mana" );
-			for ( int i = 0; i <= 10; ++i )
-				mpAutoRecoverTargetSelect.addItem( "Try to recover up to " + (i*10) + "% mana" );
-
-			// Add the elements to the panel
-
-			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-			add( constructLabelPair( "Buff balancing: ", mpBalanceSelect ) );
-			add( Box.createVerticalStrut( 10 ) );
-
-			add( constructLabelPair( "Restore your mana: ", mpAutoRecoverSelect ) );
-			add( Box.createVerticalStrut( 5 ) );
-
-			JComponentUtilities.setComponentSize( mpAutoRecoverTargetSelect, 240, 20 );
-			add( mpAutoRecoverTargetSelect );
-			add( Box.createVerticalStrut( 10 ) );
-			add( constructLabelPair( "Use these restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) ) );
-
-			mpBalanceSelect.setSelectedIndex( Math.max( (int)(StaticEntity.getFloatProperty( "mpThreshold" ) * 10) + 1, 0 ) );
-			mpAutoRecoverSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "mpAutoRecovery" ) * 10) + 1 );
-			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "mpAutoRecoveryTarget" ) * 10) + 1 );
-
-			mpBalanceSelect.addActionListener( this );
-			mpAutoRecoverSelect.addActionListener( this );
-			mpAutoRecoverTargetSelect.addActionListener( this );
-
-			for ( int i = 0; i < mpRestoreCheckbox.length; ++i )
-				mpRestoreCheckbox[i].addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	saveRestoreSettings();
 		}
 	}
 }
