@@ -792,7 +792,10 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		{
 			StaticEntity.setProperty( "lastAdventure", adventureName );
 			if ( shouldRunFullCheck )
+			{
 				AdventureFrame.updateSelectedAdventure( this );
+				CharsheetFrame.updateSelectedAdventure( this );
+			}
 		}
 
 		if ( !KoLmafia.isAdventuring() )
