@@ -894,6 +894,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 		{
 			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) )
 			{
+				AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR );
+
 				sendGeneralWarning( "wand.gif", "Hm, it's possible there is something very important you're forgetting.  Maybe you should <a href=\"inventory.php?which=2\">double-check</a> just to make sure." );
 
 				return;
