@@ -134,7 +134,7 @@ public class CharsheetFrame extends KoLFrame
 
 		JPanel northPanel = new JPanel( new BorderLayout( 20, 20 ) );
 		northPanel.add( statusContainer, BorderLayout.WEST );
-		northPanel.add( new ItemManagePanel( tally ), BorderLayout.CENTER );
+		northPanel.add( new ItemManagePanel( activeEffects ), BorderLayout.CENTER );
 
 		framePanel.add( northPanel, BorderLayout.NORTH );
 		framePanel.add( getSouthernTabs(), BorderLayout.CENTER );
@@ -322,7 +322,7 @@ public class CharsheetFrame extends KoLFrame
 		SimpleScrollPane restoreScroller = new SimpleScrollPane( restorePanel );
 		JComponentUtilities.setComponentSize( restoreScroller, 560, 300 );
 
-		tabs.addTab( "HP/MP Maintenance", restoreScroller );
+		tabs.addTab( "Auto-Recovery", restoreScroller );
 
 		JPanel moodPanel = new JPanel( new BorderLayout() );
 		moodPanel.add( new MoodTriggerListPanel(), BorderLayout.CENTER );
@@ -849,7 +849,7 @@ public class CharsheetFrame extends KoLFrame
 			extraButtons.add( new DeleteMoodButton() );
 			extraButtons.add( new CopyMoodButton() );
 
-			buttonPanel.add( extraButtons, BorderLayout.SOUTH );
+			eastPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
