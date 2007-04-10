@@ -109,7 +109,6 @@ import net.sourceforge.kolmafia.ItemManagePanel.TransferListener;
 public abstract class KoLFrame extends JFrame implements KoLConstants
 {
 	public static final TradeableItemFilter TRADE_FILTER = new TradeableItemFilter();
-	public static JList locationSelect = null;
 
 	public JTabbedPane tabs = null;
 
@@ -635,17 +634,20 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		private JTextPane safetyText = new JTextPane();
 		private String savedText = " ";
+		private JList locationSelect;
 
-		public SafetyField()
+		public SafetyField( JList locationSelect )
 		{
 			super( new BorderLayout() );
+
+			this.locationSelect = locationSelect;
 
 			SimpleScrollPane textScroller = new SimpleScrollPane( safetyText, SimpleScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
 			JComponentUtilities.setComponentSize( textScroller, 100, 100 );
 			add( textScroller, BorderLayout.CENTER );
 
 			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( this ) );
-			locationSelect.addListSelectionListener( this );
+			this.locationSelect.addListSelectionListener( this );
 
 			safetyText.setContentType( "text/html" );
 			safetyText.setEditable( false );
@@ -662,10 +664,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		private void setSafetyString()
 		{
-			if ( locationSelect == null )
-				return;
-
-			KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
+			KoLAdventure request = (KoLAdventure) this.locationSelect.getSelectedValue();
 			if ( request == null )
 				return;
 

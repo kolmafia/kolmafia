@@ -89,16 +89,19 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureFrame extends KoLFrame
 {
-	private static JComboBox zoneSelect = null;
-	private static JProgressBar requestMeter = null;
-	private static KoLAdventure lastAdventure = null;
-	private static boolean updateConditions = true;
+	private static AdventureFrame INSTANCE = null;
 
-	private static JCheckBox autoSetCheckBox = new AutoSetCheckBox();
-	private static JTextField conditionField = new JTextField();
+	private JComboBox zoneSelect = null;
+	private JProgressBar requestMeter = null;
+	private KoLAdventure lastAdventure = null;
+	private boolean updateConditions = true;
 
-	private static JSplitPane sessionGrid;
-	private static AdventureSelectPanel adventureSelect;
+	private JList locationSelect = null;
+	private JCheckBox autoSetCheckBox = new AutoSetCheckBox();
+	private JTextField conditionField = new JTextField();
+
+	private JSplitPane sessionGrid;
+	private AdventureSelectPanel adventureSelect;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -113,6 +116,7 @@ public class AdventureFrame extends KoLFrame
 		// Construct the adventure select container
 		// to hold everything related to adventuring.
 
+		INSTANCE = this;
 		this.adventureSelect = new AdventureSelectPanel();
 
 		JPanel adventureDetails = new JPanel( new BorderLayout( 20, 20 ) );
@@ -142,31 +146,31 @@ public class AdventureFrame extends KoLFrame
 
 	public static void updateRequestMeter( String message )
 	{
-		if ( requestMeter == null )
+		if ( INSTANCE == null || INSTANCE.requestMeter == null )
 			return;
 
-		requestMeter.setString( message );
+		INSTANCE.requestMeter.setString( message );
 	}
 
 	public static void updateRequestMeter( int value, int maximum )
 	{
-		if ( requestMeter == null )
+		if ( INSTANCE == null || INSTANCE.requestMeter == null )
 			return;
 
-		requestMeter.setMaximum( maximum );
-		requestMeter.setValue( value );
+		INSTANCE.requestMeter.setMaximum( maximum );
+		INSTANCE.requestMeter.setValue( value );
 	}
 
 	public static void updateSelectedAdventure( KoLAdventure location )
 	{
-		if ( location == null || zoneSelect == null || locationSelect == null )
+		if ( INSTANCE == null || location == null || INSTANCE.zoneSelect == null || INSTANCE.locationSelect == null )
 			return;
 
 		if ( !conditions.isEmpty() )
 			return;
 
-		zoneSelect.setSelectedItem( AdventureDatabase.ZONE_DESCRIPTIONS.get( location.getParentZone() ) );
-		locationSelect.setSelectedValue( location, true );
+		INSTANCE.zoneSelect.setSelectedItem( AdventureDatabase.ZONE_DESCRIPTIONS.get( location.getParentZone() ) );
+		INSTANCE.locationSelect.setSelectedValue( location, true );
 	}
 
 	public boolean useSidePane()
@@ -230,7 +234,7 @@ public class AdventureFrame extends KoLFrame
 		resultPanel.add( new SimpleScrollPane( tally ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Location Details" );
-		resultPanel.add( new SafetyField(), "1" );
+		resultPanel.add( new SafetyField( locationSelect ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Conditions Left" );
 		resultPanel.add( new SimpleScrollPane( conditions ), String.valueOf( cardCount++ ) );
@@ -275,7 +279,7 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
-	private static class AutoSetCheckBox extends JCheckBox implements ActionListener
+	private class AutoSetCheckBox extends JCheckBox implements ActionListener
 	{
 		public AutoSetCheckBox()
 		{	addActionListener( this );
@@ -295,7 +299,7 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
-	private static void fillDefaultConditions()
+	private void fillDefaultConditions()
 	{
 		if ( !autoSetCheckBox.isSelected() )
 		{
@@ -310,7 +314,7 @@ public class AdventureFrame extends KoLFrame
 		conditionField.setText( AdventureDatabase.getCondition( location ) );
 	}
 
-	private static void fillCurrentConditions()
+	private void fillCurrentConditions()
 	{
 		StringBuffer conditionString = new StringBuffer();
 

@@ -85,9 +85,11 @@ import net.sourceforge.kolmafia.MoodSettings.MoodTrigger;
 
 public class CharsheetFrame extends KoLFrame
 {
-	private static JComboBox zoneSelect = null;
-	private static KoLAdventure lastAdventure = null;
-	private static boolean updateConditions = true;
+	private static CharsheetFrame INSTANCE = null;
+
+	private JList locationSelect = null;
+	private JComboBox zoneSelect = null;
+	private KoLAdventure lastAdventure = null;
 
 	private JTree combatTree;
 	private JTextArea combatEditor;
@@ -117,6 +119,7 @@ public class CharsheetFrame extends KoLFrame
 	{
 		super( "Player Status" );
 
+		INSTANCE = this;
 		framePanel.setLayout( new BorderLayout( 20, 20 ) );
 
 		JPanel statusPanel = new JPanel( new BorderLayout( 20, 20 ) );
@@ -253,14 +256,14 @@ public class CharsheetFrame extends KoLFrame
 
 	public static void updateSelectedAdventure( KoLAdventure location )
 	{
-		if ( location == null || zoneSelect == null || locationSelect == null )
+		if ( INSTANCE == null || location == null || INSTANCE.zoneSelect == null || INSTANCE.locationSelect == null )
 			return;
 
 		if ( !conditions.isEmpty() )
 			return;
 
-		zoneSelect.setSelectedItem( AdventureDatabase.ZONE_DESCRIPTIONS.get( location.getParentZone() ) );
-		locationSelect.setSelectedValue( location, true );
+		INSTANCE.zoneSelect.setSelectedItem( AdventureDatabase.ZONE_DESCRIPTIONS.get( location.getParentZone() ) );
+		INSTANCE.locationSelect.setSelectedValue( location, true );
 	}
 
 	private JPanel constructLabelPair( String label, JComponent element )
@@ -309,7 +312,7 @@ public class CharsheetFrame extends KoLFrame
 
 		JPanel locationDetails = new JPanel( new BorderLayout( 10, 10 ) );
 		locationDetails.add( new AdventureSelectPanel(), BorderLayout.WEST );
-		locationDetails.add( new SafetyField(), BorderLayout.CENTER );
+		locationDetails.add( new SafetyField( locationSelect ), BorderLayout.CENTER );
 
 		JPanel locationHolder = new JPanel( new CardLayout( 10, 10 ) );
 		locationHolder.add( locationDetails, "" );
