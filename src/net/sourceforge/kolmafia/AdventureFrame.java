@@ -64,7 +64,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -87,18 +86,13 @@ import tab.CloseTabbedPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class AdventureFrame extends KoLFrame
+public class AdventureFrame extends AdventureOptionsFrame
 {
 	private static AdventureFrame INSTANCE = null;
+	private static boolean shouldAddExtraTabs = true;
 
 	private JComboBox zoneSelect = null;
 	private JProgressBar requestMeter = null;
-	private KoLAdventure lastAdventure = null;
-	private boolean updateConditions = true;
-
-	private JList locationSelect = null;
-	private JCheckBox autoSetCheckBox = new AutoSetCheckBox();
-	private JTextField conditionField = new JTextField();
 
 	private JSplitPane sessionGrid;
 	private AdventureSelectPanel adventureSelect;
@@ -117,7 +111,7 @@ public class AdventureFrame extends KoLFrame
 		// to hold everything related to adventuring.
 
 		INSTANCE = this;
-		this.adventureSelect = new AdventureSelectPanel();
+		this.adventureSelect = new AdventureSelectPanel( true );
 
 		JPanel adventureDetails = new JPanel( new BorderLayout( 20, 20 ) );
 		adventureDetails.add( adventureSelect, BorderLayout.CENTER );
@@ -177,30 +171,31 @@ public class AdventureFrame extends KoLFrame
 	{	return true;
 	}
 
-	private JPanel constructLabelPair( String label, JComponent element )
+	public static void removeExtraTabs()
 	{
-		JPanel container = new JPanel( new BorderLayout() );
+		AdventureFrame.shouldAddExtraTabs = false;
+		if ( INSTANCE == null )
+			return;
 
-		if ( element instanceof JComboBox )
-			JComponentUtilities.setComponentSize( element, 240, 20 );
-
-		container.add( new JLabel( "<html><b>" + label + "</b></html>", JLabel.LEFT ), BorderLayout.NORTH );
-		container.add( element, BorderLayout.CENTER );
-		return container;
+		for ( int i = INSTANCE.tabs.getTabCount() - 1; i > 1; --i )
+			INSTANCE.tabs.remove( i );
 	}
 
-	private JTabbedPane getSouthernTabs()
+	public JTabbedPane getSouthernTabs()
 	{
 		// Handle everything that might appear inside of the
 		// session tally.
 
-		tabs.addTab( "Normal Options", getAdventureSummary() );
+		if ( shouldAddExtraTabs )
+			super.getSouthernTabs( false );
+
+		tabs.insertTab( "Normal Options", null, getAdventureSummary(), null, 0 );
 
 		// Components of auto-restoration
 
 		JPanel restorePanel = new JPanel( new GridLayout( 1, 2, 10, 10 ) );
 
-		addTab( "Choice Adventures", new ChoiceOptionsPanel() );
+		tabs.insertTab( "Choice Adventures", null, new SimpleScrollPane( new ChoiceOptionsPanel() ), null, 1 );
 		return tabs;
 	}
 
@@ -220,456 +215,10 @@ public class AdventureFrame extends KoLFrame
 		return sessionGrid;
 	}
 
-	private class AutoSetCheckBox extends JCheckBox implements ActionListener
-	{
-		public AutoSetCheckBox()
-		{	addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			StaticEntity.setProperty( "autoSetConditions", String.valueOf( isSelected() ) );
-
-			if ( isSelected() )
-			{
-				if ( conditionField.getText().equals( "none" ) )
-					fillDefaultConditions();
-			}
-			else
-				conditionField.setText( "none" );
-		}
-	}
-
-	private void fillDefaultConditions()
-	{
-		if ( !autoSetCheckBox.isSelected() )
-		{
-			conditionField.setText( "none" );
-			return;
-		}
-
-		KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();
-		if ( location == null )
-			return;
-
-		conditionField.setText( AdventureDatabase.getCondition( location ) );
-	}
-
-	private void fillCurrentConditions()
-	{
-		StringBuffer conditionString = new StringBuffer();
-
-		for ( int i = 0; i < conditions.size(); ++i )
-		{
-			if ( i > 0 )
-				conditionString.append( ", " );
-
-			conditionString.append( ((AdventureResult)conditions.get(i)).toConditionString() );
-		}
-
-		if ( conditionString.length() == 0 )
-			fillDefaultConditions();
-		else
-			conditionField.setText( conditionString.toString() );
-	}
-
-	public void requestFocus()
-	{
-		super.requestFocus();
-		locationSelect.requestFocus();
-	}
-
 	public void dispose()
 	{
 		StaticEntity.setProperty( "defaultDropdownSplit", String.valueOf( sessionGrid.getLastDividerLocation() ) );
 		super.dispose();
-	}
-
-	/**
-	 * An internal class which represents the panel used for adventure
-	 * selection in the <code>AdventureFrame</code>.
-	 */
-
-	private class AdventureSelectPanel extends JPanel implements ChangeListener
-	{
-		private ExecuteButton begin;
-		private boolean isHandlingConditions = false;
-
-		private JComboBox moodSelect;
-		private JComboBox actionSelect;
-		private TreeMap zoneMap;
-		private JSpinner countField;
-
-		public AdventureSelectPanel()
-		{
-			super( new BorderLayout( 10, 10 ) );
-
-			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
-
-			// West pane is a scroll pane which lists all of the available
-			// locations -- to be included is a map on a separate tab.
-
-			Object currentZone;
-			zoneMap = new TreeMap();
-
-			zoneSelect = new JComboBox();
-			zoneSelect.addItem( "All Locations" );
-
-			Object [] zones = AdventureDatabase.PARENT_LIST.toArray();
-
-			for ( int i = 0; i < zones.length; ++i )
-			{
-				currentZone = AdventureDatabase.ZONE_DESCRIPTIONS.get( zones[i] );
-				zoneMap.put( currentZone, zones[i] );
-				zoneSelect.addItem( currentZone );
-			}
-
-			countField = new JSpinner();
-			countField.addChangeListener( this );
-
-			JComponentUtilities.setComponentSize( countField, 50, 24 );
-			JComponentUtilities.setComponentSize( zoneSelect, 200, 24 );
-
-			JPanel zonePanel = new JPanel( new BorderLayout( 5, 5 ) );
-			zonePanel.add( countField, BorderLayout.EAST );
-			zonePanel.add( zoneSelect, BorderLayout.CENTER );
-
-			zoneSelect.addActionListener( new ZoneChangeListener() );
-			locationSelect = new JList( adventureList );
-			locationSelect.setVisibleRowCount( 4 );
-
-			JPanel locationPanel = new JPanel( new BorderLayout( 5, 5 ) );
-			locationPanel.add( zonePanel, BorderLayout.NORTH );
-			locationPanel.add( new SimpleScrollPane( locationSelect ), BorderLayout.CENTER );
-
-			JPanel westPanel = new JPanel( new CardLayout( 20, 20 ) );
-			westPanel.add( locationPanel, "" );
-
-			add( westPanel, BorderLayout.WEST );
-			add( new ObjectivesPanel(), BorderLayout.CENTER );
-
-			JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, begin );
-			((JSpinner.DefaultEditor)countField.getEditor()).getTextField().addKeyListener( begin );
-		}
-
-		public void stateChanged( ChangeEvent e )
-		{
-			int desired = getValue( countField, KoLCharacter.getAdventuresLeft() );
-			if ( desired <= 0 )
-				countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
-			else if ( desired > KoLCharacter.getAdventuresLeft() )
-				countField.setValue( new Integer( 1 ) );
-		}
-
-		private boolean handleConditions( KoLAdventure request )
-		{
-			if ( KoLmafia.isAdventuring() )
-				return false;
-
-			if ( !autoSetCheckBox.isSelected() )
-				return false;
-
-			String conditionList = conditionField.getText().trim().toLowerCase();
-
-			if ( conditionList.equalsIgnoreCase( "none" ) )
-			{
-				conditions.clear();
-				return true;
-			}
-
-			if ( conditionList.length() == 0 )
-				return true;
-
-			conditions.clear();
-
-			int worthlessItemCount = 0;
-			boolean useDisjunction = false;
-
-			String [] splitConditions = conditionList.split( "\\s*,\\s*" );
-
-			// First, figure out whether or not you need to do a disjunction
-			// on the conditions, which changes how KoLmafia handles them.
-
-			for ( int i = 0; i < splitConditions.length; ++i )
-			{
-				if ( splitConditions[i].equals( "or" ) || splitConditions[i].equals( "and" ) || splitConditions[i].startsWith( "conjunction" ) || splitConditions[i].startsWith( "disjunction" ) )
-				{
-					useDisjunction = splitConditions[i].equals( "or" ) || splitConditions[i].startsWith( "disjunction" );
-					splitConditions[i] = null;
-				}
-			}
-
-			DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
-
-			for ( int i = 0; i < splitConditions.length; ++i )
-			{
-				if ( splitConditions[i] == null )
-					continue;
-
-				if ( splitConditions[i].indexOf( "worthless" ) != -1 )
-				{
-					// You're looking for some number of
-					// worthless items
-
-					worthlessItemCount += Character.isDigit( splitConditions[i].charAt(0) ) ?
-						StaticEntity.parseInt( splitConditions[i].split( " " )[0] ) : 1;
-				}
-				else if ( splitConditions[i].equals( "check" ) )
-				{
-					// Postpone verification of conditions
-					// until all other conditions added.
-				}
-				else if ( splitConditions[i].equals( "outfit" ) )
-				{
-					// Determine where you're adventuring and use
-					// that to determine which components make up
-					// the outfit pulled from that area.
-
-					if ( !(request instanceof KoLAdventure) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
-						return true;
-				}
-				else
-				{
-					if ( splitConditions[i].startsWith( "+" ) )
-					{
-						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i].substring(1) ) )
-							return false;
-					}
-					else if ( !DEFAULT_SHELL.executeConditionsCommand( "set " + splitConditions[i] ) )
-					{
-						return false;
-					}
-				}
-			}
-
-			if ( worthlessItemCount > 0 )
-			{
-				StaticEntity.getClient().makeRequest( new WorthlessItemRequest( worthlessItemCount ) );
-				return false;
-			}
-
-			if ( conditions.isEmpty() )
-			{
-				KoLmafia.updateDisplay( "All conditions already satisfied." );
-				return false;
-			}
-
-			if ( ((Integer)countField.getValue()).intValue() == 0 )
-				countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
-
-			return true;
-		}
-
-		private class ObjectivesPanel extends KoLPanel
-		{
-			public ObjectivesPanel()
-			{
-				super( new Dimension( 80, 20 ), new Dimension( 100, 20 ) );
-
-				actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
-				moodSelect = new JComboBox( MoodSettings.getAvailableMoods() );
-
-				locationSelect.addListSelectionListener( new ConditionChangeListener() );
-
-				JPanel conditionPanel = new JPanel( new BorderLayout( 5, 5 ) );
-				conditionPanel.add( conditionField, BorderLayout.CENTER );
-				conditionPanel.add( autoSetCheckBox, BorderLayout.EAST );
-
-				autoSetCheckBox.setSelected( StaticEntity.getBooleanProperty( "autoSetConditions" ) );
-
-				JPanel buttonPanel = new JPanel();
-				buttonPanel.add( begin = new ExecuteButton() );
-				buttonPanel.add( new InvocationButton( "stop", RequestThread.class, "declareWorldPeace" ) );
-
-				JPanel buttonWrapper = new JPanel( new BorderLayout() );
-				buttonWrapper.add( buttonPanel, BorderLayout.EAST );
-
-				VerifiableElement [] elements = new VerifiableElement[3];
-				elements[0] = new VerifiableElement( "In Combat:  ", actionSelect );
-				elements[1] = new VerifiableElement( "Use Mood:  ", moodSelect );
-				elements[2] = new VerifiableElement( "Objectives:  ", conditionPanel );
-
-				setContent( elements );
-				container.add( buttonWrapper, BorderLayout.SOUTH );
-
-				JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, begin );
-			}
-
-			public void actionConfirmed()
-			{
-				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
-				MoodSettings.setMood( (String) moodSelect.getSelectedItem() );
-			}
-
-			public void actionCancelled()
-			{
-			}
-
-			public boolean shouldAddStatusLabel( VerifiableElement [] elements )
-			{	return false;
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{	begin.setEnabled( isEnabled );
-			}
-		}
-
-		private class WorthlessItemRequest implements Runnable
-		{
-			private int itemCount;
-
-			public WorthlessItemRequest( int itemCount )
-			{	this.itemCount = itemCount;
-			}
-
-			public void run()
-			{	DEFAULT_SHELL.executeLine( "acquire " + itemCount + " worthless item in " + ((Integer)countField.getValue()).intValue() );
-			}
-		}
-
-		private class ZoneChangeListener implements ActionListener
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				if ( zoneSelect.getSelectedIndex() == 0 )
-				{
-					AdventureDatabase.refreshAdventureList();
-					return;
-				}
-
-				String zone = (String) zoneSelect.getSelectedItem();
-
-				if ( zone == null )
-					return;
-
-				zone = (String) zoneMap.get( zone );
-				if ( zone == null )
-					return;
-
-				AdventureDatabase.refreshAdventureList( zone );
-			}
-		}
-
-		private class ConditionChangeListener implements ListSelectionListener, ListDataListener
-		{
-			public ConditionChangeListener()
-			{	conditions.addListDataListener( this );
-			}
-
-			public void valueChanged( ListSelectionEvent e )
-			{
-				if ( updateConditions )
-				{
-					conditionField.setText( "" );
-
-					if ( !conditions.isEmpty() )
-						conditions.clear();
-
-					fillCurrentConditions();
-				}
-			}
-
-			public void intervalAdded( ListDataEvent e )
-			{
-				if ( isHandlingConditions )
-					return;
-
-				fillCurrentConditions();
-			}
-
-			public void intervalRemoved( ListDataEvent e )
-			{
-				if ( isHandlingConditions )
-					return;
-
-				fillCurrentConditions();
-			}
-
-			public void contentsChanged( ListDataEvent e )
-			{
-				if ( isHandlingConditions )
-					return;
-
-				fillCurrentConditions();
-			}
-		}
-
-		private class ExecuteButton extends ThreadedButton
-		{
-			private boolean isProcessing = false;
-
-			public ExecuteButton()
-			{	super( "begin" );
-			}
-
-			public void run()
-			{
-				if ( isProcessing )
-					return;
-
-				isProcessing = true;
-				KoLmafia.updateDisplay( "Validating adventure sequence..." );
-
-				KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
-				if ( request == null )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, "No location selected." );
-					isProcessing = false;
-					return;
-				}
-
-				// If there are conditions in the condition field, be
-				// sure to process them.
-
-				if ( conditions.isEmpty() || (lastAdventure != null && lastAdventure != request) )
-				{
-					Object stats = null;
-					int substatIndex = conditions.indexOf( tally.get(2) );
-
-					if ( substatIndex != 0 )
-						stats = conditions.get( substatIndex );
-
-					conditions.clear();
-
-					if ( stats != null )
-						conditions.add( stats );
-
-					lastAdventure = request;
-
-					updateConditions = false;
-					isHandlingConditions = true;
-
-					RequestThread.openRequestSequence();
-					boolean shouldAdventure = handleConditions( request );
-					RequestThread.closeRequestSequence();
-
-					isHandlingConditions = false;
-					updateConditions = true;
-
-					if ( !shouldAdventure )
-					{
-						isProcessing = false;
-						return;
-					}
-				}
-
-				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
-				countField.setValue( new Integer( requestCount ) );
-
-				boolean resetCount = requestCount == KoLCharacter.getAdventuresLeft();
-
-				StaticEntity.getClient().makeRequest( request, requestCount );
-
-				if ( resetCount )
-					countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
-
-				isProcessing = false;
-			}
-		}
-
-		public void requestFocus()
-		{	locationSelect.requestFocus();
-		}
 	}
 
 	/**
