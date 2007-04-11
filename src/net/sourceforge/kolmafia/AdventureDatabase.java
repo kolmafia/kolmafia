@@ -788,6 +788,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		adventureLookup.put( url, location );
 		adventureLookup.put( singleStringReplace( url, "snarfblat=", "adv=" ), location );
+		adventureLookup.put( url + "&override=on", location );
 	}
 
 	public static final boolean validateZone( String zoneName, String locationId )
