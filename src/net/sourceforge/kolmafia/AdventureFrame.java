@@ -207,7 +207,7 @@ public class AdventureFrame extends KoLFrame
 	private JSplitPane getAdventureSummary()
 	{
 		this.sessionGrid = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true,
-			getAdventureSummary( "defaultDropdown1" ), getAdventureSummary( "defaultDropdown2" ) );
+			getAdventureSummary( "defaultDropdown1", locationSelect ), getAdventureSummary( "defaultDropdown2", locationSelect ) );
 
 		int location = StaticEntity.getIntegerProperty( "defaultDropdownSplit" );
 
@@ -218,69 +218,6 @@ public class AdventureFrame extends KoLFrame
 
 		sessionGrid.setResizeWeight( 0.5 );
 		return sessionGrid;
-	}
-
-	protected JPanel getAdventureSummary( String property )
-	{
-		int selectedIndex = StaticEntity.getIntegerProperty( property );
-
-		CardLayout resultCards = new CardLayout();
-		JPanel resultPanel = new JPanel( resultCards );
-		JComboBox resultSelect = new JComboBox();
-
-		int cardCount = 0;
-
-		resultSelect.addItem( "Session Results" );
-		resultPanel.add( new SimpleScrollPane( tally ), String.valueOf( cardCount++ ) );
-
-		resultSelect.addItem( "Location Details" );
-		resultPanel.add( new SafetyField( locationSelect ), String.valueOf( cardCount++ ) );
-
-		resultSelect.addItem( "Conditions Left" );
-		resultPanel.add( new SimpleScrollPane( conditions ), String.valueOf( cardCount++ ) );
-
-		resultSelect.addItem( "Active Effects" );
-		resultPanel.add( new SimpleScrollPane( activeEffects ), String.valueOf( cardCount++ ) );
-
-		resultSelect.addItem( "Encounter Listing" );
-		resultPanel.add( new SimpleScrollPane( encounterList ), String.valueOf( cardCount++ ) );
-
-		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect, property ) );
-
-		if ( selectedIndex >= cardCount )
-			selectedIndex = cardCount - 1;
-
-		resultSelect.setSelectedIndex( selectedIndex );
-
-		JPanel containerPanel = new JPanel( new BorderLayout() );
-		containerPanel.add( resultSelect, BorderLayout.NORTH );
-		containerPanel.add( resultPanel, BorderLayout.CENTER );
-
-		return containerPanel;
-	}
-
-	private class ResultSelectListener implements ActionListener
-	{
-		private String property;
-		private CardLayout resultCards;
-		private JPanel resultPanel;
-		private JComboBox resultSelect;
-
-		public ResultSelectListener( CardLayout resultCards, JPanel resultPanel, JComboBox resultSelect, String property )
-		{
-			this.resultCards = resultCards;
-			this.resultPanel = resultPanel;
-			this.resultSelect = resultSelect;
-			this.property = property;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			String index = String.valueOf( resultSelect.getSelectedIndex() );
-			resultCards.show( resultPanel, index );
-			StaticEntity.setProperty( property, index );
-
-		}
 	}
 
 	private class AutoSetCheckBox extends JCheckBox implements ActionListener

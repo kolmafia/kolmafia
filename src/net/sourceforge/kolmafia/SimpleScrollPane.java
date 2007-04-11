@@ -43,7 +43,11 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class SimpleScrollPane extends JScrollPane
 {
 	public SimpleScrollPane( LockableListModel model )
-	{	this( new ShowDescriptionList( model, 8 ), VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_NEVER );
+	{	this( model, 8 );
+	}
+
+	public SimpleScrollPane( LockableListModel model, int visibleRows )
+	{	this( new ShowDescriptionList( model, visibleRows ), VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_NEVER );
 	}
 
 	public SimpleScrollPane( Component view )

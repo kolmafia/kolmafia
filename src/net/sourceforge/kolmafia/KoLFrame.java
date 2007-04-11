@@ -1690,4 +1690,75 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 	}
+
+	protected JPanel getAdventureSummary( String property, JList locationSelect )
+	{
+		int selectedIndex = StaticEntity.getIntegerProperty( property );
+
+		CardLayout resultCards = new CardLayout();
+		JPanel resultPanel = new JPanel( resultCards );
+		JComboBox resultSelect = new JComboBox();
+
+		int cardCount = 0;
+
+		resultSelect.addItem( "Session Results" );
+		resultPanel.add( new SimpleScrollPane( tally, 4 ), String.valueOf( cardCount++ ) );
+
+		if ( property.startsWith( "default" ) )
+		{
+			resultSelect.addItem( "Location Details" );
+			resultPanel.add( new SafetyField( locationSelect ), String.valueOf( cardCount++ ) );
+
+			resultSelect.addItem( "Conditions Left" );
+			resultPanel.add( new SimpleScrollPane( conditions, 4 ), String.valueOf( cardCount++ ) );
+		}
+		else
+		{
+			resultSelect.addItem( "Available Skills" );
+			resultPanel.add( new SimpleScrollPane( availableSkills, 4 ), String.valueOf( cardCount++ ) );
+		}
+
+		resultSelect.addItem( "Active Effects" );
+		resultPanel.add( new SimpleScrollPane( activeEffects, 4 ), String.valueOf( cardCount++ ) );
+
+		resultSelect.addItem( "Encounter Listing" );
+		resultPanel.add( new SimpleScrollPane( encounterList, 4 ), String.valueOf( cardCount++ ) );
+
+		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect, property ) );
+
+		if ( selectedIndex >= cardCount )
+			selectedIndex = cardCount - 1;
+
+		resultSelect.setSelectedIndex( selectedIndex );
+
+		JPanel containerPanel = new JPanel( new BorderLayout() );
+		containerPanel.add( resultSelect, BorderLayout.NORTH );
+		containerPanel.add( resultPanel, BorderLayout.CENTER );
+
+		return containerPanel;
+	}
+
+	private class ResultSelectListener implements ActionListener
+	{
+		private String property;
+		private CardLayout resultCards;
+		private JPanel resultPanel;
+		private JComboBox resultSelect;
+
+		public ResultSelectListener( CardLayout resultCards, JPanel resultPanel, JComboBox resultSelect, String property )
+		{
+			this.resultCards = resultCards;
+			this.resultPanel = resultPanel;
+			this.resultSelect = resultSelect;
+			this.property = property;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			String index = String.valueOf( resultSelect.getSelectedIndex() );
+			resultCards.show( resultPanel, index );
+			StaticEntity.setProperty( property, index );
+
+		}
+	}
 }
