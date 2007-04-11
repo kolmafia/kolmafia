@@ -46,8 +46,6 @@ import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 public class FightRequest extends KoLRequest
 {
 	private static final AdventureResult ANTIDOTE = new AdventureResult( 829, 1 );
-	private static final AdventureResult POISON = new AdventureResult( "Poisoned", 1, true );
-
 	private static final AdventureResult SOLDIER = new AdventureResult( 1397, 1 );
 	private static final AdventureResult MERCENARY = new AdventureResult( 2139, 1 );
 	private static final AdventureResult TEQUILA = new AdventureResult( 1004, -1 );
@@ -59,6 +57,8 @@ public class FightRequest extends KoLRequest
 
 	private static int trackedRound = 0;
 	private static boolean isTrackingFights = false;
+	private static boolean isAutomatingFight = false;
+
 	private static ArrayList trackedRounds = new ArrayList();
 
 	private static boolean isUsingConsultScript = false;
@@ -435,6 +435,8 @@ public class FightRequest extends KoLRequest
 		RequestThread.openRequestSequence();
 		trackedRound = currentRound;
 
+		isAutomatingFight = true;
+
 		do
 		{
 			clearDataFields();
@@ -460,6 +462,7 @@ public class FightRequest extends KoLRequest
 		if ( !KoLmafia.permitsContinue() )
 			showInBrowser( true );
 
+		isAutomatingFight = false;
 		RequestThread.closeRequestSequence();
 	}
 
@@ -525,6 +528,9 @@ public class FightRequest extends KoLRequest
 
 	private static void checkForInitiative( String responseText )
 	{
+		if ( isAutomatingFight )
+			RequestLogger.printLine( "Strategy: " + StaticEntity.getProperty( "battleAction" ) );
+
 		if ( !KoLCharacter.getUserName().equals( lastPlayer ) )
 		{
 			lastPlayer = KoLCharacter.getUserName();
@@ -836,7 +842,11 @@ public class FightRequest extends KoLRequest
 
 		case 829:  // Anti-Anti-Antidote
 
-			return activeEffects.contains( POISON );
+			for ( int i = 0; i < activeEffects.size(); ++i )
+				if ( ((AdventureResult)activeEffects.get(i)).getName().indexOf( "Poison" ) != -1 )
+					return true;
+
+			return false;
 
 		default:
 
