@@ -246,6 +246,10 @@ public class AdventureFrame extends KoLFrame
 		resultPanel.add( new SimpleScrollPane( encounterList ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect, property ) );
+
+		if ( selectedIndex >= cardCount )
+			selectedIndex = cardCount - 1;
+
 		resultSelect.setSelectedIndex( selectedIndex );
 
 		JPanel containerPanel = new JPanel( new BorderLayout() );
