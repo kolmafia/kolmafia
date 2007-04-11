@@ -473,9 +473,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "breakfastHardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "browserBookmarks", "" );
 		CLIENT_SETTINGS.put( "cacheMallSearches", "false" );
-		CLIENT_SETTINGS.put( "charsheetDropdown1", "4" );
-		CLIENT_SETTINGS.put( "charsheetDropdown2", "1" );
-		CLIENT_SETTINGS.put( "charsheetDropdownSplit", "0" );
+		CLIENT_SETTINGS.put( "charsheetDropdown", "1" );
 		CLIENT_SETTINGS.put( "chatStyle", "0" );
 		CLIENT_SETTINGS.put( "closeLastFrameAction", "0" );
 		CLIENT_SETTINGS.put( "cloverProtectActive", "true" );

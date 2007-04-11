@@ -62,7 +62,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -132,12 +131,16 @@ public class CharsheetFrame extends KoLFrame
 		JPanel statusContainer = new JPanel( new CardLayout( 10, 10 ) );
 		statusContainer.add( statusPanel, "" );
 
-		JPanel northPanel = new JPanel( new BorderLayout( 20, 20 ) );
+		framePanel.add( getSouthernTabs(), BorderLayout.CENTER );
+
+		JPanel sessionContainer = new JPanel( new CardLayout( 10, 10 ) );
+		sessionContainer.add( getAdventureSummary( "charsheetDropdown", locationSelect ), "" );
+
+		JPanel northPanel = new JPanel( new BorderLayout() );
 		northPanel.add( statusContainer, BorderLayout.WEST );
-		northPanel.add( new ItemManagePanel( activeEffects ), BorderLayout.CENTER );
+		northPanel.add( sessionContainer, BorderLayout.CENTER );
 
 		framePanel.add( northPanel, BorderLayout.NORTH );
-		framePanel.add( getSouthernTabs(), BorderLayout.CENTER );
 
 		statusRefresher = new KoLCharacterAdapter( new StatusRefreshRunnable() );
 		KoLCharacter.addCharacterListener( statusRefresher );
@@ -348,10 +351,9 @@ public class CharsheetFrame extends KoLFrame
 	 * selection in the <code>AdventureFrame</code>.
 	 */
 
-	private class AdventureSelectPanel extends JPanel implements ChangeListener
+	private class AdventureSelectPanel extends JPanel
 	{
 		private TreeMap zoneMap;
-		private JSpinner countField;
 
 		public AdventureSelectPanel()
 		{
@@ -377,33 +379,15 @@ public class CharsheetFrame extends KoLFrame
 				zoneSelect.addItem( currentZone );
 			}
 
-			countField = new JSpinner();
-			countField.addChangeListener( this );
-
-			JComponentUtilities.setComponentSize( countField, 50, 24 );
-			JComponentUtilities.setComponentSize( zoneSelect, 200, 24 );
-
-			JPanel zonePanel = new JPanel( new BorderLayout( 5, 5 ) );
-			zonePanel.add( countField, BorderLayout.EAST );
-			zonePanel.add( zoneSelect, BorderLayout.CENTER );
-
+			JComponentUtilities.setComponentSize( zoneSelect, 260, 24 );
 			zoneSelect.addActionListener( new ZoneChangeListener() );
 			locationSelect = new JList( adventureList );
 			locationSelect.setVisibleRowCount( 4 );
 
 			JPanel locationPanel = new JPanel( new BorderLayout( 5, 5 ) );
-			locationPanel.add( zonePanel, BorderLayout.NORTH );
+			locationPanel.add( zoneSelect, BorderLayout.NORTH );
 			locationPanel.add( new SimpleScrollPane( locationSelect ), BorderLayout.CENTER );
 			add( locationPanel, BorderLayout.WEST );
-		}
-
-		public void stateChanged( ChangeEvent e )
-		{
-			int desired = getValue( countField, KoLCharacter.getAdventuresLeft() );
-			if ( desired <= 0 )
-				countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
-			else if ( desired > KoLCharacter.getAdventuresLeft() )
-				countField.setValue( new Integer( 1 ) );
 		}
 
 		private class ZoneChangeListener implements ActionListener
