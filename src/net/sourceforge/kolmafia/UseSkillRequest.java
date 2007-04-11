@@ -46,7 +46,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\d,]+)" );
 
 	public static String [] BREAKFAST_SKILLS =
-		{ "Advanced Cocktailcrafting", "Advanced Saucecrafting", "Pastamastery", "Summon Snowcone", "Summon Candy Hearts", "Summon Hilarious Objects" };
+		{ "Advanced Cocktailcrafting", "Pastamastery", "Advanced Saucecrafting", "Summon Snowcone", "Summon Hilarious Objects", "Summon Candy Hearts" };
 
 	private static final int OTTER_TONGUE = 1007;
 	private static final int WALRUS_TONGUE = 1010;
