@@ -513,6 +513,7 @@ fez of etymology	4	basic meat fez	facsimile dictionary
 # Accessories made of hides of various sorts.
 
 clownskin belt	4	clown skin	big red clown nose
+white belt	4	white snake skin	enormous belt buckle
 
 # Hats made of hides of various sorts.
 

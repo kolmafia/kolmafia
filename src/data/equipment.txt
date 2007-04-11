@@ -773,6 +773,7 @@ toy train	0	none
 walrus-tusk earring	0	Mys: 10
 Warehouse 23 bling	0	none
 wheel	0	none
+white belt	0	Mus: 5
 white collar	0	none
 Xlyinia's notebook	0	none
 x-ray specs	0	none
