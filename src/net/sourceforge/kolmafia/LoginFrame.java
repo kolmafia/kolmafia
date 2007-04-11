@@ -101,8 +101,7 @@ public class LoginFrame extends KoLFrame
 		breakfastPanel.add( new BreakfastPanel( "Softcore Characters", "Softcore" ) );
 		breakfastPanel.add( new BreakfastPanel( "Hardcore Characters", "Hardcore" ) );
 
-		tabs.addTab( "Breakfast", breakfastPanel );
-		tabs.addTab( "Startup UI", new StartupFramesPanel() );
+		tabs.addTab( "Main Tabs", new StartupFramesPanel() );
 		tabs.addTab( "Look & Feel", new UserInterfacePanel()  );
 
 		JPanel connectPanel = new JPanel();
@@ -111,6 +110,7 @@ public class LoginFrame extends KoLFrame
 		connectPanel.add( new ProxyOptionsPanel() );
 
 		tabs.addTab( "Connection", connectPanel );
+		tabs.addTab( "Breakfast", breakfastPanel );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
