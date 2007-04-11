@@ -965,14 +965,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "login" ) )
 		{
-			RequestThread.postRequest( new LogoutRequest() );
-			KoLRequest.chooseRandomServer();
+			if ( !KoLCharacter.getUserName().equals( "" ) )
+				RequestThread.postRequest( new LogoutRequest() );
 
+			KoLRequest.chooseRandomServer();
 			String password = getSaveState( parameters );
 
 			if ( password != null )
 				RequestThread.postRequest( new LoginRequest( parameters, password ) );
-
 			else
 				updateDisplay( ERROR_STATE, "No password saved for that username." );
 
