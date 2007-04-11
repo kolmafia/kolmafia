@@ -424,7 +424,7 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void burnExtraMana( boolean isManualInvocation )
 	{
-		if ( !isManualInvocation && KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
+		if ( !isManualInvocation && KoLCharacter.canInteract() && KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
 			return;
 
 		String nextBurnCast;
@@ -465,7 +465,7 @@ public abstract class MoodSettings implements KoLConstants
 			currentEffect = (AdventureResult) activeEffects.get(i);
 			nextEffect = i + 1 >= activeEffects.size() ? null : (AdventureResult) activeEffects.get( i + 1 );
 
-			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 200 )
+			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 100 )
 				return null;
 
 			skillName = UneffectRequest.effectToSkill( currentEffect.getName() );
