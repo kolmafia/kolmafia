@@ -404,6 +404,9 @@ penguin whip	13	penguin skin	whip kit
 yak whip	13	yak skin	whip kit
 gnauga hide whip	13	gnauga hide	whip kit
 bar whip	13	bar skin	whip kit
+clown whip	13	clown skin	whip kit
+demon whip	13	demon skin	whip kit
+white whip	13	white snake skin	whip kit
 
 # Meat-smithing weapons.  These items are grouped based on the
 # type of base material used in their creation.
@@ -507,13 +510,24 @@ grass skirt	4	fake plastic grass	skirt / kilt kit
 
 fez of etymology	4	basic meat fez	facsimile dictionary
 
+# Accessories made of hides of various sorts.
+
+clownskin belt	4	clown skin	big red clown nose
+
+# Hats made of hides of various sorts.
+
+clown wig	4	clown skin	basic meat helmet
+demon-horned hat	4	demon skin	basic meat helmet
+
 # Pants made of hides of various sorts.
 
 barskin loincloth	4	bar skin	pants kit
+demonskin trousers	4	demon skin	pants kit
 furry pants	14	furry fur	pants kit
 hippopotamus pants	14	hippopotamus skin	pants kit
 penguin shorts	14	penguin skin	pants kit
 sticky meat pants	4	really really sticky spider web	basic meat pants
+tighty whiteys	4	white snake skin	pants kit
 yakskin pants	14	yak skin	pants kit
 gnauga hide chaps	14	gnauga hide	pants kit
 
@@ -542,6 +556,8 @@ penguin skin buckler	14	penguin skin	buckler buckle
 yakskin buckler	14	yak skin	buckler buckle
 gnauga hide buckler	14	gnauga hide	buckler buckle
 barskin buckler	14	bar skin	buckler buckle
+clownskin buckler	14	clown skin	buckler buckle
+demon buckler	14	demon skin	buckler buckle
 
 # Things made of special turtles
 cardboard box turtle	14	cardboard ore	box turtle

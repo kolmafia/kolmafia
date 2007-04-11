@@ -40,6 +40,7 @@ broken sword	Spooky: +10
 bubble bauble bow	Item: +5.0
 can cannon	ML: +3
 can of maces	Sleaze: +10
+clown whip	Sleaze: +10
 crowbarrr	Init: +10.0
 Crimbo Ukelele	Item: +10.0
 duck-on-a-string	Item: +5.0
@@ -52,6 +53,7 @@ hippo whip	ML: +10
 ice sickle	ML: +15
 meatspout staff	Meat: +15.0
 muculent machete	Meat: +5.0
+penguin whip	Meat: +3.0
 pixel sword	Init: +15.0
 rusty grave robbing shovel	Init: -10.0
 serpentine sword	ML: +10
@@ -61,6 +63,7 @@ styrofoam staff	ML: +3
 styrofoam sword	ML: +3
 titanium assault umbrella	Sleaze: +10, Spooky: +10
 vampire duck-on-a-string	Item: +5.0
+white whip	Exp: +1.0
 
 1-ball	Init: +5.0
 7-ball	Meat: +5.0
@@ -74,8 +77,10 @@ box turtle	DR: 3
 cardboard box turtle	DR: 4
 chopsticks	Init: +20.0
 Cloaca-cola shield	DR: 4
+clownskin buckler	DR: 3
 coffin lid	DR: 3, Spooky: +10
 deck of tropical cards	Exp: +1.0
+demon buckler	DR: 5
 Dyspepsi-cola shield	DR: 4
 gnauga hide buckler	DR: 5
 hippo skin buckler	DR: 5
@@ -125,6 +130,7 @@ plexiglass pants	Init: +25.0, Item: +20.0
 snowboarder pants	DA: +20
 stainless steel slacks	Init: +15.0, Meat: +20.0
 star pants	Init: +20.0
+tighty whiteys	Spooky: +10
 Travoltan trousers	Init: +30.0
 Tropical Crimbo Shorts	Init: +30.0
 white satin pants	Sleaze: +10
@@ -148,7 +154,6 @@ makeshift cape	Item: +5.0
 makeshift SCUBA gear	Stench: +20
 monster bait	Combat: +5.0
 Mr. Accessory Jr.	Item: +25.0
-penguin whip	Meat: +3.0
 Pine-Fresh air freshener	Stench: +10
 plexiglass pinky ring	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30
 plexiglass pocketwatch	Mana: -3
