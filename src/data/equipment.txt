@@ -21,11 +21,13 @@ chef's hat	30	none
 chrome helmet turtle	120	Mox: 45
 Cloaca-Cola helmet	30	none
 clockwork hat	80	Mox: 25
+clown wig	50	Mus: 10
 coconut shell	30	none
 cold ninja mask	80	Mox: 25
 cornuthaum	85	Mox: 27
 Crimbo hat	100	Mox: 35
 Crown of the Goblin King	70	Mox: 20
+demon-horned hat	70	Mox: 20
 Disco 'Fro Pick	50	Mox: 10
 disco mask	10	none
 Dolphin King's crown	35	Mox: 2
@@ -129,7 +131,7 @@ chain-mail monokini	30	none
 Cloaca-Cola fatigues	30	none
 clockwork pants	80	Mus: 25
 Crimbo pants	100	Mox: 35
-demonskin trousers	50	Mox: 10
+demonskin trousers	70	Mox: 20
 dungeoneer's dungarees	30	none
 Dyspepsi-Cola fatigues	30	none
 filthy corduroys	60	Mox: 15
@@ -177,6 +179,7 @@ sticky meat pants	45	Mox: 7
 sticky meat skirt	45	Mox: 7
 studded leather boxer shorts	20	none
 swashbuckling pants	80	Mox: 25
+tighty whiteys	40	Mus: 5
 time trousers	100	Mox: 35
 Travoltan trousers	100	none
 tree skirt	100	Mox: 35
@@ -274,6 +277,7 @@ clockwork crossbow	80	Mox: 25	1-handed crossbow
 clockwork staff	80	Mus: 25	2-handed staff
 clockwork sword	80	Mus: 25	2-handed sword
 clown hammer	10	none	1-handed club
+clown whip	10	none	1-handed whip
 cool whip	10	none	1-handed whip
 corn holder	20	none	1-handed utensil
 crazy bastard sword	75	Mus: 22	1-handed sword
@@ -281,6 +285,7 @@ Crimbo sword	100	Mus: 35	2-handed sword
 Crimbo ukelele	100	Mox: 35	2-handed guitar
 crowbarrr	80	Mus: 25	2-handed staff
 curdflinger	45	Mox: 5	1-handed crossbow
+demon whip	10	none	1-handed whip
 denim axe	170	Mus: 70	2-handed axe
 dense meat sword	60	Mus: 15	2-handed sword
 dense meat staff	60	Mus: 15	2-handed staff
@@ -441,6 +446,7 @@ vampire duck-on-a-string	100	Mus: 35	1-handed flail
 vorpal blade	90	Mus: 30	1-handed sword
 Wand of Nagamar	30	none	1-handed wand
 white sword	40	Mus: 5	1-handed sword
+white whip	10	none	1-handed whip
 wholeberd	80	Mus: 25	2-handed polearm
 wiffle-flail	75	Mus: 20	2-handed flail
 wooden axe	60	Mus: 15	2-handed axe
@@ -473,11 +479,13 @@ box turtle	0	Mus: 10
 cardboard box turtle	0	Mus: 10
 Cloaca-Cola shield	75	none
 clockwork detective skull	0	Mox: 25
+clownskin buckler	0	Mus: 15
 Codex of Capsaicin Conjuration	0	none
 coffin lid	55	Mus: 10
 continuum transfunctioner	0	none
 deck of tropical cards	0	none
 defective skull	0	none
+demon buckler	0	Mus: 25
 detective skull	0	Mox: 15
 Dyspepsi-Cola shield	75	none
 easter egg balloon	0	Mys: 35
@@ -601,6 +609,7 @@ chintzy saucepan earring	0	none
 chintzy disco ball pendant	0	none
 chintzy accordion pin	0	none
 clown shoes	0	Mys: 10
+clownskin belt	0	Mus: 10
 club necklace	100	none
 colored-light "necklace"	0	Mys: 35
 consolation ribbon	0	none

@@ -2454,5 +2454,36 @@
 2454
 2455	bar whip	12	all	15
 2456	barskin buckler	13	all	30
-2457
+2457	white whip	12	all	15
 2458	barskin loincloth	10	all	30
+2459	tighty whiteys	10	all	45
+2460	
+2461	
+2462	
+2463	
+2464	
+2465	
+2466	
+2467	
+2468	
+2469	
+2470	
+2471	
+2472	
+2473	
+2474	clown skin	0	all	45
+2475	clown wig	9	all	55
+2476	clownskin belt	8	all	55
+2477	clownskin buckler	13	all	65
+2478	clown whip	12	all	15
+2479	demon skin	0	all	0
+2480	demon-horned hat	9	all	75
+2481	demon buckler	13	all	85
+2482	demon whip	12	all	15
+2483	
+2484	
+2485	
+2486	
+2487	
+2488	
+2489	
