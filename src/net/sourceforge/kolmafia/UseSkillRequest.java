@@ -467,7 +467,16 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				currentCast = Math.min( castsRemaining, maximumCast );
 
 				currentMP = KoLCharacter.getCurrentMP();
-				StaticEntity.getClient().recoverMP( mpPerCast * currentCast );
+
+				if ( MoodSettings.isExecuting() )
+				{
+					StaticEntity.getClient().recoverMP(
+						Math.min( Math.max( mpPerCast * currentCast, MoodSettings.getMaintenanceCost() ), maximumMP ) );
+				}
+				else
+				{
+					StaticEntity.getClient().recoverMP( mpPerCast * currentCast );
+				}
 
 				// If no change occurred, that means the person was
 				// unable to recover MP; abort the process.
