@@ -2854,7 +2854,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static boolean runThresholdChecks()
 	{
-		float autoStopValue = StaticEntity.getFloatProperty( "hpThreshold" );
+		float autoStopValue = StaticEntity.getFloatProperty( "autoAbortThreshold" );
 		if ( autoStopValue >= 0.0f )
 		{
 			autoStopValue *= ((float) KoLCharacter.getMaximumHP());
