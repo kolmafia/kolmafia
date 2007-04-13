@@ -2527,7 +2527,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				try
 				{
-					request = new KoLRequest( URLDecoder.decode( actionString.toString(), "UTF-8" ), true );
+					request = new KoLRequest( URLDecoder.decode( actionString.toString(), "ISO-8859-1" ), true );
 				}
 				catch ( Exception e )
 				{
