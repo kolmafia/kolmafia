@@ -91,7 +91,6 @@ public class AdventureFrame extends AdventureOptionsFrame
 	private static AdventureFrame INSTANCE = null;
 	private static boolean shouldAddExtraTabs = true;
 
-	private JComboBox zoneSelect = null;
 	private JProgressBar requestMeter = null;
 
 	private JSplitPane sessionGrid;
