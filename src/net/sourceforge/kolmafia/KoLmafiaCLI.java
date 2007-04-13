@@ -3181,6 +3181,9 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		executePrintCommand( list, filter, desiredOutputStream );
+
+		if ( !sessionPrint )
+			desiredOutputStream.close();
 	}
 
 	/**
@@ -3349,7 +3352,6 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		desiredStream.println();
-		desiredStream.close();
 	}
 
 	private static String getStatString( int base, int adjusted, int tnp )
