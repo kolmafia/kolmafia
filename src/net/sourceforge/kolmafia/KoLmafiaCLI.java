@@ -965,8 +965,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "login" ) )
 		{
-			if ( !KoLCharacter.getUserName().equals( "" ) )
-				RequestThread.postRequest( new LogoutRequest() );
+			executeCommand( "logout", "" );
 
 			KoLRequest.chooseRandomServer();
 			String password = getSaveState( parameters );
@@ -996,7 +995,8 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( StaticEntity.getClient() != DEFAULT_SHELL )
 				KoLFrame.createDisplay( LoginFrame.class );
 
-			RequestThread.postRequest( new LogoutRequest() );
+			if ( !KoLCharacter.getUserName().equals( "" ) )
+				RequestThread.postRequest( new LogoutRequest() );
 
 			if ( StaticEntity.getClient() == DEFAULT_SHELL )
 				DEFAULT_SHELL.attemptLogin();
