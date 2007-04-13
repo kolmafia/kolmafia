@@ -318,12 +318,12 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	public void saveRestoreSettings()
 	{
-		StaticEntity.setProperty( "hpThreshold", String.valueOf( ((float)(hpHaltCombatSelect.getSelectedIndex() - 1) / 10.0f) ) );
+		StaticEntity.setProperty( "autoAbortThreshold", String.valueOf( ((float)(hpHaltCombatSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "hpAutoRecovery", String.valueOf( ((float)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "hpAutoRecoveryTarget", String.valueOf( ((float)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "hpAutoRecoveryItems", getSettingString( hpRestoreCheckbox ) );
 
-		StaticEntity.setProperty( "mpThreshold", String.valueOf( ((float)(mpBalanceSelect.getSelectedIndex() - 1) / 10.0f) ) );
+		StaticEntity.setProperty( "manaBurningThreshold", String.valueOf( ((float)(mpBalanceSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "mpAutoRecovery", String.valueOf( ((float)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "mpAutoRecoveryTarget", String.valueOf( ((float)(mpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0f) ) );
 		StaticEntity.setProperty( "mpAutoRecoveryItems", getSettingString( mpRestoreCheckbox ) );
@@ -394,9 +394,9 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		public ManaOptionsPanel()
 		{
 			mpBalanceSelect = new JComboBox();
-			mpBalanceSelect.addItem( "Enable manual invocation of bulk recast" );
+			mpBalanceSelect.addItem( "Only allow manual conditional recasts" );
 			for ( int i = 0; i <= 9; ++i )
-				mpBalanceSelect.addItem( "Enable conditional recast at " + (i*10) + "%" );
+				mpBalanceSelect.addItem( "Stop conditional recasting at " + (i*10) + "%" );
 
 			mpAutoRecoverSelect = new JComboBox();
 			mpAutoRecoverSelect.addItem( "Do not automatically recover mana" );
@@ -422,7 +422,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			add( Box.createVerticalStrut( 10 ) );
 			add( constructLabelPair( "Use these restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) ) );
 
-			mpBalanceSelect.setSelectedIndex( Math.max( (int)(StaticEntity.getFloatProperty( "mpThreshold" ) * 10) + 1, 0 ) );
+			mpBalanceSelect.setSelectedIndex( Math.max( (int)(StaticEntity.getFloatProperty( "manaBurningThreshold" ) * 10) + 1, 0 ) );
 			mpAutoRecoverSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "mpAutoRecovery" ) * 10) + 1 );
 			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "mpAutoRecoveryTarget" ) * 10) + 1 );
 
