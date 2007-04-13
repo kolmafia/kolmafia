@@ -401,8 +401,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 		try
 		{
-			encodedName = URLEncoder.encode( encodedName, "UTF-8" ) + "=";
-			encodedValue = URLEncoder.encode( encodedValue, "UTF-8" );
+			encodedName = URLEncoder.encode( encodedName, "ISO-8859-1" ) + "=";
+			encodedValue = URLEncoder.encode( encodedValue, "ISO-8859-1" );
 		}
 		catch ( Exception e )
 		{
@@ -474,24 +474,7 @@ public class KoLRequest extends Job implements KoLConstants
 	 */
 
 	public void addEncodedFormField( String element )
-	{
-		// Just decode it first
-		String decoded = element;
-
-		try
-		{
-			decoded = URLDecoder.decode( element, "UTF-8" );
-		}
-		catch ( UnsupportedEncodingException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			return;
-		}
-
-		addFormField( decoded );
+	{	data.add( element );
 	}
 
 	public void addEncodedFormFields( String fields )
@@ -514,45 +497,34 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public String getFormField( String key )
 	{
-		String [] fields = null;
-
 		if ( data.isEmpty() )
-		{
-			int breakIndex = formURLString.indexOf( "?" ) + 1;
-			if ( breakIndex != 0 )
-				fields = formURLString.substring( breakIndex ).split( "&" );
-		}
-		else
-		{
-			fields = new String[ data.size() ];
-			data.toArray( fields );
-		}
+			return null;
 
-		for ( int i = 0; fields != null && i < fields.length; ++i )
+		for ( int i = 0; i < data.size(); ++i )
 		{
-			int splitIndex = fields[i].indexOf( "=" );
-			if ( splitIndex != -1 )
+			int splitIndex = ((String)data.get(i)).indexOf( "=" );
+			if ( splitIndex == -1 )
+				continue;
+
+			String name = ((String)data.get(i)).substring( 0, splitIndex );
+			if ( !name.equalsIgnoreCase( key ) )
+				continue;
+
+			String value = ((String)data.get(i)).substring( splitIndex + 1 ) ;
+
+			try
 			{
-				String name = fields[i].substring( 0, splitIndex );
-				if ( name.equalsIgnoreCase( key ) )
-				{
-					String value = fields[i].substring( splitIndex + 1 );
+				// Everything was encoded as ISO-8859-1, so go
+				// ahead and decode it that way.
 
-					try
-					{
-						// Everything was encoded as UTF-8, so go
-						// ahead and decode it that way.
+				return URLDecoder.decode( value, "ISO-8859-1" );
+			}
+			catch ( Exception e )
+			{
+				// This shouldn't happen, but since you did
+				// manage to find the key, return the value.
 
-						return URLDecoder.decode( value, "UTF-8" );
-					}
-					catch ( Exception e )
-					{
-						// This shouldn't happen, but since you did
-						// manage to find the key, return the value.
-
-						return value;
-					}
-				}
+				return value;
 			}
 		}
 

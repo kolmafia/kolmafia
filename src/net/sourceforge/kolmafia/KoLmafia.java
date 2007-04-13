@@ -3258,7 +3258,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		public void run()
 		{
-			DEFAULT_SHELL.executeLine( "logout" );
 			CustomItemDatabase.saveItemData();
 
 			SystemTrayFrame.removeTrayIcon();

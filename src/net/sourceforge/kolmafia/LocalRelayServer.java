@@ -307,7 +307,7 @@ public class LocalRelayServer implements Runnable
 			if ( request.responseCode == 200 )
 			{
 				if ( request.contentType.equals( "text/html" ) )
-					printStream.println( "Content-Type: text/html; charset=utf-8" );
+					printStream.println( "Content-Type: text/html; charset=UTF-8" );
 				else
 					printStream.println( "Content-Type: " + request.contentType );
 
@@ -397,13 +397,12 @@ public class LocalRelayServer implements Runnable
 						isCheckingModified = true;
 				}
 
-				if ( method.equals( "POST" ) )
+				if ( method.equals( "POST" ) && contentLength > 0 )
 				{
-					StringBuffer postBuffer = new StringBuffer();
-					for ( int i = 0; i < contentLength; ++i )
-						postBuffer.append( (char) reader.read() );
+					char [] data = new char[ contentLength ];
+					reader.read( data, 0, contentLength );
 
-					request.addEncodedFormFields( postBuffer.toString() );
+					request.addEncodedFormFields( new String( data ) );
 				}
 			}
 			catch ( Exception e )
