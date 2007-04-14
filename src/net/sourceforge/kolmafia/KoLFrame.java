@@ -1412,7 +1412,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			} );
 
-			movers[0].setSelected( true );
+			movers[ KoLCharacter.canInteract() ? 0 : 2 ].setSelected( true );
 		}
 	}
 
