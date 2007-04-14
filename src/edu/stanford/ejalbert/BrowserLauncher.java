@@ -668,7 +668,7 @@ public class BrowserLauncher {
 					if ( usingIE )
 						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "explorer", url } );
 					else
-						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "start", url } );
+						process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c", "start", "Open Relay Browser", url } );
 
 					// This avoids a memory leak on some versions of Java on Windows.
 					// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
