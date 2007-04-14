@@ -568,6 +568,7 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		CLIENT_SETTINGS.put( "useChatMonitor", "false" );
 		CLIENT_SETTINGS.put( "useContactsFrame", "true" );
+		CLIENT_SETTINGS.put( "useFastOutfitSwitch", "true" );
 		CLIENT_SETTINGS.put( "useLargerFonts", "false" );
 		CLIENT_SETTINGS.put( "useLowBandwidthRadio", "false" );
 		CLIENT_SETTINGS.put( "useSeparateChannels", "true" );
