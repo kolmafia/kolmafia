@@ -474,7 +474,11 @@ public class KoLRequest extends Job implements KoLConstants
 	 */
 
 	public void addEncodedFormField( String element )
-	{	data.add( element );
+	{
+		if ( element.endsWith( "=" ) )
+			element = element.substring( 0, element.length() - 1 );
+
+		data.add( element );
 	}
 
 	public void addEncodedFormFields( String fields )
