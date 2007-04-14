@@ -2147,7 +2147,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( moodText.startsWith( "mood" ) )
 					buffer.append( "mood+execute" );
 				else
-					buffer.append( URLEncoder.encode( moodText, "UTF-8" ) );
+					buffer.append( URLEncoder.encode( moodText, "ISO-8859-1" ) );
 			}
 			catch ( Exception e )
 			{
@@ -2191,7 +2191,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( moodText.startsWith( "mood" ) )
 					buffer.append( "mood+execute" );
 				else
-					buffer.append( URLEncoder.encode( moodText, "UTF-8" ) );
+					buffer.append( URLEncoder.encode( moodText, "ISO-8859-1" ) );
 			}
 			catch ( Exception e )
 			{
