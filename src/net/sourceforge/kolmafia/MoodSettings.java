@@ -465,9 +465,6 @@ public abstract class MoodSettings implements KoLConstants
 			currentEffect = (AdventureResult) activeEffects.get(i);
 			nextEffect = i + 1 >= activeEffects.size() ? null : (AdventureResult) activeEffects.get( i + 1 );
 
-			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 100 )
-				return null;
-
 			skillName = UneffectRequest.effectToSkill( currentEffect.getName() );
 			if ( !ClassSkillsDatabase.contains( skillName ) || !KoLCharacter.hasSkill( skillName ) )
 				continue;
@@ -513,6 +510,9 @@ public abstract class MoodSettings implements KoLConstants
 
 				castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
 			}
+
+			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 100 )
+				return null;
 
 			if ( castCount > 2 && duration > desiredDuration )
 				castCount = 2;
