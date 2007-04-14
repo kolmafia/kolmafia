@@ -978,7 +978,8 @@ public class LocalRelayRequest extends PasswordHashRequest
 						StaticEntity.printStackTrace( e );
 					}
 
-					responseText = KoLMessenger.getNormalizedContent( responseText, false );
+					if ( StaticEntity.getBooleanProperty( "relayFormatsChatText" ) )
+						responseText = KoLMessenger.getNormalizedContent( responseText, false );
 				}
 			}
 		}

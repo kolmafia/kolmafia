@@ -3173,11 +3173,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( !filter.equals( "" ) &&
 			(parameters.startsWith( "summary" ) || parameters.startsWith( "session" ) || parameters.startsWith( "stat" ) || parameters.startsWith( "equip" ) || parameters.startsWith( "encounters" )) )
 		{
-			File outputFile = new File( filter );
-			filter = "";
-
-			outputFile = new File( outputFile.getAbsolutePath() );
-			desiredOutputStream = LogStream.openStream( outputFile, false );
+			desiredOutputStream = LogStream.openStream( new File( filter ).getAbsoluteFile(), false );
 		}
 
 		executePrintCommand( list, filter, desiredOutputStream );
@@ -3330,7 +3326,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( filter.equals( "" ) )
 			{
-				printList( mainList );
+				printList( mainList, desiredStream );
 			}
 			else
 			{
