@@ -314,7 +314,9 @@ public class AdventureRequest extends KoLRequest
 
 		if ( formSource.equals( "adventure.php" ) && responseText.indexOf( "adventure.php" ) == -1 && responseText.indexOf( "You acquire" ) == -1 )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, "Nothing more to do here." );
+			if ( !KoLmafia.isAutoStop( encounter ) )
+				KoLmafia.updateDisplay( PENDING_STATE, "Nothing more to do here." );
+
 			return;
 		}
 
