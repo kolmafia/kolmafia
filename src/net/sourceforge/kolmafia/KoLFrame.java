@@ -642,12 +642,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			this.locationSelect = locationSelect;
 
-			SimpleScrollPane textScroller = new SimpleScrollPane( safetyText, SimpleScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+			SimpleScrollPane textScroller = new SimpleScrollPane( safetyText );
 			JComponentUtilities.setComponentSize( textScroller, 100, 100 );
 			add( textScroller, BorderLayout.CENTER );
 
 			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( this ) );
-			this.locationSelect.addListSelectionListener( this );
+			locationSelect.addListSelectionListener( this );
 
 			safetyText.setContentType( "text/html" );
 			safetyText.setEditable( false );
@@ -664,7 +664,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		private void setSafetyString()
 		{
-			KoLAdventure request = (KoLAdventure) this.locationSelect.getSelectedValue();
+			KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
 			if ( request == null )
 				return;
 

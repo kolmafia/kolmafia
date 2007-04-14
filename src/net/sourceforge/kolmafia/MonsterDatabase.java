@@ -109,6 +109,7 @@ public class MonsterDatabase extends KoLDatabase
 
 				if ( !bad )
 				{
+					monster.doneWithItems();
 					MONSTER_DATA.put( data[0], monster );
 					MONSTER_NAMES.put( CombatSettings.encounterKey( data[0], true ), data[0] );
 				}
@@ -325,7 +326,9 @@ public class MonsterDatabase extends KoLDatabase
 		private int defenseElement;
 		private int minMeat;
 		private int maxMeat;
+
 		private List items;
+		private List pocketRates;
 
 		public Monster( String name, int health, int attack, int defense, int initiative, int attackElement, int defenseElement, int minMeat, int maxMeat )
 		{
@@ -339,7 +342,9 @@ public class MonsterDatabase extends KoLDatabase
 			this.defenseElement = defenseElement;
 			this.minMeat = minMeat;
 			this.maxMeat = maxMeat;
+
 			this.items = new ArrayList();
+			this.pocketRates = new ArrayList();
 		}
 
 		public String getName()
@@ -384,6 +389,10 @@ public class MonsterDatabase extends KoLDatabase
 
 		public List getItems()
 		{	return items;
+		}
+
+		public List getPocketRates()
+		{	return pocketRates;
 		}
 
 		public boolean shouldSteal()
@@ -449,6 +458,46 @@ public class MonsterDatabase extends KoLDatabase
 
 		public void addItem( AdventureResult item )
 		{	items.add( item );
+		}
+
+		public void doneWithItems()
+		{
+			// Calculate the probability that an item will be yoinked
+			// based on the integral provided by Buttons on the HCO forums.
+			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3396
+
+			float probability = 0.0f;
+			float [] coefficients = new float[ items.size() ];
+
+			for ( int i = 0; i < items.size(); ++i )
+			{
+				coefficients[0] = 1.0f;
+				for ( int j = 1; j < coefficients.length; ++j )
+					coefficients[j] = 0.0f;
+
+				for ( int j = 0; j < items.size(); ++j )
+				{
+					probability = ((AdventureResult)items.get(j)).getCount() / 100.0f;
+
+					if ( i == j )
+					{
+						for ( int k = 0; k < coefficients.length; ++k )
+							coefficients[k] = coefficients[k] * probability;
+					}
+					else
+					{
+						for ( int k = coefficients.length - 1; k >= 1; --k )
+							coefficients[k] = coefficients[k] - (probability * coefficients[k - 1]);
+					}
+				}
+
+				probability = 0.0f;
+
+				for ( int j = 0; j < coefficients.length; ++j )
+					probability += coefficients[j] / ((float) (j+1));
+
+				pocketRates.add( new Float( probability ) );
+			}
 		}
 
 		public float getXP()
