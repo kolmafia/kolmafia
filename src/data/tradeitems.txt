@@ -1954,7 +1954,7 @@
 1954	dehydrated caviar	1	all	150
 1955	styrofoam peanuts	0	display	0
 1956	snifter of thoroughly aged brandy	2	all	34
-1957	disintegrating quill pen	3	all	45
+1957	disintegrating quill pen	4	all	45
 1958	inkwell	0	all	45
 1959	tattered scrap of paper	0	all	35
 1960	scroll of ancient forbidden unspeakable evil	0	all	65
@@ -2301,12 +2301,12 @@
 2301
 2302
 2303	libram of candy heart summoning	3	all	0
-2304	white candy heart	3	all	5
-2305	pink candy heart	3	all	5
-2306	orange candy heart	3	all	5
-2307	lavender candy heart	3	all	5
-2308	yellow candy heart	3	all	5
-2309	green candy heart	3	all	5
+2304	white candy heart	4	all	5
+2305	pink candy heart	4	all	5
+2306	orange candy heart	4	all	5
+2307	lavender candy heart	4	all	5
+2308	yellow candy heart	4	all	5
+2309	green candy heart	4	all	5
 2310	white candygram	4	none	0
 2311	pink candygram	4	none	0
 2312	orange candygram	4	none	0
@@ -2457,20 +2457,20 @@
 2457	white whip	12	all	15
 2458	barskin loincloth	10	all	30
 2459	tighty whiteys	10	all	45
-2460	
-2461	
-2462	
-2463	
-2464	
-2465	
-2466	
-2467	
-2468	
-2469	
-2470	
-2471	
-2472	
-2473	
+2460
+2461
+2462
+2463
+2464
+2465
+2466
+2467
+2468
+2469
+2470
+2471
+2472
+2473
 2474	clown skin	0	all	45
 2475	clown wig	9	all	55
 2476	clownskin belt	8	all	55
@@ -2480,10 +2480,10 @@
 2480	demon-horned hat	9	all	75
 2481	demon buckler	13	all	85
 2482	demon whip	12	all	15
-2483	
-2484	
-2485	
-2486	
-2487	
-2488	
-2489	
+2483
+2484
+2485
+2486
+2487
+2488
+2489
