@@ -203,6 +203,8 @@ public class OptionsFrame extends KoLFrame
 
 			{ "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
 			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
+			{ "relayFormatsChatText", "Reformat incoming chat HTML to conform to web standards" },
+
 			{ "relayAddsGraphicalCLI", "Add link to command-line interface to right side pane" },
 			{ "relayAddsKoLSimulator", "Add link to Ayvuir's Simulator of Loathing to right side pane" },
 
