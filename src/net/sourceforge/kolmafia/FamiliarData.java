@@ -309,7 +309,6 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 27: // Hanukkimbo Dreidl
 		case 29: // Feather Boa Constrictor
 		case 48: // Ninja Pirate Zombie Robot
-		case 52: // Spirit Hobo
 			return true;
 
 		default:

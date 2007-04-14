@@ -2659,9 +2659,13 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
+	public static boolean isAutoStop( String encounterName )
+	{	return stopEncounters.contains( encounterName );
+	}
+
 	public void recognizeEncounter( String encounterName )
 	{
-		if ( conditions.isEmpty() && stopEncounters.contains( encounterName ) )
+		if ( conditions.isEmpty() && isAutoStop( encounterName ) )
 		{
 			RequestLogger.printLine();
 			KoLmafia.updateDisplay( PENDING_STATE, encounterName );
