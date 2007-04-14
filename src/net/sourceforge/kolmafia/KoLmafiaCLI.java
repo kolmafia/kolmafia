@@ -3698,11 +3698,17 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		AdventureResult firstMatch = getFirstMatchingItem( parameters );
-		if ( firstMatch == null )
-			return;
+		isCreationMatch = true;
+		Object [] itemList = getMatchingItemList( parameters );
+		isCreationMatch = false;
 
-		RequestThread.postRequest( new UntinkerRequest( firstMatch.getItemId(), firstMatch.getCount() ) );
+		RequestThread.openRequestSequence();
+
+		for ( int i = 0; i < itemList.length; ++i )
+			if ( itemList[i] != null )
+				RequestThread.postRequest( new UntinkerRequest( ((AdventureResult)itemList[i]).getItemId(), ((AdventureResult)itemList[i]).getCount() ) );
+
+		RequestThread.closeRequestSequence();
 	}
 
 	/**
