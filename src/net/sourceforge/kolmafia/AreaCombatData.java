@@ -327,13 +327,13 @@ public class AreaCombatData implements KoLConstants
 			buffer.append( "special" );
 		else
 			buffer.append( format( 100.0f * combatFactor * (float)weighting / (float)weights ) + "%" );
-                buffer.append( ")<br> - Hit: <font color=" + elementColor( ed ) + ">" );
+                buffer.append( ")<br>Hit: <font color=" + elementColor( ed ) + ">" );
 		buffer.append( format( hitPercent ) );
 		buffer.append( "%</font>, Evade: <font color=" + elementColor( ea ) + ">" );
 		buffer.append( format( evadePercent ) );
-		buffer.append( "%</font><br> - HP: " + health + ", XP: " + FLOAT_FORMAT.format( statGain ) );
+		buffer.append( "%</font><br>HP: " + health + ", XP: " + FLOAT_FORMAT.format( statGain ) );
 		appendMeatDrop( buffer, monster );
-		appendItemList( buffer, monster.getItems() );
+		appendItemList( buffer, monster.getItems(), monster.getPocketRates() );
 
 		return buffer.toString();
 	}
@@ -346,12 +346,12 @@ public class AreaCombatData implements KoLConstants
 			return;
 
 		float modifier = ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0f ) / 100.0f;
-		buffer.append( "<br> - Meat: " +
+		buffer.append( "<br>Meat: " +
 	       format( ((float)minMeat) * modifier ) + "-" + format( ((float)maxMeat) * modifier ) + " (" +
 	       format( (float)(minMeat + maxMeat) * modifier / 2.0f ) + " average)" );
 	}
 
-	private void appendItemList( StringBuffer buffer, List items )
+	private void appendItemList( StringBuffer buffer, List items, List pocketRates )
 	{
 		if ( items.size() == 0 )
 			return;
@@ -360,9 +360,31 @@ public class AreaCombatData implements KoLConstants
 
 		for ( int i = 0; i < items.size(); ++i )
 		{
-			buffer.append( "<br> - Drops " );
-			AdventureResult item = (AdventureResult)items.get(i);
-			buffer.append( item.getName() + " (" + format( Math.min( ((float)item.getCount()) * itemModifier, 100.0f ) ) + "%)" );
+			buffer.append( "<br>" );
+			AdventureResult item = (AdventureResult) items.get(i);
+
+			float stealRate = ((Float) pocketRates.get(i)).floatValue();
+
+//			float stealRate = KoLCharacter.isMoxieClass() ? ((Float) pocketRates.get(i)).floatValue() : 0.0f;
+			float dropRate = Math.min( ((float)item.getCount()) * itemModifier, 100.0f );
+			float effectiveDropRate = (stealRate * 100.0f) + ((1.0f - stealRate) * dropRate);
+
+			String rate1 = format( dropRate );
+			String rate2 = format( effectiveDropRate );
+
+			buffer.append( item.getName() );
+			buffer.append( " (" );
+			buffer.append( rate2 );
+
+			if ( !rate1.equals( rate2 ) )
+			{
+				buffer.append( "%, " );
+				buffer.append( rate1 );
+				buffer.append( "%, " );
+				buffer.append( format( stealRate * 100.0f ) );
+			}
+
+			buffer.append( "%)" );
 		}
 	}
 
