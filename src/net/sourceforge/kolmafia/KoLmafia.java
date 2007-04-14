@@ -568,8 +568,9 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( StaticEntity.getBooleanProperty( "readManual" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
 			{
-				RequestThread.postRequest( new ConsumeItemRequest(
-					KoLCharacter.isMuscleClass() ? MANUAL_1 : KoLCharacter.isMysticalityClass() ? MANUAL_2 : MANUAL_3 ) );
+				AdventureResult manual = KoLCharacter.isMuscleClass() ? MANUAL_1 : KoLCharacter.isMysticalityClass() ? MANUAL_2 : MANUAL_3;
+				if ( KoLCharacter.hasItem( manual ) )
+					RequestThread.postRequest( new ConsumeItemRequest( manual ) );
 			}
 
 			forceContinue();
