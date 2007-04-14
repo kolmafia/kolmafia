@@ -129,7 +129,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 
 		framePanel.setLayout( new BorderLayout( 20, 20 ) );
 		framePanel.add( adventureDetails, BorderLayout.NORTH );
-		framePanel.add( getSouthernTabs(), BorderLayout.CENTER );
+		framePanel.add( getSouthernTabs( false ), BorderLayout.CENTER );
 
 		updateSelectedAdventure( AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) ) );
 		fillDefaultConditions();
@@ -180,13 +180,13 @@ public class AdventureFrame extends AdventureOptionsFrame
 			INSTANCE.tabs.remove( i );
 	}
 
-	public JTabbedPane getSouthernTabs()
+	public JTabbedPane getSouthernTabs( boolean includeLocationData )
 	{
 		// Handle everything that might appear inside of the
 		// session tally.
 
 		if ( shouldAddExtraTabs )
-			super.getSouthernTabs( false );
+			super.getSouthernTabs( includeLocationData );
 
 		tabs.insertTab( "Normal Options", null, getAdventureSummary(), null, 0 );
 
