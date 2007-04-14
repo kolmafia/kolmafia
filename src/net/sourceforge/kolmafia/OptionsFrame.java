@@ -301,6 +301,7 @@ public class OptionsFrame extends KoLFrame
 
 			{ "", "" },
 
+			{ "useFastOutfitSwitch", "Use fast outfit switching instead of piecewise switching" },
 			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
 			{ "allowEncounterRateBurning", "Cast combat rate modifiers during conditional recast" },
 			{ "allowBreakfastBurning", "Cast breakfast skills during conditional recast" },

@@ -97,6 +97,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		"acc1", "acc2", "acc3", "familiarequip", "fakehand"
 	};
 
+	private static boolean shouldSavePreviousOutfit = false;
 	private static final int FAKE_HAND = 1511;
 
 	private int requestType;
@@ -154,6 +155,10 @@ public class EquipmentRequest extends PasswordHashRequest
 	{
 		super( "inv_equip.php", true );
 		initializeChangeData( changeItem, equipmentSlot, force );
+	}
+
+	public static void savePreviousOutfit()
+	{	shouldSavePreviousOutfit = true;
 	}
 
 	private void initializeChangeData( AdventureResult changeItem, int equipmentSlot, boolean force )
@@ -379,6 +384,14 @@ public class EquipmentRequest extends PasswordHashRequest
 				// Bail now if the conditions were not met
 				if ( !KoLmafia.permitsContinue() )
 					return;
+
+				if ( shouldSavePreviousOutfit )
+				{
+					if ( SpecialOutfit.markImplicitCheckpoint() )
+						RequestThread.postRequest( new EquipmentRequest( "Backup" ) );
+
+					shouldSavePreviousOutfit = false;
+				}
 			}
 			else if ( id == 0 )
 			{

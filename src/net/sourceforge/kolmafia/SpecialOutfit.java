@@ -55,6 +55,10 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	public static final String NO_CHANGE = " - No Change - ";
 	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit();
 
+	private static SpecialOutfit implicitOutfit = null;
+	private static int markedCheckpoint = -1;
+	private static AdventureResult [] checkpointPieces = new AdventureResult[ KoLCharacter.FAMILIAR ];
+
 	private SpecialOutfit()
 	{
 		this.outfitId = Integer.MAX_VALUE;
@@ -176,6 +180,24 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		explicitPoints.push( explicit );
 	}
 
+	public static boolean markImplicitCheckpoint()
+	{
+		if ( markedCheckpoint != -1 || implicitPoints.isEmpty() )
+			return false;
+
+		boolean isIdentical = true;
+		markedCheckpoint = implicitPoints.size() - 1;
+
+		for ( int i = 0; i < checkpointPieces.length; ++i )
+		{
+			isIdentical &= checkpointPieces[i].equals( KoLCharacter.getEquipment(i) );
+			checkpointPieces[i] = KoLCharacter.getEquipment(i);
+			StaticEntity.setProperty( "implicitEquipmentSlot" + i, checkpointPieces[i].getName() );
+		}
+
+		return !isIdentical;
+	}
+
 	/**
 	 * Restores a checkpoint.  This should be called whenever
 	 * the player needs to revert to their checkpointed outfit.
@@ -202,6 +224,9 @@ public class SpecialOutfit implements Comparable, KoLConstants
 			implicit[i] = KoLCharacter.getEquipment(i);
 
 		implicitPoints.push( implicit );
+
+		if ( StaticEntity.getBooleanProperty( "useFastOutfitSwitch" ) )
+			EquipmentRequest.savePreviousOutfit();
 	}
 
 	/**
@@ -217,7 +242,17 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		AdventureResult [] implicit = (AdventureResult []) implicitPoints.pop();
 
 		if ( !KoLmafia.isRunningBetweenBattleChecks() && !MoodSettings.isExecuting() )
-			restoreCheckpoint( implicit );
+		{
+			if ( implicitPoints.size() <= markedCheckpoint )
+			{
+				RequestThread.postRequest( new EquipmentRequest( implicitOutfit ) );
+				markedCheckpoint = -1;
+			}
+			else if ( implicitOutfit == null || markedCheckpoint == -1 )
+			{
+				restoreCheckpoint( implicit );
+			}
+		}
 	}
 
 	/**
@@ -232,13 +267,33 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		Matcher singleOutfitMatcher = OPTION_PATTERN.matcher( selectHTML );
 
 		int outfitId;
+		String outfitName;
+		SpecialOutfit outfit;
+
+		implicitOutfit = null;
 		SortedListModel outfits = new SortedListModel();
+
+		String itemName = null;
+		for ( int i = 0; i < checkpointPieces.length; ++i )
+		{
+			itemName = StaticEntity.getProperty( "implicitEquipmentSlot" + i );
+			checkpointPieces[i] = itemName.equals( "(none)" ) || itemName.equals( "" ) || !TradeableItemDatabase.contains( itemName ) ?
+				EquipmentRequest.UNEQUIP : new AdventureResult( itemName, 1, false );
+		}
 
 		while ( singleOutfitMatcher.find() )
 		{
 			outfitId = StaticEntity.parseInt( singleOutfitMatcher.group(1) );
 			if ( outfitId < 0 )
-				outfits.add( new SpecialOutfit( outfitId, singleOutfitMatcher.group(2) ) );
+			{
+				outfitName = singleOutfitMatcher.group(2);
+				outfit = new SpecialOutfit( outfitId, singleOutfitMatcher.group(2) );
+
+				if ( outfitName.equals( "Custom: Backup" ) )
+					implicitOutfit = outfit;
+
+				outfits.add( outfit );
+			}
 		}
 
 		return outfits;
