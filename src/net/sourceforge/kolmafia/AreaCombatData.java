@@ -363,9 +363,7 @@ public class AreaCombatData implements KoLConstants
 			buffer.append( "<br>" );
 			AdventureResult item = (AdventureResult) items.get(i);
 
-			float stealRate = ((Float) pocketRates.get(i)).floatValue();
-
-//			float stealRate = KoLCharacter.isMoxieClass() ? ((Float) pocketRates.get(i)).floatValue() : 0.0f;
+			float stealRate = KoLCharacter.isMoxieClass() ? ((Float) pocketRates.get(i)).floatValue() : 0.0f;
 			float dropRate = Math.min( ((float)item.getCount()) * itemModifier, 100.0f );
 			float effectiveDropRate = (stealRate * 100.0f) + ((1.0f - stealRate) * dropRate);
 
