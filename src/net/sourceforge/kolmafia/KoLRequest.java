@@ -964,6 +964,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private boolean postClientData()
 	{
+		if ( shouldUpdateDebugLog() )
+			printRequestProperties();
+
 		// Only attempt to post something if there's actually
 		// data to post - otherwise, opening an input stream
 		// should be enough
