@@ -41,24 +41,32 @@ public class LogoutRequest extends KoLRequest
 
 	public void run()
 	{
-		super.run();
+		synchronized ( LogoutRequest.class )
+		{
+			if ( sessionId == null )
+				return;
 
-		RequestThread.declareWorldPeace();
-		StaticEntity.getClient().setCurrentRequest( null );
+			if ( KoLDesktop.instanceExists() )
+				KoLDesktop.getInstance().dispose();
 
-		KoLCharacter.reset( "" );
+			String scriptSetting = StaticEntity.getProperty( "logoutScript" );
+			if ( !scriptSetting.equals( "" ) )
+				DEFAULT_SHELL.executeLine( scriptSetting );
 
-		KoLMessenger.dispose();
-		BuffBotHome.setBuffBotActive( false );
+			KoLmafia.updateDisplay( "Attempting to logout..." );
+			super.run();
+			KoLmafia.updateDisplay( "Logout request submitted." );
 
-		String scriptSetting = StaticEntity.getProperty( "logoutScript" );
-		if ( !scriptSetting.equals( "" ) )
-			DEFAULT_SHELL.executeLine( scriptSetting );
+			RequestThread.declareWorldPeace();
+			StaticEntity.getClient().setCurrentRequest( null );
 
-		if ( KoLDesktop.instanceExists() )
-			KoLDesktop.getInstance().dispose();
+			KoLCharacter.reset( "" );
 
-		sessionId = null;
+			KoLMessenger.dispose();
+			BuffBotHome.setBuffBotActive( false );
+
+			sessionId = null;
+		}
 	}
 }
 
