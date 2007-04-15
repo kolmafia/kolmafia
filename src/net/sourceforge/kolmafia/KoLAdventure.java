@@ -664,7 +664,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		if ( !KoLCharacter.getFamiliar().isThiefFamiliar() )
 			return false;
 
-		if ( !KoLCharacter.canInteract() )
+		if ( KoLCharacter.getTotalTurnsUsed() >= 2000 )
 			return false;
 
 		return adventureId.indexOf( "81" ) != -1 || adventureId.indexOf( "82" ) != -1 || adventureId.indexOf( "83" ) != -1 ||
