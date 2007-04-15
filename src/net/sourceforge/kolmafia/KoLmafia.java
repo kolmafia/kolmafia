@@ -191,10 +191,9 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.reloadSettings( "" );
 		KoLCharacter.reset();
 
-		if ( StaticEntity.getIntegerProperty( "defaultLoginServer" ) == 0 )
-			return;
+		if ( StaticEntity.getIntegerProperty( "defaultLoginServer" ) != 0 )
+			StaticEntity.setProperty( "defaultLoginServer", String.valueOf( 1 + RNG.nextInt( KoLRequest.SERVER_COUNT ) ) );
 
-		StaticEntity.setProperty( "defaultLoginServer", String.valueOf( 1 + RNG.nextInt( KoLRequest.SERVER_COUNT ) ) );
 		StaticEntity.setProperty( "ignoreLoadBalancer", "false" );
 		StaticEntity.setProperty( "relayBrowserOnly", "false" );
 
