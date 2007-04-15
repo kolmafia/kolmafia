@@ -250,10 +250,8 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		{
 			if ( location.startsWith( "http" ) )
 				StaticEntity.openSystemBrowser( location );
-			else if ( KoLRequest.sessionId != null )
-				StaticEntity.openRequestFrame( location );
 			else
-				KoLmafia.updateDisplay( "You are not yet logged in." );
+				StaticEntity.openRequestFrame( location );
 		}
 
 		public String toString()

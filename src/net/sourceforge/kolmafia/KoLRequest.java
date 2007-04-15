@@ -211,13 +211,8 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 	}
 
-	public static void chooseRandomServer()
-	{
-		if ( StaticEntity.getIntegerProperty( "defaultLoginServer" ) == 0 )
-			return;
-
-		StaticEntity.setProperty( "defaultLoginServer", String.valueOf( 1 + RNG.nextInt( KoLRequest.SERVER_COUNT ) ) );
-		applySettings();
+	private static boolean substringMatches( String a, String b )
+	{	return a.indexOf( b ) != -1 || b.indexOf( a ) != -1;
 	}
 
 	/**
@@ -235,16 +230,16 @@ public class KoLRequest extends Job implements KoLConstants
 
 		for ( int i = 0; i < SERVERS.length; ++i )
 		{
-			if ( SERVERS[i][0].indexOf( "server" ) != -1 || server.indexOf( SERVERS[i][0] ) != -1 || SERVERS[i][1].indexOf( server ) != -1 || server.indexOf( SERVERS[i][1] ) != -1 )
-			{
-				KOL_HOST = SERVERS[i][0];
-				KOL_ROOT = "http://" + SERVERS[i][1] + "/";
+			if ( !substringMatches( server, SERVERS[i][0] ) && !substringMatches( server, SERVERS[i][1] ) )
+				continue;
 
-				StaticEntity.setProperty( "loginServerName", KOL_HOST );
+			KOL_HOST = SERVERS[i][0];
+			KOL_ROOT = "http://" + SERVERS[i][1] + "/";
 
-				RequestLogger.printLine( "Redirected to " + KOL_HOST + "..." );
-				System.setProperty( "http.referer", "http://" + KOL_HOST + "/main.php" );
-			}
+			StaticEntity.setProperty( "loginServerName", KOL_HOST );
+
+			RequestLogger.printLine( "Redirected to " + KOL_HOST + "..." );
+			System.setProperty( "http.referer", "http://" + KOL_HOST + "/main.php" );
 		}
 	}
 
