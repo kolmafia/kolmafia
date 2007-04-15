@@ -4295,8 +4295,8 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( lowercaseOutfitName.equals( "birthday suit" ) || lowercaseOutfitName.equals( "nothing" ) )
 			return SpecialOutfit.BIRTHDAY_SUIT;
 
-		Object [] outfits = new Object[ KoLCharacter.getCustomOutfits().size() ];
-		KoLCharacter.getCustomOutfits().toArray( outfits );
+		Object [] outfits = new Object[ KoLCharacter.getOutfits().size() ];
+		KoLCharacter.getOutfits().toArray( outfits );
 
 		for ( int i = 0; i < outfits.length; ++i )
 			if ( outfits[i] instanceof SpecialOutfit && outfits[i].toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
