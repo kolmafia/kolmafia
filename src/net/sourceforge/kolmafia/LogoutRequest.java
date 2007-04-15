@@ -41,7 +41,7 @@ public class LogoutRequest extends KoLRequest
 
 	public void run()
 	{
-		KoLRequest.sessionId = null;
+		super.run();
 
 		RequestThread.declareWorldPeace();
 		StaticEntity.getClient().setCurrentRequest( null );
@@ -54,8 +54,6 @@ public class LogoutRequest extends KoLRequest
 		String scriptSetting = StaticEntity.getProperty( "logoutScript" );
 		if ( !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
-
-		super.run();
 
 		if ( KoLDesktop.instanceExists() )
 			KoLDesktop.getInstance().dispose();
