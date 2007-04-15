@@ -470,6 +470,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void addEncodedFormField( String element )
 	{
+		if ( element == null )
+			return;
+
 		if ( element.equals( "pwd=" ) )
 			element = "pwd";
 		else if ( element.equals( "phash=" ) )
