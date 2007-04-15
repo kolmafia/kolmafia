@@ -104,19 +104,10 @@ public class FamiliarRequest extends KoLRequest
 		if ( item == EquipmentRequest.UNEQUIP || !changeTo.canEquip( item ) )
 			return;
 
-		// If the new familiar's item is better than the item you could switch to
-		// (such as a lead necklace vs. a pumpkin basket), do nothing.
-
-		int oldModifier = FamiliarData.itemWeightModifier( item.getItemId() );
-		int newModifier = FamiliarData.itemWeightModifier( changeTo.getItem().getItemId() );
-
-		if ( newModifier > oldModifier )
-			return;
-
 		// If the familiar is already wearing its default item, and the item does
 		// not give five weight, it's also probably better not to switch.
 
-		if ( newModifier != 5 && changeTo.getItem().getName().equals( FamiliarsDatabase.getFamiliarItem( changeTo.getId() ) ) )
+		if ( changeTo.getItem().getName().equals( FamiliarsDatabase.getFamiliarItem( changeTo.getId() ) ) )
 			return;
 
 		// In all other cases, a switch is probably in order.  Go ahead and make
