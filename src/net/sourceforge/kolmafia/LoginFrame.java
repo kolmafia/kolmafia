@@ -91,7 +91,6 @@ public class LoginFrame extends KoLFrame
 	{
 		super( VERSION_NAME + ": Login" );
 
-		KoLRequest.chooseRandomServer();
 		tabs.addTab( "KoL Login", constructLoginPanel() );
 
 		JPanel breakfastPanel = new JPanel();
@@ -947,8 +946,6 @@ public class LoginFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			StaticEntity.setProperty( "defaultLoginServer", String.valueOf( servers.getSelectedIndex() ) );
-			KoLRequest.applySettings();
-
 			for ( int i = 0; i < options.length; ++i )
 				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 		}

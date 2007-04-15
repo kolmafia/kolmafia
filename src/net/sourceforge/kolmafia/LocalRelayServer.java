@@ -383,7 +383,7 @@ public class LocalRelayServer implements Runnable
 					if ( tokens[0].equals( "Content-Length" ) )
 						contentLength = StaticEntity.parseInt( tokens[1].trim() );
 
-					if ( tokens[0].equals( "Cookie" ) && KoLRequest.sessionId != null )
+					if ( tokens[0].equals( "Cookie" ) )
 					{
 						// Let's find out what kind of cookie the browser is trying
 						// to tell KoLmafia about.

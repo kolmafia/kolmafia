@@ -966,8 +966,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "login" ) )
 		{
 			executeCommand( "logout", "" );
-
-			KoLRequest.chooseRandomServer();
 			String password = getSaveState( parameters );
 
 			if ( password != null )
