@@ -378,6 +378,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			}
 
 			RequestThread.openRequestSequence();
+
 			FlowerHunterRequest request = new FlowerHunterRequest( "",
 				stanceSelect.getSelectedIndex() + 1, mission, winMessage.getText(), lossMessage.getText() );
 
@@ -395,14 +396,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				RequestThread.postRequest( request );
 
 				if ( preFightRank > KoLCharacter.getPvpRank() )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, "You have been defeated by " + selection[i].getPlayerName() + "." );
-					RequestThread.closeRequestSequence();
-					updateRank();
-					return;
-				}
-
-				if ( preFightRank < KoLCharacter.getPvpRank() )
+					i = 0;
+				else
 					StaticEntity.setProperty( "currentPvpVictories", StaticEntity.getProperty( "currentPvpVictories" ) + selection[i].getPlayerName() + "," );
 
 				updateRank();
