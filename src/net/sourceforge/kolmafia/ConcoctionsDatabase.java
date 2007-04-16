@@ -757,9 +757,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			return KoLCharacter.getAvailableMeat() >= 1000;
 		}
 
-		int mixingMethod = getMixingMethod( itemId );
-
-		if ( !isPermittedMethod( mixingMethod ) )
+		if ( !isPermittedMethod( getMixingMethod( itemId ) ) )
 			return false;
 
 		AdventureResult [] ingredients = getStandardIngredients( itemId );
@@ -776,7 +774,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemId ) ) )
 				return true;
 
-			if ( mixingMethod != ROLLING_PIN && mixingMethod != CLOVER && hasAnyIngredient( ingredients[i].getItemId() ) )
+			if ( hasAnyIngredient( ingredients[i].getItemId() ) )
 				return true;
 		}
 

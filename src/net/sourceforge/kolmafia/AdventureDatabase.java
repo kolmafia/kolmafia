@@ -1059,6 +1059,10 @@ public class AdventureDatabase extends KoLDatabase
 		boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemId() );
 		shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( item.getItemId() ) == PIXEL;
 
+		ItemCreationRequest creator = ItemCreationRequest.getInstance( item.getItemId() );
+		int mixingMethod = ConcoctionsDatabase.getMixingMethod( item.getItemId() );
+		boolean shouldCreate = creator != null;
+
 		// First, attempt to pull the item from the closet.
 		// If this is successful, return from the method.
 
@@ -1076,38 +1080,6 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( missingCount <= 0 )
 			return true;
-
-		// Next, attempt to create the item from existing
-		// ingredients (if possible).
-
-		ItemCreationRequest creator = ItemCreationRequest.getInstance( item.getItemId() );
-		boolean shouldCreate = creator != null && ConcoctionsDatabase.getMixingMethod( item.getItemId() ) != NOCREATE;
-
-		if ( creator != null )
-		{
-			creator.setQuantityNeeded( Math.min( missingCount, creator.getQuantityPossible() ) );
-			RequestThread.postRequest( creator );
-			missingCount = item.getCount() - item.getCount( inventory );
-
-			if ( missingCount <= 0 )
-				return true;
-		}
-
-		// Next, hermit item retrieval is possible when
-		// you have worthless items.  Use this method next.
-
-		if ( hermitItems.contains( item ) )
-		{
-			int worthlessItemCount = HermitRequest.getWorthlessItemCount();
-			if ( worthlessItemCount > 0 )
-			{
-				RequestThread.postRequest( new HermitRequest( item.getItemId(), Math.min( worthlessItemCount, missingCount ) ) );
-				missingCount = item.getCount() - item.getCount( inventory );
-
-				if ( missingCount <= 0 )
-					return true;
-			}
-		}
 
 		// Next, attempt to pull the items out of storage,
 		// if you are out of ronin.
@@ -1144,6 +1116,35 @@ public class AdventureDatabase extends KoLDatabase
 			}
 		}
 
+		// Next, attempt to create the item from existing
+		// ingredients (if possible).
+
+		if ( shouldCreate && creator.getQuantityPossible() > 0 )
+		{
+			creator.setQuantityNeeded( Math.min( missingCount, creator.getQuantityPossible() ) );
+			RequestThread.postRequest( creator );
+			missingCount = item.getCount() - item.getCount( inventory );
+
+			if ( missingCount <= 0 )
+				return true;
+		}
+
+		// Next, hermit item retrieval is possible when
+		// you have worthless items.  Use this method next.
+
+		if ( hermitItems.contains( item ) )
+		{
+			int worthlessItemCount = HermitRequest.getWorthlessItemCount();
+			if ( worthlessItemCount > 0 )
+			{
+				RequestThread.postRequest( new HermitRequest( item.getItemId(), Math.min( worthlessItemCount, missingCount ) ) );
+				missingCount = item.getCount() - item.getCount( inventory );
+
+				if ( missingCount <= 0 )
+					return true;
+			}
+		}
+
 		// If the item should be bought early, go ahead and purchase it now,
 		// after having checked the clan stash.
 
@@ -1159,23 +1160,25 @@ public class AdventureDatabase extends KoLDatabase
 			}
 		}
 
+		switch ( mixingMethod )
+		{
+		// Subingredients for star charts, pixels and malus ingredients can get
+		// very expensive. Therefore, skip over them in this step.
+
+		case NOCREATE:
+		case STARCHART:
+		case PIXEL:
+		case MALUS:
+
+			break;
+
 		// If it's creatable, and you have at least one ingredient, see if you
 		// can make it via recursion.
 
-		if ( shouldCreate && ConcoctionsDatabase.hasAnyIngredient( item.getItemId() ) )
-		{
-			switch ( item.getItemId() )
+		default:
+
+			if ( shouldCreate && ConcoctionsDatabase.hasAnyIngredient( item.getItemId() ) )
 			{
-			case 24:	// ten-leaf clover
-			case 196:	// disassembled clover
-			case 159:	// wad of dough
-			case 301:	// flat dough
-			case 459:	// white pixel
-
-				break;
-
-			default:
-
 				creator.setQuantityNeeded( missingCount );
 				RequestThread.postRequest( creator );
 				return KoLCharacter.hasItem( item );
@@ -1197,29 +1200,30 @@ public class AdventureDatabase extends KoLDatabase
 			}
 		}
 
-		// If it's creatable, rather than seeing what main ingredient is missing,
-		// show what sub-ingredients are missing.
-
-		if ( shouldCreate )
+		switch ( mixingMethod )
 		{
-			switch ( item.getItemId() )
+		// Subingredients for star charts, pixels and malus ingredients can get
+		// very expensive. Therefore, skip over them in this step.
+
+		case NOCREATE:
+		case STARCHART:
+		case PIXEL:
+		case MALUS:
+
+			break;
+
+		// If it's creatable, and you have at least one ingredient, see if you
+		// can make it via recursion.
+
+		default:
+
+			if ( shouldCreate )
 			{
-			case 24:	// ten-leaf clover
-			case 196:	// disassembled clover
-			case 159:	// wad of dough
-			case 301:	// flat dough
-			case 459:	// white pixel
-
-				break;
-
-			default:
-
 				creator.setQuantityNeeded( missingCount );
 				RequestThread.postRequest( creator );
 				return KoLCharacter.hasItem( item );
 			}
 		}
-
 
 		// If the item does not exist in sufficient quantities,
 		// then notify the user that there aren't enough items
