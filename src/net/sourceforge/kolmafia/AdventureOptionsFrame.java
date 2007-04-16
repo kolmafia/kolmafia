@@ -798,23 +798,10 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			conditions.clear();
 
 			int worthlessItemCount = 0;
-			boolean useDisjunction = false;
-
 			String [] splitConditions = conditionList.split( "\\s*,\\s*" );
 
 			// First, figure out whether or not you need to do a disjunction
 			// on the conditions, which changes how KoLmafia handles them.
-
-			for ( int i = 0; i < splitConditions.length; ++i )
-			{
-				if ( splitConditions[i].equals( "or" ) || splitConditions[i].equals( "and" ) || splitConditions[i].startsWith( "conjunction" ) || splitConditions[i].startsWith( "disjunction" ) )
-				{
-					useDisjunction = splitConditions[i].equals( "or" ) || splitConditions[i].startsWith( "disjunction" );
-					splitConditions[i] = null;
-				}
-			}
-
-			DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 
 			for ( int i = 0; i < splitConditions.length; ++i )
 			{

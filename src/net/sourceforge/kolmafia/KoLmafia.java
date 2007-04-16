@@ -117,7 +117,6 @@ public abstract class KoLmafia implements KoLConstants
 	public static int [] initialStats = new int[3];
 
 	public static boolean executedLogin = false;
-	public static boolean useDisjunction = false;
 
 	private static final Pattern FUMBLE_PATTERN = Pattern.compile( "You drop your .*? on your .*?, doing ([\\d,]+) damage" );
 	private static final Pattern STABBAT_PATTERN = Pattern.compile( " stabs you for ([\\d,]+) damage" );
@@ -376,7 +375,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public KoLmafia()
-	{	useDisjunction = false;
+	{
 	}
 
 	public static String getLastMessage()
@@ -1603,8 +1602,7 @@ public abstract class KoLmafia implements KoLConstants
 		// there are conditions, be sure that they are checked
 		// during the iterations.
 
-		int initialConditions = conditions.size();
-		int remainingConditions = initialConditions;
+		boolean hadConditions = !conditions.isEmpty();
 		int adventuresBeforeRequest = 0;
 
 		// Begin the adventuring process, or the request execution
@@ -1629,10 +1627,7 @@ public abstract class KoLmafia implements KoLConstants
 			// out of adventures mid-request.
 
 			if ( KoLCharacter.getAdventuresLeft() == 0 && request instanceof KoLAdventure )
-			{
-				iterations = currentIteration;
 				break;
-			}
 
 			// See if you can create anything to satisfy your item
 			// conditions, but only do so if it's an adventure.
@@ -1648,14 +1643,10 @@ public abstract class KoLmafia implements KoLConstants
 				// dependency search.  While that's technically better, it's
 				// also not very useful.
 
-				if ( !useDisjunction )
-				{
-					for ( int i = 0; i < creatables.length && shouldCreate; ++i )
-						shouldCreate &= creatables[i] == null || creatables[i].getQuantityPossible() >= items[i].getCount();
-				}
+				for ( int i = 0; i < creatables.length && shouldCreate; ++i )
+					shouldCreate &= creatables[i] == null || creatables[i].getQuantityPossible() >= items[i].getCount();
 
-				// Create any items which are creatable.  If you're only doing
-				// a disjunction of the conditions, stop after making one.
+				// Create any items which are creatable.
 
 				for ( int i = creatables.length - 1; i >= 0; --i )
 				{
@@ -1663,46 +1654,33 @@ public abstract class KoLmafia implements KoLConstants
 					{
 						creatables[i].setQuantityNeeded( items[i].getCount() );
 						RequestThread.postRequest( creatables[i] );
-
 						creatables[i] = null;
-						shouldCreate = !useDisjunction;
 					}
 				}
-			}
 
-			// If the conditions existed and have been satisfied,
-			// then you should stop.
+				// If the conditions existed and have been satisfied,
+				// then you should stop.
 
-			if ( conditions.size() < remainingConditions )
-			{
-				if ( conditions.size() == 0 || useDisjunction )
+				if ( hadConditions && conditions.isEmpty() )
 				{
-					conditions.clear();
 					updateDisplay( PENDING_STATE, "Conditions satisfied after " + (currentIteration - 1) +
 						((currentIteration == 2) ? " request." : " requests.") );
 
-					continue;
+					break;
 				}
+
+				// Otherwise, disable the display and update the user
+				// and the current request number.  Different requests
+				// have different displays.  They are handled here.
+
+				if ( iterations > 1 )
+					currentIterationString = "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress...";
+				else
+					currentIterationString = "Visit to " + request.toString() + " in progress...";
 			}
-
-			remainingConditions = conditions.size();
-
-			// Otherwise, disable the display and update the user
-			// and the current request number.  Different requests
-			// have different displays.  They are handled here.
-
-			if ( request instanceof KoLAdventure && iterations > 1 )
-				currentIterationString = "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress...";
-			else if ( request instanceof KoLAdventure )
-				currentIterationString = "Visit to " + request.toString() + " in progress...";
 
 			if ( refusesContinue() )
-			{
-				if ( request instanceof KoLAdventure && !wasAdventuring )
-					AdventureFrame.updateRequestMeter( 1, 1 );
-
-				return;
-			}
+				break;
 
 			adventuresBeforeRequest = KoLCharacter.getAdventuresLeft();
 
