@@ -2631,22 +2631,6 @@ public class KoLmafiaCLI extends KoLmafia
 			RequestLogger.printLine( "Conditions list validated against available items." );
 			return true;
 		}
-		else if ( option.equals( "mode" ) )
-		{
-			String conditionString = parameters.substring( option.length() ).trim();
-
-			if ( conditionString.startsWith( "conjunction" ) || conditionString.startsWith( "and" ) )
-				useDisjunction = false;
-			else if ( conditionString.startsWith( "disjunction" ) || conditionString.startsWith( "or" ) )
-				useDisjunction = true;
-
-			if ( useDisjunction )
-				RequestLogger.printLine( "All non-stat conditions will be ORed together." );
-			else
-				RequestLogger.printLine( "All non-stat conditions will be ANDed together." );
-
-			return true;
-		}
 		else if ( option.equals( "add" ) || option.equals( "set" ) )
 		{
 			AdventureResult condition;
