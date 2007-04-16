@@ -610,7 +610,7 @@ public class ItemManageFrame extends KoLFrame
 
 			SpecialOutfit.restoreImplicitCheckpoint();
 			RequestThread.closeRequestSequence();
-			elementList.updateUI();
+			wordfilter.filterItems();
 		}
 
 		public void actionCancelled()
@@ -625,7 +625,7 @@ public class ItemManageFrame extends KoLFrame
 					RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
 			}
 
-			elementList.updateUI();
+			wordfilter.filterItems();
 		}
 
 		private class ConsumableFilterComboBox extends FilterItemComboBox
