@@ -384,14 +384,8 @@ public class EquipmentDatabase extends KoLDatabase
 		AdventureResult [] pieces = normalOutfits.get( outfitId ).getPieces();
 
 		for ( int i = 0; i < pieces.length; ++i )
-		{
-			if ( !KoLCharacter.hasEquipped( pieces[i] ) )
-			{
-				DEFAULT_SHELL.executeLine( "acquire " + pieces[i].getName() );
-				if ( !KoLCharacter.hasItem( pieces[i] ) )
-					return false;
-			}
-		}
+			if ( !KoLCharacter.hasEquipped( pieces[i] ) && !AdventureDatabase.retrieveItem( pieces[i] ) )
+				return false;
 
 		return true;
 	}
