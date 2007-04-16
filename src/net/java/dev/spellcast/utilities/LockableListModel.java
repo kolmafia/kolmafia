@@ -100,8 +100,8 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	public void sort()
 	{
 		Collections.sort( actualElements );
-
 		Collections.sort( visibleElements );
+
 		fireContentsChanged( this, 0, getSize() - 1 );
 
 		LockableListModel current;
@@ -250,8 +250,8 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	public void clear()
 	{
-		clearVisibleElements();
 		actualElements.clear();
+		clearVisibleElements();
 	}
 
 	private void clearVisibleElements()
