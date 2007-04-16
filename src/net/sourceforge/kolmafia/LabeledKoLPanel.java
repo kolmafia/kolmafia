@@ -82,8 +82,4 @@ public abstract class LabeledKoLPanel extends KoLPanel
 	public void requestFocus()
 	{
 	}
-
-	public boolean shouldAddStatusLabel( VerifiableElement [] elements )
-	{	return false;
-	}
 }

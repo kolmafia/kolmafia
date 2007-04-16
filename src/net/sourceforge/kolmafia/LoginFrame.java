@@ -77,8 +77,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class LoginFrame extends KoLFrame
 {
-	private String username;
+	private LoginPanel panel;
 
+	private String username;
 	private JComboBox servers;
 	private JComponent usernameField;
 
@@ -117,6 +118,10 @@ public class LoginFrame extends KoLFrame
 		setResizable( false );
 	}
 
+	public boolean shouldAddStatusBar()
+	{	return false;
+	}
+
 	public void requestFocus()
 	{
 		super.requestFocus();
@@ -134,6 +139,12 @@ public class LoginFrame extends KoLFrame
 		super.dispose();
 	}
 
+	public void setStatusMessage( String message )
+	{
+		if ( panel != null )
+			panel.setStatusMessage( message );
+	}
+
 	public JPanel constructLoginPanel()
 	{
 		JPanel imagePanel = new JPanel( new BorderLayout( 0, 0 ) );
@@ -142,7 +153,7 @@ public class LoginFrame extends KoLFrame
 
 		JPanel containerPanel = new JPanel( new BorderLayout() );
 		containerPanel.add( imagePanel, BorderLayout.NORTH );
-		containerPanel.add( new LoginPanel(), BorderLayout.CENTER );
+		containerPanel.add( panel = new LoginPanel(), BorderLayout.CENTER );
 		return containerPanel;
 	}
 
@@ -195,6 +206,7 @@ public class LoginFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Password: ", passwordField );
 
 			setContent( elements );
+			addStatusLabel();
 
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ), BorderLayout.CENTER );
 			actionStatusPanel.add( checkBoxPanels, BorderLayout.NORTH );
@@ -271,7 +283,7 @@ public class LoginFrame extends KoLFrame
 
 			if ( username == null || password == null || username.equals("") || password.equals("") )
 			{
-				setStatusMessage( ERROR_STATE, "Invalid login." );
+				setStatusMessage( "Invalid login." );
 				return;
 			}
 
@@ -742,6 +754,8 @@ public class LoginFrame extends KoLFrame
 		{
 			{ "guiUsesOneWindow", "Restrict interface to a single window" },
 			{ "useSystemTrayIcon", "Minimize to system tray (Windows only)" },
+			{},
+			{ "addStatusBarToFrames", "Add a status bar to independent windows" },
 			{},
 			{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
 			{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },

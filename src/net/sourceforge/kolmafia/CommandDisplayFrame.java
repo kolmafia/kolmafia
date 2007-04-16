@@ -77,6 +77,10 @@ public class CommandDisplayFrame extends KoLFrame
 		framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
 	}
 
+	public boolean shouldAddStatusBar()
+	{	return false;
+	}
+
 	public boolean useSidePane()
 	{	return true;
 	}

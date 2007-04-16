@@ -155,36 +155,19 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 		this.elements = elements;
 
-		if ( elements != null )
+		if ( elements == null )
+			return;
+
+		ActionConfirmListener listener = new ActionConfirmListener();
+
+		for ( int i = 0; i < elements.length; ++i )
 		{
-			ActionConfirmListener listener = new ActionConfirmListener();
-
-			for ( int i = 0; i < elements.length; ++i )
-			{
-				if ( elements[i].getInputField() instanceof MutableComboBox )
-					((MutableComboBox)elements[i].getInputField()).getEditor().getEditorComponent().addKeyListener( listener );
-				else if ( elements[i].getInputField() instanceof JComboBox )
-					((JComboBox)elements[i].getInputField()).addKeyListener( listener );
-				else if ( elements[i].getInputField() instanceof JTextField )
-					((JTextField)elements[i].getInputField()).addKeyListener( listener );
-			}
-		}
-
-		if ( shouldAddStatusLabel( elements ) )
-		{
-			JPanel statusContainer = new JPanel();
-			statusContainer.setLayout( new BoxLayout( statusContainer, BoxLayout.Y_AXIS ) );
-
-			actionStatusPanel = new JPanel( new BorderLayout() );
-			actionStatusLabel = new StatusLabel();
-			actionStatusPanel.add( actionStatusLabel, BorderLayout.SOUTH );
-
-			statusContainer.add( actionStatusPanel );
-			statusContainer.add( Box.createVerticalStrut( 20 ) );
-
-			southContainer = new JPanel( new BorderLayout() );
-			southContainer.add( statusContainer, BorderLayout.NORTH );
-			container.add( southContainer, BorderLayout.SOUTH );
+			if ( elements[i].getInputField() instanceof MutableComboBox )
+				((MutableComboBox)elements[i].getInputField()).getEditor().getEditorComponent().addKeyListener( listener );
+			else if ( elements[i].getInputField() instanceof JComboBox )
+				((JComboBox)elements[i].getInputField()).addKeyListener( listener );
+			else if ( elements[i].getInputField() instanceof JTextField )
+				((JTextField)elements[i].getInputField()).addKeyListener( listener );
 		}
 	}
 
@@ -201,37 +184,50 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			elements[i].getInputField().setEnabled( isEnabled );
 	}
 
+	public void addStatusLabel()
+	{
+		JPanel statusContainer = new JPanel();
+		statusContainer.setLayout( new BoxLayout( statusContainer, BoxLayout.Y_AXIS ) );
+
+		actionStatusPanel = new JPanel( new BorderLayout() );
+		actionStatusLabel = new StatusLabel();
+		actionStatusPanel.add( actionStatusLabel, BorderLayout.SOUTH );
+
+		statusContainer.add( actionStatusPanel );
+		statusContainer.add( Box.createVerticalStrut( 20 ) );
+
+		southContainer = new JPanel( new BorderLayout() );
+		southContainer.add( statusContainer, BorderLayout.NORTH );
+		container.add( southContainer, BorderLayout.SOUTH );
+	}
+
 	private class StatusLabel extends JLabel
 	{
 		public StatusLabel()
 		{	super( " ", JLabel.CENTER );
 		}
 
-		public void setStatusMessage( int displayState, String s )
+		public void setStatusMessage( String message )
 		{
 			String label = getText();
 
 			// If the current text or the string you're using is
 			// null, then do nothing.
 
-			if ( s == null || label == null )
+			if ( message == null || label == null || message.length() == 0 )
 				return;
 
 			// If the string which you're trying to set is blank,
 			// then you don't have to update the status message.
 
-			if ( !s.equals( "" ) )
-				setText( s );
+			setText( message );
 		}
 	}
 
-	public boolean shouldAddStatusLabel( VerifiableElement [] elements )
+	public void setStatusMessage( String message )
 	{
-		boolean shouldAddStatusLabel = elements != null && elements.length != 0;
-		for ( int i = 0; shouldAddStatusLabel && i < elements.length; ++i )
-			shouldAddStatusLabel &= !(elements[i].getInputField() instanceof JScrollPane);
-
-		return shouldAddStatusLabel;
+		if ( actionStatusLabel != null )
+			actionStatusLabel.setStatusMessage( message );
 	}
 
 	/**
@@ -286,16 +282,6 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 			scriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
 		}
-	}
-
-	public void setStatusMessage( String s )
-	{	setStatusMessage( ENABLE_STATE, s );
-	}
-
-	public void setStatusMessage( int displayState, String s )
-	{
-		if ( actionStatusLabel != null && !s.trim().equals( "" ) )
-			actionStatusLabel.setStatusMessage( displayState, s.trim() );
 	}
 
 	public class ActionConfirmListener extends KeyAdapter

@@ -558,4 +558,8 @@ public class RequestFrame extends KoLFrame
 		shownHTML.clear();
 		super.dispose();
 	}
+
+	public boolean shouldAddStatusBar()
+	{	return false;
+	}
 }

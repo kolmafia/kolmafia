@@ -67,6 +67,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -74,6 +75,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JSpinner;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -105,8 +107,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 {
 	public static final TradeableItemFilter TRADE_FILTER = new TradeableItemFilter();
 
-	public JTabbedPane tabs = null;
-
+	public JTabbedPane tabs;
 	public String lastTitle;
 	public String frameName;
 	public JPanel framePanel;
@@ -144,10 +145,25 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		this.tabs = getTabbedPane();
 		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
 
-		getContentPane().add( this.framePanel, BorderLayout.CENTER );
-
 		this.frameName = getClass().getName();
 		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
+
+		if ( shouldAddStatusBar() )
+		{
+			JEditorPane statusDisplay = new JEditorPane();
+			JSplitPane doublePane = new JSplitPane( JSplitPane.VERTICAL_SPLIT,
+				new SimpleScrollPane( this.framePanel, SimpleScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER ),
+				commandBuffer.setChatDisplay( statusDisplay ) );
+
+			getContentPane().add( doublePane, BorderLayout.CENTER );
+
+			doublePane.setOneTouchExpandable( true );
+			doublePane.setDividerLocation( 1.0 );
+		}
+		else
+		{
+			getContentPane().add( this.framePanel, BorderLayout.CENTER );
+		}
 
 		boolean shouldAddFrame = !(this instanceof KoLDesktop) && !(this instanceof ContactListFrame);
 
@@ -158,6 +174,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			existingFrames.add( this );
 
 		addHotKeys();
+	}
+
+	public boolean shouldAddStatusBar()
+	{	return StaticEntity.getBooleanProperty( "addStatusBarToFrames" ) && StaticEntity.getProperty( "initialDesktop" ).indexOf( this.frameName ) == -1;
 	}
 
 	public static JTabbedPane getTabbedPane()
@@ -573,6 +593,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		public JPanel getCompactPane()
 		{	return compactPane;
 		}
+	}
+
+	public void setStatusMessage( String message )
+	{
 	}
 
 	public void updateDisplayState( int displayState )
