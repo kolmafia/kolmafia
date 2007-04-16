@@ -26,6 +26,7 @@
 28	Glad Bag Glad Rags	giant discarded plastic fork, giant discarded bottlecap, giant discarded torn-up glove
 29	Antique Arms and Armor	antique greaves, antique helmet, antique spear, antique shield
 30	Terrycloth Tackle	makeshift turban, makeshift skirt, makeshift cape
+31	Tropical Crimbo Duds	Tropical Crimbo Hat, Tropical Crimbo Sword, Tropical Crimbo Shorts
 
 # Outfits for which KoL does not provide an outfit id,
 # and thus are given id #0 to tell KoLmafia to treat
