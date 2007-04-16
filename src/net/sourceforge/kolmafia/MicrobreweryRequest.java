@@ -65,7 +65,7 @@ public class MicrobreweryRequest extends KoLRequest
 
 		// Parse item name and price
 		Matcher itemMatcher = COST_PATTERN.matcher( name );
-		int itemId = -1;
+		int itemId = 0;
 
 		if ( itemMatcher.find() )
 		{
