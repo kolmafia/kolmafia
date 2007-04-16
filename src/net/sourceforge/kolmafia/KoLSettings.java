@@ -452,6 +452,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		// Do not initialize the maps more than once, as this
 		// would not serve any purpose.
 
+		CLIENT_SETTINGS.put( "addStatusBarToFrames", "false" );
 		CLIENT_SETTINGS.put( "allowBreakfastBurning", "false" );
 		CLIENT_SETTINGS.put( "allowCloseableDesktopTabs", "false" );
 		CLIENT_SETTINGS.put( "allowEncounterRateBurning", "true" );

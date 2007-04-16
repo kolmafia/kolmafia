@@ -72,6 +72,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
+import java.lang.ref.WeakReference;
+
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -105,6 +107,8 @@ public class ChatBuffer
 	private String header;
 	private String filename;
 
+	protected ArrayList displayPanes;
+
 	protected JEditorPane displayPane;
 	protected Runnable scrollBarResizer;
 	protected PrintWriter activeLogWriter;
@@ -126,6 +130,8 @@ public class ChatBuffer
 		this.displayBuffer = new StringBuffer();
 		this.title = title;
 		this.header = "<html><head>" + NEW_LINE + "<title>" + title + "</title>" + NEW_LINE;
+
+		this.displayPanes = new ArrayList();
 	}
 
 	/**
@@ -149,7 +155,7 @@ public class ChatBuffer
 	}
 
 	public boolean hasChatDisplay()
-	{	return displayPane != null;
+	{	return !displayPanes.isEmpty();
 	}
 
 	/**
@@ -163,12 +169,13 @@ public class ChatBuffer
 
 	public JScrollPane setChatDisplay( JEditorPane display )
 	{
-		displayPane = display;
 		if ( display == null )
 			return null;
 
-		displayPane.setContentType( "text/html" );
-		displayPane.setEditable( false );
+		display.setContentType( "text/html" );
+		display.setEditable( false );
+
+		displayPanes.add( new WeakReference( display ) );
 
 		fireBufferChanged( DISPLAY_CHANGE, null );
 		return new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
@@ -274,7 +281,7 @@ public class ChatBuffer
 		{
 			UPDATER.queueUpdate( newContents );
 
-			if ( displayPane != null && !UPDATER.isQueued() )
+			if ( !displayPanes.isEmpty() && !UPDATER.isQueued() )
 			{
 				UPDATER.markQueued();
 				SwingUtilities.invokeLater( UPDATER );
@@ -357,21 +364,51 @@ public class ChatBuffer
 			if ( shouldReset )
 			{
 				contentQueue.clear();
-				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+
+				for ( int i = 0; i < displayPanes.size(); ++i )
+				{
+					WeakReference ref = (WeakReference) displayPanes.get(i);
+					resetDisplay( (JEditorPane) ref.get() );
+				}
 			}
 
 			while ( !contentQueue.isEmpty() )
-				runOnce( (String) contentQueue.remove(0) );
+			{
+				String newContents = (String) contentQueue.remove(0);
 
-			int length = displayPane.getDocument().getLength();
-			displayPane.setCaretPosition( shouldScroll && length > 0 ? length - 1 : 0 );
+				for ( int i = 0; i < displayPanes.size(); ++i )
+				{
+					WeakReference ref = (WeakReference) displayPanes.get(i);
+					runOnce( newContents, (JEditorPane) ref.get() );
+				}
+			}
+
+			for ( int i = 0; i < displayPanes.size(); ++i )
+			{
+				WeakReference ref = (WeakReference) displayPanes.get(i);
+				scrollDisplay( (JEditorPane) ref.get() );
+			}
 
 			this.shouldReset = false;
 			this.shouldScroll = true;
 			this.isQueued = false;
 		}
 
-		private void runOnce( String newContents )
+		public void resetDisplay( JEditorPane displayPane )
+		{
+			if ( displayPane == null )
+				return;
+
+			displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+		}
+
+		private void scrollDisplay( JEditorPane displayPane )
+		{
+			int length = displayPane.getDocument().getLength();
+			displayPane.setCaretPosition( shouldScroll && length > 0 ? length - 1 : 0 );
+		}
+
+		private void runOnce( String newContents, JEditorPane displayPane )
 		{
 			// This is really the only way to ensure that the
 			// screen does not flicker in later versions of Java.

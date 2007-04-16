@@ -478,10 +478,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
-		{	return false;
-		}
-
 		public void valueChanged( ListSelectionEvent e )
 		{
 			Object selected = moodList.getSelectedValue();
@@ -922,10 +918,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			public void actionCancelled()
 			{
-			}
-
-			public boolean shouldAddStatusLabel( VerifiableElement [] elements )
-			{	return false;
 			}
 
 			public void setEnabled( boolean isEnabled )

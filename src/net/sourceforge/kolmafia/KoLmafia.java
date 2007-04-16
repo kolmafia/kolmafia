@@ -191,9 +191,7 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.reloadSettings( "" );
 		KoLCharacter.reset();
 
-		if ( StaticEntity.getIntegerProperty( "defaultLoginServer" ) != 0 )
-			StaticEntity.setProperty( "defaultLoginServer", String.valueOf( 1 + RNG.nextInt( KoLRequest.SERVER_COUNT ) ) );
-
+		StaticEntity.setProperty( "defaultLoginServer", String.valueOf( 1 + RNG.nextInt( KoLRequest.SERVER_COUNT ) ) );
 		StaticEntity.setProperty( "ignoreLoadBalancer", "false" );
 		StaticEntity.setProperty( "relayBrowserOnly", "false" );
 
@@ -425,18 +423,18 @@ public abstract class KoLmafia implements KoLConstants
 			if ( references[i].get() != null )
 			{
 				if ( references[i].get() instanceof KoLPanel && message != null && message.length() > 0 )
-					((KoLPanel) references[i].get()).setStatusMessage( state, message );
+					((KoLPanel) references[i].get()).setStatusMessage( message );
 
 				((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
 			}
 		}
 
-		if ( message != null && message.length() > 0 )
-			AdventureFrame.updateRequestMeter( message );
-
 		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		for ( int i = 0; i < frames.length; ++i )
+		{
+			frames[i].setStatusMessage( message );
 			frames[i].updateDisplayState( state );
+		}
 
 		if ( KoLDesktop.instanceExists() )
 			KoLDesktop.getInstance().updateDisplayState( state );

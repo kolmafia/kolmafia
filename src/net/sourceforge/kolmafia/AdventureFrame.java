@@ -137,12 +137,16 @@ public class AdventureFrame extends AdventureOptionsFrame
 		JComponentUtilities.setComponentSize( framePanel, 640, 480 );
 	}
 
-	public static void updateRequestMeter( String message )
+	public boolean shouldAddStatusBar()
+	{	return false;
+	}
+
+	public void setStatusMessage( String message )
 	{
-		if ( INSTANCE == null || INSTANCE.requestMeter == null )
+		if ( requestMeter == null )
 			return;
 
-		INSTANCE.requestMeter.setString( message );
+		requestMeter.setString( message );
 	}
 
 	public static void updateRequestMeter( int value, int maximum )
@@ -416,10 +420,6 @@ public class AdventureFrame extends AdventureOptionsFrame
 
 			public void actionCancelled()
 			{
-			}
-
-			public boolean shouldAddStatusLabel( VerifiableElement [] elements )
-			{	return false;
 			}
 
 			public void setEnabled( boolean isEnabled )
