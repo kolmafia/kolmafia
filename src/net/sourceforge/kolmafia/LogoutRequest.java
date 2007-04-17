@@ -53,11 +53,12 @@ public class LogoutRequest extends KoLRequest
 			if ( !scriptSetting.equals( "" ) )
 				DEFAULT_SHELL.executeLine( scriptSetting );
 
+			RequestThread.declareWorldPeace();
+
 			KoLmafia.updateDisplay( "Attempting to logout..." );
 			super.run();
 			KoLmafia.updateDisplay( "Logout request submitted." );
 
-			RequestThread.declareWorldPeace();
 			StaticEntity.getClient().setCurrentRequest( null );
 
 			KoLCharacter.reset( "" );
