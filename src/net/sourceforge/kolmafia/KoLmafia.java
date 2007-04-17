@@ -1055,7 +1055,7 @@ public abstract class KoLmafia implements KoLConstants
 			return true;
 
 		int maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
-		int needed = Math.min( maximum, Math.max( desired, (int) (setting * ((float) maximum)) ) );
+		int needed = Math.min( maximum, Math.max( desired - 1, (int) (setting * ((float) maximum)) ) );
 
 		if ( desired == 0 && current > needed )
 			return true;
@@ -1064,12 +1064,12 @@ public abstract class KoLmafia implements KoLConstants
 		// far you need to go.
 
 		setting = StaticEntity.getFloatProperty( settingName + "Target" );
-		desired = Math.min( maximum, Math.max( desired, (int) (setting * ((float) maximum)) ) );
+		desired = Math.min( maximum, needed + 1 );
 
 		if ( BuffBotHome.isBuffBotActive() || desired > maximum )
 			desired = maximum;
 
-		if ( current >= desired )
+		if ( current > needed )
 			return true;
 
 		// If it gets this far, then you should attempt to recover
@@ -1116,7 +1116,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Iterate through every restore item which is already available
 		// in the player's inventory.
 
-		for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
+		for ( int i = 0; i < possibleItems.size() && current <= needed; ++i )
 		{
 			do
 			{
@@ -1130,7 +1130,7 @@ public abstract class KoLmafia implements KoLConstants
 				desired = Math.min( maximum, desired );
 				needed = Math.min( maximum, needed );
 			}
-			while ( last != current && current < needed );
+			while ( last != current && current <= needed );
 		}
 
 		if ( refusesContinue() )
@@ -1139,7 +1139,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Next, move onto things which are not items (skills), and
 		// prefer them over purchasing items.
 
-		for ( int i = 0; i < possibleSkills.size() && current < needed; ++i )
+		for ( int i = 0; i < possibleSkills.size() && current <= needed; ++i )
 		{
 			do
 			{
@@ -1153,7 +1153,7 @@ public abstract class KoLmafia implements KoLConstants
 				desired = Math.min( maximum, desired );
 				needed = Math.min( maximum, needed );
 			}
-			while ( last != current && current < needed );
+			while ( last != current && current <= needed );
 		}
 
 		if ( refusesContinue() )
@@ -1164,7 +1164,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( StaticEntity.getBooleanProperty( "autoBuyRestores" ) )
 		{
-			for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
+			for ( int i = 0; i < possibleItems.size() && current <= needed; ++i )
 			{
 				do
 				{
@@ -1178,12 +1178,12 @@ public abstract class KoLmafia implements KoLConstants
 					desired = Math.min( maximum, desired );
 					needed = Math.min( maximum, needed );
 				}
-				while ( last != current && current < needed );
+				while ( last != current && current <= needed );
 			}
 		}
-		else if ( current < needed )
+		else if ( current <= needed )
 		{
-			updateDisplay( ERROR_STATE, "You ran out of restores" );
+			updateDisplay( ERROR_STATE, "You ran out of restores." );
 			return false;
 		}
 
@@ -1193,7 +1193,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return false;
 
-		if ( current < needed )
+		if ( current <= needed )
 		{
 			updateDisplay( ERROR_STATE, "Autorecovery failed." );
 			return false;
