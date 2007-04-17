@@ -143,7 +143,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 
 	public void setStatusMessage( String message )
 	{
-		if ( requestMeter == null )
+		if ( requestMeter == null || message.length() == 0 )
 			return;
 
 		requestMeter.setString( message );
