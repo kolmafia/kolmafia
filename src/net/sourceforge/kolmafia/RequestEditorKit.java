@@ -2336,7 +2336,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					try
 					{
-						buffer.append( URLEncoder.encode( removeAction, "UTF-8" ) );
+						buffer.append( URLEncoder.encode( removeAction, "ISO-8859-1" ) );
 					}
 					catch ( Exception e )
 					{
@@ -2384,7 +2384,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					try
 					{
-						buffer.append( URLEncoder.encode( upkeepAction, "UTF-8" ) );
+						buffer.append( URLEncoder.encode( upkeepAction, "ISO-8859-1" ) );
 					}
 					catch ( Exception e )
 					{
