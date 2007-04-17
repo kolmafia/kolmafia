@@ -5224,7 +5224,13 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue have_outfit( ScriptVariable outfit )
-		{	return new ScriptValue( KoLmafiaCLI.getMatchingOutfit( outfit.toStringValue().toString() ) != null );
+		{
+			SpecialOutfit so = KoLmafiaCLI.getMatchingOutfit( outfit.toStringValue().toString() );
+
+			if ( so == null )
+				return FALSE_VALUE;
+
+			return EquipmentDatabase.hasOutfit( so.getOutfitId() ) ? TRUE_VALUE : FALSE_VALUE;
 		}
 
 		public ScriptValue have_equipped( ScriptVariable item )
