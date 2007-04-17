@@ -350,7 +350,7 @@ public class FightRequest extends KoLRequest
 
 			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 			{
-				if ( inventory.contains( MPRestoreItemList.CONFIGURES[i].getItem() ) )
+				if ( MPRestoreItemList.CONFIGURES[i].isCombatUsable() && inventory.contains( MPRestoreItemList.CONFIGURES[i].getItem() ) )
 				{
 					action1 = "item" + MPRestoreItemList.CONFIGURES[i].getItem().getItemId();
 					updateCurrentAction();
