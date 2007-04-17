@@ -38,28 +38,28 @@ import javax.swing.JCheckBox;
 
 public abstract class MPRestoreItemList extends StaticEntity
 {
-	public static final MPRestoreItem SOFA = new MPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE );
-	public static final MPRestoreItem CAMPGROUND = new MPRestoreItem( "rest at your campground", 40 );
-	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in your beanbag", 80 );
+	public static final MPRestoreItem SOFA = new MPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE, false );
+	public static final MPRestoreItem CAMPGROUND = new MPRestoreItem( "rest at your campground", 40, false );
+	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in your beanbag", 80, false );
 
-	private static final MPRestoreItem GALAKTIK = new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", Integer.MAX_VALUE );
-	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
-	private static final MPRestoreItem SODA_WATER = new MPRestoreItem( "soda water", 4 );
+	private static final MPRestoreItem GALAKTIK = new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", Integer.MAX_VALUE, false );
+	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE, true );
+	private static final MPRestoreItem SODA_WATER = new MPRestoreItem( "soda water", 4, true );
 
-	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10 );
+	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10, true );
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
-		SOFA, BEANBAG, CAMPGROUND, GALAKTIK, new MPRestoreItem( "bottle of Vangoghbitussin", 100 ),
-		new MPRestoreItem( "bottle of Monsieur Bubble", 56 ), new MPRestoreItem( "unrefined mountain stream syrup", 55 ),
-		new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tonic water", 40 ), new MPRestoreItem( "Marquis de Poivre soda", 35 ),
-		new MPRestoreItem( "blue paisley oyster egg", 33 ), new MPRestoreItem( "blue polka-dot oyster egg", 33 ),
-		new MPRestoreItem( "blue striped oyster egg", 33 ), new MPRestoreItem( "blue pixel potion", 28 ),
-		new MPRestoreItem( "Knob Goblin superseltzer", 27 ), new MPRestoreItem( "maple syrup", 25 ),
-		new MPRestoreItem( "Blatantly Canadian", 23 ), new MPRestoreItem( "tiny house", 22 ),
-		new MPRestoreItem( "green pixel potion", 19 ), new MPRestoreItem( "Dyspepsi-Cola", 12 ),
-		new MPRestoreItem( "Cloaca-Cola", 12 ), new MPRestoreItem( "Mountain Stream soda", 8 ), MYSTERY_JUICE,
-		SELTZER, new MPRestoreItem( "Cherry Cloaca Cola", 8 ), SODA_WATER
+		SOFA, BEANBAG, CAMPGROUND, GALAKTIK, new MPRestoreItem( "bottle of Vangoghbitussin", 100, false ),
+		new MPRestoreItem( "bottle of Monsieur Bubble", 56, true ), new MPRestoreItem( "unrefined mountain stream syrup", 55, true ),
+		new MPRestoreItem( "phonics down", 48, false ), new MPRestoreItem( "tonic water", 40, false ), new MPRestoreItem( "Marquis de Poivre soda", 35, false ),
+		new MPRestoreItem( "blue paisley oyster egg", 33, false ), new MPRestoreItem( "blue polka-dot oyster egg", 33, false ),
+		new MPRestoreItem( "blue striped oyster egg", 33, false ), new MPRestoreItem( "blue pixel potion", 28, true ),
+		new MPRestoreItem( "Knob Goblin superseltzer", 27, true ), new MPRestoreItem( "maple syrup", 25, false ),
+		new MPRestoreItem( "Blatantly Canadian", 23, false ), new MPRestoreItem( "tiny house", 22, false ),
+		new MPRestoreItem( "green pixel potion", 19, true ), new MPRestoreItem( "Dyspepsi-Cola", 12, true ),
+		new MPRestoreItem( "Cloaca-Cola", 12, true ), new MPRestoreItem( "Mountain Stream soda", 8, true ), MYSTERY_JUICE,
+		SELTZER, new MPRestoreItem( "Cherry Cloaca Cola", 8, true ), SODA_WATER
 	};
 
 	public static boolean contains( AdventureResult item )
@@ -89,12 +89,14 @@ public abstract class MPRestoreItemList extends StaticEntity
 	{
 		private String itemName;
 		private int mpPerUse;
+		private boolean isCombatUsable;
 		private AdventureResult itemUsed;
 
-		public MPRestoreItem( String itemName, int mpPerUse )
+		public MPRestoreItem( String itemName, int mpPerUse, boolean isCombatUsable )
 		{
 			this.itemName = itemName;
 			this.mpPerUse = mpPerUse;
+			this.isCombatUsable = isCombatUsable;
 
 			if ( TradeableItemDatabase.contains( itemName ) )
 				this.itemUsed = new AdventureResult( itemName, 1, false );
@@ -104,6 +106,10 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 		public AdventureResult getItem()
 		{	return itemUsed;
+		}
+
+		public boolean isCombatUsable()
+		{	return isCombatUsable;
 		}
 
 		public int compareTo( Object o )
