@@ -653,7 +653,10 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 			return;
 
 		Object element;
+		int originalSize = visibleElements.size();
+
 		visibleElements.clear();
+		fireIntervalRemoved( this, 0, originalSize - 1 );
 
 		for ( int i = 0; i < actualElements.size(); ++i )
 		{
@@ -663,7 +666,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		}
 
 		this.currentFilter = newFilter;
-		fireContentsChanged( this, 0, actualElements.size() );
+		fireIntervalAdded( this, 0, visibleElements.size() );
 	}
 
 	private int computeVisibleIndex( int actualIndex )
