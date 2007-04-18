@@ -2559,11 +2559,7 @@ public abstract class KoLmafia implements KoLConstants
 			currentRequest = (MallPurchaseRequest) purchases[i];
 
 			if ( !KoLCharacter.canInteract() && currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
-			{
-				updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
-				RequestThread.closeRequestSequence();
-				return;
-			}
+				continue;
 
 			// Keep track of how many of the item you had before
 			// you run the purchase request
