@@ -350,10 +350,13 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			if ( availableSkills.contains( UseSkillRequest.getInstance( "The Ode to Booze" ) ) && !askedAboutOde.equals( KoLCharacter.getUserName() ) )
 			{
-				askedAboutOde = KoLCharacter.getUserName();
 				if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you want to drink without ode?",
 					"Think carefully before you answer...", JOptionPane.YES_NO_OPTION ) )
-						return false;
+				{
+					return false;
+				}
+
+				askedAboutOde = KoLCharacter.getUserName();
 			}
 		}
 
