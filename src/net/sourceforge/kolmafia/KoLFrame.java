@@ -1643,4 +1643,90 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 	}
+
+	protected class UsableItemPanel extends ItemManagePanel
+	{
+		private boolean food, booze, restores, other;
+
+		public UsableItemPanel( boolean food, boolean booze, boolean restores, boolean other )
+		{
+			super( "Use Items", "use item", "check wiki", inventory );
+
+			JPanel moverPanel = new JPanel();
+
+			this.food = food;
+			this.booze = booze;
+			this.restores = restores;
+			this.other = other;
+
+			wordfilter = new ConsumableFilterComboBox();
+			centerPanel.add( wordfilter, BorderLayout.NORTH );
+
+			wordfilter.filterItems();
+		}
+
+		public void actionConfirmed()
+		{
+			Object [] items = getDesiredItems( "Consume" );
+			if ( items.length == 0 )
+				return;
+
+			for ( int i = 0; i < items.length; ++i )
+				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
+		}
+
+		public void actionCancelled()
+		{
+			String name;
+			Object [] values = elementList.getSelectedValues();
+
+			for ( int i = 0; i < values.length; ++i )
+			{
+				name = ((AdventureResult)values[i]).getName();
+				if ( name != null )
+					StaticEntity.openSystemBrowser( "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name );
+			}
+		}
+
+		private class ConsumableFilterComboBox extends FilterItemComboBox
+		{
+			public ConsumableFilterComboBox()
+			{	filter = new ConsumableFilter();
+			}
+
+			public void filterItems()
+			{	elementList.applyFilter( filter );
+			}
+
+			private class ConsumableFilter extends WordBasedFilter
+			{
+				public boolean isVisible( Object element )
+				{
+					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
+					{
+					case CONSUME_EAT:
+						return UsableItemPanel.this.food && super.isVisible( element );
+
+					case CONSUME_DRINK:
+						return UsableItemPanel.this.booze && super.isVisible( element );
+
+					case GROW_FAMILIAR:
+					case CONSUME_ZAP:
+						return UsableItemPanel.this.other && super.isVisible( element );
+
+					case HP_RESTORE:
+					case MP_RESTORE:
+						return UsableItemPanel.this.restores && super.isVisible( element );
+
+					case CONSUME_USE:
+					case CONSUME_MULTIPLE:
+						return UsableItemPanel.this.other && super.isVisible( element );
+
+					default:
+						return false;
+					}
+				}
+			}
+		}
+	}
 }
