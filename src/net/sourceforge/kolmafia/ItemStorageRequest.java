@@ -306,9 +306,8 @@ public class ItemStorageRequest extends SendMessageRequest
 		if ( urlString.indexOf( "action=takeall" ) != -1 )
 		{
 			for ( int i = 0; i < storage.size(); ++i )
-				KoLCharacter.processResult( (AdventureResult) storage.get(i) );
+				KoLCharacter.processResult( (AdventureResult) storage.remove(0) );
 
-			storage.clear();
 			return true;
 		}
 
