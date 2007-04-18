@@ -3013,6 +3013,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "today_to_string", STRING_TYPE, params ) );
 
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "moon_phase", INT_TYPE, params ) );
+
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "session_logs", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
 
@@ -4379,6 +4382,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue today_to_string()
 		{	return parseStringValue( DATED_FILENAME_FORMAT.format( new Date() ) );
+		}
+
+		public ScriptValue moon_phase()
+		{	return new ScriptValue( MoonPhaseDatabase.getPhaseStep() );
 		}
 
 		public ScriptValue session_logs( ScriptVariable dayCount )
