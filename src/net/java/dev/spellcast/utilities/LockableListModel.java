@@ -97,7 +97,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		addAll( c );
 	}
 
-	public void sort()
+	public synchronized void sort()
 	{
 		Collections.sort( actualElements );
 		Collections.sort( visibleElements );
@@ -113,7 +113,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		}
 	}
 
-	public void sort( Comparator c )
+	public synchronized void sort( Comparator c )
 	{
 		Collections.sort( visibleElements, c );
 		Collections.sort( actualElements, c );
@@ -158,7 +158,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public void add( int index, Object element )
+	public synchronized void add( int index, Object element )
 	{
 		if ( element == null )
 			return;
@@ -189,7 +189,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public boolean add( Object o )
+	public synchronized boolean add( Object o )
 	{
 		if ( o == null )
 			return false;
@@ -204,7 +204,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public boolean addAll( Collection c )
+	public synchronized boolean addAll( Collection c )
 	{	return addAll( actualElements.size(), c );
 	}
 
@@ -213,7 +213,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public boolean addAll( int index, Collection c )
+	public synchronized boolean addAll( int index, Collection c )
 	{
 		if ( isEmpty() )
 		{
@@ -248,7 +248,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public void clear()
+	public synchronized void clear()
 	{
 		actualElements.clear();
 		clearVisibleElements();
@@ -275,7 +275,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public boolean contains( Object o )
+	public synchronized boolean contains( Object o )
 	{	return o == null ? false : actualElements.contains( o );
 	}
 
@@ -284,7 +284,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public boolean containsAll( Collection c )
+	public synchronized boolean containsAll( Collection c )
 	{	return actualElements.containsAll( c );
 	}
 
@@ -293,7 +293,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public boolean equals( Object o )
+	public synchronized boolean equals( Object o )
 	{	return o instanceof LockableListModel ? this == o : actualElements.equals( o );
 	}
 
@@ -302,7 +302,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public Object get( int index )
+	public synchronized Object get( int index )
 	{
 		if ( index < 0 || index >= actualElements.size() )
 			return null;
@@ -315,7 +315,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public int hashCode()
+	public synchronized int hashCode()
 	{	return actualElements.hashCode();
 	}
 
@@ -324,7 +324,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public int indexOf( Object o )
+	public synchronized int indexOf( Object o )
 	{	return o == null ? -1 : actualElements.indexOf( o );
 	}
 
@@ -333,7 +333,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public boolean isEmpty()
+	public synchronized boolean isEmpty()
 	{	return actualElements.isEmpty();
 	}
 
@@ -423,7 +423,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public Iterator iterator()
+	public synchronized Iterator iterator()
 	{	return new ListModelIterator();
 	}
 
@@ -432,7 +432,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public Object lastElement()
+	public synchronized Object lastElement()
 	{	return actualElements.isEmpty() ? null : actualElements.get( actualElements.size() - 1 );
 	}
 
@@ -441,7 +441,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public int lastIndexOf( Object o )
+	public synchronized int lastIndexOf( Object o )
 	{	return o == null ? -1 : indexOf( o );
 	}
 
@@ -450,7 +450,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public ListIterator listIterator()
+	public synchronized ListIterator listIterator()
 	{	return new ListModelIterator();
 	}
 
@@ -459,7 +459,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public ListIterator listIterator( int index )
+	public synchronized ListIterator listIterator( int index )
 	{	return new ListModelIterator( index );
 	}
 
@@ -469,7 +469,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public Object remove( int index )
+	public synchronized Object remove( int index )
 	{
 		if ( index < 0 || index >= actualElements.size() )
 			return null;
@@ -501,7 +501,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public boolean remove( Object o )
+	public synchronized boolean remove( Object o )
 	{	return o == null ? false : remove( indexOf( o ) ) != null;
 	}
 
@@ -510,7 +510,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public boolean removeAll( Collection c )
+	public synchronized boolean removeAll( Collection c )
 	{
 		int originalSize = actualElements.size();
 
@@ -532,7 +532,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public boolean retainAll( Collection c )
+	public synchronized boolean retainAll( Collection c )
 	{
 		int originalSize = actualElements.size();
 
@@ -549,7 +549,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public Object set( int index, Object element )
+	public synchronized Object set( int index, Object element )
 	{
 		if ( element == null )
 			return null;
@@ -600,7 +600,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public int size()
+	public synchronized int size()
 	{	return actualElements.size();
 	}
 
@@ -609,7 +609,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public List subList( int fromIndex, int toIndex )
+	public synchronized List subList( int fromIndex, int toIndex )
 	{	return actualElements.subList( fromIndex, toIndex );
 	}
 
@@ -618,7 +618,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public Object [] toArray()
+	public synchronized Object [] toArray()
 	{	return actualElements.toArray();
 	}
 
@@ -627,11 +627,11 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public Object [] toArray( Object[] a )
+	public synchronized Object [] toArray( Object[] a )
 	{	return actualElements.toArray(a);
 	}
 
-	public void applyListFilters()
+	public synchronized void applyListFilters()
 	{
 		applyListFilter( this.currentFilter );
 
@@ -647,7 +647,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * Filters the current list using the provided filter.
 	 */
 
-	public void applyListFilter( ListElementFilter newFilter )
+	public synchronized void applyListFilter( ListElementFilter newFilter )
 	{
 		if ( newFilter == null )
 			return;
@@ -655,8 +655,11 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		Object element;
 		int originalSize = visibleElements.size();
 
-		visibleElements.clear();
-		fireIntervalRemoved( this, 0, originalSize - 1 );
+		if ( originalSize != 0 )
+		{
+			visibleElements.clear();
+			fireIntervalRemoved( this, 0, originalSize - 1 );
+		}
 
 		for ( int i = 0; i < actualElements.size(); ++i )
 		{
@@ -685,7 +688,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public Object getElementAt( int index )
+	public synchronized Object getElementAt( int index )
 	{	return index < 0 || index >= visibleElements.size() ? null : visibleElements.get( index );
 	}
 
@@ -694,7 +697,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * information regarding this function.
 	 */
 
-	public int getSize()
+	public synchronized int getSize()
 	{	return visibleElements.size();
 	}
 
@@ -703,7 +706,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
      * information regarding this function.
      */
 
-    public Object getSelectedItem()
+    public synchronized Object getSelectedItem()
     {	return contains( selectedValue ) ? selectedValue : null;
 	}
 
@@ -716,7 +719,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * @return	the index of the currently selected item
 	 */
 
-	public int getSelectedIndex()
+	public synchronized int getSelectedIndex()
 	{	return visibleElements.indexOf( selectedValue );
 	}
 
@@ -725,7 +728,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
      * information regarding this function.
      */
 
-	public void setSelectedItem( Object o )
+	public synchronized void setSelectedItem( Object o )
 	{
 		selectedValue = o;
 		fireContentsChanged( this, -1, -1 );
@@ -737,7 +740,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * functions to help in the cloning process.
 	 */
 
-	public void setSelectedIndex( int index )
+	public synchronized void setSelectedIndex( int index )
 	{	setSelectedItem( getElementAt( index ) );
 	}
 
@@ -746,7 +749,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
      * information regarding this function.
      */
 
-	public void addElement( Object element )
+	public synchronized void addElement( Object element )
 	{	add( element );
 	}
 
@@ -755,7 +758,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
      * information regarding this function.
      */
 
-	public void insertElementAt( Object element, int index )
+	public synchronized void insertElementAt( Object element, int index )
 	{	add( element );
 	}
 
@@ -764,7 +767,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
      * information regarding this function.
      */
 
-	public void removeElement( Object element )
+	public synchronized void removeElement( Object element )
 	{	remove( element );
 	}
 
@@ -773,7 +776,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
      * information regarding this function.
      */
 
-	public void removeElementAt( int index )
+	public synchronized void removeElementAt( int index )
 	{	remove( visibleElements.get( index ) );
 	}
 
@@ -793,7 +796,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * @return	a deep copy (exempting listeners) of this <code>LockableListModel</code>.
 	 */
 
-	public Object clone()
+	public synchronized Object clone()
 	{
 		try
 		{
@@ -944,7 +947,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * @return	a mirror image of this <code>LockableListModel</code>
 	 */
 
-	public LockableListModel getMirrorImage()
+	public synchronized LockableListModel getMirrorImage()
 	{	return getMirrorImage( NO_FILTER );
 	}
 
@@ -959,7 +962,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	 * @return	a mirror image of this <code>LockableListModel</code>
 	 */
 
-	public LockableListModel getMirrorImage( ListElementFilter filter )
+	public synchronized LockableListModel getMirrorImage( ListElementFilter filter )
 	{
 		LockableListModel mirrorImage = new LockableListModel();
 
