@@ -141,6 +141,10 @@ public class ChatFrame extends KoLFrame
 		}
 	}
 
+	public boolean shouldAddStatusBar()
+	{	return false;
+	}
+
 	public void dispose()
 	{
 		super.dispose();
