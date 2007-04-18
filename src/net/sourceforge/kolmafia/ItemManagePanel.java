@@ -120,7 +120,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 	{
 	}
 
-	protected final void addFilterCheckboxes( boolean isCompact )
+	private void addFilterCheckboxes( boolean isCompact )
 	{
 		JPanel filterPanel = new JPanel();
 		filters = new JCheckBox[5];
@@ -156,6 +156,10 @@ public class ItemManagePanel extends LabeledScrollPanel
 	}
 
 	public void setButtons( boolean addFilterCheckboxes, ActionListener [] buttonListeners )
+	{	setButtons( true, buttonListeners == null, buttonListeners );
+	}
+
+	public void setButtons( boolean addFilterCheckboxes, boolean addCompactFilters, ActionListener [] buttonListeners )
 	{
 		// Handle buttons along the right hand side, if there are
 		// supposed to be buttons.
@@ -191,12 +195,12 @@ public class ItemManagePanel extends LabeledScrollPanel
 		if ( !addFilterCheckboxes )
 			filters = null;
 		else
-			addFilterCheckboxes( buttonListeners == null );
+			addFilterCheckboxes( addCompactFilters );
 
 		// If there are buttons, they likely need movers.  Therefore, add
 		// some movers to everything.
 
-		if ( buttonListeners != null && buttonListeners.length != 0 )
+		if ( addFilterCheckboxes && !addCompactFilters )
 		{
 			JPanel moverPanel = new JPanel();
 
