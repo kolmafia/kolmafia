@@ -260,6 +260,13 @@ public class KoLmafiaGUI extends KoLmafia
 					RequestThread.postRequest( new ClanStashRequest() );
 				}
 			}
+			else if ( frameName.equals( "ContactListFrame" ) )
+			{
+				RequestThread.postRequest( new ContactListRequest() );
+
+				if ( StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( "ContactListFrame" ) != -1 )
+					return;
+			}
 			else if ( frameName.equals( "FamiliarTrainingFrame" ) )
 			{
 				CakeArenaManager.getOpponentList();

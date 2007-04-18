@@ -562,6 +562,7 @@ public class LoginFrame extends KoLFrame
 			{ "Hall of Legends", "MeatManageFrame" },
 			{ "Skill Casting", "SkillBuffFrame" },
 
+			{ "Contact List", "ContactListFrame" },
 			{ "Buffbot Manager", "BuffBotFrame" },
 			{ "Purchase Buffs", "BuffRequestFrame" },
 
