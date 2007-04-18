@@ -64,7 +64,10 @@ public class SkillBuffFrame extends KoLFrame
 		effectList = new ShowDescriptionList( activeEffects, 12 );
 		effectList.addListSelectionListener( new SkillReselector() );
 
-		framePanel.add( new StatusEffectPanel(), BorderLayout.CENTER );
+		tabs.addTab( "Active Effects", new StatusEffectPanel() );
+		tabs.addTab( "Recovery Items", new UsableItemPanel( false, true, false, false ) );
+
+		framePanel.add( tabs, BorderLayout.CENTER );
 
 		if ( !recipient.equals( "" ) )
 			setRecipient( recipient );

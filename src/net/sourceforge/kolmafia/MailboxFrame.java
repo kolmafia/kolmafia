@@ -136,14 +136,19 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		boolean requestMailbox;
 		String currentTabName = tabs.getTitleAt( tabs.getSelectedIndex() );
-		if ( currentTabName.equals( "PvP" ) )
-			return;
 
 		if ( currentTabName.equals( "Inbox" ) )
 		{
 			if ( messageListInbox.isInitialized() )
 				messageListInbox.valueChanged( null );
 			requestMailbox = !messageListInbox.isInitialized();
+		}
+		else if ( currentTabName.equals( "PvP" ) )
+		{
+			if ( messageListPvp.isInitialized() )
+				messageListPvp.valueChanged( null );
+
+			requestMailbox = !messageListPvp.isInitialized();
 		}
 		else if ( currentTabName.equals( "Outbox" ) )
 		{
