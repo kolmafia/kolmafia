@@ -1648,21 +1648,22 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		private boolean food, booze, restores, other;
 
-		public UsableItemPanel( boolean food, boolean booze, boolean restores, boolean other )
+		public UsableItemPanel( boolean isRestoresOnly )
 		{
 			super( "Use Items", "use item", "check wiki", inventory );
 
-			JPanel moverPanel = new JPanel();
-
-			this.food = food;
-			this.booze = booze;
-			this.restores = restores;
-			this.other = other;
+			this.food = !isRestoresOnly;
+			this.booze = !isRestoresOnly;
+			this.restores = true;
+			this.other = !isRestoresOnly;
 
 			wordfilter = new ConsumableFilterComboBox();
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
 
 			wordfilter.filterItems();
+
+			if ( !isRestoresOnly )
+				setButtons( true, false, null );
 		}
 
 		public void actionConfirmed()

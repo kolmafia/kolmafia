@@ -98,9 +98,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		super( "Item Manager" );
 
-		LabeledScrollPanel npcOfferings = null;
-
-		addPanel( "Experimental", new ExperimentalPanel( true, true ) );
+		addPanel( "Usable Items", new UsableItemPanel( false ) );
 		addPanel( " - Food", new ExperimentalPanel( true, false ) );
 		addPanel( " - Booze", new ExperimentalPanel( false, true ) );
 
@@ -109,7 +107,6 @@ public class ItemManageFrame extends KoLFrame
 		addPanel( "Complete Lists", new JPanel() );
 
 		addPanel( " - Recent", new InventoryManagePanel( tally, true ) );
-		addPanel( " - Usables", new UsableItemPanel( true, true, true, true ) );
 		addPanel( " - Inventory", new InventoryManagePanel( inventory, true ) );
 		addPanel( " - Closet", new InventoryManagePanel( closet, true ) );
 
@@ -150,6 +147,7 @@ public class ItemManageFrame extends KoLFrame
 		JPanel tabHolder = new JPanel( new CardLayout( 10, 10 ) );
 		tabHolder.add( tabs, "" );
 
+		itemPanelList.setSelectedIndex(0);
 		framePanel.add( tabHolder, BorderLayout.CENTER );
 	}
 
@@ -987,7 +985,7 @@ public class ItemManageFrame extends KoLFrame
 			if ( !isEquipment )
 			{
 				northPanel = new JPanel( new BorderLayout() );
-				addFilterCheckboxes( false );
+				setButtons( true, true, null );
 				actualPanel.add( northPanel, BorderLayout.NORTH );
 
 				eastPanel.add( pullsRemainingLabel1, BorderLayout.SOUTH );
