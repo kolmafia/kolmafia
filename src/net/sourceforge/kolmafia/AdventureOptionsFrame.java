@@ -770,10 +770,11 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		public void stateChanged( ChangeEvent e )
 		{
 			int desired = getValue( countField, KoLCharacter.getAdventuresLeft() );
-			if ( desired <= 0 )
-				countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
-			else if ( desired > KoLCharacter.getAdventuresLeft() )
+			if ( desired == KoLCharacter.getAdventuresLeft() + 1 )
 				countField.setValue( new Integer( 1 ) );
+			else if ( desired <= 0 || desired > KoLCharacter.getAdventuresLeft() )
+				countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
+
 		}
 
 		private boolean handleConditions( KoLAdventure request )
