@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2005-2007, KoLmafia development team
- * http://sourceforge.net/
+ * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

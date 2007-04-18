@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2005-2007, KoLmafia development team
- * http://sourceforge.net/
+ * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1064,7 +1064,7 @@ public abstract class KoLmafia implements KoLConstants
 		// far you need to go.
 
 		setting = StaticEntity.getFloatProperty( settingName + "Target" );
-		desired = Math.min( maximum, needed + 1 );
+		desired = Math.min( maximum, Math.max( desired, (int) (setting * ((float) maximum)) ) );
 
 		if ( BuffBotHome.isBuffBotActive() || desired > maximum )
 			desired = maximum;
