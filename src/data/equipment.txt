@@ -108,6 +108,7 @@ viking helmet	20	none
 wolf mask	150	Mox: 60
 wooden salad bowl	120	Mox: 45
 worn tophat	125	Mox: 47
+yak toupee	100	Mox: 35
 yellow plastic hard hat	90	Mox: 30
 yellow traffic cone	60	Mox: 15
 
@@ -194,17 +195,23 @@ yakskin skirt	140	Mox: 55
 # which go in the "shirt" slot of the equipment menu.
 
 Ascension Souvenir T-Shirt	15	none
+barskin cloak	25	none
 clockwork trench coat	80	Mus: 25
+clownskin harness	60	Mus: 15
 coconut bikini top	100	Mus: 35
+demonskin jacket	80	Mus: 25
+eXtreme Bi-Polar Fleece Vest	90	none
 filthy hippy poncho	40	Mus: 5
 flaming pink shirt	100	none
 floral print shirt	100	Mus: 35
 frilly shirt	20	none
 gingham blouse	100	Mus: 35
+gnauga hide vest	80	Mus: 25
 goth kid t-shirt	100	Mus: 35
 Grateful Undead T-shirt	70	none
 Grimacite guayabera	125	Mus: 47
 harem girl t-shirt	25	none
+hipposkin poncho	120	Mus: 45
 Kiss the Knob apron	10	none
 Knob Goblin elite shirt	35	Mus: 2
 loathing eagle baby-doll shirt	45	Mus: 7
@@ -217,8 +224,10 @@ soggy wofl t-shirt	45	Mus: 7
 souvenir ski t-shirt	100	Mus: 35
 star shirt	165	Mus: 67
 supportive bra	50	Mox: 10
+tuxedo shirt	100	Mus: 35
 vampire cape	20	none
-eXtreme Bi-Polar Fleece Vest	90	none
+white snakeskin duster	45	Mus: 7
+yak anorak	115	Mus: 42
 Ye Olde Navy Fleece	100	Mus: 35
 
 # Weapon section.  This section includes all the items
