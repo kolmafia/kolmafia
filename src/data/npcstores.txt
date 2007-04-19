@@ -68,6 +68,7 @@ s	The Meatsmith's Shop	crossbow string	100
 s	The Meatsmith's Shop	whip kit	100
 s	The Meatsmith's Shop	buckler buckle	100
 s	The Meatsmith's Shop	skirt / kilt kit	100
+s	The Meatsmith's Shop	shirt kit	100
 s	The Meatsmith's Shop	bigger stick	1000
 s	The Meatsmith's Shop	sinewy crossbow string	1000
 s	The Meatsmith's Shop	sturdy sword hilt	1000

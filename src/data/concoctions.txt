@@ -519,6 +519,7 @@ white belt	4	white snake skin	enormous belt buckle
 
 clown wig	4	clown skin	basic meat helmet
 demon-horned hat	4	demon skin	basic meat helmet
+yak toupee	14	yak skin	basic meat helmet
 
 # Pants made of hides of various sorts.
 
@@ -559,6 +560,17 @@ gnauga hide buckler	14	gnauga hide	buckler buckle
 barskin buckler	14	bar skin	buckler buckle
 clownskin buckler	14	clown skin	buckler buckle
 demon buckler	14	demon skin	buckler buckle
+
+# Shirts made of hides of various sorts.
+
+barskin cloak	14	bar skin	shirt kit
+clownskin harness	14	clown skin	shirt kit
+demonskin jacket	14	demon skin	shirt kit
+gnauga hide vest	14	gnauga hide	shirt kit
+hipposkin poncho	14	hippopotamus skin	shirt kit
+tuxedo shirt	14	penguin skin	shirt kit
+white snakeskin duster	14	white snake skin	shirt kit
+yak anorak	14	yak skin	shirt kit
 
 # Things made of special turtles
 cardboard box turtle	14	cardboard ore	box turtle

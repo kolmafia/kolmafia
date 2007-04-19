@@ -2462,7 +2462,7 @@
 2457	433926383	white whip
 2458	585616844	barskin loincloth
 2459	125666662	tighty whiteys
-2460	
+2460	606812905	yak toupee
 2461	
 2462	
 2463	
@@ -2485,10 +2485,12 @@
 2480	998220197	demon-horned hat
 2481	268298108	demon buckler
 2482	556599497	demon whip
-2483	
-2484	
-2485	
-2486	
-2487	
-2488	
-2489	
+2483	664765960	barskin cloak
+2484	692684674	white snakeskin duster
+2485	878692388	clownskin harness
+2486	980305999	demonskin jacket
+2487	758622764	hipposkin poncho
+2488	721587896	yak anorak
+2489	349096888	tuxedo shirt
+2490	929554588	gnauga hide vest
+2491	835934782	shirt kit
