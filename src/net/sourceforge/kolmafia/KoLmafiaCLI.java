@@ -2129,22 +2129,6 @@ public class KoLmafiaCLI extends KoLmafia
 			scriptFile = findScriptFile( directory, filename + ".ash", true );
 			if ( scriptFile != null )
 				return scriptFile;
-
-			scriptFile = findScriptFile( directory, filename + "~", true );
-			if ( scriptFile != null )
-				return scriptFile;
-
-			scriptFile = findScriptFile( directory, filename + ".cli~", true );
-			if ( scriptFile != null )
-				return scriptFile;
-
-			scriptFile = findScriptFile( directory, filename + ".txt~", true );
-			if ( scriptFile != null )
-				return scriptFile;
-
-			scriptFile = findScriptFile( directory, filename + ".ash~", true );
-			if ( scriptFile != null )
-				return scriptFile;
 		}
 
 		File [] contents = directory.listFiles();
