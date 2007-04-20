@@ -128,7 +128,6 @@ public class MallSearchFrame extends KoLPanelFrame
 			countField.setText( searchCount <= 0 ? "5" : String.valueOf( searchCount ) );
 
 			setContent( elements );
-			addStatusLabel();
 
 			add( new SearchResultsPanel(), BorderLayout.CENTER );
 			currentlyBuying = false;

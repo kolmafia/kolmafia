@@ -82,4 +82,8 @@ public abstract class LabeledKoLPanel extends KoLPanel
 	public void requestFocus()
 	{
 	}
+
+	public void addStatusLabel()
+	{
+	}
 }

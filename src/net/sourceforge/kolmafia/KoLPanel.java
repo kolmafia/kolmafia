@@ -169,6 +169,8 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			else if ( elements[i].getInputField() instanceof JTextField )
 				((JTextField)elements[i].getInputField()).addKeyListener( listener );
 		}
+
+		addStatusLabel();
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -184,8 +186,21 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			elements[i].getInputField().setEnabled( isEnabled );
 	}
 
+	public void setStatusMessage( String message )
+	{
+		if ( actionStatusLabel != null )
+			actionStatusLabel.setStatusMessage( message );
+	}
+
 	public void addStatusLabel()
 	{
+		boolean shouldAddStatusLabel = elements != null && elements.length != 0;
+		for ( int i = 0; shouldAddStatusLabel && i < elements.length; ++i )
+			shouldAddStatusLabel &= !(elements[i].getInputField() instanceof JScrollPane);
+
+		if ( !shouldAddStatusLabel )
+			return;
+
 		JPanel statusContainer = new JPanel();
 		statusContainer.setLayout( new BoxLayout( statusContainer, BoxLayout.Y_AXIS ) );
 
@@ -224,11 +239,6 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		}
 	}
 
-	public void setStatusMessage( String message )
-	{
-		if ( actionStatusLabel != null )
-			actionStatusLabel.setStatusMessage( message );
-	}
 
 	/**
 	 * This internal class is used to process the request for selecting

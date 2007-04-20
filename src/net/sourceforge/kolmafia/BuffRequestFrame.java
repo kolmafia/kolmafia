@@ -129,7 +129,6 @@ public class BuffRequestFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Buff Set: ", sets );
 
 			setContent( elements );
-			addStatusLabel();
 			resetCard();
 		}
 
