@@ -74,7 +74,7 @@ public class RestaurantRequest extends KoLRequest
 
 			// Find the item in the menu
 			for ( int i = 0; i < 3; i++ )
-				if ( ((String)restaurantItems.get(i)).equals( name ) )
+				if ( restaurantItems.get(i).equals( name ) )
 					itemId = -1 - i;
 
 			if ( itemId == 0 )
