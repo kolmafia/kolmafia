@@ -34,6 +34,8 @@
 
 package net.java.dev.spellcast.utilities;
 
+import java.io.File;
+
 /**
  * Formed after the same idea as <code>WindowConstants</code>, this contains common
  * constants needed by many of the utility-related classes.  Any methods which
@@ -47,7 +49,13 @@ public interface UtilityConstants
 	public static final ClassLoader SYSTEM_CLASSLOADER    = ClassLoader.getSystemClassLoader();
 	public static final ClassLoader MAINCLASS_CLASSLOADER = net.java.dev.spellcast.utilities.UtilityConstants.class.getClassLoader();
 
+	public static final File ROOT_LOCATION = new File( System.getProperty( "user.dir" ) ).getAbsoluteFile();
+	public static final String ROOT_DIRECTORY = ROOT_LOCATION.getAbsolutePath();
+
 	public static final String DATA_DIRECTORY = "data/";
 	public static final String IMAGE_DIRECTORY = "images/";
+
+	public static final File DATA_LOCATION = new File( ROOT_LOCATION, "data" );
+	public static final File IMAGE_LOCATION = new File( ROOT_LOCATION, "images" );
 }
 

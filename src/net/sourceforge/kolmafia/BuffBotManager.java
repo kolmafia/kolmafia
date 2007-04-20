@@ -234,8 +234,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		if ( isInitializing )
 			return;
 
-		File datafile = new File( "buffs/" + KoLCharacter.baseUserName() + ".txt" );
-		File xmlfile = new File( "buffs/" + KoLCharacter.baseUserName() + ".xml" );
+		File datafile = new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + ".txt" );
+		File xmlfile = new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + ".xml" );
 
 		PrintStream settings = LogStream.openStream( datafile, true );
 		PrintStream document = LogStream.openStream( xmlfile, true );

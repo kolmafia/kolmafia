@@ -161,8 +161,8 @@ public class ClanManager extends StaticEntity
 			currentAscensionData = (String) ascensionMap.get( names[i] );
 
 			filename = getFileName( names[i] );
-			profile = new File( SNAPSHOT_DIRECTORY + "profiles/" + filename );
-			ascensionData = new File( SNAPSHOT_DIRECTORY + "ascensions/" + filename );
+			profile = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "profiles/" + filename );
+			ascensionData = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "ascensions/" + filename );
 
 			if ( retrieveProfileData )
 			{
@@ -229,7 +229,7 @@ public class ClanManager extends StaticEntity
 
 	private static void initializeProfile( String name )
 	{
-		File profile = new File( SNAPSHOT_DIRECTORY + "profiles/" + getFileName( name ) );
+		File profile = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "profiles/" + getFileName( name ) );
 
 		if ( profile.exists() )
 		{
@@ -285,7 +285,7 @@ public class ClanManager extends StaticEntity
 
 	private static void initializeAscensionData( String name )
 	{
-		File ascension = new File( SNAPSHOT_DIRECTORY + "ascensions/" + getFileName( name ) );
+		File ascension = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "ascensions/" + getFileName( name ) );
 
 		if ( ascension.exists() )
 		{
@@ -362,10 +362,10 @@ public class ClanManager extends StaticEntity
 	{
 		retrieveClanData();
 
-		File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
-		File softcoreFile = new File( SNAPSHOT_DIRECTORY + "softcore.htm" );
-		File hardcoreFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
-		File sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
+		File standardFile = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "standard.htm" );
+		File softcoreFile = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "softcore.htm" );
+		File hardcoreFile = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "hardcore.htm" );
+		File sortingScript = new File( ROOT_LOCATION, SNAPSHOT_DIRECTORY + "sorttable.js" );
 
 		// If initialization was unsuccessful, then there isn't
 		// enough data to create a clan ClanSnapshotTable.

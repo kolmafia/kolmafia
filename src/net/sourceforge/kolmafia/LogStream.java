@@ -44,7 +44,7 @@ import java.util.Date;
 public class LogStream extends PrintStream implements KoLConstants
 {
 	public static final LogStream openStream( String filename, boolean forceNewFile )
-	{	return openStream( new File( filename ), forceNewFile );
+	{	return openStream( new File( ROOT_LOCATION, filename ), forceNewFile );
 	}
 
 	public static final LogStream openStream( File file, boolean forceNewFile )

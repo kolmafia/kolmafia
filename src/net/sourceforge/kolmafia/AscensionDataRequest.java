@@ -107,7 +107,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 	private String getBackupFileData()
 	{
-		File clan = new File( "clan" );
+		File clan = new File( ROOT_LOCATION, "clan" );
 		if ( !clan.exists() )
 			return "";
 
@@ -140,7 +140,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 				if ( shouldReplace )
 				{
-					File checkFile = new File( ascensionFolders[j], "ascensions/" + playerId + ".htm");
+					File checkFile = new File( ROOT_LOCATION, ascensionFolders[j], "ascensions/" + playerId + ".htm");
 					if ( checkFile.exists() )
 					{
 						backupFile = checkFile;

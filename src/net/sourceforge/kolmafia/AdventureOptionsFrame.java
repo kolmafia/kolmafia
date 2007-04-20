@@ -196,7 +196,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			File location = new File( "settings" + File.separator + CombatSettings.settingsFileName() );
+			File location = new File( SETTINGS_LOCATION, CombatSettings.settingsFileName() );
 			LogStream writer = LogStream.openStream( location, true );
 
 			writer.println( ((JTextArea)scrollComponent).getText() );
@@ -238,7 +238,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			JFileChooser chooser = new JFileChooser( (new File( "settings" )).getAbsolutePath() );
+			JFileChooser chooser = new JFileChooser( SETTINGS_LOCATION.getAbsolutePath() );
 			chooser.setFileFilter( CCS_FILTER );
 
 			int returnVal = chooser.showOpenDialog( null );

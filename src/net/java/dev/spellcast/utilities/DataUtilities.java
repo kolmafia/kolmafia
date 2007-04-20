@@ -173,7 +173,7 @@ public class DataUtilities implements UtilityConstants
 		InputStream locationAsInputStream;
 		String fullname = directory + filename;
 
-		File override = new File( fullname );
+		File override = new File( ROOT_LOCATION, fullname );
 		if ( override.exists() )
 		{
 			try

@@ -4415,7 +4415,7 @@ public class KoLmafiaASH extends StaticEntity
 				filename = StaticEntity.globalStringReplace( name, " ", "_" ) + "_" +
 					DATED_FILENAME_FORMAT.format( timestamp.getTime() ) + ".txt";
 
-				reader = KoLDatabase.getReader( new File( "sessions", filename ) );
+				reader = KoLDatabase.getReader( SESSIONS_LOCATION, filename ) );
 				timestamp.add( Calendar.DATE, -1 );
 
 				if ( reader == null )
@@ -5776,15 +5776,15 @@ public class KoLmafiaASH extends StaticEntity
 
 			PrintStream writer = null;
 
-			File data = new File( SCRIPT_LOCATION, "datamaps/" + filename );
+			File data = new File( ROOT_LOCATION, SCRIPT_LOCATION, "datamaps/" + filename );
 			if ( !data.exists() )
-				data = new File( filename );
+				data = new File( ROOT_LOCATION, filename );
 			if ( !data.exists() )
-				data = new File( SCRIPT_LOCATION, filename );
+				data = new File( ROOT_LOCATION, SCRIPT_LOCATION, filename );
 			if ( !data.exists() )
-				data = new File( DATA_LOCATION, filename );
+				data = new File( ROOT_LOCATION, DATA_LOCATION, filename );
 			if ( !data.exists() )
-				data = new File( filename );
+				data = new File( ROOT_LOCATION, filename );
 
 			// If the file is not found, then go full circle again
 			// and write to scripts/datamaps.
@@ -5792,9 +5792,9 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !data.exists() )
 			{
 				if ( filename.indexOf( "/" ) != -1 && filename.indexOf( ".." ) == -1 )
-					data = new File( filename );
+					data = new File( ROOT_LOCATION, filename );
 				else
-					data = new File( SCRIPT_LOCATION, "datamaps/" + filename );
+					data = new File( ROOT_LOCATION, SCRIPT_LOCATION, "datamaps/" + filename );
 			}
 
 			writer = LogStream.openStream( data, true );

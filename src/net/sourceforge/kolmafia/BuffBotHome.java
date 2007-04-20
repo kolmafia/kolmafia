@@ -104,7 +104,7 @@ public class BuffBotHome extends StaticEntity
 	private static final File getFile( String extension )
 	{
 		String dayOfYear = DATED_FILENAME_FORMAT.format( new Date() );
-		return new File( "buffs/" + KoLCharacter.baseUserName() + "_" + dayOfYear + extension );
+		return new File( ROOT_LOCATION, "buffs/" + KoLCharacter.baseUserName() + "_" + dayOfYear + extension );
 	}
 
 	/**

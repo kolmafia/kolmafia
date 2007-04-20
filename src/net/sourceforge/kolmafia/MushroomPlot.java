@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
 
 public abstract class MushroomPlot extends StaticEntity
 {
-	public static final File PLOT_DIRECTORY = new File( "planting" );
+	public static final File PLOT_DIRECTORY = new File( ROOT_LOCATION, "planting" );
 	private static final Pattern PLOT_PATTERN = Pattern.compile( "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>" );
 	private static final Pattern SQUARE_PATTERN = Pattern.compile( "<td>(.*?)</td>" );
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( ".*/((.*)\\.gif)" );
@@ -586,7 +586,7 @@ public abstract class MushroomPlot extends StaticEntity
 		// the text file which was generated automatically.
 
 		int dayIndex = 0;
-		BufferedReader reader = KoLDatabase.getReader( new File( "planting/" + filename + ".txt" ) );
+		BufferedReader reader = KoLDatabase.getReader( new File( PLOT_DIRECTORY, filename + ".txt" ) );
 
 		try
 		{
