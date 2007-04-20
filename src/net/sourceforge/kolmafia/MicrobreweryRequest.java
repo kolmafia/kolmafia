@@ -43,7 +43,7 @@ public class MicrobreweryRequest extends KoLRequest
 	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<td>([^<]*? \\(.*? Meat\\))</td>" );
 
 	private int price;
-	private String name;
+	private String itemName;
 	private boolean isPurchase;
 
 	public MicrobreweryRequest()
@@ -51,7 +51,7 @@ public class MicrobreweryRequest extends KoLRequest
 		super( "brewery.php" );
 
 		this.price = 0;
-		this.name = null;
+		this.itemName = null;
 		this.isPurchase = false;
 	}
 
@@ -63,13 +63,13 @@ public class MicrobreweryRequest extends KoLRequest
 		this.isPurchase = true;
 		this.price = 0;
 
-		// Parse item name and price
+		// Parse item itemName and price
 		Matcher itemMatcher = COST_PATTERN.matcher( name );
 		int itemId = 0;
 
 		if ( itemMatcher.find() )
 		{
-			this.name = itemMatcher.group(1);
+			this.itemName = itemMatcher.group(1);
 			this.price = Integer.parseInt ( itemMatcher.group(2) );
 
 			// Get the menu the microbrewery offers today
@@ -78,11 +78,11 @@ public class MicrobreweryRequest extends KoLRequest
 
 			// Find the item in the menu
 			for ( int i = 0; i < 3; i++ )
-				if ( ((String)microbreweryItems.get(i)).equals( name ) )
+				if ( microbreweryItems.get(i).equals( name ) )
 					itemId = -1 - i;
 
 			if ( itemId == 0 )
-				itemId = TradeableItemDatabase.getItemId( name );
+				itemId = TradeableItemDatabase.getItemId( itemName );
 		}
 
 		addFormField( "whichitem", String.valueOf( itemId ) );
@@ -114,7 +114,7 @@ public class MicrobreweryRequest extends KoLRequest
 			}
 		}
 
-		if ( name != null && !ConsumeItemRequest.allowBoozeConsumption( TradeableItemDatabase.getInebriety( name ) ) )
+		if ( itemName != null && !ConsumeItemRequest.allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemName ) ) )
 			return;
 
 		KoLmafia.updateDisplay( "Visiting the micromicrobrewery..." );
@@ -145,10 +145,10 @@ public class MicrobreweryRequest extends KoLRequest
 		Matcher purchaseMatcher = AVAILABLE_PATTERN.matcher( responseText );
 		while ( purchaseMatcher.find() )
 		{
-			String name = purchaseMatcher.group(1);
-			microbreweryItems.add( name );
+			String itemName = purchaseMatcher.group(1);
+			microbreweryItems.add( itemName );
 
-			Matcher itemMatcher = COST_PATTERN.matcher( name );
+			Matcher itemMatcher = COST_PATTERN.matcher( itemName );
 			itemMatcher.find();
 
 			Concoction brew = new Concoction( itemMatcher.group(1), StaticEntity.parseInt( itemMatcher.group(2) ) );
