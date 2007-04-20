@@ -140,7 +140,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 				if ( shouldReplace )
 				{
-					File checkFile = new File( ROOT_LOCATION, ascensionFolders[j], "ascensions/" + playerId + ".htm");
+					File checkFile = new File( ascensionFolders[j], "ascensions/" + playerId + ".htm");
 					if ( checkFile.exists() )
 					{
 						backupFile = checkFile;

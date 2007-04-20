@@ -684,19 +684,28 @@ public class AdventureResult implements Comparable, KoLConstants
 
 			stringForm.append( " (" );
 
-			int modified = item.getTotal();
-			int initial = 0;
-
 			if ( item.getItem() != null )
-				initial = item.getItem().getCount( inventory );
-
-			if ( modified != initial )
 			{
-				stringForm.append( modified );
-				stringForm.append( "/" );
+				int modified = item.getTotal();
+				int initial = 0;
+
+				if ( item.getItem() != null )
+					initial = item.getItem().getCount( inventory );
+
+				if ( modified != initial )
+				{
+					stringForm.append( modified );
+					stringForm.append( "/" );
+				}
+
+				stringForm.append( initial );
+			}
+			else
+			{
+				stringForm.append( item.getPrice() );
+				stringForm.append( " meat" );
 			}
 
-			stringForm.append( initial );
 			stringForm.append( ")" );
 			stringForm.append( "</b><br>&nbsp;" );
 
