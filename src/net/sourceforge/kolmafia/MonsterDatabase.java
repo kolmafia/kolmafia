@@ -150,7 +150,7 @@ public class MonsterDatabase extends KoLDatabase
 			}
 
 			for ( int i = 0; realName == null && i < MONSTER_STRINGS.length; ++i )
-				if ( MONSTER_STRINGS[i].indexOf( keyName ) != -1 )
+				if ( MONSTER_STRINGS[i].indexOf( keyName ) == 0 && MONSTER_STRINGS[i].indexOf( " (" ) == keyName.length() )
 					realName = (String) MONSTER_NAMES.get( MONSTER_STRINGS[i] );
 		}
 

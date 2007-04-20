@@ -183,16 +183,6 @@ public class FightRequest extends KoLRequest
 				action1 = "attack";
 		}
 
-		// Automatically pickpocket when appropriate, if the
-		// player trusts KoLmafia knows the right thing to do.
-
-		else if ( wonInitiative() && monsterData != null && monsterData.shouldSteal() )
-		{
-			action1 = "steal";
-			addFormField( "action", action1 );
-			return;
-		}
-
 		// If the person wants to use their own script,
 		// then this is where it happens.
 
@@ -273,10 +263,18 @@ public class FightRequest extends KoLRequest
 		}
 
 		// Actually steal if the action says to steal
+
 		if ( action1.startsWith( "steal" ) )
 		{
-			action1 = "steal";
-			addFormField( "action", action1 );
+			if ( wonInitiative() && monsterData != null && monsterData.shouldSteal() )
+			{
+				action1 = "steal";
+				addFormField( "action", action1 );
+				return;
+			}
+
+			++currentRound;
+			nextRound();
 			return;
 		}
 
