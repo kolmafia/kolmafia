@@ -143,7 +143,7 @@ public class MicrobreweryRequest extends KoLRequest
 		}
 
 		Matcher purchaseMatcher = AVAILABLE_PATTERN.matcher( responseText );
-		while ( purchaseMatcher.find() )
+		for ( int i = 0; purchaseMatcher.find(); ++i )
 		{
 			String itemName = purchaseMatcher.group(1);
 			microbreweryItems.add( itemName );
@@ -152,7 +152,7 @@ public class MicrobreweryRequest extends KoLRequest
 			itemMatcher.find();
 
 			Concoction brew = new Concoction( itemMatcher.group(1), StaticEntity.parseInt( itemMatcher.group(2) ) );
-			ConcoctionsDatabase.getUsables().remove( brew );
+			if ( i == 3 )  ConcoctionsDatabase.getUsables().remove( brew );
 			ConcoctionsDatabase.getUsables().add( brew );
 		}
 
