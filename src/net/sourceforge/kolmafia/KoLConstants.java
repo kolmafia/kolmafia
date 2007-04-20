@@ -59,8 +59,9 @@ import javax.swing.JTextField;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.UtilityConstants;
 
-public interface KoLConstants
+public interface KoLConstants extends UtilityConstants
 {
 	// Version information for the current version of KoLmafia.
 	// Rendered in various locations and therefore made public.
@@ -163,15 +164,13 @@ public interface KoLConstants
 	public static final SortedListModel mementoList = new SortedListModel();
 	public static final SortedListModel ascensionCheckList = new SortedListModel();
 
-	public static final String DATA_DIRECTORY = "data/";
-	public static final String IMAGE_DIRECTORY = "images/";
 	public static final String SCRIPT_DIRECTORY = "scripts/";
 	public static final String SETTINGS_DIRECTORY = "settings/";
+	public static final String SESSIONS_DIRECTORY = "sessions/";
 
-	public static final File DATA_LOCATION = new File( "data" );
-	public static final File IMAGE_LOCATION = new File( "images" );
-	public static final File SCRIPT_LOCATION = new File( "scripts" );
-	public static final File SETTINGS_LOCATION = new File( "settings" );
+	public static final File SCRIPT_LOCATION = new File( ROOT_LOCATION, "scripts" );
+	public static final File SETTINGS_LOCATION = new File( ROOT_LOCATION, "settings" );
+	public static final File SESSIONS_LOCATION = new File( ROOT_LOCATION, "sessions" );
 
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
 	public static final KoLmafiaASH NAMESPACE_INTERPRETER = new KoLmafiaASH();

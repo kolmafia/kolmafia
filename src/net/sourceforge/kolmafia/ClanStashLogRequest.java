@@ -79,7 +79,7 @@ public class ClanStashLogRequest extends KoLRequest
 	{
 		KoLmafia.updateDisplay( "Retrieving clan stash log..." );
 
-		File file = new File( "clan/" + ClanManager.getClanId() + "/stashlog.htm" );
+		File file = new File( ROOT_LOCATION, "clan/" + ClanManager.getClanId() + "/stashlog.htm" );
 
 		loadPreviousData( file );
 		super.run();

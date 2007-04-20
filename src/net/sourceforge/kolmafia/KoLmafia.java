@@ -234,7 +234,7 @@ public abstract class KoLmafia implements KoLConstants
 				if ( outdated.exists() )
 					outdated.delete();
 
-				deleteSimulator( new File( "html/simulator" ) );
+				deleteSimulator( new File( ROOT_LOCATION, "html/simulator" ) );
 			}
 		}
 

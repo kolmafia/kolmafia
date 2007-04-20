@@ -158,9 +158,9 @@ public class JComponentUtilities implements UtilityConstants
 		ImageIcon result =  null;
 		String fullname = directory + filename;
 
-		File override = new File( fullname );
+		File override = new File( ROOT_LOCATION, fullname );
 		if ( override.exists() )
-			return new ImageIcon( fullname );
+			return new ImageIcon( override.getAbsolutePath() );
 
 		result = getImage( SYSTEM_CLASSLOADER, fullname );
 		if ( result != null )

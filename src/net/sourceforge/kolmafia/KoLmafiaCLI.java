@@ -2099,7 +2099,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public static File findScriptFile( String filename )
 	{
-		File scriptFile = new File( filename );
+		File scriptFile = new File( ROOT_LOCATION, filename );
 		if ( scriptFile.exists() )
 			return scriptFile.getAbsoluteFile();
 
@@ -3140,7 +3140,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( !filter.equals( "" ) &&
 			(parameters.startsWith( "summary" ) || parameters.startsWith( "session" ) || parameters.startsWith( "stat" ) || parameters.startsWith( "equip" ) || parameters.startsWith( "encounters" )) )
 		{
-			desiredOutputStream = LogStream.openStream( new File( filter ).getAbsoluteFile(), false );
+			desiredOutputStream = LogStream.openStream( new File( ROOT_LOCATION, filter ), false );
 		}
 
 		executePrintCommand( list, filter, desiredOutputStream );

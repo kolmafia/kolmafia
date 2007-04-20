@@ -1008,7 +1008,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 				contents.append( LINE_BREAK );
 			}
 
-			File directory = new File( "html/simulator/" );
+			File directory = new File( ROOT_LOCATION, "html/simulator/" );
 			directory.mkdirs();
 
 			StaticEntity.globalStringReplace( contents, "images/", "http://sol.kolmafia.us/images/" );
