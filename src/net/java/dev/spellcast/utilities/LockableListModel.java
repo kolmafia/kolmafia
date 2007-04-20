@@ -115,8 +115,8 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	public synchronized void sort( Comparator c )
 	{
-		Collections.sort( visibleElements, c );
 		Collections.sort( actualElements, c );
+		Collections.sort( visibleElements, c );
 
 		fireContentsChanged( this, 0, getSize() - 1 );
 
@@ -264,10 +264,12 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	private static void clearVisibleElements( LockableListModel model )
 	{
 		int originalSize = model.visibleElements.size();
-		model.visibleElements.clear();
 
-		if ( originalSize != 0 )
-			model.fireIntervalRemoved( model, 0, originalSize - 1 );
+		if ( originalSize == 0 )
+			return;
+
+		model.visibleElements.clear();
+		model.fireIntervalRemoved( model, 0, originalSize - 1 );
 	}
 
 	/**
@@ -676,7 +678,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	{
 		int visibleIndex = actualIndex;
 
-		for ( int i = actualIndex - 1; i >= 0; --i )
+		for ( int i = 0; i < actualIndex; ++i )
 			if ( !currentFilter.isVisible( actualElements.get(i) ) )
 				--visibleIndex;
 

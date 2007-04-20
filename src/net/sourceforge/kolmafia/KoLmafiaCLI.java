@@ -70,6 +70,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private static boolean isUsageMatch = false;
 	private static boolean isCreationMatch = false;
+	private static boolean isUntinkerMatch = false;
 
 	private String previousLine = null;
 	private String currentLine = null;
@@ -3422,7 +3423,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 			}
 
-			if ( isCreationMatch && ConcoctionsDatabase.getMixingMethod( itemId ) == NOCREATE )
+			if ( (isCreationMatch || isUntinkerMatch) && ConcoctionsDatabase.getMixingMethod( itemId ) == NOCREATE )
 			{
 				if ( itemId != MEAT_PASTE && itemId != MEAT_STACK && itemId != DENSE_STACK )
 				{
@@ -3664,9 +3665,9 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		isCreationMatch = true;
+		isUntinkerMatch = true;
 		Object [] itemList = getMatchingItemList( parameters );
-		isCreationMatch = false;
+		isUntinkerMatch = false;
 
 		RequestThread.openRequestSequence();
 

@@ -40,11 +40,16 @@ public class ZapRequest extends KoLRequest
 	public ZapRequest( AdventureResult item )
 	{
 		super( "wand.php" );
-		addFormField( "action", "zap" );
 
-		addFormField( "whichwand", String.valueOf( KoLCharacter.getZapper().getItemId() ) );
+		this.item = null;
+
+		if ( KoLCharacter.getZapper() == null )
+			return;
 
 		this.item = item;
+
+		addFormField( "action", "zap" );
+		addFormField( "whichwand", String.valueOf( KoLCharacter.getZapper().getItemId() ) );
 		addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 	}
 
@@ -52,6 +57,9 @@ public class ZapRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( this.item == null )
+			return;
+
 		if ( KoLCharacter.getZapper() == null )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a wand." );
