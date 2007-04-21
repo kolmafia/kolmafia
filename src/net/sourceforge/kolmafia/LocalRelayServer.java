@@ -54,10 +54,9 @@ public class LocalRelayServer implements Runnable
 	private static final int INITIAL_THREAD_COUNT = 10;
 	private static final Pattern INVENTORY_COOKIE_PATTERN = Pattern.compile( "inventory=(\\d+)" );
 
-	private static String lastUsername = "";
-	private static int lastAdventureCount = 0;
-
+	private static int lastAdventureCount = Integer.MAX_VALUE;
 	private static long lastStatusMessage = 0;
+
 	private static Thread relayThread = null;
 	private static final LocalRelayServer INSTANCE = new LocalRelayServer();
 
@@ -463,28 +462,16 @@ public class LocalRelayServer implements Runnable
 
 					request.run();
 
-					if ( KoLCharacter.getUserName().equals( lastUsername ) && KoLCharacter.getAdventuresLeft() < lastAdventureCount )
-					{
-						KoLAdventure adventure = AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) );
-						if ( adventure != null && adventure.runsBetweenBattleScript() )
-							if ( runBetweenBattleScripts() )
-								request.run();
-					}
+					if ( KoLCharacter.getAdventuresLeft() < lastAdventureCount && FightRequest.getActualRound() == 0 )
+						if ( runBetweenBattleScripts() )
+							request.run();
 
-					lastUsername = KoLCharacter.getUserName();
 					lastAdventureCount = KoLCharacter.getAdventuresLeft();
 				}
 				else
 				{
 					while ( KoLmafia.isRunningBetweenBattleChecks() )
 						KoLRequest.delay( 100 );
-
-					if ( path.indexOf( "adventure.php" ) != -1 )
-					{
-						KoLAdventure adventure = AdventureDatabase.getAdventureByURL( path );
-						if ( adventure != null && adventure.runsBetweenBattleScript() )
-							runBetweenBattleScripts();
-					}
 
 					request.run();
 
@@ -573,7 +560,7 @@ public class LocalRelayServer implements Runnable
 			int initialHP = KoLCharacter.getCurrentHP();
 			int initialMP = KoLCharacter.getCurrentMP();
 
-			StaticEntity.getClient().runBetweenBattleChecks( true, StaticEntity.getBooleanProperty( "relayMaintainsMoods" ),
+			StaticEntity.getClient().runBetweenBattleChecks( false, StaticEntity.getBooleanProperty( "relayMaintainsMoods" ),
 				StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
 
 			return CharpaneRequest.clearedCheckpoint() ||
