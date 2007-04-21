@@ -2099,7 +2099,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public static File findScriptFile( String filename )
 	{
-		File scriptFile = new File( ROOT_LOCATION, filename );
+		File scriptFile = new File( filename );
+		if ( scriptFile.exists() )
+			return scriptFile.getAbsoluteFile();
+
+		scriptFile = new File( ROOT_LOCATION, filename );
+		if ( scriptFile.exists() )
+			return scriptFile.getAbsoluteFile();
+
 		if ( scriptFile.exists() )
 			return scriptFile.getAbsoluteFile();
 
