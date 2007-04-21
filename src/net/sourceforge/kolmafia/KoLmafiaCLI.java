@@ -2368,9 +2368,11 @@ public class KoLmafiaCLI extends KoLmafia
 		Matcher dayMatcher = STATDAY_PATTERN.matcher( parameters );
 		if ( dayMatcher.find() )
 		{
-			String statDayInformation = MoonPhaseDatabase.getMoonEffect().toLowerCase();
-			return statDayInformation.indexOf( dayMatcher.group(2) + " bonus" ) != -1 &&
-				statDayInformation.indexOf( "not " + dayMatcher.group(1) ) == -1;
+			String statDayToday = MoonPhaseDatabase.getMoonEffect().toLowerCase();
+			String statDayTest = dayMatcher.group(2).substring( 0, 3 ).toLowerCase();
+
+			return statDayToday.indexOf( statDayTest ) != -1 && statDayToday.indexOf( "bonus" ) != -1 &&
+				statDayToday.indexOf( "not " + dayMatcher.group(1) ) == -1;
 		}
 
 		// Check for the bounty hunter's current desired
