@@ -5877,14 +5877,14 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue stat_bonus_today()
 		{
 			return KoLmafiaCLI.testConditional( "today is muscle day" ) ? parseStatValue( "muscle" ) :
-				KoLmafiaCLI.testConditional( "today is mysticism day" ) ? parseStatValue( "mysticality" ) :
+				KoLmafiaCLI.testConditional( "today is myst day" ) ? parseStatValue( "mysticality" ) :
 				KoLmafiaCLI.testConditional( "today is moxie day" ) ? parseStatValue( "moxie" ) : STAT_INIT;
 		}
 
 		public ScriptValue stat_bonus_tomorrow()
 		{
 			return KoLmafiaCLI.testConditional( "tomorrow is muscle day" ) ? parseStatValue( "muscle" ) :
-				KoLmafiaCLI.testConditional( "tomorrow is mysticism day" ) ? parseStatValue( "mysticality" ) :
+				KoLmafiaCLI.testConditional( "tomorrow is myst day" ) ? parseStatValue( "mysticality" ) :
 				KoLmafiaCLI.testConditional( "tomorrow is moxie day" ) ? parseStatValue( "moxie" ) : STAT_INIT;
 		}
 
