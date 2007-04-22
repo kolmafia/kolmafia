@@ -58,7 +58,7 @@ public class PulverizeRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( mementoList.contains( item ) )
+		if ( StaticEntity.getBooleanProperty( "mementoListActive" ) && mementoList.contains( item ) )
 			return;
 
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
