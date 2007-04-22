@@ -4203,27 +4203,6 @@ public class KoLmafiaASH extends StaticEntity
 
 			return null;
 		}
-
-		public ScriptSymbol getFirstElement()
-		{
-			searchIndex = -1;
-			return getNextElement();
-		}
-
-		public ScriptSymbol getNextElement()
-		{
-			if ( ++searchIndex >= size() )
-				return null;
-			return (ScriptSymbol)get( searchIndex );
-		}
-
-		public ScriptSymbol getNextElement( ScriptSymbol n )
-		{
-			searchIndex = indexOf( n );
-			if ( searchIndex == -1 )
-				return null;
-			return getNextElement();
-		}
 	}
 
 	private static abstract class ScriptFunction extends ScriptSymbol
@@ -6408,14 +6387,6 @@ public class KoLmafiaASH extends StaticEntity
 			return result;
 		}
 
-		public ScriptExpression getFirstIndex()
-		{	return ( ScriptExpression)indices.getFirstElement();
-		}
-
-		public ScriptExpression getNextIndex()
-		{	return ( ScriptExpression)indices.getNextElement();
-		}
-
 		public String toString()
 		{	return target.getName() + "[]";
 		}
@@ -6425,18 +6396,6 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		public boolean addElement( ScriptVariableReference n )
 		{	return super.addElement( n );
-		}
-
-		public ScriptVariableReference getFirstVariableReference()
-		{	return (ScriptVariableReference)getFirstElement();
-		}
-
-		public ScriptVariableReference getNextVariableReference()
-		{	return (ScriptVariableReference)getNextElement();
-		}
-
-		public ScriptVariableReference getNextVariableReference( ScriptVariableReference current )
-		{	return (ScriptVariableReference)getNextElement( current );
 		}
 	}
 
@@ -6827,17 +6786,19 @@ public class KoLmafiaASH extends StaticEntity
 				return null;
 
 			// Iterate over the slice with bound keyvar
-			return executeSlice( slice, variableReferences.getFirstVariableReference() );
+
+			Iterator it = variableReferences.iterator();
+			return executeSlice( slice, it, (ScriptVariableReference) it.next() );
 
 		}
 
-		private ScriptValue executeSlice( ScriptAggregateValue slice, ScriptVariableReference variable )
+		private ScriptValue executeSlice( ScriptAggregateValue slice, Iterator it, ScriptVariableReference variable )
 		{
 			// Get an array of keys for the slice
 			ScriptValue [] keys = slice.keys();
 
 			// Get the next key variable
-			ScriptVariableReference nextVariable = variableReferences.getNextVariableReference( variable );
+			ScriptVariableReference nextVariable = it.hasNext() ? (ScriptVariableReference) it.next() : null;
 
 			// While there are further keys
 			for ( int i = 0; i < keys.length; ++i )
@@ -6856,7 +6817,7 @@ public class KoLmafiaASH extends StaticEntity
 				{
 					ScriptAggregateValue nextSlice = (ScriptAggregateValue)slice.aref( key );
 					traceIndent();
-					result = executeSlice( nextSlice, nextVariable );
+					result = executeSlice( nextSlice, it, nextVariable );
 				}
 				else
 				{
@@ -8739,33 +8700,10 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptList extends ArrayList
 	{
-		private int searchIndex = -1;
-
 		public boolean addElement( Object n )
 		{
 			add( n );
 			return true;
-		}
-
-		public Object getFirstElement()
-		{
-			searchIndex = -1;
-			return getNextElement();
-		}
-
-		public Object getNextElement()
-		{
-			if ( ++searchIndex >= size() )
-				return null;
-			return get( searchIndex );
-		}
-
-		public Object getNextElement( Object n )
-		{
-			searchIndex = indexOf( n );
-			if ( searchIndex == -1 )
-				return null;
-			return getNextElement();
 		}
 	}
 
