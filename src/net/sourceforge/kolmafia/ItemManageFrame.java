@@ -995,18 +995,19 @@ public class ItemManageFrame extends KoLFrame
 			wordfilter = new EquipmentFilterComboBox();
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
 
-			equipmentFilters = new FilterRadioButton[6];
+			equipmentFilters = new FilterRadioButton[7];
 			equipmentFilters[0] = new FilterRadioButton( "weapons", true );
 			equipmentFilters[1] = new FilterRadioButton( "offhand" );
 			equipmentFilters[2] = new FilterRadioButton( "hats" );
 			equipmentFilters[3] = new FilterRadioButton( "shirts" );
 			equipmentFilters[4] = new FilterRadioButton( "pants" );
 			equipmentFilters[5] = new FilterRadioButton( "accessories" );
+			equipmentFilters[6] = new FilterRadioButton( "familiar" );
 
 			ButtonGroup filterGroup = new ButtonGroup();
 			JPanel filterPanel = new JPanel();
 
-			for ( int i = 0; i < 6; ++i )
+			for ( int i = 0; i < 7; ++i )
 			{
 				filterGroup.add( equipmentFilters[i] );
 				filterPanel.add( equipmentFilters[i] );
@@ -1075,6 +1076,10 @@ public class ItemManageFrame extends KoLFrame
 
 					case EQUIP_OFFHAND:
 						isVisibleWithFilter = equipmentFilters[1].isSelected();
+						break;
+
+					case EQUIP_FAMILIAR:
+						isVisibleWithFilter = equipmentFilters[6].isSelected();
 						break;
 
 					default:
