@@ -422,6 +422,10 @@ public class AdventureFrame extends AdventureOptionsFrame
 			{
 			}
 
+			public void addStatusLabel()
+			{
+			}
+
 			public void setEnabled( boolean isEnabled )
 			{
 			}
@@ -452,7 +456,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 			StaticEntity.setProperty( "choiceAdventure91",  String.valueOf( louvreGoal > 0 ? "1" : "2" ) );
 			StaticEntity.setProperty( "louvreDesiredGoal", String.valueOf( louvreGoal ) );
 
-			for ( int i = 1; i < optionSelects.length; ++i )
+			for ( int i = 0; i < optionSelects.length; ++i )
 			{
 				int index = optionSelects[i].getSelectedIndex();
 				String choice = AdventureDatabase.CHOICE_ADVS[i].getSetting();
@@ -676,7 +680,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 				sewerSelect.setSelectedItem( "stolen accordion" );
 			}
 
-			for ( int i = 1; i < optionSelects.length; ++i )
+			for ( int i = 0; i < optionSelects.length; ++i )
 			{
 				index = StaticEntity.getIntegerProperty( AdventureDatabase.CHOICE_ADVS[i].getSetting() );
 				if ( index > 0 )
