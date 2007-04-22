@@ -110,15 +110,38 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 	{	super( title );
 	}
 
-	public JPanel constructLabelPair( String label, JComponent element )
+	public JPanel constructLabelPair( String label, JComponent element1 )
+	{	return constructLabelPair( label, element1, null );
+	}
+
+	public JPanel constructLabelPair( String label, JComponent element1, JComponent element2 )
 	{
-		JPanel container = new JPanel( new BorderLayout() );
+		JPanel container = new JPanel();
+		container.setLayout( new BoxLayout( container, BoxLayout.Y_AXIS ) );
 
-		if ( element instanceof JComboBox )
-			JComponentUtilities.setComponentSize( element, 240, 20 );
+		if ( element1 != null && element1 instanceof JComboBox )
+			JComponentUtilities.setComponentSize( element1, 240, 20 );
 
-		container.add( new JLabel( "<html><b>" + label + "</b></html>", JLabel.LEFT ), BorderLayout.NORTH );
-		container.add( element, BorderLayout.CENTER );
+		if ( element2 != null && element2 instanceof JComboBox )
+			JComponentUtilities.setComponentSize( element2, 240, 20 );
+
+		JPanel labelPanel = new JPanel( new GridLayout( 1, 1 ) );
+		labelPanel.add( new JLabel( "<html><b>" + label + "</b></html>", JLabel.LEFT ) );
+
+		container.add( labelPanel );
+
+		if ( element1 != null )
+		{
+			container.add( Box.createVerticalStrut( 5 ) );
+			container.add( element1 );
+		}
+
+		if ( element2 != null )
+		{
+			container.add( Box.createVerticalStrut( 5 ) );
+			container.add( element2 );
+		}
+
 		return container;
 	}
 
@@ -368,14 +391,10 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 			add( constructLabelPair( "Stop automation: ", hpHaltCombatSelect ) );
-			add( Box.createVerticalStrut( 10 ) );
+			add( Box.createVerticalStrut( 15 ) );
 
-			add( constructLabelPair( "Restore your health: ", hpAutoRecoverSelect ) );
-			add( Box.createVerticalStrut( 5 ) );
-
-			JComponentUtilities.setComponentSize( hpAutoRecoverTargetSelect, 240, 20 );
-			add( hpAutoRecoverTargetSelect );
-			add( Box.createVerticalStrut( 10 ) );
+			add( constructLabelPair( "Restore your health: ", hpAutoRecoverSelect, hpAutoRecoverTargetSelect ) );
+			add( Box.createVerticalStrut( 15 ) );
 
 			add( constructLabelPair( "Use these restores: ", constructScroller( hpRestoreCheckbox = HPRestoreItemList.getCheckboxes() ) ) );
 
@@ -418,15 +437,13 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			// Add the elements to the panel
 
 			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+
 			add( constructLabelPair( "Mana burning: ", mpBalanceSelect ) );
-			add( Box.createVerticalStrut( 10 ) );
+			add( Box.createVerticalStrut( 15 ) );
 
-			add( constructLabelPair( "Restore your mana: ", mpAutoRecoverSelect ) );
-			add( Box.createVerticalStrut( 5 ) );
+			add( constructLabelPair( "Restore your mana: ", mpAutoRecoverSelect, mpAutoRecoverTargetSelect ) );
+			add( Box.createVerticalStrut( 15 ) );
 
-			JComponentUtilities.setComponentSize( mpAutoRecoverTargetSelect, 240, 20 );
-			add( mpAutoRecoverTargetSelect );
-			add( Box.createVerticalStrut( 10 ) );
 			add( constructLabelPair( "Use these restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) ) );
 
 			mpBalanceSelect.setSelectedIndex( Math.max( (int)(StaticEntity.getFloatProperty( "manaBurningThreshold" ) * 20) + 1, 0 ) );
