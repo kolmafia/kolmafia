@@ -2009,7 +2009,9 @@ public abstract class KoLmafia implements KoLConstants
 		if ( turnCount == null )
 			return;
 
-		makeRequest( new ClanGymRequest( ClanGymRequest.SOFA ), StaticEntity.parseInt( turnCount ) );
+		ClanGymRequest request = new ClanGymRequest( ClanGymRequest.SOFA );
+		request.setTurnCount( StaticEntity.parseInt( turnCount ) );
+		RequestThread.postRequest( request );
 	}
 
 	public static void validateFaucetQuest()
