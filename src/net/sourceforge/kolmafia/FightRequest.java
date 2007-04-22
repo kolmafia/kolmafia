@@ -280,6 +280,13 @@ public class FightRequest extends KoLRequest
 				return;
 			}
 
+			if ( currentRound > 2 )
+			{
+				action1 = "attack";
+				addFormField( "action", action1 );
+				return;
+			}
+
 			++currentRound;
 			nextRound();
 			return;
