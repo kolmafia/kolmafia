@@ -318,6 +318,19 @@ public abstract class KoLmafia implements KoLConstants
 		else
 			KoLmafiaCLI.main( args );
 
+		try
+		{
+			String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
+			updateDisplay( ENABLE_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+
 		// Now, maybe the person wishes to run something
 		// on startup, and they associated KoLmafia with
 		// some non-ASH file extension.  This will run it.
