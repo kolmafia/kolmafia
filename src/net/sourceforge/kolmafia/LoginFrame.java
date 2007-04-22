@@ -57,6 +57,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JCheckBox;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.UIManager;
@@ -590,12 +591,25 @@ public class LoginFrame extends KoLFrame
 
 			setContent( elements );
 
-			JPanel southPanel = new JPanel( new GridLayout( 1, 3, 10, 10 ) );
-			southPanel.add( new LabeledScrollPanel( "Complete List", new JDnDList( completeList, false ) ) );
-			southPanel.add( new LabeledScrollPanel( "Startup as Window", new JDnDList( startupList ) ) );
-			southPanel.add( new LabeledScrollPanel( "Startup in Tabs", new JDnDList( desktopList ) ) );
+			JPanel optionPanel = new JPanel( new GridLayout( 1, 3, 10, 10 ) );
+			optionPanel.add( new LabeledScrollPanel( "Complete List", new JDnDList( completeList, false ) ) );
+			optionPanel.add( new LabeledScrollPanel( "Startup as Window", new JDnDList( startupList ) ) );
+			optionPanel.add( new LabeledScrollPanel( "Startup in Tabs", new JDnDList( desktopList ) ) );
 
-			container.add( southPanel, BorderLayout.SOUTH );
+			JTextArea message = new JTextArea(
+				"These are the per-user settings for what shows up when KoLmafia successfully logs into the Kingdom of Loathing.  You can drag and drop options in the lists below to customize what will show up.\n\n" +
+
+				"The Local Relay Server option and Contact List option cannot actually be in tabs.  When you place the former into the 'startup in tabs' section, KoLmafia will start up the server but not open your browser.  When you place the latter into the 'startup in tabs' section, KoLmafia will force a refresh of your contact list on login.\n" );
+
+			message.setColumns( 40 );
+			message.setLineWrap( true );
+			message.setWrapStyleWord( true );
+			message.setEditable( false );
+			message.setOpaque( false );
+			message.setFont( DEFAULT_FONT );
+
+			container.add( message, BorderLayout.NORTH );
+			container.add( optionPanel, BorderLayout.SOUTH );
 			actionCancelled();
 
 			completeList.addListDataListener( this );
