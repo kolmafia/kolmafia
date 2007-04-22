@@ -228,20 +228,6 @@ public class LoginFrame extends KoLFrame
 			}
 
 			getBreakfastCheckBox.setSelected( StaticEntity.getBooleanProperty( "alwaysGetBreakfast" ) );
-
-			try
-			{
-				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
-				setStatusMessage( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
-
 			getBreakfastCheckBox.addActionListener( new GetBreakfastListener() );
 			autoLoginCheckBox.addActionListener( new AutoLoginListener() );
 			savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
