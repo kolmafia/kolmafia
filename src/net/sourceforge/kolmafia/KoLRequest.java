@@ -1628,21 +1628,8 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( !decision.equals( "0" ) && StaticEntity.parseInt( decision ) - 1 < possibleDecisions.length )
 			return decision;
 
-		// If they have chosen to ignore this adventure, then choose an
-		// item the player does not have
-
-		for ( int i = 0; i < possibleDecisions.length; ++i )
-		{
-			if ( possibleDecisions[i] != null )
-			{
-				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
-				if ( !KoLCharacter.hasItem( item ) )
-					return String.valueOf( i + 1 );
-			}
-		}
-
-		// Choose a null choice if all components have already been
-		// gathered before.
+		// Choose a null choice if no conditions match what you're
+		// trying to look for.
 
 		for ( int i = 0; i < possibleDecisions.length; ++i )
 			if ( possibleDecisions[i] == null )
