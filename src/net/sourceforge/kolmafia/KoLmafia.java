@@ -398,7 +398,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static final void updateDisplay( int state, String message )
 	{
-		if ( continuationState == ABORT_STATE )
+		if ( continuationState == ABORT_STATE && state != ABORT_STATE )
 			return;
 
 		if ( continuationState != PENDING_STATE )

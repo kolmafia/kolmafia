@@ -619,17 +619,6 @@ public class FightRequest extends KoLRequest
 	{
 		INSTANCE.responseText = responseText;
 
-		int blindIndex = responseText.indexOf( "... something.</div>" );
-
-		while ( blindIndex != -1 )
-		{
-			RequestLogger.printLine( "You acquire... something." );
-			if ( StaticEntity.getBooleanProperty( "logAcquiredItems" ) )
-				RequestLogger.updateSessionLog( "You acquire... something." );
-
-			blindIndex = responseText.indexOf( "... something.</div>", blindIndex + 1 );
-		}
-
 		// Round tracker should include this data.
 
 		if ( isTrackingFights )
@@ -644,6 +633,8 @@ public class FightRequest extends KoLRequest
 
 		if ( currentRound == 1 )
 			checkForInitiative( responseText );
+
+		int blindIndex = responseText.indexOf( "... something.</div>" );
 
 		// Log familiar actions, if the player wishes to include this
 		// information in their session logs.
@@ -687,6 +678,15 @@ public class FightRequest extends KoLRequest
 		}
 
 		updateMonsterHealth( responseText );
+
+		while ( blindIndex != -1 )
+		{
+			RequestLogger.printLine( "You acquire... something." );
+			if ( StaticEntity.getBooleanProperty( "logAcquiredItems" ) )
+				RequestLogger.updateSessionLog( "You acquire... something." );
+
+			blindIndex = responseText.indexOf( "... something.</div>", blindIndex + 1 );
+		}
 
 		// Reset round information if the battle is complete.
 		// This is recognized when fight.php has no data.
