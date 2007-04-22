@@ -424,8 +424,19 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void burnExtraMana( boolean isManualInvocation )
 	{
-		if ( !isManualInvocation && KoLCharacter.canInteract() && KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
-			return;
+		if ( !isManualInvocation )
+		{
+			if ( KoLCharacter.canInteract() )
+			{
+				if ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
+					return;
+			}
+			else
+			{
+				if ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() / 2 )
+					return;
+			}
+		}
 
 		String nextBurnCast;
 
