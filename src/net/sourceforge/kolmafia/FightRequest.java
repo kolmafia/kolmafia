@@ -172,6 +172,13 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
+		if ( wonInitiative() && monsterData != null && monsterData.shouldSteal() )
+		{
+			action1 = "steal";
+			addFormField( "action", action1 );
+			return;
+		}
+
 		// If the user wants a custom combat script, parse the desired
 		// action here.
 
@@ -266,7 +273,7 @@ public class FightRequest extends KoLRequest
 
 		if ( action1.startsWith( "steal" ) )
 		{
-			if ( wonInitiative() && monsterData != null && monsterData.shouldSteal() )
+			if ( wonInitiative() )
 			{
 				action1 = "steal";
 				addFormField( "action", action1 );
@@ -611,6 +618,17 @@ public class FightRequest extends KoLRequest
 	public static void updateCombatData( String encounter, String responseText )
 	{
 		INSTANCE.responseText = responseText;
+
+		int blindIndex = responseText.indexOf( "... something.</div>" );
+
+		while ( blindIndex != -1 )
+		{
+			RequestLogger.printLine( "You acquire... something." );
+			if ( StaticEntity.getBooleanProperty( "logAcquiredItems" ) )
+				RequestLogger.updateSessionLog( "You acquire... something." );
+
+			blindIndex = responseText.indexOf( "... something.</div>", blindIndex + 1 );
+		}
 
 		// Round tracker should include this data.
 
