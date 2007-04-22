@@ -262,7 +262,8 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 			else if ( frameName.equals( "ContactListFrame" ) )
 			{
-				RequestThread.postRequest( new ContactListRequest() );
+				if ( contactList.isEmpty() )
+					RequestThread.postRequest( new ContactListRequest() );
 
 				if ( StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( "ContactListFrame" ) != -1 )
 					return;
