@@ -215,7 +215,7 @@
 215	Uncle Jick's Brownie Mix	0	all	33
 216	carob brownies	1	all	60
 217	herb brownies	1	all	61
-218	hemp bracelet	8	all	75
+218	hemp string	8	all	75
 219	necklace chain	0	all	35
 220	gnoll teeth	0	all	12
 221	gnoll-tooth necklace	8	all	85

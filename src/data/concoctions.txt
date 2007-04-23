@@ -16,7 +16,7 @@ abridged dictionary	1	bridge	dictionary
 badass belt	1	batskin belt	dragonbone belt buckle
 bitchin' meatcar	1	dope wheels	meat engine
 bone rattle	1	skeleton bone	broken skull
-Bonerdagon necklace	1	necklace chain	vertebra of the Bonerdagon
+Bonerdagon necklace	1	hemp string	vertebra of the Bonerdagon
 cog and sprocket assembly	1	cog	sprocket assembly
 dope wheels	1	tires	sweet rims
 full meat tank	1	empty meat tank	meat stack
@@ -58,16 +58,16 @@ spooky scarecrow	1	wooden stakes	spooky staff
 # combining items.
 
 asshat	1	bum cheek	bum cheek
-charrrm bracelet	1	hemp bracelet	charrrm
+charrrm bracelet	1	hemp string	charrrm
 detective skull	1	gnoll lips	brainy skull
 disembodied smile	1	gnoll lips	gnoll teeth
 enchanted eyepatch	1	eyepatch	lihc eye
 gnatwing earring	1	gnatwing	piercing post
-gnoll-tooth necklace	1	gnoll teeth	necklace chain
+gnoll-tooth necklace	1	gnoll teeth	hemp string
 Gnollish autoplunger	1	Gnollish plunger	meat engine
 icy-hot katana	1	icy katana hilt	hot katana blade
 meat cowboy hat	1	basic meat helmet	white snake skin
-phat turquoise bracelet	1	hemp bracelet	phat turquoise bead
+phat turquoise bracelet	1	hemp string	phat turquoise bead
 pimpin' meat hat	1	basic meat helmet	bling-bling
 spooky staff	1	spooky shrunken head	spooky stick
 Talisman o' Nam	1	snakehead charrrm	snakehead charrrm
@@ -760,15 +760,15 @@ digital key	10	white pixel (30)
 
 hamethyst earring	8	hamethyst	piercing post
 hamethyst necklace	8	hamethyst	necklace chain
-hamethyst bracelet	8	hamethyst	hemp bracelet
+hamethyst bracelet	8	hamethyst	hemp string
 hamethyst ring	8	hamethyst	ring setting
 baconstone earring	8	baconstone	piercing post
 baconstone pendant	8	baconstone	necklace chain
-baconstone bracelet	8	baconstone	hemp bracelet
+baconstone bracelet	8	baconstone	hemp string
 baconstone ring	8	baconstone	ring setting
 porquoise eyebrow ring	8	porquoise	piercing post
 porquoise necklace	8	porquoise	necklace chain
-porquoise bracelet	8	porquoise	hemp bracelet
+porquoise bracelet	8	porquoise	hemp string
 porquoise ring	8	porquoise	ring setting
 
 

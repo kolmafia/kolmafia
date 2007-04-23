@@ -220,7 +220,7 @@
 215	699264729	Uncle Jick's Brownie Mix	boxes of Uncle Jick's Brownie Mix
 216	780486353	carob brownies	piles of carob brownies
 217	589253744	herb brownies	piles of herb brownies
-218	719626655	hemp bracelet	hemp bracelets
+218	719626655	hemp string	hemp strings
 219	662335573	necklace chain	necklace chains
 220	434518378	gnoll teeth	mouthfulls of gnoll teeth
 221	342269163	gnoll-tooth necklace	gnoll-tooth necklaces
