@@ -896,6 +896,33 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
+	private class CreationSettingCheckBox extends JCheckBox implements ActionListener
+	{
+		private String property;
+
+		public CreationSettingCheckBox( String label, String property, String tooltip )
+		{
+			super( label );
+
+			setToolTipText( tooltip );
+			setSelected( StaticEntity.getBooleanProperty( property ) );
+
+			addActionListener( this );
+
+			this.property = property;
+			KoLSettings.registerCheckbox( property, this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( StaticEntity.getBooleanProperty( property ) == isSelected() )
+				return;
+
+			StaticEntity.setProperty( property, String.valueOf( isSelected() ) );
+			ConcoctionsDatabase.refreshConcoctions();
+		}
+	}
+
 	/**
 	 * Internal class used to handle everything related to
 	 * creating items; this allows creating of items,
@@ -913,6 +940,19 @@ public class ItemManageFrame extends KoLFrame
 			wordfilter.equip = equip;
 			wordfilter.other = other;
 			wordfilter.notrade = true;
+
+			JPanel filterPanel = new JPanel();
+
+			JCheckBox autoRepair = new CreationSettingCheckBox( "auto-repair", "autoRepairBoxes", "Automatically repair innaboxes on explosion" );
+			filterPanel.add( autoRepair );
+
+			JCheckBox allowNoBox = new CreationSettingCheckBox( "allow no-box", "createWithoutBoxServants", "Allow item creation without innaboxes" );
+			filterPanel.add( allowNoBox );
+
+			JCheckBox infiniteNPC = new CreationSettingCheckBox( "infinite npcs", "assumeInfiniteNPCItems", "Assume NPC items are used in item creation" );
+			filterPanel.add( infiniteNPC );
+
+			actualPanel.add( filterPanel, BorderLayout.NORTH );
 
 			ConcoctionsDatabase.getCreatables().applyListFilters();
 		}
