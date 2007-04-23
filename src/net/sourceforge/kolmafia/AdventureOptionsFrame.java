@@ -1261,9 +1261,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			if ( request == null )
 				return;
 
-			if ( request == lastLocation )
-				return;
-
 			lastLocation = request;
 			AreaCombatData combat = request.getAreaSummary();
 			String text = ( combat == null ) ? " " : combat.toString();
