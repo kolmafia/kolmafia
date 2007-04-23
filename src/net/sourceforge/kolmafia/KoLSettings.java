@@ -44,7 +44,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Reader;
 
+import java.lang.ref.WeakReference;
+import javax.swing.JCheckBox;
+
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
@@ -53,6 +57,7 @@ public class KoLSettings extends Properties implements KoLConstants
 {
 	private boolean initializingDefaults = false;
 
+	private static final TreeMap checkboxMap = new TreeMap();
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
 
@@ -322,7 +327,37 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		super.setProperty( name, value );
 		saveSettings();
+
+		if ( checkboxMap.containsKey( name ) )
+		{
+			ArrayList list = (ArrayList) checkboxMap.get( name );
+			for ( int i = 0; i < list.size(); ++i )
+			{
+				WeakReference reference = (WeakReference) list.get(i);
+				JCheckBox item = (JCheckBox) reference.get();
+				if ( item != null )
+					item.setSelected( value.equals( "true" ) );
+			}
+		}
+
 		return oldValue == null ? "" : oldValue;
+	}
+
+	public static void registerCheckbox( String name, JCheckBox checkbox )
+	{
+		ArrayList list = null;
+
+		if ( checkboxMap.containsKey( name ) )
+		{
+			list = (ArrayList) checkboxMap.get( name );
+		}
+		else
+		{
+			list = new ArrayList();
+			checkboxMap.put( name, list );
+		}
+
+		list.add( new WeakReference( checkbox ) );
 	}
 
 	public static void saveFlaggedItemList()
@@ -460,9 +495,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "allowNonMoodBurning", "true" );
 		CLIENT_SETTINGS.put( "allowRequestQueueing", "false" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "false" );
-		CLIENT_SETTINGS.put( "assumeInfiniteNPCItems", "true" );
 		CLIENT_SETTINGS.put( "autoBuyRestores", "true" );
-		CLIENT_SETTINGS.put( "autoRepairBoxes", "true" );
 		CLIENT_SETTINGS.put( "autoLogin", "" );
 		CLIENT_SETTINGS.put( "autoPlantHardcore", "false" );
 		CLIENT_SETTINGS.put( "autoPlantSoftcore", "false" );
@@ -478,7 +511,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "chatStyle", "0" );
 		CLIENT_SETTINGS.put( "closeLastFrameAction", "0" );
 		CLIENT_SETTINGS.put( "cloverProtectActive", "true" );
-		CLIENT_SETTINGS.put( "createWithoutBoxServants", "false" );
 		CLIENT_SETTINGS.put( "commandLineNamespace", "" );
 		CLIENT_SETTINGS.put( "defaultBorderColor", "blue" );
 		CLIENT_SETTINGS.put( "defaultDropdown1", "0" );
@@ -584,7 +616,9 @@ public class KoLSettings extends Properties implements KoLConstants
 		// Individual player settings which are not set on
 		// a global level.
 
+		PLAYER_SETTINGS.put( "assumeInfiniteNPCItems", "true" );
 		PLAYER_SETTINGS.put( "autoAbortThreshold", "-0.1" );
+		PLAYER_SETTINGS.put( "autoRepairBoxes", "true" );
 		PLAYER_SETTINGS.put( "battleAction", "attack with weapon" );
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
 		PLAYER_SETTINGS.put( "breakfastCompleted", "false" );
@@ -593,6 +627,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "candyHeartSummons", "0" );
 		PLAYER_SETTINGS.put( "chatbotScript", "" );
 		PLAYER_SETTINGS.put( "chatbotScriptExecuted", "false" );
+		PLAYER_SETTINGS.put( "createWithoutBoxServants", "false" );
 		PLAYER_SETTINGS.put( "chosenTrip", "" );
 		PLAYER_SETTINGS.put( "cocktailSummons", "0" );
 		PLAYER_SETTINGS.put( "currentFullness", "0" );
