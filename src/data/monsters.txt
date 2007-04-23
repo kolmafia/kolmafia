@@ -145,7 +145,7 @@ Decent Lumberjack	HP: 35 Def: 35 Atk: 35 Meat: 17-26	poutine (30)	disbelief susp
 Demonic Icebox	HP: 5 Def: 5 Atk: 5	ancient frozen dinner (30)	leftovers of indeterminate origin (40)
 Demoninja	HP: 48 Def: 30 Atk: 50 E: heat Meat: 40-65	hot katana blade (30)	ninja hot pants (5)
 Dirty Hippy	HP: 30 Def: 40 Atk: 40 E: stench	Feng Shui for Big Dumb Idiots (30)	filthy corduroys (5)	reodorant (5)	filthy knitted dread sack (5)
-Dirty Hippy Jewelry Maker	HP: 30 Def: 40 Atk: 40 E: stench	filthy corduroys (5)	hemp bracelet (30)	phat turquoise bead (10)	filthy knitted dread sack (5)	reodorant (5)
+Dirty Hippy Jewelry Maker	HP: 30 Def: 40 Atk: 40 E: stench	filthy corduroys (5)	hemp string (30)	phat turquoise bead (10)	filthy knitted dread sack (5)	reodorant (5)
 Dirty Hippy Vegan Chef	HP: 30 Def: 40 Atk: 40 E: stench	carob chunks (30)	filthy knitted dread sack (5)	Uncle Jick's Brownie Mix (30)	reodorant (5)	filthy corduroys (5)
 Disease-In-The-Box	HP: 14 Def: 18 Atk: 18	box (30)	disease (40)
 Dodecapede	HP: 8 Def: 12 Atk: 12

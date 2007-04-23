@@ -649,7 +649,7 @@ hamethyst bracelet	0	Mys: 10
 hamethyst earring	0	Mys: 10
 hamethyst necklace	0	Mys: 10
 hamethyst ring	0	Mys: 10
-hemp bracelet	0	Mys: 20
+hemp string	0	Mys: 20
 hockey stick of furious angry rage	0	Mys: 35
 ice skates	0	none
 imitation nice watch	0	Mys: 35

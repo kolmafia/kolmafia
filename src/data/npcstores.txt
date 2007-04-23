@@ -125,7 +125,7 @@ town_giftshop.php	The Gift Shop	red balloon	100000
 
 j	Little Canadia Jewelers	piercing post	64
 j	Little Canadia Jewelers	necklace chain	70
-j	Little Canadia Jewelers	hemp bracelet	150
+j	Little Canadia Jewelers	hemp string	150
 j	Little Canadia Jewelers	ring setting	200
 j	Little Canadia Jewelers	jewelry-making pliers	1000
 
