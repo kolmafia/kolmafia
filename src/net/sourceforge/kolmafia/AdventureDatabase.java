@@ -1169,6 +1169,8 @@ public class AdventureDatabase extends KoLDatabase
 		case STARCHART:
 		case PIXEL:
 		case MALUS:
+		case ROLLING_PIN:
+		case CLOVER:
 
 			break;
 
@@ -1209,6 +1211,8 @@ public class AdventureDatabase extends KoLDatabase
 		case STARCHART:
 		case PIXEL:
 		case MALUS:
+		case ROLLING_PIN:
+		case CLOVER:
 
 			break;
 

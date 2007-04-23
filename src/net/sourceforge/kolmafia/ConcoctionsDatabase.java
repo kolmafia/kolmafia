@@ -757,8 +757,19 @@ public class ConcoctionsDatabase extends KoLDatabase
 			return KoLCharacter.getAvailableMeat() >= 1000;
 		}
 
-		if ( !isPermittedMethod( getMixingMethod( itemId ) ) )
-			return false;
+		int mixingMethod = getMixingMethod( itemId );
+
+		switch ( mixingMethod )
+		{
+		case ROLLING_PIN:
+		case CLOVER:
+			AdventureResult [] ingredients = getStandardIngredients( itemId );
+			return inventory.contains( ingredients[0] ) || closet.contains( ingredients[0] );
+
+		default:
+			if ( !isPermittedMethod( mixingMethod ) )
+				return false;
+		}
 
 		AdventureResult [] ingredients = getStandardIngredients( itemId );
 
