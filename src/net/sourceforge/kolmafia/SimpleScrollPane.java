@@ -40,7 +40,7 @@ import javax.swing.text.JTextComponent;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class SimpleScrollPane extends JScrollPane
+public class SimpleScrollPane extends JScrollPane implements KoLConstants
 {
 	public SimpleScrollPane( LockableListModel model )
 	{	this( model, 8 );
@@ -63,7 +63,9 @@ public class SimpleScrollPane extends JScrollPane
 		super( view, vsbPolicy, hsbPolicy );
 		setOpaque( true );
 
-		if ( !(view instanceof JList || view instanceof JTextComponent) )
+		if ( view instanceof JList )
+			((JList)view).setFont( DEFAULT_FONT );
+		else if ( !(view instanceof JTextComponent) )
 			this.getVerticalScrollBar().setUnitIncrement( 30 );
 	}
 }

@@ -284,7 +284,13 @@ public class RequestLogger extends NullStream implements KoLConstants
 		// Some general URLs which never need to be registered
 		// because they don't do anything.
 
-		if ( urlString.startsWith( "login" ) || urlString.startsWith( "logout" ) || urlString.startsWith( "choice" ) || urlString.startsWith( "charpane" ) )
+		if ( urlString.startsWith( "choice" ) )
+		{
+			updateSessionLog( urlString );
+			return;
+		}
+
+		if ( urlString.startsWith( "login" ) || urlString.startsWith( "logout" ) || urlString.startsWith( "charpane" ) )
 			return;
 
 		if ( urlString.startsWith( "leaflet" ) || urlString.startsWith( "cave" ) || urlString.startsWith( "lair" ) || urlString.startsWith( "campground" ) )

@@ -127,6 +127,7 @@ public class ItemManageFrame extends KoLFrame
 		// Now a special panel which does nothing more than list
 		// some common actions and some descriptions.
 
+		itemPanelList.setFont( DEFAULT_FONT );
 		itemPanelList.addListSelectionListener( new CardSwitchListener() );
 		itemPanelList.setPrototypeCellValue( "ABCDEFGHIJKLM" );
 		itemPanelList.setCellRenderer( new OptionRenderer() );
