@@ -58,7 +58,8 @@ spooky scarecrow	1	wooden stakes	spooky staff
 # combining items.
 
 asshat	1	bum cheek	bum cheek
-charrrm bracelet	1	hemp string	charrrm
+beach glass necklace	1	beach glass bead	hemp string
+charrrm bracelet	1	charrrm	hemp string
 detective skull	1	gnoll lips	brainy skull
 disembodied smile	1	gnoll lips	gnoll teeth
 enchanted eyepatch	1	eyepatch	lihc eye
@@ -67,7 +68,8 @@ gnoll-tooth necklace	1	gnoll teeth	hemp string
 Gnollish autoplunger	1	Gnollish plunger	meat engine
 icy-hot katana	1	icy katana hilt	hot katana blade
 meat cowboy hat	1	basic meat helmet	white snake skin
-phat turquoise bracelet	1	hemp string	phat turquoise bead
+peace-sign necklace	1	clay peace-sign bead	hemp string
+phat turquoise bracelet	1	phat turquoise bead	hemp string
 pimpin' meat hat	1	basic meat helmet	bling-bling
 spooky staff	1	spooky shrunken head	spooky stick
 Talisman o' Nam	1	snakehead charrrm	snakehead charrrm
@@ -760,15 +762,12 @@ digital key	10	white pixel (30)
 
 hamethyst earring	8	hamethyst	piercing post
 hamethyst necklace	8	hamethyst	necklace chain
-hamethyst bracelet	8	hamethyst	hemp string
 hamethyst ring	8	hamethyst	ring setting
 baconstone earring	8	baconstone	piercing post
 baconstone pendant	8	baconstone	necklace chain
-baconstone bracelet	8	baconstone	hemp string
 baconstone ring	8	baconstone	ring setting
 porquoise eyebrow ring	8	porquoise	piercing post
 porquoise necklace	8	porquoise	necklace chain
-porquoise bracelet	8	porquoise	hemp string
 porquoise ring	8	porquoise	ring setting
 
 

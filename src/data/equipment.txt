@@ -598,6 +598,7 @@ baconstone ring	0	Mys: 10
 badass belt	0	Mys: 35
 Baron Von Ratsworth's monocle	0	none
 Baron Von Ratsworth's money clip	0	none
+beach glass necklace	0	Mys: 20
 beer goggles	0	none
 bejeweled accordion strap	0	none
 big red clown nose	0	Mys: 10
@@ -679,6 +680,7 @@ Mr. Exploiter	0	none
 monster bait	0	none
 Ms. Accessory	0	none
 orange glowstick	0	none
+peace-sign necklace	0	Mys: 20
 phat turquoise bracelet	0	Mys: 20
 Pine-Fresh air freshener	0	Mys: 10
 pink glowstick	0	none

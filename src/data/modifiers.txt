@@ -138,6 +138,7 @@ Tropical Crimbo Shorts	Init: +30.0
 white satin pants	Sleaze: +10
 
 baconstone bracelet	Mana: -1
+baconstone earring	Mana: -1
 Baron Von Ratsworth's money clip	Meat: +15.0
 Baron Von Ratsworth's monocle	Item: +10.0
 Bonerdagon necklace	Init: +30.0
@@ -156,6 +157,7 @@ makeshift cape	Item: +5.0
 makeshift SCUBA gear	Stench: +20
 monster bait	Combat: +5.0
 Mr. Accessory Jr.	Item: +25.0
+peace-sign necklace	DR: 3
 Pine-Fresh air freshener	Stench: +10
 plexiglass pinky ring	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30
 plexiglass pocketwatch	Mana: -3

@@ -2489,3 +2489,21 @@
 2489	tuxedo shirt	11	all	105
 2490	gnauga hide vest	11	all	85
 2491	shirt kit	0	all	50
+2492
+2493
+2494
+2495
+2496
+2497
+2498
+2499
+3500
+2501
+2502
+2503
+2504
+2505
+2506	beach glass bead	0	all	35
+2507	clay peace-sign bead	0	all	0
+2508	beach glass necklace	8	all	75
+2509	peace-sign necklace	8	all	75
