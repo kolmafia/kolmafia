@@ -819,7 +819,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		{
 			super( new Dimension( 50, 20 ), new Dimension( 200, 20 ) );
 
-			actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
+			actionSelect = new MutableComboBox( KoLCharacter.getBattleSkillNames(), false );
 			activeMood = new JComboBox( MoodSettings.getAvailableMoods() );
 
 			locationSelect.addListSelectionListener( new ConditionChangeListener() );
