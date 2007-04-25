@@ -585,6 +585,12 @@ public abstract class KoLmafia implements KoLConstants
 			}
 
 			forceContinue();
+
+			if ( StaticEntity.getBooleanProperty( "grabClovers" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
+			{
+				if ( HermitRequest.getWorthlessItemCount() > 0 )
+					DEFAULT_SHELL.executeLine( "hermit * ten-leaf clover" );
+			}
 		}
 
 		castBreakfastSkills( checkSettings );

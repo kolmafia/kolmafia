@@ -426,6 +426,7 @@ public class LoginFrame extends KoLFrame
 		private String breakfastType;
 		private JCheckBox [] skillOptions;
 
+		private JCheckBox grabClovers;
 		private JCheckBox mushroomPlot;
 		private JCheckBox rumpusRoom;
 		private JCheckBox readManual;
@@ -448,7 +449,9 @@ public class LoginFrame extends KoLFrame
 			pathedSummons.addActionListener( this );
 			centerPanel.add( pathedSummons );
 
-			centerPanel.add( new JLabel() );
+			rumpusRoom = new JCheckBox( "Visit your rumpus room" );
+			rumpusRoom.addActionListener( this );
+			centerPanel.add( rumpusRoom );
 
 			this.breakfastType = breakfastType;
 			skillOptions = new JCheckBox[ UseSkillRequest.BREAKFAST_SKILLS.length ];
@@ -463,9 +466,9 @@ public class LoginFrame extends KoLFrame
 			mushroomPlot.addActionListener( this );
 			centerPanel.add( mushroomPlot );
 
-			rumpusRoom = new JCheckBox( "Visit your rumpus room" );
-			rumpusRoom.addActionListener( this );
-			centerPanel.add( rumpusRoom );
+			grabClovers = new JCheckBox( "Pick up clovers" );
+			grabClovers.addActionListener( this );
+			centerPanel.add( grabClovers );
 
 			readManual = new JCheckBox( "Read the guild manual" );
 			readManual.addActionListener( this );
@@ -504,8 +507,9 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.setProperty( "breakfast" + breakfastType, skillString.toString() );
 			StaticEntity.setProperty( "loginRecovery" + breakfastType, String.valueOf( loginRecovery.isSelected() ) );
 			StaticEntity.setProperty( "pathedSummons" + breakfastType, String.valueOf( pathedSummons.isSelected() ) );
-			StaticEntity.setProperty( "autoPlant" + breakfastType, String.valueOf( mushroomPlot.isSelected() ) );
 			StaticEntity.setProperty( "visitRumpus" + breakfastType, String.valueOf( rumpusRoom.isSelected() ) );
+			StaticEntity.setProperty( "autoPlant" + breakfastType, String.valueOf( mushroomPlot.isSelected() ) );
+			StaticEntity.setProperty( "grabClovers" + breakfastType, String.valueOf( grabClovers.isSelected() ) );
 			StaticEntity.setProperty( "readManual" + breakfastType, String.valueOf( readManual.isSelected() ) );
 		}
 
@@ -517,8 +521,9 @@ public class LoginFrame extends KoLFrame
 
 			loginRecovery.setSelected( StaticEntity.getBooleanProperty( "loginRecovery" + breakfastType ) );
 			pathedSummons.setSelected( StaticEntity.getBooleanProperty( "pathedSummons" + breakfastType ) );
-			mushroomPlot.setSelected( StaticEntity.getBooleanProperty( "autoPlant" + breakfastType ) );
 			rumpusRoom.setSelected( StaticEntity.getBooleanProperty( "visitRumpus" + breakfastType ) );
+			mushroomPlot.setSelected( StaticEntity.getBooleanProperty( "autoPlant" + breakfastType ) );
+			grabClovers.setSelected( StaticEntity.getBooleanProperty( "grabClovers" + breakfastType ) );
 			readManual.setSelected( StaticEntity.getBooleanProperty( "readManual" + breakfastType ) );
 		}
 
