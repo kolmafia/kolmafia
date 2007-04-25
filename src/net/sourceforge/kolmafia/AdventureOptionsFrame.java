@@ -86,6 +86,15 @@ import net.sourceforge.kolmafia.MoodSettings.MoodTrigger;
 
 public abstract class AdventureOptionsFrame extends KoLFrame
 {
+	private ExecuteButton begin;
+	private boolean isHandlingConditions = false;
+
+	private JComboBox actionSelect;
+	private JComboBox activeMood;
+
+	private TreeMap zoneMap;
+	private JSpinner countField;
+
 	protected JTree combatTree;
 	protected JTextArea combatEditor;
 	protected DefaultTreeModel combatModel;
@@ -489,10 +498,11 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			typeSelect = new TypeComboBox();
 
 			Object [] names = StatusEffectDatabase.values().toArray();
-			Arrays.sort( names );
 
 			for ( int i = 0; i < names.length; ++i )
-				EFFECT_MODEL.add( names[i] );
+				EFFECT_MODEL.add( names[i].toString() );
+
+			EFFECT_MODEL.sort();
 
 			valueSelect = new ValueComboBox();
 			commandField = new JTextField();
@@ -555,6 +565,10 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		{
 		}
 
+		public void addStatusLabel()
+		{
+		}
+
 		public class ValueComboBox extends MutableComboBox
 		{
 			public ValueComboBox()
@@ -605,15 +619,15 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	public class MoodTriggerListPanel extends LabeledScrollPanel
 	{
-		public JComboBox moodSelect;
+		public JComboBox availableMoods;
 
 		public MoodTriggerListPanel()
 		{
 			super( "", "edit casts", "remove", new JList( MoodSettings.getTriggers() ) );
 
-			moodSelect = new MoodComboBox();
+			availableMoods = new MoodComboBox();
 
-			centerPanel.add( moodSelect, BorderLayout.NORTH );
+			centerPanel.add( availableMoods, BorderLayout.NORTH );
 			moodList = (JList) scrollComponent;
 
 			JPanel extraButtons = new JPanel( new GridLayout( 3, 1, 5, 5 ) );
@@ -722,14 +736,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	public class AdventureSelectPanel extends JPanel implements ChangeListener
 	{
-		private ExecuteButton begin;
-		private boolean isHandlingConditions = false;
-
-		private JComboBox moodSelect;
-		private JComboBox actionSelect;
-		private TreeMap zoneMap;
-		private JSpinner countField;
-
 		public AdventureSelectPanel( boolean enableAdventures )
 		{
 			super( new BorderLayout( 10, 10 ) );
@@ -779,13 +785,11 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			if ( enableAdventures )
 			{
-				JPanel westPanel = new JPanel( new CardLayout( 20, 20 ) );
-				westPanel.add( locationPanel, "" );
-				add( westPanel, BorderLayout.WEST );
+				JPanel locationHolder = new JPanel( new CardLayout( 10, 10 ) );
+				locationHolder.add( locationPanel, "" );
+				add( locationHolder, BorderLayout.WEST );
 
 				add( new ObjectivesPanel(), BorderLayout.CENTER );
-				JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, begin );
-
 				((JSpinner.DefaultEditor)countField.getEditor()).getTextField().addKeyListener( begin );
 			}
 			else
@@ -802,6 +806,222 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			else if ( desired <= 0 || desired > KoLCharacter.getAdventuresLeft() )
 				countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
 
+		}
+
+		public void requestFocus()
+		{	locationSelect.requestFocus();
+		}
+	}
+
+	private class ObjectivesPanel extends KoLPanel
+	{
+		public ObjectivesPanel()
+		{
+			super( new Dimension( 50, 20 ), new Dimension( 200, 20 ) );
+
+			actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
+			activeMood = new JComboBox( MoodSettings.getAvailableMoods() );
+
+			locationSelect.addListSelectionListener( new ConditionChangeListener() );
+
+			JPanel conditionPanel = new JPanel( new BorderLayout( 5, 5 ) );
+			conditionPanel.add( conditionField, BorderLayout.CENTER );
+			conditionPanel.add( autoSetCheckBox, BorderLayout.EAST );
+
+			autoSetCheckBox.setSelected( StaticEntity.getBooleanProperty( "autoSetConditions" ) );
+
+			JPanel beginWrapper = new JPanel();
+			beginWrapper.add( begin = new ExecuteButton() );
+
+			JPanel stopWrapper = new JPanel();
+			stopWrapper.add( new InvocationButton( "Declare World Peace", "stop.gif", RequestThread.class, "declareWorldPeace" ) );
+
+			JPanel buttonWrapper = new JPanel( new BorderLayout() );
+			buttonWrapper.add( beginWrapper, BorderLayout.NORTH );
+			buttonWrapper.add( stopWrapper, BorderLayout.SOUTH );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Combat:  ", actionSelect );
+			elements[1] = new VerifiableElement( "Moods:  ", activeMood );
+			elements[2] = new VerifiableElement( "Goals:  ", conditionPanel );
+
+			setContent( elements );
+			container.add( buttonWrapper, BorderLayout.EAST );
+
+			JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, begin );
+		}
+
+		public void actionConfirmed()
+		{
+			StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
+			MoodSettings.setMood( (String) activeMood.getSelectedItem() );
+		}
+
+		public void actionCancelled()
+		{
+		}
+
+		public void addStatusLabel()
+		{
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{	begin.setEnabled( isEnabled );
+		}
+	}
+
+	private class WorthlessItemRequest implements Runnable
+	{
+		private int itemCount;
+
+		public WorthlessItemRequest( int itemCount )
+		{	this.itemCount = itemCount;
+		}
+
+		public void run()
+		{	DEFAULT_SHELL.executeLine( "acquire " + itemCount + " worthless item in " + ((Integer)countField.getValue()).intValue() );
+		}
+	}
+
+	private class ZoneChangeListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( zoneSelect.getSelectedIndex() == 0 )
+			{
+				AdventureDatabase.refreshAdventureList();
+				return;
+			}
+
+			String zone = (String) zoneSelect.getSelectedItem();
+
+			if ( zone == null )
+				return;
+
+			zone = (String) zoneMap.get( zone );
+			if ( zone == null )
+				return;
+
+			AdventureDatabase.refreshAdventureList( zone );
+		}
+	}
+
+	private class ConditionChangeListener implements ListSelectionListener, ListDataListener
+	{
+		public ConditionChangeListener()
+		{	conditions.addListDataListener( this );
+		}
+
+		public void valueChanged( ListSelectionEvent e )
+		{
+			if ( updateConditions )
+			{
+				conditionField.setText( "" );
+
+				if ( !conditions.isEmpty() )
+					conditions.clear();
+
+				fillCurrentConditions();
+			}
+		}
+
+		public void intervalAdded( ListDataEvent e )
+		{
+			if ( isHandlingConditions )
+				return;
+
+			fillCurrentConditions();
+		}
+
+		public void intervalRemoved( ListDataEvent e )
+		{
+			if ( isHandlingConditions )
+				return;
+
+			fillCurrentConditions();
+		}
+
+		public void contentsChanged( ListDataEvent e )
+		{
+			if ( isHandlingConditions )
+				return;
+
+			fillCurrentConditions();
+		}
+	}
+
+	private class ExecuteButton extends ThreadedButton
+	{
+		private boolean isProcessing = false;
+
+		public ExecuteButton()
+		{
+			super( JComponentUtilities.getImage( "hourglass.gif" ) );
+			JComponentUtilities.setComponentSize( this, 32, 32 );
+		}
+
+		public void run()
+		{
+			if ( isProcessing )
+				return;
+
+			isProcessing = true;
+			KoLmafia.updateDisplay( "Validating adventure sequence..." );
+
+			KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
+			if ( request == null )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "No location selected." );
+				isProcessing = false;
+				return;
+			}
+
+			// If there are conditions in the condition field, be
+			// sure to process them.
+
+			if ( conditions.isEmpty() || (lastAdventure != null && lastAdventure != request) )
+			{
+				Object stats = null;
+				int substatIndex = conditions.indexOf( tally.get(2) );
+
+				if ( substatIndex != 0 )
+					stats = conditions.get( substatIndex );
+
+				conditions.clear();
+
+				if ( stats != null )
+					conditions.add( stats );
+
+				lastAdventure = request;
+
+				updateConditions = false;
+				isHandlingConditions = true;
+
+				RequestThread.openRequestSequence();
+				boolean shouldAdventure = handleConditions( request );
+				RequestThread.closeRequestSequence();
+
+				isHandlingConditions = false;
+				updateConditions = true;
+
+				if ( !shouldAdventure )
+				{
+					isProcessing = false;
+					return;
+				}
+			}
+
+			int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
+			countField.setValue( new Integer( requestCount ) );
+
+			boolean resetCount = requestCount == KoLCharacter.getAdventuresLeft();
+
+			StaticEntity.getClient().makeRequest( request, requestCount );
+
+			if ( resetCount )
+				countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
+
+			isProcessing = false;
 		}
 
 		private boolean handleConditions( KoLAdventure request )
@@ -888,213 +1108,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 				countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
 
 			return true;
-		}
-
-		private class ObjectivesPanel extends KoLPanel
-		{
-			public ObjectivesPanel()
-			{
-				super( new Dimension( 80, 20 ), new Dimension( 100, 20 ) );
-
-				actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
-				moodSelect = new JComboBox( MoodSettings.getAvailableMoods() );
-
-				locationSelect.addListSelectionListener( new ConditionChangeListener() );
-
-				JPanel conditionPanel = new JPanel( new BorderLayout( 5, 5 ) );
-				conditionPanel.add( conditionField, BorderLayout.CENTER );
-				conditionPanel.add( autoSetCheckBox, BorderLayout.EAST );
-
-				autoSetCheckBox.setSelected( StaticEntity.getBooleanProperty( "autoSetConditions" ) );
-
-				JPanel buttonPanel = new JPanel();
-				buttonPanel.add( begin = new ExecuteButton() );
-				buttonPanel.add( new InvocationButton( "stop", RequestThread.class, "declareWorldPeace" ) );
-
-				JPanel buttonWrapper = new JPanel( new BorderLayout() );
-				buttonWrapper.add( buttonPanel, BorderLayout.EAST );
-
-				VerifiableElement [] elements = new VerifiableElement[3];
-				elements[0] = new VerifiableElement( "In Combat:  ", actionSelect );
-				elements[1] = new VerifiableElement( "Use Mood:  ", moodSelect );
-				elements[2] = new VerifiableElement( "Objectives:  ", conditionPanel );
-
-				setContent( elements );
-				container.add( buttonWrapper, BorderLayout.SOUTH );
-
-				JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, begin );
-			}
-
-			public void actionConfirmed()
-			{
-				StaticEntity.setProperty( "battleAction", (String) actionSelect.getSelectedItem() );
-				MoodSettings.setMood( (String) moodSelect.getSelectedItem() );
-			}
-
-			public void actionCancelled()
-			{
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{	begin.setEnabled( isEnabled );
-			}
-		}
-
-		private class WorthlessItemRequest implements Runnable
-		{
-			private int itemCount;
-
-			public WorthlessItemRequest( int itemCount )
-			{	this.itemCount = itemCount;
-			}
-
-			public void run()
-			{	DEFAULT_SHELL.executeLine( "acquire " + itemCount + " worthless item in " + ((Integer)countField.getValue()).intValue() );
-			}
-		}
-
-		private class ZoneChangeListener implements ActionListener
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				if ( zoneSelect.getSelectedIndex() == 0 )
-				{
-					AdventureDatabase.refreshAdventureList();
-					return;
-				}
-
-				String zone = (String) zoneSelect.getSelectedItem();
-
-				if ( zone == null )
-					return;
-
-				zone = (String) zoneMap.get( zone );
-				if ( zone == null )
-					return;
-
-				AdventureDatabase.refreshAdventureList( zone );
-			}
-		}
-
-		private class ConditionChangeListener implements ListSelectionListener, ListDataListener
-		{
-			public ConditionChangeListener()
-			{	conditions.addListDataListener( this );
-			}
-
-			public void valueChanged( ListSelectionEvent e )
-			{
-				if ( updateConditions )
-				{
-					conditionField.setText( "" );
-
-					if ( !conditions.isEmpty() )
-						conditions.clear();
-
-					fillCurrentConditions();
-				}
-			}
-
-			public void intervalAdded( ListDataEvent e )
-			{
-				if ( isHandlingConditions )
-					return;
-
-				fillCurrentConditions();
-			}
-
-			public void intervalRemoved( ListDataEvent e )
-			{
-				if ( isHandlingConditions )
-					return;
-
-				fillCurrentConditions();
-			}
-
-			public void contentsChanged( ListDataEvent e )
-			{
-				if ( isHandlingConditions )
-					return;
-
-				fillCurrentConditions();
-			}
-		}
-
-		private class ExecuteButton extends ThreadedButton
-		{
-			private boolean isProcessing = false;
-
-			public ExecuteButton()
-			{	super( "begin" );
-			}
-
-			public void run()
-			{
-				if ( isProcessing )
-					return;
-
-				isProcessing = true;
-				KoLmafia.updateDisplay( "Validating adventure sequence..." );
-
-				KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
-				if ( request == null )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, "No location selected." );
-					isProcessing = false;
-					return;
-				}
-
-				// If there are conditions in the condition field, be
-				// sure to process them.
-
-				if ( conditions.isEmpty() || (lastAdventure != null && lastAdventure != request) )
-				{
-					Object stats = null;
-					int substatIndex = conditions.indexOf( tally.get(2) );
-
-					if ( substatIndex != 0 )
-						stats = conditions.get( substatIndex );
-
-					conditions.clear();
-
-					if ( stats != null )
-						conditions.add( stats );
-
-					lastAdventure = request;
-
-					updateConditions = false;
-					isHandlingConditions = true;
-
-					RequestThread.openRequestSequence();
-					boolean shouldAdventure = handleConditions( request );
-					RequestThread.closeRequestSequence();
-
-					isHandlingConditions = false;
-					updateConditions = true;
-
-					if ( !shouldAdventure )
-					{
-						isProcessing = false;
-						return;
-					}
-				}
-
-				int requestCount = Math.min( getValue( countField, 1 ), KoLCharacter.getAdventuresLeft() );
-				countField.setValue( new Integer( requestCount ) );
-
-				boolean resetCount = requestCount == KoLCharacter.getAdventuresLeft();
-
-				StaticEntity.getClient().makeRequest( request, requestCount );
-
-				if ( resetCount )
-					countField.setValue( new Integer( KoLCharacter.getAdventuresLeft() ) );
-
-				isProcessing = false;
-			}
-		}
-
-		public void requestFocus()
-		{	locationSelect.requestFocus();
 		}
 	}
 

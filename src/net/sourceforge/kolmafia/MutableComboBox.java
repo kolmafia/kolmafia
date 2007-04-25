@@ -89,20 +89,25 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		super.setSelectedItem( anObject );
 		currentMatch = anObject;
 
-		if ( anObject != null )
-			currentName = anObject.toString();
+		if ( anObject == null )
+			return;
+
+		currentName = anObject.toString();
+		filter.deactivate();
+		model.applyListFilter( filter );
 	}
 
 	private void updateFilter()
 	{
+		filter.activate();
 		filter.makeStrict();
 		model.applyListFilter( filter );
 
-		if ( model.getSize() == 0 )
-		{
-			filter.makeFuzzy();
-			model.applyListFilter( filter );
-		}
+		if ( model.getSize() != 0 )
+			return;
+
+		filter.makeFuzzy();
+		model.applyListFilter( filter );
 	}
 
 	public synchronized void findMatch( int keyCode )
@@ -116,9 +121,6 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 		if ( model.contains( currentName ) )
 		{
-			if ( !allowAdditions )
-				updateFilter();
-
 			setSelectedItem( currentName );
 			return;
 		}
@@ -183,11 +185,13 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		public final void focusGained( FocusEvent e )
 		{
 			getEditor().selectAll();
-			findMatch( KeyEvent.VK_DELETE );
 		}
 
 		public final void focusLost( FocusEvent e )
 		{
+			if ( isPopupVisible() )
+				return;
+
 			if ( currentName == null || currentName.trim().length() == 0 )
 				return;
 
@@ -200,7 +204,16 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 	public class WordBasedFilter extends ListElementFilter
 	{
+		private boolean active = true;
 		private boolean strict = true;
+
+		public void activate()
+		{	active = true;
+		}
+
+		public void deactivate()
+		{	active = false;
+		}
 
 		public void makeStrict()
 		{	strict = true;
@@ -212,6 +225,9 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 
 		public boolean isVisible( Object element )
 		{
+			if ( !active )
+				return true;
+
 			// If it's not a result, then check to see if you need to
 			// filter based on its string form.
 
