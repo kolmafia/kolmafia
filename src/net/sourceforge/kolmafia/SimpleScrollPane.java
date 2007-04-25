@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 import javax.swing.text.JTextComponent;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -64,7 +65,10 @@ public class SimpleScrollPane extends JScrollPane implements KoLConstants
 		setOpaque( true );
 
 		if ( view instanceof JList )
-			((JList)view).setFont( DEFAULT_FONT );
+		{
+			if ( StaticEntity.getProperty( "swingLookAndFeel" ).equals( UIManager.getCrossPlatformLookAndFeelClassName() ) )
+				((JList)view).setFont( DEFAULT_FONT );
+		}
 		else if ( !(view instanceof JTextComponent) )
 			this.getVerticalScrollBar().setUnitIncrement( 30 );
 	}

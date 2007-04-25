@@ -601,9 +601,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( !PERMIT_METHOD[ COOK ] )
 		{
-			PERMIT_METHOD[ COOK ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
+			PERMIT_METHOD[ COOK ] = KoLCharacter.canInteract() && getBooleanProperty( "autoRepairBoxes" ) && getBooleanProperty( "autoSatisfyWithMall" );
 
-			if ( !PERMIT_METHOD[ COOK ] )
+			if ( !PERMIT_METHOD[ COOK ] && getBooleanProperty( "createWithoutBoxServants" ) )
 			{
 				PERMIT_METHOD[ COOK ] = !KoLCharacter.canInteract() && (inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000);
 				ADVENTURE_USAGE[ COOK ] = 1;
@@ -630,9 +630,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( !PERMIT_METHOD[ MIX ] )
 		{
-			PERMIT_METHOD[ MIX ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
+			PERMIT_METHOD[ MIX ] = KoLCharacter.canInteract() && getBooleanProperty( "autoRepairBoxes" ) && getBooleanProperty( "autoSatisfyWithMall" );
 
-			if ( !PERMIT_METHOD[ MIX ] )
+			if ( !PERMIT_METHOD[ MIX ] && getBooleanProperty( "createWithoutBoxServants" ) )
 			{
 				PERMIT_METHOD[ MIX ] = !KoLCharacter.canInteract() && (inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000);
 				ADVENTURE_USAGE[ MIX ] = 1;

@@ -379,13 +379,15 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 			RequestThread.openRequestSequence();
 
-			FlowerHunterRequest request = new FlowerHunterRequest( "",
+			FlowerHunterRequest request = new FlowerHunterRequest();
+			RequestThread.postRequest( request );
+
+			request = new FlowerHunterRequest( "",
 				stanceSelect.getSelectedIndex() + 1, mission, winMessage.getText(), lossMessage.getText() );
 
 			for ( int i = 0; i < selection.length && KoLmafia.permitsContinue() && KoLCharacter.getAttacksLeft() > 0; ++i )
 			{
-				int preFightRank = KoLCharacter.getPvpRank();
-				if ( preFightRank - 50 > selection[i].getPvpRank().intValue() )
+				if ( KoLCharacter.getPvpRank() - 50 > selection[i].getPvpRank().intValue() )
 					continue;
 
 				if ( StaticEntity.getProperty( "currentPvpVictories" ).indexOf( selection[i].getPlayerName() ) != -1 )
@@ -395,17 +397,18 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				request.setTarget( selection[i].getPlayerName() );
 				RequestThread.postRequest( request );
 
-				if ( preFightRank > KoLCharacter.getPvpRank() )
-					i = 0;
+				if ( request.responseText.indexOf( "Your PvP Ranking decreased by" ) != -1 )
+					KoLmafia.updateDisplay( ERROR_STATE, "You lost to " + selection[i].getPlayerName() + "." );
 				else
 					StaticEntity.setProperty( "currentPvpVictories", StaticEntity.getProperty( "currentPvpVictories" ) + selection[i].getPlayerName() + "," );
 
 				updateRank();
 			}
 
-			KoLmafia.updateDisplay( "Attacks completed." );
-			RequestThread.closeRequestSequence();
+			if ( KoLmafia.permitsContinue() )
+				KoLmafia.updateDisplay( "Attacks completed." );
 
+			RequestThread.closeRequestSequence();
 			switchToSearch();
 		}
 
