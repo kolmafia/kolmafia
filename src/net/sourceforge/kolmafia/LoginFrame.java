@@ -402,6 +402,7 @@ public class LoginFrame extends KoLFrame
 			elements[2] = new VerifiableElement();
 
 			setContent( elements );
+			actionCancelled();
 		}
 
 		public void actionConfirmed()
