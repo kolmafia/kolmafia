@@ -399,7 +399,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
 			toolbarPanel.add( new InvocationButton( "Radio KoL", "radsword.gif", StaticEntity.getClient(), "launchRadioKoL" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Farmer's Almanac", "hourglass.gif", "CalendarFrame" ) );
+			toolbarPanel.add( new DisplayFrameButton( "Farmer's Almanac", "calendar.gif", "CalendarFrame" ) );
 			toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", "OptionsFrame" ) );
 
 			toolbarPanel.add( Box.createVerticalStrut( 50 ) );

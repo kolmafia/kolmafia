@@ -161,14 +161,8 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		ActionConfirmListener listener = new ActionConfirmListener();
 
 		for ( int i = 0; i < elements.length; ++i )
-		{
-			if ( elements[i].getInputField() instanceof MutableComboBox )
-				((MutableComboBox)elements[i].getInputField()).getEditor().getEditorComponent().addKeyListener( listener );
-			else if ( elements[i].getInputField() instanceof JComboBox )
-				((JComboBox)elements[i].getInputField()).addKeyListener( listener );
-			else if ( elements[i].getInputField() instanceof JTextField )
+			if ( elements[i].getInputField() instanceof JTextField )
 				((JTextField)elements[i].getInputField()).addKeyListener( listener );
-		}
 
 		addStatusLabel();
 	}
