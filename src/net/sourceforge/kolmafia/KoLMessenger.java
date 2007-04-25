@@ -829,6 +829,9 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static boolean isGreenMessage( String message )
 	{
+		if ( message.indexOf( ":" ) != -1 )
+			return false;
+
 		return message.startsWith( "<a target=mainpane href=\"messages.php\">" ) || message.indexOf( "have been attacked" ) != -1 ||
 			message.indexOf( "has proposed a trade" ) != -1 || message.indexOf( "has cancelled a trade" ) != -1 ||
 			message.indexOf( "has responded to a trade" ) != -1 || message.indexOf( "has declined a trade" ) != -1 ||
