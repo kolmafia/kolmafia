@@ -1030,19 +1030,25 @@ public abstract class KoLmafia implements KoLConstants
 	 * and if not, calls the appropriate scripts to do so.
 	 */
 
-	private final boolean recover( int desired, String settingName, String currentName, String maximumName, Object [] techniques ) throws Exception
+	private final boolean recover( float desired, String settingName, String currentName, String maximumName, Object [] techniques ) throws Exception
 	{
 		// First, check for beaten up, if the person has tongue as an
 		// auto-heal option.  This takes precedence over all other checks.
 
 		String restoreSetting = StaticEntity.getProperty( settingName + "Items" ).trim().toLowerCase();
 
-		if ( restoreSetting.indexOf( "tongue" ) != -1 && activeEffects.contains( KoLAdventure.BEATEN_UP ) )
+		if ( activeEffects.contains( KoLAdventure.BEATEN_UP ) )
 		{
 			if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
 				RequestThread.postRequest( UseSkillRequest.getInstance( "Tongue of the Walrus", 1 ) );
 			else if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
 				RequestThread.postRequest( UseSkillRequest.getInstance( "Tongue of the Otter", 1 ) );
+			else if ( KoLCharacter.hasItem( UneffectRequest.FOREST_TEARS ) )
+				RequestThread.postRequest( new ConsumeItemRequest( UneffectRequest.FOREST_TEARS ) );
+			else if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) )
+				RequestThread.postRequest( new ConsumeItemRequest( UneffectRequest.TINY_HOUSE ) );
+			else if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
+				RequestThread.postRequest( new UneffectRequest( KoLAdventure.BEATEN_UP ) );
 		}
 
 		// Next, check against the restore needed to see if
@@ -1059,7 +1065,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( setting < 0.0f && desired == 0 )
 			return true;
 
-		int current = ((Number)currentMethod.invoke( null, empty )).intValue();
+		float current = ((Number)currentMethod.invoke( null, empty )).floatValue();
 
 		// If you've already reached the desired value, don't
 		// bother restoring.
@@ -1067,23 +1073,20 @@ public abstract class KoLmafia implements KoLConstants
 		if ( desired != 0 && current >= desired )
 			return true;
 
-		int maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
-		int needed = Math.min( maximum, Math.max( desired - 1, (int) (setting * ((float) maximum)) ) );
+		float maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
+		float needed = Math.min( maximum, Math.max( desired, setting * maximum + 1.0f ) );
 
-		if ( desired == 0 && current > needed )
+		if ( current >= needed )
 			return true;
 
 		// Next, check against the restore target to see how
 		// far you need to go.
 
 		setting = StaticEntity.getFloatProperty( settingName + "Target" );
-		desired = Math.min( maximum, Math.max( desired, (int) (setting * ((float) maximum)) ) );
+		desired = Math.min( maximum, Math.max( desired, setting * maximum ) );
 
 		if ( BuffBotHome.isBuffBotActive() || desired > maximum )
 			desired = maximum;
-
-		if ( current > needed )
-			return true;
 
 		// If it gets this far, then you should attempt to recover
 		// using the selected items.  This involves a few extra
@@ -1092,7 +1095,7 @@ public abstract class KoLmafia implements KoLConstants
 		String currentTechniqueName;
 
 		// Determine all applicable items and skills for the restoration.
-		// This is a little bit memory intensive, but it allows for a lot
+		// This is a little bit memory floatensive, but it allows for a lot
 		// more flexibility.
 
 		ArrayList possibleItems = new ArrayList();
@@ -1124,26 +1127,25 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !possibleSkills.isEmpty() )
 			Collections.sort( possibleSkills );
 
-		int last = -1;
+		float last = -1;
 
 		// Iterate through every restore item which is already available
 		// in the player's inventory.
 
-		for ( int i = 0; i < possibleItems.size() && current <= needed; ++i )
+		for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
 		{
 			do
 			{
 				last = current;
 				currentTechniqueName = possibleItems.get(i).toString().toLowerCase();
 
-				recoverOnce( possibleItems.get(i), currentTechniqueName, desired, false );
-				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+				recoverOnce( possibleItems.get(i), currentTechniqueName, (int) desired, false );
+				current = ((Number)currentMethod.invoke( null, empty )).floatValue();
 
-				maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
+				maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
 				desired = Math.min( maximum, desired );
-				needed = Math.min( maximum, needed );
 			}
-			while ( last != current && current <= needed );
+			while ( last != current && current < needed );
 		}
 
 		if ( refusesContinue() )
@@ -1152,21 +1154,20 @@ public abstract class KoLmafia implements KoLConstants
 		// Next, move onto things which are not items (skills), and
 		// prefer them over purchasing items.
 
-		for ( int i = 0; i < possibleSkills.size() && current <= needed; ++i )
+		for ( int i = 0; i < possibleSkills.size() && current < needed; ++i )
 		{
 			do
 			{
 				last = current;
 				currentTechniqueName = possibleSkills.get(i).toString().toLowerCase();
 
-				recoverOnce( possibleSkills.get(i), currentTechniqueName, desired, true );
-				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+				recoverOnce( possibleSkills.get(i), currentTechniqueName, (int) desired, true );
+				current = ((Number)currentMethod.invoke( null, empty )).floatValue();
 
-				maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
+				maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
 				desired = Math.min( maximum, desired );
-				needed = Math.min( maximum, needed );
 			}
-			while ( last != current && current <= needed );
+			while ( last != current && current < needed );
 		}
 
 		if ( refusesContinue() )
@@ -1177,24 +1178,23 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( StaticEntity.getBooleanProperty( "autoBuyRestores" ) )
 		{
-			for ( int i = 0; i < possibleItems.size() && current <= needed; ++i )
+			for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
 			{
 				do
 				{
 					last = current;
 					currentTechniqueName = possibleItems.get(i).toString().toLowerCase();
 
-					recoverOnce( possibleItems.get(i), currentTechniqueName, desired, true );
-					current = ((Number)currentMethod.invoke( null, empty )).intValue();
+					recoverOnce( possibleItems.get(i), currentTechniqueName, (int) desired, true );
+					current = ((Number)currentMethod.invoke( null, empty )).floatValue();
 
-					maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
+					maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
 					desired = Math.min( maximum, desired );
-					needed = Math.min( maximum, needed );
 				}
-				while ( last != current && current <= needed );
+				while ( last != current && current < needed );
 			}
 		}
-		else if ( current <= needed )
+		else if ( current < needed )
 		{
 			updateDisplay( ERROR_STATE, "You ran out of restores." );
 			return false;
@@ -1206,7 +1206,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return false;
 
-		if ( current <= needed )
+		if ( current < needed )
 		{
 			updateDisplay( ERROR_STATE, "Autorecovery failed." );
 			return false;
@@ -2894,11 +2894,11 @@ public abstract class KoLmafia implements KoLConstants
 		// Now, run the built-in behavior to take care of
 		// any loose ends.
 
-		if ( isMoodCheck )
-			MoodSettings.execute();
-
 		if ( isHealthCheck )
 			recoverHP();
+
+		if ( isMoodCheck )
+			MoodSettings.execute();
 
 		if ( isManaCheck )
 			recoverMP();

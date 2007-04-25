@@ -348,15 +348,25 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 	public void saveRestoreSettings()
 	{
-		StaticEntity.setProperty( "autoAbortThreshold", String.valueOf( ((float)(hpHaltCombatSelect.getSelectedIndex() - 1) / 20.0f) ) );
-		StaticEntity.setProperty( "hpAutoRecovery", String.valueOf( ((float)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 20.0f) ) );
-		StaticEntity.setProperty( "hpAutoRecoveryTarget", String.valueOf( ((float)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 20.0f) ) );
+		StaticEntity.setProperty( "autoAbortThreshold", getPercentage( hpHaltCombatSelect ) );
+		StaticEntity.setProperty( "hpAutoRecovery", getPercentage( hpAutoRecoverSelect ) );
+		StaticEntity.setProperty( "hpAutoRecoveryTarget", getPercentage( hpAutoRecoverTargetSelect ) );
 		StaticEntity.setProperty( "hpAutoRecoveryItems", getSettingString( hpRestoreCheckbox ) );
 
-		StaticEntity.setProperty( "manaBurningThreshold", String.valueOf( ((float)(mpBalanceSelect.getSelectedIndex() - 1) / 20.0f) ) );
-		StaticEntity.setProperty( "mpAutoRecovery", String.valueOf( ((float)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 20.0f) ) );
-		StaticEntity.setProperty( "mpAutoRecoveryTarget", String.valueOf( ((float)(mpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 20.0f) ) );
+		StaticEntity.setProperty( "manaBurningThreshold", getPercentage( mpBalanceSelect ) );
+		StaticEntity.setProperty( "mpAutoRecovery", getPercentage( mpAutoRecoverSelect ) );
+		StaticEntity.setProperty( "mpAutoRecoveryTarget", getPercentage( mpAutoRecoverTargetSelect ) );
 		StaticEntity.setProperty( "mpAutoRecoveryItems", getSettingString( mpRestoreCheckbox ) );
+	}
+
+	private static String getPercentage( JComboBox option )
+	{	return String.valueOf( (option.getSelectedIndex() - 1) / 20.0f );
+	}
+
+	private static void setSelectedIndex( JComboBox option, String property )
+	{
+		int desiredIndex = (int) ((StaticEntity.getFloatProperty( property ) * 20.0f) + 1);
+		option.setSelectedIndex( Math.min( Math.max( desiredIndex, 0 ), option.getItemCount() ) );
 	}
 
 	public class CheckboxListener implements ActionListener
@@ -384,7 +394,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			hpAutoRecoverTargetSelect = new JComboBox();
 			hpAutoRecoverTargetSelect.addItem( "Do not automatically recover health" );
-			for ( int i = 1; i <= 20; ++i )
+			for ( int i = 0; i <= 20; ++i )
 				hpAutoRecoverTargetSelect.addItem( "Try to recover up to " + (i*5) + "% health" );
 
 			// Add the elements to the panel
@@ -398,9 +408,9 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			add( constructLabelPair( "Use these restores: ", constructScroller( hpRestoreCheckbox = HPRestoreItemList.getCheckboxes() ) ) );
 
-			hpHaltCombatSelect.setSelectedIndex( Math.max( (int)(StaticEntity.getFloatProperty( "hpThreshold" ) * 20) + 1, 0 ) );
-			hpAutoRecoverSelect.setSelectedIndex( Math.max( (int)(StaticEntity.getFloatProperty( "hpAutoRecovery" ) * 20) + 1, 0 ) );
-			hpAutoRecoverTargetSelect.setSelectedIndex( Math.max( (int)(StaticEntity.getFloatProperty( "hpAutoRecoveryTarget" ) * 20), 0 ) );
+			setSelectedIndex( hpHaltCombatSelect, "hpThreshold" );
+			setSelectedIndex( hpAutoRecoverSelect, "hpAutoRecovery" );
+			setSelectedIndex( hpAutoRecoverTargetSelect, "hpAutoRecoveryTarget" );
 
 			hpHaltCombatSelect.addActionListener( this );
 			hpAutoRecoverSelect.addActionListener( this );
@@ -431,7 +441,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			mpAutoRecoverTargetSelect = new JComboBox();
 			mpAutoRecoverTargetSelect.addItem( "Do not automatically recover mana" );
-			for ( int i = 1; i <= 20; ++i )
+			for ( int i = 0; i <= 20; ++i )
 				mpAutoRecoverTargetSelect.addItem( "Try to recover up to " + (i*5) + "% mana" );
 
 			// Add the elements to the panel
@@ -446,9 +456,9 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			add( constructLabelPair( "Use these restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) ) );
 
-			mpBalanceSelect.setSelectedIndex( Math.max( (int)(StaticEntity.getFloatProperty( "manaBurningThreshold" ) * 20) + 1, 0 ) );
-			mpAutoRecoverSelect.setSelectedIndex( Math.max( (int)(StaticEntity.getFloatProperty( "mpAutoRecovery" ) * 20) + 1, 0 ) );
-			mpAutoRecoverTargetSelect.setSelectedIndex( Math.max( (int)(StaticEntity.getFloatProperty( "mpAutoRecoveryTarget" ) * 20), 0 ) );
+			setSelectedIndex( mpBalanceSelect, "manaBurningThreshold" );
+			setSelectedIndex( mpAutoRecoverSelect, "mpAutoRecovery" );
+			setSelectedIndex( mpAutoRecoverTargetSelect, "mpAutoRecoveryTarget" );
 
 			mpBalanceSelect.addActionListener( this );
 			mpAutoRecoverSelect.addActionListener( this );
