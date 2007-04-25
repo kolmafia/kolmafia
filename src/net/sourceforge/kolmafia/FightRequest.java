@@ -97,6 +97,7 @@ public class FightRequest extends KoLRequest
 	private static final AdventureResult BROKEN_SPEAR = new AdventureResult( 1931, -1 );
 	private static final AdventureResult BROKEN_SHIELD = new AdventureResult( 1932, -1 );
 
+	private static final String ANTIDOTE_ACTION = "item" + ANTIDOTE.getItemId();
 	private static final String TOOTH_ACTION = "item" + TOOTH.getItemId();
 	private static final String TURTLE_ACTION = "item" + TURTLE.getItemId();
 	private static final String SPICES_ACTION = "item" + SPICES.getItemId();
@@ -269,6 +270,14 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
+		// Check to see if the player is poisoned, if
+		// they happen to have antidote in their inventory
+
+		if ( inventory.contains( ANTIDOTE ) )
+			for ( int i = 0; i < activeEffects.size(); ++i )
+				if ( ((AdventureResult)activeEffects.get(i)).getName().indexOf( "Poison" ) != -1 )
+					action1 = ANTIDOTE_ACTION;
+
 		// Actually steal if the action says to steal
 
 		if ( action1.startsWith( "steal" ) )
@@ -320,7 +329,7 @@ public class FightRequest extends KoLRequest
 				if ( KoLCharacter.getFamiliar().isCombatRestoreFamiliar() && !hasActionCost( itemId ) )
 				{
 				}
-				else if ( itemCount >= 2 && itemId != DICTIONARY1.getItemId() && itemId != DICTIONARY2.getItemId() )
+				else if ( itemCount >= 2 && itemId != ANTIDOTE.getItemId() && itemId != DICTIONARY1.getItemId() && itemId != DICTIONARY2.getItemId() )
 				{
 					action2 = action1;
 					addFormField( "whichitem2", String.valueOf( itemId ) );
