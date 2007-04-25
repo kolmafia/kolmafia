@@ -285,6 +285,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 				return;
 
 			scriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
+			actionConfirmed();
 		}
 	}
 
