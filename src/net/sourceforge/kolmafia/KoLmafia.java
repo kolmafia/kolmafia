@@ -562,34 +562,40 @@ public abstract class KoLmafia implements KoLConstants
 		if ( checkCampground )
 		{
 			if ( KoLCharacter.hasToaster() )
+			{
 				for ( int i = 0; i < 3 && permitsContinue(); ++i )
 					RequestThread.postRequest( new CampgroundRequest( "toast" ) );
 
-			forceContinue();
+				forceContinue();
+			}
 
 			if ( KoLCharacter.hasArches() )
+			{
 				RequestThread.postRequest( new CampgroundRequest( "arches" ) );
-
-			forceContinue();
+				forceContinue();
+			}
 
 			if ( StaticEntity.getBooleanProperty( "visitRumpus" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
+			{
 				RequestThread.postRequest( new ClanGymRequest( ClanGymRequest.SEARCH ) );
-
-			forceContinue();
+				forceContinue();
+			}
 
 			if ( StaticEntity.getBooleanProperty( "readManual" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
 			{
 				AdventureResult manual = KoLCharacter.isMuscleClass() ? MANUAL_1 : KoLCharacter.isMysticalityClass() ? MANUAL_2 : MANUAL_3;
 				if ( KoLCharacter.hasItem( manual ) )
 					RequestThread.postRequest( new ConsumeItemRequest( manual ) );
-			}
 
-			forceContinue();
+				forceContinue();
+			}
 
 			if ( StaticEntity.getBooleanProperty( "grabClovers" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) )
 			{
 				if ( HermitRequest.getWorthlessItemCount() > 0 )
 					DEFAULT_SHELL.executeLine( "hermit * ten-leaf clover" );
+
+				forceContinue();
 			}
 		}
 
