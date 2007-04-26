@@ -3481,15 +3481,6 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { FAMILIAR_TYPE };
 		result.addElement( new ScriptExistingFunction( "familiar_weight", INT_TYPE, params ) );
 
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_base_attack", INT_TYPE, params ) );
-
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_base_defense", INT_TYPE, params ) );
-
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_base_hp", INT_TYPE, params ) );
-
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "weapon_hands", INT_TYPE, params ) );
 
@@ -3761,6 +3752,42 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "current_hit_stat", STAT_TYPE, params ) );
+
+		params = new ScriptType[] { MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "monster_base_attack", INT_TYPE, params ) );
+
+		params = new ScriptType[] { MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "monster_base_defense", INT_TYPE, params ) );
+
+		params = new ScriptType[] { MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "monster_base_hp", INT_TYPE, params ) );
+
+		params = new ScriptType[] { MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "monster_attack_element", ELEMENT_TYPE, params ) );
+
+		params = new ScriptType[] { MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "monster_defense_element", ELEMENT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "monster_attack", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "monster_defense", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "monster_hp", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "monster_attack_element", ELEMENT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "monster_defense_element", ELEMENT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "will_usually_miss", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "will_usually_dodge", BOOLEAN_TYPE, params ) );
 
 		return result;
 	}
@@ -5301,24 +5328,6 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( KoLCharacter.hasEquipped( new AdventureResult( item.intValue(), 1 ) ) );
 		}
 
-		public ScriptValue monster_base_attack( ScriptVariable arg )
-		{
-			Monster monster = (Monster) arg.rawValue();
-			return new ScriptValue( monster.getAttack() );
-		}
-
-		public ScriptValue monster_base_defense( ScriptVariable arg )
-		{
-			Monster monster = (Monster) arg.rawValue();
-			return new ScriptValue( monster.getDefense() );
-		}
-
-		public ScriptValue monster_base_hp( ScriptVariable arg )
-		{
-			Monster monster = (Monster) arg.rawValue();
-			return new ScriptValue( monster.getHP() );
-		}
-
 		public ScriptValue weapon_hands( ScriptVariable item )
 		{	return new ScriptValue( EquipmentDatabase.getHands( item.intValue() ) );
 		}
@@ -6041,6 +6050,70 @@ public class KoLmafiaASH extends StaticEntity
 			if ( KoLCharacter.rangedWeapon() )
 				return parseStatValue( "moxie" );
 			return parseStatValue( "muscle" );
+		}
+
+		public ScriptValue monster_base_attack( ScriptVariable arg )
+		{
+			Monster monster = (Monster) arg.rawValue();
+			return new ScriptValue( monster.getAttack() );
+		}
+
+		public ScriptValue monster_base_defense( ScriptVariable arg )
+		{
+			Monster monster = (Monster) arg.rawValue();
+			return new ScriptValue( monster.getDefense() );
+		}
+
+		public ScriptValue monster_base_hp( ScriptVariable arg )
+		{
+			Monster monster = (Monster) arg.rawValue();
+			return new ScriptValue( monster.getHP() );
+		}
+
+		public ScriptValue monster_attack_element( ScriptVariable arg )
+		{
+			Monster monster = (Monster) arg.rawValue();
+			int element = monster.getAttackElement();
+			return new ScriptValue( ELEMENT_TYPE, element, MonsterDatabase.elementNames[element] );
+		}
+
+		public ScriptValue monster_defense_element( ScriptVariable arg )
+		{
+			Monster monster = (Monster) arg.rawValue();
+			int element = monster.getDefenseElement();
+			return new ScriptValue( ELEMENT_TYPE, element, MonsterDatabase.elementNames[element] );
+		}
+
+		public ScriptValue monster_attack()
+		{	return new ScriptValue( FightRequest.getMonsterAttack() );
+		}
+
+		public ScriptValue monster_defense()
+		{	return new ScriptValue( FightRequest.getMonsterDefense() );
+		}
+
+		public ScriptValue monster_hp()
+		{	return new ScriptValue( FightRequest.getMonsterHealth() );
+		}
+
+		public ScriptValue monster_attack_element()
+		{
+			int element = FightRequest.getMonsterAttackElement();
+			return new ScriptValue( ELEMENT_TYPE, element, MonsterDatabase.elementNames[element] );
+		}
+
+		public ScriptValue monster_defense_element()
+		{
+			int element = FightRequest.getMonsterDefenseElement();
+			return new ScriptValue( ELEMENT_TYPE, element, MonsterDatabase.elementNames[element] );
+		}
+
+		public ScriptValue will_usually_dodge()
+		{	return FightRequest.willUsuallyDodge() ? TRUE_VALUE : FALSE_VALUE;
+		}
+
+		public ScriptValue will_usually_miss()
+		{	return FightRequest.willUsuallyMiss() ? TRUE_VALUE : FALSE_VALUE;
 		}
 	}
 
