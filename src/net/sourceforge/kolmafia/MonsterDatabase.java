@@ -420,7 +420,7 @@ public class MonsterDatabase extends KoLDatabase
 			// If the player has an acceptable dodge rate or
 			// then steal anything.
 
-			if ( hasAcceptableDodgeRate( 0 ) )
+			if ( willUsuallyDodge( 0 ) )
 				return shouldSteal( items );
 
 			// Otherwise, only steal from monsters that drop
@@ -552,7 +552,7 @@ public class MonsterDatabase extends KoLDatabase
 		{	return willUsuallyMiss( 0 );
 		}
 
-		public boolean hasAcceptableDodgeRate( int offenseModifier )
+		public boolean willUsuallyDodge( int offenseModifier )
 		{
 			int ml = KoLCharacter.getMonsterLevelAdjustment() + offenseModifier;
 			int dodgeRate = KoLCharacter.getAdjustedMoxie() - (attack + ml) - 6;

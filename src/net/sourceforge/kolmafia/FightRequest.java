@@ -487,16 +487,73 @@ public class FightRequest extends KoLRequest
 		RequestThread.closeRequestSequence();
 	}
 
+	public static int getMonsterHealth()
+	{	return monsterData.getAdjustedHP( KoLCharacter.getMonsterLevelAdjustment() ) - healthModifier;
+	}
+
+	public static int getMonsterAttack()
+	{
+		if ( monsterData == null )
+			return 0;
+
+		return monsterData.getAttack() + FightRequest.offenseModifier;
+	}
+
+	public static int getMonsterDefense()
+	{
+		if ( monsterData == null )
+			return 0;
+
+		return monsterData.getDefense() + FightRequest.defenseModifier;
+	}
+
+	public static int getMonsterAttackElement()
+	{
+		if ( monsterData == null )
+			return MonsterDatabase.NONE;
+
+		return monsterData.getAttackElement();
+	}
+
+	public static int getMonsterDefenseElement()
+	{
+		if ( monsterData == null )
+			return MonsterDatabase.NONE;
+
+		return monsterData.getDefenseElement();
+	}
+
+	public static boolean willUsuallyMiss()
+	{	return willUsuallyMiss(0);
+	}
+
+	public static boolean willUsuallyMiss( int defenseModifier )
+	{
+		if ( monsterData == null )
+			return false;
+
+		return monsterData.willUsuallyMiss( FightRequest.defenseModifier + defenseModifier );
+	}
+
+	public static boolean willUsuallyDodge()
+	{	return willUsuallyDodge(0);
+	}
+
+	public static boolean willUsuallyDodge( int offenseModifier )
+	{
+		if ( monsterData == null )
+			return false;
+
+		return monsterData.willUsuallyDodge( FightRequest.offenseModifier + offenseModifier );
+	}
+
 	private boolean isAcceptable( int offenseModifier, int defenseModifier )
 	{
 		if ( monsterData == null )
 			return true;
 
-		if ( monsterData.willUsuallyMiss( FightRequest.defenseModifier + defenseModifier ) )
+		if ( willUsuallyMiss() || willUsuallyDodge() )
 			return false;
-
-		if ( monsterData.hasAcceptableDodgeRate( FightRequest.offenseModifier + offenseModifier ) )
-			return true;
 
 		return KoLmafia.getRestoreCount() == 0;
 	}
