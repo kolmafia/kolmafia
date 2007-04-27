@@ -112,6 +112,7 @@ public class FightRequest extends KoLRequest
 	private static String action2 = null;
 	private static Monster monsterData = null;
 	private static String encounterLookup = "";
+	private static Monster searchMonster = null;
 
 	// Ultra-rare monsters
 	private static final String [] RARE_MONSTERS = { "baiowulf", "crazy bastard", "hockey elemental", "hypnotist of hey deze", "infinite meat bug", "master of thieves", "temporal bandit" };
@@ -125,6 +126,14 @@ public class FightRequest extends KoLRequest
 
 	private FightRequest()
 	{	super( "fight.php" );
+	}
+
+	public static void searchForMonster( Monster possible )
+	{
+		if ( !conditions.isEmpty() && conditions.get(0) instanceof Monster )
+			conditions.remove(0);
+
+		searchMonster = possible;
 	}
 
 	public static boolean wonInitiative()
@@ -480,7 +489,7 @@ public class FightRequest extends KoLRequest
 		}
 		while ( currentRound != 0 && KoLmafia.permitsContinue() );
 
-		if ( !KoLmafia.permitsContinue() )
+		if ( KoLmafia.refusesContinue() && currentRound != 0 )
 			showInBrowser( true );
 
 		isAutomatingFight = false;
@@ -705,7 +714,22 @@ public class FightRequest extends KoLRequest
 		payActionCost();
 
 		if ( currentRound == 1 )
+		{
+			// If this is the first round, then register the opponent
+			// you are fighting against.
+
+			encounterLookup = CombatSettings.encounterKey( encounter );
+			monsterData = MonsterDatabase.findMonster( encounter );
+
+			if ( searchMonster != null && monsterData != null && searchMonster.equals( monsterData ) )
+			{
+				KoLmafia.updateDisplay( PENDING_STATE, searchMonster + "has been found." );
+				searchMonster = null;
+				conditions.clear();
+			}
+
 			checkForInitiative( responseText );
+		}
 
 		int blindIndex = responseText.indexOf( "... something.</div>" );
 
@@ -768,15 +792,6 @@ public class FightRequest extends KoLRequest
 		{
 			clearInstanceData();
 			return;
-		}
-
-		// If this is the first round, then register the opponent
-		// you are fighting against.
-
-		if ( currentRound == 1 )
-		{
-			encounterLookup = CombatSettings.encounterKey( encounter );
-			monsterData = MonsterDatabase.findMonster( encounter );
 		}
 	}
 

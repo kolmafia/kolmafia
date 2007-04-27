@@ -54,7 +54,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	private int itemId;
 	private int [] count;
-	private String name;
+	protected String name;
 	private int priority;
 
 	private static final int NO_PRIORITY = 0;
@@ -64,6 +64,8 @@ public class AdventureResult implements Comparable, KoLConstants
 	private static final int FULLSTAT_PRIORITY = 4;
 	private static final int ITEM_PRIORITY = 5;
 	private static final int EFFECT_PRIORITY = 6;
+
+	protected static final int MONSTER_PRIORITY = -1;
 
 	public static final String HP = "HP";
 	public static final String MP = "MP";
@@ -91,8 +93,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name.
-	 * The amount of gain will default to zero.  This constructor should
-	 * only be used for initializing a field.
+	 * The amount of gain will default to zero.
 	 *
 	 * @param	name	The name of the result
 	 */
@@ -106,6 +107,21 @@ public class AdventureResult implements Comparable, KoLConstants
 			name.equals(HP) || name.equals(MP) || name.equals(DRUNK) ? NO_PRIORITY :
 			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY : name.equals(FULLSTATS) ? FULLSTAT_PRIORITY :
 			StatusEffectDatabase.contains( name ) ? EFFECT_PRIORITY : ITEM_PRIORITY;
+
+		if ( this.priority == EFFECT_PRIORITY )
+			normalizeEffectName();
+		else if ( this.priority == ITEM_PRIORITY )
+			normalizeItemName();
+
+	}
+
+	protected AdventureResult( int subType, String name )
+	{
+		this.name = name;
+		this.count = new int[1];
+		this.count[0] = 1;
+
+		this.priority = subType;
 
 		if ( this.priority == EFFECT_PRIORITY )
 			normalizeEffectName();
@@ -413,7 +429,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( name.equals(SUBSTATS) || name.equals(FULLSTATS) )
 			return " " + name + ": " + COMMA_FORMAT.format(count[0]) + " / " + COMMA_FORMAT.format(count[1]) + " / " + COMMA_FORMAT.format(count[2]);
 
-		if ( priority == ITEM_PRIORITY && count[0] == 1 )
+		if ( priority == MONSTER_PRIORITY || (priority == ITEM_PRIORITY && count[0] == 1) )
 			return name;
 
 		return name + " (" + COMMA_FORMAT.format(count[0]) + ")";

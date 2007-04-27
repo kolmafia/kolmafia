@@ -51,6 +51,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.SwingUtilities;
 import jline.ConsoleReader;
+import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 
 public class KoLmafiaCLI extends KoLmafia
 {
@@ -867,7 +868,7 @@ public class KoLmafiaCLI extends KoLmafia
 				color = parameters.substring( 0, spaceIndex ).replaceAll( "[\">]", "" );
 
 			parameters = parameters.substring( spaceIndex + 1 );
-			updateDisplay( "<font color=\"" + color + "\">" + StaticEntity.globalStringReplace( parameters, "<", "&lt;" ) + "</font>" );
+			RequestLogger.printLine( "<font color=\"" + color + "\">" + StaticEntity.globalStringReplace( parameters, "<", "&lt;" ) + "</font>" );
 
 			return;
 		}
@@ -877,7 +878,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.equalsIgnoreCase( "timestamp" ) )
 				parameters = MoonPhaseDatabase.getCalendarDayAsString( new Date() );
 
-			updateDisplay( StaticEntity.globalStringReplace( parameters, "<", "&lt;" ) );
+			RequestLogger.printLine( StaticEntity.globalStringReplace( parameters, "<", "&lt;" ) );
 			return;
 		}
 
@@ -2781,9 +2782,14 @@ public class KoLmafiaCLI extends KoLmafia
 			// Otherwise, it's an item or status-effect condition, so parse
 			// out which item or effect is desired and set that as the condition.
 
-			condition = getFirstMatchingItem( conditionString );
-			if ( condition == null )
-				return null;
+			condition = MonsterDatabase.findMonster( conditionString );
+			if ( condition != null )
+			{
+				FightRequest.searchForMonster( (Monster) condition );
+				return condition;
+			}
+
+			return getFirstMatchingItem( conditionString );
 		}
 
 		return condition;
