@@ -3754,6 +3754,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "current_hit_stat", STAT_TYPE, params ) );
 
 		params = new ScriptType[] { MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "combat_queue_contains", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { MONSTER_TYPE };
 		result.addElement( new ScriptExistingFunction( "monster_base_attack", INT_TYPE, params ) );
 
 		params = new ScriptType[] { MONSTER_TYPE };
@@ -6062,27 +6065,54 @@ public class KoLmafiaASH extends StaticEntity
 			return parseStatValue( "muscle" );
 		}
 
+		public ScriptValue combat_queue_contains( ScriptVariable arg )
+		{
+			Monster monster = (Monster) arg.rawValue();
+			if ( monster == null )
+				return FALSE_VALUE;
+
+			String monsterName = monster.getName();
+
+			for ( int i = 1; i <= 5; ++i )
+				if ( StaticEntity.getProperty( "monsterQueue" + i ).equalsIgnoreCase( monsterName ) )
+					return TRUE_VALUE;
+
+			return FALSE_VALUE;
+		}
+
 		public ScriptValue monster_base_attack( ScriptVariable arg )
 		{
 			Monster monster = (Monster) arg.rawValue();
+			if ( monster == null )
+				return ZERO_VALUE;
+
 			return new ScriptValue( monster.getAttack() );
 		}
 
 		public ScriptValue monster_base_defense( ScriptVariable arg )
 		{
 			Monster monster = (Monster) arg.rawValue();
+			if ( monster == null )
+				return ZERO_VALUE;
+
 			return new ScriptValue( monster.getDefense() );
 		}
 
 		public ScriptValue monster_base_hp( ScriptVariable arg )
 		{
 			Monster monster = (Monster) arg.rawValue();
+			if ( monster == null )
+				return ZERO_VALUE;
+
 			return new ScriptValue( monster.getHP() );
 		}
 
 		public ScriptValue monster_attack_element( ScriptVariable arg )
 		{
 			Monster monster = (Monster) arg.rawValue();
+			if ( monster == null )
+				return ELEMENT_INIT;
+
 			int element = monster.getAttackElement();
 			return new ScriptValue( ELEMENT_TYPE, element, MonsterDatabase.elementNames[element] );
 		}
@@ -6090,6 +6120,9 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue monster_defense_element( ScriptVariable arg )
 		{
 			Monster monster = (Monster) arg.rawValue();
+			if ( monster == null )
+				return ELEMENT_INIT;
+
 			int element = monster.getDefenseElement();
 			return new ScriptValue( ELEMENT_TYPE, element, MonsterDatabase.elementNames[element] );
 		}
