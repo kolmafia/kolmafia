@@ -620,7 +620,6 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		PLAYER_SETTINGS.put( "assumeInfiniteNPCItems", "true" );
 		PLAYER_SETTINGS.put( "autoAbortThreshold", "-0.1" );
-		PLAYER_SETTINGS.put( "autoRepairBoxes", "true" );
 		PLAYER_SETTINGS.put( "battleAction", "attack with weapon" );
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
 		PLAYER_SETTINGS.put( "breakfastCompleted", "false" );
@@ -629,7 +628,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "candyHeartSummons", "0" );
 		PLAYER_SETTINGS.put( "chatbotScript", "" );
 		PLAYER_SETTINGS.put( "chatbotScriptExecuted", "false" );
-		PLAYER_SETTINGS.put( "createWithoutBoxServants", "false" );
 		PLAYER_SETTINGS.put( "chosenTrip", "" );
 		PLAYER_SETTINGS.put( "cocktailSummons", "0" );
 		PLAYER_SETTINGS.put( "currentFullness", "0" );
@@ -663,6 +661,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "plantingScript", "" );
 		PLAYER_SETTINGS.put( "reagentSummons", "0" );
 		PLAYER_SETTINGS.put( "relayAddsCustomCombat", "true" );
+		PLAYER_SETTINGS.put( "requireBoxServants", "true" );
 		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
 		PLAYER_SETTINGS.put( "showGainsPerUnit", "false" );
 		PLAYER_SETTINGS.put( "snowconeSummons", "0" );
