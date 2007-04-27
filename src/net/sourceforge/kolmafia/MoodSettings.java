@@ -245,10 +245,6 @@ public abstract class MoodSettings implements KoLConstants
 		addTrigger( "gain_effect", "Somewhat Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
 		addTrigger( "gain_effect", "Really Quite Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
 
-		String beatenUpAction = getDefaultAction( "gain_effect", "Beaten Up" );
-		if ( KoLCharacter.canInteract() || beatenUpAction.startsWith( "cast" ) )
-			addTrigger( "gain_effect", "Beaten Up", beatenUpAction );
-
 		// If there's any effects the player currently has and there
 		// is a known way to re-acquire it (internally known, anyway),
 		// make sure to add those as well.

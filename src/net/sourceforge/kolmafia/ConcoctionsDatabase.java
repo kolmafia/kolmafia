@@ -290,6 +290,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 		ArrayList availableIngredients = new ArrayList();
 		availableIngredients.addAll( inventory );
 
+		if ( !closet.isEmpty() )
+		{
+			AdventureResult [] items = new AdventureResult[ closet.size() ];
+			ClanManager.getStash().toArray( items );
+
+			for ( int i = 0; i < items.length; ++i )
+				AdventureResult.addResultToList( availableIngredients, items[i] );
+		}
+
 		if ( getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() )
 		{
 			AdventureResult [] items = new AdventureResult[ ClanManager.getStash().size() ];

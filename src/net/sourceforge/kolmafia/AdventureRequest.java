@@ -152,6 +152,15 @@ public class AdventureRequest extends KoLRequest
 		else if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
 			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 
+		if ( formSource.equals( "shore.php" ) )
+		{
+			if ( KoLCharacter.getAdventuresLeft() < 2 )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "Ran out of adventures." );
+				return;
+			}
+		}
+
 		super.run();
 
 		if ( formSource.equals( "dungeon.php" ) )
