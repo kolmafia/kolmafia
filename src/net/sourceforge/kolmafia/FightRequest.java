@@ -282,7 +282,7 @@ public class FightRequest extends KoLRequest
 
 		if ( action1.startsWith( "steal" ) )
 		{
-			if ( wonInitiative() )
+			if ( wonInitiative() && !KoLCharacter.canInteract() )
 			{
 				action1 = "steal";
 				addFormField( "action", action1 );
