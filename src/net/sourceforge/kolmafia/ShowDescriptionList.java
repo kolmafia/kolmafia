@@ -204,7 +204,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 		else if ( item instanceof UseSkillRequest )
 		{
-			FightFrame.showLocation( "desc_skill.php?whichitem=" + ((UseSkillRequest)item).getSkillId() );
+			FightFrame.showLocation( "desc_skill.php?whichskill=" + ((UseSkillRequest)item).getSkillId() );
 		}
 		else if ( item instanceof String )
 		{
