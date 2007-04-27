@@ -970,13 +970,10 @@ public class ItemManageFrame extends KoLFrame
 
 			JPanel filterPanel = new JPanel();
 
-			JCheckBox autoRepair = new CreationSettingCheckBox( "auto-repair", "autoRepairBoxes", "Automatically repair innaboxes on explosion" );
-			filterPanel.add( autoRepair );
-
-			JCheckBox allowNoBox = new CreationSettingCheckBox( "allow no-box", "createWithoutBoxServants", "Allow item creation without innaboxes" );
+			JCheckBox allowNoBox = new CreationSettingCheckBox( "require innabox", "requireBoxServants", "Require innaboxes, auto-repair on explosion" );
 			filterPanel.add( allowNoBox );
 
-			JCheckBox infiniteNPC = new CreationSettingCheckBox( "infinite npcs", "assumeInfiniteNPCItems", "Assume NPC items are used in item creation" );
+			JCheckBox infiniteNPC = new CreationSettingCheckBox( "infinite npcs", "assumeInfiniteNPCItems", "Assume NPC items are available for item creation" );
 			filterPanel.add( infiniteNPC );
 
 			actualPanel.add( filterPanel, BorderLayout.NORTH );

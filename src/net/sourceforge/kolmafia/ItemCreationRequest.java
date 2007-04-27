@@ -575,14 +575,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// of creation.
 
 		AdventureResult usedServant = null;
-		boolean isBoxlessPermitted = StaticEntity.getBooleanProperty( "createWithoutBoxServants" );
 		boolean hasNoServantItem = inventory.contains( noServantItem ) || KoLCharacter.getAvailableMeat() >= 1000;
 
-		if ( !StaticEntity.getBooleanProperty( "autoRepairBoxes" ) )
+		if ( !StaticEntity.getBooleanProperty( "requireBoxServants" ) )
 		{
-			if ( !isBoxlessPermitted )
-				return false;
-
 			if ( hasNoServantItem )
 				return AdventureDatabase.retrieveItem( noServantItem );
 
@@ -609,12 +605,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				if ( KoLCharacter.hasItem( skullItem, true ) && KoLCharacter.hasItem( BOX, false ) )
 					usedServant = servant;
 			}
-			else if ( isBoxlessPermitted )
-			{
-				return hasNoServantItem && AdventureDatabase.retrieveItem( noServantItem );
-			}
 
-			if ( !isBoxlessPermitted && KoLCharacter.canInteract() && StaticEntity.getBooleanProperty( "autoSatisfyWithMall" ) )
+			if ( KoLCharacter.canInteract() && StaticEntity.getBooleanProperty( "autoSatisfyWithMall" ) )
 				usedServant = servant;
 
 			if ( usedServant == null )

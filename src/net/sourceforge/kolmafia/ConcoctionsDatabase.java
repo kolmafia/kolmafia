@@ -601,9 +601,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( !PERMIT_METHOD[ COOK ] )
 		{
-			PERMIT_METHOD[ COOK ] = KoLCharacter.canInteract() && getBooleanProperty( "autoRepairBoxes" ) && getBooleanProperty( "autoSatisfyWithMall" );
+			PERMIT_METHOD[ COOK ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
 
-			if ( !PERMIT_METHOD[ COOK ] && getBooleanProperty( "createWithoutBoxServants" ) )
+			if ( !PERMIT_METHOD[ COOK ] && !getBooleanProperty( "requireBoxServants" ) )
 			{
 				PERMIT_METHOD[ COOK ] = !KoLCharacter.canInteract() && (inventory.contains( OVEN ) || KoLCharacter.getAvailableMeat() >= 1000);
 				ADVENTURE_USAGE[ COOK ] = 1;
@@ -630,9 +630,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( !PERMIT_METHOD[ MIX ] )
 		{
-			PERMIT_METHOD[ MIX ] = KoLCharacter.canInteract() && getBooleanProperty( "autoRepairBoxes" ) && getBooleanProperty( "autoSatisfyWithMall" );
+			PERMIT_METHOD[ MIX ] = KoLCharacter.canInteract() && getBooleanProperty( "autoSatisfyWithMall" );
 
-			if ( !PERMIT_METHOD[ MIX ] && getBooleanProperty( "createWithoutBoxServants" ) )
+			if ( !PERMIT_METHOD[ MIX ] && !getBooleanProperty( "requireBoxServants" ) )
 			{
 				PERMIT_METHOD[ MIX ] = !KoLCharacter.canInteract() && (inventory.contains( KIT ) || KoLCharacter.getAvailableMeat() >= 1000);
 				ADVENTURE_USAGE[ MIX ] = 1;
@@ -686,12 +686,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static boolean isAvailable( int servantId, int clockworkId )
 	{
-		// If the user did not wish to repair their boxes
-		// on explosion, then the box servant is not available
-
-		if ( !getBooleanProperty( "autoRepairBoxes" ) )
-			return false;
-
 		// Otherwise, return whether or not the quantity possible for
 		// the given box servants is non-zero.	This works because
 		// cooking tests are made after item creation tests.
