@@ -331,9 +331,8 @@ public class MonsterDatabase extends KoLDatabase
 		return NONE;
 	}
 
-	public static class Monster
+	public static class Monster extends AdventureResult
 	{
-		private String name;
 		private int health;
 		private int attack;
 		private int defense;
@@ -349,7 +348,8 @@ public class MonsterDatabase extends KoLDatabase
 
 		public Monster( String name, int health, int attack, int defense, int initiative, int attackElement, int defenseElement, int minMeat, int maxMeat )
 		{
-			this.name = name;
+			super( MONSTER_PRIORITY, name );
+
 			this.health = health;
 			this.attack = attack;
 			this.defense = defense;
@@ -362,10 +362,6 @@ public class MonsterDatabase extends KoLDatabase
 
 			this.items = new ArrayList();
 			this.pocketRates = new ArrayList();
-		}
-
-		public String getName()
-		{	return name;
 		}
 
 		public int getHP()

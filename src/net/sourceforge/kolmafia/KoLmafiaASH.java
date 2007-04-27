@@ -4940,25 +4940,35 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue echo( ScriptVariable string )
 		{
-			DEFAULT_SHELL.executeCommand( "echo", string.toStringValue().toString() );
+			RequestLogger.printLine( string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
 		public ScriptValue print( ScriptVariable string )
 		{
-			DEFAULT_SHELL.executeCommand( "echo", string.toStringValue().toString() );
+			RequestLogger.printLine( string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
 		public ScriptValue print( ScriptVariable string, ScriptVariable color )
 		{
-			DEFAULT_SHELL.executeCommand( "colorecho", color.toStringValue().toString() + " " + string.toStringValue().toString() );
+			String parameters = string.toStringValue().toString();
+
+			int spaceIndex = parameters.indexOf( " " );
+			String colorString = "#000000";
+
+			if ( spaceIndex != -1 )
+				colorString = parameters.substring( 0, spaceIndex ).replaceAll( "[\">]", "" );
+
+			parameters = parameters.substring( spaceIndex + 1 );
+			RequestLogger.printLine( "<font color=\"" + color + "\">" + StaticEntity.globalStringReplace( parameters, "<", "&lt;" ) + "</font>" );
+
 			return VOID_VALUE;
 		}
 
 		public ScriptValue print_html( ScriptVariable string )
 		{
-			KoLmafia.updateDisplay( string.toStringValue().toString() );
+			RequestLogger.printLine( string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
