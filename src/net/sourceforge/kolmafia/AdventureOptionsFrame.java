@@ -957,6 +957,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		public ExecuteButton()
 		{
 			super( JComponentUtilities.getImage( "hourglass.gif" ) );
+			setToolTipText( "Start Adventuring" );
 			JComponentUtilities.setComponentSize( this, 32, 32 );
 		}
 
