@@ -97,6 +97,8 @@ public class KoLRequest extends Job implements KoLConstants
 	private static boolean wasLastRequestSimple = false;
 
 	public static boolean isRatQuest = false;
+	public static boolean handlingChoices = false;
+
 	public static int lastChoice = 0;
 	public static int lastDecision = 0;
 
@@ -1169,7 +1171,10 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( redirectLocation.startsWith( "choice.php" ) )
 		{
+			handlingChoices = true;
 			processChoiceAdventure();
+			handlingChoices = false;
+
 			return true;
 		}
 

@@ -75,6 +75,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.MonsterDatabase.Monster;
 
 public abstract class KoLmafia implements KoLConstants
 {
@@ -1628,6 +1629,8 @@ public abstract class KoLmafia implements KoLConstants
 		// during the iterations.
 
 		boolean hadConditions = !conditions.isEmpty();
+		boolean hadNonMonsterConditions = !conditions.isEmpty() && ( !(conditions.get(0) instanceof Monster) || conditions.size() > 1 );
+
 		int adventuresBeforeRequest = 0;
 
 		// Begin the adventuring process, or the request execution
@@ -1686,12 +1689,19 @@ public abstract class KoLmafia implements KoLConstants
 				// If the conditions existed and have been satisfied,
 				// then you should stop.
 
-				if ( hadConditions && conditions.isEmpty() )
+				if ( hadConditions )
 				{
-					updateDisplay( PENDING_STATE, "Conditions satisfied after " + (currentIteration - 1) +
-						((currentIteration == 2) ? " request." : " requests.") );
+					boolean satisfiedConditions = conditions.isEmpty() ||
+						(conditions.size() == 1 && conditions.get(0) instanceof Monster && hadNonMonsterConditions);
 
-					break;
+					if ( satisfiedConditions )
+					{
+						conditions.clear();
+						updateDisplay( PENDING_STATE, "Conditions satisfied after " + (currentIteration - 1) +
+							((currentIteration == 2) ? " request." : " requests.") );
+
+						break;
+					}
 				}
 
 				// Otherwise, disable the display and update the user

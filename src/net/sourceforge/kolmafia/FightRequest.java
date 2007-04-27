@@ -115,7 +115,32 @@ public class FightRequest extends KoLRequest
 	private static Monster searchMonster = null;
 
 	// Ultra-rare monsters
-	private static final String [] RARE_MONSTERS = { "baiowulf", "crazy bastard", "hockey elemental", "hypnotist of hey deze", "infinite meat bug", "master of thieves", "temporal bandit" };
+	private static final String [] RARE_MONSTERS =
+	{
+		"baiowulf", "crazy bastard", "hockey elemental", "hypnotist of hey deze",
+		"infinite meat bug", "master of thieves", "temporal bandit"
+	};
+
+	private static final String [] NONCOMBAT_MONSTERS =
+	{
+		"apathetic lizardman", "dairy ooze", "dodecapede", "giant giant moth",
+		"mayonnaise wasp", "pencil golem", "sabre-toothed lime", "tonic water elemental",
+		"vampire clam", "mimic", "drunken rat", "baron von ratsworth", "bonerdagon",
+		"knob goblin king", "topiary golem", "beer batter", "big meat golem", "bowling cricket",
+		"electron submarine", "enraged cow", "fickle finger of f8", "flaming samurai",
+		"giant desktop globe", "ice cube", "pretty fly", "tyrannosaurus tex", "vicious easel"
+	};
+
+	private static final ArrayList excludedFromQueue = new ArrayList();
+
+	static
+	{
+		for ( int i = 0; i < RARE_MONSTERS.length; ++i )
+			excludedFromQueue.add( RARE_MONSTERS[i] );
+
+		for ( int i = 0; i < NONCOMBAT_MONSTERS.length; ++i )
+			excludedFromQueue.add( NONCOMBAT_MONSTERS[i] );
+	}
 
 	/**
 	 * Constructs a new <code>FightRequest</code>.  Theprovided will
@@ -720,6 +745,14 @@ public class FightRequest extends KoLRequest
 
 			encounterLookup = CombatSettings.encounterKey( encounter );
 			monsterData = MonsterDatabase.findMonster( encounter );
+
+			if ( monsterData != null && !handlingChoices && !excludedFromQueue.contains( encounterLookup ) )
+			{
+				for ( int i = 4; i >= 1; --i )
+					StaticEntity.setProperty( "monsterQueue" + (i+1), StaticEntity.getProperty( "monsterQueue" + i ) );
+
+				StaticEntity.setProperty( "monsterQueue1", monsterData.getName() );
+			}
 
 			if ( searchMonster != null && monsterData != null && searchMonster.equals( monsterData ) )
 			{
