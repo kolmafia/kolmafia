@@ -4463,7 +4463,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( itemId == -1 )
 		{
-			updateDisplay( ERROR_STATE, "You can't get " + parameters + " from the hermit today." );
+			updateDisplay( ERROR_STATE, "You can't get a " + parameters + " from the hermit today." );
 			return;
 		}
 
