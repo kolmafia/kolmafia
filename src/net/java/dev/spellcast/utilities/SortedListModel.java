@@ -58,14 +58,6 @@ public class SortedListModel extends LockableListModel
 	{
 	}
 
-	public void sort()
-	{
-	}
-
-	public void sort( Comparator c )
-	{
-	}
-
     /**
      * Please refer to {@link java.util.List#add(int,Object)} for more
      * information regarding this function.  Note that if the position

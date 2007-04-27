@@ -652,6 +652,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "lastTowerClimb", "-1" );
 		PLAYER_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
 		PLAYER_SETTINGS.put( "manaBurningThreshold", "-0.1" );
+		PLAYER_SETTINGS.put( "munchiesPillsUsed", "0" );
 		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0" );
 		PLAYER_SETTINGS.put( "mpAutoRecoveryTarget", "0.3" );
 		PLAYER_SETTINGS.put( "mpAutoRecoveryItems", "phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water" );
@@ -663,6 +664,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "reagentSummons", "0" );
 		PLAYER_SETTINGS.put( "relayAddsCustomCombat", "true" );
 		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
+		PLAYER_SETTINGS.put( "showGainsPerUnit", "false" );
 		PLAYER_SETTINGS.put( "snowconeSummons", "0" );
 		PLAYER_SETTINGS.put( "thanksMessage", "Thank you for the donation!" );
 		PLAYER_SETTINGS.put( "trapperOre", "chrome ore" );

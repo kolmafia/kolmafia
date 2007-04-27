@@ -64,10 +64,22 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static Map inebrietyById = new TreeMap();
 	private static Map spleenHitById = new TreeMap();
 
-	private static Map baseAdvsByName = new TreeMap();
-	private static Map zodiacAdvsByName = new TreeMap();
-	private static Map effectAdvsByName = new TreeMap();
-	private static Map optimalAdvsByName = new TreeMap();
+	private static Map [][][][] advsByName = new TreeMap[2][2][2][2];
+
+	static
+	{
+		int a, b, c, d;
+
+		for ( int i = 0; i < 16; ++i )
+		{
+			a = (i & 0x00000008) != 0 ? 1 : 0;
+			b = (i & 0x00000004) != 0 ? 1 : 0;
+			c = (i & 0x00000002) != 0 ? 1 : 0;
+			d = (i & 0x00000001) != 0 ? 1 : 0;
+
+			advsByName[a][b][c][d] = new TreeMap();
+		}
+	}
 
 	private static Map muscleByName = new TreeMap();
 	private static Map mysticalityByName = new TreeMap();
@@ -169,7 +181,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 				if ( data.length > 2 )
 				{
-					addAdventureRange( name, data[2] );
+					addAdventureRange( name, StaticEntity.parseInt( data[1] ), data[2] );
 					muscleByName.put( name, extractRange( data[3] ) );
 					mysticalityByName.put( name, extractRange( data[4] ) );
 					moxieByName.put( name, extractRange( data[5] ) );
@@ -202,7 +214,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 				if ( data.length > 2 )
 				{
-					addAdventureRange( name, data[2] );
+					addAdventureRange( name, StaticEntity.parseInt( data[1] ), data[2] );
 					muscleByName.put( name, extractRange( data[3] ) );
 					mysticalityByName.put( name, extractRange( data[4] ) );
 					moxieByName.put( name, extractRange( data[5] ) );
@@ -248,7 +260,65 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 	}
 
-	private static void addAdventureRange( String name, String range )
+	private static int getIncreasingGains( int value )
+	{
+		// Adventure gains from Ode/Milk based on information
+		// derived by Istari Asuka on the Hardcore Oxygenation forums.
+		// http://forums.hardcoreoxygenation.com/viewtopic.php?t=2321
+
+		switch ( value )
+		{
+		case 0:
+			return 0;
+
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+			return 1;
+
+		case 5:
+		case 6:
+		case 7:
+			return 2;
+
+		case 8:
+		case 9:
+		case 10:
+			return 3;
+
+		default:
+			return 4;
+		}
+	}
+
+	private static int getDecreasingGains( int value )
+	{
+		// Adventure gains from Ode/Milk based on information
+		// derived by Istari Asuka on the Hardcore Oxygenation forums.
+		// http://forums.hardcoreoxygenation.com/viewtopic.php?t=2321
+
+		switch ( value )
+		{
+		case 0:
+			return 0;
+
+		case 1:
+		case 2:
+		case 3:
+			return 3;
+
+		case 4:
+		case 5:
+		case 6:
+			return 2;
+
+		default:
+			return 1;
+		}
+	}
+
+	private static void addAdventureRange( String name, int unitCost, String range )
 	{
 		range = range.trim();
 
@@ -256,57 +326,40 @@ public class TradeableItemDatabase extends KoLDatabase
 		int start = StaticEntity.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
 		int end = dashIndex == -1 ? start : StaticEntity.parseInt( range.substring( dashIndex + 1 ) );
 
-		// Adventure gains from Ode/Milk based on information
-		// provided on the Hardcore Oxygenation forums.
-		// http://forums.hardcoreoxygenation.com/viewtopic.php?t=2321
-
-		int gainSum = 0;
+		int gainSum1 = 0;
+		int gainSum2 = 0;
+		int gainSum3 = 0;
 
 		for ( int i = start; i <= end; ++i )
 		{
-			switch ( i )
-			{
-			case 0:
-				break;
-
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-				gainSum += i + 1;
-				break;
-
-			case 5:
-			case 6:
-			case 7:
-				gainSum += i + 2;
-				break;
-
-			case 8:
-			case 9:
-			case 10:
-				gainSum += i + 3;
-				break;
-
-			default:
-				gainSum += i + 4;
-				break;
-			}
+			gainSum1 += i + getIncreasingGains(i);
+			gainSum2 += i + getDecreasingGains(i);
+			gainSum3 += i + getIncreasingGains(i + getDecreasingGains(i));
 		}
 
+		float count = (float) (end - start + 1);
+
+		addAdventureRange( name, unitCost, false, false, (start + end) / 2.0f );
+		addAdventureRange( name, unitCost, true, false, gainSum1 / count );
+		addAdventureRange( name, unitCost, false, true, gainSum2 / count );
+		addAdventureRange( name, unitCost, true, true, gainSum3 / count );
+	}
+
+	private static void addAdventureRange( String name, int unitCost, boolean gainEffect1, boolean gainEffect2, float result )
+	{
 		// Adventure gains from zodiac signs based on information
 		// provided on the Iocaine Powder forums.
 		// http://www.iocainepowder.org/forums/viewtopic.php?t=2742
 
-		int result = (start + end) * 10 / 2;
+		getAdventureMap( false, false, gainEffect1, gainEffect1 ).put( name, SINGLE_PRECISION_FORMAT.format( result ) );
+		getAdventureMap( false, true, gainEffect1, gainEffect1 ).put( name, SINGLE_PRECISION_FORMAT.format( result * 1.1f ) );
 
-		baseAdvsByName.put( name, String.valueOf( "+" + (result / 10.0f) ) );
-		zodiacAdvsByName.put( name, String.valueOf( "+" + (result * 1.1f / 10.0f) ) );
+		getAdventureMap( true, false, gainEffect1, gainEffect1 ).put( name, SINGLE_PRECISION_FORMAT.format( result / unitCost ) );
+		getAdventureMap( true, true, gainEffect1, gainEffect1 ).put( name, SINGLE_PRECISION_FORMAT.format( result * 1.1f / unitCost ) );
+	}
 
-		result = (int) (((float) gainSum) * 10.0f / ((float) (end - start + 1)));
-
-		effectAdvsByName.put( name, String.valueOf( "+" + (result / 10.0f) ) );
-		optimalAdvsByName.put( name, String.valueOf( "+" + (result * 1.1f / 10.0f) ) );
+	private static Map getAdventureMap( boolean perUnit, boolean gainZodiac, boolean gainEffect1, boolean gainEffect2 )
+	{	return advsByName[ perUnit ? 1 : 0 ][ gainZodiac ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ];
 	}
 
 	private static String extractRange( String range )
@@ -324,15 +377,10 @@ public class TradeableItemDatabase extends KoLDatabase
 		int start = StaticEntity.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
 
 		if ( dashIndex == -1 )
-			return isNegative ? ("-" + start + ".0") : ("+" + start + ".0");
+			return SINGLE_PRECISION_FORMAT.format( isNegative ? 0 - start : start );
 
 		int end = StaticEntity.parseInt( range.substring( dashIndex + 1 ) );
-
-		if ( start == end )
-			return isNegative ? ("-" + start + ".0") : ("+" + start + ".0");
-
-		int result = (start + end) * 10 / (isNegative ? -2 : 2);
-		return String.valueOf( (result >= 0 ? "+" : "") + ((float) result / 10) );
+		return SINGLE_PRECISION_FORMAT.format( (start + end) / (isNegative ? -2.0f : 2.0f) );
 	}
 
 	/**
@@ -642,6 +690,22 @@ public class TradeableItemDatabase extends KoLDatabase
 		return spleenhit == null ? 0 : spleenhit.intValue();
 	}
 
+	private static final String getRangePerUnit( String range, int fullness, int inebriety )
+	{
+		float ratio = StaticEntity.parseFloat( range );
+
+		if ( fullness > 0 )
+			ratio /= (float) fullness;
+		else if ( inebriety > 0 )
+			ratio /= (float) inebriety;
+
+		range = String.valueOf( (((int)(ratio * 10.0f)) / 10.0f) );
+		if ( ratio >= 0.0f )
+			range = "+" + range;
+
+		return range;
+	}
+
 	public static final String getAdventureRange( String name )
 	{
 		if ( name == null )
@@ -654,34 +718,25 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		if ( fullness > 0 )
 		{
-			boolean hasMilk = activeEffects.contains( GOT_MILK );
-			boolean isOpossum = KoLCharacter.getSign().indexOf( "Opossum" ) != -1;
-
-			if ( hasMilk && isOpossum )
-				range = (String) optimalAdvsByName.get( getCanonicalName( name ) );
-			else if ( isOpossum )
-				range = (String) zodiacAdvsByName.get( getCanonicalName( name ) );
-			else if ( hasMilk )
-				range = (String) effectAdvsByName.get( getCanonicalName( name ) );
-			else
-				range = (String) baseAdvsByName.get( getCanonicalName( name ) );
+			range = (String) getAdventureMap(
+				StaticEntity.getBooleanProperty( "showGainsPerUnit" ),
+				KoLCharacter.getSign().indexOf( "Opossum" ) != -1,
+				activeEffects.contains( GOT_MILK ),
+				StaticEntity.getIntegerProperty( "munchiesPillsUsed" ) > 0 ).get( getCanonicalName( name ) );
 		}
 		else if ( inebriety > 0 )
 		{
-			boolean hasOde = activeEffects.contains( ODE );
-			boolean isBlender = KoLCharacter.getSign().indexOf( "Blender" ) != -1;
-
-			if ( hasOde && isBlender )
-				range = (String) optimalAdvsByName.get( getCanonicalName( name ) );
-			else if ( isBlender )
-				range = (String) zodiacAdvsByName.get( getCanonicalName( name ) );
-			else if ( hasOde )
-				range = (String) effectAdvsByName.get( getCanonicalName( name ) );
-			else
-				range = (String) baseAdvsByName.get( getCanonicalName( name ) );
+			range = (String) getAdventureMap(
+				StaticEntity.getBooleanProperty( "showGainsPerUnit" ),
+				KoLCharacter.getSign().indexOf( "Blender" ) != -1,
+				activeEffects.contains( ODE ),
+				false ).get( getCanonicalName( name ) );
 		}
 
-		return range == null ? "+0.0" : range;
+		if ( range == null )
+			return "+0.0";
+
+		return range;
 	}
 
 	public static final String getMuscleRange( String name )

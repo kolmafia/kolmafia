@@ -173,7 +173,7 @@ public class FightRequest extends KoLRequest
 			}
 		}
 
-		if ( wonInitiative() && monsterData != null && monsterData.shouldSteal() )
+		if ( !KoLCharacter.canInteract() && wonInitiative() && monsterData != null && monsterData.shouldSteal() )
 		{
 			action1 = "steal";
 			addFormField( "action", action1 );
