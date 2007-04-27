@@ -120,6 +120,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int BLUE = 1416;
 	private static final int BLACK = 1417;
 	private static final int HILARIOUS_TOME = 1498;
+	private static final int MUNCHIES_PILL = 1619;
 	private static final int ASTRAL_MUSHROOM = 1622;
 	private static final int DUSTY_ANIMAL_SKULL = 1799;
 	private static final int QUILL_PEN = 1957;
@@ -1134,10 +1135,20 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			int fullness = TradeableItemDatabase.getFullness( lastItemUsed.getName() );
 			if ( fullness > 0 && KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
+			{
 				StaticEntity.setProperty( "currentFullness", String.valueOf( KoLCharacter.getFullness() + fullness ) );
+				StaticEntity.setProperty( "munchiesPillsUsed",
+					String.valueOf( Math.max( StaticEntity.getIntegerProperty( "munchiesPillsUsed" ) - 1, 0 ) ) );
+			}
 		}
 		else
 		{
+			if ( lastItemUsed.getItemId() == MUNCHIES_PILL )
+			{
+				StaticEntity.setProperty( "munchiesPillsUsed",
+					String.valueOf( StaticEntity.getIntegerProperty( "munchiesPillsUsed" ) + lastItemUsed.getCount() ) );
+			}
+
 			int spleenHit = TradeableItemDatabase.getSpleenHit( lastItemUsed.getName() ) * lastItemUsed.getCount();
 			if ( spleenHit > 0 && KoLCharacter.getSpleenUse() + spleenHit <= KoLCharacter.getSpleenLimit() )
 				StaticEntity.setProperty( "currentSpleenUse", String.valueOf( KoLCharacter.getSpleenUse() + spleenHit ) );

@@ -724,6 +724,15 @@ public class AdventureResult implements Comparable, KoLConstants
 			}
 
 			appendRange( stringForm, TradeableItemDatabase.getAdventureRange( item.getName() ), "adv" );
+
+			if ( StaticEntity.getBooleanProperty( "showGainsPerUnit" ) )
+			{
+				if ( inebriety > 0 )
+					stringForm.append( " / drunk" );
+				else
+					stringForm.append( " / full" );
+			}
+
 			appendRange( stringForm, TradeableItemDatabase.getMuscleRange( item.getName() ), "mus" );
 			appendRange( stringForm, TradeableItemDatabase.getMysticalityRange( item.getName() ), "mys" );
 			appendRange( stringForm, TradeableItemDatabase.getMoxieRange( item.getName() ), "mox" );

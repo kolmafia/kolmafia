@@ -894,13 +894,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 			int fullness1 = TradeableItemDatabase.getFullness( name );
 			int fullness2 = TradeableItemDatabase.getFullness( ((Concoction)o).name );
 
-			if ( fullness1 != fullness2 )
+			if ( !StaticEntity.getBooleanProperty( "showGainsPerUnit" ) && fullness1 != fullness2 )
 				return fullness1 > fullness2 ? -1 : 1;
 
 			int inebriety1 = TradeableItemDatabase.getInebriety( name );
 			int inebriety2 = TradeableItemDatabase.getInebriety( ((Concoction)o).name );
 
-			if ( inebriety1 != inebriety2 )
+			if ( !StaticEntity.getBooleanProperty( "showGainsPerUnit" ) && inebriety1 != inebriety2 )
 				return inebriety1 > inebriety2 ? -1 : 1;
 
 			float adventures1 = parseFloat( TradeableItemDatabase.getAdventureRange( name ) );

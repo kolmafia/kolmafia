@@ -84,6 +84,7 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final DecimalFormat COMMA_FORMAT = new DecimalFormat( "#,##0;-#,##0", new DecimalFormatSymbols( Locale.US ) );
 	public static final DecimalFormat MODIFIER_FORMAT = new DecimalFormat( "+#0;-#0", new DecimalFormatSymbols( Locale.US ) );
+	public static final DecimalFormat SINGLE_PRECISION_FORMAT = new DecimalFormat( "+#,##0.0;-#,##0.0", new DecimalFormatSymbols( Locale.US ) );
 	public static final DecimalFormat FLOAT_FORMAT = new DecimalFormat( "#,##0.00;-#,##0.00", new DecimalFormatSymbols( Locale.US ) );
 	public static final DecimalFormat ROUNDED_MODIFIER_FORMAT = new DecimalFormat( "+#0.00;-#0.00", new DecimalFormatSymbols( Locale.US ) );
 

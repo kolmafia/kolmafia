@@ -535,13 +535,16 @@ public class ItemManageFrame extends KoLFrame
 			wordfilter = new ConsumableFilterComboBox();
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
 
-			filters = new JCheckBox[5];
+			filters = new JCheckBox[ food || booze ? 6 : 5 ];
 
 			filters[0] = new JCheckBox( "on-hand only" );
 			filters[1] = new JCheckBox( "npc " + (food && booze ? "stuff" : food ? "food" : "booze") );
 			filters[2] = new JCheckBox( "+mus only" );
 			filters[3] = new JCheckBox( "+mys only" );
 			filters[4] = new JCheckBox( "+mox only" );
+
+			if ( food || booze )
+				filters[5] = new ExperimentalCheckbox( food, booze );
 
 			JPanel filterPanel = new JPanel();
 			for ( int i = 0; i < filters.length; ++i )
@@ -895,6 +898,30 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 	}
+
+	private class ExperimentalCheckbox extends JCheckBox implements ActionListener
+	{
+		public ExperimentalCheckbox( boolean food, boolean booze )
+		{
+			super( food && booze ? "per full/drunk" : booze ? "per drunk" : "per full" );
+
+			setToolTipText( "Sort gains per adventure" );
+			setSelected( StaticEntity.getBooleanProperty( "showGainsPerUnit" ) );
+
+			addActionListener( this );
+			KoLSettings.registerCheckbox( "showGainsPerUnit", this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( StaticEntity.getBooleanProperty( "showGainsPerUnit" ) == isSelected() )
+				return;
+
+			StaticEntity.setProperty( "showGainsPerUnit", String.valueOf( isSelected() ) );
+			ConcoctionsDatabase.getUsables().sort();
+		}
+	}
+
 
 	private class CreationSettingCheckBox extends JCheckBox implements ActionListener
 	{
