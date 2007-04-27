@@ -1050,7 +1050,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		String restoreSetting = StaticEntity.getProperty( settingName + "Items" ).trim().toLowerCase();
 
-		if ( activeEffects.contains( KoLAdventure.BEATEN_UP ) )
+		if ( settingName.startsWith( "hp" ) && activeEffects.contains( KoLAdventure.BEATEN_UP ) )
 		{
 			if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
 				RequestThread.postRequest( UseSkillRequest.getInstance( "Tongue of the Walrus", 1 ) );
