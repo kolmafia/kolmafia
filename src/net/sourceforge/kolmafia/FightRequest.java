@@ -756,7 +756,7 @@ public class FightRequest extends KoLRequest
 
 			if ( searchMonster != null && monsterData != null && searchMonster.equals( monsterData ) )
 			{
-				KoLmafia.updateDisplay( PENDING_STATE, searchMonster + "has been found." );
+				KoLmafia.updateDisplay( PENDING_STATE, searchMonster + " has been found." );
 				searchMonster = null;
 				conditions.clear();
 			}
