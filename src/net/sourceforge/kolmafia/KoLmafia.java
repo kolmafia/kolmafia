@@ -3152,7 +3152,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		int itemPower;
 
-		if ( KoLCharacter.hasSkill( "Pulverize" ) && KoLCharacter.hasItem( ConcoctionsDatabase.HAMMER ) )
+		if ( KoLCharacter.hasSkill( "Pulverize" ) )
 		{
 			boolean hasMalusAccess = KoLCharacter.isMuscleClass();
 
@@ -3166,7 +3166,7 @@ public abstract class KoLmafia implements KoLConstants
 				itemCount = currentItem.getCount( inventory );
 				itemPower = EquipmentDatabase.getPower( currentItem.getItemId() );
 
-				if ( itemCount > 0 && !NPCStoreDatabase.contains( currentItem.getName() ) )
+				if ( itemCount > 0 && !NPCStoreDatabase.contains( currentItem.getName(), false ) )
 				{
 					switch ( TradeableItemDatabase.getConsumptionType( currentItem.getItemId() ) )
 					{
@@ -3176,14 +3176,24 @@ public abstract class KoLmafia implements KoLConstants
 					case EQUIP_WEAPON:
 					case EQUIP_OFFHAND:
 
-						if ( itemPower >= 100 || (hasMalusAccess && itemPower > 10) )
+						if ( KoLCharacter.hasItem( ConcoctionsDatabase.HAMMER ) && itemPower >= 100 || (hasMalusAccess && itemPower > 10) )
 							RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
 
 						break;
 
 					case EQUIP_FAMILIAR:
 					case EQUIP_ACCESSORY:
-						RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
+
+						if ( KoLCharacter.hasItem( ConcoctionsDatabase.HAMMER ) )
+							RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
+
+						break;
+
+					default:
+
+						if ( currentItem.getName().endsWith( "powder" ) || currentItem.getName().endsWith( "nugget" ) )
+							RequestThread.postRequest( new PulverizeRequest( currentItem.getInstance( itemCount ) ) );
+
 						break;
 					}
 				}

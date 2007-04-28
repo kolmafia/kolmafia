@@ -95,6 +95,10 @@ public class ItemManageFrame extends KoLFrame
 	 */
 
 	public ItemManageFrame()
+	{	this( true );
+	}
+
+	public ItemManageFrame( boolean useTabs )
 	{
 		super( "Item Manager" );
 
@@ -106,7 +110,6 @@ public class ItemManageFrame extends KoLFrame
 
 		addPanel( "Complete Lists", new JPanel() );
 
-		addPanel( " - Recent", new InventoryManagePanel( tally, true ) );
 		addPanel( " - Inventory", new InventoryManagePanel( inventory, true ) );
 		addPanel( " - Closet", new InventoryManagePanel( closet, true ) );
 
