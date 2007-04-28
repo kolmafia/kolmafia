@@ -42,13 +42,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.swing.JComboBox;
 import javax.swing.text.JTextComponent;
-
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
 public class MutableComboBox extends JComboBox implements KoLConstants
 {
@@ -56,14 +53,14 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 	public Object currentMatch;
 	public LockableListModel model;
 	public boolean allowAdditions;
-	public WordBasedFilter filter;
+	public SimpleListFilter filter;
 
 	public MutableComboBox( LockableListModel model, boolean allowAdditions )
 	{
 		super( model );
 
 		this.model = model;
-		this.filter = new WordBasedFilter();
+		this.filter = new SimpleListFilter( this );
 		this.setEditable( true );
 
 		this.allowAdditions = allowAdditions;
@@ -199,77 +196,6 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 				forceAddition();
 			else
 				setSelectedItem( currentMatch );
-		}
-	}
-
-	public class WordBasedFilter extends ListElementFilter
-	{
-		private boolean active = true;
-		private boolean strict = true;
-
-		public void activate()
-		{	active = true;
-		}
-
-		public void deactivate()
-		{	active = false;
-		}
-
-		public void makeStrict()
-		{	strict = true;
-		}
-
-		public void makeFuzzy()
-		{	strict = false;
-		}
-
-		public boolean isVisible( Object element )
-		{
-			if ( !active )
-				return true;
-
-			// If it's not a result, then check to see if you need to
-			// filter based on its string form.
-
-			if ( isNonResult( element ) )
-			{
-				if ( currentName == null || currentName.length() == 0 )
-					return true;
-
-				if ( element instanceof Entry )
-				{
-					Entry entry = (Entry) element;
-					return strict ? entry.getValue().toString().toLowerCase().indexOf( currentName.toLowerCase() ) != -1 :
-						KoLDatabase.fuzzyMatches( entry.getValue().toString(), currentName );
-				}
-
-				return strict ? element.toString().toLowerCase().indexOf( currentName.toLowerCase() ) != -1 :
-					KoLDatabase.fuzzyMatches( element.toString(), currentName );
-			}
-
-			// In all other cases, compare the item against the
-			// item name, so counts don't interfere.
-
-			String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() : ((ItemCreationRequest)element).getName();
-			return currentName == null || currentName.length() == 0 ||
-				(strict ? name.toLowerCase().indexOf( currentName.toLowerCase() ) != -1 : KoLDatabase.fuzzyMatches( name, currentName ));
-		}
-
-		public final boolean isNonResult( Object element )
-		{
-			if ( element instanceof ItemCreationRequest )
-				return false;
-
-			if ( !(element instanceof AdventureResult) )
-				return true;
-
-			if ( ((AdventureResult)element).isItem() )
-				return ((AdventureResult)element).getCount() <= 0;
-
-			if ( ((AdventureResult)element).isStatusEffect() )
-				return false;
-
-			return true;
 		}
 	}
 }

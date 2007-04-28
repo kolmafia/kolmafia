@@ -1657,7 +1657,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.restores = true;
 			this.other = !isRestoresOnly;
 
-			wordfilter = new ConsumableFilterComboBox();
+			wordfilter = new UsableItemFilterField();
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
 
 			wordfilter.filterItems();
@@ -1689,18 +1689,22 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		private class ConsumableFilterComboBox extends FilterItemComboBox
+		private class UsableItemFilterField extends FilterItemField
 		{
-			public ConsumableFilterComboBox()
-			{	filter = new ConsumableFilter();
+			public UsableItemFilterField()
+			{	filter = new UsableItemFilter();
 			}
 
 			public void filterItems()
 			{	elementList.applyFilter( filter );
 			}
 
-			private class ConsumableFilter extends WordBasedFilter
+			private class UsableItemFilter extends SimpleListFilter
 			{
+				public UsableItemFilter()
+				{	super( UsableItemFilterField.this );
+				}
+
 				public boolean isVisible( Object element )
 				{
 					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )

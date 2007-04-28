@@ -39,10 +39,13 @@ import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -69,7 +72,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 	public JButton [] buttons;
 	public JCheckBox [] filters;
 	public JRadioButton [] movers;
-	public FilterItemComboBox wordfilter;
+	public FilterItemField wordfilter;
 
 	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elementModel )
 	{
@@ -81,7 +84,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 		this.elementList.setVisibleRowCount( 8 );
 
-		wordfilter = new FilterItemComboBox();
+		wordfilter = new FilterItemField();
 		centerPanel.add( wordfilter, BorderLayout.NORTH );
 
 		this.wordfilter.filterItems();
@@ -100,7 +103,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.elementList = (ShowDescriptionList) scrollComponent;
 		this.elementModel = (LockableListModel) elementList.getModel();
 
-		this.wordfilter = new FilterItemComboBox();
+		this.wordfilter = new FilterItemField();
 		centerPanel.add( wordfilter, BorderLayout.NORTH );
 
 		this.wordfilter.filterItems();
@@ -543,29 +546,25 @@ public class ItemManagePanel extends LabeledScrollPanel
 	 * key events of a JComboBox to allow you to catch key events.
 	 */
 
-	public class FilterItemComboBox extends MutableComboBox
+	public class FilterItemField extends JTextField
 	{
+		public SimpleListFilter filter;
 		public boolean food, booze, equip, other, notrade;
 
-		public FilterItemComboBox()
+		public FilterItemField()
 		{
-			super( new LockableListModel(), true );
 			filter = new ConsumptionBasedFilter();
+			addKeyListener( new FilterListener() );
 
 			food = true; booze = true; equip = true;
 			other = true; notrade = true;
 		}
 
-		public void setSelectedItem( Object anObject )
+		public class FilterListener extends KeyAdapter
 		{
-			super.setSelectedItem( anObject );
-			filterItems();
-		}
-
-		public void findMatch( int keyCode )
-		{
-			super.findMatch( keyCode );
-			filterItems();
+			public void keyReleased( KeyEvent e )
+			{	filterItems();
+			}
 		}
 
 		public void filterItems()
@@ -590,8 +589,12 @@ public class ItemManagePanel extends LabeledScrollPanel
 			}
 		}
 
-		public class ConsumptionBasedFilter extends WordBasedFilter
+		public class ConsumptionBasedFilter extends SimpleListFilter
 		{
+			public ConsumptionBasedFilter()
+			{	super( FilterItemField.this );
+			}
+
 			public boolean isVisible( Object element )
 			{
 				if ( isNonResult( element ) )

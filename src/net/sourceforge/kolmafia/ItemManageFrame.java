@@ -532,7 +532,7 @@ public class ItemManageFrame extends KoLFrame
 			this.food = food;
 			this.booze = booze;
 
-			wordfilter = new ConsumableFilterComboBox();
+			wordfilter = new ConsumableFilterField();
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
 
 			filters = new JCheckBox[ food || booze ? 4 : 3 ];
@@ -546,10 +546,7 @@ public class ItemManageFrame extends KoLFrame
 
 			JPanel filterPanel = new JPanel();
 			for ( int i = 0; i < filters.length; ++i )
-			{
 				filterPanel.add( filters[i] );
-				filters[i].addActionListener( wordfilter );
-			}
 
 			wordfilter.filterItems();
 			setEnabled( true );
@@ -620,22 +617,22 @@ public class ItemManageFrame extends KoLFrame
 			wordfilter.filterItems();
 		}
 
-		private class ConsumableFilterComboBox extends FilterItemComboBox
+		private class ConsumableFilterField extends FilterItemField
 		{
-			public ConsumableFilterComboBox()
+			public ConsumableFilterField()
 			{	filter = new ConsumableFilter();
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{	filterItems();
 			}
 
 			public void filterItems()
 			{	elementList.applyFilter( filter );
 			}
 
-			private class ConsumableFilter extends WordBasedFilter
+			private class ConsumableFilter extends SimpleListFilter
 			{
+				public ConsumableFilter()
+				{	super( ConsumableFilterField.this );
+				}
+
 				public boolean isVisible( Object element )
 				{
 					Concoction creation = (Concoction) element;
@@ -1046,7 +1043,7 @@ public class ItemManageFrame extends KoLFrame
 				return;
 			}
 
-			wordfilter = new EquipmentFilterComboBox();
+			wordfilter = new EquipmentFilterField();
 			centerPanel.add( wordfilter, BorderLayout.NORTH );
 
 			equipmentFilters = new FilterRadioButton[7];
@@ -1091,9 +1088,9 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 
-		private class EquipmentFilterComboBox extends FilterItemComboBox
+		private class EquipmentFilterField extends FilterItemField
 		{
-			public EquipmentFilterComboBox()
+			public EquipmentFilterField()
 			{	filter = new EquipmentFilter();
 			}
 
@@ -1101,8 +1098,12 @@ public class ItemManageFrame extends KoLFrame
 			{	elementList.applyFilter( filter );
 			}
 
-			private class EquipmentFilter extends WordBasedFilter
+			private class EquipmentFilter extends SimpleListFilter
 			{
+				public EquipmentFilter()
+				{	super( EquipmentFilterField.this );
+				}
+
 				public boolean isVisible( Object element )
 				{
 					boolean isVisibleWithFilter = true;
