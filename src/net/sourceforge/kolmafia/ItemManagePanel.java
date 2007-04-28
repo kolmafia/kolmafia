@@ -72,7 +72,8 @@ public class ItemManagePanel extends LabeledScrollPanel
 	public JButton [] buttons;
 	public JCheckBox [] filters;
 	public JRadioButton [] movers;
-	public FilterItemField wordfilter;
+
+	private FilterItemField filterfield;
 
 	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elementModel )
 	{
@@ -84,16 +85,26 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 		this.elementList.setVisibleRowCount( 8 );
 
-		wordfilter = new FilterItemField();
-		centerPanel.add( wordfilter, BorderLayout.NORTH );
-
-		this.wordfilter.filterItems();
+		this.filterfield = getWordFilter();
+		centerPanel.add( filterfield, BorderLayout.NORTH );
 
 		if ( elementModel == tally || elementModel == inventory || elementModel == closet ||
 			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() )
 		{
 			eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
 		}
+	}
+
+	protected FilterItemField getWordFilter()
+	{	return new FilterItemField();
+	}
+
+	protected void listenToCheckBox( JCheckBox box )
+	{	box.addActionListener( filterfield );
+	}
+
+	protected void listenToRadioButton( JRadioButton button )
+	{	button.addActionListener( filterfield );
 	}
 
 	public ItemManagePanel( LockableListModel elementModel )
@@ -103,10 +114,8 @@ public class ItemManagePanel extends LabeledScrollPanel
 		this.elementList = (ShowDescriptionList) scrollComponent;
 		this.elementModel = (LockableListModel) elementList.getModel();
 
-		this.wordfilter = new FilterItemField();
-		centerPanel.add( wordfilter, BorderLayout.NORTH );
-
-		this.wordfilter.filterItems();
+		this.filterfield = getWordFilter();
+		centerPanel.add( filterfield, BorderLayout.NORTH );
 
 		if ( elementModel == tally || elementModel == inventory || elementModel == closet ||
 			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() )
@@ -123,7 +132,16 @@ public class ItemManagePanel extends LabeledScrollPanel
 	{
 	}
 
-	private void addFilterCheckboxes( boolean isCompact )
+	public void setFixedFilter( boolean food, boolean booze, boolean equip, boolean other, boolean notrade )
+	{
+		filterfield.food = food;
+		filterfield.booze = booze;
+		filterfield.equip = equip;
+		filterfield.other = other;
+		filterfield.notrade = notrade;
+	}
+
+	public void addFilters( boolean isCompact )
 	{
 		JPanel filterPanel = new JPanel();
 		filters = new JCheckBox[5];
@@ -148,21 +166,25 @@ public class ItemManagePanel extends LabeledScrollPanel
 		for ( int i = 0; i < 5; ++i )
 		{
 			filterPanel.add( filters[i] );
-			filters[i].addActionListener( new UpdateFilterListener() );
+			listenToCheckBox( filters[i] );
 		}
 
 		northPanel.add( filterPanel, BorderLayout.CENTER );
+	}
+
+	public void filterItems()
+	{	filterfield.filterItems();
 	}
 
 	public void setButtons( ActionListener [] buttonListeners )
 	{	setButtons( true, buttonListeners );
 	}
 
-	public void setButtons( boolean addFilterCheckboxes, ActionListener [] buttonListeners )
+	public void setButtons( boolean addFilters, ActionListener [] buttonListeners )
 	{	setButtons( true, buttonListeners == null, buttonListeners );
 	}
 
-	public void setButtons( boolean addFilterCheckboxes, boolean addCompactFilters, ActionListener [] buttonListeners )
+	public void setButtons( boolean addFilters, boolean addCompactFilters, ActionListener [] buttonListeners )
 	{
 		// Handle buttons along the right hand side, if there are
 		// supposed to be buttons.
@@ -195,15 +217,15 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		northPanel = new JPanel( new BorderLayout() );
 
-		if ( !addFilterCheckboxes )
+		if ( !addFilters )
 			filters = null;
 		else
-			addFilterCheckboxes( addCompactFilters );
+			addFilters( addCompactFilters );
 
 		// If there are buttons, they likely need movers.  Therefore, add
 		// some movers to everything.
 
-		if ( addFilterCheckboxes && !addCompactFilters )
+		if ( addFilters && !addCompactFilters )
 		{
 			JPanel moverPanel = new JPanel();
 
@@ -227,8 +249,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		if ( buttonListeners != null )
 			actualPanel.add( eastPanel, BorderLayout.EAST );
-
-		wordfilter.filterItems();
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -341,13 +361,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 				desiredItems[ neededSize++ ] = items[i];
 
 		return desiredItems;
-	}
-
-	public class UpdateFilterListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	wordfilter.filterItems();
-		}
 	}
 
 	public abstract class TransferListener extends ThreadedListener
@@ -546,7 +559,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 	 * key events of a JComboBox to allow you to catch key events.
 	 */
 
-	public class FilterItemField extends JTextField
+	public class FilterItemField extends JTextField implements ActionListener
 	{
 		public SimpleListFilter filter;
 		public boolean food, booze, equip, other, notrade;
@@ -558,6 +571,10 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 			food = true; booze = true; equip = true;
 			other = true; notrade = true;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	filterItems();
 		}
 
 		public class FilterListener extends KeyAdapter

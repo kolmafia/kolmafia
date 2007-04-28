@@ -404,6 +404,9 @@ public class ChatBuffer
 
 		private void scrollDisplay( JEditorPane displayPane )
 		{
+			if ( displayPane == null )
+				return;
+
 			int length = displayPane.getDocument().getLength();
 			displayPane.setCaretPosition( shouldScroll && length > 0 ? length - 1 : 0 );
 		}

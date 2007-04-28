@@ -1437,6 +1437,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			} );
 
 			movers[ KoLCharacter.canInteract() ? 0 : 2 ].setSelected( true );
+			filterItems();
 		}
 	}
 
@@ -1657,13 +1658,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.restores = true;
 			this.other = !isRestoresOnly;
 
-			wordfilter = new UsableItemFilterField();
-			centerPanel.add( wordfilter, BorderLayout.NORTH );
-
-			wordfilter.filterItems();
-
 			if ( !isRestoresOnly )
 				setButtons( true, false, null );
+		}
+
+		public FilterItemField getWordFilter()
+		{	return new UsableItemFilterField();
 		}
 
 		public void actionConfirmed()
@@ -1693,10 +1693,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			public UsableItemFilterField()
 			{	filter = new UsableItemFilter();
-			}
-
-			public void filterItems()
-			{	elementList.applyFilter( filter );
 			}
 
 			private class UsableItemFilter extends SimpleListFilter
