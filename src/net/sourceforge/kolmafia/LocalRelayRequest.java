@@ -890,13 +890,13 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// If the person is visiting the sorceress and they forgot
 		// to equip the Wand, remind them.
 
-		if ( formURLString.indexOf( "lair6.php" ) != -1 && getFormField( "place" ) != null && getFormField( "place" ).equals( "5" ) )
+		if ( formURLString.indexOf( "lair6.php" ) != -1 && getFormField( "place" ) != null && getFormField( "place" ).equals( "5" ) && getFormField( "override" ) == null )
 		{
 			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) )
 			{
 				AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR );
 
-				sendGeneralWarning( "wand.gif", "Hm, it's possible there is something very important you're forgetting.  Maybe you should <a href=\"inventory.php?which=2\">double-check</a> just to make sure." );
+				sendGeneralWarning( "wand.gif", "Hm, it's possible there is something very important you're forgetting.  Maybe you should <a href=\"inventory.php?which=2\">double-check</a> just to make sure.  Or, if you're absolutely sure you want to go forward without it, <a href=\"lair6.php?place=5&override=on\">click here</a>." );
 
 				return;
 			}
