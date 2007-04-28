@@ -532,17 +532,18 @@ public class ItemManageFrame extends KoLFrame
 			this.food = food;
 			this.booze = booze;
 
-			filters = new JCheckBox[ food || booze ? 4 : 3 ];
+			filters = new JCheckBox[ food || booze ? 5 : 4 ];
 
-			filters[0] = new JCheckBox( "+mus only" );
-			filters[1] = new JCheckBox( "+mys only" );
-			filters[2] = new JCheckBox( "+mox only" );
+			filters[0] = new JCheckBox( "no create" );
+			filters[1] = new JCheckBox( "+mus only" );
+			filters[2] = new JCheckBox( "+mys only" );
+			filters[3] = new JCheckBox( "+mox only" );
 
-			for ( int i = 0; i < 3; ++i )
+			for ( int i = 0; i < 4; ++i )
 				listenToCheckBox( filters[i] );
 
 			if ( food || booze )
-				filters[3] = new ExperimentalCheckbox( food, booze );
+				filters[4] = new ExperimentalCheckbox( food, booze );
 
 			JPanel filterPanel = new JPanel();
 			for ( int i = 0; i < filters.length; ++i )
@@ -644,19 +645,25 @@ public class ItemManageFrame extends KoLFrame
 
 					if ( filters[0].isSelected() )
 					{
+						if ( item != null && item.getCount( inventory ) == 0 )
+							return false;
+					}
+
+					if ( filters[1].isSelected() )
+					{
 						String range = TradeableItemDatabase.getMuscleRange( creation.getName() );
 						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 							return false;
 					}
 
-					if ( filters[1].isSelected() )
+					if ( filters[2].isSelected() )
 					{
 						String range = TradeableItemDatabase.getMysticalityRange( creation.getName() );
 						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 							return false;
 					}
 
-					if ( filters[2].isSelected() )
+					if ( filters[3].isSelected() )
 					{
 						String range = TradeableItemDatabase.getMoxieRange( creation.getName() );
 						if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
