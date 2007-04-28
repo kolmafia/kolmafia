@@ -532,14 +532,14 @@ public class ItemManageFrame extends KoLFrame
 			this.food = food;
 			this.booze = booze;
 
-			wordfilter = new ConsumableFilterField();
-			centerPanel.add( wordfilter, BorderLayout.NORTH );
-
 			filters = new JCheckBox[ food || booze ? 4 : 3 ];
 
 			filters[0] = new JCheckBox( "+mus only" );
 			filters[1] = new JCheckBox( "+mys only" );
 			filters[2] = new JCheckBox( "+mox only" );
+
+			for ( int i = 0; i < 3; ++i )
+				listenToCheckBox( filters[i] );
 
 			if ( food || booze )
 				filters[3] = new ExperimentalCheckbox( food, booze );
@@ -548,10 +548,14 @@ public class ItemManageFrame extends KoLFrame
 			for ( int i = 0; i < filters.length; ++i )
 				filterPanel.add( filters[i] );
 
-			wordfilter.filterItems();
 			setEnabled( true );
-
 			actualPanel.add( filterPanel, BorderLayout.NORTH );
+
+			filterItems();
+		}
+
+		public FilterItemField getWordFilter()
+		{	return new ConsumableFilterField();
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -599,7 +603,6 @@ public class ItemManageFrame extends KoLFrame
 
 			SpecialOutfit.restoreImplicitCheckpoint();
 			RequestThread.closeRequestSequence();
-			wordfilter.filterItems();
 		}
 
 		public void actionCancelled()
@@ -613,8 +616,6 @@ public class ItemManageFrame extends KoLFrame
 				if ( !activeEffects.contains( new AdventureResult( "Ode to Booze", 1, true ) ) )
 					RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
 			}
-
-			wordfilter.filterItems();
 		}
 
 		private class ConsumableFilterField extends FilterItemField
@@ -685,6 +686,8 @@ public class ItemManageFrame extends KoLFrame
 			setButtons( new ActionListener [] { new SearchListener( "combine.php" ), new SearchListener( "cook.php" ),
 				new SearchListener( "cocktail.php" ), new SearchListener( "smith.php" ), new SearchListener( "jewelry.php" ),
 				new SearchListener( "gnomes.php" ) } );
+
+			filterItems();
 		}
 
 		private final int NORMAL = 1;
@@ -948,24 +951,20 @@ public class ItemManageFrame extends KoLFrame
 		public CreateItemPanel( boolean food, boolean booze, boolean equip, boolean other )
 		{
 			super( "", "create item", "create & use", ConcoctionsDatabase.getCreatables() );
-
-			wordfilter.food = food;
-			wordfilter.booze = booze;
-			wordfilter.equip = equip;
-			wordfilter.other = other;
-			wordfilter.notrade = true;
+			setFixedFilter( food, booze, equip, other, true );
 
 			JPanel filterPanel = new JPanel();
 
-			JCheckBox allowNoBox = new CreationSettingCheckBox( "require innabox", "requireBoxServants", "Require innaboxes, auto-repair on explosion" );
+			JCheckBox allowNoBox = new CreationSettingCheckBox( "Require in-a-boxes for creation", "requireBoxServants", "Require in-a-boxes, auto-repair on explosion" );
 			filterPanel.add( allowNoBox );
 
-			JCheckBox infiniteNPC = new CreationSettingCheckBox( "infinite npcs", "assumeInfiniteNPCItems", "Assume NPC items are available for item creation" );
+			JCheckBox infiniteNPC = new CreationSettingCheckBox( "Add NPC items to calculations", "assumeInfiniteNPCItems", "Assume NPC items are available for item creation" );
 			filterPanel.add( infiniteNPC );
 
 			actualPanel.add( filterPanel, BorderLayout.NORTH );
 
 			ConcoctionsDatabase.getCreatables().applyListFilters();
+			filterItems();
 		}
 
 		public void actionConfirmed()
@@ -1036,15 +1035,12 @@ public class ItemManageFrame extends KoLFrame
 			if ( !isEquipment )
 			{
 				northPanel = new JPanel( new BorderLayout() );
-				setButtons( true, true, null );
+				setButtons( true, false, null );
 				actualPanel.add( northPanel, BorderLayout.NORTH );
 
 				eastPanel.add( pullsRemainingLabel1, BorderLayout.SOUTH );
 				return;
 			}
-
-			wordfilter = new EquipmentFilterField();
-			centerPanel.add( wordfilter, BorderLayout.NORTH );
 
 			equipmentFilters = new FilterRadioButton[7];
 			equipmentFilters[0] = new FilterRadioButton( "weapons", true );
@@ -1068,10 +1064,14 @@ public class ItemManageFrame extends KoLFrame
 			actualPanel.add( filterPanel, BorderLayout.NORTH );
 
 			elementList.setCellRenderer( AdventureResult.getEquipmentRenderer() );
-			wordfilter.filterItems();
+			filterItems();
 		}
 
-		private class FilterRadioButton extends JRadioButton implements ActionListener
+		public FilterItemField getWordFilter()
+		{	return new EquipmentFilterField();
+		}
+
+		private class FilterRadioButton extends JRadioButton
 		{
 			public FilterRadioButton( String label )
 			{	this( label, false );
@@ -1080,11 +1080,7 @@ public class ItemManageFrame extends KoLFrame
 			public FilterRadioButton( String label, boolean isSelected )
 			{
 				super( label, isSelected );
-				addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{	wordfilter.filterItems();
+				listenToRadioButton( this );
 			}
 		}
 
@@ -1092,10 +1088,6 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public EquipmentFilterField()
 			{	filter = new EquipmentFilter();
-			}
-
-			public void filterItems()
-			{	elementList.applyFilter( filter );
 			}
 
 			private class EquipmentFilter extends SimpleListFilter
