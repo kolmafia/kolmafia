@@ -56,6 +56,20 @@ public class PulverizeRequest extends KoLRequest
 		addFormField( "conftrade", "1" );
 	}
 
+	public void useMalus( String itemName )
+	{
+		int itemId = TradeableItemDatabase.getItemId( itemName );
+		if ( itemId == -1 )
+			return;
+
+		ItemCreationRequest icr = ItemCreationRequest.getInstance( itemId );
+		if ( icr == null || icr.getQuantityPossible() == 0 )
+			return;
+
+		icr.setQuantityNeeded( icr.getQuantityPossible() );
+		icr.run();
+	}
+
 	public void run()
 	{
 		if ( StaticEntity.getBooleanProperty( "mementoListActive" ) && mementoList.contains( item ) )
@@ -63,7 +77,6 @@ public class PulverizeRequest extends KoLRequest
 
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
 		{
-		case EQUIP_FAMILIAR:
 		case EQUIP_ACCESSORY:
 		case EQUIP_HAT:
 		case EQUIP_PANTS:
@@ -73,6 +86,20 @@ public class PulverizeRequest extends KoLRequest
 			break;
 
 		default:
+
+			if ( !KoLCharacter.isMuscleClass() || !KoLCharacter.hasSkill( "Pulverize" ) )
+			{
+			}
+			if ( item.getName().endsWith( "powder" ) )
+			{
+				useMalus( StaticEntity.singleStringReplace( item.getName(), "powder", "nugget" ) );
+				useMalus( StaticEntity.singleStringReplace( item.getName(), "powder", "wad" ) );
+			}
+			else if ( item.getName().endsWith( "nugget" ) )
+			{
+				useMalus( StaticEntity.singleStringReplace( item.getName(), "nugget", "wad" ) );
+			}
+
 			return;
 		}
 

@@ -120,6 +120,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		{
 			contextMenu.add( new AutoSellMenuItem() );
 			contextMenu.add( new ConsumeMenuItem() );
+			contextMenu.add( new PulverizeMenuItem() );
 		}
 		else if ( listModel == inventory || listModel == closet || isEncyclopedia )
 		{
@@ -520,7 +521,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you would like to consume the selected items?", "Use request nag screen!", JOptionPane.YES_NO_OPTION ) )
+			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you want to use the selected items?", "Use request nag screen!", JOptionPane.YES_NO_OPTION ) )
 				return;
 
 			Object [] items = getSelectedValues();
@@ -528,6 +529,26 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			RequestThread.openRequestSequence();
 			for ( int i = 0; i < items.length; ++i )
 				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
+			RequestThread.closeRequestSequence();
+		}
+	}
+
+	private class PulverizeMenuItem extends ContextMenuItem
+	{
+		public PulverizeMenuItem()
+		{	super( "Pulverize selected" );
+		}
+
+		public void executeAction()
+		{
+			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "The items you've selected will be smashed to pieces.  Are you sure?", "Pulverize request nag screen!", JOptionPane.YES_NO_OPTION ) )
+				return;
+
+			Object [] items = getSelectedValues();
+
+			RequestThread.openRequestSequence();
+			for ( int i = 0; i < items.length; ++i )
+				RequestThread.postRequest( new PulverizeRequest( (AdventureResult) items[i] ) );
 			RequestThread.closeRequestSequence();
 		}
 	}
