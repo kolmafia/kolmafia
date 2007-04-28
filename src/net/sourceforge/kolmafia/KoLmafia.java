@@ -1013,11 +1013,11 @@ public abstract class KoLmafia implements KoLConstants
 		playerName = playerName.replaceAll( "[^0-9A-Za-z_ ]", "" );
 		String lowercase = playerName.toLowerCase();
 
-		if ( !seenPlayerIds.containsKey( lowercase ) )
-		{
-			seenPlayerIds.put( lowercase, playerId );
-			seenPlayerNames.put( playerId, playerName );
-		}
+		if ( lowercase.equals( "modwarning" ) || seenPlayerIds.containsKey( lowercase ) )
+			return;
+
+		seenPlayerIds.put( lowercase, playerId );
+		seenPlayerNames.put( playerId, playerName );
 	}
 
 	public static void registerContact( String playerName, String playerId )
