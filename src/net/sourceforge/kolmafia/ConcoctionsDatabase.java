@@ -299,7 +299,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				AdventureResult.addResultToList( availableIngredients, items[i] );
 		}
 
-		if ( getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() )
+		if ( getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && !ClanManager.getStash().isEmpty() )
 		{
 			AdventureResult [] items = new AdventureResult[ ClanManager.getStash().size() ];
 			ClanManager.getStash().toArray( items );
