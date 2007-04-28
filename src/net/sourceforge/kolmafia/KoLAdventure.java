@@ -45,7 +45,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	private static final AdventureResult PERFUME_ITEM = new AdventureResult( 307, 1 );
 	private static final AdventureResult PERFUME_EFFECT = new AdventureResult( "Knob Goblin Perfume", 1, true );
 
-	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
+	public static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
 	private static final AdventureResult PLANS = new AdventureResult( 146, 1 );
 	private static final AdventureResult TRANSFUNCTIONER = new AdventureResult( 458, 1 );
 	private static final AdventureResult TALISMAN = new AdventureResult( 486, 1 );
