@@ -118,11 +118,10 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		if ( listModel == tally )
 		{
-			contextMenu.add( new ZeroTallyMenuItem() );
 			contextMenu.add( new AutoSellMenuItem() );
+			contextMenu.add( new ConsumeMenuItem() );
 		}
-
-		if ( listModel == inventory || listModel == closet || isEncyclopedia )
+		else if ( listModel == inventory || listModel == closet || isEncyclopedia )
 		{
 			contextMenu.add( new AddToJunkListMenuItem() );
 			contextMenu.add( new AddToMementoListMenuItem() );
@@ -498,20 +497,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 	}
 
-	private class ZeroTallyMenuItem extends ContextMenuItem
-	{
-		public ZeroTallyMenuItem()
-		{	super( "Zero out entries" );
-		}
-
-		public void executeAction()
-		{
-			Object [] items = getSelectedValues();
-			for ( int i = 0; i < items.length; ++i )
-				AdventureResult.addResultToList( tally, ((AdventureResult)items[i]).getNegation() );
-		}
-	}
-
 	private class AutoSellMenuItem extends ContextMenuItem
 	{
 		public AutoSellMenuItem()
@@ -524,6 +509,26 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				return;
 
 			RequestThread.postRequest( new AutoSellRequest( getSelectedValues(), AutoSellRequest.AUTOSELL ) );
+		}
+	}
+
+	private class ConsumeMenuItem extends ContextMenuItem
+	{
+		public ConsumeMenuItem()
+		{	super( "Consume selected" );
+		}
+
+		public void executeAction()
+		{
+			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you would like to consume the selected items?", "Use request nag screen!", JOptionPane.YES_NO_OPTION ) )
+				return;
+
+			Object [] items = getSelectedValues();
+
+			RequestThread.openRequestSequence();
+			for ( int i = 0; i < items.length; ++i )
+				RequestThread.postRequest( new ConsumeItemRequest( (AdventureResult) items[i] ) );
+			RequestThread.closeRequestSequence();
 		}
 	}
 
