@@ -102,29 +102,27 @@ public class ItemManageFrame extends KoLFrame
 	{
 		super( "Item Manager" );
 
-		addPanel( "Usable Items", new UsableItemPanel( false ) );
+		addPanel( "Usable", new UsableItemPanel( false ) );
 		addPanel( " - Food", new ExperimentalPanel( true, false ) );
 		addPanel( " - Booze", new ExperimentalPanel( false, true ) );
 
 		addSeparator();
 
-		addPanel( "Complete Lists", new JPanel() );
-
-		addPanel( " - Inventory", new InventoryManagePanel( inventory, true ) );
+		addPanel( "Inventory", new InventoryManagePanel( inventory, true ) );
+		addPanel( " - Recent", new InventoryManagePanel( tally, true ) );
 		addPanel( " - Closet", new InventoryManagePanel( closet, true ) );
 
 		addSeparator();
 
-		addPanel( "Creatable Items", new CreateItemPanel( true, true, true, true ) );
+		addPanel( "Creatable", new CreateItemPanel( true, true, true, true ) );
 
 		addPanel( " - Cookable", new CreateItemPanel( true, false, false, false ) );
 		addPanel( " - Mixable", new CreateItemPanel( false, true, false, false ) );
-		addPanel( " - Equipment", new CreateItemPanel( false, false, true, false ) );
-		addPanel( " - Others", new CreateItemPanel( false, false, false, true ) );
+		addPanel( " - Others", new CreateItemPanel( false, false, true, true ) );
 
 		addSeparator();
 
-		addPanel( "Hagnk's Storage", new HagnkStoragePanel( false ) );
+		addPanel( "Storage", new HagnkStoragePanel( false ) );
 		addPanel( " - Equipment", new HagnkStoragePanel( true ) );
 
 		// Now a special panel which does nothing more than list
