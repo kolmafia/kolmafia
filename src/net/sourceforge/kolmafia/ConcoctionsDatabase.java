@@ -293,7 +293,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		if ( !closet.isEmpty() )
 		{
 			AdventureResult [] items = new AdventureResult[ closet.size() ];
-			ClanManager.getStash().toArray( items );
+			closet.toArray( items );
 
 			for ( int i = 0; i < items.length; ++i )
 				AdventureResult.addResultToList( availableIngredients, items[i] );
