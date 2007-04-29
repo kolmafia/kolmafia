@@ -530,7 +530,7 @@ public class FightRequest extends KoLRequest
 		if ( monsterData == null )
 			return 0;
 
-		return monsterData.getAttack() + FightRequest.offenseModifier;
+		return monsterData.getAttack() + FightRequest.offenseModifier + KoLCharacter.getMonsterLevelAdjustment();
 	}
 
 	public static int getMonsterDefense()
@@ -538,7 +538,7 @@ public class FightRequest extends KoLRequest
 		if ( monsterData == null )
 			return 0;
 
-		return monsterData.getDefense() + FightRequest.defenseModifier;
+		return monsterData.getDefense() + FightRequest.defenseModifier + KoLCharacter.getMonsterLevelAdjustment();
 	}
 
 	public static int getMonsterAttackElement()
