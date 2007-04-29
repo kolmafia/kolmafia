@@ -45,7 +45,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.message = "I have opted to let you know that I have chosen to run <" + scriptName + ">.  Thanks for writing this script!";
 
 		addFormField( "action", "send" );
-		addFormField( "towho", this.recipient );
+		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
 		addFormField( "message", this.message + "\n\n" );
 	}
 
@@ -57,7 +57,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.message = RequestEditorKit.getUnicode( message + "\n\n" );
 
 		addFormField( "action", "send" );
-		addFormField( "towho", this.recipient );
+		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
 		addFormField( "message", this.message );
 
 		if ( saveMessage )
@@ -72,7 +72,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.message = RequestEditorKit.getUnicode( message + "\n\n" );
 
 		addFormField( "action", "send" );
-		addFormField( "towho", this.recipient );
+		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
 		addFormField( "message", this.message );
 
 		if ( attachment.isItem() )
@@ -91,7 +91,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.message = RequestEditorKit.getUnicode( message + "\n\n" );
 
 		addFormField( "action", "send" );
-		addFormField( "towho", this.recipient );
+		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
 		addFormField( "message", this.message );
 
 		if ( saveMessage )
