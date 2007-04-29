@@ -64,7 +64,7 @@ cream of pointy mushroom soup	2	02-06	0	0	35-40
 dehydrated caviar	1	01-04	0	0	15
 delicious noodles	3	05-12	0	0	09-25
 delicious spicy noodles	3	08-14	0	29-33	0
-desiccated apricot	2	04	17	0	0
+desiccated apricot	1	04	17	0	0
 devil's-food cake	3	03	0	0	0
 Double Bacon Beelzeburger	3	03-05	15-20	-15-20	0
 dwarf bread	3	03-04	0	0	0
