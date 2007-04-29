@@ -39,12 +39,20 @@ import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class MicrobreweryRequest extends KoLRequest
 {
-	private static final Pattern COST_PATTERN = Pattern.compile( "(.*?) \\((\\d*) Meat\\)" );
-	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<td>([^<]*? \\(.*? Meat\\))</td>" );
+	private static AdventureResult dailySpecial = null;
+	private static final Pattern SPECIAL_PATTERN = Pattern.compile( "<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
 
 	private int price;
 	private String itemName;
 	private boolean isPurchase;
+
+	public static AdventureResult getDailySpecial()
+	{
+		if ( microbreweryItems.isEmpty() && KoLCharacter.inMoxieSign() )
+			RequestThread.postRequest( new MicrobreweryRequest() );
+
+		return dailySpecial;
+	}
 
 	public MicrobreweryRequest()
 	{
@@ -61,28 +69,33 @@ public class MicrobreweryRequest extends KoLRequest
 		addFormField( "action", "Yep." );
 
 		this.isPurchase = true;
+
+		int itemId = 0;
 		this.price = 0;
 
 		// Parse item itemName and price
-		Matcher itemMatcher = COST_PATTERN.matcher( name );
-		int itemId = 0;
 
-		if ( itemMatcher.find() )
+		switch ( microbreweryItems.indexOf( name ) )
 		{
-			this.itemName = itemMatcher.group(1);
-			this.price = Integer.parseInt ( itemMatcher.group(2) );
+		case 0:
+			itemId = -1;
+			price = 50;
+			break;
 
-			// Get the menu the microbrewery offers today
-			if ( microbreweryItems.isEmpty() )
-				(new MicrobreweryRequest()).run();
+		case 1:
+			itemId = -2;
+			price = 75;
+			break;
 
-			// Find the item in the menu
-			for ( int i = 0; i < 3; i++ )
-				if ( microbreweryItems.get(i).equals( name ) )
-					itemId = -1 - i;
+		case 2:
+			itemId = -3;
+			price = 100;
+			break;
 
-			if ( itemId == 0 )
-				itemId = TradeableItemDatabase.getItemId( itemName );
+		case 3:
+			itemId = TradeableItemDatabase.getItemId( name );
+			price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
+			break;
 		}
 
 		addFormField( "whichitem", String.valueOf( itemId ) );
@@ -97,7 +110,7 @@ public class MicrobreweryRequest extends KoLRequest
 		{
 			if ( price == 0 )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "The micromicromicrobrewery doesn't sell that." );
+				KoLmafia.updateDisplay( ERROR_STATE, "The microbrewery doesn't sell that." );
 				return;
 			}
 
@@ -142,21 +155,32 @@ public class MicrobreweryRequest extends KoLRequest
 			return;
 		}
 
-		Matcher purchaseMatcher = AVAILABLE_PATTERN.matcher( responseText );
-		for ( int i = 0; purchaseMatcher.find(); ++i )
+		microbreweryItems.clear();
+
+		addBreweryItem( "Petite Porter", 50 );
+		addBreweryItem( "Scrawny Stout", 75 );
+		addBreweryItem( "Infinitesimal IPA", 100 );
+
+		Matcher specialMatcher = SPECIAL_PATTERN.matcher( responseText );
+		if ( specialMatcher.find() )
 		{
-			String itemName = purchaseMatcher.group(1);
-			microbreweryItems.add( itemName );
+			int itemId = StaticEntity.parseInt( specialMatcher.group(1) );
+			dailySpecial = new AdventureResult( itemId, 1 );
 
-			Matcher itemMatcher = COST_PATTERN.matcher( itemName );
-			itemMatcher.find();
-
-			Concoction brew = new Concoction( itemMatcher.group(1), StaticEntity.parseInt( itemMatcher.group(2) ) );
-			if ( i == 3 )  ConcoctionsDatabase.getUsables().remove( brew );
-			ConcoctionsDatabase.getUsables().add( brew );
+			addBreweryItem( TradeableItemDatabase.getItemName( itemId ),
+				Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3 );
 		}
 
 		KoLmafia.updateDisplay( "Menu retrieved." );
+	}
+
+	private static void addBreweryItem( String itemName, int price )
+	{
+		microbreweryItems.add( itemName );
+
+		Concoction brew = new Concoction( itemName, price );
+		ConcoctionsDatabase.getUsables().remove( brew );
+		ConcoctionsDatabase.getUsables().add( brew );
 	}
 
 	public static boolean registerRequest( String urlString )
