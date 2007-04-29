@@ -3244,6 +3244,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "drink", BOOLEAN_TYPE, params ) );
 
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "daily_special", ITEM_TYPE, params ) );
+
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "hobo_drink", BOOLEAN_TYPE, params ) );
 
@@ -4765,6 +4768,14 @@ public class KoLmafiaASH extends StaticEntity
 
 			DEFAULT_SHELL.executeLine( "drink " + count.intValue() + " " + item.toStringValue() );
 			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
+		}
+
+		public ScriptValue daily_special()
+		{
+			AdventureResult special = KoLCharacter.inMoxieSign() ? MicrobreweryRequest.getDailySpecial() :
+				KoLCharacter.inMysticalitySign() ? RestaurantRequest.getDailySpecial() : null;
+
+			return special == null ? ITEM_INIT : parseItemValue( special.getName() );
 		}
 
 		public ScriptValue hobo_drink( ScriptVariable count, ScriptVariable item )

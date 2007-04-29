@@ -60,9 +60,9 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static Map itemIdByName = new TreeMap();
 	private static Map itemIdByPlural = new TreeMap();
 
-	private static Map fullnessById = new TreeMap();
-	private static Map inebrietyById = new TreeMap();
-	private static Map spleenHitById = new TreeMap();
+	private static Map fullnessByName = new TreeMap();
+	private static Map inebrietyByName = new TreeMap();
+	private static Map spleenHitByName = new TreeMap();
 
 	private static Map [][][][] advsByName = new TreeMap[2][2][2][2];
 
@@ -185,7 +185,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			if ( data.length >= 2 )
 			{
 				String name = getCanonicalName( data[0] );
-				fullnessById.put( name, Integer.valueOf( data[1] ) );
+				fullnessByName.put( name, Integer.valueOf( data[1] ) );
 
 				if ( data.length > 2 )
 				{
@@ -218,7 +218,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			if ( data.length >= 2 )
 			{
 				String name = getCanonicalName( data[0] );
-				inebrietyById.put( name, Integer.valueOf( data[1] ) );
+				inebrietyByName.put( name, Integer.valueOf( data[1] ) );
 
 				if ( data.length > 2 )
 				{
@@ -251,7 +251,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			if ( data.length == 2 )
 			{
 				String name = getCanonicalName( data[0] );
-				spleenHitById.put( name, Integer.valueOf( data[1] ) );
+				spleenHitByName.put( name, Integer.valueOf( data[1] ) );
 			}
 		}
 
@@ -676,7 +676,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( name == null )
 			return 0;
 
-		Integer fullness = (Integer) fullnessById.get( getCanonicalName( name ) );
+		Integer fullness = (Integer) fullnessByName.get( getCanonicalName( name ) );
 		return fullness == null ? 0 : fullness.intValue();
 	}
 
@@ -685,7 +685,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( name == null )
 			return 0;
 
-		Integer inebriety = (Integer) inebrietyById.get( getCanonicalName( name ) );
+		Integer inebriety = (Integer) inebrietyByName.get( getCanonicalName( name ) );
 		return inebriety == null ? 0 : inebriety.intValue();
 	}
 
@@ -694,7 +694,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( name == null )
 			return 0;
 
-		Integer spleenhit = (Integer) spleenHitById.get( getCanonicalName( name ) );
+		Integer spleenhit = (Integer) spleenHitByName.get( getCanonicalName( name ) );
 		return spleenhit == null ? 0 : spleenhit.intValue();
 	}
 

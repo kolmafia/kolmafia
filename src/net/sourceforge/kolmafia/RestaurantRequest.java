@@ -39,11 +39,19 @@ import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class RestaurantRequest extends KoLRequest
 {
-	private static final Pattern COST_PATTERN = Pattern.compile( "(.*?) \\((\\d*) Meat\\)" );
-	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<td>([^<]*? \\(.*? Meat\\))</td>" );
+	private static AdventureResult dailySpecial = null;
+	private static final Pattern SPECIAL_PATTERN = Pattern.compile( "<input type=radio name=whichitem value=(\\d+)>", Pattern.DOTALL );
 
 	private boolean isPurchase;
 	private int price;
+
+	public static AdventureResult getDailySpecial()
+	{
+		if ( microbreweryItems.isEmpty() && KoLCharacter.inMoxieSign() )
+			RequestThread.postRequest( new MicrobreweryRequest() );
+
+		return dailySpecial;
+	}
 
 	public RestaurantRequest()
 	{
@@ -57,28 +65,31 @@ public class RestaurantRequest extends KoLRequest
 		addFormField( "action", "Yep." );
 
 		this.isPurchase = true;
+
+		int itemId = 0;
 		this.price = 0;
 
-		// Parse item name and price
-		Matcher itemMatcher = COST_PATTERN.matcher( name );
-		int itemId = 0;
-
-		if ( itemMatcher.find( 0 ) )
+		switch ( restaurantItems.indexOf( name ) )
 		{
-			String itemName = itemMatcher.group(1);
-			this.price = Integer.parseInt( itemMatcher.group(2) );
+		case 0:
+			itemId = -1;
+			price = 50;
+			break;
 
-			// Get the menu the restaurant offers today
-			if ( restaurantItems.isEmpty() )
-				(new RestaurantRequest()).run();
+		case 1:
+			itemId = -2;
+			price = 75;
+			break;
 
-			// Find the item in the menu
-			for ( int i = 0; i < 3; i++ )
-				if ( restaurantItems.get(i).equals( name ) )
-					itemId = -1 - i;
+		case 2:
+			itemId = -3;
+			price = 100;
+			break;
 
-			if ( itemId == 0 )
-				itemId = TradeableItemDatabase.getItemId( itemName );
+		case 3:
+			itemId = TradeableItemDatabase.getItemId( name );
+			price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
+			break;
 		}
 
 		addFormField( "whichitem", String.valueOf( itemId ) );
@@ -139,23 +150,33 @@ public class RestaurantRequest extends KoLRequest
 		}
 
 		int lastMatchIndex = 0;
-		Matcher purchaseMatcher = AVAILABLE_PATTERN.matcher( responseText );
 
 		restaurantItems.clear();
-		while ( purchaseMatcher.find() )
+
+		addRestaurantItem( "Peche a la Frog", 50 );
+		addRestaurantItem( "Au Jus Gezund Heit", 75 );
+		addRestaurantItem( "Bouillabaise Coucher Avec Moi", 100 );
+
+		Matcher specialMatcher = SPECIAL_PATTERN.matcher( responseText );
+		if ( specialMatcher.find() )
 		{
-			String name = purchaseMatcher.group(1);
-			restaurantItems.add( purchaseMatcher.group(1) );
+			int itemId = StaticEntity.parseInt( specialMatcher.group(1) );
+			dailySpecial = new AdventureResult( itemId, 1 );
 
-			Matcher itemMatcher = COST_PATTERN.matcher( name );
-			itemMatcher.find();
-
-			Concoction chez = new Concoction( itemMatcher.group(1), StaticEntity.parseInt( itemMatcher.group(2) ) );
-			ConcoctionsDatabase.getUsables().remove( chez );
-			ConcoctionsDatabase.getUsables().add( chez );
+			addRestaurantItem( TradeableItemDatabase.getItemName( itemId ),
+				Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3 );
 		}
 
 		KoLmafia.updateDisplay( "Menu retrieved." );
+	}
+
+	private static void addRestaurantItem( String itemName, int price )
+	{
+		restaurantItems.add( itemName );
+
+		Concoction chez = new Concoction( itemName, price );
+		ConcoctionsDatabase.getUsables().remove( chez );
+		ConcoctionsDatabase.getUsables().add( chez );
 	}
 
 	public static boolean registerRequest( String urlString )

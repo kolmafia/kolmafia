@@ -4543,50 +4543,6 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
-	 * Makes a request to the restaurant to purchase a meal.  If the item
-	 * is not available, this method does not report an error.
-	 */
-
-	public boolean makeRestaurantRequest( String parameters )
-	{
-		if ( restaurantItems.isEmpty() && KoLCharacter.inMysticalitySign() )
-			RequestThread.postRequest( new RestaurantRequest() );
-
-		if ( parameters.equals( "" ) )
-		{
-			printList( restaurantItems );
-			return false;
-		}
-
-		String [] splitParameters = splitCountAndName( parameters );
-		String countString = splitParameters[0];
-		String nameString = splitParameters[1];
-
-		for ( int i = 0; i < restaurantItems.size(); ++i )
-		{
-			String name = (String) restaurantItems.get(i);
-			if ( name.toLowerCase().indexOf( nameString ) != -1 )
-			{
-				if ( isExecutingCheckOnlyCommand )
-				{
-					RequestLogger.printLine( name );
-					return true;
-				}
-
-				int count = countString == null || countString.length() == 0 ? 1 :
-					StaticEntity.parseInt( countString );
-
-				for ( int j = 0; j < count; ++j )
-					RequestThread.postRequest( new RestaurantRequest( name ) );
-
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
 	 * Makes a request to Doc Galaktik to purchase a cure.  If the
 	 * cure is not available, this method does not report an error.
 	 */
@@ -4616,6 +4572,60 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
+	 * Makes a request to the restaurant to purchase a meal.  If the item
+	 * is not available, this method does not report an error.
+	 */
+
+	public boolean makeRestaurantRequest( String parameters )
+	{
+		if ( restaurantItems.isEmpty() && KoLCharacter.inMysticalitySign() )
+			RequestThread.postRequest( new RestaurantRequest() );
+
+		if ( parameters.equals( "" ) )
+		{
+			RequestLogger.printLine( "Today's Special: " + RestaurantRequest.getDailySpecial() );
+			return false;
+		}
+
+		String [] splitParameters = splitCountAndName( parameters );
+		String countString = splitParameters[0];
+		String nameString = splitParameters[1];
+
+		if ( nameString.equalsIgnoreCase( "daily special" ) )
+			nameString = RestaurantRequest.getDailySpecial().getName();
+
+		for ( int i = 0; i < restaurantItems.size(); ++i )
+		{
+			String name = (String) restaurantItems.get(i);
+			if ( name.toLowerCase().indexOf( nameString ) != -1 )
+			{
+				if ( isExecutingCheckOnlyCommand )
+				{
+					RequestLogger.printLine( name );
+					return true;
+				}
+
+				int count = countString == null || countString.length() == 0 ? 1 :
+					StaticEntity.parseInt( countString );
+
+				if ( count == 0 )
+				{
+					int fullness = TradeableItemDatabase.getFullness( name );
+					if ( fullness > 0 )
+						count = (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
+				}
+
+				for ( int j = 0; j < count; ++j )
+					RequestThread.postRequest( new RestaurantRequest( name ) );
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Makes a request to the microbrewery to purchase a drink.  If the
 	 * item is not available, this method does not report an error.
 	 */
@@ -4627,13 +4637,16 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( parameters.equals( "" ) )
 		{
-			printList( microbreweryItems );
+			RequestLogger.printLine( "Today's Special: " + MicrobreweryRequest.getDailySpecial() );
 			return false;
 		}
 
 		String [] splitParameters = splitCountAndName( parameters );
 		String countString = splitParameters[0];
 		String nameString = splitParameters[1];
+
+		if ( nameString.equalsIgnoreCase( "daily special" ) )
+			nameString = MicrobreweryRequest.getDailySpecial().getName();
 
 		for ( int i = 0; i < microbreweryItems.size(); ++i )
 		{
@@ -4649,8 +4662,16 @@ public class KoLmafiaCLI extends KoLmafia
 				int count = countString == null || countString.length() == 0 ? 1 :
 					StaticEntity.parseInt( countString );
 
+				if ( count == 0 )
+				{
+					int inebriety = TradeableItemDatabase.getInebriety( name );
+					if ( inebriety > 0 )
+						count = (KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()) / inebriety;
+				}
+
 				for ( int j = 0; j < count; ++j )
 					RequestThread.postRequest( new MicrobreweryRequest( name ) );
+
 				return true;
 			}
 		}

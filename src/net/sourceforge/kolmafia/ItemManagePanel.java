@@ -346,7 +346,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 			}
 			else
 			{
-				items[i] = (((Concoction)items[i]).getName() + " (" + ((Concoction)items[i]).getPrice() + " Meat) => " + quantity);
+				items[i] = (((Concoction)items[i]).getName() + " => " + quantity);
 			}
 		}
 
