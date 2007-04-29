@@ -212,6 +212,10 @@ public class ConsumeItemRequest extends KoLRequest
 	}
 
 	public static int maximumUses( int itemId )
+	{	return maximumUses( itemId, true );
+	}
+
+	public static int maximumUses( int itemId, boolean allowOverDrink )
 	{
 		if ( itemId <= 0 )
 			return Integer.MAX_VALUE;
@@ -281,8 +285,9 @@ public class ConsumeItemRequest extends KoLRequest
 		int inebrietyHit = TradeableItemDatabase.getInebriety( itemName );
 		if ( inebrietyHit > 0 )
 		{
-			return KoLCharacter.getInebrietyLimit() < KoLCharacter.getInebriety() ? 0 :
-				(KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()) / inebrietyHit + 1;
+			int inebrietyLeft = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety();
+			return inebrietyLeft < 0 ? 0 : inebrietyLeft < inebrietyHit ? 1 :
+				allowOverDrink ? inebrietyLeft / inebrietyHit + 1 : inebrietyLeft / inebrietyHit;
 		}
 
 		return Integer.MAX_VALUE;
