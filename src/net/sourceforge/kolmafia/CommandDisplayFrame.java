@@ -222,7 +222,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 		public void run()
 		{
-			if ( isRunning )
+			if ( isRunning || commandQueue.isEmpty() )
 				return;
 
 			isRunning = true;
@@ -234,7 +234,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 				synchronized ( commandQueue )
 				{
-					command = (String) commandQueue.get(0);
+					command = (String) commandQueue.remove(0);
 				}
 
 				RequestLogger.printLine();
@@ -249,11 +249,6 @@ public class CommandDisplayFrame extends KoLFrame
 				catch ( Exception e )
 				{
 					StaticEntity.printStackTrace( e );
-				}
-
-				synchronized ( commandQueue )
-				{
-					commandQueue.remove(0);
 				}
 			}
 			while ( !KoLmafia.refusesContinue() && !commandQueue.isEmpty() );
