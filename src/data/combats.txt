@@ -47,7 +47,7 @@ Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Li
 Pre-Cyrpt Cemetary	100	Ghoul	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
 Crimbo Town Toy Factory	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf
 Crimborg Collective Factory	100	<s>Killer</s> Festive Arc-Welding Elfbot	<s>Killer</s> Festive Decal-Applying Elfbot	<s>Killer</s> Festive Laser-Calibrating Elfbot	<s>Killer</s> Festive Weapons-Assembly Elfbot	Rudolphus of Crimborg
-Daily Dungeon	-1	Dairy Ooze	Dodecapede	Giant Giant Moth	Mayonnaise Wasp	Pencil Golem	Sabre-Toothed Lime	Tonic Water Elemental	Vampire Clam
+Daily Dungeon	-1	Apathetic Lizardman	Dairy Ooze	Dodecapede	Giant Giant Moth	Mayonnaise Wasp	Pencil Golem	Sabre-Toothed Lime	Tonic Water Elemental	Vampire Clam
 Dark Elbow of the Woods	95	Demoninja	G Imp	L Imp
 Dark Heart of the Woods	95	Fallen Archfiend	G Imp	P Imp
 Dark Neck of the Woods	95	Hellion	P Imp	W Imp
