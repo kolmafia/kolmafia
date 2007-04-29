@@ -95,6 +95,7 @@ Angry Raccoon Puppet	HP: 20 Def: 35 Atk: 35	felt (0)	stuffing (0)	googly eye (0)
 Animated Nightstand (Mahogany)	HP: 170 Def: 166 Atk: 158	old coin purse (25)	old leather wallet (25)
 Animated Nightstand (White)	HP: 180 Def: 171 Atk: 147	grouchy restless spirit (80)
 Anime Smiley	HP: 67 Def: 77 Atk: 77	334 scroll (30)	Tasty Fun Good rice candy (40)
+Apathetic Lizardman	HP: 14 Def: 20 Atk: 20
 Axe Handle	HP: 3 Def: 3 Atk: 1	pine tar (20)
 BASIC Elemental	HP: 40 Def: 50 Atk: 50
 Baiowulf	HP: 40 Def: 25 Atk: 25	Talisman of Baio (100)
