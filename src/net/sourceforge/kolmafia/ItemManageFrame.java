@@ -122,8 +122,8 @@ public class ItemManageFrame extends KoLFrame
 
 		addSeparator();
 
-		addPanel( "Storage", new HagnkStoragePanel( false ) );
-		addPanel( " - Equipment", new HagnkStoragePanel( true ) );
+		addPanel( "Storage", new HagnkCompletePanel() );
+		addPanel( " - Equipment", new HagnkEquipmentPanel() );
 
 		// Now a special panel which does nothing more than list
 		// some common actions and some descriptions.
@@ -1032,24 +1032,12 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class HagnkStoragePanel extends ItemManagePanel
+	private class HagnkEquipmentPanel extends HagnkStoragePanel
 	{
 		private FilterRadioButton [] equipmentFilters;
 
-		public HagnkStoragePanel( boolean isEquipment )
+		public HagnkEquipmentPanel()
 		{
-			super( "", "pull item", "closet item", storage );
-
-			if ( !isEquipment )
-			{
-				northPanel = new JPanel( new BorderLayout() );
-				setButtons( true, false, null );
-				actualPanel.add( northPanel, BorderLayout.NORTH );
-
-				eastPanel.add( pullsRemainingLabel1, BorderLayout.SOUTH );
-				return;
-			}
-
 			equipmentFilters = new FilterRadioButton[7];
 			equipmentFilters[0] = new FilterRadioButton( "weapons", true );
 			equipmentFilters[1] = new FilterRadioButton( "offhand" );
@@ -1107,30 +1095,31 @@ public class ItemManageFrame extends KoLFrame
 				public boolean isVisible( Object element )
 				{
 					boolean isVisibleWithFilter = true;
+
 					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
 					{
-					case EQUIP_ACCESSORY:
-						isVisibleWithFilter = equipmentFilters[5].isSelected();
-						break;
-
-					case EQUIP_HAT:
-						isVisibleWithFilter = equipmentFilters[2].isSelected();
-						break;
-
-					case EQUIP_PANTS:
-						isVisibleWithFilter = equipmentFilters[4].isSelected();
-						break;
-
-					case EQUIP_SHIRT:
-						isVisibleWithFilter = equipmentFilters[3].isSelected();
-						break;
-
 					case EQUIP_WEAPON:
 						isVisibleWithFilter = equipmentFilters[0].isSelected();
 						break;
 
 					case EQUIP_OFFHAND:
 						isVisibleWithFilter = equipmentFilters[1].isSelected();
+						break;
+
+					case EQUIP_HAT:
+						isVisibleWithFilter = equipmentFilters[2].isSelected();
+						break;
+
+					case EQUIP_SHIRT:
+						isVisibleWithFilter = equipmentFilters[3].isSelected();
+						break;
+
+					case EQUIP_PANTS:
+						isVisibleWithFilter = equipmentFilters[4].isSelected();
+						break;
+
+					case EQUIP_ACCESSORY:
+						isVisibleWithFilter = equipmentFilters[5].isSelected();
 						break;
 
 					case EQUIP_FAMILIAR:
@@ -1147,6 +1136,25 @@ public class ItemManageFrame extends KoLFrame
 					return super.isVisible( element );
 				}
 			}
+		}
+	}
+
+	private class HagnkCompletePanel extends HagnkStoragePanel
+	{
+		public HagnkCompletePanel()
+		{
+			northPanel = new JPanel( new BorderLayout() );
+			setButtons( true, false, null );
+			actualPanel.add( northPanel, BorderLayout.NORTH );
+
+			eastPanel.add( pullsRemainingLabel1, BorderLayout.SOUTH );
+		}
+	}
+
+	private abstract class HagnkStoragePanel extends ItemManagePanel
+	{
+		public HagnkStoragePanel()
+		{	super( "", "pull item", "closet item", storage );
 		}
 
 		public void actionConfirmed()
