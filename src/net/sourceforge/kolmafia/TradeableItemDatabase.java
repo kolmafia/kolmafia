@@ -690,22 +690,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		return spleenhit == null ? 0 : spleenhit.intValue();
 	}
 
-	private static final String getRangePerUnit( String range, int fullness, int inebriety )
-	{
-		float ratio = StaticEntity.parseFloat( range );
-
-		if ( fullness > 0 )
-			ratio /= (float) fullness;
-		else if ( inebriety > 0 )
-			ratio /= (float) inebriety;
-
-		range = String.valueOf( (((int)(ratio * 10.0f)) / 10.0f) );
-		if ( ratio >= 0.0f )
-			range = "+" + range;
-
-		return range;
-	}
-
 	public static final String getAdventureRange( String name )
 	{
 		if ( name == null )
