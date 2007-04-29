@@ -68,13 +68,25 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	static
 	{
-		int a, b, c, d;
+		advsByName[0][0][0][0] = new TreeMap();
+		advsByName[0][0][0][1] = new TreeMap();
+		advsByName[0][0][1][0] = new TreeMap();
+		advsByName[0][0][1][1] = new TreeMap();
 
-		for ( int i = 0; i < 2; ++i )
-			for ( int j = 0; j < 2; ++j )
-				for ( int k = 0; k < 2; ++k )
-					for ( int l = 0; l < 2; ++l )
-						advsByName[i][j][k][l] = new TreeMap();
+		advsByName[0][1][0][0] = new TreeMap();
+		advsByName[0][1][0][1] = new TreeMap();
+		advsByName[0][1][1][0] = new TreeMap();
+		advsByName[0][1][1][1] = new TreeMap();
+
+		advsByName[1][0][0][0] = new TreeMap();
+		advsByName[1][0][0][1] = new TreeMap();
+		advsByName[1][0][1][0] = new TreeMap();
+		advsByName[1][0][1][1] = new TreeMap();
+
+		advsByName[1][1][0][0] = new TreeMap();
+		advsByName[1][1][0][1] = new TreeMap();
+		advsByName[1][1][1][0] = new TreeMap();
+		advsByName[1][1][1][1] = new TreeMap();
 	}
 
 	private static Map muscleByName = new TreeMap();
