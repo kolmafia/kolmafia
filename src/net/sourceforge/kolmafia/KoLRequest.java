@@ -1576,12 +1576,6 @@ public class KoLRequest extends Job implements KoLConstants
 			request.addFormField( "whichchoice", choice );
 			request.addFormField( "option", decision );
 			request.run();
-
-			// Certain choices cost meat when selected
-
-			AdventureResult cost = AdventureDatabase.getCost( option, decision );
-			if ( cost != null )
-				StaticEntity.getClient().processResult( cost );
 		}
 
 		// Manually process any adventure usage for choice adventures,
