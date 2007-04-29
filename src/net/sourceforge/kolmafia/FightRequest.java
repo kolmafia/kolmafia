@@ -177,7 +177,7 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
-		if ( !KoLmafia.permitsContinue() )
+		if ( KoLmafia.refusesContinue() )
 		{
 			action1 = "abort";
 			return;

@@ -1648,9 +1648,16 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		forceContinue();
+		int currentIterationCount = 0;
 
 		while ( permitsContinue() && ++currentIteration <= iterations )
 		{
+			if ( currentIterationCount > 4 )
+			{
+				KoLmafia.updateDisplay( ABORT_STATE, "Internal error.  Please exit KoLmafia." );
+				break;
+			}
+
 			// Account for the possibility that you could have run
 			// out of adventures mid-request.
 
@@ -1737,7 +1744,12 @@ public abstract class KoLmafia implements KoLConstants
 			// effect on the next iteration of the loop.
 
 			if ( request instanceof KoLAdventure && adventuresBeforeRequest == KoLCharacter.getAdventuresLeft() )
+			{
 				--currentIteration;
+				++currentIterationCount;
+			}
+			else
+				currentIterationCount = 0;
 
 			// Prevent drunkenness adventures from occurring by
 			// testing inebriety levels after the request is run.

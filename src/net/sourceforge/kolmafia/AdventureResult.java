@@ -760,7 +760,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		private void appendRange( StringBuffer stringForm, String range, String suffix )
 		{
-			if ( range.equals( "+0.0" ) )
+			if ( range.equals( "+0.0" ) && !suffix.equals( "adv" ) )
 				return;
 
 			stringForm.append( ", " );
