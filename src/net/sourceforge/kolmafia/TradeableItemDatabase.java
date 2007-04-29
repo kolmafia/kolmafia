@@ -70,15 +70,11 @@ public class TradeableItemDatabase extends KoLDatabase
 	{
 		int a, b, c, d;
 
-		for ( int i = 0; i < 16; ++i )
-		{
-			a = (i & 0x00000008) != 0 ? 1 : 0;
-			b = (i & 0x00000004) != 0 ? 1 : 0;
-			c = (i & 0x00000002) != 0 ? 1 : 0;
-			d = (i & 0x00000001) != 0 ? 1 : 0;
-
-			advsByName[a][b][c][d] = new TreeMap();
-		}
+		for ( int i = 0; i < 2; ++i )
+			for ( int j = 0; j < 2; ++j )
+				for ( int k = 0; k < 2; ++k )
+					for ( int l = 0; l < 2; ++l )
+						advsByName[i][j][k][l] = new TreeMap();
 	}
 
 	private static Map muscleByName = new TreeMap();
