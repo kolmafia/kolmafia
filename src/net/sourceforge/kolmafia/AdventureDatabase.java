@@ -348,7 +348,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Strung-Up Quartet
 		new ChoiceAdventure( "Manor", "choiceAdventure106", "Haunted Ballroom",
-		  new String [] { "lively, saucy song", "mellow, relaxing tune", "lovely, semi-fast waltz", "skip adventure" } ),
+		  new String [] { "increase monster level", "decrease combat frequency", "increase item drops", "skip adventure" } ),
 
 		// Bad Medicine is What You Need
 		new ChoiceAdventure( "Manor", "choiceAdventure107", "Haunted Bathroom",
