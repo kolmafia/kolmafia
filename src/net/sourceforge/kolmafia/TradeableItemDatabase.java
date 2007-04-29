@@ -347,11 +347,11 @@ public class TradeableItemDatabase extends KoLDatabase
 		// provided on the Iocaine Powder forums.
 		// http://www.iocainepowder.org/forums/viewtopic.php?t=2742
 
-		getAdventureMap( false, false, gainEffect1, gainEffect1 ).put( name, SINGLE_PRECISION_FORMAT.format( result ) );
-		getAdventureMap( false, true, gainEffect1, gainEffect1 ).put( name, SINGLE_PRECISION_FORMAT.format( result * 1.1f ) );
+		getAdventureMap( false, false, gainEffect1, gainEffect2 ).put( name, SINGLE_PRECISION_FORMAT.format( result ) );
+		getAdventureMap( false, true, gainEffect1, gainEffect2 ).put( name, SINGLE_PRECISION_FORMAT.format( result * 1.1f ) );
 
-		getAdventureMap( true, false, gainEffect1, gainEffect1 ).put( name, SINGLE_PRECISION_FORMAT.format( result / unitCost ) );
-		getAdventureMap( true, true, gainEffect1, gainEffect1 ).put( name, SINGLE_PRECISION_FORMAT.format( result * 1.1f / unitCost ) );
+		getAdventureMap( true, false, gainEffect1, gainEffect2 ).put( name, SINGLE_PRECISION_FORMAT.format( result / unitCost ) );
+		getAdventureMap( true, true, gainEffect1, gainEffect2 ).put( name, SINGLE_PRECISION_FORMAT.format( result * 1.1f / unitCost ) );
 	}
 
 	private static Map getAdventureMap( boolean perUnit, boolean gainZodiac, boolean gainEffect1, boolean gainEffect2 )
