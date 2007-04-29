@@ -287,6 +287,24 @@ public class RequestLogger extends NullStream implements KoLConstants
 		if ( urlString.startsWith( "choice" ) )
 		{
 			updateSessionLog( urlString );
+
+			// Certain choices cost meat when selected
+
+			String choice = request.getFormField( "whichchoice" );
+			String decision = request.getFormField( "option" );
+
+			if ( choice != null && decision != null )
+			{
+				AdventureResult cost = AdventureDatabase.getCost( choice, decision );
+				if ( cost != null )
+				{
+					if ( cost.getCount() == 0 )
+						StaticEntity.getClient().processResult( cost.getInstance( cost.getCount( inventory ) ) );
+					else if ( !cost.isItem() || cost.getCount( inventory ) > 0 )
+						StaticEntity.getClient().processResult( cost );
+				}
+			}
+
 			return;
 		}
 

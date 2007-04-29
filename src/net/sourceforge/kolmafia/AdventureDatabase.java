@@ -595,19 +595,25 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final Object [][] CHOICE_COST =
 	{
+		// Denim Axes Examined
+		{ "2", "1", new AdventureResult( "rubber axe", -1 ) },
+
 		// Finger-Lickin'... Death.
-		{ "choiceAdventure4", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
-		{ "choiceAdventure4", "2", new AdventureResult( AdventureResult.MEAT, -500 ) },
+		{ "4", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
+		{ "4", "2", new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Under the Knife
-		{ "choiceAdventure21", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
+		{ "21", "1", new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Ouch! You bump into a door!
-		{ "choiceAdventure25", "1", new AdventureResult( AdventureResult.MEAT, -50 ) },
-		{ "choiceAdventure25", "2", new AdventureResult( AdventureResult.MEAT, -5000 ) },
+		{ "25", "1", new AdventureResult( AdventureResult.MEAT, -50 ) },
+		{ "25", "2", new AdventureResult( AdventureResult.MEAT, -5000 ) },
+
+		// Have a Heart
+		{ "47", "1", new AdventureResult( "bottle of used blood", 0 ) },
 
 		// No sir, away!  A papaya war is on!
-		{ "choiceAdventure127", "2", new AdventureResult( "papaya", -3 ) }
+		{ "127", "2", new AdventureResult( "papaya", -3 ) }
 	};
 
 	// Some adventures don't actually cost a turn
