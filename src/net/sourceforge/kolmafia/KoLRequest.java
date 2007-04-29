@@ -1440,6 +1440,8 @@ public class KoLRequest extends Job implements KoLConstants
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
 
+		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
+
 		KoLRequest request = new KoLRequest( redirectLocation );
 		request.run();
 
@@ -1449,7 +1451,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 		while ( request.responseText.indexOf( "choice.php" ) != -1 )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
 			Matcher choiceMatcher = CHOICE_PATTERN.matcher( request.responseText );
 
 			if ( !choiceMatcher.find() )
