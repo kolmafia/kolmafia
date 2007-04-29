@@ -9,3 +9,4 @@ The Professor	725798	http://www.hardcoreoxygenation.com/Barkeep/theprofessor.xml
 Dreadwing	125120	http://www.koladdict.com/buffbot/dreadwing.xml
 L00ki3	151958	http://www.koladdict.com/buffbot/l00ki3.xml
 Lucky 888	1235543	http://darkshadows.dune.net/lucky_888.xml
+zonkttc	333480	http://www.warpedpenguin.org/zonkttc.xml
