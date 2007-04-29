@@ -105,12 +105,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( target == null || target.trim().length() == 0 || target.equals( String.valueOf( KoLCharacter.getUserId() ) ) || target.equals( KoLCharacter.getUserName() ) )
 			{
 				this.target = "yourself";
-				addFormField( "specificplayer", KoLCharacter.getUserName() );
+				addFormField( "specificplayer", KoLCharacter.getPlayerId() );
 			}
 			else
 			{
-				this.target = target;
-				addFormField( "specificplayer", target );
+				this.target = KoLmafia.getPlayerName( target );
+				addFormField( "specificplayer", KoLmafia.getPlayerId( target ) );
 			}
 		}
 		else
