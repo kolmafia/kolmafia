@@ -103,7 +103,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		this.materialCost = this.wrappingType.materialCost;
 
 		addFormField( "action", "Yep." );
-		addFormField( "towho", this.recipient );
+		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
 		addFormField( "note", this.message );
 		addFormField( "insidenote", this.message );
 		addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
