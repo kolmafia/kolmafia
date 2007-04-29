@@ -43,7 +43,7 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 public class SimpleListFilter extends ListElementFilter
 {
 	private JTextField field;
-	private JTextComponent model;
+	private MutableComboBox model;
 
 	private boolean active = true;
 	private boolean strict = true;
@@ -53,7 +53,7 @@ public class SimpleListFilter extends ListElementFilter
 	}
 
 	public SimpleListFilter( MutableComboBox model )
-	{	this.model = (JTextComponent) model.getEditor().getEditorComponent();;
+	{	this.model = model;
 	}
 
 	public void activate()
@@ -75,7 +75,7 @@ public class SimpleListFilter extends ListElementFilter
 	private String getCurrentName()
 	{
 		if ( model != null )
-			return model.getText();
+			return model.getCurrentName();
 
 		if ( field != null )
 			return field.getText();

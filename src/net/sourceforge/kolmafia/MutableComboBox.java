@@ -70,6 +70,10 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		this.getEditor().getEditorComponent().addKeyListener( listener );
 	}
 
+	public String getCurrentName()
+	{	return currentName;
+	}
+
 	public void forceAddition()
 	{
 		if ( currentName == null || currentName.length() == 0 )
