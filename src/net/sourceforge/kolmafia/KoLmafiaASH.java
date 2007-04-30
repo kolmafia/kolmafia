@@ -2640,8 +2640,12 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				var = (ScriptVariableReference) it2.next();
 				description.append( var.getType() );
-				description.append( " " );
-				description.append( var.getName() );
+
+				if ( var.getName() != null )
+				{
+					description.append( " " );
+					description.append( var.getName() );
+				}
 
 				if ( it2.hasNext() )
 					description.append( ", " );
