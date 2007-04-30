@@ -1014,7 +1014,35 @@ public class KoLmafiaCLI extends KoLmafia
 		// login), so they should be handled before a test
 		// of login state needed for other commands.
 
-		if ( command.equals( "using" ) || command.equals( "namespace" ) )
+		if ( command.equals( "namespace" ) )
+		{
+			// Validate the script first.
+
+			String [] scripts = StaticEntity.getProperty( "commandLineNamespace" ).split( "," );
+			for ( int i = 0; i < scripts.length; ++i )
+			{
+				RequestLogger.printLine( scripts[i] );
+				File f = findScriptFile( scripts[i] );
+				if ( f == null )
+					continue;
+
+				KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( f );
+				if ( interpreter != null )
+					interpreter.showUserFunctions( parameters );
+
+				RequestLogger.printLine();
+			}
+
+			return;
+		}
+
+		if ( command.equals( "ashref" ) )
+		{
+			NAMESPACE_INTERPRETER.showExistingFunctions( parameters );
+			return;
+		}
+
+		if ( command.equals( "using" ) )
 		{
 			// Validate the script first.
 
@@ -1035,7 +1063,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "verify" ) || command.equals( "validate" ) || command.equals( "check" ) || command.equals( "using" ) || command.equals( "namespace" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
+		if ( command.equals( "verify" ) || command.equals( "validate" ) || command.equals( "check" ) || command.equals( "using" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
 		{
 			executeScriptCommand( command, parameters );
 			return;
