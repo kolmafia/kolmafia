@@ -1036,16 +1036,23 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "functions" ) )
+		if ( command.startsWith( "func" ) )
 		{
 			File f = findScriptFile( parameters );
-			if ( f != null )
+			if ( f == null )
 			{
-				KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( f );
-				if ( interpreter != null )
-					interpreter.showUserFunctions( parameters );
+				KoLmafia.updateDisplay( ERROR_STATE, "No script located named " + parameters + "." );
+				return;
 			}
 
+			KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( f );
+			if ( interpreter == null )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "Invalid script " + f.getAbsolutePath() + "." );
+				return;
+			}
+
+			interpreter.showUserFunctions( "" );
 			return;
 		}
 
