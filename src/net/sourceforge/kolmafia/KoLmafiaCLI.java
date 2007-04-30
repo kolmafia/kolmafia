@@ -1846,23 +1846,13 @@ public class KoLmafiaCLI extends KoLmafia
 			else if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
 			{
 				recoveryActive = true;
-
-				String originalValue = StaticEntity.getProperty( "hpAutoRecovery" );
-				StaticEntity.setProperty( "hpAutoRecovery", String.valueOf( ((float)KoLCharacter.getCurrentHP() + 1) / ((float)KoLCharacter.getMaximumHP()) ) );
-				StaticEntity.getClient().recoverHP();
-				StaticEntity.setProperty( "hpAutoRecovery", originalValue );
-
+				StaticEntity.getClient().recoverHP( KoLCharacter.getCurrentHP() + 1 );
 				recoveryActive = wasRecoveryActive;
 			}
 			else if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) )
 			{
 				recoveryActive = true;
-
-				String originalValue = StaticEntity.getProperty( "mpAutoRecovery" );
-				StaticEntity.setProperty( "hpAutoRecovery", String.valueOf( ((float)KoLCharacter.getCurrentMP() + 1) / ((float)KoLCharacter.getMaximumMP()) ) );
-				StaticEntity.getClient().recoverHP();
-				StaticEntity.setProperty( "mpAutoRecovery", originalValue );
-
+				StaticEntity.getClient().recoverMP( KoLCharacter.getCurrentMP() + 1 );
 				recoveryActive = wasRecoveryActive;
 			}
 
