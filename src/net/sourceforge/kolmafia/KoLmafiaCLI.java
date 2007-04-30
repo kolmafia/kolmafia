@@ -1036,6 +1036,19 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "functions" ) )
+		{
+			File f = findScriptFile( parameters );
+			if ( f != null )
+			{
+				KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( f );
+				if ( interpreter != null )
+					interpreter.showUserFunctions( parameters );
+			}
+
+			return;
+		}
+
 		if ( command.equals( "ashref" ) )
 		{
 			NAMESPACE_INTERPRETER.showExistingFunctions( parameters );
