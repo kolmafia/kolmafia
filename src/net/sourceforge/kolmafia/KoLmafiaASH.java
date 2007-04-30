@@ -248,6 +248,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( createInterpreter )
 		{
+			TIMESTAMPS.clear();
+
 			interpreter = new KoLmafiaASH();
 			if ( !interpreter.validate( toExecute ) )
 				return null;
@@ -685,7 +687,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 		catch ( Exception e )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, e.getMessage() );
+			StaticEntity.printStackTrace( e );
 			return false;
 		}
 	}
@@ -2380,6 +2382,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		// The "contains" operator requires an aggregate on the left
 		// and the correct index type on the right.
+
 		if ( oper.equals( "contains" ) )
 		{
 			return lhs.getType() == TYPE_AGGREGATE &&
@@ -2389,6 +2392,9 @@ public class KoLmafiaASH extends StaticEntity
 		// If the types are equal, no coercion is necessary
 		if ( lhs.equals( rhs ) )
 			return true;
+
+		if ( lhs instanceof ScriptAggregateType )
+			return rhs instanceof ScriptAggregateType;
 
 		// Anything coerces to a string as a parameter
 		if  ( oper.equals( "parameter" ) && lhs.equals( TYPE_STRING ) )
@@ -2592,6 +2598,57 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			currentCommand = (ScriptCommand) it.next();
 			printCommand( currentCommand, indent + 2 );
+		}
+	}
+
+	public void showUserFunctions( String filter )
+	{	showFunctions( global.getFunctions(), filter.toLowerCase() );
+	}
+
+	public void showExistingFunctions( String filter )
+	{	showFunctions( existingFunctions.iterator(), filter.toLowerCase() );
+	}
+
+	private void showFunctions( Iterator it, String filter )
+	{
+		ScriptFunction func;
+
+		if ( !it.hasNext() )
+		{
+			RequestLogger.printLine( "No functions in your current namespace." );
+			return;
+		}
+
+		while ( it.hasNext() )
+		{
+			func = (ScriptFunction) it.next();
+
+			if ( !filter.equals( "" ) && func.getName().toLowerCase().indexOf( filter ) == -1 )
+				continue;
+
+			StringBuffer description = new StringBuffer();
+
+			description.append( func.getType() );
+			description.append( " " );
+			description.append( func.getName() );
+			description.append( "( " );
+
+			Iterator it2 = func.getReferences();
+			ScriptVariableReference var;
+
+			while ( it2.hasNext() )
+			{
+				var = (ScriptVariableReference) it2.next();
+				description.append( var.getType() );
+				description.append( " " );
+				description.append( var.getName() );
+
+				if ( it2.hasNext() )
+					description.append( ", " );
+			}
+
+			description.append( " )" );
+			RequestLogger.printLine( description.toString() );
 		}
 	}
 
@@ -4049,17 +4106,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptUserDefinedFunction replaceFunction( ScriptUserDefinedFunction f )
 		{
-			String functionName = f.getName();
-			int currentIndex = functions.indexOf( functionName, 0 );
-
-			while ( currentIndex != -1 )
-			{
-				ScriptUserDefinedFunction current = (ScriptUserDefinedFunction) functions.findFunction( functionName, currentIndex );
-				currentIndex = functions.indexOf( functionName, currentIndex + 1 );
-
-				if ( isMatchingFunction( current, f ) )
-					return current;
-			}
+			ScriptFunction [] options = functions.findFunctions( f.getName() );
+			for ( int i = 0; i < options.length; ++i )
+				if ( options[i] instanceof ScriptUserDefinedFunction && isMatchingFunction( (ScriptUserDefinedFunction) options[i], f ) )
+					return (ScriptUserDefinedFunction) options[i];
 
 			addFunction( f );
 			return f;
@@ -4068,21 +4118,20 @@ public class KoLmafiaASH extends StaticEntity
 		private ScriptFunction findFunction( ScriptFunctionList source, String name, ScriptExpressionList params, boolean isExactMatch )
 		{
 			String errorMessage = null;
-			int currentIndex = source.indexOf( name, 0 );
+
+			ScriptFunction [] functions = source.findFunctions( name );
 
 			// First, try to find an exact match on parameter types.
 			// This allows strict matches to take precedence.
 
-			while ( currentIndex != -1 )
+			for ( int i = 0; i < functions.length; ++i )
 			{
 				errorMessage = null;
-				ScriptFunction current = source.findFunction( name, currentIndex );
-				currentIndex = source.indexOf( name, currentIndex + 1 );
 
 				if ( params == null )
-					return current;
+					return functions[i];
 
-				Iterator refIterator = current.getReferences();
+				Iterator refIterator = functions[i].getReferences();
 				Iterator valIterator = params.getExpressions();
 
 				ScriptVariableReference currentParam;
@@ -4097,27 +4146,35 @@ public class KoLmafiaASH extends StaticEntity
 					if ( isExactMatch )
 					{
 						if ( currentParam.getType() != currentValue.getType() )
-							errorMessage = "Illegal parameter #" + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile();
-
+						{
+							errorMessage = "Illegal parameter #" + paramIndex + " for function " + name +
+								", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile();
+						}
 					}
 					else if ( !validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
-						errorMessage = "Illegal parameter #" + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile();
+					{
+						errorMessage = "Illegal parameter #" + paramIndex + " for function " + name +
+							", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile();
+					}
 
 					++paramIndex;
 				}
 
 				if ( errorMessage == null && (refIterator.hasNext() || valIterator.hasNext()) )
-					errorMessage = "Illegal amount of parameters for function " + name + " " + getLineAndFile();
+				{
+					errorMessage = "Illegal amount of parameters for function " + name +
+						", got " + functions[i].getVariableReferences().size() + ", expected " + params.size() + " " + getLineAndFile();
+				}
 
 				if ( errorMessage == null )
-					return current;
+					return functions[i];
 			}
-
-			if ( !isExactMatch && source == existingFunctions && errorMessage != null )
-				throw new AdvancedScriptException( errorMessage );
 
 			if ( !isExactMatch && parentScope != null )
 				return parentScope.findFunction( name, params );
+
+			if ( !isExactMatch && source == existingFunctions && errorMessage != null )
+				throw new AdvancedScriptException( errorMessage );
 
 			return null;
 		}
@@ -4355,7 +4412,8 @@ public class KoLmafiaASH extends StaticEntity
 
 			ArrayList values = (ArrayList) callStack.pop();
 			for ( int i = 0; i < scope.variables.size(); ++i )
-				((ScriptVariable)scope.variables.get(i)).forceValue( (ScriptValue) values.get(i) );
+				if ( !(((ScriptVariable)scope.variables.get(i)).getType() instanceof ScriptAggregateType) )
+					((ScriptVariable)scope.variables.get(i)).forceValue( (ScriptValue) values.get(i) );
 		}
 
 		public ScriptValue execute()
@@ -6179,27 +6237,17 @@ public class KoLmafiaASH extends StaticEntity
 			return true;
 		}
 
-		public int indexOf( String name )
-		{	return indexOf( name, 0 );
-		}
-
-		public int indexOf( String name, int searchIndex )
+		public ScriptFunction [] findFunctions( String name )
 		{
-			for ( int i = searchIndex; i < size(); ++i )
+			ArrayList matches = new ArrayList();
+
+			for ( int i = 0; i < size(); ++i )
 				if ( ((ScriptFunction) get(i)).getName().equalsIgnoreCase( name ) )
-					return i;
+					matches.add( get(i) );
 
-			return -1;
-		}
-
-		public ScriptFunction findFunction( String name )
-		{	return findFunction( name, 0 );
-		}
-
-		public ScriptFunction findFunction( String name, int searchIndex )
-		{
-			int index = indexOf( name, searchIndex );
-			return index < 0 ? null : (ScriptFunction) get( index );
+			ScriptFunction [] matchArray = new ScriptFunction[ matches.size() ];
+			matches.toArray( matchArray );
+			return matchArray;
 		}
 	}
 
@@ -6278,6 +6326,11 @@ public class KoLmafiaASH extends StaticEntity
 			else if ( getType().equals( TYPE_FLOAT ) && targetValue.getType().equals( TYPE_INT ) )
 			{
 				content = targetValue.toFloatValue();
+				expression = null;
+			}
+			else if ( getType().equals( TYPE_AGGREGATE ) && targetValue.getType().equals( TYPE_AGGREGATE ) )
+			{
+				content = targetValue;
 				expression = null;
 			}
 			else
@@ -6907,14 +6960,14 @@ public class KoLmafiaASH extends StaticEntity
 			trace( this.toString() );
 
 			// Evaluate the aggref to get the slice
-			ScriptAggregateValue slice = (ScriptAggregateValue)aggregate.execute();
+			ScriptAggregateValue slice = (ScriptAggregateValue) aggregate.execute();
 			captureValue( slice );
 			if ( currentState == STATE_EXIT )
 				return null;
 
 			// Iterate over the slice with bound keyvar
 
-			Iterator it = variableReferences.iterator();
+			Iterator it = getReferences();
 			return executeSlice( slice, it, (ScriptVariableReference) it.next() );
 
 		}
@@ -7282,6 +7335,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( scope == null )
 				return null;
+
 			return scope.findFunction( name, params );
 		}
 
@@ -7472,17 +7526,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public boolean equals( ScriptType type )
-		{
-			if ( this.type == type.type )
-				return true;
-			return false;
+		{	return this.type == type.type;
 		}
 
 		public boolean equals( int type )
-		{
-			if ( this.type == type )
-				return true;
-			return false;
+		{	return this.type == type;
 		}
 
 		public String toString()
