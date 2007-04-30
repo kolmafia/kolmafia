@@ -122,6 +122,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int HILARIOUS_TOME = 1498;
 	private static final int MUNCHIES_PILL = 1619;
 	private static final int ASTRAL_MUSHROOM = 1622;
+	private static final int EXPRESS_CARD = 1687;
 	private static final int DUSTY_ANIMAL_SKULL = 1799;
 	private static final int QUILL_PEN = 1957;
 	private static final int DANCE_CARD = 1963;
@@ -541,6 +542,7 @@ public class ConsumeItemRequest extends KoLRequest
 		case FOUNTAIN:
 		case MEMO:
 		case AWFUL_POETRY:
+		case EXPRESS_CARD:
 		case MANUAL_OF_LABOR:
 		case MANUAL_OF_TRANSMISSION:
 		case MANUAL_OF_DEXTERITY:
