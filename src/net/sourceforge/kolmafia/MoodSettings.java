@@ -476,20 +476,6 @@ public abstract class MoodSettings implements KoLConstants
 			if ( !ClassSkillsDatabase.contains( skillName ) || !KoLCharacter.hasSkill( skillName ) )
 				continue;
 
-			// If the player only wishes to cast buffs related to their
-			// mood, then skip the buff if it's not in the player's moods.
-
-			if ( !StaticEntity.getBooleanProperty( "allowNonMoodBurning" ) )
-			{
-				boolean shouldIgnore = true;
-
-				for ( int j = 0; j < displayList.size(); ++j )
-					shouldIgnore &= !currentEffect.equals( ((MoodTrigger)displayList.get(j)).effect );
-
-				if ( shouldIgnore )
-					continue;
-			}
-
 			// Only cast if a matching skill was found.  Limit cast count
 			// to two in order to ensure that KoLmafia doesn't make the
 			// buff counts too far out of balance.
@@ -520,6 +506,20 @@ public abstract class MoodSettings implements KoLConstants
 
 			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 100 )
 				return null;
+
+			// If the player only wishes to cast buffs related to their
+			// mood, then skip the buff if it's not in the player's moods.
+
+			if ( !StaticEntity.getBooleanProperty( "allowNonMoodBurning" ) )
+			{
+				boolean shouldIgnore = true;
+
+				for ( int j = 0; j < displayList.size(); ++j )
+					shouldIgnore &= !currentEffect.equals( ((MoodTrigger)displayList.get(j)).effect );
+
+				if ( shouldIgnore )
+					continue;
+			}
 
 			if ( castCount > 2 && duration > desiredDuration )
 				castCount = 2;
