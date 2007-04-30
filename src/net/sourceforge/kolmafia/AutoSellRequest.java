@@ -361,6 +361,6 @@ public class AutoSellRequest extends SendMessageRequest
 	}
 
 	public String getStatusMessage()
-	{	return sellType == AUTOMALL ? "Transfering items to store" : "Autoselling items to NPCs";
+	{	return sellType == AUTOMALL ? "Transferring items to store" : "Autoselling items to NPCs";
 	}
 }
