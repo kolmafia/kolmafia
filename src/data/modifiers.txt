@@ -211,6 +211,7 @@ wax lips	Exp: +2.5
 
 Aloysius' Antiphon of Aptitude	Exp: +3.0
 Astral Shell	DA: +80, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
+Bestial Sympathy	Weight: +3
 Blue Tongue	Item: +30.0
 Big Veiny Brain	Exp: +2.0, Meat: -20.0
 Black Tongue	Weight: +5, Exp: +3.0, Item: +30.0, Meat: +30.0
