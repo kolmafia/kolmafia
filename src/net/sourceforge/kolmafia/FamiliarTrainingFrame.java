@@ -104,18 +104,22 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final AdventureResult BLACK_TONGUE = new AdventureResult( "Black Tongue", 0, true );
 	private static final AdventureResult HEAVY_PETTING = new AdventureResult( "Heavy Petting", 0, true );
 	private static final AdventureResult GREEN_HEART = new AdventureResult( "Heart of Green", 0, true );
+	private static final AdventureResult BESTIAL_SYMPATHY = new AdventureResult( "Bestial Sympathy", 0, true );
 
 	// Familiar buffing items
 	private static final AdventureResult BUFFING_SPRAY = new AdventureResult( 1512, 1 );
 	private static final AdventureResult PITH_HELMET = new AdventureResult( 1231, 1 );
 	private static final AdventureResult LEAD_NECKLACE = new AdventureResult( 865, 1 );
 	private static final AdventureResult RAT_HEAD_BALLOON = new AdventureResult( 1218, 1 );
+
 	private static final AdventureResult PUMPKIN_BASKET = new AdventureResult( 1971, 1 );
+	private static final AdventureResult MAYFLOWER = new AdventureResult( 2541, 1 );
 	private static final AdventureResult DOPPELGANGER = new AdventureResult( 2225, 1 );
 
 	private static final AdventureResult GREEN_SNOWCONE = new AdventureResult( 1413, 1 );
 	private static final AdventureResult BLACK_SNOWCONE = new AdventureResult( 1417, 1 );
-	private static final AdventureResult GREEN_CANDY = new AdventureResult( 1417, 1 );
+	private static final AdventureResult GREEN_CANDY = new AdventureResult( 2309, 1 );
+	private static final AdventureResult HALF_ORCHID = new AdventureResult( 2546, 1 );
 
 	private static final int [] tinyPlasticNormal = new int [] { 969, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 980, 981, 982, 983, 984, 985, 986, 987, 988 };
 	private static final int [] tinyPlasticCrimbo = new int [] { 1377, 1378, 2201, 2202 };
@@ -130,6 +134,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static boolean blackConeAvailable;
 	private static boolean greenConeAvailable;
 	private static boolean greenHeartAvailable;
+	private static boolean bestialAvailable;
 
 	// Active effects which affect weight
 	private static int leashActive;
@@ -138,6 +143,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static int blackTongueActive;
 	private static int heavyPettingActive;
 	private static int greenHeartActive;
+	private static int bestialActive;
 
 	public FamiliarTrainingFrame()
 	{
@@ -718,6 +724,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{
 			if ( KoLCharacter.hasItem( PUMPKIN_BASKET ) )
 				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
+			else if ( KoLCharacter.hasItem( MAYFLOWER ) )
+				RequestThread.postRequest( new EquipmentRequest( MAYFLOWER, KoLCharacter.FAMILIAR ) );
 			else if ( status.familiarItemWeight != 0 && KoLCharacter.hasItem( status.familiarItem ) )
 				RequestThread.postRequest( new EquipmentRequest( status.familiarItem, KoLCharacter.FAMILIAR ) );
 			else if ( KoLCharacter.hasItem( LEAD_NECKLACE ) )
@@ -956,7 +964,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 		if ( familiar.getModifiedWeight() >= weight )
 			return true;
 
-		if ( !KoLCharacter.hasItem( PUMPKIN_BASKET ) && status.familiarItemWeight != 0 && !KoLCharacter.hasItem( status.familiarItem ) && KoLCharacter.canInteract() )
+		if ( !KoLCharacter.hasItem( PUMPKIN_BASKET ) && !KoLCharacter.hasItem( MAYFLOWER ) &&
+			status.familiarItemWeight != 0 && !KoLCharacter.hasItem( status.familiarItem ) && KoLCharacter.canInteract() )
 		{
 			DEFAULT_SHELL.executeLine( "buy 1 " + status.familiarItem.getName() );
 			DEFAULT_SHELL.executeLine( "equip " + status.familiarItem.getName() );
@@ -982,9 +991,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// Add on a green heart first, if you know the difference is
 		// less than three.
 
-		if ( greenHeartAvailable && greenHeartActive == 0 && (weight - familiar.getModifiedWeight()) % 5 <= 3 )
+		if ( greenHeartAvailable && greenHeartActive == 0 )
 		{
 			DEFAULT_SHELL.executeLine( "use 1 green candy heart" );
+			if ( familiar.getModifiedWeight() >= weight )
+				return true;
+		}
+
+		if ( bestialAvailable && bestialActive == 0 )
+		{
+			DEFAULT_SHELL.executeLine( "use 1 half-orchid" );
 			if ( familiar.getModifiedWeight() >= weight )
 				return true;
 		}
@@ -1232,6 +1248,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		AdventureResult leadNecklace;
 		AdventureResult ratHeadBalloon;
 		AdventureResult pumpkinBasket;
+		AdventureResult mayflower;
 		AdventureResult doppelganger;
 
 		int tpCount;
@@ -1315,6 +1332,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			this.blackTongueActive = 0;
 			this.heavyPettingActive = 0;
 			this.greenHeartActive = 0;
+			this.bestialActive = 0;
 
 			// Check current equipment
 			checkCurrentEquipment( hat, item, acc1, acc2, acc3 );
@@ -1344,6 +1362,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			greenConeAvailable = KoLCharacter.canInteract() || KoLCharacter.hasItem( GREEN_SNOWCONE );
 			blackConeAvailable = KoLCharacter.canInteract() || KoLCharacter.hasItem( BLACK_SNOWCONE );
 			greenHeartAvailable = KoLCharacter.canInteract() || KoLCharacter.hasItem( GREEN_CANDY );
+			bestialAvailable = KoLCharacter.canInteract() || KoLCharacter.hasItem( HALF_ORCHID );
 
 			// Look at effects to decide which ones are active;
 			empathyActive = EMPATHY.getCount( activeEffects );
@@ -1352,6 +1371,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			blackTongueActive = BLACK_TONGUE.getCount( activeEffects );
 			heavyPettingActive = HEAVY_PETTING.getCount( activeEffects );
 			greenHeartActive = GREEN_HEART.getCount( activeEffects );
+			bestialActive = BESTIAL_SYMPATHY.getCount( activeEffects );
 		}
 
 		private void checkCurrentEquipment()
@@ -1380,6 +1400,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			leadNecklace = null;
 			ratHeadBalloon = null;
 			pumpkinBasket = null;
+			mayflower = null;
 			doppelganger = null;
 
 			tpCount = 0;
@@ -1396,6 +1417,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 					this.item = specItem = familiarItem;
 				else if ( name.equals( PUMPKIN_BASKET.getName() ) )
 					this.item = pumpkinBasket = PUMPKIN_BASKET;
+				else if ( name.equals( MAYFLOWER.getName() ) )
+					this.item = mayflower = MAYFLOWER;
 				else if ( name.equals( LEAD_NECKLACE.getName() ) )
 					this.item = leadNecklace = LEAD_NECKLACE;
 				else if ( name.equals( RAT_HEAD_BALLOON.getName() ) )
@@ -1457,6 +1480,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( pumpkinBasket == null && !KoLCharacter.isHardcore() && PUMPKIN_BASKET.getCount( inventory ) > 0 )
 				pumpkinBasket = PUMPKIN_BASKET;
 
+			// If current familiar is not wearing a mayflower,
+			// search inventory
+			if ( mayflower == null && !KoLCharacter.isHardcore() && MAYFLOWER.getCount( inventory ) > 0 )
+				mayflower = MAYFLOWER;
+
 			// If current familiar is not wearing a lead necklace,
 			// search inventory
 			if ( leadNecklace == null && LEAD_NECKLACE.getCount( inventory ) > 0 )
@@ -1505,6 +1533,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 						// We found a plastic pumpkin basket
 						if ( pumpkinBasket == null )
 							pumpkinBasket = PUMPKIN_BASKET;
+					}
+
+					if ( item.equals( MAYFLOWER ) )
+					{
+						// We found a plastic pumpkin basket
+						if ( mayflower == null )
+							mayflower = MAYFLOWER;
 					}
 
 					if ( item.equals( DOPPELGANGER ) )
@@ -1566,6 +1601,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				weight += 5;
 
 			if ( greenHeartActive > 0 )
+				weight += 3;
+
+			if ( bestialActive > 0 )
 				weight += 3;
 
 			getItemWeights( weight );
@@ -1727,6 +1765,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next == PUMPKIN_BASKET )
 			{
 				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
+				return;
+			}
+
+			if ( next == MAYFLOWER )
+			{
+				RequestThread.postRequest( new EquipmentRequest( MAYFLOWER, KoLCharacter.FAMILIAR ) );
 				return;
 			}
 
@@ -1902,10 +1946,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 				weight += 5;
 			if ( greenHeartActive > 0 )
 				weight += 3;
+			if ( bestialActive > 0 )
+				weight += 3;
 
 			if ( item == specItem )
 				weight += specWeight;
 			else if ( item == PUMPKIN_BASKET )
+				weight += 5;
+			else if ( item == MAYFLOWER )
 				weight += 5;
 			else if ( item == LEAD_NECKLACE )
 				weight += 3;
@@ -1956,7 +2004,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				statusMessage( CONTINUE_STATE, "Your familiar steals an item: " + prize + "." );
 			}
 
-			if ( prize != null) 
+			if ( prize != null)
 			{
 				if ( prize.equals( LEAD_NECKLACE.getName() ) )
 				{
@@ -1988,6 +2036,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 				heavyPettingActive--;
 			if ( greenHeartActive > 0 )
 				greenHeartActive--;
+			if ( bestialActive > 0 )
+				bestialActive--;
 		}
 
 		public FamiliarData getFamiliar()
@@ -2023,6 +2073,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 					weight += 5;
 				if ( greenHeartAvailable || greenHeartActive > 0 )
 					weight += 3;
+				if ( bestialAvailable || bestialActive > 0 )
+					weight += 3;
 			}
 			else
 			{
@@ -2035,6 +2087,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 				if ( greenTongueActive > 0 || blackTongueActive > 0 )
 					weight += 5;
 				if ( greenHeartActive > 0 )
+					weight += 3;
+				if ( bestialActive > 0 )
 					weight += 3;
 			}
 
@@ -2091,8 +2145,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 				text.append( " Heavy Petting (+5 for " + heavyPettingActive + " turns)" );
 			if ( greenHeartActive > 0 )
 				text.append( " Heart of Green (+3 for " + greenHeartActive + " turns)" );
-			if ( !sympathyAvailable && empathyActive == 0 && leashActive == 0 && greenTongueActive == 0 && blackTongueActive == 0 && heavyPettingActive == 0 && greenHeartActive == 0 )
+			if ( bestialActive > 0 )
+				text.append( " Bestial Sympathy (+3 for " + bestialActive + " turns)" );
+
+			if ( !sympathyAvailable && empathyActive == 0 && leashActive == 0 && greenTongueActive == 0 && blackTongueActive == 0 &&
+				heavyPettingActive == 0 && greenHeartActive == 0 && bestialActive == 0 )
+			{
 				text.append( " None" );
+			}
+
 			text.append( "<br>" );
 
 			return text.toString();
@@ -2111,6 +2172,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 				text.append( " " + DOPPELGANGER.getName() + " (+0)" );
 			else if ( item == PUMPKIN_BASKET )
 				text.append( " " + PUMPKIN_BASKET.getName() + " (+5)" );
+			else if ( item == MAYFLOWER )
+				text.append( " " + MAYFLOWER.getName() + " (+5)" );
 			else if ( item == LEAD_NECKLACE )
 				text.append( " " + LEAD_NECKLACE.getName() + " (+3)" );
 			else if ( item == RAT_HEAD_BALLOON )
