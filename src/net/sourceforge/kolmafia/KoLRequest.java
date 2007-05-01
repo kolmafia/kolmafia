@@ -817,6 +817,7 @@ public class KoLRequest extends Job implements KoLConstants
 				{
 					StaticEntity.setProperty( "lastQuartetAscension", String.valueOf( KoLCharacter.getAscensions() ) );
 					StaticEntity.setProperty( "lastQuartetRequest", String.valueOf( lastDecision ) );
+					KoLCharacter.updateStatus();
 				}
 
 				break;
