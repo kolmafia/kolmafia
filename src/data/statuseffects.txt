@@ -301,3 +301,42 @@
 301	Procrastination Giant	Cunctatitis	disease.gif
 302	Warwelf	Mild Lycanthropy	moon2.gif
 303	Weremoose	Lycanthropy, Eh?	moon2.gif
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338	Lesser Grodulated Violet	Fustulent	stench.gif
+339	Tin Magnolia	Tin, Man	funnelhat.gif
+340	Begpwnia	Can't Be a Chooser	meat.gif
+341	Upsy Daisy	Ass Over Teakettle	teakettle.gif
+342	Half-Orchid	Bestial Sympathy	teeth.gif
