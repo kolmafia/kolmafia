@@ -1366,7 +1366,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Uneffect with martians are related to buffs,
 		// so listing them next seems logical.
 
-		if ( command.equals( "uneffect" ) || command.equals( "remedy" ) )
+		if ( command.equals( "shrug" ) || command.equals( "shrugoff" ) || command.equals( "uneffect" ) || command.equals( "remedy" ) )
 		{
 			executeUneffectRequest( parameters );
 			return;
