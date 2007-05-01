@@ -509,7 +509,6 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "cacheMallSearches", "false" );
 		CLIENT_SETTINGS.put( "charsheetDropdown", "1" );
 		CLIENT_SETTINGS.put( "chatStyle", "0" );
-		CLIENT_SETTINGS.put( "closeLastFrameAction", "0" );
 		CLIENT_SETTINGS.put( "cloverProtectActive", "true" );
 		CLIENT_SETTINGS.put( "commandLineNamespace", "" );
 		CLIENT_SETTINGS.put( "defaultBorderColor", "blue" );

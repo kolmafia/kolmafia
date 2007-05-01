@@ -767,7 +767,7 @@ public class LoginFrame extends KoLFrame
 			{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
 		};
 
-		private JComboBox looks, closes, toolbars, scripts;
+		private JComboBox looks, toolbars, scripts;
 
 		public UserInterfacePanel()
 		{
@@ -781,10 +781,6 @@ public class LoginFrame extends KoLFrame
 
 			looks = new JComboBox( installedLooks );
 
-			closes = new JComboBox();
-			closes.addItem( "Logout of KoL after closing the last frame" );
-			closes.addItem( "Exit completely after closing the last frame" );
-			closes.addItem( "Stay logged in after closing the last frame" );
 
 			toolbars = new JComboBox();
 			toolbars.addItem( "Show global menus only" );
@@ -797,12 +793,11 @@ public class LoginFrame extends KoLFrame
 			scripts.addItem( "Put script bar after normal toolbar" );
 			scripts.addItem( "Put script bar along right of panel" );
 
-			VerifiableElement [] elements = new VerifiableElement[4];
+			VerifiableElement [] elements = new VerifiableElement[3];
 
 			elements[0] = new VerifiableElement( "Java L&F: ", looks );
-			elements[1] = new VerifiableElement( "Closing: ", closes );
-			elements[2] = new VerifiableElement( "Toolbar: ", toolbars );
-			elements[3] = new VerifiableElement( "Scripts: ", scripts );
+			elements[1] = new VerifiableElement( "Toolbar: ", toolbars );
+			elements[2] = new VerifiableElement( "Scripts: ", scripts );
 
 			actionCancelled();
 			setContent( elements );
@@ -828,7 +823,6 @@ public class LoginFrame extends KoLFrame
 			if ( lookAndFeel != null )
 				StaticEntity.setProperty( "swingLookAndFeel", lookAndFeel );
 
-			StaticEntity.setProperty( "closeLastFrameAction", String.valueOf( closes.getSelectedIndex() ) );
 			StaticEntity.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			StaticEntity.setProperty( "scriptButtonPosition", String.valueOf( scripts.getSelectedIndex() ) );
 			StaticEntity.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
@@ -837,7 +831,6 @@ public class LoginFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			looks.setSelectedItem( StaticEntity.getProperty( "swingLookAndFeel" ) );
-			closes.setSelectedIndex( StaticEntity.getIntegerProperty( "closeLastFrameAction" ) );
 			toolbars.setSelectedIndex( StaticEntity.getIntegerProperty( "toolbarPosition" ) );
 			scripts.setSelectedIndex( StaticEntity.getIntegerProperty( "scriptButtonPosition" ) );
 		}
