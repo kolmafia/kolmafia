@@ -807,6 +807,44 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			lastChoice = StaticEntity.parseInt( choiceMatcher.group(1) );
 			lastDecision = StaticEntity.parseInt( choiceMatcher.group(2) );
+
+			switch ( lastChoice )
+			{
+			// Strung-Up Quartet
+			case 106:
+
+				if ( lastDecision != 4 )
+				{
+					StaticEntity.setProperty( "lastQuartetAscension", String.valueOf( KoLCharacter.getAscensions() ) );
+					StaticEntity.setProperty( "lastQuartetRequest", String.valueOf( lastDecision ) );
+				}
+
+				break;
+
+			// Wheel In the Sky Keep on Turning: Muscle Position
+			case 9:
+				StaticEntity.setProperty( "currentWheelPosition",
+					String.valueOf( lastDecision == 1 ? "mysticality" : lastDecision == 2 ? "moxie" : "muscle" ) );
+				break;
+
+			// Wheel In the Sky Keep on Turning: Mysticality Position
+			case 10:
+				StaticEntity.setProperty( "currentWheelPosition",
+					String.valueOf( lastDecision == 1 ? "map quest" : lastDecision == 2 ? "muscle" : "mysticality" ) );
+				break;
+
+			// Wheel In the Sky Keep on Turning: Map Quest Position
+			case 11:
+				StaticEntity.setProperty( "currentWheelPosition",
+					String.valueOf( lastDecision == 1 ? "moxie" : lastDecision == 2 ? "mysticality" : "map quest" ) );
+				break;
+
+			// Wheel In the Sky Keep on Turning: Moxie Position
+			case 12:
+				StaticEntity.setProperty( "currentWheelPosition",
+					String.valueOf( lastDecision == 1 ? "muscle" : lastDecision == 2 ? "map quest" : "moxie" ) );
+				break;
+			}
 		}
 	}
 
