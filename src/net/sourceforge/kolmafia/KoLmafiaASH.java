@@ -76,7 +76,7 @@ public class KoLmafiaASH extends StaticEntity
 {
 	/* Variables for Advanced Scripting */
 
-	public final static char [] tokenList = { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
+	public final static char [] tokenList = { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
 	public final static String [] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&", "/*", "*/" };
 
 	public static final int TYPE_VOID = 0;
@@ -1861,6 +1861,10 @@ public class KoLmafiaASH extends StaticEntity
 		readToken(); //=
 
 		ScriptExpression rhs = parseExpression( scope );
+
+		if ( rhs == null )
+			throw new AdvancedScriptException( "Internal error " + getLineAndFile() );
+
 		return new ScriptAssignment( (ScriptVariableReference) lhs, rhs );
 	}
 
@@ -1947,7 +1951,10 @@ public class KoLmafiaASH extends StaticEntity
 				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
 
 			if ( !validCoercion( lhs.getType(), rhs.getType(), oper.toString() ) )
-				throw new AdvancedScriptException( "Cannot apply " + rhs.getType() + " to " + lhs + " " + getLineAndFile() );
+			{
+				throw new AdvancedScriptException( "Cannot apply operator " + oper + " to " +
+					lhs + " (" + lhs.getType() + ") and " + rhs + " (" + rhs.getType() + ") " + getLineAndFile() );
+			}
 
 			lhs = new ScriptExpression( lhs, rhs, oper );
 		}
@@ -1993,7 +2000,7 @@ public class KoLmafiaASH extends StaticEntity
 			;
 
 		// strings
-		else if ( currentToken().equals( "\"" ) )
+		else if ( currentToken().equals( "\"" ) || currentToken().equals( "\'" ) )
 			result = parseString();
 
 		// typed constants
@@ -2093,6 +2100,7 @@ public class KoLmafiaASH extends StaticEntity
 		// the string is closed
 
 		StringBuffer resultString = new StringBuffer();
+		char startCharacter = currentLine.charAt(0);
 
 		for ( int i = 1; ; ++i )
 		{
@@ -2144,7 +2152,7 @@ public class KoLmafiaASH extends StaticEntity
 					}
 				}
 			}
-			else if ( currentLine.charAt( i ) == '"' )
+			else if ( currentLine.charAt( i ) == startCharacter )
 			{
 				currentLine = currentLine.substring( i + 1 ); //+ 1 to get rid of '"' token
 				return new ScriptValue( resultString.toString() );
@@ -2333,6 +2341,15 @@ public class KoLmafiaASH extends StaticEntity
 				throw new AdvancedScriptException( "No closing \" found " + getLineAndFile() );
 		}
 
+		if ( startIndex == -1 )
+		{
+			startIndex = currentLine.indexOf( "\'" );
+			endIndex = currentLine.indexOf( "\'", startIndex + 1 );
+
+			if ( startIndex != -1 && endIndex == -1 )
+				throw new AdvancedScriptException( "No closing \' found " + getLineAndFile() );
+		}
+
 		if ( endIndex == -1 )
 		{
 			endIndex = currentLine.indexOf( ";" );
@@ -2343,7 +2360,7 @@ public class KoLmafiaASH extends StaticEntity
 		String resultString = currentLine.substring( startIndex + 1, endIndex );
 		currentLine = currentLine.substring( endIndex );
 
-		if ( currentToken().equals( ">" ) || currentToken().equals( "\"" ) )
+		if ( currentToken().equals( ">" ) || currentToken().equals( "\"" ) || currentToken().equals( "\'" ) )
 			readToken(); //get rid of '>' or '"' token
 
 		if ( currentToken().equals( ";" ) )
@@ -2392,9 +2409,6 @@ public class KoLmafiaASH extends StaticEntity
 		// If the types are equal, no coercion is necessary
 		if ( lhs.equals( rhs ) )
 			return true;
-
-		if ( lhs instanceof ScriptAggregateType )
-			return rhs instanceof ScriptAggregateType;
 
 		// Anything coerces to a string as a parameter
 		if  ( oper.equals( "parameter" ) && lhs.equals( TYPE_STRING ) )
@@ -3588,7 +3602,7 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "contains_text", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "extract_meat", RESULT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "extract_meat", INT_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "extract_items", RESULT_TYPE, params ) );
