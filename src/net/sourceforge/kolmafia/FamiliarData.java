@@ -192,6 +192,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			return 3;
 
 		case 1971:  // plastic pumpkin bucket
+		case 2541:  // Mayflower bouquet
 			return 5;
 
 		case 1218:	// rat head balloon
