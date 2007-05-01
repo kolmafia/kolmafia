@@ -328,18 +328,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		// session for all other frames is calling main.
 
 		if ( !(this instanceof LoginFrame) && existingFrames.isEmpty() && !StaticEntity.getGlobalProperty( "initialFrames" ).equals( "LocalRelayServer" ) && StaticEntity.getClient() instanceof KoLmafiaGUI )
-			(new RestartThread()).start();
-	}
-
-	private class RestartThread extends Thread
-	{
-		public void run()
 		{
-			if ( !KoLmafia.executedLogin() || StaticEntity.getIntegerProperty( "closeLastFrameAction" ) == 1 )
-				System.exit(0);
-
-			createDisplay( LoginFrame.class );
 			RequestThread.postRequest( new LogoutRequest() );
+			System.exit(0);
 		}
 	}
 

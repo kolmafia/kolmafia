@@ -96,9 +96,6 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
-		if ( StaticEntity.usesSystemTray() && StaticEntity.getIntegerProperty( "closeLastFrameAction" ) == 2 )
-			setDefaultCloseOperation( HIDE_ON_CLOSE );
-
 		if ( StaticEntity.usesSystemTray() )
 			addWindowListener( new MinimizeListener() );
 
