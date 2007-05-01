@@ -2878,6 +2878,24 @@ public abstract class KoLCharacter extends StaticEntity
 
 		newManaCostModifier = Math.max( newManaCostModifier, -3 );
 
+		// Add in strung-up quartet.
+
+		if ( KoLCharacter.getAscensions() == StaticEntity.getIntegerProperty( "lastQuartetAscension" ) )
+		{
+			switch ( StaticEntity.getIntegerProperty( "lastQuartetRequest" ) )
+			{
+			case 1:
+				newMonsterLevelAdjustment += 5;
+				break;
+			case 2:
+				newCombatPercentAdjustment -= 5;
+				break;
+			case 3:
+				newItemDropPercentAdjustment += 5;
+				break;
+			}
+		}
+
 		// Determine whether or not data has changed
 
 		boolean changed = false;

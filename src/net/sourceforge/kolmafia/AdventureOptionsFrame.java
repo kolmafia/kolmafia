@@ -966,16 +966,16 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			if ( isProcessing )
 				return;
 
-			isProcessing = true;
 			KoLmafia.updateDisplay( "Validating adventure sequence..." );
 
 			KoLAdventure request = (KoLAdventure) locationSelect.getSelectedValue();
 			if ( request == null )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "No location selected." );
-				isProcessing = false;
 				return;
 			}
+
+			isProcessing = true;
 
 			// If there are conditions in the condition field, be
 			// sure to process them.

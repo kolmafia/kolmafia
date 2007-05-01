@@ -633,6 +633,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "currentMood", "default" );
 		PLAYER_SETTINGS.put( "currentPvpVictories", "" );
 		PLAYER_SETTINGS.put( "currentSpleenUse", "0" );
+		PLAYER_SETTINGS.put( "currentWheelPosition", "muscle" );
 		PLAYER_SETTINGS.put( "defaultAutoAttack", "0" );
 		PLAYER_SETTINGS.put( "defaultFlowerLossMessage", "" );
 		PLAYER_SETTINGS.put( "defaultFlowerWinMessage", "" );
@@ -646,6 +647,8 @@ public class KoLSettings extends Properties implements KoLConstants
 		PLAYER_SETTINGS.put( "lastCouncilVisit", "0" );
 		PLAYER_SETTINGS.put( "lastCounterDay", "-1" );
 		PLAYER_SETTINGS.put( "lastMessageId", "" );
+		PLAYER_SETTINGS.put( "lastQuartetAscension", "-1" );
+		PLAYER_SETTINGS.put( "lastQuartetRequest", "0" );
 		PLAYER_SETTINGS.put( "lastTowerClimb", "-1" );
 		PLAYER_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
 		PLAYER_SETTINGS.put( "manaBurningThreshold", "-0.1" );
