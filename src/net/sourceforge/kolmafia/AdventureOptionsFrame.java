@@ -154,7 +154,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		return container;
 	}
 
-	public JTabbedPane getSouthernTabs( boolean includeLocationData )
+	public JTabbedPane getSouthernTabs()
 	{
 		// Components of auto-restoration
 
@@ -185,18 +185,6 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		combatPanel = new JPanel( combatCards );
 		combatPanel.add( "tree", new CustomCombatTreePanel() );
 		combatPanel.add( "editor", new CustomCombatPanel() );
-
-		if ( includeLocationData )
-		{
-			JPanel locationDetails = new JPanel( new BorderLayout( 10, 10 ) );
-			locationDetails.add( new AdventureSelectPanel( false ), BorderLayout.WEST );
-			locationDetails.add( new SafetyField( locationSelect ), BorderLayout.CENTER );
-
-			JPanel locationHolder = new JPanel( new CardLayout( 10, 10 ) );
-			locationHolder.add( locationDetails, "" );
-
-			tabs.addTab( "Location Details", locationHolder );
-		}
 
 		SimpleScrollPane restoreScroller = new SimpleScrollPane( restorePanel );
 		JComponentUtilities.setComponentSize( restoreScroller, 560, 300 );
