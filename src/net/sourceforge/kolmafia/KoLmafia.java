@@ -3295,6 +3295,9 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		public void run()
 		{
+			if ( !KoLCharacter.getUserName().equals( "" ) )
+				RequestThread.postRequest( new LogoutRequest() );
+
 			CustomItemDatabase.saveItemData();
 
 			SystemTrayFrame.removeTrayIcon();
