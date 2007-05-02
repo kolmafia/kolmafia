@@ -327,10 +327,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		// a login frame involves exiting, and ending the
 		// session for all other frames is calling main.
 
-		if ( !(this instanceof LoginFrame) && existingFrames.isEmpty() && !StaticEntity.getGlobalProperty( "initialFrames" ).equals( "LocalRelayServer" ) && StaticEntity.getClient() instanceof KoLmafiaGUI )
+		if ( !(this instanceof LoginFrame) && existingFrames.isEmpty() && StaticEntity.getClient() instanceof KoLmafiaGUI )
 		{
+			createDisplay( LoginFrame.class );
 			RequestThread.postRequest( new LogoutRequest() );
-			System.exit(0);
 		}
 	}
 
@@ -1651,6 +1651,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			if ( !isRestoresOnly )
 				setButtons( true, false, null );
+
+			filterItems();
 		}
 
 		public FilterItemField getWordFilter()
