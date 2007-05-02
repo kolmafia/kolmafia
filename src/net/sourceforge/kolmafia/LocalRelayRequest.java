@@ -56,6 +56,8 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class LocalRelayRequest extends PasswordHashRequest
 {
+	private static final Pattern EMAIL_PATTERN = Pattern.compile( "<table style='border: 1px solid black;' cellpadding=10>.*?</table>", Pattern.DOTALL );
+
 	private static final Pattern MENU1_PATTERN = Pattern.compile( "<select name=\"loc\".*?</select>", Pattern.DOTALL );
 	private static final Pattern MENU2_PATTERN = Pattern.compile( "<select name=location.*?</select>", Pattern.DOTALL );
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<img src=\"([^\"]*?)\"" );
@@ -256,6 +258,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Fix it a little more by making sure that familiar
 		// changes and equipment changes are remembered.
 
+		else if ( formURLString.indexOf( "main.php" ) != -1 )
+		{
+			Matcher emailMatcher = EMAIL_PATTERN.matcher( responseText );
+			if ( emailMatcher.find() )
+				responseBuffer = new StringBuffer( emailMatcher.replaceAll( "" ) );
+		}
 		else
 			StaticEntity.externalUpdate( getURLString(), responseText );
 

@@ -445,6 +445,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 				}
 			}
 		}
+
+		usableList.fireContentsChanged( creatableList, 0, usableList.size() - 1 );
 	}
 
 	public static int getMeatPasteRequired( int itemId, int creationCount )
