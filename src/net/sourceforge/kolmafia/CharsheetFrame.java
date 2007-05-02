@@ -64,6 +64,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class CharsheetFrame extends AdventureOptionsFrame
 {
 	private static CharsheetFrame INSTANCE = null;
+	private static boolean shouldAddExtraTabs = true;
 
 	private JLabel avatar;
 	private JLabel [] statusLabel;
@@ -94,8 +95,7 @@ public class CharsheetFrame extends AdventureOptionsFrame
 		JPanel statusContainer = new JPanel( new CardLayout( 10, 10 ) );
 		statusContainer.add( statusPanel, "" );
 
-		framePanel.add( getSouthernTabs( true ), BorderLayout.CENTER );
-		AdventureFrame.removeExtraTabs();
+		framePanel.add( getSouthernTabs(), BorderLayout.CENTER );
 
 		JPanel sessionContainer = new JPanel( new CardLayout( 10, 10 ) );
 		sessionContainer.add( getAdventureSummary( "charsheetDropdown", locationSelect ), "" );
@@ -121,6 +121,32 @@ public class CharsheetFrame extends AdventureOptionsFrame
 	{
 		KoLCharacter.removeCharacterListener( statusRefresher );
 		super.dispose();
+	}
+
+	public static void removeExtraTabs()
+	{
+		CharsheetFrame.shouldAddExtraTabs = false;
+		if ( INSTANCE == null )
+			return;
+
+		for ( int i = INSTANCE.tabs.getTabCount() - 1; i > 0; --i )
+			INSTANCE.tabs.remove( i );
+	}
+
+	public JTabbedPane getSouthernTabs()
+	{
+		if ( shouldAddExtraTabs )
+			super.getSouthernTabs();
+
+		JPanel locationDetails = new JPanel( new BorderLayout( 10, 10 ) );
+		locationDetails.add( new AdventureSelectPanel( false ), BorderLayout.WEST );
+		locationDetails.add( new SafetyField( locationSelect ), BorderLayout.CENTER );
+
+		JPanel locationHolder = new JPanel( new CardLayout( 10, 10 ) );
+		locationHolder.add( locationDetails, "" );
+
+		tabs.insertTab( "Normal Options", null, locationHolder, null, 0 );
+		return tabs;
 	}
 
 	/**

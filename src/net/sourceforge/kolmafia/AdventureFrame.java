@@ -89,7 +89,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class AdventureFrame extends AdventureOptionsFrame
 {
 	private static AdventureFrame INSTANCE = null;
-	private static boolean shouldAddExtraTabs = true;
 
 	private JProgressBar requestMeter = null;
 
@@ -129,12 +128,13 @@ public class AdventureFrame extends AdventureOptionsFrame
 
 		framePanel.setLayout( new BorderLayout( 20, 20 ) );
 		framePanel.add( adventureDetails, BorderLayout.NORTH );
-		framePanel.add( getSouthernTabs( false ), BorderLayout.CENTER );
+		framePanel.add( getSouthernTabs(), BorderLayout.CENTER );
 
 		updateSelectedAdventure( AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) ) );
 		fillDefaultConditions();
 
 		JComponentUtilities.setComponentSize( framePanel, 640, 480 );
+		CharsheetFrame.removeExtraTabs();
 	}
 
 	public boolean shouldAddStatusBar()
@@ -174,24 +174,9 @@ public class AdventureFrame extends AdventureOptionsFrame
 	{	return true;
 	}
 
-	public static void removeExtraTabs()
+	public JTabbedPane getSouthernTabs()
 	{
-		AdventureFrame.shouldAddExtraTabs = false;
-		if ( INSTANCE == null )
-			return;
-
-		for ( int i = INSTANCE.tabs.getTabCount() - 1; i > 1; --i )
-			INSTANCE.tabs.remove( i );
-	}
-
-	public JTabbedPane getSouthernTabs( boolean includeLocationData )
-	{
-		// Handle everything that might appear inside of the
-		// session tally.
-
-		if ( shouldAddExtraTabs )
-			super.getSouthernTabs( includeLocationData );
-
+		super.getSouthernTabs();
 		tabs.insertTab( "Normal Options", null, getAdventureSummary(), null, 0 );
 
 		// Components of auto-restoration
