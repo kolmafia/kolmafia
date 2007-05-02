@@ -367,17 +367,7 @@ public class ConsumeItemRequest extends KoLRequest
 			}
 		}
 
-		if ( KoLCharacter.getAdventuresLeft() < 10 )
-			return true;
-
-		if ( KoLCharacter.getInebrietyLimit() >= KoLCharacter.getInebriety() + inebrietyBonus )
-			return true;
-
-		if ( MoonPhaseDatabase.getHoliday( new Date() ).indexOf( "Sneaky Pete" ) != -1 )
-			return true;
-
-		return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null, "Are you sure you want to overdrink?",
-			"Think carefully before you answer...", JOptionPane.YES_NO_OPTION );
+		return true;
 	}
 
 	public void useOnce( int currentIteration, int totalIterations, String useTypeAsString )

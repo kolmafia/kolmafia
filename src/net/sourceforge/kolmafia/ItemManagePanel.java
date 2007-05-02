@@ -315,10 +315,16 @@ public class ItemManagePanel extends LabeledScrollPanel
 					break;
 
 				case CONSUME_MULTIPLE:
-					int maximum = ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ), false );
-					quantity = maximum < 2 ? maximum : KoLFrame.getQuantity( message + " " + itemName + "...", Math.min( maximum, itemCount ) );
+
+					int maximum = ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ), true );
+					int standard = ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ), false );
+
+					quantity = maximum < 2 ? maximum : KoLFrame.getQuantity( message + " " + itemName + "...",
+						Math.min( maximum, itemCount ), Math.min( standard, itemCount ) );
+
 					if ( itemCount > 0 && quantity == 0 )
 						return new Object[0];
+
 					break;
 
 				default:

@@ -409,7 +409,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		int splitIndex = line.indexOf( ";" );
 
-		if ( splitIndex != -1 )
+		if ( splitIndex != -1 && !line.startsWith( "alias" ) )
 		{
 			// Determine all the individual statements which need
 			// to be executed based on the existence of the 'set'
