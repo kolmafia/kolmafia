@@ -967,11 +967,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "login" ) )
 		{
-			executeCommand( "logout", "..." );
+			executeCommand( "logout", "" );
 			String password = getSaveState( parameters );
 
 			if ( password != null )
 				RequestThread.postRequest( new LoginRequest( parameters, password ) );
+			else if ( StaticEntity.getClient() == DEFAULT_SHELL )
+				DEFAULT_SHELL.attemptLogin();
 			else
 				updateDisplay( ERROR_STATE, "No password saved for that username." );
 
@@ -996,11 +998,7 @@ public class KoLmafiaCLI extends KoLmafia
 				KoLFrame.createDisplay( LoginFrame.class );
 
 			if ( !KoLCharacter.getUserName().equals( "" ) )
-			{
 				RequestThread.postRequest( new LogoutRequest() );
-				if ( StaticEntity.getClient() == DEFAULT_SHELL && !parameters.equals( "..." ) )
-					DEFAULT_SHELL.attemptLogin();
-			}
 
 			return;
 		}
