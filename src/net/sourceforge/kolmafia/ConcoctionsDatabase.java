@@ -411,7 +411,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// number of items inside of the old list.
 
 		ItemCreationRequest instance;
-		boolean filterNeeded = false;
 
 		for ( int i = 1; i < concoctions.size(); ++i )
 		{
@@ -433,7 +432,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 				{
 					creatableList.remove( instance );
 					item.setPossible( false );
-					filterNeeded = true;
 				}
 			}
 			else
@@ -444,14 +442,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 				{
 					creatableList.add( instance );
 					item.setPossible( true );
-					filterNeeded = true;
 				}
 			}
 		}
-
-		usableList.fireContentsChanged( creatableList, 0, usableList.size() - 1 );
-		if ( filterNeeded )
-			usableList.applyListFilters();
 	}
 
 	public static int getMeatPasteRequired( int itemId, int creationCount )
