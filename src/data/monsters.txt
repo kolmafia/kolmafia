@@ -346,14 +346,23 @@ Tan Gnat	HP: 105 Def: 122 Atk: 116	gnatwing (40)	suntan lotion of moxiousness (5
 Tapdancing Skeleton	HP: 120 Def: 110 Atk: 110 ED: spooky	tap shoes (5)	worn tophat (5)
 Tektite	HP: 15 Def: 20 Atk: 20	black pixel (50)	blue pixel (80)	white pixel (50)
 The Astronomer	HP: 150 Def: 168 Atk: 168	star chart (100)
+The Axe Wound	HP: 150 Def: 163 Atk: 163 E: sleaze 
+The Beaver	HP: 150 Def: 162 Atk: 162 E: sleaze 
 The Bonerdagon	HP: 120 Def: 90 Atk: 90 E: spooky
 The Boss Bat	HP: 40 Def: 33 Atk: 37
+The Box	HP: 150 Def: 150 Atk: 150 E: sleaze
 The Burrowing Bishop	HP: 150 Def: 163 Atk: 163 E: sleaze	line (30)	line (30)	star (30)
+The Bush	HP: 150 Def: 156 Atk: 156 E: sleaze 
+The Camel's Toe	HP: 150 Def: 158 Atk: 158 E: sleaze 
 The Family Jewels	HP: 150 Def: 156 Atk: 156 E: sleaze	star (30)	star (30)	star (30)
+The Flange	HP: 150 Def: 160 Atk: 160 E: sleaze 
+The Honey Pot	HP: 150 Def: 152 Atk: 152 E: sleaze 
 The Hooded Warrior	HP: 150 Def: 165 Atk: 165 E: sleaze	line (30)	star (30)	star (30)
 The Junk	HP: 150 Def: 159 Atk: 161 E: sleaze	line (30)	line (30)	star (30)
 The Knob Goblin King	HP: 50 Def: 53 Atk: 57
+The Man in the Canoe	HP: 150 Def: 165 Atk: 165 E: sleaze 
 The Master of Thieves		Platinum Yendorian Express Card (100)
+The Muff	HP: 150 Def: 153 Atk: 153 E: sleaze 
 The Pork Sword	HP: 150 Def: 162 Atk: 162 E: sleaze	line (30)	star (30)	star (30)
 The Skinflute	HP: 150 Def: 158 Atk: 158 E: sleaze	star (30)	star (30)	line (30)	line (30)
 The Trouser Snake	HP: 150 Def: 153 Atk: 153 E: sleaze	line (30)	line (30)	line (30)
