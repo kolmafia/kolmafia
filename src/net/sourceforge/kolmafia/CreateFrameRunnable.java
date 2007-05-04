@@ -133,7 +133,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			String searchString = ChatFrame.class.isAssignableFrom( creationType ) ? "KoLMessenger" :
 				KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
 
-			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) &&
+			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) && !searchString.equals( "KoLMessenger" ) &&
 				tabSetting.indexOf( "," + searchString + "," ) != -1;
 
 			if ( appearsInTab )

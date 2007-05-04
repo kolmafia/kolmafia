@@ -121,15 +121,7 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 		}
 
-		KoLFrame [] frames = StaticEntity.getExistingFrames();
-		LoginFrame login = null;
-
-		for ( int i = 0; i < frames.length; ++i )
-			if ( frames[i] instanceof LoginFrame )
-				login = (LoginFrame) frames[i];
-
-		if ( login != null )
-			login.setVisible( false );
+		LoginFrame.hideInstance();
 
 		checkFrameSettings();
 		String frameSetting = StaticEntity.getGlobalProperty( "initialFrames" );
@@ -183,8 +175,7 @@ public class KoLmafiaGUI extends KoLmafia
 		// Figure out which user interface is being
 		// used -- account for minimalist loadings.
 
-		if ( login != null )
-			login.dispose();
+		LoginFrame.disposeInstance();
 
 		if ( KoLMailManager.hasNewMessages() )
 			KoLmafia.updateDisplay( "You have new mail." );
