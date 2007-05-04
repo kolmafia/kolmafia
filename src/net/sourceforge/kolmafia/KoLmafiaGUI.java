@@ -109,9 +109,6 @@ public class KoLmafiaGUI extends KoLmafia
 		String originalName = KoLCharacter.getUserName();
 		super.initialize( username );
 
-		if ( refusesContinue() || originalName.equalsIgnoreCase( username ) )
-			return;
-
 		if ( KoLRequest.passwordHash != null )
 		{
 			if ( StaticEntity.getBooleanProperty( "retrieveContacts" ) )
