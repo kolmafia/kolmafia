@@ -421,7 +421,7 @@ public abstract class KoLmafia implements KoLConstants
 		RequestLogger.printLine( state, message );
 		lastMessage = message;
 
-		if ( !existingFrames.isEmpty() && message.indexOf( LINE_BREAK ) == -1 )
+		if ( message.indexOf( LINE_BREAK ) == -1 )
 			updateDisplayState( state, RequestEditorKit.getStripped( message ) );
 	}
 
@@ -430,13 +430,16 @@ public abstract class KoLmafia implements KoLConstants
 		// Next, update all of the panels with the
 		// desired update message.
 
+		Object reference;
 		WeakReference [] references = StaticEntity.getExistingPanels();
+
 		for ( int i = 0; i < references.length; ++i )
 		{
-			if ( references[i].get() != null )
+			reference = references[i].get();
+			if ( reference != null )
 			{
-				if ( references[i].get() instanceof KoLPanel && message != null && message.length() > 0 )
-					((KoLPanel) references[i].get()).setStatusMessage( message );
+				if ( reference instanceof KoLPanel && message != null && message.length() > 0 )
+					((KoLPanel) reference).setStatusMessage( message );
 
 				((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
 			}
@@ -3295,11 +3298,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		public void run()
 		{
-			if ( !KoLCharacter.getUserName().equals( "" ) )
-				RequestThread.postRequest( new LogoutRequest() );
-
 			CustomItemDatabase.saveItemData();
-
 			SystemTrayFrame.removeTrayIcon();
 			LocalRelayServer.stop();
 

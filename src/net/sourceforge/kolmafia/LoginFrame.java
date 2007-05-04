@@ -78,6 +78,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class LoginFrame extends KoLFrame
 {
+	private static LoginFrame INSTANCE;
 	private LoginPanel panel;
 
 	private String username;
@@ -93,6 +94,7 @@ public class LoginFrame extends KoLFrame
 	{
 		super( VERSION_NAME + ": Login" );
 
+		INSTANCE = this;
 		tabs.addTab( "KoL Login", constructLoginPanel() );
 
 		JPanel breakfastPanel = new JPanel();
@@ -130,20 +132,31 @@ public class LoginFrame extends KoLFrame
 			usernameField.requestFocus();
 	}
 
+	public static boolean instanceExists()
+	{	return INSTANCE != null;
+	}
+
+	public static void hideInstance()
+	{
+		if ( INSTANCE != null )
+			INSTANCE.setVisible( false );
+	}
+
+	public static void disposeInstance()
+	{
+		if ( INSTANCE != null )
+			INSTANCE.dispose();
+	}
+
 	public void dispose()
 	{
 		honorProxySettings();
 
-		if ( KoLRequest.sessionId == null || !KoLDesktop.instanceExists() )
+		if ( KoLRequest.sessionId == null )
 			System.exit(0);
 
 		super.dispose();
-	}
-
-	public void setStatusMessage( String message )
-	{
-		if ( panel != null )
-			panel.setStatusMessage( message );
+		INSTANCE = null;
 	}
 
 	public JPanel constructLoginPanel()
