@@ -340,3 +340,4 @@
 340	Begpwnia	Can't Be a Chooser	meat.gif
 341	Upsy Daisy	Ass Over Teakettle	teakettle.gif
 342	Half-Orchid	Bestial Sympathy	teeth.gif
+343	Sombrero	La Bamba	footprints.gif

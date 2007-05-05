@@ -80,6 +80,7 @@ opera mask	10	none
 orange traffic cone	60	Mox: 15
 Orcish baseball cap	60	Mox: 15
 oriole-feather headdress	15	none
+outrageous sombrero	100	none
 pail	30	none
 pentacorn hat	40	Mox: 5
 pimpin' meat hat	55	Mox: 12
@@ -212,6 +213,7 @@ Grateful Undead T-shirt	70	none
 Grimacite guayabera	125	Mus: 47
 harem girl t-shirt	25	none
 hipposkin poncho	120	Mus: 45
+"Humorous" T-shirt	100	Mus: 35
 Kiss the Knob apron	10	none
 Knob Goblin elite shirt	35	Mus: 2
 loathing eagle baby-doll shirt	45	Mus: 7
@@ -736,6 +738,7 @@ Talisman of Baio	0	none
 Talisman of Bakula	0	none
 tap shoes	0	none
 the Amulet of Yendor	0	none
+tin star	0	none
 tiny plastic accordion thief	0	none
 tiny plastic ancient yuletide troll	0	none
 tiny plastic angry goat	0	none
