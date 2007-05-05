@@ -994,9 +994,6 @@ public class KoLmafiaCLI extends KoLmafia
 			for ( int i = 0; i < frames.length; ++i )
 				frames[i].setVisible( false );
 
-			if ( StaticEntity.getClient() != DEFAULT_SHELL )
-				KoLFrame.createDisplay( LoginFrame.class );
-
 			if ( !KoLCharacter.getUserName().equals( "" ) )
 				RequestThread.postRequest( new LogoutRequest() );
 

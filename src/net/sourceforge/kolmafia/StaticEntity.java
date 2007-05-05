@@ -66,7 +66,6 @@ public abstract class StaticEntity implements KoLConstants
 	private static KoLmafia client;
 	private static int usesSystemTray = 0;
 	private static int usesRelayWindows = 0;
-	private static boolean printedStackTrace = false;
 
 	private static KoLFrame [] frameArray = null;
 	private static WeakReference [] panelArray = null;
@@ -461,11 +460,6 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static final void printStackTrace( Throwable t, String message, String [] logAssistMessages )
 	{
-		if ( printedStackTrace )
-			return;
-
-		printedStackTrace = true;
-
 		boolean shouldOpenStream = !RequestLogger.isDebugging();
 		if ( shouldOpenStream )
 			RequestLogger.openDebugLog();
