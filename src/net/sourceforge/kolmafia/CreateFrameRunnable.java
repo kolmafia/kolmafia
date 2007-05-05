@@ -159,34 +159,37 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 	private boolean loadPreviousFrame()
 	{
-		// Check to see if this is a frame that should
-		// only be loaded once, based on the static list.
-
-		KoLFrame currentFrame;
-		Class currentType;
-
-		String creationTypeName = (creationType == KoLPanelFrame.class ? parameters[1].getClass() : creationType).getName();
-		creationTypeName = creationTypeName.substring( creationTypeName.lastIndexOf( "." ) + 1 );
-
-		for ( int i = 0; i < existingFrames.size() && this.creation == null; ++i )
+		synchronized ( creationType )
 		{
-			currentFrame = (KoLFrame) existingFrames.get(i);
-			currentType = currentFrame.getClass();
+			// Check to see if this is a frame that should
+			// only be loaded once, based on the static list.
 
-			if ( currentType == creationType )
+			KoLFrame currentFrame;
+			Class currentType;
+
+			String creationTypeName = (creationType == KoLPanelFrame.class ? parameters[1].getClass() : creationType).getName();
+			creationTypeName = creationTypeName.substring( creationTypeName.lastIndexOf( "." ) + 1 );
+
+			for ( int i = 0; i < existingFrames.size() && this.creation == null; ++i )
 			{
-				boolean allowMultiple = currentType == RequestFrame.class && parameters.length > 0;
+				currentFrame = (KoLFrame) existingFrames.get(i);
+				currentType = currentFrame.getClass();
 
-				for ( int j = 0; j < MULTI_INSTANCE.length; ++j )
-					if ( currentType == MULTI_INSTANCE[j] )
-						allowMultiple = true;
+				if ( currentType == creationType )
+				{
+					boolean allowMultiple = currentType == RequestFrame.class && parameters.length > 0;
 
-				if ( !allowMultiple )
-					this.creation = currentFrame;
+					for ( int j = 0; j < MULTI_INSTANCE.length; ++j )
+						if ( currentType == MULTI_INSTANCE[j] )
+							allowMultiple = true;
+
+					if ( !allowMultiple )
+						this.creation = currentFrame;
+				}
 			}
-		}
 
-		return this.creation != null;
+			return this.creation != null;
+		}
 	}
 
 	private void runConstruction()

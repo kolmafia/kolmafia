@@ -157,12 +157,6 @@ public abstract class SystemTrayFrame implements KoLConstants
 
 	public static void showDisplay()
 	{
-		if ( KoLRequest.sessionId == null )
-		{
-			KoLFrame.createDisplay( LoginFrame.class );
-			return;
-		}
-
 		if ( existingFrames.isEmpty() )
 		{
 			KoLmafiaGUI.constructFrame( "LocalRelayServer" );
@@ -232,7 +226,6 @@ public abstract class SystemTrayFrame implements KoLConstants
 			for ( int i = 0; i < frames.length; ++i )
 				frames[i].setVisible( false );
 
-			KoLFrame.createDisplay( LoginFrame.class );
 			RequestThread.postRequest( new LogoutRequest() );
 		}
 	}

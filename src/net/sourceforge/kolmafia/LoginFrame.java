@@ -78,7 +78,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class LoginFrame extends KoLFrame
 {
-	private static LoginFrame INSTANCE;
+	private static LoginFrame INSTANCE = null;
 	private LoginPanel panel;
 
 	private String username;

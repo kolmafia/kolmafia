@@ -328,10 +328,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		// session for all other frames is calling main.
 
 		if ( !(this instanceof LoginFrame) && existingFrames.isEmpty() )
-		{
-			createDisplay( LoginFrame.class );
 			RequestThread.postRequest( new LogoutRequest() );
-		}
 	}
 
 	public String toString()
