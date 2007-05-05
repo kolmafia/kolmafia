@@ -416,6 +416,8 @@ public class AdventureDatabase extends KoLDatabase
 		new ChoiceAdventure( "Plains", "choiceAdventure127", "Palindome",
 		  new String [] { "3 papayas", "trade 3 papayas for stats", "stats" },
 		  new String [] { "498", null, null } ),
+
+		// Choice 150 is Another Adventure About BorderTown
 	};
 
 	static
