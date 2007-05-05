@@ -155,6 +155,12 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 		this.elements = elements;
 
+		addListeners();
+		addStatusLabel();
+	}
+
+	public void addListeners()
+	{
 		if ( elements == null )
 			return;
 
@@ -163,8 +169,6 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		for ( int i = 0; i < elements.length; ++i )
 			if ( elements[i].getInputField() instanceof JTextField )
 				((JTextField)elements[i].getInputField()).addKeyListener( listener );
-
-		addStatusLabel();
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -188,6 +192,9 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 	public void addStatusLabel()
 	{
+		if ( elements == null )
+			return;
+
 		boolean shouldAddStatusLabel = elements != null && elements.length != 0;
 		for ( int i = 0; shouldAddStatusLabel && i < elements.length; ++i )
 			shouldAddStatusLabel &= !(elements[i].getInputField() instanceof JScrollPane);

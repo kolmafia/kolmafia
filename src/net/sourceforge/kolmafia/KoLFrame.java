@@ -316,8 +316,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		// the maintained list of frames.
 
 		super.dispose();
-		existingFrames.remove( this );
 		KoLDesktop.removeTab( this );
+
+		if ( !existingFrames.contains( this ) )
+			return;
+
+		existingFrames.remove( this );
 
 		if ( refreshListener != null )
 			KoLCharacter.removeCharacterListener( refreshListener );
@@ -327,8 +331,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		// a login frame involves exiting, and ending the
 		// session for all other frames is calling main.
 
-		if ( !(this instanceof LoginFrame) && existingFrames.isEmpty() )
+		if ( existingFrames.isEmpty() )
+		{
+			createDisplay( LoginFrame.class );
 			RequestThread.postRequest( new LogoutRequest() );
+		}
 	}
 
 	public String toString()
