@@ -249,6 +249,10 @@ public class LoginFrame extends KoLFrame
 			JComponentUtilities.addHotKey( usernameField, KeyEvent.VK_ENTER, CONFIRM_LISTENER );
 		}
 
+		public void addListeners()
+		{
+		}
+
 		public void setEnabled( boolean isEnabled )
 		{
 			if ( usernameField == null || passwordField == null )
