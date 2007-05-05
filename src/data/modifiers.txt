@@ -22,6 +22,7 @@ lihc face	Spooky: +20
 makeshift skirt	Spooky: +20
 miner's helmet	Item: +5.0
 orange traffic cone	Spooky: +20
+outrageous sombrero	Init: -20.0
 pail	DA: +10
 plexiglass pith helmet	Weight: +5
 raspberry beret	Hot: +20

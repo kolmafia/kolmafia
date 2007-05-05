@@ -2544,6 +2544,6 @@
 2544	begpwnia	4	all	100
 2545	upsy daisy	4	all	100
 2546	half-orchid	4	all	100
-2547
-2548
-2549
+2547	tin star	8	all	0
+2548	outrageous sombrero	9	all	0
+2549	"Humorous" T-shirt	11	all	0
