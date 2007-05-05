@@ -95,7 +95,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			itemData.indexOf( "ratbal.gif" ) != -1 ? new AdventureResult( "rat head balloon", 1, false ) :
 			itemData.indexOf( "punkin.gif" ) != -1 ? new AdventureResult( "plastic pumpkin bucket", 1, false ) :
 			itemData.indexOf( "ffdop.gif" ) != -1 ? new AdventureResult( 2225, 1 ) :
-
+			itemData.indexOf( "maybouquet.gif" ) != -1 ? new AdventureResult( "Mayflower bouquet", 1, false ) :
 			new AdventureResult( FamiliarsDatabase.getFamiliarItem( this.id ), 1, false );
 	}
 
@@ -278,6 +278,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1539:  // lucky Tam O'Shatner
 		case 1971:  // plastic pumpkin bucket
 		case 2225:  // flaming familiar doppelg&auml;nger
+		case 2541:  // Mayflower bouquet
 			return id != 54;
 
 		default:
