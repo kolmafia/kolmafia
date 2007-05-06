@@ -529,6 +529,13 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
+			String currentMood = StaticEntity.getProperty( "currentMood" );
+			if ( currentMood.equals( "apathetic" ) )
+			{
+				JOptionPane.showMessageDialog( null, "You cannot add triggers to an apathetic mood." );
+				return;
+			}
+
 			MoodSettings.addTrigger( (String) typeSelect.getSelectedType(), (String) valueSelect.getSelectedItem(), commandField.getText() );
 			MoodSettings.saveSettings();
 		}
