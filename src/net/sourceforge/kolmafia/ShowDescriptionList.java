@@ -54,6 +54,7 @@ import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
 import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 
@@ -118,6 +119,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		if ( listModel == tally )
 		{
+			contextMenu.add( new ZeroTallyMenuItem() );
+			contextMenu.add( new JSeparator() );
 			contextMenu.add( new AutoSellMenuItem() );
 			contextMenu.add( new ConsumeMenuItem() );
 			contextMenu.add( new PulverizeMenuItem() );
@@ -495,6 +498,20 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			}
 
 			KoLSettings.saveFlaggedItemList();
+		}
+	}
+
+	private class ZeroTallyMenuItem extends ContextMenuItem
+	{
+		public ZeroTallyMenuItem()
+		{	super( "Zero out entries" );
+		}
+
+		public void executeAction()
+		{
+			Object [] items = getSelectedValues();
+			for ( int i = 0; i < items.length; ++i )
+				AdventureResult.addResultToList( tally, ((AdventureResult)items[i]).getNegation() );
 		}
 	}
 
