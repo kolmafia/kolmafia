@@ -18,7 +18,7 @@ import sun.net.www.http.HttpClient;
 
 public class HttpTimeoutClient extends HttpClient
 {
-	private static final int TIMEOUT = 10000;
+	private static final int TIMEOUT = 1000;
 
 	public HttpTimeoutClient( URL location ) throws IOException
 	{	super( location, (String) null, -1 );
