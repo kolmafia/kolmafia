@@ -228,7 +228,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		KoLFrame [] frames = StaticEntity.getExistingFrames();
 
 		for ( int i = 0; i < frames.length; ++i )
-			if ( KoLDatabase.substringMatches( setting, frames[i].getFrameName() ) )
+			if ( setting.indexOf( frames[i].getFrameName() ) != -1 )
 				frames[i].dispose();
 
 		INSTANCE = null;
@@ -405,7 +405,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		for ( int i = 0; i < INSTANCE.tabListing.size(); ++i )
 		{
 			KoLFrame frame = (KoLFrame) INSTANCE.tabListing.get( i );
-			if ( KoLDatabase.substringMatches( setting, frame.getFrameName() ) )
+			if ( setting.indexOf( frame.getFrameName() ) != -1 )
 				continue;
 
 			frame.dispose();

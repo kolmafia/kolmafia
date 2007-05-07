@@ -4631,29 +4631,30 @@ public class KoLmafiaCLI extends KoLmafia
 		for ( int i = 0; i < restaurantItems.size(); ++i )
 		{
 			String name = (String) restaurantItems.get(i);
-			if ( name.toLowerCase().indexOf( nameString ) != -1 )
+
+			if ( !KoLDatabase.substringMatches( name, nameString ) )
+				continue;
+
+			if ( isExecutingCheckOnlyCommand )
 			{
-				if ( isExecutingCheckOnlyCommand )
-				{
-					RequestLogger.printLine( name );
-					return true;
-				}
-
-				int count = countString == null || countString.length() == 0 ? 1 :
-					StaticEntity.parseInt( countString );
-
-				if ( count == 0 )
-				{
-					int fullness = TradeableItemDatabase.getFullness( name );
-					if ( fullness > 0 )
-						count = (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
-				}
-
-				for ( int j = 0; j < count; ++j )
-					RequestThread.postRequest( new RestaurantRequest( name ) );
-
+				RequestLogger.printLine( name );
 				return true;
 			}
+
+			int count = countString == null || countString.length() == 0 ? 1 :
+				StaticEntity.parseInt( countString );
+
+			if ( count == 0 )
+			{
+				int fullness = TradeableItemDatabase.getFullness( name );
+				if ( fullness > 0 )
+					count = (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
+			}
+
+			for ( int j = 0; j < count; ++j )
+				RequestThread.postRequest( new RestaurantRequest( name ) );
+
+			return true;
 		}
 
 		return false;
@@ -4685,29 +4686,30 @@ public class KoLmafiaCLI extends KoLmafia
 		for ( int i = 0; i < microbreweryItems.size(); ++i )
 		{
 			String name = (String) microbreweryItems.get(i);
-			if ( name.toLowerCase().indexOf( nameString ) != -1 )
+
+			if ( !KoLDatabase.substringMatches( name, nameString ) )
+				continue;
+
+			if ( isExecutingCheckOnlyCommand )
 			{
-				if ( isExecutingCheckOnlyCommand )
-				{
-					RequestLogger.printLine( name );
-					return true;
-				}
-
-				int count = countString == null || countString.length() == 0 ? 1 :
-					StaticEntity.parseInt( countString );
-
-				if ( count == 0 )
-				{
-					int inebriety = TradeableItemDatabase.getInebriety( name );
-					if ( inebriety > 0 )
-						count = (KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()) / inebriety;
-				}
-
-				for ( int j = 0; j < count; ++j )
-					RequestThread.postRequest( new MicrobreweryRequest( name ) );
-
+				RequestLogger.printLine( name );
 				return true;
 			}
+
+			int count = countString == null || countString.length() == 0 ? 1 :
+				StaticEntity.parseInt( countString );
+
+			if ( count == 0 )
+			{
+				int inebriety = TradeableItemDatabase.getInebriety( name );
+				if ( inebriety > 0 )
+					count = (KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()) / inebriety;
+			}
+
+			for ( int j = 0; j < count; ++j )
+				RequestThread.postRequest( new MicrobreweryRequest( name ) );
+
+			return true;
 		}
 
 		return false;
