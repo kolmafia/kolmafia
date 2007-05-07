@@ -690,7 +690,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( encounteredError )
 		{
-			KoLmafia.updateDisplay( lastUpdate );
+			KoLmafia.updateDisplay( target == null || target.equals( "yourself" ) ? ABORT_STATE : CONTINUE_STATE, lastUpdate );
 
 			if ( BuffBotHome.isBuffBotActive() )
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, lastUpdate );
