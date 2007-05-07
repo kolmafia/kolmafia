@@ -103,7 +103,7 @@ public class SimpleListFilter extends ListElementFilter
 					KoLDatabase.fuzzyMatches( entry.getValue().toString(), getCurrentName() );
 			}
 
-			return strict ? element.toString().toLowerCase().indexOf( getCurrentName().toLowerCase() ) != -1 :
+			return strict ? KoLDatabase.substringMatches( element.toString(), getCurrentName() ) :
 				KoLDatabase.fuzzyMatches( element.toString(), getCurrentName() );
 		}
 

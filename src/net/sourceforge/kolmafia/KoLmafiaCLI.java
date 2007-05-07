@@ -1647,49 +1647,41 @@ public class KoLmafiaCLI extends KoLmafia
 			String lowerCaseName = parameters.toLowerCase();
 			List familiars = KoLCharacter.getFamiliarList();
 
+			FamiliarData newFamiliar = null;
+
 			// First, try substring matching against the list of
 			// familiars.
 
-			for ( int i = 0; i < familiars.size(); ++i )
-			{
-				if ( familiars.get(i).toString().indexOf( lowerCaseName ) != -1 )
-				{
-					if ( isExecutingCheckOnlyCommand )
-					{
-						RequestLogger.printLine( familiars.get(i).toString() );
-						return;
-					}
+			for ( int i = 0; i < familiars.size() && newFamiliar == null; ++i )
+				if ( KoLDatabase.substringMatches( familiars.get(i).toString(), lowerCaseName, true ) )
+					newFamiliar = (FamiliarData) familiars.get(i);
 
-					FamiliarData newFamiliar = (FamiliarData) familiars.get(i);
-					if ( KoLCharacter.getFamiliar() != null && KoLCharacter.getFamiliar().equals( newFamiliar ) )
-						return;
-
-					RequestThread.postRequest( new FamiliarRequest( newFamiliar ) );
-					return;
-				}
-			}
+			for ( int i = 0; i < familiars.size() && newFamiliar == null; ++i )
+				if ( KoLDatabase.substringMatches( familiars.get(i).toString(), lowerCaseName, false ) )
+					newFamiliar = (FamiliarData) familiars.get(i);
 
 			// Boo, no matches.  Now try fuzzy matching, because the
 			// end-user might be abbreviating.
 
-			for ( int i = 0; i < familiars.size(); ++i )
-			{
+			for ( int i = 0; i < familiars.size() && newFamiliar == null; ++i )
 				if ( KoLDatabase.fuzzyMatches( familiars.get(i).toString(), lowerCaseName ) )
+					newFamiliar = (FamiliarData) familiars.get(i);
+
+			if ( newFamiliar != null )
+			{
+				if ( isExecutingCheckOnlyCommand )
 				{
-					if ( isExecutingCheckOnlyCommand )
-					{
-						RequestLogger.printLine( familiars.get(i).toString() );
-						return;
-					}
-
-					FamiliarData newFamiliar = (FamiliarData) familiars.get(i);
-					if ( KoLCharacter.getFamiliar() != null && KoLCharacter.getFamiliar().equals( newFamiliar ) )
-						return;
-
-					RequestThread.postRequest( new FamiliarRequest( newFamiliar ) );
+					RequestLogger.printLine( newFamiliar.toString() );
 					return;
 				}
+
+				if ( KoLCharacter.getFamiliar() != null && KoLCharacter.getFamiliar().equals( newFamiliar ) )
+					return;
+
+				RequestThread.postRequest( new FamiliarRequest( newFamiliar ) );
+				return;
 			}
+
 
 			updateDisplay( ERROR_STATE, "You don't have that familiar." );
 			return;
