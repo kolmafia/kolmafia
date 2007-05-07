@@ -155,11 +155,8 @@ public class KoLDatabase extends StaticEntity
 			nameMap.keySet().toArray( names );
 
 			for ( int i = 0; i < names.length; ++i )
-			{
-				names[i] = names[i].toLowerCase();
-				if ( names[i].indexOf( searchString ) != -1 )
+				if ( substringMatches( names[i], searchString ) )
 					substringList.add( names[i] );
-			}
 
 			if ( substringList.isEmpty() )
 				getMatchingAbbreviations( substringList, names, searchString );
@@ -184,6 +181,23 @@ public class KoLDatabase extends StaticEntity
 		for ( int i = 0; i < names.length; ++i )
 			if ( fuzzyMatches( names[i], searchString ) )
 				substringList.add( names[i] );
+	}
+
+	public static boolean substringMatches( String source, String substring )
+	{	return substringMatches( source, substring, false );
+	}
+
+	public static boolean substringMatches( String source, String substring, boolean checkBoundaries )
+	{
+		int index = source.toLowerCase().indexOf( substring.toLowerCase() );
+
+		if ( index == -1 )
+			return false;
+
+		if ( !checkBoundaries || index == 0 )
+			return true;
+
+		return !Character.isLetterOrDigit( substring.charAt( index - 1 ) );
 	}
 
 	public static boolean fuzzyMatches( String source, String substring )
