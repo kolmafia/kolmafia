@@ -134,7 +134,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
 
 			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) && !searchString.equals( "KoLMessenger" ) &&
-				KoLDatabase.substringMatches( StaticEntity.getGlobalProperty( "initialDesktop" ), searchString );
+				StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( searchString ) != -1;
 
 			if ( appearsInTab )
 			{
@@ -205,7 +205,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			String searchString = ChatFrame.class.isAssignableFrom( creationType ) ? "KoLMessenger" :
 				KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
 
-			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) && KoLDatabase.substringMatches( initialString, searchString );
+			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) && initialString.indexOf( searchString ) != -1;
 
 			if ( creationType != LoginFrame.class && StaticEntity.getBooleanProperty( "guiUsesOneWindow" ) )
 			{

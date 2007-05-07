@@ -1195,7 +1195,7 @@ public class KoLRequest extends Job implements KoLConstants
 			return this instanceof AdventureRequest;
 		}
 
-		if ( redirectLocation.startsWith( "login.php" ) )
+		if ( redirectLocation.startsWith( "login.php" ) && !(this instanceof ChatRequest) )
 		{
 			LoginRequest.executeTimeInRequest();
 			return sessionId == null;
