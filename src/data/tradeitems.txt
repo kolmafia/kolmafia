@@ -2476,7 +2476,7 @@
 2476	clownskin belt	8	all	55
 2477	clownskin buckler	13	all	65
 2478	clown whip	12	all	15
-2479	demon skin	0	all	0
+2479	demon skin	0	all	55
 2480	demon-horned hat	9	all	75
 2481	demon buckler	13	all	85
 2482	demon whip	12	all	15
@@ -2544,6 +2544,6 @@
 2544	begpwnia	4	all	100
 2545	upsy daisy	4	all	100
 2546	half-orchid	4	all	100
-2547	tin star	8	all	0
-2548	outrageous sombrero	9	all	0
-2549	"Humorous" T-shirt	11	all	0
+2547	tin star	8	display	0
+2548	outrageous sombrero	9	display	0
+2549	"Humorous" T-shirt	11	display	0
