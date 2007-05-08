@@ -169,7 +169,7 @@ public class ChatRequest extends KoLRequest
 		if ( commandResult != null )
 		{
 			KoLmafia.registerPlayer( VERSION_NAME, "458968" );
-			KoLMessenger.getChatBuffer( "[events]" ).append( "<font color=green>" + commandResult + "</font><br><br>" );
+			KoLMessenger.getChatBuffer( "[events]" ).append( "<font color=green>" + commandResult + "</font><br>" );
 			return;
 		}
 

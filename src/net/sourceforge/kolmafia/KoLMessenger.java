@@ -860,7 +860,7 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( isWhoMessage || isGreenMessage )
 		{
 			displayHTML.insert( 0, "<font color=green>" );
-			displayHTML.append( "</font><br><br>" );
+			displayHTML.append( "</font><br>" );
 
 			return displayHTML.toString();
 		}
