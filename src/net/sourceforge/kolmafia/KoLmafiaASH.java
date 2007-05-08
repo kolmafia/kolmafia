@@ -685,9 +685,14 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			return validate( new FileInputStream( scriptFile ) );
 		}
+		catch ( AdvancedScriptException e )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, e.getMessage() );
+			return false;
+		}
 		catch ( Exception e )
 		{
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 			return false;
 		}
 	}
@@ -802,7 +807,7 @@ public class KoLmafiaASH extends StaticEntity
 			// a premature abort, which causes void
 			// values to be returned, ignore.
 
-			printStackTrace( e, e.getMessage() );
+			printStackTrace( e );
 		}
 	}
 
@@ -5633,7 +5638,7 @@ public class KoLmafiaASH extends StaticEntity
 				// error shouldn't get generated.  Print a stack
 				// trace, just in case.
 
-				StaticEntity.printStackTrace( e );
+				printStackTrace( e );
 			}
 
 			return value;

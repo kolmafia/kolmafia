@@ -795,13 +795,16 @@ public abstract class KoLMessenger extends StaticEntity
 		{
 			String displayHTML = formatChatMessage( channel, message, bufferKey );
 
-			if ( displayHTML.startsWith( "<!-- EVENT -->" ) )
+			if ( displayHTML.startsWith( "<font color=green>" ) )
 			{
 				if ( BuffBotHome.isBuffBotActive() )
 					return;
 
 				if ( ignoreEvents )
 					return;
+
+				if ( displayHTML.indexOf( " has " ) != -1 )
+					RequestThread.postRequest( CharpaneRequest.getInstance() );
 
 				bufferKey = "[events]";
 				eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML ).replaceAll( "" ) );
@@ -832,12 +835,13 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( message.indexOf( ":" ) != -1 )
 			return false;
 
-		return message.startsWith( "<a target=mainpane href=\"messages.php\">" ) || message.indexOf( "have been attacked" ) != -1 ||
+		return message.indexOf( "logged on" ) != -1 || message.indexOf( "logged off" ) != -1 ||
+			message.startsWith( "<a target=mainpane href=\"messages.php\">" ) || message.indexOf( "have been attacked" ) != -1 ||
 			message.indexOf( "has proposed a trade" ) != -1 || message.indexOf( "has cancelled a trade" ) != -1 ||
 			message.indexOf( "has responded to a trade" ) != -1 || message.indexOf( "has declined a trade" ) != -1 ||
-			message.indexOf( "has accepted a trade" ) != -1 || message.indexOf( "has given you a box of sunshine." ) != -1 ||
+			message.indexOf( "has accepted a trade" ) != -1 || message.indexOf( "has given you" ) != -1 ||
 			message.indexOf( "has played" ) != -1 || message.indexOf( "has littered toilet paper" ) != -1 ||
-			message.indexOf( "with a brick." ) != -1 || message.indexOf( "has hit you in the face with a cream pie" ) != -1;
+			message.indexOf( "with a brick" ) != -1 || message.indexOf( "has hit you in the face" ) != -1;
 	}
 
 	public static String formatChatMessage( String channel, String message, String bufferKey )
@@ -853,15 +857,10 @@ public abstract class KoLMessenger extends StaticEntity
 
 		boolean isGreenMessage = isGreenMessage( message );
 
-		if ( isWhoMessage )
+		if ( isWhoMessage || isGreenMessage )
 		{
 			displayHTML.insert( 0, "<font color=green>" );
-			displayHTML.append( "</font>" );
-		}
-		else if ( isGreenMessage )
-		{
-			displayHTML.insert( 0, "<!-- EVENT --><font color=green>" );
-			displayHTML.append( "</font><br>" );
+			displayHTML.append( "</font><br><br>" );
 
 			return displayHTML.toString();
 		}
@@ -909,9 +908,6 @@ public abstract class KoLMessenger extends StaticEntity
 				displayHTML.append( "</i>" );
 			}
 		}
-
-		if ( displayHTML.indexOf( "<font color=green>" ) != -1 && displayHTML.indexOf( " has " ) != -1 )
-			RequestThread.postRequest( CharpaneRequest.getInstance() );
 
 		// Add the appropriate eSolu scriptlet additions to the
 		// processed chat message.
