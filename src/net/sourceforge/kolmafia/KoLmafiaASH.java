@@ -6276,23 +6276,26 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptVariable extends ScriptSymbol
 	{
+		ScriptType type;
 		ScriptValue	content;
 		ScriptExpression expression = null;
 
 		public ScriptVariable( ScriptType type )
 		{
 			super( null );
+			this.type = type;
 			content = new ScriptValue( type );
 		}
 
 		public ScriptVariable( String name, ScriptType type )
 		{
 			super( name );
+			this.type = type;
 			content = new ScriptValue( type );
 		}
 
 		public ScriptType getType()
-		{	return content.getType();
+		{	return type;
 		}
 
 		public ScriptValue getValue()
