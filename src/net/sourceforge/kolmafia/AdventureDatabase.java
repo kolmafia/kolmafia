@@ -145,7 +145,7 @@ public class AdventureDatabase extends KoLDatabase
 	// Lucky sewer options
 	public static final ChoiceAdventure LUCKY_SEWER =
 		new ChoiceAdventure( "Town", "luckySewerAdventure", "Sewer Gnomes",
-		  new String [] { "seal-clubbing club", "seal tooth", "helmet turtle", "scroll of turtle summoning", "pasta spoon", "ravioli hat",
+		  new String [] { "seal-clubbing club", "seal tooth", "helmet turtle", "turtle totem", "pasta spoon", "ravioli hat",
 		    "saucepan", "disco mask", "disco ball", "stolen accordion", "mariachi pants" } );
 
 
