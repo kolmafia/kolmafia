@@ -6,7 +6,7 @@
 1	868780591	seal-clubbing club	seal-clubbing clubs
 2	617818041	seal tooth	seal teeth
 3	447433823	helmet turtle	helmet turtles
-4	164978098	scroll of turtle summoning	scrolls of turtle summoning
+4	164978098	turtle totem	turtle totems
 5	249844320	pasta spoon	pasta spoons
 6	882973843	ravioli hat	ravioli hats
 7	323344201	saucepan	saucepans

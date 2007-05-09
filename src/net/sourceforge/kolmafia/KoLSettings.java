@@ -72,7 +72,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		// This includes the various meat combinables, sewer items, and stat boosters.
 
 		"meat paste", "meat stack", "dense meat stack", "twinkly powder",
-		"seal-clubbing club", "seal tooth", "helmet turtle", "scroll of turtle summoning", "pasta spoon", "ravioli hat", "saucepan", "disco mask", "mariachi pants",
+		"seal-clubbing club", "seal tooth", "helmet turtle", "turtle totem", "pasta spoon", "ravioli hat", "saucepan", "disco mask", "mariachi pants",
 		"moxie weed", "strongness elixir", "magicalness-in-a-can", "enchanted barbell", "concentrated magicalness pill", "giant moxie weed", "extra-strength strongness elixir", "jug-o-magicalness", "suntan lotion of moxiousness",
 
 		// Next, some common drops in low level areas that are farmed for other

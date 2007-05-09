@@ -1,7 +1,7 @@
 1	seal-clubbing club	12	all	1
 2	seal tooth	3	all	1
 3	helmet turtle	9	all	1
-4	scroll of turtle summoning	0	all	1
+4	turtle totem	0	all	1
 5	pasta spoon	12	all	1
 6	ravioli hat	9	all	1
 7	saucepan	12	all	1

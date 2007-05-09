@@ -416,7 +416,7 @@ public abstract class KoLCharacter extends StaticEntity
 		battleSkillNames.add( "item toy mercenary" );
 
 		battleSkillNames.add( "item seal tooth" );
-		battleSkillNames.add( "item scroll of turtle summoning" );
+		battleSkillNames.add( "item turtle totem" );
 		battleSkillNames.add( "item spices" );
 
 		battleSkillNames.add( "try to run away" );

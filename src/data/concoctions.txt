@@ -82,7 +82,7 @@ ten-leaf clover	16	disassembled clover
 disassembled clover	16	ten-leaf clover
 seal-toothed rock	1	big rock	seal tooth
 Bjorn's Hammer	1	seal-clubbing club	seal-toothed rock
-turtle factory	1	big rock	scroll of turtle summoning
+turtle factory	1	big rock	turtle totem
 Turtleslinger	1	slingshot	turtle factory
 spaghetti with rock-balls	1	big rock	ravioli hat
 Pasta of Peril	1	spaghetti with rock-balls	pasta spoon
