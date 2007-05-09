@@ -353,6 +353,9 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( existingFrames.isEmpty() )
 			return true;
 
+		// Make sure the player does not drink something without
+		// having ode, if they can cast ode.
+
 		if ( !activeEffects.contains( TradeableItemDatabase.ODE ) )
 		{
 			if ( availableSkills.contains( UseSkillRequest.getInstance( "The Ode to Booze" ) ) && !askedAboutOde.equals( KoLCharacter.getUserName() ) )
@@ -364,6 +367,18 @@ public class ConsumeItemRequest extends KoLRequest
 				}
 
 				askedAboutOde = KoLCharacter.getUserName();
+			}
+		}
+
+		// Make sure the player does not overdrink if they still
+		// have PvP attacks remaining.
+
+		if ( KoLCharacter.getAttacksLeft() > 0 && KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit() )
+		{
+			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you want to overdrink without PvPing?",
+				"Think carefully before you answer...", JOptionPane.YES_NO_OPTION ) )
+			{
+				return false;
 			}
 		}
 
