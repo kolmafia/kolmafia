@@ -256,7 +256,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			return;
 		}
 
-		untinkerCloverWeapon( songWeapon );
+		untinkerCloverWeapon( ROCKNROLL_LEGEND );
 		AdventureDatabase.retrieveItem( songWeapon );
 	}
 
