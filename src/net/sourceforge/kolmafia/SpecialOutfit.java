@@ -153,12 +153,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 			if ( checkpoint[i].equals( EquipmentRequest.UNEQUIP ) || equippedItem.equals( checkpoint[i] ) )
 				continue;
 
-			if ( equippedItem.equals( UseSkillRequest.ROCKNROLL_LEGEND ) && !checkpoint[i].equals( UseSkillRequest.ROCKNROLL_LEGEND ) )
-			{
-				UseSkillRequest.untinkerCloverWeapon( equippedItem );
-				RequestThread.postRequest( ItemCreationRequest.getInstance( checkpoint[i].getInstance(1) ) );
-			}
-
 			RequestThread.postRequest( new EquipmentRequest( checkpoint[i], i ) );
 		}
 
@@ -243,6 +237,8 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 		if ( !KoLmafia.isRunningBetweenBattleChecks() && !MoodSettings.isExecuting() )
 		{
+			UseSkillRequest.restoreEquipment();
+
 			if ( implicitPoints.size() <= markedCheckpoint )
 			{
 				RequestThread.postRequest( new EquipmentRequest( implicitOutfit ) );
