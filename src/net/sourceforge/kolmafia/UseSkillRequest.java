@@ -50,7 +50,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	private static final int OTTER_TONGUE = 1007;
 	private static final int WALRUS_TONGUE = 1010;
+
 	public static String lastUpdate = "";
+	public static AdventureResult songWeapon = null;
 
 	private int skillId;
 	private String skillName;
@@ -246,14 +248,24 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	{	return !KoLCharacter.hasEquipped( item ) && EquipmentDatabase.canEquip( item.getName() ) && KoLCharacter.hasItem( item );
 	}
 
-	public static AdventureResult optimizeEquipment( int skillId )
+	public static void restoreEquipment()
 	{
-		AdventureResult songWeapon = null;
+		if ( songWeapon == null || songWeapon == ACCORDION || songWeapon == ROCKNROLL_LEGEND )
+		{
+			songWeapon = null;
+			return;
+		}
 
+		untinkerCloverWeapon( songWeapon );
+		AdventureDatabase.retrieveItem( songWeapon );
+	}
+
+	public static void optimizeEquipment( int skillId )
+	{
 		// Ode to Booze is usually cast as a single shot.  So,
 		// don't prepare a rock and roll legend.
 
-		if ( skillId == 6014 )
+		if ( songWeapon == null && skillId == 6014 )
 		{
 			if ( KoLCharacter.hasItem( ACCORDION ) )
 				songWeapon = ACCORDION;
@@ -264,7 +276,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			{
 				lastUpdate = "You need an accordion to play Accordion Thief songs.";
 				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				return null;
+				return;
 			}
 		}
 
@@ -279,7 +291,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			{
 				lastUpdate = "You need an accordion to play Accordion Thief songs.";
 				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				return null;
+				return;
 			}
 
 			// If there's a stolen accordion equipped, unequip it so the
@@ -297,8 +309,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) )
 			reduceManaConsumption( skillId );
-
-		return songWeapon;
 	}
 
 	private static void reduceManaConsumption( int skillId )
@@ -411,16 +421,13 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		// Cast the skill as many times as needed
 
-		AdventureResult item = optimizeEquipment( skillId );
+		optimizeEquipment( skillId );
 
 		if ( !KoLmafia.permitsContinue() )
 			return;
 
 		setBuffCount( Math.min( buffCount, getMaximumCast() ) );
 		useSkillLoop();
-
-		if ( item != null && item != ACCORDION && item != ROCKNROLL_LEGEND )
-			untinkerCloverWeapon( ROCKNROLL_LEGEND );
 	}
 
 	private void useSkillLoop()
