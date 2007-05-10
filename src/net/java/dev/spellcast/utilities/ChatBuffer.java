@@ -386,8 +386,6 @@ public class ChatBuffer
 					JScrollBar scroll = (JScrollBar) ((WeakReference) scrollBars.get(i)).get();
 					shouldScroll &= scroll == null || scroll.getValue() >= scroll.getMaximum() - scroll.getVisibleAmount() - 20;
 
-					System.out.println( scroll.getValue() + " vs. " + scroll.getMaximum() + " - " + scroll.getVisibleAmount() );
-
 					WeakReference display = (WeakReference) displayPanes.get(i);
 					runOnce( newContents, (JEditorPane) display.get() );
 				}
