@@ -224,6 +224,8 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 
 	public void dispose()
 	{
+		super.dispose();
+
 		String setting = StaticEntity.getGlobalProperty( "initialDesktop" );
 		KoLFrame [] frames = StaticEntity.getExistingFrames();
 
@@ -232,7 +234,6 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 				frames[i].dispose();
 
 		INSTANCE = null;
-		super.dispose();
 	}
 
 	public static boolean instanceExists()

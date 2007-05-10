@@ -1009,16 +1009,30 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		Dimension screenSize = TOOLKIT.getScreenSize();
 		String position = StaticEntity.getProperty( frameName );
 
-		if ( position != null && position.indexOf( "," ) != -1 )
+		if ( position == null || position.indexOf( "," ) == -1 )
 		{
-			String [] location = position.split( "," );
-			xLocation = StaticEntity.parseInt( location[0] );
-			yLocation = StaticEntity.parseInt( location[1] );
+			setLocationRelativeTo( null );
+			return;
 		}
+
+		String [] location = position.split( "," );
+		xLocation = StaticEntity.parseInt( location[0] );
+		yLocation = StaticEntity.parseInt( location[1] );
+
 		if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
 			setLocation( xLocation, yLocation );
 		else
 			setLocationRelativeTo( null );
+
+		if ( location.length > 2 && tabs != null )
+		{
+			int tabIndex = StaticEntity.parseInt( location[2] );
+
+			if ( tabIndex >= 0 && tabIndex < tabs.getTabCount() )
+				tabs.setSelectedIndex( tabIndex );
+			else if ( tabs.getTabCount() > 0 )
+				tabs.setSelectedIndex( 0 );
+		}
 	}
 
 	/**

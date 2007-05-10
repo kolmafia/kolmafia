@@ -178,11 +178,6 @@ public class AdventureFrame extends AdventureOptionsFrame
 	{
 		super.getSouthernTabs();
 		tabs.insertTab( "Normal Options", null, getAdventureSummary(), null, 0 );
-
-		// Components of auto-restoration
-
-		JPanel restorePanel = new JPanel( new GridLayout( 1, 2, 10, 10 ) );
-
 		tabs.insertTab( "Choice Adventures", null, new SimpleScrollPane( new ChoiceOptionsPanel() ), null, 1 );
 		return tabs;
 	}
