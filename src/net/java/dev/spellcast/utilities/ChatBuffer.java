@@ -78,6 +78,7 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 import javax.swing.JEditorPane;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
@@ -107,10 +108,9 @@ public class ChatBuffer
 	private String header;
 	private String filename;
 
+	protected ArrayList scrollBars;
 	protected ArrayList displayPanes;
 
-	protected JEditorPane displayPane;
-	protected Runnable scrollBarResizer;
 	protected PrintWriter activeLogWriter;
 	protected StringBuffer displayBuffer;
 
@@ -131,6 +131,7 @@ public class ChatBuffer
 		this.title = title;
 		this.header = "<html><head>" + NEW_LINE + "<title>" + title + "</title>" + NEW_LINE;
 
+		this.scrollBars = new ArrayList();
 		this.displayPanes = new ArrayList();
 	}
 
@@ -175,10 +176,12 @@ public class ChatBuffer
 		display.setContentType( "text/html" );
 		display.setEditable( false );
 
-		displayPanes.add( new WeakReference( display ) );
-
 		fireBufferChanged( DISPLAY_CHANGE, null );
-		return new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		JScrollPane scroller = new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+		scrollBars.add( new WeakReference( scroller.getVerticalScrollBar() ) );
+		displayPanes.add( new WeakReference( display ) );
+		return scroller;
 	}
 
 	/**
@@ -372,21 +375,31 @@ public class ChatBuffer
 				}
 			}
 
+			shouldScroll = true;
+
 			while ( !contentQueue.isEmpty() )
 			{
 				String newContents = (String) contentQueue.remove(0);
 
 				for ( int i = 0; i < displayPanes.size(); ++i )
 				{
-					WeakReference ref = (WeakReference) displayPanes.get(i);
-					runOnce( newContents, (JEditorPane) ref.get() );
+					JScrollBar scroll = (JScrollBar) ((WeakReference) scrollBars.get(i)).get();
+					shouldScroll &= scroll == null || scroll.getValue() >= scroll.getMaximum() - scroll.getVisibleAmount() - 20;
+
+					System.out.println( scroll.getValue() + " vs. " + scroll.getMaximum() + " - " + scroll.getVisibleAmount() );
+
+					WeakReference display = (WeakReference) displayPanes.get(i);
+					runOnce( newContents, (JEditorPane) display.get() );
 				}
 			}
 
-			for ( int i = 0; i < displayPanes.size(); ++i )
+			if ( shouldScroll )
 			{
-				WeakReference ref = (WeakReference) displayPanes.get(i);
-				scrollDisplay( (JEditorPane) ref.get() );
+				for ( int i = 0; i < displayPanes.size(); ++i )
+				{
+					WeakReference ref = (WeakReference) displayPanes.get(i);
+					scrollDisplay( (JEditorPane) ref.get() );
+				}
 			}
 
 			this.shouldReset = false;
