@@ -191,6 +191,10 @@ public abstract class KoLMessenger extends StaticEntity
 			updateChannel = channel;
 	}
 
+	public static String getUpdateChannel()
+	{	return updateChannel;
+	}
+
 	/**
 	 * Initializes the chat buffer with the provided chat pane.
 	 * Note that the chat refresher will also be initialized
@@ -806,8 +810,8 @@ public abstract class KoLMessenger extends StaticEntity
 				if ( displayHTML.indexOf( " has " ) != -1 )
 					RequestThread.postRequest( CharpaneRequest.getInstance() );
 
-				bufferKey = "[events]";
 				eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML ).replaceAll( "" ) );
+				bufferKey = updateChannel;
 			}
 
 			LimitedSizeChatBuffer buffer = getChatBuffer( bufferKey );
