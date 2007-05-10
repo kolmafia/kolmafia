@@ -1728,6 +1728,20 @@ public class KoLRequest extends Job implements KoLConstants
 
 		// Remove the events from the response text
 		responseText = eventMatcher.replaceFirst( "" );
+
+		if ( KoLMessenger.isRunning() )
+		{
+			// Copy the events to chat
+			for ( int i = 0; i < events.length; ++i )
+			{
+				int dash = events[i].indexOf( "-" );
+				String event = events[i].substring( dash + 2 );
+				KoLMessenger.updateChat( "<font color=green>" + event + "</font>" );
+			}
+
+			return;
+		}
+
 		boolean shouldLoadEventFrame = false;
 
 		for ( int i = 0; i < events.length; ++i )
@@ -1789,29 +1803,11 @@ public class KoLRequest extends Job implements KoLConstants
 		// the events.  Use the standard run method so that you wait
 		// for it to finish before calling it again on another event.
 
-		if ( !KoLMessenger.isRunning() )
-		{
-			// Don't load the initial desktop frame unless it's
-			// already visible before this is run -- this ensures
-			// that the restore options are properly reset before
-			// the frame reloads.
+		shouldLoadEventFrame |= StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( "EventsFrame" ) != -1 &&
+			KoLDesktop.getInstance().isVisible();
 
-			shouldLoadEventFrame |= StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( "EventsFrame" ) != -1 &&
-				KoLDesktop.getInstance().isVisible();
-
-			if ( shouldLoadEventFrame )
-				SwingUtilities.invokeLater( new CreateFrameRunnable( EventsFrame.class ) );
-
-			return;
-		}
-
-		// Copy the events to chat
-		for ( int i = 0; i < events.length; ++i )
-		{
-			int dash = events[i].indexOf( "-" );
-			String event = events[i].substring( dash + 2 );
-			KoLMessenger.updateChat( "<font color=green>" + event + "</font>" );
-		}
+		if ( shouldLoadEventFrame )
+			SwingUtilities.invokeLater( new CreateFrameRunnable( EventsFrame.class ) );
 	}
 
 	public final void loadResponseFromFile( String filename )
