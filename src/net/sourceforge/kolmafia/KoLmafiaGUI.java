@@ -222,14 +222,19 @@ public class KoLmafiaGUI extends KoLmafia
 			{
 				if ( !BuffBotDatabase.hasOfferings() )
 				{
-					updateDisplay( "No buffs found to purchase." );
+					updateDisplay( ERROR_STATE, "No buffs found to purchase." );
 					RequestThread.enableDisplayIfSequenceComplete();
 					return;
 				}
 			}
 			else if ( frameName.equals( "CakeArenaFrame" ) )
 			{
-				CakeArenaManager.getOpponentList();
+				if ( CakeArenaManager.getOpponentList().isEmpty() )
+				{
+					updateDisplay( ERROR_STATE, "Equip a familiar first." );
+					RequestThread.enableDisplayIfSequenceComplete();
+					return;
+				}
 			}
 			else if ( frameName.equals( "CalendarFrame" ) )
 			{
@@ -258,7 +263,12 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 			else if ( frameName.equals( "FamiliarTrainingFrame" ) )
 			{
-				CakeArenaManager.getOpponentList();
+				if ( CakeArenaManager.getOpponentList().isEmpty() )
+				{
+					updateDisplay( ERROR_STATE, "Equip a familiar first." );
+					RequestThread.enableDisplayIfSequenceComplete();
+					return;
+				}
 			}
 			else if ( frameName.equals( "FlowerHunterFrame" ) )
 			{

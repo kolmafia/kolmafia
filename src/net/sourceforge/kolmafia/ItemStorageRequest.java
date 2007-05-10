@@ -305,7 +305,7 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		if ( urlString.indexOf( "action=takeall" ) != -1 )
 		{
-			for ( int i = 0; i < storage.size(); ++i )
+			while ( !storage.isEmpty() )
 				KoLCharacter.processResult( (AdventureResult) storage.remove(0) );
 
 			return true;
