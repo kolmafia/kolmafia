@@ -285,8 +285,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 	{	return creatableList;
 	}
 
-	private static ArrayList getAvailableIngredients()
+	private static List getAvailableIngredients()
 	{
+		if ( closet.isEmpty() && !(getBooleanProperty( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && !ClanManager.getStash().isEmpty()) )
+			return inventory;
+
 		ArrayList availableIngredients = new ArrayList();
 		availableIngredients.addAll( inventory );
 
@@ -311,7 +314,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return availableIngredients;
 	}
 
-	private static void setBetterIngredient( AdventureResult item1, AdventureResult item2, ArrayList availableIngredients )
+	private static void setBetterIngredient( AdventureResult item1, AdventureResult item2, List availableIngredients )
 	{
 		Concoction item;
 		int available = getBetterIngredient( item1, item2, availableIngredients ).getCount( availableIngredients );
@@ -335,7 +338,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	public static void refreshConcoctions()
 	{
-		ArrayList availableIngredients = getAvailableIngredients();
+		List availableIngredients = getAvailableIngredients();
 
 		// First, zero out the quantities table.  Though this is not
 		// actually necessary, it's a good safety and doesn't use up
@@ -443,6 +446,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 					creatableList.add( instance );
 					item.setPossible( true );
 				}
+				else
+				{
+					int index = creatableList.indexOf( instance );
+					creatableList.fireContentsChanged( concoctions, index, index );
+				}
 			}
 		}
 	}
@@ -453,7 +461,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		if ( item == null )
 			return 0;
 
-		ArrayList availableIngredients = getAvailableIngredients();
+		List availableIngredients = getAvailableIngredients();
 		item.calculate( availableIngredients );
 		return item.getMeatPasteNeeded( creationCount + item.initial ) - item.initial + 1;
 	}

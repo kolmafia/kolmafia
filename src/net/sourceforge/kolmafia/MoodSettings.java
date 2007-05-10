@@ -491,6 +491,12 @@ public abstract class MoodSettings implements KoLConstants
 
 			int skillId = ClassSkillsDatabase.getSkillId( skillName );
 
+			// Never recast ode when doing MP burning, because there's no
+			// need for it to have a long duration.
+
+			if ( skillId == 6014 )
+				continue;
+
 			if ( !StaticEntity.getBooleanProperty( "allowEncounterRateBurning" ) )
 				if ( skillId == 1019 || skillId == 5017 || skillId == 6015 || skillId == 6016 )
 					continue;
