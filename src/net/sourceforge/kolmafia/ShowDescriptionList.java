@@ -138,11 +138,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		addMouseListener( new PopupListener() );
 		addMouseListener( new ShowDescriptionAdapter() );
 
-		this.listModel = listModel.getMirrorImage();
+		this.listModel = listModel.getMirrorImage( filter );
 		setModel( this.listModel );
-
-		if ( filter != null )
-			applyFilter( new ListeningFilter( listModel, filterModel, filter ) );
 
 		setVisibleRowCount( visibleRowCount );
 		setCellRenderer( AdventureResult.getDefaultRenderer() );
@@ -603,37 +600,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 				mementoList.remove( items[i] );
 
 			KoLSettings.saveFlaggedItemList();
-		}
-	}
-
-	private class ListeningFilter extends ListElementFilter implements ListDataListener
-	{
-		private ListElementFilter filter;
-		private LockableListModel listener, speaker;
-
-		public ListeningFilter( LockableListModel listener, LockableListModel speaker, ListElementFilter filter )
-		{
-			this.listener = listener;
-			this.speaker = speaker;
-			this.filter = filter;
-
-			this.speaker.addListDataListener( this );
-		}
-
-		public boolean isVisible( Object element )
-		{	return filter.isVisible( element );
-		}
-
-		public void intervalAdded( ListDataEvent e )
-		{	listener.applyListFilters();
-		}
-
-		public void intervalRemoved( ListDataEvent e )
-		{	listener.applyListFilters();
-		}
-
-		public void contentsChanged( ListDataEvent e )
-		{	listener.applyListFilters();
 		}
 	}
 }
