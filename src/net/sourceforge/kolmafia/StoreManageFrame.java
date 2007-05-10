@@ -232,9 +232,7 @@ public class StoreManageFrame extends KoLPanelFrame
 					new Class [] { String.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
 					new boolean [] { true, true, false, true, true, false, false }, new LockableListModel() );
 
-			LockableListModel dataModel = inventory.getMirrorImage();
-			dataModel.applyListFilter( TRADE_FILTER );
-
+			LockableListModel dataModel = inventory.getMirrorImage( TRADE_FILTER );
 			sellingList = new JComboBox( dataModel );
 
 			Vector value = new Vector();

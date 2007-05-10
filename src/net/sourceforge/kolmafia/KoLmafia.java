@@ -1614,6 +1614,45 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
+	private boolean handleConditions( AdventureResult [] items, ItemCreationRequest [] creatables, boolean hadNonMonsterConditions )
+	{
+		if ( conditions.isEmpty() )
+			return true;
+
+		boolean shouldCreate = false;
+
+		for ( int i = 0; i < creatables.length && !shouldCreate; ++i )
+			shouldCreate |= creatables[i] != null && creatables[i].getQuantityPossible() >= items[i].getCount();
+
+		// In theory, you could do a real validation by doing a full
+		// dependency search.  While that's technically better, it's
+		// also not very useful.
+
+		for ( int i = 0; i < creatables.length && shouldCreate; ++i )
+			shouldCreate &= creatables[i] == null || creatables[i].getQuantityPossible() >= items[i].getCount();
+
+		// Create any items which are creatable.
+
+		if ( shouldCreate )
+		{
+			for ( int i = creatables.length - 1; i >= 0; --i )
+			{
+				if ( creatables[i] != null && creatables[i].getQuantityPossible() >= items[i].getCount() )
+				{
+					creatables[i].setQuantityNeeded( items[i].getCount() );
+					RequestThread.postRequest( creatables[i] );
+					creatables[i] = null;
+				}
+			}
+		}
+
+		// If the conditions existed and have been satisfied,
+		// then you should stop.
+
+		return conditions.isEmpty() ||
+			(conditions.size() == 1 && conditions.get(0) instanceof Monster && hadNonMonsterConditions);
+	}
+
 	private void executeRequest( Runnable request, int iterations, boolean wasAdventuring )
 	{
 		hadPendingState = false;
@@ -1672,46 +1711,13 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( request instanceof KoLAdventure )
 			{
-				boolean shouldCreate = false;
-
-				for ( int i = 0; i < creatables.length && !shouldCreate; ++i )
-					shouldCreate |= creatables[i] != null && creatables[i].getQuantityPossible() >= items[i].getCount();
-
-				// In theory, you could do a real validation by doing a full
-				// dependency search.  While that's technically better, it's
-				// also not very useful.
-
-				for ( int i = 0; i < creatables.length && shouldCreate; ++i )
-					shouldCreate &= creatables[i] == null || creatables[i].getQuantityPossible() >= items[i].getCount();
-
-				// Create any items which are creatable.
-
-				for ( int i = creatables.length - 1; i >= 0; --i )
+				if ( hadConditions && handleConditions( items, creatables, hadNonMonsterConditions ) )
 				{
-					if ( creatables[i] != null && creatables[i].getQuantityPossible() >= items[i].getCount() )
-					{
-						creatables[i].setQuantityNeeded( items[i].getCount() );
-						RequestThread.postRequest( creatables[i] );
-						creatables[i] = null;
-					}
-				}
+					conditions.clear();
+					updateDisplay( PENDING_STATE, "Conditions satisfied after " + (currentIteration - 1) +
+						((currentIteration == 2) ? " request." : " requests.") );
 
-				// If the conditions existed and have been satisfied,
-				// then you should stop.
-
-				if ( hadConditions )
-				{
-					boolean satisfiedConditions = conditions.isEmpty() ||
-						(conditions.size() == 1 && conditions.get(0) instanceof Monster && hadNonMonsterConditions);
-
-					if ( satisfiedConditions )
-					{
-						conditions.clear();
-						updateDisplay( PENDING_STATE, "Conditions satisfied after " + (currentIteration - 1) +
-							((currentIteration == 2) ? " request." : " requests.") );
-
-						break;
-					}
+					break;
 				}
 
 				// Otherwise, disable the display and update the user
