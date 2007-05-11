@@ -603,15 +603,17 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
-		castBreakfastSkills( checkSettings );
+		castBreakfastSkills( checkSettings, 0 );
 		forceContinue();
 	}
 
-	public void castBreakfastSkills( boolean checkSettings )
-	{	castBreakfastSkills( checkSettings, StaticEntity.getBooleanProperty( "loginRecovery" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ) );
+	public void castBreakfastSkills( boolean checkSettings, int manaRemaining )
+	{
+		castBreakfastSkills( checkSettings,
+			StaticEntity.getBooleanProperty( "loginRecovery" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ), manaRemaining );
 	}
 
-	public boolean castBreakfastSkills( boolean checkSettings, boolean allowRestore )
+	public boolean castBreakfastSkills( boolean checkSettings, boolean allowRestore, int manaRemaining )
 	{
 		if ( StaticEntity.getBooleanProperty( "breakfastCompleted" ) )
 			return true;
@@ -638,7 +640,7 @@ public abstract class KoLmafia implements KoLConstants
 				}
 
 				if ( shouldCast )
-					limitExceeded &= getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i], allowRestore );
+					limitExceeded &= getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i], allowRestore, manaRemaining );
 			}
 		}
 
@@ -646,7 +648,7 @@ public abstract class KoLmafia implements KoLConstants
 		return limitExceeded;
 	}
 
-	public boolean getBreakfast( String skillName, boolean allowRestore )
+	public boolean getBreakfast( String skillName, boolean allowRestore, int manaRemaining )
 	{
 		UseSkillRequest summon = UseSkillRequest.getInstance( skillName );
 
@@ -658,7 +660,8 @@ public abstract class KoLmafia implements KoLConstants
 		if ( summon.getSkillId() == 18 )
 		{
 			summon.setBuffCount( 1 );
-			while ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() )
+
+			while ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() - manaRemaining )
 				RequestThread.postRequest( summon );
 
 			return true;
@@ -673,7 +676,7 @@ public abstract class KoLmafia implements KoLConstants
 			return true;
 
 		int castCount = Math.min( maximumCast, allowRestore ? 5 :
-			KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) ) );
+			(KoLCharacter.getCurrentMP() - manaRemaining) / ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( skillName ) ) );
 
 		if ( castCount == 0 )
 			return false;
