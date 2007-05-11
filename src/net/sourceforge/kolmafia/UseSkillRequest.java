@@ -258,34 +258,18 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		untinkerCloverWeapon( ROCKNROLL_LEGEND );
 		AdventureDatabase.retrieveItem( songWeapon );
+		songWeapon = null;
 	}
 
 	public static void optimizeEquipment( int skillId )
 	{
-		// Ode to Booze is usually cast as a single shot.  So,
-		// don't prepare a rock and roll legend.
-
-		if ( songWeapon == null && skillId == 6014 )
-		{
-			if ( KoLCharacter.hasItem( ACCORDION ) )
-				songWeapon = ACCORDION;
-			else if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND ) )
-				songWeapon = ROCKNROLL_LEGEND;
-
-			if ( songWeapon == null )
-			{
-				lastUpdate = "You need an accordion to play Accordion Thief songs.";
-				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
-				return;
-			}
-		}
-
 		// All other accordion thief buffs should prepare a rock
 		// and roll legend.
 
-		else if ( skillId > 6000 && skillId < 7000 )
+		if ( skillId > 6000 && skillId < 7000 && skillId != 6014 )
 		{
-			songWeapon = prepareAccordion();
+			if ( songWeapon == null )
+				songWeapon = prepareAccordion();
 
 			if ( songWeapon == null )
 			{
@@ -302,6 +286,13 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			if ( songWeapon != null && songWeapon != ACCORDION && !KoLCharacter.hasEquipped( ROCKNROLL_LEGEND ) )
 				AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
+		}
+
+		if ( skillId > 6000 && skillId < 7000 && !KoLCharacter.hasItem( ACCORDION ) && !KoLCharacter.hasItem( ROCKNROLL_LEGEND ) )
+		{
+			lastUpdate = "You need an accordion to play Accordion Thief songs.";
+			KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
+			return;
 		}
 
 		// Ode to Booze is usually cast as a single shot.  So,
@@ -541,7 +532,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// Can the rock and roll legend be acquired in some way
 		// right now?  If so, retrieve it.
 
-		if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND, true ) || KoLCharacter.canInteract() )
+		if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND, true ) || (!KoLCharacter.hasItem( ACCORDION ) && KoLCharacter.canInteract()) )
 		{
 			if ( !KoLCharacter.hasEquipped( ROCKNROLL_LEGEND ) )
 				AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
