@@ -1189,17 +1189,19 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			resultSelect.addItem( "Conditions Left" );
 			resultPanel.add( new SimpleScrollPane( conditions, 4 ), String.valueOf( cardCount++ ) );
 		}
-		else
-		{
-			resultSelect.addItem( "Available Skills" );
-			resultPanel.add( new SimpleScrollPane( availableSkills, 4 ), String.valueOf( cardCount++ ) );
-		}
+
+		resultSelect.addItem( "Available Skills" );
+		resultPanel.add( new SimpleScrollPane( availableSkills, 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Active Effects" );
 		resultPanel.add( new SimpleScrollPane( activeEffects, 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Encounter Listing" );
 		resultPanel.add( new SimpleScrollPane( encounterList, 4 ), String.valueOf( cardCount++ ) );
+
+		resultSelect.addItem( "Visited Locations" );
+		resultPanel.add( new SimpleScrollPane( adventureList, 4 ), String.valueOf( cardCount++ ) );
+
 
 		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect, property ) );
 
