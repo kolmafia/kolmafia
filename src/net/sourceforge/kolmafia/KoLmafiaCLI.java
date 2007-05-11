@@ -1975,7 +1975,8 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) || command.equals( "summary" ) ||
-			command.equals( "effects" ) || command.equals( "status" ) || command.equals( "encounters" ) || command.equals( "skills" ) )
+			command.equals( "effects" ) || command.equals( "status" ) || command.equals( "skills" ) ||
+			command.equals( "locations" ) || command.equals( "encounters" ) || command.equals( "q" ) || command.equals( "queue" ) )
 		{
 			executePrintCommand( command + " " + parameters );
 			return;
@@ -3178,7 +3179,7 @@ public class KoLmafiaCLI extends KoLmafia
 		PrintStream desiredOutputStream = sessionPrint ? RequestLogger.getSessionStream() : RequestLogger.INSTANCE;
 
 		if ( !filter.equals( "" ) &&
-			(parameters.startsWith( "summary" ) || parameters.startsWith( "session" ) || parameters.startsWith( "stat" ) || parameters.startsWith( "equip" ) || parameters.startsWith( "encounters" )) )
+			(parameters.startsWith( "summary" ) || parameters.startsWith( "session" ) || parameters.startsWith( "stat" ) || parameters.startsWith( "equip" ) || parameters.startsWith( "encounters" ) || parameters.startsWith( "locations" ) || parameters.startsWith( "q" ) || parameters.startsWith( "queue" )) )
 		{
 			desiredOutputStream = LogStream.openStream( new File( ROOT_LOCATION, filter ), false );
 		}
@@ -3254,20 +3255,27 @@ public class KoLmafiaCLI extends KoLmafia
 			desiredStream.println( "Pet: " + KoLCharacter.getFamiliar() );
 			desiredStream.println( "Item: " + KoLCharacter.getFamiliarItem() );
 		}
+		else if ( desiredData.startsWith( "q" ) )
+		{
+			desiredStream.println( "Combat Queue: " );
+
+			desiredStream.println();
+			for ( int i = 1; i <= 5; ++i )
+				desiredStream.println( i + ": " + StaticEntity.getProperty( "monsterQueue" + i ) );
+		}
 		else if ( desiredData.startsWith( "encounters" ) )
+		{
+			desiredStream.println( "Encounter Listing: " );
+
+			desiredStream.println();
+			printList( encounterList, desiredStream );
+		}
+		else if ( desiredData.startsWith( "locations" ) )
 		{
 			desiredStream.println( "Visited Locations: " );
 			desiredStream.println();
 
 			printList( adventureList, desiredStream );
-
-			desiredStream.println();
-			desiredStream.println();
-
-			desiredStream.println( "Encounter Listing: " );
-
-			desiredStream.println();
-			printList( encounterList, desiredStream );
 		}
 		else
 		{
