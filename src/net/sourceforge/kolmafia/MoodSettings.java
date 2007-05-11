@@ -552,7 +552,7 @@ public abstract class MoodSettings implements KoLConstants
 		if ( !StaticEntity.getBooleanProperty( "allowBreakfastBurning" ) )
 			return null;
 
-		if ( !StaticEntity.getClient().castBreakfastSkills( true, false ) )
+		if ( !StaticEntity.getClient().castBreakfastSkills( true, false, minimum ) )
 			return null;
 
 		// Cast 'Summon Candy Hearts' if available and your current
