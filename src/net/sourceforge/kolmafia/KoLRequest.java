@@ -398,8 +398,8 @@ public class KoLRequest extends Job implements KoLConstants
 
 		try
 		{
-			encodedName = URLEncoder.encode( encodedName, "ISO-8859-1" ) + "=";
-			encodedValue = URLEncoder.encode( encodedValue, "ISO-8859-1" );
+			encodedName = URLEncoder.encode( encodedName, this instanceof LoginRequest ? "UTF-8" : "ISO-8859-1" ) + "=";
+			encodedValue = URLEncoder.encode( encodedValue, this instanceof LoginRequest ? "UTF-8" : "ISO-8859-1" );
 		}
 		catch ( Exception e )
 		{
