@@ -138,7 +138,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		addMouseListener( new PopupListener() );
 		addMouseListener( new ShowDescriptionAdapter() );
 
-		this.listModel = filter == null ? listModel : listModel.getMirrorImage( filter );
+		this.listModel = filter == null ? listModel.getMirrorImage() : listModel.getMirrorImage( filter );
 		setModel( this.listModel );
 
 		setVisibleRowCount( visibleRowCount );
