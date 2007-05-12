@@ -503,7 +503,7 @@ public class OptionsFrame extends KoLFrame
 		private JCheckBox popupWhoOption;
 		private JCheckBox chatLogsEnabled;
 
-		private JCheckBox useChatMonitor, useSeparateChannel, useSeparatePrivate, greenScreenProtection;
+		private JCheckBox useChatMonitor, addChatCommandLine, useSeparateChannel, useSeparatePrivate, greenScreenProtection;
 		private JCheckBox eSoluActiveOption, eSoluColorlessOption;
 
 		private JLabel innerGradient, outerGradient;
@@ -517,6 +517,7 @@ public class OptionsFrame extends KoLFrame
 			popupWhoOption = new JCheckBox();
 
 			useChatMonitor = new JCheckBox();
+			addChatCommandLine = new JCheckBox();
 			useSeparateChannel = new JCheckBox();
 			useSeparatePrivate = new JCheckBox();
 			greenScreenProtection = new JCheckBox();
@@ -538,18 +539,19 @@ public class OptionsFrame extends KoLFrame
 			elements[6] = new VerifiableElement();
 
 			elements[7] = new VerifiableElement( "Add an \"as KoL would show it\" display", JLabel.LEFT, useChatMonitor );
-			elements[8] = new VerifiableElement( "Put different channels into separate displays", JLabel.LEFT, useSeparateChannel );
-			elements[9] = new VerifiableElement( "Put different private messages into separate displays", JLabel.LEFT, useSeparatePrivate );
+			elements[8] = new VerifiableElement( "Add a simplified graphical CLI to tabbed chat", JLabel.LEFT, addChatCommandLine );
+			elements[9] = new VerifiableElement( "Put different channels into separate displays", JLabel.LEFT, useSeparateChannel );
+			elements[10] = new VerifiableElement( "Put different private messages into separate displays", JLabel.LEFT, useSeparatePrivate );
 
-			elements[10] = new VerifiableElement();
+			elements[11] = new VerifiableElement();
 
-			elements[11] = new VerifiableElement( "Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, eSoluActiveOption );
-			elements[12] = new VerifiableElement( "Switch eSolu scriptlet to colorless mode", JLabel.LEFT, eSoluColorlessOption );
+			elements[12] = new VerifiableElement( "Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, eSoluActiveOption );
+			elements[13] = new VerifiableElement( "Switch eSolu scriptlet to colorless mode", JLabel.LEFT, eSoluColorlessOption );
 
-			elements[13] = new VerifiableElement();
+			elements[14] = new VerifiableElement();
 
 			outerGradient = new TabColorChanger( "outerChatColor" );
-			elements[14] = new VerifiableElement( "Change the outer portion of highlighted tab gradient",
+			elements[15] = new VerifiableElement( "Change the outer portion of highlighted tab gradient",
 				JLabel.LEFT, outerGradient );
 
 			innerGradient = new TabColorChanger( "innerChatColor" );
@@ -564,6 +566,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			StaticEntity.setProperty( "useLargerFonts", String.valueOf( useLargeFontSize.isSelected() ) );
 			StaticEntity.setProperty( "logChatMessages", String.valueOf( chatLogsEnabled.isSelected() ) );
+			StaticEntity.setProperty( "addChatCommandLine", String.valueOf( addChatCommandLine.isSelected() ) );
 
 			if ( useLargeFontSize.isSelected() )
 				LimitedSizeChatBuffer.useLargerFonts();
@@ -589,6 +592,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			useLargeFontSize.setSelected( StaticEntity.getBooleanProperty( "useLargerFonts" ) );
 			chatLogsEnabled.setSelected( StaticEntity.getBooleanProperty( "logChatMessages" ) );
+			addChatCommandLine.setSelected( StaticEntity.getBooleanProperty( "addChatCommandLine" ) );
 
 			useTabOption.setSelected( StaticEntity.getBooleanProperty( "useTabbedChatFrame" ) );
 			popupWhoOption.setSelected( StaticEntity.getBooleanProperty( "useContactsFrame" ) );
