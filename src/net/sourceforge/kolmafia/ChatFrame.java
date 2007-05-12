@@ -197,7 +197,11 @@ public class ChatFrame extends KoLFrame
 			entryPanel.add( entryField, BorderLayout.CENTER );
 			entryPanel.add( entryButton, BorderLayout.EAST );
 
-			add( KoLMessenger.getChatBuffer( associatedContact ).setChatDisplay( chatDisplay ), BorderLayout.CENTER );
+			if ( associatedContact.equals( "[gcli]" ) )
+				add( commandBuffer.setChatDisplay( chatDisplay ), BorderLayout.CENTER );
+			else
+				add( KoLMessenger.getChatBuffer( associatedContact ).setChatDisplay( chatDisplay ), BorderLayout.CENTER );
+
 			add( entryPanel, BorderLayout.SOUTH );
 		}
 
@@ -245,6 +249,13 @@ public class ChatFrame extends KoLFrame
 			{
 				String message = entryField.getText();
 				entryField.setText( "" );
+
+				if ( associatedContact.equals( "[gcli]" ) )
+				{
+					CommandDisplayFrame.executeCommand( message );
+					return;
+				}
+
 				LimitedSizeChatBuffer buffer = KoLMessenger.getChatBuffer( associatedContact );
 
 				if ( message.startsWith( "/clear" ) || message.startsWith( "/cls" ) || message.equals( "clear" ) || message.equals( "cls" ) )
