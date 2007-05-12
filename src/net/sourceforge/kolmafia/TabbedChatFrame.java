@@ -51,10 +51,13 @@ import com.sun.java.forums.CloseableTabbedPaneListener;
 public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseListener, CloseableTabbedPaneListener
 {
 	private ChatPanel commandLineDisplay;
+	private static boolean addGCLI = false;
 	private static boolean instanceExists = false;
 
 	public TabbedChatFrame()
-	{	commandLineDisplay = new ChatPanel( "[gcli]" );
+	{
+		commandLineDisplay = new ChatPanel( "[gcli]" );
+		addGCLI = StaticEntity.getBooleanProperty( "addChatCommandLine" );
 	}
 
 	/**
@@ -164,11 +167,13 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 			// Add a little bit of whitespace to make the
 			// chat tab larger and easier to click.
 
-			if ( tabs.getTabCount() > 0 )
+			if ( addGCLI && tabs.getTabCount() > 0)
 				tabs.removeTabAt( tabs.getTabCount() - 1 );
 
 			tabs.addTab( tabName, createdPanel );
-			tabs.addTab( "[gcli]", commandLineDisplay );
+
+			if ( addGCLI )
+				tabs.addTab( "[gcli]", commandLineDisplay );
 
 			createdPanel.requestFocus();
 		}
