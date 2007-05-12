@@ -197,7 +197,7 @@ public class KoLDatabase extends StaticEntity
 		if ( !checkBoundaries || index == 0 )
 			return true;
 
-		return !Character.isLetterOrDigit( substring.charAt( index - 1 ) );
+		return !Character.isLetterOrDigit( source.charAt( index - 1 ) );
 	}
 
 	public static boolean fuzzyMatches( String source, String substring )
