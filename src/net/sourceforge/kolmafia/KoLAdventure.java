@@ -55,6 +55,8 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public static final AdventureResult MEATCAR = new AdventureResult( 134, 1 );
 	public static final AdventureResult BEAN = new AdventureResult( 186, 1 );
+
+	public static final AdventureResult MAP = new AdventureResult( 667, 1 );
 	public static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
 
 	public static final AdventureResult SOCK = new AdventureResult( 609, 1 );
@@ -445,6 +447,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		else if ( adventureId.equals( "83" ) )
 		{
+			if ( !KoLCharacter.hasItem( ROWBOAT ) && KoLCharacter.hasItem( MAP ) )
+				RequestThread.postRequest( new ConsumeItemRequest( MAP ) );
+
 			isValidAdventure = AdventureDatabase.retrieveItem( ROWBOAT );
 			return;
 		}
