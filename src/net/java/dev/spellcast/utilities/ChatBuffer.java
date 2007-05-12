@@ -176,11 +176,12 @@ public class ChatBuffer
 		display.setContentType( "text/html" );
 		display.setEditable( false );
 
-		fireBufferChanged( DISPLAY_CHANGE, null );
 		JScrollPane scroller = new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		scrollBars.add( new WeakReference( scroller.getVerticalScrollBar() ) );
 		displayPanes.add( new WeakReference( display ) );
+
+		fireBufferChanged( DISPLAY_CHANGE, null );
 		return scroller;
 	}
 
@@ -278,7 +279,7 @@ public class ChatBuffer
 	 * display window or the file to which the data is being logged.
 	 */
 
-	protected void fireBufferChanged( int changeType, String newContents )
+	protected synchronized void fireBufferChanged( int changeType, String newContents )
 	{
 		if ( changeType != LOGFILE_CHANGE )
 		{
@@ -375,7 +376,7 @@ public class ChatBuffer
 				}
 			}
 
-			shouldScroll = true;
+			boolean shouldAdjust = true;
 
 			while ( !contentQueue.isEmpty() )
 			{
@@ -384,14 +385,14 @@ public class ChatBuffer
 				for ( int i = 0; i < displayPanes.size(); ++i )
 				{
 					JScrollBar scroll = (JScrollBar) ((WeakReference) scrollBars.get(i)).get();
-					shouldScroll &= scroll == null || scroll.getValue() >= scroll.getMaximum() - scroll.getVisibleAmount() - 20;
+					shouldAdjust &= scroll == null || scroll.getValue() >= scroll.getMaximum() - scroll.getVisibleAmount() - 20;
 
 					WeakReference display = (WeakReference) displayPanes.get(i);
 					runOnce( newContents, (JEditorPane) display.get() );
 				}
 			}
 
-			if ( shouldScroll )
+			if ( shouldAdjust )
 			{
 				for ( int i = 0; i < displayPanes.size(); ++i )
 				{
