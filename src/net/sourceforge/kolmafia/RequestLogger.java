@@ -299,7 +299,7 @@ public class RequestLogger extends NullStream implements KoLConstants
 				if ( cost != null )
 				{
 					if ( cost.getCount() == 0 )
-						StaticEntity.getClient().processResult( cost.getInstance( cost.getCount( inventory ) ) );
+						StaticEntity.getClient().processResult( cost.getInstance( 0 - cost.getCount( inventory ) ) );
 					else if ( !cost.isItem() || cost.getCount( inventory ) > 0 )
 						StaticEntity.getClient().processResult( cost );
 				}
