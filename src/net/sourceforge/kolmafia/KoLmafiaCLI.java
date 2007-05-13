@@ -950,9 +950,6 @@ public class KoLmafiaCLI extends KoLmafia
 			RequestLogger.printLine( name + " => " + value );
 			StaticEntity.setProperty( name, value );
 
-			if ( name.equals( "battleAction" ) && value.equals( "custom combat script" ) )
-				printList( CombatSettings.getDefaultAction() );
-
 			if ( name.equals( "buffBotCasting" ) )
 				BuffBotManager.loadSettings();
 
