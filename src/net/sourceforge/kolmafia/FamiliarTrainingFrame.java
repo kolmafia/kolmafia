@@ -67,7 +67,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
@@ -81,7 +80,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final Pattern COURSELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in an Obstacle Course race.<p>(.*?\\1.*?\\.<p>)\\1 makes it through the obstacle course" );
 	private static final Pattern HIdELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\1.*?\\.<p>)\\1 manages to stay hidden" );
 
-	private static ChatBuffer results = new ChatBuffer( "Arena Tracker" );
+	private static LimitedSizeChatBuffer results = new LimitedSizeChatBuffer( false );
 	private static int losses = 0;
 	private static boolean stop = false;
 
@@ -165,7 +164,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		super.dispose();
 	}
 
-	public static final ChatBuffer getResults()
+	public static final LimitedSizeChatBuffer getResults()
 	{	return results;
 	}
 

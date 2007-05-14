@@ -376,5 +376,5 @@ public interface KoLConstants extends UtilityConstants
 	// Special output streams which are used to print things inside of
 	// KoLmafia to specific buffers.
 
-	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( true );
+	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer();
 }
