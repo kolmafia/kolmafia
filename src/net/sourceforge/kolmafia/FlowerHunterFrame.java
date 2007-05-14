@@ -385,25 +385,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			request = new FlowerHunterRequest( "",
 				stanceSelect.getSelectedIndex() + 1, mission, winMessage.getText(), lossMessage.getText() );
 
-			for ( int i = 0; i < selection.length && KoLmafia.permitsContinue() && KoLCharacter.getAttacksLeft() > 0; ++i )
-			{
-				if ( KoLCharacter.getPvpRank() - 50 > selection[i].getPvpRank().intValue() )
-					continue;
-
-				if ( StaticEntity.getProperty( "currentPvpVictories" ).indexOf( selection[i].getPlayerName() ) != -1 )
-					continue;
-
-				KoLmafia.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
-				request.setTarget( selection[i].getPlayerName() );
-				RequestThread.postRequest( request );
-
-				if ( request.responseText.indexOf( "Your PvP Ranking decreased by" ) != -1 )
-					KoLmafia.updateDisplay( ERROR_STATE, "You lost to " + selection[i].getPlayerName() + "." );
-				else
-					StaticEntity.setProperty( "currentPvpVictories", StaticEntity.getProperty( "currentPvpVictories" ) + selection[i].getPlayerName() + "," );
-
-				updateRank();
-			}
+			KoLmafiaCLI.executeFlowerHuntRequest( selection, request );
+			updateRank();
 
 			if ( KoLmafia.permitsContinue() )
 				KoLmafia.updateDisplay( "Attacks completed." );
