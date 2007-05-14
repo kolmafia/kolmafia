@@ -91,7 +91,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		currentFilter = NO_FILTER;
 
 		mirrorList = new ArrayList();
-		mirrorList.add( this );
+		mirrorList.add( new WeakReference( this ) );
 	}
 
 	public LockableListModel( Collection c )
@@ -113,7 +113,7 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		currentFilter = f;
 
 		mirrorList = l.mirrorList;
-		mirrorList.add( this );
+		mirrorList.add( new WeakReference( this ) );
 
 		applyListFilter( f );
 	}
