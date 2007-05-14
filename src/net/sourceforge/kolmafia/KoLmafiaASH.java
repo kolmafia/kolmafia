@@ -6354,7 +6354,7 @@ public class KoLmafiaASH extends StaticEntity
 				content = targetValue.toFloatValue();
 				expression = null;
 			}
-			else if ( getType().equals( TYPE_AGGREGATE ) && targetValue.getType().equals( TYPE_AGGREGATE ) )
+			else if ( getType().getBaseType().equals( TYPE_AGGREGATE ) && targetValue.getType().getBaseType().equals( TYPE_AGGREGATE ) )
 			{
 				content = targetValue;
 				expression = null;
