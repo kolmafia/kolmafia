@@ -385,7 +385,8 @@ public class ChatBuffer
 				for ( int i = 0; i < displayPanes.size(); ++i )
 				{
 					JScrollBar scroll = (JScrollBar) ((WeakReference) scrollBars.get(i)).get();
-					shouldAdjust &= scroll == null || scroll.getValue() >= scroll.getMaximum() - scroll.getVisibleAmount() - 100;
+					shouldAdjust &= scroll == null || !scroll.isVisible() ||
+						scroll.getValue() >= scroll.getMaximum() - scroll.getVisibleAmount() - 100;
 
 					WeakReference display = (WeakReference) displayPanes.get(i);
 					runOnce( newContents, (JEditorPane) display.get() );
