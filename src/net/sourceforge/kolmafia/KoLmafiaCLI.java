@@ -1791,7 +1791,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "flowers" ) )
+		if ( command.equals( "flowers" ) || command.equals( "kamikaze" ) )
 		{
 			executeFlowerHuntRequest();
 			return;
@@ -2072,18 +2072,25 @@ public class KoLmafiaCLI extends KoLmafia
 		else
 			stance = 3;
 
+		int lastSearch = 0, desiredRank;
+
+		ProfileRequest [] results = null;
 		FlowerHunterRequest request = new FlowerHunterRequest( "", stance, "flowers", "", "" );
 
 		do
 		{
-			int desiredRank = Math.max( 10, KoLCharacter.getPvpRank() - 50 + Math.min( 11, fightsLeft ) );
-			updateDisplay( "Determining targets at rank " + desiredRank + "..." );
+			desiredRank = Math.max( 10, KoLCharacter.getPvpRank() - 50 + Math.min( 11, fightsLeft ) );
 
-			FlowerHunterRequest search = new FlowerHunterRequest( "", String.valueOf( desiredRank ) );
-			RequestThread.postRequest( search );
+			if ( lastSearch != desiredRank )
+			{
+				updateDisplay( "Determining targets at rank " + desiredRank + "..." );
+				FlowerHunterRequest search = new FlowerHunterRequest( "", String.valueOf( desiredRank ) );
+				RequestThread.postRequest( search );
 
-			ProfileRequest [] results = new ProfileRequest[ search.getSearchResults().size() ];
-			search.getSearchResults().toArray( results );
+				results = new ProfileRequest[ search.getSearchResults().size() ];
+				search.getSearchResults().toArray( results );
+			}
+
 			executeFlowerHuntRequest( results, request );
 		}
 		while ( KoLmafia.permitsContinue() && fightsLeft != KoLCharacter.getAttacksLeft() && KoLCharacter.getAttacksLeft() > 0 );
@@ -2775,6 +2782,8 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		if ( conditionString.length() == 0 )
 			return null;
+
+		conditionString = conditionString.toLowerCase();
 
 		AdventureResult condition = null;
 		Matcher meatMatcher = MEAT_PATTERN.matcher( conditionString );

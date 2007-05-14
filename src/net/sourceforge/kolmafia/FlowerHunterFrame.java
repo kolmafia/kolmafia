@@ -180,7 +180,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		public SearchPanel()
 		{
-			super( "simple", "detail" );
+			super( "simple", "kamikaze" );
 
 			levelEntry = new JTextField();
 			rankEntry = new JTextField();
@@ -196,19 +196,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		public void actionConfirmed()
 		{
-			isSimple = true;
-			executeSearch();
-		}
-
-		public void actionCancelled()
-		{
-			isSimple = false;
-			executeSearch();
-		}
-
-		public void executeSearch()
-		{
-			int index = isSimple ? 0 : 1;
+			int index = 0;
 			int resultLimit = getValue( limitEntry, 100 );
 
 			resultCards.show( resultCardPanel, String.valueOf( index ) );
@@ -228,12 +216,18 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 			for ( int i = 0; i < resultLimit && i < results.length && KoLmafia.permitsContinue(); ++i )
 			{
-				resultsModel[ index ].addRow( getRow( results[i], isSimple ) );
+				resultsModel[ index ].addRow( getRow( results[i], false ) );
 				resultsModel[ index ].fireTableRowsInserted( i - 1, i - 1 );
 			}
 
 			KoLmafia.updateDisplay( "Search completed." );
 			RequestThread.enableDisplayIfSequenceComplete();
+		}
+
+		public void actionCancelled()
+		{
+			DEFAULT_SHELL.executeLine( "flowers" );
+			updateRank();
 		}
 
 		public Object [] getRow( ProfileRequest result, boolean isSimple )
