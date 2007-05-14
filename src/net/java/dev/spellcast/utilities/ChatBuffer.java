@@ -107,6 +107,7 @@ public class ChatBuffer
 	private String title;
 	private String header;
 	private String filename;
+	private boolean allowScrollBack;
 
 	protected ArrayList scrollBars;
 	protected ArrayList displayPanes;
@@ -125,10 +126,12 @@ public class ChatBuffer
 	 * content to be displayed.
 	 */
 
-	public ChatBuffer( String title )
+	public ChatBuffer( String title, boolean allowScrollBack )
 	{
 		this.displayBuffer = new StringBuffer();
 		this.title = title;
+
+		this.allowScrollBack = allowScrollBack;
 		this.header = "<html><head>" + NEW_LINE + "<title>" + title + "</title>" + NEW_LINE;
 
 		this.scrollBars = new ArrayList();
@@ -393,7 +396,7 @@ public class ChatBuffer
 				}
 			}
 
-			if ( shouldAdjust )
+			if ( !allowScrollBack || shouldAdjust )
 			{
 				for ( int i = 0; i < displayPanes.size(); ++i )
 				{
