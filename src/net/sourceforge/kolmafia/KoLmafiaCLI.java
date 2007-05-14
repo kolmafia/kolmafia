@@ -1791,6 +1791,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "flowers" ) )
+		{
+			executeFlowerHuntRequest();
+			return;
+		}
+
 		if ( command.equals( "hermit" ) )
 		{
 			executeHermitRequest( parameters );
@@ -2045,6 +2051,69 @@ public class KoLmafiaCLI extends KoLmafia
 		displayText = COMMENT_PATTERN.matcher( displayText ).replaceAll( "" );
 
 		RequestLogger.printLine( displayText.trim() );
+	}
+
+	private void executeFlowerHuntRequest()
+	{
+		RequestThread.openRequestSequence();
+
+		updateDisplay( "Determining current rank..." );
+		RequestThread.postRequest( new FlowerHunterRequest() );
+
+		int fightsLeft = 0;
+		fightsLeft = KoLCharacter.getAttacksLeft();
+
+		int stance = 0;
+
+		if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
+			stance = 1;
+		else if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
+			stance = 2;
+		else
+			stance = 3;
+
+		FlowerHunterRequest request = new FlowerHunterRequest( "", stance, "flowers", "", "" );
+
+		do
+		{
+			int desiredRank = Math.max( 10, KoLCharacter.getPvpRank() - 50 + Math.min( 11, fightsLeft ) );
+			updateDisplay( "Determining targets at rank " + desiredRank + "..." );
+
+			FlowerHunterRequest search = new FlowerHunterRequest( "", String.valueOf( desiredRank ) );
+			RequestThread.postRequest( search );
+
+			ProfileRequest [] results = new ProfileRequest[ search.getSearchResults().size() ];
+			search.getSearchResults().toArray( results );
+			executeFlowerHuntRequest( results, request );
+		}
+		while ( KoLmafia.permitsContinue() && fightsLeft != KoLCharacter.getAttacksLeft() && KoLCharacter.getAttacksLeft() > 0 );
+
+		if ( KoLmafia.permitsContinue() )
+			updateDisplay( "You have " + KoLCharacter.getAttacksLeft() + " attacks remaining." );
+
+		RequestThread.closeRequestSequence();
+	}
+
+	public static void executeFlowerHuntRequest( ProfileRequest [] targets, FlowerHunterRequest request )
+	{
+		for ( int i = 0; i < targets.length && KoLmafia.permitsContinue() && KoLCharacter.getAttacksLeft() > 0; ++i )
+		{
+			if ( KoLCharacter.getPvpRank() - 50 > targets[i].getPvpRank().intValue() )
+				continue;
+
+			if ( StaticEntity.getProperty( "currentPvpVictories" ).indexOf( targets[i].getPlayerName() ) != -1 )
+				continue;
+
+			KoLmafia.updateDisplay( "Attacking " + targets[i].getPlayerName() + "..." );
+			request.setTarget( targets[i].getPlayerName() );
+			RequestThread.postRequest( request );
+
+			if ( request.responseText.indexOf( "Your PvP Ranking decreased by" ) != -1 )
+				updateDisplay( ERROR_STATE, "You lost to " + targets[i].getPlayerName() + "." );
+			else
+				StaticEntity.setProperty( "currentPvpVictories", StaticEntity.getProperty( "currentPvpVictories" ) + targets[i].getPlayerName() + "," );
+
+		}
 	}
 
 	private void executeSendRequest( String parameters, boolean isConvertible )
