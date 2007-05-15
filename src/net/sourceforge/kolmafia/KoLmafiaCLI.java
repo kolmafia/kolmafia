@@ -2061,8 +2061,6 @@ public class KoLmafiaCLI extends KoLmafia
 		RequestThread.postRequest( new FlowerHunterRequest() );
 
 		int fightsLeft = 0;
-		fightsLeft = KoLCharacter.getAttacksLeft();
-
 		int stance = 0;
 
 		if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
@@ -2077,8 +2075,9 @@ public class KoLmafiaCLI extends KoLmafia
 		ProfileRequest [] results = null;
 		FlowerHunterRequest request = new FlowerHunterRequest( "", stance, "flowers", "", "" );
 
-		do
+		while ( KoLmafia.permitsContinue() && fightsLeft != KoLCharacter.getAttacksLeft() && KoLCharacter.getAttacksLeft() > 0 )
 		{
+			fightsLeft = KoLCharacter.getAttacksLeft();
 			desiredRank = Math.max( 10, KoLCharacter.getPvpRank() - 50 + Math.min( 11, fightsLeft ) );
 
 			if ( lastSearch != desiredRank )
@@ -2093,7 +2092,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 			executeFlowerHuntRequest( results, request );
 		}
-		while ( KoLmafia.permitsContinue() && fightsLeft != KoLCharacter.getAttacksLeft() && KoLCharacter.getAttacksLeft() > 0 );
 
 		if ( KoLmafia.permitsContinue() )
 			updateDisplay( "You have " + KoLCharacter.getAttacksLeft() + " attacks remaining." );
