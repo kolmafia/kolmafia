@@ -127,38 +127,32 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 	public synchronized void sort()
 	{
 		Collections.sort( actualElements );
-		Collections.sort( visibleElements );
 
-		fireContentsChanged( this, 0, getSize() - 1 );
-
-		LockableListModel current;
+		LockableListModel mirror;
 		for ( int i = 0; i < mirrorList.size(); ++i )
 		{
-			current = getMirror(i);
-			if ( current == this )
+			mirror = getMirror(i);
+			if ( mirror == null )
 				continue;
 
-			Collections.sort( current.visibleElements );
-			current.fireContentsChanged( current, 0, current.getSize() - 1 );
+			Collections.sort( mirror.visibleElements );
+			mirror.fireContentsChanged( this, 0, mirror.getSize() - 1 );
 		}
 	}
 
 	public synchronized void sort( Comparator c )
 	{
 		Collections.sort( actualElements, c );
-		Collections.sort( visibleElements, c );
 
-		fireContentsChanged( this, 0, getSize() - 1 );
-
-		LockableListModel current;
+		LockableListModel mirror;
 		for ( int i = 0; i < mirrorList.size(); ++i )
 		{
-			current = getMirror(i);
-			if ( current == this )
+			mirror = getMirror(i);
+			if ( mirror == null )
 				continue;
 
-			Collections.sort( current.visibleElements, c );
-			current.fireContentsChanged( current, 0, current.getSize() - 1 );
+			Collections.sort( mirror.visibleElements, c );
+			mirror.fireContentsChanged( this, 0, mirror.getSize() - 1 );
 		}
 	}
 
@@ -202,16 +196,19 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	private synchronized void addVisibleElement( int index, Object element )
 	{
-		addVisibleElement( this, index, element );
+		LockableListModel mirror;
 		for ( int i = 0; i < mirrorList.size(); ++i )
-			addVisibleElement( getMirror(i), index, element );
+		{
+			mirror = getMirror(i);
+			if ( mirror == null )
+				continue;
+
+			addVisibleElement( mirror, index, element );
+		}
 	}
 
 	private synchronized void addVisibleElement( LockableListModel model, int index, Object element )
 	{
-		if ( model == this || model == null )
-			return;
-
 		if ( model.currentFilter.isVisible( element ) )
 		{
 			int visibleIndex = model.computeVisibleIndex( index );
@@ -279,16 +276,19 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	private synchronized void clearVisibleElements()
 	{
-		clearVisibleElements( this );
+		LockableListModel mirror;
 		for ( int i = 0; i < mirrorList.size(); ++i )
-			clearVisibleElements( getMirror(i) );
+		{
+			mirror = getMirror(i);
+			if ( mirror == null )
+				continue;
+
+			clearVisibleElements( mirror );
+		}
 	}
 
 	private synchronized void clearVisibleElements( LockableListModel model )
 	{
-		if ( model == this || model == null )
-			return;
-
 		int originalSize = model.visibleElements.size();
 
 		if ( originalSize == 0 )
@@ -509,16 +509,19 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	private synchronized void removeVisibleElement( int index, Object element )
 	{
-		removeVisibleElement( this, index, element );
+		LockableListModel mirror;
 		for ( int i = 0; i < mirrorList.size(); ++i )
-			removeVisibleElement( getMirror(i), index, element );
+		{
+			mirror = getMirror(i);
+			if ( mirror == null )
+				continue;
+
+			removeVisibleElement( mirror, index, element );
+		}
 	}
 
 	private synchronized void removeVisibleElement( LockableListModel model, int index, Object element )
 	{
-		if ( this == model || model == null )
-			return;
-
 		if ( model.currentFilter.isVisible( element ) )
 		{
 			int visibleIndex = model.computeVisibleIndex( index );
@@ -592,16 +595,19 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	private synchronized void setVisibleElement( int index, Object element, Object originalValue )
 	{
-		setVisibleElement( this, index, element, originalValue );
+		LockableListModel mirror;
 		for ( int i = 0; i < mirrorList.size(); ++i )
-			setVisibleElement( getMirror(i), index, element, originalValue );
+		{
+			mirror = getMirror(i);
+			if ( mirror == null )
+				continue;
+
+			setVisibleElement( mirror, index, element, originalValue );
+		}
 	}
 
 	private synchronized void setVisibleElement( LockableListModel model, int index, Object element, Object originalValue )
 	{
-		if ( model == this || model == null )
-			return;
-
 		int visibleIndex = model.computeVisibleIndex( index );
 
 		if ( originalValue != null && model.currentFilter.isVisible( originalValue ) )
@@ -667,13 +673,14 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 
 	public synchronized void applyListFilters()
 	{
-		applyListFilter( this.currentFilter );
-
-		LockableListModel model;
+		LockableListModel mirror;
 		for ( int i = 0; i < mirrorList.size(); ++i )
 		{
-			model = getMirror(i);
-			model.applyListFilter( model.currentFilter );
+			mirror = getMirror(i);
+			if ( mirror == null )
+				continue;
+
+			mirror.applyListFilter( mirror.currentFilter );
 		}
 	}
 
