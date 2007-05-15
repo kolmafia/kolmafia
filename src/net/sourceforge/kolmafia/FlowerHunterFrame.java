@@ -180,7 +180,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		public SearchPanel()
 		{
-			super( "simple", "kamikaze" );
+			super( "search", "flowers" );
 
 			levelEntry = new JTextField();
 			rankEntry = new JTextField();
@@ -216,7 +216,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 			for ( int i = 0; i < resultLimit && i < results.length && KoLmafia.permitsContinue(); ++i )
 			{
-				resultsModel[ index ].addRow( getRow( results[i], false ) );
+				resultsModel[ index ].addRow( getRow( results[i] ) );
 				resultsModel[ index ].fireTableRowsInserted( i - 1, i - 1 );
 			}
 
@@ -230,16 +230,10 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			updateRank();
 		}
 
-		public Object [] getRow( ProfileRequest result, boolean isSimple )
+		public Object [] getRow( ProfileRequest result )
 		{
-			if ( isSimple )
-				return new Object [] { result.getPlayerName(), result.getClanName(), result.getClassType(),
-					result.getPlayerLevel(), result.getPvpRank() };
-
-			KoLmafia.updateDisplay( "Retrieving profile for " + result.getPlayerName() + "..." );
-
-			return new Object [] { result.getPlayerName(), result.getClassType(), result.getRestriction(), result.getPlayerLevel(),
-				result.getPvpRank(), result.getDrink(), result.getEquipmentPower(), result.getCurrentRun(), result.getLastLogin() };
+			return new Object [] { result.getPlayerName(), result.getClanName(), result.getClassType(),
+				result.getPlayerLevel(), result.getPvpRank() };
 		}
 	}
 
