@@ -435,7 +435,7 @@ public abstract class MoodSettings implements KoLConstants
 			}
 			else
 			{
-				if ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() / 2 )
+				if ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() / 4 )
 					return;
 			}
 		}
@@ -444,22 +444,20 @@ public abstract class MoodSettings implements KoLConstants
 
 		isExecuting = true;
 
-		while ( (nextBurnCast = getNextBurnCast( isManualInvocation )) != null )
+		while ( (nextBurnCast = getNextBurnCast( true )) != null )
 			DEFAULT_SHELL.executeLine( nextBurnCast );
 
 		isExecuting = false;
 	}
 
-	public static String getNextBurnCast( boolean isManualInvocation )
+	public static String getNextBurnCast( boolean shouldExecute )
 	{
 		// Rather than keeping a safety for the player, let the player
 		// make the mistake of burning below their auto-restore threshold.
 
 		int starting = (int) (StaticEntity.getFloatProperty( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP());
-		if ( starting < 0 && !isManualInvocation )
-			return null;
-
 		int minimum = Math.max( 0, (int) (StaticEntity.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP()) );
+
 		minimum = Math.max( minimum, starting );
 
 		String skillName = null;
@@ -509,7 +507,7 @@ public abstract class MoodSettings implements KoLConstants
 
 			if ( currentEffect.getCount() >= 10 )
 			{
-				String breakfast = executeBreakfastBurning( minimum );
+				String breakfast = considerBreakfastBurning( minimum, shouldExecute );
 				if ( breakfast != null )
 					return breakfast;
 
@@ -541,28 +539,39 @@ public abstract class MoodSettings implements KoLConstants
 			if ( castCount > 0 )
 				return "cast " + castCount + " " + skillName;
 			else
-				return executeBreakfastBurning( minimum );
+				return considerBreakfastBurning( minimum, shouldExecute );
 		}
 
-		return executeBreakfastBurning( minimum );
+		return considerBreakfastBurning( minimum, shouldExecute );
 	}
 
-	private static String executeBreakfastBurning( int minimum )
+	private static String considerBreakfastBurning( int minimum, boolean shouldExecute )
 	{
 		if ( !StaticEntity.getBooleanProperty( "allowBreakfastBurning" ) )
 			return null;
 
-		if ( !StaticEntity.getClient().castBreakfastSkills( true, false, minimum ) )
+		if ( shouldExecute )
+		{
+			if ( !StaticEntity.getClient().castBreakfastSkills( true, false, minimum ) )
+				return null;
+
 			return null;
+		}
 
-		// Cast 'Summon Candy Hearts' if available and your current
-		// turn count on your buffs is greater than 10.
+		for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
+		{
+			if ( !KoLCharacter.hasSkill( UseSkillRequest.BREAKFAST_SKILLS[i] ) )
+				continue;
+			if ( UseSkillRequest.BREAKFAST_SKILLS[i].equals( "Pastamastery" ) && !KoLCharacter.canEat() )
+				continue;
+			if ( UseSkillRequest.BREAKFAST_SKILLS[i].equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
+				continue;
 
-		if ( !KoLCharacter.hasSkill( "Summon Candy Hearts" ) )
-			return null;
+			int mpCost = ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( UseSkillRequest.BREAKFAST_SKILLS[i] ) );
 
-		if ( ClassSkillsDatabase.getMPConsumptionById( 18 ) <= KoLCharacter.getCurrentMP() - minimum )
-			return "cast 1 summon candy hearts";
+			if ( mpCost <= KoLCharacter.getCurrentMP() - minimum )
+				return UseSkillRequest.BREAKFAST_SKILLS[i];
+		}
 
 		return null;
 	}
