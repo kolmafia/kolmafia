@@ -179,6 +179,7 @@ public class KoLmafiaASH extends StaticEntity
 	private int lineNumber;
 	private LineNumberReader commandStream;
 	private TreeMap imports = new TreeMap();
+	private ScriptFunction mainMethod = null;
 
 	// Variables used during execution
 	private ScriptScope global;
@@ -843,7 +844,7 @@ public class KoLmafiaASH extends StaticEntity
 			throw new AdvancedScriptException( fileName + " could not be validated" );
 
 		imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
-		global.mergeScope( parsed.global );
+		this.global.mergeScope( parsed.global );
 
 		return parsed.global;
 	}
@@ -898,16 +899,8 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptFunction f = parseFunction( t, result );
 			if ( f != null )
 			{
-				// People want to code scripts that work either
-				// standalone or imported into another script
-				//
-				// Therefore remove "main" functions that are
-				// defined in non-toplevel scopes
-				//
-				// We could just leave them; we only look for a
-				// "main" function in the outermost scope
-				if ( startScope != null && f.getName().equalsIgnoreCase( "main" ) )
-					result.removeFunction( f );
+				if ( f.getName().equalsIgnoreCase( "main" ) )
+					mainMethod = f;
 
 				continue;
 			}
@@ -2896,7 +2889,7 @@ public class KoLmafiaASH extends StaticEntity
 		currentState = STATE_NORMAL;
 		resetTracing();
 
-		main = topScope.findFunction( functionName, null );
+		main = functionName.equals( "main" ) ? mainMethod : topScope.findFunction( functionName, null );
 
 		if ( main == null && !topScope.getCommands().hasNext() )
 		{
@@ -2928,6 +2921,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( main != null )
 		{
 			trace( "Executing main function" );
+
 			if ( !requestUserParams( main, parameters ) )
 				return null;
 
@@ -3962,16 +3956,21 @@ public class KoLmafiaASH extends StaticEntity
 
 		public void mergeScope( ScriptScope external )
 		{
-			if ( external == null )
+			if ( external == null || this.functions == external.functions )
 				return;
 
-			functions.addAll( external.functions );
+			Iterator it = external.functions.iterator();
+			ScriptUserDefinedFunction f;
+
+			while ( it.hasNext() )
+			{
+				f = (ScriptUserDefinedFunction) it.next();
+				replaceFunction( f );
+			}
+
 			variables.addAll( external.variables );
 			types.addAll( external.types );
-			commands.addAll( external.types );
-
-			if ( parentScope != null )
-				parentScope.mergeScope( external.parentScope );
+			commands.addAll( external.commands );
 		}
 
 		public ScriptScope getParentScope()
@@ -4092,7 +4091,11 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptUserDefinedFunction replaceFunction( ScriptUserDefinedFunction f )
 		{
+			if ( f.getName().equals( "main" ) )
+				return f;
+
 			ScriptFunction [] options = functions.findFunctions( f.getName() );
+
 			for ( int i = 0; i < options.length; ++i )
 				if ( options[i] instanceof ScriptUserDefinedFunction && isMatchingFunction( (ScriptUserDefinedFunction) options[i], f ) )
 					return (ScriptUserDefinedFunction) options[i];
