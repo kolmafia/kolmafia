@@ -201,6 +201,29 @@ public class KoLmafiaASH extends StaticEntity
 		this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
 	}
 
+	private KoLmafiaASH( KoLmafiaASH source, File scriptFile )
+	{
+		this.global = source.global;
+		this.imports = source.imports;
+		this.fileName = scriptFile.getPath();
+
+		try
+		{
+			this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
+
+			this.currentLine = getNextLine();
+			this.lineNumber = commandStream.getLineNumber();
+			this.nextLine = getNextLine();
+		}
+		catch ( Exception e )
+		{
+			// If any part of the initialization fails,
+			// then throw an exception.
+
+			throw new AdvancedScriptException( fileName + " could not be accessed" );
+		}
+	}
+
 	public static final KoLmafiaASH getInterpreter( File toExecute )
 	{
 		if ( toExecute == null )
@@ -839,14 +862,40 @@ public class KoLmafiaASH extends StaticEntity
 		if ( imports.containsKey( scriptFile ) )
 			return this.global;
 
-		KoLmafiaASH parsed = getInterpreter( scriptFile );
-		if ( parsed == null )
-			throw new AdvancedScriptException( fileName + " could not be validated" );
+		AdvancedScriptException error = null;
+
+		ScriptScope result = this.global;
+		KoLmafiaASH script = new KoLmafiaASH( this, scriptFile );
+
+		try
+		{
+			result = script.parseScope( this.global, null, new ScriptVariableList(), this.global.parentScope, false );
+		}
+		catch ( Exception e )
+		{
+			error = new AdvancedScriptException( e );
+		}
+
+		try
+		{
+			script.commandStream.close();
+		}
+		catch ( Exception e )
+		{
+			// Do nothing, because this means the stream somehow
+			// got closed anyway.
+		}
+
+		if ( error != null )
+			throw error;
+
+		if ( script.currentLine != null )
+			throw new AdvancedScriptException( "Script parsing error " + script.getLineAndFile() );
 
 		imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
-		this.global.mergeScope( parsed.global );
+		mainMethod = null;
 
-		return parsed.global;
+		return result;
 	}
 
 	private ScriptScope parseScope( ScriptScope startScope, ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop )
@@ -3952,25 +4001,6 @@ public class KoLmafiaASH extends StaticEntity
 			this.types = types;
 			this.commands = new ScriptCommandList();
 			this.parentScope = null;
-		}
-
-		public void mergeScope( ScriptScope external )
-		{
-			if ( external == null || this.functions == external.functions )
-				return;
-
-			Iterator it = external.functions.iterator();
-			ScriptUserDefinedFunction f;
-
-			while ( it.hasNext() )
-			{
-				f = (ScriptUserDefinedFunction) it.next();
-				replaceFunction( f );
-			}
-
-			variables.addAll( external.variables );
-			types.addAll( external.types );
-			commands.addAll( external.commands );
 		}
 
 		public ScriptScope getParentScope()
