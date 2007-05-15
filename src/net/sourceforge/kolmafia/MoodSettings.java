@@ -440,6 +440,10 @@ public abstract class MoodSettings implements KoLConstants
 			}
 		}
 
+		int starting = (int) (StaticEntity.getFloatProperty( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP());
+		if ( starting < 0 )
+			return;
+
 		String nextBurnCast;
 
 		isExecuting = true;
