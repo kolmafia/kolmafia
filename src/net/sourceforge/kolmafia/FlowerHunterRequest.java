@@ -198,8 +198,15 @@ public class FlowerHunterRequest extends KoLRequest
 			KoLCharacter.setAttacksLeft( 0 );
 
 		Matcher rankMatcher = RANKING_PATTERN.matcher( responseText );
-		if ( rankMatcher.find() )
-			KoLCharacter.setPvpRank( StaticEntity.parseInt( rankMatcher.group(1) ) );
+		if ( !rankMatcher.find() )
+		{
+			(new KoLRequest( "campground.php?pwd&confirm=on&smashstone=Yep." )).run();
+			super.run();
+			return;
+		}
+
+		KoLCharacter.setPvpRank( StaticEntity.parseInt( rankMatcher.group(1) ) );
+
 
 		// Trim down the response text so it only includes
 		// the information related to the fight.
@@ -211,6 +218,9 @@ public class FlowerHunterRequest extends KoLRequest
 		{
 			processOffenseContests( responseText );
 			StaticEntity.getClient().showHTML( responseText, null );
+		}
+		else
+		{
 		}
 	}
 
