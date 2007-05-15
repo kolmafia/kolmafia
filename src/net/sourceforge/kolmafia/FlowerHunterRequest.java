@@ -208,7 +208,20 @@ public class FlowerHunterRequest extends KoLRequest
 		responseText = responseText.substring( 0, index == -1 ? responseText.length() : index );
 
 		if ( hunterType != RANKVIEW )
+		{
+			LogStream pvpResults = LogStream.openStream( "pvp_rawdata.txt", false );
+
+			String resultText = StaticEntity.globalStringReplace( responseText.substring(
+				responseText.indexOf( "<td>" ) + 4, responseText.indexOf( "Your PvP Ranking" ) ), "<p>", LINE_BREAK );
+
+			resultText = resultText.substring( 0, resultText.lastIndexOf( "<b>" ) );
+			pvpResults.println( ANYTAG_PATTERN.matcher( resultText ).replaceAll( "" ) );
+
+			pvpResults.println();
+			pvpResults.close();
+
 			StaticEntity.getClient().showHTML( responseText, null );
+		}
 	}
 
 	public static boolean registerRequest( String urlString )
