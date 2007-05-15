@@ -346,6 +346,12 @@ public abstract class StaticEntity implements KoLConstants
 			if ( learnedMatcher.find() )
 				KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( StaticEntity.parseInt( learnedMatcher.group(1) ) ) );
 		}
+
+		// Player vs. player results should be recorded to the
+		// KoLmafia log.
+
+		if ( location.startsWith( "pvp.php" ) && location.indexOf( "who=" ) != -1 )
+			FlowerHunterRequest.processOffenseContests( responseText );
 	}
 
 	public static final boolean executeCountdown( String message, int seconds )

@@ -209,19 +209,128 @@ public class FlowerHunterRequest extends KoLRequest
 
 		if ( hunterType != RANKVIEW )
 		{
-			LogStream pvpResults = LogStream.openStream( "pvp_rawdata.txt", false );
-
-			String resultText = StaticEntity.globalStringReplace( responseText.substring(
-				responseText.indexOf( "<td>" ) + 4, responseText.indexOf( "Your PvP Ranking" ) ), "<p>", LINE_BREAK );
-
-			resultText = resultText.substring( 0, resultText.lastIndexOf( "<b>" ) );
-			pvpResults.println( ANYTAG_PATTERN.matcher( resultText ).replaceAll( "" ) );
-
-			pvpResults.println();
-			pvpResults.close();
-
+			processOffenseContests( responseText );
 			StaticEntity.getClient().showHTML( responseText, null );
 		}
+	}
+
+	public static void processDefenseContests( String responseText )
+	{
+	}
+
+	public static void processOffenseContests( String responseText )
+	{
+		LogStream pvpResults = LogStream.openStream( "attacks/" + KoLCharacter.baseUserName() + "_rawdata.txt", false );
+
+		String resultText = StaticEntity.globalStringReplace( responseText.substring(
+			responseText.indexOf( "<td>" ) + 4, responseText.indexOf( "Your PvP Ranking" ) ), "<p>", LINE_BREAK );
+
+		resultText = ANYTAG_PATTERN.matcher( resultText.substring( 0, resultText.lastIndexOf( "<b>" ) ) ).replaceAll( "" );
+		pvpResults.println( resultText );
+
+		pvpResults.println();
+		pvpResults.close();
+
+		String [] fightData = resultText.split( "\n" );
+		String target = null;
+
+		for ( int i = 0; i < fightData.length; ++i )
+		{
+			if ( fightData[i].startsWith( "You call" ) )
+			{
+				target = fightData[i].substring( 9, fightData[i].indexOf( " out," ) );
+				fightData[i] = null;
+				break;
+			}
+
+			fightData[i] = null;
+		}
+
+		pvpResults = LogStream.openStream( "attacks/" + KoLCharacter.baseUserName() + "_summary.txt", false );
+
+		pvpResults.println( "You initiated a PvP attack against " + target + ". Here's a play-by-play report on how it went down:" );
+		pvpResults.println();
+
+		for ( int i = 0; i < fightData.length; ++i )
+			if ( fightData[i] != null )
+				processOffenseContest( target, fightData[i], pvpResults );
+
+		pvpResults.println();
+		pvpResults.close();
+	}
+
+	public static void processOffenseContest( String target, String line, LogStream ostream )
+	{
+		String contest = null;
+
+		// Messages for the battle stance that the player selected
+		// for their attack.
+
+		if ( line.startsWith( "You try to embarrrass" ) )
+			contest = "Buffed Moxie";
+		else if ( line.startsWith( "You challenge your opponent to an insult contest" ) )
+			contest = "Unbuffed Moxie";
+
+		// Now the messages you get for the remaining five minis
+		// that are randomly selected by KoL.  Start with the three
+		// stat minis that KoL randomly selects.
+
+		else if ( line.indexOf( "challenges you to an armwrestling match" ) != -1 )
+			contest = "Buffed Muscle";
+		else if ( line.indexOf( "challenges you to a game of Wizard's Croquet" ) != -1 )
+			contest = "Buffed Mysticality";
+
+		// There's a giant list for the remaining minis.  Go ahead
+		// and list them here.
+
+		else if ( line.indexOf( "challenges you to a diet balance contest" ) != -1 )
+			contest = "Balanced Diet";
+		else if ( line.indexOf( "challenges you to a bleeding contest" ) != -1 )
+			contest = "Bleeding Contest";
+		else if ( line.indexOf( "challenges you to a burping contest" ) != -1 )
+			contest = "Burping Contest";
+		else if ( line.indexOf( "challenges you to a Canadianity contest" ) != -1 )
+			contest = "Canadianity Contest";
+		else if ( line.indexOf( "challenges you to a familiar show" ) != -1 )
+			contest = "Familiar Weight";
+		else if ( line.indexOf( "arranges an impromptu fashion show" ) != -1 )
+			contest = "Fashion Show";
+		else if ( line.indexOf( "challenges you to a flower-picking contest" ) != -1 )
+			contest = "Flower Picking Contest";
+		else if ( line.indexOf( "challenges you to a &quot;How Hung Over are You?&quot; competition" ) != -1 )
+			contest = "\"How Hung Over are You?\"";
+		else if ( line.indexOf( "challenges you to a pie-eating competition" ) != -1 )
+			contest = "Pie-Eating Contest";
+		else if ( line.indexOf( "challenges you to a popularity contest" ) != -1 )
+			contest = "Popularity Contest";
+		else if ( line.indexOf( "challenges you to a purity test" ) != -1 )
+			contest = "Purity Test";
+		else if ( line.indexOf( "challenges you to a tattoo contest" ) != -1 )
+			contest = "Tattoo Contest";
+		else if ( line.indexOf( "challenges you to a trophy-stacking contest" ) != -1 )
+			contest = "Trophy Contest";
+		else if ( line.indexOf( "challenges you to a wine tasting contest" ) != -1 )
+			contest = "Wine Tasting Contest";
+		else if ( line.indexOf( "challenges you to a work ethic contest" ) != -1 )
+			contest = "Work Ethic Contest";
+
+		// If it's not one of the above, then just note it as an
+		// unknown contest for later.
+
+		else
+			contest = "Unknown Contest";
+
+		String lastMessage = line.substring( line.lastIndexOf( " " ) + 1, line.length() - 2 );
+		boolean isWinner = lastMessage.toUpperCase().equals( lastMessage );
+
+		String result = contest + ": You " + (isWinner ? "won." : "lost.");
+		ostream.println( result );
+
+		recordContestResult( target, result );
+	}
+
+	public static void recordContestResult( String opponent, String result )
+	{
 	}
 
 	public static boolean registerRequest( String urlString )
