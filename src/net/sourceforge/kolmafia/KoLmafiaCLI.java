@@ -2075,7 +2075,7 @@ public class KoLmafiaCLI extends KoLmafia
 		ProfileRequest [] results = null;
 		FlowerHunterRequest request = new FlowerHunterRequest( "", stance, "flowers", "", "" );
 
-		while ( KoLmafia.permitsContinue() && fightsLeft != KoLCharacter.getAttacksLeft() && KoLCharacter.getAttacksLeft() > 0 )
+		while ( !KoLmafia.refusesContinue() && fightsLeft != KoLCharacter.getAttacksLeft() && KoLCharacter.getAttacksLeft() > 0 )
 		{
 			fightsLeft = KoLCharacter.getAttacksLeft();
 			desiredRank = Math.max( 10, KoLCharacter.getPvpRank() - 50 + Math.min( 11, fightsLeft ) );
@@ -2091,6 +2091,9 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			executeFlowerHuntRequest( results, request );
+
+			if ( !KoLmafia.refusesContinue() )
+				KoLmafia.forceContinue();
 		}
 
 		if ( KoLmafia.permitsContinue() )
