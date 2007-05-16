@@ -111,8 +111,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final AdventureResult LEAD_NECKLACE = new AdventureResult( 865, 1 );
 	private static final AdventureResult RAT_HEAD_BALLOON = new AdventureResult( 1218, 1 );
 
-	private static final AdventureResult PUMPKIN_BASKET = new AdventureResult( 1971, 1 );
-	private static final AdventureResult MAYFLOWER = new AdventureResult( 2541, 1 );
+	private static final AdventureResult PUMPKIN_BUCKET = new AdventureResult( 1971, 1 );
+	private static final AdventureResult FLOWER_BOUQUET = new AdventureResult( 2541, 1 );
 	private static final AdventureResult DOPPELGANGER = new AdventureResult( 2225, 1 );
 
 	private static final AdventureResult GREEN_SNOWCONE = new AdventureResult( 1413, 1 );
@@ -721,10 +721,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		if ( familiar.getId() != CHAMELEON )
 		{
-			if ( KoLCharacter.hasItem( PUMPKIN_BASKET ) )
-				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
-			else if ( KoLCharacter.hasItem( MAYFLOWER ) )
-				RequestThread.postRequest( new EquipmentRequest( MAYFLOWER, KoLCharacter.FAMILIAR ) );
+			if ( KoLCharacter.hasItem( PUMPKIN_BUCKET ) )
+				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BUCKET, KoLCharacter.FAMILIAR ) );
+			else if ( KoLCharacter.hasItem( FLOWER_BOUQUET ) )
+				RequestThread.postRequest( new EquipmentRequest( FLOWER_BOUQUET, KoLCharacter.FAMILIAR ) );
 			else if ( status.familiarItemWeight != 0 && KoLCharacter.hasItem( status.familiarItem ) )
 				RequestThread.postRequest( new EquipmentRequest( status.familiarItem, KoLCharacter.FAMILIAR ) );
 			else if ( KoLCharacter.hasItem( LEAD_NECKLACE ) )
@@ -963,7 +963,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		if ( familiar.getModifiedWeight() >= weight )
 			return true;
 
-		if ( !KoLCharacter.hasItem( PUMPKIN_BASKET ) && !KoLCharacter.hasItem( MAYFLOWER ) &&
+		if ( !KoLCharacter.hasItem( PUMPKIN_BUCKET ) && !KoLCharacter.hasItem( FLOWER_BOUQUET ) &&
 			status.familiarItemWeight != 0 && !KoLCharacter.hasItem( status.familiarItem ) && KoLCharacter.canInteract() )
 		{
 			DEFAULT_SHELL.executeLine( "buy 1 " + status.familiarItem.getName() );
@@ -1246,8 +1246,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		AdventureResult leadNecklace;
 		AdventureResult ratHeadBalloon;
-		AdventureResult pumpkinBasket;
-		AdventureResult mayflower;
+		AdventureResult pumpkinBucket;
+		AdventureResult flowerBouquet;
 		AdventureResult doppelganger;
 
 		int tpCount;
@@ -1398,8 +1398,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			leadNecklace = null;
 			ratHeadBalloon = null;
-			pumpkinBasket = null;
-			mayflower = null;
+			pumpkinBucket = null;
+			flowerBouquet = null;
 			doppelganger = null;
 
 			tpCount = 0;
@@ -1414,10 +1414,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 				String name = item.getName();
 				if ( name.equals( familiarItem.getName() ) )
 					this.item = specItem = familiarItem;
-				else if ( name.equals( PUMPKIN_BASKET.getName() ) )
-					this.item = pumpkinBasket = PUMPKIN_BASKET;
-				else if ( name.equals( MAYFLOWER.getName() ) )
-					this.item = mayflower = MAYFLOWER;
+				else if ( name.equals( PUMPKIN_BUCKET.getName() ) )
+					this.item = pumpkinBucket = PUMPKIN_BUCKET;
+				else if ( name.equals( FLOWER_BOUQUET.getName() ) )
+					this.item = flowerBouquet = FLOWER_BOUQUET;
 				else if ( name.equals( LEAD_NECKLACE.getName() ) )
 					this.item = leadNecklace = LEAD_NECKLACE;
 				else if ( name.equals( RAT_HEAD_BALLOON.getName() ) )
@@ -1476,13 +1476,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// If current familiar is not wearing a pumpkin basket,
 			// search inventory
-			if ( pumpkinBasket == null && !KoLCharacter.isHardcore() && PUMPKIN_BASKET.getCount( inventory ) > 0 )
-				pumpkinBasket = PUMPKIN_BASKET;
+			if ( pumpkinBucket == null && !KoLCharacter.isHardcore() && PUMPKIN_BUCKET.getCount( inventory ) > 0 )
+				pumpkinBucket = PUMPKIN_BUCKET;
 
-			// If current familiar is not wearing a mayflower,
+			// If current familiar is not wearing a flowerBouquet,
 			// search inventory
-			if ( mayflower == null && !KoLCharacter.isHardcore() && MAYFLOWER.getCount( inventory ) > 0 )
-				mayflower = MAYFLOWER;
+			if ( flowerBouquet == null && !KoLCharacter.isHardcore() && FLOWER_BOUQUET.getCount( inventory ) > 0 )
+				flowerBouquet = FLOWER_BOUQUET;
 
 			// If current familiar is not wearing a lead necklace,
 			// search inventory
@@ -1502,7 +1502,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// If we're not training a chameleon and we don't have
 			// a lead necklace or a rat head balloon, search other
 			// familiars; we'll steal it from them if necessary
-			else if ( familiar.getId() != CHAMELEON && ( leadNecklace == null || ratHeadBalloon == null || pumpkinBasket == null ) )
+			else if ( familiar.getId() != CHAMELEON && ( leadNecklace == null || ratHeadBalloon == null || pumpkinBucket == null || flowerBouquet == null ) )
 			{
 				// Find first familiar with item
 				LockableListModel familiars = KoLCharacter.getFamiliarList();
@@ -1527,23 +1527,23 @@ public class FamiliarTrainingFrame extends KoLFrame
 							ratHeadBalloon = RAT_HEAD_BALLOON;
 					}
 
-					if ( item.equals( PUMPKIN_BASKET ) )
+					if ( item.equals( PUMPKIN_BUCKET ) )
 					{
 						// We found a plastic pumpkin basket
-						if ( pumpkinBasket == null )
-							pumpkinBasket = PUMPKIN_BASKET;
+						if ( pumpkinBucket == null )
+							pumpkinBucket = PUMPKIN_BUCKET;
 					}
 
-					if ( item.equals( MAYFLOWER ) )
+					if ( item.equals( FLOWER_BOUQUET ) )
 					{
-						// We found a plastic pumpkin basket
-						if ( mayflower == null )
-							mayflower = MAYFLOWER;
+						// We found a flowerBouquet
+						if ( flowerBouquet == null )
+							flowerBouquet = FLOWER_BOUQUET;
 					}
 
 					if ( item.equals( DOPPELGANGER ) )
 					{
-						// We found a plastic pumpkin basket
+						// We found a doppelganger
 						if ( doppelganger == null )
 							doppelganger = DOPPELGANGER;
 					}
@@ -1632,7 +1632,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 					getAccessoryWeights( weight + specWeight );
 
 				// If we have a pumpkin basket, use it
-				if ( pumpkinBasket != null )
+				if ( pumpkinBucket != null )
+					getAccessoryWeights( weight + 5 );
+
+				// If we have a flower bouquet, use it
+				if ( flowerBouquet != null )
 					getAccessoryWeights( weight + 5 );
 
 				// If we have a lead necklace, use it
@@ -1761,15 +1765,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// first, if necessary
 
 			// Steal a pumpkin basket, if needed
-			if ( next == PUMPKIN_BASKET )
+			if ( next == PUMPKIN_BUCKET )
 			{
-				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BASKET, KoLCharacter.FAMILIAR ) );
+				RequestThread.postRequest( new EquipmentRequest( PUMPKIN_BUCKET, KoLCharacter.FAMILIAR ) );
 				return;
 			}
 
-			if ( next == MAYFLOWER )
+			if ( next == FLOWER_BOUQUET )
 			{
-				RequestThread.postRequest( new EquipmentRequest( MAYFLOWER, KoLCharacter.FAMILIAR ) );
+				RequestThread.postRequest( new EquipmentRequest( FLOWER_BOUQUET, KoLCharacter.FAMILIAR ) );
 				return;
 			}
 
@@ -1857,8 +1861,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 				return;
 			}
 
-			if ( pumpkinBasket != null )
-				getAccessoryGearSets( weight, pumpkinBasket, hat );
+			if ( pumpkinBucket != null )
+				getAccessoryGearSets( weight, pumpkinBucket, hat );
+			if ( flowerBouquet != null )
+				getAccessoryGearSets( weight, flowerBouquet, hat );
 			if ( specItem != null )
 				getAccessoryGearSets( weight, specItem, hat );
 			if ( leadNecklace != null )
@@ -1950,9 +1956,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( item == specItem )
 				weight += specWeight;
-			else if ( item == PUMPKIN_BASKET )
+			else if ( item == PUMPKIN_BUCKET )
 				weight += 5;
-			else if ( item == MAYFLOWER )
+			else if ( item == FLOWER_BOUQUET )
 				weight += 5;
 			else if ( item == LEAD_NECKLACE )
 				weight += 3;
@@ -2092,7 +2098,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			// Add available familiar items
-			if ( pumpkinBasket != null )
+			if ( pumpkinBucket != null )
+				weight += 5;
+			else if ( flowerBouquet != null )
 				weight += 5;
 			else if ( specWeight > 3 )
 				weight += specWeight;
@@ -2169,10 +2177,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( item == DOPPELGANGER )
 				text.append( " " + DOPPELGANGER.getName() + " (+0)" );
-			else if ( item == PUMPKIN_BASKET )
-				text.append( " " + PUMPKIN_BASKET.getName() + " (+5)" );
-			else if ( item == MAYFLOWER )
-				text.append( " " + MAYFLOWER.getName() + " (+5)" );
+			else if ( item == PUMPKIN_BUCKET )
+				text.append( " " + PUMPKIN_BUCKET.getName() + " (+5)" );
+			else if ( item == FLOWER_BOUQUET )
+				text.append( " " + FLOWER_BOUQUET.getName() + " (+5)" );
 			else if ( item == LEAD_NECKLACE )
 				text.append( " " + LEAD_NECKLACE.getName() + " (+3)" );
 			else if ( item == RAT_HEAD_BALLOON )
@@ -2199,11 +2207,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 				text.append( " plexiglass pith helmet (+5)" );
 			if ( specItem != null )
 				text.append( " " + specItem.getName() + " (+" + specWeight + ")" );
-			if ( pumpkinBasket != null)
+			if ( pumpkinBucket != null )
 				text.append( " plastic pumpkin bucket (+5)" );
-			if ( leadNecklace != null)
+			if ( flowerBouquet != null )
+				text.append( " mayflower bouquet (+5)" );
+			if ( leadNecklace != null )
 				text.append( " lead necklace (+3)" );
-			if ( ratHeadBalloon != null)
+			if ( ratHeadBalloon != null )
 				text.append( " rat head balloon (-3)" );
 			for ( int i = 0; i < tpCount; ++i )
 				text.append( " " + tp[i].getName() + " (+1)" );
@@ -2257,7 +2267,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 				// is less than ideal, standard item is ideal.
 
 				if ( this.item != that.item )
-					changes += that.item == null ? 1 : that.item == pumpkinBasket ? 5 : that.item == leadNecklace ? 10 : 5;
+				{
+					changes += that.item == null ? 1 :
+						that.item == pumpkinBucket || that.item == flowerBouquet ? 5 : that.item == leadNecklace ? 10 : 5;
+				}
 
 				// Tiny plastic accessory changes are expensive
 				// because they involve huge changes.
