@@ -213,7 +213,14 @@ public class LocalRelayServer implements Runnable
 	private class RelayAgent extends Thread
 	{
 		private int id;
-		public Socket socket = null;
+		private Socket socket = null;
+
+		private BufferedReader reader;
+		private PrintStream writer;
+
+		private String path;
+		private boolean isCheckingModified;
+		private LocalRelayRequest request;
 
 		public RelayAgent( int id )
 		{	this.id = id;
@@ -326,184 +333,167 @@ public class LocalRelayServer implements Runnable
 			if ( socket == null )
 				return;
 
-			BufferedReader reader = null;
-			PrintStream writer = System.out;
-			LocalRelayRequest request = null;
+			path = null;
+			reader = null;
+			writer = null;
+			request = null;
 
+			try
+			{
+				readBrowserRequest();
+				sendServerResponse();
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
+
+			closeRelay( socket, reader, writer );
+		}
+
+		public void readBrowserRequest() throws Exception
+		{
 			String line = null;
-			String path = null;
 			String method = "GET";
 			int contentLength = 0;
 
-			try
-			{
-				reader = KoLDatabase.getReader( socket.getInputStream() );
-				writer = new PrintStream( socket.getOutputStream(), true, "UTF-8" );
+			reader = KoLDatabase.getReader( socket.getInputStream() );
 
-				if ( (line = reader.readLine()) == null )
-					return;
-
-				int spaceIndex = line.indexOf( " " );
-				if ( spaceIndex == -1 )
-					return;
-
-				method = line.trim().substring( 0, spaceIndex );
-				int lastSpaceIndex = line.lastIndexOf( " " );
-
-				path = line.substring( spaceIndex, lastSpaceIndex ).trim();
-				request = new LocalRelayRequest( path );
-			}
-			catch ( Exception e )
-			{
-				// If there's a problem setting up the request,
-				// then close the socket and return.
-
-				closeRelay( socket, reader, writer );
+			if ( (line = reader.readLine()) == null )
 				return;
-			}
 
-			boolean isCheckingModified = false;
-
-			try
-			{
-				int colonIndex = 0;
-				String [] tokens = new String[2];
-
-				while ( (line = reader.readLine()) != null && line.trim().length() != 0 )
-				{
-					colonIndex = line.indexOf( ": " );
-					if ( colonIndex == -1 )
-						continue;
-
-					tokens[0] = line.substring( 0, colonIndex );
-					tokens[1] = line.substring( colonIndex + 2 );
-
-					if ( tokens[0].equals( "Content-Length" ) )
-						contentLength = StaticEntity.parseInt( tokens[1].trim() );
-
-					if ( tokens[0].equals( "Cookie" ) )
-					{
-						// Let's find out what kind of cookie the browser is trying
-						// to tell KoLmafia about.
-
-						Matcher inventoryMatcher = INVENTORY_COOKIE_PATTERN.matcher( tokens[1] );
-						if ( inventoryMatcher.find() )
-							StaticEntity.setProperty( "visibleBrowserInventory", "inventory=" + inventoryMatcher.group(1) );
-					}
-
-					if ( tokens[0].equals( "If-Modified-Since" ) )
-						isCheckingModified = true;
-				}
-
-				if ( method.equals( "POST" ) && contentLength > 0 )
-				{
-					char [] data = new char[ contentLength ];
-					reader.read( data, 0, contentLength );
-
-					request.addEncodedFormFields( new String( data ) );
-				}
-			}
-			catch ( Exception e )
-			{
-				// As before, if there's an error figuring out what
-				// data needs to be submitted, close the socket and
-				// return from the function call.
-
-				closeRelay( socket, reader, writer );
+			int spaceIndex = line.indexOf( " " );
+			if ( spaceIndex == -1 )
 				return;
+
+			method = line.trim().substring( 0, spaceIndex );
+			int lastSpaceIndex = line.lastIndexOf( " " );
+
+			path = line.substring( spaceIndex, lastSpaceIndex ).trim();
+			request = new LocalRelayRequest( path );
+
+			isCheckingModified = false;
+
+			int colonIndex = 0;
+			String [] tokens = new String[2];
+
+			while ( (line = reader.readLine()) != null && line.trim().length() != 0 )
+			{
+				colonIndex = line.indexOf( ": " );
+				if ( colonIndex == -1 )
+					continue;
+
+				tokens[0] = line.substring( 0, colonIndex );
+				tokens[1] = line.substring( colonIndex + 2 );
+
+				if ( tokens[0].equals( "Content-Length" ) )
+					contentLength = StaticEntity.parseInt( tokens[1].trim() );
+
+				if ( tokens[0].equals( "Cookie" ) )
+				{
+					// Let's find out what kind of cookie the browser is trying
+					// to tell KoLmafia about.
+
+					Matcher inventoryMatcher = INVENTORY_COOKIE_PATTERN.matcher( tokens[1] );
+					if ( inventoryMatcher.find() )
+						StaticEntity.setProperty( "visibleBrowserInventory", "inventory=" + inventoryMatcher.group(1) );
+				}
+
+				if ( tokens[0].equals( "If-Modified-Since" ) )
+					isCheckingModified = true;
 			}
 
-			try
+			if ( method.equals( "POST" ) && contentLength > 0 )
 			{
-				// If not requesting a server-side page, then it is safe
-				// to assume that no changes have been made (save time).
+				char [] data = new char[ contentLength ];
+				reader.read( data, 0, contentLength );
 
-				if ( isCheckingModified && !request.contentType.startsWith( "text" ) )
+				request.addEncodedFormFields( new String( data ) );
+			}
+		}
+
+		private void sendServerResponse() throws Exception
+		{
+			// If not requesting a server-side page, then it is safe
+			// to assume that no changes have been made (save time).
+
+			if ( isCheckingModified && !request.contentType.startsWith( "text" ) )
+			{
+				request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
+				request.responseCode = 304;
+			}
+			else if ( path.indexOf( "fight.php" ) != -1 && (FightRequest.isTrackingFights() || path.indexOf( "action=script" ) != -1) )
+			{
+				if ( !FightRequest.isTrackingFights() )
 				{
-					request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
-					request.responseCode = 304;
+					StaticEntity.setProperty( "battleAction", "custom combat script" );
+
+					FightRequest.beginTrackingFights();
+					(new Thread( FightRequest.INSTANCE )).start();
 				}
-				else if ( path.indexOf( "fight.php" ) != -1 && (FightRequest.isTrackingFights() || path.indexOf( "action=script" ) != -1) )
+
+				String fightResponse = FightRequest.getNextTrackedRound();
+
+				if ( fightResponse == null )
 				{
-					if ( !FightRequest.isTrackingFights() )
-					{
-						StaticEntity.setProperty( "battleAction", "custom combat script" );
-
-						FightRequest.beginTrackingFights();
-						(new Thread( FightRequest.INSTANCE )).start();
-					}
-
-					String fightResponse = FightRequest.getNextTrackedRound();
-
-					if ( fightResponse == null )
-					{
-						request.pseudoResponse( "HTTP/1.1 404 Not Found", "" );
-					}
-					else
-					{
-						if ( FightRequest.isTrackingFights() )
-						{
-							fightResponse = StaticEntity.singleStringDelete( fightResponse, "top.charpane.location.href=\"charpane.php\";" );
-							fightResponse = StaticEntity.singleStringDelete( fightResponse, "src=\"http://images.kingdomofloathing.com/scripts/window.js\"" );
-							fightResponse = StaticEntity.singleStringDelete( fightResponse, "src=\"http://images.kingdomofloathing.com/scripts/core.js\"" );
-
-							fightResponse = StaticEntity.singleStringReplace( fightResponse, "</html>",
-								"<script language=\"Javascript\"> function continueAutomatedFight() { document.location = \"fight.php\"; return 0; } setTimeout( continueAutomatedFight, 400 ); </script></html>" );
-						}
-
-						request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
-					}
-				}
-				else if ( path.indexOf( "charpane.php" ) != -1 )
-				{
-					if ( FightRequest.getActualRound() == 0 )
-					{
-						StaticEntity.getClient().runBetweenBattleChecks( false, StaticEntity.getBooleanProperty( "relayMaintainsMoods" ),
-							StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
-					}
-
-					request.run();
+					request.pseudoResponse( "HTTP/1.1 404 Not Found", "" );
 				}
 				else
 				{
-					request.run();
-
-					if ( path.endsWith( "noobmessage=true" ) )
+					if ( FightRequest.isTrackingFights() )
 					{
-						request.responseText = StaticEntity.singleStringReplace( request.responseText, "</html>",
-							"<script language=\"Javascript\"> function visitTootOriole() { document.location = \"mtnoob.php?action=toot\"; return 0; } setTimeout( visitTootOriole, 4000 ); </script></html>" );
+						fightResponse = StaticEntity.singleStringDelete( fightResponse, "top.charpane.location.href=\"charpane.php\";" );
+						fightResponse = StaticEntity.singleStringDelete( fightResponse, "src=\"http://images.kingdomofloathing.com/scripts/window.js\"" );
+						fightResponse = StaticEntity.singleStringDelete( fightResponse, "src=\"http://images.kingdomofloathing.com/scripts/core.js\"" );
+
+						fightResponse = StaticEntity.singleStringReplace( fightResponse, "</html>",
+							"<script language=\"Javascript\"> function continueAutomatedFight() { document.location = \"fight.php\"; return 0; } setTimeout( continueAutomatedFight, 400 ); </script></html>" );
 					}
+
+					request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 				}
-
-				if ( request.rawByteBuffer == null )
-				{
-					try
-					{
-						request.rawByteBuffer = request.responseText.getBytes( "UTF-8" );
-					}
-					catch ( Exception e )
-					{
-						// Should not happen, but prepare for it, just in case.
-						request.rawByteBuffer = request.responseText.getBytes();
-					}
-				}
-
-				writer.println( request.statusLine );
-				sendHeaders( writer, request );
-
-				writer.println();
-				writer.write( request.rawByteBuffer );
-
-				closeRelay( socket, reader, writer );
 			}
-			catch ( Exception e )
+			else if ( path.indexOf( "charpane.php" ) != -1 )
 			{
-				// In the event that we have failure when responding
-				// to the browser, close everything.
+				if ( FightRequest.getActualRound() == 0 )
+				{
+					StaticEntity.getClient().runBetweenBattleChecks( false, StaticEntity.getBooleanProperty( "relayMaintainsMoods" ),
+						StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
+				}
 
-				closeRelay( socket, reader, writer );
-				return;
+				request.run();
 			}
+			else
+			{
+				request.run();
+
+				if ( path.endsWith( "noobmessage=true" ) )
+				{
+					request.responseText = StaticEntity.singleStringReplace( request.responseText, "</html>",
+						"<script language=\"Javascript\"> function visitTootOriole() { document.location = \"mtnoob.php?action=toot\"; return 0; } setTimeout( visitTootOriole, 4000 ); </script></html>" );
+				}
+			}
+
+			if ( request.rawByteBuffer == null )
+			{
+				try
+				{
+					request.rawByteBuffer = request.responseText.getBytes( "UTF-8" );
+				}
+				catch ( Exception e )
+				{
+					// Should not happen, but prepare for it, just in case.
+					request.rawByteBuffer = request.responseText.getBytes();
+				}
+			}
+
+			writer = new PrintStream( socket.getOutputStream(), true, "UTF-8" );
+
+			writer.println( request.statusLine );
+			sendHeaders( writer, request );
+
+			writer.println();
+			writer.write( request.rawByteBuffer );
 		}
 
 		private void closeRelay( Socket socket, BufferedReader reader, PrintStream writer )
