@@ -399,6 +399,10 @@ public class LocalRelayRequest extends PasswordHashRequest
 				this.responseText = responseText;
 			}
 		}
+		else
+		{
+			this.responseText = " ";
+		}
 	}
 
 	private StringBuffer readContents( BufferedReader reader ) throws IOException
@@ -419,7 +423,19 @@ public class LocalRelayRequest extends PasswordHashRequest
 		return contentBuffer;
 	}
 
-	private void sendLocalImage( String filename ) throws IOException
+	private void sendLocalImage( String filename )
+	{
+		try
+		{
+			sendLocalImageHelper( filename );
+		}
+		catch ( Exception e )
+		{
+			sendNotFound();
+		}
+	}
+
+	private void sendLocalImageHelper( String filename ) throws Exception
 	{
 		// The word "KoLmafia" prefixes all of the local
 		// images.  Therefore, make sure it's removed.
@@ -441,7 +457,19 @@ public class LocalRelayRequest extends PasswordHashRequest
 		pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
 
-	private void sendSharedFile( String filename ) throws IOException
+	private void sendSharedFile( String filename )
+	{
+		try
+		{
+			sendSharedFileHelper( filename );
+		}
+		catch ( Exception e )
+		{
+			sendNotFound();
+		}
+	}
+
+	private void sendSharedFileHelper( String filename ) throws Exception
 	{
 		boolean isServerRequest = !filename.startsWith( "KoLmafia" );
 		if ( !isServerRequest )
@@ -470,58 +498,37 @@ public class LocalRelayRequest extends PasswordHashRequest
 			replyBuffer = readContents( reader );
 			writePseudoResponse = true;
 		}
-		else
+		else if ( isServerRequest )
 		{
-			if ( isServerRequest )
+			// If there's no override file, go ahead and
+			// request the page from the server normally.
+
+			super.run();
+
+			if ( responseCode == 302 )
 			{
-				// If there's no override file, go ahead and
-				// request the page from the server normally.
-
-				super.run();
-
-				if ( responseCode == 302 )
-				{
-					pseudoResponse( "HTTP/1.1 302 Found", redirectLocation );
-					return;
-				}
-				else if ( responseCode != 200 )
-				{
-					sendNotFound();
-					return;
-				}
+				pseudoResponse( "HTTP/1.1 302 Found", redirectLocation );
+				return;
 			}
-			else
+			else if ( responseCode != 200 )
 			{
 				sendNotFound();
 				return;
 			}
 		}
+		else
+		{
+			sendNotFound();
+			return;
+		}
 
 		// Add brand new Javascript to every single page.  Check
 		// to see if a reader exists for the file.
 
-		if ( !name.endsWith( ".js" ) )
+		if ( filename.endsWith( "simulator/index.html" ) )
 		{
-			if ( filename.endsWith( "simulator/index.html" ) )
-			{
-				writePseudoResponse = true;
-				handleSimulatorIndex( replyBuffer );
-			}
-			else
-			{
-				String script = name.substring( 0, name.lastIndexOf( "." ) ) + ".js";
-
-				if ( (new File( directory, script )).exists() )
-				{
-					if ( isServerRequest )
-					{
-						writePseudoResponse = true;
-						replyBuffer.append( this.responseText );
-					}
-
-					insertAfterEnd( replyBuffer, "<script language=Javascript src=\"" + directory + "/" + script + "\"></script>" );
-				}
-			}
+			writePseudoResponse = true;
+			handleSimulatorIndex( replyBuffer );
 		}
 
 		if ( writePseudoResponse )
@@ -799,7 +806,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// there is an attempt to view the robots file, neither
 		// are available on KoL, so return.
 
-		if ( formURLString.equals( "missingimage.gif" ) || formURLString.endsWith( "robots.txt" ) )
+		if ( formURLString.equals( "missingimage.gif" ) || formURLString.endsWith( "robots.txt" ) || formURLString.endsWith( "favicon.ico" ) )
 		{
 			sendNotFound();
 			return;
@@ -900,74 +907,59 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// special handling, catching any exceptions that happen to
 		// popup along the way.
 
-		try
+		if ( formURLString.endsWith( "submitCommand" ) )
 		{
-			if ( formURLString.endsWith( "favicon.ico" ) )
-			{
-				StaticEntity.loadLibrary( "KoLmelion.ico" );
-				sendLocalImage( "KoLmelion.ico" );
-			}
-			else if ( formURLString.endsWith( "submitCommand" ) )
-				submitCommand();
-			else if ( formURLString.endsWith( "executeCommand" ) )
-				executeCommand();
-			else if ( formURLString.endsWith( "sideCommand" ) )
-				sideCommand();
-			else if ( formURLString.endsWith( "messageUpdate" ) )
-				pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
-			else if ( formURLString.indexOf( "images/playerpics/" ) != -1 )
-			{
-				RequestEditorKit.downloadImage( "http://pics.communityofloathing.com/albums/" +
-					formURLString.substring( formURLString.indexOf( "playerpics" ) ) );
+			submitCommand();
+		}
+		else if ( formURLString.endsWith( "executeCommand" ) )
+		{
+			executeCommand();
+		}
+		else if ( formURLString.endsWith( "sideCommand" ) )
+		{
+			sideCommand();
+		}
+		else if ( formURLString.endsWith( "messageUpdate" ) )
+		{
+			pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
+		}
+		else if ( formURLString.indexOf( "images/playerpics/" ) != -1 )
+		{
+			RequestEditorKit.downloadImage( "http://pics.communityofloathing.com/albums/" +
+				formURLString.substring( formURLString.indexOf( "playerpics" ) ) );
 
-				sendLocalImage( formURLString );
-			}
-			else if ( formURLString.indexOf( "images/" ) != -1 )
+			sendLocalImage( formURLString );
+		}
+		else if ( formURLString.indexOf( "images/" ) != -1 )
+		{
+			sendLocalImage( formURLString );
+		}
+		else if ( formURLString.indexOf( "lchat.php" ) != -1 )
+		{
+			if ( StaticEntity.getBooleanProperty( "relayUsesIntegratedChat" ) )
 			{
-				sendLocalImage( formURLString );
-			}
-			else if ( formURLString.indexOf( "lchat.php" ) != -1 )
-			{
-				if ( StaticEntity.getBooleanProperty( "relayUsesIntegratedChat" ) )
-				{
-					sendSharedFile( "chat.html" );
-				}
-				else
-				{
-					sendSharedFile( formURLString );
-					responseText = StaticEntity.globalStringReplace( responseText, "<p>", "<br><br>" );
-					responseText = StaticEntity.globalStringReplace( responseText, "<P>", "<br><br>" );
-					responseText = StaticEntity.singleStringDelete( responseText, "</span>" );
-				}
+				sendSharedFile( "chat.html" );
 			}
 			else
 			{
 				sendSharedFile( formURLString );
-
-				if ( isChatRequest )
-				{
-					try
-					{
-						if ( !KoLMessenger.isRunning() || formURLString.indexOf( "submitnewchat.php" ) != -1 )
-							KoLMessenger.updateChat( responseText );
-					}
-					catch ( Exception e )
-					{
-						StaticEntity.printStackTrace( e );
-					}
-
-					if ( StaticEntity.getBooleanProperty( "relayFormatsChatText" ) )
-						responseText = KoLMessenger.getNormalizedContent( responseText, false );
-				}
+				responseText = StaticEntity.globalStringReplace( responseText, "<p>", "<br><br>" );
+				responseText = StaticEntity.globalStringReplace( responseText, "<P>", "<br><br>" );
+				responseText = StaticEntity.singleStringDelete( responseText, "</span>" );
 			}
 		}
-		catch ( Exception e )
+		else
 		{
-			// This should not happen.  However, if it does,
-			// that means the browser is asking for a bad URL.
-			// Go ahead and return a 404 in this case.
+			sendSharedFile( formURLString );
 
-			sendNotFound();
+			if ( isChatRequest )
+			{
+				if ( !KoLMessenger.isRunning() || formURLString.indexOf( "submitnewchat.php" ) != -1 )
+					KoLMessenger.updateChat( responseText );
+
+				if ( StaticEntity.getBooleanProperty( "relayFormatsChatText" ) )
+					responseText = KoLMessenger.getNormalizedContent( responseText, false );
+			}
 		}
 	}
 
