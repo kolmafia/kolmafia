@@ -294,9 +294,6 @@ public class KoLRequest extends Job implements KoLConstants
 		this.data = new ArrayList();
 		this.followRedirects = followRedirects;
 
-		if ( formURLString.startsWith( "/" ) )
-			formURLString = formURLString.substring(1);
-
 		constructURLString( formURLString );
 
 		this.isDelayExempt = getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof LogoutRequest ||
@@ -335,8 +332,9 @@ public class KoLRequest extends Job implements KoLConstants
 		this.isChatRequest = this.formURLString.indexOf( "chat" ) != -1 && !this.formURLString.startsWith( "chatlaunch.php" ) &&
 			!this.formURLString.startsWith( "lchat.php" ) && !this.formURLString.startsWith( "devchat.php" );
 
-		this.shouldIgnoreResult = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "ascension" ) || formURLString.startsWith( "search" ) ||
-			formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) || formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" ) ||
+		this.shouldIgnoreResult = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "ascension" ) ||
+			formURLString.startsWith( "search" ) || formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) ||
+			formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" ) ||
 			(formURLString.startsWith( "clan" ) && !formURLString.startsWith( "clan_stash" ) && !formURLString.startsWith( "clan_rumpus" ));
 
 		return this;
@@ -475,9 +473,9 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( element == null )
 			return;
 
-		if ( element.equals( "pwd=" ) )
+		if ( element.startsWith( "pwd=" ) )
 			element = "pwd";
-		else if ( element.equals( "phash=" ) )
+		else if ( element.startsWith( "phash=" ) )
 			element = "phash";
 
 		data.add( element );
