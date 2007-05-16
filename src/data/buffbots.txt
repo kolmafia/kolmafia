@@ -4,8 +4,8 @@ Testudinata	537858	http://www.otori.org/buffs/testudinata.xml
 Binary	322696	http://www.otori.org/buffs/binary.xml
 Noblesse Oblige	594822	http://forums.kingdomofloathing.com/
 IocaineBot	792443	http://kolmods.com/aprocalypse/iocainebot/iocainebot.xml
-# Niten	353078	http://www.hardcoreoxygenation.com/NitraMo/Buffbot/Niten.xml
-# The Professor	725798	http://www.hardcoreoxygenation.com/Barkeep/theprofessor.xml
+Niten	353078	http://www.jick-nerfed.us/NitraMo/Buffbot/Niten.xml
+The Professor	725798	http://www.jick-nerfed.us/Barkeep/theprofessor.xml
 Dreadwing	125120	http://www.koladdict.com/buffbot/dreadwing.xml
 L00ki3	151958	http://www.koladdict.com/buffbot/l00ki3.xml
 Lucky 888	1235543	http://darkshadows.dune.net/lucky_888.xml

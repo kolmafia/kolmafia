@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -57,6 +58,16 @@ public class FlowerHunterRequest extends KoLRequest
 		"How do you like my Crotch-To-Your-Foot style?",
 		"PWNED LIKE CRAPSTORM."
 	};
+
+	private static int tattooCount = -1;
+	private static int trophyCount = -1;
+	private static int flowerCount = -1;
+	private static int canadaCount = -1;
+
+	private static final Pattern TATTOO_PATTERN = Pattern.compile( "You have unlocked (\\d+) <a class=nounder href=\"account_tattoos.php\">" );
+	private static final Pattern TROPHY_PATTERN = Pattern.compile( "You have earned (\\d+) <a class=nounder href=\"trophies.php\">" );
+	private static final Pattern FLOWER_PATTERN = Pattern.compile( "You have picked ([\\d,]+) pretty flower" );
+	private static final Pattern CANADA_PATTERN = Pattern.compile( "white Canadian</a>&nbsp;&nbsp;&nbsp;</td><td>([\\d,]+)</td>" );
 
 	private static final int RANKVIEW = 0;
 	private static final int ATTACK = 1;
@@ -140,6 +151,41 @@ public class FlowerHunterRequest extends KoLRequest
 		switch ( hunterType )
 		{
 		case RANKVIEW:
+
+			parseAttack();
+
+			KoLRequest miniRequest = new KoLRequest( "questlog.php?which=3" );
+			miniRequest.run();
+
+			Matcher miniMatcher = TATTOO_PATTERN.matcher( miniRequest.responseText );
+			if ( miniMatcher.find() )
+				tattooCount = StaticEntity.parseInt( miniMatcher.group(1) );
+			else
+				tattooCount = 0;
+
+			miniMatcher = TROPHY_PATTERN.matcher( miniRequest.responseText );
+			if ( miniMatcher.find() )
+				trophyCount = StaticEntity.parseInt( miniMatcher.group(1) );
+			else
+				trophyCount = 0;
+
+			miniMatcher = FLOWER_PATTERN.matcher( miniRequest.responseText );
+			if ( miniMatcher.find() )
+				flowerCount = StaticEntity.parseInt( miniMatcher.group(1) );
+			else
+				flowerCount = 0;
+
+			miniRequest = new KoLRequest( "showconsumption.php" );
+			miniRequest.run();
+
+			miniMatcher = CANADA_PATTERN.matcher( miniRequest.responseText );
+			if ( miniMatcher.find() )
+				canadaCount = StaticEntity.parseInt( miniMatcher.group(1) );
+			else
+				canadaCount = 0;
+
+			break;
+
 		case ATTACK:
 			parseAttack();
 			break;
@@ -207,7 +253,6 @@ public class FlowerHunterRequest extends KoLRequest
 
 		KoLCharacter.setPvpRank( StaticEntity.parseInt( rankMatcher.group(1) ) );
 
-
 		// Trim down the response text so it only includes
 		// the information related to the fight.
 
@@ -230,16 +275,10 @@ public class FlowerHunterRequest extends KoLRequest
 
 	public static void processOffenseContests( String responseText )
 	{
-		LogStream pvpResults = LogStream.openStream( "attacks/" + KoLCharacter.baseUserName() + "_rawdata.txt", false );
-
 		String resultText = StaticEntity.globalStringReplace( responseText.substring(
 			responseText.indexOf( "<td>" ) + 4, responseText.indexOf( "Your PvP Ranking" ) ), "<p>", LINE_BREAK );
 
 		resultText = ANYTAG_PATTERN.matcher( resultText.substring( 0, resultText.lastIndexOf( "<b>" ) ) ).replaceAll( "" );
-		pvpResults.println( resultText );
-
-		pvpResults.println();
-		pvpResults.close();
 
 		String [] fightData = resultText.split( "\n" );
 		String target = null;
@@ -256,15 +295,21 @@ public class FlowerHunterRequest extends KoLRequest
 			fightData[i] = null;
 		}
 
-		pvpResults = LogStream.openStream( "attacks/" + KoLCharacter.baseUserName() + "_summary.txt", false );
+		LogStream pvpResults = LogStream.openStream( "attacks/" + "rawdata.txt", false );
 
-		pvpResults.println( "You initiated a PvP attack against " + target + ". Here's a play-by-play report on how it went down:" );
+		pvpResults.println();
+		pvpResults.println( new Date() );
+		pvpResults.println( KoLCharacter.getUserName() + " initiated a PvP attack against " + target + "." );
+		pvpResults.println( "(" + tattooCount + " tattoos, " + trophyCount + " trophies, " +
+			flowerCount + " flowers, " + canadaCount + " white canadians)" );
+
 		pvpResults.println();
 
 		for ( int i = 0; i < fightData.length; ++i )
 			if ( fightData[i] != null )
 				processOffenseContest( target, fightData[i], pvpResults );
 
+		pvpResults.println();
 		pvpResults.println();
 		pvpResults.close();
 	}
@@ -276,7 +321,11 @@ public class FlowerHunterRequest extends KoLRequest
 		// Messages for the battle stance that the player selected
 		// for their attack.
 
-		if ( line.startsWith( "You try to embarrrass" ) )
+		if ( line.startsWith( "You attempt to Burninate" ) )
+			contest = "Buffed Mysticality";
+		else if ( line.startsWith( "You challenge your opponent to a game of Telekinetic Ping-Pong" ) )
+			contest = "Unbuffed Mysticality";
+		else if ( line.startsWith( "You try to embarrrass" ) )
 			contest = "Buffed Moxie";
 		else if ( line.startsWith( "You challenge your opponent to an insult contest" ) )
 			contest = "Unbuffed Moxie";
@@ -289,6 +338,8 @@ public class FlowerHunterRequest extends KoLRequest
 			contest = "Buffed Muscle";
 		else if ( line.indexOf( "challenges you to a game of Wizard's Croquet" ) != -1 )
 			contest = "Buffed Mysticality";
+		else if ( line.indexOf( "challenges you to a dancing contest" ) != -1 )
+			contest = "Buffed Moxie";
 
 		// There's a giant list for the remaining minis.  Go ahead
 		// and list them here.
