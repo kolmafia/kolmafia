@@ -54,7 +54,6 @@ public class LocalRelayServer implements Runnable
 	private static final int INITIAL_THREAD_COUNT = 10;
 	private static final Pattern INVENTORY_COOKIE_PATTERN = Pattern.compile( "inventory=(\\d+)" );
 
-	private static int lastAdventureCount = Integer.MAX_VALUE;
 	private static long lastStatusMessage = 0;
 
 	private static Thread relayThread = null;
@@ -457,22 +456,16 @@ public class LocalRelayServer implements Runnable
 				}
 				else if ( path.indexOf( "charpane.php" ) != -1 )
 				{
-					while ( KoLmafia.isRunningBetweenBattleChecks() )
-						KoLRequest.delay( 100 );
+					if ( FightRequest.getActualRound() == 0 )
+					{
+						StaticEntity.getClient().runBetweenBattleChecks( false, StaticEntity.getBooleanProperty( "relayMaintainsMoods" ),
+							StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
+					}
 
 					request.run();
-
-					if ( KoLCharacter.getAdventuresLeft() < lastAdventureCount && FightRequest.getActualRound() == 0 )
-						if ( runBetweenBattleScripts() )
-							request.run();
-
-					lastAdventureCount = KoLCharacter.getAdventuresLeft();
 				}
 				else
 				{
-					while ( KoLmafia.isRunningBetweenBattleChecks() )
-						KoLRequest.delay( 100 );
-
 					request.run();
 
 					if ( path.endsWith( "noobmessage=true" ) )
@@ -548,23 +541,6 @@ public class LocalRelayServer implements Runnable
 				// socket is already closed.  Ignore.
 			}
 
-		}
-
-		private boolean runBetweenBattleScripts()
-		{
-			if ( KoLmafia.isRunningBetweenBattleChecks() || KoLmafia.isAdventuring() )
-				return false;
-
-			CharpaneRequest.createCheckpoint();
-
-			int initialHP = KoLCharacter.getCurrentHP();
-			int initialMP = KoLCharacter.getCurrentMP();
-
-			StaticEntity.getClient().runBetweenBattleChecks( false, StaticEntity.getBooleanProperty( "relayMaintainsMoods" ),
-				StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
-
-			return CharpaneRequest.clearedCheckpoint() ||
-				initialHP != KoLCharacter.getCurrentHP() || initialMP != KoLCharacter.getCurrentMP();
 		}
 	}
 }

@@ -59,14 +59,6 @@ public class CharpaneRequest extends KoLRequest
 	{	return instance;
 	}
 
-	public static void createCheckpoint()
-	{	clearedCheckpoint = false;
-	}
-
-	public static boolean clearedCheckpoint()
-	{	return clearedCheckpoint;
-	}
-
 	public void run()
 	{
 		if ( isRunning )

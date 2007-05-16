@@ -839,66 +839,36 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 			if ( KoLCharacter.inMysticalitySign() && location != null && location.equals( "34" ) && getFormField( "override" ) == null )
 			{
-				switch ( KoLCharacter.getMindControlLevel() )
-				{
-				case 4:
-				case 8:
-
-					if ( !StaticEntity.getBooleanProperty( "relayAddsBossReminders" ) )
-						break;
-
-				default:
-
-					sendBossWarning( "Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
-					return;
-				}
+				sendBossWarning( "Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
+				return;
 			}
 		}
 
 		// More MCD rewards.  This one is for the Knob Goblin King,
 		// who has special items at 3 and 7.
 
-		if ( KoLCharacter.inMysticalitySign() && formURLString.indexOf( "knob.php" ) != -1 && getFormField( "king" ) != null && getFormField( "override" ) == null )
+		if ( KoLCharacter.inMysticalitySign() && formURLString.indexOf( "knob.php" ) != -1 &&
+			getFormField( "king" ) != null && getFormField( "override" ) == null )
 		{
-			switch ( KoLCharacter.getMindControlLevel() )
-			{
-			case 3:
-			case 7:
-
-				if ( !StaticEntity.getBooleanProperty( "relayAddsBossReminders" ) )
-					break;
-
-
-			default:
-				sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
-				return;
-			}
+			sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
+			return;
 		}
 
 		// More MCD rewards.  This one is for the Bonerdagon, who has
 		// special items at 5 and 10.
 
-		if ( KoLCharacter.inMysticalitySign() && formURLString.indexOf( "cyrpt.php" ) != -1 && getFormField( "action" ) != null && getFormField( "override" ) == null )
+		if ( KoLCharacter.inMysticalitySign() && formURLString.indexOf( "cyrpt.php" ) != -1 &&
+			getFormField( "action" ) != null && getFormField( "override" ) == null )
 		{
-			switch ( KoLCharacter.getMindControlLevel() )
-			{
-			case 5:
-			case 10:
-
-				if ( !StaticEntity.getBooleanProperty( "relayAddsBossReminders" ) )
-					break;
-
-			default:
-
-				sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
-				return;
-			}
+			sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
+			return;
 		}
 
 		// If the person is visiting the sorceress and they forgot
 		// to equip the Wand, remind them.
 
-		if ( formURLString.indexOf( "lair6.php" ) != -1 && getFormField( "place" ) != null && getFormField( "place" ).equals( "5" ) && getFormField( "override" ) == null )
+		if ( formURLString.indexOf( "lair6.php" ) != -1 && getFormField( "place" ) != null &&
+			getFormField( "place" ).equals( "5" ) && getFormField( "override" ) == null )
 		{
 			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) )
 			{
