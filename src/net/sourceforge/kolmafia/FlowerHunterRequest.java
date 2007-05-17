@@ -312,6 +312,12 @@ public class FlowerHunterRequest extends KoLRequest
 		pvpResults.println();
 		pvpResults.println();
 		pvpResults.close();
+
+		// If the player won flowers, increment their post-fight
+		// flower count from the battle.
+
+		if ( responseText.indexOf( "flower.gif" ) != -1 )
+			++flowerCount;
 	}
 
 	public static void processOffenseContest( String target, String line, LogStream ostream )
