@@ -1160,7 +1160,7 @@ public class AdventureDatabase extends KoLDatabase
 		{
 			if ( canUseNPCStore || (KoLCharacter.canInteract() && shouldUseMall) )
 			{
-				StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), item.getCount() );
+				StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), missingCount );
 				missingCount = item.getCount() - item.getCount( inventory );
 
 				if ( missingCount <= 0 )
@@ -1202,7 +1202,7 @@ public class AdventureDatabase extends KoLDatabase
 		{
 			if ( KoLCharacter.canInteract() && shouldUseMall )
 			{
-				StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), item.getCount() );
+				StaticEntity.getClient().makePurchases( StoreManager.searchMall( item.getName() ), missingCount );
 				missingCount = item.getCount() - item.getCount( inventory );
 
 				if ( missingCount <= 0 )
