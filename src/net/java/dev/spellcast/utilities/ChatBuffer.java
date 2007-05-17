@@ -291,7 +291,7 @@ public class ChatBuffer
 			if ( !displayPanes.isEmpty() && !UPDATER.isQueued() )
 			{
 				UPDATER.markQueued();
-				SwingUtilities.invokeLater( UPDATER );
+				(new Thread( UPDATER )).start();
 			}
 
 			if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
