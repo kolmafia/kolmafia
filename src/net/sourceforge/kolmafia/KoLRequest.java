@@ -1033,6 +1033,8 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		catch ( Exception e )
 		{
+			RequestLogger.printLine( "Time out during data post.  This could be bad..." );
+
 			if ( shouldUpdateDebugLog() )
 				RequestLogger.updateDebugLog( "Connection timed out during post.  Retrying..." );
 
@@ -1076,8 +1078,10 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		catch ( Exception e1 )
 		{
+			RequestLogger.printLine( "Time out during response.  This could be bad..." );
+
 			if ( shouldUpdateDebugLog() )
-				RequestLogger.updateDebugLog( "Connection timed out during response.  Retrying..." );
+				RequestLogger.updateDebugLog( "Connection timed out during response." );
 
 			try
 			{
