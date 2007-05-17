@@ -603,7 +603,10 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
+		SpecialOutfit.createImplicitCheckpoint();
 		castBreakfastSkills( checkSettings, 0 );
+		SpecialOutfit.restoreImplicitCheckpoint();
+
 		forceContinue();
 	}
 
