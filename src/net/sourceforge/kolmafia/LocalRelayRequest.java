@@ -881,7 +881,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			{
 				AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR );
 
-				sendGeneralWarning( "wand.gif", "Hm, it's possible there is something very important you're forgetting.  Maybe you should <a href=\"inventory.php?which=2\">double-check</a> just to make sure.  Or, if you're absolutely sure you want to go forward without it, <a href=\"lair6.php?place=5&override=on\">click here</a>." );
+				sendGeneralWarning( "wand.gif", "Hm, it's possible there is something very important you're forgetting.  Maybe you should <a href=\"inventory.php?which=2\">double-check</a> just to make sure." );
 
 				return;
 			}
