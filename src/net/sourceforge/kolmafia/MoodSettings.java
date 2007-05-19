@@ -182,13 +182,6 @@ public abstract class MoodSettings implements KoLConstants
 
 	private static void addTrigger( MoodTrigger node )
 	{
-		String currentMood = StaticEntity.getProperty( "currentMood" );
-		if ( currentMood.equals( "apathetic" ) )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't add a trigger to an apathetic mood." );
-			return;
-		}
-
 		if ( node == null )
 			return;
 
