@@ -455,7 +455,7 @@ public abstract class MoodSettings implements KoLConstants
 		// make the mistake of burning below their auto-restore threshold.
 
 		int starting = (int) (StaticEntity.getFloatProperty( "manaBurningThreshold" ) * (float) KoLCharacter.getMaximumMP());
-		if ( shouldExecute && KoLCharacter.getCurrentMP() <= starting )
+		if ( shouldExecute && (starting < 0 || KoLCharacter.getCurrentMP() <= starting) )
 			return null;
 
 		int minimum = Math.max( 0, (int) (StaticEntity.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP()) );
