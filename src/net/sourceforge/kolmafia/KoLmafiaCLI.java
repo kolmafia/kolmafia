@@ -1870,7 +1870,17 @@ public class KoLmafiaCLI extends KoLmafia
 			String [] split = parameters.split( "\\s*,\\s*" );
 			if ( split.length == 3 )
 			{
-				MoodSettings.addTrigger( split[0], split[1], split[2] );
+				MoodSettings.addTrigger( split[0], split[1], split.length == 2 ? MoodSettings.getDefaultAction( split[0], split[1] ) : split[2] );
+				MoodSettings.saveSettings();
+			}
+			else if ( split.length == 2 )
+			{
+				MoodSettings.addTrigger( split[0], split[1], MoodSettings.getDefaultAction( split[0], split[1] ) );
+				MoodSettings.saveSettings();
+			}
+			else if ( split.length == 1 )
+			{
+				MoodSettings.addTrigger( "lose_effect", split[0], MoodSettings.getDefaultAction( "lose_effect", split[0] ) );
 				MoodSettings.saveSettings();
 			}
 

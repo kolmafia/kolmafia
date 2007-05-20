@@ -429,7 +429,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			mpBalanceSelect = new JComboBox();
 			mpBalanceSelect.addItem( "Do not automatically rebalance buffs" );
 			for ( int i = 0; i <= 19; ++i )
-				mpBalanceSelect.addItem( "Consider buff rebalancing at " + (i*5) + "%" );
+				mpBalanceSelect.addItem( "Recast buffs until " + (i*5) + "%" );
 
 			mpAutoRecoverSelect = new JComboBox();
 			mpAutoRecoverSelect.addItem( "Do not automatically recover mana" );
