@@ -136,6 +136,8 @@ public class ChatBuffer
 
 		this.scrollBars = new ArrayList();
 		this.displayPanes = new ArrayList();
+
+		UPDATER.start();
 	}
 
 	/**
@@ -287,12 +289,7 @@ public class ChatBuffer
 		if ( changeType != LOGFILE_CHANGE )
 		{
 			UPDATER.queueUpdate( newContents );
-
-			if ( !displayPanes.isEmpty() && !UPDATER.isQueued() )
-			{
-				UPDATER.markQueued();
-				(new Thread( UPDATER )).start();
-			}
+			UPDATER.pumpQueue();
 
 			if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
 				updateLogFile( newContents );
@@ -320,7 +317,7 @@ public class ChatBuffer
 		}
 	}
 
-	private class DisplayPaneUpdater implements Runnable
+	private class DisplayPaneUpdater extends Thread
 	{
 		private boolean isQueued = false;
 		private boolean shouldReset = false;
@@ -358,15 +355,41 @@ public class ChatBuffer
 			contentQueue.add( newContents );
 		}
 
-		public boolean isQueued()
-		{	return isQueued;
-		}
+		public void pumpQueue()
+		{
+			if ( isQueued )
+				return;
 
-		public void markQueued()
-		{	this.isQueued = true;
+			isQueued = true;
+
+			synchronized ( this )
+			{	notify();
+			}
+
+			isQueued = false;
 		}
 
 		public void run()
+		{
+			while ( true )
+			{
+				try
+				{
+					synchronized ( this )
+					{	wait();
+					}
+				}
+				catch ( InterruptedException e )
+				{
+					// We expect this to happen only when we are
+					// interrupted.  Fall through.
+				}
+
+				handleQueue();
+			}
+		}
+
+		public void handleQueue()
 		{
 			if ( shouldReset )
 			{
@@ -407,7 +430,6 @@ public class ChatBuffer
 
 			this.shouldReset = false;
 			this.shouldScroll = true;
-			this.isQueued = false;
 		}
 
 		public void resetDisplay( JEditorPane displayPane )
