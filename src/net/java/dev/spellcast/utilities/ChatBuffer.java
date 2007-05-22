@@ -360,13 +360,9 @@ public class ChatBuffer
 			if ( isQueued )
 				return;
 
-			isQueued = true;
-
 			synchronized ( this )
 			{	notify();
 			}
-
-			isQueued = false;
 		}
 
 		public void run()
@@ -385,7 +381,9 @@ public class ChatBuffer
 					// interrupted.  Fall through.
 				}
 
+				isQueued = true;
 				handleQueue();
+				isQueued = false;
 			}
 		}
 
