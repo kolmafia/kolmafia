@@ -63,8 +63,6 @@ public abstract class MoodSettings implements KoLConstants
 	private static TreeMap reference = new TreeMap();
 
 	private static boolean isExecuting = false;
-	private static ArrayList thiefTriggers = new ArrayList();
-
 	private static SortedListModel mappedList = null;
 	private static SortedListModel displayList = new SortedListModel();
 
@@ -81,7 +79,6 @@ public abstract class MoodSettings implements KoLConstants
 	public static final void restoreDefaults()
 	{
 		reference.clear();
-		thiefTriggers.clear();
 		availableMoods.clear();
 		displayList.clear();
 
@@ -93,8 +90,6 @@ public abstract class MoodSettings implements KoLConstants
 		loadSettings();
 
 		setMood( currentMood );
-		((SortedListModel)reference.get( "apathetic" )).clear();
-
 		saveSettings();
 	}
 
@@ -188,31 +183,8 @@ public abstract class MoodSettings implements KoLConstants
 		if ( displayList.contains( node ) )
 			removeTrigger( node );
 
-		// Check to make sure that there are fewer than three thief
-		// displayList if this is a thief trigger.
-
-		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
-
-		if ( node.isThiefTrigger() )
-		{
-			int thiefTriggerCount = 0;
-			for ( int i = 0; i < displayList.size(); ++i )
-				if ( ((MoodTrigger)displayList.get(i)).isThiefTrigger() )
-					++thiefTriggerCount;
-
-			if ( thiefTriggerCount >= thiefTriggerLimit )
-				return;
-		}
-
 		mappedList.add( node );
 		displayList.add( node );
-
-		if ( node.isThiefTrigger() )
-			thiefTriggers.add( node );
-
-		SortedListModel apathy = (SortedListModel) reference.get( "apathetic" );
-		if ( apathy != null )
-			apathy.clear();
 	}
 
 	/**
@@ -229,9 +201,6 @@ public abstract class MoodSettings implements KoLConstants
 	{
 		mappedList.remove( toRemove );
 		displayList.remove( toRemove );
-
-		if ( thiefTriggers.contains( toRemove ) )
-			thiefTriggers.remove( toRemove );
 	}
 
 	public static void minimalSet()
@@ -257,9 +226,6 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void maximalSet()
 	{
-		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
-			return;
-
 		UseSkillRequest [] skills = new UseSkillRequest[ availableSkills.size() ];
 		availableSkills.toArray( skills );
 
@@ -567,6 +533,9 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void execute( boolean isManualInvocation )
 	{
+		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
+			return;
+
 		if ( KoLmafia.refusesContinue() )
 			return;
 
@@ -575,9 +544,6 @@ public abstract class MoodSettings implements KoLConstants
 			burnExtraMana( isManualInvocation );
 			return;
 		}
-
-		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
-			return;
 
 		isExecuting = true;
 
