@@ -60,7 +60,7 @@ public class MoonPhaseDatabase extends StaticEntity
 			myCalendar.set( 2005, 9, 27, 0, 0, 0 );
 			BOUNDARY = myCalendar.getTimeInMillis();
 
-			myCalendar.set( 2006, 5, 2, 0, 0, 0 );
+			myCalendar.set( 2006, 5, 3, 0, 0, 0 );
 			COLLISION = myCalendar.getTimeInMillis();
 		}
 		catch ( Exception e )
