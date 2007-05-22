@@ -542,7 +542,7 @@ public class MushroomFrame extends KoLFrame
 				saveLayout();
 
 			if ( !currentLayout.equals( "" ) )
-				DEFAULT_SHELL.executeLine( "call " + MushroomPlot.PLOT_DIRECTORY.getPath() + "/" + currentLayout + ".ash" );
+				DEFAULT_SHELL.executeLine( "call " + MushroomPlot.PLOT_DIRECTORY.getPath() + File.separator + currentLayout + ".ash" );
 		}
 
 		public void loadLayout()
