@@ -57,7 +57,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	private static SpecialOutfit implicitOutfit = null;
 	private static int markedCheckpoint = -1;
-	private static AdventureResult [] checkpointPieces = new AdventureResult[ KoLCharacter.FAMILIAR ];
 
 	private SpecialOutfit()
 	{
@@ -166,7 +165,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void createExplicitCheckpoint()
 	{
-		AdventureResult [] explicit = new AdventureResult[ KoLCharacter.FAMILIAR ];
+		AdventureResult [] explicit = new AdventureResult[ KoLCharacter.FAMILIAR + 1 ];
 
 		for ( int i = 0; i < explicit.length; ++i )
 			explicit[i] = KoLCharacter.getEquipment(i);
@@ -180,15 +179,15 @@ public class SpecialOutfit implements Comparable, KoLConstants
 			return false;
 
 		boolean isIdentical = true;
-		markedCheckpoint = implicitPoints.size() - 1;
+		String itemName;
 
-		for ( int i = 0; i < checkpointPieces.length; ++i )
+		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 		{
-			isIdentical &= checkpointPieces[i].equals( KoLCharacter.getEquipment(i) );
-			checkpointPieces[i] = KoLCharacter.getEquipment(i);
-			StaticEntity.setProperty( "implicitEquipmentSlot" + i, checkpointPieces[i].getName() );
+			itemName = KoLCharacter.getEquipment(i).getName();
+			isIdentical &= StaticEntity.getProperty( "implicitEquipmentSlot" + i ).equals( itemName );
 		}
 
+		markedCheckpoint = implicitPoints.size();
 		return !isIdentical;
 	}
 
@@ -212,7 +211,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public static void createImplicitCheckpoint()
 	{
-		AdventureResult [] implicit = new AdventureResult[ KoLCharacter.FAMILIAR ];
+		AdventureResult [] implicit = new AdventureResult[ KoLCharacter.FAMILIAR + 1 ];
 
 		for ( int i = 0; i < implicit.length; ++i )
 			implicit[i] = KoLCharacter.getEquipment(i);
@@ -244,7 +243,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 				RequestThread.postRequest( new EquipmentRequest( implicitOutfit ) );
 				markedCheckpoint = -1;
 			}
-			else if ( implicitOutfit == null || markedCheckpoint == -1 )
+			else if ( markedCheckpoint == -1 )
 			{
 				restoreCheckpoint( implicit );
 			}
@@ -268,14 +267,6 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 		implicitOutfit = null;
 		SortedListModel outfits = new SortedListModel();
-
-		String itemName = null;
-		for ( int i = 0; i < checkpointPieces.length; ++i )
-		{
-			itemName = StaticEntity.getProperty( "implicitEquipmentSlot" + i );
-			checkpointPieces[i] = itemName.equals( "(none)" ) || itemName.equals( "" ) || !TradeableItemDatabase.contains( itemName ) ?
-				EquipmentRequest.UNEQUIP : new AdventureResult( itemName, 1, false );
-		}
 
 		while ( singleOutfitMatcher.find() )
 		{
