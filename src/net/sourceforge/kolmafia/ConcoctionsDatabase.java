@@ -1242,8 +1242,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			for ( int i = 0; i < ingredientArray.length; ++i )
 				runningTotal += concoctions.get( ingredientArray[i].getItemId() ).getMeatPasteNeeded( quantityNeeded );
 
-			runningTotal += Math.max( 0, quantityNeeded - this.initial );
-			return runningTotal;
+			return runningTotal + quantityNeeded;
 		}
 
 		/**
