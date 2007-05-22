@@ -92,7 +92,7 @@ public class CharsheetRequest extends KoLRequest
 		String token = "";
 		StringTokenizer cleanContent = new StringTokenizer( responseText.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" ), "\n" );
 
-		while ( !token.startsWith( " (" ) )
+		while ( !token.startsWith( " (#" ) )
 			token = cleanContent.nextToken();
 
 		KoLCharacter.setUserId( StaticEntity.parseInt( token.substring( 3, token.length() - 1 ) ) );

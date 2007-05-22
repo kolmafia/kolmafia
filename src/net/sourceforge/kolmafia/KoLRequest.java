@@ -1822,8 +1822,8 @@ public class KoLRequest extends Job implements KoLConstants
 			while ( (line = buf.readLine()) != null )
 				response.append( line );
 
+			responseCode = 200;
 			responseText = response.toString();
-			processResponse();
 		}
 		catch ( Exception e )
 		{
