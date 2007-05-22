@@ -263,6 +263,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public static void optimizeEquipment( int skillId )
 	{
+		if ( KoLCharacter.canInteract() || !StaticEntity.getBooleanProperty( "switchEquipmentForBuffs" ) )
+		{
+			if ( skillId > 6000 && skillId < 7000 && !KoLCharacter.hasItem( ROCKNROLL_LEGEND ) )
+				AdventureDatabase.retrieveItem( ACCORDION );
+
+			return;
+		}
+
 		// All other accordion thief buffs should prepare a rock
 		// and roll legend.
 

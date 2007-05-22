@@ -390,7 +390,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			// Maybe you can put on some Travoltan Trousers to decrease the
 			// cost of the purchase.
 
-			if ( !KoLCharacter.isHardcore() && !KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( TROUSERS ) && inventory.contains( TROUSERS ) )
+			if ( !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() && inventory.contains( TROUSERS ) )
 				(new EquipmentRequest( TROUSERS, KoLCharacter.PANTS )).run();
 
 			return true;
