@@ -1594,6 +1594,7 @@ public abstract class KoLmafia implements KoLConstants
 					return;
 
 				isAdventuring = true;
+				SpecialOutfit.createImplicitCheckpoint();
 			}
 
 			// Execute the request as initially intended by calling
@@ -1609,6 +1610,7 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				isAdventuring = false;
 				runBetweenBattleChecks( false );
+				SpecialOutfit.restoreImplicitCheckpoint();
 			}
 		}
 		catch ( Exception e )

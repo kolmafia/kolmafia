@@ -989,7 +989,14 @@ public class ItemManageFrame extends KoLFrame
 
 			KoLmafia.updateDisplay( "Verifying ingredients..." );
 			selection.setQuantityNeeded( quantityDesired );
+
+			RequestThread.openRequestSequence();
+
+			SpecialOutfit.createImplicitCheckpoint();
 			RequestThread.postRequest( selection );
+			SpecialOutfit.restoreImplicitCheckpoint();
+
+			RequestThread.closeRequestSequence();
 		}
 
 		public void actionCancelled()
@@ -1012,8 +1019,13 @@ public class ItemManageFrame extends KoLFrame
 			selection.setQuantityNeeded( quantityDesired );
 
 			RequestThread.openRequestSequence();
+
+			SpecialOutfit.createImplicitCheckpoint();
 			RequestThread.postRequest( selection );
+			SpecialOutfit.restoreImplicitCheckpoint();
+
 			RequestThread.postRequest( new ConsumeItemRequest( new AdventureResult( selection.getItemId(), selection.getQuantityNeeded() ) ) );
+
 			RequestThread.closeRequestSequence();
 		}
 	}
