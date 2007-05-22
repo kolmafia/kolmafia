@@ -61,6 +61,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
@@ -202,6 +203,10 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		{
 			FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((ItemCreationRequest)item).getItemId() ) );
 		}
+		else if ( item instanceof Concoction )
+		{
+			FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionId( ((Concoction)item).getItemId() ) );
+		}
 		else if ( item instanceof UseSkillRequest )
 		{
 			FightFrame.showLocation( "desc_skill.php?whichskill=" + ((UseSkillRequest)item).getSkillId() );
@@ -225,6 +230,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			name = ((AdventureResult)item).getName();
 		else if ( item instanceof ItemCreationRequest )
 			name = ((ItemCreationRequest)item).getName();
+		else if ( item instanceof Concoction )
+			name = ((AdventureResult)item).getName();
 		else if ( item instanceof SoldItem )
 			name = ((SoldItem) item).getItemName();
 		else if ( item instanceof UseSkillRequest )
