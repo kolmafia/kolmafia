@@ -568,15 +568,19 @@ public class ItemManagePanel extends LabeledScrollPanel
 	public class FilterItemField extends JTextField implements ActionListener
 	{
 		public SimpleListFilter filter;
-		public boolean food, booze, equip, other, notrade;
+		public boolean food, booze, equip, restores, other, notrade;
 
 		public FilterItemField()
 		{
-			filter = new ConsumptionBasedFilter();
+			filter = getFilter();
 			addKeyListener( new FilterListener() );
 
 			food = true; booze = true; equip = true;
-			other = true; notrade = true;
+			restores = true; other = true; notrade = true;
+		}
+
+		public SimpleListFilter getFilter()
+		{	return new ConsumptionBasedFilter();
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -596,9 +600,10 @@ public class ItemManagePanel extends LabeledScrollPanel
 			{
 				food = filters[0].isSelected();
 				booze = filters[1].isSelected();
-
 				equip = filters[2].isSelected();
+
 				other = filters[3].isSelected();
+				restores = other;
 				notrade = filters[4].isSelected();
 			}
 

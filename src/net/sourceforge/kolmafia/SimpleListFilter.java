@@ -39,6 +39,7 @@ import javax.swing.text.JTextComponent;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
+import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class SimpleListFilter extends ListElementFilter
 {
@@ -110,14 +111,20 @@ public class SimpleListFilter extends ListElementFilter
 		// In all other cases, compare the item against the
 		// item name, so counts don't interfere.
 
-		String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() : ((ItemCreationRequest)element).getName();
+		String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() :
+			element instanceof Concoction ? ((Concoction)element).getName() :
+			element instanceof ItemCreationRequest ? ((ItemCreationRequest)element).getName() : null;
+
+		if ( name == null )
+			return false;
+
 		return getCurrentName() == null || getCurrentName().length() == 0 ||
 			(strict ? name.toLowerCase().indexOf( getCurrentName().toLowerCase() ) != -1 : KoLDatabase.fuzzyMatches( name, getCurrentName() ));
 	}
 
 	public final boolean isNonResult( Object element )
 	{
-		if ( element instanceof ItemCreationRequest )
+		if ( element instanceof ItemCreationRequest || element instanceof Concoction )
 			return false;
 
 		if ( !(element instanceof AdventureResult) )

@@ -1656,16 +1656,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	protected class UsableItemPanel extends ItemManagePanel
 	{
-		private boolean food, booze, restores, other;
-
 		public UsableItemPanel( boolean isRestoresOnly )
 		{
 			super( "Use Items", "use item", "check wiki", inventory );
-
-			this.food = !isRestoresOnly;
-			this.booze = !isRestoresOnly;
-			this.restores = true;
-			this.other = !isRestoresOnly;
 
 			if ( !isRestoresOnly )
 				setButtons( true, false, null );
@@ -1702,8 +1695,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		private class UsableItemFilterField extends FilterItemField
 		{
-			public UsableItemFilterField()
-			{	filter = new UsableItemFilter();
+			public SimpleListFilter getFilter()
+			{	return new UsableItemFilter();
 			}
 
 			private class UsableItemFilter extends SimpleListFilter
@@ -1717,22 +1710,22 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
 					{
 					case CONSUME_EAT:
-						return UsableItemPanel.this.food && super.isVisible( element );
+						return food && super.isVisible( element );
 
 					case CONSUME_DRINK:
-						return UsableItemPanel.this.booze && super.isVisible( element );
+						return booze && super.isVisible( element );
 
 					case GROW_FAMILIAR:
 					case CONSUME_ZAP:
-						return UsableItemPanel.this.other && super.isVisible( element );
+						return other && super.isVisible( element );
 
 					case HP_RESTORE:
 					case MP_RESTORE:
-						return UsableItemPanel.this.restores && super.isVisible( element );
+						return restores && super.isVisible( element );
 
 					case CONSUME_USE:
 					case CONSUME_MULTIPLE:
-						return UsableItemPanel.this.other && super.isVisible( element );
+						return other && super.isVisible( element );
 
 					default:
 						return false;
