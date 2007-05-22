@@ -1760,12 +1760,6 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( request instanceof KoLAdventure && adventuresBeforeRequest == KoLCharacter.getAdventuresLeft() )
 			{
-				if ( ((KoLAdventure)request).getRequest().getURLString().indexOf( "adventure.php" ) == -1 )
-				{
-					KoLmafia.updateDisplay( ABORT_STATE, "Internal error.  Please restart KoLmafia." );
-					break;
-				}
-
 				--currentIteration;
 				++currentIterationCount;
 			}
