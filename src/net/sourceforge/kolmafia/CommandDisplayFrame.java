@@ -60,6 +60,10 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class CommandDisplayFrame extends KoLFrame
 {
 	private static final CommandQueueHandler handler = new CommandQueueHandler();
+	static
+	{
+		handler.start();
+	}
 
 	private JTextField entryField;
 	private RequestPane outputDisplay;
@@ -193,26 +197,13 @@ public class CommandDisplayFrame extends KoLFrame
 
 				return;
 			}
-		}
 
-		try
-		{
-			if ( !SwingUtilities.isEventDispatchThread() )
-				handler.run();
-			else if ( StaticEntity.getBooleanProperty( "allowRequestQueueing" ) )
-				Worker.post( handler );
-			else
-				ConcurrentWorker.post( handler );
+			handler.pumpQueue();
 		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-
-		return;
 	}
 
-	private static class CommandQueueHandler extends Job
+
+	private static class CommandQueueHandler extends Thread
 	{
 		private boolean isRunning = false;
 
@@ -220,14 +211,44 @@ public class CommandDisplayFrame extends KoLFrame
 		{	return isRunning;
 		}
 
-		public void run()
+		public void pumpQueue()
 		{
 			if ( isRunning || commandQueue.isEmpty() )
 				return;
 
-			isRunning = true;
-			RequestThread.openRequestSequence();
+			synchronized ( this )
+			{	notify();
+			}
+		}
 
+		public void run()
+		{
+			while ( true )
+			{
+				try
+				{
+					synchronized ( this )
+					{	wait();
+					}
+				}
+				catch ( InterruptedException e )
+				{
+					// We expect this to happen only when we are
+					// interrupted.  Fall through.
+				}
+
+				isRunning = true;
+				RequestThread.openRequestSequence();
+
+				handleQueue();
+
+				RequestThread.closeRequestSequence();
+				isRunning = false;
+			}
+		}
+
+		public void handleQueue()
+		{
 			do
 			{
 				String command;
@@ -257,8 +278,6 @@ public class CommandDisplayFrame extends KoLFrame
 			// you've finished some sequence of commands.
 
 			commandQueue.clear();
-			RequestThread.closeRequestSequence();
-			isRunning = false;
 		}
 	}
 }

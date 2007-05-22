@@ -236,14 +236,6 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void minimalSet()
 	{
-		// Beaten-up removal, as a demo of how to handle beaten-up
-		// and poisoned statuses.
-
-		addTrigger( "gain_effect", "Hardly Poisoned at All", getDefaultAction( "gain_effect", "Poisoned" ) );
-		addTrigger( "gain_effect", "A Little Bit Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
-		addTrigger( "gain_effect", "Somewhat Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
-		addTrigger( "gain_effect", "Really Quite Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
-
 		// If there's any effects the player currently has and there
 		// is a known way to re-acquire it (internally known, anyway),
 		// make sure to add those as well.
