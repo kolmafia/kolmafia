@@ -93,7 +93,7 @@ public class ChatFrame extends KoLFrame
 		JToolBar toolbarPanel = getToolbar();
 		if ( toolbarPanel != null )
 		{
-			toolbarPanel.add( new MessengerButton( "Clear All", "clear.gif", "clearChatBuffers" ) );
+			toolbarPanel.add( new MessengerButton( "/who", "who2.gif", "checkChannel" ) );
 
 			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
@@ -102,7 +102,6 @@ public class ChatFrame extends KoLFrame
 
 			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-			toolbarPanel.add( new MessengerButton( "/who", "who2.gif", "checkChannel" ) );
 
 			toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 		}
