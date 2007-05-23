@@ -229,6 +229,7 @@ public abstract class MoodSettings implements KoLConstants
 		UseSkillRequest [] skills = new UseSkillRequest[ availableSkills.size() ];
 		availableSkills.toArray( skills );
 
+		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
 		ArrayList thiefSkills = new ArrayList();
 
 		for ( int i = 0; i < skills.length; ++i )
@@ -254,7 +255,6 @@ public abstract class MoodSettings implements KoLConstants
 				addTrigger( "lose_effect", effectName, getDefaultAction( "lose_effect", effectName ) );
 		}
 
-		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
 
 		if ( !thiefSkills.isEmpty() && thiefSkills.size() <= thiefTriggerLimit )
 		{
@@ -505,13 +505,8 @@ public abstract class MoodSettings implements KoLConstants
 		if ( !StaticEntity.getBooleanProperty( "allowBreakfastBurning" ) )
 			return null;
 
-		if ( shouldExecute )
-		{
-			if ( !StaticEntity.getClient().castBreakfastSkills( true, false, minimum ) )
-				return null;
-
+		if ( shouldExecute && !StaticEntity.getClient().castBreakfastSkills( true, false, minimum ) )
 			return null;
-		}
 
 		for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 		{
@@ -592,9 +587,9 @@ public abstract class MoodSettings implements KoLConstants
 		// need to remove and remove them.
 
 		thiefBuffs.removeAll( thiefSkills );
-		int buffsToRemove = thiefBuffs.size() + thiefSkills.size() - thiefTriggerLimit;
 
-		for ( int i = 0; i < buffsToRemove; ++i )
+		int buffsToRemove = thiefBuffs.size() + thiefSkills.size() - thiefTriggerLimit;
+		for ( int i = 0; i < buffsToRemove && i < thiefBuffs.size(); ++i )
 			DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.get(i)).getName() );
 
 		// Now that everything is prepared, go ahead and execute
