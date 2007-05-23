@@ -527,8 +527,16 @@ public class LockableListModel extends AbstractListModel implements Cloneable, L
 		if ( model.currentFilter.isVisible( element ) )
 		{
 			int visibleIndex = model.computeVisibleIndex( index );
-			model.visibleElements.remove( visibleIndex );
-			model.fireIntervalRemoved( model, visibleIndex, visibleIndex );
+
+			if ( visibleIndex < model.visibleElements.size() )
+			{
+				model.visibleElements.remove( visibleIndex );
+				model.fireIntervalRemoved( model, visibleIndex, visibleIndex );
+			}
+			else
+			{
+				System.err.println( "Error trying to remove: " + element );
+			}
 		}
 	}
 

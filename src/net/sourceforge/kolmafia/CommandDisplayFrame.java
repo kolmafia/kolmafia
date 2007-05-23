@@ -255,7 +255,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 				synchronized ( commandQueue )
 				{
-					command = (String) commandQueue.remove(0);
+					command = (String) commandQueue.get(0);
 				}
 
 				RequestLogger.printLine();
@@ -271,6 +271,8 @@ public class CommandDisplayFrame extends KoLFrame
 				{
 					StaticEntity.printStackTrace( e );
 				}
+
+				commandQueue.remove(0);
 			}
 			while ( !KoLmafia.refusesContinue() && !commandQueue.isEmpty() );
 
