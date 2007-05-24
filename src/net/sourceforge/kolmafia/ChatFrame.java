@@ -174,6 +174,8 @@ public class ChatFrame extends KoLFrame
 
 	public class ChatPanel extends JPanel
 	{
+		private int lastCommandIndex = 0;
+		private ArrayList commandHistory;
 		private JTextField entryField;
 		private RequestPane chatDisplay;
 		private String associatedContact;
@@ -183,7 +185,9 @@ public class ChatFrame extends KoLFrame
 			super( new BorderLayout() );
 			chatDisplay = new RequestPane();
 			chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
+
 			this.associatedContact = associatedContact;
+			this.commandHistory = new ArrayList();
 
 			ChatEntryListener listener = new ChatEntryListener();
 
@@ -240,7 +244,21 @@ public class ChatFrame extends KoLFrame
 
 			public void keyReleased( KeyEvent e )
 			{
-				if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+				if ( e.getKeyCode() == KeyEvent.VK_UP )
+				{
+					if ( lastCommandIndex <= 0 )
+						return;
+
+					entryField.setText( (String) commandHistory.get( --lastCommandIndex ) );
+				}
+				else if ( e.getKeyCode() == KeyEvent.VK_DOWN )
+				{
+					if ( lastCommandIndex + 1 >= commandHistory.size() )
+						return;
+
+					entryField.setText( (String) commandHistory.get( ++lastCommandIndex ) );
+				}
+				else if ( e.getKeyCode() == KeyEvent.VK_ENTER )
 					submitChat();
 			}
 
@@ -248,6 +266,13 @@ public class ChatFrame extends KoLFrame
 			{
 				String message = entryField.getText();
 				entryField.setText( "" );
+
+				commandHistory.add( message );
+
+				if ( commandHistory.size() > 10 )
+					commandHistory.remove(0);
+
+				lastCommandIndex = commandHistory.size();
 
 				if ( associatedContact.equals( "[gcli]" ) )
 				{

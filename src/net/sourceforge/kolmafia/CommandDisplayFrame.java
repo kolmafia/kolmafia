@@ -59,18 +59,12 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CommandDisplayFrame extends KoLFrame
 {
-	private static final CommandQueueHandler handler = new CommandQueueHandler();
-	static
-	{
-		handler.start();
-	}
-
 	private JTextField entryField;
 	private RequestPane outputDisplay;
 
 	private static String lastPlayer = null;
 	private static int lastCommandIndex = 0;
-	private static boolean shouldQueueRequests = false;
+	private static CommandQueueHandler handler = new CommandQueueHandler();
 
 	private static final ArrayList commandQueue = new ArrayList();
 	private static final ArrayList commandHistory = new ArrayList();
@@ -158,6 +152,10 @@ public class CommandDisplayFrame extends KoLFrame
 				entryField.setText( "" );
 
 				commandHistory.add( command );
+
+				if ( commandHistory.size() > 10 )
+					commandHistory.remove(0);
+
 				executeCommand( command );
 			}
 		}
@@ -184,40 +182,42 @@ public class CommandDisplayFrame extends KoLFrame
 			return;
 		}
 
-		synchronized ( commandQueue )
+		commandQueue.add( command );
+		lastCommandIndex = commandHistory.size();
+
+		if ( handler.isRunning() )
 		{
-			commandQueue.add( command );
-			lastCommandIndex = commandHistory.size();
+			RequestLogger.printLine();
+			RequestLogger.printLine( " > QUEUED: " + command );
+			RequestLogger.printLine();
 
-			if ( handler.isRunning() )
-			{
-				RequestLogger.printLine();
-				RequestLogger.printLine( " > QUEUED: " + command );
-				RequestLogger.printLine();
-
-				return;
-			}
-
-			handler.pumpQueue();
+			return;
 		}
+
+		handler.pumpQueue();
 	}
 
 
 	private static class CommandQueueHandler extends Thread
 	{
+		private boolean isStarted = false;
 		private boolean isRunning = false;
-
-		public boolean isRunning()
-		{	return isRunning;
-		}
 
 		public void pumpQueue()
 		{
 			if ( isRunning || commandQueue.isEmpty() )
 				return;
 
-			synchronized ( this )
-			{	notify();
+			if ( !isStarted )
+			{
+				start();
+				isStarted = true;
+			}
+			else
+			{
+				synchronized ( this )
+				{	notify();
+				}
 			}
 		}
 
@@ -225,6 +225,14 @@ public class CommandDisplayFrame extends KoLFrame
 		{
 			while ( true )
 			{
+				isRunning = true;
+				RequestThread.openRequestSequence();
+
+				handleQueue();
+
+				RequestThread.closeRequestSequence();
+				isRunning = false;
+
 				try
 				{
 					synchronized ( this )
@@ -236,27 +244,16 @@ public class CommandDisplayFrame extends KoLFrame
 					// We expect this to happen only when we are
 					// interrupted.  Fall through.
 				}
-
-				isRunning = true;
-				RequestThread.openRequestSequence();
-
-				handleQueue();
-
-				RequestThread.closeRequestSequence();
-				isRunning = false;
 			}
 		}
 
 		public void handleQueue()
 		{
-			do
-			{
-				String command;
+			String command;
 
-				synchronized ( commandQueue )
-				{
-					command = (String) commandQueue.get(0);
-				}
+			while ( !commandQueue.isEmpty() )
+			{
+				command = (String) commandQueue.get(0);
 
 				RequestLogger.printLine();
 				RequestLogger.printLine( " > " + StaticEntity.globalStringReplace( command, "<", "&lt;" ) );
@@ -273,13 +270,14 @@ public class CommandDisplayFrame extends KoLFrame
 				}
 
 				commandQueue.remove(0);
+
+				if ( KoLmafia.refusesContinue() )
+					commandQueue.clear();
 			}
-			while ( !KoLmafia.refusesContinue() && !commandQueue.isEmpty() );
+		}
 
-			// Always clear the list of queued commands when
-			// you've finished some sequence of commands.
-
-			commandQueue.clear();
+		public boolean isRunning()
+		{	return isRunning;
 		}
 	}
 }
