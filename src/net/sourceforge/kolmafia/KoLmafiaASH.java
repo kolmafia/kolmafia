@@ -5044,15 +5044,9 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue print( ScriptVariable string, ScriptVariable color )
 		{
 			String parameters = string.toStringValue().toString();
+			String colorString = color.toStringValue().toString();
 
-			int spaceIndex = parameters.indexOf( " " );
-			String colorString = "#000000";
-
-			if ( spaceIndex != -1 )
-				colorString = parameters.substring( 0, spaceIndex ).replaceAll( "[\">]", "" );
-
-			parameters = parameters.substring( spaceIndex + 1 );
-			RequestLogger.printLine( "<font color=\"" + color + "\">" + StaticEntity.globalStringReplace( parameters, "<", "&lt;" ) + "</font>" );
+			RequestLogger.printLine( "<font color=\"" + colorString + "\">" + StaticEntity.globalStringReplace( parameters, "<", "&lt;" ) + "</font>" );
 
 			return VOID_VALUE;
 		}
