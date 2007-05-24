@@ -1803,18 +1803,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "trapper" ) )
-		{
-			executeTrapperRequest( parameters );
-			return;
-		}
-
-		if ( command.equals( "hunter" ) )
-		{
-			executeHunterRequest( parameters );
-			return;
-		}
-
 		if ( command.equals( "galaktik" ) )
 		{
 			executeGalaktikRequest( parameters );
@@ -2494,22 +2482,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 			return statDayToday.indexOf( statDayTest ) != -1 && statDayToday.indexOf( "bonus" ) != -1 &&
 				statDayToday.indexOf( "not " + dayMatcher.group(1) ) == -1;
-		}
-
-		// Check for the bounty hunter's current desired
-		// item list.
-
-		if ( parameters.startsWith( "bounty hunter wants " ) )
-		{
-			if ( hunterItems.isEmpty() )
-				RequestThread.postRequest( new BountyHunterRequest() );
-
-			String item = parameters.substring(20).trim().toLowerCase();
-			for ( int i = 0; i < hunterItems.size(); ++i )
-				if ( ((String)hunterItems.get(i)).indexOf( item ) != -1 )
-					return true;
-
-			return false;
 		}
 
 		// Check if the person is looking for whether or
@@ -4605,72 +4577,6 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		RequestThread.postRequest( new HermitRequest( itemId, count ) );
-	}
-
-	/**
-	 * Makes a trade with the trapper which exchanges all of your current
-	 * furs for the given fur.
-	 */
-
-	public void executeTrapperRequest( String parameters )
-	{
-		// If he doesn't specify a number, use number of yeti furs
-		AdventureResult item = getFirstMatchingItem( parameters );
-		if ( item == null )
-			return;
-
-		if ( isExecutingCheckOnlyCommand )
-		{
-			RequestLogger.printLine( item.getName() );
-			return;
-		}
-
-		int itemId = item.getItemId();
-		int tradeCount = Character.isDigit( parameters.charAt(0) ) ? item.getCount() :
-			TrapperRequest.YETI_FUR.getCount( inventory );
-
-		// Ensure that the requested item is available from the trapper
-		for ( int i = 0; i < trapperItemNumbers.length; ++i )
-		{
-			if ( trapperItemNumbers[i] == itemId )
-			{
-				RequestThread.postRequest( new TrapperRequest( itemId, tradeCount ) );
-				return;
-			}
-		}
-	}
-
-	/**
-	 * Makes a request to the hunter which exchanges all of the given item
-	 * with the hunter.  If the item is not available, this method does
-	 * not report an error.
-	 */
-
-	public void executeHunterRequest( String parameters )
-	{
-		parameters = parameters.toLowerCase();
-		if ( hunterItems.isEmpty() )
-			RequestThread.postRequest( new BountyHunterRequest() );
-
-		if ( parameters.equals( "" ) )
-		{
-			printList( hunterItems );
-			return;
-		}
-
-		for ( int i = 0; i < hunterItems.size(); ++i )
-		{
-			if ( ((String)hunterItems.get(i)).indexOf( parameters ) != -1 )
-			{
-				if ( isExecutingCheckOnlyCommand )
-				{
-					RequestLogger.printLine( (String) hunterItems.get(i) );
-					return;
-				}
-
-				RequestThread.postRequest( new BountyHunterRequest( TradeableItemDatabase.getItemId( (String) hunterItems.get(i) ) ) );
-			}
-		}
 	}
 
 	/**
