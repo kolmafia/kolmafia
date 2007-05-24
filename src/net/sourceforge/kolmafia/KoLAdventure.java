@@ -73,6 +73,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	private AreaCombatData areaSummary;
 	private boolean shouldRunFullCheck;
 
+	private boolean isLikelyStasisZone;
+	private boolean isLikelyUnluckyZone;
+
 	/**
 	 * Constructs a new <code>KoLAdventure</code> with the given
 	 * specifications.
@@ -121,6 +124,28 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		}
 
 		this.areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
+		this.isLikelyStasisZone = false;
+		this.isLikelyUnluckyZone = false;
+
+		if ( adventureId == null )
+			return;
+
+		this.isLikelyStasisZone =
+			adventureId.indexOf( "82" ) != -1 ||   // Castle in the Clouds in the Sky
+			adventureId.indexOf( "83" ) != -1 ||   // Hole in the Sky
+			adventureId.indexOf( "97" ) != -1 ||   // Astral Mushroom (Great Trip)
+			adventureId.indexOf( "101" ) != -1 ||  // The Knob Shaft
+			adventureId.indexOf( "106" ) != -1 ||  // Haunted Gallery
+			adventureId.indexOf( "109" ) != -1 ||  // Haunted Ballroom
+			adventureId.indexOf( "110" ) != -1;    // The Icy Peak
+
+		this.isLikelyUnluckyZone =
+			adventureId.equals( "15" ) ||  // Spooky Forest
+			adventureId.equals( "16" ) ||  // The Haiku Dungeon
+			adventureId.equals( "19" ) ||  // The Limerick Dungeon
+			adventureId.equals( "112" ) || // Sleazy Back Alley
+			adventureId.equals( "113" ) || // The Haunted Pantry
+			adventureId.equals( "114" );   // Outskirts of The Knob
 	}
 
 	public boolean runsBetweenBattleScript()
@@ -661,19 +686,18 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		return stringForm.toString();
 	}
 
-	public static boolean isLikelyStasisFarming( String adventureId )
+	public boolean isLikelyStasisFarming()
 	{
-		if ( adventureId == null )
+		if ( !isLikelyStasisZone )
 			return false;
 
 		if ( !KoLCharacter.getFamiliar().isThiefFamiliar() )
 			return false;
 
-		if ( KoLCharacter.isHardcore() || KoLCharacter.getTotalTurnsUsed() < 2000 || KoLCharacter.getFamiliar().getWeight() < 20 )
+		if ( KoLCharacter.isHardcore() || KoLCharacter.getTotalTurnsUsed() < 2500 || KoLCharacter.getFamiliar().getWeight() < 20 )
 			return false;
 
-		return adventureId.indexOf( "81" ) != -1 || adventureId.indexOf( "82" ) != -1 || adventureId.indexOf( "83" ) != -1 ||
-			adventureId.indexOf( "101" ) != -1 || adventureId.indexOf( "110" ) != -1;
+		return true;
 	}
 
 	/**
@@ -787,7 +811,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public void recordToSession()
 	{
-		if ( isLikelyStasisFarming( adventureId ) )
+		if ( isLikelyStasisFarming() && !KoLmafia.isAdventuring() )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Your other familiars look a little bored." );
 			return;
@@ -828,11 +852,35 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		if ( matchingLocation != null )
 		{
 			matchingLocation.recordToSession();
+			String locationId = matchingLocation.adventureId;
+
+			// Handle big rock retrieval automatically to save a
+			// few clicks in-browser as well.
+
+			if ( locationId.equals( "11" ) && !KoLCharacter.hasItem( SewerRequest.POSITIVE_CLOVER ) )
+			{
+				boolean assembleClover = !KoLCharacter.hasItem( UseSkillRequest.BIG_ROCK );
+
+				assembleClover &= !KoLCharacter.hasItem( UseSkillRequest.BJORNS_HAMMER );
+				assembleClover &= !KoLCharacter.hasItem( UseSkillRequest.TURTLESLINGER );
+				assembleClover &= !KoLCharacter.hasItem( UseSkillRequest.PASTA_OF_PERIL );
+				assembleClover &= !KoLCharacter.hasItem( UseSkillRequest.FIVE_ALARM_SAUCEPAN );
+				assembleClover &= !KoLCharacter.hasItem( UseSkillRequest.DISCO_BANJO );
+				assembleClover &= !KoLCharacter.hasItem( UseSkillRequest.ROCKNROLL_LEGEND );
+
+				if ( assembleClover )
+					DEFAULT_SHELL.executeLine( "use 1 disassembled clover" );
+			}
+
+			// Disassemble clovers when going to areas where the
+			// player has a high probability of accidentally using
+			// a ten-leaf clover.
+
+			if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) && matchingLocation.isLikelyUnluckyZone )
+				DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 
 			if ( !(matchingLocation.getRequest() instanceof AdventureRequest) || matchingLocation.isValidAdventure )
 				return true;
-
-			String locationId = matchingLocation.adventureId;
 
 			// Do some quick adventure validation, which allows you
 			// to unlock the bat zone.
@@ -930,13 +978,13 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public int compareTo( Object o )
 	{
-		return ( o == null || !( o instanceof KoLAdventure ) ) ? 1 :
-			compareTo( (KoLAdventure) o );
-	}
+		if ( o == null || !( o instanceof KoLAdventure ) )
+			return 1;
 
-	public int compareTo( KoLAdventure ka )
-	{
+		KoLAdventure ka = (KoLAdventure) o;
+
 		// Put things with no evade rating at bottom of list.
+
 		int evade1 = areaSummary == null ? Integer.MAX_VALUE : areaSummary.minEvade();
 		int evade2 = ka.areaSummary == null ? Integer.MAX_VALUE : ka.areaSummary.minEvade();
 
