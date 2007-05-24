@@ -71,16 +71,16 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public static final AdventureResult SOLITAIRE = new AdventureResult( 1226, 1 );
 	public static final AdventureResult BRACELET = new AdventureResult( 717, 1 );
 
+	public static final AdventureResult BIG_ROCK = new AdventureResult( 30, 1 );
 	private static final AdventureResult ROLL = new AdventureResult( 47, 1 );
-	private static final AdventureResult BIG_ROCK = new AdventureResult( 30, 1 );
 	private static final AdventureResult HEART = new AdventureResult( 48, 1 );
 
 	// Clover weapons
-	private static final AdventureResult BJORNS_HAMMER = new AdventureResult( 32, 1 );
-	private static final AdventureResult TURTLESLINGER = new AdventureResult( 60, 1 );
-	private static final AdventureResult PASTA_OF_PERIL = new AdventureResult( 68, 1 );
-	private static final AdventureResult FIVE_ALARM_SAUCEPAN = new AdventureResult( 57, 1 );
-	private static final AdventureResult DISCO_BANJO = new AdventureResult( 54, 1 );
+	public static final AdventureResult BJORNS_HAMMER = new AdventureResult( 32, 1 );
+	public static final AdventureResult TURTLESLINGER = new AdventureResult( 60, 1 );
+	public static final AdventureResult PASTA_OF_PERIL = new AdventureResult( 68, 1 );
+	public static final AdventureResult FIVE_ALARM_SAUCEPAN = new AdventureResult( 57, 1 );
+	public static final AdventureResult DISCO_BANJO = new AdventureResult( 54, 1 );
 
 	private static final AdventureResult [] CLOVER_WEAPONS = { BJORNS_HAMMER, TURTLESLINGER, FIVE_ALARM_SAUCEPAN, PASTA_OF_PERIL, DISCO_BANJO };
 

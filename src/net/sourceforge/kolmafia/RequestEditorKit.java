@@ -1016,10 +1016,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 
 		if ( location.startsWith( "mountains.php" ) )
-		{
-			if ( HermitRequest.getWorthlessItemCount() > 0 )
-				StaticEntity.singleStringReplace( buffer, NO_HERMIT_TEXT, AUTO_HERMIT_TEXT );
-		}
+			StaticEntity.singleStringReplace( buffer, NO_HERMIT_TEXT, AUTO_HERMIT_TEXT );
 
 		if ( location.startsWith( "hermit.php" ) )
 			StaticEntity.singleStringReplace( buffer, NO_PERMIT_TEXT, BUY_PERMIT_TEXT );

@@ -505,9 +505,6 @@ public abstract class MoodSettings implements KoLConstants
 		if ( !StaticEntity.getBooleanProperty( "allowBreakfastBurning" ) )
 			return null;
 
-		if ( shouldExecute && !StaticEntity.getClient().castBreakfastSkills( true, false, minimum ) )
-			return null;
-
 		for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 		{
 			if ( !KoLCharacter.hasSkill( UseSkillRequest.BREAKFAST_SKILLS[i] ) )
@@ -517,10 +514,14 @@ public abstract class MoodSettings implements KoLConstants
 			if ( UseSkillRequest.BREAKFAST_SKILLS[i].equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
 				continue;
 
-			int mpCost = ClassSkillsDatabase.getMPConsumptionById( ClassSkillsDatabase.getSkillId( UseSkillRequest.BREAKFAST_SKILLS[i] ) );
+			UseSkillRequest skill = UseSkillRequest.getInstance( UseSkillRequest.BREAKFAST_SKILLS[i] );
+			if ( skill.getMaximumCast() == 0 )
+				continue;
 
-			if ( mpCost <= KoLCharacter.getCurrentMP() - minimum )
-				return UseSkillRequest.BREAKFAST_SKILLS[i];
+			if ( shouldExecute )
+				StaticEntity.getClient().getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i], false, minimum );
+			else if ( ClassSkillsDatabase.getMPConsumptionById( skill.getSkillId() ) <= KoLCharacter.getCurrentMP() - minimum )
+				return "cast 1 " + UseSkillRequest.BREAKFAST_SKILLS[i];
 		}
 
 		return null;

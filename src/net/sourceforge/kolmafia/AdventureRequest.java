@@ -40,7 +40,6 @@ import java.util.regex.Pattern;
 public class AdventureRequest extends KoLRequest
 {
 	private static final KoLRequest ZONE_VALIDATOR = AdventureDatabase.ZONE_VALIDATOR;
-	private static final AdventureResult BIG_ROCK = new AdventureResult( 30, 1 );
 
 	private String adventureName;
 	private String formSource;
@@ -147,9 +146,7 @@ public class AdventureRequest extends KoLRequest
 			}
 		}
 
-		if ( formSource.equals( "casino.php" ) && adventureId.equals( "11" ) && !KoLCharacter.hasItem( BIG_ROCK ) && !KoLCharacter.hasItem( SewerRequest.POSITIVE_CLOVER ) )
-			DEFAULT_SHELL.executeLine( "use 1 disassembled clover" );
-		else if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+		if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
 			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 
 		if ( formSource.equals( "shore.php" ) )
