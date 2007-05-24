@@ -2601,14 +2601,20 @@ public class KoLmafiaASH extends StaticEntity
 			return;
 		}
 
+		boolean hasDescription = false;
+
 		while ( it.hasNext() )
 		{
 			func = (ScriptFunction) it.next();
+			hasDescription = func instanceof ScriptExistingFunction && ((ScriptExistingFunction)func).getDescription() != null;
 
 			if ( !filter.equals( "" ) && func.getName().toLowerCase().indexOf( filter ) == -1 )
 				continue;
 
 			StringBuffer description = new StringBuffer();
+
+			if ( hasDescription )
+				description.append( "<b>" );
 
 			description.append( func.getType() );
 			description.append( " " );
@@ -2634,7 +2640,17 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			description.append( " )" );
+
+			if ( hasDescription )
+			{
+				description.append( "</b><br>" );
+				description.append( ((ScriptExistingFunction)func).getDescription() );
+				description.append( "<br>" );
+			}
+
+
 			RequestLogger.printLine( description.toString() );
+
 		}
 	}
 
@@ -3646,6 +3662,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "expected_damage", INT_TYPE, params ) );
 
+		params = new ScriptType[] { MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "expected_damage", INT_TYPE, params ) );
+
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "monster_level_adjustment", INT_TYPE, params ) );
 
@@ -4345,11 +4364,17 @@ public class KoLmafiaASH extends StaticEntity
 	private static class ScriptExistingFunction extends ScriptFunction
 	{
 		private Method method;
+		private String description;
 		private ScriptVariable [] variables;
 
 		public ScriptExistingFunction( String name, ScriptType type, ScriptType [] params )
+		{	this( name, type, params, null );
+		}
+
+		public ScriptExistingFunction( String name, ScriptType type, ScriptType [] params, String description )
 		{
 			super( name.toLowerCase(), type );
+			this.description = description;
 
 			variables = new ScriptVariable[ params.length ];
 			Class [] args = new Class[ params.length ];
@@ -4372,6 +4397,10 @@ public class KoLmafiaASH extends StaticEntity
 
 				printStackTrace( e, "No method found for built-in function: " + name );
 			}
+		}
+
+		public String getDescription()
+		{	return description;
 		}
 
 		public ScriptValue execute()
@@ -5157,7 +5186,11 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue equip( ScriptVariable slot, ScriptVariable item )
 		{
-			DEFAULT_SHELL.executeLine( "equip " + slot.toStringValue() + " " + item.toStringValue() );
+			if ( item.getValue().equals( ITEM_INIT ) )
+				DEFAULT_SHELL.executeLine( "unequip " + slot.toStringValue() );
+			else
+				DEFAULT_SHELL.executeLine( "equip " + slot.toStringValue() + " " + item.toStringValue() );
+
 			return continueValue();
 		}
 
@@ -5739,6 +5772,22 @@ public class KoLmafiaASH extends StaticEntity
 
 			float damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
 			float elementAbsorb = 1.0f - KoLCharacter.getElementalResistance( FightRequest.getMonsterAttackElement() );
+			return new ScriptValue( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
+		}
+
+		public ScriptValue expected_damage( ScriptVariable arg )
+		{
+			Monster monster = (Monster) arg.rawValue();
+			if ( monster == null )
+				return ZERO_VALUE;
+
+			// http://kol.coldfront.net/thekolwiki/index.php/Damage
+
+			int baseValue = Math.max( 0, monster.getAttack() - KoLCharacter.getAdjustedMoxie() ) +
+				(FightRequest.getMonsterAttack() / 4) - KoLCharacter.getDamageReduction();
+
+			float damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
+			float elementAbsorb = 1.0f - KoLCharacter.getElementalResistance( monster.getAttackElement() );
 			return new ScriptValue( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
 		}
 
