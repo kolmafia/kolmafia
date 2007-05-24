@@ -2372,7 +2372,10 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		// If the types are equal, no coercion is necessary
-		if ( lhs.equals( rhs ) || lhs.equals( TYPE_ANY ) )
+		if ( lhs.equals( rhs ) )
+			return true;
+
+		if ( lhs.equals( TYPE_ANY ) && rhs.getType() != TYPE_AGGREGATE )
 			return true;
 
 		// Anything coerces to a string as a parameter
@@ -3159,10 +3162,10 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { ANY_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_float", FLOAT_TYPE, params ) );
 
-		params = new ScriptType[] { EFFECT_TYPE };
+		params = new ScriptType[] { ANY_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_skill", SKILL_TYPE, params ) );
 
-		params = new ScriptType[] { SKILL_TYPE };
+		params = new ScriptType[] { ANY_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_effect", EFFECT_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
@@ -4499,22 +4502,29 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue to_int( ScriptVariable val )
-		{	return val.intValue() != 0 ? new ScriptValue( val.intValue() ) : parseIntValue( val.toStringValue().toString() );
+		{
+			return val.getType().equals( TYPE_STRING ) ? parseIntValue( val.toStringValue().toString() ) :
+				new ScriptValue( val.intValue() );
 		}
 
 		public ScriptValue to_float( ScriptVariable val )
 		{
-			return val.floatValue() != 0.0f ? new ScriptValue( val.floatValue() ) :
-				val.intValue() != 0 ? new ScriptValue( (float) val.intValue() ) :
-				parseFloatValue( val.toStringValue().toString() );
+			return val.getType().equals( TYPE_STRING ) ? parseIntValue( val.toStringValue().toString() ) :
+				val.intValue() != 0 ? new ScriptValue( (float) val.intValue() ) : new ScriptValue( val.floatValue() );
 		}
 
 		public ScriptValue to_skill( ScriptVariable val )
-		{	return parseSkillValue( UneffectRequest.effectToSkill( val.toStringValue().toString() ) );
+		{
+			return val.getType().equals( TYPE_INT ) ? makeSkillValue( val.intValue() ) : val.getType().equals( TYPE_EFFECT ) ?
+				parseSkillValue( UneffectRequest.effectToSkill( val.toStringValue().toString() ) ) :
+				parseSkillValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue to_effect( ScriptVariable val )
-		{	return parseEffectValue( UneffectRequest.skillToEffect( val.toStringValue().toString() ) );
+		{
+			return val.getType().equals( TYPE_INT ) ? makeEffectValue( val.intValue() ) : val.getType().equals( TYPE_SKILL ) ?
+				parseEffectValue( UneffectRequest.skillToEffect( val.toStringValue().toString() ) ) :
+				parseEffectValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue to_monster( ScriptVariable val )
