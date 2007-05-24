@@ -79,29 +79,28 @@ public class KoLmafiaASH extends StaticEntity
 	public final static char [] tokenList = { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '\'', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
 	public final static String [] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&", "/*", "*/" };
 
-	public static final int TYPE_VOID = 0;
-	public static final int TYPE_BOOLEAN = 1;
-	public static final int TYPE_INT = 2;
-	public static final int TYPE_FLOAT = 3;
-	public static final int TYPE_STRING = 4;
+	public static final int TYPE_ANY = 0;
+	public static final int TYPE_VOID = 1;
+	public static final int TYPE_BOOLEAN = 2;
+	public static final int TYPE_INT = 3;
+	public static final int TYPE_FLOAT = 4;
+	public static final int TYPE_STRING = 5;
 
 	public static final int TYPE_ITEM = 100;
-	public static final int TYPE_ZODIAC = 101;
-	public static final int TYPE_LOCATION = 102;
-	public static final int TYPE_CLASS = 103;
-	public static final int TYPE_STAT = 104;
-	public static final int TYPE_SKILL = 105;
-	public static final int TYPE_EFFECT = 106;
-	public static final int TYPE_FAMILIAR = 107;
-	public static final int TYPE_SLOT = 108;
-	public static final int TYPE_MONSTER = 109;
-	public static final int TYPE_ELEMENT = 110;
+	public static final int TYPE_LOCATION = 101;
+	public static final int TYPE_CLASS = 102;
+	public static final int TYPE_STAT = 103;
+	public static final int TYPE_SKILL = 104;
+	public static final int TYPE_EFFECT = 105;
+	public static final int TYPE_FAMILIAR = 106;
+	public static final int TYPE_SLOT = 107;
+	public static final int TYPE_MONSTER = 108;
+	public static final int TYPE_ELEMENT = 109;
 
 	public static final int TYPE_AGGREGATE = 1000;
 	public static final int TYPE_RECORD = 1001;
 	public static final int TYPE_TYPEDEF = 1002;
 
-	public static final String [] ZODIACS = { "none", "Wallaby", "Mongoose", "Vole", "Platypus", "Opossum", "Marmot", "Wombat", "Blender", "Packrat" };
 	public static final String [] CLASSES = { KoLCharacter.SEAL_CLUBBER, KoLCharacter.TURTLE_TAMER, KoLCharacter.PASTAMANCER, KoLCharacter.SAUCEROR, KoLCharacter.DISCO_BANDIT, KoLCharacter.ACCORDION_THIEF };
 	public static final String [] STATS = { "Muscle", "Mysticality", "Moxie" };
 	public static final String [] BOOLEANS = { "true", "false" };
@@ -116,6 +115,7 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int STATE_CONTINUE = 4;
 	public static final int STATE_EXIT = 5;
 
+	private static final ScriptType ANY_TYPE = new ScriptType( "any", TYPE_ANY );
 	private static final ScriptType VOID_TYPE = new ScriptType( "void", TYPE_VOID );
 	private static final ScriptType BOOLEAN_TYPE = new ScriptType( "boolean", TYPE_BOOLEAN );
 	private static final ScriptType INT_TYPE = new ScriptType( "int", TYPE_INT );
@@ -123,7 +123,6 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptType STRING_TYPE = new ScriptType( "string", TYPE_STRING );
 
 	private static final ScriptType ITEM_TYPE = new ScriptType( "item", TYPE_ITEM );
-	private static final ScriptType ZODIAC_TYPE = new ScriptType( "zodiac", TYPE_ZODIAC );
 	private static final ScriptType LOCATION_TYPE = new ScriptType( "location", TYPE_LOCATION );
 	private static final ScriptType CLASS_TYPE = new ScriptType( "class", TYPE_CLASS );
 	private static final ScriptType STAT_TYPE = new ScriptType( "stat", TYPE_STAT );
@@ -155,7 +154,6 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptValue FLOAT_INIT = ZERO_FLOAT_VALUE;
 	private static final ScriptValue STRING_INIT = new ScriptValue( "" );
 	private static final ScriptValue ITEM_INIT = new ScriptValue( ITEM_TYPE, -1, "none" );
-	private static final ScriptValue ZODIAC_INIT = new ScriptValue( ZODIAC_TYPE, 0, "none" );
 	private static final ScriptValue LOCATION_INIT = new ScriptValue( LOCATION_TYPE, "none", (Object)null );
 	private static final ScriptValue CLASS_INIT = new ScriptValue( CLASS_TYPE, -1, "none" );
 	private static final ScriptValue STAT_INIT = new ScriptValue( STAT_TYPE, -1, "none" );
@@ -334,31 +332,6 @@ public class KoLmafiaASH extends StaticEntity
 		itemId = parseInt( name );
 		name = TradeableItemDatabase.getItemName( itemId );
 		return new ScriptValue( ITEM_TYPE, itemId, name );
-	}
-
-	private static int zodiacToInt( String name )
-	{
-		for ( int i = 0; i < ZODIACS.length; ++i )
-			if ( name.equalsIgnoreCase( ZODIACS[i] ) )
-				return i;
-		return -1;
-	}
-
-	private static ScriptValue parseZodiacValue( String name )
-	{
-		if ( name.equalsIgnoreCase( "none" ) )
-			return ZODIAC_INIT;
-
-		int num = zodiacToInt( name );
-		if ( num < 0 )
-		{
-			if ( isExecuting )
-				return ZODIAC_INIT;
-
-			throw new AdvancedScriptException( "Unknown zodiac " + name );
-		}
-
-		return new ScriptValue( ZODIAC_TYPE, num, ZODIACS[num] );
 	}
 
 	private static ScriptValue parseLocationValue( String name )
@@ -565,11 +538,6 @@ public class KoLmafiaASH extends StaticEntity
 			return ITEM_INIT;
 
 		return new ScriptValue( ITEM_TYPE, num, name );
-	}
-
-	private static ScriptValue makeZodiacValue( String name )
-	{
-		return new ScriptValue( ZODIAC_TYPE, zodiacToInt( name ), name );
 	}
 
 	private static ScriptValue makeClassValue( String name )
@@ -2379,6 +2347,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static boolean validCoercion( ScriptType lhs, ScriptType rhs, String oper )
 	{
 		// Resolve aliases
+
 		lhs = lhs.getBaseType();
 		rhs = rhs.getBaseType();
 
@@ -2403,7 +2372,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		// If the types are equal, no coercion is necessary
-		if ( lhs.equals( rhs ) )
+		if ( lhs.equals( rhs ) || lhs.equals( TYPE_ANY ) )
 			return true;
 
 		// Anything coerces to a string as a parameter
@@ -3089,10 +3058,6 @@ public class KoLmafiaASH extends StaticEntity
 			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
 				JOptionPane.INFORMATION_MESSAGE, null, MonsterDatabase.elementNames, MonsterDatabase.elementNames[0] );
 
-		case TYPE_ZODIAC:
-			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
-				JOptionPane.INFORMATION_MESSAGE, null, ZODIACS, ZODIACS[0] );
-
 		case TYPE_CLASS:
 			return (String) JOptionPane.showInputDialog( null, message, "Input Variable",
 					JOptionPane.INFORMATION_MESSAGE, null, CLASSES, CLASSES[0] );
@@ -3136,6 +3101,11 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptFunctionList result = new ScriptFunctionList();
 		ScriptType [] params;
 
+
+		// Basic utility functions which print information
+		// or allow for easy testing.
+
+
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "enable", VOID_TYPE, params ) );
 
@@ -3145,11 +3115,72 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "user_confirm", BOOLEAN_TYPE, params ) );
 
-		// All datatypes must supply xxx_to_string and string_to_xxx
-		// methods.
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "echo", VOID_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "print_html", VOID_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "abort", VOID_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "refresh_status", VOID_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "abort", VOID_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "cli_execute", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "visit_url", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "wait", VOID_TYPE, params ) );
+
+
+		// Type conversion functions which allow conversion
+		// of one data format to another.
+
+
+		params = new ScriptType[] { ANY_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_string", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { ANY_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_boolean", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { ANY_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_int", INT_TYPE, params ) );
+
+		params = new ScriptType[] { ANY_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_float", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] { EFFECT_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_skill", SKILL_TYPE, params ) );
+
+		params = new ScriptType[] { SKILL_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_effect", EFFECT_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_monster", MONSTER_TYPE, params ) );
+
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_item", ITEM_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_slot", SLOT_TYPE, params ) );
+
+		params = new ScriptType[] { LOCATION_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_url", STRING_TYPE, params ) );
+
+
+		// Functions related to daily information which get
+		// updated usually once per day.
+
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "today_to_string", STRING_TYPE, params ) );
@@ -3157,149 +3188,31 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "moon_phase", INT_TYPE, params ) );
 
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "moon_light", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "stat_bonus_today", STAT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "stat_bonus_tomorrow", STAT_TYPE, params ) );
+
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "session_logs", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
 
 		params = new ScriptType[] { STRING_TYPE, INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "session_logs", new ScriptAggregateType( STRING_TYPE, 0 ), params ) );
 
-		params = new ScriptType[] { BOOLEAN_TYPE };
-		result.addElement( new ScriptExistingFunction( "boolean_to_string", STRING_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_boolean", BOOLEAN_TYPE, params ) );
+		// Major functions related to adventuring and
+		// item management.
 
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "int_to_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_int", INT_TYPE, params ) );
-
-		params = new ScriptType[] { FLOAT_TYPE };
-		result.addElement( new ScriptExistingFunction( "float_to_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_float", FLOAT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "item_to_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_item", ITEM_TYPE, params ) );
-
-		params = new ScriptType[] { ZODIAC_TYPE };
-		result.addElement( new ScriptExistingFunction( "zodiac_to_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_zodiac", ZODIAC_TYPE, params ) );
-
-		params = new ScriptType[] { LOCATION_TYPE };
-		result.addElement( new ScriptExistingFunction( "location_to_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { LOCATION_TYPE };
-		result.addElement( new ScriptExistingFunction( "location_to_url", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_location", LOCATION_TYPE, params ) );
-
-		params = new ScriptType[] { CLASS_TYPE };
-		result.addElement( new ScriptExistingFunction( "class_to_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_class", CLASS_TYPE, params ) );
-
-		params = new ScriptType[] { STAT_TYPE };
-		result.addElement( new ScriptExistingFunction( "stat_to_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_stat", STAT_TYPE, params ) );
-
-		params = new ScriptType[] { SKILL_TYPE };
-		result.addElement( new ScriptExistingFunction( "skill_to_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_skill", SKILL_TYPE, params ) );
-
-		params = new ScriptType[] { EFFECT_TYPE };
-		result.addElement( new ScriptExistingFunction( "effect_to_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_effect", EFFECT_TYPE, params ) );
-
-		params = new ScriptType[] { FAMILIAR_TYPE };
-		result.addElement( new ScriptExistingFunction( "familiar_to_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_familiar", FAMILIAR_TYPE, params ) );
-
-		params = new ScriptType[] { SLOT_TYPE };
-		result.addElement( new ScriptExistingFunction( "slot_to_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_slot", SLOT_TYPE, params ) );
-
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_to_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_monster", MONSTER_TYPE, params ) );
-
-		params = new ScriptType[] { ELEMENT_TYPE };
-		result.addElement( new ScriptExistingFunction( "element_to_string", STRING_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "string_to_element", ELEMENT_TYPE, params ) );
-
-		// Now include xxx_to_int and int_xxx methods for datatypes
-		// for which that makes sense
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "int_to_item", ITEM_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "item_to_int", INT_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "int_to_skill", SKILL_TYPE, params ) );
-
-		params = new ScriptType[] { SKILL_TYPE };
-		result.addElement( new ScriptExistingFunction( "skill_to_int", INT_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "int_to_effect", EFFECT_TYPE, params ) );
-
-		params = new ScriptType[] { EFFECT_TYPE };
-		result.addElement( new ScriptExistingFunction( "effect_to_int", INT_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "int_to_familiar", FAMILIAR_TYPE, params ) );
-
-		params = new ScriptType[] { FAMILIAR_TYPE };
-		result.addElement( new ScriptExistingFunction( "familiar_to_int", INT_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "int_to_slot", SLOT_TYPE, params ) );
-
-		params = new ScriptType[] { SLOT_TYPE };
-		result.addElement( new ScriptExistingFunction( "slot_to_int", INT_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "int_to_element", ELEMENT_TYPE, params ) );
-
-		params = new ScriptType[] { ELEMENT_TYPE };
-		result.addElement( new ScriptExistingFunction( "element_to_int", INT_TYPE, params ) );
-
-		params = new ScriptType[] { FLOAT_TYPE };
-		result.addElement( new ScriptExistingFunction( "square_root", FLOAT_TYPE, params ) );
-
-		// Begin the functions which are documented in the KoLmafia
-		// Advanced Script Handling manual.
 
 		params = new ScriptType[] { INT_TYPE, LOCATION_TYPE };
 		result.addElement( new ScriptExistingFunction( "adventure", BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "spiceloop", BOOLEAN_TYPE, params ) );
+		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "add_item_condition", VOID_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "buy", BOOLEAN_TYPE, params ) );
@@ -3316,43 +3229,7 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "drink", BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "daily_special", ITEM_TYPE, params ) );
-
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "hobo_drink", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "item_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		params[0] = ITEM_TYPE;
-		result.addElement( new ScriptExistingFunction( "closet_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		params[0] = ITEM_TYPE;
-		result.addElement( new ScriptExistingFunction( "museum_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		params[0] = ITEM_TYPE;
-		result.addElement( new ScriptExistingFunction( "shop_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "storage_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "refresh_stash", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "stash_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "creatable_amount", INT_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "put_closet", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "put_closet", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE, INT_TYPE, ITEM_TYPE };
@@ -3367,41 +3244,78 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "take_closet", BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "take_closet", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "pulls_remaining", INT_TYPE, params ) );
-
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "take_storage", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "take_stash", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "take_display", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "sell_item", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "take_stash", BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "echo", VOID_TYPE, params ) );
+		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "autosell", BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
+		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "hermit", BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
+		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "retrieve_item", BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "print_html", VOID_TYPE, params ) );
+
+		// Major functions which provide item-related
+		// information.
+
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "daily_special", ITEM_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "refresh_stash", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "item_amount", INT_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "creatable_amount", INT_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "storage_amount", INT_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "display_amount", INT_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "shop_amount", INT_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "stash_amount", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "pulls_remaining", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "stills_available", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "have_mushroom_plot", BOOLEAN_TYPE, params ) );
+
+
+		// The following functions pertain to providing updated
+		// information relating to the player.
+
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "refresh_status", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "restore_hp", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "restore_mp", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_name", STRING_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_zodiac", ZODIAC_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "in_muscle_sign", BOOLEAN_TYPE, params ) );
@@ -3443,12 +3357,6 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "my_meat", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "my_closetmeat", INT_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "stills_available", INT_TYPE, params ) );
-
-		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_adventures", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
@@ -3460,8 +3368,31 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "inebriety_limit", INT_TYPE, params ) );
 
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "can_eat", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "can_drink", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "can_interact", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "in_hardcore", BOOLEAN_TYPE, params ) );
+
+
+		// Basic skill and effect functions, including those used
+		// in custom combat consult scripts.
+
+
 		params = new ScriptType[] { SKILL_TYPE };
 		result.addElement( new ScriptExistingFunction( "have_skill", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { SKILL_TYPE };
+		result.addElement( new ScriptExistingFunction( "mp_cost", INT_TYPE, params ) );
+
+		params = new ScriptType[] { SKILL_TYPE };
+		result.addElement( new ScriptExistingFunction( "turns_per_cast", INT_TYPE, params ) );
 
 		params = new ScriptType[] { EFFECT_TYPE };
 		result.addElement( new ScriptExistingFunction( "have_effect", INT_TYPE, params ) );
@@ -3490,50 +3421,21 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { ITEM_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "throw_items", STRING_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "add_item_condition", VOID_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "can_eat", BOOLEAN_TYPE, params ) );
+		// Equipment functions.
 
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "can_drink", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "can_interact", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "in_hardcore", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "trade_hermit", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "trade_bounty_hunter", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "trade_trapper", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "trade_trapper", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "can_equip", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "equip", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { SLOT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "equip_slot", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "unequip", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "equip", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { SLOT_TYPE };
-		result.addElement( new ScriptExistingFunction( "unequip_slot", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { SLOT_TYPE };
-		result.addElement( new ScriptExistingFunction( "current_equipment", ITEM_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "item_to_slot", SLOT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "equipped_item", ITEM_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "outfit", BOOLEAN_TYPE, params ) );
@@ -3541,17 +3443,17 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "have_outfit", BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "have_equipped", BOOLEAN_TYPE, params ) );
-
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_familiar", FAMILIAR_TYPE, params ) );
 
 		params = new ScriptType[] { FAMILIAR_TYPE };
-		result.addElement( new ScriptExistingFunction( "equip_familiar", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "have_familiar", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { FAMILIAR_TYPE };
-		result.addElement( new ScriptExistingFunction( "have_familiar", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "use_familiar", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { FAMILIAR_TYPE };
+		result.addElement( new ScriptExistingFunction( "familiar_equipment", ITEM_TYPE, params ) );
 
 		params = new ScriptType[] { FAMILIAR_TYPE };
 		result.addElement( new ScriptExistingFunction( "familiar_weight", INT_TYPE, params ) );
@@ -3568,14 +3470,19 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "get_power", INT_TYPE, params ) );
 
+
+		// Random other functions related to current in-game
+		// state, not directly tied to the character.
+
+
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "council", VOID_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "current_mind_control_level", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "current_mcd", INT_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "mind_control", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "change_mcd", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "have_chef", BOOLEAN_TYPE, params ) );
@@ -3583,17 +3490,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "have_bartender", BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "abort", VOID_TYPE, params ) );
 
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "abort", VOID_TYPE, params ) );
+		// String parsing functions.
 
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "cli_execute", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "visit_url", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "contains_text", BOOLEAN_TYPE, params ) );
@@ -3646,11 +3545,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "chat_reply", VOID_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "bounty_hunter_wants", BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "wait", VOID_TYPE, params ) );
+		// Quest handling functions.
+
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "entryway", BOOLEAN_TYPE, params ) );
@@ -3665,28 +3562,15 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "chamber", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "nemesis", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "guild", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "gourd", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "tavern", INT_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "train_familiar", BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "retrieve_item", BOOLEAN_TYPE, params ) );
+		// Arithmetic utility functions.
 
-		// Arithmetic utility functions
+
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "random", INT_TYPE, params ) );
 
-		// Float-to-int conversion functions
 		params = new ScriptType[] { FLOAT_TYPE };
 		result.addElement( new ScriptExistingFunction( "round", INT_TYPE, params ) );
 
@@ -3698,6 +3582,13 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { FLOAT_TYPE };
 		result.addElement( new ScriptExistingFunction( "ceil", INT_TYPE, params ) );
+
+		params = new ScriptType[] { FLOAT_TYPE };
+		result.addElement( new ScriptExistingFunction( "square_root", FLOAT_TYPE, params ) );
+
+
+		// Settings-type functions.
+
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "url_encode", STRING_TYPE, params ) );
@@ -3713,6 +3604,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "remove_property", VOID_TYPE, params ) );
+
+
+		// Functions for aggregates.
+
 
 		params = new ScriptType[] { AGGREGATE_TYPE };
 		result.addElement( new ScriptExistingFunction( "count", INT_TYPE, params ) );
@@ -3732,50 +3627,27 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { AGGREGATE_TYPE, STRING_TYPE, BOOLEAN_TYPE };
 		result.addElement( new ScriptExistingFunction( "map_to_file", BOOLEAN_TYPE, params ) );
 
+
+		// Custom combat helper functions.
+
+
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_location", LOCATION_TYPE, params ) );
+
+		params = new ScriptType[] { MONSTER_TYPE };
+		result.addElement( new ScriptExistingFunction( "combat_queue_contains", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { LOCATION_TYPE };
 		result.addElement( new ScriptExistingFunction( "get_monsters", new ScriptAggregateType( MONSTER_TYPE, 0 ), params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "have_mushroom_plot", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "restore_hp", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "restore_mp", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { SKILL_TYPE };
-		result.addElement( new ScriptExistingFunction( "skill_to_effect", EFFECT_TYPE, params ) );
-
-		params = new ScriptType[] { EFFECT_TYPE };
-		result.addElement( new ScriptExistingFunction( "effect_to_skill", SKILL_TYPE, params ) );
-
-		params = new ScriptType[] { SKILL_TYPE };
-		result.addElement( new ScriptExistingFunction( "mp_cost", INT_TYPE, params ) );
-
-		params = new ScriptType[] { SKILL_TYPE };
-		result.addElement( new ScriptExistingFunction( "turns_per_cast", INT_TYPE, params ) );
-
-		params = new ScriptType[] { ITEM_TYPE };
-		result.addElement( new ScriptExistingFunction( "can_equip", BOOLEAN_TYPE, params ) );
-
-		params = new ScriptType[] { FAMILIAR_TYPE };
-		result.addElement( new ScriptExistingFunction( "familiar_equipment", ITEM_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "stat_bonus_today", STAT_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "stat_bonus_tomorrow", STAT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "expected_damage", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "monster_level_adjustment", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "familiar_weight_adjustment", INT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "weight_adjustment", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "mana_cost_modifier", INT_TYPE, params ) );
@@ -3791,21 +3663,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { ELEMENT_TYPE };
 		result.addElement( new ScriptExistingFunction( "elemental_resistance", FLOAT_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "cold_resistance", FLOAT_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "hot_resistance", FLOAT_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "sleaze_resistance", FLOAT_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "spooky_resistance", FLOAT_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "stench_resistance", FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "combat_percent_modifier", FLOAT_TYPE, params ) );
@@ -3827,9 +3684,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "current_hit_stat", STAT_TYPE, params ) );
-
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "combat_queue_contains", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { MONSTER_TYPE };
 		result.addElement( new ScriptExistingFunction( "monster_base_attack", INT_TYPE, params ) );
@@ -3879,7 +3733,6 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( FLOAT_TYPE );
 		result.addElement( STRING_TYPE );
 		result.addElement( ITEM_TYPE );
-		result.addElement( ZODIAC_TYPE );
 		result.addElement( LOCATION_TYPE );
 		result.addElement( CLASS_TYPE );
 		result.addElement( STAT_TYPE );
@@ -3929,7 +3782,6 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptSymbol( "float" ) );
 		result.addElement( new ScriptSymbol( "string" ) );
 		result.addElement( new ScriptSymbol( "item" ) );
-		result.addElement( new ScriptSymbol( "zodiac" ) );
 		result.addElement( new ScriptSymbol( "location" ) );
 		result.addElement( new ScriptSymbol( "class" ) );
 		result.addElement( new ScriptSymbol( "stat" ) );
@@ -4209,6 +4061,34 @@ public class KoLmafiaASH extends StaticEntity
 			if ( result == null )
 				result = findFunction( existingFunctions, name, params, false );
 
+			// Just in case there's some people who don't want to edit
+			// their scripts to use the new function format, check for
+			// the old versions as well.
+
+			if ( result == null )
+			{
+				if ( name.endsWith( "to_string" ) )
+					return findFunction( "to_string", params );
+				if ( name.endsWith( "to_boolean" ) )
+					return findFunction( "to_boolean", params );
+				if ( name.endsWith( "to_int" ) )
+					return findFunction( "to_int", params );
+				if ( name.endsWith( "to_float" ) )
+					return findFunction( "to_float", params );
+				if ( name.endsWith( "to_skill" ) )
+					return findFunction( "to_skill", params );
+				if ( name.endsWith( "to_effect" ) )
+					return findFunction( "to_effect", params );
+				if ( name.endsWith( "to_monster" ) )
+					return findFunction( "to_monster", params );
+				if ( name.endsWith( "to_item" ) )
+					return findFunction( "to_item", params );
+				if ( name.endsWith( "to_slot" ) )
+					return findFunction( "to_slot", params );
+				if ( name.endsWith( "to_url" ) )
+					return findFunction( "to_url", params );
+			}
+
 			return result;
 		}
 
@@ -4480,7 +4360,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			try
 			{
-				this.method = getClass().getMethod( name, args );
+				this.method = ScriptExistingFunction.class.getMethod( name, args );
 			}
 			catch ( Exception e )
 			{
@@ -4521,6 +4401,9 @@ public class KoLmafiaASH extends StaticEntity
 		{	return ( KoLmafia.permitsContinue() && !KoLmafia.hadPendingState() ) ? TRUE_VALUE : FALSE_VALUE;
 		}
 
+		// Basic utility functions which print information
+		// or allow for easy testing.
+
 		public ScriptValue enable( ScriptVariable name )
 		{
 			StaticEntity.enable( name.toStringValue().toString().toLowerCase() );
@@ -4539,13 +4422,140 @@ public class KoLmafiaASH extends StaticEntity
 				"Scripted User Confirmation Request", JOptionPane.YES_NO_OPTION ) ? TRUE_VALUE : FALSE_VALUE;
 		}
 
-		// Here are all the methods for built-in ASH functions
-
-		public ScriptValue refresh_status()
+		public ScriptValue echo( ScriptVariable string )
 		{
-			DEFAULT_SHELL.executeLine( "refresh status" );
+			RequestLogger.printLine( string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
+
+		public ScriptValue print( ScriptVariable string )
+		{
+			RequestLogger.printLine( string.toStringValue().toString() );
+			return VOID_VALUE;
+		}
+
+		public ScriptValue print( ScriptVariable string, ScriptVariable color )
+		{
+			String parameters = string.toStringValue().toString();
+			String colorString = color.toStringValue().toString();
+
+			RequestLogger.printLine( "<font color=\"" + colorString + "\">" + StaticEntity.globalStringReplace( parameters, "<", "&lt;" ) + "</font>" );
+
+			return VOID_VALUE;
+		}
+
+		public ScriptValue print_html( ScriptVariable string )
+		{
+			RequestLogger.printLine( string.toStringValue().toString() );
+			return VOID_VALUE;
+		}
+
+		public ScriptValue abort()
+		{
+			RequestThread.declareWorldPeace();
+			return VOID_VALUE;
+		}
+
+		public ScriptValue abort( ScriptVariable string )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, string.toStringValue().toString() );
+			return VOID_VALUE;
+		}
+
+		public ScriptValue cli_execute( ScriptVariable string )
+		{
+			DEFAULT_SHELL.executeLine( string.toStringValue().toString() );
+			return continueValue();
+		}
+
+		public ScriptValue visit_url( ScriptVariable string )
+		{
+			String location = string.toStringValue().toString();
+			if ( KoLRequest.shouldIgnore( location ) )
+				return STRING_INIT;
+
+			KoLRequest request = new KoLRequest( location, true );
+			RequestThread.postRequest( request );
+
+			StaticEntity.externalUpdate( location, request.responseText );
+			return new ScriptValue( request.responseText == null ? "" : request.responseText );
+		}
+
+		public ScriptValue wait( ScriptVariable delay )
+		{
+			DEFAULT_SHELL.executeLine( "wait " + delay.intValue() );
+			return VOID_VALUE;
+		}
+
+		// Type conversion functions which allow conversion
+		// of one data format to another.
+
+		public ScriptValue to_string( ScriptVariable val )
+		{	return val.toStringValue();
+		}
+
+		public ScriptValue to_boolean( ScriptVariable val )
+		{	return val.toStringValue().toString().equals( "true" ) || val.intValue() != 0 ? TRUE_VALUE : FALSE_VALUE;
+		}
+
+		public ScriptValue to_int( ScriptVariable val )
+		{	return val.intValue() != 0 ? new ScriptValue( val.intValue() ) : parseIntValue( val.toStringValue().toString() );
+		}
+
+		public ScriptValue to_float( ScriptVariable val )
+		{
+			return val.floatValue() != 0.0f ? new ScriptValue( val.floatValue() ) :
+				val.intValue() != 0 ? new ScriptValue( (float) val.intValue() ) :
+				parseFloatValue( val.toStringValue().toString() );
+		}
+
+		public ScriptValue to_skill( ScriptVariable val )
+		{	return parseSkillValue( UneffectRequest.effectToSkill( val.toStringValue().toString() ) );
+		}
+
+		public ScriptValue to_effect( ScriptVariable val )
+		{	return parseEffectValue( UneffectRequest.skillToEffect( val.toStringValue().toString() ) );
+		}
+
+		public ScriptValue to_monster( ScriptVariable val )
+		{	return parseMonsterValue( val.toStringValue().toString() );
+		}
+
+		public ScriptValue to_item( ScriptVariable val )
+		{	return makeItemValue( val.intValue() );
+		}
+
+		public ScriptValue to_slot( ScriptVariable item )
+		{
+			switch ( TradeableItemDatabase.getConsumptionType( item.intValue() ) )
+			{
+			case EQUIP_HAT:
+				return parseSlotValue( "hat" );
+			case EQUIP_WEAPON:
+				return parseSlotValue( "weapon" );
+			case EQUIP_OFFHAND:
+				return parseSlotValue( "off-hand" );
+			case EQUIP_SHIRT:
+				return parseSlotValue( "shirt" );
+			case EQUIP_PANTS:
+				return parseSlotValue( "pants" );
+			case EQUIP_FAMILIAR:
+				return parseSlotValue( "familiar" );
+			case EQUIP_ACCESSORY:
+				return parseSlotValue( "acc1" );
+			default:
+				return parseSlotValue( "none" );
+			}
+		}
+
+		public ScriptValue to_url( ScriptVariable val )
+		{
+			KoLAdventure adventure = (KoLAdventure) val.rawValue();
+			return new ScriptValue( adventure.getRequest().getURLString() );
+		}
+
+		// Functions related to daily information which get
+		// updated usually once per day.
 
 		public ScriptValue today_to_string()
 		{	return parseStringValue( DATED_FILENAME_FORMAT.format( new Date() ) );
@@ -4553,6 +4563,24 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue moon_phase()
 		{	return new ScriptValue( MoonPhaseDatabase.getPhaseStep() );
+		}
+
+		public ScriptValue moon_light()
+		{	return new ScriptValue( MoonPhaseDatabase.getMoonlight() );
+		}
+
+		public ScriptValue stat_bonus_today()
+		{
+			return KoLmafiaCLI.testConditional( "today is muscle day" ) ? parseStatValue( "muscle" ) :
+				KoLmafiaCLI.testConditional( "today is myst day" ) ? parseStatValue( "mysticality" ) :
+				KoLmafiaCLI.testConditional( "today is moxie day" ) ? parseStatValue( "moxie" ) : STAT_INIT;
+		}
+
+		public ScriptValue stat_bonus_tomorrow()
+		{
+			return KoLmafiaCLI.testConditional( "tomorrow is muscle day" ) ? parseStatValue( "muscle" ) :
+				KoLmafiaCLI.testConditional( "tomorrow is myst day" ) ? parseStatValue( "mysticality" ) :
+				KoLmafiaCLI.testConditional( "tomorrow is moxie day" ) ? parseStatValue( "moxie" ) : STAT_INIT;
 		}
 
 		public ScriptValue session_logs( ScriptVariable dayCount )
@@ -4609,178 +4637,8 @@ public class KoLmafiaASH extends StaticEntity
 			return value;
 		}
 
-		public ScriptValue boolean_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue string_to_boolean( ScriptVariable val )
-		{	return parseBooleanValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue int_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue string_to_int( ScriptVariable val )
-		{	return parseIntValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue float_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue string_to_float( ScriptVariable val )
-		{	return parseFloatValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue item_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue string_to_item( ScriptVariable val )
-		{	return parseItemValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue zodiac_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue string_to_zodiac( ScriptVariable val )
-		{	return parseZodiacValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue location_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue location_to_url( ScriptVariable val )
-		{
-			KoLAdventure adventure = (KoLAdventure) val.rawValue();
-			return new ScriptValue( adventure.getRequest().getURLString() );
-		}
-
-		public ScriptValue string_to_location( ScriptVariable val )
-		{	return parseLocationValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue class_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue string_to_class( ScriptVariable val )
-		{	return parseClassValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue stat_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue string_to_stat( ScriptVariable val )
-		{	return parseStatValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue skill_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue string_to_skill( ScriptVariable val )
-		{	return parseSkillValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue effect_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue string_to_effect( ScriptVariable val )
-		{	return parseEffectValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue familiar_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue string_to_familiar( ScriptVariable val )
-		{	return parseFamiliarValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue slot_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue string_to_slot( ScriptVariable val )
-		{	return parseSlotValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue monster_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue string_to_monster( ScriptVariable val )
-		{	return parseMonsterValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue element_to_string( ScriptVariable val )
-		{	return val.toStringValue();
-		}
-
-		public ScriptValue string_to_element( ScriptVariable val )
-		{	return parseElementValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue item_to_int( ScriptVariable val )
-		{	return new ScriptValue( val.intValue() );
-		}
-
-		public ScriptValue int_to_item( ScriptVariable val )
-		{	return makeItemValue( val.intValue() );
-		}
-
-		public ScriptValue skill_to_int( ScriptVariable val )
-		{	return new ScriptValue( val.intValue() );
-		}
-
-		public ScriptValue int_to_skill( ScriptVariable val )
-		{	return makeSkillValue( val.intValue() );
-		}
-
-		public ScriptValue effect_to_int( ScriptVariable val )
-		{	return new ScriptValue( val.intValue() );
-		}
-
-		public ScriptValue int_to_effect( ScriptVariable val )
-		{	return makeEffectValue( val.intValue() );
-		}
-
-		public ScriptValue familiar_to_int( ScriptVariable val )
-		{	return new ScriptValue( val.intValue() );
-		}
-
-		public ScriptValue int_to_familiar( ScriptVariable val )
-		{	return makeFamiliarValue( val.intValue() );
-		}
-
-		public ScriptValue slot_to_int( ScriptVariable val )
-		{	return new ScriptValue( val.intValue() );
-		}
-
-		public ScriptValue int_to_slot( ScriptVariable val )
-		{	return makeSlotValue( val.intValue() );
-		}
-
-		public ScriptValue element_to_int( ScriptVariable val )
-		{	return new ScriptValue( val.intValue() );
-		}
-
-		public ScriptValue square_root( ScriptVariable val )
-		{	return new ScriptValue( (float) Math.sqrt( val.floatValue() ) );
-		}
-
-		public ScriptValue int_to_element( ScriptVariable val )
-		{	return makeElementValue( val.intValue() );
-		}
-
-		// Begin the functions which are documented in the KoLmafia
-		// Advanced Script Handling manual.
+		// Major functions related to adventuring and
+		// item management.
 
 		public ScriptValue adventure( ScriptVariable count, ScriptVariable loc )
 		{
@@ -4791,13 +4649,13 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
-		public ScriptValue spiceloop( ScriptVariable count )
+		public ScriptValue add_item_condition( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
-				return continueValue();
+				return VOID_VALUE;
 
-			DEFAULT_SHELL.executeLine( "spiceloop " + count.intValue() );
-			return continueValue();
+			DEFAULT_SHELL.executeLine( "conditions add " + count.intValue() + " " + item.toStringValue() );
+			return VOID_VALUE;
 		}
 
 		public ScriptValue buy( ScriptVariable count, ScriptVariable item )
@@ -4847,103 +4705,12 @@ public class KoLmafiaASH extends StaticEntity
 			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
 		}
 
-		public ScriptValue daily_special()
-		{
-			AdventureResult special = KoLCharacter.inMoxieSign() ? MicrobreweryRequest.getDailySpecial() :
-				KoLCharacter.inMysticalitySign() ? RestaurantRequest.getDailySpecial() : null;
-
-			return special == null ? ITEM_INIT : parseItemValue( special.getName() );
-		}
-
-		public ScriptValue hobo_drink( ScriptVariable count, ScriptVariable item )
-		{
-			if ( count.intValue() <= 0 )
-				return continueValue();
-
-			DEFAULT_SHELL.executeLine( "hobodrink " + count.intValue() + " " + item.toStringValue() );
-			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
-		}
-
-		public ScriptValue item_amount( ScriptVariable arg )
-		{
-			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( inventory ) );
-		}
-
-		public ScriptValue closet_amount( ScriptVariable arg )
-		{
-			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( closet ) );
-		}
-
-		public ScriptValue museum_amount( ScriptVariable arg )
-		{
-			if ( collection.isEmpty() )
-				RequestThread.postRequest( new MuseumRequest() );
-
-			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( collection ) );
-		}
-
-		public ScriptValue shop_amount( ScriptVariable arg )
-		{
-			LockableListModel list = StoreManager.getSoldItemList();
-			if ( list.isEmpty() )
-				RequestThread.postRequest( new StoreManageRequest() );
-
-			SoldItem item = new SoldItem( arg.intValue(), 0, 0, 0, 0 );
-			int index = list.indexOf( item );
-
-			if ( index < 0 )
-				return new ScriptValue( 0 );
-
-			item = (SoldItem) list.get( index );
-			return new ScriptValue( item.getQuantity() );
-		}
-
-		public ScriptValue storage_amount( ScriptVariable arg )
-		{
-			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( storage ) );
-		}
-
-		public ScriptValue refresh_stash()
-		{
-			RequestThread.postRequest( new ClanStashRequest() );
-			return continueValue();
-		}
-
-		public ScriptValue stash_amount( ScriptVariable arg )
-		{
-			List stash = ClanManager.getStash();
-			if ( stash.isEmpty() )
-				RequestThread.postRequest( new ClanStashRequest() );
-
-			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( stash ) );
-		}
-
-		public ScriptValue creatable_amount( ScriptVariable arg )
-		{
-			ItemCreationRequest item = ItemCreationRequest.getInstance( arg.intValue() );
-			return new ScriptValue( item == null ? 0 : item.getQuantityPossible() );
-		}
-
 		public ScriptValue put_closet( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "closet put " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
-		}
-
-		public ScriptValue put_closet( ScriptVariable meat )
-		{
-			if ( meat.intValue() <= 0 )
-				return continueValue();
-
-			DEFAULT_SHELL.executeLine( "closet put " + meat.intValue() + " meat" );
 			return continueValue();
 		}
 
@@ -4980,34 +4747,12 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
-		public ScriptValue take_closet( ScriptVariable meat )
-		{
-			if ( meat.intValue() <= 0 )
-				return continueValue();
-
-			DEFAULT_SHELL.executeLine( "closet take " + meat.intValue() + " meat" );
-			return continueValue();
-		}
-
-		public ScriptValue pulls_remaining()
-		{	return new ScriptValue( ItemManageFrame.getPullsRemaining() );
-		}
-
 		public ScriptValue take_storage( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "hagnk " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
-		}
-
-		public ScriptValue take_stash( ScriptVariable count, ScriptVariable item )
-		{
-			if ( count.intValue() <= 0 )
-				return continueValue();
-
-			DEFAULT_SHELL.executeLine( "stash take " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
@@ -5020,7 +4765,16 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
-		public ScriptValue sell_item( ScriptVariable count, ScriptVariable item )
+		public ScriptValue take_stash( ScriptVariable count, ScriptVariable item )
+		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
+			DEFAULT_SHELL.executeLine( "stash take " + count.intValue() + " " + item.toStringValue() );
+			return continueValue();
+		}
+
+		public ScriptValue autosell( ScriptVariable count, ScriptVariable item )
 		{
 			if ( count.intValue() <= 0 )
 				return continueValue();
@@ -5029,40 +4783,129 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
-		public ScriptValue echo( ScriptVariable string )
+		public ScriptValue hermit( ScriptVariable count, ScriptVariable item )
 		{
-			RequestLogger.printLine( string.toStringValue().toString() );
-			return VOID_VALUE;
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
+			DEFAULT_SHELL.executeLine( "hermit " + count.intValue() + " " + item.toStringValue() );
+			return continueValue();
 		}
 
-		public ScriptValue print( ScriptVariable string )
+		public ScriptValue retrieve_item( ScriptVariable count, ScriptVariable item )
 		{
-			RequestLogger.printLine( string.toStringValue().toString() );
-			return VOID_VALUE;
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
+			AdventureDatabase.retrieveItem( new AdventureResult( item.intValue(), count.intValue() ) );
+			return continueValue();
 		}
 
-		public ScriptValue print( ScriptVariable string, ScriptVariable color )
+		// Major functions which provide item-related
+		// information.
+
+		public ScriptValue daily_special()
 		{
-			String parameters = string.toStringValue().toString();
-			String colorString = color.toStringValue().toString();
+			AdventureResult special = KoLCharacter.inMoxieSign() ? MicrobreweryRequest.getDailySpecial() :
+				KoLCharacter.inMysticalitySign() ? RestaurantRequest.getDailySpecial() : null;
 
-			RequestLogger.printLine( "<font color=\"" + colorString + "\">" + StaticEntity.globalStringReplace( parameters, "<", "&lt;" ) + "</font>" );
-
-			return VOID_VALUE;
+			return special == null ? ITEM_INIT : parseItemValue( special.getName() );
 		}
 
-		public ScriptValue print_html( ScriptVariable string )
+		public ScriptValue refresh_stash()
 		{
-			RequestLogger.printLine( string.toStringValue().toString() );
-			return VOID_VALUE;
+			RequestThread.postRequest( new ClanStashRequest() );
+			return continueValue();
+		}
+
+		public ScriptValue item_amount( ScriptVariable arg )
+		{
+			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
+			return new ScriptValue( item.getCount( inventory ) + item.getCount( closet ) );
+		}
+
+		public ScriptValue creatable_amount( ScriptVariable arg )
+		{
+			ItemCreationRequest item = ItemCreationRequest.getInstance( arg.intValue() );
+			return new ScriptValue( item == null ? 0 : item.getQuantityPossible() );
+		}
+
+		public ScriptValue storage_amount( ScriptVariable arg )
+		{
+			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
+			return new ScriptValue( item.getCount( storage ) );
+		}
+
+		public ScriptValue display_amount( ScriptVariable arg )
+		{
+			if ( collection.isEmpty() )
+				RequestThread.postRequest( new MuseumRequest() );
+
+			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
+			return new ScriptValue( item.getCount( collection ) );
+		}
+
+		public ScriptValue shop_amount( ScriptVariable arg )
+		{
+			LockableListModel list = StoreManager.getSoldItemList();
+			if ( list.isEmpty() )
+				RequestThread.postRequest( new StoreManageRequest() );
+
+			SoldItem item = new SoldItem( arg.intValue(), 0, 0, 0, 0 );
+			int index = list.indexOf( item );
+
+			if ( index < 0 )
+				return new ScriptValue( 0 );
+
+			item = (SoldItem) list.get( index );
+			return new ScriptValue( item.getQuantity() );
+		}
+
+		public ScriptValue stash_amount( ScriptVariable arg )
+		{
+			List stash = ClanManager.getStash();
+			if ( stash.isEmpty() )
+				RequestThread.postRequest( new ClanStashRequest() );
+
+			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
+			return new ScriptValue( item.getCount( stash ) );
+		}
+
+		public ScriptValue pulls_remaining()
+		{	return new ScriptValue( ItemManageFrame.getPullsRemaining() );
+		}
+
+		public ScriptValue stills_available()
+		{	return new ScriptValue( KoLCharacter.getStillsAvailable() );
+		}
+
+		public ScriptValue have_mushroom_plot()
+		{	return new ScriptValue( MushroomPlot.ownsPlot() );
+		}
+
+		// The following functions pertain to providing updated
+		// information relating to the player.
+
+		public ScriptValue refresh_status()
+		{
+			RequestThread.postRequest( CharpaneRequest.getInstance() );
+			return continueValue();
+		}
+
+		public ScriptValue restore_hp( ScriptVariable amount )
+		{	return new ScriptValue( getClient().recoverHP( amount.intValue() ) );
+		}
+
+		public ScriptValue restore_mp( ScriptVariable amount )
+		{
+			int desiredMP = amount.intValue();
+			while ( !KoLmafia.refusesContinue() && desiredMP > KoLCharacter.getCurrentMP() )
+				getClient().recoverMP( desiredMP );
+			return continueValue();
 		}
 
 		public ScriptValue my_name()
 		{	return new ScriptValue( KoLCharacter.getUserName() );
-		}
-
-		public ScriptValue my_zodiac()
-		{	return makeZodiacValue( KoLCharacter.getSign() );
 		}
 
 		public ScriptValue in_muscle_sign()
@@ -5140,14 +4983,6 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( KoLCharacter.getAvailableMeat() );
 		}
 
-		public ScriptValue my_closetmeat()
-		{	return new ScriptValue( KoLCharacter.getClosetMeat() );
-		}
-
-		public ScriptValue stills_available()
-		{	return new ScriptValue( KoLCharacter.getStillsAvailable() );
-		}
-
 		public ScriptValue my_adventures()
 		{	return new ScriptValue( KoLCharacter.getAdventuresLeft() );
 		}
@@ -5164,18 +4999,35 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( !KoLCharacter.canDrink() ? 0 : KoLCharacter.hasSkill( "Liver of Steel" ) ? 20 : 15 );
 		}
 
-		public ScriptValue my_familiar()
-		{	return makeFamiliarValue( KoLCharacter.getFamiliar().getId() );
+		public ScriptValue can_eat()
+		{	return new ScriptValue( KoLCharacter.canEat() );
 		}
 
-		public ScriptValue have_familiar( ScriptVariable familiar )
-		{	return new ScriptValue( KoLCharacter.findFamiliar( familiar.toStringValue().toString() ) != null );
+		public ScriptValue can_drink()
+		{	return new ScriptValue( KoLCharacter.canDrink() );
 		}
 
-		public ScriptValue familiar_weight( ScriptVariable familiar )
-		{
-			FamiliarData fam = KoLCharacter.findFamiliar( familiar.toStringValue().toString() );
-			return new ScriptValue( (fam == null ) ? 0 : fam.getWeight() );
+		public ScriptValue can_interact()
+		{	return new ScriptValue( KoLCharacter.canInteract() );
+		}
+
+		public ScriptValue in_hardcore()
+		{	return new ScriptValue( KoLCharacter.isHardcore() );
+		}
+
+		// Basic skill and effect functions, including those used
+		// in custom combat consult scripts.
+
+		public ScriptValue have_skill( ScriptVariable arg )
+		{	return new ScriptValue( KoLCharacter.hasSkill( arg.intValue() ) );
+		}
+
+		public ScriptValue mp_cost( ScriptVariable skill )
+		{	return new ScriptValue( ClassSkillsDatabase.getMPConsumptionById( skill.intValue() ) );
+		}
+
+		public ScriptValue turns_per_cast( ScriptVariable skill )
+		{	return new ScriptValue( ClassSkillsDatabase.getEffectDuration( skill.intValue() ) );
 		}
 
 		public ScriptValue have_effect( ScriptVariable arg )
@@ -5183,10 +5035,6 @@ public class KoLmafiaASH extends StaticEntity
 			List potentialEffects = StatusEffectDatabase.getMatchingNames( arg.toStringValue().toString() );
 			AdventureResult effect = potentialEffects.isEmpty() ? null : new AdventureResult( (String) potentialEffects.get(0), 0, true );
 			return new ScriptValue( effect == null ? 0 : effect.getCount( activeEffects ) );
-		}
-
-		public ScriptValue have_skill( ScriptVariable arg )
-		{	return new ScriptValue( KoLCharacter.hasSkill( arg.intValue() ) );
 		}
 
 		public ScriptValue use_skill( ScriptVariable count, ScriptVariable skill )
@@ -5283,73 +5131,10 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
 
-		public ScriptValue add_item_condition( ScriptVariable count, ScriptVariable item )
-		{
-			if ( count.intValue() <= 0 )
-				return VOID_VALUE;
+		// Equipment functions.
 
-			DEFAULT_SHELL.executeLine( "conditions add " + count.intValue() + " " + item.toStringValue() );
-			return VOID_VALUE;
-		}
-
-		public ScriptValue can_eat()
-		{	return new ScriptValue( KoLCharacter.canEat() );
-		}
-
-		public ScriptValue can_drink()
-		{	return new ScriptValue( KoLCharacter.canDrink() );
-		}
-
-		public ScriptValue can_interact()
-		{	return new ScriptValue( KoLCharacter.canInteract() );
-		}
-
-		public ScriptValue in_hardcore()
-		{	return new ScriptValue( KoLCharacter.isHardcore() );
-		}
-
-		public ScriptValue trade_hermit( ScriptVariable count, ScriptVariable item )
-		{
-			if ( count.intValue() <= 0 )
-				return continueValue();
-
-			DEFAULT_SHELL.executeLine( "hermit " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
-		}
-
-		public ScriptValue bounty_hunter_wants( ScriptVariable item )
-		{
-			String itemName = item.toStringValue().toString();
-
-			if ( hunterItems.isEmpty() )
-				RequestThread.postRequest( new BountyHunterRequest() );
-
-			for ( int i = 0; i < hunterItems.size(); ++i )
-				if ( ((String)hunterItems.get(i)).equalsIgnoreCase( itemName ) )
-					return TRUE_VALUE;
-
-			return FALSE_VALUE;
-		}
-
-		public ScriptValue trade_bounty_hunter( ScriptVariable item )
-		{
-			DEFAULT_SHELL.executeLine( "hunter " + item.toStringValue() );
-			return continueValue();
-		}
-
-		public ScriptValue trade_trapper( ScriptVariable item )
-		{
-			DEFAULT_SHELL.executeLine( "trapper " + item.toStringValue() );
-			return continueValue();
-		}
-
-		public ScriptValue trade_trapper( ScriptVariable count, ScriptVariable item )
-		{
-			if ( count.intValue() <= 0 )
-				return continueValue();
-
-			DEFAULT_SHELL.executeLine( "trapper " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+		public ScriptValue can_equip( ScriptVariable item )
+		{	return new ScriptValue( EquipmentDatabase.canEquip( TradeableItemDatabase.getItemName( item.intValue() ) ) );
 		}
 
 		public ScriptValue equip( ScriptVariable item )
@@ -5358,49 +5143,14 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
-		public ScriptValue equip_slot( ScriptVariable slot, ScriptVariable item )
+		public ScriptValue equip( ScriptVariable slot, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "equip " + slot.toStringValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
-		public ScriptValue unequip( ScriptVariable item )
-		{
-			DEFAULT_SHELL.executeLine( "unequip " + item.toStringValue() );
-			return continueValue();
-		}
-
-		public ScriptValue unequip_slot( ScriptVariable item )
-		{
-			DEFAULT_SHELL.executeLine( "unequip " + item.toStringValue() );
-			return continueValue();
-		}
-
-		public ScriptValue current_equipment( ScriptVariable slot )
+		public ScriptValue equipped_item( ScriptVariable slot )
 		{	return makeItemValue( KoLCharacter.getEquipment( slot.intValue() ).getName() );
-		}
-
-		public ScriptValue item_to_slot( ScriptVariable slot )
-		{
-			switch ( TradeableItemDatabase.getConsumptionType( slot.intValue() ) )
-			{
-			case EQUIP_HAT:
-				return parseSlotValue( "hat" );
-			case EQUIP_WEAPON:
-				return parseSlotValue( "weapon" );
-			case EQUIP_OFFHAND:
-				return parseSlotValue( "off-hand" );
-			case EQUIP_SHIRT:
-				return parseSlotValue( "shirt" );
-			case EQUIP_PANTS:
-				return parseSlotValue( "pants" );
-			case EQUIP_FAMILIAR:
-				return parseSlotValue( "familiar" );
-			case EQUIP_ACCESSORY:
-				return parseSlotValue( "acc1" );
-			default:
-				return parseSlotValue( "none" );
-			}
 		}
 
 		public ScriptValue outfit( ScriptVariable outfit )
@@ -5417,10 +5167,6 @@ public class KoLmafiaASH extends StaticEntity
 				return FALSE_VALUE;
 
 			return EquipmentDatabase.hasOutfit( so.getOutfitId() ) ? TRUE_VALUE : FALSE_VALUE;
-		}
-
-		public ScriptValue have_equipped( ScriptVariable item )
-		{	return new ScriptValue( KoLCharacter.hasEquipped( new AdventureResult( item.intValue(), 1 ) ) );
 		}
 
 		public ScriptValue weapon_hands( ScriptVariable item )
@@ -5441,11 +5187,33 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( EquipmentDatabase.getPower( item.intValue() ) );
 		}
 
-		public ScriptValue equip_familiar( ScriptVariable familiar )
+		public ScriptValue my_familiar()
+		{	return makeFamiliarValue( KoLCharacter.getFamiliar().getId() );
+		}
+
+		public ScriptValue have_familiar( ScriptVariable familiar )
+		{	return new ScriptValue( KoLCharacter.findFamiliar( familiar.toStringValue().toString() ) != null );
+		}
+
+		public ScriptValue use_familiar( ScriptVariable familiar )
 		{
 			DEFAULT_SHELL.executeLine( "familiar " + familiar.toStringValue() );
 			return continueValue();
 		}
+
+		public ScriptValue familiar_equipment( ScriptVariable familiar )
+		{	return parseItemValue( FamiliarsDatabase.getFamiliarItem( familiar.intValue() ) );
+		}
+
+		public ScriptValue familiar_weight( ScriptVariable familiar )
+		{
+			FamiliarData fam = KoLCharacter.findFamiliar( familiar.toStringValue().toString() );
+			return new ScriptValue( (fam == null ) ? 0 : fam.getWeight() );
+		}
+
+
+		// Random other functions related to current in-game
+		// state, not directly tied to the character.
 
 		public ScriptValue council()
 		{
@@ -5453,11 +5221,11 @@ public class KoLmafiaASH extends StaticEntity
 			return VOID_VALUE;
 		}
 
-		public ScriptValue current_mind_control_level()
+		public ScriptValue current_mcd()
 		{	return new ScriptValue( KoLCharacter.getMindControlLevel() );
 		}
 
-		public ScriptValue mind_control( ScriptVariable level )
+		public ScriptValue change_mcd( ScriptVariable level )
 		{
 			DEFAULT_SHELL.executeLine( "mind-control " + level.intValue() );
 			return continueValue();
@@ -5470,6 +5238,8 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue have_bartender()
 		{	return new ScriptValue( KoLCharacter.hasBartender() );
 		}
+
+		// String parsing functions.
 
 		public ScriptValue contains_text( ScriptVariable source, ScriptVariable search )
 		{	return new ScriptValue( source.toStringValue().toString().indexOf( search.toStringValue().toString() ) != -1 );
@@ -5651,42 +5421,7 @@ public class KoLmafiaASH extends StaticEntity
 			return VOID_VALUE;
 		}
 
-		public ScriptValue abort()
-		{
-			RequestThread.declareWorldPeace();
-			return VOID_VALUE;
-		}
-
-		public ScriptValue abort( ScriptVariable string )
-		{
-			KoLmafia.updateDisplay( ABORT_STATE, string.toStringValue().toString() );
-			return VOID_VALUE;
-		}
-
-		public ScriptValue cli_execute( ScriptVariable string )
-		{
-			DEFAULT_SHELL.executeLine( string.toStringValue().toString() );
-			return continueValue();
-		}
-
-		public ScriptValue visit_url( ScriptVariable string )
-		{
-			String location = string.toStringValue().toString();
-			if ( KoLRequest.shouldIgnore( location ) )
-				return STRING_INIT;
-
-			KoLRequest request = new KoLRequest( location, true );
-			RequestThread.postRequest( request );
-
-			StaticEntity.externalUpdate( location, request.responseText );
-			return new ScriptValue( request.responseText == null ? "" : request.responseText );
-		}
-
-		public ScriptValue wait( ScriptVariable delay )
-		{
-			DEFAULT_SHELL.executeLine( "wait " + delay.intValue() );
-			return VOID_VALUE;
-		}
+		// Quest completion functions.
 
 		public ScriptValue entryway()
 		{
@@ -5712,44 +5447,13 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
-		public ScriptValue nemesis()
-		{
-			DEFAULT_SHELL.executeLine( "nemesis" );
-			return continueValue();
-		}
-
-		public ScriptValue guild()
-		{
-			DEFAULT_SHELL.executeLine( "guild" );
-			return continueValue();
-		}
-
-		public ScriptValue gourd()
-		{
-			DEFAULT_SHELL.executeLine( "gourd" );
-			return continueValue();
-		}
-
 		public ScriptValue tavern()
 		{
 			int result = getClient().locateTavernFaucet();
 			return new ScriptValue( KoLmafia.permitsContinue() ? result : -1 );
 		}
 
-		public ScriptValue train_familiar( ScriptVariable weight, ScriptVariable familiar )
-		{
-			DEFAULT_SHELL.executeLine( "train " + familiar.toStringValue() + " " + weight.intValue() );
-			return continueValue();
-		}
-
-		public ScriptValue retrieve_item( ScriptVariable count, ScriptVariable item )
-		{
-			if ( count.intValue() <= 0 )
-				return continueValue();
-
-			AdventureDatabase.retrieveItem( new AdventureResult( item.intValue(), count.intValue() ) );
-			return continueValue();
-		}
+		// Arithmetic utility functions.
 
 		public ScriptValue random( ScriptVariable arg )
 		{
@@ -5774,6 +5478,12 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue ceil( ScriptVariable arg )
 		{	return new ScriptValue( (int)Math.ceil( arg.floatValue() ) );
 		}
+
+		public ScriptValue square_root( ScriptVariable val )
+		{	return new ScriptValue( (float) Math.sqrt( val.floatValue() ) );
+		}
+
+		// Settings-type functions.
 
 		public ScriptValue url_encode( ScriptVariable arg ) throws UnsupportedEncodingException
 		{	return new ScriptValue( URLEncoder.encode( arg.toStringValue().toString(), "UTF-8" ) );
@@ -5806,6 +5516,8 @@ public class KoLmafiaASH extends StaticEntity
 			StaticEntity.removeProperty( name.toStringValue().toString() );
 			return VOID_VALUE;
 		}
+
+		// Functions for aggregates.
 
 		public ScriptValue count( ScriptVariable arg )
 		{	return new ScriptValue( arg.getValue().count() );
@@ -5966,10 +5678,27 @@ public class KoLmafiaASH extends StaticEntity
 			return TRUE_VALUE;
 		}
 
+		// Custom combat helper functions.
+
 		public ScriptValue my_location()
 		{
 			String location = getProperty( "lastAdventure" );
 			return location.equals( "" ) ? parseLocationValue( "Rest" ) : parseLocationValue( location );
+		}
+
+		public ScriptValue combat_queue_contains( ScriptVariable arg )
+		{
+			Monster monster = (Monster) arg.rawValue();
+			if ( monster == null )
+				return FALSE_VALUE;
+
+			String monsterName = monster.getName();
+
+			for ( int i = 1; i <= 5; ++i )
+				if ( StaticEntity.getProperty( "monsterQueue" + i ).equalsIgnoreCase( monsterName ) )
+					return TRUE_VALUE;
+
+			return FALSE_VALUE;
 		}
 
 		public ScriptValue get_monsters( ScriptVariable location )
@@ -5989,75 +5718,27 @@ public class KoLmafiaASH extends StaticEntity
 
 		}
 
-		public ScriptValue have_mushroom_plot()
-		{	return new ScriptValue( MushroomPlot.ownsPlot() );
-		}
-
-		public ScriptValue restore_hp( ScriptVariable amount )
-		{	return new ScriptValue( getClient().recoverHP( amount.intValue() ) );
-		}
-
-		public ScriptValue restore_mp( ScriptVariable amount )
+		public ScriptValue expected_damage()
 		{
-			int desiredMP = amount.intValue();
-			while ( !KoLmafia.refusesContinue() && desiredMP > KoLCharacter.getCurrentMP() )
-				getClient().recoverMP( desiredMP );
-			return continueValue();
-		}
+			// http://kol.coldfront.net/thekolwiki/index.php/Damage
 
-		public ScriptValue skill_to_effect( ScriptVariable skill )
-		{
-			String effectName = UneffectRequest.skillToEffect( skill.toStringValue().toString() );
-			return !StatusEffectDatabase.contains( effectName ) ? EFFECT_INIT :
-				new ScriptValue( EFFECT_TYPE, StatusEffectDatabase.getEffectId( effectName ), effectName );
-		}
+			int baseValue = Math.max( 0, FightRequest.getMonsterAttack() - KoLCharacter.getAdjustedMoxie() ) +
+				(FightRequest.getMonsterAttack() / 4) - KoLCharacter.getDamageReduction();
 
-		public ScriptValue effect_to_skill( ScriptVariable effect )
-		{
-			String skillName = UneffectRequest.effectToSkill( effect.toStringValue().toString() );
-			return !ClassSkillsDatabase.contains( skillName ) ? SKILL_INIT :
-				new ScriptValue( SKILL_TYPE, ClassSkillsDatabase.getSkillId( skillName ), skillName );
-		}
-
-		public ScriptValue mp_cost( ScriptVariable skill )
-		{	return new ScriptValue( ClassSkillsDatabase.getMPConsumptionById( skill.intValue() ) );
-		}
-
-		public ScriptValue turns_per_cast( ScriptVariable skill )
-		{	return new ScriptValue( ClassSkillsDatabase.getEffectDuration( skill.intValue() ) );
-		}
-
-		public ScriptValue can_equip( ScriptVariable item )
-		{	return new ScriptValue( EquipmentDatabase.canEquip( TradeableItemDatabase.getItemName( item.intValue() ) ) );
-		}
-
-		public ScriptValue familiar_equipment( ScriptVariable familiar )
-		{	return parseItemValue( FamiliarsDatabase.getFamiliarItem( familiar.intValue() ) );
-		}
-
-		public ScriptValue stat_bonus_today()
-		{
-			return KoLmafiaCLI.testConditional( "today is muscle day" ) ? parseStatValue( "muscle" ) :
-				KoLmafiaCLI.testConditional( "today is myst day" ) ? parseStatValue( "mysticality" ) :
-				KoLmafiaCLI.testConditional( "today is moxie day" ) ? parseStatValue( "moxie" ) : STAT_INIT;
-		}
-
-		public ScriptValue stat_bonus_tomorrow()
-		{
-			return KoLmafiaCLI.testConditional( "tomorrow is muscle day" ) ? parseStatValue( "muscle" ) :
-				KoLmafiaCLI.testConditional( "tomorrow is myst day" ) ? parseStatValue( "mysticality" ) :
-				KoLmafiaCLI.testConditional( "tomorrow is moxie day" ) ? parseStatValue( "moxie" ) : STAT_INIT;
+			float damageAbsorb = 1.0f - (( ((float) Math.sqrt( KoLCharacter.getDamageAbsorption() / 10.0f )) - 1.0f ) / 10.0f);
+			float elementAbsorb = 1.0f - KoLCharacter.getElementalResistance( FightRequest.getMonsterAttackElement() );
+			return new ScriptValue( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
 		}
 
 		public ScriptValue monster_level_adjustment()
 		{	return new ScriptValue( KoLCharacter.getMonsterLevelAdjustment() );
 		}
 
-		public ScriptValue familiar_weight_adjustment()
+		public ScriptValue weight_adjustment()
 		{
-			// Weight from skills and effects
+			// familiar_weight from skills and effects
 			int val = (KoLCharacter.getFamiliar().getId() == 38 ) ? KoLCharacter.getDodecapedeWeightAdjustment() : KoLCharacter.getFamiliarWeightAdjustment();
-			// plus weight from equipment
+			// plus familiar_weight from equipment
 			val += KoLCharacter.getFamiliarItemWeightAdjustment();
 			return new ScriptValue( val );
 		}
@@ -6145,21 +5826,6 @@ public class KoLmafiaASH extends StaticEntity
 			if ( KoLCharacter.rangedWeapon() )
 				return parseStatValue( "moxie" );
 			return parseStatValue( "muscle" );
-		}
-
-		public ScriptValue combat_queue_contains( ScriptVariable arg )
-		{
-			Monster monster = (Monster) arg.rawValue();
-			if ( monster == null )
-				return FALSE_VALUE;
-
-			String monsterName = monster.getName();
-
-			for ( int i = 1; i <= 5; ++i )
-				if ( StaticEntity.getProperty( "monsterQueue" + i ).equalsIgnoreCase( monsterName ) )
-					return TRUE_VALUE;
-
-			return FALSE_VALUE;
 		}
 
 		public ScriptValue monster_base_attack( ScriptVariable arg )
@@ -6342,6 +6008,11 @@ public class KoLmafiaASH extends StaticEntity
 			else if ( getType().equals( TYPE_FLOAT ) && targetValue.getType().equals( TYPE_INT ) )
 			{
 				content = targetValue.toFloatValue();
+				expression = null;
+			}
+			else if ( getType().equals( TYPE_ANY ) )
+			{
+				content = targetValue;
 				expression = null;
 			}
 			else if ( getType().getBaseType().equals( TYPE_AGGREGATE ) && targetValue.getType().getBaseType().equals( TYPE_AGGREGATE ) )
@@ -7573,8 +7244,6 @@ public class KoLmafiaASH extends StaticEntity
 				return STRING_INIT;
 			case TYPE_ITEM:
 				return ITEM_INIT;
-			case TYPE_ZODIAC:
-				return ZODIAC_INIT;
 			case TYPE_LOCATION:
 				return LOCATION_INIT;
 			case TYPE_CLASS:
@@ -7611,8 +7280,6 @@ public class KoLmafiaASH extends StaticEntity
 				return parseStringValue( name );
 			case TYPE_ITEM:
 				return parseItemValue( name );
-			case TYPE_ZODIAC:
-				return parseZodiacValue( name );
 			case TYPE_LOCATION:
 				return parseLocationValue( name );
 			case TYPE_CLASS:
