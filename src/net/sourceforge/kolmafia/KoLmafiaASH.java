@@ -3163,6 +3163,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "to_float", FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] { ANY_TYPE };
+		result.addElement( new ScriptExistingFunction( "to_item", ITEM_TYPE, params ) );
+
+		params = new ScriptType[] { ANY_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_skill", SKILL_TYPE, params ) );
 
 		params = new ScriptType[] { ANY_TYPE };
@@ -3170,9 +3173,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_monster", MONSTER_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "to_item", ITEM_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "to_slot", SLOT_TYPE, params ) );
@@ -4078,14 +4078,14 @@ public class KoLmafiaASH extends StaticEntity
 					return findFunction( "to_int", params );
 				if ( name.endsWith( "to_float" ) )
 					return findFunction( "to_float", params );
+				if ( name.endsWith( "to_item" ) )
+					return findFunction( "to_item", params );
 				if ( name.endsWith( "to_skill" ) )
 					return findFunction( "to_skill", params );
 				if ( name.endsWith( "to_effect" ) )
 					return findFunction( "to_effect", params );
 				if ( name.endsWith( "to_monster" ) )
 					return findFunction( "to_monster", params );
-				if ( name.endsWith( "to_item" ) )
-					return findFunction( "to_item", params );
 				if ( name.endsWith( "to_slot" ) )
 					return findFunction( "to_slot", params );
 				if ( name.endsWith( "to_url" ) )
@@ -4513,6 +4513,12 @@ public class KoLmafiaASH extends StaticEntity
 				val.intValue() != 0 ? new ScriptValue( (float) val.intValue() ) : new ScriptValue( val.floatValue() );
 		}
 
+		public ScriptValue to_item( ScriptVariable val )
+		{
+			return val.getType().equals( TYPE_INT ) ? makeItemValue( val.intValue() ) :
+				parseItemValue( val.toStringValue().toString() );
+		}
+
 		public ScriptValue to_skill( ScriptVariable val )
 		{
 			return val.getType().equals( TYPE_INT ) ? makeSkillValue( val.intValue() ) : val.getType().equals( TYPE_EFFECT ) ?
@@ -4529,10 +4535,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue to_monster( ScriptVariable val )
 		{	return parseMonsterValue( val.toStringValue().toString() );
-		}
-
-		public ScriptValue to_item( ScriptVariable val )
-		{	return makeItemValue( val.intValue() );
 		}
 
 		public ScriptValue to_slot( ScriptVariable item )
