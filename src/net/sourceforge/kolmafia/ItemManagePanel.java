@@ -58,7 +58,7 @@ import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
 public class ItemManagePanel extends LabeledScrollPanel
 {
-	public static final int CONSUME_MULTIPLE = 0;
+	public static final int USE_MULTIPLE = 0;
 
 	public static final int TAKE_ALL = 1;
 	public static final int TAKE_ALL_BUT_ONE = 2;
@@ -267,10 +267,10 @@ public class ItemManagePanel extends LabeledScrollPanel
 	public Object [] getDesiredItems( String message )
 	{
 		if ( movers == null )
-			return getDesiredItems( message, message.equals( "Consume" ) ? CONSUME_MULTIPLE : TAKE_MULTIPLE );
+			return getDesiredItems( message, message.equals( "Consume" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
 
 		if ( movers[2].isSelected() )
-			return getDesiredItems( message, message.equals( "Consume" ) ? CONSUME_MULTIPLE : TAKE_MULTIPLE );
+			return getDesiredItems( message, message.equals( "Consume" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
 
 		return getDesiredItems( message, movers[0].isSelected() ? TAKE_ALL : movers[1].isSelected() ? TAKE_ALL_BUT_ONE : TAKE_ONE );
 	}
@@ -314,7 +314,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 						return new Object[0];
 					break;
 
-				case CONSUME_MULTIPLE:
+				case USE_MULTIPLE:
 
 					int maximum = ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ), true );
 					int standard = ConsumeItemRequest.maximumUses( TradeableItemDatabase.getItemId( itemName ), false );
@@ -644,6 +644,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 				{
+				case NO_CONSUME:
+					return false;
+
 				case CONSUME_EAT:
 					isVisibleWithFilter = food;
 					break;

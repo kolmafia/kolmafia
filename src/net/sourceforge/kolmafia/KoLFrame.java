@@ -1707,29 +1707,52 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 				public boolean isVisible( Object element )
 				{
-					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)element).getItemId() ) )
+					AdventureResult item = (AdventureResult)element;
+					int itemId = item.getItemId();
+
+					if ( !notrade && !TradeableItemDatabase.isTradeable( itemId ) )
+					     return false;
+
+					boolean filter = false;
+
+					switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 					{
 					case CONSUME_EAT:
-						return food && super.isVisible( element );
+						filter = food;
+						break;
 
 					case CONSUME_DRINK:
-						return booze && super.isVisible( element );
-
-					case GROW_FAMILIAR:
-					case CONSUME_ZAP:
-						return other && super.isVisible( element );
-
-					case HP_RESTORE:
-					case MP_RESTORE:
-						return restores && super.isVisible( element );
+						filter =  booze;
+						break;
 
 					case CONSUME_USE:
 					case CONSUME_MULTIPLE:
-						return other && super.isVisible( element );
+					case GROW_FAMILIAR:
+					case CONSUME_ZAP:
+						filter = other;
+						break;
+
+					case EQUIP_FAMILIAR:
+					case EQUIP_ACCESSORY:
+					case EQUIP_HAT:
+					case EQUIP_PANTS:
+					case EQUIP_SHIRT:
+					case EQUIP_WEAPON:
+					case EQUIP_OFFHAND:
+						filter = equip;
+						break;
+
+					case MP_RESTORE:
+					case HP_RESTORE:
+						filter = restores;
 
 					default:
-						return false;
+					case NO_CONSUME:
+						filter = false;
+						break;
 					}
+
+					return filter && super.isVisible( element );
 				}
 			}
 		}
