@@ -644,9 +644,6 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 				{
-				case NO_CONSUME:
-					return false;
-
 				case CONSUME_EAT:
 					isVisibleWithFilter = food;
 					break;
