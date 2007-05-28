@@ -1397,16 +1397,17 @@ public abstract class SorceressLair extends StaticEntity
 		// pounds, if it's one of the ones which can be used against
 		// the tower familiars; otherwise, it won't survive.
 
-		FamiliarTrainingFrame.buffFamiliar( 20 );
+		if ( FamiliarTrainingFrame.buffFamiliar( 20 ) || requiresHeal )
+		{
+			KoLmafia.updateDisplay( "Facing giant familiar..." );
+			RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=" + n ) );
 
-		KoLmafia.updateDisplay( "Facing giant familiar..." );
-		RequestThread.postRequest( QUEST_HANDLER.constructURLString( "lair6.php?place=" + n ) );
+			// If you do not successfully pass the familiar, you
+			// will get a "stomp off in a huff" message.
 
-		// If you do not successfully pass the familiar, you
-		// will get a "stomp off in a huff" message.
-
-		if ( QUEST_HANDLER.responseText.indexOf( "stomp off in a huff" ) == -1 )
-			return;
+			if ( QUEST_HANDLER.responseText.indexOf( "stomp off in a huff" ) == -1 )
+				return;
+		}
 
 		// Find the necessary familiar and see if the player has one.
 
