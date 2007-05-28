@@ -238,7 +238,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		{
 			UseSkillRequest.restoreEquipment();
 
-			if ( implicitPoints.size() <= markedCheckpoint )
+			if ( implicitPoints.size() < markedCheckpoint )
 			{
 				RequestThread.postRequest( new EquipmentRequest( implicitOutfit ) );
 				markedCheckpoint = -1;
