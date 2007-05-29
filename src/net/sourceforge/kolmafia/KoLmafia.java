@@ -2945,11 +2945,14 @@ public abstract class KoLmafia implements KoLConstants
 		// Now, run the built-in behavior to take care of
 		// any loose ends.
 
+		if ( isMoodCheck )
+			MoodSettings.execute();
+
 		if ( isHealthCheck )
 			recoverHP();
 
 		if ( isMoodCheck )
-			MoodSettings.execute();
+			MoodSettings.burnExtraMana( false );
 
 		if ( isManaCheck )
 			recoverMP();

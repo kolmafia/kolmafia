@@ -1067,9 +1067,10 @@ public class AdventureDatabase extends KoLDatabase
 		boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemId() );
 		shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( item.getItemId() ) == PIXEL;
 
-		ItemCreationRequest creator = ItemCreationRequest.getInstance( item.getItemId() );
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( item.getItemId() );
-		boolean shouldCreate = creator != null;
+		boolean shouldCreate = ConcoctionsDatabase.isPermittedMethod( mixingMethod );
+		ItemCreationRequest creator = shouldCreate ? ItemCreationRequest.getInstance( item.getItemId() ) : null;
+		shouldCreate &= creator != null;
 
 		// First, attempt to pull the item from the closet.
 		// If this is successful, return from the method.
