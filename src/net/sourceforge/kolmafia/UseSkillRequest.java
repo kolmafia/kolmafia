@@ -66,10 +66,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	public static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
 	public static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
 
+	public static final AdventureResult PENDANT = new AdventureResult( 1235, 1 );
 	public static final AdventureResult WIZARD_HAT = new AdventureResult( 1653, 1 );
 	public static final AdventureResult POCKETWATCH = new AdventureResult( 1232, 1 );
 	public static final AdventureResult SOLITAIRE = new AdventureResult( 1226, 1 );
 	public static final AdventureResult BRACELET = new AdventureResult( 717, 1 );
+	public static final AdventureResult EARRING = new AdventureResult( 715, 1 );
 
 	public static final AdventureResult BIG_ROCK = new AdventureResult( 30, 1 );
 	private static final AdventureResult ROLL = new AdventureResult( 47, 1 );
@@ -310,105 +312,105 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			reduceManaConsumption( skillId );
 	}
 
-	private static void reduceManaConsumption( int skillId )
+	private static boolean isValidSwitch( int slotId )
+	{
+		AdventureResult item = KoLCharacter.getEquipment( slotId );
+		return !item.equals( PENDANT ) && !item.equals( POCKETWATCH ) && !item.equals( SOLITAIRE ) && !item.equals( BRACELET ) && !item.equals( EARRING );
+	}
+
+	private static int attemptSwitch( int skillId, AdventureResult item, boolean slot1Allowed, boolean slot2Allowed, boolean slot3Allowed )
 	{
 		if ( ClassSkillsDatabase.getMPConsumptionById( skillId ) == 1 || KoLCharacter.getManaCostModifier() == -3 )
-			return;
+			return -1;
+
+		if ( !canSwitchToItem( item ) )
+			return -1;
+
+		if ( slot3Allowed )
+		{
+			(new EquipmentRequest( item, KoLCharacter.ACCESSORY3 )).run();
+			return KoLCharacter.ACCESSORY3;
+		}
+
+		if ( slot2Allowed )
+		{
+			(new EquipmentRequest( item, KoLCharacter.ACCESSORY2 )).run();
+			return KoLCharacter.ACCESSORY2;
+		}
+
+		if ( slot1Allowed )
+		{
+			(new EquipmentRequest( item, KoLCharacter.ACCESSORY1 )).run();
+			return KoLCharacter.ACCESSORY1;
+		}
+
+		return -1;
+	}
+
+	private static void reduceManaConsumption( int skillId )
+	{
+		if ( skillId > 1000 && skillId != 6014 && ClassSkillsDatabase.isBuff( skillId ) && inventory.contains( WIZARD_HAT ) )
+			(new EquipmentRequest( WIZARD_HAT, KoLCharacter.HAT )).run();
 
 		// First determine which slots are available for switching in
 		// MP reduction items.
 
-		AdventureResult item = KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 );
-		boolean slot1Allowed = !item.equals( POCKETWATCH ) && !item.equals( SOLITAIRE ) && !item.equals( BRACELET );
+		boolean slot1Allowed = isValidSwitch( KoLCharacter.ACCESSORY1 );
+		boolean slot2Allowed = isValidSwitch( KoLCharacter.ACCESSORY2 );
+		boolean slot3Allowed = isValidSwitch( KoLCharacter.ACCESSORY3 );
 
-		item = KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 );
-		boolean slot2Allowed = !item.equals( POCKETWATCH ) && !item.equals( SOLITAIRE ) && !item.equals( BRACELET );
+		// Best switch is a pocketwatch, since it's a guaranteed -3 to
+		// spell cost.
 
-		item = KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 );
-		boolean slot3Allowed = !item.equals( POCKETWATCH ) && !item.equals( SOLITAIRE ) && !item.equals( BRACELET );
-
-		// Maybe the player can use a pocketwatch to reduce MP consumption.
-		// If so, go ahead and switch to it.
-
-		if ( canSwitchToItem( POCKETWATCH ) )
+		switch ( attemptSwitch( skillId, POCKETWATCH, slot1Allowed, slot2Allowed, slot3Allowed ) )
 		{
-			if ( slot3Allowed )
-			{
-				(new EquipmentRequest( POCKETWATCH, KoLCharacter.ACCESSORY3 )).run();
-				slot3Allowed = false;
-			}
-			else if ( slot2Allowed )
-			{
-				(new EquipmentRequest( POCKETWATCH, KoLCharacter.ACCESSORY2 )).run();
-				slot2Allowed = false;
-			}
-			else
-			{
-				(new EquipmentRequest( POCKETWATCH, KoLCharacter.ACCESSORY1 )).run();
-				slot1Allowed = false;
-			}
-
-			if ( ClassSkillsDatabase.getMPConsumptionById( skillId ) == 1 || KoLCharacter.getManaCostModifier() == -3 )
-				return;
+		case KoLCharacter.ACCESSORY1:
+			slot1Allowed = false;
+			break;
+		case KoLCharacter.ACCESSORY2:
+			slot2Allowed = false;
+			break;
+		case KoLCharacter.ACCESSORY3:
+			slot3Allowed = false;
+			break;
 		}
 
-		// Maybe the player can use a solitaire to reduce MP consumption.
-		// If so, go ahead and switch to it.
+		// Next best switch is a solitaire, since it's a guaranteed -2 to
+		// spell cost.
 
-		if ( canSwitchToItem( SOLITAIRE ) )
+		switch ( attemptSwitch( skillId, SOLITAIRE, slot1Allowed, slot2Allowed, slot3Allowed ) )
 		{
-			if ( slot3Allowed )
-			{
-				(new EquipmentRequest( SOLITAIRE, KoLCharacter.ACCESSORY3 )).run();
-				slot3Allowed = false;
-			}
-			else if ( slot2Allowed )
-			{
-				(new EquipmentRequest( SOLITAIRE, KoLCharacter.ACCESSORY2 )).run();
-				slot2Allowed = false;
-			}
-			else
-			{
-				(new EquipmentRequest( SOLITAIRE, KoLCharacter.ACCESSORY1 )).run();
-				slot1Allowed = false;
-			}
-
-			if ( ClassSkillsDatabase.getMPConsumptionById( skillId ) == 1 || KoLCharacter.getManaCostModifier() == -3 )
-				return;
+		case KoLCharacter.ACCESSORY1:
+			slot1Allowed = false;
+			break;
+		case KoLCharacter.ACCESSORY2:
+			slot2Allowed = false;
+			break;
+		case KoLCharacter.ACCESSORY3:
+			slot3Allowed = false;
+			break;
 		}
 
-		// Maybe the player can use a wizard hat to reduce MP consumption.
-		// If so, go ahead and switch to it.
+		// Earrings and bracelets are both a -1 to spell cost, so consider
+		// them in the last phase.
 
-		if ( skillId > 1000 && skillId != 6014 && ClassSkillsDatabase.isBuff( skillId ) && inventory.contains( WIZARD_HAT ) )
+		switch ( attemptSwitch( skillId, EARRING, slot1Allowed, slot2Allowed, slot3Allowed ) )
 		{
-			(new EquipmentRequest( WIZARD_HAT, KoLCharacter.HAT )).run();
-
-			if ( ClassSkillsDatabase.getMPConsumptionById( skillId ) == 1 || KoLCharacter.getManaCostModifier() == -3 )
-				return;
+		case KoLCharacter.ACCESSORY1:
+			slot1Allowed = false;
+			break;
+		case KoLCharacter.ACCESSORY2:
+			slot2Allowed = false;
+			break;
+		case KoLCharacter.ACCESSORY3:
+			slot3Allowed = false;
+			break;
 		}
 
-		// Maybe the player can use a baconstone bracelet to reduce MP
-		// consumption. If so, go ahead and switch to it.
+		// No need for a switch statement here, because it's the last thing
+		// being switched.
 
-		if ( canSwitchToItem( BRACELET ) )
-		{
-			if ( slot3Allowed )
-			{
-				(new EquipmentRequest( BRACELET, KoLCharacter.ACCESSORY3 )).run();
-				slot3Allowed = false;
-			}
-			else if ( slot2Allowed )
-			{
-				(new EquipmentRequest( BRACELET, KoLCharacter.ACCESSORY2 )).run();
-				slot2Allowed = false;
-			}
-			else
-			{
-				(new EquipmentRequest( BRACELET, KoLCharacter.ACCESSORY1 )).run();
-				slot1Allowed = false;
-			}
-		}
+		attemptSwitch( skillId, BRACELET, slot1Allowed, slot2Allowed, slot3Allowed );
 	}
 
 	public void run()
