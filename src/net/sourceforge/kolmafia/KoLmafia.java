@@ -1166,6 +1166,7 @@ public abstract class KoLmafia implements KoLConstants
 
 				maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
 				desired = Math.min( maximum, desired );
+				needed = Math.min( maximum, needed );
 			}
 			while ( last != current && current < needed );
 		}
@@ -1188,6 +1189,7 @@ public abstract class KoLmafia implements KoLConstants
 
 				maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
 				desired = Math.min( maximum, desired );
+				needed = Math.min( maximum, needed );
 			}
 			while ( last != current && current < needed );
 		}
