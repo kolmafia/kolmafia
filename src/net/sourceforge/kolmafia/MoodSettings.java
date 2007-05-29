@@ -536,10 +536,7 @@ public abstract class MoodSettings implements KoLConstants
 			return;
 
 		if ( !willExecute( isManualInvocation ) )
-		{
-			burnExtraMana( isManualInvocation );
 			return;
-		}
 
 		isExecuting = true;
 
@@ -612,9 +609,6 @@ public abstract class MoodSettings implements KoLConstants
 		}
 
 		isExecuting = false;
-
-		if ( !isManualInvocation )
-			burnExtraMana( false );
 	}
 
 	public static boolean willExecute( boolean isManualInvocation )
