@@ -86,6 +86,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int ENCHANTED_BEAN = 186;
 	private static final int FENG_SHUI = 210;
 	private static final int FOUNTAIN = 211;
+	private static final int SELTZER = 344;
 	private static final int CHEF = 438;
 	private static final int BARTENDER = 440;
 	private static final int KETCHUP_HOUND = 493;
@@ -297,6 +298,7 @@ public class ConsumeItemRequest extends KoLRequest
 	public void run()
 	{
 		lastUpdate = "";
+		int itemId = itemUsed.getItemId();
 
 		if ( itemUsed.getItemId() == SorceressLair.PUZZLE_PIECE.getItemId() )
 		{
@@ -312,8 +314,20 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 
 		int price = TradeableItemDatabase.getPriceById( itemUsed.getItemId() );
+
+		if ( itemUsed.getItemId() == SELTZER )
+			SpecialOutfit.createImplicitCheckpoint();
+
 		if ( price != 0 && !AdventureDatabase.retrieveItem( itemUsed ) )
+		{
+			if ( itemUsed.getItemId() == SELTZER )
+				SpecialOutfit.restoreImplicitCheckpoint();
+
 			return;
+		}
+
+		if ( itemUsed.getItemId() == SELTZER )
+			SpecialOutfit.restoreImplicitCheckpoint();
 
 		int iterations = 1;
 
