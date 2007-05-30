@@ -2491,9 +2491,9 @@
 2491	shirt kit	0	all	50
 2492
 2493
-2494
-2495
-2496
+2494	Necrotelicomnicon	13	all	2000
+2495	Cookbook of the Damned	13	all	2000
+2496	Sinful Desires	13	all	2000
 2497
 2498
 2499
