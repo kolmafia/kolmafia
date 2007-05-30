@@ -491,6 +491,7 @@ cardboard box turtle	0	Mus: 10
 Cloaca-Cola shield	75	none
 clockwork detective skull	0	Mox: 25
 clownskin buckler	0	Mus: 15
+Cookbook of the Damned	0	none
 Codex of Capsaicin Conjuration	0	none
 coffin lid	55	Mus: 10
 continuum transfunctioner	0	none
@@ -533,6 +534,7 @@ miniature stuffed Goth Giant	0	none
 moxie magnet	0	none
 Mr. Balloon	0	none
 Mylar balloon	0	none
+Necrotelicomnicon	0	none
 oyster basket	0	none
 off-hand balloon	0	none
 penguin skin buckler	95	Mys: 30
@@ -545,6 +547,7 @@ red balloon	0	none
 rice bowl	0	none
 sebaceous shield	0	none
 sewer turtle	0	none
+Sinful Desires	0	none
 snake shield	117	Mus: 42
 snarling wolf shield	117	Mus: 42
 sock monkey	0	Mys: 40

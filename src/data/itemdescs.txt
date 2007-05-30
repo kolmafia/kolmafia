@@ -2496,9 +2496,9 @@
 2491	835934782	shirt kit
 2492
 2493
-2494
-2495
-2496
+2494	196267512	Necrotelicomnicon	copies of the Necrotelicomnicon
+2495	390714480	Cookbook of the Damned	copies of The Cookbook of the Damned
+2496	318164531	Sinful Desires
 2497
 2498
 2499

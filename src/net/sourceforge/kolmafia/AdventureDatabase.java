@@ -418,6 +418,11 @@ public class AdventureDatabase extends KoLDatabase
 		  new String [] { "498", null, null } ),
 
 		// Choice 150 is Another Adventure About BorderTown
+
+                // Melvil Dewey Would Be Ashamed
+		new ChoiceAdventure( "Manor", "choiceAdventure163", "Haunted Library",
+		  new String [] { "Necrotelicomnicon", "Cookbook of the Damned", "Sinful Desires", "skip adventure" },
+		  new String [] { "2494", "2495", "2496", null } ),
 	};
 
 	static
@@ -591,6 +596,9 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Ennui is Wasted on the Young
 		{ "choiceAdventure120", "4" },
+
+                // Melvil Dewey Would Be Ashamed
+		{ "choiceAdventure163", "4" },
 	};
 
 	// Some choice adventures have options that cost meat
