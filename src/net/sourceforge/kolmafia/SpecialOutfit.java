@@ -234,19 +234,16 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 		AdventureResult [] implicit = (AdventureResult []) implicitPoints.pop();
 
-		if ( !KoLmafia.isRunningBetweenBattleChecks() && !MoodSettings.isExecuting() )
-		{
-			UseSkillRequest.restoreEquipment();
+		UseSkillRequest.restoreEquipment();
 
-			if ( implicitPoints.size() < markedCheckpoint )
-			{
-				RequestThread.postRequest( new EquipmentRequest( implicitOutfit ) );
-				markedCheckpoint = -1;
-			}
-			else if ( markedCheckpoint == -1 )
-			{
-				restoreCheckpoint( implicit );
-			}
+		if ( implicitPoints.size() < markedCheckpoint )
+		{
+			RequestThread.postRequest( new EquipmentRequest( implicitOutfit ) );
+			markedCheckpoint = -1;
+		}
+		else if ( markedCheckpoint == -1 )
+		{
+			restoreCheckpoint( implicit );
 		}
 	}
 
