@@ -450,7 +450,7 @@ titanium assault umbrella	130	Mus: 50	1-handed umbrella
 Totally Gay Claymore	69	Mus: 19	2-handed sword
 toy ray gun	175	Mox: 72	1-handed pistol
 Tropical Crimbo Sword	100	Mus: 35	1-handed sword
-Turtleslinger	50	Mus: 10	2-handed slingshot
+Turtleslinger	50	Mus: 10	1-handed slingshot
 two-handed depthsword	120	Mus: 45	2-handed sword
 Unionize The Elves sign	50	Mus: 10	1-handed club
 vampire duck-on-a-string	100	Mus: 35	1-handed flail
