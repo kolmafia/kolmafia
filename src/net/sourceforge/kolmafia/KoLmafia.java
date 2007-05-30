@@ -559,6 +559,9 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.setProperty( "noodleSummons", "0" );
 		StaticEntity.setProperty( "reagentSummons", "0" );
 		StaticEntity.setProperty( "cocktailSummons", "0" );
+
+		// Summon Candy Heart now costs 1 MP again
+		usableSkills.sort();
 	}
 
 	public void getBreakfast( boolean checkSettings, boolean checkCampground )
