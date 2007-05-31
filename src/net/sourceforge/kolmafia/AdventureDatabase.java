@@ -1063,7 +1063,8 @@ public class AdventureDatabase extends KoLDatabase
 		// user wishes to autosatisfy through purchases,
 		// and the item is not creatable through combines.
 
-		int price = TradeableItemDatabase.getPriceById( item.getItemId() );
+		int itemId = item.getItemId();
+		int price = TradeableItemDatabase.getPriceById( itemId );
 
 		boolean shouldUseMall = force || getBooleanProperty( "autoSatisfyWithMall" );
 		boolean shouldUseStash = getBooleanProperty( "autoSatisfyWithStash" );
@@ -1072,12 +1073,27 @@ public class AdventureDatabase extends KoLDatabase
 		boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
 		canUseNPCStore &= force || getBooleanProperty( "autoSatisfyWithNPCs" );
 
-		boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemId() );
-		shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( item.getItemId() ) == PIXEL;
+		boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( itemId );
+		shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( itemId ) == PIXEL;
 
-		int mixingMethod = ConcoctionsDatabase.getMixingMethod( item.getItemId() );
-		boolean shouldCreate = ConcoctionsDatabase.isPermittedMethod( mixingMethod );
-		ItemCreationRequest creator = shouldCreate ? ItemCreationRequest.getInstance( item.getItemId() ) : null;
+		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemId );
+
+		boolean shouldCreate;
+
+		switch ( itemId )
+		{
+		case MEAT_PASTE:
+		case MEAT_STACK:
+		case DENSE_STACK:
+			shouldCreate = true;
+			break;
+
+		default:
+			shouldCreate = ConcoctionsDatabase.isPermittedMethod( mixingMethod );
+			break;
+		}
+
+		ItemCreationRequest creator = shouldCreate ? ItemCreationRequest.getInstance( itemId ) : null;
 		shouldCreate &= creator != null;
 
 		// First, attempt to pull the item from the closet.
@@ -1154,7 +1170,7 @@ public class AdventureDatabase extends KoLDatabase
 			int worthlessItemCount = HermitRequest.getWorthlessItemCount();
 			if ( worthlessItemCount > 0 )
 			{
-				RequestThread.postRequest( new HermitRequest( item.getItemId(), Math.min( worthlessItemCount, missingCount ) ) );
+				RequestThread.postRequest( new HermitRequest( itemId, Math.min( worthlessItemCount, missingCount ) ) );
 				missingCount = item.getCount() - item.getCount( inventory );
 
 				if ( missingCount <= 0 )
@@ -1196,7 +1212,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		default:
 
-			if ( shouldCreate && ConcoctionsDatabase.hasAnyIngredient( item.getItemId() ) )
+			if ( shouldCreate && ConcoctionsDatabase.hasAnyIngredient( itemId ) )
 			{
 				creator.setQuantityNeeded( missingCount );
 				RequestThread.postRequest( creator );
