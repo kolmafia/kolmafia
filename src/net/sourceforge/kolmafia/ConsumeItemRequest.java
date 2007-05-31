@@ -1031,18 +1031,9 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 
 		case DUSTY_ANIMAL_SKULL:
-			// You pick up the animal skull, and start
-			// hooking other bones to it. It would be
-			// easier if there were instructions, Tab A
-			// into Slot B, or something... eventually,
-			// though, you manage to produce a
-			// fully-assembled animal skeleton. If you can
-			// call something made out of random cat,
-			// monkey, and hamster bones
-			// "fully-assembled". The magic that had
-			// previously animated the animals kicks back
-			// in, and it stands up shakily and looks at
-			// you. "Graaangh?"
+
+			// The magic that had previously animated the animals kicks back
+			// in, and it stands up shakily and looks at you. "Graaangh?"
 
 			if ( responseText.indexOf( "Graaangh?" ) == -1 )
 			{
@@ -1053,28 +1044,15 @@ public class ConsumeItemRequest extends KoLRequest
 			}
 
 			// Remove the other 98 bones
+
 			for ( int i = 1802; i < 1900; ++i )
-			{
-				AdventureResult bone = new AdventureResult( i, -1 );
-				StaticEntity.getClient().processResult( bone );
-			}
+				StaticEntity.getClient().processResult( new AdventureResult( i, -1 ) );
 
 			return;
 
 		case QUILL_PEN:
-			// You pick up the pen, and it immediately dips
-			// itself into your inkwell, completely
-			// draining it. Filled to capacity, it
-			// immediately floats toward a tattered scrap
-			// of paper in your sack, and begins scrawling
-			// arcane symbols on it.
-			//
-			// Exhausted, the pen falls to the floor, where
-			// it disintegrates into dust. Well, dust
-			// covered with ink. More like mud than dust, I
-			// guess.
 
-			if ( responseText.indexOf( "disintegrates into dust" ) == -1 )
+			if ( responseText.indexOf( "You acquire" ) == -1 )
 			{
 				lastUpdate = "You're missing some parts.";
 				KoLmafia.updateDisplay( ERROR_STATE, lastUpdate );
@@ -1083,8 +1061,8 @@ public class ConsumeItemRequest extends KoLRequest
 			}
 
 			// It worked. Also remove the ink and paper.
-			StaticEntity.getClient().processResult( INKWELL );
-			StaticEntity.getClient().processResult( SCRAP_OF_PAPER );
+			StaticEntity.getClient().processResult( INKWELL.getInstance( 0 - lastItemUsed.getCount() ) );
+			StaticEntity.getClient().processResult( SCRAP_OF_PAPER.getInstance( 0 - lastItemUsed.getCount() ) );
 			return;
 		}
 	}
