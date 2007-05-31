@@ -833,7 +833,7 @@ public class FightRequest extends KoLRequest
 		if ( !StaticEntity.getBooleanProperty( "logMonsterHealth" ) )
 			return;
 
-		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logBattleAction" );
+		boolean shouldLogAction = StaticEntity.getBooleanProperty( "logMonsterHealth" );
 
 		// Check if fumbled first, since that causes a special case later.
 
