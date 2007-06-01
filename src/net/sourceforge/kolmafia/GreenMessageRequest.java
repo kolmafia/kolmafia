@@ -46,7 +46,7 @@ public class GreenMessageRequest extends SendMessageRequest
 
 		addFormField( "action", "send" );
 		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
-		addFormField( "message", this.message + "\n\n" );
+		addFormField( "message", this.message );
 	}
 
 	public GreenMessageRequest( String recipient, String message, boolean saveMessage )
@@ -54,7 +54,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		super( "sendmessage.php" );
 
 		this.recipient = recipient;
-		this.message = RequestEditorKit.getUnicode( message + "\n\n" );
+		this.message = RequestEditorKit.getUnicode( message );
 
 		addFormField( "action", "send" );
 		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
@@ -69,7 +69,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		super( "sendmessage.php", attachment );
 
 		this.recipient = recipient;
-		this.message = RequestEditorKit.getUnicode( message + "\n\n" );
+		this.message = RequestEditorKit.getUnicode( message );
 
 		addFormField( "action", "send" );
 		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
@@ -88,7 +88,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		super( "sendmessage.php", attachments );
 
 		this.recipient = recipient;
-		this.message = RequestEditorKit.getUnicode( message + "\n\n" );
+		this.message = RequestEditorKit.getUnicode( message );
 
 		addFormField( "action", "send" );
 		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );

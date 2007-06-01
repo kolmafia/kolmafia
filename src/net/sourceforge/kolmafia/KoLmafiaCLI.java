@@ -2164,9 +2164,9 @@ public class KoLmafiaCLI extends KoLmafia
 		executeSendRequest( splitParameters[1], message, attachments, false );
 	}
 
-	public void executeSendRequest( String recipient, String message, Object [] attachments, boolean forceGift )
+	public void executeSendRequest( String recipient, String message, Object [] attachments, boolean usingStorage )
 	{
-		if ( !forceGift )
+		if ( !usingStorage )
 		{
 			SendMessageRequest.setUpdateDisplayOnFailure( false );
 			RequestThread.postRequest( new GreenMessageRequest( recipient, message, attachments, false ) );
@@ -2191,7 +2191,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( !refusesContinue() )
 			forceContinue();
 
-		RequestThread.postRequest( new GiftMessageRequest( recipient, message, desiredPackageIndex, attachments, forceGift ) );
+		RequestThread.postRequest( new GiftMessageRequest( recipient, message, desiredPackageIndex, attachments, usingStorage ) );
 
 		if ( permitsContinue() )
 			updateDisplay( "Gift sent to " + recipient );
