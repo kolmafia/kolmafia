@@ -3456,6 +3456,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { SLOT_TYPE };
 		result.addElement( new ScriptExistingFunction( "equipped_item", ITEM_TYPE, params ) );
 
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "have_equipped", BOOLEAN_TYPE, params ) );
+
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "outfit", BOOLEAN_TYPE, params ) );
 
@@ -5196,6 +5199,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue equipped_item( ScriptVariable slot )
 		{	return makeItemValue( KoLCharacter.getEquipment( slot.intValue() ).getName() );
+		}
+
+		public ScriptValue have_equipped( ScriptVariable item )
+		{	return KoLCharacter.hasEquipped( new AdventureResult( item.intValue(), 1 ) ) ? TRUE_VALUE : FALSE_VALUE;
 		}
 
 		public ScriptValue outfit( ScriptVariable outfit )
