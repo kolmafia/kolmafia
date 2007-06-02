@@ -20,6 +20,8 @@ MusSign	Woods	Muscle Sign
 
 Friars	Friars	Deep Fat Friar's	friars.php
 
+Worm Wood	Worm Wood	Worm Wood	wormwood.php
+
 Mountain	Mountain	Big Mountains
 McLarge	Mountain	Mt. McLargeHuge	mclargehuge.php
 

@@ -39,6 +39,7 @@ enchanted eyepatch	35	Mox: 2
 enchantlers	115	Mox: 42
 eXtreme scarf	100	Mox: 35
 eyepatch	25	none
+fancy ball mask	90	Mox: 15
 f3d0r4	110	Mox: 40
 fez of etymology	120	Mox: 45
 filthy knitted dread sack	60	Mox: 15
@@ -128,6 +129,7 @@ bloody clown pants	50	Mox: 10
 Boss Bat britches	65	Mox: 17
 bowlegged pants	100	Mox: 35
 bugbear bungguard	30	none
+Can-Can skirt	90	Mox: 15
 Cerebral Culottes	90	Mox: 30
 chain-mail monokini	30	none
 Cloaca-Cola fatigues	30	none
@@ -594,6 +596,7 @@ yakskin buckler	95	Mys: 30
 # the "equipment" slot of the equipment menu.
 
 acid-squirting flower	0	Mys: 10
+albatross necklace	0	Mys: 15
 amulet of extreme plot significance	0	Mys: 35
 arrrgyle socks	0	Mys: 20
 baconstone bracelet	0	Mys: 10

@@ -419,10 +419,92 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Choice 150 is Another Adventure About BorderTown
 
-                // Melvil Dewey Would Be Ashamed
+		// Melvil Dewey Would Be Ashamed
 		new ChoiceAdventure( "Manor", "choiceAdventure163", "Haunted Library",
 		  new String [] { "Necrotelicomnicon", "Cookbook of the Damned", "Sinful Desires", "skip adventure" },
 		  new String [] { "2494", "2495", "2496", null } ),
+
+		// The Worm Wood choices always come in order
+
+		// 1: 164, 167, 170
+		// 2: 165, 168, 171
+		// 3: 166, 169, 172
+
+		// Some first-round choices give you an effect for five turns:
+
+		// 164/2 -> Spirit of Alph
+		// 167/3 -> Bats in the Belfry
+		// 170/1 -> Rat-Faced
+
+		// First-round effects modify some second round options and
+		// give you a second effect for five rounds. If you do not have
+		// the appropriate first-round effect, these second-round
+		// options do not consume an adventure.
+
+		// 165/1 + Rat-Faced -> Night Vision
+		// 165/2 + Bats in the Belfry -> Good with the Ladies
+		// 168/2 + Spirit of Alph -> Feelin' Philosophical
+		// 168/2 + Rat-Faced -> Unusual Fashion Sense
+		// 171/1 + Bats in the Belfry -> No Vertigo
+		// 171/3 + Spirit of Alph -> Dancing Prowess
+
+		// Second-round effects modify some third round options and
+		// give you an item. If you do not have the appropriate
+		// second-round effect, most of these third-round options do
+		// not consume an adventure.
+
+		// 166/1 + No Vertigo -> S.T.L.T.
+		// 166/3 + Unusual Fashion Sense -> albatross necklace
+		// 169/1 + Night Vision -> flask of Amontillado
+		// 169/3 + Dancing Prowess -> fancy ball mask
+		// 172/1 + Good with the Ladies -> Can-Can skirt
+		// 172/1 -> combat
+		// 172/2 + Feelin' Philosophical -> not-a-pipe
+
+		// Down by the Riverside
+		new ChoiceAdventure( "Worm Wood", "choiceAdventure164", "Stately Pleasure Dome",
+		  new String [] { "muscle substats", "MP & Spirit of Alph", "enter combat" },
+		  new String [] { null, null, null } ),
+
+		// Beyond Any Measure
+		new ChoiceAdventure( "Worm Wood", "choiceAdventure165", "Stately Pleasure Dome",
+		  new String [] { "Rat-Faced -> Night Vision", "Bats in the Belfry -> Good with the Ladies", "mysticality substats", "skip the adventure" },
+		  new String [] { null, null, null, null } ),
+
+		// Death is a Boat
+		new ChoiceAdventure( "Worm Wood", "choiceAdventure166", "Stately Pleasure Dome",
+		  new String [] { "No Vertigo -> S.T.L.T.", "moxie substats", "Unusual Fashion Sense -> albatross necklace" },
+		  new String [] { "2652", null, "2659" } ),
+
+		// It's a Fixer-Upper
+		new ChoiceAdventure( "Worm Wood", "choiceAdventure167", "Mouldering Mansion",
+		  new String [] { "enter combat", "mysticality substats", "HP & MP & Bats in the Belfry" },
+		  new String [] { null, null, null } ),
+
+		// Midst the Pallor of the Parlor
+		new ChoiceAdventure( "Worm Wood", "choiceAdventure168", "Mouldering Mansion",
+		  new String [] { "moxie substats", "Spirit of Alph -> Feelin' Philosophical", "Rat-Faced -> Unusual Fashion Sense" },
+		  new String [] { null, null, null } ),
+
+		// A Few Chintz Curtains, Some Throw Pillows, It
+		new ChoiceAdventure( "Worm Wood", "choiceAdventure169", "Mouldering Mansion",
+		  new String [] { "Night Vision -> flask of Amontillado", "muscle substats", "Dancing Prowess -> fancy ball mask" },
+		  new String [] { "2661", null, "2662" } ),
+
+		// La Vie Boheme
+		new ChoiceAdventure( "Worm Wood", "choiceAdventure170", "Rogue Windmill",
+		  new String [] { "HP & Rat-Faced", "enter combat", "moxie substats" },
+		  new String [] { null, null, null } ),
+
+		// Backstage at the Rogue Windmill
+		new ChoiceAdventure( "Worm Wood", "choiceAdventure171", "Rogue Windmill",
+		  new String [] { "Bats in the Belfry -> No Vertigo", "muscle substats", "Spirit of Alph -> Dancing Prowess" },
+		  new String [] { null, null, null } ),
+
+		// Up in the Hippo Room
+		new ChoiceAdventure( "Worm Wood", "choiceAdventure172", "Rogue Windmill",
+		  new String [] { "Good with the Ladies -> Can-Can skirt", "Feelin' Philosophical -> not-a-pipe", "mysticality substats" },
+		  new String [] { "2663", "2660", null } ),
 	};
 
 	static
@@ -599,6 +681,9 @@ public class AdventureDatabase extends KoLDatabase
 
                 // Melvil Dewey Would Be Ashamed
 		{ "choiceAdventure163", "4" },
+
+		// Beyond Any Measure
+		{ "choiceAdventure165", "4" },
 	};
 
 	// Some choice adventures have options that cost meat

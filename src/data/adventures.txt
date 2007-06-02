@@ -121,6 +121,11 @@ Astral	0/0	adventure=96	Astral Mushroom (Bad Trip)
 Astral	0/0	adventure=98	Astral Mushroom (Mediocre Trip)
 Astral	0/0	adventure=97	Astral Mushroom (Great Trip)
 
+# Worm Wood
+Worm Wood	0/0	adventure=151	Stately Pleasure Dome
+Worm Wood	0/0	adventure=152	Mouldering Mansion
+Worm Wood	0/0	adventure=153	Rogue Windmill
+
 # Holiday Locations
 
 Holiday	0/0	trickortreat=Yep.	Trick-or-Treating

@@ -70,6 +70,7 @@ Double Bacon Beelzeburger	3	03-05	15-20	-15-20	0
 dwarf bread	3	03-04	0	0	0
 Elfin shortbread	3	03-09	04-06	04-06	04-06
 enchanted bean burrito	3	03-09	0	14-16	0
+escargotsicle	2	01	0	0	0
 fettucini Inconnu	6	21-30	0	0	47-52
 flaming mushroom	3	03-09	03-05	0	0
 flower petal pie	3	03-09	0	0	0
@@ -102,6 +103,7 @@ Hell broth	4	08-16	-05-09	0	-05-09
 Hell ramen	6	21-30	22-28	22-28	22-28
 herb brownies	2	02-05	0	0	08-09
 herbal stuffing	4	15-21	0	0	70-75
+honey-dew	2	01	0	0	0
 hot buttered roll	1	01	0	0	0
 hot hi mein	5	22-28	71-75	15-20	30-35
 hot wing	1	01-02	0	02-05	0

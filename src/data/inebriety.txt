@@ -22,6 +22,7 @@ bottle of Jorge Sinsonte	3	04-08	0	0	0
 bottle of Lieutenant Freeman	3	04-08	0	0	0
 Bottle of Pinot Renoir	2	04-08	30	18	0
 Bottle of Popskull	2	02-04	0	0	0
+bottle of realpagne	2	01	0	0	0
 bottle of rum	3	03	0	0	0
 bottle of single-barrel whiskey	3	13-20	40-50	40-50	40-50
 bottle of tequila	3	03	0	0	0
@@ -50,7 +51,8 @@ Ferita Del Petto Zinfandel	1	06-10	60	60	60
 fermented honey	3	03-06	05-06	05-06	05-06
 fine wine	1	01-03	0	0	03-05
 flaming mushroom wine	3	10-14	12-15	0	0
-flask of peppermint schnapps	1	01	0	0	0
+bottle of realpagne	2	01	0	0	0
+flask of Amontillado	4	01	11-30	15-28	22-25
 flat mushroom wine	3	10-14	08-10	0	0
 flute of flat champagne	2	03-06	0	15	0
 fuzzbump	4	10-14	34-36	0	0
@@ -113,6 +115,7 @@ Scrawny Stout	3	03-06	0	0	0
 screwdriver	3	03-06	08-10	0	0
 shot of flower schnapps	1	01-03	0	0	0
 shot of grapefruit schnapps	1	01-03	0	03-05	0
+shot of nepenthe schnapps	01	0	0	0	0
 shot of orange schnapps	1	01-03	03-05	0	0
 shot of tomato schnapps	1	01-03	01-02	01-02	01-02
 slap and tickle	4	10-14	0	08-10	25-27

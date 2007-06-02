@@ -54,8 +54,14 @@ yellow polka-dot oyster egg	1
 yellow paisley oyster egg	1
 yellow plastic oyster egg	1
 
+can-can-in-a-can	1
+Mariner's Friend cough drops	1
+patent antipsychotics	1
+
 can of Red Minotaur	3
 guy made of bee pollen	3
+
+not-a-pipe	4
 
 Hatorade	5
 Breathetastic&trade; Premium Canned Air	5
