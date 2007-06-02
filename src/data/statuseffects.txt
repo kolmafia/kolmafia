@@ -341,3 +341,34 @@
 341	Upsy Daisy	Ass Over Teakettle	teakettle.gif
 342	Half-Orchid	Bestial Sympathy	teeth.gif
 343	Sombrero	La Bamba	footprints.gif
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355	?	Spirit of Alph	river.gif
+356	?	Night Vision	bigeyes.gif
+357	Absinthe	Absinthe-Minded	snowflakes.gif
+358	?	Rat-Faced	ratmask.gif
+359	?	Dancing Prowess	footprints.gif
+360	?	No Vertigo	spiral.gif
+361	?	Good with the Ladies	wink.gif
+362	?	Bats in the Belfry	batwing.gif
+363	?	Unusual Fashion Sense	confused.gif
+364	?	Feelin' Philosophical	realbrain.gif
+365	?	Moon June Spooned	moon2.gif
+366	?	Inspired!	bulb.gif
+367	?	Ringing Ears	bell.gif
+368	?	Man's Worst Enemy	teeth.gif
+369	Escargotsicle	Extremely Poor Taste	sad.gif
+370	?	The Real Deal	light.gif
+371	?	Memento Moir&eacute;	photograph.gif
+372	?	Flashing Eyes	bigeyes.gif
+373	Honey-dew	Mmmmmelon	melon.gif
+374	?	Contagious Bad Luck	bmirror.gif
