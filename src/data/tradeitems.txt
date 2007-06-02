@@ -2649,29 +2649,29 @@
 2649	
 2650	bottled green pixie	5	all	0
 2651	green pixie spog	7	all	75
-2652	
-2653	
+2652	S.T.L.T.	1	all	100
+2653	honey-dew	1	all	45
 2654	
-2655	Tiny bottle of absinthe	3	all	0
+2655	tiny bottle of absinthe	3	all	0
 2656	
-2657	
+2657	escargotsicle	1	all	65
 2658	bottle of realpagne	2	all	55
-2659	
-2660	
-2661	
-2662	
-2663	
-2664	
-2665	
-2666	
-2667	
-2668	
-2669	
-2670	
-2671	
-2672	
+2659	albatross necklace	8	all	150
+2660	not-a-pipe	3	all	100
+2661	flask of Amontillado	2	all	100
+2662	fancy ball mask	9	all	125
+2663	Can-Can skirt	10	all	100
+2664	sensitive poetry journal	3	all	15
+2665	bottled inspiration	3	all	25
+2666	bellhop bell	3	all	20
+2667	disintegrating spiky collar	3	all	70
+2668	can-can-in-a-can	4	all	65
+2669	patent antipsychotics	4	all	40
+2670	Mariner's Friend cough drops	4	all	35
+2671	shot of nepenthe schnapps	2	all	40
+2672	library card	3	all	50
 2673	
-2674	
+2674	bottle of black cat tonic	3	all	25
 2675	
 2676	
 2677	

@@ -73,6 +73,8 @@ public class ConsumeItemRequest extends KoLRequest
 		LIMITED_USES.put( new Integer( 1628 ), new AdventureResult( "Your Cupcake Senses Are Tingling", 1, true ) );
 
 		LIMITED_USES.put( new Integer( 1650 ), TradeableItemDatabase.GOT_MILK );
+
+		LIMITED_USES.put( new Integer( 2655 ), new AdventureResult( "Absinthe-Minded", 1, true ) );
 	}
 
 	public static String lastUpdate = "";
@@ -128,6 +130,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int QUILL_PEN = 1957;
 	private static final int DANCE_CARD = 1963;
 	private static final int MEMO = 1973;
+	private static final int ABSINTHE = 2655;
 
 	private static final int GIFT1 = 1167;
 	private static final int GIFT2 = 1168;
@@ -177,6 +180,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final AdventureResult WINDCHIMES = new AdventureResult( 212, -1 );
 	private static final AdventureResult INKWELL = new AdventureResult( 1958, -1 );
 	private static final AdventureResult SCRAP_OF_PAPER = new AdventureResult( 1959, -1 );
+
+	private static final int LIBRARY_CARD = 2672;
 
 	private int consumptionType;
 	private AdventureResult itemUsed = null;
@@ -565,7 +570,6 @@ public class ConsumeItemRequest extends KoLRequest
 		case MANUAL_OF_LABOR:
 		case MANUAL_OF_TRANSMISSION:
 		case MANUAL_OF_DEXTERITY:
-
 			StaticEntity.getClient().processResult( lastItemUsed );
 			return;
 
@@ -688,6 +692,21 @@ public class ConsumeItemRequest extends KoLRequest
 			// beanstalk".
 
 			if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
+				StaticEntity.getClient().processResult( lastItemUsed );
+
+			return;
+
+		case LIBRARY_CARD:
+
+			// If you've already used a library card today, it is
+			// not consumed.
+
+			// "You head back to the library, but can't find
+			// anything you feel like reading. You skim a few
+			// celebrity-gossip magazines, and end up feeling kind
+			// of dirty."
+
+			if ( responseText.indexOf( "feeling kind of dirty" ) == -1 )
 				StaticEntity.getClient().processResult( lastItemUsed );
 
 			return;
@@ -1026,6 +1045,21 @@ public class ConsumeItemRequest extends KoLRequest
 			// eating another one of those just now, okay?"
 
 			if ( responseText.indexOf( "whirling maelstrom" ) == -1 )
+				StaticEntity.getClient().processResult( lastItemUsed );
+
+			return;
+
+		case ABSINTHE:
+
+			// "You drink the bottle of absinthe. It tastes like
+			// licorice, pain, and green. Your head begins to ache
+			// and you see a green glow in the general direction of
+			// the distant woods."
+
+			// "No way are you gonna drink another one of those
+			// until the last one wears off."
+
+			if ( responseText.indexOf( "licorice" ) == -1 )
 				StaticEntity.getClient().processResult( lastItemUsed );
 
 			return;
