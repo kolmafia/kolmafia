@@ -369,6 +369,6 @@
 369	escargotsicle	Extremely Poor Taste	sad.gif
 370	bottle of realpagne	The Real Deal	light.gif
 371	shot of nepenthe schnapps	Memento Moir&eacute;	photograph.gif
-372	?	Flashing Eyes	bigeyes.gif
+372	white Xanadian	Flashing Eyes	bigeyes.gif
 373	honey-dew	Mmmmmelon	melon.gif
 374	bottle of black cat tonic	Contagious Bad Luck	bmirror.gif
