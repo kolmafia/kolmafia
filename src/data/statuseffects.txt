@@ -352,14 +352,14 @@
 352
 353
 354
-355	I Wanna Know, Can You Tell Me?	Spirit of Alph	river.gif
+355	Stately Pleasure Dome	Spirit of Alph	river.gif
 356	?	Night Vision	bigeyes.gif
 357	Absinthe	Absinthe-Minded	snowflakes.gif
-358	La Vie Boheme	Rat-Faced	ratmask.gif
+358	Rogue Windmill	Rat-Faced	ratmask.gif
 359	?	Dancing Prowess	footprints.gif
 360	?	No Vertigo	spiral.gif
 361	?	Good with the Ladies	wink.gif
-362	You-Know-Whats in the You-Know-Where	Bats in the Belfry	batwing.gif
+362	Mouldering Mansion	Bats in the Belfry	batwing.gif
 363	?	Unusual Fashion Sense	confused.gif
 364	?	Feelin' Philosophical	realbrain.gif
 365	sensitive poetry journal	Moon June Spooned	moon2.gif
