@@ -2651,7 +2651,7 @@
 2651	green pixie spog	7	all	75
 2652	S.T.L.T.	1	all	100
 2653	honey-dew	1	all	45
-2654	
+2654	white Xanadian	2	all	50
 2655	tiny bottle of absinthe	3	all	0
 2656	
 2657	escargotsicle	1	all	65
