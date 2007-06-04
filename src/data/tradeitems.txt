@@ -2369,14 +2369,14 @@
 2369
 2370
 2371
-2372	bunch of bananas	3	all	5
+2372	bunch of bananas	4	all	5
 2373	banana	1	all	1
 2374	banana peel	0	all	0
 2375	banana cream pie	1	all	10
 2376	banana daiquiri	2	all	10
 2377	bungle in the jungle	2	all	25
-2378	banana spritzer	3	all	10
-2379	banana smoothie	3	all	0
+2378	banana spritzer	4	all	10
+2379	banana smoothie	4	all	0
 2380	dandy lion cub	5	all	0
 2381	woolen cravat	7	all	75
 2382
@@ -2661,10 +2661,10 @@
 2661	flask of Amontillado	2	all	100
 2662	fancy ball mask	9	all	125
 2663	Can-Can skirt	10	all	100
-2664	sensitive poetry journal	3	all	15
-2665	bottled inspiration	3	all	25
-2666	bellhop bell	3	all	20
-2667	disintegrating spiky collar	3	all	70
+2664	sensitive poetry journal	4	all	15
+2665	bottled inspiration	4	all	25
+2666	bellhop bell	4	all	20
+2667	disintegrating spiky collar	4	all	70
 2668	can-can-in-a-can	4	all	65
 2669	patent antipsychotics	4	all	40
 2670	Mariner's Friend cough drops	4	all	35

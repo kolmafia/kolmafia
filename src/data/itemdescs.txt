@@ -2374,14 +2374,14 @@
 2369
 2370
 2371
-2372	345583176	bunch of bananas
-2373	551016401	banana
-2374	358096476	banana peel
-2375	372186589	banana cream pie
-2376	895125794	banana daiquiri
-2377	915439096	bungle in the jungle
-2378	605963144	banana spritzer
-2379	352126029	banana smoothie
+2372	345583176	bunch of bananas	bunches of bananas
+2373	551016401	banana	bananas
+2374	358096476	banana peel	banana peels
+2375	372186589	banana cream pie	banana cream pies
+2376	895125794	banana daiquiri	banana daiquiris
+2377	915439096	bungle in the jungle	bungles in the jungle
+2378	605963144	banana spritzer	banana spritzers
+2379	352126029	banana smoothie	banana smoothies
 2380	970092410	dandy lion cub
 2381	984568569	woolen cravat	woolen cravats
 2382
@@ -2447,22 +2447,22 @@
 2442
 2443	199035416	pink glowstick	pink glowstyx
 2444
-2445	980448847	Deactivated O. A. F.
-2446	481449606	hardware upgrade
-2447	840387110	bad penguin egg
-2448	476592435	tasteful black bowtie
+2445	980448847	Deactivated O. A. F.	Deactivated O. A. F.s
+2446	481449606	hardware upgrade	hardware upgrades
+2447	840387110	bad penguin egg	bad penguin eggs
+2448	476592435	tasteful black bowtie	tasteful black bowties
 2449
 2450
 2451
 2452
 2453	892445942	Goodfella contract
-2454	867262722	white belt
-2455	263821595	bar whip
-2456	564951346	barskin buckler
-2457	433926383	white whip
-2458	585616844	barskin loincloth
-2459	125666662	tighty whiteys
-2460	606812905	yak toupee
+2454	867262722	white belt	white belts
+2455	263821595	bar whip	bar whips
+2456	564951346	barskin buckler	barskin bucklers
+2457	433926383	white whip	white whips
+2458	585616844	barskin loincloth	barskin loincloths
+2459	125666662	tighty whiteys	pairs of tighty whiteys
+2460	606812905	yak toupee	yak toupees
 2461	
 2462	
 2463	
@@ -2476,29 +2476,29 @@
 2471	
 2472	
 2473	
-2474	647139951	clown skin
-2475	227709910	clown wig
-2476	580579263	clownskin belt
-2477	711036900	clownskin buckler
-2478	407948733	clown whip
-2479	206550102	demon skin
-2480	998220197	demon-horned hat
-2481	268298108	demon buckler
-2482	556599497	demon whip
-2483	664765960	barskin cloak
-2484	692684674	white snakeskin duster
-2485	878692388	clownskin harness
-2486	980305999	demonskin jacket
-2487	758622764	hipposkin poncho
-2488	721587896	yak anorak
-2489	349096888	tuxedo shirt
-2490	929554588	gnauga hide vest
-2491	835934782	shirt kit
+2474	647139951	clown skin	clown skins
+2475	227709910	clown wig	clown wigs
+2476	580579263	clownskin belt	clownskin belts
+2477	711036900	clownskin buckler	clownskin bucklers
+2478	407948733	clown whip	clown whips
+2479	206550102	demon skin	demon skins
+2480	998220197	demon-horned hat	demon-horned hats
+2481	268298108	demon buckler	demon bucklers
+2482	556599497	demon whip	demon whips
+2483	664765960	barskin cloak	barskin cloaks
+2484	692684674	white snakeskin duster	white snakeskin dusters
+2485	878692388	clownskin harness	clownskin harnesses
+2486	980305999	demonskin jacket	demonskin jackets
+2487	758622764	hipposkin poncho	hipposkin ponchos
+2488	721587896	yak anorak	yak anoraks
+2489	349096888	tuxedo shirt	tuxedo shirts
+2490	929554588	gnauga hide vest	gnauga hide vests
+2491	835934782	shirt kit	shirt kits
 2492
 2493
 2494	196267512	Necrotelicomnicon	copies of the Necrotelicomnicon
 2495	390714480	Cookbook of the Damned	copies of The Cookbook of the Damned
-2496	318164531	Sinful Desires
+2496	318164531	Sinful Desires	copies of Sinful Desires
 2497
 2498
 2499
@@ -2508,10 +2508,10 @@
 2503
 2504
 2505
-2506	313202641	beach glass bead
-2507	274866288	clay peace-sign bead
-2508	135013634	beach glass necklace
-2509	391131347	peace-sign necklace
+2506	313202641	beach glass bead	beach glass beads
+2507	274866288	clay peace-sign bead	clay peace-sign beads
+2508	135013634	beach glass necklace	beach glass necklaces
+2509	391131347	peace-sign necklace	peace-sign necklaces
 2510	
 2511	
 2512	
@@ -2543,12 +2543,12 @@
 2538	
 2539	
 2540	
-2541	771351446	Mayflower bouquet
-2542	379926519	lesser grodulated violet
-2543	593800005	tin magnolia
-2544	423673086	begpwnia
-2545	928534008	upsy daisy
-2546	213398305	half-orchid
+2541	771351446	Mayflower bouquet	Mayflower bouquets
+2542	379926519	lesser grodulated violet	lesser grodulated violets
+2543	593800005	tin magnolia	tin magnolias
+2544	423673086	begpwnia	begpwnias
+2545	928534008	upsy daisy	upsy daisies
+2546	213398305	half-orchid	half-orchids
 2547	222722891	tin star	
 2548	576823351	outrageous sombrero	
 2549	472113416	"Humorous" T-shirt	
@@ -2621,7 +2621,7 @@
 2616	
 2617	
 2618	
-2619	854451522	jar of swamp gas
+2619	854451522	jar of swamp gas	jars of swamp gas
 2620	
 2621	
 2622	
@@ -2653,30 +2653,30 @@
 2648	
 2649	
 2650	908181356	bottled green pixie	bottled green pixies
-2651	369275206	green pixie spog
-2652	823135730	S.T.L.T.
-2653	762481213	honey-dew
-2654	401169468	white Xanadian
+2651	369275206	green pixie spog	green pixie spogs
+2652	823135730	S.T.L.T.	S.T.L.T.S
+2653	762481213	honey-dew	slices of honey-dew
+2654	401169468	white Xanadian	white Xanadians
 2655	689551675	tiny bottle of absinthe	tiny bottles of absinthe
 2656	
-2657	670704209	escargotsicle
-2658	942243042	bottle of realpagne
-2659	953486103	albatross necklace
+2657	670704209	escargotsicle	escargotsicles
+2658	942243042	bottle of realpagne	bottles of realpagne
+2659	953486103	albatross necklace	albatross necklaces
 2660	895277536	not-a-pipe	not-pipes
-2661	752091149	flask of Amontillado
-2662	162287327	fancy ball mask
-2663	279361902	Can-Can skirt
-2664	187780421	sensitive poetry journal
-2665	535649142	bottled inspiration
-2666	447434542	bellhop bell
-2667	473494040	disintegrating spiky collar
-2668	807597411	can-can-in-a-can
-2669	977983422	patent antipsychotics
-2670	552576171	Mariner's Friend cough drops
-2671	626948339	shot of nepenthe schnapps
-2672	653270934	library card
+2661	752091149	flask of Amontillado	flasks of Amontillado
+2662	162287327	fancy ball mask	fancy ball masks
+2663	279361902	Can-Can skirt	Can-Can skirts
+2664	187780421	sensitive poetry journal	sensitive poetry journals
+2665	535649142	bottled inspiration	bottles of inspiration
+2666	447434542	bellhop bell	bellhop bells
+2667	473494040	disintegrating spiky collar	disintegrating spiky collars
+2668	807597411	can-can-in-a-can	cans of can-can-in-a-can
+2669	977983422	patent antipsychotics	patent antipsychotics
+2670	552576171	Mariner's Friend cough drops	bags of Mariner's Friend cough drops
+2671	626948339	shot of nepenthe schnapps	shots of nepenthe schnapps
+2672	653270934	library card	library cards
 2673	
-2674	815439210	bottle of black cat tonic
+2674	815439210	bottle of black cat tonic	bottles of black cat tonic
 2675	
 2676	
 2677	
