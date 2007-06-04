@@ -812,6 +812,12 @@ public class LocalRelayRequest extends PasswordHashRequest
 			return;
 		}
 
+		if ( formURLString.indexOf( ".html" ) == -1 && formURLString.indexOf( ".php" ) == -1 && formURLString.indexOf( "?" ) == -1 )
+		{
+			sendNotFound();
+			return;
+		}
+
 		if ( formURLString.equals( "desc_item.php" ) )
 		{
 			String item = getFormField( "whichitem" );
