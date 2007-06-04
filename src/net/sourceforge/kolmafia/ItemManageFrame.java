@@ -428,7 +428,6 @@ public class ItemManageFrame extends KoLFrame
 			public EndOfRunSaleButton()
 			{
 				super( "end of run sale" );
-				setEnabled( KoLCharacter.canInteract() );
 			}
 
 			public void run()
@@ -443,7 +442,6 @@ public class ItemManageFrame extends KoLFrame
 			public MallRestockButton()
 			{
 				super( "mall store restocker" );
-				setEnabled( !KoLCharacter.isHardcore() );
 			}
 
 			public void run()
@@ -482,7 +480,6 @@ public class ItemManageFrame extends KoLFrame
 			public DisplayCaseButton()
 			{
 				super( "display case matcher" );
-				setEnabled( !KoLCharacter.isHardcore() );
 			}
 
 			public void run()
