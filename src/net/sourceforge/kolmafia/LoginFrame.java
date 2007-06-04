@@ -152,7 +152,7 @@ public class LoginFrame extends KoLFrame
 	{
 		honorProxySettings();
 
-		if ( KoLRequest.sessionId == null )
+		if ( !KoLDesktop.instanceExists() )
 			System.exit(0);
 
 		super.dispose();
