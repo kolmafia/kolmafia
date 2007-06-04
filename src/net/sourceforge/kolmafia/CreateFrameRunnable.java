@@ -198,90 +198,48 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		// do not do so -- however, if it's okay to do so, then
 		// go ahead and create it.
 
+		String initialString = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
+
+		String searchString = ChatFrame.class.isAssignableFrom( creationType ) ? "KoLMessenger" :
+			KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
+
+		boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) && initialString.indexOf( searchString ) != -1;
+
+		if ( creationType != LoginFrame.class && StaticEntity.getBooleanProperty( "guiUsesOneWindow" ) )
+		{
+			if ( !appearsInTab )
+				KoLDesktop.removeExtraTabs();
+
+			appearsInTab = true;
+		}
+		else if ( appearsInTab && creationType == RequestFrame.class )
+		{
+			// Check to see if there's already a request frame.
+			// If there is, this one won't appear in a tab.
+
+			for ( int i = 0; i < existingFrames.size(); ++i )
+				appearsInTab &= existingFrames.get(i).getClass() != RequestFrame.class;
+		}
+
+		// If the gui is limited to one frame, then make this frame
+		// a tab and remove any extra tabs created this way perviouly.
+
+		boolean showDesktop = !KoLDesktop.instanceExists();
+
+		if ( appearsInTab && showDesktop )
+		{
+			KoLDesktop.getInstance().initializeTabs();
+			if ( loadPreviousFrame() )
+			{
+				KoLDesktop.displayDesktop();
+				return;
+			}
+		}
+
 		try
 		{
-			String initialString = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
-
-			String searchString = ChatFrame.class.isAssignableFrom( creationType ) ? "KoLMessenger" :
-				KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
-
-			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) && initialString.indexOf( searchString ) != -1;
-
-			if ( creationType != LoginFrame.class && StaticEntity.getBooleanProperty( "guiUsesOneWindow" ) )
-			{
-				if ( !appearsInTab )
-					KoLDesktop.removeExtraTabs();
-
-				appearsInTab = true;
-			}
-			else if ( appearsInTab && creationType == RequestFrame.class )
-			{
-				// Check to see if there's already a request frame.
-				// If there is, this one won't appear in a tab.
-
-				for ( int i = 0; i < existingFrames.size(); ++i )
-					appearsInTab &= existingFrames.get(i).getClass() != RequestFrame.class;
-			}
-
-			// If the gui is limited to one frame, then make this frame
-			// a tab and remove any extra tabs created this way perviouly.
-
-			boolean showDesktop = !KoLDesktop.instanceExists();
-
-			if ( appearsInTab && showDesktop )
-			{
-				KoLDesktop.getInstance().initializeTabs();
-				if ( loadPreviousFrame() )
-				{
-					KoLDesktop.displayDesktop();
-					return;
-				}
-			}
-
 			if ( this.creation == null )
 				this.creation = (JFrame) creator.newInstance( parameters );
-
-			if ( creationType == RequestFrame.class )
-				appearsInTab &= ((RequestFrame)this.creation).hasSideBar();
-
-			// Load the KoL frame to the appropriate location
-			// on the screen now that the frame has been packed
-			// to the appropriate size.
-
-			if ( !appearsInTab && this.creation instanceof KoLFrame )
-			{
-				((KoLFrame)this.creation).constructToolbar();
-				if ( ((KoLFrame)this.creation).useSidePane() )
-					((KoLFrame)this.creation).addCompactPane();
-
-				this.creation.setJMenuBar( new KoLMenuBar() );
-			}
-			else if ( !(this.creation instanceof KoLFrame) )
-				this.creation.setJMenuBar( new KoLMenuBar() );
-
-			this.creation.pack();
-			if ( this.creation instanceof SkillBuffFrame && parameters.length == 1 )
-				((SkillBuffFrame)this.creation).setRecipient( (String) parameters[0] );
-
-			if ( !(this.creation instanceof KoLFrame) )
-				this.creation.setLocationRelativeTo( null );
-
-			this.creation.setEnabled( true );
-
-			// With the location set set on screen, make sure
-			// to disable it (if necessary), ensure the frame's
-			// visibility on screen and request focus.
-
-			if ( appearsInTab )
-			{
-				KoLDesktop.addTab( (KoLFrame) this.creation );
-				if ( showDesktop )
-					KoLDesktop.displayDesktop();
-			}
-			else
-				this.creation.setVisible( true );
-
-			this.creation.requestFocus();
 		}
 		catch ( Exception e )
 		{
@@ -289,7 +247,57 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e,  creationType.getName() + " could not be loaded" );
-			return;
 		}
+
+		if ( creationType == RequestFrame.class )
+			appearsInTab &= ((RequestFrame)this.creation).hasSideBar();
+
+		// Load the KoL frame to the appropriate location
+		// on the screen now that the frame has been packed
+		// to the appropriate size.
+
+		try
+		{
+			if ( !appearsInTab && this.creation instanceof KoLFrame )
+			{
+				((KoLFrame)this.creation).constructToolbar();
+				if ( ((KoLFrame)this.creation).useSidePane() )
+					((KoLFrame)this.creation).addCompactPane();
+			}
+			else if ( !(this.creation instanceof KoLFrame) )
+				this.creation.setJMenuBar( new KoLMenuBar() );
+
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e,  creationType.getName() + " could not be loaded" );
+		}
+
+		this.creation.pack();
+		if ( this.creation instanceof SkillBuffFrame && parameters.length == 1 )
+			((SkillBuffFrame)this.creation).setRecipient( (String) parameters[0] );
+
+		if ( !(this.creation instanceof KoLFrame) )
+			this.creation.setLocationRelativeTo( null );
+
+		this.creation.setEnabled( true );
+
+		// With the location set set on screen, make sure
+		// to disable it (if necessary), ensure the frame's
+		// visibility on screen and request focus.
+
+		if ( appearsInTab )
+		{
+			KoLDesktop.addTab( (KoLFrame) this.creation );
+			if ( showDesktop )
+				KoLDesktop.displayDesktop();
+		}
+		else
+			this.creation.setVisible( true );
+
+		this.creation.requestFocus();
 	}
 }
