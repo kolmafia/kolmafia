@@ -53,7 +53,7 @@ public class KoLmafiaGUI extends KoLmafia
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
 
-		(new CreateFrameRunnable( LoginFrame.class )).run();
+		(new Thread( new CreateFrameRunnable( LoginFrame.class ) )).start();
 
 		// All that completed, check to see if there is an auto-login
 		// which should occur.
