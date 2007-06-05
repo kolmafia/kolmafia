@@ -1055,7 +1055,7 @@ public class KoLRequest extends Job implements KoLConstants
 	 * maintenance and session timeout.  All data retrieved by this
 	 * method is stored in the instance variables for this class.
 	 *
-	 * @return	<code>true</code> if the data was successfully retrieved, or retrying is permissible
+	 * @return	<code>true</code> if the data was successfully retrieved
 	 */
 
 	private boolean retrieveServerReply()
@@ -1081,10 +1081,13 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		catch ( Exception e1 )
 		{
-			RequestLogger.printLine( "Time out during response.  This could be bad..." );
+			if ( !isChatRequest )
+			{
+				RequestLogger.printLine( "Time out during response.  This could be bad..." );
 
-			if ( shouldUpdateDebugLog() )
-				RequestLogger.updateDebugLog( "Connection timed out during response." );
+				if ( shouldUpdateDebugLog() )
+					RequestLogger.updateDebugLog( "Connection timed out during response." );
+			}
 
 			try
 			{
@@ -1100,7 +1103,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
 
-			return formURLString.startsWith( "http://" );
+			return !shouldRetryOnTimeout();
 		}
 
 		if ( shouldUpdateDebugLog() )
@@ -1134,6 +1137,12 @@ public class KoLRequest extends Job implements KoLConstants
 
 		istream = null;
 		return shouldStop;
+	}
+
+	private boolean shouldRetryOnTimeout()
+	{
+		return data.isEmpty() || isChatRequest || this instanceof LocalRelayRequest ||
+			this instanceof AdventureRequest || this instanceof LoginRequest || this instanceof EquipmentRequest;
 	}
 
 	private boolean handleServerRedirect()
