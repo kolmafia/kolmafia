@@ -134,7 +134,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public boolean isChatRequest = false;
 
-	private List data;
+	protected List data;
 	private boolean dataChanged = true;
 	private byte [] dataString = null;
 
@@ -1103,7 +1103,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
 
-			return !shouldRetryOnTimeout();
+			return !(this instanceof ConsumeItemRequest);
 		}
 
 		if ( shouldUpdateDebugLog() )
@@ -1137,12 +1137,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 		istream = null;
 		return shouldStop;
-	}
-
-	private boolean shouldRetryOnTimeout()
-	{
-		return data.isEmpty() || isChatRequest || this instanceof LocalRelayRequest ||
-			this instanceof AdventureRequest || this instanceof LoginRequest || this instanceof EquipmentRequest;
 	}
 
 	private boolean handleServerRedirect()
