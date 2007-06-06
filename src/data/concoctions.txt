@@ -66,7 +66,6 @@ enchanted eyepatch	1	eyepatch	lihc eye
 gnatwing earring	1	gnatwing	piercing post
 gnoll-tooth necklace	1	gnoll teeth	hemp string
 Gnollish autoplunger	1	Gnollish plunger	meat engine
-icy-hot katana	1	icy katana hilt	hot katana blade
 meat cowboy hat	1	basic meat helmet	white snake skin
 peace-sign necklace	1	clay peace-sign bead	hemp string
 phat turquoise bracelet	1	phat turquoise bead	hemp string
@@ -483,7 +482,8 @@ squeaky staff	4	styrofoam staff	sonar-in-a-biscuit
 styrofoam sword	4	basic meat sword	styrofoam ore
 Frost&trade; brand sword	4	styrofoam sword	cold powder
 
-ram-battering staff	1	ram horns	ram stick
+ram-battering staff	4	ram horns	ram stick
+icy-hot katana	4	icy katana hilt	hot katana blade
 
 # Meat-smithing armor pieces.  These items are helmets, pants,
 # and sometimes accessories which are created in smithing.
