@@ -779,7 +779,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utilit.  This method to parse an individual adventuring result.
+	 * Utility.  This method to parse an individual adventuring result.
 	 * Thi.  This method determines what the result actually was and
 	 * adds it to the tally.
 	 *
@@ -1316,7 +1316,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utilit.  This method which restores the character's current
+	 * Utility.  This method which restores the character's current
 	 * mana points above the given value.
 	 */
 
