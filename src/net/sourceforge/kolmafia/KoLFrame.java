@@ -1745,6 +1745,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					case MP_RESTORE:
 					case HP_RESTORE:
 						filter = restores;
+						break;
 
 					default:
 					case NO_CONSUME:
