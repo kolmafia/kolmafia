@@ -812,7 +812,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			return;
 		}
 
-		if ( formURLString.indexOf( ".html" ) == -1 && formURLString.indexOf( ".php" ) == -1 && formURLString.indexOf( ".gif" ) == -1 && data.isEmpty() )
+		if ( formURLString.indexOf( ".html" ) == -1 && formURLString.indexOf( ".php" ) == -1 && formURLString.indexOf( "images" ) == -1 && data.isEmpty() )
 		{
 			sendNotFound();
 			return;
