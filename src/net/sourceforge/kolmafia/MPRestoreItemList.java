@@ -38,15 +38,18 @@ import javax.swing.JCheckBox;
 
 public abstract class MPRestoreItemList extends StaticEntity
 {
+	private static boolean purchaseBasedSort = false;
+
 	public static final MPRestoreItem SOFA = new MPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE, false );
 	public static final MPRestoreItem CAMPGROUND = new MPRestoreItem( "rest at your campground", 40, false );
 	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in your beanbag", 80, false );
 
-	private static final MPRestoreItem GALAKTIK = new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", 17, false );
-	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE, true );
-	private static final MPRestoreItem SODA_WATER = new MPRestoreItem( "soda water", 4, false );
+	private static final MPRestoreItem GALAKTIK = new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", 1, 17, false );
+	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE, 100, true );
+	private static final MPRestoreItem SODA_WATER = new MPRestoreItem( "soda water", 4, 70, false );
 
-	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10, true );
+	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10, 80, true );
+	public static final MPRestoreItem CHERRY_COLA = new MPRestoreItem( "Cherry Cloaca Cola", 8, 80, true );
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
@@ -58,9 +61,13 @@ public abstract class MPRestoreItemList extends StaticEntity
 		new MPRestoreItem( "Knob Goblin superseltzer", 27, true ), new MPRestoreItem( "maple syrup", 25, false ),
 		new MPRestoreItem( "Blatantly Canadian", 23, false ), new MPRestoreItem( "tiny house", 22, false ),
 		new MPRestoreItem( "green pixel potion", 19, true ), new MPRestoreItem( "Dyspepsi-Cola", 12, true ),
-		new MPRestoreItem( "Cloaca-Cola", 12, true ), new MPRestoreItem( "Mountain Stream soda", 8, true ), MYSTERY_JUICE,
-		SELTZER, new MPRestoreItem( "Cherry Cloaca Cola", 8, true ), SODA_WATER
+		new MPRestoreItem( "Cloaca-Cola", 12, true ), new MPRestoreItem( "Mountain Stream soda", 8, true ),
+		MYSTERY_JUICE, SELTZER, CHERRY_COLA, SODA_WATER
 	};
+
+	public static void setPurchaseBasedSort( boolean purchaseBasedSort )
+	{	MPRestoreItemList.purchaseBasedSort = purchaseBasedSort;
+	}
 
 	public static boolean contains( AdventureResult item )
 	{
@@ -89,13 +96,19 @@ public abstract class MPRestoreItemList extends StaticEntity
 	{
 		private String itemName;
 		private int mpPerUse;
+		private int purchaseCost;
 		private boolean isCombatUsable;
 		private AdventureResult itemUsed;
 
 		public MPRestoreItem( String itemName, int mpPerUse, boolean isCombatUsable )
+		{	this( itemName, mpPerUse, 0, isCombatUsable );
+		}
+
+		public MPRestoreItem( String itemName, int mpPerUse, int purchaseCost, boolean isCombatUsable )
 		{
 			this.itemName = itemName;
 			this.mpPerUse = mpPerUse;
+			this.purchaseCost = purchaseCost;
 			this.isCombatUsable = isCombatUsable;
 
 			if ( TradeableItemDatabase.contains( itemName ) )
@@ -118,8 +131,23 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 		public int compareTo( Object o )
 		{
-			float restoreAmount = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
-			float ratioDifference = (restoreAmount / ((float) getManaPerUse())) - (restoreAmount / ((float) ((MPRestoreItem)o).getManaPerUse()));
+			MPRestoreItem mpi = (MPRestoreItem) o;
+
+			float restoreAmount = (float) (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
+
+			float leftRatio = restoreAmount / ((float) getManaPerUse());
+			float rightRatio = restoreAmount / ((float) mpi.getManaPerUse());
+
+			if ( purchaseBasedSort )
+			{
+				if ( purchaseCost != 0 || mpi.purchaseCost != 0 )
+				{
+					leftRatio = ((float) Math.ceil( leftRatio )) * purchaseCost;
+					rightRatio = ((float) Math.ceil( rightRatio )) * mpi.purchaseCost;
+				}
+			}
+
+			float ratioDifference = leftRatio - rightRatio;
 			return ratioDifference > 0.0f ? 1 : ratioDifference < 0.0f ? -1 : 0;
 		}
 
@@ -144,7 +172,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 				// The restore rate on magical mystery juice changes
 				// based on your current level.
 
-				this.mpPerUse = QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK ) ? 12 : 17;
+				this.purchaseCost = QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK ) ? 12 : 17;
 			}
 
 			return Math.min( mpPerUse, KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() );
