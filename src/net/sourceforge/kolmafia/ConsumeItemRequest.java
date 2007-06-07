@@ -170,6 +170,10 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int MANUAL_OF_TRANSMISSION = 2281;
 	private static final int MANUAL_OF_DEXTERITY = 2282;
 
+	private static final int SPARKLER = 2679;
+	private static final int SNAKE = 2680;
+	private static final int M282 = 2681;
+
 	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
 	private static final AdventureResult FERTILIZER = new AdventureResult( 76, -1 );
 	private static final AdventureResult PLANKS = new AdventureResult( 140, -1 );
@@ -673,6 +677,18 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "The UB3r 31337 HaX0R stands before you." ) != -1 )
 				StaticEntity.getClient().processResult( lastItemUsed.getInstance( lastItemUsed.getCount() - 1 ) );
+
+			return;
+
+		case SPARKLER:
+		case SNAKE:
+		case M282:
+
+			// "You've already celebrated the Fourth of Bor, and
+			// now it's time to get back to work."
+
+			if ( responseText.indexOf( "back to work" ) != -1 )
+				StaticEntity.getClient().processResult( lastItemUsed );
 
 			return;
 

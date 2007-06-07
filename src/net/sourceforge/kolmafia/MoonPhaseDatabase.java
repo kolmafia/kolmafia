@@ -134,6 +134,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		HOLIDAYS[2][4] = "Valentine's Day";
 		HOLIDAYS[3][3] = "St. Sneaky Pete's Day";
 		HOLIDAYS[4][2] = "Oyster Egg Day";
+		HOLIDAYS[7][4] = "Dependence Day";
 		HOLIDAYS[10][8] = "Halloween";
 		HOLIDAYS[11][7] = "Feast of Boris";
 	}

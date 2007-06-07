@@ -54,6 +54,9 @@ m	The Market Demon	magicalness-in-a-can	200
 m	The Market Demon	strongness elixir	200
 m	The Market Demon	moxie weed	200
 m	The Market Demon	oyster basket	300
+m	The Market Demon	M-242	300
+m	The Market Demon	snake	300
+m	The Market Demon	sparkler	300
 m	The Market Demon	Familiar-Gro&trade; Terrarium	500
 m	The Market Demon	Hatorade	500
 m	The Market Demon	E-Z Cook Oven&trade;	1000
