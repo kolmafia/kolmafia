@@ -258,15 +258,17 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		try
 		{
-			if ( !appearsInTab && this.creation instanceof KoLFrame )
+			if ( !appearsInTab )
 			{
-				((KoLFrame)this.creation).constructToolbar();
-				if ( ((KoLFrame)this.creation).useSidePane() )
-					((KoLFrame)this.creation).addCompactPane();
-			}
-			else if ( !(this.creation instanceof KoLFrame) )
-				this.creation.setJMenuBar( new KoLMenuBar() );
+				if ( this.creation instanceof KoLFrame )
+				{
+					((KoLFrame)this.creation).constructToolbar();
+					if ( ((KoLFrame)this.creation).useSidePane() )
+						((KoLFrame)this.creation).addCompactPane();
+				}
 
+				this.creation.setJMenuBar( new KoLMenuBar() );
+			}
 		}
 		catch ( Exception e )
 		{

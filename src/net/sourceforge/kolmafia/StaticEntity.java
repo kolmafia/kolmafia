@@ -470,25 +470,28 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static final void printStackTrace( Throwable t, String message, String [] logAssistMessages )
 	{
+		for ( int i = 0; i < logAssistMessages.length; ++i )
+			if ( logAssistMessages[i] != null )
+				System.out.println( logAssistMessages[i] );
+
+		System.err.println( message );
+		t.printStackTrace();
+
+		// Next, print all the information to the debug log so that
+		// it can be sent.
+
 		boolean shouldOpenStream = !RequestLogger.isDebugging();
 		if ( shouldOpenStream )
 			RequestLogger.openDebugLog();
 
 		KoLmafia.updateDisplay( message + ".  Debug log printed." );
+
 		for ( int i = 0; i < logAssistMessages.length; ++i )
-		{
 			if ( logAssistMessages[i] != null )
-			{
-				System.out.println( logAssistMessages[i] );
 				RequestLogger.updateDebugLog( logAssistMessages[i] );
-			}
-		}
 
 		RequestLogger.updateDebugLog( t );
-		t.printStackTrace();
-
-		if ( client.getCurrentRequest() != null )
-			printRequestData( client.getCurrentRequest() );
+		printRequestData( client.getCurrentRequest() );
 
 		try
 		{
@@ -504,6 +507,9 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static void printRequestData( KoLRequest request )
 	{
+		if ( request == null )
+			return;
+
 		boolean shouldOpenStream = RequestLogger.isDebugging();
 		if ( shouldOpenStream )
 			RequestLogger.openDebugLog();
