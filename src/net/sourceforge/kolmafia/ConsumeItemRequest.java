@@ -687,7 +687,12 @@ public class ConsumeItemRequest extends KoLRequest
 			// "You've already celebrated the Fourth of Bor, and
 			// now it's time to get back to work."
 
-			if ( responseText.indexOf( "back to work" ) != -1 )
+			// "Sorry, but these particular fireworks are illegal
+			// on any day other than the Fourth of Bor. And the law
+			// is a worthy institution, and you should respect and
+			// obey it, no matter what."
+
+			if ( responseText.indexOf( "back to work" ) != -1 || responseText.indexOf( "fireworks are illegal" ) != -1 )
 				StaticEntity.getClient().processResult( lastItemUsed );
 
 			return;
