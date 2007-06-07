@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.SwingUtilities;
 import net.sourceforge.foxtrot.ConcurrentWorker;
 import net.sourceforge.foxtrot.Job;
@@ -186,7 +187,19 @@ public abstract class RequestThread implements KoLConstants
 
 		if ( KoLmafia.getLastMessage().endsWith( "..." ) )
 		{
-			KoLmafia.updateDisplay( "Request completed." );
+			try
+			{
+				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
+				KoLmafia.updateDisplay( ENABLE_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+			}
+			catch ( Exception e )
+			{
+				// Should not happen, you're parsing something that
+				// was formatted the same way.
+
+				StaticEntity.printStackTrace( e );
+			}
+
 			RequestLogger.printLine();
 		}
 

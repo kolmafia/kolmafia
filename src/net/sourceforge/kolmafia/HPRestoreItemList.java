@@ -42,7 +42,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 	private static final HPRestoreItem SOFA = new HPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE );
 	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", 40 );
-	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", Integer.MAX_VALUE );
+	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", 10 );
 	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
 	private static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
 	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 );
@@ -123,13 +123,19 @@ public abstract class HPRestoreItemList extends StaticEntity
 				this.hpPerUse = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
 				return this.hpPerUse;
 			}
-
-			if ( this == SOFA )
+			else if ( this == SOFA )
 			{
 				// The restore rate on the rumpus room sofa changes
 				// based on your current level.
 
 				this.hpPerUse = (int) KoLCharacter.getLevel() * 5 + 1;
+			}
+			else if ( this == GALAKTIK )
+			{
+				// The restore rate on magical mystery juice changes
+				// based on your current level.
+
+				this.hpPerUse = QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK ) ? 6 : 10;
 			}
 
 			return Math.min( hpPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );

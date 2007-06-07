@@ -290,6 +290,9 @@ public abstract class StaticEntity implements KoLConstants
 			}
 		}
 
+		if ( location.indexOf( "questlog.php?which=2" ) != -1 )
+			QuestLogRequest.registerQuests( responseText );
+
 		// Keep theupdated of your current equipment and
 		// familiars, if you visit the appropriate pages.
 

@@ -42,9 +42,9 @@ public abstract class MPRestoreItemList extends StaticEntity
 	public static final MPRestoreItem CAMPGROUND = new MPRestoreItem( "rest at your campground", 40, false );
 	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in your beanbag", 80, false );
 
-	private static final MPRestoreItem GALAKTIK = new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", Integer.MAX_VALUE, false );
+	private static final MPRestoreItem GALAKTIK = new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", 17, false );
 	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE, true );
-	private static final MPRestoreItem SODA_WATER = new MPRestoreItem( "soda water", 4, true );
+	private static final MPRestoreItem SODA_WATER = new MPRestoreItem( "soda water", 4, false );
 
 	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10, true );
 
@@ -134,6 +134,13 @@ public abstract class MPRestoreItemList extends StaticEntity
 				// based on your current level.
 
 				this.mpPerUse = (int) (KoLCharacter.getLevel() * 1.5 + 4.0);
+			}
+			else if ( this == GALAKTIK )
+			{
+				// The restore rate on magical mystery juice changes
+				// based on your current level.
+
+				this.mpPerUse = QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK ) ? 12 : 17;
 			}
 
 			return Math.min( mpPerUse, KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() );
