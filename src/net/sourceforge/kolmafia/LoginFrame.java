@@ -247,6 +247,19 @@ public class LoginFrame extends KoLFrame
 			savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
 
 			JComponentUtilities.addHotKey( usernameField, KeyEvent.VK_ENTER, CONFIRM_LISTENER );
+
+			try
+			{
+				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
+				setStatusMessage( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+			}
+			catch ( Exception e )
+			{
+				// Should not happen, you're parsing something that
+				// was formatted the same way.
+
+				StaticEntity.printStackTrace( e );
+			}
 		}
 
 		public void addListeners()

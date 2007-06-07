@@ -117,7 +117,6 @@ public class AdventureFrame extends AdventureOptionsFrame
 		requestMeter = new JProgressBar();
 		requestMeter.setOpaque( true );
 		requestMeter.setStringPainted( true );
-		requestMeter.setString( " " );
 
 		JPanel meterPanel = new JPanel( new BorderLayout( 10, 10 ) );
 		meterPanel.add( Box.createHorizontalStrut( 20 ), BorderLayout.WEST );
