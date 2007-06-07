@@ -158,7 +158,9 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			if ( this == GALAKTIK )
 			{
-				DEFAULT_SHELL.executeLine( "galaktik mp" );
+				if ( needed > KoLCharacter.getCurrentMP() )
+					RequestThread.postRequest( new GalaktikRequest( "mp", needed - KoLCharacter.getCurrentMP() ) );
+
 				return;
 			}
 

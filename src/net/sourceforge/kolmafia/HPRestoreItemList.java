@@ -177,7 +177,9 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			if ( this == GALAKTIK )
 			{
-				DEFAULT_SHELL.executeLine( "galaktik hp" );
+				if ( needed > KoLCharacter.getCurrentHP() )
+					RequestThread.postRequest( new GalaktikRequest( "hp", needed - KoLCharacter.getCurrentHP() ) );
+
 				return;
 			}
 
