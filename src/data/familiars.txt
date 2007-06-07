@@ -67,4 +67,4 @@
 67	2445	O.A.F.	hardware upgrade	0	0	0	0
 68	2447	Penguin Goodfella	tasteful black bowtie	3	2	1	0
 69
-70	2650	Green Pixie	green pixie spog	0	0	0	0
+70	2650	Green Pixie	green pixie spog	2	1	0	2
