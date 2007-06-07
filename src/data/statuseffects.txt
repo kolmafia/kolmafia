@@ -372,3 +372,6 @@
 372	white Xanadian	Flashing Eyes	bigeyes.gif
 373	honey-dew	Mmmmmelon	melon.gif
 374	bottle of black cat tonic	Contagious Bad Luck	bmirror.gif
+375	sparkler	Sparkling Consciousness	snowflakes.gif
+376	snake	Sneaky Serpentine Subtlety	nopic.gif
+377	M-242	Adrenaline Rush	hoppeddown.gif
