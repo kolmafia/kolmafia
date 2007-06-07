@@ -38,35 +38,33 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class GalaktikRequest extends KoLRequest
 {
-	public static final int HP = 1;
-	public static final int MP = 2;
+	public static final String HP = "curehp";
+	public static final String MP = "curemp";
 
 	private int restoreAmount;
-	private int type;
+	private String type;
 
-	public GalaktikRequest( int type )
+	public GalaktikRequest( String type )
+	{	this( type, 0 );
+	}
+
+	public GalaktikRequest( String type, int restoreAmount )
 	{
 		super( "galaktik.php" );
 
-		this.type = type;
-		switch ( type )
-		{
-		case HP:
-			addFormField( "action", "curehp" );
-			addFormField( "pwd" );
-			this.restoreAmount = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
-			break;
+		addFormField( "pwd" );
+		addFormField( "action", type );
 
-		case MP:
-			addFormField( "action", "curemp" );
-			addFormField( "pwd" );
-			this.restoreAmount = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
-			break;
-
-		default:
+		if ( restoreAmount > 0 )
+			this.restoreAmount = restoreAmount;
+		else if ( type.equals( HP ) )
+			this.restoreAmount = Math.max( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() + restoreAmount, 0 );
+		else if ( type.equals( MP ) )
+			this.restoreAmount = Math.max( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() + restoreAmount, 0 );
+		else
 			this.restoreAmount = 0;
-			break;
-		}
+
+		addFormField( "quantity", String.valueOf( this.restoreAmount ) );
 	}
 
 	public void run()

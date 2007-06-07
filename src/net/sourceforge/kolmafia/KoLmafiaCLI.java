@@ -1803,12 +1803,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "galaktik" ) )
-		{
-			executeGalaktikRequest( parameters );
-			return;
-		}
-
 		if ( command.equals( "mpitems" ) )
 		{
 			int restores = getRestoreCount();
@@ -4577,35 +4571,6 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		RequestThread.postRequest( new HermitRequest( itemId, count ) );
-	}
-
-	/**
-	 * Makes a request to Doc Galaktik to purchase a cure.  If the
-	 * cure is not available, this method does not report an error.
-	 */
-
-	public void executeGalaktikRequest( String parameters )
-	{
-		if ( currentLine == null )
-			return;
-
-		if ( !currentLine.startsWith( "galaktik" ) )
-			return;
-
-		// Cure "HP" or "MP"
-
-		int type = 0;
-		if ( parameters.equalsIgnoreCase( "hp" ) )
-			type = GalaktikRequest.HP;
-		else if ( parameters.equalsIgnoreCase( "mp" ) )
-			type = GalaktikRequest.MP;
-		else
-		{
-			updateDisplay( ERROR_STATE, "Unknown Doc Galaktik request <" + parameters + ">" );
-			return;
-		}
-
-		RequestThread.postRequest( new GalaktikRequest( type ) );
 	}
 
 	/**

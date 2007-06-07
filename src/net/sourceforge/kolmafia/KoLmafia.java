@@ -1986,7 +1986,8 @@ public abstract class KoLmafia implements KoLConstants
 		if ( selectedValue == null )
 			return;
 
-		int type = 0;
+		String type;
+
 		if ( selectedValue.indexOf( "HP" ) != -1 )
 			type = GalaktikRequest.HP;
 		else if ( selectedValue.indexOf( "MP" ) != -1 )
