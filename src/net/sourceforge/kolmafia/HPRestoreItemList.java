@@ -102,11 +102,20 @@ public abstract class HPRestoreItemList extends StaticEntity
 				this.itemUsed = new AdventureResult( restoreName, 1, false );
 				this.skillId = -1;
 			}
-			else
+			else if ( ClassSkillsDatabase.contains( restoreName ) )
 			{
 				this.itemUsed = null;
 				this.skillId = ClassSkillsDatabase.getSkillId( restoreName );
 			}
+			else
+			{
+				this.itemUsed = null;
+				this.skillId = -1;
+			}
+		}
+
+		public boolean isSkill()
+		{	return skillId != -1;
 		}
 
 		public AdventureResult getItem()
@@ -183,7 +192,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			if ( this == GALAKTIK )
 			{
-				if ( needed > KoLCharacter.getCurrentHP() )
+				if ( purchase && needed > KoLCharacter.getCurrentHP() )
 					RequestThread.postRequest( new GalaktikRequest( "hp", needed - KoLCharacter.getCurrentHP() ) );
 
 				return;
