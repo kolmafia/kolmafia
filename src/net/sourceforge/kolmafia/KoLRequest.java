@@ -1103,7 +1103,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
 
-			return !(this instanceof ConsumeItemRequest);
+			return this instanceof ConsumeItemRequest;
 		}
 
 		if ( shouldUpdateDebugLog() )
