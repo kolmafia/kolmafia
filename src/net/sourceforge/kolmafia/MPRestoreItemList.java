@@ -108,6 +108,10 @@ public abstract class MPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
+		public boolean isSkill()
+		{	return itemUsed == null && this != GALAKTIK;
+		}
+
 		public boolean isCombatUsable()
 		{	return isCombatUsable;
 		}
@@ -165,7 +169,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			if ( this == GALAKTIK )
 			{
-				if ( needed > KoLCharacter.getCurrentMP() )
+				if ( purchase && needed > KoLCharacter.getCurrentMP() )
 					RequestThread.postRequest( new GalaktikRequest( "mp", needed - KoLCharacter.getCurrentMP() ) );
 
 				return;

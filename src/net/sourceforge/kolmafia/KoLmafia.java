@@ -1121,7 +1121,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( techniques[i] instanceof HPRestoreItem )
 			{
-				if ( ((HPRestoreItem)techniques[i]).getItem() == null )
+				if ( ((HPRestoreItem)techniques[i]).isSkill() )
 					possibleSkills.add( techniques[i] );
 				else
 					possibleItems.add( techniques[i] );
@@ -1129,7 +1129,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( techniques[i] instanceof MPRestoreItem )
 			{
-				if ( ((MPRestoreItem)techniques[i]).getItem() == null )
+				if ( ((MPRestoreItem)techniques[i]).isSkill() )
 					possibleSkills.add( techniques[i] );
 				else
 					possibleItems.add( techniques[i] );
@@ -1138,6 +1138,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( !possibleSkills.isEmpty() )
 			Collections.sort( possibleSkills );
+
+		if ( !possibleItems.isEmpty() )
+			Collections.sort( possibleItems );
 
 		float last = -1;
 
