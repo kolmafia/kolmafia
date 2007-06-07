@@ -2670,7 +2670,7 @@
 2670	Mariner's Friend cough drops	4	all	35
 2671	shot of nepenthe schnapps	2	all	40
 2672	library card	3	all	50
-2673	
+2673	Bohemian rhapsody	0	all	25
 2674	bottle of black cat tonic	3	all	25
 2675	
 2676	
