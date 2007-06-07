@@ -5040,7 +5040,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue inebriety_limit()
-		{	return new ScriptValue( !KoLCharacter.canDrink() ? 0 : KoLCharacter.hasSkill( "Liver of Steel" ) ? 20 : 15 );
+		{	return new ScriptValue( KoLCharacter.getInebrietyLimit() );
 		}
 
 		public ScriptValue can_eat()
