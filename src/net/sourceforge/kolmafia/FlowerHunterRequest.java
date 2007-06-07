@@ -69,6 +69,9 @@ public class FlowerHunterRequest extends KoLRequest
 	private static final Pattern FLOWER_PATTERN = Pattern.compile( "You have picked ([\\d,]+) pretty flower" );
 	private static final Pattern CANADA_PATTERN = Pattern.compile( "white Canadian</a>&nbsp;&nbsp;&nbsp;</td><td>([\\d,]+)</td>" );
 
+	public static final Pattern VERSUS_PATTERN = Pattern.compile( "(.+) initiated a PvP attack against (.+)\\.", Pattern.DOTALL );
+	public static final Pattern MINIS_PATTERN = Pattern.compile( "\\((\\d+) tattoos, (\\d+) trophies, (\\d+) flowers, (\\d+) white canadians\\)" );
+
 	private static final int RANKVIEW = 0;
 	private static final int ATTACK = 1;
 	private static final int PLAYER_SEARCH = 2;
@@ -264,9 +267,6 @@ public class FlowerHunterRequest extends KoLRequest
 			processOffenseContests( responseText );
 			StaticEntity.getClient().showHTML( responseText, null );
 		}
-		else
-		{
-		}
 	}
 
 	public static void processDefenseContests( String responseText )
@@ -295,7 +295,7 @@ public class FlowerHunterRequest extends KoLRequest
 			fightData[i] = null;
 		}
 
-		LogStream pvpResults = LogStream.openStream( "attacks/" + "rawdata.txt", false );
+		LogStream pvpResults = LogStream.openStream( "attacks/" + KoLCharacter.baseUserName() + "_offense.txt", false );
 
 		pvpResults.println();
 		pvpResults.println( new Date() );
@@ -392,12 +392,6 @@ public class FlowerHunterRequest extends KoLRequest
 
 		String result = contest + ": You " + (isWinner ? "won." : "lost.");
 		ostream.println( result );
-
-		recordContestResult( target, result );
-	}
-
-	public static void recordContestResult( String opponent, String result )
-	{
 	}
 
 	public static boolean registerRequest( String urlString )

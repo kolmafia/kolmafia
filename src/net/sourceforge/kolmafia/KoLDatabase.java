@@ -60,7 +60,7 @@ public class KoLDatabase extends StaticEntity
 	{	return DataUtilities.getReader( istream );
 	}
 
-	public static String [] readData( BufferedReader reader )
+	public static String readLine( BufferedReader reader )
 	{
 		if ( reader == null )
 			return null;
@@ -78,7 +78,7 @@ public class KoLDatabase extends StaticEntity
 			// return null.  Otherwise, return the line
 			// that's been split on tabs.
 
-			return line == null ? null : line.split( "\t" );
+			return line;
 		}
 		catch ( Exception e )
 		{
@@ -88,6 +88,15 @@ public class KoLDatabase extends StaticEntity
 			printStackTrace( e );
 			return null;
 		}
+	}
+
+	public static String [] readData( BufferedReader reader )
+	{
+		if ( reader == null )
+			return null;
+
+		String line = readLine( reader );
+		return line == null ? null : line.split( "\t" );
 	}
 
 	/**

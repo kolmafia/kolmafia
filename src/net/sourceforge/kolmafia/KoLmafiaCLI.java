@@ -42,6 +42,7 @@ import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
@@ -682,61 +683,61 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			if ( command.startsWith( "chat" ) )
+			if ( command.equals( "chat" ) )
 			{
 				KoLmafiaGUI.constructFrame( "KoLMessenger" );
 				return;
 			}
 
-			if ( command.startsWith( "mail" ) )
+			if ( command.equals( "mail" ) )
 			{
 				KoLmafiaGUI.constructFrame( "MailboxFrame" );
 				return;
 			}
 
-			if ( command.startsWith( "event" ) )
+			if ( command.equals( "events" ) )
 			{
 				KoLmafiaGUI.constructFrame( "EventsFrame" );
 				return;
 			}
 
-			if ( command.startsWith( "compose" ) )
+			if ( command.equals( "compose" ) )
 			{
 				KoLmafiaGUI.constructFrame( "GreenMessageFrame" );
 				return;
 			}
 
-			if ( command.startsWith( "gift" ) )
+			if ( command.equals( "gift" ) )
 			{
 				KoLmafiaGUI.constructFrame( "GiftMessageFrame" );
 				return;
 			}
 
-			if ( command.startsWith( "option" ) )
+			if ( command.equals( "options" ) )
 			{
 				KoLmafiaGUI.constructFrame( "OptionsFrame" );
 				return;
 			}
 
-			if ( command.startsWith( "item" ) )
+			if ( command.equals( "items" ) )
 			{
 				KoLmafiaGUI.constructFrame( "ItemManageFrame" );
 				return;
 			}
 
-			if ( command.startsWith( "clan" ) )
+			if ( command.equals( "clan" ) )
 			{
 				KoLmafiaGUI.constructFrame( "ClanManageFrame" );
 				return;
 			}
 
-			if ( command.startsWith( "gear" ) )
+			if ( command.equals( "gear" ) )
 			{
 				KoLmafiaGUI.constructFrame( "GearChangeFrame" );
 				return;
 			}
 
-			if ( command.startsWith( "pvp" ) )
+			if ( command.equals( "pvp" ) )
 			{
 				KoLmafiaGUI.constructFrame( "FlowerHunterFrame" );
 				return;
@@ -1797,6 +1798,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.startsWith( "pvplog" ) )
+		{
+			summarizeFlowerHunterData();
+			return;
+		}
+
 		if ( command.equals( "hermit" ) )
 		{
 			executeHermitRequest( parameters );
@@ -2043,6 +2050,153 @@ public class KoLmafiaCLI extends KoLmafia
 		displayText = COMMENT_PATTERN.matcher( displayText ).replaceAll( "" );
 
 		RequestLogger.printLine( displayText.trim() );
+	}
+
+	private void summarizeFlowerHunterData()
+	{
+		File resultFolder = new File( ROOT_LOCATION, "attacks" );
+
+		if ( !resultFolder.exists() )
+			return;
+
+		File [] attackLogs = resultFolder.listFiles();
+
+		TreeMap minis = new TreeMap();
+		updateDisplay( "Scanning attack logs..." );
+
+		for ( int i = 0; i < attackLogs.length; ++i )
+		{
+			if ( !attackLogs[i].getName().endsWith( "__spreadsheet.txt" ) )
+				registerFlowerHunterData( minis, KoLDatabase.getReader( attackLogs[i] ) );
+		}
+
+		LogStream spreadsheet = LogStream.openStream( new File( resultFolder, "__spreadsheet.txt" ), true );
+
+		spreadsheet.println( "Name\tTattoos\t\tTrophies\t\tFlowers\t\tCanadians" );
+		spreadsheet.println( "\tLow\tHigh\tLow\tHigh\tLow\tHigh\tLow\tHigh" );
+
+		Iterator keys = minis.keySet().iterator();
+
+		while ( keys.hasNext() )
+		{
+			Object key = keys.next();
+			Object [] value = (Object []) minis.get( key );
+
+			boolean shouldPrint = false;
+			for ( int i = 0; i < value.length; i += 2 )
+				shouldPrint |= value[i] != null;
+
+			if ( !shouldPrint )
+				continue;
+
+			spreadsheet.print( key );
+
+			for ( int i = 0; i < value.length; i += 2 )
+			{
+				spreadsheet.print( "\t" );
+				spreadsheet.print( value[i] == null ? "" : value[i] );
+			}
+
+			spreadsheet.println();
+		}
+
+		spreadsheet.close();
+		updateDisplay( "Spreadsheet generated." );
+
+		RequestThread.enableDisplayIfSequenceComplete();
+	}
+
+	private void registerFlowerHunterData( TreeMap minis, BufferedReader attackLog )
+	{
+		String line;
+		while ( (line = KoLDatabase.readLine( attackLog )) != null )
+		{
+			// First, try to figure out whose data is being registered in
+			// this giant spreadsheet.
+
+			Matcher versusMatcher = FlowerHunterRequest.VERSUS_PATTERN.matcher( line );
+			if ( !versusMatcher.find() )
+			{
+				line = KoLDatabase.readLine( attackLog );
+				versusMatcher = FlowerHunterRequest.VERSUS_PATTERN.matcher( line );
+
+				if ( !versusMatcher.find() )
+					return;
+			}
+
+			String opponent = versusMatcher.group(2).equals( "you" ) ? versusMatcher.group(1) : versusMatcher.group(2);
+
+			line = KoLDatabase.readLine( attackLog );
+			Matcher minisMatcher = FlowerHunterRequest.MINIS_PATTERN.matcher( line );
+
+			if ( !minisMatcher.find() )
+				return;
+
+			// Next, make sure that you have all the information needed to
+			// generate a row in the spreadsheet.
+
+			Integer [] yourData = new Integer[4];
+			for ( int i = 0; i < yourData.length; ++i )
+				yourData[i] = Integer.valueOf( minisMatcher.group(i + 1) );
+
+			if ( !minis.containsKey( opponent ) )
+				minis.put( opponent, new Object[16] );
+
+			// There are seven minis to handle.  You can discard the first
+			// three because they're attack minis.
+
+			KoLDatabase.readLine( attackLog );
+			KoLDatabase.readLine( attackLog );
+			KoLDatabase.readLine( attackLog );
+
+			Object [] theirData = (Object []) minis.get( opponent );
+
+			registerFlowerContestData( yourData, theirData, KoLDatabase.readLine( attackLog ) );
+			registerFlowerContestData( yourData, theirData, KoLDatabase.readLine( attackLog ) );
+			registerFlowerContestData( yourData, theirData, KoLDatabase.readLine( attackLog ) );
+			registerFlowerContestData( yourData, theirData, KoLDatabase.readLine( attackLog ) );
+
+			// With all that information registered, go ahead and store the
+			// attack information back into the tree map.
+
+			minis.put( opponent, theirData );
+		}
+	}
+
+	private void registerFlowerContestData( Integer [] yourData, Object [] theirData, String currentAttack )
+	{
+		int baseIndex = -1;
+		boolean wonContest = currentAttack.endsWith( "You won." );
+
+		if ( currentAttack.startsWith( "Tattoo Contest" ) )
+			baseIndex = 0;
+
+		if ( currentAttack.startsWith( "Trophy Contest" ) )
+			baseIndex = 1;
+
+		if ( currentAttack.startsWith( "Flower Picking Contest" ) )
+			baseIndex = 2;
+
+		if ( currentAttack.startsWith( "Canadianity Contest" ) )
+			baseIndex = 3;
+
+		if ( baseIndex < 0 )
+			return;
+
+		if ( wonContest )
+		{
+			if ( theirData[4 * baseIndex] == null || yourData[baseIndex].intValue() < ((Integer)theirData[4 * baseIndex]).intValue() )
+			{
+				theirData[4 * baseIndex] = yourData[baseIndex];
+			}
+		}
+		else
+		{
+			if ( theirData[4 * baseIndex + 2] == null || yourData[baseIndex].intValue() > ((Integer)theirData[4 * baseIndex + 2]).intValue() )
+			{
+				theirData[4 * baseIndex + 2] = yourData[baseIndex];
+			}
+		}
 	}
 
 	private void executeFlowerHuntRequest()
