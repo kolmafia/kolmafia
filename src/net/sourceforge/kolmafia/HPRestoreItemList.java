@@ -38,14 +38,18 @@ import javax.swing.JCheckBox;
 
 public abstract class HPRestoreItemList extends StaticEntity
 {
+	private static boolean purchaseBasedSort = false;
+
 	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
 
 	private static final HPRestoreItem SOFA = new HPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE );
 	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", 40 );
-	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", 10 );
-	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
+
+	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", 1, 10 );
+	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE, 100 );
+	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9, 80 );
+
 	private static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
-	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 );
 	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
 
 	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem []
@@ -60,6 +64,10 @@ public abstract class HPRestoreItemList extends StaticEntity
 		new HPRestoreItem( "Tongue of the Otter", 15 ), new HPRestoreItem( "Doc Galaktik's Restorative Balm", 14 ),
 		OINTMENT, new HPRestoreItem( "forest tears", 7 ), new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3 )
 	};
+
+	public static void setPurchaseBasedSort( boolean purchaseBasedSort )
+	{	HPRestoreItemList.purchaseBasedSort = purchaseBasedSort;
+	}
 
 	public static boolean contains( AdventureResult item )
 	{
@@ -88,14 +96,20 @@ public abstract class HPRestoreItemList extends StaticEntity
 	{
 		private String restoreName;
 		private int hpPerUse;
+		private int purchaseCost;
 
 		private int skillId;
 		private AdventureResult itemUsed;
 
 		public HPRestoreItem( String restoreName, int hpPerUse )
+		{	this( restoreName, hpPerUse, 0 );
+		}
+
+		public HPRestoreItem( String restoreName, int hpPerUse, int purchaseCost )
 		{
 			this.restoreName = restoreName;
 			this.hpPerUse = hpPerUse;
+			this.purchaseCost = purchaseCost;
 
 			if ( TradeableItemDatabase.contains( restoreName ) )
 			{
@@ -124,7 +138,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 		public int getHealthPerUse()
 		{
-			if ( this == GALAKTIK || this == HERBS || this == SCROLL || this == COCOON )
+			if ( this == HERBS || this == SCROLL || this == COCOON )
 			{
 				// The restore rate on these is equal to the difference
 				// between your current and your maximum health.
@@ -144,7 +158,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 				// The restore rate on magical mystery juice changes
 				// based on your current level.
 
-				this.hpPerUse = QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK ) ? 6 : 10;
+				this.purchaseCost = QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK ) ? 6 : 10;
 			}
 
 			return Math.min( hpPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
@@ -173,6 +187,14 @@ public abstract class HPRestoreItemList extends StaticEntity
 			{
 				leftRatio = (float) (Math.ceil( leftRatio ) * (double) ClassSkillsDatabase.getMPConsumptionById( skillId ));
 				rightRatio = (float) (Math.ceil( rightRatio ) * (double) ClassSkillsDatabase.getMPConsumptionById( hpi.skillId ));
+			}
+			else if ( purchaseBasedSort )
+			{
+				if ( purchaseCost != 0 || hpi.purchaseCost != 0 )
+				{
+					leftRatio = ((float) Math.ceil( leftRatio )) * purchaseCost;
+					rightRatio = ((float) Math.ceil( rightRatio )) * hpi.purchaseCost;
+				}
 			}
 
 			float ratioDifference = leftRatio - rightRatio;

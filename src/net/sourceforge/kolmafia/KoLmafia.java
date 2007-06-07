@@ -1136,13 +1136,12 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
-		if ( !possibleSkills.isEmpty() )
-			Collections.sort( possibleSkills );
-
-		if ( !possibleItems.isEmpty() )
-			Collections.sort( possibleItems );
-
 		float last = -1;
+
+		HPRestoreItemList.setPurchaseBasedSort( false );
+		MPRestoreItemList.setPurchaseBasedSort( false );
+
+		Collections.sort( possibleItems );
 
 		// Iterate through every restore item which is already available
 		// in the player's inventory.
@@ -1170,6 +1169,8 @@ public abstract class KoLmafia implements KoLConstants
 		// Next, move onto things which are not items (skills), and
 		// prefer them over purchasing items.
 
+		Collections.sort( possibleSkills );
+
 		for ( int i = 0; i < possibleSkills.size() && current < needed; ++i )
 		{
 			do
@@ -1195,6 +1196,11 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( StaticEntity.getBooleanProperty( "autoBuyRestores" ) )
 		{
+			HPRestoreItemList.setPurchaseBasedSort( true );
+			MPRestoreItemList.setPurchaseBasedSort( true );
+
+			Collections.sort( possibleItems );
+
 			for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
 			{
 				do
@@ -1210,6 +1216,9 @@ public abstract class KoLmafia implements KoLConstants
 				}
 				while ( last != current && current < needed );
 			}
+
+			HPRestoreItemList.setPurchaseBasedSort( false );
+			MPRestoreItemList.setPurchaseBasedSort( false );
 		}
 		else if ( current < needed )
 		{
