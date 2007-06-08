@@ -688,19 +688,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public boolean isLikelyStasisFarming()
 	{
-		if ( !isLikelyStasisZone )
-			return false;
-
-		if ( !KoLCharacter.getFamiliar().isThiefFamiliar() )
-			return false;
-
-		if ( KoLCharacter.isHardcore() || KoLCharacter.getTotalTurnsUsed() < 3000 || KoLCharacter.getFamiliar().getWeight() < 20 )
-			return false;
-
-		return true;
+		return isLikelyStasisZone && KoLCharacter.getFamiliar().isThiefFamiliar() &&
+			KoLCharacter.getFamiliar().getWeight() >= 20 && KoLCharacter.getTotalTurnsUsed() > 3000;
 	}
-
-
 
 	/**
 	 * Executes the appropriate <code>KoLRequest</code> for the adventure
