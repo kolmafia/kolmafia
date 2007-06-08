@@ -184,16 +184,6 @@ public class CommandDisplayFrame extends KoLFrame
 
 		commandQueue.add( command );
 		lastCommandIndex = commandHistory.size();
-
-		if ( handler.isRunning() )
-		{
-			RequestLogger.printLine();
-			RequestLogger.printLine( " > QUEUED: " + command );
-			RequestLogger.printLine();
-
-			return;
-		}
-
 		handler.pumpQueue();
 	}
 
@@ -226,11 +216,7 @@ public class CommandDisplayFrame extends KoLFrame
 			while ( true )
 			{
 				isRunning = true;
-				RequestThread.openRequestSequence();
-
 				handleQueue();
-
-				RequestThread.closeRequestSequence();
 				isRunning = false;
 
 				try
@@ -250,8 +236,9 @@ public class CommandDisplayFrame extends KoLFrame
 		public void handleQueue()
 		{
 			String command;
+			RequestThread.openRequestSequence();
 
-			while ( !commandQueue.isEmpty() )
+			while ( !KoLmafia.refusesContinue() && !commandQueue.isEmpty() )
 			{
 				command = (String) commandQueue.get(0);
 
@@ -270,10 +257,10 @@ public class CommandDisplayFrame extends KoLFrame
 				}
 
 				commandQueue.remove(0);
-
-				if ( KoLmafia.refusesContinue() )
-					commandQueue.clear();
 			}
+
+			commandQueue.clear();
+			RequestThread.closeRequestSequence();
 		}
 
 		public boolean isRunning()
