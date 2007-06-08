@@ -1131,6 +1131,22 @@ public abstract class KoLmafia implements KoLConstants
 		if ( settingName.startsWith( "hp" ) && possibleItems.contains( HPRestoreItemList.SCROLL ) )
 			recoverOnce( HPRestoreItemList.SCROLL, "scroll of drastic healing", (int) desired, false );
 
+		for ( int i = 0; i < possibleSkills.size(); ++i )
+		{
+			if ( possibleSkills.get(i) instanceof HPRestoreItem )
+				((HPRestoreItem)possibleSkills.get(i)).updateHealthPerUse();
+			else
+				((MPRestoreItem)possibleSkills.get(i)).updateManaPerUse();
+		}
+
+		for ( int i = 0; i < possibleItems.size(); ++i )
+		{
+			if ( possibleItems.get(i) instanceof HPRestoreItem )
+				((HPRestoreItem)possibleItems.get(i)).updateHealthPerUse();
+			else
+				((MPRestoreItem)possibleItems.get(i)).updateManaPerUse();
+		}
+
 		HPRestoreItemList.setPurchaseBasedSort( false );
 		MPRestoreItemList.setPurchaseBasedSort( false );
 

@@ -136,17 +136,9 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public int getHealthPerUse()
+		public void updateHealthPerUse()
 		{
-			if ( this == HERBS || this == SCROLL || this == COCOON )
-			{
-				// The restore rate on these is equal to the difference
-				// between your current and your maximum health.
-
-				this.hpPerUse = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
-				return this.hpPerUse;
-			}
-			else if ( this == SOFA )
+			if ( this == SOFA )
 			{
 				// The restore rate on the rumpus room sofa changes
 				// based on your current level.
@@ -160,8 +152,10 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 				this.purchaseCost = QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK ) ? 6 : 10;
 			}
+		}
 
-			return Math.min( hpPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
+		public int getHealthPerUse()
+		{	return Math.min( hpPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
 		}
 
 		public int compareTo( Object o )
@@ -216,7 +210,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 			{
 				if ( purchase && needed > KoLCharacter.getCurrentHP() )
 				{
-					RequestThread.postRequest( new GalaktikRequest( "hp",
+					RequestThread.postRequest( new GalaktikRequest( GalaktikRequest.HP,
 						Math.min( needed - KoLCharacter.getCurrentHP(), KoLCharacter.getAvailableMeat() / purchaseCost ) ) );
 				}
 

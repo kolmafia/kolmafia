@@ -151,7 +151,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			return ratioDifference > 0.0f ? 1 : ratioDifference < 0.0f ? -1 : 0;
 		}
 
-		public int getManaPerUse()
+		public void updateManaPerUse()
 		{
 			if ( this == SOFA )
 			{
@@ -174,8 +174,10 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 				this.purchaseCost = QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK ) ? 12 : 17;
 			}
+		}
 
-			return Math.min( mpPerUse, KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() );
+		public int getManaPerUse()
+		{	return Math.min( mpPerUse, KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() );
 		}
 
 		public void recoverMP( int needed, boolean purchase )
@@ -199,7 +201,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			{
 				if ( purchase && needed > KoLCharacter.getCurrentMP() )
 				{
-					RequestThread.postRequest( new GalaktikRequest( "mp",
+					RequestThread.postRequest( new GalaktikRequest( GalaktikRequest.MP,
 						Math.min( needed - KoLCharacter.getCurrentMP(), KoLCharacter.getAvailableMeat() / purchaseCost ) ) );
 				}
 

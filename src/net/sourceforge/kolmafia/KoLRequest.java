@@ -68,9 +68,6 @@ import com.velocityreviews.forums.HttpTimeoutHandler;
 
 public class KoLRequest extends Job implements KoLConstants
 {
-	private int retryCount = 0;
-	private static final int MAXIMUM_RETRIES = 3;
-
 	private static final int INITIAL_CACHE_COUNT = 3;
 	private static final Object WAIT_OBJECT = new Object();
 
@@ -1103,7 +1100,7 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
 
-			return this instanceof ConsumeItemRequest;
+			return this instanceof ConsumeItemRequest || this instanceof RestaurantRequest || this instanceof MicrobreweryRequest;
 		}
 
 		if ( shouldUpdateDebugLog() )

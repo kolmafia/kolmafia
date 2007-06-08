@@ -187,19 +187,7 @@ public abstract class RequestThread implements KoLConstants
 
 		if ( KoLmafia.getLastMessage().endsWith( "..." ) )
 		{
-			try
-			{
-				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
-				KoLmafia.updateDisplay( ENABLE_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
-			}
-			catch ( Exception e )
-			{
-				// Should not happen, you're parsing something that
-				// was formatted the same way.
-
-				StaticEntity.printStackTrace( e );
-			}
-
+			KoLmafia.updateDisplay( "Requests complete." );
 			RequestLogger.printLine();
 		}
 
