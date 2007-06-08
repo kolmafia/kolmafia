@@ -1143,17 +1143,25 @@ public abstract class KoLmafia implements KoLConstants
 
 			while ( last != current && current < needed )
 			{
+				int indexToTry = 0;
 				Collections.sort( possibleSkills );
 
-				last = current;
-				currentTechniqueName = possibleSkills.get(0).toString().toLowerCase();
+				do
+				{
+					last = current;
+					currentTechniqueName = possibleSkills.get(indexToTry).toString().toLowerCase();
 
-				recoverOnce( possibleSkills.get(0), currentTechniqueName, (int) desired, false );
-				current = ((Number)currentMethod.invoke( null, empty )).floatValue();
+					recoverOnce( possibleSkills.get(indexToTry), currentTechniqueName, (int) desired, false );
+					current = ((Number)currentMethod.invoke( null, empty )).floatValue();
 
-				maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
-				desired = Math.min( maximum, desired );
-				needed = Math.min( maximum, needed );
+					maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
+					desired = Math.min( maximum, desired );
+					needed = Math.min( maximum, needed );
+
+					if ( last == current )
+						++indexToTry;
+				}
+				while ( indexToTry < possibleSkills.size() && current < needed );
 			}
 
 			if ( refusesContinue() )
@@ -1198,16 +1206,24 @@ public abstract class KoLmafia implements KoLConstants
 
 			while ( last != current && current < needed )
 			{
+				int indexToTry = 0;
 				Collections.sort( possibleItems );
 
-				last = current;
-				currentTechniqueName = possibleItems.get(0).toString().toLowerCase();
+				do
+				{
+					last = current;
+					currentTechniqueName = possibleItems.get(indexToTry).toString().toLowerCase();
 
-				recoverOnce( possibleItems.get(0), currentTechniqueName, (int) desired, true );
-				current = ((Number)currentMethod.invoke( null, empty )).floatValue();
+					recoverOnce( possibleItems.get(indexToTry), currentTechniqueName, (int) desired, true );
+					current = ((Number)currentMethod.invoke( null, empty )).floatValue();
 
-				maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
-				desired = Math.min( maximum, desired );
+					maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
+					desired = Math.min( maximum, desired );
+
+					if ( last == current )
+						++indexToTry;
+				}
+				while ( indexToTry < possibleItems.size() && current < needed );
 			}
 
 			HPRestoreItemList.setPurchaseBasedSort( false );
