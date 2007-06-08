@@ -701,13 +701,18 @@ public abstract class StaticEntity implements KoLConstants
 		if ( !SETTINGS_LOCATION.exists() )
 			return new String[0];
 
+		String user;
 		File [] files = SETTINGS_LOCATION.listFiles();
 
 		for ( int i = 0; i < files.length; ++i )
 		{
 			pathMatcher = SETTINGS_PATTERN.matcher( files[i].getPath() );
-			if ( pathMatcher.find() && !pathMatcher.group(1).equals( "GLOBAL" ) )
-				pastUserList.add( pathMatcher.group(1) );
+			if ( !pathMatcher.find() )
+				continue;
+
+			user = pathMatcher.group(1);
+			if ( !user.equals( "GLOBAL" ) && !pastUserList.contains( user ) )
+				pastUserList.add( user );
 		}
 
 		String [] pastUsers = new String[ pastUserList.size() ];
