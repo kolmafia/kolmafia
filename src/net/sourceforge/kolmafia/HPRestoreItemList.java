@@ -215,7 +215,10 @@ public abstract class HPRestoreItemList extends StaticEntity
 			if ( this == GALAKTIK )
 			{
 				if ( purchase && needed > KoLCharacter.getCurrentHP() )
-					RequestThread.postRequest( new GalaktikRequest( "hp", needed - KoLCharacter.getCurrentHP() ) );
+				{
+					RequestThread.postRequest( new GalaktikRequest( "hp",
+						Math.min( needed - KoLCharacter.getCurrentHP(), KoLCharacter.getAvailableMeat() / purchaseCost ) ) );
+				}
 
 				return;
 			}

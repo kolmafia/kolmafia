@@ -198,7 +198,10 @@ public abstract class MPRestoreItemList extends StaticEntity
 			if ( this == GALAKTIK )
 			{
 				if ( purchase && needed > KoLCharacter.getCurrentMP() )
-					RequestThread.postRequest( new GalaktikRequest( "mp", needed - KoLCharacter.getCurrentMP() ) );
+				{
+					RequestThread.postRequest( new GalaktikRequest( "mp",
+						Math.min( needed - KoLCharacter.getCurrentMP(), KoLCharacter.getAvailableMeat() / purchaseCost ) ) );
+				}
 
 				return;
 			}
