@@ -409,7 +409,7 @@ public abstract class MoodSettings implements KoLConstants
 		if ( shouldExecute && (starting < 0 || KoLCharacter.getCurrentMP() <= starting) )
 			return null;
 
-		int minimum = Math.max( 0, (int) (StaticEntity.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP()) );
+		int minimum = Math.max( 0, (int) (StaticEntity.getFloatProperty( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP()) ) + 1;
 		minimum = Math.max( minimum, starting );
 
 		if ( shouldExecute && KoLCharacter.getCurrentMP() <= minimum )
@@ -469,7 +469,7 @@ public abstract class MoodSettings implements KoLConstants
 				castCount = (KoLCharacter.getCurrentMP() - minimum) / ClassSkillsDatabase.getMPConsumptionById( skillId );
 			}
 
-			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 100 )
+			if ( currentEffect.getCount() >= KoLCharacter.getAdventuresLeft() + 200 )
 				return null;
 
 			// If the player only wishes to cast buffs related to their
