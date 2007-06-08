@@ -694,11 +694,13 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		if ( !KoLCharacter.getFamiliar().isThiefFamiliar() )
 			return false;
 
-		if ( KoLCharacter.isHardcore() || KoLCharacter.getTotalTurnsUsed() < 2500 || KoLCharacter.getFamiliar().getWeight() < 20 )
+		if ( KoLCharacter.isHardcore() || KoLCharacter.getTotalTurnsUsed() < 3000 || KoLCharacter.getFamiliar().getWeight() < 20 )
 			return false;
 
 		return true;
 	}
+
+
 
 	/**
 	 * Executes the appropriate <code>KoLRequest</code> for the adventure
@@ -709,6 +711,18 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	{
 		if ( !(request instanceof CampgroundRequest) && !KoLmafia.isRunningBetweenBattleChecks() )
 			StaticEntity.getClient().runBetweenBattleChecks( shouldRunFullCheck );
+
+		String action = StaticEntity.getProperty( "battleAction" );
+
+		if ( isLikelyStasisFarming() )
+		{
+			if ( action.indexOf( "run" ) == -1 )
+			{
+				KoLmafia.updateDisplay( "OAF mode activated.  Changing combat action..." );
+				DEFAULT_SHELL.executeCommand( "set", "battleAction=run" );
+				action = "try to run away";
+			}
+		}
 
 		// Validate the adventure before running it.
 		// If it's invalid, return and do nothing.
@@ -733,8 +747,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds for shore vacation." );
 			return;
 		}
-
-		String action = StaticEntity.getProperty( "battleAction" );
 
 		if ( request instanceof AdventureRequest && !adventureId.equals( "80" ) )
 		{
@@ -811,12 +823,6 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public void recordToSession()
 	{
-		if ( isLikelyStasisFarming() && !KoLmafia.isAdventuring() )
-		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Your other familiars look a little bored." );
-			return;
-		}
-
 		if ( !StaticEntity.getProperty( "lastAdventure" ).equals( adventureName ) )
 		{
 			StaticEntity.setProperty( "lastAdventure", adventureName );
