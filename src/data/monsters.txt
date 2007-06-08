@@ -416,3 +416,24 @@ Bustle in the Hedgerow	HP: 150 Def: 145 Atk: 145	green-frosted astral cupcake (1
 Elders of the Gentle Race	HP: 150 Def: 145 Atk: 145 EA: sleaze	purple-frosted astral cupcake (15)
 Gathering of Angels?	HP: 150 Def: 145 Atk: 145 EA: sleaze	orange-frosted astral cupcake (15)
 Higher Plane Serpents	HP: 150 Def: 145 Atk: 145	pink-frosted astral cupcake (15)
+
+# Mouldering Mansion
+An Usher	HP: 0	patent antipsychotics (0)
+Bellhop	HP: 0	bellhop bell (0)
+Black Cat	HP: 0	bottle of black cat tonic (0)
+Ourang-Outang	HP: 0	library card (0)
+Raven	HP: 0	shot of nepenthe schnapps (0)
+
+# Rogue Windmill
+Can-can Dancer	HP: 0	can-can-in-a-can (0)
+Courtesan	HP: 0	bottle of realpagne (0)
+Master of Ceremonies	HP: 0	escargotsicle (0)
+Sensitive Poet-type	HP: 0	sensitive poetry journal (0)
+Voyeuristic Artist	HP: 0	Bohemian rhapsody (0)
+
+# Stately Pleasure Dome
+Ancient Mariner	HP: 0	Mariner's Friend cough drops (0)
+Angry Poet	HP: 0	honey-dew (0)	white Xanadian (0)
+Kubla Khan	HP: 0
+Roller-skating Muse	HP: 0	bottled inspiration (0)
+Toothless Mastiff Bitch	HP: 0	disintegrating spiky collar (0)
