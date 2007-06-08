@@ -3135,9 +3135,6 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "user_confirm", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "echo", VOID_TYPE, params ) );
-
-		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
@@ -3293,7 +3290,13 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "refresh_stash", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "available_amount", INT_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "item_amount", INT_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "closet_amount", INT_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "creatable_amount", INT_TYPE, params ) );
@@ -3686,7 +3689,10 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "damage_reduction", INT_TYPE, params ) );
 
-		params = new ScriptType[] { ELEMENT_TYPE };
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "elemental_resistance", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] { MONSTER_TYPE };
 		result.addElement( new ScriptExistingFunction( "elemental_resistance", FLOAT_TYPE, params ) );
 
 		params = new ScriptType[] {};
@@ -3711,19 +3717,7 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "current_hit_stat", STAT_TYPE, params ) );
 
 		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_base_attack", INT_TYPE, params ) );
-
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_base_defense", INT_TYPE, params ) );
-
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_base_hp", INT_TYPE, params ) );
-
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_attack_element", ELEMENT_TYPE, params ) );
-
-		params = new ScriptType[] { MONSTER_TYPE };
-		result.addElement( new ScriptExistingFunction( "monster_defense_element", ELEMENT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "monster_element", ELEMENT_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "monster_attack", INT_TYPE, params ) );
@@ -3735,10 +3729,7 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "monster_hp", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "monster_attack_element", ELEMENT_TYPE, params ) );
-
-		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "monster_defense_element", ELEMENT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "monster_element", ELEMENT_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "will_usually_miss", BOOLEAN_TYPE, params ) );
@@ -4457,12 +4448,6 @@ public class KoLmafiaASH extends StaticEntity
 				"Scripted User Confirmation Request", JOptionPane.YES_NO_OPTION ) ? TRUE_VALUE : FALSE_VALUE;
 		}
 
-		public ScriptValue echo( ScriptVariable string )
-		{
-			RequestLogger.printLine( string.toStringValue().toString() );
-			return VOID_VALUE;
-		}
-
 		public ScriptValue print( ScriptVariable string )
 		{
 			RequestLogger.printLine( string.toStringValue().toString() );
@@ -4862,10 +4847,32 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
+		public ScriptValue available_amount( ScriptVariable arg )
+		{
+			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
+
+			int runningTotal = item.getCount( inventory ) + item.getCount( closet );
+
+			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
+				if ( KoLCharacter.getEquipment(i).equals( item ) )
+					++runningTotal;
+
+			if ( KoLCharacter.canInteract() )
+				runningTotal += item.getCount( storage );
+
+			return new ScriptValue( runningTotal );
+		}
+
 		public ScriptValue item_amount( ScriptVariable arg )
 		{
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( inventory ) + item.getCount( closet ) );
+			return new ScriptValue( item.getCount( inventory ) );
+		}
+
+		public ScriptValue closet_amount( ScriptVariable arg )
+		{
+			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
+			return new ScriptValue( item.getCount( closet ) );
 		}
 
 		public ScriptValue creatable_amount( ScriptVariable arg )
@@ -5834,28 +5841,17 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( KoLCharacter.getDamageReduction() );
 		}
 
-		public ScriptValue elemental_resistance( ScriptVariable element )
-		{	return new ScriptValue( KoLCharacter.getElementalResistance( element.intValue() ) );
+		public ScriptValue elemental_resistance()
+		{	return new ScriptValue( KoLCharacter.getElementalResistance( FightRequest.getMonsterAttackElement() ) );
 		}
 
-		public ScriptValue cold_resistance()
-		{	return new ScriptValue( KoLCharacter.getColdResistance() );
-		}
+		public ScriptValue elemental_resistance( ScriptVariable arg )
+		{
+			Monster monster = (Monster) arg.rawValue();
+			if ( monster == null )
+				return ZERO_VALUE;
 
-		public ScriptValue hot_resistance()
-		{	return new ScriptValue( KoLCharacter.getHotResistance() );
-		}
-
-		public ScriptValue sleaze_resistance()
-		{	return new ScriptValue( KoLCharacter.getSleazeResistance() );
-		}
-
-		public ScriptValue spooky_resistance()
-		{	return new ScriptValue( KoLCharacter.getSpookyResistance() );
-		}
-
-		public ScriptValue stench_resistance()
-		{	return new ScriptValue( KoLCharacter.getStenchResistance() );
+			return new ScriptValue( KoLCharacter.getElementalResistance( monster.getAttackElement() ) );
 		}
 
 		public ScriptValue combat_percent_modifier()
@@ -5896,44 +5892,7 @@ public class KoLmafiaASH extends StaticEntity
 			return parseStatValue( "muscle" );
 		}
 
-		public ScriptValue monster_base_attack( ScriptVariable arg )
-		{
-			Monster monster = (Monster) arg.rawValue();
-			if ( monster == null )
-				return ZERO_VALUE;
-
-			return new ScriptValue( monster.getAttack() );
-		}
-
-		public ScriptValue monster_base_defense( ScriptVariable arg )
-		{
-			Monster monster = (Monster) arg.rawValue();
-			if ( monster == null )
-				return ZERO_VALUE;
-
-			return new ScriptValue( monster.getDefense() );
-		}
-
-		public ScriptValue monster_base_hp( ScriptVariable arg )
-		{
-			Monster monster = (Monster) arg.rawValue();
-			if ( monster == null )
-				return ZERO_VALUE;
-
-			return new ScriptValue( monster.getHP() );
-		}
-
-		public ScriptValue monster_attack_element( ScriptVariable arg )
-		{
-			Monster monster = (Monster) arg.rawValue();
-			if ( monster == null )
-				return ELEMENT_INIT;
-
-			int element = monster.getAttackElement();
-			return new ScriptValue( ELEMENT_TYPE, element, MonsterDatabase.elementNames[element] );
-		}
-
-		public ScriptValue monster_defense_element( ScriptVariable arg )
+		public ScriptValue monster_element( ScriptVariable arg )
 		{
 			Monster monster = (Monster) arg.rawValue();
 			if ( monster == null )
@@ -5955,13 +5914,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( FightRequest.getMonsterHealth() );
 		}
 
-		public ScriptValue monster_attack_element()
-		{
-			int element = FightRequest.getMonsterAttackElement();
-			return new ScriptValue( ELEMENT_TYPE, element, MonsterDatabase.elementNames[element] );
-		}
-
-		public ScriptValue monster_defense_element()
+		public ScriptValue monster_element()
 		{
 			int element = FightRequest.getMonsterDefenseElement();
 			return new ScriptValue( ELEMENT_TYPE, element, MonsterDatabase.elementNames[element] );
