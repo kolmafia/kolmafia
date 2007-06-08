@@ -1125,13 +1125,45 @@ public abstract class KoLmafia implements KoLConstants
 
 		float last = -1;
 
+		// First, if this is health restoration, then if the player has
+		// a scroll of drastic healing, then feel free to use it.
+
+		if ( settingName.startsWith( "hp" ) && possibleItems.contains( HPRestoreItemList.SCROLL ) )
+			recoverOnce( HPRestoreItemList.SCROLL, "scroll of drastic healing", (int) desired, false );
+
 		HPRestoreItemList.setPurchaseBasedSort( false );
 		MPRestoreItemList.setPurchaseBasedSort( false );
 
-		Collections.sort( possibleItems );
+		// Next, use any available skills.  This only applies to health
+		// restoration, since no MP-using skill restores MP.
+
+		if ( !possibleSkills.isEmpty() )
+		{
+			current = ((Number)currentMethod.invoke( null, empty )).floatValue();
+
+			while ( last != current && current < needed )
+			{
+				Collections.sort( possibleSkills );
+
+				last = current;
+				currentTechniqueName = possibleSkills.get(0).toString().toLowerCase();
+
+				recoverOnce( possibleSkills.get(0), currentTechniqueName, (int) desired, false );
+				current = ((Number)currentMethod.invoke( null, empty )).floatValue();
+
+				maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
+				desired = Math.min( maximum, desired );
+				needed = Math.min( maximum, needed );
+			}
+
+			if ( refusesContinue() )
+				return false;
+		}
 
 		// Iterate through every restore item which is already available
 		// in the player's inventory.
+
+		Collections.sort( possibleItems );
 
 		for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
 		{
@@ -1153,33 +1185,8 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return false;
 
-		// Next, move onto things which are not items (skills), and
-		// prefer them over purchasing items.
-
-		Collections.sort( possibleSkills );
-
-		for ( int i = 0; i < possibleSkills.size() && current < needed; ++i )
-		{
-			do
-			{
-				last = current;
-				currentTechniqueName = possibleSkills.get(i).toString().toLowerCase();
-
-				recoverOnce( possibleSkills.get(i), currentTechniqueName, (int) desired, true );
-				current = ((Number)currentMethod.invoke( null, empty )).floatValue();
-
-				maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
-				desired = Math.min( maximum, desired );
-				needed = Math.min( maximum, needed );
-			}
-			while ( last != current && current < needed );
-		}
-
-		if ( refusesContinue() )
-			return false;
-
 		// If things are still not restored, try looking for items you
-		// don't have.
+		// don't have but can purchase.
 
 		if ( StaticEntity.getBooleanProperty( "autoBuyRestores" ) )
 		{
