@@ -238,6 +238,8 @@ public class CommandDisplayFrame extends KoLFrame
 			String command;
 			RequestThread.openRequestSequence();
 
+			KoLmafia.forceContinue();
+
 			while ( !KoLmafia.refusesContinue() && !commandQueue.isEmpty() )
 			{
 				command = (String) commandQueue.get(0);
