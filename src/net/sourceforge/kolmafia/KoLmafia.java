@@ -1193,22 +1193,21 @@ public abstract class KoLmafia implements KoLConstants
 			HPRestoreItemList.setPurchaseBasedSort( true );
 			MPRestoreItemList.setPurchaseBasedSort( true );
 
-			Collections.sort( possibleItems );
+			current = ((Number)currentMethod.invoke( null, empty )).floatValue();
+			last = -1;
 
-			for ( int i = 0; i < possibleItems.size() && current < needed; ++i )
+			while ( last != current && current < needed )
 			{
-				do
-				{
-					last = current;
-					currentTechniqueName = possibleItems.get(i).toString().toLowerCase();
+				Collections.sort( possibleItems );
 
-					recoverOnce( possibleItems.get(i), currentTechniqueName, (int) desired, true );
-					current = ((Number)currentMethod.invoke( null, empty )).floatValue();
+				last = current;
+				currentTechniqueName = possibleItems.get(0).toString().toLowerCase();
 
-					maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
-					desired = Math.min( maximum, desired );
-				}
-				while ( last != current && current < needed );
+				recoverOnce( possibleItems.get(0), currentTechniqueName, (int) desired, true );
+				current = ((Number)currentMethod.invoke( null, empty )).floatValue();
+
+				maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
+				desired = Math.min( maximum, desired );
 			}
 
 			HPRestoreItemList.setPurchaseBasedSort( false );
