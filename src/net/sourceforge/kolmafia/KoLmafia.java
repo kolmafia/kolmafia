@@ -196,21 +196,8 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.setProperty( "relayBrowserOnly", "false" );
 
 		String actualName;
-		String [] pastUsers;
 
-		String oldSaves = StaticEntity.getProperty( "saveState" );
-		if ( !oldSaves.equals( "" ) )
-		{
-			pastUsers = oldSaves.split( "//" );
-			for ( int i = 0; i < pastUsers.length; ++i )
-			{
-				actualName = StaticEntity.getGlobalProperty( pastUsers[i], "displayName" );
-				if ( actualName.equals( "" ) && !pastUsers[i].equals( "" ) )
-					StaticEntity.setGlobalProperty( pastUsers[i], "displayName", pastUsers[i] );
-			}
-		}
-
-		pastUsers = StaticEntity.getPastUserList();
+		String [] pastUsers = StaticEntity.getPastUserList();
 
 		for ( int i = 0; i < pastUsers.length; ++i )
 		{
