@@ -4745,7 +4745,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue put_shop( ScriptVariable price, ScriptVariable limit, ScriptVariable item )
 		{
-			DEFAULT_SHELL.executeLine( "mallsell " + item.toStringValue() + " " + price.intValue() + " " + limit.intValue() );
+			DEFAULT_SHELL.executeLine( "mallsell " + item.toStringValue() + " @ " + price.intValue() + " limit " + limit.intValue() );
 			return continueValue();
 		}
 
