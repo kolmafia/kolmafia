@@ -817,9 +817,6 @@ public abstract class MoodSettings implements KoLConstants
 		}
 		else if ( type.equals( "gain_effect" ) )
 		{
-			if ( name.indexOf( "Poisoned" ) != -1 )
-				return "use anti-anti-antidote";
-
 			if ( name.equals( "Beaten Up" ) )
 			{
 				if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
@@ -829,12 +826,15 @@ public abstract class MoodSettings implements KoLConstants
 				if ( KoLCharacter.hasItem( UneffectRequest.FOREST_TEARS ) )
 					return "use forest tears";
 				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
-					return "uneffect beaten up";
+					return "uneffect Beaten Up";
 				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) || KoLCharacter.canInteract() )
 					return "use tiny house";
 
 				return "";
 			}
+
+			if ( name.indexOf( "Poisoned" ) != -1 )
+				return "use anti-anti-antidote";
 
 			if ( name.equals( "Wussiness" ) || name.equals( "Confused" ) )
 			{
@@ -843,7 +843,7 @@ public abstract class MoodSettings implements KoLConstants
 				if ( KoLCharacter.hasSkill( "Disco Nap" ) )
 					return "cast Disco Nap";
 				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
-					return "uneffect beaten up";
+					return "uneffect " + name;
 				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) || KoLCharacter.canInteract() )
 					return "use tiny house";
 			}
@@ -865,12 +865,18 @@ public abstract class MoodSettings implements KoLConstants
 			if ( name.equals( "Sunburned" ) )
 			{
 				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
-					return "uneffect beaten up";
+					return "uneffect Sunburned";
 				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) || KoLCharacter.canInteract() )
 					return "use tiny house";
 			}
 
-			return "uneffect " + name;
+			if ( name.equals( "Goofball Withdrawal" ) || name.equals( "Eau de Tortue" ) )
+				return "";
+
+			if ( UneffectRequest.isShruggable( name ) || KoLCharacter.hasItem( UneffectRequest.REMEDY ) || KoLCharacter.canInteract() )
+				return "uneffect " + name;
+
+			return "";
 		}
 		else if ( type.equals( "lose_effect" ) )
 		{
