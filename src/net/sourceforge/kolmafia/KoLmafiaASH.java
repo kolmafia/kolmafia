@@ -4520,32 +4520,32 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue to_int( ScriptVariable val )
 		{
-			return val.getType().equals( TYPE_STRING ) ? parseIntValue( val.toStringValue().toString() ) :
+			return val.getValueType().equals( TYPE_STRING ) ? parseIntValue( val.toStringValue().toString() ) :
 				new ScriptValue( val.intValue() );
 		}
 
 		public ScriptValue to_float( ScriptVariable val )
 		{
-			return val.getType().equals( TYPE_STRING ) ? parseIntValue( val.toStringValue().toString() ) :
+			return val.getValueType().equals( TYPE_STRING ) ? parseFloatValue( val.toStringValue().toString() ) :
 				val.intValue() != 0 ? new ScriptValue( (float) val.intValue() ) : new ScriptValue( val.floatValue() );
 		}
 
 		public ScriptValue to_item( ScriptVariable val )
 		{
-			return val.getType().equals( TYPE_INT ) ? makeItemValue( val.intValue() ) :
+			return val.getValueType().equals( TYPE_INT ) ? makeItemValue( val.intValue() ) :
 				parseItemValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue to_skill( ScriptVariable val )
 		{
-			return val.getType().equals( TYPE_INT ) ? makeSkillValue( val.intValue() ) : val.getType().equals( TYPE_EFFECT ) ?
+			return val.getValueType().equals( TYPE_INT ) ? makeSkillValue( val.intValue() ) : val.getValueType().equals( TYPE_EFFECT ) ?
 				parseSkillValue( UneffectRequest.effectToSkill( val.toStringValue().toString() ) ) :
 				parseSkillValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue to_effect( ScriptVariable val )
 		{
-			return val.getType().equals( TYPE_INT ) ? makeEffectValue( val.intValue() ) : val.getType().equals( TYPE_SKILL ) ?
+			return val.getValueType().equals( TYPE_INT ) ? makeEffectValue( val.intValue() ) : val.getValueType().equals( TYPE_SKILL ) ?
 				parseEffectValue( UneffectRequest.skillToEffect( val.toStringValue().toString() ) ) :
 				parseEffectValue( val.toStringValue().toString() );
 		}
@@ -5981,6 +5981,10 @@ public class KoLmafiaASH extends StaticEntity
 				content = expression.execute();
 
 			return content;
+		}
+
+		public ScriptType getValueType()
+		{	return getValue().getType();
 		}
 
 		public Object rawValue()
