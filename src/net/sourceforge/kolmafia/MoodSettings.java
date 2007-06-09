@@ -836,6 +836,40 @@ public abstract class MoodSettings implements KoLConstants
 				return "";
 			}
 
+			if ( name.equals( "Wussiness" ) || name.equals( "Confused" ) )
+			{
+				if ( KoLCharacter.hasSkill( "Disco Power Nap" ) )
+					return "cast Disco Power Nap";
+				if ( KoLCharacter.hasSkill( "Disco Nap" ) )
+					return "cast Disco Nap";
+				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
+					return "uneffect beaten up";
+				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) || KoLCharacter.canInteract() )
+					return "use tiny house";
+			}
+
+			if ( name.equals( "Sleepy" ) || name.equals( "Embarrassed" ) )
+			{
+				if ( KoLCharacter.hasSkill( "Disco Power Nap" ) )
+					return "cast Disco Power Nap";
+				if ( KoLCharacter.hasSkill( "Disco Nap" ) )
+					return "cast Disco Nap";
+			}
+
+			if ( name.equals( "Cunctatitis" ) || name.equals( "Tetanus" ) )
+			{
+				if ( KoLCharacter.hasSkill( "Disco Power Nap" ) )
+					return "cast Disco Power Nap";
+			}
+
+			if ( name.equals( "Sunburned" ) )
+			{
+				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY ) )
+					return "uneffect beaten up";
+				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE ) || KoLCharacter.canInteract() )
+					return "use tiny house";
+			}
+
 			return "uneffect " + name;
 		}
 		else if ( type.equals( "lose_effect" ) )
