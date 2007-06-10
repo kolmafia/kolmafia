@@ -752,6 +752,7 @@ public class FightRequest extends KoLRequest
 					StaticEntity.setProperty( "monsterQueue" + (i+1), StaticEntity.getProperty( "monsterQueue" + i ) );
 
 				StaticEntity.setProperty( "monsterQueue1", monsterData.getName() );
+				RequestLogger.printLine( "Internally representing encounter as " + monsterData.getName() + "..." );
 			}
 
 			if ( searchMonster != null && monsterData != null && searchMonster.equals( monsterData ) )
