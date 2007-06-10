@@ -183,6 +183,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	private static final AdventureResult JOYBUZZER = new AdventureResult( 1525, 1 );
+	private static final AdventureResult BAKULA = new AdventureResult( 1519, 1 );
 
 	// Equipment constants
 
@@ -1146,6 +1147,15 @@ public abstract class KoLCharacter extends StaticEntity
 
 		if ( slot == FAMILIAR )
 			currentFamiliar.setItem( item );
+
+		if ( hasEquipped( JOYBUZZER ) )
+			addAvailableSkill( UseSkillRequest.getInstance( "Shake Hands" ) );
+
+		if ( hasEquipped( UseSkillRequest.WIZARD_HAT ) )
+			addAvailableSkill( UseSkillRequest.getInstance( "Magic Missile" ) );
+
+		if ( hasEquipped( BAKULA ) )
+			addAvailableSkill( UseSkillRequest.getInstance( "Give In To Your Vampiric Urges" ) );
 	}
 
 	/**
@@ -2023,10 +2033,6 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( head && knee && shield )
 				addCombatSkill( "Head + Knee + Shield Combo" );
 		}
-
-		UseSkillRequest handshake = UseSkillRequest.getInstance( "Shake Hands" );
-		if ( hasItem( JOYBUZZER ) )
-			addAvailableSkill( handshake );
 	}
 
 	private static void addCombatSkill( String name )

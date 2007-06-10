@@ -14,6 +14,7 @@
 17	Summon Hilarious Objects	1	1	5	0
 18	Summon Candy Hearts	1	1	0	0
 
+7001	Give In To Your Vampiric Urges	3	5	0	0
 7002	Shake Hands	3	5	0	0
 7003	Hot Breath	3	6	5	0
 7004	Cold Breath	3	6	5	0
