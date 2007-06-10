@@ -42,7 +42,7 @@ bubble bauble bow	Item: +5.0
 can cannon	ML: +3
 can of maces	Sleaze: +10
 clown whip	Sleaze: +10
-crowbarrr	Init: +10.0
+crowbarrr	Init: +15.0
 Crimbo Ukelele	Item: +10.0
 duck-on-a-string	Item: +5.0
 flaming juggler's balls	Exp: +2.0
@@ -116,7 +116,7 @@ antique greaves	Init: -10.0
 clockwork pants	Init: +10.0
 Crimbo pants	Init: +30.0
 demonskin trousers	Hot: +20
-dungeoneer's dungarees	Cold: +10, Hot: +10, Spooky: +10
+dungeoneer's dungarees	Cold: +10, Hot: +10, Spooky: +10, Stench: +10, Sleaze: +10
 gnauga hide chaps	DA: +30
 gnauga hide kilt	DA: +30
 gnauga hide skirt	DA: +30
@@ -208,7 +208,7 @@ lucky Tam O'Shanter	Meat: +50.0
 lucky Tam O'Shatner	Meat: +50.0
 plastic pumpkin bucket	Item: +12.5
 miniature gravy-covered maypole	Item: +25.0
-wax lips	Exp: +2.5
+wax lips	Exp: +3.0
 
 Aloysius' Antiphon of Aptitude	Exp: +3.0
 Astral Shell	DA: +80, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10
