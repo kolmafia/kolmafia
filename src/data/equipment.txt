@@ -69,7 +69,7 @@ lihc face	90	Mox: 30
 linoleum helmet turtle	100	Mox: 35
 MAHI fez	200	Mox: 85
 maiden wig	35	Mox: 2
-makeshift turban	100	none
+makeshift turban	100	Mox: 35
 meat cowboy hat	40	Mox: 5
 meatloaf helmet	55	Mox: 12
 meaty helmet turtle	70	Mox: 20
@@ -161,7 +161,7 @@ leather chaps	160	Mox: 65
 leotarrrd	90	Mox: 30
 liar's pants	100	none
 los chinos	55	Mox: 12
-makeshift skirt	100	none
+makeshift skirt	100	Mox: 35
 mariachi pants	10	none
 miner's pants	80	Mox: 25
 ninja hot pants	70	Mox: 20
@@ -325,7 +325,7 @@ flaming crutch	60	Mus: 15	1-handed club
 flaming juggler's balls	100	Mox: 0	1-handed euphemisms
 flypaper staff	80	Mus: 20	2-handed staff
 Frost&trade; brand sword	70	Mus: 20	1-handed sword
-frozen nunchaku	80	Mus: 25	2-handed club
+frozen nunchaku	80	Mus: 25	2-handed flail
 ga-ga radio	125	Mox: 47	2-handed radio
 giant discarded plastic fork	155	Mus: 62	3-handed staff
 giant cheesestick	120	Mus: 45	2-handed staff
@@ -679,7 +679,7 @@ lucky rabbit's foot	0	none
 Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
 MagiMechTech NanoMechaMech	0	none
-makeshift cape	0	none
+makeshift cape	0	Mys: 35
 makeshift SCUBA gear	0	none
 Mr. Accessory	0	none
 Mr. Accessory Jr.	0	none
