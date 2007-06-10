@@ -270,7 +270,7 @@ buffalo blade	120	Mus: 45	2-handed sword
 bugbear-smiting sword	150	Mus: 60	2-handed sword
 Bugfinder Blade	180	Mus: 75	2-handed sword
 calavera concertina	40	Mox: 8	2-handed accordion
-can cannon	75	Mox: 20	2-handed crossbow
+can cannon	75	Mox: 22	2-handed crossbow
 can of fake snow	100	Mox: 35	1-handed can
 can of maces	50	Mox: 10	1-handed club
 cardboard crossbow	60	Mox: 15	2-handed crossbow
@@ -297,7 +297,7 @@ crazy bastard sword	75	Mus: 22	1-handed sword
 Crimbo sword	100	Mus: 35	2-handed sword
 Crimbo ukelele	100	Mox: 35	2-handed guitar
 crowbarrr	80	Mus: 25	2-handed staff
-curdflinger	45	Mox: 5	1-handed crossbow
+curdflinger	45	Mox: 7	1-handed crossbow
 demon whip	10	none	1-handed whip
 denim axe	170	Mus: 70	2-handed axe
 dense meat sword	60	Mus: 15	2-handed sword
@@ -334,13 +334,13 @@ glistening staff	60	Mus: 15	2-handed staff
 gnauga hide whip	20	none	1-handed whip
 Gnollish autoplunger	60	Mus: 15	3-handed spear
 Gnollish flyswatter	35	Mus: 2	1-handed club
-Gnollish nunchaku	45	Mus: 7	2-handed club
+Gnollish nunchaku	45	Mus: 7	2-handed flail
 Gnollish pie server	20	none	1-handed utensil
 Gnollish plunger	35	Mus: 2	1-handed spear
 Gnollish slotted spoon	25	none	1-handed utensil
 goulauncher	100	Mox: 35	2-handed crossbow
 grass blade	80	Mus: 25	1-handed sword
-grease gun	65	Mox: 25	1-handed pistol
+grease gun	65	Mox: 17	1-handed pistol
 grave robbing shovel	30	none	2-handed polearm
 Grimacite glaive	125	Mus: 47	2-handed polearm
 hairy staff	135	Mus: 45	2-handed staff
@@ -388,14 +388,14 @@ plexiglass pike pike	180	Mus: 75	2-handed spear
 pool cue	40	none	2-handed staff
 portable corkscrew	30	none	1-handed tool
 potato pistol	120	Mox: 45	1-handed pistol
-poutine pole	55	Mus: 10	2-handed staff
+poutine pole	55	Mus: 12	2-handed staff
 prehistoric spear	100	Mox: 35	1-handed throwing spear
 projectile icemaker	125	Mox: 45	2-handed crossbow
 Radio Free Foil	150	Mus: 60	2-handed sword
 ram-battering staff	135	Mus: 52	2-handed staff
 ram stick	115	Mus: 42	2-handed staff
 ratarang	60	Mox: 15	1-handed boomerang
-repeating crossbow	65	Mox: 15	2-handed crossbow
+repeating crossbow	65	Mox: 17	2-handed crossbow
 rib of the Bonerdagon	80	Mus: 25	2-handed staff
 ridiculously huge sword	140	Mus: 55	3-handed sword
 ridiculously overelaborate ninja weapon	100	Mus: 35	3-handed ...weapon
@@ -424,7 +424,7 @@ spooky bicycle chain	80	Mus: 25	1-handed whip
 spooky staff	35	Mus: 2	2-handed staff
 spooky stick	30	none	2-handed staff
 spork	30	none	1-handed utensil
-squeaky staff	75	Mus: 20	2-handed staff
+squeaky staff	75	Mus: 22	2-handed staff
 stainless steel shillelagh	90	Mus: 30	1-handed club
 star boomerang	135	Mox: 52	1-handed boomerang
 star crossbow	165	Mox: 67	2-handed crossbow
@@ -444,7 +444,7 @@ suede shortsword	40	Mus: 5	1-handed sword
 Super Magic Power Sword X	100	Mus: 35	1-handed sword
 sweet ninja sword	20	none	1-handed sword
 sword behind inappropriate prepositions	130	Mus: 45	2-handed sword
-sword of static	75	Mus: 20	1-handed sword
+sword of static	75	Mus: 22	1-handed sword
 time sword	100	Mus: 35	1-handed sword
 tiny ninja sword	20	none	1-handed sword
 tiny plastic sword	10	none	1-handed sword
@@ -461,7 +461,7 @@ Wand of Nagamar	30	none	1-handed wand
 white sword	40	Mus: 5	1-handed sword
 white whip	10	none	1-handed whip
 wholeberd	80	Mus: 25	2-handed polearm
-wiffle-flail	75	Mus: 20	2-handed flail
+wiffle-flail	75	Mus: 22	2-handed flail
 wooden axe	60	Mus: 15	2-handed axe
 wooden stakes	25	none	2-handed spear
 yak whip	20	none	1-handed whip
