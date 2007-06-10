@@ -143,8 +143,6 @@ public class MonsterDatabase extends KoLDatabase
 
 		if ( realName == null && trySubstrings )
 		{
-			int matchCount = 0;
-
 			if ( MONSTER_STRINGS == null )
 			{
 				MONSTER_STRINGS = new String[ MONSTER_NAMES.size() ];
@@ -152,23 +150,8 @@ public class MonsterDatabase extends KoLDatabase
 			}
 
 			for ( int i = 0; realName == null && i < MONSTER_STRINGS.length; ++i )
-			{
-				if ( MONSTER_STRINGS[i].indexOf( keyName ) != -1 )
-				{
-					++matchCount;
+				if ( MONSTER_STRINGS[i].indexOf( keyName ) == 0 )
 					realName = (String) MONSTER_NAMES.get( MONSTER_STRINGS[i] );
-				}
-			}
-
-			if ( matchCount > 1 )
-			{
-				realName = null;
-				keyName = keyName + " (";
-
-				for ( int i = 0; realName == null && i < MONSTER_STRINGS.length; ++i )
-					if ( MONSTER_STRINGS[i].indexOf( keyName ) == 0 )
-						realName = (String) MONSTER_NAMES.get( MONSTER_STRINGS[i] );
-			}
 		}
 
 		return realName == null ? null : (Monster) MONSTER_DATA.get( realName );
