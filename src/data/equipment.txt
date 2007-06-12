@@ -238,7 +238,7 @@ Ye Olde Navy Fleece	100	Mus: 35
 # which go in the "weapon" slot of the equipment menu.
 
 25-meat staff	70	Mus: 20	2-handed staff
-5-Alarm Saucepan	50	Mus: 10	1-handed saucepan
+5-Alarm Saucepan	50	Mys: 10	1-handed saucepan
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe
 acoustic guitarrr	100	Mox: 35	2-handed guitar
 antique spear	200	Mus: 85	1-handed spear
@@ -378,7 +378,7 @@ Mjolnir Jr.	200	Mus: 85	1-handed club
 muculent machete	60	Mus: 15	1-handed sword
 ninja mop	90	Mus: 30	2-handed implement
 oversized pizza cutter	100	Mus: 35	1-handed utensil
-Pasta of Peril	50	Mus: 10	1-handed utensil
+Pasta of Peril	50	Mys: 10	1-handed utensil
 pasta spoon	10	none	1-handed utensil
 penguin whip	20	none	1-handed whip
 pestoblade	50	Mus: 10	1-handed sword
