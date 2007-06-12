@@ -1792,7 +1792,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "flowers" ) || command.equals( "kamikaze" ) )
+		if ( command.equals( "flowers" ) )
 		{
 			executeFlowerHuntRequest();
 			return;
@@ -2232,6 +2232,7 @@ public class KoLmafiaCLI extends KoLmafia
 				FlowerHunterRequest search = new FlowerHunterRequest( "", String.valueOf( desiredRank ) );
 				RequestThread.postRequest( search );
 
+				lastSearch = desiredRank;
 				results = new ProfileRequest[ search.getSearchResults().size() ];
 				search.getSearchResults().toArray( results );
 			}
