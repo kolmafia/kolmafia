@@ -199,6 +199,7 @@ yakskin skirt	140	Mox: 55
 
 Ascension Souvenir T-Shirt	15	none
 barskin cloak	25	none
+bronze breastplate	105	Mus: 37
 clockwork trench coat	80	Mus: 25
 clownskin harness	60	Mus: 15
 coconut bikini top	100	Mus: 35
@@ -230,6 +231,7 @@ star shirt	165	Mus: 67
 supportive bra	50	Mox: 10
 tuxedo shirt	100	Mus: 35
 vampire cape	20	none
+white hat hacker T-shirt	65	Mus: 17
 white snakeskin duster	45	Mus: 7
 yak anorak	115	Mus: 42
 Ye Olde Navy Fleece	100	Mus: 35

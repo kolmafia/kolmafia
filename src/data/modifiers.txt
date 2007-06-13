@@ -102,6 +102,7 @@ tropical paperweight	Exp: +1.0
 White satin shield	DR: 5
 yakskin buckler	DR: 5
 
+bronze breastplate	DA: +20, DR: 4
 clockwork trenchcoat	DA: +15
 eXtreme Bi-Polar Fleece Vest	Cold: +20
 flaming pink shirt	Item: +15.0
