@@ -44,6 +44,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static final SortedListModel creatableList = new SortedListModel();
 	public static final SortedListModel usableList = new SortedListModel();
 
+	private static boolean ignoreNextRefresh = true;
 	private static Concoction stillsLimit = new Concoction( (AdventureResult) null, NOCREATE );
 	private static Concoction adventureLimit = new Concoction( (AdventureResult) null, NOCREATE );
 
@@ -338,6 +339,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	public static void refreshConcoctions()
 	{
+		if ( ignoreNextRefresh )
+			return;
+
 		List availableIngredients = getAvailableIngredients();
 
 		// First, zero out the quantities table.  Though this is not
@@ -413,6 +417,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// all creatable items.  We do this by determining the
 		// number of items inside of the old list.
 
+		boolean changeDetected = false;
 		ItemCreationRequest instance;
 
 		for ( int i = 1; i < concoctions.size(); ++i )
@@ -425,6 +430,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( instance == null || item.creatable == instance.getQuantityPossible() )
 				continue;
 
+			changeDetected = true;
 			instance.setQuantityPossible( item.creatable );
 
 			if ( instance.getQuantityPossible() == 0 )
@@ -446,13 +452,26 @@ public class ConcoctionsDatabase extends KoLDatabase
 					creatableList.add( instance );
 					item.setPossible( true );
 				}
-				else
-				{
-					int index = creatableList.indexOf( instance );
-					creatableList.fireContentsChanged( concoctions, index, index );
-				}
 			}
 		}
+
+		if ( changeDetected )
+		{
+			creatableList.fireContentsChanged( concoctions, 0, creatableList.size() - 1 );
+
+			usableList.fireContentsChanged( concoctions, 0, usableList.size() - 1 );
+			usableList.applyListFilters();
+		}
+
+		ignoreNextRefresh = true;
+	}
+
+	public static void recognizeNextRefresh()
+	{
+		if ( LoginRequest.isInstanceRunning() )
+			return;
+
+		ignoreNextRefresh = false;
 	}
 
 	public static int getMeatPasteRequired( int itemId, int creationCount )

@@ -334,6 +334,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void resetInventory()
 	{
 		inventory.clear();
+		ConcoctionsDatabase.recognizeNextRefresh();
 		ConcoctionsDatabase.refreshConcoctions();
 
 		// Initialize the equipment lists inside
@@ -776,7 +777,12 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setAvailableMeat( int availableMeat )
-	{	KoLCharacter.availableMeat = availableMeat;
+	{
+		if ( KoLCharacter.availableMeat != availableMeat )
+		{
+			KoLCharacter.availableMeat = availableMeat;
+			ConcoctionsDatabase.recognizeNextRefresh();
+		}
 	}
 
 	/**
@@ -1010,7 +1016,12 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setAdventuresLeft( int adventuresLeft )
-	{	KoLCharacter.adventuresLeft = adventuresLeft;
+	{
+		if ( adventuresLeft != KoLCharacter.adventuresLeft )
+		{
+			KoLCharacter.adventuresLeft = adventuresLeft;
+			ConcoctionsDatabase.recognizeNextRefresh();
+		}
 	}
 
 	/**
@@ -1725,7 +1736,7 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( KoLCharacter.hasBartender != hasBartender )
 		{
 			KoLCharacter.hasBartender = hasBartender;
-			ConcoctionsDatabase.refreshConcoctions();
+			ConcoctionsDatabase.recognizeNextRefresh();
 		}
 	}
 
@@ -1748,7 +1759,7 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( KoLCharacter.hasChef != hasChef )
 		{
 			KoLCharacter.hasChef = hasChef;
-			ConcoctionsDatabase.refreshConcoctions();
+			ConcoctionsDatabase.recognizeNextRefresh();
 		}
 	}
 
@@ -2200,7 +2211,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void decrementStillsAvailable( int decrementAmount )
 	{
 		stillsAvailable -= decrementAmount;
-		ConcoctionsDatabase.refreshConcoctions();
+		ConcoctionsDatabase.recognizeNextRefresh();
 	}
 
 	public static boolean canUseWok()
@@ -2386,13 +2397,7 @@ public abstract class KoLCharacter extends StaticEntity
 					shouldRefresh = ConcoctionsDatabase.isPermittedMethod( ConcoctionsDatabase.getMixingMethod( ((AdventureResult)uses.get(i)).getItemId() ) );
 
 				if ( shouldRefresh )
-					ConcoctionsDatabase.refreshConcoctions();
-
-				if ( consumeType == CONSUME_EAT || consumeType == CONSUME_DRINK || shouldRefresh )
-				{
-					ConcoctionsDatabase.getUsables().fireContentsChanged( inventory, 0, ConcoctionsDatabase.getUsables().size() - 1 );
-					ConcoctionsDatabase.getUsables().applyListFilters();
-				}
+					ConcoctionsDatabase.recognizeNextRefresh();
 			}
 		}
 		else if ( resultName.equals( AdventureResult.HP ) )
