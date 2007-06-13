@@ -145,6 +145,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int GIFT11 = 1177;
 	private static final int GIFTV = 1460;
 	private static final int GIFTR = 1534;
+	private static final int GIFTW = 2683;
 
 	private static final int TRADING_CARD1 = 2000;
 	private static final int TRADING_CARD2 = 2001;
@@ -609,6 +610,7 @@ public class ConsumeItemRequest extends KoLRequest
 		case GIFT11:
 		case GIFTV:
 		case GIFTR:
+		case GIFTW:
 
 			// "You can't receive things from other players
 			// right now."
