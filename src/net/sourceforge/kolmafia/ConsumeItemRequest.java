@@ -306,6 +306,23 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public void run()
 	{
+		// Equipment should be handled by a different
+		// kind of request.
+
+		switch ( consumptionType )
+		{
+		case EQUIP_HAT:
+		case EQUIP_WEAPON:
+		case EQUIP_OFFHAND:
+		case EQUIP_SHIRT:
+		case EQUIP_PANTS:
+		case EQUIP_ACCESSORY:
+		case EQUIP_FAMILIAR:
+
+			(new EquipmentRequest( itemUsed )).run();
+			return;
+		}
+
 		lastUpdate = "";
 		int itemId = itemUsed.getItemId();
 

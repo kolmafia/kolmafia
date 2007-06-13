@@ -1158,12 +1158,8 @@ public class AdventureDatabase extends KoLDatabase
 		boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
 		canUseNPCStore &= force || getBooleanProperty( "autoSatisfyWithNPCs" );
 
-		boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( itemId );
-		shouldAutoSatisfyEarly |= ConcoctionsDatabase.getMixingMethod( itemId ) == PIXEL;
-
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemId );
-
-		boolean shouldCreate;
+		boolean shouldCreate, shouldAutoSatisfyEarly;
 
 		switch ( itemId )
 		{
@@ -1180,6 +1176,19 @@ public class AdventureDatabase extends KoLDatabase
 
 		ItemCreationRequest creator = shouldCreate ? ItemCreationRequest.getInstance( itemId ) : null;
 		shouldCreate &= creator != null;
+
+		switch ( mixingMethod )
+		{
+		case NOCREATE:
+		case STARCHART:
+		case PIXEL:
+			shouldAutoSatisfyEarly = true;
+			break;
+
+		default:
+			shouldAutoSatisfyEarly = !ConcoctionsDatabase.hasAnyIngredient( itemId );
+			break;
+		}
 
 		// First, attempt to pull the item from the closet.
 		// If this is successful, return from the method.
