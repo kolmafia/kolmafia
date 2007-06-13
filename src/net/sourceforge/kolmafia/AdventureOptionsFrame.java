@@ -187,9 +187,9 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		combatPanel.add( "editor", new CustomCombatPanel() );
 
 		SimpleScrollPane restoreScroller = new SimpleScrollPane( restorePanel );
-		JComponentUtilities.setComponentSize( restoreScroller, 560, 300 );
+		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
 
-		tabs.addTab( "Auto-Recovery", restoreScroller );
+		tabs.addTab( "HP/MP Usage", restoreScroller );
 
 		JPanel moodPanel = new JPanel( new BorderLayout() );
 		moodPanel.add( new MoodTriggerListPanel(), BorderLayout.CENTER );
@@ -198,7 +198,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		moodList.addListSelectionListener( triggers );
 		moodPanel.add( triggers, BorderLayout.NORTH );
 
-		tabs.addTab( "Mood Handling", moodPanel );
+		tabs.addTab( "Mood Setup", moodPanel );
 		tabs.addTab( "Custom Combat", combatPanel );
 
 		return tabs;
@@ -618,7 +618,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 		public MoodTriggerListPanel()
 		{
-			super( "", "edit casts", "remove", new JList( MoodSettings.getTriggers() ) );
+			super( "", new ShowDescriptionList( MoodSettings.getTriggers() ) );
 
 			availableMoods = new MoodComboBox();
 
@@ -631,23 +631,18 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			extraButtons.add( new DeleteMoodButton() );
 			extraButtons.add( new CopyMoodButton() );
 
-			eastPanel.add( extraButtons, BorderLayout.SOUTH );
+			JPanel buttonHolder = new JPanel( new BorderLayout() );
+			buttonHolder.add( extraButtons, BorderLayout.NORTH );
+			
+			actualPanel.add( buttonHolder, BorderLayout.EAST );
 		}
 
 		public void actionConfirmed()
 		{
-			String desiredLevel = JOptionPane.showInputDialog( null, "TURN CHANGE!", "15" );
-			if ( desiredLevel == null )
-				return;
-
-			MoodSettings.addTriggers( moodList.getSelectedValues(), StaticEntity.parseInt( desiredLevel ) );
-			MoodSettings.saveSettings();
 		}
 
 		public void actionCancelled()
 		{
-			MoodSettings.removeTriggers( moodList.getSelectedValues() );
-			MoodSettings.saveSettings();
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -812,7 +807,7 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 	{
 		public ObjectivesPanel()
 		{
-			super( new Dimension( 50, 20 ), new Dimension( 200, 20 ) );
+			super( new Dimension( 70, 20 ), new Dimension( 200, 20 ) );
 
 			actionSelect = new MutableComboBox( KoLCharacter.getBattleSkillNames(), false );
 			activeMood = new JComboBox( MoodSettings.getAvailableMoods() );
@@ -825,23 +820,16 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 			autoSetCheckBox.setSelected( StaticEntity.getBooleanProperty( "autoSetConditions" ) );
 
-			JPanel beginWrapper = new JPanel();
-			beginWrapper.add( begin = new ExecuteButton() );
+			JPanel buttonWrapper = new JPanel();
+			buttonWrapper.add( begin = new ExecuteButton() );
+			buttonWrapper.add( new InvocationButton( "stop", RequestThread.class, "declareWorldPeace" ) );
 
-			JPanel stopWrapper = new JPanel();
-			stopWrapper.add( new InvocationButton( "Declare World Peace", "stop.gif", RequestThread.class, "declareWorldPeace" ) );
-
-			JPanel buttonWrapper = new JPanel( new BorderLayout() );
-			buttonWrapper.add( beginWrapper, BorderLayout.NORTH );
-			buttonWrapper.add( stopWrapper, BorderLayout.SOUTH );
-
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Combat:  ", actionSelect );
-			elements[1] = new VerifiableElement( "Moods:  ", activeMood );
-			elements[2] = new VerifiableElement( "Goals:  ", conditionPanel );
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Action:  ", actionSelect );
+			elements[1] = new VerifiableElement( "Goals:  ", conditionPanel );
 
 			setContent( elements );
-			container.add( buttonWrapper, BorderLayout.EAST );
+			container.add( buttonWrapper, BorderLayout.SOUTH );
 
 			JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, begin );
 		}
@@ -951,9 +939,8 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 
 		public ExecuteButton()
 		{
-			super( JComponentUtilities.getImage( "hourglass.gif" ) );
+			super( "begin" );
 			setToolTipText( "Start Adventuring" );
-			JComponentUtilities.setComponentSize( this, 32, 32 );
 		}
 
 		public void run()

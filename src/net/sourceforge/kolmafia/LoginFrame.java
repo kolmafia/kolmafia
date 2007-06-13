@@ -485,15 +485,15 @@ public class LoginFrame extends KoLFrame
 
 			JPanel centerPanel = new JPanel( new GridLayout( 4, 3 ) );
 
-			loginRecovery = new JCheckBox( "Allow auto-recovery" );
+			loginRecovery = new JCheckBox( "enable auto-recovery" );
 			loginRecovery.addActionListener( this );
 			centerPanel.add( loginRecovery );
 
-			pathedSummons = new JCheckBox( "Honor path restrictions" );
+			pathedSummons = new JCheckBox( "honor path restrictions" );
 			pathedSummons.addActionListener( this );
 			centerPanel.add( pathedSummons );
 
-			rumpusRoom = new JCheckBox( "Visit your rumpus room" );
+			rumpusRoom = new JCheckBox( "visit clan rumpus room" );
 			rumpusRoom.addActionListener( this );
 			centerPanel.add( rumpusRoom );
 
@@ -501,20 +501,20 @@ public class LoginFrame extends KoLFrame
 			skillOptions = new JCheckBox[ UseSkillRequest.BREAKFAST_SKILLS.length ];
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 			{
-				skillOptions[i] = new JCheckBox( "Cast " + UseSkillRequest.BREAKFAST_SKILLS[i].toLowerCase() );
+				skillOptions[i] = new JCheckBox( UseSkillRequest.BREAKFAST_SKILLS[i].toLowerCase() );
 				skillOptions[i].addActionListener( this );
 				centerPanel.add( skillOptions[i] );
 			}
 
-			mushroomPlot = new JCheckBox( "Plant mushrooms" );
+			mushroomPlot = new JCheckBox( "plant mushrooms" );
 			mushroomPlot.addActionListener( this );
 			centerPanel.add( mushroomPlot );
 
-			grabClovers = new JCheckBox( "Pick up clovers" );
+			grabClovers = new JCheckBox( "get hermit clovers" );
 			grabClovers.addActionListener( this );
 			centerPanel.add( grabClovers );
 
-			readManual = new JCheckBox( "Read the guild manual" );
+			readManual = new JCheckBox( "read guild manual" );
 			readManual.addActionListener( this );
 			centerPanel.add( readManual );
 
