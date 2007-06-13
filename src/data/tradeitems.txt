@@ -2489,8 +2489,8 @@
 2489	tuxedo shirt	11	all	105
 2490	gnauga hide vest	11	all	85
 2491	shirt kit	0	all	50
-2492
-2493
+2492	tropical orchid	0	all	31
+2493	stick of dynamite	0	all	31
 2494	Necrotelicomnicon	13	all	2000
 2495	Cookbook of the Damned	13	all	2000
 2496	Sinful Desires	13	all	2000
