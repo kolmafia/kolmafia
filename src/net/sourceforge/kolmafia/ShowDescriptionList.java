@@ -446,7 +446,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	private class EditTriggerMenuItem extends ContextMenuItem
 	{
 		public EditTriggerMenuItem()
-		{	super( "Edit cast count" );
+		{	super( "Modify cast count" );
 		}
 
 		public void executeAction()

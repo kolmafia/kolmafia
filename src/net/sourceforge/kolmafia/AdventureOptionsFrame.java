@@ -380,17 +380,17 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		public HealthOptionsPanel()
 		{
 			hpHaltCombatSelect = new JComboBox();
-			hpHaltCombatSelect.addItem( "Stop automation if auto-recovery fails" );
+			hpHaltCombatSelect.addItem( "Stop if auto-recovery fails" );
 			for ( int i = 0; i <= 19; ++i )
-				hpHaltCombatSelect.addItem( "Stop automation if health at " + (i*5) + "%" );
+				hpHaltCombatSelect.addItem( "Stop if health at " + (i*5) + "%" );
 
 			hpAutoRecoverSelect = new JComboBox();
-			hpAutoRecoverSelect.addItem( "Do not autorecover health" );
+			hpAutoRecoverSelect.addItem( "Do not auto-recover health" );
 			for ( int i = 0; i <= 19; ++i )
 				hpAutoRecoverSelect.addItem( "Auto-recover health at " + (i*5) + "%" );
 
 			hpAutoRecoverTargetSelect = new JComboBox();
-			hpAutoRecoverTargetSelect.addItem( "Do not automatically recover health" );
+			hpAutoRecoverTargetSelect.addItem( "Do not recover health" );
 			for ( int i = 0; i <= 20; ++i )
 				hpAutoRecoverTargetSelect.addItem( "Try to recover up to " + (i*5) + "% health" );
 
@@ -427,17 +427,17 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 		public ManaOptionsPanel()
 		{
 			mpBalanceSelect = new JComboBox();
-			mpBalanceSelect.addItem( "Do not automatically rebalance buffs" );
+			mpBalanceSelect.addItem( "Do not rebalance buffs" );
 			for ( int i = 0; i <= 19; ++i )
 				mpBalanceSelect.addItem( "Recast buffs until " + (i*5) + "%" );
 
 			mpAutoRecoverSelect = new JComboBox();
-			mpAutoRecoverSelect.addItem( "Do not automatically recover mana" );
+			mpAutoRecoverSelect.addItem( "Do not auto-recover mana" );
 			for ( int i = 0; i <= 19; ++i )
 				mpAutoRecoverSelect.addItem( "Auto-recover mana at " + (i*5) + "%" );
 
 			mpAutoRecoverTargetSelect = new JComboBox();
-			mpAutoRecoverTargetSelect.addItem( "Do not automatically recover mana" );
+			mpAutoRecoverTargetSelect.addItem( "Do not auto-recover mana" );
 			for ( int i = 0; i <= 20; ++i )
 				mpAutoRecoverTargetSelect.addItem( "Try to recover up to " + (i*5) + "% mana" );
 

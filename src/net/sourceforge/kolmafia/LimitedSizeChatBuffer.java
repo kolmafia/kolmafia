@@ -58,7 +58,6 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	private boolean requiresTruncation;
 	private boolean affectsHighlightBuffer;
 
-	private static boolean useLargerFonts = false;
 	static
 	{
 		colors = new ArrayList();
@@ -110,13 +109,11 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 	public static void useLargerFonts()
 	{
-		useLargerFonts = true;
 		ChatBuffer.BUFFER_STYLE = "body { font-family: sans-serif; font-size: medium; } a { color: black; text-decoration: none; }";
 	}
 
 	public static void useSmallerFonts()
 	{
-		useLargerFonts = false;
 		ChatBuffer.BUFFER_STYLE = "body { font-family: sans-serif; font-size: small; } a { color: black; text-decoration: none; }";
 	}
 
