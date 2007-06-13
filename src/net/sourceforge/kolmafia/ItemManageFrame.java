@@ -941,6 +941,8 @@ public class ItemManageFrame extends KoLFrame
 				return;
 
 			StaticEntity.setProperty( property, String.valueOf( isSelected() ) );
+
+			ConcoctionsDatabase.recognizeNextRefresh();
 			ConcoctionsDatabase.refreshConcoctions();
 		}
 	}

@@ -692,7 +692,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		if ( resultList == inventory )
 		{
 			KoLCharacter.updateEquipmentLists();
-			ConcoctionsDatabase.refreshConcoctions();
+			ConcoctionsDatabase.recognizeNextRefresh();
 		}
 	}
 
@@ -908,7 +908,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		// the end of the processing.
 
 		if ( refreshCreations )
-			ConcoctionsDatabase.refreshConcoctions();
+			ConcoctionsDatabase.recognizeNextRefresh();
 	}
 
 	public static int slotNumber( String name )

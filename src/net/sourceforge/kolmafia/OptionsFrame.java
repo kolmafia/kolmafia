@@ -337,6 +337,8 @@ public class OptionsFrame extends KoLFrame
 
 			actionCancelled();
 			System.setProperty( "spellcast.actionButtonsThreaded", StaticEntity.getProperty( "allowRequestQueueing" ) );
+
+			ConcoctionsDatabase.recognizeNextRefresh();
 			ConcoctionsDatabase.refreshConcoctions();
 		}
 
