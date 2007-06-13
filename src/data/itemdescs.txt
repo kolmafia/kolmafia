@@ -2494,8 +2494,8 @@
 2489	349096888	tuxedo shirt	tuxedo shirts
 2490	929554588	gnauga hide vest	gnauga hide vests
 2491	835934782	shirt kit	shirt kits
-2492
-2493
+2492	810106897	tropical orchid	tropical orchids
+2493	333120731	stick of dynamite	sticks of dynamite
 2494	196267512	Necrotelicomnicon	copies of the Necrotelicomnicon
 2495	390714480	Cookbook of the Damned	copies of The Cookbook of the Damned
 2496	318164531	Sinful Desires	copies of Sinful Desires
