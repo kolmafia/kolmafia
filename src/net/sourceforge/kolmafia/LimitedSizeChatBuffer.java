@@ -159,17 +159,12 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 			int lineIndex = displayBuffer.indexOf( "<br>", DELETE_AMOUNT );
 			if ( lineIndex == -1 )
 				lineIndex = displayBuffer.lastIndexOf( "<br>", DELETE_AMOUNT );
-
 			if ( lineIndex == -1 )
 				lineIndex = DELETE_AMOUNT;
-			else
-				lineIndex = lineIndex + 4;
 
-			if ( lineIndex != -1 )
-			{
-				displayBuffer.delete( 0, lineIndex );
-				fireBufferChanged( DISPLAY_CHANGE, null );
-			}
+			lineIndex = lineIndex + 4;
+			displayBuffer.delete( 0, lineIndex );
+			fireBufferChanged( DISPLAY_CHANGE, null );
 		}
 
 		if ( affectsHighlightBuffer && message.compareToIgnoreCase( highlightMessage ) != 0 )
