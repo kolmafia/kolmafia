@@ -3024,17 +3024,14 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else
 		{
-			// Otherwise, it's an item or status-effect condition, so parse
-			// out which item or effect is desired and set that as the condition.
+			condition = getFirstMatchingItem( conditionString );
 
-			condition = MonsterDatabase.findMonster( conditionString );
-			if ( condition != null )
+			if ( condition == null )
 			{
-				FightRequest.searchForMonster( (Monster) condition );
-				return condition;
+				condition = MonsterDatabase.findMonster( conditionString );
+				if ( condition != null )
+					FightRequest.searchForMonster( (Monster) condition );
 			}
-
-			return getFirstMatchingItem( conditionString );
 		}
 
 		return condition;
