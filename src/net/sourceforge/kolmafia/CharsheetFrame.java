@@ -145,7 +145,7 @@ public class CharsheetFrame extends AdventureOptionsFrame
 		JPanel locationHolder = new JPanel( new CardLayout( 10, 10 ) );
 		locationHolder.add( locationDetails, "" );
 
-		tabs.insertTab( "Normal Options", null, locationHolder, null, 0 );
+		tabs.insertTab( "Overview", null, locationHolder, null, 0 );
 		return tabs;
 	}
 

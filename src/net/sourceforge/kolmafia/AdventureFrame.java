@@ -176,8 +176,8 @@ public class AdventureFrame extends AdventureOptionsFrame
 	public JTabbedPane getSouthernTabs()
 	{
 		super.getSouthernTabs();
-		tabs.insertTab( "Normal Options", null, getAdventureSummary(), null, 0 );
-		tabs.insertTab( "Choice Adventures", null, new SimpleScrollPane( new ChoiceOptionsPanel() ), null, 1 );
+		tabs.insertTab( "Overview", null, getAdventureSummary(), null, 0 );
+		tabs.insertTab( "Choice Advs", null, new SimpleScrollPane( new ChoiceOptionsPanel() ), null, 1 );
 		return tabs;
 	}
 

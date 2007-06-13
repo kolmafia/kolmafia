@@ -34,28 +34,22 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import java.io.File;
 
 import java.lang.ref.WeakReference;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
@@ -167,8 +161,12 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		ActionConfirmListener listener = new ActionConfirmListener();
 
 		for ( int i = 0; i < elements.length; ++i )
+		{
 			if ( elements[i].getInputField() instanceof JTextField )
 				((JTextField)elements[i].getInputField()).addKeyListener( listener );
+			if ( elements[i].getInputField() instanceof JPasswordField )
+				((JPasswordField)elements[i].getInputField()).addKeyListener( listener );
+		}
 	}
 
 	public void setEnabled( boolean isEnabled )

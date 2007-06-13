@@ -93,12 +93,16 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	{
 		contextMenu = new JPopupMenu();
 
+		boolean isMoodList = listModel == MoodSettings.getTriggers();
 		boolean isEncyclopedia = !listModel.isEmpty() && listModel.get(0) instanceof Entry;
 
-		if ( listModel.size() == 0 || !isEncyclopedia )
-			contextMenu.add( new DescriptionMenuItem() );
+		if ( !isMoodList )
+		{
+			if ( listModel.size() == 0 || !isEncyclopedia )
+				contextMenu.add( new DescriptionMenuItem() );
 
-		contextMenu.add( new WikiLookupMenuItem() );
+			contextMenu.add( new WikiLookupMenuItem() );
+		}
 
 		if ( listModel == activeEffects )
 		{
@@ -134,6 +138,11 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		else if ( listModel == StoreManager.getSortedSoldItemList() )
 		{
 			contextMenu.add( new AddToJunkListMenuItem() );
+		}
+		else if ( isMoodList )
+		{
+			contextMenu.add( new EditTriggerMenuItem() );
+			contextMenu.add( new RemoveTriggerMenuItem() );
 		}
 
 		addMouseListener( new PopupListener() );
@@ -431,6 +440,46 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			Object [] effects = getSelectedValues();
 			for ( int i = 0; i < effects.length; ++i )
 				RequestThread.postRequest( new UneffectRequest( (AdventureResult) effects[i] ) );
+		}
+	}
+
+	private class EditTriggerMenuItem extends ContextMenuItem
+	{
+		public EditTriggerMenuItem()
+		{	super( "Edit cast count" );
+		}
+
+		public void executeAction()
+		{
+			String desiredLevel = JOptionPane.showInputDialog( null, "Number of casts?", "1" );
+			if ( desiredLevel == null )
+				return;
+
+			Object [] items = getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			MoodSettings.addTriggers( items, StaticEntity.parseInt( desiredLevel ) );
+			MoodSettings.saveSettings();
+		}
+	}
+
+	private class RemoveTriggerMenuItem extends ContextMenuItem
+	{
+		public RemoveTriggerMenuItem()
+		{	super( "Remove from mood" );
+		}
+
+		public void executeAction()
+		{
+			String desiredLevel = JOptionPane.showInputDialog( null, "Number of casts?", "1" );
+			if ( desiredLevel == null )
+				return;
+
+			Object [] items = getSelectedValues();
+			ShowDescriptionList.this.clearSelection();
+
+			MoodSettings.removeTriggers( items );
+			MoodSettings.saveSettings();
 		}
 	}
 
