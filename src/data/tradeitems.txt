@@ -2123,8 +2123,8 @@
 2123	eXtreme Bi-Polar Fleece Vest	11	all	95
 2124
 2125	Ye Olde Navy Fleece	11	all	105
-2126
-2127
+2126	bronze breastplate	11	all	125
+2127	white hat hacker T-shirt	11	all	45
 2128	vampire cape	11	all	25
 2129	possessed top	0	all	35
 2130	killer rag doll	13	all	106

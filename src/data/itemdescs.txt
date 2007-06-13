@@ -2128,8 +2128,8 @@
 2123	591323065	eXtreme Bi-Polar Fleece Vest	eXtreme Bi-Polar Fleece Vests
 2124
 2125	133155605	Ye Olde Navy Fleece	Ye Olde Navy Fleeces
-2126
-2127
+2126	522582182	bronze breastplate	bronze breastplates
+2127	692306538	white hat hacker T-shirt	white hat hacker T-shirts
 2128	820441434	vampire cape	vampire capes
 2129	799639491	possessed top	possessed tops
 2130	805133027	killer rag doll	killer rag dolls
