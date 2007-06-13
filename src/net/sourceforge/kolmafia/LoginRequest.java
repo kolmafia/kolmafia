@@ -378,10 +378,7 @@ public class LoginRequest extends KoLRequest
 			DEFAULT_SHELL.executeLine( scriptSetting );
 
 		RequestThread.closeRequestSequence();
-
 		isLoggingIn = false;
-
-		ConcoctionsDatabase.recognizeNextRefresh();
 
 		if ( StaticEntity.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )
 			KoLmafia.addSaveState( lastUsername, lastPassword );
