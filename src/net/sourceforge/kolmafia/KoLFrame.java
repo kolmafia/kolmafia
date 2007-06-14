@@ -180,7 +180,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{	return StaticEntity.getBooleanProperty( "addStatusBarToFrames" ) && StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( this.frameName ) == -1;
 	}
 
-	public static JTabbedPane getTabbedPane()
+	public JTabbedPane getTabbedPane()
 	{	return StaticEntity.getBooleanProperty( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();
 	}
 

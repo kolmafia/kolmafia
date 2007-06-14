@@ -648,7 +648,7 @@ public class LoginFrame extends KoLFrame
 			JTextArea message = new JTextArea(
 				"These are the per-user settings for what shows up when KoLmafia successfully logs into the Kingdom of Loathing.  You can drag and drop options in the lists below to customize what will show up.\n\n" +
 
-				"The Local Relay Server option and Contact List option cannot actually be in tabs.  When you place the former into the 'startup in tabs' section, KoLmafia will start up the server but not open your browser.  When you place the latter into the 'startup in tabs' section, KoLmafia will force a refresh of your contact list on login.\n" );
+				"When you place the Local Relay Server into the 'startup in tabs' section, KoLmafia will start up the server but not open your browser.  When you place the Contact List into the 'startup in tabs' section, KoLmafia will force a refresh of your contact list on login.\n" );
 
 			message.setColumns( 40 );
 			message.setLineWrap( true );
@@ -799,23 +799,37 @@ public class LoginFrame extends KoLFrame
 	{
 		private JCheckBox [] optionBoxes;
 
-		private final String [][] options =
-		{
-			{ "guiUsesOneWindow", "Restrict interface to a single window" },
-			{ "useSystemTrayIcon", "Minimize to system tray (Windows only)" },
-			{},
-			{ "addStatusBarToFrames", "Add a status bar to independent windows" },
-			{},
-			{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
-			{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
-		};
+		private String [][] options =
+			
+			System.getProperty( "os.name" ).startsWith( "Win" ) ?
+			
+			new String [][]
+			{
+				{ "guiUsesOneWindow", "Restrict interface to a single window" },
+				{ "useSystemTrayIcon", "Minimize main interface to system tray" },
+				{ "addStatusBarToFrames", "Add a status line to independent windows" },
+				{},
+				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
+				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
+			}
+			
+			:
+				
+			new String [][]
+  			{
+  				{ "guiUsesOneWindow", "Restrict interface to a single window" },
+  				{ "addStatusBarToFrames", "Add a status line to independent windows" },
+  				{},
+  				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
+  				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
+  			};
 
 		private JComboBox looks, toolbars, scripts;
 
 		public UserInterfacePanel()
 		{
 			super( "", new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
-
+	
 			UIManager.LookAndFeelInfo [] installed = UIManager.getInstalledLookAndFeels();
 			Object [] installedLooks = new Object[ installed.length ];
 
@@ -823,7 +837,6 @@ public class LoginFrame extends KoLFrame
 				installedLooks[i] = installed[i].getClassName();
 
 			looks = new JComboBox( installedLooks );
-
 
 			toolbars = new JComboBox();
 			toolbars.addItem( "Show global menus only" );
@@ -853,7 +866,7 @@ public class LoginFrame extends KoLFrame
 		public void setContent( VerifiableElement [] elements )
 		{
 			super.setContent( elements );
-			container.add( new InterfaceCheckboxPanel(), BorderLayout.SOUTH );
+			add( new InterfaceCheckboxPanel(), BorderLayout.CENTER );
 		}
 
 		public void setEnabled( boolean isEnabled )
