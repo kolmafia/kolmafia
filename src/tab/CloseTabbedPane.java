@@ -47,9 +47,13 @@ public class CloseTabbedPane extends JTabbedPane {
 	 *            whether the tabbedPane should use an enhanced UI
 	 */
 	public CloseTabbedPane() {
+		this(SCROLL_TAB_LAYOUT);
+	}
+
+	public CloseTabbedPane( int layoutPolicy ) {
 
 		super.setOpaque( true );
-		super.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		super.setTabLayoutPolicy(layoutPolicy);
 
 		paneUI = new CloseTabPaneEnhancedUI();
 		//paneUI = (CloseTabProxyUI) CloseTabProxyUI.createUI(this);//new CloseTabProxyUI((TabbedPaneUI)UIManager.getUI(this));
