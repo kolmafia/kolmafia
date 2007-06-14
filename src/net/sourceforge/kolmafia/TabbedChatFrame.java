@@ -59,7 +59,7 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 	}
 
 	public JTabbedPane getTabbedPane()
-	{	return new CloseTabbedPane();
+	{	return new CloseTabbedPane( CloseTabbedPane.WRAP_TAB_LAYOUT );
 	}
 
 	/**

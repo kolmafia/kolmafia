@@ -734,8 +734,6 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			KoLCharacter.updateStatus();
 		}
-
-		ConcoctionsDatabase.refreshConcoctions();
 	}
 
 	public void execute()

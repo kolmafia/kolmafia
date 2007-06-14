@@ -58,6 +58,9 @@ public abstract class RequestThread implements KoLConstants
 		try
 		{
 			executeRequest( request, !StaticEntity.getBooleanProperty( "allowRequestQueueing" ) );
+
+			if ( !(request instanceof LoginRequest || request instanceof LogoutRequest) )
+				ConcoctionsDatabase.refreshConcoctions();
 		}
 		catch ( Exception e )
 		{
