@@ -63,10 +63,14 @@ public class MailboxRequest extends KoLRequest
 	}
 
 	public MailboxRequest( String boxname )
-	{
+	{	this( boxname, 1 );
+	}
+
+	public MailboxRequest( String boxname, int beginIndex )
+{
 		super( "messages.php" );
 		addFormField( "box", boxname );
-		addFormField( "begin", "1" );
+		addFormField( "begin", String.valueOf( beginIndex ) );
 
 		this.action = null;
 		this.boxname = boxname;

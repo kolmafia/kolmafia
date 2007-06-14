@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -205,7 +206,6 @@ public class FlowerHunterRequest extends KoLRequest
 
 	private void parseClan()
 	{
-		ProfileRequest currentPlayer;
 		Matcher playerMatcher = CLAN_PATTERN.matcher( responseText );
 
 		while ( playerMatcher.find() )
@@ -269,8 +269,43 @@ public class FlowerHunterRequest extends KoLRequest
 		}
 	}
 
-	public static void processDefenseContests( String responseText )
+	public static void processDefenseContests()
 	{
+		LogStream pvpResults = LogStream.openStream( "attacks/" + KoLCharacter.baseUserName() + "_defense.txt", false );
+
+		RequestThread.postRequest( new FlowerHunterRequest() );
+		RequestThread.postRequest( new MailboxRequest( "PvP" ) );
+		
+		KoLMailMessage attack;
+		String attackText;
+
+		Iterator attackIterator = KoLMailManager.getMessages( "PvP" ).iterator();
+
+		while ( attackIterator.hasNext() )
+		{
+			attack = (KoLMailMessage) attackIterator.next();
+			attackText = attack.getMessageHTML();
+			
+			int stopIndex = attackText.indexOf( "<br><p>" );
+			if ( stopIndex == -1 )
+				stopIndex = attackText.indexOf( "<br><P>" );
+			if ( stopIndex == -1 )
+				continue;
+			
+			attackText = attackText.substring( 0, stopIndex );
+			attackText = StaticEntity.globalStringReplace( attackText, "<p>", "\n\n" );
+			attackText = StaticEntity.globalStringReplace( attackText, "<br>", "\n" );
+			attackText = StaticEntity.singleStringReplace( attackText, "  Here's a play-by-play report on how it went down:",
+				"\n(" + tattooCount + " tattoos, " + trophyCount + " trophies, " +
+				flowerCount + " flowers, " + canadaCount + " white canadians)" );
+
+			attackText = attackText.trim();
+		
+			pvpResults.println();
+			pvpResults.println( attack.getTimestamp() );
+			pvpResults.println( attackText );
+			pvpResults.println();
+		}
 	}
 
 	public static void processOffenseContests( String responseText )
