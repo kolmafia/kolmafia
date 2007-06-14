@@ -2054,6 +2054,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void summarizeFlowerHunterData()
 	{
+		FlowerHunterRequest.processDefenseContests();
 		File resultFolder = new File( ROOT_LOCATION, "attacks" );
 
 		if ( !resultFolder.exists() )

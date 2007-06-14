@@ -114,6 +114,10 @@ public class KoLMailMessage implements Comparable
 	public String getMessageId()
 	{	return messageId;
 	}
+	
+	public Date getTimestamp()
+	{	return timestamp;
+	}
 
 	public String getCompleteHTML()
 	{	return completeHTML;
