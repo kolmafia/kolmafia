@@ -141,20 +141,27 @@ public class MonsterDatabase extends KoLDatabase
 		// If no monster with that name exists, maybe it's
 		// one of those monsters with an alternate name.
 
-		if ( realName == null && trySubstrings )
-		{
-			if ( MONSTER_STRINGS == null )
-			{
-				MONSTER_STRINGS = new String[ MONSTER_NAMES.size() ];
-				MONSTER_NAMES.keySet().toArray( MONSTER_STRINGS );
-			}
+		if ( realName != null )
+			return (Monster) MONSTER_DATA.get( realName );
 
-			for ( int i = 0; realName == null && i < MONSTER_STRINGS.length; ++i )
-				if ( MONSTER_STRINGS[i].indexOf( keyName ) == 0 )
-					realName = (String) MONSTER_NAMES.get( MONSTER_STRINGS[i] );
+		if ( !trySubstrings )
+			return null;
+
+		if ( MONSTER_STRINGS == null )
+		{
+			MONSTER_STRINGS = new String[ MONSTER_NAMES.size() ];
+			MONSTER_NAMES.keySet().toArray( MONSTER_STRINGS );
 		}
 
-		return realName == null ? null : (Monster) MONSTER_DATA.get( realName );
+		for ( int i = 0; i < MONSTER_STRINGS.length; ++i )
+			if ( MONSTER_STRINGS[i].indexOf( keyName ) == 0 )
+				return (Monster) MONSTER_DATA.get( MONSTER_NAMES.get( MONSTER_STRINGS[i] ) );
+
+		for ( int i = 0; i < MONSTER_STRINGS.length; ++i )
+			if ( substringMatches( MONSTER_STRINGS[i], keyName ) )
+				return (Monster) MONSTER_DATA.get( MONSTER_NAMES.get( MONSTER_STRINGS[i] ) );
+
+		return null;
 	}
 
 	public static Monster registerMonster( String name, String s )
