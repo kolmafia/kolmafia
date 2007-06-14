@@ -51,19 +51,19 @@ public abstract class LabeledKoLPanel extends KoLPanel
 
 	public LabeledKoLPanel( String panelTitle, Dimension left, Dimension right )
 	{
-		super( left, right, true );
+		super( left, right, panelTitle != null && !panelTitle.equals( "" ) );
 		this.panelTitle = panelTitle;
 	}
 
 	public LabeledKoLPanel( String panelTitle, String confirmButton, Dimension left, Dimension right )
 	{
-		super( confirmButton, left, right, true );
+		super( confirmButton, left, right, panelTitle != null && !panelTitle.equals( "" ) );
 		this.panelTitle = panelTitle;
 	}
 
 	public LabeledKoLPanel( String panelTitle, String confirmButton, String cancelButton, Dimension left, Dimension right )
 	{
-		super( confirmButton, cancelButton, left, right, true );
+		super( confirmButton, cancelButton, left, right, panelTitle != null && !panelTitle.equals( "" ) );
 		this.panelTitle = panelTitle;
 	}
 
@@ -71,7 +71,7 @@ public abstract class LabeledKoLPanel extends KoLPanel
 	{
 		super.setContent( elements, mainPanel, eastPanel, bothDisabledOnClick );
 
-		if ( panelTitle != null )
+		if ( panelTitle != null && !panelTitle.equals( "" ) )
 			add( JComponentUtilities.createLabel( panelTitle, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 	}
 

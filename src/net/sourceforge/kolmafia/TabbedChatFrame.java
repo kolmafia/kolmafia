@@ -38,6 +38,7 @@ import java.awt.Color;
 
 import java.awt.event.MouseEvent;
 
+import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -45,10 +46,7 @@ import javax.swing.event.ChangeListener;
 import tab.CloseTabbedPane;
 import tab.CloseListener;
 
-import com.sun.java.forums.CloseableTabbedPane;
-import com.sun.java.forums.CloseableTabbedPaneListener;
-
-public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseListener, CloseableTabbedPaneListener
+public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseListener
 {
 	private ChatPanel commandLineDisplay;
 	private static boolean addGCLI = false;
@@ -58,6 +56,10 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 	{
 		commandLineDisplay = new ChatPanel( "[gcli]" );
 		addGCLI = StaticEntity.getBooleanProperty( "addChatCommandLine" );
+	}
+
+	public JTabbedPane getTabbedPane()
+	{	return new CloseTabbedPane();
 	}
 
 	/**
@@ -70,16 +72,8 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 	{
 		instanceExists = true;
 
-		if ( tabs instanceof CloseTabbedPane )
-		{
-			((CloseTabbedPane)tabs).setCloseIcon( true );
-			((CloseTabbedPane)tabs).addCloseListener( this );
-		}
-		else
-		{
-			tabs = new CloseableTabbedPane();
-			((CloseableTabbedPane)tabs).addCloseableTabbedPaneListener( this );
-		}
+		((CloseTabbedPane)tabs).setCloseIcon( true );
+		((CloseTabbedPane)tabs).addCloseListener( this );
 
 		tabs.addChangeListener( this );
 		framePanel.add( tabs, BorderLayout.CENTER );

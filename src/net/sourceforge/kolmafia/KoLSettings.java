@@ -593,7 +593,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "sortPvpResults", "false" );
 		CLIENT_SETTINGS.put( "swingLookAndFeel", "" );
 		CLIENT_SETTINGS.put( "switchEquipmentForBuffs", "true" );
-		CLIENT_SETTINGS.put( "testSocketTimeout", "false" );
+		CLIENT_SETTINGS.put( "testSocketTimeout", "true" );
 		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
 
 		CLIENT_SETTINGS.put( "useDecoratedTabs", String.valueOf( !System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
