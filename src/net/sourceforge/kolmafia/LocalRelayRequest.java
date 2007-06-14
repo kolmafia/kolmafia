@@ -713,7 +713,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		StringBuffer warning = new StringBuffer();
 
-		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
+		warning.append( "<html><head><script language=Javascript src=\"/KoLmafia/basics.js\"></script>" );
 
 		warning.append( "<script language=Javascript> " );
 		warning.append( "var default0 = " + mcd0 + "; " );
