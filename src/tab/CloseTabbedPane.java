@@ -52,8 +52,8 @@ public class CloseTabbedPane extends JTabbedPane {
 
 	public CloseTabbedPane( int layoutPolicy ) {
 
+		super( TOP, layoutPolicy );		
 		super.setOpaque( true );
-		super.setTabLayoutPolicy(layoutPolicy);
 
 		paneUI = new CloseTabPaneEnhancedUI();
 		//paneUI = (CloseTabProxyUI) CloseTabProxyUI.createUI(this);//new CloseTabProxyUI((TabbedPaneUI)UIManager.getUI(this));
@@ -73,19 +73,6 @@ public class CloseTabbedPane extends JTabbedPane {
 	 */
 	public boolean isCloseEnabled() {
 		return paneUI.isCloseEnabled();
-	}
-
-
-	/**
-	 * Override JTabbedPane method. Does nothing.
-	 */
-	public void setTabLayoutPolicy(int tabLayoutPolicy) {
-	}
-
-	/**
-	 * Override JTabbedPane method. Does nothing.
-	 */
-	public void setTabPlacement(int tabPlacement) {
 	}
 
 	/**

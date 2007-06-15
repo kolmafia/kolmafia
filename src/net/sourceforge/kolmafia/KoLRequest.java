@@ -734,8 +734,11 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			KoLCharacter.updateStatus();
 		}
+		
+		if ( !(this instanceof LoginRequest || this instanceof LogoutRequest) )
+			ConcoctionsDatabase.refreshConcoctions();
 	}
-
+	
 	public void execute()
 	{
 		// If this is the rat quest, then go ahead and pre-set the data

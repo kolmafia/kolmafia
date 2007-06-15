@@ -339,6 +339,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	public static void refreshConcoctions()
 	{
+		if ( KoLRequest.sessionId == null )
+			ignoreNextRefresh = true;
+		
 		if ( ignoreNextRefresh )
 			return;
 
@@ -467,11 +470,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	}
 
 	public static void recognizeNextRefresh()
-	{
-		if ( LoginRequest.isInstanceRunning() )
-			return;
-
-		ignoreNextRefresh = false;
+	{	ignoreNextRefresh = false;
 	}
 
 	public static int getMeatPasteRequired( int itemId, int creationCount )
