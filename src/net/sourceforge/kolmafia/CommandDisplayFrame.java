@@ -34,35 +34,24 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-
-import net.sourceforge.foxtrot.ConcurrentWorker;
-import net.sourceforge.foxtrot.Job;
-import net.sourceforge.foxtrot.Worker;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CommandDisplayFrame extends KoLFrame
 {
 	private JTextField entryField;
-	private RequestPane outputDisplay;
-
-	private static String lastPlayer = null;
 	private static int lastCommandIndex = 0;
 	private static CommandQueueHandler handler = new CommandQueueHandler();
 
@@ -156,6 +145,7 @@ public class CommandDisplayFrame extends KoLFrame
 				if ( commandHistory.size() > 10 )
 					commandHistory.remove(0);
 
+				lastCommandIndex = commandHistory.size();
 				executeCommand( command );
 			}
 		}
@@ -182,8 +172,14 @@ public class CommandDisplayFrame extends KoLFrame
 			return;
 		}
 
+		if ( !commandQueue.isEmpty() )
+		{
+			RequestLogger.printLine();
+			RequestLogger.printLine( " > <b>QUEUED</b>: " + StaticEntity.globalStringReplace( command, "<", "&lt;" ) );
+			RequestLogger.printLine();			
+		}
+
 		commandQueue.add( command );
-		lastCommandIndex = commandHistory.size();
 		handler.pumpQueue();
 	}
 
@@ -222,7 +218,9 @@ public class CommandDisplayFrame extends KoLFrame
 				try
 				{
 					synchronized ( this )
-					{	wait();
+					{
+						if ( commandQueue.isEmpty() )
+							wait();
 					}
 				}
 				catch ( InterruptedException e )
@@ -238,9 +236,7 @@ public class CommandDisplayFrame extends KoLFrame
 			String command;
 			RequestThread.openRequestSequence();
 
-			KoLmafia.forceContinue();
-
-			while ( !KoLmafia.refusesContinue() && !commandQueue.isEmpty() )
+			while ( !commandQueue.isEmpty() )
 			{
 				command = (String) commandQueue.get(0);
 
@@ -258,10 +254,12 @@ public class CommandDisplayFrame extends KoLFrame
 					StaticEntity.printStackTrace( e );
 				}
 
-				commandQueue.remove(0);
+				if ( KoLmafia.refusesContinue() )
+					commandQueue.clear();
+				else
+					commandQueue.remove(0);
 			}
 
-			commandQueue.clear();
 			RequestThread.closeRequestSequence();
 		}
 

@@ -335,7 +335,6 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		inventory.clear();
 		ConcoctionsDatabase.recognizeNextRefresh();
-		ConcoctionsDatabase.refreshConcoctions();
 
 		// Initialize the equipment lists inside
 		// of the character data
@@ -2190,7 +2189,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static int getStillsAvailable()
 	{
-		if ( !hasSkill( "Superhuman Cocktailcrafting" ) || !isMoxieClass() )
+		if ( !hasSkill( "Superhuman Cocktailcrafting" ) || !isMoxieClass() || KoLRequest.sessionId == null )
 			return 0;
 
 		if ( stillsAvailable == -1 )
