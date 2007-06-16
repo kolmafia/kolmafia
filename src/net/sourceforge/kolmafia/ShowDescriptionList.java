@@ -33,33 +33,19 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Component;
-import java.awt.Point;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import java.net.URLEncoder;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JList;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
-import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
-
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 import net.sourceforge.kolmafia.StoreManager.SoldItem;
@@ -73,8 +59,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	public ListElementFilter filter;
 
 	private LockableListModel listModel;
-	private LockableListModel filterModel;
-
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
 	public ShowDescriptionList( LockableListModel listModel )
@@ -91,7 +75,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 	public ShowDescriptionList( LockableListModel listModel, LockableListModel filterModel, ListElementFilter filter, int visibleRowCount )
 	{
-		contextMenu = new JPopupMenu();
+		this.contextMenu = new JPopupMenu();
 
 		boolean isMoodList = listModel == MoodSettings.getTriggers();
 		boolean isEncyclopedia = !listModel.isEmpty() && listModel.get(0) instanceof Entry;
@@ -99,67 +83,67 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		if ( !isMoodList )
 		{
 			if ( listModel.size() == 0 || !isEncyclopedia )
-				contextMenu.add( new DescriptionMenuItem() );
+				this.contextMenu.add( new DescriptionMenuItem() );
 
-			contextMenu.add( new WikiLookupMenuItem() );
+			this.contextMenu.add( new WikiLookupMenuItem() );
 		}
 
 		if ( listModel == activeEffects )
 		{
-			contextMenu.add( new ShrugOffMenuItem() );
-			contextMenu.add( new BoostEffectMenuItem() );
+			this.contextMenu.add( new ShrugOffMenuItem() );
+			this.contextMenu.add( new BoostEffectMenuItem() );
 		}
 
 		if ( listModel == usableSkills || listModel == availableSkills )
 		{
-			contextMenu.add( new CastSkillMenuItem() );
-			contextMenu.add( new BoostSkillMenuItem() );
+			this.contextMenu.add( new CastSkillMenuItem() );
+			this.contextMenu.add( new BoostSkillMenuItem() );
 		}
 
 		if ( listModel == junkItemList )
-			contextMenu.add( new RemoveFromJunkListMenuItem() );
+			this.contextMenu.add( new RemoveFromJunkListMenuItem() );
 
 		if ( listModel == mementoList )
-			contextMenu.add( new RemoveFromMementoListMenuItem() );
+			this.contextMenu.add( new RemoveFromMementoListMenuItem() );
 
 		if ( listModel == tally )
 		{
-			contextMenu.add( new ZeroTallyMenuItem() );
-			contextMenu.add( new JSeparator() );
-			contextMenu.add( new AutoSellMenuItem() );
-			contextMenu.add( new ConsumeMenuItem() );
-			contextMenu.add( new PulverizeMenuItem() );
+			this.contextMenu.add( new ZeroTallyMenuItem() );
+			this.contextMenu.add( new JSeparator() );
+			this.contextMenu.add( new AutoSellMenuItem() );
+			this.contextMenu.add( new ConsumeMenuItem() );
+			this.contextMenu.add( new PulverizeMenuItem() );
 		}
 		else if ( listModel == inventory || listModel == closet || isEncyclopedia )
 		{
-			contextMenu.add( new AddToJunkListMenuItem() );
-			contextMenu.add( new AddToMementoListMenuItem() );
+			this.contextMenu.add( new AddToJunkListMenuItem() );
+			this.contextMenu.add( new AddToMementoListMenuItem() );
 		}
 		else if ( listModel == StoreManager.getSortedSoldItemList() )
 		{
-			contextMenu.add( new AddToJunkListMenuItem() );
+			this.contextMenu.add( new AddToJunkListMenuItem() );
 		}
 		else if ( isMoodList )
 		{
-			contextMenu.add( new EditTriggerMenuItem() );
-			contextMenu.add( new RemoveTriggerMenuItem() );
+			this.contextMenu.add( new EditTriggerMenuItem() );
+			this.contextMenu.add( new RemoveTriggerMenuItem() );
 		}
 
-		addMouseListener( new PopupListener() );
-		addMouseListener( new ShowDescriptionAdapter() );
+		this.addMouseListener( new PopupListener() );
+		this.addMouseListener( new ShowDescriptionAdapter() );
 
 		this.listModel = filter == null ? listModel.getMirrorImage() : listModel.getMirrorImage( filter );
-		setModel( this.listModel );
+		this.setModel( this.listModel );
 
-		setVisibleRowCount( visibleRowCount );
-		setCellRenderer( AdventureResult.getDefaultRenderer() );
-		setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" );
+		this.setVisibleRowCount( visibleRowCount );
+		this.setCellRenderer( AdventureResult.getDefaultRenderer() );
+		this.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" );
 	}
 
 	public void applyFilter( ListElementFilter filter )
 	{
 		this.filter = filter;
-		listModel.applyListFilter( filter );
+		this.listModel.applyListFilter( filter );
 	}
 
 	/**
@@ -170,31 +154,31 @@ public class ShowDescriptionList extends JList implements KoLConstants
 	private class PopupListener extends MouseAdapter
 	{
 		public void mousePressed( MouseEvent e )
-		{	maybeShowPopup( e );
+		{	this.maybeShowPopup( e );
 		}
 
 		public void mouseReleased( MouseEvent e )
-		{	maybeShowPopup( e );
+		{	this.maybeShowPopup( e );
 		}
 
 		private void maybeShowPopup( MouseEvent e )
 		{
 			if ( e.isPopupTrigger() )
 			{
-				int index = locationToIndex( e.getPoint() );
-				lastSelectIndex = index;
+				int index = ShowDescriptionList.this.locationToIndex( e.getPoint() );
+				ShowDescriptionList.this.lastSelectIndex = index;
 
-				if ( !isSelectedIndex( index ) )
+				if ( !ShowDescriptionList.this.isSelectedIndex( index ) )
 				{
-					clearSelection();
-					addSelectionInterval( index, index );
+					ShowDescriptionList.this.clearSelection();
+					ShowDescriptionList.this.addSelectionInterval( index, index );
 				}
 
-				contextMenu.show( e.getComponent(), e.getX(), e.getY() );
+				ShowDescriptionList.this.contextMenu.show( e.getComponent(), e.getX(), e.getY() );
 			}
 			else
 			{
-				lastSelectIndex = -1;
+				ShowDescriptionList.this.lastSelectIndex = -1;
 			}
 		}
     }
@@ -275,13 +259,13 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		{
 			if ( e.getClickCount() == 2 )
 			{
-				int index = locationToIndex( e.getPoint() );
-				Object item = getModel().getElementAt( index );
+				int index = ShowDescriptionList.this.locationToIndex( e.getPoint() );
+				Object item = ShowDescriptionList.this.getModel().getElementAt( index );
 
 				if ( item == null )
 					return;
 
-				ensureIndexIsVisible( index );
+				ShowDescriptionList.this.ensureIndexIsVisible( index );
 				showGameDescription( item );
 			}
 		}
@@ -298,13 +282,13 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void run()
 		{
-			this.index = lastSelectIndex == -1 ? getSelectedIndex() : lastSelectIndex;
-			this.item = ShowDescriptionList.this.getModel().getElementAt( index );
+			this.index = ShowDescriptionList.this.lastSelectIndex == -1 ? ShowDescriptionList.this.getSelectedIndex() : ShowDescriptionList.this.lastSelectIndex;
+			this.item = ShowDescriptionList.this.getModel().getElementAt( this.index );
 
-			if ( item == null )
+			if ( this.item == null )
 				return;
 
-			ensureIndexIsVisible( index );
+			ShowDescriptionList.this.ensureIndexIsVisible( this.index );
 			this.executeAction();
 		}
 
@@ -323,7 +307,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 
 		public void executeAction()
-		{	showGameDescription( item );
+		{	showGameDescription( this.item );
 		}
 	}
 
@@ -339,7 +323,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 		}
 
 		public void executeAction()
-		{	showWikiDescription( item );
+		{	showWikiDescription( this.item );
 		}
 	}
 
@@ -351,7 +335,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			Object [] skills = getSelectedValues();
+			Object [] skills = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
 			UseSkillRequest request;
@@ -376,7 +360,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			Object [] skills = getSelectedValues();
+			Object [] skills = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
 			if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
@@ -403,7 +387,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			Object [] effects = getSelectedValues();
+			Object [] effects = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
 			if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
@@ -437,7 +421,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			Object [] effects = getSelectedValues();
+			Object [] effects = ShowDescriptionList.this.getSelectedValues();
 			for ( int i = 0; i < effects.length; ++i )
 				RequestThread.postRequest( new UneffectRequest( (AdventureResult) effects[i] ) );
 		}
@@ -455,7 +439,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			if ( desiredLevel == null )
 				return;
 
-			Object [] items = getSelectedValues();
+			Object [] items = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
 			MoodSettings.addTriggers( items, StaticEntity.parseInt( desiredLevel ) );
@@ -475,7 +459,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			if ( desiredLevel == null )
 				return;
 
-			Object [] items = getSelectedValues();
+			Object [] items = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
 			MoodSettings.removeTriggers( items );
@@ -491,7 +475,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			Object [] items = getSelectedValues();
+			Object [] items = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
 			AdventureResult data;
@@ -504,8 +488,8 @@ public class ShowDescriptionList extends JList implements KoLConstants
 					data = ((ItemCreationRequest)items[i]).createdItem;
 				else if ( items[i] instanceof AdventureResult && ((AdventureResult)items[i]).isItem() )
 					data = (AdventureResult) items[i];
-				else if ( item instanceof SoldItem )
-					data = new AdventureResult( ((SoldItem) item).getItemId(), 1 );
+				else if ( this.item instanceof SoldItem )
+					data = new AdventureResult( ((SoldItem) this.item).getItemId(), 1 );
 				else if ( items[i] instanceof String && TradeableItemDatabase.contains( (String) items[i] ) )
 					data = new AdventureResult( (String) items[i], 1, false );
 				else if ( items[i] instanceof Entry && TradeableItemDatabase.contains( (String) ((Entry)items[i]).getValue() ) )
@@ -516,7 +500,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			}
 
 			KoLSettings.saveFlaggedItemList();
-			listModel.applyListFilter( filter );
+			ShowDescriptionList.this.listModel.applyListFilter( ShowDescriptionList.this.filter );
 		}
 	}
 
@@ -528,7 +512,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			Object [] items = getSelectedValues();
+			Object [] items = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
 			AdventureResult data;
@@ -562,7 +546,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			Object [] items = getSelectedValues();
+			Object [] items = ShowDescriptionList.this.getSelectedValues();
 			for ( int i = 0; i < items.length; ++i )
 				AdventureResult.addResultToList( tally, ((AdventureResult)items[i]).getNegation() );
 		}
@@ -579,7 +563,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you would like to sell the selected items?", "Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 				return;
 
-			RequestThread.postRequest( new AutoSellRequest( getSelectedValues(), AutoSellRequest.AUTOSELL ) );
+			RequestThread.postRequest( new AutoSellRequest( ShowDescriptionList.this.getSelectedValues(), AutoSellRequest.AUTOSELL ) );
 		}
 	}
 
@@ -594,7 +578,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "Are you sure you want to use the selected items?", "Use request nag screen!", JOptionPane.YES_NO_OPTION ) )
 				return;
 
-			Object [] items = getSelectedValues();
+			Object [] items = ShowDescriptionList.this.getSelectedValues();
 
 			RequestThread.openRequestSequence();
 			for ( int i = 0; i < items.length; ++i )
@@ -614,7 +598,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null, "The items you've selected will be smashed to pieces.  Are you sure?", "Pulverize request nag screen!", JOptionPane.YES_NO_OPTION ) )
 				return;
 
-			Object [] items = getSelectedValues();
+			Object [] items = ShowDescriptionList.this.getSelectedValues();
 
 			RequestThread.openRequestSequence();
 			for ( int i = 0; i < items.length; ++i )
@@ -631,7 +615,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			Object [] items = getSelectedValues();
+			Object [] items = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
 			for ( int i = 0; i < items.length; ++i )
@@ -649,7 +633,7 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			Object [] items = getSelectedValues();
+			Object [] items = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 
 			for ( int i = 0; i < items.length; ++i )

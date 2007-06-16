@@ -59,14 +59,14 @@ public class StarChartRequest extends ItemCreationRequest
 			for ( int i = 0; i < ingredients.length; ++i )
 			{
 				if ( ingredients[i].getItemId() == STAR )
-					stars = ingredients[i].getCount();
+					this.stars = ingredients[i].getCount();
 				else if ( ingredients[i].getItemId() == LINE)
-					lines = ingredients[i].getCount();
+					this.lines = ingredients[i].getCount();
 			}
 
-		addFormField( "action", "makesomething" );
-		addFormField( "numstars", String.valueOf( stars ) );
-		addFormField( "numlines", String.valueOf( lines ) );
+		this.addFormField( "action", "makesomething" );
+		this.addFormField( "numstars", String.valueOf( this.stars ) );
+		this.addFormField( "numlines", String.valueOf( this.lines ) );
 	}
 
 	public void reconstructFields()
@@ -78,12 +78,12 @@ public class StarChartRequest extends ItemCreationRequest
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.
 
-		if ( !makeIngredients() )
+		if ( !this.makeIngredients() )
 			return;
 
-		for ( int i = 1; i <= getQuantityNeeded(); ++i )
+		for ( int i = 1; i <= this.getQuantityNeeded(); ++i )
 		{
-			KoLmafia.updateDisplay( "Creating " + getName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
+			KoLmafia.updateDisplay( "Creating " + this.getName() + " (" + i + " of " + this.getQuantityNeeded() + ")..." );
 			super.run();
 		}
 	}
@@ -96,7 +96,7 @@ public class StarChartRequest extends ItemCreationRequest
 		// "You can't seem to make a reasonable picture out of
 		// that number of stars and lines."
 
-		if ( responseText.indexOf( "reasonable picture" ) != -1 )
+		if ( this.responseText.indexOf( "reasonable picture" ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You can't make that item." );
 			return;
@@ -104,8 +104,8 @@ public class StarChartRequest extends ItemCreationRequest
 
 		// Account for the results
 
-		StaticEntity.getClient().processResult( new AdventureResult( STAR, 0 - stars ) );
-		StaticEntity.getClient().processResult( new AdventureResult( LINE, 0 - lines ) );
+		StaticEntity.getClient().processResult( new AdventureResult( STAR, 0 - this.stars ) );
+		StaticEntity.getClient().processResult( new AdventureResult( LINE, 0 - this.lines ) );
 		StaticEntity.getClient().processResult( CHART );
 	}
 

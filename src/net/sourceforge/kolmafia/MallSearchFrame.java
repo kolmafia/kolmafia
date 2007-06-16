@@ -34,12 +34,8 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JCheckBox;
@@ -48,7 +44,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
 import javax.swing.event.ListSelectionEvent;
@@ -74,7 +69,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		INSTANCE = this;
 		this.mallSearch = new MallSearchPanel();
 
-		setContentPanel( mallSearch );
+		this.setContentPanel( this.mallSearch );
 	}
 
 	public void dispose()
@@ -100,74 +95,74 @@ public class MallSearchFrame extends KoLPanelFrame
 		{
 			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
-			searchField = StaticEntity.getBooleanProperty( "cacheMallSearches" ) ?
+			this.searchField = StaticEntity.getBooleanProperty( "cacheMallSearches" ) ?
 				(JComponent) new MutableComboBox( pastSearches, true ) : (JComponent) new JTextField();
 
-			countField = new JTextField();
+			this.countField = new JTextField();
 
-			forceSortingCheckBox = new JCheckBox();
-			limitPurchasesCheckBox = new JCheckBox();
-			results = new SortedListModel();
+			this.forceSortingCheckBox = new JCheckBox();
+			this.limitPurchasesCheckBox = new JCheckBox();
+			MallSearchFrame.this.results = new SortedListModel();
 
 			JPanel checkBoxPanels = new JPanel();
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
 			checkBoxPanels.add( new JLabel( "Force Sort: " ), "" );
-			checkBoxPanels.add( forceSortingCheckBox );
+			checkBoxPanels.add( this.forceSortingCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
 			checkBoxPanels.add( new JLabel( "Limit Purchases: " ), "" );
-			checkBoxPanels.add( limitPurchasesCheckBox );
+			checkBoxPanels.add( this.limitPurchasesCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
-			limitPurchasesCheckBox.setSelected( true );
+			this.limitPurchasesCheckBox.setSelected( true );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Item to Find: ", searchField );
-			elements[1] = new VerifiableElement( "Search Limit: ", countField );
+			elements[0] = new VerifiableElement( "Item to Find: ", this.searchField );
+			elements[1] = new VerifiableElement( "Search Limit: ", this.countField );
 			elements[2] = new VerifiableElement( " ", checkBoxPanels, false );
 
 			int searchCount = StaticEntity.getIntegerProperty( "defaultLimit" );
-			countField.setText( searchCount <= 0 ? "5" : String.valueOf( searchCount ) );
+			this.countField.setText( searchCount <= 0 ? "5" : String.valueOf( searchCount ) );
 
-			setContent( elements );
+			this.setContent( elements );
 
-			add( new SearchResultsPanel(), BorderLayout.CENTER );
-			currentlyBuying = false;
+			this.add( new SearchResultsPanel(), BorderLayout.CENTER );
+			MallSearchFrame.this.currentlyBuying = false;
 		}
 
 		public void actionConfirmed()
 		{
-			int searchCount = getValue( countField, 0 );
+			int searchCount = getValue( this.countField, 0 );
 			if ( searchCount > 0 )
 				StaticEntity.setProperty( "defaultLimit", String.valueOf( searchCount ) );
 
-			MallPurchaseRequest.setUsePriceComparison( forceSortingCheckBox.isSelected() );
+			MallPurchaseRequest.setUsePriceComparison( this.forceSortingCheckBox.isSelected() );
 
 			String searchText = null;
 
-			if ( searchField instanceof JTextField )
+			if ( this.searchField instanceof JTextField )
 			{
-				searchText = ((JTextField)searchField).getText();
+				searchText = ((JTextField)this.searchField).getText();
 			}
 			else
 			{
-				((MutableComboBox)searchField).forceAddition();
-				searchText = (String) ((MutableComboBox)searchField).getSelectedItem();
+				((MutableComboBox)this.searchField).forceAddition();
+				searchText = (String) ((MutableComboBox)this.searchField).getSelectedItem();
 			}
 
-			searchMall( new SearchMallRequest( searchText, searchCount, results, false ) );
+			searchMall( new SearchMallRequest( searchText, searchCount, MallSearchFrame.this.results, false ) );
 		}
 
 		public void actionCancelled()
 		{
-			if ( currentlyBuying )
+			if ( MallSearchFrame.this.currentlyBuying )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Purchases stopped." );
 				return;
 			}
 
-			Object [] purchases = resultsList.getSelectedValues();
+			Object [] purchases = MallSearchFrame.this.resultsList.getSelectedValues();
 			if ( purchases == null || purchases.length == 0 )
 			{
-				setStatusMessage( "Please select a store from which to purchase." );
+				this.setStatusMessage( "Please select a store from which to purchase." );
 				return;
 			}
 
@@ -176,24 +171,24 @@ public class MallSearchFrame extends KoLPanelFrame
 				defaultPurchases += ((MallPurchaseRequest) purchases[i]).getQuantity() == MallPurchaseRequest.MAX_QUANTITY ?
 					MallPurchaseRequest.MAX_QUANTITY : ((MallPurchaseRequest) purchases[i]).getLimit();
 
-			int count = limitPurchasesCheckBox.isSelected() || defaultPurchases >= 1000 ?
+			int count = this.limitPurchasesCheckBox.isSelected() || defaultPurchases >= 1000 ?
 				getQuantity( "Maximum number of items to purchase?", defaultPurchases, 1 ) : defaultPurchases;
 
 			if ( count == 0 )
 				return;
 
-			currentlyBuying = true;
+			MallSearchFrame.this.currentlyBuying = true;
 
 			SpecialOutfit.createImplicitCheckpoint();
-			StaticEntity.getClient().makePurchases( results, purchases, count );
+			StaticEntity.getClient().makePurchases( MallSearchFrame.this.results, purchases, count );
 			SpecialOutfit.restoreImplicitCheckpoint();
 
-			currentlyBuying = false;
-			resultsList.updateUI();
+			MallSearchFrame.this.currentlyBuying = false;
+			MallSearchFrame.this.resultsList.updateUI();
 		}
 
 		public void requestFocus()
-		{	searchField.requestFocus();
+		{	this.searchField.requestFocus();
 		}
 	}
 
@@ -244,13 +239,13 @@ public class MallSearchFrame extends KoLPanelFrame
 			resultsPanel.add( JComponentUtilities.createLabel( "Search Results", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.NORTH );
 
-			resultsList = new JList( results );
-			resultsList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-			resultsList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-			resultsList.setVisibleRowCount( 11 );
+			MallSearchFrame.this.resultsList = new JList( MallSearchFrame.this.results );
+			MallSearchFrame.this.resultsList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+			MallSearchFrame.this.resultsList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+			MallSearchFrame.this.resultsList.setVisibleRowCount( 11 );
 
-			resultsList.addListSelectionListener( new PurchaseSelectListener() );
-			add( new SimpleScrollPane( resultsList ), BorderLayout.CENTER );
+			MallSearchFrame.this.resultsList.addListSelectionListener( new PurchaseSelectListener() );
+			this.add( new SimpleScrollPane( MallSearchFrame.this.resultsList ), BorderLayout.CENTER );
 		}
 
 		/**
@@ -269,8 +264,8 @@ public class MallSearchFrame extends KoLPanelFrame
 				// show what the current state of the selections
 				// is at this time.
 
-				if ( !currentlyBuying )
-					mallSearch.setStatusMessage( getPurchaseSummary( resultsList.getSelectedValues() ) );
+				if ( !MallSearchFrame.this.currentlyBuying )
+					MallSearchFrame.this.mallSearch.setStatusMessage( MallSearchFrame.this.getPurchaseSummary( MallSearchFrame.this.resultsList.getSelectedValues() ) );
 			}
 		}
 	}

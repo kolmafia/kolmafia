@@ -51,7 +51,7 @@ public class MuseumRequest extends SendMessageRequest
 	public MuseumRequest( Object [] attachments, boolean isDeposit )
 	{
 		super( "managecollection.php", attachments );
-		addFormField( "action", isDeposit ? "put" : "take" );
+		this.addFormField( "action", isDeposit ? "put" : "take" );
 
 		this.isManagement = true;
 		this.isDeposit = isDeposit;
@@ -64,10 +64,10 @@ public class MuseumRequest extends SendMessageRequest
 	public MuseumRequest( AdventureResult [] items, int [] shelves )
 	{
 		this();
-		addFormField( "action", "arrange" );
+		this.addFormField( "action", "arrange" );
 
 		for ( int i = 0; i < items.length; ++i )
-			addFormField( "whichshelf" + items[i].getItemId(), String.valueOf( shelves[i] ) );
+			this.addFormField( "whichshelf" + items[i].getItemId(), String.valueOf( shelves[i] ) );
 
 		this.isDeposit = false;
 		this.isWithdrawal = false;
@@ -79,7 +79,7 @@ public class MuseumRequest extends SendMessageRequest
 	}
 
 	public SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new MuseumRequest( attachments, isDeposit );
+	{	return new MuseumRequest( attachments, this.isDeposit );
 	}
 
 	public String getSuccessMessage()
@@ -101,8 +101,8 @@ public class MuseumRequest extends SendMessageRequest
 	public void processResults()
 	{
 		super.processResults();
-		if ( !isManagement )
-			MuseumManager.update( responseText );
+		if ( !this.isManagement )
+			MuseumManager.update( this.responseText );
 	}
 
 	public boolean allowMementoTransfer()
@@ -118,7 +118,7 @@ public class MuseumRequest extends SendMessageRequest
 	}
 
 	public String getStatusMessage()
-	{	return isDeposit ? "Placing items in display case" : isWithdrawal ? "Removing items from display case" : "Updating display case";
+	{	return this.isDeposit ? "Placing items in display case" : this.isWithdrawal ? "Removing items from display case" : "Updating display case";
 	}
 
 	public static boolean registerRequest( String urlString )

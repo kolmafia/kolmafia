@@ -34,25 +34,14 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Frame;
 import java.awt.GridLayout;
-import java.awt.Point;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
-import javax.swing.ListModel;
-
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
@@ -70,10 +59,10 @@ public class ContactListFrame extends KoLFrame
 		super( "Contact List" );
 		this.contacts = contacts;
 
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( new ContactListPanel(), "" );
+		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
+		this.framePanel.add( new ContactListPanel(), "" );
 
-		JToolBar toolbarPanel = getToolbar();
+		JToolBar toolbarPanel = this.getToolbar();
 		if ( toolbarPanel != null )
 		{
 			toolbarPanel.add( new InvocationButton( "Show as list", "copy.gif", this, "listSelected" ) );
@@ -81,19 +70,19 @@ public class ContactListFrame extends KoLFrame
 			toolbarPanel.add( new InvocationButton( "Mass-mail", "mail.gif", this, "mailSelected" ) );
 		}
 
-		setDefaultCloseOperation( HIDE_ON_CLOSE );
-		pack();
+		this.setDefaultCloseOperation( HIDE_ON_CLOSE );
+		this.pack();
 	}
 
 	public Object [] getSelectedPlayers()
 	{
-		Object [] selectedPlayers = contactsDisplay.getSelectedValues();
+		Object [] selectedPlayers = this.contactsDisplay.getSelectedValues();
 
 		// If no players are selected, and the player uses the
 		// option, assume they want everyone.
 
 		if ( selectedPlayers.length == 0 )
-			selectedPlayers = contacts.toArray();
+			selectedPlayers = this.contacts.toArray();
 
 		return selectedPlayers;
 	}
@@ -101,7 +90,7 @@ public class ContactListFrame extends KoLFrame
 	public String convertToCDL()
 	{
 		StringBuffer listCDL = new StringBuffer();
-		Object [] selectedPlayers = getSelectedPlayers();
+		Object [] selectedPlayers = this.getSelectedPlayers();
 
 		for ( int i = 0; i < selectedPlayers.length; ++i )
 		{
@@ -125,14 +114,14 @@ public class ContactListFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( scrollCDL, 250, 120 );
 		dialogCDL.getContentPane().add( scrollCDL );
 
-		entryCDL.setText( convertToCDL() );
+		entryCDL.setText( this.convertToCDL() );
 		dialogCDL.pack();  dialogCDL.setVisible( true );
 	}
 
 	public void buffSelected()
 	{
 		Object [] parameters = new Object[1];
-		parameters[0] = convertToCDL();
+		parameters[0] = this.convertToCDL();
 
 		createDisplay( SkillBuffFrame.class, parameters );
 	}
@@ -143,7 +132,7 @@ public class ContactListFrame extends KoLFrame
 		// selected, since that's the kmail limit.
 
 		Object [] parameters = new Object[1];
-		parameters[0] = convertToCDL();
+		parameters[0] = this.convertToCDL();
 
 		createDisplay( SendMessageFrame.class, parameters );
 	}
@@ -152,14 +141,14 @@ public class ContactListFrame extends KoLFrame
 	{
 		public ContactListPanel()
 		{
-			setLayout( new GridLayout( 1, 1 ) );
-			contactsDisplay = new JList( contacts );
+			this.setLayout( new GridLayout( 1, 1 ) );
+			ContactListFrame.this.contactsDisplay = new JList( ContactListFrame.this.contacts );
 
-			contactsDisplay.setVisibleRowCount( 25 );
-			contactsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+			ContactListFrame.this.contactsDisplay.setVisibleRowCount( 25 );
+			ContactListFrame.this.contactsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
-			contactsDisplay.addMouseListener( new SendInstantMessageAdapter() );
-			add( new SimpleScrollPane( contactsDisplay ) );
+			ContactListFrame.this.contactsDisplay.addMouseListener( new SendInstantMessageAdapter() );
+			this.add( new SimpleScrollPane( ContactListFrame.this.contactsDisplay ) );
 		}
 	}
 
@@ -177,8 +166,8 @@ public class ContactListFrame extends KoLFrame
 			{
 				int index = list.locationToIndex( e.getPoint() );
 
-				if ( index >= 0 && index < contacts.size() )
-					KoLMessenger.openInstantMessage( (String) contacts.get( index ), true );
+				if ( index >= 0 && index < ContactListFrame.this.contacts.size() )
+					KoLMessenger.openInstantMessage( (String) ContactListFrame.this.contacts.get( index ), true );
 			}
 		}
 	}

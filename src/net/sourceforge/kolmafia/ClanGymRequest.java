@@ -141,48 +141,48 @@ public class ClanGymRequest extends KoLRequest
 
 	public void run()
 	{
-		constructURLString( chooseGym( equipmentId ) );
+		this.constructURLString( chooseGym( this.equipmentId ) );
 
-		switch ( equipmentId )
+		switch ( this.equipmentId )
 		{
 		case SEARCH:
 		case BREAKFAST:
 			break;
 
 		case SOFA:
-			addFormField( "preaction", "nap" );
+			this.addFormField( "preaction", "nap" );
 			break;
 
 		default:
-			String equipment = chooseAction( equipmentId );
+			String equipment = chooseAction( this.equipmentId );
 			if ( equipment == null )
 				return;
 
 			if ( equipment.length() > 1 )
 			{
-				addFormField( "action", equipment );
+				this.addFormField( "action", equipment );
 			}
 			else
 			{
-				addFormField( "preaction", "gym" );
-				addFormField( "whichgym", equipment );
+				this.addFormField( "preaction", "gym" );
+				this.addFormField( "whichgym", equipment );
 			}
 
 			break;
 		}
 
-		if ( turnCount > 0 )
+		if ( this.turnCount > 0 )
 		{
-			addFormField( "numturns", String.valueOf( turnCount ) );
+			this.addFormField( "numturns", String.valueOf( this.turnCount ) );
 
-			if ( KoLCharacter.getAdventuresLeft() < turnCount )
+			if ( KoLCharacter.getAdventuresLeft() < this.turnCount )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient adventures." );
 				return;
 			}
 		}
 
-		if ( equipmentId != SEARCH )
+		if ( this.equipmentId != SEARCH )
 			KoLmafia.updateDisplay( "Executing request..." );
 
 		super.run();
@@ -190,30 +190,30 @@ public class ClanGymRequest extends KoLRequest
 
 	public void processResults()
 	{
-		if ( equipmentId != SEARCH )
+		if ( this.equipmentId != SEARCH )
 		{
-			if ( equipmentId != BREAKFAST )
+			if ( this.equipmentId != BREAKFAST )
 				KoLmafia.updateDisplay( "Workout completed." );
 
 			return;
 		}
 
-		equipmentId = BREAKFAST;
+		this.equipmentId = BREAKFAST;
 
 		// The Klaw can be accessed regardless of whether or not
 		// you are in hardcore, so handle it first.
 
-		if ( responseText.indexOf( "rump3_3.gif" ) != -1 )
+		if ( this.responseText.indexOf( "rump3_3.gif" ) != -1 )
 		{
-			clearDataFields();
-			addFormField( "action", "click" );
-			addFormField( "spot", "3" );
-			addFormField( "furni", "3" );
+			this.clearDataFields();
+			this.addFormField( "action", "click" );
+			this.addFormField( "spot", "3" );
+			this.addFormField( "furni", "3" );
 
 			for ( int i = 0; i < 3; ++i )
 			{
 				KoLmafia.updateDisplay( "Attempting to win a prize (" + (i+1) + " of 3)..." );
-				if ( responseText.indexOf( "wisp of smoke" ) == -1 && responseText.indexOf( "broken down" ) == -1 )
+				if ( this.responseText.indexOf( "wisp of smoke" ) == -1 && this.responseText.indexOf( "broken down" ) == -1 )
 					super.run();
 			}
 		}
@@ -231,21 +231,21 @@ public class ClanGymRequest extends KoLRequest
 				// If the equipment is not present, then go ahead and
 				// skip this check.
 
-				if ( MAXIMUM_USAGE[i][j] == 0 || responseText.indexOf( "rump" + i + "_" + j + ".gif" ) == -1 )
+				if ( MAXIMUM_USAGE[i][j] == 0 || this.responseText.indexOf( "rump" + i + "_" + j + ".gif" ) == -1 )
 					continue;
 
-				clearDataFields();
+				this.clearDataFields();
 
 				if ( i == 9 && j == 2 )
 				{
-					addFormField( "preaction", "buychips" );
-					addFormField( "whichbag", String.valueOf( RNG.nextInt(3) + 1 ) );
+					this.addFormField( "preaction", "buychips" );
+					this.addFormField( "whichbag", String.valueOf( RNG.nextInt(3) + 1 ) );
 				}
 				else
 				{
-					addFormField( "action", "click" );
-					addFormField( "spot", String.valueOf(i) );
-					addFormField( "furni", String.valueOf(j) );
+					this.addFormField( "action", "click" );
+					this.addFormField( "spot", String.valueOf(i) );
+					this.addFormField( "furni", String.valueOf(j) );
 				}
 
 				for ( int k = 0; k < MAXIMUM_USAGE[i][j]; ++k )
@@ -265,7 +265,7 @@ public class ClanGymRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return turnCount;
+	{	return this.turnCount;
 	}
 }
 

@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.List;
-
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
@@ -50,8 +48,6 @@ public class GiftMessageRequest extends SendMessageRequest
 	private String recipient, message;
 	private GiftWrapper wrappingType;
 	private int maxCapacity, materialCost;
-	private boolean isFromStorage;
-
 	private static final LockableListModel PACKAGES = new LockableListModel();
 	static
 	{
@@ -82,7 +78,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		}
 
 		public String toString()
-		{	return name.toString();
+		{	return this.name.toString();
 		}
 	}
 
@@ -102,14 +98,14 @@ public class GiftMessageRequest extends SendMessageRequest
 		this.maxCapacity = this.wrappingType.maxCapacity;
 		this.materialCost = this.wrappingType.materialCost;
 
-		addFormField( "action", "Yep." );
-		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
-		addFormField( "note", this.message );
-		addFormField( "insidenote", this.message );
-		addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
+		this.addFormField( "action", "Yep." );
+		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
+		this.addFormField( "note", this.message );
+		this.addFormField( "insidenote", this.message );
+		this.addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
 
 		// You can take from inventory (0) or Hagnks (1)
-		addFormField( "fromwhere", isFromStorage ? "1" : "0" );
+		this.addFormField( "fromwhere", isFromStorage ? "1" : "0" );
 
 		if ( isFromStorage )
 		{
@@ -119,7 +115,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 	public int getCapacity()
-	{	return maxCapacity;
+	{	return this.maxCapacity;
 	}
 
 	public boolean alwaysIndex()
@@ -127,7 +123,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 	public SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new GiftMessageRequest( recipient, message, desiredCapacity, attachments, this.source == storage );
+	{	return new GiftMessageRequest( this.recipient, this.message, this.desiredCapacity, attachments, this.source == storage );
 	}
 
 	public String getSuccessMessage()
@@ -135,15 +131,15 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 	public String getItemField()
-	{	return source == storage ? "hagnks_whichitem" : "whichitem";
+	{	return this.source == storage ? "hagnks_whichitem" : "whichitem";
 	}
 
 	public String getQuantityField()
-	{	return source == storage ? "hagnks_howmany" : "howmany";
+	{	return this.source == storage ? "hagnks_howmany" : "howmany";
 	}
 
 	public String getMeatField()
-	{	return source == storage ? "hagnks_sendmeat" : "sendmeat";
+	{	return this.source == storage ? "hagnks_sendmeat" : "sendmeat";
 	}
 
 
@@ -163,8 +159,8 @@ public class GiftMessageRequest extends SendMessageRequest
 	public void processResults()
 	{
 		super.processResults();
-		if ( responseText.indexOf( getSuccessMessage() ) != -1 && materialCost > 0 )
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - materialCost ) );
+		if ( this.responseText.indexOf( this.getSuccessMessage() ) != -1 && this.materialCost > 0 )
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.materialCost ) );
 	}
 
 	public static boolean registerRequest( String urlString )
@@ -184,6 +180,6 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 	public String getStatusMessage()
-	{	return "Sending package to " + KoLmafia.getPlayerName( recipient );
+	{	return "Sending package to " + KoLmafia.getPlayerName( this.recipient );
 	}
 }

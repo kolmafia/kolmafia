@@ -62,8 +62,8 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	{
 		super( "ascensionhistory.php" );
 
-		addFormField( "back", "self" );
-		addFormField( "who", KoLmafia.getPlayerId( playerName ) );
+		this.addFormField( "back", "self" );
+		this.addFormField( "who", KoLmafia.getPlayerId( playerName ) );
 
 		this.playerName = playerName;
 		this.playerId = playerId;
@@ -85,7 +85,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 		stringForm.append( "</b></a></td>" );
 		stringForm.append( "<td align=right>" );
-		stringForm.append( isSoftcoreComparator ? softcoreCount : hardcoreCount );
+		stringForm.append( isSoftcoreComparator ? this.softcoreCount : this.hardcoreCount );
 		stringForm.append( "</td></tr>" );
 		return stringForm.toString();
 	}
@@ -93,16 +93,16 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	public int compareTo( Object o )
 	{
 		return o == null || !(o instanceof AscensionDataRequest) ? -1 :
-			isSoftcoreComparator ? ((AscensionDataRequest)o).softcoreCount - softcoreCount :
-			((AscensionDataRequest)o).hardcoreCount - hardcoreCount;
+			isSoftcoreComparator ? ((AscensionDataRequest)o).softcoreCount - this.softcoreCount :
+			((AscensionDataRequest)o).hardcoreCount - this.hardcoreCount;
 	}
 
 	public void processResults()
 	{
-		responseText = responseText.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" ).replaceAll( "<td></td>",
+		this.responseText = this.responseText.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" ).replaceAll( "<td></td>",
 			"<td><img src=\"http://images.kingdomofloathing.com/itemimages/confused.gif\" height=30 width=30></td>" );
 
-		refreshFields();
+		this.refreshFields();
 	}
 
 	private String getBackupFileData()
@@ -140,7 +140,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 				if ( shouldReplace )
 				{
-					File checkFile = new File( ascensionFolders[j], "ascensions/" + playerId + ".htm");
+					File checkFile = new File( ascensionFolders[j], "ascensions/" + this.playerId + ".htm");
 					if ( checkFile.exists() )
 					{
 						backupFile = checkFile;
@@ -186,11 +186,11 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 	private void refreshFields()
 	{
-		ascensionData.clear();
-		Matcher fieldMatcher = FIELD_PATTERN.matcher( responseText );
+		this.ascensionData.clear();
+		Matcher fieldMatcher = FIELD_PATTERN.matcher( this.responseText );
 
 		StringBuffer ascensionBuffer = new StringBuffer();
-		ascensionBuffer.append( getBackupFileData() );
+		ascensionBuffer.append( this.getBackupFileData() );
 
 		int lastFindIndex = 0;
 		AscensionDataField lastField;
@@ -220,13 +220,13 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 				String [] columnsOld = extractColumns( oldDataMatcher.group() );
 				if ( !newDataAvailable )
 				{
-					lastField = new AscensionDataField( playerName, playerId, columnsOld );
-					ascensionData.add( lastField );
+					lastField = new AscensionDataField( this.playerName, this.playerId, columnsOld );
+					this.ascensionData.add( lastField );
 
 					if ( lastField.isSoftcore )
-						++softcoreCount;
+						++this.softcoreCount;
 					else
-						++hardcoreCount;
+						++this.hardcoreCount;
 				}
 
 				else if ( columnsNew != null && columnsNew[0].equals( columnsOld[0] ) )
@@ -241,23 +241,23 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 						columnsNew = extractColumns( fieldMatcher.group() );
 					}
 
-					lastField = new AscensionDataField( playerName, playerId, columnsOld );
-					ascensionData.add( lastField );
+					lastField = new AscensionDataField( this.playerName, this.playerId, columnsOld );
+					this.ascensionData.add( lastField );
 
 					if ( lastField.isSoftcore )
-						++softcoreCount;
+						++this.softcoreCount;
 					else
-						++hardcoreCount;
+						++this.hardcoreCount;
 				}
 				else
 				{
-					lastField = new AscensionDataField( playerName, playerId, columnsOld );
-					ascensionData.add( lastField );
+					lastField = new AscensionDataField( this.playerName, this.playerId, columnsOld );
+					this.ascensionData.add( lastField );
 
 					if ( lastField.isSoftcore )
-						++softcoreCount;
+						++this.softcoreCount;
 					else
-						++hardcoreCount;
+						++this.hardcoreCount;
 
 					try
 					{
@@ -275,7 +275,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 						long timeDifference = ASCEND_DATE_FORMAT.parse( columnsNew[1] ).getTime() -
 							ASCEND_DATE_FORMAT.parse( columnsOld[1] ).getTime();
 
-						columnsNew[6] = String.valueOf( (int) Math.round( timeDifference / 86400000l ) + 1 );
+						columnsNew[6] = String.valueOf( Math.round( timeDifference / 86400000l ) + 1 );
 					}
 					catch ( Exception e )
 					{
@@ -289,13 +289,13 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 			if ( inconsistency )
 			{
-				lastField = new AscensionDataField( playerName, playerId, columnsNew );
-				ascensionData.add( lastField );
+				lastField = new AscensionDataField( this.playerName, this.playerId, columnsNew );
+				this.ascensionData.add( lastField );
 
 				if ( lastField.isSoftcore )
-					++softcoreCount;
+					++this.softcoreCount;
 				else
-					++hardcoreCount;
+					++this.hardcoreCount;
 
 				lastFindIndex = fieldMatcher.end() - 5;
 			}
@@ -306,13 +306,13 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			lastFindIndex = fieldMatcher.end() - 5;
 
 			String [] columns = extractColumns( fieldMatcher.group() );
-			lastField = new AscensionDataField( playerName, playerId, columns );
-			ascensionData.add( lastField );
+			lastField = new AscensionDataField( this.playerName, this.playerId, columns );
+			this.ascensionData.add( lastField );
 
 			if ( lastField.isSoftcore )
-				++softcoreCount;
+				++this.softcoreCount;
 			else
-				++hardcoreCount;
+				++this.hardcoreCount;
 		}
 	}
 
@@ -333,21 +333,21 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	}
 
 	public String getPlayerName()
-	{	return playerName;
+	{	return this.playerName;
 	}
 
 	public String getPlayerId()
-	{	return playerId;
+	{	return this.playerId;
 	}
 
 	public void initialize()
 	{
-		if ( responseText == null )
+		if ( this.responseText == null )
 			RequestThread.postRequest( this );
 	}
 
 	public List getAscensionData()
-	{	return ascensionData;
+	{	return this.ascensionData;
 	}
 
 	private static String [] extractColumns( String rowData )
@@ -360,18 +360,17 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		private String playerId;
 		private StringBuffer stringForm;
 
-		private String sign;
 		private Date timestamp;
 		private boolean isSoftcore;
 		private int level, classId, pathId;
 		private int dayCount, turnCount;
 
 		public AscensionDataField( String playerName, String playerId, String rowData )
-		{	setData( playerName, playerId, extractColumns( rowData ) );
+		{	this.setData( playerName, playerId, extractColumns( rowData ) );
 		}
 
 		public AscensionDataField( String playerName, String playerId, String [] columns )
-		{	setData( playerName, playerId, columns );
+		{	this.setData( playerName, playerId, columns );
 		}
 
 		private void setData( String playerName, String playerId, String [] columns )
@@ -395,52 +394,51 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 				StaticEntity.printStackTrace( e );
 			}
 
-			this.sign = columns[4];
 			this.turnCount = StaticEntity.parseInt( columns[5] );
 			this.dayCount = StaticEntity.parseInt( columns[6] );
 
 			if ( columns.length == 9 )
-				setCurrentColumns( columns );
+				this.setCurrentColumns( columns );
 			else
-				setHistoricColumns( columns );
+				this.setHistoricColumns( columns );
 
-			stringForm = new StringBuffer();
-			stringForm.append( "<tr><td><a href=\"ascensions/" + ClanManager.getURLName( this.playerName ) + "\"><b>" );
-			stringForm.append( this.playerName );
-			stringForm.append( "</b></a>&nbsp;(" );
+			this.stringForm = new StringBuffer();
+			this.stringForm.append( "<tr><td><a href=\"ascensions/" + ClanManager.getURLName( this.playerName ) + "\"><b>" );
+			this.stringForm.append( this.playerName );
+			this.stringForm.append( "</b></a>&nbsp;(" );
 
 			switch ( this.classId )
 			{
 			case AscensionSnapshotTable.SEAL_CLUBBER:
-				stringForm.append( "SC" );
+				this.stringForm.append( "SC" );
 				break;
 
 			case AscensionSnapshotTable.TURTLE_TAMER:
-				stringForm.append( "TT" );
+				this.stringForm.append( "TT" );
 				break;
 
 			case AscensionSnapshotTable.PASTAMANCER:
-				stringForm.append( "P" );
+				this.stringForm.append( "P" );
 				break;
 
 			case AscensionSnapshotTable.SAUCEROR:
-				stringForm.append( "S" );
+				this.stringForm.append( "S" );
 				break;
 
 			case AscensionSnapshotTable.DISCO_BANDIT:
-				stringForm.append( "DB" );
+				this.stringForm.append( "DB" );
 				break;
 
 			case AscensionSnapshotTable.ACCORDION_THIEF:
-				stringForm.append( "AT" );
+				this.stringForm.append( "AT" );
 				break;
 			}
 
-			stringForm.append( ")&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=right>" );
-			stringForm.append( this.dayCount );
-			stringForm.append( "</td><td align=right>" );
-			stringForm.append( this.turnCount );
-			stringForm.append( "</td></tr>" );
+			this.stringForm.append( ")&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=right>" );
+			this.stringForm.append( this.dayCount );
+			this.stringForm.append( "</td><td align=right>" );
+			this.stringForm.append( this.turnCount );
+			this.stringForm.append( "</td></tr>" );
 		}
 
 		private void setHistoricColumns( String [] columns )
@@ -485,31 +483,31 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		}
 
 		public String getDateAsString()
-		{	return ProfileRequest.OUTPUT_FORMAT.format( timestamp );
+		{	return ProfileRequest.OUTPUT_FORMAT.format( this.timestamp );
 		}
 
 		public int getAge()
 		{
-			long ascensionDate = timestamp.getTime();
+			long ascensionDate = this.timestamp.getTime();
 			float difference = System.currentTimeMillis() - ascensionDate;
-			int days = (int)(Math.round((difference/(1000*60*60*24))));
+			int days = (Math.round((difference/(1000*60*60*24))));
 			return days;
 		}
 
 
 		public String toString()
-		{	return stringForm.toString();
+		{	return this.stringForm.toString();
 		}
 
 		public boolean equals( Object o )
-		{	return o != null && o instanceof AscensionDataField && playerId.equals( ((AscensionDataField)o).playerId );
+		{	return o != null && o instanceof AscensionDataField && this.playerId.equals( ((AscensionDataField)o).playerId );
 		}
 
 		public boolean matchesFilter( boolean isSoftcore, int pathFilter, int classFilter, int maxAge )
 		{
 			return isSoftcore == this.isSoftcore && (pathFilter == AscensionSnapshotTable.NO_FILTER || pathFilter == this.pathId) &&
 				(classFilter == AscensionSnapshotTable.NO_FILTER || classFilter == this.classId) &&
-				(maxAge == 0 || maxAge >= getAge());
+				(maxAge == 0 || maxAge >= this.getAge());
 		}
 
 		public boolean matchesFilter( boolean isSoftcore, int pathFilter, int classFilter )
@@ -528,14 +526,14 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			// First, compare the number of days between
 			// ascension runs.
 
-			int dayDifference = dayCount - adf.dayCount;
+			int dayDifference = this.dayCount - adf.dayCount;
 			if ( dayDifference != 0 )
 				return dayDifference;
 
 			// Next, compare the number of turns it took
 			// in order to complete the ascension.
 
-			int turnDifference = turnCount - adf.turnCount;
+			int turnDifference = this.turnCount - adf.turnCount;
 			if ( turnDifference != 0 )
 				return turnDifference;
 
@@ -543,16 +541,16 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			// compare the timestamp.  Later, this will also
 			// take the 60-day sliding window into account.
 
-			if ( timestamp.before( adf.timestamp ) )
+			if ( this.timestamp.before( adf.timestamp ) )
 				return -1;
-			if ( timestamp.after( adf.timestamp ) )
+			if ( this.timestamp.after( adf.timestamp ) )
 				return 1;
 
 			// If it still is equal, then check the difference
 			// in levels, and return that -- effectively, if all
 			// comparable elements are the same, then they are equal.
 
-			return level - adf.level;
+			return this.level - adf.level;
 		}
 	}
 }

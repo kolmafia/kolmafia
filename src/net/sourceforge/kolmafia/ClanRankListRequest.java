@@ -55,15 +55,15 @@ public class ClanRankListRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Retrieving list of ranks..." );
 		super.run();
 
-		rankList.clear();
-		Matcher ranklistMatcher = RANK_PATTERN.matcher( responseText );
+		this.rankList.clear();
+		Matcher ranklistMatcher = RANK_PATTERN.matcher( this.responseText );
 
 		if ( ranklistMatcher.find() )
 		{
 			Matcher rankMatcher = OPTION_PATTERN.matcher( ranklistMatcher.group() );
 
 			while ( rankMatcher.find() )
-				rankList.add( rankMatcher.group(1).toLowerCase() );
+				this.rankList.add( rankMatcher.group(1).toLowerCase() );
 		}
 
 		KoLmafia.updateDisplay( "List of ranks retrieved." );

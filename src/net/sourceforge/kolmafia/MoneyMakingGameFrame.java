@@ -48,8 +48,8 @@ public class MoneyMakingGameFrame extends KoLFrame
 	{
 		super( "Coin Toss Game" );
 
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( new AnalysisPanel(), "" );
+		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
+		this.framePanel.add( new AnalysisPanel(), "" );
 	}
 
 	private class AnalysisPanel extends LabeledScrollPanel

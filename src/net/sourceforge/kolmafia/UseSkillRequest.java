@@ -90,31 +90,31 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	{
 		super( "skills.php" );
 
-		addFormField( "action", "Skillz." );
-		addFormField( "pwd" );
+		this.addFormField( "action", "Skillz." );
+		this.addFormField( "pwd" );
 
 		this.skillId = ClassSkillsDatabase.getSkillId( skillName );
-		this.skillName = ClassSkillsDatabase.getSkillName( skillId );
+		this.skillName = ClassSkillsDatabase.getSkillName( this.skillId );
 
-		addFormField( "whichskill", String.valueOf( skillId ) );
+		this.addFormField( "whichskill", String.valueOf( this.skillId ) );
 		this.target = "yourself";
 	}
 
 	public void setTarget( String target )
 	{
-		if ( ClassSkillsDatabase.isBuff( skillId ) )
+		if ( ClassSkillsDatabase.isBuff( this.skillId ) )
 		{
 			this.countFieldId = "bufftimes";
 
 			if ( target == null || target.trim().length() == 0 || target.equals( String.valueOf( KoLCharacter.getUserId() ) ) || target.equals( KoLCharacter.getUserName() ) )
 			{
 				this.target = "yourself";
-				addFormField( "specificplayer", KoLCharacter.getPlayerId() );
+				this.addFormField( "specificplayer", KoLCharacter.getPlayerId() );
 			}
 			else
 			{
 				this.target = KoLmafia.getPlayerName( target );
-				addFormField( "specificplayer", KoLmafia.getPlayerId( target ) );
+				this.addFormField( "specificplayer", KoLmafia.getPlayerId( target ) );
 			}
 		}
 		else
@@ -126,12 +126,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public void setBuffCount( int buffCount )
 	{
-		int maxPossible = (int) Math.floor( (float) KoLCharacter.getCurrentMP() / (float) ClassSkillsDatabase.getMPConsumptionById( skillId ) );
+		int maxPossible = (int) Math.floor( (float) KoLCharacter.getCurrentMP() / (float) ClassSkillsDatabase.getMPConsumptionById( this.skillId ) );
 
 		// Candy hearts need to be calculated in
 		// a slightly different manner.
 
-		if ( skillId == 18 )
+		if ( this.skillId == 18 )
 		{
 			int mpRemaining = KoLCharacter.getCurrentMP();
 			int count = StaticEntity.getIntegerProperty( "candyHeartSummons" );
@@ -161,25 +161,25 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( o == null || !(o instanceof UseSkillRequest) )
 			return -1;
 
-		int mpDifference = ClassSkillsDatabase.getMPConsumptionById( skillId ) -
+		int mpDifference = ClassSkillsDatabase.getMPConsumptionById( this.skillId ) -
 			ClassSkillsDatabase.getMPConsumptionById( ((UseSkillRequest)o).skillId );
 
-		return mpDifference != 0 ? mpDifference : skillName.compareToIgnoreCase( ((UseSkillRequest)o).skillName );
+		return mpDifference != 0 ? mpDifference : this.skillName.compareToIgnoreCase( ((UseSkillRequest)o).skillName );
 	}
 
 	public int getSkillId()
-	{	return skillId;
+	{	return this.skillId;
 	}
 
 	public String getSkillName()
-	{	return skillName;
+	{	return this.skillName;
 	}
 
 	public int getMaximumCast()
 	{
 		int maximumCast = Integer.MAX_VALUE;
 
-		switch ( skillId )
+		switch ( this.skillId )
 		{
 
 		// Snowcones and grimoire items can only be summoned
@@ -238,12 +238,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public String toString()
 	{
-		if ( lastReduction == KoLCharacter.getManaCostModifier() && skillId != 18 )
-			return lastStringForm;
+		if ( this.lastReduction == KoLCharacter.getManaCostModifier() && this.skillId != 18 )
+			return this.lastStringForm;
 
-		lastReduction = KoLCharacter.getManaCostModifier();
-		lastStringForm = skillName + " (" + ClassSkillsDatabase.getMPConsumptionById( skillId ) + " mp)";
-		return lastStringForm;
+		this.lastReduction = KoLCharacter.getManaCostModifier();
+		this.lastStringForm = this.skillName + " (" + ClassSkillsDatabase.getMPConsumptionById( this.skillId ) + " mp)";
+		return this.lastStringForm;
 	}
 
 	private static boolean canSwitchToItem( AdventureResult item )
@@ -415,20 +415,20 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		if ( !KoLCharacter.hasSkill( skillName ) || buffCount == 0 )
+		if ( !KoLCharacter.hasSkill( this.skillName ) || this.buffCount == 0 )
 			return;
 
 		lastUpdate = "";
 
 		// Cast the skill as many times as needed
 
-		optimizeEquipment( skillId );
+		optimizeEquipment( this.skillId );
 
 		if ( !KoLmafia.permitsContinue() )
 			return;
 
-		setBuffCount( Math.min( buffCount, getMaximumCast() ) );
-		useSkillLoop();
+		this.setBuffCount( Math.min( this.buffCount, this.getMaximumCast() ) );
+		this.useSkillLoop();
 	}
 
 	private void useSkillLoop()
@@ -436,8 +436,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// Before executing the skill, ensure that all necessary mana is
 		// recovered in advance.
 
-		int castsRemaining = buffCount;
-		int mpPerCast = ClassSkillsDatabase.getMPConsumptionById( skillId );
+		int castsRemaining = this.buffCount;
+		int mpPerCast = ClassSkillsDatabase.getMPConsumptionById( this.skillId );
 
 		int currentMP = KoLCharacter.getCurrentMP();
 		int maximumMP = KoLCharacter.getMaximumMP();
@@ -450,12 +450,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		while ( !KoLmafia.refusesContinue() && castsRemaining > 0 )
 		{
-			if ( skillId == 18 )
-				mpPerCast = ClassSkillsDatabase.getMPConsumptionById( skillId );
+			if ( this.skillId == 18 )
+				mpPerCast = ClassSkillsDatabase.getMPConsumptionById( this.skillId );
 
 			if ( maximumMP < mpPerCast )
 			{
-				lastUpdate = "Your maximum mana is too low to cast " + skillName + ".";
+				lastUpdate = "Your maximum mana is too low to cast " + this.skillName + ".";
 				KoLmafia.updateDisplay( lastUpdate );
 				return;
 			}
@@ -464,7 +464,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			currentCast = Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast );
 
-			if ( skillId == 18 )
+			if ( this.skillId == 18 )
 				currentCast = Math.min( currentCast, 1 );
 
 			// If none, attempt to recover MP in order to cast;
@@ -491,7 +491,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 				if ( currentMP == KoLCharacter.getCurrentMP() )
 				{
-					lastUpdate = "Could not restore enough mana to cast " + skillName + ".";
+					lastUpdate = "Could not restore enough mana to cast " + this.skillName + ".";
 					KoLmafia.updateDisplay( lastUpdate );
 					return;
 				}
@@ -513,15 +513,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				// fails, make sure to report it and return whether
 				// or not at least one cast was completed.
 
-				buffCount = currentCast;
-				optimizeEquipment( skillId );
+				this.buffCount = currentCast;
+				optimizeEquipment( this.skillId );
 
-				addFormField( countFieldId, String.valueOf( currentCast ), false );
+				this.addFormField( this.countFieldId, String.valueOf( currentCast ), false );
 
-				if ( target == null || target.trim().length() == 0 )
-					KoLmafia.updateDisplay( "Casting " + skillName + " " + currentCast + " times..." );
+				if ( this.target == null || this.target.trim().length() == 0 )
+					KoLmafia.updateDisplay( "Casting " + this.skillName + " " + currentCast + " times..." );
 				else
-					KoLmafia.updateDisplay( "Casting " + skillName + " on " + target + " " + currentCast + " times..." );
+					KoLmafia.updateDisplay( "Casting " + this.skillName + " on " + this.target + " " + currentCast + " times..." );
 
 				super.run();
 
@@ -639,52 +639,52 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// If a reply was obtained, check to see if it was a success message
 		// Otherwise, try to figure out why it was unsuccessful.
 
-		if ( responseText == null || responseText.trim().length() == 0 )
+		if ( this.responseText == null || this.responseText.trim().length() == 0 )
 		{
 			encounteredError = true;
 			lastUpdate = "Encountered lag problems.";
 		}
-		else if ( responseText.indexOf( "You don't have that skill" ) != -1 )
+		else if ( this.responseText.indexOf( "You don't have that skill" ) != -1 )
 		{
 			encounteredError = true;
 			lastUpdate = "That skill is unavailable.";
 		}
-		else if ( responseText.indexOf( "You don't have enough" ) != -1 )
+		else if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
 		{
 			encounteredError = true;
-			lastUpdate = "Not enough mana to cast " + skillName + ".";
+			lastUpdate = "Not enough mana to cast " + this.skillName + ".";
 		}
-		else if ( responseText.indexOf( "You can only conjure" ) != -1 || responseText.indexOf( "You can only scrounge up" ) != -1 || responseText.indexOf( "You can only summon" ) != -1 )
+		else if ( this.responseText.indexOf( "You can only conjure" ) != -1 || this.responseText.indexOf( "You can only scrounge up" ) != -1 || this.responseText.indexOf( "You can only summon" ) != -1 )
 		{
 			encounteredError = true;
 			lastUpdate = "Summon limit exceeded.";
 		}
-		else if ( responseText.indexOf( "too many songs" ) != -1 )
+		else if ( this.responseText.indexOf( "too many songs" ) != -1 )
 		{
 			encounteredError = true;
 			lastUpdate = "Selected target has 3 AT buffs already.";
 		}
-		else if ( responseText.indexOf( "casts left of the Smile of Mr. A" ) != -1 )
+		else if ( this.responseText.indexOf( "casts left of the Smile of Mr. A" ) != -1 )
 		{
 			encounteredError = true;
 			lastUpdate = "You cannot cast that many smiles.";
 		}
-		else if ( responseText.indexOf( "Invalid target player" ) != -1 )
+		else if ( this.responseText.indexOf( "Invalid target player" ) != -1 )
 		{
 			encounteredError = true;
 			lastUpdate = "Selected target is not a valid target.";
 		}
-		else if ( responseText.indexOf( "busy fighting" ) != -1 )
+		else if ( this.responseText.indexOf( "busy fighting" ) != -1 )
 		{
 			encounteredError = true;
 			lastUpdate = "Selected target is busy fighting.";
 		}
-		else if ( responseText.indexOf( "receive buffs" ) != -1 )
+		else if ( this.responseText.indexOf( "receive buffs" ) != -1 )
 		{
 			encounteredError = true;
 			lastUpdate = "Selected target cannot receive buffs.";
 		}
-		else if ( responseText.indexOf( "accordion equipped" ) != -1 )
+		else if ( this.responseText.indexOf( "accordion equipped" ) != -1 )
 		{
 			// "You need to have an accordion equipped or in your
 			// inventory if you want to play that song."
@@ -698,34 +698,34 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( encounteredError )
 		{
-			KoLmafia.updateDisplay( target == null || target.equals( "yourself" ) ? ABORT_STATE : CONTINUE_STATE, lastUpdate );
+			KoLmafia.updateDisplay( this.target == null || this.target.equals( "yourself" ) ? ABORT_STATE : CONTINUE_STATE, lastUpdate );
 
 			if ( BuffBotHome.isBuffBotActive() )
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, lastUpdate );
 		}
 		else
 		{
-			if ( target == null )
-				KoLmafia.updateDisplay( skillName + " was successfully cast." );
+			if ( this.target == null )
+				KoLmafia.updateDisplay( this.skillName + " was successfully cast." );
 			else
-				KoLmafia.updateDisplay( skillName + " was successfully cast on " + target + "." );
+				KoLmafia.updateDisplay( this.skillName + " was successfully cast on " + this.target + "." );
 
 			// Tongue of the Walrus (1010) automatically
 			// removes any beaten up.
 
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionById( skillId ) * buffCount) ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionById( this.skillId ) * this.buffCount) ) );
 			KoLmafia.applyEffects();
 
-			if ( skillId == OTTER_TONGUE || skillId == WALRUS_TONGUE )
+			if ( this.skillId == OTTER_TONGUE || this.skillId == WALRUS_TONGUE )
 			{
 				activeEffects.remove( KoLAdventure.BEATEN_UP );
-				needsRefresh = true;
+				this.needsRefresh = true;
 			}
 		}
 	}
 
 	public boolean equals( Object o )
-	{	return o != null && o instanceof UseSkillRequest && getSkillName().equals( ((UseSkillRequest)o).getSkillName() );
+	{	return o != null && o instanceof UseSkillRequest && this.getSkillName().equals( ((UseSkillRequest)o).getSkillName() );
 	}
 
 	public static UseSkillRequest getInstance( int skillId )

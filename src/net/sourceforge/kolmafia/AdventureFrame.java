@@ -35,56 +35,20 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-
-import java.io.BufferedReader;
-import java.io.File;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JTree;
-import javax.swing.ListModel;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import javax.swing.filechooser.FileFilter;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
-
-import tab.CloseTabbedPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureFrame extends AdventureOptionsFrame
 {
@@ -112,27 +76,27 @@ public class AdventureFrame extends AdventureOptionsFrame
 		this.adventureSelect = new AdventureSelectPanel( true );
 
 		JPanel adventureDetails = new JPanel( new BorderLayout( 20, 20 ) );
-		adventureDetails.add( adventureSelect, BorderLayout.CENTER );
+		adventureDetails.add( this.adventureSelect, BorderLayout.CENTER );
 
-		requestMeter = new JProgressBar();
-		requestMeter.setOpaque( true );
-		requestMeter.setStringPainted( true );
+		this.requestMeter = new JProgressBar();
+		this.requestMeter.setOpaque( true );
+		this.requestMeter.setStringPainted( true );
 
 		JPanel meterPanel = new JPanel( new BorderLayout( 10, 10 ) );
 		meterPanel.add( Box.createHorizontalStrut( 20 ), BorderLayout.WEST );
-		meterPanel.add( requestMeter, BorderLayout.CENTER );
+		meterPanel.add( this.requestMeter, BorderLayout.CENTER );
 		meterPanel.add( Box.createHorizontalStrut( 20 ), BorderLayout.EAST );
 
 		adventureDetails.add( meterPanel, BorderLayout.SOUTH );
 
-		framePanel.setLayout( new BorderLayout( 20, 20 ) );
-		framePanel.add( adventureDetails, BorderLayout.NORTH );
-		framePanel.add( getSouthernTabs(), BorderLayout.CENTER );
+		this.framePanel.setLayout( new BorderLayout( 20, 20 ) );
+		this.framePanel.add( adventureDetails, BorderLayout.NORTH );
+		this.framePanel.add( this.getSouthernTabs(), BorderLayout.CENTER );
 
 		updateSelectedAdventure( AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) ) );
-		fillDefaultConditions();
+		this.fillDefaultConditions();
 
-		JComponentUtilities.setComponentSize( framePanel, 640, 480 );
+		JComponentUtilities.setComponentSize( this.framePanel, 640, 480 );
 		CharsheetFrame.removeExtraTabs();
 	}
 
@@ -142,10 +106,10 @@ public class AdventureFrame extends AdventureOptionsFrame
 
 	public void setStatusMessage( String message )
 	{
-		if ( requestMeter == null || message.length() == 0 )
+		if ( this.requestMeter == null || message.length() == 0 )
 			return;
 
-		requestMeter.setString( message );
+		this.requestMeter.setString( message );
 	}
 
 	public static void updateRequestMeter( int value, int maximum )
@@ -176,30 +140,30 @@ public class AdventureFrame extends AdventureOptionsFrame
 	public JTabbedPane getSouthernTabs()
 	{
 		super.getSouthernTabs();
-		tabs.insertTab( "Overview", null, getAdventureSummary(), null, 0 );
-		tabs.insertTab( "Choice Advs", null, new SimpleScrollPane( new ChoiceOptionsPanel() ), null, 1 );
-		return tabs;
+		this.tabs.insertTab( "Overview", null, this.getAdventureSummary(), null, 0 );
+		this.tabs.insertTab( "Choice Advs", null, new SimpleScrollPane( new ChoiceOptionsPanel() ), null, 1 );
+		return this.tabs;
 	}
 
 	private JSplitPane getAdventureSummary()
 	{
 		this.sessionGrid = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true,
-			getAdventureSummary( "defaultDropdown1", locationSelect ), getAdventureSummary( "defaultDropdown2", locationSelect ) );
+			this.getAdventureSummary( "defaultDropdown1", this.locationSelect ), this.getAdventureSummary( "defaultDropdown2", this.locationSelect ) );
 
 		int location = StaticEntity.getIntegerProperty( "defaultDropdownSplit" );
 
 		if ( location == 0 )
-			sessionGrid.setDividerLocation( 0.5 );
+			this.sessionGrid.setDividerLocation( 0.5 );
 		else
-			sessionGrid.setDividerLocation( location );
+			this.sessionGrid.setDividerLocation( location );
 
-		sessionGrid.setResizeWeight( 0.5 );
-		return sessionGrid;
+		this.sessionGrid.setResizeWeight( 0.5 );
+		return this.sessionGrid;
 	}
 
 	public void dispose()
 	{
-		StaticEntity.setProperty( "defaultDropdownSplit", String.valueOf( sessionGrid.getLastDividerLocation() ) );
+		StaticEntity.setProperty( "defaultDropdownSplit", String.valueOf( this.sessionGrid.getLastDividerLocation() ) );
 		super.dispose();
 	}
 
@@ -232,131 +196,131 @@ public class AdventureFrame extends AdventureOptionsFrame
 
 		public ChoiceOptionsPanel()
 		{
-			choiceCards = new CardLayout( 10, 10 );
+			this.choiceCards = new CardLayout( 10, 10 );
 
-			choiceMap = new TreeMap();
-			selectMap = new TreeMap();
+			this.choiceMap = new TreeMap();
+			this.selectMap = new TreeMap();
 
-			this.setLayout( choiceCards );
-			add( new JPanel(), "" );
+			this.setLayout( this.choiceCards );
+			this.add( new JPanel(), "" );
 
 			String [] options;
 
-			optionSelects = new JComboBox[ AdventureDatabase.CHOICE_ADVS.length ];
+			this.optionSelects = new JComboBox[ AdventureDatabase.CHOICE_ADVS.length ];
 			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
 			{
-				optionSelects[i] = new JComboBox();
+				this.optionSelects[i] = new JComboBox();
 				options = AdventureDatabase.CHOICE_ADVS[i].getOptions();
 				for ( int j = 0; j < options.length; ++j )
-					optionSelects[i].addItem( options[j] );
+					this.optionSelects[i].addItem( options[j] );
 			}
 
-			sewerSelect = new JComboBox();
+			this.sewerSelect = new JComboBox();
 			options = AdventureDatabase.LUCKY_SEWER.getOptions();
 			for ( int i = 0; i < options.length; ++i )
-				sewerSelect.addItem( options[i] );
+				this.sewerSelect.addItem( options[i] );
 
-			castleWheelSelect = new JComboBox();
-			castleWheelSelect.addItem( "Turn to map quest position (via moxie)" );
-			castleWheelSelect.addItem( "Turn to map quest position (via mysticality)" );
-			castleWheelSelect.addItem( "Turn to muscle position" );
-			castleWheelSelect.addItem( "Turn to mysticality position" );
-			castleWheelSelect.addItem( "Turn to moxie position" );
-			castleWheelSelect.addItem( "Turn clockwise" );
-			castleWheelSelect.addItem( "Turn counterclockwise" );
-			castleWheelSelect.addItem( "Ignore this adventure" );
+			this.castleWheelSelect = new JComboBox();
+			this.castleWheelSelect.addItem( "Turn to map quest position (via moxie)" );
+			this.castleWheelSelect.addItem( "Turn to map quest position (via mysticality)" );
+			this.castleWheelSelect.addItem( "Turn to muscle position" );
+			this.castleWheelSelect.addItem( "Turn to mysticality position" );
+			this.castleWheelSelect.addItem( "Turn to moxie position" );
+			this.castleWheelSelect.addItem( "Turn clockwise" );
+			this.castleWheelSelect.addItem( "Turn counterclockwise" );
+			this.castleWheelSelect.addItem( "Ignore this adventure" );
 
-			spookyForestSelect = new JComboBox();
-			spookyForestSelect.addItem( "Loot Seal Clubber corpse" );
-			spookyForestSelect.addItem( "Loot Turtle Tamer corpse" );
-			spookyForestSelect.addItem( "Loot Pastamancer corpse" );
-			spookyForestSelect.addItem( "Loot Sauceror corpse" );
-			spookyForestSelect.addItem( "Loot Disco Bandit corpse" );
-			spookyForestSelect.addItem( "Loot Accordion Thief corpse" );
+			this.spookyForestSelect = new JComboBox();
+			this.spookyForestSelect.addItem( "Loot Seal Clubber corpse" );
+			this.spookyForestSelect.addItem( "Loot Turtle Tamer corpse" );
+			this.spookyForestSelect.addItem( "Loot Pastamancer corpse" );
+			this.spookyForestSelect.addItem( "Loot Sauceror corpse" );
+			this.spookyForestSelect.addItem( "Loot Disco Bandit corpse" );
+			this.spookyForestSelect.addItem( "Loot Accordion Thief corpse" );
 
-			violetFogSelect = new JComboBox();
+			this.violetFogSelect = new JComboBox();
 			for ( int i = 0; i < VioletFog.FogGoals.length; ++i )
-				violetFogSelect.addItem( VioletFog.FogGoals[i] );
+				this.violetFogSelect.addItem( VioletFog.FogGoals[i] );
 
-			louvreSelect = new JComboBox();
-			louvreSelect.addItem( "Ignore this adventure" );
+			this.louvreSelect = new JComboBox();
+			this.louvreSelect.addItem( "Ignore this adventure" );
 			for ( int i = 0; i < Louvre.LouvreGoals.length - 3; ++i )
-				louvreSelect.addItem( Louvre.LouvreGoals[i] );
+				this.louvreSelect.addItem( Louvre.LouvreGoals[i] );
 			for ( int i = Louvre.LouvreGoals.length - 3; i < Louvre.LouvreGoals.length; ++i )
-				louvreSelect.addItem( "Boost " + Louvre.LouvreGoals[i] );
+				this.louvreSelect.addItem( "Boost " + Louvre.LouvreGoals[i] );
 
-			louvreSelect.addItem( "Boost Prime Stat" );
-			louvreSelect.addItem( "Boost Lowest Stat" );
+			this.louvreSelect.addItem( "Boost Prime Stat" );
+			this.louvreSelect.addItem( "Boost Lowest Stat" );
 
-			maidenSelect = new JComboBox();
-			maidenSelect.addItem( "Fight a random knight" );
-			maidenSelect.addItem( "Only fight the wolf knight" );
-			maidenSelect.addItem( "Only fight the snake knight" );
-			maidenSelect.addItem( "Maidens, then fight a random knight" );
-			maidenSelect.addItem( "Maidens, then fight the wolf knight" );
-			maidenSelect.addItem( "Maidens, then fight the snake knight" );
+			this.maidenSelect = new JComboBox();
+			this.maidenSelect.addItem( "Fight a random knight" );
+			this.maidenSelect.addItem( "Only fight the wolf knight" );
+			this.maidenSelect.addItem( "Only fight the snake knight" );
+			this.maidenSelect.addItem( "Maidens, then fight a random knight" );
+			this.maidenSelect.addItem( "Maidens, then fight the wolf knight" );
+			this.maidenSelect.addItem( "Maidens, then fight the snake knight" );
 
-			billiardRoomSelect = new JComboBox();
-			billiardRoomSelect.addItem( "ignore this adventure" );
-			billiardRoomSelect.addItem( "muscle substats" );
-			billiardRoomSelect.addItem( "mysticality substats" );
-			billiardRoomSelect.addItem( "moxie substats" );
-			billiardRoomSelect.addItem( "Spookyraven Library Key" );
+			this.billiardRoomSelect = new JComboBox();
+			this.billiardRoomSelect.addItem( "ignore this adventure" );
+			this.billiardRoomSelect.addItem( "muscle substats" );
+			this.billiardRoomSelect.addItem( "mysticality substats" );
+			this.billiardRoomSelect.addItem( "moxie substats" );
+			this.billiardRoomSelect.addItem( "Spookyraven Library Key" );
 
-			riseSelect = new JComboBox();
-			riseSelect.addItem( "ignore this adventure" );
-			riseSelect.addItem( "boost mysticality substats" );
-			riseSelect.addItem( "boost moxie substats" );
-			riseSelect.addItem( "acquire mysticality skill" );
-			riseSelect.addItem( "unlock second floor stairs" );
+			this.riseSelect = new JComboBox();
+			this.riseSelect.addItem( "ignore this adventure" );
+			this.riseSelect.addItem( "boost mysticality substats" );
+			this.riseSelect.addItem( "boost moxie substats" );
+			this.riseSelect.addItem( "acquire mysticality skill" );
+			this.riseSelect.addItem( "unlock second floor stairs" );
 
-			fallSelect = new JComboBox();
-			fallSelect.addItem( "ignore this adventure" );
-			fallSelect.addItem( "boost muscle substats" );
-			fallSelect.addItem( "reveal key in conservatory" );
-			fallSelect.addItem( "unlock second floor stairs" );
+			this.fallSelect = new JComboBox();
+			this.fallSelect.addItem( "ignore this adventure" );
+			this.fallSelect.addItem( "boost muscle substats" );
+			this.fallSelect.addItem( "reveal key in conservatory" );
+			this.fallSelect.addItem( "unlock second floor stairs" );
 
-			addChoiceSelect( "Beanstalk", "Castle Wheel", castleWheelSelect );
-			addChoiceSelect( "Woods", "Forest Corpses", spookyForestSelect );
-			addChoiceSelect( "Unsorted", "Violet Fog", violetFogSelect );
-			addChoiceSelect( "Manor", "Billiard Room", billiardRoomSelect );
-			addChoiceSelect( "Manor", "Rise of Spookyraven", riseSelect );
-			addChoiceSelect( "Manor", "Fall of Spookyraven", fallSelect );
-			addChoiceSelect( "Manor", "The Louvre", louvreSelect );
-			addChoiceSelect( "Manor", "The Maidens", maidenSelect );
+			this.addChoiceSelect( "Beanstalk", "Castle Wheel", this.castleWheelSelect );
+			this.addChoiceSelect( "Woods", "Forest Corpses", this.spookyForestSelect );
+			this.addChoiceSelect( "Unsorted", "Violet Fog", this.violetFogSelect );
+			this.addChoiceSelect( "Manor", "Billiard Room", this.billiardRoomSelect );
+			this.addChoiceSelect( "Manor", "Rise of Spookyraven", this.riseSelect );
+			this.addChoiceSelect( "Manor", "Fall of Spookyraven", this.fallSelect );
+			this.addChoiceSelect( "Manor", "The Louvre", this.louvreSelect );
+			this.addChoiceSelect( "Manor", "The Maidens", this.maidenSelect );
 
-			addChoiceSelect( AdventureDatabase.LUCKY_SEWER.getZone(), AdventureDatabase.LUCKY_SEWER.getName(), sewerSelect );
+			this.addChoiceSelect( AdventureDatabase.LUCKY_SEWER.getZone(), AdventureDatabase.LUCKY_SEWER.getName(), this.sewerSelect );
 
-			for ( int i = 0; i < optionSelects.length; ++i )
-				addChoiceSelect( AdventureDatabase.CHOICE_ADVS[i].getZone(), AdventureDatabase.CHOICE_ADVS[i].getName(), optionSelects[i] );
+			for ( int i = 0; i < this.optionSelects.length; ++i )
+				this.addChoiceSelect( AdventureDatabase.CHOICE_ADVS[i].getZone(), AdventureDatabase.CHOICE_ADVS[i].getName(), this.optionSelects[i] );
 
 			ArrayList optionsList;
-			Object [] keys = choiceMap.keySet().toArray();
+			Object [] keys = this.choiceMap.keySet().toArray();
 
 			for ( int i = 0; i < keys.length; ++i )
 			{
-				optionsList = (ArrayList) choiceMap.get( keys[i] );
-				add( new ChoicePanel( optionsList ), (String) keys[i] );
+				optionsList = (ArrayList) this.choiceMap.get( keys[i] );
+				this.add( new ChoicePanel( optionsList ), (String) keys[i] );
 			}
 
-			actionCancelled();
-			locationSelect.addListSelectionListener( new UpdateChoicesListener() );
+			this.actionCancelled();
+			AdventureFrame.this.locationSelect.addListSelectionListener( new UpdateChoicesListener() );
 		}
 
 		private void addChoiceSelect( String zone, String name, JComboBox option )
 		{
-			if ( !choiceMap.containsKey( zone ) )
-				choiceMap.put( zone, new ArrayList() );
+			if ( !this.choiceMap.containsKey( zone ) )
+				this.choiceMap.put( zone, new ArrayList() );
 
-			ArrayList options = (ArrayList) choiceMap.get( zone );
+			ArrayList options = (ArrayList) this.choiceMap.get( zone );
 
 			if ( !options.contains( name ) )
 			{
 				options.add( name );
-				selectMap.put( name, new ArrayList() );
+				this.selectMap.put( name, new ArrayList() );
 			}
 
-			options = (ArrayList) selectMap.get( name );
+			options = (ArrayList) this.selectMap.get( name );
 			options.add( option );
 		}
 
@@ -374,7 +338,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 				for ( int i = 0; i < options.size(); ++i )
 				{
 					key = options.get(i);
-					value = (ArrayList) selectMap.get( key );
+					value = (ArrayList) ChoiceOptionsPanel.this.selectMap.get( key );
 
 					if ( value.size() == 1 )
 					{
@@ -390,7 +354,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 				VerifiableElement [] elements = new VerifiableElement[ elementList.size() ];
 				elementList.toArray( elements );
 
-				setContent( elements );
+				this.setContent( elements );
 			}
 
 			public void actionConfirmed()
@@ -414,30 +378,30 @@ public class AdventureFrame extends AdventureOptionsFrame
 		{
 			public void valueChanged( ListSelectionEvent e )
 			{
-				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedValue();
+				KoLAdventure location = (KoLAdventure) AdventureFrame.this.locationSelect.getSelectedValue();
 				if ( location == null )
 					return;
 
-				choiceCards.show( ChoiceOptionsPanel.this, choiceMap.containsKey( location.getParentZone() ) ? location.getParentZone() : "" );
+				ChoiceOptionsPanel.this.choiceCards.show( ChoiceOptionsPanel.this, ChoiceOptionsPanel.this.choiceMap.containsKey( location.getParentZone() ) ? location.getParentZone() : "" );
 			}
 		}
 
 		public void actionConfirmed()
 		{
-			if ( isRefreshing )
+			if ( this.isRefreshing )
 				return;
 
-			StaticEntity.setProperty( "violetFogGoal", String.valueOf( violetFogSelect.getSelectedIndex() ) );
-			StaticEntity.setProperty( "luckySewerAdventure", (String) sewerSelect.getSelectedItem() );
-			StaticEntity.setProperty( "choiceAdventure89", String.valueOf( maidenSelect.getSelectedIndex() ) );
+			StaticEntity.setProperty( "violetFogGoal", String.valueOf( this.violetFogSelect.getSelectedIndex() ) );
+			StaticEntity.setProperty( "luckySewerAdventure", (String) this.sewerSelect.getSelectedItem() );
+			StaticEntity.setProperty( "choiceAdventure89", String.valueOf( this.maidenSelect.getSelectedIndex() ) );
 
-			int louvreGoal = louvreSelect.getSelectedIndex();
+			int louvreGoal = this.louvreSelect.getSelectedIndex();
 			StaticEntity.setProperty( "choiceAdventure91",  String.valueOf( louvreGoal > 0 ? "1" : "2" ) );
 			StaticEntity.setProperty( "louvreDesiredGoal", String.valueOf( louvreGoal ) );
 
-			for ( int i = 0; i < optionSelects.length; ++i )
+			for ( int i = 0; i < this.optionSelects.length; ++i )
 			{
-				int index = optionSelects[i].getSelectedIndex();
+				int index = this.optionSelects[i].getSelectedIndex();
 				String choice = AdventureDatabase.CHOICE_ADVS[i].getSetting();
 				StaticEntity.setProperty( choice, String.valueOf( index + 1 ) );
 			}
@@ -452,7 +416,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 			// Option 2: Turn the wheel counterclockwise
 			// Option 3: Leave the wheel alone
 
-			switch ( castleWheelSelect.getSelectedIndex() )
+			switch ( this.castleWheelSelect.getSelectedIndex() )
 			{
 			case 0: // Map quest position (choice adventure 11)
 									// Muscle goes through moxie
@@ -513,7 +477,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 				break;
 			}
 
-			switch ( spookyForestSelect.getSelectedIndex() )
+			switch ( this.spookyForestSelect.getSelectedIndex() )
 			{
 			case 0: // Seal clubber corpse
 				StaticEntity.setProperty( "choiceAdventure26", "1" );
@@ -546,7 +510,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 				break;
 			}
 
-			switch ( billiardRoomSelect.getSelectedIndex() )
+			switch ( this.billiardRoomSelect.getSelectedIndex() )
 			{
 			case 0: // Ignore this adventure
 				StaticEntity.setProperty( "choiceAdventure77", "3" );
@@ -579,7 +543,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 				break;
 			}
 
-			switch ( riseSelect.getSelectedIndex() )
+			switch ( this.riseSelect.getSelectedIndex() )
 			{
 			case 0: // Ignore this adventure
 				StaticEntity.setProperty( "choiceAdventure80", "4" );
@@ -605,7 +569,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 				break;
 			}
 
-			switch ( fallSelect.getSelectedIndex() )
+			switch ( this.fallSelect.getSelectedIndex() )
 			{
 			case 0: // Ignore this adventure
 				StaticEntity.setProperty( "choiceAdventure81", "4" );
@@ -628,17 +592,17 @@ public class AdventureFrame extends AdventureOptionsFrame
 
 		public void actionCancelled()
 		{
-			isRefreshing = true;
+			this.isRefreshing = true;
 
 			int index = StaticEntity.getIntegerProperty( "violetFogGoal" );
 			if ( index >= 0 )
-				violetFogSelect.setSelectedIndex( index );
+				this.violetFogSelect.setSelectedIndex( index );
 
 			index = StaticEntity.getIntegerProperty( "louvreDesiredGoal" );
 			if ( index >= 0 )
-				louvreSelect.setSelectedIndex( index );
+				this.louvreSelect.setSelectedIndex( index );
 
-			maidenSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "choiceAdventure89" ) );
+			this.maidenSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "choiceAdventure89" ) );
 
 			boolean foundItem = false;
 			String sewerItem = StaticEntity.getProperty( "luckySewerAdventure" );
@@ -649,21 +613,21 @@ public class AdventureFrame extends AdventureOptionsFrame
 				if ( sewerOptions[i].equals( sewerItem ) )
 				{
 					foundItem = true;
-					sewerSelect.setSelectedItem( sewerItem );
+					this.sewerSelect.setSelectedItem( sewerItem );
 				}
 			}
 
 			if ( !foundItem )
 			{
 				StaticEntity.setProperty( "luckySewerAdventure", "stolen accordion" );
-				sewerSelect.setSelectedItem( "stolen accordion" );
+				this.sewerSelect.setSelectedItem( "stolen accordion" );
 			}
 
-			for ( int i = 0; i < optionSelects.length; ++i )
+			for ( int i = 0; i < this.optionSelects.length; ++i )
 			{
 				index = StaticEntity.getIntegerProperty( AdventureDatabase.CHOICE_ADVS[i].getSetting() );
 				if ( index > 0 )
-					optionSelects[i].setSelectedIndex( index - 1 );
+					this.optionSelects[i].setSelectedIndex( index - 1 );
 			}
 
 			// Determine the desired wheel position by examining
@@ -729,7 +693,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 			}
 
 			if ( index >= 0 )
-				castleWheelSelect.setSelectedIndex( index );
+				this.castleWheelSelect.setSelectedIndex( index );
 
 			// Now, determine what is located in choice adventure #26,
 			// which shows you which slot (in general) to use.
@@ -737,7 +701,7 @@ public class AdventureFrame extends AdventureOptionsFrame
 			index = StaticEntity.getIntegerProperty( "choiceAdventure26" );
 			index = index * 2 + StaticEntity.getIntegerProperty( "choiceAdventure" + (26 + index) ) - 3;
 
-			spookyForestSelect.setSelectedIndex( index < 0 ? 5 : index );
+			this.spookyForestSelect.setSelectedIndex( index < 0 ? 5 : index );
 
 			// Figure out what to do in the billiard room
 
@@ -778,29 +742,29 @@ public class AdventureFrame extends AdventureOptionsFrame
 			}
 
 			if ( index >= 0 )
-				billiardRoomSelect.setSelectedIndex( index );
+				this.billiardRoomSelect.setSelectedIndex( index );
 
 			// Figure out what to do at the bookcases
 
 			index = StaticEntity.getIntegerProperty( "choiceAdventure80" );
 			if ( index == 4 )
-				riseSelect.setSelectedIndex(0);
+				this.riseSelect.setSelectedIndex(0);
 			else if ( index == 99 )
-				riseSelect.setSelectedIndex(4);
+				this.riseSelect.setSelectedIndex(4);
 			else
-				riseSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "choiceAdventure88" ) );
+				this.riseSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "choiceAdventure88" ) );
 
 			index = StaticEntity.getIntegerProperty( "choiceAdventure81" );
 			if ( index == 4 )
-				fallSelect.setSelectedIndex(0);
+				this.fallSelect.setSelectedIndex(0);
 			else if ( index == 3 )
-				fallSelect.setSelectedIndex(1);
+				this.fallSelect.setSelectedIndex(1);
 			else if ( index == 99 )
-				riseSelect.setSelectedIndex(3);
+				this.riseSelect.setSelectedIndex(3);
 			else
-				fallSelect.setSelectedIndex(2);
+				this.fallSelect.setSelectedIndex(2);
 
-			isRefreshing = false;
+			this.isRefreshing = false;
 		}
 	}
 }

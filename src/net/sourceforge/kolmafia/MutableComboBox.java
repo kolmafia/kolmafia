@@ -33,16 +33,10 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Component;
-
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import java.util.Map;
-
 import javax.swing.JComboBox;
 import javax.swing.text.JTextComponent;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -71,44 +65,44 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 	}
 
 	public String getCurrentName()
-	{	return currentName;
+	{	return this.currentName;
 	}
 
 	public void forceAddition()
 	{
-		if ( currentName == null || currentName.length() == 0 )
+		if ( this.currentName == null || this.currentName.length() == 0 )
 			return;
 
-		if ( currentMatch == null && allowAdditions && !model.contains( currentName ) )
-			model.add( currentName );
+		if ( this.currentMatch == null && this.allowAdditions && !this.model.contains( this.currentName ) )
+			this.model.add( this.currentName );
 
-		setSelectedItem( currentName );
+		this.setSelectedItem( this.currentName );
 	}
 
 	public void setSelectedItem( Object anObject )
 	{
 		super.setSelectedItem( anObject );
-		currentMatch = anObject;
+		this.currentMatch = anObject;
 
 		if ( anObject == null )
 			return;
 
-		currentName = anObject.toString();
-		filter.deactivate();
-		model.applyListFilter( filter );
+		this.currentName = anObject.toString();
+		this.filter.deactivate();
+		this.model.applyListFilter( this.filter );
 	}
 
 	private void updateFilter()
 	{
-		filter.activate();
-		filter.makeStrict();
-		model.applyListFilter( filter );
+		this.filter.activate();
+		this.filter.makeStrict();
+		this.model.applyListFilter( this.filter );
 
-		if ( model.getSize() != 0 )
+		if ( this.model.getSize() != 0 )
 			return;
 
-		filter.makeFuzzy();
-		model.applyListFilter( filter );
+		this.filter.makeFuzzy();
+		this.model.applyListFilter( this.filter );
 	}
 
 	public synchronized void findMatch( int keyCode )
@@ -117,60 +111,60 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		// then make sure that the current name is stored
 		// before the key typed event is fired
 
-		currentName = getEditor().getItem().toString();
-		JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
+		this.currentName = this.getEditor().getItem().toString();
+		JTextComponent editor = (JTextComponent) this.getEditor().getEditorComponent();
 
-		if ( model.contains( currentName ) )
+		if ( this.model.contains( this.currentName ) )
 		{
-			setSelectedItem( currentName );
+			this.setSelectedItem( this.currentName );
 			return;
 		}
 
-		currentMatch = null;
+		this.currentMatch = null;
 
-		if ( !allowAdditions )
+		if ( !this.allowAdditions )
 		{
-			if ( !isPopupVisible() )
-				showPopup();
+			if ( !this.isPopupVisible() )
+				this.showPopup();
 
-			updateFilter();
-			getEditor().setItem( currentName );
+			this.updateFilter();
+			this.getEditor().setItem( this.currentName );
 
-			editor.setSelectionStart( currentName.length() );
-			editor.setSelectionEnd( currentName.length() );
+			editor.setSelectionStart( this.currentName.length() );
+			editor.setSelectionEnd( this.currentName.length() );
 		}
 
-		if ( !allowAdditions || currentName.length() == 0 || keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_BACK_SPACE )
+		if ( !this.allowAdditions || this.currentName.length() == 0 || keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_BACK_SPACE )
 			return;
 
 		// Autohighlight and popup - note that this should only happen
 		// for standard typing keys, or the delete and backspace keys.
 
 		int matchCount = 0;
-		Object [] currentNames = model.toArray();
+		Object [] currentNames = this.model.toArray();
 
-		String lowercase = currentName.toLowerCase();
+		String lowercase = this.currentName.toLowerCase();
 		for ( int i = 0; i < currentNames.length; ++i )
 		{
 			if ( currentNames[i].toString().toLowerCase().startsWith( lowercase ) )
 			{
 				++matchCount;
-				currentMatch = currentNames[i];
+				this.currentMatch = currentNames[i];
 			}
 		}
 
 		if ( matchCount != 1 )
 		{
-			currentMatch = null;
+			this.currentMatch = null;
 			return;
 		}
 
 		// If this wasn't an undefined character, then the user wants auto-completion!
 		// Highlight the rest of the possible name.
 
-		getEditor().setItem( currentMatch );
-		editor.setSelectionStart( currentMatch.toString().toLowerCase().indexOf( currentName.toLowerCase() ) + currentName.toString().length() );
-		editor.setSelectionEnd( currentMatch.toString().length() );
+		this.getEditor().setItem( this.currentMatch );
+		editor.setSelectionStart( this.currentMatch.toString().toLowerCase().indexOf( this.currentName.toLowerCase() ) + this.currentName.toString().length() );
+		editor.setSelectionEnd( this.currentMatch.toString().length() );
 	}
 
 	private class NameInputListener extends KeyAdapter implements FocusListener
@@ -178,28 +172,28 @@ public class MutableComboBox extends JComboBox implements KoLConstants
 		public void keyReleased( KeyEvent e )
 		{
 			if ( e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB )
-				focusLost( null );
+				this.focusLost( null );
 			else if ( e.getKeyChar() != KeyEvent.CHAR_UNDEFINED )
-				findMatch( e.getKeyCode() );
+				MutableComboBox.this.findMatch( e.getKeyCode() );
 		}
 
 		public final void focusGained( FocusEvent e )
 		{
-			getEditor().selectAll();
+			MutableComboBox.this.getEditor().selectAll();
 		}
 
 		public final void focusLost( FocusEvent e )
 		{
-			if ( isPopupVisible() )
+			if ( MutableComboBox.this.isPopupVisible() )
 				return;
 
-			if ( currentName == null || currentName.trim().length() == 0 )
+			if ( MutableComboBox.this.currentName == null || MutableComboBox.this.currentName.trim().length() == 0 )
 				return;
 
-			if ( currentMatch == null )
-				forceAddition();
+			if ( MutableComboBox.this.currentMatch == null )
+				MutableComboBox.this.forceAddition();
 			else
-				setSelectedItem( currentMatch );
+				MutableComboBox.this.setSelectedItem( MutableComboBox.this.currentMatch );
 		}
 	}
 }

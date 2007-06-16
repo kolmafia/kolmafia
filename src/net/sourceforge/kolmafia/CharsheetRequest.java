@@ -72,7 +72,7 @@ public class CharsheetRequest extends KoLRequest
 	}
 
 	public void processResults()
-	{	parseStatus( responseText );
+	{	parseStatus( this.responseText );
 	}
 
 	public static void parseStatus( String responseText )

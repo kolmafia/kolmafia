@@ -41,7 +41,7 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 	public ClanAttackRequest( String id, String name, int goodies )
 	{
 		super( "clan_attack.php" );
-		addFormField( "whichclan", id );
+		this.addFormField( "whichclan", id );
 
 		this.name = name;
 		this.goodies = goodies;
@@ -49,7 +49,7 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		KoLmafia.updateDisplay( "Attacking " + name + "..." );
+		KoLmafia.updateDisplay( "Attacking " + this.name + "..." );
 		super.run();
 	}
 
@@ -58,17 +58,17 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 	}
 
 	public String toString()
-	{	return name + " (" + COMMA_FORMAT.format( goodies ) + " " + (goodies == 1 ? "bag" : "bags") + ")";
+	{	return this.name + " (" + COMMA_FORMAT.format( this.goodies ) + " " + (this.goodies == 1 ? "bag" : "bags") + ")";
 	}
 
 	public int compareTo( Object o )
-	{	return o == null || !(o instanceof ClanAttackRequest) ? -1 : compareTo( (ClanAttackRequest) o );
+	{	return o == null || !(o instanceof ClanAttackRequest) ? -1 : this.compareTo( (ClanAttackRequest) o );
 	}
 
 	public int compareTo( ClanAttackRequest car )
 	{
-		int goodiesDifference = car.goodies - goodies;
-		return goodiesDifference != 0 ? goodiesDifference : name.compareToIgnoreCase( car.name );
+		int goodiesDifference = car.goodies - this.goodies;
+		return goodiesDifference != 0 ? goodiesDifference : this.name.compareToIgnoreCase( car.name );
 	}
 }
 

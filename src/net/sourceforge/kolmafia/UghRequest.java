@@ -39,9 +39,9 @@ public class UghRequest extends ItemCreationRequest
 	{
 		super( "crimbo06.php", itemId );
 
-		addFormField( "place", "toys" );
-		addFormField( "action", "toys" );
-		addFormField( "whichitem", String.valueOf( itemId ) );
+		this.addFormField( "place", "toys" );
+		this.addFormField( "action", "toys" );
+		this.addFormField( "whichitem", String.valueOf( itemId ) );
 	}
 
 	public void reconstructFields()
@@ -55,11 +55,11 @@ public class UghRequest extends ItemCreationRequest
 		// In this case, it will also create the needed white
 		// pixels if they are not currently available.
 
-		if ( !makeIngredients() )
+		if ( !this.makeIngredients() )
 			return;
 
-		KoLmafia.updateDisplay( "Creating " + getQuantityNeeded() + " " + getName() + "..." );
-		addFormField( "quantity", String.valueOf( getQuantityNeeded() ) );
+		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
+		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
 	}
 }

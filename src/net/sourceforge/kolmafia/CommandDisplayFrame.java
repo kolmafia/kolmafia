@@ -61,7 +61,7 @@ public class CommandDisplayFrame extends KoLFrame
 	public CommandDisplayFrame()
 	{
 		super( "Graphical CLI" );
-		framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
+		this.framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
 	}
 
 	public boolean shouldAddStatusBar()
@@ -75,8 +75,8 @@ public class CommandDisplayFrame extends KoLFrame
 	public void requestFocus()
 	{
 		super.requestFocus();
-		if ( entryField != null )
-			entryField.requestFocus();
+		if ( this.entryField != null )
+			this.entryField.requestFocus();
 	}
 
 	public void dispose()
@@ -96,23 +96,23 @@ public class CommandDisplayFrame extends KoLFrame
 			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 
 			JPanel entryPanel = new JPanel( new BorderLayout() );
-			entryField = new JTextField();
-			entryField.addKeyListener( new CommandEntryListener() );
+			CommandDisplayFrame.this.entryField = new JTextField();
+			CommandDisplayFrame.this.entryField.addKeyListener( new CommandEntryListener() );
 
-			entryButton = new JButton( "exec" );
-			entryButton.addActionListener( new CommandEntryListener() );
-			entryPanel.add( entryField, BorderLayout.CENTER );
-			entryPanel.add( entryButton, BorderLayout.EAST );
+			this.entryButton = new JButton( "exec" );
+			this.entryButton.addActionListener( new CommandEntryListener() );
+			entryPanel.add( CommandDisplayFrame.this.entryField, BorderLayout.CENTER );
+			entryPanel.add( this.entryButton, BorderLayout.EAST );
 
-			setLayout( new BorderLayout( 1, 1 ) );
-			add( scrollPane, BorderLayout.CENTER );
-			add( entryPanel, BorderLayout.SOUTH );
+			this.setLayout( new BorderLayout( 1, 1 ) );
+			this.add( scrollPane, BorderLayout.CENTER );
+			this.add( entryPanel, BorderLayout.SOUTH );
 		}
 
 		private class CommandEntryListener extends KeyAdapter implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
-			{	submitCommand();
+			{	this.submitCommand();
 			}
 
 			public void keyReleased( KeyEvent e )
@@ -122,23 +122,23 @@ public class CommandDisplayFrame extends KoLFrame
 					if ( lastCommandIndex <= 0 )
 						return;
 
-					entryField.setText( (String) commandHistory.get( --lastCommandIndex ) );
+					CommandDisplayFrame.this.entryField.setText( (String) commandHistory.get( --lastCommandIndex ) );
 				}
 				else if ( e.getKeyCode() == KeyEvent.VK_DOWN )
 				{
 					if ( lastCommandIndex + 1 >= commandHistory.size() )
 						return;
 
-					entryField.setText( (String) commandHistory.get( ++lastCommandIndex ) );
+					CommandDisplayFrame.this.entryField.setText( (String) commandHistory.get( ++lastCommandIndex ) );
 				}
 				else if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-					submitCommand();
+					this.submitCommand();
 			}
 
 			private void submitCommand()
 			{
-				String command = entryField.getText().trim();
-				entryField.setText( "" );
+				String command = CommandDisplayFrame.this.entryField.getText().trim();
+				CommandDisplayFrame.this.entryField.setText( "" );
 
 				commandHistory.add( command );
 
@@ -191,18 +191,18 @@ public class CommandDisplayFrame extends KoLFrame
 
 		public void pumpQueue()
 		{
-			if ( isRunning || commandQueue.isEmpty() )
+			if ( this.isRunning || commandQueue.isEmpty() )
 				return;
 
-			if ( !isStarted )
+			if ( !this.isStarted )
 			{
-				start();
-				isStarted = true;
+				this.start();
+				this.isStarted = true;
 			}
 			else
 			{
 				synchronized ( this )
-				{	notify();
+				{	this.notify();
 				}
 			}
 		}
@@ -211,16 +211,16 @@ public class CommandDisplayFrame extends KoLFrame
 		{
 			while ( true )
 			{
-				isRunning = true;
-				handleQueue();
-				isRunning = false;
+				this.isRunning = true;
+				this.handleQueue();
+				this.isRunning = false;
 
 				try
 				{
 					synchronized ( this )
 					{
 						if ( commandQueue.isEmpty() )
-							wait();
+							this.wait();
 					}
 				}
 				catch ( InterruptedException e )
@@ -264,7 +264,7 @@ public class CommandDisplayFrame extends KoLFrame
 		}
 
 		public boolean isRunning()
-		{	return isRunning;
+		{	return this.isRunning;
 		}
 	}
 }

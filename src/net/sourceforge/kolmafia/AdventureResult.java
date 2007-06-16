@@ -109,9 +109,9 @@ public class AdventureResult implements Comparable, KoLConstants
 			StatusEffectDatabase.contains( name ) ? EFFECT_PRIORITY : ITEM_PRIORITY;
 
 		if ( this.priority == EFFECT_PRIORITY )
-			normalizeEffectName();
+			this.normalizeEffectName();
 		else if ( this.priority == ITEM_PRIORITY )
-			normalizeItemName();
+			this.normalizeItemName();
 
 	}
 
@@ -124,9 +124,9 @@ public class AdventureResult implements Comparable, KoLConstants
 		this.priority = subType;
 
 		if ( this.priority == EFFECT_PRIORITY )
-			normalizeEffectName();
+			this.normalizeEffectName();
 		else if ( this.priority == ITEM_PRIORITY )
-			normalizeItemName();
+			this.normalizeItemName();
 
 	}
 
@@ -143,7 +143,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	{
 		this.name = TradeableItemDatabase.getItemName( itemId );
 		this.count = new int[] { count };
-		normalizeItemName();
+		this.normalizeItemName();
 	}
 
 	/**
@@ -167,9 +167,9 @@ public class AdventureResult implements Comparable, KoLConstants
 		else if ( name.equals(HP) || name.equals(MP) || name.equals(DRUNK) )
 			this.priority = NO_PRIORITY;
 		else if ( StatusEffectDatabase.contains( name ) )
-			normalizeEffectName();
+			this.normalizeEffectName();
 		else
-			normalizeItemName();
+			this.normalizeItemName();
 	}
 
 	/**
@@ -188,9 +188,9 @@ public class AdventureResult implements Comparable, KoLConstants
 			StatusEffectDatabase.contains( name ) ? EFFECT_PRIORITY : ITEM_PRIORITY;
 
 		if ( this.priority == EFFECT_PRIORITY )
-			normalizeEffectName();
+			this.normalizeEffectName();
 		else if ( this.priority == ITEM_PRIORITY )
-			normalizeItemName();
+			this.normalizeItemName();
 	}
 
 	/**
@@ -209,9 +209,9 @@ public class AdventureResult implements Comparable, KoLConstants
 		this.count = new int[] { count };
 
 		if ( isStatusEffect )
-			normalizeEffectName();
+			this.normalizeEffectName();
 		else
-			normalizeItemName();
+			this.normalizeItemName();
 	}
 
 	public void normalizeEffectName()
@@ -225,11 +225,11 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public void normalizeItemName()
 	{
-		if ( name.equals( "(none)" ) || name.equals( "-select an item-" ) )
+		if ( this.name.equals( "(none)" ) || this.name.equals( "-select an item-" ) )
 			return;
 
 		this.priority = ITEM_PRIORITY;
-		this.itemId = TradeableItemDatabase.getItemId( name, this.count[0] );
+		this.itemId = TradeableItemDatabase.getItemId( this.name, this.count[0] );
 
 		if ( this.itemId > 0 )
 		{
@@ -237,7 +237,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 		else if ( StaticEntity.getClient() != null )
 		{
-			RequestLogger.printLine( "Unknown item found: " + name );
+			RequestLogger.printLine( "Unknown item found: " + this.name );
 		}
 	}
 
@@ -248,7 +248,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public boolean isStatusEffect()
-	{	return priority == EFFECT_PRIORITY;
+	{	return this.priority == EFFECT_PRIORITY;
 	}
 
 	/**
@@ -257,7 +257,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public boolean isMuscleGain()
-	{	return priority == SUBSTAT_PRIORITY && count[0] != 0;
+	{	return this.priority == SUBSTAT_PRIORITY && this.count[0] != 0;
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public boolean isMysticalityGain()
-	{	return priority == SUBSTAT_PRIORITY && count[1] != 0;
+	{	return this.priority == SUBSTAT_PRIORITY && this.count[1] != 0;
 	}
 
 	/**
@@ -275,7 +275,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public boolean isMoxieGain()
-	{	return priority == SUBSTAT_PRIORITY && count[2] != 0;
+	{	return this.priority == SUBSTAT_PRIORITY && this.count[2] != 0;
 	}
 
 	/**
@@ -286,7 +286,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public boolean isItem()
-	{	return priority == ITEM_PRIORITY;
+	{	return this.priority == ITEM_PRIORITY;
 	}
 
 	/**
@@ -295,7 +295,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public String getName()
-	{	return name;
+	{	return this.name;
 	}
 
 	/**
@@ -306,7 +306,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public int getItemId()
-	{	return itemId;
+	{	return this.itemId;
 	}
 
 	/**
@@ -321,8 +321,8 @@ public class AdventureResult implements Comparable, KoLConstants
 	public int getCount()
 	{
 		int totalCount = 0;
-		for ( int i = 0; i < count.length; ++i )
-			totalCount += count[i];
+		for ( int i = 0; i < this.count.length; ++i )
+			totalCount += this.count[i];
 		return totalCount;
 	}
 
@@ -334,7 +334,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public int getCount( int index )
-	{	return index < 0 || index >= count.length ? 0 : count[ index ];
+	{	return index < 0 || index >= this.count.length ? 0 : this.count[ index ];
 	}
 
 	/**
@@ -411,74 +411,74 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public String toString()
 	{
-		if ( name == null )
+		if ( this.name == null )
 			return "(Unrecognized result)";
 
-		if ( name.equals(ADV) )
-			return " Advs Used: " + COMMA_FORMAT.format(count[0]);
+		if ( this.name.equals(ADV) )
+			return " Advs Used: " + COMMA_FORMAT.format(this.count[0]);
 
-		if ( name.equals(MEAT) )
-			return " Meat Gained: " + COMMA_FORMAT.format(count[0]);
+		if ( this.name.equals(MEAT) )
+			return " Meat Gained: " + COMMA_FORMAT.format(this.count[0]);
 
-		if ( name.equals(CHOICE) )
-			return " Choices Left: " + COMMA_FORMAT.format(count[0]);
+		if ( this.name.equals(CHOICE) )
+			return " Choices Left: " + COMMA_FORMAT.format(this.count[0]);
 
-		if ( name.equals(HP) || name.equals(MP) || name.equals(DRUNK) )
-			return " " + name + ": " + COMMA_FORMAT.format(count[0]);
+		if ( this.name.equals(HP) || this.name.equals(MP) || this.name.equals(DRUNK) )
+			return " " + this.name + ": " + COMMA_FORMAT.format(this.count[0]);
 
-		if ( name.equals(SUBSTATS) || name.equals(FULLSTATS) )
-			return " " + name + ": " + COMMA_FORMAT.format(count[0]) + " / " + COMMA_FORMAT.format(count[1]) + " / " + COMMA_FORMAT.format(count[2]);
+		if ( this.name.equals(SUBSTATS) || this.name.equals(FULLSTATS) )
+			return " " + this.name + ": " + COMMA_FORMAT.format(this.count[0]) + " / " + COMMA_FORMAT.format(this.count[1]) + " / " + COMMA_FORMAT.format(this.count[2]);
 
-		if ( priority == MONSTER_PRIORITY || (priority == ITEM_PRIORITY && count[0] == 1) )
-			return name;
+		if ( this.priority == MONSTER_PRIORITY || (this.priority == ITEM_PRIORITY && this.count[0] == 1) )
+			return this.name;
 
-		return name + " (" + COMMA_FORMAT.format(count[0]) + ")";
+		return this.name + " (" + COMMA_FORMAT.format(this.count[0]) + ")";
 	}
 
 	public String toConditionString()
 	{
-		if ( name == null )
+		if ( this.name == null )
 			return "";
 
-		if ( name.equals(ADV) || name.equals(CHOICE) )
-			return count[0] + " choiceadv";
+		if ( this.name.equals(ADV) || this.name.equals(CHOICE) )
+			return this.count[0] + " choiceadv";
 
-		if ( name.equals(MEAT) )
-			return count[0] + " meat";
+		if ( this.name.equals(MEAT) )
+			return this.count[0] + " meat";
 
-		if ( name.equals(HP) )
-			return count[0] + " health";
+		if ( this.name.equals(HP) )
+			return this.count[0] + " health";
 
-		if ( name.equals(MP) )
-			return count[0] + " mana";
+		if ( this.name.equals(MP) )
+			return this.count[0] + " mana";
 
-		if ( name.equals(SUBSTATS) )
+		if ( this.name.equals(SUBSTATS) )
 		{
 			StringBuffer stats = new StringBuffer();
 
-			if ( count[0] > 0 )
-				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() + count[0] ) + " muscle" );
+			if ( this.count[0] > 0 )
+				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() + this.count[0] ) + " muscle" );
 
-			if ( count[1] > 0 )
+			if ( this.count[1] > 0 )
 			{
-				if ( count[0] > 0 )
+				if ( this.count[0] > 0 )
 					stats.append( ", " );
 
-				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() + count[1] ) + " mysticality" );
+				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() + this.count[1] ) + " mysticality" );
 			}
 
-			if ( count[2] > 0 )
+			if ( this.count[2] > 0 )
 			{
-				if ( count[0] > 0 || count[1] > 0 )
+				if ( this.count[0] > 0 || this.count[1] > 0 )
 					stats.append( ", " );
 
-				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() + count[2] ) + " moxie" );
+				stats.append( KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() + this.count[2] ) + " moxie" );
 			}
 
 			return stats.toString();
 		}
 
-		return count[0] + " " + name;
+		return this.count[0] + " " + this.name;
 	}
 
 	/**
@@ -497,10 +497,10 @@ public class AdventureResult implements Comparable, KoLConstants
 			return false;
 
 		AdventureResult ar = (AdventureResult) o;
-		if ( name == null || ar.name == null || count == null || ar.count == null )
+		if ( this.name == null || ar.name == null || this.count == null || ar.count == null )
 			return false;
 
-		return count.length == ar.count.length && (!ar.isItem() || (itemId == ar.itemId)) && name.equalsIgnoreCase( ar.name );
+		return this.count.length == ar.count.length && (!ar.isItem() || (this.itemId == ar.itemId)) && this.name.equalsIgnoreCase( ar.name );
 	}
 
 	/**
@@ -515,21 +515,21 @@ public class AdventureResult implements Comparable, KoLConstants
 			return -1;
 
 		AdventureResult ar = (AdventureResult) o;
-		if ( name.equalsIgnoreCase( ar.name ) )
+		if ( this.name.equalsIgnoreCase( ar.name ) )
 			return 0;
 
-		int priorityDifference = priority - ar.priority;
+		int priorityDifference = this.priority - ar.priority;
 		if ( priorityDifference != 0 )
 			return priorityDifference;
 
-		if ( isStatusEffect() )
-			return getCount() - ar.getCount();
+		if ( this.isStatusEffect() )
+			return this.getCount() - ar.getCount();
 
-		int nameComparison = name.compareToIgnoreCase( ar.name );
+		int nameComparison = this.name.compareToIgnoreCase( ar.name );
 		if ( nameComparison != 0 )
 			return nameComparison;
 
-		return isItem() ? itemId - ar.itemId : 0;
+		return this.isItem() ? this.itemId - ar.itemId : 0;
 	}
 
 	/**
@@ -607,7 +607,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	{
 		public AdventureResultRenderer()
 		{
-			setOpaque( true );
+			this.setOpaque( true );
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
@@ -618,13 +618,13 @@ public class AdventureResult implements Comparable, KoLConstants
 				return defaultComponent;
 
 			if ( value instanceof AdventureResult )
-				return getRenderer( defaultComponent, (AdventureResult) value );
+				return this.getRenderer( defaultComponent, (AdventureResult) value );
 
 			if ( value instanceof ItemCreationRequest )
-				return getRenderer( defaultComponent, (ItemCreationRequest) value );
+				return this.getRenderer( defaultComponent, (ItemCreationRequest) value );
 
 			if ( value instanceof Concoction )
-				return getRenderer( defaultComponent, (Concoction) value );
+				return this.getRenderer( defaultComponent, (Concoction) value );
 
 			return defaultComponent;
 		}
@@ -739,7 +739,7 @@ public class AdventureResult implements Comparable, KoLConstants
 				stringForm.append( " full" );
 			}
 
-			appendRange( stringForm, TradeableItemDatabase.getAdventureRange( item.getName() ), "adv" );
+			this.appendRange( stringForm, TradeableItemDatabase.getAdventureRange( item.getName() ), "adv" );
 
 			if ( StaticEntity.getBooleanProperty( "showGainsPerUnit" ) )
 			{
@@ -749,9 +749,9 @@ public class AdventureResult implements Comparable, KoLConstants
 					stringForm.append( " / full" );
 			}
 
-			appendRange( stringForm, TradeableItemDatabase.getMuscleRange( item.getName() ), "mus" );
-			appendRange( stringForm, TradeableItemDatabase.getMysticalityRange( item.getName() ), "mys" );
-			appendRange( stringForm, TradeableItemDatabase.getMoxieRange( item.getName() ), "mox" );
+			this.appendRange( stringForm, TradeableItemDatabase.getMuscleRange( item.getName() ), "mus" );
+			this.appendRange( stringForm, TradeableItemDatabase.getMysticalityRange( item.getName() ), "mys" );
+			this.appendRange( stringForm, TradeableItemDatabase.getMoxieRange( item.getName() ), "mox" );
 
 			defaultComponent.setFont( DEFAULT_FONT );
 			((JLabel)defaultComponent).setText( stringForm.toString() );
@@ -777,7 +777,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	private static class EquipmentRenderer extends DefaultListCellRenderer
 	{
 		public EquipmentRenderer()
-		{	setOpaque( true );
+		{	this.setOpaque( true );
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
@@ -835,30 +835,30 @@ public class AdventureResult implements Comparable, KoLConstants
 	{
 		// Allow for negation of substats as well.
 
-		if ( isItem() )
-			return new AdventureResult( itemId, 0 - getCount() );
+		if ( this.isItem() )
+			return new AdventureResult( this.itemId, 0 - this.getCount() );
 
-		else if ( isStatusEffect() )
-			return new AdventureResult( name, 0 - getCount(), true );
+		else if ( this.isStatusEffect() )
+			return new AdventureResult( this.name, 0 - this.getCount(), true );
 
-		int [] newcount = new int[ count.length ];
-		for ( int i = 0; i < count.length; ++i )
-			newcount[i] = 0 - count[i];
+		int [] newcount = new int[ this.count.length ];
+		for ( int i = 0; i < this.count.length; ++i )
+			newcount[i] = 0 - this.count[i];
 
-		return getInstance( newcount );
+		return this.getInstance( newcount );
 	}
 
 	public AdventureResult getInstance( int quantity )
 	{
-		return isItem() ? new AdventureResult( name, quantity, false ) :
-			isStatusEffect() ? new AdventureResult( name, quantity, true ) :
-				new AdventureResult( name, quantity );
+		return this.isItem() ? new AdventureResult( this.name, quantity, false ) :
+			this.isStatusEffect() ? new AdventureResult( this.name, quantity, true ) :
+				new AdventureResult( this.name, quantity );
 	}
 
 	public AdventureResult getInstance( int [] quantity )
 	{
 		if ( this.priority != SUBSTAT_PRIORITY && this.priority != FULLSTAT_PRIORITY )
-			return getInstance( quantity[0] );
+			return this.getInstance( quantity[0] );
 
 		if ( this.priority == SUBSTAT_PRIORITY )
 			return new AdventureResult( SUBSTATS, quantity );

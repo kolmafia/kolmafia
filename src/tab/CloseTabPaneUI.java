@@ -232,7 +232,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 				delta += BUTTONSIZE + WIDTHDELTA;
 		}
 
-		return super.calculateTabWidth(tabPlacement, tabIndex, metrics) + delta + (isCloseButtonEnabled ? 25 : 5);
+		return super.calculateTabWidth(tabPlacement, tabIndex, metrics) + delta + (isCloseButtonEnabled ? 15 : 5);
 	}
 
 	protected int calculateTabHeight(int tabPlacement, int tabIndex,
@@ -632,7 +632,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 					cropy);
 			g2.setClip(save);
 
-		} else if (isOver && !isSelected && (tabIndex >= tabStates.size() || tabStates.get( tabIndex ) == Boolean.FALSE) ) {
+		} else if (isOver && (tabIndex >= tabStates.size() || tabStates.get( tabIndex ) == Boolean.FALSE) ) {
 
 			int dx = tabRect.x + tabRect.width - BUTTONSIZE - WIDTHDELTA;
 			int dy = (tabRect.y + tabRect.height) / 2 - 6;
@@ -1120,12 +1120,8 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 
 		protected void calculateTabRects(int tabPlacement, int tabCount) {
 			FontMetrics metrics = getFontMetrics();
-			Dimension size = tabPane.getSize();
-			Insets insets = tabPane.getInsets();
 			Insets tabAreaInsets = getTabAreaInsets(tabPlacement);
-			int fontHeight = metrics.getHeight();
-			int selectedIndex = tabPane.getSelectedIndex();
-			int i, j;
+			int i;
 
 			int x = tabAreaInsets.left - 2;
 			int y = tabAreaInsets.top;
@@ -1488,7 +1484,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 				return;
 			}
 
-			if (closeIndexStatus == PRESSED && tabPane.getSelectedIndex() != overTabIndex && (overTabIndex >= tabStates.size() || tabStates.get( overTabIndex ) == Boolean.FALSE) ) {
+			if (closeIndexStatus == PRESSED && (overTabIndex >= tabStates.size() || tabStates.get( overTabIndex ) == Boolean.FALSE) ) {
 				closeIndexStatus = OVER;
 				tabScroller.tabPanel.repaint();
 

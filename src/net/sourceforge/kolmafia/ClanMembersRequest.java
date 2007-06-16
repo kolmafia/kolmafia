@@ -59,8 +59,8 @@ public class ClanMembersRequest extends KoLRequest
 		super( "clan_members.php" );
 		this.isLookup = false;
 
-		addFormField( "pwd" );
-		addFormField( "action", "modify" );
+		this.addFormField( "pwd" );
+		this.addFormField( "action", "modify" );
 
 		ArrayList fields = new ArrayList();
 
@@ -68,7 +68,7 @@ public class ClanMembersRequest extends KoLRequest
 		for ( int i = 0; i < titleChange.length; ++i )
 		{
 			currentId = KoLmafia.getPlayerId( (String) titleChange[i] );
-			addFormField( "title" + currentId, (String) newTitles[i] );
+			this.addFormField( "title" + currentId, (String) newTitles[i] );
 
 			if ( !fields.contains( currentId ) )
 				fields.add( currentId );
@@ -78,7 +78,7 @@ public class ClanMembersRequest extends KoLRequest
 		{
 			currentId = KoLmafia.getPlayerId( (String) boots[i] );
 			ClanManager.unregisterMember( currentId );
-			addFormField( "boot" + currentId, "on" );
+			this.addFormField( "boot" + currentId, "on" );
 
 			if ( !fields.contains( currentId ) )
 				fields.add( currentId );
@@ -88,12 +88,12 @@ public class ClanMembersRequest extends KoLRequest
 		fields.toArray( changedIds );
 
 		for ( int i = 0; i < changedIds.length; ++i )
-			addFormField( "pids[]", changedIds[i], true );
+			this.addFormField( "pids[]", changedIds[i], true );
 	}
 
 	public void run()
 	{
-		if ( isLookup )
+		if ( this.isLookup )
 		{
 			// First, you need to know which clan you
 			// belong to.  This is done by doing a
@@ -117,7 +117,7 @@ public class ClanMembersRequest extends KoLRequest
 			this.clanId = clanIdMatcher.group(1);
 			this.clanName = clanIdMatcher.group(2);
 
-			addFormField( "whichclan", clanId );
+			this.addFormField( "whichclan", this.clanId );
 			KoLmafia.updateDisplay( "Retrieving clan member list..." );
 		}
 
@@ -126,10 +126,10 @@ public class ClanMembersRequest extends KoLRequest
 
 	public void processResults()
 	{
-		if ( isLookup )
+		if ( this.isLookup )
 		{
 			int lastMatchIndex = 0;
-			Matcher memberMatcher = MEMBER_PATTERN.matcher( responseText );
+			Matcher memberMatcher = MEMBER_PATTERN.matcher( this.responseText );
 
 			while ( memberMatcher.find( lastMatchIndex ) )
 			{
@@ -148,10 +148,10 @@ public class ClanMembersRequest extends KoLRequest
 	}
 
 	public String getClanId()
-	{	return clanId;
+	{	return this.clanId;
 	}
 
 	public String getClanName()
-	{	return clanName;
+	{	return this.clanName;
 	}
 }

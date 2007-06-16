@@ -35,26 +35,14 @@ package net.sourceforge.kolmafia;
 
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.Point;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import java.util.Comparator;
-import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenuItem;
-import javax.swing.JTabbedPane;
-import javax.swing.ListCellRenderer;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -73,20 +61,20 @@ public class ExamineItemsFrame extends KoLFrame
 	{
 		super( "Internal Database" );
 
-		items = new ExamineItemsPanel( allItems );
-		tabs.addTab( "Items", items );
+		this.items = new ExamineItemsPanel( allItems );
+		this.tabs.addTab( "Items", this.items );
 
-		familiars = new ItemLookupPanel( allFamiliars, "Familiars", "familiar", "which" );
-		tabs.addTab( "Familiars", familiars );
+		this.familiars = new ItemLookupPanel( allFamiliars, "Familiars", "familiar", "which" );
+		this.tabs.addTab( "Familiars", this.familiars );
 
-		skills = new ItemLookupPanel( allSkills, "Skills", "skill", "whichskill" );
-		tabs.addTab( "Skills", skills );
+		this.skills = new ItemLookupPanel( allSkills, "Skills", "skill", "whichskill" );
+		this.tabs.addTab( "Skills", this.skills );
 
-		effects = new ItemLookupPanel( allEffects, "Effects", "effect", "whicheffect" );
-		tabs.addTab( "Effects", effects );
+		this.effects = new ItemLookupPanel( allEffects, "Effects", "effect", "whicheffect" );
+		this.tabs.addTab( "Effects", this.effects );
 
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( tabs, "" );
+		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
+		this.framePanel.add( this.tabs, "" );
 	}
 
 	private class ItemLookupPanel extends ItemManagePanel
@@ -103,25 +91,25 @@ public class ExamineItemsFrame extends KoLFrame
 			this.type = type;
 			this.which = which;
 
-			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			elementList.addMouseListener( new ShowEntryAdapter() );
-			elementList.setCellRenderer( new EntryCellRenderer() );
+			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			this.elementList.addMouseListener( new ShowEntryAdapter() );
+			this.elementList.setCellRenderer( new EntryCellRenderer() );
 
-			elementList.contextMenu.add( new DescriptionMenuItem(), 0 );
+			this.elementList.contextMenu.add( new DescriptionMenuItem(), 0 );
 
-			actionConfirmed();
+			this.actionConfirmed();
 		}
 
 		public void actionConfirmed()
 		{
 			// Sort elements by name
-			list.sort( new EntryNameComparator() );
+			this.list.sort( new EntryNameComparator() );
 		}
 
 		public void actionCancelled()
 		{
 			// Sort elements by Id number
-			list.sort( new EntryIdComparator() );
+			this.list.sort( new EntryIdComparator() );
 		}
 
 		/**
@@ -136,7 +124,7 @@ public class ExamineItemsFrame extends KoLFrame
 			}
 
 			public void run()
-			{	showDescription( (Entry) elementModel.get( elementList.lastSelectIndex ) );
+			{	ItemLookupPanel.this.showDescription( (Entry) ItemLookupPanel.this.elementModel.get( ItemLookupPanel.this.elementList.lastSelectIndex ) );
 			}
 		}
 
@@ -147,21 +135,21 @@ public class ExamineItemsFrame extends KoLFrame
 				if ( e.getClickCount() != 2 )
 					return;
 
-				int index = elementList.locationToIndex( e.getPoint() );
-				Object entry = elementList.getModel().getElementAt( index );
+				int index = ItemLookupPanel.this.elementList.locationToIndex( e.getPoint() );
+				Object entry = ItemLookupPanel.this.elementList.getModel().getElementAt( index );
 
 				if ( !(entry instanceof Entry ) )
 					return;
 
-				elementList.ensureIndexIsVisible( index );
-				showDescription( (Entry) entry );
+				ItemLookupPanel.this.elementList.ensureIndexIsVisible( index );
+				ItemLookupPanel.this.showDescription( (Entry) entry );
 			}
 		}
 
 		public void showDescription( Entry entry )
 		{
 			String id = String.valueOf( ((Integer)entry.getKey()).intValue() );
-			StaticEntity.openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
+			StaticEntity.openRequestFrame( "desc_" + this.type + ".php?" + this.which + "=" + id );
 		}
 	}
 
@@ -174,14 +162,14 @@ public class ExamineItemsFrame extends KoLFrame
 		public void showDescription( Entry entry )
 		{
 			String id = TradeableItemDatabase.getDescriptionId( ((Integer)entry.getKey()).intValue() );
-			StaticEntity.openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
+			StaticEntity.openRequestFrame( "desc_" + this.type + ".php?" + this.which + "=" + id );
 		}
 	}
 
 	private class EntryCellRenderer extends DefaultListCellRenderer
 	{
 		public EntryCellRenderer()
-		{	setOpaque( true );
+		{	this.setOpaque( true );
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
@@ -196,7 +184,7 @@ public class ExamineItemsFrame extends KoLFrame
 			StringBuffer stringForm = new StringBuffer();
 			stringForm.append( (String)entry.getValue() );
 			stringForm.append( " (" );
-			stringForm.append( (Integer)entry.getKey() );
+			stringForm.append( entry.getKey() );
 			stringForm.append( ")" );
 
 			((JLabel) defaultComponent).setText( stringForm.toString() );

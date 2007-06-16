@@ -39,13 +39,10 @@ import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-
 import javax.swing.table.TableCellRenderer;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -61,8 +58,8 @@ public class CakeArenaFrame extends KoLFrame
 	{
 		super( "Susie's Secret Bedroom!" );
 
-		framePanel.setLayout( new BorderLayout() );
-		framePanel.add( new CakeArenaPanel(), BorderLayout.CENTER );
+		this.framePanel.setLayout( new BorderLayout() );
+		this.framePanel.add( new CakeArenaPanel(), BorderLayout.CENTER );
 		KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new FamiliarRefresher() ) );
 	}
 
@@ -70,21 +67,17 @@ public class CakeArenaFrame extends KoLFrame
 	{
 		public void run()
 		{
-			if ( familiarTable != null )
-				familiarTable.validate();
+			if ( CakeArenaFrame.this.familiarTable != null )
+				CakeArenaFrame.this.familiarTable.validate();
 		}
 	}
 
 	private class CakeArenaPanel extends JPanel
 	{
-		private JComboBox opponentSelect;
-		private JComboBox fightOptions;
-		private JTextField battleField;
-
 		public CakeArenaPanel()
 		{
 			super( new BorderLayout( 0, 10 ) );
-			opponents = CakeArenaManager.getOpponentList();
+			CakeArenaFrame.this.opponents = CakeArenaManager.getOpponentList();
 
 			String opponentRace;
 			String [] columnNames = { "Familiar", "Cage Match", "Scavenger Hunt", "Obstacle Course", "Hide and Seek" };
@@ -94,29 +87,29 @@ public class CakeArenaFrame extends KoLFrame
 
 			Object [][] familiarData = new Object[1][5];
 
-			familiarTable = new JTable( familiarData, columnNames );
-			familiarTable.setRowHeight( 40 );
+			CakeArenaFrame.this.familiarTable = new JTable( familiarData, columnNames );
+			CakeArenaFrame.this.familiarTable.setRowHeight( 40 );
 
 			for ( int i = 0; i < 5; ++i )
 			{
-				familiarTable.setDefaultEditor( familiarTable.getColumnClass(i), null );
-				familiarTable.setDefaultRenderer( familiarTable.getColumnClass(i), new OpponentRenderer() );
+				CakeArenaFrame.this.familiarTable.setDefaultEditor( CakeArenaFrame.this.familiarTable.getColumnClass(i), null );
+				CakeArenaFrame.this.familiarTable.setDefaultRenderer( CakeArenaFrame.this.familiarTable.getColumnClass(i), new OpponentRenderer() );
 			}
 
 			JPanel familiarPanel = new JPanel( new BorderLayout() );
-			familiarPanel.add( familiarTable.getTableHeader(), BorderLayout.NORTH );
-			familiarPanel.add( familiarTable, BorderLayout.CENTER );
+			familiarPanel.add( CakeArenaFrame.this.familiarTable.getTableHeader(), BorderLayout.NORTH );
+			familiarPanel.add( CakeArenaFrame.this.familiarTable, BorderLayout.CENTER );
 
-			Object [][] opponentData = new Object[ opponents.size() ][5];
+			Object [][] opponentData = new Object[ CakeArenaFrame.this.opponents.size() ][5];
 
 			// Register the data for your opponents to be rendered
 			// in the table, taking into account the offset due to
 			// your own familiar's data.
 
-			for ( int i = 0; i < opponents.size(); ++i )
+			for ( int i = 0; i < CakeArenaFrame.this.opponents.size(); ++i )
 			{
-				opponentRace = ((ArenaOpponent)opponents.get(i)).getRace();
-				opponentData[i][0] = opponents.get(i).toString();
+				opponentRace = ((ArenaOpponent)CakeArenaFrame.this.opponents.get(i)).getRace();
+				opponentData[i][0] = CakeArenaFrame.this.opponents.get(i).toString();
 
 				for ( int j = 1; j <= 4; ++j )
 					opponentData[i][j] = new OpponentButton( i, j, FamiliarsDatabase.getFamiliarSkill( opponentRace, j ) );
@@ -136,8 +129,8 @@ public class CakeArenaFrame extends KoLFrame
 			opponentPanel.add( opponentTable.getTableHeader(), BorderLayout.NORTH );
 			opponentPanel.add( opponentTable, BorderLayout.CENTER );
 
-			add( familiarPanel, BorderLayout.NORTH );
-			add( opponentPanel, BorderLayout.CENTER );
+			this.add( familiarPanel, BorderLayout.NORTH );
+			this.add( opponentPanel, BorderLayout.CENTER );
 		}
 	}
 
@@ -157,21 +150,21 @@ public class CakeArenaFrame extends KoLFrame
 
 		public void mouseReleased( MouseEvent e )
 		{
-			int yourSkillValue = FamiliarsDatabase.getFamiliarSkill( KoLCharacter.getFamiliar().getRace(), column ).intValue();
+			int yourSkillValue = FamiliarsDatabase.getFamiliarSkill( KoLCharacter.getFamiliar().getRace(), this.column ).intValue();
 			String yourSkill = yourSkillValue == 1 ? "1 star (yours)" : yourSkillValue + " stars (yours)";
 
-			int battleCount = StaticEntity.parseInt( JOptionPane.showInputDialog( "<html>" + opponents.get( row ).toString() + ", " +
-				CakeArenaManager.getEvent( column ) + "<br>" + yourSkill + " vs. " + opponentSkill + "</html>" ) );
+			int battleCount = StaticEntity.parseInt( JOptionPane.showInputDialog( "<html>" + CakeArenaFrame.this.opponents.get( this.row ).toString() + ", " +
+				CakeArenaManager.getEvent( this.column ) + "<br>" + yourSkill + " vs. " + this.opponentSkill + "</html>" ) );
 
 			if ( battleCount > 0 )
-				CakeArenaManager.fightOpponent( opponents.get( row ).toString(), column, battleCount );
+				CakeArenaManager.fightOpponent( CakeArenaFrame.this.opponents.get( this.row ).toString(), this.column, battleCount );
 		}
 	}
 
 	private class OpponentRenderer implements TableCellRenderer
 	{
 		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column )
-		{	return value == null ? getFamiliarComponent( column ) : getStandardComponent( value );
+		{	return value == null ? this.getFamiliarComponent( column ) : this.getStandardComponent( value );
 		}
 
 		private Component getFamiliarComponent( int column )
@@ -179,8 +172,8 @@ public class CakeArenaFrame extends KoLFrame
 			FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 
 			if ( column == 0 )
-				return currentFamiliar == null ? getStandardComponent( "NO DATA (0 lbs)" ) :
-					getStandardComponent( currentFamiliar.toString() );
+				return currentFamiliar == null ? this.getStandardComponent( "NO DATA (0 lbs)" ) :
+					this.getStandardComponent( currentFamiliar.toString() );
 
 			return currentFamiliar == null ? new JLabel( JComponentUtilities.getImage( "0star.gif" ) ) :
 				new JLabel( JComponentUtilities.getImage( FamiliarsDatabase.getFamiliarSkill( currentFamiliar.getRace(), column ).toString() + "star.gif" ) );

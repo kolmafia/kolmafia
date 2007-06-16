@@ -36,11 +36,8 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;
@@ -292,19 +289,19 @@ public class BuffBotDatabase extends KoLDatabase
 
 		public void run()
 		{
-			if ( freeOfferings.containsKey( botName ) || normalOfferings.containsKey( botName ) )
+			if ( freeOfferings.containsKey( this.botName ) || normalOfferings.containsKey( this.botName ) )
 				return;
 
-			if ( location.equals( OPTOUT_URL ) )
+			if ( this.location.equals( OPTOUT_URL ) )
 			{
-				freeOfferings.put( botName, new LockableListModel() );
-				normalOfferings.put( botName, new LockableListModel() );
+				freeOfferings.put( this.botName, new LockableListModel() );
+				normalOfferings.put( this.botName, new LockableListModel() );
 
 				++buffBotsConfigured;
 				return;
 			}
 
-			BufferedReader reader = KoLDatabase.getReader( location );
+			BufferedReader reader = KoLDatabase.getReader( this.location );
 			StringBuffer dataBuffer = new StringBuffer();
 
 			try
@@ -371,7 +368,7 @@ public class BuffBotDatabase extends KoLDatabase
 					}
 
 					if ( priceMatch == null )
-						tester.add( new Offering( name, botName, price, turns, philanthropic ) );
+						tester.add( new Offering( name, this.botName, price, turns, philanthropic ) );
 					else
 						priceMatch.addBuff( name, turns );
 				}
@@ -383,13 +380,13 @@ public class BuffBotDatabase extends KoLDatabase
 			if ( !freeBuffs.isEmpty() )
 			{
 				freeBuffs.sort();
-				freeOfferings.put( botName, freeBuffs );
+				freeOfferings.put( this.botName, freeBuffs );
 			}
 
 			if ( !normalBuffs.isEmpty() )
 			{
 				normalBuffs.sort();
-				normalOfferings.put( botName, normalBuffs );
+				normalOfferings.put( this.botName, normalBuffs );
 			}
 
 			// Now that the buffbot is configured, increment
@@ -422,27 +419,27 @@ public class BuffBotDatabase extends KoLDatabase
 			this.price = price;
 			this.free = free;
 
-			constructStringForm();
+			this.constructStringForm();
 		}
 
 		public String getBotName()
-		{	return botName;
+		{	return this.botName;
 		}
 
 		public int getPrice()
-		{	return price;
+		{	return this.price;
 		}
 
 		public int [] getTurns()
-		{	return turns;
+		{	return this.turns;
 		}
 
 		public int getLowestBuffId()
-		{	return lowestBuffId;
+		{	return this.lowestBuffId;
 		}
 
 		public String toString()
-		{	return stringForm;
+		{	return this.stringForm;
 		}
 
 		private void addBuff( String buffName, int turns )
@@ -460,10 +457,10 @@ public class BuffBotDatabase extends KoLDatabase
 			this.turns[ this.turns.length - 1 ] = turns;
 
 			int skillId = ClassSkillsDatabase.getSkillId( buffName );
-			if ( skillId < lowestBuffId )
+			if ( skillId < this.lowestBuffId )
 				this.lowestBuffId = skillId;
 
-			constructStringForm();
+			this.constructStringForm();
 		}
 
 		private void constructStringForm()
@@ -472,25 +469,25 @@ public class BuffBotDatabase extends KoLDatabase
 
 			buffer.append( "<html>" );
 
-			buffer.append( COMMA_FORMAT.format( price ) );
+			buffer.append( COMMA_FORMAT.format( this.price ) );
 			buffer.append( " meat for " );
 
-			if ( turns.length == 1 )
+			if ( this.turns.length == 1 )
 			{
-				buffer.append( COMMA_FORMAT.format( turns[0] ) );
+				buffer.append( COMMA_FORMAT.format( this.turns[0] ) );
 				buffer.append( " turns of " );
-				buffer.append( buffs[0] );
+				buffer.append( this.buffs[0] );
 			}
 			else
 			{
 				buffer.append( "a Buff Pack which includes:" );
 
-				for ( int i = 0; i < buffs.length; ++i )
+				for ( int i = 0; i < this.buffs.length; ++i )
 				{
 					buffer.append( "<br> - " );
-					buffer.append( COMMA_FORMAT.format( turns[i] ) );
+					buffer.append( COMMA_FORMAT.format( this.turns[i] ) );
 					buffer.append( " turns of " );
-					buffer.append( buffs[i] );
+					buffer.append( this.buffs[i] );
 				}
 			}
 
@@ -504,11 +501,11 @@ public class BuffBotDatabase extends KoLDatabase
 				return false;
 
 			Offering off = (Offering) o;
-			return botName.equalsIgnoreCase( off.botName ) && price == off.price && turns == off.turns && free == off.free;
+			return this.botName.equalsIgnoreCase( off.botName ) && this.price == off.price && this.turns == off.turns && this.free == off.free;
 		}
 
 		public GreenMessageRequest toRequest()
-		{	return new GreenMessageRequest( botName, DEFAULT_KMAIL, new AdventureResult( AdventureResult.MEAT, price ) );
+		{	return new GreenMessageRequest( this.botName, DEFAULT_KMAIL, new AdventureResult( AdventureResult.MEAT, this.price ) );
 		}
 
 		public int compareTo( Object o )
@@ -519,26 +516,26 @@ public class BuffBotDatabase extends KoLDatabase
 			Offering off = (Offering) o;
 
 			// First, buffpacks should come before standard offerings
-			if ( (turns.length == 1 || off.turns.length == 1) && turns.length != off.turns.length )
-				return off.turns.length - turns.length;
+			if ( (this.turns.length == 1 || off.turns.length == 1) && this.turns.length != off.turns.length )
+				return off.turns.length - this.turns.length;
 
 			// Next, cheaper buffpacks should come before more expensive buffpacks,
 			// and philanthropic buffs compare prices as well
 
 			// Philanthropic buffs compare price
-			if ( free || turns.length > 1 || off.turns.length > 1 )
-				return price - off.price;
+			if ( this.free || this.turns.length > 1 || off.turns.length > 1 )
+				return this.price - off.price;
 
 			// Compare the Id of the lowest Id buffs
-			if ( lowestBuffId != off.lowestBuffId )
-				return lowestBuffId - off.lowestBuffId;
+			if ( this.lowestBuffId != off.lowestBuffId )
+				return this.lowestBuffId - off.lowestBuffId;
 
 			// First compare turns
-			if ( turns[0] != off.turns[0] )
-				return turns[0] - off.turns[0];
+			if ( this.turns[0] != off.turns[0] )
+				return this.turns[0] - off.turns[0];
 
 			// Then, compare the names of the bots
-			return botName.compareToIgnoreCase( off.botName );
+			return this.botName.compareToIgnoreCase( off.botName );
 		}
 	}
 }

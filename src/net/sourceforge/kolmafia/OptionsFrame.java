@@ -36,36 +36,19 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import java.io.File;
-
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JColorChooser;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import tab.CloseTabbedPane;
 import tab.CloseTabPaneEnhancedUI;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -90,15 +73,15 @@ public class OptionsFrame extends KoLFrame
 		addonPanel.add( new ScriptButtonPanel() );
 		addonPanel.add( new BookmarkManagePanel() );
 
-		addTab( "General", new GeneralOptionsPanel() );
-		addTab( "Relay", new RelayOptionsPanel() );
+		this.addTab( "General", new GeneralOptionsPanel() );
+		this.addTab( "Relay", new RelayOptionsPanel() );
 
-		addTab( "Links", addonPanel );
-		addTab( "Logs", new SessionLogOptionsPanel() );
-		addTab( "Chat", new ChatOptionsPanel() );
+		this.addTab( "Links", addonPanel );
+		this.addTab( "Logs", new SessionLogOptionsPanel() );
+		this.addTab( "Chat", new ChatOptionsPanel() );
 
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( tabs, "" );
+		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
+		this.framePanel.add( this.tabs, "" );
 	}
 
 	private class SessionLogOptionsPanel extends OptionsPanel
@@ -132,36 +115,36 @@ public class OptionsFrame extends KoLFrame
 		public SessionLogOptionsPanel()
 		{
 			super( "Session Log", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ options.length ];
+			VerifiableElement [] elements = new VerifiableElement[ this.options.length ];
 
-			optionBoxes = new JCheckBox[ options.length ];
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i] = new JCheckBox();
+			this.optionBoxes = new JCheckBox[ this.options.length ];
+			for ( int i = 0; i < this.options.length; ++i )
+				this.optionBoxes[i] = new JCheckBox();
 
-			for ( int i = 0; i < options.length; ++i )
+			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( options[i].length == 0 )
+				if ( this.options[i].length == 0 )
 					elements[i] = new VerifiableElement();
 				else
-					elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+					elements[i] = new VerifiableElement( this.options[i][1], JLabel.LEFT, this.optionBoxes[i] );
 			}
 
-			actionCancelled();
-			setContent( elements );
+			this.actionCancelled();
+			this.setContent( elements );
 		}
 
 		public void actionConfirmed()
 		{
-			for ( int i = 0; i < options.length; ++i )
-				if ( options[i].length != 0 )
-					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+			for ( int i = 0; i < this.options.length; ++i )
+				if ( this.options[i].length != 0 )
+					StaticEntity.setProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
 		}
 
 		public void actionCancelled()
 		{
-			for ( int i = 0; i < options.length; ++i )
-				if ( options[i].length != 0 )
-					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
+			for ( int i = 0; i < this.options.length; ++i )
+				if ( this.options[i].length != 0 )
+					this.optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( this.options[i][0] ) );
 		}
 	}
 
@@ -225,32 +208,32 @@ public class OptionsFrame extends KoLFrame
 		public RelayOptionsPanel()
 		{
 			super( "Relay Browser", new Dimension( 16, 16 ), new Dimension( 370, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ options.length + 1 ];
+			VerifiableElement [] elements = new VerifiableElement[ this.options.length + 1 ];
 
-			optionBoxes = new JCheckBox[ options.length ];
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i] = new JCheckBox();
+			this.optionBoxes = new JCheckBox[ this.options.length ];
+			for ( int i = 0; i < this.options.length; ++i )
+				this.optionBoxes[i] = new JCheckBox();
 
-			for ( int i = 0; i < options.length; ++i )
+			for ( int i = 0; i < this.options.length; ++i )
 			{
-				elements[i] = options[i][0].equals( "" ) ? new VerifiableElement() :
-					new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+				elements[i] = this.options[i][0].equals( "" ) ? new VerifiableElement() :
+					new VerifiableElement( this.options[i][1], JLabel.LEFT, this.optionBoxes[i] );
 			}
 
-			colorChanger = new LabelColorChanger( "defaultBorderColor" );
-			elements[ options.length ] = new VerifiableElement( "Change the color for tables in the browser interface",
-				JLabel.LEFT, colorChanger );
+			this.colorChanger = new LabelColorChanger( "defaultBorderColor" );
+			elements[ this.options.length ] = new VerifiableElement( "Change the color for tables in the browser interface",
+				JLabel.LEFT, this.colorChanger );
 
-			setContent( elements );
-			actionCancelled();
+			this.setContent( elements );
+			this.actionCancelled();
 		}
 
 		public void actionConfirmed()
 		{
-			for ( int i = 0; i < options.length; ++i )
+			for ( int i = 0; i < this.options.length; ++i )
 			{
-				if ( !options[i][0].equals( "" ) )
-					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+				if ( !this.options[i][0].equals( "" ) )
+					StaticEntity.setProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
 			}
 		}
 
@@ -258,12 +241,12 @@ public class OptionsFrame extends KoLFrame
 		{
 			String color = StaticEntity.getProperty( "defaultBorderColor" );
 			if ( color.equals( "blue" ) )
-				colorChanger.setBackground( Color.blue );
+				this.colorChanger.setBackground( Color.blue );
 			else
-				colorChanger.setBackground( DataUtilities.toColor( color ) );
+				this.colorChanger.setBackground( DataUtilities.toColor( color ) );
 
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
+			for ( int i = 0; i < this.options.length; ++i )
+				this.optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( this.options[i][0] ) );
 		}
 	}
 
@@ -315,38 +298,36 @@ public class OptionsFrame extends KoLFrame
 		public GeneralOptionsPanel()
 		{
 			super( "General Options (May Require Restart to Take Effect!)", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ options.length ];
+			VerifiableElement [] elements = new VerifiableElement[ this.options.length ];
 
-			optionBoxes = new JCheckBox[ options.length ];
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i] = new JCheckBox();
+			this.optionBoxes = new JCheckBox[ this.options.length ];
+			for ( int i = 0; i < this.options.length; ++i )
+				this.optionBoxes[i] = new JCheckBox();
 
-			for ( int i = 0; i < options.length; ++i )
-				elements[i] = options[i][0].equals( "" ) ? new VerifiableElement() :
-					new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+			for ( int i = 0; i < this.options.length; ++i )
+				elements[i] = this.options[i][0].equals( "" ) ? new VerifiableElement() :
+					new VerifiableElement( this.options[i][1], JLabel.LEFT, this.optionBoxes[i] );
 
-			setContent( elements );
-			actionCancelled();
+			this.setContent( elements );
+			this.actionCancelled();
 		}
 
 		public void actionConfirmed()
 		{
-			for ( int i = 0; i < options.length; ++i )
-				if ( !options[i][0].equals( "" ) )
-					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+			for ( int i = 0; i < this.options.length; ++i )
+				if ( !this.options[i][0].equals( "" ) )
+					StaticEntity.setProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
 
-			actionCancelled();
+			this.actionCancelled();
 			System.setProperty( "spellcast.actionButtonsThreaded", StaticEntity.getProperty( "allowRequestQueueing" ) );
-
-			ConcoctionsDatabase.recognizeNextRefresh();
 			ConcoctionsDatabase.refreshConcoctions();
 		}
 
 		public void actionCancelled()
 		{
-			for ( int i = 0; i < options.length; ++i )
-				if ( !options[i][0].equals( "" ) )
-					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
+			for ( int i = 0; i < this.options.length; ++i )
+				if ( !this.options[i][0].equals( "" ) )
+					this.optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( this.options[i][0] ) );
 		}
 	}
 
@@ -359,8 +340,8 @@ public class OptionsFrame extends KoLFrame
 		{
 			super( title, "move up", "move down", new JList( list ) );
 
-			this.elementList = (JList) scrollComponent;
-			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			this.elementList = (JList) this.scrollComponent;
+			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 			this.list = list;
 			list.addListDataListener( this );
@@ -368,36 +349,36 @@ public class OptionsFrame extends KoLFrame
 
 		public final void actionConfirmed()
 		{
-			int index = elementList.getSelectedIndex();
+			int index = this.elementList.getSelectedIndex();
 			if ( index == -1 )
 				return;
 
-			Object value = list.remove( index );
-			list.add( index - 1, value );
-			elementList.setSelectedIndex( index - 1 );
+			Object value = this.list.remove( index );
+			this.list.add( index - 1, value );
+			this.elementList.setSelectedIndex( index - 1 );
 		}
 
 		public final void actionCancelled()
 		{
-			int index = elementList.getSelectedIndex();
+			int index = this.elementList.getSelectedIndex();
 			if ( index == -1 )
 				return;
 
-			Object value = list.remove( index );
-			list.add( index + 1, value );
-			elementList.setSelectedIndex( index + 1 );
+			Object value = this.list.remove( index );
+			this.list.add( index + 1, value );
+			this.elementList.setSelectedIndex( index + 1 );
 		}
 
 		public void intervalAdded( ListDataEvent e )
-		{	saveSettings();
+		{	this.saveSettings();
 		}
 
 		public void intervalRemoved( ListDataEvent e )
-		{	saveSettings();
+		{	this.saveSettings();
 		}
 
 		public void contentsChanged( ListDataEvent e )
-		{	saveSettings();
+		{	this.saveSettings();
 		}
 
 		public abstract void saveSettings();
@@ -417,7 +398,7 @@ public class OptionsFrame extends KoLFrame
 			extraButtons.add( new AddScriptButton(), BorderLayout.NORTH );
 			extraButtons.add( new AddCommandButton(), BorderLayout.CENTER );
 			extraButtons.add( new DeleteListingButton(), BorderLayout.SOUTH );
-			buttonPanel.add( extraButtons, BorderLayout.SOUTH );
+			this.buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
 		private class AddScriptButton extends ThreadedButton
@@ -441,7 +422,7 @@ public class OptionsFrame extends KoLFrame
 					if ( scriptPath.startsWith( rootPath ) )
 						scriptPath = scriptPath.substring( rootPath.length() + 1 );
 
-					list.add( "call " + scriptPath );
+					ScriptButtonPanel.this.list.add( "call " + scriptPath );
 				}
 			}
 		}
@@ -456,7 +437,7 @@ public class OptionsFrame extends KoLFrame
 			{
 				String currentValue = JOptionPane.showInputDialog( "CLI Command", "" );
 				if ( currentValue != null && currentValue.length() != 0 )
-					list.add( currentValue );
+					ScriptButtonPanel.this.list.add( currentValue );
 			}
 		}
 
@@ -468,24 +449,24 @@ public class OptionsFrame extends KoLFrame
 
 			public void run()
 			{
-				int index = elementList.getSelectedIndex();
+				int index = ScriptButtonPanel.this.elementList.getSelectedIndex();
 				if ( index == -1 )
 					return;
 
-				list.remove( index );
+				ScriptButtonPanel.this.list.remove( index );
 			}
 		}
 
 		public void saveSettings()
 		{
 			StringBuffer settingString = new StringBuffer();
-			if ( list.size() != 0 )
-				settingString.append( (String) list.get(0) );
+			if ( this.list.size() != 0 )
+				settingString.append( (String) this.list.get(0) );
 
-			for ( int i = 1; i < list.size(); ++i )
+			for ( int i = 1; i < this.list.size(); ++i )
 			{
 				settingString.append( " | " );
-				settingString.append( (String) list.get(i) );
+				settingString.append( (String) this.list.get(i) );
 			}
 
 			StaticEntity.setProperty( "scriptList", settingString.toString() );
@@ -514,102 +495,102 @@ public class OptionsFrame extends KoLFrame
 		{
 			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 
-			useLargeFontSize = new JCheckBox();
-			useTabOption = new JCheckBox();
-			popupWhoOption = new JCheckBox();
+			this.useLargeFontSize = new JCheckBox();
+			this.useTabOption = new JCheckBox();
+			this.popupWhoOption = new JCheckBox();
 
-			useChatMonitor = new JCheckBox();
-			addChatCommandLine = new JCheckBox();
-			useSeparateChannel = new JCheckBox();
-			useSeparatePrivate = new JCheckBox();
-			greenScreenProtection = new JCheckBox();
-			chatLogsEnabled = new JCheckBox();
+			this.useChatMonitor = new JCheckBox();
+			this.addChatCommandLine = new JCheckBox();
+			this.useSeparateChannel = new JCheckBox();
+			this.useSeparatePrivate = new JCheckBox();
+			this.greenScreenProtection = new JCheckBox();
+			this.chatLogsEnabled = new JCheckBox();
 
-			eSoluActiveOption = new JCheckBox();
-			eSoluColorlessOption = new JCheckBox();
+			this.eSoluActiveOption = new JCheckBox();
+			this.eSoluColorlessOption = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[16];
+			VerifiableElement [] elements = new VerifiableElement[17];
 
-			elements[0] = new VerifiableElement( "Use larger font size for HTML displays", JLabel.LEFT, useLargeFontSize );
-			elements[1] = new VerifiableElement( "Use tabbed, rather than multi-window, chat", JLabel.LEFT, useTabOption );
-			elements[2] = new VerifiableElement( "Use a popup window for /friends and /who", JLabel.LEFT, popupWhoOption );
+			elements[0] = new VerifiableElement( "Use larger font size for HTML displays", JLabel.LEFT, this.useLargeFontSize );
+			elements[1] = new VerifiableElement( "Use tabbed, rather than multi-window, chat", JLabel.LEFT, this.useTabOption );
+			elements[2] = new VerifiableElement( "Use a popup window for /friends and /who", JLabel.LEFT, this.popupWhoOption );
 
 			elements[3] = new VerifiableElement();
-			elements[4] = new VerifiableElement( "Ignore all event messages in KoLmafia chat", JLabel.LEFT, greenScreenProtection );
-			elements[5] = new VerifiableElement( "Log chats when using KoLmafia (requires restart)", JLabel.LEFT, chatLogsEnabled );
+			elements[4] = new VerifiableElement( "Ignore all event messages in KoLmafia chat", JLabel.LEFT, this.greenScreenProtection );
+			elements[5] = new VerifiableElement( "Log chats when using KoLmafia (requires restart)", JLabel.LEFT, this.chatLogsEnabled );
 
 			elements[6] = new VerifiableElement();
 
-			elements[7] = new VerifiableElement( "Add an \"as KoL would show it\" display", JLabel.LEFT, useChatMonitor );
-			elements[8] = new VerifiableElement( "Add a simplified graphical CLI to tabbed chat", JLabel.LEFT, addChatCommandLine );
-			elements[9] = new VerifiableElement( "Put different channels into separate displays", JLabel.LEFT, useSeparateChannel );
-			elements[10] = new VerifiableElement( "Put different private messages into separate displays", JLabel.LEFT, useSeparatePrivate );
+			elements[7] = new VerifiableElement( "Add an \"as KoL would show it\" display", JLabel.LEFT, this.useChatMonitor );
+			elements[8] = new VerifiableElement( "Add a simplified graphical CLI to tabbed chat", JLabel.LEFT, this.addChatCommandLine );
+			elements[9] = new VerifiableElement( "Put different channels into separate displays", JLabel.LEFT, this.useSeparateChannel );
+			elements[10] = new VerifiableElement( "Put different private messages into separate displays", JLabel.LEFT, this.useSeparatePrivate );
 
 			elements[11] = new VerifiableElement();
 
-			elements[12] = new VerifiableElement( "Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, eSoluActiveOption );
-			elements[13] = new VerifiableElement( "Switch eSolu scriptlet to colorless mode", JLabel.LEFT, eSoluColorlessOption );
+			elements[12] = new VerifiableElement( "Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, this.eSoluActiveOption );
+			elements[13] = new VerifiableElement( "Switch eSolu scriptlet to colorless mode", JLabel.LEFT, this.eSoluColorlessOption );
 
 			elements[14] = new VerifiableElement();
 
-			outerGradient = new TabColorChanger( "outerChatColor" );
+			this.outerGradient = new TabColorChanger( "outerChatColor" );
 			elements[15] = new VerifiableElement( "Change the outer portion of highlighted tab gradient",
-				JLabel.LEFT, outerGradient );
+				JLabel.LEFT, this.outerGradient );
 
-			innerGradient = new TabColorChanger( "innerChatColor" );
-			elements[15] = new VerifiableElement( "Change the inner portion of highlighted tab gradient",
-				JLabel.LEFT, innerGradient );
+			this.innerGradient = new TabColorChanger( "innerChatColor" );
+			elements[16] = new VerifiableElement( "Change the inner portion of highlighted tab gradient",
+				JLabel.LEFT, this.innerGradient );
 
-			setContent( elements );
-			actionCancelled();
+			this.setContent( elements );
+			this.actionCancelled();
 		}
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "useLargerFonts", String.valueOf( useLargeFontSize.isSelected() ) );
-			StaticEntity.setProperty( "logChatMessages", String.valueOf( chatLogsEnabled.isSelected() ) );
-			StaticEntity.setProperty( "addChatCommandLine", String.valueOf( addChatCommandLine.isSelected() ) );
+			StaticEntity.setProperty( "useLargerFonts", String.valueOf( this.useLargeFontSize.isSelected() ) );
+			StaticEntity.setProperty( "logChatMessages", String.valueOf( this.chatLogsEnabled.isSelected() ) );
+			StaticEntity.setProperty( "addChatCommandLine", String.valueOf( this.addChatCommandLine.isSelected() ) );
 
-			if ( useLargeFontSize.isSelected() )
+			if ( this.useLargeFontSize.isSelected() )
 				LimitedSizeChatBuffer.useLargerFonts();
 			else
 				LimitedSizeChatBuffer.useSmallerFonts();
 
-			StaticEntity.setProperty( "useTabbedChatFrame", String.valueOf( useTabOption.isSelected() ) );
-			StaticEntity.setProperty( "useContactsFrame", String.valueOf( popupWhoOption.isSelected() ) );
+			StaticEntity.setProperty( "useTabbedChatFrame", String.valueOf( this.useTabOption.isSelected() ) );
+			StaticEntity.setProperty( "useContactsFrame", String.valueOf( this.popupWhoOption.isSelected() ) );
 
-			StaticEntity.setProperty( "useChatMonitor", String.valueOf( useChatMonitor.isSelected() ) );
-			StaticEntity.setProperty( "useSeparateChannels", String.valueOf( useSeparateChannel.isSelected() ) );
-			StaticEntity.setProperty( "useSeparatePrivates", String.valueOf( useSeparatePrivate.isSelected() ) );
+			StaticEntity.setProperty( "useChatMonitor", String.valueOf( this.useChatMonitor.isSelected() ) );
+			StaticEntity.setProperty( "useSeparateChannels", String.valueOf( this.useSeparateChannel.isSelected() ) );
+			StaticEntity.setProperty( "useSeparatePrivates", String.valueOf( this.useSeparatePrivate.isSelected() ) );
 
-			StaticEntity.setProperty( "eSoluScriptType", eSoluActiveOption.isSelected() ?
-				(eSoluColorlessOption.isSelected() ? "2" : "1") : "0" );
+			StaticEntity.setProperty( "eSoluScriptType", this.eSoluActiveOption.isSelected() ?
+				(this.eSoluColorlessOption.isSelected() ? "2" : "1") : "0" );
 
-			StaticEntity.setProperty( "greenScreenProtection", String.valueOf( greenScreenProtection.isSelected() ) );
+			StaticEntity.setProperty( "greenScreenProtection", String.valueOf( this.greenScreenProtection.isSelected() ) );
 
 			super.actionConfirmed();
 		}
 
 		public void actionCancelled()
 		{
-			useLargeFontSize.setSelected( StaticEntity.getBooleanProperty( "useLargerFonts" ) );
-			chatLogsEnabled.setSelected( StaticEntity.getBooleanProperty( "logChatMessages" ) );
-			addChatCommandLine.setSelected( StaticEntity.getBooleanProperty( "addChatCommandLine" ) );
+			this.useLargeFontSize.setSelected( StaticEntity.getBooleanProperty( "useLargerFonts" ) );
+			this.chatLogsEnabled.setSelected( StaticEntity.getBooleanProperty( "logChatMessages" ) );
+			this.addChatCommandLine.setSelected( StaticEntity.getBooleanProperty( "addChatCommandLine" ) );
 
-			useTabOption.setSelected( StaticEntity.getBooleanProperty( "useTabbedChatFrame" ) );
-			popupWhoOption.setSelected( StaticEntity.getBooleanProperty( "useContactsFrame" ) );
-			greenScreenProtection.setSelected( StaticEntity.getBooleanProperty( "greenScreenProtection" ) );
+			this.useTabOption.setSelected( StaticEntity.getBooleanProperty( "useTabbedChatFrame" ) );
+			this.popupWhoOption.setSelected( StaticEntity.getBooleanProperty( "useContactsFrame" ) );
+			this.greenScreenProtection.setSelected( StaticEntity.getBooleanProperty( "greenScreenProtection" ) );
 
 			int chatStyle = StaticEntity.getIntegerProperty( "chatStyle" );
-			useChatMonitor.setSelected( StaticEntity.getBooleanProperty( "useChatMonitor" ) );
-			useSeparateChannel.setSelected( StaticEntity.getBooleanProperty( "useSeparateChannels" ) );
-			useSeparatePrivate.setSelected( StaticEntity.getBooleanProperty( "useSeparatePrivates" ) );
+			this.useChatMonitor.setSelected( StaticEntity.getBooleanProperty( "useChatMonitor" ) );
+			this.useSeparateChannel.setSelected( StaticEntity.getBooleanProperty( "useSeparateChannels" ) );
+			this.useSeparatePrivate.setSelected( StaticEntity.getBooleanProperty( "useSeparatePrivates" ) );
 
-			eSoluActiveOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 0 );
-			eSoluColorlessOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 1 );
+			this.eSoluActiveOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 0 );
+			this.eSoluColorlessOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 1 );
 
-			innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedA );
-			outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedB );
+			this.innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedA );
+			this.outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedB );
 		}
 
 		private class TabColorChanger extends LabelColorChanger
@@ -620,10 +601,10 @@ public class OptionsFrame extends KoLFrame
 
 			public void applyChanges()
 			{
-				if ( property.equals( "innerChatColor" ) )
-					CloseTabPaneEnhancedUI.notifiedA = innerGradient.getBackground();
+				if ( this.property.equals( "innerChatColor" ) )
+					CloseTabPaneEnhancedUI.notifiedA = ChatOptionsPanel.this.innerGradient.getBackground();
 				else
-					CloseTabPaneEnhancedUI.notifiedB = outerGradient.getBackground();
+					CloseTabPaneEnhancedUI.notifiedB = ChatOptionsPanel.this.outerGradient.getBackground();
 			}
 		}
 	}
@@ -643,7 +624,7 @@ public class OptionsFrame extends KoLFrame
 			extraButtons.add( new AddBookmarkButton(), BorderLayout.NORTH );
 			extraButtons.add( new RenameBookmarkButton(), BorderLayout.CENTER );
 			extraButtons.add( new DeleteBookmarkButton(), BorderLayout.SOUTH );
-			buttonPanel.add( extraButtons, BorderLayout.SOUTH );
+			this.buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
 		public void saveSettings()
@@ -674,11 +655,11 @@ public class OptionsFrame extends KoLFrame
 
 			public void run()
 			{
-				int index = elementList.getSelectedIndex();
+				int index = BookmarkManagePanel.this.elementList.getSelectedIndex();
 				if ( index == -1 )
 					return;
 
-				String currentItem = (String)elementList.getSelectedValue();
+				String currentItem = (String)BookmarkManagePanel.this.elementList.getSelectedValue();
 				if ( currentItem == null )
 					return;
 
@@ -706,7 +687,7 @@ public class OptionsFrame extends KoLFrame
 
 			public void run()
 			{
-				int index = elementList.getSelectedIndex();
+				int index = BookmarkManagePanel.this.elementList.getSelectedIndex();
 				if ( index == -1 )
 					return;
 

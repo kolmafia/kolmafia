@@ -38,15 +38,11 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 public class MonsterDatabase extends KoLDatabase
 {
-	private static int damageAbsorption = 0;
-	private static float damageMultiplier = 0.0f;
-
 	private static final Map MONSTER_NAMES = new TreeMap();
 	private static final Map MONSTER_DATA = new TreeMap();
 
@@ -344,7 +340,7 @@ public class MonsterDatabase extends KoLDatabase
 			this.attack = attack;
 			this.defense = defense;
 			this.initiative = initiative;
-			this.statGain = ((float) (attack + defense)) / 10.0f ;
+			this.statGain = ((attack + defense)) / 10.0f ;
 			this.attackElement = attackElement;
 			this.defenseElement = defenseElement;
 			this.minMeat = minMeat;
@@ -355,47 +351,47 @@ public class MonsterDatabase extends KoLDatabase
 		}
 
 		public int getHP()
-		{	return health;
+		{	return this.health;
 		}
 
 		public int getAdjustedHP( int ml )
-		{	return health + ml;
+		{	return this.health + ml;
 		}
 
 		public int getAttack()
-		{	return attack;
+		{	return this.attack;
 		}
 
 		public int getDefense()
-		{	return defense;
+		{	return this.defense;
 		}
 
 		public int getInitiative()
-		{	return initiative;
+		{	return this.initiative;
 		}
 
 		public int getAttackElement()
-		{	return attackElement;
+		{	return this.attackElement;
 		}
 
 		public int getDefenseElement()
-		{	return defenseElement;
+		{	return this.defenseElement;
 		}
 
 		public int getMinMeat()
-		{	return minMeat;
+		{	return this.minMeat;
 		}
 
 		public int getMaxMeat()
-		{	return maxMeat;
+		{	return this.maxMeat;
 		}
 
 		public List getItems()
-		{	return items;
+		{	return this.items;
 		}
 
 		public List getPocketRates()
-		{	return pocketRates;
+		{	return this.pocketRates;
 		}
 
 		public boolean shouldSteal()
@@ -406,13 +402,13 @@ public class MonsterDatabase extends KoLDatabase
 			// If the player has an acceptable dodge rate or
 			// then steal anything.
 
-			if ( willUsuallyDodge( 0 ) )
-				return shouldSteal( items );
+			if ( this.willUsuallyDodge( 0 ) )
+				return this.shouldSteal( this.items );
 
 			// Otherwise, only steal from monsters that drop
 			// something on your conditions list.
 
-			return shouldSteal( conditions );
+			return this.shouldSteal( conditions );
 		}
 
 		private boolean shouldSteal( List checklist )
@@ -420,7 +416,7 @@ public class MonsterDatabase extends KoLDatabase
 			float dropModifier = AreaCombatData.getDropRateModifier();
 
 			for ( int i = 0; i < checklist.size(); ++i )
-				if ( shouldStealItem( (AdventureResult) checklist.get(i), dropModifier ) )
+				if ( this.shouldStealItem( (AdventureResult) checklist.get(i), dropModifier ) )
 					return true;
 
 			return false;
@@ -431,15 +427,15 @@ public class MonsterDatabase extends KoLDatabase
 			if ( !item.isItem() )
 				return false;
 
-			int itemIndex = items.indexOf( item );
+			int itemIndex = this.items.indexOf( item );
 
 			// If the monster drops this item, then return true
 			// when the drop rate is less than 100%.
 
 			if ( itemIndex != -1 )
 			{
-				item = (AdventureResult) items.get( itemIndex );
-				return ((float)item.getCount()) * dropModifier < 100.0f;
+				item = (AdventureResult) this.items.get( itemIndex );
+				return (item.getCount()) * dropModifier < 100.0f;
 			}
 
 			// If the item does not drop, check to see if maybe
@@ -450,7 +446,7 @@ public class MonsterDatabase extends KoLDatabase
 				return false;
 
 			for ( int i = 0; i < subitems.length; ++i )
-				if ( shouldStealItem( subitems[i], dropModifier ) )
+				if ( this.shouldStealItem( subitems[i], dropModifier ) )
 					return true;
 
 			// The item doesn't drop the item or any of its
@@ -460,7 +456,7 @@ public class MonsterDatabase extends KoLDatabase
 		}
 
 		public void addItem( AdventureResult item )
-		{	items.add( item );
+		{	this.items.add( item );
 		}
 
 		public void doneWithItems()
@@ -470,17 +466,17 @@ public class MonsterDatabase extends KoLDatabase
 			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3396
 
 			float probability = 0.0f;
-			float [] coefficients = new float[ items.size() ];
+			float [] coefficients = new float[ this.items.size() ];
 
-			for ( int i = 0; i < items.size(); ++i )
+			for ( int i = 0; i < this.items.size(); ++i )
 			{
 				coefficients[0] = 1.0f;
 				for ( int j = 1; j < coefficients.length; ++j )
 					coefficients[j] = 0.0f;
 
-				for ( int j = 0; j < items.size(); ++j )
+				for ( int j = 0; j < this.items.size(); ++j )
 				{
-					probability = ((AdventureResult)items.get(j)).getCount() / 100.0f;
+					probability = ((AdventureResult)this.items.get(j)).getCount() / 100.0f;
 
 					if ( i == j )
 					{
@@ -497,14 +493,14 @@ public class MonsterDatabase extends KoLDatabase
 				probability = 0.0f;
 
 				for ( int j = 0; j < coefficients.length; ++j )
-					probability += coefficients[j] / ((float) (j+1));
+					probability += coefficients[j] / ((j+1));
 
-				pocketRates.add( new Float( probability ) );
+				this.pocketRates.add( new Float( probability ) );
 			}
 		}
 
 		public float getXP()
-		{	return Math.max( 1.0f, statGain );
+		{	return Math.max( 1.0f, this.statGain );
 		}
 
 		public float getAdjustedXP( float modifier, int ml, FamiliarData familiar )
@@ -512,14 +508,14 @@ public class MonsterDatabase extends KoLDatabase
 			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=218
 			// +1 ML adds +1 health, +1 Attack, +1 Defense
 
-			float adjustedML = (float) (attack + ml);
+			float adjustedML = (this.attack + ml);
 
 			// Base stat gain = attack / 5 (not average of attack and defense)
 			// Add constant stat gain from items, effects, and familiars
 			// Add variable stat gain from familiars
 
-			statGain = adjustedML / 5.0f + modifier + sombreroXPAdjustment( adjustedML, familiar );
-			return Math.max( 1.0f, statGain );
+			this.statGain = adjustedML / 5.0f + modifier + sombreroXPAdjustment( adjustedML, familiar );
+			return Math.max( 1.0f, this.statGain );
 		}
 
 		private static final int SOMBRERO = 18;
@@ -531,37 +527,18 @@ public class MonsterDatabase extends KoLDatabase
 				return 0.0f;
 
 			// ( sqrt(ML) * weight * 3 ) / 100
-			return ((float) Math.sqrt( ml )) * (float)familiar.getModifiedWeight() * sombreroFactor;
+			return ((float) Math.sqrt( ml )) * familiar.getModifiedWeight() * sombreroFactor;
 		}
 
 		public boolean willUsuallyMiss()
-		{	return willUsuallyMiss( 0 );
+		{	return this.willUsuallyMiss( 0 );
 		}
 
 		public boolean willUsuallyDodge( int offenseModifier )
 		{
 			int ml = KoLCharacter.getMonsterLevelAdjustment() + offenseModifier;
-			int dodgeRate = KoLCharacter.getAdjustedMoxie() - (attack + ml) - 6;
+			int dodgeRate = KoLCharacter.getAdjustedMoxie() - (this.attack + ml) - 6;
 			return dodgeRate > 0;
-		}
-
-		private int expectedDamage()
-		{
-			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=2945
-
-			// Base damage goes first, followed by damage absorption, then
-			// damage reduction.  The maximum value for monster base damage:
-			// 0.25 * Monster Attack + Max(0, Monster Attack - Player Moxie)
-
-			if ( damageAbsorption != KoLCharacter.getDamageAbsorption() )
-			{
-				damageAbsorption = KoLCharacter.getDamageAbsorption();
-				damageMultiplier = 1.0f - (float) (( Math.sqrt( damageAbsorption / 10.0 ) - 1.0 ) / 10.0);
-			}
-
-			int adjustedAttack = getAttack() + KoLCharacter.getMonsterLevelAdjustment();
-			int baseDamage = adjustedAttack / 4 + Math.max( 0, adjustedAttack - KoLCharacter.getAdjustedMoxie() );
-			return (int) (baseDamage * damageMultiplier) - KoLCharacter.getDamageReduction();
 		}
 
 		public boolean willUsuallyMiss( int defenseModifier )
@@ -576,7 +553,7 @@ public class MonsterDatabase extends KoLDatabase
 			else
 				hitstat = KoLCharacter.getAdjustedMuscle() - ml;
 
-			return AreaCombatData.hitPercent( hitstat, defense ) <= 50.0f;
+			return AreaCombatData.hitPercent( hitstat, this.defense ) <= 50.0f;
 		}
 	}
 }

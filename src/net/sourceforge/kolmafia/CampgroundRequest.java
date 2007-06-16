@@ -55,7 +55,7 @@ public class CampgroundRequest extends KoLRequest
 	public CampgroundRequest( String action )
 	{
 		super( "campground.php" );
-		addFormField( "action", action );
+		this.addFormField( "action", action );
 		this.action = action;
 	}
 
@@ -65,7 +65,7 @@ public class CampgroundRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( action.equals( "relax" ) && KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
+		if ( this.action.equals( "relax" ) && KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
 			return;
 
 		super.run();
@@ -73,7 +73,7 @@ public class CampgroundRequest extends KoLRequest
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
 
-		if ( responseCode != 200 )
+		if ( this.responseCode != 200 )
 			return;
 
 		// For now, just set whether or not you have a
@@ -83,29 +83,29 @@ public class CampgroundRequest extends KoLRequest
 
 	public void processResults()
 	{
-		KoLCharacter.setChef( responseText.indexOf( "cook.php" ) != -1 );
-		KoLCharacter.setBartender( responseText.indexOf( "cocktail.php" ) != -1 );
-		KoLCharacter.setToaster( responseText.indexOf( "action=toast" ) != -1 );
-		KoLCharacter.setArches( responseText.indexOf( "action=arches" ) != -1 );
+		KoLCharacter.setChef( this.responseText.indexOf( "cook.php" ) != -1 );
+		KoLCharacter.setBartender( this.responseText.indexOf( "cocktail.php" ) != -1 );
+		KoLCharacter.setToaster( this.responseText.indexOf( "action=toast" ) != -1 );
+		KoLCharacter.setArches( this.responseText.indexOf( "action=arches" ) != -1 );
 
 		// Update adventure tally for resting and relaxing
 		// at the campground.
 
-		if ( action.equals( "rest" ) )
+		if ( this.action.equals( "rest" ) )
 		{
-			if ( responseText.indexOf( "You sleep" ) == -1 )
+			if ( this.responseText.indexOf( "You sleep" ) == -1 )
 				KoLmafia.updateDisplay( ERROR_STATE, "Could not rest." );
 		}
-		else if ( action.equals( "relax" ) )
+		else if ( this.action.equals( "relax" ) )
 		{
-			if ( responseText.indexOf( "You relax" ) == -1 )
+			if ( this.responseText.indexOf( "You relax" ) == -1 )
 				KoLmafia.updateDisplay( ERROR_STATE, "Could not relax." );
 		}
 
 		// Make sure that the character received something if
 		// they were looking for toast
 
-		if ( action.equals( "toast" ) && responseText.indexOf( "acquire" ) == -1 )
+		if ( this.action.equals( "toast" ) && this.responseText.indexOf( "acquire" ) == -1 )
 			KoLmafia.updateDisplay( PENDING_STATE, "No more toast left." );
 	}
 
@@ -120,7 +120,7 @@ public class CampgroundRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return responseCode != 200 || (!action.equals( "rest" ) && !action.equals( "relax" )) ? 0 : 1;
+	{	return this.responseCode != 200 || (!this.action.equals( "rest" ) && !this.action.equals( "relax" )) ? 0 : 1;
 	}
 }
 

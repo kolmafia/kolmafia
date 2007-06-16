@@ -40,19 +40,13 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -72,10 +66,6 @@ import javax.swing.text.html.FormView;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
-import javax.swing.text.html.HTML.Attribute;
-import javax.swing.text.html.HTML.Tag;
-import javax.swing.text.html.HTMLEditorKit.HTMLFactory;
-
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
@@ -574,7 +564,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	    public URL getImageURL()
 		{
-			String src = (String) getElement().getAttributes().getAttribute( HTML.Attribute.SRC );
+			String src = (String) this.getElement().getAttributes().getAttribute( HTML.Attribute.SRC );
 
 			if ( src == null )
 				return null;
@@ -2429,7 +2419,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			// Get the element
 
-			Element inputElement = getElement();
+			Element inputElement = this.getElement();
 
 			if ( inputElement == null )
 				return;
@@ -2447,7 +2437,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// Retrieve the frame which is being used by this form
 			// viewer.
 
-			RequestFrame frame = findFrame( value );
+			RequestFrame frame = this.findFrame( value );
 
 			// If there is no frame, then there's nothing to
 			// refresh, so return.

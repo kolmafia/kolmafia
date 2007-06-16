@@ -74,10 +74,10 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public boolean hasAllPieces()
 	{
-		for ( int i = 0; i < pieces.size(); ++i )
+		for ( int i = 0; i < this.pieces.size(); ++i )
 		{
-			boolean itemAvailable = KoLCharacter.hasItem( (AdventureResult) pieces.get(i) ) &&
-				EquipmentDatabase.canEquip( ((AdventureResult) pieces.get(i)).getName() );
+			boolean itemAvailable = KoLCharacter.hasItem( (AdventureResult) this.pieces.get(i) ) &&
+				EquipmentDatabase.canEquip( ((AdventureResult) this.pieces.get(i)).getName() );
 
 			if ( !itemAvailable )
 				return false;
@@ -88,8 +88,8 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public boolean isWearing()
 	{
-		for ( int i = 0; i < pieces.size(); ++i )
-			if ( !KoLCharacter.hasEquipped( (AdventureResult) pieces.get(i) ) )
+		for ( int i = 0; i < this.pieces.size(); ++i )
+			if ( !KoLCharacter.hasEquipped( (AdventureResult) this.pieces.get(i) ) )
 				return false;
 
 		return true;
@@ -97,8 +97,8 @@ public class SpecialOutfit implements Comparable, KoLConstants
 
 	public AdventureResult [] getPieces()
 	{
-		AdventureResult [] piecesArray = new AdventureResult[ pieces.size() ];
-		pieces.toArray( piecesArray );
+		AdventureResult [] piecesArray = new AdventureResult[ this.pieces.size() ];
+		this.pieces.toArray( piecesArray );
 		return piecesArray;
 	}
 
@@ -107,11 +107,11 @@ public class SpecialOutfit implements Comparable, KoLConstants
 	}
 
 	public String toString()
-	{	return outfitName;
+	{	return this.outfitName;
 	}
 
 	public int getOutfitId()
-	{	return outfitId;
+	{	return this.outfitId;
 	}
 
 	public boolean equals( Object o )
@@ -119,10 +119,10 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		if ( o == null || !(o instanceof SpecialOutfit) )
 			return false;
 
-		if ( outfitId != ((SpecialOutfit)o).outfitId )
+		if ( this.outfitId != ((SpecialOutfit)o).outfitId )
 			return false;
 
-		return outfitName.equalsIgnoreCase( ((SpecialOutfit)o).outfitName );
+		return this.outfitName.equalsIgnoreCase( ((SpecialOutfit)o).outfitName );
 	}
 
 	public int compareTo( Object o )
@@ -130,7 +130,7 @@ public class SpecialOutfit implements Comparable, KoLConstants
 		if ( o == null || !(o instanceof SpecialOutfit) )
 			return -1;
 
-		return outfitName.compareToIgnoreCase( ((SpecialOutfit)o).outfitName );
+		return this.outfitName.compareToIgnoreCase( ((SpecialOutfit)o).outfitName );
 	}
 
 	/**

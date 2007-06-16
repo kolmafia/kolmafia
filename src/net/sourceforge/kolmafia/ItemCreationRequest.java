@@ -34,8 +34,6 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -104,7 +102,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	private ItemCreationRequest( String formSource, int itemId, int mixingMethod )
 	{
 		super( formSource );
-		addFormField( "pwd" );
+		this.addFormField( "pwd" );
 
 		this.itemId = itemId;
 		this.name = TradeableItemDatabase.getItemName( itemId );
@@ -116,7 +114,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	{
 		String formSource = "";
 
-		switch ( mixingMethod )
+		switch ( this.mixingMethod )
 		{
 		case COMBINE:
 			formSource = KoLCharacter.inMuscleSign() ? "knoll.php" : "combine.php";
@@ -165,29 +163,29 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			break;
 		}
 
-		constructURLString( formSource );
-		addFormField( "pwd" );
+		this.constructURLString( formSource );
+		this.addFormField( "pwd" );
 
-		if ( KoLCharacter.inMuscleSign() && mixingMethod == SMITH )
-			addFormField( "action", "smith" );
+		if ( KoLCharacter.inMuscleSign() && this.mixingMethod == SMITH )
+			this.addFormField( "action", "smith" );
 
-		else if ( mixingMethod == CLOVER || mixingMethod == CATALYST )
-			addFormField( "action", "useitem" );
+		else if ( this.mixingMethod == CLOVER || this.mixingMethod == CATALYST )
+			this.addFormField( "action", "useitem" );
 
-		else if ( mixingMethod == STILL_BOOZE )
-			addFormField( "action", "stillbooze" );
+		else if ( this.mixingMethod == STILL_BOOZE )
+			this.addFormField( "action", "stillbooze" );
 
-		else if ( mixingMethod == STILL_MIXER )
-			addFormField( "action", "stillfruit" );
+		else if ( this.mixingMethod == STILL_MIXER )
+			this.addFormField( "action", "stillfruit" );
 
-		else if ( mixingMethod == WOK )
-			addFormField( "action", "wokcook" );
+		else if ( this.mixingMethod == WOK )
+			this.addFormField( "action", "wokcook" );
 
-		else if ( mixingMethod == MALUS )
-			addFormField( "action", "malussmash" );
+		else if ( this.mixingMethod == MALUS )
+			this.addFormField( "action", "malussmash" );
 
-		else if ( mixingMethod != SUBCLASS )
-			addFormField( "action", "combine" );
+		else if ( this.mixingMethod != SUBCLASS )
+			this.addFormField( "action", "combine" );
 	}
 
 	public static ItemCreationRequest getInstance( AdventureResult item )
@@ -296,7 +294,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	}
 
 	public boolean equals( Object o )
-	{	return o != null && o instanceof ItemCreationRequest && itemId == ((ItemCreationRequest)o).itemId;
+	{	return o != null && o instanceof ItemCreationRequest && this.itemId == ((ItemCreationRequest)o).itemId;
 	}
 
 	public int compareTo( Object o )
@@ -310,17 +308,17 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		if ( !KoLmafia.permitsContinue() || quantityNeeded <= 0 )
+		if ( !KoLmafia.permitsContinue() || this.quantityNeeded <= 0 )
 			return;
 
 		do
 		{
-			shouldRerun = false;
-			reconstructFields();
+			this.shouldRerun = false;
+			this.reconstructFields();
 
-			beforeQuantity = createdItem.getCount( inventory );
+			this.beforeQuantity = this.createdItem.getCount( inventory );
 
-			switch ( mixingMethod )
+			switch ( this.mixingMethod )
 			{
 			case SUBCLASS:
 
@@ -329,16 +327,16 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			case ROLLING_PIN:
 
-				makeDough();
+				this.makeDough();
 				break;
 
 			default:
 
-				combineItems();
+				this.combineItems();
 				break;
 			}
 		}
-		while ( shouldRerun && KoLmafia.permitsContinue() );
+		while ( this.shouldRerun && KoLmafia.permitsContinue() );
 	}
 
 	public void makeDough()
@@ -353,7 +351,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		for ( int i = 0; i < DOUGH_DATA.length; ++i )
 		{
 			output = DOUGH_DATA[i][2];
-			if ( itemId == output.getItemId() )
+			if ( this.itemId == output.getItemId() )
 			{
 				tool = DOUGH_DATA[i][1];
 				input = DOUGH_DATA[i][0];
@@ -367,7 +365,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return;
 		}
 
-		if ( !AdventureDatabase.retrieveItem( input.getInstance( quantityNeeded ) ) )
+		if ( !AdventureDatabase.retrieveItem( input.getInstance( this.quantityNeeded ) ) )
 			return;
 
 		// If we don't have the correct tool, and the
@@ -375,7 +373,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// then notify the person that they should
 		// purchase a tool before continuing.
 
-		if ( (quantityNeeded >= 10 || KoLCharacter.hasItem( tool )) && !AdventureDatabase.retrieveItem( tool ) )
+		if ( (this.quantityNeeded >= 10 || KoLCharacter.hasItem( tool )) && !AdventureDatabase.retrieveItem( tool ) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Please purchase a " + tool.getName() + " first." );
 			return;
@@ -397,9 +395,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		String name = output.getName();
 		ConsumeItemRequest request = new ConsumeItemRequest( input );
 
-		for ( int i = 1; KoLmafia.permitsContinue() && i <= quantityNeeded; ++i )
+		for ( int i = 1; KoLmafia.permitsContinue() && i <= this.quantityNeeded; ++i )
 		{
-			KoLmafia.updateDisplay( "Creating " + name + " (" + i + " of " + quantityNeeded + ")..." );
+			KoLmafia.updateDisplay( "Creating " + name + " (" + i + " of " + this.quantityNeeded + ")..." );
 			request.run();
 		}
 	}
@@ -413,17 +411,17 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// First, make all the required ingredients for
 		// this concoction.
 
-		if ( !makeIngredients() )
+		if ( !this.makeIngredients() )
 			return;
 
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( this.itemId );
 
-		if ( ingredients.length == 1 || mixingMethod == CATALYST || mixingMethod == WOK )
+		if ( ingredients.length == 1 || this.mixingMethod == CATALYST || this.mixingMethod == WOK )
 		{
 			// If there is only one ingredient, then it probably
 			// only needs a "whichitem" field added to the request.
 
-			addFormField( "whichitem", String.valueOf( ingredients[0].getItemId() ) );
+			this.addFormField( "whichitem", String.valueOf( ingredients[0].getItemId() ) );
 		}
 		else
 		{
@@ -432,15 +430,15 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// no box servant is needed, but for easy readability,
 			// the test always occurs.
 
-			if ( !autoRepairBoxServant() )
+			if ( !this.autoRepairBoxServant() )
 				return;
 
 			for ( int i = 0; i < ingredients.length; ++i )
-				addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemId() ) );
+				this.addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemId() ) );
 		}
 
-		addFormField( "quantity", String.valueOf( quantityNeeded ) );
-		KoLmafia.updateDisplay( "Creating " + name + " (" + quantityNeeded + ")..." );
+		this.addFormField( "quantity", String.valueOf( this.quantityNeeded ) );
+		KoLmafia.updateDisplay( "Creating " + this.name + " (" + this.quantityNeeded + ")..." );
 		super.run();
 	}
 
@@ -448,8 +446,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	{
 		// Figure out how many items were created
 
-		AdventureResult createdItem = new AdventureResult( itemId, 0 );
-		int createdQuantity = createdItem.getCount( inventory ) - beforeQuantity;
+		AdventureResult createdItem = new AdventureResult( this.itemId, 0 );
+		int createdQuantity = createdItem.getCount( inventory ) - this.beforeQuantity;
 
 		// Check to make sure that the item creation did not fail.
 
@@ -462,39 +460,39 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// quantity that has changed might not be accurate.
 			// Therefore, update with the actual value.
 
-			AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+			AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( this.itemId );
 
 			for ( int i = 0; i < ingredients.length; ++i )
 				StaticEntity.getClient().processResult( new AdventureResult( ingredients[i].getItemId(), -1 * createdQuantity * ingredients[i].getCount() ) );
 
-			if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
+			if ( this.mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
 				StaticEntity.getClient().processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
 		}
 
 		// Check to see if box-servant was overworked and exploded.
 
-		KoLmafia.updateDisplay( "Successfully created " + createdQuantity + " " + getName() );
+		KoLmafia.updateDisplay( "Successfully created " + createdQuantity + " " + this.getName() );
 
-		if ( responseText.indexOf( "Smoke" ) != -1 )
+		if ( this.responseText.indexOf( "Smoke" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "Your box servant has escaped!" );
-			quantityNeeded = quantityNeeded - createdQuantity;
+			this.quantityNeeded = this.quantityNeeded - createdQuantity;
 
-			switch ( mixingMethod )
+			switch ( this.mixingMethod )
 			{
 			case COOK:
 			case COOK_REAGENT:
 			case SUPER_REAGENT:
 			case COOK_PASTA:
 				KoLCharacter.setChef( false );
-				shouldRerun = quantityNeeded > 0;
+				this.shouldRerun = this.quantityNeeded > 0;
 				break;
 
 			case MIX:
 			case MIX_SPECIAL:
 			case MIX_SUPER:
 				KoLCharacter.setBartender( false );
-				shouldRerun = quantityNeeded > 0;
+				this.shouldRerun = this.quantityNeeded > 0;
 				break;
 			}
 		}
@@ -508,7 +506,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If we are not cooking or mixing, or if we already have the
 		// appropriate servant installed, we don't need to repair
 
-		switch ( mixingMethod )
+		switch ( this.mixingMethod )
 		{
 		case COOK:
 		case COOK_REAGENT:
@@ -546,19 +544,19 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If they do want to auto-repair, make sure that
 		// the appropriate item is available in their inventory
 
-		switch ( mixingMethod )
+		switch ( this.mixingMethod )
 		{
 		case COOK:
 		case COOK_REAGENT:
 		case SUPER_REAGENT:
 		case COOK_PASTA:
-			autoRepairSuccessful = useBoxServant( CHEF, CLOCKWORK_CHEF, OVEN, CHEF_SKULL, CHEF_SKULL_BOX );
+			autoRepairSuccessful = this.useBoxServant( CHEF, CLOCKWORK_CHEF, OVEN, CHEF_SKULL, CHEF_SKULL_BOX );
 			break;
 
 		case MIX:
 		case MIX_SPECIAL:
 		case MIX_SUPER:
-			autoRepairSuccessful = useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, KIT, BARTENDER_SKULL, BARTENDER_SKULL_BOX );
+			autoRepairSuccessful = this.useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, KIT, BARTENDER_SKULL, BARTENDER_SKULL_BOX );
 			break;
 		}
 
@@ -623,21 +621,21 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public boolean makeIngredients()
 	{
-		KoLmafia.updateDisplay( "Verifying ingredients for " + name + "..." );
+		KoLmafia.updateDisplay( "Verifying ingredients for " + this.name + "..." );
 
 		boolean foundAllIngredients = true;
 
 		// If this is a combining request, you will need to make
 		// paste as well.  Make an even multiple, if none is left.
 
-		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
+		if ( this.mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
 		{
-			int pasteNeeded = ConcoctionsDatabase.getMeatPasteRequired( itemId, quantityNeeded );
+			int pasteNeeded = ConcoctionsDatabase.getMeatPasteRequired( this.itemId, this.quantityNeeded );
 			AdventureResult paste = new AdventureResult( MEAT_PASTE, pasteNeeded );
 			foundAllIngredients &= AdventureDatabase.retrieveItem( paste );
 		}
 
- 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemId );
+ 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( this.itemId );
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
@@ -653,7 +651,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// Then, make enough of the ingredient in order
 			// to proceed with the concoction.
 
-			foundAllIngredients &= AdventureDatabase.retrieveItem( ingredients[i].getInstance( quantityNeeded * multiplier ) );
+			foundAllIngredients &= AdventureDatabase.retrieveItem( ingredients[i].getInstance( this.quantityNeeded * multiplier ) );
 		}
 
 		return foundAllIngredients;
@@ -665,7 +663,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 */
 
 	public int getItemId()
-	{	return itemId;
+	{	return this.itemId;
 	}
 
 	/**
@@ -674,7 +672,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 */
 
 	public String getName()
-	{	return TradeableItemDatabase.getItemName( itemId );
+	{	return TradeableItemDatabase.getItemName( this.itemId );
 	}
 
 	/**
@@ -683,7 +681,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 */
 
 	public int getQuantityNeeded()
-	{	return quantityNeeded;
+	{	return this.quantityNeeded;
 	}
 
 	/**
@@ -702,7 +700,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 */
 
 	public int getQuantityPossible()
-	{	return quantityPossible;
+	{	return this.quantityPossible;
 	}
 
 	/**
@@ -724,7 +722,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 */
 
 	public String toString()
-	{	return getName() + " (" + getQuantityPossible() + ")";
+	{	return this.getName() + " (" + this.getQuantityPossible() + ")";
 	}
 
 	/**
@@ -737,31 +735,31 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public int getAdventuresUsed()
 	{
-		switch ( mixingMethod )
+		switch ( this.mixingMethod )
 		{
 		case SMITH:
-			return KoLCharacter.inMuscleSign() ? 0 : quantityNeeded;
+			return KoLCharacter.inMuscleSign() ? 0 : this.quantityNeeded;
 
 		case SMITH_ARMOR:
 		case SMITH_WEAPON:
-			return quantityNeeded;
+			return this.quantityNeeded;
 
 		case JEWELRY:
-			return 3 * quantityNeeded;
+			return 3 * this.quantityNeeded;
 
 		case COOK:
 		case COOK_REAGENT:
 		case SUPER_REAGENT:
 		case COOK_PASTA:
-			return KoLCharacter.hasChef() ? 0 : quantityNeeded;
+			return KoLCharacter.hasChef() ? 0 : this.quantityNeeded;
 
 		case MIX:
 		case MIX_SPECIAL:
 		case MIX_SUPER:
-			return KoLCharacter.hasBartender() ? 0 : quantityNeeded;
+			return KoLCharacter.hasBartender() ? 0 : this.quantityNeeded;
 
 		case WOK:
-			return quantityNeeded;
+			return this.quantityNeeded;
 		}
 
 		return 0;
@@ -908,22 +906,22 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			if ( index < 0 )
 				return null;
 
-			for ( int i = internalList.size(); i <= index; ++i )
-				internalList.add( constructInstance( i ) );
+			for ( int i = this.internalList.size(); i <= index; ++i )
+				this.internalList.add( constructInstance( i ) );
 
-			return (ItemCreationRequest) internalList.get( index );
+			return (ItemCreationRequest) this.internalList.get( index );
 		}
 
 		public void set( int index, ItemCreationRequest value )
 		{
-			for ( int i = internalList.size(); i <= index; ++i )
-				internalList.add( constructInstance( i ) );
+			for ( int i = this.internalList.size(); i <= index; ++i )
+				this.internalList.add( constructInstance( i ) );
 
-			internalList.set( index, value );
+			this.internalList.set( index, value );
 		}
 
 		public int size()
-		{	return internalList.size();
+		{	return this.internalList.size();
 		}
 	}
 }

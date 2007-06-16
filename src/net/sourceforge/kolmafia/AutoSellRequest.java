@@ -71,7 +71,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 		if ( sellType == AUTOMALL )
 		{
-			addFormField( "action", "additem" );
+			this.addFormField( "action", "additem" );
 
 			for ( int i = 0; i < prices.length; ++i )
 				this.prices[i] = prices[i];
@@ -110,43 +110,43 @@ public class AutoSellRequest extends SendMessageRequest
 
 	public void attachItem( AdventureResult item, int index )
 	{
-		if ( sellType == AUTOMALL )
+		if ( this.sellType == AUTOMALL )
 		{
-			addFormField( "item" + index, String.valueOf( item.getItemId() ) );
-			addFormField( getQuantityField() + index, String.valueOf( item.getCount() ) );
+			this.addFormField( "item" + index, String.valueOf( item.getItemId() ) );
+			this.addFormField( this.getQuantityField() + index, String.valueOf( item.getCount() ) );
 
-			addFormField( "price" + index, index - 1 >= prices.length || prices[ index - 1 ] == 0 ? "" : String.valueOf( prices[ index - 1 ] ) );
-			addFormField( "limit" + index, index - 1 >= limits.length || limits[ index - 1 ] == 0 ? "" : String.valueOf( limits[ index - 1 ] ) );
+			this.addFormField( "price" + index, index - 1 >= this.prices.length || this.prices[ index - 1 ] == 0 ? "" : String.valueOf( this.prices[ index - 1 ] ) );
+			this.addFormField( "limit" + index, index - 1 >= this.limits.length || this.limits[ index - 1 ] == 0 ? "" : String.valueOf( this.limits[ index - 1 ] ) );
 
 			return;
 		}
 
 		// Autosell: "compact" or "detailed" mode
 
-		addFormField( "action", "sell" );
+		this.addFormField( "action", "sell" );
 
 		if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
 		{
-			if ( getCapacity() == 1 )
+			if ( this.getCapacity() == 1 )
 			{
 				// If we are doing the requests one at a time,
 				// specify the item quantity
 
-				addFormField( "quantity", String.valueOf( item.getCount() ) );
+				this.addFormField( "quantity", String.valueOf( item.getCount() ) );
 			}
 
 			String itemId = String.valueOf( item.getItemId() );
-			addFormField( "item" + itemId, itemId );
+			this.addFormField( "item" + itemId, itemId );
 		}
 		else
 		{
-			if ( getCapacity() == 1 )
+			if ( this.getCapacity() == 1 )
 			{
 				// If we are doing the requests one at a time,
 				// specify the item quantity
 
-				addFormField( "type", "quant" );
-				addFormField( "howmany", String.valueOf( item.getCount() ) );
+				this.addFormField( "type", "quant" );
+				this.addFormField( "howmany", String.valueOf( item.getCount() ) );
 			}
 			else
 			{
@@ -154,14 +154,14 @@ public class AutoSellRequest extends SendMessageRequest
 				// 2/1/2006, must specify a quantity field even
 				// for this - but the value is ignored
 
-				addFormField( "type", "all" );
-				addFormField( "howmany", "1" );
+				this.addFormField( "type", "all" );
+				this.addFormField( "howmany", "1" );
 			}
 
 			// This is a multiple selection input field.
 			// Therefore, you can give it multiple items.
 
-			addFormField( "whichitem[]", String.valueOf( item.getItemId() ), true );
+			this.addFormField( "whichitem[]", String.valueOf( item.getItemId() ), true );
 		}
 	}
 
@@ -170,7 +170,7 @@ public class AutoSellRequest extends SendMessageRequest
 		// If you are attempting to send things to the mall,
 		// the capacity is one.
 
-		if ( sellType == AUTOMALL )
+		if ( this.sellType == AUTOMALL )
 			return 11;
 
 		// Otherwise, if you are autoselling multiple items,
@@ -181,12 +181,12 @@ public class AutoSellRequest extends SendMessageRequest
 		AdventureResult currentAttachment;
 		int inventoryCount, attachmentCount;
 
-		int lastAttachmentCount = attachments.length == 0 ? 0 :
-			((AdventureResult)attachments[0]).getCount();
+		int lastAttachmentCount = this.attachments.length == 0 ? 0 :
+			((AdventureResult)this.attachments[0]).getCount();
 
-		for ( int i = 0; i < attachments.length; ++i )
+		for ( int i = 0; i < this.attachments.length; ++i )
 		{
-			currentAttachment = (AdventureResult) attachments[i];
+			currentAttachment = (AdventureResult) this.attachments[i];
 
 			inventoryCount = currentAttachment.getCount( inventory );
 			if ( inventoryCount == 0 )
@@ -224,7 +224,7 @@ public class AutoSellRequest extends SendMessageRequest
 				}
 
 				// Switch to "quantity" mode
-				addFormField( "mode", "3" );
+				this.addFormField( "mode", "3" );
 				return 1;
 			}
 
@@ -234,7 +234,7 @@ public class AutoSellRequest extends SendMessageRequest
 			if ( attachmentCount != inventoryCount - 1 )
 			{
 				// Nope. Switch to "quantity" mode
-				addFormField( "mode", "3" );
+				this.addFormField( "mode", "3" );
 				return 1;
 			}
 
@@ -245,7 +245,7 @@ public class AutoSellRequest extends SendMessageRequest
 		if ( mode > 0 )
 		{
 			// Add detailed "mode" field
-			addFormField( "mode", String.valueOf( mode ) );
+			this.addFormField( "mode", String.valueOf( mode ) );
 		}
 
 		return Integer.MAX_VALUE;
@@ -266,26 +266,26 @@ public class AutoSellRequest extends SendMessageRequest
 				}
 		}
 
-		return new AutoSellRequest( attachments, prices, limits, sellType );
+		return new AutoSellRequest( attachments, prices, limits, this.sellType );
 	}
 
 	public void processResults()
 	{
 		super.processResults();
 
-		if ( sellType == AUTOMALL )
+		if ( this.sellType == AUTOMALL )
 		{
 			// We placed stuff in the mall.
-			StoreManager.update( responseText, false );
+			StoreManager.update( this.responseText, false );
 
-			if ( responseText.indexOf( "You don't have a store." ) != -1 )
+			if ( this.responseText.indexOf( "You don't have a store." ) != -1 )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "You don't have a store." );
 				return;
 			}
 		}
 		else if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
-			StaticEntity.externalUpdate( "sellstuff_ugly.php", responseText );
+			StaticEntity.externalUpdate( "sellstuff_ugly.php", this.responseText );
 
 		// Move out of inventory. Process meat gains, if old autosell
 		// interface.
@@ -353,14 +353,14 @@ public class AutoSellRequest extends SendMessageRequest
 	}
 
 	public boolean allowUntradeableTransfer()
-	{	return sellType == AUTOSELL;
+	{	return this.sellType == AUTOSELL;
 	}
 
 	public boolean allowUngiftableTransfer()
-	{	return sellType == AUTOSELL;
+	{	return this.sellType == AUTOSELL;
 	}
 
 	public String getStatusMessage()
-	{	return sellType == AUTOMALL ? "Transferring items to store" : "Autoselling items to NPCs";
+	{	return this.sellType == AUTOMALL ? "Transferring items to store" : "Autoselling items to NPCs";
 	}
 }

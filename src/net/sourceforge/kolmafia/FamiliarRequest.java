@@ -53,19 +53,19 @@ public class FamiliarRequest extends KoLRequest
 
 		if ( changeTo == FamiliarData.NO_FAMILIAR )
 		{
-			addFormField( "action", "putback" );
+			this.addFormField( "action", "putback" );
 		}
 		else
 		{
-			addFormField( "action", "newfam" );
-			addFormField( "newfam", String.valueOf( changeTo.getId() ) );
+			this.addFormField( "action", "newfam" );
+			this.addFormField( "newfam", String.valueOf( changeTo.getId() ) );
 		}
 
 		this.changeTo = changeTo;
 	}
 
 	public String getFamiliarChange()
-	{	return changeTo == null ? null : changeTo.toString();
+	{	return this.changeTo == null ? null : this.changeTo.toString();
 	}
 
 	public void run()
@@ -73,20 +73,20 @@ public class FamiliarRequest extends KoLRequest
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		AdventureResult item = familiar != null ? familiar.getItem() : EquipmentRequest.UNEQUIP;
 
-		if ( changeTo == null )
+		if ( this.changeTo == null )
 		{
 			KoLmafia.updateDisplay( "Retrieving familiar data..." );
 		}
 		else
 		{
-			if ( familiar.getId() == changeTo.getId() )
+			if ( familiar.getId() == this.changeTo.getId() )
 				return;
 
 			if ( familiar != FamiliarData.NO_FAMILIAR )
 				KoLmafia.updateDisplay( "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
 
-			if ( changeTo != FamiliarData.NO_FAMILIAR )
-				KoLmafia.updateDisplay( "Taking " + changeTo.getName() + " the " + changeTo.getRace() + " out of terrarium..." );
+			if ( this.changeTo != FamiliarData.NO_FAMILIAR )
+				KoLmafia.updateDisplay( "Taking " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " out of terrarium..." );
 		}
 
 		super.run();
@@ -98,29 +98,29 @@ public class FamiliarRequest extends KoLRequest
 		if ( familiar == null || familiar == FamiliarData.NO_FAMILIAR )
 			return;
 
-		if ( changeTo == null || changeTo == FamiliarData.NO_FAMILIAR )
+		if ( this.changeTo == null || this.changeTo == FamiliarData.NO_FAMILIAR )
 			return;
 
-		if ( item == EquipmentRequest.UNEQUIP || !changeTo.canEquip( item ) )
+		if ( item == EquipmentRequest.UNEQUIP || !this.changeTo.canEquip( item ) )
 			return;
 
 		// If the familiar is already wearing its default item, and the item does
 		// not give five weight, it's also probably better not to switch.
 
-		if ( changeTo.getItem().getName().equals( FamiliarsDatabase.getFamiliarItem( changeTo.getId() ) ) )
+		if ( this.changeTo.getItem().getName().equals( FamiliarsDatabase.getFamiliarItem( this.changeTo.getId() ) ) )
 			return;
 
 		// In all other cases, a switch is probably in order.  Go ahead and make
 		// the item switch.
 
-		KoLmafia.updateDisplay( familiar.getItem().getName() + " is better than " + changeTo.getItem().getName() + ".  Switching items..." );
+		KoLmafia.updateDisplay( familiar.getItem().getName() + " is better than " + this.changeTo.getItem().getName() + ".  Switching items..." );
 		(new EquipmentRequest( item, KoLCharacter.FAMILIAR )).run();
 	}
 
 	public void processResults()
 	{
-		FamiliarData.registerFamiliarData( responseText );
-		if ( changeTo == null )
+		FamiliarData.registerFamiliarData( this.responseText );
+		if ( this.changeTo == null )
 			KoLmafia.updateDisplay( "Familiar data retrieved." );
 
 		if ( KoLCharacter.getFamiliar() == null || KoLCharacter.getFamiliar() == FamiliarData.NO_FAMILIAR )

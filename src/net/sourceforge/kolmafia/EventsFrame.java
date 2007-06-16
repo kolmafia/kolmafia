@@ -38,7 +38,7 @@ public class EventsFrame extends KoLPanelFrame
 	public EventsFrame()
 	{
 		super( "Recent Events" );
-		setContentPane( new EventsPanel() );
+		this.setContentPane( new EventsPanel() );
 	}
 
 	private class EventsPanel extends LabeledScrollPanel

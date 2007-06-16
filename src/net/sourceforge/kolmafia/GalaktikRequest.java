@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class GalaktikRequest extends KoLRequest
@@ -42,8 +41,6 @@ public class GalaktikRequest extends KoLRequest
 	public static final String MP = "curemp";
 
 	private int restoreAmount;
-	private String type;
-
 	public GalaktikRequest( String type )
 	{	this( type, 0 );
 	}
@@ -52,8 +49,8 @@ public class GalaktikRequest extends KoLRequest
 	{
 		super( "galaktik.php" );
 
-		addFormField( "pwd" );
-		addFormField( "action", type );
+		this.addFormField( "pwd" );
+		this.addFormField( "action", type );
 
 		if ( restoreAmount > 0 )
 			this.restoreAmount = restoreAmount;
@@ -64,12 +61,12 @@ public class GalaktikRequest extends KoLRequest
 		else
 			this.restoreAmount = 0;
 
-		addFormField( "quantity", String.valueOf( this.restoreAmount ) );
+		this.addFormField( "quantity", String.valueOf( this.restoreAmount ) );
 	}
 
 	public void run()
 	{
-		if ( restoreAmount == 0 )
+		if ( this.restoreAmount == 0 )
 		{
 			KoLmafia.updateDisplay( CONTINUE_STATE, "You don't need that cure." );
 			return;
@@ -101,7 +98,7 @@ public class GalaktikRequest extends KoLRequest
 
 	public void processResults()
 	{
-		if ( responseText.indexOf( "You can't afford that" ) != -1 )
+		if ( this.responseText.indexOf( "You can't afford that" ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You can't afford that cure." );
 			return;

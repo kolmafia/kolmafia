@@ -50,8 +50,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TreeMap;
-import java.util.Vector;
-
 import java.util.regex.Pattern;
 
 import javax.swing.JLabel;

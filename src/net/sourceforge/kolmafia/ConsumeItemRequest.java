@@ -33,17 +33,12 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Date;
-import java.util.List;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
-
-import net.sourceforge.kolmafia.HPRestoreItemList.HPRestoreItem;
-import net.sourceforge.kolmafia.MPRestoreItemList.MPRestoreItem;
 
 public class ConsumeItemRequest extends KoLRequest
 {
@@ -99,7 +94,6 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int HACK_SCROLL = 553;
 	private static final int LUCIFER = 571;
 	private static final int TINY_HOUSE = 592;
-	private static final int PHONICS = 593;
 	private static final int DRASTIC_HEALING = 595;
 	private static final int SLUG_LORD_MAP = 598;
 	private static final int DR_HOBO_MAP = 601;
@@ -128,7 +122,6 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int EXPRESS_CARD = 1687;
 	private static final int DUSTY_ANIMAL_SKULL = 1799;
 	private static final int QUILL_PEN = 1957;
-	private static final int DANCE_CARD = 1963;
 	private static final int MEMO = 1973;
 	private static final int ABSINTHE = 2655;
 
@@ -207,8 +200,8 @@ public class ConsumeItemRequest extends KoLRequest
 	{
 		super( location, true );
 
-		addFormField( "pwd" );
-		addFormField( "whichitem", String.valueOf( item.getItemId() ) );
+		this.addFormField( "pwd" );
+		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 
 		this.consumptionType = consumptionType;
 		this.itemUsed = item;
@@ -216,11 +209,11 @@ public class ConsumeItemRequest extends KoLRequest
 
 
 	public int getConsumptionType()
-	{	return consumptionType;
+	{	return this.consumptionType;
 	}
 
 	public AdventureResult getItemUsed()
-	{	return itemUsed;
+	{	return this.itemUsed;
 	}
 
 	public static int maximumUses( int itemId )
@@ -310,7 +303,7 @@ public class ConsumeItemRequest extends KoLRequest
 		// Equipment should be handled by a different
 		// kind of request.
 
-		switch ( consumptionType )
+		switch ( this.consumptionType )
 		{
 		case EQUIP_HAT:
 		case EQUIP_WEAPON:
@@ -320,69 +313,69 @@ public class ConsumeItemRequest extends KoLRequest
 		case EQUIP_ACCESSORY:
 		case EQUIP_FAMILIAR:
 
-			(new EquipmentRequest( itemUsed )).run();
+			(new EquipmentRequest( this.itemUsed )).run();
 			return;
 		}
 
 		lastUpdate = "";
-		int itemId = itemUsed.getItemId();
+		int itemId = this.itemUsed.getItemId();
 
-		if ( itemUsed.getItemId() == SorceressLair.PUZZLE_PIECE.getItemId() )
+		if ( this.itemUsed.getItemId() == SorceressLair.PUZZLE_PIECE.getItemId() )
 		{
 			SorceressLair.completeHedgeMaze();
 			return;
 		}
 
-		int maximumUses = maximumUses( itemUsed.getItemId() );
-		if ( maximumUses < itemUsed.getCount() )
-			itemUsed = itemUsed.getInstance( maximumUses );
+		int maximumUses = maximumUses( this.itemUsed.getItemId() );
+		if ( maximumUses < this.itemUsed.getCount() )
+			this.itemUsed = this.itemUsed.getInstance( maximumUses );
 
-		if ( itemUsed.getCount() < 1 )
+		if ( this.itemUsed.getCount() < 1 )
 			return;
 
-		int price = TradeableItemDatabase.getPriceById( itemUsed.getItemId() );
+		int price = TradeableItemDatabase.getPriceById( this.itemUsed.getItemId() );
 
-		if ( itemUsed.getItemId() == SELTZER )
+		if ( this.itemUsed.getItemId() == SELTZER )
 			SpecialOutfit.createImplicitCheckpoint();
 
-		if ( price != 0 && !AdventureDatabase.retrieveItem( itemUsed ) )
+		if ( price != 0 && !AdventureDatabase.retrieveItem( this.itemUsed ) )
 		{
-			if ( itemUsed.getItemId() == SELTZER )
+			if ( this.itemUsed.getItemId() == SELTZER )
 				SpecialOutfit.restoreImplicitCheckpoint();
 
 			return;
 		}
 
-		if ( itemUsed.getItemId() == SELTZER )
+		if ( this.itemUsed.getItemId() == SELTZER )
 			SpecialOutfit.restoreImplicitCheckpoint();
 
 		int iterations = 1;
 
-		if ( itemUsed.getCount() != 1 && consumptionType != CONSUME_MULTIPLE && consumptionType != HP_RESTORE && consumptionType != MP_RESTORE )
+		if ( this.itemUsed.getCount() != 1 && this.consumptionType != CONSUME_MULTIPLE && this.consumptionType != HP_RESTORE && this.consumptionType != MP_RESTORE )
 		{
-			iterations = itemUsed.getCount();
-			itemUsed = itemUsed.getInstance( 1 );
+			iterations = this.itemUsed.getCount();
+			this.itemUsed = this.itemUsed.getInstance( 1 );
 		}
 
-		String useTypeAsString = (consumptionType == CONSUME_EAT) ? "Eating" :
-			(consumptionType == CONSUME_DRINK) ? "Drinking" : "Using";
+		String useTypeAsString = (this.consumptionType == CONSUME_EAT) ? "Eating" :
+			(this.consumptionType == CONSUME_DRINK) ? "Drinking" : "Using";
 
-		String originalURLString = getURLString();
+		String originalURLString = this.getURLString();
 
 		for ( int i = 1; i <= iterations && KoLmafia.permitsContinue(); ++i )
 		{
-			constructURLString( originalURLString );
+			this.constructURLString( originalURLString );
 
-			if ( consumptionType == CONSUME_DRINK && !allowBoozeConsumption( TradeableItemDatabase.getInebriety( itemUsed.getName() ) ) )
+			if ( this.consumptionType == CONSUME_DRINK && !allowBoozeConsumption( TradeableItemDatabase.getInebriety( this.itemUsed.getName() ) ) )
 				return;
 
-			useOnce( i, iterations, useTypeAsString );
+			this.useOnce( i, iterations, useTypeAsString );
 		}
 
 		if ( KoLmafia.permitsContinue() )
 		{
-			KoLmafia.updateDisplay( "Finished " + useTypeAsString.toLowerCase() + " " + Math.max( iterations, itemUsed.getCount() ) +
-				" " + itemUsed.getName() + "." );
+			KoLmafia.updateDisplay( "Finished " + useTypeAsString.toLowerCase() + " " + Math.max( iterations, this.itemUsed.getCount() ) +
+				" " + this.itemUsed.getName() + "." );
 		}
 	}
 
@@ -430,7 +423,7 @@ public class ConsumeItemRequest extends KoLRequest
 	{
 		lastUpdate = "";
 
-		if ( consumptionType == CONSUME_ZAP )
+		if ( this.consumptionType == CONSUME_ZAP )
 		{
 			StaticEntity.getClient().makeZapRequest();
 			return;
@@ -440,54 +433,54 @@ public class ConsumeItemRequest extends KoLRequest
 		// inventory first - if not, report the error message and
 		// return from the method.
 
-		if ( !AdventureDatabase.retrieveItem( itemUsed ) )
+		if ( !AdventureDatabase.retrieveItem( this.itemUsed ) )
 		{
 			lastUpdate = "Insufficient items to use.";
 			return;
 		}
 
-		switch ( consumptionType )
+		switch ( this.consumptionType )
 		{
 		case HP_RESTORE:
-			if ( itemUsed.getCount() > 1 )
+			if ( this.itemUsed.getCount() > 1 )
 			{
-				addFormField( "action", "useitem" );
-				addFormField( "quantity", String.valueOf( itemUsed.getCount() ) );
+				this.addFormField( "action", "useitem" );
+				this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
 			}
 			else
 			{
-				addFormField( "which", "3" );
+				this.addFormField( "which", "3" );
 			}
 
 		case CONSUME_MULTIPLE:
-			addFormField( "action", "useitem" );
-			addFormField( "quantity", String.valueOf( itemUsed.getCount() ) );
+			this.addFormField( "action", "useitem" );
+			this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
 			break;
 
 		case MP_RESTORE:
-			addFormField( "action", "useitem" );
-			addFormField( "itemquantity", String.valueOf( itemUsed.getCount() ) );
+			this.addFormField( "action", "useitem" );
+			this.addFormField( "itemquantity", String.valueOf( this.itemUsed.getCount() ) );
 			break;
 
 		case CONSUME_HOBO:
-			addFormField( "action", "hobo" );
-			addFormField( "which", "1" );
+			this.addFormField( "action", "hobo" );
+			this.addFormField( "which", "1" );
 			break;
 
 		case CONSUME_EAT:
 		case CONSUME_DRINK:
-			addFormField( "which", "1" );
+			this.addFormField( "which", "1" );
 			break;
 
 		default:
-			addFormField( "which", "3" );
+			this.addFormField( "which", "3" );
 			break;
 		}
 
 		if ( totalIterations == 1 )
-			KoLmafia.updateDisplay( useTypeAsString + " " + itemUsed.getCount() + " " + itemUsed.getName() + "..." );
+			KoLmafia.updateDisplay( useTypeAsString + " " + this.itemUsed.getCount() + " " + this.itemUsed.getName() + "..." );
 		else
-			KoLmafia.updateDisplay( useTypeAsString + " " + itemUsed.getName() + " (" + currentIteration + " of " + totalIterations + ")..." );
+			KoLmafia.updateDisplay( useTypeAsString + " " + this.itemUsed.getName() + " (" + currentIteration + " of " + totalIterations + ")..." );
 
 		// Run to see if booze consumption is permitted
 		// based on the user's current settings.
@@ -499,11 +492,11 @@ public class ConsumeItemRequest extends KoLRequest
 	{
 		int originalEffectCount = activeEffects.size();
 
-		lastItemUsed = itemUsed;
-		parseConsumption( responseText, true );
+		lastItemUsed = this.itemUsed;
+		parseConsumption( this.responseText, true );
 
 		// We might have removed - or added - an effect
-		needsRefresh |= originalEffectCount != activeEffects.size();
+		this.needsRefresh |= originalEffectCount != activeEffects.size();
 	}
 
 	public static void parseConsumption( String responseText, boolean showHTML )

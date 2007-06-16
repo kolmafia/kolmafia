@@ -39,7 +39,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -56,7 +55,6 @@ public abstract class MoodSettings implements KoLConstants
 
 	private static final AdventureResult PENDANT = new AdventureResult( 1235, 1 );
 
-	private static String lastUsername = "";
 	private static int thiefTriggerLimit = 3;
 
 	private static File settingsFile = null;
@@ -1026,7 +1024,7 @@ public abstract class MoodSettings implements KoLConstants
 					}
 				}
 
-				this.action = command + " " + count + " " + parameters;
+				this.action = this.command + " " + this.count + " " + this.parameters;
 			}
 			else
 			{
@@ -1042,37 +1040,37 @@ public abstract class MoodSettings implements KoLConstants
 				String skillName = UneffectRequest.effectToSkill( effect.getName() );
 				if ( ClassSkillsDatabase.contains( skillName ) )
 				{
-					skillId = ClassSkillsDatabase.getSkillId( skillName );
-					isThiefTrigger = skillId > 6000 && skillId < 7000;
+					this.skillId = ClassSkillsDatabase.getSkillId( skillName );
+					this.isThiefTrigger = this.skillId > 6000 && this.skillId < 7000;
 				}
 			}
 
 			this.stringForm = new StringBuffer();
-			updateStringForm();
+			this.updateStringForm();
 		}
 
 		public String getType()
-		{	return type;
+		{	return this.type;
 		}
 
 		public String getName()
-		{	return name;
+		{	return this.name;
 		}
 
 		public String getAction()
-		{	return action;
+		{	return this.action;
 		}
 
 		public String getCommand()
-		{	return command;
+		{	return this.command;
 		}
 
 		public String toString()
-		{	return stringForm.toString();
+		{	return this.stringForm.toString();
 		}
 
 		public String toSetting()
-		{	return effect == null ? type + " => " + action : type + " " + name + " => " + action;
+		{	return this.effect == null ? this.type + " => " + this.action : this.type + " " + this.name + " => " + this.action;
 		}
 
 		public boolean equals( Object o )
@@ -1081,26 +1079,26 @@ public abstract class MoodSettings implements KoLConstants
 				return false;
 
 			MoodTrigger mt = (MoodTrigger) o;
-			if ( !type.equals( mt.getType() ) )
+			if ( !this.type.equals( mt.getType() ) )
 				return false;
 
-			if ( name == null )
+			if ( this.name == null )
 				return mt.name == null;
 
 			if ( mt.getType() == null )
 				return false;
 
-			return name.equals( mt.name );
+			return this.name.equals( mt.name );
 		}
 
 		public void execute( boolean isManualInvocation )
 		{
-			if ( shouldExecute( isManualInvocation ) )
+			if ( this.shouldExecute( isManualInvocation ) )
 			{
-				if ( type.equals( "lose_effect" ) && KoLCharacter.canInteract() && (action.startsWith( "use 1" ) || action.startsWith( "cast 1" )) )
-					DEFAULT_SHELL.executeLine( getDefaultAction( "lose_effect", effect.getName() ) );
+				if ( this.type.equals( "lose_effect" ) && KoLCharacter.canInteract() && (this.action.startsWith( "use 1" ) || this.action.startsWith( "cast 1" )) )
+					DEFAULT_SHELL.executeLine( getDefaultAction( "lose_effect", this.effect.getName() ) );
 				else
-					DEFAULT_SHELL.executeLine( action );
+					DEFAULT_SHELL.executeLine( this.action );
 			}
 		}
 
@@ -1111,28 +1109,28 @@ public abstract class MoodSettings implements KoLConstants
 
 			boolean shouldExecute = false;
 
-			if ( effect == null )
+			if ( this.effect == null )
 			{
 				shouldExecute = true;
 			}
-			else if ( type.equals( "gain_effect" ) )
+			else if ( this.type.equals( "gain_effect" ) )
 			{
 				KoLmafia.applyEffects();
-				shouldExecute = activeEffects.contains( effect );
+				shouldExecute = activeEffects.contains( this.effect );
 			}
-			else if ( type.equals( "lose_effect" ) )
+			else if ( this.type.equals( "lose_effect" ) )
 			{
-				shouldExecute = action.indexOf( "cupcake" ) != -1 || action.indexOf( "snowcone" ) != -1 || action.indexOf( "mushroom" ) != -1 ?
-					!activeEffects.contains( effect ) : effect.getCount( activeEffects ) <= (isManualInvocation ? 5 : 1);
+				shouldExecute = this.action.indexOf( "cupcake" ) != -1 || this.action.indexOf( "snowcone" ) != -1 || this.action.indexOf( "mushroom" ) != -1 ?
+					!activeEffects.contains( this.effect ) : this.effect.getCount( activeEffects ) <= (isManualInvocation ? 5 : 1);
 
-				shouldExecute &= !name.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
+				shouldExecute &= !this.name.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
 			}
 
 			return shouldExecute;
 		}
 
 		public boolean isThiefTrigger()
-		{	return isThiefTrigger;
+		{	return this.isThiefTrigger;
 		}
 
 		public int compareTo( Object o )
@@ -1146,26 +1144,26 @@ public abstract class MoodSettings implements KoLConstants
 
 			int compareResult = 0;
 
-			if ( type.equals( "unconditional" ) )
+			if ( this.type.equals( "unconditional" ) )
 			{
 				if ( othertype.equals( "unconditional" ) )
-					compareResult = action.compareToIgnoreCase( otherTriggerAction );
+					compareResult = this.action.compareToIgnoreCase( otherTriggerAction );
 				else
 					compareResult = -1;
 			}
-			else if ( type.equals( "gain_effect" ) )
+			else if ( this.type.equals( "gain_effect" ) )
 			{
 				if ( othertype.equals( "unconditional" ) )
 					compareResult = 1;
 				else if ( othertype.equals( "gain_effect" ) )
-					compareResult = name.compareToIgnoreCase( othername );
+					compareResult = this.name.compareToIgnoreCase( othername );
 				else
 					compareResult = -1;
 			}
-			else if ( type.equals( "lose_effect" ) )
+			else if ( this.type.equals( "lose_effect" ) )
 			{
 				if ( othertype.equals( "lose_effect" ) )
-					compareResult = name.compareToIgnoreCase( othername );
+					compareResult = this.name.compareToIgnoreCase( othername );
 				else
 					compareResult = 1;
 			}
@@ -1175,26 +1173,26 @@ public abstract class MoodSettings implements KoLConstants
 
 		public void updateStringForm()
 		{
-			stringForm.setLength(0);
+			this.stringForm.setLength(0);
 
-			if ( type.equals( "gain_effect" ) )
-				stringForm.append( "When I get" );
-			else if ( type.equals( "lose_effect" ) )
-				stringForm.append( "When I run low on" );
+			if ( this.type.equals( "gain_effect" ) )
+				this.stringForm.append( "When I get" );
+			else if ( this.type.equals( "lose_effect" ) )
+				this.stringForm.append( "When I run low on" );
 			else
-				stringForm.append( "Always" );
+				this.stringForm.append( "Always" );
 
-			if ( name != null )
+			if ( this.name != null )
 			{
-				stringForm.append( " " );
-				stringForm.append( name );
+				this.stringForm.append( " " );
+				this.stringForm.append( this.name );
 			}
 
-			if ( type.equals( "lose_effect" ) && name != null && name.equals( "Temporary Lycanthropy" ) )
-				stringForm.append( " and there's enough moonlight" );
+			if ( this.type.equals( "lose_effect" ) && this.name != null && this.name.equals( "Temporary Lycanthropy" ) )
+				this.stringForm.append( " and there's enough moonlight" );
 
-			stringForm.append( ", " );
-			stringForm.append( action );
+			this.stringForm.append( ", " );
+			this.stringForm.append( this.action );
 		}
 
 		public static MoodTrigger constructNode( String line )

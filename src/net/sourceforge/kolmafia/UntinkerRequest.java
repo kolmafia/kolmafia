@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import javax.swing.JOptionPane;
 
@@ -57,21 +56,21 @@ public class UntinkerRequest extends KoLRequest
 	{
 		super( "town_right.php" );
 
-		addFormField( "pwd" );
-		addFormField( "action", "untinker" );
-		addFormField( "whichitem", String.valueOf( itemId ) );
+		this.addFormField( "pwd" );
+		this.addFormField( "action", "untinker" );
+		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
 		this.itemId = itemId;
 		this.iterationsNeeded = 1;
 		this.item = new AdventureResult( itemId, itemCount );
 
 		if ( itemCount == Integer.MAX_VALUE )
-			this.item = this.item.getInstance( item.getCount( inventory ) );
+			this.item = this.item.getInstance( this.item.getCount( inventory ) );
 
-		if ( itemCount > 5 || item.getCount( inventory ) == itemCount )
-			addFormField( "untinkerall", "on" );
+		if ( itemCount > 5 || this.item.getCount( inventory ) == itemCount )
+			this.addFormField( "untinkerall", "on" );
 		else
-			iterationsNeeded = itemCount;
+			this.iterationsNeeded = itemCount;
 	}
 
 	public void run()
@@ -80,7 +79,7 @@ public class UntinkerRequest extends KoLRequest
 		// paste, and only execute the request if it is known to be
 		// creatable through combination.
 
-		if ( ConcoctionsDatabase.getMixingMethod( itemId ) != COMBINE )
+		if ( ConcoctionsDatabase.getMixingMethod( this.itemId ) != COMBINE )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You cannot untinker that item." );
 			return;
@@ -95,16 +94,16 @@ public class UntinkerRequest extends KoLRequest
 			StaticEntity.getClient().processResult( SCREWDRIVER );
 		}
 
-		if ( !AdventureDatabase.retrieveItem( item ) )
+		if ( !AdventureDatabase.retrieveItem( this.item ) )
 			return;
 
-		KoLmafia.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemId ) + "..." );
+		KoLmafia.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( this.itemId ) + "..." );
 
 		super.run();
 
-		if ( responseText.indexOf( "You acquire" ) == -1 )
+		if ( this.responseText.indexOf( "You acquire" ) == -1 )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( itemId, 1 ) );
+			StaticEntity.getClient().processResult( new AdventureResult( this.itemId, 1 ) );
 
 			KoLRequest questCompleter = new KoLRequest( "town_right.php?place=untinker" );
 			questCompleter.run();
@@ -122,10 +121,10 @@ public class UntinkerRequest extends KoLRequest
 			super.run();
 		}
 
-		for ( int i = 1; i < iterationsNeeded; ++i )
+		for ( int i = 1; i < this.iterationsNeeded; ++i )
 			super.run();
 
-		KoLmafia.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( itemId ) + "." );
+		KoLmafia.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( this.itemId ) + "." );
 	}
 
 	public static final boolean canUntinker()

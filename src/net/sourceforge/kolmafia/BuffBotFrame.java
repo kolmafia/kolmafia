@@ -35,25 +35,18 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import tab.CloseTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
-
-import javax.swing.border.Border;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -73,17 +66,17 @@ public class BuffBotFrame extends KoLFrame
 
 		// Initialize the display log buffer and the file log
 
-		tabs.addTab( "Run Buffbot", new MainBuffPanel() );
+		this.tabs.addTab( "Run Buffbot", new MainBuffPanel() );
 
 		JPanel optionsContainer = new JPanel( new BorderLayout( 10, 10 ) );
 		optionsContainer.add( new BuffOptionsPanel(), BorderLayout.NORTH );
 		optionsContainer.add( new BuffListPanel(), BorderLayout.CENTER );
 
-		tabs.addTab( "Edit Bufflist", optionsContainer );
-		addTab( "Main Settings", new MainSettingsPanel() );
-		addTab( "Other Settings", new OtherSettingsPanel() );
+		this.tabs.addTab( "Edit Bufflist", optionsContainer );
+		this.addTab( "Main Settings", new MainSettingsPanel() );
+		this.addTab( "Other Settings", new OtherSettingsPanel() );
 
-		framePanel.add( tabs, BorderLayout.CENTER );
+		this.framePanel.add( this.tabs, BorderLayout.CENTER );
 	}
 
 	public boolean useSidePane()
@@ -102,15 +95,15 @@ public class BuffBotFrame extends KoLFrame
 			super( "BuffBot Activities", "start", "stop", new JList( BuffBotHome.getMessages() ) );
 
 			BuffBotHome.setFrame( BuffBotFrame.this );
-			((JList)scrollComponent).setCellRenderer( BuffBotHome.getMessageRenderer() );
+			((JList)this.scrollComponent).setCellRenderer( BuffBotHome.getMessageRenderer() );
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
-			if ( confirmedButton == null )
+			if ( this.confirmedButton == null )
 				return;
 
-			confirmedButton.setEnabled( isEnabled );
+			this.confirmedButton.setEnabled( isEnabled );
 		}
 
 		public void actionConfirmed()
@@ -155,31 +148,31 @@ public class BuffBotFrame extends KoLFrame
 				if (ClassSkillsDatabase.isBuff( ClassSkillsDatabase.getSkillId( skill.getSkillName() ) ))
 					buffSet.add( skill );
 
-			skillSelect = new JComboBox( buffSet );
+			this.skillSelect = new JComboBox( buffSet );
 
-			priceField = new JTextField();
-			countField = new JTextField();
-			restrictBox = new JCheckBox();
-			singletonBox = new JCheckBox();
+			this.priceField = new JTextField();
+			this.countField = new JTextField();
+			this.restrictBox = new JCheckBox();
+			this.singletonBox = new JCheckBox();
 
 			VerifiableElement [] elements = new VerifiableElement[5];
-			elements[0] = new VerifiableElement( "Buff to cast: ", skillSelect );
-			elements[1] = new VerifiableElement( "Price (in meat): ", priceField );
-			elements[2] = new VerifiableElement( "# of casts: ", countField );
-			elements[3] = new VerifiableElement( "White listed?", restrictBox );
-			elements[4] = new VerifiableElement( "Once per day?", singletonBox );
-			setContent( elements );
+			elements[0] = new VerifiableElement( "Buff to cast: ", this.skillSelect );
+			elements[1] = new VerifiableElement( "Price (in meat): ", this.priceField );
+			elements[2] = new VerifiableElement( "# of casts: ", this.countField );
+			elements[3] = new VerifiableElement( "White listed?", this.restrictBox );
+			elements[4] = new VerifiableElement( "Once per day?", this.singletonBox );
+			this.setContent( elements );
 		}
 
 		public void actionConfirmed()
 		{
-			BuffBotManager.addBuff( ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName(),
-				StaticEntity.parseInt( priceField.getText() ), StaticEntity.parseInt( countField.getText() ),
-					restrictBox.isSelected(), singletonBox.isSelected() );
+			BuffBotManager.addBuff( ((UseSkillRequest) this.skillSelect.getSelectedItem()).getSkillName(),
+				StaticEntity.parseInt( this.priceField.getText() ), StaticEntity.parseInt( this.countField.getText() ),
+					this.restrictBox.isSelected(), this.singletonBox.isSelected() );
 		}
 
 		public void actionCancelled()
-		{	BuffBotManager.removeBuffs( buffListDisplay.getSelectedValues() );
+		{	BuffBotManager.removeBuffs( BuffBotFrame.this.buffListDisplay.getSelectedValues() );
 		}
 	}
 
@@ -187,16 +180,16 @@ public class BuffBotFrame extends KoLFrame
 	{
 		public BuffListPanel()
 		{
-			setLayout( new BorderLayout() );
-			setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-			add( JComponentUtilities.createLabel( "Active Buffing List", JLabel.CENTER,
+			this.setLayout( new BorderLayout() );
+			this.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+			this.add( JComponentUtilities.createLabel( "Active Buffing List", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.NORTH );
 
-			buffListDisplay = new JList( BuffBotManager.getBuffCostTable() );
-			buffListDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-			buffListDisplay.setVisibleRowCount( 5 );
+			BuffBotFrame.this.buffListDisplay = new JList( BuffBotManager.getBuffCostTable() );
+			BuffBotFrame.this.buffListDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+			BuffBotFrame.this.buffListDisplay.setVisibleRowCount( 5 );
 
-			add( new SimpleScrollPane( buffListDisplay ), BorderLayout.CENTER );
+			this.add( new SimpleScrollPane( BuffBotFrame.this.buffListDisplay ), BorderLayout.CENTER );
 		}
 	}
 
@@ -218,24 +211,24 @@ public class BuffBotFrame extends KoLFrame
 			messageDisposalChoices.add( "Auto-save non-requests" );
 			messageDisposalChoices.add( "Auto-delete non-requests" );
 			messageDisposalChoices.add( "Do nothing to non-requests" );
-			messageDisposalSelect = new JComboBox( messageDisposalChoices );
+			this.messageDisposalSelect = new JComboBox( messageDisposalChoices );
 
 			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Message disposal: ", messageDisposalSelect );
-			elements[1] = new VerifiableElement( "Mana restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) );
+			elements[0] = new VerifiableElement( "Message disposal: ", this.messageDisposalSelect );
+			elements[1] = new VerifiableElement( "Mana restores: ", BuffBotFrame.this.constructScroller( this.mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) );
 
-			actionCancelled();
-			setContent( elements );
+			this.actionCancelled();
+			this.setContent( elements );
 		}
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
-			StaticEntity.setProperty( "mpAutoRecoveryItems", getSettingString( mpRestoreCheckbox ) );
+			StaticEntity.setProperty( "buffBotMessageDisposal", String.valueOf( this.messageDisposalSelect.getSelectedIndex() ) );
+			StaticEntity.setProperty( "mpAutoRecoveryItems", BuffBotFrame.this.getSettingString( this.mpRestoreCheckbox ) );
 		}
 
 		public void actionCancelled()
-		{	messageDisposalSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "buffBotMessageDisposal" ) );
+		{	this.messageDisposalSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "buffBotMessageDisposal" ) );
 		}
 	}
 
@@ -246,38 +239,38 @@ public class BuffBotFrame extends KoLFrame
 		public OtherSettingsPanel()
 		{
 			super( "save", "reset", new Dimension( 120, 20 ),  new Dimension( 300, 20 ) );
-			setContent( new VerifiableElement[0] );
+			this.setContent( new VerifiableElement[0] );
 
-			whiteListEntry = new JTextArea();
-			invalidPriceMessage = new JTextArea();
-			thanksMessage = new JTextArea();
+			this.whiteListEntry = new JTextArea();
+			this.invalidPriceMessage = new JTextArea();
+			this.thanksMessage = new JTextArea();
 
-			whiteListEntry.setFont( DEFAULT_FONT );
-			whiteListEntry.setLineWrap( true );
-			whiteListEntry.setWrapStyleWord( true );
+			this.whiteListEntry.setFont( DEFAULT_FONT );
+			this.whiteListEntry.setLineWrap( true );
+			this.whiteListEntry.setWrapStyleWord( true );
 
-			invalidPriceMessage.setFont( DEFAULT_FONT );
-			invalidPriceMessage.setLineWrap( true );
-			invalidPriceMessage.setWrapStyleWord( true );
+			this.invalidPriceMessage.setFont( DEFAULT_FONT );
+			this.invalidPriceMessage.setLineWrap( true );
+			this.invalidPriceMessage.setWrapStyleWord( true );
 
-			thanksMessage.setFont( DEFAULT_FONT );
-			thanksMessage.setLineWrap( true );
-			thanksMessage.setWrapStyleWord( true );
+			this.thanksMessage.setFont( DEFAULT_FONT );
+			this.thanksMessage.setLineWrap( true );
+			this.thanksMessage.setWrapStyleWord( true );
 
 			JPanel settingsTopPanel = new JPanel( new BorderLayout() );
 			settingsTopPanel.add( JComponentUtilities.createLabel( "White List (separate names with commas):", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.NORTH );
-			settingsTopPanel.add( new SimpleScrollPane( whiteListEntry ), BorderLayout.CENTER );
+			settingsTopPanel.add( new SimpleScrollPane( this.whiteListEntry ), BorderLayout.CENTER );
 
 			JPanel settingsMiddlePanel = new JPanel( new BorderLayout() );
 			settingsMiddlePanel.add( JComponentUtilities.createLabel( "Invalid Buff Price Message", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.NORTH );
-			settingsMiddlePanel.add( new SimpleScrollPane( invalidPriceMessage ), BorderLayout.CENTER );
+			settingsMiddlePanel.add( new SimpleScrollPane( this.invalidPriceMessage ), BorderLayout.CENTER );
 
 			JPanel settingsBottomPanel = new JPanel( new BorderLayout() );
 			settingsBottomPanel.add( JComponentUtilities.createLabel( "Donation Thanks Message", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.NORTH );
-			settingsBottomPanel.add( new SimpleScrollPane( thanksMessage ), BorderLayout.CENTER );
+			settingsBottomPanel.add( new SimpleScrollPane( this.thanksMessage ), BorderLayout.CENTER );
 
 			JPanel settingsPanel = new JPanel( new GridLayout( 3, 1, 10, 10 ) );
 
@@ -289,22 +282,22 @@ public class BuffBotFrame extends KoLFrame
 			settingsPanel.add( settingsMiddlePanel );
 			settingsPanel.add( settingsBottomPanel );
 
-			container.add( settingsPanel, BorderLayout.CENTER );
-			actionCancelled();
+			this.container.add( settingsPanel, BorderLayout.CENTER );
+			this.actionCancelled();
 		}
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "whiteList", whiteListEntry.getText() );
-			StaticEntity.setProperty( "invalidBuffMessage", invalidPriceMessage.getText() );
-			StaticEntity.setProperty( "thanksMessage", thanksMessage.getText() );
+			StaticEntity.setProperty( "whiteList", this.whiteListEntry.getText() );
+			StaticEntity.setProperty( "invalidBuffMessage", this.invalidPriceMessage.getText() );
+			StaticEntity.setProperty( "thanksMessage", this.thanksMessage.getText() );
 		}
 
 		public void actionCancelled()
 		{
-			whiteListEntry.setText( StaticEntity.getProperty( "whiteList" ) );
-			invalidPriceMessage.setText( StaticEntity.getProperty( "invalidBuffMessage" ) );
-			thanksMessage.setText( StaticEntity.getProperty( "thanksMessage" ) );
+			this.whiteListEntry.setText( StaticEntity.getProperty( "whiteList" ) );
+			this.invalidPriceMessage.setText( StaticEntity.getProperty( "invalidBuffMessage" ) );
+			this.thanksMessage.setText( StaticEntity.getProperty( "thanksMessage" ) );
 		}
 	}
 }

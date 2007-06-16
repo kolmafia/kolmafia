@@ -53,9 +53,9 @@ public class ClanBuffRequest extends KoLRequest
 		super( "clan_stash.php" );
 
 		this.buffId = buffId;
-		addFormField( "action", "buyround" );
-		addFormField( "size", String.valueOf( buffId % 10 ) );
-		addFormField( "whichgift", String.valueOf( (int) ( buffId / 10 ) ) );
+		this.addFormField( "action", "buyround" );
+		this.addFormField( "size", String.valueOf( buffId % 10 ) );
+		this.addFormField( "whichgift", String.valueOf( ( buffId / 10 ) ) );
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class ClanBuffRequest extends KoLRequest
 	{
 		StringBuffer stringForm = new StringBuffer();
 
-		switch ( buffId % 10 )
+		switch ( this.buffId % 10 )
 		{
 		case 1:
 			stringForm.append( "Cheap " );
@@ -99,7 +99,7 @@ public class ClanBuffRequest extends KoLRequest
 			break;
 		}
 
-		switch ( ((int) ( buffId / 10 )) % 3 )
+		switch ( (( this.buffId / 10 )) % 3 )
 		{
 		case 1:
 			stringForm.append( "Muscle " );
@@ -112,7 +112,7 @@ public class ClanBuffRequest extends KoLRequest
 			break;
 		}
 
-		stringForm.append( buffId < 40 ? "Training" : "Boost" );
+		stringForm.append( this.buffId < 40 ? "Training" : "Boost" );
 		return stringForm.toString();
 	}
 }

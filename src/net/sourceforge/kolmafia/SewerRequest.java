@@ -47,7 +47,7 @@ public class SewerRequest extends KoLRequest
 		this.isLuckySewer = isLuckySewer;
 
 		if ( isLuckySewer )
-			addFormField( "doodit", "1" );
+			this.addFormField( "doodit", "1" );
 	}
 
 	/**
@@ -62,15 +62,15 @@ public class SewerRequest extends KoLRequest
 		if ( !KoLmafia.permitsContinue() )
 			return;
 
-		if ( isLuckySewer )
+		if ( this.isLuckySewer )
 		{
 			if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
 				KoLmafia.updateDisplay( ERROR_STATE, "Turn off clover protection if you want to go here." );
 			else
-				runLuckySewer();
+				this.runLuckySewer();
 		}
 		else
-			runUnluckySewer();
+			this.runUnluckySewer();
 	}
 
 	/**
@@ -100,9 +100,9 @@ public class SewerRequest extends KoLRequest
 		// a better idea to assume everyone wants trinkets and
 		// spices and let them specify the third item.
 
-		addFormField( "i43", "on" );
-		addFormField( "i8", "on" );
-		addFormField( "i" + thirdItem, "on" );
+		this.addFormField( "i43", "on" );
+		this.addFormField( "i8", "on" );
+		this.addFormField( "i" + thirdItem, "on" );
 
 		// Enter the sewer
 
@@ -123,7 +123,7 @@ public class SewerRequest extends KoLRequest
 		// You may have randomly received a clover from some other
 		// source - detect this occurence and notify the user
 
-		if ( responseText.indexOf( "Sewage Gnomes" ) != -1 )
+		if ( this.responseText.indexOf( "Sewage Gnomes" ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You have an unaccounted for ten-leaf clover." );
 			return;
@@ -132,7 +132,7 @@ public class SewerRequest extends KoLRequest
 
 	public void processResults()
 	{
-		if ( responseText.indexOf( "You acquire" ) != -1 )
+		if ( this.responseText.indexOf( "You acquire" ) != -1 )
 		{
 			if ( StaticEntity.getClient().isLuckyCharacter() )
 				StaticEntity.getClient().processResult( CLOVER );
@@ -150,7 +150,7 @@ public class SewerRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return responseCode == 200 && responseText.indexOf( "You acquire" ) != -1 ? 1 : 0;
+	{	return this.responseCode == 200 && this.responseText.indexOf( "You acquire" ) != -1 ? 1 : 0;
 	}
 }
 

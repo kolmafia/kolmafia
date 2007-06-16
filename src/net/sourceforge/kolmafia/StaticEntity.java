@@ -37,7 +37,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 
 import java.lang.ref.WeakReference;
@@ -49,7 +48,6 @@ import java.util.regex.Pattern;
 import javax.swing.SwingUtilities;
 import edu.stanford.ejalbert.BrowserLauncher;
 
-import net.sourceforge.foxtrot.Job;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 public abstract class StaticEntity implements KoLConstants
@@ -220,7 +218,7 @@ public abstract class StaticEntity implements KoLConstants
 		}
 
 		public void run()
-		{	BrowserLauncher.openURL( location );
+		{	BrowserLauncher.openURL( this.location );
 		}
 	}
 

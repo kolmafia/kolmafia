@@ -33,10 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.SortedListModel;
-
 public class QuestLogRequest extends KoLRequest
 {
 	public static final String GALAKTIK = "What's Up, Doc?";
@@ -52,7 +48,7 @@ public class QuestLogRequest extends KoLRequest
 	}
 
 	public void processResults()
-	{	registerQuests( responseText );
+	{	registerQuests( this.responseText );
 	}
 
 	public static void registerQuests( String responseText )

@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -48,31 +47,21 @@ import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.Icon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 import javax.swing.UIManager;
 
-import tab.CloseTabbedPane;
 import tab.CloseTabPaneEnhancedUI;
 
 import com.informit.guides.JDnDList;
-import com.sun.java.forums.SpringUtilities;
-
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import javax.swing.UIManager.LookAndFeelInfo;
-
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -95,7 +84,7 @@ public class LoginFrame extends KoLFrame
 		super( VERSION_NAME + ": Login" );
 
 		INSTANCE = this;
-		tabs.addTab( "KoL Login", constructLoginPanel() );
+		this.tabs.addTab( "KoL Login", this.constructLoginPanel() );
 
 		JPanel breakfastPanel = new JPanel();
 		breakfastPanel.setLayout( new BoxLayout( breakfastPanel, BoxLayout.Y_AXIS ) );
@@ -104,21 +93,21 @@ public class LoginFrame extends KoLFrame
 		breakfastPanel.add( new BreakfastPanel( "Softcore Characters", "Softcore" ) );
 		breakfastPanel.add( new BreakfastPanel( "Hardcore Characters", "Hardcore" ) );
 
-		tabs.addTab( "Main Tabs", new StartupFramesPanel() );
-		tabs.addTab( "Look & Feel", new UserInterfacePanel()  );
+		this.tabs.addTab( "Main Tabs", new StartupFramesPanel() );
+		this.tabs.addTab( "Look & Feel", new UserInterfacePanel()  );
 
 		JPanel connectPanel = new JPanel();
 		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
 		connectPanel.add( new ConnectionOptionsPanel() );
 		connectPanel.add( new ProxyOptionsPanel() );
 
-		tabs.addTab( "Connection", connectPanel );
-		tabs.addTab( "Breakfast", breakfastPanel );
+		this.tabs.addTab( "Connection", connectPanel );
+		this.tabs.addTab( "Breakfast", breakfastPanel );
 
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( tabs, "" );
+		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
+		this.framePanel.add( this.tabs, "" );
 
-		setResizable( false );
+		this.setResizable( false );
 	}
 
 	public boolean shouldAddStatusBar()
@@ -128,8 +117,8 @@ public class LoginFrame extends KoLFrame
 	public void requestFocus()
 	{
 		super.requestFocus();
-		if ( usernameField != null )
-			usernameField.requestFocus();
+		if ( this.usernameField != null )
+			this.usernameField.requestFocus();
 	}
 
 	public static boolean instanceExists()
@@ -150,7 +139,7 @@ public class LoginFrame extends KoLFrame
 
 	public void dispose()
 	{
-		honorProxySettings();
+		this.honorProxySettings();
 
 		if ( !KoLDesktop.instanceExists() )
 			System.exit(0);
@@ -167,7 +156,7 @@ public class LoginFrame extends KoLFrame
 
 		JPanel containerPanel = new JPanel( new BorderLayout() );
 		containerPanel.add( imagePanel, BorderLayout.NORTH );
-		containerPanel.add( panel = new LoginPanel(), BorderLayout.CENTER );
+		containerPanel.add( this.panel = new LoginPanel(), BorderLayout.CENTER );
 		return containerPanel;
 	}
 
@@ -196,62 +185,62 @@ public class LoginFrame extends KoLFrame
 			super( "login", "relay" );
 
 			boolean useTextField = saveStateNames.isEmpty();
-			usernameField = useTextField ? (JComponent) new JTextField() : (JComponent) new LoginNameComboBox();
-			passwordField = new JPasswordField();
+			LoginFrame.this.usernameField = useTextField ? (JComponent) new JTextField() : (JComponent) new LoginNameComboBox();
+			this.passwordField = new JPasswordField();
 
-			savePasswordCheckBox = new JCheckBox();
-			autoLoginCheckBox = new JCheckBox();
-			getBreakfastCheckBox = new JCheckBox();
+			this.savePasswordCheckBox = new JCheckBox();
+			this.autoLoginCheckBox = new JCheckBox();
+			this.getBreakfastCheckBox = new JCheckBox();
 
 			JPanel checkBoxPanels = new JPanel();
 			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
 			checkBoxPanels.add( new JLabel( "Save Password: " ), "" );
-			checkBoxPanels.add( savePasswordCheckBox );
+			checkBoxPanels.add( this.savePasswordCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
 			checkBoxPanels.add( new JLabel( "Auto-Login: " ), "" );
-			checkBoxPanels.add( autoLoginCheckBox );
+			checkBoxPanels.add( this.autoLoginCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
 			checkBoxPanels.add( new JLabel( "Breakfast: " ), "" );
-			checkBoxPanels.add( getBreakfastCheckBox );
+			checkBoxPanels.add( this.getBreakfastCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
 
 			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Login: ", usernameField );
-			elements[1] = new VerifiableElement( "Password: ", passwordField );
+			elements[0] = new VerifiableElement( "Login: ", LoginFrame.this.usernameField );
+			elements[1] = new VerifiableElement( "Password: ", this.passwordField );
 
-			setContent( elements );
+			this.setContent( elements );
 
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ), BorderLayout.CENTER );
-			actionStatusPanel.add( checkBoxPanels, BorderLayout.NORTH );
+			this.actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ), BorderLayout.CENTER );
+			this.actionStatusPanel.add( checkBoxPanels, BorderLayout.NORTH );
 
 			String autoLoginSetting = StaticEntity.getProperty( "autoLogin" );
 			if ( autoLoginSetting.equals( "" ) )
 				autoLoginSetting = StaticEntity.getProperty( "lastUsername" );
 			else
-				autoLoginCheckBox.setSelected( true );
+				this.autoLoginCheckBox.setSelected( true );
 
-			if ( usernameField instanceof LoginNameComboBox )
-				((LoginNameComboBox)usernameField).setSelectedItem( autoLoginSetting );
+			if ( LoginFrame.this.usernameField instanceof LoginNameComboBox )
+				((LoginNameComboBox)LoginFrame.this.usernameField).setSelectedItem( autoLoginSetting );
 
 			String passwordSetting = KoLmafia.getSaveState( autoLoginSetting );
 
 			if ( passwordSetting != null )
 			{
-				passwordField.setText( passwordSetting );
-				savePasswordCheckBox.setSelected( true );
+				this.passwordField.setText( passwordSetting );
+				this.savePasswordCheckBox.setSelected( true );
 			}
 
-			getBreakfastCheckBox.setSelected( StaticEntity.getBooleanProperty( "alwaysGetBreakfast" ) );
-			getBreakfastCheckBox.addActionListener( new GetBreakfastListener() );
-			autoLoginCheckBox.addActionListener( new AutoLoginListener() );
-			savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
+			this.getBreakfastCheckBox.setSelected( StaticEntity.getBooleanProperty( "alwaysGetBreakfast" ) );
+			this.getBreakfastCheckBox.addActionListener( new GetBreakfastListener() );
+			this.autoLoginCheckBox.addActionListener( new AutoLoginListener() );
+			this.savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
 
-			JComponentUtilities.addHotKey( usernameField, KeyEvent.VK_ENTER, CONFIRM_LISTENER );
+			JComponentUtilities.addHotKey( LoginFrame.this.usernameField, KeyEvent.VK_ENTER, this.CONFIRM_LISTENER );
 
 			try
 			{
 				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ), true );
-				setStatusMessage( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+				this.setStatusMessage( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 			}
 			catch ( Exception e )
 			{
@@ -268,50 +257,50 @@ public class LoginFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{
-			if ( usernameField == null || passwordField == null )
+			if ( LoginFrame.this.usernameField == null || this.passwordField == null )
 				return;
 
-			if ( savePasswordCheckBox == null || autoLoginCheckBox == null || getBreakfastCheckBox == null )
+			if ( this.savePasswordCheckBox == null || this.autoLoginCheckBox == null || this.getBreakfastCheckBox == null )
 				return;
 
 			super.setEnabled( isEnabled );
 
-			usernameField.setEnabled( isEnabled );
-			passwordField.setEnabled( isEnabled );
+			LoginFrame.this.usernameField.setEnabled( isEnabled );
+			this.passwordField.setEnabled( isEnabled );
 		}
 
 		public void actionConfirmed()
 		{
 			StaticEntity.setProperty( "relayBrowserOnly", "false" );
-			StaticEntity.setProperty( "alwaysGetBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
+			StaticEntity.setProperty( "alwaysGetBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
 
-			username = null;
+			LoginFrame.this.username = null;
 
-			if ( usernameField instanceof JTextField )
-				username = ((JTextField)usernameField).getText();
-			else if ( ((LoginNameComboBox)usernameField).getSelectedItem() != null )
-				username = (String) ((LoginNameComboBox)usernameField).getSelectedItem();
+			if ( LoginFrame.this.usernameField instanceof JTextField )
+				LoginFrame.this.username = ((JTextField)LoginFrame.this.usernameField).getText();
+			else if ( ((LoginNameComboBox)LoginFrame.this.usernameField).getSelectedItem() != null )
+				LoginFrame.this.username = (String) ((LoginNameComboBox)LoginFrame.this.usernameField).getSelectedItem();
 			else
-				username = (String) ((LoginNameComboBox)usernameField).currentMatch;
+				LoginFrame.this.username = (String) ((LoginNameComboBox)LoginFrame.this.usernameField).currentMatch;
 
 
-			String password = new String( passwordField.getPassword() );
+			String password = new String( this.passwordField.getPassword() );
 
-			if ( username == null || password == null || username.equals("") || password.equals("") )
+			if ( LoginFrame.this.username == null || password == null || LoginFrame.this.username.equals("") || password.equals("") )
 			{
-				setStatusMessage( "Invalid login." );
+				this.setStatusMessage( "Invalid login." );
 				return;
 			}
 
-			if ( autoLoginCheckBox.isSelected() )
-				StaticEntity.setProperty( "autoLogin", username );
+			if ( this.autoLoginCheckBox.isSelected() )
+				StaticEntity.setProperty( "autoLogin", LoginFrame.this.username );
 			else
 				StaticEntity.setProperty( "autoLogin", "" );
 
-			StaticEntity.setGlobalProperty( username, "getBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
+			StaticEntity.setGlobalProperty( LoginFrame.this.username, "getBreakfast", String.valueOf( this.getBreakfastCheckBox.isSelected() ) );
 
-			honorProxySettings();
-			RequestThread.postRequest( new LoginRequest( username, password ) );
+			LoginFrame.this.honorProxySettings();
+			RequestThread.postRequest( new LoginRequest( LoginFrame.this.username, password ) );
 
 			try
 			{
@@ -340,8 +329,8 @@ public class LoginFrame extends KoLFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				if ( autoLoginCheckBox.isSelected() )
-					actionConfirmed();
+				if ( LoginPanel.this.autoLoginCheckBox.isSelected() )
+					LoginPanel.this.actionConfirmed();
 				else
 					StaticEntity.setProperty( "autoLogin", "" );
 			}
@@ -350,7 +339,7 @@ public class LoginFrame extends KoLFrame
 		private class GetBreakfastListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
-			{	StaticEntity.setGlobalProperty( username, "getBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
+			{	StaticEntity.setGlobalProperty( LoginFrame.this.username, "getBreakfast", String.valueOf( LoginPanel.this.getBreakfastCheckBox.isSelected() ) );
 			}
 		}
 
@@ -358,7 +347,7 @@ public class LoginFrame extends KoLFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				if ( !savePasswordCheckBox.isSelected() && usernameField instanceof JComboBox )
+				if ( !LoginPanel.this.savePasswordCheckBox.isSelected() && LoginFrame.this.usernameField instanceof JComboBox )
 				{
 					String value = (String) saveStateNames.getSelectedItem();
 					if ( value == null )
@@ -366,10 +355,10 @@ public class LoginFrame extends KoLFrame
 
 					saveStateNames.remove( value );
 					KoLmafia.removeSaveState( value );
-					passwordField.setText( "" );
+					LoginPanel.this.passwordField.setText( "" );
 				}
 
-				StaticEntity.setProperty( "saveStateActive", String.valueOf( savePasswordCheckBox.isSelected() ) );
+				StaticEntity.setProperty( "saveStateActive", String.valueOf( LoginPanel.this.savePasswordCheckBox.isSelected() ) );
 			}
 		}
 
@@ -387,41 +376,41 @@ public class LoginFrame extends KoLFrame
 			public void setSelectedItem( Object anObject )
 			{
 				super.setSelectedItem( anObject );
-				setPassword();
+				this.setPassword();
 			}
 
 			public void findMatch( int keyCode )
 			{
 				super.findMatch( keyCode );
-				setPassword();
+				this.setPassword();
 			}
 
 			private void setPassword()
 			{
-				if ( currentMatch == null )
+				if ( this.currentMatch == null )
 				{
-					passwordField.setText( "" );
-					setStatusMessage( " " );
+					LoginPanel.this.passwordField.setText( "" );
+					LoginPanel.this.setStatusMessage( " " );
 
 					LoginPanel.this.setEnabled( true );
 					return;
 				}
 
-				String password = KoLmafia.getSaveState( (String) currentMatch );
+				String password = KoLmafia.getSaveState( (String) this.currentMatch );
 				if ( password == null )
 				{
-					passwordField.setText( "" );
-					setStatusMessage( " " );
+					LoginPanel.this.passwordField.setText( "" );
+					LoginPanel.this.setStatusMessage( " " );
 
 					LoginPanel.this.setEnabled( true );
 					return;
 				}
 
-				passwordField.setText( password );
-				savePasswordCheckBox.setSelected( true );
+				LoginPanel.this.passwordField.setText( password );
+				LoginPanel.this.savePasswordCheckBox.setSelected( true );
 
-				boolean breakfastSetting = StaticEntity.getGlobalProperty( (String) currentMatch, "getBreakfast" ).equals( "true" );
-				getBreakfastCheckBox.setSelected( breakfastSetting );
+				boolean breakfastSetting = StaticEntity.getGlobalProperty( (String) this.currentMatch, "getBreakfast" ).equals( "true" );
+				LoginPanel.this.getBreakfastCheckBox.setSelected( breakfastSetting );
 				LoginPanel.this.setEnabled( true );
 			}
 		}
@@ -436,22 +425,22 @@ public class LoginFrame extends KoLFrame
 		{
 			super( "Miscellaneous Scripts" );
 
-			loginScript = new ScriptSelectPanel( new JTextField() );
-			logoutScript = new ScriptSelectPanel( new JTextField() );
+			this.loginScript = new ScriptSelectPanel( new JTextField() );
+			this.logoutScript = new ScriptSelectPanel( new JTextField() );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "On Login: ", loginScript );
-			elements[1] = new VerifiableElement( "On Logout: ", logoutScript );
+			elements[0] = new VerifiableElement( "On Login: ", this.loginScript );
+			elements[1] = new VerifiableElement( "On Logout: ", this.logoutScript );
 			elements[2] = new VerifiableElement();
 
-			setContent( elements );
-			actionCancelled();
+			this.setContent( elements );
+			this.actionCancelled();
 		}
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "loginScript", loginScript.getText() );
-			StaticEntity.setProperty( "logoutScript", logoutScript.getText() );
+			StaticEntity.setProperty( "loginScript", this.loginScript.getText() );
+			StaticEntity.setProperty( "logoutScript", this.logoutScript.getText() );
 		}
 
 		public void actionCancelled()
@@ -481,42 +470,42 @@ public class LoginFrame extends KoLFrame
 		{
 			super( new BorderLayout() );
 
-			add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+			this.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 
 			JPanel centerPanel = new JPanel( new GridLayout( 4, 3 ) );
 
-			loginRecovery = new JCheckBox( "enable auto-recovery" );
-			loginRecovery.addActionListener( this );
-			centerPanel.add( loginRecovery );
+			this.loginRecovery = new JCheckBox( "enable auto-recovery" );
+			this.loginRecovery.addActionListener( this );
+			centerPanel.add( this.loginRecovery );
 
-			pathedSummons = new JCheckBox( "honor path restrictions" );
-			pathedSummons.addActionListener( this );
-			centerPanel.add( pathedSummons );
+			this.pathedSummons = new JCheckBox( "honor path restrictions" );
+			this.pathedSummons.addActionListener( this );
+			centerPanel.add( this.pathedSummons );
 
-			rumpusRoom = new JCheckBox( "visit clan rumpus room" );
-			rumpusRoom.addActionListener( this );
-			centerPanel.add( rumpusRoom );
+			this.rumpusRoom = new JCheckBox( "visit clan rumpus room" );
+			this.rumpusRoom.addActionListener( this );
+			centerPanel.add( this.rumpusRoom );
 
 			this.breakfastType = breakfastType;
-			skillOptions = new JCheckBox[ UseSkillRequest.BREAKFAST_SKILLS.length ];
+			this.skillOptions = new JCheckBox[ UseSkillRequest.BREAKFAST_SKILLS.length ];
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 			{
-				skillOptions[i] = new JCheckBox( UseSkillRequest.BREAKFAST_SKILLS[i].toLowerCase() );
-				skillOptions[i].addActionListener( this );
-				centerPanel.add( skillOptions[i] );
+				this.skillOptions[i] = new JCheckBox( UseSkillRequest.BREAKFAST_SKILLS[i].toLowerCase() );
+				this.skillOptions[i].addActionListener( this );
+				centerPanel.add( this.skillOptions[i] );
 			}
 
-			mushroomPlot = new JCheckBox( "plant mushrooms" );
-			mushroomPlot.addActionListener( this );
-			centerPanel.add( mushroomPlot );
+			this.mushroomPlot = new JCheckBox( "plant mushrooms" );
+			this.mushroomPlot.addActionListener( this );
+			centerPanel.add( this.mushroomPlot );
 
-			grabClovers = new JCheckBox( "get hermit clovers" );
-			grabClovers.addActionListener( this );
-			centerPanel.add( grabClovers );
+			this.grabClovers = new JCheckBox( "get hermit clovers" );
+			this.grabClovers.addActionListener( this );
+			centerPanel.add( this.grabClovers );
 
-			readManual = new JCheckBox( "read guild manual" );
-			readManual.addActionListener( this );
-			centerPanel.add( readManual );
+			this.readManual = new JCheckBox( "read guild manual" );
+			this.readManual.addActionListener( this );
+			centerPanel.add( this.readManual );
 
 			JPanel centerHolder = new JPanel( new BorderLayout() );
 			centerHolder.add( centerPanel, BorderLayout.NORTH );
@@ -524,13 +513,13 @@ public class LoginFrame extends KoLFrame
 			JPanel centerContainer = new JPanel( new CardLayout( 10, 10 ) );
 			centerContainer.add( centerHolder, "" );
 
-			add( centerContainer, BorderLayout.CENTER );
+			this.add( centerContainer, BorderLayout.CENTER );
 
-			actionCancelled();
+			this.actionCancelled();
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	actionConfirmed();
+		{	this.actionConfirmed();
 		}
 
 		public void actionConfirmed()
@@ -539,7 +528,7 @@ public class LoginFrame extends KoLFrame
 
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 			{
-				if ( skillOptions[i].isSelected() )
+				if ( this.skillOptions[i].isSelected() )
 				{
 					if ( skillString.length() != 0 )
 						skillString.append( "," );
@@ -548,27 +537,27 @@ public class LoginFrame extends KoLFrame
 				}
 			}
 
-			StaticEntity.setProperty( "breakfast" + breakfastType, skillString.toString() );
-			StaticEntity.setProperty( "loginRecovery" + breakfastType, String.valueOf( loginRecovery.isSelected() ) );
-			StaticEntity.setProperty( "pathedSummons" + breakfastType, String.valueOf( pathedSummons.isSelected() ) );
-			StaticEntity.setProperty( "visitRumpus" + breakfastType, String.valueOf( rumpusRoom.isSelected() ) );
-			StaticEntity.setProperty( "autoPlant" + breakfastType, String.valueOf( mushroomPlot.isSelected() ) );
-			StaticEntity.setProperty( "grabClovers" + breakfastType, String.valueOf( grabClovers.isSelected() ) );
-			StaticEntity.setProperty( "readManual" + breakfastType, String.valueOf( readManual.isSelected() ) );
+			StaticEntity.setProperty( "breakfast" + this.breakfastType, skillString.toString() );
+			StaticEntity.setProperty( "loginRecovery" + this.breakfastType, String.valueOf( this.loginRecovery.isSelected() ) );
+			StaticEntity.setProperty( "pathedSummons" + this.breakfastType, String.valueOf( this.pathedSummons.isSelected() ) );
+			StaticEntity.setProperty( "visitRumpus" + this.breakfastType, String.valueOf( this.rumpusRoom.isSelected() ) );
+			StaticEntity.setProperty( "autoPlant" + this.breakfastType, String.valueOf( this.mushroomPlot.isSelected() ) );
+			StaticEntity.setProperty( "grabClovers" + this.breakfastType, String.valueOf( this.grabClovers.isSelected() ) );
+			StaticEntity.setProperty( "readManual" + this.breakfastType, String.valueOf( this.readManual.isSelected() ) );
 		}
 
 		public void actionCancelled()
 		{
-			String skillString = StaticEntity.getProperty( "breakfast" + breakfastType );
+			String skillString = StaticEntity.getProperty( "breakfast" + this.breakfastType );
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
-				skillOptions[i].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i] ) != -1 );
+				this.skillOptions[i].setSelected( skillString.indexOf( UseSkillRequest.BREAKFAST_SKILLS[i] ) != -1 );
 
-			loginRecovery.setSelected( StaticEntity.getBooleanProperty( "loginRecovery" + breakfastType ) );
-			pathedSummons.setSelected( StaticEntity.getBooleanProperty( "pathedSummons" + breakfastType ) );
-			rumpusRoom.setSelected( StaticEntity.getBooleanProperty( "visitRumpus" + breakfastType ) );
-			mushroomPlot.setSelected( StaticEntity.getBooleanProperty( "autoPlant" + breakfastType ) );
-			grabClovers.setSelected( StaticEntity.getBooleanProperty( "grabClovers" + breakfastType ) );
-			readManual.setSelected( StaticEntity.getBooleanProperty( "readManual" + breakfastType ) );
+			this.loginRecovery.setSelected( StaticEntity.getBooleanProperty( "loginRecovery" + this.breakfastType ) );
+			this.pathedSummons.setSelected( StaticEntity.getBooleanProperty( "pathedSummons" + this.breakfastType ) );
+			this.rumpusRoom.setSelected( StaticEntity.getBooleanProperty( "visitRumpus" + this.breakfastType ) );
+			this.mushroomPlot.setSelected( StaticEntity.getBooleanProperty( "autoPlant" + this.breakfastType ) );
+			this.grabClovers.setSelected( StaticEntity.getBooleanProperty( "grabClovers" + this.breakfastType ) );
+			this.readManual.setSelected( StaticEntity.getBooleanProperty( "readManual" + this.breakfastType ) );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -631,19 +620,19 @@ public class LoginFrame extends KoLFrame
 		{
 			super( new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
-			usernameComboBox = new JComboBox( saveStateNames );
-			loginScript = new ScriptSelectPanel( new JTextField() );
-			logoutScript = new ScriptSelectPanel( new JTextField() );
+			this.usernameComboBox = new JComboBox( saveStateNames );
+			this.loginScript = new ScriptSelectPanel( new JTextField() );
+			this.logoutScript = new ScriptSelectPanel( new JTextField() );
 
 			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Settings:  ", usernameComboBox );
+			elements[0] = new VerifiableElement( "Settings:  ", this.usernameComboBox );
 
-			setContent( elements );
+			this.setContent( elements );
 
 			JPanel optionPanel = new JPanel( new GridLayout( 1, 3, 10, 10 ) );
-			optionPanel.add( new LabeledScrollPanel( "Complete List", new JDnDList( completeList, false ) ) );
-			optionPanel.add( new LabeledScrollPanel( "Startup as Window", new JDnDList( startupList ) ) );
-			optionPanel.add( new LabeledScrollPanel( "Startup in Tabs", new JDnDList( desktopList ) ) );
+			optionPanel.add( new LabeledScrollPanel( "Complete List", new JDnDList( this.completeList, false ) ) );
+			optionPanel.add( new LabeledScrollPanel( "Startup as Window", new JDnDList( this.startupList ) ) );
+			optionPanel.add( new LabeledScrollPanel( "Startup in Tabs", new JDnDList( this.desktopList ) ) );
 
 			JTextArea message = new JTextArea(
 				"These are the per-user settings for what shows up when KoLmafia successfully logs into the Kingdom of Loathing.  You can drag and drop options in the lists below to customize what will show up.\n\n" +
@@ -657,40 +646,40 @@ public class LoginFrame extends KoLFrame
 			message.setOpaque( false );
 			message.setFont( DEFAULT_FONT );
 
-			container.add( message, BorderLayout.NORTH );
-			container.add( optionPanel, BorderLayout.SOUTH );
-			actionCancelled();
+			this.container.add( message, BorderLayout.NORTH );
+			this.container.add( optionPanel, BorderLayout.SOUTH );
+			this.actionCancelled();
 
-			completeList.addListDataListener( this );
-			startupList.addListDataListener( this );
-			desktopList.addListDataListener( this );
+			this.completeList.addListDataListener( this );
+			this.startupList.addListDataListener( this );
+			this.desktopList.addListDataListener( this );
 		}
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "loginScript", loginScript.getText() );
-			StaticEntity.setProperty( "logoutScript", logoutScript.getText() );
+			StaticEntity.setProperty( "loginScript", this.loginScript.getText() );
+			StaticEntity.setProperty( "logoutScript", this.logoutScript.getText() );
 
-			actionCancelled();
+			this.actionCancelled();
 		}
 
 		public void actionCancelled()
 		{
-			isRefreshing = true;
+			this.isRefreshing = true;
 
-			username = (String) saveStateNames.getSelectedItem();
-			if ( username == null )
-				username = "";
+			LoginFrame.this.username = (String) saveStateNames.getSelectedItem();
+			if ( LoginFrame.this.username == null )
+				LoginFrame.this.username = "";
 
-			completeList.clear();
-			startupList.clear();
-			desktopList.clear();
+			this.completeList.clear();
+			this.startupList.clear();
+			this.desktopList.clear();
 
-			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
-				completeList.add( FRAME_OPTIONS[i][0] );
+			for ( int i = 0; i < this.FRAME_OPTIONS.length; ++i )
+				this.completeList.add( this.FRAME_OPTIONS[i][0] );
 
-			String frameString = StaticEntity.getGlobalProperty( username, "initialFrames" );
-			String desktopString = StaticEntity.getGlobalProperty( username, "initialDesktop" );
+			String frameString = StaticEntity.getGlobalProperty( LoginFrame.this.username, "initialFrames" );
+			String desktopString = StaticEntity.getGlobalProperty( LoginFrame.this.username, "initialDesktop" );
 
 			if ( frameString.equals( "" ) && desktopString.equals( "" ) )
 			{
@@ -702,24 +691,24 @@ public class LoginFrame extends KoLFrame
 
 			pieces = frameString.split( "," );
 			for ( int i = 0; i < pieces.length; ++i )
-				for ( int j = 0; j < FRAME_OPTIONS.length; ++j )
-					if ( !startupList.contains( FRAME_OPTIONS[j][0] ) && FRAME_OPTIONS[j][1].equals( pieces[i] ) )
+				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
+					if ( !this.startupList.contains( this.FRAME_OPTIONS[j][0] ) && this.FRAME_OPTIONS[j][1].equals( pieces[i] ) )
 					{
-						completeList.remove( FRAME_OPTIONS[j][0] );
-						startupList.add( FRAME_OPTIONS[j][0] );
+						this.completeList.remove( this.FRAME_OPTIONS[j][0] );
+						this.startupList.add( this.FRAME_OPTIONS[j][0] );
 					}
 
 			pieces = desktopString.split( "," );
 			for ( int i = 0; i < pieces.length; ++i )
-				for ( int j = 0; j < FRAME_OPTIONS.length; ++j )
-					if ( !desktopList.contains( FRAME_OPTIONS[j][0] ) && FRAME_OPTIONS[j][1].equals( pieces[i] ) )
+				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
+					if ( !this.desktopList.contains( this.FRAME_OPTIONS[j][0] ) && this.FRAME_OPTIONS[j][1].equals( pieces[i] ) )
 					{
-						completeList.remove( FRAME_OPTIONS[j][0] );
-						desktopList.add( FRAME_OPTIONS[j][0] );
+						this.completeList.remove( this.FRAME_OPTIONS[j][0] );
+						this.desktopList.add( this.FRAME_OPTIONS[j][0] );
 					}
 
-			isRefreshing = false;
-			saveLayoutSettings();
+			this.isRefreshing = false;
+			this.saveLayoutSettings();
 
 			this.loginScript.setText( StaticEntity.getProperty( "loginScript" ) );
 			this.logoutScript.setText( StaticEntity.getProperty( "logoutScript" ) );
@@ -735,17 +724,17 @@ public class LoginFrame extends KoLFrame
 
 		public void intervalAdded( ListDataEvent e )
 		{
-			if ( e.getSource() == startupList )
-				desktopList.removeAll( startupList );
+			if ( e.getSource() == this.startupList )
+				this.desktopList.removeAll( this.startupList );
 
-			if ( e.getSource() == desktopList )
-				startupList.removeAll( desktopList );
+			if ( e.getSource() == this.desktopList )
+				this.startupList.removeAll( this.desktopList );
 
-			saveLayoutSettings();
+			this.saveLayoutSettings();
 		}
 
 		public void intervalRemoved( ListDataEvent e )
-		{	saveLayoutSettings();
+		{	this.saveLayoutSettings();
 		}
 
 		public void contentsChanged( ListDataEvent e )
@@ -754,26 +743,26 @@ public class LoginFrame extends KoLFrame
 
 		public void saveLayoutSettings()
 		{
-			if ( isRefreshing )
+			if ( this.isRefreshing )
 				return;
 
 			StringBuffer frameString = new StringBuffer();
 			StringBuffer desktopString = new StringBuffer();
 
-			for ( int i = 0; i < startupList.size(); ++i )
-				for ( int j = 0; j < FRAME_OPTIONS.length; ++j )
-					if ( startupList.get(i).equals( FRAME_OPTIONS[j][0] ) )
+			for ( int i = 0; i < this.startupList.size(); ++i )
+				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
+					if ( this.startupList.get(i).equals( this.FRAME_OPTIONS[j][0] ) )
 					{
 						if ( frameString.length() != 0 ) frameString.append( "," );
-						frameString.append( FRAME_OPTIONS[j][1] );
+						frameString.append( this.FRAME_OPTIONS[j][1] );
 					}
 
-			for ( int i = 0; i < desktopList.size(); ++i )
-				for ( int j = 0; j < FRAME_OPTIONS.length; ++j )
-					if ( desktopList.get(i).equals( FRAME_OPTIONS[j][0] ) )
+			for ( int i = 0; i < this.desktopList.size(); ++i )
+				for ( int j = 0; j < this.FRAME_OPTIONS.length; ++j )
+					if ( this.desktopList.get(i).equals( this.FRAME_OPTIONS[j][0] ) )
 					{
 						if ( desktopString.length() != 0 ) desktopString.append( "," );
-						desktopString.append( FRAME_OPTIONS[j][1] );
+						desktopString.append( this.FRAME_OPTIONS[j][1] );
 					}
 
 			StaticEntity.setGlobalProperty( "", "initialFrames", frameString.toString() );
@@ -836,27 +825,27 @@ public class LoginFrame extends KoLFrame
 			for ( int i = 0; i < installedLooks.length; ++i )
 				installedLooks[i] = installed[i].getClassName();
 
-			looks = new JComboBox( installedLooks );
+			this.looks = new JComboBox( installedLooks );
 
-			toolbars = new JComboBox();
-			toolbars.addItem( "Show global menus only" );
-			toolbars.addItem( "Put toolbar along top of panel" );
-			toolbars.addItem( "Put toolbar along bottom of panel" );
-			toolbars.addItem( "Put toolbar along left of panel" );
+			this.toolbars = new JComboBox();
+			this.toolbars.addItem( "Show global menus only" );
+			this.toolbars.addItem( "Put toolbar along top of panel" );
+			this.toolbars.addItem( "Put toolbar along bottom of panel" );
+			this.toolbars.addItem( "Put toolbar along left of panel" );
 
-			scripts = new JComboBox();
-			scripts.addItem( "Do not show script bar on main interface" );
-			scripts.addItem( "Put script bar after normal toolbar" );
-			scripts.addItem( "Put script bar along right of panel" );
+			this.scripts = new JComboBox();
+			this.scripts.addItem( "Do not show script bar on main interface" );
+			this.scripts.addItem( "Put script bar after normal toolbar" );
+			this.scripts.addItem( "Put script bar along right of panel" );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 
-			elements[0] = new VerifiableElement( "Java L&F: ", looks );
-			elements[1] = new VerifiableElement( "Toolbar: ", toolbars );
-			elements[2] = new VerifiableElement( "Scripts: ", scripts );
+			elements[0] = new VerifiableElement( "Java L&F: ", this.looks );
+			elements[1] = new VerifiableElement( "Toolbar: ", this.toolbars );
+			elements[2] = new VerifiableElement( "Scripts: ", this.scripts );
 
-			actionCancelled();
-			setContent( elements );
+			this.actionCancelled();
+			this.setContent( elements );
 		}
 
 		public boolean shouldAddStatusLabel( VerifiableElement [] elements )
@@ -866,7 +855,7 @@ public class LoginFrame extends KoLFrame
 		public void setContent( VerifiableElement [] elements )
 		{
 			super.setContent( elements );
-			add( new InterfaceCheckboxPanel(), BorderLayout.CENTER );
+			this.add( new InterfaceCheckboxPanel(), BorderLayout.CENTER );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -875,20 +864,20 @@ public class LoginFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			String lookAndFeel = (String) looks.getSelectedItem();
+			String lookAndFeel = (String) this.looks.getSelectedItem();
 			if ( lookAndFeel != null )
 				StaticEntity.setProperty( "swingLookAndFeel", lookAndFeel );
 
-			StaticEntity.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
-			StaticEntity.setProperty( "scriptButtonPosition", String.valueOf( scripts.getSelectedIndex() ) );
-			StaticEntity.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
+			StaticEntity.setProperty( "useToolbars", String.valueOf( this.toolbars.getSelectedIndex() != 0 ) );
+			StaticEntity.setProperty( "scriptButtonPosition", String.valueOf( this.scripts.getSelectedIndex() ) );
+			StaticEntity.setProperty( "toolbarPosition", String.valueOf( this.toolbars.getSelectedIndex() ) );
 		}
 
 		public void actionCancelled()
 		{
-			looks.setSelectedItem( StaticEntity.getProperty( "swingLookAndFeel" ) );
-			toolbars.setSelectedIndex( StaticEntity.getIntegerProperty( "toolbarPosition" ) );
-			scripts.setSelectedIndex( StaticEntity.getIntegerProperty( "scriptButtonPosition" ) );
+			this.looks.setSelectedItem( StaticEntity.getProperty( "swingLookAndFeel" ) );
+			this.toolbars.setSelectedIndex( StaticEntity.getIntegerProperty( "toolbarPosition" ) );
+			this.scripts.setSelectedIndex( StaticEntity.getIntegerProperty( "scriptButtonPosition" ) );
 		}
 
 		private class InterfaceCheckboxPanel extends OptionsPanel
@@ -904,51 +893,51 @@ public class LoginFrame extends KoLFrame
 			public InterfaceCheckboxPanel()
 			{
 				super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-				VerifiableElement [] elements = new VerifiableElement[ options.length + 3 ];
+				VerifiableElement [] elements = new VerifiableElement[ UserInterfacePanel.this.options.length + 3 ];
 
-				optionBoxes = new JCheckBox[ options.length ];
-				for ( int i = 0; i < options.length; ++i )
-					optionBoxes[i] = new JCheckBox();
+				UserInterfacePanel.this.optionBoxes = new JCheckBox[ UserInterfacePanel.this.options.length ];
+				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
+					UserInterfacePanel.this.optionBoxes[i] = new JCheckBox();
 
-				for ( int i = 0; i < options.length; ++i )
+				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
 				{
-					if ( options[i].length == 0 )
+					if ( UserInterfacePanel.this.options[i].length == 0 )
 						elements[i] = new VerifiableElement();
 					else
-						elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+						elements[i] = new VerifiableElement( UserInterfacePanel.this.options[i][1], JLabel.LEFT, UserInterfacePanel.this.optionBoxes[i] );
 				}
 
-				elements[ options.length ] = new VerifiableElement();
+				elements[ UserInterfacePanel.this.options.length ] = new VerifiableElement();
 
-				outerGradient = new TabColorChanger( "outerTabColor" );
-				elements[ options.length + 1 ] = new VerifiableElement( "Change the outer portion of the tab gradient (shiny tabs)",
-					JLabel.LEFT, outerGradient );
+				this.outerGradient = new TabColorChanger( "outerTabColor" );
+				elements[ UserInterfacePanel.this.options.length + 1 ] = new VerifiableElement( "Change the outer portion of the tab gradient (shiny tabs)",
+					JLabel.LEFT, this.outerGradient );
 
-				innerGradient = new TabColorChanger( "innerTabColor" );
-				elements[ options.length + 2 ] = new VerifiableElement( "Change the inner portion of the tab gradient (shiny tabs)",
-					JLabel.LEFT, innerGradient );
+				this.innerGradient = new TabColorChanger( "innerTabColor" );
+				elements[ UserInterfacePanel.this.options.length + 2 ] = new VerifiableElement( "Change the inner portion of the tab gradient (shiny tabs)",
+					JLabel.LEFT, this.innerGradient );
 
-				actionCancelled();
-				setContent( elements );
+				this.actionCancelled();
+				this.setContent( elements );
 			}
 
 			public void actionConfirmed()
 			{
-				for ( int i = 0; i < options.length; ++i )
-					if ( options[i].length > 0 )
-						StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
+					if ( UserInterfacePanel.this.options[i].length > 0 )
+						StaticEntity.setProperty( UserInterfacePanel.this.options[i][0], String.valueOf( UserInterfacePanel.this.optionBoxes[i].isSelected() ) );
 
 				super.actionConfirmed();
 			}
 
 			public void actionCancelled()
 			{
-				for ( int i = 0; i < options.length; ++i )
-					if ( options[i].length > 0 )
-						optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
+				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
+					if ( UserInterfacePanel.this.options[i].length > 0 )
+						UserInterfacePanel.this.optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( UserInterfacePanel.this.options[i][0] ) );
 
-				innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedA );
-				outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedB );
+				this.innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedA );
+				this.outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedB );
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -963,12 +952,12 @@ public class LoginFrame extends KoLFrame
 
 				public void applyChanges()
 				{
-					if ( property.equals( "innerTabColor" ) )
-						CloseTabPaneEnhancedUI.selectedA = innerGradient.getBackground();
+					if ( this.property.equals( "innerTabColor" ) )
+						CloseTabPaneEnhancedUI.selectedA = InterfaceCheckboxPanel.this.innerGradient.getBackground();
 					else
-						CloseTabPaneEnhancedUI.selectedB = outerGradient.getBackground();
+						CloseTabPaneEnhancedUI.selectedB = InterfaceCheckboxPanel.this.outerGradient.getBackground();
 
-					tabs.repaint();
+					LoginFrame.this.tabs.repaint();
 				}
 			}
 		}
@@ -989,41 +978,41 @@ public class LoginFrame extends KoLFrame
 		{
 			super( "Connection Options", new Dimension( 20, 20 ), new Dimension( 380, 20 ) );
 
-			servers = new JComboBox();
-			servers.addItem( "Attempt to use dev.kingdomofloathing.com" );
-			servers.addItem( "Attempt to use www.kingdomofloathing.com" );
+			LoginFrame.this.servers = new JComboBox();
+			LoginFrame.this.servers.addItem( "Attempt to use dev.kingdomofloathing.com" );
+			LoginFrame.this.servers.addItem( "Attempt to use www.kingdomofloathing.com" );
 
 			for ( int i = 2; i <= KoLRequest.SERVER_COUNT; ++i )
-				servers.addItem( "Attempt to use www" + i + ".kingdomofloathing.com" );
+				LoginFrame.this.servers.addItem( "Attempt to use www" + i + ".kingdomofloathing.com" );
 
-			optionBoxes = new JCheckBox[ options.length ];
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i] = new JCheckBox();
+			this.optionBoxes = new JCheckBox[ this.options.length ];
+			for ( int i = 0; i < this.options.length; ++i )
+				this.optionBoxes[i] = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[ 2 + options.length ];
+			VerifiableElement [] elements = new VerifiableElement[ 2 + this.options.length ];
 
-			elements[0] = new VerifiableElement( servers );
+			elements[0] = new VerifiableElement( LoginFrame.this.servers );
 			elements[1] = new VerifiableElement();
 
-			for ( int i = 0; i < options.length; ++i )
-				elements[i+2] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+			for ( int i = 0; i < this.options.length; ++i )
+				elements[i+2] = new VerifiableElement( this.options[i][1], JLabel.LEFT, this.optionBoxes[i] );
 
-			actionCancelled();
-			setContent( elements );
+			this.actionCancelled();
+			this.setContent( elements );
 		}
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "defaultLoginServer", String.valueOf( servers.getSelectedIndex() ) );
-			for ( int i = 0; i < options.length; ++i )
-				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+			StaticEntity.setProperty( "defaultLoginServer", String.valueOf( LoginFrame.this.servers.getSelectedIndex() ) );
+			for ( int i = 0; i < this.options.length; ++i )
+				StaticEntity.setProperty( this.options[i][0], String.valueOf( this.optionBoxes[i].isSelected() ) );
 		}
 
 		public void actionCancelled()
 		{
-			servers.setSelectedIndex( StaticEntity.getIntegerProperty( "defaultLoginServer" ) );
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
+			LoginFrame.this.servers.setSelectedIndex( StaticEntity.getIntegerProperty( "defaultLoginServer" ) );
+			for ( int i = 0; i < this.options.length; ++i )
+				this.optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( this.options[i][0] ) );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -1034,12 +1023,12 @@ public class LoginFrame extends KoLFrame
 	public void honorProxySettings()
 	{
 		StaticEntity.setProperty( "proxySet", String.valueOf(
-				proxyHost.getText().trim().length() > 0 ) );
+				this.proxyHost.getText().trim().length() > 0 ) );
 
-		StaticEntity.setProperty( "http.proxyHost", proxyHost.getText() );
-		StaticEntity.setProperty( "http.proxyPort", proxyPort.getText() );
-		StaticEntity.setProperty( "http.proxyUser", proxyLogin.getText() );
-		StaticEntity.setProperty( "http.proxyPassword", proxyPassword.getText() );
+		StaticEntity.setProperty( "http.proxyHost", this.proxyHost.getText() );
+		StaticEntity.setProperty( "http.proxyPort", this.proxyPort.getText() );
+		StaticEntity.setProperty( "http.proxyUser", this.proxyLogin.getText() );
+		StaticEntity.setProperty( "http.proxyPassword", this.proxyPassword.getText() );
 	}
 
 	/**
@@ -1059,19 +1048,19 @@ public class LoginFrame extends KoLFrame
 		{
 			super( "Proxy Settings", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			proxyHost = new JTextField();
-			proxyPort = new JTextField();
-			proxyLogin = new JTextField();
-			proxyPassword = new JTextField();
+			LoginFrame.this.proxyHost = new JTextField();
+			LoginFrame.this.proxyPort = new JTextField();
+			LoginFrame.this.proxyLogin = new JTextField();
+			LoginFrame.this.proxyPassword = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[4];
-			elements[0] = new VerifiableElement( "Host: ", proxyHost );
-			elements[1] = new VerifiableElement( "Port: ", proxyPort );
-			elements[2] = new VerifiableElement( "Login: ", proxyLogin );
-			elements[3] = new VerifiableElement( "Password: ", proxyPassword );
+			elements[0] = new VerifiableElement( "Host: ", LoginFrame.this.proxyHost );
+			elements[1] = new VerifiableElement( "Port: ", LoginFrame.this.proxyPort );
+			elements[2] = new VerifiableElement( "Login: ", LoginFrame.this.proxyLogin );
+			elements[3] = new VerifiableElement( "Password: ", LoginFrame.this.proxyPassword );
 
-			actionCancelled();
-			setContent( elements );
+			this.actionCancelled();
+			this.setContent( elements );
 		}
 
 		public void actionConfirmed()
@@ -1082,10 +1071,10 @@ public class LoginFrame extends KoLFrame
 		{
 			boolean shouldEnable = StaticEntity.getBooleanProperty( "proxySet" );
 
-			proxyHost.setText( StaticEntity.getProperty( "http.proxyHost" ) );
-			proxyPort.setText( StaticEntity.getProperty( "http.proxyPort" ) );
-			proxyLogin.setText( StaticEntity.getProperty( "http.proxyUser" ) );
-			proxyPassword.setText( StaticEntity.getProperty( "http.proxyPassword" ) );
+			LoginFrame.this.proxyHost.setText( StaticEntity.getProperty( "http.proxyHost" ) );
+			LoginFrame.this.proxyPort.setText( StaticEntity.getProperty( "http.proxyPort" ) );
+			LoginFrame.this.proxyLogin.setText( StaticEntity.getProperty( "http.proxyUser" ) );
+			LoginFrame.this.proxyPassword.setText( StaticEntity.getProperty( "http.proxyPassword" ) );
 		}
 
 		public void setEnabled( boolean isEnabled )

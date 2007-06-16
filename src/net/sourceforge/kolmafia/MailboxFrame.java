@@ -33,30 +33,21 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Component;
 import java.awt.Dimension;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import java.util.StringTokenizer;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import tab.CloseTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.HyperlinkListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -77,29 +68,29 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	{
 		super( "IcePenguin Express" );
 
-		addTab( "Inbox", this.messageListInbox = new MailSelectList( "Inbox" ) );
-		addTab( "PvP", this.messageListPvp = new MailSelectList( "PvP" ) );
-		addTab( "Outbox", this.messageListOutbox = new MailSelectList( "Outbox" ) );
-		addTab( "Saved", this.messageListSaved = new MailSelectList( "Saved" ) );
+		this.addTab( "Inbox", this.messageListInbox = new MailSelectList( "Inbox" ) );
+		this.addTab( "PvP", this.messageListPvp = new MailSelectList( "PvP" ) );
+		this.addTab( "Outbox", this.messageListOutbox = new MailSelectList( "Outbox" ) );
+		this.addTab( "Saved", this.messageListSaved = new MailSelectList( "Saved" ) );
 
-		tabs.addChangeListener( this );
-		tabs.setMinimumSize( new Dimension( 0, 150 ) );
+		this.tabs.addChangeListener( this );
+		this.tabs.setMinimumSize( new Dimension( 0, 150 ) );
 
 		this.messageContent = new RequestPane();
-		messageContent.addHyperlinkListener( new MailLinkClickedListener() );
+		this.messageContent.addHyperlinkListener( new MailLinkClickedListener() );
 
 		this.mailBuffer = new LimitedSizeChatBuffer( false );
-		JScrollPane messageContentDisplay = mailBuffer.setChatDisplay( messageContent );
+		JScrollPane messageContentDisplay = this.mailBuffer.setChatDisplay( this.messageContent );
 		messageContentDisplay.setMinimumSize( new Dimension( 0, 150 ) );
 
 		JSplitPane splitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, true,
-			tabs, messageContentDisplay );
+			this.tabs, messageContentDisplay );
 
 		splitPane.setOneTouchExpandable( true );
 		JComponentUtilities.setComponentSize( splitPane, 500, 300 );
-		getContentPane().add( splitPane );
+		this.getContentPane().add( splitPane );
 
-		JToolBar toolbarPanel = getToolbar();
+		JToolBar toolbarPanel = this.getToolbar();
 
 		if ( toolbarPanel != null )
 		{
@@ -111,16 +102,16 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( tabs == null || messageListInbox == null || messageListPvp == null || messageListOutbox == null || messageListSaved == null )
+		if ( this.tabs == null || this.messageListInbox == null || this.messageListPvp == null || this.messageListOutbox == null || this.messageListSaved == null )
 			return;
 
-		for ( int i = 0; i < tabs.getTabCount(); ++i )
-			tabs.setEnabledAt( i, isEnabled );
+		for ( int i = 0; i < this.tabs.getTabCount(); ++i )
+			this.tabs.setEnabledAt( i, isEnabled );
 
-		messageListInbox.setEnabled( isEnabled );
-		messageListPvp.setEnabled( isEnabled );
-		messageListOutbox.setEnabled( isEnabled );
-		messageListSaved.setEnabled( isEnabled );
+		this.messageListInbox.setEnabled( isEnabled );
+		this.messageListPvp.setEnabled( isEnabled );
+		this.messageListOutbox.setEnabled( isEnabled );
+		this.messageListSaved.setEnabled( isEnabled );
 	}
 
 	/**
@@ -131,36 +122,36 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	public void stateChanged( ChangeEvent e )
 	{
-		refreshMailManager();
-		mailBuffer.clearBuffer();
+		this.refreshMailManager();
+		this.mailBuffer.clearBuffer();
 
 		boolean requestMailbox;
-		String currentTabName = tabs.getTitleAt( tabs.getSelectedIndex() );
+		String currentTabName = this.tabs.getTitleAt( this.tabs.getSelectedIndex() );
 
 		if ( currentTabName.equals( "Inbox" ) )
 		{
-			if ( messageListInbox.isInitialized() )
-				messageListInbox.valueChanged( null );
-			requestMailbox = !messageListInbox.isInitialized();
+			if ( this.messageListInbox.isInitialized() )
+				this.messageListInbox.valueChanged( null );
+			requestMailbox = !this.messageListInbox.isInitialized();
 		}
 		else if ( currentTabName.equals( "PvP" ) )
 		{
-			if ( messageListPvp.isInitialized() )
-				messageListPvp.valueChanged( null );
+			if ( this.messageListPvp.isInitialized() )
+				this.messageListPvp.valueChanged( null );
 
-			requestMailbox = !messageListPvp.isInitialized();
+			requestMailbox = !this.messageListPvp.isInitialized();
 		}
 		else if ( currentTabName.equals( "Outbox" ) )
 		{
-			if ( messageListOutbox.isInitialized() )
-				messageListOutbox.valueChanged( null );
-			requestMailbox = !messageListOutbox.isInitialized();
+			if ( this.messageListOutbox.isInitialized() )
+				this.messageListOutbox.valueChanged( null );
+			requestMailbox = !this.messageListOutbox.isInitialized();
 		}
 		else
 		{
-			if ( messageListSaved.isInitialized() )
-				messageListSaved.valueChanged( null );
-			requestMailbox = !messageListSaved.isInitialized();
+			if ( this.messageListSaved.isInitialized() )
+				this.messageListSaved.valueChanged( null );
+			requestMailbox = !this.messageListSaved.isInitialized();
 		}
 
 		if ( requestMailbox )
@@ -169,10 +160,10 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	private void refreshMailManager()
 	{
-		messageListInbox.setModel( KoLMailManager.getMessages( "Inbox" ) );
-		messageListPvp.setModel( KoLMailManager.getMessages( "PvP" ) );
-		messageListOutbox.setModel( KoLMailManager.getMessages( "Outbox" ) );
-		messageListSaved.setModel( KoLMailManager.getMessages( "Saved" ) );
+		this.messageListInbox.setModel( KoLMailManager.getMessages( "Inbox" ) );
+		this.messageListPvp.setModel( KoLMailManager.getMessages( "PvP" ) );
+		this.messageListOutbox.setModel( KoLMailManager.getMessages( "Outbox" ) );
+		this.messageListSaved.setModel( KoLMailManager.getMessages( "Saved" ) );
 	}
 
 	private class MailRefresher implements Runnable
@@ -188,18 +179,18 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public void run()
 		{
-			refreshMailManager();
-			mailBuffer.append( "Retrieving messages from server..." );
+			MailboxFrame.this.refreshMailManager();
+			MailboxFrame.this.mailBuffer.append( "Retrieving messages from server..." );
 
-			RequestThread.postRequest( refresher );
-			mailBuffer.clearBuffer();
+			RequestThread.postRequest( this.refresher );
+			MailboxFrame.this.mailBuffer.clearBuffer();
 
-			if ( mailboxName.equals( "Inbox" ) )
-				messageListInbox.setInitialized( true );
-			else if ( mailboxName.equals( "Outbox" ) )
-				messageListOutbox.setInitialized( true );
+			if ( this.mailboxName.equals( "Inbox" ) )
+				MailboxFrame.this.messageListInbox.setInitialized( true );
+			else if ( this.mailboxName.equals( "Outbox" ) )
+				MailboxFrame.this.messageListOutbox.setInitialized( true );
 			else
-				messageListSaved.setInitialized( true );
+				MailboxFrame.this.messageListSaved.setInitialized( true );
 		}
 	}
 
@@ -216,29 +207,29 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		public MailSelectList( String mailboxName )
 		{
 			super( KoLMailManager.getMessages( mailboxName ) );
-			setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+			this.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			this.mailboxName = mailboxName;
-			addListSelectionListener( this );
-			addKeyListener( new MailboxKeyListener() );
+			this.addListSelectionListener( this );
+			this.addKeyListener( new MailboxKeyListener() );
 		}
 
 		public void valueChanged( ListSelectionEvent e )
 		{
-			if ( mailBuffer == null )
+			if ( MailboxFrame.this.mailBuffer == null )
 				return;
 
-			mailBuffer.clearBuffer();
-			int newIndex = getSelectedIndex();
+			MailboxFrame.this.mailBuffer.clearBuffer();
+			int newIndex = this.getSelectedIndex();
 
-			if ( newIndex >= 0 && getModel().getSize() > 0 )
+			if ( newIndex >= 0 && this.getModel().getSize() > 0 )
 			{
-				displayed = ((KoLMailMessage)KoLMailManager.getMessages( mailboxName ).get( newIndex ));
-				mailBuffer.append( displayed.getDisplayHTML() );
+				MailboxFrame.this.displayed = ((KoLMailMessage)KoLMailManager.getMessages( this.mailboxName ).get( newIndex ));
+				MailboxFrame.this.mailBuffer.append( MailboxFrame.this.displayed.getDisplayHTML() );
 			}
 		}
 
 		private boolean isInitialized()
-		{	return initialized;
+		{	return this.initialized;
 		}
 
 		public void setInitialized( boolean initialized )
@@ -251,7 +242,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			{
 				if ( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE )
 				{
-					Object [] messages = getSelectedValues();
+					Object [] messages = MailSelectList.this.getSelectedValues();
 					if ( messages.length == 0 )
 						return;
 
@@ -259,11 +250,11 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 							return;
 
-					KoLMailManager.deleteMessages( mailboxName, messages );
+					KoLMailManager.deleteMessages( MailSelectList.this.mailboxName, messages );
 				}
-				else if ( e.getKeyCode() == KeyEvent.VK_S && mailboxName.equals( "Inbox" ) )
+				else if ( e.getKeyCode() == KeyEvent.VK_S && MailSelectList.this.mailboxName.equals( "Inbox" ) )
 				{
-					Object [] messages = getSelectedValues();
+					Object [] messages = MailSelectList.this.getSelectedValues();
 					if ( messages.length == 0 )
 						return;
 
@@ -284,27 +275,27 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		public SaveAllButton()
 		{
 			super( JComponentUtilities.getImage( "saveall.gif" ) );
-			setToolTipText( "Save Selected" );
+			this.setToolTipText( "Save Selected" );
 		}
 
 		public void run()
 		{
-			messages = null;
-			String currentTabName = tabs.getTitleAt( tabs.getSelectedIndex() );
+			this.messages = null;
+			String currentTabName = MailboxFrame.this.tabs.getTitleAt( MailboxFrame.this.tabs.getSelectedIndex() );
 
 			if ( currentTabName.equals( "Inbox" ) )
-				messages = messageListInbox.getSelectedValues();
+				this.messages = MailboxFrame.this.messageListInbox.getSelectedValues();
 			if ( currentTabName.equals( "PvP" ) )
-				messages = messageListPvp.getSelectedValues();
+				this.messages = MailboxFrame.this.messageListPvp.getSelectedValues();
 
-			if ( messages == null || messages.length == 0 )
+			if ( this.messages == null || this.messages.length == 0 )
 				return;
 
 			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
 					"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 						return;
 
-			KoLMailManager.saveMessages( messages );
+			KoLMailManager.saveMessages( this.messages );
 		}
 	}
 
@@ -316,30 +307,30 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		public DeleteButton()
 		{
 			super( JComponentUtilities.getImage( "delete.gif" ) );
-			setToolTipText( "Delete Selected" );
+			this.setToolTipText( "Delete Selected" );
 		}
 
 		public void run()
 		{
-			messages = null;
-			currentTabName = tabs.getTitleAt( tabs.getSelectedIndex() );
-			if ( currentTabName.equals( "Inbox" ) )
-				messages = messageListInbox.getSelectedValues();
-			else if ( currentTabName.equals( "PvP" ) )
-				messages = messageListPvp.getSelectedValues();
-			else if ( currentTabName.equals( "Outbox" ) )
-				messages = messageListOutbox.getSelectedValues();
-			else if ( currentTabName.equals( "Saved" ) )
-				messageListSaved.getSelectedValues();
+			this.messages = null;
+			this.currentTabName = MailboxFrame.this.tabs.getTitleAt( MailboxFrame.this.tabs.getSelectedIndex() );
+			if ( this.currentTabName.equals( "Inbox" ) )
+				this.messages = MailboxFrame.this.messageListInbox.getSelectedValues();
+			else if ( this.currentTabName.equals( "PvP" ) )
+				this.messages = MailboxFrame.this.messageListPvp.getSelectedValues();
+			else if ( this.currentTabName.equals( "Outbox" ) )
+				this.messages = MailboxFrame.this.messageListOutbox.getSelectedValues();
+			else if ( this.currentTabName.equals( "Saved" ) )
+				MailboxFrame.this.messageListSaved.getSelectedValues();
 
-			if ( messages ==  null || messages.length == 0 )
+			if ( this.messages ==  null || this.messages.length == 0 )
 				return;
 
 			if ( JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
 					"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 						return;
 
-			KoLMailManager.deleteMessages( currentTabName, messages );
+			KoLMailManager.deleteMessages( this.currentTabName, this.messages );
 		}
 	}
 
@@ -348,12 +339,12 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		public RefreshButton()
 		{
 			super( JComponentUtilities.getImage( "refresh.gif" ) );
-			setToolTipText( "Refresh" );
+			this.setToolTipText( "Refresh" );
 		}
 
 		public void run()
 		{
-			String currentTabName = tabs.getTitleAt( tabs.getSelectedIndex() );
+			String currentTabName = MailboxFrame.this.tabs.getTitleAt( MailboxFrame.this.tabs.getSelectedIndex() );
 			(new MailRefresher( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName )).run();
 		}
 	}
@@ -392,7 +383,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 			if ( parameters.length == 2 )
 			{
-				String rawText = displayed.getCompleteHTML();
+				String rawText = MailboxFrame.this.displayed.getCompleteHTML();
 				int start = rawText.indexOf( "<br><br>" ) + 8;
 				String text =  rawText.substring( start );
 

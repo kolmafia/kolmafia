@@ -36,8 +36,6 @@ package net.sourceforge.kolmafia;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Properties;
-import java.util.TreeMap;
-
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 

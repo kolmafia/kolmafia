@@ -36,8 +36,6 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
-
 import java.lang.ref.WeakReference;
 
 import javax.swing.JComponent;
@@ -68,51 +66,51 @@ public class LabeledScrollPanel extends ActionPanel implements KoLConstants
 	{
 		this.scrollComponent = scrollComponent;
 
-		centerPanel = new JPanel( new BorderLayout() );
+		this.centerPanel = new JPanel( new BorderLayout() );
 
 		if ( !title.equals( "" ) )
-			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+			this.centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 
-		centerPanel.add( new SimpleScrollPane( scrollComponent ), BorderLayout.CENTER );
-		actualPanel = new JPanel( new BorderLayout( 20, 10 ) );
-		actualPanel.add( centerPanel, BorderLayout.CENTER );
+		this.centerPanel.add( new SimpleScrollPane( scrollComponent ), BorderLayout.CENTER );
+		this.actualPanel = new JPanel( new BorderLayout( 20, 10 ) );
+		this.actualPanel.add( this.centerPanel, BorderLayout.CENTER );
 
-		eastPanel = new JPanel( new BorderLayout() );
+		this.eastPanel = new JPanel( new BorderLayout() );
 
 		if ( confirmedText != null )
 		{
-			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText, cancelledText );
-			buttonPanel.setBothDisabledOnClick( true );
+			this.buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText, cancelledText );
+			this.buttonPanel.setBothDisabledOnClick( true );
 
-			eastPanel.add( buttonPanel, BorderLayout.NORTH );
-			actualPanel.add( eastPanel, BorderLayout.EAST );
+			this.eastPanel.add( this.buttonPanel, BorderLayout.NORTH );
+			this.actualPanel.add( this.eastPanel, BorderLayout.EAST );
 		}
 
 		JPanel containerPanel = new JPanel( new CardLayout( 10, 10 ) );
-		containerPanel.add( actualPanel, "" );
+		containerPanel.add( this.actualPanel, "" );
 
 		if ( isRootPane )
 		{
-			getContentPane().setLayout( new BorderLayout() );
-			getContentPane().add( containerPanel, BorderLayout.CENTER );
+			this.getContentPane().setLayout( new BorderLayout() );
+			this.getContentPane().add( containerPanel, BorderLayout.CENTER );
 		}
 		else
 		{
-			setLayout( new BorderLayout() );
-			add( containerPanel, BorderLayout.CENTER );
+			this.setLayout( new BorderLayout() );
+			this.add( containerPanel, BorderLayout.CENTER );
 		}
 
-		((JPanel)getContentPane()).setOpaque( true );
+		((JPanel)this.getContentPane()).setOpaque( true );
 		existingPanels.add( new WeakReference( this ) );
 	}
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( scrollComponent == null || buttonPanel == null )
+		if ( this.scrollComponent == null || this.buttonPanel == null )
 			return;
 
-		scrollComponent.setEnabled( isEnabled );
-		buttonPanel.setEnabled( isEnabled );
+		this.scrollComponent.setEnabled( isEnabled );
+		this.buttonPanel.setEnabled( isEnabled );
 	}
 
 	public void actionConfirmed()

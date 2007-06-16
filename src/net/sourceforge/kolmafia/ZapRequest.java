@@ -48,9 +48,9 @@ public class ZapRequest extends KoLRequest
 
 		this.item = item;
 
-		addFormField( "action", "zap" );
-		addFormField( "whichwand", String.valueOf( KoLCharacter.getZapper().getItemId() ) );
-		addFormField( "whichitem", String.valueOf( item.getItemId() ) );
+		this.addFormField( "action", "zap" );
+		this.addFormField( "whichwand", String.valueOf( KoLCharacter.getZapper().getItemId() ) );
+		this.addFormField( "whichitem", String.valueOf( item.getItemId() ) );
 	}
 
 
@@ -66,13 +66,13 @@ public class ZapRequest extends KoLRequest
 			return;
 		}
 
-		if ( !inventory.contains( item ) )
+		if ( !inventory.contains( this.item ) )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + item.getName() + "." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + this.item.getName() + "." );
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Zapping " + item.getName() + "..." );
+		KoLmafia.updateDisplay( "Zapping " + this.item.getName() + "..." );
 		super.run();
 	}
 
@@ -81,19 +81,19 @@ public class ZapRequest extends KoLRequest
 		// "The Crown of the Goblin King shudders for a moment, but
 		// nothing happens."
 
-		if ( responseText.indexOf( "nothing happens" ) != -1 )
+		if ( this.responseText.indexOf( "nothing happens" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "The " + item.getName() + " is not zappable." );
+			KoLmafia.updateDisplay( ERROR_STATE, "The " + this.item.getName() + " is not zappable." );
 			return;
 		}
 
 		// If it blew up, remove wand
-		if ( responseText.indexOf( "abruptly explodes" ) != -1 )
+		if ( this.responseText.indexOf( "abruptly explodes" ) != -1 )
 		     StaticEntity.getClient().processResult( KoLCharacter.getZapper().getNegation() );
 
 		// Remove old item and notify the user of success.
-		StaticEntity.getClient().processResult( item.getInstance( -1 ) );
-		KoLmafia.updateDisplay( item.getName() + " has been transformed." );
+		StaticEntity.getClient().processResult( this.item.getInstance( -1 ) );
+		KoLmafia.updateDisplay( this.item.getName() + " has been transformed." );
 	}
 }
 

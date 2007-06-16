@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-
 import java.text.SimpleDateFormat;
 
 import java.util.Calendar;
@@ -44,18 +42,13 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import javax.swing.JComponent;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
-import javax.swing.event.HyperlinkListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
-
 import ca.bcit.geekkit.CalendarTableModel;
 import ca.bcit.geekkit.JCalendar;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -97,7 +90,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	public CalendarFrame()
 	{
 		super( "Farmer's Almanac" );
-		framePanel.setLayout( new BorderLayout() );
+		this.framePanel.setLayout( new BorderLayout() );
 
 		selectedRow = -1;
 		selectedColumn = -1;
@@ -128,18 +121,18 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		JComponentUtilities.setComponentSize( predictDisplay, 400, 300 );
 		predictBuffer.setChatDisplay( predictDisplay );
 
-		tabs.addTab( "KoL One-a-Day", dailyDisplay );
-		tabs.addTab( "Upcoming Events", predictDisplay );
+		this.tabs.addTab( "KoL One-a-Day", dailyDisplay );
+		this.tabs.addTab( "Upcoming Events", predictDisplay );
 
-		framePanel.add( tabs, BorderLayout.CENTER );
+		this.framePanel.add( this.tabs, BorderLayout.CENTER );
 
 		calendar = new JCalendar( OracleTable.class );
 		oracleTable = (OracleTable) calendar.getTable();
 		oracleTable.getSelectionModel().addListSelectionListener( this );
 		oracleTable.getColumnModel().getSelectionModel().addListSelectionListener( this );
 
-		framePanel.add( calendar, BorderLayout.EAST );
-		updateTabs();
+		this.framePanel.add( calendar, BorderLayout.EAST );
+		this.updateTabs();
 	}
 
 	/**
@@ -170,7 +163,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 					StaticEntity.parseInt( (String) calendar.getModel().getValueAt( selectedRow, selectedColumn ) ) );
 
 				calculatePhases( selectedDate.getTime() );
-				updateTabs();
+				this.updateTabs();
 			}
 			catch ( Exception e1 )
 			{
@@ -417,32 +410,32 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			super( model );
 			this.model = model;
 
-			dateCalculator = Calendar.getInstance( TimeZone.getDefault(), Locale.US );
-			normalRenderer = new DefaultTableCellRenderer();
+			this.dateCalculator = Calendar.getInstance( TimeZone.getDefault(), Locale.US );
+			this.normalRenderer = new DefaultTableCellRenderer();
 
-			todayRenderer = new DefaultTableCellRenderer();
-			todayRenderer.setForeground( new Color( 255, 255, 255 ) );
-			todayRenderer.setBackground( new Color( 128, 128, 128 ) );
+			this.todayRenderer = new DefaultTableCellRenderer();
+			this.todayRenderer.setForeground( new Color( 255, 255, 255 ) );
+			this.todayRenderer.setBackground( new Color( 128, 128, 128 ) );
 
-			specialRenderer = new DefaultTableCellRenderer();
-			specialRenderer.setForeground( new Color( 255, 255, 255 ) );
-			specialRenderer.setBackground( new Color( 0, 0, 0 ) );
+			this.specialRenderer = new DefaultTableCellRenderer();
+			this.specialRenderer.setForeground( new Color( 255, 255, 255 ) );
+			this.specialRenderer.setBackground( new Color( 0, 0, 0 ) );
 
-			holidayRenderer = new DefaultTableCellRenderer();
-			holidayRenderer.setForeground( new Color( 0, 0, 0 ) );
-			holidayRenderer.setBackground( new Color( 255, 255, 204 ) );
+			this.holidayRenderer = new DefaultTableCellRenderer();
+			this.holidayRenderer.setForeground( new Color( 0, 0, 0 ) );
+			this.holidayRenderer.setBackground( new Color( 255, 255, 204 ) );
 
-			muscleRenderer = new DefaultTableCellRenderer();
-			muscleRenderer.setForeground( new Color( 0, 0, 0 ) );
-			muscleRenderer.setBackground( new Color( 255, 204, 204 ) );
+			this.muscleRenderer = new DefaultTableCellRenderer();
+			this.muscleRenderer.setForeground( new Color( 0, 0, 0 ) );
+			this.muscleRenderer.setBackground( new Color( 255, 204, 204 ) );
 
-			mysticalityRenderer = new DefaultTableCellRenderer();
-			mysticalityRenderer.setForeground( new Color( 0, 0, 0 ) );
-			mysticalityRenderer.setBackground( new Color( 204, 204, 255 ) );
+			this.mysticalityRenderer = new DefaultTableCellRenderer();
+			this.mysticalityRenderer.setForeground( new Color( 0, 0, 0 ) );
+			this.mysticalityRenderer.setBackground( new Color( 204, 204, 255 ) );
 
-			moxieRenderer = new DefaultTableCellRenderer();
-			moxieRenderer.setForeground( new Color( 0, 0, 0 ) );
-			moxieRenderer.setBackground( new Color( 204, 255, 204 ) );
+			this.moxieRenderer = new DefaultTableCellRenderer();
+			this.moxieRenderer.setForeground( new Color( 0, 0, 0 ) );
+			this.moxieRenderer.setBackground( new Color( 204, 255, 204 ) );
 		}
 
 		public TableCellRenderer getCellRenderer( int row, int column )
@@ -452,40 +445,40 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 				// First, if the date today is equal to the
 				// date selected, highlight it.
 
-				String dayString = (String) model.getValueAt( row, column );
+				String dayString = (String) this.model.getValueAt( row, column );
 				if ( dayString.equals( "" ) )
-					return normalRenderer;
+					return this.normalRenderer;
 
-				dateCalculator.set( model.getCurrentYear(), model.getCurrentMonth(), StaticEntity.parseInt( dayString ) );
-				Date selectedTime = dateCalculator.getTime();
+				this.dateCalculator.set( this.model.getCurrentYear(), this.model.getCurrentMonth(), StaticEntity.parseInt( dayString ) );
+				Date selectedTime = this.dateCalculator.getTime();
 
-				if ( CALENDAR_FORMAT.format( new Date() ).equals( CALENDAR_FORMAT.format( dateCalculator.getTime() ) ) )
-					return todayRenderer;
+				if ( CALENDAR_FORMAT.format( new Date() ).equals( CALENDAR_FORMAT.format( this.dateCalculator.getTime() ) ) )
+					return this.todayRenderer;
 
 				// White wednesday special highlighting.
 				// But, because white doesn't show up,
 				// make it black instead.
 
-				if ( DATED_FILENAME_FORMAT.format( dateCalculator.getTime() ).equals( "20051027" ) )
-					return specialRenderer;
+				if ( DATED_FILENAME_FORMAT.format( this.dateCalculator.getTime() ).equals( "20051027" ) )
+					return this.specialRenderer;
 
 				// Otherwise, if the date selected is equal
 				// to a special day, then highlight it.
 
 				if ( MoonPhaseDatabase.isRealLifeHoliday( selectedTime ) )
-					return holidayRenderer;
+					return this.holidayRenderer;
 
 				if ( MoonPhaseDatabase.isHoliday( selectedTime ) )
-					return holidayRenderer;
+					return this.holidayRenderer;
 
 				if ( MoonPhaseDatabase.isMuscleDay( selectedTime ) )
-					return muscleRenderer;
+					return this.muscleRenderer;
 
 				if ( MoonPhaseDatabase.isMysticalityDay( selectedTime ) )
-					return mysticalityRenderer;
+					return this.mysticalityRenderer;
 
 				if ( MoonPhaseDatabase.isMoxieDay( selectedTime ) )
-					return moxieRenderer;
+					return this.moxieRenderer;
 			}
 			catch ( Exception e )
 			{
@@ -495,7 +488,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 				StaticEntity.printStackTrace( e );
 			}
 
-			return normalRenderer;
+			return this.normalRenderer;
 		}
 	}
 

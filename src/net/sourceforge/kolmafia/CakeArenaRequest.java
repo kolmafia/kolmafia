@@ -53,15 +53,15 @@ public class CakeArenaRequest extends KoLRequest
 	public CakeArenaRequest( int opponentId, int eventId )
 	{
 		super( "arena.php" );
-		addFormField( "action", "go" );
-		addFormField( "whichopp", String.valueOf( opponentId ) );
-		addFormField( "event", String.valueOf( eventId ) );
+		this.addFormField( "action", "go" );
+		this.addFormField( "whichopp", String.valueOf( opponentId ) );
+		this.addFormField( "event", String.valueOf( eventId ) );
 		this.isCompetition = true;
 	}
 
 	public void run()
 	{
-		if ( !isCompetition )
+		if ( !this.isCompetition )
 			KoLmafia.updateDisplay( "Retrieving opponent list..." );
 
 		super.run();
@@ -69,12 +69,12 @@ public class CakeArenaRequest extends KoLRequest
 
 	public void processResults()
 	{
-		if ( responseText.indexOf( "You can't" ) != -1 ||
-		     responseText.indexOf( "You shouldn't" ) != -1 ||
-		     responseText.indexOf( "You don't" ) != -1 ||
-		     responseText.indexOf( "You need" ) != -1 ||
-		     responseText.indexOf( "You're way too beaten" ) != -1 ||
-		     responseText.indexOf( "You're too drunk" ) != -1 )
+		if ( this.responseText.indexOf( "You can't" ) != -1 ||
+		     this.responseText.indexOf( "You shouldn't" ) != -1 ||
+		     this.responseText.indexOf( "You don't" ) != -1 ||
+		     this.responseText.indexOf( "You need" ) != -1 ||
+		     this.responseText.indexOf( "You're way too beaten" ) != -1 ||
+		     this.responseText.indexOf( "You're too drunk" ) != -1 )
 		{
 			// Notify theof failure by telling it that
 			// the adventure did not take place and the client
@@ -85,7 +85,7 @@ public class CakeArenaRequest extends KoLRequest
 			return;
 		}
 
-		if ( isCompetition )
+		if ( this.isCompetition )
 		{
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
 
@@ -99,8 +99,8 @@ public class CakeArenaRequest extends KoLRequest
 
 			// "Copycat Grrl is the winner, and gains 5 experience!"
 
-			if ( responseText.indexOf( "Congratulations" ) != -1 ||
-			     responseText.indexOf( "is the winner" ) != -1)
+			if ( this.responseText.indexOf( "Congratulations" ) != -1 ||
+			     this.responseText.indexOf( "is the winner" ) != -1)
 				KoLCharacter.setArenaWins( KoLCharacter.getArenaWins() + 1 );
 			return;
 		}
@@ -110,14 +110,14 @@ public class CakeArenaRequest extends KoLRequest
 		// "You have won 722 times. Only 8 wins left until your next
 		// prize!"
 
-		Matcher winMatcher = WINCOUNT_PATTERN.matcher( responseText );
+		Matcher winMatcher = WINCOUNT_PATTERN.matcher( this.responseText );
 
 		if ( winMatcher.find() )
 			KoLCharacter.setArenaWins( StaticEntity.parseInt( winMatcher.group(1) ) );
 
 		// Retrieve list of opponents
 		int lastMatchIndex = 0;
-		Matcher opponentMatcher = OPPONENT_PATTERN.matcher( responseText );
+		Matcher opponentMatcher = OPPONENT_PATTERN.matcher( this.responseText );
 
 		while ( opponentMatcher.find( lastMatchIndex ) )
 		{
@@ -145,6 +145,6 @@ public class CakeArenaRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return isCompetition ? 1 : 0;
+	{	return this.isCompetition ? 1 : 0;
 	}
 }

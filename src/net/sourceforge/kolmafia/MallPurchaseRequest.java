@@ -69,30 +69,30 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		if ( storeId.indexOf( "." ) == -1 )
 		{
-			addFormField( "whichstore", storeId );
-			addFormField( "phash" );
-			addFormField( "buying", "Yep." );
+			this.addFormField( "whichstore", storeId );
+			this.addFormField( "phash" );
+			this.addFormField( "buying", "Yep." );
 		}
 		else if ( storeId.equals( "galaktik.php" ) )
 		{
 			// Annoying special case.
-			addFormField( "action", "buyitem" );
-			addFormField( "pwd" );
+			this.addFormField( "action", "buyitem" );
+			this.addFormField( "pwd" );
 		}
 		else
 		{
-			addFormField( "action", "buy" );
-			addFormField( "pwd" );
+			this.addFormField( "action", "buy" );
+			this.addFormField( "pwd" );
 		}
 
-		addFormField( "whichitem", String.valueOf( itemId ) );
+		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
 		this.itemName = TradeableItemDatabase.getItemName( itemId );
 		this.shopName = storeName;
 		this.itemId = itemId;
 		this.shopId = 0;
 		this.quantity = MAX_QUANTITY;
-		this.limit = quantity;
+		this.limit = this.quantity;
 		this.price = price;
 
 		this.item = new AdventureResult( this.itemId, 1 );
@@ -139,11 +139,11 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.isNPCStore = false;
 		this.canPurchase = canPurchase;
 
-		addFormField( "pwd" );
-		addFormField( "whichstore", String.valueOf( shopId ) );
-		addFormField( "buying", "Yep." );
+		this.addFormField( "pwd" );
+		this.addFormField( "whichstore", String.valueOf( shopId ) );
+		this.addFormField( "buying", "Yep." );
 
-		addFormField( "whichitem", getStoreString( itemId, price ) );
+		this.addFormField( "whichitem", getStoreString( itemId, price ) );
 
 		this.item = new AdventureResult( this.itemId, 1 );
 	}
@@ -170,11 +170,11 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	}
 
 	public int getItemId()
-	{	return itemId;
+	{	return this.itemId;
 	}
 
 	public String getStoreId()
-	{	return isNPCStore ? npcStoreId : String.valueOf( shopId );
+	{	return this.isNPCStore ? this.npcStoreId : String.valueOf( this.shopId );
 	}
 
 	/**
@@ -183,7 +183,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public String getItemName()
-	{	return itemName;
+	{	return this.itemName;
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public int getPrice()
-	{	return !isNPCStore || !KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( TROUSERS ) ? price : (int) ((float) price * 0.95f);
+	{	return !this.isNPCStore || !KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( TROUSERS ) ? this.price : (int) (this.price * 0.95f);
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public int getQuantity()
-	{	return quantity;
+	{	return this.quantity;
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public int getLimit()
-	{	return limit;
+	{	return this.limit;
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public void setLimit( int limit )
-	{	this.limit = Math.min( quantity, limit );
+	{	this.limit = Math.min( this.quantity, limit );
 	}
 
 	/**
@@ -246,34 +246,34 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		if ( !existingFrames.isEmpty() )
 		{
 			buffer.append( "<html><nobr>" );
-			if ( !canPurchase() )
+			if ( !this.canPurchase() )
 				buffer.append( "<font color=gray>" );
 		}
 
-		buffer.append( itemName );
+		buffer.append( this.itemName );
 		buffer.append( " (" );
 
-		if ( quantity == MAX_QUANTITY )
+		if ( this.quantity == MAX_QUANTITY )
 			buffer.append( "unlimited" );
 		else
 		{
-			buffer.append( COMMA_FORMAT.format( quantity ) );
+			buffer.append( COMMA_FORMAT.format( this.quantity ) );
 
-			if ( limit < quantity || !canPurchase() )
+			if ( this.limit < this.quantity || !this.canPurchase() )
 			{
 				buffer.append( " limit " );
-				buffer.append( COMMA_FORMAT.format( limit ) );
+				buffer.append( COMMA_FORMAT.format( this.limit ) );
 			}
 		}
 
 		buffer.append( " @ " );
-		buffer.append( COMMA_FORMAT.format( price ) );
+		buffer.append( COMMA_FORMAT.format( this.price ) );
 		buffer.append( "): " );
-		buffer.append( shopName );
+		buffer.append( this.shopName );
 
 		if ( !existingFrames.isEmpty() )
 		{
-			if ( !canPurchase() )
+			if ( !this.canPurchase() )
 				buffer.append( "</font>" );
 
 			buffer.append( "</nobr></html>" );
@@ -287,7 +287,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	}
 
 	public boolean canPurchase()
-	{	return canPurchase && KoLCharacter.getAvailableMeat() >= price;
+	{	return this.canPurchase && KoLCharacter.getAvailableMeat() >= this.price;
 	}
 
 	/**
@@ -299,15 +299,15 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		if ( limit < 1 || !canPurchase() || shopId == KoLCharacter.getUserId() )
+		if ( this.limit < 1 || !this.canPurchase() || this.shopId == KoLCharacter.getUserId() )
 			return;
 
-		addFormField( isNPCStore ? "howmany" : "quantity", String.valueOf( limit ) );
+		this.addFormField( this.isNPCStore ? "howmany" : "quantity", String.valueOf( this.limit ) );
 
 		// If the item is not currently recognized, the user should
 		// be notified that the purchases cannot be made because of that
 
-		if ( itemId == -1 )
+		if ( this.itemId == -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Item not recognized by KoLmafia database." );
 			return;
@@ -316,17 +316,17 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Check to make sure that the person is wearing the appropriate
 		// outfit for making the purchase.
 
-		if ( KoLCharacter.getAvailableMeat() < limit * price )
+		if ( KoLCharacter.getAvailableMeat() < this.limit * this.price )
 			return;
 
-		if ( !ensureProperAttire() )
+		if ( !this.ensureProperAttire() )
 			return;
 
 		// Now that everything's ensured, go ahead and execute the
 		// actual purchase request.
 
-		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemId ) +
-			" (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( getPrice() ) + ")..." );
+		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( this.itemId ) +
+			" (" + COMMA_FORMAT.format( this.limit ) + " @ " + COMMA_FORMAT.format( this.getPrice() ) + ")..." );
 
 		this.initialCount = this.item.getCount( inventory );
 		super.run();
@@ -335,7 +335,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	public int compareTo( Object o )
 	{
 		return ( o == null || !( o instanceof MallPurchaseRequest ) ) ? 1 :
-			compareTo( (MallPurchaseRequest) o );
+			this.compareTo( (MallPurchaseRequest) o );
 	}
 
 	public static void setUsePriceComparison( boolean usePriceComparison )
@@ -346,42 +346,42 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	{
 		if ( !usePriceComparison )
 		{
-			int nameComparison = itemName.compareToIgnoreCase( mpr.itemName );
+			int nameComparison = this.itemName.compareToIgnoreCase( mpr.itemName );
 			if ( nameComparison != 0 )
 				return nameComparison;
 		}
 
-		if ( price != mpr.price )
-			return price - mpr.price;
+		if ( this.price != mpr.price )
+			return this.price - mpr.price;
 
-		if ( isNPCStore && !mpr.isNPCStore )
+		if ( this.isNPCStore && !mpr.isNPCStore )
 			return KoLCharacter.isHardcore() ? -1 : 1;
 
-		if ( !isNPCStore && mpr.isNPCStore )
+		if ( !this.isNPCStore && mpr.isNPCStore )
 			return KoLCharacter.isHardcore() ? 1 : -1;
 
-		if ( quantity != mpr.quantity )
-			return mpr.quantity - quantity;
+		if ( this.quantity != mpr.quantity )
+			return mpr.quantity - this.quantity;
 
-		return shopName.compareToIgnoreCase( mpr.shopName );
+		return this.shopName.compareToIgnoreCase( mpr.shopName );
 	}
 
 	public boolean ensureProperAttire()
 	{
-		if ( !isNPCStore )
+		if ( !this.isNPCStore )
 			return true;
 
 		int neededOutfit = 0;
 
-		if ( npcStoreId.equals( "b" ) )
+		if ( this.npcStoreId.equals( "b" ) )
 		{
 			neededOutfit = 1;
 		}
-		else if ( npcStoreId.equals( "g" ) )
+		else if ( this.npcStoreId.equals( "g" ) )
 		{
 			neededOutfit = 5;
 		}
-		else if ( npcStoreId.equals( "h" ) )
+		else if ( this.npcStoreId.equals( "h" ) )
 		{
 			neededOutfit = 2;
 		}
@@ -411,17 +411,17 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public void processResults()
 	{
-		int quantityAcquired = item.getCount( inventory ) - initialCount;
+		int quantityAcquired = this.item.getCount( inventory ) - this.initialCount;
 		if ( quantityAcquired > 0 )
 		{
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -1 * getPrice() * quantityAcquired ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, -1 * this.getPrice() * quantityAcquired ) );
 			KoLCharacter.updateStatus();
 
 			return;
 		}
 
-		int startIndex = responseText.indexOf( "<center>" );
-		int stopIndex = responseText.indexOf( "</table>" );
+		int startIndex = this.responseText.indexOf( "<center>" );
+		int stopIndex = this.responseText.indexOf( "</table>" );
 
 		if ( startIndex == -1 || stopIndex == -1 )
 		{
@@ -429,14 +429,14 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			return;
 		}
 
-		String result = responseText.substring( startIndex, stopIndex );
+		String result = this.responseText.substring( startIndex, stopIndex );
 
 		// One error is that the item price changed, or the item
 		// is no longer available because someone was faster at
 		// purchasing the item.  If that's the case, just return
 		// without doing anything; nothing left to do.
 
-		if ( responseText.indexOf( "You can't afford" ) != -1 )
+		if ( this.responseText.indexOf( "You can't afford" ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Not enough funds." );
 			return;
@@ -447,9 +447,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// to yield" message.  In that case, you may wish to
 		// re-attempt the purchase.
 
-		if ( responseText.indexOf( "This store doesn't" ) != -1 || responseText.indexOf( "failed to yield" ) != -1 )
+		if ( this.responseText.indexOf( "This store doesn't" ) != -1 || this.responseText.indexOf( "failed to yield" ) != -1 )
 		{
-			Matcher itemChangedMatcher = Pattern.compile( "<td valign=center><b>" + itemName + "</b> \\(([\\d,]+)\\) </td><td>([\\d,]+) Meat" ).matcher( result );
+			Matcher itemChangedMatcher = Pattern.compile( "<td valign=center><b>" + this.itemName + "</b> \\(([\\d,]+)\\) </td><td>([\\d,]+) Meat" ).matcher( result );
 
 			if ( itemChangedMatcher.find() )
 			{
@@ -460,17 +460,17 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 				// price, then you should re-attempt the purchase
 				// of the item.
 
-				if ( price >= newPrice )
+				if ( this.price >= newPrice )
 				{
 					KoLmafia.updateDisplay( "Failed to yield.  Attempting repurchase..." );
-					(new MallPurchaseRequest( itemName, itemId, Math.min( limit, quantity ), shopId, shopName, newPrice, Math.min( limit, quantity ), true )).run();
+					(new MallPurchaseRequest( this.itemName, this.itemId, Math.min( limit, this.quantity ), this.shopId, this.shopName, newPrice, Math.min( limit, this.quantity ), true )).run();
 				}
 				else
 				{
 					// In the event of a price switch, give the
 					// player the option to report it.
 
-					KoLmafia.updateDisplay( "Price switch detected (#" + shopId + ").  Skipping..." );
+					KoLmafia.updateDisplay( "Price switch detected (#" + this.shopId + ").  Skipping..." );
 				}
 			}
 			else
@@ -499,9 +499,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			int alreadyPurchased = StaticEntity.parseInt( quantityMatcher.group(2) );
 
 			if ( limit != alreadyPurchased )
-				(new MallPurchaseRequest( itemName, itemId, limit - alreadyPurchased, shopId, shopName, price, limit, true )).run();
+				(new MallPurchaseRequest( this.itemName, this.itemId, limit - alreadyPurchased, this.shopId, this.shopName, this.price, limit, true )).run();
 
-			canPurchase = false;
+			this.canPurchase = false;
 			return;
 		}
 	}
@@ -509,7 +509,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	public boolean equals( Object o )
 	{
 		return o == null || !(o instanceof MallPurchaseRequest) ? false :
-			shopName.equals( ((MallPurchaseRequest)o).shopName ) && itemId == ((MallPurchaseRequest)o).itemId;
+			this.shopName.equals( ((MallPurchaseRequest)o).shopName ) && this.itemId == ((MallPurchaseRequest)o).itemId;
 	}
 
 	public static boolean registerRequest( String urlString )

@@ -214,11 +214,11 @@ public class KoLmafiaGUI extends KoLmafia
 			// Now, test to see if any requests need to be run before
 			// you fall into the event dispatch thread.
 
-			if ( frameName.equals( "BuffBotFrame" ) )
+			if ( this.frameName.equals( "BuffBotFrame" ) )
 			{
 				BuffBotManager.loadSettings();
 			}
-			else if ( frameName.equals( "BuffRequestFrame" ) )
+			else if ( this.frameName.equals( "BuffRequestFrame" ) )
 			{
 				if ( !BuffBotDatabase.hasOfferings() )
 				{
@@ -227,7 +227,7 @@ public class KoLmafiaGUI extends KoLmafia
 					return;
 				}
 			}
-			else if ( frameName.equals( "CakeArenaFrame" ) )
+			else if ( this.frameName.equals( "CakeArenaFrame" ) )
 			{
 				if ( CakeArenaManager.getOpponentList().isEmpty() )
 				{
@@ -236,7 +236,7 @@ public class KoLmafiaGUI extends KoLmafia
 					return;
 				}
 			}
-			else if ( frameName.equals( "CalendarFrame" ) )
+			else if ( this.frameName.equals( "CalendarFrame" ) )
 			{
 				String base = "http://images.kingdomofloathing.com/otherimages/bikini/";
 				for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
@@ -245,7 +245,7 @@ public class KoLmafiaGUI extends KoLmafia
 				for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
 					RequestEditorKit.downloadImage( base + CalendarFrame.CALENDARS[i] + ".gif" );
 			}
-			else if ( frameName.equals( "ClanManageFrame" ) )
+			else if ( this.frameName.equals( "ClanManageFrame" ) )
 			{
 				if ( ClanManager.getStash().isEmpty() )
 				{
@@ -253,7 +253,7 @@ public class KoLmafiaGUI extends KoLmafia
 					RequestThread.postRequest( new ClanStashRequest() );
 				}
 			}
-			else if ( frameName.equals( "ContactListFrame" ) )
+			else if ( this.frameName.equals( "ContactListFrame" ) )
 			{
 				if ( contactList.isEmpty() )
 					RequestThread.postRequest( new ContactListRequest() );
@@ -261,7 +261,7 @@ public class KoLmafiaGUI extends KoLmafia
 				if ( StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( "ContactListFrame" ) != -1 )
 					return;
 			}
-			else if ( frameName.equals( "FamiliarTrainingFrame" ) )
+			else if ( this.frameName.equals( "FamiliarTrainingFrame" ) )
 			{
 				if ( CakeArenaManager.getOpponentList().isEmpty() )
 				{
@@ -270,12 +270,12 @@ public class KoLmafiaGUI extends KoLmafia
 					return;
 				}
 			}
-			else if ( frameName.equals( "FlowerHunterFrame" ) )
+			else if ( this.frameName.equals( "FlowerHunterFrame" ) )
 			{
 				KoLmafia.updateDisplay( "Determining number of attacks remaining..." );
 				RequestThread.postRequest( new FlowerHunterRequest() );
 			}
-			else if ( frameName.equals( "HagnkStorageFrame" ) )
+			else if ( this.frameName.equals( "HagnkStorageFrame" ) )
 			{
 				if ( storage.isEmpty() )
 				{
@@ -284,7 +284,7 @@ public class KoLmafiaGUI extends KoLmafia
 					return;
 				}
 			}
-			else if ( frameName.equals( "ItemManageFrame" ) )
+			else if ( this.frameName.equals( "ItemManageFrame" ) )
 			{
 				// If the person is in a mysticality sign, make sure
 				// you retrieve information from the restaurant.
@@ -310,11 +310,12 @@ public class KoLmafiaGUI extends KoLmafia
 					if ( !ClanManager.isStashRetrieved() )
 						RequestThread.postRequest( new ClanStashRequest() );
 			}
-			else if ( frameName.equals( "KoLMessenger" ) )
+			else if ( this.frameName.equals( "KoLMessenger" ) )
 			{
 				updateDisplay( "Retrieving chat color preferences..." );
 				RequestThread.postRequest( new ChannelColorsRequest() );
 
+				updateDisplay( "Initializing chat interface..." );
 				KoLMessenger.initialize();
 
 				RequestThread.postRequest( new ChatRequest( null, "/listen" ) );
@@ -323,31 +324,31 @@ public class KoLmafiaGUI extends KoLmafia
 
 				return;
 			}
-			else if ( frameName.equals( "LocalRelayServer" ) )
+			else if ( this.frameName.equals( "LocalRelayServer" ) )
 			{
 				StaticEntity.getClient().openRelayBrowser();
 				return;
 			}
-			else if ( frameName.equals( "MailboxFrame" ) )
+			else if ( this.frameName.equals( "MailboxFrame" ) )
 			{
 				RequestThread.postRequest( new MailboxRequest( "Inbox" ) );
 				if ( LoginRequest.isInstanceRunning() )
 					return;
 			}
-			else if ( frameName.equals( "MuseumFrame" ) )
+			else if ( this.frameName.equals( "MuseumFrame" ) )
 			{
 				RequestThread.postRequest( new MuseumRequest() );
 			}
-			else if ( frameName.equals( "MushroomFrame" ) )
+			else if ( this.frameName.equals( "MushroomFrame" ) )
 			{
 				for ( int i = 0; i < MushroomPlot.MUSHROOMS.length; ++i )
 					RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MushroomPlot.MUSHROOMS[i][1] );
 			}
-			else if ( frameName.equals( "RestoreOptionsFrame" ) )
+			else if ( this.frameName.equals( "RestoreOptionsFrame" ) )
 			{
-				frameName = "OptionsFrame";
+				this.frameName = "OptionsFrame";
 			}
-			else if ( frameName.equals( "StoreManageFrame" ) )
+			else if ( this.frameName.equals( "StoreManageFrame" ) )
 			{
 				if ( !KoLCharacter.hasStore() )
 				{
@@ -367,7 +368,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 			try
 			{
-				(new CreateFrameRunnable( Class.forName( "net.sourceforge.kolmafia." + frameName ) )).run();
+				(new CreateFrameRunnable( Class.forName( "net.sourceforge.kolmafia." + this.frameName ) )).run();
 			}
 			catch ( Exception e )
 			{
@@ -405,22 +406,22 @@ public class KoLmafiaGUI extends KoLmafia
 			// channel tags (for people using standard KoL
 			// chatting mode).
 
-			Matcher colorMatcher = GENERAL_PATTERN.matcher( responseText );
+			Matcher colorMatcher = GENERAL_PATTERN.matcher( this.responseText );
 			while ( colorMatcher.find() )
 				KoLMessenger.setColor( "/" + colorMatcher.group(1).toLowerCase(), StaticEntity.parseInt( colorMatcher.group(2) ) );
 
 			// Add in other custom colors which are available
 			// in the chat options.
 
-			colorMatcher = SELF_PATTERN.matcher( responseText );
+			colorMatcher = SELF_PATTERN.matcher( this.responseText );
 			if ( colorMatcher.find() )
 				KoLMessenger.setColor( "chatcolorself", StaticEntity.parseInt( colorMatcher.group(1) ) );
 
-			colorMatcher = CONTACTS_PATTERN.matcher( responseText );
+			colorMatcher = CONTACTS_PATTERN.matcher( this.responseText );
 			if ( colorMatcher.find() )
 				KoLMessenger.setColor( "chatcolorcontacts", StaticEntity.parseInt( colorMatcher.group(1) ) );
 
-			colorMatcher = OTHER_PATTERN.matcher( responseText );
+			colorMatcher = OTHER_PATTERN.matcher( this.responseText );
 			if ( colorMatcher.find() )
 				KoLMessenger.setColor( "chatcolorothers", StaticEntity.parseInt( colorMatcher.group(1) ) );
 		}

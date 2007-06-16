@@ -74,7 +74,7 @@ public class ProfileRequest extends KoLRequest implements Comparable
 		if ( playerName.startsWith( "#" ) )
 		{
 			this.playerId = playerName.substring(1);
-			this.playerName = KoLmafia.getPlayerName( playerId );
+			this.playerName = KoLmafia.getPlayerName( this.playerId );
 		}
 		else
 		{
@@ -82,7 +82,7 @@ public class ProfileRequest extends KoLRequest implements Comparable
 			this.playerId = KoLmafia.getPlayerId( playerName );
 		}
 
-		addFormField( "who", playerId );
+		this.addFormField( "who", this.playerId );
 
 		this.muscle = new Integer(0);
 		this.mysticism = new Integer(0);
@@ -99,15 +99,15 @@ public class ProfileRequest extends KoLRequest implements Comparable
 	private void refreshFields()
 	{
 		// Nothing to refresh if no text
-		if  ( responseText.length() == 0 )
+		if  ( this.responseText.length() == 0 )
 			return;
 
-		isHardcore = responseText.indexOf( "<b>(Hardcore)</b></td>" ) != -1;
+		this.isHardcore = this.responseText.indexOf( "<b>(Hardcore)</b></td>" ) != -1;
 
 		// This is a massive replace which makes the profile easier to
 		// parse and re-represent inside of editor panes.
 
-		String cleanHTML = responseText.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" );
+		String cleanHTML = this.responseText.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" );
 		StringTokenizer st = new StringTokenizer( cleanHTML, "\n" );
 
 		String token = st.nextToken();
@@ -165,7 +165,7 @@ public class ProfileRequest extends KoLRequest implements Comparable
 			this.currentRun = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
 		}
 		else
-			this.currentRun = turnsPlayed;
+			this.currentRun = this.turnsPlayed;
 
 		String dateString = null;
 		while ( !st.nextToken().startsWith( "Account" ) );
@@ -333,160 +333,160 @@ public class ProfileRequest extends KoLRequest implements Comparable
 	}
 
 	public String getPlayerName()
-	{	return playerName;
+	{	return this.playerName;
 	}
 
 	public String getPlayerId()
-	{	return playerId;
+	{	return this.playerId;
 	}
 
 	public String getClanName()
-	{	return clanName;
+	{	return this.clanName;
 	}
 
 	public void initialize()
 	{
-		if ( responseText == null )
+		if ( this.responseText == null )
 			RequestThread.postRequest( this );
 	}
 
 	public boolean isHardcore()
 	{
-		initialize();
-		return isHardcore;
+		this.initialize();
+		return this.isHardcore;
 	}
 
 	public String getRestriction()
 	{
-		initialize();
-		return restriction;
+		this.initialize();
+		return this.restriction;
 	}
 
 	public String getClassType()
 	{
-		if ( classType == null )
-			initialize();
+		if ( this.classType == null )
+			this.initialize();
 
-		return classType;
+		return this.classType;
 	}
 
 	public Integer getPlayerLevel()
 	{
-		if ( playerLevel == null || playerLevel.intValue() == 0 )
-			initialize();
+		if ( this.playerLevel == null || this.playerLevel.intValue() == 0 )
+			this.initialize();
 
-		return playerLevel;
+		return this.playerLevel;
 	}
 
 	public Integer getCurrentMeat()
 	{
-		initialize();
-		return currentMeat;
+		this.initialize();
+		return this.currentMeat;
 	}
 
 	public Integer getTurnsPlayed()
 	{
-		initialize();
-		return turnsPlayed;
+		this.initialize();
+		return this.turnsPlayed;
 	}
 
 	public Integer getCurrentRun()
 	{
-		initialize();
-		return currentRun;
+		this.initialize();
+		return this.currentRun;
 	}
 
 	public Date getLastLogin()
 	{
-		initialize();
-		return lastLogin;
+		this.initialize();
+		return this.lastLogin;
 	}
 
 	public Date getCreation()
 	{
-		initialize();
-		return created;
+		this.initialize();
+		return this.created;
 	}
 
 	public String getCreationAsString()
 	{
-		initialize();
-		return OUTPUT_FORMAT.format( created );
+		this.initialize();
+		return OUTPUT_FORMAT.format( this.created );
 	}
 
 	public String getLastLoginAsString()
 	{
-		initialize();
-		return OUTPUT_FORMAT.format( lastLogin );
+		this.initialize();
+		return OUTPUT_FORMAT.format( this.lastLogin );
 	}
 
 	public String getFood()
 	{
-		initialize();
-		return food;
+		this.initialize();
+		return this.food;
 	}
 
 	public String getDrink()
 	{
-		initialize();
-		return drink;
+		this.initialize();
+		return this.drink;
 	}
 
 	public Integer getPvpRank()
 	{
-		if ( pvpRank == null || pvpRank.intValue() == 0 )
-			initialize();
+		if ( this.pvpRank == null || this.pvpRank.intValue() == 0 )
+			this.initialize();
 
-		return pvpRank;
+		return this.pvpRank;
 	}
 
 	public Integer getMuscle()
-	{	return muscle;
+	{	return this.muscle;
 	}
 
 	public Integer getMysticism()
-	{	return mysticism;
+	{	return this.mysticism;
 	}
 
 	public Integer getMoxie()
-	{	return moxie;
+	{	return this.moxie;
 	}
 
 	public Integer getPower()
-	{	return new Integer( muscle.intValue() + mysticism.intValue() + moxie.intValue() );
+	{	return new Integer( this.muscle.intValue() + this.mysticism.intValue() + this.moxie.intValue() );
 	}
 
 	public Integer getEquipmentPower()
-	{	return new Integer( equipmentPower );
+	{	return new Integer( this.equipmentPower );
 	}
 
 	public String getTitle()
-	{	return title;
+	{	return this.title;
 	}
 
 	public String getRank()
-	{	return rank;
+	{	return this.rank;
 	}
 
 	public Integer getKarma()
-	{	return karma;
+	{	return this.karma;
 	}
 
 	public Integer getAscensionCount()
 	{
-		initialize();
-		return ascensionCount;
+		this.initialize();
+		return this.ascensionCount;
 	}
 
 	private static final Pattern GOBACK_PATTERN = Pattern.compile( "http://www[2345678]?\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)" );
 
 	public void processResults()
 	{
-		Matcher dataMatcher = GOBACK_PATTERN.matcher( responseText );
+		Matcher dataMatcher = GOBACK_PATTERN.matcher( this.responseText );
 		if ( dataMatcher.find() )
-			responseText = dataMatcher.replaceFirst( "../ascensions/" + ClanManager.getURLName( KoLmafia.getPlayerName( dataMatcher.group(1) ) ) );
+			this.responseText = dataMatcher.replaceFirst( "../ascensions/" + ClanManager.getURLName( KoLmafia.getPlayerName( dataMatcher.group(1) ) ) );
 
-		refreshFields();
+		this.refreshFields();
 	}
 
 	public int compareTo( Object o )
@@ -496,9 +496,9 @@ public class ProfileRequest extends KoLRequest implements Comparable
 
 		ProfileRequest pr = (ProfileRequest) o;
 
-		if ( getPvpRank().intValue() != pr.getPvpRank().intValue() )
-			return getPvpRank().intValue() - pr.getPvpRank().intValue();
+		if ( this.getPvpRank().intValue() != pr.getPvpRank().intValue() )
+			return this.getPvpRank().intValue() - pr.getPvpRank().intValue();
 
-		return getPlayerLevel().intValue() - pr.getPlayerLevel().intValue();
+		return this.getPlayerLevel().intValue() - pr.getPlayerLevel().intValue();
 	}
 }

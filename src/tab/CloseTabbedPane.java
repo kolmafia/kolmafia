@@ -18,7 +18,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.EventListenerList;
 import javax.swing.plaf.TabbedPaneUI;
@@ -39,20 +38,9 @@ public class CloseTabbedPane extends JTabbedPane {
 	private CloseTabPaneUI paneUI;
 	//private CloseTabProxyUI paneUI;
 
-	/**
-	 * Creates the <code>CloseAndMaxTabbedPane</code> with an enhanced UI if
-	 * <code>enhancedUI</code> parameter is set to <code>true</code>.
-	 *
-	 * @param enhancedUI
-	 *            whether the tabbedPane should use an enhanced UI
-	 */
 	public CloseTabbedPane() {
-		this(SCROLL_TAB_LAYOUT);
-	}
-
-	public CloseTabbedPane( int layoutPolicy ) {
-
-		super( TOP, layoutPolicy );		
+		
+		super( TOP, WRAP_TAB_LAYOUT );		
 		super.setOpaque( true );
 
 		paneUI = new CloseTabPaneEnhancedUI();

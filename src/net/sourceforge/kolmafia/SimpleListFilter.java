@@ -35,9 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.util.Map.Entry;
 import javax.swing.JTextField;
-import javax.swing.text.JTextComponent;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.ConcoctionsDatabase.Concoction;
 
@@ -58,54 +55,54 @@ public class SimpleListFilter extends ListElementFilter
 	}
 
 	public void activate()
-	{	active = true;
+	{	this.active = true;
 	}
 
 	public void deactivate()
-	{	active = false;
+	{	this.active = false;
 	}
 
 	public void makeStrict()
-	{	strict = true;
+	{	this.strict = true;
 	}
 
 	public void makeFuzzy()
-	{	strict = false;
+	{	this.strict = false;
 	}
 
 	private String getCurrentName()
 	{
-		if ( model != null )
-			return model.getCurrentName();
+		if ( this.model != null )
+			return this.model.getCurrentName();
 
-		if ( field != null )
-			return field.getText();
+		if ( this.field != null )
+			return this.field.getText();
 
 		return "";
 	}
 
 	public boolean isVisible( Object element )
 	{
-		if ( !active )
+		if ( !this.active )
 			return true;
 
 		// If it's not a result, then check to see if you need to
 		// filter based on its string form.
 
-		if ( isNonResult( element ) )
+		if ( this.isNonResult( element ) )
 		{
-			if ( getCurrentName() == null || getCurrentName().length() == 0 )
+			if ( this.getCurrentName() == null || this.getCurrentName().length() == 0 )
 				return true;
 
 			if ( element instanceof Entry )
 			{
 				Entry entry = (Entry) element;
-				return strict ? entry.getValue().toString().toLowerCase().indexOf( getCurrentName().toLowerCase() ) != -1 :
-					KoLDatabase.fuzzyMatches( entry.getValue().toString(), getCurrentName() );
+				return this.strict ? entry.getValue().toString().toLowerCase().indexOf( this.getCurrentName().toLowerCase() ) != -1 :
+					KoLDatabase.fuzzyMatches( entry.getValue().toString(), this.getCurrentName() );
 			}
 
-			return strict ? KoLDatabase.substringMatches( element.toString(), getCurrentName() ) :
-				KoLDatabase.fuzzyMatches( element.toString(), getCurrentName() );
+			return this.strict ? KoLDatabase.substringMatches( element.toString(), this.getCurrentName() ) :
+				KoLDatabase.fuzzyMatches( element.toString(), this.getCurrentName() );
 		}
 
 		// In all other cases, compare the item against the
@@ -118,8 +115,8 @@ public class SimpleListFilter extends ListElementFilter
 		if ( name == null )
 			return false;
 
-		return getCurrentName() == null || getCurrentName().length() == 0 ||
-			(strict ? name.toLowerCase().indexOf( getCurrentName().toLowerCase() ) != -1 : KoLDatabase.fuzzyMatches( name, getCurrentName() ));
+		return this.getCurrentName() == null || this.getCurrentName().length() == 0 ||
+			(this.strict ? name.toLowerCase().indexOf( this.getCurrentName().toLowerCase() ) != -1 : KoLDatabase.fuzzyMatches( name, this.getCurrentName() ));
 	}
 
 	public final boolean isNonResult( Object element )

@@ -38,7 +38,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Set;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;
@@ -76,7 +75,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 
 		Pattern singleBet = ROW_PATTERN;
 
-		Matcher madeMatcher = MADE_PATTERN.matcher( responseText );
+		Matcher madeMatcher = MADE_PATTERN.matcher( this.responseText );
 		if ( madeMatcher.find() )
 		{
 			madeMatcher = singleBet.matcher( madeMatcher.group() );
@@ -87,7 +86,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 					madeBets.add( new MoneyMakingGameResult( madeMatcher.group(), true ) );
 		}
 
-		Matcher takenMatcher = TAKEN_PATTERN.matcher( responseText );
+		Matcher takenMatcher = TAKEN_PATTERN.matcher( this.responseText );
 		if ( takenMatcher.find() )
 		{
 			takenMatcher = singleBet.matcher( takenMatcher.group() );
@@ -138,14 +137,14 @@ public class MoneyMakingGameRequest extends KoLRequest
 		}
 
 		public int compareTo( Object o )
-		{	return winAmount.compareTo( ((MoneyMakingGameSummary)o).winAmount );
+		{	return this.winAmount.compareTo( ((MoneyMakingGameSummary)o).winAmount );
 		}
 
 		public String toString()
 		{
-			return "<html><font color=" + (winAmount.intValue() > 0 ? "green" : "red") +
-				">" + StaticEntity.getClient().getPlayerName( playerId ) + ": " + (winAmount.intValue() > 0 ? "+" : "") +
-				COMMA_FORMAT.format( winAmount.intValue() ) + "</font></html>";
+			return "<html><font color=" + (this.winAmount.intValue() > 0 ? "green" : "red") +
+				">" + KoLmafia.getPlayerName( this.playerId ) + ": " + (this.winAmount.intValue() > 0 ? "+" : "") +
+				COMMA_FORMAT.format( this.winAmount.intValue() ) + "</font></html>";
 		}
 	}
 
@@ -155,12 +154,10 @@ public class MoneyMakingGameRequest extends KoLRequest
 		private int betAmount;
 		private String playerId;
 
-		private boolean isPlacedBet;
 		private boolean isPositive;
 
 		public MoneyMakingGameResult( String resultText, boolean isPlacedBet )
 		{
-			this.isPlacedBet = isPlacedBet;
 			this.isPositive = resultText.indexOf( "color='green'>+" ) != -1;
 
 			Matcher results = CELL_PATTERN.matcher( resultText );
@@ -171,7 +168,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 			try
 			{
 				if ( results.find() )
-					timestamp = RESULT_FORMAT.parse( results.group().replaceAll( "&nbsp;", " " ).replaceAll( "<.*?>", "" ) );
+					this.timestamp = RESULT_FORMAT.parse( results.group().replaceAll( "&nbsp;", " " ).replaceAll( "<.*?>", "" ) );
 			}
 			catch ( Exception e )
 			{
@@ -189,8 +186,8 @@ public class MoneyMakingGameRequest extends KoLRequest
 				Matcher amountMatcher = AMOUNT_PATTERN.matcher( results.group() );
 				if ( amountMatcher.find() )
 				{
-					betAmount = StaticEntity.parseInt( amountMatcher.group(1) );
-					betAmount = (int) (((float) betAmount) * (isPositive ? 0.998f : -1.0f));
+					this.betAmount = StaticEntity.parseInt( amountMatcher.group(1) );
+					this.betAmount = (int) ((this.betAmount) * (this.isPositive ? 0.998f : -1.0f));
 				}
 			}
 
@@ -202,8 +199,8 @@ public class MoneyMakingGameRequest extends KoLRequest
 				Matcher playerMatcher = PLAYER_PATTERN.matcher( results.group() );
 				if ( playerMatcher.find() )
 				{
-					playerId = playerMatcher.group(1);
-					StaticEntity.getClient().registerPlayer( playerMatcher.group(2), playerId );
+					this.playerId = playerMatcher.group(1);
+					KoLmafia.registerPlayer( playerMatcher.group(2), this.playerId );
 				}
 			}
 		}

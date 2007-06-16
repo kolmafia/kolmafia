@@ -39,8 +39,8 @@ public class ToyRequest extends ItemCreationRequest
 	{
 		super( "crimbo_uncle.php", itemId );
 
-		addFormField( "action", "1" );
-		addFormField( "whichitem", String.valueOf( itemId ) );
+		this.addFormField( "action", "1" );
+		this.addFormField( "whichitem", String.valueOf( itemId ) );
 	}
 
 	public void reconstructFields()
@@ -54,11 +54,11 @@ public class ToyRequest extends ItemCreationRequest
 		// In this case, it will also create the needed white
 		// pixels if they are not currently available.
 
-		if ( !makeIngredients() )
+		if ( !this.makeIngredients() )
 			return;
 
-		KoLmafia.updateDisplay( "Creating " + getQuantityNeeded() + " " + getName() + "..." );
-		addFormField( "quantity", String.valueOf( getQuantityNeeded() ) );
+		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
+		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
 	}
 }

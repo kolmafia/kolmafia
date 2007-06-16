@@ -267,8 +267,6 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int adventuresLeft = 0;
 	private static int totalTurnsUsed = 0;
 
-	private static boolean spleenLimitReached = false;
-
 	// Status pane data which is rendered whenever
 	// the user changes equipment, effects, and familiar
 
@@ -321,7 +319,6 @@ public abstract class KoLCharacter extends StaticEntity
 	// Ascension-related variables
 
 	private static boolean isHardcore = false;
-	private static boolean canInteract = true;
 
 	private static int ascensions = 0;
 	private static String ascensionSign = "None";
@@ -334,7 +331,6 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void resetInventory()
 	{
 		inventory.clear();
-		ConcoctionsDatabase.recognizeNextRefresh();
 
 		// Initialize the equipment lists inside
 		// of the character data
@@ -423,7 +419,6 @@ public abstract class KoLCharacter extends StaticEntity
 		battleSkillNames.add( "try to run away" );
 
 		isHardcore = false;
-		canInteract = false;
 		hasStore = false;
 		hasDisplayCase = false;
 		hasClan = false;
@@ -439,7 +434,6 @@ public abstract class KoLCharacter extends StaticEntity
 		arenaWins = 0;
 		isUsingStabBat = false;
 
-		spleenLimitReached = false;
 		stillsAvailable = -1;
 		beanstalkArmed = false;
 
@@ -780,7 +774,7 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( KoLCharacter.availableMeat != availableMeat )
 		{
 			KoLCharacter.availableMeat = availableMeat;
-			ConcoctionsDatabase.recognizeNextRefresh();
+			ConcoctionsDatabase.refreshConcoctions();
 		}
 	}
 
@@ -1019,7 +1013,7 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( adventuresLeft != KoLCharacter.adventuresLeft )
 		{
 			KoLCharacter.adventuresLeft = adventuresLeft;
-			ConcoctionsDatabase.recognizeNextRefresh();
+			ConcoctionsDatabase.refreshConcoctions();
 		}
 	}
 
@@ -1735,7 +1729,7 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( KoLCharacter.hasBartender != hasBartender )
 		{
 			KoLCharacter.hasBartender = hasBartender;
-			ConcoctionsDatabase.recognizeNextRefresh();
+			ConcoctionsDatabase.refreshConcoctions();
 		}
 	}
 
@@ -1758,7 +1752,7 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( KoLCharacter.hasChef != hasChef )
 		{
 			KoLCharacter.hasChef = hasChef;
-			ConcoctionsDatabase.recognizeNextRefresh();
+			ConcoctionsDatabase.refreshConcoctions();
 		}
 	}
 
@@ -2210,7 +2204,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void decrementStillsAvailable( int decrementAmount )
 	{
 		stillsAvailable -= decrementAmount;
-		ConcoctionsDatabase.recognizeNextRefresh();
+		ConcoctionsDatabase.refreshConcoctions();
 	}
 
 	public static boolean canUseWok()
@@ -2396,7 +2390,7 @@ public abstract class KoLCharacter extends StaticEntity
 					shouldRefresh = ConcoctionsDatabase.isPermittedMethod( ConcoctionsDatabase.getMixingMethod( ((AdventureResult)uses.get(i)).getItemId() ) );
 
 				if ( shouldRefresh )
-					ConcoctionsDatabase.recognizeNextRefresh();
+					ConcoctionsDatabase.refreshConcoctions();
 			}
 		}
 		else if ( resultName.equals( AdventureResult.HP ) )

@@ -42,7 +42,6 @@ public class MailboxRequest extends KoLRequest
 	private static final Pattern SINGLEPAGE_PATTERN = Pattern.compile( "Messages: \\w*?, page 1 \\((\\d*) messages\\)</b>" );
 
 	private String boxname;
-	private int beginIndex;
 	private String action;
 
 	public MailboxRequest( String boxname, KoLMailMessage message, String action )
@@ -52,14 +51,14 @@ public class MailboxRequest extends KoLRequest
 	public MailboxRequest( String boxname, Object [] messages, String action )
 	{
 		super( "messages.php" );
-		addFormField( "box", boxname );
-		addFormField( "pwd" );
-		addFormField( "the_action", action );
+		this.addFormField( "box", boxname );
+		this.addFormField( "pwd" );
+		this.addFormField( "the_action", action );
 
 		this.action = action;
 		this.boxname = boxname;
 		for ( int i = 0; i < messages.length; ++i )
-			addFormField( ((KoLMailMessage) messages[i]).getMessageId(), "on" );
+			this.addFormField( ((KoLMailMessage) messages[i]).getMessageId(), "on" );
 	}
 
 	public MailboxRequest( String boxname )
@@ -69,12 +68,11 @@ public class MailboxRequest extends KoLRequest
 	public MailboxRequest( String boxname, int beginIndex )
 {
 		super( "messages.php" );
-		addFormField( "box", boxname );
-		addFormField( "begin", String.valueOf( beginIndex ) );
+		this.addFormField( "box", boxname );
+		this.addFormField( "begin", String.valueOf( beginIndex ) );
 
 		this.action = null;
 		this.boxname = boxname;
-		this.beginIndex = beginIndex;
 	}
 
 	public void run()
@@ -82,10 +80,10 @@ public class MailboxRequest extends KoLRequest
 		// Now you know that there is a request in progress, so you
 		// reset the variable (to avoid concurrent requests).
 
-		if ( action == null )
-			KoLmafia.updateDisplay( "Retrieving mail from " + boxname + "..." );
+		if ( this.action == null )
+			KoLmafia.updateDisplay( "Retrieving mail from " + this.boxname + "..." );
 		else
-			KoLmafia.updateDisplay( "Executing " + action + " request for " + boxname + "..." );
+			KoLmafia.updateDisplay( "Executing " + this.action + " request for " + this.boxname + "..." );
 
 		super.run();
 	}
@@ -98,7 +96,7 @@ public class MailboxRequest extends KoLRequest
 		// testing the mail manager to see if it thinks all the new
 		// messages have been retrieved.
 
-		if ( responseText.indexOf( "There are no messages in this mailbox." ) != -1 )
+		if ( this.responseText.indexOf( "There are no messages in this mailbox." ) != -1 )
 		{
 			KoLmafia.updateDisplay( "Your mailbox is empty." );
 			return;
@@ -109,7 +107,7 @@ public class MailboxRequest extends KoLRequest
 
 		try
 		{
-			Matcher matcher = MULTIPAGE_PATTERN.matcher( responseText );
+			Matcher matcher = MULTIPAGE_PATTERN.matcher( this.responseText );
 
 			if ( matcher.find() )
 			{
@@ -118,7 +116,7 @@ public class MailboxRequest extends KoLRequest
 			}
 			else
 			{
-				matcher = SINGLEPAGE_PATTERN.matcher( responseText );
+				matcher = SINGLEPAGE_PATTERN.matcher( this.responseText );
 				if ( matcher.find() )
 				{
 					lastMessageId = StaticEntity.parseInt( matcher.group(1) );
@@ -135,7 +133,7 @@ public class MailboxRequest extends KoLRequest
 			return;
 		}
 
-		int nextMessageIndex = responseText.indexOf( "<td valign=top>" );
+		int nextMessageIndex = this.responseText.indexOf( "<td valign=top>" );
 
 		if ( nextMessageIndex == -1 )
 		{
@@ -143,8 +141,8 @@ public class MailboxRequest extends KoLRequest
 			return;
 		}
 
-		nextMessageIndex = processMessages( nextMessageIndex );
-		KoLmafia.updateDisplay( "Mail retrieved from page 1 of " + boxname );
+		nextMessageIndex = this.processMessages( nextMessageIndex );
+		KoLmafia.updateDisplay( "Mail retrieved from page 1 of " + this.boxname );
 	}
 
 	private int processMessages( int startIndex )
@@ -157,7 +155,7 @@ public class MailboxRequest extends KoLRequest
 		while ( nextMessageIndex != -1 && shouldContinueParsing )
 		{
 			lastMessageIndex = nextMessageIndex;
-			nextMessageIndex = responseText.indexOf( "<td valign=top>", lastMessageIndex + 15 );
+			nextMessageIndex = this.responseText.indexOf( "<td valign=top>", lastMessageIndex + 15 );
 
 			// The last message in the inbox has no "next message
 			// index".  In this case, locate the bold X and use
@@ -165,7 +163,7 @@ public class MailboxRequest extends KoLRequest
 
 			if ( nextMessageIndex == -1 )
 			{
-				nextMessageIndex = responseText.indexOf( "<b>X</b>", lastMessageIndex + 15 );
+				nextMessageIndex = this.responseText.indexOf( "<b>X</b>", lastMessageIndex + 15 );
 				shouldContinueParsing = false;
 			}
 
@@ -174,7 +172,7 @@ public class MailboxRequest extends KoLRequest
 
 			if ( nextMessageIndex != -1 )
 			{
-				currentMessage = responseText.substring( lastMessageIndex, nextMessageIndex );
+				currentMessage = this.responseText.substring( lastMessageIndex, nextMessageIndex );
 
 				// This replaces all of the HTML contained within the message to something
 				// that can be rendered with the default RequestPane, and also be subject
@@ -190,8 +188,8 @@ public class MailboxRequest extends KoLRequest
 				// At this point, the message is registered with the mail manager, which
 				// records the message and updates whether or not you should continue.
 
-				shouldContinueParsing &= (BuffBotHome.isBuffBotActive() ? BuffBotManager.addMessage( boxname, currentMessage ) :
-					KoLMailManager.addMessage( boxname, currentMessage )) != null;
+				shouldContinueParsing &= (BuffBotHome.isBuffBotActive() ? BuffBotManager.addMessage( this.boxname, currentMessage ) :
+					KoLMailManager.addMessage( this.boxname, currentMessage )) != null;
 			}
 		}
 

@@ -74,7 +74,7 @@ public class KoLMailMessage implements Comparable
 		messageParser.nextToken();
 
 		this.messageDate = messageParser.nextToken().trim();
-		this.messageHTML = message.substring( message.indexOf( this.messageDate ) + messageDate.length() + 4 );
+		this.messageHTML = message.substring( message.indexOf( this.messageDate ) + this.messageDate.length() + 4 );
 
 		try
 		{
@@ -82,60 +82,60 @@ public class KoLMailMessage implements Comparable
 			// the given string; note it may throw
 			// an exception (but probably not)
 
-			this.timestamp = TIMESTAMP_FORMAT.parse( messageDate );
+			this.timestamp = TIMESTAMP_FORMAT.parse( this.messageDate );
 		}
 		catch ( Exception e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, "Could not parse date \"" + messageDate + "\"" );
+			StaticEntity.printStackTrace( e, "Could not parse date \"" + this.messageDate + "\"" );
 
 			// Initialize the date to the current time,
 			// since that's about as close as it gets
 
 			this.timestamp = new Date();
-			this.messageDate = TIMESTAMP_FORMAT.format( timestamp );
+			this.messageDate = TIMESTAMP_FORMAT.format( this.timestamp );
 		}
 	}
 
 	public String toString()
-	{	return senderName + " @ " + messageDate;
+	{	return this.senderName + " @ " + this.messageDate;
 	}
 
 	public int compareTo( Object o )
-	{	return o == null || !(o instanceof KoLMailMessage) ? -1 : messageId.compareTo( ((KoLMailMessage)o).messageId );
+	{	return o == null || !(o instanceof KoLMailMessage) ? -1 : this.messageId.compareTo( ((KoLMailMessage)o).messageId );
 	}
 
 	public boolean equals( Object o )
-	{	return o == null || !(o instanceof KoLMailMessage) ? false : messageId.equals( ((KoLMailMessage)o).messageId );
+	{	return o == null || !(o instanceof KoLMailMessage) ? false : this.messageId.equals( ((KoLMailMessage)o).messageId );
 	}
 
 	public String getMessageId()
-	{	return messageId;
+	{	return this.messageId;
 	}
 	
 	public Date getTimestamp()
-	{	return timestamp;
+	{	return this.timestamp;
 	}
 
 	public String getCompleteHTML()
-	{	return completeHTML;
+	{	return this.completeHTML;
 	}
 
 	public String getMessageHTML()
-	{	return messageHTML.toString();
+	{	return this.messageHTML.toString();
 	}
 
 	public String getSenderName()
-	{	return senderName;
+	{	return this.senderName;
 	}
 
 	public String getSenderId()
-	{	return senderId;
+	{	return this.senderId;
 	}
 
 	public String getDisplayHTML()
-	{	return completeHTML;
+	{	return this.completeHTML;
 	}
 }

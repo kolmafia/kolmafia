@@ -48,12 +48,12 @@ public class ContactListRequest extends KoLRequest
 	public void processResults()
 	{
 		contactList.clear();
-		Matcher listMatcher = LIST_PATTERN.matcher( responseText );
+		Matcher listMatcher = LIST_PATTERN.matcher( this.responseText );
 		if ( listMatcher.find() )
 		{
 			Matcher entryMatcher = ENTRY_PATTERN.matcher( listMatcher.group() );
 			while ( entryMatcher.find() )
-				StaticEntity.getClient().registerContact( entryMatcher.group(2), entryMatcher.group(1) );
+				KoLmafia.registerContact( entryMatcher.group(2), entryMatcher.group(1) );
 		}
 	}
 }

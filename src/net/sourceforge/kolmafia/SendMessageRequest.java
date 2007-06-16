@@ -59,7 +59,7 @@ public abstract class SendMessageRequest extends KoLRequest
 	public SendMessageRequest( String formSource )
 	{
 		super( formSource );
-		addFormField( "pwd" );
+		this.addFormField( "pwd" );
 		this.attachments = new Object[0];
 	}
 
@@ -81,24 +81,24 @@ public abstract class SendMessageRequest extends KoLRequest
 	{
 		String which, quantity;
 
-		if ( getCapacity() > 1 )
+		if ( this.getCapacity() > 1 )
 		{
-			which = getItemField() + index;
-			quantity = getQuantityField() + index;
+			which = this.getItemField() + index;
+			quantity = this.getQuantityField() + index;
 		}
-		else if ( alwaysIndex() )
+		else if ( this.alwaysIndex() )
 		{
-			which = getItemField() + "1";
-			quantity = getQuantityField() + "1";
+			which = this.getItemField() + "1";
+			quantity = this.getQuantityField() + "1";
 		}
 		else
 		{
-			which = getItemField();
-			quantity = getQuantityField();
+			which = this.getItemField();
+			quantity = this.getQuantityField();
 		}
 
-		addFormField( which, String.valueOf( item.getItemId() ) );
-		addFormField( quantity, String.valueOf( item.getCount() ) );
+		this.addFormField( which, String.valueOf( item.getItemId() ) );
+		this.addFormField( quantity, String.valueOf( item.getCount() ) );
 	}
 
 	public boolean alwaysIndex()
@@ -116,7 +116,7 @@ public abstract class SendMessageRequest extends KoLRequest
 
 	private void runSubInstances()
 	{
-		int capacity = getCapacity();
+		int capacity = this.getCapacity();
 		ArrayList subinstances = new ArrayList();
 
 		int index1 = 0;
@@ -128,17 +128,17 @@ public abstract class SendMessageRequest extends KoLRequest
 		ArrayList nextAttachments = new ArrayList();
 		SendMessageRequest subinstance = null;
 
-		boolean allowNoGift = allowUngiftableTransfer();
-		boolean allowNoTrade = allowUntradeableTransfer();
-		boolean allowMemento = !StaticEntity.getBooleanProperty( "mementoListActive" ) || allowMementoTransfer();
+		boolean allowNoGift = this.allowUngiftableTransfer();
+		boolean allowNoTrade = this.allowUntradeableTransfer();
+		boolean allowMemento = !StaticEntity.getBooleanProperty( "mementoListActive" ) || this.allowMementoTransfer();
 
-		while ( index1 < attachments.length )
+		while ( index1 < this.attachments.length )
 		{
 			nextAttachments.clear();
 
 			do
 			{
-				item = (AdventureResult) attachments[index1++];
+				item = (AdventureResult) this.attachments[index1++];
 
 				if ( item.getName().equals( AdventureResult.MEAT ) )
 				{
@@ -158,18 +158,18 @@ public abstract class SendMessageRequest extends KoLRequest
 				if ( !allowMemento && mementoList.contains( item ) )
 					continue;
 
-				availableCount = item.getCount( source );
+				availableCount = item.getCount( this.source );
 				if ( availableCount > 0 )
 					nextAttachments.add( item.getInstance( Math.min( item.getCount(), availableCount ) ) );
 			}
-			while ( index1 < attachments.length && nextAttachments.size() < capacity );
+			while ( index1 < this.attachments.length && nextAttachments.size() < capacity );
 
 			// For each broken-up request, you create a new sending request
 			// which will create the appropriate data to post.
 
 			if ( !KoLmafia.refusesContinue() && !nextAttachments.isEmpty() )
 			{
-				subinstance = getSubInstance( nextAttachments.toArray() );
+				subinstance = this.getSubInstance( nextAttachments.toArray() );
 				subinstance.isSubInstance = true;
 				subinstances.add( subinstance );
 			}
@@ -186,11 +186,11 @@ public abstract class SendMessageRequest extends KoLRequest
 			RequestThread.openRequestSequence();
 
 			if ( meatAttachment > 0 )
-				requests[0].addFormField( getMeatField(), String.valueOf( meatAttachment ) );
+				requests[0].addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
 
 			for ( int i = 0; i < requests.length; ++i )
 			{
-				KoLmafia.updateDisplay( getStatusMessage() + " (request " + (i+1) + " of " + requests.length + ")..." );
+				KoLmafia.updateDisplay( this.getStatusMessage() + " (request " + (i+1) + " of " + requests.length + ")..." );
 				requests[i].run();
 			}
 
@@ -198,15 +198,15 @@ public abstract class SendMessageRequest extends KoLRequest
 		}
 		else if ( requests.length == 1 )
 		{
-			KoLmafia.updateDisplay( getStatusMessage() + "..." );
+			KoLmafia.updateDisplay( this.getStatusMessage() + "..." );
 			requests[0].run();
 		}
-		else if ( meatAttachment > 0 || attachments.length == 0 )
+		else if ( meatAttachment > 0 || this.attachments.length == 0 )
 		{
-			KoLmafia.updateDisplay( getStatusMessage() + "..." );
+			KoLmafia.updateDisplay( this.getStatusMessage() + "..." );
 
 			if ( meatAttachment > 0 )
-				addFormField( getMeatField(), String.valueOf( meatAttachment ) );
+				this.addFormField( this.getMeatField(), String.valueOf( meatAttachment ) );
 
 			super.run();
 		}
@@ -223,24 +223,24 @@ public abstract class SendMessageRequest extends KoLRequest
 		// placed in the closet - if there's too many,
 		// then you'll need to break up the request
 
-		if ( !isSubInstance )
+		if ( !this.isSubInstance )
 		{
-			runSubInstances();
+			this.runSubInstances();
 			return;
 		}
 
-		int capacity = getCapacity();
+		int capacity = this.getCapacity();
 
 		if ( capacity > 1 )
 		{
-			for ( int i = 1; i <= attachments.length; ++i )
-				if ( attachments[i-1] != null )
-					attachItem( (AdventureResult) attachments[i-1], i );
+			for ( int i = 1; i <= this.attachments.length; ++i )
+				if ( this.attachments[i-1] != null )
+					this.attachItem( (AdventureResult) this.attachments[i-1], i );
 		}
 		else if ( capacity == 1 )
 		{
-			if ( attachments[0] != null )
-				attachItem( (AdventureResult) attachments[0], 0 );
+			if ( this.attachments[0] != null )
+				this.attachItem( (AdventureResult) this.attachments[0], 0 );
 		}
 
 		// Once all the form fields are broken up, this
@@ -256,25 +256,25 @@ public abstract class SendMessageRequest extends KoLRequest
 		// Make sure that the message was actually sent -
 		// the person could have input an invalid player Id
 
-		if ( !getSuccessMessage().equals( "" ) && responseText.indexOf( getSuccessMessage() ) == -1 )
+		if ( !this.getSuccessMessage().equals( "" ) && this.responseText.indexOf( this.getSuccessMessage() ) == -1 )
 		{
 			hadSendMessageFailure = true;
 			boolean shouldUpdateDisplay = willUpdateDisplayOnFailure();
 
-			for ( int i = 0; i < attachments.length; ++i )
+			for ( int i = 0; i < this.attachments.length; ++i )
 			{
 				if ( shouldUpdateDisplay )
-					KoLmafia.updateDisplay( ERROR_STATE, "Transfer failed for " + attachments[i].toString() );
-				if ( source == inventory )
-					StaticEntity.getClient().processResult( (AdventureResult) attachments[i] );
+					KoLmafia.updateDisplay( ERROR_STATE, "Transfer failed for " + this.attachments[i].toString() );
+				if ( this.source == inventory )
+					StaticEntity.getClient().processResult( (AdventureResult) this.attachments[i] );
 			}
 
-			int totalMeat = StaticEntity.parseInt( getFormField( getMeatField() ) );
+			int totalMeat = StaticEntity.parseInt( this.getFormField( this.getMeatField() ) );
 			if ( totalMeat != 0 )
 			{
 				if ( shouldUpdateDisplay )
 					KoLmafia.updateDisplay( ERROR_STATE, "Transfer failed for " + totalMeat + " meat" );
-				if ( source == inventory )
+				if ( this.source == inventory )
 					StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, totalMeat ) );
 			}
 		}

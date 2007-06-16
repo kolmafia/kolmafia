@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.lang.reflect.Constructor;
 
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 
 public class CreateFrameRunnable implements Runnable, KoLConstants
@@ -54,8 +53,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 	private Constructor creator;
 	private Object [] parameters;
-	private boolean ranRequests;
-
 	public CreateFrameRunnable( Class creationType )
 	{	this( creationType, new Object[0] );
 	}
@@ -64,8 +61,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	{
 		this.creationType = creationType;
 		this.parameters = parameters;
-		this.ranRequests = false;
-
 		Class [] parameterTypes = new Class[ parameters.length ];
 		for ( int i = 0; i < parameters.length; ++i )
 			parameterTypes[i] = parameters[i] == null ? null : parameters[i].getClass();
@@ -93,7 +88,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	}
 
 	public JFrame getCreation()
-	{	return creation;
+	{	return this.creation;
 	}
 
 	public void run()
@@ -110,7 +105,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e,  creationType.getName() + " could not be loaded" );
+				StaticEntity.printStackTrace( e,  this.creationType.getName() + " could not be loaded" );
 				return;
 			}
 		}
@@ -127,13 +122,13 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		// Run any needed requests before falling into
 		// the event dispatch thread.
 
-		if ( loadPreviousFrame() )
+		if ( this.loadPreviousFrame() )
 		{
 			String tabSetting = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
-			String searchString = ChatFrame.class.isAssignableFrom( creationType ) ? "KoLMessenger" :
-				KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
+			String searchString = ChatFrame.class.isAssignableFrom( this.creationType ) ? "KoLMessenger" :
+				KoLFrame.class.isAssignableFrom( this.creationType ) ? this.creationType.toString().substring( this.creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
 
-			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) && !searchString.equals( "KoLMessenger" ) &&
+			boolean appearsInTab = KoLFrame.class.isAssignableFrom( this.creationType ) && !searchString.equals( "KoLMessenger" ) &&
 				StaticEntity.getGlobalProperty( "initialDesktop" ).indexOf( searchString ) != -1;
 
 			if ( appearsInTab )
@@ -148,18 +143,18 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				this.creation.requestFocus();
 			}
 
-			if ( creationType == SkillBuffFrame.class && parameters.length == 1 )
-				((SkillBuffFrame)this.creation).setRecipient( (String) parameters[0] );
+			if ( this.creationType == SkillBuffFrame.class && this.parameters.length == 1 )
+				((SkillBuffFrame)this.creation).setRecipient( (String) this.parameters[0] );
 
 			return;
 		}
 
-		runConstruction();
+		this.runConstruction();
 	}
 
 	private boolean loadPreviousFrame()
 	{
-		synchronized ( creationType )
+		synchronized ( this.creationType )
 		{
 			// Check to see if this is a frame that should
 			// only be loaded once, based on the static list.
@@ -167,7 +162,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			KoLFrame currentFrame;
 			Class currentType;
 
-			String creationTypeName = (creationType == KoLPanelFrame.class ? parameters[1].getClass() : creationType).getName();
+			String creationTypeName = (this.creationType == KoLPanelFrame.class ? this.parameters[1].getClass() : this.creationType).getName();
 			creationTypeName = creationTypeName.substring( creationTypeName.lastIndexOf( "." ) + 1 );
 
 			for ( int i = 0; i < existingFrames.size() && this.creation == null; ++i )
@@ -175,9 +170,9 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				currentFrame = (KoLFrame) existingFrames.get(i);
 				currentType = currentFrame.getClass();
 
-				if ( currentType == creationType )
+				if ( currentType == this.creationType )
 				{
-					boolean allowMultiple = currentType == RequestFrame.class && parameters.length > 0;
+					boolean allowMultiple = currentType == RequestFrame.class && this.parameters.length > 0;
 
 					for ( int j = 0; j < MULTI_INSTANCE.length; ++j )
 						if ( currentType == MULTI_INSTANCE[j] )
@@ -200,19 +195,19 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		String initialString = "," + StaticEntity.getGlobalProperty( "initialDesktop" ) + ",";
 
-		String searchString = ChatFrame.class.isAssignableFrom( creationType ) ? "KoLMessenger" :
-			KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
+		String searchString = ChatFrame.class.isAssignableFrom( this.creationType ) ? "KoLMessenger" :
+			KoLFrame.class.isAssignableFrom( this.creationType ) ? this.creationType.toString().substring( this.creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
 
-		boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) && initialString.indexOf( searchString ) != -1;
+		boolean appearsInTab = KoLFrame.class.isAssignableFrom( this.creationType ) && initialString.indexOf( searchString ) != -1;
 
-		if ( creationType != LoginFrame.class && StaticEntity.getBooleanProperty( "guiUsesOneWindow" ) )
+		if ( this.creationType != LoginFrame.class && StaticEntity.getBooleanProperty( "guiUsesOneWindow" ) )
 		{
 			if ( !appearsInTab )
 				KoLDesktop.removeExtraTabs();
 
 			appearsInTab = true;
 		}
-		else if ( appearsInTab && creationType == RequestFrame.class )
+		else if ( appearsInTab && this.creationType == RequestFrame.class )
 		{
 			// Check to see if there's already a request frame.
 			// If there is, this one won't appear in a tab.
@@ -229,7 +224,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		if ( appearsInTab && showDesktop )
 		{
 			KoLDesktop.getInstance().initializeTabs();
-			if ( loadPreviousFrame() )
+			if ( this.loadPreviousFrame() )
 			{
 				KoLDesktop.displayDesktop();
 				return;
@@ -239,17 +234,17 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		try
 		{
 			if ( this.creation == null )
-				this.creation = (JFrame) creator.newInstance( parameters );
+				this.creation = (JFrame) this.creator.newInstance( this.parameters );
 		}
 		catch ( Exception e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e,  creationType.getName() + " could not be loaded" );
+			StaticEntity.printStackTrace( e,  this.creationType.getName() + " could not be loaded" );
 		}
 
-		if ( creationType == RequestFrame.class )
+		if ( this.creationType == RequestFrame.class )
 			appearsInTab &= ((RequestFrame)this.creation).hasSideBar();
 
 		// Load the KoL frame to the appropriate location
@@ -275,12 +270,12 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e,  creationType.getName() + " could not be loaded" );
+			StaticEntity.printStackTrace( e,  this.creationType.getName() + " could not be loaded" );
 		}
 
 		this.creation.pack();
-		if ( this.creation instanceof SkillBuffFrame && parameters.length == 1 )
-			((SkillBuffFrame)this.creation).setRecipient( (String) parameters[0] );
+		if ( this.creation instanceof SkillBuffFrame && this.parameters.length == 1 )
+			((SkillBuffFrame)this.creation).setRecipient( (String) this.parameters[0] );
 
 		if ( !(this.creation instanceof KoLFrame) )
 			this.creation.setLocationRelativeTo( null );

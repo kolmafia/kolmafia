@@ -209,9 +209,9 @@ public class MoonPhaseDatabase extends StaticEntity
 		// Adjust the new year by the appropriate
 		// number of days.
 
-		NEWYEAR += ((long)phaseError) * 86400000L;
-		BOUNDARY += ((long)phaseError) * 86400000L;
-		COLLISION += ((long)phaseError) * 86400000L;
+		NEWYEAR += (phaseError) * 86400000L;
+		BOUNDARY += (phaseError) * 86400000L;
+		COLLISION += (phaseError) * 86400000L;
 	}
 
 	public static final int getRonaldPhase()

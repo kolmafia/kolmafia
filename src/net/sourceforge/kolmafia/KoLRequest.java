@@ -37,15 +37,10 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
@@ -53,8 +48,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import java.util.Map.Entry;
@@ -94,8 +87,6 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public static String sessionId = null;
 	public static String passwordHash = null;
-	private static boolean wasLastRequestSimple = false;
-
 	public static boolean isRatQuest = false;
 	public static boolean handlingChoices = false;
 
@@ -294,24 +285,24 @@ public class KoLRequest extends Job implements KoLConstants
 		this.data = new ArrayList();
 		this.followRedirects = followRedirects;
 
-		constructURLString( formURLString );
+		this.constructURLString( formURLString );
 
-		this.isDelayExempt = getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof LogoutRequest ||
+		this.isDelayExempt = this.getClass() == KoLRequest.class || this instanceof LoginRequest || this instanceof LogoutRequest ||
 			this instanceof ChatRequest || this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
 	}
 
 	public boolean isDelayExempt()
-	{	return isDelayExempt;
+	{	return this.isDelayExempt;
 	}
 
 	public KoLRequest constructURLString( String newURLString )
 	{
-		return constructURLString( newURLString, true );
+		return this.constructURLString( newURLString, true );
 	}
 
 	public KoLRequest constructURLString( String newURLString, boolean usePostMethod )
 	{
-		dataChanged = true;
+		this.dataChanged = true;
 		this.data.clear();
 
 		if ( newURLString.startsWith( "/" ) )
@@ -326,22 +317,22 @@ public class KoLRequest extends Job implements KoLConstants
 		else
 		{
 			this.formURLString = newURLString.substring( 0, formSplitIndex );
-			addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
+			this.addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
 		}
 
 		this.isChatRequest = this.formURLString.indexOf( "chat" ) != -1 && !this.formURLString.startsWith( "chatlaunch.php" ) &&
 			!this.formURLString.startsWith( "lchat.php" ) && !this.formURLString.startsWith( "devchat.php" );
 
-		this.shouldIgnoreResult = isChatRequest || formURLString.startsWith( "message" ) || formURLString.startsWith( "ascension" ) ||
-			formURLString.startsWith( "search" ) || formURLString.startsWith( "static" ) || formURLString.startsWith( "desc" ) ||
-			formURLString.startsWith( "show" ) || formURLString.startsWith( "doc" ) ||
-			(formURLString.startsWith( "clan" ) && !formURLString.startsWith( "clan_stash" ) && !formURLString.startsWith( "clan_rumpus" ));
+		this.shouldIgnoreResult = this.isChatRequest || this.formURLString.startsWith( "message" ) || this.formURLString.startsWith( "ascension" ) ||
+			this.formURLString.startsWith( "search" ) || this.formURLString.startsWith( "static" ) || this.formURLString.startsWith( "desc" ) ||
+			this.formURLString.startsWith( "show" ) || this.formURLString.startsWith( "doc" ) ||
+			(this.formURLString.startsWith( "clan" ) && !this.formURLString.startsWith( "clan_stash" ) && !this.formURLString.startsWith( "clan_rumpus" ));
 
 		return this;
 	}
 
 	public boolean ignoreResult()
-	{	return shouldIgnoreResult;
+	{	return this.shouldIgnoreResult;
 	}
 
 	/**
@@ -350,7 +341,7 @@ public class KoLRequest extends Job implements KoLConstants
 	 */
 
 	public String getURLString()
-	{	return data.isEmpty() ? formURLString : formURLString + "?" + getDataString( false );
+	{	return this.data.isEmpty() ? this.formURLString : this.formURLString + "?" + this.getDataString( false );
 	}
 
 	/**
@@ -377,17 +368,17 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void addFormField( String name, String value, boolean allowDuplicates )
 	{
-		dataChanged = true;
+		this.dataChanged = true;
 
 		if ( name.equals( "pwd" ) || name.equals( "phash" ) )
 		{
-			data.add( name );
+			this.data.add( name );
 			return;
 		}
 
 		if ( name.equals( "playerid" ) && value.equals( "" ) )
 		{
-			data.add( "playerid=" + KoLCharacter.getUserId() );
+			this.data.add( "playerid=" + KoLCharacter.getUserId() );
 			return;
 		}
 
@@ -412,18 +403,18 @@ public class KoLRequest extends Job implements KoLConstants
 		// submit duplicate fields.
 
 		if ( !allowDuplicates )
-			for ( int i = 0; i < data.size(); ++i )
-				if ( ((String)data.get(i)).startsWith( encodedName ) )
-					data.remove( i );
+			for ( int i = 0; i < this.data.size(); ++i )
+				if ( ((String)this.data.get(i)).startsWith( encodedName ) )
+					this.data.remove( i );
 
 		// If the data did not already exist, then
 		// add it to the end of the array.
 
-		data.add( encodedName + encodedValue );
+		this.data.add( encodedName + encodedValue );
 	}
 
 	public void addFormField( String name, String value )
-	{	addFormField( name, value, false );
+	{	this.addFormField( name, value, false );
 	}
 
 	/**
@@ -436,7 +427,7 @@ public class KoLRequest extends Job implements KoLConstants
 		int equalIndex = element.indexOf( "=" );
 		if ( equalIndex == -1 )
 		{
-			addFormField( element, "", false );
+			this.addFormField( element, "", false );
 			return;
 		}
 
@@ -452,14 +443,14 @@ public class KoLRequest extends Job implements KoLConstants
 			if ( (passwordHash == null || passwordHash.equals( "" )) && value.length() != 0 )
 				passwordHash = value;
 
-			addFormField( name, "", false );
+			this.addFormField( name, "", false );
 		}
 		else
 		{
 			// Otherwise, add the name-value pair as was
 			// specified in the original method.
 
-			addFormField( name, value, true );
+			this.addFormField( name, value, true );
 		}
 	}
 
@@ -478,14 +469,14 @@ public class KoLRequest extends Job implements KoLConstants
 		else if ( element.startsWith( "phash=" ) )
 			element = "phash";
 
-		data.add( element );
+		this.data.add( element );
 	}
 
 	public void addEncodedFormFields( String fields )
 	{
 		if ( fields.indexOf( "&" ) == -1 )
 		{
-			addEncodedFormField( fields );
+			this.addEncodedFormField( fields );
 			return;
 		}
 
@@ -493,28 +484,28 @@ public class KoLRequest extends Job implements KoLConstants
 		for ( int i = 0; i < tokens.length; ++i )
 		{
 			if ( tokens[i].indexOf( " " ) != -1 )
-				addFormField( tokens[i] );
+				this.addFormField( tokens[i] );
 			else
-				addEncodedFormField( tokens[i] );
+				this.addEncodedFormField( tokens[i] );
 		}
 	}
 
 	public String getFormField( String key )
 	{
-		if ( data.isEmpty() )
+		if ( this.data.isEmpty() )
 			return null;
 
-		for ( int i = 0; i < data.size(); ++i )
+		for ( int i = 0; i < this.data.size(); ++i )
 		{
-			int splitIndex = ((String)data.get(i)).indexOf( "=" );
+			int splitIndex = ((String)this.data.get(i)).indexOf( "=" );
 			if ( splitIndex == -1 )
 				continue;
 
-			String name = ((String)data.get(i)).substring( 0, splitIndex );
+			String name = ((String)this.data.get(i)).substring( 0, splitIndex );
 			if ( !name.equalsIgnoreCase( key ) )
 				continue;
 
-			String value = ((String)data.get(i)).substring( splitIndex + 1 ) ;
+			String value = ((String)this.data.get(i)).substring( splitIndex + 1 ) ;
 
 			try
 			{
@@ -538,8 +529,8 @@ public class KoLRequest extends Job implements KoLConstants
 	private String getDataString( boolean includeHash )
 	{
 		StringBuffer dataBuffer = new StringBuffer();
-		String [] elements = new String[ data.size() ];
-		data.toArray( elements );
+		String [] elements = new String[ this.data.size() ];
+		this.data.toArray( elements );
 
 		for ( int i = 0; i < elements.length; ++i )
 		{
@@ -564,7 +555,7 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	private boolean shouldUpdateDebugLog()
-	{	return RequestLogger.isDebugging() && !isChatRequest;
+	{	return RequestLogger.isDebugging() && !this.isChatRequest;
 	}
 
 	/**
@@ -579,10 +570,10 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( sessionId == null && !(this instanceof LoginRequest || this instanceof LogoutRequest || this instanceof LocalRelayRequest) )
 			return;
 
-		String location = getURLString();
+		String location = this.getURLString();
 
-		if ( shouldUpdateDebugLog() )
-			RequestLogger.updateDebugLog( getClass() );
+		if ( this.shouldUpdateDebugLog() )
+			RequestLogger.updateDebugLog( this.getClass() );
 
 		if ( location.startsWith( "sewer.php" ) )
 		{
@@ -608,42 +599,42 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( location.startsWith( "lair4.php" ) || location.startsWith( "lair5.php" ) )
 			SorceressLair.makeGuardianItems();
 
-		needsRefresh = false;
-		execute();
+		this.needsRefresh = false;
+		this.execute();
 
-		if ( responseCode != 200 )
+		if ( this.responseCode != 200 )
 			return;
 
 		// When following redirects, you will get different URL
 		// strings, so make sure you update.
 
-		if ( followRedirects )
-			location = getURLString();
+		if ( this.followRedirects )
+			location = this.getURLString();
 
 		// If this is the trapper page, make sure to check to
 		// see if there's any changes to your inventory.
 
 		if ( location.startsWith( "trapper.php" ) )
 		{
-			Matcher oreMatcher = ORE_PATTERN.matcher( responseText );
+			Matcher oreMatcher = ORE_PATTERN.matcher( this.responseText );
 			if ( oreMatcher.find() )
 				StaticEntity.setProperty( "trapperOre", oreMatcher.group(1) + " ore" );
 
 			// If you receive items from the trapper, then you
 			// lose some items already in your inventory.
 
-			if ( responseText.indexOf( "You acquire" ) != -1 )
+			if ( this.responseText.indexOf( "You acquire" ) != -1 )
 			{
-				if ( responseText.indexOf( "crossbow" ) != -1 || responseText.indexOf( "staff" ) != -1 || responseText.indexOf( "sword" ) != -1 )
+				if ( this.responseText.indexOf( "crossbow" ) != -1 || this.responseText.indexOf( "staff" ) != -1 || this.responseText.indexOf( "sword" ) != -1 )
 				{
-					if ( responseText.indexOf( "asbestos" ) != -1 )
+					if ( this.responseText.indexOf( "asbestos" ) != -1 )
 						StaticEntity.getClient().processResult( new AdventureResult( "asbestos ore", -3, false ) );
-					else if ( responseText.indexOf( "linoleum" ) != -1 )
+					else if ( this.responseText.indexOf( "linoleum" ) != -1 )
 						StaticEntity.getClient().processResult( new AdventureResult( "linoleum ore", -3, false ) );
 					else
 						StaticEntity.getClient().processResult( new AdventureResult( "chrome ore", -3, false ) );
 				}
-				else if ( responseText.indexOf( "goat cheese pizza" ) != -1 )
+				else if ( this.responseText.indexOf( "goat cheese pizza" ) != -1 )
 				{
 					StaticEntity.getClient().processResult( new AdventureResult( "goat cheese", -6, false ) );
 				}
@@ -656,7 +647,7 @@ public class KoLRequest extends Job implements KoLConstants
 		{
 			// "Thank you, Adventurer."
 
-			if ( responseText.indexOf( "Thank you" ) != -1 )
+			if ( this.responseText.indexOf( "Thank you" ) != -1 )
 			{
 				StaticEntity.getClient().processResult( AdventureRequest.DODECAGRAM );
 				StaticEntity.getClient().processResult( AdventureRequest.CANDLES );
@@ -665,11 +656,11 @@ public class KoLRequest extends Job implements KoLConstants
 				if ( this instanceof AdventureRequest )
 					KoLmafia.updateDisplay( PENDING_STATE, "Taint cleansed." );
 
-				Matcher learnedMatcher = STEEL_PATTERN.matcher( responseText );
+				Matcher learnedMatcher = STEEL_PATTERN.matcher( this.responseText );
 				if ( learnedMatcher.find() )
 					KoLCharacter.addAvailableSkill( UseSkillRequest.getInstance( learnedMatcher.group(1) + " of Steel" ) );
 
-				statusChanged = true;
+				this.statusChanged = true;
 			}
 		}
 
@@ -678,9 +669,9 @@ public class KoLRequest extends Job implements KoLConstants
 
 		if ( location.startsWith( "council.php" ) )
 		{
-			if ( responseText.indexOf( "500" ) != -1 )
+			if ( this.responseText.indexOf( "500" ) != -1 )
 				StaticEntity.getClient().processResult( new AdventureResult( "mosquito larva", -1, false ) );
-			if ( responseText.indexOf( "batskin belt" ) != -1 )
+			if ( this.responseText.indexOf( "batskin belt" ) != -1 )
 				StaticEntity.getClient().processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
 		}
 
@@ -693,7 +684,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// On SSPD you can trade a button for a glowstick
 
 		if ( KoLCharacter.hasEquipped( KoLmafia.NOVELTY_BUTTON ) &&
-			responseText.indexOf( "You hand him your button and take his glowstick" ) != -1 )
+			this.responseText.indexOf( "You hand him your button and take his glowstick" ) != -1 )
 		{
 			String name = KoLmafia.NOVELTY_BUTTON.getName();
 			if ( KoLCharacter.hasEquipped( name, KoLCharacter.ACCESSORY1 ) )
@@ -718,24 +709,24 @@ public class KoLRequest extends Job implements KoLConstants
 		// Once everything is complete, decide whether or not
 		// you should refresh your status.
 
-		if ( needsRefresh || statusChanged )
+		if ( this.needsRefresh || this.statusChanged )
 		{
 			if ( RequestFrame.instanceExists() )
 				RequestFrame.refreshStatus();
 			else
 				CharpaneRequest.getInstance().run();
 		}
-		else if ( formURLString.startsWith( "charpane.php" ) )
+		else if ( this.formURLString.startsWith( "charpane.php" ) )
 		{
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 		}
-		else if ( !shouldIgnoreResult )
+		else if ( !this.shouldIgnoreResult )
 		{
 			KoLCharacter.updateStatus();
 		}
 		
-		if ( !(this instanceof LoginRequest || this instanceof LogoutRequest) )
+		if ( !(LoginRequest.isInstanceRunning() || this instanceof LogoutRequest) )
 			ConcoctionsDatabase.refreshConcoctions();
 	}
 	
@@ -744,22 +735,22 @@ public class KoLRequest extends Job implements KoLConstants
 		// If this is the rat quest, then go ahead and pre-set the data
 		// to reflect a fight sequence (mini-browser compatibility).
 
-		String urlString = getURLString();
+		String urlString = this.getURLString();
 
 		isRatQuest |= urlString.startsWith( "rats.php" );
-		if ( !isChatRequest && !urlString.startsWith( "charpane.php" ) && !urlString.startsWith( "rats.php" ) )
+		if ( !this.isChatRequest && !urlString.startsWith( "charpane.php" ) && !urlString.startsWith( "rats.php" ) )
 			isRatQuest &= urlString.startsWith( "fight.php" );
 
 		if ( isRatQuest )
 			KoLmafia.addTavernLocation( this );
 
-		if ( !shouldIgnoreResult )
+		if ( !this.shouldIgnoreResult )
 			RequestLogger.registerRequest( this, urlString );
 
 		if ( urlString.startsWith( "choice.php" ) )
-			saveLastChoice( urlString );
+			this.saveLastChoice( urlString );
 
-		if ( !isDelayExempt )
+		if ( !this.isDelayExempt )
 			StaticEntity.getClient().setCurrentRequest( this );
 
 		// If you're about to fight the Naughty Sorceress,
@@ -768,14 +759,14 @@ public class KoLRequest extends Job implements KoLConstants
 		if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=5" ) != -1 )
 		{
 			activeEffects.clear();
-			needsRefresh = true;
+			this.needsRefresh = true;
 		}
 
 		if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=6" ) != -1 )
 		{
 			KoLCharacter.setHardcore( false );
 			KoLCharacter.setConsumptionRestriction( AscensionSnapshotTable.NOPATH );
-			needsRefresh = true;
+			this.needsRefresh = true;
 		}
 
 		if ( urlString.startsWith( "ascend.php" ) )
@@ -791,14 +782,14 @@ public class KoLRequest extends Job implements KoLConstants
 			}
 		}
 
-		statusChanged = false;
+		this.statusChanged = false;
 
 		do
 		{
-			if ( !prepareConnection() && KoLmafia.refusesContinue() )
+			if ( !this.prepareConnection() && KoLmafia.refusesContinue() )
 				break;
 		}
-		while ( !postClientData() || !retrieveServerReply() );
+		while ( !this.postClientData() || !this.retrieveServerReply() );
 	}
 
 	private void saveLastChoice( String url )
@@ -915,16 +906,16 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private boolean prepareConnection()
 	{
-		if ( shouldUpdateDebugLog() )
-			RequestLogger.updateDebugLog( "Connecting to " + formURLString + "..." );
+		if ( this.shouldUpdateDebugLog() )
+			RequestLogger.updateDebugLog( "Connecting to " + this.formURLString + "..." );
 
 		// Make sure that all variables are reset before you reopen
 		// the connection.
 
-		responseCode = 0;
-		responseText = null;
-		redirectLocation = null;
-		formConnection = null;
+		this.responseCode = 0;
+		this.responseText = null;
+		this.redirectLocation = null;
+		this.formConnection = null;
 
 		try
 		{
@@ -948,7 +939,7 @@ public class KoLRequest extends Job implements KoLConstants
 					this.formURL = new URL( KOL_ROOT + this.formURLString );
 			}
 
-			this.formConnection = (HttpURLConnection) formURL.openConnection();
+			this.formConnection = (HttpURLConnection) this.formURL.openConnection();
 		}
 		catch ( Exception e )
 		{
@@ -956,7 +947,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// that there was a timeout; return false and let the loop
 			// attempt to connect again
 
-			if ( shouldUpdateDebugLog() )
+			if ( this.shouldUpdateDebugLog() )
 				RequestLogger.updateDebugLog( "Error opening connection.  Retrying..." );
 
 			if ( this instanceof LoginRequest )
@@ -965,33 +956,33 @@ public class KoLRequest extends Job implements KoLConstants
 			return false;
 		}
 
-		formConnection.setDoInput( true );
-		formConnection.setDoOutput( !data.isEmpty() );
-		formConnection.setUseCaches( false );
-		formConnection.setInstanceFollowRedirects( false );
+		this.formConnection.setDoInput( true );
+		this.formConnection.setDoOutput( !this.data.isEmpty() );
+		this.formConnection.setUseCaches( false );
+		this.formConnection.setInstanceFollowRedirects( false );
 
 		if ( sessionId != null )
 		{
-			if ( formURLString.startsWith( "inventory.php" ) && !StaticEntity.getProperty( "visibleBrowserInventory" ).equals( "" ) )
-				formConnection.addRequestProperty( "Cookie", StaticEntity.getProperty( "visibleBrowserInventory" ) + "; " + sessionId );
+			if ( this.formURLString.startsWith( "inventory.php" ) && !StaticEntity.getProperty( "visibleBrowserInventory" ).equals( "" ) )
+				this.formConnection.addRequestProperty( "Cookie", StaticEntity.getProperty( "visibleBrowserInventory" ) + "; " + sessionId );
 			else
-				formConnection.addRequestProperty( "Cookie", sessionId );
+				this.formConnection.addRequestProperty( "Cookie", sessionId );
 		}
 
-		formConnection.setRequestProperty( "User-Agent", VERSION_NAME );
+		this.formConnection.setRequestProperty( "User-Agent", VERSION_NAME );
 
-		if ( dataChanged )
+		if ( this.dataChanged )
 		{
-			dataChanged = false;
-			dataString = getDataString( true ).getBytes();
+			this.dataChanged = false;
+			this.dataString = this.getDataString( true ).getBytes();
 		}
 
-		formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
+		this.formConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 
-		if ( !data.isEmpty() )
-			formConnection.setRequestProperty( "Content-Length", String.valueOf( dataString.length ) );
+		if ( !this.data.isEmpty() )
+			this.formConnection.setRequestProperty( "Content-Length", String.valueOf( this.dataString.length ) );
 		else
-			formConnection.setRequestProperty( "Content-Length", "0" );
+			this.formConnection.setRequestProperty( "Content-Length", "0" );
 
 
 		return true;
@@ -1008,25 +999,25 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private boolean postClientData()
 	{
-		if ( shouldUpdateDebugLog() )
-			printRequestProperties();
+		if ( this.shouldUpdateDebugLog() )
+			this.printRequestProperties();
 
 		// Only attempt to post something if there's actually
 		// data to post - otherwise, opening an input stream
 		// should be enough
 
-		if ( data.isEmpty() )
+		if ( this.data.isEmpty() )
 			return true;
 
 		try
 		{
-			formConnection.setRequestMethod( "POST" );
+			this.formConnection.setRequestMethod( "POST" );
 
-			if ( shouldUpdateDebugLog() )
-				printRequestProperties();
+			if ( this.shouldUpdateDebugLog() )
+				this.printRequestProperties();
 
-			OutputStream ostream = formConnection.getOutputStream();
-			ostream.write( dataString );
+			OutputStream ostream = this.formConnection.getOutputStream();
+			ostream.write( this.dataString );
 
 			ostream.flush();
 			ostream.close();
@@ -1036,9 +1027,9 @@ public class KoLRequest extends Job implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			RequestLogger.printLine( "Time out during data post (" + formURLString + ").  This could be bad..." );
+			RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
 
-			if ( shouldUpdateDebugLog() )
+			if ( this.shouldUpdateDebugLog() )
 				RequestLogger.updateDebugLog( "Connection timed out during post.  Retrying..." );
 
 			if ( this instanceof LoginRequest )
@@ -1067,25 +1058,25 @@ public class KoLRequest extends Job implements KoLConstants
 		// one that results in something happening), or an error-type one
 		// (ie: maintenance).
 
-		if ( shouldUpdateDebugLog() )
+		if ( this.shouldUpdateDebugLog() )
 			RequestLogger.updateDebugLog( "Retrieving server reply..." );
 
-		responseText = "";
-		redirectLocation = "";
+		this.responseText = "";
+		this.redirectLocation = "";
 
 		try
 		{
-			istream = formConnection.getInputStream();
-			responseCode = formConnection.getResponseCode();
-			redirectLocation = formConnection.getHeaderField( "Location" );
+			istream = this.formConnection.getInputStream();
+			this.responseCode = this.formConnection.getResponseCode();
+			this.redirectLocation = this.formConnection.getHeaderField( "Location" );
 		}
 		catch ( Exception e1 )
 		{
-			if ( !isChatRequest )
+			if ( !this.isChatRequest )
 			{
-				RequestLogger.printLine( "Time out during response (" + formURLString + ").  This could be bad..." );
+				RequestLogger.printLine( "Time out during response (" + this.formURLString + ").  This could be bad..." );
 
-				if ( shouldUpdateDebugLog() )
+				if ( this.shouldUpdateDebugLog() )
 					RequestLogger.updateDebugLog( "Connection timed out during response." );
 			}
 
@@ -1106,16 +1097,16 @@ public class KoLRequest extends Job implements KoLConstants
 			return this instanceof ConsumeItemRequest || this instanceof RestaurantRequest || this instanceof MicrobreweryRequest;
 		}
 
-		if ( shouldUpdateDebugLog() )
-			printHeaderFields();
+		if ( this.shouldUpdateDebugLog() )
+			this.printHeaderFields();
 
 		boolean shouldStop = false;
 
 		try
 		{
-			if ( responseCode == 200 )
+			if ( this.responseCode == 200 )
 			{
-				shouldStop = retrieveServerReply( istream );
+				shouldStop = this.retrieveServerReply( istream );
 				istream.close();
 			}
 			else
@@ -1124,7 +1115,7 @@ public class KoLRequest extends Job implements KoLConstants
 				// the information you need.  Close the input stream.
 
 				istream.close();
-				shouldStop = responseCode == 302 ? handleServerRedirect() : true;
+				shouldStop = this.responseCode == 302 ? this.handleServerRedirect() : true;
 			}
 		}
 		catch ( Exception e )
@@ -1141,57 +1132,57 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private boolean handleServerRedirect()
 	{
-		if ( redirectLocation == null )
+		if ( this.redirectLocation == null )
 			return true;
 
 		// Check to see if this is a login page redirect.  If it is, then
 		// construct the URL string and notify the browser that it should
 		// change everything.
 
-		Matcher matcher = REDIRECT_PATTERN.matcher( redirectLocation );
+		Matcher matcher = REDIRECT_PATTERN.matcher( this.redirectLocation );
 
-		int lastSlashIndex = redirectLocation.lastIndexOf( "/" );
+		int lastSlashIndex = this.redirectLocation.lastIndexOf( "/" );
 
 		if ( lastSlashIndex != -1 )
-			redirectLocation = redirectLocation.substring( lastSlashIndex + 1 );
+			this.redirectLocation = this.redirectLocation.substring( lastSlashIndex + 1 );
 
 		if ( matcher.find() )
 		{
 			setLoginServer( matcher.group(1) );
-			constructURLString( redirectLocation, false );
+			this.constructURLString( this.redirectLocation, false );
 			return false;
 		}
 
-		if ( sessionId == null && redirectLocation.startsWith( "login.php" ) )
+		if ( sessionId == null && this.redirectLocation.startsWith( "login.php" ) )
 		{
-			constructURLString( redirectLocation, false );
+			this.constructURLString( this.redirectLocation, false );
 			return false;
 		}
 
 		if ( this instanceof LocalRelayRequest )
 		{
-			if ( formURLString.startsWith( "login.php" ) )
+			if ( this.formURLString.startsWith( "login.php" ) )
 				LoginRequest.processLoginRequest( this );
 
 			return true;
 		}
 
-		if ( formURLString.startsWith( "fight.php" ) )
+		if ( this.formURLString.startsWith( "fight.php" ) )
 		{
-			FightRequest.updateCombatData( encounter, "" );
+			FightRequest.updateCombatData( this.encounter, "" );
 			return true;
 		}
 
-		if ( followRedirects )
+		if ( this.followRedirects )
 		{
 			// Re-setup this request to follow the redirect
 			// desired and rerun the request.
 
-			constructURLString( redirectLocation, false );
+			this.constructURLString( this.redirectLocation, false );
 			return false;
 		}
 
-		if ( redirectLocation.startsWith( "fight.php" ) )
+		if ( this.redirectLocation.startsWith( "fight.php" ) )
 		{
 			if ( this instanceof UseSkillRequest || this instanceof ConsumeItemRequest )
 				return true;
@@ -1203,13 +1194,13 @@ public class KoLRequest extends Job implements KoLConstants
 			return this instanceof AdventureRequest;
 		}
 
-		if ( redirectLocation.startsWith( "login.php" ) && !(this instanceof ChatRequest) )
+		if ( this.redirectLocation.startsWith( "login.php" ) && !(this instanceof ChatRequest) )
 		{
 			LoginRequest.executeTimeInRequest();
 			return sessionId == null;
 		}
 
-		if ( redirectLocation.startsWith( "maint.php" ) )
+		if ( this.redirectLocation.startsWith( "maint.php" ) )
 		{
 			// If the system is down for maintenance, the user must be
 			// notified that they should try again later.
@@ -1218,23 +1209,23 @@ public class KoLRequest extends Job implements KoLConstants
 			return true;
 		}
 
-		if ( redirectLocation.startsWith( "choice.php" ) )
+		if ( this.redirectLocation.startsWith( "choice.php" ) )
 		{
 			handlingChoices = true;
-			processChoiceAdventure();
+			this.processChoiceAdventure();
 			handlingChoices = false;
 
 			return true;
 		}
 
-		if ( redirectLocation.startsWith( "valhalla.php" ) )
+		if ( this.redirectLocation.startsWith( "valhalla.php" ) )
 		{
 			passwordHash = "";
 			return true;
 		}
 
-		if ( shouldUpdateDebugLog() )
-			RequestLogger.updateDebugLog( "Redirected: " + redirectLocation );
+		if ( this.shouldUpdateDebugLog() )
+			RequestLogger.updateDebugLog( "Redirected: " + this.redirectLocation );
 
 		return true;
 	}
@@ -1292,7 +1283,7 @@ public class KoLRequest extends Job implements KoLConstants
 		// be reused.
 
 		BYTEFLAGS.set( desiredIndex, Boolean.FALSE );
-		processResponse();
+		this.processResponse();
 
 		return true;
 	}
@@ -1304,48 +1295,48 @@ public class KoLRequest extends Job implements KoLConstants
 
 	public void processResponse()
 	{
-		if ( responseText == null )
+		if ( this.responseText == null )
 			return;
 
-		if ( shouldUpdateDebugLog() )
-			RequestLogger.updateDebugLog( LINE_BREAK_PATTERN.matcher( responseText ).replaceAll( "" ) );
+		if ( this.shouldUpdateDebugLog() )
+			RequestLogger.updateDebugLog( LINE_BREAK_PATTERN.matcher( this.responseText ).replaceAll( "" ) );
 
-		statusChanged = responseText.indexOf( "charpane.php" ) != -1;
-		if ( statusChanged && !(this instanceof LocalRelayRequest) )
+		this.statusChanged = this.responseText.indexOf( "charpane.php" ) != -1;
+		if ( this.statusChanged && !(this instanceof LocalRelayRequest) )
 			LocalRelayServer.addStatusMessage( "<!-- REFRESH -->" );
 
-		if ( !isDelayExempt )
-			checkForNewEvents();
+		if ( !this.isDelayExempt )
+			this.checkForNewEvents();
 
 		if ( isRatQuest )
 			KoLmafia.addTavernLocation( this );
 
-		encounter = AdventureRequest.registerEncounter( this );
+		this.encounter = AdventureRequest.registerEncounter( this );
 
-		if ( formURLString.equals( "fight.php" ) )
-			FightRequest.updateCombatData( encounter, responseText );
+		if ( this.formURLString.equals( "fight.php" ) )
+			FightRequest.updateCombatData( this.encounter, this.responseText );
 
-		if ( !shouldIgnoreResult )
-			parseResults();
+		if ( !this.shouldIgnoreResult )
+			this.parseResults();
 
-		if ( !LoginRequest.isInstanceRunning() && !(this instanceof LocalRelayRequest) && !(this instanceof CharpaneRequest) && !isChatRequest && formURLString.indexOf( "search" ) == -1 )
-			showInBrowser( false );
+		if ( !LoginRequest.isInstanceRunning() && !(this instanceof LocalRelayRequest) && !(this instanceof CharpaneRequest) && !this.isChatRequest && this.formURLString.indexOf( "search" ) == -1 )
+			this.showInBrowser( false );
 
 		// Now let the main method of result processing for
 		// each request type happen.
 
-		processResults();
+		this.processResults();
 
 		// Let the mappers do their work
-		mapCurrentChoice( responseText );
+		this.mapCurrentChoice( this.responseText );
 
-		if ( AdventureRequest.useMarmotClover( formURLString, responseText ) || HermitRequest.useHermitClover( formURLString ) )
+		if ( AdventureRequest.useMarmotClover( this.formURLString, this.responseText ) || HermitRequest.useHermitClover( this.formURLString ) )
 			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 
-		needsRefresh &= !(getClass() == KoLRequest.class || this instanceof LocalRelayRequest || this instanceof FightRequest);
-		needsRefresh &= !formURLString.startsWith( "charpane.php" );
+		this.needsRefresh &= !(this.getClass() == KoLRequest.class || this instanceof LocalRelayRequest || this instanceof FightRequest);
+		this.needsRefresh &= !this.formURLString.startsWith( "charpane.php" );
 
-		statusChanged &= !formURLString.startsWith( "charpane.php" );
+		this.statusChanged &= !this.formURLString.startsWith( "charpane.php" );
 		KoLmafia.applyEffects();
 	}
 
@@ -1430,7 +1421,7 @@ public class KoLRequest extends Job implements KoLConstants
 	 */
 
 	public int getAdventuresUsed()
-	{	return formURLString.startsWith( "choice.php" ) ? 1 : 0;
+	{	return this.formURLString.startsWith( "choice.php" ) ? 1 : 0;
 	}
 
 	public void parseResults()
@@ -1441,15 +1432,15 @@ public class KoLRequest extends Job implements KoLConstants
 		// ten-leaf clover" (shorten to "our ten-leaf clover"
 		// for substring matching)
 
-		if ( responseText.indexOf( "our ten-leaf clover" ) != -1 && responseText.indexOf( "puff of smoke" ) != -1 )
+		if ( this.responseText.indexOf( "our ten-leaf clover" ) != -1 && this.responseText.indexOf( "puff of smoke" ) != -1 )
 			StaticEntity.getClient().processResult( SewerRequest.CLOVER );
 
-		if ( formURLString.startsWith( "sewer.php" ) && responseText.indexOf( "You acquire" ) != -1 )
+		if ( this.formURLString.startsWith( "sewer.php" ) && this.responseText.indexOf( "You acquire" ) != -1 )
 			StaticEntity.getClient().processResult( SewerRequest.GUM );
 
 		int previousHP = KoLCharacter.getCurrentHP();
-		needsRefresh |= StaticEntity.getClient().processResults( responseText );
-		needsRefresh |= getAdventuresUsed() > 0;
+		this.needsRefresh |= StaticEntity.getClient().processResults( this.responseText );
+		this.needsRefresh |= this.getAdventuresUsed() > 0;
 
 		// If the character's health drops below zero, make sure
 		// that beaten up is added to the effects.
@@ -1459,10 +1450,10 @@ public class KoLRequest extends Job implements KoLConstants
 			// Wild hare is exempt from beaten up status if you
 			// are beaten up in the middle of a battle.
 
-			if ( !formURLString.equals( "fight.php" ) || responseText.indexOf( "lair6.php" ) != -1 )
-				needsRefresh |= StaticEntity.getClient().processResult( KoLAdventure.BEATEN_UP.getInstance( 4 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
+			if ( !this.formURLString.equals( "fight.php" ) || this.responseText.indexOf( "lair6.php" ) != -1 )
+				this.needsRefresh |= StaticEntity.getClient().processResult( KoLAdventure.BEATEN_UP.getInstance( 4 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
 			else if ( KoLCharacter.getFamiliar().getId() != 50 )
-				needsRefresh |= StaticEntity.getClient().processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
+				this.needsRefresh |= StaticEntity.getClient().processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
 		}
 	}
 
@@ -1491,7 +1482,7 @@ public class KoLRequest extends Job implements KoLConstants
 
 		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
 
-		KoLRequest request = new KoLRequest( redirectLocation );
+		KoLRequest request = new KoLRequest( this.redirectLocation );
 		request.run();
 
 		String choice = null;
@@ -1619,7 +1610,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// and remember to store the result.
 
 			if ( !willIgnore )
-				decision = pickOutfitChoice( option, decision );
+				decision = this.pickOutfitChoice( option, decision );
 
 			request.clearDataFields();
 			request.addFormField( "pwd" );
@@ -1632,9 +1623,9 @@ public class KoLRequest extends Job implements KoLConstants
 		// since they necessarily consume an adventure.
 
 		if ( AdventureDatabase.consumesAdventure( option, decision ) )
-			needsRefresh = !request.needsRefresh;
+			this.needsRefresh = !request.needsRefresh;
 
-		stealRequestData( request );
+		this.stealRequestData( request );
 	}
 
 	private String pickOutfitChoice( String option, String decision )
@@ -1721,13 +1712,13 @@ public class KoLRequest extends Job implements KoLConstants
 
 	private void checkForNewEvents()
 	{
-		if ( responseText.indexOf( "bgcolor=orange><b>New Events:</b>") == -1 )
+		if ( this.responseText.indexOf( "bgcolor=orange><b>New Events:</b>") == -1 )
 			return;
 
 		// Capture the entire new events table in order to display the
 		// appropriate message.
 
-		Matcher eventMatcher = EVENT_PATTERN.matcher( responseText );
+		Matcher eventMatcher = EVENT_PATTERN.matcher( this.responseText );
 		if ( !eventMatcher.find() )
 			return;
 
@@ -1735,7 +1726,7 @@ public class KoLRequest extends Job implements KoLConstants
 		String [] events = eventMatcher.group(1).replaceAll( "<br>", "\n" ).split( "\n" );
 
 		// Remove the events from the response text
-		responseText = eventMatcher.replaceFirst( "" );
+		this.responseText = eventMatcher.replaceFirst( "" );
 
 		if ( KoLMessenger.isRunning() )
 		{
@@ -1782,7 +1773,7 @@ public class KoLRequest extends Job implements KoLConstants
 			// <name> has fortified you with Empathy of the Newt
 
 			if ( event.indexOf( " has " ) != -1 )
-				needsRefresh = true;
+				this.needsRefresh = true;
 
 			// Add the event to the event list
 			eventHistory.add( event );
@@ -1828,8 +1819,8 @@ public class KoLRequest extends Job implements KoLConstants
 			while ( (line = buf.readLine()) != null )
 				response.append( line );
 
-			responseCode = 200;
-			responseText = response.toString();
+			this.responseCode = 200;
+			this.responseText = response.toString();
 		}
 		catch ( Exception e )
 		{
@@ -1840,15 +1831,15 @@ public class KoLRequest extends Job implements KoLConstants
 	}
 
 	public String toString()
-	{	return getURLString();
+	{	return this.getURLString();
 	}
 
 	public void printRequestProperties()
 	{
 		RequestLogger.updateDebugLog();
-		RequestLogger.updateDebugLog( "Requesting: http://" + KOL_HOST + "/" + getURLString() );
+		RequestLogger.updateDebugLog( "Requesting: http://" + KOL_HOST + "/" + this.getURLString() );
 
-		Map requestProperties = formConnection.getRequestProperties();
+		Map requestProperties = this.formConnection.getRequestProperties();
 		RequestLogger.updateDebugLog( requestProperties.size() + " request properties" );
 		RequestLogger.updateDebugLog();
 
@@ -1865,10 +1856,10 @@ public class KoLRequest extends Job implements KoLConstants
 	public void printHeaderFields()
 	{
 		RequestLogger.updateDebugLog();
-		RequestLogger.updateDebugLog( "Retrieved: http://" + KOL_HOST + "/" + getURLString() );
+		RequestLogger.updateDebugLog( "Retrieved: http://" + KOL_HOST + "/" + this.getURLString() );
 		RequestLogger.updateDebugLog();
 
-		Map headerFields = formConnection.getHeaderFields();
+		Map headerFields = this.formConnection.getHeaderFields();
 		RequestLogger.updateDebugLog( headerFields.size() + " header fields" );
 
 		Iterator iterator = headerFields.entrySet().iterator();
