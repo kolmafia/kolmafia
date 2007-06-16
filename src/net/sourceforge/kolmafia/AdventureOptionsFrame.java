@@ -1276,24 +1276,24 @@ public abstract class AdventureOptionsFrame extends KoLFrame
 			// Compare with our own copy of what we set, since
 			// getText() returns a modified version.
 
-			if ( !text.equals( this.savedText ) )
-			{
-				this.savedText = text;
-				this.safetyText.setText( text );
+			if ( text.equals( this.savedText ) )
+				return;
 
-				// Change the font for the JEditorPane to the
-				// same ones used in a JLabel.
+			this.savedText = text;
+			this.safetyText.setText( text );
 
-				MutableAttributeSet fonts = this.safetyText.getInputAttributes();
+			// Change the font for the JEditorPane to the
+			// same ones used in a JLabel.
 
-				StyleConstants.setFontSize( fonts, DEFAULT_FONT.getSize() );
-				StyleConstants.setFontFamily( fonts, DEFAULT_FONT.getFamily() );
+			MutableAttributeSet fonts = this.safetyText.getInputAttributes();
 
-				StyledDocument html = this.safetyText.getStyledDocument();
-				html.setCharacterAttributes( 0, html.getLength() + 1, fonts, false );
+			StyleConstants.setFontSize( fonts, DEFAULT_FONT.getSize() );
+			StyleConstants.setFontFamily( fonts, DEFAULT_FONT.getFamily() );
 
-				this.safetyText.setCaretPosition( 0 );
-			}
+			StyledDocument html = this.safetyText.getStyledDocument();
+			html.setCharacterAttributes( 0, html.getLength() + 1, fonts, false );
+
+			this.safetyText.setCaretPosition( 0 );
 		}
 	}
 }

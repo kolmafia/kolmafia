@@ -934,11 +934,16 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static void applyEffects()
 	{
+		int oldCount = activeEffects.size();
+		
 		for ( int j = 0; j < recentEffects.size(); ++j )
 			AdventureResult.addResultToList( activeEffects, (AdventureResult) recentEffects.get(j) );
 
 		recentEffects.clear();
 		activeEffects.sort();
+		
+		if ( oldCount != activeEffects.size() )
+			KoLCharacter.updateStatus();
 	}
 
 	/**

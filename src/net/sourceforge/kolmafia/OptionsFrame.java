@@ -481,64 +481,63 @@ public class OptionsFrame extends KoLFrame
 
 	private class ChatOptionsPanel extends OptionsPanel
 	{
-		private JCheckBox useLargeFontSize;
-		private JCheckBox useTabOption;
-		private JCheckBox popupWhoOption;
-		private JCheckBox chatLogsEnabled;
-
-		private JCheckBox useChatMonitor, addChatCommandLine, useSeparateChannel, useSeparatePrivate, greenScreenProtection;
+		private String [][] options =
+		{
+			{ "greenScreenProtection", "Ignore all event messages in KoLmafia chat" },
+			{ "useChatMonitor", "Add an \"as KoL would show it\" display" },
+			{ "addChatCommandLine", "Add a simplified graphical CLI to tabbed chat" },
+			{},
+			{ "useLargerFonts", "Use larger font size for HTML displays" },
+			{ "useTabbedChatFrame", "Use tabbed, rather than multi-window, chat" },
+			{ "useShinyTabbedChat", "Use shiny closeable tabs when using tabbed chat" },
+			{ "useContactsFrame", "Use a popup window for /friends and /who" },
+			{},
+			{ "logChatMessages", "Log chats when using KoLmafia (requires restart)" },
+			{ "useSeparateChannels", "Put different channels into separate displays" }, 
+			{ "useSeparatePrivates", "Put different private messages into separate displays" }
+			
+		};
+		
+		private JCheckBox [] optionBoxes;
 		private JCheckBox eSoluActiveOption, eSoluColorlessOption;
-
 		private JLabel innerGradient, outerGradient;
 
 		public ChatOptionsPanel()
 		{
 			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 
-			this.useLargeFontSize = new JCheckBox();
-			this.useTabOption = new JCheckBox();
-			this.popupWhoOption = new JCheckBox();
-
-			this.useChatMonitor = new JCheckBox();
-			this.addChatCommandLine = new JCheckBox();
-			this.useSeparateChannel = new JCheckBox();
-			this.useSeparatePrivate = new JCheckBox();
-			this.greenScreenProtection = new JCheckBox();
-			this.chatLogsEnabled = new JCheckBox();
-
+			int tabCount = options.length;
+			
+			this.optionBoxes = new JCheckBox[ tabCount ];
+			for ( int i = 0; i < tabCount; ++i )
+				optionBoxes[i] = new JCheckBox();
+			
 			this.eSoluActiveOption = new JCheckBox();
 			this.eSoluColorlessOption = new JCheckBox();
+		
+			VerifiableElement [] elements = new VerifiableElement[ tabCount + 6 ];
+			
+			for ( int i = 0; i < tabCount; ++i )
+			{
+				if ( options[i].length > 0 )
+					elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+				else
+					elements[i] = new VerifiableElement();
+			}
 
-			VerifiableElement [] elements = new VerifiableElement[17];
+			elements[tabCount++] = new VerifiableElement();
+			
+			elements[tabCount++] = new VerifiableElement( "Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, this.eSoluActiveOption );
+			elements[tabCount++] = new VerifiableElement( "Switch eSolu scriptlet to colorless mode", JLabel.LEFT, this.eSoluColorlessOption );
 
-			elements[0] = new VerifiableElement( "Use larger font size for HTML displays", JLabel.LEFT, this.useLargeFontSize );
-			elements[1] = new VerifiableElement( "Use tabbed, rather than multi-window, chat", JLabel.LEFT, this.useTabOption );
-			elements[2] = new VerifiableElement( "Use a popup window for /friends and /who", JLabel.LEFT, this.popupWhoOption );
-
-			elements[3] = new VerifiableElement();
-			elements[4] = new VerifiableElement( "Ignore all event messages in KoLmafia chat", JLabel.LEFT, this.greenScreenProtection );
-			elements[5] = new VerifiableElement( "Log chats when using KoLmafia (requires restart)", JLabel.LEFT, this.chatLogsEnabled );
-
-			elements[6] = new VerifiableElement();
-
-			elements[7] = new VerifiableElement( "Add an \"as KoL would show it\" display", JLabel.LEFT, this.useChatMonitor );
-			elements[8] = new VerifiableElement( "Add a simplified graphical CLI to tabbed chat", JLabel.LEFT, this.addChatCommandLine );
-			elements[9] = new VerifiableElement( "Put different channels into separate displays", JLabel.LEFT, this.useSeparateChannel );
-			elements[10] = new VerifiableElement( "Put different private messages into separate displays", JLabel.LEFT, this.useSeparatePrivate );
-
-			elements[11] = new VerifiableElement();
-
-			elements[12] = new VerifiableElement( "Activate eSolu scriptlet for KoLmafia chat", JLabel.LEFT, this.eSoluActiveOption );
-			elements[13] = new VerifiableElement( "Switch eSolu scriptlet to colorless mode", JLabel.LEFT, this.eSoluColorlessOption );
-
-			elements[14] = new VerifiableElement();
+			elements[tabCount++] = new VerifiableElement();
 
 			this.outerGradient = new TabColorChanger( "outerChatColor" );
-			elements[15] = new VerifiableElement( "Change the outer portion of highlighted tab gradient",
+			elements[tabCount++] = new VerifiableElement( "Change the outer portion of highlighted tab gradient",
 				JLabel.LEFT, this.outerGradient );
 
 			this.innerGradient = new TabColorChanger( "innerChatColor" );
-			elements[16] = new VerifiableElement( "Change the inner portion of highlighted tab gradient",
+			elements[tabCount++] = new VerifiableElement( "Change the inner portion of highlighted tab gradient",
 				JLabel.LEFT, this.innerGradient );
 
 			this.setContent( elements );
@@ -547,45 +546,22 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "useLargerFonts", String.valueOf( this.useLargeFontSize.isSelected() ) );
-			StaticEntity.setProperty( "logChatMessages", String.valueOf( this.chatLogsEnabled.isSelected() ) );
-			StaticEntity.setProperty( "addChatCommandLine", String.valueOf( this.addChatCommandLine.isSelected() ) );
-
-			if ( this.useLargeFontSize.isSelected() )
-				LimitedSizeChatBuffer.useLargerFonts();
-			else
-				LimitedSizeChatBuffer.useSmallerFonts();
-
-			StaticEntity.setProperty( "useTabbedChatFrame", String.valueOf( this.useTabOption.isSelected() ) );
-			StaticEntity.setProperty( "useContactsFrame", String.valueOf( this.popupWhoOption.isSelected() ) );
-
-			StaticEntity.setProperty( "useChatMonitor", String.valueOf( this.useChatMonitor.isSelected() ) );
-			StaticEntity.setProperty( "useSeparateChannels", String.valueOf( this.useSeparateChannel.isSelected() ) );
-			StaticEntity.setProperty( "useSeparatePrivates", String.valueOf( this.useSeparatePrivate.isSelected() ) );
-
+			for ( int i = 0; i < options.length; ++i )
+				if ( options[i].length > 0 )
+					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+			
 			StaticEntity.setProperty( "eSoluScriptType", this.eSoluActiveOption.isSelected() ?
 				(this.eSoluColorlessOption.isSelected() ? "2" : "1") : "0" );
-
-			StaticEntity.setProperty( "greenScreenProtection", String.valueOf( this.greenScreenProtection.isSelected() ) );
 
 			super.actionConfirmed();
 		}
 
 		public void actionCancelled()
 		{
-			this.useLargeFontSize.setSelected( StaticEntity.getBooleanProperty( "useLargerFonts" ) );
-			this.chatLogsEnabled.setSelected( StaticEntity.getBooleanProperty( "logChatMessages" ) );
-			this.addChatCommandLine.setSelected( StaticEntity.getBooleanProperty( "addChatCommandLine" ) );
-
-			this.useTabOption.setSelected( StaticEntity.getBooleanProperty( "useTabbedChatFrame" ) );
-			this.popupWhoOption.setSelected( StaticEntity.getBooleanProperty( "useContactsFrame" ) );
-			this.greenScreenProtection.setSelected( StaticEntity.getBooleanProperty( "greenScreenProtection" ) );
-
-			int chatStyle = StaticEntity.getIntegerProperty( "chatStyle" );
-			this.useChatMonitor.setSelected( StaticEntity.getBooleanProperty( "useChatMonitor" ) );
-			this.useSeparateChannel.setSelected( StaticEntity.getBooleanProperty( "useSeparateChannels" ) );
-			this.useSeparatePrivate.setSelected( StaticEntity.getBooleanProperty( "useSeparatePrivates" ) );
-
+			for ( int i = 0; i < options.length; ++i )
+				if ( options[i].length > 0 )
+					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
+			
 			this.eSoluActiveOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 0 );
 			this.eSoluColorlessOption.setSelected( StaticEntity.getIntegerProperty( "eSoluScriptType" ) > 1 );
 

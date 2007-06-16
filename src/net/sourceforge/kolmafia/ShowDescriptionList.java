@@ -455,10 +455,6 @@ public class ShowDescriptionList extends JList implements KoLConstants
 
 		public void executeAction()
 		{
-			String desiredLevel = JOptionPane.showInputDialog( null, "Number of casts?", "1" );
-			if ( desiredLevel == null )
-				return;
-
 			Object [] items = ShowDescriptionList.this.getSelectedValues();
 			ShowDescriptionList.this.clearSelection();
 

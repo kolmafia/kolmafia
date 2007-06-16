@@ -46,7 +46,10 @@ import javax.swing.event.ChangeListener;
 import tab.CloseTabbedPane;
 import tab.CloseListener;
 
-public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseListener
+import com.sun.java.forums.CloseableTabbedPane;
+import com.sun.java.forums.CloseableTabbedPaneListener;
+
+public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseListener, CloseableTabbedPaneListener
 {
 	private ChatPanel commandLineDisplay;
 	private static boolean addGCLI = false;
@@ -59,7 +62,9 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 	}
 
 	public JTabbedPane getTabbedPane()
-	{	return new CloseTabbedPane();
+	{
+		return StaticEntity.getBooleanProperty( "useShinyTabbedChat" ) ?
+			(JTabbedPane) new CloseTabbedPane() : (JTabbedPane) new CloseableTabbedPane();
 	}
 
 	/**
@@ -72,8 +77,15 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 	{
 		instanceExists = true;
 
-		((CloseTabbedPane)tabs).setCloseIcon( true );
-		((CloseTabbedPane)tabs).addCloseListener( this );
+		if ( tabs instanceof CloseTabbedPane )
+		{
+			((CloseTabbedPane)tabs).setCloseIcon( true );
+			((CloseTabbedPane)tabs).addCloseListener( this );
+		}
+		else
+		{
+			((CloseableTabbedPane)tabs).addCloseableTabbedPaneListener( this );
+		}
 
 		tabs.addChangeListener( this );
 		framePanel.add( tabs, BorderLayout.CENTER );
@@ -84,29 +96,27 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 		int selectedIndex = tabs.getSelectedIndex();
 
 		if ( selectedIndex != -1 && selectedIndex != tabs.getTabCount() - 1 )
-		{
-			tabs.setBackgroundAt( selectedIndex, null );
-			tabs.setForegroundAt( selectedIndex, null );
-
 			KoLMessenger.setUpdateChannel( tabs.getTitleAt( selectedIndex ).trim() );
-		}
 	}
 
 	public boolean closeTab( int tabIndexToClose )
 	{
-		KoLMessenger.removeChat( tabs.getTitleAt( tabIndexToClose ).trim() );
+		if ( tabIndexToClose == -1 || !instanceExists )
+			return false;
+
+		String toRemove = tabs.getTitleAt( tabIndexToClose );
+		
+		if ( toRemove.equals( GCLI_TAB ) )
+			return false;
+		
+		KoLMessenger.removeChat( toRemove );
 		return true;
 	}
 
 	public void closeOperation( MouseEvent e, int overTabIndex )
 	{
-		if ( overTabIndex == -1 || !instanceExists )
-			return;
-
-		String toRemove = tabs.getTitleAt( overTabIndex );
-
-		tabs.removeTabAt( overTabIndex );
-		KoLMessenger.removeChat( toRemove );
+		if ( closeTab( overTabIndex ) )
+			tabs.removeTabAt( overTabIndex );
 	}
 
 	/**
@@ -187,14 +197,9 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener, CloseL
 				return;
 
 			if ( tabs instanceof CloseTabbedPane )
-			{
 				((CloseTabbedPane)tabs).highlightTab( tabIndex );
-			}
 			else
-			{
-				tabs.setBackgroundAt( tabIndex, new Color( 0, 0, 128 ) );
-				tabs.setForegroundAt( tabIndex, Color.white );
-			}
+				((CloseableTabbedPane)tabs).highlightTab( tabIndex );
 		}
 	}
 }

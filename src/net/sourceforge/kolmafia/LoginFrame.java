@@ -107,7 +107,7 @@ public class LoginFrame extends KoLFrame
 		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
 		this.framePanel.add( this.tabs, "" );
 
-		this.setResizable( false );
+//		this.setResizable( false );
 	}
 
 	public boolean shouldAddStatusBar()
