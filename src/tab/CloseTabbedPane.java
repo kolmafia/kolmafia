@@ -39,8 +39,8 @@ public class CloseTabbedPane extends JTabbedPane {
 	//private CloseTabProxyUI paneUI;
 
 	public CloseTabbedPane() {
-		
-		super( TOP, WRAP_TAB_LAYOUT );		
+
+		super( TOP, SCROLL_TAB_LAYOUT );		
 		super.setOpaque( true );
 
 		paneUI = new CloseTabPaneEnhancedUI();

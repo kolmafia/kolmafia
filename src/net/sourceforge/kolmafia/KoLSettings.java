@@ -604,6 +604,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		CLIENT_SETTINGS.put( "useLowBandwidthRadio", "false" );
 		CLIENT_SETTINGS.put( "useSeparateChannels", "true" );
 		CLIENT_SETTINGS.put( "useSeparatePrivates", "true" );
+		CLIENT_SETTINGS.put( "useShinyTabbedChat", "true" );
 		CLIENT_SETTINGS.put( "useSystemTrayIcon", "false" );
 		CLIENT_SETTINGS.put( "useTabbedChatFrame", "true" );
 		CLIENT_SETTINGS.put( "useToolbars", "true" );

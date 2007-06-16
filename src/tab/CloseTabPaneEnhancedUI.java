@@ -88,40 +88,15 @@ public class CloseTabPaneEnhancedUI extends CloseTabPaneUI {
     protected void paintContentBorderLeftEdge(Graphics g, int tabPlacement,
             int selectedIndex, int x, int y, int w, int h) {
 
-        if (tabPane.getTabCount() < 1)
-            return;
-
-        g.setColor(shadow);
-
-        g.drawLine(x, y, x, y + h - 3);
     }
 
     protected void paintContentBorderBottomEdge(Graphics g, int tabPlacement,
             int selectedIndex, int x, int y, int w, int h) {
 
-        if (tabPane.getTabCount() < 1)
-            return;
-
-        g.setColor(shadow);
-        g.drawLine(x + 1, y + h - 3, x + w - 2, y + h - 3);
-        g.drawLine(x + 1, y + h - 2, x + w - 2, y + h - 2);
-        g.setColor(shadow.brighter());
-        g.drawLine(x + 2, y + h - 1, x + w - 1, y + h - 1);
-
     }
 
     protected void paintContentBorderRightEdge(Graphics g, int tabPlacement,
             int selectedIndex, int x, int y, int w, int h) {
-
-        if (tabPane.getTabCount() < 1)
-            return;
-
-        g.setColor(shadow);
-
-        g.drawLine(x + w - 3, y + 1, x + w - 3, y + h - 3);
-        g.drawLine(x + w - 2, y + 1, x + w - 2, y + h - 3);
-        g.setColor(shadow.brighter());
-        g.drawLine(x + w - 1, y + 2, x + w - 1, y + h - 2);
 
     }
 

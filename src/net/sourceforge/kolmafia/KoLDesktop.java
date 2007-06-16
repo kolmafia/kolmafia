@@ -78,15 +78,6 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 	{
 		super( "Main Interface" );
 
-		if ( !(this.tabs instanceof CloseTabbedPane) && StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) )
-			this.tabs = new CloseTabbedPane();
-		
-		if ( StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) )
-		{
-			((CloseTabbedPane)this.tabs).setCloseIcon( true );
-			((CloseTabbedPane)this.tabs).addCloseListener( this );
-		}
-
 		this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		if ( StaticEntity.usesSystemTray() )

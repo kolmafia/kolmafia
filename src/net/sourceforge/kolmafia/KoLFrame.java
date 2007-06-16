@@ -87,6 +87,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import tab.CloseTabbedPane;
+import com.sun.java.forums.CloseableTabbedPane;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -172,7 +173,22 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	}
 
 	public JTabbedPane getTabbedPane()
-	{	return StaticEntity.getBooleanProperty( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();
+	{
+		if ( StaticEntity.getBooleanProperty( "useDecoratedTabs" ) )
+		{
+			JTabbedPane tabs = new CloseTabbedPane();
+			
+			if ( this instanceof KoLDesktop && StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) )
+			{
+				((CloseTabbedPane)this.tabs).setCloseIcon( true );
+				((CloseTabbedPane)this.tabs).addCloseListener( (KoLDesktop) this );				
+			}
+			
+			return tabs;
+		}
+		
+		return this instanceof KoLDesktop && StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) ?
+			new CloseableTabbedPane() : new JTabbedPane();
 	}
 
 	public void addHotKeys()

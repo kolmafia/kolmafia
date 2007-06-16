@@ -115,9 +115,6 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 	protected static final int BUTTONSIZE = 16;
 	protected static final int WIDTHDELTA = 8;
 
-	private static final Border PRESSEDBORDER = new SoftBevelBorder(SoftBevelBorder.LOWERED);
-	private static final Border OVERBORDER = new SoftBevelBorder(SoftBevelBorder.RAISED);
-
 	private BufferedImage closeImgB;
 
 	//private BufferedImage maxImgB;
@@ -232,7 +229,7 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 				delta += BUTTONSIZE + WIDTHDELTA;
 		}
 
-		return super.calculateTabWidth(tabPlacement, tabIndex, metrics) + delta + (isCloseButtonEnabled ? 15 : 5);
+		return super.calculateTabWidth(tabPlacement, tabIndex, metrics) + delta + (isCloseButtonEnabled ? 20 : 5);
 	}
 
 	protected int calculateTabHeight(int tabPlacement, int tabIndex,
@@ -653,17 +650,6 @@ public class CloseTabPaneUI extends BasicTabbedPaneUI {
 			boolean isOver, JButton button, BufferedImage image) {
 
 		button.setBorder(null);
-
-		if (isOver) {
-			switch (status) {
-			case OVER:
-				button.setBorder(OVERBORDER);
-				break;
-			case PRESSED:
-				button.setBorder(PRESSEDBORDER);
-				break;
-			}
-		}
 
 //		button.setBackground(tabScroller.tabPanel.getBackground());
 		button.paint(image.getGraphics());
