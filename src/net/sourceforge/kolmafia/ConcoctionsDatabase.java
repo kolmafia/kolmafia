@@ -1303,29 +1303,26 @@ public class ConcoctionsDatabase extends KoLDatabase
 	{
 		private ArrayList internalList = new ArrayList();
 
+		public ConcoctionArray()
+		{
+			int maxItemId = TradeableItemDatabase.maxItemId();
+			for ( int i = 0; i <= maxItemId; ++i )
+			{
+				internalList.add( new Concoction( TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
+					NOCREATE ) );
+			}
+		}
+
 		public Concoction get( int index )
 		{
 			if ( index < 0 )
 				return null;
 
-			for ( int i = this.internalList.size(); i <= index; ++i )
-			{
-				this.internalList.add( new Concoction( TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
-					NOCREATE ) );
-			}
-
 			return (Concoction) this.internalList.get( index );
 		}
 
 		public void set( int index, Concoction value )
-		{
-			for ( int i = this.internalList.size(); i <= index; ++i )
-			{
-				this.internalList.add( new Concoction( TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
-					NOCREATE ) );
-			}
-
-			this.internalList.set( index, value );
+		{	this.internalList.set( index, value );
 		}
 
 		public int size()

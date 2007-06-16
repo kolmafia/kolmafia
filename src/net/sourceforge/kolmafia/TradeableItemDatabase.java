@@ -51,6 +51,8 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static final Pattern WIKI_PLURAL_PATTERN = Pattern.compile( "\\(Plural: <i>(.*?)<\\/i>\\)", Pattern.DOTALL );
 	private static final Pattern WIKI_AUTOSELL_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+) Meat.</b>" );
 
+	private static int maxItemId = 0;
+
 	private static IntegerArray useTypeById = new IntegerArray();
 	private static IntegerArray priceById = new IntegerArray();
 
@@ -124,6 +126,9 @@ public class TradeableItemDatabase extends KoLDatabase
 				tradeableById.set( itemId, data[3].equals( "all" ) );
 				giftableById.set( itemId, data[3].equals( "all" ) || data[3].equals( "gift" ) );
 				displayableById.set( itemId, data[3].equals( "all" ) || data[3].equals( "gift" ) || data[3].equals( "display" ) );
+
+				if ( itemId > maxItemId )
+					maxItemId = itemId;
 			}
 		}
 
@@ -881,11 +886,20 @@ public class TradeableItemDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns the set of items keyed by name
-	 * @return	The set of items keyed by name
+	 * Returns the set of item names keyed by id
+	 * @return	The set of item names keyed by id
 	 */
 
 	public static Set entrySet()
 	{	return nameByItemId.entrySet();
+	}
+
+	/**
+	 * Returns the largest item ID
+	 * @return	The largest item ID
+	 */
+
+	public static int maxItemId()
+	{	return maxItemId;
 	}
 }
