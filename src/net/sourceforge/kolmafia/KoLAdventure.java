@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.List;
 import net.sourceforge.foxtrot.Job;
 
 public class KoLAdventure extends Job implements KoLConstants, Comparable
@@ -97,27 +96,27 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		if ( formSource.equals( "sewer.php" ) )
 		{
-			shouldRunFullCheck = false;
+			this.shouldRunFullCheck = false;
 			this.request = new SewerRequest( false );
 		}
 		else if ( formSource.equals( "luckysewer.php" ) )
 		{
-			shouldRunFullCheck = false;
+			this.shouldRunFullCheck = false;
 			this.request = new SewerRequest( true );
 		}
 		else if ( formSource.equals( "campground.php" ) )
 		{
-			shouldRunFullCheck = false;
+			this.shouldRunFullCheck = false;
 			this.request = new CampgroundRequest( adventureId );
 		}
 		else if ( formSource.equals( "clan_gym.php" ) )
 		{
-			shouldRunFullCheck = false;
+			this.shouldRunFullCheck = false;
 			this.request = new ClanGymRequest( StaticEntity.parseInt( adventureId ) );
 		}
 		else
 		{
-			shouldRunFullCheck = formSource.equals( "adventure.php" ) || formSource.equals( "dungeon.php" ) ||
+			this.shouldRunFullCheck = formSource.equals( "adventure.php" ) || formSource.equals( "dungeon.php" ) ||
 				formSource.equals( "rats.php" ) || formSource.equals( "knob.php" ) || formSource.equals( "cyrpt.php" ) || formSource.equals( "lair3.php" );
 
 			this.request = new AdventureRequest( adventureName, formSource, adventureId );
@@ -149,7 +148,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	}
 
 	public boolean runsBetweenBattleScript()
-	{	return shouldRunFullCheck;
+	{	return this.shouldRunFullCheck;
 	}
 
 	/**
@@ -157,7 +156,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	 */
 
 	public String getFormSource()
-	{	return formSource;
+	{	return this.formSource;
 	}
 
 	/**
@@ -165,11 +164,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	 */
 
 	public String getZone()
-	{	return zone;
+	{	return this.zone;
 	}
 
 	public String getParentZone()
-	{	return parentZone;
+	{	return this.parentZone;
 	}
 
 	/**
@@ -177,7 +176,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	 */
 
 	public String getAdventureName()
-	{	return adventureName;
+	{	return this.adventureName;
 	}
 
 	/**
@@ -186,11 +185,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	 */
 
 	public String getAdventureId()
-	{	return adventureId;
+	{	return this.adventureId;
 	}
 
 	public AreaCombatData getAreaSummary()
-	{	return areaSummary;
+	{	return this.areaSummary;
 	}
 
 	/**
@@ -199,38 +198,38 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 	 */
 
 	public KoLRequest getRequest()
-	{	return request;
+	{	return this.request;
 	}
 
 	private boolean meetsGeneralRequirements()
 	{
-		if ( !(request instanceof AdventureRequest) )
+		if ( !(this.request instanceof AdventureRequest) )
 		{
-			isValidAdventure = true;
+			this.isValidAdventure = true;
 			return true;
 		}
 
-		if ( formSource.equals( "lair6.php" ) )
+		if ( this.formSource.equals( "lair6.php" ) )
 		{
-			isValidAdventure = KoLCharacter.hasEquipped( SorceressLair.NAGAMAR );
-			return isValidAdventure;
+			this.isValidAdventure = KoLCharacter.hasEquipped( SorceressLair.NAGAMAR );
+			return this.isValidAdventure;
 		}
 
-		if ( zone.equals( "MusSign" ) && !KoLCharacter.inMuscleSign() )
+		if ( this.zone.equals( "MusSign" ) && !KoLCharacter.inMuscleSign() )
 		{
-			isValidAdventure = false;
+			this.isValidAdventure = false;
 			return false;
 		}
 
-		if ( zone.equals( "MysSign" ) && !KoLCharacter.inMysticalitySign() )
+		if ( this.zone.equals( "MysSign" ) && !KoLCharacter.inMysticalitySign() )
 		{
-			isValidAdventure = false;
+			this.isValidAdventure = false;
 			return false;
 		}
 
-		if ( zone.equals( "MoxSign" ) && !KoLCharacter.inMoxieSign() )
+		if ( this.zone.equals( "MoxSign" ) && !KoLCharacter.inMoxieSign() )
 		{
-			isValidAdventure = false;
+			this.isValidAdventure = false;
 			return false;
 		}
 
@@ -253,7 +252,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			break;
 		}
 
-		return baseValue >= baseRequirement && buffedValue >= buffedRequirement;
+		return baseValue >= this.baseRequirement && buffedValue >= this.buffedRequirement;
 	}
 
 	/**
@@ -263,13 +262,13 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	private void validate( boolean visitedCouncil )
 	{
-		if ( zone.equals( "Astral" ) )
+		if ( this.zone.equals( "Astral" ) )
 		{
 			// Update the choice adventure setting
 
-			if ( adventureId.equals( "96" ) )
+			if ( this.adventureId.equals( "96" ) )
 				StaticEntity.setProperty( "choiceAdventure71", "1" );
-			else if ( adventureId.equals( "98" ) )
+			else if ( this.adventureId.equals( "98" ) )
 				StaticEntity.setProperty( "choiceAdventure71", "2" );
 			else
 				StaticEntity.setProperty( "choiceAdventure71", "3" );
@@ -279,18 +278,18 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 			if ( !activeEffects.contains( ASTRAL ) )
 			{
-				isValidAdventure = AdventureDatabase.retrieveItem( MUSHROOM );
-				if ( isValidAdventure )
+				this.isValidAdventure = AdventureDatabase.retrieveItem( MUSHROOM );
+				if ( this.isValidAdventure )
 					DEFAULT_SHELL.executeLine( "use astral mushroom" );
 			}
 
-			isValidAdventure = activeEffects.contains( ASTRAL );
+			this.isValidAdventure = activeEffects.contains( ASTRAL );
 			return;
 		}
 
 		// Fighting the Goblin King requires effects
 
-		if ( formSource.equals( "knob.php" ) )
+		if ( this.formSource.equals( "knob.php" ) )
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 
@@ -312,7 +311,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		}
 
 		// Pirate cove should not be visited before level 9.
-		if ( adventureId.equals( "67" ) )
+		if ( this.adventureId.equals( "67" ) )
 		{
 			if ( KoLCharacter.getLevel() < 9 )
 			{
@@ -323,23 +322,23 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// If it's the pirate quest in disguise, make sure
 			// you visit the council beforehand.
 
-			if ( !isValidAdventure )
+			if ( !this.isValidAdventure )
 				DEFAULT_SHELL.executeLine( "council" );
 		}
 
 		// Disguise zones require outfits
-		if ( !adventureId.equals( "85" ) && (adventureName.indexOf( "Disguise" ) != -1 || adventureName.indexOf( "Uniform" ) != -1) )
+		if ( !this.adventureId.equals( "85" ) && (this.adventureName.indexOf( "Disguise" ) != -1 || this.adventureName.indexOf( "Uniform" ) != -1) )
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 
 			if ( outfitId > 0 && !EquipmentDatabase.isWearingOutfit( outfitId ) )
 			{
-				isValidAdventure = false;
+				this.isValidAdventure = false;
 				if ( !EquipmentDatabase.retrieveOutfit( outfitId ) )
 					return;
 
 				RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
-				isValidAdventure = true;
+				this.isValidAdventure = true;
 			}
 		}
 
@@ -348,7 +347,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// acquire one then try to equip it.  If the person has a two
 		// handed weapon, then report an error.
 
-		if ( adventureId.equals( "73" ) )
+		if ( this.adventureId.equals( "73" ) )
 		{
 			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER ) )
 			{
@@ -365,11 +364,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			}
 
 			DEFAULT_SHELL.executeLine( "equip " + TRANSFUNCTIONER.getName() );
-			isValidAdventure = true;
+			this.isValidAdventure = true;
 			return;
 		}
 
-		if ( adventureId.equals( "119" ) )
+		if ( this.adventureId.equals( "119" ) )
 		{
 			if ( !KoLCharacter.hasEquipped( TALISMAN ) )
 			{
@@ -379,18 +378,18 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				DEFAULT_SHELL.executeLine( "equip talisman o'nam" );
 			}
 
-			isValidAdventure = true;
+			this.isValidAdventure = true;
 			return;
 		}
 
-		if ( formSource.indexOf( "adventure.php" ) == -1 )
-			isValidAdventure = true;
+		if ( this.formSource.indexOf( "adventure.php" ) == -1 )
+			this.isValidAdventure = true;
 
-		if ( isValidAdventure )
+		if ( this.isValidAdventure )
 			return;
 
 		// If we're trying to take a trip, make sure it's the right one
-		if ( adventureId.equals( "96" ) || adventureId.equals( "97" ) || adventureId.equals( "98" ) )
+		if ( this.adventureId.equals( "96" ) || this.adventureId.equals( "97" ) || this.adventureId.equals( "98" ) )
 		{
 			// You must be Half-Astral to go on a trip
 			int astral = ASTRAL.getCount( ( activeEffects ) );
@@ -399,7 +398,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				DEFAULT_SHELL.executeLine( "use 1 astral mushroom" );
 				if ( !KoLmafia.permitsContinue() )
 				{
-					isValidAdventure = false;
+					this.isValidAdventure = false;
 					return;
 				}
 			}
@@ -408,9 +407,9 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			if ( astral == 5 )
 			{
 				String choice;
-				if ( adventureId.equals( "96" ) )
+				if ( this.adventureId.equals( "96" ) )
 					choice = "1";
-				else if ( adventureId.equals( "98" ) )
+				else if ( this.adventureId.equals( "98" ) )
 					choice = "2";
 				else
 					choice = "3";
@@ -418,40 +417,40 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 				// Choose the trip
 				StaticEntity.setProperty( "choiceAdventure71", choice );
 
-				String name = getAdventureName();
+				String name = this.getAdventureName();
 				StaticEntity.setProperty( "chosenTrip", name );
 
-				isValidAdventure = true;
+				this.isValidAdventure = true;
 				return;
 			}
 
-			isValidAdventure = true;
+			this.isValidAdventure = true;
 			return;
 		}
 
 		// The casino is unlocked provided the player
 		// has a casino pass in their inventory.
 
-		if ( zone.equals( "Casino" ) )
+		if ( this.zone.equals( "Casino" ) )
 		{
-			isValidAdventure = AdventureDatabase.retrieveItem( "casino pass" );
+			this.isValidAdventure = AdventureDatabase.retrieveItem( "casino pass" );
 			return;
 		}
 
 		// The island is unlocked provided the player
 		// has a dingy dinghy in their inventory.
 
-		else if ( zone.equals( "Island" ) )
+		else if ( this.zone.equals( "Island" ) )
 		{
-			isValidAdventure = KoLCharacter.hasItem( DINGHY );
-			if ( !isValidAdventure )
+			this.isValidAdventure = KoLCharacter.hasItem( DINGHY );
+			if ( !this.isValidAdventure )
 			{
-				isValidAdventure = KoLCharacter.hasItem( PLANS );
-				if ( !isValidAdventure )
+				this.isValidAdventure = KoLCharacter.hasItem( PLANS );
+				if ( !this.isValidAdventure )
 					return;
 
-				isValidAdventure = AdventureDatabase.retrieveItem( "dingy planks" );
-				if ( isValidAdventure )
+				this.isValidAdventure = AdventureDatabase.retrieveItem( "dingy planks" );
+				if ( this.isValidAdventure )
 					DEFAULT_SHELL.executeLine( "use dinghy plans" );
 			}
 
@@ -461,21 +460,21 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// The Castle in the Clouds in the Sky is unlocked provided the
 		// character has either a S.O.C.K. or an intragalactic rowboat
 
-		else if ( adventureId.equals( "82" ) )
+		else if ( this.adventureId.equals( "82" ) )
 		{
-			isValidAdventure = KoLCharacter.hasItem( SOCK ) || KoLCharacter.hasItem( ROWBOAT );
+			this.isValidAdventure = KoLCharacter.hasItem( SOCK ) || KoLCharacter.hasItem( ROWBOAT );
 			return;
 		}
 
 		// The Hole in the Sky is unlocked provided the player has an
 		// intragalactic rowboat in their inventory.
 
-		else if ( adventureId.equals( "83" ) )
+		else if ( this.adventureId.equals( "83" ) )
 		{
 			if ( !KoLCharacter.hasItem( ROWBOAT ) && KoLCharacter.hasItem( MAP ) )
 				RequestThread.postRequest( new ConsumeItemRequest( MAP ) );
 
-			isValidAdventure = AdventureDatabase.retrieveItem( ROWBOAT );
+			this.isValidAdventure = AdventureDatabase.retrieveItem( ROWBOAT );
 			return;
 		}
 
@@ -483,14 +482,14 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// has planted a beanstalk -- but, the zone
 		// needs to be armed first.
 
-		else if ( adventureId.equals( "81" ) && !KoLCharacter.beanstalkArmed() )
+		else if ( this.adventureId.equals( "81" ) && !KoLCharacter.beanstalkArmed() )
 		{
 			// If the character has a S.O.C.K. or an intragalactic
 			// rowboat, they can get to the airship
 
 			if ( KoLCharacter.hasItem( SOCK ) || KoLCharacter.hasItem( ROWBOAT ) )
 			{
-				isValidAdventure = true;
+				this.isValidAdventure = true;
 				return;
 			}
 
@@ -539,61 +538,61 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			RequestThread.postRequest( ZONE_VALIDATOR );
 
 			KoLCharacter.armBeanstalk();
-			isValidAdventure = true;
+			this.isValidAdventure = true;
 			return;
 		}
 
-		else if ( zone.equals( "Spookyraven" ) )
+		else if ( this.zone.equals( "Spookyraven" ) )
 		{
 			// It takes RNG luck at the Haunted Pantry to unlock
 			// the rest of Spookyraven Manor. Assume it is
 			// unlocked. However, we can verify that the zones that
 			// require keys are accessible.
 
-			if ( adventureId.equals( "104" ) )
+			if ( this.adventureId.equals( "104" ) )
 			{
 				// Haunted Library
-				isValidAdventure = AdventureDatabase.retrieveItem( LIBRARY_KEY );
+				this.isValidAdventure = AdventureDatabase.retrieveItem( LIBRARY_KEY );
 				return;
 			}
 
-			if ( adventureId.equals( "106" ) )
+			if ( this.adventureId.equals( "106" ) )
 			{
 				// Haunted Gallery
-				isValidAdventure = AdventureDatabase.retrieveItem( GALLERY_KEY );
+				this.isValidAdventure = AdventureDatabase.retrieveItem( GALLERY_KEY );
 				return;
 			}
 
 			// It takes a special action to make the upstairs areas
 			// available. Assume they are accessible if the player
 			// can get into the library
-			if ( adventureId.equals( "107" ) || adventureId.equals( "108" ) )
+			if ( this.adventureId.equals( "107" ) || this.adventureId.equals( "108" ) )
 			{
 				// Haunted Bathroom & Bedroom
-				isValidAdventure = AdventureDatabase.retrieveItem( LIBRARY_KEY );
+				this.isValidAdventure = AdventureDatabase.retrieveItem( LIBRARY_KEY );
 				return;
 			}
 
-			if ( adventureId.equals( "109" ) )
+			if ( this.adventureId.equals( "109" ) )
 			{
 				// Haunted Ballroom
-				isValidAdventure = AdventureDatabase.retrieveItem( BALLROOM_KEY );
+				this.isValidAdventure = AdventureDatabase.retrieveItem( BALLROOM_KEY );
 				return;
 			}
 		}
 
-		else if ( adventureId.equals( "11" ) )
+		else if ( this.adventureId.equals( "11" ) )
 		{
-			isValidAdventure = true;
+			this.isValidAdventure = true;
 			return;
 		}
 
 		// If a zone validation is sufficient, then validate the
 		// zone normally.
 
-		if ( AdventureDatabase.validateZone( zone, adventureId ) )
+		if ( AdventureDatabase.validateZone( this.zone, this.adventureId ) )
 		{
-			isValidAdventure = true;
+			this.isValidAdventure = true;
 			return;
 		}
 
@@ -602,11 +601,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// don't want to open up the guild store right now.  So,
 		// only keep trying until paco is unlocked.
 
-		if ( adventureId.equals( "10" ) || adventureId.equals( "100" ) )
+		if ( this.adventureId.equals( "10" ) || this.adventureId.equals( "100" ) )
 		{
 			StaticEntity.getClient().unlockGuildStore( true );
 			if ( KoLmafia.permitsContinue() )
-				validate( true );
+				this.validate( true );
 
 			return;
 		}
@@ -614,7 +613,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// The beach is unlocked provided the player has the meat car
 		// accomplishment and a meatcar in inventory.
 
-		if ( zone.equals( "Beach" ) )
+		if ( this.zone.equals( "Beach" ) )
 		{
 			// If the beach hasn't been unlocked, then visit Paco
 			// with your meatcar.
@@ -624,7 +623,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			if ( AdventureDatabase.retrieveItem( MEATCAR ) )
 			{
 				StaticEntity.getClient().unlockGuildStore( true );
-				isValidAdventure = KoLmafia.permitsContinue();
+				this.isValidAdventure = KoLmafia.permitsContinue();
 				return;
 			}
 		}
@@ -632,7 +631,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// You can unlock pieces of the bat hole by using up to
 		// three different sonars.
 
-		if ( zone.equals( "McLarge" ) && !visitedCouncil )
+		if ( this.zone.equals( "McLarge" ) && !visitedCouncil )
 		{
 			// Obviate following request by checking accomplishment:
 			// questlog.php?which=2
@@ -644,7 +643,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			DEFAULT_SHELL.executeLine( "council" );
 			RequestThread.postRequest( ZONE_VALIDATOR.constructURLString( "trapper.php" ) );
 
-			validate( true );
+			this.validate( true );
 			return;
 		}
 
@@ -658,7 +657,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		}
 
 		DEFAULT_SHELL.executeLine( "council" );
-		validate( true );
+		this.validate( true );
 	}
 
 	/**
@@ -670,16 +669,16 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public String toString()
 	{
-		boolean canAdventureHere = meetsGeneralRequirements();
+		boolean canAdventureHere = this.meetsGeneralRequirements();
 		StringBuffer stringForm = new StringBuffer();
 
 		if ( !canAdventureHere )
 			stringForm.append( "<html><font color=gray>" );
 
-		stringForm.append( zone );
+		stringForm.append( this.zone );
 		stringForm.append( ": " );
 
-		stringForm.append( adventureName );
+		stringForm.append( this.adventureName );
 		if ( !canAdventureHere )
 			stringForm.append( "</font></html>" );
 
@@ -688,7 +687,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public boolean isLikelyStasisFarming()
 	{
-		return isLikelyStasisZone && KoLCharacter.getFamiliar().isThiefFamiliar() &&
+		return this.isLikelyStasisZone && KoLCharacter.getFamiliar().isThiefFamiliar() &&
 			KoLCharacter.getFamiliar().getWeight() >= 20 && KoLCharacter.getTotalTurnsUsed() > 3000;
 	}
 
@@ -699,12 +698,12 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 	public void run()
 	{
-		if ( !(request instanceof CampgroundRequest) && !KoLmafia.isRunningBetweenBattleChecks() )
-			StaticEntity.getClient().runBetweenBattleChecks( shouldRunFullCheck );
+		if ( !(this.request instanceof CampgroundRequest) && !KoLmafia.isRunningBetweenBattleChecks() )
+			StaticEntity.getClient().runBetweenBattleChecks( this.shouldRunFullCheck );
 
 		String action = StaticEntity.getProperty( "battleAction" );
 
-		if ( isLikelyStasisFarming() )
+		if ( this.isLikelyStasisFarming() )
 		{
 			if ( action.indexOf( "run" ) == -1 )
 			{
@@ -717,30 +716,30 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// Validate the adventure before running it.
 		// If it's invalid, return and do nothing.
 
-		if ( !meetsGeneralRequirements() )
+		if ( !this.meetsGeneralRequirements() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, formSource.equals( "lair6.php" ) ? "Did you forget to equip something?" :
-				"Insufficient stats to adventure at " + adventureName + "." );
+			KoLmafia.updateDisplay( ERROR_STATE, this.formSource.equals( "lair6.php" ) ? "Did you forget to equip something?" :
+				"Insufficient stats to adventure at " + this.adventureName + "." );
 
 			return;
 		}
 
-		validate( false );
-		if ( !isValidAdventure )
+		this.validate( false );
+		if ( !this.isValidAdventure )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "That area is not available." );
 			return;
 		}
 
-		if ( getFormSource().equals( "shore.php" ) && KoLCharacter.getAvailableMeat() < 500 )
+		if ( this.getFormSource().equals( "shore.php" ) && KoLCharacter.getAvailableMeat() < 500 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds for shore vacation." );
 			return;
 		}
 
-		if ( request instanceof AdventureRequest && !adventureId.equals( "80" ) )
+		if ( this.request instanceof AdventureRequest && !this.adventureId.equals( "80" ) )
 		{
-			if ( shouldRunFullCheck && action.indexOf( "dictionary" ) != -1 && (FightRequest.DICTIONARY1.getCount( inventory ) < 1 && FightRequest.DICTIONARY2.getCount( inventory ) < 1) )
+			if ( this.shouldRunFullCheck && action.indexOf( "dictionary" ) != -1 && (FightRequest.DICTIONARY1.getCount( inventory ) < 1 && FightRequest.DICTIONARY2.getCount( inventory ) < 1) )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
 				return;
@@ -753,18 +752,18 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// Make sure there are enough adventures to run the request
 		// so that you don't spam the server unnecessarily.
 
-		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getAdventuresLeft() < request.getAdventuresUsed() )
+		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getAdventuresLeft() < this.request.getAdventuresUsed() )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient adventures to continue." );
 			return;
 		}
 
-		if ( shouldRunFullCheck && request instanceof AdventureRequest )
+		if ( this.shouldRunFullCheck && this.request instanceof AdventureRequest )
 		{
 			// Check for dictionaries as a battle strategy, if the
 			// person is not adventuring at the chasm.
 
-			if ( !adventureId.equals( "80" ) && request.getAdventuresUsed() == 1 && action.indexOf( "dictionary" ) != -1 )
+			if ( !this.adventureId.equals( "80" ) && this.request.getAdventuresUsed() == 1 && action.indexOf( "dictionary" ) != -1 )
 			{
 				// Only allow damage-dealing familiars when using
 				// stasis techniques.
@@ -779,7 +778,7 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 			// If the person doesn't stand a chance of surviving,
 			// automatically quit and tell them so.
 
-			if ( (action.startsWith( "attack" ) || activeEffects.contains( AMNESIA )) && areaSummary != null && !areaSummary.willHitSomething() )
+			if ( (action.startsWith( "attack" ) || activeEffects.contains( AMNESIA )) && this.areaSummary != null && !this.areaSummary.willHitSomething() )
 			{
 				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 				{
@@ -808,15 +807,15 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		// request (without spamming the server).
 
 		int previousAdventures = KoLCharacter.getAdventuresLeft();
-		RequestThread.postRequest( request );
+		RequestThread.postRequest( this.request );
 	}
 
 	public void recordToSession()
 	{
-		if ( !StaticEntity.getProperty( "lastAdventure" ).equals( adventureName ) )
+		if ( !StaticEntity.getProperty( "lastAdventure" ).equals( this.adventureName ) )
 		{
-			StaticEntity.setProperty( "lastAdventure", adventureName );
-			if ( shouldRunFullCheck )
+			StaticEntity.setProperty( "lastAdventure", this.adventureName );
+			if ( this.shouldRunFullCheck )
 			{
 				AdventureFrame.updateSelectedAdventure( this );
 				CharsheetFrame.updateSelectedAdventure( this );
@@ -826,16 +825,16 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 		if ( !KoLmafia.isAdventuring() )
 		{
 			RequestLogger.printLine();
-			RequestLogger.printLine( "[" + getAdventureCount() + "] " + getAdventureName() );
+			RequestLogger.printLine( "[" + getAdventureCount() + "] " + this.getAdventureName() );
 		}
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "[" + getAdventureCount() + "] " + getAdventureName() );
+		RequestLogger.updateSessionLog( "[" + getAdventureCount() + "] " + this.getAdventureName() );
 
 		StaticEntity.getClient().registerAdventure( this );
 
-		if ( request instanceof CampgroundRequest || request instanceof SewerRequest )
-			StaticEntity.getClient().registerEncounter( getAdventureName(), "Noncombat" );
+		if ( this.request instanceof CampgroundRequest || this.request instanceof SewerRequest )
+			StaticEntity.getClient().registerEncounter( this.getAdventureName(), "Noncombat" );
 	}
 
 	public static boolean recordToSession( String urlString )
@@ -981,11 +980,11 @@ public class KoLAdventure extends Job implements KoLConstants, Comparable
 
 		// Put things with no evade rating at bottom of list.
 
-		int evade1 = areaSummary == null ? Integer.MAX_VALUE : areaSummary.minEvade();
+		int evade1 = this.areaSummary == null ? Integer.MAX_VALUE : this.areaSummary.minEvade();
 		int evade2 = ka.areaSummary == null ? Integer.MAX_VALUE : ka.areaSummary.minEvade();
 
 		if ( evade1 == evade2 )
-			return adventureName.compareTo( ka.adventureName );
+			return this.adventureName.compareTo( ka.adventureName );
 
 		return evade1 - evade2;
 	}

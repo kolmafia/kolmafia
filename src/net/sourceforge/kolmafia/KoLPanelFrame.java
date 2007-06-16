@@ -57,7 +57,7 @@ public class KoLPanelFrame extends KoLFrame
 	public KoLPanelFrame( String title, ActionPanel panel )
 	{
 		super( title );
-		setContentPanel( panel );
+		this.setContentPanel( panel );
 	}
 
 	/**
@@ -70,12 +70,12 @@ public class KoLPanelFrame extends KoLFrame
 
 	public void setContentPanel( ActionPanel panel )
 	{
-		if ( getClass() == KoLPanelFrame.class )
+		if ( this.getClass() == KoLPanelFrame.class )
 		{
 			this.frameName = panel.getClass().getName();
-			this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
+			this.frameName = this.frameName.substring( this.frameName.lastIndexOf( "." ) + 1 );
 		}
 
-		framePanel.add( panel, BorderLayout.CENTER );
+		this.framePanel.add( panel, BorderLayout.CENTER );
 	}
 }

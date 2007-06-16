@@ -37,12 +37,9 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.InputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import java.net.URI;
-import java.net.URL;
 import java.net.URLEncoder;
 
 import java.util.ArrayList;
@@ -65,8 +62,6 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	private static final Pattern SEARCHITEM_PATTERN = Pattern.compile( "searchitem=(\\d+)&searchprice=(\\d+)" );
 	private static final Pattern STORE_PATTERN = Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
-
-	private static String lastUsername = "";
 
 	public List headers = new ArrayList();
 	public byte [] rawByteBuffer = null;
@@ -117,27 +112,27 @@ public class LocalRelayRequest extends PasswordHashRequest
 		this.statusLine = "HTTP/1.1 200 OK";
 		super.processResponse();
 
-		if ( formURLString.startsWith( "http" ) )
+		if ( this.formURLString.startsWith( "http" ) )
 			return;
 
-		StringBuffer responseBuffer = new StringBuffer( responseText );
+		StringBuffer responseBuffer = new StringBuffer( this.responseText );
 
 		// If this is a store, you can opt to remove all the min-priced items from view
 		// along with all the items which are priced above affordable levels.
 
-		if ( formURLString.indexOf( "mallstore.php" ) != -1 )
+		if ( this.formURLString.indexOf( "mallstore.php" ) != -1 )
 		{
 			int searchItemId = -1;
 			int searchPrice = -1;
 
-			Matcher itemMatcher = SEARCHITEM_PATTERN.matcher( getURLString() );
+			Matcher itemMatcher = SEARCHITEM_PATTERN.matcher( this.getURLString() );
 			if ( itemMatcher.find() )
 			{
 				searchItemId = StaticEntity.parseInt( itemMatcher.group(1) );
 				searchPrice = StaticEntity.parseInt( itemMatcher.group(2) );
 			}
 
-			itemMatcher = STORE_PATTERN.matcher( responseText );
+			itemMatcher = STORE_PATTERN.matcher( this.responseText );
 
 			while ( itemMatcher.find() )
 			{
@@ -160,7 +155,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			}
 		}
 
-		if ( formURLString.indexOf( "compactmenu.php" ) != -1 )
+		if ( this.formURLString.indexOf( "compactmenu.php" ) != -1 )
 		{
 			// Mafiatize the function menu
 
@@ -182,7 +177,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			functionMenu.append( "\">Donate</option>" );
 			functionMenu.append( "</select>" );
 
-			Matcher menuMatcher = MENU1_PATTERN.matcher( responseText );
+			Matcher menuMatcher = MENU1_PATTERN.matcher( this.responseText );
 			if ( menuMatcher.find() )
 				StaticEntity.singleStringReplace( responseBuffer, menuMatcher.group(), functionMenu.toString() );
 
@@ -220,7 +215,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 			gotoMenu.append( "</select>" );
 
-			menuMatcher = MENU2_PATTERN.matcher( responseText );
+			menuMatcher = MENU2_PATTERN.matcher( this.responseText );
 			if ( menuMatcher.find() )
 				StaticEntity.singleStringReplace( responseBuffer, menuMatcher.group(), gotoMenu.toString() );
 
@@ -232,7 +227,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		// Fix chat javascript problems with relay system
 
-		else if ( formURLString.indexOf( "lchat.php" ) != -1 )
+		else if ( this.formURLString.indexOf( "lchat.php" ) != -1 )
 		{
 			StaticEntity.globalStringDelete( responseBuffer, "spacing: 0px;" );
 			StaticEntity.globalStringReplace( responseBuffer, "cycles++", "cycles = 0" );
@@ -250,27 +245,27 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Fix KoLmafia getting outdated by events happening
 		// in the browser by using the sidepane.
 
-		else if ( formURLString.indexOf( "charpane.php" ) != -1 )
+		else if ( this.formURLString.indexOf( "charpane.php" ) != -1 )
 		{
-			CharpaneRequest.processCharacterPane( responseText );
+			CharpaneRequest.processCharacterPane( this.responseText );
 		}
 
 		// Fix it a little more by making sure that familiar
 		// changes and equipment changes are remembered.
 
-		else if ( formURLString.indexOf( "main.php" ) != -1 )
+		else if ( this.formURLString.indexOf( "main.php" ) != -1 )
 		{
-			Matcher emailMatcher = EMAIL_PATTERN.matcher( responseText );
+			Matcher emailMatcher = EMAIL_PATTERN.matcher( this.responseText );
 			if ( emailMatcher.find() )
 				responseBuffer = new StringBuffer( emailMatcher.replaceAll( "" ) );
 		}
 		else
-			StaticEntity.externalUpdate( getURLString(), responseText );
+			StaticEntity.externalUpdate( this.getURLString(), this.responseText );
 
 		// Allow a way to get from KoL back to the gCLI
 		// using the chat launcher.
 
-		if ( formURLString.indexOf( "chatlaunch" ) != -1 )
+		if ( this.formURLString.indexOf( "chatlaunch" ) != -1 )
 		{
 			if ( StaticEntity.getBooleanProperty( "relayAddsGraphicalCLI" ) )
 			{
@@ -287,7 +282,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			}
 		}
 
-		if ( StaticEntity.getBooleanProperty( "relayAddsQuickScripts" ) && formURLString.indexOf( "menu" ) != -1 )
+		if ( StaticEntity.getBooleanProperty( "relayAddsQuickScripts" ) && this.formURLString.indexOf( "menu" ) != -1 )
 		{
 			try
 			{
@@ -328,7 +323,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		try
 		{
-			RequestEditorKit.getFeatureRichHTML( formURLString.toString(), responseBuffer, true );
+			RequestEditorKit.getFeatureRichHTML( this.formURLString.toString(), responseBuffer, true );
 		}
 		catch ( Exception e )
 		{
@@ -352,35 +347,35 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// we can detach user interface elements.
 
 		StaticEntity.singleStringReplace( responseBuffer, "frames.length == 0", "frames.length == -1" );
-		responseText = responseBuffer.toString();
+		this.responseText = responseBuffer.toString();
 		CustomItemDatabase.linkCustomItem( this );
 	}
 
 	public String getHeader( int index )
 	{
-		if ( headers.isEmpty() )
+		if ( this.headers.isEmpty() )
 		{
 			// This request was relayed to the server. Respond with those headers.
 
-			for ( int i = 0; formConnection.getHeaderFieldKey( i ) != null; ++i )
-				if ( !formConnection.getHeaderFieldKey( i ).equals( "Transfer-Encoding" ) )
-					headers.add( formConnection.getHeaderFieldKey( i ) + ": " + formConnection.getHeaderField( i ) );
+			for ( int i = 0; this.formConnection.getHeaderFieldKey( i ) != null; ++i )
+				if ( !this.formConnection.getHeaderFieldKey( i ).equals( "Transfer-Encoding" ) )
+					this.headers.add( this.formConnection.getHeaderFieldKey( i ) + ": " + this.formConnection.getHeaderField( i ) );
 		}
 
-		return index >= headers.size() ? null : (String) headers.get( index );
+		return index >= this.headers.size() ? null : (String) this.headers.get( index );
 	}
 
 	public void pseudoResponse( String status, String responseText )
 	{
 		this.statusLine = status;
 
-		headers.clear();
-		headers.add( "Date: " + ( new Date() ) );
-		headers.add( "Server: " + VERSION_NAME );
+		this.headers.clear();
+		this.headers.add( "Date: " + ( new Date() ) );
+		this.headers.add( "Server: " + VERSION_NAME );
 
 		if ( status.indexOf( "302" ) != -1 )
 		{
-			headers.add( "Location: " + responseText );
+			this.headers.add( "Location: " + responseText );
 
 			this.responseCode = 302;
 			this.responseText = "";
@@ -427,11 +422,11 @@ public class LocalRelayRequest extends PasswordHashRequest
 	{
 		try
 		{
-			sendLocalImageHelper( filename );
+			this.sendLocalImageHelper( filename );
 		}
 		catch ( Exception e )
 		{
-			sendNotFound();
+			this.sendNotFound();
 		}
 	}
 
@@ -454,18 +449,18 @@ public class LocalRelayRequest extends PasswordHashRequest
 		outbytes.flush();
 
 		this.rawByteBuffer = outbytes.toByteArray();
-		pseudoResponse( "HTTP/1.1 200 OK", "" );
+		this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
 
 	private void sendSharedFile( String filename )
 	{
 		try
 		{
-			sendSharedFileHelper( filename );
+			this.sendSharedFileHelper( filename );
 		}
 		catch ( Exception e )
 		{
-			sendNotFound();
+			this.sendNotFound();
 		}
 	}
 
@@ -486,7 +481,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		if ( reader == null && filename.startsWith( "simulator" ) )
 		{
-			downloadSimulatorFile( name );
+			this.downloadSimulatorFile( name );
 			reader = DataUtilities.getReader( directory, name );
 		}
 
@@ -495,7 +490,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// Now that you know the reader exists, read the
 			// contents of the reader.
 
-			replyBuffer = readContents( reader );
+			replyBuffer = this.readContents( reader );
 			writePseudoResponse = true;
 		}
 		else if ( isServerRequest )
@@ -505,20 +500,20 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 			super.run();
 
-			if ( responseCode == 302 )
+			if ( this.responseCode == 302 )
 			{
-				pseudoResponse( "HTTP/1.1 302 Found", redirectLocation );
+				this.pseudoResponse( "HTTP/1.1 302 Found", this.redirectLocation );
 				return;
 			}
-			else if ( responseCode != 200 )
+			else if ( this.responseCode != 200 )
 			{
-				sendNotFound();
+				this.sendNotFound();
 				return;
 			}
 		}
 		else
 		{
-			sendNotFound();
+			this.sendNotFound();
 			return;
 		}
 
@@ -528,7 +523,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		if ( filename.endsWith( "simulator/index.html" ) )
 		{
 			writePseudoResponse = true;
-			handleSimulatorIndex( replyBuffer );
+			this.handleSimulatorIndex( replyBuffer );
 		}
 
 		if ( writePseudoResponse )
@@ -536,13 +531,13 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// Make sure to print the reply buffer to the
 			// response buffer for the local relay server.
 
-			if ( isChatRequest )
+			if ( this.isChatRequest )
 				StaticEntity.globalStringReplace( replyBuffer, "<br>", "</font><br>" );
 
 			if ( filename.endsWith( "chat.html" ) )
 				RequestEditorKit.addChatFeatures( replyBuffer );
 
-			pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
+			this.pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
 		}
 	}
 
@@ -561,7 +556,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	private void handleSimulatorIndex( StringBuffer replyBuffer ) throws IOException
 	{
-		StringBuffer scriptBuffer = readContents( DataUtilities.getReader( "html/simulator", "index.js" ) );
+		StringBuffer scriptBuffer = this.readContents( DataUtilities.getReader( "html/simulator", "index.js" ) );
 
 		// This is the simple Javascript which can be added
 		// arbitrarily to the end without having to modify
@@ -663,7 +658,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		scriptBuffer.append( LINE_BREAK );
 		scriptBuffer.append( "</script>" );
 
-		insertAfterEnd( replyBuffer, scriptBuffer.toString() );
+		this.insertAfterEnd( replyBuffer, scriptBuffer.toString() );
 	}
 
 	public void insertAfterEnd( StringBuffer replyBuffer, String contents )
@@ -682,28 +677,28 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 	public void submitCommand()
 	{
-		CommandDisplayFrame.executeCommand( getFormField( "cmd" ) );
-		pseudoResponse( "HTTP/1.1 200 OK", "" );
+		CommandDisplayFrame.executeCommand( this.getFormField( "cmd" ) );
+		this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
 
 	public void executeCommand()
 	{
-		CommandDisplayFrame.executeCommand( getFormField( "cmd" ) );
-		pseudoResponse( "HTTP/1.1 200 OK", "" );
+		CommandDisplayFrame.executeCommand( this.getFormField( "cmd" ) );
+		this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
 
 	public void sideCommand()
 	{
-		CommandDisplayFrame.executeCommand( getFormField( "cmd" ) );
+		CommandDisplayFrame.executeCommand( this.getFormField( "cmd" ) );
 		while ( CommandDisplayFrame.hasQueuedCommands() )
 			delay( 500 );
 
-		pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
+		this.pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
 	}
 
 	public void sendNotFound()
 	{
-		pseudoResponse( "HTTP/1.1 404 Not Found", "" );
+		this.pseudoResponse( "HTTP/1.1 404 Not Found", "" );
 		this.responseCode = 404;
 	}
 
@@ -750,7 +745,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 
 		warning.append( "<td valign=center><a href=\"" );
-		warning.append( getURLString() );
+		warning.append( this.getURLString() );
 		warning.append( "&override=on" );
 		warning.append( "\"><img src=\"http://images.kingdomofloathing.com/adventureimages/" );
 		warning.append( image );
@@ -777,7 +772,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 
 		warning.append( " once you've decided to proceed.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
 
-		pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
+		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
 	}
 
 	public void sendGeneralWarning( String image, String message )
@@ -797,7 +792,7 @@ public class LocalRelayRequest extends PasswordHashRequest
 		warning.append( message );
 		warning.append( "</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
 
-		pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
+		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
 	}
 
 	public void run()
@@ -806,28 +801,28 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// there is an attempt to view the robots file, neither
 		// are available on KoL, so return.
 
-		if ( formURLString.equals( "missingimage.gif" ) || formURLString.endsWith( "robots.txt" ) || formURLString.endsWith( "favicon.ico" ) )
+		if ( this.formURLString.equals( "missingimage.gif" ) || this.formURLString.endsWith( "robots.txt" ) || this.formURLString.endsWith( "favicon.ico" ) )
 		{
-			sendNotFound();
+			this.sendNotFound();
 			return;
 		}
 
-		boolean isWebPage = formURLString.endsWith( ".php" ) || formURLString.endsWith( ".html" );
-		boolean isCommand = formURLString.startsWith( "KoLmafia/" );
-		boolean isImage = formURLString.startsWith( "images/" ) || formURLString.endsWith( ".css" ) || formURLString.endsWith( ".js" );
+		boolean isWebPage = this.formURLString.endsWith( ".php" ) || this.formURLString.endsWith( ".html" );
+		boolean isCommand = this.formURLString.startsWith( "KoLmafia/" );
+		boolean isImage = this.formURLString.startsWith( "images/" ) || this.formURLString.endsWith( ".css" ) || this.formURLString.endsWith( ".js" );
 
 		if ( !isWebPage && !isCommand && !isImage )
 		{
-			sendNotFound();
+			this.sendNotFound();
 			return;
 		}
 
-		if ( formURLString.equals( "desc_item.php" ) )
+		if ( this.formURLString.equals( "desc_item.php" ) )
 		{
-			String item = getFormField( "whichitem" );
+			String item = this.getFormField( "whichitem" );
 			if ( item != null && item.startsWith( "custom" ) )
 			{
-				pseudoResponse( "HTTP/1.1 200 OK", CustomItemDatabase.retrieveCustomItem( item.substring(6) ) );
+				this.pseudoResponse( "HTTP/1.1 200 OK", CustomItemDatabase.retrieveCustomItem( item.substring(6) ) );
 				return;
 			}
 		}
@@ -835,18 +830,18 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// Special handling of adventuring locations before it's
 		// registered internally with KoLmafia.
 
-		if ( formURLString.indexOf( "adventure.php" ) != -1 )
+		if ( this.formURLString.indexOf( "adventure.php" ) != -1 )
 		{
-			String location = getFormField( "snarfblat" );
+			String location = this.getFormField( "snarfblat" );
 			if ( location == null )
-				location = getFormField( "adv" );
+				location = this.getFormField( "adv" );
 
 			// Special protection against adventuring in the pirates
 			// in disguise before level 9.
 
 			if ( location != null && location.equals( "67" ) && KoLCharacter.getLevel() < 9 )
 			{
-				sendGeneralWarning( "", "Adventuring here before level 9 is a really bad idea." );
+				this.sendGeneralWarning( "", "Adventuring here before level 9 is a really bad idea." );
 				return;
 			}
 
@@ -854,9 +849,9 @@ public class LocalRelayRequest extends PasswordHashRequest
 			// monsters.  Let's help out.  This one's for the Boss Bat,
 			// who has special items at 4 and 8.
 
-			if ( KoLCharacter.inMysticalitySign() && location != null && location.equals( "34" ) && getFormField( "override" ) == null )
+			if ( KoLCharacter.inMysticalitySign() && location != null && location.equals( "34" ) && this.getFormField( "override" ) == null )
 			{
-				sendBossWarning( "Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
+				this.sendBossWarning( "Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
 				return;
 			}
 		}
@@ -864,49 +859,49 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// More MCD rewards.  This one is for the Knob Goblin King,
 		// who has special items at 3 and 7.
 
-		if ( KoLCharacter.inMysticalitySign() && formURLString.indexOf( "knob.php" ) != -1 &&
-			getFormField( "king" ) != null && getFormField( "override" ) == null )
+		if ( KoLCharacter.inMysticalitySign() && this.formURLString.indexOf( "knob.php" ) != -1 &&
+			this.getFormField( "king" ) != null && this.getFormField( "override" ) == null )
 		{
-			sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
+			this.sendBossWarning( "Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
 			return;
 		}
 
 		// More MCD rewards.  This one is for the Bonerdagon, who has
 		// special items at 5 and 10.
 
-		if ( KoLCharacter.inMysticalitySign() && formURLString.indexOf( "cyrpt.php" ) != -1 &&
-			getFormField( "action" ) != null && getFormField( "override" ) == null )
+		if ( KoLCharacter.inMysticalitySign() && this.formURLString.indexOf( "cyrpt.php" ) != -1 &&
+			this.getFormField( "action" ) != null && this.getFormField( "override" ) == null )
 		{
-			sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
+			this.sendBossWarning( "Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
 			return;
 		}
 
 		// If the person is visiting the sorceress and they forgot
 		// to equip the Wand, remind them.
 
-		if ( formURLString.indexOf( "lair6.php" ) != -1 && getFormField( "place" ) != null &&
-			getFormField( "place" ).equals( "5" ) && getFormField( "override" ) == null )
+		if ( this.formURLString.indexOf( "lair6.php" ) != -1 && this.getFormField( "place" ) != null &&
+			this.getFormField( "place" ).equals( "5" ) && this.getFormField( "override" ) == null )
 		{
 			if ( !KoLCharacter.hasEquipped( SorceressLair.NAGAMAR ) )
 			{
 				AdventureDatabase.retrieveItem( SorceressLair.NAGAMAR );
 
-				sendGeneralWarning( "wand.gif", "Hm, it's possible there is something very important you're forgetting.  Maybe you should <a href=\"inventory.php?which=2\">double-check</a> just to make sure." );
+				this.sendGeneralWarning( "wand.gif", "Hm, it's possible there is something very important you're forgetting.  Maybe you should <a href=\"inventory.php?which=2\">double-check</a> just to make sure." );
 
 				return;
 			}
 		}
 
-		if ( formURLString.indexOf( "ascend.php" ) != -1 && getFormField( "action" ) != null )
+		if ( this.formURLString.indexOf( "ascend.php" ) != -1 && this.getFormField( "action" ) != null )
 			RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
 
 		// If you are in chat, and the person submitted a command
 		// via chat, check to see if it's a CLI command.
 
-		String chatResponse = ChatRequest.executeChatCommand( getFormField( "graf" ) );
+		String chatResponse = ChatRequest.executeChatCommand( this.getFormField( "graf" ) );
 		if ( chatResponse != null )
 		{
-			pseudoResponse( "HTTP/1.1 200 OK",
+			this.pseudoResponse( "HTTP/1.1 200 OK",
 				"<font color=\"blue\"><b><a target=\"mainpane\" href=\"showplayer.php?who=458968\" style=\"color:blue\">" +
 				VERSION_NAME + "</a> (private)</b>: " + chatResponse + "</font><br>" );
 
@@ -917,58 +912,58 @@ public class LocalRelayRequest extends PasswordHashRequest
 		// special handling, catching any exceptions that happen to
 		// popup along the way.
 
-		if ( formURLString.endsWith( "submitCommand" ) )
+		if ( this.formURLString.endsWith( "submitCommand" ) )
 		{
-			submitCommand();
+			this.submitCommand();
 		}
-		else if ( formURLString.endsWith( "executeCommand" ) )
+		else if ( this.formURLString.endsWith( "executeCommand" ) )
 		{
-			executeCommand();
+			this.executeCommand();
 		}
-		else if ( formURLString.endsWith( "sideCommand" ) )
+		else if ( this.formURLString.endsWith( "sideCommand" ) )
 		{
-			sideCommand();
+			this.sideCommand();
 		}
-		else if ( formURLString.endsWith( "messageUpdate" ) )
+		else if ( this.formURLString.endsWith( "messageUpdate" ) )
 		{
-			pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
+			this.pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 		}
-		else if ( formURLString.indexOf( "images/playerpics/" ) != -1 )
+		else if ( this.formURLString.indexOf( "images/playerpics/" ) != -1 )
 		{
 			RequestEditorKit.downloadImage( "http://pics.communityofloathing.com/albums/" +
-				formURLString.substring( formURLString.indexOf( "playerpics" ) ) );
+				this.formURLString.substring( this.formURLString.indexOf( "playerpics" ) ) );
 
-			sendLocalImage( formURLString );
+			this.sendLocalImage( this.formURLString );
 		}
-		else if ( formURLString.indexOf( "images/" ) != -1 )
+		else if ( this.formURLString.indexOf( "images/" ) != -1 )
 		{
-			sendLocalImage( formURLString );
+			this.sendLocalImage( this.formURLString );
 		}
-		else if ( formURLString.indexOf( "lchat.php" ) != -1 )
+		else if ( this.formURLString.indexOf( "lchat.php" ) != -1 )
 		{
 			if ( StaticEntity.getBooleanProperty( "relayUsesIntegratedChat" ) )
 			{
-				sendSharedFile( "chat.html" );
+				this.sendSharedFile( "chat.html" );
 			}
 			else
 			{
-				sendSharedFile( formURLString );
-				responseText = StaticEntity.globalStringReplace( responseText, "<p>", "<br><br>" );
-				responseText = StaticEntity.globalStringReplace( responseText, "<P>", "<br><br>" );
-				responseText = StaticEntity.singleStringDelete( responseText, "</span>" );
+				this.sendSharedFile( this.formURLString );
+				this.responseText = StaticEntity.globalStringReplace( this.responseText, "<p>", "<br><br>" );
+				this.responseText = StaticEntity.globalStringReplace( this.responseText, "<P>", "<br><br>" );
+				this.responseText = StaticEntity.singleStringDelete( this.responseText, "</span>" );
 			}
 		}
 		else
 		{
-			sendSharedFile( formURLString );
+			this.sendSharedFile( this.formURLString );
 
-			if ( isChatRequest )
+			if ( this.isChatRequest )
 			{
-				if ( !KoLMessenger.isRunning() || formURLString.indexOf( "submitnewchat.php" ) != -1 )
-					KoLMessenger.updateChat( responseText );
+				if ( !KoLMessenger.isRunning() || this.formURLString.indexOf( "submitnewchat.php" ) != -1 )
+					KoLMessenger.updateChat( this.responseText );
 
 				if ( StaticEntity.getBooleanProperty( "relayFormatsChatText" ) )
-					responseText = KoLMessenger.getNormalizedContent( responseText, false );
+					this.responseText = KoLMessenger.getNormalizedContent( this.responseText, false );
 			}
 		}
 	}

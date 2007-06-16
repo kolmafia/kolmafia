@@ -40,36 +40,34 @@ public class BountyHunterRequest extends KoLRequest
 {
 	private static final Pattern ITEM_PATTERN = Pattern.compile( "<b>([^<]*?)</b></td><td>" );
 
-	private int itemId;
 	private boolean isExchange;
 	private AdventureResult itemTraded;
 
 	public BountyHunterRequest()
 	{
 		super( "town_wrong.php" );
-		addFormField( "place", "bountyhunter" );
+		this.addFormField( "place", "bountyhunter" );
 		this.isExchange = false;
 	}
 
 	public BountyHunterRequest( int itemId )
 	{
 		super( "town_wrong.php" );
-		addFormField( "place", "bountyhunter" );
-		addFormField( "action", "bsellall" );
-		addFormField( "what", String.valueOf( itemId ) );
+		this.addFormField( "place", "bountyhunter" );
+		this.addFormField( "action", "bsellall" );
+		this.addFormField( "what", String.valueOf( itemId ) );
 
-		this.itemId = itemId;
 		this.isExchange = true;
 
-		itemTraded = new AdventureResult( itemId, 0 );
-		itemTraded = itemTraded.getInstance( itemTraded.getCount( inventory ) );
+		this.itemTraded = new AdventureResult( itemId, 0 );
+		this.itemTraded = this.itemTraded.getInstance( this.itemTraded.getCount( inventory ) );
 	}
 
 	public void run()
 	{
-		if ( isExchange )
+		if ( this.isExchange )
 		{
-			if ( itemTraded.getCount() == 0 )
+			if ( this.itemTraded.getCount() == 0 )
 				return;
 
 			KoLmafia.updateDisplay( "Hunting rabbits (or something)..." );
@@ -80,14 +78,14 @@ public class BountyHunterRequest extends KoLRequest
 
 	public void processResults()
 	{
-		if ( isExchange )
+		if ( this.isExchange )
 		{
-			StaticEntity.getClient().processResult( itemTraded.getNegation() );
+			StaticEntity.getClient().processResult( this.itemTraded.getNegation() );
 			KoLmafia.updateDisplay( "Items successfully sold to hunter." );
 			return;
 		}
 
-		Matcher exchangeMatcher = ITEM_PATTERN.matcher( responseText );
+		Matcher exchangeMatcher = ITEM_PATTERN.matcher( this.responseText );
 
 		hunterItems.clear();
 		while ( exchangeMatcher.find() )

@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
@@ -49,7 +48,6 @@ import javax.swing.JTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -79,19 +77,19 @@ public class ItemManagePanel extends LabeledScrollPanel
 	{
 		super( title, confirmedText, cancelledText, new ShowDescriptionList( elementModel ), false );
 
-		this.elementList = (ShowDescriptionList) scrollComponent;
-		this.elementModel = (LockableListModel) elementList.getModel();
+		this.elementList = (ShowDescriptionList) this.scrollComponent;
+		this.elementModel = (LockableListModel) this.elementList.getModel();
 
 		this.elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 		this.elementList.setVisibleRowCount( 8 );
 
-		this.filterfield = getWordFilter();
-		centerPanel.add( filterfield, BorderLayout.NORTH );
+		this.filterfield = this.getWordFilter();
+		this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
 
 		if ( elementModel == tally || elementModel == inventory || elementModel == closet ||
 			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() )
 		{
-			eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
+			this.eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
 		}
 	}
 
@@ -100,27 +98,27 @@ public class ItemManagePanel extends LabeledScrollPanel
 	}
 
 	protected void listenToCheckBox( JCheckBox box )
-	{	box.addActionListener( filterfield );
+	{	box.addActionListener( this.filterfield );
 	}
 
 	protected void listenToRadioButton( JRadioButton button )
-	{	button.addActionListener( filterfield );
+	{	button.addActionListener( this.filterfield );
 	}
 
 	public ItemManagePanel( LockableListModel elementModel )
 	{
 		super( "", null, null, new ShowDescriptionList( elementModel ), false );
 
-		this.elementList = (ShowDescriptionList) scrollComponent;
-		this.elementModel = (LockableListModel) elementList.getModel();
+		this.elementList = (ShowDescriptionList) this.scrollComponent;
+		this.elementModel = (LockableListModel) this.elementList.getModel();
 
-		this.filterfield = getWordFilter();
-		centerPanel.add( filterfield, BorderLayout.NORTH );
+		this.filterfield = this.getWordFilter();
+		this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
 
 		if ( elementModel == tally || elementModel == inventory || elementModel == closet ||
 			elementModel == ConcoctionsDatabase.getCreatables() || elementModel == ConcoctionsDatabase.getUsables() )
 		{
-			eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
+			this.eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
 		}
 	}
 
@@ -134,54 +132,54 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 	public void setFixedFilter( boolean food, boolean booze, boolean equip, boolean other, boolean notrade )
 	{
-		filterfield.food = food;
-		filterfield.booze = booze;
-		filterfield.equip = equip;
-		filterfield.other = other;
-		filterfield.notrade = notrade;
+		this.filterfield.food = food;
+		this.filterfield.booze = booze;
+		this.filterfield.equip = equip;
+		this.filterfield.other = other;
+		this.filterfield.notrade = notrade;
 	}
 
 	public void addFilters( boolean isCompact )
 	{
 		JPanel filterPanel = new JPanel();
-		filters = new JCheckBox[5];
+		this.filters = new JCheckBox[5];
 
 		if ( isCompact )
 		{
-			filters[0] = new JCheckBox( "food", KoLCharacter.canEat() );
-			filters[1] = new JCheckBox( "booze", KoLCharacter.canDrink() );
-			filters[2] = new JCheckBox( "equip", true );
-			filters[3] = new JCheckBox( "others", true );
-			filters[4] = new JCheckBox( "no-trade", true );
+			this.filters[0] = new JCheckBox( "food", KoLCharacter.canEat() );
+			this.filters[1] = new JCheckBox( "booze", KoLCharacter.canDrink() );
+			this.filters[2] = new JCheckBox( "equip", true );
+			this.filters[3] = new JCheckBox( "others", true );
+			this.filters[4] = new JCheckBox( "no-trade", true );
 		}
 		else
 		{
-			filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
-			filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
-			filters[2] = new JCheckBox( "Show equipment", true );
-			filters[3] = new JCheckBox( "Show others", true );
-			filters[4] = new JCheckBox( "Show no-trade", true );
+			this.filters[0] = new JCheckBox( "Show food", KoLCharacter.canEat() );
+			this.filters[1] = new JCheckBox( "Show booze", KoLCharacter.canDrink() );
+			this.filters[2] = new JCheckBox( "Show equipment", true );
+			this.filters[3] = new JCheckBox( "Show others", true );
+			this.filters[4] = new JCheckBox( "Show no-trade", true );
 		}
 
 		for ( int i = 0; i < 5; ++i )
 		{
-			filterPanel.add( filters[i] );
-			listenToCheckBox( filters[i] );
+			filterPanel.add( this.filters[i] );
+			this.listenToCheckBox( this.filters[i] );
 		}
 
-		northPanel.add( filterPanel, BorderLayout.CENTER );
+		this.northPanel.add( filterPanel, BorderLayout.CENTER );
 	}
 
 	public void filterItems()
-	{	filterfield.filterItems();
+	{	this.filterfield.filterItems();
 	}
 
 	public void setButtons( ActionListener [] buttonListeners )
-	{	setButtons( true, buttonListeners );
+	{	this.setButtons( true, buttonListeners );
 	}
 
 	public void setButtons( boolean addFilters, ActionListener [] buttonListeners )
-	{	setButtons( true, buttonListeners == null, buttonListeners );
+	{	this.setButtons( true, buttonListeners == null, buttonListeners );
 	}
 
 	public void setButtons( boolean addFilters, boolean addCompactFilters, ActionListener [] buttonListeners )
@@ -192,35 +190,35 @@ public class ItemManagePanel extends LabeledScrollPanel
 		if ( buttonListeners != null )
 		{
 			JPanel eastGridPanel = new JPanel( new GridLayout( 0, 1, 5, 5 ) );
-			buttons = new JButton[ buttonListeners.length ];
+			this.buttons = new JButton[ buttonListeners.length ];
 
 			for ( int i = 0; i < buttonListeners.length; ++i )
 			{
 				if ( buttonListeners[i] instanceof JButton )
 				{
-					buttons[i] = (JButton) buttonListeners[i];
+					this.buttons[i] = (JButton) buttonListeners[i];
 				}
 				else
 				{
-					buttons[i] = new JButton( buttonListeners[i].toString() );
-					buttons[i].addActionListener( buttonListeners[i] );
+					this.buttons[i] = new JButton( buttonListeners[i].toString() );
+					this.buttons[i].addActionListener( buttonListeners[i] );
 				}
 
-				eastGridPanel.add( buttons[i] );
+				eastGridPanel.add( this.buttons[i] );
 			}
 
-			eastPanel.add( eastGridPanel, BorderLayout.NORTH );
+			this.eastPanel.add( eastGridPanel, BorderLayout.NORTH );
 		}
 
 		// Handle filters along the top always, whenever buttons
 		// are added.
 
-		northPanel = new JPanel( new BorderLayout() );
+		this.northPanel = new JPanel( new BorderLayout() );
 
 		if ( !addFilters )
-			filters = null;
+			this.filters = null;
 		else
-			addFilters( addCompactFilters );
+			this.addFilters( addCompactFilters );
 
 		// If there are buttons, they likely need movers.  Therefore, add
 		// some movers to everything.
@@ -229,55 +227,55 @@ public class ItemManagePanel extends LabeledScrollPanel
 		{
 			JPanel moverPanel = new JPanel();
 
-			movers = new JRadioButton[4];
-			movers[0] = new JRadioButton( "Move all" );
-			movers[1] = new JRadioButton( "Move all but one" );
-			movers[2] = new JRadioButton( "Move multiple", true );
-			movers[3] = new JRadioButton( "Move exactly one" );
+			this.movers = new JRadioButton[4];
+			this.movers[0] = new JRadioButton( "Move all" );
+			this.movers[1] = new JRadioButton( "Move all but one" );
+			this.movers[2] = new JRadioButton( "Move multiple", true );
+			this.movers[3] = new JRadioButton( "Move exactly one" );
 
 			ButtonGroup moverGroup = new ButtonGroup();
 			for ( int i = 0; i < 4; ++i )
 			{
-				moverGroup.add( movers[i] );
-				moverPanel.add( movers[i] );
+				moverGroup.add( this.movers[i] );
+				moverPanel.add( this.movers[i] );
 			}
 
-			northPanel.add( moverPanel, BorderLayout.SOUTH );
+			this.northPanel.add( moverPanel, BorderLayout.SOUTH );
 		}
 
-		actualPanel.add( northPanel, BorderLayout.NORTH );
+		this.actualPanel.add( this.northPanel, BorderLayout.NORTH );
 
 		if ( buttonListeners != null )
-			actualPanel.add( eastPanel, BorderLayout.EAST );
+			this.actualPanel.add( this.eastPanel, BorderLayout.EAST );
 	}
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( elementList == null || buttons == null )
+		if ( this.elementList == null || this.buttons == null )
 			return;
 
-		if ( buttons.length > 0 && buttons[ buttons.length - 1 ] == null )
+		if ( this.buttons.length > 0 && this.buttons[ this.buttons.length - 1 ] == null )
 			return;
 
-		elementList.setEnabled( isEnabled );
-		for ( int i = 0; i < buttons.length; ++i )
-			buttons[i].setEnabled( isEnabled );
+		this.elementList.setEnabled( isEnabled );
+		for ( int i = 0; i < this.buttons.length; ++i )
+			this.buttons[i].setEnabled( isEnabled );
 	}
 
 	public Object [] getDesiredItems( String message )
 	{
-		if ( movers == null )
-			return getDesiredItems( message, message.equals( "Consume" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
+		if ( this.movers == null )
+			return this.getDesiredItems( message, message.equals( "Consume" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
 
-		if ( movers[2].isSelected() )
-			return getDesiredItems( message, message.equals( "Consume" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
+		if ( this.movers[2].isSelected() )
+			return this.getDesiredItems( message, message.equals( "Consume" ) ? USE_MULTIPLE : TAKE_MULTIPLE );
 
-		return getDesiredItems( message, movers[0].isSelected() ? TAKE_ALL : movers[1].isSelected() ? TAKE_ALL_BUT_ONE : TAKE_ONE );
+		return this.getDesiredItems( message, this.movers[0].isSelected() ? TAKE_ALL : this.movers[1].isSelected() ? TAKE_ALL_BUT_ONE : TAKE_ONE );
 	}
 
 	public Object [] getDesiredItems( String message, int quantityType )
 	{
-		Object [] items = elementList.getSelectedValues();
+		Object [] items = this.elementList.getSelectedValues();
 		if ( items.length == 0 )
 			return null;
 
@@ -382,11 +380,11 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public Object [] initialSetup()
 		{
-			Object [] items = getDesiredItems( description );
+			Object [] items = ItemManagePanel.this.getDesiredItems( this.description );
 			if (items == null )
 				return null;
 
-			if ( retrieveFromClosetFirst )
+			if ( this.retrieveFromClosetFirst )
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.CLOSET_TO_INVENTORY, items ) );
 
 			return items;
@@ -397,7 +395,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 	{
 		public void run()
 		{
-			Object [] items = getDesiredItems( "Consume" );
+			Object [] items = ItemManagePanel.this.getDesiredItems( "Consume" );
 			if ( items.length == 0 )
 				return;
 
@@ -440,16 +438,16 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public void run()
 		{
-			Object [] items = initialSetup();
+			Object [] items = this.initialSetup();
 			if ( items == null )
 				return;
 
-			if ( !retrieveFromClosetFirst )
+			if ( !this.retrieveFromClosetFirst )
 				RequestThread.postRequest( new ItemStorageRequest( ItemStorageRequest.INVENTORY_TO_CLOSET, items ) );
 		}
 
 		public String toString()
-		{	return retrieveFromClosetFirst ? "inventory" : "closet";
+		{	return this.retrieveFromClosetFirst ? "inventory" : "closet";
 		}
 	}
 
@@ -465,31 +463,31 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public void run()
 		{
-			if ( sellType == AutoSellRequest.AUTOMALL && !KoLCharacter.hasStore() )
+			if ( this.sellType == AutoSellRequest.AUTOMALL && !KoLCharacter.hasStore() )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "You don't own a store in the mall.");
 				return;
 			}
 
-			if ( sellType == AutoSellRequest.AUTOSELL && JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
+			if ( this.sellType == AutoSellRequest.AUTOSELL && JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
 				"Are you sure you would like to sell the selected items?",
 					"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 						return;
 
-			if ( sellType == AutoSellRequest.AUTOMALL && JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
+			if ( this.sellType == AutoSellRequest.AUTOMALL && JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog( null,
 				"Are you sure you would like to place the selected items in your store?",
 					"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 						return;
 
-			Object [] items = initialSetup();
+			Object [] items = this.initialSetup();
 			if ( items == null )
 				return;
 
-			RequestThread.postRequest( new AutoSellRequest( items, sellType ) );
+			RequestThread.postRequest( new AutoSellRequest( items, this.sellType ) );
 		}
 
 		public String toString()
-		{	return sellType == AutoSellRequest.AUTOSELL ? "auto sell" : "place in mall";
+		{	return this.sellType == AutoSellRequest.AUTOSELL ? "auto sell" : "place in mall";
 		}
 	}
 
@@ -501,7 +499,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public void run()
 		{
-			Object [] items = initialSetup();
+			Object [] items = this.initialSetup();
 			if ( items == null )
 				return;
 
@@ -521,7 +519,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public void run()
 		{
-			Object [] items = initialSetup();
+			Object [] items = this.initialSetup();
 			if ( items == null )
 				return;
 
@@ -547,7 +545,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public void run()
 		{
-			Object [] items = initialSetup();
+			Object [] items = this.initialSetup();
 			if ( items == null || items.length == 0 )
 				return;
 
@@ -572,11 +570,11 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 		public FilterItemField()
 		{
-			filter = getFilter();
-			addKeyListener( new FilterListener() );
+			this.filter = this.getFilter();
+			this.addKeyListener( new FilterListener() );
 
-			food = true; booze = true; equip = true;
-			restores = true; other = true; notrade = true;
+			this.food = true; this.booze = true; this.equip = true;
+			this.restores = true; this.other = true; this.notrade = true;
 		}
 
 		public SimpleListFilter getFilter()
@@ -584,36 +582,36 @@ public class ItemManagePanel extends LabeledScrollPanel
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	filterItems();
+		{	this.filterItems();
 		}
 
 		public class FilterListener extends KeyAdapter
 		{
 			public void keyReleased( KeyEvent e )
-			{	filterItems();
+			{	FilterItemField.this.filterItems();
 			}
 		}
 
 		public void filterItems()
 		{
-			if ( filters != null )
+			if ( ItemManagePanel.this.filters != null )
 			{
-				food = filters[0].isSelected();
-				booze = filters[1].isSelected();
-				equip = filters[2].isSelected();
+				this.food = ItemManagePanel.this.filters[0].isSelected();
+				this.booze = ItemManagePanel.this.filters[1].isSelected();
+				this.equip = ItemManagePanel.this.filters[2].isSelected();
 
-				other = filters[3].isSelected();
-				restores = other;
-				notrade = filters[4].isSelected();
+				this.other = ItemManagePanel.this.filters[3].isSelected();
+				this.restores = this.other;
+				this.notrade = ItemManagePanel.this.filters[4].isSelected();
 			}
 
-			filter.makeStrict();
-			elementList.applyFilter( filter );
+			this.filter.makeStrict();
+			ItemManagePanel.this.elementList.applyFilter( this.filter );
 
-			if ( elementModel.getSize() == 0 )
+			if ( ItemManagePanel.this.elementModel.getSize() == 0 )
 			{
-				filter.makeFuzzy();
-				elementList.applyFilter( filter );
+				this.filter.makeFuzzy();
+				ItemManagePanel.this.elementList.applyFilter( this.filter );
 			}
 		}
 
@@ -625,8 +623,8 @@ public class ItemManagePanel extends LabeledScrollPanel
 
 			public boolean isVisible( Object element )
 			{
-				if ( isNonResult( element ) )
-					return filters == null && super.isVisible( element );
+				if ( this.isNonResult( element ) )
+					return ItemManagePanel.this.filters == null && super.isVisible( element );
 
 				boolean isItem = element instanceof ItemCreationRequest;
 				isItem |= element instanceof AdventureResult && ((AdventureResult)element).isItem();
@@ -637,7 +635,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 				String name = element instanceof AdventureResult ? ((AdventureResult)element).getName() : ((ItemCreationRequest)element).getName();
 				int itemId = TradeableItemDatabase.getItemId( name );
 
-				if ( !notrade && !TradeableItemDatabase.isTradeable( itemId ) )
+				if ( !FilterItemField.this.notrade && !TradeableItemDatabase.isTradeable( itemId ) )
 					return false;
 
 				boolean isVisibleWithFilter = true;
@@ -645,11 +643,11 @@ public class ItemManagePanel extends LabeledScrollPanel
 				switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 				{
 				case CONSUME_EAT:
-					isVisibleWithFilter = food;
+					isVisibleWithFilter = FilterItemField.this.food;
 					break;
 
 				case CONSUME_DRINK:
-					isVisibleWithFilter = booze;
+					isVisibleWithFilter = FilterItemField.this.booze;
 					break;
 
 				case EQUIP_HAT:
@@ -659,7 +657,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 				case EQUIP_PANTS:
 				case EQUIP_ACCESSORY:
 				case EQUIP_FAMILIAR:
-					isVisibleWithFilter = equip;
+					isVisibleWithFilter = FilterItemField.this.equip;
 					break;
 
 				default:
@@ -669,9 +667,9 @@ public class ItemManagePanel extends LabeledScrollPanel
 						// Milk of magnesium is marked as food, as are
 						// munchies pills; all others are marked as expected.
 
-						isVisibleWithFilter = other;
+						isVisibleWithFilter = FilterItemField.this.other;
 						if ( name.equalsIgnoreCase( "milk of magnesium" ) || name.equalsIgnoreCase( "munchies pills" ) )
-							isVisibleWithFilter |= food;
+							isVisibleWithFilter |= FilterItemField.this.food;
 					}
 					else
 					{
@@ -680,23 +678,23 @@ public class ItemManagePanel extends LabeledScrollPanel
 						case COOK:
 						case COOK_REAGENT:
 						case SUPER_REAGENT:
-							isVisibleWithFilter = food || other;
+							isVisibleWithFilter = FilterItemField.this.food || FilterItemField.this.other;
 							break;
 
 						case COOK_PASTA:
 						case WOK:
-							isVisibleWithFilter = food;
+							isVisibleWithFilter = FilterItemField.this.food;
 							break;
 
 						case MIX:
 						case MIX_SPECIAL:
 						case STILL_BOOZE:
 						case MIX_SUPER:
-							isVisibleWithFilter = booze;
+							isVisibleWithFilter = FilterItemField.this.booze;
 							break;
 
 						default:
-							isVisibleWithFilter = other;
+							isVisibleWithFilter = FilterItemField.this.other;
 							break;
 						}
 					}
@@ -719,7 +717,7 @@ public class ItemManagePanel extends LabeledScrollPanel
 		public void run()
 		{
 			super.run();
-			elementList.updateUI();
+			ItemManagePanel.this.elementList.updateUI();
 		}
 	}
 }

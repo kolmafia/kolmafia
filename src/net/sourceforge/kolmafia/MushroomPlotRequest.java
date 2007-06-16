@@ -42,21 +42,21 @@ public class MushroomPlotRequest extends KoLRequest
 	public MushroomPlotRequest( int square )
 	{
 		this();
-		addFormField( "action", "click" );
-		addFormField( "pos", String.valueOf( square - 1 ) );
+		this.addFormField( "action", "click" );
+		this.addFormField( "pos", String.valueOf( square - 1 ) );
 	}
 
 	public MushroomPlotRequest( int square, int spore )
 	{
 		this();
-		addFormField( "action", "plant" );
-		addFormField( "pos", String.valueOf( square - 1 ) );
-		addFormField( "whichspore", String.valueOf( spore ) );
+		this.addFormField( "action", "plant" );
+		this.addFormField( "pos", String.valueOf( square - 1 ) );
+		this.addFormField( "whichspore", String.valueOf( spore ) );
 	}
 
 	public void run()
 	{
 		super.run();
-		MushroomPlot.parsePlot( responseText );
+		MushroomPlot.parsePlot( this.responseText );
 	}
 }

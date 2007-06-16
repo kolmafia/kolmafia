@@ -145,26 +145,26 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 				dehighlights.toArray( dehighlightArray );
 
 				for ( int i = 0; i < colorArray.length; ++i )
-					highlightMessage = applyHighlight( highlightMessage, colorArray[i], highlightArray[i], dehighlightArray[i] );
+					highlightMessage = this.applyHighlight( highlightMessage, colorArray[i], highlightArray[i], dehighlightArray[i] );
 			}
 		}
 
 		super.append( highlightMessage );
 
-		if ( requiresTruncation && displayBuffer.length() > MAXIMUM_SIZE )
+		if ( this.requiresTruncation && this.displayBuffer.length() > MAXIMUM_SIZE )
 		{
-			int lineIndex = displayBuffer.indexOf( "<br>", DELETE_AMOUNT );
+			int lineIndex = this.displayBuffer.indexOf( "<br>", DELETE_AMOUNT );
 			if ( lineIndex == -1 )
-				lineIndex = displayBuffer.lastIndexOf( "<br>", DELETE_AMOUNT );
+				lineIndex = this.displayBuffer.lastIndexOf( "<br>", DELETE_AMOUNT );
 			if ( lineIndex == -1 )
 				lineIndex = DELETE_AMOUNT;
 
 			lineIndex = lineIndex + 4;
-			displayBuffer.delete( 0, lineIndex );
-			fireBufferChanged( DISPLAY_CHANGE, null );
+			this.displayBuffer.delete( 0, lineIndex );
+			this.fireBufferChanged( DISPLAY_CHANGE, null );
 		}
 
-		if ( affectsHighlightBuffer && message.compareToIgnoreCase( highlightMessage ) != 0 )
+		if ( this.affectsHighlightBuffer && message.compareToIgnoreCase( highlightMessage ) != 0 )
 			highlightBuffer.append( highlightMessage.replaceAll( "(<br>)+", "<br>" + LINE_BREAK ) );
 	}
 
@@ -189,7 +189,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 		String highlightMessage;
 
-		String displayString = displayBuffer.toString();
+		String displayString = this.displayBuffer.toString();
 		String [] lines = displayString.split( "<br>" );
 
 		for ( int j = 0; j < highlights.size(); ++j )
@@ -200,17 +200,17 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 			for ( int i = 0; i < lines.length; ++i )
 			{
-				highlightMessage = applyHighlight( lines[i], colorString, highlight, dehighlight );
+				highlightMessage = this.applyHighlight( lines[i], colorString, highlight, dehighlight );
 				if ( lines[i].compareToIgnoreCase( highlightMessage ) != 0 )
 					highlightBuffer.append( highlightMessage + "<br>" );
 			}
 
-			displayString = applyHighlight( displayString, colorString, highlight, dehighlight );
+			displayString = this.applyHighlight( displayString, colorString, highlight, dehighlight );
 		}
 
-		displayBuffer.setLength( 0 );
-		displayBuffer.append( displayString );
-		fireBufferChanged( CONTENT_CHANGE, null );
+		this.displayBuffer.setLength( 0 );
+		this.displayBuffer.append( displayString );
+		this.fireBufferChanged( CONTENT_CHANGE, null );
 	}
 
 	private String applyHighlight( String message, String colorString, Pattern highlight, Pattern dehighlight )

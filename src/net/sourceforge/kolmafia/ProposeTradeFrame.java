@@ -36,28 +36,17 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
 import java.awt.GridLayout;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
-
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ProposeTradeFrame extends KoLFrame
 {
@@ -94,9 +83,9 @@ public class ProposeTradeFrame extends KoLFrame
 		JPanel centerPanel = new JPanel( new BorderLayout( 5, 5 ) );
 		centerPanel.add( Box.createHorizontalStrut( 40 ), BorderLayout.CENTER );
 
-		centerPanel.add( constructWestPanel(), BorderLayout.WEST );
+		centerPanel.add( this.constructWestPanel(), BorderLayout.WEST );
 
-		recipientEntry.setText( recipient );
+		this.recipientEntry.setText( recipient );
 
 		JPanel attachmentPanel = new JPanel( new BorderLayout( 10, 10 ) );
 		JPanel enclosePanel = new JPanel( new BorderLayout() );
@@ -109,19 +98,19 @@ public class ProposeTradeFrame extends KoLFrame
 		attachmentPanel.add( enclosePanel, BorderLayout.NORTH );
 
 		this.attachments = new LockableListModel();
-		this.attachmentList = new ShowDescriptionList( attachments );
+		this.attachmentList = new ShowDescriptionList( this.attachments );
 
-		SimpleScrollPane attachmentArea = new SimpleScrollPane( attachmentList );
+		SimpleScrollPane attachmentArea = new SimpleScrollPane( this.attachmentList );
 		attachmentPanel.add( attachmentArea, BorderLayout.CENTER );
 
 		JPanel meatPanel = new JPanel();
 		meatPanel.setLayout( new BoxLayout( meatPanel, BoxLayout.X_AXIS ) );
 
-		attachedMeat = new JTextField( "0" );
-		JComponentUtilities.setComponentSize( attachedMeat, 120, 24 );
+		this.attachedMeat = new JTextField( "0" );
+		JComponentUtilities.setComponentSize( this.attachedMeat, 120, 24 );
 		meatPanel.add( Box.createHorizontalStrut( 40 ) );
 		meatPanel.add( new JLabel( "Enclose meat:    " ) );
-		meatPanel.add( attachedMeat );
+		meatPanel.add( this.attachedMeat );
 		meatPanel.add( Box.createHorizontalStrut( 40 ) );
 
 		attachmentPanel.add( meatPanel, BorderLayout.SOUTH );
@@ -130,50 +119,50 @@ public class ProposeTradeFrame extends KoLFrame
 		mainPanel.add( centerPanel );
 		mainPanel.add( Box.createVerticalStrut( 18 ) );
 
-		sendMessageButton = new JButton( "Send Message" );
-		sendMessageButton.addActionListener( new SendMessageListener() );
+		this.sendMessageButton = new JButton( "Send Message" );
+		this.sendMessageButton.addActionListener( new SendMessageListener() );
 
 		JPanel sendMessageButtonPanel = new JPanel();
-		sendMessageButtonPanel.add( sendMessageButton );
+		sendMessageButtonPanel.add( this.sendMessageButton );
 
 		mainPanel.add( sendMessageButtonPanel );
 		mainPanel.add( Box.createVerticalStrut( 4 ) );
 
-		messagePanel = new JPanel( new BorderLayout() );
-		messagePanel.add( mainPanel, BorderLayout.CENTER );
+		this.messagePanel = new JPanel( new BorderLayout() );
+		this.messagePanel.add( mainPanel, BorderLayout.CENTER );
 
-		framePanel.setLayout( new CardLayout( 20, 20 ) );
-		framePanel.add( messagePanel, "" );
+		this.framePanel.setLayout( new CardLayout( 20, 20 ) );
+		this.framePanel.add( this.messagePanel, "" );
 
 		this.offerId = offerId;
 
-		if ( isTradeResponse() )
-			recipientEntry.setEnabled( false );
+		if ( this.isTradeResponse() )
+			this.recipientEntry.setEnabled( false );
 	}
 
 	public JPanel constructWestPanel()
 	{
-		recipientEntry = new JTextField();
-		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );
+		this.recipientEntry = new JTextField();
+		JComponentUtilities.setComponentSize( this.recipientEntry, 300, 20 );
 
-		messageEntry = new JTextArea();
-		messageEntry.setFont( DEFAULT_FONT );
-		messageEntry.setRows( 7 );
-		messageEntry.setLineWrap( true );
-		messageEntry.setWrapStyleWord( true );
+		this.messageEntry = new JTextArea();
+		this.messageEntry.setFont( DEFAULT_FONT );
+		this.messageEntry.setRows( 7 );
+		this.messageEntry.setLineWrap( true );
+		this.messageEntry.setWrapStyleWord( true );
 
-		SimpleScrollPane scrollArea = new SimpleScrollPane( messageEntry );
+		SimpleScrollPane scrollArea = new SimpleScrollPane( this.messageEntry );
 
 		JPanel recipientPanel = new JPanel();
 		recipientPanel.setLayout( new BoxLayout( recipientPanel, BoxLayout.Y_AXIS ) );
-		recipientPanel.add( getLabelPanel( "Send to this person:" ) );
+		recipientPanel.add( this.getLabelPanel( "Send to this person:" ) );
 		recipientPanel.add( Box.createVerticalStrut( 4 ) );
 
-		recipientPanel.add( recipientEntry );
+		recipientPanel.add( this.recipientEntry );
 		recipientPanel.add( Box.createVerticalStrut( 20 ) );
 
 		JPanel entryPanel = new JPanel( new BorderLayout( 5, 5 ) );
-		entryPanel.add( getLabelPanel( "Send this note:" ), BorderLayout.NORTH );
+		entryPanel.add( this.getLabelPanel( "Send this note:" ), BorderLayout.NORTH );
 		entryPanel.add( scrollArea, BorderLayout.CENTER );
 
 		JPanel westPanel = new JPanel( new BorderLayout() );
@@ -191,14 +180,14 @@ public class ProposeTradeFrame extends KoLFrame
 	}
 
 	private boolean isTradeResponse()
-	{	return offerId != null && !offerId.equals( "" );
+	{	return this.offerId != null && !this.offerId.equals( "" );
 	}
 
 	private class SendMessageListener extends ThreadedListener
 	{
 		public void run()
 		{
-			String recipient = recipientEntry.getText();
+			String recipient = ProposeTradeFrame.this.recipientEntry.getText();
 
 			// Close all pending trades frames first
 
@@ -209,12 +198,12 @@ public class ProposeTradeFrame extends KoLFrame
 
 			// Send the offer / response
 
-			RequestThread.postRequest( isTradeResponse() ?
-				new ProposeTradeRequest( StaticEntity.parseInt( offerId ), messageEntry.getText(), getAttachedItems() ) :
-				new ProposeTradeRequest( recipient, messageEntry.getText(), getAttachedItems() ) );
+			RequestThread.postRequest( ProposeTradeFrame.this.isTradeResponse() ?
+				new ProposeTradeRequest( StaticEntity.parseInt( ProposeTradeFrame.this.offerId ), ProposeTradeFrame.this.messageEntry.getText(), ProposeTradeFrame.this.getAttachedItems() ) :
+				new ProposeTradeRequest( recipient, ProposeTradeFrame.this.messageEntry.getText(), ProposeTradeFrame.this.getAttachedItems() ) );
 
 			createDisplay( PendingTradesFrame.class );
-			dispose();
+			ProposeTradeFrame.this.dispose();
 		}
 	}
 
@@ -222,7 +211,7 @@ public class ProposeTradeFrame extends KoLFrame
 	{
 		Object [] parameters = new Object[2];
 		parameters[0] = inventory;
-		parameters[1] = attachments;
+		parameters[1] = this.attachments;
 
 		createDisplay( AttachmentFrame.class, parameters );
 	}
@@ -235,39 +224,39 @@ public class ProposeTradeFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( sendMessageButton == null )
+		if ( this.sendMessageButton == null )
 			return;
 
-		if ( recipientEntry == null )
+		if ( this.recipientEntry == null )
 			return;
 
 		super.setEnabled( isEnabled );
 
 		if ( this.isTradeResponse() )
-			recipientEntry.setEnabled( false );
+			this.recipientEntry.setEnabled( false );
 
-		sendMessageButton.setEnabled( isEnabled );
+		this.sendMessageButton.setEnabled( isEnabled );
 	}
 
 	public Object [] getAttachedItems()
 	{
-		int meatAttachment = getValue( attachedMeat );
+		int meatAttachment = getValue( this.attachedMeat );
 		if ( meatAttachment > 0 )
-			attachments.add( new AdventureResult( AdventureResult.MEAT, meatAttachment ) );
+			this.attachments.add( new AdventureResult( AdventureResult.MEAT, meatAttachment ) );
 
-		return attachments.toArray();
+		return this.attachments.toArray();
 	}
 
 	public void dispose()
 	{
-		messagePanel = null;
-		recipientEntry = null;
-		messageEntry = null;
-		sendMessageButton = null;
+		this.messagePanel = null;
+		this.recipientEntry = null;
+		this.messageEntry = null;
+		this.sendMessageButton = null;
 
-		attachmentList = null;
-		attachedMeat = null;
-		attachments = null;
+		this.attachmentList = null;
+		this.attachedMeat = null;
+		this.attachments = null;
 
 		// Search out the attachment frame which is
 		// associated with this send message frame
@@ -275,7 +264,7 @@ public class ProposeTradeFrame extends KoLFrame
 
 		KoLFrame [] frames = StaticEntity.getExistingFrames();
 		for ( int i = frames.length - 1; i >= 0; --i )
-			if ( frames[i] instanceof AttachmentFrame && ((AttachmentFrame)frames[i]).attachments == attachments )
+			if ( frames[i] instanceof AttachmentFrame && ((AttachmentFrame)frames[i]).attachments == this.attachments )
 				((AttachmentFrame)frames[i]).dispose();
 
 		frames = null;
@@ -302,37 +291,36 @@ public class ProposeTradeFrame extends KoLFrame
 			this.newAttachments = new ShowDescriptionList( this.attachments );
 			this.newAttachments.setVisibleRowCount( 16 );
 
-			SimpleScrollPane attachmentArea = new SimpleScrollPane( newAttachments );
+			SimpleScrollPane attachmentArea = new SimpleScrollPane( this.newAttachments );
 
 			JPanel labeledArea = new JPanel( new BorderLayout() );
 			labeledArea.add( JComponentUtilities.createLabel( "Currently Attached", JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 			labeledArea.add( attachmentArea, BorderLayout.CENTER );
 
-			framePanel.setLayout( new BorderLayout() );
-			framePanel.add( new SourcePanel(), BorderLayout.CENTER );
-			framePanel.add( labeledArea, BorderLayout.EAST );
+			this.framePanel.setLayout( new BorderLayout() );
+			this.framePanel.add( new SourcePanel(), BorderLayout.CENTER );
+			this.framePanel.add( labeledArea, BorderLayout.EAST );
 		}
 
 		private class SourcePanel extends ItemManagePanel
 		{
-			private JComboBox sourceSelect;
 			private LockableListModel source;
 
 			private SourcePanel()
 			{
-				super( storage == null ? "Inside Inventory" : "", " > > > ", " < < < ", available );
-				source = available;
+				super( storage == null ? "Inside Inventory" : "", " > > > ", " < < < ", AttachmentFrame.this.available );
+				this.source = AttachmentFrame.this.available;
 
 				// Remove items from our cloned list that are
 				// already on the attachments list
 
-				for ( int i = 0; i < attachments.size(); ++i )
-					AdventureResult.addResultToList( source, ((AdventureResult)attachments.get( i )).getNegation() );
+				for ( int i = 0; i < AttachmentFrame.this.attachments.size(); ++i )
+					AdventureResult.addResultToList( this.source, ((AdventureResult)AttachmentFrame.this.attachments.get( i )).getNegation() );
 			}
 
 			public void actionConfirmed()
 			{
-				Object [] items = elementList.getSelectedValues();
+				Object [] items = this.elementList.getSelectedValues();
 				AdventureResult currentItem;
 
 				for ( int i = 0; i < items.length; ++i )
@@ -342,20 +330,20 @@ public class ProposeTradeFrame extends KoLFrame
 					if ( !TradeableItemDatabase.isTradeable( currentItem.getItemId() ) )
 						continue;
 
-					int attachmentCount = getQuantity( "Attaching " + currentItem.getName() + "...", currentItem.getCount( source ) );
+					int attachmentCount = getQuantity( "Attaching " + currentItem.getName() + "...", currentItem.getCount( this.source ) );
 					if ( attachmentCount == 0 )
 						continue;
 
-					AdventureResult.addResultToList( attachments, currentItem.getInstance( attachmentCount ) );
+					AdventureResult.addResultToList( AttachmentFrame.this.attachments, currentItem.getInstance( attachmentCount ) );
 				}
 			}
 
 			public void actionCancelled()
 			{
-				Object [] items = newAttachments.getSelectedValues();
+				Object [] items = AttachmentFrame.this.newAttachments.getSelectedValues();
 
 				for ( int i = 0; i < items.length; ++i )
-					AdventureResult.addResultToList( attachments, ((AdventureResult) items[i]).getNegation() );
+					AdventureResult.addResultToList( AttachmentFrame.this.attachments, ((AdventureResult) items[i]).getNegation() );
 			}
 		}
 	}

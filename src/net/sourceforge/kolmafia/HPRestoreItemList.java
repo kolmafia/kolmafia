@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
 import javax.swing.JCheckBox;
 
 public abstract class HPRestoreItemList extends StaticEntity
@@ -129,11 +128,11 @@ public abstract class HPRestoreItemList extends StaticEntity
 		}
 
 		public boolean isSkill()
-		{	return skillId != -1;
+		{	return this.skillId != -1;
 		}
 
 		public AdventureResult getItem()
-		{	return itemUsed;
+		{	return this.itemUsed;
 		}
 
 		public void updateHealthPerUse()
@@ -143,7 +142,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 				// The restore rate on the rumpus room sofa changes
 				// based on your current level.
 
-				this.hpPerUse = (int) KoLCharacter.getLevel() * 5 + 1;
+				this.hpPerUse = KoLCharacter.getLevel() * 5 + 1;
 			}
 			else if ( this == GALAKTIK )
 			{
@@ -155,7 +154,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 		}
 
 		public int getHealthPerUse()
-		{	return Math.min( hpPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
+		{	return Math.min( this.hpPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() );
 		}
 
 		public int compareTo( Object o )
@@ -165,28 +164,28 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			HPRestoreItem hpi = (HPRestoreItem) o;
 
-			if ( itemUsed == null && hpi.itemUsed != null )
+			if ( this.itemUsed == null && hpi.itemUsed != null )
 				return -1;
-			if ( itemUsed != null && hpi.itemUsed == null )
+			if ( this.itemUsed != null && hpi.itemUsed == null )
 				return 1;
 
-			float restoreAmount = (float) (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
-			float leftRatio = restoreAmount / ((float) getHealthPerUse());
-			float rightRatio = restoreAmount / ((float) hpi.getHealthPerUse());
+			float restoreAmount = (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
+			float leftRatio = restoreAmount / (this.getHealthPerUse());
+			float rightRatio = restoreAmount / (hpi.getHealthPerUse());
 
 			// If you're comparing skills, then you compare MP cost for
 			// casting the skill, with more expensive skills coming later.
 
-			if ( itemUsed == null && skillId > 0 )
+			if ( this.itemUsed == null && this.skillId > 0 )
 			{
-				leftRatio = (float) (Math.ceil( leftRatio ) * (double) ClassSkillsDatabase.getMPConsumptionById( skillId ));
-				rightRatio = (float) (Math.ceil( rightRatio ) * (double) ClassSkillsDatabase.getMPConsumptionById( hpi.skillId ));
+				leftRatio = (float) (Math.ceil( leftRatio ) * ClassSkillsDatabase.getMPConsumptionById( this.skillId ));
+				rightRatio = (float) (Math.ceil( rightRatio ) * ClassSkillsDatabase.getMPConsumptionById( hpi.skillId ));
 			}
 			else if ( purchaseBasedSort )
 			{
-				if ( purchaseCost != 0 || hpi.purchaseCost != 0 )
+				if ( this.purchaseCost != 0 || hpi.purchaseCost != 0 )
 				{
-					leftRatio = ((float) Math.ceil( leftRatio )) * purchaseCost;
+					leftRatio = ((float) Math.ceil( leftRatio )) * this.purchaseCost;
 					rightRatio = ((float) Math.ceil( rightRatio )) * hpi.purchaseCost;
 				}
 			}
@@ -211,7 +210,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 				if ( purchase && needed > KoLCharacter.getCurrentHP() )
 				{
 					RequestThread.postRequest( new GalaktikRequest( GalaktikRequest.HP,
-						Math.min( needed - KoLCharacter.getCurrentHP(), KoLCharacter.getAvailableMeat() / purchaseCost ) ) );
+						Math.min( needed - KoLCharacter.getCurrentHP(), KoLCharacter.getAvailableMeat() / this.purchaseCost ) ) );
 				}
 
 				return;
@@ -225,7 +224,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 				return;
 
 			int belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
-			int numberToUse = Math.max( (int) Math.floor( (float) hpShort / (float) getHealthPerUse() ), 1 );
+			int numberToUse = Math.max( (int) Math.floor( (float) hpShort / (float) this.getHealthPerUse() ), 1 );
 
 			if ( this == SOFA )
 			{
@@ -233,34 +232,34 @@ public abstract class HPRestoreItemList extends StaticEntity
 				return;
 			}
 
-			else if ( ClassSkillsDatabase.contains( restoreName ) )
+			else if ( ClassSkillsDatabase.contains( this.restoreName ) )
 			{
-				if ( !KoLCharacter.hasSkill( restoreName ) )
+				if ( !KoLCharacter.hasSkill( this.restoreName ) )
 					numberToUse = 0;
 			}
-			else if ( TradeableItemDatabase.contains( restoreName ) )
+			else if ( TradeableItemDatabase.contains( this.restoreName ) )
 			{
 				// In certain instances, you are able to buy more of
 				// the given item from NPC stores, or from the mall.
 
-				int numberAvailable = itemUsed.getCount( inventory );
+				int numberAvailable = this.itemUsed.getCount( inventory );
 
 				if ( purchase && numberAvailable < numberToUse )
 				{
 					int numberToBuy = numberAvailable;
-					int unitPrice = TradeableItemDatabase.getPriceById( itemUsed.getItemId() ) * 2;
+					int unitPrice = TradeableItemDatabase.getPriceById( this.itemUsed.getItemId() ) * 2;
 
-					if ( this == HERBS && NPCStoreDatabase.contains( itemUsed.getName() ) )
+					if ( this == HERBS && NPCStoreDatabase.contains( this.itemUsed.getName() ) )
 						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, 3 );
-					else if ( NPCStoreDatabase.contains( itemUsed.getName() ) )
+					else if ( NPCStoreDatabase.contains( this.itemUsed.getName() ) )
 						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToUse );
 					else if ( this == SCROLL && KoLCharacter.canInteract() )
 						numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, 20 );
 
-					if ( !AdventureDatabase.retrieveItem( itemUsed.getInstance( numberToBuy ) ) )
+					if ( !AdventureDatabase.retrieveItem( this.itemUsed.getInstance( numberToBuy ) ) )
 						return;
 
-					numberAvailable = itemUsed.getCount( inventory );
+					numberAvailable = this.itemUsed.getCount( inventory );
 				}
 
 				numberToUse = Math.min( numberToUse, numberAvailable );
@@ -272,14 +271,14 @@ public abstract class HPRestoreItemList extends StaticEntity
 			if ( numberToUse <= 0 || !KoLmafia.permitsContinue() )
 				return;
 
-			if ( ClassSkillsDatabase.contains( restoreName ) )
-				RequestThread.postRequest( UseSkillRequest.getInstance( restoreName, "", numberToUse ) );
+			if ( ClassSkillsDatabase.contains( this.restoreName ) )
+				RequestThread.postRequest( UseSkillRequest.getInstance( this.restoreName, "", numberToUse ) );
 			else
-				RequestThread.postRequest( new ConsumeItemRequest( itemUsed.getInstance( numberToUse ) ) );
+				RequestThread.postRequest( new ConsumeItemRequest( this.itemUsed.getInstance( numberToUse ) ) );
 		}
 
 		public String toString()
-		{	return restoreName;
+		{	return this.restoreName;
 		}
 	}
 }

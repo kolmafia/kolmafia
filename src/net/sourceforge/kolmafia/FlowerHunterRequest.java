@@ -102,13 +102,13 @@ public class FlowerHunterRequest extends KoLRequest
 		super( "searchplayer.php" );
 		this.hunterType = PLAYER_SEARCH;
 
-		addFormField( "searching", "Yep." );
-		addFormField( "searchstring", "" );
-		addFormField( "searchlevel", level );
-		addFormField( "searchranking", rank );
+		this.addFormField( "searching", "Yep." );
+		this.addFormField( "searchstring", "" );
+		this.addFormField( "searchlevel", level );
+		this.addFormField( "searchranking", rank );
 
-		addFormField( "pvponly", "on" );
-		addFormField( "hardcoreonly", KoLCharacter.isHardcore() ? "1" : "2" );
+		this.addFormField( "pvponly", "on" );
+		this.addFormField( "hardcoreonly", KoLCharacter.isHardcore() ? "1" : "2" );
 	}
 
 	public FlowerHunterRequest( String opponent, int stance, String mission, String win, String lose )
@@ -116,19 +116,19 @@ public class FlowerHunterRequest extends KoLRequest
 		super( "pvp.php" );
 		this.hunterType = ATTACK;
 
-		addFormField( "action", "Yep." );
-		addFormField( "pwd" );
-		addFormField( "who", opponent );
-		addFormField( "stance", String.valueOf( stance ) );
-		addFormField( "attacktype", mission );
+		this.addFormField( "action", "Yep." );
+		this.addFormField( "pwd" );
+		this.addFormField( "who", opponent );
+		this.addFormField( "stance", String.valueOf( stance ) );
+		this.addFormField( "attacktype", mission );
 
 		if ( win.equals( "" ) )
 			win = WIN_MESSAGES[ RNG.nextInt( WIN_MESSAGES.length ) ];
 		if ( lose.equals( "" ) )
 			lose = LOSE_MESSAGES[ RNG.nextInt( LOSE_MESSAGES.length ) ];
 
-		addFormField( "winmessage", win );
-		addFormField( "losemessage", lose );
+		this.addFormField( "winmessage", win );
+		this.addFormField( "losemessage", lose );
 
 		StaticEntity.setProperty( "defaultFlowerWinMessage", win );
 		StaticEntity.setProperty( "defaultFlowerLossMessage", lose );
@@ -139,24 +139,24 @@ public class FlowerHunterRequest extends KoLRequest
 		super( "showclan.php" );
 		this.hunterType = CLAN_PROFILER;
 
-		addFormField( "whichclan", clanId );
+		this.addFormField( "whichclan", clanId );
 	}
 
 	public void setTarget( String target )
-	{	addFormField( "who", target );
+	{	this.addFormField( "who", target );
 	}
 
 	public List getSearchResults()
-	{	return searchResults;
+	{	return this.searchResults;
 	}
 
 	public void processResults()
 	{
-		switch ( hunterType )
+		switch ( this.hunterType )
 		{
 		case RANKVIEW:
 
-			parseAttack();
+			this.parseAttack();
 
 			KoLRequest miniRequest = new KoLRequest( "questlog.php?which=3" );
 			miniRequest.run();
@@ -191,37 +191,37 @@ public class FlowerHunterRequest extends KoLRequest
 			break;
 
 		case ATTACK:
-			parseAttack();
+			this.parseAttack();
 			break;
 
 		case PLAYER_SEARCH:
-			parseSearch();
+			this.parseSearch();
 			break;
 
 		case CLAN_PROFILER:
-			parseClan();
+			this.parseClan();
 			break;
 		}
 	}
 
 	private void parseClan()
 	{
-		Matcher playerMatcher = CLAN_PATTERN.matcher( responseText );
+		Matcher playerMatcher = CLAN_PATTERN.matcher( this.responseText );
 
 		while ( playerMatcher.find() )
 		{
 			KoLmafia.registerPlayer( playerMatcher.group(2), playerMatcher.group(1) );
-			searchResults.add( new ProfileRequest( playerMatcher.group(2) ) );
+			this.searchResults.add( new ProfileRequest( playerMatcher.group(2) ) );
 		}
 	}
 
 	private void parseSearch()
 	{
-		if ( responseText.indexOf( "<br>No players found.</center>" ) != -1 )
+		if ( this.responseText.indexOf( "<br>No players found.</center>" ) != -1 )
 			return;
 
 		ProfileRequest currentPlayer;
-		Matcher playerMatcher = TARGET_PATTERN.matcher( responseText );
+		Matcher playerMatcher = TARGET_PATTERN.matcher( this.responseText );
 
 		while ( playerMatcher.find() )
 		{
@@ -230,23 +230,23 @@ public class FlowerHunterRequest extends KoLRequest
 				playerMatcher.group(4), Integer.valueOf( playerMatcher.group(5) ), playerMatcher.group(6),
 				Integer.valueOf( playerMatcher.group(7) ) );
 
-			searchResults.add( currentPlayer );
+			this.searchResults.add( currentPlayer );
 		}
 
-		Collections.sort( searchResults );
+		Collections.sort( this.searchResults );
 	}
 
 	private void parseAttack()
 	{
 		// Reset the player's current PvP ranking
 
-		Matcher attacksMatcher = ATTACKS_PATTERN.matcher( responseText );
+		Matcher attacksMatcher = ATTACKS_PATTERN.matcher( this.responseText );
 		if ( attacksMatcher.find() )
 			KoLCharacter.setAttacksLeft( StaticEntity.parseInt( attacksMatcher.group(1) ) );
 		else
 			KoLCharacter.setAttacksLeft( 0 );
 
-		Matcher rankMatcher = RANKING_PATTERN.matcher( responseText );
+		Matcher rankMatcher = RANKING_PATTERN.matcher( this.responseText );
 		if ( !rankMatcher.find() )
 		{
 			(new KoLRequest( "campground.php?pwd&confirm=on&smashstone=Yep." )).run();
@@ -259,13 +259,13 @@ public class FlowerHunterRequest extends KoLRequest
 		// Trim down the response text so it only includes
 		// the information related to the fight.
 
-		int index = responseText.indexOf( "<p>Player to attack" );
-		responseText = responseText.substring( 0, index == -1 ? responseText.length() : index );
+		int index = this.responseText.indexOf( "<p>Player to attack" );
+		this.responseText = this.responseText.substring( 0, index == -1 ? this.responseText.length() : index );
 
-		if ( hunterType != RANKVIEW )
+		if ( this.hunterType != RANKVIEW )
 		{
-			processOffenseContests( responseText );
-			StaticEntity.getClient().showHTML( responseText, null );
+			processOffenseContests( this.responseText );
+			StaticEntity.getClient().showHTML( this.responseText, null );
 		}
 	}
 

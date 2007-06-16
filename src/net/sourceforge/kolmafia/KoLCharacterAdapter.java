@@ -51,12 +51,12 @@ public class KoLCharacterAdapter implements KoLCharacterListener
 
 	public void updateStatus()
 	{
-		if ( statusUpdater != null )
-			statusUpdater.run();
+		if ( this.statusUpdater != null )
+			this.statusUpdater.run();
 	}
 
 	public boolean isStatusListener()
-	{	return statusUpdater != null;
+	{	return this.statusUpdater != null;
 	}
 }
 

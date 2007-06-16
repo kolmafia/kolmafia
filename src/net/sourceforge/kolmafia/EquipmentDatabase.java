@@ -36,9 +36,7 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.TreeMap;
 
 public class EquipmentDatabase extends KoLDatabase
@@ -416,19 +414,19 @@ public class EquipmentDatabase extends KoLDatabase
 		private ArrayList internalList = new ArrayList();
 
 		public SpecialOutfit get( int index )
-		{	return index < 0 || index >= internalList.size() ? null : (SpecialOutfit) internalList.get( index );
+		{	return index < 0 || index >= this.internalList.size() ? null : (SpecialOutfit) this.internalList.get( index );
 		}
 
 		public void set( int index, SpecialOutfit value )
 		{
-			for ( int i = internalList.size(); i <= index; ++i )
-				internalList.add( null );
+			for ( int i = this.internalList.size(); i <= index; ++i )
+				this.internalList.add( null );
 
-			internalList.set( index, value );
+			this.internalList.set( index, value );
 		}
 
 		public int size()
-		{	return internalList.size();
+		{	return this.internalList.size();
 		}
 	}
 }

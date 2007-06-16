@@ -46,14 +46,14 @@ public class PulverizeRequest extends KoLRequest
 	public PulverizeRequest( AdventureResult item )
 	{
 		super( "smith.php" );
-		addFormField( "action", "pulverize" );
-		addFormField( "pwd" );
+		this.addFormField( "action", "pulverize" );
+		this.addFormField( "pwd" );
 		this.item = item;
-		addFormField( "smashitem", String.valueOf( item.getItemId() ) );
-		addFormField( "quantity", String.valueOf( item.getCount() ) );
+		this.addFormField( "smashitem", String.valueOf( item.getItemId() ) );
+		this.addFormField( "quantity", String.valueOf( item.getCount() ) );
 
 		// 1 to confirm smashing untradables
-		addFormField( "conftrade", "1" );
+		this.addFormField( "conftrade", "1" );
 	}
 
 	public void useMalus( String itemName )
@@ -72,10 +72,10 @@ public class PulverizeRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( StaticEntity.getBooleanProperty( "mementoListActive" ) && mementoList.contains( item ) )
+		if ( StaticEntity.getBooleanProperty( "mementoListActive" ) && mementoList.contains( this.item ) )
 			return;
 
-		switch ( TradeableItemDatabase.getConsumptionType( item.getItemId() ) )
+		switch ( TradeableItemDatabase.getConsumptionType( this.item.getItemId() ) )
 		{
 		case EQUIP_ACCESSORY:
 		case EQUIP_HAT:
@@ -90,14 +90,14 @@ public class PulverizeRequest extends KoLRequest
 			if ( !KoLCharacter.isMuscleClass() || !KoLCharacter.hasSkill( "Pulverize" ) )
 			{
 			}
-			if ( item.getName().endsWith( "powder" ) )
+			if ( this.item.getName().endsWith( "powder" ) )
 			{
-				useMalus( StaticEntity.singleStringReplace( item.getName(), "powder", "nugget" ) );
-				useMalus( StaticEntity.singleStringReplace( item.getName(), "powder", "wad" ) );
+				this.useMalus( StaticEntity.singleStringReplace( this.item.getName(), "powder", "nugget" ) );
+				this.useMalus( StaticEntity.singleStringReplace( this.item.getName(), "powder", "wad" ) );
 			}
-			else if ( item.getName().endsWith( "nugget" ) )
+			else if ( this.item.getName().endsWith( "nugget" ) )
 			{
-				useMalus( StaticEntity.singleStringReplace( item.getName(), "nugget", "wad" ) );
+				this.useMalus( StaticEntity.singleStringReplace( this.item.getName(), "nugget", "wad" ) );
 			}
 
 			return;
@@ -112,13 +112,13 @@ public class PulverizeRequest extends KoLRequest
 		if ( !AdventureDatabase.retrieveItem( ConcoctionsDatabase.HAMMER ) )
 			return;
 
-		if ( item.getCount( inventory ) < item.getCount() )
+		if ( this.item.getCount( inventory ) < this.item.getCount() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + item.getName() + "." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + this.item.getName() + "." );
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Pulverizing " + item.getName() + "..." );
+		KoLmafia.updateDisplay( "Pulverizing " + this.item.getName() + "..." );
 		super.run();
 	}
 
@@ -127,15 +127,15 @@ public class PulverizeRequest extends KoLRequest
 		// "That's too important to pulverize."
 		// "That's not something you can pulverize."
 
-		if ( responseText.indexOf( "too important to pulverize" ) != -1 || responseText.indexOf( "not something you can pulverize" ) != -1 )
+		if ( this.responseText.indexOf( "too important to pulverize" ) != -1 || this.responseText.indexOf( "not something you can pulverize" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "The " + item.getName() + " could not be smashed." );
-			StaticEntity.getClient().processResult( item );
+			KoLmafia.updateDisplay( ERROR_STATE, "The " + this.item.getName() + " could not be smashed." );
+			StaticEntity.getClient().processResult( this.item );
 			return;
 		}
 
 		// Remove old item and notify the user of success.
-		KoLmafia.updateDisplay( item + " smashed." );
+		KoLmafia.updateDisplay( this.item + " smashed." );
 	}
 
 	public static boolean registerRequest( String urlString )

@@ -66,7 +66,7 @@ public class ChatRequest extends KoLRequest
 	private ChatRequest( String lastSeen )
 	{
 		super( "newchatmessages.php" );
-		addFormField( "lasttime", lastSeen );
+		this.addFormField( "lasttime", lastSeen );
 		ChatRequest.lastSeen = lastSeen;
 
 		this.shouldUpdateChat = true;
@@ -96,8 +96,8 @@ public class ChatRequest extends KoLRequest
 	public ChatRequest( String contact, String message, boolean shouldUpdateChat )
 	{
 		super( "submitnewchat.php" );
-		addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
-		addFormField( "pwd" );
+		this.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
+		this.addFormField( "pwd" );
 
 		String contactId = KoLmafia.getPlayerId( contact );
 		String actualMessage = null;
@@ -127,7 +127,7 @@ public class ChatRequest extends KoLRequest
 				actualMessage = "/msg " + contactId.replaceAll( " ", "_" ) + " " + message;
 		}
 
-		addFormField( "graf", actualMessage );
+		this.addFormField( "graf", actualMessage );
 
 		if ( (actualMessage.equals( "/c" ) || actualMessage.equals( "/channel" )) && actualMessage.indexOf( " " ) != -1 )
 			KoLMessenger.stopConversation();
@@ -165,7 +165,7 @@ public class ChatRequest extends KoLRequest
 
 	public void run()
 	{
-		String commandResult = executeChatCommand( getFormField( "graf" ) );
+		String commandResult = executeChatCommand( this.getFormField( "graf" ) );
 		if ( commandResult != null )
 		{
 			KoLmafia.registerPlayer( VERSION_NAME, "458968" );
@@ -173,7 +173,7 @@ public class ChatRequest extends KoLRequest
 			return;
 		}
 
-		responseText = null;
+		this.responseText = null;
 		super.run();
 	}
 
@@ -185,14 +185,14 @@ public class ChatRequest extends KoLRequest
 			thread.start();
 		}
 
-		Matcher lastSeenMatcher = LASTSEEN_PATTERN.matcher( responseText );
+		Matcher lastSeenMatcher = LASTSEEN_PATTERN.matcher( this.responseText );
 		if ( lastSeenMatcher.find() )
 			lastSeen = lastSeenMatcher.group(1);
 
 		try
 		{
-			if ( shouldUpdateChat && KoLMessenger.isRunning() )
-				KoLMessenger.updateChat( responseText );
+			if ( this.shouldUpdateChat && KoLMessenger.isRunning() )
+				KoLMessenger.updateChat( this.responseText );
 		}
 		catch ( Exception e )
 		{

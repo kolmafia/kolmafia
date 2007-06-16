@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ProposeTradeRequest extends SendMessageRequest
@@ -52,22 +51,22 @@ public class ProposeTradeRequest extends SendMessageRequest
 	public ProposeTradeRequest( int offerId, String message, Object [] attachments )
 	{
 		super( "counteroffer.php", attachments );
-		addFormField( "action", "counter" );
-		addFormField( "whichoffer", String.valueOf( offerId ) );
-		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
+		this.addFormField( "action", "counter" );
+		this.addFormField( "whichoffer", String.valueOf( offerId ) );
+		this.addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
 
 		this.offerId = offerId;
 		this.message = message;
 		this.isCounterOffer = true;
-		this.recipient = KoLmafia.getPlayerId( recipient );
+		this.recipient = KoLmafia.getPlayerId( this.recipient );
 	}
 
 	public ProposeTradeRequest( String recipient, String message, Object [] attachments )
 	{
 		super( "makeoffer.php", attachments );
-		addFormField( "action", "proposeoffer" );
-		addFormField( "towho", recipient );
-		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
+		this.addFormField( "action", "proposeoffer" );
+		this.addFormField( "towho", recipient );
+		this.addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
 
 		this.offerId = 0;
 		this.message = message;
@@ -81,8 +80,8 @@ public class ProposeTradeRequest extends SendMessageRequest
 
 	public SendMessageRequest getSubInstance( Object [] attachments )
 	{
-		return isCounterOffer ? new ProposeTradeRequest( offerId, message, attachments ) :
-			new ProposeTradeRequest( recipient, message, attachments );
+		return this.isCounterOffer ? new ProposeTradeRequest( this.offerId, this.message, attachments ) :
+			new ProposeTradeRequest( this.recipient, this.message, attachments );
 	}
 
 	public String getSuccessMessage()
@@ -90,7 +89,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 	}
 
 	public void processResults()
-	{	responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "[Mm]eat:", "Please respond with " );
+	{	this.responseText = this.responseText.substring( 0, this.responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "[Mm]eat:", "Please respond with " );
 	}
 
 	public String getStatusMessage()

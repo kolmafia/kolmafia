@@ -42,7 +42,7 @@ public class PendingTradesFrame extends RequestFrame
 	public PendingTradesFrame( ProposeTradeRequest ptr )
 	{
 		super( "Pending Trades", ptr );
-		mainDisplay.addHyperlinkListener( new TradeLinkListener() );
+		this.mainDisplay.addHyperlinkListener( new TradeLinkListener() );
 	}
 
 	public boolean hasSideBar()
@@ -74,7 +74,7 @@ public class PendingTradesFrame extends RequestFrame
 			parameters[1] = offerId;
 
 			(new CreateFrameRunnable( ProposeTradeFrame.class, parameters )).run();
-			dispose();
+			PendingTradesFrame.this.dispose();
 		}
 	}
 }

@@ -37,7 +37,6 @@ import java.io.BufferedReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -112,33 +111,33 @@ public class AdventureDatabase extends KoLDatabase
 		}
 
 		public String getZone()
-		{	return zone;
+		{	return this.zone;
 		}
 
 		public String getSetting()
-		{	return setting;
+		{	return this.setting;
 		}
 
 		public String getName()
-		{	return name;
+		{	return this.name;
 		}
 
 		public String [] getItems()
-		{	return items;
+		{	return this.items;
 		}
 
 		public String [] getOptions()
-		{	return options;
+		{	return this.options;
 		}
 
 		public String [][] getSpoilers()
-		{	return spoilers;
+		{	return this.spoilers;
 		}
 
 		public int compareTo( Object o )
 		{
-			int result = name.compareToIgnoreCase( ((ChoiceAdventure)o).name );
-			return result != 0 ? result : setting.compareToIgnoreCase( ((ChoiceAdventure)o).setting );
+			int result = this.name.compareToIgnoreCase( ((ChoiceAdventure)o).name );
+			return result != 0 ? result : this.setting.compareToIgnoreCase( ((ChoiceAdventure)o).setting );
 		}
 	}
 
@@ -1371,16 +1370,16 @@ public class AdventureDatabase extends KoLDatabase
 
 		public KoLAdventure get( int index )
 		{
-			if ( index < 0 || index > internalList.size() )
+			if ( index < 0 || index > this.internalList.size() )
 				return null;
 
-			return (KoLAdventure) internalList.get( index );
+			return (KoLAdventure) this.internalList.get( index );
 		}
 
 		public void add( KoLAdventure value )
 		{
-			nameList.add( getCanonicalName( value.getAdventureName() ) );
-			internalList.add( value );
+			this.nameList.add( getCanonicalName( value.getAdventureName() ) );
+			this.internalList.add( value );
 		}
 
 		public KoLAdventure find( String adventureName )
@@ -1393,12 +1392,12 @@ public class AdventureDatabase extends KoLDatabase
 			// First, try substring matches when attempting to
 			// find the adventure location.
 
-			for ( int i = 0; i < size(); ++i )
+			for ( int i = 0; i < this.size(); ++i )
 			{
-				if ( ((String)nameList.get(i)).equals( adventureName ) )
-					return get( i );
+				if ( ((String)this.nameList.get(i)).equals( adventureName ) )
+					return this.get( i );
 
-				if ( ((String)nameList.get(i)).indexOf( adventureName ) != -1 )
+				if ( ((String)this.nameList.get(i)).indexOf( adventureName ) != -1 )
 				{
 					++matchCount;
 					adventureIndex = i;
@@ -1407,24 +1406,24 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( matchCount > 1 )
 			{
-				for ( int i = 0; i < size(); ++i )
-					if ( ((String)nameList.get(i)).indexOf( adventureName ) != -1 )
-						RequestLogger.printLine( (String) nameList.get(i) );
+				for ( int i = 0; i < this.size(); ++i )
+					if ( ((String)this.nameList.get(i)).indexOf( adventureName ) != -1 )
+						RequestLogger.printLine( (String) this.nameList.get(i) );
 
 				KoLmafia.updateDisplay( ERROR_STATE, "Multiple matches against " + adventureName + "." );
 				return null;
 			}
 
 			if ( matchCount == 1 )
-				return get( adventureIndex );
+				return this.get( adventureIndex );
 
 			// Next, try to do fuzzy matching.  If it matches
 			// exactly one area, use it.  Otherwise, if it
 			// matches more than once, do nothing.
 
-			for ( int i = 0; i < size(); ++i )
+			for ( int i = 0; i < this.size(); ++i )
 			{
-				if ( fuzzyMatches( (String) nameList.get(i), adventureName ) )
+				if ( fuzzyMatches( (String) this.nameList.get(i), adventureName ) )
 				{
 					++matchCount;
 					adventureIndex = i;
@@ -1433,28 +1432,28 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( matchCount > 1 )
 			{
-				for ( int i = 0; i < size(); ++i )
-					if ( fuzzyMatches( (String) nameList.get(i), adventureName ) )
-						RequestLogger.printLine( (String) nameList.get(i) );
+				for ( int i = 0; i < this.size(); ++i )
+					if ( fuzzyMatches( (String) this.nameList.get(i), adventureName ) )
+						RequestLogger.printLine( (String) this.nameList.get(i) );
 
 				KoLmafia.updateDisplay( ERROR_STATE, "Multiple matches against " + adventureName + "." );
 				return null;
 			}
 
 			if ( matchCount == 1 )
-				return get( adventureIndex );
+				return this.get( adventureIndex );
 
 			return null;
 		}
 
 		public void clear()
 		{
-			nameList.clear();
-			internalList.clear();
+			this.nameList.clear();
+			this.internalList.clear();
 		}
 
 		public int size()
-		{	return internalList.size();
+		{	return this.internalList.size();
 		}
 	}
 }

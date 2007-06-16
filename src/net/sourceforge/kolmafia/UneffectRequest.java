@@ -51,17 +51,17 @@ public class UneffectRequest extends KoLRequest
 		this.effectId = StatusEffectDatabase.getEffectId( effect.getName() );
 		this.isShruggable = isShruggable( effect.getName() );
 
-		if ( isShruggable )
+		if ( this.isShruggable )
 		{
-			addFormField( "pwd" );
-			addFormField( "action", "unbuff" );
-			addFormField( "whichbuff", String.valueOf( effectId ) );
+			this.addFormField( "pwd" );
+			this.addFormField( "action", "unbuff" );
+			this.addFormField( "whichbuff", String.valueOf( this.effectId ) );
 		}
 		else
 		{
-			addFormField( "pwd" );
-			addFormField( "using", "Yep." );
-			addFormField( "whicheffect", String.valueOf( effectId ) );
+			this.addFormField( "pwd" );
+			this.addFormField( "using", "Yep." );
+			this.addFormField( "whicheffect", String.valueOf( this.effectId ) );
 		}
 	}
 
@@ -136,7 +136,7 @@ public class UneffectRequest extends KoLRequest
 
 	public void run()
 	{
-		String action = MoodSettings.getDefaultAction( "gain_effect", effect.getName() );
+		String action = MoodSettings.getDefaultAction( "gain_effect", this.effect.getName() );
 
 		if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) )
 		{
@@ -144,7 +144,7 @@ public class UneffectRequest extends KoLRequest
 			return;
 		}
 
-		if ( !isShruggable )
+		if ( !this.isShruggable )
 		{
 			if ( KoLCharacter.canInteract() )
 			{
@@ -157,7 +157,7 @@ public class UneffectRequest extends KoLRequest
 			}
 		}
 
-		KoLmafia.updateDisplay( isShruggable ? "Shrugging off your buff..." : "Using soft green whatever..." );
+		KoLmafia.updateDisplay( this.isShruggable ? "Shrugging off your buff..." : "Using soft green whatever..." );
 		super.run();
 	}
 
@@ -166,24 +166,24 @@ public class UneffectRequest extends KoLRequest
 		// If it notifies you that the effect was removed, delete it
 		// from the list of effects.
 
-		if ( responseText != null && (isShruggable || responseText.indexOf( "Effect removed." ) != -1) )
+		if ( this.responseText != null && (this.isShruggable || this.responseText.indexOf( "Effect removed." ) != -1) )
 		{
-			activeEffects.remove( effect );
+			activeEffects.remove( this.effect );
 
-			if ( isShruggable )
-				CharsheetRequest.parseStatus( responseText );
+			if ( this.isShruggable )
+				CharsheetRequest.parseStatus( this.responseText );
 			else
 				StaticEntity.getClient().processResult( REMEDY.getNegation() );
 
-			KoLmafia.updateDisplay( effect.getName() + " removed." );
+			KoLmafia.updateDisplay( this.effect.getName() + " removed." );
 
 			if ( RequestFrame.instanceExists() )
 				RequestFrame.refreshStatus();
 			else
 				RequestThread.postRequest( CharpaneRequest.getInstance() );
 		}
-		else if ( !isShruggable )
-			KoLmafia.updateDisplay( "Failed to remove " + effect.getName() + "." );
+		else if ( !this.isShruggable )
+			KoLmafia.updateDisplay( "Failed to remove " + this.effect.getName() + "." );
 	}
 }
 

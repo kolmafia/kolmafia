@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.SwingUtilities;
 import net.sourceforge.foxtrot.ConcurrentWorker;
 import net.sourceforge.foxtrot.Job;
@@ -232,7 +230,7 @@ public abstract class RequestThread implements KoLConstants
 		}
 
 		public void run()
-		{	wrapped.run();
+		{	this.wrapped.run();
 		}
 	}
 

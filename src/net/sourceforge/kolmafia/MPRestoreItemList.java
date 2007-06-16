@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
 import javax.swing.JCheckBox;
 
 public abstract class MPRestoreItemList extends StaticEntity
@@ -118,31 +117,31 @@ public abstract class MPRestoreItemList extends StaticEntity
 		}
 
 		public AdventureResult getItem()
-		{	return itemUsed;
+		{	return this.itemUsed;
 		}
 
 		public boolean isSkill()
-		{	return itemUsed == null && this != GALAKTIK;
+		{	return this.itemUsed == null && this != GALAKTIK;
 		}
 
 		public boolean isCombatUsable()
-		{	return isCombatUsable;
+		{	return this.isCombatUsable;
 		}
 
 		public int compareTo( Object o )
 		{
 			MPRestoreItem mpi = (MPRestoreItem) o;
 
-			float restoreAmount = (float) (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
+			float restoreAmount = (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
 
-			float leftRatio = restoreAmount / ((float) getManaPerUse());
-			float rightRatio = restoreAmount / ((float) mpi.getManaPerUse());
+			float leftRatio = restoreAmount / (this.getManaPerUse());
+			float rightRatio = restoreAmount / (mpi.getManaPerUse());
 
 			if ( purchaseBasedSort )
 			{
-				if ( purchaseCost != 0 || mpi.purchaseCost != 0 )
+				if ( this.purchaseCost != 0 || mpi.purchaseCost != 0 )
 				{
-					leftRatio = ((float) Math.ceil( leftRatio )) * purchaseCost;
+					leftRatio = ((float) Math.ceil( leftRatio )) * this.purchaseCost;
 					rightRatio = ((float) Math.ceil( rightRatio )) * mpi.purchaseCost;
 				}
 			}
@@ -158,7 +157,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 				// The restore rate on the rumpus room sofa changes
 				// based on your current level.
 
-				this.mpPerUse = (int) KoLCharacter.getLevel() * 5 + 1;
+				this.mpPerUse = KoLCharacter.getLevel() * 5 + 1;
 			}
 			else if ( this == MYSTERY_JUICE )
 			{
@@ -177,7 +176,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		}
 
 		public int getManaPerUse()
-		{	return Math.min( mpPerUse, KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() );
+		{	return Math.min( this.mpPerUse, KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() );
 		}
 
 		public void recoverMP( int needed, boolean purchase )
@@ -202,7 +201,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 				if ( purchase && needed > KoLCharacter.getCurrentMP() )
 				{
 					RequestThread.postRequest( new GalaktikRequest( GalaktikRequest.MP,
-						Math.min( needed - KoLCharacter.getCurrentMP(), KoLCharacter.getAvailableMeat() / purchaseCost ) ) );
+						Math.min( needed - KoLCharacter.getCurrentMP(), KoLCharacter.getAvailableMeat() / this.purchaseCost ) ) );
 				}
 
 				return;
@@ -220,7 +219,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			if ( mpShort <= 0 )
 				return;
 
-			int numberToUse = Math.max( (int) Math.floor( (float) mpShort / (float) getManaPerUse() ), 1 );
+			int numberToUse = Math.max( (int) Math.floor( (float) mpShort / (float) this.getManaPerUse() ), 1 );
 
 			if ( this == SOFA )
 			{
@@ -228,15 +227,15 @@ public abstract class MPRestoreItemList extends StaticEntity
 				return;
 			}
 
-			int numberAvailable = itemUsed.getCount( inventory );
+			int numberAvailable = this.itemUsed.getCount( inventory );
 
 			// If you need to purchase, then calculate a better
 			// purchasing strategy.
 
-			if ( purchase && numberAvailable < numberToUse && NPCStoreDatabase.contains( itemUsed.getName() ) )
+			if ( purchase && numberAvailable < numberToUse && NPCStoreDatabase.contains( this.itemUsed.getName() ) )
 			{
 				int numberToBuy = numberToUse;
-				int unitPrice = TradeableItemDatabase.getPriceById( itemUsed.getItemId() ) * 2;
+				int unitPrice = TradeableItemDatabase.getPriceById( this.itemUsed.getItemId() ) * 2;
 
 				if ( MoodSettings.isExecuting() )
 				{
@@ -245,15 +244,15 @@ public abstract class MPRestoreItemList extends StaticEntity
 					// the entire check.
 
 					mpShort = Math.max( mpShort, MoodSettings.getMaintenanceCost() - KoLCharacter.getCurrentMP() );
-					numberToBuy = Math.max( (int) Math.floor( (float) mpShort / (float) getManaPerUse() ), 1 );
+					numberToBuy = Math.max( (int) Math.floor( (float) mpShort / (float) this.getManaPerUse() ), 1 );
 				}
 
 				numberToBuy = Math.min( KoLCharacter.getAvailableMeat() / unitPrice, numberToBuy );
 
-				if ( !AdventureDatabase.retrieveItem( itemUsed.getInstance( numberToBuy ) ) )
+				if ( !AdventureDatabase.retrieveItem( this.itemUsed.getInstance( numberToBuy ) ) )
 					return;
 
-				numberAvailable = itemUsed.getCount( inventory );
+				numberAvailable = this.itemUsed.getCount( inventory );
 			}
 
 			numberToUse = Math.min( numberAvailable, numberToUse );
@@ -264,11 +263,11 @@ public abstract class MPRestoreItemList extends StaticEntity
 			if ( numberToUse <= 0 || !KoLmafia.permitsContinue() )
 				return;
 
-			RequestThread.postRequest( new ConsumeItemRequest( itemUsed.getInstance( numberToUse ) ) );
+			RequestThread.postRequest( new ConsumeItemRequest( this.itemUsed.getInstance( numberToUse ) ) );
 		}
 
 		public String toString()
-		{	return itemName;
+		{	return this.itemName;
 		}
 	}
 }

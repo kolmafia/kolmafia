@@ -33,15 +33,12 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import java.io.File;
 
 import com.jeans.trayicon.TrayIconPopup;
@@ -177,7 +174,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 		public ThreadedTrayIconPopupSimpleItem( String title )
 		{
 			super( title );
-			addActionListener( this );
+			this.addActionListener( this );
 		}
 
 		public final void actionPerformed( ActionEvent e )
@@ -207,7 +204,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 		}
 
 		public void run()
-		{	KoLmafiaGUI.constructFrame( frame );
+		{	KoLmafiaGUI.constructFrame( this.frame );
 		}
 	}
 

@@ -44,7 +44,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static final SortedListModel creatableList = new SortedListModel();
 	public static final SortedListModel usableList = new SortedListModel();
 
-	private static boolean ignoreNextRefresh = true;
 	private static Concoction stillsLimit = new Concoction( (AdventureResult) null, NOCREATE );
 	private static Concoction adventureLimit = new Concoction( (AdventureResult) null, NOCREATE );
 
@@ -339,12 +338,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	public static void refreshConcoctions()
 	{
-		if ( KoLRequest.sessionId == null )
-			ignoreNextRefresh = true;
-		
-		if ( ignoreNextRefresh )
-			return;
-
 		List availableIngredients = getAvailableIngredients();
 
 		// First, zero out the quantities table.  Though this is not
@@ -465,12 +458,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 			usableList.fireContentsChanged( concoctions, 0, usableList.size() - 1 );
 			usableList.applyListFilters();
 		}
-
-		ignoreNextRefresh = true;
-	}
-
-	public static void recognizeNextRefresh()
-	{	ignoreNextRefresh = false;
 	}
 
 	public static int getMeatPasteRequired( int itemId, int creationCount )
@@ -872,7 +859,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			}
 
 			this.price = price;
-			resetCalculations();
+			this.resetCalculations();
 		}
 
 		public Concoction( AdventureResult concoction, int mixingMethod )
@@ -903,7 +890,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				break;
 			}
 
-			this.price = price;
+			this.price = this.price;
 		}
 
 		public int compareTo( Object o )
@@ -911,34 +898,34 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( o == null || !(o instanceof Concoction) )
 				return -1;
 
-			if ( name == null )
+			if ( this.name == null )
 				return 1;
 
 			if ( ((Concoction)o).name == null )
 				return -1;
 
-			if ( sortOrder != ((Concoction)o).sortOrder )
-				return sortOrder - ((Concoction)o).sortOrder;
+			if ( this.sortOrder != ((Concoction)o).sortOrder )
+				return this.sortOrder - ((Concoction)o).sortOrder;
 
-			int fullness1 = TradeableItemDatabase.getFullness( name );
+			int fullness1 = TradeableItemDatabase.getFullness( this.name );
 			int fullness2 = TradeableItemDatabase.getFullness( ((Concoction)o).name );
 
 			if ( !StaticEntity.getBooleanProperty( "showGainsPerUnit" ) && fullness1 != fullness2 )
 				return fullness1 > fullness2 ? -1 : 1;
 
-			int inebriety1 = TradeableItemDatabase.getInebriety( name );
+			int inebriety1 = TradeableItemDatabase.getInebriety( this.name );
 			int inebriety2 = TradeableItemDatabase.getInebriety( ((Concoction)o).name );
 
 			if ( !StaticEntity.getBooleanProperty( "showGainsPerUnit" ) && inebriety1 != inebriety2 )
 				return inebriety1 > inebriety2 ? -1 : 1;
 
-			float adventures1 = parseFloat( TradeableItemDatabase.getAdventureRange( name ) );
+			float adventures1 = parseFloat( TradeableItemDatabase.getAdventureRange( this.name ) );
 			float adventures2 = parseFloat( TradeableItemDatabase.getAdventureRange( ((Concoction)o).name ) );
 
 			if ( adventures1 != adventures2 )
 				return adventures1 > adventures2 ? -1 : 1;
 
-			return name.compareToIgnoreCase( name );
+			return this.name.compareToIgnoreCase( this.name );
 		}
 
 		public boolean equals( Object o )
@@ -946,37 +933,37 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( o == null || !(o instanceof Concoction) )
 				return false;
 
-			if ( name == null )
+			if ( this.name == null )
 				return false;
 
 			if ( ((Concoction)o).name == null )
 				return false;
 
-			return name.equals( ((Concoction)o).name );
+			return this.name.equals( ((Concoction)o).name );
 		}
 
 		public AdventureResult getItem()
-		{	return concoction;
+		{	return this.concoction;
 		}
 
 		public int getItemId()
-		{	return concoction == null ? -1 : concoction.getItemId();
+		{	return this.concoction == null ? -1 : this.concoction.getItemId();
 		}
 
 		public String getName()
-		{	return name;
+		{	return this.name;
 		}
 
 		public int getInitial()
-		{	return initial;
+		{	return this.initial;
 		}
 
 		public int getTotal()
-		{	return total;
+		{	return this.total;
 		}
 
 		public int getPrice()
-		{	return price;
+		{	return this.price;
 		}
 
 		public void resetCalculations()
@@ -988,15 +975,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.modifier = 0;
 			this.multiplier = 0;
 
-			if ( concoction == null && name != null )
+			if ( this.concoction == null && this.name != null )
 			{
-				int fullness = TradeableItemDatabase.getFullness( name );
-				int inebriety = TradeableItemDatabase.getInebriety( name );
+				int fullness = TradeableItemDatabase.getFullness( this.name );
+				int inebriety = TradeableItemDatabase.getInebriety( this.name );
 
 				if ( fullness > 0 )
-					this.initial = KoLCharacter.getAvailableMeat() / price;
+					this.initial = KoLCharacter.getAvailableMeat() / this.price;
 				else
-					this.initial = KoLCharacter.getAvailableMeat() / price;
+					this.initial = KoLCharacter.getAvailableMeat() / this.price;
 
 				this.creatable = -1;
 				this.total = this.initial;
@@ -1008,7 +995,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 
 		public boolean wasPossible()
-		{	return wasPossible;
+		{	return this.wasPossible;
 		}
 
 		public void addIngredient( AdventureResult ingredient )
@@ -1020,22 +1007,22 @@ public class ConcoctionsDatabase extends KoLDatabase
 				knownUses.set( ingredient.getItemId(), uses );
 			}
 
-			uses.add( concoction );
-			ingredients.add( ingredient );
+			uses.add( this.concoction );
+			this.ingredients.add( ingredient );
 
-			ingredientArray = new AdventureResult[ ingredients.size() ];
-			ingredients.toArray( ingredientArray );
+			this.ingredientArray = new AdventureResult[ this.ingredients.size() ];
+			this.ingredients.toArray( this.ingredientArray );
 		}
 
 		public int getMixingMethod()
-		{	return mixingMethod;
+		{	return this.mixingMethod;
 		}
 
 		public boolean isBadRecipe()
 		{
-			for ( int i = 0; i < ingredientArray.length; ++i )
+			for ( int i = 0; i < this.ingredientArray.length; ++i )
 			{
-				AdventureResult ingredient = ingredientArray[i];
+				AdventureResult ingredient = this.ingredientArray[i];
 				if ( ingredient == null || ingredient.getItemId() == -1 || ingredient.getName() == null )
 					return true;
 			}
@@ -1044,7 +1031,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 
 		public AdventureResult [] getIngredients()
-		{	return ingredientArray;
+		{	return this.ingredientArray;
 		}
 
 		public void calculate( List availableIngredients )
@@ -1063,23 +1050,23 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// If the item doesn't exist in the item table,
 			// then assume it can't be created.
 
-			if ( concoction == null || name == null )
+			if ( this.concoction == null || this.name == null )
 				return;
 
 			// Determine how many were available initially in the
 			// available ingredient list.
 
-			this.initial = concoction.getCount( availableIngredients );
-			this.total = initial;
+			this.initial = this.concoction.getCount( availableIngredients );
+			this.total = this.initial;
 
-			if ( !isPermittedMethod( mixingMethod ) )
+			if ( !isPermittedMethod( this.mixingMethod ) )
 				return;
 
 			// First, preprocess the ingredients by calculating
 			// how many of each ingredient is possible now.
 
-			for ( int i = 0; i < ingredientArray.length; ++i )
-				concoctions.get( ingredientArray[i].getItemId() ).calculate( availableIngredients );
+			for ( int i = 0; i < this.ingredientArray.length; ++i )
+				concoctions.get( this.ingredientArray[i].getItemId() ).calculate( availableIngredients );
 
 			this.mark( 0, 1 );
 
@@ -1087,24 +1074,24 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// the quantity creatable by solving the set of
 			// linear inequalities.
 
-			if ( mixingMethod == ROLLING_PIN || mixingMethod == CLOVER )
+			if ( this.mixingMethod == ROLLING_PIN || this.mixingMethod == CLOVER )
 			{
 				// If there's only one ingredient, then the
 				// quantity depends entirely on it.
 
-				this.creatable = concoctions.get( ingredientArray[0].getItemId() ).initial;
+				this.creatable = concoctions.get( this.ingredientArray[0].getItemId() ).initial;
 				this.total = this.initial + this.creatable;
 			}
 			else
 			{
 				this.total = MallPurchaseRequest.MAX_QUANTITY;
-				for ( int i = 0; i < ingredientArray.length; ++i )
-					this.total = Math.min( this.total, concoctions.get( ingredientArray[i].getItemId() ).quantity() );
+				for ( int i = 0; i < this.ingredientArray.length; ++i )
+					this.total = Math.min( this.total, concoctions.get( this.ingredientArray[i].getItemId() ).quantity() );
 
-				if ( ADVENTURE_USAGE[ mixingMethod ] != 0 )
+				if ( ADVENTURE_USAGE[ this.mixingMethod ] != 0 )
 					this.total = Math.min( this.total, adventureLimit.quantity() );
 
-				if ( mixingMethod == STILL_MIXER || mixingMethod == STILL_BOOZE )
+				if ( this.mixingMethod == STILL_MIXER || this.mixingMethod == STILL_BOOZE )
 					this.total = Math.min( this.total, stillsLimit.quantity() );
 
 				// The total available for other creations is equal
@@ -1141,7 +1128,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			// Avoid mutual recursion.
 
-			if ( mixingMethod == ROLLING_PIN || mixingMethod == CLOVER || !isPermittedMethod( mixingMethod ) )
+			if ( this.mixingMethod == ROLLING_PIN || this.mixingMethod == CLOVER || !isPermittedMethod( this.mixingMethod ) )
 				return quantity;
 
 			// The true value is affected by the maximum value for
@@ -1149,20 +1136,20 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// for all other ingredients to complete the solution
 			// of the linear inequality.
 
-			for ( int i = 0; quantity > 0 && i < ingredientArray.length; ++i )
-				quantity = Math.min( quantity, concoctions.get( ingredientArray[i].getItemId() ).quantity() );
+			for ( int i = 0; quantity > 0 && i < this.ingredientArray.length; ++i )
+				quantity = Math.min( quantity, concoctions.get( this.ingredientArray[i].getItemId() ).quantity() );
 
 			// Adventures are also considered an ingredient; if
 			// no adventures are necessary, the multiplier should
 			// be zero and the infinite number available will have
 			// no effect on the calculation.
 
-			if ( ADVENTURE_USAGE[ mixingMethod ] != 0 )
+			if ( ADVENTURE_USAGE[ this.mixingMethod ] != 0 )
 				quantity = Math.min( quantity, adventureLimit.quantity() );
 
 			// Still uses are also considered an ingredient.
 
-			if ( mixingMethod == STILL_MIXER || mixingMethod == STILL_BOOZE )
+			if ( this.mixingMethod == STILL_MIXER || this.mixingMethod == STILL_BOOZE )
 				quantity = Math.min( quantity, stillsLimit.quantity() );
 
 			// The true value is now calculated.  Return this
@@ -1183,7 +1170,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			// Avoid mutual recursion
 
-			if ( mixingMethod == ROLLING_PIN || mixingMethod == CLOVER || !isPermittedMethod( mixingMethod ) )
+			if ( this.mixingMethod == ROLLING_PIN || this.mixingMethod == CLOVER || !isPermittedMethod( this.mixingMethod ) )
 				return;
 
 			// Mark all the ingredients, being sure to multiply
@@ -1192,21 +1179,21 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			int instanceCount;
 
-			for ( int i = 0; i < ingredientArray.length; ++i )
+			for ( int i = 0; i < this.ingredientArray.length; ++i )
 			{
 				boolean shouldMark = true;
-				instanceCount = ingredientArray[i].getCount();
+				instanceCount = this.ingredientArray[i].getCount();
 
 				for ( int j = 0; j < i; ++j )
-					shouldMark &= ingredientArray[i].getItemId() != ingredientArray[j].getItemId();
+					shouldMark &= this.ingredientArray[i].getItemId() != this.ingredientArray[j].getItemId();
 
 				if ( shouldMark )
 				{
-					for ( int j = i + 1; j < ingredientArray.length; ++j )
-						if ( ingredientArray[i].getItemId() == ingredientArray[j].getItemId() )
-							instanceCount += ingredientArray[j].getCount();
+					for ( int j = i + 1; j < this.ingredientArray.length; ++j )
+						if ( this.ingredientArray[i].getItemId() == this.ingredientArray[j].getItemId() )
+							instanceCount += this.ingredientArray[j].getCount();
 
-					concoctions.get( ingredientArray[i].getItemId() ).mark(
+					concoctions.get( this.ingredientArray[i].getItemId() ).mark(
 							(this.modifier + this.initial) * instanceCount, this.multiplier * instanceCount );
 				}
 			}
@@ -1215,11 +1202,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// sure to multiply by the number of adventures
 			// which are required for this mixture.
 
-			if ( ADVENTURE_USAGE[ mixingMethod ] != 0 )
-				adventureLimit.mark( (this.modifier + this.initial) * ADVENTURE_USAGE[ mixingMethod ],
-					this.multiplier * ADVENTURE_USAGE[ mixingMethod ] );
+			if ( ADVENTURE_USAGE[ this.mixingMethod ] != 0 )
+				adventureLimit.mark( (this.modifier + this.initial) * ADVENTURE_USAGE[ this.mixingMethod ],
+					this.multiplier * ADVENTURE_USAGE[ this.mixingMethod ] );
 
-			if ( mixingMethod == STILL_MIXER || mixingMethod == STILL_BOOZE )
+			if ( this.mixingMethod == STILL_MIXER || this.mixingMethod == STILL_BOOZE )
 				stillsLimit.mark( (this.modifier + this.initial), this.multiplier );
 		}
 
@@ -1236,13 +1223,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.modifier = 0;
 			this.multiplier = 0;
 
-			for ( int i = 0; i < ingredientArray.length; ++i )
-				concoctions.get( ingredientArray[i].getItemId() ).unmark();
+			for ( int i = 0; i < this.ingredientArray.length; ++i )
+				concoctions.get( this.ingredientArray[i].getItemId() ).unmark();
 
-			if ( ADVENTURE_USAGE[ mixingMethod ] != 0 )
+			if ( ADVENTURE_USAGE[ this.mixingMethod ] != 0 )
 				adventureLimit.unmark();
 
-			if ( mixingMethod == STILL_MIXER || mixingMethod == STILL_BOOZE )
+			if ( this.mixingMethod == STILL_MIXER || this.mixingMethod == STILL_BOOZE )
 				stillsLimit.unmark();
 		}
 
@@ -1250,15 +1237,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{
 			// Avoid mutual recursion.
 
-			if ( mixingMethod != COMBINE || KoLCharacter.inMuscleSign() )
+			if ( this.mixingMethod != COMBINE || KoLCharacter.inMuscleSign() )
 				return 0;
 
 			// Count all the meat paste from the different
 			// levels in the creation tree.
 
 			int runningTotal = 0;
-			for ( int i = 0; i < ingredientArray.length; ++i )
-				runningTotal += concoctions.get( ingredientArray[i].getItemId() ).getMeatPasteNeeded( quantityNeeded );
+			for ( int i = 0; i < this.ingredientArray.length; ++i )
+				runningTotal += concoctions.get( this.ingredientArray[i].getItemId() ).getMeatPasteNeeded( quantityNeeded );
 
 			return runningTotal + quantityNeeded;
 		}
@@ -1269,7 +1256,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		 */
 
 		public String toString()
-		{	return name;
+		{	return this.name;
 		}
 	}
 
@@ -1289,18 +1276,18 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( index < 0 )
 				return null;
 
-			while ( index >= internalList.size() )
-				internalList.add( null );
+			while ( index >= this.internalList.size() )
+				this.internalList.add( null );
 
-			return (SortedListModel) internalList.get( index );
+			return (SortedListModel) this.internalList.get( index );
 		}
 
 		public void set( int index, SortedListModel value )
 		{
-			while ( index >= internalList.size() )
-				internalList.add( null );
+			while ( index >= this.internalList.size() )
+				this.internalList.add( null );
 
-			internalList.set( index, value );
+			this.internalList.set( index, value );
 		}
 	}
 
@@ -1321,28 +1308,28 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( index < 0 )
 				return null;
 
-			for ( int i = internalList.size(); i <= index; ++i )
+			for ( int i = this.internalList.size(); i <= index; ++i )
 			{
-				internalList.add( new Concoction( TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
+				this.internalList.add( new Concoction( TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
 					NOCREATE ) );
 			}
 
-			return (Concoction) internalList.get( index );
+			return (Concoction) this.internalList.get( index );
 		}
 
 		public void set( int index, Concoction value )
 		{
-			for ( int i = internalList.size(); i <= index; ++i )
+			for ( int i = this.internalList.size(); i <= index; ++i )
 			{
-				internalList.add( new Concoction( TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
+				this.internalList.add( new Concoction( TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
 					NOCREATE ) );
 			}
 
-			internalList.set( index, value );
+			this.internalList.set( index, value );
 		}
 
 		public int size()
-		{	return internalList.size();
+		{	return this.internalList.size();
 		}
 	}
 }

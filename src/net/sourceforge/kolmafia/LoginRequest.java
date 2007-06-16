@@ -87,13 +87,13 @@ public class LoginRequest extends KoLRequest
 
 		KoLRequest.applySettings();
 
-		if ( username.toLowerCase().startsWith( "devster" ) )
+		if ( this.username.toLowerCase().startsWith( "devster" ) )
 			setLoginServer( "dev.kingdomofloathing.com" );
 
-		clearDataFields();
+		this.clearDataFields();
 
 		if ( StaticEntity.getBooleanProperty( "ignoreLoadBalancer" ) )
-			constructURLString( "main.php" );
+			this.constructURLString( "main.php" );
 
 		super.run();
 
@@ -103,7 +103,7 @@ public class LoginRequest extends KoLRequest
 		// If the pattern is not found, then do not submit
 		// the challenge version.
 
-		Matcher challengeMatcher = CHALLENGE_PATTERN.matcher( responseText );
+		Matcher challengeMatcher = CHALLENGE_PATTERN.matcher( this.responseText );
 		if ( !challengeMatcher.find() )
 			return false;
 
@@ -112,13 +112,13 @@ public class LoginRequest extends KoLRequest
 
 		try
 		{
-			constructURLString( "login.php" );
+			this.constructURLString( "login.php" );
 			String challenge = challengeMatcher.group(1);
 
-			addFormField( "secure", "1" );
-			addFormField( "password", "" );
-			addFormField( "challenge", challenge );
-			addFormField( "response", digestPassword( this.password, challenge ) );
+			this.addFormField( "secure", "1" );
+			this.addFormField( "password", "" );
+			this.addFormField( "challenge", challenge );
+			this.addFormField( "response", digestPassword( this.password, challenge ) );
 
 			return true;
 		}
@@ -174,21 +174,21 @@ public class LoginRequest extends KoLRequest
 
 	public void run()
 	{
-		runCountdown = true;
+		this.runCountdown = true;
 		StaticEntity.getClient().setCurrentRequest( null );
 
-		lastUsername = username;
-		lastPassword = password;
+		lastUsername = this.username;
+		lastPassword = this.password;
 		KoLmafia.forceContinue();
 
 		try
 		{
-			runCountdown = true;
+			this.runCountdown = true;
 
-			if ( executeLogin() && runCountdown )
+			if ( this.executeLogin() && this.runCountdown )
 			{
 				StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
-				if ( !KoLmafia.refusesContinue() && executeLogin() )
+				if ( !KoLmafia.refusesContinue() && this.executeLogin() )
 					forceLoginAbort();
 			}
 		}
@@ -228,18 +228,18 @@ public class LoginRequest extends KoLRequest
 		sessionId = null;
 		lastLoginAttempt = System.currentTimeMillis();
 
-		if ( waitTime == BAD_CHALLENGE_WAIT || !runCountdown || !detectChallenge() )
+		if ( waitTime == BAD_CHALLENGE_WAIT || !this.runCountdown || !this.detectChallenge() )
 		{
-			clearDataFields();
-			addFormField( "loginname", this.username );
-			addFormField( "password", this.password );
+			this.clearDataFields();
+			this.addFormField( "loginname", this.username );
+			this.addFormField( "password", this.password );
 		}
 		else
 		{
-			addFormField( "loginname", this.username + "/q" );
+			this.addFormField( "loginname", this.username + "/q" );
 		}
 
-		addFormField( "loggingin", "Yup." );
+		this.addFormField( "loggingin", "Yup." );
 		waitTime = STANDARD_WAIT;
 
 		sessionId = null;
@@ -253,7 +253,7 @@ public class LoginRequest extends KoLRequest
 		if ( KoLmafia.refusesContinue() )
 			return false;
 
-		if ( responseCode == 302 && redirectLocation.equals( "maint.php" ) )
+		if ( this.responseCode == 302 && this.redirectLocation.equals( "maint.php" ) )
 		{
 			// Nightly maintenance, so KoLmafia should not bother
 			// retrying.  Let the user do it manually later.
@@ -261,26 +261,26 @@ public class LoginRequest extends KoLRequest
 			KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
 			return false;
 		}
-		else if ( responseCode == 302 && redirectLocation.startsWith( "main" ) )
+		else if ( this.responseCode == 302 && this.redirectLocation.startsWith( "main" ) )
 		{
 			processLoginRequest( this );
 			return false;
 		}
-		else if ( responseCode == 302 )
+		else if ( this.responseCode == 302 )
 		{
 			// It's possible that KoL will eventually make the redirect
 			// the way it used to be, but enforce the redirect.  If this
 			// happens, then validate here.
 
-			Matcher matcher = REDIRECT_PATTERN.matcher( redirectLocation );
+			Matcher matcher = REDIRECT_PATTERN.matcher( this.redirectLocation );
 			if ( matcher.find() )
 			{
-				runCountdown = false;
+				this.runCountdown = false;
 				setLoginServer( matcher.group(1) );
 				return true;
 			}
 		}
-		else if ( responseText.indexOf( "wait fifteen minutes" ) != -1 )
+		else if ( this.responseText.indexOf( "wait fifteen minutes" ) != -1 )
 		{
 			// Ooh, logged in too fast.  KoLmafia should recognize this and
 			// try again automatically in 1000 seconds.
@@ -288,7 +288,7 @@ public class LoginRequest extends KoLRequest
 			waitTime = TOO_MANY_WAIT;
 			return true;
 		}
-		else if ( responseText.indexOf( "wait" ) != -1 )
+		else if ( this.responseText.indexOf( "wait" ) != -1 )
 		{
 			// Ooh, logged in too fast.  KoLmafia should recognize this and
 			// try again automatically in 75 seconds.
@@ -296,7 +296,7 @@ public class LoginRequest extends KoLRequest
 			waitTime = STANDARD_WAIT;
 			return true;
 		}
-		else if ( responseText.indexOf( "login.php" ) != -1 )
+		else if ( this.responseText.indexOf( "login.php" ) != -1 )
 		{
 			// KoL sometimes switches servers while logging in. It returns a hidden form
 			// with responseCode 200.
@@ -311,8 +311,8 @@ public class LoginRequest extends KoLRequest
 			//   </body>
 			// </html>Redirecting to www.
 
-			runCountdown = false;
-			Matcher matcher = REDIRECT_PATTERN.matcher( responseText );
+			this.runCountdown = false;
+			Matcher matcher = REDIRECT_PATTERN.matcher( this.responseText );
 
 			if ( matcher.find() )
 			{
@@ -320,7 +320,7 @@ public class LoginRequest extends KoLRequest
 				return true;
 			}
 		}
-		else if ( responseText.indexOf( "Too many" ) != -1 )
+		else if ( this.responseText.indexOf( "Too many" ) != -1 )
 		{
 			// Too many bad logins in too short a time span.
 			// Notify the user that something bad happened.
@@ -329,7 +329,7 @@ public class LoginRequest extends KoLRequest
 			return false;
 		}
 
-		Matcher failureMatcher = FAILURE_PATTERN.matcher( responseText );
+		Matcher failureMatcher = FAILURE_PATTERN.matcher( this.responseText );
 		if ( failureMatcher.find() )
 			KoLmafia.updateDisplay( ERROR_STATE, failureMatcher.group(1) );
 		else
@@ -379,7 +379,7 @@ public class LoginRequest extends KoLRequest
 
 		RequestThread.closeRequestSequence();
 		isLoggingIn = false;
-
+		
 		if ( StaticEntity.getBooleanProperty( "saveStateActive" ) && request instanceof LoginRequest )
 			KoLmafia.addSaveState( lastUsername, lastPassword );
 	}

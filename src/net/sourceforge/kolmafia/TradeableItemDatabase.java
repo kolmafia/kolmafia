@@ -345,7 +345,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			gainSum3 += i + getIncreasingGains(i + getDecreasingGains(i));
 		}
 
-		float count = (float) (end - start + 1);
+		float count = (end - start + 1);
 
 		addAdventureRange( name, unitCost, false, false, (start + end) / 2.0f );
 		addAdventureRange( name, unitCost, true, false, gainSum1 / count );

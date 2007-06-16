@@ -43,10 +43,10 @@ public class TrapperRequest extends KoLRequest
 		super( "trapper.php" );
 
 		this.quantity = quantity;
-		addFormField( "action", "Yep." );
-		addFormField( "pwd" );
-		addFormField( "whichitem", String.valueOf( itemId ) );
-		addFormField( "qty", String.valueOf( quantity ) );
+		this.addFormField( "action", "Yep." );
+		this.addFormField( "pwd" );
+		this.addFormField( "whichitem", String.valueOf( itemId ) );
+		this.addFormField( "qty", String.valueOf( quantity ) );
 	}
 
 	public TrapperRequest( int itemId )
@@ -62,7 +62,7 @@ public class TrapperRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( quantity == 0 )
+		if ( this.quantity == 0 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You do not have any furs." );
 			return;
@@ -74,7 +74,7 @@ public class TrapperRequest extends KoLRequest
 
 	public void processResults()
 	{
-		StaticEntity.getClient().processResult( YETI_FUR.getInstance( 0 - quantity ) );
+		StaticEntity.getClient().processResult( YETI_FUR.getInstance( 0 - this.quantity ) );
 		KoLmafia.updateDisplay( "Trapper has been looted." );
 	}
 }

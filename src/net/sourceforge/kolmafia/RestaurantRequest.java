@@ -62,7 +62,7 @@ public class RestaurantRequest extends KoLRequest
 	public RestaurantRequest( String name )
 	{
 		super( "restaurant.php" );
-		addFormField( "action", "Yep." );
+		this.addFormField( "action", "Yep." );
 
 		this.isPurchase = true;
 
@@ -73,26 +73,26 @@ public class RestaurantRequest extends KoLRequest
 		{
 		case 0:
 			itemId = -1;
-			price = 50;
+			this.price = 50;
 			break;
 
 		case 1:
 			itemId = -2;
-			price = 75;
+			this.price = 75;
 			break;
 
 		case 2:
 			itemId = -3;
-			price = 100;
+			this.price = 100;
 			break;
 
 		case 3:
 			itemId = TradeableItemDatabase.getItemId( name );
-			price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
+			this.price = Math.max( 1, TradeableItemDatabase.getPriceById( itemId ) ) * 3;
 			break;
 		}
 
-		addFormField( "whichitem", String.valueOf( itemId ) );
+		this.addFormField( "whichitem", String.valueOf( itemId ) );
 	}
 
 	public void run()
@@ -103,15 +103,15 @@ public class RestaurantRequest extends KoLRequest
 			return;
 		}
 
-		if ( isPurchase )
+		if ( this.isPurchase )
 		{
-			if ( price == 0 )
+			if ( this.price == 0 )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "The restaurant doesn't sell that." );
 				return;
 			}
 
-			if ( price > KoLCharacter.getAvailableMeat() )
+			if ( this.price > KoLCharacter.getAvailableMeat() )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds." );
 				return;
@@ -130,26 +130,24 @@ public class RestaurantRequest extends KoLRequest
 
 	public void processResults()
 	{
-		if ( isPurchase )
+		if ( this.isPurchase )
 		{
-			if ( responseText.indexOf( "You are too full to eat that." ) != -1 )
+			if ( this.responseText.indexOf( "You are too full to eat that." ) != -1 )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Consumption limit reached." );
 				return;
 			}
 
-			if ( responseText.indexOf( "You can't afford that item.") != -1 )
+			if ( this.responseText.indexOf( "You can't afford that item.") != -1 )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds." );
 				return;
 			}
 
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.price ) );
 			KoLmafia.updateDisplay( "Food purchased." );
 			return;
 		}
-
-		int lastMatchIndex = 0;
 
 		restaurantItems.clear();
 
@@ -157,7 +155,7 @@ public class RestaurantRequest extends KoLRequest
 		addRestaurantItem( "Au Jus Gezund Heit", 75 );
 		addRestaurantItem( "Bouillabaise Coucher Avec Moi", 100 );
 
-		Matcher specialMatcher = SPECIAL_PATTERN.matcher( responseText );
+		Matcher specialMatcher = SPECIAL_PATTERN.matcher( this.responseText );
 		if ( specialMatcher.find() )
 		{
 			int itemId = StaticEntity.parseInt( specialMatcher.group(1) );

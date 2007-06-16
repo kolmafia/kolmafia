@@ -159,27 +159,27 @@ public class CakeArenaManager extends StaticEntity
 		}
 
 		public int getId()
-		{	return id;
+		{	return this.id;
 		}
 
 		public String getName()
-		{	return name;
+		{	return this.name;
 		}
 
 		public String getRace()
-		{	return race;
+		{	return this.race;
 		}
 
 		public int getWeight()
-		{	return weight;
+		{	return this.weight;
 		}
 
 		public String toString()
-		{	return description;
+		{	return this.description;
 		}
 
 		public boolean equals( Object o )
-		{	return o != null && o instanceof ArenaOpponent && id == ((ArenaOpponent)o).id;
+		{	return o != null && o instanceof ArenaOpponent && this.id == ((ArenaOpponent)o).id;
 		}
 	}
 }

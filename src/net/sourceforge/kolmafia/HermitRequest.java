@@ -76,10 +76,10 @@ public class HermitRequest extends KoLRequest
 		this.itemId = itemId;
 		this.quantity = quantity;
 
-		addFormField( "action", "trade" );
-		addFormField( "quantity", String.valueOf( quantity ) );
-		addFormField( "whichitem", String.valueOf( itemId ) );
-		addFormField( "pwd" );
+		this.addFormField( "action", "trade" );
+		this.addFormField( "quantity", String.valueOf( quantity ) );
+		this.addFormField( "whichitem", String.valueOf( itemId ) );
+		this.addFormField( "pwd" );
 	}
 
 	public static boolean useHermitClover( String location )
@@ -95,7 +95,7 @@ public class HermitRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( itemId > 0 && quantity <= 0 )
+		if ( this.itemId > 0 && this.quantity <= 0 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );
 			return;
@@ -116,22 +116,22 @@ public class HermitRequest extends KoLRequest
 			}
 		}
 
-		if ( getWorthlessItemCount() < quantity )
-			DEFAULT_SHELL.executeLine( "acquire " + quantity + " worthless item" );
+		if ( getWorthlessItemCount() < this.quantity )
+			DEFAULT_SHELL.executeLine( "acquire " + this.quantity + " worthless item" );
 		else if ( getWorthlessItemCount() == 0 )
 			DEFAULT_SHELL.executeLine( "acquire 1 worthless item" );
 
 		if ( getWorthlessItemCount() == 0 )
 			return;
 
-		quantity = Math.min( quantity, getWorthlessItemCount() );
+		this.quantity = Math.min( this.quantity, getWorthlessItemCount() );
 		KoLmafia.updateDisplay( "Robbing the hermit..." );
 		super.run();
 	}
 
 	public void processResults()
 	{
-		if ( !parseHermitTrade( getURLString(), responseText ) )
+		if ( !parseHermitTrade( this.getURLString(), this.responseText ) )
 		{
 			if ( !KoLCharacter.hasItem( PERMIT ) )
 			{
@@ -145,15 +145,15 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
-		if ( itemId == -1 )
+		if ( this.itemId == -1 )
 			return;
 
 		// If you don't have enough Hermit Permits, then retrieve the
 		// number of hermit permits requested.
 
-		if ( responseText.indexOf( "You don't have enough Hermit Permits" ) != -1 )
+		if ( this.responseText.indexOf( "You don't have enough Hermit Permits" ) != -1 )
 		{
-			if ( AdventureDatabase.retrieveItem( PERMIT.getInstance( quantity ) ) )
+			if ( AdventureDatabase.retrieveItem( PERMIT.getInstance( this.quantity ) ) )
 				this.run();
 
 			return;
@@ -161,7 +161,7 @@ public class HermitRequest extends KoLRequest
 
 		// If the item is unavailable, assume he was asking for clover
 
-		if ( responseText.indexOf( "doesn't have that item." ) != -1 )
+		if ( this.responseText.indexOf( "doesn't have that item." ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Today is not a clover day." );
 			return;
@@ -169,7 +169,7 @@ public class HermitRequest extends KoLRequest
 
 		// If you still didn't acquire items, what went wrong?
 
-		if ( responseText.indexOf( "You acquire" ) == -1 )
+		if ( this.responseText.indexOf( "You acquire" ) == -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "The hermit kept his stuff." );
 			return;

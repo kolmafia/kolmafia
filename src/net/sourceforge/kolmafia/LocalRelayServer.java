@@ -34,20 +34,11 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import java.util.ArrayList;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LocalRelayServer implements Runnable
 {
@@ -94,7 +85,7 @@ public class LocalRelayServer implements Runnable
 	public void run()
 	{
 		port = 60080;
-		while ( !openServerSocket() )
+		while ( !this.openServerSocket() )
 		{
 			if ( port <= 60089 )
 				++port;
@@ -108,7 +99,7 @@ public class LocalRelayServer implements Runnable
 		{
 			try
 			{
-				dispatchAgent( serverSocket.accept() );
+				this.dispatchAgent( this.serverSocket.accept() );
 			}
 			catch ( Exception e )
 			{
@@ -120,12 +111,12 @@ public class LocalRelayServer implements Runnable
 			}
 		}
 
-		closeAgents();
+		this.closeAgents();
 
 		try
 		{
-			if ( serverSocket != null )
-				serverSocket.close();
+			if ( this.serverSocket != null )
+				this.serverSocket.close();
 		}
 		catch ( Exception e )
 		{
@@ -134,7 +125,7 @@ public class LocalRelayServer implements Runnable
 			// if it does, the socket closes.
 		}
 
-		serverSocket = null;
+		this.serverSocket = null;
 		relayThread = null;
 	}
 
@@ -142,10 +133,10 @@ public class LocalRelayServer implements Runnable
 	{
 		try
 		{
-			serverSocket = new ServerSocket( port, 25, InetAddress.getByName( "127.0.0.1" ) );
+			this.serverSocket = new ServerSocket( port, 25, InetAddress.getByName( "127.0.0.1" ) );
 
 			while ( agentThreads.size() < INITIAL_THREAD_COUNT )
-				createAgent();
+				this.createAgent();
 
 			return true;
 		}
@@ -179,7 +170,7 @@ public class LocalRelayServer implements Runnable
 			}
 		}
 
-		createAgent();
+		this.createAgent();
 	}
 
 	private synchronized LocalRelayAgent createAgent()

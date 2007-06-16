@@ -44,7 +44,7 @@ public abstract class ThreadedListener implements ActionListener, KeyListener, R
 {
 	public void actionPerformed( ActionEvent e )
 	{
-		if ( !isValidEvent( e ) )
+		if ( !this.isValidEvent( e ) )
 			return;
 
 		this.run();

@@ -38,10 +38,7 @@ import java.awt.Component;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
@@ -52,23 +49,18 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import javax.swing.UIManager.LookAndFeelInfo;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -484,9 +476,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		// Now actually reset the session.
 
-		refreshSession();
+		this.refreshSession();
 		RequestLogger.openSessionLog();
-		resetSession();
+		this.resetSession();
 
 		// If the password hash is non-null, then that means you
 		// might be mid-transition.
@@ -502,7 +494,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( StaticEntity.getGlobalProperty( username, "getBreakfast" ).equals( "true" ) )
 		{
-			getBreakfast( true, StaticEntity.getIntegerProperty( "lastBreakfast" ) != today );
+			this.getBreakfast( true, StaticEntity.getIntegerProperty( "lastBreakfast" ) != today );
 			StaticEntity.setProperty( "lastBreakfast", String.valueOf( today ) );
 		}
 
@@ -581,7 +573,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		SpecialOutfit.createImplicitCheckpoint();
-		castBreakfastSkills( checkSettings, 0 );
+		this.castBreakfastSkills( checkSettings, 0 );
 		SpecialOutfit.restoreImplicitCheckpoint();
 
 		forceContinue();
@@ -589,7 +581,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void castBreakfastSkills( boolean checkSettings, int manaRemaining )
 	{
-		castBreakfastSkills( checkSettings,
+		this.castBreakfastSkills( checkSettings,
 			StaticEntity.getBooleanProperty( "loginRecovery" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") ), manaRemaining );
 	}
 
@@ -620,7 +612,7 @@ public abstract class KoLmafia implements KoLConstants
 				}
 
 				if ( shouldCast )
-					limitExceeded &= getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i], allowRestore, manaRemaining );
+					limitExceeded &= this.getBreakfast( UseSkillRequest.BREAKFAST_SKILLS[i], allowRestore, manaRemaining );
 			}
 		}
 
@@ -819,7 +811,7 @@ public abstract class KoLmafia implements KoLConstants
 		String parsedEffectName = parsedEffect.nextToken().trim();
 		String parsedDuration = parsedEffect.hasMoreTokens() ? parsedEffect.nextToken() : "1";
 
-		return processResult( new AdventureResult( parsedEffectName, StaticEntity.parseInt( parsedDuration ), true ) );
+		return this.processResult( new AdventureResult( parsedEffectName, StaticEntity.parseInt( parsedDuration ), true ) );
 	}
 
 	/**
@@ -863,7 +855,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( result.equals( KoLAdventure.SOCK ) && result.getCount() == 1 )
 				for ( int i = 0; i < KoLAdventure.IMMATERIA.length; ++i )
-					processResult( KoLAdventure.IMMATERIA[i] );
+					this.processResult( KoLAdventure.IMMATERIA[i] );
 
 			AdventureResult.addResultToList( tally, result );
 		}
@@ -1129,7 +1121,7 @@ public abstract class KoLmafia implements KoLConstants
 		// a scroll of drastic healing, then feel free to use it.
 
 		if ( settingName.startsWith( "hp" ) && possibleItems.contains( HPRestoreItemList.SCROLL ) )
-			recoverOnce( HPRestoreItemList.SCROLL, "scroll of drastic healing", (int) desired, false );
+			this.recoverOnce( HPRestoreItemList.SCROLL, "scroll of drastic healing", (int) desired, false );
 
 		for ( int i = 0; i < possibleSkills.size(); ++i )
 		{
@@ -1167,7 +1159,7 @@ public abstract class KoLmafia implements KoLConstants
 					last = current;
 					currentTechniqueName = possibleSkills.get(indexToTry).toString().toLowerCase();
 
-					recoverOnce( possibleSkills.get(indexToTry), currentTechniqueName, (int) desired, false );
+					this.recoverOnce( possibleSkills.get(indexToTry), currentTechniqueName, (int) desired, false );
 					current = ((Number)currentMethod.invoke( null, empty )).floatValue();
 
 					maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
@@ -1196,7 +1188,7 @@ public abstract class KoLmafia implements KoLConstants
 				last = current;
 				currentTechniqueName = possibleItems.get(i).toString().toLowerCase();
 
-				recoverOnce( possibleItems.get(i), currentTechniqueName, (int) desired, false );
+				this.recoverOnce( possibleItems.get(i), currentTechniqueName, (int) desired, false );
 				current = ((Number)currentMethod.invoke( null, empty )).floatValue();
 
 				maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
@@ -1230,7 +1222,7 @@ public abstract class KoLmafia implements KoLConstants
 					last = current;
 					currentTechniqueName = possibleItems.get(indexToTry).toString().toLowerCase();
 
-					recoverOnce( possibleItems.get(indexToTry), currentTechniqueName, (int) desired, true );
+					this.recoverOnce( possibleItems.get(indexToTry), currentTechniqueName, (int) desired, true );
 					current = ((Number)currentMethod.invoke( null, empty )).floatValue();
 
 					maximum = ((Number)maximumMethod.invoke( null, empty )).floatValue();
@@ -1274,14 +1266,14 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public final boolean recoverHP()
-	{	return recoverHP( 0 );
+	{	return this.recoverHP( 0 );
 	}
 
 	public final boolean recoverHP( int recover )
 	{
 		try
 		{
-			return recover( recover, "hpAutoRecovery", "getCurrentHP", "getMaximumHP", HPRestoreItemList.CONFIGURES );
+			return this.recover( recover, "hpAutoRecovery", "getCurrentHP", "getMaximumHP", HPRestoreItemList.CONFIGURES );
 		}
 		catch ( Exception e )
 		{
@@ -1336,7 +1328,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public final boolean recoverMP()
-	{	return recoverMP( 0 );
+	{	return this.recoverMP( 0 );
 	}
 
 	/**
@@ -1348,7 +1340,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			return recover( mpNeeded, "mpAutoRecovery", "getCurrentMP", "getMaximumMP", MPRestoreItemList.CONFIGURES );
+			return this.recover( mpNeeded, "mpAutoRecovery", "getCurrentMP", "getMaximumMP", MPRestoreItemList.CONFIGURES );
 		}
 		catch ( Exception e )
 		{
@@ -1370,7 +1362,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public final boolean processResults( String results )
-	{	return processResults( results, null );
+	{	return this.processResults( results, null );
 	}
 
 	public final boolean processResults( String results, ArrayList data )
@@ -1407,7 +1399,7 @@ public abstract class KoLmafia implements KoLConstants
 				if ( StaticEntity.getBooleanProperty( "logGainMessages" ) )
 					RequestLogger.updateSessionLog( message );
 
-				parseResult( message );
+				this.parseResult( message );
 			}
 
 			damageMatcher = CARBS_PATTERN.matcher( plainTextResult );
@@ -1421,7 +1413,7 @@ public abstract class KoLmafia implements KoLConstants
 				if ( StaticEntity.getBooleanProperty( "logGainMessages" ) )
 					RequestLogger.updateSessionLog( message );
 
-				parseResult( message );
+				this.parseResult( message );
 			}
 		}
 
@@ -1438,7 +1430,7 @@ public abstract class KoLmafia implements KoLConstants
 				if ( StaticEntity.getBooleanProperty( "logGainMessages" ) )
 					RequestLogger.updateSessionLog( message );
 
-				parseResult( message );
+				this.parseResult( message );
 			}
 		}
 
@@ -1468,9 +1460,9 @@ public abstract class KoLmafia implements KoLConstants
 								RequestLogger.updateSessionLog( acquisition + " " + item );
 						}
 
-						lastResult = parseItem( item );
+						lastResult = this.parseItem( item );
 						if ( data == null )
-							processResult( lastResult );
+							this.processResult( lastResult );
 						else
 							AdventureResult.addResultToList( data, lastResult );
 					}
@@ -1498,9 +1490,9 @@ public abstract class KoLmafia implements KoLConstants
 						if ( StaticEntity.getBooleanProperty( "logAcquiredItems" ) )
 							RequestLogger.updateSessionLog( acquisition + " " + item );
 
-						lastResult = parseItem( itemName + " (" + countString + ")" );
+						lastResult = this.parseItem( itemName + " (" + countString + ")" );
 						if ( data == null )
-							processResult( lastResult );
+							this.processResult( lastResult );
 						else
 							AdventureResult.addResultToList( data, lastResult );
 					}
@@ -1517,12 +1509,12 @@ public abstract class KoLmafia implements KoLConstants
 
 					if ( lastToken.indexOf( "duration" ) == -1 )
 					{
-						parseEffect( effectName );
+						this.parseEffect( effectName );
 					}
 					else
 					{
 						String duration = lastToken.substring( 11, lastToken.length() - 11 ).trim();
-						requiresRefresh |= parseEffect( effectName + " (" + duration + ")" );
+						requiresRefresh |= this.parseEffect( effectName + " (" + duration + ")" );
 					}
 				}
 			}
@@ -1551,10 +1543,10 @@ public abstract class KoLmafia implements KoLConstants
 
 				if ( !lastToken.startsWith( "You gain a" ) && !lastToken.startsWith( "You gain some" ) )
 				{
-					lastResult = parseResult( lastToken );
+					lastResult = this.parseResult( lastToken );
 					if ( data == null )
 					{
-						processResult( lastResult );
+						this.processResult( lastResult );
 						if ( lastResult.getName().equals( AdventureResult.SUBSTATS ) )
 						{
 							if ( StaticEntity.getBooleanProperty( "logStatGains" ) )
@@ -1578,7 +1570,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void makeRequest( Runnable request )
-	{	makeRequest( request, 1 );
+	{	this.makeRequest( request, 1 );
 	}
 
 	/**
@@ -1617,7 +1609,7 @@ public abstract class KoLmafia implements KoLConstants
 					return;
 
 				if ( !(adventure.getRequest() instanceof CampgroundRequest) && KoLCharacter.getCurrentHP() == 0 )
-					recoverHP();
+					this.recoverHP();
 
 				if ( !KoLmafia.permitsContinue() )
 					return;
@@ -1632,13 +1624,13 @@ public abstract class KoLmafia implements KoLConstants
 			// been manipulated internally by
 
 			RequestThread.openRequestSequence();
-			executeRequest( request, iterations, wasAdventuring );
+			this.executeRequest( request, iterations, wasAdventuring );
 			RequestThread.closeRequestSequence();
 
 			if ( request instanceof KoLAdventure && !wasAdventuring )
 			{
 				isAdventuring = false;
-				runBetweenBattleChecks( false );
+				this.runBetweenBattleChecks( false );
 				SpecialOutfit.restoreImplicitCheckpoint();
 			}
 		}
@@ -1748,7 +1740,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( request instanceof KoLAdventure )
 			{
-				if ( hadConditions && handleConditions( items, creatables, hadNonMonsterConditions ) )
+				if ( hadConditions && this.handleConditions( items, creatables, hadNonMonsterConditions ) )
 				{
 					conditions.clear();
 					updateDisplay( PENDING_STATE, "Conditions satisfied after " + (currentIteration - 1) +
@@ -2085,7 +2077,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( turnCount == null )
 			return;
 
-		makeRequest( new CampgroundRequest( "rest" ), StaticEntity.parseInt( turnCount ) );
+		this.makeRequest( new CampgroundRequest( "rest" ), StaticEntity.parseInt( turnCount ) );
 	}
 
 	public void makeCampgroundRelaxRequest()
@@ -2094,7 +2086,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( turnCount == null )
 			return;
 
-		makeRequest( new CampgroundRequest( "relax" ), StaticEntity.parseInt( turnCount ) );
+		this.makeRequest( new CampgroundRequest( "relax" ), StaticEntity.parseInt( turnCount ) );
 	}
 
 	public void makeClanSofaRequest()
@@ -2299,7 +2291,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			updateDisplay( "Giving up " + neededCount + " " + item.getName() + "s..." );
 			RequestThread.postRequest( request.constructURLString( "town_right.php?place=gourd&action=gourd" ) );
-			processResult( item.getInstance( 0 - neededCount++ ) );
+			this.processResult( item.getInstance( 0 - neededCount++ ) );
 		}
 
 		int totalProvided = 0;
@@ -2310,7 +2302,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void unlockGuildStore()
-	{	unlockGuildStore( false );
+	{	this.unlockGuildStore( false );
 	}
 
 	public void unlockGuildStore( boolean stopAtPaco )
@@ -2622,7 +2614,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void makePurchases( List results, int count )
-	{	makePurchases( results, results.toArray(), count );
+	{	this.makePurchases( results, results.toArray(), count );
 	}
 
 	/**
@@ -2714,7 +2706,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( adventureName == null )
 			return;
 
-		recognizeEncounter( adventureName );
+		this.recognizeEncounter( adventureName );
 		RegisteredEncounter previousAdventure = (RegisteredEncounter) adventureList.lastElement();
 
 		if ( previousAdventure != null && previousAdventure.name.equals( adventureName ) )
@@ -2752,7 +2744,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void registerEncounter( String encounterName, String encounterType )
 	{
 		encounterName = encounterName.trim();
-		recognizeEncounter( encounterName );
+		this.recognizeEncounter( encounterName );
 
 		RegisteredEncounter [] encounters = new RegisteredEncounter[ encounterList.size() ];
 		encounterList.toArray( encounters );
@@ -2770,9 +2762,9 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		if ( encounterName.equalsIgnoreCase( "Cheetahs Never Lose" ) && KoLCharacter.hasItem( CATNIP ) )
-			processResult( CATNIP.getNegation() );
+			this.processResult( CATNIP.getNegation() );
 		if ( encounterName.equalsIgnoreCase( "Summer Holiday" ) && KoLCharacter.hasItem( GLIDER ) )
-			processResult( GLIDER.getNegation() );
+			this.processResult( GLIDER.getNegation() );
 
 		encounterList.add( new RegisteredEncounter( encounterType, encounterName ) );
 	}
@@ -2790,11 +2782,11 @@ public abstract class KoLmafia implements KoLConstants
 			this.name = name;
 
 			this.stringform = type == null ? name : type + ": " + name;
-			encounterCount = 1;
+			this.encounterCount = 1;
 		}
 
 		public String toString()
-		{	return "<html>" + stringform + " (" + encounterCount + ")</html>";
+		{	return "<html>" + this.stringform + " (" + this.encounterCount + ")</html>";
 		}
 
 		public int compareTo( Object o )
@@ -2802,10 +2794,10 @@ public abstract class KoLmafia implements KoLConstants
 			if ( !(o instanceof RegisteredEncounter) || o == null )
 				return -1;
 
-			if ( type == null || ((RegisteredEncounter)o).type == null || type.equals( ((RegisteredEncounter)o).type ) )
-				return name.compareToIgnoreCase( ((RegisteredEncounter)o).name );
+			if ( this.type == null || ((RegisteredEncounter)o).type == null || this.type.equals( ((RegisteredEncounter)o).type ) )
+				return this.name.compareToIgnoreCase( ((RegisteredEncounter)o).name );
 
-			return type.equals( "Combat" ) ? 1 : -1;
+			return this.type.equals( "Combat" ) ? 1 : -1;
 		}
 	}
 
@@ -2943,7 +2935,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void runBetweenBattleChecks( boolean isFullCheck )
-	{	runBetweenBattleChecks( isFullCheck, isFullCheck, isFullCheck, isFullCheck );
+	{	this.runBetweenBattleChecks( isFullCheck, isFullCheck, isFullCheck, isFullCheck );
 	}
 
 	public void runBetweenBattleChecks( boolean isScriptCheck, boolean isMoodCheck, boolean isHealthCheck, boolean isManaCheck )
@@ -2979,13 +2971,13 @@ public abstract class KoLmafia implements KoLConstants
 			MoodSettings.execute();
 
 		if ( isHealthCheck )
-			recoverHP();
+			this.recoverHP();
 
 		if ( isMoodCheck )
 			MoodSettings.burnExtraMana( false );
 
 		if ( isManaCheck )
-			recoverMP();
+			this.recoverMP();
 
 		recoveryActive = false;
 		SpecialOutfit.restoreImplicitCheckpoint();
@@ -3021,7 +3013,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void openRelayBrowser()
 	{
-		startRelayServer();
+		this.startRelayServer();
 
 		// Even after the wait, sometimes, the
 		// worker threads have not been filled.
@@ -3107,7 +3099,7 @@ public abstract class KoLmafia implements KoLConstants
 		// are marked by an autosell value of nonzero.
 
 		RequestThread.openRequestSequence();
-		makeJunkRemovalRequest();
+		this.makeJunkRemovalRequest();
 
 		// Only place items in the mall which are not
 		// sold in NPC stores and can be autosold.
@@ -3146,7 +3138,7 @@ public abstract class KoLmafia implements KoLConstants
 		// to remove from the store due to pricing issues.
 
 		if ( permitsContinue() )
-			priceItemsAtLowestPrice();
+			this.priceItemsAtLowestPrice();
 
 		updateDisplay( "Undercutting sale complete." );
 		RequestThread.closeRequestSequence();
@@ -3300,8 +3292,8 @@ public abstract class KoLmafia implements KoLConstants
 			((FamiliarData)familiars.get(i)).setItem( EquipmentRequest.UNEQUIP );
 
 		conditions.clear();
-		refreshSession();
-		resetSession();
+		this.refreshSession();
+		this.resetSession();
 		enableDisplay();
 
 		MoodSettings.setMood( "apathetic" );

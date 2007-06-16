@@ -38,12 +38,9 @@ import java.io.File;
 import java.io.InputStream;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class KoLDatabase extends StaticEntity
@@ -247,14 +244,14 @@ public class KoLDatabase extends StaticEntity
 		{
 			ItemCounter ic = (ItemCounter) o;
 
-			if ( count != ic.count )
-				return ic.count - count;
+			if ( this.count != ic.count )
+				return ic.count - this.count;
 
-			return name.compareToIgnoreCase( ic.name );
+			return this.name.compareToIgnoreCase( ic.name );
 		}
 
 		public String toString()
-		{	return name + ": " + count;
+		{	return this.name + ": " + this.count;
 		}
 	}
 
@@ -266,7 +263,6 @@ public class KoLDatabase extends StaticEntity
 		Object [] itemArray = new Object[ items.size() ];
 		items.toArray( itemArray );
 
-		int maximumCount = 0;
 		int currentCount = 1;
 
 		ArrayList itemList = new ArrayList();
@@ -311,8 +307,6 @@ public class KoLDatabase extends StaticEntity
 	public static final long calculateTotal( List values )
 	{
 		long total = 0;
-		String currentValue;
-
 		for ( int i = 0; i < values.size(); ++i )
 		{
 			if ( values.get(i) != null )
@@ -343,15 +337,15 @@ public class KoLDatabase extends StaticEntity
 		private ArrayList internalList = new ArrayList();
 
 		public boolean get( int index )
-		{	return index < 0 || index >= internalList.size() ? false : ((Boolean)internalList.get( index )).booleanValue();
+		{	return index < 0 || index >= this.internalList.size() ? false : ((Boolean)this.internalList.get( index )).booleanValue();
 		}
 
 		public void set( int index, boolean value )
 		{
-			while ( index >= internalList.size() )
-				internalList.add( Boolean.FALSE );
+			while ( index >= this.internalList.size() )
+				this.internalList.add( Boolean.FALSE );
 
-			internalList.set( index, value ? Boolean.TRUE : Boolean.FALSE );
+			this.internalList.set( index, value ? Boolean.TRUE : Boolean.FALSE );
 		}
 	}
 
@@ -367,15 +361,15 @@ public class KoLDatabase extends StaticEntity
 		private ArrayList internalList = new ArrayList();
 
 		public int get( int index )
-		{	return index < 0 || index >= internalList.size() ? 0 : ((Integer)internalList.get( index )).intValue();
+		{	return index < 0 || index >= this.internalList.size() ? 0 : ((Integer)this.internalList.get( index )).intValue();
 		}
 
 		public void set( int index, int value )
 		{
-			while ( index >= internalList.size() )
-				internalList.add( new Integer(0) );
+			while ( index >= this.internalList.size() )
+				this.internalList.add( new Integer(0) );
 
-			internalList.set( index, new Integer( value ) );
+			this.internalList.set( index, new Integer( value ) );
 		}
 	}
 
@@ -391,34 +385,34 @@ public class KoLDatabase extends StaticEntity
 		private ArrayList internalList = new ArrayList();
 
 		public String get( int index )
-		{	return index < 0 || index >= internalList.size() ? null : (String) internalList.get( index );
+		{	return index < 0 || index >= this.internalList.size() ? null : (String) this.internalList.get( index );
 		}
 
 		public void set( int index, String value )
 		{
-			while ( index >= internalList.size() )
-				internalList.add( "" );
+			while ( index >= this.internalList.size() )
+				this.internalList.add( "" );
 
-			internalList.set( index, value );
+			this.internalList.set( index, value );
 		}
 
 		public void add( String s )
-		{	internalList.add( s );
+		{	this.internalList.add( s );
 		}
 
 		public void clear()
-		{	internalList.clear();
+		{	this.internalList.clear();
 		}
 
 		public String [] toArray()
 		{
-			String [] array = new String[ internalList.size() ];
-			internalList.toArray( array );
+			String [] array = new String[ this.internalList.size() ];
+			this.internalList.toArray( array );
 			return array;
 		}
 
 		public int size()
-		{	return internalList.size();
+		{	return this.internalList.size();
 		}
 	}
 }

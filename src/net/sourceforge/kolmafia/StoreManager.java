@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.Vector;
@@ -296,7 +295,7 @@ public abstract class StoreManager extends StaticEntity
 		}
 
 		public String toString()
-		{	return stringForm;
+		{	return this.stringForm;
 		}
 
 		public int compareTo( Object o )
@@ -307,11 +306,11 @@ public abstract class StoreManager extends StaticEntity
 			switch ( currentLogSort )
 			{
 			case RECENT_FIRST:
-				return ((StoreLogEntry)o).id - id;
+				return ((StoreLogEntry)o).id - this.id;
 			case OLDEST_FIRST:
-				return id - ((StoreLogEntry)o).id;
+				return this.id - ((StoreLogEntry)o).id;
 			case GROUP_BY_NAME:
-				return text.compareToIgnoreCase( ((StoreLogEntry)o).text );
+				return this.text.compareToIgnoreCase( ((StoreLogEntry)o).text );
 			default:
 				return -1;
 			}
@@ -396,7 +395,7 @@ public abstract class StoreManager extends StaticEntity
 			this.limit = limit;
 			this.lowest = lowest;
 
-			super.add( itemName );
+			super.add( this.itemName );
 			super.add( new Integer( price ) );
 			super.add( new Integer( lowest ) );
 			super.add( new Integer( quantity ) );
@@ -404,31 +403,31 @@ public abstract class StoreManager extends StaticEntity
 		}
 
 		public int getItemId()
-		{	return itemId;
+		{	return this.itemId;
 		}
 
 		public String getItemName()
-		{	return itemName;
+		{	return this.itemName;
 		}
 
 		public int getQuantity()
-		{	return quantity;
+		{	return this.quantity;
 		}
 
 		public int getPrice()
-		{	return price;
+		{	return this.price;
 		}
 
 		public int getLimit()
-		{	return limit;
+		{	return this.limit;
 		}
 
 		public int getLowest()
-		{	return lowest;
+		{	return this.lowest;
 		}
 
 		public boolean equals( Object o )
-		{	return o != null && o instanceof SoldItem && ((SoldItem)o).itemId == itemId;
+		{	return o != null && o instanceof SoldItem && ((SoldItem)o).itemId == this.itemId;
 		}
 
 		public int compareTo( Object o )
@@ -436,35 +435,35 @@ public abstract class StoreManager extends StaticEntity
 			if ( o == null || !(o instanceof SoldItem) )
 				return -1;
 
-			if ( price != 999999999 && ((SoldItem)o).price == 999999999 )
+			if ( this.price != 999999999 && ((SoldItem)o).price == 999999999 )
 				return -1;
 
-			if ( price == 999999999 && ((SoldItem)o).price != 999999999 )
+			if ( this.price == 999999999 && ((SoldItem)o).price != 999999999 )
 				return 1;
 
-			if ( price == 999999999 && ((SoldItem)o).price == 999999999 )
-				return itemName.compareToIgnoreCase( ((SoldItem)o).itemName );
+			if ( this.price == 999999999 && ((SoldItem)o).price == 999999999 )
+				return this.itemName.compareToIgnoreCase( ((SoldItem)o).itemName );
 
-			return sortItemsByName ? itemName.compareToIgnoreCase( ((SoldItem)o).itemName ) : price - ((SoldItem)o).price;
+			return sortItemsByName ? this.itemName.compareToIgnoreCase( ((SoldItem)o).itemName ) : this.price - ((SoldItem)o).price;
 		}
 
 		public String toString()
 		{
 			StringBuffer buffer = new StringBuffer();
 
-			buffer.append( TradeableItemDatabase.getItemName( itemId ) );
+			buffer.append( TradeableItemDatabase.getItemName( this.itemId ) );
 			buffer.append( " (" );
 
-			buffer.append( COMMA_FORMAT.format( quantity ) );
+			buffer.append( COMMA_FORMAT.format( this.quantity ) );
 
-			if ( limit < quantity )
+			if ( this.limit < this.quantity )
 			{
 				buffer.append( " limit " );
-				buffer.append( COMMA_FORMAT.format( limit ) );
+				buffer.append( COMMA_FORMAT.format( this.limit ) );
 			}
 
 			buffer.append( " @ " );
-			buffer.append( COMMA_FORMAT.format( price ) );
+			buffer.append( COMMA_FORMAT.format( this.price ) );
 			buffer.append( ")" );
 
 			return buffer.toString();

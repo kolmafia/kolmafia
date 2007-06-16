@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
@@ -46,9 +45,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public abstract class LabeledKoLPanel extends KoLPanel
 {
 	private String panelTitle;
-	private JPanel actionStatusPanel;
-	private JLabel actionStatusLabel;
-
 	public LabeledKoLPanel( String panelTitle, Dimension left, Dimension right )
 	{
 		super( left, right, panelTitle != null && !panelTitle.equals( "" ) );
@@ -71,8 +67,8 @@ public abstract class LabeledKoLPanel extends KoLPanel
 	{
 		super.setContent( elements, mainPanel, eastPanel, bothDisabledOnClick );
 
-		if ( panelTitle != null && !panelTitle.equals( "" ) )
-			add( JComponentUtilities.createLabel( panelTitle, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+		if ( this.panelTitle != null && !this.panelTitle.equals( "" ) )
+			this.add( JComponentUtilities.createLabel( this.panelTitle, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 	}
 
 	public void actionCancelled()

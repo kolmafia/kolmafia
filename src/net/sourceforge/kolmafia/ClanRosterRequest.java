@@ -50,7 +50,7 @@ public class ClanRosterRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Retrieving detailed roster..." );
 		super.run();
 
-		Matcher rowMatcher = ROW_PATTERN.matcher( responseText.substring( responseText.lastIndexOf( "clan_detailedroster.php" ) ) );
+		Matcher rowMatcher = ROW_PATTERN.matcher( this.responseText.substring( this.responseText.lastIndexOf( "clan_detailedroster.php" ) ) );
 
 		String currentRow;
 		String currentName;

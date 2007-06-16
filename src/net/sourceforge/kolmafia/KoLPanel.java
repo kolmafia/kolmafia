@@ -137,7 +137,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	}
 
 	public void setContent( VerifiableElement [] elements, boolean bothDisabledOnClick )
-	{	setContent( elements, null, null, bothDisabledOnClick );
+	{	this.setContent( elements, null, null, bothDisabledOnClick );
 	}
 
 	public void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean bothDisabledOnClick )
@@ -149,53 +149,53 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 		this.elements = elements;
 
-		addListeners();
-		addStatusLabel();
+		this.addListeners();
+		this.addStatusLabel();
 	}
 
 	public void addListeners()
 	{
-		if ( elements == null )
+		if ( this.elements == null )
 			return;
 
 		ActionConfirmListener listener = new ActionConfirmListener();
 
-		for ( int i = 0; i < elements.length; ++i )
+		for ( int i = 0; i < this.elements.length; ++i )
 		{
-			if ( elements[i].getInputField() instanceof JTextField )
-				((JTextField)elements[i].getInputField()).addKeyListener( listener );
-			if ( elements[i].getInputField() instanceof JPasswordField )
-				((JPasswordField)elements[i].getInputField()).addKeyListener( listener );
+			if ( this.elements[i].getInputField() instanceof JTextField )
+				((JTextField)this.elements[i].getInputField()).addKeyListener( listener );
+			if ( this.elements[i].getInputField() instanceof JPasswordField )
+				((JPasswordField)this.elements[i].getInputField()).addKeyListener( listener );
 		}
 	}
 
 	public void setEnabled( boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
-		if ( elements == null || elements.length == 0 )
+		if ( this.elements == null || this.elements.length == 0 )
 			return;
 
-		if ( elements[0].getInputField().isEnabled() == isEnabled )
+		if ( this.elements[0].getInputField().isEnabled() == isEnabled )
 			return;
 
-		for ( int i = 0; i < elements.length; ++i )
-			elements[i].getInputField().setEnabled( isEnabled );
+		for ( int i = 0; i < this.elements.length; ++i )
+			this.elements[i].getInputField().setEnabled( isEnabled );
 	}
 
 	public void setStatusMessage( String message )
 	{
-		if ( actionStatusLabel != null )
-			actionStatusLabel.setStatusMessage( message );
+		if ( this.actionStatusLabel != null )
+			this.actionStatusLabel.setStatusMessage( message );
 	}
 
 	public void addStatusLabel()
 	{
-		if ( elements == null )
+		if ( this.elements == null )
 			return;
 
-		boolean shouldAddStatusLabel = elements != null && elements.length != 0;
-		for ( int i = 0; shouldAddStatusLabel && i < elements.length; ++i )
-			shouldAddStatusLabel &= !(elements[i].getInputField() instanceof JScrollPane);
+		boolean shouldAddStatusLabel = this.elements != null && this.elements.length != 0;
+		for ( int i = 0; shouldAddStatusLabel && i < this.elements.length; ++i )
+			shouldAddStatusLabel &= !(this.elements[i].getInputField() instanceof JScrollPane);
 
 		if ( !shouldAddStatusLabel )
 			return;
@@ -203,16 +203,16 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		JPanel statusContainer = new JPanel();
 		statusContainer.setLayout( new BoxLayout( statusContainer, BoxLayout.Y_AXIS ) );
 
-		actionStatusPanel = new JPanel( new BorderLayout() );
-		actionStatusLabel = new StatusLabel();
-		actionStatusPanel.add( actionStatusLabel, BorderLayout.SOUTH );
+		this.actionStatusPanel = new JPanel( new BorderLayout() );
+		this.actionStatusLabel = new StatusLabel();
+		this.actionStatusPanel.add( this.actionStatusLabel, BorderLayout.SOUTH );
 
-		statusContainer.add( actionStatusPanel );
+		statusContainer.add( this.actionStatusPanel );
 		statusContainer.add( Box.createVerticalStrut( 20 ) );
 
-		southContainer = new JPanel( new BorderLayout() );
-		southContainer.add( statusContainer, BorderLayout.NORTH );
-		container.add( southContainer, BorderLayout.SOUTH );
+		this.southContainer = new JPanel( new BorderLayout() );
+		this.southContainer.add( statusContainer, BorderLayout.NORTH );
+		this.container.add( this.southContainer, BorderLayout.SOUTH );
 	}
 
 	private class StatusLabel extends JLabel
@@ -223,7 +223,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 		public void setStatusMessage( String message )
 		{
-			String label = getText();
+			String label = this.getText();
 
 			// If the current text or the string you're using is
 			// null, then do nothing.
@@ -234,7 +234,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			// If the string which you're trying to set is blank,
 			// then you don't have to update the status message.
 
-			setText( message );
+			this.setText( message );
 		}
 	}
 
@@ -251,30 +251,30 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 		public ScriptSelectPanel( JTextField scriptField )
 		{
-			setLayout( new BorderLayout( 0, 0 ) );
+			this.setLayout( new BorderLayout( 0, 0 ) );
 
-			add( scriptField, BorderLayout.CENTER );
-			scriptButton = new JButton( "..." );
+			this.add( scriptField, BorderLayout.CENTER );
+			this.scriptButton = new JButton( "..." );
 
-			JComponentUtilities.setComponentSize( scriptButton, 20, 20 );
-			scriptButton.addActionListener( this );
-			add( scriptButton, BorderLayout.EAST );
+			JComponentUtilities.setComponentSize( this.scriptButton, 20, 20 );
+			this.scriptButton.addActionListener( this );
+			this.add( this.scriptButton, BorderLayout.EAST );
 
 			this.scriptField = scriptField;
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
-			scriptField.setEnabled( isEnabled );
-			scriptButton.setEnabled( isEnabled );
+			this.scriptField.setEnabled( isEnabled );
+			this.scriptButton.setEnabled( isEnabled );
 		}
 
 		public String getText()
-		{	return scriptField.getText();
+		{	return this.scriptField.getText();
 		}
 
 		public void setText( String text )
-		{	scriptField.setText( text );
+		{	this.scriptField.setText( text );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -289,8 +289,8 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			if ( chooser.getSelectedFile() == null )
 				return;
 
-			scriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
-			actionConfirmed();
+			this.scriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
+			KoLPanel.this.actionConfirmed();
 		}
 	}
 
@@ -299,7 +299,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		public void keyReleased( KeyEvent e )
 		{
 			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-				actionConfirmed();
+				KoLPanel.this.actionConfirmed();
 		}
 	}
 }

@@ -125,12 +125,6 @@ public class VioletFog
 		return tuple == null ? -1 : tuple[0];
 	}
 
-	private static int hopCount( int source, int destination )
-	{
-		int [] tuple = routingTuple( source, destination );
-		return tuple == null ? -1 : tuple[1];
-	}
-
 	static
 	{
 		buildRoutingTable();
@@ -216,44 +210,8 @@ public class VioletFog
 		}
 	}
 
-	private static void printRoutingTable()
-	{
-		PrintStream stream = LogStream.openStream( "VioletFogRoutingTable.html", true );
-		printRoutingTable( stream );
-		stream.close();
-	}
-
-	private static void printRoutingTable( PrintStream stream )
-	{
-		stream.println( "<html><head></head><body>" );
-		stream.println( "<table border cellspacing=0 cellpadding=2 cols=24>" );
-		stream.println( "  <tr>" );
-		stream.println( "    <th rowspan=2 valign=bottom>Source</th>" );
-		stream.println( "    <th colspan=23>Destination</th>" );
-		stream.println( "  </tr>" );
-		stream.println( "  <tr valign=top>" );
-		for ( int destination = FIRST_CHOICE + 1; destination <= LAST_CHOICE; ++destination )
-			stream.println( "    <th>" + destination + "</th>" );
-		stream.println( "  </tr>" );
-		for ( int source = FIRST_CHOICE; source <= LAST_CHOICE; ++source )
-		{
-			stream.println( "  <tr valign=top>" );
-			stream.println( "    <td>" + FogLocationNames[ source - FIRST_CHOICE ] + " (" + source + ")</td>" );
-			for ( int destination = FIRST_CHOICE + 1; destination <= LAST_CHOICE; ++destination )
-			{
-				int tuple[] = routingTuple( source, destination );
-				stream.println( "    <td>" + tuple[0] + "(" + tuple[1] + ")</td>" );
-			}
-			stream.println( "  </tr>" );
-		}
-		stream.println( "</table>" );
-		stream.println( "</body></html>" );
-	}
-
 	// Range of choice numbers with a goal
 	private static final int FIRST_GOAL_LOCATION = 62;
-	private static final int LAST_GOAL_LOCATION = 70;
-
 	public static final String FogGoals [] =
 	{
 		"Escape from the Fog",		// 48-61

@@ -36,17 +36,14 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ToolTipManager;
@@ -79,70 +76,70 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 	{
 		super( "Flower Hunter" );
 
-		tabs.add( "Search", new SearchPanel() );
+		this.tabs.add( "Search", new SearchPanel() );
 
-		attackPanel = new AttackPanel();
-		tabs.add( "Attack", attackPanel );
+		this.attackPanel = new AttackPanel();
+		this.tabs.add( "Attack", this.attackPanel );
 
-		tabs.add( "Profiler", new ClanPanel() );
+		this.tabs.add( "Profiler", new ClanPanel() );
 
-		updateRank();
-		framePanel.setLayout( new BorderLayout() );
-		framePanel.add( tabs, BorderLayout.NORTH );
+		this.updateRank();
+		this.framePanel.setLayout( new BorderLayout() );
+		this.framePanel.add( this.tabs, BorderLayout.NORTH );
 
-		results = new ProfileRequest[0];
+		this.results = new ProfileRequest[0];
 
-		constructTableModel( 0, new String [] { "Name", "Clan", "Class", "Level", "Rank" } );
-		constructTableModel( 1, new String [] { "Name", "Class", "Path", "Level", "Rank", "Drink", "Fashion", "Turns", "Login" } );
+		this.constructTableModel( 0, new String [] { "Name", "Clan", "Class", "Level", "Rank" } );
+		this.constructTableModel( 1, new String [] { "Name", "Class", "Path", "Level", "Rank", "Drink", "Fashion", "Turns", "Login" } );
 
 		SimpleScrollPane [] resultsScroller = new SimpleScrollPane[2];
-		resultsScroller[0] = new SimpleScrollPane( resultsTable[0] );
-		resultsScroller[1] = new SimpleScrollPane( resultsTable[1] );
+		resultsScroller[0] = new SimpleScrollPane( this.resultsTable[0] );
+		resultsScroller[1] = new SimpleScrollPane( this.resultsTable[1] );
 
-		resultCards = new CardLayout();
-		resultCardPanel = new JPanel( resultCards );
-		resultCardPanel.add( resultsScroller[0], "0" );
-		resultCardPanel.add( resultsScroller[1], "1" );
+		this.resultCards = new CardLayout();
+		this.resultCardPanel = new JPanel( this.resultCards );
+		this.resultCardPanel.add( resultsScroller[0], "0" );
+		this.resultCardPanel.add( resultsScroller[1], "1" );
 
-		framePanel.add( resultCardPanel, BorderLayout.CENTER );
+		this.framePanel.add( this.resultCardPanel, BorderLayout.CENTER );
 
 		this.isSimple = true;
-		resultCards.show( resultCardPanel, "0" );
+		this.resultCards.show( this.resultCardPanel, "0" );
 
-		ToolTipManager.sharedInstance().unregisterComponent( resultsTable[0] );
-		ToolTipManager.sharedInstance().unregisterComponent( resultsTable[1] );
+		ToolTipManager.sharedInstance().unregisterComponent( this.resultsTable[0] );
+		ToolTipManager.sharedInstance().unregisterComponent( this.resultsTable[1] );
 	}
 
 	private void constructTableModel( int index, String [] headers )
 	{
-		resultsModel[ index ] = new SearchResultsTableModel( headers );
+		this.resultsModel[ index ] = new SearchResultsTableModel( headers );
 
-		if ( resultsTable[ index ] == null )
-			resultsTable[ index ] = new SearchResultsTable( resultsModel[ index ] );
+		if ( this.resultsTable[ index ] == null )
+			this.resultsTable[ index ] = new SearchResultsTable( this.resultsModel[ index ] );
 		else
-			resultsTable[ index ].setModel( resultsModel[ index ] );
+			this.resultsTable[ index ].setModel( this.resultsModel[ index ] );
 
-		sortedModel[ index ] = new TableSorter( resultsModel[ index ], resultsTable[ index ].getTableHeader() );
-		resultsTable[ index ].setModel( sortedModel[ index ] );
-		resultsTable[ index ].getSelectionModel().addListSelectionListener( this );
-		resultsTable[ index ].setPreferredScrollableViewportSize(
-			new Dimension( (int) resultsTable[ index ].getPreferredScrollableViewportSize().getWidth(), 200 ) );
+		this.sortedModel[ index ] = new TableSorter( this.resultsModel[ index ], this.resultsTable[ index ].getTableHeader() );
+		this.resultsTable[ index ].setModel( this.sortedModel[ index ] );
+		this.resultsTable[ index ].getSelectionModel().addListSelectionListener( this );
+		this.resultsTable[ index ].setPreferredScrollableViewportSize(
+			new Dimension( (int) this.resultsTable[ index ].getPreferredScrollableViewportSize().getWidth(), 200 ) );
 	}
 
 	public void valueChanged( ListSelectionEvent e )
 	{
-		JTable table = resultsTable[ isSimple ? 0 : 1 ];
+		JTable table = this.resultsTable[ this.isSimple ? 0 : 1 ];
 		int selectedIndex = table.getSelectionModel().isSelectionEmpty() ? 0 : 1;
 
-		tabs.setSelectedIndex( selectedIndex );
+		this.tabs.setSelectedIndex( selectedIndex );
 
 		if ( selectedIndex == 1 )
 		{
 			int opponentCount = table.getSelectedRowCount();
 			if ( opponentCount == 1 )
-				attackPanel.setStatusMessage( "1 opponent selected." );
+				this.attackPanel.setStatusMessage( "1 opponent selected." );
 			else
-				attackPanel.setStatusMessage( opponentCount + " opponents selected." );
+				this.attackPanel.setStatusMessage( opponentCount + " opponents selected." );
 		}
 	}
 
@@ -151,7 +148,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		JPanel rankPanel = new JPanel( new BorderLayout() );
 		JLabel rankLabel = new JLabel( " ", JLabel.CENTER );
 
-		rankLabels.add( rankLabel );
+		this.rankLabels.add( rankLabel );
 		rankPanel.add( rankLabel, BorderLayout.SOUTH );
 		return rankPanel;
 	}
@@ -169,7 +166,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			rankLabels[i].setText( "<html><center>Rank " + KoLCharacter.getPvpRank() + "<br>Fashion " + equipmentPower +
 				"<br>Attacks " + KoLCharacter.getAttacksLeft() + "</center></html>" );
 
-		rankEntry.setText( String.valueOf( Math.max( 10,
+		this.rankEntry.setText( String.valueOf( Math.max( 10,
 			KoLCharacter.getPvpRank() - 50 + Math.min( 11, KoLCharacter.getAttacksLeft() ) ) ) );
 	}
 
@@ -182,42 +179,42 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		{
 			super( "search", "flowers" );
 
-			levelEntry = new JTextField();
-			rankEntry = new JTextField();
-			limitEntry = new JTextField();
+			this.levelEntry = new JTextField();
+			FlowerHunterFrame.this.rankEntry = new JTextField();
+			this.limitEntry = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Player Level: ", levelEntry );
-			elements[1] = new VerifiableElement( "Max Rank: ", rankEntry );
-			elements[2] = new VerifiableElement( "Max Results: ", limitEntry );
+			elements[0] = new VerifiableElement( "Player Level: ", this.levelEntry );
+			elements[1] = new VerifiableElement( "Max Rank: ", FlowerHunterFrame.this.rankEntry );
+			elements[2] = new VerifiableElement( "Max Results: ", this.limitEntry );
 
-			setContent( elements, null, getRankLabel(), true );
+			this.setContent( elements, null, FlowerHunterFrame.this.getRankLabel(), true );
 		}
 
 		public void actionConfirmed()
 		{
 			int index = 0;
-			int resultLimit = getValue( limitEntry, 100 );
+			int resultLimit = getValue( this.limitEntry, 100 );
 
-			resultCards.show( resultCardPanel, String.valueOf( index ) );
+			FlowerHunterFrame.this.resultCards.show( FlowerHunterFrame.this.resultCardPanel, String.valueOf( index ) );
 			KoLmafia.updateDisplay( "Conducting search..." );
 
-			while ( !resultsModel[ index ].getDataVector().isEmpty() )
+			while ( !FlowerHunterFrame.this.resultsModel[ index ].getDataVector().isEmpty() )
 			{
-				resultsModel[ index ].removeRow( 0 );
-				resultsModel[ index ].fireTableRowsDeleted( 0, 0 );
+				FlowerHunterFrame.this.resultsModel[ index ].removeRow( 0 );
+				FlowerHunterFrame.this.resultsModel[ index ].fireTableRowsDeleted( 0, 0 );
 			}
 
-			FlowerHunterRequest search = new FlowerHunterRequest( levelEntry.getText(), rankEntry.getText() );
+			FlowerHunterRequest search = new FlowerHunterRequest( this.levelEntry.getText(), FlowerHunterFrame.this.rankEntry.getText() );
 			RequestThread.postRequest( search );
 
-			results = new ProfileRequest[ search.getSearchResults().size() ];
-			search.getSearchResults().toArray( results );
+			FlowerHunterFrame.this.results = new ProfileRequest[ search.getSearchResults().size() ];
+			search.getSearchResults().toArray( FlowerHunterFrame.this.results );
 
-			for ( int i = 0; i < resultLimit && i < results.length && KoLmafia.permitsContinue(); ++i )
+			for ( int i = 0; i < resultLimit && i < FlowerHunterFrame.this.results.length && KoLmafia.permitsContinue(); ++i )
 			{
-				resultsModel[ index ].addRow( getRow( results[i] ) );
-				resultsModel[ index ].fireTableRowsInserted( i - 1, i - 1 );
+				FlowerHunterFrame.this.resultsModel[ index ].addRow( this.getRow( FlowerHunterFrame.this.results[i] ) );
+				FlowerHunterFrame.this.resultsModel[ index ].fireTableRowsInserted( i - 1, i - 1 );
 			}
 
 			KoLmafia.updateDisplay( "Search completed." );
@@ -227,7 +224,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		public void actionCancelled()
 		{
 			DEFAULT_SHELL.executeLine( "flowers" );
-			updateRank();
+			FlowerHunterFrame.this.updateRank();
 		}
 
 		public Object [] getRow( ProfileRequest result )
@@ -245,37 +242,37 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		{
 			super( "profile", true );
 
-			clanId = new JTextField();
+			this.clanId = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Clan Id: ", clanId );
+			elements[0] = new VerifiableElement( "Clan Id: ", this.clanId );
 
-			setContent( elements, null, getRankLabel(), true );
+			this.setContent( elements, null, FlowerHunterFrame.this.getRankLabel(), true );
 		}
 
 		public void actionConfirmed()
 		{
-			isSimple = false;
+			FlowerHunterFrame.this.isSimple = false;
 
-			resultCards.show( resultCardPanel, "1" );
+			FlowerHunterFrame.this.resultCards.show( FlowerHunterFrame.this.resultCardPanel, "1" );
 			KoLmafia.updateDisplay( "Conducting search..." );
 
-			while ( !resultsModel[1].getDataVector().isEmpty() )
+			while ( !FlowerHunterFrame.this.resultsModel[1].getDataVector().isEmpty() )
 			{
-				resultsModel[1].removeRow( 0 );
-				resultsModel[1].fireTableRowsDeleted( 0, 0 );
+				FlowerHunterFrame.this.resultsModel[1].removeRow( 0 );
+				FlowerHunterFrame.this.resultsModel[1].fireTableRowsDeleted( 0, 0 );
 			}
 
-			FlowerHunterRequest search = new FlowerHunterRequest( clanId.getText() );
+			FlowerHunterRequest search = new FlowerHunterRequest( this.clanId.getText() );
 			RequestThread.postRequest( search );
 
-			results = new ProfileRequest[ search.getSearchResults().size() ];
-			search.getSearchResults().toArray( results );
+			FlowerHunterFrame.this.results = new ProfileRequest[ search.getSearchResults().size() ];
+			search.getSearchResults().toArray( FlowerHunterFrame.this.results );
 
-			for ( int i = 0; i < results.length; ++i )
+			for ( int i = 0; i < FlowerHunterFrame.this.results.length; ++i )
 			{
-				resultsModel[1].addRow( getRow( results[i] ) );
-				resultsModel[1].fireTableRowsInserted( i - 1, i - 1 );
+				FlowerHunterFrame.this.resultsModel[1].addRow( this.getRow( FlowerHunterFrame.this.results[i] ) );
+				FlowerHunterFrame.this.resultsModel[1].fireTableRowsInserted( i - 1, i - 1 );
 			}
 
 			KoLmafia.updateDisplay( "Search completed." );
@@ -307,35 +304,35 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		{
 			super( "attack", "profile" );
 
-			winMessage = new JTextField( StaticEntity.getProperty( "defaultFlowerWinMessage" ) );
-			lossMessage = new JTextField( StaticEntity.getProperty( "defaultFlowerLossMessage" ) );
+			this.winMessage = new JTextField( StaticEntity.getProperty( "defaultFlowerWinMessage" ) );
+			this.lossMessage = new JTextField( StaticEntity.getProperty( "defaultFlowerLossMessage" ) );
 
-			stanceSelect = new JComboBox();
-			stanceSelect.addItem( "Bully your opponent" );
-			stanceSelect.addItem( "Burninate your opponent" );
-			stanceSelect.addItem( "Backstab your opponent" );
+			this.stanceSelect = new JComboBox();
+			this.stanceSelect.addItem( "Bully your opponent" );
+			this.stanceSelect.addItem( "Burninate your opponent" );
+			this.stanceSelect.addItem( "Backstab your opponent" );
 
-			victorySelect = new JComboBox();
-			victorySelect.addItem( "Steal a pretty flower" );
-			victorySelect.addItem( "Fight for leaderboard rank" );
+			this.victorySelect = new JComboBox();
+			this.victorySelect.addItem( "Steal a pretty flower" );
+			this.victorySelect.addItem( "Fight for leaderboard rank" );
 
 			if ( KoLCharacter.canInteract() )
-				victorySelect.addItem( "Nab yourself some dignity" );
+				this.victorySelect.addItem( "Nab yourself some dignity" );
 
 			VerifiableElement [] elements = new VerifiableElement[4];
-			elements[0] = new VerifiableElement( "Fight Using: ", stanceSelect );
-			elements[1] = new VerifiableElement( "PvP Objective: ", victorySelect );
-			elements[2] = new VerifiableElement( "Win Message: ", winMessage );
-			elements[3] = new VerifiableElement( "Loss Message: ", lossMessage );
+			elements[0] = new VerifiableElement( "Fight Using: ", this.stanceSelect );
+			elements[1] = new VerifiableElement( "PvP Objective: ", this.victorySelect );
+			elements[2] = new VerifiableElement( "Win Message: ", this.winMessage );
+			elements[3] = new VerifiableElement( "Loss Message: ", this.lossMessage );
 
 			if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
-				stanceSelect.setSelectedIndex( 0 );
+				this.stanceSelect.setSelectedIndex( 0 );
 			else if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
-				stanceSelect.setSelectedIndex( 1 );
+				this.stanceSelect.setSelectedIndex( 1 );
 			else
-				stanceSelect.setSelectedIndex( 2 );
+				this.stanceSelect.setSelectedIndex( 2 );
 
-			setContent( elements, null, getRankLabel(), true );
+			this.setContent( elements, null, FlowerHunterFrame.this.getRankLabel(), true );
 		}
 
 		public void actionConfirmed()
@@ -346,11 +343,11 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				return;
 			}
 
-			ProfileRequest [] selection = getSelection();
+			ProfileRequest [] selection = this.getSelection();
 			Arrays.sort( selection );
 
 			String mission = null;
-			switch ( victorySelect.getSelectedIndex() )
+			switch ( this.victorySelect.getSelectedIndex() )
 			{
 			case 0:
 				mission = "flowers";
@@ -371,35 +368,35 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			RequestThread.postRequest( request );
 
 			request = new FlowerHunterRequest( "",
-				stanceSelect.getSelectedIndex() + 1, mission, winMessage.getText(), lossMessage.getText() );
+				this.stanceSelect.getSelectedIndex() + 1, mission, this.winMessage.getText(), this.lossMessage.getText() );
 
 			KoLmafiaCLI.executeFlowerHuntRequest( selection, request );
-			updateRank();
+			FlowerHunterFrame.this.updateRank();
 
 			if ( KoLmafia.permitsContinue() )
 				KoLmafia.updateDisplay( "Attacks completed." );
 
 			RequestThread.closeRequestSequence();
-			switchToSearch();
+			this.switchToSearch();
 		}
 
 		private void switchToSearch()
 		{
-			int index = isSimple ? 0 : 1;
+			int index = FlowerHunterFrame.this.isSimple ? 0 : 1;
 			boolean shouldSwitch = true;
 
 			int minimumRank = KoLCharacter.getPvpRank() - 50;
 
-			for ( int i = 0; i < results.length; ++i )
-				shouldSwitch &= minimumRank > results[ sortedModel[ index ].modelIndex( i ) ].getPvpRank().intValue();
+			for ( int i = 0; i < FlowerHunterFrame.this.results.length; ++i )
+				shouldSwitch &= minimumRank > FlowerHunterFrame.this.results[ FlowerHunterFrame.this.sortedModel[ index ].modelIndex( i ) ].getPvpRank().intValue();
 
 			if ( shouldSwitch )
-				tabs.setSelectedIndex(0);
+				FlowerHunterFrame.this.tabs.setSelectedIndex(0);
 		}
 
 		public void actionCancelled()
 		{
-			ProfileRequest [] selection = getSelection();
+			ProfileRequest [] selection = this.getSelection();
 			Object [] parameters = new Object[1];
 
 			for ( int i = 0; i < selection.length; ++i )
@@ -411,12 +408,12 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		private ProfileRequest [] getSelection()
 		{
-			int index = isSimple ? 0 : 1;
+			int index = FlowerHunterFrame.this.isSimple ? 0 : 1;
 			Vector selectionVector = new Vector();
 
-			for ( int i = 0; i < results.length; ++i )
-				if ( resultsTable[ index ].getSelectionModel().isSelectedIndex( i ) )
-					selectionVector.add( results[ sortedModel[ index ].modelIndex( i ) ] );
+			for ( int i = 0; i < FlowerHunterFrame.this.results.length; ++i )
+				if ( FlowerHunterFrame.this.resultsTable[ index ].getSelectionModel().isSelectedIndex( i ) )
+					selectionVector.add( FlowerHunterFrame.this.results[ FlowerHunterFrame.this.sortedModel[ index ].modelIndex( i ) ] );
 
 			ProfileRequest [] selection = new ProfileRequest[ selectionVector.size() ];
 			selectionVector.toArray( selection );
@@ -432,7 +429,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		public TableCellRenderer getCellRenderer( int row, int column )
 		{
-			if ( StaticEntity.getProperty( "currentPvpVictories" ).indexOf( (String) getValueAt( row, 0 ) ) != -1 )
+			if ( StaticEntity.getProperty( "currentPvpVictories" ).indexOf( (String) this.getValueAt( row, 0 ) ) != -1 )
 				return DISABLED_ROW_RENDERER;
 
 			return ENABLED_ROW_RENDERER;
@@ -454,7 +451,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		}
 
 		public Class getColumnClass( int c )
-		{	return getRowCount() == 0 || getValueAt( 0, c ) == null ? Object.class : getValueAt( 0, c ).getClass();
+		{	return this.getRowCount() == 0 || this.getValueAt( 0, c ) == null ? Object.class : this.getValueAt( 0, c ).getClass();
 		}
 
 		public boolean isCellEditable( int row, int col )

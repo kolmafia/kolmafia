@@ -78,25 +78,25 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 	{
 		super( "Main Interface" );
 
-		if ( !(tabs instanceof CloseTabbedPane) && StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) )
-			tabs = new CloseTabbedPane();
+		if ( !(this.tabs instanceof CloseTabbedPane) && StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) )
+			this.tabs = new CloseTabbedPane();
 		
 		if ( StaticEntity.getBooleanProperty( "allowCloseableDesktopTabs" ) )
 		{
-			((CloseTabbedPane)tabs).setCloseIcon( true );
-			((CloseTabbedPane)tabs).addCloseListener( this );
+			((CloseTabbedPane)this.tabs).setCloseIcon( true );
+			((CloseTabbedPane)this.tabs).addCloseListener( this );
 		}
 
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		if ( StaticEntity.usesSystemTray() )
-			addWindowListener( new MinimizeListener() );
+			this.addWindowListener( new MinimizeListener() );
 
-		getContentPane().setLayout( new BorderLayout() );
+		this.getContentPane().setLayout( new BorderLayout() );
 
-		tabs.setTabPlacement( CloseTabbedPane.TOP );
-		getContentPane().add( tabs, BorderLayout.CENTER );
-		addCompactPane();
+		this.tabs.setTabPlacement( CloseTabbedPane.TOP );
+		this.getContentPane().add( this.tabs, BorderLayout.CENTER );
+		this.addCompactPane();
 
 		JToolBar toolbarPanel = null;
 
@@ -104,25 +104,25 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		{
 		case 1:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-			getContentPane().add( toolbarPanel, BorderLayout.NORTH );
+			this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 			break;
 
 		case 2:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-			getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
+			this.getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
 			break;
 
 		case 3:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
-			getContentPane().add( toolbarPanel, BorderLayout.WEST );
+			this.getContentPane().add( toolbarPanel, BorderLayout.WEST );
 			break;
 		}
 
-		setJMenuBar( new KoLMenuBar() );
+		this.setJMenuBar( new KoLMenuBar() );
 		if ( toolbarPanel != null )
 			addMainToolbar( toolbarPanel );
 
-		tabs.addChangeListener( this );
+		this.tabs.addChangeListener( this );
 		int scriptButtons = StaticEntity.getIntegerProperty( "scriptButtonPosition" );
 
 		if ( scriptButtons != 0 )
@@ -150,16 +150,16 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 				JPanel scriptBarHolder = new JPanel();
 				scriptBarHolder.add( scriptBar );
 
-				getContentPane().add( scriptBarHolder, BorderLayout.EAST );
+				this.getContentPane().add( scriptBarHolder, BorderLayout.EAST );
 			}
 		}
 	}
 
 	public void stateChanged( ChangeEvent e )
 	{
-		int selectedIndex = tabs.getSelectedIndex();
-		if ( selectedIndex != -1 && selectedIndex < tabListing.size() )
-			((KoLFrame) tabListing.get( selectedIndex )).requestFocus();
+		int selectedIndex = this.tabs.getSelectedIndex();
+		if ( selectedIndex != -1 && selectedIndex < this.tabListing.size() )
+			((KoLFrame) this.tabListing.get( selectedIndex )).requestFocus();
 	}
 
 	public void closeOperation( MouseEvent e, int overTabIndex )
@@ -167,8 +167,8 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 		if ( overTabIndex == -1 )
 			return;
 
-		tabListing.remove( overTabIndex );
-		tabs.removeTabAt( overTabIndex );
+		this.tabListing.remove( overTabIndex );
+		this.tabs.removeTabAt( overTabIndex );
 	}
 
 	public void initializeTabs()
@@ -288,8 +288,8 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 	public void pack()
 	{
 		super.pack();
-		if ( tabs.getTabCount() > 0 )
-			tabs.setSelectedIndex( 0 );
+		if ( this.tabs.getTabCount() > 0 )
+			this.tabs.setSelectedIndex( 0 );
 	}
 
 	public static void removeTab( KoLFrame content )
@@ -400,7 +400,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener, CloseListene
 	private class MinimizeListener extends WindowAdapter
 	{
 		public void windowIconified( WindowEvent e )
-		{	setVisible( false );
+		{	KoLDesktop.this.setVisible( false );
 		}
 	}
 }

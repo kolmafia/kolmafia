@@ -69,7 +69,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 
 			if ( location.indexOf( "pics.communityofloathing.com" ) != -1 )
 			{
-				handleInternalLink( location );
+				this.handleInternalLink( location );
 			}
 			else if ( location.startsWith( "http://" ) || location.startsWith( "https://" ) )
 			{
@@ -93,7 +93,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 				// method does nothing, but descending classes
 				// can change this behavior.
 
-				handleInternalLink( location );
+				this.handleInternalLink( location );
 			}
 			else
 			{
@@ -178,7 +178,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 				// Now that the entire form string is known, handle
 				// the appropriate internal link.
 
-				handleInternalLink( actionMatcher.group(1) + inputString.toString() );
+				this.handleInternalLink( actionMatcher.group(1) + inputString.toString() );
 			}
 		}
 	}

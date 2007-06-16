@@ -41,8 +41,8 @@ public class MindControlRequest extends KoLRequest
 	{
 		super( "canadia.php" );
 
-		addFormField( "action", "changedial" );
-		addFormField( "whichlevel", String.valueOf( level ) );
+		this.addFormField( "action", "changedial" );
+		this.addFormField( "whichlevel", String.valueOf( level ) );
 
 		this.level = level;
 	}
@@ -51,7 +51,7 @@ public class MindControlRequest extends KoLRequest
 	{
 		// Avoid server hits if user gives an invalid level
 
-		if ( level < 0 || level > 11 )
+		if ( this.level < 0 || this.level > 11 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "The dial only goes from 0 to 11." );
 			return;
@@ -72,7 +72,7 @@ public class MindControlRequest extends KoLRequest
 	public void processResults()
 	{
 		KoLmafia.updateDisplay( "Mind control device reset." );
-		KoLCharacter.setMindControlLevel( level );
+		KoLCharacter.setMindControlLevel( this.level );
 	}
 }
 

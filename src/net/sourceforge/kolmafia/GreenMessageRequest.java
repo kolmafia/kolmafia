@@ -44,9 +44,9 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.recipient = recipient;
 		this.message = "I have opted to let you know that I have chosen to run <" + scriptName + ">.  Thanks for writing this script!";
 
-		addFormField( "action", "send" );
-		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
-		addFormField( "message", this.message );
+		this.addFormField( "action", "send" );
+		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
+		this.addFormField( "message", this.message );
 	}
 
 	public GreenMessageRequest( String recipient, String message, boolean saveMessage )
@@ -56,12 +56,12 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.recipient = recipient;
 		this.message = RequestEditorKit.getUnicode( message );
 
-		addFormField( "action", "send" );
-		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
-		addFormField( "message", this.message );
+		this.addFormField( "action", "send" );
+		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
+		this.addFormField( "message", this.message );
 
 		if ( saveMessage )
-			addFormField( "savecopy", "on" );
+			this.addFormField( "savecopy", "on" );
 	}
 
 	public GreenMessageRequest( String recipient, String message, AdventureResult attachment )
@@ -71,12 +71,12 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.recipient = recipient;
 		this.message = RequestEditorKit.getUnicode( message );
 
-		addFormField( "action", "send" );
-		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
-		addFormField( "message", this.message );
+		this.addFormField( "action", "send" );
+		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
+		this.addFormField( "message", this.message );
 
 		if ( attachment.isItem() )
-			addFormField( "savecopy", "on" );
+			this.addFormField( "savecopy", "on" );
 	}
 
 	public GreenMessageRequest( String recipient, String message, Object [] attachments )
@@ -90,16 +90,16 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.recipient = recipient;
 		this.message = RequestEditorKit.getUnicode( message );
 
-		addFormField( "action", "send" );
-		addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
-		addFormField( "message", this.message );
+		this.addFormField( "action", "send" );
+		this.addFormField( "towho", KoLmafia.getPlayerId( this.recipient ) );
+		this.addFormField( "message", this.message );
 
 		if ( saveMessage )
-			addFormField( "savecopy", "on" );
+			this.addFormField( "savecopy", "on" );
 	}
 
 	public String getRecipient()
-	{	return recipient;
+	{	return this.recipient;
 	}
 
 	public int getCapacity()
@@ -107,7 +107,7 @@ public class GreenMessageRequest extends SendMessageRequest
 	}
 
 	public SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new GreenMessageRequest( recipient, message, attachments );
+	{	return new GreenMessageRequest( this.recipient, this.message, attachments );
 	}
 
 	public String getSuccessMessage()
@@ -115,7 +115,7 @@ public class GreenMessageRequest extends SendMessageRequest
 	}
 
 	public String getStatusMessage()
-	{	return "Sending kmail to " + KoLmafia.getPlayerName( recipient );
+	{	return "Sending kmail to " + KoLmafia.getPlayerName( this.recipient );
 	}
 
 	public String getItemField()

@@ -65,13 +65,6 @@ public class Louvre
 
 	// 0 = 92, 93, 94, or 95
 
-	private static final int MANETWICH = 1;
-	private static final int VANGOGHBITUSSIN = 2;
-	private static final int PINOT_RENOIR = 3;
-	private static final int MUSCLE = 4;
-	private static final int MYSTICALITY = 5;
-	private static final int MOXIE = 6;
-
 	private static final int LouvreLocationExits [][] =
 	{
 		{ 96, 97, 98 },			// 92

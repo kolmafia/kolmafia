@@ -62,9 +62,9 @@ public class HeroDonationRequest extends KoLRequest
 	{
 		super( "shrines.php" );
 
-		addFormField( "pwd" );
-		addFormField( "action", heroId == BORIS ? "boris" : heroId == JARLSBERG ? "jarlsberg" : "sneakypete" );
-		addFormField( "howmuch", String.valueOf( amount ) );
+		this.addFormField( "pwd" );
+		this.addFormField( "action", heroId == BORIS ? "boris" : heroId == JARLSBERG ? "jarlsberg" : "sneakypete" );
+		this.addFormField( "howmuch", String.valueOf( amount ) );
 
 		this.amount = amount;
 		this.statue = heroId == BORIS ? "boris" : heroId == JARLSBERG ? "jarlsberg" : "pete";
@@ -84,21 +84,21 @@ public class HeroDonationRequest extends KoLRequest
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Donating " + amount + " to the shrine..." );
+		KoLmafia.updateDisplay( "Donating " + this.amount + " to the shrine..." );
 		super.run();
 
 	}
 
 	public void processResults()
 	{
-		if ( responseText.indexOf( "You gain" ) == -1 )
+		if ( this.responseText.indexOf( "You gain" ) == -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, responseText.indexOf( "That's not enough" ) == -1 ?
+			KoLmafia.updateDisplay( ERROR_STATE, this.responseText.indexOf( "That's not enough" ) == -1 ?
 				"Donation limit exceeded." : "Donation must be larger." );
 			return;
 		}
 
-		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
+		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - this.amount ) );
 		KoLmafia.updateDisplay( "Donation complete." );
 	}
 }

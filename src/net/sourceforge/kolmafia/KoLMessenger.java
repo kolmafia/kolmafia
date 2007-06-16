@@ -35,18 +35,12 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 
-import java.io.BufferedReader;
-import java.io.File;
-
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Random;
-import java.util.Set;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;

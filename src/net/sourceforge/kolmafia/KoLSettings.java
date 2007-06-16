@@ -38,19 +38,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Reader;
-
 import java.lang.ref.WeakReference;
 import javax.swing.JCheckBox;
 
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.Set;
 import java.util.TreeMap;
 
 public class KoLSettings extends Properties implements KoLConstants
@@ -86,7 +81,7 @@ public class KoLSettings extends Properties implements KoLConstants
 		// other reasons beyond these items.
 
 		"hill of beans", "Knob Goblin love potion", "Knob Goblin steroids", "Imp Ale", "hot wing", "evil golden arch", "leather mask",
-		"necklace chain", "hemp bracelet", "piercing post", "phat turquoise bead", "carob chunks", "Feng Shui for Big Dumb Idiots", "homoerotic frat-paddle",
+		"necklace chain", "hemp string", "piercing post", "phat turquoise bead", "carob chunks", "Feng Shui for Big Dumb Idiots", "homoerotic frat-paddle",
 		"crowbarrr", "sunken chest", "barrrnacle", "safarrri hat", "arrrgyle socks", "charrrm", "leotarrrd", "pirate pelvis",
 		"grave robbing shovel", "ghuol ears", "ghuol egg", "ghuol guolash", "lihc eye",
 		"mind flayer corpse", "royal jelly", "goat beard", "sabre teeth", "t8r tots", "pail", "Trollhouse cookies", "Spam Witch sammich",
@@ -275,10 +270,10 @@ public class KoLSettings extends Properties implements KoLConstants
 	public KoLSettings( String characterName )
 	{
 		this.noExtensionName = KoLCharacter.baseUserName( characterName );
-		this.settingsFile = new File( SETTINGS_LOCATION, "prefs_" + noExtensionName + ".txt" );
+		this.settingsFile = new File( SETTINGS_LOCATION, "prefs_" + this.noExtensionName + ".txt" );
 
-		loadSettings();
-		ensureDefaults();
+		this.loadSettings();
+		this.ensureDefaults();
 	}
 
 	public static boolean isGlobalProperty( String name )
@@ -319,14 +314,14 @@ public class KoLSettings extends Properties implements KoLConstants
 		// All tests passed.  Now, go ahead and execute the
 		// set property and return the old value.
 
-		String oldValue = getProperty( name );
+		String oldValue = this.getProperty( name );
 		value = RequestEditorKit.getEntities( value );
 
 		if ( oldValue != null && oldValue.equals( value ) )
 			return oldValue;
 
 		super.setProperty( name, value );
-		saveSettings();
+		this.saveSettings();
 
 		if ( checkboxMap.containsKey( name ) )
 		{
@@ -394,21 +389,21 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	public void saveSettings()
 	{
-		if ( initializingDefaults )
+		if ( this.initializingDefaults )
 			return;
 
 		SETTINGS_LOCATION.mkdirs();
 
 		try
 		{
-			if ( settingsFile.exists() )
-				settingsFile.delete();
+			if ( this.settingsFile.exists() )
+				this.settingsFile.delete();
 
 			// Determine the contents of the file by
 			// actually printing them.
 
 			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-			store( ostream, VERSION_NAME );
+			this.store( ostream, VERSION_NAME );
 
 			String [] lines = ostream.toString().split( LINE_BREAK );
 			Arrays.sort( lines );
@@ -424,8 +419,8 @@ public class KoLSettings extends Properties implements KoLConstants
 				ostream.write( LINE_BREAK.getBytes() );
 			}
 
-			settingsFile.createNewFile();
-			ostream.writeTo( new FileOutputStream( settingsFile ) );
+			this.settingsFile.createNewFile();
+			ostream.writeTo( new FileOutputStream( this.settingsFile ) );
 		}
 		catch ( IOException e )
 		{
@@ -452,14 +447,14 @@ public class KoLSettings extends Properties implements KoLConstants
 			// First guarantee that a settings file exists with
 			// the appropriate Properties data.
 
-			if ( !settingsFile.exists() )
+			if ( !this.settingsFile.exists() )
 				return;
 
 			// Now that it is guaranteed that an XML file exists
 			// with the appropriate properties, load the file.
 
-			FileInputStream istream = new FileInputStream( settingsFile );
-			load( istream );
+			FileInputStream istream = new FileInputStream( this.settingsFile );
+			this.load( istream );
 
 			istream.close();
 			istream = null;
@@ -478,7 +473,7 @@ public class KoLSettings extends Properties implements KoLConstants
 			// the current file is deleted.
 
 			StaticEntity.printStackTrace( e2 );
-			settingsFile.delete();
+			this.settingsFile.delete();
 		}
 	}
 
@@ -790,19 +785,19 @@ public class KoLSettings extends Properties implements KoLConstants
 
 	private void ensureDefaults()
 	{
-		initializingDefaults = true;
+		this.initializingDefaults = true;
 
 		// If this is the set of global settings, be sure
 		// to initialize the global settings.
 
-		if ( noExtensionName.equals( "GLOBAL" ) )
+		if ( this.noExtensionName.equals( "GLOBAL" ) )
 		{
 			Object [] keys = CLIENT_SETTINGS.keySet().toArray();
 			for ( int i = 0; i < keys.length; ++i )
-				if ( !containsKey( keys[i] ) )
+				if ( !this.containsKey( keys[i] ) )
 					super.setProperty( (String) keys[i], (String) CLIENT_SETTINGS.get( keys[i] ) );
 
-			initializingDefaults = false;
+			this.initializingDefaults = false;
 			return;
 		}
 
@@ -811,10 +806,10 @@ public class KoLSettings extends Properties implements KoLConstants
 
 		Object [] keys = PLAYER_SETTINGS.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
-			if ( !containsKey( keys[i] ) )
+			if ( !this.containsKey( keys[i] ) )
 				super.setProperty( (String) keys[i], (String) PLAYER_SETTINGS.get( keys[i] ) );
 
-		initializingDefaults = false;
-		saveSettings();
+		this.initializingDefaults = false;
+		this.saveSettings();
 	}
 }

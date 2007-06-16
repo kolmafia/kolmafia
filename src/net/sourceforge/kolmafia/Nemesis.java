@@ -151,7 +151,7 @@ public abstract class Nemesis extends StaticEntity
 		if ( region <= 8 )
 			requirements.add( ketchup );
 
-		if ( !getClient().checkRequirements( requirements ) )
+		if ( !KoLmafia.checkRequirements( requirements ) )
 			return;
 
 		// Get current equipment

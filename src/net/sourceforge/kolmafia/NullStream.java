@@ -58,7 +58,7 @@ public class NullStream extends PrintStream
 	}
 
 	public boolean checkError()
-	{	return errorState;
+	{	return this.errorState;
 	}
 
 	public void close()

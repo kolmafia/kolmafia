@@ -37,7 +37,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -60,17 +59,14 @@ import java.util.regex.Pattern;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -80,14 +76,10 @@ import javax.swing.JTable;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -101,7 +93,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-import net.sourceforge.kolmafia.ItemManagePanel.TransferListener;
 
 public abstract class KoLFrame extends JFrame implements KoLConstants
 {
@@ -138,31 +129,31 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	public KoLFrame( String title )
 	{
-		setTitle( title );
+		this.setTitle( title );
 
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
-		this.tabs = getTabbedPane();
+		this.tabs = this.getTabbedPane();
 		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
 
-		this.frameName = getClass().getName();
-		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
+		this.frameName = this.getClass().getName();
+		this.frameName = this.frameName.substring( this.frameName.lastIndexOf( "." ) + 1 );
 
-		if ( shouldAddStatusBar() )
+		if ( this.shouldAddStatusBar() )
 		{
 			JEditorPane statusDisplay = new JEditorPane();
 			JSplitPane doublePane = new JSplitPane( JSplitPane.VERTICAL_SPLIT,
 				new SimpleScrollPane( this.framePanel, SimpleScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, SimpleScrollPane.HORIZONTAL_SCROLLBAR_NEVER ),
 				commandBuffer.setChatDisplay( statusDisplay ) );
 
-			getContentPane().add( doublePane, BorderLayout.CENTER );
+			this.getContentPane().add( doublePane, BorderLayout.CENTER );
 
 			doublePane.setOneTouchExpandable( true );
 			doublePane.setDividerLocation( 1.0 );
 		}
 		else
 		{
-			getContentPane().add( this.framePanel, BorderLayout.CENTER );
+			this.getContentPane().add( this.framePanel, BorderLayout.CENTER );
 		}
 
 		boolean shouldAddFrame = !(this instanceof KoLDesktop) && !(this instanceof ContactListFrame) && !(this instanceof LoginFrame);
@@ -173,7 +164,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( shouldAddFrame )
 			existingFrames.add( this );
 
-		addHotKeys();
+		this.addHotKeys();
 	}
 
 	public boolean shouldAddStatusBar()
@@ -186,10 +177,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	public void addHotKeys()
 	{
-		JComponentUtilities.addGlobalHotKey( getRootPane(), KeyEvent.VK_ESCAPE, new WorldPeaceListener() );
-		JComponentUtilities.addGlobalHotKey( getRootPane(), KeyEvent.VK_F5, new RefreshKeyListener() );
-		JComponentUtilities.addGlobalHotKey( getRootPane(), KeyEvent.VK_F6, InputEvent.CTRL_MASK, new TabForwardListener() );
-		JComponentUtilities.addGlobalHotKey( getRootPane(), KeyEvent.VK_F6, InputEvent.CTRL_MASK + InputEvent.SHIFT_MASK, new TabBackwardListener() );
+		JComponentUtilities.addGlobalHotKey( this.getRootPane(), KeyEvent.VK_ESCAPE, new WorldPeaceListener() );
+		JComponentUtilities.addGlobalHotKey( this.getRootPane(), KeyEvent.VK_F5, new RefreshKeyListener() );
+		JComponentUtilities.addGlobalHotKey( this.getRootPane(), KeyEvent.VK_F6, InputEvent.CTRL_MASK, new TabForwardListener() );
+		JComponentUtilities.addGlobalHotKey( this.getRootPane(), KeyEvent.VK_F6, InputEvent.CTRL_MASK + InputEvent.SHIFT_MASK, new TabBackwardListener() );
 	}
 
 	private class WorldPeaceListener extends ThreadedListener
@@ -213,8 +204,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( tabs != null )
-				tabs.setSelectedIndex( (tabs.getSelectedIndex() + 1) % tabs.getTabCount() );
+			if ( KoLFrame.this.tabs != null )
+				KoLFrame.this.tabs.setSelectedIndex( (KoLFrame.this.tabs.getSelectedIndex() + 1) % KoLFrame.this.tabs.getTabCount() );
 		}
 	}
 
@@ -222,21 +213,21 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( tabs != null )
-				tabs.setSelectedIndex( tabs.getSelectedIndex() == 0 ? tabs.getTabCount() - 1 : tabs.getSelectedIndex() - 1 );
+			if ( KoLFrame.this.tabs != null )
+				KoLFrame.this.tabs.setSelectedIndex( KoLFrame.this.tabs.getSelectedIndex() == 0 ? KoLFrame.this.tabs.getTabCount() - 1 : KoLFrame.this.tabs.getSelectedIndex() - 1 );
 		}
 	}
 
 	public final void addTab( String name, JComponent panel )
 	{
-		if ( tabs == null )
+		if ( this.tabs == null )
 			return;
 
-		tabs.setOpaque( true );
+		this.tabs.setOpaque( true );
 
 		SimpleScrollPane scroller = new SimpleScrollPane( panel );
 		JComponentUtilities.setComponentSize( scroller, 560, 400 );
-		tabs.add( name, scroller );
+		this.tabs.add( name, scroller );
 	}
 
 	public final void setTitle( String newTitle )
@@ -270,22 +261,22 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 		case 1:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-			getContentPane().add( toolbarPanel, BorderLayout.NORTH );
+			this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 			break;
 
 		case 2:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-			getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
+			this.getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
 			break;
 
 		case 3:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
-			getContentPane().add( toolbarPanel, BorderLayout.WEST );
+			this.getContentPane().add( toolbarPanel, BorderLayout.WEST );
 			break;
 
 		case 4:
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
-			getContentPane().add( toolbarPanel, BorderLayout.EAST );
+			this.getContentPane().add( toolbarPanel, BorderLayout.EAST );
 			break;
 
 		default:
@@ -293,7 +284,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
 			if ( this instanceof LoginFrame || this instanceof ChatFrame )
 			{
-				getContentPane().add( toolbarPanel, BorderLayout.NORTH );
+				this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 				break;
 			}
 		}
@@ -309,8 +300,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	public void dispose()
 	{
-		if ( isVisible() )
-			rememberPosition();
+		if ( this.isVisible() )
+			this.rememberPosition();
 
 		// Determine which frame needs to be removed from
 		// the maintained list of frames.
@@ -323,8 +314,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		existingFrames.remove( this );
 
-		if ( refreshListener != null )
-			KoLCharacter.removeCharacterListener( refreshListener );
+		if ( this.refreshListener != null )
+			KoLCharacter.removeCharacterListener( this.refreshListener );
 
 		// If the list of frames is now empty, make sure
 		// you end the session.  Ending the session for
@@ -339,11 +330,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	}
 
 	public String toString()
-	{	return lastTitle;
+	{	return this.lastTitle;
 	}
 
 	public String getFrameName()
-	{	return frameName;
+	{	return this.frameName;
 	}
 
 	/**
@@ -355,17 +346,17 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	public void addCompactPane()
 	{
-		if ( refresher != null )
+		if ( this.refresher != null )
 			return;
 
-		refresher = new StatusRefresher();
-		refresher.run();
+		this.refresher = new StatusRefresher();
+		this.refresher.run();
 
-		refreshListener = new KoLCharacterAdapter( refresher );
-		KoLCharacter.addCharacterListener( refreshListener );
+		this.refreshListener = new KoLCharacterAdapter( this.refresher );
+		KoLCharacter.addCharacterListener( this.refreshListener );
 
-		refresher.getCompactPane().setBackground( ENABLED_COLOR );
-		getContentPane().add( refresher.getCompactPane(), BorderLayout.WEST );
+		this.refresher.getCompactPane().setBackground( ENABLED_COLOR );
+		this.getContentPane().add( this.refresher.getCompactPane(), BorderLayout.WEST );
 	}
 
 	public static class StatusRefresher implements Runnable
@@ -389,20 +380,20 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			int panelCount = -1;
 
 			panels[ ++panelCount ] = new JPanel( new BorderLayout() );
-			levelPanel = panels[0];
+			this.levelPanel = panels[0];
 
-			panels[ panelCount ].add( levelLabel = new JLabel( " ", JLabel.CENTER ), BorderLayout.NORTH );
-			panels[ panelCount ].add( levelMeter = new JProgressBar(), BorderLayout.CENTER );
-			levelMeter.setOpaque( true );
-			levelMeter.setStringPainted( true );
-			JComponentUtilities.setComponentSize( levelMeter, 40, 6 );
+			panels[ panelCount ].add( this.levelLabel = new JLabel( " ", JLabel.CENTER ), BorderLayout.NORTH );
+			panels[ panelCount ].add( this.levelMeter = new JProgressBar(), BorderLayout.CENTER );
+			this.levelMeter.setOpaque( true );
+			this.levelMeter.setStringPainted( true );
+			JComponentUtilities.setComponentSize( this.levelMeter, 40, 6 );
 			panels[ panelCount ].add( Box.createHorizontalStrut( 10 ), BorderLayout.WEST );
 			panels[ panelCount ].add( Box.createHorizontalStrut( 10 ), BorderLayout.EAST );
 			panels[ panelCount ].setOpaque( false );
 
 			JPanel holderPanel = new JPanel( new GridLayout( 2, 1 ) );
-			holderPanel.add( roninLabel = new JLabel( " ", JLabel.CENTER ) );
-			holderPanel.add( mcdLabel = new JLabel( " ", JLabel.CENTER ) );
+			holderPanel.add( this.roninLabel = new JLabel( " ", JLabel.CENTER ) );
+			holderPanel.add( this.mcdLabel = new JLabel( " ", JLabel.CENTER ) );
 			holderPanel.setOpaque( false );
 			panels[ panelCount ].add( holderPanel, BorderLayout.SOUTH );
 
@@ -419,9 +410,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				valuePanel = new JPanel( new GridLayout( 3, 1 ) );
 				valuePanel.setOpaque( false );
 
-				valuePanel.add( musLabel = new JLabel( " ", JLabel.LEFT ) );
-				valuePanel.add( mysLabel = new JLabel( " ", JLabel.LEFT ) );
-				valuePanel.add( moxLabel = new JLabel( " ", JLabel.LEFT ) );
+				valuePanel.add( this.musLabel = new JLabel( " ", JLabel.LEFT ) );
+				valuePanel.add( this.mysLabel = new JLabel( " ", JLabel.LEFT ) );
+				valuePanel.add( this.moxLabel = new JLabel( " ", JLabel.LEFT ) );
 
 			panels[ panelCount ].add( labelPanel, BorderLayout.WEST );
 			panels[ panelCount ].add( valuePanel, BorderLayout.CENTER );
@@ -440,10 +431,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				valuePanel = new JPanel( new GridLayout( 4, 1 ) );
 				valuePanel.setOpaque( false );
 
-				valuePanel.add( hpLabel = new JLabel( " ", JLabel.LEFT ) );
-				valuePanel.add( mpLabel = new JLabel( " ", JLabel.LEFT ) );
-				valuePanel.add( meatLabel = new JLabel( " ", JLabel.LEFT ) );
-				valuePanel.add( advLabel = new JLabel( " ", JLabel.LEFT ) );
+				valuePanel.add( this.hpLabel = new JLabel( " ", JLabel.LEFT ) );
+				valuePanel.add( this.mpLabel = new JLabel( " ", JLabel.LEFT ) );
+				valuePanel.add( this.meatLabel = new JLabel( " ", JLabel.LEFT ) );
+				valuePanel.add( this.advLabel = new JLabel( " ", JLabel.LEFT ) );
 
 			panels[ panelCount ].add( labelPanel, BorderLayout.WEST );
 			panels[ panelCount ].add( valuePanel, BorderLayout.CENTER );
@@ -461,29 +452,29 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				valuePanel = new JPanel( new GridLayout( 3, 1 ) );
 				valuePanel.setOpaque( false );
 
-				valuePanel.add( fullLabel = new JLabel( " ", JLabel.LEFT) );
-				valuePanel.add( drunkLabel = new JLabel( " ", JLabel.LEFT) );
-				valuePanel.add( spleenLabel = new JLabel( " ", JLabel.LEFT) );
+				valuePanel.add( this.fullLabel = new JLabel( " ", JLabel.LEFT) );
+				valuePanel.add( this.drunkLabel = new JLabel( " ", JLabel.LEFT) );
+				valuePanel.add( this.spleenLabel = new JLabel( " ", JLabel.LEFT) );
 
 			panels[ panelCount ].add( labelPanel, BorderLayout.WEST );
 			panels[ panelCount ].add( valuePanel, BorderLayout.CENTER );
 
 			panels[ ++panelCount ] = new JPanel( new GridLayout( 1, 1 ) );
-			panels[ panelCount ].add( familiarLabel = new UnanimatedLabel() );
+			panels[ panelCount ].add( this.familiarLabel = new UnanimatedLabel() );
 
 			panels[ ++panelCount ] = new JPanel( new GridLayout( 6, 2 ) );
 			panels[ panelCount ].add( new JLabel( "ML: ", JLabel.RIGHT ) );
-			panels[ panelCount ].add( mlLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( this.mlLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Combat: ", JLabel.RIGHT ) );
-			panels[ panelCount ].add( combatLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( this.combatLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Init: ", JLabel.RIGHT ) );
-			panels[ panelCount ].add( initLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( this.initLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "XP: ", JLabel.RIGHT ) );
-			panels[ panelCount ].add( xpLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( this.xpLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Meat: ", JLabel.RIGHT ) );
-			panels[ panelCount ].add( meatDropLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( this.meatDropLabel = new JLabel( " ", JLabel.LEFT ) );
 			panels[ panelCount ].add( new JLabel( "Item: ", JLabel.RIGHT ) );
-			panels[ panelCount ].add( itemDropLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( this.itemDropLabel = new JLabel( " ", JLabel.LEFT ) );
 
 			JPanel compactContainer = new JPanel();
 			compactContainer.setOpaque( false );
@@ -504,9 +495,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			refreshPanel.setOpaque( false );
 			refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", CharpaneRequest.getInstance() ) );
 
-			compactPane = new JPanel( new BorderLayout() );
-			compactPane.add( compactCard, BorderLayout.NORTH );
-			compactPane.add( refreshPanel, BorderLayout.SOUTH );
+			this.compactPane = new JPanel( new BorderLayout() );
+			this.compactPane.add( compactCard, BorderLayout.NORTH );
+			this.compactPane.add( refreshPanel, BorderLayout.SOUTH );
 		}
 
 		public String getStatText( int adjusted, int base )
@@ -518,49 +509,49 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void run()
 		{
-			levelLabel.setText( "Level " + KoLCharacter.getLevel() );
+			this.levelLabel.setText( "Level " + KoLCharacter.getLevel() );
 
 			if ( KoLCharacter.isHardcore() )
-				roninLabel.setText( "(Hardcore)" );
+				this.roninLabel.setText( "(Hardcore)" );
 			else if ( KoLCharacter.getAscensions() == 0 )
-				roninLabel.setText( "(Unascended)" );
+				this.roninLabel.setText( "(Unascended)" );
 			else if ( KoLCharacter.getTotalTurnsUsed() >= 600 )
-				roninLabel.setText( "(Ronin Clear)" );
+				this.roninLabel.setText( "(Ronin Clear)" );
 			else
-				roninLabel.setText( "(Ronin for " + (600 - KoLCharacter.getTotalTurnsUsed()) + ")" );
+				this.roninLabel.setText( "(Ronin for " + (600 - KoLCharacter.getTotalTurnsUsed()) + ")" );
 
-			mcdLabel.setText( "MCD @ " + KoLCharacter.getMindControlLevel() );
+			this.mcdLabel.setText( "MCD @ " + KoLCharacter.getMindControlLevel() );
 
-			musLabel.setText( getStatText( KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle() ) );
-			mysLabel.setText( getStatText( KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality() ) );
-			moxLabel.setText( getStatText( KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie() ) );
+			this.musLabel.setText( this.getStatText( KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle() ) );
+			this.mysLabel.setText( this.getStatText( KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality() ) );
+			this.moxLabel.setText( this.getStatText( KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie() ) );
 
-			fullLabel.setText( KoLCharacter.getFullness() + " / " + KoLCharacter.getFullnessLimit() );
-			drunkLabel.setText( KoLCharacter.getInebriety() + " / " + KoLCharacter.getInebrietyLimit() );
-			spleenLabel.setText( KoLCharacter.getSpleenUse() + " / " + KoLCharacter.getSpleenLimit() );
+			this.fullLabel.setText( KoLCharacter.getFullness() + " / " + KoLCharacter.getFullnessLimit() );
+			this.drunkLabel.setText( KoLCharacter.getInebriety() + " / " + KoLCharacter.getInebrietyLimit() );
+			this.spleenLabel.setText( KoLCharacter.getSpleenUse() + " / " + KoLCharacter.getSpleenLimit() );
 
-			hpLabel.setText( COMMA_FORMAT.format( KoLCharacter.getCurrentHP() ) + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
-			mpLabel.setText( COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
-			meatLabel.setText( COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
-			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
+			this.hpLabel.setText( COMMA_FORMAT.format( KoLCharacter.getCurrentHP() ) + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
+			this.mpLabel.setText( COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
+			this.meatLabel.setText( COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
+			this.advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 
 			int ml = KoLCharacter.getMonsterLevelAdjustment();
-			mlLabel.setText( MODIFIER_FORMAT.format( ml ) );
-			combatLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatPercentAdjustment() ) + "%" );
-			initLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
-			xpLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getFixedXPAdjustment() + (float)ml / 5.0 ) );
-			meatDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
-			itemDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
+			this.mlLabel.setText( MODIFIER_FORMAT.format( ml ) );
+			this.combatLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatPercentAdjustment() ) + "%" );
+			this.initLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
+			this.xpLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getFixedXPAdjustment() + (float)ml / 5.0 ) );
+			this.meatDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
+			this.itemDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
 
 			int currentLevel = KoLCharacter.calculateLastLevel();
 			int nextLevel = KoLCharacter.calculateNextLevel();
 			int totalPrime = KoLCharacter.getTotalPrime();
 
-			levelMeter.setMaximum( nextLevel - currentLevel );
-			levelMeter.setValue( totalPrime - currentLevel );
-			levelMeter.setString( " " );
+			this.levelMeter.setMaximum( nextLevel - currentLevel );
+			this.levelMeter.setValue( totalPrime - currentLevel );
+			this.levelMeter.setString( " " );
 
-			levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
+			this.levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
 				COMMA_FORMAT.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
 
 			FamiliarData familiar = KoLCharacter.getFamiliar();
@@ -568,25 +559,25 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			if ( id == -1 )
 			{
-				familiarLabel.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
-				familiarLabel.setText( "0 lbs." );
-				familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
-				familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
+				this.familiarLabel.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
+				this.familiarLabel.setText( "0 lbs." );
+				this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
+				this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
 			}
 			else
 			{
 				ImageIcon familiarIcon = FamiliarsDatabase.getFamiliarImage( id );
-				familiarLabel.setIcon( familiarIcon );
-				familiarLabel.setText( familiar.getModifiedWeight() + (familiar.getModifiedWeight() == 1 ? " lb." : " lbs.") );
-				familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
-				familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
+				this.familiarLabel.setIcon( familiarIcon );
+				this.familiarLabel.setText( familiar.getModifiedWeight() + (familiar.getModifiedWeight() == 1 ? " lb." : " lbs.") );
+				this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
+				this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
 
-				familiarLabel.updateUI();
+				this.familiarLabel.updateUI();
 			}
 		}
 
 		public JPanel getCompactPane()
-		{	return compactPane;
+		{	return this.compactPane;
 		}
 	}
 
@@ -605,26 +596,26 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		case ABORT_STATE:
 		case ERROR_STATE:
 
-			if ( refresher != null )
-				refresher.getCompactPane().setBackground( ERROR_COLOR );
+			if ( this.refresher != null )
+				this.refresher.getCompactPane().setBackground( ERROR_COLOR );
 
-			setEnabled( true );
+			this.setEnabled( true );
 			break;
 
 		case ENABLE_STATE:
 
-			if ( refresher != null )
-				refresher.getCompactPane().setBackground( ENABLED_COLOR );
+			if ( this.refresher != null )
+				this.refresher.getCompactPane().setBackground( ENABLED_COLOR );
 
-			setEnabled( true );
+			this.setEnabled( true );
 			break;
 
 		default:
 
-			if ( refresher != null )
-				refresher.getCompactPane().setBackground( DISABLED_COLOR );
+			if ( this.refresher != null )
+				this.refresher.getCompactPane().setBackground( DISABLED_COLOR );
 
-			setEnabled( false );
+			this.setEnabled( false );
 			break;
 		}
 	}
@@ -664,13 +655,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			super( JComponentUtilities.getImage( icon ) );
 			JComponentUtilities.setComponentSize( this, 32, 32 );
-			setToolTipText( tooltip );
+			this.setToolTipText( tooltip );
 
 			this.frameClass = frameClass;
 		}
 
 		public void run()
-		{	KoLmafiaGUI.constructFrame( frameClass );
+		{	KoLmafiaGUI.constructFrame( this.frameClass );
 		}
 	}
 
@@ -697,7 +688,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			super( text );
 			this.object = c;
 
-			completeConstruction( c, methodName );
+			this.completeConstruction( c, methodName );
 		}
 
 		public InvocationButton( String tooltip, String icon, Object object, String methodName )
@@ -712,8 +703,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			JComponentUtilities.setComponentSize( this, 32, 32 );
 
 			this.object = c;
-			setToolTipText( tooltip );
-			completeConstruction( c, methodName );
+			this.setToolTipText( tooltip );
+			this.completeConstruction( c, methodName );
 		}
 
 		public void completeConstruction( Class c, String methodName )
@@ -737,8 +728,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			try
 			{
-				if ( method != null )
-					method.invoke( object, null );
+				if ( this.method != null )
+					this.method.invoke( this.object, null );
 			}
 			catch ( Exception e1 )
 			{
@@ -765,15 +756,15 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			super( JComponentUtilities.getImage( icon ) );
 			JComponentUtilities.setComponentSize( this, 32, 32 );
-			setToolTipText( tooltip );
+			this.setToolTipText( tooltip );
 
-			parameters = new Object[2];
-			parameters[0] = tooltip;
-			parameters[1] = panel;
+			this.parameters = new Object[2];
+			this.parameters[0] = tooltip;
+			this.parameters[1] = panel;
 		}
 
 		public void run()
-		{	createDisplay( KoLPanelFrame.class, parameters );
+		{	createDisplay( KoLPanelFrame.class, this.parameters );
 		}
 	}
 
@@ -790,12 +781,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		public RequestButton( String title, String icon, KoLRequest request )
 		{
 			super( JComponentUtilities.getImage( icon ) );
-			setToolTipText( title );
+			this.setToolTipText( title );
 			this.request = request;
 		}
 
 		public void run()
-		{	RequestThread.postRequest( request );
+		{	RequestThread.postRequest( this.request );
 		}
 	}
 
@@ -879,8 +870,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	public void processWindowEvent( WindowEvent e )
 	{
-		if ( isVisible() )
-			rememberPosition();
+		if ( this.isVisible() )
+			this.rememberPosition();
 
 		super.processWindowEvent( e );
 	}
@@ -888,9 +879,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	public void setVisible( boolean isVisible )
 	{
 		if ( isVisible )
-			restorePosition();
+			this.restorePosition();
 		else
-			rememberPosition();
+			this.rememberPosition();
 
 		super.setVisible( isVisible );
 
@@ -991,14 +982,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( !(this instanceof ChatFrame) )
 			super.pack();
 
-		if ( !isVisible() )
-			restorePosition();
+		if ( !this.isVisible() )
+			this.restorePosition();
 	}
 
 	private void rememberPosition()
 	{
-		Point p = getLocation();
-		StaticEntity.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+		Point p = this.getLocation();
+		StaticEntity.setProperty( this.frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 	}
 
 	private void restorePosition()
@@ -1007,11 +998,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		int yLocation = 0;
 
 		Dimension screenSize = TOOLKIT.getScreenSize();
-		String position = StaticEntity.getProperty( frameName );
+		String position = StaticEntity.getProperty( this.frameName );
 
 		if ( position == null || position.indexOf( "," ) == -1 )
 		{
-			setLocationRelativeTo( null );
+			this.setLocationRelativeTo( null );
 			return;
 		}
 
@@ -1020,18 +1011,18 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		yLocation = StaticEntity.parseInt( location[1] );
 
 		if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
-			setLocation( xLocation, yLocation );
+			this.setLocation( xLocation, yLocation );
 		else
-			setLocationRelativeTo( null );
+			this.setLocationRelativeTo( null );
 
-		if ( location.length > 2 && tabs != null )
+		if ( location.length > 2 && this.tabs != null )
 		{
 			int tabIndex = StaticEntity.parseInt( location[2] );
 
-			if ( tabIndex >= 0 && tabIndex < tabs.getTabCount() )
-				tabs.setSelectedIndex( tabIndex );
-			else if ( tabs.getTabCount() > 0 )
-				tabs.setSelectedIndex( 0 );
+			if ( tabIndex >= 0 && tabIndex < this.tabs.getTabCount() )
+				this.tabs.setSelectedIndex( tabIndex );
+			else if ( this.tabs.getTabCount() > 0 )
+				this.tabs.setSelectedIndex( 0 );
 		}
 	}
 
@@ -1078,13 +1069,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			super( String.valueOf( scriptId ) );
 
 			this.scriptPath = scriptPath;
-			setToolTipText( scriptPath );
+			this.setToolTipText( scriptPath );
 
 			JComponentUtilities.setComponentSize( this, 30, 30 );
 		}
 
 		public void run()
-		{	DEFAULT_SHELL.executeLine( scriptPath );
+		{	DEFAULT_SHELL.executeLine( this.scriptPath );
 		}
 	}
 
@@ -1103,20 +1094,20 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void mouseReleased( MouseEvent e )
 		{
-			TableColumnModel columnModel = table.getColumnModel();
+			TableColumnModel columnModel = this.table.getColumnModel();
 
-		    int row = e.getY() / table.getRowHeight();
+		    int row = e.getY() / this.table.getRowHeight();
 		    int column = columnModel.getColumnIndexAtX( e.getX() );
 
-			if ( row >= 0 && row < table.getRowCount() && column >= 0 && column < table.getColumnCount() )
+			if ( row >= 0 && row < this.table.getRowCount() && column >= 0 && column < this.table.getColumnCount() )
 			{
-				Object value = table.getValueAt( row, column );
+				Object value = this.table.getValueAt( row, column );
 
 				if ( value instanceof JButton )
 				{
-					MouseEvent event = SwingUtilities.convertMouseEvent( table, e, (JButton) value );
+					MouseEvent event = SwingUtilities.convertMouseEvent( this.table, e, (JButton) value );
 					((JButton)value).dispatchEvent( event );
-					table.repaint();
+					this.table.repaint();
 				}
 			}
 		}
@@ -1127,7 +1118,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		public NestedInsideTableButton( ImageIcon icon )
 		{
 			super( icon );
-			addMouseListener( this );
+			this.addMouseListener( this );
 		}
 
 		public abstract void mouseReleased( MouseEvent e );
@@ -1166,24 +1157,24 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.editable = editable;
 
 			for ( int i = 0; i < listModel.size(); ++i )
-				insertRow( i, constructVector( listModel.get(i) ) );
+				this.insertRow( i, this.constructVector( listModel.get(i) ) );
 
 			this.listModel = listModel;
 			listModel.addListDataListener( this );
 		}
 
 		public String getColumnName( int index )
-		{	return index < 0 || index >= headers.length ? "" : headers[ index ];
+		{	return index < 0 || index >= this.headers.length ? "" : this.headers[ index ];
 		}
 
 		public Class getColumnClass( int column )
-		{	return column < 0 || column >= types.length ? Object.class : types[ column ];
+		{	return column < 0 || column >= this.types.length ? Object.class : this.types[ column ];
 		}
 
 		public abstract Vector constructVector( Object o );
 
 		public boolean isCellEditable( int row, int column )
-		{	return column < 0 || column >= editable.length ? false : editable[ column ];
+		{	return column < 0 || column >= this.editable.length ? false : this.editable[ column ];
 		}
 
 		/**
@@ -1199,7 +1190,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
 			for ( int i = index0; i <= index1; ++i )
-				insertRow( i, constructVector( source.get(i) ) );
+				this.insertRow( i, this.constructVector( source.get(i) ) );
 		}
 
 		/**
@@ -1215,7 +1206,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
 			for ( int i = index1; i >= index0; --i )
-				removeRow(i);
+				this.removeRow(i);
 		}
 
 		/**
@@ -1233,22 +1224,22 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			if ( index0 < 0 || index1 < 0 )
 				return;
 
-			int rowCount = getRowCount();
+			int rowCount = this.getRowCount();
 
 			for ( int i = index1; i >= index0; --i )
 			{
 				if ( source.size() < i )
 				{
-					removeRow(i);
+					this.removeRow(i);
 				}
 				else if ( i > rowCount )
 				{
-					insertRow( rowCount, constructVector( source.get(i) ) );
+					this.insertRow( rowCount, this.constructVector( source.get(i) ) );
 				}
 				else
 				{
-					removeRow(i);
-					insertRow( i, constructVector( source.get(i) ) );
+					this.removeRow(i);
+					this.insertRow( i, this.constructVector( source.get(i) ) );
 				}
 			}
 		}
@@ -1273,11 +1264,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			super.changeSelection( row, column, toggle, extend );
 
-			if ( editCellAt( row, column ) )
+			if ( this.editCellAt( row, column ) )
 			{
-				getEditorComponent().requestFocusInWindow();
-				if ( getEditorComponent() instanceof JTextField )
-					((JTextField)getEditorComponent()).selectAll();
+				this.getEditorComponent().requestFocusInWindow();
+				if ( this.getEditorComponent() instanceof JTextField )
+					((JTextField)this.getEditorComponent()).selectAll();
 			}
 		}
 	}
@@ -1433,7 +1424,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			boolean isCloset = (elementModel == closet);
 
-			setButtons( addFilters, new ActionListener [] {
+			this.setButtons( addFilters, new ActionListener [] {
 
 				new ConsumeListener(),
 				new PutInClosetListener( isCloset ),
@@ -1445,8 +1436,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			} );
 
-			movers[ KoLCharacter.canInteract() ? 0 : 2 ].setSelected( true );
-			filterItems();
+			this.movers[ KoLCharacter.canInteract() ? 0 : 2 ].setSelected( true );
+			this.filterItems();
 		}
 	}
 
@@ -1457,19 +1448,19 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		public LabelColorChanger( String property )
 		{
 			this.property = property;
-			setOpaque( true );
-			addMouseListener( this );
+			this.setOpaque( true );
+			this.addMouseListener( this );
 		}
 
 		public void mousePressed( MouseEvent e )
 		{
-			Color c = JColorChooser.showDialog( null, "Choose a color:", getBackground() );
+			Color c = JColorChooser.showDialog( null, "Choose a color:", this.getBackground() );
 			if ( c == null )
 				return;
 
-			StaticEntity.setProperty( property, DataUtilities.toHexString( c ) );
-			setBackground( c );
-			applyChanges();
+			StaticEntity.setProperty( this.property, DataUtilities.toHexString( c ) );
+			this.setBackground( c );
+			this.applyChanges();
 		}
 
 		public void mouseReleased( MouseEvent e )
@@ -1501,26 +1492,26 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			super( "Active Effects", "uneffect", "add to mood", new ShowDescriptionList( activeEffects ) );
 
-			elementList = (ShowDescriptionList) scrollComponent;
+			this.elementList = (ShowDescriptionList) this.scrollComponent;
 			JPanel extraButtons = new JPanel( new GridLayout( 2, 1, 5, 5 ) );
 
 			extraButtons.add( new GameDescriptionButton() );
 			extraButtons.add( new WikiDescriptionButton() );
 
-			buttonPanel.add( extraButtons, BorderLayout.SOUTH );
+			this.buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
 		{
-			Object [] effects = elementList.getSelectedValues();
+			Object [] effects = this.elementList.getSelectedValues();
 			for ( int i = 0; i < effects.length; ++i )
 				RequestThread.postRequest( new UneffectRequest( (AdventureResult) effects[i] ) );
 		}
 
 		public void actionCancelled()
 		{
-			Object [] effects = elementList.getSelectedValues();
-			elementList.clearSelection();
+			Object [] effects = this.elementList.getSelectedValues();
+			this.elementList.clearSelection();
 
 			if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
 				StaticEntity.setProperty( "currentMood", "default" );
@@ -1552,7 +1543,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			public void run()
 			{
-				Object [] effects = elementList.getSelectedValues();
+				Object [] effects = StatusEffectPanel.this.elementList.getSelectedValues();
 				for ( int i = 0; i < effects.length; ++i )
 					ShowDescriptionList.showGameDescription( effects[i] );
 			}
@@ -1566,7 +1557,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			public void run()
 			{
-				Object [] effects = elementList.getSelectedValues();
+				Object [] effects = StatusEffectPanel.this.elementList.getSelectedValues();
 				for ( int i = 0; i < effects.length; ++i )
 					ShowDescriptionList.showWikiDescription( effects[i] );
 			}
@@ -1592,49 +1583,49 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				transferType == ItemStorageRequest.PULL_MEAT_FROM_STORAGE ? "Pull Meat from Hagnk's" :
 				"Unknown Transfer Type", "transfer", "bedidall", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			amountField = new JTextField();
-			closetField = new JLabel( " " );
+			this.amountField = new JTextField();
+			this.closetField = new JLabel( " " );
 
 			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Amount: ", amountField );
-			elements[1] = new VerifiableElement( "Available: ", closetField );
+			elements[0] = new VerifiableElement( "Amount: ", this.amountField );
+			elements[1] = new VerifiableElement( "Available: ", this.closetField );
 
-			setContent( elements );
+			this.setContent( elements );
 
 			this.transferType = transferType;
-			refreshCurrentAmount();
+			this.refreshCurrentAmount();
 
 			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new AmountRefresher() ) );
 		}
 
 		private void refreshCurrentAmount()
 		{
-			switch ( transferType )
+			switch ( this.transferType )
 			{
 			case ItemStorageRequest.MEAT_TO_CLOSET:
-				closetField.setText( COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) + " meat" );
+				this.closetField.setText( COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) + " meat" );
 				break;
 
 			case ItemStorageRequest.MEAT_TO_INVENTORY:
-				closetField.setText( COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) + " meat" );
+				this.closetField.setText( COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) + " meat" );
 				break;
 
 			case ItemStorageRequest.PULL_MEAT_FROM_STORAGE:
-				closetField.setText( COMMA_FORMAT.format( KoLCharacter.getStorageMeat() ) + " meat" );
+				this.closetField.setText( COMMA_FORMAT.format( KoLCharacter.getStorageMeat() ) + " meat" );
 				break;
 
 			default:
-				closetField.setText( "Information not available" );
+				this.closetField.setText( "Information not available" );
 				break;
 			}
 		}
 
 		public void actionConfirmed()
 		{
-			int amountToTransfer = getValue( amountField );
+			int amountToTransfer = getValue( this.amountField );
 
 			RequestThread.openRequestSequence();
-			RequestThread.postRequest( new ItemStorageRequest( transferType, amountToTransfer ) );
+			RequestThread.postRequest( new ItemStorageRequest( this.transferType, amountToTransfer ) );
 			RequestThread.closeRequestSequence();
 		}
 
@@ -1649,7 +1640,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		private class AmountRefresher implements Runnable
 		{
 			public void run()
-			{	refreshCurrentAmount();
+			{	MeatTransferPanel.this.refreshCurrentAmount();
 			}
 		}
 	}
@@ -1661,9 +1652,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			super( "Use Items", "use item", "check wiki", inventory );
 
 			if ( !isRestoresOnly )
-				setButtons( true, false, null );
+				this.setButtons( true, false, null );
 
-			filterItems();
+			this.filterItems();
 		}
 
 		public FilterItemField getWordFilter()
@@ -1672,7 +1663,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void actionConfirmed()
 		{
-			Object [] items = getDesiredItems( "Consume" );
+			Object [] items = this.getDesiredItems( "Consume" );
 			if ( items.length == 0 )
 				return;
 
@@ -1683,7 +1674,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		public void actionCancelled()
 		{
 			String name;
-			Object [] values = elementList.getSelectedValues();
+			Object [] values = this.elementList.getSelectedValues();
 
 			for ( int i = 0; i < values.length; ++i )
 			{
@@ -1710,7 +1701,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					AdventureResult item = (AdventureResult)element;
 					int itemId = item.getItemId();
 
-					if ( !notrade && !TradeableItemDatabase.isTradeable( itemId ) )
+					if ( !UsableItemFilterField.this.notrade && !TradeableItemDatabase.isTradeable( itemId ) )
 					     return false;
 
 					boolean filter = false;
@@ -1718,18 +1709,18 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					switch ( TradeableItemDatabase.getConsumptionType( itemId ) )
 					{
 					case CONSUME_EAT:
-						filter = food;
+						filter = UsableItemFilterField.this.food;
 						break;
 
 					case CONSUME_DRINK:
-						filter =  booze;
+						filter =  UsableItemFilterField.this.booze;
 						break;
 
 					case CONSUME_USE:
 					case CONSUME_MULTIPLE:
 					case GROW_FAMILIAR:
 					case CONSUME_ZAP:
-						filter = other;
+						filter = UsableItemFilterField.this.other;
 						break;
 
 					case EQUIP_FAMILIAR:
@@ -1739,12 +1730,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					case EQUIP_SHIRT:
 					case EQUIP_WEAPON:
 					case EQUIP_OFFHAND:
-						filter = equip;
+						filter = UsableItemFilterField.this.equip;
 						break;
 
 					case MP_RESTORE:
 					case HP_RESTORE:
-						filter = restores;
+						filter = UsableItemFilterField.this.restores;
 						break;
 
 					default:

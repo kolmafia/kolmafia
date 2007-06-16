@@ -38,13 +38,13 @@ public class ClanMaterialsRequest extends KoLRequest
 	public ClanMaterialsRequest( int goodies, int oatmeal, int recliners, int grunts, int flyers, int archers )
 	{
 		super( "clan_war.php" );
-		addFormField( "action", "Yep." );
-		addFormField( "goodies", String.valueOf( goodies ) );
-		addFormField( "oatmeal", String.valueOf( oatmeal ) );
-		addFormField( "recliners", String.valueOf( recliners ) );
-		addFormField( "grunts", String.valueOf( grunts ) );
-		addFormField( "flyers", String.valueOf( flyers ) );
-		addFormField( "archers", String.valueOf( archers ) );
+		this.addFormField( "action", "Yep." );
+		this.addFormField( "goodies", String.valueOf( goodies ) );
+		this.addFormField( "oatmeal", String.valueOf( oatmeal ) );
+		this.addFormField( "recliners", String.valueOf( recliners ) );
+		this.addFormField( "grunts", String.valueOf( grunts ) );
+		this.addFormField( "flyers", String.valueOf( flyers ) );
+		this.addFormField( "archers", String.valueOf( archers ) );
 	}
 
 	public void run()

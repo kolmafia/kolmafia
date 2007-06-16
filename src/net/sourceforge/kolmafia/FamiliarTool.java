@@ -77,7 +77,7 @@ public class FamiliarTool
 	public ArenaOpponent bestOpponent( int ownFamiliar, int [] possibleOwnWeights )
 	{
 		int [] ownSkills = FamiliarsDatabase.getFamiliarSkills( ownFamiliar );
-		return bestOpponent( ownSkills, possibleOwnWeights );
+		return this.bestOpponent( ownSkills, possibleOwnWeights );
 	}
 
 	/**
@@ -88,11 +88,11 @@ public class FamiliarTool
 	 */
 	public ArenaOpponent bestOpponent( int [] ownSkills, int [] possibleOwnWeights )
 	{
-		int opponentCount = opponents.length;
+		int opponentCount = this.opponents.length;
 		int possibleWeights = possibleOwnWeights.length;
 
-		bestMatch = bestOpponent = bestWeight = -1;
-		difference = 500; // initialize to worst possible value
+		this.bestMatch = this.bestOpponent = this.bestWeight = -1;
+		this.difference = 500; // initialize to worst possible value
 
 		for ( int match = 0; match < 4; match++ )
 		{
@@ -104,7 +104,7 @@ public class FamiliarTool
 
 			for ( int opponent = 0; opponent < opponentCount; ++opponent )
 			{
-				Opponent opp = opponents[opponent];
+				Opponent opp = this.opponents[opponent];
 				int opponentWeight = opp.getWeight();
 
 				for ( int weightIndex = 0; weightIndex < possibleWeights; ++weightIndex )
@@ -121,19 +121,19 @@ public class FamiliarTool
 						opponentPower = opponentWeight + opponentSkill * 3;
 
 					// optimal weight for equal skill is +3
-					if ( betterWeightDifference(ownPower - (opponentPower + 3), difference) )
+					if ( this.betterWeightDifference(ownPower - (opponentPower + 3), this.difference) )
 					{
-						difference = ownPower - (opponentPower + 3);
-						bestOpponent = opponent;
-						bestMatch = match;
-						bestWeight = ownWeight;
+						this.difference = ownPower - (opponentPower + 3);
+						this.bestOpponent = opponent;
+						this.bestMatch = match;
+						this.bestWeight = ownWeight;
 					}
 				}
 			}
 		}
 
-		if ( bestOpponent >= 0 )
-			return opponents[bestOpponent].getOpponent();
+		if ( this.bestOpponent >= 0 )
+			return this.opponents[this.bestOpponent].getOpponent();
 
 		return null;
 	}
@@ -143,7 +143,7 @@ public class FamiliarTool
 	 * @return	The Id number of the best match. 1 = 'Ultimate Cage Match', 2 = 'Scavenger Hunt', 3 = 'Obstacle Course', 4 = 'Hide and Seek'
 	 */
 	public int bestMatch()
-	{	return bestMatch + 1;
+	{	return this.bestMatch + 1;
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class FamiliarTool
 	 * @return	Weight value for chosen matchup
 	 */
 	public int bestWeight()
-	{	return bestWeight;
+	{	return this.bestWeight;
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class FamiliarTool
 	 * @return	Difference from the perfect weight. 0 = perfect, +X = X pounds too heavy, -X is X pounds too light.
 	 */
 	public int difference()
-	{	return difference;
+	{	return this.difference;
 	}
 
 	private boolean betterWeightDifference( int newVal, int oldVal )
@@ -212,19 +212,19 @@ public class FamiliarTool
 			this.opponent = opponent;
 			this.type = FamiliarsDatabase.getFamiliarId( opponent.getRace() );
 			this.weight = opponent.getWeight();
-			this.arena = FamiliarsDatabase.getFamiliarSkills( type );
+			this.arena = FamiliarsDatabase.getFamiliarSkills( this.type );
 		}
 
 		public ArenaOpponent getOpponent()
-		{	return opponent;
+		{	return this.opponent;
 		}
 
 		public int getWeight()
-		{	return weight;
+		{	return this.weight;
 		}
 
 		public int getSkill( int match )
-		{	return arena[match];
+		{	return this.arena[match];
 		}
 	}
 }

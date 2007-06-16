@@ -43,6 +43,6 @@ public class RequestPane extends JEditorPane
 		// Ensure that the background is off-white so that the
 		// text is always legible.
 
-		setBackground( new Color( 252, 252, 252 ) );
+		this.setBackground( new Color( 252, 252, 252 ) );
 	}
 }

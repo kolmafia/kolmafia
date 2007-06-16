@@ -54,7 +54,7 @@ public class ClanListRequest extends KoLRequest
 
 	public void processResults()
 	{
-		Matcher clanMatcher = CLANID_PATTERN.matcher( responseText );
+		Matcher clanMatcher = CLANID_PATTERN.matcher( this.responseText );
 
 		while ( clanMatcher.find() )
 			enemyClans.add( new ClanAttackRequest( clanMatcher.group(1), clanMatcher.group(2), Integer.parseInt( clanMatcher.group(3) ) ) );

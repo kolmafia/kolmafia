@@ -44,12 +44,12 @@ public abstract class ThreadedMenuItem extends JMenuItem implements ActionListen
 	public ThreadedMenuItem( String label )
 	{
 		super( label );
-		addActionListener( this );
+		this.addActionListener( this );
 	}
 
 	public void actionPerformed( ActionEvent e )
 	{
-		if ( !isValidEvent( e ) )
+		if ( !this.isValidEvent( e ) )
 			return;
 
 		this.run();

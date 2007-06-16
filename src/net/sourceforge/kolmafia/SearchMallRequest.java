@@ -58,7 +58,7 @@ public class SearchMallRequest extends KoLRequest
 	public SearchMallRequest( int storeId )
 	{
 		super( "mallstore.php" );
-		addFormField( "whichstore", String.valueOf( storeId ) );
+		this.addFormField( "whichstore", String.valueOf( storeId ) );
 
 		this.results = new ArrayList();
 		this.retainAll = true;
@@ -96,12 +96,12 @@ public class SearchMallRequest extends KoLRequest
 		super( searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
 
 		this.searchString = searchString;
-		addFormField( "whichitem", this.searchString );
+		this.addFormField( "whichitem", this.searchString );
 
 		if ( cheapestCount > 0 )
 		{
-			addFormField( "cheaponly", "on" );
-			addFormField( "shownum", "" + cheapestCount );
+			this.addFormField( "cheaponly", "on" );
+			this.addFormField( "shownum", "" + cheapestCount );
 		}
 
 		this.results = results;
@@ -120,7 +120,7 @@ public class SearchMallRequest extends KoLRequest
 	}
 
 	public List getResults()
-	{	return results;
+	{	return this.results;
 	}
 
 	public void setResults( List results )
@@ -140,14 +140,14 @@ public class SearchMallRequest extends KoLRequest
 		// use the mall -- some people are hardcore or are
 		// somewhere in ronin.
 
-		if ( searchString == null || searchString.trim().length() == 0 )
+		if ( this.searchString == null || this.searchString.trim().length() == 0 )
 		{
-			KoLmafia.updateDisplay( retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
+			KoLmafia.updateDisplay( this.retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
 		}
 		else
 		{
-			results.clear();
-			List itemNames = TradeableItemDatabase.getMatchingNames( searchString );
+			this.results.clear();
+			List itemNames = TradeableItemDatabase.getMatchingNames( this.searchString );
 
 			// In the event that it's all NPC stores, and the person
 			// cannot use the mall, then only display the items which
@@ -166,14 +166,14 @@ public class SearchMallRequest extends KoLRequest
 
 			if ( canAvoidSearch )
 			{
-				finalizeList( itemNames );
+				this.finalizeList( itemNames );
 				return;
 			}
 
 			if ( itemNames.size() == 1 )
 			{
-				searchString = "\"" + itemNames.get(0) + "\"";
-				addFormField( "whichitem", this.searchString );
+				this.searchString = "\"" + itemNames.get(0) + "\"";
+				this.addFormField( "whichitem", this.searchString );
 			}
 
 			KoLmafia.updateDisplay( "Searching for items..." );
@@ -187,9 +187,9 @@ public class SearchMallRequest extends KoLRequest
 
 	private void searchStore()
 	{
-		if ( retainAll )
+		if ( this.retainAll )
 		{
-			Matcher shopMatcher = STOREID_PATTERN.matcher( responseText );
+			Matcher shopMatcher = STOREID_PATTERN.matcher( this.responseText );
 			shopMatcher.find();
 
 			int shopId = StaticEntity.parseInt( shopMatcher.group(2) );
@@ -201,7 +201,7 @@ public class SearchMallRequest extends KoLRequest
 			String shopName = RequestEditorKit.getUnicode( shopMatcher.group(1).replaceAll( "[ ]+;", ";" ) );
 
 			int lastFindIndex = 0;
-			Matcher priceMatcher = STOREPRICE_PATTERN.matcher( responseText );
+			Matcher priceMatcher = STOREPRICE_PATTERN.matcher( this.responseText );
 
 			while ( priceMatcher.find( lastFindIndex ) )
 			{
@@ -219,13 +219,13 @@ public class SearchMallRequest extends KoLRequest
 					limit = StaticEntity.parseInt( limitMatcher.group(1) );
 
 				int price = StaticEntity.parseInt( priceId.substring( priceId.length() - 9 ) );
-				results.add( new MallPurchaseRequest( itemName, itemId, quantity, shopId, shopName, price, limit, true ) );
+				this.results.add( new MallPurchaseRequest( itemName, itemId, quantity, shopId, shopName, price, limit, true ) );
 			}
 		}
 		else
 		{
 			SearchMallRequest individualStore;
-			Matcher storeMatcher = FAVORITES_PATTERN.matcher( responseText );
+			Matcher storeMatcher = FAVORITES_PATTERN.matcher( this.responseText );
 
 			int lastFindIndex = 0;
 			while ( storeMatcher.find( lastFindIndex ) )
@@ -234,7 +234,7 @@ public class SearchMallRequest extends KoLRequest
 				individualStore = new SearchMallRequest( StaticEntity.parseInt( storeMatcher.group(1) ) );
 				individualStore.run();
 
-				results.addAll( individualStore.results );
+				this.results.addAll( individualStore.results );
 			}
 
 			KoLmafia.updateDisplay( "Search complete." );
@@ -243,15 +243,15 @@ public class SearchMallRequest extends KoLRequest
 
 	private void searchMall()
 	{
-		List itemNames = TradeableItemDatabase.getMatchingNames( searchString );
+		List itemNames = TradeableItemDatabase.getMatchingNames( this.searchString );
 
 		// Change all multi-line store names into single line store names so that the
 		// parser doesn't get confused; remove all stores where limits have already
 		// been reached (which have been greyed out), and then remove all non-anchor
 		// tags to make everything easy to parse.
 
-		int startIndex = responseText.indexOf( "Search Results:" );
-		String storeListResult = responseText.substring( startIndex < 0 ? 0 : startIndex );
+		int startIndex = this.responseText.indexOf( "Search Results:" );
+		String storeListResult = this.responseText.substring( startIndex < 0 ? 0 : startIndex );
 
 		Matcher linkMatcher = STOREDETAIL_PATTERN.matcher( storeListResult );
 		String linkText = null;
@@ -292,20 +292,20 @@ public class SearchMallRequest extends KoLRequest
 			if ( previousItemId != itemId )
 			{
 				previousItemId = itemId;
-				addNPCStoreItem( itemName );
+				this.addNPCStoreItem( itemName );
 				itemNames.remove( itemName );
 			}
 
 			// Only add mall store results if the NPC store option
 			// is not available.
 
-			results.add( new MallPurchaseRequest( itemName, itemId, quantity, shopId, shopName, price, limit, canPurchase ) );
+			this.results.add( new MallPurchaseRequest( itemName, itemId, quantity, shopId, shopName, price, limit, canPurchase ) );
 		}
 
 		// Once the search is complete, add in any remaining NPC
 		// store data and finalize the list.
 
-		finalizeList( itemNames );
+		this.finalizeList( itemNames );
 	}
 
 	private void addNPCStoreItem( String itemName )
@@ -313,8 +313,8 @@ public class SearchMallRequest extends KoLRequest
 		if ( NPCStoreDatabase.contains( itemName, false ) )
 		{
 			MallPurchaseRequest npcitem = NPCStoreDatabase.getPurchaseRequest( itemName );
-			if ( !results.contains( npcitem ) )
-				results.add( npcitem );
+			if ( !this.results.contains( npcitem ) )
+				this.results.add( npcitem );
 		}
 	}
 
@@ -326,14 +326,14 @@ public class SearchMallRequest extends KoLRequest
 		// so items can still be bought from the NPC stores.
 
 		for ( int i = 0; i < itemNames.size(); ++i )
-			addNPCStoreItem( (String) itemNames.get(i) );
+			this.addNPCStoreItem( (String) itemNames.get(i) );
 	}
 
 	public void processResults()
 	{
-		if ( searchString == null || searchString.trim().length() == 0 )
-			searchStore();
+		if ( this.searchString == null || this.searchString.trim().length() == 0 )
+			this.searchStore();
 		else
-			searchMall();
+			this.searchMall();
 	}
 }

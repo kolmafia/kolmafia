@@ -47,20 +47,20 @@ public abstract class ThreadedButton extends JButton implements ActionListener, 
 	public ThreadedButton( String label )
 	{
 		super( label );
-		addActionListener( this );
-		setOpaque( true );
+		this.addActionListener( this );
+		this.setOpaque( true );
 	}
 
 	public ThreadedButton( ImageIcon icon )
 	{
 		super( icon );
-		addActionListener( this );
-		setOpaque( true );
+		this.addActionListener( this );
+		this.setOpaque( true );
 	}
 
 	public void actionPerformed( ActionEvent e )
 	{
-		if ( !isValidEvent( e ) )
+		if ( !this.isValidEvent( e ) )
 			return;
 
 		this.run();

@@ -58,8 +58,8 @@ public class StoreManageRequest extends KoLRequest
 	public StoreManageRequest( int itemId )
 	{
 		super( "managestore.php" );
-		addFormField( "action", "takeall" );
-		addFormField( "whichitem", String.valueOf( itemId ) );
+		this.addFormField( "action", "takeall" );
+		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
 		this.requestType = ITEM_REMOVAL;
 		this.takenItemId = itemId;
@@ -68,32 +68,32 @@ public class StoreManageRequest extends KoLRequest
 	public StoreManageRequest( int [] itemId, int [] prices, int [] limits )
 	{
 		super( "manageprices.php" );
-		addFormField( "action", "update" );
-		addFormField( "pwd" );
+		this.addFormField( "action", "update" );
+		this.addFormField( "pwd" );
 
 		this.requestType = PRICE_MANAGEMENT;
 		for ( int i = 0; i < itemId.length; ++i )
 		{
-			addFormField( "price" + itemId[i], prices[i] == 0 ? "" :
+			this.addFormField( "price" + itemId[i], prices[i] == 0 ? "" :
 				String.valueOf( Math.max( prices[i], Math.max( TradeableItemDatabase.getPriceById( itemId[i] ), 100 ) ) ) );
-			addFormField( "limit" + itemId[i], String.valueOf( limits[i] ) );
+			this.addFormField( "limit" + itemId[i], String.valueOf( limits[i] ) );
 		}
 	}
 
 	public void run()
 	{
-		switch ( requestType )
+		switch ( this.requestType )
 		{
 		case ITEM_REMOVAL:
-			removeItem();
+			this.removeItem();
 			break;
 
 		case PRICE_MANAGEMENT:
-			managePrices();
+			this.managePrices();
 			break;
 
 		case VIEW_STORE_LOG:
-			viewStoreLogs();
+			this.viewStoreLogs();
 			break;
 		}
 	}
@@ -103,7 +103,7 @@ public class StoreManageRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Examining store logs..." );
 		super.run();
 
-		StoreManager.parseLog( responseText );
+		StoreManager.parseLog( this.responseText );
 		KoLmafia.updateDisplay( "Store purchase logs retrieved." );
 	}
 
@@ -112,22 +112,22 @@ public class StoreManageRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Requesting store inventory..." );
 		super.run();
 
-		StoreManager.update( responseText, true );
+		StoreManager.update( this.responseText, true );
 		KoLmafia.updateDisplay( "Store inventory request complete." );
 	}
 
 	private void removeItem()
 	{
 		KoLmafia.updateDisplay( "Removing " + TradeableItemDatabase.getItemName( this.takenItemId ) + " from store..." );
-		AdventureResult takenItem = new AdventureResult( takenItemId, 0 );
+		AdventureResult takenItem = new AdventureResult( this.takenItemId, 0 );
 
 		super.run();
 
-		Matcher takenItemMatcher = Pattern.compile( "<option value=\"" + takenItemId + "\".*?>.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
+		Matcher takenItemMatcher = Pattern.compile( "<option value=\"" + this.takenItemId + "\".*?>.*?\\(([\\d,]+)\\)</option>" ).matcher( this.responseText );
 		if ( takenItemMatcher.find() )
 			StaticEntity.getClient().processResult( takenItem.getInstance( StaticEntity.parseInt( takenItemMatcher.group(1) ) - takenItem.getCount( inventory ) ) );
 
-		StoreManager.update( responseText, false );
+		StoreManager.update( this.responseText, false );
 		KoLmafia.updateDisplay( takenItem.getName() + " removed from your store." );
 	}
 

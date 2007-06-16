@@ -129,7 +129,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 	// Things we can manipulate
 
-	private static boolean mailbox;		// true if mailbox open
 	private static boolean wornboots;	// true if we are wearing the boots
 
 	private static boolean door;		// true if door is open
@@ -211,7 +210,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 	{
 		// We know nothing about the state of the objects.
 
-		mailbox = false;
 		door = false;
 		hedge = false;
 		torch = false;
@@ -365,8 +363,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 		// We can't tell if the mailbox is already open. But, there's
 		// no harm in opening it twice.
 		executeCommand( "open mailbox" );
-		mailbox = true;
-
 		executeCommand( "take leaflet" );
 		leaflet = true;
 	}

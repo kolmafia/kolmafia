@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Component;
-
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
@@ -54,12 +52,12 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 	public MenuItemList( String title, LockableListModel model )
 	{
 		super( title );
-		dataValues = new ArrayList();
+		this.dataValues = new ArrayList();
 
 		// Add the headers to the list of items which
 		// need to be added.
 
-		JComponent [] headers = getHeaders();
+		JComponent [] headers = this.getHeaders();
 
 		for ( int i = 0; i < headers.length; ++i )
 			this.add( headers[i] );
@@ -83,8 +81,8 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 
 		for ( int i = 0; i < model.size(); ++i )
 		{
-			dataValues.add( model.get(i) );
-			this.add( constructMenuItem( model.get(i) ) );
+			this.dataValues.add( model.get(i) );
+			this.add( this.constructMenuItem( model.get(i) ) );
 		}
 
 		// Add this as a listener to the list so that the menu gets
@@ -112,11 +110,11 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 		{
 			Object item = source.get(i);
 
-			dataValues.add( i, item );
-			add( constructMenuItem( item ), i + headerCount );
+			this.dataValues.add( i, item );
+			this.add( this.constructMenuItem( item ), i + this.headerCount );
 		}
 
-		validate();
+		this.validate();
 	}
 
 	/**
@@ -133,11 +131,11 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 
 		for ( int i = index1; i >= index0; --i )
 		{
-			dataValues.remove(i);
-			remove( i + headerCount );
+			this.dataValues.remove(i);
+			this.remove( i + this.headerCount );
 		}
 
-		validate();
+		this.validate();
 	}
 
 	/**
@@ -149,16 +147,16 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 
 	public void contentsChanged( ListDataEvent e )
 	{
-		for ( int i = 0; i < dataValues.size(); ++i )
-			remove( headerCount );
+		for ( int i = 0; i < this.dataValues.size(); ++i )
+			this.remove( this.headerCount );
 
-		dataValues.clear();
+		this.dataValues.clear();
 		LockableListModel source = (LockableListModel) e.getSource();
 
 		for ( int i = 0; i < source.size(); ++i )
 		{
-			dataValues.add( i, source.get(i) );
-			add( constructMenuItem( source.get(i) ), i + headerCount );
+			this.dataValues.add( i, source.get(i) );
+			this.add( this.constructMenuItem( source.get(i) ), i + this.headerCount );
 		}
 	}
 }

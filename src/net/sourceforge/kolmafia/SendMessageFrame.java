@@ -35,23 +35,13 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -92,76 +82,76 @@ public class SendMessageFrame extends KoLFrame
 
 		// Who you want to send it to.
 
-		recipientEntry = new MutableComboBox( (LockableListModel) contactList.clone(), true );
+		this.recipientEntry = new MutableComboBox( (LockableListModel) contactList.clone(), true );
 
 		JButton refreshButton = new InvocationButton( "Refresh contact list", "refresh.gif", this, "refreshContactList" );
-		JComponentUtilities.setComponentSize( recipientEntry, 250, 25 );
+		JComponentUtilities.setComponentSize( this.recipientEntry, 250, 25 );
 		JComponentUtilities.setComponentSize( refreshButton, 20, 20 );
 
 		if ( !recipient.equals( "" ) )
 		{
-			recipientEntry.addItem( recipient );
-			recipientEntry.getEditor().setItem( recipient );
-			recipientEntry.setSelectedItem( recipient );
+			this.recipientEntry.addItem( recipient );
+			this.recipientEntry.getEditor().setItem( recipient );
+			this.recipientEntry.setSelectedItem( recipient );
 		}
 
 		JPanel contactsPanel = new JPanel( new BorderLayout( 5, 5 ) );
-		contactsPanel.add( recipientEntry, BorderLayout.CENTER );
+		contactsPanel.add( this.recipientEntry, BorderLayout.CENTER );
 		contactsPanel.add( refreshButton, BorderLayout.EAST );
 
 		JPanel recipientPanel = new JPanel( new BorderLayout() );
 
-		recipientPanel.add( getLabelPanel( "I intend to send it to this person:" ), BorderLayout.CENTER );
+		recipientPanel.add( this.getLabelPanel( "I intend to send it to this person:" ), BorderLayout.CENTER );
 		recipientPanel.add( contactsPanel, BorderLayout.SOUTH );
 
 		// And the message entry area.
 
-		messageEntry = new JTextArea();
-		messageEntry.setFont( DEFAULT_FONT );
-		messageEntry.setRows( 7 );
-		messageEntry.setLineWrap( true );
-		messageEntry.setWrapStyleWord( true );
+		this.messageEntry = new JTextArea();
+		this.messageEntry.setFont( DEFAULT_FONT );
+		this.messageEntry.setRows( 7 );
+		this.messageEntry.setLineWrap( true );
+		this.messageEntry.setWrapStyleWord( true );
 
-		SimpleScrollPane scrollArea = new SimpleScrollPane( messageEntry );
+		SimpleScrollPane scrollArea = new SimpleScrollPane( this.messageEntry );
 
 		JPanel entryPanel = new JPanel( new BorderLayout() );
-		entryPanel.add( getLabelPanel( "I'd like them to see this message: " ), BorderLayout.CENTER );
+		entryPanel.add( this.getLabelPanel( "I'd like them to see this message: " ), BorderLayout.CENTER );
 		entryPanel.add( scrollArea, BorderLayout.SOUTH );
 
-		sendMessageButton = new JButton( "Send Message" );
-		sendMessageButton.addActionListener( new SendMessageListener() );
+		this.sendMessageButton = new JButton( "Send Message" );
+		this.sendMessageButton.addActionListener( new SendMessageListener() );
 
 		// Add in meat attachments.
 
-		attachedMeat = new JTextField( "0" );
-		JComponentUtilities.setComponentSize( attachedMeat, 250, 25 );
+		this.attachedMeat = new JTextField( "0" );
+		JComponentUtilities.setComponentSize( this.attachedMeat, 250, 25 );
 
 		JPanel meatPanel = new JPanel( new BorderLayout() );
-		meatPanel.add( getLabelPanel( "I'd like to attach this much meat: " ), BorderLayout.CENTER );
-		meatPanel.add( attachedMeat, BorderLayout.SOUTH );
+		meatPanel.add( this.getLabelPanel( "I'd like to attach this much meat: " ), BorderLayout.CENTER );
+		meatPanel.add( this.attachedMeat, BorderLayout.SOUTH );
 
 		// Add in the inventory panel
 
-		JTabbedPane sources = getTabbedPane();
+		JTabbedPane sources = this.getTabbedPane();
 
-		inventoryPanel = new ItemManagePanel( inventory );
-		inventoryPanel.elementList.setVisibleRowCount( 8 );
-		inventoryPanel.setButtons( null );
-		sources.addTab( "Inventory", inventoryPanel );
+		this.inventoryPanel = new ItemManagePanel( inventory );
+		this.inventoryPanel.elementList.setVisibleRowCount( 8 );
+		this.inventoryPanel.setButtons( null );
+		sources.addTab( "Inventory", this.inventoryPanel );
 
-		inventoryPanel.elementList.contextMenu.remove( 2 );
-		inventoryPanel.elementList.contextMenu.remove( 2 );
+		this.inventoryPanel.elementList.contextMenu.remove( 2 );
+		this.inventoryPanel.elementList.contextMenu.remove( 2 );
 
-		inventoryPanel.elementList.contextMenu.add( new AddAttachmentMenuItem( inventoryPanel ) );
+		this.inventoryPanel.elementList.contextMenu.add( new AddAttachmentMenuItem( this.inventoryPanel ) );
 
 		// Add in the storage panel
 
-		storagePanel = new ItemManagePanel( storage );
-		storagePanel.elementList.setVisibleRowCount( 8 );
-		storagePanel.setButtons( null );
-		sources.addTab( "In Storage", storagePanel );
+		this.storagePanel = new ItemManagePanel( storage );
+		this.storagePanel.elementList.setVisibleRowCount( 8 );
+		this.storagePanel.setButtons( null );
+		sources.addTab( "In Storage", this.storagePanel );
 
-		storagePanel.elementList.contextMenu.add( new AddAttachmentMenuItem( storagePanel ) );
+		this.storagePanel.elementList.contextMenu.add( new AddAttachmentMenuItem( this.storagePanel ) );
 
 		// Construct the panels
 
@@ -178,32 +168,32 @@ public class SendMessageFrame extends KoLFrame
 		dataPanel.add( Box.createVerticalGlue() );
 
 		JPanel sendMessageButtonPanel = new JPanel();
-		sendMessageButtonPanel.add( sendMessageButton );
+		sendMessageButtonPanel.add( this.sendMessageButton );
 
 		dataPanel.add( sendMessageButtonPanel );
 		dataPanel.add( Box.createVerticalGlue() );
 
 		JPanel dataHolder = new JPanel( new CardLayout( 10, 10 ) );
 		dataHolder.add( dataPanel, "" );
-		tabs.addTab( "Message", dataHolder );
+		this.tabs.addTab( "Message", dataHolder );
 
 		JPanel attachmentPanel = new JPanel( new BorderLayout( 20, 20 ) );
 
 		JPanel itemPanel = new JPanel( new BorderLayout( 5, 5 ) );
 
-		attachments = new SortedListModel();
-		attachmentList = new ShowDescriptionList( attachments );
-		attachmentList.contextMenu.add( new RemoveAttachmentMenuItem() );
+		this.attachments = new SortedListModel();
+		this.attachmentList = new ShowDescriptionList( this.attachments );
+		this.attachmentList.contextMenu.add( new RemoveAttachmentMenuItem() );
 
-		itemPanel.add( getLabelPanel( "Attach these items to the message: " ), BorderLayout.CENTER );
-		itemPanel.add( new SimpleScrollPane( attachmentList ), BorderLayout.SOUTH );
+		itemPanel.add( this.getLabelPanel( "Attach these items to the message: " ), BorderLayout.CENTER );
+		itemPanel.add( new SimpleScrollPane( this.attachmentList ), BorderLayout.SOUTH );
 
 		attachmentPanel.add( itemPanel, BorderLayout.NORTH );
 		attachmentPanel.add( sources, BorderLayout.CENTER );
 
 		JPanel attachmentHolder = new JPanel( new CardLayout( 10, 10 ) );
 		attachmentHolder.add( attachmentPanel, "" );
-		tabs.addTab( "Attachments", attachmentHolder );
+		this.tabs.addTab( "Attachments", attachmentHolder );
 
 		// Create a description message
 
@@ -220,12 +210,12 @@ public class SendMessageFrame extends KoLFrame
 
 		JPanel messageHolder = new JPanel( new CardLayout( 10, 10 ) );
 		messageHolder.add( message, "" );
-		tabs.addTab( "Layout Help", messageHolder );
+		this.tabs.addTab( "Layout Help", messageHolder );
 
 		// A handy send message button
 
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( tabs, "" );
+		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
+		this.framePanel.add( this.tabs, "" );
 	}
 
 	public JPanel getLabelPanel( String text )
@@ -255,23 +245,23 @@ public class SendMessageFrame extends KoLFrame
 
 		public void run()
 		{
-			Object [] items = elementPanel.getDesiredItems( "Attaching" );
+			Object [] items = this.elementPanel.getDesiredItems( "Attaching" );
 			if ( items == null || items.length == 0 )
 				return;
 
-			if ( !usingStorage && elementPanel == storagePanel )
+			if ( !SendMessageFrame.this.usingStorage && this.elementPanel == SendMessageFrame.this.storagePanel )
 			{
-				usingStorage = true;
-				attachments.clear();
+				SendMessageFrame.this.usingStorage = true;
+				SendMessageFrame.this.attachments.clear();
 			}
-			else if ( usingStorage && elementPanel != storagePanel )
+			else if ( SendMessageFrame.this.usingStorage && this.elementPanel != SendMessageFrame.this.storagePanel )
 			{
-				usingStorage = false;
-				attachments.clear();
+				SendMessageFrame.this.usingStorage = false;
+				SendMessageFrame.this.attachments.clear();
 			}
 
 			for ( int i = 0; i < items.length; ++i )
-				AdventureResult.addResultToList( attachments, (AdventureResult) items[i] );
+				AdventureResult.addResultToList( SendMessageFrame.this.attachments, (AdventureResult) items[i] );
 		}
 	}
 
@@ -283,12 +273,12 @@ public class SendMessageFrame extends KoLFrame
 
 		public void run()
 		{
-			Object [] items = attachmentList.getSelectedValues();
+			Object [] items = SendMessageFrame.this.attachmentList.getSelectedValues();
 			if ( items == null || items.length == 0 )
 				return;
 
 			for ( int i = 0; i < items.length; ++i )
-				attachments.remove( items[i] );
+				SendMessageFrame.this.attachments.remove( items[i] );
 		}
 	}
 
@@ -296,24 +286,24 @@ public class SendMessageFrame extends KoLFrame
 	{
 		public void run()
 		{
-			String [] recipients = StaticEntity.getClient().extractTargets( (String) recipientEntry.getSelectedItem() );
+			String [] recipients = StaticEntity.getClient().extractTargets( (String) SendMessageFrame.this.recipientEntry.getSelectedItem() );
 			if ( recipients.length == 0 || recipients[0].equals( "" ) )
 			{
 				KoLmafia.updateDisplay( "You didn't specify someone to send to." );
 				return;
 			}
 
-			String message = messageEntry.getText();
+			String message = SendMessageFrame.this.messageEntry.getText();
 
 			// Send the message to all recipients on the list.
 			// If one of them fails, however, immediately stop
 			// and notify the user that there was failure.
 
 			RequestThread.openRequestSequence();
-			Object [] attachments = getAttachedItems();
+			Object [] attachments = SendMessageFrame.this.getAttachedItems();
 
 			for ( int i = 0; i < recipients.length && KoLmafia.permitsContinue(); ++i )
-				DEFAULT_SHELL.executeSendRequest( recipients[i], message, attachments, usingStorage );
+				DEFAULT_SHELL.executeSendRequest( recipients[i], message, attachments, SendMessageFrame.this.usingStorage );
 
 			RequestThread.closeRequestSequence();
 		}
@@ -327,34 +317,34 @@ public class SendMessageFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( sendMessageButton == null )
+		if ( this.sendMessageButton == null )
 			return;
 
-		sendMessageButton.setEnabled( isEnabled );
+		this.sendMessageButton.setEnabled( isEnabled );
 	}
 
 	public Object [] getAttachedItems()
 	{
-		AdventureResult meatAttachment = new AdventureResult( AdventureResult.MEAT, getValue( attachedMeat ) );
-		attachments.remove( meatAttachment );
+		AdventureResult meatAttachment = new AdventureResult( AdventureResult.MEAT, getValue( this.attachedMeat ) );
+		this.attachments.remove( meatAttachment );
 
 		if ( meatAttachment.getCount() > 0 )
 		{
-			if ( !usingStorage && (!KoLCharacter.canInteract() || meatAttachment.getCount() > KoLCharacter.getAvailableMeat()) )
+			if ( !this.usingStorage && (!KoLCharacter.canInteract() || meatAttachment.getCount() > KoLCharacter.getAvailableMeat()) )
 			{
-				attachments.clear();
-				usingStorage = true;
+				this.attachments.clear();
+				this.usingStorage = true;
 			}
 
-			attachments.add( meatAttachment );
+			this.attachments.add( meatAttachment );
 		}
 
-		return attachments.toArray();
+		return this.attachments.toArray();
 	}
 
 	public void refreshContactList()
 	{
 		RequestThread.postRequest( new ContactListRequest() );
-		recipientEntry.setModel( (SortedListModel) contactList.clone() );
+		this.recipientEntry.setModel( (SortedListModel) contactList.clone() );
 	}
 }

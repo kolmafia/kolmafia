@@ -55,8 +55,8 @@ public class MeatManageFrame extends KoLFrame
 		container.add( new MeatTransferPanel( ItemStorageRequest.MEAT_TO_INVENTORY ) );
 		container.add( new MeatTransferPanel( ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) );
 
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( container, "" );
+		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
+		this.framePanel.add( container, "" );
 	}
 
 	public boolean useSidePane()
@@ -82,24 +82,24 @@ public class MeatManageFrame extends KoLFrame
 			heroes.add( "Statue of Jarlsberg" );
 			heroes.add( "Statue of Sneaky Pete" );
 
-			heroField = new JComboBox( heroes );
-			amountField = new JTextField();
+			this.heroField = new JComboBox( heroes );
+			this.amountField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Donate To: ", heroField );
-			elements[1] = new VerifiableElement( "Amount: ", amountField );
+			elements[0] = new VerifiableElement( "Donate To: ", this.heroField );
+			elements[1] = new VerifiableElement( "Amount: ", this.amountField );
 
-			setContent( elements );
+			this.setContent( elements );
 		}
 
 		public void actionConfirmed()
 		{
-			if ( heroField.getSelectedIndex() != -1 )
-				RequestThread.postRequest( new HeroDonationRequest( heroField.getSelectedIndex() + 1, getValue( amountField ) ) );
+			if ( this.heroField.getSelectedIndex() != -1 )
+				RequestThread.postRequest( new HeroDonationRequest( this.heroField.getSelectedIndex() + 1, getValue( this.amountField ) ) );
 		}
 
 		public void actionCancelled()
-		{	setStatusMessage( "The Frost poem you dialed is unavailable at this time." );
+		{	this.setStatusMessage( "The Frost poem you dialed is unavailable at this time." );
 		}
 	}
 }

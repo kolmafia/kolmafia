@@ -44,8 +44,8 @@ public class PixelRequest extends ItemCreationRequest
 	{
 		super( "mystic.php", itemId );
 
-		addFormField( "action", "makepixel" );
-		addFormField( "makewhich", String.valueOf( itemId ) );
+		this.addFormField( "action", "makepixel" );
+		this.addFormField( "makewhich", String.valueOf( itemId ) );
 	}
 
 	public void reconstructFields()
@@ -59,11 +59,11 @@ public class PixelRequest extends ItemCreationRequest
 		// In this case, it will also create the needed white
 		// pixels if they are not currently available.
 
-		if ( !makeIngredients() )
+		if ( !this.makeIngredients() )
 			return;
 
-		KoLmafia.updateDisplay( "Creating " + getQuantityNeeded() + " " + getName() + "..." );
-		addFormField( "quantity", String.valueOf( getQuantityNeeded() ) );
+		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
+		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
 	}
 

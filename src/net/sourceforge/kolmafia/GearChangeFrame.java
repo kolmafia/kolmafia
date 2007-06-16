@@ -37,9 +37,6 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,29 +69,29 @@ public class GearChangeFrame extends KoLFrame
 		super( "Gear Changer" );
 		INSTANCE = this;
 
-		equipment = new ChangeComboBox[9];
+		this.equipment = new ChangeComboBox[9];
 
 		LockableListModel [] lists = KoLCharacter.getEquipmentLists();
 		// We maintain our own lists of valid weapons and offhand items
-		for ( int i = 0; i < equipment.length; ++i )
+		for ( int i = 0; i < this.equipment.length; ++i )
 		{
 			LockableListModel list;
 			if ( i == KoLCharacter.WEAPON )
-				list = weapons;
+				list = this.weapons;
 			else if ( i == KoLCharacter.OFFHAND )
-				list = offhands;
+				list = this.offhands;
 			else
 				list = lists[i];
 
-			equipment[i] = new ChangeComboBox( list );
+			this.equipment[i] = new ChangeComboBox( list );
 		}
 
-		familiarSelect = new ChangeComboBox( KoLCharacter.getFamiliarList() );
-		outfitSelect = new ChangeComboBox( KoLCharacter.getOutfits() );
+		this.familiarSelect = new ChangeComboBox( KoLCharacter.getFamiliarList() );
+		this.outfitSelect = new ChangeComboBox( KoLCharacter.getOutfits() );
 
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( new EquipPanel(), "" );
-		ensureValidSelections();
+		this.framePanel.setLayout( new CardLayout( 10, 10 ) );
+		this.framePanel.add( new EquipPanel(), "" );
+		this.ensureValidSelections();
 	}
 
 	private class EquipPanel extends KoLPanel
@@ -105,52 +102,52 @@ public class GearChangeFrame extends KoLFrame
 
 			VerifiableElement [] elements = new VerifiableElement[15];
 
-			elements[0] = new VerifiableElement( "Hat: ", equipment[0] );
-			elements[1] = new VerifiableElement( "Weapon: ", equipment[1] );
+			elements[0] = new VerifiableElement( "Hat: ", GearChangeFrame.this.equipment[0] );
+			elements[1] = new VerifiableElement( "Weapon: ", GearChangeFrame.this.equipment[1] );
 
 			JPanel radioPanel = new JPanel( new GridLayout( 1, 4 ) );
 			ButtonGroup radioGroup = new ButtonGroup();
-			weaponTypes = new JRadioButton[3];
+			GearChangeFrame.this.weaponTypes = new JRadioButton[3];
 
-			weaponTypes[0] = new JRadioButton( "both", true );
+			GearChangeFrame.this.weaponTypes[0] = new JRadioButton( "both", true );
 
-			weaponTypes[1] = new JRadioButton( "melee" );
-			weaponTypes[2] = new JRadioButton( "ranged" );
+			GearChangeFrame.this.weaponTypes[1] = new JRadioButton( "melee" );
+			GearChangeFrame.this.weaponTypes[2] = new JRadioButton( "ranged" );
 
 			for ( int i = 0; i < 3; ++i )
 			{
 				if ( i == 1 )
 					radioPanel.add( new JLabel( " " ) );
 
-				radioGroup.add( weaponTypes[i] );
-				radioPanel.add( weaponTypes[i] );
-				weaponTypes[i].addActionListener( new RefilterListener() );
+				radioGroup.add( GearChangeFrame.this.weaponTypes[i] );
+				radioPanel.add( GearChangeFrame.this.weaponTypes[i] );
+				GearChangeFrame.this.weaponTypes[i].addActionListener( new RefilterListener() );
 			}
 
 			elements[2] = new VerifiableElement( "", radioPanel );
 
-			elements[3] = new VerifiableElement( "Off-Hand: ", equipment[2] );
-			elements[4] = new VerifiableElement( "Shirt: ", equipment[3] );
-			elements[5] = new VerifiableElement( "Pants: ", equipment[4] );
+			elements[3] = new VerifiableElement( "Off-Hand: ", GearChangeFrame.this.equipment[2] );
+			elements[4] = new VerifiableElement( "Shirt: ", GearChangeFrame.this.equipment[3] );
+			elements[5] = new VerifiableElement( "Pants: ", GearChangeFrame.this.equipment[4] );
 
 			elements[6] = new VerifiableElement();
 
-			elements[7] = new VerifiableElement( "Accessory: ", equipment[5] );
-			elements[8] = new VerifiableElement( "Accessory: ", equipment[6] );
-			elements[9] = new VerifiableElement( "Accessory: ", equipment[7] );
+			elements[7] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[5] );
+			elements[8] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[6] );
+			elements[9] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[7] );
 
 			elements[10] = new VerifiableElement();
 
-			elements[11] = new VerifiableElement( "Familiar: ", familiarSelect );
-			elements[12] = new VerifiableElement( "Fam Item: ", equipment[8] );
+			elements[11] = new VerifiableElement( "Familiar: ", GearChangeFrame.this.familiarSelect );
+			elements[12] = new VerifiableElement( "Fam Item: ", GearChangeFrame.this.equipment[8] );
 
 			elements[13] = new VerifiableElement();
 
-			elements[14] = new VerifiableElement( "Outfit: ", outfitSelect );
+			elements[14] = new VerifiableElement( "Outfit: ", GearChangeFrame.this.outfitSelect );
 
-			setContent( elements );
-			outfitButton = cancelledButton;
-			setEnabled( true );
+			this.setContent( elements );
+			GearChangeFrame.this.outfitButton = this.cancelledButton;
+			this.setEnabled( true );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -158,23 +155,23 @@ public class GearChangeFrame extends KoLFrame
 			super.setEnabled( isEnabled );
 			GearChangeFrame.this.isEnabled = isEnabled;
 
-			outfitButton.setEnabled( isEnabled );
+			GearChangeFrame.this.outfitButton.setEnabled( isEnabled );
 
 			if ( isEnabled )
-				ensureValidSelections();
+				GearChangeFrame.this.ensureValidSelections();
 		}
 
 		public void actionConfirmed()
 		{
 			RequestThread.openRequestSequence();
-			changeItems();
+			GearChangeFrame.this.changeItems();
 			RequestThread.closeRequestSequence();
 		}
 
 		public void actionCancelled()
 		{
 			RequestThread.openRequestSequence();
-			changeItems();
+			GearChangeFrame.this.changeItems();
 			RequestThread.closeRequestSequence();
 
 			String currentValue = JOptionPane.showInputDialog( "Name your outfit!", "KoLmafia Checkpoint" );
@@ -191,12 +188,12 @@ public class GearChangeFrame extends KoLFrame
 
 		for ( int i = 0; i < pieces.length; ++i )
 		{
-			pieces[i] = (AdventureResult) equipment[i].getSelectedItem();
+			pieces[i] = (AdventureResult) this.equipment[i].getSelectedItem();
 			if ( KoLCharacter.getEquipment(i).equals( pieces[i] ) )
 				pieces[i] = null;
 		}
 
-		AdventureResult famitem = (AdventureResult) equipment[KoLCharacter.FAMILIAR].getSelectedItem();
+		AdventureResult famitem = (AdventureResult) this.equipment[KoLCharacter.FAMILIAR].getSelectedItem();
 
 		// If current offhand item is not compatible with new
 		// weapon, unequip it first.
@@ -256,8 +253,8 @@ public class GearChangeFrame extends KoLFrame
 		public ChangeComboBox( LockableListModel slot )
 		{
 			super( slot );
-			setRenderer( AdventureResult.getEquipmentRenderer() );
-			addActionListener( new ChangeItemListener() );
+			this.setRenderer( AdventureResult.getEquipmentRenderer() );
+			this.addActionListener( new ChangeItemListener() );
 		}
 
 		private class ChangeItemListener extends ThreadedListener
@@ -271,16 +268,16 @@ public class GearChangeFrame extends KoLFrame
 				// If you're changing an outfit, then the change must
 				// occur right away.
 
-				if ( ChangeComboBox.this == outfitSelect )
+				if ( ChangeComboBox.this == GearChangeFrame.this.outfitSelect )
 				{
-					Object outfit = getSelectedItem();
+					Object outfit = ChangeComboBox.this.getSelectedItem();
 					if ( outfit == null || !(outfit instanceof SpecialOutfit) )
 						return;
 
 					RequestThread.postRequest( new EquipmentRequest( (SpecialOutfit) outfit ) );
 					RequestThread.enableDisplayIfSequenceComplete();
 
-					setSelectedItem( null );
+					ChangeComboBox.this.setSelectedItem( null );
 					return;
 				}
 
@@ -288,15 +285,15 @@ public class GearChangeFrame extends KoLFrame
 				// the equipment pieces get changed and the familiar
 				// gets changed right after.
 
-				if ( ChangeComboBox.this == familiarSelect )
+				if ( ChangeComboBox.this == GearChangeFrame.this.familiarSelect )
 				{
 					RequestThread.openRequestSequence();
 
-					FamiliarData familiar = (FamiliarData) familiarSelect.getSelectedItem();
+					FamiliarData familiar = (FamiliarData) GearChangeFrame.this.familiarSelect.getSelectedItem();
 					if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
 						RequestThread.postRequest( new FamiliarRequest( familiar ) );
 
-					changeItems();
+					GearChangeFrame.this.changeItems();
 					RequestThread.closeRequestSequence();
 
 					return;
@@ -305,7 +302,7 @@ public class GearChangeFrame extends KoLFrame
 				// In all other cases, simply re-validate what it is
 				// you need to equip.
 
-				ensureValidSelections();
+				GearChangeFrame.this.ensureValidSelections();
 			}
 		}
 	}
@@ -313,32 +310,32 @@ public class GearChangeFrame extends KoLFrame
 	private class RefilterListener extends ThreadedListener
 	{
 		public void run()
-		{	ensureValidSelections();
+		{	GearChangeFrame.this.ensureValidSelections();
 		}
 	}
 
 	private void ensureValidSelections()
 	{
-		equipment[ KoLCharacter.SHIRT ].setEnabled( isEnabled && KoLCharacter.hasSkill( "Torso Awaregness" ) );
+		this.equipment[ KoLCharacter.SHIRT ].setEnabled( this.isEnabled && KoLCharacter.hasSkill( "Torso Awaregness" ) );
 
-		AdventureResult weaponItem = (AdventureResult) equipment[ KoLCharacter.WEAPON ].getSelectedItem();
+		AdventureResult weaponItem = (AdventureResult) this.equipment[ KoLCharacter.WEAPON ].getSelectedItem();
 		AdventureResult currentWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
 		if ( weaponItem == null )
 			weaponItem = currentWeapon;
 
-		List weaponItems = validWeaponItems( currentWeapon );
-		updateEquipmentList( weapons, weaponItems, weaponItem );
+		List weaponItems = this.validWeaponItems( currentWeapon );
+		this.updateEquipmentList( this.weapons, weaponItems, weaponItem );
 
 		int weaponHands = EquipmentDatabase.getHands( weaponItem.getName() );
 		if ( weaponHands > 1 )
 		{
 			// Equipping 2 or more handed weapon: nothing in off-hand
-			equipment[ KoLCharacter.OFFHAND ].setSelectedItem( EquipmentRequest.UNEQUIP );
-			equipment[ KoLCharacter.OFFHAND ].setEnabled( false );
+			this.equipment[ KoLCharacter.OFFHAND ].setSelectedItem( EquipmentRequest.UNEQUIP );
+			this.equipment[ KoLCharacter.OFFHAND ].setEnabled( false );
 		}
 		else
 		{
-			AdventureResult offhandItem = (AdventureResult) equipment[ KoLCharacter.OFFHAND ].getSelectedItem();
+			AdventureResult offhandItem = (AdventureResult) this.equipment[ KoLCharacter.OFFHAND ].getSelectedItem();
 			AdventureResult currentOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 			if ( offhandItem == null )
 				offhandItem = currentOffhand;
@@ -351,9 +348,9 @@ public class GearChangeFrame extends KoLFrame
 					offhandItem = EquipmentRequest.UNEQUIP;
 			}
 
-			List offhandItems = validOffhandItems( weaponItem, offhandItem );
-			updateEquipmentList( offhands, offhandItems, offhandItem );
-			equipment[ KoLCharacter.OFFHAND ].setEnabled( isEnabled );
+			List offhandItems = this.validOffhandItems( weaponItem, offhandItem );
+			this.updateEquipmentList( this.offhands, offhandItems, offhandItem );
+			this.equipment[ KoLCharacter.OFFHAND ].setEnabled( this.isEnabled );
 		}
 	}
 
@@ -377,7 +374,7 @@ public class GearChangeFrame extends KoLFrame
 
 			boolean ranged = EquipmentDatabase.isRanged( currentItem.getName() );
 
-			if ( weaponTypes[0].isSelected() || (weaponTypes[1].isSelected() && !ranged) || (weaponTypes[2].isSelected() && ranged) )
+			if ( this.weaponTypes[0].isSelected() || (this.weaponTypes[1].isSelected() && !ranged) || (this.weaponTypes[2].isSelected() && ranged) )
 				items.add( currentItem );
 		}
 
@@ -386,7 +383,7 @@ public class GearChangeFrame extends KoLFrame
 		boolean ranged = EquipmentDatabase.isRanged( currentWeapon.getName() );
 
 		if ( !items.contains( currentWeapon ) )
-			if ( weaponTypes[0].isSelected() || (weaponTypes[1].isSelected() && !ranged) || (weaponTypes[2].isSelected() && ranged) )
+			if ( this.weaponTypes[0].isSelected() || (this.weaponTypes[1].isSelected() && !ranged) || (this.weaponTypes[2].isSelected() && ranged) )
 				items.add( currentWeapon );
 
 		// Add "(none)"
@@ -416,7 +413,7 @@ public class GearChangeFrame extends KoLFrame
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			AdventureResult currentItem = ((AdventureResult)inventory.get(i));
-			if ( !items.contains( currentItem ) && validOffhandItem( currentItem, weapons, ranged ) )
+			if ( !items.contains( currentItem ) && this.validOffhandItem( currentItem, weapons, ranged ) )
 				items.add( currentItem );
 		}
 
@@ -426,7 +423,7 @@ public class GearChangeFrame extends KoLFrame
 
 		// Possibly add the current off-hand item
 		AdventureResult currentOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
-		if ( !items.contains( currentOffhand ) && validOffhandItem( currentOffhand, weapons, ranged )  )
+		if ( !items.contains( currentOffhand ) && this.validOffhandItem( currentOffhand, weapons, ranged )  )
 			items.add( currentOffhand );
 
 		// Add "(none)"

@@ -35,23 +35,16 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -59,9 +52,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
-
-import javax.swing.event.HyperlinkListener;
-import javax.swing.JToolBar.Separator;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -71,7 +61,6 @@ public class RequestFrame extends KoLFrame
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\"\'>]+" );
 
 	private int locationIndex = 0;
-	private boolean isLoading = true;
 	private ArrayList history = new ArrayList();
 	private ArrayList shownHTML = new ArrayList();
 
@@ -109,10 +98,9 @@ public class RequestFrame extends KoLFrame
 	{
 		super( title );
 
-		this.isLoading = true;
 		this.parent = parent;
 
-		setCurrentRequest( request );
+		this.setCurrentRequest( request );
 		this.mainDisplay = new RequestPane();
 
 		if ( !(this instanceof PendingTradesFrame) )
@@ -124,13 +112,13 @@ public class RequestFrame extends KoLFrame
 		// Game text descriptions and player searches should not add
 		// extra requests to the server by having a side panel.
 
-		if ( !hasSideBar() )
+		if ( !this.hasSideBar() )
 		{
 			this.sideBuffer = null;
 
 			JComponentUtilities.setComponentSize( mainScroller, 400, 300 );
-			framePanel.setLayout( new BorderLayout() );
-			framePanel.add( mainScroller, BorderLayout.CENTER );
+			this.framePanel.setLayout( new BorderLayout() );
+			this.framePanel.add( mainScroller, BorderLayout.CENTER );
 		}
 		else
 		{
@@ -138,7 +126,7 @@ public class RequestFrame extends KoLFrame
 			this.sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
 			this.sideBuffer = new LimitedSizeChatBuffer( false );
-			JScrollPane sideScroller = this.sideBuffer.setChatDisplay( sideDisplay );
+			JScrollPane sideScroller = this.sideBuffer.setChatDisplay( this.sideDisplay );
 			JComponentUtilities.setComponentSize( sideScroller, 150, 450 );
 
 			JSplitPane horizontalSplit = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true, sideScroller, mainScroller );
@@ -149,29 +137,29 @@ public class RequestFrame extends KoLFrame
 			// mini-browser, including inventory, character
 			// information, skills and account setup.
 
-			functionSelect = new BrowserComboBox();
-			functionSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
+			this.functionSelect = new BrowserComboBox();
+			this.functionSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
 
 			for ( int i = 0; i < FUNCTION_MENU.length; ++i )
-				functionSelect.addItem( new BrowserComboBoxItem( FUNCTION_MENU[i][0], FUNCTION_MENU[i][1] ) );
+				this.functionSelect.addItem( new BrowserComboBoxItem( FUNCTION_MENU[i][0], FUNCTION_MENU[i][1] ) );
 
 			// Add the browser "goto" menu, because people
 			// are familiar with seeing this as well.  But,
 			// place it all inside of a "travel" menu.
 
-			gotoSelect = new BrowserComboBox();
-			gotoSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
+			this.gotoSelect = new BrowserComboBox();
+			this.gotoSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
 			for ( int i = 0; i < GOTO_MENU.length; ++i )
-				gotoSelect.addItem( new BrowserComboBoxItem( GOTO_MENU[i][0], GOTO_MENU[i][1] ) );
+				this.gotoSelect.addItem( new BrowserComboBoxItem( GOTO_MENU[i][0], GOTO_MENU[i][1] ) );
 
 			JPanel topMenu = new JPanel();
 			topMenu.setOpaque( true );
 			topMenu.setBackground( Color.white );
 
 			topMenu.add( new JLabel( "Function:" ) );
-			topMenu.add( functionSelect );
+			topMenu.add( this.functionSelect );
 			topMenu.add( new JLabel( "Go To:" ) );
-			topMenu.add( gotoSelect );
+			topMenu.add( this.gotoSelect );
 			topMenu.add( Box.createHorizontalStrut( 20 ) );
 
 			RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" );
@@ -182,30 +170,30 @@ public class RequestFrame extends KoLFrame
 
 			topMenu.add( Box.createHorizontalStrut( 20 ) );
 
-			scriptSelect = new JComboBox();
+			this.scriptSelect = new JComboBox();
 			String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
 			for ( int i = 0; i < scriptList.length; ++i )
-				scriptSelect.addItem( (i+1) + ": " + scriptList[i] );
+				this.scriptSelect.addItem( (i+1) + ": " + scriptList[i] );
 
-			topMenu.add( scriptSelect );
+			topMenu.add( this.scriptSelect );
 			topMenu.add( new ExecuteScriptButton() );
 
-			functionSelect.setSelectedIndex( 0 );
-			gotoSelect.setSelectedIndex( 0 );
+			this.functionSelect.setSelectedIndex( 0 );
+			this.gotoSelect.setSelectedIndex( 0 );
 
 			JPanel container = new JPanel( new BorderLayout() );
 			container.add( topMenu, BorderLayout.NORTH );
 			container.add( horizontalSplit, BorderLayout.CENTER );
 
-			framePanel.setLayout( new BorderLayout() );
-			framePanel.add( container, BorderLayout.CENTER );
+			this.framePanel.setLayout( new BorderLayout() );
+			this.framePanel.add( container, BorderLayout.CENTER );
 		}
 
 		// Add toolbar pieces so that people can quickly
 		// go to locations they like.
 
 		JToolBar toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-		getContentPane().add( toolbarPanel, BorderLayout.NORTH );
+		this.getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 
 		toolbarPanel.add( new BackButton() );
 		toolbarPanel.add( new ForwardButton() );
@@ -213,7 +201,7 @@ public class RequestFrame extends KoLFrame
 		toolbarPanel.add( new ReloadButton() );
 
 		toolbarPanel.add( new JToolBar.Separator() );
-		toolbarPanel.add( locationField );
+		toolbarPanel.add( this.locationField );
 		toolbarPanel.add( new JToolBar.Separator() );
 
 		GoButton button = new GoButton();
@@ -222,17 +210,16 @@ public class RequestFrame extends KoLFrame
 		// If this has a side bar, then it will need to be notified
 		// whenever there are updates to the player status.
 
-		if ( hasSideBar() )
+		if ( this.hasSideBar() )
 			refreshStatus();
 
-		displayRequest( request );
-		this.isLoading = false;
+		this.displayRequest( request );
 	}
 
 	private class BrowserComboBox extends JComboBox
 	{
 		public BrowserComboBox()
-		{	addActionListener( new BrowserComboBoxListener() );
+		{	this.addActionListener( new BrowserComboBoxListener() );
 		}
 	}
 
@@ -244,7 +231,7 @@ public class RequestFrame extends KoLFrame
 			BrowserComboBoxItem selected = (BrowserComboBoxItem) source.getSelectedItem();
 
 			if ( !selected.getLocation().equals( "" ) )
-				refresh( new KoLRequest( selected.getLocation() ) );
+				RequestFrame.this.refresh( new KoLRequest( selected.getLocation() ) );
 
 			source.setSelectedIndex( 0 );
 		}
@@ -258,7 +245,7 @@ public class RequestFrame extends KoLFrame
 
 		public void run()
 		{
-			String command = (String) scriptSelect.getSelectedItem();
+			String command = (String) RequestFrame.this.scriptSelect.getSelectedItem();
 			if ( command == null )
 				return;
 
@@ -279,11 +266,11 @@ public class RequestFrame extends KoLFrame
 		}
 
 		public String toString()
-		{	return name;
+		{	return this.name;
 		}
 
 		public String getLocation()
-		{	return location;
+		{	return this.location;
 		}
 	}
 
@@ -295,15 +282,15 @@ public class RequestFrame extends KoLFrame
 
 	public boolean hasSideBar()
 	{
-		String location = currentRequest == null ? "" : currentRequest.getURLString();
+		String location = this.currentRequest == null ? "" : this.currentRequest.getURLString();
 
-		return currentRequest != null && !location.startsWith( "chat" ) && !location.startsWith( "static" ) &&
+		return this.currentRequest != null && !location.startsWith( "chat" ) && !location.startsWith( "static" ) &&
 			!location.startsWith( "desc" ) && !location.startsWith( "showplayer" ) && !location.startsWith( "doc" ) &&
 			!location.startsWith( "searchp" ) && location.indexOf( "action=message" ) == -1;
 	}
 
 	public String getCurrentLocation()
-	{	return currentLocation;
+	{	return this.currentLocation;
 	}
 
 	/**
@@ -317,13 +304,13 @@ public class RequestFrame extends KoLFrame
 	{
 		String location = request.getURLString();
 
-		if ( parent == null || location.startsWith( "search" ) || location.startsWith( "desc" ) )
+		if ( this.parent == null || location.startsWith( "search" ) || location.startsWith( "desc" ) )
 		{
-			setCurrentRequest( request );
-			displayRequest( request );
+			this.setCurrentRequest( request );
+			this.displayRequest( request );
 		}
 		else
-			parent.refresh( request );
+			this.parent.refresh( request );
 	}
 
 	private void setCurrentRequest( KoLRequest request )
@@ -331,7 +318,7 @@ public class RequestFrame extends KoLFrame
 	}
 
 	public String getDisplayHTML( String responseText )
-	{	return RequestEditorKit.getDisplayHTML( currentRequest.getURLString(), responseText );
+	{	return RequestEditorKit.getDisplayHTML( this.currentRequest.getURLString(), responseText );
 	}
 
 	private class DisplayRequestThread extends Thread
@@ -343,7 +330,7 @@ public class RequestFrame extends KoLFrame
 		}
 
 		public void run()
-		{	dispatchRequest( this.request );
+		{	RequestFrame.this.dispatchRequest( this.request );
 		}
 	}
 
@@ -353,26 +340,26 @@ public class RequestFrame extends KoLFrame
 
 	public void displayRequest( KoLRequest request )
 	{
-		if ( mainBuffer == null || request == null )
+		if ( this.mainBuffer == null || request == null )
 			return;
 
 		if ( SwingUtilities.isEventDispatchThread() )
 			(new DisplayRequestThread( request )).start();
 		else
-			dispatchRequest( request );
+			this.dispatchRequest( request );
 	}
 
 	private void dispatchRequest( KoLRequest request )
 	{
-		currentLocation = request.getURLString();
+		this.currentLocation = request.getURLString();
 		if ( request instanceof FightRequest )
 		{
-			request = new KoLRequest( currentLocation );
+			request = new KoLRequest( this.currentLocation );
 			request.responseText = FightRequest.INSTANCE.responseText;
 		}
 
-		mainBuffer.clearBuffer();
-		mainBuffer.append( "Retrieving page..." );
+		this.mainBuffer.clearBuffer();
+		this.mainBuffer.append( "Retrieving page..." );
 
 		if ( request.responseText == null || request.responseText.length() == 0 )
 		{
@@ -392,30 +379,30 @@ public class RequestFrame extends KoLFrame
 			// if you open a new frame after going back, all the ones
 			// in the future get removed.
 
-			String renderText = getDisplayHTML( request.responseText );
+			String renderText = this.getDisplayHTML( request.responseText );
 
-			history.add( request.getURLString() );
-			shownHTML.add( renderText );
+			this.history.add( request.getURLString() );
+			this.shownHTML.add( renderText );
 
-			if ( history.size() > HISTORY_LIMIT )
+			if ( this.history.size() > HISTORY_LIMIT )
 			{
-				history.remove(0);
-				shownHTML.remove(0);
+				this.history.remove(0);
+				this.shownHTML.remove(0);
 			}
 
 			String location = request.getURLString();
 
 			location = location.substring( location.lastIndexOf( "/" ) + 1 );
-			locationField.setText( location );
+			this.locationField.setText( location );
 
-			locationIndex = shownHTML.size() - 1;
+			this.locationIndex = this.shownHTML.size() - 1;
 
 			Matcher imageMatcher = IMAGE_PATTERN.matcher( renderText );
 			while ( imageMatcher.find() )
 				RequestEditorKit.downloadImage( imageMatcher.group() );
 
-			mainBuffer.clearBuffer();
-			mainBuffer.append( renderText );
+			this.mainBuffer.clearBuffer();
+			this.mainBuffer.append( renderText );
 		}
 		else
 		{
@@ -423,8 +410,8 @@ public class RequestFrame extends KoLFrame
 			// to indicate that you were redirected and the display
 			// cannot be shown in the minibrowser.
 
-			mainBuffer.append( "<b>Tried to access</b>: " + currentLocation );
-			mainBuffer.append( "<br><b>Redirected</b>: " + request.redirectLocation );
+			this.mainBuffer.append( "<b>Tried to access</b>: " + this.currentLocation );
+			this.mainBuffer.append( "<br><b>Redirected</b>: " + request.redirectLocation );
 			return;
 		}
 
@@ -439,7 +426,7 @@ public class RequestFrame extends KoLFrame
 		}
 
 		public void run()
-		{	refresh( new KoLRequest( "main.php", true ) );
+		{	RequestFrame.this.refresh( new KoLRequest( "main.php", true ) );
 		}
 	}
 
@@ -451,12 +438,12 @@ public class RequestFrame extends KoLFrame
 
 		public void run()
 		{
-			if ( locationIndex > 0 )
+			if ( RequestFrame.this.locationIndex > 0 )
 			{
-				--locationIndex;
-				mainBuffer.clearBuffer();
-				mainBuffer.append( (String) shownHTML.get( locationIndex ) );
-				locationField.setText( (String) history.get( locationIndex ) );
+				--RequestFrame.this.locationIndex;
+				RequestFrame.this.mainBuffer.clearBuffer();
+				RequestFrame.this.mainBuffer.append( (String) RequestFrame.this.shownHTML.get( RequestFrame.this.locationIndex ) );
+				RequestFrame.this.locationField.setText( (String) RequestFrame.this.history.get( RequestFrame.this.locationIndex ) );
 			}
 		}
 	}
@@ -469,12 +456,12 @@ public class RequestFrame extends KoLFrame
 
 		public void run()
 		{
-			if ( locationIndex + 1 < shownHTML.size() )
+			if ( RequestFrame.this.locationIndex + 1 < RequestFrame.this.shownHTML.size() )
 			{
-				++locationIndex;
-				mainBuffer.clearBuffer();
-				mainBuffer.append( (String) shownHTML.get( locationIndex ) );
-				locationField.setText( (String) history.get( locationIndex ) );
+				++RequestFrame.this.locationIndex;
+				RequestFrame.this.mainBuffer.clearBuffer();
+				RequestFrame.this.mainBuffer.append( (String) RequestFrame.this.shownHTML.get( RequestFrame.this.locationIndex ) );
+				RequestFrame.this.locationField.setText( (String) RequestFrame.this.history.get( RequestFrame.this.locationIndex ) );
 			}
 		}
 	}
@@ -486,7 +473,7 @@ public class RequestFrame extends KoLFrame
 		}
 
 		public void run()
-		{	refresh( new KoLRequest( currentLocation, true ) );
+		{	RequestFrame.this.refresh( new KoLRequest( RequestFrame.this.currentLocation, true ) );
 		}
 	}
 
@@ -495,14 +482,14 @@ public class RequestFrame extends KoLFrame
 		public GoButton()
 		{
 			super( "Go" );
-			locationField.addKeyListener( new GoAdapter() );
+			RequestFrame.this.locationField.addKeyListener( new GoAdapter() );
 		}
 
 		public void run()
 		{
-			KoLAdventure adventure = AdventureDatabase.getAdventure( locationField.getText() );
-			KoLRequest request = RequestEditorKit.extractRequest( adventure == null ? locationField.getText() : adventure.getRequest().getURLString() );
-			refresh( request );
+			KoLAdventure adventure = AdventureDatabase.getAdventure( RequestFrame.this.locationField.getText() );
+			KoLRequest request = RequestEditorKit.extractRequest( adventure == null ? RequestFrame.this.locationField.getText() : adventure.getRequest().getURLString() );
+			RequestFrame.this.refresh( request );
 		}
 
 		private class GoAdapter extends KeyAdapter
@@ -510,7 +497,7 @@ public class RequestFrame extends KoLFrame
 			public void keyReleased( KeyEvent e )
 			{
 				if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-					actionPerformed( null );
+					GoButton.this.actionPerformed( null );
 			}
 		}
 	}
@@ -555,8 +542,8 @@ public class RequestFrame extends KoLFrame
 
 	public void dispose()
 	{
-		history.clear();
-		shownHTML.clear();
+		this.history.clear();
+		this.shownHTML.clear();
 		super.dispose();
 	}
 

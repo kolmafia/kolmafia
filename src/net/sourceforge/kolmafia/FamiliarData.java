@@ -39,7 +39,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
@@ -75,8 +74,8 @@ public class FamiliarData implements KoLConstants, Comparable
 		this.id = StaticEntity.parseInt( dataMatcher.group(2) );
 		this.race = dataMatcher.group(4);
 
-		FamiliarsDatabase.registerFamiliar( id, race );
-		FamiliarsDatabase.setFamiliarImageLocation( id, dataMatcher.group(1) );
+		FamiliarsDatabase.registerFamiliar( this.id, this.race );
+		FamiliarsDatabase.setFamiliarImageLocation( this.id, dataMatcher.group(1) );
 
 		int kills = StaticEntity.parseInt( dataMatcher.group(5) );
 		this.weight = Math.max( Math.min( 20, (int) Math.sqrt( kills ) ), 1 );
@@ -126,7 +125,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	}
 
 	public int getId()
-	{	return id;
+	{	return this.id;
 	}
 
 	public void setItem( AdventureResult item )
@@ -134,7 +133,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	}
 
 	public AdventureResult getItem()
-	{	return item == null ? EquipmentRequest.UNEQUIP : item;
+	{	return this.item == null ? EquipmentRequest.UNEQUIP : this.item;
 	}
 
 	public void setWeight( int weight )
@@ -142,22 +141,22 @@ public class FamiliarData implements KoLConstants, Comparable
 	}
 
 	public int getWeight()
-	{	return weight;
+	{	return this.weight;
 	}
 
 	public int getModifiedWeight()
 	{
 		// Start with base weight
-		int total = weight;
+		int total = this.weight;
 
 		// Add in adjustment due to equipment, skills, and effects
-		if ( id == 38 )
+		if ( this.id == 38 )
 			total += KoLCharacter.getDodecapedeWeightAdjustment();
 		else
 			total += KoLCharacter.getFamiliarWeightAdjustment();
 
 		// Finally, add in effect of current equipment
-		total += itemWeightModifier( item.getItemId() );
+		total += itemWeightModifier( this.item.getItemId() );
 
 		return total;
 	}
@@ -214,19 +213,19 @@ public class FamiliarData implements KoLConstants, Comparable
 	}
 
 	public String getName()
-	{	return name;
+	{	return this.name;
 	}
 
 	public String getRace()
-	{	return race;
+	{	return this.race;
 	}
 
 	public boolean trainable()
 	{
-		if ( id == -1)
+		if ( this.id == -1)
 			return false;
 
-		int skills[] = FamiliarsDatabase.getFamiliarSkills( id );
+		int skills[] = FamiliarsDatabase.getFamiliarSkills( this.id );
 
 		// If any skill is greater than 0, we can train in that event
 		for ( int i = 0; i < skills.length; ++i )
@@ -236,19 +235,19 @@ public class FamiliarData implements KoLConstants, Comparable
 	}
 
 	public String toString()
-	{	return id == -1 ? EquipmentRequest.UNEQUIP.toString() : race + " (" + getModifiedWeight() + " lbs)";
+	{	return this.id == -1 ? EquipmentRequest.UNEQUIP.toString() : this.race + " (" + this.getModifiedWeight() + " lbs)";
 	}
 
 	public boolean equals( Object o )
-	{	return o != null && o instanceof FamiliarData && id == ((FamiliarData)o).id;
+	{	return o != null && o instanceof FamiliarData && this.id == ((FamiliarData)o).id;
 	}
 
 	public int compareTo( Object o )
-	{	return o == null || !(o instanceof FamiliarData) ? 1 : compareTo( (FamiliarData)o );
+	{	return o == null || !(o instanceof FamiliarData) ? 1 : this.compareTo( (FamiliarData)o );
 	}
 
 	public int compareTo( FamiliarData fd )
-	{	return race.compareToIgnoreCase( fd.race );
+	{	return this.race.compareToIgnoreCase( fd.race );
 	}
 
 	/**
@@ -279,16 +278,16 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1971:  // plastic pumpkin bucket
 		case 2225:  // flaming familiar doppelg&auml;nger
 		case 2541:  // Mayflower bouquet
-			return id != 54;
+			return this.id != 54;
 
 		default:
-			return item.getName().equals( FamiliarsDatabase.getFamiliarItem( id ) );
+			return item.getName().equals( FamiliarsDatabase.getFamiliarItem( this.id ) );
 		}
 	}
 
 	public boolean isCombatRestoreFamiliar()
 	{
-		switch ( id )
+		switch ( this.id )
 		{
 		case 16: // Cocoabo
 		case 17: // Star Starfish
@@ -305,7 +304,7 @@ public class FamiliarData implements KoLConstants, Comparable
 
 	public boolean isThiefFamiliar()
 	{
-		switch ( id )
+		switch ( this.id )
 		{
 		case 16: // Cocoabo
 		case 27: // Hanukkimbo Dreidl
@@ -320,7 +319,7 @@ public class FamiliarData implements KoLConstants, Comparable
 
 	public boolean isCombatFamiliar()
 	{
-		switch ( id )
+		switch ( this.id )
 		{
 		case 1:  // Mosquito
 		case 4:  // Angry Goat

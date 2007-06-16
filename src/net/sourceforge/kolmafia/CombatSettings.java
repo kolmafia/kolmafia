@@ -40,11 +40,9 @@ import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 public abstract class CombatSettings implements KoLConstants
@@ -394,15 +392,15 @@ public abstract class CombatSettings implements KoLConstants
 
 		public void add( CombatActionNode node )
 		{
-			if ( willDelevel )
+			if ( this.willDelevel )
 				return;
 
-			willDelevel |= node.getAction().equalsIgnoreCase( "delevel" );
+			this.willDelevel |= node.getAction().equalsIgnoreCase( "delevel" );
 			super.add( node );
 		}
 
 		public String toString()
-		{	return name;
+		{	return this.name;
 		}
 	}
 
@@ -420,15 +418,15 @@ public abstract class CombatSettings implements KoLConstants
 		}
 
 		public boolean startsWith( String prefix )
-		{	return action.startsWith( prefix );
+		{	return this.action.startsWith( prefix );
 		}
 
 		public String getAction()
-		{	return action;
+		{	return this.action;
 		}
 
 		public String toString()
-		{	return index + ": " + action;
+		{	return this.index + ": " + this.action;
 		}
 	}
 

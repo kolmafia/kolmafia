@@ -41,13 +41,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.foxtrot.Job;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class BuffBotManager extends KoLMailManager implements KoLConstants
@@ -860,7 +858,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				stringForm.append( "s" );
 
 			stringForm.append( " (" );
-			stringForm.append( COMMA_FORMAT.format( turnCount ) );
+			stringForm.append( COMMA_FORMAT.format( this.turnCount ) );
 			stringForm.append( " turns) for " );
 			stringForm.append( COMMA_FORMAT.format( price ) );
 			stringForm.append( " meat" );
@@ -871,32 +869,32 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				stringForm.append( " (philanthropic)" );
 
 			this.stringForm = stringForm.toString();
-			this.settingString = buffId + "\t" + price + "\t" + castCount + "\t" + restricted + "\t" + philanthropic;
+			this.settingString = this.buffId + "\t" + price + "\t" + castCount + "\t" + restricted + "\t" + philanthropic;
 		}
 
 		public boolean equals( Object o )
-		{	return o != null && o instanceof BuffBotCaster && price == ((BuffBotCaster)o).price && buffId == ((BuffBotCaster)o).buffId;
+		{	return o != null && o instanceof BuffBotCaster && this.price == ((BuffBotCaster)o).price && this.buffId == ((BuffBotCaster)o).buffId;
 		}
 
 		public int compareTo( Object o )
-		{	return o == null || !(o instanceof BuffBotCaster) ? - 1 : compareTo( (BuffBotCaster) o );
+		{	return o == null || !(o instanceof BuffBotCaster) ? - 1 : this.compareTo( (BuffBotCaster) o );
 		}
 
 		public int compareTo( BuffBotCaster bbc )
 		{
-			if ( price != bbc.price )
-				return price - bbc.price;
+			if ( this.price != bbc.price )
+				return this.price - bbc.price;
 
-			if ( restricted && !bbc.restricted )
+			if ( this.restricted && !bbc.restricted )
 				return -1;
 
-			if ( !restricted && bbc.restricted )
+			if ( !this.restricted && bbc.restricted )
 				return 1;
 
-			if ( philanthropic && !bbc.philanthropic )
+			if ( this.philanthropic && !bbc.philanthropic )
 				return -1;
 
-			if ( !philanthropic && bbc.philanthropic )
+			if ( !this.philanthropic && bbc.philanthropic )
 				return 1;
 
 			return 0;
@@ -904,59 +902,59 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		public boolean castOnTarget( String target )
 		{
-			++requestsThisSession;
-			BuffBotHome.recordBuff( target, buffName, castCount, price );
+			++this.requestsThisSession;
+			BuffBotHome.recordBuff( target, this.buffName, this.castCount, this.price );
 
 			// Figure out how much MP the buff will take, and then identify
 			// the number of casts per request that this character can handle.
 
-			BuffBotHome.update( BuffBotHome.BUFFCOLOR, "Casting " + buffName + ", " + castCount + " times on " +
-				target + " for " + price + " meat... " );
+			BuffBotHome.update( BuffBotHome.BUFFCOLOR, "Casting " + this.buffName + ", " + this.castCount + " times on " +
+				target + " for " + this.price + " meat... " );
 
-			RequestThread.postRequest( UseSkillRequest.getInstance( buffName, target, castCount ) );
+			RequestThread.postRequest( UseSkillRequest.getInstance( this.buffName, target, this.castCount ) );
 
 			if ( UseSkillRequest.lastUpdate.equals( "" ) )
 			{
-				BuffBotHome.update( BuffBotHome.BUFFCOLOR, " ---> Successfully cast " + buffName + " on " + target );
+				BuffBotHome.update( BuffBotHome.BUFFCOLOR, " ---> Successfully cast " + this.buffName + " on " + target );
 				return true;
 			}
 			else
 			{
-				BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buffName + " on " + target );
+				BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + this.buffName + " on " + target );
 				return false;
 			}
 		}
 
 		public int getBuffId()
-		{	return buffId;
+		{	return this.buffId;
 		}
 
 		public String getBuffName()
-		{	return buffName;
+		{	return this.buffName;
 		}
 
 		public int getPrice()
-		{	return price;
+		{	return this.price;
 		}
 
 		public int getTurnCount()
-		{	return turnCount;
+		{	return this.turnCount;
 		}
 
 		public int getCastCount()
-		{	return castCount;
+		{	return this.castCount;
 		}
 
 		public String toString()
-		{	return stringForm;
+		{	return this.stringForm;
 		}
 
 		public String toSettingString()
-		{	return settingString;
+		{	return this.settingString;
 		}
 
 		public int getRequestsThisSession()
-		{	return requestsThisSession;
+		{	return this.requestsThisSession;
 		}
 	}
 }

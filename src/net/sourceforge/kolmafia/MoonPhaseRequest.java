@@ -62,7 +62,7 @@ public class MoonPhaseRequest extends KoLRequest
 
 	public void processResults()
 	{
-		String parseText = responseText;
+		String parseText = this.responseText;
 
 		// Get current phase of Ronald and Grimace
 		if ( parseText.indexOf( "minimoon" ) != -1 )
@@ -72,6 +72,6 @@ public class MoonPhaseRequest extends KoLRequest
 		if ( moonMatcher.find() )
 			MoonPhaseDatabase.setMoonPhases( StaticEntity.parseInt( moonMatcher.group(1) ) - 1, StaticEntity.parseInt( moonMatcher.group(2) ) - 1 );
 
-		KoLCharacter.setClan( responseText.indexOf( "clan_hall.php" ) != -1 );
+		KoLCharacter.setClan( this.responseText.indexOf( "clan_hall.php" ) != -1 );
 	}
 }

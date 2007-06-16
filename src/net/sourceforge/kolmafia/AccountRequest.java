@@ -54,7 +54,7 @@ public class AccountRequest extends PasswordHashRequest
 	public void processResults()
 	{
 		super.processResults();
-		parseAccountData( responseText );
+		parseAccountData( this.responseText );
 	}
 
 	public static void parseAccountData( String responseText )

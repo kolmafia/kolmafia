@@ -44,8 +44,8 @@ public class CombineMeatRequest extends ItemCreationRequest
 	{
 		super( "inventory.php", meatType );
 
-		addFormField( "action", "makestuff" );
-		addFormField( "whichitem", String.valueOf( meatType ) );
+		this.addFormField( "action", "makestuff" );
+		this.addFormField( "whichitem", String.valueOf( meatType ) );
 
 		this.meatType = meatType;
 		this.costToMake = meatType == MEAT_PASTE ? -10 : meatType == MEAT_STACK ? -100 : -1000;
@@ -53,7 +53,7 @@ public class CombineMeatRequest extends ItemCreationRequest
 
 	public int getQuantityPossible()
 	{
-		switch ( meatType )
+		switch ( this.meatType )
 		{
 		case MEAT_PASTE:	return KoLCharacter.getAvailableMeat() / 10;
 		case MEAT_STACK:	return KoLCharacter.getAvailableMeat() / 100;
@@ -67,19 +67,19 @@ public class CombineMeatRequest extends ItemCreationRequest
 
 	public void run()
 	{
-		if ( this.costToMake * getQuantityNeeded() > KoLCharacter.getAvailableMeat() )
+		if ( this.costToMake * this.getQuantityNeeded() > KoLCharacter.getAvailableMeat() )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds to make meat paste." );
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Creating " + getQuantityNeeded() + " " + TradeableItemDatabase.getItemName( meatType ) + "..." );
-		addFormField( "quantity", String.valueOf( getQuantityNeeded() ) );
+		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + TradeableItemDatabase.getItemName( this.meatType ) + "..." );
+		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
 	}
 
 	public void processResults()
-	{	StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, costToMake * getQuantityNeeded() ) );
+	{	StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, this.costToMake * this.getQuantityNeeded() ) );
 	}
 
 	public static boolean registerRequest( String urlString )

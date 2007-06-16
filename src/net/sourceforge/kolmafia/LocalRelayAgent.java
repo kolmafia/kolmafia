@@ -45,7 +45,6 @@ public class LocalRelayAgent extends Thread
 {
 	private static final Pattern INVENTORY_COOKIE_PATTERN = Pattern.compile( "inventory=(\\d+)" );
 
-	private int id;
 	private Socket socket = null;
 
 	private BufferedReader reader;
@@ -56,11 +55,11 @@ public class LocalRelayAgent extends Thread
 	private LocalRelayRequest request;
 
 	public LocalRelayAgent( int id )
-	{	this.id = id;
+	{
 	}
 
 	boolean isWaiting()
-	{	return socket == null;
+	{	return this.socket == null;
 	}
 
 	void setSocket( Socket socket )
@@ -68,7 +67,7 @@ public class LocalRelayAgent extends Thread
 		this.socket = socket;
 
 		synchronized ( this )
-		{	notify();
+		{	this.notify();
 		}
 	}
 
@@ -76,7 +75,7 @@ public class LocalRelayAgent extends Thread
 	{
 		while ( true )
 		{
-			if ( socket == null )
+			if ( this.socket == null )
 			{
 				// Wait indefinitely for a client.  Exception
 				// handling is probably not the best way to
@@ -85,7 +84,7 @@ public class LocalRelayAgent extends Thread
 				try
 				{
 					synchronized ( this )
-					{	wait();
+					{	this.wait();
 					}
 				}
 				catch ( InterruptedException e )
@@ -95,10 +94,10 @@ public class LocalRelayAgent extends Thread
 				}
 			}
 
-			if ( socket != null )
-				performRelay();
+			if ( this.socket != null )
+				this.performRelay();
 
-			socket = null;
+			this.socket = null;
 		}
 	}
 
@@ -163,30 +162,30 @@ public class LocalRelayAgent extends Thread
 
 	public void performRelay()
 	{
-		if ( socket == null )
+		if ( this.socket == null )
 			return;
 
-		path = null;
-		reader = null;
-		writer = null;
-		request = null;
+		this.path = null;
+		this.reader = null;
+		this.writer = null;
+		this.request = null;
 
 		try
 		{
-			reader = KoLDatabase.getReader( socket.getInputStream() );
+			this.reader = KoLDatabase.getReader( this.socket.getInputStream() );
 
-			readBrowserRequest();
-			readServerResponse();
+			this.readBrowserRequest();
+			this.readServerResponse();
 
-			writer = new PrintStream( socket.getOutputStream(), true, "UTF-8" );
+			this.writer = new PrintStream( this.socket.getOutputStream(), true, "UTF-8" );
 
-			if ( request.rawByteBuffer != null )
+			if ( this.request.rawByteBuffer != null )
 			{
-				writer.println( request.statusLine );
-				sendHeaders( writer, request );
+				this.writer.println( this.request.statusLine );
+				this.sendHeaders( this.writer, this.request );
 
-				writer.println();
-				writer.write( request.rawByteBuffer );
+				this.writer.println();
+				this.writer.write( this.request.rawByteBuffer );
 			}
 		}
 		catch ( Exception e )
@@ -194,7 +193,7 @@ public class LocalRelayAgent extends Thread
 			StaticEntity.printStackTrace( e );
 		}
 
-		closeRelay( socket, reader, writer );
+		this.closeRelay( this.socket, this.reader, this.writer );
 	}
 
 	public void readBrowserRequest() throws Exception
@@ -203,7 +202,7 @@ public class LocalRelayAgent extends Thread
 		String method = "GET";
 		int contentLength = 0;
 
-		if ( (line = reader.readLine()) == null )
+		if ( (line = this.reader.readLine()) == null )
 			return;
 
 		int spaceIndex = line.indexOf( " " );
@@ -213,15 +212,15 @@ public class LocalRelayAgent extends Thread
 		method = line.trim().substring( 0, spaceIndex );
 		int lastSpaceIndex = line.lastIndexOf( " " );
 
-		path = line.substring( spaceIndex, lastSpaceIndex ).trim();
-		request = new LocalRelayRequest( path );
+		this.path = line.substring( spaceIndex, lastSpaceIndex ).trim();
+		this.request = new LocalRelayRequest( this.path );
 
-		isCheckingModified = false;
+		this.isCheckingModified = false;
 
 		int colonIndex = 0;
 		String [] tokens = new String[2];
 
-		while ( (line = reader.readLine()) != null && line.trim().length() != 0 )
+		while ( (line = this.reader.readLine()) != null && line.trim().length() != 0 )
 		{
 			colonIndex = line.indexOf( ": " );
 			if ( colonIndex == -1 )
@@ -244,15 +243,15 @@ public class LocalRelayAgent extends Thread
 			}
 
 			if ( tokens[0].equals( "If-Modified-Since" ) )
-				isCheckingModified = true;
+				this.isCheckingModified = true;
 		}
 
 		if ( method.equals( "POST" ) && contentLength > 0 )
 		{
 			char [] data = new char[ contentLength ];
-			reader.read( data, 0, contentLength );
+			this.reader.read( data, 0, contentLength );
 
-			request.addEncodedFormFields( new String( data ) );
+			this.request.addEncodedFormFields( new String( data ) );
 		}
 	}
 
@@ -261,12 +260,12 @@ public class LocalRelayAgent extends Thread
 		// If not requesting a server-side page, then it is safe
 		// to assume that no changes have been made (save time).
 
-		if ( isCheckingModified && !request.contentType.startsWith( "text" ) )
+		if ( this.isCheckingModified && !this.request.contentType.startsWith( "text" ) )
 		{
-			request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
-			request.responseCode = 304;
+			this.request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
+			this.request.responseCode = 304;
 		}
-		else if ( path.indexOf( "fight.php" ) != -1 && (FightRequest.isTrackingFights() || path.indexOf( "action=script" ) != -1) )
+		else if ( this.path.indexOf( "fight.php" ) != -1 && (FightRequest.isTrackingFights() || this.path.indexOf( "action=script" ) != -1) )
 		{
 			if ( !FightRequest.isTrackingFights() )
 			{
@@ -280,7 +279,7 @@ public class LocalRelayAgent extends Thread
 
 			if ( fightResponse == null )
 			{
-				request.pseudoResponse( "HTTP/1.1 404 Not Found", "" );
+				this.request.pseudoResponse( "HTTP/1.1 404 Not Found", "" );
 			}
 			else
 			{
@@ -294,10 +293,10 @@ public class LocalRelayAgent extends Thread
 						"<script language=\"Javascript\"> function continueAutomatedFight() { document.location = \"fight.php\"; return 0; } setTimeout( continueAutomatedFight, 400 ); </script></html>" );
 				}
 
-				request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
+				this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
 			}
 		}
-		else if ( path.indexOf( "charpane.php" ) != -1 )
+		else if ( this.path.indexOf( "charpane.php" ) != -1 )
 		{
 			if ( FightRequest.getActualRound() == 0 )
 			{
@@ -305,21 +304,21 @@ public class LocalRelayAgent extends Thread
 					StaticEntity.getBooleanProperty( "relayMaintainsHealth" ), StaticEntity.getBooleanProperty( "relayMaintainsMana" ) );
 			}
 
-			request.run();
+			this.request.run();
 		}
 		else
 		{
-			request.run();
+			this.request.run();
 
-			if ( path.endsWith( "noobmessage=true" ) )
+			if ( this.path.endsWith( "noobmessage=true" ) )
 			{
-				request.responseText = StaticEntity.singleStringReplace( request.responseText, "</html>",
+				this.request.responseText = StaticEntity.singleStringReplace( this.request.responseText, "</html>",
 					"<script language=\"Javascript\"> function visitTootOriole() { document.location = \"mtnoob.php?action=toot\"; return 0; } setTimeout( visitTootOriole, 4000 ); </script></html>" );
 			}
 		}
 
-		if ( request.rawByteBuffer == null && request.responseText != null )
-			request.rawByteBuffer = request.responseText.getBytes( "UTF-8" );
+		if ( this.request.rawByteBuffer == null && this.request.responseText != null )
+			this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
 	}
 
 	private void closeRelay( Socket socket, BufferedReader reader, PrintStream writer )

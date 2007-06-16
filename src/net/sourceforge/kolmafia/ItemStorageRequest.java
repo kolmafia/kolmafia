@@ -87,50 +87,50 @@ public class ItemStorageRequest extends SendMessageRequest
 		switch ( moveType )
 		{
 		case MEAT_TO_CLOSET:
-			constructURLString( "closet.php?action=addmeat" );
+			this.constructURLString( "closet.php?action=addmeat" );
 			break;
 
 		case MEAT_TO_INVENTORY:
-			constructURLString( "closet.php?action=takemeat" );
+			this.constructURLString( "closet.php?action=takemeat" );
 			break;
 
 		case PULL_MEAT_FROM_STORAGE:
-			constructURLString( "storage.php?action=takemeat" );
+			this.constructURLString( "storage.php?action=takemeat" );
 			break;
 
 		case EMPTY_STORAGE:
-			constructURLString( "storage.php?action=takeall" );
-			source = storage;
-			destination = inventory;
+			this.constructURLString( "storage.php?action=takeall" );
+			this.source = storage;
+			this.destination = inventory;
 			break;
 
 		case STORAGE_TO_INVENTORY:
-			constructURLString( "storage.php?action=take" );
-			source = storage;
-			destination = inventory;
+			this.constructURLString( "storage.php?action=take" );
+			this.source = storage;
+			this.destination = inventory;
 			break;
 
 		case INVENTORY_TO_CLOSET:
-			constructURLString( "closet.php?action=put" );
-			source = inventory;
-			destination = closet;
+			this.constructURLString( "closet.php?action=put" );
+			this.source = inventory;
+			this.destination = closet;
 			break;
 
 		case CLOSET_TO_INVENTORY:
-			constructURLString( "closet.php?action=take" );
-			source = closet;
-			destination = inventory;
+			this.constructURLString( "closet.php?action=take" );
+			this.source = closet;
+			this.destination = inventory;
 			break;
 		}
 
 		// Now, make sure that every request has a password hash
 		// attached to it.
 
-		addFormField( "pwd" );
+		this.addFormField( "pwd" );
 	}
 
 	public int getMoveType()
-	{	return moveType;
+	{	return this.moveType;
 	}
 
 	public String getItemField()
@@ -149,11 +149,11 @@ public class ItemStorageRequest extends SendMessageRequest
 	{
 		List itemList = new ArrayList();
 
-		if ( attachments == null )
+		if ( this.attachments == null )
 			return itemList;
 
-		for ( int i = 0; i < attachments.length; ++i )
-			itemList.add( attachments[i] );
+		for ( int i = 0; i < this.attachments.length; ++i )
+			itemList.add( this.attachments[i] );
 
 		return itemList;
 	}
@@ -163,12 +163,12 @@ public class ItemStorageRequest extends SendMessageRequest
 	}
 
 	public SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new ItemStorageRequest( moveType, attachments );
+	{	return new ItemStorageRequest( this.moveType, attachments );
 	}
 
 	public String getSuccessMessage()
 	{
-		switch ( moveType )
+		switch ( this.moveType )
 		{
 		case STORAGE_TO_INVENTORY:
 			return "moved from storage to inventory";
@@ -185,7 +185,7 @@ public class ItemStorageRequest extends SendMessageRequest
 	{
 		super.processResults();
 
-		switch ( moveType )
+		switch ( this.moveType )
 		{
 		case EMPTY_STORAGE:
 			while ( !storage.isEmpty() )
@@ -196,27 +196,27 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		case STORAGE_TO_INVENTORY:
 		case RETRIEVE_STORAGE:
-			parseStorage();
-			handleMeat();
+			this.parseStorage();
+			this.handleMeat();
 			break;
 
 		case PULL_MEAT_FROM_STORAGE:
-			parseStorage();
-			handleMeat();
+			this.parseStorage();
+			this.handleMeat();
 			break;
 
 		case MEAT_TO_CLOSET:
 		case MEAT_TO_INVENTORY:
-			handleMeat();
+			this.handleMeat();
 			break;
 		}
 	}
 
 	private void handleMeat()
 	{
-		if ( moveType == PULL_MEAT_FROM_STORAGE || moveType == RETRIEVE_STORAGE || moveType == STORAGE_TO_INVENTORY )
+		if ( this.moveType == PULL_MEAT_FROM_STORAGE || this.moveType == RETRIEVE_STORAGE || this.moveType == STORAGE_TO_INVENTORY )
 		{
-			Matcher meatInStorageMatcher = STORAGEMEAT_PATTERN.matcher( responseText );
+			Matcher meatInStorageMatcher = STORAGEMEAT_PATTERN.matcher( this.responseText );
 
 			if ( meatInStorageMatcher.find() )
 				KoLCharacter.setStorageMeat( StaticEntity.parseInt( meatInStorageMatcher.group(1) ) );
@@ -233,7 +233,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		int beforeMeatInCloset = KoLCharacter.getClosetMeat();
 		int afterMeatInCloset = 0;
 
-		Matcher meatInClosetMatcher = CLOSETMEAT_PATTERN.matcher( responseText );
+		Matcher meatInClosetMatcher = CLOSETMEAT_PATTERN.matcher( this.responseText );
 
 		if ( meatInClosetMatcher.find() )
 			afterMeatInCloset = StaticEntity.parseInt( meatInClosetMatcher.group(1) );
@@ -252,7 +252,7 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		if ( !existingFrames.isEmpty() )
 		{
-			storageMatcher = PULLS_PATTERN.matcher( responseText );
+			storageMatcher = PULLS_PATTERN.matcher( this.responseText );
 			if ( storageMatcher.find() )
 				ItemManageFrame.setPullsRemaining( StaticEntity.parseInt( storageMatcher.group(1) ) );
 			else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
@@ -269,7 +269,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		// If there's nothing inside storage, return
 		// because there's nothing to parse.
 
-		storageMatcher = STORAGE_PATTERN.matcher( responseText );
+		storageMatcher = STORAGE_PATTERN.matcher( this.responseText );
 		if ( !storageMatcher.find() )
 			return;
 
@@ -328,7 +328,7 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	public String getStatusMessage()
 	{
-		switch ( moveType )
+		switch ( this.moveType )
 		{
 		case EMPTY_STORAGE:
 			return "Emptying storage";

@@ -57,7 +57,6 @@ public class StatusEffectDatabase extends KoLDatabase
 		BufferedReader reader = getReader( "statuseffects.txt" );
 		String [] data;
 
-		String name;
 		Integer effectId;
 
 		while ( (data = readData( reader )) != null )

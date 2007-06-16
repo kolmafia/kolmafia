@@ -62,7 +62,7 @@ public class SimpleScrollPane extends JScrollPane implements KoLConstants
 	public SimpleScrollPane( Component view, int vsbPolicy, int hsbPolicy )
 	{
 		super( view, vsbPolicy, hsbPolicy );
-		setOpaque( true );
+		this.setOpaque( true );
 
 		if ( view instanceof JList )
 		{

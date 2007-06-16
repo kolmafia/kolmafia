@@ -33,12 +33,7 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.File;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.MonsterDatabase.Monster;
@@ -173,7 +168,7 @@ public class FightRequest extends KoLRequest
 		if ( LoginRequest.isInstanceRunning() )
 		{
 			action1 = "attack";
-			addFormField( "action", "attack" );
+			this.addFormField( "action", "attack" );
 			return;
 		}
 
@@ -201,7 +196,7 @@ public class FightRequest extends KoLRequest
 		{
 			if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
 			{
-				KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
+				KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + this.encounter );
 				action1 = "abort";
 				return;
 			}
@@ -210,7 +205,7 @@ public class FightRequest extends KoLRequest
 		if ( !KoLCharacter.canInteract() && wonInitiative() && monsterData != null && monsterData.shouldSteal() )
 		{
 			action1 = "steal";
-			addFormField( "action", action1 );
+			this.addFormField( "action", action1 );
 			return;
 		}
 
@@ -236,7 +231,7 @@ public class FightRequest extends KoLRequest
 			KoLmafiaASH interpreter = KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
 			if ( interpreter != null )
 			{
-				interpreter.execute( "main", new String [] { String.valueOf( currentRound ), encounterLookup, responseText } );
+				interpreter.execute( "main", new String [] { String.valueOf( currentRound ), encounterLookup, this.responseText } );
 				if ( KoLmafia.refusesContinue() )
 					action1 = "abort";
 
@@ -252,10 +247,10 @@ public class FightRequest extends KoLRequest
 		// should be done, and then re-process.
 
 		if ( action1.startsWith( "delevel" ) )
-			action1 = getMonsterWeakenAction();
+			action1 = this.getMonsterWeakenAction();
 
 		action1 = CombatSettings.getShortCombatOptionName( action1 );
-		updateCurrentAction();
+		this.updateCurrentAction();
 	}
 
 	private void updateCurrentAction()
@@ -271,7 +266,7 @@ public class FightRequest extends KoLRequest
 		if ( action1.indexOf( "run" ) != -1 && action1.indexOf( "away" ) != -1 )
 		{
 			action1 = "runaway";
-			addFormField( "action", action1 );
+			this.addFormField( "action", action1 );
 			return;
 		}
 
@@ -279,7 +274,7 @@ public class FightRequest extends KoLRequest
 		if ( action1.startsWith( "attack" ) )
 		{
 			action1 = "attack";
-			addFormField( "action", action1 );
+			this.addFormField( "action", action1 );
 			return;
 		}
 
@@ -294,7 +289,7 @@ public class FightRequest extends KoLRequest
 			if ( monsterData == null || !monsterData.willUsuallyMiss( defenseModifier ) )
 			{
 				action1 = "attack";
-				addFormField( "action", action1 );
+				this.addFormField( "action", action1 );
 				return;
 			}
 			else
@@ -319,19 +314,19 @@ public class FightRequest extends KoLRequest
 			if ( wonInitiative() && !KoLCharacter.canInteract() )
 			{
 				action1 = "steal";
-				addFormField( "action", action1 );
+				this.addFormField( "action", action1 );
 				return;
 			}
 
 			if ( currentRound > 2 )
 			{
 				action1 = "attack";
-				addFormField( "action", action1 );
+				this.addFormField( "action", action1 );
 				return;
 			}
 
 			++currentRound;
-			nextRound();
+			this.nextRound();
 			return;
 		}
 
@@ -351,12 +346,12 @@ public class FightRequest extends KoLRequest
 			if ( itemCount == 0 )
 			{
 				action1 = "attack";
-				addFormField( "action", action1 );
+				this.addFormField( "action", action1 );
 				return;
 			}
 
-			addFormField( "action", "useitem" );
-			addFormField( "whichitem", String.valueOf( itemId ) );
+			this.addFormField( "action", "useitem" );
+			this.addFormField( "whichitem", String.valueOf( itemId ) );
 
 			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 			{
@@ -366,27 +361,27 @@ public class FightRequest extends KoLRequest
 				else if ( itemCount >= 2 && itemId != ANTIDOTE.getItemId() && itemId != DICTIONARY1.getItemId() && itemId != DICTIONARY2.getItemId() )
 				{
 					action2 = action1;
-					addFormField( "whichitem2", String.valueOf( itemId ) );
+					this.addFormField( "whichitem2", String.valueOf( itemId ) );
 				}
 				else if ( MERCENARY.getCount( inventory ) > (action1.equals( MERCENARY_ACTION ) ? 1 : 0) )
 				{
 					action2 = MERCENARY_ACTION;
-					addFormField( "whichitem2", String.valueOf( MERCENARY.getItemId() ) );
+					this.addFormField( "whichitem2", String.valueOf( MERCENARY.getItemId() ) );
 				}
 				else if ( TOOTH.getCount( inventory ) > (action1.equals( TOOTH_ACTION ) ? 1 : 0) )
 				{
 					action2 = TOOTH_ACTION;
-					addFormField( "whichitem2", String.valueOf( TOOTH.getItemId() ) );
+					this.addFormField( "whichitem2", String.valueOf( TOOTH.getItemId() ) );
 				}
 				else if ( TURTLE.getCount( inventory ) > (action1.equals( TURTLE_ACTION ) ? 1 : 0) )
 				{
 					action2 = TURTLE_ACTION;
-					addFormField( "whichitem2", String.valueOf( TURTLE.getItemId() ) );
+					this.addFormField( "whichitem2", String.valueOf( TURTLE.getItemId() ) );
 				}
 				else if ( SPICES.getCount( inventory ) > (action1.equals( SPICES_ACTION ) ? 1 : 0) )
 				{
 					action2 = SPICES_ACTION;
-					addFormField( "whichitem2", String.valueOf( SPICES.getItemId() ) );
+					this.addFormField( "whichitem2", String.valueOf( SPICES.getItemId() ) );
 				}
 			}
 
@@ -396,10 +391,10 @@ public class FightRequest extends KoLRequest
 		// Skills use MP. Make sure the character has enough
 		if ( KoLCharacter.getCurrentMP() < getActionCost() && passwordHash != null )
 		{
-			if ( isAcceptable( 0, 0 ) )
+			if ( this.isAcceptable( 0, 0 ) )
 			{
 				action1 = "attack";
-				addFormField( "action", action1 );
+				this.addFormField( "action", action1 );
 				return;
 			}
 
@@ -408,7 +403,7 @@ public class FightRequest extends KoLRequest
 				if ( MPRestoreItemList.CONFIGURES[i].isCombatUsable() && inventory.contains( MPRestoreItemList.CONFIGURES[i].getItem() ) )
 				{
 					action1 = "item" + MPRestoreItemList.CONFIGURES[i].getItem().getItemId();
-					updateCurrentAction();
+					this.updateCurrentAction();
 					return;
 				}
 			}
@@ -422,10 +417,10 @@ public class FightRequest extends KoLRequest
 
 		if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
 		{
-			if ( isAcceptable( 0, 0 ) )
+			if ( this.isAcceptable( 0, 0 ) )
 			{
 				action1 = "attack";
-				addFormField( "action", action1 );
+				this.addFormField( "action", action1 );
 				return;
 			}
 
@@ -438,7 +433,7 @@ public class FightRequest extends KoLRequest
 			if ( castCleesh )
 			{
 				action1 = "attack";
-				addFormField( "action", action1 );
+				this.addFormField( "action", action1 );
 				return;
 			}
 
@@ -451,8 +446,8 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
-		addFormField( "action", "skill" );
-		addFormField( "whichskill", action1 );
+		this.addFormField( "action", "skill" );
+		this.addFormField( "whichskill", action1 );
 	}
 
 	private static boolean isInvalidThrustSmack( String action1 )
@@ -494,14 +489,14 @@ public class FightRequest extends KoLRequest
 
 		do
 		{
-			clearDataFields();
+			this.clearDataFields();
 
 			action1 = null;
 			action2 = null;
 			isUsingConsultScript = false;
 
 			if ( !KoLmafia.refusesContinue() )
-				nextRound();
+				this.nextRound();
 
 			if ( !isUsingConsultScript )
 			{
@@ -515,7 +510,7 @@ public class FightRequest extends KoLRequest
 		while ( currentRound != 0 && !KoLmafia.refusesContinue() );
 
 		if ( KoLmafia.refusesContinue() && currentRound != 0 )
-			showInBrowser( true );
+			this.showInBrowser( true );
 
 		isAutomatingFight = false;
 		RequestThread.closeRequestSequence();
@@ -594,7 +589,7 @@ public class FightRequest extends KoLRequest
 
 	private String getMonsterWeakenAction()
 	{
-		if ( isAcceptable( 0, 0 ) )
+		if ( this.isAcceptable( 0, 0 ) )
 			return "attack";
 
 		int desiredSkill = 0;
@@ -604,35 +599,35 @@ public class FightRequest extends KoLRequest
 		if ( !isAcceptable && KoLCharacter.hasSkill( "Disco Eye-Poke" ) )
 		{
 			desiredSkill = 5003;
-			isAcceptable = isAcceptable( -1, -1 );
+			isAcceptable = this.isAcceptable( -1, -1 );
 		}
 
 		// Disco Dance of Doom
 		if ( !isAcceptable && KoLCharacter.hasSkill( "Disco Dance of Doom" ) )
 		{
 			desiredSkill = 5005;
-			isAcceptable = isAcceptable( -3, -3 );
+			isAcceptable = this.isAcceptable( -3, -3 );
 		}
 
 		// Disco Dance II: Electric Boogaloo
 		if ( !isAcceptable && KoLCharacter.hasSkill( "Disco Dance II: Electric Boogaloo" ) )
 		{
 			desiredSkill = 5008;
-			isAcceptable = isAcceptable( -5, -5 );
+			isAcceptable = this.isAcceptable( -5, -5 );
 		}
 
 		// Tango of Terror
 		if ( !isAcceptable && KoLCharacter.hasSkill( "Tango of Terror" ) )
 		{
 			desiredSkill = 5019;
-			isAcceptable = isAcceptable( -6, -6 );
+			isAcceptable = this.isAcceptable( -6, -6 );
 		}
 
 		// Disco Face Stab
 		if ( !isAcceptable && KoLCharacter.hasSkill( "Disco Face Stab" ) )
 		{
 			desiredSkill = 5012;
-			isAcceptable = isAcceptable( -7, -7 );
+			isAcceptable = this.isAcceptable( -7, -7 );
 		}
 
 		return desiredSkill == 0 ? "attack" : String.valueOf( desiredSkill );
@@ -1125,7 +1120,7 @@ public class FightRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return responseText == null || responseText.equals( "" ) || responseText.indexOf( "fight.php" ) != -1 ? 0 : 1;
+	{	return this.responseText == null || this.responseText.equals( "" ) || this.responseText.indexOf( "fight.php" ) != -1 ? 0 : 1;
 	}
 
 	public static String getNextTrackedRound()

@@ -38,7 +38,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import java.util.regex.Pattern;
@@ -130,7 +129,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// number of this kind of ascension.
 
 		strbuf.append( "<tr><td align=center><h3>Avg: " );
-		strbuf.append( ((isSoftcore ? (float)softcoreAscensionList.size() : 0.0f) + (float)hardcoreAscensionList.size()) / (float)ascensionMap.size() );
+		strbuf.append( ((isSoftcore ? (float)softcoreAscensionList.size() : 0.0f) + hardcoreAscensionList.size()) / ascensionMap.size() );
 		strbuf.append( "</h3></td></tr></table><br><br>" );
 		strbuf.append( LINE_BREAK );
 

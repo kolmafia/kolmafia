@@ -35,12 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -48,19 +43,12 @@ import javax.swing.Box;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import tab.CloseTabbedPane;
 import javax.swing.JTable;
-import javax.swing.ListModel;
-
-import javax.swing.border.Border;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.TableModel;
-
 import com.sun.java.forums.TableSorter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -81,12 +69,12 @@ public class StoreManageFrame extends KoLPanelFrame
 		super( "Store Manager" );
 		INSTANCE = this;
 
-		tabs.add( "Price Setup", new StoreManagePanel() );
-		tabs.add( "Additions", new StoreAddPanel() );
-		tabs.add( "Removals", new StoreRemovePanel() );
-		tabs.add( "Store Log", new StoreLogPanel() );
+		this.tabs.add( "Price Setup", new StoreManagePanel() );
+		this.tabs.add( "Additions", new StoreAddPanel() );
+		this.tabs.add( "Removals", new StoreRemovePanel() );
+		this.tabs.add( "Store Log", new StoreLogPanel() );
 
-		framePanel.add( tabs, BorderLayout.CENTER );
+		this.framePanel.add( this.tabs, BorderLayout.CENTER );
 		updateEarnings( StoreManager.getPotentialEarnings() );
 	}
 
@@ -110,20 +98,20 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			super( "save changes to prices", "reprice recent adds", true );
 
-			addTable = new StoreListTable( null );
-			SimpleScrollPane addScroller = new SimpleScrollPane( addTable );
+			StoreManageFrame.this.addTable = new StoreListTable( null );
+			SimpleScrollPane addScroller = new SimpleScrollPane( StoreManageFrame.this.addTable );
 
 			JComponentUtilities.setComponentSize( addScroller, 500, 50 );
 			JPanel addPanel = new JPanel( new BorderLayout() );
 
-			addPanel.add( addTable.getTableHeader(), BorderLayout.NORTH );
+			addPanel.add( StoreManageFrame.this.addTable.getTableHeader(), BorderLayout.NORTH );
 			addPanel.add( addScroller, BorderLayout.CENTER );
 
-			manageTable = new StoreListTable( StoreManager.getSoldItemList() );
-			SimpleScrollPane manageScroller = new SimpleScrollPane( manageTable );
+			StoreManageFrame.this.manageTable = new StoreListTable( StoreManager.getSoldItemList() );
+			SimpleScrollPane manageScroller = new SimpleScrollPane( StoreManageFrame.this.manageTable );
 
 			JPanel managePanel = new JPanel( new BorderLayout() );
-			managePanel.add( manageTable.getTableHeader(), BorderLayout.NORTH );
+			managePanel.add( StoreManageFrame.this.manageTable.getTableHeader(), BorderLayout.NORTH );
 			managePanel.add( manageScroller, BorderLayout.CENTER );
 
 			JPanel storePanel = new JPanel( new BorderLayout() );
@@ -131,17 +119,17 @@ public class StoreManageFrame extends KoLPanelFrame
 			storePanel.add( managePanel, BorderLayout.CENTER );
 
 			JPanel searchResults = new SearchResultsPanel();
-			setContent( null, null, searchResults, true );
-			container.add( storePanel, BorderLayout.CENTER );
+			this.setContent( null, null, searchResults, true );
+			this.container.add( storePanel, BorderLayout.CENTER );
 		}
 
 		public void actionConfirmed()
 		{
-			if ( !finalizeTable( manageTable ) )
+			if ( !StoreManageFrame.this.finalizeTable( StoreManageFrame.this.manageTable ) )
 				return;
 
 			KoLmafia.updateDisplay( "Compiling reprice data..." );
-			int rowCount = manageTable.getRowCount();
+			int rowCount = StoreManageFrame.this.manageTable.getRowCount();
 
 			int [] itemId = new int[ rowCount ];
 			int [] prices = new int[ rowCount ];
@@ -152,8 +140,8 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			for ( int i = 0; i < rowCount; ++i )
 			{
-				itemId[i] = TradeableItemDatabase.getItemId( (String) manageTable.getValueAt( i, 0 ) );
-				prices[i] = ((Integer) manageTable.getValueAt( i, 1 )).intValue();
+				itemId[i] = TradeableItemDatabase.getItemId( (String) StoreManageFrame.this.manageTable.getValueAt( i, 0 ) );
+				prices[i] = ((Integer) StoreManageFrame.this.manageTable.getValueAt( i, 1 )).intValue();
 
 				int oldLimit = 0;
 
@@ -166,7 +154,7 @@ public class StoreManageFrame extends KoLPanelFrame
 					}
 				}
 
-				limits[i] = ((Boolean) manageTable.getValueAt( i, 4 )).booleanValue() ? Math.max( 1, oldLimit ) : 0;
+				limits[i] = ((Boolean) StoreManageFrame.this.manageTable.getValueAt( i, 4 )).booleanValue() ? Math.max( 1, oldLimit ) : 0;
 			}
 
 			RequestThread.postRequest( new StoreManageRequest( itemId, prices, limits ) );
@@ -194,33 +182,33 @@ public class StoreManageFrame extends KoLPanelFrame
 			super( model == null ? (ListWrapperTableModel) new StoreAddTableModel() : new StoreManageTableModel() );
 
 			if ( model == null )
-				getColumnModel().getColumn(0).setCellEditor( new DefaultCellEditor( sellingList ) );
+				this.getColumnModel().getColumn(0).setCellEditor( new DefaultCellEditor( StoreManageFrame.this.sellingList ) );
 			else
-				setModel( new TableSorter( getModel(), getTableHeader() ) );
+				this.setModel( new TableSorter( this.getModel(), this.getTableHeader() ) );
 
-			getTableHeader().setReorderingAllowed( false );
+			this.getTableHeader().setReorderingAllowed( false );
 
-			setRowSelectionAllowed( false );
+			this.setRowSelectionAllowed( false );
 
-			addMouseListener( new ButtonEventListener( this ) );
-			setDefaultRenderer( Integer.class, new IntegerRenderer() );
-			setDefaultRenderer( JButton.class, new ButtonRenderer() );
+			this.addMouseListener( new ButtonEventListener( this ) );
+			this.setDefaultRenderer( Integer.class, new IntegerRenderer() );
+			this.setDefaultRenderer( JButton.class, new ButtonRenderer() );
 
-			setOpaque( false );
-			setShowGrid( false );
+			this.setOpaque( false );
+			this.setShowGrid( false );
 
-			setRowHeight( 28 );
+			this.setRowHeight( 28 );
 
-			getColumnModel().getColumn(0).setMinWidth( 200 );
+			this.getColumnModel().getColumn(0).setMinWidth( 200 );
 
-			getColumnModel().getColumn(4).setMinWidth( 35 );
-			getColumnModel().getColumn(4).setMaxWidth( 35 );
+			this.getColumnModel().getColumn(4).setMinWidth( 35 );
+			this.getColumnModel().getColumn(4).setMaxWidth( 35 );
 
-			getColumnModel().getColumn(5).setMinWidth( 40 );
-			getColumnModel().getColumn(5).setMaxWidth( 40 );
+			this.getColumnModel().getColumn(5).setMinWidth( 40 );
+			this.getColumnModel().getColumn(5).setMaxWidth( 40 );
 
-			getColumnModel().getColumn(6).setMinWidth( 40 );
-			getColumnModel().getColumn(6).setMaxWidth( 40 );
+			this.getColumnModel().getColumn(6).setMinWidth( 40 );
+			this.getColumnModel().getColumn(6).setMaxWidth( 40 );
 		}
     }
 
@@ -233,7 +221,7 @@ public class StoreManageFrame extends KoLPanelFrame
 					new boolean [] { true, true, false, true, true, false, false }, new LockableListModel() );
 
 			LockableListModel dataModel = inventory.getMirrorImage( TRADE_FILTER );
-			sellingList = new JComboBox( dataModel );
+			StoreManageFrame.this.sellingList = new JComboBox( dataModel );
 
 			Vector value = new Vector();
 			value.add( "- select an item -" );
@@ -242,7 +230,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			value.add( new Integer(0) );
 			value.add( Boolean.FALSE );
 
-			listModel.add( value );
+			this.listModel.add( value );
 		}
 
 		public Vector constructVector( Object o )
@@ -285,30 +273,30 @@ public class StoreManageFrame extends KoLPanelFrame
 		public AddItemButton()
 		{
 			super( JComponentUtilities.getImage( "icon_success_sml.gif" ) );
-			setToolTipText( "add selected item" );
+			this.setToolTipText( "add selected item" );
 		}
 
 		public void mouseReleased( MouseEvent e )
 		{
-			if ( !finalizeTable( addTable ) )
+			if ( !StoreManageFrame.this.finalizeTable( StoreManageFrame.this.addTable ) )
 				return;
 
-			AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
+			AdventureResult soldItem = (AdventureResult) StoreManageFrame.this.sellingList.getSelectedItem();
 			if ( soldItem == null )
 				return;
 
-			int price = ((Integer) addTable.getValueAt( 0, 1 )).intValue();
-			int quantity = ((Integer) addTable.getValueAt( 0, 3 )).intValue();
+			int price = ((Integer) StoreManageFrame.this.addTable.getValueAt( 0, 1 )).intValue();
+			int quantity = ((Integer) StoreManageFrame.this.addTable.getValueAt( 0, 3 )).intValue();
 
 			if ( quantity <= 0 )
 				quantity = soldItem.getCount() - quantity;
 
-			int limit = ((Boolean) addTable.getValueAt( 0, 4 )).booleanValue() ? 1 : 0;
+			int limit = ((Boolean) StoreManageFrame.this.addTable.getValueAt( 0, 4 )).booleanValue() ? 1 : 0;
 			soldItem = new AdventureResult( soldItem.getItemId(), quantity );
 
-			addTable.setValueAt( new AdventureResult( "-select an item-", 1, false ), 0, 0 );
-			addTable.setValueAt( new Integer(0), 0, 1 );
-			addTable.setValueAt( new Integer(0), 0, 3 );
+			StoreManageFrame.this.addTable.setValueAt( new AdventureResult( "-select an item-", 1, false ), 0, 0 );
+			StoreManageFrame.this.addTable.setValueAt( new Integer(0), 0, 1 );
+			StoreManageFrame.this.addTable.setValueAt( new Integer(0), 0, 3 );
 
 			RequestThread.postRequest( new AutoSellRequest( soldItem, price, limit ) );
 		}
@@ -326,15 +314,15 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			super( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
 			this.itemName = itemName;
-			setToolTipText( "price analysis" );
+			this.setToolTipText( "price analysis" );
 		}
 
 		public void mouseReleased( MouseEvent e )
 		{
-			String searchName = itemName;
+			String searchName = this.itemName;
 			if ( searchName == null )
 			{
-				AdventureResult item = (AdventureResult) sellingList.getSelectedItem();
+				AdventureResult item = (AdventureResult) StoreManageFrame.this.sellingList.getSelectedItem();
 				if ( item == null )
 					return;
 
@@ -344,7 +332,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			searchLabel.setText( searchName );
 			StoreManager.searchMall( searchName, priceSummary, 10, true );
 
-			resultsDisplay.updateUI();
+			StoreManageFrame.this.resultsDisplay.updateUI();
 
 			KoLmafia.updateDisplay( "Price analysis complete." );
 			RequestThread.enableDisplayIfSequenceComplete();
@@ -359,11 +347,11 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			super( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
 			this.itemId = TradeableItemDatabase.getItemId( itemName );
-			setToolTipText( "remove item from store" );
+			this.setToolTipText( "remove item from store" );
 		}
 
 		public void mouseReleased( MouseEvent e )
-		{	RequestThread.postRequest( new StoreManageRequest( itemId ) );
+		{	RequestThread.postRequest( new StoreManageRequest( this.itemId ) );
 		}
 	}
 
@@ -372,12 +360,12 @@ public class StoreManageFrame extends KoLPanelFrame
 		public StoreAddPanel()
 		{
 			super( "On-Hand Inventory", "put in", "auto sell", inventory );
-			elementModel.applyListFilter( TRADE_FILTER );
+			this.elementModel.applyListFilter( TRADE_FILTER );
 		}
 
 		public void actionConfirmed()
 		{
-			Object [] items = getDesiredItems( "Automall" );
+			Object [] items = this.getDesiredItems( "Automall" );
 			if ( items == null || items.length == 0 )
 				return;
 
@@ -389,7 +377,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionCancelled()
 		{
-			Object [] items = getDesiredItems( "Autosell" );
+			Object [] items = this.getDesiredItems( "Autosell" );
 			RequestThread.postRequest( new AutoSellRequest( items, AutoSellRequest.AUTOSELL ) );
 		}
 	}
@@ -401,7 +389,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionConfirmed()
-		{	removeItems( false );
+		{	this.removeItems( false );
 		}
 
 		public void actionCancelled()
@@ -410,12 +398,12 @@ public class StoreManageFrame extends KoLPanelFrame
 				"Are you sure you'd like to autosell the selected items?", "Clean up!", JOptionPane.YES_NO_OPTION ) )
 					return;
 
-			removeItems( true );
+			this.removeItems( true );
 		}
 
 		public void removeItems( boolean autoSellAfter )
 		{
-			Object [] items = elementList.getSelectedValues();
+			Object [] items = this.elementList.getSelectedValues();
 
 			for ( int i = 0; i < items.length; ++i )
 			 	RequestThread.postRequest( new StoreManageRequest( ((SoldItem)items[i]).getItemId() ) );
@@ -452,15 +440,15 @@ public class StoreManageFrame extends KoLPanelFrame
 			container.add( searchLabel, BorderLayout.NORTH );
 			JComponentUtilities.setComponentSize( searchLabel, 150, 16 );
 
-			resultsDisplay = new JList( priceSummary );
-			resultsDisplay.setPrototypeCellValue( "1234567890ABCDEF" );
-			resultsDisplay.setVisibleRowCount( 11 );
-			resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-			SimpleScrollPane scrollArea = new SimpleScrollPane( resultsDisplay );
+			StoreManageFrame.this.resultsDisplay = new JList( priceSummary );
+			StoreManageFrame.this.resultsDisplay.setPrototypeCellValue( "1234567890ABCDEF" );
+			StoreManageFrame.this.resultsDisplay.setVisibleRowCount( 11 );
+			StoreManageFrame.this.resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+			SimpleScrollPane scrollArea = new SimpleScrollPane( StoreManageFrame.this.resultsDisplay );
 
 			container.add( scrollArea, BorderLayout.CENTER );
-			add( Box.createVerticalStrut( 20 ), BorderLayout.NORTH );
-			add( container, BorderLayout.CENTER );
+			this.add( Box.createVerticalStrut( 20 ), BorderLayout.NORTH );
+			this.add( container, BorderLayout.CENTER );
 		}
 	}
 

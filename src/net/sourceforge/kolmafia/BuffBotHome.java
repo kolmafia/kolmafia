@@ -69,8 +69,6 @@ public class BuffBotHome extends StaticEntity
 	private static PrintStream textLogStream = System.out;
 	private static PrintStream hypertextLogStream = System.out;
 
-	private static BuffBotFrame frame;
-
 	/**
 	 * Constructs a new <code>BuffBotHome</code>.  However, note that this
 	 * does not automatically translate into the messages being displayed;
@@ -170,13 +168,13 @@ public class BuffBotHome extends StaticEntity
 		}
 
 		public int getCount()
-		{	return count;
+		{	return this.count;
 		}
 
 		public void incrementCount()
 		{
-			if ( count != Integer.MAX_VALUE )
-				++count;
+			if ( this.count != Integer.MAX_VALUE )
+				++this.count;
 		}
 
 		public void restrict()
@@ -184,15 +182,15 @@ public class BuffBotHome extends StaticEntity
 		}
 
 		public boolean isPermitted()
-		{	return !deny;
+		{	return !this.deny;
 		}
 
 		public int compareTo( Object o )
-		{	return name.compareToIgnoreCase( ((BuffRecord)o).name );
+		{	return this.name.compareToIgnoreCase( ((BuffRecord)o).name );
 		}
 
 		public boolean equals( Object o )
-		{	return name.equalsIgnoreCase( ((BuffRecord)o).name );
+		{	return this.name.equalsIgnoreCase( ((BuffRecord)o).name );
 		}
 	}
 
@@ -311,7 +309,7 @@ public class BuffBotHome extends StaticEntity
 	 */
 
 	public static void setFrame( BuffBotFrame frame )
-	{	BuffBotHome.frame = frame;
+	{
 	}
 
 	/**
@@ -363,7 +361,7 @@ public class BuffBotHome extends StaticEntity
 	private static class BuffMessageRenderer extends DefaultListCellRenderer
 	{
 		public BuffMessageRenderer()
-		{	setOpaque( true );
+		{	this.setOpaque( true );
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )

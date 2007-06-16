@@ -41,16 +41,16 @@ public class TinkerRequest extends ItemCreationRequest
 	{
 		super( "gnomes.php", itemId );
 
-		addFormField( "place", "tinker" );
-		addFormField( "action", "tinksomething" );
+		this.addFormField( "place", "tinker" );
+		this.addFormField( "action", "tinksomething" );
 
-		ingredients = ConcoctionsDatabase.getIngredients( itemId );
+		this.ingredients = ConcoctionsDatabase.getIngredients( itemId );
 
-		if ( ingredients != null && ingredients.length == 3 )
+		if ( this.ingredients != null && this.ingredients.length == 3 )
 		{
-			addFormField( "item1", String.valueOf( ingredients[0].getItemId() ) );
-			addFormField( "item2", String.valueOf( ingredients[1].getItemId() ) );
-			addFormField( "item3", String.valueOf( ingredients[2].getItemId() ) );
+			this.addFormField( "item1", String.valueOf( this.ingredients[0].getItemId() ) );
+			this.addFormField( "item2", String.valueOf( this.ingredients[1].getItemId() ) );
+			this.addFormField( "item3", String.valueOf( this.ingredients[2].getItemId() ) );
 		}
 	}
 
@@ -64,17 +64,17 @@ public class TinkerRequest extends ItemCreationRequest
 		// just return from the method call to avoid hitting on
 		// the server as a result of a bad mixture in the database.
 
-		if ( ingredients == null || ingredients.length != 3 )
+		if ( this.ingredients == null || this.ingredients.length != 3 )
 			return;
 
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.
 
-		if ( !makeIngredients() )
+		if ( !this.makeIngredients() )
 			return;
 
-		KoLmafia.updateDisplay( "Creating " + getQuantityNeeded() + " " + getName() + "..." );
-		addFormField( "qty", String.valueOf( getQuantityNeeded() ) );
+		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
+		this.addFormField( "qty", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
 	}
 }

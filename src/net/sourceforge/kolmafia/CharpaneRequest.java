@@ -34,8 +34,6 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,7 +41,6 @@ public class CharpaneRequest extends KoLRequest
 {
 	private static boolean isRunning = false;
 	private static boolean isProcessing = false;
-	private static boolean clearedCheckpoint = false;
 	private static final CharpaneRequest instance = new CharpaneRequest();
 
 	private CharpaneRequest()
@@ -67,8 +64,6 @@ public class CharpaneRequest extends KoLRequest
 		isRunning = true;
 		super.run();
 		isRunning = false;
-
-		clearedCheckpoint = true;
 	}
 
 	public void processResults()

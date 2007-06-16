@@ -34,15 +34,12 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class SkillBuffFrame extends KoLFrame
 {
@@ -59,33 +56,33 @@ public class SkillBuffFrame extends KoLFrame
 	{
 		super( "Skill Casting" );
 
-		framePanel.add( new SkillBuffPanel(), BorderLayout.NORTH );
+		this.framePanel.add( new SkillBuffPanel(), BorderLayout.NORTH );
 
-		effectList = new ShowDescriptionList( activeEffects, 12 );
-		effectList.addListSelectionListener( new SkillReselector() );
+		this.effectList = new ShowDescriptionList( activeEffects, 12 );
+		this.effectList.addListSelectionListener( new SkillReselector() );
 
-		tabs.addTab( "Active Effects", new StatusEffectPanel() );
-		tabs.addTab( "Recovery Items", new UsableItemPanel( true ) );
+		this.tabs.addTab( "Active Effects", new StatusEffectPanel() );
+		this.tabs.addTab( "Recovery Items", new UsableItemPanel( true ) );
 
-		framePanel.add( tabs, BorderLayout.CENTER );
+		this.framePanel.add( this.tabs, BorderLayout.CENTER );
 
 		if ( !recipient.equals( "" ) )
-			setRecipient( recipient );
+			this.setRecipient( recipient );
 	}
 
 	public void setRecipient( String recipient )
-	{	targetSelect.setText( recipient );
+	{	this.targetSelect.setText( recipient );
 	}
 
 	private class SkillReselector implements ListSelectionListener
 	{
 		public void valueChanged( ListSelectionEvent e )
 		{
-			AdventureResult effect = (AdventureResult) effectList.getSelectedValue();
+			AdventureResult effect = (AdventureResult) SkillBuffFrame.this.effectList.getSelectedValue();
 			if ( effect == null )
 				return;
 
-			skillSelect.setSelectedItem( UseSkillRequest.getInstance( UneffectRequest.effectToSkill( effect.getName() ) ) );
+			SkillBuffFrame.this.skillSelect.setSelectedItem( UseSkillRequest.getInstance( UneffectRequest.effectToSkill( effect.getName() ) ) );
 		}
 	}
 
@@ -95,46 +92,46 @@ public class SkillBuffFrame extends KoLFrame
 		{
 			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			skillSelect = new JComboBox( usableSkills );
-			amountField = new JTextField();
-			targetSelect = new JTextField();
+			SkillBuffFrame.this.skillSelect = new JComboBox( usableSkills );
+			SkillBuffFrame.this.amountField = new JTextField();
+			SkillBuffFrame.this.targetSelect = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Skill Name: ", skillSelect );
-			elements[1] = new VerifiableElement( "# of Casts: ", amountField );
-			elements[2] = new VerifiableElement( "The Victim: ", targetSelect );
+			elements[0] = new VerifiableElement( "Skill Name: ", SkillBuffFrame.this.skillSelect );
+			elements[1] = new VerifiableElement( "# of Casts: ", SkillBuffFrame.this.amountField );
+			elements[2] = new VerifiableElement( "The Victim: ", SkillBuffFrame.this.targetSelect );
 
-			setContent( elements );
+			this.setContent( elements );
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
-			if ( skillSelect == null || targetSelect == null )
+			if ( SkillBuffFrame.this.skillSelect == null || SkillBuffFrame.this.targetSelect == null )
 				return;
 
 			super.setEnabled( isEnabled );
 
-			skillSelect.setEnabled( isEnabled );
-			targetSelect.setEnabled( isEnabled );
+			SkillBuffFrame.this.skillSelect.setEnabled( isEnabled );
+			SkillBuffFrame.this.targetSelect.setEnabled( isEnabled );
 		}
 
 		public void actionConfirmed()
-		{	buff( false );
+		{	this.buff( false );
 		}
 
 		public void actionCancelled()
-		{	buff( true );
+		{	this.buff( true );
 		}
 
 		private void buff( boolean maxBuff )
 		{
-			String buffName = ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName();
+			String buffName = ((UseSkillRequest) SkillBuffFrame.this.skillSelect.getSelectedItem()).getSkillName();
 			if ( buffName == null )
 				return;
 
-			String [] targets = StaticEntity.getClient().extractTargets( targetSelect.getText() );
+			String [] targets = StaticEntity.getClient().extractTargets( SkillBuffFrame.this.targetSelect.getText() );
 
-			int buffCount = !maxBuff ? getValue( amountField, 1 ) : Integer.MAX_VALUE;
+			int buffCount = !maxBuff ? getValue( SkillBuffFrame.this.amountField, 1 ) : Integer.MAX_VALUE;
 			if ( buffCount == 0 )
 				return;
 
