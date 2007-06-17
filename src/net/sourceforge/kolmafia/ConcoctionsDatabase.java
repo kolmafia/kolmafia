@@ -1308,7 +1308,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			int maxItemId = TradeableItemDatabase.maxItemId();
 			for ( int i = 0; i <= maxItemId; ++i )
 			{
-				internalList.add( new Concoction( TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
+				this.internalList.add( new Concoction( TradeableItemDatabase.getItemName( i ) == null ? null : new AdventureResult( i, 0 ),
 					NOCREATE ) );
 			}
 		}
